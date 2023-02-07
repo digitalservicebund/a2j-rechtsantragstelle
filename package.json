@@ -5,7 +5,8 @@
     "build": "remix build",
     "dev": "remix dev",
     "start": "remix-serve build",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "prettier": "prettier --write . --ignore-path .gitignore"
   },
   "dependencies": {
     "@remix-run/node": "^1.12.0",
