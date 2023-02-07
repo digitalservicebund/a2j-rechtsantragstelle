@@ -2,3 +2,5 @@ pre-commit:
   commands:
     prettier:
       run: npm run prettier
+    eslint:
+      run: npm run eslint

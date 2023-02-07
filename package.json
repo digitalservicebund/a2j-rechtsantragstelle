@@ -6,7 +6,8 @@
     "dev": "remix dev",
     "start": "remix-serve build",
     "typecheck": "tsc",
-    "prettier": "prettier --write . --ignore-path .gitignore"
+    "prettier": "prettier --write . --ignore-path .gitignore",
+    "eslint": "eslint --ext .js,.ts,.tsx . --fix"
   },
   "dependencies": {
     "@remix-run/node": "^1.12.0",
