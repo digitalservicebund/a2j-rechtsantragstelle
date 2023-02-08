@@ -5,6 +5,7 @@
     "build": "remix build",
     "dev": "remix dev",
     "start": "remix-serve build",
+    "prepare": "lefthook install",
     "typecheck": "tsc",
     "prettier": "prettier --write . --ignore-path .gitignore",
     "eslint": "eslint --ext .js,.ts,.tsx . --fix",
