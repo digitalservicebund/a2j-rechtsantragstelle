@@ -8,7 +8,9 @@
     "prepare": "lefthook install",
     "typecheck": "tsc",
     "prettier": "prettier --write . --ignore-path .gitignore",
+    "prettier:check": "prettier --check . --ignore-path .gitignore",
     "eslint": "eslint --ext .js,.ts,.tsx . --fix",
+    "eslint:check": "eslint --ext .js,.ts,.tsx .",
     "test": "jest --testPathPattern=/tests/unit/ --maxWorkers=50%"
   },
   "dependencies": {
