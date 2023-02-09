@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Allow to run this workflow manually
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-app:
+    permissions:
+      packages: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.15.1"
+          cache: "npm"
+
+      - run: npm install
+
+      - name: Check build
+        env:
+          APP_VERSION: test
+        run: npm run build
+
+      - name: Check format
+        run: npm run prettier:check
+
+      - name: Lint
+        run: npm run eslint:check
+
+      - name: Run unit tests
+        run: npm test
