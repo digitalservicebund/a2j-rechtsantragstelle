@@ -1,8 +1,12 @@
 import { z } from "zod";
+import parsePhoneNumber from "libphonenumber-js/max";
 
-function phone_number_valid(phone_number: Number): Boolean {
-  // FIXME: validate phone number
-  return true;
+function phone_number_valid(phone_number: string): string {
+  const phone_number_parsed = parsePhoneNumber(phone_number, "DE");
+  if (!phone_number_parsed || !phone_number_parsed.isValid()) {
+    return ""; // empty string is falsy for z.refine()
+  }
+  return phone_number_parsed.number;
 }
 
 // Quelle: Datensatz für das Meldewesen (Koordinierungsstelle für IT-Standards ( KoSIT) Bremen)
@@ -33,7 +37,11 @@ const NameSchema = z.object({
   first: z.string().min(1),
 });
 
-const PhoneNumberSchema = z.number().int().refine(phone_number_valid);
+const PhoneNumberSchema = z
+  .string()
+  .refine((phoneNumber) => phone_number_valid(phoneNumber), {
+    message: "Phone number not valid",
+  });
 
 export const ApplicantSchema = z.object({
   name: NameSchema,
