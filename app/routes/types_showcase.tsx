@@ -1,50 +1,114 @@
-import { ApplicantSchema } from "~/models/applicant";
-import type { ApplicantType } from "~/models/applicant";
+import { json } from "@remix-run/node";
+import type { DataFunctionArgs } from "@remix-run/node";
 
-const user = {
-  name: {
-    family: "familyname",
-    first: "firstname",
-  },
-  job: "job",
-  familienStand: "ledig",
-  birthday: "1990-10-20", //FIXME: reliably parse German date
-  address: {
-    street_name: "streetname",
-    street_no: 123,
-    postcode: 12345,
-    city: "city",
-  },
-  phone_number: "030 123 123",
+import { withZod } from "@remix-validated-form/with-zod";
+import { ValidatedForm, validationError, useField } from "remix-validated-form";
+
+import { ApplicantSchema, FamilienStandSchema } from "~/models/applicant";
+import { useActionData } from "@remix-run/react";
+
+const validator = withZod(ApplicantSchema);
+
+export const action = async ({ request }: DataFunctionArgs) => {
+  const data = await validator.validate(await request.formData());
+  if (data.error) return validationError(data.error);
+  return json(data.data);
 };
 
-function render_parse_user(user: ApplicantType) {
-  const birthday_german_fmt = user.birthday.toLocaleDateString("de-DE");
+// FIXME: Refactor components into separate files
+type FormInputProps = {
+  name: string;
+  label: string;
+  type?: string;
+};
+
+export const FormInput = ({ name, label, type = "text" }: FormInputProps) => {
+  const { error, getInputProps } = useField(name);
   return (
-    <div style={{ border: "1px solid black", margin: 10, padding: 10 }}>
-      <div>
-        Name: {user.name.first} {user.name.family}
-      </div>
-      <div>Familienstand: {user.familienStand}</div>
-      <div>Geburtstag: {birthday_german_fmt}</div>
-      <div>
-        Adresse: {user.address.street_name} {user.address.street_no} in{" "}
-        {user.address.postcode} {user.address.city}
-      </div>
-      <div>Job: {user.job}</div>
-      <div>Telefonnummer: {user.phone_number}</div>
-    </div>
+    <>
+      <label htmlFor={name}>{label}</label>
+      <input {...getInputProps({ type, id: name })} />
+      {error && <span>{error}</span>}
+    </>
   );
-}
+};
+
+type FormSelectProps = {
+  name: string;
+  label: string;
+  options: string[];
+};
+
+export const FormSelect = ({ name, label, options }: FormSelectProps) => {
+  const { error, getInputProps } = useField(name);
+  return (
+    <>
+      <label htmlFor={name}>{label}</label>
+      <select {...getInputProps({ id: name })}>
+        {options.map((option) => {
+          return (
+            <option value={option} key={option}>
+              {option}
+            </option>
+          );
+        })}
+      </select>
+      {error && <span>{error}</span>}
+    </>
+  );
+};
 
 export default function Index() {
-  const user_parsed = ApplicantSchema.safeParse(user);
+  const data = useActionData();
 
   return (
     <div>
-      {user_parsed.success
-        ? render_parse_user(user_parsed.data)
-        : JSON.stringify(user_parsed.error)}
+      <h1>Zod Schema in Remix Formularen</h1>
+      <p>Data validation in Front & Backend</p>
+
+      <ValidatedForm
+        validator={validator}
+        method="post"
+        defaultValues={{
+          name: { first: "jane", family: "doe" },
+          job: "-",
+          phone_number: "030 123 123 1",
+          birthday: "1990-10-23",
+          address: {
+            street_name: "Teststraße",
+            street_no: 1,
+            postcode: 12345,
+            city: "Berlin",
+          },
+        }}
+      >
+        <FormInput name="name.first" label="Vorname: " />
+        <FormInput name="name.family" label="Nachname: " />
+        <hr />
+        <FormInput name="job" label="Beruf: " />
+
+        <FormSelect
+          name="familienStand"
+          label="Familienstand: "
+          options={Object.keys(FamilienStandSchema.Values)}
+        />
+        <FormInput name="phone_number" label="Telefon: " />
+        <FormInput name="birthday" label="Geburtstag: " />
+        <hr />
+        <FormInput name="address.street_name" label="Adresse: " />
+        <FormInput
+          name="address.street_no"
+          label="Hausnummer: "
+          type="number"
+        />
+        <FormInput name="address.postcode" label="PLZ: " type="number" />
+        <FormInput name="address.city" label="Stadt: " />
+        <hr />
+        <hr />
+        <input type="submit" />
+      </ValidatedForm>
+      <h2>Erhaltene Daten:</h2>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
 }

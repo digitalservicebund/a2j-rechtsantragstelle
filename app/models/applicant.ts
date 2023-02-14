@@ -11,7 +11,7 @@ function phone_number_valid(phone_number: string): string {
 
 // Quelle: Datensatz für das Meldewesen (Koordinierungsstelle für IT-Standards ( KoSIT) Bremen)
 // 14. Änderung, Wirksam ab 1. November 2022, Seite 98, https://www1.osci.de/meldewesen/dsmeld/dsmeld-14-aenderung-24448
-const FamilienStandSchema = z.enum([
+export const FamilienStandSchema = z.enum([
   "ledig",
   "verheiratet",
   "verwitwet",
@@ -27,8 +27,8 @@ const FamilienStandSchema = z.enum([
 // FIXME: some of these are optional for people living abroad
 const AddressSchema = z.object({
   street_name: z.string().min(1),
-  street_no: z.number().int().nonnegative().finite(),
-  postcode: z.number().int().gte(10000).lte(99999),
+  street_no: z.coerce.string().min(1),
+  postcode: z.coerce.number().int().gte(10000).lte(99999),
   city: z.string().min(2),
 });
 
@@ -46,7 +46,7 @@ const PhoneNumberSchema = z
 export const ApplicantSchema = z.object({
   name: NameSchema,
   job: z.string().min(1),
-  birthday: z.coerce.date(), // The coerce parses incoming string into a javascript Date
+  birthday: z.string().transform((dateStr) => new Date(dateStr)),
   familienStand: FamilienStandSchema,
   address: AddressSchema,
   phone_number: PhoneNumberSchema,
