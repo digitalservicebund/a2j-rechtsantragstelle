@@ -1,5 +1,5 @@
-import { ApplicantSchema } from "~/models/user";
-import type { ApplicantType } from "~/models/user";
+import { ApplicantSchema } from "~/models/applicant";
+import type { ApplicantType } from "~/models/applicant";
 
 const user = {
   name: {
@@ -15,7 +15,7 @@ const user = {
     postcode: 12345,
     city: "city",
   },
-  phone_number: 1234567,
+  phone_number: "030 123 123",
 };
 
 function render_parse_user(user: ApplicantType) {
