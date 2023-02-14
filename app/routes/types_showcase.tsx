@@ -21,7 +21,7 @@ const user = {
 function render_parse_user(user: ApplicantType) {
   const birthday_german_fmt = user.birthday.toLocaleDateString("de-DE");
   return (
-    <div>
+    <div style={{ border: "1px solid black", margin: 10, padding: 10 }}>
       <div>
         Name: {user.name.first} {user.name.family}
       </div>
