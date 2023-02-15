@@ -27,7 +27,10 @@ export const FormInput = ({ name, label, type = "text" }: FormInputProps) => {
   return (
     <>
       <label htmlFor={name}>{label}</label>
-      <input {...getInputProps({ type, id: name })} />
+      <input
+        {...getInputProps({ type, id: name })}
+        style={{ backgroundColor: error ? "yellow" : "white" }}
+      />
       {error && <span>{error}</span>}
     </>
   );
