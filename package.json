@@ -14,7 +14,7 @@
     "test": "jest --testPathPattern=/tests/unit/ --maxWorkers=50%"
   },
   "dependencies": {
-    "@remix-run/node": "^1.12.0",
+    "@remix-run/node": "^1.13.0",
     "@remix-run/react": "^1.12.0",
     "@remix-run/serve": "^1.12.0",
     "isbot": "^3.6.6",
