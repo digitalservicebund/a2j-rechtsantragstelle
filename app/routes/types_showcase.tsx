@@ -73,7 +73,7 @@ export default function Index() {
           name: { first: "jane", family: "doe" },
           job: "-",
           phone_number: "030 123 123 1",
-          birthday: "1990-10-23",
+          birthday: "23.01.1993",
           address: {
             street_name: "Teststraße",
             street_no: 1,
@@ -96,11 +96,7 @@ export default function Index() {
         <FormInput name="birthday" label="Geburtstag: " />
         <hr />
         <FormInput name="address.street_name" label="Adresse: " />
-        <FormInput
-          name="address.street_no"
-          label="Hausnummer: "
-          type="number"
-        />
+        <FormInput name="address.street_no" label="Hausnummer: " />
         <FormInput name="address.postcode" label="PLZ: " type="number" />
         <FormInput name="address.city" label="Stadt: " />
         <hr />
