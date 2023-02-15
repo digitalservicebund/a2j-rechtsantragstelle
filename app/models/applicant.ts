@@ -6,12 +6,12 @@ import "dayjs/locale/de";
 
 dayjs.extend(customParseFormat);
 
-function phone_number_valid(phone_number: string): string {
-  const phone_number_parsed = parsePhoneNumber(phone_number, "DE");
-  if (!phone_number_parsed || !phone_number_parsed.isValid()) {
+function phoneNumberValid(phoneNumber: string): string {
+  const phoneNumberParsed = parsePhoneNumber(phoneNumber, "DE");
+  if (!phoneNumberParsed || !phoneNumberParsed.isValid()) {
     return ""; // empty string is falsy for z.refine()
   }
-  return phone_number_parsed.number;
+  return phoneNumberParsed.number;
 }
 
 function validDateString(dateStr: string, ctx: z.RefinementCtx): string {
@@ -44,8 +44,8 @@ export const FamilienStandSchema = z.enum([
 
 // FIXME: some of these are optional for people living abroad
 const AddressSchema = z.object({
-  street_name: z.string().min(1, "Straße darf nicht leer sein"),
-  street_no: z.coerce.string().min(1, "Hausnummer darf nicht leer sein"),
+  streetName: z.string().min(1, "Straße darf nicht leer sein"),
+  streetNumber: z.coerce.string().min(1, "Hausnummer darf nicht leer sein"),
   postcode: z.coerce
     .number()
     .int()
@@ -59,7 +59,7 @@ const NameSchema = z.object({
   family: z.string().min(2, "Nachname darf nicht leer sein"),
 });
 
-const PhoneNumberSchema = z.string().refine(phone_number_valid, {
+const PhoneNumberSchema = z.string().refine(phoneNumberValid, {
   message: "Ungültige Telefonnummer",
 });
 
@@ -69,7 +69,7 @@ export const ApplicantSchema = z.object({
   birthday: z.string().transform(validDateString),
   familienStand: FamilienStandSchema,
   address: AddressSchema,
-  phone_number: PhoneNumberSchema,
+  phoneNumber: PhoneNumberSchema,
 });
 
 export type ApplicantType = z.infer<typeof ApplicantSchema>;

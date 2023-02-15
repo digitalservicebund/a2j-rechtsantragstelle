@@ -72,11 +72,11 @@ export default function Index() {
         defaultValues={{
           name: { first: "jane", family: "doe" },
           job: "-",
-          phone_number: "030 123 123 1",
+          phoneNumber: "030 123 123 1",
           birthday: "23.01.1993",
           address: {
-            street_name: "Teststraße",
-            street_no: 1,
+            streetName: "Teststraße",
+            streetNumber: 1,
             postcode: 12345,
             city: "Berlin",
           },
@@ -92,11 +92,11 @@ export default function Index() {
           label="Familienstand: "
           options={Object.keys(FamilienStandSchema.Values)}
         />
-        <FormInput name="phone_number" label="Telefon: " />
+        <FormInput name="phoneNumber" label="Telefon: " />
         <FormInput name="birthday" label="Geburtstag: " />
         <hr />
-        <FormInput name="address.street_name" label="Adresse: " />
-        <FormInput name="address.street_no" label="Hausnummer: " />
+        <FormInput name="address.streetName" label="Adresse: " />
+        <FormInput name="address.streetNumber" label="Hausnummer: " />
         <FormInput name="address.postcode" label="PLZ: " type="number" />
         <FormInput name="address.city" label="Stadt: " />
         <hr />
