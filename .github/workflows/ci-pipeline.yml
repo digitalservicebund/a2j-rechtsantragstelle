@@ -43,3 +43,48 @@ jobs:
 
       - name: Run unit tests
         run: npm test
+
+  build-push-image:
+    needs: [build-app]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      security-events: write
+      packages: write
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build an image from Dockerfile
+        run: |
+          docker build -t ${{ env.IMAGE_NAME }}:${{ github.sha }} . --build-arg COMMIT_SHA=${{ github.sha }}
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+        with:
+          image-ref: "${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          format: "template"
+          template: "@/contrib/sarif.tpl"
+          output: "trivy-results.sarif"
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          severity: "CRITICAL,HIGH"
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@81b419c908d540ec4c7da9bfb4b5d941fca8f624
+        with:
+          sarif_file: "trivy-results.sarif"
+
+      - name: Login to container registry
+        uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push image
+        run: |
+          docker tag ${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
