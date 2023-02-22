@@ -48,7 +48,10 @@ export default function Index() {
         <Select
           name="familienStand"
           label="Familienstand"
-          options={Object.keys(FamilienStandSchema.Values)}
+          options={Object.keys(FamilienStandSchema.Values).map((key) => ({
+            value: key,
+            text: key,
+          }))}
         />
         <Input name="job" label="Beruf" />
         <Input name="phoneNumber" label="Telefon" />

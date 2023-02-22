@@ -38,7 +38,16 @@ export default function Kitchensink() {
         }}
       >
         <Input name="text" label="Text" />
-        <Select name="options" label="Option" options={["", "1", "2", "3"]} />
+        <Select
+          name="options"
+          label="Option"
+          options={[
+            { text: "bitte auswählen", value: "" },
+            { text: "Option 1", value: "1" },
+            { text: "Option 2", value: "2" },
+            { text: "Option 3", value: "3" },
+          ]}
+        />
 
         <button type="submit">Abschicken</button>
       </ValidatedForm>
