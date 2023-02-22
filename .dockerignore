@@ -1,0 +1,14 @@
+*
+!app
+!build
+!package.json
+!package-lock.json
+!public
+!remix.config.js
+!remix.env.d.ts
+!server.js
+!tsconfig.json
+!.env.example
+!start.sh
+**/*.test.*
+/public/build/
