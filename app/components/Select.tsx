@@ -3,13 +3,18 @@ import { useField } from "remix-validated-form";
 import classNames from "classnames";
 import { InputError, InputLabel } from "~/components";
 
+type SelectOption = {
+  text: string;
+  value: string;
+};
+
 type SelectProps = {
   name: string;
   label?: ReactNode;
-  options: string[];
+  options: SelectOption[];
 };
 
-export const Select = ({ name, label, options }: SelectProps) => {
+const Select = ({ name, label, options }: SelectProps) => {
   const { error, getInputProps } = useField(name);
 
   const selectClassName = classNames("ds-select", {
@@ -27,8 +32,8 @@ export const Select = ({ name, label, options }: SelectProps) => {
       >
         {options.map((option) => {
           return (
-            <option value={option} key={option}>
-              {option}
+            <option value={option.value} key={option.value}>
+              {option.text}
             </option>
           );
         })}
@@ -38,3 +43,5 @@ export const Select = ({ name, label, options }: SelectProps) => {
     </div>
   );
 };
+
+export default Select;

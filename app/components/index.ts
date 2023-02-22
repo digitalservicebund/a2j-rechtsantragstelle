@@ -1,4 +1,4 @@
-export { InputError } from "./InputError";
-export { InputLabel } from "./InputLabel";
-export { Input } from "./Input";
-export { Select } from "./Select";
+export { default as InputError } from "./InputError";
+export { default as InputLabel } from "./InputLabel";
+export { default as Input } from "./Input";
+export { default as Select } from "./Select";

@@ -9,7 +9,7 @@ type InputProps = {
   type?: string;
 };
 
-export const Input = ({ name, label, type = "text" }: InputProps) => {
+const Input = ({ name, label, type = "text" }: InputProps) => {
   const { error, getInputProps } = useField(name);
 
   const inputClassName = classNames("ds-input", {
@@ -30,3 +30,5 @@ export const Input = ({ name, label, type = "text" }: InputProps) => {
     </div>
   );
 };
+
+export default Input;

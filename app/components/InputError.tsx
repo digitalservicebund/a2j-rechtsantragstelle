@@ -5,10 +5,12 @@ type InputErrorProps = {
   children: ReactNode;
 };
 
-export const InputError = ({ id, children }: InputErrorProps) => {
+const InputError = ({ id, children }: InputErrorProps) => {
   return (
     <div id={`${id}-error`} className="mt-2 text-xs text-red-600">
       <span className="sr-only">Fehler:</span> {children}
     </div>
   );
 };
+
+export default InputError;

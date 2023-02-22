@@ -5,6 +5,8 @@ type InputLabelProps = {
   children: ReactNode;
 };
 
-export const InputLabel = ({ id, children }: InputLabelProps) => {
+const InputLabel = ({ id, children }: InputLabelProps) => {
   return <label htmlFor={id}>{children}</label>;
 };
+
+export default InputLabel;
