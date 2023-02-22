@@ -8,9 +8,14 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import stylesheet from "~/styles.css";
+import angieStylesheet from "~/lib/angie.css";
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesheet },
+  { rel: "stylesheet", href: angieStylesheet },
+  {
+    rel: "stylesheet",
+    href: stylesheet,
+  },
 ];
 
 export const meta: MetaFunction = () => ({
