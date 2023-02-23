@@ -1,14 +1,21 @@
-import type { FormStepProps } from "../FormStepProps";
+import type { StepInterface } from "../StepInterface";
+import { z } from "zod";
+import { Input } from "~/components";
 
-export function Step({ id }: FormStepProps) {
-  return (
-    <div style={{ border: "solid black 1px", padding: "1rem" }}>
-      <h3>Age step header</h3>
-      <p>Age step description paragraph</p>
-      <label>
-        Age
-        <input type="number" name="age" />
-      </label>
-    </div>
-  );
-}
+export const Step: StepInterface = {
+  schema: z.object({
+    age: z.coerce
+      .number()
+      .min(1, "Ungültiges Alter.")
+      .max(150, "So alt kann aber echt niemand sein"),
+  }),
+  component: () => {
+    return (
+      <div style={{ border: "solid black 1px", padding: "1rem" }}>
+        <h3>Age step header</h3>
+        <p>Age step description paragraph</p>
+        <Input name="age" label="Age" type="number" />
+      </div>
+    );
+  },
+};
