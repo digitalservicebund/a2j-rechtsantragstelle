@@ -88,3 +88,36 @@ jobs:
           docker tag ${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           docker tag ${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+  deploy-staging:
+    needs: [build-push-image]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Check out infra repo
+        uses: actions/checkout@v3
+        with:
+          repository: digitalservicebund/a2j-rechtsantragstelle-infra
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Update image tag for staging
+        run: |
+          cd manifests/overlays/staging
+          kustomize edit set image ghcr.io/digitalservicebund/a2j-rechtsantragstelle:${{ github.sha }}
+
+      - name: Commit and push
+        uses: EndBug/add-and-commit@61a88be553afe4206585b31aa72387c64295d08b
+        with:
+          add: "manifests/overlays/staging/kustomization.yaml"
+          message: "Update staging image to ${{ github.sha }}"
+          pathspec_error_handling: exitImmediately
+          push: true
+
+      - name: Report Deployment
+        uses: digitalservicebund/github-actions/track-deployment@b51920b9fdeeb0c8721c210853aee955bd7cefc0
+        with:
+          project: a2j-rechtsantragstelle
+          environment: staging
+          metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
+          metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
