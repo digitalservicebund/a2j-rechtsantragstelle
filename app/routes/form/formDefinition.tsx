@@ -3,29 +3,43 @@ import type { Validator } from "remix-validated-form";
 
 import { Step as AgeStep } from "./steps/age";
 import { Step as WelcomeStep } from "./steps/welcome";
+import { Step as SuccessStep } from "./steps/success";
+import { Step as ErrorStep } from "./steps/error";
 
 export const _formDefinition = {
   welcome: {
     step: WelcomeStep,
-    next: "age1",
+    next: "age",
+    back: null,
   },
-  age1: {
+  age: {
     step: AgeStep,
-    next: "age2",
+    back: "welcome",
+    next: (formData: FormData) => {
+      return (formData.get("age") as number) > 18 ? "success" : "error";
+    },
   },
-  age2: {
-    step: AgeStep,
+  success: {
+    back: "age",
+    step: SuccessStep,
+    next: null,
+  },
+  error: {
+    back: "age",
+    step: ErrorStep,
     next: null,
   },
 };
 export type AllowedIDs = keyof typeof _formDefinition;
 export type NullableIDs = AllowedIDs | null;
 export const initial: AllowedIDs = "welcome";
+export type StepDecision = (context: FormData) => NullableIDs;
 
 interface StepDefinition {
   step: StepInterface;
   validator?: Validator<any>;
-  next: NullableIDs;
+  next: NullableIDs | StepDecision;
+  back: NullableIDs;
 }
 type FormDefinition = Record<AllowedIDs, StepDefinition>;
 export const formDefinition = _formDefinition as FormDefinition;

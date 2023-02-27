@@ -1,17 +1,17 @@
 import type { ActionFunction } from "@remix-run/node";
 import { useParams } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
-import { useState } from "react";
 
 import type { LoaderArgs } from "@remix-run/node";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
-import type { NullableIDs, AllowedIDs } from "./formDefinition";
+import type { AllowedIDs } from "./formDefinition";
 import { formDefinition, initial } from "./formDefinition";
 
+type ButtonAction = "back" | "next";
+
 export const loader = async ({ params }: LoaderArgs) => {
-  // Reroute to initial step on unknown formStepID
   if (params.formStepID && params.formStepID in formDefinition) {
     return null;
   }
@@ -20,81 +20,49 @@ export const loader = async ({ params }: LoaderArgs) => {
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  const { _action, nextTarget, previousTarget, ...values } =
-    Object.fromEntries(formData);
+  const stepID = formData.get("stepID") as AllowedIDs;
+  const buttonAction = formData.get("_action") as ButtonAction;
+  const destination = formDefinition[stepID][buttonAction];
 
-  const targetURL = `/form/${_action === "next" ? nextTarget : previousTarget}`;
-  return redirect(targetURL);
+  if (destination === null) {
+    return redirect(`/form/${initial}`); // actually this is end of form
+  } else if (typeof destination === "string") {
+    return redirect(`/form/${destination}`);
+  } else {
+    return redirect(`/form/${destination(formData)}`);
+  }
 };
 
 interface ButtonNavigationProps {
-  formID: string;
-  prev: NullableIDs;
-  next: NullableIDs;
-  onClick: OnClick;
+  stepID: string;
+  isFirst: boolean;
+  isLast: boolean;
 }
 
-function ButtonNavigation({
-  formID,
-  prev,
-  next,
-  onClick,
-}: ButtonNavigationProps) {
+function ButtonNavigation({ isFirst, isLast, stepID }: ButtonNavigationProps) {
   return (
     <pre>
       <button
         type="submit"
         name="_action"
         value="back"
-        form={formID}
-        disabled={prev === null}
+        form={stepID}
+        disabled={isFirst}
       >
         {"Zurück"}
       </button>
       |
-      <input
-        type="hidden"
-        name="previousTarget"
-        value={prev === null ? "disabled" : prev}
-      />
-      <input
-        type="hidden"
-        name="nextTarget"
-        value={next === null ? "submit" : next}
-      />
-      <button
-        type="submit"
-        name="_action"
-        value="next"
-        form={formID}
-        onClick={() => onClick(next)}
-      >
-        {next === null ? "Abschicken" : "Nächste Seite"}
+      <input type="hidden" name="stepID" value={stepID} />
+      <button type="submit" name="_action" value="next" form={stepID}>
+        {isLast ? "Abschicken" : "Nächste Seite"}
       </button>
     </pre>
   );
 }
 
-interface OnClick {
-  (nextStateId: AllowedIDs): void;
-}
-
 export default function Index() {
   const params = useParams();
   const currentStepID = params.formStepID as AllowedIDs;
-
-  const [previousStepTable, setPreviousStepTable] = useState<
-    Partial<Record<AllowedIDs, NullableIDs>>
-  >({
-    [initial]: null,
-  });
-
-  const onClick = (nextStateId: AllowedIDs) => {
-    setPreviousStepTable({
-      ...previousStepTable,
-      [nextStateId]: currentStepID,
-    });
-  };
 
   const currentStep = formDefinition[currentStepID];
   const Component = currentStep.step.component;
@@ -117,10 +85,9 @@ export default function Index() {
         >
           <Component id={currentStepID} />
           <ButtonNavigation
-            formID={currentStepID}
-            prev={previousStepTable[currentStepID]}
-            next={currentStep.next}
-            onClick={onClick}
+            stepID={currentStepID}
+            isFirst={currentStep.back === null}
+            isLast={currentStep.next === null}
           />
         </ValidatedForm>
       </div>
