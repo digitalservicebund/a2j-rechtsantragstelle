@@ -46,6 +46,16 @@
   --color-base-green-700: #01854a;
   --color-base-green-800: #006538;
   --color-base-green-900: #003e22;
+  --s-xs: 0.25rem;
+  --s-s: 0.5rem;
+  --s-m: 1rem;
+  --s-l: 1.5rem;
+  --s-xl: 2rem;
+  --s-2xl: 3rem;
+  --s-3xl: 4.5rem;
+  --s-4xl: 5rem;
+  --s-5xl: 6rem;
+  --s-6xl: 8rem;
 }
 
 :root {
@@ -57,8 +67,7 @@
   --font-base: var(--font-sans);
   --font-styleguide: "Inter", "BundesSansWeb", "Calibri", "Verdana", "Arial",
     "Helvetica", serif;
-  --s1: 1.5rem;
-  --stack-space: var(--s1);
+  --stack-space: var(--s-m);
   --step-0: 1rem;
   --color-ui-primary: var(--color-base-blue-800);
   --color-ui-disabled: var(--color-base-gray-600);
@@ -137,13 +146,19 @@ ul[role="list"] {
   list-style: none;
 }
 
-[class^="stack"] > * + * {
-  -webkit-margin-before: var(--stack-space);
-  margin-block-start: var(--stack-space);
+.ds-stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.stack-2 > * + * {
-  --stack-space: 3rem;
+.ds-stack > * {
+  margin-block: 0;
+}
+
+.ds-stack > * + * {
+  -webkit-margin-before: var(--stack-space);
+  margin-block-start: var(--stack-space);
 }
 
 /* stylelint-disable no-descending-specificity */
