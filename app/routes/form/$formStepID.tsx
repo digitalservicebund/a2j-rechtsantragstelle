@@ -1,12 +1,9 @@
 import { useParams } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
-
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import { withZod } from "@remix-validated-form/with-zod";
-import { ValidatedForm } from "remix-validated-form";
-import { z } from "zod";
+import { ValidatedForm, validationError } from "remix-validated-form";
 import type { AllowedIDs } from "./formDefinition";
-import { formDefinition, initial } from "./formDefinition";
+import { formDefinition, initial, allValidators } from "./formDefinition";
 import { ButtonNavigation } from "~/components/ButtonNavigation";
 
 type ButtonAction = "back" | "next";
@@ -19,12 +16,18 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
-  // TODO: add server-side validation
   const formData = await request.formData();
   const stepID = params.formStepID as AllowedIDs;
-  const buttonAction = formData.get("_action") as ButtonAction;
-  const destination = formDefinition[stepID][buttonAction];
+  const currentStep = formDefinition[stepID];
 
+  if (currentStep.step.schema) {
+    // some steps don't have a schema and therefore don't need validation
+    const data = await allValidators[stepID].validate(formData);
+    if (data.error) return validationError(data.error);
+  }
+
+  const buttonAction = formData.get("_action") as ButtonAction;
+  const destination = currentStep[buttonAction];
   if (destination === null) {
     return redirect(`/form/${initial}`); // actually this is end of form
   } else if (typeof destination === "string") {
@@ -36,20 +39,14 @@ export const action: ActionFunction = async ({ params, request }) => {
 
 export default function Index() {
   const params = useParams();
-  const currentStep = formDefinition[params.formStepID as AllowedIDs];
+  const stepID = params.formStepID as AllowedIDs;
+  const currentStep = formDefinition[stepID];
   const Component = currentStep.step.component;
   return (
     <div>
       <h2>Multi-Step Form Index</h2>
       <div style={{ border: "1px solid black", margin: 10, padding: 10 }}>
-        <ValidatedForm
-          method="post"
-          validator={
-            currentStep.step.schema
-              ? withZod(currentStep.step.schema)
-              : withZod(z.object({}))
-          }
-        >
+        <ValidatedForm method="post" validator={allValidators[stepID]}>
           <Component />
           <ButtonNavigation
             isFirst={currentStep.back === null}

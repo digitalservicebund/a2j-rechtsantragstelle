@@ -1,10 +1,10 @@
 import type { StepInterface } from "./StepInterface";
-import type { Validator } from "remix-validated-form";
-
 import { Step as AgeStep } from "./steps/age";
 import { Step as WelcomeStep } from "./steps/welcome";
 import { Step as SuccessStep } from "./steps/success";
 import { Step as ErrorStep } from "./steps/error";
+import { z } from "zod";
+import { withZod } from "@remix-validated-form/with-zod";
 
 // NOTE: This will get replaced by xstate machine definition
 export const _formDefinition = {
@@ -31,6 +31,7 @@ export const _formDefinition = {
     next: null,
   },
 };
+
 export type AllowedIDs = keyof typeof _formDefinition;
 export type NullableIDs = AllowedIDs | null;
 export const initial: AllowedIDs = "welcome";
@@ -38,9 +39,15 @@ export type StepDecision = (context: FormData) => NullableIDs;
 
 interface StepDefinition {
   step: StepInterface;
-  validator?: Validator<any>;
   next: NullableIDs | StepDecision;
   back: NullableIDs;
 }
 type FormDefinition = Record<AllowedIDs, StepDefinition>;
 export const formDefinition = _formDefinition as FormDefinition;
+
+export const allValidators = Object.fromEntries(
+  Object.entries(formDefinition).map(([key, value]) => [
+    key,
+    value.step.schema ? withZod(value.step.schema) : withZod(z.object({})),
+  ])
+);
