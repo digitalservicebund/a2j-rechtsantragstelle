@@ -1,8 +1,7 @@
-import type { ActionFunction } from "@remix-run/node";
 import { useParams } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 
-import type { LoaderArgs } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
@@ -11,11 +10,11 @@ import { formDefinition, initial } from "./formDefinition";
 
 type ButtonAction = "back" | "next";
 
-export const loader = async ({ params }: LoaderArgs) => {
-  if (params.formStepID && params.formStepID in formDefinition) {
-    return null;
+export const loader: LoaderFunction = async ({ params }) => {
+  if (!params.formStepID || !(params.formStepID in formDefinition)) {
+    return redirect(`/form/${initial}`);
   }
-  return redirect(`/form/${initial}`);
+  return null;
 };
 
 export const action: ActionFunction = async ({ request }) => {

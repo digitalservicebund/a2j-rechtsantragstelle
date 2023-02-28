@@ -1,7 +1,10 @@
 import type { LoaderFunction } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { Outlet } from "@remix-run/react";
+import { json, redirect } from "@remix-run/node";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import { initial } from "./form/formDefinition";
+import { getSession } from "~/sessions";
+import LoginButton from "./login";
+import LogoutButton from "./logout";
 
 export const loader: LoaderFunction = async ({ request }) => {
   // Reroute to initial step on empty formStepID
@@ -9,12 +12,22 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (url.pathname === "/form/" || url.pathname === "/form") {
     return redirect(`/form/${initial}`);
   }
-  return null;
+
+  const session = await getSession(request.headers.get("Cookie"));
+  const userId = session.get("userId") as string;
+  return json({ userId });
 };
 
 export default function FormRoot() {
+  const { userId } = useLoaderData<typeof loader>();
+
   return (
     <main>
+      <div>
+        {!userId && <LoginButton />}
+        {userId && <LogoutButton />}
+        userId: {userId}
+      </div>
       <header>
         <h1>Antrag Root</h1>
       </header>
