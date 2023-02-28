@@ -37,7 +37,7 @@ export default function Kitchensink() {
           text: "hello",
         }}
       >
-        <Stack space="2xl">
+        <Stack space="xl">
           <Stack space="l">
             <Input name="text" label="Text" />
             <Select
