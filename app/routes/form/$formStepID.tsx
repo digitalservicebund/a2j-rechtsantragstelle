@@ -1,40 +1,49 @@
-import { useParams } from "@remix-run/react";
-import { redirect } from "@remix-run/node";
+import { useLoaderData, useParams } from "@remix-run/react";
+import { json, redirect } from "@remix-run/node";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import type { AllowedIDs } from "./formDefinition";
 import { formDefinition, initial, allValidators } from "./formDefinition";
 import { ButtonNavigation } from "~/components/ButtonNavigation";
+import { commitSession, getSession } from "~/sessions";
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
   if (!params.formStepID || !(params.formStepID in formDefinition)) {
     return redirect(`/form/${initial}`);
   }
-  return null;
+  const session = await getSession(request.headers.get("Cookie"));
+  const data = session.get(params.formStepID);
+  return json({ data });
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
+  const session = await getSession(request.headers.get("Cookie"));
   const formData = await request.formData();
   const stepID = params.formStepID as AllowedIDs;
   const currentStep = formDefinition[stepID];
 
   if (currentStep.step.schema) {
-    // some steps don't have a schema and therefore don't need validation
     const data = await allValidators[stepID].validate(formData);
     if (data.error) return validationError(data.error);
+    session.set(stepID, data.data);
   }
 
   const destination = currentStep.next;
-  if (destination === null) {
-    return redirect(`/form/${initial}`); // actually this is end of form
-  } else if (typeof destination === "string") {
-    return redirect(`/form/${destination}`);
-  } else {
-    return redirect(`/form/${destination(formData)}`);
-  }
+  const destinationString = destination
+    ? typeof destination === "string"
+      ? destination
+      : destination(formData)
+    : initial;
+
+  const headers = {
+    "Set-Cookie": await commitSession(session),
+  };
+
+  return redirect(`/form/${destinationString}`, { headers });
 };
 
 export default function Index() {
+  const { data } = useLoaderData<typeof loader>();
   const params = useParams();
   const stepID = params.formStepID as AllowedIDs;
   const currentStep = formDefinition[stepID];
@@ -43,7 +52,11 @@ export default function Index() {
     <div>
       <h2>Multi-Step Form Index</h2>
       <div style={{ border: "1px solid black", margin: 10, padding: 10 }}>
-        <ValidatedForm method="post" validator={allValidators[stepID]}>
+        <ValidatedForm
+          method="post"
+          validator={allValidators[stepID]}
+          defaultValues={data}
+        >
           <Component />
           <ButtonNavigation
             backDestination={currentStep.back}
