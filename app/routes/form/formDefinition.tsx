@@ -6,6 +6,7 @@ import { Step as WelcomeStep } from "./steps/welcome";
 import { Step as SuccessStep } from "./steps/success";
 import { Step as ErrorStep } from "./steps/error";
 
+// NOTE: This will get replaced by xstate machine definition
 export const _formDefinition = {
   welcome: {
     step: WelcomeStep,

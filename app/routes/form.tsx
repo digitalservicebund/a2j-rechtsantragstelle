@@ -19,6 +19,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function FormRoot() {
+  // TODO: check whether using route as components makes sense (login/logout buttons)
   const { userId } = useLoaderData<typeof loader>();
 
   return (
