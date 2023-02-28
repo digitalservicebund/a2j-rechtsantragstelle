@@ -1,4 +1,4 @@
-import { Input, Select } from "~/components";
+import { Input, Select, Stack } from "~/components";
 import { json } from "@remix-run/node";
 import type { DataFunctionArgs } from "@remix-run/node";
 
@@ -37,19 +37,24 @@ export default function Kitchensink() {
           text: "hello",
         }}
       >
-        <Input name="text" label="Text" />
-        <Select
-          name="options"
-          label="Option"
-          options={[
-            { text: "bitte auswählen", value: "" },
-            { text: "Option 1", value: "1" },
-            { text: "Option 2", value: "2" },
-            { text: "Option 3", value: "3" },
-          ]}
-        />
-
-        <button type="submit">Abschicken</button>
+        <Stack space="2xl">
+          <Stack space="l">
+            <Input name="text" label="Text" />
+            <Select
+              name="options"
+              label="Option"
+              options={[
+                { text: "bitte auswählen", value: "" },
+                { text: "Option 1", value: "1" },
+                { text: "Option 2", value: "2" },
+                { text: "Option 3", value: "3" },
+              ]}
+            />
+          </Stack>
+          <div>
+            <button type="submit">Abschicken</button>
+          </div>{" "}
+        </Stack>
       </ValidatedForm>
 
       {data && (
