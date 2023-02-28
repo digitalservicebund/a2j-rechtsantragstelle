@@ -6,8 +6,6 @@ import type { AllowedIDs } from "./formDefinition";
 import { formDefinition, initial, allValidators } from "./formDefinition";
 import { ButtonNavigation } from "~/components/ButtonNavigation";
 
-type ButtonAction = "back" | "next";
-
 export const loader: LoaderFunction = async ({ params }) => {
   if (!params.formStepID || !(params.formStepID in formDefinition)) {
     return redirect(`/form/${initial}`);
@@ -26,8 +24,7 @@ export const action: ActionFunction = async ({ params, request }) => {
     if (data.error) return validationError(data.error);
   }
 
-  const buttonAction = formData.get("_action") as ButtonAction;
-  const destination = currentStep[buttonAction];
+  const destination = currentStep.next;
   if (destination === null) {
     return redirect(`/form/${initial}`); // actually this is end of form
   } else if (typeof destination === "string") {
@@ -49,7 +46,7 @@ export default function Index() {
         <ValidatedForm method="post" validator={allValidators[stepID]}>
           <Component />
           <ButtonNavigation
-            isFirst={currentStep.back === null}
+            backDestination={currentStep.back}
             isLast={currentStep.next === null}
           />
         </ValidatedForm>

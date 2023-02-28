@@ -1,11 +1,25 @@
+import { useNavigate } from "@remix-run/react";
+import type { NullableIDs } from "~/routes/form/formDefinition";
+
 interface ButtonNavigationProps {
-  isFirst: boolean;
+  backDestination: NullableIDs;
   isLast: boolean;
 }
-export function ButtonNavigation({ isFirst, isLast }: ButtonNavigationProps) {
+
+export function ButtonNavigation({
+  backDestination,
+  isLast,
+}: ButtonNavigationProps) {
+  // TODO: useNavigate() doesn't work without JS. Classic Link, styled as button?
+  const navigate = useNavigate();
+
   return (
     <pre>
-      <button type="submit" name="_action" value="back" disabled={isFirst}>
+      <button
+        type="button"
+        onClick={() => navigate(`/form/${backDestination}`)}
+        disabled={!backDestination}
+      >
         {"Zurück"}
       </button>
       <button type="submit" name="_action" value="next">
