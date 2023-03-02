@@ -1,17 +1,21 @@
-import { $path } from "remix-routes";
+import { Link } from "@remix-run/react";
+
+const links = [
+  { url: "/types_showcase", displayName: "types showcase" },
+  { url: "/kitchensink", displayName: "kitchensink" },
+  { url: "/form", displayName: "multi-page form" },
+];
 
 export default function Index() {
   return (
-    <div>
-      {/* FIXME: remove empty second parameter after this issue is resolved: https://github.com/yesmeck/remix-routes/issues/43 */}
-      <ul>
-        <li>
-          <a href={$path("/types_showcase", {})}>types showcase</a>
-        </li>
-        <li>
-          <a href={$path("/kitchensink", {})}>kitchensink</a>
-        </li>
-      </ul>
-    </div>
+    <ul>
+      {links.map((link) => {
+        return (
+          <li key={link.url}>
+            <Link to={link.url}>{link.displayName}</Link>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
