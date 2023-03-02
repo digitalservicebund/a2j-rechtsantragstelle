@@ -1,10 +1,10 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { initial } from "./form/formDefinition";
+import { initial } from "./formDefinition";
 import { getSession } from "~/sessions";
-import LoginButton from "./login";
-import LogoutButton from "./logout";
+import LoginButton from "~/routes/login";
+import LogoutButton from "~/routes/logout";
 
 export const loader: LoaderFunction = async ({ request }) => {
   // Reroute to initial step on empty formStepID

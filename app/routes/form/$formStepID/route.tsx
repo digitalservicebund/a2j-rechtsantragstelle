@@ -2,8 +2,8 @@ import { useLoaderData, useParams } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
-import type { AllowedIDs } from "./formDefinition";
-import { formDefinition, initial, allValidators } from "./formDefinition";
+import type { AllowedIDs } from "../formDefinition";
+import { formDefinition, initial, allValidators } from "../formDefinition";
 import { ButtonNavigation } from "~/components/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
 
