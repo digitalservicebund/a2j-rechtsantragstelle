@@ -1,6 +1,6 @@
 import type { StepInterface } from "../StepInterface";
 
-export const Step: StepInterface = {
+export const WelcomeStep: StepInterface = {
   component: () => {
     return (
       <div style={{ border: "solid black 1px", padding: "1rem" }}>

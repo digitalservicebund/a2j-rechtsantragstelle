@@ -1,8 +1,8 @@
-import type { StepInterface } from "../StepInterface";
 import { z } from "zod";
 import { Input } from "~/components";
+import type { StepInterface } from "../steps";
 
-export const Step: StepInterface = {
+export const AgeStep: StepInterface = {
   schema: z.object({
     age: z.coerce
       .number()

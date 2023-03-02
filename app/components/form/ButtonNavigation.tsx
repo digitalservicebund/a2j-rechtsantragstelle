@@ -1,5 +1,5 @@
 import { useNavigate } from "@remix-run/react";
-import type { NullableIDs } from "~/routes/form/formDefinition";
+import type { NullableIDs } from "~/lib/formDefinition";
 
 interface ButtonNavigationProps {
   backDestination: NullableIDs;

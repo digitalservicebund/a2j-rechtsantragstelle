@@ -2,9 +2,9 @@ import { useLoaderData, useParams } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
-import type { AllowedIDs } from "../formDefinition";
-import { formDefinition, initial, allValidators } from "../formDefinition";
-import { ButtonNavigation } from "~/components/ButtonNavigation";
+import type { AllowedIDs } from "~/lib/formDefinition";
+import { formDefinition, initial, allValidators } from "~/lib/formDefinition";
+import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
 
 export const loader: LoaderFunction = async ({ params, request }) => {

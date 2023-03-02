@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { initial } from "./formDefinition";
+import { initial } from "~/lib/formDefinition";
 import { getSession } from "~/sessions";
 import LoginButton from "~/routes/login";
 import LogoutButton from "~/routes/logout";

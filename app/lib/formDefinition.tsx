@@ -1,8 +1,10 @@
-import type { StepInterface } from "./StepInterface";
-import { Step as AgeStep } from "./steps/age";
-import { Step as WelcomeStep } from "./steps/welcome";
-import { Step as SuccessStep } from "./steps/success";
-import { Step as ErrorStep } from "./steps/error";
+import type { StepInterface } from "~/components/form/StepInterface";
+import {
+  WelcomeStep,
+  AgeStep,
+  ErrorStep,
+  SuccessStep,
+} from "~/components/form/steps";
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 
