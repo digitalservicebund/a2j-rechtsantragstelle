@@ -8,7 +8,6 @@ export const _formDefinition = {
   welcome: {
     step: Steps.WelcomeStep,
     next: "hasRechtschutzversicherung",
-    back: null,
   },
   hasRechtschutzversicherung: {
     step: Steps.RechtSchutzVersicherungStep,
@@ -22,7 +21,6 @@ export const _formDefinition = {
   exitRechtschutzversicherung: {
     back: "hasRechtschutzversicherung",
     step: Steps.ExitRechtschutzversicherungStep,
-    next: null,
   },
   hasKlageEingereicht: {
     back: "hasRechtschutzversicherung",
@@ -36,7 +34,6 @@ export const _formDefinition = {
   exitKlageEingereicht: {
     back: "hasKlageEingereicht",
     step: Steps.ExitKlageEingereicht,
-    next: null,
   },
   isHamburgOderBremen: {
     back: "hasKlageEingereicht",
@@ -50,7 +47,6 @@ export const _formDefinition = {
   exitHamburgOrBremen: {
     back: "isHamburgOderBremen",
     step: Steps.ExitHamburgOrBremen,
-    next: null,
   },
   hasBeratungshilfeBeantragt: {
     back: "isHamburgOderBremen",
@@ -64,12 +60,10 @@ export const _formDefinition = {
   exitBeratungshilfeBeantragt: {
     back: "hasBeratungshilfeBeantragt",
     step: Steps.ExitBeratungshilfeBeantragt,
-    next: null,
   },
   hasSozialleistungen: {
     back: "hasBeratungshilfeBeantragt",
     step: Steps.SozialleistungStep,
-    next: null,
   },
 };
 

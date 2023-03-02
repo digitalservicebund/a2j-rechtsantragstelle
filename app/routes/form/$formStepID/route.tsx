@@ -60,7 +60,7 @@ export default function Index() {
           <Component />
           <ButtonNavigation
             backDestination={currentStep.back}
-            isLast={currentStep.next === null}
+            isLast={!currentStep.next}
           />
         </ValidatedForm>
       </div>
