@@ -32,7 +32,7 @@ export const action: ActionFunction = async ({ params, request }) => {
   const destinationString = destination
     ? typeof destination === "string"
       ? destination
-      : destination(formData)
+      : destination(formData) // TODO: pass validate or full state
     : initial;
 
   const headers = {

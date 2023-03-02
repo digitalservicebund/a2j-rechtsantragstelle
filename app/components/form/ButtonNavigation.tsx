@@ -23,7 +23,11 @@ export function ButtonNavigation({
       </Link>
 
       <button type="submit" name="_action" value="next">
-        {isLast ? "Abschicken" : backDestination ? "Nächste Seite" : "Start"}
+        {isLast
+          ? "Von Vorne beginnen"
+          : backDestination
+          ? "Nächste Seite"
+          : "Start"}
       </button>
     </div>
   );

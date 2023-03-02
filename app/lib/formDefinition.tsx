@@ -1,35 +1,74 @@
 import type { StepInterface } from "~/components/form/steps";
-import {
-  WelcomeStep,
-  AgeStep,
-  ErrorStep,
-  SuccessStep,
-} from "~/components/form/steps";
+import { Steps } from "~/components/form/steps";
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 
 // NOTE: This will get replaced by xstate machine definition
 export const _formDefinition = {
   welcome: {
-    step: WelcomeStep,
-    next: "age",
+    step: Steps.WelcomeStep,
+    next: "hasRechtschutzversicherung",
     back: null,
   },
-  age: {
-    step: AgeStep,
+  hasRechtschutzversicherung: {
+    step: Steps.RechtSchutzVersicherungStep,
     back: "welcome",
     next: (formData: FormData) => {
-      return (formData.get("age") as number) > 18 ? "success" : "error";
+      return formData.get("hasRechtschutzversicherung")
+        ? "exitRechtschutzversicherung" // TODO: could point directly to step
+        : "hasKlageEingereicht";
     },
   },
-  success: {
-    back: "age",
-    step: SuccessStep,
+  exitRechtschutzversicherung: {
+    back: "hasRechtschutzversicherung",
+    step: Steps.ExitRechtschutzversicherungStep,
     next: null,
   },
-  error: {
-    back: "age",
-    step: ErrorStep,
+  hasKlageEingereicht: {
+    back: "hasRechtschutzversicherung",
+    step: Steps.KlageEingereichtStep,
+    next: (formData: FormData) => {
+      return formData.get("hasKlageEingereicht")
+        ? "exitKlageEingereicht"
+        : "isHamburgOderBremen";
+    },
+  },
+  exitKlageEingereicht: {
+    back: "hasKlageEingereicht",
+    step: Steps.ExitKlageEingereicht,
+    next: null,
+  },
+  isHamburgOderBremen: {
+    back: "hasKlageEingereicht",
+    step: Steps.HamburgOderBremenStep,
+    next: (formData: FormData) => {
+      return formData.get("isHamburgOderBremen")
+        ? "exitHamburgOrBremen"
+        : "hasBeratungshilfeBeantragt";
+    },
+  },
+  exitHamburgOrBremen: {
+    back: "isHamburgOderBremen",
+    step: Steps.ExitHamburgOrBremen,
+    next: null,
+  },
+  hasBeratungshilfeBeantragt: {
+    back: "isHamburgOderBremen",
+    step: Steps.BeratungshilfeBeantragtStep,
+    next: (formData: FormData) => {
+      return formData.get("hasBeratungshilfeBeantragt")
+        ? "exitBeratungshilfeBeantragt"
+        : "hasSozialleistungen";
+    },
+  },
+  exitBeratungshilfeBeantragt: {
+    back: "hasBeratungshilfeBeantragt",
+    step: Steps.ExitBeratungshilfeBeantragt,
+    next: null,
+  },
+  hasSozialleistungen: {
+    back: "hasBeratungshilfeBeantragt",
+    step: Steps.SozialleistungStep,
     next: null,
   },
 };

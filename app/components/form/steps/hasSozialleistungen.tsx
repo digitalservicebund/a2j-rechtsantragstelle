@@ -1,11 +1,11 @@
 import type { StepInterface } from "../steps";
 
-export const SuccessStep: StepInterface = {
+export const SozialleistungStep: StepInterface = {
   component: () => {
     return (
       <div style={{ border: "solid green 1px", padding: "1rem" }}>
-        <h2>Erfolg</h2>
-        <p>!</p>
+        <h2>Beziehst du Sozialleistungen?</h2>
+        <p>...</p>
       </div>
     );
   },
