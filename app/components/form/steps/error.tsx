@@ -1,4 +1,4 @@
-import type { StepInterface } from "../StepInterface";
+import type { StepInterface } from "../steps";
 
 export const ErrorStep: StepInterface = {
   component: () => {

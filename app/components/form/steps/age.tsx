@@ -1,6 +1,6 @@
+import type { StepInterface } from "../steps";
 import { z } from "zod";
 import { Input } from "~/components";
-import type { StepInterface } from "../steps";
 
 export const AgeStep: StepInterface = {
   schema: z.object({

@@ -1,4 +1,4 @@
-import type { StepInterface } from "~/components/form/StepInterface";
+import type { StepInterface } from "~/components/form/steps";
 import {
   WelcomeStep,
   AgeStep,
