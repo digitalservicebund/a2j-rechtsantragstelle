@@ -1,4 +1,4 @@
-import { Input, Select, Stack } from "~/components";
+import { Input, RadioGroup, Select, Stack } from "~/components";
 import { json } from "@remix-run/node";
 import type { DataFunctionArgs } from "@remix-run/node";
 
@@ -11,6 +11,7 @@ import { useActionData } from "@remix-run/react";
 export const DummySchema = z.object({
   text: z.string().min(1),
   options: z.enum(["1", "2", "3"]),
+  radioOptions: z.enum(["yes", "no", "maybe"]),
 });
 
 const validator = withZod(DummySchema);
@@ -50,6 +51,17 @@ export default function Kitchensink() {
                 { text: "Option 3", value: "3" },
               ]}
             />
+            <fieldset>
+              <legend>Leben Sie in Berlin?</legend>
+              <RadioGroup
+                name="radioOptions"
+                options={[
+                  { label: "ja", value: "yes" },
+                  { label: "nein", value: "no" },
+                  { label: "weiß nicht", value: "maybe" },
+                ]}
+              />
+            </fieldset>
           </Stack>
           <div>
             <button type="submit">Abschicken</button>
