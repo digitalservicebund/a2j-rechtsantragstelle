@@ -11,16 +11,14 @@ const RadioGroup = ({ name, options }: RadioGroupProps) => {
   const { error } = useField(name);
 
   return (
-    <fieldset>
-      <Stack space="m">
-        {options.map((o) => (
-          <Radio key={o.value} name={name} value={o.value}>
-            {o.label}
-          </Radio>
-        ))}
-        {error ? <InputError id={name}>Bitte was auswählen.</InputError> : ""}
-      </Stack>
-    </fieldset>
+    <Stack space="m">
+      {options.map((o) => (
+        <Radio key={o.value} name={name} value={o.value}>
+          {o.label}
+        </Radio>
+      ))}
+      {error ? <InputError id={name}>Bitte was auswählen.</InputError> : ""}
+    </Stack>
   );
 };
 

@@ -36,6 +36,7 @@ export default function Kitchensink() {
         className="my-6"
         defaultValues={{
           text: "hello",
+          radioOptions: "no",
         }}
       >
         <Stack space="xl">
