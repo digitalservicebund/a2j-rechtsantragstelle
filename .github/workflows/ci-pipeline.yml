@@ -44,6 +44,27 @@ jobs:
       - name: Run unit tests
         run: npm test
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles("**/.playwright-version") }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright e2e tests
+        run: npx playwright test
+
+      - name: Upload Playwright test results
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+
   build-push-image:
     needs: [build-app]
     if: github.ref == 'refs/heads/main'
