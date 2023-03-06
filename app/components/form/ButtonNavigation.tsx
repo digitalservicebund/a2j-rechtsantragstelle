@@ -13,6 +13,7 @@ export function ButtonNavigation({
   return (
     <div>
       <Link
+        // todo: fix back button doesn't apply cookie
         to={backDestination ? `../${backDestination}` : "/"}
         style={{ pointerEvents: !backDestination ? "none" : "auto" }}
         className={`no-underline ${

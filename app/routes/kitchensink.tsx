@@ -27,9 +27,7 @@ export default function Kitchensink() {
   return (
     <div className="block p-6 rounded-lg shadow-lg max-w-xl">
       <h1>Kitchensink</h1>
-
-      <h2>Form</h2>
-
+      <h2>{"<ValidatedForm>"}</h2>
       <ValidatedForm
         validator={validator}
         method="post"
@@ -39,9 +37,13 @@ export default function Kitchensink() {
           radioOptions: "no",
         }}
       >
+        <h3>{" <Stack space='xl'>"}</h3>
         <Stack space="xl">
           <Stack space="l">
+            <h3>{"<Input>"}</h3>
             <Input name="text" label="Text" />
+
+            <h3>{"<Select>"}</h3>
             <Select
               name="options"
               label="Option"
@@ -52,8 +54,12 @@ export default function Kitchensink() {
                 { text: "Option 3", value: "3" },
               ]}
             />
+
+            <h3>{"<fieldset> + <legend>"}</h3>
             <fieldset>
               <legend>Leben Sie in Berlin?</legend>
+
+              <h3>{"<RadioGroup>"}</h3>
               <RadioGroup
                 name="radioOptions"
                 options={[
@@ -66,7 +72,7 @@ export default function Kitchensink() {
           </Stack>
           <div>
             <button type="submit">Abschicken</button>
-          </div>{" "}
+          </div>
         </Stack>
       </ValidatedForm>
 
