@@ -44,12 +44,15 @@ jobs:
       - name: Run unit tests
         run: npm test
 
+      - name: Get Playwright version
+        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').dependencies['@playwright/test'].version)")" >> $GITHUB_ENV
+
       - name: Cache Playwright browsers
         uses: actions/cache@v3
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ hashFiles('**/.playwright-version') }}
+          key: playwright-${{ env.PLAYWRIGHT_VERSION }}
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
