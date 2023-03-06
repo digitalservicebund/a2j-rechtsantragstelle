@@ -49,7 +49,7 @@ jobs:
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ hashFiles("**/.playwright-version") }}
+          key: playwright-${{ hashFiles('**/.playwright-version') }}
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
