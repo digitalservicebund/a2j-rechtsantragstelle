@@ -1,21 +1,22 @@
 import type { StepInterface } from "../steps";
 import { z } from "zod";
-import { Select } from "~/components";
+import { RadioGroup } from "~/components";
+import { YesNoAnswer } from "../answers";
+
+const schema = z.object({ isHamburgOderBremen: YesNoAnswer });
 
 export const HamburgOderBremenStep: StepInterface = {
-  schema: z.object({
-    isHamburgOderBremen: z.coerce.boolean(),
-  }),
+  schema,
   component: () => {
     return (
       <div style={{ border: "solid black 1px", padding: "1rem" }}>
         <h3>Wohnort</h3>
-        <Select
-          name="isHamburgOderBremen"
-          label="Wohnst du in Hamburg oder Bremen?"
+        <p>Wohnst du in Hamburg oder Bremen?</p>
+        <RadioGroup
+          name={schema.keyof().Values.isHamburgOderBremen}
           options={[
-            { text: "Nein", value: "" },
-            { text: "Ja", value: "true" },
+            { label: "nein", value: YesNoAnswer.Enum.no },
+            { label: "ja", value: YesNoAnswer.Enum.yes },
           ]}
         />
       </div>

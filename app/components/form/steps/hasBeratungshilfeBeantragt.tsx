@@ -1,21 +1,22 @@
 import type { StepInterface } from "../steps";
 import { z } from "zod";
-import { Select } from "~/components";
+import { RadioGroup } from "~/components";
+import { YesNoAnswer } from "../answers";
+
+const schema = z.object({ hasBeratungshilfeBeantragt: YesNoAnswer });
 
 export const BeratungshilfeBeantragtStep: StepInterface = {
-  schema: z.object({
-    hasBeratungshilfeBeantragt: z.coerce.boolean(),
-  }),
+  schema,
   component: () => {
     return (
       <div style={{ border: "solid black 1px", padding: "1rem" }}>
         <h3>Beratungshilfe beantragt</h3>
-        <Select
-          name="hasBeratungshilfeBeantragt"
-          label="Hast du für diesen Fall schon einmal Beratungshilfe beantragt?"
+        Hast du für diesen Fall schon einmal Beratungshilfe beantragt?
+        <RadioGroup
+          name={schema.keyof().Values.hasBeratungshilfeBeantragt}
           options={[
-            { text: "Nein", value: "" }, // empty string is the only falsy string
-            { text: "Ja", value: "true" },
+            { label: "nein", value: YesNoAnswer.Enum.no },
+            { label: "ja", value: YesNoAnswer.Enum.yes },
           ]}
         />
       </div>

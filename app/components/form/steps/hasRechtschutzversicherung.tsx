@@ -1,21 +1,23 @@
 import type { StepInterface } from "../steps";
 import { z } from "zod";
-import { Select } from "~/components";
+import { RadioGroup } from "~/components";
+import { YesNoAnswer } from "../answers";
+
+const schema = z.object({ hasRechtschutzversicherung: YesNoAnswer });
 
 export const RechtSchutzVersicherungStep: StepInterface = {
-  schema: z.object({
-    hasRechtschutzversicherung: z.coerce.boolean(),
-  }),
+  schema,
   component: () => {
     return (
       <div style={{ border: "solid black 1px", padding: "1rem" }}>
         <h3>Rechtschutzversicherung</h3>
-        <Select
-          name="hasRechtschutzversicherung"
-          label="Hast du eine Rechtsschutzversicherung?"
+        <p>Hast du eine Rechtsschutzversicherung?</p>
+
+        <RadioGroup
+          name={schema.keyof().Values.hasRechtschutzversicherung}
           options={[
-            { text: "Nein", value: "" }, // empty string is the only falsy string
-            { text: "Ja", value: "true" },
+            { label: "nein", value: YesNoAnswer.enum.no },
+            { label: "ja", value: YesNoAnswer.enum.yes },
           ]}
         />
       </div>

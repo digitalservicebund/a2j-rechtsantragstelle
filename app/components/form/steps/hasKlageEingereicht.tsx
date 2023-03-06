@@ -1,21 +1,22 @@
 import type { StepInterface } from "../steps";
 import { z } from "zod";
-import { Select } from "~/components";
+import { RadioGroup } from "~/components";
+import { YesNoAnswer } from "../answers";
+
+const schema = z.object({ hasKlageEingereicht: YesNoAnswer });
 
 export const KlageEingereichtStep: StepInterface = {
-  schema: z.object({
-    hasKlageEingereicht: z.coerce.boolean(),
-  }),
+  schema,
   component: () => {
     return (
       <div style={{ border: "solid black 1px", padding: "1rem" }}>
         <h3>Klage eingereicht</h3>
-        <Select
-          name="hasKlageEingereicht"
-          label="Wurde bereits Klage eingereicht?"
+        Wurde zu diesem Fall bereits Klage eingereicht?
+        <RadioGroup
+          name={schema.keyof().Values.hasKlageEingereicht}
           options={[
-            { text: "Nein", value: "" },
-            { text: "Ja", value: "true" },
+            { label: "nein", value: YesNoAnswer.Enum.no },
+            { label: "ja", value: YesNoAnswer.Enum.yes },
           ]}
         />
       </div>

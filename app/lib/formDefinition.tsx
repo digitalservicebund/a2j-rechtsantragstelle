@@ -2,6 +2,7 @@ import type { StepInterface } from "~/components/form/steps";
 import { Steps } from "~/components/form/steps";
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
+import { YesNoAnswer } from "~/components/form/answers";
 
 // NOTE: This will get replaced by xstate machine definition
 export const _formDefinition = {
@@ -13,7 +14,7 @@ export const _formDefinition = {
     step: Steps.RechtSchutzVersicherungStep,
     back: "welcome",
     next: (formData: FormData) => {
-      return formData.get("hasRechtschutzversicherung")
+      return formData.get("hasRechtschutzversicherung") === YesNoAnswer.Enum.yes
         ? "exitRechtschutzversicherung" // TODO: could point directly to step
         : "hasKlageEingereicht";
     },
@@ -26,7 +27,7 @@ export const _formDefinition = {
     back: "hasRechtschutzversicherung",
     step: Steps.KlageEingereichtStep,
     next: (formData: FormData) => {
-      return formData.get("hasKlageEingereicht")
+      return formData.get("hasKlageEingereicht") === YesNoAnswer.Enum.yes
         ? "exitKlageEingereicht"
         : "isHamburgOderBremen";
     },
@@ -39,7 +40,7 @@ export const _formDefinition = {
     back: "hasKlageEingereicht",
     step: Steps.HamburgOderBremenStep,
     next: (formData: FormData) => {
-      return formData.get("isHamburgOderBremen")
+      return formData.get("isHamburgOderBremen") === YesNoAnswer.Enum.yes
         ? "exitHamburgOrBremen"
         : "hasBeratungshilfeBeantragt";
     },
@@ -52,7 +53,7 @@ export const _formDefinition = {
     back: "isHamburgOderBremen",
     step: Steps.BeratungshilfeBeantragtStep,
     next: (formData: FormData) => {
-      return formData.get("hasBeratungshilfeBeantragt")
+      return formData.get("hasBeratungshilfeBeantragt") === YesNoAnswer.Enum.yes
         ? "exitBeratungshilfeBeantragt"
         : "hasSozialleistungen";
     },
