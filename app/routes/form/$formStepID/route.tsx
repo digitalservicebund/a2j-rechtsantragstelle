@@ -12,8 +12,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     return redirect(`/form/${initial}`);
   }
   const session = await getSession(request.headers.get("Cookie"));
-  const data = session.get(params.formStepID);
-  return json({ data });
+  return json({ stepData: session.get(params.formStepID) });
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
@@ -43,7 +42,7 @@ export const action: ActionFunction = async ({ params, request }) => {
 };
 
 export default function Index() {
-  const { data } = useLoaderData<typeof loader>();
+  const { stepData } = useLoaderData<typeof loader>();
   const params = useParams();
   const stepID = params.formStepID as AllowedIDs;
   const currentStep = formDefinition[stepID];
@@ -53,9 +52,10 @@ export default function Index() {
       <h2>Multi-Step Form Index</h2>
       <div style={{ border: "1px solid black", margin: 10, padding: 10 }}>
         <ValidatedForm
+          key={`${stepID}_form`}
           method="post"
           validator={allValidators[stepID]}
-          defaultValues={data}
+          defaultValues={stepData}
         >
           <Component />
           <ButtonNavigation
