@@ -44,3 +44,9 @@ npx playwright test
 
 - [getting started](https://playwright.dev/docs/writing-tests) writing tests
 - use [codegen](https://playwright.dev/docs/codegen-intro) as an aid: `npx playwright codegen localhost:3000/kitchensink`
+
+##### debug tests in CI
+
+1. download `playwright-report.zip` artifact from GitHub action summary page (only present on e2e failure for 30 days)
+2. unzip
+3. `npx playwright show-trace <DOWNLOAD_PATH>/data/<HASH>.zip`

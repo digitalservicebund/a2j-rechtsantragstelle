@@ -25,6 +25,6 @@ test.describe("links", () => {
 
   test("types showcase link", async ({ page }) => {
     await home.gotoTypesShowcase();
-    await expect(page).toHaveURL(/.*typesshowcase/);
+    await expect(page).toHaveURL(/.*types_showcase/);
   });
 });
