@@ -18,3 +18,29 @@ npm run dev
 
 This starts your app in development mode, rebuilding assets on file changes.
 Open the app in `localhost:3000`
+
+### Run tests
+
+#### unit
+
+```sh
+npm test
+```
+
+#### e2e
+
+```sh
+npx playwright test
+```
+
+##### run tests
+
+- run only one test: `test.only`
+- run only tests in one describe block: `test.describe.only`
+- run only one spec file: `npx playwright test homepage.spec.ts`
+- go through a test step by step: `npx playwright test --debug` -> F10 to step over
+
+##### write tests
+
+- [getting started](https://playwright.dev/docs/writing-tests) writing tests
+- use [codegen](https://playwright.dev/docs/codegen-intro) as an aid: `npx playwright codegen localhost:3000/kitchensink`
