@@ -1,12 +1,31 @@
 import { test, expect } from "@playwright/test";
+import { Homepage } from "./pom/Homepage";
 
 test("has title", async ({ page }) => {
-  await page.goto("http://localhost:3000");
+  const home = new Homepage(page);
+  await home.goto();
   await expect(page).toHaveTitle(/New Remix App/);
 });
 
-test("kitchensink link", async ({ page }) => {
-  await page.goto("http://localhost:3000");
-  await page.getByRole("link", { name: "kitchensink" }).click();
-  await expect(page).toHaveURL(/.*kitchensink/);
+test.describe("links", () => {
+  test("kitchensink link", async ({ page }) => {
+    const home = new Homepage(page);
+    await home.goto();
+    await home.gotoKitchensink();
+    await expect(page).toHaveURL(/.*kitchensink/);
+  });
+
+  test("multi-page form link", async ({ page }) => {
+    const home = new Homepage(page);
+    await home.goto();
+    await home.gotoMultiPageForm();
+    await expect(page).toHaveURL(/.*form\/welcome/);
+  });
+
+  test("types showcase link", async ({ page }) => {
+    const home = new Homepage(page);
+    await home.goto();
+    await home.gotoTypesShowcase();
+    await expect(page).toHaveURL(/.*types_showcase/);
+  });
 });
