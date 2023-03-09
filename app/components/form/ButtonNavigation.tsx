@@ -1,8 +1,8 @@
 import { Link } from "@remix-run/react";
-import type { NullableIDs } from "~/lib/formDefinition";
+import type { AllowedIDs } from "~/lib/vorabcheck";
 
 interface ButtonNavigationProps {
-  backDestination: NullableIDs;
+  backDestination?: AllowedIDs;
   isLast: boolean;
 }
 
@@ -27,7 +27,7 @@ export function ButtonNavigation({
         {isLast
           ? "Von Vorne beginnen"
           : backDestination
-          ? "Nächste Seite"
+          ? "Übernehmen & Weiter"
           : "Start"}
       </button>
     </div>
