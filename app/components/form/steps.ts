@@ -1,5 +1,5 @@
 import type { FunctionComponent } from "react";
-import type { ZodObject } from "zod";
+import type { AnyZodObject } from "zod";
 
 import { sozialleistungStep } from "./steps/hasSozialleistungen";
 import { exitRechtschutzversicherungStep } from "./steps/exitRechtschutzversicherung";
@@ -51,7 +51,19 @@ export const Steps = {
   successFreibetrag,
 };
 
-export interface StepInterface {
+interface StepComponent {
   component: FunctionComponent<any>;
-  schema?: ZodObject<any>;
+}
+interface StepComponentWithSchema {
+  component: FunctionComponent<any>;
+  schema: AnyZodObject;
+  varNames: Record<string, string>;
+}
+
+export type StepInterface = StepComponent | StepComponentWithSchema;
+
+export function isStepComponentWithSchema(
+  component: StepInterface
+): component is StepComponentWithSchema {
+  return "schema" in component;
 }
