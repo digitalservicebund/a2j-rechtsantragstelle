@@ -7,11 +7,11 @@ import { YesNoAnswer } from "~/components/form/answers";
 // NOTE: This will get replaced by xstate machine definition
 export const _formDefinition = {
   welcome: {
-    step: Steps.WelcomeStep,
+    step: Steps.welcomeStep,
     next: "hasRechtschutzversicherung",
   },
   hasRechtschutzversicherung: {
-    step: Steps.RechtSchutzVersicherungStep,
+    step: Steps.rechtSchutzVersicherungStep,
     back: "welcome",
     next: (formData: FormData) => {
       return formData.get("hasRechtschutzversicherung") === YesNoAnswer.Enum.yes
@@ -21,11 +21,11 @@ export const _formDefinition = {
   },
   exitRechtschutzversicherung: {
     back: "hasRechtschutzversicherung",
-    step: Steps.ExitRechtschutzversicherungStep,
+    step: Steps.exitRechtschutzversicherungStep,
   },
   hasKlageEingereicht: {
     back: "hasRechtschutzversicherung",
-    step: Steps.KlageEingereichtStep,
+    step: Steps.klageEingereichtStep,
     next: (formData: FormData) => {
       return formData.get("hasKlageEingereicht") === YesNoAnswer.Enum.yes
         ? "exitKlageEingereicht"
@@ -34,11 +34,11 @@ export const _formDefinition = {
   },
   exitKlageEingereicht: {
     back: "hasKlageEingereicht",
-    step: Steps.ExitKlageEingereicht,
+    step: Steps.exitKlageEingereicht,
   },
   isHamburgOderBremen: {
     back: "hasKlageEingereicht",
-    step: Steps.HamburgOderBremenStep,
+    step: Steps.hamburgOderBremenStep,
     next: (formData: FormData) => {
       return formData.get("isHamburgOderBremen") === YesNoAnswer.Enum.yes
         ? "exitHamburgOrBremen"
@@ -47,11 +47,11 @@ export const _formDefinition = {
   },
   exitHamburgOrBremen: {
     back: "isHamburgOderBremen",
-    step: Steps.ExitHamburgOrBremen,
+    step: Steps.exitHamburgOrBremen,
   },
   hasBeratungshilfeBeantragt: {
     back: "isHamburgOderBremen",
-    step: Steps.BeratungshilfeBeantragtStep,
+    step: Steps.beratungshilfeBeantragtStep,
     next: (formData: FormData) => {
       return formData.get("hasBeratungshilfeBeantragt") === YesNoAnswer.Enum.yes
         ? "exitBeratungshilfeBeantragt"
@@ -60,11 +60,11 @@ export const _formDefinition = {
   },
   exitBeratungshilfeBeantragt: {
     back: "hasBeratungshilfeBeantragt",
-    step: Steps.ExitBeratungshilfeBeantragt,
+    step: Steps.exitBeratungshilfeBeantragt,
   },
   hasSozialleistungen: {
     back: "hasBeratungshilfeBeantragt",
-    step: Steps.SozialleistungStep,
+    step: Steps.sozialleistungStep,
   },
 };
 

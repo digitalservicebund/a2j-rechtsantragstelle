@@ -5,7 +5,7 @@ import { YesNoAnswer } from "../answers";
 
 const schema = z.object({ isHamburgOderBremen: YesNoAnswer });
 
-export const HamburgOderBremenStep: StepInterface = {
+export const hamburgOderBremenStep = {
   schema,
   component: () => {
     return (

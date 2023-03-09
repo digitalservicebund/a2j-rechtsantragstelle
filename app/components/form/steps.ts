@@ -1,28 +1,28 @@
 import type { FunctionComponent } from "react";
 import type { ZodObject } from "zod";
 
-import { SozialleistungStep } from "./steps/hasSozialleistungen";
-import { ExitRechtschutzversicherungStep } from "./steps/exitRechtschutzversicherung";
-import { WelcomeStep } from "./steps/welcome";
-import { RechtSchutzVersicherungStep } from "./steps/hasRechtschutzversicherung";
-import { KlageEingereichtStep } from "./steps/hasKlageEingereicht";
-import { ExitKlageEingereicht } from "./steps/exitKlageEingereicht";
-import { ExitHamburgOrBremen } from "./steps/exitHamburgOrBremen";
-import { ExitBeratungshilfeBeantragt } from "./steps/exitBeratungshilfeBeantragt";
-import { HamburgOderBremenStep } from "./steps/isHamburgOderBremen";
-import { BeratungshilfeBeantragtStep } from "./steps/hasBeratungshilfeBeantragt";
+import { sozialleistungStep } from "./steps/hasSozialleistungen";
+import { exitRechtschutzversicherungStep } from "./steps/exitRechtschutzversicherung";
+import { welcomeStep } from "./steps/welcome";
+import { rechtSchutzVersicherungStep } from "./steps/hasRechtschutzversicherung";
+import { klageEingereichtStep } from "./steps/hasKlageEingereicht";
+import { exitKlageEingereicht } from "./steps/exitKlageEingereicht";
+import { exitHamburgOrBremen } from "./steps/exitHamburgOrBremen";
+import { exitBeratungshilfeBeantragt } from "./steps/exitBeratungshilfeBeantragt";
+import { hamburgOderBremenStep } from "./steps/isHamburgOderBremen";
+import { beratungshilfeBeantragtStep } from "./steps/hasBeratungshilfeBeantragt";
 
 export const Steps = {
-  SozialleistungStep,
-  ExitRechtschutzversicherungStep,
-  WelcomeStep,
-  RechtSchutzVersicherungStep,
-  KlageEingereichtStep,
-  ExitKlageEingereicht,
-  ExitHamburgOrBremen,
-  ExitBeratungshilfeBeantragt,
-  HamburgOderBremenStep,
-  BeratungshilfeBeantragtStep,
+  sozialleistungStep,
+  exitRechtschutzversicherungStep,
+  welcomeStep,
+  rechtSchutzVersicherungStep,
+  klageEingereichtStep,
+  exitKlageEingereicht,
+  exitHamburgOrBremen,
+  exitBeratungshilfeBeantragt,
+  hamburgOderBremenStep,
+  beratungshilfeBeantragtStep,
 };
 
 export interface StepInterface {

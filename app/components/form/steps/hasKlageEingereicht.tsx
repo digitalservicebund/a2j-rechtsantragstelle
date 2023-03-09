@@ -5,7 +5,7 @@ import { YesNoAnswer } from "../answers";
 
 const schema = z.object({ hasKlageEingereicht: YesNoAnswer });
 
-export const KlageEingereichtStep: StepInterface = {
+export const klageEingereichtStep = {
   schema,
   component: () => {
     return (

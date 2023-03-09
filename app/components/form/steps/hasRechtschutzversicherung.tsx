@@ -5,7 +5,7 @@ import { YesNoAnswer } from "../answers";
 
 const schema = z.object({ hasRechtschutzversicherung: YesNoAnswer });
 
-export const RechtSchutzVersicherungStep: StepInterface = {
+export const rechtSchutzVersicherungStep = {
   schema,
   component: () => {
     return (

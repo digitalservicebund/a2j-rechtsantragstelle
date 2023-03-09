@@ -5,7 +5,7 @@ import { YesNoAnswer } from "../answers";
 
 const schema = z.object({ hasSozialleistung: YesNoAnswer });
 
-export const SozialleistungStep: StepInterface = {
+export const sozialleistungStep: StepInterface = {
   schema,
   component: () => {
     return (

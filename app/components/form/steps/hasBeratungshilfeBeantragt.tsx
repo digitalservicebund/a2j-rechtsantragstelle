@@ -5,7 +5,7 @@ import { YesNoAnswer } from "../answers";
 
 const schema = z.object({ hasBeratungshilfeBeantragt: YesNoAnswer });
 
-export const BeratungshilfeBeantragtStep: StepInterface = {
+export const beratungshilfeBeantragtStep = {
   schema,
   component: () => {
     return (
