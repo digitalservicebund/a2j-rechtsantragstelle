@@ -1,20 +1,7 @@
 import { Button } from "~/components";
+import Close from "@mui/icons-material/Close";
 
 export default function KitchensinkButtons() {
-  const Cross = () => {
-    return (
-      <svg
-        width="36"
-        height="36"
-        viewBox="0 0 36 36"
-        fill="white"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M28.5 9.615L26.385 7.5L18 15.885L9.615 7.5L7.5 9.615L15.885 18L7.5 26.385L9.615 28.5L18 20.115L26.385 28.5L28.5 26.385L20.115 18L28.5 9.615Z" />
-      </svg>
-    );
-  };
-
   return (
     <div>
       <h1>Buttons</h1>
@@ -25,17 +12,17 @@ export default function KitchensinkButtons() {
         <br />
       </div>
       <div className="mb-4">
-        <Button size="large" iconLeft={<Cross />}>
+        <Button size="large" iconLeft={<Close />}>
           Registrieren
         </Button>
       </div>
       <div className="mb-4">
-        <Button size="large" iconRight={<Cross />}>
+        <Button size="large" iconRight={<Close />}>
           Registrieren
         </Button>
       </div>
       <div>
-        <Button size="large" iconRight={<Cross />} aria-label="Registrieren" />
+        <Button size="large" iconRight={<Close />} aria-label="Registrieren" />
       </div>
 
       <h3>Medium (default)</h3>
@@ -43,13 +30,13 @@ export default function KitchensinkButtons() {
         <Button>Registrieren</Button>
       </div>
       <div className="mb-4">
-        <Button iconLeft={<Cross />}>Registrieren</Button>
+        <Button iconLeft={<Close />}>Registrieren</Button>
       </div>
       <div className="mb-4">
-        <Button iconRight={<Cross />}>Registrieren</Button>
+        <Button iconRight={<Close />}>Registrieren</Button>
       </div>
       <div>
-        <Button iconRight={<Cross />} aria-label="Registrieren" />
+        <Button iconRight={<Close />} aria-label="Registrieren" />
       </div>
 
       <h3>Small</h3>
@@ -58,17 +45,17 @@ export default function KitchensinkButtons() {
         <br />
       </div>
       <div className="mb-4">
-        <Button size="small" iconLeft={<Cross />}>
+        <Button size="small" iconLeft={<Close />}>
           Registrieren
         </Button>
       </div>
       <div className="mb-4">
-        <Button size="small" iconRight={<Cross />}>
+        <Button size="small" iconRight={<Close />}>
           Registrieren
         </Button>
       </div>
       <div>
-        <Button size="small" iconRight={<Cross />} aria-label="Registrieren" />
+        <Button size="small" iconRight={<Close />} aria-label="Registrieren" />
       </div>
 
       <h3>Disabled</h3>
@@ -77,17 +64,17 @@ export default function KitchensinkButtons() {
         <br />
       </div>
       <div className="mb-4">
-        <Button disabled iconLeft={<Cross />}>
+        <Button disabled iconLeft={<Close />}>
           Registrieren
         </Button>
       </div>
       <div className="mb-4">
-        <Button disabled iconRight={<Cross />}>
+        <Button disabled iconRight={<Close />}>
           Registrieren
         </Button>
       </div>
       <div>
-        <Button disabled iconRight={<Cross />} aria-label="Registrieren" />
+        <Button disabled iconRight={<Close />} aria-label="Registrieren" />
       </div>
 
       <h3>Full Width</h3>
@@ -98,12 +85,12 @@ export default function KitchensinkButtons() {
         <br />
       </div>
       <div className="mb-4">
-        <Button fullWidth iconLeft={<Cross />}>
+        <Button fullWidth iconLeft={<Close />}>
           Registrieren
         </Button>
       </div>
       <div className="mb-4">
-        <Button fullWidth size="small" iconRight={<Cross />}>
+        <Button fullWidth size="small" iconRight={<Close />}>
           Registrieren
         </Button>
       </div>
@@ -111,7 +98,7 @@ export default function KitchensinkButtons() {
         <Button
           fullWidth
           size="small"
-          iconRight={<Cross />}
+          iconRight={<Close />}
           aria-label="Registrieren"
         />
       </div>
@@ -120,12 +107,12 @@ export default function KitchensinkButtons() {
         <Button look="secondary">Registrieren</Button>
       </div>
       <div className="mb-4">
-        <Button look="tertiary" iconLeft={<Cross />}>
+        <Button look="tertiary" iconLeft={<Close />}>
           Registrieren
         </Button>
       </div>
       <div className="mb-4">
-        <Button look="ghost" iconRight={<Cross />}>
+        <Button look="ghost" iconRight={<Close />}>
           Registrieren
         </Button>
       </div>

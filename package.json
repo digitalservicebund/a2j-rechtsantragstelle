@@ -14,6 +14,10 @@
     "test": "jest --testPathPattern=/tests/unit/ --maxWorkers=50%"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.11",
+    "@mui/material": "^5.11.12",
     "@remix-run/express": "^1.14.1",
     "@remix-run/node": "^1.14.1",
     "@remix-run/react": "^1.14.1",
