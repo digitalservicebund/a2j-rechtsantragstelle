@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { initial } from "~/lib/formDefinition";
+import { initialStepID } from "~/lib/vorabcheck";
 import { getSession } from "~/sessions";
 import LoginButton from "~/routes/login";
 import LogoutButton from "~/routes/logout";
@@ -10,7 +10,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   // Reroute to initial step on empty formStepID
   const url = new URL(request.url);
   if (url.pathname === "/form/" || url.pathname === "/form") {
-    return redirect(`/form/${initial}`);
+    return redirect(`/form/${initialStepID}`);
   }
 
   const session = await getSession(request.headers.get("Cookie"));
