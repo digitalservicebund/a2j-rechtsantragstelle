@@ -15,7 +15,9 @@ export async function action({ request }: ActionArgs) {
 export default function LogoutButton() {
   return (
     <form method="POST" name="logout" action="/logout">
-      <button>logout</button>
+      <button className="ds-button ds-button-tertiary ds-button-small">
+        logout
+      </button>
     </form>
   );
 }

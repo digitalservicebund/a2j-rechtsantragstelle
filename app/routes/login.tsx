@@ -16,7 +16,9 @@ export async function action({ request }: ActionArgs) {
 export default function LoginButton() {
   return (
     <form method="POST" name="login" action="/login">
-      <button>create session</button>
+      <button className="ds-button ds-button-tertiary ds-button-small">
+        create session
+      </button>
     </form>
   );
 }
