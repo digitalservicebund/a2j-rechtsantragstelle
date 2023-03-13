@@ -9,10 +9,14 @@ import {
   formFlow,
   formPages,
   backTrace,
+  finalStep,
 } from "~/lib/vorabcheck";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
 import { isStepComponentWithSchema } from "~/components/form/steps";
+import { treeDepth } from "~/lib/treeCalculations";
+
+const totalLength = treeDepth(backTrace, finalStep, initialStepID);
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   if (!params.formStepID || !(params.formStepID in formPages)) {
@@ -74,6 +78,8 @@ export default function Index() {
   const stepID = params.formStepID as AllowedIDs;
   const currentStep = formPages[stepID];
   const Component = currentStep.component;
+  const currentDepth = treeDepth(backTrace, finalStep, stepID);
+
   return (
     <div>
       <h2>Multi-Step Form Index</h2>
@@ -85,6 +91,9 @@ export default function Index() {
           defaultValues={stepData}
         >
           <Component />
+          {totalLength &&
+            currentDepth &&
+            `Schritt ${totalLength - currentDepth} / ${totalLength}`}
           <ButtonNavigation
             backDestination={backTrace[stepID]}
             isLast={!(stepID in formFlow)}

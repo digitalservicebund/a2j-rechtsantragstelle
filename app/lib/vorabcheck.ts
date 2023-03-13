@@ -49,7 +49,7 @@ const pageIDs = (() =>
   }))();
 
 export const initialStepID = pageIDs.welcome;
-const finalStep = pageIDs.sozialleistungsBezug;
+export const finalStep = pageIDs.erfolg;
 
 // Type Context by infering all zod schemas (and dropping pageIDs without schema)
 type Context = Partial<{
@@ -228,19 +228,6 @@ for (const [key, value] of Object.entries(formFlow)) {
       }
     });
   }
-}
-
-let stepCount: number | null = 0;
-let currentstep: AllowedIDs = finalStep;
-const maxStepCount = 100;
-
-while (currentstep !== initialStepID || stepCount >= maxStepCount) {
-  if (!backTrace[currentstep]) {
-    stepCount = null;
-    break;
-  }
-  currentstep = backTrace[currentstep] as AllowedIDs;
-  stepCount += 1;
 }
 
 export const allValidators = Object.fromEntries(
