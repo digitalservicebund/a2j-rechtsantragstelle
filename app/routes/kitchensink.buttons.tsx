@@ -115,6 +115,20 @@ export default function KitchensinkButtons() {
           aria-label="Registrieren"
         />
       </div>
+      <h2>Andere Looks</h2>
+      <div className="mb-4">
+        <Button look="secondary">Registrieren</Button>
+      </div>
+      <div className="mb-4">
+        <Button look="tertiary" iconLeft={<Cross />}>
+          Registrieren
+        </Button>
+      </div>
+      <div className="mb-4">
+        <Button look="ghost" iconRight={<Cross />}>
+          Registrieren
+        </Button>
+      </div>
     </div>
   );
 }

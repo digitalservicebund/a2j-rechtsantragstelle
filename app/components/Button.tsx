@@ -2,6 +2,7 @@ import classNames from "classnames";
 import type { ReactElement } from "react";
 
 interface VisualProps {
+  look?: "primary" | "secondary" | "tertiary" | "ghost";
   size?: "large" | "medium" | "small";
   iconLeft?: ReactElement;
   iconRight?: ReactElement;
@@ -15,11 +16,15 @@ interface ButtonLinkProps
     VisualProps {}
 
 const Button = (props: ButtonProps | ButtonLinkProps) => {
-  const { children, iconLeft, iconRight, fullWidth, size, ...rest } = props;
+  const { children, iconLeft, iconRight, fullWidth, look, size, ...rest } =
+    props;
   const isLink = "href" in props;
   const buttonClasses = classNames(
     "ds-button",
     {
+      "ds-button-secondary": look == "secondary",
+      "ds-button-tertiary": look == "tertiary",
+      "ds-button-ghost": look == "ghost",
       "ds-button-large": size == "large",
       "ds-button-small": size == "small",
       "ds-button-with-icon": iconLeft || iconRight,
