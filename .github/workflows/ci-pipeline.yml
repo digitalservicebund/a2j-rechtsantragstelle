@@ -114,6 +114,14 @@ jobs:
           docker tag ${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Install cosign
+        uses: sigstore/cosign-installer@9becc617647dfa20ae7b1151972e9b3a2c338a2b
+
+      - name: Sign published image
+        env:
+          COSIGN_EXPERIMENTAL: "true"
+        run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
   deploy-staging:
     needs: [build-push-image]
     if: github.ref == 'refs/heads/main'
