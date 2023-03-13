@@ -18,7 +18,7 @@ export default function KitchensinkButtons() {
   return (
     <div>
       <h1>Buttons</h1>
-      <h2>Primary</h2>
+      <h2>Primary (default)</h2>
       <h3>Large</h3>
       <div className="mb-4">
         <Button size="large">Registrieren</Button>
@@ -29,21 +29,27 @@ export default function KitchensinkButtons() {
           Registrieren
         </Button>
       </div>
-      <div>
+      <div className="mb-4">
         <Button size="large" iconRight={<Cross />}>
           Registrieren
         </Button>
       </div>
+      <div>
+        <Button size="large" iconRight={<Cross />} aria-label="Registrieren" />
+      </div>
 
-      <h3>Medium</h3>
+      <h3>Medium (default)</h3>
       <div className="mb-4">
         <Button>Registrieren</Button>
       </div>
       <div className="mb-4">
         <Button iconLeft={<Cross />}>Registrieren</Button>
       </div>
-      <div>
+      <div className="mb-4">
         <Button iconRight={<Cross />}>Registrieren</Button>
+      </div>
+      <div>
+        <Button iconRight={<Cross />} aria-label="Registrieren" />
       </div>
 
       <h3>Small</h3>
@@ -56,10 +62,13 @@ export default function KitchensinkButtons() {
           Registrieren
         </Button>
       </div>
-      <div>
+      <div className="mb-4">
         <Button size="small" iconRight={<Cross />}>
           Registrieren
         </Button>
+      </div>
+      <div>
+        <Button size="small" iconRight={<Cross />} aria-label="Registrieren" />
       </div>
 
       <h3>Disabled</h3>
@@ -72,10 +81,13 @@ export default function KitchensinkButtons() {
           Registrieren
         </Button>
       </div>
-      <div>
+      <div className="mb-4">
         <Button disabled iconRight={<Cross />}>
           Registrieren
         </Button>
+      </div>
+      <div>
+        <Button disabled iconRight={<Cross />} aria-label="Registrieren" />
       </div>
     </div>
   );

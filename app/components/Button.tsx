@@ -20,6 +20,7 @@ const Button = (props: ButtonProps | ButtonLinkProps) => {
     "ds-button-large": props.size == "large",
     "ds-button-small": props.size == "small",
     "ds-button-with-icon": iconLeft || iconRight,
+    "ds-button-with-icon-only": (iconLeft || iconRight) && !children,
   });
 
   if (isLink) {
