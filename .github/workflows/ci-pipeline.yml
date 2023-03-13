@@ -123,6 +123,10 @@ jobs:
           COSIGN_EXPERIMENTAL: "true"
         run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
 
+      - name: Set version for signed image
+        id: set-version
+        run: echo "version=$IMAGE_VERSION" >> "$GITHUB_OUTPUT"
+
   deploy-staging:
     needs: [build-push-image]
     if: github.ref == 'refs/heads/main'
