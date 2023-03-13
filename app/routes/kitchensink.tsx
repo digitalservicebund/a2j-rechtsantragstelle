@@ -1,12 +1,22 @@
 import { Input, RadioGroup, Select, Stack } from "~/components";
 import { json } from "@remix-run/node";
-import type { DataFunctionArgs } from "@remix-run/node";
+import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
 
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm, validationError } from "remix-validated-form";
 
 import { useActionData } from "@remix-run/react";
+
+export const meta: V2_MetaFunction = () => [
+  {
+    title: "Kitchensink",
+  },
+  {
+    name: "robots",
+    content: "noindex",
+  },
+];
 
 export const DummySchema = z.object({
   text: z.string().min(1),

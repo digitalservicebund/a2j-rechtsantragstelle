@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("has title", async ({ page }) => {
-  await expect(page).toHaveTitle(/New Remix App/);
+  await expect(page).toHaveTitle("");
 });
 
 test.describe("links", () => {
