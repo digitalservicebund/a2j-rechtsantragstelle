@@ -1,3 +1,4 @@
+export { default as Button } from "./Button";
 export { default as InputError } from "./InputError";
 export { default as InputLabel } from "./InputLabel";
 export { default as Input } from "./Input";

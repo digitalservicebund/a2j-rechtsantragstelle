@@ -7,7 +7,7 @@ import { ValidatedForm, validationError } from "remix-validated-form";
 import { ApplicantSchema, FamilienStandSchema } from "~/models/applicant";
 import { useActionData } from "@remix-run/react";
 
-import { Input, Select } from "~/components";
+import { Button, Input, Select } from "~/components";
 
 const validator = withZod(ApplicantSchema);
 
@@ -69,9 +69,9 @@ export default function Index() {
         <Input name="address.postcode" label="PLZ" type="number" />
 
         <div className="flex flex-row place-content-end">
-          <button type="submit" className="border-2 rounded-lg px-5 py-2">
+          <Button type="submit" className="border-2 rounded-lg px-5 py-2">
             Abschicken
-          </button>
+          </Button>
         </div>
       </ValidatedForm>
 

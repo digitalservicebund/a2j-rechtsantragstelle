@@ -1,4 +1,4 @@
-import { Input, RadioGroup, Select, Stack } from "~/components";
+import { Button, Input, RadioGroup, Select, Stack } from "~/components";
 import { json } from "@remix-run/node";
 import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
 
@@ -81,7 +81,7 @@ export default function Kitchensink() {
             </fieldset>
           </Stack>
           <div>
-            <button type="submit">Abschicken</button>
+            <Button>Abschicken</Button>
           </div>
         </Stack>
       </ValidatedForm>

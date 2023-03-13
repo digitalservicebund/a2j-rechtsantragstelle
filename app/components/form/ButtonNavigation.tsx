@@ -1,5 +1,6 @@
 import { Link } from "@remix-run/react";
 import type { AllowedIDs } from "~/lib/vorabcheck";
+import { Button } from "~/components";
 
 interface ButtonNavigationProps {
   backDestination?: AllowedIDs;
@@ -23,13 +24,13 @@ export function ButtonNavigation({
         {"Zurück"}
       </Link>
 
-      <button type="submit" name="_action" value="next">
+      <Button type="submit" name="_action" value="next">
         {isLast
           ? "Von Vorne beginnen"
           : backDestination
           ? "Übernehmen & Weiter"
           : "Start"}
-      </button>
+      </Button>
     </div>
   );
 }
