@@ -3,11 +3,9 @@ import { RadioGroup } from "~/components";
 import { YesNoAnswer } from "../answers";
 
 const schema = z.object({ partnerschaft: YesNoAnswer });
-const varNames = schema.keyof().Values;
 
 export const familienstandStep = {
   schema,
-  varNames,
   component: () => {
     return (
       <div style={{ border: "solid green 1px", padding: "1rem" }}>
@@ -17,7 +15,7 @@ export const familienstandStep = {
         </h2>
 
         <RadioGroup
-          name={varNames.partnerschaft}
+          name={schema.keyof().Values.partnerschaft}
           options={[
             {
               label: "Nein",

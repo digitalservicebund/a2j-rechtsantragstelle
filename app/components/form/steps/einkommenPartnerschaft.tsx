@@ -5,11 +5,9 @@ import { Input } from "~/components";
 const schema = z.object({
   einkommenFamilie: z.coerce.number().min(0, "Ungültiges Einkommen"),
 });
-const varNames = schema.keyof().Values;
 
 export const einkommenPartnerStep = {
   schema,
-  varNames,
   component: () => {
     return (
       <div style={{ border: "solid black 1px", padding: "1rem" }}>
@@ -24,7 +22,7 @@ export const einkommenPartnerStep = {
           <a href=".">Was ist das Netto-Einkommen?</a>
         </p>
         <Input
-          name={varNames.einkommenFamilie}
+          name={schema.keyof().Values.einkommenFamilie}
           type="number"
           label="Netto Einkommen"
         />

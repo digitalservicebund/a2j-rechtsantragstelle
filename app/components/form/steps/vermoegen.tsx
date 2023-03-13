@@ -4,11 +4,9 @@ import { RadioGroup } from "~/components";
 export const vermoegenOptions = z.enum(["below_10k", "above_10k", "unknown"]);
 export type VermoegenOptions = z.infer<typeof vermoegenOptions>;
 const schema = z.object({ vermoegen: vermoegenOptions });
-const varNames = schema.keyof().Values;
 
 export const vermoegenStep = {
   schema,
-  varNames,
   component: () => {
     return (
       <div style={{ border: "solid black 1px", padding: "1rem" }}>
@@ -23,7 +21,7 @@ export const vermoegenStep = {
           <a href=".">Was gilt genau als Vermögen oder Wertgegenstand?</a>
         </p>
         <RadioGroup
-          name={varNames.vermoegen}
+          name={schema.keyof().Values.vermoegen}
           options={[
             {
               label: "weniger als 10.000 €",

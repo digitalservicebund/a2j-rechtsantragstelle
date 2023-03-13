@@ -25,7 +25,6 @@ const varNames = schema.keyof().Values;
 
 export const kidsCountStep = {
   schema,
-  varNames,
   component: () => {
     return (
       <div style={{ border: "solid black 1px", padding: "1rem" }}>

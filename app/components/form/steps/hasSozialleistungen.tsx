@@ -9,17 +9,15 @@ export const staatlicheLeistungen = z.enum([
 ]);
 export type StaatlicheLeistungen = z.infer<typeof staatlicheLeistungen>;
 const schema = z.object({ beziehtStaatlicheLeistungen: staatlicheLeistungen });
-const varNames = schema.keyof().Values;
 
 export const sozialleistungStep = {
   schema,
-  varNames,
   component: () => {
     return (
       <div style={{ border: "solid green 1px", padding: "1rem" }}>
         <h2>Erhalten Sie aktuell eine der folgenden staatlichen Leistungen?</h2>
         <RadioGroup
-          name={varNames.beziehtStaatlicheLeistungen}
+          name={schema.keyof().Values.beziehtStaatlicheLeistungen}
           options={[
             {
               label: "Grundsicherung oder Sozialhilfe",

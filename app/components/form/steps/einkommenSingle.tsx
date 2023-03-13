@@ -4,11 +4,9 @@ import { Input } from "~/components";
 const schema = z.object({
   einkommenSingle: z.coerce.number().min(0, "Ungültiges Einkommen"),
 });
-const varNames = schema.keyof().Values;
 
 export const einkommenSingleStep = {
   schema,
-  varNames,
   component: () => {
     return (
       <div style={{ border: "solid black 1px", padding: "1rem" }}>
@@ -22,7 +20,7 @@ export const einkommenSingleStep = {
           <a href=".">Was ist das Netto-Einkommen?</a>
         </p>
         <Input
-          name={varNames.einkommenSingle}
+          name={schema.keyof().Values.einkommenSingle}
           type="number"
           label="Netto Einkommen"
         />

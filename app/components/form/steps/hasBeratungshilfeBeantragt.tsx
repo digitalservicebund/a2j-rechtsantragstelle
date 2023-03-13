@@ -3,10 +3,9 @@ import { RadioGroup } from "~/components";
 import { YesNoAnswer } from "../answers";
 
 const schema = z.object({ hasBeratungshilfeBeantragt: YesNoAnswer });
-const varNames = schema.keyof().Values;
+
 export const beratungshilfeBeantragtStep = {
   schema,
-  varNames,
   component: () => {
     return (
       <div style={{ border: "solid black 1px", padding: "1rem" }}>
@@ -15,7 +14,7 @@ export const beratungshilfeBeantragtStep = {
           Angelegenheit beantragt?
         </h3>
         <RadioGroup
-          name={varNames.hasBeratungshilfeBeantragt}
+          name={schema.keyof().Values.hasBeratungshilfeBeantragt}
           options={[
             { label: "nein", value: YesNoAnswer.Enum.no },
             { label: "ja", value: YesNoAnswer.Enum.yes },

@@ -57,7 +57,6 @@ interface StepComponent {
 interface StepComponentWithSchema {
   component: FunctionComponent<any>;
   schema: AnyZodObject;
-  varNames: Record<string, string>;
 }
 
 export type StepInterface = StepComponent | StepComponentWithSchema;
