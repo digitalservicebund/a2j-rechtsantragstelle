@@ -89,6 +89,32 @@ export default function KitchensinkButtons() {
       <div>
         <Button disabled iconRight={<Cross />} aria-label="Registrieren" />
       </div>
+
+      <h3>Full Width</h3>
+      <div className="mb-4">
+        <Button fullWidth size="large">
+          Registrieren
+        </Button>
+        <br />
+      </div>
+      <div className="mb-4">
+        <Button fullWidth iconLeft={<Cross />}>
+          Registrieren
+        </Button>
+      </div>
+      <div className="mb-4">
+        <Button fullWidth size="small" iconRight={<Cross />}>
+          Registrieren
+        </Button>
+      </div>
+      <div>
+        <Button
+          fullWidth
+          size="small"
+          iconRight={<Cross />}
+          aria-label="Registrieren"
+        />
+      </div>
     </div>
   );
 }
