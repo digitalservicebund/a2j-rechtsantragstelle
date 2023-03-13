@@ -38,7 +38,7 @@ const Button = (props: ButtonProps | ButtonLinkProps) => {
     return (
       <a {...(rest as ButtonLinkProps)} className={buttonClasses}>
         {iconLeft}
-        {children}
+        {children ? <span>{children}</span> : ""}
         {iconRight}
       </a>
     );
