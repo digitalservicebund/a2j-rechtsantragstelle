@@ -1,9 +1,6 @@
 import { isStepComponentWithSchema, Steps } from "~/components/form/steps";
-import { number, z } from "zod";
+import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
-import { YesNoAnswer } from "~/components/form/answers";
-import { staatlicheLeistungen } from "~/components/form/steps/hasSozialleistungen";
-import { vermoegenOptions } from "~/components/form/steps/vermoegen";
 import { freibetrag } from "./freibetrag";
 
 export const formPages = {
@@ -32,6 +29,9 @@ export const formPages = {
   erfolg: Steps.successFreibetrag,
 } as const;
 
+type FormPages = typeof formPages;
+export type AllowedIDs = keyof FormPages;
+
 // Construct object of formPages keys (eg formPages.welcome), see https://stackoverflow.com/a/70811604
 const pageIDs = (() =>
   ({
@@ -45,26 +45,31 @@ const pageIDs = (() =>
         {}
       ),
   } as {
-    [k in keyof typeof formPages]: k;
+    [k in AllowedIDs]: k;
   }))();
-
-export type AllowedIDs = keyof typeof formPages;
 
 export const initialStepID = pageIDs.welcome;
 const finalStep = pageIDs.sozialleistungsBezug;
 
-type TransitionCondition = (
-  ctx: Partial<Record<AllowedIDs, Record<string, any>>>
-) => boolean;
+// Type Context by infering all zod schemas (and dropping pageIDs without schema)
+type Context = Partial<{
+  [T in AllowedIDs]: FormPages[T] extends { schema: any }
+    ? z.infer<FormPages[T]["schema"]>
+    : never;
+}>;
 
 interface Transition {
   destination: AllowedIDs;
-  condition?: TransitionCondition;
+  condition?: (ctx: Context) => boolean;
 }
 
 type FormFlow = Partial<
   Record<AllowedIDs, AllowedIDs | (AllowedIDs | Transition)[]>
 >;
+
+// form flow is a mapping of pageID to:
+// pageID: trivial transition (always taken)
+// [Transition | pageID]: takes first valid transition.condition or trivial transition (pageID)
 
 export const formFlow: FormFlow = {
   [pageIDs.welcome]: pageIDs.hamburgOderBremen,
@@ -72,10 +77,7 @@ export const formFlow: FormFlow = {
     {
       destination: pageIDs.hamburgOderBremenError,
       condition: (context) =>
-        context.hamburgOderBremen !== undefined &&
-        context.hamburgOderBremen[
-          formPages.hamburgOderBremen.varNames.isHamburgOderBremen
-        ] === YesNoAnswer.Enum.yes,
+        context.hamburgOderBremen?.isHamburgOderBremen === "yes",
     },
     pageIDs.rechtschutzversicherung,
   ],
@@ -84,21 +86,14 @@ export const formFlow: FormFlow = {
     {
       destination: pageIDs.rechtschutzversicherungError,
       condition: (context) =>
-        context.rechtschutzversicherung !== undefined &&
-        context.rechtschutzversicherung[
-          formPages.rechtschutzversicherung.varNames.hasRechtschutzversicherung
-        ] === YesNoAnswer.Enum.yes,
+        context.rechtschutzversicherung?.hasRechtschutzversicherung === "yes",
     },
     pageIDs.wurdeVerklagt,
   ],
   [pageIDs.wurdeVerklagt]: [
     {
       destination: pageIDs.klageEingereichtError,
-      condition: (context) =>
-        context.klageEingereicht !== undefined &&
-        context.klageEingereicht[
-          formPages.klageEingereicht.varNames.hasKlageEingereicht
-        ] === YesNoAnswer.Enum.yes,
+      condition: (context) => context.wurdeVerklagt?.wurdeVerklagt === "yes",
     },
     pageIDs.klageEingereicht,
   ],
@@ -106,10 +101,7 @@ export const formFlow: FormFlow = {
     {
       destination: pageIDs.klageEingereichtError,
       condition: (context) =>
-        context.klageEingereicht !== undefined &&
-        context.klageEingereicht[
-          formPages.klageEingereicht.varNames.hasKlageEingereicht
-        ] === YesNoAnswer.Enum.yes,
+        context.klageEingereicht?.hasKlageEingereicht === "yes",
     },
     pageIDs.beratungsHilfeBeantragt,
   ],
@@ -117,10 +109,7 @@ export const formFlow: FormFlow = {
     {
       destination: pageIDs.beratungsHilfeBeantragtError,
       condition: (context) =>
-        context.beratungsHilfeBeantragt !== undefined &&
-        context.beratungsHilfeBeantragt[
-          formPages.beratungsHilfeBeantragt.varNames.hasBeratungshilfeBeantragt
-        ] === YesNoAnswer.Enum.yes,
+        context.beratungsHilfeBeantragt?.hasBeratungshilfeBeantragt === "yes",
     },
     pageIDs.sozialleistungsBezug,
   ],
@@ -128,41 +117,27 @@ export const formFlow: FormFlow = {
     {
       destination: pageIDs.erfolgLeistungsbezug,
       condition: (ctx) =>
-        ctx.sozialleistungsBezug !== undefined &&
-        (ctx.sozialleistungsBezug[
-          formPages.sozialleistungsBezug.varNames.beziehtStaatlicheLeistungen
-        ] === staatlicheLeistungen.Enum.Grundsicherung ||
-          ctx.sozialleistungsBezug[
-            formPages.sozialleistungsBezug.varNames.beziehtStaatlicheLeistungen
-          ] === staatlicheLeistungen.Enum.Asylbewerberleistungen),
+        ctx.sozialleistungsBezug?.beziehtStaatlicheLeistungen ===
+          "Grundsicherung" ||
+        ctx.sozialleistungsBezug?.beziehtStaatlicheLeistungen ===
+          "Asylbewerberleistungen",
     },
     pageIDs.vermoegen,
   ],
   [pageIDs.vermoegen]: [
     {
       destination: pageIDs.exitVermoegen,
-      condition: (ctx) =>
-        ctx.vermoegen !== undefined &&
-        ctx.vermoegen[formPages.vermoegen.varNames.vermoegen] ===
-          vermoegenOptions.Enum.above_10k,
+      condition: (ctx) => ctx.vermoegen?.vermoegen === "above_10k",
     },
     {
       destination: pageIDs.exitVermoegenUnknown,
-      condition: (ctx) =>
-        ctx.vermoegen !== undefined &&
-        ctx.vermoegen[formPages.vermoegen.varNames.vermoegen] ===
-          vermoegenOptions.Enum.unknown,
+      condition: (ctx) => ctx.vermoegen?.vermoegen === "unknown",
     },
     {
       destination: pageIDs.erfolgBuergergeld,
       condition: (ctx) =>
-        ctx.vermoegen !== undefined &&
-        ctx.sozialleistungsBezug !== undefined &&
-        ctx.vermoegen[formPages.vermoegen.varNames.vermoegen] ===
-          vermoegenOptions.Enum.below_10k &&
-        ctx.sozialleistungsBezug[
-          formPages.sozialleistungsBezug.varNames.beziehtStaatlicheLeistungen
-        ] === staatlicheLeistungen.Enum.Bürgergeld,
+        ctx.vermoegen?.vermoegen === "below_10k" &&
+        ctx.sozialleistungsBezug?.beziehtStaatlicheLeistungen === "Bürgergeld",
     },
     pageIDs.kinder,
   ],
@@ -171,10 +146,7 @@ export const formFlow: FormFlow = {
   [pageIDs.familienstand]: [
     {
       destination: pageIDs.einkommenPartnerschaft,
-      condition: (ctx) =>
-        ctx.familienstand !== undefined &&
-        ctx.familienstand[formPages.familienstand.varNames.partnerschaft] ===
-          YesNoAnswer.Enum.yes,
+      condition: (ctx) => ctx.familienstand?.partnerschaft === "yes",
     },
     pageIDs.einkommenSingle,
   ],
@@ -185,25 +157,19 @@ export const formFlow: FormFlow = {
         if (!ctx.einkommenSingle || !ctx.erwaerbstaetigkeit || !ctx.kinder) {
           return false;
         }
-        const einkommen: number =
-          ctx.einkommenSingle[
-            formPages.einkommenSingle.varNames.einkommenSingle
-          ];
-
-        const isErwaerbstaetig: boolean =
-          ctx.erwaerbstaetigkeit[
-            formPages.erwaerbstaetigkeit.varNames.isErwaerbstaetig
-          ] === YesNoAnswer.Enum.yes;
+        const einkommen = ctx.einkommenSingle.einkommenSingle;
+        const isErwaerbstaetig =
+          ctx.erwaerbstaetigkeit.isErwaerbstaetig === "yes";
 
         return (
           einkommen <=
           freibetrag(
             isErwaerbstaetig,
             false,
-            ctx.kinder[formPages.kinder.varNames.kids6Below],
-            ctx.kinder[formPages.kinder.varNames.kids7To14],
-            ctx.kinder[formPages.kinder.varNames.kids15To18],
-            ctx.kinder[formPages.kinder.varNames.kids18Above]
+            ctx.kinder.kids6Below,
+            ctx.kinder.kids7To14,
+            ctx.kinder.kids15To18,
+            ctx.kinder.kids18Above
           )
         );
       },
@@ -221,25 +187,20 @@ export const formFlow: FormFlow = {
         ) {
           return false;
         }
-        const einkommen: number =
-          ctx.einkommenPartnerschaft[
-            formPages.einkommenPartnerschaft.varNames.einkommenFamilie
-          ];
+        const einkommen = ctx.einkommenPartnerschaft.einkommenFamilie;
 
-        const isErwaerbstaetig: boolean =
-          ctx.erwaerbstaetigkeit[
-            formPages.erwaerbstaetigkeit.varNames.isErwaerbstaetig
-          ] === YesNoAnswer.Enum.yes;
+        const isErwaerbstaetig =
+          ctx.erwaerbstaetigkeit.isErwaerbstaetig === "yes";
 
         return (
           einkommen <=
           freibetrag(
             isErwaerbstaetig,
             true,
-            ctx.kinder[formPages.kinder.varNames.kids6Below],
-            ctx.kinder[formPages.kinder.varNames.kids7To14],
-            ctx.kinder[formPages.kinder.varNames.kids15To18],
-            ctx.kinder[formPages.kinder.varNames.kids18Above]
+            ctx.kinder.kids6Below,
+            ctx.kinder.kids7To14,
+            ctx.kinder.kids15To18,
+            ctx.kinder.kids18Above
           )
         );
       },
@@ -281,9 +242,6 @@ while (currentstep !== initialStepID || stepCount >= maxStepCount) {
   currentstep = backTrace[currentstep] as AllowedIDs;
   stepCount += 1;
 }
-
-// console.log(`stepCount: ${stepCount}`);
-// console.log(`backTrace: ${JSON.stringify(backTrace, null, "\n")}`);
 
 export const allValidators = Object.fromEntries(
   Object.entries(formPages).map(([key, step]) => [
