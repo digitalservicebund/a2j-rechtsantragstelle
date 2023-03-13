@@ -11,6 +11,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  IMAGE_VERSION: ${{ env.IMAGE_VERSION }}
 
 jobs:
   build-app:
@@ -84,11 +85,11 @@ jobs:
 
       - name: Build an image from Dockerfile
         run: |
-          docker build -t ${{ env.IMAGE_NAME }}:${{ github.sha }} . --build-arg COMMIT_SHA=${{ github.sha }}
+          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} . --build-arg COMMIT_SHA=${{ env.IMAGE_VERSION }}
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
         with:
-          image-ref: "${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          image-ref: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}"
           format: "template"
           template: "@/contrib/sarif.tpl"
           output: "trivy-results.sarif"
@@ -110,8 +111,8 @@ jobs:
 
       - name: Push image
         run: |
-          docker tag ${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          docker tag ${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
           docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Install cosign
@@ -120,7 +121,7 @@ jobs:
       - name: Sign published image
         env:
           COSIGN_EXPERIMENTAL: "true"
-        run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
 
   deploy-staging:
     needs: [build-push-image]
@@ -137,13 +138,13 @@ jobs:
       - name: Update image tag for staging
         run: |
           cd manifests/overlays/staging
-          kustomize edit set image ghcr.io/digitalservicebund/a2j-rechtsantragstelle:${{ github.sha }}
+          kustomize edit set image ghcr.io/digitalservicebund/a2j-rechtsantragstelle:${{ env.IMAGE_VERSION }}
 
       - name: Commit and push
         uses: EndBug/add-and-commit@61a88be553afe4206585b31aa72387c64295d08b
         with:
           add: "manifests/overlays/staging/kustomization.yaml"
-          message: "Update staging image to ${{ github.sha }}"
+          message: "Update staging image to ${{ env.IMAGE_VERSION }}"
           pathspec_error_handling: exitImmediately
           push: true
 
