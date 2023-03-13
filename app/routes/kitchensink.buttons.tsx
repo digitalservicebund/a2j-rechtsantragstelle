@@ -24,8 +24,13 @@ export default function KitchensinkButtons() {
         <Button size="large">Registrieren</Button>
         <br />
       </div>
-      <div>
+      <div className="mb-4">
         <Button size="large" iconLeft={<Cross />}>
+          Registrieren
+        </Button>
+      </div>
+      <div>
+        <Button size="large" iconRight={<Cross />}>
           Registrieren
         </Button>
       </div>
@@ -34,8 +39,11 @@ export default function KitchensinkButtons() {
       <div className="mb-4">
         <Button>Registrieren</Button>
       </div>
-      <div>
+      <div className="mb-4">
         <Button iconLeft={<Cross />}>Registrieren</Button>
+      </div>
+      <div>
+        <Button iconRight={<Cross />}>Registrieren</Button>
       </div>
 
       <h3>Small</h3>
@@ -43,8 +51,13 @@ export default function KitchensinkButtons() {
         <Button size="small">Registrieren</Button>
         <br />
       </div>
-      <div>
+      <div className="mb-4">
         <Button size="small" iconLeft={<Cross />}>
+          Registrieren
+        </Button>
+      </div>
+      <div>
+        <Button size="small" iconRight={<Cross />}>
           Registrieren
         </Button>
       </div>
@@ -54,8 +67,13 @@ export default function KitchensinkButtons() {
         <Button disabled>Registrieren</Button>
         <br />
       </div>
-      <div>
+      <div className="mb-4">
         <Button disabled iconLeft={<Cross />}>
+          Registrieren
+        </Button>
+      </div>
+      <div>
+        <Button disabled iconRight={<Cross />}>
           Registrieren
         </Button>
       </div>
