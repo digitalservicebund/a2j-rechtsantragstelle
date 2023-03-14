@@ -7,6 +7,7 @@
 !remix.config.js
 !remix.env.d.ts
 !server.js
+!tailwind.config.js
 !tsconfig.json
 !.env.example
 !start.sh
