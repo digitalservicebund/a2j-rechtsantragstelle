@@ -123,6 +123,16 @@ jobs:
           COSIGN_EXPERIMENTAL: "true"
         run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
 
+      - name: Download cosign vulnerability scan record
+        uses: actions/download-artifact@v3
+        with:
+          name: "vuln.json"
+
+      - name: Attest vulnerability scan
+        run: cosign attest --replace --predicate vuln.json --type vuln ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
+        env:
+          COSIGN_EXPERIMENTAL: "true"
+
       - name: Set version for signed image
         id: set-version
         run: echo "version=$IMAGE_VERSION" >> "$GITHUB_OUTPUT"
