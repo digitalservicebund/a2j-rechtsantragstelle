@@ -11,7 +11,7 @@ export default class StrapiCMS implements CMS {
     this.client = client;
   }
 
-  getMenu(id: string, locale?: Locale): Promise<MenuItem[] | undefined> {
+  getMenu(id: string, locale?: Locale): Promise<BaseDocument[] | undefined> {
     if (locale === undefined) {
       locale = Locale.de;
     }
@@ -29,7 +29,7 @@ export default class StrapiCMS implements CMS {
       )
       .then((document) =>
         document?.attributes.items.data.map(
-          (item: Document) => item.attributes as MenuItem
+          (item: Document) => item.attributes as BaseDocument
         )
       );
   }
