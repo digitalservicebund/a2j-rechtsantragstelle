@@ -2,6 +2,7 @@ import { isStepComponentWithSchema, Steps } from "~/components/form/steps";
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { freibetrag } from "./freibetrag";
+import { makeFormGraph, makePathFinder } from "./treeCalculations";
 
 export const formPages = {
   welcome: Steps.welcomeStep,
@@ -52,18 +53,19 @@ export const initialStepID = pageIDs.welcome;
 export const finalStep = pageIDs.erfolg;
 
 // Type Context by infering all zod schemas (and dropping pageIDs without schema)
-type Context = Partial<{
+export type Context = Partial<{
   [T in AllowedIDs]: FormPages[T] extends { schema: any }
     ? z.infer<FormPages[T]["schema"]>
     : never;
 }>;
 
+export type ConditionFunction = (ctx: Context) => boolean;
 interface Transition {
   destination: AllowedIDs;
-  condition?: (ctx: Context) => boolean;
+  condition?: ConditionFunction;
 }
 
-type FormFlow = Partial<
+export type FormFlow = Partial<
   Record<AllowedIDs, AllowedIDs | (AllowedIDs | Transition)[]>
 >;
 
@@ -208,27 +210,8 @@ export const formFlow: FormFlow = {
     pageIDs.einkommenZuHoch,
   ],
 };
-
-// Build back-propagation from formFlow
-export const backTrace: Partial<Record<AllowedIDs, AllowedIDs>> = {};
-for (const [key, value] of Object.entries(formFlow)) {
-  const pageID = key as AllowedIDs;
-  if (typeof value === "string") {
-    // 1. If direct transition: add entry
-    backTrace[value] = pageID;
-  } else {
-    // 2. If transition array
-    value.forEach((stepDecision) => {
-      if (typeof stepDecision === "string") {
-        // 2a. add entries for direct transitions
-        backTrace[stepDecision] = pageID;
-      } else {
-        // 2b. add entries for conditional transition
-        backTrace[stepDecision.destination] = pageID;
-      }
-    });
-  }
-}
+export const formGraph = makeFormGraph(formFlow);
+export const pathFinder = makePathFinder(formFlow);
 
 export const allValidators = Object.fromEntries(
   Object.entries(formPages).map(([key, step]) => [

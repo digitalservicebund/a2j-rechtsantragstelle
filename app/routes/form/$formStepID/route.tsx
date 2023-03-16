@@ -6,24 +6,24 @@ import type { AllowedIDs } from "~/lib/vorabcheck";
 import {
   initialStepID,
   allValidators,
-  formFlow,
+  formGraph,
   formPages,
-  backTrace,
+  pathFinder,
   finalStep,
 } from "~/lib/vorabcheck";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
 import { isStepComponentWithSchema } from "~/components/form/steps";
-import { treeDepth } from "~/lib/treeCalculations";
+import { findPreviousStep, isLeaf } from "~/lib/treeCalculations";
 
-const totalLength = treeDepth(backTrace, finalStep, initialStepID);
+const totalLength = pathFinder.find(initialStepID, finalStep).length;
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   if (!params.formStepID || !(params.formStepID in formPages)) {
     return redirect(`/form/${initialStepID}`);
   }
   const session = await getSession(request.headers.get("Cookie"));
-  return json({ stepData: session.get(params.formStepID) });
+  return json({ context: session.data });
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
@@ -42,26 +42,12 @@ export const action: ActionFunction = async ({ params, request }) => {
   // 1. Default: back to initial
   let destinationString: AllowedIDs = initialStepID;
 
-  if (formFlow[stepID] !== undefined) {
-    const flowDestination = formFlow[stepID];
-    // 2. A transition for the current step exists inside formFlow
-    if (typeof flowDestination === "string") {
-      // 3. If its a string -> jump there
-      destinationString = flowDestination;
-    } else if (Array.isArray(flowDestination)) {
-      // 4. If its an array: find the first matching element
-      // 4a. string or undefined condition are direct transitions, else pass cookie data to condition
-      const arrayDestination = flowDestination.find(
-        (element) =>
-          typeof element === "string" ||
-          element.condition === undefined ||
-          element.condition(session.data)
-      );
-      // 4b. If not a string: pick .destination out of Transition
-      destinationString =
-        typeof arrayDestination === "string"
-          ? arrayDestination
-          : arrayDestination?.destination ?? initialStepID;
+  const links = formGraph.getNode(stepID)?.links ?? [];
+  for (const link of links) {
+    // 2. For each potential link: check if theres a condition and whether its fullfilled
+    if (link.fromId === stepID && (!link.data || link.data(session.data))) {
+      destinationString = link.toId as AllowedIDs;
+      break;
     }
   }
 
@@ -73,12 +59,12 @@ export const action: ActionFunction = async ({ params, request }) => {
 };
 
 export default function Index() {
-  const { stepData } = useLoaderData<typeof loader>();
+  const { context } = useLoaderData<typeof loader>();
   const params = useParams();
   const stepID = params.formStepID as AllowedIDs;
   const currentStep = formPages[stepID];
   const Component = currentStep.component;
-  const currentDepth = treeDepth(backTrace, finalStep, stepID);
+  const currentDepth = pathFinder.find(stepID, finalStep).length;
 
   return (
     <div>
@@ -88,15 +74,15 @@ export default function Index() {
           key={`${stepID}_form`}
           method="post"
           validator={allValidators[stepID]}
-          defaultValues={stepData}
+          defaultValues={context[stepID]}
         >
           <Component />
           {totalLength &&
             currentDepth &&
-            `Schritt ${totalLength - currentDepth} / ${totalLength}`}
+            `Schritt ${totalLength - currentDepth + 1} / ${totalLength}`}
           <ButtonNavigation
-            backDestination={backTrace[stepID]}
-            isLast={!(stepID in formFlow)}
+            backDestination={findPreviousStep(stepID, formGraph, context)}
+            isLast={isLeaf(stepID, formGraph)}
           />
         </ValidatedForm>
       </div>
