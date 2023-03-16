@@ -13,6 +13,10 @@ export const formPages = {
   hamburgOderBremenError: Steps.exitHamburgOrBremen,
   beratungsHilfeBeantragt: Steps.beratungshilfeBeantragtStep,
   beratungsHilfeBeantragtError: Steps.exitBeratungshilfeBeantragt,
+  eigeninitiative: Steps.selfHelpStep,
+  eigeninitiativeWarnung: Steps.selfHelpWarning,
+  kostenfreieBeratung: Steps.freeServicesStep,
+  kostenfreieBeratungeWarnung: Steps.freeServicesWarning,
   wurdeVerklagt: Steps.wurdeVerklagtStep,
   sozialleistungsBezug: Steps.sozialleistungStep,
   vermoegen: Steps.vermoegenStep,
@@ -110,8 +114,26 @@ export const formFlow: FormFlow = {
       condition: (context) =>
         context.beratungsHilfeBeantragt?.hasBeratungshilfeBeantragt === "yes",
     },
+    pageIDs.eigeninitiative,
+  ],
+  [pageIDs.eigeninitiative]: [
+    {
+      destination: pageIDs.eigeninitiativeWarnung,
+      condition: (context) =>
+        context.eigeninitiative?.hasHelpedThemselves === "no",
+    },
+    pageIDs.kostenfreieBeratung,
+  ],
+  [pageIDs.eigeninitiativeWarnung]: pageIDs.kostenfreieBeratung,
+  [pageIDs.kostenfreieBeratung]: [
+    {
+      destination: pageIDs.kostenfreieBeratungeWarnung,
+      condition: (context) =>
+        context.kostenfreieBeratung?.hasTriedFreeServices === "no",
+    },
     pageIDs.sozialleistungsBezug,
   ],
+  [pageIDs.kostenfreieBeratungeWarnung]: pageIDs.sozialleistungsBezug,
   [pageIDs.sozialleistungsBezug]: [
     {
       destination: pageIDs.erfolgLeistungsbezug,

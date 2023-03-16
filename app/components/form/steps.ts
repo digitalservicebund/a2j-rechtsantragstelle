@@ -24,6 +24,10 @@ import { einkommenPartnerStep } from "./steps/einkommenPartnerschaft";
 import { einkommenSingleStep } from "./steps/einkommenSingle";
 import { exitFreibetrag } from "./steps/exitFreibetrag";
 import { successFreibetrag } from "./steps/successFreibetrag";
+import { selfHelpStep } from "./steps/selfhelp";
+import { selfHelpWarning } from "./steps/selfhelpWarning";
+import { freeServicesWarning } from "./steps/freeServicesWarning";
+import { freeServicesStep } from "./steps/freeServices";
 
 export const Steps = {
   sozialleistungStep,
@@ -49,6 +53,10 @@ export const Steps = {
   einkommenSingleStep,
   exitFreibetrag,
   successFreibetrag,
+  selfHelpStep,
+  selfHelpWarning,
+  freeServicesStep,
+  freeServicesWarning,
 };
 
 interface StepComponent {
