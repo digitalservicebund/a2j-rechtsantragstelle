@@ -5,7 +5,6 @@ import { freibetrag } from "./freibetrag";
 import { makeFormGraph, makePathFinder } from "./treeCalculations";
 
 export const formPages = {
-  welcome: Steps.welcomeStep,
   rechtschutzversicherung: Steps.rechtSchutzVersicherungStep,
   rechtschutzversicherungError: Steps.exitRechtschutzversicherungStep,
   klageEingereicht: Steps.klageEingereichtStep,
@@ -49,7 +48,7 @@ const pageIDs = (() =>
     [k in AllowedIDs]: k;
   }))();
 
-export const initialStepID = pageIDs.welcome;
+export const initialStepID = pageIDs.rechtschutzversicherung;
 export const finalStep = pageIDs.erfolg;
 
 // Type Context by infering all zod schemas (and dropping pageIDs without schema)
@@ -74,16 +73,6 @@ export type FormFlow = Partial<
 // [Transition | pageID]: takes first valid transition.condition or trivial transition (pageID)
 
 export const formFlow: FormFlow = {
-  [pageIDs.welcome]: pageIDs.hamburgOderBremen,
-  [pageIDs.hamburgOderBremen]: [
-    {
-      destination: pageIDs.hamburgOderBremenError,
-      condition: (context) =>
-        context.hamburgOderBremen?.isHamburgOderBremen === "yes",
-    },
-    pageIDs.rechtschutzversicherung,
-  ],
-
   [pageIDs.rechtschutzversicherung]: [
     {
       destination: pageIDs.rechtschutzversicherungError,
@@ -104,6 +93,14 @@ export const formFlow: FormFlow = {
       destination: pageIDs.klageEingereichtError,
       condition: (context) =>
         context.klageEingereicht?.hasKlageEingereicht === "yes",
+    },
+    pageIDs.hamburgOderBremen,
+  ],
+  [pageIDs.hamburgOderBremen]: [
+    {
+      destination: pageIDs.hamburgOderBremenError,
+      condition: (context) =>
+        context.hamburgOderBremen?.isHamburgOderBremen === "yes",
     },
     pageIDs.beratungsHilfeBeantragt,
   ],
