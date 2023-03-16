@@ -25,7 +25,9 @@ export const formPages = {
   exitVermoegenUnknown: Steps.exitVermoegenUnknownStep,
   familienstand: Steps.familienstandStep,
   erfolgBuergergeld: Steps.successBuergergeldStep,
-  kinder: Steps.kidsCountStep,
+  kinder: Steps.kidsStep,
+  kinderAnzahl: Steps.kidsCountStep,
+  unterhalt: Steps.unterhaltStep,
   erwaerbstaetigkeit: Steps.erwaerbstaetigStep,
   einkommenSingle: Steps.einkommenSingleStep,
   einkommenPartnerschaft: Steps.einkommenPartnerStep,
@@ -160,22 +162,34 @@ export const formFlow: FormFlow = {
         ctx.vermoegen?.vermoegen === "below_10k" &&
         ctx.sozialleistungsBezug?.beziehtStaatlicheLeistungen === "Bürgergeld",
     },
-    pageIDs.kinder,
+    pageIDs.erwaerbstaetigkeit,
   ],
-  [pageIDs.kinder]: pageIDs.erwaerbstaetigkeit,
   [pageIDs.erwaerbstaetigkeit]: pageIDs.familienstand,
-  [pageIDs.familienstand]: [
+  [pageIDs.familienstand]: pageIDs.kinder,
+  [pageIDs.kinder]: [
     {
-      destination: pageIDs.einkommenPartnerschaft,
-      condition: (ctx) => ctx.familienstand?.partnerschaft === "yes",
+      destination: pageIDs.kinderAnzahl,
+      condition: (ctx) => ctx.kinder?.isPayingForKids === "yes",
     },
-    pageIDs.einkommenSingle,
+    pageIDs.unterhalt,
+  ],
+  [pageIDs.kinderAnzahl]: pageIDs.unterhalt,
+  [pageIDs.unterhalt]: [
+    {
+      destination: pageIDs.einkommenSingle,
+      condition: (ctx) => ctx.familienstand?.partnerschaft === "no",
+    },
+    pageIDs.einkommenPartnerschaft,
   ],
   [pageIDs.einkommenSingle]: [
     {
       destination: pageIDs.erfolg,
       condition: (ctx) => {
-        if (!ctx.einkommenSingle || !ctx.erwaerbstaetigkeit || !ctx.kinder) {
+        if (
+          !ctx.einkommenSingle ||
+          !ctx.erwaerbstaetigkeit ||
+          !ctx.kinderAnzahl
+        ) {
           return false;
         }
         const einkommen = ctx.einkommenSingle.einkommenSingle;
@@ -187,10 +201,10 @@ export const formFlow: FormFlow = {
           freibetrag(
             isErwaerbstaetig,
             false,
-            ctx.kinder.kids6Below,
-            ctx.kinder.kids7To14,
-            ctx.kinder.kids15To18,
-            ctx.kinder.kids18Above
+            ctx.kinderAnzahl.kids6Below,
+            ctx.kinderAnzahl.kids7To14,
+            ctx.kinderAnzahl.kids15To18,
+            ctx.kinderAnzahl.kids18Above
           )
         );
       },
@@ -204,7 +218,7 @@ export const formFlow: FormFlow = {
         if (
           !ctx.einkommenPartnerschaft ||
           !ctx.erwaerbstaetigkeit ||
-          !ctx.kinder
+          !ctx.kinderAnzahl
         ) {
           return false;
         }
@@ -218,10 +232,10 @@ export const formFlow: FormFlow = {
           freibetrag(
             isErwaerbstaetig,
             true,
-            ctx.kinder.kids6Below,
-            ctx.kinder.kids7To14,
-            ctx.kinder.kids15To18,
-            ctx.kinder.kids18Above
+            ctx.kinderAnzahl.kids6Below,
+            ctx.kinderAnzahl.kids7To14,
+            ctx.kinderAnzahl.kids15To18,
+            ctx.kinderAnzahl.kids18Above
           )
         );
       },

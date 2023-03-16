@@ -2,17 +2,23 @@ import { z } from "zod";
 import { RadioGroup } from "~/components";
 import { YesNoAnswer } from "../answers";
 
-const schema = z.object({ isErwaerbstaetig: YesNoAnswer });
+const schema = z.object({ isPayingForKids: YesNoAnswer });
 
-export const erwaerbstaetigStep = {
+export const kidsStep = {
   schema,
   component: () => {
     return (
       <div style={{ border: "solid black 1px", padding: "1rem" }}>
-        <h3>Sind sie momentan erwärbstätig?</h3>
-        <p>Als Erwerbstätigkeit zählen Arbeiten, ....</p>
+        <h3>
+          Haben Sie Kinder, die bei Ihnen leben, und für die Sie den Alltag
+          bezahlen?
+        </h3>
+        <p>
+          Das können Ihre eigenen Kinder sein, oder Kinder von jemand anderem,
+          mit denen Sie zusammenleben.
+        </p>
         <RadioGroup
-          name={schema.keyof().Values.isErwaerbstaetig}
+          name={schema.keyof().Values.isPayingForKids}
           options={[
             { label: "Nein", value: YesNoAnswer.Enum.no },
             { label: "Ja", value: YesNoAnswer.Enum.yes },

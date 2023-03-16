@@ -28,6 +28,8 @@ import { selfHelpStep } from "./steps/selfhelp";
 import { selfHelpWarning } from "./steps/selfhelpWarning";
 import { freeServicesWarning } from "./steps/freeServicesWarning";
 import { freeServicesStep } from "./steps/freeServices";
+import { kidsStep } from "./steps/hasKids";
+import { unterhaltStep } from "./steps/unterhalt";
 
 export const Steps = {
   sozialleistungStep,
@@ -57,6 +59,8 @@ export const Steps = {
   selfHelpWarning,
   freeServicesStep,
   freeServicesWarning,
+  kidsStep,
+  unterhaltStep,
 };
 
 interface StepComponent {

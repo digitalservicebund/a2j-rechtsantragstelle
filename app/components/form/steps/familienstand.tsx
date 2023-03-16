@@ -10,9 +10,12 @@ export const familienstandStep = {
     return (
       <div style={{ border: "solid green 1px", padding: "1rem" }}>
         <h2>
-          Sind sie verheiratet oder sind Sie in einer eingetragenen
-          Lebenspartnerschaft?
+          Sind sie verheiratet oder in einer eingetragenen Lebenspartnerschaft?
         </h2>
+        <p>
+          Die gemeinsamen Einkünfte und Kosten in einer solchen Partnerschaft
+          bilden die Grundlage für die finanzielle Prüftung.
+        </p>
 
         <RadioGroup
           name={schema.keyof().Values.partnerschaft}
