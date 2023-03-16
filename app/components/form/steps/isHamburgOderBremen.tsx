@@ -10,11 +10,18 @@ export const hamburgOderBremenStep = {
     return (
       <div style={{ border: "solid black 1px", padding: "1rem" }}>
         <h3>Leben Sie in Hamburg oder Bremen?</h3>
+        <p>
+          Haben Sie einen Wohnsitz in Hamburg oder Bremnen, oder arbeiten Sie
+          dort?
+        </p>
         <RadioGroup
           name={schema.keyof().Values.isHamburgOderBremen}
           options={[
-            { label: "nein", value: YesNoAnswer.Enum.no },
-            { label: "ja", value: YesNoAnswer.Enum.yes },
+            { label: "Nein", value: YesNoAnswer.Enum.no },
+            {
+              label: "Ja, ich lebe in Hamburg oder Bremen",
+              value: YesNoAnswer.Enum.yes,
+            },
           ]}
         />
       </div>

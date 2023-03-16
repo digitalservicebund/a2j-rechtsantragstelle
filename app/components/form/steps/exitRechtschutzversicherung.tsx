@@ -4,10 +4,10 @@ export const exitRechtschutzversicherungStep: StepInterface = {
   component: () => {
     return (
       <div style={{ border: "solid red 1px", padding: "1rem" }}>
-        <h2>Beratungshilfe nicht möglich</h2>
+        <h2>Klären Sie mit Ihrer Versicherung, ob sie den Fall bezahlt.</h2>
         <p>
-          Leider kann bei einer bestehender Rechtschutzversicherung keine
-          Beratungshilfe. Bitte wende dich an deine Rechtschutzversicherung
+          Wenn Sie eine Rechtsschutzversicherung haben, die diesen Fall abdeckt,
+          werden Sie keine Beratungshilfe bekommen.
         </p>
       </div>
     );

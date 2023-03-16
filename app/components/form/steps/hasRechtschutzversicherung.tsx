@@ -9,15 +9,21 @@ export const rechtSchutzVersicherungStep = {
   component: () => {
     return (
       <div style={{ border: "solid black 1px", padding: "1rem" }}>
-        <h3>Haben Sie eine Rechtsschutzversicherung?</h3>
+        <h3>Haben Sie eine Rechtsschutzversicherung für diesen Fall?</h3>
         <p>
-          <a href=".">Was ist eine Rechtsschutzversicherung?</a>
+          Eine Rechtsschutzversicherung bezahlt Anwaltskosten. Je nach
+          Versicherungs-Bedingungen können unterschiedliche Tätigkeiten bezahlt
+          werden.
+        </p>
+        <p>
+          Eine Rechtsschutzversicherung ist keine Pflicht-Versicherung. Sie
+          müssen sie extra abgeschlossen haben.
         </p>
         <RadioGroup
           name={schema.keyof().Values.hasRechtschutzversicherung}
           options={[
-            { label: "nein", value: YesNoAnswer.enum.no },
-            { label: "ja", value: YesNoAnswer.enum.yes },
+            { label: "Nein", value: YesNoAnswer.enum.no },
+            { label: "Ja", value: YesNoAnswer.enum.yes },
           ]}
         />
       </div>

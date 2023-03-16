@@ -14,8 +14,8 @@ export const wurdeVerklagtStep = {
         <RadioGroup
           name={schema.keyof().Values.wurdeVerklagt}
           options={[
-            { label: "nein", value: YesNoAnswer.Enum.no },
-            { label: "ja", value: YesNoAnswer.Enum.yes },
+            { label: "Nein", value: YesNoAnswer.Enum.no },
+            { label: "Ja", value: YesNoAnswer.Enum.yes },
           ]}
         />
       </div>
