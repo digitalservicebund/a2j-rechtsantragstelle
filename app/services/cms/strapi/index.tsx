@@ -46,4 +46,24 @@ export default class StrapiCMS implements CMS {
       .getDocument(pageName, new RequestBuilder().setLocale(locale).toRequest())
       .then((document) => document?.attributes as BaseDocument);
   }
+
+  getPageBySlug(
+    slug: string,
+    locale?: Locale
+  ): Promise<BaseDocument | undefined> {
+    if (locale === undefined) {
+      locale = Locale.de;
+    }
+
+    return this.client.getDocument(
+      "pages",
+      new RequestBuilder()
+        .setLocale(locale)
+        .addFilter({
+          field: "slug",
+          value: slug,
+        })
+        .toRequest()
+    );
+  }
 }

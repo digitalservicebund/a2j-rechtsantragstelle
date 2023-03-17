@@ -7,22 +7,13 @@ import { ValidatedForm, validationError } from "remix-validated-form";
 import { ApplicantSchema } from "~/models/applicant";
 import { useActionData, useLoaderData } from "@remix-run/react";
 
-import { Input, Select } from "~/components";
 import cms from "~/services/cms";
 import { Locale } from "~/services/cms/models/Locale";
-import Heading from "~/components/Heading";
-import Paragraph from "~/components/Paragraph";
+import PageContent from "~/components/PageContent";
 
 type StrapiExampleContent = {
   page: [];
   validatedForm: [];
-};
-
-const basicComponents: { [name: string]: any } = {
-  "basic.header": Heading,
-  "basic.paragraph": Paragraph,
-  "basic.input": Input,
-  "basic.select": Select,
 };
 
 const validator = withZod(ApplicantSchema);
@@ -47,10 +38,8 @@ export default function Index() {
 
   return (
     <div className="block p-6 rounded-lg shadow-lg max-w-xl">
-      {content?.page?.map((component: any, index: number) => {
-        const BasicComponent = basicComponents[component.__component];
-        return <BasicComponent key={`${index}`} {...component} />;
-      })}
+      <PageContent content={content?.page} />
+
       <ValidatedForm
         validator={validator}
         method="post"
@@ -68,10 +57,7 @@ export default function Index() {
           },
         }}
       >
-        {content?.validatedForm?.map((component: any, index: number) => {
-          const BasicComponent = basicComponents[component.__component];
-          return <BasicComponent key={`${index}`} {...component} />;
-        })}
+        <PageContent content={content?.validatedForm} />
 
         <div className="flex flex-row place-content-end">
           <button type="submit" className="border-2 rounded-lg px-5 py-2">
