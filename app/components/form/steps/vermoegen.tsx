@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { RadioGroup } from "~/components";
 
-export const vermoegenOptions = z.enum(["below_10k", "above_10k", "unknown"]);
+export const vermoegenOptions = z.enum(["below_10k", "above_10k"]);
 export type VermoegenOptions = z.infer<typeof vermoegenOptions>;
 const schema = z.object({ vermoegen: vermoegenOptions });
 
@@ -17,9 +17,6 @@ export const vermoegenStep = {
           zählen. Auch Wertgegestände wie z.B. Grundeigentum oder ein teueres
           Auto gelten als Vermögen.
         </p>
-        <p>
-          <a href=".">Was gilt genau als Vermögen oder Wertgegenstand?</a>
-        </p>
         <RadioGroup
           name={schema.keyof().Values.vermoegen}
           options={[
@@ -30,10 +27,6 @@ export const vermoegenStep = {
             {
               label: "mehr als 10.000 €",
               value: vermoegenOptions.Enum.above_10k,
-            },
-            {
-              label: "Ich weiß es nicht",
-              value: vermoegenOptions.Enum.unknown,
             },
           ]}
         />

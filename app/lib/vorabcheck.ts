@@ -22,7 +22,6 @@ export const formPages = {
   vermoegen: Steps.vermoegenStep,
   erfolgLeistungsbezug: Steps.successLeistungStep,
   exitVermoegen: Steps.exitVermoegenStep,
-  exitVermoegenUnknown: Steps.exitVermoegenUnknownStep,
   familienstand: Steps.familienstandStep,
   erfolgBuergergeld: Steps.successBuergergeldStep,
   kinder: Steps.kidsStep,
@@ -151,10 +150,6 @@ export const formFlow: FormFlow = {
     {
       destination: pageIDs.exitVermoegen,
       condition: (ctx) => ctx.vermoegen?.vermoegen === "above_10k",
-    },
-    {
-      destination: pageIDs.exitVermoegenUnknown,
-      condition: (ctx) => ctx.vermoegen?.vermoegen === "unknown",
     },
     {
       destination: pageIDs.erfolgBuergergeld,
