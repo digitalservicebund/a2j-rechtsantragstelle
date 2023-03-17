@@ -7,9 +7,10 @@ type InputProps = {
   name: string;
   label?: ReactNode;
   type?: string;
+  step?: string;
 };
 
-const Input = ({ name, label, type = "text" }: InputProps) => {
+const Input = ({ name, label, type = "text", step }: InputProps) => {
   const { error, getInputProps } = useField(name);
 
   const inputClassName = classNames("ds-input", {
@@ -21,7 +22,7 @@ const Input = ({ name, label, type = "text" }: InputProps) => {
       {label ? <InputLabel id={name}>{label}</InputLabel> : ""}
 
       <input
-        {...getInputProps({ type, id: name })}
+        {...getInputProps({ type, step, id: name })}
         className={inputClassName}
         aria-describedby={error ? `${name}-error` : undefined}
       />
