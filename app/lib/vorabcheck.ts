@@ -27,6 +27,7 @@ export const formPages = {
   kinder: Steps.kidsStep,
   kinderAnzahl: Steps.kidsCountStep,
   unterhalt: Steps.unterhaltStep,
+  unterhaltSumme: Steps.unterhaltAmountStep,
   erwaerbstaetigkeit: Steps.erwaerbstaetigStep,
   einkommenSingle: Steps.einkommenSingleStep,
   einkommenPartnerschaft: Steps.einkommenPartnerStep,
@@ -170,6 +171,17 @@ export const formFlow: FormFlow = {
   ],
   [pageIDs.kinderAnzahl]: pageIDs.unterhalt,
   [pageIDs.unterhalt]: [
+    {
+      destination: pageIDs.unterhaltSumme,
+      condition: (ctx) => ctx.unterhalt?.isPayingUnterhalt === "yes",
+    },
+    {
+      destination: pageIDs.einkommenSingle,
+      condition: (ctx) => ctx.familienstand?.partnerschaft === "no",
+    },
+    pageIDs.einkommenPartnerschaft,
+  ],
+  [pageIDs.unterhaltSumme]: [
     {
       destination: pageIDs.einkommenSingle,
       condition: (ctx) => ctx.familienstand?.partnerschaft === "no",

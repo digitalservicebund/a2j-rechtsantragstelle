@@ -30,6 +30,7 @@ import { freeServicesWarning } from "./steps/freeServicesWarning";
 import { freeServicesStep } from "./steps/freeServices";
 import { kidsStep } from "./steps/hasKids";
 import { unterhaltStep } from "./steps/unterhalt";
+import { unterhaltAmountStep } from "./steps/unterhaltAmount";
 
 export const Steps = {
   sozialleistungStep,
@@ -61,6 +62,7 @@ export const Steps = {
   freeServicesWarning,
   kidsStep,
   unterhaltStep,
+  unterhaltAmountStep,
 };
 
 interface StepComponent {
