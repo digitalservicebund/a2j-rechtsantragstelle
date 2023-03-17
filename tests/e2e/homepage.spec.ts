@@ -20,7 +20,7 @@ test.describe("links", () => {
 
   test("multi-page form link", async ({ page }) => {
     await home.gotoMultiPageForm();
-    await expect(page).toHaveURL(/.*form\/welcome/);
+    await expect(page).toHaveURL(/.*form\/rechtschutzversicherung/);
   });
 
   test("types showcase link", async ({ page }) => {
