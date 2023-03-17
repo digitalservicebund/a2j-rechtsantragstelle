@@ -10,7 +10,7 @@ export const exitKlageEingereicht: StepInterface = {
           einer Klage gekommen ist.
         </p>
         <p>
-          <a href="">Mehr zur Prozesskostenhilfe</a>
+          <a href="/">Mehr zur Prozesskostenhilfe</a>
         </p>
       </div>
     );
