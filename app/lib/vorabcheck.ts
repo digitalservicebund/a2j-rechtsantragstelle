@@ -2,7 +2,7 @@ import { isStepComponentWithSchema, Steps } from "~/components/form/steps";
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { freibetrag } from "./freibetrag";
-import { makeFormGraph, makePathFinder } from "./treeCalculations";
+import { makeFormGraph } from "./treeCalculations";
 
 export const formPages = {
   rechtschutzversicherung: Steps.rechtSchutzVersicherungStep,
@@ -120,20 +120,20 @@ export const formFlow: FormFlow = {
   ],
   [pageIDs.eigeninitiative]: [
     {
-      destination: pageIDs.eigeninitiativeWarnung,
+      destination: pageIDs.kostenfreieBeratung,
       condition: (context) =>
-        context.eigeninitiative?.hasHelpedThemselves === "no",
+        context.eigeninitiative?.hasHelpedThemselves === "yes",
     },
-    pageIDs.kostenfreieBeratung,
+    pageIDs.eigeninitiativeWarnung,
   ],
   [pageIDs.eigeninitiativeWarnung]: pageIDs.kostenfreieBeratung,
   [pageIDs.kostenfreieBeratung]: [
     {
-      destination: pageIDs.kostenfreieBeratungeWarnung,
+      destination: pageIDs.sozialleistungsBezug,
       condition: (context) =>
-        context.kostenfreieBeratung?.hasTriedFreeServices === "no",
+        context.kostenfreieBeratung?.hasTriedFreeServices === "yes",
     },
-    pageIDs.sozialleistungsBezug,
+    pageIDs.kostenfreieBeratungeWarnung,
   ],
   [pageIDs.kostenfreieBeratungeWarnung]: pageIDs.sozialleistungsBezug,
   [pageIDs.sozialleistungsBezug]: [
@@ -160,28 +160,24 @@ export const formFlow: FormFlow = {
     },
     pageIDs.erwaerbstaetigkeit,
   ],
-  [pageIDs.erwaerbstaetigkeit]: pageIDs.familienstand,
-  [pageIDs.familienstand]: pageIDs.kinder,
+  [pageIDs.erwaerbstaetigkeit]: pageIDs.kinder,
   [pageIDs.kinder]: [
     {
-      destination: pageIDs.kinderAnzahl,
-      condition: (ctx) => ctx.kinder?.isPayingForKids === "yes",
+      destination: pageIDs.unterhalt,
+      condition: (ctx) => ctx.kinder?.isPayingForKids === "no",
     },
-    pageIDs.unterhalt,
+    pageIDs.kinderAnzahl,
   ],
   [pageIDs.kinderAnzahl]: pageIDs.unterhalt,
   [pageIDs.unterhalt]: [
     {
-      destination: pageIDs.unterhaltSumme,
-      condition: (ctx) => ctx.unterhalt?.isPayingUnterhalt === "yes",
+      destination: pageIDs.familienstand,
+      condition: (ctx) => ctx.unterhalt?.isPayingUnterhalt === "no",
     },
-    {
-      destination: pageIDs.einkommenSingle,
-      condition: (ctx) => ctx.familienstand?.partnerschaft === "no",
-    },
-    pageIDs.einkommenPartnerschaft,
+    pageIDs.unterhaltSumme,
   ],
-  [pageIDs.unterhaltSumme]: [
+  [pageIDs.unterhaltSumme]: pageIDs.familienstand,
+  [pageIDs.familienstand]: [
     {
       destination: pageIDs.einkommenSingle,
       condition: (ctx) => ctx.familienstand?.partnerschaft === "no",
@@ -251,7 +247,6 @@ export const formFlow: FormFlow = {
   ],
 };
 export const formGraph = makeFormGraph(formFlow);
-export const pathFinder = makePathFinder(formFlow);
 
 export const allValidators = Object.fromEntries(
   Object.entries(formPages).map(([key, step]) => [

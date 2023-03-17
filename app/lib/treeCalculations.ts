@@ -1,49 +1,52 @@
-import createGraph from "ngraph.graph";
-import path from "ngraph.path";
-import type { Graph } from "ngraph.graph";
-import type {
-  AllowedIDs,
-  ConditionFunction,
-  Context,
-  FormFlow,
-} from "./vorabcheck";
+import type { AllowedIDs, Context, FormFlow } from "./vorabcheck";
+import Graph from "graphology";
+import { allSimplePaths } from "graphology-simple-path";
 
-type FormGraph = Graph<Partial<AllowedIDs>, ConditionFunction | undefined>;
+export function makeFormGraph(formFlow: FormFlow) {
+  const formGraph = new Graph({
+    multi: false,
+    allowSelfLoops: false,
+    type: "directed",
+  });
 
-export function makeFormGraph(formFlow: FormFlow): FormGraph {
-  const formGraph: FormGraph = createGraph();
   Object.entries(formFlow).forEach(([key, val]) => {
     typeof val === "string"
-      ? formGraph.addLink(key, val)
-      : val.map((element) =>
+      ? formGraph.mergeEdge(key, val)
+      : val.forEach((element) =>
           typeof element === "string"
-            ? formGraph.addLink(key, element)
-            : formGraph.addLink(key, element.destination, element.condition)
+            ? formGraph.mergeEdge(key, element)
+            : formGraph.mergeEdge(key, element.destination, {
+                condition: element.condition,
+              })
         );
   });
   return formGraph;
 }
-export function makePathFinder(formFlow: FormFlow) {
-  return path.aStar(makeFormGraph(formFlow));
+
+export function longestPath(start: AllowedIDs, stop: AllowedIDs, graph: Graph) {
+  return allSimplePaths(graph, start, stop).reduce(
+    (acc, path) => (acc > path.length ? acc : path.length),
+    0
+  );
 }
 
-export function isLeaf(nodeID: AllowedIDs, formGraph: FormGraph): boolean {
-  // Check whehter node has outbound links. Slightly awkward since foreach has no early return
-  let isLeaf = true;
-  const setLeaf = () => (isLeaf = false);
-  formGraph.forEachLinkedNode(nodeID, setLeaf, true);
-  return isLeaf;
+export function isLeaf(nodeID: AllowedIDs, formGraph: Graph): boolean {
+  return formGraph.outDegree(nodeID) === 0;
 }
 
 export function findPreviousStep(
   nodeID: AllowedIDs,
-  formGraph: FormGraph,
+  formGraph: Graph,
   context: Context
-): AllowedIDs | undefined {
-  const links = formGraph.getNode(nodeID)?.links ?? [];
-  for (const link of links) {
-    if (link.toId === nodeID && (!link.data || link.data(context))) {
-      return link.fromId as AllowedIDs;
+): AllowedIDs[] {
+  const validPredecessors: AllowedIDs[] = [];
+  for (const link of formGraph.inEdgeEntries(nodeID)) {
+    if (
+      !link.attributes["condition"] ||
+      link.attributes["condition"](context)
+    ) {
+      validPredecessors.push(link.source as AllowedIDs);
     }
   }
+  return validPredecessors;
 }

@@ -12,17 +12,16 @@ import {
   allValidators,
   formGraph,
   formPages,
-  pathFinder,
   finalStep,
 } from "~/lib/vorabcheck";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
 import { isStepComponentWithSchema } from "~/components/form/steps";
-import { findPreviousStep, isLeaf } from "~/lib/treeCalculations";
+import { findPreviousStep, isLeaf, longestPath } from "~/lib/treeCalculations";
 import getPageConfig from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
 
-const totalLength = pathFinder.find(initialStepID, finalStep).length;
+const pessimisticPathTotal = longestPath(initialStepID, finalStep, formGraph);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.title },
@@ -52,12 +51,13 @@ export const action: ActionFunction = async ({ params, request }) => {
   // Deciding the next step
   // 1. Default: back to initial
   let destinationString: AllowedIDs = initialStepID;
-
-  const links = formGraph.getNode(stepID)?.links ?? [];
-  for (const link of links) {
-    // 2. For each potential link: check if theres a condition and whether its fullfilled
-    if (link.fromId === stepID && (!link.data || link.data(session.data))) {
-      destinationString = link.toId as AllowedIDs;
+  for (const link of formGraph.outEdgeEntries(stepID)) {
+    // 2. For each outgoing link: check if theres a condition and whether its fullfilled
+    if (
+      !link.attributes["condition"] ||
+      link.attributes["condition"](session.data)
+    ) {
+      destinationString = link.target as AllowedIDs;
       break;
     }
   }
@@ -75,7 +75,8 @@ export default function Index() {
   const stepID = params.formStepID as AllowedIDs;
   const currentStep = formPages[stepID];
   const Component = currentStep.component;
-  const currentDepth = pathFinder.find(stepID, initialStepID).length;
+  const pessimisticPath = longestPath(stepID, finalStep, formGraph);
+  const isLast = isLeaf(stepID, formGraph);
 
   return (
     <div>
@@ -89,12 +90,13 @@ export default function Index() {
           defaultValues={context[stepID]}
         >
           <Component />
-          {totalLength &&
-            currentDepth &&
-            `Schritt ${currentDepth} / ${totalLength}`}
+          {!isLast &&
+            `Schritt ${
+              pessimisticPathTotal - pessimisticPath + 1
+            } / ${pessimisticPathTotal}`}
           <ButtonNavigation
-            backDestination={findPreviousStep(stepID, formGraph, context)}
-            isLast={isLeaf(stepID, formGraph)}
+            backDestination={findPreviousStep(stepID, formGraph, context)[0]}
+            isLast={isLast}
           />
         </ValidatedForm>
       </div>
