@@ -25,11 +25,7 @@ export function ButtonNavigation({
       </Link>
 
       <Button type="submit" name="_action" value="next">
-        {isLast
-          ? "Von Vorne beginnen"
-          : backDestination
-          ? "Übernehmen & Weiter"
-          : "Start"}
+        {isLast ? "Von Vorne beginnen" : "Übernehmen & Weiter"}
       </Button>
     </div>
   );
