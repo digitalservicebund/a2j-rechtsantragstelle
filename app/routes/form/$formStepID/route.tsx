@@ -64,7 +64,7 @@ export default function Index() {
   const stepID = params.formStepID as AllowedIDs;
   const currentStep = formPages[stepID];
   const Component = currentStep.component;
-  const currentDepth = pathFinder.find(stepID, finalStep).length;
+  const currentDepth = pathFinder.find(stepID, initialStepID).length;
 
   return (
     <div>
@@ -79,7 +79,7 @@ export default function Index() {
           <Component />
           {totalLength &&
             currentDepth &&
-            `Schritt ${totalLength - currentDepth + 1} / ${totalLength}`}
+            `Schritt ${currentDepth} / ${totalLength}`}
           <ButtonNavigation
             backDestination={findPreviousStep(stepID, formGraph, context)}
             isLast={isLeaf(stepID, formGraph)}
