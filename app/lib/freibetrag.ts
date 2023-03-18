@@ -1,6 +1,6 @@
 export function freibetrag(
-  working: boolean,
-  partnership: boolean,
+  working?: boolean,
+  partnership?: boolean,
   childrenBelow6?: number,
   children7To14?: number,
   children15To18?: number,

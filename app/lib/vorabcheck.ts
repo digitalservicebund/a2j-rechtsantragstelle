@@ -188,26 +188,19 @@ export const formFlow: FormFlow = {
     {
       destination: pageIDs.erfolg,
       condition: (ctx) => {
-        if (
-          !ctx.einkommenSingle ||
-          !ctx.erwaerbstaetigkeit ||
-          !ctx.kinderAnzahl
-        ) {
-          return false;
-        }
-        const einkommen = ctx.einkommenSingle.einkommenSingle;
+        const einkommen = ctx.einkommenSingle?.einkommenSingle ?? 0;
         const isErwaerbstaetig =
-          ctx.erwaerbstaetigkeit.isErwaerbstaetig === "yes";
+          ctx.erwaerbstaetigkeit?.isErwaerbstaetig === "yes";
 
         return (
           einkommen <=
           freibetrag(
             isErwaerbstaetig,
             false,
-            ctx.kinderAnzahl.kids6Below,
-            ctx.kinderAnzahl.kids7To14,
-            ctx.kinderAnzahl.kids15To18,
-            ctx.kinderAnzahl.kids18Above
+            ctx.kinderAnzahl?.kids6Below,
+            ctx.kinderAnzahl?.kids7To14,
+            ctx.kinderAnzahl?.kids15To18,
+            ctx.kinderAnzahl?.kids18Above
           )
         );
       },
@@ -218,29 +211,19 @@ export const formFlow: FormFlow = {
     {
       destination: pageIDs.erfolg,
       condition: (ctx) => {
-        if (
-          !ctx.einkommenPartnerschaft ||
-          !ctx.erwaerbstaetigkeit ||
-          !ctx.kinderAnzahl
-        ) {
-          return false;
-        }
-        const einkommen = ctx.einkommenPartnerschaft.einkommenFamilie;
-
+        const einkommen = ctx.einkommenPartnerschaft?.einkommenFamilie ?? 0;
         const isErwaerbstaetig =
-          ctx.erwaerbstaetigkeit.isErwaerbstaetig === "yes";
+          ctx.erwaerbstaetigkeit?.isErwaerbstaetig === "yes";
 
-        return (
-          einkommen <=
-          freibetrag(
-            isErwaerbstaetig,
-            true,
-            ctx.kinderAnzahl.kids6Below,
-            ctx.kinderAnzahl.kids7To14,
-            ctx.kinderAnzahl.kids15To18,
-            ctx.kinderAnzahl.kids18Above
-          )
+        const freibetragFamilie = freibetrag(
+          isErwaerbstaetig,
+          true,
+          ctx.kinderAnzahl?.kids6Below,
+          ctx.kinderAnzahl?.kids7To14,
+          ctx.kinderAnzahl?.kids15To18,
+          ctx.kinderAnzahl?.kids18Above
         );
+        return einkommen - freibetragFamilie <= 20;
       },
     },
     pageIDs.einkommenZuHoch,
