@@ -2,7 +2,7 @@ import { isStepComponentWithSchema, Steps } from "~/components/form/steps";
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { freibetrag } from "./freibetrag";
-import { makeFormGraph } from "./treeCalculations";
+import { allLongestPaths, makeFormGraph } from "./treeCalculations";
 
 export const formPages = {
   rechtschutzversicherung: Steps.rechtSchutzVersicherungStep,
@@ -230,6 +230,7 @@ export const formFlow: FormFlow = {
   ],
 };
 export const formGraph = makeFormGraph(formFlow);
+export const progress = allLongestPaths(finalStep, formGraph);
 
 export const allValidators = Object.fromEntries(
   Object.entries(formPages).map(([key, step]) => [

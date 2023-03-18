@@ -10,18 +10,16 @@ import type { AllowedIDs } from "~/lib/vorabcheck";
 import {
   initialStepID,
   allValidators,
+  progress,
   formGraph,
   formPages,
-  finalStep,
 } from "~/lib/vorabcheck";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
 import { isStepComponentWithSchema } from "~/components/form/steps";
-import { findPreviousStep, isLeaf, longestPath } from "~/lib/treeCalculations";
+import { findPreviousStep, isLeaf } from "~/lib/treeCalculations";
 import getPageConfig from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
-
-const pessimisticPathTotal = longestPath(initialStepID, finalStep, formGraph);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.title },
@@ -75,7 +73,8 @@ export default function Index() {
   const stepID = params.formStepID as AllowedIDs;
   const currentStep = formPages[stepID];
   const Component = currentStep.component;
-  const pessimisticPath = longestPath(stepID, finalStep, formGraph);
+  const pessimisticPath = progress[stepID] ?? 0;
+  const pessimisticPathTotal = progress[initialStepID] ?? 0;
   const isLast = isLeaf(stepID, formGraph);
 
   return (

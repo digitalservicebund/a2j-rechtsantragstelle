@@ -30,6 +30,20 @@ export function longestPath(start: AllowedIDs, stop: AllowedIDs, graph: Graph) {
   );
 }
 
+export function allLongestPaths(
+  target: AllowedIDs,
+  graph: Graph
+): Partial<Record<AllowedIDs, number>> {
+  return Object.fromEntries(
+    graph.mapNodes((nodeID, attributes) => {
+      return [
+        nodeID as AllowedIDs,
+        longestPath(nodeID as AllowedIDs, target, graph),
+      ];
+    })
+  );
+}
+
 export function isLeaf(nodeID: AllowedIDs, formGraph: Graph): boolean {
   return formGraph.outDegree(nodeID) === 0;
 }
