@@ -80,7 +80,7 @@ export default function Index() {
   return (
     <div>
       {content ? <PageContent content={content} /> : ""}
-      <div style={{ border: "1px solid black", margin: 10, padding: 10 }}>
+      <div>
         <ValidatedForm
           key={`${stepID}_form`}
           method="post"
