@@ -153,7 +153,7 @@ jobs:
           push: true
 
       - name: Report Deployment
-        uses: digitalservicebund/github-actions/track-deployment@b51920b9fdeeb0c8721c210853aee955bd7cefc0
+        uses: digitalservicebund/github-actions/track-deployment@808a08421edc16be156787f56af63b846ea6f557
         with:
           project: a2j-rechtsantragstelle
           environment: staging
