@@ -1,6 +1,7 @@
 import { Input, Stack } from "~/components";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
+import InfoBox from "~/components/InfoBox";
 
 type PageContentProps = {
   content: any[];
@@ -12,6 +13,7 @@ const mapping: { [name: string]: any } = {
   "basic.header": Heading,
   "basic.paragraph": Paragraph,
   "basic.input": Input,
+  "page.info-box": InfoBox,
 };
 
 const PageContent = ({ content }: PageContentProps) => {
