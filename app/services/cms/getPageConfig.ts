@@ -19,7 +19,7 @@ type SelectOptionContent = {
   value: string;
 };
 
-type SelectContent = {
+export type SelectContent = {
   id: number;
   __component: "basic.select";
   name: string;
@@ -27,9 +27,8 @@ type SelectContent = {
   options: SelectOptionContent[];
 };
 
-export type PageContent = Array<
-  HeadingContent | ParagraphContent | SelectContent
->;
+export type ElementContent = HeadingContent | ParagraphContent | SelectContent;
+export type PageContent = Array<ElementContent>;
 
 export default async function (
   request: Request,

@@ -87,7 +87,7 @@ export default function Index() {
           validator={allValidators[stepID]}
           defaultValues={context[stepID]}
         >
-          <Component />
+          <Component content={content} />
           {!isLast &&
             `Schritt ${
               pessimisticPathTotal - pessimisticPath + 1

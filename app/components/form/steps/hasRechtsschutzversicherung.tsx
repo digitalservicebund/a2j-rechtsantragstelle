@@ -1,19 +1,21 @@
 import { z } from "zod";
 import { RadioGroup } from "~/components";
 import { YesNoAnswer } from "../answers";
+import type { StepComponentProps } from "~/components/form/steps";
 
 const schema = z.object({ hasRechtsschutzversicherung: YesNoAnswer });
 
 export const rechtsschutzversicherungStep = {
   schema,
-  component: () => {
+  component: ({ content }: StepComponentProps) => {
     return (
       <RadioGroup
         name={schema.keyof().Values.hasRechtsschutzversicherung}
         options={[
-          { label: "Nein", value: YesNoAnswer.enum.no },
-          { label: "Ja", value: YesNoAnswer.enum.yes },
+          { value: YesNoAnswer.enum.no },
+          { value: YesNoAnswer.enum.yes },
         ]}
+        pageContent={content}
       />
     );
   },
