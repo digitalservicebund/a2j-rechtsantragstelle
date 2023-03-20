@@ -3,7 +3,7 @@ import config from "~/services/config";
 type ImageProps = {
   image: {
     data: {
-      attributes: {
+      attributes?: {
         url: string;
       };
     };
@@ -13,7 +13,9 @@ type ImageProps = {
 const strapiUrl = config().STRAPI_HOST;
 
 const Image = ({ image }: ImageProps) => {
-  const imageUrl = `${strapiUrl}${image?.data?.attributes?.url}`;
+  if (!image.data) return null;
+
+  const imageUrl = `${strapiUrl}${image.data?.attributes?.url}`;
   return (
     <>
       <pre className="hidden">
