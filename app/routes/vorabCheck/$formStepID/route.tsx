@@ -27,7 +27,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   if (!params.formStepID || !(params.formStepID in formPages)) {
-    return redirect(`/form/${initialStepID}`);
+    return redirect(`/vorabCheck/${initialStepID}`);
   }
   const config = await getPageConfig(request, { dontThrow: true });
   const session = await getSession(request.headers.get("Cookie"));
@@ -64,7 +64,7 @@ export const action: ActionFunction = async ({ params, request }) => {
     "Set-Cookie": await commitSession(session),
   };
 
-  return redirect(`/form/${destinationString}`, { headers });
+  return redirect(`/vorabCheck/${destinationString}`, { headers });
 };
 
 export default function Index() {

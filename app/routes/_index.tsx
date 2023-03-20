@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react";
 const links = [
   { url: "/types_showcase", displayName: "types showcase" },
   { url: "/kitchensink", displayName: "kitchensink" },
-  { url: "/form", displayName: "multi-page form" },
+  { url: "/vorabCheck", displayName: "multi-page form" },
   { url: "/strapi-example", displayName: "strapi-example-page" },
 ];
 
