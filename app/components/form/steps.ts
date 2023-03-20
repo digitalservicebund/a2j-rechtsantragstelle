@@ -2,9 +2,9 @@ import type { FunctionComponent } from "react";
 import type { AnyZodObject } from "zod";
 
 import { sozialleistungStep } from "./steps/hasSozialleistungen";
-import { exitRechtschutzversicherungStep } from "./steps/exitRechtschutzversicherung";
+import { exitRechtsschutzversicherungStep } from "./steps/exitRechtsschutzversicherung";
 import { welcomeStep } from "./steps/welcome";
-import { rechtSchutzVersicherungStep } from "./steps/hasRechtschutzversicherung";
+import { rechtsschutzversicherungStep } from "./steps/hasRechtsschutzversicherung";
 import { klageEingereichtStep } from "./steps/hasKlageEingereicht";
 import { exitKlageEingereicht } from "./steps/exitKlageEingereicht";
 import { exitHamburgOrBremen } from "./steps/exitHamburgOrBremen";
@@ -34,9 +34,9 @@ import { unterhaltAmountStep } from "./steps/unterhaltAmount";
 
 export const Steps = {
   sozialleistungStep,
-  exitRechtschutzversicherungStep,
+  exitRechtsschutzversicherungStep,
   welcomeStep,
-  rechtSchutzVersicherungStep,
+  rechtsschutzversicherungStep,
   klageEingereichtStep,
   exitKlageEingereicht,
   exitHamburgOrBremen,

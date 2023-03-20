@@ -5,8 +5,8 @@ import { freibetrag } from "./freibetrag";
 import { allLongestPaths, makeFormGraph } from "./treeCalculations";
 
 export const formPages = {
-  rechtschutzversicherung: Steps.rechtSchutzVersicherungStep,
-  rechtschutzversicherungError: Steps.exitRechtschutzversicherungStep,
+  rechtsschutzversicherung: Steps.rechtsschutzversicherungStep,
+  rechtsschutzversicherungError: Steps.exitRechtsschutzversicherungStep,
   klageEingereicht: Steps.klageEingereichtStep,
   klageEingereichtError: Steps.exitKlageEingereicht,
   hamburgOderBremen: Steps.hamburgOderBremenStep,
@@ -54,7 +54,7 @@ const pageIDs = (() =>
     [k in AllowedIDs]: k;
   }))();
 
-export const initialStepID = pageIDs.rechtschutzversicherung;
+export const initialStepID = pageIDs.rechtsschutzversicherung;
 export const finalStep = pageIDs.erfolg;
 
 // Type Context by infering all zod schemas (and dropping pageIDs without schema)
@@ -79,11 +79,11 @@ export type FormFlow = Partial<
 // [Transition | pageID]: takes first valid transition.condition or trivial transition (pageID)
 
 export const formFlow: FormFlow = {
-  [pageIDs.rechtschutzversicherung]: [
+  [pageIDs.rechtsschutzversicherung]: [
     {
-      destination: pageIDs.rechtschutzversicherungError,
+      destination: pageIDs.rechtsschutzversicherungError,
       condition: (context) =>
-        context.rechtschutzversicherung?.hasRechtschutzversicherung === "yes",
+        context.rechtsschutzversicherung?.hasRechtsschutzversicherung === "yes",
     },
     pageIDs.wurdeVerklagt,
   ],

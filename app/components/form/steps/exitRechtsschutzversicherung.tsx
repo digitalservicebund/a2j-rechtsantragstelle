@@ -1,6 +1,6 @@
 import type { StepInterface } from "../steps";
 
-export const exitRechtschutzversicherungStep: StepInterface = {
+export const exitRechtsschutzversicherungStep: StepInterface = {
   component: () => {
     return (
       <div style={{ border: "solid red 1px", padding: "1rem" }}>
