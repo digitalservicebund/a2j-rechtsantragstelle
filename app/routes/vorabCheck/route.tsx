@@ -9,8 +9,8 @@ import LogoutButton from "~/routes/logout";
 export const loader: LoaderFunction = async ({ request }) => {
   // Reroute to initial step on empty formStepID
   const url = new URL(request.url);
-  if (url.pathname === "/vorabCheck/" || url.pathname === "/vorabCheck") {
-    return redirect(`/vorabCheck/${initialStepID}`);
+  if (url.pathname === "/vorabcheck/" || url.pathname === "/vorabcheck") {
+    return redirect(`/vorabcheck/${initialStepID}`);
   }
 
   const session = await getSession(request.headers.get("Cookie"));

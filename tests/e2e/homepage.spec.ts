@@ -20,7 +20,7 @@ test.describe("links", () => {
 
   test("multi-page form link", async ({ page }) => {
     await home.gotoMultiPageForm();
-    await expect(page).toHaveURL(/.*vorabCheck\/rechtsschutzversicherung/);
+    await expect(page).toHaveURL(/.*vorabcheck\/rechtsschutzversicherung/);
   });
 
   test("types showcase link", async ({ page }) => {

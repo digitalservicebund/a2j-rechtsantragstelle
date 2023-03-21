@@ -7,7 +7,7 @@ import { Button } from "~/components";
 export async function action({ request }: ActionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   session.set("userId", crypto.randomUUID());
-  return redirect("/vorabCheck", {
+  return redirect("/vorabcheck", {
     headers: {
       "Set-Cookie": await commitSession(session),
     },

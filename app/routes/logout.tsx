@@ -6,7 +6,7 @@ import { Button } from "~/components";
 export async function action({ request }: ActionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
 
-  return redirect("/vorabCheck", {
+  return redirect("/vorabcheck", {
     headers: {
       "Set-Cookie": await destroySession(session),
     },
