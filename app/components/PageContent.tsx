@@ -12,7 +12,6 @@ const EmptyComponent = () => <></>;
 const mapping: { [name: string]: any } = {
   "basic.heading": Heading,
   "basic.paragraph": Paragraph,
-  "basic.input": Input,
   "page.info-box": InfoBox,
 };
 

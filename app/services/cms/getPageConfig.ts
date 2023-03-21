@@ -13,6 +13,14 @@ type ParagraphContent = {
   text: string;
 };
 
+export type InputContent = {
+  id: number;
+  __component: "basic.input";
+  name: string;
+  label?: string;
+  type: "text" | "number";
+};
+
 type SelectOptionContent = {
   id: number;
   text: string;
@@ -27,7 +35,11 @@ export type SelectContent = {
   options: SelectOptionContent[];
 };
 
-export type ElementContent = HeadingContent | ParagraphContent | SelectContent;
+export type ElementContent =
+  | HeadingContent
+  | ParagraphContent
+  | InputContent
+  | SelectContent;
 export type PageContent = Array<ElementContent>;
 
 export default async function (
