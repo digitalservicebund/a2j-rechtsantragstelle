@@ -1,12 +1,12 @@
-import type { ReactNode } from "react";
 import React from "react";
+import RichText from "~/components/RichText";
 
 type ParagraphProps = {
-  text: ReactNode;
+  text: string;
 };
 
 function Paragraph({ text }: ParagraphProps) {
-  return React.createElement("p", {}, text);
+  return <RichText markdown={text} />;
 }
 
 export default Paragraph;
