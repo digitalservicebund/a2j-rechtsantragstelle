@@ -10,7 +10,7 @@ type ImageProps = {
   };
 };
 
-const strapiUrl = config().STRAPI_HOST;
+const strapiUrl = "todo"; //config().STRAPI_HOST;
 
 const Image = ({ image }: ImageProps) => {
   if (!image.data) return null;
