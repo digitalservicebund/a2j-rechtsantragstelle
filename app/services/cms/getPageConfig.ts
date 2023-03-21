@@ -13,12 +13,18 @@ type ParagraphContent = {
   text: string;
 };
 
+type FieldErrorContent = {
+  code: string;
+  text: string;
+};
+
 export type InputContent = {
   id: number;
   __component: "basic.input";
   name: string;
   label?: string;
   type: "text" | "number";
+  errors: FieldErrorContent[];
 };
 
 type SelectOptionContent = {

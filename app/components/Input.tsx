@@ -45,6 +45,8 @@ const Input = ({
   }
   // TODO how do you do this smoothly?
   const fieldContent = fieldContentTemp;
+  const errorText = fieldContent?.errors.find((e) => e.code == error)?.text;
+
   return (
     <div>
       {label ? <InputLabel id={name}>{fieldContent?.label}</InputLabel> : ""}
@@ -55,7 +57,7 @@ const Input = ({
         aria-describedby={error ? `${name}-error` : undefined}
       />
 
-      {error ? <InputError inputName={name}>{error}</InputError> : ""}
+      {error ? <InputError inputName={name}>{errorText}</InputError> : ""}
     </div>
   );
 };
