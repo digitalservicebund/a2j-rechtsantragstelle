@@ -13,7 +13,9 @@ export default function get(): config {
     instance = {
       // Removing trim because infrastructure adding a newline on secret
       STRAPI_HOST: process.env.STRAPI_HOST?.trim() || "",
-      STRAPI_API: (process.env.STRAPI_HOST?.trim() || "") + "/api/",
+      STRAPI_API:
+        process.env.STRAPI_API?.trim() ||
+        (process.env.STRAPI_HOST?.trim() || "") + "/api/",
       STRAPI_ACCESS_KEY: process.env.STRAPI_ACCESS_KEY?.trim() || "",
       CMS: process.env.CMS || "",
       ENV: process.env.NODE_ENV || "development",
