@@ -60,6 +60,9 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright e2e tests
+        env:
+          STRAPI_API: "${{ secrets.STRAPI_API }}"
+          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
         run: npx playwright test
 
       - name: Upload Playwright test results
