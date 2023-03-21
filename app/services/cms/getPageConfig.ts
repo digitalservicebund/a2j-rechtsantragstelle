@@ -2,7 +2,7 @@ import cms from "~/services/cms";
 
 type HeadingContent = {
   id: number;
-  __component: "basic.header";
+  __component: "basic.heading";
   text: string;
   size: number;
 };

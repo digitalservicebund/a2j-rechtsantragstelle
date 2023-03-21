@@ -10,7 +10,7 @@ type PageContentProps = {
 const EmptyComponent = () => <></>;
 
 const mapping: { [name: string]: any } = {
-  "basic.header": Heading,
+  "basic.heading": Heading,
   "basic.paragraph": Paragraph,
   "basic.input": Input,
   "page.info-box": InfoBox,
