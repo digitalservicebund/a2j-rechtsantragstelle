@@ -14,7 +14,6 @@ const mapping: { [name: string]: any } = {
   "basic.paragraph": Paragraph,
   "basic.input": Input,
   "page.info-box": InfoBox,
-  "basic.select": Select,
 };
 
 const PageContent = ({ content }: PageContentProps) => {
