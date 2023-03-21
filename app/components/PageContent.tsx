@@ -1,4 +1,4 @@
-import { Input, Stack } from "~/components";
+import { Input, Select, Stack } from "~/components";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
 import InfoBox from "~/components/InfoBox";
@@ -14,6 +14,7 @@ const mapping: { [name: string]: any } = {
   "basic.paragraph": Paragraph,
   "basic.input": Input,
   "page.info-box": InfoBox,
+  "basic.select": Select,
 };
 
 const PageContent = ({ content }: PageContentProps) => {

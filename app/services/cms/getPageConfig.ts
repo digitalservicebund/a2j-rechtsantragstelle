@@ -31,10 +31,10 @@ export type ElementContent = HeadingContent | ParagraphContent | SelectContent;
 export type PageContent = Array<ElementContent>;
 
 export default async function (
-  request: Request,
+  url: string,
   options?: { dontThrow: boolean }
 ): Promise<PageContent> {
-  const { pathname } = new URL(request.url);
+  const { pathname } = new URL(url);
   const slug = pathname.slice(1);
   console.log({ slug });
   const data = await cms().getPageBySlug(slug);

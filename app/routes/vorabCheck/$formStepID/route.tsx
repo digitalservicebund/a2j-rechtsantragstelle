@@ -29,7 +29,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   if (!params.formStepID || !(params.formStepID in formPages)) {
     return redirect(`/vorabCheck/${initialStepID}`);
   }
-  const config = await getPageConfig(request, { dontThrow: true });
+  const config = await getPageConfig(request.url, { dontThrow: true });
   const session = await getSession(request.headers.get("Cookie"));
   return json({ context: session.data, ...config });
 };
