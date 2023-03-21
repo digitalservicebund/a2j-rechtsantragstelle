@@ -47,7 +47,11 @@ const RadioGroup = ({ name, options, pageContent }: RadioGroupProps) => {
           }
         />
       ))}
-      {error ? <InputError id={name}>Bitte was auswählen.</InputError> : ""}
+      {error ? (
+        <InputError inputId={name}>Bitte was auswählen.</InputError>
+      ) : (
+        ""
+      )}
     </Stack>
   );
 };

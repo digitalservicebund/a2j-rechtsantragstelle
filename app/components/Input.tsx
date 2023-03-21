@@ -27,7 +27,7 @@ const Input = ({ name, label, type = "text", step }: InputProps) => {
         aria-describedby={error ? `${name}-error` : undefined}
       />
 
-      {error ? <InputError id={name}>{error}</InputError> : ""}
+      {error ? <InputError inputName={name}>{error}</InputError> : ""}
     </div>
   );
 };
