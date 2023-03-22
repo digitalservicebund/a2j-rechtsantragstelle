@@ -49,7 +49,11 @@ const Input = ({
 
   return (
     <div>
-      {label ? <InputLabel id={name}>{fieldContent?.label}</InputLabel> : ""}
+      {label ? (
+        <InputLabel id={name}>{fieldContent?.label || label}</InputLabel>
+      ) : (
+        ""
+      )}
 
       <input
         {...getInputProps({ type, step, id: name })}
