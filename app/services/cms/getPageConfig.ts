@@ -20,7 +20,7 @@ type FieldErrorContent = {
 
 export type InputContent = {
   id: number;
-  __component: "basic.input";
+  __component: "form-elements.input";
   name: string;
   label?: string;
   type: "text" | "number";
@@ -35,7 +35,7 @@ type SelectOptionContent = {
 
 export type SelectContent = {
   id: number;
-  __component: "basic.select";
+  __component: "form-elements.select";
   name: string;
   label?: string;
   options: SelectOptionContent[];

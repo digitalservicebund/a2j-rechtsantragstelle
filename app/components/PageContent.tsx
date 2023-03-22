@@ -1,4 +1,4 @@
-import { Input, Stack } from "~/components";
+import { Stack } from "~/components";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
 import InfoBox from "~/components/InfoBox";

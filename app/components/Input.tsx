@@ -39,7 +39,7 @@ const Input = ({
       `fieldContent must not be undefined for field ${name}`
     );
     invariant(
-      fieldContentTemp.__component == "basic.input",
+      fieldContentTemp.__component == "form-elements.input",
       `must be input field ${name}`
     );
   }
