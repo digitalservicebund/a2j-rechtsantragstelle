@@ -29,9 +29,15 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   if (!params.formStepID || !(params.formStepID in formPages)) {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
-  const config = await getPageConfig(request.url, { dontThrow: true });
+  const config = { ...(await getPageConfig(request.url, { dontThrow: true })) };
+
   const session = await getSession(request.headers.get("Cookie"));
-  return json({ context: session.data, ...config });
+  return json({
+    context: session.data,
+    preFormContent: config.pre_form,
+    formContent: config.form,
+    meta: config.meta,
+  });
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
@@ -68,7 +74,8 @@ export const action: ActionFunction = async ({ params, request }) => {
 };
 
 export default function Index() {
-  const { context, content } = useLoaderData<typeof loader>();
+  const { context, preFormContent, formContent } =
+    useLoaderData<typeof loader>();
   const params = useParams();
   const stepID = params.formStepID as AllowedIDs;
   const currentStep = formPages[stepID];
@@ -79,7 +86,7 @@ export default function Index() {
 
   return (
     <div>
-      {content ? <PageContent content={content} /> : ""}
+      {preFormContent ? <PageContent content={preFormContent} /> : ""}
       <div>
         <ValidatedForm
           key={`${stepID}_form`}
@@ -87,7 +94,7 @@ export default function Index() {
           validator={allValidators[stepID]}
           defaultValues={context[stepID]}
         >
-          <Component content={content} />
+          <Component content={formContent} />
           {!isLast &&
             `Schritt ${
               pessimisticPathTotal - pessimisticPath + 1
