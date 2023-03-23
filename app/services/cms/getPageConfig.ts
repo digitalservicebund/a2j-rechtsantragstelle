@@ -46,8 +46,7 @@ export type ElementContent =
   | ParagraphContent
   | InputContent
   | SelectContent;
-
-export type PageContent = Record<string, string | ElementContent[]>;
+export type PageContent = Array<ElementContent>;
 
 export default async function (
   url: string,

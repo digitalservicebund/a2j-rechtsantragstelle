@@ -55,12 +55,8 @@ export default class StrapiCMS implements CMS {
       locale = Locale.de;
     }
 
-    const collection = slug.includes("vorabcheck/")
-      ? "vorab-check-pages"
-      : "pages";
-
     return this.client.getDocument(
-      collection,
+      "pages",
       new RequestBuilder()
         .setLocale(locale)
         .addFilter({
