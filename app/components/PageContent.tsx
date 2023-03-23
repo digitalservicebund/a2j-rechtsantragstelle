@@ -1,4 +1,4 @@
-import { Input, Select, Stack } from "~/components";
+import { Stack } from "~/components";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
 import InfoBox from "~/components/InfoBox";
@@ -10,9 +10,8 @@ type PageContentProps = {
 const EmptyComponent = () => <></>;
 
 const mapping: { [name: string]: any } = {
-  "basic.header": Heading,
+  "basic.heading": Heading,
   "basic.paragraph": Paragraph,
-  "basic.input": Input,
   "page.info-box": InfoBox,
 };
 

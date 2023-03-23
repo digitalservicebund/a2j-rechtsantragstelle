@@ -39,7 +39,7 @@ const Select = ({ name, label, options }: SelectProps) => {
         })}
       </select>
 
-      {error ? <InputError id={name}>{error}</InputError> : ""}
+      {error ? <InputError inputName={name}>{error}</InputError> : ""}
     </div>
   );
 };

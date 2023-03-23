@@ -2,7 +2,7 @@ import cms from "~/services/cms";
 
 type HeadingContent = {
   id: number;
-  __component: "basic.header";
+  __component: "basic.heading";
   text: string;
   size: number;
 };
@@ -13,6 +13,20 @@ type ParagraphContent = {
   text: string;
 };
 
+type FieldErrorContent = {
+  code: string;
+  text: string;
+};
+
+export type InputContent = {
+  id: number;
+  __component: "form-elements.input";
+  name: string;
+  label?: string;
+  type: "text" | "number";
+  errors: FieldErrorContent[];
+};
+
 type SelectOptionContent = {
   id: number;
   text: string;
@@ -21,13 +35,17 @@ type SelectOptionContent = {
 
 export type SelectContent = {
   id: number;
-  __component: "basic.select";
+  __component: "form-elements.select";
   name: string;
   label?: string;
   options: SelectOptionContent[];
 };
 
-export type ElementContent = HeadingContent | ParagraphContent | SelectContent;
+export type ElementContent =
+  | HeadingContent
+  | ParagraphContent
+  | InputContent
+  | SelectContent;
 export type PageContent = Array<ElementContent>;
 
 export default async function (

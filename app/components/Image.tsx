@@ -13,9 +13,7 @@ type ImageProps = {
   };
 };
 
-export const action = async ({ request }: DataFunctionArgs) => {
-  return config().STRAPI_HOST;
-};
+const strapiUrl = "todo"; //config().STRAPI_HOST;
 
 const Image = ({ image }: ImageProps) => {
   const strapiUrl = useActionData();

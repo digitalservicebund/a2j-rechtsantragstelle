@@ -1,5 +1,4 @@
 export interface config {
-  STRAPI_HOST: string;
   STRAPI_API: string;
   STRAPI_ACCESS_KEY: string;
   CMS: string;
@@ -12,7 +11,6 @@ export default function get(): config {
   if (instance === undefined) {
     instance = {
       // Removing trim because infrastructure adding a newline on secret
-      STRAPI_HOST: process.env.STRAPI_HOST?.trim() || "",
       STRAPI_API:
         process.env.STRAPI_API?.trim() ||
         (process.env.STRAPI_HOST?.trim() || "") + "/api/",
