@@ -22,7 +22,7 @@ import getPageConfig from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
-  { title: data.title },
+  { title: data.meta.title },
 ];
 
 export const loader: LoaderFunction = async ({ params, request }) => {
