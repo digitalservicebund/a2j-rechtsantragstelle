@@ -6,4 +6,5 @@ module.exports = {
     "test/(.*)": "<rootDir>/test/$1",
   },
   preset: "ts-jest",
+  setupFiles: ["<rootDir>/tests/setup.tests.ts"],
 };
