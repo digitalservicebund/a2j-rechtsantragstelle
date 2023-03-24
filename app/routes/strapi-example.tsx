@@ -34,8 +34,6 @@ export default function Index() {
   const content = useLoaderData()?.data as StrapiExampleContent;
   const data = useActionData();
 
-  console.log(content);
-
   return (
     <div className="block p-6 rounded-lg shadow-lg max-w-xl">
       <PageContent content={content?.page} />

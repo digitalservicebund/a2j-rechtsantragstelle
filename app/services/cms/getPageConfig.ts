@@ -54,9 +54,7 @@ export default async function (
 ): Promise<PageContent> {
   const { pathname } = new URL(url);
   const slug = pathname.slice(1);
-  console.log({ slug });
   const data = await cms().getPageBySlug(slug);
-  console.log({ data });
   if (!data && !options?.dontThrow) {
     throw new Error("No page config found!");
   }

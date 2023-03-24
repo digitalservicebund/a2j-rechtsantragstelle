@@ -46,13 +46,8 @@ export default class Client implements IClient {
     request: Request
   ): Promise<Document | undefined> {
     const url = this.getUrl(documentCollection, request);
-
-    console.log(url);
-
     return axios.get(url, this.getRequestConfig()).then((response) => {
       const data = response.data.data;
-
-      console.log(data);
 
       if (Array.isArray(data)) {
         return data.shift() as Document;
