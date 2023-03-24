@@ -1,10 +1,7 @@
 import { Locale } from "~/services/cms/models/Locale";
 import StrapiCMS from "~/services/cms/strapi";
-import {
-  IClient,
-  Parameter,
-  RequestBuilder,
-} from "~/services/cms/strapi/client";
+import { Parameter, RequestBuilder } from "~/services/cms/strapi/client";
+import type { IClient } from "~/services/cms/strapi/client";
 
 var document = {
   attributes: {
