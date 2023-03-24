@@ -1,24 +1,16 @@
 import { z } from "zod";
 import { RadioGroup } from "~/components";
-import { YesNoAnswer } from "../answers";
+import { YesNoAnswer, defaultYesNoOptions } from "../answers";
+import type { StepComponentProps } from "../steps";
+import { getRelevantOptions } from "~/services/cms/getPageConfig";
 
 const schema = z.object({ wurdeVerklagt: YesNoAnswer });
+const varName = schema.keyof().Values.wurdeVerklagt;
 
 export const wurdeVerklagtStep = {
   schema,
-  component: () => {
-    return (
-      <div style={{ border: "solid black 1px", padding: "1rem" }}>
-        <h3>Wurden Sie Verklagt?</h3>
-        Klagen werden immer in diesem gelben Umschlägen verschickt: INSERT BILD
-        <RadioGroup
-          name={schema.keyof().Values.wurdeVerklagt}
-          options={[
-            { text: "Nein", value: YesNoAnswer.Enum.no },
-            { text: "Ja", value: YesNoAnswer.Enum.yes },
-          ]}
-        />
-      </div>
-    );
+  component: ({ content }: StepComponentProps) => {
+    const options = getRelevantOptions(content, varName) ?? defaultYesNoOptions;
+    return <RadioGroup name={varName} options={options} />;
   },
 };
