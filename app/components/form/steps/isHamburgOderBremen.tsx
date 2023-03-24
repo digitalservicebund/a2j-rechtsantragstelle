@@ -17,9 +17,9 @@ export const hamburgOderBremenStep = {
         <RadioGroup
           name={schema.keyof().Values.isHamburgOderBremen}
           options={[
-            { label: "Nein", value: YesNoAnswer.Enum.no },
+            { text: "Nein", value: YesNoAnswer.Enum.no },
             {
-              label: "Ja, ich lebe in Hamburg oder Bremen",
+              text: "Ja, ich lebe in Hamburg oder Bremen",
               value: YesNoAnswer.Enum.yes,
             },
           ]}

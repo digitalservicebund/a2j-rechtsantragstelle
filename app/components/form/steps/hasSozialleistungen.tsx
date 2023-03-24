@@ -20,19 +20,19 @@ export const sozialleistungStep = {
           name={schema.keyof().Values.beziehtStaatlicheLeistungen}
           options={[
             {
-              label: "Grundsicherung oder Sozialhilfe",
+              text: "Grundsicherung oder Sozialhilfe",
               value: staatlicheLeistungen.Enum.Grundsicherung,
             },
             {
-              label: "Leistungen nach Asylbewerberleistungsgesetz",
+              text: "Leistungen nach Asylbewerberleistungsgesetz",
               value: staatlicheLeistungen.Enum.Asylbewerberleistungen,
             },
             {
-              label: "Bürgergeld (früher 'Hartz 4' oder 'Arbeitslosengeld 2')",
+              text: "Bürgergeld (früher 'Hartz 4' oder 'Arbeitslosengeld 2')",
               value: staatlicheLeistungen.Enum.Bürgergeld,
             },
             {
-              label: "Nein, ich erhalte keine dieser Leistungen.",
+              text: "Nein, ich erhalte keine dieser Leistungen.",
               value: staatlicheLeistungen.Enum.Keine,
             },
           ]}

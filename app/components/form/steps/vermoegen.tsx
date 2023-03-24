@@ -21,11 +21,11 @@ export const vermoegenStep = {
           name={schema.keyof().Values.vermoegen}
           options={[
             {
-              label: "weniger als 10.000 €",
+              text: "weniger als 10.000 €",
               value: vermoegenOptions.Enum.below_10k,
             },
             {
-              label: "mehr als 10.000 €",
+              text: "mehr als 10.000 €",
               value: vermoegenOptions.Enum.above_10k,
             },
           ]}

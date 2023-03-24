@@ -21,11 +21,11 @@ export const familienstandStep = {
           name={schema.keyof().Values.partnerschaft}
           options={[
             {
-              label: "Nein",
+              text: "Nein",
               value: YesNoAnswer.Enum.no,
             },
             {
-              label: "Ja",
+              text: "Ja",
               value: YesNoAnswer.Enum.yes,
             },
           ]}

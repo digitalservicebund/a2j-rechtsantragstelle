@@ -73,9 +73,9 @@ export default function Kitchensink() {
               <RadioGroup
                 name="radioOptions"
                 options={[
-                  { label: "ja", value: "yes" },
-                  { label: "nein", value: "no" },
-                  { label: "weiß nicht", value: "maybe" },
+                  { text: "ja", value: "yes" },
+                  { text: "nein", value: "no" },
+                  { text: "weiß nicht", value: "maybe" },
                 ]}
               />
             </fieldset>

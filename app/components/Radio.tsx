@@ -4,11 +4,10 @@ import { useField } from "remix-validated-form";
 type RadioProps = {
   name: string;
   value: string;
-  label?: ReactNode;
-  contentLabel?: string;
+  text?: ReactNode;
 };
 
-const Radio = ({ name, value, label, contentLabel }: RadioProps) => {
+const Radio = ({ name, value, text }: RadioProps) => {
   const { error, getInputProps } = useField(name);
   const id = `${name}-${value}`;
 
@@ -17,9 +16,9 @@ const Radio = ({ name, value, label, contentLabel }: RadioProps) => {
       <input
         {...getInputProps({ type: "radio", id, value })}
         className="ds-radio"
-        aria-describedby={error ? `${name}-error` : undefined}
+        aria-describedby={error && `${name}-error`}
       />
-      <label htmlFor={id}>{contentLabel || label}</label>
+      {<label htmlFor={id}>{text}</label>}
     </div>
   );
 };

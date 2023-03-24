@@ -16,8 +16,8 @@ export const beratungshilfeBeantragtStep = {
         <RadioGroup
           name={schema.keyof().Values.hasBeratungshilfeBeantragt}
           options={[
-            { label: "Nein", value: YesNoAnswer.Enum.no },
-            { label: "Ja", value: YesNoAnswer.Enum.yes },
+            { text: "Nein", value: YesNoAnswer.Enum.no },
+            { text: "Ja", value: YesNoAnswer.Enum.yes },
           ]}
         />
       </div>
