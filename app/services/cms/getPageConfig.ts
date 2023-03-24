@@ -48,6 +48,16 @@ export type ElementContent =
   | SelectContent;
 export type PageContent = Array<ElementContent>;
 
+export function getRevelantContent(pageContent: PageContent, id: string) {
+  return pageContent?.find((page) => "name" in page && page.name === id);
+}
+export function getRelevantOptions(pageContent: PageContent, id: string) {
+  const relevantContent = getRevelantContent(pageContent, id);
+  return relevantContent && "options" in relevantContent
+    ? relevantContent["options"]
+    : undefined;
+}
+
 export default async function (
   url: string,
   options?: { dontThrow: boolean }
