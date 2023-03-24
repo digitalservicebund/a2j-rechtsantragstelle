@@ -1,30 +1,23 @@
 import { test, expect } from "@playwright/test";
-import { Homepage } from "./pom/Homepage";
-
-let home: Homepage;
+import { indexLinks } from "~/routes/_index";
 
 test.beforeEach(async ({ page }) => {
-  home = new Homepage(page);
-  await home.goto();
+  await page.goto("http://localhost:3000");
 });
 
 test("has title", async ({ page }) => {
-  await expect(page).toHaveTitle("");
+  await expect(page).toHaveTitle("A2J - Digitale RAST");
 });
 
 test.describe("links", () => {
-  test("kitchensink link", async ({ page }) => {
-    await home.gotoKitchensink();
-    await expect(page).toHaveURL(/.*kitchensink/);
-  });
-
-  test("multi-page form link", async ({ page }) => {
-    await home.gotoMultiPageForm();
-    await expect(page).toHaveURL(/.*vorabcheck\/rechtsschutzversicherung/);
-  });
-
-  test("types showcase link", async ({ page }) => {
-    await home.gotoTypesShowcase();
-    await expect(page).toHaveURL(/.*types_showcase/);
+  indexLinks.forEach((link) => {
+    test(`${link.displayName} link`, async ({ page }) => {
+      const responsePromise = page.waitForResponse(
+        (resp) => resp.url().includes(link.url) && resp.status() === 200,
+        { timeout: 500 }
+      );
+      await page.getByRole("link", { name: link.displayName }).click();
+      await responsePromise;
+    });
   });
 });

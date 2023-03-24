@@ -3,13 +3,16 @@ import type { Page, Locator } from "@playwright/test";
 export class Homepage {
   readonly page: Page;
   readonly links: Record<string, Locator>;
+  readonly title = "A2J - Digitale RAST";
 
   constructor(page: Page) {
     this.page = page;
     this.links = {
-      kitchensink: page.getByRole("link", { name: "kitchensink" }),
-      multiPageForm: page.getByRole("link", { name: "multi-page form" }),
-      typesShowcase: page.getByRole("link", { name: "types showcase" }),
+      kitchensink: page.getByRole("link", { name: "Kitchensink" }),
+      multiPageForm: page.getByRole("link", { name: "Vorabcheck" }),
+      typesShowcase: page.getByRole("link", {
+        name: "Form Validation Example",
+      }),
     };
   }
 
