@@ -1,11 +1,13 @@
 import getPageConfig from "~/services/cms/getPageConfig";
 
 var data = {
-  attributes: {}
+  attributes: {},
 };
 
 const mockObject = {
-  getPageBySlug: jest.fn().mockImplementation((slug: string) => data.attributes),
+  getPageBySlug: jest
+    .fn()
+    .mockImplementation((slug: string) => data.attributes),
 };
 
 jest.mock("~/services/cms/index.tsx", () => () => mockObject);
@@ -14,7 +16,7 @@ beforeEach(() => {
   data = {
     attributes: {
       id: 1,
-      value: "this is a test"
+      value: "this is a test",
     },
   };
 });
