@@ -60,5 +60,5 @@ export default async function (
   if (!data && !options?.dontThrow) {
     throw new Error("No page config found!");
   }
-  return data?.attributes;
+  return data;
 }

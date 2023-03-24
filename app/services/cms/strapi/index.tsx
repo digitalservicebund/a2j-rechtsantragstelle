@@ -50,7 +50,7 @@ export default class StrapiCMS implements CMS {
   getPageBySlug(
     slug: string,
     locale?: Locale
-  ): Promise<BaseDocument | undefined> {
+  ): Promise<any> {
     if (locale === undefined) {
       locale = Locale.de;
     }
@@ -63,7 +63,13 @@ export default class StrapiCMS implements CMS {
           field: "slug",
           value: slug,
         })
-        .toRequest()
-    );
+        .toRequest())
+      .then((document) => {
+
+        console.log(document)
+        
+        return document?.attributes
+
+      });
   }
 }

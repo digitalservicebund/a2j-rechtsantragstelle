@@ -27,19 +27,18 @@ export interface IClient {
     documentCollection: string,
     request: Request
   ): Promise<Document | undefined>;
-  getDocuments(
-    documentCollection: string,
-    request: Request
-  ): Promise<Document[] | undefined>;
 }
 
 export default class Client implements IClient {
   url: string;
-  populate: string;
+  populate: string = "populate=deep";
 
-  constructor() {
-    this.url = config().STRAPI_API;
-    this.populate = "populate=deep";
+  constructor(url?: string) {
+    if (url !== undefined) {
+      this.url = url;
+    } else {
+      this.url = config().STRAPI_API;
+    }
   }
 
   getDocument(
@@ -61,17 +60,6 @@ export default class Client implements IClient {
 
       return data as Document;
     });
-  }
-
-  getDocuments(
-    documentCollection: string,
-    request: Request
-  ): Promise<Document[] | undefined> {
-    var result: Document[];
-
-    result = [];
-
-    return new Promise<Document[]>((resolve, reject) => result);
   }
 
   private getUrl(documentCollection: string, request: Request): string {
