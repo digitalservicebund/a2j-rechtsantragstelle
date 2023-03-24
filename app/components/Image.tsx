@@ -1,8 +1,3 @@
-import type { DataFunctionArgs } from "@remix-run/node";
-import { LoaderFunction } from "@remix-run/node";
-import { useActionData } from "@remix-run/react";
-import config from "~/services/config";
-
 type ImageProps = {
   image: {
     data: {
@@ -13,14 +8,9 @@ type ImageProps = {
   };
 };
 
-const strapiUrl = "todo"; //config().STRAPI_HOST;
-
 const Image = ({ image }: ImageProps) => {
-  const strapiUrl = useActionData();
-  console.log(strapiUrl);
   if (!image?.data) return null;
-
-  const imageUrl = `${strapiUrl}${image.data?.attributes?.url}`;
+  const imageUrl = image.data?.attributes?.url;
   return (
     <>
       <pre className="hidden">
