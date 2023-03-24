@@ -1,22 +1,37 @@
+import type { V2_MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 
+const title = "A2J - Digitale RAST";
+
+export const meta: V2_MetaFunction = () => [
+  { title },
+  {
+    name: "robots",
+    content: "noindex",
+  },
+];
+
 const links = [
-  { url: "/types_showcase", displayName: "types showcase" },
-  { url: "/kitchensink", displayName: "kitchensink" },
-  { url: "/vorabcheck", displayName: "multi-page form" },
-  { url: "/strapi-example", displayName: "strapi-example-page" },
+  { url: "/vorabcheck", displayName: "Vorabcheck" },
+  { url: "/flowchart", displayName: "Flowchart" },
+  { url: "/kitchensink", displayName: "Kitchensink" },
+  { url: "/form-validation-example", displayName: "Form Validation Example" },
+  { url: "/strapi-example", displayName: "Strapi Integration Example" },
 ];
 
 export default function Index() {
   return (
-    <ul>
-      {links.map((link) => {
-        return (
-          <li key={link.url}>
-            <Link to={link.url}>{link.displayName}</Link>
-          </li>
-        );
-      })}
-    </ul>
+    <>
+      <h1>{title}</h1>
+      <ul>
+        {links.map((link) => {
+          return (
+            <li key={link.url}>
+              <Link to={link.url}>{link.displayName}</Link>
+            </li>
+          );
+        })}
+      </ul>
+    </>
   );
 }

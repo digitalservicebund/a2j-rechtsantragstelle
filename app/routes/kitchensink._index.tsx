@@ -1,4 +1,4 @@
-import { Button, Input, RadioGroup, Select, Stack } from "~/components";
+import { useActionData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
 
@@ -6,12 +6,12 @@ import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm, validationError } from "remix-validated-form";
 
-import { useActionData } from "@remix-run/react";
+import { Button, Input, RadioGroup, Select, Stack } from "~/components";
+
+const title = "Kitchensink";
 
 export const meta: V2_MetaFunction = () => [
-  {
-    title: "Kitchensink",
-  },
+  { title },
   {
     name: "robots",
     content: "noindex",
@@ -36,7 +36,7 @@ export default function Kitchensink() {
   const data = useActionData();
   return (
     <div className="block p-6 rounded-lg shadow-lg max-w-xl">
-      <h1>Kitchensink</h1>
+      <h1>{title}</h1>
       <h2>{"<ValidatedForm>"}</h2>
       <ValidatedForm
         validator={validator}
@@ -47,7 +47,7 @@ export default function Kitchensink() {
           radioOptions: "no",
         }}
       >
-        <h3>{" <Stack space='xl'>"}</h3>
+        <h3>{"<Stack space='xl'>"}</h3>
         <Stack space="xl">
           <Stack space="l">
             <h3>{"<Input>"}</h3>
