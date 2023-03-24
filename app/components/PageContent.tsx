@@ -1,31 +1,24 @@
 import { Stack } from "~/components";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
-import InfoBox from "~/components/InfoBox";
-import Input from "~/components/Input";
+// import InfoBox from "~/components/InfoBox";
+import type { ElementContent } from "~/services/cms/getPageConfig";
 
 type PageContentProps = {
-  content: any[];
+  content: Array<ElementContent>;
 };
 
-const EmptyComponent = () => <></>;
-
-const mapping: { [name: string]: any } = {
-  "basic.heading": Heading,
-  "basic.paragraph": Paragraph,
-  "page.info-box": InfoBox,
-  "form-elements.input": Input,
-};
+function cmsToReact(element: ElementContent) {
+  if (element.__component === "basic.heading") {
+    return Heading({ ...element });
+  } else if (element.__component === "basic.paragraph") {
+    return Paragraph({ ...element });
+  }
+  return undefined;
+}
 
 const PageContent = ({ content }: PageContentProps) => {
-  return (
-    <Stack space="l">
-      {content?.map((component: any, index: number) => {
-        const Component = mapping[component.__component] || EmptyComponent;
-        return <Component key={`${index}`} {...component} />;
-      })}
-    </Stack>
-  );
+  return <Stack space="l">{content.map((el) => cmsToReact(el))}</Stack>;
 };
 
 export default PageContent;
