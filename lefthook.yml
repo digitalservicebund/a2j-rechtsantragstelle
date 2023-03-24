@@ -4,3 +4,5 @@ pre-commit:
       run: node_modules/.bin/prettier --write '{staged_files}' && git add '{staged_files}'
     eslint:
       run: npm run eslint
+    typecheck:
+      run: npm run typecheck
