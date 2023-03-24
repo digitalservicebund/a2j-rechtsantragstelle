@@ -13,7 +13,7 @@ type ParagraphContent = {
   text: string;
 };
 
-type FieldErrorContent = {
+export type FieldErrorContent = {
   code: string;
   text: string;
 };
