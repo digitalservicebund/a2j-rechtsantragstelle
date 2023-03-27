@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node";
 import type { LoaderFunction, V2_MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import getPageConfig from "~/services/cms/getPageConfig";
+import { getPageConfig } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [

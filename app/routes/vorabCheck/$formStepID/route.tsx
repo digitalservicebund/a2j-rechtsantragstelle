@@ -18,7 +18,8 @@ import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
 import { isStepComponentWithSchema } from "~/components/form/steps";
 import { findPreviousStep, isLeaf } from "~/lib/treeCalculations";
-import getPageConfig from "~/services/cms/getPageConfig";
+import type { VorabCheckPageContent } from "~/services/cms/getPageConfig";
+import { getPageConfig } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
@@ -29,9 +30,19 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   if (!params.formStepID || !(params.formStepID in formPages)) {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
-  const content = await getPageConfig(request.url, { dontThrow: true });
+  const config = {
+    ...((await getPageConfig(request.url, {
+      dontThrow: true,
+    })) as VorabCheckPageContent),
+  };
+
   const session = await getSession(request.headers.get("Cookie"));
-  return json({ context: session.data, ...content });
+  return json({
+    context: session.data,
+    preFormContent: config.pre_form,
+    formContent: config.form,
+    meta: config.meta,
+  });
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
@@ -68,7 +79,8 @@ export const action: ActionFunction = async ({ params, request }) => {
 };
 
 export default function Index() {
-  const { context, content } = useLoaderData<typeof loader>();
+  const { context, preFormContent, formContent } =
+    useLoaderData<typeof loader>();
   const params = useParams();
   const stepID = params.formStepID as AllowedIDs;
   const currentStep = formPages[stepID];
@@ -79,7 +91,7 @@ export default function Index() {
 
   return (
     <div>
-      {content && <PageContent content={content} />}
+      {preFormContent ? <PageContent content={preFormContent} /> : ""}
       <div>
         <ValidatedForm
           key={`${stepID}_form`}
@@ -87,7 +99,7 @@ export default function Index() {
           validator={allValidators[stepID]}
           defaultValues={context[stepID]}
         >
-          <FormInputComponent content={content} />
+          <FormInputComponent content={formContent} />
           {!isLast &&
             `Schritt ${
               pessimisticPathTotal - pessimisticPath + 1

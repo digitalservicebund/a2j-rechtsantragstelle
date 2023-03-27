@@ -21,7 +21,7 @@ const InfoBoxItem = ({
     <li>
       <Image image={illustration} />
       <div className="uppercase">{label}</div>
-      <Heading size={headlineLevel} text={headline} />
+      <Heading level={headlineLevel} text={headline} />
       <RichText markdown={content} />
     </li>
   );

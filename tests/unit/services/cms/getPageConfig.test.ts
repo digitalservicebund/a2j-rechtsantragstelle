@@ -1,4 +1,4 @@
-import getPageConfig from "~/services/cms/getPageConfig";
+import { getPageConfig } from "~/services/cms/getPageConfig";
 
 var data = {
   attributes: {},

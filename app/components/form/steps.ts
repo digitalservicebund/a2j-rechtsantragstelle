@@ -30,7 +30,7 @@ import { freeServicesStep } from "./steps/freeServices";
 import { kidsStep } from "./steps/hasKids";
 import { unterhaltStep } from "./steps/unterhalt";
 import { unterhaltAmountStep } from "./steps/unterhaltAmount";
-import type { PageContent } from "~/services/cms/getPageConfig";
+import type { ElementContent, PageContent } from "~/services/cms/getPageConfig";
 
 export const Steps = {
   sozialleistungStep,
@@ -72,7 +72,7 @@ interface StepComponentWithSchema {
   schema: AnyZodObject;
 }
 
-export type StepComponentProps = { content: PageContent };
+export type StepComponentProps = { content: ElementContent[] };
 
 export type StepInterface = StepComponent | StepComponentWithSchema;
 
