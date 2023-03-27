@@ -5,6 +5,9 @@ import StrapiClient, { RequestBuilder, Parameter } from "./client";
 import type BaseDocument from "../models/BaseDocument";
 
 const localeDefault = Locale.de;
+const collectionDefault = "pages";
+
+const collectionMap = new Map([["vorabcheck", "vorab-check-pages"]]);
 
 export default class StrapiCMS implements CMS {
   client: IClient;
@@ -42,20 +45,22 @@ export default class StrapiCMS implements CMS {
     return document?.attributes as BaseDocument;
   }
 
-  async getPageBySlug(slug: string, locale?: Locale): Promise<any> {
-    const collection = slug.includes("vorabcheck/")
-      ? "vorab-check-pages"
-      : "pages";
+  async getPageFromCollection(
+    collection: string,
+    pageName: string,
+    locale?: Locale
+  ): Promise<any> {
+    const strapiCollection = collectionMap.get(collection) ?? collectionDefault;
 
     const request = new RequestBuilder()
       .setLocale(locale ?? localeDefault)
       .addFilter({
         field: "slug",
-        value: slug,
+        value: pageName,
       })
       .toRequest();
 
-    const document = await this.client.getDocument(collection, request);
+    const document = await this.client.getDocument(strapiCollection, request);
     return document?.attributes;
   }
 }

@@ -1,37 +1,13 @@
 import cms from "~/services/cms";
 import type { ContentComponent } from "./models/contentComponents";
 import type { FormComponent } from "./models/formComponents";
+import type { VorabcheckPage } from "./models/VorabcheckPage";
 
 export type ElementContent = ContentComponent | FormComponent;
 
-export type PageContent = {
-  slug: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  meta: {
-    id: number;
-    title: string;
-  };
-  content: ElementContent[];
-};
-
-export type VorabCheckPageContent = {
-  slug: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  meta: {
-    id: number;
-    title: string;
-  };
-  pre_form: ContentComponent[];
-  form: FormComponent[];
-};
-
 export type StrapiPage = {
   id: number;
-  attributes: PageContent | VorabCheckPageContent;
+  attributes: VorabcheckPage;
 };
 
 export function getRevelantContent(pageContent: ElementContent[], id: string) {
@@ -48,10 +24,10 @@ export function getRelevantOptions(pageContent: ElementContent[], id: string) {
 export const getPageConfig = async function (
   url: string,
   options?: { dontThrow: boolean }
-): Promise<PageContent | VorabCheckPageContent> {
+): Promise<VorabcheckPage> {
   const { pathname } = new URL(url);
-  const slug = pathname.slice(1);
-  const data = await cms().getPageBySlug(slug);
+  const [collection, step] = pathname.slice(1).split("/");
+  const data = await cms().getPageFromCollection(collection, step);
   if (!data && !options?.dontThrow) {
     throw new Error("No page config found!");
   }

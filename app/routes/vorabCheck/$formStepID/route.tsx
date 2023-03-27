@@ -18,7 +18,6 @@ import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
 import { isStepComponentWithSchema } from "~/components/form/steps";
 import { findPreviousStep, isLeaf } from "~/lib/treeCalculations";
-import type { VorabCheckPageContent } from "~/services/cms/getPageConfig";
 import { getPageConfig } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
 
@@ -30,18 +29,14 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   if (!params.formStepID || !(params.formStepID in formPages)) {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
-  const config = {
-    ...((await getPageConfig(request.url, {
-      dontThrow: true,
-    })) as VorabCheckPageContent),
-  };
-
+  const page = await getPageConfig(request.url, { dontThrow: true });
   const session = await getSession(request.headers.get("Cookie"));
+
   return json({
     context: session.data,
-    preFormContent: config.pre_form,
-    formContent: config.form,
-    meta: config.meta,
+    preFormContent: page.pre_form,
+    formContent: page.form,
+    meta: page.meta,
   });
 };
 

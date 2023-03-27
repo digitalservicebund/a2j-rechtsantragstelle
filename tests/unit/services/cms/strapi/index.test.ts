@@ -82,7 +82,7 @@ it("should return a page", async () => {
   expect(result).toEqual(document.attributes);
 });
 
-it("should return a page by slug", async () => {
+it("should return a page by name", async () => {
   const data = [
     {
       id: 1,
@@ -97,7 +97,7 @@ it("should return a page by slug", async () => {
   document.attributes.items.data = data;
 
   const strapiCMS = new StrapiCMS(mockObject);
-  const result = await strapiCMS.getPageBySlug("test", Locale.de);
+  const result = await strapiCMS.getPageFromCollection("", slug, Locale.de);
 
   expect(mockObject.getDocument).toBeCalledWith(
     "pages",

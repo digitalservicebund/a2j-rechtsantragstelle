@@ -5,7 +5,11 @@ import Strapi from "./strapi";
 
 export interface CMS {
   getPage(pageName: string, locale?: Locale): Promise<BaseDocument | undefined>;
-  getPageBySlug(slug: string): Promise<any>;
+  getPageFromCollection(
+    collection: string,
+    pageName: string,
+    locale?: Locale
+  ): Promise<any>;
 }
 
 export default function getCMS(): CMS {

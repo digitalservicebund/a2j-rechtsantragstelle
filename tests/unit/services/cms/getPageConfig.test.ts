@@ -1,13 +1,14 @@
 import { getPageConfig } from "~/services/cms/getPageConfig";
+import type { Locale } from "~/services/cms/models/Locale";
 
 var data = {
   attributes: {},
 };
 
 const mockObject = {
-  getPageBySlug: jest
-    .fn()
-    .mockImplementation((slug: string) => data.attributes),
+  getPageFromCollection: jest.fn(
+    (collection: string, pageName: string, locale?: Locale) => data.attributes
+  ),
 };
 
 jest.mock("~/services/cms/index.tsx", () => () => mockObject);
@@ -22,12 +23,12 @@ beforeEach(() => {
 });
 
 it("should return the right attributes for a slug", async () => {
-  const result = await getPageConfig("http://localhost/test", {
+  const result = await getPageConfig("http://localhost/page/test", {
     dontThrow: false,
   });
 
   expect(result).toEqual(data.attributes);
-  expect(mockObject.getPageBySlug).toHaveBeenCalledWith("test");
+  expect(mockObject.getPageFromCollection).toHaveBeenCalledWith("page", "test");
 });
 
 it("should return a error if no data is available and dontThrow is true", async () => {
