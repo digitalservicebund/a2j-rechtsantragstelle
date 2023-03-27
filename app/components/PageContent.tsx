@@ -8,17 +8,17 @@ type PageContentProps = {
   content: Array<ElementContent>;
 };
 
-function cmsToReact(element: ElementContent) {
+function cmsToReact(element: ElementContent, key?: string | number) {
   if (element.__component === "basic.heading") {
-    return Heading({ ...element });
+    return Heading({ ...element, key });
   } else if (element.__component === "basic.paragraph") {
-    return Paragraph({ ...element });
+    return Paragraph({ ...element, key });
   }
   return undefined;
 }
 
-const PageContent = ({ content }: PageContentProps) => {
-  return <Stack space="l">{content.map((el) => cmsToReact(el))}</Stack>;
-};
+const PageContent = ({ content }: PageContentProps) => (
+  <Stack space="l">{content.map((el, idx) => cmsToReact(el, idx))}</Stack>
+);
 
 export default PageContent;
