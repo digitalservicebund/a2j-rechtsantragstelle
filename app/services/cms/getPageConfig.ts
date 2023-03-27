@@ -1,55 +1,8 @@
 import cms from "~/services/cms";
+import type { ContentComponent } from "./models/contentComponents";
+import type { FormComponent } from "./models/formComponents";
 
-type HeadingContent = {
-  id: number;
-  __component: "basic.heading";
-  text: string;
-  level: number;
-};
-
-type ParagraphContent = {
-  id: number;
-  __component: "basic.paragraph";
-  text: string;
-};
-
-export type FieldErrorContent = {
-  code: string;
-  text: string;
-};
-
-export type InputContent = {
-  id: number;
-  __component: "form-elements.input";
-  name: string;
-  label?: string;
-  type: "text" | "number";
-  errors: FieldErrorContent[];
-};
-
-type SelectOptionContent = {
-  id: number;
-  text: string;
-  value: string;
-};
-
-export type SelectContent = {
-  id: number;
-  __component: "form-elements.select";
-  name: string;
-  label?: string;
-  options: SelectOptionContent[];
-};
-
-type PreFormContent = HeadingContent | ParagraphContent;
-
-type FormContent = InputContent | SelectContent;
-
-export type ElementContent =
-  | HeadingContent
-  | ParagraphContent
-  | InputContent
-  | SelectContent;
+export type ElementContent = ContentComponent | FormComponent;
 
 export type PageContent = {
   slug: string;
@@ -72,8 +25,8 @@ export type VorabCheckPageContent = {
     id: number;
     title: string;
   };
-  pre_form: PreFormContent[];
-  form: FormContent[];
+  pre_form: ContentComponent[];
+  form: FormComponent[];
 };
 
 export type StrapiPage = {

@@ -30,7 +30,7 @@ import { freeServicesStep } from "./steps/freeServices";
 import { kidsStep } from "./steps/hasKids";
 import { unterhaltStep } from "./steps/unterhalt";
 import { unterhaltAmountStep } from "./steps/unterhaltAmount";
-import type { ElementContent, PageContent } from "~/services/cms/getPageConfig";
+import type { ElementContent } from "~/services/cms/getPageConfig";
 
 export const Steps = {
   sozialleistungStep,

@@ -2,14 +2,14 @@ import type { ReactNode } from "react";
 import { useField } from "remix-validated-form";
 import classNames from "classnames";
 import { InputError, InputLabel } from "~/components";
-import type { FieldErrorContent } from "~/services/cms/getPageConfig";
+import type { FieldError } from "~/services/cms/models/formComponents";
 
 type InputProps = {
   name: string;
   label?: ReactNode;
   type?: string;
   step?: string;
-  errors?: FieldErrorContent[];
+  errors?: FieldError[];
 };
 
 const Input = ({ name, label, type = "text", step, errors }: InputProps) => {

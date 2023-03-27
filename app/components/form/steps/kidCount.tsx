@@ -1,7 +1,7 @@
 import { z } from "zod";
 import Input from "~/components/Input";
 import type { StepComponentProps } from "~/components/form/steps";
-import type { InputContent } from "~/services/cms/getPageConfig";
+import type { Input as InputContent } from "~/services/cms/models/formComponents";
 
 const schema = z.object({
   kids6Below: z.coerce.number().min(0, "min0").default(0),
