@@ -4,6 +4,8 @@ import type { Document, IClient } from "./client";
 import StrapiClient, { RequestBuilder, Parameter } from "./client";
 import type BaseDocument from "../models/BaseDocument";
 
+const localeDefault = Locale.de;
+
 export default class StrapiCMS implements CMS {
   client: IClient;
 
@@ -11,64 +13,49 @@ export default class StrapiCMS implements CMS {
     this.client = client;
   }
 
-  getMenu(id: string, locale?: Locale): Promise<BaseDocument[] | undefined> {
-    if (locale === undefined) {
-      locale = Locale.de;
-    }
+  async getMenu(
+    id: string,
+    locale?: Locale
+  ): Promise<BaseDocument[] | undefined> {
+    const request = new RequestBuilder()
+      .setFilter({
+        field: "slug",
+        value: `${id}_${Locale[locale ?? localeDefault]}`,
+      })
+      .addParameter(Parameter.nested)
+      .toRequest();
 
-    return this.client
-      .getDocument(
-        "menus",
-        new RequestBuilder()
-          .setFilter({
-            field: "slug",
-            value: `${id}_${Locale[locale]}`,
-          })
-          .addParameter(Parameter.nested)
-          .toRequest()
-      )
-      .then((document) =>
-        document?.attributes.items.data.map(
-          (item: Document) => item.attributes as BaseDocument
-        )
-      );
+    const document = await this.client.getDocument("menus", request);
+    return document?.attributes.items.data.map(
+      (item: Document) => item.attributes as BaseDocument
+    );
   }
 
-  getPage(
+  async getPage(
     pageName: string,
     locale?: Locale
   ): Promise<BaseDocument | undefined> {
-    if (locale === undefined) {
-      locale = Locale.de;
-    }
-
-    return this.client
-      .getDocument(pageName, new RequestBuilder().setLocale(locale).toRequest())
-      .then((document) => document?.attributes as BaseDocument);
+    const request = new RequestBuilder()
+      .setLocale(locale ?? localeDefault)
+      .toRequest();
+    const document = await this.client.getDocument(pageName, request);
+    return document?.attributes as BaseDocument;
   }
 
-  getPageBySlug(slug: string, locale?: Locale): Promise<any> {
-    if (locale === undefined) {
-      locale = Locale.de;
-    }
-
+  async getPageBySlug(slug: string, locale?: Locale): Promise<any> {
     const collection = slug.includes("vorabcheck/")
       ? "vorab-check-pages"
       : "pages";
 
-    return this.client
-      .getDocument(
-        collection,
-        new RequestBuilder()
-          .setLocale(locale)
-          .addFilter({
-            field: "slug",
-            value: slug,
-          })
-          .toRequest()
-      )
-      .then((document) => {
-        return document?.attributes;
-      });
+    const request = new RequestBuilder()
+      .setLocale(locale ?? localeDefault)
+      .addFilter({
+        field: "slug",
+        value: slug,
+      })
+      .toRequest();
+
+    const document = await this.client.getDocument(collection, request);
+    return document?.attributes;
   }
 }
