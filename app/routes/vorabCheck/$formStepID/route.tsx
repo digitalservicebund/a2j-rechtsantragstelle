@@ -34,9 +34,9 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
   return json({
     context: session.data,
-    preFormContent: page.pre_form,
-    formContent: page.form,
-    meta: page.meta,
+    preFormContent: page?.pre_form,
+    formContent: page?.form,
+    meta: page?.meta,
   });
 };
 
@@ -65,11 +65,7 @@ export const action: ActionFunction = async ({ params, request }) => {
       break;
     }
   }
-
-  const headers = {
-    "Set-Cookie": await commitSession(session),
-  };
-
+  const headers = { "Set-Cookie": await commitSession(session) };
   return redirect(`/vorabcheck/${destinationString}`, { headers });
 };
 
@@ -86,7 +82,7 @@ export default function Index() {
 
   return (
     <div>
-      {preFormContent ? <PageContent content={preFormContent} /> : ""}
+      {preFormContent && <PageContent content={preFormContent} />}
       <div>
         <ValidatedForm
           key={`${stepID}_form`}

@@ -24,12 +24,12 @@ export function getRelevantOptions(pageContent: ElementContent[], id: string) {
 export const getPageConfig = async function (
   url: string,
   options?: { dontThrow: boolean }
-): Promise<VorabcheckPage> {
+): Promise<VorabcheckPage | undefined> {
   const { pathname } = new URL(url);
   const [collection, step] = pathname.slice(1).split("/");
-  const data = await cms().getPageFromCollection(collection, step);
-  if (!data && !options?.dontThrow) {
+  const cmsContent = await cms().getPageFromCollection(collection, step);
+  if (!cmsContent && !options?.dontThrow) {
     throw new Error("No page config found!");
   }
-  return data;
+  return cmsContent;
 };
