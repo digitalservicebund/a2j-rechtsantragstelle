@@ -1,23 +1,17 @@
 import { z } from "zod";
 import { RadioGroup } from "~/components";
-import { YesNoAnswer } from "../answers";
+import { defaultYesNoOptions, YesNoAnswer } from "../answers";
+import type { StepComponentProps } from "~/components/form/steps";
+import { getRelevantOptions } from "~/services/cms/getPageConfig";
 
 const schema = z.object({ hasKlageEingereicht: YesNoAnswer });
 
 export const klageEingereichtStep = {
   schema,
-  component: () => {
-    return (
-      <div style={{ border: "solid black 1px", padding: "1rem" }}>
-        <h3>Haben Sie selbst eine Klage eingereicht?</h3>
-        <RadioGroup
-          name={schema.keyof().Values.hasKlageEingereicht}
-          options={[
-            { text: "Nein", value: YesNoAnswer.Enum.no },
-            { text: "Ja", value: YesNoAnswer.Enum.yes },
-          ]}
-        />
-      </div>
-    );
+  component: ({ content }: StepComponentProps) => {
+    const fieldName = schema.keyof().Values.hasKlageEingereicht;
+    const options =
+      getRelevantOptions(content, fieldName) ?? defaultYesNoOptions;
+    return <RadioGroup name={fieldName} options={options} />;
   },
 };
