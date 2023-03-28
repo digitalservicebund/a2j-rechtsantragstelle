@@ -4,7 +4,7 @@ import type { AnyZodObject } from "zod";
 import { sozialleistungStep } from "./steps/hasSozialleistungen";
 import { exitRechtsschutzversicherungStep } from "./steps/exitRechtsschutzversicherung";
 import { rechtsschutzversicherungStep } from "./steps/rechtsschutzversicherung";
-import { klageEingereichtStep } from "./steps/hasKlageEingereicht";
+import { klageEingereichtStep } from "./steps/klageEingereicht";
 import { exitKlageEingereicht } from "./steps/exitKlageEingereicht";
 import { exitHamburgOrBremen } from "./steps/exitHamburgOrBremen";
 import { exitBeratungshilfeBeantragt } from "./steps/exitBeratungshilfeBeantragt";
