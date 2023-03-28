@@ -9,6 +9,8 @@ import {
 } from "@remix-run/react";
 import stylesheet from "~/styles.css";
 import angieStylesheet from "~/lib/angie.css";
+import { withSentry } from "@sentry/remix";
+import { getWebConfig } from "~/services/config";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: angieStylesheet },
@@ -18,12 +20,17 @@ export const links: LinksFunction = () => [
   },
 ];
 
-export default function App() {
+function App() {
   return (
     <html lang="de">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(getWebConfig())}`,
+          }}
+        />
         <Meta />
         <Links />
       </head>
@@ -36,3 +43,5 @@ export default function App() {
     </html>
   );
 }
+
+export default withSentry(App);

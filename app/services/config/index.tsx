@@ -5,7 +5,22 @@ export interface config {
   ENV: string;
 }
 
+export interface webConfig {
+  SENTRY_DSN: string;
+}
+
 let instance: config | undefined = undefined;
+let webInstance: webConfig | undefined = undefined;
+
+export function getWebConfig(): webConfig {
+  if (webInstance === undefined) {
+    webInstance = {
+      SENTRY_DSN:
+        typeof window !== "undefined" ? (window as any)?.ENV.SENTRY_DSN : "",
+    };
+  }
+  return webInstance;
+}
 
 export default function get(): config {
   if (instance === undefined) {
@@ -19,5 +34,6 @@ export default function get(): config {
       ENV: process.env.NODE_ENV || "development",
     };
   }
+
   return instance;
 }
