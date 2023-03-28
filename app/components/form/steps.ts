@@ -21,8 +21,7 @@ import { einkommenPartnerStep } from "./steps/einkommenPartnerschaft";
 import { einkommenSingleStep } from "./steps/einkommenSingle";
 import { exitFreibetrag } from "./steps/exitFreibetrag";
 import { successFreibetrag } from "./steps/successFreibetrag";
-import { selfHelpStep } from "./steps/selfhelp";
-import { selfHelpWarning } from "./steps/selfhelpWarning";
+import { eigeninitiativeStep } from "./steps/eigeninitiative";
 import { freeServicesWarning } from "./steps/freeServicesWarning";
 import { freeServicesStep } from "./steps/freeServices";
 import { kidsStep } from "./steps/hasKids";
@@ -52,8 +51,7 @@ export const Steps = {
   einkommenSingleStep,
   exitFreibetrag,
   successFreibetrag,
-  selfHelpStep,
-  selfHelpWarning,
+  eigeninitiativeStep,
   freeServicesStep,
   freeServicesWarning,
   kidsStep,
