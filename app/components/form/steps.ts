@@ -6,7 +6,6 @@ import { exitRechtsschutzversicherungStep } from "./steps/exitRechtsschutzversic
 import { rechtsschutzversicherungStep } from "./steps/rechtsschutzversicherung";
 import { klageEingereichtStep } from "./steps/klageEingereicht";
 import { exitKlageEingereicht } from "./steps/exitKlageEingereicht";
-import { exitHamburgOrBremen } from "./steps/exitHamburgOrBremen";
 import { exitBeratungshilfeBeantragt } from "./steps/exitBeratungshilfeBeantragt";
 import { hamburgOderBremenStep } from "./steps/hamburgOderBremen";
 import { beratungshilfeBeantragtStep } from "./steps/hasBeratungshilfeBeantragt";
@@ -31,6 +30,7 @@ import { kidsStep } from "./steps/hasKids";
 import { unterhaltStep } from "./steps/unterhalt";
 import { unterhaltAmountStep } from "./steps/unterhaltAmount";
 import type { ElementContent } from "~/services/cms/getPageConfig";
+import { emptyStep } from "~/components/form/steps/emptyStep";
 
 export const Steps = {
   sozialleistungStep,
@@ -38,7 +38,6 @@ export const Steps = {
   rechtsschutzversicherungStep,
   klageEingereichtStep,
   exitKlageEingereicht,
-  exitHamburgOrBremen,
   exitBeratungshilfeBeantragt,
   hamburgOderBremenStep,
   beratungshilfeBeantragtStep,
@@ -62,6 +61,7 @@ export const Steps = {
   kidsStep,
   unterhaltStep,
   unterhaltAmountStep,
+  emptyStep,
 } as const;
 
 interface StepComponent {

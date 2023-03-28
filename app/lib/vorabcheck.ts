@@ -10,7 +10,7 @@ export const formPages = {
   klageEingereicht: Steps.klageEingereichtStep,
   klageEingereichtError: Steps.exitKlageEingereicht,
   hamburgOderBremen: Steps.hamburgOderBremenStep,
-  hamburgOderBremenError: Steps.exitHamburgOrBremen,
+  hamburgOderBremenError: Steps.emptyStep,
   beratungsHilfeBeantragt: Steps.beratungshilfeBeantragtStep,
   beratungsHilfeBeantragtError: Steps.exitBeratungshilfeBeantragt,
   eigeninitiative: Steps.selfHelpStep,
