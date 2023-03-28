@@ -6,9 +6,8 @@ import { exitRechtsschutzversicherungStep } from "./steps/exitRechtsschutzversic
 import { rechtsschutzversicherungStep } from "./steps/rechtsschutzversicherung";
 import { klageEingereichtStep } from "./steps/klageEingereicht";
 import { exitKlageEingereicht } from "./steps/exitKlageEingereicht";
-import { exitBeratungshilfeBeantragt } from "./steps/exitBeratungshilfeBeantragt";
 import { hamburgOderBremenStep } from "./steps/hamburgOderBremen";
-import { beratungshilfeBeantragtStep } from "./steps/hasBeratungshilfeBeantragt";
+import { beratungshilfeBeantragtStep } from "./steps/beratungshilfeBeantragt";
 import { wurdeVerklagtStep } from "./steps/wurdeVerklagt";
 import { vermoegenStep } from "./steps/vermoegen";
 import { successLeistungStep } from "./steps/success";
@@ -38,7 +37,6 @@ export const Steps = {
   rechtsschutzversicherungStep,
   klageEingereichtStep,
   exitKlageEingereicht,
-  exitBeratungshilfeBeantragt,
   hamburgOderBremenStep,
   beratungshilfeBeantragtStep,
   wurdeVerklagtStep,

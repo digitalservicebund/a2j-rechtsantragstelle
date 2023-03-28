@@ -12,7 +12,7 @@ export const formPages = {
   hamburgOderBremen: Steps.hamburgOderBremenStep,
   hamburgOderBremenError: Steps.emptyStep,
   beratungshilfeBeantragt: Steps.beratungshilfeBeantragtStep,
-  beratungshilfeBeantragtError: Steps.exitBeratungshilfeBeantragt,
+  beratungshilfeBeantragtError: Steps.emptyStep,
   eigeninitiative: Steps.selfHelpStep,
   eigeninitiativeWarnung: Steps.selfHelpWarning,
   kostenfreieBeratung: Steps.freeServicesStep,
