@@ -175,17 +175,21 @@ export const formFlow: FormFlow = {
       condition: (ctx) => ctx.unterhalt?.isPayingUnterhalt === "yes",
     },
     {
-      destination: pageIDs.einkommenSingle,
-      condition: (ctx) => ctx.familienstand?.partnerschaft === "no",
+      destination: pageIDs.einkommenPartnerschaft,
+      condition: (ctx) =>
+        ctx.familienstand?.partnerschaft === "yes" ||
+        ctx.kinder?.isPayingForKids === "yes",
     },
-    pageIDs.einkommenPartnerschaft,
+    pageIDs.einkommenSingle,
   ],
   [pageIDs.unterhaltSumme]: [
     {
-      destination: pageIDs.einkommenSingle,
-      condition: (ctx) => ctx.familienstand?.partnerschaft === "no",
+      destination: pageIDs.einkommenPartnerschaft,
+      condition: (ctx) =>
+        ctx.familienstand?.partnerschaft === "yes" ||
+        ctx.kinder?.isPayingForKids === "yes",
     },
-    pageIDs.einkommenPartnerschaft,
+    pageIDs.einkommenSingle,
   ],
   [pageIDs.einkommenSingle]: [
     {
