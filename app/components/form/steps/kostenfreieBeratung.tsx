@@ -1,31 +1,17 @@
 import { z } from "zod";
 import { RadioGroup } from "~/components";
-import { YesNoAnswer } from "../answers";
+import { defaultYesNoOptions, YesNoAnswer } from "../answers";
+import type { StepComponentProps } from "~/components/form/steps";
+import { getRelevantOptions } from "~/services/cms/getPageConfig";
 
 const schema = z.object({ hasTriedFreeServices: YesNoAnswer });
 
 export const kostenfreieBeratungStep = {
   schema,
-  component: () => {
-    return (
-      <div style={{ border: "solid black 1px", padding: "1rem" }}>
-        <h3>
-          Haben Sie schon versucht, in dieser Angelegenheit eine andere
-          kostenfreie Beratung zu finden?
-        </h3>
-        <p>
-          Haben Sie z.B. bei einem Mieterverein, einem Sozialverband, einer
-          Gewerkschaft, Schuldnerberatung, oder ähnlichen Organisation versucht,
-          sich beraten zu lassen?
-        </p>
-        <RadioGroup
-          name={schema.keyof().Values.hasTriedFreeServices}
-          options={[
-            { text: "Nein", value: YesNoAnswer.Enum.no },
-            { text: "Ja", value: YesNoAnswer.Enum.yes },
-          ]}
-        />
-      </div>
-    );
+  component: ({ content }: StepComponentProps) => {
+    const fieldName = schema.keyof().Values.hasTriedFreeServices;
+    const options =
+      getRelevantOptions(content, fieldName) ?? defaultYesNoOptions;
+    return <RadioGroup name={fieldName} options={options} />;
   },
 };
