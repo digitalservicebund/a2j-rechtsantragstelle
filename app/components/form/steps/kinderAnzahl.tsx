@@ -11,7 +11,7 @@ const schema = z.object({
 });
 // TODO: empty input defaults to 0 - fill in 0? layout?
 
-export const kidsCountStep = {
+export const kinderAnzahlStep = {
   schema,
   component: ({ content }: StepComponentProps) => {
     const inputElements = content.filter(

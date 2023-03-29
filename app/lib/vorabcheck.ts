@@ -25,7 +25,7 @@ export const formPages = {
   familienstand: Steps.familienstandStep,
   erfolgBuergergeld: Steps.successBuergergeldStep,
   kinder: Steps.kinderStep,
-  kinderAnzahl: Steps.kidsCountStep,
+  kinderAnzahl: Steps.kinderAnzahlStep,
   unterhalt: Steps.unterhaltStep,
   unterhaltSumme: Steps.unterhaltAmountStep,
   erwerbstaetigkeit: Steps.erwerbstaetigkeitStep,
