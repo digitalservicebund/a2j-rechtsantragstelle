@@ -24,7 +24,7 @@ export const formPages = {
   vermoegenError: Steps.emptyStep,
   familienstand: Steps.familienstandStep,
   erfolgBuergergeld: Steps.successBuergergeldStep,
-  kinder: Steps.kidsStep,
+  kinder: Steps.kinderStep,
   kinderAnzahl: Steps.kidsCountStep,
   unterhalt: Steps.unterhaltStep,
   unterhaltSumme: Steps.unterhaltAmountStep,

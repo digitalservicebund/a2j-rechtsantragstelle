@@ -21,7 +21,7 @@ import { exitFreibetrag } from "./steps/exitFreibetrag";
 import { successFreibetrag } from "./steps/successFreibetrag";
 import { eigeninitiativeStep } from "./steps/eigeninitiative";
 import { kostenfreieBeratungStep } from "./steps/kostenfreieBeratung";
-import { kidsStep } from "./steps/hasKids";
+import { kinderStep } from "./steps/kinder";
 import { unterhaltStep } from "./steps/unterhalt";
 import { unterhaltAmountStep } from "./steps/unterhaltAmount";
 import type { ElementContent } from "~/services/cms/getPageConfig";
@@ -48,7 +48,7 @@ export const Steps = {
   successFreibetrag,
   eigeninitiativeStep,
   kostenfreieBeratungStep,
-  kidsStep,
+  kinderStep,
   unterhaltStep,
   unterhaltAmountStep,
   emptyStep,
