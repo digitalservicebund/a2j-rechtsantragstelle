@@ -1,7 +1,7 @@
 import type { FunctionComponent } from "react";
 import type { AnyZodObject } from "zod";
 
-import { sozialleistungStep } from "./steps/hasSozialleistungen";
+import { staatlicheLeistungenStep } from "./steps/staatlicheLeistungen";
 import { exitRechtsschutzversicherungStep } from "./steps/exitRechtsschutzversicherung";
 import { rechtsschutzversicherungStep } from "./steps/rechtsschutzversicherung";
 import { klageEingereichtStep } from "./steps/klageEingereicht";
@@ -30,7 +30,7 @@ import type { ElementContent } from "~/services/cms/getPageConfig";
 import { emptyStep } from "~/components/form/steps/emptyStep";
 
 export const Steps = {
-  sozialleistungStep,
+  staatlicheLeistungenStep,
   exitRechtsschutzversicherungStep,
   rechtsschutzversicherungStep,
   klageEingereichtStep,

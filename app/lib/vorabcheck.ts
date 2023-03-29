@@ -18,7 +18,7 @@ export const formPages = {
   kostenfreieBeratung: Steps.kostenfreieBeratungStep,
   kostenfreieBeratungWarnung: Steps.emptyStep,
   wurdeVerklagt: Steps.wurdeVerklagtStep,
-  sozialleistungsBezug: Steps.sozialleistungStep,
+  staatlicheLeistungen: Steps.staatlicheLeistungenStep,
   vermoegen: Steps.vermoegenStep,
   erfolgLeistungsbezug: Steps.successLeistungStep,
   exitVermoegen: Steps.exitVermoegenStep,
@@ -129,21 +129,20 @@ export const formFlow: FormFlow = {
   [pageIDs.eigeninitiativeWarnung]: pageIDs.kostenfreieBeratung,
   [pageIDs.kostenfreieBeratung]: [
     {
-      destination: pageIDs.sozialleistungsBezug,
+      destination: pageIDs.staatlicheLeistungen,
       condition: (context) =>
         context.kostenfreieBeratung?.hasTriedFreeServices === "yes",
     },
     pageIDs.kostenfreieBeratungWarnung,
   ],
-  [pageIDs.kostenfreieBeratungWarnung]: pageIDs.sozialleistungsBezug,
-  [pageIDs.sozialleistungsBezug]: [
+  [pageIDs.kostenfreieBeratungWarnung]: pageIDs.staatlicheLeistungen,
+  [pageIDs.staatlicheLeistungen]: [
     {
       destination: pageIDs.erfolgLeistungsbezug,
       condition: (ctx) =>
-        ctx.sozialleistungsBezug?.beziehtStaatlicheLeistungen ===
-          "Grundsicherung" ||
-        ctx.sozialleistungsBezug?.beziehtStaatlicheLeistungen ===
-          "Asylbewerberleistungen",
+        ctx.staatlicheLeistungen?.staatlicheLeistung === "grundsicherung" ||
+        ctx.staatlicheLeistungen?.staatlicheLeistung ===
+          "asylbewerberleistungen",
     },
     pageIDs.vermoegen,
   ],
@@ -156,7 +155,7 @@ export const formFlow: FormFlow = {
       destination: pageIDs.erfolgBuergergeld,
       condition: (ctx) =>
         ctx.vermoegen?.vermoegen === "below_10k" &&
-        ctx.sozialleistungsBezug?.beziehtStaatlicheLeistungen === "Bürgergeld",
+        ctx.staatlicheLeistungen?.staatlicheLeistung === "buergergeld",
     },
     pageIDs.erwaerbstaetigkeit,
   ],
