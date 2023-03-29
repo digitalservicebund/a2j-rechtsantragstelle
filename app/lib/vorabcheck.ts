@@ -20,7 +20,7 @@ export const formPages = {
   wurdeVerklagt: Steps.wurdeVerklagtStep,
   staatlicheLeistungen: Steps.staatlicheLeistungenStep,
   vermoegen: Steps.vermoegenStep,
-  erfolgLeistungsbezug: Steps.successLeistungStep,
+  erfolgLeistungsbezug: Steps.emptyStep,
   exitVermoegen: Steps.exitVermoegenStep,
   familienstand: Steps.familienstandStep,
   erfolgBuergergeld: Steps.successBuergergeldStep,

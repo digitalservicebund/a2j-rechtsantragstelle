@@ -10,7 +10,6 @@ import { hamburgOderBremenStep } from "./steps/hamburgOderBremen";
 import { beratungshilfeBeantragtStep } from "./steps/beratungshilfeBeantragt";
 import { wurdeVerklagtStep } from "./steps/wurdeVerklagt";
 import { vermoegenStep } from "./steps/vermoegen";
-import { successLeistungStep } from "./steps/success";
 import { exitVermoegenStep } from "./steps/exitVermoegen";
 import { exitVermoegenUnknownStep } from "./steps/exitVermoegenUnknown";
 import { familienstandStep } from "./steps/familienstand";
@@ -39,7 +38,6 @@ export const Steps = {
   beratungshilfeBeantragtStep,
   wurdeVerklagtStep,
   vermoegenStep,
-  successLeistungStep,
   exitVermoegenStep,
   exitVermoegenUnknownStep,
   familienstandStep,
