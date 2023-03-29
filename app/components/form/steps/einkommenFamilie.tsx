@@ -1,16 +1,17 @@
 import { z } from "zod";
 import { Input } from "~/components";
-import { getRelevantInputContent } from "~/services/cms/getPageConfig";
 import type { StepComponentProps } from "~/components/form/steps";
+import { getRelevantInputContent } from "~/services/cms/getPageConfig";
 
+// TODO: Should this be the same income as einkommenSingle?
 const schema = z.object({
-  einkommenSingle: z.coerce.number().min(0, "min0"),
+  einkommenFamilie: z.coerce.number().min(0, "min0"),
 });
 
-export const einkommenSingleStep = {
+export const einkommenFamilieStep = {
   schema,
   component: ({ content }: StepComponentProps) => {
-    const fieldName = schema.keyof().Values.einkommenSingle;
+    const fieldName = schema.keyof().Values.einkommenFamilie;
     const inputContent = getRelevantInputContent(content, fieldName);
     return (
       <Input

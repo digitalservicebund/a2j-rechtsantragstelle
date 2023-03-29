@@ -30,7 +30,7 @@ export const formPages = {
   unterhaltSumme: Steps.unterhaltSummeStep,
   erwerbstaetigkeit: Steps.erwerbstaetigkeitStep,
   einkommenSingle: Steps.einkommenSingleStep,
-  einkommenPartnerschaft: Steps.einkommenPartnerStep,
+  einkommenFamilie: Steps.einkommenFamilieStep,
   einkommenZuHoch: Steps.exitFreibetrag,
   erfolg: Steps.successFreibetrag,
 } as const;
@@ -175,7 +175,7 @@ export const formFlow: FormFlow = {
       condition: (ctx) => ctx.unterhalt?.isPayingUnterhalt === "yes",
     },
     {
-      destination: pageIDs.einkommenPartnerschaft,
+      destination: pageIDs.einkommenFamilie,
       condition: (ctx) =>
         ctx.familienstand?.partnerschaft === "yes" ||
         ctx.kinder?.isPayingForKids === "yes",
@@ -184,7 +184,7 @@ export const formFlow: FormFlow = {
   ],
   [pageIDs.unterhaltSumme]: [
     {
-      destination: pageIDs.einkommenPartnerschaft,
+      destination: pageIDs.einkommenFamilie,
       condition: (ctx) =>
         ctx.familienstand?.partnerschaft === "yes" ||
         ctx.kinder?.isPayingForKids === "yes",
@@ -214,11 +214,11 @@ export const formFlow: FormFlow = {
     },
     pageIDs.einkommenZuHoch,
   ],
-  [pageIDs.einkommenPartnerschaft]: [
+  [pageIDs.einkommenFamilie]: [
     {
       destination: pageIDs.erfolg,
       condition: (ctx) => {
-        const einkommen = ctx.einkommenPartnerschaft?.einkommenFamilie ?? 0;
+        const einkommen = ctx.einkommenFamilie?.einkommenFamilie ?? 0;
         const isErwerbstaetig =
           ctx.erwerbstaetigkeit?.isErwerbstaetig === "yes";
 
