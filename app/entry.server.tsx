@@ -4,6 +4,13 @@ import { Response } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
+import * as Sentry from "@sentry/remix";
+import config from "./services/config";
+
+Sentry.init({
+  dsn: config().SENTRY_DSN,
+  tracesSampleRate: 1,
+});
 
 const ABORT_DELAY = 5000;
 
@@ -96,10 +103,17 @@ function handleBrowserRequest(
           pipe(body);
         },
         onShellError(err: unknown) {
+          Sentry.captureException(err);
+
+          // Sentry logging
+
           reject(err);
         },
         onError(error: unknown) {
+          Sentry.captureException(error);
           didError = true;
+
+          // Sentry logging
 
           console.error(error);
         },
