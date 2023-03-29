@@ -28,7 +28,7 @@ export const formPages = {
   kinderAnzahl: Steps.kidsCountStep,
   unterhalt: Steps.unterhaltStep,
   unterhaltSumme: Steps.unterhaltAmountStep,
-  erwaerbstaetigkeit: Steps.erwaerbstaetigStep,
+  erwerbstaetigkeit: Steps.erwerbstaetigkeitStep,
   einkommenSingle: Steps.einkommenSingleStep,
   einkommenPartnerschaft: Steps.einkommenPartnerStep,
   einkommenZuHoch: Steps.exitFreibetrag,
@@ -157,9 +157,9 @@ export const formFlow: FormFlow = {
         ctx.vermoegen?.vermoegen === "below_10k" &&
         ctx.staatlicheLeistungen?.staatlicheLeistung === "buergergeld",
     },
-    pageIDs.erwaerbstaetigkeit,
+    pageIDs.erwerbstaetigkeit,
   ],
-  [pageIDs.erwaerbstaetigkeit]: pageIDs.kinder,
+  [pageIDs.erwerbstaetigkeit]: pageIDs.kinder,
   [pageIDs.kinder]: [
     {
       destination: pageIDs.unterhalt,
@@ -188,13 +188,13 @@ export const formFlow: FormFlow = {
       destination: pageIDs.erfolg,
       condition: (ctx) => {
         const einkommen = ctx.einkommenSingle?.einkommenSingle ?? 0;
-        const isErwaerbstaetig =
-          ctx.erwaerbstaetigkeit?.isErwaerbstaetig === "yes";
+        const isErwerbstaetig =
+          ctx.erwerbstaetigkeit?.isErwerbstaetig === "yes";
 
         return (
           einkommen <=
           freibetrag(
-            isErwaerbstaetig,
+            isErwerbstaetig,
             false,
             ctx.kinderAnzahl?.kids6Below,
             ctx.kinderAnzahl?.kids7To14,
@@ -211,11 +211,11 @@ export const formFlow: FormFlow = {
       destination: pageIDs.erfolg,
       condition: (ctx) => {
         const einkommen = ctx.einkommenPartnerschaft?.einkommenFamilie ?? 0;
-        const isErwaerbstaetig =
-          ctx.erwaerbstaetigkeit?.isErwaerbstaetig === "yes";
+        const isErwerbstaetig =
+          ctx.erwerbstaetigkeit?.isErwerbstaetig === "yes";
 
         const freibetragFamilie = freibetrag(
-          isErwaerbstaetig,
+          isErwerbstaetig,
           true,
           ctx.kinderAnzahl?.kids6Below,
           ctx.kinderAnzahl?.kids7To14,
