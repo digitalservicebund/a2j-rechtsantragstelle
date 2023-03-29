@@ -23,7 +23,7 @@ import { eigeninitiativeStep } from "./steps/eigeninitiative";
 import { kostenfreieBeratungStep } from "./steps/kostenfreieBeratung";
 import { kinderStep } from "./steps/kinder";
 import { unterhaltStep } from "./steps/unterhalt";
-import { unterhaltAmountStep } from "./steps/unterhaltAmount";
+import { unterhaltSummeStep } from "./steps/unterhaltSumme";
 import type { ElementContent } from "~/services/cms/getPageConfig";
 import { emptyStep } from "~/components/form/steps/emptyStep";
 
@@ -50,7 +50,7 @@ export const Steps = {
   kostenfreieBeratungStep,
   kinderStep,
   unterhaltStep,
-  unterhaltAmountStep,
+  unterhaltSummeStep,
   emptyStep,
 } as const;
 

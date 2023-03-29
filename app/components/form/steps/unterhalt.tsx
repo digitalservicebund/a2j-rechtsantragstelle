@@ -1,27 +1,17 @@
 import { z } from "zod";
 import { RadioGroup } from "~/components";
-import { YesNoAnswer } from "../answers";
+import { defaultYesNoOptions, YesNoAnswer } from "../answers";
+import type { StepComponentProps } from "~/components/form/steps";
+import { getRelevantOptions } from "~/services/cms/getPageConfig";
 
 const schema = z.object({ isPayingUnterhalt: YesNoAnswer });
 
 export const unterhaltStep = {
   schema,
-  component: () => {
-    return (
-      <div style={{ border: "solid black 1px", padding: "1rem" }}>
-        <h3>Zahlen Sie darüber hinaus noch für jemanden Unterhalt?</h3>
-        <p>
-          Zahlen Sie z.B. für Kinder, die nicht bei Ihnen leben, Ex-Partner oder
-          andere Angehörige Unterhalt?
-        </p>
-        <RadioGroup
-          name={schema.keyof().Values.isPayingUnterhalt}
-          options={[
-            { text: "Nein", value: YesNoAnswer.Enum.no },
-            { text: "Ja", value: YesNoAnswer.Enum.yes },
-          ]}
-        />
-      </div>
-    );
+  component: ({ content }: StepComponentProps) => {
+    const fieldName = schema.keyof().Values.isPayingUnterhalt;
+    const options =
+      getRelevantOptions(content, fieldName) ?? defaultYesNoOptions;
+    return <RadioGroup name={fieldName} options={options} />;
   },
 };

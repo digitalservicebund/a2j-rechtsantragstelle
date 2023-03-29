@@ -27,7 +27,7 @@ export const formPages = {
   kinder: Steps.kinderStep,
   kinderAnzahl: Steps.kinderAnzahlStep,
   unterhalt: Steps.unterhaltStep,
-  unterhaltSumme: Steps.unterhaltAmountStep,
+  unterhaltSumme: Steps.unterhaltSummeStep,
   erwerbstaetigkeit: Steps.erwerbstaetigkeitStep,
   einkommenSingle: Steps.einkommenSingleStep,
   einkommenPartnerschaft: Steps.einkommenPartnerStep,
