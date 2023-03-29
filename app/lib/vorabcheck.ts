@@ -15,8 +15,8 @@ export const formPages = {
   beratungshilfeBeantragtError: Steps.emptyStep,
   eigeninitiative: Steps.eigeninitiativeStep,
   eigeninitiativeWarnung: Steps.emptyStep,
-  kostenfreieBeratung: Steps.freeServicesStep,
-  kostenfreieBeratungeWarnung: Steps.freeServicesWarning,
+  kostenfreieBeratung: Steps.kostenfreieBeratungStep,
+  kostenfreieBeratungWarnung: Steps.emptyStep,
   wurdeVerklagt: Steps.wurdeVerklagtStep,
   sozialleistungsBezug: Steps.sozialleistungStep,
   vermoegen: Steps.vermoegenStep,
@@ -133,9 +133,9 @@ export const formFlow: FormFlow = {
       condition: (context) =>
         context.kostenfreieBeratung?.hasTriedFreeServices === "yes",
     },
-    pageIDs.kostenfreieBeratungeWarnung,
+    pageIDs.kostenfreieBeratungWarnung,
   ],
-  [pageIDs.kostenfreieBeratungeWarnung]: pageIDs.sozialleistungsBezug,
+  [pageIDs.kostenfreieBeratungWarnung]: pageIDs.sozialleistungsBezug,
   [pageIDs.sozialleistungsBezug]: [
     {
       destination: pageIDs.erfolgLeistungsbezug,

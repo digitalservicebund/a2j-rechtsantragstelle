@@ -4,7 +4,7 @@ import { YesNoAnswer } from "../answers";
 
 const schema = z.object({ hasTriedFreeServices: YesNoAnswer });
 
-export const freeServicesStep = {
+export const kostenfreieBeratungStep = {
   schema,
   component: () => {
     return (
