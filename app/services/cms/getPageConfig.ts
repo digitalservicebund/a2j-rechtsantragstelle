@@ -2,7 +2,7 @@ import cms from "~/services/cms";
 import type { FormComponentCMS } from "./models/formComponents";
 import type { VorabcheckPage } from "./models/VorabcheckPage";
 import type { Input as InputContent } from "./models/formComponents";
-import type { ErrorCategory, FieldError } from "./models/formComponents";
+import type { ErrorCategory } from "./models/formComponents";
 
 export type StrapiPage = {
   id: number;
@@ -35,12 +35,8 @@ export function getRelevantInputContent(
   )[0] as InputContent;
 }
 
-export const flattenErrorCodes = (errors: ErrorCategory[]) => {
-  const flattenedErrorCodes: FieldError[] = [];
-  errors.forEach((e) => {
-    flattenedErrorCodes.push(...e.attributes.errorCodes);
-  });
-  return flattenedErrorCodes;
+export const flattenErrorCodes = (errors: ErrorCategory[] = []) => {
+  return errors.map((e) => e.attributes.errorCodes).flat();
 };
 
 export const getPageConfig = async function (

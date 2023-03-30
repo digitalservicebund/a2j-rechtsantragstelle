@@ -15,7 +15,7 @@ type InputProps = {
 
 const Input = ({ name, label, type = "text", step, errors }: InputProps) => {
   const { error, getInputProps } = useField(name);
-  const flattenedErrorCodes = errors ? flattenErrorCodes(errors) : [];
+  const flattenedErrorCodes = flattenErrorCodes(errors);
   return (
     <div>
       {label && <InputLabel id={name}>{label}</InputLabel>}
