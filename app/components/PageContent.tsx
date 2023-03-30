@@ -2,23 +2,21 @@ import { Stack } from "~/components";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
 // import InfoBox from "~/components/InfoBox";
-import type { ElementContent } from "~/services/cms/getPageConfig";
+import type { FormContentCMS } from "~/services/cms/models/contentComponents";
 
 type PageContentProps = {
-  content: Array<ElementContent>;
+  content: Array<FormContentCMS>;
 };
 
-function cmsToReact(element: ElementContent, key?: string | number) {
+function cmsToReact(element: FormContentCMS, key?: string | number) {
   if (element.__component === "basic.heading") {
     return Heading({ ...element, key });
   } else if (element.__component === "basic.paragraph") {
     return Paragraph({ ...element, key });
   }
-  return undefined;
 }
 
 const PageContent = ({ content = [] }: PageContentProps) => (
   <Stack space="l">{content.map((el, idx) => cmsToReact(el, idx))}</Stack>
 );
-
 export default PageContent;

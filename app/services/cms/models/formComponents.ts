@@ -34,4 +34,4 @@ export type Input = {
   errors: { data: ErrorCategory[] };
 };
 
-export type FormComponent = Input | Select;
+export type FormComponentCMS = Input | Select;

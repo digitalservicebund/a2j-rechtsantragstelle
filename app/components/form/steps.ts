@@ -24,8 +24,8 @@ import { kostenfreieBeratungStep } from "./steps/kostenfreieBeratung";
 import { kinderStep } from "./steps/kinder";
 import { unterhaltStep } from "./steps/unterhalt";
 import { unterhaltSummeStep } from "./steps/unterhaltSumme";
-import type { ElementContent } from "~/services/cms/getPageConfig";
 import { emptyStep } from "~/components/form/steps/emptyStep";
+import type { FormComponentCMS } from "~/services/cms/models/formComponents";
 
 export const Steps = {
   staatlicheLeistungenStep,
@@ -54,7 +54,7 @@ export const Steps = {
   emptyStep,
 } as const;
 
-export type StepComponentProps = { content: ElementContent[] };
+export type StepComponentProps = { content: FormComponentCMS[] };
 export type FormComponent = FunctionComponent<StepComponentProps>;
 
 interface StepComponent {

@@ -10,4 +10,4 @@ export type Paragraph = {
   text: string;
 };
 
-export type ContentComponent = Heading | Paragraph;
+export type FormContentCMS = Heading | Paragraph;

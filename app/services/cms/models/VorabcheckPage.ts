@@ -1,5 +1,5 @@
-import type { ContentComponent } from "./contentComponents";
-import type { FormComponent } from "./formComponents";
+import type { FormContentCMS } from "./contentComponents";
+import type { FormComponentCMS } from "./formComponents";
 
 export type VorabcheckPage = {
   slug: string;
@@ -10,6 +10,6 @@ export type VorabcheckPage = {
     id: number;
     title: string;
   };
-  pre_form: ContentComponent[];
-  form: FormComponent[];
+  pre_form: FormContentCMS[];
+  form: FormComponentCMS[];
 };

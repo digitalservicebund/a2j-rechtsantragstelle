@@ -1,39 +1,36 @@
 import cms from "~/services/cms";
-import type { ContentComponent } from "./models/contentComponents";
-import type { FormComponent } from "./models/formComponents";
+import type { FormComponentCMS } from "./models/formComponents";
 import type { VorabcheckPage } from "./models/VorabcheckPage";
 import type { Input as InputContent } from "./models/formComponents";
 import type { ErrorCategory, FieldError } from "./models/formComponents";
-
-export type ElementContent = ContentComponent | FormComponent;
 
 export type StrapiPage = {
   id: number;
   attributes: VorabcheckPage;
 };
 
-export function getRevelantContent(pageContent: ElementContent[], id: string) {
-  return pageContent?.find((page) => "name" in page && page.name === id);
+export function getRevelantContent(content: FormComponentCMS[], id: string) {
+  return content?.find((page) => "name" in page && page.name === id);
 }
 
-export function getRelevantOptions(pageContent: ElementContent[], id: string) {
-  const relevantContent = getRevelantContent(pageContent, id);
+export function getRelevantOptions(content: FormComponentCMS[], id: string) {
+  const relevantContent = getRevelantContent(content, id);
   return relevantContent && "options" in relevantContent
     ? relevantContent["options"]
     : undefined;
 }
 
-export function getInputsContent(pageContent: ElementContent[]) {
-  return pageContent.filter(
+export function getInputsContent(content: FormComponentCMS[]) {
+  return content.filter(
     (el) => el.__component === "form-elements.input"
   ) as InputContent[];
 }
 
 export function getRelevantInputContent(
-  pageContent: ElementContent[],
+  content: FormComponentCMS[],
   inputName: string
 ) {
-  return getInputsContent(pageContent).filter(
+  return getInputsContent(content).filter(
     (el) => (el.name = inputName)
   )[0] as InputContent;
 }
