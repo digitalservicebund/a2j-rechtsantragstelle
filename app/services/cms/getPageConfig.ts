@@ -9,7 +9,7 @@ export type StrapiPage = {
   attributes: VorabcheckPage;
 };
 
-export function getRevelantContent(content: FormComponentCMS[], id: string) {
+function getRevelantContent(content: FormComponentCMS[], id: string) {
   return content?.find((page) => "name" in page && page.name === id);
 }
 
@@ -31,7 +31,7 @@ export function getRelevantInputContent(
   inputName: string
 ) {
   return getInputsContent(content).filter(
-    (el) => (el.name = inputName)
+    (el) => el.name === inputName
   )[0] as InputContent;
 }
 
