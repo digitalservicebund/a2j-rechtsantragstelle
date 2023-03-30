@@ -17,7 +17,7 @@ function cmsToReact(element: ElementContent, key?: string | number) {
   return undefined;
 }
 
-const PageContent = ({ content }: PageContentProps) => (
+const PageContent = ({ content = [] }: PageContentProps) => (
   <Stack space="l">{content.map((el, idx) => cmsToReact(el, idx))}</Stack>
 );
 

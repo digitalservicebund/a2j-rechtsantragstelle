@@ -25,7 +25,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
 ];
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-  if (!params.formStepID || !(params.formStepID in formPages)) {
+  if (!formGraph.hasNode(params.formStepID)) {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
   const page = await getPageConfig(request.url, { dontThrow: true });
@@ -69,15 +69,14 @@ export default function Index() {
     useLoaderData<typeof loader>();
   const params = useParams();
   const stepID = params.formStepID as AllowedIDs;
-  const currentStep = formPages[stepID];
-  const FormInputComponent = currentStep.component;
+  const FormInputComponent = formPages[stepID].component;
   const pessimisticPath = progress[stepID] ?? 0;
   const pessimisticPathTotal = progress[initialStepID] ?? 0;
   const isLast = isLeaf(stepID, formGraph);
 
   return (
     <div>
-      {preFormContent && <PageContent content={preFormContent} />}
+      <PageContent content={preFormContent} />
       <div>
         <ValidatedForm
           key={`${stepID}_form`}
