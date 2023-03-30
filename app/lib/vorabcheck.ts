@@ -65,14 +65,13 @@ export type Context = Partial<{
 }>;
 
 export type ConditionFunction = (ctx: Context) => boolean;
-interface Transition {
+interface ConditionalTransition {
   destination: AllowedIDs;
-  condition?: ConditionFunction;
+  condition: ConditionFunction;
 }
-
-export type FormFlow = Partial<
-  Record<AllowedIDs, AllowedIDs | (AllowedIDs | Transition)[]>
->;
+export type TransitionElement = AllowedIDs | ConditionalTransition;
+type Transition = AllowedIDs | TransitionElement[];
+export type FormFlow = Partial<Record<AllowedIDs, Transition>>;
 
 // form flow is a mapping of pageID to:
 // pageID: trivial transition (always taken)

@@ -54,14 +54,15 @@ export const Steps = {
   emptyStep,
 } as const;
 
+export type StepComponentProps = { content: ElementContent[] };
+export type FormComponent = FunctionComponent<StepComponentProps>;
+
 interface StepComponent {
-  component: FunctionComponent<any>;
+  component: FormComponent;
 }
 interface StepComponentWithSchema {
-  component: FunctionComponent<any>;
+  component: FormComponent;
   schema: AnyZodObject;
 }
-
-export type StepComponentProps = { content: ElementContent[] };
 
 export type StepInterface = StepComponent | StepComponentWithSchema;
