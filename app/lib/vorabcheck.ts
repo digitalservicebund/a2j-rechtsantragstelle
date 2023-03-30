@@ -1,4 +1,4 @@
-import { isStepComponentWithSchema, Steps } from "~/components/form/steps";
+import { Steps } from "~/components/form/steps";
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { freibetrag } from "./freibetrag";
@@ -242,8 +242,6 @@ export const progress = allLongestPaths(finalStep, formGraph);
 export const allValidators = Object.fromEntries(
   Object.entries(formPages).map(([key, step]) => [
     key,
-    isStepComponentWithSchema(step)
-      ? withZod(step.schema)
-      : withZod(z.object({})),
+    "schema" in step ? withZod(step.schema) : withZod(z.object({})),
   ])
-);
+) as Record<AllowedIDs, ReturnType<typeof withZod>>;

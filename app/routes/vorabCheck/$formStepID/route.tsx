@@ -16,7 +16,6 @@ import {
 } from "~/lib/vorabcheck";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
-import { isStepComponentWithSchema } from "~/components/form/steps";
 import { findPreviousStep, isLeaf } from "~/lib/treeCalculations";
 import { getPageConfig } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
@@ -44,13 +43,9 @@ export const action: ActionFunction = async ({ params, request }) => {
   const session = await getSession(request.headers.get("Cookie"));
   const formData = await request.formData();
   const stepID = params.formStepID as AllowedIDs;
-  const currentStep = formPages[stepID];
-
-  if (isStepComponentWithSchema(currentStep)) {
-    const data = await allValidators[stepID].validate(formData);
-    if (data.error) return validationError(data.error);
-    session.set(stepID, data.data);
-  }
+  const validationResult = await allValidators[stepID].validate(formData);
+  if (validationResult.error) return validationError(validationResult.error);
+  session.set(stepID, validationResult.data);
 
   // Deciding the next step
   // 1. Default: back to initial

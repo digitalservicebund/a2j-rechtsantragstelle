@@ -65,9 +65,3 @@ interface StepComponentWithSchema {
 export type StepComponentProps = { content: ElementContent[] };
 
 export type StepInterface = StepComponent | StepComponentWithSchema;
-
-export function isStepComponentWithSchema(
-  component: StepInterface
-): component is StepComponentWithSchema {
-  return "schema" in component;
-}
