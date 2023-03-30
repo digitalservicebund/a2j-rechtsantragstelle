@@ -2,18 +2,20 @@ import type { ReactNode } from "react";
 import { useField } from "remix-validated-form";
 import classNames from "classnames";
 import { InputError, InputLabel } from "~/components";
-import type { FieldError } from "~/services/cms/models/formComponents";
+import type { ErrorCategory } from "~/services/cms/models/formComponents";
+import { flattenErrorCodes } from "~/services/cms/getPageConfig";
 
 type InputProps = {
   name: string;
   label?: ReactNode;
   type?: string;
   step?: string;
-  errors?: FieldError[];
+  errors?: ErrorCategory[];
 };
 
 const Input = ({ name, label, type = "text", step, errors }: InputProps) => {
   const { error, getInputProps } = useField(name);
+  const flattenedErrorCodes = errors ? flattenErrorCodes(errors) : [];
   return (
     <div>
       {label && <InputLabel id={name}>{label}</InputLabel>}
@@ -24,7 +26,8 @@ const Input = ({ name, label, type = "text", step, errors }: InputProps) => {
       />
       {error && (
         <InputError inputName={name}>
-          {errors?.find((err) => err.code === error)?.text ?? error}
+          {flattenedErrorCodes?.find((err) => err.code === error)?.text ??
+            error}
         </InputError>
       )}
     </div>

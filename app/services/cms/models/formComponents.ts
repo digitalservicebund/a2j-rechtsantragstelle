@@ -9,6 +9,14 @@ export type FieldError = {
   text: string;
 };
 
+export type ErrorCategory = {
+  id: number;
+  attributes: {
+    name: string;
+    errorCodes: FieldError[];
+  };
+};
+
 export type Select = {
   id: number;
   __component: "form-elements.select";
@@ -23,7 +31,7 @@ export type Input = {
   name: string;
   label?: string;
   type: "text" | "number";
-  errors: FieldError[];
+  errors: { data: ErrorCategory[] };
 };
 
 export type FormComponent = Input | Select;

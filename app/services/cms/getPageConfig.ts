@@ -3,6 +3,7 @@ import type { ContentComponent } from "./models/contentComponents";
 import type { FormComponent } from "./models/formComponents";
 import type { VorabcheckPage } from "./models/VorabcheckPage";
 import type { Input as InputContent } from "./models/formComponents";
+import type { ErrorCategory, FieldError } from "./models/formComponents";
 
 export type ElementContent = ContentComponent | FormComponent;
 
@@ -36,6 +37,14 @@ export function getRelevantInputContent(
     (el) => (el.name = inputName)
   )[0] as InputContent;
 }
+
+export const flattenErrorCodes = (errors: ErrorCategory[]) => {
+  const flattenedErrorCodes: FieldError[] = [];
+  errors.forEach((e) => {
+    flattenedErrorCodes.push(...e.attributes.errorCodes);
+  });
+  return flattenedErrorCodes;
+};
 
 export const getPageConfig = async function (
   url: string,

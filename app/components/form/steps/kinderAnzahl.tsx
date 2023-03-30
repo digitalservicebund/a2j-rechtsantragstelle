@@ -1,11 +1,7 @@
 import { z } from "zod";
 import Input from "~/components/Input";
 import type { StepComponentProps } from "~/components/form/steps";
-import type { Input as InputContent } from "~/services/cms/models/formComponents";
-import {
-  getInputsContent,
-  getRelevantInputContent,
-} from "~/services/cms/getPageConfig";
+import { getInputsContent } from "~/services/cms/getPageConfig";
 
 const schema = z.object({
   kids6Below: z.coerce.number().min(0, "min0").default(0),
@@ -28,7 +24,7 @@ export const kinderAnzahlStep = {
             name={inputElement.name}
             label={inputElement.label}
             type={inputElement.type}
-            errors={inputElement.errors}
+            errors={inputElement.errors.data}
             step="any" // decimals for partial custody
           />
         ))}
