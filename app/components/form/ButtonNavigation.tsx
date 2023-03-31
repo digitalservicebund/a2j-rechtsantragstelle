@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import type { AllowedIDs } from "~/lib/vorabcheck";
+import type { AllowedIDs } from "~/lib/vorabcheck/pages";
 import { Button } from "~/components";
 
 interface ButtonNavigationProps {

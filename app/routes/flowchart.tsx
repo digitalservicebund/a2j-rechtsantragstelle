@@ -1,5 +1,5 @@
 import type { V2_MetaFunction } from "@remix-run/node";
-import { formGraph } from "~/lib/vorabcheck";
+import { formGraph } from "~/lib/vorabcheck/flow.server";
 import type Graph from "graphology";
 
 const title = "Vorabcheck Flowchart";

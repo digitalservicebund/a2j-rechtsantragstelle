@@ -1,4 +1,5 @@
-import type { AllowedIDs, Context, FormFlow } from "./vorabcheck";
+import type { Context, FormFlow } from "./vorabcheck/flow.server";
+import type { AllowedIDs } from "./vorabcheck/pages";
 import Graph from "graphology";
 import { allSimplePaths } from "graphology-simple-path";
 

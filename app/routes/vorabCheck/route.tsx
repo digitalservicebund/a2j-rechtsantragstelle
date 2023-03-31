@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { initialStepID } from "~/lib/vorabcheck";
+import { initialStepID } from "~/lib/vorabcheck/flow.server";
 import { getSession } from "~/sessions";
 import LoginButton from "~/routes/login";
 import LogoutButton from "~/routes/logout";

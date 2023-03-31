@@ -6,14 +6,13 @@ import type {
   V2_MetaFunction,
 } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
-import type { AllowedIDs } from "~/lib/vorabcheck";
+import { formPages, allValidators } from "~/lib/vorabcheck/pages";
+import type { AllowedIDs } from "~/lib/vorabcheck/pages";
 import {
   initialStepID,
-  allValidators,
   progress,
   formGraph,
-  formPages,
-} from "~/lib/vorabcheck";
+} from "~/lib/vorabcheck/flow.server";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
 import { findPreviousStep, isLeaf } from "~/lib/treeCalculations";
@@ -25,17 +24,22 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
 ];
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-  if (!formGraph.hasNode(params.formStepID)) {
+  const stepID = params.formStepID as AllowedIDs;
+  console.log(`loader of ${stepID}`);
+  if (!formGraph.hasNode(stepID)) {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
   const page = await getPageConfig(request.url, { dontThrow: true });
   const session = await getSession(request.headers.get("Cookie"));
-
   return json({
-    context: session.data,
+    defaultValues: session.data[stepID],
     preFormContent: page?.pre_form,
     formContent: page?.form,
     meta: page?.meta,
+    progressStep: progress[stepID],
+    progressTotal: progress[initialStepID],
+    isLast: isLeaf(stepID, formGraph),
+    previousStep: findPreviousStep(stepID, formGraph, session.data)[0],
   });
 };
 
@@ -61,18 +65,22 @@ export const action: ActionFunction = async ({ params, request }) => {
     }
   }
   const headers = { "Set-Cookie": await commitSession(session) };
-  return redirect(`/vorabcheck/${destinationString}`, { headers });
+  return redirect(`/vorabcheck/${destinationString}`, { status: 302, headers });
 };
 
 export default function Index() {
-  const { context, preFormContent, formContent } =
-    useLoaderData<typeof loader>();
+  const {
+    defaultValues,
+    preFormContent,
+    formContent,
+    progressStep,
+    progressTotal,
+    isLast,
+    previousStep,
+  } = useLoaderData<typeof loader>();
   const params = useParams();
   const stepID = params.formStepID as AllowedIDs;
   const FormInputComponent = formPages[stepID].component;
-  const pessimisticPath = progress[stepID] ?? 0;
-  const pessimisticPathTotal = progress[initialStepID] ?? 0;
-  const isLast = isLeaf(stepID, formGraph);
 
   return (
     <div>
@@ -82,17 +90,12 @@ export default function Index() {
           key={`${stepID}_form`}
           method="post"
           validator={allValidators[stepID]}
-          defaultValues={context[stepID]}
+          defaultValues={defaultValues}
         >
           <FormInputComponent content={formContent} />
           {!isLast &&
-            `Schritt ${
-              pessimisticPathTotal - pessimisticPath + 1
-            } / ${pessimisticPathTotal}`}
-          <ButtonNavigation
-            backDestination={findPreviousStep(stepID, formGraph, context)[0]}
-            isLast={isLast}
-          />
+            `Schritt ${progressTotal - progressStep + 1} / ${progressTotal}`}
+          <ButtonNavigation backDestination={previousStep} isLast={isLast} />
         </ValidatedForm>
       </div>
     </div>
