@@ -1,39 +1,34 @@
-import type { V2_MetaFunction } from "@remix-run/node";
+import type { LoaderFunction, V2_MetaFunction } from "@remix-run/node";
 import { formGraph } from "~/lib/vorabcheck/flow.server";
-import type Graph from "graphology";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 
 const title = "Vorabcheck Flowchart";
 
 export const meta: V2_MetaFunction = () => [
   { title },
-  {
-    name: "robots",
-    content: "noindex",
-  },
+  { name: "robots", content: "noindex" },
 ];
 
-function mermaidFlowchart(graph: Graph) {
-  // Converts a graph into mermaid.js flowchart syntax
-  // See https://mermaid.js.org/syntax/flowchart.html
+export const loader: LoaderFunction = async () => {
+  // Converts a graph into mermaid.js flowchart syntax, see https://mermaid.js.org/syntax/flowchart.html
   let flowchartDiagram = `---
 title: ${title}
 ---
 flowchart TD\n`;
-
-  graph.forEachEdge((_, attributes, source, target) => {
+  formGraph.forEachEdge((_, attributes, source, target) => {
     const connectionString = attributes["condition"] ? ".-" : "-->";
     flowchartDiagram = flowchartDiagram.concat(
       `    ${source} ${connectionString} ${target}\n`
     );
   });
-  return flowchartDiagram;
-}
 
-// Mermaid generates a picture when given a base64 encoded chart description
-const mermaidURL = `https://mermaid.ink/img/${Buffer.from(
-  mermaidFlowchart(formGraph)
-).toString("base64")}`;
+  // Mermaid generates a picture when given a base64 encoded chart description
+  const diagramB64 = Buffer.from(flowchartDiagram).toString("base64");
+  return json({ url: `https://mermaid.ink/img/${diagramB64}` });
+};
 
 export default function Index() {
-  return <img alt="current flow chart" src={mermaidURL}></img>;
+  const { url } = useLoaderData<typeof loader>();
+  return <img alt="current flow chart" src={url}></img>;
 }
