@@ -18,14 +18,14 @@ test("vorabcheck can be traversed", async ({ page }) => {
   for (let i = 5; i--; ) {
     // 5 yes/no questions
     await vorabcheck.expectHeading();
-    await vorabcheck.select("No");
+    await vorabcheck.select("Nein");
     await vorabcheck.clickNext();
   }
 
   for (let i = 2; i--; ) {
     // 2 yes/no questions with following warnings
     await vorabcheck.expectHeading();
-    await vorabcheck.select("No");
+    await vorabcheck.select("Nein");
     await vorabcheck.clickNext();
 
     // await vorabcheck.expectHeading(); // TODO: kostenfreieBeratungWarning has no heading
@@ -42,7 +42,7 @@ test("vorabcheck can be traversed", async ({ page }) => {
 
   for (let i = 4; i--; ) {
     // await vorabcheck.expectHeading(); // TODO: erwerbstaetigkeit, familienstand, kinder, unterhalt has no heading
-    await vorabcheck.select("No");
+    await vorabcheck.select("Nein");
     await vorabcheck.clickNext();
   }
   await page.getByLabel("Netto-Einkommen").fill("100");
