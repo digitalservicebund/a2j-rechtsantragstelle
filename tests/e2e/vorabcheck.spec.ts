@@ -35,7 +35,7 @@ test("vorabcheck can be traversed", async ({ page }) => {
   await vorabcheck.clickNext();
 
   // await vorabcheck.expectHeading(); // TODO: einkommen has no heading
-  await vorabcheck.select("Unter 10000");
+  await vorabcheck.select("Unter 10.000");
   await vorabcheck.clickNext();
 
   for (let i = 4; i--; ) {

@@ -22,12 +22,17 @@ export class Vorabcheck {
   }
 
   async select(text: string) {
-    await this.page.getByText(text).click({ timeout: this.timeout });
+    await this.page
+      .getByText(text, { exact: true })
+      .click({ timeout: this.timeout });
   }
 
   async clickNext() {
-    await this.page
-      .getByRole("button", { name: this.nextButtonText })
-      .click({ timeout: this.timeout });
+    await Promise.all([
+      this.page
+        .getByRole("button", { name: this.nextButtonText })
+        .click({ timeout: this.timeout }),
+      this.page.waitForNavigation(), // deprecated but URL for waitForURL is unknown
+    ]);
   }
 }
