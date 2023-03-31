@@ -16,7 +16,9 @@ export function yesNoOptions(content: FormComponentCMS[], fieldname: string) {
   const matchingSelectElements = content.filter(
     (e) => e.name === fieldname && e.__component === "form-elements.select"
   ) as Select[];
-  return matchingSelectElements[0]["options"] ?? defaultYesNoOptions;
+  return matchingSelectElements.length
+    ? matchingSelectElements[0]["options"]
+    : defaultYesNoOptions;
 }
 
 export function yesNoRadioGroup(
