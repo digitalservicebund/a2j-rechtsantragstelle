@@ -1,6 +1,4 @@
-import type { Page } from "@playwright/test";
 import { test, expect } from "@playwright/test";
-import { initialStepID } from "~/lib/vorabcheck";
 import { Vorabcheck } from "./pom/Vorabcheck";
 
 let vorabcheck: Vorabcheck;
@@ -11,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("forwarded to intial step", async ({ page }) => {
-  await expect(page).toHaveURL(`${vorabcheck.url}/${initialStepID}`);
+  await expect(page).toHaveURL(`${vorabcheck.url}/rechtsschutzversicherung`);
 });
 
 test("vorabcheck can be traversed", async ({ page }) => {

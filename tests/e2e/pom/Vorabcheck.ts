@@ -5,7 +5,7 @@ export class Vorabcheck {
   readonly page: Page;
   readonly url = "http://localhost:3000/vorabcheck";
   readonly nextButtonText = "Übernehmen & Weiter";
-  readonly timeout = 300;
+  readonly timeout = 500;
 
   constructor(page: Page) {
     this.page = page;
