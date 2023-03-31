@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 
 export class Vorabcheck {
   readonly page: Page;
-  readonly url = "http://localhost:3000/vorabcheck";
+  readonly url = "/vorabcheck";
   readonly nextButtonText = "Übernehmen & Weiter";
   readonly timeout = 500;
 
