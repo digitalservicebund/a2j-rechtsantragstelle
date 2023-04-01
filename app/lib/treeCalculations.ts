@@ -1,30 +1,41 @@
-import type { Context, FormFlow } from "./vorabcheck/flow.server";
+import type {
+  ConditionFunction,
+  Context,
+  FormFlow,
+} from "./vorabcheck/flow.server";
 import type { AllowedIDs } from "./vorabcheck/pages";
 import Graph from "graphology";
 import { allSimplePaths } from "graphology-simple-path";
 
+export type FormGraph = Graph<
+  { [name: string]: any },
+  { condition?: ConditionFunction }
+>;
+
 export function makeFormGraph(formFlow: FormFlow) {
-  const formGraph = new Graph({
+  const formGraph: FormGraph = new Graph({
     multi: false,
     allowSelfLoops: false,
     type: "directed",
   });
 
-  Object.entries(formFlow).forEach(([key, val]) => {
-    typeof val === "string"
-      ? formGraph.mergeEdge(key, val)
-      : val.forEach((element) =>
-          typeof element === "string"
-            ? formGraph.mergeEdge(key, element)
-            : formGraph.mergeEdge(key, element.destination, {
-                condition: element.condition,
-              })
-        );
-  });
+  for (const [key, transitions] of Object.entries(formFlow)) {
+    transitions.forEach((transition) => {
+      typeof transition === "string"
+        ? formGraph.mergeEdge(key, transition)
+        : formGraph.mergeEdge(key, transition.destination, {
+            condition: transition.condition,
+          });
+    });
+  }
   return formGraph;
 }
 
-export function longestPath(start: AllowedIDs, stop: AllowedIDs, graph: Graph) {
+export function longestPath(
+  start: AllowedIDs,
+  stop: AllowedIDs,
+  graph: FormGraph
+) {
   return allSimplePaths(graph, start, stop).reduce(
     (acc, path) => (acc > path.length ? acc : path.length),
     0
@@ -33,25 +44,23 @@ export function longestPath(start: AllowedIDs, stop: AllowedIDs, graph: Graph) {
 
 export function allLongestPaths(
   target: AllowedIDs,
-  graph: Graph
+  graph: FormGraph
 ): Partial<Record<AllowedIDs, number>> {
   return Object.fromEntries(
-    graph.mapNodes((nodeID, attributes) => {
-      return [
-        nodeID as AllowedIDs,
-        longestPath(nodeID as AllowedIDs, target, graph),
-      ];
-    })
+    graph.mapNodes((nodeID) => [
+      nodeID as AllowedIDs,
+      longestPath(nodeID as AllowedIDs, target, graph),
+    ])
   );
 }
 
-export function isLeaf(nodeID: AllowedIDs, formGraph: Graph): boolean {
+export function isLeaf(nodeID: AllowedIDs, formGraph: FormGraph): boolean {
   return formGraph.outDegree(nodeID) === 0;
 }
 
 export function findPreviousStep(
   nodeID: AllowedIDs,
-  formGraph: Graph,
+  formGraph: FormGraph,
   context: Context
 ): AllowedIDs[] {
   const validPredecessors: AllowedIDs[] = [];

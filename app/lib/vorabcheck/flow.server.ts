@@ -20,8 +20,7 @@ interface ConditionalTransition {
   condition: ConditionFunction;
 }
 export type TransitionElement = AllowedIDs | ConditionalTransition;
-type Transition = AllowedIDs | TransitionElement[];
-export type FormFlow = Partial<Record<AllowedIDs, Transition>>;
+export type FormFlow = Partial<Record<AllowedIDs, TransitionElement[]>>;
 
 // form flow is a mapping of pageID to:
 // pageID: trivial transition (always taken)
@@ -75,7 +74,7 @@ export const formFlow: FormFlow = {
     },
     pageIDs.eigeninitiativeWarnung,
   ],
-  [pageIDs.eigeninitiativeWarnung]: pageIDs.kostenfreieBeratung,
+  [pageIDs.eigeninitiativeWarnung]: [pageIDs.kostenfreieBeratung],
   [pageIDs.kostenfreieBeratung]: [
     {
       destination: pageIDs.staatlicheLeistungen,
@@ -84,7 +83,7 @@ export const formFlow: FormFlow = {
     },
     pageIDs.kostenfreieBeratungWarnung,
   ],
-  [pageIDs.kostenfreieBeratungWarnung]: pageIDs.staatlicheLeistungen,
+  [pageIDs.kostenfreieBeratungWarnung]: [pageIDs.staatlicheLeistungen],
   [pageIDs.staatlicheLeistungen]: [
     {
       destination: pageIDs.erfolgLeistungsbezug,
@@ -108,8 +107,8 @@ export const formFlow: FormFlow = {
     },
     pageIDs.erwerbstaetigkeit,
   ],
-  [pageIDs.erwerbstaetigkeit]: pageIDs.familienstand,
-  [pageIDs.familienstand]: pageIDs.kinder,
+  [pageIDs.erwerbstaetigkeit]: [pageIDs.familienstand],
+  [pageIDs.familienstand]: [pageIDs.kinder],
   [pageIDs.kinder]: [
     {
       destination: pageIDs.unterhalt,
@@ -117,7 +116,7 @@ export const formFlow: FormFlow = {
     },
     pageIDs.kinderAnzahl,
   ],
-  [pageIDs.kinderAnzahl]: pageIDs.unterhalt,
+  [pageIDs.kinderAnzahl]: [pageIDs.unterhalt],
   [pageIDs.unterhalt]: [
     {
       destination: pageIDs.unterhaltSumme,
