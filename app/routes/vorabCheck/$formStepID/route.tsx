@@ -25,7 +25,6 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const stepID = params.formStepID as AllowedIDs;
-  console.log(`loader of ${stepID}`);
   if (!formGraph.hasNode(stepID)) {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
