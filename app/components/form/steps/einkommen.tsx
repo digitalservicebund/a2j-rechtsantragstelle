@@ -4,13 +4,13 @@ import { getRelevantInputContent } from "~/services/cms/getPageConfig";
 import type { StepComponentProps } from "~/components/form/steps";
 
 const schema = z.object({
-  einkommenSingle: z.coerce.number().min(0, "min0"),
+  einkommen: z.coerce.number().min(0, "min0"),
 });
 
-export const einkommenSingleStep = {
+export const einkommenStep = {
   schema,
   component: ({ content }: StepComponentProps) => {
-    const fieldName = schema.keyof().Values.einkommenSingle;
+    const fieldName = schema.keyof().Values.einkommen;
     const inputContent = getRelevantInputContent(content, fieldName);
     return (
       <Input

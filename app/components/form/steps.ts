@@ -15,8 +15,7 @@ import { partnerschaftStep } from "./steps/partnerschaft";
 import { successBuergergeldStep } from "./steps/successBürgergeld";
 import { kinderAnzahlStep } from "./steps/kinderAnzahl";
 import { erwerbstaetigkeitStep } from "./steps/erwerbstaetigkeit";
-import { einkommenFamilieStep } from "./steps/einkommenFamilie";
-import { einkommenSingleStep } from "./steps/einkommenSingle";
+import { einkommenStep } from "./steps/einkommen";
 import { exitFreibetrag } from "./steps/exitFreibetrag";
 import { successFreibetrag } from "./steps/successFreibetrag";
 import { eigeninitiativeStep } from "./steps/eigeninitiative";
@@ -42,8 +41,7 @@ export const Steps = {
   successBuergergeldStep,
   kinderAnzahlStep,
   erwerbstaetigkeitStep,
-  einkommenFamilieStep,
-  einkommenSingleStep,
+  einkommenStep,
   exitFreibetrag,
   successFreibetrag,
   eigeninitiativeStep,
