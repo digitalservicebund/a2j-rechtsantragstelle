@@ -156,23 +156,16 @@ export const formFlow: FormFlow = {
   ],
 };
 
-function isIncomeTooHigh(ctx: Context) {
-  {
-    const einkommen = ctx.einkommen?.einkommen ?? 0;
-    return (
-      einkommen -
-        freibetrag(
-          ctx.erwerbstaetigkeit?.isErwerbstaetig === "yes",
-          ctx.partnerschaft?.partnerschaft === "yes",
-          ctx.kinderAnzahl?.kids6Below,
-          ctx.kinderAnzahl?.kids7To14,
-          ctx.kinderAnzahl?.kids15To18,
-          ctx.kinderAnzahl?.kids18Above
-        ) >
-      20
-    );
-  }
-}
+const isIncomeTooHigh = (ctx: Context) =>
+  (ctx.einkommen?.einkommen ?? 0 - 20) >
+  freibetrag(
+    ctx.erwerbstaetigkeit?.isErwerbstaetig === "yes",
+    ctx.partnerschaft?.partnerschaft === "yes",
+    ctx.kinderAnzahl?.kids6Below,
+    ctx.kinderAnzahl?.kids7To14,
+    ctx.kinderAnzahl?.kids15To18,
+    ctx.kinderAnzahl?.kids18Above
+  );
 
 export const formGraph = makeFormGraph(formFlow);
 export const progress = allLongestPaths(finalStep, formGraph);
