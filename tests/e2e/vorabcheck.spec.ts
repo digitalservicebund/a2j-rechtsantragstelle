@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("forwarded to intial step", async ({ page }) => {
-  await expect(page).toHaveURL(`${vorabcheck.url}/rechtsschutzversicherung`);
+  await expect(page).toHaveURL(`${vorabcheck.url}/${vorabcheck.initialStep}`);
 });
 
 test("vorabcheck can be traversed", async ({ page }) => {
@@ -47,4 +47,14 @@ test("vorabcheck can be traversed", async ({ page }) => {
   await vorabcheck.clickNext();
 
   await expect(page.getByRole("heading")).toContainText("Glückwunsch");
+});
+
+test("funnel: invalid context redirects to start", async ({ page }) => {
+  await page.goto(`${vorabcheck.url}/eigeninitiative`);
+  await expect(page).toHaveURL(`${vorabcheck.url}/${vorabcheck.initialStep}`);
+});
+
+test("funnel: invalid step redirects to start", async ({ page }) => {
+  await page.goto(`${vorabcheck.url}/stepDoesNotExist`);
+  await expect(page).toHaveURL(`${vorabcheck.url}/${vorabcheck.initialStep}`);
 });

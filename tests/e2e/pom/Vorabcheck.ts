@@ -4,6 +4,7 @@ import { expect } from "@playwright/test";
 export class Vorabcheck {
   readonly page: Page;
   readonly url = "/vorabcheck";
+  readonly initialStep = "rechtsschutzversicherung";
   readonly nextButtonText = "Übernehmen & Weiter";
   readonly timeout = 500;
 
