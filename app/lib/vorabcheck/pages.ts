@@ -28,6 +28,10 @@ export const formPages = {
   unterhaltSumme: Steps.unterhaltSummeStep,
   erwerbstaetigkeit: Steps.erwerbstaetigkeitStep,
   einkommen: Steps.einkommenStep,
+  miete: Steps.mieteStep,
+  weitereZahlungen: Steps.weitereZahlungenStep,
+  weitereZahlungenSumme: Steps.weitereZahlungenSummeStep,
+  abschluss: Steps.emptyStep,
   einkommenZuHoch: Steps.exitFreibetrag,
   erfolg: Steps.successFreibetrag,
 } as const;

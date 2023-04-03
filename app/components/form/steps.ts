@@ -24,6 +24,9 @@ import { kinderStep } from "./steps/kinder";
 import { unterhaltStep } from "./steps/unterhalt";
 import { unterhaltSummeStep } from "./steps/unterhaltSumme";
 import { emptyStep } from "~/components/form/steps/emptyStep";
+import { mieteStep } from "./steps/miete";
+import { weitereZahlungenStep } from "./steps/weitereZahlungen";
+import { weitereZahlungenSummeStep } from "./steps/weitereZahlungenSumme";
 import type { FormComponentCMS } from "~/services/cms/models/formComponents";
 
 export const Steps = {
@@ -50,6 +53,9 @@ export const Steps = {
   unterhaltStep,
   unterhaltSummeStep,
   emptyStep,
+  mieteStep,
+  weitereZahlungenStep,
+  weitereZahlungenSummeStep,
 } as const;
 
 export type StepComponentProps = { content: FormComponentCMS[] };
