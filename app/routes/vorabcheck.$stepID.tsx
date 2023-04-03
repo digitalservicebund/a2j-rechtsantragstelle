@@ -28,7 +28,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
 ];
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-  const stepID = params.formStepID as AllowedIDs;
+  const stepID = params.stepID as AllowedIDs;
   if (!formGraph.hasNode(stepID)) {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
@@ -54,7 +54,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 export const action: ActionFunction = async ({ params, request }) => {
   const session = await getSession(request.headers.get("Cookie"));
   const formData = await request.formData();
-  const stepID = params.formStepID as AllowedIDs;
+  const stepID = params.stepID as AllowedIDs;
   const validationResult = await allValidators[stepID].validate(formData);
   if (validationResult.error) return validationError(validationResult.error);
   session.set(stepID, validationResult.data);
@@ -87,7 +87,7 @@ export default function Index() {
     previousStep,
   } = useLoaderData<typeof loader>();
   const params = useParams();
-  const stepID = params.formStepID as AllowedIDs;
+  const stepID = params.stepID as AllowedIDs;
   const FormInputComponent = formPages[stepID].component;
 
   return (
