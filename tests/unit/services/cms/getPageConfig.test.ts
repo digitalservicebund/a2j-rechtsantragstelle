@@ -23,29 +23,13 @@ beforeEach(() => {
 });
 
 it("should return the right attributes for a slug", async () => {
-  const result = await getPageConfig("http://localhost/page/test", {
-    dontThrow: false,
-  });
-
+  const result = await getPageConfig("http://localhost/page/test");
   expect(result).toEqual(data.attributes);
   expect(mockObject.getPageFromCollection).toHaveBeenCalledWith("page", "test");
 });
 
-it("should return a error if no data is available and dontThrow is true", async () => {
-  expect.assertions(1);
+it("should return undefined if no config is available", async () => {
   data.attributes = false;
-
-  return await getPageConfig("http://localhost/test", {
-    dontThrow: false,
-  }).catch((e) => expect(e.message).toEqual("No page config found!"));
-});
-
-it("should not throw a error and return undefined if dontThrow is false", async () => {
-  data.attributes = false;
-
-  const result = await getPageConfig("http://localhost/test", {
-    dontThrow: true,
-  });
-
+  const result = await getPageConfig("http://localhost/test");
   expect(result).toBe(false);
 });

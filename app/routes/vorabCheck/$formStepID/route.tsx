@@ -32,7 +32,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   if (!formGraph.hasNode(stepID)) {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
-  const page = await getPageConfig(request.url, { dontThrow: true });
+  const page = await getPageConfig(request.url);
   const session = await getSession(request.headers.get("Cookie"));
 
   if (!isValidContext(initialStepID, stepID, formGraph, session.data)) {

@@ -40,14 +40,9 @@ export const flattenErrorCodes = (errors: ErrorCategory[] = []) => {
 };
 
 export const getPageConfig = async function (
-  url: string,
-  options?: { dontThrow: boolean }
+  url: string
 ): Promise<VorabcheckPage | undefined> {
   const { pathname } = new URL(url);
   const [collection, step] = pathname.slice(1).split("/");
-  const cmsContent = await cms().getPageFromCollection(collection, step);
-  if (!cmsContent && !options?.dontThrow) {
-    throw new Error("No page config found!");
-  }
-  return cmsContent;
+  return await cms().getPageFromCollection(collection, step);
 };

@@ -9,7 +9,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const config = await getPageConfig(request.url, { dontThrow: true });
+  const config = await getPageConfig(request.url);
 
   if (!config) {
     throw json(null, { status: 404 });
