@@ -1,10 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { redirect } from "@remix-run/node";
+import { Outlet } from "@remix-run/react";
 import { initialStepID } from "~/lib/vorabcheck/flow.server";
-import { getSession } from "~/sessions";
-import LoginButton from "~/routes/login";
-import LogoutButton from "~/routes/logout";
 
 export const loader: LoaderFunction = async ({ request }) => {
   // Reroute to initial step on empty formStepID
@@ -12,30 +9,12 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (url.pathname === "/vorabcheck/" || url.pathname === "/vorabcheck") {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
-
-  const session = await getSession(request.headers.get("Cookie"));
-  const userId = session.get("userId") as string;
-  return json({ userId });
+  return null;
 };
 
 export default function FormRoot() {
-  // TODO: check whether using route as components makes sense (login/logout buttons)
-  const { userId } = useLoaderData<typeof loader>();
-
   return (
     <main>
-      {false && (
-        <>
-          <div>
-            {!userId && <LoginButton />}
-            {userId && <LogoutButton />}
-            userId: {userId}
-          </div>
-          <header>
-            <h1>Antrag Root</h1>
-          </header>
-        </>
-      )}
       <Outlet />
     </main>
   );
