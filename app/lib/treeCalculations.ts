@@ -74,3 +74,24 @@ export function findPreviousStep(
   }
   return validPredecessors;
 }
+
+function isValidPath(nodeID: AllowedIDs, path: string[], context: Context) {
+  // Path is valid for a node if context contains all previous nodes
+  return path.reduce(
+    (acc, node) => acc && (node === nodeID || node in context),
+    true
+  );
+}
+
+export function isValidContext(
+  startID: AllowedIDs,
+  nodeID: AllowedIDs,
+  formGraph: FormGraph,
+  context: Context
+) {
+  // Context is valid if there is any valid path
+  if (startID === nodeID) return true;
+  const allPaths = allSimplePaths(formGraph, startID, nodeID);
+  const pathsValid = allPaths.map((path) => isValidPath(nodeID, path, context));
+  return pathsValid.includes(true);
+}

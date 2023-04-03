@@ -15,7 +15,11 @@ import {
 } from "~/lib/vorabcheck/flow.server";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
-import { findPreviousStep, isLeaf } from "~/lib/treeCalculations";
+import {
+  findPreviousStep,
+  isLeaf,
+  isValidContext,
+} from "~/lib/treeCalculations";
 import { getPageConfig } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
 
@@ -30,6 +34,11 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   }
   const page = await getPageConfig(request.url, { dontThrow: true });
   const session = await getSession(request.headers.get("Cookie"));
+
+  if (!isValidContext(initialStepID, stepID, formGraph, session.data)) {
+    return redirect(`/vorabcheck/${initialStepID}`);
+  }
+
   return json({
     defaultValues: session.data[stepID],
     preFormContent: page?.pre_form,
