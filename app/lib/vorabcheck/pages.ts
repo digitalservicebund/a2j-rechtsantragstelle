@@ -20,7 +20,7 @@ export const formPages = {
   vermoegen: Steps.vermoegenStep,
   erfolgLeistungsbezug: Steps.emptyStep,
   vermoegenError: Steps.emptyStep,
-  familienstand: Steps.familienstandStep,
+  partnerschaft: Steps.partnerschaftStep,
   erfolgBuergergeld: Steps.successBuergergeldStep,
   kinder: Steps.kinderStep,
   kinderAnzahl: Steps.kinderAnzahlStep,

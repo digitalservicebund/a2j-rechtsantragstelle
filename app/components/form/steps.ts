@@ -11,7 +11,7 @@ import { beratungshilfeBeantragtStep } from "./steps/beratungshilfeBeantragt";
 import { wurdeVerklagtStep } from "./steps/wurdeVerklagt";
 import { vermoegenStep } from "./steps/vermoegen";
 import { exitVermoegenUnknownStep } from "./steps/exitVermoegenUnknown";
-import { familienstandStep } from "./steps/familienstand";
+import { partnerschaftStep } from "./steps/partnerschaft";
 import { successBuergergeldStep } from "./steps/successBürgergeld";
 import { kinderAnzahlStep } from "./steps/kinderAnzahl";
 import { erwerbstaetigkeitStep } from "./steps/erwerbstaetigkeit";
@@ -38,7 +38,7 @@ export const Steps = {
   wurdeVerklagtStep,
   vermoegenStep,
   exitVermoegenUnknownStep,
-  familienstandStep,
+  partnerschaftStep,
   successBuergergeldStep,
   kinderAnzahlStep,
   erwerbstaetigkeitStep,

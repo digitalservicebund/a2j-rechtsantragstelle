@@ -107,8 +107,8 @@ export const formFlow: FormFlow = {
     },
     pageIDs.erwerbstaetigkeit,
   ],
-  [pageIDs.erwerbstaetigkeit]: [pageIDs.familienstand],
-  [pageIDs.familienstand]: [pageIDs.kinder],
+  [pageIDs.erwerbstaetigkeit]: [pageIDs.partnerschaft],
+  [pageIDs.partnerschaft]: [pageIDs.kinder],
   [pageIDs.kinder]: [
     {
       destination: pageIDs.unterhalt,
@@ -125,7 +125,7 @@ export const formFlow: FormFlow = {
     {
       destination: pageIDs.einkommenFamilie,
       condition: (ctx) =>
-        ctx.familienstand?.partnerschaft === "yes" ||
+        ctx.partnerschaft?.partnerschaft === "yes" ||
         ctx.kinder?.isPayingForKids === "yes",
     },
     pageIDs.einkommenSingle,
@@ -134,7 +134,7 @@ export const formFlow: FormFlow = {
     {
       destination: pageIDs.einkommenFamilie,
       condition: (ctx) =>
-        ctx.familienstand?.partnerschaft === "yes" ||
+        ctx.partnerschaft?.partnerschaft === "yes" ||
         ctx.kinder?.isPayingForKids === "yes",
     },
     pageIDs.einkommenSingle,
