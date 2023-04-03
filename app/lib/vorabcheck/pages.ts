@@ -32,8 +32,10 @@ export const formPages = {
   weitereZahlungen: Steps.weitereZahlungenStep,
   weitereZahlungenSumme: Steps.weitereZahlungenSummeStep,
   abschluss: Steps.emptyStep,
-  einkommenZuHoch: Steps.exitFreibetrag,
-  erfolg: Steps.successFreibetrag,
+  einkommenZuHoch: Steps.abschlussNoStep,
+  abschlussEigeninitiative: Steps.abschlussMaybeSelfhelpStep,
+  abschlussBeratung: Steps.abschlussMaybeBeratungStep,
+  erfolg: Steps.abschlussYesStep,
 } as const;
 
 export type FormPages = typeof formPages;

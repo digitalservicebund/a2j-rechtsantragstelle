@@ -46,7 +46,17 @@ test("vorabcheck can be traversed", async ({ page }) => {
   await page.getByLabel("Netto-Einkommen").fill("100");
   await vorabcheck.clickNext();
 
-  await expect(page.getByRole("heading")).toContainText("Glückwunsch");
+  await page.getByLabel("miete").fill("100");
+  await vorabcheck.clickNext();
+
+  await vorabcheck.select("Nein");
+  await vorabcheck.clickNext();
+
+  await vorabcheck.clickNext();
+
+  await expect(page.getByRole("heading")).toContainText(
+    "Beratungshilfe erhalten"
+  );
 });
 
 test("funnel: invalid context redirects to start", async ({ page }) => {

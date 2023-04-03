@@ -125,28 +125,54 @@ export const formFlow: FormFlow = {
     pageIDs.einkommen,
   ],
   [pageIDs.unterhaltSumme]: [pageIDs.einkommen],
-  [pageIDs.einkommen]: [
+  [pageIDs.einkommen]: [pageIDs.miete],
+  [pageIDs.miete]: [pageIDs.weitereZahlungen],
+  [pageIDs.weitereZahlungen]: [
     {
-      destination: pageIDs.erfolg,
-      condition: (ctx) => {
-        const einkommen = ctx.einkommen?.einkommen ?? 0;
-        return (
-          einkommen -
-            freibetrag(
-              ctx.erwerbstaetigkeit?.isErwerbstaetig === "yes",
-              ctx.partnerschaft?.partnerschaft === "yes",
-              ctx.kinderAnzahl?.kids6Below,
-              ctx.kinderAnzahl?.kids7To14,
-              ctx.kinderAnzahl?.kids15To18,
-              ctx.kinderAnzahl?.kids18Above
-            ) <=
-          20
-        );
-      },
+      destination: pageIDs.weitereZahlungenSumme,
+      condition: (ctx) => ctx.weitereZahlungen?.hasWeitereZahlungen === "yes",
     },
-    pageIDs.einkommenZuHoch,
+    pageIDs.abschluss,
+  ],
+  [pageIDs.weitereZahlungenSumme]: [pageIDs.abschluss],
+  [pageIDs.abschluss]: [
+    {
+      destination: pageIDs.abschlussBeratung,
+      condition: (ctx) =>
+        ctx.kostenfreieBeratung?.hasTriedFreeServices == "no" &&
+        !isIncomeTooHigh(ctx),
+    },
+    {
+      destination: pageIDs.abschlussEigeninitiative,
+      condition: (ctx) =>
+        ctx.eigeninitiative?.hasHelpedThemselves == "no" &&
+        !isIncomeTooHigh(ctx),
+    },
+    {
+      destination: pageIDs.einkommenZuHoch,
+      condition: (ctx) => isIncomeTooHigh(ctx),
+    },
+    pageIDs.erfolg,
   ],
 };
+
+function isIncomeTooHigh(ctx: Context) {
+  {
+    const einkommen = ctx.einkommen?.einkommen ?? 0;
+    return (
+      einkommen -
+        freibetrag(
+          ctx.erwerbstaetigkeit?.isErwerbstaetig === "yes",
+          ctx.partnerschaft?.partnerschaft === "yes",
+          ctx.kinderAnzahl?.kids6Below,
+          ctx.kinderAnzahl?.kids7To14,
+          ctx.kinderAnzahl?.kids15To18,
+          ctx.kinderAnzahl?.kids18Above
+        ) >
+      20
+    );
+  }
+}
 
 export const formGraph = makeFormGraph(formFlow);
 export const progress = allLongestPaths(finalStep, formGraph);

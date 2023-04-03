@@ -16,8 +16,10 @@ import { successBuergergeldStep } from "./steps/successBürgergeld";
 import { kinderAnzahlStep } from "./steps/kinderAnzahl";
 import { erwerbstaetigkeitStep } from "./steps/erwerbstaetigkeit";
 import { einkommenStep } from "./steps/einkommen";
-import { exitFreibetrag } from "./steps/exitFreibetrag";
-import { successFreibetrag } from "./steps/successFreibetrag";
+import { abschlussNoStep } from "./steps/abschlussNo";
+import { abschlussYesStep } from "./steps/abschlussYes";
+import { abschlussMaybeBeratungStep } from "./steps/abschlussMaybeBeratung";
+import { abschlussMaybeSelfhelpStep } from "./steps/abschlussMaybeSelfhelp";
 import { eigeninitiativeStep } from "./steps/eigeninitiative";
 import { kostenfreieBeratungStep } from "./steps/kostenfreieBeratung";
 import { kinderStep } from "./steps/kinder";
@@ -45,8 +47,6 @@ export const Steps = {
   kinderAnzahlStep,
   erwerbstaetigkeitStep,
   einkommenStep,
-  exitFreibetrag,
-  successFreibetrag,
   eigeninitiativeStep,
   kostenfreieBeratungStep,
   kinderStep,
@@ -56,6 +56,10 @@ export const Steps = {
   mieteStep,
   weitereZahlungenStep,
   weitereZahlungenSummeStep,
+  abschlussNoStep,
+  abschlussYesStep,
+  abschlussMaybeSelfhelpStep,
+  abschlussMaybeBeratungStep,
 } as const;
 
 export type StepComponentProps = { content: FormComponentCMS[] };
