@@ -22,7 +22,7 @@ export function yesNoOptions(content: FormComponentCMS[], fieldname: string) {
 }
 
 export function yesNoRadioGroup(
-  content: FormComponentCMS[],
+  content: FormComponentCMS[] = [],
   schema: z.AnyZodObject
 ) {
   const fieldname = schema.keyof()._def.values[0] as string;
