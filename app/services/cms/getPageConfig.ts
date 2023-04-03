@@ -27,12 +27,13 @@ export function getInputsContent(content: FormComponentCMS[]) {
 }
 
 export function getRelevantInputContent(
-  content: FormComponentCMS[],
+  content: FormComponentCMS[] = [],
   inputName: string
 ) {
-  return getInputsContent(content).filter(
+  const matchingElements = getInputsContent(content).filter(
     (el) => el.name === inputName
-  )[0] as InputContent;
+  );
+  return matchingElements[0] ?? { type: "text", label: inputName };
 }
 
 export const flattenErrorCodes = (errors: ErrorCategory[] = []) => {
