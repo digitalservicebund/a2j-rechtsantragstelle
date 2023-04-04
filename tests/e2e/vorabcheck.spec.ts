@@ -46,7 +46,7 @@ test("vorabcheck can be traversed", async ({ page }) => {
   await page.getByLabel("Netto-Einkommen").fill("100");
   await vorabcheck.clickNext();
 
-  await page.getByLabel("miete").fill("100");
+  await page.getByLabel("Wohnkosten").fill("100");
   await vorabcheck.clickNext();
 
   await vorabcheck.select("Nein");
