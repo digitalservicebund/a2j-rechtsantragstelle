@@ -24,7 +24,7 @@ export default function Header({
   return (
     <div
       {...props}
-      className={`${hasBackground ? "bg-blue-100" : ""} container`}
+      className={`${hasBackground ? "bg-blue-100" : ""} containerHeader`}
     >
       <div>
         <Heading {...headingProps} />
