@@ -22,6 +22,8 @@ import {
 } from "~/lib/treeCalculations";
 import { getVorabCheckPageConfig } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
+import Heading from "~/components/Heading";
+import { ProgressBar } from "~/components/form/ProgressBar";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
@@ -86,26 +88,29 @@ export default function Index() {
     isLast,
     previousStep,
   } = useLoaderData<typeof loader>();
+  const stepProgress = progressTotal - progressStep + 1;
   const params = useParams();
   const stepID = params.stepID as AllowedIDs;
   const FormInputComponent = formPages[stepID].component;
 
   return (
-    <div>
+    <div className="container mx-auto" style={{ padding: "0.5rem 1rem" }}>
+      <Heading level={3} text="Vorab-Check" />
+      <ProgressBar
+        progress={stepProgress}
+        max={progressTotal}
+        fallback={isLast ? "" : `Schritt ${stepProgress} / ${progressTotal}`}
+      />
       <PageContent content={preFormContent} />
-      <div>
-        <ValidatedForm
-          key={`${stepID}_form`}
-          method="post"
-          validator={allValidators[stepID]}
-          defaultValues={defaultValues}
-        >
-          <FormInputComponent content={formContent} />
-          {!isLast &&
-            `Schritt ${progressTotal - progressStep + 1} / ${progressTotal}`}
-          <ButtonNavigation backDestination={previousStep} isLast={isLast} />
-        </ValidatedForm>
-      </div>
+      <ValidatedForm
+        key={`${stepID}_form`}
+        method="post"
+        validator={allValidators[stepID]}
+        defaultValues={defaultValues}
+      >
+        <FormInputComponent content={formContent} />
+        <ButtonNavigation backDestination={previousStep} isLast={isLast} />
+      </ValidatedForm>
     </div>
   );
 }
