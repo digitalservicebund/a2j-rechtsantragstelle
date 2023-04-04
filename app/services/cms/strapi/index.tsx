@@ -34,15 +34,12 @@ export default class StrapiCMS implements CMS {
     );
   }
 
-  async getPage(
-    pageName: string,
-    locale?: Locale
-  ): Promise<BaseDocument | undefined> {
+  async getPage(pageName: string, locale?: Locale): Promise<any> {
     const request = new RequestBuilder()
       .setLocale(locale ?? localeDefault)
       .toRequest();
     const document = await this.client.getDocument(pageName, request);
-    return document?.attributes as BaseDocument;
+    return document?.attributes;
   }
 
   async getPageFromCollection(

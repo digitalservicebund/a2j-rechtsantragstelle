@@ -4,7 +4,7 @@ import type { Locale } from "./models/Locale";
 import Strapi from "./strapi";
 
 export interface CMS {
-  getPage(pageName: string, locale?: Locale): Promise<BaseDocument | undefined>;
+  getPage(pageName: string, locale?: Locale): Promise<any>;
   getPageFromCollection(
     collection: string,
     pageName: string,

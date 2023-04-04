@@ -3,6 +3,7 @@ import type { FormComponentCMS } from "./models/formComponents";
 import type { VorabcheckPage } from "./models/VorabcheckPage";
 import type { Input as InputContent } from "./models/formComponents";
 import type { ErrorCategory } from "./models/formComponents";
+import type { Page } from "./models/Page";
 
 export type StrapiPage = {
   id: number;
@@ -40,10 +41,21 @@ export const flattenErrorCodes = (errors: ErrorCategory[] = []) => {
   return errors.map((e) => e.attributes.errorCodes).flat();
 };
 
-export const getPageConfig = async function (
+export const getVorabCheckPageConfig = async function (
   url: string
 ): Promise<VorabcheckPage | undefined> {
   const { pathname } = new URL(url);
   const [collection, step] = pathname.slice(1).split("/");
   return await cms().getPageFromCollection(collection, step);
+};
+
+export const getPageConfig = async function (
+  page: string,
+  options?: { dontThrow: boolean }
+): Promise<Page | undefined> {
+  const cmsContent = await cms().getPageFromCollection("page", page);
+  if (!cmsContent && !options?.dontThrow) {
+    throw new Error("No page config found!");
+  }
+  return cmsContent;
 };

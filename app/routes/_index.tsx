@@ -1,5 +1,8 @@
-import type { V2_MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import type { LoaderFunction, V2_MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
+import { getPageConfig } from "~/services/cms/getPageConfig";
+import PageContent from "~/components/PageContent";
 
 const title = "A2J - Digitale RAST";
 
@@ -11,6 +14,10 @@ export const meta: V2_MetaFunction = () => [
   },
 ];
 
+export const loader: LoaderFunction = async ({ params }) => {
+  return json(await getPageConfig("landingpage"));
+};
+
 export const indexLinks = [
   { url: "/vorabcheck", displayName: "Vorabcheck" },
   { url: "/flowchart", displayName: "Flowchart" },
@@ -20,8 +27,11 @@ export const indexLinks = [
 ] as const;
 
 export default function Index() {
+  const content = useLoaderData().content;
+
   return (
     <>
+      <PageContent content={content} />
       <h1>{title}</h1>
       <ul>
         {indexLinks.map((link) => (

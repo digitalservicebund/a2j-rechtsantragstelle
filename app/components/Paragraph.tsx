@@ -1,7 +1,7 @@
 import React from "react";
 import RichText from "~/components/RichText";
 
-interface ParagraphProps extends React.ClassAttributes<typeof RichText> {
+export interface ParagraphProps extends React.ClassAttributes<typeof RichText> {
   text: string;
 }
 

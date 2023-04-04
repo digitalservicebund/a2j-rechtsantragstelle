@@ -3,6 +3,7 @@ export type Heading = {
   __component: "basic.heading";
   text: string;
   level: number;
+  className?: string;
 };
 export type Paragraph = {
   id: number;

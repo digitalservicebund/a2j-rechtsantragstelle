@@ -20,7 +20,7 @@ import {
   isLeaf,
   isValidContext,
 } from "~/lib/treeCalculations";
-import { getPageConfig } from "~/services/cms/getPageConfig";
+import { getVorabCheckPageConfig } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
@@ -32,7 +32,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   if (!formGraph.hasNode(stepID)) {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
-  const page = await getPageConfig(request.url);
+  const page = await getVorabCheckPageConfig(request.url);
   const session = await getSession(request.headers.get("Cookie"));
 
   if (!isValidContext(initialStepID, stepID, formGraph, session.data)) {
