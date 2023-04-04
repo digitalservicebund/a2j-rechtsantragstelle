@@ -54,9 +54,9 @@ test("vorabcheck can be traversed", async ({ page }) => {
 
   await vorabcheck.clickNext();
 
-  await expect(page.getByRole("heading")).toContainText(
-    "Beratungshilfe erhalten"
-  );
+  await expect(
+    page.getByRole("heading").filter({ hasText: "Beratungshilfe erhalten" })
+  ).toHaveCount(1);
 });
 
 test("funnel: invalid context redirects to start", async ({ page }) => {

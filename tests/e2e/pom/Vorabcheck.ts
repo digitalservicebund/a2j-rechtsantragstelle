@@ -16,10 +16,10 @@ export class Vorabcheck {
     await this.page.goto(this.url);
   }
 
-  async expectHeading() {
-    await expect(this.page.getByRole("heading")).toBeVisible({
-      timeout: this.timeout,
-    });
+  async expectHeading(count = 2) {
+    expect(await this.page.getByRole("heading").count()).toBeGreaterThanOrEqual(
+      count
+    );
   }
 
   async select(text: string) {
