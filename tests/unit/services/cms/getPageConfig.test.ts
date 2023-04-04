@@ -1,4 +1,4 @@
-import { getPageConfig } from "~/services/cms/getPageConfig";
+import { getVorabCheckPageConfig } from "~/services/cms/getPageConfig";
 import type { Locale } from "~/services/cms/models/Locale";
 
 var data = {
@@ -23,13 +23,13 @@ beforeEach(() => {
 });
 
 it("should return the right attributes for a slug", async () => {
-  const result = await getPageConfig("http://localhost/page/test");
+  const result = await getVorabCheckPageConfig("http://localhost/page/test");
   expect(result).toEqual(data.attributes);
   expect(mockObject.getPageFromCollection).toHaveBeenCalledWith("page", "test");
 });
 
 it("should return undefined if no config is available", async () => {
   data.attributes = false;
-  const result = await getPageConfig("http://localhost/test");
+  const result = await getVorabCheckPageConfig("http://localhost/test");
   expect(result).toBe(false);
 });
