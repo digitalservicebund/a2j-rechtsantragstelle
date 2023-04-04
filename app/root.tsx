@@ -8,7 +8,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import stylesheet from "~/styles.css";
-import angieStylesheet from "~/lib/angie.css";
+import angieStylesheet from "@digitalservice4germany/angie/angie.css";
 import { withSentry } from "@sentry/remix";
 import { getWebConfig } from "~/services/config";
 
