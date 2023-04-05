@@ -1,4 +1,5 @@
 import React from "react";
+import Container from "./Container";
 import type { HeadingProps } from "./Heading";
 import Heading from "./Heading";
 import type { ParagraphProps } from "./Paragraph";
@@ -18,18 +19,13 @@ export default function Header({
 }: HeaderProps) {
   const headingProps = {
     ...header,
-    className: "mb-4",
+    className: "header",
   };
 
   return (
-    <div
-      {...props}
-      className={`${hasBackground ? "bg-blue-100" : ""} container`}
-    >
-      <div>
-        <Heading {...headingProps} />
-        {description && <Paragraph {...description} />}
-      </div>
-    </div>
+    <Container hasBackground={hasBackground} {...props}>
+      <Heading {...headingProps} />
+      {description && <Paragraph {...description} />}
+    </Container>
   );
 }
