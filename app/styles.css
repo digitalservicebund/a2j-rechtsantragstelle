@@ -104,7 +104,7 @@ h1 {
 }
 
 p {
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: 400;
   line-height: 1.875rem;
   letter-spacing: 0.01rem;
@@ -115,23 +115,23 @@ h2 {
   font-size: large;
 }
 
-.containerHeader {
+.container {
   padding: 40px 16px;
   max-width: 100%;
 }
 
-.containerHeader div:first-of-type {
+.container div:first-of-type {
   max-width: 848px;
 }
 
 @media (min-width: 501px) {
-  .containerHeader {
+  .container {
     padding: 40px 48px;
   }
 }
 
 @media (min-width: 944px) {
-  .containerHeader div:first-of-type {
+  .container div:first-of-type {
     margin: auto;
   }
 }
