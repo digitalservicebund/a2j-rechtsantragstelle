@@ -1,24 +1,13 @@
-type ImageProps = {
-  image: {
-    data: {
-      attributes?: {
-        url: string;
-      };
-    };
-  };
+import cms from "~/services/cms";
+
+export type ImageProps = {
+  url?: string;
 };
 
-const Image = ({ image }: ImageProps) => {
-  if (!image?.data) return null;
-  const imageUrl = image.data?.attributes?.url;
-  return (
-    <>
-      <pre className="hidden">
-        {JSON.stringify(image.data.attributes, null, 2)}
-      </pre>
-      {image ? <img src={imageUrl} /> : ""}
-    </>
-  );
-};
+function Image({ url }: ImageProps) {
+  if (!url) return null;
+
+  return <img src={url} />;
+}
 
 export default Image;

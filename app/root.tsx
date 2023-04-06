@@ -1,4 +1,5 @@
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -6,11 +7,14 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 import stylesheet from "~/styles.css";
 import angieStylesheet from "@digitalservice4germany/angie/angie.css";
 import { withSentry } from "@sentry/remix";
 import { getWebConfig } from "~/services/config";
+import cms from "~/services/cms";
+import Footer from "./components/Footer";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: angieStylesheet },
@@ -20,7 +24,17 @@ export const links: LinksFunction = () => [
   },
 ];
 
+export const loader: LoaderFunction = async ({ params }) => {
+  const content = await cms().getPage("footer");
+
+  content.image.url = cms().getImageLocation(content.image.data.attributes.url);
+
+  return json(content);
+};
+
 function App() {
+  const content = useLoaderData();
+
   return (
     <html lang="de">
       <head>
@@ -39,6 +53,7 @@ function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <Footer {...content} />
       </body>
     </html>
   );

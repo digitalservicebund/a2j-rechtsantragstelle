@@ -19,7 +19,7 @@ const InfoBoxItem = ({
 }: InfoBoxItemProps) => {
   return (
     <li>
-      <Image image={illustration} />
+      <Image url={illustration} />
       <div className="uppercase">{label}</div>
       <Heading level={headlineLevel} text={headline} />
       <RichText markdown={content} />

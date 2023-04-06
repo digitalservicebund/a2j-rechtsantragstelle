@@ -103,14 +103,6 @@ h1 {
   margin: 0;
 }
 
-p {
-  font-size: 1.5rem;
-  font-weight: 400;
-  line-height: 1.875rem;
-  letter-spacing: 0.01rem;
-  margin: 0;
-}
-
 h2 {
   font-size: large;
 }
@@ -120,7 +112,7 @@ h2 {
   max-width: 100%;
 }
 
-.container div:first-of-type {
+.container > div:first-child {
   max-width: 848px;
 }
 
@@ -131,11 +123,87 @@ h2 {
 }
 
 @media (min-width: 944px) {
-  .container div:first-of-type {
+  .container > div:first-child {
     margin: auto;
   }
 }
 
 .header {
   margin-bottom: 1rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  max-width: 400px;
+}
+
+.footer-links > * {
+  flex: 0 0 50%;
+  margin: 6px 0;
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-info img {
+  align-self: baseline;
+  width: 120px;
+  height: 66px;
+  margin-bottom: 40px;
+  margin-right: 1rem;
+}
+
+.footer-info p {
+  margin-bottom: 0.8125rem;
+}
+
+.footer-info a {
+  color: #000000;
+}
+
+@media (min-width: 501px) {
+  .footer-info {
+    flex-direction: row;
+  }
+
+  .footer-info img {
+    order: 1;
+  }
+
+  .footer-info div {
+    order: 2;
+  }
+}
+
+@media (max-width: 565px) {
+  .footer-info div {
+    width: 200px;
+  }
+}
+
+.link-02-bold {
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.375rem;
+  text-decoration-line: underline;
+  color: #000000;
+}
+
+.label-03-reg {
+  font-weight: 400;
+  font-size: 0.9rem;
+  line-height: 1.125rem;
+  letter-spacing: 0.16px;
+  color: #000000;
+}
+
+.heading-03-reg {
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.875rem;
+  letter-spacing: 0.01rem;
 }

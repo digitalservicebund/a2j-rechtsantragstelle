@@ -5,8 +5,8 @@ export interface ParagraphProps extends React.ClassAttributes<typeof RichText> {
   text: string;
 }
 
-function Paragraph({ text, key }: ParagraphProps) {
-  return <RichText markdown={text} key={key} />;
+function Paragraph({ text, ...props }: ParagraphProps) {
+  return <RichText markdown={text} {...props} />;
 }
 
 export default Paragraph;

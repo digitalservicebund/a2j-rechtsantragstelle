@@ -3,6 +3,7 @@ import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { getPageConfig } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
+import Container from "~/components/Container";
 
 const title = "A2J - Digitale RAST";
 
@@ -32,14 +33,16 @@ export default function Index() {
   return (
     <>
       <PageContent content={content} />
-      <h1>{title}</h1>
-      <ul>
-        {indexLinks.map((link) => (
-          <li key={link.url}>
-            <Link to={link.url}>{link.displayName}</Link>
-          </li>
-        ))}
-      </ul>
+      <Container hasBackground={false}>
+        <h1>{title}</h1>
+        <ul>
+          {indexLinks.map((link) => (
+            <li key={link.url}>
+              <Link to={link.url}>{link.displayName}</Link>
+            </li>
+          ))}
+        </ul>
+      </Container>
     </>
   );
 }

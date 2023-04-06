@@ -1,5 +1,6 @@
 export interface config {
   STRAPI_API: string;
+  STRAPI_HOST: string;
   STRAPI_ACCESS_KEY: string;
   CMS: string;
   ENV: string;
@@ -20,14 +21,16 @@ export function getWebConfig(): webConfig {
         : get().SENTRY_DSN?.trim(),
   };
 }
-
 export default function get(): config {
   if (instance === undefined) {
     instance = {
-      // Removing trim because infrastructure adding a newline on secret
       STRAPI_API:
         process.env.STRAPI_API?.trim() ||
         (process.env.STRAPI_HOST?.trim() || "") + "/api/",
+      STRAPI_HOST:
+        process.env.STRAPI_HOST?.trim() ||
+        process.env.STRAPI_API?.trim().replace("api/", "") ||
+        "",
       STRAPI_ACCESS_KEY: process.env.STRAPI_ACCESS_KEY?.trim() || "",
       CMS: process.env.CMS || "",
       ENV: process.env.NODE_ENV || "development",

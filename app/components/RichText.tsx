@@ -4,7 +4,7 @@ type RichTextProps = {
   markdown: string;
 };
 
-const RichText = ({ markdown }: RichTextProps) => {
+const RichText = ({ markdown, ...props }: RichTextProps) => {
   const renderer = {
     link(href: string, title: string, text: string) {
       if (href.includes("ext:")) {
@@ -15,7 +15,12 @@ const RichText = ({ markdown }: RichTextProps) => {
     },
   };
   marked.use({ renderer });
-  return <div dangerouslySetInnerHTML={{ __html: marked.parse(markdown) }} />;
+  return (
+    <div
+      {...props}
+      dangerouslySetInnerHTML={{ __html: marked.parse(markdown) }}
+    />
+  );
 };
 
 export default RichText;

@@ -1,4 +1,4 @@
-import config from "../config";
+import config, { getWebConfig } from "../config";
 import type BaseDocument from "./models/BaseDocument";
 import type { Locale } from "./models/Locale";
 import Strapi from "./strapi";
@@ -10,6 +10,7 @@ export interface CMS {
     pageName: string,
     locale?: Locale
   ): Promise<any>;
+  getImageLocation(imagePath: string): string;
 }
 
 export default function getCMS(): CMS {
