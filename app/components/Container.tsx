@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 
 export interface ContainerProps
   extends React.ClassAttributes<HTMLHeadingElement> {
@@ -14,7 +15,7 @@ export default function Container({
   return (
     <div
       {...props}
-      className={`${hasBackground ? "bg-blue-100" : ""} container`}
+      className={classNames("container", { "bg-blue-100": hasBackground })}
     >
       <div>{children}</div>
     </div>

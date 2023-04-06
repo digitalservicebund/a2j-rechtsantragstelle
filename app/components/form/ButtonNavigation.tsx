@@ -1,6 +1,7 @@
 import { Link } from "@remix-run/react";
 import type { AllowedIDs } from "~/lib/vorabcheck/pages";
 import { Button } from "~/components";
+import classNames from "classnames";
 
 interface ButtonNavigationProps {
   backDestination?: AllowedIDs;
@@ -16,9 +17,10 @@ export function ButtonNavigation({
       <Link
         to={backDestination ? `../${backDestination}` : "/"}
         style={{ pointerEvents: !backDestination ? "none" : "auto" }}
-        className={`no-underline ${
-          backDestination ? "text-blue-600" : "text-gray-300"
-        }`}
+        className={classNames("no-underline", {
+          "text-blue-600": backDestination,
+          "text-gray-300": !backDestination,
+        })}
       >
         {"Zurück"}
       </Link>
