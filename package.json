@@ -19,7 +19,7 @@
     "@digitalservice4germany/style-dictionary": "^1.1.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@mui/icons-material": "^5.11.11",
+    "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.16",
     "@remix-run/express": "^1.15.0",
     "@remix-run/node": "^1.15.0",
