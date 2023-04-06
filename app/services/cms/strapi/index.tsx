@@ -63,6 +63,13 @@ export default class StrapiCMS implements CMS {
   }
 
   getImageLocation(imagePath: string): string {
+    if (
+      imagePath.indexOf("http://") === 0 ||
+      imagePath.indexOf("https://") === 0
+    ) {
+      return imagePath;
+    }
+
     return config().STRAPI_HOST + imagePath;
   }
 }
