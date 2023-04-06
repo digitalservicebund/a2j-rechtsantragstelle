@@ -21,7 +21,7 @@ export default function Footer({
 }: FooterProps) {
   return (
     <Container hasBackground={false}>
-      <div>
+      <div className="footer">
         <div className="footer-info">
           <div>
             {paragraphs.map((paragraph, index) => (

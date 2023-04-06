@@ -122,7 +122,7 @@ h2 {
   }
 }
 
-@media (min-width: 944px) {
+@media (min-width: 945px) {
   .container > div:first-child {
     margin: auto;
   }
@@ -141,7 +141,7 @@ h2 {
 
 .footer-links > * {
   flex: 0 0 50%;
-  margin: 6px 0;
+  margin: 0 0 8px 0;
 }
 
 .footer-info {
@@ -182,6 +182,18 @@ h2 {
 @media (max-width: 565px) {
   .footer-info div {
     width: 200px;
+  }
+}
+
+@media (min-width: 945px) {
+  .footer-info div {
+    min-width: 520px;
+  }
+  .footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
   }
 }
 
