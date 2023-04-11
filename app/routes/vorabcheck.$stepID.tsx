@@ -24,6 +24,7 @@ import { getVorabCheckPageConfig } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
 import Heading from "~/components/Heading";
 import { ProgressBar } from "~/components/form/ProgressBar";
+import Container from "~/components/Container";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
@@ -94,7 +95,11 @@ export default function Index() {
   const FormInputComponent = formPages[stepID].component;
 
   return (
-    <div className="container mx-auto" style={{ padding: "0.5rem 1rem" }}>
+    <Container
+      hasBackground={false}
+      className="container mx-auto"
+      style={{ padding: "0.5rem 1rem" }}
+    >
       <Heading level={3} text="Vorab-Check" />
       <ProgressBar
         progress={stepProgress}
@@ -111,6 +116,6 @@ export default function Index() {
         <FormInputComponent content={formContent} />
         <ButtonNavigation backDestination={previousStep} isLast={isLast} />
       </ValidatedForm>
-    </div>
+    </Container>
   );
 }
