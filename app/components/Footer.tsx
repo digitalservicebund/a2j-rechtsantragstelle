@@ -27,7 +27,7 @@ export default function Footer({
             {paragraphs.map((paragraph, index) => (
               <Paragraph
                 {...paragraph}
-                {...{ className: "label-03-reg", key: index }}
+                {...{ className: "ds-label-03-reg", key: index }}
               />
             ))}
           </div>
