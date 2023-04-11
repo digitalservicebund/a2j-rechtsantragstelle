@@ -7,6 +7,7 @@ export interface HeadingProps
   extends React.ClassAttributes<HTMLHeadingElement> {
   level: number;
   text: ReactNode;
+  className?: string;
 }
 
 function Heading({ level, text, ...props }: HeadingProps) {

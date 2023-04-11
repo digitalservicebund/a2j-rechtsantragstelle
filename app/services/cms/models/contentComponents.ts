@@ -3,8 +3,14 @@ export type Heading = {
   __component: "basic.heading";
   text: string;
   level: number;
-  className?: string;
+  style:
+    | "heading-01-reg"
+    | "heading-02-reg"
+    | "heading-03-reg"
+    | "heading-03-bold"
+    | "subhead";
 };
+
 export type Paragraph = {
   id: number;
   __component: "basic.paragraph";

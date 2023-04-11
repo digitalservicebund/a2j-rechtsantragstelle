@@ -14,7 +14,13 @@ function cmsToReact(
   key?: string | number
 ) {
   if (element.__component === "basic.heading") {
-    return Heading({ ...element, key });
+    const headingClass = "ds-" + element.style;
+    return Heading({
+      level: element.level,
+      text: element.text,
+      key,
+      className: headingClass,
+    });
   } else if (element.__component === "basic.paragraph") {
     return Paragraph({ ...element, key });
   } else if (element.__component === "page.header") {
