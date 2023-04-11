@@ -1,5 +1,4 @@
-import config, { getWebConfig } from "../config";
-import type BaseDocument from "./models/BaseDocument";
+import config from "../config";
 import type { Locale } from "./models/Locale";
 import Strapi from "./strapi";
 

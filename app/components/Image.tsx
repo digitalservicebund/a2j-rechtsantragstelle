@@ -1,5 +1,3 @@
-import cms from "~/services/cms";
-
 export type ImageProps = {
   url?: string;
 };

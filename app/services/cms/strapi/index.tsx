@@ -3,7 +3,7 @@ import { Locale } from "~/services/cms/models/Locale";
 import type { Document, IClient } from "./client";
 import StrapiClient, { RequestBuilder, Parameter } from "./client";
 import type BaseDocument from "../models/BaseDocument";
-import config, { getWebConfig } from "~/services/config";
+import config from "~/services/config";
 
 const localeDefault = Locale.de;
 const collectionDefault = "pages";
