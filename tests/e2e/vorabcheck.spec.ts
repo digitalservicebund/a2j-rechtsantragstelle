@@ -13,45 +13,30 @@ test("forwarded to intial step", async ({ page }) => {
 });
 
 test("vorabcheck can be traversed", async ({ page }) => {
-  for (let i = 5; i--; ) {
-    // 5 yes/no questions
-    await vorabcheck.expectHeading();
-    await vorabcheck.select("Nein");
-    await vorabcheck.clickNext();
-  }
-
-  for (let i = 2; i--; ) {
-    // 2 yes/no questions with following warnings
-    await vorabcheck.expectHeading();
-    await vorabcheck.select("Nein");
-    await vorabcheck.clickNext();
-
-    // await vorabcheck.expectHeading(); // TODO: kostenfreieBeratungWarning has no heading
-    await vorabcheck.clickNext();
-  }
-
+  await vorabcheck.fillRadioPage("hasRechtsschutzversicherung", "no");
+  await vorabcheck.fillRadioPage("wurdeVerklagt", "no");
+  await vorabcheck.fillRadioPage("hasKlageEingereicht", "no");
+  await vorabcheck.fillRadioPage("isHamburgOderBremen", "no");
+  await vorabcheck.fillRadioPage("hasBeratungshilfeBeantragt", "no");
+  await vorabcheck.fillRadioPage("hasHelpedThemselves", "no");
+  // warning step
   await vorabcheck.expectHeading();
-  await vorabcheck.select("Keine");
   await vorabcheck.clickNext();
-
-  // await vorabcheck.expectHeading(); // TODO: einkommen has no heading
-  await vorabcheck.select("Unter 10.000");
+  await vorabcheck.fillRadioPage("hasTriedFreeServices", "no");
+  // warning step
+  await vorabcheck.expectHeading();
   await vorabcheck.clickNext();
-
-  for (let i = 4; i--; ) {
-    // await vorabcheck.expectHeading(); // TODO: erwerbstaetigkeit, familienstand, kinder, unterhalt has no heading
-    await vorabcheck.select("Nein");
-    await vorabcheck.clickNext();
-  }
-  await page.getByLabel("Netto-Einkommen").fill("100");
-  await vorabcheck.clickNext();
-
-  await page.getByLabel("Wohnkosten").fill("100");
-  await vorabcheck.clickNext();
-
-  await vorabcheck.select("Nein");
-  await vorabcheck.clickNext();
-
+  await vorabcheck.fillRadioPage("staatlicheLeistung", "keine");
+  await vorabcheck.fillRadioPage("vermoegen", "below_10k");
+  await vorabcheck.fillRadioPage("isErwerbstaetig", "no");
+  await vorabcheck.fillRadioPage("partnerschaft", "no");
+  await vorabcheck.fillRadioPage("isPayingForKids", "no");
+  await vorabcheck.fillRadioPage("isPayingUnterhalt", "no");
+  await vorabcheck.fillInputPage("einkommen", "100");
+  await vorabcheck.fillInputPage("miete", "100");
+  await vorabcheck.fillRadioPage("hasWeitereZahlungen", "no");
+  // abschluss step
+  await vorabcheck.expectHeading();
   await vorabcheck.clickNext();
 
   await expect(

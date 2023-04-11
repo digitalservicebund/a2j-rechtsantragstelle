@@ -22,10 +22,10 @@ export class Vorabcheck {
     );
   }
 
-  async select(text: string) {
-    await this.page
-      .getByText(text, { exact: true })
-      .click({ timeout: this.timeout });
+  async select(field: string, option: string) {
+    // We have to click the label because the input is covered by the before element
+    // The label text itself is unknown due to using a cms
+    await this.page.locator(`label[for=${field}-${option}]`).click();
   }
 
   async clickNext() {
@@ -35,5 +35,17 @@ export class Vorabcheck {
         .click({ timeout: this.timeout }),
       this.page.waitForNavigation(), // deprecated but URL for waitForURL is unknown
     ]);
+  }
+
+  async fillRadioPage(field: string, option: string) {
+    await this.expectHeading();
+    await this.select(field, option);
+    await this.clickNext();
+  }
+
+  async fillInputPage(field: string, value: string) {
+    await this.expectHeading();
+    await this.page.locator(`input[name=${field}]`).fill(value);
+    await this.clickNext();
   }
 }
