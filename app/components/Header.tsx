@@ -23,7 +23,10 @@ export default function Header({
   };
 
   return (
-    <Container hasBackground={hasBackground} {...props}>
+    <Container
+      hasBackground={hasBackground}
+      {...{ className: "header", ...props }}
+    >
       <Heading {...headingProps} />
       {description && (
         <Paragraph {...description} {...{ className: "ds-heading-03-reg" }} />
