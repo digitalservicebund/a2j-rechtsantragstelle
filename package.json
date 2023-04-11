@@ -15,7 +15,7 @@
     "test:e2e": "npx playwright test"
   },
   "dependencies": {
-    "@digitalservice4germany/angie": "^0.0.2",
+    "@digitalservice4germany/angie": "^0.1.0",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
