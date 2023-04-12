@@ -31,6 +31,7 @@ import { weitereZahlungenStep } from "./steps/weitereZahlungen";
 import { weitereZahlungenSummeStep } from "./steps/weitereZahlungenSumme";
 import type { FormComponentCMS } from "~/services/cms/models/formComponents";
 import { genauigkeitStep } from "~/components/form/steps/genauigkeit";
+import { einkommenPartnerStep } from "~/components/form/steps/einkommenPartner";
 
 export const Steps = {
   staatlicheLeistungenStep,
@@ -45,6 +46,7 @@ export const Steps = {
   exitVermoegenUnknownStep,
   genauigkeitStep,
   partnerschaftStep,
+  einkommenPartnerStep,
   successBuergergeldStep,
   kinderAnzahlStep,
   erwerbstaetigkeitStep,

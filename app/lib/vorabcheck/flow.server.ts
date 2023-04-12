@@ -128,7 +128,14 @@ export const formFlow: FormFlow = {
   [pageIDs.genauigkeit]: [pageIDs.erwerbstaetigkeit],
   [pageIDs.erwerbstaetigkeit]: [pageIDs.einkommen],
   [pageIDs.einkommen]: [pageIDs.partnerschaft],
-  [pageIDs.partnerschaft]: [pageIDs.kinder],
+  [pageIDs.partnerschaft]: [
+    {
+      destination: pageIDs.einkommenPartner,
+      condition: (ctx) => ctx.partnerschaft?.partnerschaft === "yes",
+    },
+    pageIDs.kinder,
+  ],
+  [pageIDs.einkommenPartner]: [pageIDs.kinder],
   [pageIDs.kinder]: [
     {
       destination: pageIDs.unterhalt,
