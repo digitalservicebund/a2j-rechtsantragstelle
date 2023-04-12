@@ -5,7 +5,7 @@
 @layer components {
   .container {
     @apply mx-auto;
-    max-width: 56rem;
+    max-width: 59rem;
     padding: 0 clamp(1rem, 5vw, 3rem);
   }
 }
