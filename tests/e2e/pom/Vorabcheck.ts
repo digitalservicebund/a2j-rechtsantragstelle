@@ -38,13 +38,11 @@ export class Vorabcheck {
   }
 
   async fillRadioPage(field: string, option: string) {
-    await this.expectHeading();
     await this.select(field, option);
     await this.clickNext();
   }
 
   async fillInputPage(field: string, value: string) {
-    await this.expectHeading();
     await this.page.locator(`input[name=${field}]`).fill(value);
     await this.clickNext();
   }

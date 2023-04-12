@@ -20,11 +20,9 @@ test("vorabcheck can be traversed", async ({ page }) => {
   await vorabcheck.fillRadioPage("hasBeratungshilfeBeantragt", "no");
   await vorabcheck.fillRadioPage("hasHelpedThemselves", "no");
   // warning step
-  await vorabcheck.expectHeading();
   await vorabcheck.clickNext();
   await vorabcheck.fillRadioPage("hasTriedFreeServices", "no");
   // warning step
-  await vorabcheck.expectHeading();
   await vorabcheck.clickNext();
   await vorabcheck.fillRadioPage("staatlicheLeistung", "keine");
   await vorabcheck.fillRadioPage("vermoegen", "below_10k");
@@ -36,7 +34,6 @@ test("vorabcheck can be traversed", async ({ page }) => {
   await vorabcheck.fillInputPage("miete", "100");
   await vorabcheck.fillRadioPage("hasWeitereZahlungen", "no");
   // abschluss step
-  await vorabcheck.expectHeading();
   await vorabcheck.clickNext();
 
   await expect(

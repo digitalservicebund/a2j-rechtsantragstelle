@@ -11,16 +11,16 @@ export function ButtonNavigation({
   isLast,
 }: ButtonNavigationProps) {
   return (
-    <div>
+    <div className="button-container flex flex-wrap gap-24 md:flex-row-reverse flex-col-reverse justify-end">
+      <Button type="submit" name="_action" value="next">
+        {isLast ? "Von Vorne beginnen" : "Übernehmen & Weiter"}
+      </Button>
+
       {backDestination && (
         <Button href={backDestination} look="tertiary">
           Zurück
         </Button>
       )}
-
-      <Button type="submit" name="_action" value="next">
-        {isLast ? "Von Vorne beginnen" : "Übernehmen & Weiter"}
-      </Button>
     </div>
   );
 }
