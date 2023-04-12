@@ -28,9 +28,6 @@ export const links: LinksFunction = () => [
 
 export const loader: LoaderFunction = async ({ params }) => {
   const content = await cms().getPage("footer");
-
-  content.image.url = cms().getImageLocation(content.image.data.attributes.url);
-
   return json(content);
 };
 

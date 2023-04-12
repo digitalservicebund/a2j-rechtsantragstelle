@@ -33,7 +33,7 @@ export default function Index() {
   return (
     <>
       <PageContent content={content} />
-      <Container hasBackground={false}>
+      <Container>
         <h1>{title}</h1>
         <ul>
           {indexLinks.map((link) => (

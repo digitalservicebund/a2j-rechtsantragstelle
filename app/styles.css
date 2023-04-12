@@ -2,89 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-.container {
-  padding: 40px 16px;
-  max-width: 100%;
-}
-
-.container > div:first-child {
-  max-width: 848px;
-}
-
-@media (min-width: 501px) {
+@layer components {
   .container {
-    padding: 40px 48px;
-  }
-}
-
-@media (min-width: 945px) {
-  .container > div:first-child {
-    margin: auto;
-  }
-}
-
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  max-width: 400px;
-}
-
-.footer-links > * {
-  flex: 0 0 50%;
-  margin: 0 0 8px 0;
-}
-
-.footer-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.footer-info img {
-  align-self: baseline;
-  width: 120px;
-  height: 66px;
-  margin-bottom: 40px;
-  margin-right: 1rem;
-}
-
-.footer-info p {
-  margin-bottom: 0.8125rem;
-}
-
-.footer-info a {
-  color: #000000;
-}
-
-@media (min-width: 501px) {
-  .footer-info {
-    flex-direction: row;
-  }
-
-  .footer-info img {
-    order: 1;
-  }
-
-  .footer-info div {
-    order: 2;
-  }
-}
-
-@media (max-width: 565px) {
-  .footer-info div {
-    width: 200px;
-  }
-}
-
-@media (min-width: 945px) {
-  .footer-info div {
-    min-width: 520px;
-  }
-  .footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
+    @apply mx-auto;
+    max-width: 56rem;
+    padding: 0 clamp(1rem, 5vw, 3rem);
   }
 }
 

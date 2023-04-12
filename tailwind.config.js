@@ -1,3 +1,5 @@
+const plugin = require("tailwindcss/plugin");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
@@ -7,6 +9,20 @@ module.exports = {
   },
   corePlugins: {
     preflight: false,
+    container: false,
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          stack: (value) => ({
+            "--stack-space": value,
+          }),
+        },
+        {
+          values: theme("spacing"),
+        }
+      );
+    }),
+  ],
 };

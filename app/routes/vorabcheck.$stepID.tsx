@@ -22,7 +22,6 @@ import {
 } from "~/lib/treeCalculations";
 import { getVorabCheckPageConfig } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
-import Heading from "~/components/Heading";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import Container from "~/components/Container";
 import { Stack } from "~/components";
@@ -97,8 +96,7 @@ export default function Index() {
 
   return (
     <Container
-      hasBackground={false}
-      className="container mx-auto mt-16 mb-80"
+      className="mt-16 mb-80"
       style={{ padding: "0.5rem 1rem" }}
     >
       <Stack>
