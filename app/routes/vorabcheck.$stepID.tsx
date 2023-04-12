@@ -98,7 +98,7 @@ export default function Index() {
   return (
     <Container
       hasBackground={false}
-      className="container mx-auto mt-16"
+      className="container mx-auto mt-16 mb-80"
       style={{ padding: "0.5rem 1rem" }}
     >
       <Stack>
