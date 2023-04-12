@@ -32,6 +32,7 @@ import { weitereZahlungenSummeStep } from "./steps/weitereZahlungenSumme";
 import type { FormComponentCMS } from "~/services/cms/models/formComponents";
 import { genauigkeitStep } from "~/components/form/steps/genauigkeit";
 import { einkommenPartnerStep } from "~/components/form/steps/einkommenPartner";
+import { einkommenKinderStep } from "~/components/form/steps/einkommenKinder";
 
 export const Steps = {
   staatlicheLeistungenStep,
@@ -49,6 +50,7 @@ export const Steps = {
   einkommenPartnerStep,
   successBuergergeldStep,
   kinderAnzahlStep,
+  einkommenKinderStep,
   erwerbstaetigkeitStep,
   einkommenStep,
   eigeninitiativeStep,

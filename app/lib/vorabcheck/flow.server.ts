@@ -143,7 +143,14 @@ export const formFlow: FormFlow = {
     },
     pageIDs.kinderAnzahl,
   ],
-  [pageIDs.kinderAnzahl]: [pageIDs.unterhalt],
+  [pageIDs.kinderAnzahl]: [
+    {
+      destination: pageIDs.einkommenKinder,
+      condition: (ctx) => ctx.kinder?.isPayingForKids === "yes",
+    },
+    pageIDs.unterhalt,
+  ],
+  [pageIDs.einkommenKinder]: [pageIDs.unterhalt],
   [pageIDs.unterhalt]: [
     {
       destination: pageIDs.unterhaltSumme,

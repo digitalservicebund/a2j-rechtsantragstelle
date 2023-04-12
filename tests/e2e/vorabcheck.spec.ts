@@ -31,7 +31,9 @@ test("vorabcheck can be traversed", async ({ page }) => {
   await vorabcheck.fillInputPage("einkommen", "100");
   await vorabcheck.fillRadioPage("partnerschaft", "yes");
   await vorabcheck.fillInputPage("einkommenPartner", "100");
-  await vorabcheck.fillRadioPage("isPayingForKids", "no");
+  await vorabcheck.fillRadioPage("isPayingForKids", "yes");
+  await vorabcheck.fillInputPage("kids18Above", "1");
+  await vorabcheck.fillInputPage("einkommenKinder", "50");
   await vorabcheck.fillRadioPage("isPayingUnterhalt", "no");
   await vorabcheck.fillInputPage("miete", "100");
   await vorabcheck.fillRadioPage("hasWeitereZahlungen", "no");
