@@ -10,11 +10,7 @@ export function ProgressBar({ progress, max, fallback }: ProgressBarProps) {
       value={progress}
       max={max}
       aria-label="vorab-check progress"
-      className="w-full align-top"
-      style={{
-        height: "0.75rem",
-        accentColor: "var(--color-ui-primary)",
-      }}
+      className="progress-bar w-full align-top"
     >
       {fallback}
     </progress>
