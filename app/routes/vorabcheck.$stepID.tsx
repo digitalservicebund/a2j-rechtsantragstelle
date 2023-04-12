@@ -25,6 +25,7 @@ import PageContent from "~/components/PageContent";
 import Heading from "~/components/Heading";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import Container from "~/components/Container";
+import { Stack } from "~/components";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
@@ -97,25 +98,38 @@ export default function Index() {
   return (
     <Container
       hasBackground={false}
-      className="container mx-auto"
+      className="container mx-auto mt-16"
       style={{ padding: "0.5rem 1rem" }}
     >
-      <Heading level={3} text="Vorab-Check" />
-      <ProgressBar
-        progress={stepProgress}
-        max={progressTotal}
-        fallback={isLast ? "" : `Schritt ${stepProgress} / ${progressTotal}`}
-      />
-      <PageContent content={preFormContent} />
-      <ValidatedForm
-        key={`${stepID}_form`}
-        method="post"
-        validator={allValidators[stepID]}
-        defaultValues={defaultValues}
-      >
-        <FormInputComponent content={formContent} />
-        <ButtonNavigation backDestination={previousStep} isLast={isLast} />
-      </ValidatedForm>
+      <Stack>
+        <div>
+          <p className="ds-label-03-reg mb-4">Vorab-Check</p>
+          <ProgressBar
+            progress={stepProgress}
+            max={progressTotal}
+            fallback={
+              isLast ? "" : `Schritt ${stepProgress} / ${progressTotal}`
+            }
+          />
+        </div>
+        <Stack space="xl">
+          <PageContent content={preFormContent} />
+          <ValidatedForm
+            key={`${stepID}_form`}
+            method="post"
+            validator={allValidators[stepID]}
+            defaultValues={defaultValues}
+          >
+            <Stack space="2xl">
+              <FormInputComponent content={formContent} />
+              <ButtonNavigation
+                backDestination={previousStep}
+                isLast={isLast}
+              />
+            </Stack>
+          </ValidatedForm>
+        </Stack>
+      </Stack>
     </Container>
   );
 }

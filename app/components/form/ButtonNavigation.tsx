@@ -13,7 +13,7 @@ export function ButtonNavigation({
   isLast,
 }: ButtonNavigationProps) {
   return (
-    <div style={{ margin: "1rem 0" }}>
+    <div>
       <Link
         to={backDestination ? `../${backDestination}` : "/"}
         style={{ pointerEvents: !backDestination ? "none" : "auto" }}
