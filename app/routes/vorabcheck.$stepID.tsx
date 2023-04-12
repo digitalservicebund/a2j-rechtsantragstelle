@@ -95,10 +95,7 @@ export default function Index() {
   const FormInputComponent = formPages[stepID].component;
 
   return (
-    <Container
-      className="mt-16 mb-80"
-      style={{ padding: "0.5rem 1rem" }}
-    >
+    <Container className="mt-16 mb-80" style={{ padding: "0.5rem 1rem" }}>
       <Stack>
         <div>
           <p className="ds-label-03-reg mb-4">Vorab-Check</p>
