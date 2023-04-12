@@ -30,6 +30,7 @@ import { mieteStep } from "./steps/miete";
 import { weitereZahlungenStep } from "./steps/weitereZahlungen";
 import { weitereZahlungenSummeStep } from "./steps/weitereZahlungenSumme";
 import type { FormComponentCMS } from "~/services/cms/models/formComponents";
+import { genauigkeitStep } from "~/components/form/steps/genauigkeit";
 
 export const Steps = {
   staatlicheLeistungenStep,
@@ -42,6 +43,7 @@ export const Steps = {
   wurdeVerklagtStep,
   vermoegenStep,
   exitVermoegenUnknownStep,
+  genauigkeitStep,
   partnerschaftStep,
   successBuergergeldStep,
   kinderAnzahlStep,

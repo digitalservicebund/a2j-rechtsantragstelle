@@ -123,8 +123,9 @@ export const formFlow: FormFlow = {
         ctx.vermoegen?.vermoegen === "below_10k" &&
         ctx.staatlicheLeistungen?.staatlicheLeistung === "buergergeld",
     },
-    pageIDs.erwerbstaetigkeit,
+    pageIDs.genauigkeit,
   ],
+  [pageIDs.genauigkeit]: [pageIDs.erwerbstaetigkeit],
   [pageIDs.erwerbstaetigkeit]: [pageIDs.partnerschaft],
   [pageIDs.partnerschaft]: [pageIDs.kinder],
   [pageIDs.kinder]: [

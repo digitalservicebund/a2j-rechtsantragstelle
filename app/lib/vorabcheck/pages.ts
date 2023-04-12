@@ -1,6 +1,7 @@
 import { Steps } from "~/components/form/steps";
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
+import { genauigkeitStep } from "~/components/form/steps/genauigkeit";
 
 export const formPages = {
   rechtsschutzversicherung: Steps.rechtsschutzversicherungStep,
@@ -20,6 +21,7 @@ export const formPages = {
   vermoegen: Steps.vermoegenStep,
   erfolgLeistungsbezug: Steps.emptyStep,
   vermoegenError: Steps.emptyStep,
+  genauigkeit: Steps.genauigkeitStep,
   partnerschaft: Steps.partnerschaftStep,
   erfolgBuergergeld: Steps.successBuergergeldStep,
   kinder: Steps.kinderStep,
