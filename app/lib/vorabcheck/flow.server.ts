@@ -22,10 +22,28 @@ interface ConditionalTransition {
 export type TransitionElement = AllowedIDs | ConditionalTransition;
 export type FormFlow = Partial<Record<AllowedIDs, TransitionElement[]>>;
 
+const lastPageTransitions = [
+  {
+    destination: pageIDs.abschlussBeratung,
+    condition: (ctx: Context) =>
+      ctx.kostenfreieBeratung?.hasTriedFreeServices == "no" &&
+      !isIncomeTooHigh(ctx),
+  },
+  {
+    destination: pageIDs.abschlussEigeninitiative,
+    condition: (ctx: Context) =>
+      ctx.eigeninitiative?.hasHelpedThemselves == "no" && !isIncomeTooHigh(ctx),
+  },
+  {
+    destination: pageIDs.einkommenZuHoch,
+    condition: (ctx: Context) => isIncomeTooHigh(ctx),
+  },
+  pageIDs.erfolg,
+];
+
 // form flow is a mapping of pageID to:
 // pageID: trivial transition (always taken)
 // [Transition | pageID]: takes first valid transition.condition or trivial transition (pageID)
-
 export const formFlow: FormFlow = {
   [pageIDs.rechtsschutzversicherung]: [
     {
@@ -132,28 +150,9 @@ export const formFlow: FormFlow = {
       destination: pageIDs.weitereZahlungenSumme,
       condition: (ctx) => ctx.weitereZahlungen?.hasWeitereZahlungen === "yes",
     },
-    pageIDs.abschluss,
+    ...lastPageTransitions,
   ],
-  [pageIDs.weitereZahlungenSumme]: [pageIDs.abschluss],
-  [pageIDs.abschluss]: [
-    {
-      destination: pageIDs.abschlussBeratung,
-      condition: (ctx) =>
-        ctx.kostenfreieBeratung?.hasTriedFreeServices == "no" &&
-        !isIncomeTooHigh(ctx),
-    },
-    {
-      destination: pageIDs.abschlussEigeninitiative,
-      condition: (ctx) =>
-        ctx.eigeninitiative?.hasHelpedThemselves == "no" &&
-        !isIncomeTooHigh(ctx),
-    },
-    {
-      destination: pageIDs.einkommenZuHoch,
-      condition: (ctx) => isIncomeTooHigh(ctx),
-    },
-    pageIDs.erfolg,
-  ],
+  [pageIDs.weitereZahlungenSumme]: lastPageTransitions,
 };
 
 const isIncomeTooHigh = (ctx: Context) =>

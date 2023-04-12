@@ -33,8 +33,6 @@ test("vorabcheck can be traversed", async ({ page }) => {
   await vorabcheck.fillInputPage("einkommen", "100");
   await vorabcheck.fillInputPage("miete", "100");
   await vorabcheck.fillRadioPage("hasWeitereZahlungen", "no");
-  // abschluss step
-  await vorabcheck.clickNext();
 
   await expect(
     page.getByRole("heading").filter({ hasText: "Beratungshilfe erhalten" })
