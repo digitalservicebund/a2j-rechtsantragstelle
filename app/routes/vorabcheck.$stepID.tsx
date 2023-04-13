@@ -95,7 +95,7 @@ export default function Index() {
   const FormInputComponent = formPages[stepID].component;
 
   return (
-    <Container className="pt-16 pb-80 bg-blue-100">
+    <Container className="pt-16 pb-80 bg-blue-100 min-h-[100vh]">
       <Stack>
         <div>
           <p className="ds-label-03-reg mb-4">Vorab-Check</p>
