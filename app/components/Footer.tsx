@@ -41,7 +41,7 @@ export default function Footer({ image, paragraphs, links }: FooterProps) {
 
   return (
     <Container>
-      <footer className="pt-48 pb-56 flex flex-wrap items-start content-between gap-x-32 gap-y-40">
+      <footer className="pt-48 pb-56 flex flex-wrap items-start justify-between gap-x-32 gap-y-40">
         <div className="flex flex-wrap flex-col-reverse gap-x-16 gap-y-8 sm:flex-row">
           <Image {...image} />
           <div className="ds-stack stack-8">
