@@ -8,9 +8,11 @@ export interface HeadingProps
   level: number;
   text: ReactNode;
   className?: string;
+  style?: string;
 }
 
-function Heading({ level, text, ...props }: HeadingProps) {
+function Heading({ level, text, style, ...props }: HeadingProps) {
+  // QUICKFIX: ignore style prop, to fix: Error: The `style` prop expects a mapping from style properties to values, not a string.
   return React.createElement(
     elements[level - 1] || elements[0],
     { ...props },
