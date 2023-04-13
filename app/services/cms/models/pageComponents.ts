@@ -1,4 +1,5 @@
 import type { Heading, Paragraph } from "./contentComponents";
+import type { Image } from "./basicComponents";
 
 export type Header = {
   id: number;
@@ -8,4 +9,20 @@ export type Header = {
   hasBackground: boolean;
 };
 
-export type PageComponentCMS = Header;
+export type InfoBox = {
+  id: number;
+  __component: "page.info-box";
+  items: InfoBoxItem[];
+  headline: Heading;
+};
+
+export type InfoBoxItem = {
+  id: number;
+  __component: "page.info-box-item";
+  label?: string;
+  headline: string;
+  image?: Image;
+  content: string;
+};
+
+export type PageComponentCMS = Header | InfoBox;

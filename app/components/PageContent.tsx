@@ -2,6 +2,7 @@ import { Stack } from "~/components";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
 import Header from "./Header";
+import InfoBox from "./InfoBox";
 import type { FormContentCMS } from "~/services/cms/models/contentComponents";
 import type { PageComponentCMS } from "~/services/cms/models/pageComponents";
 
@@ -14,17 +15,13 @@ function cmsToReact(
   key?: string | number
 ) {
   if (element.__component === "basic.heading") {
-    const headingClass = "ds-" + element.style;
-    return Heading({
-      level: element.level,
-      text: element.text,
-      key,
-      className: headingClass,
-    });
+    return Heading({ ...element, key });
   } else if (element.__component === "basic.paragraph") {
     return Paragraph({ ...element, key });
   } else if (element.__component === "page.header") {
     return Header({ ...element, key });
+  } else if (element.__component === "page.info-box") {
+    return InfoBox({ ...element, key });
   }
 }
 

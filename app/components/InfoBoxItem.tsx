@@ -1,27 +1,21 @@
 import Heading from "./Heading";
 import RichText from "./RichText";
+import type { ImageProps } from "./Image";
 import Image from "./Image";
 
 type InfoBoxItemProps = {
   label?: string;
   headline: string;
-  headlineLevel: 2 | 3 | 4 | 5 | 6;
-  illustration?: any;
+  image: ImageProps;
   content: string;
 };
 
-const InfoBoxItem = ({
-  label,
-  headline,
-  headlineLevel = 3,
-  illustration,
-  content,
-}: InfoBoxItemProps) => {
+const InfoBoxItem = ({ label, headline, image, content }: InfoBoxItemProps) => {
   return (
     <li>
-      <Image url={illustration} />
-      <div className="uppercase">{label}</div>
-      <Heading level={headlineLevel} text={headline} />
+      <Image {...image} />
+      {label && <div className="uppercase">{label}</div>}
+      <Heading text={headline} level={2} />
       <RichText markdown={content} />
     </li>
   );

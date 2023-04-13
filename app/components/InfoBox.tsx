@@ -1,20 +1,27 @@
 import InfoBoxItem from "~/components/InfoBoxItem";
+import type { HeadingProps } from "./Heading";
+import Heading from "./Heading";
+import Container from "./Container";
 
-type InfoBoxProps = {
+export interface InfoBoxProps
+  extends React.ClassAttributes<HTMLHeadingElement> {
   items: any[];
-  headlineLevel: 2 | 3 | 4 | 5 | 6;
-};
+  headline: HeadingProps;
+}
 
-const InfoBox = ({ items, headlineLevel }: InfoBoxProps) => {
+const InfoBox = ({ items, headline, ...props }: InfoBoxProps) => {
   return (
-    <ul
-      className="list-none ds-stack"
-      style={{ "--stack-space": "var(--s-xl)" } as React.CSSProperties}
-    >
-      {items.map((item, index) => (
-        <InfoBoxItem {...item} headlineLevel={headlineLevel} key={index} />
-      ))}
-    </ul>
+    <Container {...props}>
+      <Heading {...headline} />
+      <ul
+        className="list-none ds-stack"
+        style={{ "--stack-space": "var(--s-xl)" } as React.CSSProperties}
+      >
+        {items.map((item, index) => (
+          <InfoBoxItem {...item} key={index} />
+        ))}
+      </ul>
+    </Container>
   );
 };
 

@@ -4,10 +4,10 @@ export type Heading = {
   text: string;
   level: number;
   style:
-    | "heading-01-reg"
-    | "heading-02-reg"
-    | "heading-03-reg"
-    | "heading-03-bold"
+    | "ds-heading-01-reg"
+    | "ds-heading-02-reg"
+    | "ds-heading-03-reg"
+    | "ds-heading-03-bold"
     | "subhead";
 };
 

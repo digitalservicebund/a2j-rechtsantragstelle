@@ -11,11 +11,14 @@ export interface HeadingProps
   style?: string;
 }
 
-function Heading({ level, text, style, ...props }: HeadingProps) {
-  // QUICKFIX: ignore style prop, to fix: Error: The `style` prop expects a mapping from style properties to values, not a string.
+function Heading({ level, text, className, style, ...props }: HeadingProps) {
+  const headingProps = {
+    ...props,
+    className: `${className || ""} ${style || ""}`.trim(),
+  };
   return React.createElement(
     elements[level - 1] || elements[0],
-    { ...props },
+    { ...headingProps },
     text
   );
 }
