@@ -17,7 +17,7 @@ function cmsToReact(
   if (element.__component === "basic.heading") {
     return Heading({ ...element, key });
   } else if (element.__component === "basic.paragraph") {
-    return Paragraph({ ...element, key });
+    return Paragraph({ ...element, key, className: "ds-body-01-reg" });
   } else if (element.__component === "page.header") {
     return Header({ ...element, key });
   } else if (element.__component === "page.info-box") {
