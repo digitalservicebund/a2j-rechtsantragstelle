@@ -42,3 +42,8 @@
 .progress-bar::-moz-progress-bar {
   @apply bg-blue-800;
 }
+
+.info-box > * + * {
+  border-top: 2px solid #d3d3d3;
+  padding-top: 2rem;
+}

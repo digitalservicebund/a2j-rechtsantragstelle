@@ -7,7 +7,7 @@ import Button from "./Button";
 
 type InfoBoxItemProps = {
   label?: string;
-  headline: string;
+  headline?: string;
   image?: ImageProps;
   content: string;
   button?: ButtonProps;
@@ -22,11 +22,15 @@ const InfoBoxItem = ({
 }: InfoBoxItemProps) => {
   return (
     <li className="flex flex-row items-center justify-center max-w-none max-[499px]:flex-col">
-      <Image {...image} {...{ className: "max-[499px]:self-start" }} />
-      <div className="ds-stack stack-8 w-full min-[500px]:ml-24">
+      {image && (
+        <Image {...image} {...{ className: "max-[499px]:self-start" }} />
+      )}
+      <div className="ds-stack stack-8 break-words w-full min-[500px]:ml-24">
         {label && <div className="ds-label-02-bold">{label}</div>}
-        <Heading text={headline} level={2} style="ds-heading-03-reg" />
-        <RichText markdown={content} />
+        {headline && (
+          <Heading text={headline} level={2} style="ds-heading-03-reg" />
+        )}
+        {content && <RichText markdown={content} />}
         {button && <Button className="max-w-fit" {...button} />}
       </div>
     </li>
