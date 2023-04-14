@@ -5,6 +5,7 @@ interface VisualProps {
   text?: string;
   look?: "primary" | "secondary" | "tertiary" | "ghost";
   size?: "large" | "medium" | "small";
+  href?: string;
   iconLeft?: ReactElement;
   iconRight?: ReactElement;
   fullWidth?: boolean;
@@ -14,9 +15,7 @@ export interface ButtonProps
     VisualProps {}
 export interface ButtonLinkProps
   extends React.ComponentPropsWithoutRef<"a">,
-    VisualProps {
-  href?: string;
-}
+    VisualProps {}
 
 function Button({
   children,
@@ -26,6 +25,7 @@ function Button({
   fullWidth,
   look,
   size,
+  href,
   ...props
 }: ButtonProps | ButtonLinkProps) {
   const buttonClasses = classNames(
@@ -43,11 +43,9 @@ function Button({
     props.className
   );
 
-  const linkProps = props as ButtonLinkProps;
-
-  if (linkProps) {
+  if (href) {
     return (
-      <a {...(props as ButtonLinkProps)} className={buttonClasses}>
+      <a {...(props as ButtonLinkProps)} href={href} className={buttonClasses}>
         {iconLeft}
         {children ? <span>{children}</span> : text ? <span>{text}</span> : ""}
         {iconRight}
