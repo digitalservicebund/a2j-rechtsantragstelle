@@ -20,15 +20,21 @@ const InfoBoxItem = ({
   content,
   button,
 }: InfoBoxItemProps) => {
+  console.log(image);
   return (
     <li className="flex flex-row items-center justify-center max-w-none max-[499px]:flex-col">
-      {image && (
+      {image?.data && (
         <Image
           {...image}
           {...{ className: "max-[499px]:mb-24 max-[499px]:self-start" }}
         />
       )}
-      <div className="ds-stack stack-8 break-words w-full min-[500px]:ml-24">
+      <div
+        className={
+          "ds-stack stack-8 break-words w-full " +
+          (image?.data && "min-[500px]:ml-24")
+        }
+      >
         {label && <div className="ds-label-02-bold">{label}</div>}
         {headline && (
           <Heading text={headline} level={2} style="ds-heading-03-reg" />
