@@ -20,7 +20,6 @@ const InfoBoxItem = ({
   content,
   button,
 }: InfoBoxItemProps) => {
-  console.log(image);
   return (
     <li className="flex flex-row items-center justify-center max-w-none max-[499px]:flex-col">
       {image?.data && (
