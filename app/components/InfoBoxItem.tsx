@@ -23,7 +23,10 @@ const InfoBoxItem = ({
   return (
     <li className="flex flex-row items-center justify-center max-w-none max-[499px]:flex-col">
       {image && (
-        <Image {...image} {...{ className: "max-[499px]:self-start" }} />
+        <Image
+          {...image}
+          {...{ className: "max-[499px]:mb-24 max-[499px]:self-start" }}
+        />
       )}
       <div className="ds-stack stack-8 break-words w-full min-[500px]:ml-24">
         {label && <div className="ds-label-02-bold">{label}</div>}
