@@ -18,16 +18,16 @@ function Image({ url, data, presentational, ...props }: ImageProps) {
   if (!data) return null;
 
   const imageUrl = data.attributes.url;
-  const imageWidth = data.attributes.width;
-  const imageHeight = data.attributes.height;
+  //const imageWidth = data.attributes.width;
+  //const imageHeight = data.attributes.height;
 
-  let width = imageWidth;
-  let height = imageHeight;
+  //let width =  || imageWidth;
+  //let height = imageHeight;
 
-  if (data.attributes.ext === ".png") {
-    width = imageWidth / 2;
-    height = imageHeight / 2;
-  }
+  // if (data.attributes.ext === ".png") {
+  //   width = imageWidth / 2;
+  //   height = imageHeight / 2;
+  // }
 
   const altText = data.attributes.alternativeText || undefined;
 
@@ -40,9 +40,9 @@ function Image({ url, data, presentational, ...props }: ImageProps) {
       {...props}
       src={imageUrl}
       alt={presentational ? "" : altText}
-      width={width}
-      height={height}
-      style={{ width: `${width}px`, height: `${height}px` }}
+      // width={width}
+      // height={height}
+      // style={{ width: `${width}px`, height: `${height}px` }}
     />
   );
 }
