@@ -2,7 +2,7 @@ import Heading from "./Heading";
 import RichText from "./RichText";
 import type { ImageProps } from "./Image";
 import Image from "./Image";
-import type { ButtonProps } from "./Button";
+import type { ButtonLinkProps } from "./Button";
 import Button from "./Button";
 
 type InfoBoxItemProps = {
@@ -10,7 +10,7 @@ type InfoBoxItemProps = {
   headline?: string;
   image?: ImageProps;
   content: string;
-  button?: ButtonProps;
+  button?: ButtonLinkProps;
 };
 
 const InfoBoxItem = ({
