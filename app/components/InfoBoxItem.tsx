@@ -2,21 +2,33 @@ import Heading from "./Heading";
 import RichText from "./RichText";
 import type { ImageProps } from "./Image";
 import Image from "./Image";
+import type { ButtonProps } from "./Button";
+import Button from "./Button";
 
 type InfoBoxItemProps = {
   label?: string;
   headline: string;
-  image: ImageProps;
+  image?: ImageProps;
   content: string;
+  button?: ButtonProps;
 };
 
-const InfoBoxItem = ({ label, headline, image, content }: InfoBoxItemProps) => {
+const InfoBoxItem = ({
+  label,
+  headline,
+  image,
+  content,
+  button,
+}: InfoBoxItemProps) => {
   return (
-    <li>
-      <Image {...image} />
-      {label && <div className="uppercase">{label}</div>}
-      <Heading text={headline} level={2} />
-      <RichText markdown={content} />
+    <li className="flex flex-row items-center justify-center max-w-none max-[499px]:flex-col">
+      <Image {...image} {...{ className: "max-[499px]:self-start" }} />
+      <div className="ds-stack stack-8 w-full min-[500px]:ml-24">
+        {label && <div className="ds-label-02-bold">{label}</div>}
+        <Heading text={headline} level={2} style="ds-heading-03-reg" />
+        <RichText markdown={content} />
+        {button && <Button className="max-w-fit" {...button} />}
+      </div>
     </li>
   );
 };

@@ -12,8 +12,8 @@ export type ImageProps = {
   };
 };
 
-function Image({ url, data, presentational }: ImageProps) {
-  if (url) return <img src={url} />;
+function Image({ url, data, presentational, ...props }: ImageProps) {
+  if (url) return <img {...props} src={url} />;
 
   if (!data) return null;
 
@@ -37,6 +37,7 @@ function Image({ url, data, presentational }: ImageProps) {
 
   return (
     <img
+      {...props}
       src={imageUrl}
       alt={presentational ? "" : altText}
       width={width}

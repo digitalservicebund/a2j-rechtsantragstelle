@@ -2,23 +2,33 @@ import classNames from "classnames";
 import type { ReactElement } from "react";
 
 interface VisualProps {
+  text?: string;
   look?: "primary" | "secondary" | "tertiary" | "ghost";
   size?: "large" | "medium" | "small";
+  href?: string;
   iconLeft?: ReactElement;
   iconRight?: ReactElement;
   fullWidth?: boolean;
 }
-interface ButtonProps
+export interface ButtonProps
   extends React.ComponentPropsWithoutRef<"button">,
     VisualProps {}
-interface ButtonLinkProps
+export interface ButtonLinkProps
   extends React.ComponentPropsWithoutRef<"a">,
     VisualProps {}
 
-const Button = (props: ButtonProps | ButtonLinkProps) => {
-  const { children, iconLeft, iconRight, fullWidth, look, size, ...rest } =
-    props;
-  const isLink = "href" in props;
+function Button({
+  children,
+  text,
+  iconLeft,
+  iconRight,
+  fullWidth,
+  look,
+  size,
+  href,
+  ...props
+}: ButtonProps | ButtonLinkProps) {
+  console.log(size);
   const buttonClasses = classNames(
     "ds-button",
     {
@@ -34,23 +44,23 @@ const Button = (props: ButtonProps | ButtonLinkProps) => {
     props.className
   );
 
-  if (isLink) {
+  if (href) {
     return (
-      <a {...(rest as ButtonLinkProps)} className={buttonClasses}>
+      <a {...(props as ButtonLinkProps)} className={buttonClasses}>
         {iconLeft}
-        {children ? <span>{children}</span> : ""}
+        {children ? <span>{children}</span> : text ? <span>{text}</span> : ""}
         {iconRight}
       </a>
     );
   } else {
     return (
-      <button {...(rest as ButtonProps)} className={buttonClasses}>
+      <button {...(props as ButtonProps)} className={buttonClasses}>
         {iconLeft}
-        {children ? <span>{children}</span> : ""}
+        {children ? <span>{children}</span> : text ? <span>{text}</span> : ""}
         {iconRight}
       </button>
     );
   }
-};
+}
 
 export default Button;
