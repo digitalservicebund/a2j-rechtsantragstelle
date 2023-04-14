@@ -16,7 +16,9 @@ test.describe("links", () => {
         (resp) => resp.url().includes(link.url) && resp.status() === 200,
         { timeout: 500 }
       );
-      await page.getByRole("link", { name: link.displayName }).click();
+      await page
+        .getByRole("link", { name: link.displayName, exact: true })
+        .click();
       await responsePromise;
     });
   });
