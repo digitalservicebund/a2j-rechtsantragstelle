@@ -47,3 +47,7 @@
   border-top: 2px solid #d3d3d3;
   padding-top: 2rem;
 }
+
+.info-box li {
+  max-width: none;
+}
