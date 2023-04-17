@@ -18,6 +18,4 @@ export default function getCMS(): CMS {
     default:
       return new Strapi();
   }
-
-  throw new Error(`CMS not supported:${config().CMS}`);
 }
