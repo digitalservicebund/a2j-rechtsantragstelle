@@ -22,7 +22,7 @@ const RichText = ({ markdown, renderer, ...props }: RichTextProps) => {
   return (
     <div
       {...props}
-      className="ds-stack stack-16"
+      className="rich-text ds-stack stack-16"
       dangerouslySetInnerHTML={{ __html: marked.parse(markdown) }}
     />
   );

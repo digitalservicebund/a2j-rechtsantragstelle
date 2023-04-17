@@ -23,6 +23,11 @@
     max-width: 59rem;
     padding: 0 clamp(1rem, 5vw, 3rem);
   }
+
+  /* There is a specific design request to remove the margin above lists */
+  .rich-text ul {
+    @apply mt-0;
+  }
 }
 
 /* TODO: move to angie */
