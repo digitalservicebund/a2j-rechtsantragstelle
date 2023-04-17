@@ -7,7 +7,6 @@
   ul {
     @apply list-disc;
     @apply pl-24;
-    max-width: 70ch;
   }
 
   /* TODO: move this to angie, global default for all a */
@@ -62,10 +61,6 @@
 .info-box > * + * {
   border-top: 2px solid #d3d3d3;
   padding-top: 2rem;
-}
-
-.info-box li {
-  max-width: none;
 }
 
 .info-box img {
