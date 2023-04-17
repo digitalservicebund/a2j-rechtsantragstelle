@@ -2,7 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  /* TODO: move this to angie, global default for all ul */
+  ul {
+    @apply list-disc;
+    @apply pl-24;
+    max-width: 70ch;
+  }
+
+  /* TODO: move this to angie, global default for all a */
+  a {
+    color: currentColor;
+  }
+}
+
 @layer components {
+  /* Tailwind's container core plugin is disabled,
+   * because its breakpoint-based nature does not fit our needs */
   .container {
     @apply mx-auto;
     max-width: 59rem;
