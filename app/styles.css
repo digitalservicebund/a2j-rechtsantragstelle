@@ -13,6 +13,13 @@
   a {
     color: currentColor;
   }
+
+  /* TODO: move this to angie, global default for all images */
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 @layer components {
