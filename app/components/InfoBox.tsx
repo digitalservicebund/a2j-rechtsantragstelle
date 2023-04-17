@@ -13,10 +13,7 @@ const InfoBox = ({ items, headline, ...props }: InfoBoxProps) => {
   return (
     <Container {...props}>
       <Heading {...headline} />
-      <ul
-        className="list-none ds-stack ps-0 info-box"
-        style={{ "--stack-space": "var(--s-xl)" } as React.CSSProperties}
-      >
+      <ul className="list-none ds-stack stack-32 ps-0 info-box">
         {items.map((item, index) => (
           <InfoBoxItem {...item} key={index} />
         ))}

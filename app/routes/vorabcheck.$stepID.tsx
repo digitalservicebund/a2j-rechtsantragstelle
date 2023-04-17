@@ -24,7 +24,6 @@ import { getVorabCheckPageConfig } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import Container from "~/components/Container";
-import { Stack } from "~/components";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
@@ -96,7 +95,7 @@ export default function Index() {
 
   return (
     <Container className="pt-16 pb-80 bg-blue-100 min-h-[100vh]">
-      <Stack>
+      <div className="ds-stack stack-16">
         <div>
           <p className="ds-label-03-reg mb-4">Vorab-Check</p>
           <ProgressBar
@@ -107,7 +106,7 @@ export default function Index() {
             }
           />
         </div>
-        <Stack space="xl">
+        <div className="ds-stack stack-32">
           <PageContent content={preFormContent} />
           <ValidatedForm
             key={`${stepID}_form`}
@@ -115,16 +114,16 @@ export default function Index() {
             validator={allValidators[stepID]}
             defaultValues={defaultValues}
           >
-            <Stack space="2xl">
+            <div className="ds-stack stack-48">
               <FormInputComponent content={formContent} />
               <ButtonNavigation
                 backDestination={previousStep}
                 isLast={isLast}
               />
-            </Stack>
+            </div>
           </ValidatedForm>
-        </Stack>
-      </Stack>
+        </div>
+      </div>
     </Container>
   );
 }

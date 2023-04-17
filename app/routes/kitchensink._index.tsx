@@ -6,7 +6,7 @@ import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm, validationError } from "remix-validated-form";
 
-import { Button, Input, RadioGroup, Select, Stack } from "~/components";
+import { Button, Input, RadioGroup, Select } from "~/components";
 
 const title = "Kitchensink";
 
@@ -47,9 +47,8 @@ export default function Kitchensink() {
           radioOptions: "no",
         }}
       >
-        <h3>{"<Stack space='xl'>"}</h3>
-        <Stack space="xl">
-          <Stack space="l">
+        <div className="ds-stack stack-32">
+          <div className="ds-stack stack-24">
             <h3>{"<Input>"}</h3>
             <Input name="text" label="Text" />
 
@@ -79,11 +78,11 @@ export default function Kitchensink() {
                 ]}
               />
             </fieldset>
-          </Stack>
+          </div>
           <div>
             <Button>Abschicken</Button>
           </div>
-        </Stack>
+        </div>
       </ValidatedForm>
 
       {data && (

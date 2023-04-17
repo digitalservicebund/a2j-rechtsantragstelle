@@ -1,4 +1,3 @@
-import { Stack } from "~/components";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
 import Header from "./Header";
@@ -26,6 +25,8 @@ function cmsToReact(
 }
 
 const PageContent = ({ content = [] }: PageContentProps) => (
-  <Stack space="l"> {content.map((el, idx) => cmsToReact(el, idx))}</Stack>
+  <div className="ds-stack stack-24">
+    {content.map((el, idx) => cmsToReact(el, idx))}
+  </div>
 );
 export default PageContent;
