@@ -1,5 +1,4 @@
 export type ImageProps = {
-  url?: string;
   presentational?: boolean;
   data?: {
     attributes: {
@@ -12,9 +11,7 @@ export type ImageProps = {
   };
 };
 
-function Image({ url, data, presentational, ...props }: ImageProps) {
-  if (url) return <img {...props} src={url} />;
-
+function Image({ data, presentational, ...props }: ImageProps) {
   if (!data) return null;
 
   const imageUrl = data.attributes.url;
