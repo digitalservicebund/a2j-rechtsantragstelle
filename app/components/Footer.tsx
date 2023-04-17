@@ -2,29 +2,34 @@ import type { Renderer } from "marked";
 import Container from "./Container";
 import type { ImageProps } from "./Image";
 import Image from "./Image";
-import type { LinkProps } from "./Link";
-import Link from "./Link";
 import type { ParagraphProps } from "./Paragraph";
 import RichText from "./RichText";
+
+type LinkAttrs = {
+  url: string;
+  text: string;
+};
 
 export interface FooterProps {
   image: ImageProps;
   paragraphs: ParagraphProps[];
-  links: LinkProps[];
+  links: LinkAttrs[];
 }
 
 export default function Footer({ image, paragraphs, links }: FooterProps) {
   const linksMiddleIndex = Math.ceil(links.length / 2);
-  const linksFirstColumn = links.slice(0, linksMiddleIndex);
-  const linksSecondColumn = links.slice(linksMiddleIndex);
+  const linksFirstColumn: typeof links = links.slice(0, linksMiddleIndex);
+  const linksSecondColumn: typeof links = links.slice(linksMiddleIndex);
 
-  const renderLink = (link: LinkProps) => (
+  const renderLink = (link: LinkAttrs) => (
     <li key={link.url}>
-      <Link {...link} {...{ className: "link-02-bold" }} />
+      <a href={link.url} className="link-02-bold">
+        {link.text}
+      </a>
     </li>
   );
 
-  const renderLinks = (links: LinkProps[]) => (
+  const renderLinks = (links: LinkAttrs[]) => (
     <ul className="list-none m-0 p-0 ds-stack stack-8" key={links[0].url}>
       {links.map(renderLink)}
     </ul>
