@@ -30,6 +30,14 @@
   }
 }
 
+@media (max-width: 499px) {
+  /* project-specific overwriting of angie styling */
+  .ds-heading-01-reg {
+    font-size: 2.25rem;
+    line-height: 1.2222;
+  }
+}
+
 /* TODO: move to angie */
 .link-02-bold {
   font-weight: 700;
