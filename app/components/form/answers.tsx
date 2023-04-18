@@ -12,7 +12,10 @@ export const defaultYesNoOptions = [
   { value: YesNoAnswer.enum.yes, text: "Ja" },
 ];
 
-export function yesNoOptions(content: FormComponentCMS[], fieldname: string) {
+export function yesNoOptions(
+  content: FormComponentCMS[] = [],
+  fieldname: string
+) {
   const matchingSelectElements = content.filter(
     (e) => e.name === fieldname && e.__component === "form-elements.select"
   ) as Select[];
