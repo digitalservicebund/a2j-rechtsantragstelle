@@ -2,6 +2,8 @@ import { Steps } from "~/components/form/steps";
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { einkommenKinderStep } from "~/components/form/steps/einkommenKinder";
+import { kinderAnzahlSimpleStep } from "~/components/form/steps/kinderAnzahlSimple";
+import { verfuegbaresEinkommenStep } from "~/components/form/steps/verfuegbaresEinkommen";
 
 export const formPages = {
   rechtsschutzversicherung: Steps.rechtsschutzversicherungStep,
@@ -27,11 +29,13 @@ export const formPages = {
   erfolgBuergergeld: Steps.successBuergergeldStep,
   kinder: Steps.kinderStep,
   kinderAnzahl: Steps.kinderAnzahlStep,
+  kinderAnzahlSimple: kinderAnzahlSimpleStep,
   einkommenKinder: einkommenKinderStep,
   unterhalt: Steps.unterhaltStep,
   unterhaltSumme: Steps.unterhaltSummeStep,
   erwerbstaetigkeit: Steps.erwerbstaetigkeitStep,
   einkommen: Steps.einkommenStep,
+  verfuegbaresEinkommen: verfuegbaresEinkommenStep,
   miete: Steps.mieteStep,
   weitereZahlungen: Steps.weitereZahlungenStep,
   weitereZahlungenSumme: Steps.weitereZahlungenSummeStep,
