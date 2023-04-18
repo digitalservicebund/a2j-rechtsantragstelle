@@ -57,7 +57,7 @@ export const getPageConfig = async function (
 ): Promise<Page | undefined> {
   const cmsContent = await cms().getPageFromCollection("page", page);
   if (!cmsContent && !options?.dontThrow) {
-    throw new Error("No page config found!");
+    throw new Error(`No content for ${page} found!`);
   }
   return cmsContent;
 };
