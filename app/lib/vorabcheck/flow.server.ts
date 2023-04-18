@@ -123,25 +123,45 @@ export const formFlow: FormFlow = {
         ctx.vermoegen?.vermoegen === "below_10k" &&
         ctx.staatlicheLeistungen?.staatlicheLeistung === "buergergeld",
     },
-    pageIDs.genauigkeit,
+    pageIDs.erwerbstaetigkeit,
   ],
-  [pageIDs.genauigkeit]: [pageIDs.erwerbstaetigkeit],
-  [pageIDs.erwerbstaetigkeit]: [pageIDs.einkommen],
-  [pageIDs.einkommen]: [pageIDs.partnerschaft],
-  [pageIDs.partnerschaft]: [
+  [pageIDs.erwerbstaetigkeit]: [pageIDs.partnerschaft],
+  [pageIDs.partnerschaft]: [pageIDs.kinder],
+  [pageIDs.kinder]: [pageIDs.genauigkeit],
+  [pageIDs.genauigkeit]: [
     {
-      destination: pageIDs.einkommenPartner,
-      condition: (ctx) => ctx.partnerschaft?.partnerschaft === "yes",
+      destination: pageIDs.kinderAnzahlSimple,
+      condition: (ctx) =>
+        ctx.genauigkeit?.wantsToKnowPrecisely === "no" &&
+        ctx.kinder?.isPayingForKids === "yes",
     },
-    pageIDs.kinder,
+    {
+      destination: pageIDs.verfuegbaresEinkommen,
+      condition: (ctx) =>
+        ctx.genauigkeit?.wantsToKnowPrecisely === "no" &&
+        ctx.kinder?.isPayingForKids === "no",
+    },
+    {
+      destination: pageIDs.kinderAnzahl,
+      condition: (ctx) =>
+        ctx.genauigkeit?.wantsToKnowPrecisely === "yes" &&
+        ctx.kinder?.isPayingForKids === "yes",
+    },
+    {
+      destination: pageIDs.miete,
+      condition: (ctx) =>
+        ctx.genauigkeit?.wantsToKnowPrecisely === "yes" &&
+        ctx.kinder?.isPayingForKids === "no",
+    },
   ],
-  [pageIDs.einkommenPartner]: [pageIDs.kinder],
-  [pageIDs.kinder]: [
+  [pageIDs.kinderAnzahlSimple]: [pageIDs.verfuegbaresEinkommen],
+  [pageIDs.verfuegbaresEinkommen]: [
     {
-      destination: pageIDs.unterhalt,
-      condition: (ctx) => ctx.kinder?.isPayingForKids === "no",
+      destination: pageIDs.erfolg,
+      condition: (ctx) =>
+        ctx.verfuegbaresEinkommen?.excessiveDisposableIncome === "no",
     },
-    pageIDs.kinderAnzahl,
+    pageIDs.einkommenZuHoch,
   ],
   [pageIDs.kinderAnzahl]: [
     {
