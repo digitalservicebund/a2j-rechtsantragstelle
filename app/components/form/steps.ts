@@ -68,7 +68,10 @@ export const Steps = {
   abschlussMaybeBeratungStep,
 } as const;
 
-export type StepComponentProps = { content: FormComponentCMS[] };
+export type StepComponentProps = {
+  content: FormComponentCMS[];
+  additionalContext?: Record<string, string>;
+};
 export type FormComponent = FunctionComponent<StepComponentProps>;
 
 interface StepComponent {

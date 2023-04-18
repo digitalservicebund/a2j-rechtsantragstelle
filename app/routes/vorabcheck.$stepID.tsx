@@ -41,6 +41,10 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
 
+  // TODO: actually calculate freibetrag here (and make this is less hacky)
+  const additionalContext =
+    stepID == "verfuegbaresEinkommen" ? { freibetrag: 100 } : {};
+
   return json({
     defaultValues: session.data[stepID],
     preFormContent: page?.pre_form,
@@ -50,6 +54,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     progressTotal: progress[initialStepID],
     isLast: isLeaf(stepID, formGraph),
     previousStep: findPreviousStep(stepID, formGraph, session.data)[0],
+    additionalContext,
   });
 };
 
@@ -87,6 +92,7 @@ export default function Index() {
     progressTotal,
     isLast,
     previousStep,
+    additionalContext,
   } = useLoaderData<typeof loader>();
   const stepProgress = progressTotal - progressStep + 1;
   const params = useParams();
@@ -115,7 +121,10 @@ export default function Index() {
             defaultValues={defaultValues}
           >
             <div className="ds-stack stack-48">
-              <FormInputComponent content={formContent} />
+              <FormInputComponent
+                content={formContent}
+                additionalContext={additionalContext}
+              />
               <ButtonNavigation
                 backDestination={previousStep}
                 isLast={isLast}
