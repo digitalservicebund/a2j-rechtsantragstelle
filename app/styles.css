@@ -9,6 +9,11 @@
     @apply pl-24;
   }
 
+  /* TODO: move this to angie, global default for all text */
+  body {
+    hyphens: auto;
+  }
+
   /* TODO: move this to angie, global default for all a */
   a {
     color: currentColor;
