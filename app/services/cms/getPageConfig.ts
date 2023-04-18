@@ -44,10 +44,12 @@ export const flattenErrorCodes = (errors: ErrorCategory[] = []) => {
 export const getVorabCheckPageConfig = async function (
   url: string
 ): Promise<VorabcheckPage | undefined> {
-  const { pathname } = new URL(url);
-  const [collection, step] = pathname.slice(1).split("/");
+  const [collection, step] = slugsfromURL(url);
   return await cms().getPageFromCollection(collection, step);
 };
+
+export const slugsfromURL = (url: string) =>
+  new URL(url).pathname.slice(1).split("/");
 
 export const getPageConfig = async function (
   page: string,
