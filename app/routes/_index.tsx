@@ -4,11 +4,13 @@ import { useLoaderData } from "@remix-run/react";
 import { getPageConfig } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
 
-const title = "A2J - Digitale RAST";
+export const loader: LoaderFunction = async () => {
+  return json(await getPageConfig("index"));
+};
 
-export const meta: V2_MetaFunction = () => [
-  { title },
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   {
+    title: data.meta?.title,
     name: "robots",
     content: "noindex",
   },
