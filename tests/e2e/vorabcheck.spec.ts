@@ -30,11 +30,13 @@ test("vorabcheck can be traversed", async ({ page }) => {
   await vorabcheck.fillRadioPage("partnerschaft", "yes");
   await vorabcheck.fillRadioPage("isPayingForKids", "yes");
   await vorabcheck.fillRadioPage("wantsToKnowPrecisely", "yes");
+  await vorabcheck.fillInputPage("miete", "100");
   await vorabcheck.fillInputPage("kids18Above", "1");
   await vorabcheck.fillInputPage("einkommenKinder", "50");
   await vorabcheck.fillRadioPage("isPayingUnterhalt", "no");
-  await vorabcheck.fillInputPage("miete", "100");
   await vorabcheck.fillRadioPage("hasWeitereZahlungen", "no");
+  await vorabcheck.fillInputPage("einkommen", "100");
+  await vorabcheck.fillInputPage("einkommenPartner", "100");
 
   await expect(
     page.getByRole("heading").filter({ hasText: "Beratungshilfe erhalten" })

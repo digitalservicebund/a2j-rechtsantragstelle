@@ -142,16 +142,8 @@ export const formFlow: FormFlow = {
         ctx.kinder?.isPayingForKids === "no",
     },
     {
-      destination: pageIDs.kinderAnzahl,
-      condition: (ctx) =>
-        ctx.genauigkeit?.wantsToKnowPrecisely === "yes" &&
-        ctx.kinder?.isPayingForKids === "yes",
-    },
-    {
       destination: pageIDs.miete,
-      condition: (ctx) =>
-        ctx.genauigkeit?.wantsToKnowPrecisely === "yes" &&
-        ctx.kinder?.isPayingForKids === "no",
+      condition: (ctx) => ctx.genauigkeit?.wantsToKnowPrecisely === "yes",
     },
   ],
   [pageIDs.kinderAnzahlSimple]: [pageIDs.verfuegbaresEinkommen],
@@ -161,33 +153,45 @@ export const formFlow: FormFlow = {
       condition: (ctx) =>
         ctx.verfuegbaresEinkommen?.excessiveDisposableIncome === "no",
     },
-    pageIDs.einkommenZuHoch,
-  ],
-  [pageIDs.kinderAnzahl]: [
     {
-      destination: pageIDs.einkommenKinder,
+      destination: pageIDs.einkommenZuHoch,
+      condition: (ctx) =>
+        ctx.verfuegbaresEinkommen?.excessiveDisposableIncome === "yes",
+    },
+  ],
+  [pageIDs.miete]: [
+    {
+      destination: pageIDs.kinderAnzahl,
       condition: (ctx) => ctx.kinder?.isPayingForKids === "yes",
     },
     pageIDs.unterhalt,
   ],
+  [pageIDs.kinderAnzahl]: [pageIDs.einkommenKinder],
   [pageIDs.einkommenKinder]: [pageIDs.unterhalt],
   [pageIDs.unterhalt]: [
     {
       destination: pageIDs.unterhaltSumme,
       condition: (ctx) => ctx.unterhalt?.isPayingUnterhalt === "yes",
     },
-    pageIDs.miete,
+    pageIDs.weitereZahlungen,
   ],
-  [pageIDs.unterhaltSumme]: [pageIDs.miete],
-  [pageIDs.miete]: [pageIDs.weitereZahlungen],
+  [pageIDs.unterhaltSumme]: [pageIDs.weitereZahlungen],
   [pageIDs.weitereZahlungen]: [
     {
       destination: pageIDs.weitereZahlungenSumme,
       condition: (ctx) => ctx.weitereZahlungen?.hasWeitereZahlungen === "yes",
     },
+    pageIDs.einkommen,
+  ],
+  [pageIDs.weitereZahlungenSumme]: [pageIDs.einkommen],
+  [pageIDs.einkommen]: [
+    {
+      destination: pageIDs.einkommenPartner,
+      condition: (ctx) => ctx.partnerschaft?.partnerschaft == "yes",
+    },
     ...lastPageTransitions,
   ],
-  [pageIDs.weitereZahlungenSumme]: lastPageTransitions,
+  [pageIDs.einkommenPartner]: lastPageTransitions,
 };
 
 const isIncomeTooHigh = (ctx: Context) =>
