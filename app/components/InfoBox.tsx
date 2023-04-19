@@ -6,11 +6,30 @@ import Container from "./Container";
 export interface InfoBoxProps extends React.ClassAttributes<HTMLDivElement> {
   items: any[];
   headline: HeadingProps;
+  className?: string;
+  style?: string;
 }
 
-const InfoBox = ({ items, headline, ...props }: InfoBoxProps) => {
+const InfoBox = ({ items, headline, style, ...props }: InfoBoxProps) => {
+  let backgroundColor = "bg-white";
+  switch (style) {
+    case "blue":
+      backgroundColor = "bg-blue-100";
+      break;
+    case "yellow":
+      backgroundColor = "bg-yellow-300";
+      break;
+  }
+
+  const containerProps = {
+    ...props,
+    className: `${backgroundColor} ${props.className || ""}`.trim(),
+  };
+
+  console.log(style + " " + backgroundColor);
+
   return (
-    <Container {...props}>
+    <Container {...containerProps}>
       <Heading {...headline} />
       <ul className="list-none ds-stack stack-32 ps-0 info-box">
         {items.map((item, index) => (
