@@ -21,7 +21,7 @@ export default function Container({
       className={classes({ "bg-blue-100": hasBackground }, className)}
       style={style}
     >
-      <div className="container mt-40 mb-48">{children}</div>
+      <div className="container">{children}</div>
     </div>
   );
 }
