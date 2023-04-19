@@ -27,16 +27,16 @@ test("vorabcheck can be traversed", async ({ page }) => {
   await vorabcheck.fillRadioPage("staatlicheLeistung", "keine");
   await vorabcheck.fillRadioPage("vermoegen", "below_10k");
   await vorabcheck.fillRadioPage("isErwerbstaetig", "no");
-  await vorabcheck.fillRadioPage("partnerschaft", "yes");
-  await vorabcheck.fillRadioPage("isPayingForKids", "yes");
+  await vorabcheck.fillRadioPage("partnerschaft", "no");
   await vorabcheck.fillRadioPage("wantsToKnowPrecisely", "yes");
-  await vorabcheck.fillInputPage("miete", "100");
-  await vorabcheck.fillInputPage("kids18Above", "1");
-  await vorabcheck.fillInputPage("einkommenKinder", "50");
+  await vorabcheck.fillInputPage("einkommen", "1550");
+  await vorabcheck.fillRadioPage("isPayingForKids", "yes");
+  await vorabcheck.fillInputPage("kids15To18", "1");
+  await vorabcheck.fillInputPage("einkommenKinder", "0");
   await vorabcheck.fillRadioPage("isPayingUnterhalt", "no");
-  await vorabcheck.fillRadioPage("hasWeitereZahlungen", "no");
-  await vorabcheck.fillInputPage("einkommen", "100");
-  await vorabcheck.fillInputPage("einkommenPartner", "100");
+  await vorabcheck.fillInputPage("miete", "600");
+  await vorabcheck.fillRadioPage("hasWeitereZahlungen", "yes");
+  await vorabcheck.fillInputPage("weitereZahlungenSumme", "200");
 
   await expect(
     page.getByRole("heading").filter({ hasText: "Beratungshilfe erhalten" })

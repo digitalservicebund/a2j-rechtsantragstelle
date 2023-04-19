@@ -194,7 +194,10 @@ export const formFlow: FormFlow = {
 };
 
 const isIncomeTooHigh = (ctx: Context) =>
-  (ctx.einkommen?.einkommen ?? 0 - 20) >
+  (ctx.einkommen?.einkommen ?? 0) -
+    (ctx.miete?.miete ?? 0) -
+    (ctx.weitereZahlungenSumme?.weitereZahlungenSumme ?? 0) -
+    20 >
   freibetrag(
     ctx.erwerbstaetigkeit?.isErwerbstaetig === "yes",
     ctx.partnerschaft?.partnerschaft === "yes",
