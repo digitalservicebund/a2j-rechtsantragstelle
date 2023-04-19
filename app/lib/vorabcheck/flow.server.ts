@@ -126,27 +126,25 @@ export const formFlow: FormFlow = {
     pageIDs.erwerbstaetigkeit,
   ],
   [pageIDs.erwerbstaetigkeit]: [pageIDs.partnerschaft],
-  [pageIDs.partnerschaft]: [pageIDs.kinder],
-  [pageIDs.kinder]: [pageIDs.genauigkeit],
+  [pageIDs.partnerschaft]: [pageIDs.genauigkeit],
   [pageIDs.genauigkeit]: [
     {
-      destination: pageIDs.kinderAnzahlSimple,
-      condition: (ctx) =>
-        ctx.genauigkeit?.wantsToKnowPrecisely === "no" &&
-        ctx.kinder?.isPayingForKids === "yes",
+      destination: pageIDs.kinderGrob,
+      condition: (ctx) => ctx.genauigkeit?.wantsToKnowPrecisely === "no",
     },
     {
-      destination: pageIDs.verfuegbaresEinkommen,
-      condition: (ctx) =>
-        ctx.genauigkeit?.wantsToKnowPrecisely === "no" &&
-        ctx.kinder?.isPayingForKids === "no",
-    },
-    {
-      destination: pageIDs.miete,
+      destination: pageIDs.einkommen,
       condition: (ctx) => ctx.genauigkeit?.wantsToKnowPrecisely === "yes",
     },
   ],
-  [pageIDs.kinderAnzahlSimple]: [pageIDs.verfuegbaresEinkommen],
+  [pageIDs.kinderGrob]: [
+    {
+      destination: pageIDs.kinderAnzahlGrob,
+      condition: (ctx) => ctx.kinderGrob?.isPayingForKids === "yes",
+    },
+    pageIDs.verfuegbaresEinkommen,
+  ],
+  [pageIDs.kinderAnzahlGrob]: [pageIDs.verfuegbaresEinkommen],
   [pageIDs.verfuegbaresEinkommen]: [
     {
       destination: pageIDs.erfolg,
@@ -159,7 +157,15 @@ export const formFlow: FormFlow = {
         ctx.verfuegbaresEinkommen?.excessiveDisposableIncome === "yes",
     },
   ],
-  [pageIDs.miete]: [
+  [pageIDs.einkommen]: [
+    {
+      destination: pageIDs.einkommenPartner,
+      condition: (ctx) => ctx.partnerschaft?.partnerschaft == "yes",
+    },
+    pageIDs.kinder,
+  ],
+  [pageIDs.einkommenPartner]: [pageIDs.kinder],
+  [pageIDs.kinder]: [
     {
       destination: pageIDs.kinderAnzahl,
       condition: (ctx) => ctx.kinder?.isPayingForKids === "yes",
@@ -173,25 +179,18 @@ export const formFlow: FormFlow = {
       destination: pageIDs.unterhaltSumme,
       condition: (ctx) => ctx.unterhalt?.isPayingUnterhalt === "yes",
     },
-    pageIDs.weitereZahlungen,
+    pageIDs.miete,
   ],
-  [pageIDs.unterhaltSumme]: [pageIDs.weitereZahlungen],
+  [pageIDs.unterhaltSumme]: [pageIDs.miete],
+  [pageIDs.miete]: [pageIDs.weitereZahlungen],
   [pageIDs.weitereZahlungen]: [
     {
       destination: pageIDs.weitereZahlungenSumme,
       condition: (ctx) => ctx.weitereZahlungen?.hasWeitereZahlungen === "yes",
     },
-    pageIDs.einkommen,
-  ],
-  [pageIDs.weitereZahlungenSumme]: [pageIDs.einkommen],
-  [pageIDs.einkommen]: [
-    {
-      destination: pageIDs.einkommenPartner,
-      condition: (ctx) => ctx.partnerschaft?.partnerschaft == "yes",
-    },
     ...lastPageTransitions,
   ],
-  [pageIDs.einkommenPartner]: lastPageTransitions,
+  [pageIDs.weitereZahlungenSumme]: lastPageTransitions,
 };
 
 const isIncomeTooHigh = (ctx: Context) =>
