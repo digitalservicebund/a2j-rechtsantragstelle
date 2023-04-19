@@ -30,7 +30,7 @@ export default function Footer({ image, paragraphs, links }: FooterProps) {
   );
 
   const renderLinks = (links: LinkAttrs[]) => (
-    <ul className="list-none m-0 p-0 ds-stack stack-8" key={links[0].url}>
+    <ul className="list-none m-0 p-0 ds-stack stack-8" key={links[0]?.url}>
       {links.map(renderLink)}
     </ul>
   );
