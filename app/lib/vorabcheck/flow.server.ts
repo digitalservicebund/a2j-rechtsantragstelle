@@ -129,7 +129,7 @@ export const formFlow: FormFlow = {
   [pageIDs.partnerschaft]: [pageIDs.genauigkeit],
   [pageIDs.genauigkeit]: [
     {
-      destination: pageIDs.kinderGrob,
+      destination: pageIDs.kinderKurz,
       condition: (ctx) => ctx.genauigkeit?.wantsToKnowPrecisely === "no",
     },
     {
@@ -137,14 +137,14 @@ export const formFlow: FormFlow = {
       condition: (ctx) => ctx.genauigkeit?.wantsToKnowPrecisely === "yes",
     },
   ],
-  [pageIDs.kinderGrob]: [
+  [pageIDs.kinderKurz]: [
     {
-      destination: pageIDs.kinderAnzahlGrob,
-      condition: (ctx) => ctx.kinderGrob?.isPayingForKids === "yes",
+      destination: pageIDs.kinderAnzahlKurz,
+      condition: (ctx) => ctx.kinderKurz?.isPayingForKids === "yes",
     },
     pageIDs.verfuegbaresEinkommen,
   ],
-  [pageIDs.kinderAnzahlGrob]: [pageIDs.verfuegbaresEinkommen],
+  [pageIDs.kinderAnzahlKurz]: [pageIDs.verfuegbaresEinkommen],
   [pageIDs.verfuegbaresEinkommen]: [
     {
       destination: pageIDs.erfolg,
