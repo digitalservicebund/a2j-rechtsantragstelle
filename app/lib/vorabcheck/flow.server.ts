@@ -35,7 +35,7 @@ const lastPageTransitions = [
       ctx.eigeninitiative?.hasHelpedThemselves == "no" && !isIncomeTooHigh(ctx),
   },
   {
-    destination: pageIDs.einkommenZuHoch,
+    destination: pageIDs.abschlussNein,
     condition: (ctx: Context) => isIncomeTooHigh(ctx),
   },
   pageIDs.erfolg,
@@ -152,7 +152,7 @@ export const formFlow: FormFlow = {
         ctx.verfuegbaresEinkommen?.excessiveDisposableIncome === "no",
     },
     {
-      destination: pageIDs.einkommenZuHoch,
+      destination: pageIDs.abschlussNein,
       condition: (ctx) =>
         ctx.verfuegbaresEinkommen?.excessiveDisposableIncome === "yes",
     },

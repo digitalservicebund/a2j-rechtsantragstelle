@@ -1,4 +1,4 @@
-export const abschlussNoStep = {
+export const abschlussNeinStep = {
   component: () => {
     return (
       <div style={{ border: "solid red 1px", padding: "1rem" }}>

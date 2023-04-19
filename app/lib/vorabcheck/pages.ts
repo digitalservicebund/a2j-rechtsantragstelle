@@ -40,7 +40,7 @@ export const formPages = {
   miete: Steps.mieteStep,
   weitereZahlungen: Steps.weitereZahlungenStep,
   weitereZahlungenSumme: Steps.weitereZahlungenSummeStep,
-  einkommenZuHoch: Steps.abschlussNoStep,
+  abschlussNein: Steps.abschlussNeinStep,
   abschlussEigeninitiative: Steps.abschlussMaybeSelfhelpStep,
   abschlussBeratung: Steps.abschlussMaybeBeratungStep,
   erfolg: Steps.abschlussYesStep,

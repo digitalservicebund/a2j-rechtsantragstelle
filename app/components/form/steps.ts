@@ -15,7 +15,7 @@ import { successBuergergeldStep } from "./steps/successBürgergeld";
 import { kinderAnzahlStep } from "./steps/kinderAnzahl";
 import { erwerbstaetigkeitStep } from "./steps/erwerbstaetigkeit";
 import { einkommenStep } from "./steps/einkommen";
-import { abschlussNoStep } from "./steps/abschlussNo";
+import { abschlussNeinStep } from "./steps/abschlussNein";
 import { abschlussYesStep } from "./steps/abschlussYes";
 import { abschlussMaybeBeratungStep } from "./steps/abschlussMaybeBeratung";
 import { abschlussMaybeSelfhelpStep } from "./steps/abschlussMaybeSelfhelp";
@@ -60,7 +60,7 @@ export const Steps = {
   mieteStep,
   weitereZahlungenStep,
   weitereZahlungenSummeStep,
-  abschlussNoStep,
+  abschlussNeinStep,
   abschlussYesStep,
   abschlussMaybeSelfhelpStep,
   abschlussMaybeBeratungStep,
