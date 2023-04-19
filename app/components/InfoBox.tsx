@@ -31,7 +31,7 @@ const InfoBox = ({ items, headline, style, ...props }: InfoBoxProps) => {
   return (
     <Container {...containerProps}>
       <Heading {...headline} className="my-8" />
-      <ul className="list-none ds-stack stack-32 ps-0 info-box">
+      <ul className="list-none ds-stack stack-32 ps-0 info-box mt-32 mb-40">
         {items.map((item, index) => (
           <InfoBoxItem {...item} key={index} />
         ))}

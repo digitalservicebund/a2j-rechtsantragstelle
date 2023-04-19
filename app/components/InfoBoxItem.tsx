@@ -41,7 +41,7 @@ const InfoBoxItem = ({
         {label && <Heading {...label} />}
         {headline && <Heading {...headline} />}
         {content && <RichText markdown={content} />}
-        {button && <Button className="max-w-fit" {...button} />}
+        {button && <Button className="max-w-fit mt-16 mb-0" {...button} />}
       </div>
     </li>
   );
