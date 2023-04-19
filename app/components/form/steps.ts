@@ -16,7 +16,7 @@ import { kinderAnzahlStep } from "./steps/kinderAnzahl";
 import { erwerbstaetigkeitStep } from "./steps/erwerbstaetigkeit";
 import { einkommenStep } from "./steps/einkommen";
 import { abschlussNeinStep } from "./steps/abschlussNein";
-import { abschlussYesStep } from "./steps/abschlussYes";
+import { abschlussJaStep } from "./steps/abschlussJa";
 import { abschlussMaybeBeratungStep } from "./steps/abschlussMaybeBeratung";
 import { abschlussMaybeSelfhelpStep } from "./steps/abschlussMaybeSelfhelp";
 import { eigeninitiativeStep } from "./steps/eigeninitiative";
@@ -61,7 +61,7 @@ export const Steps = {
   weitereZahlungenStep,
   weitereZahlungenSummeStep,
   abschlussNeinStep,
-  abschlussYesStep,
+  abschlussJaStep: abschlussJaStep,
   abschlussMaybeSelfhelpStep,
   abschlussMaybeBeratungStep,
 } as const;

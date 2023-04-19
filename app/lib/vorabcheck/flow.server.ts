@@ -5,7 +5,7 @@ import type { FormPages, AllowedIDs } from "./pages";
 import type { z } from "zod";
 
 export const initialStepID = pageIDs.rechtsschutzversicherung;
-export const finalStep = pageIDs.erfolg;
+export const finalStep = pageIDs.abschlussJa;
 
 // Type Context by infering all zod schemas (and dropping pageIDs without schema)
 export type Context = Partial<{
@@ -38,7 +38,7 @@ const lastPageTransitions = [
     destination: pageIDs.abschlussNein,
     condition: (ctx: Context) => isIncomeTooHigh(ctx),
   },
-  pageIDs.erfolg,
+  pageIDs.abschlussJa,
 ];
 
 // form flow is a mapping of pageID to:
@@ -147,7 +147,7 @@ export const formFlow: FormFlow = {
   [pageIDs.kinderAnzahlKurz]: [pageIDs.verfuegbaresEinkommen],
   [pageIDs.verfuegbaresEinkommen]: [
     {
-      destination: pageIDs.erfolg,
+      destination: pageIDs.abschlussJa,
       condition: (ctx) =>
         ctx.verfuegbaresEinkommen?.excessiveDisposableIncome === "no",
     },

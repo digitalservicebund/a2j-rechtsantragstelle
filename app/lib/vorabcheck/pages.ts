@@ -43,7 +43,7 @@ export const formPages = {
   abschlussNein: Steps.abschlussNeinStep,
   abschlussEigeninitiative: Steps.abschlussMaybeSelfhelpStep,
   abschlussBeratung: Steps.abschlussMaybeBeratungStep,
-  erfolg: Steps.abschlussYesStep,
+  abschlussJa: Steps.abschlussJaStep,
 } as const;
 
 export type FormPages = typeof formPages;
@@ -66,7 +66,7 @@ export const pageIDs = (() =>
   }))();
 
 export const initialStepID = pageIDs.rechtsschutzversicherung;
-export const finalStep = pageIDs.erfolg;
+export const finalStep = pageIDs.abschlussJa;
 
 export const allValidators = Object.fromEntries(
   Object.entries(formPages).map(([key, step]) => [

@@ -1,4 +1,4 @@
-export const abschlussYesStep = {
+export const abschlussJaStep = {
   component: () => {
     return (
       <div style={{ border: "solid green 1px", padding: "1rem" }}>
