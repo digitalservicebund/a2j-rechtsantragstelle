@@ -8,7 +8,10 @@ import config from "~/services/config";
 const localeDefault = Locale.de;
 const collectionDefault = "pages";
 
-const collectionMap = new Map([["vorabcheck", "vorab-check-pages"]]);
+const collectionMap = new Map([
+  ["vorabcheck", "vorab-check-pages"],
+  ["resultPage", "result-pages"],
+]);
 
 export default class StrapiCMS implements CMS {
   client: IClient;

@@ -4,6 +4,7 @@ import type { VorabcheckPage } from "./models/VorabcheckPage";
 import type { Input as InputContent } from "./models/formComponents";
 import type { ErrorCategory } from "./models/formComponents";
 import type { Page } from "./models/Page";
+import type { ResultPage } from "~/services/cms/models/ResultPage";
 
 export type StrapiPage = {
   id: number;
@@ -46,6 +47,11 @@ export const getVorabCheckPageConfig = async function (
 ): Promise<VorabcheckPage | undefined> {
   const [collection, step] = slugsfromURL(url);
   return await cms().getPageFromCollection(collection, step);
+};
+
+export const getResultPageConfig = async (url: string): Promise<ResultPage> => {
+  const step = slugsfromURL(url)[1];
+  return await cms().getPageFromCollection("resultPage", step);
 };
 
 export const slugsfromURL = (url: string) =>
