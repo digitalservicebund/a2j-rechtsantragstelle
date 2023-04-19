@@ -1,8 +1,7 @@
 import React from "react";
 import classes from "classnames";
 
-export interface ContainerProps
-  extends React.ClassAttributes<HTMLHeadingElement> {
+export interface ContainerProps extends React.ClassAttributes<HTMLDivElement> {
   hasBackground?: boolean;
   children: React.ReactNode;
   className?: string;

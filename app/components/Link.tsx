@@ -2,7 +2,7 @@ import React from "react";
 
 export interface LinkProps extends React.ClassAttributes<typeof Link> {
   text: string;
-  url: string;
+  url?: string;
   className?: string;
 }
 

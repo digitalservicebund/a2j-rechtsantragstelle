@@ -16,6 +16,7 @@ import { withSentry } from "@sentry/remix";
 import { getWebConfig } from "~/services/config";
 import cms from "~/services/cms";
 import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: fontsStylesheet },
@@ -27,8 +28,13 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const content = await cms().getPage("footer");
-  return json(content);
+  const footer = await cms().getPage("footer");
+  const navigation = await cms().getPage("navigation");
+
+  return json({
+    footer: footer,
+    navigation: navigation,
+  });
 };
 
 function App() {
@@ -48,11 +54,12 @@ function App() {
         <Links />
       </head>
       <body>
+        <Navbar {...content.navigation} />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-        <Footer {...content} />
+        <Footer {...content.footer} />
       </body>
     </html>
   );

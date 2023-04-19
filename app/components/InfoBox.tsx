@@ -3,8 +3,7 @@ import type { HeadingProps } from "./Heading";
 import Heading from "./Heading";
 import Container from "./Container";
 
-export interface InfoBoxProps
-  extends React.ClassAttributes<HTMLHeadingElement> {
+export interface InfoBoxProps extends React.ClassAttributes<HTMLDivElement> {
   items: any[];
   headline: HeadingProps;
 }
