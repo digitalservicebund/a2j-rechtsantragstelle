@@ -104,7 +104,7 @@ export const formFlow: FormFlow = {
   [pageIDs.kostenfreieBeratungWarnung]: [pageIDs.staatlicheLeistungen],
   [pageIDs.staatlicheLeistungen]: [
     {
-      destination: pageIDs.erfolgLeistungsbezug,
+      destination: pageIDs.abschlussJa,
       condition: (ctx) =>
         ctx.staatlicheLeistungen?.staatlicheLeistung === "grundsicherung" ||
         ctx.staatlicheLeistungen?.staatlicheLeistung ===
@@ -118,7 +118,7 @@ export const formFlow: FormFlow = {
       condition: (ctx) => ctx.vermoegen?.vermoegen === "above_10k",
     },
     {
-      destination: pageIDs.erfolgBuergergeld,
+      destination: pageIDs.abschlussJa,
       condition: (ctx) =>
         ctx.vermoegen?.vermoegen === "below_10k" &&
         ctx.staatlicheLeistungen?.staatlicheLeistung === "buergergeld",
