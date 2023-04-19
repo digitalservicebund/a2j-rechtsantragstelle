@@ -24,13 +24,13 @@ export type FormFlow = Partial<Record<AllowedIDs, TransitionElement[]>>;
 
 const lastPageTransitions = [
   {
-    destination: pageIDs.abschlussBeratung,
+    destination: pageIDs.abschlussVielleicht,
     condition: (ctx: Context) =>
       ctx.kostenfreieBeratung?.hasTriedFreeServices == "no" &&
       !isIncomeTooHigh(ctx),
   },
   {
-    destination: pageIDs.abschlussEigeninitiative,
+    destination: pageIDs.abschlussVielleicht,
     condition: (ctx: Context) =>
       ctx.eigeninitiative?.hasHelpedThemselves == "no" && !isIncomeTooHigh(ctx),
   },

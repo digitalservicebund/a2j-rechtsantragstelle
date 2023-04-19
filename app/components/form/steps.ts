@@ -17,8 +17,7 @@ import { erwerbstaetigkeitStep } from "./steps/erwerbstaetigkeit";
 import { einkommenStep } from "./steps/einkommen";
 import { abschlussNeinStep } from "./steps/abschlussNein";
 import { abschlussJaStep } from "./steps/abschlussJa";
-import { abschlussMaybeBeratungStep } from "./steps/abschlussMaybeBeratung";
-import { abschlussMaybeSelfhelpStep } from "./steps/abschlussMaybeSelfhelp";
+import { abschlussVielleichtStep } from "./steps/abschlussVielleicht";
 import { eigeninitiativeStep } from "./steps/eigeninitiative";
 import { kostenfreieBeratungStep } from "./steps/kostenfreieBeratung";
 import { kinderStep } from "./steps/kinder";
@@ -61,9 +60,8 @@ export const Steps = {
   weitereZahlungenStep,
   weitereZahlungenSummeStep,
   abschlussNeinStep,
-  abschlussJaStep: abschlussJaStep,
-  abschlussMaybeSelfhelpStep,
-  abschlussMaybeBeratungStep,
+  abschlussJaStep,
+  abschlussVielleichtStep,
 } as const;
 
 export type StepComponentProps = {

@@ -1,4 +1,4 @@
-export const abschlussMaybeBeratungStep = {
+export const abschlussVielleichtStep = {
   component: () => {
     return (
       <div style={{ border: "solid yellow 1px", padding: "1rem" }}>

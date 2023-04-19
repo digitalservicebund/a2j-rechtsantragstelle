@@ -39,8 +39,7 @@ export const formPages = {
   weitereZahlungen: Steps.weitereZahlungenStep,
   weitereZahlungenSumme: Steps.weitereZahlungenSummeStep,
   abschlussNein: Steps.abschlussNeinStep,
-  abschlussEigeninitiative: Steps.abschlussMaybeSelfhelpStep,
-  abschlussBeratung: Steps.abschlussMaybeBeratungStep,
+  abschlussVielleicht: Steps.abschlussVielleichtStep,
   abschlussJa: Steps.abschlussJaStep,
 } as const;
 
