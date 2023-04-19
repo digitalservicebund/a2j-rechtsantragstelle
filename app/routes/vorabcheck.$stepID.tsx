@@ -41,9 +41,17 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
 
-  // TODO: actually calculate freibetrag here (and make this is less hacky)
-  const additionalContext =
-    stepID == "verfuegbaresEinkommen" ? { freibetrag: 100 } : {};
+  const currentPage = formPages[stepID];
+  let additionalContext = {};
+  if ("additionalContext" in currentPage) {
+    for (const requestedContext of currentPage["additionalContext"]) {
+      // Use .find(), since answers are nested below stepID and there is no fast lookup by name alone
+      additionalContext = {
+        ...additionalContext,
+        ...Object.values(session.data).find((el) => requestedContext in el),
+      };
+    }
+  }
 
   return json({
     defaultValues: session.data[stepID],
