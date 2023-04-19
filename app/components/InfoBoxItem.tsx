@@ -1,3 +1,4 @@
+import type { HeadingProps } from "./Heading";
 import Heading from "./Heading";
 import RichText from "./RichText";
 import type { ImageProps } from "./Image";
@@ -6,8 +7,8 @@ import type { ButtonLinkProps } from "./Button";
 import Button from "./Button";
 
 type InfoBoxItemProps = {
-  label?: string;
-  headline?: string;
+  label?: HeadingProps;
+  headline?: HeadingProps;
   image?: ImageProps;
   content: string;
   button?: ButtonLinkProps;
@@ -37,10 +38,8 @@ const InfoBoxItem = ({
           (image?.data && "min-[500px]:ml-24")
         }
       >
-        {label && <div className="ds-label-02-bold">{label}</div>}
-        {headline && (
-          <Heading text={headline} level={2} style="ds-heading-03-reg" />
-        )}
+        {label && <Heading {...label} />}
+        {headline && <Heading {...headline} />}
         {content && <RichText markdown={content} />}
         {button && <Button className="max-w-fit" {...button} />}
       </div>
