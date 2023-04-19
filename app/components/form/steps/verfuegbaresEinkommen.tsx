@@ -22,10 +22,7 @@ export const verfuegbaresEinkommenStep = {
 
     return (
       <>
-        <Heading
-          level={2}
-          text={`Liegen sie monatlich nach Abzug aller Ausgaben über dem Freibetrag von ${freiBetrag} €?`}
-        />
+        <Heading level={2} text={`${freiBetrag} €`} className="pb-20" />
         <RadioGroup
           name={fieldname}
           options={yesNoOptions(content, fieldname)}
