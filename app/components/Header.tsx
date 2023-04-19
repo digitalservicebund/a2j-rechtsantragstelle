@@ -19,14 +19,16 @@ export default function Header({
 }: HeaderProps) {
   const headingProps = {
     ...header,
-    className: "mb-16",
+    className: "mt-0 mb-16",
   };
 
   return (
-    <Container hasBackground={hasBackground} className="header" {...props}>
+    <Container hasBackground={hasBackground} {...props}>
       <Heading {...headingProps} />
       {description && (
-        <Paragraph {...description} {...{ className: "ds-heading-03-reg" }} />
+        <div className="ds-heading-03-reg">
+          <Paragraph {...description} />
+        </div>
       )}
     </Container>
   );

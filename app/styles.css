@@ -2,14 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  /* TODO: move this to angie, global default for all ul */
+  ul {
+    @apply list-disc;
+    @apply pl-24;
+  }
+
+  /* TODO: move this to angie, global default for all text */
+  body {
+    hyphens: auto;
+  }
+
+  /* TODO: move this to angie, global default for all a */
+  a {
+    color: currentColor;
+  }
+
+  /* TODO: move this to angie, global default for all images */
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
 @layer components {
+  /* Tailwind's container core plugin is disabled,
+   * because its breakpoint-based nature does not fit our needs */
   .container {
     @apply mx-auto;
     max-width: 59rem;
     padding: 0 clamp(1rem, 5vw, 3rem);
   }
+
+  /* There is a specific design request to remove the margin above lists */
+  .rich-text ul {
+    @apply mt-0;
+  }
 }
 
+@media (max-width: 499px) {
+  /* project-specific overwriting of angie styling */
+  .ds-heading-01-reg {
+    font-size: 2.25rem;
+    line-height: 1.2222;
+  }
+}
+
+/* TODO: move to angie */
 .link-02-bold {
   font-weight: 700;
   font-size: 0.9rem;
@@ -18,48 +59,16 @@
   color: #000000;
 }
 
-.header h1 {
-  font-size: 4rem;
-  font-weight: 400;
-  line-height: 4.25rem;
-  letter-spacing: 0.01rem;
-  margin-top: 0px;
-}
-
-.progress-bar {
-  @apply bg-blue-500;
-  height: 4px;
-  border: 0;
-}
 .progress-bar::-webkit-progress-bar {
   @apply bg-blue-500;
-  height: 4px;
-  border: 0;
+  @apply h-4;
+  @apply border-0;
 }
+
 .progress-bar::-webkit-progress-value {
   @apply bg-blue-800;
 }
+
 .progress-bar::-moz-progress-bar {
   @apply bg-blue-800;
-}
-
-.info-box > * + * {
-  border-top: 2px solid #d3d3d3;
-  padding-top: 2rem;
-}
-
-.info-box li {
-  max-width: none;
-}
-
-.info-box img {
-  width: 176px;
-  height: 176px;
-}
-
-@media (max-width: 499px) {
-  .info-box img {
-    width: 80px;
-    height: 80px;
-  }
 }

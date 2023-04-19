@@ -1,5 +1,4 @@
 export type ImageProps = {
-  url?: string;
   presentational?: boolean;
   data?: {
     attributes: {
@@ -7,32 +6,21 @@ export type ImageProps = {
       width: number;
       height: number;
       alternativeText: string | null;
-      ext: ".png";
     };
   };
 };
 
-function Image({ url, data, presentational, ...props }: ImageProps) {
-  if (url) return <img {...props} src={url} />;
-
+function Image({ data, presentational, ...props }: ImageProps) {
   if (!data) return null;
 
   const imageUrl = data.attributes.url;
-  //const imageWidth = data.attributes.width;
-  //const imageHeight = data.attributes.height;
-
-  //let width =  || imageWidth;
-  //let height = imageHeight;
-
-  // if (data.attributes.ext === ".png") {
-  //   width = imageWidth / 2;
-  //   height = imageHeight / 2;
-  // }
+  const width = data.attributes.width;
+  const height = data.attributes.height;
 
   const altText = data.attributes.alternativeText || undefined;
 
   if (!presentational && !altText) {
-    console.warn("Missing alt text");
+    console.warn("Missing alt text", imageUrl);
   }
 
   return (
@@ -40,9 +28,8 @@ function Image({ url, data, presentational, ...props }: ImageProps) {
       {...props}
       src={imageUrl}
       alt={presentational ? "" : altText}
-      // width={width}
-      // height={height}
-      // style={{ width: `${width}px`, height: `${height}px` }}
+      width={width}
+      height={height}
     />
   );
 }

@@ -24,7 +24,6 @@ import { getVorabCheckPageConfig } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import Container from "~/components/Container";
-import { Stack } from "~/components";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
@@ -42,6 +41,10 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
 
+  // TODO: actually calculate freibetrag here (and make this is less hacky)
+  const additionalContext =
+    stepID == "verfuegbaresEinkommen" ? { freibetrag: 100 } : {};
+
   return json({
     defaultValues: session.data[stepID],
     preFormContent: page?.pre_form,
@@ -51,6 +54,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     progressTotal: progress[initialStepID],
     isLast: isLeaf(stepID, formGraph),
     previousStep: findPreviousStep(stepID, formGraph, session.data)[0],
+    additionalContext,
   });
 };
 
@@ -88,6 +92,7 @@ export default function Index() {
     progressTotal,
     isLast,
     previousStep,
+    additionalContext,
   } = useLoaderData<typeof loader>();
   const stepProgress = progressTotal - progressStep + 1;
   const params = useParams();
@@ -96,7 +101,7 @@ export default function Index() {
 
   return (
     <Container className="pt-16 pb-80 bg-blue-100 min-h-[100vh]">
-      <Stack>
+      <div className="ds-stack stack-16">
         <div>
           <p className="ds-label-03-reg mb-4">Vorab-Check</p>
           <ProgressBar
@@ -107,7 +112,7 @@ export default function Index() {
             }
           />
         </div>
-        <Stack space="xl">
+        <div className="ds-stack stack-32">
           <PageContent content={preFormContent} />
           <ValidatedForm
             key={`${stepID}_form`}
@@ -115,16 +120,19 @@ export default function Index() {
             validator={allValidators[stepID]}
             defaultValues={defaultValues}
           >
-            <Stack space="2xl">
-              <FormInputComponent content={formContent} />
+            <div className="ds-stack stack-48">
+              <FormInputComponent
+                content={formContent}
+                additionalContext={additionalContext}
+              />
               <ButtonNavigation
                 backDestination={previousStep}
                 isLast={isLast}
               />
-            </Stack>
+            </div>
           </ValidatedForm>
-        </Stack>
-      </Stack>
+        </div>
+      </div>
     </Container>
   );
 }

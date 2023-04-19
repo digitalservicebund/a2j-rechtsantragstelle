@@ -1,10 +1,14 @@
 import React from "react";
-import type { NavigationItemProps } from "./NavigationItem";
-import NavigationItem from "./NavigationItem";
 import { useLocation, useMatches } from "@remix-run/react";
 
 export interface NavbarProps extends React.ClassAttributes<HTMLHeadingElement> {
-  tree: NavigationItemProps[];
+  tree: [
+    {
+      text: string;
+      targeturl?: string;
+      baseurl?: string;
+    }
+  ];
   currentLocation?: string;
 }
 
@@ -30,15 +34,21 @@ export default function Navbar({ tree, currentLocation }: NavbarProps) {
       {tree &&
         treeFilter.map((item, index) => (
           <React.Fragment key={index}>
-            <NavigationItem
-              {...item}
-              {...{
-                className:
-                  index === 0
+            {item.targeturl ? (
+              <a
+                href={item.targeturl}
+                className={
+                  navigationItemStyle +
+                  (index === 0
                     ? "ds-label-01-bold " + navigationItemStyle
-                    : navigationItemStyle,
-              }}
-            />
+                    : navigationItemStyle)
+                }
+              >
+                {item.text}
+              </a>
+            ) : (
+              <span className="ds-label-01-bold mr-8">{item.text}</span>
+            )}
             {index < treeFilter.length - 1 && <span className="mr-8">|</span>}
           </React.Fragment>
         ))}
