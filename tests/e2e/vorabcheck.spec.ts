@@ -26,12 +26,10 @@ test("vorabcheck can be traversed", async ({ page }) => {
   await vorabcheck.clickNext();
   await vorabcheck.fillRadioPage("staatlicheLeistung", "keine");
   await vorabcheck.fillRadioPage("vermoegen", "below_10k");
-  await vorabcheck.fillRadioPage("wantsToKnowPrecisely", "yes");
   await vorabcheck.fillRadioPage("isErwerbstaetig", "no");
-  await vorabcheck.fillInputPage("einkommen", "100");
   await vorabcheck.fillRadioPage("partnerschaft", "yes");
-  await vorabcheck.fillInputPage("einkommenPartner", "100");
   await vorabcheck.fillRadioPage("isPayingForKids", "yes");
+  await vorabcheck.fillRadioPage("wantsToKnowPrecisely", "yes");
   await vorabcheck.fillInputPage("kids18Above", "1");
   await vorabcheck.fillInputPage("einkommenKinder", "50");
   await vorabcheck.fillRadioPage("isPayingUnterhalt", "no");
