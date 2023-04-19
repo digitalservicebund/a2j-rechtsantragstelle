@@ -39,9 +39,7 @@ export default function Navbar({ tree, currentLocation }: NavbarProps) {
                 href={item.targeturl}
                 className={
                   navigationItemStyle +
-                  (index === 0
-                    ? "ds-label-01-bold " + navigationItemStyle
-                    : navigationItemStyle)
+                  (index === 0 ? " ds-label-01-bold " : "")
                 }
               >
                 {item.text}
