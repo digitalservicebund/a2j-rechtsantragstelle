@@ -16,8 +16,6 @@ export default function Navbar({ tree, currentLocation }: NavbarProps) {
   const location = useLocation();
   const matches = useMatches();
 
-  console.log(tree);
-
   const treeFilter = tree.filter(
     (item) =>
       !item.baseurl ||

@@ -26,8 +26,6 @@ const InfoBox = ({ items, headline, style, ...props }: InfoBoxProps) => {
     className: `${backgroundColor} ${props.className || ""}`.trim(),
   };
 
-  console.log(style + " " + backgroundColor);
-
   return (
     <Container {...containerProps}>
       <Heading {...headline} className="my-8" />
