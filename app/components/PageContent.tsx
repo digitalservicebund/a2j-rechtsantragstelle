@@ -21,6 +21,13 @@ function cmsToReact(
     return Header({ ...element, key });
   } else if (element.__component === "page.info-box") {
     return InfoBox({ ...element, key });
+  } else if (element.__component === "basic.text-with-heading") {
+    return (
+      <div>
+        <Heading {...element.heading} />
+        <Paragraph text={element.text} />
+      </div>
+    );
   }
 }
 
