@@ -106,10 +106,30 @@ const ResultPage = ({
               </Button>
             )}
 
-            <Button href={content.nextLink.url} size="large" className="w-fit">
-              {content.nextLink.text}
-            </Button>
-          </ButtonContainer>{" "}
+            {content.nextLink.url && (
+              <Button
+                href={content.nextLink.url}
+                size="large"
+                className="w-fit"
+              >
+                {content.nextLink.text}
+              </Button>
+            )}
+            {!content.nextLink.url && (
+              <>
+                <form method="post">
+                  <Button
+                    type="submit"
+                    name="_action"
+                    size="large"
+                    className="w-fit"
+                  >
+                    {content.nextLink.text}
+                  </Button>
+                </form>
+              </>
+            )}
+          </ButtonContainer>
         </Container>
       )}
       {reasonsToDisplay && reasonsToDisplay.length > 1 && (
