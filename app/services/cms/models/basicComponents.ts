@@ -11,3 +11,8 @@ export type Image = {
     };
   };
 };
+
+export type Link = {
+  url: string;
+  text: string;
+};

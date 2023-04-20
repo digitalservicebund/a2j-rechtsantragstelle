@@ -123,7 +123,9 @@ export default function Index() {
   const FormInputComponent = formPages[stepID].component;
 
   if (resultContent) {
-    return <ResultPage content={resultContent} />;
+    return (
+      <ResultPage content={resultContent} backDestination={previousStep} />
+    );
   }
   return (
     <Container className="pt-16 pb-80 bg-blue-100 min-h-[100vh]">

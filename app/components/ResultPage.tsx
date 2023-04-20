@@ -10,9 +10,13 @@ import { ProgressBar } from "~/components/form/ProgressBar";
 import Heading from "~/components/Heading";
 import type { ResultPageType } from "~/services/cms/models/ResultPage";
 import type { ReactElement } from "react";
+import PageContent from "~/components/PageContent";
+import { Button } from "~/components/index";
+import { ButtonContainer } from "~/components/ButtonContainer";
 
 type ResultPageProps = {
   content: ResultPageContent;
+  backDestination?: string;
 };
 
 type PageTypeProperties = {
@@ -42,7 +46,7 @@ const pageTypeProperties = (pageType: ResultPageType): PageTypeProperties => {
   return pageTypePropertyMap[pageType];
 };
 
-const ResultPage = ({ content }: ResultPageProps) => {
+const ResultPage = ({ content, backDestination }: ResultPageProps) => {
   const pageProperties = pageTypeProperties(content.pageType);
   return (
     <div>
@@ -75,6 +79,31 @@ const ResultPage = ({ content }: ResultPageProps) => {
           </a>
         </Container>
       </div>
+      {content.freeZone && (
+        <Container className="pt-32">
+          <PageContent content={content.freeZone} />
+        </Container>
+      )}
+      {content.nextLink && (
+        <Container>
+          <ButtonContainer>
+            {backDestination && (
+              <Button
+                href={backDestination}
+                look="tertiary"
+                size="large"
+                className="w-fit"
+              >
+                Zurück
+              </Button>
+            )}
+
+            <Button href={content.nextLink.url} size="large" className="w-fit">
+              {content.nextLink.text}
+            </Button>
+          </ButtonContainer>{" "}
+        </Container>
+      )}
     </div>
   );
 };
