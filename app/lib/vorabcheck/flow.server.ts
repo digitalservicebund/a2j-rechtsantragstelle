@@ -193,7 +193,7 @@ export const formFlow: FormFlow = {
   [pageIDs.weitereZahlungenSumme]: lastPageTransitions,
 };
 
-const isIncomeTooHigh = (ctx: Context) =>
+export const isIncomeTooHigh = (ctx: Context) =>
   (ctx.einkommen?.einkommen ?? 0) -
     (ctx.miete?.miete ?? 0) -
     (ctx.weitereZahlungenSumme?.weitereZahlungenSumme ?? 0) -

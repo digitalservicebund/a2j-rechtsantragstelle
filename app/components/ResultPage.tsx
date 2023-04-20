@@ -13,9 +13,11 @@ import type { ReactElement } from "react";
 import PageContent from "~/components/PageContent";
 import { Button } from "~/components/index";
 import { ButtonContainer } from "~/components/ButtonContainer";
+import type { ElementWithId } from "~/services/cms/models/ElementWithId";
 
 type ResultPageProps = {
   content: ResultPageContent;
+  reasonsToDisplay?: ElementWithId[];
   backDestination?: string;
 };
 
@@ -46,7 +48,11 @@ const pageTypeProperties = (pageType: ResultPageType): PageTypeProperties => {
   return pageTypePropertyMap[pageType];
 };
 
-const ResultPage = ({ content, backDestination }: ResultPageProps) => {
+const ResultPage = ({
+  content,
+  backDestination,
+  reasonsToDisplay,
+}: ResultPageProps) => {
   const pageProperties = pageTypeProperties(content.pageType);
   return (
     <div>
@@ -102,6 +108,23 @@ const ResultPage = ({ content, backDestination }: ResultPageProps) => {
               {content.nextLink.text}
             </Button>
           </ButtonContainer>{" "}
+        </Container>
+      )}
+      {reasonsToDisplay && (
+        <Container>
+          <Heading
+            level={2}
+            style="ds-heading-02-reg"
+            text="Begründung"
+            className="mb-16"
+          />
+          {reasonsToDisplay.map((reason) => {
+            return (
+              <div key={reason.attributes.elementId}>
+                <PageContent content={reason.attributes.element} />
+              </div>
+            );
+          })}
         </Container>
       )}
     </div>

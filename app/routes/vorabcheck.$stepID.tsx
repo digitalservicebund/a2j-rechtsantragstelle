@@ -8,10 +8,12 @@ import type {
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { formPages, allValidators } from "~/lib/vorabcheck/pages";
 import type { AllowedIDs } from "~/lib/vorabcheck/pages";
+import type { Context } from "~/lib/vorabcheck/flow.server";
 import {
   initialStepID,
   progress,
   formGraph,
+  isIncomeTooHigh,
 } from "~/lib/vorabcheck/flow.server";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
@@ -30,10 +32,33 @@ import Container from "~/components/Container";
 import type { VorabcheckPage } from "~/services/cms/models/VorabcheckPage";
 import type { ResultPage as ResultPageContent } from "~/services/cms/models/ResultPage";
 import ResultPage from "~/components/ResultPage";
+import type { ElementWithId } from "~/services/cms/models/ElementWithId";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
 ];
+
+const getReasonsToDisplay = (
+  reasons: ElementWithId[] | undefined,
+  context: Context
+) => {
+  return reasons?.filter((reason) => {
+    // TODO use reusable conditions for this
+    switch (reason.attributes.elementId) {
+      case "eigeninitiativeWarning":
+        return context.eigeninitiative?.hasHelpedThemselves == "no";
+      case "incomeTooHigh":
+        return (
+          context.verfuegbaresEinkommen?.excessiveDisposableIncome === "yes" ||
+          isIncomeTooHigh(context)
+        );
+      case "noKostenloseBeratung":
+        return context.kostenfreieBeratung?.hasTriedFreeServices == "no";
+      default:
+        return false;
+    }
+  });
+};
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const stepID = params.stepID as AllowedIDs;
@@ -41,15 +66,21 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
 
+  const session = await getSession(request.headers.get("Cookie"));
+
   const currentPage = formPages[stepID];
   let formPageContent: VorabcheckPage | undefined;
   let resultPageContent: ResultPageContent | undefined;
+  let resultReasonsToDisplay: ElementWithId[] | undefined;
   if ("schema" in currentPage) {
     formPageContent = await getVorabCheckPageConfig(request.url);
   } else {
     resultPageContent = await getResultPageConfig(request.url);
+    resultReasonsToDisplay = getReasonsToDisplay(
+      resultPageContent?.reasonings?.data,
+      session.data
+    );
   }
-  const session = await getSession(request.headers.get("Cookie"));
 
   if (!isValidContext(initialStepID, stepID, formGraph, session.data)) {
     return redirect(`/vorabcheck/${initialStepID}`);
@@ -71,6 +102,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     preFormContent: formPageContent?.pre_form,
     formContent: formPageContent?.form,
     resultContent: resultPageContent,
+    resultReasonsToDisplay,
     meta: formPageContent?.meta || resultPageContent?.meta,
     progressStep: progress[stepID],
     progressTotal: progress[initialStepID],
@@ -111,6 +143,7 @@ export default function Index() {
     preFormContent,
     formContent,
     resultContent,
+    resultReasonsToDisplay,
     progressStep,
     progressTotal,
     isLast,
@@ -124,7 +157,11 @@ export default function Index() {
 
   if (resultContent) {
     return (
-      <ResultPage content={resultContent} backDestination={previousStep} />
+      <ResultPage
+        content={resultContent}
+        backDestination={previousStep}
+        reasonsToDisplay={resultReasonsToDisplay}
+      />
     );
   }
   return (
