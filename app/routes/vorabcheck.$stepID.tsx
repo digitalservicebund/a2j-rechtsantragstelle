@@ -20,10 +20,16 @@ import {
   isLeaf,
   isValidContext,
 } from "~/lib/treeCalculations";
-import { getVorabCheckPageConfig } from "~/services/cms/getPageConfig";
+import {
+  getResultPageConfig,
+  getVorabCheckPageConfig,
+} from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import Container from "~/components/Container";
+import type { VorabcheckPage } from "~/services/cms/models/VorabcheckPage";
+import type { ResultPage as ResultPageContent } from "~/services/cms/models/ResultPage";
+import ResultPage from "~/components/ResultPage";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
@@ -34,14 +40,21 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   if (!formGraph.hasNode(stepID)) {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
-  const page = await getVorabCheckPageConfig(request.url);
+
+  const currentPage = formPages[stepID];
+  let formPageContent: VorabcheckPage | undefined;
+  let resultPageContent: ResultPageContent | undefined;
+  if ("schema" in currentPage) {
+    formPageContent = await getVorabCheckPageConfig(request.url);
+  } else {
+    resultPageContent = await getResultPageConfig(request.url);
+  }
   const session = await getSession(request.headers.get("Cookie"));
 
   if (!isValidContext(initialStepID, stepID, formGraph, session.data)) {
     return redirect(`/vorabcheck/${initialStepID}`);
   }
 
-  const currentPage = formPages[stepID];
   let additionalContext = {};
   if ("additionalContext" in currentPage) {
     for (const requestedContext of currentPage["additionalContext"]) {
@@ -55,9 +68,10 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
   return json({
     defaultValues: session.data[stepID],
-    preFormContent: page?.pre_form,
-    formContent: page?.form,
-    meta: page?.meta,
+    preFormContent: formPageContent?.pre_form,
+    formContent: formPageContent?.form,
+    resultContent: resultPageContent,
+    meta: formPageContent?.meta || resultPageContent?.meta,
     progressStep: progress[stepID],
     progressTotal: progress[initialStepID],
     isLast: isLeaf(stepID, formGraph),
@@ -96,6 +110,7 @@ export default function Index() {
     defaultValues,
     preFormContent,
     formContent,
+    resultContent,
     progressStep,
     progressTotal,
     isLast,
@@ -107,6 +122,9 @@ export default function Index() {
   const stepID = params.stepID as AllowedIDs;
   const FormInputComponent = formPages[stepID].component;
 
+  if (resultContent) {
+    return <ResultPage content={resultContent} />;
+  }
   return (
     <Container className="pt-16 pb-80 bg-blue-100 min-h-[100vh]">
       <div className="ds-stack stack-16">
