@@ -80,7 +80,7 @@ const ResultPage = ({
               <RichText markdown={content.hintText.text} />
             </div>
           )}
-          <a href={"/vorabcheck"} className="ds-link-02-bold mt-32">
+          <a href={"/vorabcheck"} className="block ds-link-02-bold mt-32">
             {content.linkText}
           </a>
         </Container>
@@ -110,7 +110,7 @@ const ResultPage = ({
           </ButtonContainer>{" "}
         </Container>
       )}
-      {reasonsToDisplay && (
+      {reasonsToDisplay && reasonsToDisplay.length > 1 && (
         <Container>
           <Heading
             level={2}
