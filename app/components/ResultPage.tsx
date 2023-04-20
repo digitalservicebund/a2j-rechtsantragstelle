@@ -14,6 +14,7 @@ import PageContent from "~/components/PageContent";
 import { Button } from "~/components/index";
 import { ButtonContainer } from "~/components/ButtonContainer";
 import type { ElementWithId } from "~/services/cms/models/ElementWithId";
+import classes from "classnames";
 
 type ResultPageProps = {
   content: ResultPageContent;
@@ -32,18 +33,29 @@ const pageTypeProperties = (pageType: ResultPageType): PageTypeProperties => {
   const pageTypePropertyMap = {
     error: {
       background: "bg-red-200",
-      icon: (className) => <HighlightOff color="error" className={className} />,
+      icon: (className) => (
+        <HighlightOff
+          color="error"
+          className={classes(className, "!text-red-900")}
+        />
+      ),
     },
     success: {
       background: "bg-green-200",
       icon: (className) => (
-        <CheckCircleOutline color="success" className={className} />
+        <CheckCircleOutline
+          color="success"
+          className={classes(className, "!text-green-900")}
+        />
       ),
     },
     warning: {
       background: "bg-yellow-200",
       icon: (className) => (
-        <WarningAmber color="warning" className={className} />
+        <WarningAmber
+          color="warning"
+          className={classes(className, "!text-yellow-900")}
+        />
       ),
     },
   } as { [key in ResultPageType]: PageTypeProperties };
