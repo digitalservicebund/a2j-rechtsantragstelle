@@ -38,7 +38,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 function App() {
-  const content = useLoaderData();
+  const { footer, navigation } = useLoaderData();
 
   return (
     <html lang="de">
@@ -54,12 +54,12 @@ function App() {
         <Links />
       </head>
       <body>
-        <Navbar {...content.navigation} />
+        <Navbar {...navigation} />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-        <Footer {...content.footer} />
+        <Footer {...footer} />
       </body>
     </html>
   );

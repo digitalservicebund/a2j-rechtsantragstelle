@@ -2,17 +2,15 @@ import React from "react";
 import { useLocation, useMatches } from "@remix-run/react";
 
 export interface NavbarProps extends React.ClassAttributes<HTMLHeadingElement> {
-  tree: [
-    {
-      text: string;
-      targeturl?: string;
-      baseurl?: string;
-    }
-  ];
+  tree: {
+    text: string;
+    targeturl?: string;
+    baseurl?: string;
+  }[];
   currentLocation?: string;
 }
 
-export default function Navbar({ tree, currentLocation }: NavbarProps) {
+export default function Navbar({ tree = [], currentLocation }: NavbarProps) {
   const location = useLocation();
   const matches = useMatches();
 

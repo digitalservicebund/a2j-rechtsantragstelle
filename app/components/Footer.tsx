@@ -16,7 +16,11 @@ export interface FooterProps {
   links: LinkAttrs[];
 }
 
-export default function Footer({ image, paragraphs, links }: FooterProps) {
+export default function Footer({
+  image,
+  paragraphs = [],
+  links = [],
+}: FooterProps) {
   const linksMiddleIndex = Math.ceil(links.length / 2);
   const linksFirstColumn: typeof links = links.slice(0, linksMiddleIndex);
   const linksSecondColumn: typeof links = links.slice(linksMiddleIndex);
