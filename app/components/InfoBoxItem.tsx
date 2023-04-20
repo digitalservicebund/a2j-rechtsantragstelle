@@ -27,15 +27,14 @@ const InfoBoxItem = ({
         <Image
           {...image}
           {...{
-            className:
-              "max-[499px]:mb-24 max-[499px]:w-[80px] max-[499px]:self-start w-[176px]",
+            className: "max-[499px]:mb-16 w-[48px] h-[48px] self-baseline",
           }}
         />
       )}
       <div
         className={
           "ds-stack stack-8 break-words w-full " +
-          (image?.data && "min-[500px]:ml-24")
+          (image?.data && "min-[500px]:ml-16")
         }
       >
         {label && <Heading {...label} />}
