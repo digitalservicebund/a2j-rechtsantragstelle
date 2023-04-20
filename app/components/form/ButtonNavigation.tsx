@@ -1,5 +1,6 @@
 import type { AllowedIDs } from "~/lib/vorabcheck/pages";
 import { Button } from "~/components";
+import { ButtonContainer } from "~/components/ButtonContainer";
 
 interface ButtonNavigationProps {
   backDestination?: AllowedIDs;
@@ -11,7 +12,7 @@ export function ButtonNavigation({
   isLast,
 }: ButtonNavigationProps) {
   return (
-    <div className="button-container flex flex-wrap gap-24 md:flex-row flex-col-reverse justify-end md:justify-start">
+    <ButtonContainer>
       {backDestination && (
         <Button
           href={backDestination}
@@ -32,6 +33,6 @@ export function ButtonNavigation({
       >
         {isLast ? "Von Vorne beginnen" : "Übernehmen & Weiter"}
       </Button>
-    </div>
+    </ButtonContainer>
   );
 }
