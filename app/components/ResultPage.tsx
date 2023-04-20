@@ -85,7 +85,7 @@ const ResultPage = ({
           </a>
         </Container>
       </div>
-      {content.freeZone && (
+      {content.freeZone && content.freeZone.length > 0 && (
         <Container className="pt-32">
           <PageContent content={content.freeZone} />
         </Container>
