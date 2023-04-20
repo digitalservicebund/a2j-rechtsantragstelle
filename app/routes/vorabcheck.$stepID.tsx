@@ -168,7 +168,7 @@ export default function Index() {
     );
   }
   return (
-    <Background color="blue">
+    <Background backgroundColor="blue">
       <Container>
         <div className="min-h-[100vh]">
           <div className="ds-stack stack-16">

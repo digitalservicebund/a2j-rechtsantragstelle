@@ -1,35 +1,14 @@
 import classNames from "classnames";
 import React from "react";
+import type { CommonWrapperProps } from ".";
+import { BACKGROUND_COLORS } from ".";
 
 const DEFAULT_PADDING_TOP = "40";
 const DEFAULT_PADDING_BOTTOM = "48";
 
-export interface ContainerProps {
-  paddingTop?:
-    | "default"
-    | "0"
-    | "8"
-    | "16"
-    | "24"
-    | "32"
-    | "40"
-    | "48"
-    | "56"
-    | "64";
-  paddingBottom?:
-    | "default"
-    | "0"
-    | "8"
-    | "16"
-    | "24"
-    | "32"
-    | "40"
-    | "48"
-    | "56"
-    | "64";
-  backgroundColor?: "default" | "white" | "blue" | "yellow";
+export type ContainerProps = {
   children: React.ReactNode;
-}
+} & CommonWrapperProps;
 
 export default function Container({
   paddingTop = "default",
@@ -47,13 +26,11 @@ export default function Container({
     return <div className={cssClasses}>{children}</div>;
   }
 
-  cssClasses = classNames(cssClasses, {
-    "relative before:content-[''] before:absolute before:inset-y-0 before:-left-32 before:-right-32":
-      backgroundColor,
-    "before:bg-blue-100": backgroundColor === "blue",
-    "before:bg-yellow-300": backgroundColor === "yellow",
-    "before:bg-white": backgroundColor === "white",
-  });
+  cssClasses = classNames(
+    cssClasses,
+    "relative before:content-[''] before:absolute before:inset-y-0 before:-left-32 before:-right-32",
+    `before:${BACKGROUND_COLORS[backgroundColor]}`
+  );
 
   return (
     <div className="overflow-x-hidden">

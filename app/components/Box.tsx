@@ -15,21 +15,17 @@ export interface BoxProps {
 const Box = ({ heading, label, content, button }: BoxProps) => {
   return (
     <div className="ds-stack stack-8">
-      {label ? <div className="ds-label-02-bold">{label}</div> : ""}
-      {heading ? <Heading {...heading} /> : ""}
-      {content ? (
+      {label && <div className="ds-label-02-bold">{label}</div>}
+      {heading && <Heading {...heading} />}
+      {content && (
         <div>
           <RichText markdown={content.text} />
         </div>
-      ) : (
-        ""
       )}
-      {button ? (
+      {button && (
         <div>
           <Button {...button} />
         </div>
-      ) : (
-        ""
       )}
     </div>
   );

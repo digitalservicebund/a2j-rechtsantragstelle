@@ -22,7 +22,6 @@ type PageContentProps = {
 const transformCmsData = (
   cmsData: ContainerCMS | BackgroundCMS
 ): ContainerProps | BackgroundProps => {
-  console.log({ cmsData });
   return {
     ...cmsData,
     //@ts-ignore
@@ -40,7 +39,6 @@ const wrapInContainer = (
     return reactElement;
   }
   const config = transformCmsData(cmsData.container);
-  console.log({ config });
   return <Container {...config}>{reactElement}</Container>;
 };
 

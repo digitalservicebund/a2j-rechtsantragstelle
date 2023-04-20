@@ -120,7 +120,7 @@ export default function Kitchensink() {
       <h2>React components</h2>
 
       <h3>Header</h3>
-      <Background color="yellow">
+      <Background backgroundColor="yellow">
         <Container paddingBottom="64">
           <Header
             heading={{
@@ -134,7 +134,7 @@ export default function Kitchensink() {
       </Background>
 
       <h3>Box</h3>
-      <Background color="blue" paddingTop="64">
+      <Background backgroundColor="blue" paddingTop="64">
         <Container backgroundColor="yellow" paddingBottom="64">
           <Box
             label="Label"
@@ -150,7 +150,7 @@ export default function Kitchensink() {
       </Background>
 
       <h3>InfoBox</h3>
-      <Background color="blue">
+      <Background backgroundColor="blue">
         <Container>
           <InfoBox
             heading={{
