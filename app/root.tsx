@@ -54,12 +54,16 @@ function App() {
         <Links />
       </head>
       <body>
-        <Navbar {...navigation} />
-        <Outlet />
+        <div className="min-h-screen">
+          <Navbar {...navigation} />
+          <main>
+            <Outlet />
+          </main>
+        </div>
+        <Footer {...footer} />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-        <Footer {...footer} />
       </body>
     </html>
   );

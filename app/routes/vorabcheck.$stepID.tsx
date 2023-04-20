@@ -170,38 +170,36 @@ export default function Index() {
   return (
     <Background backgroundColor="blue">
       <Container>
-        <div className="min-h-[100vh]">
-          <div className="ds-stack stack-16">
-            <div>
-              <p className="ds-label-03-reg mb-4">Vorab-Check</p>
-              <ProgressBar
-                progress={stepProgress}
-                max={progressTotal}
-                fallback={
-                  isLast ? "" : `Schritt ${stepProgress} / ${progressTotal}`
-                }
-              />
-            </div>
-            <div className="ds-stack stack-32">
-              <PageContent content={preFormContent} />
-              <ValidatedForm
-                key={`${stepID}_form`}
-                method="post"
-                validator={allValidators[stepID]}
-                defaultValues={defaultValues}
-              >
-                <div className="ds-stack stack-48">
-                  <FormInputComponent
-                    content={formContent}
-                    additionalContext={additionalContext}
-                  />
-                  <ButtonNavigation
-                    backDestination={previousStep}
-                    isLast={isLast}
-                  />
-                </div>
-              </ValidatedForm>
-            </div>
+        <div className="ds-stack stack-16">
+          <div>
+            <p className="ds-label-03-reg mb-4">Vorab-Check</p>
+            <ProgressBar
+              progress={stepProgress}
+              max={progressTotal}
+              fallback={
+                isLast ? "" : `Schritt ${stepProgress} / ${progressTotal}`
+              }
+            />
+          </div>
+          <div className="ds-stack stack-32">
+            <PageContent content={preFormContent} />
+            <ValidatedForm
+              key={`${stepID}_form`}
+              method="post"
+              validator={allValidators[stepID]}
+              defaultValues={defaultValues}
+            >
+              <div className="ds-stack stack-48">
+                <FormInputComponent
+                  content={formContent}
+                  additionalContext={additionalContext}
+                />
+                <ButtonNavigation
+                  backDestination={previousStep}
+                  isLast={isLast}
+                />
+              </div>
+            </ValidatedForm>
           </div>
         </div>
       </Container>
