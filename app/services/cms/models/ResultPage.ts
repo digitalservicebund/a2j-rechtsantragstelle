@@ -9,9 +9,12 @@ export type ResultPage = {
     id: number;
     title: string;
   };
+  pageType: ResultPageType;
   heading: Heading;
   hintText?: Paragraph;
   linkText?: string;
   reasoning?: Paragraph[];
   freeZone?: FormContentCMS[];
 };
+
+export type ResultPageType = "error" | "success" | "warning";
