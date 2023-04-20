@@ -19,6 +19,8 @@ type ResultPageProps = {
   content: ResultPageContent;
   reasonsToDisplay?: ElementWithId[];
   backDestination?: string;
+  stepProgress: number;
+  progressTotal: number;
 };
 
 type PageTypeProperties = {
@@ -52,6 +54,8 @@ const ResultPage = ({
   content,
   backDestination,
   reasonsToDisplay,
+  stepProgress,
+  progressTotal,
 }: ResultPageProps) => {
   const pageProperties = pageTypeProperties(content.pageType);
   return (
@@ -60,7 +64,11 @@ const ResultPage = ({
         <Container>
           <div>
             <p className="ds-label-03-reg mb-4">Vorab-Check</p>
-            <ProgressBar progress={1} max={1} fallback={"Letzter Schritt"} />
+            <ProgressBar
+              progress={stepProgress}
+              max={progressTotal}
+              fallback={`Schritt ${stepProgress} / ${progressTotal}`}
+            />
           </div>
           <Heading
             level={content.heading.level}

@@ -161,6 +161,8 @@ export default function Index() {
         content={resultContent}
         backDestination={previousStep}
         reasonsToDisplay={resultReasonsToDisplay}
+        stepProgress={stepProgress}
+        progressTotal={progressTotal}
       />
     );
   }
