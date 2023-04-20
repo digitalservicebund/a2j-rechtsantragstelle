@@ -1,5 +1,6 @@
 import type { FormContentCMS, Heading, Paragraph } from "./contentComponents";
 import type { Link } from "~/services/cms/models/basicComponents";
+import type { ElementWithId } from "~/services/cms/models/ElementWithId";
 
 export type ResultPage = {
   slug: string;
@@ -14,7 +15,7 @@ export type ResultPage = {
   heading: Heading;
   hintText?: Paragraph;
   linkText?: string;
-  reasoning?: Paragraph[];
+  reasonings?: { data: ElementWithId[] };
   freeZone?: FormContentCMS[];
   nextLink?: Link;
 };
