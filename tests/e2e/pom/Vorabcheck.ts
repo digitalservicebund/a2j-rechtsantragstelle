@@ -32,7 +32,7 @@ export class Vorabcheck {
     await Promise.all([
       this.page
         .locator(`button[name=${this.nextButtonName}]`)
-        .click({ timeout: this.timeout }),
+        .click({ timeout: this.timeout, force: true }),
       this.page.waitForNavigation(), // deprecated but URL for waitForURL is unknown
     ]);
   }
