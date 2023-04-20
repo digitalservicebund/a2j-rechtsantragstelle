@@ -1,4 +1,5 @@
 import type { FormContentCMS, Heading, Paragraph } from "./contentComponents";
+import type { Link } from "~/services/cms/models/basicComponents";
 
 export type ResultPage = {
   slug: string;
@@ -9,9 +10,13 @@ export type ResultPage = {
     id: number;
     title: string;
   };
+  pageType: ResultPageType;
   heading: Heading;
   hintText?: Paragraph;
   linkText?: string;
   reasoning?: Paragraph[];
   freeZone?: FormContentCMS[];
+  nextLink?: Link;
 };
+
+export type ResultPageType = "error" | "success" | "warning";
