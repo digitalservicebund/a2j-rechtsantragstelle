@@ -65,7 +65,7 @@ const ResultPage = ({
           <Heading
             level={content.heading.level}
             style={content.heading.style}
-            className="flex items-center mb-48"
+            className="flex items-center mb-0"
             text={
               <>
                 {pageProperties.icon("inline-block mr-8 !h-[36px] !w-[36px]")}
@@ -75,18 +75,20 @@ const ResultPage = ({
           />
           {/* TODO: Replace this with the correct component */}
           {content.hintText && (
-            <div className="bg-white p-32">
+            <div className="bg-white p-32 mt-48">
               <p className="ds-label-02-bold mb-8">Hinweis</p>
               <RichText markdown={content.hintText.text} />
             </div>
           )}
-          <a href={"/vorabcheck"} className="block ds-link-02-bold mt-32">
-            {content.linkText}
-          </a>
+          {content.linkText && (
+            <a href={"/vorabcheck"} className="block ds-link-02-bold mt-32">
+              {content.linkText}
+            </a>
+          )}
         </Container>
       </div>
       {content.freeZone && content.freeZone.length > 0 && (
-        <Container className="pt-32">
+        <Container>
           <PageContent content={content.freeZone} />
         </Container>
       )}
