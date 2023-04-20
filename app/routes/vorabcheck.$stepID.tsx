@@ -33,6 +33,7 @@ import type { VorabcheckPage } from "~/services/cms/models/VorabcheckPage";
 import type { ResultPage as ResultPageContent } from "~/services/cms/models/ResultPage";
 import ResultPage from "~/components/ResultPage";
 import type { ElementWithId } from "~/services/cms/models/ElementWithId";
+import { Background } from "~/components";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
@@ -167,39 +168,43 @@ export default function Index() {
     );
   }
   return (
-    <Container className="pt-16 pb-80 bg-blue-100 min-h-[100vh]">
-      <div className="ds-stack stack-16">
-        <div>
-          <p className="ds-label-03-reg mb-4">Vorab-Check</p>
-          <ProgressBar
-            progress={stepProgress}
-            max={progressTotal}
-            fallback={
-              isLast ? "" : `Schritt ${stepProgress} / ${progressTotal}`
-            }
-          />
-        </div>
-        <div className="ds-stack stack-32">
-          <PageContent content={preFormContent} />
-          <ValidatedForm
-            key={`${stepID}_form`}
-            method="post"
-            validator={allValidators[stepID]}
-            defaultValues={defaultValues}
-          >
-            <div className="ds-stack stack-48">
-              <FormInputComponent
-                content={formContent}
-                additionalContext={additionalContext}
-              />
-              <ButtonNavigation
-                backDestination={previousStep}
-                isLast={isLast}
+    <Background color="blue">
+      <Container>
+        <div className="min-h-[100vh]">
+          <div className="ds-stack stack-16">
+            <div>
+              <p className="ds-label-03-reg mb-4">Vorab-Check</p>
+              <ProgressBar
+                progress={stepProgress}
+                max={progressTotal}
+                fallback={
+                  isLast ? "" : `Schritt ${stepProgress} / ${progressTotal}`
+                }
               />
             </div>
-          </ValidatedForm>
+            <div className="ds-stack stack-32">
+              <PageContent content={preFormContent} />
+              <ValidatedForm
+                key={`${stepID}_form`}
+                method="post"
+                validator={allValidators[stepID]}
+                defaultValues={defaultValues}
+              >
+                <div className="ds-stack stack-48">
+                  <FormInputComponent
+                    content={formContent}
+                    additionalContext={additionalContext}
+                  />
+                  <ButtonNavigation
+                    backDestination={previousStep}
+                    isLast={isLast}
+                  />
+                </div>
+              </ValidatedForm>
+            </div>
+          </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </Background>
   );
 }

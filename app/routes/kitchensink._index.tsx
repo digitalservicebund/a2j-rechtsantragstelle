@@ -1,22 +1,28 @@
-import { useActionData } from "@remix-run/react";
+import { useActionData, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
+import type {
+  DataFunctionArgs,
+  V2_MetaFunction,
+  LoaderFunction,
+} from "@remix-run/node";
 
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm, validationError } from "remix-validated-form";
 
-import { Button, Input, RadioGroup, Select } from "~/components";
-
-const title = "Kitchensink";
-
-export const meta: V2_MetaFunction = () => [
-  { title },
-  {
-    name: "robots",
-    content: "noindex",
-  },
-];
+import {
+  Background,
+  Box,
+  Button,
+  Container,
+  Input,
+  RadioGroup,
+  Select,
+} from "~/components";
+import Header from "~/components/Header";
+import InfoBox from "~/components/InfoBox";
+import { getPageConfig, slugsfromURL } from "~/services/cms/getPageConfig";
+import PageContent from "~/components/PageContent";
 
 export const DummySchema = z.object({
   text: z.string().min(1),
@@ -26,6 +32,25 @@ export const DummySchema = z.object({
 
 const validator = withZod(DummySchema);
 
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
+  { title: data.meta?.title },
+  {
+    name: "robots",
+    content: "noindex",
+  },
+];
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const page = await getPageConfig(slugsfromURL(request.url)[0], {
+    dontThrow: true,
+  });
+  console.log(page);
+  return json({
+    content: page?.content,
+    meta: page?.meta,
+  });
+};
+
 export const action = async ({ request }: DataFunctionArgs) => {
   const data = await validator.validate(await request.formData());
   if (data.error) return validationError(data.error);
@@ -33,10 +58,11 @@ export const action = async ({ request }: DataFunctionArgs) => {
 };
 
 export default function Kitchensink() {
-  const data = useActionData();
+  const loaderData = useLoaderData<typeof loader>();
+  const actionData = useActionData();
   return (
-    <div className="block p-6 rounded-lg shadow-lg max-w-xl">
-      <h1>{title}</h1>
+    <div>
+      <h1>{loaderData.meta?.title}</h1>
       <h2>{"<ValidatedForm>"}</h2>
       <ValidatedForm
         validator={validator}
@@ -85,10 +111,63 @@ export default function Kitchensink() {
         </div>
       </ValidatedForm>
 
-      {data && (
+      {actionData && (
         <pre className="p-5 bg-gray-200 rounded-md">
-          {JSON.stringify(data, null, 2)}
+          {JSON.stringify(actionData, null, 2)}
         </pre>
+      )}
+
+      <h2>React components</h2>
+
+      <h3>Header</h3>
+      <Background color="yellow">
+        <Container paddingBottom="64">
+          <Header
+            heading={{
+              text: "Heading",
+              level: 3,
+              className: "ds-heading-01-reg",
+            }}
+            content={{ text: "Lorem **ipsum**" }}
+          />
+        </Container>
+      </Background>
+
+      <h3>Box</h3>
+      <Background color="blue" paddingTop="64">
+        <Container backgroundColor="yellow" paddingBottom="64">
+          <Box
+            label="Label"
+            heading={{
+              text: "Heading",
+              level: 3,
+              className: "ds-heading-02-reg",
+            }}
+            content={{ text: "Lorem **ipsum**" }}
+            button={{ text: "Button", href: "/", look: "tertiary" }}
+          />
+        </Container>
+      </Background>
+
+      <h3>InfoBox</h3>
+      <Background color="blue">
+        <Container>
+          <InfoBox
+            heading={{
+              text: "Heading",
+              level: 3,
+              className: "ds-heading-02-reg",
+            }}
+            items={[{ label: "Lorem ipsum" }, { label: "Lorem ipsum" }]}
+          />
+        </Container>
+      </Background>
+
+      <h2>CMS components</h2>
+      {loaderData.content ? (
+        <PageContent content={loaderData.content} />
+      ) : (
+        "No kitchensink page found in CMS!"
       )}
     </div>
   );

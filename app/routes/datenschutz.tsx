@@ -2,7 +2,6 @@ import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
-import Container from "~/components/Container";
 import PageContent from "~/components/PageContent";
 import { getPageConfig, slugsfromURL } from "~/services/cms/getPageConfig";
 
@@ -19,9 +18,5 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Index() {
-  return (
-    <Container className="pt-16 pb-80 bg-blue-100 min-h-[50vh]">
-      <PageContent content={useLoaderData<typeof loader>().content} />
-    </Container>
-  );
+  return <PageContent content={useLoaderData<typeof loader>().content} />;
 }

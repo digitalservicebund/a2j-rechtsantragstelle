@@ -6,11 +6,11 @@ import Image from "./Image";
 import type { ButtonLinkProps } from "./Button";
 import Button from "./Button";
 
-type InfoBoxItemProps = {
+export type InfoBoxItemProps = {
   label?: HeadingProps;
   headline?: HeadingProps;
   image?: ImageProps;
-  content: string;
+  content?: string;
   button?: ButtonLinkProps;
 };
 

@@ -1,19 +1,24 @@
 import type { Heading, Paragraph } from "./contentComponents";
 import type { Image } from "./basicComponents";
+import type { Button } from "./formComponents";
+import type { Background, Container } from "./metaComponents";
 
 export type Header = {
   id: number;
   __component: "page.header";
-  header: Heading;
-  description: Paragraph;
-  hasBackground: boolean;
+  heading: Heading;
+  content: Paragraph;
+  background?: Background;
+  container: Container;
 };
 
 export type InfoBox = {
   id: number;
   __component: "page.info-box";
+  heading: Heading;
   items: InfoBoxItem[];
-  headline: Heading;
+  background?: Background;
+  container: Container;
 };
 
 export type InfoBoxItem = {
@@ -25,4 +30,15 @@ export type InfoBoxItem = {
   content: string;
 };
 
-export type PageComponentCMS = Header | InfoBox;
+export type Box = {
+  id: number;
+  __component: "page.box";
+  label?: string;
+  heading?: Heading;
+  content?: Paragraph;
+  button?: Button;
+  background?: Background;
+  container: Container;
+};
+
+export type PageComponentCMS = Header | InfoBox | Box;

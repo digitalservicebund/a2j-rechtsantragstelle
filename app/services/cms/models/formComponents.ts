@@ -34,4 +34,12 @@ export type Input = {
   errors: { data: ErrorCategory[] };
 };
 
+export type Button = {
+  look?: "primary" | "secondary" | "tertiary" | "ghost";
+  size?: "large" | "medium" | "small";
+  fullWidth?: boolean;
+  href?: string;
+  text?: string;
+};
+
 export type FormComponentCMS = Input | Select;

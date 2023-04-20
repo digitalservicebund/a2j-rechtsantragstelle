@@ -7,7 +7,7 @@ export type Image = {
       width: number;
       height: number;
       alternativeText: string | null;
-      ext: ".png";
+      ext: string;
     };
   };
 };
