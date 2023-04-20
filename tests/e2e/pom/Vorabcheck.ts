@@ -6,7 +6,7 @@ export class Vorabcheck {
   readonly url = "/vorabcheck";
   readonly initialStep = "rechtsschutzversicherung";
   readonly nextButtonName = "_action";
-  readonly timeout = 500;
+  readonly timeout = 800;
 
   constructor(page: Page) {
     this.page = page;
@@ -32,7 +32,7 @@ export class Vorabcheck {
     await Promise.all([
       this.page
         .locator(`button[name=${this.nextButtonName}]`)
-        .click({ timeout: this.timeout, force: true }),
+        .click({ timeout: this.timeout }),
       this.page.waitForNavigation(), // deprecated but URL for waitForURL is unknown
     ]);
   }
