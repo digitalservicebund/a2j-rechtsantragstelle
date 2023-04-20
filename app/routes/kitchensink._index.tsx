@@ -158,7 +158,10 @@ export default function Kitchensink() {
               level: 3,
               className: "ds-heading-02-reg",
             }}
-            items={[{ label: "Lorem ipsum" }, { label: "Lorem ipsum" }]}
+            items={[
+              { label: { text: "Lorem ipsum", level: 4 } },
+              { label: { text: "Lorem ipsum", level: 4 } },
+            ]}
           />
         </Container>
       </Background>

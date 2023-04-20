@@ -24,10 +24,11 @@ export type InfoBox = {
 export type InfoBoxItem = {
   id: number;
   __component: "page.info-box-item";
-  label?: string;
-  headline: string;
+  label?: Heading;
+  headline: Heading;
   image?: Image;
   content: string;
+  button?: Button;
 };
 
 export type Box = {
