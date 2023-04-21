@@ -3,7 +3,7 @@ import { YesNoAnswer, yesNoOptions } from "../answers";
 import type { StepComponentProps } from "~/components/form/steps";
 import RadioGroup from "~/components/RadioGroup";
 import Heading from "~/components/Heading";
-import { freibetrag } from "~/lib/freibetrag";
+import { freibetrag, freibetragShort } from "~/lib/freibetrag";
 
 const schema = z.object({ excessiveDisposableIncome: YesNoAnswer });
 const fieldname = schema.keyof()._def.values[0] as string;
@@ -18,7 +18,11 @@ export const verfuegbaresEinkommenStep = {
     const isWorking = isErwerbstaetig == YesNoAnswer.Enum.yes;
     const isInPartnership = partnerschaft == YesNoAnswer.Enum.yes;
     const kidsCountTotal = parseFloat(kidsTotal);
-    const freiBetrag = freibetrag(isWorking, isInPartnership, kidsCountTotal);
+    const freiBetrag = freibetragShort(
+      isWorking,
+      isInPartnership,
+      kidsCountTotal
+    );
 
     return (
       <>

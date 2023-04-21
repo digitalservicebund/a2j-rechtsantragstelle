@@ -196,15 +196,16 @@ export const formFlow: FormFlow = {
 export const isIncomeTooHigh = (ctx: Context) =>
   (ctx.einkommen?.einkommen ?? 0) -
     (ctx.miete?.miete ?? 0) -
-    (ctx.weitereZahlungenSumme?.weitereZahlungenSumme ?? 0) -
-    20 >
+    (ctx.weitereZahlungenSumme?.weitereZahlungenSumme ?? 0) >
   freibetrag(
     ctx.erwerbstaetigkeit?.isErwerbstaetig === "yes",
     ctx.partnerschaft?.partnerschaft === "yes",
+    ctx.einkommenPartner?.einkommenPartner,
     ctx.kinderAnzahl?.kids6Below,
     ctx.kinderAnzahl?.kids7To14,
     ctx.kinderAnzahl?.kids15To18,
-    ctx.kinderAnzahl?.kids18Above
+    ctx.kinderAnzahl?.kids18Above,
+    ctx.einkommenKinder?.einkommenKinder
   );
 
 export const formGraph = makeFormGraph(formFlow);
