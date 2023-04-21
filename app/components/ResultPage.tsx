@@ -75,6 +75,10 @@ const ResultPage = ({
   const documentsList = content.documents.data
     ? content.documents.data.attributes.element
     : [];
+  const nextSteps = content.nextSteps.data
+    ? content.nextSteps.data.attributes.element
+    : [];
+  console.log(nextSteps);
 
   return (
     <div>
@@ -179,6 +183,10 @@ const ResultPage = ({
               </form>
             )}
           </ButtonContainer>
+        </Container>
+
+        <Container backgroundColor="white">
+          <PageContent content={nextSteps} />
         </Container>
       </div>
     </div>

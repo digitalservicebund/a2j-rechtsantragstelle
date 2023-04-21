@@ -35,6 +35,8 @@ export type Input = {
 };
 
 export type Button = {
+  id: string; // TODO: check why this can't be a number
+  __component: "form-elements.button";
   look?: "primary" | "secondary" | "tertiary" | "ghost";
   size?: "large" | "medium" | "small";
   fullWidth?: boolean;

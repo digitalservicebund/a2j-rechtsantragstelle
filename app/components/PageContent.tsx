@@ -4,6 +4,7 @@ import Header from "./Header";
 import InfoBox from "./InfoBox";
 import type { FormContentCMS } from "~/services/cms/models/contentComponents";
 import type { PageComponentCMS } from "~/services/cms/models/pageComponents";
+import type { Button as ButtonCMS } from "~/services/cms/models/formComponents";
 import type {
   Container as ContainerCMS,
   Background as BackgroundCMS,
@@ -14,6 +15,7 @@ import Container from "./Container";
 import type { BackgroundProps } from "./Background";
 import Background from "./Background";
 import type { ReactNode } from "react";
+import Button from "./Button";
 
 type PageContentProps = {
   content: Array<FormContentCMS | PageComponentCMS>;
@@ -54,7 +56,7 @@ const wrapInBackground = (
 };
 
 function cmsToReact(
-  element: FormContentCMS | PageComponentCMS,
+  element: FormContentCMS | PageComponentCMS | ButtonCMS,
   key?: string | number
 ) {
   if (element.__component === "basic.heading") {
@@ -63,6 +65,8 @@ function cmsToReact(
     return Paragraph({ ...element, key, className: "ds-body-01-reg" });
   } else if (element.__component === "page.header") {
     return <Header {...element} key={element.id} />;
+  } else if (element.__component === "form-elements.button") {
+    return <Button {...element} key={element.id} />;
   } else if (element.__component === "page.info-box") {
     return <InfoBox {...element} key={element.id} />;
   } else if (element.__component === "page.box") {
