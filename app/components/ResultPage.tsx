@@ -72,6 +72,8 @@ const ResultPage = ({
   isLast,
 }: ResultPageProps) => {
   const pageProperties = pageTypeProperties(content.pageType);
+  const documents = content.documents.data;
+  console.log(documents);
   return (
     <div>
       <div className={pageProperties.background}>
@@ -163,6 +165,20 @@ const ResultPage = ({
             );
           })}
         </Container>
+      )}
+      {documents && (
+        <div className={"bg-blue-100"}>
+          <Container>
+            {documents.attributes.element.map((element) => {
+              return (
+                <>
+                  <PageContent content={[element]} />
+                  <hr className="mt-24" />
+                </>
+              );
+            })}
+          </Container>
+        </div>
       )}
     </div>
   );

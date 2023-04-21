@@ -15,8 +15,9 @@ export type ResultPage = {
   heading: Heading;
   hintText?: Paragraph;
   linkText?: string;
-  reasonings?: { data: ElementWithId[] };
-  freeZone?: FormContentCMS[];
+  reasonings: { data?: ElementWithId[] };
+  documents: { data?: ElementWithId };
+  freeZone: FormContentCMS[];
   nextLink?: Link;
 };
 
