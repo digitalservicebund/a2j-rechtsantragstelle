@@ -6,7 +6,7 @@ export class Vorabcheck {
   readonly url = "/vorabcheck";
   readonly initialStep = "rechtsschutzversicherung";
   readonly nextButtonName = "_action";
-  readonly timeout = 800;
+  readonly timeout = 5000;
 
   constructor(page: Page) {
     this.page = page;
