@@ -72,8 +72,10 @@ const ResultPage = ({
   isLast,
 }: ResultPageProps) => {
   const pageProperties = pageTypeProperties(content.pageType);
-  const documents = content.documents.data;
-  console.log(documents);
+  const documentsList = content.documents.data
+    ? content.documents.data.attributes.element
+    : [];
+
   return (
     <div>
       <div className={pageProperties.background}>
@@ -121,33 +123,6 @@ const ResultPage = ({
           <PageContent content={content.freeZone} />
         </Container>
       )}
-      {!isLast && (
-        <Container>
-          <ButtonContainer>
-            {backDestination && (
-              <Button
-                href={backDestination}
-                look="tertiary"
-                size="large"
-                className="w-fit"
-              >
-                Zurück
-              </Button>
-            )}
-            <form method="post">
-              <Button
-                type={content.nextLink?.url ? undefined : "submit"}
-                name={content.nextLink?.url ? undefined : "_action"}
-                href={content.nextLink?.url}
-                size="large"
-                className="w-fit"
-              >
-                {content.nextLink?.text ?? "Vorab-Check fortsetzen"}
-              </Button>
-            </form>
-          </ButtonContainer>
-        </Container>
-      )}
       {reasonsToDisplay && reasonsToDisplay.length > 1 && (
         <Container>
           <Heading
@@ -166,20 +141,46 @@ const ResultPage = ({
           })}
         </Container>
       )}
-      {documents && (
-        <div className={"bg-blue-100"}>
-          <Container>
-            {documents.attributes.element.map((element) => {
-              return (
-                <>
-                  <PageContent content={[element]} />
-                  <hr className="mt-24" />
-                </>
-              );
-            })}
-          </Container>
-        </div>
-      )}
+
+      <div className={`${documentsList.length > 0 && "bg-blue-100"}`}>
+        <Container>
+          {documentsList.map((element) => {
+            return (
+              <>
+                <PageContent content={[element]} />
+                <hr className="mt-24" />
+              </>
+            );
+          })}
+
+          <ButtonContainer>
+            {backDestination && (
+              <Button
+                href={backDestination}
+                look="tertiary"
+                size="large"
+                className="w-fit"
+              >
+                Zurück
+              </Button>
+            )}
+
+            {(!isLast || content.nextLink?.url) && (
+              <form method="post">
+                <Button
+                  type={content.nextLink?.url ? undefined : "submit"}
+                  name={content.nextLink?.url ? undefined : "_action"}
+                  href={content.nextLink?.url}
+                  size="large"
+                  className="w-fit"
+                >
+                  {content.nextLink?.text ?? "Vorab-Check fortsetzen"}
+                </Button>
+              </form>
+            )}
+          </ButtonContainer>
+        </Container>
+      </div>
     </div>
   );
 };
