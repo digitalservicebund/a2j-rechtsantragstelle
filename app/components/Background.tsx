@@ -3,8 +3,8 @@ import React from "react";
 import type { CommonWrapperProps } from ".";
 import { BACKGROUND_COLORS } from ".";
 
-const DEFAULT_PADDING_TOP = "40";
-const DEFAULT_PADDING_BOTTOM = "48";
+const DEFAULT_PADDING_TOP = "0";
+const DEFAULT_PADDING_BOTTOM = "0";
 
 export type BackgroundProps = {
   children: React.ReactNode;
