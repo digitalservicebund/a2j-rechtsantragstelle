@@ -156,9 +156,10 @@ const ResultPage = ({
           />
           {reasonsToDisplay.map((reason) => {
             return (
-              <div key={reason.attributes.elementId}>
+              <>
                 <PageContent content={reason.attributes.element} />
-              </div>
+                <hr className="mt-24" />
+              </>
             );
           })}
         </Container>
