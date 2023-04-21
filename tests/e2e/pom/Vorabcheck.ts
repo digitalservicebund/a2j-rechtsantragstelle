@@ -29,12 +29,10 @@ export class Vorabcheck {
   }
 
   async clickNext() {
-    await Promise.all([
-      this.page
-        .locator(`button[name=${this.nextButtonName}]`)
-        .click({ timeout: this.timeout }),
-      this.page.waitForNavigation(), // deprecated but URL for waitForURL is unknown
-    ]);
+    await this.page
+      .locator(`button[name=${this.nextButtonName}]`)
+      .click({ timeout: this.timeout });
+    await this.page.waitForNavigation(); // deprecated but URL for waitForURL is unknown
   }
 
   async fillRadioPage(field: string, option: string) {
