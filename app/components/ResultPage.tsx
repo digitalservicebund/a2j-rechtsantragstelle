@@ -78,7 +78,6 @@ const ResultPage = ({
   const nextSteps = content.nextSteps.data
     ? content.nextSteps.data.attributes.element
     : [];
-  console.log(nextSteps);
 
   return (
     <div>
@@ -135,28 +134,29 @@ const ResultPage = ({
             text="Begründung"
             className="mb-16"
           />
-          {reasonsToDisplay.map((reason) => {
-            return (
-              <>
-                <PageContent content={reason.attributes.element} />
-                <hr className="mt-24" />
-              </>
-            );
-          })}
+          {reasonsToDisplay.map((reason, idx) => (
+            <div key={idx}>
+              <PageContent content={reason.attributes.element} />
+              {idx < reasonsToDisplay.length - 1 && <hr className="my-24" />}
+            </div>
+          ))}
         </Container>
       )}
 
       <div className={`${documentsList.length > 0 && "bg-blue-100"}`}>
-        <Container>
-          {documentsList.map((element) => {
-            return (
-              <>
+        {documentsList.length > 0 && (
+          <Container>
+            {documentsList.map((element, idx) => (
+              <div key={idx}>
                 <PageContent content={[element]} />
-                <hr className="mt-24" />
-              </>
-            );
-          })}
-
+                {idx != 0 && idx != documentsList.length - 1 && (
+                  <hr className="my-24" />
+                )}
+              </div>
+            ))}
+          </Container>
+        )}
+        <Container>
           <ButtonContainer>
             {backDestination && (
               <Button
@@ -184,10 +184,9 @@ const ResultPage = ({
             )}
           </ButtonContainer>
         </Container>
-
-        <Container backgroundColor="white">
+        <div className="pb-48">
           <PageContent content={nextSteps} />
-        </Container>
+        </div>
       </div>
     </div>
   );
