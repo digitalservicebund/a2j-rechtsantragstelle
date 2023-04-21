@@ -22,6 +22,7 @@ type ResultPageProps = {
   backDestination?: string;
   stepProgress: number;
   progressTotal: number;
+  isLast: boolean;
 };
 
 type PageTypeProperties = {
@@ -68,6 +69,7 @@ const ResultPage = ({
   reasonsToDisplay,
   stepProgress,
   progressTotal,
+  isLast,
 }: ResultPageProps) => {
   const pageProperties = pageTypeProperties(content.pageType);
   return (
@@ -117,7 +119,7 @@ const ResultPage = ({
           <PageContent content={content.freeZone} />
         </Container>
       )}
-      {content.nextLink && (
+      {!isLast && (
         <Container>
           <ButtonContainer>
             {backDestination && (
@@ -130,30 +132,17 @@ const ResultPage = ({
                 Zurück
               </Button>
             )}
-
-            {content.nextLink.url && (
+            <form method="post">
               <Button
-                href={content.nextLink.url}
+                type={content.nextLink?.url ? undefined : "submit"}
+                name={content.nextLink?.url ? undefined : "_action"}
+                href={content.nextLink?.url}
                 size="large"
                 className="w-fit"
               >
-                {content.nextLink.text}
+                {content.nextLink?.text ?? "Vorab-Check fortsetzen"}
               </Button>
-            )}
-            {!content.nextLink.url && (
-              <>
-                <form method="post">
-                  <Button
-                    type="submit"
-                    name="_action"
-                    size="large"
-                    className="w-fit"
-                  >
-                    {content.nextLink.text}
-                  </Button>
-                </form>
-              </>
-            )}
+            </form>
           </ButtonContainer>
         </Container>
       )}

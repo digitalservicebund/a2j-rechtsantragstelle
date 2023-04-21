@@ -164,6 +164,7 @@ export default function Index() {
         reasonsToDisplay={resultReasonsToDisplay}
         stepProgress={stepProgress}
         progressTotal={progressTotal}
+        isLast={isLast}
       />
     );
   }
