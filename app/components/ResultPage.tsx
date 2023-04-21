@@ -93,19 +93,24 @@ const ResultPage = ({
               </>
             }
           />
-          {/* TODO: Replace this with the correct component */}
-          {content.hintText && (
-            <div className="bg-white p-32 mt-48">
-              <p className="ds-label-02-bold mb-8">Hinweis</p>
+        </Container>
+
+        {content.hintText && (
+          <Container backgroundColor="white" paddingTop="32" paddingBottom="40">
+            <div className="ds-stack stack-8">
+              <p className="ds-label-02-bold">Hinweis</p>
               <RichText markdown={content.hintText.text} />
             </div>
-          )}
-          {content.linkText && (
-            <a href={"/vorabcheck"} className="block ds-link-02-bold mt-32">
+          </Container>
+        )}
+
+        {content.linkText && (
+          <Container paddingTop="32" paddingBottom="32">
+            <a href={"/vorabcheck"} className="block ds-link-02-bold">
               {content.linkText}
             </a>
-          )}
-        </Container>
+          </Container>
+        )}
       </div>
       {content.freeZone && content.freeZone.length > 0 && (
         <Container>
