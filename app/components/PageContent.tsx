@@ -83,9 +83,11 @@ function cmsToReact(
 
 const PageContent = ({ content = [] }: PageContentProps) => (
   <div>
-    {content.map((el, idx) =>
-      wrapInBackground(el, wrapInContainer(el, cmsToReact(el, idx)))
-    )}
+    {content.map((el, idx) => (
+      <div key={idx}>
+        {wrapInBackground(el, wrapInContainer(el, cmsToReact(el, idx)))}
+      </div>
+    ))}
   </div>
 );
 
