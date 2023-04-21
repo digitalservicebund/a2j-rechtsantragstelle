@@ -137,7 +137,11 @@ export default function Kitchensink() {
       <Background backgroundColor="blue" paddingTop="64">
         <Container backgroundColor="yellow" paddingBottom="64">
           <Box
-            label="Label"
+            label={{
+              text: "Label",
+              level: 4,
+              className: "ds-label-02-bold",
+            }}
             heading={{
               text: "Heading",
               level: 3,

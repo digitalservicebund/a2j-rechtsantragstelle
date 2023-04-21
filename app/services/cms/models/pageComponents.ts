@@ -34,7 +34,7 @@ export type InfoBoxItem = {
 export type Box = {
   id: number;
   __component: "page.box";
-  label?: string;
+  label?: Heading;
   heading?: Heading;
   content?: Paragraph;
   button?: Button;

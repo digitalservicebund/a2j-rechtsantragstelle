@@ -6,17 +6,17 @@ import Button from "./Button";
 import type { ParagraphProps } from "./Paragraph";
 
 export interface BoxProps {
+  label?: HeadingProps;
   heading?: HeadingProps;
-  label?: string;
   content?: ParagraphProps;
   button?: ButtonProps;
 }
 
-const Box = ({ heading, label, content, button }: BoxProps) => {
+const Box = ({ label, heading, content, button }: BoxProps) => {
   return (
     <div className="ds-stack stack-16">
       <div className="ds-stack stack-8">
-        {label && <div className="ds-label-02-bold">{label}</div>}
+        {label && <Heading {...label} />}
         {heading && <Heading {...heading} />}
         {content && (
           <div>
