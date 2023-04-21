@@ -28,7 +28,7 @@ export default function Container({
 
   cssClasses = classNames(
     cssClasses,
-    "relative before:content-[''] before:absolute before:inset-y-0 before:-left-32 before:-right-32",
+    "relative before:content-[''] before:absolute before:inset-y-0 before:-left-32 before:-right-32 before:rounded-lg",
     `before:${BACKGROUND_COLORS[backgroundColor]}`
   );
 

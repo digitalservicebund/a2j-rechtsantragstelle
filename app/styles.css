@@ -9,8 +9,8 @@
     @apply pl-24;
   }
 
-  /* TODO: move this to angie, global default for all text */
-  body {
+  /* TODO: move this to angie, global default for all ds-heading-01-reg */
+  .ds-heading-01-reg {
     hyphens: auto;
   }
 
@@ -24,6 +24,14 @@
     display: block;
     max-width: 100%;
     height: auto;
+  }
+
+  /* TODO: change in angie */
+  h1,
+  h2,
+  h3,
+  h4 {
+    max-width: 70ch;
   }
 }
 
