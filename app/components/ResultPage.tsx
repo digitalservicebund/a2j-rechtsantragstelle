@@ -139,7 +139,7 @@ const ResultPage = ({
             return (
               <>
                 <PageContent content={reason.attributes.element} />
-                <hr className="mt-24" />
+                <hr className="my-24" />
               </>
             );
           })}
@@ -152,7 +152,7 @@ const ResultPage = ({
             return (
               <>
                 <PageContent content={[element]} />
-                <hr className="mt-24" />
+                <hr className="my-24" />
               </>
             );
           })}
@@ -184,10 +184,9 @@ const ResultPage = ({
             )}
           </ButtonContainer>
         </Container>
-
-        <Container backgroundColor="white">
+        <div className="pb-48">
           <PageContent content={nextSteps} />
-        </Container>
+        </div>
       </div>
     </div>
   );
