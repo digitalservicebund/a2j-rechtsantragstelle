@@ -66,7 +66,7 @@ const pageTypeProperties = (pageType: ResultPageType): PageTypeProperties => {
 const ResultPage = ({
   content,
   backDestination,
-  reasonsToDisplay,
+  reasonsToDisplay = [],
   stepProgress,
   progressTotal,
   isLast,
@@ -126,7 +126,7 @@ const ResultPage = ({
           <PageContent content={content.freeZone} />
         </Container>
       )}
-      {reasonsToDisplay && reasonsToDisplay.length > 1 && (
+      {reasonsToDisplay.length > 0 && (
         <Container>
           <Heading
             level={2}
