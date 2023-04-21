@@ -14,14 +14,16 @@ export interface BoxProps {
 
 const Box = ({ heading, label, content, button }: BoxProps) => {
   return (
-    <div className="ds-stack stack-8">
-      {label && <div className="ds-label-02-bold">{label}</div>}
-      {heading && <Heading {...heading} />}
-      {content && (
-        <div>
-          <RichText markdown={content.text} />
-        </div>
-      )}
+    <div className="ds-stack stack-16">
+      <div className="ds-stack stack-8">
+        {label && <div className="ds-label-02-bold">{label}</div>}
+        {heading && <Heading {...heading} />}
+        {content && (
+          <div>
+            <RichText markdown={content.text} />
+          </div>
+        )}
+      </div>
       {button && (
         <div>
           <Button {...button} />
