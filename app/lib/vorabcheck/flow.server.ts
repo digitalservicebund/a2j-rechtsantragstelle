@@ -22,17 +22,18 @@ interface ConditionalTransition {
 export type TransitionElement = AllowedIDs | ConditionalTransition;
 export type FormFlow = Partial<Record<AllowedIDs, TransitionElement[]>>;
 
+function anyNonCriticalWarning(ctx: Context) {
+  return (
+    ctx.kostenfreieBeratung?.hasTriedFreeServices == "no" ||
+    ctx.eigeninitiative?.hasHelpedThemselves == "no"
+  );
+}
+
 const lastPageTransitions = [
   {
     destination: pageIDs.abschlussVielleicht,
     condition: (ctx: Context) =>
-      ctx.kostenfreieBeratung?.hasTriedFreeServices == "no" &&
-      !isIncomeTooHigh(ctx),
-  },
-  {
-    destination: pageIDs.abschlussVielleicht,
-    condition: (ctx: Context) =>
-      ctx.eigeninitiative?.hasHelpedThemselves == "no" && !isIncomeTooHigh(ctx),
+      anyNonCriticalWarning(ctx) && !isIncomeTooHigh(ctx),
   },
   {
     destination: pageIDs.abschlussNein,
@@ -149,6 +150,13 @@ export const formFlow: FormFlow = {
     {
       destination: pageIDs.abschlussJa,
       condition: (ctx) =>
+        !anyNonCriticalWarning(ctx) &&
+        ctx.verfuegbaresEinkommen?.excessiveDisposableIncome === "no",
+    },
+    {
+      destination: pageIDs.abschlussVielleicht,
+      condition: (ctx) =>
+        anyNonCriticalWarning(ctx) &&
         ctx.verfuegbaresEinkommen?.excessiveDisposableIncome === "no",
     },
     {
