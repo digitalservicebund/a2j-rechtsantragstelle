@@ -53,13 +53,11 @@ function App() {
         <Meta />
         <Links />
       </head>
-      <body>
-        <div className="min-h-screen">
-          <Navbar {...navigation} />
-          <main>
-            <Outlet />
-          </main>
-        </div>
+      <body className="flex flex-col min-h-screen">
+        <Navbar {...navigation} />
+        <main className="flex-grow">
+          <Outlet />
+        </main>
         <Footer {...footer} />
         <ScrollRestoration />
         <Scripts />
