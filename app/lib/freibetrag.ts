@@ -19,7 +19,7 @@ export function freibetrag(
 
     if (partnerIncome) {
       const partnerIcomeFreibetrag = Math.max(552 - partnerIncome, 0);
-      betrag += partnerIcomeFreibetrag;
+      betrag -= partnerIcomeFreibetrag;
     }
   }
 
@@ -34,7 +34,7 @@ export function freibetrag(
       childrenBetrag - childrenIncome,
       0
     );
-    betrag += childrenIncomeFreibetrag;
+    betrag -= childrenIncomeFreibetrag;
   }
 
   return betrag - (childrenIncome ?? 0) - (partnerIncome ?? 0);
