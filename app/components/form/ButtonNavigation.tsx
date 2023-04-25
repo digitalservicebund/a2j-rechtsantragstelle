@@ -1,13 +1,16 @@
 import type { AllowedIDs } from "~/lib/vorabcheck/pages";
 import { Button } from "~/components";
 import { ButtonContainer } from "~/components/ButtonContainer";
+import type { VorabCheckCommons } from "~/services/cms/models/commons/VorabCheckCommons";
 
 interface ButtonNavigationProps {
   backDestination?: AllowedIDs;
   isLast: boolean;
+  commonContent: VorabCheckCommons;
 }
 
 export function ButtonNavigation({
+  commonContent,
   backDestination,
   isLast,
 }: ButtonNavigationProps) {
@@ -20,7 +23,7 @@ export function ButtonNavigation({
           size="large"
           className="w-fit"
         >
-          Zurück
+          {commonContent.backButtonDefaultLabel}
         </Button>
       )}
 
@@ -31,7 +34,9 @@ export function ButtonNavigation({
         size="large"
         className="w-fit"
       >
-        {isLast ? "Von Vorne beginnen" : "Übernehmen & Weiter"}
+        {isLast
+          ? commonContent.lastNextButtonLabel
+          : commonContent.nextButtonDefaultLabel}
       </Button>
     </ButtonContainer>
   );

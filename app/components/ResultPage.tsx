@@ -105,7 +105,7 @@ const ResultPage = ({
         {content.hintText && (
           <Container backgroundColor="white" paddingTop="32" paddingBottom="40">
             <div className="ds-stack stack-8">
-              <p className="ds-label-02-bold">Hinweis</p>
+              <p className="ds-label-02-bold">{content.resultHintLabel}</p>
               <RichText markdown={content.hintText.text} />
             </div>
           </Container>
@@ -163,7 +163,7 @@ const ResultPage = ({
                 size="large"
                 className="w-fit"
               >
-                Zurück
+                {content.backButtonDefaultLabel}
               </Button>
             )}
 
@@ -176,7 +176,7 @@ const ResultPage = ({
                   size="large"
                   className="w-fit"
                 >
-                  {content.nextLink?.text ?? "Vorab-Check fortsetzen"}
+                  {content.nextLink?.text ?? content.nextButtonDefaultLabel}
                 </Button>
               </form>
             )}

@@ -200,6 +200,7 @@ export default function Index() {
                 <ButtonNavigation
                   backDestination={previousStep}
                   isLast={isLast}
+                  commonContent={commonContent}
                 />
               </div>
             </ValidatedForm>

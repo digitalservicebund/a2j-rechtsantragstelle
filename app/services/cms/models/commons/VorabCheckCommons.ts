@@ -6,4 +6,8 @@ export type VorabCheckCommons = {
   updatedAt: string;
   publishedAt: string;
   progressBarLabel: string;
+  resultHintLabel: string;
+  backButtonDefaultLabel: string;
+  nextButtonDefaultLabel: string;
+  lastNextButtonLabel: string;
 };
