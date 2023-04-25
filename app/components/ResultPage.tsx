@@ -15,9 +15,10 @@ import { ButtonContainer } from "~/components/ButtonContainer";
 import type { ElementWithId } from "~/services/cms/models/ElementWithId";
 import classes from "classnames";
 import ProgressBarArea from "~/components/form/ProgressBarArea";
+import type { VorabCheckCommons } from "~/services/cms/models/commons/VorabCheckCommons";
 
 type ResultPageProps = {
-  content: ResultPageContent;
+  content: ResultPageContent & VorabCheckCommons;
   reasonsToDisplay?: ElementWithId[];
   backDestination?: string;
   stepProgress: number;
@@ -84,7 +85,7 @@ const ResultPage = ({
       <div className={pageProperties.background}>
         <Container>
           <ProgressBarArea
-            label="Vorab-Check"
+            label={content.progressBarLabel}
             stepProgress={stepProgress}
             progressTotal={progressTotal}
           />

@@ -34,6 +34,8 @@ import ResultPage from "~/components/ResultPage";
 import type { ElementWithId } from "~/services/cms/models/ElementWithId";
 import { Background } from "~/components";
 import ProgressBarArea from "~/components/form/ProgressBarArea";
+import type { VorabCheckCommons } from "~/services/cms/models/commons/VorabCheckCommons";
+import cms from "~/services/cms";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
@@ -82,6 +84,9 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       session.data
     );
   }
+  const commonContent: VorabCheckCommons = await cms().getPage(
+    "vorab-check-common"
+  );
 
   if (!isValidContext(initialStepID, stepID, formGraph, session.data)) {
     return redirect(`/vorabcheck/${initialStepID}`);
@@ -100,6 +105,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
   return json({
     defaultValues: session.data[stepID],
+    commonContent,
     preFormContent: formPageContent?.pre_form,
     formContent: formPageContent?.form,
     resultContent: resultPageContent,
@@ -141,6 +147,7 @@ export const action: ActionFunction = async ({ params, request }) => {
 export default function Index() {
   const {
     defaultValues,
+    commonContent,
     preFormContent,
     formContent,
     resultContent,
@@ -159,7 +166,7 @@ export default function Index() {
   if (resultContent) {
     return (
       <ResultPage
-        content={resultContent}
+        content={{ ...resultContent, ...commonContent }}
         backDestination={previousStep}
         reasonsToDisplay={resultReasonsToDisplay}
         stepProgress={stepProgress}
@@ -173,7 +180,7 @@ export default function Index() {
       <Container>
         <div className="ds-stack stack-16">
           <ProgressBarArea
-            label="Vorab-Check"
+            label={commonContent.progressBarLabel}
             stepProgress={stepProgress}
             progressTotal={progressTotal}
           />
