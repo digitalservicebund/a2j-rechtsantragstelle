@@ -6,7 +6,6 @@ import {
   WarningAmber,
 } from "@mui/icons-material";
 import Container from "~/components/Container";
-import { ProgressBar } from "~/components/form/ProgressBar";
 import Heading from "~/components/Heading";
 import type { ResultPageType } from "~/services/cms/models/ResultPage";
 import type { ReactElement } from "react";
@@ -15,6 +14,7 @@ import { Button } from "~/components/index";
 import { ButtonContainer } from "~/components/ButtonContainer";
 import type { ElementWithId } from "~/services/cms/models/ElementWithId";
 import classes from "classnames";
+import ProgressBarArea from "~/components/form/ProgressBarArea";
 
 type ResultPageProps = {
   content: ResultPageContent;
@@ -83,14 +83,11 @@ const ResultPage = ({
     <div>
       <div className={pageProperties.background}>
         <Container>
-          <div>
-            <p className="ds-label-03-reg mb-4">Vorab-Check</p>
-            <ProgressBar
-              progress={stepProgress}
-              max={progressTotal}
-              fallback={`Schritt ${stepProgress} / ${progressTotal}`}
-            />
-          </div>
+          <ProgressBarArea
+            label="Vorab-Check"
+            stepProgress={stepProgress}
+            progressTotal={progressTotal}
+          />
           <Heading
             level={content.heading.level}
             style={content.heading.style}

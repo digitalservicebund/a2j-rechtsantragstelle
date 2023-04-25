@@ -1,19 +1,19 @@
 import { useLoaderData, useParams } from "@remix-run/react";
-import { json, redirect } from "@remix-run/node";
 import type {
   ActionFunction,
   LoaderFunction,
   V2_MetaFunction,
 } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
-import { formPages, allValidators } from "~/lib/vorabcheck/pages";
 import type { AllowedIDs } from "~/lib/vorabcheck/pages";
+import { allValidators, formPages } from "~/lib/vorabcheck/pages";
 import type { Context } from "~/lib/vorabcheck/flow.server";
 import {
-  initialStepID,
-  progress,
   formGraph,
+  initialStepID,
   isIncomeTooHigh,
+  progress,
 } from "~/lib/vorabcheck/flow.server";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
@@ -27,13 +27,13 @@ import {
   getVorabCheckPageConfig,
 } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
-import { ProgressBar } from "~/components/form/ProgressBar";
 import Container from "~/components/Container";
 import type { VorabcheckPage } from "~/services/cms/models/VorabcheckPage";
 import type { ResultPage as ResultPageContent } from "~/services/cms/models/ResultPage";
 import ResultPage from "~/components/ResultPage";
 import type { ElementWithId } from "~/services/cms/models/ElementWithId";
 import { Background } from "~/components";
+import ProgressBarArea from "~/components/form/ProgressBarArea";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
@@ -172,16 +172,11 @@ export default function Index() {
     <Background backgroundColor="blue">
       <Container>
         <div className="ds-stack stack-16">
-          <div>
-            <p className="ds-label-03-reg mb-4">Vorab-Check</p>
-            <ProgressBar
-              progress={stepProgress}
-              max={progressTotal}
-              fallback={
-                isLast ? "" : `Schritt ${stepProgress} / ${progressTotal}`
-              }
-            />
-          </div>
+          <ProgressBarArea
+            label="Vorab-Check"
+            stepProgress={stepProgress}
+            progressTotal={progressTotal}
+          />
           <div className="ds-stack stack-32">
             <PageContent content={preFormContent} />
             <ValidatedForm
