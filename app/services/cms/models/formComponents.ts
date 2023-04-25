@@ -22,6 +22,7 @@ export type Select = {
   __component: "form-elements.select";
   name: string;
   label?: string;
+  altLabel?: string;
   options: SelectOption[];
 };
 
