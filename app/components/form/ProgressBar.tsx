@@ -1,12 +1,14 @@
 interface ProgressBarProps {
+  id: string;
   progress: number;
   max?: number;
   fallback?: string;
 }
 
-export function ProgressBar({ progress, max, fallback }: ProgressBarProps) {
+export function ProgressBar({ id, progress, max, fallback }: ProgressBarProps) {
   return (
     <progress
+      id={id}
       value={progress}
       max={max}
       aria-label="vorab-check progress"

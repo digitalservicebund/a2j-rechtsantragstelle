@@ -11,13 +11,17 @@ const ProgressBarArea = ({
   stepProgress,
   progressTotal,
 }: ProgressBarAreaProps) => {
+  const progressBarId = "progress-bar";
   return (
     <div>
-      <p className="ds-label-03-reg mb-4">{label}</p>
+      <label htmlFor={progressBarId} className="ds-label-03-reg mb-4">
+        {label}
+      </label>
       <ProgressBar
         progress={stepProgress}
         max={progressTotal}
         fallback={`Schritt ${stepProgress} / ${progressTotal}`}
+        id={progressBarId}
       />
     </div>
   );
