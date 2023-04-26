@@ -17,6 +17,7 @@ export const einkommenPartnerStep = {
         name={fieldName}
         type={inputContent.type}
         label={inputContent.label}
+        placeholder={inputContent.placeholder}
       />
     );
   },

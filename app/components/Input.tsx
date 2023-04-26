@@ -10,10 +10,18 @@ type InputProps = {
   label?: ReactNode;
   type?: string;
   step?: string;
+  placeholder?: string;
   errors?: ErrorCategory[];
 };
 
-const Input = ({ name, label, type = "text", step, errors }: InputProps) => {
+const Input = ({
+  name,
+  label,
+  type = "text",
+  step,
+  placeholder,
+  errors,
+}: InputProps) => {
   const { error, getInputProps } = useField(name);
   const flattenedErrorCodes = flattenErrorCodes(errors);
   return (
@@ -25,6 +33,7 @@ const Input = ({ name, label, type = "text", step, errors }: InputProps) => {
           step,
           id: name,
           inputMode: type === "number" ? "numeric" : undefined,
+          placeholder,
         })}
         className={classNames("ds-input", { "has-error": error })}
         aria-describedby={error && `${name}-error`}

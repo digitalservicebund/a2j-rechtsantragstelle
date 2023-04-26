@@ -32,6 +32,7 @@ export type Input = {
   name: string;
   label?: string;
   type: "text" | "number";
+  placeholder?: string;
   errors: { data: ErrorCategory[] };
 };
 
