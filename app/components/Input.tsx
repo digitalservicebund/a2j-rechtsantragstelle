@@ -20,7 +20,12 @@ const Input = ({ name, label, type = "text", step, errors }: InputProps) => {
     <div>
       {label && <InputLabel id={name}>{label}</InputLabel>}
       <input
-        {...getInputProps({ type, step, id: name })}
+        {...getInputProps({
+          type: type === "number" ? "text" : type,
+          step,
+          id: name,
+          inputMode: type === "number" ? "numeric" : undefined,
+        })}
         className={classNames("ds-input", { "has-error": error })}
         aria-describedby={error && `${name}-error`}
       />
