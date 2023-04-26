@@ -180,7 +180,7 @@ export default function Index() {
       <Container>
         <div className="ds-stack stack-16">
           <ProgressBarArea
-            label={commonContent.progressBarLabel}
+            label={commonContent?.progressBarLabel}
             stepProgress={stepProgress}
             progressTotal={progressTotal}
           />

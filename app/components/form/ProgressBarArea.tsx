@@ -1,7 +1,7 @@
 import { ProgressBar } from "~/components/form/ProgressBar";
 
 type ProgressBarAreaProps = {
-  label: string;
+  label?: string;
   stepProgress: number;
   progressTotal: number;
 };
