@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { YesNoAnswer, yesNoOptions } from "../answers";
+import { YesNoAnswer } from "../answers";
 import type { StepComponentProps } from "~/components/form/steps";
-import RadioGroup from "~/components/RadioGroup";
 import Heading from "~/components/Heading";
-import { freibetrag, freibetragShort } from "~/lib/freibetrag";
+import { freibetragShort } from "~/lib/freibetrag";
+import RadioGroupWithContent from "~/components/RadioGroupWithContent";
 
 const schema = z.object({ excessiveDisposableIncome: YesNoAnswer });
 const fieldname = schema.keyof()._def.values[0] as string;
@@ -27,10 +27,7 @@ export const verfuegbaresEinkommenStep = {
     return (
       <>
         <Heading level={2} text={`${freiBetrag} €`} className="pb-20" />
-        <RadioGroup
-          name={fieldname}
-          options={yesNoOptions(content, fieldname)}
-        />
+        <RadioGroupWithContent name={fieldname} content={content} />
       </>
     );
   },
