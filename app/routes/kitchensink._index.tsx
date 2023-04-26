@@ -117,11 +117,105 @@ export default function Kitchensink() {
         </pre>
       )}
 
-      <h2>React components</h2>
+      <Container>
+        <h2 className="ds-heading-02-reg">React components</h2>
+      </Container>
 
-      <h3>Header</h3>
-      <Background backgroundColor="yellow">
-        <Container paddingBottom="64">
+      <div>
+        <Container paddingBottom="8">
+          <div className="ds-stack stack-8">
+            <h3>Background</h3>
+            <p>
+              A simple wrapper with a background color. You can optionally add
+              top and bottom padding. Defaults to zero padding.
+            </p>
+            <code>
+              <pre>
+                {
+                  '<Background backgroundColor="yellow" paddingTop="32" paddingBottom="32">\n'
+                }
+                {"  inner content\n"}
+                {"</Background>"}
+              </pre>
+            </code>
+          </div>
+        </Container>
+        <Background backgroundColor="yellow" paddingTop="32" paddingBottom="32">
+          inner content
+        </Background>
+      </div>
+
+      <div>
+        <Container paddingBottom="8">
+          <div className="ds-stack stack-8">
+            <h3>Container</h3>
+            <p>
+              A wrapper to limit the width of the content + centering of the
+              content. You can change top and bottom padding. Defaults to 40px
+              top and 48px bottom padding. You can optionally add a background
+              color. That background color is only behind the content.
+            </p>
+            <code>
+              <pre>
+                {
+                  '<Container backgroundColor="yellow" paddingTop="16" paddingBottom="16">\n'
+                }
+                {"  inner content\n"}
+                {"</Container>"}
+              </pre>
+            </code>
+          </div>
+        </Container>
+        <Container backgroundColor="yellow" paddingTop="16" paddingBottom="16">
+          inner content
+        </Container>
+      </div>
+
+      <div>
+        <Container paddingBottom="8">
+          <div className="ds-stack stack-8">
+            <h3>Background + Container combination</h3>
+            <p>It's common to combine Background and Container.</p>
+            <code>
+              <pre>
+                {
+                  '<Background backgroundColor="yellow" paddingTop="32" paddingBottom="32">\n'
+                }
+                {'  <Container backgroundColor="white">\n'}
+                {"    inner content\n"}
+                {"  </Container>\n"}
+                {"</Background>"}
+              </pre>
+            </code>
+          </div>
+        </Container>
+        <Background backgroundColor="yellow" paddingTop="32" paddingBottom="32">
+          <Container backgroundColor="white">inner content</Container>
+        </Background>
+      </div>
+
+      <div>
+        <Container paddingBottom="8">
+          <div className="ds-stack stack-8">
+            <h3>Header</h3>
+            <p>A simple headline + text combination.</p>
+            <code>
+              <pre>{`
+<Container>
+  <Header
+    heading={{
+      text: "Heading",
+      level: 3,
+      className: "ds-heading-01-reg",
+    }}
+    content={{ text: "Lorem **ipsum**" }}
+  />
+</Container>
+            `}</pre>
+            </code>
+          </div>
+        </Container>
+        <Container>
           <Header
             heading={{
               text: "Heading",
@@ -131,7 +225,7 @@ export default function Kitchensink() {
             content={{ text: "Lorem **ipsum**" }}
           />
         </Container>
-      </Background>
+      </div>
 
       <h3>Box</h3>
       <Background backgroundColor="blue" paddingTop="64">
