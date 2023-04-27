@@ -18,6 +18,7 @@ export const einkommenStep = {
         type={inputContent.type}
         label={inputContent.label}
         placeholder={inputContent.placeholder}
+        suffix="€"
       />
     );
   },

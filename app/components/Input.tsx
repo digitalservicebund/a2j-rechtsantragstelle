@@ -11,6 +11,8 @@ type InputProps = {
   type?: string;
   step?: string;
   placeholder?: string;
+  prefix?: string;
+  suffix?: string;
   errors?: ErrorCategory[];
 };
 
@@ -20,6 +22,8 @@ const Input = ({
   type = "text",
   step,
   placeholder,
+  prefix,
+  suffix,
   errors,
 }: InputProps) => {
   const { error, getInputProps } = useField(name);
@@ -27,17 +31,21 @@ const Input = ({
   return (
     <div>
       {label && <InputLabel id={name}>{label}</InputLabel>}
-      <input
-        {...getInputProps({
-          type: type === "number" ? "text" : type,
-          step,
-          id: name,
-          inputMode: type === "number" ? "numeric" : undefined,
-          placeholder,
-        })}
-        className={classNames("ds-input", { "has-error": error })}
-        aria-describedby={error && `${name}-error`}
-      />
+      <div className="ds-input-group">
+        {prefix && <div className="ds-input-prefix">{prefix}</div>}
+        <input
+          {...getInputProps({
+            type: type === "number" ? "text" : type,
+            step,
+            id: name,
+            inputMode: type === "number" ? "numeric" : undefined,
+            placeholder,
+          })}
+          className={classNames("ds-input", { "has-error": error })}
+          aria-describedby={error && `${name}-error`}
+        />
+        {suffix && <div className="ds-input-suffix">{suffix}</div>}
+      </div>
       {error && (
         <InputError inputName={name}>
           {flattenedErrorCodes?.find((err) => err.code === error)?.text ??
