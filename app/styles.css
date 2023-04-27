@@ -2,52 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  /* TODO: move this to angie, global default for all ul */
-  ul {
-    @apply list-disc;
-    @apply pl-24;
-  }
-
-  /* TODO: move this to angie, global default for all ds-heading-01-reg */
-  .ds-heading-01-reg {
-    hyphens: auto;
-  }
-
-  /* TODO: move this to angie, global default for all a */
-  a {
-    color: currentColor;
-  }
-
-  /* TODO: move this to angie, global default for all images */
-  img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-  }
-
-  /* TODO: change in angie */
-  h1,
-  h2,
-  h3,
-  h4 {
-    max-width: 70ch;
-  }
+/* Tailwind's container core plugin is disabled,
+ * because its breakpoint-based nature does not fit our needs */
+.container {
+  @apply mx-auto;
+  max-width: 59rem;
+  padding: 2.5rem clamp(1rem, 5vw, 3rem) 3rem clamp(1rem, 5vw, 3rem);
 }
 
-@layer components {
-  /* Tailwind's container core plugin is disabled,
-   * because its breakpoint-based nature does not fit our needs */
-  .container {
-    @apply mx-auto;
-    max-width: 59rem;
-    padding: 2.5rem clamp(1rem, 5vw, 3rem) 3rem clamp(1rem, 5vw, 3rem);
-  }
-
-  /* There is a specific design request to remove the margin above lists */
-  .rich-text ul {
-    @apply mt-0;
-  }
+/* There is a specific design request to remove the margin above lists */
+.rich-text ul {
+  @apply mt-0;
 }
 
 @media (max-width: 499px) {
@@ -56,15 +21,6 @@
     font-size: 2.25rem;
     line-height: 1.2222;
   }
-}
-
-/* TODO: move to angie */
-.link-02-bold {
-  font-weight: 700;
-  font-size: 0.9rem;
-  line-height: 1.375rem;
-  text-decoration-line: underline;
-  color: #000000;
 }
 
 .progress-bar::-webkit-progress-bar {

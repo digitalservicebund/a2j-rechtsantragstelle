@@ -27,7 +27,7 @@ export default function Footer({
 
   const renderLink = (link: LinkAttrs) => (
     <li key={link.url}>
-      <a href={link.url} className="link-02-bold">
+      <a href={link.url} className="ds-link-02-bold text-black">
         {link.text}
       </a>
     </li>
@@ -41,7 +41,7 @@ export default function Footer({
 
   const paragraphRenderer: Partial<Renderer> = {
     link(href, _, text) {
-      return `<a class="link-02-bold whitespace-nowrap" href=${href} target="_blank" rel="noreferrer">${text}</a>`;
+      return `<a class="ds-link-02-bold text-black whitespace-nowrap" href=${href} target="_blank" rel="noreferrer">${text}</a>`;
     },
     paragraph(text) {
       return `<p class="ds-label-03-reg">${text}</p>`;
