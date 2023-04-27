@@ -20,7 +20,11 @@ const RadioGroup = ({ name, options, label, altLabel }: RadioGroupProps) => {
       {options.map((o) => (
         <Radio key={o.value} name={name} value={o.value} text={o.text} />
       ))}
-      {error && <InputError inputName={name}>Bitte was auswählen.</InputError>}
+      {error && (
+        <InputError inputName={name}>
+          Bitte treffen Sie eine Auswahl.
+        </InputError>
+      )}
     </fieldset>
   );
 };
