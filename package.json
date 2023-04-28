@@ -18,7 +18,7 @@
     "@digitalservice4germany/angie": "^0.2.0",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
+    "@emotion/styled": "^11.10.8",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.2",
     "@remix-run/express": "^1.15.0",
