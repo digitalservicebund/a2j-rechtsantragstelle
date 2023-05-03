@@ -8,26 +8,26 @@ export function freibetrag(
   childrenAbove18?: number,
   childrenIncome?: number
 ): number {
-  let betrag = 572;
+  let betrag = 57200;
 
   if (working) {
-    betrag += 251;
+    betrag += 25100;
   }
 
   if (partnership) {
-    betrag += 552;
+    betrag += 55200;
 
     if (partnerIncome) {
-      const partnerIcomeFreibetrag = Math.max(552 - partnerIncome, 0);
+      const partnerIcomeFreibetrag = Math.max(55200 - partnerIncome, 0);
       betrag -= partnerIcomeFreibetrag;
     }
   }
 
   let childrenBetrag =
-    (childrenBelow6 ?? 0) * 350 +
-    (children7To14 ?? 0) * 383 +
-    (children15To18 ?? 0) * 462 +
-    (childrenAbove18 ?? 0) * 442;
+    (childrenBelow6 ?? 0) * 35000 +
+    (children7To14 ?? 0) * 38300 +
+    (children15To18 ?? 0) * 46200 +
+    (childrenAbove18 ?? 0) * 44200;
 
   if (childrenIncome) {
     const childrenIncomeFreibetrag = Math.max(

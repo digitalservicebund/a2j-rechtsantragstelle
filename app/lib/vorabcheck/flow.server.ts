@@ -3,6 +3,7 @@ import { allLongestPaths, makeFormGraph } from "../treeCalculations";
 import { pageIDs } from "./pages";
 import type { FormPages, AllowedIDs } from "./pages";
 import type { z } from "zod";
+import moneyToCents from "~/services/validation/money/moneyToCents";
 
 export const initialStepID = pageIDs.rechtsschutzversicherung;
 export const finalStep = pageIDs.abschlussJa;
@@ -202,19 +203,27 @@ export const formFlow: FormFlow = {
 };
 
 export const isIncomeTooHigh = (ctx: Context) =>
-  (ctx.einkommen?.einkommen ?? 0) -
-    (ctx.miete?.miete ?? 0) -
-    (ctx.weitereZahlungenSumme?.weitereZahlungenSumme ?? 0) -
-    (ctx.unterhaltSumme?.unterhalt ?? 0) >
+  (ctx.einkommen?.einkommen ? moneyToCents(ctx.einkommen.einkommen) : 0) -
+    (ctx.miete?.miete ? moneyToCents(ctx.miete.miete) : 0) -
+    (ctx.weitereZahlungenSumme?.weitereZahlungenSumme
+      ? moneyToCents(ctx.weitereZahlungenSumme.weitereZahlungenSumme)
+      : 0) -
+    (ctx.unterhaltSumme?.unterhalt
+      ? moneyToCents(ctx.unterhaltSumme.unterhalt)
+      : 0) >
   freibetrag(
     ctx.erwerbstaetigkeit?.isErwerbstaetig === "yes",
     ctx.partnerschaft?.partnerschaft === "yes",
-    ctx.einkommenPartner?.einkommenPartner,
+    ctx.einkommenPartner?.einkommenPartner
+      ? moneyToCents(ctx.einkommenPartner.einkommenPartner)
+      : 0,
     ctx.kinderAnzahl?.kids6Below,
     ctx.kinderAnzahl?.kids7To14,
     ctx.kinderAnzahl?.kids15To18,
     ctx.kinderAnzahl?.kids18Above,
     ctx.einkommenKinder?.einkommenKinder
+      ? moneyToCents(ctx.einkommenKinder.einkommenKinder)
+      : 0
   );
 
 export const formGraph = makeFormGraph(formFlow);
