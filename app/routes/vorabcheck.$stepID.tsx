@@ -42,25 +42,27 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
 ];
 
 const getReasonsToDisplay = (
-  reasons: ElementWithId[] | undefined,
+  reasons: { attributes: ElementWithId }[] | undefined,
   context: Context
 ) => {
-  return reasons?.filter((reason) => {
-    // TODO use reusable conditions for this
-    switch (reason.attributes.elementId) {
-      case "eigeninitiativeWarning":
-        return context.eigeninitiative?.hasHelpedThemselves == "no";
-      case "incomeTooHigh":
-        return (
-          context.verfuegbaresEinkommen?.excessiveDisposableIncome === "yes" ||
-          isIncomeTooHigh(context)
-        );
-      case "noKostenloseBeratung":
-        return context.kostenfreieBeratung?.hasTriedFreeServices == "no";
-      default:
-        return false;
-    }
-  });
+  return reasons
+    ?.filter((reason) => {
+      // TODO use reusable conditions for this
+      switch (reason.attributes.elementId) {
+        case "eigeninitiativeWarning":
+          return context.eigeninitiative?.hasHelpedThemselves == "no";
+        case "incomeTooHigh":
+          return (
+            context.verfuegbaresEinkommen?.excessiveDisposableIncome ===
+              "yes" || isIncomeTooHigh(context)
+          );
+        case "noKostenloseBeratung":
+          return context.kostenfreieBeratung?.hasTriedFreeServices == "no";
+        default:
+          return false;
+      }
+    })
+    .map((reason) => reason.attributes);
 };
 
 export const loader: LoaderFunction = async ({ params, request }) => {
