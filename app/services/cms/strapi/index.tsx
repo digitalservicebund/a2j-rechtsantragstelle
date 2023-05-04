@@ -4,14 +4,7 @@ import type { Document, IClient } from "./client";
 import StrapiClient, { RequestBuilder, Parameter } from "./client";
 import type BaseDocument from "../models/BaseDocument";
 import config from "~/services/config";
-
-const localeDefault = Locale.de;
-const collectionDefault = "pages";
-
-const collectionMap = new Map([
-  ["vorabcheck", "vorab-check-pages"],
-  ["resultPage", "result-pages"],
-]);
+import { COLLECTION_DEFAULT, COLLECTION_MAP, LOCALE_DEFAULT } from "..";
 
 export default class StrapiCMS implements CMS {
   client: IClient;
@@ -27,7 +20,7 @@ export default class StrapiCMS implements CMS {
     const request = new RequestBuilder()
       .setFilter({
         field: "slug",
-        value: `${id}_${Locale[locale ?? localeDefault]}`,
+        value: `${id}_${Locale[locale ?? LOCALE_DEFAULT]}`,
       })
       .addParameter(Parameter.nested)
       .toRequest();
@@ -40,7 +33,7 @@ export default class StrapiCMS implements CMS {
 
   async getPage(pageName: string, locale?: Locale): Promise<any> {
     const request = new RequestBuilder()
-      .setLocale(locale ?? localeDefault)
+      .setLocale(locale ?? LOCALE_DEFAULT)
       .toRequest();
     try {
       const document = await this.client.getDocument(pageName, request);
@@ -55,10 +48,11 @@ export default class StrapiCMS implements CMS {
     pageName: string,
     locale?: Locale
   ): Promise<any> {
-    const strapiCollection = collectionMap.get(collection) ?? collectionDefault;
+    const strapiCollection =
+      COLLECTION_MAP.get(collection) ?? COLLECTION_DEFAULT;
 
     const request = new RequestBuilder()
-      .setLocale(locale ?? localeDefault)
+      .setLocale(locale ?? LOCALE_DEFAULT)
       .addFilter({
         field: "slug",
         value: pageName,
