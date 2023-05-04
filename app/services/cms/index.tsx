@@ -2,7 +2,6 @@ import config from "../config";
 import type { Locale } from "./models/Locale";
 import { Locale as LocaleOption } from "~/services/cms/models/Locale";
 import Strapi from "./strapi";
-import File from "./file";
 
 export const LOCALE_DEFAULT = LocaleOption.de;
 export const COLLECTION_DEFAULT = "pages";
@@ -23,8 +22,7 @@ export interface CMS {
 
 export default function getCMS(): CMS {
   switch (config().CMS) {
-    case "FILE":
-      return new File();
+    // switch here in the future between STRAPI and FILE
     default:
       return new Strapi();
   }
