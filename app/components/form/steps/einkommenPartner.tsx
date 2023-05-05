@@ -2,9 +2,10 @@ import { z } from "zod";
 import { Input } from "~/components";
 import { getRelevantInputContent } from "~/services/cms/getPageConfig";
 import type { StepComponentProps } from "~/components/form/steps";
+import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 
 const schema = z.object({
-  einkommenPartner: z.coerce.number().min(0, "min0"),
+  einkommenPartner: buildMoneyValidationSchema({ min: 0 }),
 });
 
 export const einkommenPartnerStep = {
@@ -19,6 +20,7 @@ export const einkommenPartnerStep = {
         label={inputContent.label}
         placeholder={inputContent.placeholder}
         suffix="€"
+        errors={inputContent.errors.data}
       />
     );
   },

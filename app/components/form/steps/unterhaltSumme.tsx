@@ -2,9 +2,10 @@ import { z } from "zod";
 import { Input } from "~/components";
 import type { StepComponentProps } from "~/components/form/steps";
 import { getRelevantInputContent } from "~/services/cms/getPageConfig";
+import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 
 const schema = z.object({
-  unterhalt: z.coerce.number().min(0, "min0"),
+  unterhalt: buildMoneyValidationSchema({ min: 0 }),
 });
 
 export const unterhaltSummeStep = {
@@ -18,6 +19,9 @@ export const unterhaltSummeStep = {
         type="number"
         step="any"
         label={inputContent.label}
+        placeholder={inputContent.placeholder}
+        suffix="€"
+        errors={inputContent.errors.data}
       />
     );
   },
