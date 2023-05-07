@@ -10,9 +10,9 @@ export interface InfoBoxProps {
 
 const InfoBox = ({ items, heading }: InfoBoxProps) => {
   return (
-    <div className="ds-stack stack-8">
+    <div className="ds-stack-8">
       <Heading {...heading} />
-      <ul className="list-none ds-stack stack-32 ps-0 info-box">
+      <ul className="list-none ds-stack-32 ps-0 info-box">
         {items.map((item, index) => (
           <InfoBoxItem {...item} key={index} />
         ))}

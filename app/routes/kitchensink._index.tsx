@@ -73,8 +73,8 @@ export default function Kitchensink() {
           radioOptions: "no",
         }}
       >
-        <div className="ds-stack stack-32">
-          <div className="ds-stack stack-24">
+        <div className="ds-stack-32">
+          <div className="ds-stack-24">
             <h3>{"<Input>"}</h3>
             <Input name="text" label="Text" />
 
@@ -123,7 +123,7 @@ export default function Kitchensink() {
 
       <div>
         <Container paddingBottom="8">
-          <div className="ds-stack stack-8">
+          <div className="ds-stack-8">
             <h3>Background</h3>
             <p>
               A simple wrapper with a background color. You can optionally add
@@ -147,7 +147,7 @@ export default function Kitchensink() {
 
       <div>
         <Container paddingBottom="8">
-          <div className="ds-stack stack-8">
+          <div className="ds-stack-8">
             <h3>Container</h3>
             <p>
               A wrapper to limit the width of the content + centering of the
@@ -173,7 +173,7 @@ export default function Kitchensink() {
 
       <div>
         <Container paddingBottom="8">
-          <div className="ds-stack stack-8">
+          <div className="ds-stack-8">
             <h3>Background + Container combination</h3>
             <p>It's common to combine Background and Container.</p>
             <code>
@@ -196,7 +196,7 @@ export default function Kitchensink() {
 
       <div>
         <Container paddingBottom="8">
-          <div className="ds-stack stack-8">
+          <div className="ds-stack-8">
             <h3>Header</h3>
             <p>A simple headline + text combination.</p>
             <code>

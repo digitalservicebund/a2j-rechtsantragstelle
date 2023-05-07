@@ -34,7 +34,7 @@ export default function Footer({
   );
 
   const renderLinks = (links: LinkAttrs[]) => (
-    <ul className="list-none m-0 p-0 ds-stack stack-8" key={links[0]?.url}>
+    <ul className="list-none m-0 p-0 ds-stack-8" key={links[0]?.url}>
       {links.map(renderLink)}
     </ul>
   );
@@ -53,7 +53,7 @@ export default function Footer({
       <footer className="pt-48 pb-56 flex flex-wrap items-start justify-between gap-x-32 gap-y-40">
         <div className="flex flex-wrap flex-col-reverse gap-x-16 gap-y-8 sm:flex-row">
           <Image {...{ ...image, style: { width: "120px" } }} />
-          <div className="ds-stack stack-8">
+          <div className="ds-stack-8">
             {paragraphs.map((paragraph) => (
               <RichText
                 markdown={paragraph.text}

@@ -180,13 +180,13 @@ export default function Index() {
   return (
     <Background backgroundColor="blue">
       <Container>
-        <div className="ds-stack stack-16">
+        <div className="ds-stack-16">
           <ProgressBarArea
             label={commonContent?.progressBarLabel}
             stepProgress={stepProgress}
             progressTotal={progressTotal}
           />
-          <div className="ds-stack stack-32">
+          <div className="ds-stack-32">
             <PageContent content={preFormContent} />
             <ValidatedForm
               key={`${stepID}_form`}
@@ -194,7 +194,7 @@ export default function Index() {
               validator={allValidators[stepID]}
               defaultValues={defaultValues}
             >
-              <div className="ds-stack stack-48">
+              <div className="ds-stack-48">
                 <FormInputComponent
                   content={formContent}
                   additionalContext={additionalContext}

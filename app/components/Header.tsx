@@ -10,7 +10,7 @@ export interface HeaderProps {
 
 export default function Header({ heading, content }: HeaderProps) {
   return (
-    <div className="ds-stack stack-16">
+    <div className="ds-stack-16">
       <Heading {...heading} />
       {content && (
         <div className="ds-heading-03-reg">

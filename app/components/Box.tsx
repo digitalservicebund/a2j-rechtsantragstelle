@@ -14,8 +14,8 @@ export interface BoxProps {
 
 const Box = ({ label, heading, content, button }: BoxProps) => {
   return (
-    <div className="ds-stack stack-16">
-      <div className="ds-stack stack-8">
+    <div className="ds-stack-16">
+      <div className="ds-stack-8">
         {label && <Heading {...label} />}
         {heading && <Heading {...heading} />}
         {content && (

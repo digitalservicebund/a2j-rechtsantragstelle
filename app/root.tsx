@@ -11,7 +11,6 @@ import {
 } from "@remix-run/react";
 import stylesheet from "~/styles.css";
 import fontsStylesheet from "@digitalservice4germany/angie/fonts.css";
-import angieStylesheet from "@digitalservice4germany/angie/angie.css";
 import { withSentry } from "@sentry/remix";
 import { getWebConfig } from "~/services/config";
 import cms from "~/services/cms";
@@ -20,7 +19,6 @@ import Navbar from "./components/Navbar";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: fontsStylesheet },
-  { rel: "stylesheet", href: angieStylesheet },
   {
     rel: "stylesheet",
     href: stylesheet,

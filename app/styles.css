@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+h1,
+h2,
+h3,
+h4,
+li,
+p {
+  max-width: 70ch;
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+body {
+  font-family: "BundesSansWeb", "Calibri", "Verdana", "Arial", "Helvetica",
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+a {
+  color: currentcolor;
+}
+
 /* Tailwind's container core plugin is disabled,
  * because its breakpoint-based nature does not fit our needs */
 .container {

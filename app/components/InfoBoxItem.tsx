@@ -33,7 +33,7 @@ const InfoBoxItem = ({
       )}
       <div
         className={
-          "ds-stack stack-8 break-words w-full " +
+          "ds-stack-8 break-words w-full " +
           (image?.data && "min-[500px]:ml-16")
         }
       >

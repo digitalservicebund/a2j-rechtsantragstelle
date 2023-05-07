@@ -104,7 +104,7 @@ const ResultPage = ({
 
         {content.hintText && (
           <Container backgroundColor="white" paddingTop="32" paddingBottom="40">
-            <div className="ds-stack stack-8">
+            <div className="ds-stack-8">
               <p className="ds-label-02-bold">{content.resultHintLabel}</p>
               <RichText markdown={content.hintText.text} />
             </div>

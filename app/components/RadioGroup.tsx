@@ -12,10 +12,7 @@ type RadioGroupProps = {
 const RadioGroup = ({ name, options, label, altLabel }: RadioGroupProps) => {
   const { error } = useField(name);
   return (
-    <fieldset
-      aria-label={altLabel}
-      className="border-0 p-0 m-0 ds-stack stack-16"
-    >
+    <fieldset aria-label={altLabel} className="border-0 p-0 m-0 ds-stack-16">
       {label && <legend>{label}</legend>}
       {options.map((o) => (
         <Radio key={o.value} name={name} value={o.value} text={o.text} />
