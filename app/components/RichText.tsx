@@ -17,6 +17,13 @@ const RichText = ({ markdown, renderer, ...props }: RichTextProps) => {
         }
         return `<a href=${href}>${text}</a>`;
       },
+      heading(text: string, level: number) {
+        const cssClass =
+          ["ds-heading-01-reg", "ds-heading-02-reg", "ds-heading-03-reg"][
+            level - 1
+          ] || "ds-heading-03-reg";
+        return `<h${level} class="${cssClass}">${text}</h${level}>`;
+      },
     },
   });
   return (
