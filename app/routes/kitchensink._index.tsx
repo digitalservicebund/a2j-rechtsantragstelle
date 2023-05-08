@@ -72,6 +72,7 @@ export default function Kitchensink() {
           text: "hello",
           radioOptions: "no",
         }}
+        noValidate
       >
         <div className="ds-stack-32">
           <div className="ds-stack-24">

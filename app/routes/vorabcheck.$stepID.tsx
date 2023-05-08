@@ -193,6 +193,7 @@ export default function Index() {
               method="post"
               validator={allValidators[stepID]}
               defaultValues={defaultValues}
+              noValidate
             >
               <div className="ds-stack-48">
                 <FormInputComponent
