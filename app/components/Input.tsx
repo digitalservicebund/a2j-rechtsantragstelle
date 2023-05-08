@@ -38,7 +38,7 @@ const Input = ({
             type: type === "number" ? "text" : type,
             step,
             id: name,
-            inputMode: type === "number" ? "numeric" : undefined,
+            inputMode: type === "number" ? "decimal" : undefined,
             placeholder,
           })}
           className={classNames("ds-input", { "has-error": error })}
