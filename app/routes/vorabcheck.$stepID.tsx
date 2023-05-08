@@ -179,37 +179,39 @@ export default function Index() {
   }
   return (
     <Background backgroundColor="blue">
-      <Container>
-        <div className="ds-stack-16">
-          <ProgressBarArea
-            label={commonContent?.progressBarLabel}
-            stepProgress={stepProgress}
-            progressTotal={progressTotal}
-          />
-          <div className="ds-stack-32">
-            <PageContent content={preFormContent} />
-            <ValidatedForm
-              key={`${stepID}_form`}
-              method="post"
-              validator={allValidators[stepID]}
-              defaultValues={defaultValues}
-              noValidate
-            >
-              <div className="ds-stack-48">
-                <FormInputComponent
-                  content={formContent}
-                  additionalContext={additionalContext}
-                />
-                <ButtonNavigation
-                  backDestination={previousStep}
-                  isLast={isLast}
-                  commonContent={commonContent}
-                />
-              </div>
-            </ValidatedForm>
+      <div className="min-h-screen">
+        <Container>
+          <div className="ds-stack-16">
+            <ProgressBarArea
+              label={commonContent?.progressBarLabel}
+              stepProgress={stepProgress}
+              progressTotal={progressTotal}
+            />
+            <div className="ds-stack-32">
+              <PageContent content={preFormContent} />
+              <ValidatedForm
+                key={`${stepID}_form`}
+                method="post"
+                validator={allValidators[stepID]}
+                defaultValues={defaultValues}
+                noValidate
+              >
+                <div className="ds-stack-48">
+                  <FormInputComponent
+                    content={formContent}
+                    additionalContext={additionalContext}
+                  />
+                  <ButtonNavigation
+                    backDestination={previousStep}
+                    isLast={isLast}
+                    commonContent={commonContent}
+                  />
+                </div>
+              </ValidatedForm>
+            </div>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </div>
     </Background>
   );
 }
