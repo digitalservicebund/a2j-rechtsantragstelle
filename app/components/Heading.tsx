@@ -32,7 +32,7 @@ function Heading({
     return React.createElement(
       elements[level - 1] || elements[0],
       { ...headingProps },
-      text
+      text || children
     );
   }
 
