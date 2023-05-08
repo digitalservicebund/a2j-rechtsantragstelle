@@ -26,7 +26,9 @@ export const verfuegbaresEinkommenStep = {
 
     return (
       <>
-        <Heading level={2} text={`${freiBetrag} €`} className="pb-20" />
+        <Heading tagName="h2" className="pb-20">
+          {freiBetrag} €
+        </Heading>
         <RadioGroupWithContent name={fieldname} content={content} />
       </>
     );

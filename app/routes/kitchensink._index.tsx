@@ -206,8 +206,8 @@ export default function Kitchensink() {
   <Header
     heading={{
       text: "Heading",
-      level: 3,
-      className: "ds-heading-01-reg",
+      tagName: "h3",
+      look: "ds-heading-01-reg",
     }}
     content={{ text: "Lorem **ipsum**" }}
   />
@@ -220,8 +220,8 @@ export default function Kitchensink() {
           <Header
             heading={{
               text: "Heading",
-              level: 3,
-              className: "ds-heading-01-reg",
+              tagName: "h3",
+              look: "ds-heading-01-reg",
             }}
             content={{ text: "Lorem **ipsum**" }}
           />
@@ -234,13 +234,13 @@ export default function Kitchensink() {
           <Box
             label={{
               text: "Label",
-              level: 4,
-              className: "ds-label-02-bold",
+              tagName: "p",
+              look: "ds-label-02-bold",
             }}
             heading={{
               text: "Heading",
-              level: 3,
-              className: "ds-heading-02-reg",
+              tagName: "h3",
+              look: "ds-heading-02-reg",
             }}
             content={{ text: "Lorem **ipsum**" }}
             button={{ text: "Button", href: "/", look: "tertiary" }}
@@ -254,12 +254,12 @@ export default function Kitchensink() {
           <InfoBox
             heading={{
               text: "Heading",
-              level: 3,
-              className: "ds-heading-02-reg",
+              tagName: "h3",
+              look: "ds-heading-02-reg",
             }}
             items={[
-              { label: { text: "Lorem ipsum", level: 4 } },
-              { label: { text: "Lorem ipsum", level: 4 } },
+              { label: { text: "Lorem ipsum", tagName: "h4" } },
+              { label: { text: "Lorem ipsum", tagName: "h4" } },
             ]}
           />
         </Container>

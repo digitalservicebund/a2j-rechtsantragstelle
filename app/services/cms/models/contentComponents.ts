@@ -2,15 +2,7 @@ export type Heading = {
   id: number;
   __component: "basic.heading";
   text: string;
-  // legacy
-  level?: number;
-  style?:
-    | "ds-heading-01-reg"
-    | "ds-heading-02-reg"
-    | "ds-heading-03-reg"
-    | "ds-heading-03-bold"
-    | "subhead";
-  tagName?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
+  tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
   look:
     | "default"
     | "ds-heading-01-reg"

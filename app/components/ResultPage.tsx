@@ -90,8 +90,8 @@ const ResultPage = ({
             progressTotal={progressTotal}
           />
           <Heading
-            level={content.heading.level}
-            style={content.heading.style}
+            tagName={content.heading.tagName}
+            look={content.heading.look}
             className="flex items-center mb-0"
           >
             {pageProperties.icon("inline-block mr-8 !h-[36px] !w-[36px]")}
@@ -124,8 +124,8 @@ const ResultPage = ({
       {reasonsToDisplay.length > 0 && (
         <Container>
           <Heading
-            level={2}
-            style="ds-heading-02-reg"
+            tagName="h2"
+            look="ds-heading-02-reg"
             text="Begründung"
             className="mb-16"
           />
