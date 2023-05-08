@@ -8,7 +8,7 @@ First draft of implementing a platform to create requests to the Rechtsantragste
 
 - Node.js >= 16.0.0
 - npm 7 or greater
-- A strapi instance (https://github.com/digitalservicebund/a2j-rechtsantragstelle-strapi) and a configured .env file (see .env.example)
+- A [strapi instance](https://github.com/digitalservicebund/a2j-rechtsantragstelle-strapi) and a configured .env file (see .env.example)
 
 ### Run Server in Development Mode
 
