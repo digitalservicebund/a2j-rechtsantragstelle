@@ -93,13 +93,10 @@ const ResultPage = ({
             level={content.heading.level}
             style={content.heading.style}
             className="flex items-center mb-0"
-            text={
-              <>
-                {pageProperties.icon("inline-block mr-8 !h-[36px] !w-[36px]")}
-                {content.heading?.text}
-              </>
-            }
-          />
+          >
+            {pageProperties.icon("inline-block mr-8 !h-[36px] !w-[36px]")}
+            {content.heading?.text}
+          </Heading>
         </Container>
 
         {content.hintText && (

@@ -60,7 +60,7 @@ function cmsToReact(
   key?: string | number
 ) {
   if (element.__component === "basic.heading") {
-    return Heading({ ...element, key });
+    return <Heading {...element} key={element.id} />;
   } else if (element.__component === "basic.paragraph") {
     return Paragraph({ ...element, key, className: "ds-body-01-reg" });
   } else if (element.__component === "page.header") {
