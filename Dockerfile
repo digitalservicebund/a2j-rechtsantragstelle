@@ -1,4 +1,4 @@
-FROM node:16.19.0 as build
+FROM node:18-alpine3.17 as build
 
 ARG COMMIT_SHA
 ENV APP_VERSION=$COMMIT_SHA
@@ -9,7 +9,7 @@ WORKDIR /src
 COPY . ./
 RUN npm pkg delete scripts.prepare && npm ci && npm run build && npm prune --production
 
-FROM node:16.19.0-alpine3.16
+FROM node:18-alpine3.17
 RUN apk add --no-cache dumb-init \
   && rm -rf /var/cache/apk/*
 
