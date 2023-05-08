@@ -12,10 +12,4 @@ export const loader: LoaderFunction = async ({ request }) => {
   return null;
 };
 
-export default function FormRoot() {
-  return (
-    <div className="min-h-screen">
-      <Outlet />
-    </div>
-  );
-}
+export default () => <Outlet />;
