@@ -200,6 +200,7 @@ export default function Index() {
                   <FormInputComponent
                     content={formContent}
                     additionalContext={additionalContext}
+                    defaultValues={defaultValues}
                   />
                   <ButtonNavigation
                     backDestination={previousStep}

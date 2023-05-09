@@ -67,6 +67,7 @@ export const Steps = {
 export type StepComponentProps = {
   content: FormComponentCMS[];
   additionalContext?: Record<string, string>;
+  defaultValues?: Record<string, any>;
 };
 export type FormComponent = FunctionComponent<StepComponentProps>;
 

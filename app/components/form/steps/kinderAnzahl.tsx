@@ -13,7 +13,7 @@ const schema = z.object({
 
 export const kinderAnzahlStep = {
   schema,
-  component: ({ content }: StepComponentProps) => {
+  component: ({ content, defaultValues }: StepComponentProps) => {
     const inputElements = getInputsContent(content);
 
     return (
@@ -22,6 +22,7 @@ export const kinderAnzahlStep = {
           <Input
             key={idx}
             name={inputElement.name}
+            defaultValue={defaultValues?.[inputElement.name] || "0"}
             label={inputElement.label}
             type={inputElement.type}
             placeholder={inputElement.placeholder}

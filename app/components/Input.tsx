@@ -13,6 +13,7 @@ type InputProps = {
   placeholder?: string;
   prefix?: string;
   suffix?: string;
+  defaultValue?: string;
   errors?: ErrorCategory[];
 };
 
@@ -24,6 +25,7 @@ const Input = ({
   placeholder,
   prefix,
   suffix,
+  defaultValue,
   errors,
 }: InputProps) => {
   const { error, getInputProps } = useField(name);
@@ -43,6 +45,7 @@ const Input = ({
           })}
           className={classNames("ds-input", { "has-error": error })}
           aria-describedby={error && `${name}-error`}
+          defaultValue={defaultValue}
         />
         {suffix && <div className="ds-input-suffix">{suffix}</div>}
       </div>
