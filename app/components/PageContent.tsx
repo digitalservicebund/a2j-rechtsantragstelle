@@ -19,6 +19,7 @@ import Button from "./Button";
 
 type PageContentProps = {
   content: Array<FormContentCMS | PageComponentCMS>;
+  className?: string;
 };
 
 const transformCmsData = (
@@ -81,8 +82,8 @@ function cmsToReact(
   }
 }
 
-const PageContent = ({ content = [] }: PageContentProps) => (
-  <div>
+const PageContent = ({ content = [], className }: PageContentProps) => (
+  <div className={className}>
     {content.map((el, idx) => (
       <div key={idx}>
         {wrapInBackground(el, wrapInContainer(el, cmsToReact(el, idx)))}

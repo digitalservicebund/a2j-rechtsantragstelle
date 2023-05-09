@@ -187,8 +187,8 @@ export default function Index() {
               stepProgress={stepProgress}
               progressTotal={progressTotal}
             />
-            <div className="ds-stack-32">
-              <PageContent content={preFormContent} />
+            <div className="ds-stack-40">
+              <PageContent content={preFormContent} className="ds-stack-16" />
               <ValidatedForm
                 key={`${stepID}_form`}
                 method="post"
@@ -196,7 +196,7 @@ export default function Index() {
                 defaultValues={defaultValues}
                 noValidate
               >
-                <div className="ds-stack-48">
+                <div className="ds-stack-40">
                   <FormInputComponent
                     content={formContent}
                     additionalContext={additionalContext}

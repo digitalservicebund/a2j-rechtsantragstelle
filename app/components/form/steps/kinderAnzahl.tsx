@@ -17,7 +17,7 @@ export const kinderAnzahlStep = {
     const inputElements = getInputsContent(content);
 
     return (
-      <div>
+      <div className="ds-stack-40">
         {inputElements.map((inputElement, idx) => (
           <Input
             key={idx}
