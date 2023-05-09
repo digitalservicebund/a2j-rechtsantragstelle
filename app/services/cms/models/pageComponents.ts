@@ -8,7 +8,7 @@ export type Header = {
   __component: "page.header";
   heading: Heading;
   content: Paragraph;
-  background?: Background;
+  outerBackground?: Background;
   container: Container;
 };
 
@@ -17,7 +17,7 @@ export type InfoBox = {
   __component: "page.info-box";
   heading: Heading;
   items: InfoBoxItem[];
-  background?: Background;
+  outerBackground?: Background;
   container: Container;
 };
 
@@ -38,7 +38,7 @@ export type Box = {
   heading?: Heading;
   content?: Paragraph;
   button?: Button;
-  background?: Background;
+  outerBackground?: Background;
   container: Container;
 };
 

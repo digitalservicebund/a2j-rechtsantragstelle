@@ -46,13 +46,13 @@ const wrapInContainer = (
 };
 
 const wrapInBackground = (
-  cmsData: { [key: string]: any; background?: BackgroundCMS },
+  cmsData: { [key: string]: any; outerBackground?: BackgroundCMS },
   reactElement: ReactNode
 ): ReactNode => {
-  if (!cmsData.background) {
+  if (!cmsData.outerBackground) {
     return reactElement;
   }
-  const config = transformCmsData(cmsData.background);
+  const config = transformCmsData(cmsData.outerBackground);
   return <Background {...config}>{reactElement}</Background>;
 };
 
