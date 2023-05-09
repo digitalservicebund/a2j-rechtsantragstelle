@@ -12,7 +12,7 @@ const failingCases = [
   { input: "  ", errorMessage: "required" },
   { input: "foobar", errorMessage: "wrong_format" },
   { input: "3,6", errorMessage: "wrong_format" },
-  { input: "41", errorMessage: "out_of_range" },
+  { input: "50,5", errorMessage: "out_of_range" },
   { input: "-1", errorMessage: "out_of_range" },
 ];
 
