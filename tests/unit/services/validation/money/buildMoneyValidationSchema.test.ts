@@ -23,7 +23,6 @@ describe("money validation", () => {
       "given $input, returns $expected",
       ({ input, expected }) => {
         const actual = buildMoneyValidationSchema().safeParse(input);
-        console.log({ actual });
         expect(actual).toEqual({ data: expected, success: true });
       }
     );
