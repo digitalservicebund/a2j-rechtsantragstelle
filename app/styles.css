@@ -28,6 +28,12 @@ a {
   color: currentcolor;
 }
 
+/* TODO: remove after Angie update */
+.ds-input {
+  appearance: none;
+  border-radius: 0;
+}
+
 /* Tailwind's container core plugin is disabled,
  * because its breakpoint-based nature does not fit our needs */
 .container {
