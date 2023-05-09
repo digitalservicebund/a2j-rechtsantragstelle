@@ -4,7 +4,7 @@ import json
 
 CMS_URL = os.getenv('STRAPI_HOST')
 CMS_AUTH_TOKEN = os.getenv('STRAPI_ACCESS_KEY')
-TARGET_FILE_PATH = "app/services/cms/file/content.json"
+TARGET_FILE_PATH = os.getenv('CONTENT_FILE_PATH', "build/content.json")
 PAGE_SIZE = 10
 
 
@@ -28,6 +28,12 @@ def get_relevant_api_ids(collection_types):
     return list(map(map_collection_type_to_api_identifier, relevant_collection_types))
 
 
+def is_last_page(response):
+    meta_information = response["meta"]
+    return "pagination" not in meta_information or meta_information["pagination"]["page"] >= \
+            meta_information["pagination"]["pageCount"]
+
+
 def collect_all_collection_data(collection_id):
     page = 1
     all_collection_data = []
@@ -45,9 +51,7 @@ def collect_all_collection_data(collection_id):
         else:
             all_collection_data += response_json["data"]
 
-        meta_information = response_json["meta"]
-        if "pagination" not in meta_information or meta_information["pagination"]["page"] >= \
-                meta_information["pagination"]["pageCount"]:
+        if is_last_page(response_json):
             break
         else:
             page += 1
