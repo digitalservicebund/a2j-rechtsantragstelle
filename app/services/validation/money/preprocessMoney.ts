@@ -6,7 +6,9 @@
  */
 const preprocessMoney = (userInput: unknown) => {
   const reducedToValidCharacters = String(userInput).replace(/[^0-9.,-]/g, "");
-  const onlyLeadingMinusKept = reducedToValidCharacters.replace(/(?<=.)-/g, "");
+  const onlyLeadingMinusKept =
+    reducedToValidCharacters[0] +
+    reducedToValidCharacters.slice(1).replace(/-/g, "");
   return onlyLeadingMinusKept;
 };
 
