@@ -217,10 +217,10 @@ export const isIncomeTooHigh = (ctx: Context) =>
     ctx.einkommenPartner?.einkommenPartner
       ? moneyToCents(ctx.einkommenPartner.einkommenPartner)
       : 0,
-    ctx.kinderAnzahl?.kids6Below,
-    ctx.kinderAnzahl?.kids7To14,
-    ctx.kinderAnzahl?.kids15To18,
-    ctx.kinderAnzahl?.kids18Above,
+    Number(ctx.kinderAnzahl?.kids6Below.replace(",", ".")),
+    Number(ctx.kinderAnzahl?.kids7To14.replace(",", ".")),
+    Number(ctx.kinderAnzahl?.kids15To18.replace(",", ".")),
+    Number(ctx.kinderAnzahl?.kids18Above.replace(",", ".")),
     ctx.einkommenKinder?.einkommenKinder
       ? moneyToCents(ctx.einkommenKinder.einkommenKinder)
       : 0

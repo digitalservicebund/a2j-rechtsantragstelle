@@ -2,9 +2,10 @@ import { z } from "zod";
 import Input from "~/components/Input";
 import type { StepComponentProps } from "~/components/form/steps";
 import { getRelevantInputContent } from "~/services/cms/getPageConfig";
+import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 
 const schema = z.object({
-  kidsTotal: z.coerce.number().min(0, "min0").default(0),
+  kidsTotal: buildKidsCountValidationSchema(),
 });
 
 export const kinderAnzahlSimpleStep = {
@@ -17,6 +18,8 @@ export const kinderAnzahlSimpleStep = {
         name={fieldName}
         type={inputContent.type}
         label={inputContent.label}
+        placeholder={inputContent.placeholder}
+        errors={inputContent.errors.data}
       />
     );
   },
