@@ -26,7 +26,7 @@ export default function Navbar({ tree = [], currentLocation }: NavbarProps) {
     "no-underline hover:underline mr-8 text-black focus:outline active:underline active:decoration-4";
 
   return (
-    <div className="mb-20 mt-20 ml-16">
+    <header className="mb-20 mt-20 ml-16">
       {tree &&
         treeFilter.map((item, index) => (
           <React.Fragment key={index}>
@@ -46,6 +46,6 @@ export default function Navbar({ tree = [], currentLocation }: NavbarProps) {
             {index < treeFilter.length - 1 && <span className="mr-8">|</span>}
           </React.Fragment>
         ))}
-    </div>
+    </header>
   );
 }
