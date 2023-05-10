@@ -1,6 +1,5 @@
 import FileCMS from "~/services/cms/file";
 import * as client from "~/services/cms/file/client";
-import * as cmsModule from "~/services/cms";
 
 const getSinglePageAttributes = (name: string) => {
   return {
