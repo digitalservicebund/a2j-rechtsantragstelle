@@ -72,6 +72,9 @@ jobs:
           pip install requests
       - name: Execute create_content_file script
         run: python create_content_file.py
+        env:
+          STRAPI_HOST: "${{ secrets.STRAPI_HOST }}"
+          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
 
       - name: Build an image from Dockerfile
         run: |
