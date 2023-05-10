@@ -8,12 +8,14 @@ const DEFAULT_PADDING_BOTTOM = "48";
 
 export type ContainerProps = {
   children: React.ReactNode;
+  overhangingBackground?: boolean;
 } & CommonWrapperProps;
 
 export default function Container({
   paddingTop = "default",
   paddingBottom = "default",
   backgroundColor = "default",
+  overhangingBackground,
   children,
 }: ContainerProps) {
   let cssClasses = classNames(
@@ -26,11 +28,15 @@ export default function Container({
     return <div className={cssClasses}>{children}</div>;
   }
 
-  cssClasses = classNames(
-    cssClasses,
-    "relative before:content-[''] before:absolute before:inset-y-0 before:-left-32 before:-right-32 before:rounded-lg",
-    `before:${BACKGROUND_COLORS[backgroundColor]}`
-  );
+  if (backgroundColor && overhangingBackground) {
+    cssClasses = classNames(
+      cssClasses,
+      "relative before:content-[''] before:absolute before:inset-y-0 before:-left-32 before:-right-32 before:rounded-lg",
+      `before:${BACKGROUND_COLORS[backgroundColor]}`
+    );
+  } else if (backgroundColor) {
+    cssClasses = classNames(cssClasses, BACKGROUND_COLORS[backgroundColor]);
+  }
 
   return (
     <div className="overflow-x-hidden">
