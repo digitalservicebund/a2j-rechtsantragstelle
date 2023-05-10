@@ -138,19 +138,19 @@ const ResultPage = ({
         </Container>
       )}
 
+      {documentsList.length > 0 && (
+        <div>
+          {documentsList.map((element, idx) => (
+            <div key={idx}>
+              <PageContent content={[element]} />
+              {idx != 0 && idx != documentsList.length - 1 && (
+                <hr className="my-24" />
+              )}
+            </div>
+          ))}
+        </div>
+      )}
       <div className={`${documentsList.length > 0 && "bg-blue-100"}`}>
-        {documentsList.length > 0 && (
-          <div>
-            {documentsList.map((element, idx) => (
-              <div key={idx}>
-                <PageContent content={[element]} />
-                {idx != 0 && idx != documentsList.length - 1 && (
-                  <hr className="my-24" />
-                )}
-              </div>
-            ))}
-          </div>
-        )}
         <Container>
           <ButtonContainer>
             {backDestination && (
