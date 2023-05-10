@@ -77,13 +77,6 @@ function cmsToReact(
     return <InfoBox {...element} key={element.id} />;
   } else if (element.__component === "page.box") {
     return <Box {...element} key={element.id} />;
-  } else if (element.__component === "basic.text-with-heading") {
-    return (
-      <div>
-        <Heading {...element.heading} />
-        <Paragraph text={element.text} />
-      </div>
-    );
   } else {
     return <div />;
   }

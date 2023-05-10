@@ -27,11 +27,4 @@ export type Paragraph = {
   text: string;
 };
 
-export type TextWithHeading = {
-  id: number;
-  __component: "basic.text-with-heading";
-  text: string;
-  heading: Heading;
-};
-
-export type FormContentCMS = Heading | Paragraph | TextWithHeading;
+export type FormContentCMS = Heading | Paragraph;
