@@ -15,7 +15,7 @@ export type Header = {
 export type InfoBox = {
   id: number;
   __component: "page.info-box";
-  heading: Heading;
+  heading?: Heading;
   items: InfoBoxItem[];
   outerBackground?: Background;
   container: Container;

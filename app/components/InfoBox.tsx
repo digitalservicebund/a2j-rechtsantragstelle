@@ -5,13 +5,13 @@ import Heading from "./Heading";
 
 export interface InfoBoxProps {
   items: InfoBoxItemProps[];
-  heading: HeadingProps;
+  heading?: HeadingProps;
 }
 
 const InfoBox = ({ items, heading }: InfoBoxProps) => {
   return (
     <div className="ds-stack-8">
-      <Heading {...heading} />
+      {heading && <Heading {...heading} />}
       <ul className="list-none ds-stack-32 ps-0 info-box">
         {items.map((item, index) => (
           <InfoBoxItem {...item} key={index} />
