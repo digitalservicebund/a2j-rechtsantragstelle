@@ -140,7 +140,7 @@ const ResultPage = ({
 
       <div className={`${documentsList.length > 0 && "bg-blue-100"}`}>
         {documentsList.length > 0 && (
-          <Container>
+          <div>
             {documentsList.map((element, idx) => (
               <div key={idx}>
                 <PageContent content={[element]} />
@@ -149,7 +149,7 @@ const ResultPage = ({
                 )}
               </div>
             ))}
-          </Container>
+          </div>
         )}
         <Container>
           <ButtonContainer>
