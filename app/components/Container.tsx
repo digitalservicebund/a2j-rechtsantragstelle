@@ -31,18 +31,22 @@ export default function Container({
   if (backgroundColor && overhangingBackground) {
     cssClasses = classNames(
       cssClasses,
-      "relative before:content-[''] before:absolute before:inset-y-0 before:-left-32 before:-right-32 before:rounded-lg",
+      "relative before:content-[''] before:absolute before:inset-y-0 before:-left-32 before:-right-32",
       `before:${BACKGROUND_COLORS[backgroundColor]}`
     );
-  } else if (backgroundColor) {
+
+    return (
+      <div className="overflow-x-hidden mx-16 rounded-lg">
+        <div className={cssClasses}>
+          <div className="relative">{children}</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (backgroundColor) {
     cssClasses = classNames(cssClasses, BACKGROUND_COLORS[backgroundColor]);
   }
 
-  return (
-    <div className="overflow-x-hidden">
-      <div className={cssClasses}>
-        <div className="relative">{children}</div>
-      </div>
-    </div>
-  );
+  return <div className={cssClasses}>{children}</div>;
 }
