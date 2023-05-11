@@ -11,6 +11,11 @@ export function ProgressBar({ id, progress, max, fallback }: ProgressBarProps) {
       id={id}
       value={progress}
       max={max}
+      tabIndex={0}
+      aria-valuemin={1}
+      aria-valuenow={progress}
+      aria-valuemax={max}
+      aria-label={fallback}
       className="progress-bar w-full align-top border-0 h-4 bg-blue-500"
     >
       {fallback}
