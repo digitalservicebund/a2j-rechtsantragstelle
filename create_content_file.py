@@ -12,6 +12,7 @@ def get_all_collection_types():
     collection_types_response = requests.get(f"{CMS_URL}/api/content-type-builder/content-types", headers={
         "Authorization": f"Bearer {CMS_AUTH_TOKEN}",
     })
+    print("status code", collection_types_response.status_code)
     assert collection_types_response.status_code == 200
     return json.loads(collection_types_response.text)
 
@@ -43,6 +44,7 @@ def collect_all_collection_data(collection_id):
             headers={
                 "Authorization": f"Bearer {CMS_AUTH_TOKEN}",
             })
+        print("status code", res.status_code)
         assert res.status_code == 200
 
         response_json = json.loads(res.text)
