@@ -9,6 +9,8 @@ PAGE_SIZE = 10
 
 
 def get_all_collection_types():
+    assert CMS_URL is not None
+    assert CMS_AUTH_TOKEN is not None
     collection_types_response = requests.get(f"{CMS_URL}/api/content-type-builder/content-types", headers={
         "Authorization": f"Bearer {CMS_AUTH_TOKEN}",
     })
