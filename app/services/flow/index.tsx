@@ -3,26 +3,18 @@ import { createMachine } from "xstate";
 import config from "./beratungshilfe.json";
 import guards from "./guards";
 
-function getStateMachine(stepId: string | undefined, context: any) {
-  let stateMachineConfig = {
+export function getStateMachine(stepId: string | undefined, context: any) {
+  const stateMachineConfig = {
     ...config,
     predictableActionArguments: true,
+    initial: stepId !== undefined ? stepId : config.initial,
   };
-  if (stepId !== undefined) {
-    stateMachineConfig.initial = stepId;
-  } else {
-    stepId = config.initial;
-  }
-  const stateMachine = createMachine(
-    {
-      ...stateMachineConfig,
+
+  const stateMachine = createMachine(stateMachineConfig, {
+    guards: {
+      ...guards(stepId || config.initial, context),
     },
-    {
-      guards: {
-        ...guards(stepId, context),
-      },
-    }
-  );
+  });
 
   return stateMachine;
 }
@@ -37,30 +29,15 @@ export function isLastStep(stepId: string | undefined) {
   }
 
   const stateMachine = getStateMachine(stepId, undefined);
-  return (
-    stateMachine.getStateNodeById(`${stateMachine.key}.${stepId}`).transitions
-      .length === 0
+  const stateNode = stateMachine.getStateNodeById(
+    `${stateMachine.key}.${stepId}`
   );
+  return stateNode.transitions.length === 0;
 }
 
 export function getPreviousStep(stepId: string, context: any) {
-  let stateMachine = getStateMachine(stepId, context);
-
-  let possiblePreviousSteps = getPossiblePreviousSteps(
-    stateMachine,
-    stepId,
-    context
-  );
-
-  return possiblePreviousSteps;
-}
-
-function getPossiblePreviousSteps(
-  stateMachine: StateMachine<any, any, any>,
-  stepId: string,
-  context: any
-) {
-  let possiblePreviousSteps: string[] = getPossibleParentNodes(
+  const stateMachine = getStateMachine(stepId, context);
+  const possiblePreviousSteps = getPossibleParentNodes(
     stateMachine,
     stepId,
     context
@@ -70,8 +47,8 @@ function getPossiblePreviousSteps(
 
   // multiple previous steps found
   if (possiblePreviousSteps.length > 1) {
-    for (const previousStep in possiblePreviousSteps) {
-      let previousSteps: string[] = [previousStep];
+    for (const previousStep of possiblePreviousSteps) {
+      let previousSteps = [previousStep];
 
       do {
         previousSteps = previousSteps.concat(
@@ -79,14 +56,12 @@ function getPossiblePreviousSteps(
         );
       } while (previousSteps.length > 1);
 
-      if (previousStep.length == 1) {
+      if (previousStep.length === 1) {
         result = previousStep;
         break;
       }
     }
-  }
-
-  if (possiblePreviousSteps.length === 1) {
+  } else if (possiblePreviousSteps.length === 1) {
     result = possiblePreviousSteps[0];
   }
 
@@ -98,7 +73,7 @@ function getPossibleParentNodes(
   stepId: string | undefined,
   context: any
 ) {
-  let possiblePreviousSteps: string[] = [];
+  const possiblePreviousSteps: string[] = [];
 
   if (stepId === undefined) {
     return possiblePreviousSteps;
@@ -114,7 +89,7 @@ function getPossibleParentNodes(
             transition.target?.map((target) => target.key).includes(step) &&
             !possiblePreviousSteps.includes(transition.source.key)
           ) {
-            let next = getNextStep(transition.source.key, context);
+            const next = getNextStep(transition.source.key, context);
 
             if (next === step) {
               possiblePreviousSteps.push(transition.source.key);
@@ -123,6 +98,7 @@ function getPossibleParentNodes(
         });
     }
   } while (possiblePreviousSteps.length > 1);
+
   return possiblePreviousSteps;
 }
 
