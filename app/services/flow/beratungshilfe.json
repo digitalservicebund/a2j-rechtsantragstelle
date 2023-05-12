@@ -284,10 +284,23 @@
     },
     "weitereZahlungen": {
       "on": {
-        "SUBMIT": {
-          "target": "weitereZahlungenSumme",
-          "cond": "yes"
-        }
+        "SUBMIT": [
+          {
+            "target": "weitereZahlungenSumme",
+            "cond": "yes"
+          },
+          {
+            "target": "abschlussVielleicht",
+            "cond": "nonCritical"
+          },
+          {
+            "target": "abschlussNein",
+            "cond": "incomeTooHigh"
+          },
+          {
+            "target": "abschlussJa"
+          }
+        ]
       }
     },
     "weitereZahlungenSumme": {
