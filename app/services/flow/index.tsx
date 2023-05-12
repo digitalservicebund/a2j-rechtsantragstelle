@@ -7,13 +7,11 @@ export function getStateMachine(stepId: string | undefined, context: any) {
   const stateMachineConfig = {
     ...config,
     predictableActionArguments: true,
-    initial: stepId !== undefined ? stepId : config.initial,
+    initial: stepId || config.initial,
   };
 
   const stateMachine = createMachine(stateMachineConfig, {
-    guards: {
-      ...guards(stepId || config.initial, context),
-    },
+    guards: guards(stepId || config.initial, context),
   });
 
   return stateMachine;
@@ -24,7 +22,7 @@ export function getInitialStep() {
 }
 
 export function isLastStep(stepId: string | undefined) {
-  if (stepId === undefined) {
+  if (!stepId) {
     return false;
   }
 
@@ -75,7 +73,7 @@ function getPossibleParentNodes(
 ) {
   const possiblePreviousSteps: string[] = [];
 
-  if (stepId === undefined) {
+  if (!stepId) {
     return possiblePreviousSteps;
   }
 
@@ -105,15 +103,13 @@ function getPossibleParentNodes(
 export function hasStep(stepId: string | undefined) {
   const stateMachine = getStateMachine(stepId, undefined);
 
-  return getStateMachine(stepId, undefined).stateIds.includes(
-    `${stateMachine.key}.${stepId}`
-  );
+  return stateMachine.stateIds.includes(`${stateMachine.key}.${stepId}`);
 }
 
 export function getNextStep(stepId: string, context: any) {
   const stateMachine = getStateMachine(stepId, context);
 
-  if (stepId === undefined) {
+  if (!stepId) {
     return stateMachine.initial;
   }
 
