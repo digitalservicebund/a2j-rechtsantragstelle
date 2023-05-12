@@ -7,20 +7,8 @@ import type {
 import { json, redirect } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { allValidators, formPages } from "~/lib/vorabcheck/pages";
-import type { Context } from "~/lib/vorabcheck/flow.server";
-import {
-  //formGraph,
-  //initialStepID,
-  isIncomeTooHigh,
-  progress,
-} from "~/lib/vorabcheck/flow.server";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
-// import {
-//   findPreviousStep,
-//   isLeaf,
-//   isValidContext,
-// } from "~/lib/treeCalculations";
 import {
   getResultPageConfig,
   getVorabCheckPageConfig,
@@ -43,6 +31,7 @@ import {
   hasStep,
   isLastStep,
 } from "~/services/flow";
+import { isIncomeTooHigh } from "~/services/flow/guards";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
@@ -52,7 +41,7 @@ const initialStepID = getInitialStep();
 
 const getReasonsToDisplay = (
   reasons: { attributes: ElementWithId }[] | undefined,
-  context: Context
+  context: any
 ) => {
   return reasons
     ?.filter((reason) => {
@@ -99,10 +88,6 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     "vorab-check-common"
   );
 
-  // if (!isValidContext(initialStepID, stepID, formGraph, session.data)) {
-  //   return redirect(`/vorabcheck/${initialStepID}`);
-  // }
-
   let additionalContext = {};
   if ("additionalContext" in currentPage) {
     for (const requestedContext of currentPage["additionalContext"]) {
@@ -122,8 +107,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     resultContent: resultPageContent,
     resultReasonsToDisplay,
     meta: formPageContent?.meta || resultPageContent?.meta,
-    progressStep: progress[stepID],
-    progressTotal: progress[initialStepID],
+    progressStep: 1, //FIXME,
+    progressTotal: 10, //FIXME,
     isLast: isLastStep(stepID),
     previousStep: getPreviousStep(stepID, session.data),
     additionalContext,
@@ -145,7 +130,6 @@ export const action: ActionFunction = async ({ params, request }) => {
     status: 302,
     headers,
   });
-  //return redirect(`/vorabcheck/${initialStepID}`, { status: 302, headers });
 };
 
 export default function Index() {

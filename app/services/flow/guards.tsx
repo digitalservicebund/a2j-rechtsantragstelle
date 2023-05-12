@@ -52,7 +52,7 @@ function anyNonCriticalWarning(context: any) {
   );
 }
 
-function isIncomeTooHigh(context: any) {
+export function isIncomeTooHigh(context: any) {
   return (
     (context.einkommen?.einkommen
       ? moneyToCents(context.einkommen.einkommen)
