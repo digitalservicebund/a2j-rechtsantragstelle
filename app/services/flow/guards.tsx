@@ -35,10 +35,10 @@ export default function getGuards(stepId: string, context: any) {
       context.staatlicheLeistungen?.staatlicheLeistung === "buergergeld",
     nonCriticalVerfuegbaresEinkommen: () =>
       !anyNonCriticalWarning(context) &&
-      context.verfuegbaresEinkommen?.excessiveDisposableIncome === "no",
+      searchEntryInSession(context, stepId, "no"),
     verfuegbaresEinkommen: () =>
       anyNonCriticalWarning(context) &&
-      context.verfuegbaresEinkommen?.excessiveDisposableIncome === "no",
+      searchEntryInSession(context, stepId, "no"),
     incomeTooHigh: () => isIncomeTooHigh(context),
     nonCritical: () =>
       anyNonCriticalWarning(context) && !isIncomeTooHigh(context),
