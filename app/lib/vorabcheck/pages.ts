@@ -5,7 +5,7 @@ import { einkommenKinderStep } from "~/components/form/steps/einkommenKinder";
 import { kinderAnzahlSimpleStep } from "~/components/form/steps/kinderAnzahlSimple";
 import { verfuegbaresEinkommenStep } from "~/components/form/steps/verfuegbaresEinkommen";
 
-export const formPages = {
+export const formPages: { [key: string]: any } = {
   rechtsschutzversicherung: Steps.rechtsschutzversicherungStep,
   rechtsschutzversicherungError: Steps.exitRechtsschutzversicherungStep,
   klageEingereicht: Steps.klageEingereichtStep,
@@ -44,30 +44,26 @@ export const formPages = {
 } as const;
 
 export type FormPages = typeof formPages;
-export type AllowedIDs = keyof FormPages;
 
 // Construct object of formPages keys (eg formPages.welcome), see https://stackoverflow.com/a/70811604
-export const pageIDs = (() =>
-  ({
-    ...Object.keys(formPages)
-      .filter((k) => isNaN(Number(k)))
-      .reduce(
-        (acc, cur) => ({
-          ...acc,
-          [cur]: cur,
-        }),
-        {}
-      ),
-  } as {
-    [k in AllowedIDs]: k;
-  }))();
+export const pageIDs = (() => ({
+  ...Object.keys(formPages)
+    .filter((k) => isNaN(Number(k)))
+    .reduce(
+      (acc, cur) => ({
+        ...acc,
+        [cur]: cur,
+      }),
+      {}
+    ),
+}))();
 
-export const initialStepID = pageIDs.rechtsschutzversicherung;
-export const finalStep = pageIDs.abschlussJa;
+// export const initialStepID = pageIDs.rechtsschutzversicherung;
+// export const finalStep = pageIDs.abschlussJa;
 
 export const allValidators = Object.fromEntries(
   Object.entries(formPages).map(([key, step]) => [
     key,
     "schema" in step ? withZod(step.schema) : withZod(z.object({})),
   ])
-) as Record<AllowedIDs, ReturnType<typeof withZod>>;
+) as Record<string, ReturnType<typeof withZod>>;

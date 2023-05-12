@@ -3,7 +3,6 @@ import type {
   Context,
   FormFlow,
 } from "./vorabcheck/flow.server";
-import type { AllowedIDs } from "./vorabcheck/pages";
 import Graph from "graphology";
 import { allSimplePaths } from "graphology-simple-path";
 
@@ -20,7 +19,7 @@ export function makeFormGraph(formFlow: FormFlow) {
   });
 
   for (const [key, transitions] of Object.entries(formFlow)) {
-    transitions.forEach((transition) => {
+    transitions?.forEach((transition) => {
       typeof transition === "string"
         ? formGraph.mergeEdge(key, transition)
         : formGraph.mergeEdge(key, transition.destination, {
@@ -31,51 +30,41 @@ export function makeFormGraph(formFlow: FormFlow) {
   return formGraph;
 }
 
-export function longestPath(
-  start: AllowedIDs,
-  stop: AllowedIDs,
-  graph: FormGraph
-) {
+export function longestPath(start: string, stop: string, graph: FormGraph) {
   return allSimplePaths(graph, start, stop).reduce(
     (acc, path) => (acc > path.length ? acc : path.length),
     0
   );
 }
 
-export function allLongestPaths(
-  target: AllowedIDs,
-  graph: FormGraph
-): Partial<Record<AllowedIDs, number>> {
+export function allLongestPaths(target: string, graph: FormGraph): any {
   return Object.fromEntries(
-    graph.mapNodes((nodeID) => [
-      nodeID as AllowedIDs,
-      longestPath(nodeID as AllowedIDs, target, graph),
-    ])
+    graph.mapNodes((nodeID) => [nodeID, longestPath(nodeID, target, graph)])
   );
 }
 
-export function isLeaf(nodeID: AllowedIDs, formGraph: FormGraph): boolean {
+export function isLeaf(nodeID: string, formGraph: FormGraph): boolean {
   return formGraph.outDegree(nodeID) === 0;
 }
 
 export function findPreviousStep(
-  nodeID: AllowedIDs,
+  nodeID: string,
   formGraph: FormGraph,
   context: Context
-): AllowedIDs[] {
-  const validPredecessors: AllowedIDs[] = [];
+): string[] {
+  const validPredecessors: string[] = [];
   for (const link of formGraph.inEdgeEntries(nodeID)) {
     if (
       !link.attributes["condition"] ||
       link.attributes["condition"](context)
     ) {
-      validPredecessors.push(link.source as AllowedIDs);
+      validPredecessors.push(link.source as string);
     }
   }
   return validPredecessors;
 }
 
-function isValidPath(nodeID: AllowedIDs, path: string[], context: Context) {
+function isValidPath(nodeID: string, path: string[], context: Context) {
   // Path is valid for a node if context contains all previous nodes
   return path.reduce(
     (acc, node) => acc && (node === nodeID || node in context),
@@ -84,8 +73,8 @@ function isValidPath(nodeID: AllowedIDs, path: string[], context: Context) {
 }
 
 export function isValidContext(
-  startID: AllowedIDs,
-  nodeID: AllowedIDs,
+  startID: string,
+  nodeID: string,
   formGraph: FormGraph,
   context: Context
 ) {
