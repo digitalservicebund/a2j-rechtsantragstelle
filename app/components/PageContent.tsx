@@ -14,7 +14,7 @@ import type { ContainerProps } from "./Container";
 import Container from "./Container";
 import type { BackgroundProps } from "./Background";
 import Background from "./Background";
-import type { ReactNode } from "react";
+import type { ReactElement } from "react";
 import Button from "./Button";
 
 type PageContentProps = {
@@ -36,19 +36,24 @@ const transformCmsData = (
 
 const wrapInContainer = (
   cmsData: { [key: string]: any; container?: ContainerCMS },
-  reactElement: ReactNode
-): ReactNode => {
+  reactElement: ReactElement
+): ReactElement => {
   if (!cmsData.container) {
     return reactElement;
   }
+  const isBox = reactElement.props.__component === "page.box";
   const config = transformCmsData(cmsData.container);
-  return <Container {...config}>{reactElement}</Container>;
+  return (
+    <Container {...config} overhangingBackground={isBox}>
+      {reactElement}
+    </Container>
+  );
 };
 
 const wrapInBackground = (
   cmsData: { [key: string]: any; outerBackground?: BackgroundCMS },
-  reactElement: ReactNode
-): ReactNode => {
+  reactElement: ReactElement
+): ReactElement => {
   if (!cmsData.outerBackground) {
     return reactElement;
   }
@@ -72,13 +77,8 @@ function cmsToReact(
     return <InfoBox {...element} key={element.id} />;
   } else if (element.__component === "page.box") {
     return <Box {...element} key={element.id} />;
-  } else if (element.__component === "basic.text-with-heading") {
-    return (
-      <div>
-        <Heading {...element.heading} />
-        <Paragraph text={element.text} />
-      </div>
-    );
+  } else {
+    return <div />;
   }
 }
 

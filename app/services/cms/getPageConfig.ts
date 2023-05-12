@@ -27,7 +27,9 @@ export function getRelevantInputContent(
   return matchingElements[0] ?? { type: "text", label: inputName };
 }
 
-export const flattenErrorCodes = (errors: ErrorCategory[] = []) => {
+export const flattenErrorCodes = (
+  errors: { attributes: ErrorCategory }[] = []
+) => {
   return errors.map((e) => e.attributes.errorCodes).flat();
 };
 

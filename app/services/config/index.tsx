@@ -5,6 +5,7 @@ export interface config {
   CMS: string;
   ENV: string;
   SENTRY_DSN: string;
+  CONTENT_FILE_PATH: string;
 }
 
 export interface webConfig {
@@ -35,6 +36,7 @@ export default function get(): config {
       CMS: process.env.CMS || "",
       ENV: process.env.NODE_ENV || "development",
       SENTRY_DSN: process.env.SENTRY_DSN?.trim() || "",
+      CONTENT_FILE_PATH: process.env.CONTENT_FILE_PATH || "",
     };
   }
 

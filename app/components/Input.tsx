@@ -14,7 +14,7 @@ type InputProps = {
   prefix?: string;
   suffix?: string;
   defaultValue?: string;
-  errors?: ErrorCategory[];
+  errors?: { attributes: ErrorCategory }[];
 };
 
 const Input = ({

@@ -100,7 +100,12 @@ const ResultPage = ({
         </Container>
 
         {content.hintText && (
-          <Container backgroundColor="white" paddingTop="32" paddingBottom="40">
+          <Container
+            backgroundColor="white"
+            paddingTop="32"
+            paddingBottom="40"
+            overhangingBackground={true}
+          >
             <div className="ds-stack-8">
               <p className="ds-label-02-bold">{content.resultHintLabel}</p>
               <RichText markdown={content.hintText.text} />
@@ -138,19 +143,19 @@ const ResultPage = ({
         </Container>
       )}
 
+      {documentsList.length > 0 && (
+        <div>
+          {documentsList.map((element, idx) => (
+            <div key={idx}>
+              <PageContent content={[element]} />
+              {idx != 0 && idx != documentsList.length - 1 && (
+                <hr className="my-24" />
+              )}
+            </div>
+          ))}
+        </div>
+      )}
       <div className={`${documentsList.length > 0 && "bg-blue-100"}`}>
-        {documentsList.length > 0 && (
-          <Container>
-            {documentsList.map((element, idx) => (
-              <div key={idx}>
-                <PageContent content={[element]} />
-                {idx != 0 && idx != documentsList.length - 1 && (
-                  <hr className="my-24" />
-                )}
-              </div>
-            ))}
-          </Container>
-        )}
         <Container>
           <ButtonContainer>
             {backDestination && (

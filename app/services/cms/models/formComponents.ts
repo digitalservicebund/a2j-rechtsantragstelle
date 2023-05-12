@@ -1,3 +1,5 @@
+import type { RelationOneToMany } from "~/services/cms/models/commons/concepts";
+
 export type SelectOption = {
   id?: number;
   text: string;
@@ -10,11 +12,8 @@ export type FieldError = {
 };
 
 export type ErrorCategory = {
-  id: number;
-  attributes: {
-    name: string;
-    errorCodes: FieldError[];
-  };
+  name: string;
+  errorCodes: FieldError[];
 };
 
 export type Select = {
@@ -33,7 +32,7 @@ export type Input = {
   label?: string;
   type: "text" | "number";
   placeholder?: string;
-  errors: { data: ErrorCategory[] };
+  errors: RelationOneToMany<ErrorCategory>;
 };
 
 export type Button = {

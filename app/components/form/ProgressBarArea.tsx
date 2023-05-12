@@ -20,7 +20,7 @@ const ProgressBarArea = ({
       <ProgressBar
         progress={stepProgress}
         max={progressTotal}
-        fallback={`Schritt ${stepProgress} / ${progressTotal}`}
+        fallback={`Schritt ${stepProgress} von ${progressTotal}`}
         id={progressBarId}
       />
     </div>

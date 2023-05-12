@@ -1,6 +1,4 @@
 export type Image = {
-  url?: string;
-  presentational?: boolean;
   data?: {
     attributes: {
       url: string;
