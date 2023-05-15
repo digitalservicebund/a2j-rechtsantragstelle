@@ -91,7 +91,7 @@ jobs:
 
       - name: Parse Content to File
         uses: ./.github/actions/parse-content-to-file.yml
-        secrets:
+        with:
           STRAPI_HOST: "${{ secrets.STRAPI_HOST }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
           CONTENT_FILE_PATH: "${{ secrets.CONTENT_FILE_PATH }}"
