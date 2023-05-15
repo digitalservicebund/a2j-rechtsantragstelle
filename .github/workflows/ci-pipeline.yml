@@ -90,7 +90,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Parse Content to File
-        uses: ./.github/actions/parse-content-to-file.yml
+        uses: ./.github/workflows/_parse-content-to-file.yml
         with:
           STRAPI_HOST: "${{ secrets.STRAPI_HOST }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
