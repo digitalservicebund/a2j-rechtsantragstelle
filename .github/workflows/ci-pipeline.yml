@@ -109,7 +109,7 @@ jobs:
         run: |
           docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} . --build-arg COMMIT_SHA=${{ env.IMAGE_VERSION }}
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+        uses: aquasecurity/trivy-action@e5f43133f6e8736992c9f3c1b3296e24b37e17f2
         with:
           image-ref: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}"
           format: "template"
