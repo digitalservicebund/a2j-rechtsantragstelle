@@ -4,7 +4,7 @@ import json
 
 CMS_URL = os.getenv('STRAPI_HOST')
 CMS_AUTH_TOKEN = os.getenv('STRAPI_ACCESS_KEY')
-TARGET_FILE_PATH = os.getenv('CONTENT_FILE_PATH', "build/content.json")
+TARGET_FILE_PATH = os.getenv('CONTENT_FILE_PATH')
 PAGE_SIZE = 10
 
 

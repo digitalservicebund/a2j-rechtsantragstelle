@@ -29,7 +29,7 @@ runs:
 
     - name: Execute create_content_file script
       shell: bash
-      run: python create_content_file.py
+      run: python .github/actions/parse-content-to-file/create_content_file.py
       env:
         STRAPI_HOST: "${{ inputs.STRAPI_HOST }}"
         STRAPI_ACCESS_KEY: "${{ inputs.STRAPI_ACCESS_KEY }}"
