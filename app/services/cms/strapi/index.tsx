@@ -62,15 +62,4 @@ export default class StrapiCMS implements CMS {
     const document = await this.client.getDocument(strapiCollection, request);
     return document?.attributes;
   }
-
-  getImageLocation(imagePath: string): string {
-    if (
-      imagePath.indexOf("http://") === 0 ||
-      imagePath.indexOf("https://") === 0
-    ) {
-      return imagePath;
-    }
-
-    return config().STRAPI_HOST + imagePath;
-  }
 }
