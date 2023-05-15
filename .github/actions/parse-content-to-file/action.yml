@@ -31,6 +31,6 @@ runs:
       shell: bash
       run: python create_content_file.py
       env:
-        STRAPI_HOST: "${{ secrets.STRAPI_HOST }}"
-        STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
-        CONTENT_FILE_PATH: "${{ secrets.CONTENT_FILE_PATH }}"
+        STRAPI_HOST: "${{ inputs.STRAPI_HOST }}"
+        STRAPI_ACCESS_KEY: "${{ inputs.STRAPI_ACCESS_KEY }}"
+        CONTENT_FILE_PATH: "${{ inputs.CONTENT_FILE_PATH }}"
