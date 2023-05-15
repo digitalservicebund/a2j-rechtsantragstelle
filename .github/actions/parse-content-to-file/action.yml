@@ -1,11 +1,14 @@
 name: "Parse Content to File"
 description: "Parse all of Strapi content and put it into one file"
-secrets:
+inputs:
   STRAPI_HOST:
+    description: "Host url"
     required: true
   STRAPI_ACCESS_KEY:
+    description: "API access key"
     required: true
   CONTENT_FILE_PATH:
+    description: "path to the destination file"
     required: true
 
 runs:
