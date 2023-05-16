@@ -1,4 +1,4 @@
 *.woff
 *.woff2
-create_content_file.py
+.github/actions/parse-content-to-file/create_content_file.py
 tests/config.env.test

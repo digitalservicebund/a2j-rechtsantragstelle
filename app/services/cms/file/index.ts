@@ -39,9 +39,4 @@ export default class FileCMS implements CMS {
       )?.attributes
     );
   };
-
-  getImageLocation = (imagePath: string) => {
-    // TODO add
-    return "";
-  };
 }

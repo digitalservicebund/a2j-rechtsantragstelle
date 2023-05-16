@@ -18,7 +18,6 @@ export interface CMS {
     pageName: string,
     locale?: Locale
   ): Promise<any>;
-  getImageLocation(imagePath: string): string;
 }
 
 export default function getCMS(): CMS {
