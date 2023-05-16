@@ -129,7 +129,7 @@ jobs:
           docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Install cosign
-        uses: sigstore/cosign-installer@9becc617647dfa20ae7b1151972e9b3a2c338a2b
+        uses: sigstore/cosign-installer@204a51a57a74d190b284a0ce69b44bc37201f343
 
       - name: Sign published image
         env:
@@ -158,7 +158,7 @@ jobs:
           kustomize edit set image ghcr.io/digitalservicebund/a2j-rechtsantragstelle:${{ env.IMAGE_VERSION }}
 
       - name: Commit and push
-        uses: EndBug/add-and-commit@61a88be553afe4206585b31aa72387c64295d08b
+        uses: EndBug/add-and-commit@1bad3abcf0d6ec49a5857d124b0bfb52dc7bb081
         with:
           add: "manifests/overlays/staging/kustomization.yaml"
           message: "Update staging image to ${{ env.IMAGE_VERSION }}"
