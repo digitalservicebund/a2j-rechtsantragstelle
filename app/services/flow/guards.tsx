@@ -3,11 +3,11 @@ import moneyToCents from "../validation/money/moneyToCents";
 
 function searchEntryInSession(
   context: any,
-  stepId: any,
+  stepID: any,
   value: string
 ): boolean {
   let found = false;
-  const values = context[stepId];
+  const values = context[stepID];
   if (values !== undefined) {
     const propertyValues = Object.values(values);
     for (const entry in propertyValues) {
@@ -21,10 +21,10 @@ function searchEntryInSession(
   return found;
 }
 
-export default function getGuards(stepId: string, context: any) {
+export default function getGuards(stepID: string, context: any) {
   return {
-    yes: () => searchEntryInSession(context, stepId, "yes"),
-    no: () => searchEntryInSession(context, stepId, "no"),
+    yes: () => searchEntryInSession(context, stepID, "yes"),
+    no: () => searchEntryInSession(context, stepID, "no"),
     staatlicheLeistung: () =>
       context.staatlicheLeistungen?.staatlicheLeistung === "grundsicherung" ||
       context.staatlicheLeistungen?.staatlicheLeistung ===
@@ -35,10 +35,10 @@ export default function getGuards(stepId: string, context: any) {
       context.staatlicheLeistungen?.staatlicheLeistung === "buergergeld",
     nonCriticalVerfuegbaresEinkommen: () =>
       !anyNonCriticalWarning(context) &&
-      searchEntryInSession(context, stepId, "no"),
+      searchEntryInSession(context, stepID, "no"),
     verfuegbaresEinkommen: () =>
       anyNonCriticalWarning(context) &&
-      searchEntryInSession(context, stepId, "no"),
+      searchEntryInSession(context, stepID, "no"),
     incomeTooHigh: () => isIncomeTooHigh(context),
     nonCritical: () =>
       anyNonCriticalWarning(context) && !isIncomeTooHigh(context),

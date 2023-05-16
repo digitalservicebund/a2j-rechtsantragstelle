@@ -12,9 +12,9 @@ import config from "~/services/flow/beratungshilfe.json";
 
 // Test getStateMachine
 test("getStateMachine should return a valid state machine", () => {
-  const stepId = config.initial;
+  const stepID = config.initial;
   const context = {};
-  const stateMachine = getStateMachine(stepId, context);
+  const stateMachine = getStateMachine(stepID, context);
   expect(stateMachine).toBeDefined();
 });
 

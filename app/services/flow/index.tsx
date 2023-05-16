@@ -5,15 +5,15 @@ import guards from "./guards";
 
 const initialStateId = config.initial;
 
-export function getStateMachine(stepId: string | undefined, context: any) {
+export function getStateMachine(stepID: string | undefined, context: any) {
   const stateMachineConfig = {
     ...config,
     predictableActionArguments: true,
-    initial: stepId || initialStateId,
+    initial: stepID || initialStateId,
   };
 
   const stateMachine = createMachine(stateMachineConfig, {
-    guards: guards(stepId || initialStateId, context),
+    guards: guards(stepID || initialStateId, context),
   });
 
   return stateMachine;
@@ -23,23 +23,23 @@ export function getInitialStep() {
   return initialStateId;
 }
 
-export function isLastStep(stepId: string | undefined) {
-  if (!stepId) {
+export function isLastStep(stepID: string | undefined) {
+  if (!stepID) {
     return false;
   }
 
-  const stateMachine = getStateMachine(stepId, undefined);
+  const stateMachine = getStateMachine(stepID, undefined);
   const stateNode = stateMachine.getStateNodeById(
-    `${stateMachine.key}.${stepId}`
+    `${stateMachine.key}.${stepID}`
   );
   return stateNode.transitions.length === 0;
 }
 
-export function getPreviousStep(stepId: string, context: any) {
-  const stateMachine = getStateMachine(stepId, context);
+export function getPreviousStep(stepID: string, context: any) {
+  const stateMachine = getStateMachine(stepID, context);
   const possiblePreviousSteps = getPossibleParentNodes(
     stateMachine,
-    stepId,
+    stepID,
     context
   );
 
@@ -73,17 +73,17 @@ export function getPreviousStep(stepId: string, context: any) {
 
 function getPossibleParentNodes(
   stateMachine: StateMachine<any, any, any>,
-  stepId: string | undefined,
+  stepID: string | undefined,
   context: any
 ) {
   const possiblePreviousSteps: string[] = [];
 
-  if (!stepId) {
+  if (!stepID) {
     return possiblePreviousSteps;
   }
 
   do {
-    const step = possiblePreviousSteps.pop() || stepId;
+    const step = possiblePreviousSteps.pop() || stepID;
     for (const state in stateMachine.states) {
       const stateNode = stateMachine.getStateNodeById(
         `${stateMachine.key}.${state}`
@@ -105,44 +105,44 @@ function getPossibleParentNodes(
   return possiblePreviousSteps;
 }
 
-export function hasStep(stepId: string | undefined) {
-  const stateMachine = getStateMachine(stepId, undefined);
+export function hasStep(stepID: string | undefined) {
+  const stateMachine = getStateMachine(stepID, undefined);
 
-  return stateMachine.stateIds.includes(`${stateMachine.key}.${stepId}`);
+  return stateMachine.stateIds.includes(`${stateMachine.key}.${stepID}`);
 }
 
-export function getNextStep(stepId: string, context: any) {
-  const stateMachine = getStateMachine(stepId, context);
+export function getNextStep(stepID: string, context: any) {
+  const stateMachine = getStateMachine(stepID, context);
 
-  if (!hasStep(stepId)) {
+  if (!hasStep(stepID)) {
     return stateMachine.initial;
   }
 
-  return stateMachine.transition(stepId, { type: "SUBMIT" }).value;
+  return stateMachine.transition(stepID, { type: "SUBMIT" }).value;
 }
 
 function getPossiblePath(
   stateMachine: StateMachine<any, any, any>,
-  searchStepId: string
+  searchStepID: string
 ) {
   const possiblePaths: string[] = [];
-  const stack: { node: any; currentStepId?: string }[] = [];
+  const stack: { node: any; currentStepID?: string }[] = [];
 
   const initialStateNode = stateMachine.getStateNodeById(
-    `${stateMachine.key}.${searchStepId}`
+    `${stateMachine.key}.${searchStepID}`
   );
   stack.push({ node: initialStateNode });
 
   while (stack.length > 0) {
-    const { node, currentStepId } = stack.pop()!;
-    if (currentStepId && !possiblePaths.includes(currentStepId)) {
-      possiblePaths.push(currentStepId);
+    const { node, currentStepID } = stack.pop()!;
+    if (currentStepID && !possiblePaths.includes(currentStepID)) {
+      possiblePaths.push(currentStepID);
     }
 
     for (const transition of node.transitions) {
       if (transition.target) {
         for (const target of transition.target) {
-          stack.push({ node: target, currentStepId: target.key });
+          stack.push({ node: target, currentStepID: target.key });
         }
       }
     }
@@ -151,9 +151,9 @@ function getPossiblePath(
   return possiblePaths;
 }
 
-export function getProgressBar(stepId: string, context: any) {
+export function getProgressBar(stepID: string, context: any) {
   const stateMachine = getStateMachine(initialStateId, context);
-  const possiblePaths = getPossiblePath(stateMachine, stepId);
+  const possiblePaths = getPossiblePath(stateMachine, stepID);
   const longestPossiblePaths = getPossiblePath(stateMachine, initialStateId);
 
   const progressBar = {

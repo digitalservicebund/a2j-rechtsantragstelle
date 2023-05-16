@@ -2,7 +2,6 @@ import type { LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
 import { getInitialStep } from "~/services/flow";
-1;
 
 const subdir = "vorabcheck";
 
