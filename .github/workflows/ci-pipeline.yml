@@ -77,10 +77,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: content-file
-          path: content-file
 
       - name: Copy Content File to Correct Directory
-        run: cp content-file/content.json "${{ secrets.CONTENT_FILE_PATH }}"
+        run: cp content.json "${{ secrets.CONTENT_FILE_PATH }}"
 
       - name: Cache Playwright browsers
         uses: actions/cache@v3
@@ -125,10 +124,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: content-file
-          path: content-file
 
       - name: Copy Content File to Correct Directory
-        run: cp content-file/content.json "${{ secrets.CONTENT_FILE_PATH }}"
+        run: cp content.json "${{ secrets.CONTENT_FILE_PATH }}"
 
       - name: Build an image from Dockerfile
         run: |
