@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, file-e2e]
   pull_request:
     branches: [main]
   # Allow to run this workflow manually
@@ -14,6 +14,27 @@ env:
   IMAGE_VERSION: ${{ github.sha }}
 
 jobs:
+  create-content-file:
+    permissions:
+      packages: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Parse Content to File
+        uses: ./.github/actions/parse-content-to-file
+        with:
+          STRAPI_HOST: "${{ secrets.STRAPI_HOST }}"
+          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
+          CONTENT_FILE_PATH: "${{ secrets.CONTENT_FILE_PATH }}"
+
+      - name: Upload Content File for further steps
+        uses: actions/upload-artifact@v3
+        with:
+          name: content-file
+          path: "${{ secrets.CONTENT_FILE_PATH }}"
+
   build-app:
     permissions:
       packages: read
@@ -89,12 +110,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Parse Content to File
-        uses: ./.github/actions/parse-content-to-file
+      - name: Download Content File
+        uses: actions/download-artifact@v3
         with:
-          STRAPI_HOST: "${{ secrets.STRAPI_HOST }}"
-          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
-          CONTENT_FILE_PATH: "${{ secrets.CONTENT_FILE_PATH }}"
+          name: content-file
+          path: "${{ secrets.CONTENT_FILE_PATH }}"
 
       - name: Build an image from Dockerfile
         run: |
