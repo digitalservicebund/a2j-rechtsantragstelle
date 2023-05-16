@@ -1,5 +1,5 @@
 import type { StateMachine } from "xstate";
-import { createMachine, StateNode } from "xstate";
+import { createMachine } from "xstate";
 import config from "./beratungshilfe.json";
 import guards from "./guards";
 
