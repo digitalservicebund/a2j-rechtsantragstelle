@@ -36,6 +36,7 @@ jobs:
           path: "${{ secrets.CONTENT_FILE_PATH }}"
 
   build-app:
+    needs: [create-content-file]
     permissions:
       packages: read
     runs-on: ubuntu-latest
@@ -72,6 +73,12 @@ jobs:
       - name: Get Playwright version
         run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages[''].devDependencies['@playwright/test'])")" >> $GITHUB_ENV
 
+      - name: Download Content File
+        uses: actions/download-artifact@v3
+        with:
+          name: content-file
+          path: "${{ secrets.CONTENT_FILE_PATH }}"
+
       - name: Cache Playwright browsers
         uses: actions/cache@v3
         id: playwright-cache
@@ -87,6 +94,8 @@ jobs:
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
+          CONTENT_FILE_PATH: "${{ secrets.CONTENT_FILE_PATH }}"
+          CMS: "FILE"
         run: npx playwright test
 
       - name: Upload Playwright test results
@@ -98,7 +107,7 @@ jobs:
           retention-days: 30
 
   build-push-image:
-    needs: [build-app, create-content-file]
+    needs: [build-app]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
