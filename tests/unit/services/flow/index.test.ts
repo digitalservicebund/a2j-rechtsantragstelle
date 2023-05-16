@@ -10,7 +10,6 @@ import {
 
 import config from "~/services/flow/beratungshilfe.json";
 
-// Test getStateMachine
 test("getStateMachine should return a valid state machine", () => {
   const stepID = config.initial;
   const context = {};
@@ -18,13 +17,11 @@ test("getStateMachine should return a valid state machine", () => {
   expect(stateMachine).toBeDefined();
 });
 
-// Test getInitialStep
 test("getInitialStep should return the initial step", () => {
   const initialStep = getInitialStep();
   expect(initialStep).toBe(config.initial);
 });
 
-// Test isLastStep
 test("isLastStep should return true for the last step", () => {
   const lastStep = "abschlussJa";
   const isLast = isLastStep(lastStep);
@@ -37,7 +34,6 @@ test("isLastStep should return false for a non-last step", () => {
   expect(isLast).toBe(false);
 });
 
-// Test hasStep
 test("hasStep should return true for an existing step", () => {
   const existingStep = config.initial;
   const hasStepValue = hasStep(existingStep);
