@@ -73,8 +73,6 @@ jobs:
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
-          CONTENT_FILE_PATH: "${{ secrets.CONTENT_FILE_PATH }}"
-          CMS: "FILE"
         run: npx playwright test
 
       - name: Upload Playwright test results
