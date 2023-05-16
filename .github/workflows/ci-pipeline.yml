@@ -98,7 +98,7 @@ jobs:
           retention-days: 30
 
   build-push-image:
-    needs: [build-app]
+    needs: [build-app, create-content-file]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
