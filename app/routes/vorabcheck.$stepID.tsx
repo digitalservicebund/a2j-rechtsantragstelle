@@ -38,7 +38,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
 ];
 
-const initialStepID = getInitialStep();
+const initialstepId = getInitialStep();
 
 const getReasonsToDisplay = (
   reasons: { attributes: ElementWithId }[] | undefined,
@@ -65,14 +65,14 @@ const getReasonsToDisplay = (
 };
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-  const stepID = params.stepID?.replace("#", "");
-  if (!hasStep(stepID) || stepID === undefined) {
-    return redirect(`/vorabcheck/${initialStepID}`);
+  const stepId = params.stepId?.replace("#", "");
+  if (!hasStep(stepId) || stepId === undefined) {
+    return redirect(`/vorabcheck/${initialstepId}`);
   }
 
   const session = await getSession(request.headers.get("Cookie"));
 
-  const currentPage = formPages[stepID];
+  const currentPage = formPages[stepId];
   let formPageContent: VorabcheckPage | undefined;
   let resultPageContent: ResultPageContent | undefined;
   let resultReasonsToDisplay: ElementWithId[] | undefined;
@@ -92,7 +92,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   let additionalContext = {};
   if ("additionalContext" in currentPage) {
     for (const requestedContext of currentPage["additionalContext"]) {
-      // Use .find(), since answers are nested below stepID and there is no fast lookup by name alone
+      // Use .find(), since answers are nested below stepId and there is no fast lookup by name alone
       additionalContext = {
         ...additionalContext,
         ...Object.values(session.data).find((el) => requestedContext in el),
@@ -100,10 +100,10 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     }
   }
 
-  const progressBar = getProgressBar(stepID, session.data);
+  const progressBar = getProgressBar(stepId, session.data);
 
   return json({
-    defaultValues: session.data[stepID],
+    defaultValues: session.data[stepId],
     commonContent,
     preFormContent: formPageContent?.pre_form,
     formContent: formPageContent?.form,
@@ -112,23 +112,23 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     meta: formPageContent?.meta || resultPageContent?.meta,
     progressStep: progressBar.current,
     progressTotal: progressBar.total,
-    isLast: isLastStep(stepID),
-    previousStep: getPreviousStep(stepID, session.data),
+    isLast: isLastStep(stepId),
+    previousStep: getPreviousStep(stepId, session.data),
     additionalContext,
   });
 };
 export const action: ActionFunction = async ({ params, request }) => {
   const session = await getSession(request.headers.get("Cookie"));
   const formData = await request.formData();
+  const stepId = params.stepId as string;
+  const validationResult = await allValidators[stepId].validate(formData);
 
-  const stepID = params.stepID as string;
-  const validationResult = await allValidators[stepID].validate(formData);
   if (validationResult.error) return validationError(validationResult.error);
-  session.set(stepID, validationResult.data);
 
-  let destinationString = getNextStep(stepID, session.data);
-
+  session.set(stepId, validationResult.data);
   const headers = { "Set-Cookie": await commitSession(session) };
+
+  let destinationString = getNextStep(stepId, session.data);
   return redirect(`/vorabcheck/${String(destinationString)}`, {
     status: 302,
     headers,
@@ -151,8 +151,8 @@ export default function Index() {
   } = useLoaderData<typeof loader>();
   const stepProgress = progressStep;
   const params = useParams();
-  const stepID = params.stepID as string;
-  const FormInputComponent = formPages[stepID].component;
+  const stepId = params.stepId as string;
+  const FormInputComponent = formPages[stepId].component;
 
   if (resultContent) {
     return (
@@ -179,9 +179,9 @@ export default function Index() {
             <div className="ds-stack-40">
               <PageContent content={preFormContent} className="ds-stack-16" />
               <ValidatedForm
-                key={`${stepID}_form`}
+                key={`${stepId}_form`}
                 method="post"
-                validator={allValidators[stepID]}
+                validator={allValidators[stepId]}
                 defaultValues={defaultValues}
                 noValidate
               >
