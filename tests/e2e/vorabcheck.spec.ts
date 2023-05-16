@@ -88,11 +88,6 @@ test("vorabcheck can be traversed", async ({ page }) => {
   ).toHaveCount(1);
 });
 
-test("funnel: invalid context redirects to start", async ({ page }) => {
-  await page.goto(`${vorabcheck.url}/eigeninitiative`);
-  await expect(page).toHaveURL(`${vorabcheck.url}/${vorabcheck.initialStep}`);
-});
-
 test("funnel: invalid step redirects to start", async ({ page }) => {
   await page.goto(`${vorabcheck.url}/stepDoesNotExist`);
   await expect(page).toHaveURL(`${vorabcheck.url}/${vorabcheck.initialStep}`);

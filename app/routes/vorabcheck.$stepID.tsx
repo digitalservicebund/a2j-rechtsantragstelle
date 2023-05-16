@@ -28,6 +28,7 @@ import {
   getInitialStep,
   getNextStep,
   getPreviousStep,
+  getProgressBar,
   hasStep,
   isLastStep,
 } from "~/services/flow";
@@ -99,6 +100,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     }
   }
 
+  const progressBar = getProgressBar(stepID, session.data);
+
   return json({
     defaultValues: session.data[stepID],
     commonContent,
@@ -107,8 +110,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     resultContent: resultPageContent,
     resultReasonsToDisplay,
     meta: formPageContent?.meta || resultPageContent?.meta,
-    progressStep: 1, //FIXME,
-    progressTotal: 10, //FIXME,
+    progressStep: progressBar.current,
+    progressTotal: progressBar.total,
     isLast: isLastStep(stepID),
     previousStep: getPreviousStep(stepID, session.data),
     additionalContext,
@@ -146,7 +149,7 @@ export default function Index() {
     previousStep,
     additionalContext,
   } = useLoaderData<typeof loader>();
-  const stepProgress = progressTotal - progressStep + 1;
+  const stepProgress = progressStep;
   const params = useParams();
   const stepID = params.stepID as string;
   const FormInputComponent = formPages[stepID].component;
