@@ -23,6 +23,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Parse Content to File
+        uses: ./.github/actions/parse-content-to-file
+        with:
+          STRAPI_HOST: "${{ secrets.STRAPI_HOST }}"
+          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
+          CONTENT_FILE_PATH: "${{ secrets.CONTENT_FILE_PATH }}"
+
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -48,13 +55,6 @@ jobs:
       - name: Run unit tests
         run: npm test
 
-      - name: Parse Content to File
-        uses: ./.github/actions/parse-content-to-file
-        with:
-          STRAPI_HOST: "${{ secrets.STRAPI_HOST }}"
-          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
-          CONTENT_FILE_PATH: "${{ secrets.CONTENT_FILE_PATH }}"
-
       - name: Get Playwright version
         run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages[''].devDependencies['@playwright/test'])")" >> $GITHUB_ENV
 
@@ -73,6 +73,8 @@ jobs:
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
+          CONTENT_FILE_PATH: "${{ secrets.CONTENT_FILE_PATH }}"
+          CMS: "FILE"
         run: npx playwright test
 
       - name: Upload Playwright test results
