@@ -16,3 +16,6 @@ tsconfig.tsbuildinfo
 .idea
 
 lefthook-local.yml
+
+pg_init/
+.DS_Store
