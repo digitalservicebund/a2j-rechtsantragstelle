@@ -46,7 +46,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.7.0",
+    "@axe-core/playwright": "^4.7.1",
     "@playwright/test": "^1.33.0",
     "@remix-run/dev": "^1.16.0",
     "@remix-run/eslint-config": "^1.16.0",
