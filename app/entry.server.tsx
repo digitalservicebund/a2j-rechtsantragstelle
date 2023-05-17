@@ -10,6 +10,7 @@ import config from "./services/config";
 Sentry.init({
   dsn: config().SENTRY_DSN,
   tracesSampleRate: 1,
+  environment: config().ENV,
 });
 
 const ABORT_DELAY = 5000;
