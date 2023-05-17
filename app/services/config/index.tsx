@@ -33,10 +33,10 @@ export default function get(): config {
         process.env.STRAPI_API?.trim().replace("api/", "") ||
         "",
       STRAPI_ACCESS_KEY: process.env.STRAPI_ACCESS_KEY?.trim() || "",
-      CMS: process.env.CMS || "",
+      CMS: process.env.CMS || "FILE",
       ENV: process.env.NODE_ENV || "development",
       SENTRY_DSN: process.env.SENTRY_DSN?.trim() || "",
-      CONTENT_FILE_PATH: process.env.CONTENT_FILE_PATH || "",
+      CONTENT_FILE_PATH: process.env.CONTENT_FILE_PATH || "./content.json",
     };
   }
 
