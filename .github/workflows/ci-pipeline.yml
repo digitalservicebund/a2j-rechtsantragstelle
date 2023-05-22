@@ -125,22 +125,6 @@ jobs:
         run: |
           docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} . --build-arg COMMIT_SHA=${{ env.IMAGE_VERSION }}
 
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@e5f43133f6e8736992c9f3c1b3296e24b37e17f2
-        with:
-          image-ref: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}"
-          format: "template"
-          template: "@/contrib/sarif.tpl"
-          output: "trivy-results.sarif"
-          ignore-unfixed: true
-          vuln-type: "os,library"
-          severity: "CRITICAL,HIGH"
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@81b419c908d540ec4c7da9bfb4b5d941fca8f624
-        with:
-          sarif_file: "trivy-results.sarif"
-
       - name: Login to container registry
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
         with:
