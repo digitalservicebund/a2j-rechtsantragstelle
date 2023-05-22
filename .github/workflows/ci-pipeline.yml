@@ -160,24 +160,17 @@ jobs:
     runs-on: ubuntu-latest
     environment: staging
     steps:
-      - name: Check out infra repo
-        uses: actions/checkout@v3
+      - name: Deploy new images
+        uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
         with:
-          repository: digitalservicebund/a2j-rechtsantragstelle-infra
-          ssh-key: ${{ secrets.DEPLOY_KEY }}
-
-      - name: Update image tag for staging
-        run: |
-          cd manifests/overlays/staging
-          kustomize edit set image ghcr.io/digitalservicebund/a2j-rechtsantragstelle:${{ env.IMAGE_VERSION }}
-
-      - name: Commit and push
-        uses: EndBug/add-and-commit@1bad3abcf0d6ec49a5857d124b0bfb52dc7bb081
-        with:
-          add: "manifests/overlays/staging/kustomization.yaml"
-          message: "Update staging image to ${{ env.IMAGE_VERSION }}"
-          pathspec_error_handling: exitImmediately
-          push: true
+          environment: production
+          version: ${{ env.IMAGE_VERSION }}
+          deploying_repo: a2j-rechtsantragstelle
+          infra_repo: a2j-rechtsantragstelle-infra
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          app: a2j-rast-staging
+          argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
+          argocd_server: ${{ secrets.ARGOCD_SERVER }}
 
       - name: Report Deployment
         uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
