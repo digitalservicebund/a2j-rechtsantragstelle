@@ -30,3 +30,4 @@ runs:
       env:
         STRAPI_HOST: "${{ inputs.STRAPI_HOST }}"
         STRAPI_ACCESS_KEY: "${{ inputs.STRAPI_ACCESS_KEY }}"
+        CONTENT_FILE_PATH: content.json
