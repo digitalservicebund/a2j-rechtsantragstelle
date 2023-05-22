@@ -14,7 +14,7 @@ const moneyToCents = (validatedMoney: string) => {
 
   const num = Number(v);
 
-  if (num === -0) return 0;
+  if (Object.is(num, -0)) return 0;
 
   return num;
 };
