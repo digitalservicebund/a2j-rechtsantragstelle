@@ -27,13 +27,12 @@ jobs:
         with:
           STRAPI_HOST: "${{ secrets.STRAPI_HOST }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
-          CONTENT_FILE_PATH: "${{ secrets.CONTENT_FILE_PATH }}"
 
       - name: Upload Content File for further steps
         uses: actions/upload-artifact@v3
         with:
           name: content-file
-          path: "${{ secrets.CONTENT_FILE_PATH }}"
+          path: content.json
 
   build-app:
     needs: [create-content-file]
@@ -78,9 +77,6 @@ jobs:
         with:
           name: content-file
 
-      - name: Copy Content File to Correct Directory
-        run: cp content.json "${{ secrets.CONTENT_FILE_PATH }}"
-
       - name: Cache Playwright browsers
         uses: actions/cache@v3
         id: playwright-cache
@@ -96,7 +92,6 @@ jobs:
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
-          CONTENT_FILE_PATH: "${{ secrets.CONTENT_FILE_PATH }}"
           CMS: "FILE"
         run: npx playwright test
 
@@ -125,9 +120,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: content-file
-
-      - name: Copy Content File to Correct Directory
-        run: cp content.json "${{ secrets.CONTENT_FILE_PATH }}"
 
       - name: Build an image from Dockerfile
         run: |

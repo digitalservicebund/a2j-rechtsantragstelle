@@ -11,5 +11,6 @@
 !tsconfig.json
 !.env.example
 !start.sh
+!content.json
 **/*.test.*
 /public/build/
