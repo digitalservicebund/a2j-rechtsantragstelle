@@ -9,6 +9,8 @@ const RichText = ({ markdown, renderer, ...props }: RichTextProps) => {
   // Reset marked to default options before use because of a bug in marked https://github.com/markedjs/marked/issues/907
   marked.setOptions(marked.getDefaults());
   marked.use({
+    mangle: false,
+    headerIds: false,
     renderer: renderer || {
       link(href: string, title: string, text: string) {
         if (href.includes("ext:")) {
