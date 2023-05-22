@@ -6,6 +6,7 @@ node_modules
 /public/uploads
 .env
 tsconfig.tsbuildinfo
+content.json
 
 # Playwright
 /test-results/
