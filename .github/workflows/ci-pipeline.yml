@@ -160,10 +160,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: staging
     steps:
-      - name: Deploy new images
+      - name: Deploy new staging image
         uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
         with:
-          environment: production
+          environment: staging
           version: ${{ env.IMAGE_VERSION }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
@@ -177,5 +177,31 @@ jobs:
         with:
           project: a2j-rechtsantragstelle
           environment: staging
+          metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
+          metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
+
+  deploy-production:
+    needs: [deploy-staging]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Deploy new production image
+        uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
+        with:
+          environment: production
+          version: ${{ env.IMAGE_VERSION }}
+          deploying_repo: a2j-rechtsantragstelle
+          infra_repo: a2j-rechtsantragstelle-infra
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          app: a2j-rast-production
+          argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
+          argocd_server: ${{ secrets.ARGOCD_SERVER }}
+
+      - name: Report Deployment
+        uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
+        with:
+          project: a2j-rechtsantragstelle
+          environment: production
           metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
           metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
