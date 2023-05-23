@@ -1,7 +1,6 @@
-import type { Locale } from "~/services/cms/models/Locale";
+import type { Localizable } from "../Localizable";
 
-export type VorabCheckCommons = {
-  locale: Locale;
+export interface VorabCheckCommons extends Localizable {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
@@ -10,4 +9,4 @@ export type VorabCheckCommons = {
   backButtonDefaultLabel: string;
   nextButtonDefaultLabel: string;
   lastNextButtonLabel: string;
-};
+}
