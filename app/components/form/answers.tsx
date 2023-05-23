@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { FormComponentCMS } from "~/services/cms/models/formComponents";
+import type { FormComponentCms } from "~/services/cms/models/FormComponentCms";
 import RadioGroupWithContent from "~/components/RadioGroupWithContent";
 
 export const YesNoAnswer = z.enum(["yes", "no"]);
@@ -10,7 +10,7 @@ export const defaultYesNoOptions = [
 ];
 
 export function yesNoRadioGroup(
-  content: FormComponentCMS[] = [],
+  content: FormComponentCms[] = [],
   schema: z.AnyZodObject
 ) {
   const fieldname = schema.keyof()._def.values[0] as string;

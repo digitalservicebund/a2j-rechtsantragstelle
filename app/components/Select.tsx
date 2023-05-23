@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { useField } from "remix-validated-form";
 import classNames from "classnames";
 import { InputError, InputLabel } from "~/components";
-import type { SelectOption } from "~/services/cms/models/formComponents";
+import type { SelectOption } from "~/services/cms/models/SelectOption";
 
 type SelectProps = {
   name: string;

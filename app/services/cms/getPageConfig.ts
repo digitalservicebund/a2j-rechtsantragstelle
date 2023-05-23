@@ -1,8 +1,8 @@
 import cms from "~/services/cms";
-import type { FormComponentCMS } from "./models/formComponents";
+import type { FormComponentCms } from "./models/FormComponentCms";
 import type { VorabcheckPage } from "./models/VorabcheckPage";
-import type { Input as InputContent } from "./models/formComponents";
-import type { ErrorCategory } from "./models/formComponents";
+import type { Input as InputContent } from "./models/Input";
+import type { ErrorCategory } from "./models/ErrorCategory";
 import type { Page } from "./models/Page";
 import type { ResultPage } from "~/services/cms/models/ResultPage";
 
@@ -11,14 +11,14 @@ export type StrapiPage = {
   attributes: VorabcheckPage;
 };
 
-export function getInputsContent(content: FormComponentCMS[]) {
+export function getInputsContent(content: FormComponentCms[]) {
   return content.filter(
     (el) => el.__component === "form-elements.input"
   ) as InputContent[];
 }
 
 export function getRelevantInputContent(
-  content: FormComponentCMS[] = [],
+  content: FormComponentCms[] = [],
   inputName: string
 ) {
   const matchingElements = getInputsContent(content).filter(

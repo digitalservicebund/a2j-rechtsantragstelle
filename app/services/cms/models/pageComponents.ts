@@ -1,6 +1,6 @@
 import type { Heading, Paragraph } from "./contentComponents";
 import type { Image } from "./basicComponents";
-import type { Button } from "./formComponents";
+import type { Button } from "./Button";
 import type { Background, Container } from "./metaComponents";
 
 export type Header = {

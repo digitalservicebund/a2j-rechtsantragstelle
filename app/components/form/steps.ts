@@ -27,7 +27,7 @@ import { emptyStep } from "~/components/form/steps/emptyStep";
 import { mieteStep } from "./steps/miete";
 import { weitereZahlungenStep } from "./steps/weitereZahlungen";
 import { weitereZahlungenSummeStep } from "./steps/weitereZahlungenSumme";
-import type { FormComponentCMS } from "~/services/cms/models/formComponents";
+import type { FormComponentCms } from "~/services/cms/models/FormComponentCms";
 import { genauigkeitStep } from "~/components/form/steps/genauigkeit";
 import { einkommenPartnerStep } from "~/components/form/steps/einkommenPartner";
 import { einkommenKinderStep } from "~/components/form/steps/einkommenKinder";
@@ -65,7 +65,7 @@ export const Steps = {
 } as const;
 
 export type StepComponentProps = {
-  content: FormComponentCMS[];
+  content: FormComponentCms[];
   additionalContext?: Record<string, string>;
   defaultValues?: Record<string, any>;
 };
