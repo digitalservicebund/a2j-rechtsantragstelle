@@ -1,4 +1,3 @@
-import { Locale } from "~/services/cms/models/Locale";
 import StrapiCMS from "~/services/cms/strapi";
 import { Parameter, RequestBuilder } from "~/services/cms/strapi/client";
 import type { IClient } from "~/services/cms/strapi/client";
@@ -43,7 +42,7 @@ it("should return a menu", async () => {
   document.attributes.items.data = data;
 
   const strapiCMS = new StrapiCMS(mockObject);
-  const result = await strapiCMS.getMenu("1", Locale.de);
+  const result = await strapiCMS.getMenu("1", "de");
 
   expect(mockObject.getDocument).toBeCalledWith(
     "menus",
@@ -73,11 +72,11 @@ it("should return a page", async () => {
   document.attributes.items.data = data;
 
   const strapiCMS = new StrapiCMS(mockObject);
-  const result = await strapiCMS.getPage(pageName, Locale.de);
+  const result = await strapiCMS.getPage(pageName, "de");
 
   expect(mockObject.getDocument).toBeCalledWith(
     pageName,
-    new RequestBuilder().setLocale(Locale.de).toRequest()
+    new RequestBuilder().setLocale("de").toRequest()
   );
   expect(result).toEqual(document.attributes);
 });
@@ -97,12 +96,12 @@ it("should return a page by name", async () => {
   document.attributes.items.data = data;
 
   const strapiCMS = new StrapiCMS(mockObject);
-  const result = await strapiCMS.getPageFromCollection("", slug, Locale.de);
+  const result = await strapiCMS.getPageFromCollection("", slug, "de");
 
   expect(mockObject.getDocument).toBeCalledWith(
     "pages",
     new RequestBuilder()
-      .setLocale(Locale.de)
+      .setLocale("de")
       .addFilter({
         field: "slug",
         value: slug,

@@ -1,6 +1,6 @@
 import config from "../../config";
 import axios from "axios";
-import { Locale } from "~/services/cms/models/Locale";
+import type { Locale } from "~/services/cms/models/Locale";
 
 export class Document {
   id: number = 0;
@@ -67,7 +67,7 @@ export default class Client implements IClient {
     }
 
     if (request.locale != undefined) {
-      url += `&locale=${Locale[request.locale]}`;
+      url += `&locale=${request.locale}`;
     }
 
     if (request.parameters != undefined) {
