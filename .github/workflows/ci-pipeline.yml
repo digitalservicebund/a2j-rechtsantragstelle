@@ -145,12 +145,12 @@ jobs:
 
       - name: Build an image from Dockerfile
         run: |
-          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} . --build-arg COMMIT_SHA=${{ env.IMAGE_VERSION }}
+          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }} . --build-arg COMMIT_SHA=${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@e5f43133f6e8736992c9f3c1b3296e24b37e17f2
         with:
-          image-ref: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}"
+          image-ref: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}"
           format: "template"
           template: "@/contrib/sarif.tpl"
           output: "trivy-results.sarif"
@@ -172,9 +172,11 @@ jobs:
 
       - name: Push image
         run: |
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}
           docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+    outputs:
+      content_checksum: ${{ steps.checksum-calculation.outputs.content_checksum }}
 
   deploy-staging:
     needs: [build-push-image]
@@ -186,7 +188,7 @@ jobs:
         uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
         with:
           environment: staging
-          version: ${{ env.IMAGE_VERSION }}
+          version: ${{ env.IMAGE_VERSION }}-${{ needs.build-push-image.outputs.content_checksum }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
           deploy_key: ${{ secrets.DEPLOY_KEY }}
@@ -203,7 +205,7 @@ jobs:
           metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
 
   deploy-production:
-    needs: [deploy-staging]
+    needs: [deploy-staging, build-push-image]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
@@ -212,7 +214,7 @@ jobs:
         uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
         with:
           environment: production
-          version: ${{ env.IMAGE_VERSION }}
+          version: ${{ env.IMAGE_VERSION }}-${{ needs.build-push-image.outputs.content_checksum }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
           deploy_key: ${{ secrets.DEPLOY_KEY }}
