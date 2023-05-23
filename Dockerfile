@@ -14,7 +14,7 @@ RUN apk add --no-cache dumb-init \
   && rm -rf /var/cache/apk/*
 
 USER node
-ENV NODE_ENV=production
+ENV ENVIRONMENT=production
 ARG COMMIT_SHA
 ENV APP_VERSION=$COMMIT_SHA
 

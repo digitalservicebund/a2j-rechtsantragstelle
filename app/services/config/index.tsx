@@ -3,24 +3,25 @@ export interface config {
   STRAPI_HOST: string;
   STRAPI_ACCESS_KEY: string;
   CMS: string;
-  ENV: string;
-  SENTRY_DSN: string;
 }
 
 export interface webConfig {
   SENTRY_DSN: string;
+  ENVIRONMENT: string;
 }
 
 let instance: config | undefined = undefined;
 
+const getNodeOrWebEnv = () =>
+  typeof window !== "undefined" ? (window as any)?.ENV : process.env;
+
 export function getWebConfig(): webConfig {
   return {
-    SENTRY_DSN:
-      typeof window !== "undefined"
-        ? (window as any)?.ENV.SENTRY_DSN?.trim()
-        : get().SENTRY_DSN?.trim(),
+    SENTRY_DSN: getNodeOrWebEnv().SENTRY_DSN?.trim() || "",
+    ENVIRONMENT: getNodeOrWebEnv().ENVIRONMENT || "local",
   };
 }
+
 export default function get(): config {
   if (instance === undefined) {
     instance = {
@@ -33,8 +34,6 @@ export default function get(): config {
         "",
       STRAPI_ACCESS_KEY: process.env.STRAPI_ACCESS_KEY?.trim() || "",
       CMS: process.env.CMS || "FILE",
-      ENV: process.env.NODE_ENV || "development",
-      SENTRY_DSN: process.env.SENTRY_DSN?.trim() || "",
     };
   }
 
