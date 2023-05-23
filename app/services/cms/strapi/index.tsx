@@ -1,5 +1,5 @@
 import type { CMS } from "..";
-import { Locale } from "~/services/cms/models/Locale";
+import type { Locale } from "~/services/cms/models/Locale";
 import type { Document, IClient } from "./client";
 import StrapiClient, { RequestBuilder, Parameter } from "./client";
 import type BaseDocument from "../models/BaseDocument";
@@ -19,7 +19,7 @@ export default class StrapiCMS implements CMS {
     const request = new RequestBuilder()
       .setFilter({
         field: "slug",
-        value: `${id}_${Locale[locale ?? LOCALE_DEFAULT]}`,
+        value: `${id}_${locale ?? LOCALE_DEFAULT}`,
       })
       .addParameter(Parameter.nested)
       .toRequest();
