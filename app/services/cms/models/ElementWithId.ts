@@ -1,11 +1,11 @@
 import type { FormContentCMS } from "~/services/cms/models/contentComponents";
+import type { Localizable } from "./Localizable";
 
-export type ElementWithId = {
+export interface ElementWithId extends Localizable {
   id?: number;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
-  locale: string;
   elementId: string;
   element: FormContentCMS[];
-};
+}
