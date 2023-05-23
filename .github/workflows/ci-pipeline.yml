@@ -69,6 +69,24 @@ jobs:
       - name: Run unit tests
         run: npm test
 
+  e2e-tests:
+    needs: [build-app]
+    permissions:
+      packages: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+          cache: "npm"
+
+      - run: npm install
+
       - name: Get Playwright version
         run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages[''].devDependencies['@playwright/test'])")" >> $GITHUB_ENV
 
@@ -104,7 +122,7 @@ jobs:
           retention-days: 30
 
   build-push-image:
-    needs: [build-app]
+    needs: [e2e-tests]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
