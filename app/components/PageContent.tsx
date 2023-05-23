@@ -4,7 +4,7 @@ import Header from "./Header";
 import InfoBox from "./InfoBox";
 import type { FormContentCMS } from "~/services/cms/models/contentComponents";
 import type { PageComponentCMS } from "~/services/cms/models/pageComponents";
-import type { Button as ButtonCMS } from "~/services/cms/models/formComponents";
+import type { Button as ButtonCMS } from "~/services/cms/models/Button";
 import type {
   Container as ContainerCMS,
   Background as BackgroundCMS,

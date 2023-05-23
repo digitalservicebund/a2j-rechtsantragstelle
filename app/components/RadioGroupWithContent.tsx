@@ -1,19 +1,17 @@
 import { RadioGroup } from "~/components";
-import type {
-  FormComponentCMS,
-  Select,
-} from "~/services/cms/models/formComponents";
+import type { Select } from "~/services/cms/models/Select";
+import type { FormComponentCms } from "~/services/cms/models/FormComponentCms";
 
 type DefaultOptions = { value: any; text: string }[];
 
 type RadioGroupWithContentProps = {
   name: string;
-  content: FormComponentCMS[];
+  content: FormComponentCms[];
   defaultOptions?: DefaultOptions;
 };
 
 const filterMatchingContent = (
-  content: FormComponentCMS[] = [],
+  content: FormComponentCms[] = [],
   fieldname: string
 ) => {
   return content.filter(
@@ -22,7 +20,7 @@ const filterMatchingContent = (
 };
 
 export function getRelevantOptions(
-  content: FormComponentCMS[],
+  content: FormComponentCms[],
   id: string,
   defaultOptions?: DefaultOptions
 ) {

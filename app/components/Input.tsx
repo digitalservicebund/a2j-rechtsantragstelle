@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { useField } from "remix-validated-form";
 import classNames from "classnames";
 import { InputError, InputLabel } from "~/components";
-import type { ErrorCategory } from "~/services/cms/models/formComponents";
+import type { ErrorCategory } from "~/services/cms/models/ErrorCategory";
 import { flattenErrorCodes } from "~/services/cms/getPageConfig";
 
 type InputProps = {
