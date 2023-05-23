@@ -139,6 +139,10 @@ jobs:
         with:
           name: content-file
 
+      - name: Calculate file checksum
+        id: checksum-calculation
+        run: echo "content_checksum=$(md5sum content.json | awk '{ print $1; }')" >> $GITHUB_OUTPUT
+
       - name: Build an image from Dockerfile
         run: |
           docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} . --build-arg COMMIT_SHA=${{ env.IMAGE_VERSION }}
