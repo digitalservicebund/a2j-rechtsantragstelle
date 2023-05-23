@@ -5,12 +5,10 @@ import type {
   RelationOneToMany,
   RelationOneToOne,
 } from "~/services/cms/models/commons/concepts";
+import type { Timestampable } from "./Timestampable";
 
-export type ResultPage = {
+export interface ResultPage extends Timestampable {
   slug: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
   meta: {
     id: number;
     title: string;
@@ -24,6 +22,6 @@ export type ResultPage = {
   nextSteps: RelationOneToOne<ElementWithId>;
   freeZone: FormContentCMS[];
   nextLink?: Link;
-};
+}
 
 export type ResultPageType = "error" | "success" | "warning";
