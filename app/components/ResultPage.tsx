@@ -7,7 +7,7 @@ import {
 } from "@mui/icons-material";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";
-import type { ResultPageType } from "~/services/cms/models/ResultPage";
+import type { ResultPageType } from "~/services/cms/models/ResultPageType";
 import type { ReactElement } from "react";
 import PageContent from "~/components/PageContent";
 import { Button } from "~/components/index";
