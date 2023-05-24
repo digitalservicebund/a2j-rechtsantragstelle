@@ -1,10 +1,15 @@
-import type { Timestampable } from "./Timestampable";
-import type { FormContentCms } from "./FormContentCms";
+import { z } from "zod";
+import { FormContentCmsSchema } from "./FormContentCms";
+import { TimestampableSchema } from "./Timestampable";
 
-export interface Page extends Timestampable {
-  slug: string;
-  meta: {
-    title: string;
-  };
-  content: FormContentCms[];
-}
+export const PageSchema = TimestampableSchema.merge(
+  z.object({
+    slug: z.string(),
+    meta: z.object({
+      title: z.string(),
+    }),
+    content: z.array(FormContentCmsSchema),
+  })
+);
+
+export type Page = z.infer<typeof PageSchema>;
