@@ -44,11 +44,4 @@ export type Box = {
   container: Container;
 };
 
-export type NavigationItem = {
-  id: number;
-  text: string;
-  targeturl: string;
-  baseurl: string;
-};
-
 export type PageComponentCMS = Header | InfoBox | Box;
