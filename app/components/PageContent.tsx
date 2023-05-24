@@ -2,7 +2,7 @@ import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
 import Header from "./Header";
 import InfoBox from "./InfoBox";
-import type { FormContentCMS } from "~/services/cms/models/contentComponents";
+import type { FormContentCms } from "~/services/cms/models/FormContentCms";
 import type { PageComponentCMS } from "~/services/cms/models/pageComponents";
 import type { Button as ButtonCMS } from "~/services/cms/models/Button";
 import type {
@@ -18,7 +18,7 @@ import type { ReactElement } from "react";
 import Button from "./Button";
 
 type PageContentProps = {
-  content: Array<FormContentCMS | PageComponentCMS>;
+  content: Array<FormContentCms | PageComponentCMS>;
   className?: string;
 };
 
@@ -62,7 +62,7 @@ const wrapInBackground = (
 };
 
 function cmsToReact(
-  element: FormContentCMS | PageComponentCMS | ButtonCMS,
+  element: FormContentCms | PageComponentCMS | ButtonCMS,
   key?: string | number
 ) {
   if (element.__component === "basic.heading") {
