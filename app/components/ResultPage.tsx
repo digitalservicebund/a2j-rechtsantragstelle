@@ -15,7 +15,7 @@ import { ButtonContainer } from "~/components/ButtonContainer";
 import type { ElementWithId } from "~/services/cms/models/ElementWithId";
 import classes from "classnames";
 import ProgressBarArea from "~/components/form/ProgressBarArea";
-import type { VorabCheckCommons } from "~/services/cms/models/commons/VorabCheckCommons";
+import type { VorabCheckCommons } from "~/services/cms/models/VorabCheckCommons";
 
 type ResultPageProps = {
   content: ResultPageContent & VorabCheckCommons;
