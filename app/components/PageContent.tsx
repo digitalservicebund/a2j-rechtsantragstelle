@@ -5,10 +5,8 @@ import InfoBox from "./InfoBox";
 import type { FormContentCms } from "~/services/cms/models/FormContentCms";
 import type { PageComponentCMS } from "~/services/cms/models/pageComponents";
 import type { Button as ButtonCMS } from "~/services/cms/models/Button";
-import type {
-  Container as ContainerCMS,
-  Background as BackgroundCMS,
-} from "~/services/cms/models/metaComponents";
+import type { Container as ContainerCMS } from "~/services/cms/models/Container";
+import type { Background as BackgroundCMS } from "~/services/cms/models/Background";
 import Box from "./Box";
 import type { ContainerProps } from "./Container";
 import Container from "./Container";
