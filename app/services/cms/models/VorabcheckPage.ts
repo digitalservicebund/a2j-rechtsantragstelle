@@ -1,13 +1,18 @@
-import type { Timestampable } from "./Timestampable";
-import type { FormContentCms } from "./FormContentCms";
-import type { FormComponentCms } from "./FormComponentCms";
+import { z } from "zod";
+import { FormComponentCmsSchema } from "./FormComponentCms";
+import { FormContentCmsSchema } from "./FormContentCms";
+import { TimestampableSchema } from "./Timestampable";
 
-export interface VorabcheckPage extends Timestampable {
-  slug: string;
-  meta: {
-    id: number;
-    title: string;
-  };
-  pre_form: FormContentCms[];
-  form: FormComponentCms[];
-}
+export const VorabcheckPageSchema = TimestampableSchema.merge(
+  z.object({
+    slug: z.string(),
+    meta: z.object({
+      id: z.number(),
+      title: z.string(),
+    }),
+    pre_form: z.array(FormContentCmsSchema),
+    form: z.array(FormComponentCmsSchema),
+  })
+);
+
+export type VorabcheckPage = z.infer<typeof VorabcheckPageSchema>;
