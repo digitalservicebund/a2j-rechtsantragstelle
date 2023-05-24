@@ -1,5 +1,5 @@
 import type { Timestampable } from "./Timestampable";
-import type { FormContentCMS } from "./contentComponents";
+import type { FormContentCms } from "./FormContentCms";
 import type { FormComponentCms } from "./FormComponentCms";
 
 export interface VorabcheckPage extends Timestampable {
@@ -8,6 +8,6 @@ export interface VorabcheckPage extends Timestampable {
     id: number;
     title: string;
   };
-  pre_form: FormContentCMS[];
+  pre_form: FormContentCms[];
   form: FormComponentCms[];
 }

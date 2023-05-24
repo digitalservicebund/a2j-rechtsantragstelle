@@ -1,4 +1,6 @@
-import type { FormContentCMS, Heading, Paragraph } from "./contentComponents";
+import type { FormContentCms } from "./FormContentCms";
+import type { Heading } from "./Heading";
+import type { Paragraph } from "./Paragraph";
 import type { Link } from "~/services/cms/models/basicComponents";
 import type { ElementWithId } from "~/services/cms/models/ElementWithId";
 import type {
@@ -20,7 +22,7 @@ export interface ResultPage extends Timestampable {
   reasonings: RelationOneToMany<ElementWithId>;
   documents: RelationOneToOne<ElementWithId>;
   nextSteps: RelationOneToOne<ElementWithId>;
-  freeZone: FormContentCMS[];
+  freeZone: FormContentCms[];
   nextLink?: Link;
 }
 

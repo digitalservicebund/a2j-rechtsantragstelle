@@ -1,10 +1,10 @@
 import type { Timestampable } from "./Timestampable";
-import type { FormContentCMS } from "./contentComponents";
+import type { FormContentCms } from "./FormContentCms";
 
 export interface Page extends Timestampable {
   slug: string;
   meta: {
     title: string;
   };
-  content: FormContentCMS[];
+  content: FormContentCms[];
 }

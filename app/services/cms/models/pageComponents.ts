@@ -1,4 +1,5 @@
-import type { Heading, Paragraph } from "./contentComponents";
+import type { Heading } from "./Heading";
+import type { Paragraph } from "./Paragraph";
 import type { Image } from "./basicComponents";
 import type { Button } from "./Button";
 import type { Background, Container } from "./metaComponents";

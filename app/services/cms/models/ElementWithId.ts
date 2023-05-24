@@ -1,9 +1,9 @@
-import type { FormContentCMS } from "~/services/cms/models/contentComponents";
+import type { FormContentCms } from "~/services/cms/models/FormContentCms";
 import type { Localizable } from "./Localizable";
 import type { Timestampable } from "./Timestampable";
 
 export interface ElementWithId extends Localizable, Timestampable {
   id?: number;
   elementId: string;
-  element: FormContentCMS[];
+  element: FormContentCms[];
 }
