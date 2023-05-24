@@ -1,0 +1,15 @@
+name: "Test Production Text"
+description: "Check that a specific text is displayed on the production system"
+inputs:
+  PRODUCTION_BASIC_AUTH_TOKEN:
+    description: "Token to use for accessing the production environment"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+
+    - name: Execute text-test script
+      shell: bash
+      run: sh .github/actions/production-text-test/test-text.sh ${{ inputs.PRODUCTION_BASIC_AUTH_TOKEN }}
