@@ -1,28 +1,52 @@
-import type { FormContentCms } from "./FormContentCms";
-import type { Heading } from "./Heading";
-import type { Paragraph } from "./Paragraph";
-import type { Link } from "~/services/cms/models/Link";
-import type { ElementWithId } from "~/services/cms/models/ElementWithId";
-import type {
-  RelationOneToMany,
-  RelationOneToOne,
-} from "~/services/cms/models/commons/concepts";
-import type { Timestampable } from "./Timestampable";
-import type { ResultPageType } from "./ResultPageType";
+import { z } from "zod";
+import { ElementWithIdSchema } from "./ElementWithId";
+import { FormContentCmsSchema } from "./FormContentCms";
+import { HeadingSchema } from "./Heading";
+import { LinkSchema } from "./Link";
+import { ParagraphSchema } from "./Paragraph";
+import { ResultPageTypeSchema } from "./ResultPageType";
+import { TimestampableSchema } from "./Timestampable";
 
-export interface ResultPage extends Timestampable {
-  slug: string;
-  meta: {
-    id: number;
-    title: string;
-  };
-  pageType: ResultPageType;
-  heading: Heading;
-  hintText?: Paragraph;
-  linkText?: string;
-  reasonings: RelationOneToMany<ElementWithId>;
-  documents: RelationOneToOne<ElementWithId>;
-  nextSteps: RelationOneToOne<ElementWithId>;
-  freeZone: FormContentCms[];
-  nextLink?: Link;
-}
+export const ResultPageSchema = TimestampableSchema.merge(
+  z.object({
+    slug: z.string(),
+    meta: z.object({
+      id: z.number(),
+      title: z.string(),
+    }),
+    pageType: ResultPageTypeSchema,
+    heading: HeadingSchema,
+    hintText: ParagraphSchema.optional(),
+    linkText: z.string().optional(),
+    reasonings: z.object({
+      data: z
+        .array(
+          z.object({
+            id: z.number(),
+            attributes: ElementWithIdSchema,
+          })
+        )
+        .optional(),
+    }),
+    documents: z.object({
+      data: z
+        .object({
+          id: z.number(),
+          attributes: ElementWithIdSchema,
+        })
+        .optional(),
+    }),
+    nextSteps: z.object({
+      data: z
+        .object({
+          id: z.number(),
+          attributes: ElementWithIdSchema,
+        })
+        .optional(),
+    }),
+    freeZone: z.array(FormContentCmsSchema),
+    nextLink: LinkSchema.optional(),
+  })
+);
+
+export type ResultPage = z.infer<typeof ResultPageSchema>;
