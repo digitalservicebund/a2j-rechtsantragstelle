@@ -1,6 +1,6 @@
 import { Button } from "~/components";
 import { ButtonContainer } from "~/components/ButtonContainer";
-import type { VorabCheckCommons } from "~/services/cms/models/commons/VorabCheckCommons";
+import type { VorabCheckCommons } from "~/services/cms/models/VorabCheckCommons";
 
 interface ButtonNavigationProps {
   backDestination?: string;

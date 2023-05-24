@@ -21,7 +21,7 @@ import ResultPage from "~/components/ResultPage";
 import type { ElementWithId } from "~/services/cms/models/ElementWithId";
 import { Background } from "~/components";
 import ProgressBarArea from "~/components/form/ProgressBarArea";
-import type { VorabCheckCommons } from "~/services/cms/models/commons/VorabCheckCommons";
+import type { VorabCheckCommons } from "~/services/cms/models/VorabCheckCommons";
 import cms from "~/services/cms";
 
 import {
