@@ -3,10 +3,10 @@ import Paragraph from "~/components/Paragraph";
 import Header from "./Header";
 import InfoBox from "./InfoBox";
 import type { FormContentCms } from "~/services/cms/models/FormContentCms";
-import type { PageComponentCMS } from "~/services/cms/models/pageComponents";
-import type { Button as ButtonCMS } from "~/services/cms/models/Button";
-import type { Container as ContainerCMS } from "~/services/cms/models/Container";
-import type { Background as BackgroundCMS } from "~/services/cms/models/Background";
+import type { PageComponentCms } from "~/services/cms/models/PageComponentCms";
+import type { Button as ButtonCms } from "~/services/cms/models/Button";
+import type { Container as ContainerCms } from "~/services/cms/models/Container";
+import type { Background as BackgroundCms } from "~/services/cms/models/Background";
 import Box from "./Box";
 import type { ContainerProps } from "./Container";
 import Container from "./Container";
@@ -16,12 +16,12 @@ import type { ReactElement } from "react";
 import Button from "./Button";
 
 type PageContentProps = {
-  content: Array<FormContentCms | PageComponentCMS>;
+  content: Array<FormContentCms | PageComponentCms>;
   className?: string;
 };
 
 const transformCmsData = (
-  cmsData: ContainerCMS | BackgroundCMS
+  cmsData: ContainerCms | BackgroundCms
 ): ContainerProps | BackgroundProps => {
   return {
     ...cmsData,
@@ -33,7 +33,7 @@ const transformCmsData = (
 };
 
 const wrapInContainer = (
-  cmsData: { [key: string]: any; container?: ContainerCMS },
+  cmsData: { [key: string]: any; container?: ContainerCms },
   reactElement: ReactElement
 ): ReactElement => {
   if (!cmsData.container) {
@@ -49,7 +49,7 @@ const wrapInContainer = (
 };
 
 const wrapInBackground = (
-  cmsData: { [key: string]: any; outerBackground?: BackgroundCMS },
+  cmsData: { [key: string]: any; outerBackground?: BackgroundCms },
   reactElement: ReactElement
 ): ReactElement => {
   if (!cmsData.outerBackground) {
@@ -60,7 +60,7 @@ const wrapInBackground = (
 };
 
 function cmsToReact(
-  element: FormContentCms | PageComponentCMS | ButtonCMS,
+  element: FormContentCms | PageComponentCms | ButtonCms,
   key?: string | number
 ) {
   if (element.__component === "basic.heading") {
