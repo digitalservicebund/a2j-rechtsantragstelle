@@ -8,6 +8,7 @@ import type {
   RelationOneToOne,
 } from "~/services/cms/models/commons/concepts";
 import type { Timestampable } from "./Timestampable";
+import type { ResultPageType } from "./ResultPageType";
 
 export interface ResultPage extends Timestampable {
   slug: string;
@@ -25,5 +26,3 @@ export interface ResultPage extends Timestampable {
   freeZone: FormContentCms[];
   nextLink?: Link;
 }
-
-export type ResultPageType = "error" | "success" | "warning";
