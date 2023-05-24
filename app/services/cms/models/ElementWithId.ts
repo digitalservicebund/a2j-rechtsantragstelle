@@ -1,9 +1,16 @@
-import type { FormContentCms } from "~/services/cms/models/FormContentCms";
-import type { Localizable } from "./Localizable";
-import type { Timestampable } from "./Timestampable";
+import { z } from "zod";
+import { FormContentCmsSchema } from "./FormContentCms";
+import { LocalizableSchema } from "./Localizable";
+import { TimestampableSchema } from "./Timestampable";
 
-export interface ElementWithId extends Localizable, Timestampable {
-  id?: number;
-  elementId: string;
-  element: FormContentCms[];
-}
+export const ElementWithIdSchema = LocalizableSchema.merge(
+  TimestampableSchema
+).merge(
+  z.object({
+    id: z.number().optional(),
+    elementId: z.string(),
+    element: z.array(FormContentCmsSchema),
+  })
+);
+
+export type ElementWithId = z.infer<typeof ElementWithIdSchema>;
