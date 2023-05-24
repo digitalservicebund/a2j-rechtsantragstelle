@@ -1,7 +1,7 @@
 import type { Page } from "~/services/cms/models/Page";
 import type { ElementWithId } from "~/services/cms/models/ElementWithId";
 import type { ErrorCategory } from "~/services/cms/models/ErrorCategory";
-import type { SingleComponentCMS } from "~/services/cms/models/singleComponents";
+import type { SingleComponentCms } from "~/services/cms/models/SingleComponentCms";
 import type { VorabCheckCommons } from "~/services/cms/models/commons/VorabCheckCommons";
 import type { ResultPage } from "~/services/cms/models/ResultPage";
 import type { VorabcheckPage } from "~/services/cms/models/VorabcheckPage";
@@ -30,6 +30,6 @@ export const loadContentFile = (filePath: string) => {
           | ElementWithId
           | ErrorCategory;
       }[]
-    | { attributes: SingleComponentCMS | VorabCheckCommons }
+    | { attributes: SingleComponentCms | VorabCheckCommons }
   >;
 };
