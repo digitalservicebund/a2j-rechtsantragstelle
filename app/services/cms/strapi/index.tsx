@@ -2,8 +2,11 @@ import type { CMS } from "..";
 import type { Locale } from "~/services/cms/models/Locale";
 import type { Document, IClient } from "./client";
 import StrapiClient, { RequestBuilder, Parameter } from "./client";
-import type BaseDocument from "../models/BaseDocument";
 import { COLLECTION_DEFAULT, COLLECTION_MAP, LOCALE_DEFAULT } from "..";
+
+class BaseDocument {
+  id: number = 0;
+}
 
 export default class StrapiCMS implements CMS {
   client: IClient;
