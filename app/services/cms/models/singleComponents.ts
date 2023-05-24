@@ -1,5 +1,6 @@
-import type { Image, Link } from "~/services/cms/models/basicComponents";
+import type { Image } from "~/services/cms/models/Image";
 import type { Paragraph } from "~/services/cms/models/Paragraph";
+import type { Link } from "~/services/cms/models/Link";
 import type { NavigationItem } from "~/services/cms/models/pageComponents";
 import type { RelationOneToOne } from "~/services/cms/models/commons/concepts";
 

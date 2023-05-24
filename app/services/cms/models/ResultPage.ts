@@ -1,7 +1,7 @@
 import type { FormContentCms } from "./FormContentCms";
 import type { Heading } from "./Heading";
 import type { Paragraph } from "./Paragraph";
-import type { Link } from "~/services/cms/models/basicComponents";
+import type { Link } from "~/services/cms/models/Link";
 import type { ElementWithId } from "~/services/cms/models/ElementWithId";
 import type {
   RelationOneToMany,
