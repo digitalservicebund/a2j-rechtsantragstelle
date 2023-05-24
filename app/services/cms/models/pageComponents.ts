@@ -2,7 +2,8 @@ import type { Heading } from "./Heading";
 import type { Paragraph } from "./Paragraph";
 import type { Image } from "./Image";
 import type { Button } from "./Button";
-import type { Background, Container } from "./metaComponents";
+import type { Background } from "./Background";
+import type { Container } from "./Container";
 
 export type Header = {
   id: number;
