@@ -1,6 +1,9 @@
 import Heading from "~/components/Heading";
+import type { ParagraphProps } from "~/components/Paragraph";
 import Paragraph from "~/components/Paragraph";
+import type { HeaderProps } from "./Header";
 import Header from "./Header";
+import type { InfoBoxProps } from "./InfoBox";
 import InfoBox from "./InfoBox";
 import type { FormContentCms } from "~/services/cms/models/FormContentCms";
 import type { PageComponentCms } from "~/services/cms/models/PageComponentCms";
@@ -14,6 +17,7 @@ import type { BackgroundProps } from "./Background";
 import Background from "./Background";
 import type { ReactElement } from "react";
 import Button from "./Button";
+import _ from "lodash";
 
 type PageContentProps = {
   content: Array<FormContentCms | PageComponentCms>;
@@ -49,7 +53,7 @@ const wrapInContainer = (
 };
 
 const wrapInBackground = (
-  cmsData: { [key: string]: any; outerBackground?: BackgroundCms },
+  cmsData: { [key: string]: any; outerBackground?: BackgroundCms | null },
   reactElement: ReactElement
 ): ReactElement => {
   if (!cmsData.outerBackground) {
@@ -60,21 +64,28 @@ const wrapInBackground = (
 };
 
 function cmsToReact(
-  element: FormContentCms | PageComponentCms | ButtonCms,
+  element: FormContentCms | PageComponentCms,
   key?: string | number
 ) {
+  const props = _.omit(element, "id", "__component");
   if (element.__component === "basic.heading") {
-    return <Heading {...element} key={element.id} />;
+    return <Heading {...props} key={element.id} />;
   } else if (element.__component === "basic.paragraph") {
-    return Paragraph({ ...element, key, className: "ds-body-01-reg" });
+    return (
+      <Paragraph
+        {...(props as ParagraphProps)}
+        className="ds-body-01-reg"
+        key={element.id}
+      />
+    );
   } else if (element.__component === "page.header") {
-    return <Header {...element} key={element.id} />;
-  } else if (element.__component === "form-elements.button") {
-    return <Button {...element} key={element.id} />;
+    return <Header {...(props as HeaderProps)} key={element.id} />;
+    // } else if (element.__component === "form-elements.button") {
+    //    return <Button {...props ad ButtonProps} key={element.id} />;
   } else if (element.__component === "page.info-box") {
-    return <InfoBox {...element} key={element.id} />;
+    return <InfoBox {...(props as InfoBoxProps)} key={element.id} />;
   } else if (element.__component === "page.box") {
-    return <Box {...element} key={element.id} />;
+    return <Box {...props} key={element.id} />;
   } else {
     return <div />;
   }

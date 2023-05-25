@@ -5,12 +5,12 @@ import { ImageSchema } from "./Image";
 
 export const InfoBoxItemSchema = z.object({
   id: z.number(),
-  __component: z.literal("page.info-box-item"),
-  label: HeadingSchema.optional(),
-  headline: HeadingSchema,
+  __component: z.literal("page.info-box-item").optional(),
+  label: HeadingSchema.nullable(),
+  headline: HeadingSchema.nullable(),
   image: ImageSchema.optional(),
   content: z.string(),
-  button: ButtonSchema.optional(),
+  button: ButtonSchema.nullable(),
 });
 
 export type InfoBoxItem = z.infer<typeof InfoBoxItemSchema>;

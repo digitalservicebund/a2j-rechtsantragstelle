@@ -18,7 +18,9 @@ export const kinderAnzahlSimpleStep = {
         name={fieldName}
         type={inputContent.type}
         label={inputContent.label}
-        placeholder={inputContent.placeholder}
+        placeholder={
+          inputContent.placeholder ? inputContent.placeholder : undefined
+        }
         errors={inputContent.errors.data}
       />
     );

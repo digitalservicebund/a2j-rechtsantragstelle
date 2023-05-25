@@ -25,7 +25,9 @@ export const kinderAnzahlStep = {
             defaultValue={defaultValues?.[inputElement.name] || "0"}
             label={inputElement.label}
             type={inputElement.type}
-            placeholder={inputElement.placeholder}
+            placeholder={
+              inputElement.placeholder ? inputElement.placeholder : undefined
+            }
             errors={inputElement.errors.data}
           />
         ))}

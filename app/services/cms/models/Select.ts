@@ -3,10 +3,10 @@ import { SelectOptionSchema } from "./SelectOption";
 
 export const SelectSchema = z.object({
   id: z.number(),
-  __component: z.literal("form-elements.select"),
+  __component: z.literal("form-elements.select").optional(),
   name: z.string(),
-  label: z.string().optional(),
-  altLabel: z.string().optional(),
+  label: z.string().nullable(),
+  altLabel: z.string().nullable(),
   options: z.array(SelectOptionSchema),
 });
 

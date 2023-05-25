@@ -174,7 +174,9 @@ const ResultPage = ({
                 <Button
                   type={content.nextLink?.url ? undefined : "submit"}
                   name={content.nextLink?.url ? undefined : "_action"}
-                  href={content.nextLink?.url}
+                  href={
+                    content.nextLink?.url ? content.nextLink?.url : undefined
+                  }
                   size="large"
                   className="w-fit"
                 >

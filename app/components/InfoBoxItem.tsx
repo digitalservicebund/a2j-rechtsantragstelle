@@ -7,11 +7,11 @@ import type { ButtonLinkProps } from "./Button";
 import Button from "./Button";
 
 export type InfoBoxItemProps = {
-  label?: HeadingProps;
-  headline?: HeadingProps;
+  label?: HeadingProps | null;
+  headline?: HeadingProps | null;
   image?: ImageProps;
   content?: string;
-  button?: ButtonLinkProps;
+  button?: ButtonLinkProps | null;
 };
 
 const InfoBoxItem = ({

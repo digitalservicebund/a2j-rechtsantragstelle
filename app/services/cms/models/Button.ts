@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const ButtonSchema = z.object({
-  id: z.string(), // TODO: check why this can't be a number
-  __component: z.literal("form-elements.button"),
+  id: z.number(),
+  __component: z.literal("form-elements.button").optional(),
   look: z
     .union([
       z.literal("primary"),

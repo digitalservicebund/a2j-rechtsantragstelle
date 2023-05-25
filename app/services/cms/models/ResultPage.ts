@@ -10,14 +10,16 @@ import { TimestampableSchema } from "./Timestampable";
 export const ResultPageSchema = TimestampableSchema.merge(
   z.object({
     slug: z.string(),
-    meta: z.object({
-      id: z.number(),
-      title: z.string(),
-    }),
+    meta: z
+      .object({
+        id: z.number(),
+        title: z.string(),
+      })
+      .nullable(),
     pageType: ResultPageTypeSchema,
     heading: HeadingSchema,
-    hintText: ParagraphSchema.optional(),
-    linkText: z.string().optional(),
+    hintText: ParagraphSchema.nullable(),
+    linkText: z.string().nullable(),
     reasonings: z.object({
       data: z
         .array(
@@ -26,7 +28,7 @@ export const ResultPageSchema = TimestampableSchema.merge(
             attributes: ElementWithIdSchema,
           })
         )
-        .optional(),
+        .nullable(),
     }),
     documents: z.object({
       data: z
@@ -34,7 +36,7 @@ export const ResultPageSchema = TimestampableSchema.merge(
           id: z.number(),
           attributes: ElementWithIdSchema,
         })
-        .optional(),
+        .nullable(),
     }),
     nextSteps: z.object({
       data: z
@@ -42,10 +44,10 @@ export const ResultPageSchema = TimestampableSchema.merge(
           id: z.number(),
           attributes: ElementWithIdSchema,
         })
-        .optional(),
+        .nullable(),
     }),
     freeZone: z.array(FormContentCmsSchema),
-    nextLink: LinkSchema.optional(),
+    nextLink: LinkSchema.nullable(),
   })
 );
 

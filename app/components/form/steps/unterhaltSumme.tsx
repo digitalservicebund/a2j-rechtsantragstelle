@@ -19,7 +19,9 @@ export const unterhaltSummeStep = {
         type="number"
         step="any"
         label={inputContent.label}
-        placeholder={inputContent.placeholder}
+        placeholder={
+          inputContent.placeholder ? inputContent.placeholder : undefined
+        }
         suffix="€"
         errors={inputContent.errors.data}
       />
