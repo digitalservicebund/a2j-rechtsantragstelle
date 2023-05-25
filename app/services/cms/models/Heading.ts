@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const HeadingSchema = z.object({
   id: z.number(),
-  __component: z.literal("basic.heading"),
+  __component: z.literal("basic.heading").optional(),
   text: z.string(),
   tagName: z.union([
     z.literal("h1"),

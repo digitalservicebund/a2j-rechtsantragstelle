@@ -18,7 +18,9 @@ export const mieteStep = {
         name={fieldName}
         type={inputContent.type}
         label={inputContent.label}
-        placeholder={inputContent.placeholder}
+        placeholder={
+          inputContent.placeholder ? inputContent.placeholder : undefined
+        }
         suffix="€"
         errors={inputContent.errors.data}
       />

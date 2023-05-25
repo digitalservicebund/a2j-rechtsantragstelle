@@ -1,12 +1,6 @@
-import type { Page } from "~/services/cms/models/Page";
-import type { ElementWithId } from "~/services/cms/models/ElementWithId";
-import type { ErrorCategory } from "~/services/cms/models/ErrorCategory";
-import type { SingleComponentCms } from "~/services/cms/models/SingleComponentCms";
-import type { VorabCheckCommons } from "~/services/cms/models/VorabCheckCommons";
-import type { ResultPage } from "~/services/cms/models/ResultPage";
-import type { VorabcheckPage } from "~/services/cms/models/VorabcheckPage";
 import fs from "fs";
 import path from "path";
+import { FileContentSchema } from "../models/FileContent";
 
 export const getContentFilePath = (
   filePath: string,
@@ -19,17 +13,5 @@ export const getContentFilePath = (
 export const loadContentFile = (filePath: string) => {
   const content = fs.readFileSync(filePath);
   const jsonContent = JSON.parse(content.toString());
-  // TODO refine type to avoid unknown casting
-  return jsonContent as unknown as Record<
-    string,
-    | {
-        attributes:
-          | Page
-          | VorabcheckPage
-          | ResultPage
-          | ElementWithId
-          | ErrorCategory;
-      }[]
-    | { attributes: SingleComponentCms | VorabCheckCommons }
-  >;
+  return FileContentSchema.strict().parse(jsonContent);
 };

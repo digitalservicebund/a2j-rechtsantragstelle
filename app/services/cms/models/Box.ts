@@ -7,12 +7,12 @@ import { ParagraphSchema } from "./Paragraph";
 
 export const BoxSchema = z.object({
   id: z.number(),
-  __component: z.literal("page.box"),
-  label: HeadingSchema.optional(),
-  heading: HeadingSchema.optional(),
+  __component: z.literal("page.box").optional(),
+  label: HeadingSchema.nullable(),
+  heading: HeadingSchema.nullable(),
   content: ParagraphSchema.optional(),
-  button: ButtonSchema.optional(),
-  outerBackground: BackgroundSchema.optional(),
+  button: ButtonSchema.nullable(),
+  outerBackground: BackgroundSchema.nullable(),
   container: ContainerSchema,
 });
 

@@ -19,7 +19,9 @@ export const weitereZahlungenSummeStep = {
         type="number"
         step="any"
         label={inputContent.label}
-        placeholder={inputContent.placeholder}
+        placeholder={
+          inputContent.placeholder ? inputContent.placeholder : undefined
+        }
         suffix="€"
         errors={inputContent.errors.data}
       />

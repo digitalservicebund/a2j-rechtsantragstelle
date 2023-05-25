@@ -6,10 +6,10 @@ import { InfoBoxItemSchema } from "./InfoBoxItem";
 
 export const InfoBoxSchema = z.object({
   id: z.number(),
-  __component: z.literal("page.info-box"),
-  heading: HeadingSchema.optional(),
+  __component: z.literal("page.info-box").optional(),
+  heading: HeadingSchema.nullable(),
   items: z.array(InfoBoxItemSchema),
-  outerBackground: BackgroundSchema.optional(),
+  outerBackground: BackgroundSchema.nullable(),
   container: ContainerSchema,
 });
 

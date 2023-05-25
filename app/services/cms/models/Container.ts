@@ -4,8 +4,8 @@ import { WrapperSchema } from "./Wrapper";
 export const ContainerSchema = WrapperSchema.merge(
   z.object({
     id: z.number(),
-    __component: z.literal("meta.container"),
+    __component: z.literal("meta.container").optional(),
   })
 );
 
-export type Container = z.infer<typeof WrapperSchema>;
+export type Container = z.infer<typeof ContainerSchema>;

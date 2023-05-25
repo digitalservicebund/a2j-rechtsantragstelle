@@ -4,14 +4,7 @@ import { LinkSchema } from "./Link";
 import { ParagraphSchema } from "./Paragraph";
 
 export const FooterSchema = z.object({
-  image: z.object({
-    data: z
-      .object({
-        id: z.number(),
-        attributes: ImageSchema,
-      })
-      .optional(),
-  }),
+  image: ImageSchema,
   paragraphs: z.array(ParagraphSchema),
   links: z.array(LinkSchema),
 });

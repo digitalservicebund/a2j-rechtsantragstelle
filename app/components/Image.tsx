@@ -6,7 +6,7 @@ export type ImageProps = {
       height: number;
       alternativeText: string | null;
     };
-  };
+  } | null;
 };
 
 function Image({ data, ...props }: ImageProps) {

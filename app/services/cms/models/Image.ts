@@ -11,7 +11,7 @@ export const ImageSchema = z.object({
         ext: z.string(),
       }),
     })
-    .optional(),
+    .nullable(),
 });
 
 export type Image = z.infer<typeof ImageSchema>;

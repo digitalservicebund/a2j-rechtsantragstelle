@@ -40,7 +40,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
 ];
 
 const getReasonsToDisplay = (
-  reasons: { attributes: ElementWithId }[] | undefined,
+  reasons: { attributes: ElementWithId }[] | null,
   context: any
 ) => {
   return reasons

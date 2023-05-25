@@ -6,10 +6,10 @@ import { ParagraphSchema } from "./Paragraph";
 
 export const HeaderSchema = z.object({
   id: z.number(),
-  __component: z.literal("page.header"),
+  __component: z.literal("page.header").optional(),
   heading: HeadingSchema,
   content: ParagraphSchema,
-  outerBackground: BackgroundSchema.optional(),
+  outerBackground: BackgroundSchema.nullable(),
   container: ContainerSchema,
 });
 
