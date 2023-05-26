@@ -59,64 +59,7 @@ Jeder Schritt ist für alle 4 Tabelle (`PLZORTK`, `GERBEH`, `PLZSTRN`, `PLZNEU`)
 - Items: 943380
 
 <details>
-<summary>JSON Layout JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json (241.4 mb)</summary>
-
-```typescript
-export interface Jmtd14VTErwerberPlzortk {
-  ORT: string;
-  GERBEH_LKZ: string;
-  GERBEH_LG: string;
-  PLZM_INFO: "Zustellbezirk";
-  GERBEH_OLG: GerbehOlg;
-  GERBEH_TYP_INFO: GerbehTypInfo;
-  ANGELEGENHEIT_INFO: string;
-  GERBEH_STAMM?: GerbehStamm;
-  GERBEH_AG: string;
-  PLZ: string;
-  ORTK: string;
-}
-
-export type GerbehTypInfo =
-  | "Staatsanwaltschaft"
-  | "Mahngericht"
-  | "Insolvenzgericht"
-  | "Zivilgericht - Amtsgericht"
-  | "Zivilgericht - Landgericht"
-  | "Verfassungsgericht"
-  | "Verwaltungsgericht"
-  | "Finanzgericht"
-  | "Arbeitsgericht"
-  | "Sozialgericht"
-  | "Handels-/ Genossenschaftsregister"
-  | "Vereinsregister"
-  | "Zentrales Vollstreckungsgericht"
-  | "Partnerschaftsregister"
-  | "ZVG Gericht"
-  | "Grundbuchamt"
-  | "Zivilgericht - Oberlandesgericht"
-  | "Zivilgericht - Bund"
-  | "Ministerium"
-  | "Sonstige Justizbehörde";
-
-export type GerbehOlg = "00" | "01" | "02" | "03";
-export type GerbehStamm =
-  | "00"
-  | "01"
-  | "02"
-  | "03"
-  | "04"
-  | "05"
-  | "06"
-  | "07"
-  | "08"
-  | "09"
-  | "10";
-```
-
-</details>
-
-<details>
-<summary>Data example</summary>
+<summary>Data example JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json (241.4 mb):</summary>
 
 ```json
 {
@@ -159,88 +102,7 @@ export type GerbehStamm =
 - Items: 2896
 
 <details>
-<summary>JSON Layout JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json (1.4 mb)</summary>
-
-```typescript
-export interface Jmtd14VTErwerberGerbeh {
-  PLZ_GROSSEMPFAENGER?: string;
-  XJUSTIZID?: string;
-  URL1?: string;
-  AG: string;
-  PLZ_ZUSTELLBEZIRK: string;
-  OLG: string;
-  TYP_INFO: TypInfo;
-  EMAIL1?: string;
-  ORT: string;
-  STR_HNR: string;
-  XML_SUPPORT: KammerFuerHandelssach;
-  BEZEICHNUNG: string;
-  LKZ: string;
-  TEL?: string;
-  LG: string;
-  FAX?: string;
-  ORTK: string;
-  ERV_MAHN?: Erv;
-  PLZ_POSTFACH?: string;
-  POSTFACH?: string;
-  ERV_ZIVIL?: Erv;
-  ERV_FAMILIE?: Erv;
-  AUT_MAHN_VERF_MERKMAL_INFO?: string;
-  KAMMER_FUER_HANDELSSACH?: KammerFuerHandelssach;
-  ERV_STRAF?: ErvStraf;
-  ERV_GRUNDBUCH?: Erv;
-  ERV_FG?: Erv;
-  EMAIL2?: string;
-  STAMM?: string;
-  URL2?: Url2;
-}
-
-export type Erv = "J" | "N";
-export type ErvStraf = "S" | "J";
-export type KammerFuerHandelssach = "NEIN" | "JA";
-export type TypInfo =
-  | "Arbeitsgericht"
-  | "Finanzgericht"
-  | "Ministerium"
-  | "Sonstige Justizbehörde"
-  | "Sozialgericht"
-  | "Staatsanwaltschaft"
-  | "Verfassungsgericht"
-  | "Verwaltungsgericht"
-  | "Zivilgericht - Bund"
-  | "Justizvollzugsanstalt"
-  | "Zivilgericht - Oberlandesgericht"
-  | "Führungsaufsichtsstelle"
-  | "Zivilgericht - Landgericht"
-  | "Handels-/ Genossenschaftsregister"
-  | "Insolvenzgericht"
-  | "Vereinsregister"
-  | "Zivilgericht - Amtsgericht"
-  | "ZVG Gericht"
-  | "Zentrales Vollstreckungsgericht"
-  | "Mahngericht"
-  | "Grundbuchamt"
-  | "Nachlassgericht"
-  | "Partnerschaftsregister"
-  | "Schiffsregister"
-  | "Ambulante soziale Dienste der Justiz"
-  | "Zivilgericht - Bundesland";
-
-export type Url2 =
-  | "www.justiz.bayern.de"
-  | "www.justiz-bayern.de"
-  | "www.berlin.de/sen/justiz"
-  | "www.lsg.berlin.brandenburg.de"
-  | "www.berlin.de/sen/justiz/"
-  | "www.sg-cottbus.brandenburg.de"
-  | "www.sg-frankfurt-oder.brandenburg.de"
-  | "www.sg-neuruppin.brandenburg.de";
-```
-
-</details>
-
-<details>
-<summary>Data Example</summary>
+<summary>Data Example JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json (1.4 mb):</summary>
 
 ```json
 {
@@ -277,26 +139,7 @@ export type Url2 =
 - Items: 3063
 
 <details>
-<summary>JSON Layout JMTD14_VT_ERWERBER_PLZNEU_DATA_TABLE.json (458 kb):</summary>
-
-```typescript
-export type GrundInfo =
-  | "PLZ/ORTK hat eine neue PLZ oder eine neue Ortsbezeichnung"
-  | "Die richtige Schreibweise für diese PLZ/ORTK";
-
-export interface Jmtd14VTErwerberPlzneu {
-  GRUND_INFO: GrundInfo;
-  PLZ_ALT: string;
-  ORTK_ALT: string;
-  PLZ: string;
-  ORTK: string;
-}
-```
-
-</details>
-
-<details>
-<summary>Data example</summary>
+<summary>Data example JMTD14_VT_ERWERBER_PLZNEU_DATA_TABLE.json (458 kb):</summary>
 
 ```json
 {
@@ -328,71 +171,7 @@ export interface Jmtd14VTErwerberPlzneu {
 - Unique PLZs: 93
 
 <details>
-<summary>JSON Layout JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json (20.7 mb):</summary>
-
-```typescript
-export interface Jmtd14VTErwerberPlzstrn {
-  HNR_BIS: string;
-  HNR_MERKMAL_INFO: HnrMerkmalInfo;
-  AG: string;
-  HNR_VON: string;
-  ANGELEGENHEIT_INFO: string;
-  STRN: string;
-  LKZ: string;
-  OLG: string;
-  LG: string;
-  TYP_INFO: TypInfo;
-  PLZ: string;
-  ORTK: Ortk;
-}
-
-export type HnrMerkmalInfo =
-  | "fortlaufende Hausnummern"
-  | "ungerade Hausnummern"
-  | "gerade Hausnummern";
-
-export type Ortk =
-  | "BERLIN"
-  | "FREIENWALDE"
-  | "HAMBURG"
-  | "HAMFELDE"
-  | "KOETHEL"
-  | "BREMEN"
-  | "WUPPERTAL"
-  | "ESSEN"
-  | "DUISBURG"
-  | "IGELSBACH"
-  | "STUTTGART"
-  | "REUTLINGEN";
-
-export type TypInfo =
-  | "Zivilgericht - Amtsgericht"
-  | "Finanzgericht"
-  | "Verwaltungsgericht"
-  | "Handels-/ Genossenschaftsregister"
-  | "Insolvenzgericht"
-  | "Zivilgericht - Landgericht"
-  | "Mahngericht"
-  | "Partnerschaftsregister"
-  | "Sozialgericht"
-  | "Staatsanwaltschaft"
-  | "Vereinsregister"
-  | "Verfassungsgericht"
-  | "Zentrales Vollstreckungsgericht"
-  | "ZVG Gericht"
-  | "Arbeitsgericht"
-  | "Zivilgericht - Oberlandesgericht"
-  | "Zivilgericht - Bund"
-  | "Ministerium"
-  | "Sonstige Justizbehörde"
-  | "Grundbuchamt"
-  | "Nachlassgericht";
-```
-
-</details>
-
-<details>
-<summary>Data example</summary>
+<summary>Data example JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json (20.7 mb):</summary>
 
 ```json
 {
