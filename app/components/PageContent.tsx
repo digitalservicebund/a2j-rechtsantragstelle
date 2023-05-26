@@ -7,7 +7,6 @@ import type { InfoBoxProps } from "./InfoBox";
 import InfoBox from "./InfoBox";
 import type { FormContentCms } from "~/services/cms/models/FormContentCms";
 import type { PageComponentCms } from "~/services/cms/models/PageComponentCms";
-import type { Button as ButtonCms } from "~/services/cms/models/Button";
 import type { Container as ContainerCms } from "~/services/cms/models/Container";
 import type { Background as BackgroundCms } from "~/services/cms/models/Background";
 import Box from "./Box";
@@ -16,7 +15,6 @@ import Container from "./Container";
 import type { BackgroundProps } from "./Background";
 import Background from "./Background";
 import type { ReactElement } from "react";
-import Button from "./Button";
 import _ from "lodash";
 
 type PageContentProps = {
@@ -63,10 +61,7 @@ const wrapInBackground = (
   return <Background {...config}>{reactElement}</Background>;
 };
 
-function cmsToReact(
-  element: FormContentCms | PageComponentCms,
-  key?: string | number
-) {
+function cmsToReact(element: FormContentCms | PageComponentCms) {
   const props = _.omit(element, "id", "__component");
   if (element.__component === "basic.heading") {
     return <Heading {...props} key={element.id} />;
@@ -80,8 +75,6 @@ function cmsToReact(
     );
   } else if (element.__component === "page.header") {
     return <Header {...(props as HeaderProps)} key={element.id} />;
-    // } else if (element.__component === "form-elements.button") {
-    //    return <Button {...props ad ButtonProps} key={element.id} />;
   } else if (element.__component === "page.info-box") {
     return <InfoBox {...(props as InfoBoxProps)} key={element.id} />;
   } else if (element.__component === "page.box") {
@@ -95,7 +88,7 @@ const PageContent = ({ content = [], className }: PageContentProps) => (
   <div className={className}>
     {content.map((el, idx) => (
       <div key={idx}>
-        {wrapInBackground(el, wrapInContainer(el, cmsToReact(el, idx)))}
+        {wrapInBackground(el, wrapInContainer(el, cmsToReact(el)))}
       </div>
     ))}
   </div>
