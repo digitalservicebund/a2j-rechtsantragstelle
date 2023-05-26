@@ -4,7 +4,7 @@ import { useLoaderData } from "@remix-run/react";
 import {
   gerbehIndex,
   isKeyOfObject,
-} from "~/services/gerichtsfinder/convert_json";
+} from "~/services/gerichtsfinder/convertJsonDataTable";
 import type {
   Jmtd14VTErwerberGerbeh,
   Jmtd14VTErwerberPlzstrn,
