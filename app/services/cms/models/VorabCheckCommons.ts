@@ -11,6 +11,7 @@ export const VorabCheckCommonsSchema = z
     lastNextButtonLabel: z.string(),
   })
   .merge(HasLocaleSchema)
-  .merge(HasTimestampsSchema);
+  .merge(HasTimestampsSchema)
+  .strict();
 
 export type VorabCheckCommons = z.infer<typeof VorabCheckCommonsSchema>;

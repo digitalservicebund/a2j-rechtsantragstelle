@@ -13,5 +13,5 @@ export const getContentFilePath = (
 export const loadContentFile = (filePath: string) => {
   const content = fs.readFileSync(filePath);
   const jsonContent = JSON.parse(content.toString());
-  return FileContentSchema.strict().parse(jsonContent);
+  return FileContentSchema.parse(jsonContent);
 };

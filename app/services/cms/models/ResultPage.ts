@@ -1,21 +1,17 @@
 import { z } from "zod";
 import { ElementWithIdSchema } from "./ElementWithId";
 import { FormContentCmsSchema } from "./FormContentCms";
+import { HasLocaleSchema } from "./HasLocale";
+import { HasMetaSchema } from "./HasMeta";
+import { HasSlugSchema } from "./HasSlug";
+import { HasTimestampsSchema } from "./HasTimestamps";
 import { HeadingSchema } from "./Heading";
 import { LinkSchema } from "./Link";
 import { ParagraphSchema } from "./Paragraph";
 import { ResultPageTypeSchema } from "./ResultPageType";
-import { HasTimestampsSchema } from "./HasTimestamps";
 
 export const ResultPageSchema = z
   .object({
-    slug: z.string(),
-    meta: z
-      .object({
-        id: z.number(),
-        title: z.string(),
-      })
-      .nullable(),
     pageType: ResultPageTypeSchema,
     heading: HeadingSchema,
     hintText: ParagraphSchema.nullable(),
@@ -49,6 +45,10 @@ export const ResultPageSchema = z
     freeZone: z.array(FormContentCmsSchema),
     nextLink: LinkSchema.nullable(),
   })
-  .merge(HasTimestampsSchema);
+  .merge(HasLocaleSchema)
+  .merge(HasMetaSchema)
+  .merge(HasSlugSchema)
+  .merge(HasTimestampsSchema)
+  .strict();
 
 export type ResultPage = z.infer<typeof ResultPageSchema>;

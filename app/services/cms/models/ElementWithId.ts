@@ -5,11 +5,11 @@ import { HasTimestampsSchema } from "./HasTimestamps";
 
 export const ElementWithIdSchema = z
   .object({
-    id: z.number().optional(),
     elementId: z.string(),
     element: z.array(FormContentCmsSchema),
   })
   .merge(HasLocaleSchema)
-  .merge(HasTimestampsSchema);
+  .merge(HasTimestampsSchema)
+  .strict();
 
 export type ElementWithId = z.infer<typeof ElementWithIdSchema>;
