@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { HasIdSchema } from "./HasId";
 import { WrapperSchema } from "./Wrapper";
 
 export const ContainerSchema = z
@@ -6,6 +7,8 @@ export const ContainerSchema = z
     id: z.number(),
     __component: z.literal("meta.container").optional(),
   })
-  .merge(WrapperSchema);
+  .merge(WrapperSchema)
+  .merge(HasIdSchema)
+  .strict();
 
 export type Container = z.infer<typeof ContainerSchema>;

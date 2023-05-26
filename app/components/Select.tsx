@@ -2,12 +2,16 @@ import type { ReactNode } from "react";
 import { useField } from "remix-validated-form";
 import classNames from "classnames";
 import { InputError, InputLabel } from "~/components";
-import type { SelectOption } from "~/services/cms/models/SelectOption";
+
+type SelectOptionProps = {
+  text: string;
+  value: string;
+};
 
 type SelectProps = {
   name: string;
   label?: ReactNode;
-  options: SelectOption[];
+  options: SelectOptionProps[];
 };
 
 const Select = ({ name, label, options }: SelectProps) => {
