@@ -6,7 +6,7 @@ export const InputSchema = z.object({
   __component: z.literal("form-elements.input").optional(),
   name: z.string(),
   label: z.string().nullable(),
-  type: z.union([z.literal("text"), z.literal("number")]),
+  type: z.enum(["text", "number"]),
   placeholder: z.string().nullable(),
   errors: z.object({
     data: z
