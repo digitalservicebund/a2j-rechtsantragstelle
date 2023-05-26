@@ -7,8 +7,8 @@ import { ParagraphSchema } from "./Paragraph";
 import { ResultPageTypeSchema } from "./ResultPageType";
 import { HasTimestampsSchema } from "./HasTimestamps";
 
-export const ResultPageSchema = HasTimestampsSchema.merge(
-  z.object({
+export const ResultPageSchema = z
+  .object({
     slug: z.string(),
     meta: z
       .object({
@@ -49,6 +49,6 @@ export const ResultPageSchema = HasTimestampsSchema.merge(
     freeZone: z.array(FormContentCmsSchema),
     nextLink: LinkSchema.nullable(),
   })
-);
+  .merge(HasTimestampsSchema);
 
 export type ResultPage = z.infer<typeof ResultPageSchema>;
