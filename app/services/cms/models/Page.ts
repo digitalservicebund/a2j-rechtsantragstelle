@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { FormContentCmsSchema } from "./FormContentCms";
-import { TimestampableSchema } from "./Timestampable";
+import { HasTimestampsSchema } from "./HasTimestamps";
 
-export const PageSchema = TimestampableSchema.merge(
+export const PageSchema = HasTimestampsSchema.merge(
   z.object({
     slug: z.string(),
     meta: z.object({

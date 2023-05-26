@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { LocalizableSchema } from "./Localizable";
-import { TimestampableSchema } from "./Timestampable";
+import { HasLocaleSchema } from "./HasLocale";
+import { HasTimestampsSchema } from "./HasTimestamps";
 
-export const VorabCheckCommonsSchema = LocalizableSchema.merge(
-  TimestampableSchema
+export const VorabCheckCommonsSchema = HasLocaleSchema.merge(
+  HasTimestampsSchema
 ).merge(
   z.object({
     progressBarLabel: z.string(),

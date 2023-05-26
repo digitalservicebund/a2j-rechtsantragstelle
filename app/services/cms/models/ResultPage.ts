@@ -5,9 +5,9 @@ import { HeadingSchema } from "./Heading";
 import { LinkSchema } from "./Link";
 import { ParagraphSchema } from "./Paragraph";
 import { ResultPageTypeSchema } from "./ResultPageType";
-import { TimestampableSchema } from "./Timestampable";
+import { HasTimestampsSchema } from "./HasTimestamps";
 
-export const ResultPageSchema = TimestampableSchema.merge(
+export const ResultPageSchema = HasTimestampsSchema.merge(
   z.object({
     slug: z.string(),
     meta: z
