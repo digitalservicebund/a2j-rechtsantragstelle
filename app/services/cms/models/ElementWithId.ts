@@ -1,10 +1,10 @@
 import { z } from "zod";
 import { FormContentCmsSchema } from "./FormContentCms";
-import { LocalizableSchema } from "./Localizable";
-import { TimestampableSchema } from "./Timestampable";
+import { HasLocaleSchema } from "./HasLocale";
+import { HasTimestampsSchema } from "./HasTimestamps";
 
-export const ElementWithIdSchema = LocalizableSchema.merge(
-  TimestampableSchema
+export const ElementWithIdSchema = HasLocaleSchema.merge(
+  HasTimestampsSchema
 ).merge(
   z.object({
     id: z.number().optional(),
