@@ -6,7 +6,6 @@ import Header from "./Header";
 import type { InfoBoxProps } from "./InfoBox";
 import InfoBox from "./InfoBox";
 import type { FormContentCms } from "~/services/cms/models/FormContentCms";
-import type { PageComponentCms } from "~/services/cms/models/PageComponentCms";
 import type { Container as ContainerCms } from "~/services/cms/models/Container";
 import type { Background as BackgroundCms } from "~/services/cms/models/Background";
 import Box from "./Box";
@@ -18,7 +17,7 @@ import type { ReactElement } from "react";
 import _ from "lodash";
 
 type PageContentProps = {
-  content: Array<FormContentCms | PageComponentCms>;
+  content: Array<FormContentCms>;
   className?: string;
 };
 
@@ -61,7 +60,7 @@ const wrapInBackground = (
   return <Background {...config}>{reactElement}</Background>;
 };
 
-function cmsToReact(element: FormContentCms | PageComponentCms) {
+function cmsToReact(element: FormContentCms) {
   const props = _.omit(element, "id", "__component");
   if (element.__component === "basic.heading") {
     return <Heading {...props} key={element.id} />;
