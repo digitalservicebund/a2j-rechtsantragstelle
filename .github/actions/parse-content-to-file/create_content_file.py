@@ -44,7 +44,7 @@ def collect_all_collection_data(collection_id):
     all_collection_data = []
     while True:
         res = requests.get(
-            f"{CMS_URL}/api/{collection_id}?populate=deep&pagination[pageSize]={PAGE_SIZE}&pagination[page]={page}",
+            f"{CMS_URL}/api/{collection_id}?populate=deep&locale=all&pagination[pageSize]={PAGE_SIZE}&pagination[page]={page}",
             headers={
                 "Authorization": f"Bearer {CMS_AUTH_TOKEN}",
             })

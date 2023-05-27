@@ -22,14 +22,18 @@ export const FileContentSchema = z
         attributes: ErrorCategorySchema,
       })
     ),
-    footer: z.object({
-      id: z.number(),
-      attributes: FooterSchema,
-    }),
-    navigation: z.object({
-      id: z.number(),
-      attributes: NavigationSchema,
-    }),
+    footer: z.array(
+      z.object({
+        id: z.number(),
+        attributes: FooterSchema,
+      })
+    ),
+    navigation: z.array(
+      z.object({
+        id: z.number(),
+        attributes: NavigationSchema,
+      })
+    ),
     pages: z.array(
       z.object({
         id: z.number(),
@@ -42,10 +46,12 @@ export const FileContentSchema = z
         attributes: ResultPageSchema,
       })
     ),
-    "vorab-check-common": z.object({
-      id: z.number(),
-      attributes: VorabCheckCommonsSchema,
-    }),
+    "vorab-check-common": z.array(
+      z.object({
+        id: z.number(),
+        attributes: VorabCheckCommonsSchema,
+      })
+    ),
     "vorab-check-pages": z.array(
       z.object({
         id: z.number(),
