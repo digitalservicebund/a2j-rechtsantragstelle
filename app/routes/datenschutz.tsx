@@ -3,17 +3,17 @@ import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import PageContent from "~/components/PageContent";
-import { getPageConfig, slugsfromURL } from "~/services/cms/getPageConfig";
+import { getPage } from "~/services/cms";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
-  { title: data.meta?.title },
+  { title: data.meta.title },
 ];
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const page = await getPageConfig(slugsfromURL(request.url)[0]);
+export const loader: LoaderFunction = async () => {
+  const page = await getPage({ slug: "datenschutz" });
   return json({
-    content: page?.content,
-    meta: page?.meta,
+    content: page.content,
+    meta: page.meta,
   });
 };
 

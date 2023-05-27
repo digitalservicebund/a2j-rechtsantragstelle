@@ -21,8 +21,8 @@ import {
 } from "~/components";
 import Header from "~/components/Header";
 import InfoBox from "~/components/InfoBox";
-import { getPageConfig, slugsfromURL } from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
+import { getPage } from "~/services/cms";
 
 export const DummySchema = z.object({
   text: z.string().min(1),
@@ -40,14 +40,12 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   },
 ];
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const page = await getPageConfig(slugsfromURL(request.url)[0], {
-    dontThrow: true,
-  });
+export const loader: LoaderFunction = async () => {
+  const page = await getPage({ slug: "kitchensink" });
 
   return json({
-    content: page?.content,
-    meta: page?.meta,
+    content: page.content,
+    meta: page.meta,
   });
 };
 

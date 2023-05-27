@@ -9,10 +9,6 @@ import { ValidatedForm, validationError } from "remix-validated-form";
 import { allValidators, formPages } from "~/lib/vorabcheck/pages";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
-import {
-  getResultPageConfig,
-  getVorabCheckPageConfig,
-} from "~/services/cms/getPageConfig";
 import PageContent from "~/components/PageContent";
 import Container from "~/components/Container";
 import type { VorabcheckPage } from "~/services/cms/models/VorabcheckPage";
@@ -21,8 +17,12 @@ import ResultPage from "~/components/ResultPage";
 import type { ElementWithId } from "~/services/cms/models/ElementWithId";
 import { Background } from "~/components";
 import ProgressBarArea from "~/components/form/ProgressBarArea";
-import type { VorabCheckCommons } from "~/services/cms/models/VorabCheckCommons";
-import cms from "~/services/cms";
+import {
+  getResultPage,
+  getVorabCheckCommons,
+  getVorabCheckPage,
+} from "~/services/cms";
+import getSlug from "~/util/getSlug";
 
 import {
   initialStep,
@@ -74,21 +74,27 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   }
 
   const currentPage = formPages[stepId];
+  let slug = getSlug(request.url);
   let formPageContent: VorabcheckPage | undefined;
   let resultPageContent: ResultPageContent | undefined;
   let resultReasonsToDisplay: ElementWithId[] | undefined;
   if ("schema" in currentPage) {
-    formPageContent = await getVorabCheckPageConfig(request.url);
+    formPageContent = await getVorabCheckPage({ slug });
   } else {
-    resultPageContent = await getResultPageConfig(request.url);
+    if (/AbschlussJa/.test(slug)) {
+      slug = "abschlussJa";
+    } else if (/AbschlussNein/.test(slug)) {
+      slug = "abschlussNein";
+    } else if (/AbschlussVielleicht/.test(slug)) {
+      slug = "abschlussVielleicht";
+    }
+    resultPageContent = await getResultPage({ slug });
     resultReasonsToDisplay = getReasonsToDisplay(
       resultPageContent?.reasonings?.data,
       session.data
     );
   }
-  const commonContent: VorabCheckCommons = await cms().getPage(
-    "vorab-check-common"
-  );
+  const commonContent = await getVorabCheckCommons();
 
   let additionalContext = {};
   if ("additionalContext" in currentPage && currentPage["additionalContext"]) {
