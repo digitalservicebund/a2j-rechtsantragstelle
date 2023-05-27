@@ -6,6 +6,7 @@
     "dev": "remix dev",
     "start": "remix-serve build",
     "prepare": "lefthook install",
+    "postinstall": "test -f content.json || echo '{}' > content.json",
     "typecheck": "tsc",
     "prettier": "prettier --write . --ignore-path .gitignore",
     "prettier:check": "prettier --check . --ignore-path .gitignore",
