@@ -2,7 +2,7 @@ import type { GetEntryOpts } from "..";
 import contentFile from "~/../content.json";
 import { FileContentSchema } from "../models/FileContent";
 
-export const getEntry = async (opts: GetEntryOpts) => {
+export const getEntryFromFile = async (opts: GetEntryOpts) => {
   const content = FileContentSchema.parse(contentFile);
   const apiIdContent = content[opts.apiId as keyof typeof content];
 

@@ -1,13 +1,13 @@
 import config from "../config";
-import { getEntry as getEntryFromStrapi } from "./strapi";
-import { getEntry as getEntryFromFile } from "./file";
 import type { Locale } from "./models/Locale";
+import { getEntryFromFile } from "./file";
+import { getEntryFromStrapi } from "./strapi";
 import { FooterSchema } from "./models/Footer";
 import { NavigationSchema } from "./models/Navigation";
-import { VorabcheckPageSchema } from "./models/VorabcheckPage";
-import { VorabCheckCommonsSchema } from "./models/VorabCheckCommons";
 import { PageSchema } from "./models/Page";
 import { ResultPageSchema } from "./models/ResultPage";
+import { VorabCheckCommonsSchema } from "./models/VorabCheckCommons";
+import { VorabcheckPageSchema } from "./models/VorabcheckPage";
 
 export type GetEntryOpts = {
   apiId: string;
@@ -23,25 +23,17 @@ const getEntry = async (
     locale?: Locale;
   }
 ) => {
-  let data = await getEntryFromSource({ locale: "de", ...opts });
-
-  // "flatten" the result object
-  if (data?.attributes) {
-    data = { id: data.id, ...data.attributes };
-  }
-
-  return data;
+  const data = await getEntryFromSource({ locale: "de", ...opts });
+  // "remove attributes key"
+  return { id: data.id, ...data.attributes };
 };
+
+// single types getters
 
 type SingleTypeGetterOpts = {
   locale?: Locale;
 };
 
-type CollectionTypeGetterOpts = {
-  slug: string;
-} & SingleTypeGetterOpts;
-
-// single types getter
 export const getFooter = async (opts?: SingleTypeGetterOpts) =>
   FooterSchema.parse(await getEntry({ apiId: "footer", ...opts }));
 
@@ -53,7 +45,12 @@ export const getVorabCheckCommons = async (opts?: SingleTypeGetterOpts) =>
     await getEntry({ apiId: "vorab-check-common", ...opts })
   );
 
-// collection types getter
+// collection types getters
+
+type CollectionTypeGetterOpts = {
+  slug: string;
+} & SingleTypeGetterOpts;
+
 export const getResultPage = async (opts: CollectionTypeGetterOpts) =>
   ResultPageSchema.parse(await getEntry({ apiId: "result-pages", ...opts }));
 
