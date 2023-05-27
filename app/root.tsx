@@ -13,7 +13,7 @@ import stylesheet from "~/styles.css";
 import fontsStylesheet from "@digitalservice4germany/angie/fonts.css";
 import { withSentry } from "@sentry/remix";
 import { getWebConfig } from "~/services/config";
-import cms from "~/services/cms";
+import { getFooter, getNavigation } from "~/services/cms";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 
@@ -26,8 +26,8 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const footer = await cms().getPage("footer");
-  const navigation = await cms().getPage("navigation");
+  const footer = await getFooter();
+  const navigation = await getNavigation();
 
   return json({
     footer: footer,
