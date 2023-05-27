@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { ElementWithIdSchema } from "./ElementWithId";
 import { FormContentCmsSchema } from "./FormContentCms";
+import { HasIdSchema } from "./HasId";
 import { HasLocaleSchema } from "./HasLocale";
 import { HasMetaSchema } from "./HasMeta";
 import { HasSlugSchema } from "./HasSlug";
@@ -45,6 +46,7 @@ export const ResultPageSchema = z
     freeZone: z.array(FormContentCmsSchema),
     nextLink: LinkSchema.nullable(),
   })
+  .merge(HasIdSchema)
   .merge(HasLocaleSchema)
   .merge(HasMetaSchema)
   .merge(HasSlugSchema)

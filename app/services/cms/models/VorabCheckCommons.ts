@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { HasLocaleSchema } from "./HasLocale";
 import { HasTimestampsSchema } from "./HasTimestamps";
+import { HasIdSchema } from "./HasId";
 
 export const VorabCheckCommonsSchema = z
   .object({
@@ -10,6 +11,7 @@ export const VorabCheckCommonsSchema = z
     nextButtonDefaultLabel: z.string(),
     lastNextButtonLabel: z.string(),
   })
+  .merge(HasIdSchema)
   .merge(HasLocaleSchema)
   .merge(HasTimestampsSchema)
   .strict();
