@@ -10,20 +10,6 @@ import type {
   Jmtd14VTErwerberPlzortk,
 } from "./types";
 
-const passedPath = process.argv[2];
-if (!passedPath) {
-  const errMsg =
-    "No path found. Use `npm run update:gerichtsfinder -- path/to/file`";
-  console.error(errMsg);
-  process.exit(1);
-}
-const DATA_ROOT_DIR = path.isAbsolute(passedPath)
-  ? path.resolve(passedPath)
-  : path.resolve(path.join(process.cwd(), passedPath));
-
-const OUT_FOLDER = path.resolve(path.join(__dirname, "_data"));
-console.log(`Reading from ${DATA_ROOT_DIR}`);
-
 export function isKeyOfObject<T extends object>(
   key: string | number | symbol,
   obj: T
@@ -95,33 +81,51 @@ const conversions = {
   },
 } as const;
 
-if (fs.existsSync(DATA_ROOT_DIR)) {
-  // Only decompresses .json files into { filename: U8Array, ... }
-  const decompressedJsonFiles = unzipSync(fs.readFileSync(DATA_ROOT_DIR), {
-    filter: (file) => file.name.endsWith(".json"),
-  });
+export function convertToKvJson(pathToZipFile: string) {
+  if (!pathToZipFile) {
+    const errMsg =
+      "No path found. Use `npm run update:gerichtsfinder -- path/to/file`";
+    console.error(errMsg);
+    process.exit(1);
+  }
+  const DATA_ROOT_DIR = path.isAbsolute(pathToZipFile)
+    ? path.resolve(pathToZipFile)
+    : path.resolve(path.join(process.cwd(), pathToZipFile));
 
-  console.log(`Unzip successful, writing data to ${OUT_FOLDER}`);
-  fs.mkdirSync(OUT_FOLDER, { recursive: true });
+  const OUT_FOLDER = path.resolve(path.join(__dirname, "_data"));
+  console.log(`Reading from ${DATA_ROOT_DIR}`);
 
-  for (const jsonFilepath in decompressedJsonFiles) {
-    const jsonFilename = path.basename(jsonFilepath);
-    console.log(`processing ${jsonFilename}`);
+  if (fs.existsSync(DATA_ROOT_DIR)) {
+    // Only decompresses .json files into { filename: U8Array, ... }
+    const decompressedJsonFiles = unzipSync(fs.readFileSync(DATA_ROOT_DIR), {
+      filter: (file) => file.name.endsWith(".json"),
+    });
 
-    if (isKeyOfObject(jsonFilename, conversions)) {
-      // Decompressed data needs to be converted into string before calling conversion function
-      const contentString = strFromU8(decompressedJsonFiles[jsonFilepath]);
+    console.log(`Unzip successful, writing data to ${OUT_FOLDER}`);
+    fs.mkdirSync(OUT_FOLDER, { recursive: true });
 
-      fs.writeFileSync(
-        path.join(OUT_FOLDER, jsonFilename),
-        conversions[jsonFilename](contentString),
-        {
-          encoding: "utf8",
-          flag: "w",
-        }
-      );
-    } else {
-      console.log("Not found in conversions, skipping...");
+    for (const jsonFilepath in decompressedJsonFiles) {
+      const jsonFilename = path.basename(jsonFilepath);
+      console.log(`processing ${jsonFilename}`);
+
+      if (isKeyOfObject(jsonFilename, conversions)) {
+        // Decompressed data needs to be converted into string before calling conversion function
+        const contentString = strFromU8(decompressedJsonFiles[jsonFilepath]);
+
+        fs.writeFileSync(
+          path.join(OUT_FOLDER, jsonFilename),
+          conversions[jsonFilename](contentString),
+          {
+            encoding: "utf8",
+            flag: "w",
+          }
+        );
+      } else {
+        console.log("Not found in conversions, skipping...");
+      }
     }
+  } else {
+    console.error("File doesn't exist, exiting...");
+    process.exit(1);
   }
 }
