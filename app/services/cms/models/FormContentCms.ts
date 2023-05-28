@@ -2,11 +2,11 @@ import { z } from "zod";
 import { HeadingSchema } from "./Heading";
 import { ParagraphSchema } from "./Paragraph";
 import { InfoBoxSchema } from "./InfoBox";
-import { BoxSchema } from "./Box";
+import { StrapiBoxSchema } from "./StrapiBox";
 import { HeaderSchema } from "./Header";
 
 export const FormContentCmsSchema = z.discriminatedUnion("__component", [
-  BoxSchema.merge(
+  StrapiBoxSchema.merge(
     z.object({
       __component: z.literal("page.box"),
     })

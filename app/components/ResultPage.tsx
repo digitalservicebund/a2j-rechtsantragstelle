@@ -12,14 +12,14 @@ import type { ReactElement } from "react";
 import PageContent from "~/components/PageContent";
 import { Button } from "~/components/index";
 import { ButtonContainer } from "~/components/ButtonContainer";
-import type { ElementWithId } from "~/services/cms/models/ElementWithId";
+import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
 import classes from "classnames";
 import ProgressBarArea from "~/components/form/ProgressBarArea";
 import type { StrapiVorabCheckCommons } from "~/services/cms/models/StrapiVorabCheckCommons";
 
 type ResultPageProps = {
   content: ResultPageContent & StrapiVorabCheckCommons;
-  reasonsToDisplay?: ElementWithId[];
+  reasonsToDisplay?: StrapiElementWithId[];
   backDestination?: string;
   progressStep: number;
   progressTotal: number;

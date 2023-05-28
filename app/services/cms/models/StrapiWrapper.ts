@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { BackgroundColorSchema } from "./BackgroundColor";
+import { StrapiBackgroundColorSchema } from "./StrapiBackgroundColor";
 import { PaddingSchema } from "./Padding";
 
 export const StrapiWrapperSchema = z
   .object({
-    backgroundColor: BackgroundColorSchema.nullable(),
+    backgroundColor: StrapiBackgroundColorSchema.nullable(),
     paddingTop: PaddingSchema.nullable(),
     paddingBottom: PaddingSchema.nullable(),
   })

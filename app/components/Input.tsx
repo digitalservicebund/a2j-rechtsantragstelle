@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { useField } from "remix-validated-form";
 import classNames from "classnames";
 import { InputError, InputLabel } from "~/components";
-import type { ErrorCategory } from "~/services/cms/models/ErrorCategory";
+import type { StrapiErrorCategory } from "~/services/cms/models/StrapiErrorCategory";
 import { flattenErrorCodes } from "~/services/cms/getPageConfig";
 
 type InputProps = {
@@ -14,7 +14,7 @@ type InputProps = {
   prefix?: string;
   suffix?: string;
   defaultValue?: string;
-  errors?: { attributes: ErrorCategory }[];
+  errors?: { attributes: StrapiErrorCategory }[];
 };
 
 const Input = ({

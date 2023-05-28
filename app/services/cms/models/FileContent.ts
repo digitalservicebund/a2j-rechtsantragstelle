@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { ElementWithIdSchema } from "./ElementWithId";
-import { ErrorCategorySchema } from "./ErrorCategory";
+import { StrapiElementWithIdSchema } from "./StrapiElementWithId";
+import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
 import { FooterSchema } from "./Footer";
 import { NavigationSchema } from "./Navigation";
 import { PageSchema } from "./Page";
@@ -13,13 +13,13 @@ export const FileContentSchema = z
     "element-with-ids": z.array(
       z.object({
         id: z.number(),
-        attributes: ElementWithIdSchema,
+        attributes: StrapiElementWithIdSchema,
       })
     ),
     errors: z.array(
       z.object({
         id: z.number(),
-        attributes: ErrorCategorySchema,
+        attributes: StrapiErrorCategorySchema,
       })
     ),
     footer: z.array(

@@ -3,7 +3,7 @@ import Paragraph from "~/components/Paragraph";
 import Header from "./Header";
 import InfoBox from "./InfoBox";
 import type { FormContentCms } from "~/services/cms/models/FormContentCms";
-import type { Container as ContainerCms } from "~/services/cms/models/Container";
+import type { StrapiContainer } from "~/services/cms/models/StrapiContainer";
 import type { StrapiBackground } from "~/services/cms/models/StrapiBackground";
 import Box from "./Box";
 import type { ContainerProps } from "./Container";
@@ -23,7 +23,7 @@ type PageContentProps = {
 };
 
 const transformCmsData = (
-  cmsData: ContainerCms | StrapiBackground
+  cmsData: StrapiContainer | StrapiBackground
 ): ContainerProps | BackgroundProps => {
   return {
     ...cmsData,
@@ -35,7 +35,7 @@ const transformCmsData = (
 };
 
 const wrapInContainer = (
-  cmsData: { [key: string]: any; container?: ContainerCms },
+  cmsData: { [key: string]: any; container?: StrapiContainer },
   reactElement: ReactElement
 ): ReactElement => {
   if (!cmsData.container) {

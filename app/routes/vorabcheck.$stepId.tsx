@@ -14,7 +14,7 @@ import Container from "~/components/Container";
 import type { StrapiVorabCheckPage } from "~/services/cms/models/StrapiVorabCheckPage";
 import type { ResultPage as ResultPageContent } from "~/services/cms/models/ResultPage";
 import ResultPage from "~/components/ResultPage";
-import type { ElementWithId } from "~/services/cms/models/ElementWithId";
+import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
 import { Background } from "~/components";
 import ProgressBarArea from "~/components/form/ProgressBarArea";
 import {
@@ -40,7 +40,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
 ];
 
 const getReasonsToDisplay = (
-  reasons: { attributes: ElementWithId }[] | null,
+  reasons: { attributes: StrapiElementWithId }[] | null,
   context: any
 ) => {
   return reasons
@@ -77,7 +77,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   let slug = getSlug(request.url);
   let formPageContent: StrapiVorabCheckPage | undefined;
   let resultPageContent: ResultPageContent | undefined;
-  let resultReasonsToDisplay: ElementWithId[] | undefined;
+  let resultReasonsToDisplay: StrapiElementWithId[] | undefined;
   if ("schema" in currentPage) {
     formPageContent = await getVorabCheckPage({ slug });
   } else {
