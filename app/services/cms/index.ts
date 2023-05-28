@@ -6,8 +6,8 @@ import { FooterSchema } from "./models/Footer";
 import { NavigationSchema } from "./models/Navigation";
 import { PageSchema } from "./models/Page";
 import { ResultPageSchema } from "./models/ResultPage";
-import { VorabCheckCommonsSchema } from "./models/VorabCheckCommons";
-import { VorabcheckPageSchema } from "./models/VorabcheckPage";
+import { StrapiVorabCheckCommonsSchema } from "./models/StrapiVorabCheckCommons";
+import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
 
 export type GetEntryOpts = {
   apiId: string;
@@ -41,7 +41,7 @@ export const getNavigation = async (opts?: SingleTypeGetterOpts) =>
   NavigationSchema.parse(await getEntry({ apiId: "navigation", ...opts }));
 
 export const getVorabCheckCommons = async (opts?: SingleTypeGetterOpts) =>
-  VorabCheckCommonsSchema.parse(
+  StrapiVorabCheckCommonsSchema.parse(
     await getEntry({ apiId: "vorab-check-common", ...opts })
   );
 
@@ -58,6 +58,6 @@ export const getPage = async (opts: CollectionTypeGetterOpts) =>
   PageSchema.parse(await getEntry({ apiId: "pages", ...opts }));
 
 export const getVorabCheckPage = async (opts: CollectionTypeGetterOpts) =>
-  VorabcheckPageSchema.parse(
+  StrapiVorabCheckPageSchema.parse(
     await getEntry({ apiId: "vorab-check-pages", ...opts })
   );

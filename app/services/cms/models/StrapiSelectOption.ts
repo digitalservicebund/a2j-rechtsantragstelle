@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { HasIdSchema } from "./HasId";
 
-export const SelectOptionSchema = z
+export const StrapiSelectOptionSchema = z
   .object({
     text: z.string(),
     value: z.string(),
@@ -9,4 +9,4 @@ export const SelectOptionSchema = z
   .merge(HasIdSchema)
   .strict();
 
-export type SelectOption = z.infer<typeof SelectOptionSchema>;
+export type StrapiSelectOption = z.infer<typeof StrapiSelectOptionSchema>;

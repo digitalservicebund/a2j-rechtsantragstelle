@@ -15,10 +15,10 @@ import { ButtonContainer } from "~/components/ButtonContainer";
 import type { ElementWithId } from "~/services/cms/models/ElementWithId";
 import classes from "classnames";
 import ProgressBarArea from "~/components/form/ProgressBarArea";
-import type { VorabCheckCommons } from "~/services/cms/models/VorabCheckCommons";
+import type { StrapiVorabCheckCommons } from "~/services/cms/models/StrapiVorabCheckCommons";
 
 type ResultPageProps = {
-  content: ResultPageContent & VorabCheckCommons;
+  content: ResultPageContent & StrapiVorabCheckCommons;
   reasonsToDisplay?: ElementWithId[];
   backDestination?: string;
   progressStep: number;

@@ -5,8 +5,8 @@ import { FooterSchema } from "./Footer";
 import { NavigationSchema } from "./Navigation";
 import { PageSchema } from "./Page";
 import { ResultPageSchema } from "./ResultPage";
-import { VorabCheckCommonsSchema } from "./VorabCheckCommons";
-import { VorabcheckPageSchema } from "./VorabcheckPage";
+import { StrapiVorabCheckCommonsSchema } from "./StrapiVorabCheckCommons";
+import { StrapiVorabCheckPageSchema } from "./StrapiVorabCheckPage";
 
 export const FileContentSchema = z
   .object({
@@ -49,13 +49,13 @@ export const FileContentSchema = z
     "vorab-check-common": z.array(
       z.object({
         id: z.number(),
-        attributes: VorabCheckCommonsSchema,
+        attributes: StrapiVorabCheckCommonsSchema,
       })
     ),
     "vorab-check-pages": z.array(
       z.object({
         id: z.number(),
-        attributes: VorabcheckPageSchema,
+        attributes: StrapiVorabCheckPageSchema,
       })
     ),
   })
