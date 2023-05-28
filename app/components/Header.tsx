@@ -1,12 +1,15 @@
-import type { HeadingProps } from "./Heading";
+import { z } from "zod";
+import { HeadingPropsSchema } from "./Heading";
 import Heading from "./Heading";
-import type { ParagraphProps } from "./Paragraph";
+import { ParagraphPropsSchema } from "./Paragraph";
 import Paragraph from "./Paragraph";
 
-export interface HeaderProps {
-  heading: HeadingProps;
-  content?: ParagraphProps;
-}
+export const HeaderPropsSchema = z.object({
+  heading: HeadingPropsSchema,
+  content: ParagraphPropsSchema.optional(),
+});
+
+export type HeaderProps = z.infer<typeof HeaderPropsSchema>;
 
 export default function Header({ heading, content }: HeaderProps) {
   return (

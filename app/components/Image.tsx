@@ -1,27 +1,22 @@
-export type ImageProps = {
-  data?: {
-    attributes: {
-      url: string;
-      width: number;
-      height: number;
-      alternativeText: string | null;
-    };
-  } | null;
-};
+import { z } from "zod";
 
-function Image({ data, ...props }: ImageProps) {
-  if (!data) return null;
+export const ImagePropsSchema = z.object({
+  url: z.string(),
+  width: z.number(),
+  height: z.number(),
+  alternativeText: z.string().optional(),
+});
 
-  const imageUrl = data.attributes.url;
-  const width = data.attributes.width;
-  const height = data.attributes.height;
-  const altText = data.attributes.alternativeText || "";
+export type ImageProps = z.infer<typeof ImagePropsSchema>;
+
+function Image({ url, width, height, alternativeText, ...props }: ImageProps) {
+  if (!url) return null;
 
   return (
     <img
       {...props}
-      src={imageUrl}
-      alt={altText}
+      src={url}
+      alt={alternativeText || ""}
       width={width}
       height={height}
     />

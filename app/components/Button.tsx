@@ -1,21 +1,26 @@
 import classNames from "classnames";
 import type { ReactElement } from "react";
+import { z } from "zod";
 
-interface VisualProps {
-  text?: string;
-  look?: "primary" | "secondary" | "tertiary" | "ghost";
-  size?: "large" | "medium" | "small";
-  href?: string;
-  iconLeft?: ReactElement;
-  iconRight?: ReactElement;
-  fullWidth?: boolean;
-}
+export const ButtonPropsSchema = z.object({
+  text: z.string().optional(),
+  look: z.enum(["primary", "secondary", "tertiary", "ghost"]).optional(),
+  size: z.enum(["large", "medium", "small"]).optional(),
+  href: z.string().optional(),
+  iconLeft: z.custom<ReactElement>().optional(),
+  iconRight: z.custom<ReactElement>().optional(),
+  fullWidth: z.boolean().optional(),
+});
+
+type Props = z.infer<typeof ButtonPropsSchema>;
+
 export interface ButtonProps
   extends React.ComponentPropsWithoutRef<"button">,
-    VisualProps {}
+    Props {}
+
 export interface ButtonLinkProps
   extends React.ComponentPropsWithoutRef<"a">,
-    VisualProps {}
+    Props {}
 
 function Button({
   children,
