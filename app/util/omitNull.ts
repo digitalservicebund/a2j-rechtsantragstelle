@@ -1,9 +1,16 @@
-type Data =
+type InputType =
   | {
       [key: string]: any;
     }
   | null
-  | Data[];
+  | InputType[];
+
+type OutputType =
+  | {
+      [key: string]: any;
+    }
+  | undefined
+  | OutputType[];
 
 /**
  * Deep omitting of null values in object, array or combination.
@@ -16,12 +23,11 @@ type Data =
  * // returns { d: undefined, e: [{}] }
  * omitNull({ d: undefined, e: [null, { f: null }] });
  */
-export function omitNull(data: Data): Data {
+export function omitNull(data?: InputType): OutputType {
+  if (data === null) return undefined;
   if (!data) return data;
 
-  const entries = Object.entries(data).filter(([, value]) => {
-    return value !== null;
-  });
+  const entries = Object.entries(data).filter(([, value]) => value !== null);
 
   const withoutNull = entries.map(([key, v]) => {
     const value = typeof v === "object" ? omitNull(v) : v;
