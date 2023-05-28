@@ -1,20 +1,25 @@
 import type { Renderer } from "marked";
 import Container from "./Container";
-import type { ImageProps } from "./Image";
+import { ImagePropsSchema } from "./Image";
 import Image from "./Image";
-import type { ParagraphProps } from "./Paragraph";
+import { ParagraphPropsSchema } from "./Paragraph";
 import RichText from "./RichText";
+import { z } from "zod";
 
-type LinkAttrs = {
-  url: string;
-  text: string;
-};
+const LinkPropsSchema = z.object({
+  url: z.string(),
+  text: z.string(),
+});
 
-export interface FooterProps {
-  image: ImageProps;
-  paragraphs: ParagraphProps[];
-  links: LinkAttrs[];
-}
+type LinkProps = z.infer<typeof LinkPropsSchema>;
+
+export const FooterPropsSchema = z.object({
+  image: ImagePropsSchema,
+  paragraphs: z.array(ParagraphPropsSchema),
+  links: z.array(LinkPropsSchema),
+});
+
+export type FooterProps = z.infer<typeof FooterPropsSchema>;
 
 export default function Footer({
   image,
@@ -25,7 +30,7 @@ export default function Footer({
   const linksFirstColumn: typeof links = links.slice(0, linksMiddleIndex);
   const linksSecondColumn: typeof links = links.slice(linksMiddleIndex);
 
-  const renderLink = (link: LinkAttrs) => (
+  const renderLink = (link: LinkProps) => (
     <li key={link.url}>
       <a href={link.url} className="ds-link-02-bold text-black">
         {link.text}
@@ -33,7 +38,7 @@ export default function Footer({
     </li>
   );
 
-  const renderLinks = (links: LinkAttrs[]) => (
+  const renderLinks = (links: LinkProps[]) => (
     <ul className="list-none m-0 p-0 ds-stack-8" key={links[0]?.url}>
       {links.map(renderLink)}
     </ul>

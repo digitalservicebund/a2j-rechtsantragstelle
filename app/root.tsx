@@ -14,8 +14,10 @@ import fontsStylesheet from "@digitalservice4germany/angie/fonts.css";
 import { withSentry } from "@sentry/remix";
 import { getWebConfig } from "~/services/config";
 import { getFooter, getNavigation } from "~/services/cms";
+import { getFooterProps } from "~/services/cms/adapters/getFooterProps";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import { getNavbarProps } from "./services/cms/adapters/getNavbarProps";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: fontsStylesheet },
@@ -26,8 +28,8 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const footer = await getFooter();
-  const navigation = await getNavigation();
+  const footer = getFooterProps(await getFooter());
+  const navigation = getNavbarProps(await getNavigation());
 
   return json({
     footer: footer,

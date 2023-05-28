@@ -1,16 +1,17 @@
-import type { HeadingProps } from "./Heading";
-import type { ButtonProps } from "./Button";
-import Heading from "./Heading";
+import Heading, { HeadingPropsSchema } from "./Heading";
 import RichText from "./RichText";
-import Button from "./Button";
-import type { ParagraphProps } from "./Paragraph";
+import { ParagraphPropsSchema } from "./Paragraph";
+import Button, { ButtonPropsSchema } from "./Button";
+import { z } from "zod";
 
-export interface BoxProps {
-  label?: HeadingProps;
-  heading?: HeadingProps;
-  content?: ParagraphProps;
-  button?: ButtonProps;
-}
+export const BoxPropsSchema = z.object({
+  label: HeadingPropsSchema.optional(),
+  heading: HeadingPropsSchema.optional(),
+  content: ParagraphPropsSchema.optional(),
+  button: ButtonPropsSchema.optional(),
+});
+
+export type BoxProps = z.infer<typeof BoxPropsSchema>;
 
 const Box = ({ label, heading, content, button }: BoxProps) => {
   return (

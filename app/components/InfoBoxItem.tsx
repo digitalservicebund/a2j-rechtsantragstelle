@@ -1,18 +1,21 @@
-import type { HeadingProps } from "./Heading";
+import { HeadingPropsSchema } from "./Heading";
 import Heading from "./Heading";
 import RichText from "./RichText";
-import type { ImageProps } from "./Image";
+import { ImagePropsSchema } from "./Image";
 import Image from "./Image";
-import type { ButtonLinkProps } from "./Button";
+import { ButtonPropsSchema } from "./Button";
 import Button from "./Button";
+import { z } from "zod";
 
-export type InfoBoxItemProps = {
-  label?: HeadingProps | null;
-  headline?: HeadingProps | null;
-  image?: ImageProps;
-  content?: string;
-  button?: ButtonLinkProps | null;
-};
+export const InfoBoxItemPropsSchema = z.object({
+  label: HeadingPropsSchema.optional(),
+  headline: HeadingPropsSchema.optional(),
+  image: ImagePropsSchema.optional(),
+  content: z.string().optional(),
+  button: ButtonPropsSchema.optional(),
+});
+
+export type InfoBoxItemProps = z.infer<typeof InfoBoxItemPropsSchema>;
 
 const InfoBoxItem = ({
   label,
@@ -23,7 +26,7 @@ const InfoBoxItem = ({
 }: InfoBoxItemProps) => {
   return (
     <li className="flex flex-row items-center justify-center max-w-none max-[499px]:flex-col pt-32 border-solid border-0 border-t-2 border-gray-400 first:border-none first:pt-0">
-      {image?.data && (
+      {image && (
         <Image
           {...image}
           {...{
@@ -33,8 +36,7 @@ const InfoBoxItem = ({
       )}
       <div
         className={
-          "ds-stack-8 break-words w-full " +
-          (image?.data && "min-[500px]:ml-16")
+          "ds-stack-8 break-words w-full " + (image && "min-[500px]:ml-16")
         }
       >
         {label && <Heading {...label} />}

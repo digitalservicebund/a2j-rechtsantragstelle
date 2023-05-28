@@ -1,14 +1,19 @@
 import React from "react";
 import { useLocation, useMatches } from "@remix-run/react";
+import { z } from "zod";
 
-export interface NavbarProps extends React.ClassAttributes<HTMLHeadingElement> {
-  tree: {
-    text: string;
-    targeturl?: string;
-    baseurl?: string;
-  }[];
-  currentLocation?: string;
-}
+export const NavbarPropsSchema = z.object({
+  tree: z.array(
+    z.object({
+      text: z.string(),
+      targeturl: z.string().optional(),
+      baseurl: z.string().optional(),
+    })
+  ),
+  currentLocation: z.string().optional(),
+});
+
+export type NavbarProps = z.infer<typeof NavbarPropsSchema>;
 
 export default function Navbar({ tree = [], currentLocation }: NavbarProps) {
   const location = useLocation();

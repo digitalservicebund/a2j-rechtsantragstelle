@@ -1,12 +1,15 @@
-import type { InfoBoxItemProps } from "./InfoBoxItem";
+import { InfoBoxItemPropsSchema } from "./InfoBoxItem";
 import InfoBoxItem from "./InfoBoxItem";
-import type { HeadingProps } from "./Heading";
+import { HeadingPropsSchema } from "./Heading";
 import Heading from "./Heading";
+import { z } from "zod";
 
-export interface InfoBoxProps {
-  items: InfoBoxItemProps[];
-  heading?: HeadingProps;
-}
+export const InfoBoxPropsSchema = z.object({
+  heading: HeadingPropsSchema.optional(),
+  items: z.array(InfoBoxItemPropsSchema),
+});
+
+export type InfoBoxProps = z.infer<typeof InfoBoxPropsSchema>;
 
 const InfoBox = ({ items, heading }: InfoBoxProps) => {
   return (

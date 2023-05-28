@@ -1,13 +1,16 @@
 import classNames from "classnames";
 import type { ReactNode } from "react";
+import { z } from "zod";
 
-export interface HeadingProps {
-  tagName?: string;
-  text?: string;
-  className?: string;
-  look?: string;
-  children?: ReactNode;
-}
+export const HeadingPropsSchema = z.object({
+  tagName: z.string().optional(),
+  text: z.string().optional(),
+  look: z.string().optional(),
+  className: z.string().optional(),
+  children: z.custom<ReactNode>().optional(),
+});
+
+export type HeadingProps = z.infer<typeof HeadingPropsSchema>;
 
 function Heading({
   tagName = "h1",

@@ -1,9 +1,6 @@
 import Heading from "~/components/Heading";
-import type { ParagraphProps } from "~/components/Paragraph";
 import Paragraph from "~/components/Paragraph";
-import type { HeaderProps } from "./Header";
 import Header from "./Header";
-import type { InfoBoxProps } from "./InfoBox";
 import InfoBox from "./InfoBox";
 import type { FormContentCms } from "~/services/cms/models/FormContentCms";
 import type { Container as ContainerCms } from "~/services/cms/models/Container";
@@ -14,7 +11,11 @@ import Container from "./Container";
 import type { BackgroundProps } from "./Background";
 import Background from "./Background";
 import type { ReactElement } from "react";
-import _ from "lodash";
+import { getInfoBoxProps } from "~/services/cms/adapters/getInfoBoxProps";
+import { getBoxProps } from "~/services/cms/adapters/getBoxProps";
+import { getHeadingProps } from "~/services/cms/adapters/getHeadingProps";
+import { getHeaderProps } from "~/services/cms/adapters/getHeaderProps";
+import { getParagraphProps } from "~/services/cms/adapters/getParagraphProps";
 
 type PageContentProps = {
   content: Array<FormContentCms>;
@@ -60,26 +61,24 @@ const wrapInBackground = (
   return <Background {...config}>{reactElement}</Background>;
 };
 
-function cmsToReact(element: FormContentCms) {
-  const props = _.omit(element, "id", "__component");
-  if (element.__component === "basic.heading") {
-    return <Heading {...props} key={element.id} />;
-  } else if (element.__component === "basic.paragraph") {
-    return (
-      <Paragraph
-        {...(props as ParagraphProps)}
-        className="ds-body-01-reg"
-        key={element.id}
-      />
-    );
-  } else if (element.__component === "page.header") {
-    return <Header {...(props as HeaderProps)} key={element.id} />;
-  } else if (element.__component === "page.info-box") {
-    return <InfoBox {...(props as InfoBoxProps)} key={element.id} />;
-  } else if (element.__component === "page.box") {
-    return <Box {...props} key={element.id} />;
-  } else {
-    return <div />;
+function cmsToReact(cms: FormContentCms) {
+  switch (cms.__component) {
+    case "basic.heading":
+      return <Heading {...getHeadingProps(cms)} key={cms.id} />;
+    case "basic.paragraph":
+      return (
+        <Paragraph
+          {...getParagraphProps(cms)}
+          className="ds-body-01-reg"
+          key={cms.id}
+        />
+      );
+    case "page.header":
+      return <Header {...getHeaderProps(cms)} key={cms.id} />;
+    case "page.box":
+      return <Box {...getBoxProps(cms)} key={cms.id} />;
+    case "page.info-box":
+      return <InfoBox {...getInfoBoxProps(cms)} key={cms.id} />;
   }
 }
 
