@@ -20,5 +20,5 @@ content.json
 lefthook-local.yml
 .DS_Store
 
-# Gerichtsfinder
-_data
+# Gerichtsfinder data
+**/gerichtsfinder/_data/
