@@ -1,6 +1,6 @@
 import { InfoBoxItemPropsSchema } from "~/components/InfoBoxItem";
 import type { InfoBoxItem } from "../models/InfoBoxItem";
-import { removeEmpty } from "~/util/removeEmpty";
+import { omitNull } from "~/util/omitNull";
 import { getImageProps } from "./getImageProps";
 
 export const getInfoBoxItemProps = (cmsData: InfoBoxItem) => {
@@ -10,5 +10,5 @@ export const getInfoBoxItemProps = (cmsData: InfoBoxItem) => {
   };
   console.log({ cmsData, props });
 
-  return InfoBoxItemPropsSchema.parse(removeEmpty(props));
+  return InfoBoxItemPropsSchema.parse(omitNull(props));
 };

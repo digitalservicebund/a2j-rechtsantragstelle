@@ -1,7 +1,7 @@
-import { removeEmpty } from "~/util/removeEmpty";
+import { omitNull } from "~/util/omitNull";
 
-describe("removeEmpty", () => {
-  it("removes nulls", () => {
+describe("util/omitNull", () => {
+  it("removes entries where the value is null", () => {
     const data = {
       a: {
         b: 1,
@@ -17,9 +17,13 @@ describe("removeEmpty", () => {
           },
           null,
         ],
+        i: undefined,
+        j: [],
+        k: {},
+        l: 0,
       },
     };
-    expect(removeEmpty(data)).toMatchInlineSnapshot(`
+    expect(omitNull(data)).toMatchInlineSnapshot(`
       {
         "a": {
           "b": 1,
@@ -31,6 +35,10 @@ describe("removeEmpty", () => {
               "g": 3,
             },
           ],
+          "i": undefined,
+          "j": [],
+          "k": {},
+          "l": 0,
         },
       }
     `);

@@ -1,7 +1,7 @@
 import { NavbarPropsSchema } from "~/components/Navbar";
 import type { Navigation } from "../models/Navigation";
-import { removeEmpty } from "~/util/removeEmpty";
+import { omitNull } from "~/util/omitNull";
 
 export const getNavbarProps = (cmsData: Navigation) => {
-  return NavbarPropsSchema.parse(removeEmpty(cmsData));
+  return NavbarPropsSchema.parse(omitNull(cmsData));
 };
