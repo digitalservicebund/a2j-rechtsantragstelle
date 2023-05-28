@@ -10,6 +10,10 @@ import type {
   Jmtd14VTErwerberPlzortk,
 } from "./types";
 
+export type GerbehFile = Record<string, Jmtd14VTErwerberGerbeh>;
+export type PlzOrtkFile = Record<string, Jmtd14VTErwerberPlzortk[]>;
+export type PlzStrnFile = Record<string, Jmtd14VTErwerberPlzstrn[]>;
+
 export function isKeyOfObject<T extends object>(
   key: string | number | symbol,
   obj: T
@@ -29,7 +33,7 @@ export function gerbehIndex(
 
 const conversions = {
   "JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json": (fileContent: string) => {
-    let out: Record<string, Jmtd14VTErwerberGerbeh> = {};
+    let out: GerbehFile = {};
     const fileContentJson: {
       JMTD14_VT_ERWERBER_GERBEH: Jmtd14VTErwerberGerbeh[];
     } = JSON.parse(fileContent);
@@ -45,7 +49,7 @@ const conversions = {
   },
 
   "JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json": (fileContent: string) => {
-    let out: Record<string, Jmtd14VTErwerberPlzortk[]> = {};
+    let out: PlzOrtkFile = {};
     const fileContentJson: {
       JMTD14_VT_ERWERBER_PLZORTK: Jmtd14VTErwerberPlzortk[];
     } = JSON.parse(fileContent);
@@ -63,7 +67,7 @@ const conversions = {
   },
 
   "JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json": (fileContent: string) => {
-    let out: Record<string, Jmtd14VTErwerberPlzstrn[]> = {};
+    let out: PlzStrnFile = {};
     const fileContentJson: {
       JMTD14_VT_ERWERBER_PLZSTRN: Jmtd14VTErwerberPlzstrn[];
     } = JSON.parse(fileContent);
