@@ -1,5 +1,5 @@
 import type { FormComponentCms } from "./models/FormComponentCms";
-import type { VorabcheckPage } from "./models/VorabcheckPage";
+import type { StrapiVorabCheckPage } from "./models/StrapiVorabCheckPage";
 import type { Input as InputContent } from "./models/Input";
 import type { ErrorCategory } from "./models/ErrorCategory";
 
@@ -7,7 +7,7 @@ import type { ErrorCategory } from "./models/ErrorCategory";
 
 export type StrapiPage = {
   id: number;
-  attributes: VorabcheckPage;
+  attributes: StrapiVorabCheckPage;
 };
 
 export function getInputsContent(content: FormComponentCms[]) {

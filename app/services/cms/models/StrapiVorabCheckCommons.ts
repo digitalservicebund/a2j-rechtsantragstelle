@@ -3,7 +3,7 @@ import { HasLocaleSchema } from "./HasLocale";
 import { HasTimestampsSchema } from "./HasTimestamps";
 import { HasIdSchema } from "./HasId";
 
-export const VorabCheckCommonsSchema = z
+export const StrapiVorabCheckCommonsSchema = z
   .object({
     progressBarLabel: z.string(),
     resultHintLabel: z.string(),
@@ -16,4 +16,6 @@ export const VorabCheckCommonsSchema = z
   .merge(HasTimestampsSchema)
   .strict();
 
-export type VorabCheckCommons = z.infer<typeof VorabCheckCommonsSchema>;
+export type StrapiVorabCheckCommons = z.infer<
+  typeof StrapiVorabCheckCommonsSchema
+>;

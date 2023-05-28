@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BackgroundSchema } from "./Background";
+import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { ButtonSchema } from "./Button";
 import { ContainerSchema } from "./Container";
 import { HasIdSchema } from "./HasId";
@@ -13,7 +13,7 @@ export const BoxSchema = z
     heading: HeadingSchema.nullable(),
     content: ParagraphSchema.optional(),
     button: ButtonSchema.nullable(),
-    outerBackground: BackgroundSchema.nullable(),
+    outerBackground: StrapiBackgroundSchema.nullable(),
     container: ContainerSchema,
   })
   .merge(HasIdSchema)

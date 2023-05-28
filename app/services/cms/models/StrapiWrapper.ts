@@ -2,7 +2,7 @@ import { z } from "zod";
 import { BackgroundColorSchema } from "./BackgroundColor";
 import { PaddingSchema } from "./Padding";
 
-export const WrapperSchema = z
+export const StrapiWrapperSchema = z
   .object({
     backgroundColor: BackgroundColorSchema.nullable(),
     paddingTop: PaddingSchema.nullable(),
@@ -10,4 +10,4 @@ export const WrapperSchema = z
   })
   .strict();
 
-export type Wrapper = z.infer<typeof WrapperSchema>;
+export type StrapiWrapper = z.infer<typeof StrapiWrapperSchema>;

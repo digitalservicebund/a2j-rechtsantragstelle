@@ -11,7 +11,7 @@ import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
 import PageContent from "~/components/PageContent";
 import Container from "~/components/Container";
-import type { VorabcheckPage } from "~/services/cms/models/VorabcheckPage";
+import type { StrapiVorabCheckPage } from "~/services/cms/models/StrapiVorabCheckPage";
 import type { ResultPage as ResultPageContent } from "~/services/cms/models/ResultPage";
 import ResultPage from "~/components/ResultPage";
 import type { ElementWithId } from "~/services/cms/models/ElementWithId";
@@ -75,7 +75,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
   const currentPage = formPages[stepId];
   let slug = getSlug(request.url);
-  let formPageContent: VorabcheckPage | undefined;
+  let formPageContent: StrapiVorabCheckPage | undefined;
   let resultPageContent: ResultPageContent | undefined;
   let resultReasonsToDisplay: ElementWithId[] | undefined;
   if ("schema" in currentPage) {

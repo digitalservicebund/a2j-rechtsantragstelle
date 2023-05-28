@@ -1,14 +1,14 @@
 import { z } from "zod";
 import { HasIdSchema } from "./HasId";
-import { WrapperSchema } from "./Wrapper";
+import { StrapiWrapperSchema } from "./StrapiWrapper";
 
-export const BackgroundSchema = z
+export const StrapiBackgroundSchema = z
   .object({
     id: z.number(),
     __component: z.literal("meta.background").optional(),
   })
-  .merge(WrapperSchema)
+  .merge(StrapiWrapperSchema)
   .merge(HasIdSchema)
   .strict();
 
-export type Background = z.infer<typeof BackgroundSchema>;
+export type StrapiBackground = z.infer<typeof StrapiBackgroundSchema>;

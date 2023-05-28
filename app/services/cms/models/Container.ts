@@ -1,13 +1,13 @@
 import { z } from "zod";
 import { HasIdSchema } from "./HasId";
-import { WrapperSchema } from "./Wrapper";
+import { StrapiWrapperSchema } from "./StrapiWrapper";
 
 export const ContainerSchema = z
   .object({
     id: z.number(),
     __component: z.literal("meta.container").optional(),
   })
-  .merge(WrapperSchema)
+  .merge(StrapiWrapperSchema)
   .merge(HasIdSchema)
   .strict();
 

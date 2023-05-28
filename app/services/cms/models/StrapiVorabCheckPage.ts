@@ -7,7 +7,7 @@ import { HasMetaSchema } from "./HasMeta";
 import { HasSlugSchema } from "./HasSlug";
 import { HasTimestampsSchema } from "./HasTimestamps";
 
-export const VorabcheckPageSchema = z
+export const StrapiVorabCheckPageSchema = z
   .object({
     pre_form: z.array(FormContentCmsSchema),
     form: z.array(FormComponentCmsSchema),
@@ -19,4 +19,4 @@ export const VorabcheckPageSchema = z
   .merge(HasTimestampsSchema)
   .strict();
 
-export type VorabcheckPage = z.infer<typeof VorabcheckPageSchema>;
+export type StrapiVorabCheckPage = z.infer<typeof StrapiVorabCheckPageSchema>;

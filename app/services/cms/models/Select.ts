@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { HasIdSchema } from "./HasId";
-import { SelectOptionSchema } from "./SelectOption";
+import { StrapiSelectOptionSchema } from "./StrapiSelectOption";
 
 export const SelectSchema = z
   .object({
@@ -8,7 +8,7 @@ export const SelectSchema = z
     name: z.string(),
     label: z.string().nullable(),
     altLabel: z.string().nullable(),
-    options: z.array(SelectOptionSchema),
+    options: z.array(StrapiSelectOptionSchema),
   })
   .merge(HasIdSchema)
   .strict();

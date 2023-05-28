@@ -4,7 +4,7 @@ import Header from "./Header";
 import InfoBox from "./InfoBox";
 import type { FormContentCms } from "~/services/cms/models/FormContentCms";
 import type { Container as ContainerCms } from "~/services/cms/models/Container";
-import type { Background as BackgroundCms } from "~/services/cms/models/Background";
+import type { StrapiBackground } from "~/services/cms/models/StrapiBackground";
 import Box from "./Box";
 import type { ContainerProps } from "./Container";
 import Container from "./Container";
@@ -23,7 +23,7 @@ type PageContentProps = {
 };
 
 const transformCmsData = (
-  cmsData: ContainerCms | BackgroundCms
+  cmsData: ContainerCms | StrapiBackground
 ): ContainerProps | BackgroundProps => {
   return {
     ...cmsData,
@@ -51,7 +51,7 @@ const wrapInContainer = (
 };
 
 const wrapInBackground = (
-  cmsData: { [key: string]: any; outerBackground?: BackgroundCms | null },
+  cmsData: { [key: string]: any; outerBackground?: StrapiBackground | null },
   reactElement: ReactElement
 ): ReactElement => {
   if (!cmsData.outerBackground) {
