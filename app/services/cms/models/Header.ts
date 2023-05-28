@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
-import { ContainerSchema } from "./Container";
+import { StrapiContainerSchema } from "./StrapiContainer";
 import { HasIdSchema } from "./HasId";
 import { HeadingSchema } from "./Heading";
 import { ParagraphSchema } from "./Paragraph";
@@ -11,7 +11,7 @@ export const HeaderSchema = z
     heading: HeadingSchema,
     content: ParagraphSchema,
     outerBackground: StrapiBackgroundSchema.nullable(),
-    container: ContainerSchema,
+    container: StrapiContainerSchema,
   })
   .merge(HasIdSchema)
   .strict();

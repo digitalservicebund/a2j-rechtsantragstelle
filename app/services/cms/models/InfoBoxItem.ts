@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ButtonSchema } from "./Button";
+import { StrapiButtonSchema } from "./StrapiButton";
 import { HasIdSchema } from "./HasId";
 import { HeadingSchema } from "./Heading";
 import { ImageSchema } from "./Image";
@@ -11,7 +11,7 @@ export const InfoBoxItemSchema = z
     headline: HeadingSchema.nullable(),
     image: ImageSchema.optional(),
     content: z.string(),
-    button: ButtonSchema.nullable(),
+    button: StrapiButtonSchema.nullable(),
   })
   .merge(HasIdSchema)
   .strict();

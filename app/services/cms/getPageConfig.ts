@@ -1,7 +1,7 @@
 import type { FormComponentCms } from "./models/FormComponentCms";
 import type { StrapiVorabCheckPage } from "./models/StrapiVorabCheckPage";
 import type { Input as InputContent } from "./models/Input";
-import type { ErrorCategory } from "./models/ErrorCategory";
+import type { StrapiErrorCategory } from "./models/StrapiErrorCategory";
 
 // FIXME: sammelsurrium
 
@@ -27,7 +27,7 @@ export function getRelevantInputContent(
 }
 
 export const flattenErrorCodes = (
-  errors: { attributes: ErrorCategory }[] = []
+  errors: { attributes: StrapiErrorCategory }[] = []
 ) => {
   return errors.map((e) => e.attributes.errorCodes).flat();
 };

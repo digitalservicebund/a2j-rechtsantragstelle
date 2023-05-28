@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ErrorCategorySchema } from "./ErrorCategory";
+import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
 import { HasIdSchema } from "./HasId";
 
 export const InputSchema = z
@@ -16,7 +16,7 @@ export const InputSchema = z
             z
               .object({
                 id: z.number(),
-                attributes: ErrorCategorySchema,
+                attributes: StrapiErrorCategorySchema,
               })
               .strict()
           )

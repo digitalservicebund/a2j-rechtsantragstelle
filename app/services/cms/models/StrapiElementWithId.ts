@@ -3,7 +3,7 @@ import { FormContentCmsSchema } from "./FormContentCms";
 import { HasLocaleSchema } from "./HasLocale";
 import { HasTimestampsSchema } from "./HasTimestamps";
 
-export const ElementWithIdSchema = z
+export const StrapiElementWithIdSchema = z
   .object({
     elementId: z.string(),
     element: z.array(FormContentCmsSchema),
@@ -12,4 +12,4 @@ export const ElementWithIdSchema = z
   .merge(HasTimestampsSchema)
   .strict();
 
-export type ElementWithId = z.infer<typeof ElementWithIdSchema>;
+export type StrapiElementWithId = z.infer<typeof StrapiElementWithIdSchema>;

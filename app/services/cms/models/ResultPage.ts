@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ElementWithIdSchema } from "./ElementWithId";
+import { StrapiElementWithIdSchema } from "./StrapiElementWithId";
 import { FormContentCmsSchema } from "./FormContentCms";
 import { HasIdSchema } from "./HasId";
 import { HasLocaleSchema } from "./HasLocale";
@@ -22,7 +22,7 @@ export const ResultPageSchema = z
         .array(
           z.object({
             id: z.number(),
-            attributes: ElementWithIdSchema,
+            attributes: StrapiElementWithIdSchema,
           })
         )
         .nullable(),
@@ -31,7 +31,7 @@ export const ResultPageSchema = z
       data: z
         .object({
           id: z.number(),
-          attributes: ElementWithIdSchema,
+          attributes: StrapiElementWithIdSchema,
         })
         .nullable(),
     }),
@@ -39,7 +39,7 @@ export const ResultPageSchema = z
       data: z
         .object({
           id: z.number(),
-          attributes: ElementWithIdSchema,
+          attributes: StrapiElementWithIdSchema,
         })
         .nullable(),
     }),

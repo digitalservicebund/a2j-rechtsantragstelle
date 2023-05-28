@@ -2,7 +2,7 @@ import { z } from "zod";
 import { FieldErrorSchema } from "./FieldError";
 import { HasTimestampsSchema } from "./HasTimestamps";
 
-export const ErrorCategorySchema = z
+export const StrapiErrorCategorySchema = z
   .object({
     name: z.string(),
     errorCodes: z.array(FieldErrorSchema),
@@ -10,4 +10,4 @@ export const ErrorCategorySchema = z
   .merge(HasTimestampsSchema)
   .strict();
 
-export type ErrorCategory = z.infer<typeof ErrorCategorySchema>;
+export type StrapiErrorCategory = z.infer<typeof StrapiErrorCategorySchema>;

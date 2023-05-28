@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { HasIdSchema } from "./HasId";
 
-export const ButtonSchema = z
+export const StrapiButtonSchema = z
   .object({
     __component: z.literal("form-elements.button").optional(),
     look: z.enum(["primary", "secondary", "tertiary", "ghost"]).optional(),
@@ -13,4 +13,4 @@ export const ButtonSchema = z
   .merge(HasIdSchema)
   .strict();
 
-export type Button = z.infer<typeof ButtonSchema>;
+export type StrapiButton = z.infer<typeof StrapiButtonSchema>;
