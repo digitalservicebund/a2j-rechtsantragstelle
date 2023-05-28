@@ -1,6 +1,3 @@
-import { Footer } from "~/services/cms/models/Footer";
-import { Navigation } from "~/services/cms/models/Navigation";
-
 type Data =
   | {
       [key: string]: any;
@@ -12,8 +9,8 @@ export function removeEmpty(data: Data): Data {
   if (!data) return data;
 
   //transform properties into key-values pairs and filter all the empty-values
-  const entries = Object.entries(data).filter(([key, value]) => {
-    return value !== null; // && key !== "id" && key !== "__component"
+  const entries = Object.entries(data).filter(([, value]) => {
+    return value !== null;
   });
 
   //map through all the remaining properties and check if the value is an object.
