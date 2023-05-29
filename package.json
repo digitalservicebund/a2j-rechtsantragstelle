@@ -11,7 +11,7 @@
     "prettier:check": "prettier --check . --ignore-path .gitignore",
     "eslint": "eslint --ext .js,.ts,.tsx . --fix",
     "eslint:check": "eslint --ext .js,.ts,.tsx .",
-    "test": "jest --testPathPattern=/tests/unit/ --maxWorkers=50%",
+    "test": "jest --testPathPattern=/tests/unit/ --maxWorkers=50% --coverage",
     "test:e2e": "npx playwright test"
   },
   "dependencies": {
