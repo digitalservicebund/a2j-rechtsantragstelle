@@ -1,5 +1,5 @@
 import { NavbarPropsSchema } from "~/components/Navbar";
-import type { StrapiNavigation } from "../models/StrapiNavigation";
+import type { StrapiNavigation } from "../cms/models/StrapiNavigation";
 import { omitNull } from "~/util/omitNull";
 
 export const getNavbarProps = (cmsData: StrapiNavigation) => {

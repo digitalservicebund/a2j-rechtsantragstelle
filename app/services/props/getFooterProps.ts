@@ -1,5 +1,5 @@
 import { FooterPropsSchema } from "~/components/Footer";
-import type { StrapiFooter } from "../models/StrapiFooter";
+import type { StrapiFooter } from "../cms/models/StrapiFooter";
 import { omitNull } from "~/util/omitNull";
 import { getImageProps } from "./getImageProps";
 

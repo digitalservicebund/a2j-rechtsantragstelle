@@ -1,5 +1,5 @@
 import { ParagraphPropsSchema } from "~/components/Paragraph";
-import type { StrapiParagraph } from "../models/StrapiParagraph";
+import type { StrapiParagraph } from "../cms/models/StrapiParagraph";
 import { omitNull } from "~/util/omitNull";
 
 export const getParagraphProps = (cmsData: StrapiParagraph) => {

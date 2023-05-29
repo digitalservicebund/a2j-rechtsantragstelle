@@ -14,10 +14,10 @@ import fontsStylesheet from "@digitalservice4germany/angie/fonts.css";
 import { withSentry } from "@sentry/remix";
 import { getWebConfig } from "~/services/config";
 import { getStrapiFooter, getStrapiNavigation } from "~/services/cms";
-import { getFooterProps } from "~/services/cms/adapters/getFooterProps";
+import { getFooterProps } from "~/services/props/getFooterProps";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
-import { getNavbarProps } from "./services/cms/adapters/getNavbarProps";
+import { getNavbarProps } from "./services/props/getNavbarProps";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: fontsStylesheet },
