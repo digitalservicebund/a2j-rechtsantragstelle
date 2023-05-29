@@ -14,7 +14,7 @@ const mockedGetStrapiEntryFromApi = getStrapiEntryFromApi as jest.Mocked<
 >;
 
 describe("services/cms", () => {
-  describe("getFooter", () => {
+  describe("getStrapiFooter", () => {
     test("returns an entry", async () => {
       // TODO: need test factories first to return proper data
       expect(true).toBe(true);

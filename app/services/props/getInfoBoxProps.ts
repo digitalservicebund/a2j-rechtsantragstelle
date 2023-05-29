@@ -8,6 +8,5 @@ export const getInfoBoxProps = (cmsData: StrapiInfoBox) => {
     ...cmsData,
     items: cmsData.items.map(getInfoBoxItemProps),
   };
-  console.log({ props: props.items });
   return InfoBoxPropsSchema.parse(omitNull(props));
 };

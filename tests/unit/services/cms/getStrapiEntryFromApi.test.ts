@@ -6,8 +6,8 @@ jest.mock("axios");
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-describe("strapi", () => {
-  describe("getEntryFromStrapi", () => {
+describe("services/cms", () => {
+  describe("getStrapiEntryFromApi", () => {
     const data = "data";
     const defaultOptions: GetStrapiEntryOpts = {
       apiId: "api-id",
