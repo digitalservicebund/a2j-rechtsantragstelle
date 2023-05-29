@@ -1,5 +1,5 @@
 import { InfoBoxPropsSchema } from "~/components/InfoBox";
-import type { StrapiInfoBox } from "../models/StrapiInfoBox";
+import type { StrapiInfoBox } from "../cms/models/StrapiInfoBox";
 import { omitNull } from "~/util/omitNull";
 import { getInfoBoxItemProps } from "./getInfoBoxItemProps";
 

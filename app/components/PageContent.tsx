@@ -11,11 +11,11 @@ import Container from "./Container";
 import type { BackgroundProps } from "./Background";
 import Background from "./Background";
 import type { ReactElement } from "react";
-import { getInfoBoxProps } from "~/services/cms/adapters/getInfoBoxProps";
-import { getBoxProps } from "~/services/cms/adapters/getBoxProps";
-import { getHeadingProps } from "~/services/cms/adapters/getHeadingProps";
-import { getHeaderProps } from "~/services/cms/adapters/getHeaderProps";
-import { getParagraphProps } from "~/services/cms/adapters/getParagraphProps";
+import { getInfoBoxProps } from "~/services/props/getInfoBoxProps";
+import { getBoxProps } from "~/services/props/getBoxProps";
+import { getHeadingProps } from "~/services/props/getHeadingProps";
+import { getHeaderProps } from "~/services/props/getHeaderProps";
+import { getParagraphProps } from "~/services/props/getParagraphProps";
 
 type PageContentProps = {
   content: Array<StrapiContent>;
