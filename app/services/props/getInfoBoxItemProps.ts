@@ -8,7 +8,5 @@ export const getInfoBoxItemProps = (cmsData: StrapiInfoBoxItem) => {
     ...cmsData,
     image: cmsData.image ? getImageProps(cmsData.image) : undefined,
   };
-  console.log({ cmsData, props });
-
   return InfoBoxItemPropsSchema.parse(omitNull(props));
 };

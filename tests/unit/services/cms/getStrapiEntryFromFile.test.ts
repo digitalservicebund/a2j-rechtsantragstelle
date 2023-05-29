@@ -15,8 +15,8 @@ const mockedStrapiFileContentSchema = StrapiFileContentSchema as jest.Mocked<
   typeof StrapiFileContentSchema
 >;
 
-describe("services/cms/file", () => {
-  describe("getEntryFromFile", () => {
+describe("services/cms", () => {
+  describe("getStrapiEntryFromFile", () => {
     const defaultOptions: GetStrapiEntryOpts = {
       apiId: "footer",
       locale: "de",
