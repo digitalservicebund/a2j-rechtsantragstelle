@@ -1,4 +1,4 @@
-import { FileContentSchema } from "~/services/cms/models/FileContent";
+import { StrapiFileContentSchema } from "~/services/cms/models/StrapiFileContent";
 import type { GetEntryOpts } from "~/services/cms";
 import { getEntryFromFile } from "~/services/cms/file";
 
@@ -11,8 +11,8 @@ jest.mock("~/services/cms/models/FileContent", () => {
   };
 });
 
-const mockedFileContentSchema = FileContentSchema as jest.Mocked<
-  typeof FileContentSchema
+const mockedFileContentSchema = StrapiFileContentSchema as jest.Mocked<
+  typeof StrapiFileContentSchema
 >;
 
 describe("services/cms/file", () => {

@@ -1,13 +1,13 @@
 import { z } from "zod";
-import { FieldErrorSchema } from "./FieldError";
-import { HasTimestampsSchema } from "./HasTimestamps";
+import { StrapiFieldErrorSchema } from "./StrapiFieldError";
+import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 
 export const StrapiErrorCategorySchema = z
   .object({
     name: z.string(),
-    errorCodes: z.array(FieldErrorSchema),
+    errorCodes: z.array(StrapiFieldErrorSchema),
   })
-  .merge(HasTimestampsSchema)
+  .merge(HasStrapiTimestampsSchema)
   .strict();
 
 export type StrapiErrorCategory = z.infer<typeof StrapiErrorCategorySchema>;

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HasIdSchema } from "./HasId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiWrapperSchema } from "./StrapiWrapper";
 
 export const StrapiContainerSchema = z
@@ -8,7 +8,7 @@ export const StrapiContainerSchema = z
     __component: z.literal("meta.container").optional(),
   })
   .merge(StrapiWrapperSchema)
-  .merge(HasIdSchema)
+  .merge(HasStrapiIdSchema)
   .strict();
 
 export type StrapiContainer = z.infer<typeof StrapiContainerSchema>;

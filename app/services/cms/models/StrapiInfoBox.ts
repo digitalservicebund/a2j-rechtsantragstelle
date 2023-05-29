@@ -1,22 +1,19 @@
 import { z } from "zod";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
-import { StrapiButtonSchema } from "./StrapiButton";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import { HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import { StrapiParagraphSchema } from "./StrapiParagraph";
+import { StrapiInfoBoxItemSchema } from "./StrapiInfoBoxItem";
 
-export const StrapiBoxSchema = z
+export const StrapiInfoBoxSchema = z
   .object({
-    __component: z.literal("page.box").optional(),
-    label: StrapiHeadingSchema.nullable(),
+    __component: z.literal("page.info-box").optional(),
     heading: StrapiHeadingSchema.nullable(),
-    content: StrapiParagraphSchema.optional(),
-    button: StrapiButtonSchema.nullable(),
+    items: z.array(StrapiInfoBoxItemSchema),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
   })
   .merge(HasStrapiIdSchema)
   .strict();
 
-export type StrapiBox = z.infer<typeof StrapiBoxSchema>;
+export type StrapiInfoBox = z.infer<typeof StrapiInfoBoxSchema>;

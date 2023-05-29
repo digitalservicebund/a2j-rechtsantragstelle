@@ -12,7 +12,7 @@ import { commitSession, getSession } from "~/sessions";
 import PageContent from "~/components/PageContent";
 import Container from "~/components/Container";
 import type { StrapiVorabCheckPage } from "~/services/cms/models/StrapiVorabCheckPage";
-import type { ResultPage as ResultPageContent } from "~/services/cms/models/ResultPage";
+import type { StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 import ResultPage from "~/components/ResultPage";
 import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
 import { Background } from "~/components";
@@ -76,7 +76,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const currentPage = formPages[stepId];
   let slug = getSlug(request.url);
   let formPageContent: StrapiVorabCheckPage | undefined;
-  let resultPageContent: ResultPageContent | undefined;
+  let resultPageContent: StrapiResultPage | undefined;
   let resultReasonsToDisplay: StrapiElementWithId[] | undefined;
   if ("schema" in currentPage) {
     formPageContent = await getVorabCheckPage({ slug });

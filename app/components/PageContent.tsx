@@ -2,7 +2,7 @@ import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
 import Header from "./Header";
 import InfoBox from "./InfoBox";
-import type { FormContentCms } from "~/services/cms/models/FormContentCms";
+import type { StrapiContent } from "~/services/cms/models/StrapiContent";
 import type { StrapiContainer } from "~/services/cms/models/StrapiContainer";
 import type { StrapiBackground } from "~/services/cms/models/StrapiBackground";
 import Box from "./Box";
@@ -18,7 +18,7 @@ import { getHeaderProps } from "~/services/cms/adapters/getHeaderProps";
 import { getParagraphProps } from "~/services/cms/adapters/getParagraphProps";
 
 type PageContentProps = {
-  content: Array<FormContentCms>;
+  content: Array<StrapiContent>;
   className?: string;
 };
 
@@ -61,7 +61,7 @@ const wrapInBackground = (
   return <Background {...config}>{reactElement}</Background>;
 };
 
-function cmsToReact(cms: FormContentCms) {
+function cmsToReact(cms: StrapiContent) {
   switch (cms.__component) {
     case "basic.heading":
       return <Heading {...getHeadingProps(cms)} key={cms.id} />;

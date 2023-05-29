@@ -1,6 +1,6 @@
-import type { FormComponentCms } from "./models/FormComponentCms";
+import type { StrapiFormComponent } from "./models/StrapiFormComponent";
 import type { StrapiVorabCheckPage } from "./models/StrapiVorabCheckPage";
-import type { Input as InputContent } from "./models/Input";
+import type { StrapiInput as InputContent } from "./models/StrapiInput";
 import type { StrapiErrorCategory } from "./models/StrapiErrorCategory";
 
 // FIXME: sammelsurrium
@@ -10,14 +10,14 @@ export type StrapiPage = {
   attributes: StrapiVorabCheckPage;
 };
 
-export function getInputsContent(content: FormComponentCms[]) {
+export function getInputsContent(content: StrapiFormComponent[]) {
   return content.filter(
     (el) => el.__component === "form-elements.input"
   ) as InputContent[];
 }
 
 export function getRelevantInputContent(
-  content: FormComponentCms[] = [],
+  content: StrapiFormComponent[] = [],
   inputName: string
 ) {
   const matchingElements = getInputsContent(content).filter(

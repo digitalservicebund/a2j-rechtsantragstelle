@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const PaddingSchema = z.enum([
+export const StrapiPaddingSchema = z.enum([
   "default",
   "px0",
   "px8",
@@ -13,4 +13,4 @@ export const PaddingSchema = z.enum([
   "px64",
 ]);
 
-export type Padding = z.infer<typeof PaddingSchema>;
+export type StrapiPadding = z.infer<typeof StrapiPaddingSchema>;

@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { HasIdSchema } from "./HasId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 
-export const ImageSchema = z.object({
+export const StrapiImageSchema = z.object({
   data: z
     .object({
       attributes: z
@@ -25,9 +25,9 @@ export const ImageSchema = z.object({
         })
         .strict(),
     })
-    .merge(HasIdSchema)
+    .merge(HasStrapiIdSchema)
     .strict()
     .nullable(),
 });
 
-export type Image = z.infer<typeof ImageSchema>;
+export type StrapiImage = z.infer<typeof StrapiImageSchema>;

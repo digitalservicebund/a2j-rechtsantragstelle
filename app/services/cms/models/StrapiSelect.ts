@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { HasIdSchema } from "./HasId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiSelectOptionSchema } from "./StrapiSelectOption";
 
-export const SelectSchema = z
+export const StrapiSelectSchema = z
   .object({
     __component: z.literal("form-elements.select").optional(),
     name: z.string(),
@@ -10,7 +10,7 @@ export const SelectSchema = z
     altLabel: z.string().nullable(),
     options: z.array(StrapiSelectOptionSchema),
   })
-  .merge(HasIdSchema)
+  .merge(HasStrapiIdSchema)
   .strict();
 
-export type Select = z.infer<typeof SelectSchema>;
+export type StrapiSelect = z.infer<typeof StrapiSelectSchema>;

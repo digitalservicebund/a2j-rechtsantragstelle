@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HasIdSchema } from "./HasId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiButtonSchema = z
   .object({
@@ -10,7 +10,7 @@ export const StrapiButtonSchema = z
     href: z.string().optional(),
     text: z.string().optional(),
   })
-  .merge(HasIdSchema)
+  .merge(HasStrapiIdSchema)
   .strict();
 
 export type StrapiButton = z.infer<typeof StrapiButtonSchema>;
