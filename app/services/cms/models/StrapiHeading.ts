@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { HasIdSchema } from "./HasId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 
-export const HeadingSchema = z
+export const StrapiHeadingSchema = z
   .object({
     __component: z.literal("basic.heading").optional(),
     text: z.string(),
@@ -24,7 +24,7 @@ export const HeadingSchema = z
       "ds-body-02-reg",
     ]),
   })
-  .merge(HasIdSchema)
+  .merge(HasStrapiIdSchema)
   .strict();
 
-export type Heading = z.infer<typeof HeadingSchema>;
+export type StrapiHeading = z.infer<typeof StrapiHeadingSchema>;

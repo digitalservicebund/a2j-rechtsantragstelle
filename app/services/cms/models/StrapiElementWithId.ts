@@ -1,15 +1,15 @@
 import { z } from "zod";
-import { FormContentCmsSchema } from "./FormContentCms";
-import { HasLocaleSchema } from "./HasLocale";
-import { HasTimestampsSchema } from "./HasTimestamps";
+import { StrapiContentSchema } from "./StrapiContent";
+import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
+import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 
 export const StrapiElementWithIdSchema = z
   .object({
     elementId: z.string(),
-    element: z.array(FormContentCmsSchema),
+    element: z.array(StrapiContentSchema),
   })
-  .merge(HasLocaleSchema)
-  .merge(HasTimestampsSchema)
+  .merge(HasStrapiLocaleSchema)
+  .merge(HasStrapiTimestampsSchema)
   .strict();
 
 export type StrapiElementWithId = z.infer<typeof StrapiElementWithIdSchema>;

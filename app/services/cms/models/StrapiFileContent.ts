@@ -1,14 +1,14 @@
 import { z } from "zod";
 import { StrapiElementWithIdSchema } from "./StrapiElementWithId";
 import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
-import { FooterSchema } from "./Footer";
-import { NavigationSchema } from "./Navigation";
-import { PageSchema } from "./Page";
-import { ResultPageSchema } from "./ResultPage";
+import { StrapiFooterSchema } from "./StrapiFooter";
+import { StrapiNavigationSchema } from "./StrapiNavigation";
+import { StrapiPageSchema } from "./StrapiPage";
+import { StrapiResultPageSchema } from "./StrapiResultPage";
 import { StrapiVorabCheckCommonsSchema } from "./StrapiVorabCheckCommons";
 import { StrapiVorabCheckPageSchema } from "./StrapiVorabCheckPage";
 
-export const FileContentSchema = z
+export const StrapiFileContentSchema = z
   .object({
     "element-with-ids": z.array(
       z.object({
@@ -25,25 +25,25 @@ export const FileContentSchema = z
     footer: z.array(
       z.object({
         id: z.number(),
-        attributes: FooterSchema,
+        attributes: StrapiFooterSchema,
       })
     ),
     navigation: z.array(
       z.object({
         id: z.number(),
-        attributes: NavigationSchema,
+        attributes: StrapiNavigationSchema,
       })
     ),
     pages: z.array(
       z.object({
         id: z.number(),
-        attributes: PageSchema,
+        attributes: StrapiPageSchema,
       })
     ),
     "result-pages": z.array(
       z.object({
         id: z.number(),
-        attributes: ResultPageSchema,
+        attributes: StrapiResultPageSchema,
       })
     ),
     "vorab-check-common": z.array(
@@ -61,4 +61,4 @@ export const FileContentSchema = z
   })
   .strict();
 
-export type FileContent = z.infer<typeof FileContentSchema>;
+export type StrapiFileContent = z.infer<typeof StrapiFileContentSchema>;

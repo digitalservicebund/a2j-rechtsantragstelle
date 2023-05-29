@@ -1,4 +1,4 @@
-import type { ResultPage as ResultPageContent } from "~/services/cms/models/ResultPage";
+import type { StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 import RichText from "~/components/RichText";
 import {
   CheckCircleOutline,
@@ -7,7 +7,7 @@ import {
 } from "@mui/icons-material";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";
-import type { ResultPageType } from "~/services/cms/models/ResultPageType";
+import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
 import type { ReactElement } from "react";
 import PageContent from "~/components/PageContent";
 import { Button } from "~/components/index";
@@ -18,7 +18,7 @@ import ProgressBarArea from "~/components/form/ProgressBarArea";
 import type { StrapiVorabCheckCommons } from "~/services/cms/models/StrapiVorabCheckCommons";
 
 type ResultPageProps = {
-  content: ResultPageContent & StrapiVorabCheckCommons;
+  content: StrapiResultPage & StrapiVorabCheckCommons;
   reasonsToDisplay?: StrapiElementWithId[];
   backDestination?: string;
   progressStep: number;
@@ -31,7 +31,9 @@ type PageTypeProperties = {
   icon: (className: string) => ReactElement;
 };
 
-const pageTypeProperties = (pageType: ResultPageType): PageTypeProperties => {
+const pageTypeProperties = (
+  pageType: StrapiResultPageType
+): PageTypeProperties => {
   const pageTypePropertyMap = {
     error: {
       background: "bg-red-200",
@@ -60,7 +62,7 @@ const pageTypeProperties = (pageType: ResultPageType): PageTypeProperties => {
         />
       ),
     },
-  } as { [key in ResultPageType]: PageTypeProperties };
+  } as { [key in StrapiResultPageType]: PageTypeProperties };
   return pageTypePropertyMap[pageType];
 };
 

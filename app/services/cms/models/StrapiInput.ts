@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
-import { HasIdSchema } from "./HasId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 
-export const InputSchema = z
+export const StrapiInputSchema = z
   .object({
     __component: z.literal("form-elements.input").optional(),
     name: z.string(),
@@ -24,7 +24,7 @@ export const InputSchema = z
       })
       .strict(),
   })
-  .merge(HasIdSchema)
+  .merge(HasStrapiIdSchema)
   .strict();
 
-export type Input = z.infer<typeof InputSchema>;
+export type StrapiInput = z.infer<typeof StrapiInputSchema>;

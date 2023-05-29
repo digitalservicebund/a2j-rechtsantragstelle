@@ -1,26 +1,26 @@
 import { RadioGroup } from "~/components";
-import type { Select } from "~/services/cms/models/Select";
-import type { FormComponentCms } from "~/services/cms/models/FormComponentCms";
+import type { StrapiSelect } from "~/services/cms/models/StrapiSelect";
+import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 
 type DefaultOptions = { value: any; text: string }[];
 
 type RadioGroupWithContentProps = {
   name: string;
-  content: FormComponentCms[];
+  content: StrapiFormComponent[];
   defaultOptions?: DefaultOptions;
 };
 
 const filterMatchingContent = (
-  content: FormComponentCms[] = [],
+  content: StrapiFormComponent[] = [],
   fieldname: string
 ) => {
   return content.filter(
     (e) => e.name === fieldname && e.__component === "form-elements.select"
-  )[0] as Select;
+  )[0] as StrapiSelect;
 };
 
 export function getRelevantOptions(
-  content: FormComponentCms[],
+  content: StrapiFormComponent[],
   id: string,
   defaultOptions?: DefaultOptions
 ) {

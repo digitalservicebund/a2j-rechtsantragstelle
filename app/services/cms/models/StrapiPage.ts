@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { StrapiFormComponentSchema } from "./StrapiFormComponent";
 import { StrapiContentSchema } from "./StrapiContent";
 import { HasStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
@@ -7,10 +6,9 @@ import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { HasStrapiSlugSchema } from "./HasStrapiSlug";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 
-export const StrapiVorabCheckPageSchema = z
+export const StrapiPageSchema = z
   .object({
-    pre_form: z.array(StrapiContentSchema),
-    form: z.array(StrapiFormComponentSchema),
+    content: z.array(StrapiContentSchema),
   })
   .merge(HasStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
@@ -19,4 +17,4 @@ export const StrapiVorabCheckPageSchema = z
   .merge(HasStrapiTimestampsSchema)
   .strict();
 
-export type StrapiVorabCheckPage = z.infer<typeof StrapiVorabCheckPageSchema>;
+export type StrapiPage = z.infer<typeof StrapiPageSchema>;
