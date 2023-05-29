@@ -13,7 +13,7 @@ import stylesheet from "~/styles.css";
 import fontsStylesheet from "@digitalservice4germany/angie/fonts.css";
 import { withSentry } from "@sentry/remix";
 import { getWebConfig } from "~/services/config";
-import { getFooter, getNavigation } from "~/services/cms";
+import { getStrapiFooter, getStrapiNavigation } from "~/services/cms";
 import { getFooterProps } from "~/services/cms/adapters/getFooterProps";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
@@ -28,8 +28,8 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const footer = getFooterProps(await getFooter());
-  const navigation = getNavbarProps(await getNavigation());
+  const footer = getFooterProps(await getStrapiFooter());
+  const navigation = getNavbarProps(await getStrapiNavigation());
 
   return json({
     footer: footer,

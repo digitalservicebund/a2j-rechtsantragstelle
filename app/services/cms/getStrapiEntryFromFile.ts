@@ -1,8 +1,8 @@
-import type { GetEntryOpts } from "..";
+import type { GetStrapiEntryOpts } from ".";
 import contentFile from "~/../content.json";
-import { StrapiFileContentSchema } from "../models/StrapiFileContent";
+import { StrapiFileContentSchema } from "./models/StrapiFileContent";
 
-export const getEntryFromFile = async (opts: GetEntryOpts) => {
+export const getStrapiEntryFromFile = async (opts: GetStrapiEntryOpts) => {
   const content = StrapiFileContentSchema.parse(contentFile);
   const apiIdContent = content[opts.apiId as keyof typeof content];
 
