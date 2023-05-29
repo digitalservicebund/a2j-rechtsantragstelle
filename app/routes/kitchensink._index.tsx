@@ -133,7 +133,7 @@ export default function Kitchensink() {
                 {
                   '<Background backgroundColor="yellow" paddingTop="32" paddingBottom="32">\n'
                 }
-                {"  inner content\n"}
+                {" some inner content\n"}
                 {"</Background>"}
               </pre>
             </code>
@@ -159,7 +159,7 @@ export default function Kitchensink() {
                 {
                   '<Container backgroundColor="yellow" paddingTop="16" paddingBottom="16">\n'
                 }
-                {"  inner content\n"}
+                {" foo inner content\n"}
                 {"</Container>"}
               </pre>
             </code>

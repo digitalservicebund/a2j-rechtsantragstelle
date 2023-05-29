@@ -9,12 +9,11 @@ export const getStrapiEntryFromFile = async (opts: GetStrapiEntryOpts) => {
   return [...apiIdContent].find((item) => {
     if ("locale" in item.attributes && item.attributes.locale !== opts.locale)
       return false;
-    if (
+
+    return !(
       opts.slug &&
       "slug" in item.attributes &&
       item.attributes.slug !== opts.slug
-    )
-      return false;
-    return true;
+    );
   });
 };
