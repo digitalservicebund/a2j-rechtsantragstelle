@@ -1,9 +1,9 @@
 import type { AxiosResponse } from "axios";
 import axios from "axios";
 import config from "~/services/config";
-import type { GetEntryOpts } from "..";
+import type { GetStrapiEntryOpts } from ".";
 
-const buildUrl = ({ apiId, slug, locale }: GetEntryOpts) =>
+const buildUrl = ({ apiId, slug, locale }: GetStrapiEntryOpts) =>
   [
     config().STRAPI_API,
     apiId,
@@ -23,7 +23,7 @@ const unpackResponse = (response: AxiosResponse) => {
   return data;
 };
 
-export const getEntryFromStrapi = async (opts: GetEntryOpts) => {
+export const getStrapiEntryFromApi = async (opts: GetStrapiEntryOpts) => {
   const response = await axios.get(buildUrl(opts), {
     headers: {
       Authorization: "Bearer " + config().STRAPI_ACCESS_KEY,

@@ -3,14 +3,14 @@ import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import PageContent from "~/components/PageContent";
-import { getPage } from "~/services/cms";
+import { getStrapiPage } from "~/services/cms";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta.title },
 ];
 
 export const loader: LoaderFunction = async () => {
-  const page = await getPage({ slug: "impressum" });
+  const page = await getStrapiPage({ slug: "impressum" });
   return json({
     content: page.content,
     meta: page.meta,

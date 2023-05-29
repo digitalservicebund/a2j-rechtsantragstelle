@@ -1,16 +1,16 @@
-import { GetEntryOpts, getFooter } from "~/services/cms";
-import { getEntryFromFile } from "~/services/cms/file";
-import { getEntryFromStrapi } from "~/services/cms/strapi";
+import { GetStrapiEntryOpts, getStrapiFooter } from "~/services/cms";
+import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
+import { getStrapiEntryFromApi } from "~/services/cms/getStrapiEntryFromApi";
 
-jest.mock("~/services/cms/strapi", () => {
+jest.mock("~/services/cms/getStrapiEntryFromApi", () => {
   return {
     __esModule: true,
-    getEntryFromStrapi: jest.fn(),
+    getStrapiEntryFromApi: jest.fn(),
   };
 });
 
-const mockedGetEntryFromStrapi = getEntryFromStrapi as jest.Mocked<
-  typeof getEntryFromStrapi
+const mockedGetStrapiEntryFromApi = getStrapiEntryFromApi as jest.Mocked<
+  typeof getStrapiEntryFromApi
 >;
 
 describe("services/cms", () => {

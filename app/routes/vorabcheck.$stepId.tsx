@@ -18,9 +18,9 @@ import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWit
 import { Background } from "~/components";
 import ProgressBarArea from "~/components/form/ProgressBarArea";
 import {
-  getResultPage,
-  getVorabCheckCommons,
-  getVorabCheckPage,
+  getStrapiResultPage,
+  getStrapiVorabCheckCommons,
+  getStrapiVorabCheckPage,
 } from "~/services/cms";
 import getSlug from "~/util/getSlug";
 
@@ -79,7 +79,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   let resultPageContent: StrapiResultPage | undefined;
   let resultReasonsToDisplay: StrapiElementWithId[] | undefined;
   if ("schema" in currentPage) {
-    formPageContent = await getVorabCheckPage({ slug });
+    formPageContent = await getStrapiVorabCheckPage({ slug });
   } else {
     if (/AbschlussJa/.test(slug)) {
       slug = "abschlussJa";
@@ -88,13 +88,13 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     } else if (/AbschlussVielleicht/.test(slug)) {
       slug = "abschlussVielleicht";
     }
-    resultPageContent = await getResultPage({ slug });
+    resultPageContent = await getStrapiResultPage({ slug });
     resultReasonsToDisplay = getReasonsToDisplay(
       resultPageContent?.reasonings?.data,
       session.data
     );
   }
-  const commonContent = await getVorabCheckCommons();
+  const commonContent = await getStrapiVorabCheckCommons();
 
   let additionalContext = {};
   if ("additionalContext" in currentPage && currentPage["additionalContext"]) {

@@ -1,7 +1,7 @@
 import config from "../config";
 import type { StrapiLocale } from "./models/StrapiLocale";
-import { getEntryFromFile } from "./file";
-import { getEntryFromStrapi } from "./strapi";
+import { getStrapiEntryFromFile } from "./getStrapiEntryFromFile";
+import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";
 import { StrapiFooterSchema } from "./models/StrapiFooter";
 import { StrapiNavigationSchema } from "./models/StrapiNavigation";
 import { StrapiPageSchema } from "./models/StrapiPage";
@@ -9,59 +9,65 @@ import { StrapiResultPageSchema } from "./models/StrapiResultPage";
 import { StrapiVorabCheckCommonsSchema } from "./models/StrapiVorabCheckCommons";
 import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
 
-export type GetEntryOpts = {
+export type GetStrapiEntryOpts = {
   apiId: string;
   slug?: string;
   locale: StrapiLocale;
 };
 
-const getEntryFromSource =
-  config().CMS === "FILE" ? getEntryFromFile : getEntryFromStrapi;
+const getStrapiEntryFromSource =
+  config().CMS === "FILE" ? getStrapiEntryFromFile : getStrapiEntryFromApi;
 
-const getEntry = async (
-  opts: Pick<GetEntryOpts, "apiId" | "slug"> & {
+const getStrapiEntry = async (
+  opts: Pick<GetStrapiEntryOpts, "apiId" | "slug"> & {
     locale?: StrapiLocale;
   }
 ) => {
-  const data = await getEntryFromSource({ locale: "de", ...opts });
+  const data = await getStrapiEntryFromSource({ locale: "de", ...opts });
   // "remove attributes key"
   return { id: data.id, ...data.attributes };
 };
 
 // single types getters
 
-type SingleTypeGetterOpts = {
+type StrapiSingleTypeGetterOpts = {
   locale?: StrapiLocale;
 };
 
-export const getFooter = async (opts?: SingleTypeGetterOpts) =>
-  StrapiFooterSchema.parse(await getEntry({ apiId: "footer", ...opts }));
+export const getStrapiFooter = async (opts?: StrapiSingleTypeGetterOpts) =>
+  StrapiFooterSchema.parse(await getStrapiEntry({ apiId: "footer", ...opts }));
 
-export const getNavigation = async (opts?: SingleTypeGetterOpts) =>
+export const getStrapiNavigation = async (opts?: StrapiSingleTypeGetterOpts) =>
   StrapiNavigationSchema.parse(
-    await getEntry({ apiId: "navigation", ...opts })
+    await getStrapiEntry({ apiId: "navigation", ...opts })
   );
 
-export const getVorabCheckCommons = async (opts?: SingleTypeGetterOpts) =>
+export const getStrapiVorabCheckCommons = async (
+  opts?: StrapiSingleTypeGetterOpts
+) =>
   StrapiVorabCheckCommonsSchema.parse(
-    await getEntry({ apiId: "vorab-check-common", ...opts })
+    await getStrapiEntry({ apiId: "vorab-check-common", ...opts })
   );
 
 // collection types getters
 
-type CollectionTypeGetterOpts = {
+type StrapiCollectionTypeGetterOpts = {
   slug: string;
-} & SingleTypeGetterOpts;
+} & StrapiSingleTypeGetterOpts;
 
-export const getResultPage = async (opts: CollectionTypeGetterOpts) =>
+export const getStrapiResultPage = async (
+  opts: StrapiCollectionTypeGetterOpts
+) =>
   StrapiResultPageSchema.parse(
-    await getEntry({ apiId: "result-pages", ...opts })
+    await getStrapiEntry({ apiId: "result-pages", ...opts })
   );
 
-export const getPage = async (opts: CollectionTypeGetterOpts) =>
-  StrapiPageSchema.parse(await getEntry({ apiId: "pages", ...opts }));
+export const getStrapiPage = async (opts: StrapiCollectionTypeGetterOpts) =>
+  StrapiPageSchema.parse(await getStrapiEntry({ apiId: "pages", ...opts }));
 
-export const getVorabCheckPage = async (opts: CollectionTypeGetterOpts) =>
+export const getStrapiVorabCheckPage = async (
+  opts: StrapiCollectionTypeGetterOpts
+) =>
   StrapiVorabCheckPageSchema.parse(
-    await getEntry({ apiId: "vorab-check-pages", ...opts })
+    await getStrapiEntry({ apiId: "vorab-check-pages", ...opts })
   );

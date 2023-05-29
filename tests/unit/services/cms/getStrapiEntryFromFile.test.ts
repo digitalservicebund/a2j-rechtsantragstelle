@@ -1,30 +1,33 @@
 import { StrapiFileContentSchema } from "~/services/cms/models/StrapiFileContent";
-import type { GetEntryOpts } from "~/services/cms";
-import { getEntryFromFile } from "~/services/cms/file";
+import type { GetStrapiEntryOpts } from "~/services/cms";
+import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
 
-jest.mock("~/services/cms/models/FileContent", () => {
+jest.mock("~/services/cms/models/StrapiFileContent", () => {
   return {
     __esModule: true,
-    FileContentSchema: {
+    StrapiFileContentSchema: {
       parse: jest.fn(),
     },
   };
 });
 
-const mockedFileContentSchema = StrapiFileContentSchema as jest.Mocked<
+const mockedStrapiFileContentSchema = StrapiFileContentSchema as jest.Mocked<
   typeof StrapiFileContentSchema
 >;
 
 describe("services/cms/file", () => {
   describe("getEntryFromFile", () => {
-    const defaultOptions: GetEntryOpts = { apiId: "footer", locale: "de" };
+    const defaultOptions: GetStrapiEntryOpts = {
+      apiId: "footer",
+      locale: "de",
+    };
 
     test("returns an entry", async () => {
       const data = { attributes: { locale: "de" } };
       // TODO: return full footer object and remove ts-ignore
       //@ts-ignore
-      mockedFileContentSchema.parse.mockReturnValue({ footer: [data] });
-      expect(await getEntryFromFile(defaultOptions)).toEqual(data);
+      mockedStrapiFileContentSchema.parse.mockReturnValue({ footer: [data] });
+      expect(await getStrapiEntryFromFile(defaultOptions)).toEqual(data);
     });
 
     describe("when no entry exists for the given locale", () => {
@@ -32,9 +35,9 @@ describe("services/cms/file", () => {
         const data = { attributes: { locale: "de" } };
         // TODO: return full footer object and remove ts-ignore
         //@ts-ignore
-        mockedFileContentSchema.parse.mockReturnValue({ footer: [data] });
+        mockedStrapiFileContentSchema.parse.mockReturnValue({ footer: [data] });
         expect(
-          await getEntryFromFile({ ...defaultOptions, locale: "en" })
+          await getStrapiEntryFromFile({ ...defaultOptions, locale: "en" })
         ).toBeUndefined();
       });
     });
@@ -44,9 +47,9 @@ describe("services/cms/file", () => {
         const data = { attributes: { slug: "impressum", locale: "de" } };
         // TODO: return full page object and remove ts-ignore
         //@ts-ignore
-        mockedFileContentSchema.parse.mockReturnValue({ pages: [data] });
+        mockedStrapiFileContentSchema.parse.mockReturnValue({ pages: [data] });
         expect(
-          await getEntryFromFile({
+          await getStrapiEntryFromFile({
             ...defaultOptions,
             apiId: "pages",
             slug: "impressum",
@@ -57,11 +60,13 @@ describe("services/cms/file", () => {
       describe("when no entry exists for the given slug", () => {
         it("returns undefined", async () => {
           const data = { attributes: { slug: "impressum", locale: "de" } };
-          // TODO: return full page object and remove ts-ignore
-          //@ts-ignore
-          mockedFileContentSchema.parse.mockReturnValue({ pages: [data] });
+          mockedStrapiFileContentSchema.parse.mockReturnValue({
+            // TODO: return full page object and remove ts-ignore
+            //@ts-ignore
+            pages: [data],
+          });
           expect(
-            await getEntryFromFile({
+            await getStrapiEntryFromFile({
               ...defaultOptions,
               apiId: "pages",
               slug: "datenschutz",
