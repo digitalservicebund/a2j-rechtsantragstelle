@@ -69,17 +69,19 @@ export default function () {
         <br />
         <h2>Ausnahmen:</h2>
         <ul>
-          {edgeCases.map((edgeCase, idx) => (
-            <li key={idx}>
+          {edgeCases.map(({ edgeCase, court }) => (
+            <li
+              key={`${edgeCase.STRN}_${edgeCase.HNR_VON}_${edgeCase.HNR_BIS}`}
+            >
               <div>
-                {`${edgeCase.edgeCase.STRN}, ${
-                  edgeCase.edgeCase.HNR_MERKMAL_INFO
-                } ${stripLeadingZeros(
-                  edgeCase.edgeCase.HNR_VON
-                )} - ${stripLeadingZeros(edgeCase.edgeCase.HNR_BIS)}`}
+                {`${edgeCase.STRN}, ${
+                  edgeCase.HNR_MERKMAL_INFO
+                } ${stripLeadingZeros(edgeCase.HNR_VON)} - ${stripLeadingZeros(
+                  edgeCase.HNR_BIS
+                )}`}
                 <br />
-                {edgeCase.court &&
-                  `${edgeCase.court.BEZEICHNUNG}, ${edgeCase.court.STR_HNR}, ${edgeCase.court.PLZ_ZUSTELLBEZIRK} ${edgeCase.court.ORT}`}
+                {court &&
+                  `${court.BEZEICHNUNG}, ${court.STR_HNR}, ${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`}
               </div>
             </li>
           ))}
