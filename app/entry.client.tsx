@@ -9,7 +9,6 @@ import { getWebConfig } from "./services/config";
 if (getWebConfig().SENTRY_DSN) {
   Sentry.init({
     dsn: getWebConfig().SENTRY_DSN,
-    tracesSampleRate: 1,
     environment: getWebConfig().ENVIRONMENT,
     integrations: [
       new Sentry.BrowserTracing({

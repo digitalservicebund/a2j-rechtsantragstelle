@@ -9,7 +9,6 @@ import { getWebConfig } from "./services/config";
 
 Sentry.init({
   dsn: getWebConfig().SENTRY_DSN,
-  tracesSampleRate: 1,
   environment: getWebConfig().ENVIRONMENT,
 });
 
