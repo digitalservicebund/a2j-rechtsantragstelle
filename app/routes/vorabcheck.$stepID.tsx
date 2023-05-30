@@ -66,7 +66,7 @@ const getReasonsToDisplay = (
 };
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-  const stepID = params.stepID?.replace("#", "");
+  const stepID = params.stepID;
   if (!hasStep(stepID) || stepID === undefined) {
     return redirect(`/vorabcheck/${initialstepID}`);
   }
