@@ -3,3 +3,4 @@
 .github/actions/parse-content-to-file/create_content_file.py
 tests/config.env.test
 sonar-project.properties
+malformed.json

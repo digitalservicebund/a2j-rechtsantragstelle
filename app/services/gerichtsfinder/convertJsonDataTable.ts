@@ -9,6 +9,7 @@ import type {
   Jmtd14VTErwerberPlzstrn,
   Jmtd14VTErwerberPlzortk,
 } from "./types";
+import { printFileReadError } from "~/lib/strings";
 
 export type GerbehFile = Record<string, Jmtd14VTErwerberGerbeh>;
 export type PlzOrtkFile = Record<string, Jmtd14VTErwerberPlzortk[]>;
@@ -19,6 +20,12 @@ export function isKeyOfObject<T extends object>(
   obj: T
 ): key is keyof T {
   return key in obj;
+}
+
+export function normalizeFilepath(filepath: string) {
+  return path.isAbsolute(filepath)
+    ? path.resolve(filepath)
+    : path.resolve(path.join(process.cwd(), filepath));
 }
 
 export function gerbehIndex(
@@ -86,20 +93,11 @@ const conversions = {
 } as const;
 
 export function convertToKvJson(pathToZipFile: string) {
-  if (!pathToZipFile) {
-    const errMsg =
-      "No path found. Use `npm run update:gerichtsfinder -- path/to/file`";
-    console.error(errMsg);
-    process.exit(1);
-  }
-  const DATA_ROOT_DIR = path.isAbsolute(pathToZipFile)
-    ? path.resolve(pathToZipFile)
-    : path.resolve(path.join(process.cwd(), pathToZipFile));
-
+  const DATA_ROOT_DIR = normalizeFilepath(pathToZipFile);
   const OUT_FOLDER = path.resolve(path.join(__dirname, "_data"));
-  console.log(`Reading from ${DATA_ROOT_DIR}`);
+  console.log(`Trying to read from ${DATA_ROOT_DIR}`);
 
-  if (fs.existsSync(DATA_ROOT_DIR)) {
+  try {
     // Only decompresses .json files into { filename: U8Array, ... }
     const decompressedJsonFiles = unzipSync(fs.readFileSync(DATA_ROOT_DIR), {
       filter: (file) => file.name.endsWith(".json"),
@@ -128,8 +126,8 @@ export function convertToKvJson(pathToZipFile: string) {
         console.log("Not found in conversions, skipping...");
       }
     }
-  } else {
-    console.error("File doesn't exist, exiting...");
+  } catch (err) {
+    printFileReadError(err);
     process.exit(1);
   }
 }

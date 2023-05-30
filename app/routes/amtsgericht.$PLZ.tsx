@@ -3,15 +3,12 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Container } from "~/components";
 import Header from "~/components/Header";
+import { stripLeadingZeros } from "~/lib/strings";
 import {
   edgeCasesForPlz,
   courtAddress,
   courtForPlz,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
-
-function stripLeadingZeros(s: string) {
-  return s.replace(/^0+/, "");
-}
 
 export const loader = async ({ params }: LoaderArgs) => {
   const { PLZ } = params;
