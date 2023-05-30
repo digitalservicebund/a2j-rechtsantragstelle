@@ -26,7 +26,12 @@ downloadFromS3(
   OBS_KEY,
   AWS_ACCESS_KEY_ID,
   AWS_SECRET_ACCESS_KEY
-).then((outputFilepath) => {
-  convertToKvJson(outputFilepath);
-  fs.unlinkSync(outputFilepath);
-});
+).then(
+  (outputFilepath) => {
+    convertToKvJson(outputFilepath);
+    fs.unlinkSync(outputFilepath);
+  },
+  (err) => {
+    console.log(err);
+  }
+);
