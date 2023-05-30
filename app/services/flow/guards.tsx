@@ -4,21 +4,11 @@ import moneyToCents from "../validation/money/moneyToCents";
 function searchEntryInSession(
   context: any,
   stepID: any,
-  value: string
+  expectedValue: string
 ): boolean {
-  let found = false;
-  const values = context[stepID];
-  if (values !== undefined) {
-    const propertyValues = Object.values(values);
-    for (const entry in propertyValues) {
-      if (propertyValues[entry] === value) {
-        found = true;
-        break;
-      }
-    }
-  }
-
-  return found;
+  // TODO this will not work if you have more than one field with the same possible answers
+  const stepProperties = context[stepID];
+  return Object.values(stepProperties).some((entry) => entry == expectedValue);
 }
 
 export default function getGuards(stepID: string, context: any) {
