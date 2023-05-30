@@ -33,6 +33,7 @@ import {
   isLastStep,
 } from "~/services/flow";
 import { isIncomeTooHigh } from "~/services/flow/guards";
+import invariant from "tiny-invariant";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
@@ -90,7 +91,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   );
 
   let additionalContext = {};
-  if ("additionalContext" in currentPage) {
+  if ("additionalContext" in currentPage && currentPage["additionalContext"]) {
     for (const requestedContext of currentPage["additionalContext"]) {
       // Use .find(), since answers are nested below stepID and there is no fast lookup by name alone
       additionalContext = {
@@ -121,7 +122,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 export const action: ActionFunction = async ({ params, request }) => {
   const session = await getSession(request.headers.get("Cookie"));
   const formData = await request.formData();
-  const stepID = params.stepID as string;
+  const stepID = params.stepID;
+  invariant(typeof stepID !== "undefined", "stepId has to be provided");
   const validationResult = await allValidators[stepID].validate(formData);
 
   if (validationResult.error) return validationError(validationResult.error);

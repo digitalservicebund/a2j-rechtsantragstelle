@@ -1,3 +1,4 @@
+import type { StepInterface } from "~/components/form/steps";
 import { Steps } from "~/components/form/steps";
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
@@ -5,7 +6,7 @@ import { einkommenKinderStep } from "~/components/form/steps/einkommenKinder";
 import { kinderAnzahlSimpleStep } from "~/components/form/steps/kinderAnzahlSimple";
 import { verfuegbaresEinkommenStep } from "~/components/form/steps/verfuegbaresEinkommen";
 
-export const formPages: { [key: string]: any } = {
+export const formPages: Record<string, StepInterface> = {
   rechtsschutzversicherung: Steps.rechtsschutzversicherungStep,
   rechtsschutzversicherungError: Steps.exitRechtsschutzversicherungStep,
   klageEingereicht: Steps.klageEingereichtStep,

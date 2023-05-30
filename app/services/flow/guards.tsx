@@ -2,8 +2,8 @@ import { freibetrag } from "~/lib/freibetrag";
 import moneyToCents from "../validation/money/moneyToCents";
 
 function searchEntryInSession(
-  context: any,
-  stepID: any,
+  context: Record<string, any>,
+  stepID: string,
   expectedValue: string
 ): boolean {
   // TODO this will not work if you have more than one field with the same possible answers
