@@ -117,6 +117,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     additionalContext,
   });
 };
+
 export const action: ActionFunction = async ({ params, request }) => {
   const session = await getSession(request.headers.get("Cookie"));
   const formData = await request.formData();
@@ -130,7 +131,6 @@ export const action: ActionFunction = async ({ params, request }) => {
 
   let destinationString = getNextStep(stepID, session.data);
   return redirect(`/vorabcheck/${String(destinationString)}`, {
-    status: 302,
     headers,
   });
 };
