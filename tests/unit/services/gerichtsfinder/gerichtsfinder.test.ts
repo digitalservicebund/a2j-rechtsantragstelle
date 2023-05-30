@@ -3,18 +3,31 @@ import {
   gerbehIndex,
   normalizeFilepath,
 } from "~/services/gerichtsfinder/convertJsonDataTable";
+import type { GerbehIndex } from "~/services/gerichtsfinder/convertJsonDataTable";
 
 describe("gerbehIndex", () => {
+  const index: GerbehIndex = {
+    LKZ: "a",
+    OLG: "b",
+    LG: "c",
+    AG: "d",
+    typInfo: "Finanzgericht",
+  };
+
   it("generates a reproducable index", () => {
-    expect(gerbehIndex("a", "b", "c", "d", "Finanzgericht")).toBe(
-      gerbehIndex("a", "b", "c", "d", "Finanzgericht")
-    );
+    expect(gerbehIndex(index)).toBe(gerbehIndex(index));
   });
 
   it("generates different index for non-equal inputs", () => {
-    expect(gerbehIndex("aa", "bb", "cc", "dd", "Finanzgericht")).not.toBe(
-      gerbehIndex("a", "b", "c", "d", "Finanzgericht")
-    );
+    expect(
+      gerbehIndex({
+        LKZ: "aa",
+        OLG: "b",
+        LG: "c",
+        AG: "d",
+        typInfo: "Finanzgericht",
+      })
+    ).not.toBe(gerbehIndex(index));
   });
 });
 

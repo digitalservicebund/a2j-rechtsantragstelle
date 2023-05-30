@@ -28,14 +28,17 @@ export function normalizeFilepath(filepath: string) {
     : path.resolve(path.join(process.cwd(), filepath));
 }
 
-export function gerbehIndex(
-  LKZ: string,
-  OLG: string,
-  LG: string,
-  AG: string,
-  typInfo: TypInfo
-) {
-  return `${LKZ}_${OLG}_${LG}_${AG}_${typInfo.replace(/ /g, "").toLowerCase()}`;
+export interface GerbehIndex {
+  LKZ: string;
+  OLG: string;
+  LG: string;
+  AG: string;
+  typInfo: TypInfo;
+}
+
+export function gerbehIndex(info: GerbehIndex) {
+  const typInfo = info.typInfo.replace(/ /g, "").toLowerCase();
+  return `${info.LKZ}_${info.OLG}_${info.LG}_${info.AG}_${typInfo}`;
 }
 
 const conversions = {
@@ -48,7 +51,13 @@ const conversions = {
     fileContentJson.JMTD14_VT_ERWERBER_GERBEH.forEach((entry) => {
       if (entry.TYP_INFO == "Zivilgericht - Amtsgericht") {
         out[
-          gerbehIndex(entry.LKZ, entry.OLG, entry.LG, entry.AG, entry.TYP_INFO)
+          gerbehIndex({
+            LKZ: entry.LKZ,
+            OLG: entry.OLG,
+            LG: entry.LG,
+            AG: entry.AG,
+            typInfo: entry.TYP_INFO,
+          })
         ] = entry;
       }
     });

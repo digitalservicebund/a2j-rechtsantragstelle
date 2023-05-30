@@ -1,6 +1,6 @@
-import type { TypInfo } from "./types";
 import type {
   GerbehFile,
+  GerbehIndex,
   PlzOrtkFile,
   PlzStrnFile,
 } from "./convertJsonDataTable";
@@ -13,16 +13,10 @@ declare global {
 }
 const dataDirectory = `${__dirname}/../app/services/gerichtsfinder/_data`;
 
-export const courtAddress = (
-  LKZ: string,
-  OLG: string,
-  LG: string,
-  AG: string,
-  TYP_INFO: TypInfo
-) => {
+export const courtAddress = (gerbeIndex: GerbehIndex) => {
   const filePath = `${dataDirectory}/JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json`;
   const gerbehFile: GerbehFile = loadJsonFromFile(filePath);
-  const key = gerbehIndex(LKZ, OLG, LG, AG, TYP_INFO);
+  const key = gerbehIndex(gerbeIndex);
   return key in gerbehFile ? gerbehFile[key] : undefined;
 };
 
@@ -38,13 +32,13 @@ export const edgeCasesForPlz = (PLZ: string | undefined) => {
 
   const edgeCases = PLZ && PLZ in edgeCaseFile ? edgeCaseFile[PLZ] : [];
   return edgeCases.map((edgeCase) => {
-    const court = courtAddress(
-      edgeCase.LKZ,
-      edgeCase.OLG,
-      edgeCase.LG,
-      edgeCase.AG,
-      edgeCase.TYP_INFO
-    );
+    const court = courtAddress({
+      LKZ: edgeCase.LKZ,
+      OLG: edgeCase.OLG,
+      LG: edgeCase.LG,
+      AG: edgeCase.AG,
+      typInfo: edgeCase.TYP_INFO,
+    });
     return { edgeCase, court };
   });
 };

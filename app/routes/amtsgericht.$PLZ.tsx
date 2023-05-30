@@ -21,13 +21,13 @@ export const loader = async ({ params }: LoaderArgs) => {
   }
 
   return json({
-    court: courtAddress(
-      amtsgerichtDefault.GERBEH_LKZ,
-      amtsgerichtDefault.GERBEH_OLG,
-      amtsgerichtDefault.GERBEH_LG,
-      amtsgerichtDefault.GERBEH_AG,
-      amtsgerichtDefault.GERBEH_TYP_INFO
-    ),
+    court: courtAddress({
+      LKZ: amtsgerichtDefault.GERBEH_LKZ,
+      OLG: amtsgerichtDefault.GERBEH_OLG,
+      LG: amtsgerichtDefault.GERBEH_LG,
+      AG: amtsgerichtDefault.GERBEH_AG,
+      typInfo: amtsgerichtDefault.GERBEH_TYP_INFO,
+    }),
     edgeCases: edgeCasesForPlz(PLZ),
   });
 };
