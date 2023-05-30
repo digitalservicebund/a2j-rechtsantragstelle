@@ -3,7 +3,6 @@ import { Locale } from "~/services/cms/models/Locale";
 import type { Document, IClient } from "./client";
 import StrapiClient, { RequestBuilder, Parameter } from "./client";
 import type BaseDocument from "../models/BaseDocument";
-import config from "~/services/config";
 import { COLLECTION_DEFAULT, COLLECTION_MAP, LOCALE_DEFAULT } from "..";
 
 export default class StrapiCMS implements CMS {

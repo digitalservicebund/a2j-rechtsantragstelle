@@ -44,7 +44,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const page = await getPageConfig(slugsfromURL(request.url)[0], {
     dontThrow: true,
   });
-  console.log(page);
+
   return json({
     content: page?.content,
     meta: page?.meta,

@@ -12,11 +12,9 @@ export function getStateMachine(stepID: string | undefined, context: any) {
     initial: stepID || initialStateId,
   };
 
-  const stateMachine = createMachine(stateMachineConfig, {
+  return createMachine(stateMachineConfig, {
     guards: guards(stepID || initialStateId, context),
   });
-
-  return stateMachine;
 }
 
 export function getInitialStep() {
@@ -156,10 +154,8 @@ export function getProgressBar(stepID: string, context: any) {
   const possiblePaths = getPossiblePath(stateMachine, stepID);
   const longestPossiblePaths = getPossiblePath(stateMachine, initialStateId);
 
-  const progressBar = {
+  return {
     current: longestPossiblePaths.length - possiblePaths.length,
     total: longestPossiblePaths.length,
   };
-
-  return progressBar;
 }

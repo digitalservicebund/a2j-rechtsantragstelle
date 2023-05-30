@@ -6,14 +6,15 @@ import {
   loadContentFile,
 } from "~/services/cms/file/client";
 import invariant from "tiny-invariant";
-import config from "~/services/config";
+
+const CONTENT_FILE_PATH = "content.json";
 
 export default class FileCMS implements CMS {
   // TODO make locale count
   getPage = (pageName: string, locale?: Locale) => {
-    const pageContent = loadContentFile(
-      getContentFilePath(config().CONTENT_FILE_PATH)
-    )[pageName];
+    const pageContent = loadContentFile(getContentFilePath(CONTENT_FILE_PATH))[
+      pageName
+    ];
     invariant(
       !pageContent || "attributes" in pageContent,
       "File Format: For single pages, attributes should be included in the data"
@@ -27,7 +28,7 @@ export default class FileCMS implements CMS {
     locale?: Locale
   ) => {
     const collectionContent = loadContentFile(
-      getContentFilePath(config().CONTENT_FILE_PATH)
+      getContentFilePath(CONTENT_FILE_PATH)
     )[COLLECTION_MAP.get(collection) ?? COLLECTION_DEFAULT];
     invariant(
       !collectionContent || Array.isArray(collectionContent),

@@ -14,7 +14,28 @@ env:
   IMAGE_VERSION: ${{ github.sha }}
 
 jobs:
+  create-content-file:
+    permissions:
+      packages: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Parse Content to File
+        uses: ./.github/actions/parse-content-to-file
+        with:
+          STRAPI_HOST: "${{ secrets.STRAPI_HOST }}"
+          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
+
+      - name: Upload Content File for further steps
+        uses: actions/upload-artifact@v3
+        with:
+          name: content-file
+          path: content.json
+
   build-app:
+    needs: [create-content-file]
     permissions:
       packages: read
     runs-on: ubuntu-latest
@@ -22,6 +43,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of SonarCloud analysis
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -48,8 +71,37 @@ jobs:
       - name: Run unit tests
         run: npm test
 
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  e2e-tests:
+    needs: [build-app]
+    permissions:
+      packages: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+          cache: "npm"
+
+      - run: npm install
+
       - name: Get Playwright version
         run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages[''].devDependencies['@playwright/test'])")" >> $GITHUB_ENV
+
+      - name: Download Content File
+        uses: actions/download-artifact@v3
+        with:
+          name: content-file
 
       - name: Cache Playwright browsers
         uses: actions/cache@v3
@@ -66,6 +118,7 @@ jobs:
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
+          CMS: "FILE"
         run: npx playwright test
 
       - name: Upload Playwright test results
@@ -77,7 +130,7 @@ jobs:
           retention-days: 30
 
   build-push-image:
-    needs: [build-app]
+    needs: [e2e-tests]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -89,20 +142,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Parse Content to File
-        uses: ./.github/actions/parse-content-to-file
+      - name: Download Content File
+        uses: actions/download-artifact@v3
         with:
-          STRAPI_HOST: "${{ secrets.STRAPI_HOST }}"
-          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
-          CONTENT_FILE_PATH: "${{ secrets.CONTENT_FILE_PATH }}"
+          name: content-file
+
+      - name: Calculate file checksum
+        id: checksum-calculation
+        run: echo "content_checksum=$(md5sum content.json | awk '{ print $1; }')" >> $GITHUB_OUTPUT
 
       - name: Build an image from Dockerfile
         run: |
-          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} . --build-arg COMMIT_SHA=${{ env.IMAGE_VERSION }}
+          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }} . --build-arg COMMIT_SHA=${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}
+
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@e5f43133f6e8736992c9f3c1b3296e24b37e17f2
         with:
-          image-ref: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}"
+          image-ref: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}"
           format: "template"
           template: "@/contrib/sarif.tpl"
           output: "trivy-results.sarif"
@@ -124,21 +180,11 @@ jobs:
 
       - name: Push image
         run: |
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}
           docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-      - name: Install cosign
-        uses: sigstore/cosign-installer@9becc617647dfa20ae7b1151972e9b3a2c338a2b
-
-      - name: Sign published image
-        env:
-          COSIGN_EXPERIMENTAL: "true"
-        run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
-
-      - name: Set version for signed image
-        id: set-version
-        run: echo "version=$IMAGE_VERSION" >> "$GITHUB_OUTPUT"
+    outputs:
+      content_checksum: ${{ steps.checksum-calculation.outputs.content_checksum }}
 
   deploy-staging:
     needs: [build-push-image]
@@ -146,24 +192,17 @@ jobs:
     runs-on: ubuntu-latest
     environment: staging
     steps:
-      - name: Check out infra repo
-        uses: actions/checkout@v3
+      - name: Deploy new staging image
+        uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
         with:
-          repository: digitalservicebund/a2j-rechtsantragstelle-infra
-          ssh-key: ${{ secrets.DEPLOY_KEY }}
-
-      - name: Update image tag for staging
-        run: |
-          cd manifests/overlays/staging
-          kustomize edit set image ghcr.io/digitalservicebund/a2j-rechtsantragstelle:${{ env.IMAGE_VERSION }}
-
-      - name: Commit and push
-        uses: EndBug/add-and-commit@61a88be553afe4206585b31aa72387c64295d08b
-        with:
-          add: "manifests/overlays/staging/kustomization.yaml"
-          message: "Update staging image to ${{ env.IMAGE_VERSION }}"
-          pathspec_error_handling: exitImmediately
-          push: true
+          environment: staging
+          version: ${{ env.IMAGE_VERSION }}-${{ needs.build-push-image.outputs.content_checksum }}
+          deploying_repo: a2j-rechtsantragstelle
+          infra_repo: a2j-rechtsantragstelle-infra
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          app: a2j-rast-staging
+          argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
+          argocd_server: ${{ secrets.ARGOCD_SERVER }}
 
       - name: Report Deployment
         uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
@@ -172,3 +211,43 @@ jobs:
           environment: staging
           metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
           metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
+
+  deploy-production:
+    needs: [deploy-staging, build-push-image]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Deploy new production image
+        uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
+        with:
+          environment: production
+          version: ${{ env.IMAGE_VERSION }}-${{ needs.build-push-image.outputs.content_checksum }}
+          deploying_repo: a2j-rechtsantragstelle
+          infra_repo: a2j-rechtsantragstelle-infra
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          app: a2j-rast-production
+          argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
+          argocd_server: ${{ secrets.ARGOCD_SERVER }}
+
+      - name: Report Deployment
+        uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
+        with:
+          project: a2j-rechtsantragstelle
+          environment: production
+          metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
+          metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
+
+  test-production-text:
+    needs: [deploy-production]
+    permissions:
+      packages: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run text test
+        uses: ./.github/actions/production-text-test
+        with:
+          PRODUCTION_BASIC_AUTH_TOKEN: "${{ secrets.PRODUCTION_BASIC_AUTH_TOKEN }}"

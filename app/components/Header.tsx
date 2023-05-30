@@ -5,7 +5,7 @@ import Paragraph from "./Paragraph";
 
 export interface HeaderProps {
   heading: HeadingProps;
-  content: ParagraphProps;
+  content?: ParagraphProps;
 }
 
 export default function Header({ heading, content }: HeaderProps) {

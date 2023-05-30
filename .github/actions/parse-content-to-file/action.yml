@@ -7,9 +7,6 @@ inputs:
   STRAPI_ACCESS_KEY:
     description: "API access key"
     required: true
-  CONTENT_FILE_PATH:
-    description: "path to the destination file"
-    required: true
 
 runs:
   using: "composite"
@@ -33,4 +30,4 @@ runs:
       env:
         STRAPI_HOST: "${{ inputs.STRAPI_HOST }}"
         STRAPI_ACCESS_KEY: "${{ inputs.STRAPI_ACCESS_KEY }}"
-        CONTENT_FILE_PATH: "${{ inputs.CONTENT_FILE_PATH }}"
+        CONTENT_FILE_PATH: content.json
