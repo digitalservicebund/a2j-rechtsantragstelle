@@ -7,6 +7,7 @@ function searchEntryInSession(
   expectedValue: string
 ): boolean {
   // TODO this will not work if you have more than one field with the same possible answers
+  if (!(stepID in context)) return false;
   const stepProperties = context[stepID];
   return Object.values(stepProperties).some((entry) => entry == expectedValue);
 }
