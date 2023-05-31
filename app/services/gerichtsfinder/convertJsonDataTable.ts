@@ -40,15 +40,17 @@ export function gerbehIndex(info: GerbehIndex) {
   const typInfo = info.typInfo.replace(/ /g, "").toLowerCase();
   return `${info.LKZ}_${info.OLG}_${info.LG}_${info.AG}_${typInfo}`;
 }
+interface ConversionInput {
+  [key: string]: any[];
+}
 
-const conversions = {
-  "JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json": (fileContent: string) => {
+export const conversions = {
+  "JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json": (object: ConversionInput) => {
     let out: GerbehFile = {};
-    const fileContentJson: {
-      JMTD14_VT_ERWERBER_GERBEH: Jmtd14VTErwerberGerbeh[];
-    } = JSON.parse(fileContent);
+    const gerbehData: Jmtd14VTErwerberGerbeh[] =
+      object.JMTD14_VT_ERWERBER_GERBEH;
 
-    fileContentJson.JMTD14_VT_ERWERBER_GERBEH.forEach((entry) => {
+    gerbehData.forEach((entry) => {
       if (entry.TYP_INFO == "Zivilgericht - Amtsgericht") {
         out[
           gerbehIndex({
@@ -61,16 +63,15 @@ const conversions = {
         ] = entry;
       }
     });
-    return JSON.stringify(out);
+    return out;
   },
 
-  "JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json": (fileContent: string) => {
+  "JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json": (object: ConversionInput) => {
     let out: PlzOrtkFile = {};
-    const fileContentJson: {
-      JMTD14_VT_ERWERBER_PLZORTK: Jmtd14VTErwerberPlzortk[];
-    } = JSON.parse(fileContent);
+    const plzOrtkData: Jmtd14VTErwerberPlzortk[] =
+      object.JMTD14_VT_ERWERBER_PLZORTK;
 
-    fileContentJson.JMTD14_VT_ERWERBER_PLZORTK.forEach((entry) => {
+    plzOrtkData.forEach((entry) => {
       if (entry.ANGELEGENHEIT_INFO === "Prozesskostenhilfe eingehend") {
         if (entry.PLZ in out) {
           out[entry.PLZ].push(entry);
@@ -79,16 +80,15 @@ const conversions = {
         }
       }
     });
-    return JSON.stringify(out);
+    return out;
   },
 
-  "JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json": (fileContent: string) => {
+  "JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json": (object: ConversionInput) => {
     let out: PlzStrnFile = {};
-    const fileContentJson: {
-      JMTD14_VT_ERWERBER_PLZSTRN: Jmtd14VTErwerberPlzstrn[];
-    } = JSON.parse(fileContent);
+    const plzStrnData: Jmtd14VTErwerberPlzstrn[] =
+      object.JMTD14_VT_ERWERBER_PLZSTRN;
 
-    fileContentJson.JMTD14_VT_ERWERBER_PLZSTRN.forEach((entry) => {
+    plzStrnData.forEach((entry) => {
       if (entry.ANGELEGENHEIT_INFO === "Prozesskostenhilfe eingehend") {
         if (entry.PLZ in out) {
           out[entry.PLZ].push(entry);
@@ -97,7 +97,7 @@ const conversions = {
         }
       }
     });
-    return JSON.stringify(out);
+    return out;
   },
 } as const;
 
@@ -122,15 +122,11 @@ export function convertToKvJson(pathToZipFile: string) {
       if (isKeyOfObject(jsonFilename, conversions)) {
         // Decompressed data needs to be converted into string before calling conversion function
         const contentString = strFromU8(decompressedJsonFiles[jsonFilepath]);
-
-        fs.writeFileSync(
-          path.join(OUT_FOLDER, jsonFilename),
-          conversions[jsonFilename](contentString),
-          {
-            encoding: "utf8",
-            flag: "w",
-          }
+        const outString = JSON.stringify(
+          conversions[jsonFilename](JSON.parse(contentString))
         );
+        const outFilepath = path.join(OUT_FOLDER, jsonFilename);
+        fs.writeFileSync(outFilepath, outString, { encoding: "utf8" });
       } else {
         console.log("Not found in conversions, skipping...");
       }
