@@ -105,8 +105,9 @@ function getPossibleParentNodes(
 }
 
 export function hasStep(stepID: string | undefined) {
-  const stateMachine = getStateMachine(stepID, undefined);
+  if (stepID == undefined) return false;
 
+  const stateMachine = getStateMachine(stepID, undefined);
   return stateMachine.stateIds.includes(`${stateMachine.key}.${stepID}`);
 }
 

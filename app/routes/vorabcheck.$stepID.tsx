@@ -39,8 +39,6 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
 ];
 
-const initialstepID = getInitialStep();
-
 const getReasonsToDisplay = (
   reasons: { attributes: ElementWithId }[] | undefined,
   context: any
@@ -67,9 +65,10 @@ const getReasonsToDisplay = (
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const stepID = params.stepID;
-  if (!hasStep(stepID) || stepID === undefined) {
-    return redirect(`/vorabcheck/${initialstepID}`);
+  if (!hasStep(stepID)) {
+    return redirect(`/vorabcheck/${getInitialStep()}`);
   }
+  invariant(typeof stepID !== "undefined"); // Needed because TypeScript doesn't realize that this is caught in the above condition
 
   const session = await getSession(request.headers.get("Cookie"));
 
