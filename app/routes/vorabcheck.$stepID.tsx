@@ -130,8 +130,8 @@ export const action: ActionFunction = async ({ params, request }) => {
   session.set(stepID, validationResult.data);
   const headers = { "Set-Cookie": await commitSession(session) };
 
-  let destinationString = getNextStep(stepID, session.data);
-  return redirect(`/vorabcheck/${String(destinationString)}`, {
+  const destination = getNextStep(stepID, session.data);
+  return redirect(`/vorabcheck/${String(destination)}`, {
     headers,
   });
 };
@@ -150,7 +150,6 @@ export default function Index() {
     previousStep,
     additionalContext,
   } = useLoaderData<typeof loader>();
-  const stepProgress = progressStep;
   const params = useParams();
   const stepID = params.stepID as string;
   const FormInputComponent = formPages[stepID].component;
@@ -161,7 +160,7 @@ export default function Index() {
         content={{ ...resultContent, ...commonContent }}
         backDestination={previousStep}
         reasonsToDisplay={resultReasonsToDisplay}
-        stepProgress={stepProgress}
+        progressStep={progressStep}
         progressTotal={progressTotal}
         isLast={isLast}
       />
@@ -174,7 +173,7 @@ export default function Index() {
           <div className="ds-stack-16">
             <ProgressBarArea
               label={commonContent?.progressBarLabel}
-              stepProgress={stepProgress}
+              progressStep={progressStep}
               progressTotal={progressTotal}
             />
             <div className="ds-stack-40">

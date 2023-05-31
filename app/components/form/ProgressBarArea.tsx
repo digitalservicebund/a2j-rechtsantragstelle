@@ -2,13 +2,13 @@ import { ProgressBar } from "~/components/form/ProgressBar";
 
 type ProgressBarAreaProps = {
   label?: string;
-  stepProgress: number;
+  progressStep: number;
   progressTotal: number;
 };
 
 const ProgressBarArea = ({
   label,
-  stepProgress,
+  progressStep,
   progressTotal,
 }: ProgressBarAreaProps) => {
   const progressBarId = "progress-bar";
@@ -18,9 +18,9 @@ const ProgressBarArea = ({
         {label}
       </label>
       <ProgressBar
-        progress={stepProgress}
+        progress={progressStep}
         max={progressTotal}
-        fallback={`Schritt ${stepProgress} von ${progressTotal}`}
+        fallback={`Schritt ${progressStep} von ${progressTotal}`}
         id={progressBarId}
       />
     </div>

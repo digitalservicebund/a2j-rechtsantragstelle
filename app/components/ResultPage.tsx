@@ -21,7 +21,7 @@ type ResultPageProps = {
   content: ResultPageContent & VorabCheckCommons;
   reasonsToDisplay?: ElementWithId[];
   backDestination?: string;
-  stepProgress: number;
+  progressStep: number;
   progressTotal: number;
   isLast: boolean;
 };
@@ -68,7 +68,7 @@ const ResultPage = ({
   content,
   backDestination,
   reasonsToDisplay = [],
-  stepProgress,
+  progressStep,
   progressTotal,
   isLast,
 }: ResultPageProps) => {
@@ -86,7 +86,7 @@ const ResultPage = ({
         <Container>
           <ProgressBarArea
             label={content.progressBarLabel}
-            stepProgress={stepProgress}
+            progressStep={progressStep}
             progressTotal={progressTotal}
           />
           <Heading

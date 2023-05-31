@@ -42,7 +42,7 @@ export function getPreviousStep(stepID: string, context: any) {
     context
   );
 
-  let result: string | undefined = undefined;
+  let result: string = getInitialStep();
 
   if (possiblePreviousSteps.length > 1) {
     for (const previousStep of possiblePreviousSteps) {
@@ -61,10 +61,6 @@ export function getPreviousStep(stepID: string, context: any) {
     }
   } else if (possiblePreviousSteps.length === 1) {
     result = possiblePreviousSteps[0];
-  }
-
-  if (!result) {
-    result = getInitialStep();
   }
 
   return result;
