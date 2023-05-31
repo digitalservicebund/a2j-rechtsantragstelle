@@ -1,15 +1,15 @@
 export interface Jmtd14VTErwerberPlzortk {
-  ORT: string;
-  GERBEH_LKZ: string;
-  GERBEH_LG: string;
-  PLZM_INFO: "Zustellbezirk";
-  GERBEH_OLG: string;
-  GERBEH_TYP_INFO: TypInfo;
   ANGELEGENHEIT_INFO: string;
-  GERBEH_STAMM?: string;
   GERBEH_AG: string;
-  PLZ: string;
+  GERBEH_LG: string;
+  GERBEH_LKZ: string;
+  GERBEH_OLG: string;
+  GERBEH_STAMM?: string;
+  GERBEH_TYP_INFO: TypInfo;
+  ORT: string;
   ORTK: string;
+  PLZ: string;
+  PLZM_INFO: "Zustellbezirk";
 }
 
 export type TypInfo =
@@ -41,55 +41,55 @@ export type TypInfo =
   | "ZVG Gericht";
 
 export interface Jmtd14VTErwerberGerbeh {
-  PLZ_GROSSEMPFAENGER?: string;
-  XJUSTIZID?: string;
-  URL1?: string;
   AG: string;
-  PLZ_ZUSTELLBEZIRK: string;
-  OLG: string;
-  TYP_INFO: TypInfo;
-  EMAIL1?: string;
-  ORT: string;
-  STR_HNR: string;
-  XML_SUPPORT: KammerFuerHandelssach;
-  BEZEICHNUNG: string;
-  LKZ: string;
-  TEL?: string;
-  LG: string;
-  FAX?: string;
-  ORTK: string;
-  ERV_MAHN?: Erv;
-  PLZ_POSTFACH?: string;
-  POSTFACH?: string;
-  ERV_ZIVIL?: Erv;
-  ERV_FAMILIE?: Erv;
   AUT_MAHN_VERF_MERKMAL_INFO?: string;
-  KAMMER_FUER_HANDELSSACH?: KammerFuerHandelssach;
-  ERV_STRAF?: ErvStraf;
-  ERV_GRUNDBUCH?: Erv;
-  ERV_FG?: Erv;
+  BEZEICHNUNG: string;
+  EMAIL1?: string;
   EMAIL2?: string;
+  ERV_FAMILIE?: JaNeinShort;
+  ERV_FG?: JaNeinShort;
+  ERV_GRUNDBUCH?: JaNeinShort;
+  ERV_MAHN?: JaNeinShort;
+  ERV_STRAF?: ErvStraf;
+  ERV_ZIVIL?: JaNeinShort;
+  FAX?: string;
+  KAMMER_FUER_HANDELSSACH?: JaNeinLong;
+  LG: string;
+  LKZ: string;
+  OLG: string;
+  ORT: string;
+  ORTK: string;
+  PLZ_GROSSEMPFAENGER?: string;
+  PLZ_POSTFACH?: string;
+  PLZ_ZUSTELLBEZIRK: string;
+  POSTFACH?: string;
   STAMM?: string;
+  STR_HNR: string;
+  TEL?: string;
+  TYP_INFO: TypInfo;
+  URL1?: string;
   URL2?: string;
+  XJUSTIZID?: string;
+  XML_SUPPORT: JaNeinLong;
 }
 
-export type Erv = "J" | "N";
-export type ErvStraf = "S" | "J";
-export type KammerFuerHandelssach = "JA" | "NEIN";
+export type JaNeinShort = "J" | "N";
+export type ErvStraf = "S" | JaNeinShort;
+export type JaNeinLong = "JA" | "NEIN";
 
 export interface Jmtd14VTErwerberPlzstrn {
+  AG: string;
+  ANGELEGENHEIT_INFO: string;
   HNR_BIS: string;
   HNR_MERKMAL_INFO: HnrMerkmalInfo;
-  AG: string;
   HNR_VON: string;
-  ANGELEGENHEIT_INFO: string;
-  STRN: string;
+  LG: string;
   LKZ: string;
   OLG: string;
-  LG: string;
-  TYP_INFO: TypInfo;
-  PLZ: string;
   ORTK: string;
+  PLZ: string;
+  STRN: string;
+  TYP_INFO: TypInfo;
 }
 
 export type HnrMerkmalInfo =
