@@ -1,6 +1,8 @@
-*.woff
-*.woff2
-.github/actions/parse-content-to-file/create_content_file.py
-tests/config.env.test
-sonar-project.properties
-malformed.json
+.cache/
+build/
+coverage/
+node_modules/
+playwright-report/
+public/
+
+tests/**/malformed.json
