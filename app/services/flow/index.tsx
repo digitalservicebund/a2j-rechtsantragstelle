@@ -1,7 +1,7 @@
 import type { StateMachine } from "xstate";
 import { createMachine } from "xstate";
 import config from "./beratungshilfe.json";
-import guards from "./guards";
+import { guards } from "./guards";
 
 const initialStateId = config.initial;
 
@@ -10,10 +10,11 @@ export function getStateMachine(stepID: string | undefined, context: any) {
     ...config,
     predictableActionArguments: true,
     initial: stepID || initialStateId,
+    context: { ...context, stepId: stepID },
   };
 
   return createMachine(stateMachineConfig, {
-    guards: guards(stepID || initialStateId, context),
+    guards,
   });
 }
 

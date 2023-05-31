@@ -11,38 +11,54 @@ function searchEntryInSession(
   return Object.values(stepProperties).some((entry) => entry == expectedValue);
 }
 
-export default function getGuards(stepID: string, context: any) {
-  return {
-    yes: () => searchEntryInSession(context, stepID, "yes"),
-    no: () => searchEntryInSession(context, stepID, "no"),
-    staatlicheLeistung: () =>
-      context.staatlicheLeistungen?.staatlicheLeistung === "grundsicherung" ||
-      context.staatlicheLeistungen?.staatlicheLeistung ===
-        "asylbewerberleistungen",
-    above_10k: () => context.vermoegen?.vermoegen === "above_10k",
-    below_10k: () =>
-      context.vermoegen?.vermoegen === "below_10k" &&
-      context.staatlicheLeistungen?.staatlicheLeistung === "buergergeld",
-    nonCriticalVerfuegbaresEinkommen: () =>
-      !anyNonCriticalWarning(context) &&
-      searchEntryInSession(context, stepID, "no"),
-    verfuegbaresEinkommen: () =>
-      anyNonCriticalWarning(context) &&
-      searchEntryInSession(context, stepID, "no"),
-    incomeTooHigh: () => isIncomeTooHigh(context),
-    nonCritical: () =>
-      anyNonCriticalWarning(context) && !isIncomeTooHigh(context),
-  };
+interface Context extends Record<string, any> {
+  stepId: string;
 }
 
-function anyNonCriticalWarning(context: any) {
+type Guard = (context: Context) => boolean;
+
+const yes: Guard = (context) => {
+  return searchEntryInSession(context, context.stepId, "yes");
+};
+
+const no: Guard = (context) => {
+  return searchEntryInSession(context, context.stepId, "no");
+};
+
+const anyNonCriticalWarning: Guard = (context) => {
   return (
-    context.kostenfreieBeratung?.hasTriedFreeServices == "no" ||
-    context.eigeninitiative?.hasHelpedThemselves == "no"
+    context["kostenfreieBeratung"]?.hasTriedFreeServices == "no" ||
+    context["eigeninitiative"]?.hasHelpedThemselves == "no"
   );
-}
+};
 
-export function isIncomeTooHigh(context: any) {
+const staatlicheLeistung: Guard = (context) => {
+  return (
+    context["staatlicheLeistungen"]?.staatlicheLeistung === "grundsicherung" ||
+    context["staatlicheLeistungen"]?.staatlicheLeistung ===
+      "asylbewerberleistungen"
+  );
+};
+
+const above_10k: Guard = (context) =>
+  context["vermoegen"]?.vermoegen === "above_10k";
+const below_10k: Guard = (context) =>
+  context["vermoegen"]?.vermoegen === "below_10k" &&
+  context["staatlicheLeistungen"]?.staatlicheLeistung === "buergergeld";
+
+const nonCriticalVerfuegbaresEinkommen: Guard = (context) =>
+  !anyNonCriticalWarning(context) &&
+  searchEntryInSession(context, context.stepId, "no");
+
+const verfuegbaresEinkommen: Guard = (context) =>
+  anyNonCriticalWarning(context) &&
+  searchEntryInSession(context, context.stepId, "no");
+
+const incomeTooHigh: Guard = (context) => isIncomeTooHigh(context);
+const nonCritical: Guard = (context) =>
+  anyNonCriticalWarning(context) && !isIncomeTooHigh(context);
+
+export const isIncomeTooHigh = (context: any) => {
   return (
     (context.einkommen?.einkommen
       ? moneyToCents(context.einkommen.einkommen)
@@ -69,4 +85,17 @@ export function isIncomeTooHigh(context: any) {
         : 0
     )
   );
-}
+};
+
+export const guards = {
+  yes,
+  no,
+  anyNonCriticalWarning,
+  staatlicheLeistung,
+  above_10k,
+  below_10k,
+  nonCriticalVerfuegbaresEinkommen,
+  verfuegbaresEinkommen,
+  incomeTooHigh,
+  nonCritical,
+};
