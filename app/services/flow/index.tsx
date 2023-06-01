@@ -9,7 +9,7 @@ export function getStateMachine(stepID: string | undefined, context: any) {
   const stateMachineConfig = {
     ...config,
     predictableActionArguments: true,
-    initial: stepID || initialStateId,
+    initial: stepID ?? initialStateId,
     context: { ...context, stepId: stepID },
   };
 
@@ -78,7 +78,7 @@ function getPossibleParentNodes(
   }
 
   do {
-    const step = possiblePreviousSteps.pop() || stepID;
+    const step = possiblePreviousSteps.pop() ?? stepID;
     for (const state in stateMachine.states) {
       const stateNode = stateMachine.getStateNodeById(
         `${stateMachine.key}.${state}`
