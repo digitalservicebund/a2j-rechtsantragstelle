@@ -88,6 +88,10 @@ export const isIncomeTooHigh = (context: any) => {
   );
 };
 
+const isPayingForKids: Guard = (context) => {
+  return context["kinderKurz"]?.isPayingForKids === "yes";
+};
+
 export const guards = {
   yes,
   no,
@@ -99,4 +103,5 @@ export const guards = {
   verfuegbaresEinkommen,
   incomeTooHigh,
   nonCritical,
+  isPayingForKids,
 };

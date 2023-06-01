@@ -31,73 +31,12 @@ export function isLastStep(stepID: string | undefined) {
   const stateNode = stateMachine.getStateNodeById(
     `${stateMachine.key}.${stepID}`
   );
-  return stateNode.transitions.length === 0;
+  return stateNode.type === "final";
 }
 
 export function getPreviousStep(stepID: string, context: any) {
   const stateMachine = getStateMachine(stepID, context);
-  const possiblePreviousSteps = getPossibleParentNodes(
-    stateMachine,
-    stepID,
-    context
-  );
-
-  let result: string = getInitialStep();
-
-  if (possiblePreviousSteps.length > 1) {
-    for (const previousStep of possiblePreviousSteps) {
-      let previousSteps = [previousStep];
-
-      do {
-        previousSteps = previousSteps.concat(
-          getPossibleParentNodes(stateMachine, previousSteps.pop()!, context)
-        );
-      } while (previousSteps.length > 1);
-
-      if (previousStep.length === 1) {
-        result = previousStep;
-        break;
-      }
-    }
-  } else if (possiblePreviousSteps.length === 1) {
-    result = possiblePreviousSteps[0];
-  }
-
-  return result;
-}
-
-function getPossibleParentNodes(
-  stateMachine: StateMachine<any, any, any>,
-  stepID: string | undefined,
-  context: any
-) {
-  const possiblePreviousSteps: string[] = [];
-
-  if (!stepID) {
-    return possiblePreviousSteps;
-  }
-
-  do {
-    const step = possiblePreviousSteps.pop() ?? stepID;
-    for (const state in stateMachine.states) {
-      const stateNode = stateMachine.getStateNodeById(
-        `${stateMachine.key}.${state}`
-      );
-      stateNode.transitions.forEach((transition) => {
-        if (
-          transition.target?.some((target) => target.key === step) &&
-          !possiblePreviousSteps.includes(transition.source.key)
-        ) {
-          const next = getNextStep(transition.source.key, context);
-          if (next === step) {
-            possiblePreviousSteps.push(transition.source.key);
-          }
-        }
-      });
-    }
-  } while (possiblePreviousSteps.length > 1);
-
-  return possiblePreviousSteps;
+  return stateMachine.transition(stepID, { type: "BACK" }).value;
 }
 
 export function hasStep(stepID: string | undefined) {
@@ -148,6 +87,8 @@ function getPossiblePath(
 }
 
 export function getProgressBar(stepID: string, context: any) {
+  // TODO: fix
+  return { total: 43, current: 2 };
   const stateMachine = getStateMachine(initialStateId, context);
   const possiblePaths = getPossiblePath(stateMachine, stepID);
   const longestPossiblePaths = getPossiblePath(stateMachine, initialStateId);
