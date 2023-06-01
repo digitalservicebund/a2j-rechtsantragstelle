@@ -1,10 +1,9 @@
-import type { AllowedIDs } from "~/lib/vorabcheck/pages";
 import { Button } from "~/components";
 import { ButtonContainer } from "~/components/ButtonContainer";
 import type { VorabCheckCommons } from "~/services/cms/models/commons/VorabCheckCommons";
 
 interface ButtonNavigationProps {
-  backDestination?: AllowedIDs;
+  backDestination?: string;
   isLast: boolean;
   commonContent: VorabCheckCommons;
 }

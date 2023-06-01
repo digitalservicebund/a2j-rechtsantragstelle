@@ -77,6 +77,7 @@ interface StepComponent {
 interface StepComponentWithSchema {
   component: FormComponent;
   schema: AnyZodObject;
+  additionalContext?: string[];
 }
 
 export type StepInterface = StepComponent | StepComponentWithSchema;

@@ -1,0 +1,324 @@
+{
+  "id": "Beratungshilfe",
+  "initial": "rechtsschutzversicherung",
+  "states": {
+    "rechtsschutzversicherung": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "wurdeVerklagt",
+            "cond": "no"
+          },
+          {
+            "target": "rechtsschutzversicherungError"
+          }
+        ]
+      }
+    },
+    "wurdeVerklagt": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "klageEingereicht",
+            "cond": "no"
+          },
+          {
+            "target": "klageEingereichtError"
+          }
+        ]
+      }
+    },
+    "klageEingereicht": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "hamburgOderBremen",
+            "cond": "no"
+          },
+          {
+            "target": "klageEingereichtError"
+          }
+        ]
+      }
+    },
+    "hamburgOderBremen": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "beratungshilfeBeantragt",
+            "cond": "no"
+          },
+          {
+            "target": "hamburgOderBremenError"
+          }
+        ]
+      }
+    },
+    "beratungshilfeBeantragt": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "eigeninitiative",
+            "cond": "no"
+          },
+          {
+            "target": "beratungshilfeBeantragtError"
+          }
+        ]
+      }
+    },
+    "eigeninitiative": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "kostenfreieBeratung",
+            "cond": "yes"
+          },
+          {
+            "target": "eigeninitiativeWarnung"
+          }
+        ]
+      }
+    },
+    "kostenfreieBeratung": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "staatlicheLeistungen",
+            "cond": "yes"
+          },
+          {
+            "target": "kostenfreieBeratungWarnung"
+          }
+        ]
+      }
+    },
+    "staatlicheLeistungen": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "abschlussJa",
+            "cond": "staatlicheLeistung"
+          },
+          {
+            "target": "vermoegen"
+          }
+        ]
+      }
+    },
+    "abschlussJa": {},
+    "vermoegen": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "abschlussJa",
+            "cond": "below10kBuergergeld"
+          },
+          {
+            "target": "vermoegenError",
+            "cond": "above10k"
+          },
+          {
+            "target": "erwerbstaetigkeit"
+          }
+        ]
+      }
+    },
+    "vermoegenError": {},
+    "erwerbstaetigkeit": {
+      "on": {
+        "SUBMIT": {
+          "target": "partnerschaft"
+        }
+      }
+    },
+    "rechtsschutzversicherungError": {},
+    "klageEingereichtError": {},
+    "hamburgOderBremenError": {},
+    "beratungshilfeBeantragtError": {},
+    "eigeninitiativeWarnung": {
+      "on": {
+        "SUBMIT": {
+          "target": "kostenfreieBeratung"
+        }
+      }
+    },
+    "kostenfreieBeratungWarnung": {
+      "on": {
+        "SUBMIT": {
+          "target": "staatlicheLeistungen"
+        }
+      }
+    },
+    "partnerschaft": {
+      "on": {
+        "SUBMIT": {
+          "target": "genauigkeit"
+        }
+      }
+    },
+    "genauigkeit": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "kinderKurz",
+            "cond": "no"
+          },
+          {
+            "target": "einkommen"
+          }
+        ]
+      }
+    },
+    "kinderKurz": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "kinderAnzahlKurz",
+            "cond": "yes"
+          },
+          {
+            "target": "verfuegbaresEinkommen"
+          }
+        ]
+      }
+    },
+    "einkommen": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "einkommenPartner",
+            "cond": "yes"
+          },
+          {
+            "target": "kinder"
+          }
+        ]
+      }
+    },
+    "kinderAnzahlKurz": {
+      "always": {
+        "target": "verfuegbaresEinkommen"
+      }
+    },
+    "verfuegbaresEinkommen": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "abschlussJa",
+            "cond": "nonCriticalVerfuegbaresEinkommen"
+          },
+          {
+            "target": "abschlussVielleicht",
+            "cond": "verfuegbaresEinkommen"
+          },
+          {
+            "target": "abschlussNein",
+            "cond": "yes"
+          }
+        ]
+      }
+    },
+    "abschlussVielleicht": {},
+    "abschlussNein": {},
+    "einkommenPartner": {
+      "on": {
+        "SUBMIT": {
+          "target": "kinder"
+        }
+      }
+    },
+    "kinder": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "kinderAnzahl",
+            "cond": "yes"
+          },
+          {
+            "target": "unterhalt"
+          }
+        ]
+      }
+    },
+    "kinderAnzahl": {
+      "on": {
+        "SUBMIT": {
+          "target": "einkommenKinder"
+        }
+      }
+    },
+    "unterhalt": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "unterhaltSumme",
+            "cond": "yes"
+          },
+          {
+            "target": "miete"
+          }
+        ]
+      }
+    },
+    "einkommenKinder": {
+      "on": {
+        "SUBMIT": {
+          "target": "unterhalt"
+        }
+      }
+    },
+    "unterhaltSumme": {
+      "on": {
+        "SUBMIT": {
+          "target": "miete"
+        }
+      }
+    },
+    "miete": {
+      "on": {
+        "SUBMIT": {
+          "target": "weitereZahlungen"
+        }
+      }
+    },
+    "weitereZahlungen": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "weitereZahlungenSumme",
+            "cond": "yes"
+          },
+          {
+            "target": "abschlussVielleicht",
+            "cond": "nonCritical"
+          },
+          {
+            "target": "abschlussNein",
+            "cond": "incomeTooHigh"
+          },
+          {
+            "target": "abschlussJa"
+          }
+        ]
+      }
+    },
+    "weitereZahlungenSumme": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "abschlussVielleicht",
+            "cond": "nonCritical"
+          },
+          {
+            "target": "abschlussNein",
+            "cond": "incomeTooHigh"
+          },
+          {
+            "target": "abschlussJa"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -6,22 +6,9 @@ import type {
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
-import type { AllowedIDs } from "~/lib/vorabcheck/pages";
 import { allValidators, formPages } from "~/lib/vorabcheck/pages";
-import type { Context } from "~/lib/vorabcheck/flow.server";
-import {
-  formGraph,
-  initialStepID,
-  isIncomeTooHigh,
-  progress,
-} from "~/lib/vorabcheck/flow.server";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
-import {
-  findPreviousStep,
-  isLeaf,
-  isValidContext,
-} from "~/lib/treeCalculations";
 import {
   getResultPageConfig,
   getVorabCheckPageConfig,
@@ -37,13 +24,24 @@ import ProgressBarArea from "~/components/form/ProgressBarArea";
 import type { VorabCheckCommons } from "~/services/cms/models/commons/VorabCheckCommons";
 import cms from "~/services/cms";
 
+import {
+  getInitialStep,
+  getNextStep,
+  getPreviousStep,
+  getProgressBar,
+  hasStep,
+  isLastStep,
+} from "~/services/flow";
+import { isIncomeTooHigh } from "~/services/flow/guards";
+import invariant from "tiny-invariant";
+
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { title: data.meta?.title },
 ];
 
 const getReasonsToDisplay = (
   reasons: { attributes: ElementWithId }[] | undefined,
-  context: Context
+  context: any
 ) => {
   return reasons
     ?.filter((reason) => {
@@ -66,10 +64,11 @@ const getReasonsToDisplay = (
 };
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-  const stepID = params.stepID as AllowedIDs;
-  if (!formGraph.hasNode(stepID)) {
-    return redirect(`/vorabcheck/${initialStepID}`);
+  const stepID = params.stepID;
+  if (!hasStep(stepID)) {
+    return redirect(`/vorabcheck/${getInitialStep()}`);
   }
+  invariant(typeof stepID !== "undefined"); // Needed because TypeScript doesn't realize that this is caught in the above condition
 
   const session = await getSession(request.headers.get("Cookie"));
 
@@ -90,12 +89,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     "vorab-check-common"
   );
 
-  if (!isValidContext(initialStepID, stepID, formGraph, session.data)) {
-    return redirect(`/vorabcheck/${initialStepID}`);
-  }
-
   let additionalContext = {};
-  if ("additionalContext" in currentPage) {
+  if ("additionalContext" in currentPage && currentPage["additionalContext"]) {
     for (const requestedContext of currentPage["additionalContext"]) {
       // Use .find(), since answers are nested below stepID and there is no fast lookup by name alone
       additionalContext = {
@@ -105,6 +100,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     }
   }
 
+  const progressBar = getProgressBar(stepID, session.data);
+
   return json({
     defaultValues: session.data[stepID],
     commonContent,
@@ -113,10 +110,10 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     resultContent: resultPageContent,
     resultReasonsToDisplay,
     meta: formPageContent?.meta || resultPageContent?.meta,
-    progressStep: progress[stepID],
-    progressTotal: progress[initialStepID],
-    isLast: isLeaf(stepID, formGraph),
-    previousStep: findPreviousStep(stepID, formGraph, session.data)[0],
+    progressStep: progressBar.current,
+    progressTotal: progressBar.total,
+    isLast: isLastStep(stepID),
+    previousStep: getPreviousStep(stepID, session.data),
     additionalContext,
   });
 };
@@ -124,26 +121,19 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 export const action: ActionFunction = async ({ params, request }) => {
   const session = await getSession(request.headers.get("Cookie"));
   const formData = await request.formData();
-  const stepID = params.stepID as AllowedIDs;
+  const stepID = params.stepID;
+  invariant(typeof stepID !== "undefined", "stepId has to be provided");
   const validationResult = await allValidators[stepID].validate(formData);
-  if (validationResult.error) return validationError(validationResult.error);
-  session.set(stepID, validationResult.data);
 
-  // Deciding the next step
-  // 1. Default: back to initial
-  let destinationString: AllowedIDs = initialStepID;
-  for (const link of formGraph.outEdgeEntries(stepID)) {
-    // 2. For each outgoing link: check if theres a condition and whether its fullfilled
-    if (
-      !link.attributes["condition"] ||
-      link.attributes["condition"](session.data)
-    ) {
-      destinationString = link.target as AllowedIDs;
-      break;
-    }
-  }
+  if (validationResult.error) return validationError(validationResult.error);
+
+  session.set(stepID, validationResult.data);
   const headers = { "Set-Cookie": await commitSession(session) };
-  return redirect(`/vorabcheck/${destinationString}`, { status: 302, headers });
+
+  const destination = getNextStep(stepID, session.data);
+  return redirect(`/vorabcheck/${String(destination)}`, {
+    headers,
+  });
 };
 
 export default function Index() {
@@ -160,9 +150,8 @@ export default function Index() {
     previousStep,
     additionalContext,
   } = useLoaderData<typeof loader>();
-  const stepProgress = progressTotal - progressStep + 1;
   const params = useParams();
-  const stepID = params.stepID as AllowedIDs;
+  const stepID = params.stepID as string;
   const FormInputComponent = formPages[stepID].component;
 
   if (resultContent) {
@@ -171,7 +160,7 @@ export default function Index() {
         content={{ ...resultContent, ...commonContent }}
         backDestination={previousStep}
         reasonsToDisplay={resultReasonsToDisplay}
-        stepProgress={stepProgress}
+        progressStep={progressStep}
         progressTotal={progressTotal}
         isLast={isLast}
       />
@@ -184,7 +173,7 @@ export default function Index() {
           <div className="ds-stack-16">
             <ProgressBarArea
               label={commonContent?.progressBarLabel}
-              stepProgress={stepProgress}
+              progressStep={progressStep}
               progressTotal={progressTotal}
             />
             <div className="ds-stack-40">
