@@ -112,11 +112,11 @@
         "SUBMIT": [
           {
             "target": "abschlussJa",
-            "cond": "below_10k"
+            "cond": "below10kBuergergeld"
           },
           {
             "target": "vermoegenError",
-            "cond": "above_10k"
+            "cond": "above10k"
           },
           {
             "target": "erwerbstaetigkeit"

@@ -41,9 +41,9 @@ const staatlicheLeistung: Guard = (context) => {
   );
 };
 
-const above_10k: Guard = (context) =>
+const above10k: Guard = (context) =>
   context["vermoegen"]?.vermoegen === "above_10k";
-const below_10k: Guard = (context) =>
+const below10kBuergergeld: Guard = (context) =>
   context["vermoegen"]?.vermoegen === "below_10k" &&
   context["staatlicheLeistungen"]?.staatlicheLeistung === "buergergeld";
 
@@ -93,8 +93,8 @@ export const guards = {
   no,
   anyNonCriticalWarning,
   staatlicheLeistung,
-  above_10k,
-  below_10k,
+  above10k,
+  below10kBuergergeld,
   nonCriticalVerfuegbaresEinkommen,
   verfuegbaresEinkommen,
   incomeTooHigh,
