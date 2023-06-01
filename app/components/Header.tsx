@@ -1,8 +1,6 @@
 import { z } from "zod";
-import { HeadingPropsSchema } from "./Heading";
-import Heading from "./Heading";
-import { ParagraphPropsSchema } from "./Paragraph";
-import Paragraph from "./Paragraph";
+import Heading, { HeadingPropsSchema } from "./Heading";
+import Paragraph, { ParagraphPropsSchema } from "./Paragraph";
 
 export const HeaderPropsSchema = z.object({
   heading: HeadingPropsSchema,

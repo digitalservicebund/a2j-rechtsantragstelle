@@ -1,7 +1,6 @@
 import type { Renderer } from "marked";
 import Container from "./Container";
-import { ImagePropsSchema } from "./Image";
-import Image from "./Image";
+import Image, { ImagePropsSchema } from "./Image";
 import { ParagraphPropsSchema } from "./Paragraph";
 import RichText from "./RichText";
 import { z } from "zod";
