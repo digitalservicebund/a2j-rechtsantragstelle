@@ -1,5 +1,5 @@
 PRODUCTION_URL="https://a2j-rast.prod.ds4g.net/"
-TEXT="Justiz-Services"
+TEXT="Onlineservices der Justiz"
 
 if curl -s $PRODUCTION_URL --header "Authorization: Basic $1" | grep -o $TEXT; then
   echo "Text found"
