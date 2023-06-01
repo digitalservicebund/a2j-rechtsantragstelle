@@ -24,7 +24,8 @@ const getStrapiEntry = async (
   }
 ) => {
   const data = await getStrapiEntryFromSource({ locale: "de", ...opts });
-  // "remove attributes key"
+  // remove "attributes" key
+  // { id: 12, attributes: { text: "…" } } => { id: 12, text: "…" }
   return { id: data.id, ...data.attributes };
 };
 
