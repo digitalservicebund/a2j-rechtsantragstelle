@@ -16,7 +16,7 @@ function Image({ url, width, height, alternativeText, ...props }: ImageProps) {
     <img
       {...props}
       src={url}
-      alt={alternativeText || ""}
+      alt={alternativeText ?? ""}
       width={width}
       height={height}
     />

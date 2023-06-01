@@ -1,8 +1,6 @@
-import { InfoBoxItemPropsSchema } from "./InfoBoxItem";
-import InfoBoxItem from "./InfoBoxItem";
-import { HeadingPropsSchema } from "./Heading";
-import Heading from "./Heading";
 import { z } from "zod";
+import Heading, { HeadingPropsSchema } from "./Heading";
+import InfoBoxItem, { InfoBoxItemPropsSchema } from "./InfoBoxItem";
 
 export const InfoBoxPropsSchema = z.object({
   heading: HeadingPropsSchema.optional(),

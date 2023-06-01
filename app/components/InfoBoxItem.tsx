@@ -1,11 +1,8 @@
-import { HeadingPropsSchema } from "./Heading";
-import Heading from "./Heading";
-import RichText from "./RichText";
-import { ImagePropsSchema } from "./Image";
-import Image from "./Image";
-import { ButtonPropsSchema } from "./Button";
-import Button from "./Button";
 import { z } from "zod";
+import Button, { ButtonPropsSchema } from "./Button";
+import Heading, { HeadingPropsSchema } from "./Heading";
+import Image, { ImagePropsSchema } from "./Image";
+import RichText from "./RichText";
 
 export const InfoBoxItemPropsSchema = z.object({
   label: HeadingPropsSchema.optional(),
