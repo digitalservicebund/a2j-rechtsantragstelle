@@ -1,5 +1,6 @@
-import type { MachineConfig, StateMachine } from "xstate";
+import type { MachineConfig } from "xstate";
 import { createMachine } from "xstate";
+import { getSimplePaths } from "@xstate/graph";
 import config from "./beratungshilfe.json";
 import { guards } from "./guards";
 
@@ -56,45 +57,11 @@ export function getNextStep(stepID: string, context: any) {
   return stateMachine.transition(stepID, { type: "SUBMIT" }).value;
 }
 
-function getPossiblePath(
-  stateMachine: StateMachine<any, any, any>,
-  searchStepID: string
-) {
-  const possiblePaths: string[] = [];
-  const stack: { node: any; currentStepID?: string }[] = [];
-
-  const initialStateNode = stateMachine.getStateNodeById(
-    `${stateMachine.key}.${searchStepID}`
-  );
-  stack.push({ node: initialStateNode });
-
-  while (stack.length > 0) {
-    const { node, currentStepID } = stack.pop()!;
-    if (currentStepID && !possiblePaths.includes(currentStepID)) {
-      possiblePaths.push(currentStepID);
-    }
-
-    for (const transition of node.transitions) {
-      if (transition.target) {
-        for (const target of transition.target) {
-          stack.push({ node: target, currentStepID: target.key });
-        }
-      }
-    }
-  }
-
-  return possiblePaths;
-}
-
 export function getProgressBar(stepID: string, context: any) {
-  // TODO: fix
-  return { total: 43, current: 2 };
   const stateMachine = getStateMachine(initialStateId, context);
-  const possiblePaths = getPossiblePath(stateMachine, stepID);
-  const longestPossiblePaths = getPossiblePath(stateMachine, initialStateId);
-
-  return {
-    current: longestPossiblePaths.length - possiblePaths.length,
-    total: longestPossiblePaths.length,
-  };
+  const steps = Object.values(getSimplePaths(stateMachine)).map(
+    ({ state }) => state.value
+  );
+  const index = steps.indexOf(stepID);
+  return { total: steps.length, current: index + 1 };
 }

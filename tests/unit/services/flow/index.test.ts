@@ -85,5 +85,5 @@ test("getProgressBar should return progress bar", () => {
   const progressbar = getProgressBar(step, context);
 
   expect(progressbar.current).toBe(2);
-  expect(progressbar.total).toBe(43);
+  expect(progressbar.total).toBe(17);
 });
