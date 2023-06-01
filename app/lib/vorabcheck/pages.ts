@@ -20,8 +20,11 @@ export const formPages: Record<string, StepInterface> = {
   kostenfreieBeratung: Steps.kostenfreieBeratungStep,
   kostenfreieBeratungWarnung: Steps.emptyStep,
   wurdeVerklagt: Steps.wurdeVerklagtStep,
+  wurdeVerklagtError: Steps.exitKlageEingereicht, // sic!
   staatlicheLeistungen: Steps.staatlicheLeistungenStep,
+  staatlicheLeistungenAbschlussJa: Steps.abschlussJaStep,
   vermoegen: Steps.vermoegenStep,
+  vermoegenAbschlussJa: Steps.abschlussJaStep,
   vermoegenError: Steps.emptyStep,
   genauigkeit: Steps.genauigkeitStep,
   partnerschaft: Steps.partnerschaftStep,
@@ -36,12 +39,18 @@ export const formPages: Record<string, StepInterface> = {
   erwerbstaetigkeit: Steps.erwerbstaetigkeitStep,
   einkommen: Steps.einkommenStep,
   verfuegbaresEinkommen: verfuegbaresEinkommenStep,
+  verfuegbaresEinkommenAbschlussNein: Steps.abschlussNeinStep,
+  verfuegbaresEinkommenAbschlussVielleicht: Steps.abschlussVielleichtStep,
+  verfuegbaresEinkommenAbschlussJa: Steps.abschlussJaStep,
   miete: Steps.mieteStep,
   weitereZahlungen: Steps.weitereZahlungenStep,
+  weitereZahlungenAbschlussNein: Steps.abschlussNeinStep,
+  weitereZahlungenAbschlussVielleicht: Steps.abschlussVielleichtStep,
+  weitereZahlungenAbschlussJa: Steps.abschlussJaStep,
   weitereZahlungenSumme: Steps.weitereZahlungenSummeStep,
-  abschlussNein: Steps.abschlussNeinStep,
-  abschlussVielleicht: Steps.abschlussVielleichtStep,
-  abschlussJa: Steps.abschlussJaStep,
+  weitereZahlungenSummeAbschlussNein: Steps.abschlussNeinStep,
+  weitereZahlungenSummeAbschlussVielleicht: Steps.abschlussVielleichtStep,
+  weitereZahlungenSummeAbschlussJa: Steps.abschlussJaStep,
 } as const;
 
 export const allValidators = Object.fromEntries(

@@ -41,7 +41,16 @@ export const getVorabCheckPageConfig = async function (
 };
 
 export const getResultPageConfig = async (url: string): Promise<ResultPage> => {
-  const step = slugsfromURL(url)[1];
+  let step = slugsfromURL(url)[1];
+
+  if (/AbschlussJa/.test(step)) {
+    step = "abschlussJa";
+  } else if (/AbschlussNein/.test(step)) {
+    step = "abschlussNein";
+  } else if (/AbschlussVielleicht/.test(step)) {
+    step = "abschlussVielleicht";
+  }
+
   return await cms().getPageFromCollection("resultPage", step);
 };
 

@@ -1,4 +1,4 @@
-import type { StateMachine } from "xstate";
+import type { MachineConfig, StateMachine } from "xstate";
 import { createMachine } from "xstate";
 import config from "./beratungshilfe.json";
 import { guards } from "./guards";
@@ -7,7 +7,7 @@ const initialStateId = config.initial;
 
 export function getStateMachine(stepID: string | undefined, context: any) {
   const stateMachineConfig = {
-    ...config,
+    ...(config as MachineConfig<any, any, any>),
     predictableActionArguments: true,
     initial: stepID || initialStateId,
     context: { ...context, stepId: stepID },

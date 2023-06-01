@@ -15,6 +15,7 @@
         ]
       }
     },
+    "rechtsschutzversicherungError": { "type": "final" },
     "wurdeVerklagt": {
       "on": {
         "SUBMIT": [
@@ -23,11 +24,12 @@
             "cond": "no"
           },
           {
-            "target": "klageEingereichtError"
+            "target": "wurdeVerklagtError"
           }
         ]
       }
     },
+    "wurdeVerklagtError": { "type": "final" },
     "klageEingereicht": {
       "on": {
         "SUBMIT": [
@@ -41,6 +43,7 @@
         ]
       }
     },
+    "klageEingereichtError": { "type": "final" },
     "hamburgOderBremen": {
       "on": {
         "SUBMIT": [
@@ -54,6 +57,7 @@
         ]
       }
     },
+    "hamburgOderBremenError": { "type": "final" },
     "beratungshilfeBeantragt": {
       "on": {
         "SUBMIT": [
@@ -67,6 +71,7 @@
         ]
       }
     },
+    "beratungshilfeBeantragtError": { "type": "final" },
     "eigeninitiative": {
       "on": {
         "SUBMIT": [
@@ -78,6 +83,13 @@
             "target": "eigeninitiativeWarnung"
           }
         ]
+      }
+    },
+    "eigeninitiativeWarnung": {
+      "on": {
+        "SUBMIT": {
+          "target": "kostenfreieBeratung"
+        }
       }
     },
     "kostenfreieBeratung": {
@@ -93,11 +105,18 @@
         ]
       }
     },
+    "kostenfreieBeratungWarnung": {
+      "on": {
+        "SUBMIT": {
+          "target": "staatlicheLeistungen"
+        }
+      }
+    },
     "staatlicheLeistungen": {
       "on": {
         "SUBMIT": [
           {
-            "target": "abschlussJa",
+            "target": "staatlicheLeistungenAbschlussJa",
             "cond": "staatlicheLeistung"
           },
           {
@@ -106,12 +125,12 @@
         ]
       }
     },
-    "abschlussJa": {},
+    "staatlicheLeistungenAbschlussJa": { "type": "final" },
     "vermoegen": {
       "on": {
         "SUBMIT": [
           {
-            "target": "abschlussJa",
+            "target": "vermoegenAbschlussJa",
             "cond": "below10kBuergergeld"
           },
           {
@@ -124,29 +143,12 @@
         ]
       }
     },
-    "vermoegenError": {},
+    "vermoegenAbschlussJa": { "type": "final" },
+    "vermoegenError": { "type": "final" },
     "erwerbstaetigkeit": {
       "on": {
         "SUBMIT": {
           "target": "partnerschaft"
-        }
-      }
-    },
-    "rechtsschutzversicherungError": {},
-    "klageEingereichtError": {},
-    "hamburgOderBremenError": {},
-    "beratungshilfeBeantragtError": {},
-    "eigeninitiativeWarnung": {
-      "on": {
-        "SUBMIT": {
-          "target": "kostenfreieBeratung"
-        }
-      }
-    },
-    "kostenfreieBeratungWarnung": {
-      "on": {
-        "SUBMIT": {
-          "target": "staatlicheLeistungen"
         }
       }
     },
@@ -183,6 +185,11 @@
         ]
       }
     },
+    "kinderAnzahlKurz": {
+      "always": {
+        "target": "verfuegbaresEinkommen"
+      }
+    },
     "einkommen": {
       "on": {
         "SUBMIT": [
@@ -196,31 +203,27 @@
         ]
       }
     },
-    "kinderAnzahlKurz": {
-      "always": {
-        "target": "verfuegbaresEinkommen"
-      }
-    },
     "verfuegbaresEinkommen": {
       "on": {
         "SUBMIT": [
           {
-            "target": "abschlussJa",
+            "target": "verfuegbaresEinkommenAbschlussJa",
             "cond": "nonCriticalVerfuegbaresEinkommen"
           },
           {
-            "target": "abschlussVielleicht",
+            "target": "verfuegbaresEinkommenAbschlussVielleicht",
             "cond": "verfuegbaresEinkommen"
           },
           {
-            "target": "abschlussNein",
+            "target": "verfuegbaresEinkommenAbschlussNein",
             "cond": "yes"
           }
         ]
       }
     },
-    "abschlussVielleicht": {},
-    "abschlussNein": {},
+    "verfuegbaresEinkommenAbschlussJa": { "type": "final" },
+    "verfuegbaresEinkommenAbschlussVielleicht": { "type": "final" },
+    "verfuegbaresEinkommenAbschlussNein": { "type": "final" },
     "einkommenPartner": {
       "on": {
         "SUBMIT": {
@@ -248,6 +251,13 @@
         }
       }
     },
+    "einkommenKinder": {
+      "on": {
+        "SUBMIT": {
+          "target": "unterhalt"
+        }
+      }
+    },
     "unterhalt": {
       "on": {
         "SUBMIT": [
@@ -259,13 +269,6 @@
             "target": "miete"
           }
         ]
-      }
-    },
-    "einkommenKinder": {
-      "on": {
-        "SUBMIT": {
-          "target": "unterhalt"
-        }
       }
     },
     "unterhaltSumme": {
@@ -290,35 +293,41 @@
             "cond": "yes"
           },
           {
-            "target": "abschlussVielleicht",
+            "target": "weitereZahlungenAbschlussVielleicht",
             "cond": "nonCritical"
           },
           {
-            "target": "abschlussNein",
+            "target": "weitereZahlungenAbschlussNein",
             "cond": "incomeTooHigh"
           },
           {
-            "target": "abschlussJa"
+            "target": "weitereZahlungenAbschlussJa"
           }
         ]
       }
     },
+    "weitereZahlungenAbschlussVielleicht": { "type": "final" },
+    "weitereZahlungenAbschlussNein": { "type": "final" },
+    "weitereZahlungenAbschlussJa": { "type": "final" },
     "weitereZahlungenSumme": {
       "on": {
         "SUBMIT": [
           {
-            "target": "abschlussVielleicht",
+            "target": "weitereZahlungenSummeAbschlussVielleicht",
             "cond": "nonCritical"
           },
           {
-            "target": "abschlussNein",
+            "target": "weitereZahlungenSummeAbschlussNein",
             "cond": "incomeTooHigh"
           },
           {
-            "target": "abschlussJa"
+            "target": "weitereZahlungenSummeAbschlussJa"
           }
         ]
       }
-    }
+    },
+    "weitereZahlungenSummeAbschlussVielleicht": { "type": "final" },
+    "weitereZahlungenSummeAbschlussNein": { "type": "final" },
+    "weitereZahlungenSummeAbschlussJa": { "type": "final" }
   }
 }

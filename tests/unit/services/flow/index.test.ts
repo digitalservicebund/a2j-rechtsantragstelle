@@ -23,7 +23,7 @@ test("getInitialStep should return the initial step", () => {
 });
 
 test("isLastStep should return true for the last step", () => {
-  const lastStep = "abschlussJa";
+  const lastStep = "weitereZahlungenSummeAbschlussJa";
   const isLast = isLastStep(lastStep);
   expect(isLast).toBe(true);
 });
@@ -85,5 +85,5 @@ test("getProgressBar should return progress bar", () => {
   const progressbar = getProgressBar(step, context);
 
   expect(progressbar.current).toBe(2);
-  expect(progressbar.total).toBe(34);
+  expect(progressbar.total).toBe(43);
 });
