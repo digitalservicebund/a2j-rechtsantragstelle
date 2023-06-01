@@ -9,7 +9,7 @@ export function getStateMachine(stepID: string | undefined, context: any) {
   const stateMachineConfig = {
     ...config,
     predictableActionArguments: true,
-    initial: stepID ?? initialStateId,
+    initial: stepID || initialStateId,
     context: { ...context, stepId: stepID },
   };
 
