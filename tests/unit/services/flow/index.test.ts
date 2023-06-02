@@ -1,20 +1,20 @@
 import {
-  getStateMachine,
-  isFinalStep,
-  getPreviousStep,
-  isStepReachable,
   getNextStep,
+  getPreviousStep,
   getProgressBar,
+  getStateMachine,
   initialStep,
+  isFinalStep,
+  isStepReachable,
 } from "~/services/flow";
 
-test("getStateMachine should return a valid state machine", () => {
-  const context = {};
-  const stateMachine = getStateMachine(context);
-  expect(stateMachine).toBeDefined();
-});
-
 describe("services/flow", () => {
+  describe("getStateMachine", () => {
+    test("should return a valid state machine", () => {
+      expect(getStateMachine()).toBeDefined();
+    });
+  });
+
   describe("isFinalStep", () => {
     const examples = [
       { stepId: "weitereZahlungenSummeAbschlussJa", expected: true },
@@ -86,58 +86,68 @@ describe("services/flow", () => {
       }
     );
   });
-});
 
-// test("hasStep should return true for an existing step", () => {
-//   const existingStep = config.initial;
-//   const hasStepValue = hasStep(existingStep);
-//   expect(hasStepValue).toBe(true);
-// });
+  describe("getNextStep", () => {
+    const examples = [
+      {
+        stepId: "rechtsschutzversicherung",
+        context: {
+          rechtsschutzversicherung: { hasRechtsschutzversicherung: "yes" },
+        },
+        expected: "rechtsschutzversicherungError",
+      },
+      {
+        stepId: "rechtsschutzversicherung",
+        context: {
+          rechtsschutzversicherung: { hasRechtsschutzversicherung: "no" },
+        },
+        expected: "wurdeVerklagt",
+      },
+    ];
 
-// test("hasStep should return false for a non-existing step", () => {
-//   const nonExistingStep = "Hermine Granger";
-//   const hasStepValue = hasStep(nonExistingStep);
-//   expect(hasStepValue).toBe(false);
-// });
-
-test("getPreviousStep should return previous step", () => {
-  const step = "wurdeVerklagt";
-  const expected = "rechtsschutzversicherung";
-  const next = getPreviousStep(step, {
-    rechtsschutzversicherung: { hasRechtsschutzversicherung: "no" },
+    test.each(examples)(
+      "given $stepId with $context, returns $expected",
+      ({ stepId, context, expected }) => {
+        expect(getNextStep(stepId, context)).toBe(expected);
+      }
+    );
   });
-  expect(next).toBe(expected);
-});
 
-test.skip("getPreviousStep should return first step if context is wrong", () => {
-  const step = "eigeninitiative";
-  const expected = "rechtsschutzversicherung";
-  const next = getPreviousStep(step, {});
-  expect(next).toBe(expected);
-});
+  describe("getPreviousStep", () => {
+    const examples = [
+      {
+        stepId: "rechtsschutzversicherungError",
+        context: undefined,
+        expected: "rechtsschutzversicherung",
+      },
+      {
+        stepId: "wurdeVerklagt",
+        context: undefined,
+        expected: "rechtsschutzversicherung",
+      },
+    ];
 
-test("getNextStep should return next step", () => {
-  const step = "rechtsschutzversicherung";
-  const expected = "wurdeVerklagt";
-  const next = getNextStep(step, {
-    rechtsschutzversicherung: { hasRechtsschutzversicherung: "no" },
+    test.each(examples)(
+      "given $stepId with $context, returns $expected",
+      ({ stepId, context, expected }) => {
+        expect(getPreviousStep(stepId, context)).toBe(expected);
+      }
+    );
   });
-  expect(next).toBe(expected);
-});
 
-test.skip("getNextStep should return first step if no step id provided", () => {
-  const expected = "rechtsschutzversicherung";
-  const next = getNextStep("", {});
-  expect(next).toBe(expected);
-});
+  describe("getProgressBar", () => {
+    test("with a regular step", () => {
+      const { current, total } = getProgressBar("wurdeVerklagt");
+      expect(current).toBe(2);
+      expect(total).toBe(23);
+    });
 
-test.skip("getProgressBar should return progress bar", () => {
-  const step = "wurdeVerklagt";
-  const context = {
-    rechtsschutzversicherung: { hasRechtsschutzversicherung: "no" },
-  };
-  const progressbar = getProgressBar(step, context);
-
-  expect(progressbar.current).toBe(2);
-  expect(progressbar.total).toBe(17);
+    test("with a final step", () => {
+      const { current, total } = getProgressBar(
+        "rechtsschutzversicherungError"
+      );
+      expect(current).toBe(23);
+      expect(total).toBe(23);
+    });
+  });
 });

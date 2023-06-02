@@ -1,9 +1,8 @@
 import type { MachineConfig } from "xstate";
 import { createMachine } from "xstate";
-import { getSimplePaths, getShortestPaths } from "@xstate/graph";
+import { getShortestPaths } from "@xstate/graph";
 import { guards } from "./guards";
 import config from "./beratungshilfe.json";
-import _ from "lodash";
 
 export const initialStep = config.initial;
 
@@ -22,17 +21,14 @@ export function getStateMachine(context?: any) {
 export const isFinalStep = (stepId: string) =>
   getStateMachine().getStateNodeByPath(stepId).type === "final";
 
-export const isStepReachable = (stepId: string, context: any) => {
-  const steps = Object.values(
+export const isStepReachable = (stepId: string, context: any) =>
+  Object.values(
     getShortestPaths(getStateMachine(context), {
       events: { SUBMIT: [{ type: "SUBMIT" }] },
     })
-  ).map(({ state }) => state.value);
-
-  console.log(stepId, { steps }, { context });
-
-  return steps.includes(stepId);
-};
+  )
+    .map(({ state }) => state.value)
+    .includes(stepId);
 
 export const getNextStep = (stepId: string, context: any) =>
   getStateMachine(context).transition(stepId, { type: "SUBMIT" }).value;
@@ -40,12 +36,15 @@ export const getNextStep = (stepId: string, context: any) =>
 export const getPreviousStep = (stepId: string, context: any) =>
   getStateMachine(context).transition(stepId, { type: "BACK" }).value;
 
-export const getProgressBar = (stepId: string, context: any) => {
-  const allReachableSteps = Object.values(
-    getSimplePaths(getStateMachine(context))
-  ).map(({ state }) => state.value);
-  return {
-    total: allReachableSteps.length,
-    current: allReachableSteps.indexOf(stepId) + 1,
-  };
+export const getProgressBar = (stepId: string) => {
+  const machine = getStateMachine();
+  const total =
+    Math.max(
+      ...Object.values(machine.states)
+        .map((n) => n.meta?.progressPosition)
+        .filter((p) => p)
+    ) + 1;
+  const node = machine.getStateNodeByPath(stepId);
+  const current = node.type === "final" ? total : node.meta?.progressPosition;
+  return { current, total };
 };

@@ -101,7 +101,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     }
   }
 
-  const progressBar = getProgressBar(stepId, session.data);
+  const progressBar = getProgressBar(stepId);
 
   return json({
     defaultValues: session.data[stepId],
