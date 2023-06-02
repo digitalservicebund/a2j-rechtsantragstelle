@@ -1,6 +1,6 @@
-import { GetStrapiEntryOpts, getStrapiFooter } from "~/services/cms";
-import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
+import { getStrapiFooter } from "~/services/cms";
 import { getStrapiEntryFromApi } from "~/services/cms/getStrapiEntryFromApi";
+import { strapiFooterFactory } from "~/../tests/factories/cmsModels/strapiFooter";
 
 jest.mock("~/services/cms/getStrapiEntryFromApi", () => {
   return {
@@ -9,19 +9,16 @@ jest.mock("~/services/cms/getStrapiEntryFromApi", () => {
   };
 });
 
-const mockedGetStrapiEntryFromApi = getStrapiEntryFromApi as jest.Mocked<
-  typeof getStrapiEntryFromApi
->;
+const mockedGetStrapiEntryFromApi = getStrapiEntryFromApi as jest.Mock;
 
 describe("services/cms", () => {
   describe("getStrapiFooter", () => {
-    test("returns an entry", async () => {
-      // TODO: need test factories first to return proper data
-      expect(true).toBe(true);
-      //const data = FooterFactory;
-      ////@ts-ignore
-      //mockedGetEntryFromStrapi.mockResolvedValue(data);
-      //expect(await getFooter()).toEqual(data);
+    test("returns a footer entry", async () => {
+      const footerData = strapiFooterFactory.build();
+      mockedGetStrapiEntryFromApi.mockReturnValueOnce({
+        attributes: footerData,
+      });
+      expect(await getStrapiFooter()).toEqual(footerData);
     });
   });
 });
