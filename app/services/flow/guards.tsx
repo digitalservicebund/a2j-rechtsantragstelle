@@ -1,63 +1,69 @@
 import { freibetrag } from "~/lib/freibetrag";
 import moneyToCents from "../validation/money/moneyToCents";
 
-function searchEntryInSession(
-  context: Record<string, any>,
-  stepID: string,
-  expectedValue: string
-): boolean {
-  // TODO this will not work if you have more than one field with the same possible answers
-  if (!(stepID in context)) return false;
-  const stepProperties = context[stepID];
-  return Object.values(stepProperties).some((entry) => entry == expectedValue);
-}
-
-interface Context extends Record<string, any> {
-  stepId: string;
-}
+type Context = Record<string, any>;
 
 type Guard = (context: Context) => boolean;
 
-const yes: Guard = (context) => {
-  return searchEntryInSession(context, context.stepId, "yes");
-};
+const yesNoGuards = (step: string, field?: string): Record<string, Guard> => ({
+  [`${step}Yes`]: (context) => context?.[step]?.[field ?? step] === "yes",
+  [`${step}No`]: (context) => context?.[step]?.[field ?? step] === "no",
+});
 
-const no: Guard = (context) => {
-  return searchEntryInSession(context, context.stepId, "no");
-};
+const yesOrNoGuard = (step: string, field?: string): Record<string, Guard> => ({
+  [`${step}YesOrNo`]: (context) =>
+    ["yes", "no"].includes(context?.[step]?.[field ?? step]),
+});
 
-const anyNonCriticalWarning: Guard = (context) => {
+const filledGuard = (step: string, field?: string): Record<string, Guard> => ({
+  [`${step}Filled`]: (context) =>
+    ![null, undefined].includes(context?.[step]?.[field ?? step]),
+});
+
+const staatlicheLeistungenYes: Guard = (context) =>
+  ["grundsicherung", "asylbewerberleistungen"].includes(
+    context?.staatlicheLeistungen?.staatlicheLeistung
+  );
+
+const staatlicheLeistungenNo: Guard = (context) =>
+  ["buergergeld", "keine"].includes(
+    context?.staatlicheLeistungen?.staatlicheLeistung
+  );
+
+const vermoegenAbove10k: Guard = (context) =>
+  context["vermoegen"]?.vermoegen === "above_10k";
+const vermoegenBelow10k: Guard = (context) =>
+  context["vermoegen"]?.vermoegen === "below_10k";
+const vermoegenBelow10kAndBuergergeld: Guard = (context) =>
+  context["vermoegen"]?.vermoegen === "below_10k" &&
+  context["staatlicheLeistungen"]?.staatlicheLeistung === "buergergeld";
+
+const verfuegbaresEinkommenNoAndTriedFreeActions: Guard = (context) =>
+  context?.verfuegbaresEinkommen?.excessiveDisposableIncome === "no" &&
+  !anyNonCriticalWarning(context);
+
+const weitereZahlungenNoAndIncomeTooHigh: Guard = (context) =>
+  context?.weitereZahlungen?.hasWeitereZahlungen === "no" &&
+  isIncomeTooHigh(context);
+
+const weitereZahlungenNoAndIncomeNotTooHigh: Guard = (context) =>
+  context?.weitereZahlungen?.hasWeitereZahlungen === "no" &&
+  !isIncomeTooHigh(context);
+
+const weitereZahlungenSummeIncomeTooHigh: Guard = (context) =>
+  isIncomeTooHigh(context);
+
+const weitereZahlungenSummeIncomeNotTooHigh: Guard = (context) =>
+  !isIncomeTooHigh(context);
+
+const einkommenFixme: Guard = () => false;
+
+const anyNonCriticalWarning = (context: Context) => {
   return (
     context["kostenfreieBeratung"]?.hasTriedFreeServices == "no" ||
     context["eigeninitiative"]?.hasHelpedThemselves == "no"
   );
 };
-
-const staatlicheLeistung: Guard = (context) => {
-  return (
-    context["staatlicheLeistungen"]?.staatlicheLeistung === "grundsicherung" ||
-    context["staatlicheLeistungen"]?.staatlicheLeistung ===
-      "asylbewerberleistungen"
-  );
-};
-
-const above10k: Guard = (context) =>
-  context["vermoegen"]?.vermoegen === "above_10k";
-const below10kBuergergeld: Guard = (context) =>
-  context["vermoegen"]?.vermoegen === "below_10k" &&
-  context["staatlicheLeistungen"]?.staatlicheLeistung === "buergergeld";
-
-const nonCriticalVerfuegbaresEinkommen: Guard = (context) =>
-  !anyNonCriticalWarning(context) &&
-  searchEntryInSession(context, context.stepId, "no");
-
-const verfuegbaresEinkommen: Guard = (context) =>
-  anyNonCriticalWarning(context) &&
-  searchEntryInSession(context, context.stepId, "no");
-
-const incomeTooHigh: Guard = (context) => isIncomeTooHigh(context);
-const nonCritical: Guard = (context) =>
-  anyNonCriticalWarning(context) && !isIncomeTooHigh(context);
 
 export const isIncomeTooHigh = (context: any) => {
   return (
@@ -93,15 +99,37 @@ const isPayingForKids: Guard = (context) => {
 };
 
 export const guards = {
-  yes,
-  no,
-  anyNonCriticalWarning,
-  staatlicheLeistung,
-  above10k,
-  below10kBuergergeld,
-  nonCriticalVerfuegbaresEinkommen,
-  verfuegbaresEinkommen,
-  incomeTooHigh,
-  nonCritical,
   isPayingForKids,
+  ...yesNoGuards("rechtsschutzversicherung", "hasRechtsschutzversicherung"),
+  ...yesNoGuards("wurdeVerklagt"),
+  ...yesNoGuards("klageEingereicht", "hasKlageEingereicht"),
+  ...yesNoGuards("hamburgOderBremen", "isHamburgOderBremen"),
+  ...yesNoGuards("beratungshilfeBeantragt", "hasBeratungshilfeBeantragt"),
+  ...yesNoGuards("eigeninitiative", "hasHelpedThemselves"),
+  ...yesNoGuards("kostenfreieBeratung", "hasTriedFreeServices"),
+  staatlicheLeistungenYes,
+  staatlicheLeistungenNo,
+  vermoegenAbove10k,
+  vermoegenBelow10kAndBuergergeld,
+  vermoegenBelow10k,
+  ...yesOrNoGuard("erwerbstaetigkeit", "isErwerbstaetig"),
+  ...yesOrNoGuard("partnerschaft"),
+  ...yesNoGuards("genauigkeit", "wantsToKnowPrecisely"),
+  ...yesNoGuards("kinderKurz", "isPayingForKids"),
+  ...filledGuard("kinderAnzahlKurz", "kidsTotal"),
+  verfuegbaresEinkommenNoAndTriedFreeActions,
+  ...yesNoGuards("verfuegbaresEinkommen", "excessiveDisposableIncome"),
+  ...yesNoGuards("kinder", "isPayingForKids"),
+  ...filledGuard("kinderAnzahl", "kids6Below"),
+  ...filledGuard("einkommenKinder"),
+  ...yesNoGuards("unterhalt", "isPayingUnterhalt"),
+  ...filledGuard("unterhaltSumme", "unterhalt"),
+  ...filledGuard("miete"),
+  ...yesNoGuards("weitereZahlungen", "hasWeitereZahlungen"),
+  weitereZahlungenNoAndIncomeTooHigh,
+  weitereZahlungenNoAndIncomeNotTooHigh,
+  weitereZahlungenSummeIncomeTooHigh,
+  weitereZahlungenSummeIncomeNotTooHigh,
+  ...filledGuard("weitereZahlungenSumme"),
+  einkommenFixme,
 };

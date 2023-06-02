@@ -1,17 +1,17 @@
 import type { MachineConfig } from "xstate";
 import { createMachine } from "xstate";
-import { getSimplePaths } from "@xstate/graph";
-import config from "./beratungshilfe.json";
+import { getSimplePaths, getShortestPaths } from "@xstate/graph";
 import { guards } from "./guards";
+import config from "./beratungshilfe.json";
+import _ from "lodash";
 
-const initialStateId = config.initial;
+export const initialStep = config.initial;
 
-export function getStateMachine(stepID: string | undefined, context: any) {
+export function getStateMachine(context?: any) {
   const stateMachineConfig = {
     ...(config as MachineConfig<any, any, any>),
     predictableActionArguments: true,
-    initial: stepID || initialStateId,
-    context: { ...context, stepId: stepID },
+    context,
   };
 
   return createMachine(stateMachineConfig, {
@@ -19,49 +19,33 @@ export function getStateMachine(stepID: string | undefined, context: any) {
   });
 }
 
-export function getInitialStep() {
-  return initialStateId;
-}
+export const isFinalStep = (stepId: string) =>
+  getStateMachine().getStateNodeByPath(stepId).type === "final";
 
-export function isLastStep(stepID: string | undefined) {
-  if (!stepID) {
-    return false;
-  }
+export const isStepReachable = (stepId: string, context: any) => {
+  const steps = Object.values(
+    getShortestPaths(getStateMachine(context), {
+      events: { SUBMIT: [{ type: "SUBMIT" }] },
+    })
+  ).map(({ state }) => state.value);
 
-  const stateMachine = getStateMachine(stepID, undefined);
-  const stateNode = stateMachine.getStateNodeById(
-    `${stateMachine.key}.${stepID}`
-  );
-  return stateNode.type === "final";
-}
+  console.log(stepId, { steps }, { context });
 
-export function getPreviousStep(stepID: string, context: any) {
-  const stateMachine = getStateMachine(stepID, context);
-  return stateMachine.transition(stepID, { type: "BACK" }).value;
-}
+  return steps.includes(stepId);
+};
 
-export function hasStep(stepID: string | undefined) {
-  if (stepID == undefined) return false;
+export const getNextStep = (stepId: string, context: any) =>
+  getStateMachine(context).transition(stepId, { type: "SUBMIT" }).value;
 
-  const stateMachine = getStateMachine(stepID, undefined);
-  return stateMachine.stateIds.includes(`${stateMachine.key}.${stepID}`);
-}
+export const getPreviousStep = (stepId: string, context: any) =>
+  getStateMachine(context).transition(stepId, { type: "BACK" }).value;
 
-export function getNextStep(stepID: string, context: any) {
-  const stateMachine = getStateMachine(stepID, context);
-
-  if (!hasStep(stepID)) {
-    return stateMachine.initial;
-  }
-
-  return stateMachine.transition(stepID, { type: "SUBMIT" }).value;
-}
-
-export function getProgressBar(stepID: string, context: any) {
-  const stateMachine = getStateMachine(initialStateId, context);
-  const steps = Object.values(getSimplePaths(stateMachine)).map(
-    ({ state }) => state.value
-  );
-  const index = steps.indexOf(stepID);
-  return { total: steps.length, current: index + 1 };
-}
+export const getProgressBar = (stepId: string, context: any) => {
+  const allReachableSteps = Object.values(
+    getSimplePaths(getStateMachine(context))
+  ).map(({ state }) => state.value);
+  return {
+    total: allReachableSteps.length,
+    current: allReachableSteps.indexOf(stepId) + 1,
+  };
+};

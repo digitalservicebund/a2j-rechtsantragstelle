@@ -25,12 +25,12 @@ import type { VorabCheckCommons } from "~/services/cms/models/commons/VorabCheck
 import cms from "~/services/cms";
 
 import {
-  getInitialStep,
+  initialStep,
   getNextStep,
   getPreviousStep,
   getProgressBar,
-  hasStep,
-  isLastStep,
+  isStepReachable,
+  isFinalStep,
 } from "~/services/flow";
 import { isIncomeTooHigh } from "~/services/flow/guards";
 import invariant from "tiny-invariant";
@@ -64,15 +64,16 @@ const getReasonsToDisplay = (
 };
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-  const stepID = params.stepID;
-  if (!hasStep(stepID)) {
-    return redirect(`/vorabcheck/${getInitialStep()}`);
-  }
-  invariant(typeof stepID !== "undefined"); // Needed because TypeScript doesn't realize that this is caught in the above condition
+  const stepId = params.stepId;
+  invariant(stepId);
 
   const session = await getSession(request.headers.get("Cookie"));
 
-  const currentPage = formPages[stepID];
+  if (!isStepReachable(stepId, session.data)) {
+    return redirect(`/vorabcheck/${initialStep}`);
+  }
+
+  const currentPage = formPages[stepId];
   let formPageContent: VorabcheckPage | undefined;
   let resultPageContent: ResultPageContent | undefined;
   let resultReasonsToDisplay: ElementWithId[] | undefined;
@@ -92,7 +93,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   let additionalContext = {};
   if ("additionalContext" in currentPage && currentPage["additionalContext"]) {
     for (const requestedContext of currentPage["additionalContext"]) {
-      // Use .find(), since answers are nested below stepID and there is no fast lookup by name alone
+      // Use .find(), since answers are nested below stepId and there is no fast lookup by name alone
       additionalContext = {
         ...additionalContext,
         ...Object.values(session.data).find((el) => requestedContext in el),
@@ -100,10 +101,10 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     }
   }
 
-  const progressBar = getProgressBar(stepID, session.data);
+  const progressBar = getProgressBar(stepId, session.data);
 
   return json({
-    defaultValues: session.data[stepID],
+    defaultValues: session.data[stepId],
     commonContent,
     preFormContent: formPageContent?.pre_form,
     formContent: formPageContent?.form,
@@ -112,25 +113,26 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     meta: formPageContent?.meta || resultPageContent?.meta,
     progressStep: progressBar.current,
     progressTotal: progressBar.total,
-    isLast: isLastStep(stepID),
-    previousStep: getPreviousStep(stepID, session.data),
+    isLast: isFinalStep(stepId),
+    previousStep: getPreviousStep(stepId, session.data),
     additionalContext,
   });
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
+  const stepId = params.stepId;
+  invariant(stepId);
+
   const session = await getSession(request.headers.get("Cookie"));
   const formData = await request.formData();
-  const stepID = params.stepID;
-  invariant(typeof stepID !== "undefined", "stepId has to be provided");
-  const validationResult = await allValidators[stepID].validate(formData);
+  const validationResult = await allValidators[stepId].validate(formData);
 
   if (validationResult.error) return validationError(validationResult.error);
 
-  session.set(stepID, validationResult.data);
+  session.set(stepId, validationResult.data);
   const headers = { "Set-Cookie": await commitSession(session) };
 
-  const destination = getNextStep(stepID, session.data);
+  const destination = getNextStep(stepId, session.data);
   return redirect(`/vorabcheck/${String(destination)}`, {
     headers,
   });
@@ -151,8 +153,8 @@ export default function Index() {
     additionalContext,
   } = useLoaderData<typeof loader>();
   const params = useParams();
-  const stepID = params.stepID as string;
-  const FormInputComponent = formPages[stepID].component;
+  const stepId = params.stepId as string;
+  const FormInputComponent = formPages[stepId].component;
 
   if (resultContent) {
     return (
@@ -179,9 +181,9 @@ export default function Index() {
             <div className="ds-stack-40">
               <PageContent content={preFormContent} className="ds-stack-16" />
               <ValidatedForm
-                key={`${stepID}_form`}
+                key={`${stepId}_form`}
                 method="post"
-                validator={allValidators[stepID]}
+                validator={allValidators[stepId]}
                 defaultValues={defaultValues}
                 noValidate
               >

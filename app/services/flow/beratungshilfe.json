@@ -3,14 +3,16 @@
   "initial": "rechtsschutzversicherung",
   "states": {
     "rechtsschutzversicherung": {
+      "meta": { "progressPosition": 1 },
       "on": {
         "SUBMIT": [
           {
-            "target": "wurdeVerklagt",
-            "cond": "no"
+            "target": "rechtsschutzversicherungError",
+            "cond": "rechtsschutzversicherungYes"
           },
           {
-            "target": "rechtsschutzversicherungError"
+            "target": "wurdeVerklagt",
+            "cond": "rechtsschutzversicherungNo"
           }
         ]
       }
@@ -25,11 +27,12 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "klageEingereicht",
-            "cond": "no"
+            "target": "wurdeVerklagtError",
+            "cond": "wurdeVerklagtYes"
           },
           {
-            "target": "wurdeVerklagtError"
+            "target": "klageEingereicht",
+            "cond": "wurdeVerklagtNo"
           }
         ],
         "BACK": { "target": "rechtsschutzversicherung" }
@@ -46,10 +49,11 @@
         "SUBMIT": [
           {
             "target": "hamburgOderBremen",
-            "cond": "no"
+            "cond": "klageEingereichtNo"
           },
           {
-            "target": "klageEingereichtError"
+            "target": "klageEingereichtError",
+            "cond": "klageEingereichtYes"
           }
         ],
         "BACK": { "target": "wurdeVerklagt" }
@@ -66,10 +70,11 @@
         "SUBMIT": [
           {
             "target": "beratungshilfeBeantragt",
-            "cond": "no"
+            "cond": "hamburgOderBremenNo"
           },
           {
-            "target": "hamburgOderBremenError"
+            "target": "hamburgOderBremenError",
+            "cond": "hamburgOderBremenYes"
           }
         ],
         "BACK": { "target": "klageEingereicht" }
@@ -86,10 +91,11 @@
         "SUBMIT": [
           {
             "target": "eigeninitiative",
-            "cond": "no"
+            "cond": "beratungshilfeBeantragtNo"
           },
           {
-            "target": "beratungshilfeBeantragtError"
+            "target": "beratungshilfeBeantragtError",
+            "cond": "beratungshilfeBeantragtYes"
           }
         ],
         "BACK": { "target": "hamburgOderBremen" }
@@ -106,10 +112,11 @@
         "SUBMIT": [
           {
             "target": "kostenfreieBeratung",
-            "cond": "yes"
+            "cond": "eigeninitiativeYes"
           },
           {
-            "target": "eigeninitiativeWarnung"
+            "target": "eigeninitiativeWarnung",
+            "cond": "eigeninitiativeNo"
           }
         ],
         "BACK": { "target": "beratungshilfeBeantragt" }
@@ -128,10 +135,11 @@
         "SUBMIT": [
           {
             "target": "staatlicheLeistungen",
-            "cond": "yes"
+            "cond": "kostenfreieBeratungYes"
           },
           {
-            "target": "kostenfreieBeratungWarnung"
+            "target": "kostenfreieBeratungWarnung",
+            "cond": "kostenfreieBeratungNo"
           }
         ],
         "BACK": { "target": "eigeninitiative" }
@@ -150,10 +158,11 @@
         "SUBMIT": [
           {
             "target": "staatlicheLeistungenAbschlussJa",
-            "cond": "staatlicheLeistung"
+            "cond": "staatlicheLeistungenYes"
           },
           {
-            "target": "vermoegen"
+            "target": "vermoegen",
+            "cond": "staatlicheLeistungenNo"
           }
         ],
         "BACK": { "target": "kostenfreieBeratung" }
@@ -170,14 +179,15 @@
         "SUBMIT": [
           {
             "target": "vermoegenAbschlussJa",
-            "cond": "below10kBuergergeld"
+            "cond": "vermoegenBelow10kAndBuergergeld"
+          },
+          {
+            "target": "erwerbstaetigkeit",
+            "cond": "vermoegenBelow10k"
           },
           {
             "target": "vermoegenError",
-            "cond": "above10k"
-          },
-          {
-            "target": "erwerbstaetigkeit"
+            "cond": "vermoegenAbove10k"
           }
         ],
         "BACK": { "target": "staatlicheLeistungen" }
@@ -198,7 +208,8 @@
     "erwerbstaetigkeit": {
       "on": {
         "SUBMIT": {
-          "target": "partnerschaft"
+          "target": "partnerschaft",
+          "cond": "erwerbstaetigkeitYesOrNo"
         },
         "BACK": { "target": "vermoegen" }
       }
@@ -206,7 +217,8 @@
     "partnerschaft": {
       "on": {
         "SUBMIT": {
-          "target": "genauigkeit"
+          "target": "genauigkeit",
+          "cond": "partnerschaftYesOrNo"
         },
         "BACK": { "target": "erwerbstaetigkeit" }
       }
@@ -216,10 +228,11 @@
         "SUBMIT": [
           {
             "target": "kinderKurz",
-            "cond": "no"
+            "cond": "genauigkeitNo"
           },
           {
-            "target": "einkommen"
+            "target": "einkommen",
+            "cond": "genauigkeitYes"
           }
         ],
         "BACK": { "target": "partnerschaft" }
@@ -230,10 +243,11 @@
         "SUBMIT": [
           {
             "target": "kinderAnzahlKurz",
-            "cond": "yes"
+            "cond": "kinderKurzYes"
           },
           {
-            "target": "verfuegbaresEinkommen"
+            "target": "verfuegbaresEinkommen",
+            "cond": "kinderKurzNo"
           }
         ],
         "BACK": { "target": "genauigkeit" }
@@ -242,23 +256,10 @@
     "kinderAnzahlKurz": {
       "on": {
         "SUBMIT": {
-          "target": "verfuegbaresEinkommen"
+          "target": "verfuegbaresEinkommen",
+          "cond": "kinderAnzahlKurzFilled"
         },
         "BACK": { "target": "kinderKurz" }
-      }
-    },
-    "einkommen": {
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "einkommenPartner",
-            "cond": "yes"
-          },
-          {
-            "target": "kinder"
-          }
-        ],
-        "BACK": { "target": "genauigkeit" }
       }
     },
     "verfuegbaresEinkommen": {
@@ -266,15 +267,15 @@
         "SUBMIT": [
           {
             "target": "verfuegbaresEinkommenAbschlussJa",
-            "cond": "nonCriticalVerfuegbaresEinkommen"
+            "cond": "verfuegbaresEinkommenNoAndTriedFreeActions"
           },
           {
             "target": "verfuegbaresEinkommenAbschlussVielleicht",
-            "cond": "verfuegbaresEinkommen"
+            "cond": "verfuegbaresEinkommenNo"
           },
           {
             "target": "verfuegbaresEinkommenAbschlussNein",
-            "cond": "yes"
+            "cond": "verfuegbaresEinkommenYes"
           }
         ],
         "BACK": [
@@ -310,6 +311,20 @@
         }
       }
     },
+    "einkommen": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "einkommenPartner",
+            "cond": "einkommenFixme"
+          },
+          {
+            "target": "kinder"
+          }
+        ],
+        "BACK": { "target": "genauigkeit" }
+      }
+    },
     "einkommenPartner": {
       "on": {
         "SUBMIT": {
@@ -323,10 +338,11 @@
         "SUBMIT": [
           {
             "target": "kinderAnzahl",
-            "cond": "yes"
+            "cond": "kinderYes"
           },
           {
-            "target": "unterhalt"
+            "target": "unterhalt",
+            "cond": "kinderNo"
           }
         ],
         "BACK": { "target": "einkommenPartner" }
@@ -335,7 +351,8 @@
     "kinderAnzahl": {
       "on": {
         "SUBMIT": {
-          "target": "einkommenKinder"
+          "target": "einkommenKinder",
+          "cond": "kinderAnzahlFilled"
         },
         "BACK": { "target": "kinder" }
       }
@@ -343,7 +360,8 @@
     "einkommenKinder": {
       "on": {
         "SUBMIT": {
-          "target": "unterhalt"
+          "target": "unterhalt",
+          "cond": "einkommenKinderFilled"
         },
         "BACK": { "target": "kinderAnzahl" }
       }
@@ -353,10 +371,11 @@
         "SUBMIT": [
           {
             "target": "unterhaltSumme",
-            "cond": "yes"
+            "cond": "unterhaltYes"
           },
           {
-            "target": "miete"
+            "target": "miete",
+            "cond": "unterhaltNo"
           }
         ],
         "BACK": { "target": "einkommenKinder" }
@@ -365,7 +384,8 @@
     "unterhaltSumme": {
       "on": {
         "SUBMIT": {
-          "target": "miete"
+          "target": "miete",
+          "cond": "unterhaltSummeFilled"
         },
         "BACK": { "target": "unterhalt" }
       }
@@ -373,7 +393,8 @@
     "miete": {
       "on": {
         "SUBMIT": {
-          "target": "weitereZahlungen"
+          "target": "weitereZahlungen",
+          "cond": "mieteFilled"
         },
         "BACK": { "target": "unterhaltSumme" }
       }
@@ -383,18 +404,19 @@
         "SUBMIT": [
           {
             "target": "weitereZahlungenSumme",
-            "cond": "yes"
+            "cond": "weitereZahlungenYes"
           },
           {
             "target": "weitereZahlungenAbschlussVielleicht",
-            "cond": "nonCritical"
+            "cond": "weitereZahlungenNoAndIncomeNotTooHigh"
           },
           {
             "target": "weitereZahlungenAbschlussNein",
-            "cond": "incomeTooHigh"
+            "cond": "weitereZahlungenNoAndIncomeTooHigh"
           },
           {
-            "target": "weitereZahlungenAbschlussJa"
+            "target": "weitereZahlungenAbschlussJa",
+            "cond": "weitereZahlungenNo"
           }
         ],
         "BACK": { "target": "miete" }
@@ -429,14 +451,15 @@
         "SUBMIT": [
           {
             "target": "weitereZahlungenSummeAbschlussVielleicht",
-            "cond": "nonCritical"
+            "cond": "weitereZahlungenSummeIncomeNotTooHigh"
           },
           {
             "target": "weitereZahlungenSummeAbschlussNein",
-            "cond": "incomeTooHigh"
+            "cond": "weitereZahlungenSummeIncomeTooHigh"
           },
           {
-            "target": "weitereZahlungenSummeAbschlussJa"
+            "target": "weitereZahlungenSummeAbschlussJa",
+            "cond": "weitereZahlungenSummeFilled"
           }
         ],
         "BACK": { "target": "weitereZahlungen" }

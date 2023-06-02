@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { getInitialStep } from "~/services/flow";
+import { initialStep } from "~/services/flow";
 
 export const loader: LoaderFunction = async () => {
-  return redirect(`/vorabcheck/${getInitialStep()}`);
+  return redirect(`/vorabcheck/${initialStep}`);
 };
