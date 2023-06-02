@@ -72,7 +72,7 @@ jobs:
         run: npm test
 
       - name: SonarCloud Scan
-        if: ${{ github.actor != "dependabot[bot]" }}
+        if: ${{ github.actor != 'dependabot[bot]' }}
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
