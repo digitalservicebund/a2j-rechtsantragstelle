@@ -38,7 +38,7 @@
     "graphology-simple-path": "^0.2.0",
     "http-cache-semantics": "^4.1.1",
     "isbot": "^3.6.10",
-    "libphonenumber-js": "^1.10.33",
+    "libphonenumber-js": "^1.10.34",
     "lodash": "^4.17.21",
     "marked": "^5.0.4",
     "prettier-plugin-sh": "^0.12.8",
