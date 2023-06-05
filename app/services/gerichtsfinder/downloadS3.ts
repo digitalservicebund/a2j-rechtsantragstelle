@@ -2,8 +2,6 @@ import http from "node:http";
 import fs from "node:fs";
 import crypto from "node:crypto";
 
-const HOST_URL = "obs.eu-de.otc.t-systems.com";
-
 const signRequest = (
   request: http.ClientRequest,
   fullpath: string,
@@ -18,6 +16,7 @@ const signRequest = (
 };
 
 export function downloadFromS3(
+  host_url: string,
   bucket_name: string,
   key: string,
   access_key_id: string,
@@ -26,11 +25,11 @@ export function downloadFromS3(
   // Download authenticated file for OTC OBS and return file path to downloaded file in resolved promise
   return new Promise<string>((resolve, reject) => {
     const options = {
-      host: `${bucket_name}.${HOST_URL}`,
+      host: `${bucket_name}.${host_url}`,
       path: `/${key}`,
       method: "GET",
       headers: {
-        Host: `${bucket_name}.${HOST_URL}`,
+        Host: `${bucket_name}.${host_url}`,
         Date: new Date().toUTCString(),
       },
     };
