@@ -46,24 +46,20 @@ interface ConversionInput {
 
 export const conversions = {
   "JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json": (object: ConversionInput) => {
-    let out: GerbehFile = {};
-    const gerbehData: Jmtd14VTErwerberGerbeh[] =
-      object.JMTD14_VT_ERWERBER_GERBEH;
-
-    gerbehData.forEach((entry) => {
-      if (entry.TYP_INFO == "Zivilgericht - Amtsgericht") {
-        out[
+    return Object.fromEntries(
+      (object.JMTD14_VT_ERWERBER_GERBEH as Jmtd14VTErwerberGerbeh[])
+        .filter((entry) => entry.TYP_INFO == "Zivilgericht - Amtsgericht")
+        .map((entry) => [
           gerbehIndex({
             LKZ: entry.LKZ,
             OLG: entry.OLG,
             LG: entry.LG,
             AG: entry.AG,
             typInfo: entry.TYP_INFO,
-          })
-        ] = entry;
-      }
-    });
-    return out;
+          }),
+          entry,
+        ])
+    );
   },
 
   "JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json": (object: ConversionInput) => {
