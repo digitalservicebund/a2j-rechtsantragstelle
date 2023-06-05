@@ -46,8 +46,12 @@ describe("convertToKVJson", () => {
     const mockExit = jest
       .spyOn(process, "exit")
       .mockImplementation((code?: number) => undefined as never);
-    jest.spyOn(global.console, "error").mockImplementation(() => undefined);
+    jest.spyOn(global.console, "log").mockImplementation(() => undefined);
+    const mockConsoleError = jest
+      .spyOn(global.console, "error")
+      .mockImplementation(() => undefined);
     convertToKvJson("");
     expect(mockExit).toHaveBeenCalledWith(1);
+    expect(mockConsoleError).toBeCalled();
   });
 });
