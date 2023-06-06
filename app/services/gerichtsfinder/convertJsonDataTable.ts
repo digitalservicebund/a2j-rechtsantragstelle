@@ -99,12 +99,16 @@ export function extractJsonFilesFromZip(pathToZipFile: string) {
     return {};
   }
   // Only decompresses .json files into { path/to/filename1.json: U8Array, ... }
-  const decompressedJsonFiles = unzipSync(fileContent, {
+  const jsonFiles = unzipSync(fileContent, {
     filter: (file) => file.name.endsWith(".json"),
   });
+  const fileCount = Object.keys(jsonFiles).length;
+  console.log(
+    `Unzipping ${pathToZipFile} succeeded, found ${fileCount} json files`
+  );
   // return normalized and parsed: (filename1.json: {...})
   return Object.fromEntries(
-    Object.entries(decompressedJsonFiles).map(([k, v]) => [
+    Object.entries(jsonFiles).map(([k, v]) => [
       path.basename(k),
       JSON.parse(strFromU8(v)),
     ])
