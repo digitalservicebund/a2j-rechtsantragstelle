@@ -204,7 +204,6 @@ jobs:
           app: a2j-rast-staging
           argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
-          argocd_sync_timeout: 600
 
       - name: Report Deployment
         uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
