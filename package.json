@@ -12,7 +12,7 @@
     "prettier:check": "prettier --check . --ignore-path .prettierignore",
     "eslint": "eslint --ext .js,.ts,.tsx . --fix",
     "eslint:check": "eslint --ext .js,.ts,.tsx .",
-    "update:gerichtsfinder": "ts-node ./app/services/gerichtsfinder/convertJsonDataTable.ts",
+    "update:gerichtsfinder": "ts-node ./app/services/gerichtsfinder/updateFromS3.ts",
     "test": "jest --testPathPattern=/tests/unit/ --maxWorkers=50% --coverage",
     "test:e2e": "npx playwright test"
   },

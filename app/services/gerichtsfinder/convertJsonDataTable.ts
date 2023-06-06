@@ -1,4 +1,3 @@
-// Call using npm run update:gerichtsfinder -- ./link/to/file.zip
 import fs from "node:fs";
 import path from "node:path";
 import { unzipSync, strFromU8 } from "fflate";
