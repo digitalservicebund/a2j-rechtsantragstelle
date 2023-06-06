@@ -128,6 +128,5 @@ export function convertToKvJson(pathToZipFile: string) {
     }
   } catch (err) {
     printFileReadError(err);
-    process.exit(1);
   }
 }

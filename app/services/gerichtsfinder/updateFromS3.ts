@@ -35,6 +35,6 @@ downloadFromS3(
     fs.unlinkSync(outputFilepath);
   },
   (err) => {
-    console.log(err);
+    console.error(err);
   }
 );
