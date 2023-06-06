@@ -5,28 +5,26 @@ import type {
   PlzStrnFile,
 } from "./convertJsonDataTable";
 import { gerbehIndex } from "./convertJsonDataTable";
-import { loadJsonFromFile } from "~/lib/io";
+import { getEncrypted } from "./encryptedStorage";
 
-const dataDirectory = `${__dirname}/../app/services/gerichtsfinder/_data`;
+const data = getEncrypted();
 
 export const courtAddress = (gerbeIndex: GerbehIndex) => {
-  const filePath = `${dataDirectory}/JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json`;
-  const gerbehFile: GerbehFile = loadJsonFromFile(filePath);
+  const gerbehDb: GerbehFile =
+    data["JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json"];
   const key = gerbehIndex(gerbeIndex);
-  return key in gerbehFile ? gerbehFile[key] : undefined;
+  return key in gerbehDb ? gerbehDb[key] : undefined;
 };
 
 export const courtForPlz = (PLZ: string | undefined) => {
-  const filePath = `${dataDirectory}/JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json`;
-  const plzFile: PlzOrtkFile = loadJsonFromFile(filePath);
-  return PLZ && PLZ in plzFile ? plzFile[PLZ][0] : undefined;
+  const plzDb: PlzOrtkFile = data["JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json"];
+  return PLZ && PLZ in plzDb ? plzDb[PLZ][0] : undefined;
 };
 
 export const edgeCasesForPlz = (PLZ: string | undefined) => {
-  const filePath = `${dataDirectory}/JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json`;
-  const edgeCaseFile: PlzStrnFile = loadJsonFromFile(filePath);
-
-  const edgeCases = PLZ && PLZ in edgeCaseFile ? edgeCaseFile[PLZ] : [];
+  const edgeCaseDb: PlzStrnFile =
+    data["JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json"];
+  const edgeCases = PLZ && PLZ in edgeCaseDb ? edgeCaseDb[PLZ] : [];
   return edgeCases.map((edgeCase) => {
     const court = courtAddress({
       LKZ: edgeCase.LKZ,
