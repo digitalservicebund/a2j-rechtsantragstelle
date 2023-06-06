@@ -13,14 +13,9 @@ const buildUrl = ({ apiId, slug, locale }: GetStrapiEntryOpts) =>
   ].join("");
 
 const unpackResponse = (response: AxiosResponse) => {
-  let data = response.data.data;
-
+  let { data } = response.data;
   // collection type results come as an array with one item
-  if (Array.isArray(data)) {
-    data = data[0];
-  }
-
-  return data;
+  return Array.isArray(data) ? data[0] : data;
 };
 
 export const getStrapiEntryFromApi = async (opts: GetStrapiEntryOpts) => {
