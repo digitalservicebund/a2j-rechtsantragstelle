@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HasStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiImageSchema = z.object({
   data: z
@@ -25,7 +25,7 @@ export const StrapiImageSchema = z.object({
         })
         .strict(),
     })
-    .merge(HasStrapiIdSchema)
+    .merge(HasOptionalStrapiIdSchema)
     .strict()
     .nullable(),
 });

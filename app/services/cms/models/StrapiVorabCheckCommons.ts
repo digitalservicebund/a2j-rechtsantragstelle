@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
-import { HasStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiVorabCheckCommonsSchema = z
   .object({
@@ -11,7 +11,7 @@ export const StrapiVorabCheckCommonsSchema = z
     nextButtonDefaultLabel: z.string(),
     lastNextButtonLabel: z.string(),
   })
-  .merge(HasStrapiIdSchema)
+  .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiTimestampsSchema)
   .strict();

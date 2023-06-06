@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HasStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiHeadingSchema = z
   .object({
@@ -24,7 +24,7 @@ export const StrapiHeadingSchema = z
       "ds-body-02-reg",
     ]),
   })
-  .merge(HasStrapiIdSchema)
+  .merge(HasOptionalStrapiIdSchema)
   .strict();
 
 export type StrapiHeading = z.infer<typeof StrapiHeadingSchema>;

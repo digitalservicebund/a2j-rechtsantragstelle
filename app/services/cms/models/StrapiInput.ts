@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
-import { HasStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiInputSchema = z
   .object({
@@ -13,18 +13,15 @@ export const StrapiInputSchema = z
       .object({
         data: z
           .array(
-            z
-              .object({
-                id: z.number(),
-                attributes: StrapiErrorCategorySchema,
-              })
-              .strict()
+            HasStrapiIdSchema.extend({
+              attributes: StrapiErrorCategorySchema,
+            }).strict()
           )
           .optional(),
       })
       .strict(),
   })
-  .merge(HasStrapiIdSchema)
+  .merge(HasOptionalStrapiIdSchema)
   .strict();
 
 export type StrapiInput = z.infer<typeof StrapiInputSchema>;

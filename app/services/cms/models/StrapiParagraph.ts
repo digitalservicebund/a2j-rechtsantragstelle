@@ -1,12 +1,12 @@
 import { z } from "zod";
-import { HasStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiParagraphSchema = z
   .object({
     __component: z.literal("basic.paragraph").optional(),
     text: z.string(),
   })
-  .merge(HasStrapiIdSchema)
+  .merge(HasOptionalStrapiIdSchema)
   .strict();
 
 export type StrapiParagraph = z.infer<typeof StrapiParagraphSchema>;

@@ -1,12 +1,12 @@
 import { z } from "zod";
-import { HasStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiFieldErrorSchema = z
   .object({
     code: z.string(),
     text: z.string(),
   })
-  .merge(HasStrapiIdSchema)
+  .merge(HasOptionalStrapiIdSchema)
   .strict();
 
 export type StrapiFieldError = z.infer<typeof StrapiFieldErrorSchema>;

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HasStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiSelectOptionSchema } from "./StrapiSelectOption";
 
 export const StrapiSelectSchema = z
@@ -10,7 +10,7 @@ export const StrapiSelectSchema = z
     altLabel: z.string().nullable(),
     options: z.array(StrapiSelectOptionSchema),
   })
-  .merge(HasStrapiIdSchema)
+  .merge(HasOptionalStrapiIdSchema)
   .strict();
 
 export type StrapiSelect = z.infer<typeof StrapiSelectSchema>;

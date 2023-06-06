@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HasStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiNavigationItemSchema = z
   .object({
@@ -7,7 +7,7 @@ export const StrapiNavigationItemSchema = z
     targeturl: z.string(),
     baseurl: z.string(),
   })
-  .merge(HasStrapiIdSchema)
+  .merge(HasOptionalStrapiIdSchema)
   .strict();
 
 export type StrapiNavigationItem = z.infer<typeof StrapiNavigationItemSchema>;

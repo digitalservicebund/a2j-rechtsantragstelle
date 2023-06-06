@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { StrapiElementWithIdSchema } from "./StrapiElementWithId";
 import { StrapiContentSchema } from "./StrapiContent";
-import { HasStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { HasStrapiSlugSchema } from "./HasStrapiSlug";
@@ -20,33 +20,26 @@ export const StrapiResultPageSchema = z
     reasonings: z.object({
       data: z
         .array(
-          z.object({
-            id: z.number(),
+          HasStrapiIdSchema.extend({
             attributes: StrapiElementWithIdSchema,
           })
         )
         .nullable(),
     }),
     documents: z.object({
-      data: z
-        .object({
-          id: z.number(),
-          attributes: StrapiElementWithIdSchema,
-        })
-        .nullable(),
+      data: HasStrapiIdSchema.extend({
+        attributes: StrapiElementWithIdSchema,
+      }).nullable(),
     }),
     nextSteps: z.object({
-      data: z
-        .object({
-          id: z.number(),
-          attributes: StrapiElementWithIdSchema,
-        })
-        .nullable(),
+      data: HasStrapiIdSchema.extend({
+        attributes: StrapiElementWithIdSchema,
+      }).nullable(),
     }),
     freeZone: z.array(StrapiContentSchema),
     nextLink: StrapiLinkSchema.nullable(),
   })
-  .merge(HasStrapiIdSchema)
+  .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiMetaSchema)
   .merge(HasStrapiSlugSchema)

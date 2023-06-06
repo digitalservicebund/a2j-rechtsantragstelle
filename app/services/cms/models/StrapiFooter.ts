@@ -2,7 +2,7 @@ import { z } from "zod";
 import { StrapiImageSchema } from "./StrapiImage";
 import { StrapiLinkSchema } from "./StrapiLink";
 import { StrapiParagraphSchema } from "./StrapiParagraph";
-import { HasStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 
@@ -12,7 +12,7 @@ export const StrapiFooterSchema = z
     paragraphs: z.array(StrapiParagraphSchema),
     links: z.array(StrapiLinkSchema),
   })
-  .merge(HasStrapiIdSchema)
+  .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiTimestampsSchema)
   .strict();

@@ -7,54 +7,47 @@ import { StrapiPageSchema } from "./StrapiPage";
 import { StrapiResultPageSchema } from "./StrapiResultPage";
 import { StrapiVorabCheckCommonsSchema } from "./StrapiVorabCheckCommons";
 import { StrapiVorabCheckPageSchema } from "./StrapiVorabCheckPage";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiFileContentSchema = z
   .object({
     "element-with-ids": z.array(
-      z.object({
-        id: z.number(),
+      HasStrapiIdSchema.extend({
         attributes: StrapiElementWithIdSchema,
       })
     ),
     errors: z.array(
-      z.object({
-        id: z.number(),
+      HasStrapiIdSchema.extend({
         attributes: StrapiErrorCategorySchema,
       })
     ),
     footer: z.array(
-      z.object({
-        id: z.number(),
+      HasStrapiIdSchema.extend({
         attributes: StrapiFooterSchema,
       })
     ),
     navigation: z.array(
-      z.object({
-        id: z.number(),
+      HasStrapiIdSchema.extend({
         attributes: StrapiNavigationSchema,
       })
     ),
     pages: z.array(
-      z.object({
-        id: z.number(),
+      HasStrapiIdSchema.extend({
         attributes: StrapiPageSchema,
       })
     ),
     "result-pages": z.array(
-      z.object({
-        id: z.number(),
+      HasStrapiIdSchema.extend({
         attributes: StrapiResultPageSchema,
       })
     ),
     "vorab-check-common": z.array(
-      z.object({
-        id: z.number(),
+      HasStrapiIdSchema.extend({
         attributes: StrapiVorabCheckCommonsSchema,
       })
     ),
     "vorab-check-pages": z.array(
-      z.object({
-        id: z.number(),
+      HasStrapiIdSchema.extend({
         attributes: StrapiVorabCheckPageSchema,
       })
     ),
