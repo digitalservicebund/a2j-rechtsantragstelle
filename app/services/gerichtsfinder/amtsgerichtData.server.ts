@@ -5,7 +5,7 @@ import type {
   PlzStrnFile,
 } from "./convertJsonDataTable";
 import { gerbehIndex } from "./convertJsonDataTable";
-import { loadJsonFromFile } from "~/lib/strings";
+import { loadJsonFromFile } from "~/lib/io";
 
 const dataDirectory = `${__dirname}/../app/services/gerichtsfinder/_data`;
 

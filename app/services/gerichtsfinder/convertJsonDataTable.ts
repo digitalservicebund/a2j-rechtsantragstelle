@@ -8,18 +8,12 @@ import type {
   Jmtd14VTErwerberPlzstrn,
   Jmtd14VTErwerberPlzortk,
 } from "./types";
-import { objectMap, printFileReadError } from "../../lib/strings";
+import { printFileReadError } from "../../lib/io";
+import { objectMap, isKeyOfObject } from "../../lib/objects";
 
 export type GerbehFile = Record<string, Jmtd14VTErwerberGerbeh>;
 export type PlzOrtkFile = Record<string, Jmtd14VTErwerberPlzortk[]>;
 export type PlzStrnFile = Record<string, Jmtd14VTErwerberPlzstrn[]>;
-
-export function isKeyOfObject<T extends object>(
-  key: string | number | symbol,
-  obj: T
-): key is keyof T {
-  return key in obj;
-}
 
 export function normalizeFilepath(filepath: string) {
   return path.isAbsolute(filepath)
