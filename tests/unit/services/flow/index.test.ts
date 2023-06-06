@@ -9,6 +9,9 @@ import {
 } from "~/services/flow";
 
 describe("services/flow", () => {
+  const stepExpectationString =
+    "given $stepId with $context, returns $expected";
+
   describe("getStateMachine", () => {
     test("should return a valid state machine", () => {
       expect(getStateMachine()).toBeDefined();
@@ -80,7 +83,7 @@ describe("services/flow", () => {
     ];
 
     test.each(examples)(
-      "given $stepId with $context, returns $expected",
+      stepExpectationString,
       ({ stepId, context, expected }) => {
         expect(isStepReachable(stepId, context)).toBe(expected);
       }
@@ -106,7 +109,7 @@ describe("services/flow", () => {
     ];
 
     test.each(examples)(
-      "given $stepId with $context, returns $expected",
+      stepExpectationString,
       ({ stepId, context, expected }) => {
         expect(getNextStep(stepId, context)).toBe(expected);
       }
@@ -128,7 +131,7 @@ describe("services/flow", () => {
     ];
 
     test.each(examples)(
-      "given $stepId with $context, returns $expected",
+      stepExpectationString,
       ({ stepId, context, expected }) => {
         expect(getPreviousStep(stepId, context)).toBe(expected);
       }
