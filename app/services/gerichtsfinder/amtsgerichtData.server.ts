@@ -7,10 +7,6 @@ import type {
 import { gerbehIndex } from "./convertJsonDataTable";
 import { loadJsonFromFile } from "~/lib/strings";
 
-// Cache loading JSON files even during dev live reload, see https://remix.run/docs/en/main/tutorials/jokes#connect-to-the-database
-declare global {
-  var jsonData: Record<string, any> | undefined;
-}
 const dataDirectory = `${__dirname}/../app/services/gerichtsfinder/_data`;
 
 export const courtAddress = (gerbeIndex: GerbehIndex) => {

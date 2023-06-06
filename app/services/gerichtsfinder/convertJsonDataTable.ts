@@ -9,7 +9,7 @@ import type {
   Jmtd14VTErwerberPlzstrn,
   Jmtd14VTErwerberPlzortk,
 } from "./types";
-import { printFileReadError } from "~/lib/strings";
+import { printFileReadError } from "../../lib/strings";
 
 export type GerbehFile = Record<string, Jmtd14VTErwerberGerbeh>;
 export type PlzOrtkFile = Record<string, Jmtd14VTErwerberPlzortk[]>;

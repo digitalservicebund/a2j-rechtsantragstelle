@@ -19,6 +19,11 @@ export function stripLeadingZeros(s?: string) {
   return s ? s.replace(/^0+/, "") : "";
 }
 
+// Cache loading JSON files even during dev live reload, see https://remix.run/docs/en/main/tutorials/jokes#connect-to-the-database
+declare global {
+  var jsonData: Record<string, any> | undefined;
+}
+
 export const loadJsonFromFile = (filePath: string) => {
   if (!global.jsonData) global.jsonData = {};
   if (!global.jsonData[filePath]) {
