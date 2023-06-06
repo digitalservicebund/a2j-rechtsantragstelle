@@ -1,6 +1,11 @@
 import fs from "node:fs";
+import path from "node:path";
 import { downloadFromS3 } from "./downloadS3";
-import { convertToKvJson } from "./convertJsonDataTable";
+import {
+  applyDataConversions,
+  extractJsonFilesFromZip,
+  writeJsonFiles,
+} from "./convertJsonDataTable";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -31,7 +36,11 @@ downloadFromS3(
   AWS_SECRET_ACCESS_KEY
 ).then(
   (outputFilepath) => {
-    convertToKvJson(outputFilepath);
+    const jsonObjects = extractJsonFilesFromZip(outputFilepath);
+    const convertedData = applyDataConversions(jsonObjects);
+    const outFolder = path.resolve(path.join(__dirname, "_data"));
+    console.log(`Conversion successful, writing to ${outFolder}`);
+    writeJsonFiles(convertedData, outFolder);
     fs.unlinkSync(outputFilepath);
   },
   (err) => {

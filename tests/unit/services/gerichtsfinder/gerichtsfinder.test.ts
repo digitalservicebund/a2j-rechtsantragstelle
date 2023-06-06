@@ -1,5 +1,5 @@
 import {
-  convertToKvJson,
+  applyDataConversions,
   gerbehIndex,
   normalizeFilepath,
 } from "~/services/gerichtsfinder/convertJsonDataTable";
@@ -41,13 +41,8 @@ describe("normalizeFilepath", () => {
   });
 });
 
-describe("convertToKVJson", () => {
-  it("errors without valid file path", () => {
-    jest.spyOn(global.console, "log").mockImplementation(() => undefined);
-    const mockConsoleError = jest
-      .spyOn(global.console, "error")
-      .mockImplementation(() => undefined);
-    convertToKvJson("");
-    expect(mockConsoleError).toBeCalled();
+describe("applyDataConversions", () => {
+  it("handles empty object", () => {
+    expect(applyDataConversions({})).toEqual({});
   });
 });

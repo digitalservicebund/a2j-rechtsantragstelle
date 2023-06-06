@@ -8,7 +8,7 @@ import type {
   Jmtd14VTErwerberPlzstrn,
   Jmtd14VTErwerberPlzortk,
 } from "./types";
-import { printFileReadError } from "../../lib/strings";
+import { objectMap, printFileReadError } from "../../lib/strings";
 
 export type GerbehFile = Record<string, Jmtd14VTErwerberGerbeh>;
 export type PlzOrtkFile = Record<string, Jmtd14VTErwerberPlzortk[]>;
@@ -96,37 +96,42 @@ export const conversions = {
   },
 } as const;
 
-export function convertToKvJson(pathToZipFile: string) {
-  const DATA_ROOT_DIR = normalizeFilepath(pathToZipFile);
-  const OUT_FOLDER = path.resolve(path.join(__dirname, "_data"));
-  console.log(`Trying to read from ${DATA_ROOT_DIR}`);
-
+export function extractJsonFilesFromZip(pathToZipFile: string) {
+  let fileContent: Buffer;
   try {
-    // Only decompresses .json files into { filename: U8Array, ... }
-    const decompressedJsonFiles = unzipSync(fs.readFileSync(DATA_ROOT_DIR), {
-      filter: (file) => file.name.endsWith(".json"),
-    });
-
-    console.log(`Unzip successful, writing data to ${OUT_FOLDER}`);
-    fs.mkdirSync(OUT_FOLDER, { recursive: true });
-
-    for (const jsonFilepath in decompressedJsonFiles) {
-      const jsonFilename = path.basename(jsonFilepath);
-      console.log(`processing ${jsonFilename}`);
-
-      if (isKeyOfObject(jsonFilename, conversions)) {
-        // Decompressed data needs to be converted into string before calling conversion function
-        const contentString = strFromU8(decompressedJsonFiles[jsonFilepath]);
-        const outString = JSON.stringify(
-          conversions[jsonFilename](JSON.parse(contentString))
-        );
-        const outFilepath = path.join(OUT_FOLDER, jsonFilename);
-        fs.writeFileSync(outFilepath, outString, { encoding: "utf8" });
-      } else {
-        console.log("Not found in conversions, skipping...");
-      }
-    }
+    fileContent = fs.readFileSync(normalizeFilepath(pathToZipFile));
   } catch (err) {
     printFileReadError(err);
+    return {};
+  }
+  // Only decompresses .json files into { path/to/filename1.json: U8Array, ... }
+  const decompressedJsonFiles = unzipSync(fileContent, {
+    filter: (file) => file.name.endsWith(".json"),
+  });
+  // return normalized and parsed: (filename1.json: {...})
+  return Object.fromEntries(
+    Object.entries(decompressedJsonFiles).map(([k, v]) => [
+      path.basename(k),
+      JSON.parse(strFromU8(v)),
+    ])
+  );
+}
+
+type JsonCollection = Record<string, Record<string, any>>;
+
+export function applyDataConversions(data: JsonCollection) {
+  return objectMap(data, (entry, key) =>
+    isKeyOfObject(key, conversions) ? conversions[key](entry) : {}
+  );
+}
+
+export function writeJsonFiles(data: JsonCollection, destination: string) {
+  fs.mkdirSync(destination, { recursive: true });
+  for (const outFile in data) {
+    fs.writeFileSync(
+      path.join(destination, outFile),
+      JSON.stringify(data[outFile]),
+      { encoding: "utf8" }
+    );
   }
 }
