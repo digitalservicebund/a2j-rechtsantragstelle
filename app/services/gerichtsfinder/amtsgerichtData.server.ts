@@ -18,7 +18,7 @@ export const courtAddress = (gerbeIndex: GerbehIndex) => {
 
 export const courtForPlz = (PLZ: string | undefined) => {
   const plzDb: PlzOrtkFile = data["JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json"];
-  return PLZ && PLZ in plzDb ? plzDb[PLZ][0] : undefined;
+  return PLZ && plzDb && PLZ in plzDb ? plzDb[PLZ][0] : undefined;
 };
 
 export const edgeCasesForPlz = (PLZ: string | undefined) => {

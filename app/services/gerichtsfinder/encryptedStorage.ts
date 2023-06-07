@@ -28,9 +28,17 @@ function getCipher(password: string, forward: boolean) {
 export function loadEncrypted(filename: string, password: string) {
   const fileBuf = fs.readFileSync(filename);
   const decipher = getCipher(password, false);
-  const decrypted = Buffer.concat([decipher.update(fileBuf), decipher.final()]);
-  const unpacked = zlib.gunzipSync(decrypted).toString();
-  return JSON.parse(unpacked);
+  try {
+    const decrypted = Buffer.concat([
+      decipher.update(fileBuf),
+      decipher.final(),
+    ]);
+    const unpacked = zlib.gunzipSync(decrypted).toString();
+    return JSON.parse(unpacked);
+  } catch (err) {
+    console.error(err);
+    return {};
+  }
 }
 
 export function saveEncrypted(data: any, filename: string, password: string) {
