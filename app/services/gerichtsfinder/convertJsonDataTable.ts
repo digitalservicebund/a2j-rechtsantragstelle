@@ -8,18 +8,12 @@ import type {
   Jmtd14VTErwerberPlzstrn,
   Jmtd14VTErwerberPlzortk,
 } from "./types";
-import { printFileReadError } from "../../lib/io";
+import { normalizeFilepath, printFileReadError } from "../../lib/io";
 import { objectMap, isKeyOfObject } from "../../lib/objects";
 
 export type GerbehFile = Record<string, Jmtd14VTErwerberGerbeh>;
 export type PlzOrtkFile = Record<string, Jmtd14VTErwerberPlzortk[]>;
 export type PlzStrnFile = Record<string, Jmtd14VTErwerberPlzstrn[]>;
-
-export function normalizeFilepath(filepath: string) {
-  return path.isAbsolute(filepath)
-    ? path.resolve(filepath)
-    : path.resolve(path.join(process.cwd(), filepath));
-}
 
 export interface GerbehIndex {
   LKZ: string;

@@ -1,7 +1,6 @@
 import {
   applyDataConversions,
   gerbehIndex,
-  normalizeFilepath,
 } from "~/services/gerichtsfinder/convertJsonDataTable";
 import type { GerbehIndex } from "~/services/gerichtsfinder/convertJsonDataTable";
 
@@ -28,16 +27,6 @@ describe("gerbehIndex", () => {
         typInfo: "Finanzgericht",
       })
     ).not.toBe(gerbehIndex(index));
-  });
-});
-
-describe("normalizeFilepath", () => {
-  it("normalizes relative paths", () => {
-    expect(normalizeFilepath("./relative")).toBe(`${process.cwd()}/relative`);
-  });
-
-  it("normalizes absolute paths", () => {
-    expect(normalizeFilepath("/absolute")).toBe(`/absolute`);
   });
 });
 
