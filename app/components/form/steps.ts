@@ -2,22 +2,16 @@ import type { FunctionComponent } from "react";
 import type { AnyZodObject } from "zod";
 
 import { staatlicheLeistungenStep } from "./steps/staatlicheLeistungen";
-import { exitRechtsschutzversicherungStep } from "./steps/exitRechtsschutzversicherung";
 import { rechtsschutzversicherungStep } from "./steps/rechtsschutzversicherung";
 import { klageEingereichtStep } from "./steps/klageEingereicht";
-import { exitKlageEingereicht } from "./steps/exitKlageEingereicht";
 import { hamburgOderBremenStep } from "./steps/hamburgOderBremen";
 import { beratungshilfeBeantragtStep } from "./steps/beratungshilfeBeantragt";
 import { wurdeVerklagtStep } from "./steps/wurdeVerklagt";
 import { vermoegenStep } from "./steps/vermoegen";
 import { partnerschaftStep } from "./steps/partnerschaft";
-import { successBuergergeldStep } from "./steps/successBürgergeld";
 import { kinderAnzahlStep } from "./steps/kinderAnzahl";
 import { erwerbstaetigkeitStep } from "./steps/erwerbstaetigkeit";
 import { einkommenStep } from "./steps/einkommen";
-import { abschlussNeinStep } from "./steps/abschlussNein";
-import { abschlussJaStep } from "./steps/abschlussJa";
-import { abschlussVielleichtStep } from "./steps/abschlussVielleicht";
 import { eigeninitiativeStep } from "./steps/eigeninitiative";
 import { kostenfreieBeratungStep } from "./steps/kostenfreieBeratung";
 import { kinderStep } from "./steps/kinder";
@@ -34,10 +28,8 @@ import { einkommenKinderStep } from "~/components/form/steps/einkommenKinder";
 
 export const Steps = {
   staatlicheLeistungenStep,
-  exitRechtsschutzversicherungStep,
   rechtsschutzversicherungStep,
   klageEingereichtStep,
-  exitKlageEingereicht,
   hamburgOderBremenStep,
   beratungshilfeBeantragtStep,
   wurdeVerklagtStep,
@@ -45,7 +37,6 @@ export const Steps = {
   genauigkeitStep,
   partnerschaftStep,
   einkommenPartnerStep,
-  successBuergergeldStep,
   kinderAnzahlStep,
   einkommenKinderStep,
   erwerbstaetigkeitStep,
@@ -59,9 +50,6 @@ export const Steps = {
   mieteStep,
   weitereZahlungenStep,
   weitereZahlungenSummeStep,
-  abschlussNeinStep,
-  abschlussJaStep,
-  abschlussVielleichtStep,
 } as const;
 
 export type StepComponentProps = {
