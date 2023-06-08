@@ -9,10 +9,10 @@ import { getEncrypted } from "./encryptedStorage";
 
 const data = getEncrypted();
 
-export const courtAddress = (gerbeIndex: GerbehIndex) => {
+export const courtAddress = (index: GerbehIndex) => {
   const gerbehDb: GerbehFile =
     data["JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json"];
-  const key = gerbehIndex(gerbeIndex);
+  const key = gerbehIndex(index);
   return key in gerbehDb ? gerbehDb[key] : undefined;
 };
 
