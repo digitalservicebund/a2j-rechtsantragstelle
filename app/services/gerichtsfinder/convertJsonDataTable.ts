@@ -116,14 +116,3 @@ export function applyDataConversions(data: JsonCollection) {
     isKeyOfObject(key, conversions) ? conversions[key](entry) : {}
   );
 }
-
-export function writeJsonFiles(data: JsonCollection, destination: string) {
-  fs.mkdirSync(destination, { recursive: true });
-  for (const outFile in data) {
-    fs.writeFileSync(
-      path.join(destination, outFile),
-      JSON.stringify(data[outFile]),
-      { encoding: "utf8" }
-    );
-  }
-}
