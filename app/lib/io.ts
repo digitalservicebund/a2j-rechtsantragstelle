@@ -1,4 +1,6 @@
 import path from "node:path";
+import fs from "node:fs";
+import { unzipSync, strFromU8 } from "fflate";
 
 export function normalizeFilepath(filepath: string) {
   return path.isAbsolute(filepath)
@@ -6,17 +8,23 @@ export function normalizeFilepath(filepath: string) {
     : path.resolve(path.join(process.cwd(), filepath));
 }
 
-export function printFileReadError(error: unknown) {
-  if (
-    typeof error === "object" &&
-    error !== null &&
-    "code" in error &&
-    "message" in error
-  ) {
-    if (error.code === "ENOENT") {
-      console.error("File not found:", error.message);
-    } else {
-      console.error("Error reading file:", error.message);
-    }
-  }
+export function extractJsonFilesFromZip(pathToZipFile: string) {
+  let fileContent = fs.readFileSync(normalizeFilepath(pathToZipFile));
+
+  // Only decompresses .json files into { path/to/filename1.json: U8Array, ... }
+  const jsonFiles = unzipSync(fileContent, {
+    filter: (file) =>
+      file.name.endsWith(".json") && !file.name.startsWith("__MACOSX"),
+  });
+  const fileCount = Object.keys(jsonFiles).length;
+  console.log(
+    `Unzipping ${pathToZipFile} succeeded, found ${fileCount} json files`
+  );
+  // return normalized and parsed: (filename1.json: {...})
+  return Object.fromEntries(
+    Object.entries(jsonFiles).map(([k, v]) => [
+      path.basename(k),
+      JSON.parse(strFromU8(v)),
+    ])
+  );
 }

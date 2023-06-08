@@ -1,14 +1,9 @@
-import fs from "node:fs";
-import path from "node:path";
-import { unzipSync, strFromU8 } from "fflate";
-
 import type {
   TypInfo,
   Jmtd14VTErwerberGerbeh,
   Jmtd14VTErwerberPlzstrn,
   Jmtd14VTErwerberPlzortk,
 } from "./types";
-import { normalizeFilepath, printFileReadError } from "../../lib/io";
 import { objectMap, isKeyOfObject } from "../../lib/objects";
 
 export type GerbehFile = Record<string, Jmtd14VTErwerberGerbeh>;
@@ -83,31 +78,6 @@ export const conversions = {
     return out;
   },
 } as const;
-
-export function extractJsonFilesFromZip(pathToZipFile: string) {
-  let fileContent: Buffer;
-  try {
-    fileContent = fs.readFileSync(normalizeFilepath(pathToZipFile));
-  } catch (err) {
-    printFileReadError(err);
-    return {};
-  }
-  // Only decompresses .json files into { path/to/filename1.json: U8Array, ... }
-  const jsonFiles = unzipSync(fileContent, {
-    filter: (file) => file.name.endsWith(".json"),
-  });
-  const fileCount = Object.keys(jsonFiles).length;
-  console.log(
-    `Unzipping ${pathToZipFile} succeeded, found ${fileCount} json files`
-  );
-  // return normalized and parsed: (filename1.json: {...})
-  return Object.fromEntries(
-    Object.entries(jsonFiles).map(([k, v]) => [
-      path.basename(k),
-      JSON.parse(strFromU8(v)),
-    ])
-  );
-}
 
 type JsonCollection = Record<string, Record<string, any>>;
 

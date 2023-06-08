@@ -4,10 +4,8 @@ import crypto from "node:crypto";
 import zlib from "node:zlib";
 import fs from "node:fs";
 import path from "node:path";
-import {
-  applyDataConversions,
-  extractJsonFilesFromZip,
-} from "./convertJsonDataTable";
+import { applyDataConversions } from "./convertJsonDataTable";
+import { extractJsonFilesFromZip } from "~/lib/io";
 import dotenv from "dotenv";
 
 dotenv.config();

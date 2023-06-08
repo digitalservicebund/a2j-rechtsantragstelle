@@ -1,12 +1,8 @@
-import { printFileReadError, normalizeFilepath } from "~/lib/io";
+import { normalizeFilepath, extractJsonFilesFromZip } from "~/lib/io";
 
 afterEach(() => {
   jest.clearAllMocks();
 });
-
-const consoleErrorSpy = jest
-  .spyOn(global.console, "error")
-  .mockImplementation(() => jest.fn());
 
 describe("normalizeFilepath", () => {
   it("normalizes relative paths", () => {
@@ -18,32 +14,26 @@ describe("normalizeFilepath", () => {
   });
 });
 
-describe("handleIOError", () => {
-  it("prints file not found error", () => {
-    printFileReadError({
-      code: "ENOENT",
-      message: "irrelevant",
-    });
+describe("extractJsonFilesFromZip", () => {
+  const consoleLogSpy = jest
+    .spyOn(global.console, "log")
+    .mockImplementation(() => jest.fn());
 
-    expect(consoleErrorSpy.mock.calls[0]).toEqual(
-      expect.arrayContaining([
-        expect.stringContaining("File not found"),
-        expect.any(String),
-      ])
+  it("extracts all json from .zip file", () => {
+    const zipContent = extractJsonFilesFromZip(
+      `${__dirname}/zipWithJsonFilesMacOS.zip`
     );
+
+    expect(zipContent).toStrictEqual({
+      "test1.json": { testContent: [{ a: 1 }] },
+      "test.json": { testContent: [{ a: 1 }] },
+    });
+    expect(consoleLogSpy).toBeCalled();
   });
 
-  it("prints malformed file error", () => {
-    printFileReadError({
-      code: "irrelevant",
-      message: "irrelevant",
-    });
-
-    expect(consoleErrorSpy.mock.calls[0]).toEqual(
-      expect.arrayContaining([
-        expect.stringContaining("Error reading file"),
-        expect.any(String),
-      ])
-    );
+  it("Fails on non-existing file", () => {
+    expect(() => {
+      extractJsonFilesFromZip(`notExisting.zip`);
+    }).toThrow();
   });
 });
