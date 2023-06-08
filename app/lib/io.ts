@@ -23,7 +23,7 @@ export function extractJsonFilesFromZip(pathToZipFile: string) {
   // return normalized and parsed: (filename1.json: {...})
   return Object.fromEntries(
     Object.entries(jsonFiles).map(([k, v]) => [
-      path.basename(k),
+      path.basename(k), // Note: This will cause multiple files of the same name to be overwritten
       JSON.parse(strFromU8(v)),
     ])
   );
