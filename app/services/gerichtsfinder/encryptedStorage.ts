@@ -23,23 +23,15 @@ function getCipher(password: string, forward: boolean) {
   );
 }
 
-export function loadEncrypted(filename: string, password: string) {
+function loadEncrypted(filename: string, password: string) {
   const fileBuf = fs.readFileSync(filename);
   const decipher = getCipher(password, false);
-  try {
-    const decrypted = Buffer.concat([
-      decipher.update(fileBuf),
-      decipher.final(),
-    ]);
-    const unpacked = zlib.gunzipSync(decrypted).toString();
-    return JSON.parse(unpacked);
-  } catch (err) {
-    console.error(err);
-    return {};
-  }
+  const decrypted = Buffer.concat([decipher.update(fileBuf), decipher.final()]);
+  const unpacked = zlib.gunzipSync(decrypted).toString();
+  return JSON.parse(unpacked);
 }
 
-export function saveEncrypted(data: any, filename: string, password: string) {
+function saveEncrypted(data: any, filename: string, password: string) {
   const packed = zlib.gzipSync(JSON.stringify(data));
   const cipher = getCipher(password, true);
   const encrypted = Buffer.concat([cipher.update(packed), cipher.final()]);
@@ -70,7 +62,12 @@ export function getEncrypted(): Record<string, any> {
     return {};
   }
   if (global.__encData === undefined) {
-    global.__encData = loadEncrypted(OUTFILE, GERICHTSFINDER_ENCRYPTION_KEY);
+    try {
+      global.__encData = loadEncrypted(OUTFILE, GERICHTSFINDER_ENCRYPTION_KEY);
+    } catch (err) {
+      console.error(err);
+      return {};
+    }
   }
   return global.__encData ?? {};
 }
