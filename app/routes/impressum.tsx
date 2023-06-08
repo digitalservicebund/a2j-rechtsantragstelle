@@ -5,8 +5,8 @@ import { useLoaderData } from "@remix-run/react";
 import PageContent from "~/components/PageContent";
 import { getStrapiPage } from "~/services/cms";
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
-  { title: data.meta.title },
+export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
+  { title: data ? data.meta.title : location.pathname },
 ];
 
 export const loader: LoaderFunction = async () => {

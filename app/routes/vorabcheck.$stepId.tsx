@@ -35,8 +35,8 @@ import {
 import { isIncomeTooHigh } from "~/services/flow/guards";
 import invariant from "tiny-invariant";
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
-  { title: data.meta?.title },
+export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
+  { title: data ? data.meta.title : location.pathname },
 ];
 
 const getReasonsToDisplay = (

@@ -8,9 +8,9 @@ export const loader: LoaderFunction = async () => {
   return json(await getStrapiPage({ slug: "index" }));
 };
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
+export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
   {
-    title: data.meta.title,
+    title: data ? data.meta.title : location.pathname,
     name: "robots",
     content: "noindex",
   },
