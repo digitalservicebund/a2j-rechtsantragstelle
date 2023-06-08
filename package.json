@@ -18,8 +18,6 @@
   "dependencies": {
     "@digitalservice4germany/angie": "^0.4.0",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
-    "@emotion/react": "^11.11.0",
-    "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.3",
     "@remix-run/express": "^1.16.1",

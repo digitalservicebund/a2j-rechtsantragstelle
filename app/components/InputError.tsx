@@ -1,4 +1,4 @@
-import { ErrorOutline } from "@mui/icons-material";
+import ErrorOutline from "@mui/icons-material/ErrorOutline";
 import type { ReactNode } from "react";
 
 type InputErrorProps = {

@@ -1,10 +1,8 @@
 import type { StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 import RichText from "~/components/RichText";
-import {
-  CheckCircleOutline,
-  HighlightOff,
-  WarningAmber,
-} from "@mui/icons-material";
+import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
+import HighlightOff from "@mui/icons-material/HighlightOff";
+import WarningAmber from "@mui/icons-material/WarningAmber";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
