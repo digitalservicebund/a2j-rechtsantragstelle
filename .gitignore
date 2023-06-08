@@ -18,6 +18,7 @@ content.json
 .idea
 
 lefthook-local.yml
-
-pg_init/
 .DS_Store
+
+# Gerichtsfinder data
+**/gerichtsfinder/_data/
