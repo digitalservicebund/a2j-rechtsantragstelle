@@ -3,6 +3,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { Button, Container } from "~/components";
+import { ButtonContainer } from "~/components/ButtonContainer";
 import Header from "~/components/Header";
 import {
   findCourt,
@@ -24,13 +25,11 @@ export const loader = async ({ params }: LoaderArgs) => {
   invariant(typeof splat !== "undefined");
 
   const [zipCode, streetSlug] = splat.split("/");
-  console.log({ splat, zipCode, streetSlug });
 
   if (!streetSlug) {
     const edgeCases = findEdgeCases({ zipCode });
 
     if (edgeCases.length > 0) {
-      console.log(edgeCases[0]);
       const groupedEdgeCases = edgeCases.reduce(
         (acc: { [x: string]: Jmtd14VTErwerberPlzstrn[] }, edgeCase) => {
           (acc[edgeCase.STRN[0]] = acc[edgeCase.STRN[0]] ?? []).push(edgeCase);
@@ -38,7 +37,6 @@ export const loader = async ({ params }: LoaderArgs) => {
         },
         {}
       );
-      console.log("GROUPED", groupedEdgeCases);
       return json({
         edgeCases: groupedEdgeCases,
         url: `/amtsgericht/${zipCode}`,
@@ -99,31 +97,40 @@ export const Component = () => {
   if (loaderData.edgeCases) {
     return (
       <Container>
-        <div>
-          <h2>Ausnahmen:</h2>
-          <ul>
-            {Object.entries(loaderData.edgeCases).map(
-              ([firstLetter, edgeCases]) => (
-                <li key={firstLetter}>
-                  <h2>{firstLetter}</h2>
-                  <ul>
-                    {/*@ts-ignore */}
-                    {edgeCases.map((edgeCase) => (
-                      <li key={edgeCase.streetSlug}>
-                        <div>
-                          <a href={`${loaderData.url}/${edgeCase.streetSlug}`}>
-                            {edgeCase.street}
-                          </a>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              )
-            )}
-          </ul>
-        </div>
-        <Button href={`${loaderData.url}/default`}>Straße nicht dabei</Button>
+        <ul className="list-none pl-0 pt-48 pb-32">
+          {Object.entries(loaderData.edgeCases).map(
+            ([firstLetter, edgeCases]) => (
+              <li key={firstLetter}>
+                <h2 className="ds-label-01-reg p-8 bg-blue-100">
+                  {firstLetter}
+                </h2>
+                <ul className="list-none p-8 pb-16">
+                  {/*@ts-ignore */}
+                  {edgeCases.map((edgeCase) => (
+                    <li key={edgeCase.streetSlug}>
+                      <div>
+                        <a
+                          href={`${loaderData.url}/${edgeCase.streetSlug}`}
+                          className="font-bold leading-9 underline"
+                        >
+                          {edgeCase.street}
+                        </a>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            )
+          )}
+        </ul>
+        <ButtonContainer>
+          <Button href="#" look="tertiary" size="large">
+            Zurück
+          </Button>
+          <Button href={`${loaderData.url}/default`} size="large">
+            Ich wohne in keiner dieser Straßen
+          </Button>
+        </ButtonContainer>
       </Container>
     );
   }

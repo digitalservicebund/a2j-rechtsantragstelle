@@ -59,7 +59,11 @@ export const buildStreetSlug = ({
 }: Jmtd14VTErwerberPlzstrn) => {
   return `${STRN} ${HNR_MERKMAL_INFO} ${HNR_VON} ${HNR_BIS}`
     .toLowerCase()
-    .replace(/[^0-9a-z]/g, "-");
+    .replace(/ä/g, "ae")
+    .replace(/ö/g, "oe")
+    .replace(/ü/g, "ue")
+    .replace(/[^0-9a-z]/g, "-")
+    .replace("-fortlaufende-hausnummern-001-999", "");
 };
 
 const capitalizeStreet = (street: string) => {
@@ -71,13 +75,15 @@ const capitalizeStreet = (street: string) => {
 };
 
 export const decorateEdgeCase = (edgeCase: Jmtd14VTErwerberPlzstrn) => {
+  const street = capitalizeStreet(edgeCase.STRN);
+  const numbers = `(${edgeCase.HNR_MERKMAL_INFO} ${stripLeadingZeros(
+    edgeCase.HNR_VON
+  )} bis ${stripLeadingZeros(edgeCase.HNR_BIS)})`;
+  const allNumbers = numbers === "(fortlaufende Hausnummern 1 bis 999)";
+
   return {
     ...edgeCase,
-    street: `${capitalizeStreet(edgeCase.STRN)}, ${
-      edgeCase.HNR_MERKMAL_INFO
-    } ${stripLeadingZeros(edgeCase.HNR_VON)} - ${stripLeadingZeros(
-      edgeCase.HNR_BIS
-    )}`,
+    street: allNumbers ? street : `${street} ${numbers}`,
     streetSlug: buildStreetSlug(edgeCase),
   };
 };
