@@ -20,7 +20,7 @@
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.3",
-    "@remix-run/express": "^1.16.1",
+    "@remix-run/express": "^1.17.0",
     "@remix-run/node": "^1.16.1",
     "@remix-run/react": "^1.16.1",
     "@remix-run/serve": "^1.16.1",
