@@ -60,12 +60,21 @@ function updateZipfile(zipFilepath: string) {
   saveEncrypted(convertedData, OUTFILE, GERICHTSFINDER_ENCRYPTION_KEY);
 }
 
+// Caching file read, decryption & parsing to survive server reload
+// See https://remix.run/docs/en/1.16.1/tutorials/jokes#connect-to-the-database
+declare global {
+  var __encData: Record<string, any> | undefined;
+}
+
 export function getEncrypted(): Record<string, any> {
   if (!GERICHTSFINDER_ENCRYPTION_KEY) {
     console.error("GERICHTSFINDER_ENCRYPTION_KEY not set");
     return {};
   }
-  return loadEncrypted(OUTFILE, GERICHTSFINDER_ENCRYPTION_KEY);
+  if (global.__encData === undefined) {
+    global.__encData = loadEncrypted(OUTFILE, GERICHTSFINDER_ENCRYPTION_KEY);
+  }
+  return global.__encData ?? {};
 }
 
 if (process.argv[2] === "updateZip") updateZipfile(process.argv[3]);
