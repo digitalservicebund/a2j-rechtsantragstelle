@@ -76,10 +76,10 @@ const capitalizeStreet = (street: string) => {
 
 export const decorateEdgeCase = (edgeCase: Jmtd14VTErwerberPlzstrn) => {
   const street = capitalizeStreet(edgeCase.STRN);
-  const numbers = `(${edgeCase.HNR_MERKMAL_INFO} ${stripLeadingZeros(
+  const numbers = `(${edgeCase.HNR_MERKMAL_INFO} von ${stripLeadingZeros(
     edgeCase.HNR_VON
   )} bis ${stripLeadingZeros(edgeCase.HNR_BIS)})`;
-  const allNumbers = numbers === "(fortlaufende Hausnummern 1 bis 999)";
+  const allNumbers = numbers === "(fortlaufende Hausnummern von 1 bis 999)";
 
   return {
     ...edgeCase,

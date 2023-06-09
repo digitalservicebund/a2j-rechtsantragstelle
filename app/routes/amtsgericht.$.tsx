@@ -2,8 +2,9 @@ import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import { Button, Container } from "~/components";
+import { Background, Button, Container } from "~/components";
 import { ButtonContainer } from "~/components/ButtonContainer";
+import CourtDetails from "~/components/CourtDetails";
 import Header from "~/components/Header";
 import {
   findCourt,
@@ -18,6 +19,7 @@ type LoaderData = {
   court?: Jmtd14VTErwerberGerbeh;
   edgeCases?: Jmtd14VTErwerberPlzstrn[];
   url?: string;
+  zipCode?: string;
 };
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -40,6 +42,7 @@ export const loader = async ({ params }: LoaderArgs) => {
       return json({
         edgeCases: groupedEdgeCases,
         url: `/amtsgericht/${zipCode}`,
+        zipCode,
       });
     }
   }
@@ -55,79 +58,94 @@ export const loader = async ({ params }: LoaderArgs) => {
 };
 
 export const Component = () => {
-  const { court, edgeCases, url } = useLoaderData<LoaderData>();
+  const { court, edgeCases, url, zipCode } = useLoaderData<LoaderData>();
   if (!court && !edgeCases) {
     return <div>Kein passendes Amtsgericht gefunden. PLZ überprüfen?</div>;
   }
 
   if (court) {
     return (
-      <Container>
-        <div>
-          <Header
-            heading={{
-              text: "Zuständiges Gericht",
-              tagName: "h2",
-              look: "ds-heading-02-reg",
-            }}
-            content={{
-              text: court.BEZEICHNUNG,
-            }}
-          />
-          <div>
-            {court.STR_HNR}
-            <br />
-            {court.PLZ_ZUSTELLBEZIRK} {court.ORT}
-            <br />
-            Telefon: {court.TEL}
-            <br />
-            Telefax: {court.FAX}
-            <br />
-            {court.EMAIL1 && `Email: ${court.EMAIL1}`}
-            <br />
-            Webseite: {court.URL1}
-            <br />
-            <br />
-          </div>
-        </div>
-      </Container>
+      <div>
+        <Background backgroundColor="blue">
+          <Container>
+            <div className="ds-stack-24">
+              <div className="ds-label-03-reg">Amtsgericht finden</div>
+              <h1 className="ds-heading-02-reg">Ihr zuständiges Amtsgericht</h1>
+            </div>
+          </Container>
+
+          <Container backgroundColor="white" overhangingBackground>
+            <CourtDetails
+              name={court.BEZEICHNUNG}
+              street={court.STR_HNR}
+              city={`${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`}
+              website={`https://${court.URL1}`}
+              phone={court.TEL}
+              addressLabel="Adresse"
+              websiteLabel="Website"
+              phoneLabel="Telefonnummer"
+            />
+          </Container>
+          <Container>
+            <a href="#" className="ds-link-02-bold text-black underline">
+              Suche wiederholen
+            </a>
+          </Container>
+        </Background>
+      </div>
     );
   }
 
   if (edgeCases) {
     return (
-      <Container>
-        <ul className="list-none pl-0 pt-48 pb-32">
-          {Object.entries(edgeCases).map(([firstLetter, edgeCases]) => (
-            <li key={firstLetter}>
-              <h2 className="ds-label-01-reg p-8 bg-blue-100">{firstLetter}</h2>
-              <ul className="list-none p-8 pb-16">
-                {/*@ts-ignore */}
-                {edgeCases.map((edgeCase) => (
-                  <li key={edgeCase.streetSlug}>
-                    <div>
-                      <a
-                        href={`${url}/${edgeCase.streetSlug}`}
-                        className="font-bold leading-9 underline"
-                      >
-                        {edgeCase.street}
-                      </a>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-        <ButtonContainer>
-          <Button href="#" look="tertiary" size="large">
-            Zurück
-          </Button>
-          <Button href={`${url}/default`} size="large">
-            Ich wohne in keiner dieser Straßen
-          </Button>
-        </ButtonContainer>
-      </Container>
+      <div>
+        <Background backgroundColor="blue">
+          <Container>
+            <div className="ds-stack-24">
+              <div className="ds-label-03-reg">Amtsgericht finden</div>
+              <h1 className="ds-heading-02-reg">
+                Im Bereich Ihrer Postleitzahl <b>{zipCode}</b> sind verschiedene
+                Amtsgerichte zuständig. Wohnen Sie in einer dieser Straßen?
+              </h1>
+            </div>
+          </Container>
+        </Background>
+
+        <Container paddingTop="48">
+          <ul className="list-none pl-0 pb-32">
+            {Object.entries(edgeCases).map(([firstLetter, edgeCases]) => (
+              <li key={firstLetter} className="max-w-none">
+                <h2 className="ds-label-01-reg p-8 bg-blue-100 max-w-none">
+                  {firstLetter}
+                </h2>
+                <ul className="list-none p-8 pb-16">
+                  {/*@ts-ignore */}
+                  {edgeCases.map((edgeCase) => (
+                    <li key={edgeCase.streetSlug}>
+                      <div>
+                        <a
+                          href={`${url}/${edgeCase.streetSlug}`}
+                          className="font-bold leading-9 underline"
+                        >
+                          {edgeCase.street}
+                        </a>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+          <ButtonContainer>
+            <Button href="#" look="tertiary" size="large">
+              Zurück
+            </Button>
+            <Button href={`${url}/default`} size="large">
+              Ich wohne in keiner dieser Straßen
+            </Button>
+          </ButtonContainer>
+        </Container>
+      </div>
     );
   }
 };
