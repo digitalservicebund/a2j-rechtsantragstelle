@@ -100,7 +100,7 @@ export const findCourt = ({
   streetSlug?: string;
 }) => {
   if (streetSlug && streetSlug !== "default") {
-    const edgeCases = findEdgeCases({ zipCode });
+    const edgeCases = edgeCasesForPlz(zipCode);
     const edgeCase = edgeCases.find((e) => buildStreetSlug(e) === streetSlug);
     if (!edgeCase) throw new Error("streetSlug unknown");
     return courtAddress(buildGerbehIndex(edgeCase));
