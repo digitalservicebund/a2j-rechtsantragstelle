@@ -20,8 +20,10 @@ export default function Container({
 }: ContainerProps) {
   let cssClasses = classNames(
     "container",
-    `pt-${paddingTop === "default" ? DEFAULT_PADDING_TOP : paddingTop}`,
-    `pb-${paddingBottom === "default" ? DEFAULT_PADDING_BOTTOM : paddingBottom}`
+    `!pt-${paddingTop === "default" ? DEFAULT_PADDING_TOP : paddingTop}`,
+    `!pb-${
+      paddingBottom === "default" ? DEFAULT_PADDING_BOTTOM : paddingBottom
+    }`
   );
 
   if (backgroundColor === "default") {
