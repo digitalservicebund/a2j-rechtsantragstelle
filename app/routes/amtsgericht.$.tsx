@@ -44,23 +44,23 @@ export const loader = async ({ params }: LoaderArgs) => {
     }
   }
 
-  const court = findCourt({ zipCode, streetSlug });
-
-  if (court) {
-    return json({ court });
+  let court = undefined;
+  try {
+    court = findCourt({ zipCode, streetSlug });
+  } catch (err) {
+    console.error(err);
+    console.error(`Parameters: zipCode=${zipCode}, streetSlug=${streetSlug}`);
   }
-
-  return json(null);
+  return json({ court });
 };
 
 export const Component = () => {
-  const loaderData = useLoaderData<LoaderData>();
-  if (!loaderData) {
+  const { court, edgeCases, url } = useLoaderData<LoaderData>();
+  if (!court && !edgeCases) {
     return <div>Kein passendes Amtsgericht gefunden. PLZ überprüfen?</div>;
   }
 
-  if (loaderData.court) {
-    const { court } = loaderData;
+  if (court) {
     return (
       <Container>
         <div>
@@ -94,40 +94,36 @@ export const Component = () => {
     );
   }
 
-  if (loaderData.edgeCases) {
+  if (edgeCases) {
     return (
       <Container>
         <ul className="list-none pl-0 pt-48 pb-32">
-          {Object.entries(loaderData.edgeCases).map(
-            ([firstLetter, edgeCases]) => (
-              <li key={firstLetter}>
-                <h2 className="ds-label-01-reg p-8 bg-blue-100">
-                  {firstLetter}
-                </h2>
-                <ul className="list-none p-8 pb-16">
-                  {/*@ts-ignore */}
-                  {edgeCases.map((edgeCase) => (
-                    <li key={edgeCase.streetSlug}>
-                      <div>
-                        <a
-                          href={`${loaderData.url}/${edgeCase.streetSlug}`}
-                          className="font-bold leading-9 underline"
-                        >
-                          {edgeCase.street}
-                        </a>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            )
-          )}
+          {Object.entries(edgeCases).map(([firstLetter, edgeCases]) => (
+            <li key={firstLetter}>
+              <h2 className="ds-label-01-reg p-8 bg-blue-100">{firstLetter}</h2>
+              <ul className="list-none p-8 pb-16">
+                {/*@ts-ignore */}
+                {edgeCases.map((edgeCase) => (
+                  <li key={edgeCase.streetSlug}>
+                    <div>
+                      <a
+                        href={`${url}/${edgeCase.streetSlug}`}
+                        className="font-bold leading-9 underline"
+                      >
+                        {edgeCase.street}
+                      </a>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
         </ul>
         <ButtonContainer>
           <Button href="#" look="tertiary" size="large">
             Zurück
           </Button>
-          <Button href={`${loaderData.url}/default`} size="large">
+          <Button href={`${url}/default`} size="large">
             Ich wohne in keiner dieser Straßen
           </Button>
         </ButtonContainer>
