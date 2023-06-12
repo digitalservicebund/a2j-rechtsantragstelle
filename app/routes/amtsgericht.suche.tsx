@@ -16,9 +16,14 @@ function isValidPostcode(postcode: string) {
 
 const postcodeValidator = withZod(
   z.object({
-    postcode: z.string().refine((postcode) => isValidPostcode(postcode), {
-      message: "Ungültige Postleitzahl",
-    }),
+    postcode: z
+      .string()
+      .length(5, {
+        message: "Ungültige Postleitzahl",
+      })
+      .refine((postcode) => isValidPostcode(postcode), {
+        message: "Ungültige Postleitzahl",
+      }),
   })
 );
 
