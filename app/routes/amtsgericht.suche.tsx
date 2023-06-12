@@ -57,8 +57,8 @@ export default function Index() {
   const actionData = useActionData<typeof action>();
   return (
     <Background backgroundColor="blue">
-      <CourtFinderHeader label={common.ergebnisLabel}>
-        Wie ist Ihre Postleitzahl?
+      <CourtFinderHeader label={common.featureName}>
+        {common.searchHeading}
       </CourtFinderHeader>
 
       <ValidatedForm method="post" validator={postcodeValidator} noValidate>

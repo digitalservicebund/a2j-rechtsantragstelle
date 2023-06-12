@@ -39,7 +39,7 @@ export default function Index() {
   return (
     <>
       <Background backgroundColor="blue">
-        <CourtFinderHeader label={common.ergebnisLabel}>
+        <CourtFinderHeader label={common.featureName}>
           Im Bereich Ihrer Postleitzahl <strong>{zipCode}</strong> sind
           verschiedene Amtsgerichte zuständig. Wohnen Sie in einer dieser
           Straßen?

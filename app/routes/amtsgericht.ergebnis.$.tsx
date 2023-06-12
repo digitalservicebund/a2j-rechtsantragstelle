@@ -50,8 +50,8 @@ export const Component = () => {
   return (
     <>
       <Background backgroundColor="blue">
-        <CourtFinderHeader label={common.ergebnisLabel}>
-          {common.ergebnisHeading}
+        <CourtFinderHeader label={common.featureName}>
+          {common.resultHeading}
         </CourtFinderHeader>
 
         <Container backgroundColor="white" overhangingBackground>
@@ -61,9 +61,9 @@ export const Component = () => {
             city={`${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`}
             website={`https://${court.URL1}`}
             phone={court.TEL}
-            addressLabel={common.ergebnisAddress}
-            websiteLabel={common.ergebnisWebsite}
-            phoneLabel={common.ergebnisTelephone}
+            addressLabel={common.resultAddress}
+            websiteLabel={common.resultWebsite}
+            phoneLabel={common.resultPhone}
           />
         </Container>
         <Container>
