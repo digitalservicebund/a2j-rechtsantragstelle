@@ -39,7 +39,9 @@ export async function action({ request }: ActionArgs) {
       : "";
 
   if (errorMessage == "") {
-    return redirect(`../amtsgericht/${validatedFormInput.data?.postcode}`);
+    return redirect(
+      `../amtsgericht/ergebnis/${validatedFormInput.data?.postcode}`
+    );
   }
   return json({ errorMessage });
 }

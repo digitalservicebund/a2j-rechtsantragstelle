@@ -16,7 +16,7 @@ export const loader = async ({ params }: LoaderArgs) => {
 
   const [zipCode, streetSlug] = splat.split("/");
   if (edgeCasesForPlz(zipCode).length > 0 && !streetSlug) {
-    return redirect(`../amtsgerichte/${zipCode}`);
+    return redirect(`../amtsgericht/auswahl/${zipCode}`);
   }
 
   let court = undefined;
@@ -58,7 +58,7 @@ export const Component = () => {
       </Container>
       <Container>
         <a
-          href="../amtsgericht/suche"
+          href="/amtsgericht/suche"
           className="ds-link-02-bold text-black underline"
         >
           Suche wiederholen

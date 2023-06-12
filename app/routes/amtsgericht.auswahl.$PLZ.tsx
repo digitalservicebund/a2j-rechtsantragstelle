@@ -10,7 +10,7 @@ export const loader = async ({ params }: LoaderArgs) => {
   const zipCode = params.PLZ;
   const edgeCases = findEdgeCases({ zipCode });
   if (edgeCases.length == 0) {
-    return redirect(`../amtsgericht/${zipCode}`);
+    return redirect(`/amtsgericht/${zipCode}`);
   }
 
   const edgeCasesGroupedByLetter = edgeCases.reduce(
@@ -24,7 +24,7 @@ export const loader = async ({ params }: LoaderArgs) => {
   return json({
     zipCode,
     edgeCasesGroupedByLetter,
-    url: `/amtsgericht/${zipCode}`,
+    url: `/amtsgericht/ergebnis/${zipCode}`,
   });
 };
 
@@ -73,7 +73,7 @@ export default function Index() {
             )}
         </ul>
         <ButtonContainer>
-          <Button href="../amtsgericht/suche" look="tertiary" size="large">
+          <Button href="/amtsgericht/suche" look="tertiary" size="large">
             Zurück
           </Button>
           <Button href={`${url}/default`} size="large">
