@@ -88,7 +88,7 @@ export const decorateEdgeCase = (edgeCase: Jmtd14VTErwerberPlzstrn) => {
   };
 };
 
-export const findEdgeCases = ({ zipCode }: { zipCode: string }) => {
+export const findEdgeCases = ({ zipCode }: { zipCode?: string }) => {
   return edgeCasesForPlz(zipCode).map(decorateEdgeCase);
 };
 
