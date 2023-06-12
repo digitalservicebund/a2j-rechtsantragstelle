@@ -70,6 +70,7 @@ export const Component = () => {
           <a
             href="/amtsgericht/suche"
             className="ds-link-02-bold text-black underline"
+            id="backLink"
           >
             {common.repeatSearch}
           </a>

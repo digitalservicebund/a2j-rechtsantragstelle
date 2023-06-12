@@ -46,7 +46,7 @@ export default function Index() {
         </CourtFinderHeader>
       </Background>
       <Container paddingTop="48">
-        <ul className="list-none pl-0 pt-48 pb-32">
+        <ul className="list-none pl-0 pt-48 pb-32" id="resultList">
           {edgeCasesGroupedByLetter &&
             Object.entries(edgeCasesGroupedByLetter).map(
               ([firstLetter, edgeCasesForLetter]) => (
@@ -73,10 +73,15 @@ export default function Index() {
             )}
         </ul>
         <ButtonContainer>
-          <Button href="/amtsgericht/suche" look="tertiary" size="large">
+          <Button
+            href="/amtsgericht/suche"
+            look="tertiary"
+            size="large"
+            id="backLink"
+          >
             Zurück
           </Button>
-          <Button href={`${url}/default`} size="large">
+          <Button href={`${url}/default`} size="large" id="defaultButton">
             Ich wohne in keiner dieser Straßen
           </Button>
         </ButtonContainer>
