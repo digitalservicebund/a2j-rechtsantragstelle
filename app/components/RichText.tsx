@@ -6,6 +6,7 @@ type RichTextProps = {
 };
 
 const RichText = ({ markdown, renderer, ...props }: RichTextProps) => {
+  // TODO: Can now be fixed since Marked 5.1.0, see https://github.com/markedjs/marked/pull/2831
   // Reset marked to default options before use because of a bug in marked https://github.com/markedjs/marked/issues/907
   marked.setOptions(marked.getDefaults());
   marked.use({
