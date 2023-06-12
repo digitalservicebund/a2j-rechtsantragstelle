@@ -1,5 +1,5 @@
 import { Button } from "~/components";
-import { ButtonContainer } from "~/components/ButtonContainer";
+import ButtonContainer from "~/components/ButtonContainer";
 import type { StrapiVorabCheckCommons } from "~/services/cms/models/StrapiVorabCheckCommons";
 
 interface ButtonNavigationProps {

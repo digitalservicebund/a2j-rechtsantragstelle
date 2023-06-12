@@ -3,7 +3,7 @@ import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Background, Button, Container } from "~/components";
-import { ButtonContainer } from "~/components/ButtonContainer";
+import ButtonContainer from "~/components/ButtonContainer";
 import { findEdgeCases } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
 export const loader = async ({ params }: LoaderArgs) => {

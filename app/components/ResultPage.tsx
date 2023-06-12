@@ -9,7 +9,7 @@ import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPag
 import type { ReactElement } from "react";
 import PageContent from "~/components/PageContent";
 import { Button } from "~/components/index";
-import { ButtonContainer } from "~/components/ButtonContainer";
+import ButtonContainer from "~/components/ButtonContainer";
 import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
 import classes from "classnames";
 import ProgressBarArea from "~/components/form/ProgressBarArea";
