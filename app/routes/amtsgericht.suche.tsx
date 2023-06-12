@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { useActionData } from "@remix-run/react";
 import { Background, Button, Container, Input } from "~/components";
-import { ButtonContainer } from "~/components/ButtonContainer";
+import ButtonContainer from "~/components/ButtonContainer";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ValidatedForm } from "remix-validated-form";
 import { withZod } from "@remix-validated-form/with-zod";
