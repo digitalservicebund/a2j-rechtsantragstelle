@@ -51,16 +51,16 @@ export default function Index() {
             Object.entries(edgeCasesGroupedByLetter).map(
               ([firstLetter, edgeCasesForLetter]) => (
                 <li key={firstLetter}>
-                  <h2 className="ds-label-01-reg p-8 bg-blue-100">
+                  <h2 className="ds-label-01-bold p-8 bg-blue-100">
                     {firstLetter}
                   </h2>
-                  <ul className="list-none p-8 pb-16">
+                  <ul className="list-none py-10 pl-0">
                     {edgeCasesForLetter.map((edgeCase) => (
                       <li key={edgeCase.streetSlug}>
                         <div>
                           <a
                             href={`${url}/${edgeCase.streetSlug}`}
-                            className="font-bold leading-9 underline"
+                            className="leading-9 underline"
                           >
                             {edgeCase.street}
                           </a>
