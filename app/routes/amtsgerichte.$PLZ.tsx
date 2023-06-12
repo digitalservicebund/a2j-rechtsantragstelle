@@ -73,7 +73,7 @@ export default function Index() {
             )}
         </ul>
         <ButtonContainer>
-          <Button href="#" look="tertiary" size="large">
+          <Button href="../amtsgericht/suche" look="tertiary" size="large">
             Zurück
           </Button>
           <Button href={`${url}/default`} size="large">
