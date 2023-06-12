@@ -4,19 +4,19 @@ import os
 import requests
 import json
 
-CMS_URL = os.getenv('STRAPI_HOST')
-CMS_AUTH_TOKEN = os.getenv('STRAPI_ACCESS_KEY')
-TARGET_FILE_PATH = os.getenv('CONTENT_FILE_PATH')
+STRAPI_HOST = os.getenv('STRAPI_HOST')
+STRAPI_ACCESS_KEY = os.getenv('STRAPI_ACCESS_KEY')
+CONTENT_FILE_PATH = os.getenv('CONTENT_FILE_PATH')
 PAGE_SIZE = 10
 
 
 def get_all_collection_types():
-    assert CMS_URL is not None
-    assert CMS_AUTH_TOKEN is not None
-    collection_types_response = requests.get(f"{CMS_URL}/api/content-type-builder/content-types", headers={
-        "Authorization": f"Bearer {CMS_AUTH_TOKEN}",
+    assert STRAPI_HOST is not None
+    assert STRAPI_ACCESS_KEY is not None
+    collection_types_response = requests.get(f"{STRAPI_HOST}/api/content-type-builder/content-types", headers={
+        "Authorization": f"Bearer {STRAPI_ACCESS_KEY}",
     })
-    print("status code", collection_types_response.status_code)
+    print(f"content-type-builder/content-types status code: {collection_types_response.status_code}")
     assert collection_types_response.status_code == 200
     return json.loads(collection_types_response.text)
 
@@ -44,9 +44,9 @@ def collect_all_collection_data(collection_id):
     all_collection_data = []
     while True:
         res = requests.get(
-            f"{CMS_URL}/api/{collection_id}?populate=deep&locale=all&pagination[pageSize]={PAGE_SIZE}&pagination[page]={page}",
+            f"{STRAPI_HOST}/api/{collection_id}?populate=deep&locale=all&pagination[pageSize]={PAGE_SIZE}&pagination[page]={page}",
             headers={
-                "Authorization": f"Bearer {CMS_AUTH_TOKEN}",
+                "Authorization": f"Bearer {STRAPI_ACCESS_KEY}",
             })
         print(f"status code {res.status_code} for getting {collection_id} on page {page}")
         assert res.status_code == 200
@@ -65,7 +65,7 @@ def collect_all_collection_data(collection_id):
 
 
 def write_content_to_file(api_ids):
-    with open(TARGET_FILE_PATH, "w+") as f:
+    with open(CONTENT_FILE_PATH, "w+") as f:
         f.write("{")
         for idx, collection_id in enumerate(api_ids):
             collection_data = collect_all_collection_data(collection_id)
