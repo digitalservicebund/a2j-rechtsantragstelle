@@ -3,19 +3,20 @@ import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
-export const StrapiVorabCheckCommonsSchema = z
+export const StrapiAmtsgerichtCommonSchema = z
   .object({
-    progressBarLabel: z.string(),
-    resultHintLabel: z.string(),
-    backButtonDefaultLabel: z.string(),
-    nextButtonDefaultLabel: z.string(),
-    lastNextButtonLabel: z.string(),
+    ergebnisHeading: z.string(),
+    ergebnisLabel: z.string(),
+    ergebnisAddress: z.string(),
+    ergebnisTelephone: z.string(),
+    ergebnisWebsite: z.string(),
+    repeatSearch: z.string(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiTimestampsSchema)
   .strict();
 
-export type StrapiVorabCheckCommons = z.infer<
-  typeof StrapiVorabCheckCommonsSchema
+export type StrapiAmtsgerichtCommon = z.infer<
+  typeof StrapiAmtsgerichtCommonSchema
 >;

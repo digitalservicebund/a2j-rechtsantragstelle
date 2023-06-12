@@ -19,7 +19,7 @@ import { Background } from "~/components";
 import ProgressBarArea from "~/components/form/ProgressBarArea";
 import {
   getStrapiResultPage,
-  getStrapiVorabCheckCommons,
+  getStrapiVorabCheckCommon,
   getStrapiVorabCheckPage,
 } from "~/services/cms";
 import getSlug from "~/util/getSlug";
@@ -94,7 +94,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       session.data
     );
   }
-  const commonContent = await getStrapiVorabCheckCommons();
+  const commonContent = await getStrapiVorabCheckCommon();
 
   let additionalContext = {};
   if ("additionalContext" in currentPage && currentPage["additionalContext"]) {

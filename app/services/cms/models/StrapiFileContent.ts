@@ -5,7 +5,7 @@ import { StrapiFooterSchema } from "./StrapiFooter";
 import { StrapiNavigationSchema } from "./StrapiNavigation";
 import { StrapiPageSchema } from "./StrapiPage";
 import { StrapiResultPageSchema } from "./StrapiResultPage";
-import { StrapiVorabCheckCommonsSchema } from "./StrapiVorabCheckCommons";
+import { StrapiVorabCheckCommonSchema } from "./StrapiVorabCheckCommon";
 import { StrapiVorabCheckPageSchema } from "./StrapiVorabCheckPage";
 import { HasStrapiIdSchema } from "./HasStrapiId";
 
@@ -43,7 +43,7 @@ export const StrapiFileContentSchema = z
     ),
     "vorab-check-common": z.array(
       HasStrapiIdSchema.extend({
-        attributes: StrapiVorabCheckCommonsSchema,
+        attributes: StrapiVorabCheckCommonSchema,
       })
     ),
     "vorab-check-pages": z.array(

@@ -6,8 +6,9 @@ import { StrapiFooterSchema } from "./models/StrapiFooter";
 import { StrapiNavigationSchema } from "./models/StrapiNavigation";
 import { StrapiPageSchema } from "./models/StrapiPage";
 import { StrapiResultPageSchema } from "./models/StrapiResultPage";
-import { StrapiVorabCheckCommonsSchema } from "./models/StrapiVorabCheckCommons";
+import { StrapiVorabCheckCommonSchema } from "./models/StrapiVorabCheckCommon";
 import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
+import { StrapiAmtsgerichtCommonSchema } from "./models/StrapiAmtsgerichtCommon";
 
 export type GetStrapiEntryOpts = {
   apiId: string;
@@ -43,11 +44,18 @@ export const getStrapiNavigation = async (opts?: StrapiSingleTypeGetterOpts) =>
     await getStrapiEntry({ apiId: "navigation", ...opts })
   );
 
-export const getStrapiVorabCheckCommons = async (
+export const getStrapiVorabCheckCommon = async (
   opts?: StrapiSingleTypeGetterOpts
 ) =>
-  StrapiVorabCheckCommonsSchema.parse(
+  StrapiVorabCheckCommonSchema.parse(
     await getStrapiEntry({ apiId: "vorab-check-common", ...opts })
+  );
+
+export const getStrapiAmtsgerichtCommon = async (
+  opts?: StrapiSingleTypeGetterOpts
+) =>
+  StrapiAmtsgerichtCommonSchema.parse(
+    await getStrapiEntry({ apiId: "amtsgericht-common", ...opts })
   );
 
 // collection types getters

@@ -6,7 +6,7 @@ import invariant from "tiny-invariant";
 import { Background, Container } from "~/components";
 import CourtDetails from "~/components/CourtDetails";
 import PageContent from "~/components/PageContent";
-import { getStrapiPage } from "~/services/cms";
+import { getStrapiAmtsgerichtCommon, getStrapiPage } from "~/services/cms";
 import {
   edgeCasesForPlz,
   findCourt,
@@ -38,11 +38,13 @@ export const loader = async ({ params }: LoaderArgs) => {
   const { content, meta } = await getStrapiPage({
     slug: "amtsgericht/ergebnis",
   });
-  return json({ court, content, metaData: meta });
+
+  const common = await getStrapiAmtsgerichtCommon();
+  return json({ court, content, metaData: meta, common });
 };
 
 export const Component = () => {
-  const { court, content } = useLoaderData<typeof loader>();
+  const { court, content, common } = useLoaderData<typeof loader>();
   if (!court) {
     return <div>Kein passendes Amtsgericht gefunden. PLZ überprüfen?</div>;
   }
@@ -52,8 +54,8 @@ export const Component = () => {
       <Background backgroundColor="blue">
         <Container>
           <div className="ds-stack-24">
-            <div className="ds-label-03-reg">Amtsgericht finden</div>
-            <h1 className="ds-heading-02-reg">Ihr zuständiges Amtsgericht</h1>
+            <div className="ds-label-03-reg">{common.ergebnisLabel}</div>
+            <h1 className="ds-heading-02-reg">{common.ergebnisHeading}</h1>
           </div>
         </Container>
 
@@ -64,9 +66,9 @@ export const Component = () => {
             city={`${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`}
             website={`https://${court.URL1}`}
             phone={court.TEL}
-            addressLabel="Adresse"
-            websiteLabel="Website"
-            phoneLabel="Telefonnummer"
+            addressLabel={common.ergebnisAddress}
+            websiteLabel={common.ergebnisWebsite}
+            phoneLabel={common.ergebnisTelephone}
           />
         </Container>
         <Container>
@@ -74,7 +76,7 @@ export const Component = () => {
             href="/amtsgericht/suche"
             className="ds-link-02-bold text-black underline"
           >
-            Suche wiederholen
+            {common.repeatSearch}
           </a>
         </Container>
       </Background>

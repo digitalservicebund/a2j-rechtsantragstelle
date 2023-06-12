@@ -6,7 +6,7 @@ import WarningAmber from "@mui/icons-material/WarningAmber";
 import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
 import type { StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
-import type { StrapiVorabCheckCommons } from "~/services/cms/models/StrapiVorabCheckCommons";
+import type { StrapiVorabCheckCommon } from "~/services/cms/models/StrapiVorabCheckCommon";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
@@ -16,7 +16,7 @@ import ProgressBarArea from "~/components/form/ProgressBarArea";
 import RichText from "~/components/RichText";
 
 type ResultPageProps = {
-  content: StrapiResultPage & StrapiVorabCheckCommons;
+  content: StrapiResultPage & StrapiVorabCheckCommon;
   reasonsToDisplay?: StrapiElementWithId[];
   backDestination?: string;
   progressStep: number;

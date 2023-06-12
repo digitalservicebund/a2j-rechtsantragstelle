@@ -1,11 +1,11 @@
 import { Button } from "~/components";
 import ButtonContainer from "~/components/ButtonContainer";
-import type { StrapiVorabCheckCommons } from "~/services/cms/models/StrapiVorabCheckCommons";
+import type { StrapiVorabCheckCommon } from "~/services/cms/models/StrapiVorabCheckCommon";
 
 interface ButtonNavigationProps {
   backDestination?: string;
   isLast: boolean;
-  commonContent: StrapiVorabCheckCommons;
+  commonContent: StrapiVorabCheckCommon;
 }
 
 export function ButtonNavigation({
