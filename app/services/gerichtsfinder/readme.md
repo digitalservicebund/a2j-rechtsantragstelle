@@ -2,19 +2,6 @@
 
 ## Quickstart
 
-Die Gerichtsdaten müssen erst konvertiert werden, siehe shell script `convert_sql_data.sh`.
-Dieses list die gegebene .zip datei ein und schreibt postgres-kompatible .sql Dateien nach `./pg_init`.
-Diese werden zum Befüllen der postgres Datenbank benutzt (Hinweis: Der erste Start dauert ca 2-3 Minuten)
-
-Beispiel:
-
-```shell
-./convert_sql_data.sh path/to/Updates.zip
-docker compose up
-```
-
-pgadmin interface: `http://localhost:15433/browser/`
-
 ## Data Exploration
 
 `UpdateR2305.zip`:
@@ -35,21 +22,6 @@ pgadmin interface: `http://localhost:15433/browser/`
 1. SQL INSERT
 2. JSON
 3. Oracle Loader Format
-
-### Einspielen in SQL DB
-
-Jeder Schritt ist für alle 4 Tabelle (`PLZORTK`, `GERBEH`, `PLZSTRN`, `PLZNEU`) zu wiederholen. Für jeden Schritt gibt es bereits im Order `DDL/` bereitgestellte Skripte:
-
-1. Erstellung der Tabelle (`CREATE TABLE`): `JMTD14_VT_ERWERBER_{TABELLE}.sql`
-2. Laden der Daten (`INSERT`): `JMTD14_VT_ERWERBER_{TABELLE}_DATA_TABLE.sql`
-3. Optional: Laden der Indizes (`CREATE UNIQUE INDEX`): `JMTD14_VT_ERWERBER_{TABELLE}_PK.sql`
-4. Optional: Laden der Constraints (`ALTER TABLE`): `JMTD14_VT_ERWERBER_{TABELLE}_CONSTRAINT.sql`
-
-### Converting to postgres
-
-`npm run main`
-
-1.  replace VARCHAR2(400 CHAR) -> VARCHAR(400)
 
 ## Tabellen
 
