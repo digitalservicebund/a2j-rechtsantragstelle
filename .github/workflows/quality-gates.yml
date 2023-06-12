@@ -5,7 +5,7 @@ jobs:
   all-quality-checks:
     strategy:
       matrix:
-        npmCMD: [prettier:check, eslint:check, typecheck, test]
+        npmCMD: ["prettier:check", "eslint:check", "typecheck", "test"]
     permissions:
       packages: read
     runs-on: ubuntu-latest
