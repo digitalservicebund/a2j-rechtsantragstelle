@@ -1,19 +1,19 @@
-import type { StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
-import RichText from "~/components/RichText";
+import type { ReactElement } from "react";
+import classes from "classnames";
 import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
 import HighlightOff from "@mui/icons-material/HighlightOff";
 import WarningAmber from "@mui/icons-material/WarningAmber";
+import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
+import type { StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
+import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
+import type { StrapiVorabCheckCommons } from "~/services/cms/models/StrapiVorabCheckCommons";
+import Button from "~/components/Button";
+import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";
-import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
-import type { ReactElement } from "react";
 import PageContent from "~/components/PageContent";
-import { Button } from "~/components/index";
-import ButtonContainer from "~/components/ButtonContainer";
-import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
-import classes from "classnames";
 import ProgressBarArea from "~/components/form/ProgressBarArea";
-import type { StrapiVorabCheckCommons } from "~/services/cms/models/StrapiVorabCheckCommons";
+import RichText from "~/components/RichText";
 
 type ResultPageProps = {
   content: StrapiResultPage & StrapiVorabCheckCommons;

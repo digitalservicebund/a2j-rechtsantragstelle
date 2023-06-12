@@ -1,9 +1,8 @@
-import type { ReactNode } from "react";
+import type { PropsWithChildren } from "react";
 
-type InputLabelProps = {
+type InputLabelProps = PropsWithChildren<{
   id: string;
-  children: ReactNode;
-};
+}>;
 
 const InputLabel = ({ id, children }: InputLabelProps) => {
   return <label htmlFor={id}>{children}</label>;

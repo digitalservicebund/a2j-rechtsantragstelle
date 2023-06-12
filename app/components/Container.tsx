@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import type { PropsWithChildren } from "react";
 import type { CommonWrapperProps } from ".";
 import { BACKGROUND_COLORS } from ".";
 
@@ -7,9 +7,8 @@ const DEFAULT_PADDING_TOP = "40";
 const DEFAULT_PADDING_BOTTOM = "48";
 
 export type ContainerProps = {
-  children: React.ReactNode;
   overhangingBackground?: boolean;
-} & CommonWrapperProps;
+} & PropsWithChildren<CommonWrapperProps>;
 
 export default function Container({
   paddingTop = "default",

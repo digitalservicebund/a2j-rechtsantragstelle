@@ -1,10 +1,9 @@
 import ErrorOutline from "@mui/icons-material/ErrorOutline";
-import type { ReactNode } from "react";
+import type { PropsWithChildren } from "react";
 
-type InputErrorProps = {
+type InputErrorProps = PropsWithChildren<{
   inputName: string;
-  children: ReactNode;
-};
+}>;
 
 const InputError = ({ inputName, children }: InputErrorProps) => {
   return (

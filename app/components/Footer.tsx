@@ -1,9 +1,9 @@
+import { z } from "zod";
 import type { Renderer } from "marked";
 import Container from "./Container";
 import Image, { ImagePropsSchema } from "./Image";
 import { ParagraphPropsSchema } from "./Paragraph";
 import RichText from "./RichText";
-import { z } from "zod";
 
 const LinkPropsSchema = z.object({
   url: z.string(),

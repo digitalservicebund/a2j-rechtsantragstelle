@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
 import Header from "./Header";
@@ -10,7 +11,6 @@ import type { ContainerProps } from "./Container";
 import Container from "./Container";
 import type { BackgroundProps } from "./Background";
 import Background from "./Background";
-import type { ReactElement } from "react";
 import { getInfoBoxProps } from "~/services/props/getInfoBoxProps";
 import { getBoxProps } from "~/services/props/getBoxProps";
 import { getHeadingProps } from "~/services/props/getHeadingProps";

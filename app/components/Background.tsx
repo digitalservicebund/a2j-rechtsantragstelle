@@ -1,14 +1,12 @@
 import classNames from "classnames";
-import React from "react";
+import type { PropsWithChildren } from "react";
 import type { CommonWrapperProps } from ".";
 import { BACKGROUND_COLORS } from ".";
 
 const DEFAULT_PADDING_TOP = "0";
 const DEFAULT_PADDING_BOTTOM = "0";
 
-export type BackgroundProps = {
-  children: React.ReactNode;
-} & CommonWrapperProps;
+export type BackgroundProps = PropsWithChildren<CommonWrapperProps>;
 
 export default function Background({
   backgroundColor = "default",
