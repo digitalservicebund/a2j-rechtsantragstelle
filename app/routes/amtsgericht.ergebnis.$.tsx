@@ -1,6 +1,5 @@
 import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { Background, Container } from "~/components";
@@ -14,9 +13,7 @@ import {
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
-  {
-    title: data ? data.metaData.title : location.pathname,
-  },
+  { title: data ? data.metaData.title : location.pathname },
 ];
 
 export const loader = async ({ params }: LoaderArgs) => {

@@ -7,9 +7,12 @@ import type {
   Jmtd14VTErwerberGerbeh,
   Jmtd14VTErwerberPlzortk,
   Jmtd14VTErwerberPlzstrn,
+  TypInfo,
 } from "~/services/gerichtsfinder/types";
 
 import type { GerbehIndex } from "~/services/gerichtsfinder/convertJsonDataTable";
+
+const validTypInfo: TypInfo = "Zivilgericht - Amtsgericht";
 
 describe("gerbehIndex", () => {
   const index: GerbehIndex = {
@@ -17,7 +20,7 @@ describe("gerbehIndex", () => {
     OLG: "b",
     LG: "c",
     AG: "d",
-    typInfo: "Finanzgericht",
+    typInfo: validTypInfo,
   };
 
   it("generates a reproducable index", () => {
@@ -31,7 +34,7 @@ describe("gerbehIndex", () => {
         OLG: "b",
         LG: "c",
         AG: "d",
-        typInfo: "Finanzgericht",
+        typInfo: validTypInfo,
       })
     ).not.toBe(gerbehIndex(index));
   });
@@ -54,7 +57,7 @@ describe("gerbeh data conversions", () => {
     ORTK: "string",
     PLZ_ZUSTELLBEZIRK: "string",
     STR_HNR: "string",
-    TYP_INFO: "Zivilgericht - Amtsgericht",
+    TYP_INFO: validTypInfo,
     XML_SUPPORT: "JA",
   };
 
@@ -94,7 +97,7 @@ describe("PlzOrtk data conversions", () => {
     GERBEH_LKZ: "string",
     GERBEH_OLG: "string",
     GERBEH_STAMM: "string",
-    GERBEH_TYP_INFO: "Zivilgericht - Amtsgericht",
+    GERBEH_TYP_INFO: validTypInfo,
     ORT: "string",
     ORTK: "string",
     PLZ: "string",
@@ -132,7 +135,7 @@ describe("PlzStrn data conversions", () => {
     ORTK: "string",
     PLZ: "string",
     STRN: "string",
-    TYP_INFO: "Zivilgericht - Amtsgericht",
+    TYP_INFO: validTypInfo,
   };
 
   it("handles valid PlzStrn data", () => {

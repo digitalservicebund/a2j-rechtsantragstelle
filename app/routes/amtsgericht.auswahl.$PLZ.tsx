@@ -1,6 +1,5 @@
 import type { LoaderArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Background, Button, Container } from "~/components";
 import ButtonContainer from "~/components/ButtonContainer";
