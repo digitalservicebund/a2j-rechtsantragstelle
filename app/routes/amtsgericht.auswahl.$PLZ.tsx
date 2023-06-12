@@ -4,6 +4,8 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Background, Button, Container } from "~/components";
 import ButtonContainer from "~/components/ButtonContainer";
+import CourtFinderHeader from "~/components/CourtFinderHeader";
+import { getStrapiAmtsgerichtCommon } from "~/services/cms";
 import { findEdgeCases } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -21,29 +23,28 @@ export const loader = async ({ params }: LoaderArgs) => {
     {}
   );
 
+  const common = await getStrapiAmtsgerichtCommon();
+
   return json({
     zipCode,
     edgeCasesGroupedByLetter,
+    common,
     url: `/amtsgericht/ergebnis/${zipCode}`,
   });
 };
 
 export default function Index() {
-  const { zipCode, edgeCasesGroupedByLetter, url } =
+  const { zipCode, edgeCasesGroupedByLetter, common, url } =
     useLoaderData<typeof loader>();
 
   return (
     <>
       <Background backgroundColor="blue">
-        <Container>
-          <div className="ds-stack-24">
-            <div className="ds-label-03-reg">Amtsgericht finden</div>
-            <h1 className="ds-heading-02-reg">
-              Im Bereich Ihrer Postleitzahl <b>{zipCode}</b> sind verschiedene
-              Amtsgerichte zuständig. Wohnen Sie in einer dieser Straßen?
-            </h1>
-          </div>
-        </Container>
+        <CourtFinderHeader label={common.ergebnisLabel}>
+          Im Bereich Ihrer Postleitzahl <strong>{zipCode}</strong> sind
+          verschiedene Amtsgerichte zuständig. Wohnen Sie in einer dieser
+          Straßen?
+        </CourtFinderHeader>
       </Background>
       <Container paddingTop="48">
         <ul className="list-none pl-0 pt-48 pb-32">

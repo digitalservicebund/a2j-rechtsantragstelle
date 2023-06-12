@@ -5,6 +5,7 @@ import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { Background, Container } from "~/components";
 import CourtDetails from "~/components/CourtDetails";
+import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
 import { getStrapiAmtsgerichtCommon, getStrapiPage } from "~/services/cms";
 import {
@@ -52,12 +53,9 @@ export const Component = () => {
   return (
     <>
       <Background backgroundColor="blue">
-        <Container>
-          <div className="ds-stack-24">
-            <div className="ds-label-03-reg">{common.ergebnisLabel}</div>
-            <h1 className="ds-heading-02-reg">{common.ergebnisHeading}</h1>
-          </div>
-        </Container>
+        <CourtFinderHeader label={common.ergebnisLabel}>
+          {common.ergebnisHeading}
+        </CourtFinderHeader>
 
         <Container backgroundColor="white" overhangingBackground>
           <CourtDetails
