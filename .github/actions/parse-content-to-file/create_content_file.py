@@ -48,7 +48,7 @@ def collect_all_collection_data(collection_id):
             headers={
                 "Authorization": f"Bearer {CMS_AUTH_TOKEN}",
             })
-        print("status code", res.status_code)
+        print(f"status code {res.status_code} for getting {collection_id} on page {page}")
         assert res.status_code == 200
 
         response_json = json.loads(res.text)

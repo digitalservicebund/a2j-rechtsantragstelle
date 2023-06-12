@@ -7,3 +7,4 @@ public/
 *.enc
 tests/**/malformed.json
 *.zip
+*.py
