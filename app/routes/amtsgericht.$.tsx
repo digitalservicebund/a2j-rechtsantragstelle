@@ -57,7 +57,10 @@ export const Component = () => {
         />
       </Container>
       <Container>
-        <a href="#" className="ds-link-02-bold text-black underline">
+        <a
+          href="../amtsgericht/suche"
+          className="ds-link-02-bold text-black underline"
+        >
           Suche wiederholen
         </a>
       </Container>
