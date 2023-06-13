@@ -66,17 +66,22 @@ const anyNonCriticalWarning = (context: Context) => {
 };
 
 export const isIncomeTooHigh = (context: any) => {
+  const einkommen = context.einkommen?.einkommen
+    ? moneyToCents(context.einkommen.einkommen)
+    : 0;
+  const miete = context.miete?.miete ? moneyToCents(context.miete.miete) : 0;
+  const zahlungen =
+    context.weitereZahlungen?.weitereZahlungen == "no" &&
+    context.weitereZahlungenSumme?.weitereZahlungenSumme
+      ? moneyToCents(context.weitereZahlungenSumme.weitereZahlungenSumme)
+      : 0;
+  const unterhalt =
+    context.unterhalt?.isPayingUnterhalt == "yes" &&
+    context.unterhaltSumme?.unterhalt
+      ? moneyToCents(context.unterhaltSumme.unterhalt)
+      : 0;
   return (
-    (context.einkommen?.einkommen
-      ? moneyToCents(context.einkommen.einkommen)
-      : 0) -
-      (context.miete?.miete ? moneyToCents(context.miete.miete) : 0) -
-      (context.weitereZahlungenSumme?.weitereZahlungenSumme
-        ? moneyToCents(context.weitereZahlungenSumme.weitereZahlungenSumme)
-        : 0) -
-      (context.unterhaltSumme?.unterhalt
-        ? moneyToCents(context.unterhaltSumme.unterhalt)
-        : 0) >
+    einkommen - miete - zahlungen - unterhalt >
     freibetrag({
       working: context.erwerbstaetigkeit?.isErwerbstaetig === "yes",
       partnership: context.partnerschaft?.partnerschaft === "yes",
