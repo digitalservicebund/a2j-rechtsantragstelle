@@ -8,9 +8,15 @@ import { StrapiResultPageSchema } from "./StrapiResultPage";
 import { StrapiVorabCheckCommonSchema } from "./StrapiVorabCheckCommon";
 import { StrapiVorabCheckPageSchema } from "./StrapiVorabCheckPage";
 import { HasStrapiIdSchema } from "./HasStrapiId";
+import { StrapiAmtsgerichtCommonSchema } from "./StrapiAmtsgerichtCommon";
 
 export const StrapiFileContentSchema = z
   .object({
+    "amtsgericht-common": z.array(
+      HasStrapiIdSchema.extend({
+        attributes: StrapiAmtsgerichtCommonSchema,
+      })
+    ),
     "element-with-ids": z.array(
       HasStrapiIdSchema.extend({
         attributes: StrapiElementWithIdSchema,
