@@ -16,6 +16,8 @@ import { getBoxProps } from "~/services/props/getBoxProps";
 import { getHeadingProps } from "~/services/props/getHeadingProps";
 import { getHeaderProps } from "~/services/props/getHeaderProps";
 import { getParagraphProps } from "~/services/props/getParagraphProps";
+import Input from "./Input";
+import { getInputProps } from "~/services/props/getInputProps";
 
 type PageContentProps = {
   content: Array<StrapiContent>;
@@ -75,6 +77,8 @@ function cmsToReact(cms: StrapiContent) {
       );
     case "page.header":
       return <Header {...getHeaderProps(cms)} key={cms.id} />;
+    case "form-elements.input":
+      return <Input {...getInputProps(cms)} key={cms.id} />;
     case "page.box":
       return <Box {...getBoxProps(cms)} key={cms.id} />;
     case "page.info-box":

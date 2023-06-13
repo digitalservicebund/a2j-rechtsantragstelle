@@ -1,7 +1,6 @@
 import type { StrapiFormComponent } from "./models/StrapiFormComponent";
 import type { StrapiVorabCheckPage } from "./models/StrapiVorabCheckPage";
 import type { StrapiInput as InputContent } from "./models/StrapiInput";
-import type { StrapiErrorCategory } from "./models/StrapiErrorCategory";
 
 // FIXME: sammelsurrium
 
@@ -25,9 +24,3 @@ export function getRelevantInputContent(
   );
   return matchingElements[0] ?? { type: "text", label: inputName };
 }
-
-export const flattenErrorCodes = (
-  errors: { attributes: StrapiErrorCategory }[] = []
-) => {
-  return errors.map((e) => e.attributes.errorCodes).flat();
-};

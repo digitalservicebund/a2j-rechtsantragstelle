@@ -2,20 +2,35 @@ import type { ReactNode } from "react";
 import { useField } from "remix-validated-form";
 import classNames from "classnames";
 import { InputError, InputLabel } from "~/components";
-import type { StrapiErrorCategory } from "~/services/cms/models/StrapiErrorCategory";
-import { flattenErrorCodes } from "~/services/cms/getPageConfig";
+import { z } from "zod";
 
-type InputProps = {
-  name: string;
-  label?: ReactNode;
-  type?: string;
-  step?: string;
-  placeholder?: string;
-  prefix?: string;
-  suffix?: string;
-  defaultValue?: string;
-  errors?: { attributes: StrapiErrorCategory }[];
-};
+export const InputPropsSchema = z.object({
+  name: z.string(),
+  label: z.custom<ReactNode>().optional(),
+  type: z.string().optional(),
+  step: z.string().optional(),
+  placeholder: z.string().optional(),
+  prefix: z.string().optional(),
+  suffix: z.string().optional(),
+  defaultValue: z.string().optional(),
+  errors: z
+    .array(
+      z.object({
+        attributes: z.object({
+          name: z.string(),
+          errorCodes: z.array(
+            z.object({
+              code: z.string(),
+              text: z.string(),
+            })
+          ),
+        }),
+      })
+    )
+    .optional(),
+});
+
+export type InputProps = z.infer<typeof InputPropsSchema>;
 
 const Input = ({
   name,
@@ -29,7 +44,11 @@ const Input = ({
   errors,
 }: InputProps) => {
   const { error, getInputProps } = useField(name);
-  const flattenedErrorCodes = flattenErrorCodes(errors);
+
+  const flattenedErrorCodes = errors
+    ?.map((e) => e.attributes.errorCodes)
+    .flat();
+
   return (
     <div>
       {label && <InputLabel id={name}>{label}</InputLabel>}

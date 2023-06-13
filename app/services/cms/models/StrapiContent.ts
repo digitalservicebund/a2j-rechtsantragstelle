@@ -4,6 +4,7 @@ import { StrapiParagraphSchema } from "./StrapiParagraph";
 import { StrapiInfoBoxSchema } from "./StrapiInfoBox";
 import { StrapiBoxSchema } from "./StrapiBox";
 import { StrapiHeaderSchema } from "./StrapiHeader";
+import { StrapiInputSchema } from "./StrapiInput";
 
 export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiBoxSchema.merge(
@@ -29,6 +30,11 @@ export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiParagraphSchema.merge(
     z.object({
       __component: z.literal("basic.paragraph"),
+    })
+  ),
+  StrapiInputSchema.merge(
+    z.object({
+      __component: z.literal("form-elements.input"),
     })
   ),
 ]);
