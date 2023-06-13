@@ -4,6 +4,11 @@ import classNames from "classnames";
 import { InputError, InputLabel } from "~/components";
 import { z } from "zod";
 
+const ErrorMessagePropsSchema = z.object({
+  code: z.string(),
+  text: z.string(),
+});
+
 export const InputPropsSchema = z.object({
   name: z.string(),
   label: z.custom<ReactNode>().optional(),
@@ -13,21 +18,7 @@ export const InputPropsSchema = z.object({
   prefix: z.string().optional(),
   suffix: z.string().optional(),
   defaultValue: z.string().optional(),
-  errors: z
-    .array(
-      z.object({
-        attributes: z.object({
-          name: z.string(),
-          errorCodes: z.array(
-            z.object({
-              code: z.string(),
-              text: z.string(),
-            })
-          ),
-        }),
-      })
-    )
-    .optional(),
+  errorMessages: z.array(ErrorMessagePropsSchema).optional(),
 });
 
 export type InputProps = z.infer<typeof InputPropsSchema>;
@@ -41,13 +32,9 @@ const Input = ({
   prefix,
   suffix,
   defaultValue,
-  errors,
+  errorMessages,
 }: InputProps) => {
   const { error, getInputProps } = useField(name);
-
-  const flattenedErrorCodes = errors
-    ?.map((e) => e.attributes.errorCodes)
-    .flat();
 
   return (
     <div>
@@ -70,8 +57,7 @@ const Input = ({
       </div>
       {error && (
         <InputError inputName={name}>
-          {flattenedErrorCodes?.find((err) => err.code === error)?.text ??
-            error}
+          {errorMessages?.find((err) => err.code === error)?.text ?? error}
         </InputError>
       )}
     </div>

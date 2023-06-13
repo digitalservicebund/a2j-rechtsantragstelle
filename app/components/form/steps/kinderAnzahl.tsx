@@ -2,6 +2,7 @@ import { z } from "zod";
 import Input from "~/components/Input";
 import type { StepComponentProps } from "~/components/form/steps";
 import { getInputsContent } from "~/services/cms/getPageConfig";
+import { getInputProps } from "~/services/props/getInputProps";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 
 const schema = z.object({
@@ -18,17 +19,11 @@ export const kinderAnzahlStep = {
 
     return (
       <div className="ds-stack-40">
-        {inputElements.map((inputElement, idx) => (
+        {inputElements.map((inputElement) => (
           <Input
-            key={idx}
-            name={inputElement.name}
+            {...getInputProps(inputElement)}
+            key={inputElement.name}
             defaultValue={defaultValues?.[inputElement.name] || "0"}
-            label={inputElement.label}
-            type={inputElement.type}
-            placeholder={
-              inputElement.placeholder ? inputElement.placeholder : undefined
-            }
-            errors={inputElement.errors.data}
           />
         ))}
       </div>

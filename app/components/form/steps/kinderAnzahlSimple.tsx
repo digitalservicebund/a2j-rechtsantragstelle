@@ -2,6 +2,7 @@ import { z } from "zod";
 import Input from "~/components/Input";
 import type { StepComponentProps } from "~/components/form/steps";
 import { getRelevantInputContent } from "~/services/cms/getPageConfig";
+import { getInputProps } from "~/services/props/getInputProps";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 
 const schema = z.object({
@@ -12,16 +13,10 @@ export const kinderAnzahlSimpleStep = {
   schema,
   component: ({ content }: StepComponentProps) => {
     const fieldName = schema.keyof().Values.kidsTotal;
-    const inputContent = getRelevantInputContent(content, fieldName);
     return (
       <Input
+        {...getInputProps(getRelevantInputContent(content, fieldName))}
         name={fieldName}
-        type={inputContent.type}
-        label={inputContent.label}
-        placeholder={
-          inputContent.placeholder ? inputContent.placeholder : undefined
-        }
-        errors={inputContent.errors.data}
       />
     );
   },

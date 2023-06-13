@@ -4,9 +4,14 @@ import { InputPropsSchema } from "~/components/Input";
 import { omitNull } from "~/util/omitNull";
 
 export const getInputProps = (cmsData: StrapiInput): InputProps => {
+  const errorMessages = cmsData.errors.data?.flatMap(
+    (cmsError) => cmsError.attributes.errorCodes
+  );
+
   const props = {
     ...cmsData,
-    errors: cmsData.errors.data,
+    errorMessages,
   };
+
   return InputPropsSchema.parse(omitNull(props));
 };
