@@ -33,7 +33,9 @@ test("simple search with edge cases", async ({ page }) => {
 test("invalid search", async ({ page }) => {
   await amtsgericht.fillSearchField("1234");
   await amtsgericht.submitSearchForm();
-  await expect(page.locator("form")).toContainText("Ungültige Postleitzahl");
+  await expect(page.locator("form")).toContainText(
+    "String must contain exactly 5 character(s)"
+  );
   // TODO: title missing
   // await expectPageToBeAccessible({ page });
 });
