@@ -34,7 +34,7 @@ test("invalid search", async ({ page }) => {
   await amtsgericht.fillSearchField("1234");
   await amtsgericht.submitSearchForm();
   await expect(page.locator("form")).toContainText(
-    "String must contain exactly 5 character(s)"
+    "Postleitzahl muss genau 5 Zeichen lang sein"
   );
   // TODO: title missing
   // await expectPageToBeAccessible({ page });
