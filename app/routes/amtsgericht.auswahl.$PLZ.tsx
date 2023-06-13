@@ -43,6 +43,8 @@ export default function Index() {
           Im Bereich Ihrer Postleitzahl <strong>{zipCode}</strong> sind
           verschiedene Amtsgerichte zuständig. Wohnen Sie in einer dieser
           Straßen?
+          {/* marked(i18n(common.resultListHeading, { zipCode: zipCode })) */}
+          {/* { common.resultListHeading "...{{zipCode}}...." } */}
         </CourtFinderHeader>
       </Background>
       <Container paddingTop="48">
@@ -79,10 +81,10 @@ export default function Index() {
             size="large"
             id="backLink"
           >
-            Zurück
+            {common.backButton}
           </Button>
           <Button href={`${url}/default`} size="large" id="defaultButton">
-            Ich wohne in keiner dieser Straßen
+            {common.continueWithDefaultStreet}
           </Button>
         </ButtonContainer>
       </Container>

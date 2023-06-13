@@ -60,10 +60,10 @@ export default function Index() {
         <Container>
           <ButtonContainer>
             <Button href="#" look="tertiary" size="large">
-              Zurück
+              {common.backButton}
             </Button>
             <Button type="submit" size="large" id="submitButton">
-              Übernehmen & Weiter
+              {common.submitButton}
             </Button>
           </ButtonContainer>
         </Container>

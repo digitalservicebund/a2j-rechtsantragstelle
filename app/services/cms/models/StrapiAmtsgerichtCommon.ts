@@ -5,13 +5,17 @@ import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiAmtsgerichtCommonSchema = z
   .object({
+    backButton: z.string(),
+    continueWithDefaultStreet: z.string(),
     featureName: z.string(),
-    searchHeading: z.string(),
-    resultHeading: z.string(),
+    repeatSearch: z.string(),
     resultAddress: z.string(),
+    resultHeading: z.string(),
+    resultListHeading: z.string(),
     resultPhone: z.string(),
     resultWebsite: z.string(),
-    repeatSearch: z.string(),
+    searchHeading: z.string(),
+    submitButton: z.string(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
