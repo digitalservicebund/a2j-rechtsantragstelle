@@ -6,6 +6,8 @@ import ButtonContainer from "~/components/ButtonContainer";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import { getStrapiAmtsgerichtCommon } from "~/services/cms";
 import { findEdgeCases } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import RichText from "~/components/RichText";
+import { fillTemplate } from "~/util/fillTemplate";
 
 export const loader = async ({ params }: LoaderArgs) => {
   const zipCode = params.PLZ;
@@ -40,11 +42,12 @@ export default function Index() {
     <>
       <Background backgroundColor="blue">
         <CourtFinderHeader label={common.featureName}>
-          Im Bereich Ihrer Postleitzahl <strong>{zipCode}</strong> sind
-          verschiedene Amtsgerichte zuständig. Wohnen Sie in einer dieser
-          Straßen?
-          {/* marked(i18n(common.resultListHeading, { zipCode: zipCode })) */}
-          {/* { common.resultListHeading "...{{zipCode}}...." } */}
+          <RichText
+            markdown={fillTemplate({
+              template: common.resultListHeading,
+              replacements: { postcode: zipCode ?? "" },
+            })}
+          />
         </CourtFinderHeader>
       </Background>
       <Container paddingTop="48">

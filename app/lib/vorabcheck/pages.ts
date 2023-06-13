@@ -20,7 +20,7 @@ export const formPages: Record<string, StepInterface> = {
   kostenfreieBeratung: Steps.kostenfreieBeratungStep,
   kostenfreieBeratungWarnung: Steps.emptyStep,
   wurdeVerklagt: Steps.wurdeVerklagtStep,
-  wurdeVerklagtError: Steps.emptyStep, // sic!
+  wurdeVerklagtError: Steps.emptyStep,
   staatlicheLeistungen: Steps.staatlicheLeistungenStep,
   staatlicheLeistungenAbschlussJa: Steps.emptyStep,
   vermoegen: Steps.vermoegenStep,
