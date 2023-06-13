@@ -77,20 +77,28 @@ export const isIncomeTooHigh = (context: any) => {
       (context.unterhaltSumme?.unterhalt
         ? moneyToCents(context.unterhaltSumme.unterhalt)
         : 0) >
-    freibetrag(
-      context.erwerbstaetigkeit?.isErwerbstaetig === "yes",
-      context.partnerschaft?.partnerschaft === "yes",
-      context.einkommenPartner?.einkommenPartner
+    freibetrag({
+      working: context.erwerbstaetigkeit?.isErwerbstaetig === "yes",
+      partnership: context.partnerschaft?.partnerschaft === "yes",
+      partnerIncome: context.einkommenPartner?.einkommenPartner
         ? moneyToCents(context.einkommenPartner.einkommenPartner)
         : 0,
-      Number(String(context.kinderAnzahl?.kids6Below)?.replace(",", ".")),
-      Number(String(context.kinderAnzahl?.kids7To14)?.replace(",", ".")),
-      Number(String(context.kinderAnzahl?.kids15To18)?.replace(",", ".")),
-      Number(String(context.kinderAnzahl?.kids18Above)?.replace(",", ".")),
-      context.einkommenKinder?.einkommenKinder
+      childrenBelow6: Number(
+        String(context.kinderAnzahl?.kids6Below)?.replace(",", ".")
+      ),
+      children7To14: Number(
+        String(context.kinderAnzahl?.kids7To14)?.replace(",", ".")
+      ),
+      children15To18: Number(
+        String(context.kinderAnzahl?.kids15To18)?.replace(",", ".")
+      ),
+      childrenAbove18: Number(
+        String(context.kinderAnzahl?.kids18Above)?.replace(",", ".")
+      ),
+      childrenIncome: context.einkommenKinder?.einkommenKinder
         ? moneyToCents(context.einkommenKinder.einkommenKinder)
-        : 0
-    )
+        : 0,
+    })
   );
 };
 

@@ -1,13 +1,22 @@
-export function freibetrag(
-  working?: boolean,
-  partnership?: boolean,
-  partnerIncome?: number,
-  childrenBelow6?: number,
-  children7To14?: number,
-  children15To18?: number,
-  childrenAbove18?: number,
-  childrenIncome?: number
-): number {
+export function freibetrag({
+  working,
+  partnership,
+  partnerIncome,
+  childrenBelow6,
+  children7To14,
+  children15To18,
+  childrenAbove18,
+  childrenIncome,
+}: {
+  working?: boolean;
+  partnership?: boolean;
+  partnerIncome?: number;
+  childrenBelow6?: number;
+  children7To14?: number;
+  children15To18?: number;
+  childrenAbove18?: number;
+  childrenIncome?: number;
+}): number {
   let betrag = 57200;
 
   if (working) {
