@@ -24,29 +24,18 @@ export function freibetrag({
   }
 
   if (partnership) {
-    betrag += 55200;
-
-    if (partnerIncome) {
-      const partnerIcomeFreibetrag = Math.max(55200 - partnerIncome, 0);
-      betrag -= partnerIcomeFreibetrag;
-    }
+    betrag += Math.max(55200 - (partnerIncome ?? 0), 0);
   }
 
-  let childrenBetrag =
+  let childrenFreibetrag =
     (childrenBelow6 ?? 0) * 35000 +
     (children7To14 ?? 0) * 38300 +
     (children15To18 ?? 0) * 46200 +
     (childrenAbove18 ?? 0) * 44200;
 
-  if (childrenIncome) {
-    const childrenIncomeFreibetrag = Math.max(
-      childrenBetrag - childrenIncome,
-      0
-    );
-    betrag -= childrenIncomeFreibetrag;
-  }
+  betrag += Math.max(childrenFreibetrag - (childrenIncome ?? 0), 0);
 
-  return betrag - (childrenIncome ?? 0) - (partnerIncome ?? 0);
+  return betrag;
 }
 
 export function freibetragShort(
