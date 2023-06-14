@@ -18,23 +18,27 @@ export function getStateMachine(context?: any) {
   });
 }
 
+const getSteps = (context: any) => {
+  return Object.values(
+    getShortestPaths(getStateMachine(context), {
+      events: { SUBMIT: [{ type: "SUBMIT" }] },
+    })
+  ).map(({ state }) => state.value);
+};
+
 export const isFinalStep = (stepId: string) =>
   getStateMachine().getStateNodeByPath(stepId).type === "final";
 
 export const isStepReachable = (stepId: string, context: any) =>
-  Object.values(
-    getShortestPaths(getStateMachine(context), {
-      events: { SUBMIT: [{ type: "SUBMIT" }] },
-    })
-  )
-    .map(({ state }) => state.value)
-    .includes(stepId);
+  getSteps(context).includes(stepId);
 
 export const getNextStep = (stepId: string, context: any) =>
   getStateMachine(context).transition(stepId, { type: "SUBMIT" }).value;
 
 export const getPreviousStep = (stepId: string, context: any) =>
   getStateMachine(context).transition(stepId, { type: "BACK" }).value;
+
+export const getLastReachableStep = (context: any) => getSteps(context).at(-1);
 
 export const getProgressBar = (stepId: string) => {
   const machine = getStateMachine();
@@ -48,3 +52,5 @@ export const getProgressBar = (stepId: string) => {
   const current = node.type === "final" ? total : node.meta?.progressPosition;
   return { current, total };
 };
+
+export const getStepUrl = (stepId: string) => `/vorabcheck/${stepId}`;

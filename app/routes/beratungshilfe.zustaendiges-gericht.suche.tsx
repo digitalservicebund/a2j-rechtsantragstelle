@@ -1,4 +1,4 @@
-import type { ActionArgs, V2_MetaFunction } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Background, Button, Container } from "~/components";
@@ -10,6 +10,8 @@ import { z } from "zod";
 import { getStrapiAmtsgerichtCommon, getStrapiPage } from "~/services/cms";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
+import { getSession } from "~/sessions";
+import { getLastReachableStep, getStepUrl } from "~/services/flow";
 
 function isValidPostcode(postcode: string) {
   const postcodeNum = parseInt(postcode, 10);
@@ -35,13 +37,22 @@ export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
   { title: data ? data.metaData.title : location.pathname },
 ];
 
-export async function loader() {
+export async function loader({ request }: LoaderArgs) {
   const common = await getStrapiAmtsgerichtCommon();
   const cmsData = await getStrapiPage({
     slug: "beratungshilfe/zustaendiges-gericht/suche",
   });
 
-  return json({ common, content: cmsData.content, metaData: cmsData.meta });
+  const session = await getSession(request.headers.get("Cookie"));
+  const lastStep = getLastReachableStep(session.data);
+  const backButtonUrl = lastStep ? getStepUrl(lastStep.toString()) : null;
+
+  return json({
+    common,
+    content: cmsData.content,
+    metaData: cmsData.meta,
+    backButtonUrl,
+  });
 }
 
 export async function action({ request }: ActionArgs) {
@@ -53,7 +64,7 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function Index() {
-  const { common, content } = useLoaderData<typeof loader>();
+  const { common, content, backButtonUrl } = useLoaderData<typeof loader>();
 
   return (
     <Background backgroundColor="blue">
@@ -68,9 +79,11 @@ export default function Index() {
           </Container>
           <Container>
             <ButtonContainer>
-              <Button href="#" look="tertiary" size="large">
-                {common.backButton}
-              </Button>
+              {backButtonUrl && (
+                <Button href={backButtonUrl} look="tertiary" size="large">
+                  {common.backButton}
+                </Button>
+              )}
               <Button type="submit" size="large" id="submitButton">
                 {common.submitButton}
               </Button>
