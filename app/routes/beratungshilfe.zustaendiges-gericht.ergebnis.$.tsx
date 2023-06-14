@@ -36,7 +36,7 @@ export const loader = async ({ params }: LoaderArgs) => {
   }
 
   const { content, meta } = await getStrapiPage({
-    slug: "amtsgericht/ergebnis",
+    slug: "beratungshilfe/zustaendiges-gericht/ergebnis",
   });
 
   const common = await getStrapiAmtsgerichtCommon();

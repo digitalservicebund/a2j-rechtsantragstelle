@@ -28,7 +28,9 @@ export const loader = async ({ params }: LoaderArgs) => {
     {}
   );
 
-  const cmsData = await getStrapiPage({ slug: "amtsgericht/auswahl" });
+  const cmsData = await getStrapiPage({
+    slug: "beratungshilfe/zustaendiges-gericht/auswahl",
+  });
   const common = await getStrapiAmtsgerichtCommon();
 
   return json({

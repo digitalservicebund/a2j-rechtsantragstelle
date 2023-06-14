@@ -37,7 +37,9 @@ export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
 
 export async function loader() {
   const common = await getStrapiAmtsgerichtCommon();
-  const cmsData = await getStrapiPage({ slug: "amtsgericht/suche" });
+  const cmsData = await getStrapiPage({
+    slug: "beratungshilfe/zustaendiges-gericht/suche",
+  });
 
   return json({ common, content: cmsData.content, metaData: cmsData.meta });
 }
