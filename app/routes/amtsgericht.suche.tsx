@@ -49,25 +49,27 @@ export default function Index() {
 
   return (
     <Background backgroundColor="blue">
-      <CourtFinderHeader label={common.featureName}>
-        {common.searchHeading}
-      </CourtFinderHeader>
+      <div className="min-h-screen">
+        <CourtFinderHeader label={common.featureName}>
+          {common.searchHeading}
+        </CourtFinderHeader>
 
-      <ValidatedForm method="post" validator={validatorClient} noValidate>
-        <Container>
-          <PageContent content={content} />
-        </Container>
-        <Container>
-          <ButtonContainer>
-            <Button href="#" look="tertiary" size="large">
-              {common.backButton}
-            </Button>
-            <Button type="submit" size="large" id="submitButton">
-              {common.submitButton}
-            </Button>
-          </ButtonContainer>
-        </Container>
-      </ValidatedForm>
+        <ValidatedForm method="post" validator={validatorClient} noValidate>
+          <Container>
+            <PageContent content={content} />
+          </Container>
+          <Container>
+            <ButtonContainer>
+              <Button href="#" look="tertiary" size="large">
+                {common.backButton}
+              </Button>
+              <Button type="submit" size="large" id="submitButton">
+                {common.submitButton}
+              </Button>
+            </ButtonContainer>
+          </Container>
+        </ValidatedForm>
+      </div>
     </Background>
   );
 }
