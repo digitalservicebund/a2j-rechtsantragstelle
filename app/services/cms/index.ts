@@ -9,6 +9,7 @@ import { StrapiResultPageSchema } from "./models/StrapiResultPage";
 import { StrapiVorabCheckCommonSchema } from "./models/StrapiVorabCheckCommon";
 import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
 import { StrapiAmtsgerichtCommonSchema } from "./models/StrapiAmtsgerichtCommon";
+import type { StrapiPage } from "./models/StrapiPage";
 
 export type GetStrapiEntryOpts = {
   apiId: string;
@@ -27,7 +28,7 @@ const getStrapiEntry = async (
   const data = await getStrapiEntryFromSource({ locale: "de", ...opts });
   // remove "attributes" key
   // { id: 12, attributes: { text: "…" } } => { id: 12, text: "…" }
-  return { id: data.id, ...data.attributes };
+  return data && { id: data.id, ...data.attributes };
 };
 
 // single types getters
@@ -71,8 +72,15 @@ export const getStrapiResultPage = async (
     await getStrapiEntry({ apiId: "result-pages", ...opts })
   );
 
-export const getStrapiPage = async (opts: StrapiCollectionTypeGetterOpts) =>
-  StrapiPageSchema.parse(await getStrapiEntry({ apiId: "pages", ...opts }));
+export const getStrapiPage = async (opts: StrapiCollectionTypeGetterOpts) => {
+  const entry = await getStrapiEntry({ apiId: "pages", ...opts });
+  if (!entry) {
+    const error = new Error(`page missing in cms: ${opts.slug}`);
+    error.name = "StrapiPageNotFound";
+    throw error;
+  }
+  return StrapiPageSchema.parse(entry);
+};
 
 export const getStrapiVorabCheckPage = async (
   opts: StrapiCollectionTypeGetterOpts

@@ -38,12 +38,17 @@ export const loader = async ({ params }: LoaderArgs) => {
   }
   invariant(court);
 
-  const { content, meta } = await getStrapiPage({
+  const cmsData = await getStrapiPage({
     slug: "beratungshilfe/zustaendiges-gericht/ergebnis",
   });
 
   const common = await getStrapiAmtsgerichtCommon();
-  return json({ court, content, metaData: meta, common });
+  return json({
+    court,
+    content: cmsData.content,
+    metaData: cmsData.meta,
+    common,
+  });
 };
 
 export const Component = () => {
