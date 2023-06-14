@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { testPageToBeAccessible } from "./util/testPageToBeAccessible";
+import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
 
 const featureUrl = `/amtsgericht`;
 const searchUrl = `${featureUrl}/suche`;
@@ -10,30 +10,39 @@ const postcodeSingleResult = "80333";
 const postcodeMultipleResults = "22145";
 
 test.describe(searchUrl, () => {
-  // TODO: fix accessability
-  // testPageToBeAccessible(searchUrl);
+  test.beforeEach(async ({ page }) => {
+    await page.goto(searchUrl);
+  });
+
+  test("is accessible", async ({ page }) => {
+    await expectPageToBeAccessible({ page });
+  });
 
   test("finds a single result", async ({ page }) => {
-    await page.goto(searchUrl);
     await page.getByRole("textbox").fill(postcodeSingleResult);
     await page.locator(submitButtonSelector).click();
     await page.waitForURL(`${resultUrl}/${postcodeSingleResult}`);
+    await expectPageToBeAccessible({ page });
   });
 
   test("finds edgecases", async ({ page }) => {
-    await page.goto(searchUrl);
     await page.getByRole("textbox").fill(postcodeMultipleResults);
     await page.locator(submitButtonSelector).click();
     await page.waitForURL(`${selectionUrl}/${postcodeMultipleResults}`);
+    await expectPageToBeAccessible({ page });
   });
 });
 
 test.describe(resultUrl, () => {
-  // TODO: fix accessability
-  // testPageToBeAccessible(resultUrl);
+  test.beforeEach(async ({ page }) => {
+    await page.goto(`${resultUrl}/${postcodeSingleResult}`);
+  });
+
+  test("is accessible", async ({ page }) => {
+    await expectPageToBeAccessible({ page });
+  });
 
   test("shows relevant results", async ({ page }) => {
-    await page.goto(`${resultUrl}/${postcodeSingleResult}`);
     await expect(
       page.getByRole("heading").filter({ hasText: "Adresse" })
     ).toHaveCount(1);
@@ -46,37 +55,37 @@ test.describe(resultUrl, () => {
   });
 
   test("has working backlink", async ({ page }) => {
-    await page.goto(`${resultUrl}/${postcodeSingleResult}`);
     await page.locator("#backLink").click();
     await page.waitForURL(searchUrl);
   });
 });
 
 test.describe(selectionUrl, () => {
-  // TODO: fix accessability
-  // testPageToBeAccessible(selectionUrl);
+  test.beforeEach(async ({ page }) => {
+    await page.goto(`${selectionUrl}/${postcodeMultipleResults}`);
+  });
+
+  test("is accessible", async ({ page }) => {
+    await expectPageToBeAccessible({ page });
+  });
 
   test("shows relevant results", async ({ page }) => {
-    await page.goto(`${selectionUrl}/${postcodeMultipleResults}`);
     const resultList = page.locator("#resultList");
     expect(await resultList.getByRole("link").count()).toEqual(5);
   });
 
   test("has results that lead to courts", async ({ page }) => {
-    await page.goto(`${selectionUrl}/${postcodeMultipleResults}`);
     const resultList = page.locator("#resultList");
     await resultList.getByRole("link").first().click();
     await page.waitForURL(`${resultUrl}/${postcodeMultipleResults}/**`);
   });
 
   test("has working backlink", async ({ page }) => {
-    await page.goto(`${selectionUrl}/${postcodeMultipleResults}`);
     await page.locator("#backLink").click();
     await page.waitForURL(searchUrl);
   });
 
   test("has working default button", async ({ page }) => {
-    await page.goto(`${selectionUrl}/${postcodeMultipleResults}`);
     await page.locator("#defaultButton").click();
     await page.waitForURL(`${resultUrl}/${postcodeMultipleResults}/default`);
   });

@@ -1,4 +1,4 @@
-import type { ActionArgs } from "@remix-run/node";
+import type { ActionArgs, V2_MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Background, Button, Container } from "~/components";
@@ -31,11 +31,15 @@ const serverSchema = clientSchema.refine(
 const validatorClient = withZod(clientSchema);
 const validatorServer = withZod(serverSchema);
 
+export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
+  { title: data ? data.metaData.title : location.pathname },
+];
+
 export async function loader() {
   const common = await getStrapiAmtsgerichtCommon();
   const cmsData = await getStrapiPage({ slug: "amtsgericht/suche" });
 
-  return json({ common, content: cmsData.content });
+  return json({ common, content: cmsData.content, metaData: cmsData.meta });
 }
 
 export async function action({ request }: ActionArgs) {

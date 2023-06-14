@@ -1,13 +1,17 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Background, Button, Container } from "~/components";
 import ButtonContainer from "~/components/ButtonContainer";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
-import { getStrapiAmtsgerichtCommon } from "~/services/cms";
+import { getStrapiAmtsgerichtCommon, getStrapiPage } from "~/services/cms";
 import { findEdgeCases } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import RichText from "~/components/RichText";
 import { fillTemplate } from "~/util/fillTemplate";
+
+export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
+  { title: data ? data.metaData.title : location.pathname },
+];
 
 export const loader = async ({ params }: LoaderArgs) => {
   const zipCode = params.PLZ;
@@ -24,12 +28,14 @@ export const loader = async ({ params }: LoaderArgs) => {
     {}
   );
 
+  const cmsData = await getStrapiPage({ slug: "amtsgericht/auswahl" });
   const common = await getStrapiAmtsgerichtCommon();
 
   return json({
     zipCode,
     edgeCasesGroupedByLetter,
     common,
+    metaData: cmsData.meta,
     url: `/amtsgericht/ergebnis/${zipCode}`,
   });
 };
