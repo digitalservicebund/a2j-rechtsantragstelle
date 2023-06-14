@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
 
-const featureUrl = `/amtsgericht`;
+const featureUrl = `/beratungshilfe/zustaendiges-gericht`;
 const searchUrl = `${featureUrl}/suche`;
 const resultUrl = `${featureUrl}/ergebnis`;
 const selectionUrl = `${featureUrl}/auswahl`;

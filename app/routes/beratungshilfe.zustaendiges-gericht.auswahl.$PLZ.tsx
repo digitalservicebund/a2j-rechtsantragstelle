@@ -17,7 +17,7 @@ export const loader = async ({ params }: LoaderArgs) => {
   const zipCode = params.PLZ;
   const edgeCases = findEdgeCases({ zipCode });
   if (edgeCases.length == 0) {
-    return redirect(`/amtsgericht/${zipCode}`);
+    return redirect(`/beratungshilfe/zustaendiges-gericht/${zipCode}`);
   }
 
   const edgeCasesGroupedByLetter = edgeCases.reduce(
@@ -36,7 +36,7 @@ export const loader = async ({ params }: LoaderArgs) => {
     edgeCasesGroupedByLetter,
     common,
     metaData: cmsData.meta,
-    url: `/amtsgericht/ergebnis/${zipCode}`,
+    url: `/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`,
   });
 };
 
@@ -85,7 +85,7 @@ export default function Index() {
         </ul>
         <ButtonContainer>
           <Button
-            href="/amtsgericht/suche"
+            href="/beratungshilfe/zustaendiges-gericht/suche"
             look="tertiary"
             size="large"
             id="backLink"

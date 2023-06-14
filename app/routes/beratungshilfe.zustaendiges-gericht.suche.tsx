@@ -45,7 +45,9 @@ export async function loader() {
 export async function action({ request }: ActionArgs) {
   const result = await validatorServer.validate(await request.formData());
   if (result.error) return validationError(result.error);
-  return redirect(`../amtsgericht/ergebnis/${result.data?.postcode}`);
+  return redirect(
+    `../beratungshilfe/zustaendiges-gericht/ergebnis/${result.data?.postcode}`
+  );
 }
 
 export default function Index() {

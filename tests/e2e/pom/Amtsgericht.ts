@@ -10,7 +10,7 @@ export class Amtsgericht {
   }
 
   async goto() {
-    await this.page.goto("/amtsgericht/suche");
+    await this.page.goto("/beratungshilfe/zustaendiges-gericht/suche");
   }
 
   async fillSearchField(value: string) {
