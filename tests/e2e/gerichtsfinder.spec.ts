@@ -14,7 +14,7 @@ test.describe(searchUrl, () => {
     await page.goto(searchUrl);
   });
 
-  test("is accessible", async ({ page }) => {
+  test("search page is accessible", async ({ page }) => {
     await expectPageToBeAccessible({ page });
   });
 
@@ -38,7 +38,7 @@ test.describe(resultUrl, () => {
     await page.goto(`${resultUrl}/${postcodeSingleResult}`);
   });
 
-  test("is accessible", async ({ page }) => {
+  test("result page is accessible", async ({ page }) => {
     await expectPageToBeAccessible({ page });
   });
 
@@ -65,7 +65,7 @@ test.describe(selectionUrl, () => {
     await page.goto(`${selectionUrl}/${postcodeMultipleResults}`);
   });
 
-  test("is accessible", async ({ page }) => {
+  test("selection page is accessible", async ({ page }) => {
     await expectPageToBeAccessible({ page });
   });
 

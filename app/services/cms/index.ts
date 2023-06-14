@@ -9,7 +9,6 @@ import { StrapiResultPageSchema } from "./models/StrapiResultPage";
 import { StrapiVorabCheckCommonSchema } from "./models/StrapiVorabCheckCommon";
 import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
 import { StrapiAmtsgerichtCommonSchema } from "./models/StrapiAmtsgerichtCommon";
-import type { StrapiPage } from "./models/StrapiPage";
 
 export type GetStrapiEntryOpts = {
   apiId: string;
