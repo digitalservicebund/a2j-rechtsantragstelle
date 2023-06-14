@@ -31,9 +31,12 @@ export const loader = async ({ params }: LoaderArgs) => {
   try {
     court = findCourt({ zipCode, streetSlug });
   } catch (err) {
-    console.error(err);
-    console.error(`Parameters: zipCode=${zipCode}, streetSlug=${streetSlug}`);
+    throw new Response(null, {
+      status: 404,
+      statusText: "Not Found",
+    });
   }
+  invariant(court);
 
   const { content, meta } = await getStrapiPage({
     slug: "beratungshilfe/zustaendiges-gericht/ergebnis",
@@ -45,9 +48,6 @@ export const loader = async ({ params }: LoaderArgs) => {
 
 export const Component = () => {
   const { court, content, common } = useLoaderData<typeof loader>();
-  if (!court) {
-    return <div>Kein passendes Amtsgericht gefunden. PLZ überprüfen?</div>;
-  }
 
   return (
     <>
