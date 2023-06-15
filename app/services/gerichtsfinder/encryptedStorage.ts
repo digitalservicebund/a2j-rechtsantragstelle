@@ -5,7 +5,7 @@ import zlib from "node:zlib";
 import fs from "node:fs";
 import path from "node:path";
 import { applyDataConversions } from "./convertJsonDataTable";
-import { extractJsonFilesFromZip } from "~/lib/io";
+import { extractJsonFilesFromZip } from "~/util/file/extractJsonFilesFromZip";
 import dotenv from "dotenv";
 
 dotenv.config();

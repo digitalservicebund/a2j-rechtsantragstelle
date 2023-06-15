@@ -1,17 +1,7 @@
-import { normalizeFilepath, extractJsonFilesFromZip } from "~/lib/io";
+import { extractJsonFilesFromZip } from "~/util/file/extractJsonFilesFromZip";
 
 afterEach(() => {
   jest.clearAllMocks();
-});
-
-describe("normalizeFilepath", () => {
-  it("normalizes relative paths", () => {
-    expect(normalizeFilepath("./relative")).toBe(`${process.cwd()}/relative`);
-  });
-
-  it("normalizes absolute paths", () => {
-    expect(normalizeFilepath("/absolute")).toBe(`/absolute`);
-  });
 });
 
 describe("extractJsonFilesFromZip", () => {

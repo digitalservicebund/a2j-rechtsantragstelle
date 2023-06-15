@@ -1,12 +1,7 @@
 import path from "node:path";
 import fs from "node:fs";
 import { unzipSync, strFromU8 } from "fflate";
-
-export function normalizeFilepath(filepath: string) {
-  return path.isAbsolute(filepath)
-    ? path.resolve(filepath)
-    : path.resolve(path.join(process.cwd(), filepath));
-}
+import { normalizeFilepath } from "./normalizeFilepath";
 
 export function extractJsonFilesFromZip(pathToZipFile: string) {
   let fileContent = fs.readFileSync(normalizeFilepath(pathToZipFile));
