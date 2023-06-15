@@ -75,15 +75,13 @@ export default function Index() {
                   </h2>
                   <ul className="list-none py-10 pl-0">
                     {edgeCasesForLetter.map((edgeCase) => (
-                      <li key={edgeCase.streetSlug}>
-                        <div>
-                          <a
-                            href={`${url}/${edgeCase.streetSlug}`}
-                            className="leading-9 underline"
-                          >
-                            {edgeCase.street}
-                          </a>
-                        </div>
+                      <li key={edgeCase.streetSlug} className="px-8">
+                        <a
+                          href={`${url}/${edgeCase.streetSlug}`}
+                          className="leading-9 underline"
+                        >
+                          {edgeCase.street}
+                        </a>
                       </li>
                     ))}
                   </ul>
