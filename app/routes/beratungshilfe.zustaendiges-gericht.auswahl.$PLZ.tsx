@@ -8,6 +8,7 @@ import { getStrapiAmtsgerichtCommon, getStrapiPage } from "~/services/cms";
 import { findEdgeCases } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import RichText from "~/components/RichText";
 import { fillTemplate } from "~/util/fillTemplate";
+import Heading from "~/components/Heading";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
   { title: data ? data.metaData.title : location.pathname },
@@ -59,6 +60,11 @@ export default function Index() {
         </CourtFinderHeader>
       </Background>
       <Container paddingTop="48">
+        <Heading
+          tagName="h2"
+          look="ds-heading-03-reg"
+          text={common.resultListSubHeading}
+        />
         <ul className="list-none pl-0 pt-48 pb-32" id="resultList">
           {edgeCasesGroupedByLetter &&
             Object.entries(edgeCasesGroupedByLetter).map(

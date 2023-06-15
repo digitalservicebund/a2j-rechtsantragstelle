@@ -12,6 +12,7 @@ export const StrapiAmtsgerichtCommonSchema = z
     resultAddress: z.string(),
     resultHeading: z.string(),
     resultListHeading: z.string(),
+    resultListSubHeading: z.string(),
     resultPhone: z.string(),
     resultWebsite: z.string(),
     searchHeading: z.string(),
