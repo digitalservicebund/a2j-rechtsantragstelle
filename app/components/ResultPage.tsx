@@ -135,7 +135,7 @@ const ResultPage = ({
             className="mb-16"
           />
           {reasonsToDisplay.map((reason, idx) => (
-            <div key={idx}>
+            <div key={reason.elementId}>
               <PageContent content={reason.element} />
               {idx < reasonsToDisplay.length - 1 && <hr className="my-24" />}
             </div>
