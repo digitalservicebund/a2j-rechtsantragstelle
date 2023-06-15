@@ -9,5 +9,6 @@ module.exports = {
   rules: {
     "sonarjs/no-duplicate-string": "warn",
     "sonarjs/no-small-switch": "warn",
+    camelcase: ["error", { properties: "always", allow: ["^v2_", "^V2_"] }],
   },
 };

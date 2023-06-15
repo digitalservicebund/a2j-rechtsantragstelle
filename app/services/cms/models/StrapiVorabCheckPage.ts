@@ -9,6 +9,7 @@ import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 
 export const StrapiVorabCheckPageSchema = z
   .object({
+    // eslint-disable-next-line camelcase
     pre_form: z.array(StrapiContentSchema),
     form: z.array(StrapiFormComponentSchema),
   })

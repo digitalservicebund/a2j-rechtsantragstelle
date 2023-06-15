@@ -19,6 +19,7 @@ export const StrapiImageSchema = z.object({
           formats: z.string().nullable(),
           hash: z.string(),
           provider: z.string(),
+          // eslint-disable-next-line camelcase
           provider_metadata: z.string().nullable(),
           createdAt: z.string().datetime({ precision: 3 }),
           updatedAt: z.string().datetime({ precision: 3 }),
