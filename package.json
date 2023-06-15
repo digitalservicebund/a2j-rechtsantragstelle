@@ -50,7 +50,7 @@
     "@axe-core/playwright": "^4.7.3",
     "@faker-js/faker": "^8.0.2",
     "@playwright/test": "^1.35.1",
-    "@remix-run/dev": "^1.17.0",
+    "@remix-run/dev": "^1.17.1",
     "@remix-run/eslint-config": "^1.17.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
