@@ -36,3 +36,23 @@ test("invalid search", async ({ page }) => {
   );
   await expectPageToBeAccessible({ page });
 });
+
+test("back button works", async ({ page, baseURL }) => {
+  await page.goto("/beratungshilfe/zustaendiges-gericht/suche?returnToHere", {
+    referer: `${baseURL}/beratungshilfe`,
+  });
+  await page.getByRole("link", { name: "Zurück" }).click();
+  await page.waitForURL("/beratungshilfe");
+});
+
+test("back button works after searching", async ({ page, baseURL }) => {
+  await page.goto("/beratungshilfe/zustaendiges-gericht/suche?returnToHere", {
+    referer: `${baseURL}/beratungshilfe`,
+  });
+  await amtsgericht.fillSearchField("13127");
+  await amtsgericht.submitSearchForm();
+  await expect(page.locator("h1")).toContainText(amtsgericht.resultHeading);
+  await page.getByRole("link", { name: "Suche wiederholen" }).click();
+  await page.getByRole("link", { name: "Zurück" }).click();
+  await page.waitForURL("/beratungshilfe");
+});

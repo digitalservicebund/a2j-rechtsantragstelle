@@ -10,8 +10,8 @@ import { z } from "zod";
 import { getStrapiAmtsgerichtCommon, getStrapiPage } from "~/services/cms";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
-import { getSession } from "~/sessions";
-import { getLastReachableStep, getStepUrl } from "~/services/flow";
+import { commitSession, getSession } from "~/sessions";
+import { getReturnToURL } from "~/services/routing/getReturnToURL";
 
 function isValidPostcode(postcode: string) {
   const postcodeNum = parseInt(postcode, 10);
@@ -34,25 +34,28 @@ const validatorClient = withZod(clientSchema);
 const validatorServer = withZod(serverSchema);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
-  { title: data ? data.metaData.title : location.pathname },
+  { title: data ? data.title : location.pathname },
 ];
 
 export async function loader({ request }: LoaderArgs) {
-  const common = await getStrapiAmtsgerichtCommon();
-  const cmsData = await getStrapiPage({
+  const { url: backURL, session } = getReturnToURL({
+    request,
+    session: await getSession(request.headers.get("Cookie")),
+  });
+
+  const { content, meta } = await getStrapiPage({
     slug: "beratungshilfe/zustaendiges-gericht/suche",
   });
 
-  const session = await getSession(request.headers.get("Cookie"));
-  const lastStep = getLastReachableStep(session.data);
-  const backButtonUrl = lastStep ? getStepUrl(lastStep.toString()) : null;
-
-  return json({
-    common,
-    content: cmsData.content,
-    metaData: cmsData.meta,
-    backButtonUrl,
-  });
+  return json(
+    {
+      content,
+      common: await getStrapiAmtsgerichtCommon(),
+      title: meta.title,
+      backURL,
+    },
+    { headers: { "Set-Cookie": await commitSession(session) } }
+  );
 }
 
 export async function action({ request }: ActionArgs) {
@@ -64,7 +67,7 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function Index() {
-  const { common, content, backButtonUrl } = useLoaderData<typeof loader>();
+  const { common, content, backURL } = useLoaderData<typeof loader>();
 
   return (
     <Background backgroundColor="blue">
@@ -79,8 +82,8 @@ export default function Index() {
           </Container>
           <Container>
             <ButtonContainer>
-              {backButtonUrl && (
-                <Button href={backButtonUrl} look="tertiary" size="large">
+              {backURL && (
+                <Button href={backURL} look="tertiary" size="large">
                   {common.backButton}
                 </Button>
               )}
