@@ -21,13 +21,10 @@ import { getNavbarProps } from "./services/props/getNavbarProps";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: fontsStylesheet },
-  {
-    rel: "stylesheet",
-    href: stylesheet,
-  },
+  { rel: "stylesheet", href: stylesheet },
 ];
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async () => {
   const footer = getFooterProps(await getStrapiFooter());
   const navigation = getNavbarProps(await getStrapiNavigation());
 
