@@ -3,9 +3,11 @@ import { getWebConfig } from "../config";
 import { useEffect, useState } from "react";
 import posthog from "posthog-js";
 import { analyticsConsentFormField } from "~/routes/action.enable-analytics";
-import { Button } from "~/components";
+import type { CommonWrapperProps } from "~/components";
+import { Button, Container } from "~/components";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
+import ButtonContainer from "~/components/ButtonContainer";
 
 type AnalyticsProps = {
   hasTrackingConsent: boolean;
@@ -36,23 +38,43 @@ export function Analytics({ hasTrackingConsent }: AnalyticsProps) {
   if (hasTrackingConsent) {
     return <></>;
   }
+  const containerProps: CommonWrapperProps = {
+    paddingBottom: "16",
+    paddingTop: "16",
+    backgroundColor: "white",
+  };
 
   return (
-    <div className="fixed bottom-0 right-0 p-20">
-      <analyticsFetcher.Form
-        method="post"
-        action="/action/enable-analytics"
-        className="border border-gray-800 p-8"
-      >
-        <Heading tagName="h3" text="Cookies" look="ds-heading-03-reg" />
-        <Paragraph text="We use cookies to analyze our traffic and create a smooth user experience." />
-        <Button
-          name={analyticsConsentFormField}
-          value="true"
-          type="submit"
-          look="primary"
-          text="Akzeptieren"
-        />
+    <div className="fixed bottom-0 right-0 m-20 border border-gray-800">
+      <analyticsFetcher.Form method="post" action="/action/enable-analytics">
+        <Container {...containerProps}>
+          <Heading
+            tagName="h3"
+            text="Cookies Consent"
+            look="ds-heading-03-reg"
+          />
+        </Container>
+        <Container {...containerProps}>
+          <Paragraph text="Wir verwenden Cookies um ein optimales Benutzererlebnis zu ermöglichen." />
+        </Container>
+        <Container {...containerProps}>
+          <ButtonContainer>
+            <Button
+              name={analyticsConsentFormField}
+              value="false"
+              type="submit"
+              look="tertiary"
+              text="Ablehnen"
+            />
+            <Button
+              name={analyticsConsentFormField}
+              value="true"
+              type="submit"
+              look="primary"
+              text="Akzeptieren"
+            />
+          </ButtonContainer>
+        </Container>
       </analyticsFetcher.Form>
     </div>
   );
