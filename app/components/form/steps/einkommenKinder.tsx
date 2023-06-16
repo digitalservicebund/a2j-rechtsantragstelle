@@ -17,7 +17,6 @@ export const einkommenKinderStep = {
       <Input
         {...getInputProps(getRelevantInputContent(content, fieldName))}
         name={fieldName}
-        suffix="€"
       />
     );
   },

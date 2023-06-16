@@ -17,7 +17,6 @@ export const weitereZahlungenSummeStep = {
       <Input
         {...getInputProps(getRelevantInputContent(content, fieldName))}
         name={fieldName}
-        suffix="€"
       />
     );
   },

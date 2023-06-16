@@ -9,6 +9,7 @@ export const StrapiInputSchema = z
     label: z.string().nullable(),
     type: z.enum(["text", "number"]),
     placeholder: z.string().nullable(),
+    suffix: z.string().nullable(),
     errors: z
       .object({
         data: z
