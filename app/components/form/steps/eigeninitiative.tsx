@@ -7,5 +7,5 @@ const schema = z.object({ hasHelpedThemselves: YesNoAnswer });
 export const eigeninitiativeStep = {
   schema,
   component: ({ content }: StepComponentProps) =>
-    yesNoRadioGroup(content, schema),
+    yesNoRadioGroup({ content, schema }),
 };

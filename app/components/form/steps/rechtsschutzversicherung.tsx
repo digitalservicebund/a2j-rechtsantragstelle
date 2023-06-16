@@ -7,5 +7,5 @@ const schema = z.object({ hasRechtsschutzversicherung: YesNoAnswer });
 export const rechtsschutzversicherungStep = {
   schema,
   component: ({ content }: StepComponentProps) =>
-    yesNoRadioGroup(content, schema),
+    yesNoRadioGroup({ content, schema }),
 };

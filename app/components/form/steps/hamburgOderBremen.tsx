@@ -7,5 +7,5 @@ const schema = z.object({ isHamburgOderBremen: YesNoAnswer });
 export const hamburgOderBremenStep = {
   schema,
   component: ({ content }: StepComponentProps) =>
-    yesNoRadioGroup(content, schema),
+    yesNoRadioGroup({ content, schema }),
 };

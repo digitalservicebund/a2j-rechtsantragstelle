@@ -9,10 +9,11 @@ export const defaultYesNoOptions = [
   { value: YesNoAnswer.enum.yes, text: "Ja" },
 ];
 
-export function yesNoRadioGroup(
-  content: StrapiFormComponent[] = [],
-  schema: z.AnyZodObject
-) {
+type YesNoRadioGroup = {
+  schema: z.AnyZodObject;
+  content: StrapiFormComponent[];
+};
+export function yesNoRadioGroup({ schema, content = [] }: YesNoRadioGroup) {
   const fieldname = schema.keyof()._def.values[0] as string;
   return (
     <RadioGroupWithContent

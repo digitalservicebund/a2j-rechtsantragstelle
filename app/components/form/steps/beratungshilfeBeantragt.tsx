@@ -7,5 +7,5 @@ const schema = z.object({ hasBeratungshilfeBeantragt: YesNoAnswer });
 export const beratungshilfeBeantragtStep = {
   schema,
   component: ({ content }: StepComponentProps) =>
-    yesNoRadioGroup(content, schema),
+    yesNoRadioGroup({ content, schema }),
 };
