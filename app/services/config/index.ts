@@ -12,6 +12,8 @@ const getNodeOrWebEnv = (): Record<string, string> =>
 
 export function getWebConfig() {
   return {
+    POSTHOG_API_HOST: getNodeOrWebEnv().POSTHOG_API_HOST?.trim() ?? "",
+    POSTHOG_API_KEY: getNodeOrWebEnv().POSTHOG_API_KEY?.trim() ?? "",
     SENTRY_DSN: getNodeOrWebEnv().SENTRY_DSN?.trim() ?? "",
     ENVIRONMENT: getNodeOrWebEnv().ENVIRONMENT ?? "local",
   };
