@@ -9,6 +9,7 @@ import { findEdgeCases } from "~/services/gerichtsfinder/amtsgerichtData.server"
 import RichText from "~/components/RichText";
 import { fillTemplate } from "~/util/fillTemplate";
 import Heading from "~/components/Heading";
+import { splitObjectsByFirstLetter } from "~/lib/strings";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
   { title: data ? data.meta.title : location.pathname },
@@ -21,21 +22,13 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     return redirect(`/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`);
   }
 
-  const edgeCasesGroupedByLetter = edgeCases.reduce(
-    (acc: { [x: string]: ReturnType<typeof findEdgeCases> }, edgeCase) => {
-      (acc[edgeCase.STRN[0]] = acc[edgeCase.STRN[0]] ?? []).push(edgeCase);
-      return acc;
-    },
-    {}
-  );
-
   // Rmove PLZ from slug
   const { pathname } = new URL(request.url);
   const slug = pathname.substring(0, pathname.lastIndexOf("/"));
 
   return json({
     zipCode,
-    edgeCasesGroupedByLetter,
+    edgeCasesGroupedByLetter: splitObjectsByFirstLetter(edgeCases, "STRN"),
     common: await getStrapiAmtsgerichtCommon(),
     meta: (await getStrapiPage({ slug })).meta,
     url: `/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`,
