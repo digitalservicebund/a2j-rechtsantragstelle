@@ -1,28 +1,23 @@
-export interface config {
+export interface Config {
   STRAPI_API: string;
   STRAPI_HOST: string;
   STRAPI_ACCESS_KEY: string;
   CMS: string;
 }
 
-export interface webConfig {
-  SENTRY_DSN: string;
-  ENVIRONMENT: string;
-}
+let instance: Config | undefined = undefined;
 
-let instance: config | undefined = undefined;
-
-const getNodeOrWebEnv = () =>
+const getNodeOrWebEnv = (): Record<string, string> =>
   typeof window !== "undefined" ? (window as any)?.ENV : process.env;
 
-export function getWebConfig(): webConfig {
+export function getWebConfig() {
   return {
     SENTRY_DSN: getNodeOrWebEnv().SENTRY_DSN?.trim() ?? "",
     ENVIRONMENT: getNodeOrWebEnv().ENVIRONMENT ?? "local",
   };
 }
 
-export default function get(): config {
+export default function get(): Config {
   if (instance === undefined) {
     const STRAPI_API = process.env.STRAPI_API?.trim();
     const STRAPI_HOST = process.env.STRAPI_HOST?.trim();
