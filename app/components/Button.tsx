@@ -41,8 +41,8 @@ function Button({
       "ds-button-ghost": look == "ghost",
       "ds-button-large": size == "large",
       "ds-button-small": size == "small",
-      "ds-button-with-icon": iconLeft || iconRight,
-      "ds-button-with-icon-only": (iconLeft || iconRight) && !children,
+      "ds-button-with-icon": iconLeft ?? iconRight,
+      "ds-button-with-icon-only": (iconLeft ?? iconRight) && !children,
       "ds-button-full-width": fullWidth,
     },
     props.className
