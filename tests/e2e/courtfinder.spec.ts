@@ -62,12 +62,20 @@ test.describe("form validation", () => {
   });
 });
 
-test("single result contains relevant content", async ({ page }) => {
-  await courtfinder.searchPLZSingleResult();
-  const h1 = page.locator("h1");
-  await expect(h1).toContainText("zuständiges Amtsgericht");
-  await expect(page.getByText(courtfinder.singleResultPLZ)).toBeVisible();
-  await expectSingleCourtContent(courtfinder);
+test.describe("result page", () => {
+  test("contains relevant content", async ({ page }) => {
+    await courtfinder.searchPLZSingleResult();
+    const h1 = page.locator("h1");
+    await expect(h1).toContainText("zuständiges Amtsgericht");
+    await expect(page.getByText(courtfinder.singleResultPLZ)).toBeVisible();
+    await expectSingleCourtContent(courtfinder);
+  });
+
+  test("redirects to edge case if edge cases exist", async ({ page }) => {
+    const multiResultLink = `${courtfinder.resultURL}/${courtfinder.multipleResultPLZ}`;
+    await page.goto(multiResultLink);
+    expect(page.url()).toContain(courtfinder.selectiontURL);
+  });
 });
 
 test.describe("edge cases results", () => {
@@ -88,6 +96,12 @@ test.describe("edge cases results", () => {
     await courtfinder.searchPLZEdgeCases();
     await page.locator("#defaultButton").click();
     await expectSingleCourtContent(courtfinder);
+  });
+
+  test("redirects to result if no edge cases exist", async ({ page }) => {
+    const multiResultLink = `${courtfinder.selectiontURL}/${courtfinder.singleResultPLZ}`;
+    await page.goto(multiResultLink);
+    expect(page.url()).toContain(courtfinder.resultURL);
   });
 });
 

@@ -5,6 +5,7 @@ export class CourtFinder {
   readonly baseURL: string = "/beratungshilfe/zustaendiges-gericht";
   readonly searchURL: string = `${this.baseURL}/suche`;
   readonly resultURL: string = `${this.baseURL}/ergebnis`;
+  readonly selectiontURL: string = `${this.baseURL}/auswahl`;
   readonly singleResultPLZ = "13086";
   readonly multipleResultPLZ = "20457";
   readonly referrer = "/beratungshilfe";
