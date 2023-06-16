@@ -12,11 +12,11 @@ const schema = z.object({
 export const mieteStep = {
   schema,
   component: ({ content }: StepComponentProps) => {
-    const fieldName = schema.keyof().Values.miete;
+    const inputName = schema.keyof().Values.miete;
     return (
       <Input
-        {...getInputProps(getRelevantInputContent(content, fieldName))}
-        name={fieldName}
+        {...getInputProps(getRelevantInputContent({ inputName, content }))}
+        name={inputName}
       />
     );
   },

@@ -12,11 +12,11 @@ const schema = z.object({
 export const kinderAnzahlSimpleStep = {
   schema,
   component: ({ content }: StepComponentProps) => {
-    const fieldName = schema.keyof().Values.kidsTotal;
+    const inputName = schema.keyof().Values.kidsTotal;
     return (
       <Input
-        {...getInputProps(getRelevantInputContent(content, fieldName))}
-        name={fieldName}
+        {...getInputProps(getRelevantInputContent({ inputName, content }))}
+        name={inputName}
       />
     );
   },

@@ -15,10 +15,15 @@ export function getInputsContent(content: StrapiFormComponent[]) {
   ) as InputContent[];
 }
 
-export function getRelevantInputContent(
-  content: StrapiFormComponent[] = [],
-  inputName: string
-) {
+type RelevantInputContent = {
+  content: StrapiFormComponent[];
+  inputName: string;
+};
+
+export function getRelevantInputContent({
+  inputName,
+  content = [],
+}: RelevantInputContent) {
   const matchingElements = getInputsContent(content).filter(
     (el) => el.name === inputName
   );
