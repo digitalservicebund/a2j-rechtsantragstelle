@@ -3,7 +3,6 @@ on:
   workflow_call:
     secrets:
       SONAR_TOKEN: [required: true]
-      GITHUB_TOKEN: [required: true]
 
 jobs:
   code-quality:

@@ -18,7 +18,6 @@ jobs:
     uses: ./.github/workflows/npm-checks.yml
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   create-content-file:
     needs: [code-quality]
     permissions:
