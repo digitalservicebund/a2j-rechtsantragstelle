@@ -22,7 +22,7 @@ import {
 import Header from "~/components/Header";
 import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";
-import { getStrapiPage, strapiPageFromRequest } from "~/services/cms";
+import { strapiPageFromRequest } from "~/services/cms";
 
 export const DummySchema = z.object({
   text: z.string().min(1),
