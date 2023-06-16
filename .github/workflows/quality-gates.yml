@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: "18.x"
           cache: "npm"
-      - run: npm install
+      - run: npm ci
       - run: npm run ${{ matrix.npmCMD }}
       - name: SonarCloud Scan
         if: ${{ github.actor != 'dependabot[bot]' && matrix.npmCMD == 'test' }}
