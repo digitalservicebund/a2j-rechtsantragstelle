@@ -33,10 +33,11 @@ export const isStepReachable = (stepId: string, context: any) =>
   getSteps(context).includes(stepId);
 
 export const getNextStep = (stepId: string, context: any) =>
-  getStateMachine(context).transition(stepId, { type: "SUBMIT" }).value;
+  getStateMachine(context).transition(stepId, { type: "SUBMIT" })
+    .value as string;
 
 export const getPreviousStep = (stepId: string, context: any) =>
-  getStateMachine(context).transition(stepId, { type: "BACK" }).value;
+  getStateMachine(context).transition(stepId, { type: "BACK" }).value as string;
 
 export const getLastReachableStep = (context: any) => getSteps(context).at(-1);
 
@@ -53,4 +54,5 @@ export const getProgressBar = (stepId: string) => {
   return { current, total };
 };
 
-export const getStepUrl = (stepId: string) => `/vorabcheck/${stepId}`;
+export const getStepUrl = (stepId: string) =>
+  `/beratungshilfe/vorabcheck/${stepId}`;

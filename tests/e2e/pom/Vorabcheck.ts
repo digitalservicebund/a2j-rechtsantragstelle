@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 
 export class Vorabcheck {
   readonly page: Page;
-  readonly url = "/vorabcheck";
+  readonly url = "/beratungshilfe/vorabcheck";
   readonly initialStep = "rechtsschutzversicherung";
   readonly nextButtonName = "_action";
   readonly timeout = 5000;

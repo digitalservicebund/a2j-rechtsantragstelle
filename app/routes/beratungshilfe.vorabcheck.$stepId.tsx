@@ -31,6 +31,7 @@ import {
   getProgressBar,
   isStepReachable,
   isFinalStep,
+  getStepUrl,
 } from "~/services/flow";
 import { isIncomeTooHigh } from "~/services/flow/guards";
 import invariant from "tiny-invariant";
@@ -70,7 +71,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const session = await getSession(request.headers.get("Cookie"));
 
   if (!isStepReachable(stepId, session.data)) {
-    return redirect(`/vorabcheck/${initialStep}`);
+    return redirect(getStepUrl(initialStep));
   }
 
   const currentPage = formPages[stepId];
@@ -137,11 +138,7 @@ export const action: ActionFunction = async ({ params, request }) => {
 
   session.set(stepId, validationResult.data);
   const headers = { "Set-Cookie": await commitSession(session) };
-
-  const destination = getNextStep(stepId, session.data);
-  return redirect(`/vorabcheck/${String(destination)}`, {
-    headers,
-  });
+  return redirect(getStepUrl(getNextStep(stepId, session.data)), { headers });
 };
 
 export default function Index() {
