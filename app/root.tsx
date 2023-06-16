@@ -1,4 +1,4 @@
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -18,20 +18,24 @@ import { getFooterProps } from "~/services/props/getFooterProps";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import { getNavbarProps } from "./services/props/getNavbarProps";
+import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
+import { Analytics } from "./services/analytics/Analytics";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: fontsStylesheet },
   { rel: "stylesheet", href: stylesheet },
 ];
 
-export const loader = async () =>
+export const loader = async ({ request }: LoaderArgs) =>
   json({
     footer: getFooterProps(await getStrapiFooter()),
     navigation: getNavbarProps(await getStrapiNavigation()),
+    hasTrackingConsent: await hasTrackingConsent({ request }),
   });
 
 function App() {
-  const { footer, navigation } = useLoaderData<typeof loader>();
+  const { footer, navigation, hasTrackingConsent } =
+    useLoaderData<typeof loader>();
 
   return (
     <html lang="de">
@@ -52,6 +56,7 @@ function App() {
           <Outlet />
         </main>
         <Footer {...footer} />
+        <Analytics hasTrackingConsent={hasTrackingConsent} />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
