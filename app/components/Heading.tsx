@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { z } from "zod";
 
 export const HeadingPropsSchema = z.object({
-  tagName: z.string().optional(),
+  tagName: z.string().optional(), // TODO: This should be more narrow
   text: z.string().optional(),
   look: z.string().optional(),
   className: z.string().optional(),
@@ -19,7 +19,7 @@ function Heading({
   look,
   children,
 }: HeadingProps) {
-  const Tag = tagName as keyof JSX.IntrinsicElements;
+  const Tag = tagName as keyof React.JSX.IntrinsicElements;
   const cssClasses = classNames(look === "default" ? null : look, className);
 
   if (children) {

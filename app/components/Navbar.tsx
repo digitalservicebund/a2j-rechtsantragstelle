@@ -34,7 +34,7 @@ export default function Navbar({ tree = [], currentLocation }: NavbarProps) {
     <header className="mb-20 mt-20 ml-16">
       {tree &&
         treeFilter.map((item, index) => (
-          <React.Fragment key={index}>
+          <React.Fragment key={item.text}>
             {item.targeturl ? (
               <a
                 href={item.targeturl}
