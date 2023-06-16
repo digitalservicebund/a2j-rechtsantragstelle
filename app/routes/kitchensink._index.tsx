@@ -22,7 +22,7 @@ import {
 import Header from "~/components/Header";
 import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";
-import { getStrapiPage } from "~/services/cms";
+import { getStrapiPage, strapiPageFromRequest } from "~/services/cms";
 
 export const DummySchema = z.object({
   text: z.string().min(1),
@@ -40,13 +40,9 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   },
 ];
 
-export const loader: LoaderFunction = async () => {
-  const page = await getStrapiPage({ slug: "kitchensink" });
-
-  return json({
-    content: page.content,
-    meta: page.meta,
-  });
+export const loader: LoaderFunction = async ({ request }) => {
+  const { content, meta } = await strapiPageFromRequest({ request });
+  return json({ content, meta });
 };
 
 export const action = async ({ request }: DataFunctionArgs) => {

@@ -13,18 +13,16 @@ import {
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
-  { title: data ? data.metaData.title : location.pathname },
+  { title: data ? data.meta.title : location.pathname },
 ];
 
-export const loader = async ({ params }: LoaderArgs) => {
+export const loader = async ({ request, params }: LoaderArgs) => {
   const splat = params["*"];
   invariant(typeof splat !== "undefined");
 
   const [zipCode, streetSlug] = splat.split("/");
   if (edgeCasesForPlz(zipCode).length > 0 && !streetSlug) {
-    return redirect(
-      `../beratungshilfe/zustaendiges-gericht/auswahl/${zipCode}`
-    );
+    return redirect(`/beratungshilfe/zustaendiges-gericht/auswahl/${zipCode}`);
   }
 
   let court = undefined;
@@ -38,16 +36,15 @@ export const loader = async ({ params }: LoaderArgs) => {
   }
   invariant(court);
 
-  const cmsData = await getStrapiPage({
-    slug: "beratungshilfe/zustaendiges-gericht/ergebnis",
+  const { content, meta } = await getStrapiPage({
+    slug: "/beratungshilfe/zustaendiges-gericht/ergebnis",
   });
 
-  const common = await getStrapiAmtsgerichtCommon();
   return json({
     court,
-    content: cmsData.content,
-    metaData: cmsData.meta,
-    common,
+    content,
+    meta,
+    common: await getStrapiAmtsgerichtCommon(),
   });
 };
 

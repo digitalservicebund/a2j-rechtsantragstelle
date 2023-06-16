@@ -11,14 +11,14 @@ import { fillTemplate } from "~/util/fillTemplate";
 import Heading from "~/components/Heading";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
-  { title: data ? data.metaData.title : location.pathname },
+  { title: data ? data.meta.title : location.pathname },
 ];
 
-export const loader = async ({ params }: LoaderArgs) => {
+export const loader = async ({ params, request }: LoaderArgs) => {
   const zipCode = params.PLZ;
   const edgeCases = findEdgeCases({ zipCode });
   if (edgeCases.length == 0) {
-    return redirect(`/beratungshilfe/zustaendiges-gericht/${zipCode}`);
+    return redirect(`/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`);
   }
 
   const edgeCasesGroupedByLetter = edgeCases.reduce(
@@ -29,16 +29,15 @@ export const loader = async ({ params }: LoaderArgs) => {
     {}
   );
 
-  const cmsData = await getStrapiPage({
-    slug: "beratungshilfe/zustaendiges-gericht/auswahl",
-  });
-  const common = await getStrapiAmtsgerichtCommon();
+  // Rmove PLZ from slug
+  const { pathname } = new URL(request.url);
+  const slug = pathname.substring(0, pathname.lastIndexOf("/"));
 
   return json({
     zipCode,
     edgeCasesGroupedByLetter,
-    common,
-    metaData: cmsData.meta,
+    common: await getStrapiAmtsgerichtCommon(),
+    meta: (await getStrapiPage({ slug })).meta,
     url: `/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`,
   });
 };

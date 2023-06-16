@@ -87,3 +87,9 @@ export const getStrapiVorabCheckPage = async (
   StrapiVorabCheckPageSchema.parse(
     await getStrapiEntry({ apiId: "vorab-check-pages", ...opts })
   );
+
+export const strapiPageFromRequest = async ({
+  request,
+}: {
+  request: Request;
+}) => await getStrapiPage({ slug: new URL(request.url).pathname });

@@ -7,7 +7,10 @@ import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { withZod } from "@remix-validated-form/with-zod";
 import { z } from "zod";
-import { getStrapiAmtsgerichtCommon, getStrapiPage } from "~/services/cms";
+import {
+  getStrapiAmtsgerichtCommon,
+  strapiPageFromRequest,
+} from "~/services/cms";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
 import { commitSession, getSession } from "~/sessions";
@@ -42,11 +45,7 @@ export async function loader({ request }: LoaderArgs) {
     request,
     session: await getSession(request.headers.get("Cookie")),
   });
-
-  const { content, meta } = await getStrapiPage({
-    slug: "beratungshilfe/zustaendiges-gericht/suche",
-  });
-
+  const { content, meta } = await strapiPageFromRequest({ request });
   return json(
     {
       content,

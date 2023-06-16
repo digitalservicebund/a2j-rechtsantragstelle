@@ -3,18 +3,15 @@ import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import PageContent from "~/components/PageContent";
-import { getStrapiPage } from "~/services/cms";
+import { strapiPageFromRequest } from "~/services/cms";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data ? data.meta.title : location.pathname },
 ];
 
-export const loader: LoaderFunction = async () => {
-  const page = await getStrapiPage({ slug: "beratungshilfe" });
-  return json({
-    content: page.content,
-    meta: page.meta,
-  });
+export const loader: LoaderFunction = async ({ request }) => {
+  const { content, meta } = await strapiPageFromRequest({ request });
+  return json({ content, meta });
 };
 
 export default function Index() {
