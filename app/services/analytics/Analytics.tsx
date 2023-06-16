@@ -45,11 +45,14 @@ export function Analytics({ hasTrackingConsent }: AnalyticsProps) {
   };
 
   return (
-    <div className="fixed bottom-0 right-0 m-20 border border-gray-800">
+    <div
+      className="fixed bottom-0 right-0 m-20 border border-gray-800"
+      role="region"
+    >
       <analyticsFetcher.Form method="post" action="/action/enable-analytics">
         <Container {...containerProps}>
           <Heading
-            tagName="h3"
+            tagName="h2"
             text="Cookies Consent"
             look="ds-heading-03-reg"
           />

@@ -52,13 +52,13 @@ test.describe("form validation", () => {
   test("Invalid PLZ", async ({ page }) => {
     const expectedError = "Postleitzahl muss genau 5 Zeichen lang sein";
     await courtfinder.searchPLZInvalid();
-    await expect(page.locator("form")).toContainText(expectedError);
+    await expect(page.locator("form").first()).toContainText(expectedError);
   });
 
   test("Non-existant PLZ", async ({ page }) => {
     const expectedError = "Postleitzahl existiert nicht";
     await courtfinder.searchPLZNonExistant();
-    await expect(page.locator("form")).toContainText(expectedError);
+    await expect(page.locator("form").first()).toContainText(expectedError);
   });
 });
 
