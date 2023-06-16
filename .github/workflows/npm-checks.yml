@@ -6,7 +6,7 @@ on:
       GITHUB_TOKEN: [required: true]
 
 jobs:
-  quality-checks:
+  code-quality:
     strategy:
       matrix:
         npmCMD: ["prettier:check", "eslint:check", "typecheck", "test"]
