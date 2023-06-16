@@ -2,7 +2,8 @@ name: NPMChecks
 on:
   workflow_call:
     secrets:
-      SONAR_TOKEN: [required: true]
+      SONAR_TOKEN:
+        required: true
 
 jobs:
   code-quality:
