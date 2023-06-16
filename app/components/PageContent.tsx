@@ -24,6 +24,9 @@ type PageContentProps = {
   className?: string;
 };
 
+export const keyFromElement = (element: StrapiContent) =>
+  `${element.__component}_${element.id}`;
+
 const transformCmsData = (
   cmsData: StrapiContainer | StrapiBackground
 ): ContainerProps | BackgroundProps => {
@@ -64,23 +67,24 @@ const wrapInBackground = (
 };
 
 function cmsToReact(cms: StrapiContent) {
+  const key = keyFromElement(cms);
   switch (cms.__component) {
     case "basic.heading":
-      return <Heading {...getHeadingProps(cms)} key={cms.id} />;
+      return <Heading {...getHeadingProps(cms)} key={key} />;
     case "basic.paragraph":
       return (
         <Paragraph
           {...getParagraphProps(cms)}
           className="ds-body-01-reg"
-          key={cms.id}
+          key={key}
         />
       );
     case "page.header":
-      return <Header {...getHeaderProps(cms)} key={cms.id} />;
+      return <Header {...getHeaderProps(cms)} key={key} />;
     case "form-elements.input":
-      return <Input {...getInputProps(cms)} key={cms.id} />;
+      return <Input {...getInputProps(cms)} key={key} />;
     case "page.box":
-      return <Box {...getBoxProps(cms)} key={cms.id} />;
+      return <Box {...getBoxProps(cms)} key={key} />;
     case "page.info-box":
       return <InfoBox {...getInfoBoxProps(cms)} key={cms.id} />;
   }
@@ -88,8 +92,8 @@ function cmsToReact(cms: StrapiContent) {
 
 const PageContent = ({ content = [], className }: PageContentProps) => (
   <div className={className}>
-    {content.map((el, idx) => (
-      <div key={idx}>
+    {content.map((el) => (
+      <div key={keyFromElement(el)}>
         {wrapInBackground(el, wrapInContainer(el, cmsToReact(el)))}
       </div>
     ))}

@@ -14,8 +14,8 @@ const InfoBox = ({ items, heading }: InfoBoxProps) => {
     <div className="ds-stack-8">
       {heading && <Heading {...heading} />}
       <ul className="list-none ds-stack-32 ps-0 info-box">
-        {items.map((item, index) => (
-          <InfoBoxItem {...item} key={index} />
+        {items.map((item) => (
+          <InfoBoxItem {...item} key={item.headline?.text ?? item.content} />
         ))}
       </ul>
     </div>

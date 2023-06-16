@@ -11,7 +11,7 @@ import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";
-import PageContent from "~/components/PageContent";
+import PageContent, { keyFromElement } from "~/components/PageContent";
 import ProgressBarArea from "~/components/form/ProgressBarArea";
 import RichText from "~/components/RichText";
 
@@ -146,7 +146,7 @@ const ResultPage = ({
       {documentsList.length > 0 && (
         <div>
           {documentsList.map((element, idx) => (
-            <div key={idx}>
+            <div key={keyFromElement(element)}>
               <PageContent content={[element]} />
               {idx != 0 && idx != documentsList.length - 1 && (
                 <hr className="my-24" />
