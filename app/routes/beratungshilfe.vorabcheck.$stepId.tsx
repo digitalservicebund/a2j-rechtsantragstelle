@@ -117,7 +117,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     formContent: formPageContent?.form,
     resultContent: resultPageContent,
     resultReasonsToDisplay,
-    meta: formPageContent?.meta || resultPageContent?.meta,
+    meta: formPageContent?.meta ?? resultPageContent?.meta,
     progressStep: progressBar.current,
     progressTotal: progressBar.total,
     isLast: isFinalStep(stepId),

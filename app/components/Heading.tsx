@@ -29,7 +29,7 @@ function Heading({
   return (
     <Tag
       className={cssClasses}
-      dangerouslySetInnerHTML={{ __html: text || "" }}
+      dangerouslySetInnerHTML={{ __html: text ?? "" }}
     />
   );
 }

@@ -6,4 +6,4 @@ type FillTemplateOpts = {
 };
 
 export const fillTemplate = (opts: FillTemplateOpts) =>
-  mustache.render(opts.template, opts.replacements || {});
+  mustache.render(opts.template, opts.replacements ?? {});
