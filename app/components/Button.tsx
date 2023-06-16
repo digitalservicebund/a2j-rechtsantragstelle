@@ -48,23 +48,22 @@ function Button({
     props.className
   );
 
+  const textSpan = text ? <span>{text}</span> : "";
+  const childrenSpan = <span>{children}</span>;
+
   if (href) {
     return (
       <a {...(props as ButtonLinkProps)} href={href} className={buttonClasses}>
-        {iconLeft}
-        {children ? <span>{children}</span> : text ? <span>{text}</span> : ""}
-        {iconRight}
+        {iconLeft} {children ? childrenSpan : textSpan} {iconRight}
       </a>
     );
-  } else {
-    return (
-      <button {...(props as ButtonProps)} className={buttonClasses}>
-        {iconLeft}
-        {children ? <span>{children}</span> : text ? <span>{text}</span> : ""}
-        {iconRight}
-      </button>
-    );
   }
+
+  return (
+    <button {...(props as ButtonProps)} className={buttonClasses}>
+      {iconLeft} {children ? childrenSpan : textSpan} {iconRight}
+    </button>
+  );
 }
 
 export default Button;
