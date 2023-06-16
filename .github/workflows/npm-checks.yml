@@ -1,15 +1,19 @@
-name: QualityGates
-on: [workflow_call] # allow this workflow to be called from other workflows
+name: NPMChecks
+on:
+  workflow_call:
+    secrets:
+      SONAR_TOKEN: [required: true]
+      GITHUB_TOKEN: [required: true]
 
 jobs:
-  all-quality-checks:
+  quality-checks:
     strategy:
       matrix:
         npmCMD: ["prettier:check", "eslint:check", "typecheck", "test"]
     permissions:
       packages: read
     runs-on: ubuntu-latest
-    name: Quality Check ${{ matrix.npmCMD }}
+    name: npm run ${{ matrix.npmCMD }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

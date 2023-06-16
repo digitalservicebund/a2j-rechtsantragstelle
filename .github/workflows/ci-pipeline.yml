@@ -14,10 +14,13 @@ env:
   IMAGE_VERSION: ${{ github.sha }}
 
 jobs:
-  all-quality-checks:
-    uses: ./.github/workflows/quality-gates.yml
+  code-quality:
+    uses: ./.github/workflows/npm-checks.yml
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   create-content-file:
-    needs: [all-quality-checks]
+    needs: [code-quality]
     permissions:
       packages: read
     runs-on: ubuntu-latest
