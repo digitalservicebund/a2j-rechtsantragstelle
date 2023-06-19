@@ -15,17 +15,28 @@ const getStateMachine = ({ config, context, guards }: GetStateMachineArgs) => {
     context,
   };
 
-  return createMachine(stateMachineConfig, {
-    guards,
-  });
+  return createMachine(stateMachineConfig, { guards });
 };
 
-const getSteps = (machine: any) => {
+const getSteps = (machine: ReturnType<typeof getStateMachine>) => {
   return Object.values(
     getShortestPaths(machine, {
       events: { SUBMIT: [{ type: "SUBMIT" }] },
     })
   ).map(({ state }) => state.value);
+};
+
+const getTransitionDestination = (
+  machine: ReturnType<typeof getStateMachine>,
+  currentStep: string,
+  type: string
+) => {
+  const transitions = machine.getStateNodeByPath(currentStep).config.on;
+  if (!transitions || !(type in transitions))
+    throw new Error(
+      `No transition of type ${type} defined on step ${currentStep}`
+    );
+  return machine.transition(currentStep, { type }).value as string;
 };
 
 type BuildFlowControllerArgs = {
@@ -54,24 +65,11 @@ export const buildFlowController = ({
     isFinal: () => machine.getStateNodeByPath(currentStepId).type === "final",
     isReachable: () => getSteps(machine).includes(currentStepId),
     getPrevious: () => {
-      if (
-        !("BACK" in (machine.getStateNodeByPath(currentStepId).config.on || {}))
-      )
-        throw new Error("no previous step configured");
-      const name = machine.transition(currentStepId, { type: "BACK" })
-        .value as string;
+      const name = getTransitionDestination(machine, currentStepId, "BACK");
       return { name, url: `${baseUrl}${name}` };
     },
     getNext: () => {
-      if (
-        !(
-          "SUBMIT" in
-          (machine.getStateNodeByPath(currentStepId).config.on || {})
-        )
-      )
-        throw new Error("no next step configured");
-      const name = machine.transition(currentStepId, { type: "SUBMIT" })
-        .value as string;
+      const name = getTransitionDestination(machine, currentStepId, "SUBMIT");
       return { name, url: `${baseUrl}${name}` };
     },
     getInitial: () => {

@@ -151,7 +151,6 @@ export const action: ActionFunction = async ({ params, request }) => {
     data: session.data,
     guards: beratungshilfeGuards,
   });
-
   return redirect(flowController.getNext().url, { headers });
 };
 
