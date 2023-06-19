@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { YesNoAnswer } from "../answers";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import type { StepComponentProps } from "~/components/form/steps";
 import Heading from "~/components/Heading";
 import { freibetragShort } from "~/lib/freibetrag";
