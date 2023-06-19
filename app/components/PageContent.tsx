@@ -87,6 +87,8 @@ function cmsToReact(cms: StrapiContent) {
       return <Box {...getBoxProps(cms)} key={key} />;
     case "page.info-box":
       return <InfoBox {...getInfoBoxProps(cms)} key={cms.id} />;
+    default:
+      return <></>;
   }
 }
 

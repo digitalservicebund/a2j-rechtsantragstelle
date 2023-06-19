@@ -5,6 +5,7 @@ import { StrapiInfoBoxSchema } from "./StrapiInfoBox";
 import { StrapiBoxSchema } from "./StrapiBox";
 import { StrapiHeaderSchema } from "./StrapiHeader";
 import { StrapiInputSchema } from "./StrapiInput";
+import { StrapiInfoBoxItemSchema } from "~/services/cms/models/StrapiInfoBoxItem";
 
 export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiBoxSchema.merge(
@@ -25,6 +26,11 @@ export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiInfoBoxSchema.merge(
     z.object({
       __component: z.literal("page.info-box"),
+    })
+  ),
+  StrapiInfoBoxItemSchema.merge(
+    z.object({
+      __component: z.literal("page.info-box-item"),
     })
   ),
   StrapiParagraphSchema.merge(

@@ -14,6 +14,11 @@ import Heading from "~/components/Heading";
 import PageContent, { keyFromElement } from "~/components/PageContent";
 import ProgressBarArea from "~/components/form/ProgressBarArea";
 import RichText from "~/components/RichText";
+import InfoBox from "~/components/InfoBox";
+import invariant from "tiny-invariant";
+import { getInfoBoxItemProps } from "~/services/props/getInfoBoxItemProps";
+import type { StrapiInfoBoxItem } from "~/services/cms/models/StrapiInfoBoxItem";
+import type { InfoBoxItemProps } from "~/components/InfoBoxItem";
 
 type ResultPageProps = {
   content: StrapiResultPage & StrapiVorabCheckCommon;
@@ -80,6 +85,17 @@ const ResultPage = ({
     ? content.nextSteps.data.attributes.element
     : [];
 
+  let infoBoxItems: InfoBoxItemProps[] = [];
+  reasonsToDisplay?.forEach((reason) => {
+    reason.element.forEach((element) => {
+      invariant(
+        element.__component == "page.info-box-item",
+        "Reason to Display has to be an InfoBoxItem"
+      );
+      infoBoxItems.push(getInfoBoxItemProps(element as StrapiInfoBoxItem));
+    });
+  });
+
   return (
     <div>
       <div className={pageProperties.background}>
@@ -126,20 +142,17 @@ const ResultPage = ({
           <PageContent content={content.freeZone} />
         </Container>
       )}
-      {reasonsToDisplay.length > 0 && (
+      {reasonsToDisplay?.length > 0 && (
         <Container>
-          <Heading
-            tagName="h2"
-            look="ds-heading-02-reg"
-            text="Begründung"
-            className="mb-16"
+          <InfoBox
+            heading={{
+              tagName: "h2",
+              look: "ds-heading-02-reg",
+              text: "Begründung",
+              className: "mb-16",
+            }}
+            items={infoBoxItems}
           />
-          {reasonsToDisplay.map((reason, idx) => (
-            <div key={reason.elementId}>
-              <PageContent content={reason.element} />
-              {idx < reasonsToDisplay.length - 1 && <hr className="my-24" />}
-            </div>
-          ))}
         </Container>
       )}
 
