@@ -28,7 +28,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "wurdeVerklagtError",
+            "target": "klageEingereichtError",
             "cond": "wurdeVerklagtYes"
           },
           {
