@@ -125,7 +125,9 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     progressStep: progressBar.current,
     progressTotal: progressBar.total,
     isLast: flowController.isFinal(),
-    previousStep: flowController.getPrevious().url,
+    previousStep: flowController.isInitial()
+      ? undefined
+      : flowController.getPrevious().url,
     additionalContext,
   });
 };
