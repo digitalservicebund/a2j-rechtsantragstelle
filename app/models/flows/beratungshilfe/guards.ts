@@ -56,8 +56,6 @@ const weitereZahlungenSummeIncomeTooHigh: Guard = (context) =>
 const weitereZahlungenSummeIncomeNotTooHigh: Guard = (context) =>
   !isIncomeTooHigh(context);
 
-const einkommenFixme: Guard = () => false;
-
 const anyNonCriticalWarning = (context: Context) => {
   return (
     context["kostenfreieBeratung"]?.hasTriedFreeServices == "no" ||
@@ -127,6 +125,7 @@ export const guards = {
   vermoegenBelow10k,
   ...yesOrNoGuard("erwerbstaetigkeit", "isErwerbstaetig"),
   ...yesOrNoGuard("partnerschaft"),
+  ...yesNoGuards("partnerschaft"),
   ...yesNoGuards("genauigkeit", "wantsToKnowPrecisely"),
   ...yesNoGuards("kinderKurz", "isPayingForKids"),
   ...filledGuard("kinderAnzahlKurz", "kidsTotal"),
@@ -144,5 +143,4 @@ export const guards = {
   weitereZahlungenSummeIncomeTooHigh,
   weitereZahlungenSummeIncomeNotTooHigh,
   ...filledGuard("weitereZahlungenSumme"),
-  einkommenFixme,
 };

@@ -333,10 +333,11 @@
         "SUBMIT": [
           {
             "target": "einkommenPartner",
-            "cond": "einkommenFixme"
+            "cond": "partnerschaftYes"
           },
           {
-            "target": "kinder"
+            "target": "kinder",
+            "cond": "partnerschaftNo"
           }
         ],
         "BACK": { "target": "genauigkeit" }
@@ -364,7 +365,10 @@
             "cond": "kinderNo"
           }
         ],
-        "BACK": { "target": "einkommenPartner" }
+        "BACK": [
+          { "target": "einkommenPartner", "cond": "partnerschaftYes" },
+          { "target": "einkommen", "cond": "partnerschaftNo" }
+        ]
       }
     },
     "kinderAnzahl": {
