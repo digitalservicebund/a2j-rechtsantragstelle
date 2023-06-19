@@ -29,11 +29,12 @@ export function moneyInputStep(inputName: string) {
     schema: z.object({
       [inputName]: buildMoneyValidationSchema({ min: 0 }),
     }),
-    component: ({ content }: StepComponentProps) => {
+    component: ({ content, defaultValues }: StepComponentProps) => {
       return (
         <Input
           {...getInputProps(getRelevantInputContent({ inputName, content }))}
           name={inputName}
+          defaultValue={defaultValues && defaultValues[inputName]}
         />
       );
     },

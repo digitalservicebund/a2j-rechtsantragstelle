@@ -200,7 +200,6 @@ export default function Index() {
                 key={`${stepId}_form`}
                 method="post"
                 validator={allValidators[stepId]}
-                defaultValues={defaultValues}
                 noValidate
               >
                 <div className="ds-stack-40">
