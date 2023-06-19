@@ -14,7 +14,12 @@ env:
   IMAGE_VERSION: ${{ github.sha }}
 
 jobs:
+  code-quality:
+    uses: ./.github/workflows/npm-checks.yml
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   create-content-file:
+    needs: [code-quality]
     permissions:
       packages: read
     runs-on: ubuntu-latest
@@ -34,52 +39,8 @@ jobs:
           name: content-file
           path: content.json
 
-  build-app:
-    needs: [create-content-file]
-    permissions:
-      packages: read
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of SonarCloud analysis
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18.x"
-          cache: "npm"
-
-      - run: npm install
-
-      - name: Check build
-        env:
-          APP_VERSION: test
-        run: npm run build
-
-      - name: Check format
-        run: npm run prettier:check
-
-      - name: Lint
-        run: npm run eslint:check
-
-      - name: Typecheck
-        run: npm run typecheck
-
-      - name: Run unit tests
-        run: npm test
-
-      - name: SonarCloud Scan
-        if: ${{ github.actor != 'dependabot[bot]' }}
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
   e2e-tests:
-    needs: [build-app]
+    needs: [create-content-file]
     permissions:
       packages: read
     runs-on: ubuntu-latest
