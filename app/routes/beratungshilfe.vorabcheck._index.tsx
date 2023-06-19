@@ -1,7 +1,8 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { getStepUrl, initialStep } from "~/services/flow";
+import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
+import { getInitialStep } from "~/services/flow/getInitialStep";
 
 export const loader: LoaderFunction = async () => {
-  return redirect(getStepUrl(initialStep));
+  return redirect(getInitialStep({ flow: beratungshilfeFlow }).url);
 };

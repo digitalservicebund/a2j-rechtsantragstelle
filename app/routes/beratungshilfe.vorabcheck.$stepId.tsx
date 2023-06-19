@@ -24,17 +24,14 @@ import {
 } from "~/services/cms";
 import getSlug from "~/util/getSlug";
 
+import { buildFlowController } from "~/services/flow/buildFlowController";
+import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
 import {
-  initialStep,
-  getNextStep,
-  getPreviousStep,
-  getProgressBar,
-  isStepReachable,
-  isFinalStep,
-  getStepUrl,
-} from "~/services/flow";
-import { isIncomeTooHigh } from "~/services/flow/guards";
+  isIncomeTooHigh,
+  guards as beratungshilfeGuards,
+} from "~/models/flows/beratungshilfe/guards";
 import invariant from "tiny-invariant";
+import type { MachineConfig } from "xstate";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data ? data.meta.title : location.pathname },
@@ -70,8 +67,15 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
   const session = await getSession(request.headers.get("Cookie"));
 
-  if (!isStepReachable(stepId, session.data)) {
-    return redirect(getStepUrl(initialStep));
+  const flowController = buildFlowController({
+    flow: beratungshilfeFlow as MachineConfig<any, any, any>,
+    currentStepId: stepId,
+    data: session.data,
+    guards: beratungshilfeGuards,
+  });
+
+  if (!flowController.isReachable()) {
+    return redirect(flowController.getInitial().url);
   }
 
   const currentPage = formPages[stepId];
@@ -108,7 +112,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     }
   }
 
-  const progressBar = getProgressBar(stepId);
+  const progressBar = flowController.getProgress();
 
   return json({
     defaultValues: session.data[stepId],
@@ -120,8 +124,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     meta: formPageContent?.meta ?? resultPageContent?.meta,
     progressStep: progressBar.current,
     progressTotal: progressBar.total,
-    isLast: isFinalStep(stepId),
-    previousStep: getPreviousStep(stepId, session.data),
+    isLast: flowController.isFinal(),
+    previousStep: flowController.getPrevious().url,
     additionalContext,
   });
 };
@@ -138,7 +142,15 @@ export const action: ActionFunction = async ({ params, request }) => {
 
   session.set(stepId, validationResult.data);
   const headers = { "Set-Cookie": await commitSession(session) };
-  return redirect(getStepUrl(getNextStep(stepId, session.data)), { headers });
+
+  const flowController = buildFlowController({
+    flow: beratungshilfeFlow as MachineConfig<any, any, any>,
+    currentStepId: stepId,
+    data: session.data,
+    guards: beratungshilfeGuards,
+  });
+
+  return redirect(flowController.getNext().url, { headers });
 };
 
 export default function Index() {

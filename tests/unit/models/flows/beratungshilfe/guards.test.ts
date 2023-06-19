@@ -1,4 +1,4 @@
-import { isIncomeTooHigh } from "~/services/flow/guards";
+import { isIncomeTooHigh } from "~/models/flows/beratungshilfe/guards";
 
 describe("isIncomeTooHigh", () => {
   it("returns false for random example case", () => {

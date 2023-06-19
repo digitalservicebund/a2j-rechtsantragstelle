@@ -1,5 +1,5 @@
 import { freibetrag } from "~/lib/freibetrag";
-import moneyToCents from "../validation/money/moneyToCents";
+import moneyToCents from "../../../services/validation/money/moneyToCents";
 
 type Context = Record<string, any>;
 

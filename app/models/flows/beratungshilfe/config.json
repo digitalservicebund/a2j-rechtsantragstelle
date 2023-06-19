@@ -1,5 +1,5 @@
 {
-  "id": "Beratungshilfe",
+  "id": "/beratungshilfe/vorabcheck/",
   "initial": "rechtsschutzversicherung",
   "states": {
     "rechtsschutzversicherung": {
