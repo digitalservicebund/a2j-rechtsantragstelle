@@ -6,7 +6,7 @@ import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
-  { title: data ? data.meta.title : location.pathname },
+  { title: data?.meta.title ?? location.pathname },
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {

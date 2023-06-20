@@ -33,7 +33,7 @@ export const DummySchema = z.object({
 const validator = withZod(DummySchema);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
-  { title: data ? data.meta.title : location.pathname },
+  { title: data?.meta.title ?? location.pathname },
   {
     name: "robots",
     content: "noindex",

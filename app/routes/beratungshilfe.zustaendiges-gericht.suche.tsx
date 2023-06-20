@@ -37,7 +37,7 @@ const validatorClient = withZod(clientSchema);
 const validatorServer = withZod(serverSchema);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
-  { title: data ? data.title : location.pathname },
+  { title: data?.title ?? location.pathname },
 ];
 
 export async function loader({ request }: LoaderArgs) {

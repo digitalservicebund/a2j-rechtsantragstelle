@@ -10,7 +10,7 @@ export const loader: LoaderFunction = async () => {
 
 export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
   {
-    title: data ? data.meta.title : location.pathname,
+    title: data?.meta.title ?? location.pathname,
     name: "robots",
     content: "noindex",
   },

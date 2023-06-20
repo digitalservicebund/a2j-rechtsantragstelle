@@ -34,7 +34,7 @@ import invariant from "tiny-invariant";
 import type { MachineConfig } from "xstate";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
-  { title: data ? data.meta.title : location.pathname },
+  { title: data?.meta?.title ?? location.pathname },
 ];
 
 const getReasonsToDisplay = (

@@ -12,7 +12,7 @@ import Heading from "~/components/Heading";
 import { splitObjectsByFirstLetter } from "~/lib/strings";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
-  { title: data ? data.meta.title : location.pathname },
+  { title: data?.meta.title ?? location.pathname },
 ];
 
 export const loader = async ({ params, request }: LoaderArgs) => {
