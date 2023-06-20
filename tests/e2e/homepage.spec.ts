@@ -12,7 +12,7 @@ test.describe("homepage", () => {
     const expectedLinks = {
       Beratungshilfe: "/beratungshilfe",
       Impressum: "/impressum",
-      Datenschutzerklärung: "/datenschutz",
+      Datenschutzbestimmung: "/datenschutz",
     };
 
     let key: keyof typeof expectedLinks;
