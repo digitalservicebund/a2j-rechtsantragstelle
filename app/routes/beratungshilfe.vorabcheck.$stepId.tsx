@@ -101,6 +101,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   }
   const commonContent = await getStrapiVorabCheckCommon();
 
+  // The additional context is used by steps to request other context context variables
+  // Currently used in verfuegbaresEinkommen to calculate a value at runtime based on previous answers
   let additionalContext = {};
   if ("additionalContext" in currentPage && currentPage["additionalContext"]) {
     for (const requestedContext of currentPage["additionalContext"]) {
