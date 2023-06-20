@@ -131,7 +131,10 @@ const ResultPage = ({
 
         {content.linkText && (
           <Container paddingTop="32" paddingBottom="32">
-            <a href={"/vorabcheck"} className="block ds-link-02-bold">
+            <a
+              href={"/beratungshilfe/vorabcheck"}
+              className="block ds-link-02-bold"
+            >
               {content.linkText}
             </a>
           </Container>
