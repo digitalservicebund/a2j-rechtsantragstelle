@@ -5,7 +5,8 @@ export const gdprCookie = createCookie("gdpr-consent", {
 });
 
 export async function hasTrackingConsent({ request }: { request: Request }) {
-  return (await getTrackingCookie({ request })).gdprConsent == "true";
+  const { gdprConsent } = await getTrackingCookie({ request });
+  return gdprConsent ? gdprConsent === "true" : undefined;
 }
 
 export async function createTrackingCookie({

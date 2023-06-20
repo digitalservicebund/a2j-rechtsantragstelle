@@ -2,7 +2,7 @@ import { useFetcher, useLocation } from "@remix-run/react";
 import { getWebConfig } from "../config";
 import { useEffect, useState } from "react";
 import posthog from "posthog-js";
-import { analyticsConsentFormField } from "~/routes/action.enable-analytics";
+import { analyticsConsentFormField } from "~/routes/action.set-analytics";
 import type { CommonWrapperProps } from "~/components";
 import { Button, Container } from "~/components";
 import Heading from "~/components/Heading";
@@ -10,7 +10,7 @@ import Paragraph from "~/components/Paragraph";
 import ButtonContainer from "~/components/ButtonContainer";
 
 type AnalyticsProps = {
-  hasTrackingConsent: boolean;
+  hasTrackingConsent?: boolean;
 };
 
 export function Analytics({ hasTrackingConsent }: AnalyticsProps) {
@@ -35,7 +35,7 @@ export function Analytics({ hasTrackingConsent }: AnalyticsProps) {
     if (posthogLoaded) posthog.capture("$pageview");
   }, [posthogLoaded, location.pathname]);
 
-  if (hasTrackingConsent) {
+  if (hasTrackingConsent !== undefined) {
     return <></>;
   }
   const containerProps: CommonWrapperProps = {
@@ -49,11 +49,11 @@ export function Analytics({ hasTrackingConsent }: AnalyticsProps) {
       className="fixed bottom-0 right-0 m-20 border border-gray-800"
       role="region"
     >
-      <analyticsFetcher.Form method="post" action="/action/enable-analytics">
+      <analyticsFetcher.Form method="post" action="/action/set-analytics">
         <Container {...containerProps}>
           <Heading
             tagName="h2"
-            text="Cookies Consent"
+            text="Cookie Consent"
             look="ds-heading-03-reg"
           />
         </Container>
