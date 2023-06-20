@@ -2,12 +2,12 @@ import { useFetcher, useLocation } from "@remix-run/react";
 import { getWebConfig } from "../config";
 import { useEffect, useState } from "react";
 import posthog from "posthog-js";
-import { analyticsConsentFormField } from "~/routes/action.set-analytics";
 import type { CommonWrapperProps } from "~/components";
 import { Button, Container } from "~/components";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
 import ButtonContainer from "~/components/ButtonContainer";
+import { acceptCookiesFieldName } from "./gdprCookie.server";
 
 type AnalyticsProps = {
   hasTrackingConsent?: boolean;
@@ -63,14 +63,14 @@ export function Analytics({ hasTrackingConsent }: AnalyticsProps) {
         <Container {...containerProps}>
           <ButtonContainer>
             <Button
-              name={analyticsConsentFormField}
+              name={acceptCookiesFieldName}
               value="false"
               type="submit"
               look="tertiary"
               text="Ablehnen"
             />
             <Button
-              name={analyticsConsentFormField}
+              name={acceptCookiesFieldName}
               value="true"
               type="submit"
               look="primary"
