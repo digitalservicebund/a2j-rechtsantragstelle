@@ -87,8 +87,8 @@ export const buildFlowController = ({
             .map((n) => n.meta?.progressPosition)
             .filter((p) => p)
         ) + 1;
-      const node = machine.getStateNodeByPath(currentStepId);
-      const current =
+      const node = machine.getStateNodeByPath(currentStepId); //TODO: fix type
+      const current: number =
         node.type === "final" ? total : node.meta?.progressPosition;
       return { total, current };
     },

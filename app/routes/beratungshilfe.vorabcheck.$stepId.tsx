@@ -1,7 +1,7 @@
 import { useLoaderData, useParams } from "@remix-run/react";
 import type {
   ActionFunction,
-  LoaderFunction,
+  LoaderArgs,
   V2_MetaFunction,
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
@@ -61,7 +61,7 @@ const getReasonsToDisplay = (
     .map((reason) => reason.attributes);
 };
 
-export const loader: LoaderFunction = async ({ params, request }) => {
+export const loader = async ({ params, request }: LoaderArgs) => {
   const stepId = params.stepId;
   invariant(stepId);
 
@@ -185,42 +185,43 @@ export default function Index() {
         isLast={isLast}
       />
     );
-  }
-  return (
-    <Background backgroundColor="blue">
-      <div className="min-h-screen">
-        <Container>
-          <div className="ds-stack-16">
-            <ProgressBarArea
-              label={commonContent?.progressBarLabel}
-              progressStep={progressStep}
-              progressTotal={progressTotal}
-            />
-            <div className="ds-stack-40">
-              <PageContent content={preFormContent} className="ds-stack-16" />
-              <ValidatedForm
-                key={`${stepId}_form`}
-                method="post"
-                validator={allValidators[stepId]}
-                noValidate
-              >
-                <div className="ds-stack-40">
-                  <FormInputComponent
-                    content={formContent}
-                    additionalContext={additionalContext}
-                    defaultValues={defaultValues}
-                  />
-                  <ButtonNavigation
-                    backDestination={previousStep}
-                    isLast={isLast}
-                    commonContent={commonContent}
-                  />
-                </div>
-              </ValidatedForm>
+  } else if (preFormContent && formContent) {
+    return (
+      <Background backgroundColor="blue">
+        <div className="min-h-screen">
+          <Container>
+            <div className="ds-stack-16">
+              <ProgressBarArea
+                label={commonContent?.progressBarLabel}
+                progressStep={progressStep}
+                progressTotal={progressTotal}
+              />
+              <div className="ds-stack-40">
+                <PageContent content={preFormContent} className="ds-stack-16" />
+                <ValidatedForm
+                  key={`${stepId}_form`}
+                  method="post"
+                  validator={allValidators[stepId]}
+                  noValidate
+                >
+                  <div className="ds-stack-40">
+                    <FormInputComponent
+                      content={formContent}
+                      additionalContext={additionalContext}
+                      defaultValues={defaultValues}
+                    />
+                    <ButtonNavigation
+                      backDestination={previousStep}
+                      isLast={isLast}
+                      commonContent={commonContent}
+                    />
+                  </div>
+                </ValidatedForm>
+              </div>
             </div>
-          </div>
-        </Container>
-      </div>
-    </Background>
-  );
+          </Container>
+        </div>
+      </Background>
+    );
+  }
 }

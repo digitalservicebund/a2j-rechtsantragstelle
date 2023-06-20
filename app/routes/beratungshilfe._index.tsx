@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
@@ -9,7 +9,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta.title ?? location.pathname },
 ];
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const { content, meta } = await strapiPageFromRequest({ request });
   return json({ content, meta });
 };

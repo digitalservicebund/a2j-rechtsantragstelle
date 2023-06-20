@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderFunction } from "@remix-run/node";
+import type { LinksFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -24,18 +24,14 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
 
-export const loader: LoaderFunction = async () => {
-  const footer = getFooterProps(await getStrapiFooter());
-  const navigation = getNavbarProps(await getStrapiNavigation());
-
-  return json({
-    footer: footer,
-    navigation: navigation,
+export const loader = async () =>
+  json({
+    footer: getFooterProps(await getStrapiFooter()),
+    navigation: getNavbarProps(await getStrapiNavigation()),
   });
-};
 
 function App() {
-  const { footer, navigation } = useLoaderData();
+  const { footer, navigation } = useLoaderData<typeof loader>();
 
   return (
     <html lang="de">

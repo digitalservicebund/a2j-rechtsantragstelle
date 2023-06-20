@@ -1,10 +1,10 @@
-import type { LoaderFunction, V2_MetaFunction } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import PageContent from "~/components/PageContent";
 import { getStrapiPage } from "~/services/cms";
 
-export const loader: LoaderFunction = async () => {
+export const loader = async () => {
   return json(await getStrapiPage({ slug: "index" }));
 };
 
@@ -17,5 +17,5 @@ export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
 ];
 
 export default function Index() {
-  return <PageContent content={useLoaderData().content} />;
+  return <PageContent content={useLoaderData<typeof loader>().content} />;
 }

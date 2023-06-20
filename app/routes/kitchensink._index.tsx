@@ -2,8 +2,8 @@ import { useActionData, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import type {
   DataFunctionArgs,
+  LoaderArgs,
   V2_MetaFunction,
-  LoaderFunction,
 } from "@remix-run/node";
 
 import { z } from "zod";
@@ -40,7 +40,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   },
 ];
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const { content, meta } = await strapiPageFromRequest({ request });
   return json({ content, meta });
 };
