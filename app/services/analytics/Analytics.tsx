@@ -9,9 +9,22 @@ import Paragraph from "~/components/Paragraph";
 import ButtonContainer from "~/components/ButtonContainer";
 import { acceptCookiesFieldName } from "./gdprCookie.server";
 
+// TODO: move all text into CMS
+
 type AnalyticsProps = {
   hasTrackingConsent?: boolean;
 };
+
+export function ResetCookieLink() {
+  const analyticsFetcher = useFetcher();
+  return (
+    <analyticsFetcher.Form method="post" action="/action/set-analytics">
+      <button type="submit" name={acceptCookiesFieldName} value="undefined">
+        Cookie Einwilligung widerrufen
+      </button>
+    </analyticsFetcher.Form>
+  );
+}
 
 export function Analytics({ hasTrackingConsent }: AnalyticsProps) {
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = getWebConfig();

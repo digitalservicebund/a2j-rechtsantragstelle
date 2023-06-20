@@ -7,7 +7,10 @@ import {
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
-  const consent = formData.get(acceptCookiesFieldName) === "true";
+  const fieldContent = formData.get(acceptCookiesFieldName);
+  let consent = undefined;
+  if (fieldContent === "true") consent = true;
+  else if (fieldContent === "false") consent = false;
   const cookie = await createTrackingCookie({ request, consent });
   return json({ success: true }, { headers: { "Set-Cookie": cookie } });
 };
