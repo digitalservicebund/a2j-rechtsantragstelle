@@ -70,17 +70,12 @@ const getReasonsToDisplay = (
     .map((reason) => reason.attributes);
 };
 
-const guards = {
-  beratungshilfe: beratungshilfeGuards,
-  "geld-einklagen": geldEinklagenGuards,
-};
-
 const flowSpecifics = {
   beratungshilfe: {
     flow: beratungshilfeFlow,
     guards: beratungshilfeGuards,
     formPages: beratungshilfeFormPages,
-    validators: geldEinklagenValidators,
+    validators: beratungshilfeValidators,
   },
   "geld-einklagen": {
     flow: geldEinklagenFlow,
