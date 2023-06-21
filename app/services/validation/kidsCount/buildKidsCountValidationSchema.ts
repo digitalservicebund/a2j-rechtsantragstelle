@@ -4,8 +4,7 @@ export const buildKidsCountValidationSchema = () => {
   return z
     .string()
     .trim()
-    .min(1, "required")
-    .regex(/^-?\d+([,.]5)?$/, "wrong_format")
+    .regex(/\d*([,.]5)?$/, "wrong_format")
     .transform((v) => Number(v.replace(",", ".")))
     .refine((v) => v >= 0 && v <= 50, { message: "out_of_range" })
     .transform((v) => v.toString().replace(".", ","));
