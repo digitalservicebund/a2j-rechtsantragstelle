@@ -32,6 +32,7 @@ import {
 } from "~/models/flows/beratungshilfe/guards";
 import invariant from "tiny-invariant";
 import type { MachineConfig } from "xstate";
+import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
@@ -101,18 +102,12 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   }
   const commonContent = await getStrapiVorabCheckCommon();
 
-  // The additional context is used by steps to request other context context variables
-  // Currently used in verfuegbaresEinkommen to calculate a value at runtime based on previous answers
-  let additionalContext = {};
-  if ("additionalContext" in currentPage && currentPage["additionalContext"]) {
-    for (const requestedContext of currentPage["additionalContext"]) {
-      // Use .find(), since answers are nested below stepId and there is no fast lookup by name alone
-      additionalContext = {
-        ...additionalContext,
-        ...Object.values(session.data).find((el) => requestedContext in el),
-      };
-    }
-  }
+  const verfuegbaresEinkommenFreibetrag = getVerfuegbaresEinkommenFreibetrag(
+    session.data
+  );
+  const templateReplacements = {
+    verfuegbaresEinkommenFreibetrag: verfuegbaresEinkommenFreibetrag.toString(),
+  };
 
   const progressBar = flowController.getProgress();
 
@@ -130,7 +125,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     previousStep: flowController.isInitial()
       ? undefined
       : flowController.getPrevious().url,
-    additionalContext,
+    templateReplacements,
   });
 };
 
@@ -168,9 +163,8 @@ export default function Index() {
     progressTotal,
     isLast,
     previousStep,
-    additionalContext,
+    templateReplacements,
   } = useLoaderData<typeof loader>();
-  // TODO: revisit additionalContent
   const params = useParams();
   const stepId = params.stepId as string;
 
@@ -197,7 +191,11 @@ export default function Index() {
                 progressTotal={progressTotal}
               />
               <div className="ds-stack-40">
-                <PageContent content={preFormContent} className="ds-stack-16" />
+                <PageContent
+                  content={preFormContent}
+                  templateReplacements={templateReplacements}
+                  className="ds-stack-16"
+                />
                 <ValidatedForm
                   key={`${stepId}_form`}
                   method="post"
