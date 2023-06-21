@@ -6,8 +6,9 @@ import Input from "../Input";
 import { getInputProps } from "~/services/props/getInputProps";
 import { getRelevantInputContent } from "~/services/cms/getPageConfig";
 import RadioGroupWithContent from "../RadioGroupWithContent";
+import type { StepComponentWithSchema } from "~/components/form/steps";
 
-export function yesNoStep(inputName: string) {
+export function yesNoStep(inputName: string): StepComponentWithSchema {
   const schema = z.object({ [inputName]: YesNoAnswer });
   return {
     schema,

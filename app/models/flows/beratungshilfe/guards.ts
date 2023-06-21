@@ -1,7 +1,7 @@
 import { freibetrag } from "~/lib/freibetrag";
 import moneyToCents from "../../../services/validation/money/moneyToCents";
 
-type Context = Record<string, any>;
+export type Context = Record<string, any>;
 
 type Guard = (context: Context) => boolean;
 

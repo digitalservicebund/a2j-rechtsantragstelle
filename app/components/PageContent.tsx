@@ -18,9 +18,14 @@ import { getHeaderProps } from "~/services/props/getHeaderProps";
 import { getParagraphProps } from "~/services/props/getParagraphProps";
 import Input from "./Input";
 import { getInputProps } from "~/services/props/getInputProps";
+import RadioGroupWithContent from "~/components/RadioGroupWithContent";
+import RadioGroup from "~/components/RadioGroup";
+import { getRadioGroupProps } from "~/services/props/getRadioGroupProps";
+import type { DefaultValues } from "~/components/form/steps";
 
 type PageContentProps = {
   content: Array<StrapiContent>;
+  defaultValues?: DefaultValues;
   className?: string;
 };
 
@@ -66,7 +71,7 @@ const wrapInBackground = (
   return <Background {...config}>{reactElement}</Background>;
 };
 
-function cmsToReact(cms: StrapiContent) {
+function cmsToReact(cms: StrapiContent, defaultValues: DefaultValues) {
   const key = keyFromElement(cms);
   switch (cms.__component) {
     case "basic.heading":
@@ -82,7 +87,15 @@ function cmsToReact(cms: StrapiContent) {
     case "page.header":
       return <Header {...getHeaderProps(cms)} key={key} />;
     case "form-elements.input":
-      return <Input {...getInputProps(cms)} key={key} />;
+      return (
+        <Input
+          {...getInputProps(cms)}
+          defaultValue={defaultValues[cms.name]}
+          key={key}
+        />
+      );
+    case "form-elements.select":
+      return <RadioGroup {...getRadioGroupProps(cms)} key={key} />;
     case "page.box":
       return <Box {...getBoxProps(cms)} key={key} />;
     case "page.info-box":
@@ -92,11 +105,18 @@ function cmsToReact(cms: StrapiContent) {
   }
 }
 
-const PageContent = ({ content = [], className }: PageContentProps) => (
+const PageContent = ({
+  content = [],
+  defaultValues = {},
+  className,
+}: PageContentProps) => (
   <div className={className}>
     {content.map((el) => (
       <div key={keyFromElement(el)}>
-        {wrapInBackground(el, wrapInContainer(el, cmsToReact(el)))}
+        {wrapInBackground(
+          el,
+          wrapInContainer(el, cmsToReact(el, defaultValues))
+        )}
       </div>
     ))}
   </div>

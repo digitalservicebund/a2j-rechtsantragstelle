@@ -170,9 +170,9 @@ export default function Index() {
     previousStep,
     additionalContext,
   } = useLoaderData<typeof loader>();
+  // TODO: revisit additionalContent
   const params = useParams();
   const stepId = params.stepId as string;
-  const FormInputComponent = formPages[stepId].component;
 
   if (resultContent) {
     return (
@@ -202,12 +202,12 @@ export default function Index() {
                   key={`${stepId}_form`}
                   method="post"
                   validator={allValidators[stepId]}
+                  defaultValues={defaultValues}
                   noValidate
                 >
                   <div className="ds-stack-40">
-                    <FormInputComponent
+                    <PageContent
                       content={formContent}
-                      additionalContext={additionalContext}
                       defaultValues={defaultValues}
                     />
                     <ButtonNavigation

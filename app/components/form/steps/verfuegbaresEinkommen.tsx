@@ -10,7 +10,6 @@ const fieldname = schema.keyof()._def.values[0] as string;
 
 export const verfuegbaresEinkommenStep = {
   schema,
-  additionalContext: ["kidsTotal", "isErwerbstaetig", "partnerschaft"], // could also import kinderAnzahlSchema.keyof().Values.kidsTotal,
   component: ({ content, additionalContext = {} }: StepComponentProps) => {
     // Destructure variables that were hopefully passed in via the additionalContext. Note: This will currently fail silently
     const { kidsTotal, isErwerbstaetig, partnerschaft } = additionalContext;

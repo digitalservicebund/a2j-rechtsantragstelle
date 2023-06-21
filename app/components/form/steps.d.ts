@@ -5,8 +5,9 @@ import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormCompon
 export type StepComponentProps = {
   content: StrapiFormComponent[];
   additionalContext?: Record<string, string>;
-  defaultValues?: Record<string, any>;
+  defaultValues?: DefaultValues;
 };
+
 export type FormComponent = FunctionComponent<StepComponentProps>;
 
 interface StepComponent {
@@ -17,5 +18,7 @@ interface StepComponentWithSchema {
   schema: AnyZodObject;
   additionalContext?: string[];
 }
+
+export type DefaultValues = Record<string, string>;
 
 export type StepInterface = StepComponent | StepComponentWithSchema;

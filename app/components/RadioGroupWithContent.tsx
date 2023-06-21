@@ -1,6 +1,7 @@
 import { RadioGroup } from "~/components";
 import type { StrapiSelect } from "~/services/cms/models/StrapiSelect";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import { getRadioGroupProps } from "~/services/props/getRadioGroupProps";
 
 type DefaultOptions = { value: any; text: string }[];
 
@@ -39,10 +40,9 @@ const RadioGroupWithContent = ({
   const matchingContent = filterMatchingContent(name, content);
   return (
     <RadioGroup
+      {...getRadioGroupProps(matchingContent)}
       name={name}
       options={options}
-      label={matchingContent?.label}
-      altLabel={matchingContent?.altLabel}
     />
   );
 };

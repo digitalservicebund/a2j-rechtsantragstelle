@@ -6,6 +6,7 @@ import { StrapiBoxSchema } from "./StrapiBox";
 import { StrapiHeaderSchema } from "./StrapiHeader";
 import { StrapiInputSchema } from "./StrapiInput";
 import { StrapiInfoBoxItemSchema } from "~/services/cms/models/StrapiInfoBoxItem";
+import { StrapiSelectSchema } from "~/services/cms/models/StrapiSelect";
 
 export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiBoxSchema.merge(
@@ -41,6 +42,11 @@ export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiInputSchema.merge(
     z.object({
       __component: z.literal("form-elements.input"),
+    })
+  ),
+  StrapiSelectSchema.merge(
+    z.object({
+      __component: z.literal("form-elements.select"),
     })
   ),
 ]);
