@@ -1,0 +1,39 @@
+{
+  "id": "/geld-einklagen/vorabcheck/",
+  "initial": "kontaktaufnahme",
+  "states": {
+    "kontaktaufnahme": {
+      "meta": { "progressPosition": 1 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "kontaktaufnahme-hinweis",
+            "cond": "kontaktaufnahmeNo"
+          },
+          {
+            "target": "frist",
+            "cond": "kontaktaufnahmeYes"
+          }
+        ]
+      }
+    },
+    "kontaktaufnahme-hinweis": {
+      "meta": { "progressPosition": 2 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "frist"
+          }
+        ],
+        "BACK": { "target": "kontaktaufnahme" }
+      }
+    },
+    "frist": {
+      "meta": { "progressPosition": 3 },
+      "type": "final",
+      "on": {
+        "BACK": { "target": "kontaktaufnahme" }
+      }
+    }
+  }
+}

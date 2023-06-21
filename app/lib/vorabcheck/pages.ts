@@ -8,8 +8,10 @@ import { vermoegenStep } from "~/components/form/steps/vermoegen";
 import { kinderAnzahlStep } from "~/components/form/steps/kinderAnzahl";
 import { emptyStep } from "~/components/form/steps/emptyStep";
 import { moneyInputStep, yesNoStep } from "~/components/form/createStep";
+import type { FormPages } from "~/models/flows/FormPages";
+import { buildAllValidators } from "~/models/flows/buildAllValidators";
 
-export const formPages: Record<string, StepInterface> = {
+export const formPages: FormPages = {
   rechtsschutzversicherung: yesNoStep("hasRechtsschutzversicherung"),
   rechtsschutzversicherungError: emptyStep,
   klageEingereicht: yesNoStep("hasKlageEingereicht"),
@@ -56,9 +58,4 @@ export const formPages: Record<string, StepInterface> = {
   weitereZahlungenSummeAbschlussJa: emptyStep,
 } as const;
 
-export const allValidators = Object.fromEntries(
-  Object.entries(formPages).map(([key, step]) => [
-    key,
-    "schema" in step ? withZod(step.schema) : withZod(z.object({})),
-  ])
-) as Record<string, ReturnType<typeof withZod>>;
+export const allValidators = buildAllValidators(formPages);
