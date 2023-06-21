@@ -5,11 +5,11 @@ const cases = [
   { input: " 0,5 ", expected: "0,5" },
   { input: "40", expected: "40" },
   { input: "2,5 ", expected: "2,5" },
+  { input: "", expected: "0" },
+  { input: "  ", expected: "0" },
 ];
 
 const failingCases = [
-  { input: "", errorMessage: "required" },
-  { input: "  ", errorMessage: "required" },
   { input: "foobar", errorMessage: "wrong_format" },
   { input: "3,6", errorMessage: "wrong_format" },
   { input: "50,5", errorMessage: "out_of_range" },
