@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import type { ReactNode } from "react";
 import { z } from "zod";
+import { fillTemplate } from "~/util/fillTemplate";
 
 export const HeadingPropsSchema = z.object({
   tagName: z.string().optional(), // TODO: This should be more narrow
@@ -8,6 +9,7 @@ export const HeadingPropsSchema = z.object({
   look: z.string().optional(),
   className: z.string().optional(),
   children: z.custom<ReactNode>().optional(),
+  templateReplacements: z.record(z.string(), z.string()).optional(),
 });
 
 export type HeadingProps = z.infer<typeof HeadingPropsSchema>;
@@ -18,6 +20,7 @@ function Heading({
   className,
   look,
   children,
+  templateReplacements,
 }: HeadingProps) {
   const Tag = tagName as keyof React.JSX.IntrinsicElements;
   const cssClasses = classNames(look === "default" ? null : look, className);
@@ -29,7 +32,14 @@ function Heading({
   return (
     <Tag
       className={cssClasses}
-      dangerouslySetInnerHTML={{ __html: text ?? "" }}
+      dangerouslySetInnerHTML={{
+        __html: text
+          ? fillTemplate({
+              template: text,
+              replacements: templateReplacements,
+            })
+          : "",
+      }}
     />
   );
 }

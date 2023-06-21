@@ -18,7 +18,6 @@ import { getHeaderProps } from "~/services/props/getHeaderProps";
 import { getParagraphProps } from "~/services/props/getParagraphProps";
 import Input from "./Input";
 import { getInputProps } from "~/services/props/getInputProps";
-import RadioGroupWithContent from "~/components/RadioGroupWithContent";
 import RadioGroup from "~/components/RadioGroup";
 import { getRadioGroupProps } from "~/services/props/getRadioGroupProps";
 import type { DefaultValues } from "~/components/form/steps";
@@ -26,6 +25,7 @@ import type { DefaultValues } from "~/components/form/steps";
 type PageContentProps = {
   content: Array<StrapiContent>;
   defaultValues?: DefaultValues;
+  templateReplacements?: Record<string, string>;
   className?: string;
 };
 
@@ -71,11 +71,21 @@ const wrapInBackground = (
   return <Background {...config}>{reactElement}</Background>;
 };
 
-function cmsToReact(cms: StrapiContent, defaultValues: DefaultValues) {
+function cmsToReact(
+  cms: StrapiContent,
+  defaultValues: DefaultValues,
+  templateReplacements: Record<string, string>
+) {
   const key = keyFromElement(cms);
   switch (cms.__component) {
     case "basic.heading":
-      return <Heading {...getHeadingProps(cms)} key={key} />;
+      return (
+        <Heading
+          {...getHeadingProps(cms)}
+          templateReplacements={templateReplacements}
+          key={key}
+        />
+      );
     case "basic.paragraph":
       return (
         <Paragraph
@@ -108,6 +118,7 @@ function cmsToReact(cms: StrapiContent, defaultValues: DefaultValues) {
 const PageContent = ({
   content = [],
   defaultValues = {},
+  templateReplacements = {},
   className,
 }: PageContentProps) => (
   <div className={className}>
@@ -115,7 +126,10 @@ const PageContent = ({
       <div key={keyFromElement(el)}>
         {wrapInBackground(
           el,
-          wrapInContainer(el, cmsToReact(el, defaultValues))
+          wrapInContainer(
+            el,
+            cmsToReact(el, defaultValues, templateReplacements)
+          )
         )}
       </div>
     ))}
