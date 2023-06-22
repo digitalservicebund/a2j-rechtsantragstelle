@@ -1,9 +1,6 @@
 import {
   kontaktaufnahmeYesDataFactory,
   kontaktaufnahmeNoDataFactory,
-  fristYesDataFactory,
-  fristYesExpiredDataFactory,
-  fristNoDataFactory,
 } from "tests/factories/flows/geldEinklagenVorabcheckData";
 import { createMachine } from "xstate";
 import { getSimplePaths } from "@xstate/graph";
