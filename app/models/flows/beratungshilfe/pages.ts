@@ -1,4 +1,4 @@
-import { moneyInputStep, yesNoStep } from "~/components/form/createStep";
+import { moneyInputStep, yesNoStep } from "~/models/flows/createStep";
 import type { FormPages } from "~/models/flows/FormPages";
 import { buildAllValidators } from "~/models/flows/buildAllValidators";
 import { z } from "zod";

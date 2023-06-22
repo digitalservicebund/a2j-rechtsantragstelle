@@ -6,7 +6,7 @@ import type {
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
-import { allValidators, formPages } from "~/lib/vorabcheck/pages";
+import { allValidators, formPages } from "~/models/flows/beratungshilfe/pages";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
 import PageContent from "~/components/PageContent";

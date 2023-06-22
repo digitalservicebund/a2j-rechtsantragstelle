@@ -20,7 +20,7 @@ import Input from "./Input";
 import { getInputProps } from "~/services/props/getInputProps";
 import RadioGroup from "~/components/RadioGroup";
 import { getRadioGroupProps } from "~/services/props/getRadioGroupProps";
-import type { DefaultValues } from "~/components/form/steps";
+import type { DefaultValues } from "~/models/flows/steps";
 
 type PageContentProps = {
   content: Array<StrapiContent>;

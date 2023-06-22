@@ -1,3 +1,3 @@
-import type { StepInterface } from "~/components/form/steps";
+import type { StepInterface } from "~/models/flows/steps";
 
 export type FormPages = Record<string, StepInterface>;

@@ -9,7 +9,7 @@ import { ValidatedForm, validationError } from "remix-validated-form";
 import {
   allValidators as beratungshilfeValidators,
   formPages as beratungshilfeFormPages,
-} from "~/lib/vorabcheck/pages";
+} from "~/models/flows/beratungshilfe/pages";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
 import PageContent from "~/components/PageContent";
