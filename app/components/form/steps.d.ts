@@ -3,13 +3,11 @@ import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormCompon
 
 export type StepComponentProps = {
   content: StrapiFormComponent[];
-  additionalContext?: Record<string, string>;
   defaultValues?: DefaultValues;
 };
 
 export type StepInterface = {
   schema?: AnyZodObject | ZodEnum;
-  additionalContext?: string[];
   component?: any;
 };
 
