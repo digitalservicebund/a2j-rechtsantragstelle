@@ -6,9 +6,14 @@ import { buildAllValidators } from "~/models/flows/buildAllValidators";
 export const formPages: FormPages = {
   kontaktaufnahme: yesNoStep("kontaktaufnahme"),
   "kontaktaufnahme-hinweis": {},
-  frist: { schema: z.object({ frist: z.enum(["yes", "yesExpired", "no"]) }) },
+  fristAbgelaufen: {
+    schema: z.object({ fristAbgelaufen: z.enum(["yes", "notSet", "no"]) }),
+  },
   "frist-hinweis": {},
-  "vor-2020": yesNoStep("vor-2020"),
+  verjaehrt: yesNoStep("verjaehrt"),
+  "verjaehrt-hinweis": {},
+  beweise: yesNoStep("beweise"),
+  "beweise-hinweis": {},
 } as const;
 
 export const allValidators = buildAllValidators(formPages);

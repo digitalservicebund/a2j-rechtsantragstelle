@@ -10,60 +10,63 @@ type KontaktaufnahmeFactoryData = KontaktaufnahmeData;
 export const kontaktaufnahmeYesDataFactory =
   Factory.define<KontaktaufnahmeFactoryData>(() => {
     return {
-      kontaktaufnahme: {
-        kontaktaufnahme: "yes",
-      },
+      kontaktaufnahme: { kontaktaufnahme: "yes" },
     };
   });
 
 export const kontaktaufnahmeNoDataFactory =
   kontaktaufnahmeYesDataFactory.params({
-    kontaktaufnahme: {
-      kontaktaufnahme: "no",
-    },
+    kontaktaufnahme: { kontaktaufnahme: "no" },
   });
 
-invariant(formPages.frist.schema);
-type FristData = z.infer<typeof formPages.frist.schema>;
+invariant(formPages.fristAbgelaufen.schema);
+type FristData = z.infer<typeof formPages.fristAbgelaufen.schema>;
 type FristFactoryData = KontaktaufnahmeFactoryData & FristData;
 
 export const fristYesDataFactory = Factory.define<FristFactoryData>(() => {
   return {
     ...kontaktaufnahmeYesDataFactory.build(),
-    frist: {
-      frist: "yes",
-    },
+    fristAbgelaufen: { fristAbgelaufen: "yes" },
   };
 });
 
-export const fristYesExpiredDataFactory = fristYesDataFactory.params({
-  frist: {
-    frist: "yesExpired",
-  },
+export const fristNotSetDataFactory = fristYesDataFactory.params({
+  fristAbgelaufen: { fristAbgelaufen: "yes" },
 });
 
 export const fristNoDataFactory = fristYesDataFactory.params({
-  frist: {
-    frist: "no",
-  },
+  fristAbgelaufen: { fristAbgelaufen: "no" },
 });
 
-invariant(formPages["vor-2020"].schema);
-const vor2020Schema = formPages["vor-2020"].schema;
-type Vor2020Data = z.infer<typeof vor2020Schema>;
-type Vor2020FactoryData = FristFactoryData & Vor2020Data;
+invariant(formPages["verjaehrt"].schema);
+const verjaehrtSchema = formPages["verjaehrt"].schema;
+type VerjaehrtData = z.infer<typeof verjaehrtSchema>;
+type VerjaehrtFactoryData = FristFactoryData & VerjaehrtData;
 
-export const vor2020NoDataFactory = Factory.define<Vor2020FactoryData>(() => {
+export const verjaehrtNoDataFactory = Factory.define<VerjaehrtFactoryData>(
+  () => {
+    return {
+      ...fristNotSetDataFactory.build(),
+      verjaehrt: { verjaehrt: "no" },
+    };
+  }
+);
+
+export const verjaehrtYesDataFactory = verjaehrtNoDataFactory.params({
+  verjaehrt: { verjaehrt: "yes" },
+});
+
+invariant(formPages.beweise.schema);
+type BeweiseData = z.infer<typeof formPages.beweise.schema>;
+type BeweiseFactoryData = VerjaehrtFactoryData & BeweiseData;
+
+export const beweiseYesDataFactory = Factory.define<BeweiseFactoryData>(() => {
   return {
-    ...fristYesExpiredDataFactory.build(),
-    "vor-2020": {
-      "vor-2020": "no",
-    },
+    ...verjaehrtNoDataFactory.build(),
+    beweise: { beweise: "yes" },
   };
 });
 
-export const vor2020YesDataFactory = vor2020NoDataFactory.params({
-  "vor-2020": {
-    "vor-2020": "yes",
-  },
+export const beweiseNoDataFactory = beweiseYesDataFactory.params({
+  beweise: { beweise: "no" },
 });

@@ -28,8 +28,9 @@ function yesNoGuards<Step extends string>(
 
 export const guards = {
   ...yesNoGuards("kontaktaufnahme"),
-  ...yesNoGuards("frist"),
-  fristYesExpired: (context: GeldEinklagenVorabcheckContext) =>
-    context?.frist?.frist === "yesExpired",
-  ...yesNoGuards("vor-2020"),
+  ...yesNoGuards("fristAbgelaufen"),
+  fristAbgelaufenNotSet: (context: GeldEinklagenVorabcheckContext) =>
+    context?.fristAbgelaufen?.fristAbgelaufen === "notSet",
+  ...yesNoGuards("verjaehrt"),
+  ...yesNoGuards("beweise"),
 };

@@ -11,7 +11,7 @@
             "cond": "kontaktaufnahmeNo"
           },
           {
-            "target": "frist",
+            "target": "fristAbgelaufen",
             "cond": "kontaktaufnahmeYes"
           }
         ]
@@ -20,73 +20,92 @@
     "kontaktaufnahme-hinweis": {
       "meta": { "progressPosition": 2 },
       "on": {
-        "SUBMIT": { "target": "frist" },
+        "SUBMIT": { "target": "fristAbgelaufen" },
         "BACK": { "target": "kontaktaufnahme" }
       }
     },
-    "frist": {
+    "fristAbgelaufen": {
       "meta": { "progressPosition": 3 },
       "on": {
         "SUBMIT": [
           {
-            "target": "vor-2020",
-            "cond": "fristYesExpired"
+            "target": "verjaehrt",
+            "cond": "fristAbgelaufenYes"
           },
           {
-            "target": "frist-hinweis",
-            "cond": "fristNo"
+            "target": "fristAbgelaufen-hinweis",
+            "cond": "fristAbgelaufenNo"
           },
           {
-            "target": "frist-hinweis",
-            "cond": "fristYes"
+            "target": "fristAbgelaufen-hinweis",
+            "cond": "fristAbgelaufenNotSet"
           }
         ],
         "BACK": { "target": "kontaktaufnahme" }
       }
     },
-    "frist-hinweis": {
+    "fristAbgelaufen-hinweis": {
       "meta": { "progressPosition": 4 },
       "on": {
-        "SUBMIT": [
-          {
-            "target": "vor-2020"
-          }
-        ],
-        "BACK": { "target": "frist" }
+        "SUBMIT": { "target": "verjaehrt" },
+        "BACK": { "target": "fristAbgelaufen" }
       }
     },
-    "vor-2020": {
+    "verjaehrt": {
       "meta": { "progressPosition": 5 },
       "on": {
         "SUBMIT": [
           {
-            "target": "vor-2020-hinweis",
-            "cond": "vor-2020Yes"
+            "target": "verjaehrt-hinweis",
+            "cond": "verjaehrtYes"
           },
           {
             "target": "beweise",
-            "cond": "vor-2020No"
+            "cond": "verjaehrtNo"
           }
         ],
-        "BACK": { "target": "frist" }
+        "BACK": { "target": "fristAbgelaufen" }
       }
     },
-    "vor-2020-hinweis": {
+    "verjaehrt-hinweis": {
       "meta": { "progressPosition": 6 },
       "on": {
-        "SUBMIT": [
-          {
-            "target": "beweise"
-          }
-        ],
-        "BACK": { "target": "vor-2020" }
+        "SUBMIT": { "target": "beweise" },
+        "BACK": { "target": "verjaehrt" }
       }
     },
     "beweise": {
       "meta": { "progressPosition": 7 },
       "on": {
+        "SUBMIT": [
+          {
+            "target": "beweise-hinweis",
+            "cond": "beweiseNo"
+          },
+          {
+            "target": "gerichtsentscheidung",
+            "cond": "beweiseYes"
+          }
+        ],
+        "BACK": { "target": "verjaehrt" }
+      }
+    },
+    "beweise-hinweis": {
+      "meta": { "progressPosition": 8 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "gerichtsentscheidung"
+          }
+        ],
+        "BACK": { "target": "beweise" }
+      }
+    },
+    "gerichtsentscheidung": {
+      "meta": { "progressPosition": 9 },
+      "on": {
         "SUBMIT": [],
-        "BACK": { "target": "vor-2020" }
+        "BACK": { "target": "beweise" }
       }
     }
   }

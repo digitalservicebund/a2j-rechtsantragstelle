@@ -2,10 +2,12 @@ import {
   kontaktaufnahmeYesDataFactory,
   kontaktaufnahmeNoDataFactory,
   fristYesDataFactory,
-  fristYesExpiredDataFactory,
+  fristNotSetDataFactory,
   fristNoDataFactory,
-  vor2020YesDataFactory,
-  vor2020NoDataFactory,
+  verjaehrtNoDataFactory,
+  verjaehrtYesDataFactory,
+  beweiseNoDataFactory,
+  beweiseYesDataFactory,
 } from "tests/factories/flows/geldEinklagenVorabcheckData";
 import { createMachine } from "xstate";
 import { getSimplePaths } from "@xstate/graph";
@@ -41,25 +43,34 @@ describe("geldEinklagen/config", () => {
     );
 
     const kontaktaufnahme = ["kontaktaufnahme"];
-    const frist = [...kontaktaufnahme, "frist"];
-    const vor2020 = [...frist, "vor-2020"];
-    const beweise = [...vor2020, "beweise"];
+    const fristAbgelaufen = [...kontaktaufnahme, "fristAbgelaufen"];
+    const verjaehrt = [...fristAbgelaufen, "verjaehrt"];
+    const beweise = [...verjaehrt, "beweise"];
+    const gerichtsentscheidung = [...beweise, "gerichtsentscheidung"];
 
-    const cases: [any, string[]][] = [
+    const cases: [GeldEinklagenVorabcheckContext, string[]][] = [
       [{}, kontaktaufnahme],
-      [kontaktaufnahmeYesDataFactory.build(), frist],
+      [kontaktaufnahmeYesDataFactory.build(), fristAbgelaufen],
       [
         kontaktaufnahmeNoDataFactory.build(),
-        ["kontaktaufnahme", "kontaktaufnahme-hinweis", "frist"],
+        ["kontaktaufnahme", "kontaktaufnahme-hinweis", "fristAbgelaufen"],
       ],
-      [fristYesExpiredDataFactory.build(), vor2020],
-      [fristYesDataFactory.build(), [...frist, "frist-hinweis", "vor-2020"]],
-      [fristNoDataFactory.build(), [...frist, "frist-hinweis", "vor-2020"]],
+      [fristNotSetDataFactory.build(), verjaehrt],
+      [fristYesDataFactory.build(), [...fristAbgelaufen, "verjaehrt"]],
       [
-        vor2020YesDataFactory.build(),
-        [...vor2020, "vor-2020-hinweis", "beweise"],
+        fristNoDataFactory.build(),
+        [...fristAbgelaufen, "fristAbgelaufen-hinweis", "verjaehrt"],
       ],
-      [vor2020NoDataFactory.build(), beweise],
+      [
+        verjaehrtYesDataFactory.build(),
+        [...verjaehrt, "verjaehrt-hinweis", "beweise"],
+      ],
+      [verjaehrtNoDataFactory.build(), beweise],
+      [
+        beweiseNoDataFactory.build(),
+        [...beweise, "beweise-hinweis", "gerichtsentscheidung"],
+      ],
+      [beweiseYesDataFactory.build(), gerichtsentscheidung],
     ];
 
     test.each(cases)(
