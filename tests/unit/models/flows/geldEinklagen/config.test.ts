@@ -1,9 +1,15 @@
 import {
   kontaktaufnahmeYesDataFactory,
   kontaktaufnahmeNoDataFactory,
+  fristYesDataFactory,
+  fristYesExpiredDataFactory,
+  fristNoDataFactory,
+  vor2020YesDataFactory,
+  vor2020NoDataFactory,
 } from "tests/factories/flows/geldEinklagenVorabcheckData";
 import { createMachine } from "xstate";
 import { getSimplePaths } from "@xstate/graph";
+import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/guards";
 import { guards } from "~/models/flows/geldEinklagen/guards";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
 
@@ -28,25 +34,41 @@ const getSteps = (machine: any, context: any) => {
  */
 
 describe("geldEinklagen/config", () => {
-  const machine = createMachine(
-    //@ts-ignore
-    { ...geldEinklagenFlow, context: {}, predictableActionArguments: true },
-    //@ts-ignore
-    { guards }
-  );
+  describe("SUBMIT transitions", () => {
+    const machine = createMachine<GeldEinklagenVorabcheckContext>(
+      { ...geldEinklagenFlow, context: {}, predictableActionArguments: true },
+      { guards }
+    );
 
-  const cases: [any, string[]][] = [
-    [{}, ["kontaktaufnahme"]],
-    [kontaktaufnahmeYesDataFactory.build(), ["kontaktaufnahme", "frist"]],
-    [
-      kontaktaufnahmeNoDataFactory.build(),
-      ["kontaktaufnahme", "kontaktaufnahme-hinweis", "frist"],
-    ],
-  ];
+    const kontaktaufnahme = ["kontaktaufnahme"];
+    const frist = [...kontaktaufnahme, "frist"];
+    const vor2020 = [...frist, "vor-2020"];
+    const beweise = [...vor2020, "beweise"];
 
-  test.each(cases)("(%#) given %j, visits expected steps", (context, steps) => {
-    const expectedSteps = steps;
-    const actualSteps = getSteps(machine, context);
-    expect(actualSteps).toEqual(expectedSteps);
+    const cases: [any, string[]][] = [
+      [{}, kontaktaufnahme],
+      [kontaktaufnahmeYesDataFactory.build(), frist],
+      [
+        kontaktaufnahmeNoDataFactory.build(),
+        ["kontaktaufnahme", "kontaktaufnahme-hinweis", "frist"],
+      ],
+      [fristYesExpiredDataFactory.build(), vor2020],
+      [fristYesDataFactory.build(), [...frist, "frist-hinweis", "vor-2020"]],
+      [fristNoDataFactory.build(), [...frist, "frist-hinweis", "vor-2020"]],
+      [
+        vor2020YesDataFactory.build(),
+        [...vor2020, "vor-2020-hinweis", "beweise"],
+      ],
+      [vor2020NoDataFactory.build(), beweise],
+    ];
+
+    test.each(cases)(
+      "(%#) given context: %j, visits steps: %j",
+      (context, steps) => {
+        const expectedSteps = steps;
+        const actualSteps = getSteps(machine, context);
+        expect(actualSteps).toEqual(expectedSteps);
+      }
+    );
   });
 });

@@ -26,9 +26,67 @@
     },
     "frist": {
       "meta": { "progressPosition": 3 },
-      "type": "final",
       "on": {
+        "SUBMIT": [
+          {
+            "target": "vor-2020",
+            "cond": "fristYesExpired"
+          },
+          {
+            "target": "frist-hinweis",
+            "cond": "fristNo"
+          },
+          {
+            "target": "frist-hinweis",
+            "cond": "fristYes"
+          }
+        ],
         "BACK": { "target": "kontaktaufnahme" }
+      }
+    },
+    "frist-hinweis": {
+      "meta": { "progressPosition": 4 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "vor-2020"
+          }
+        ],
+        "BACK": { "target": "frist" }
+      }
+    },
+    "vor-2020": {
+      "meta": { "progressPosition": 5 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "vor-2020-hinweis",
+            "cond": "vor-2020Yes"
+          },
+          {
+            "target": "beweise",
+            "cond": "vor-2020No"
+          }
+        ],
+        "BACK": { "target": "frist" }
+      }
+    },
+    "vor-2020-hinweis": {
+      "meta": { "progressPosition": 6 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "beweise"
+          }
+        ],
+        "BACK": { "target": "vor-2020" }
+      }
+    },
+    "beweise": {
+      "meta": { "progressPosition": 7 },
+      "on": {
+        "SUBMIT": [],
+        "BACK": { "target": "vor-2020" }
       }
     }
   }

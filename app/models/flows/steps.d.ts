@@ -1,4 +1,4 @@
-import type { AnyZodObject, ZodEnum } from "zod";
+import type { AnyZodObject } from "zod";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 
 export type StepComponentProps = {
@@ -7,7 +7,7 @@ export type StepComponentProps = {
 };
 
 export type StepInterface = {
-  schema?: AnyZodObject | ZodEnum;
+  schema?: AnyZodObject;
   component?: any;
 };
 

@@ -1,17 +1,35 @@
-export type GeldEinklagenVorabcheckContext = Record<string, any>;
+export type GeldEinklagenVorabcheckContext = Record<
+  string,
+  Record<string, string>
+>;
 
 type GeldEinklagenVorabcheckGuard = (
   context: GeldEinklagenVorabcheckContext
 ) => boolean;
 
-const yesNoGuards = (
-  step: string,
+function yesNoGuards<Step extends string>(
+  step: Step,
   field?: string
-): Record<string, GeldEinklagenVorabcheckGuard> => ({
-  [`${step}Yes`]: (context) => context?.[step]?.[field ?? step] === "yes",
-  [`${step}No`]: (context) => context?.[step]?.[field ?? step] === "no",
-});
+): {
+  [step in Step as `${step}Yes`]: GeldEinklagenVorabcheckGuard;
+} & {
+  [step in Step as `${step}No`]: GeldEinklagenVorabcheckGuard;
+} {
+  //@ts-ignore
+  return {
+    [`${step}Yes`]: ((context) =>
+      context?.[step]?.[field ?? step] ===
+      "yes") as GeldEinklagenVorabcheckGuard,
+    [`${step}No`]: ((context) =>
+      context?.[step]?.[field ?? step] ===
+      "no") as GeldEinklagenVorabcheckGuard,
+  };
+}
 
 export const guards = {
-  ...yesNoGuards("kontaktaufnahme", "kontaktaufnahme"),
+  ...yesNoGuards("kontaktaufnahme"),
+  ...yesNoGuards("frist"),
+  fristYesExpired: (context: GeldEinklagenVorabcheckContext) =>
+    context?.frist?.frist === "yesExpired",
+  ...yesNoGuards("vor-2020"),
 };
