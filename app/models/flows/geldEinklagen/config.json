@@ -20,11 +20,7 @@
     "kontaktaufnahme-hinweis": {
       "meta": { "progressPosition": 2 },
       "on": {
-        "SUBMIT": [
-          {
-            "target": "frist"
-          }
-        ],
+        "SUBMIT": { "target": "frist" },
         "BACK": { "target": "kontaktaufnahme" }
       }
     },
