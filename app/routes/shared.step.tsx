@@ -1,7 +1,7 @@
 import { useLoaderData, useLocation } from "@remix-run/react";
 import type {
   ActionFunction,
-  LoaderFunction,
+  LoaderArgs,
   V2_MetaFunction,
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
@@ -43,7 +43,7 @@ import {
 } from "~/models/flows/geldEinklagen/pages";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
-  { title: data ? data.meta.title : location.pathname },
+  { title: data?.meta?.title ?? location.pathname },
 ];
 
 const getReasonsToDisplay = (
@@ -85,7 +85,7 @@ const flowSpecifics = {
   },
 };
 
-export const loader: LoaderFunction = async ({ params, request }) => {
+export const loader = async ({ params, request }: LoaderArgs) => {
   const splat = params["*"];
   invariant(typeof splat !== "undefined");
 
