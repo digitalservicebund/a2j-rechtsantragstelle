@@ -93,19 +93,104 @@
     "beweise-hinweis": {
       "meta": { "progressPosition": 8 },
       "on": {
-        "SUBMIT": [
-          {
-            "target": "gerichtsentscheidung"
-          }
-        ],
+        "SUBMIT": { "target": "gerichtsentscheidung" },
         "BACK": { "target": "beweise" }
       }
     },
     "gerichtsentscheidung": {
       "meta": { "progressPosition": 9 },
       "on": {
-        "SUBMIT": [],
+        "SUBMIT": [
+          {
+            "target": "gerichtsentscheidung-hinweis",
+            "cond": "gerichtsentscheidungYes"
+          },
+          {
+            "target": "verfahrenBegonnen",
+            "cond": "gerichtsentscheidungNo"
+          }
+        ],
         "BACK": { "target": "beweise" }
+      }
+    },
+    "gerichtsentscheidung-hinweis": {
+      "meta": { "progressPosition": 10 },
+      "on": {
+        "SUBMIT": { "target": "verfahrenBegonnen" },
+        "BACK": { "target": "gerichtsentscheidung" }
+      }
+    },
+    "verfahrenBegonnen": {
+      "meta": { "progressPosition": 11 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "verfahrenBegonnen-hinweis",
+            "cond": "verfahrenBegonnenYes"
+          },
+          {
+            "target": "privatperson",
+            "cond": "verfahrenBegonnenNo"
+          }
+        ],
+        "BACK": { "target": "gerichtsentscheidung" }
+      }
+    },
+    "verfahrenBegonnen-hinweis": {
+      "meta": { "progressPosition": 12 },
+      "on": {
+        "SUBMIT": { "target": "privatperson" },
+        "BACK": { "target": "verfahrenBegonnen" }
+      }
+    },
+    "privatperson": {
+      "meta": { "progressPosition": 13 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "wohnsitzDeutschland",
+            "cond": "privatpersonYes"
+          },
+          {
+            "target": "privatperson-abbruch",
+            "cond": "notSinglePerson"
+          }
+        ],
+        "BACK": { "target": "verfahrenBegonnen" }
+      }
+    },
+    "privatperson-abbruch": {
+      "meta": { "progressPosition": 14 },
+      "on": {
+        "BACK": { "target": "privatperson" }
+      }
+    },
+    "wohnsitzDeutschland": {
+      "meta": { "progressPosition": 15 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "abschluss",
+            "cond": "wohnsitzDeutschlandYes"
+          },
+          {
+            "target": "wohnsitzDeutschland-abbruch",
+            "cond": "wohnsitzDeutschlandNo"
+          }
+        ],
+        "BACK": { "target": "privatperson" }
+      }
+    },
+    "wohnsitzDeutschland-abbruch": {
+      "meta": { "progressPosition": 16 },
+      "on": {
+        "BACK": { "target": "wohnsitzDeutschland" }
+      }
+    },
+    "abschluss": {
+      "meta": { "progressPosition": 17 },
+      "on": {
+        "BACK": { "target": "wohnsitzDeutschland" }
       }
     }
   }

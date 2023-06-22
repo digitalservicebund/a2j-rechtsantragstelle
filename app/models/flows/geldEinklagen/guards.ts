@@ -33,4 +33,10 @@ export const guards = {
     context?.fristAbgelaufen?.fristAbgelaufen === "notSet",
   ...yesNoGuards("verjaehrt"),
   ...yesNoGuards("beweise"),
+  ...yesNoGuards("gerichtsentscheidung"),
+  ...yesNoGuards("verfahrenBegonnen"),
+  ...yesNoGuards("privatperson"),
+  notSinglePerson: (context: GeldEinklagenVorabcheckContext) =>
+    context.privatperson.privatperson !== "yes",
+  ...yesNoGuards("wohnsitzDeutschland"),
 };

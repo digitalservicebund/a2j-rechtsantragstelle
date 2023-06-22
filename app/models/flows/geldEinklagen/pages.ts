@@ -14,6 +14,25 @@ export const formPages: FormPages = {
   "verjaehrt-hinweis": {},
   beweise: yesNoStep("beweise"),
   "beweise-hinweis": {},
+  gerichtsentscheidung: yesNoStep("gerichtsentscheidung"),
+  "gerichtsentscheidung-hinweis": {},
+  verfahrenBegonnen: yesNoStep("verfahrenBegonnen"),
+  "verfahrenBegonnen-hinweis": {},
+  privatperson: {
+    schema: z.object({
+      privatperson: z.enum([
+        "yes",
+        "nonPrivate",
+        "nonSingle",
+        "representing",
+        "organisation",
+      ]),
+    }),
+  },
+  "privatperson-abbruch": {},
+  wohnsitzDeutschland: yesNoStep("wohnsitzDeutschland"),
+  "wohnsitzDeutschland-abbruch": {},
+  abschluss: {},
 } as const;
 
 export const allValidators = buildAllValidators(formPages);
