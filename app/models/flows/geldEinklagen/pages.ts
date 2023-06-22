@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { yesNoStep } from "~/models/flows/createStep";
-import type { FormPages } from "~/models/flows/FormPages";
+import type { FormPages } from "~/models/flows/steps";
 import { buildAllValidators } from "~/models/flows/buildAllValidators";
 
 export const formPages: FormPages = {

@@ -1,5 +1,5 @@
 import { moneyInputStep, yesNoStep } from "~/models/flows/createStep";
-import type { FormPages } from "~/models/flows/FormPages";
+import type { FormPages } from "~/models/flows/steps";
 import { buildAllValidators } from "~/models/flows/buildAllValidators";
 import { z } from "zod";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";

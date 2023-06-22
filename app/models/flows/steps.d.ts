@@ -12,3 +12,4 @@ export type StepInterface = {
 };
 
 export type DefaultValues = Record<string, string>;
+export type FormPages = Record<string, StepInterface>;

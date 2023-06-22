@@ -1,6 +1,6 @@
 import { withZod } from "@remix-validated-form/with-zod";
 import { z } from "zod";
-import type { FormPages } from "~/models/flows/FormPages";
+import type { FormPages } from "~/models/flows/steps";
 
 export const buildAllValidators = (formPages: FormPages) =>
   Object.fromEntries(
