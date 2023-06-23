@@ -122,7 +122,6 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     return redirect(flowController.getInitial().url);
   }
 
-  let slug = pathname;
   const verfuegbaresEinkommenFreibetrag = getVerfuegbaresEinkommenFreibetrag(
     session.data
   );
@@ -144,17 +143,11 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   let resultContent: StrapiResultPage | undefined;
   let resultReasonsToDisplay: StrapiElementWithId[] | undefined;
 
+  const slug = pathname;
   try {
     formPageContent = await getStrapiVorabCheckPage({ slug });
   } catch (err1) {
     try {
-      if (/AbschlussJa/.test(slug)) {
-        slug = "/beratungshilfe/vorabcheck/abschlussJa";
-      } else if (/AbschlussNein/.test(slug)) {
-        slug = "/beratungshilfe/vorabcheck/abschlussNein";
-      } else if (/AbschlussVielleicht/.test(slug)) {
-        slug = "/beratungshilfe/vorabcheck/abschlussVielleicht";
-      }
       resultContent = await getStrapiResultPage({ slug });
       resultReasonsToDisplay = getReasonsToDisplay(
         resultContent.reasonings.data,
