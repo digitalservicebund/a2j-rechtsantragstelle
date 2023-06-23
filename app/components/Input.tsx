@@ -17,7 +17,6 @@ export const InputPropsSchema = z.object({
   placeholder: z.string().optional(),
   prefix: z.string().optional(),
   suffix: z.string().optional(),
-  defaultValue: z.string().optional(),
   errorMessages: z.array(ErrorMessagePropsSchema).optional(),
 });
 
@@ -31,7 +30,6 @@ const Input = ({
   placeholder,
   prefix,
   suffix,
-  defaultValue,
   errorMessages,
 }: InputProps) => {
   const { error, getInputProps } = useField(name);
@@ -51,7 +49,6 @@ const Input = ({
           })}
           className={classNames("ds-input", { "has-error": error })}
           aria-describedby={error && `${name}-error`}
-          defaultValue={defaultValue}
         />
         {suffix && <div className="ds-input-suffix">{suffix}</div>}
       </div>

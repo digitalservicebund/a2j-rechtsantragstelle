@@ -246,10 +246,7 @@ export function Step() {
                   action={stepId}
                 >
                   <div className="ds-stack-40">
-                    <PageContent
-                      content={formContent}
-                      defaultValues={defaultValues}
-                    />
+                    <PageContent content={formContent} />
                     <ButtonNavigation
                       backDestination={previousStep}
                       isLast={isLast}

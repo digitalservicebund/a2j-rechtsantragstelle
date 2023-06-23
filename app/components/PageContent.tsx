@@ -73,7 +73,6 @@ const wrapInBackground = (
 
 function cmsToReact(
   cms: StrapiContent,
-  defaultValues: DefaultValues,
   templateReplacements: Record<string, string>
 ) {
   const key = keyFromElement(cms);
@@ -97,13 +96,7 @@ function cmsToReact(
     case "page.header":
       return <Header {...getHeaderProps(cms)} key={key} />;
     case "form-elements.input":
-      return (
-        <Input
-          {...getInputProps(cms)}
-          defaultValue={defaultValues[cms.name]}
-          key={key}
-        />
-      );
+      return <Input {...getInputProps(cms)} key={key} />;
     case "form-elements.select":
       return <RadioGroup {...getRadioGroupProps(cms)} key={key} />;
     case "page.box":
@@ -117,7 +110,6 @@ function cmsToReact(
 
 const PageContent = ({
   content = [],
-  defaultValues = {},
   templateReplacements = {},
   className,
 }: PageContentProps) => (
@@ -126,10 +118,7 @@ const PageContent = ({
       <div key={keyFromElement(el)}>
         {wrapInBackground(
           el,
-          wrapInContainer(
-            el,
-            cmsToReact(el, defaultValues, templateReplacements)
-          )
+          wrapInContainer(el, cmsToReact(el, templateReplacements))
         )}
       </div>
     ))}
