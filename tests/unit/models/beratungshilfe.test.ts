@@ -1,4 +1,4 @@
-import { freibetrag } from "~/lib/freibetrag";
+import { freibetrag } from "~/models/beratungshilfe";
 
 describe("freibetrag", () => {
   it("should return 572 when single not working", () => {
