@@ -9,7 +9,7 @@ import { findEdgeCases } from "~/services/gerichtsfinder/amtsgerichtData.server"
 import RichText from "~/components/RichText";
 import { fillTemplate } from "~/util/fillTemplate";
 import Heading from "~/components/Heading";
-import { splitObjectsByFirstLetter } from "~/lib/strings";
+import { splitObjectsByFirstLetter } from "~/util/strings";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
   { title: data?.meta.title ?? location.pathname },

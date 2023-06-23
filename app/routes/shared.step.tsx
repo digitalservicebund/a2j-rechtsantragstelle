@@ -34,7 +34,7 @@ import type { MachineConfig } from "xstate";
 import { getInitialStep } from "~/services/flow/getInitialStep";
 import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
 import { context as geldEinklagenContext } from "~/models/flows/geldEinklagen/pages";
-import { isKeyOfObject } from "~/lib/objects";
+import { isKeyOfObject } from "~/util/objects";
 import { withZod } from "@remix-validated-form/with-zod";
 import { z } from "zod";
 import { context as contextBeratungshilfe } from "~/models/flows/beratungshilfe/pages";

@@ -1,4 +1,4 @@
-import { splitObjectsByFirstLetter, stripLeadingZeros } from "~/lib/strings";
+import { splitObjectsByFirstLetter, stripLeadingZeros } from "~/util/strings";
 
 describe("stripLeadingZeros", () => {
   it("strips leading zeros", () => {

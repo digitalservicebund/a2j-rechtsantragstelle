@@ -1,4 +1,4 @@
-import { stripLeadingZeros } from "~/lib/strings";
+import { stripLeadingZeros } from "~/util/strings";
 import type {
   GerbehFile,
   GerbehIndex,

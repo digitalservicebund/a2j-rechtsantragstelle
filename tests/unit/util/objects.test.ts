@@ -1,4 +1,4 @@
-import { isKeyOfObject, objectMap } from "~/lib/objects";
+import { isKeyOfObject, objectMap } from "~/util/objects";
 
 describe("isKeyOfObject", () => {
   it("detects existing keys", () => {
