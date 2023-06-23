@@ -5,7 +5,7 @@ import PageContent from "~/components/PageContent";
 import { getStrapiPage } from "~/services/cms";
 
 export const loader = async () => {
-  return json(await getStrapiPage({ slug: "index" }));
+  return json(await getStrapiPage({ slug: "/" }));
 };
 
 export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
