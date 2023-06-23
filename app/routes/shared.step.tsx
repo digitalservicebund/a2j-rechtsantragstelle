@@ -6,10 +6,7 @@ import type {
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
-import {
-  allValidators as beratungshilfeValidators,
-  formPages as beratungshilfeFormPages,
-} from "~/models/flows/beratungshilfe/pages";
+// import { formPages as beratungshilfeFormPages } from "~/models/flows/beratungshilfe/pages";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
 import PageContent from "~/components/PageContent";
@@ -26,21 +23,21 @@ import {
   getStrapiVorabCheckPage,
 } from "~/services/cms";
 import { buildFlowController } from "~/services/flow/buildFlowController";
-import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
+// import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
 import {
   isIncomeTooHigh,
-  guards as beratungshilfeGuards,
+  // guards as beratungshilfeGuards,
 } from "~/models/flows/beratungshilfe/guards";
 import { guards as geldEinklagenGuards } from "~/models/flows/geldEinklagen/guards";
 import invariant from "tiny-invariant";
 import type { MachineConfig } from "xstate";
 import { getInitialStep } from "~/services/flow/getInitialStep";
 import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
-import {
-  allValidators as geldEinklagenValidators,
-  formPages as geldEinklagenFormPages,
-} from "~/models/flows/geldEinklagen/pages";
+import { context as geldEinklagenContext } from "~/models/flows/geldEinklagen/pages";
+import { isKeyOfObject } from "~/lib/objects";
+import { withZod } from "@remix-validated-form/with-zod";
+import { z } from "zod";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
@@ -71,19 +68,30 @@ const getReasonsToDisplay = (
 };
 
 const flowSpecifics = {
-  beratungshilfe: {
-    flow: beratungshilfeFlow,
-    guards: beratungshilfeGuards,
-    formPages: beratungshilfeFormPages,
-    validators: beratungshilfeValidators,
-  },
+  // beratungshilfe: {
+  //   flow: beratungshilfeFlow,
+  //   guards: beratungshilfeGuards,
+  // },
   "geld-einklagen": {
     flow: geldEinklagenFlow,
     guards: geldEinklagenGuards,
-    formPages: geldEinklagenFormPages,
-    validators: geldEinklagenValidators,
+    context: geldEinklagenContext,
   },
 };
+
+function buildStepValidator(
+  context: Record<string, any>,
+  fieldNames: string[]
+) {
+  let fieldSchemas: Record<string, z.ZodTypeAny> = {};
+  for (const fieldname of fieldNames) {
+    if (!isKeyOfObject(fieldname, context)) {
+      throw Error(`No schema found for ${fieldname}`);
+    }
+    fieldSchemas[fieldname] = context[fieldname];
+  }
+  return withZod(z.object(fieldSchemas));
+}
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   const splat = params["*"];
@@ -113,29 +121,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     return redirect(flowController.getInitial().url);
   }
 
-  const currentPage = flowSpecifics[flowId].formPages[stepId];
   let slug = pathname.substring(1);
-  let formPageContent: StrapiVorabCheckPage | undefined;
-  let resultPageContent: StrapiResultPage | undefined;
-  let resultReasonsToDisplay: StrapiElementWithId[] | undefined;
-  if ("schema" in currentPage) {
-    formPageContent = await getStrapiVorabCheckPage({ slug });
-  } else {
-    if (/AbschlussJa/.test(slug)) {
-      slug = "abschlussJa";
-    } else if (/AbschlussNein/.test(slug)) {
-      slug = "abschlussNein";
-    } else if (/AbschlussVielleicht/.test(slug)) {
-      slug = "abschlussVielleicht";
-    }
-    resultPageContent = await getStrapiResultPage({ slug });
-    resultReasonsToDisplay = getReasonsToDisplay(
-      resultPageContent?.reasonings?.data,
-      session.data
-    );
-  }
-  const commonContent = await getStrapiVorabCheckCommon();
-
   const verfuegbaresEinkommenFreibetrag = getVerfuegbaresEinkommenFreibetrag(
     session.data
   );
@@ -143,22 +129,55 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     verfuegbaresEinkommenFreibetrag: verfuegbaresEinkommenFreibetrag.toString(),
   };
 
+  const commonContent = await getStrapiVorabCheckCommon();
   const progressBar = flowController.getProgress();
+  const defaultValues = session.data;
+  const progressStep = progressBar.current;
+  const progressTotal = progressBar.total;
+  const isLast = flowController.isFinal();
+  const previousStep = flowController.isInitial()
+    ? undefined
+    : flowController.getPrevious().url;
+
+  let formPageContent: StrapiVorabCheckPage | undefined;
+  let resultContent: StrapiResultPage | undefined;
+  let resultReasonsToDisplay: StrapiElementWithId[] | undefined;
+
+  try {
+    formPageContent = await getStrapiVorabCheckPage({ slug });
+  } catch (err1) {
+    try {
+      if (/AbschlussJa/.test(slug)) {
+        slug = "abschlussJa";
+      } else if (/AbschlussNein/.test(slug)) {
+        slug = "abschlussNein";
+      } else if (/AbschlussVielleicht/.test(slug)) {
+        slug = "abschlussVielleicht";
+      }
+      resultContent = await getStrapiResultPage({ slug });
+      resultReasonsToDisplay = getReasonsToDisplay(
+        resultContent?.reasonings?.data,
+        session.data
+      );
+    } catch (err2) {
+      console.error(err1);
+      console.error(err2);
+      throw Error(`${err1}, ${err2}`);
+    }
+  }
 
   return json({
-    defaultValues: session.data[stepId],
+    defaultValues,
     commonContent,
+    resultContent,
     preFormContent: formPageContent?.pre_form,
     formContent: formPageContent?.form,
-    resultContent: resultPageContent,
+    meta: formPageContent?.meta ?? resultContent?.meta,
     resultReasonsToDisplay,
-    meta: formPageContent?.meta ?? resultPageContent?.meta,
-    progressStep: progressBar.current,
-    progressTotal: progressBar.total,
-    isLast: flowController.isFinal(),
-    previousStep: flowController.isInitial()
-      ? undefined
-      : flowController.getPrevious().url,
+    progressStep,
+    progressTotal,
+    isLast,
+    previousStep,
     templateReplacements,
   });
 };
@@ -168,17 +187,27 @@ export const action: ActionFunction = async ({ params, request }) => {
   invariant(typeof splat !== "undefined");
 
   const pathname = new URL(request.url).pathname;
-  const flowId = pathname.split("/")[1] as keyof typeof flowSpecifics;
+  const flowId = pathname.split("/")[1];
   const stepId = splat;
 
   const session = await getSession(request.headers.get("Cookie"));
   const formData = await request.formData();
-  const stepValidators = flowSpecifics[flowId].validators[stepId];
-  const validationResult = await stepValidators.validate(formData);
+  if (!isKeyOfObject(flowId, flowSpecifics)) {
+    throw Error("Unkown flow");
+  }
+  const { context } = flowSpecifics[flowId];
 
+  const fieldNames = Array.from(formData.entries())
+    .filter(([key]) => key !== "_action")
+    .map((entry) => entry.at(0) as string);
+
+  const validator = buildStepValidator(context, fieldNames);
+  const validationResult = await validator.validate(formData);
   if (validationResult.error) return validationError(validationResult.error);
 
-  session.set(stepId, validationResult.data);
+  Object.entries(validationResult.data as Record<string, string>).forEach(
+    ([key, data]) => session.set(key, data)
+  );
   const headers = { "Set-Cookie": await commitSession(session) };
 
   const flowController = buildFlowController({
@@ -205,9 +234,6 @@ export function Step() {
     templateReplacements,
   } = useLoaderData<typeof loader>();
   const location = useLocation();
-  const stepId = location.pathname.split("/").at(-1);
-  const flowId = location.pathname.split("/")[1] as keyof typeof flowSpecifics;
-  const validator = flowSpecifics[flowId].validators[stepId as string];
 
   if (resultContent) {
     return (
@@ -221,6 +247,15 @@ export function Step() {
       />
     );
   } else if (preFormContent && formContent) {
+    const stepId = location.pathname.split("/").at(-1);
+    const flowId = location.pathname.split("/")[1];
+    if (!isKeyOfObject(flowId, flowSpecifics)) {
+      throw Error("Unkown flow");
+    }
+    const { context } = flowSpecifics[flowId];
+    const fieldNames = formContent.map((entry) => entry.name);
+    const validator = buildStepValidator(context, fieldNames);
+
     return (
       <Background backgroundColor="blue">
         <div className="min-h-screen">

@@ -11,7 +11,7 @@ import {
 } from "tests/factories/flows/geldEinklagenVorabcheckData";
 import { createMachine } from "xstate";
 import { getSimplePaths } from "@xstate/graph";
-import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/guards";
+import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/pages";
 import { guards } from "~/models/flows/geldEinklagen/guards";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
 

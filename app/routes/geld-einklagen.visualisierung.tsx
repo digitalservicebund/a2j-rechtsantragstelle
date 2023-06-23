@@ -1,5 +1,5 @@
 import { createMachine } from "xstate";
-import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/guards";
+import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/pages";
 import { guards } from "~/models/flows/geldEinklagen/guards";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
 import { toDirectedGraph } from "@xstate/graph";
