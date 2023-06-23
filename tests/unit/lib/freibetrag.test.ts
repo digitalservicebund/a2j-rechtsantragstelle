@@ -107,4 +107,12 @@ describe("freibetrag", () => {
       })
     ).toEqual(57200 + 2 * 35000 - 50000);
   });
+
+  it("should handle NaN children as zero children", () => {
+    expect(
+      freibetrag({
+        childrenBelow6: NaN,
+      })
+    ).toEqual(57200);
+  });
 });

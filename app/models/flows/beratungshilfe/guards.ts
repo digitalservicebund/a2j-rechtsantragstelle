@@ -78,31 +78,31 @@ export const isIncomeTooHigh = (context: any) => {
     context.unterhaltSumme?.unterhalt
       ? moneyToCents(context.unterhaltSumme.unterhalt)
       : 0;
-  return (
-    einkommen - miete - zahlungen - unterhalt >
-    freibetrag({
-      working: context.erwerbstaetigkeit?.isErwerbstaetig === "yes",
-      partnership: context.partnerschaft?.partnerschaft === "yes",
-      partnerIncome: context.einkommenPartner?.einkommenPartner
-        ? moneyToCents(context.einkommenPartner.einkommenPartner)
-        : 0,
-      childrenBelow6: Number(
-        String(context.kinderAnzahl?.kids6Below)?.replace(",", ".")
-      ),
-      children7To14: Number(
-        String(context.kinderAnzahl?.kids7To14)?.replace(",", ".")
-      ),
-      children15To18: Number(
-        String(context.kinderAnzahl?.kids15To18)?.replace(",", ".")
-      ),
-      childrenAbove18: Number(
-        String(context.kinderAnzahl?.kids18Above)?.replace(",", ".")
-      ),
-      childrenIncome: context.einkommenKinder?.einkommenKinder
-        ? moneyToCents(context.einkommenKinder.einkommenKinder)
-        : 0,
-    })
-  );
+
+  const calculatedFreibetrag = freibetrag({
+    working: context.erwerbstaetigkeit?.isErwerbstaetig === "yes",
+    partnership: context.partnerschaft?.partnerschaft === "yes",
+    partnerIncome: context.einkommenPartner?.einkommenPartner
+      ? moneyToCents(context.einkommenPartner.einkommenPartner)
+      : 0,
+    childrenBelow6: Number(
+      String(context.kinderAnzahl?.kids6Below)?.replace(",", ".")
+    ),
+    children7To14: Number(
+      String(context.kinderAnzahl?.kids7To14)?.replace(",", ".")
+    ),
+    children15To18: Number(
+      String(context.kinderAnzahl?.kids15To18)?.replace(",", ".")
+    ),
+    childrenAbove18: Number(
+      String(context.kinderAnzahl?.kids18Above)?.replace(",", ".")
+    ),
+    childrenIncome: context.einkommenKinder?.einkommenKinder
+      ? moneyToCents(context.einkommenKinder.einkommenKinder)
+      : 0,
+  });
+
+  return einkommen - miete - zahlungen - unterhalt > calculatedFreibetrag;
 };
 
 const isPayingForKids: Guard = (context) => {
