@@ -1,22 +1,16 @@
 import type { GeldEinklagenVorabcheckContext } from "./pages";
 
-type GeldEinklagenVorabcheckGuard = (
-  context: GeldEinklagenVorabcheckContext
-) => boolean;
+type Guard = (context: GeldEinklagenVorabcheckContext) => boolean;
 
 function yesNoGuards<Field extends keyof GeldEinklagenVorabcheckContext>(
   field: Field
-): {
-  [field in Field as `${field}Yes`]: GeldEinklagenVorabcheckGuard;
-} & {
-  [field in Field as `${field}No`]: GeldEinklagenVorabcheckGuard;
+): { [field in Field as `${field}Yes`]: Guard } & {
+  [field in Field as `${field}No`]: Guard;
 } {
   //@ts-ignore
   return {
-    [`${field}Yes`]: ((context) =>
-      context[field] === "yes") as GeldEinklagenVorabcheckGuard,
-    [`${field}No`]: ((context) =>
-      context?.[field] === "no") as GeldEinklagenVorabcheckGuard,
+    [`${field}Yes`]: ((context) => context[field] === "yes") as Guard,
+    [`${field}No`]: ((context) => context?.[field] === "no") as Guard,
   };
 }
 

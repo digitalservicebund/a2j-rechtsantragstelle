@@ -257,11 +257,11 @@
         "SUBMIT": [
           {
             "target": "kinderAnzahlKurz",
-            "cond": "kinderKurzYes"
+            "cond": "kinderYes"
           },
           {
             "target": "verfuegbaresEinkommen",
-            "cond": "kinderKurzNo"
+            "cond": "kinderNo"
           }
         ],
         "BACK": { "target": "genauigkeit" }
@@ -297,7 +297,7 @@
         "BACK": [
           {
             "target": "kinderAnzahlKurz",
-            "cond": "isPayingForKids"
+            "cond": "kinderYes"
           },
           { "target": "kinderKurz" }
         ]
@@ -376,7 +376,7 @@
       "on": {
         "SUBMIT": {
           "target": "einkommenKinder",
-          "cond": "kinderAnzahlFilled"
+          "cond": "anyKinderAnzahlFilled"
         },
         "BACK": { "target": "kinder" }
       }

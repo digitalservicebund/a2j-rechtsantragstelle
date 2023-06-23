@@ -1,10 +1,10 @@
 import { createMachine } from "xstate";
-import type { Context } from "~/models/flows/beratungshilfe/guards";
 import { guards } from "~/models/flows/beratungshilfe/guards";
 import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
 import { toDirectedGraph } from "@xstate/graph";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import type { BeratungshilfeVorabcheckContext } from "~/models/flows/beratungshilfe/pages";
 
 function mermaidFlowchart(digraph: ReturnType<typeof toDirectedGraph>) {
   // Converts a graph into mermaid.js flowchart syntax
@@ -33,8 +33,11 @@ flowchart TD\n`;
 }
 
 export const loader = async () => {
-  //@ts-ignore
-  const machine = createMachine<Context>(beratungshilfeFlow, { guards });
+  const machine = createMachine<BeratungshilfeVorabcheckContext>(
+    //@ts-ignore
+    beratungshilfeFlow,
+    { guards }
+  );
   const digraph = toDirectedGraph(machine);
 
   // Mermaid generates a picture when given a base64 encoded chart description

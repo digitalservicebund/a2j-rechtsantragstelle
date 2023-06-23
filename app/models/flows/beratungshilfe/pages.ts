@@ -1,74 +1,42 @@
-import { moneyInputStep, yesNoStep } from "~/models/flows/createStep";
-import type { FormPages } from "~/models/flows/steps";
-import { buildAllValidators } from "~/models/flows/buildAllValidators";
 import { z } from "zod";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 
-export const formPages: FormPages = {
-  rechtsschutzversicherung: yesNoStep("hasRechtsschutzversicherung"),
-  rechtsschutzversicherungError: {},
-  klageEingereicht: yesNoStep("hasKlageEingereicht"),
-  klageEingereichtError: {},
-  hamburgOderBremen: yesNoStep("isHamburgOderBremen"),
-  hamburgOderBremenError: {},
-  beratungshilfeBeantragt: yesNoStep("hasBeratungshilfeBeantragt"),
-  beratungshilfeBeantragtError: {},
-  eigeninitiative: yesNoStep("hasHelpedThemselves"),
-  eigeninitiativeWarnung: {},
-  kostenfreieBeratung: yesNoStep("hasTriedFreeServices"),
-  kostenfreieBeratungWarnung: {},
-  wurdeVerklagt: yesNoStep("wurdeVerklagt"),
-  wurdeVerklagtError: {},
-  staatlicheLeistungen: {
-    schema: z.object({
-      staatlicheLeistung: z.enum([
-        "grundsicherung",
-        "asylbewerberleistungen",
-        "buergergeld",
-        "keine",
-      ]),
-    }),
-  },
-  staatlicheLeistungenAbschlussJa: {},
-  vermoegen: {
-    schema: z.object({ vermoegen: z.enum(["below_10k", "above_10k"]) }),
-  },
-  vermoegenAbschlussJa: {},
-  vermoegenError: {},
-  genauigkeit: yesNoStep("wantsToKnowPrecisely"),
-  partnerschaft: yesNoStep("partnerschaft"),
-  einkommenPartner: moneyInputStep("einkommenPartner"),
-  kinder: yesNoStep("isPayingForKids"),
-  kinderAnzahl: {
-    schema: z.object({
-      kids6Below: buildKidsCountValidationSchema(),
-      kids7To14: buildKidsCountValidationSchema(),
-      kids15To18: buildKidsCountValidationSchema(),
-      kids18Above: buildKidsCountValidationSchema(),
-    }),
-  },
-  kinderKurz: yesNoStep("isPayingForKids"),
-  kinderAnzahlKurz: {
-    schema: z.object({ kidsTotal: buildKidsCountValidationSchema() }),
-  },
-  einkommenKinder: moneyInputStep("einkommenKinder"),
-  unterhalt: yesNoStep("isPayingUnterhalt"),
-  unterhaltSumme: moneyInputStep("unterhalt"),
-  erwerbstaetigkeit: yesNoStep("isErwerbstaetig"),
-  einkommen: moneyInputStep("einkommen"),
-  verfuegbaresEinkommen: yesNoStep("excessiveDisposableIncome"),
-  verfuegbaresEinkommenAbschlussNein: {},
-  verfuegbaresEinkommenAbschlussVielleicht: {},
-  verfuegbaresEinkommenAbschlussJa: {},
-  miete: moneyInputStep("miete"),
-  weitereZahlungen: yesNoStep("hasWeitereZahlungen"),
-  weitereZahlungenAbschlussNein: {},
-  weitereZahlungenAbschlussVielleicht: {},
-  weitereZahlungenAbschlussJa: {},
-  weitereZahlungenSumme: moneyInputStep("weitereZahlungenSumme"),
-  weitereZahlungenSummeAbschlussNein: {},
-  weitereZahlungenSummeAbschlussVielleicht: {},
-  weitereZahlungenSummeAbschlussJa: {},
+export const context = {
+  rechtsschutzversicherung: YesNoAnswer,
+  klageEingereicht: YesNoAnswer,
+  hamburgOderBremen: YesNoAnswer,
+  beratungshilfeBeantragt: YesNoAnswer,
+  eigeninitiative: YesNoAnswer,
+  kostenfreieBeratung: YesNoAnswer,
+  wurdeVerklagt: YesNoAnswer,
+  staatlicheLeistungen: z.enum([
+    "grundsicherung",
+    "asylbewerberleistungen",
+    "buergergeld",
+    "keine",
+  ]),
+  erwerbstaetigkeit: YesNoAnswer,
+  vermoegen: z.enum(["below_10k", "above_10k"]),
+  genauigkeit: YesNoAnswer,
+  partnerschaft: YesNoAnswer,
+  einkommenPartner: buildMoneyValidationSchema(),
+  kinder: YesNoAnswer,
+  kids6Below: buildKidsCountValidationSchema(),
+  kids7To14: buildKidsCountValidationSchema(),
+  kids15To18: buildKidsCountValidationSchema(),
+  kids18Above: buildKidsCountValidationSchema(),
+  kinderAnzahlKurz: buildKidsCountValidationSchema(),
+  einkommenKinder: buildMoneyValidationSchema(),
+  unterhalt: YesNoAnswer,
+  unterhaltSumme: buildMoneyValidationSchema(),
+  einkommen: buildMoneyValidationSchema(),
+  verfuegbaresEinkommen: YesNoAnswer,
+  miete: buildMoneyValidationSchema(),
+  weitereZahlungen: YesNoAnswer,
+  weitereZahlungenSumme: buildMoneyValidationSchema(),
 } as const;
 
-export const allValidators = buildAllValidators(formPages);
+const contextObject = z.object(context).partial();
+export type BeratungshilfeVorabcheckContext = z.infer<typeof contextObject>;

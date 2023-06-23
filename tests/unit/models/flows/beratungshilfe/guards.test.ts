@@ -3,18 +3,10 @@ import { isIncomeTooHigh } from "~/models/flows/beratungshilfe/guards";
 describe("isIncomeTooHigh", () => {
   it("returns false for random example case", () => {
     const input = {
-      einkommen: {
-        einkommen: 1200,
-      },
-      miete: {
-        miete: 500,
-      },
-      kinderAnzahl: {
-        kids6Below: 2,
-      },
-      einkommenKinder: {
-        einkommenKinder: 100,
-      },
+      einkommen: "1200",
+      miete: "500",
+      kids6Below: "2",
+      einkommenKinder: "100",
     };
     expect(isIncomeTooHigh(input)).toEqual(false);
   });

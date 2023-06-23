@@ -6,7 +6,6 @@ import type {
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
-// import { formPages as beratungshilfeFormPages } from "~/models/flows/beratungshilfe/pages";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { commitSession, getSession } from "~/sessions";
 import PageContent from "~/components/PageContent";
@@ -23,11 +22,11 @@ import {
   getStrapiVorabCheckPage,
 } from "~/services/cms";
 import { buildFlowController } from "~/services/flow/buildFlowController";
-// import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
+import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
 import {
   isIncomeTooHigh,
-  // guards as beratungshilfeGuards,
+  guards as beratungshilfeGuards,
 } from "~/models/flows/beratungshilfe/guards";
 import { guards as geldEinklagenGuards } from "~/models/flows/geldEinklagen/guards";
 import invariant from "tiny-invariant";
@@ -38,6 +37,7 @@ import { context as geldEinklagenContext } from "~/models/flows/geldEinklagen/pa
 import { isKeyOfObject } from "~/lib/objects";
 import { withZod } from "@remix-validated-form/with-zod";
 import { z } from "zod";
+import { context as contextBeratungshilfe } from "~/models/flows/beratungshilfe/pages";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
@@ -68,10 +68,11 @@ const getReasonsToDisplay = (
 };
 
 const flowSpecifics = {
-  // beratungshilfe: {
-  //   flow: beratungshilfeFlow,
-  //   guards: beratungshilfeGuards,
-  // },
+  beratungshilfe: {
+    flow: beratungshilfeFlow,
+    guards: beratungshilfeGuards,
+    context: contextBeratungshilfe,
+  },
   "geld-einklagen": {
     flow: geldEinklagenFlow,
     guards: geldEinklagenGuards,
@@ -121,7 +122,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     return redirect(flowController.getInitial().url);
   }
 
-  let slug = pathname.substring(1);
+  let slug = pathname;
   const verfuegbaresEinkommenFreibetrag = getVerfuegbaresEinkommenFreibetrag(
     session.data
   );
@@ -148,15 +149,15 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   } catch (err1) {
     try {
       if (/AbschlussJa/.test(slug)) {
-        slug = "abschlussJa";
+        slug = "/beratungshilfe/vorabcheck/abschlussJa";
       } else if (/AbschlussNein/.test(slug)) {
-        slug = "abschlussNein";
+        slug = "/beratungshilfe/vorabcheck/abschlussNein";
       } else if (/AbschlussVielleicht/.test(slug)) {
-        slug = "abschlussVielleicht";
+        slug = "/beratungshilfe/vorabcheck/abschlussVielleicht";
       }
       resultContent = await getStrapiResultPage({ slug });
       resultReasonsToDisplay = getReasonsToDisplay(
-        resultContent?.reasonings?.data,
+        resultContent.reasonings.data,
         session.data
       );
     } catch (err2) {

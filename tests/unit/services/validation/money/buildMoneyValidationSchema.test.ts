@@ -22,7 +22,9 @@ describe("money validation", () => {
     test.each(cases)(
       "given $input, returns $expected",
       ({ input, expected }) => {
-        const actual = buildMoneyValidationSchema().safeParse(input);
+        const actual = buildMoneyValidationSchema({
+          min: Number.MIN_SAFE_INTEGER,
+        }).safeParse(input);
         expect(actual).toEqual({ data: expected, success: true });
       }
     );
