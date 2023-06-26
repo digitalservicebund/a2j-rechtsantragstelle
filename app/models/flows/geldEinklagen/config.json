@@ -52,7 +52,16 @@
             "cond": "fristAbgelaufenNotSet"
           }
         ],
-        "BACK": { "target": "kontaktaufnahme" }
+        "BACK": [
+          {
+            "target": "kontaktaufnahme-hinweis",
+            "cond": "kontaktaufnahmeNo"
+          },
+          {
+            "target": "kontaktaufnahme",
+            "cond": "kontaktaufnahmeYes"
+          }
+        ]
       }
     },
     "fristAbgelaufen-hinweis": {
@@ -75,14 +84,30 @@
             "cond": "verjaehrtNo"
           }
         ],
-        "BACK": { "target": "fristAbgelaufen" }
+        "BACK": [
+          {
+            "target": "fristAbgelaufen-hinweis",
+            "cond": "fristAbgelaufenNo"
+          },
+          {
+            "target": "fristAbgelaufen-hinweis",
+            "cond": "fristAbgelaufenNotSet"
+          },
+          {
+            "target": "fristAbgelaufen"
+          }
+        ]
       }
     },
     "verjaehrt-hinweis": {
       "meta": { "progressPosition": 7 },
       "on": {
-        "SUBMIT": { "target": "beweise" },
-        "BACK": { "target": "verjaehrt" }
+        "SUBMIT": {
+          "target": "beweise"
+        },
+        "BACK": {
+          "target": "verjaehrt"
+        }
       }
     },
     "beweise": {
@@ -98,7 +123,16 @@
             "cond": "beweiseYes"
           }
         ],
-        "BACK": { "target": "verjaehrt" }
+        "BACK": [
+          {
+            "target": "verjaehrt",
+            "cond": "verjaehrtNo"
+          },
+          {
+            "target": "verjaehrt-hinweis",
+            "cond": "verjaehrtYes"
+          }
+        ]
       }
     },
     "beweise-hinweis": {
@@ -121,7 +155,16 @@
             "cond": "gerichtsentscheidungNo"
           }
         ],
-        "BACK": { "target": "beweise" }
+        "BACK": [
+          {
+            "target": "beweise",
+            "cond": "beweiseYes"
+          },
+          {
+            "target": "beweise-hinweis",
+            "cond": "beweiseNo"
+          }
+        ]
       }
     },
     "gerichtsentscheidung-hinweis": {
@@ -144,7 +187,16 @@
             "cond": "verfahrenBegonnenNo"
           }
         ],
-        "BACK": { "target": "gerichtsentscheidung" }
+        "BACK": [
+          {
+            "target": "gerichtsentscheidung",
+            "cond": "gerichtsentscheidungNo"
+          },
+          {
+            "target": "gerichtsentscheidung-hinweis",
+            "cond": "gerichtsentscheidungYes"
+          }
+        ]
       }
     },
     "verfahrenBegonnen-hinweis": {
@@ -167,7 +219,16 @@
             "cond": "notSinglePerson"
           }
         ],
-        "BACK": { "target": "verfahrenBegonnen" }
+        "BACK": [
+          {
+            "target": "verfahrenBegonnen",
+            "cond": "verfahrenBegonnenNo"
+          },
+          {
+            "target": "verfahrenBegonnen-hinweis",
+            "cond": "verfahrenBegonnenYes"
+          }
+        ]
       }
     },
     "privatperson-abbruch": {

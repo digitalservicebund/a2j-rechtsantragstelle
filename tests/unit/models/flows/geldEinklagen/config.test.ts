@@ -44,7 +44,7 @@ const getSteps = (
  */
 
 describe("geldEinklagen/config", () => {
-  describe("SUBMIT transitions", () => {
+  describe("transitions", () => {
     const machine = createMachine<GeldEinklagenVorabcheckContext>(
       { ...geldEinklagenFlow, context: {}, predictableActionArguments: true },
       { guards }
@@ -163,6 +163,20 @@ describe("geldEinklagen/config", () => {
           machine,
           context,
           "SUBMIT",
+          expectedSteps[0]
+        );
+        expect(actualSteps).toEqual(expectedSteps);
+      }
+    );
+
+    test.each(cases)(
+      "BACK (%#) given context: %j, visits steps: %j",
+      (context, steps) => {
+        const expectedSteps = steps.reverse();
+        const actualSteps = getSteps(
+          machine,
+          context,
+          "BACK",
           expectedSteps[0]
         );
         expect(actualSteps).toEqual(expectedSteps);
