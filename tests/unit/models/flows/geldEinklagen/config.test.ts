@@ -11,25 +11,7 @@ import { createMachine } from "xstate";
 import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/pages";
 import { guards } from "~/models/flows/geldEinklagen/guards";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
-
-const getSteps = (
-  machine: ReturnType<typeof createMachine<GeldEinklagenVorabcheckContext>>,
-  context: GeldEinklagenVorabcheckContext,
-  transitionType: "SUBMIT" | "BACK",
-  firstStep: string
-) => {
-  let returnedSteps = [firstStep];
-  while (true) {
-    const nextStep = machine.transition(
-      returnedSteps.at(-1),
-      transitionType,
-      context
-    );
-    if (nextStep.value == returnedSteps.at(-1)) break;
-    returnedSteps.push(String(nextStep.value));
-  }
-  return returnedSteps;
-};
+import { getEnabledSteps } from "tests/unit/models/flows/getEnabledSteps";
 
 /*
  * Note on testing xstate
@@ -159,7 +141,7 @@ describe("geldEinklagen/config", () => {
       "SUBMIT (%#) given context: %j, visits steps: %j",
       (context, steps) => {
         const expectedSteps = steps;
-        const actualSteps = getSteps(
+        const actualSteps = getEnabledSteps(
           machine,
           context,
           "SUBMIT",
@@ -173,7 +155,7 @@ describe("geldEinklagen/config", () => {
       "BACK (%#) given context: %j, visits steps: %j",
       (context, steps) => {
         const expectedSteps = steps.reverse();
-        const actualSteps = getSteps(
+        const actualSteps = getEnabledSteps(
           machine,
           context,
           "BACK",
