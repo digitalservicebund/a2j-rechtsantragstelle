@@ -51,13 +51,13 @@ describe("geldEinklagen/config", () => {
     );
 
     const kontaktaufnahme = ["start", "kontaktaufnahme"];
-    const fristAbgelaufen = [...kontaktaufnahme, "fristAbgelaufen"];
+    const fristAbgelaufen = [...kontaktaufnahme, "frist-abgelaufen"];
     const verjaehrt = [...fristAbgelaufen, "verjaehrt"];
     const beweise = [...verjaehrt, "beweise"];
     const gerichtsentscheidung = [...beweise, "gerichtsentscheidung"];
-    const verfahrenBegonnen = [...gerichtsentscheidung, "verfahrenBegonnen"];
+    const verfahrenBegonnen = [...gerichtsentscheidung, "verfahren-begonnen"];
     const privatperson = [...verfahrenBegonnen, "privatperson"];
-    const wohnsitzDeutschland = [...privatperson, "wohnsitzDeutschland"];
+    const wohnsitzDeutschland = [...privatperson, "wohnsitz-deutschland"];
     const forderung = [...wohnsitzDeutschland, "forderung"];
     const bereich = [...forderung, "bereich"];
     const gegenseite = [...bereich, "gegenseite"];
@@ -71,11 +71,11 @@ describe("geldEinklagen/config", () => {
       [{}, kontaktaufnahme],
       [
         kontaktaufnahmeNoDataFactory.build(),
-        [...kontaktaufnahme, "kontaktaufnahme-hinweis", "fristAbgelaufen"],
+        [...kontaktaufnahme, "kontaktaufnahme-hinweis", "frist-abgelaufen"],
       ],
       [
         fristNoDataFactory.build(),
-        [...fristAbgelaufen, "fristAbgelaufen-hinweis", "verjaehrt"],
+        [...fristAbgelaufen, "frist-abgelaufen-hinweis", "verjaehrt"],
       ],
       [
         verjaehrtYesDataFactory.build(),
@@ -90,12 +90,12 @@ describe("geldEinklagen/config", () => {
         [
           ...gerichtsentscheidung,
           "gerichtsentscheidung-hinweis",
-          "verfahrenBegonnen",
+          "verfahren-begonnen",
         ],
       ],
       [
         verfahrenBegonnenYesDataFactory.build(),
-        [...verfahrenBegonnen, "verfahrenBegonnen-hinweis", "privatperson"],
+        [...verfahrenBegonnen, "verfahren-begonnen-hinweis", "privatperson"],
       ],
       [
         happyPathDataFactory.build({ privatperson: "nonPrivate" }),
@@ -103,7 +103,7 @@ describe("geldEinklagen/config", () => {
       ],
       [
         happyPathDataFactory.build({ wohnsitzDeutschland: "no" }),
-        [...wohnsitzDeutschland, "wohnsitzDeutschland-abbruch"],
+        [...wohnsitzDeutschland, "wohnsitz-deutschland-abbruch"],
       ],
       [
         happyPathDataFactory.build({ forderung: "moreThan5000" }),

@@ -21,7 +21,7 @@
             "cond": "kontaktaufnahmeNo"
           },
           {
-            "target": "fristAbgelaufen",
+            "target": "frist-abgelaufen",
             "cond": "kontaktaufnahmeYes"
           }
         ],
@@ -31,11 +31,11 @@
     "kontaktaufnahme-hinweis": {
       "meta": { "progressPosition": 3 },
       "on": {
-        "SUBMIT": { "target": "fristAbgelaufen" },
+        "SUBMIT": { "target": "frist-abgelaufen" },
         "BACK": { "target": "kontaktaufnahme" }
       }
     },
-    "fristAbgelaufen": {
+    "frist-abgelaufen": {
       "meta": { "progressPosition": 4 },
       "on": {
         "SUBMIT": [
@@ -44,11 +44,11 @@
             "cond": "fristAbgelaufenYes"
           },
           {
-            "target": "fristAbgelaufen-hinweis",
+            "target": "frist-abgelaufen-hinweis",
             "cond": "fristAbgelaufenNo"
           },
           {
-            "target": "fristAbgelaufen-hinweis",
+            "target": "frist-abgelaufen-hinweis",
             "cond": "fristAbgelaufenNotSet"
           }
         ],
@@ -64,11 +64,11 @@
         ]
       }
     },
-    "fristAbgelaufen-hinweis": {
+    "frist-abgelaufen-hinweis": {
       "meta": { "progressPosition": 5 },
       "on": {
         "SUBMIT": { "target": "verjaehrt" },
-        "BACK": { "target": "fristAbgelaufen" }
+        "BACK": { "target": "frist-abgelaufen" }
       }
     },
     "verjaehrt": {
@@ -86,15 +86,15 @@
         ],
         "BACK": [
           {
-            "target": "fristAbgelaufen-hinweis",
+            "target": "frist-abgelaufen-hinweis",
             "cond": "fristAbgelaufenNo"
           },
           {
-            "target": "fristAbgelaufen-hinweis",
+            "target": "frist-abgelaufen-hinweis",
             "cond": "fristAbgelaufenNotSet"
           },
           {
-            "target": "fristAbgelaufen"
+            "target": "frist-abgelaufen"
           }
         ]
       }
@@ -151,7 +151,7 @@
             "cond": "gerichtsentscheidungYes"
           },
           {
-            "target": "verfahrenBegonnen",
+            "target": "verfahren-begonnen",
             "cond": "gerichtsentscheidungNo"
           }
         ],
@@ -170,16 +170,16 @@
     "gerichtsentscheidung-hinweis": {
       "meta": { "progressPosition": 11 },
       "on": {
-        "SUBMIT": { "target": "verfahrenBegonnen" },
+        "SUBMIT": { "target": "verfahren-begonnen" },
         "BACK": { "target": "gerichtsentscheidung" }
       }
     },
-    "verfahrenBegonnen": {
+    "verfahren-begonnen": {
       "meta": { "progressPosition": 12 },
       "on": {
         "SUBMIT": [
           {
-            "target": "verfahrenBegonnen-hinweis",
+            "target": "verfahren-begonnen-hinweis",
             "cond": "verfahrenBegonnenYes"
           },
           {
@@ -199,11 +199,11 @@
         ]
       }
     },
-    "verfahrenBegonnen-hinweis": {
+    "verfahren-begonnen-hinweis": {
       "meta": { "progressPosition": 13 },
       "on": {
         "SUBMIT": { "target": "privatperson" },
-        "BACK": { "target": "verfahrenBegonnen" }
+        "BACK": { "target": "verfahren-begonnen" }
       }
     },
     "privatperson": {
@@ -211,7 +211,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "wohnsitzDeutschland",
+            "target": "wohnsitz-deutschland",
             "cond": "privatpersonYes"
           },
           {
@@ -221,11 +221,11 @@
         ],
         "BACK": [
           {
-            "target": "verfahrenBegonnen",
+            "target": "verfahren-begonnen",
             "cond": "verfahrenBegonnenNo"
           },
           {
-            "target": "verfahrenBegonnen-hinweis",
+            "target": "verfahren-begonnen-hinweis",
             "cond": "verfahrenBegonnenYes"
           }
         ]
@@ -237,7 +237,7 @@
         "BACK": { "target": "privatperson" }
       }
     },
-    "wohnsitzDeutschland": {
+    "wohnsitz-deutschland": {
       "meta": { "progressPosition": 16 },
       "on": {
         "SUBMIT": [
@@ -246,17 +246,17 @@
             "cond": "wohnsitzDeutschlandYes"
           },
           {
-            "target": "wohnsitzDeutschland-abbruch",
+            "target": "wohnsitz-deutschland-abbruch",
             "cond": "wohnsitzDeutschlandNo"
           }
         ],
         "BACK": { "target": "privatperson" }
       }
     },
-    "wohnsitzDeutschland-abbruch": {
+    "wohnsitz-deutschland-abbruch": {
       "meta": { "progressPosition": 17 },
       "on": {
-        "BACK": { "target": "wohnsitzDeutschland" }
+        "BACK": { "target": "wohnsitz-deutschland" }
       }
     },
     "forderung": {
@@ -272,7 +272,7 @@
             "cond": "forderungIsLessOrEqual5000"
           }
         ],
-        "BACK": { "target": "wohnsitzDeutschland" }
+        "BACK": { "target": "wohnsitz-deutschland" }
       }
     },
     "forderung-abbruch": {
