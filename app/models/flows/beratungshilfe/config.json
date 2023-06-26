@@ -396,67 +396,19 @@
       "meta": { "progressPosition": 20 },
       "on": {
         "SUBMIT": {
-          "target": "weitereZahlungen",
+          "target": "weitereZahlungenSumme",
           "cond": "mieteFilled"
         },
         "BACK": { "target": "unterhaltSumme" }
       }
     },
-    "weitereZahlungen": {
+    "weitereZahlungenSumme": {
       "meta": { "progressPosition": 21 },
       "on": {
         "SUBMIT": [
           {
-            "target": "weitereZahlungenSumme",
-            "cond": "weitereZahlungenYes"
-          },
-          {
-            "target": "weitereZahlungenAbschlussVielleicht",
-            "cond": "weitereZahlungenNoAndIncomeNotTooHigh"
-          },
-          {
-            "target": "weitereZahlungenAbschlussNein",
-            "cond": "weitereZahlungenNoAndIncomeTooHigh"
-          },
-          {
-            "target": "weitereZahlungenAbschlussJa",
-            "cond": "weitereZahlungenNo"
-          }
-        ],
-        "BACK": { "target": "miete" }
-      }
-    },
-    "weitereZahlungenAbschlussVielleicht": {
-      "type": "final",
-      "on": {
-        "BACK": {
-          "target": "weitereZahlungen"
-        }
-      }
-    },
-    "weitereZahlungenAbschlussNein": {
-      "type": "final",
-      "on": {
-        "BACK": {
-          "target": "weitereZahlungen"
-        }
-      }
-    },
-    "weitereZahlungenAbschlussJa": {
-      "type": "final",
-      "on": {
-        "BACK": {
-          "target": "weitereZahlungen"
-        }
-      }
-    },
-    "weitereZahlungenSumme": {
-      "meta": { "progressPosition": 22 },
-      "on": {
-        "SUBMIT": [
-          {
             "target": "weitereZahlungenSummeAbschlussVielleicht",
-            "cond": "weitereZahlungenSummeIncomeNotTooHigh"
+            "cond": "weitereZahlungenSummeWithWarnings"
           },
           {
             "target": "weitereZahlungenSummeAbschlussNein",
@@ -467,7 +419,7 @@
             "cond": "weitereZahlungenSummeFilled"
           }
         ],
-        "BACK": { "target": "weitereZahlungen" }
+        "BACK": { "target": "miete" }
       }
     },
     "weitereZahlungenSummeAbschlussVielleicht": {

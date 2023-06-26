@@ -33,7 +33,6 @@ export const context = {
   einkommen: buildMoneyValidationSchema(),
   verfuegbaresEinkommen: YesNoAnswer,
   miete: buildMoneyValidationSchema(),
-  weitereZahlungen: YesNoAnswer,
   weitereZahlungenSumme: buildMoneyValidationSchema(),
 } as const;
 

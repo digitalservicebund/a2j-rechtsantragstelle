@@ -70,9 +70,6 @@ test("vorabcheck can be traversed", async ({ page }) => {
   await vorabcheck.fillInputPage("miete", "600");
 
   await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("weitereZahlungen", "yes");
-
-  await expectPageToBeAccessible({ page });
   await vorabcheck.fillInputPage("weitereZahlungenSumme", "200");
 
   await expectPageToBeAccessible({ page });

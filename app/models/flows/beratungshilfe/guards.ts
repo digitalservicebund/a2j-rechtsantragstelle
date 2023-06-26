@@ -41,18 +41,10 @@ const vermoegenBelow10kAndBuergergeld: Guard = (context) =>
 const verfuegbaresEinkommenNoAndTriedFreeActions: Guard = (context) =>
   context.verfuegbaresEinkommen === "no" && !anyNonCriticalWarning(context);
 
-const weitereZahlungenNoAndIncomeTooHigh: Guard = (context) =>
-  context.weitereZahlungen === "no" && isIncomeTooHigh(context);
-
-const weitereZahlungenNoAndIncomeNotTooHigh: Guard = (context) =>
-  context.weitereZahlungen === "no" &&
-  !isIncomeTooHigh(context) &&
-  anyNonCriticalWarning(context);
-
 const weitereZahlungenSummeIncomeTooHigh: Guard = (context) =>
   isIncomeTooHigh(context);
 
-const weitereZahlungenSummeIncomeNotTooHigh: Guard = (context) =>
+const weitereZahlungenSummeWithWarnings: Guard = (context) =>
   !isIncomeTooHigh(context) && anyNonCriticalWarning(context);
 
 const anyNonCriticalWarning: Guard = (context) => {
@@ -62,10 +54,9 @@ const anyNonCriticalWarning: Guard = (context) => {
 export const isIncomeTooHigh: Guard = (context) => {
   const einkommen = context.einkommen ? moneyToCents(context.einkommen) : 0;
   const miete = context.miete ? moneyToCents(context.miete) : 0;
-  const zahlungen =
-    context.weitereZahlungen == "no" && context.weitereZahlungenSumme
-      ? moneyToCents(context.weitereZahlungenSumme)
-      : 0;
+  const zahlungen = context.weitereZahlungenSumme
+    ? moneyToCents(context.weitereZahlungenSumme)
+    : 0;
   const unterhalt =
     context.unterhalt == "yes" && context.unterhaltSumme
       ? moneyToCents(context.unterhaltSumme)
@@ -128,10 +119,7 @@ export const guards = {
   ...yesNoGuards("unterhalt"),
   ...filledGuard("unterhaltSumme"),
   ...filledGuard("miete"),
-  ...yesNoGuards("weitereZahlungen"),
-  weitereZahlungenNoAndIncomeTooHigh,
-  weitereZahlungenNoAndIncomeNotTooHigh,
   weitereZahlungenSummeIncomeTooHigh,
-  weitereZahlungenSummeIncomeNotTooHigh,
+  weitereZahlungenSummeWithWarnings,
   ...filledGuard("weitereZahlungenSumme"),
 };
