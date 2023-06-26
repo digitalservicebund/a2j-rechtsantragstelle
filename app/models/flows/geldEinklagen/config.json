@@ -201,8 +201,55 @@
     "forderung": {
       "meta": { "progressPosition": 18 },
       "on": {
-        "SUBMIT": [],
+        "SUBMIT": [
+          {
+            "target": "forderung-abbruch",
+            "cond": "forderungIsNotLessOrEqual5000"
+          },
+          {
+            "target": "bereich",
+            "cond": "forderungIsLessOrEqual5000"
+          }
+        ],
         "BACK": { "target": "wohnsitzDeutschland" }
+      }
+    },
+    "forderung-abbruch": {
+      "meta": { "progressPosition": 19 },
+      "on": {
+        "BACK": { "target": "forderung" }
+      }
+    },
+    "bereich": {
+      "meta": { "progressPosition": 20 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "bereich-familie-abbruch",
+            "cond": "bereichFamily"
+          },
+          {
+            "target": "bereich-arbeit-abbruch",
+            "cond": "bereichWork"
+          }
+        ],
+        "BACK": {
+          "target": "forderung"
+        }
+      }
+    },
+    "bereich-familie-abbruch": {
+      "meta": { "progressPosition": 21 },
+      "on": {
+        "SUBMIT": [],
+        "BACK": { "target": "bereich" }
+      }
+    },
+    "bereich-arbeit-abbruch": {
+      "meta": { "progressPosition": 21 },
+      "on": {
+        "SUBMIT": [],
+        "BACK": { "target": "bereich" }
       }
     }
   }

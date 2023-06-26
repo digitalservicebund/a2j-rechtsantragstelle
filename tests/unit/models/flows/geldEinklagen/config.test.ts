@@ -1,13 +1,8 @@
 import {
-  kontaktaufnahmeYesDataFactory,
   kontaktaufnahmeNoDataFactory,
-  fristYesDataFactory,
-  fristNotSetDataFactory,
   fristNoDataFactory,
-  verjaehrtNoDataFactory,
   verjaehrtYesDataFactory,
   beweiseNoDataFactory,
-  beweiseYesDataFactory,
   happyPathDataFactory,
 } from "tests/factories/flows/geldEinklagenVorabcheckData";
 import { createMachine } from "xstate";
@@ -52,6 +47,7 @@ describe("geldEinklagen/config", () => {
     const privatperson = [...verfahrenBegonnen, "privatperson"];
     const wohnsitzDeutschland = [...privatperson, "wohnsitzDeutschland"];
     const forderung = [...wohnsitzDeutschland, "forderung"];
+    const bereich = [...forderung, "bereich"];
 
     const cases: [GeldEinklagenVorabcheckContext, string[]][] = [
       [{}, kontaktaufnahme],
@@ -79,7 +75,19 @@ describe("geldEinklagen/config", () => {
         happyPathDataFactory.build({ wohnsitzDeutschland: "no" }),
         [...wohnsitzDeutschland, "wohnsitzDeutschland-abbruch"],
       ],
-      [happyPathDataFactory.build(), [...forderung]],
+      [
+        happyPathDataFactory.build({ forderung: "moreThan5000" }),
+        [...forderung, "forderung-abbruch"],
+      ],
+      [
+        happyPathDataFactory.build({ bereich: "family" }),
+        [...bereich, "bereich-familie-abbruch"],
+      ],
+      [
+        happyPathDataFactory.build({ bereich: "work" }),
+        [...bereich, "bereich-arbeit-abbruch"],
+      ],
+      [happyPathDataFactory.build(), [...bereich]],
     ];
 
     test.each(cases)(

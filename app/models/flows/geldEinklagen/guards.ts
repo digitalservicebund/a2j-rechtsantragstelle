@@ -26,5 +26,13 @@ export const guards = {
   ...yesNoGuards("privatperson"),
   notSinglePerson: (context: GeldEinklagenVorabcheckContext) =>
     context.privatperson !== "yes",
+  forderungIsNotLessOrEqual5000: (context: GeldEinklagenVorabcheckContext) =>
+    Boolean(context.forderung && context.forderung !== "lessOrEqual5000"),
+  forderungIsLessOrEqual5000: (context: GeldEinklagenVorabcheckContext) =>
+    context.forderung === "lessOrEqual5000",
+  bereichFamily: (context: GeldEinklagenVorabcheckContext) =>
+    context.bereich == "family",
+  bereichWork: (context: GeldEinklagenVorabcheckContext) =>
+    context.bereich == "work",
   ...yesNoGuards("wohnsitzDeutschland"),
 };

@@ -23,6 +23,7 @@ export const context = {
     "moneyAndAction",
     "unsure",
   ]),
+  bereich: z.enum(["work", "living", "shopping", "family", "travel", "other"]),
 } as const;
 
 const contextObject = z.object(context).partial();
