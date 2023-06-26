@@ -326,15 +326,60 @@
     "gegenseite-person-deutschland": {
       "meta": { "progressPosition": 25 },
       "on": {
-        "SUBMIT": [],
+        "SUBMIT": [
+          {
+            "target": "gegenseite-person-deutschland-abbruch",
+            "cond": "gegenseitePersonDeutschlandNo"
+          },
+          {
+            "target": "abschluss",
+            "cond": "gegenseitePersonDeutschlandYes"
+          }
+        ],
         "BACK": { "target": "gegenseite" }
+      }
+    },
+    "gegenseite-person-deutschland-abbruch": {
+      "meta": { "progressPosition": 26 },
+      "on": {
+        "BACK": { "target": "gegenseite-person-deutschland" }
       }
     },
     "gegenseite-unternehmen-deutschland": {
       "meta": { "progressPosition": 25 },
       "on": {
-        "SUBMIT": [],
+        "SUBMIT": [
+          {
+            "target": "gegenseite-unternehmen-deutschland-abbruch",
+            "cond": "gegenseiteUnternehmenDeutschlandNo"
+          },
+          {
+            "target": "abschluss",
+            "cond": "gegenseiteUnternehmenDeutschlandYes"
+          }
+        ],
         "BACK": { "target": "gegenseite" }
+      }
+    },
+    "gegenseite-unternehmen-deutschland-abbruch": {
+      "meta": { "progressPosition": 26 },
+      "on": {
+        "BACK": { "target": "gegenseite-unternehmen-deutschland" }
+      }
+    },
+    "abschluss": {
+      "meta": { "progressPosition": 26 },
+      "on": {
+        "BACK": [
+          {
+            "target": "gegenseite-person-deutschland",
+            "cond": "gegenseitePrivatperson"
+          },
+          {
+            "target": "gegenseite-unternehmen-deutschland",
+            "cond": "gegenseiteUnternehmen"
+          }
+        ]
       }
     }
   }

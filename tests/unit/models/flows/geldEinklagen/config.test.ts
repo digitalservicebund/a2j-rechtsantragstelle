@@ -53,6 +53,7 @@ describe("geldEinklagen/config", () => {
       ...gegenseite,
       "gegenseite-person-deutschland",
     ];
+    const abschluss = [...gegenseitePersonDeutschland, "abschluss"];
 
     const cases: [GeldEinklagenVorabcheckContext, string[]][] = [
       [{}, kontaktaufnahme],
@@ -109,7 +110,25 @@ describe("geldEinklagen/config", () => {
         happyPathDataFactory.build({ gegenseite: "unternehmen" }),
         [...gegenseite, "gegenseite-unternehmen-deutschland"],
       ],
-      [happyPathDataFactory.build(), [...gegenseitePersonDeutschland]],
+      [
+        happyPathDataFactory.build({ gegenseitePersonDeutschland: "no" }),
+        [
+          ...gegenseitePersonDeutschland,
+          "gegenseite-person-deutschland-abbruch",
+        ],
+      ],
+      [
+        happyPathDataFactory.build({
+          gegenseite: "unternehmen",
+          gegenseiteUnternehmenDeutschland: "no",
+        }),
+        [
+          ...gegenseite,
+          "gegenseite-unternehmen-deutschland",
+          "gegenseite-unternehmen-deutschland-abbruch",
+        ],
+      ],
+      [happyPathDataFactory.build(), [...abschluss]],
     ];
 
     test.each(cases)(

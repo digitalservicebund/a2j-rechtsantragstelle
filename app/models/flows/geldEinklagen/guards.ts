@@ -47,4 +47,6 @@ export const guards = {
     context.gegenseite == "privatperson",
   gegenseiteUnternehmen: (context: GeldEinklagenVorabcheckContext) =>
     context.gegenseite == "unternehmen",
+  ...yesNoGuards("gegenseitePersonDeutschland"),
+  ...yesNoGuards("gegenseiteUnternehmenDeutschland"),
 };
