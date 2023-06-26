@@ -56,7 +56,7 @@ const weitereZahlungenSummeIncomeNotTooHigh: Guard = (context) =>
   !isIncomeTooHigh(context) && anyNonCriticalWarning(context);
 
 const anyNonCriticalWarning: Guard = (context) => {
-  return context.kostenfreieBeratung == "no" || context.eigeninitiative == "no";
+  return context.eigeninitiative == "no";
 };
 
 export const isIncomeTooHigh: Guard = (context) => {
@@ -106,7 +106,6 @@ export const guards = {
   ...yesNoGuards("hamburgOderBremen"),
   ...yesNoGuards("beratungshilfeBeantragt"),
   ...yesNoGuards("eigeninitiative"),
-  ...yesNoGuards("kostenfreieBeratung"),
   staatlicheLeistungenNo: (context: BeratungshilfeVorabcheckContext) =>
     ["buergergeld", "keine"].includes(context.staatlicheLeistungen ?? ""),
   staatlicheLeistungenYes: (context: BeratungshilfeVorabcheckContext) =>

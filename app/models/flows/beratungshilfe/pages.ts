@@ -9,7 +9,6 @@ export const context = {
   hamburgOderBremen: YesNoAnswer,
   beratungshilfeBeantragt: YesNoAnswer,
   eigeninitiative: YesNoAnswer,
-  kostenfreieBeratung: YesNoAnswer,
   wurdeVerklagt: YesNoAnswer,
   staatlicheLeistungen: z.enum([
     "grundsicherung",

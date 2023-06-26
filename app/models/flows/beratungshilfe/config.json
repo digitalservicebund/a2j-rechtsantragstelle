@@ -116,7 +116,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "kostenfreieBeratung",
+            "target": "staatlicheLeistungen",
             "cond": "eigeninitiativeYes"
           },
           {
@@ -128,37 +128,12 @@
       }
     },
     "eigeninitiativeWarnung": {
-      "meta": { "progressPosition": 6 },
-      "on": {
-        "SUBMIT": {
-          "target": "kostenfreieBeratung"
-        },
-        "BACK": { "target": "eigeninitiative" }
-      }
-    },
-    "kostenfreieBeratung": {
-      "meta": { "progressPosition": 7 },
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "staatlicheLeistungen",
-            "cond": "kostenfreieBeratungYes"
-          },
-          {
-            "target": "kostenfreieBeratungWarnung",
-            "cond": "kostenfreieBeratungNo"
-          }
-        ],
-        "BACK": { "target": "eigeninitiative" }
-      }
-    },
-    "kostenfreieBeratungWarnung": {
       "meta": { "progressPosition": 7 },
       "on": {
         "SUBMIT": {
           "target": "staatlicheLeistungen"
         },
-        "BACK": { "target": "kostenfreieBeratung" }
+        "BACK": { "target": "eigeninitiative" }
       }
     },
     "staatlicheLeistungen": {
@@ -174,7 +149,7 @@
             "cond": "staatlicheLeistungenNo"
           }
         ],
-        "BACK": { "target": "kostenfreieBeratung" }
+        "BACK": { "target": "eigeninitiative" }
       }
     },
     "staatlicheLeistungenAbschlussJa": {
