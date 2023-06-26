@@ -49,6 +49,10 @@ describe("geldEinklagen/config", () => {
     const forderung = [...wohnsitzDeutschland, "forderung"];
     const bereich = [...forderung, "bereich"];
     const gegenseite = [...bereich, "gegenseite"];
+    const gegenseitePersonDeutschland = [
+      ...gegenseite,
+      "gegenseite-person-deutschland",
+    ];
 
     const cases: [GeldEinklagenVorabcheckContext, string[]][] = [
       [{}, kontaktaufnahme],
@@ -93,7 +97,19 @@ describe("geldEinklagen/config", () => {
         happyPathDataFactory.build({ bereich: "travel", flug: "yes" }),
         [...bereich, "flug", "flug-abbruch"],
       ],
-      [happyPathDataFactory.build(), [...gegenseite]],
+      [
+        happyPathDataFactory.build({ gegenseite: "staat" }),
+        [...gegenseite, "gegenseite-staat-abbruch"],
+      ],
+      [
+        happyPathDataFactory.build({ gegenseite: "multiple" }),
+        [...gegenseite, "gegenseite-mehrere-abbruch"],
+      ],
+      [
+        happyPathDataFactory.build({ gegenseite: "unternehmen" }),
+        [...gegenseite, "gegenseite-unternehmen-deutschland"],
+      ],
+      [happyPathDataFactory.build(), [...gegenseitePersonDeutschland]],
     ];
 
     test.each(cases)(

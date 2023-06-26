@@ -25,6 +25,9 @@ export const context = {
   ]),
   bereich: z.enum(["work", "living", "shopping", "family", "travel", "other"]),
   flug: YesNoAnswer,
+  gegenseite: z.enum(["privatperson", "unternehmen", "staat", "multiple"]),
+  gegenseitePersonDeutschland: YesNoAnswer,
+  gegenseiteUnternehmenDeutschland: YesNoAnswer,
 } as const;
 
 const contextObject = z.object(context).partial();

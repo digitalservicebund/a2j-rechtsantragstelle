@@ -287,10 +287,54 @@
     "gegenseite": {
       "meta": { "progressPosition": 24 },
       "on": {
+        "SUBMIT": [
+          {
+            "target": "gegenseite-mehrere-abbruch",
+            "cond": "gegenseiteMultiple"
+          },
+          {
+            "target": "gegenseite-staat-abbruch",
+            "cond": "gegenseiteStaat"
+          },
+          {
+            "target": "gegenseite-person-deutschland",
+            "cond": "gegenseitePrivatperson"
+          },
+          {
+            "target": "gegenseite-unternehmen-deutschland",
+            "cond": "gegenseiteUnternehmen"
+          }
+        ],
         "BACK": [
           { "target": "flug", "cond": "bereichTravel" },
           { "target": "bereich", "cond": "bereichFilled" }
         ]
+      }
+    },
+    "gegenseite-mehrere-abbruch": {
+      "meta": { "progressPosition": 25 },
+      "on": {
+        "BACK": { "target": "gegenseite" }
+      }
+    },
+    "gegenseite-staat-abbruch": {
+      "meta": { "progressPosition": 25 },
+      "on": {
+        "BACK": { "target": "gegenseite" }
+      }
+    },
+    "gegenseite-person-deutschland": {
+      "meta": { "progressPosition": 25 },
+      "on": {
+        "SUBMIT": [],
+        "BACK": { "target": "gegenseite" }
+      }
+    },
+    "gegenseite-unternehmen-deutschland": {
+      "meta": { "progressPosition": 25 },
+      "on": {
+        "SUBMIT": [],
+        "BACK": { "target": "gegenseite" }
       }
     }
   }

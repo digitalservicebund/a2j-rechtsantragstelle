@@ -55,6 +55,7 @@ export const happyPathDataFactory =
       wohnsitzDeutschland: "yes",
       forderung: "lessOrEqual5000",
       bereich: "shopping",
+      gegenseite: "privatperson",
     };
   });
 
