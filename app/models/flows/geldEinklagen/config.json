@@ -1,9 +1,19 @@
 {
   "id": "/geld-einklagen/vorabcheck/",
-  "initial": "kontaktaufnahme",
+  "initial": "start",
   "states": {
-    "kontaktaufnahme": {
+    "start": {
       "meta": { "progressPosition": 1 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "kontaktaufnahme"
+          }
+        ]
+      }
+    },
+    "kontaktaufnahme": {
+      "meta": { "progressPosition": 2 },
       "on": {
         "SUBMIT": [
           {
@@ -18,14 +28,14 @@
       }
     },
     "kontaktaufnahme-hinweis": {
-      "meta": { "progressPosition": 2 },
+      "meta": { "progressPosition": 3 },
       "on": {
         "SUBMIT": { "target": "fristAbgelaufen" },
         "BACK": { "target": "kontaktaufnahme" }
       }
     },
     "fristAbgelaufen": {
-      "meta": { "progressPosition": 3 },
+      "meta": { "progressPosition": 4 },
       "on": {
         "SUBMIT": [
           {
@@ -45,14 +55,14 @@
       }
     },
     "fristAbgelaufen-hinweis": {
-      "meta": { "progressPosition": 4 },
+      "meta": { "progressPosition": 5 },
       "on": {
         "SUBMIT": { "target": "verjaehrt" },
         "BACK": { "target": "fristAbgelaufen" }
       }
     },
     "verjaehrt": {
-      "meta": { "progressPosition": 5 },
+      "meta": { "progressPosition": 6 },
       "on": {
         "SUBMIT": [
           {
@@ -68,14 +78,14 @@
       }
     },
     "verjaehrt-hinweis": {
-      "meta": { "progressPosition": 6 },
+      "meta": { "progressPosition": 7 },
       "on": {
         "SUBMIT": { "target": "beweise" },
         "BACK": { "target": "verjaehrt" }
       }
     },
     "beweise": {
-      "meta": { "progressPosition": 7 },
+      "meta": { "progressPosition": 8 },
       "on": {
         "SUBMIT": [
           {
@@ -91,14 +101,14 @@
       }
     },
     "beweise-hinweis": {
-      "meta": { "progressPosition": 8 },
+      "meta": { "progressPosition": 9 },
       "on": {
         "SUBMIT": { "target": "gerichtsentscheidung" },
         "BACK": { "target": "beweise" }
       }
     },
     "gerichtsentscheidung": {
-      "meta": { "progressPosition": 9 },
+      "meta": { "progressPosition": 10 },
       "on": {
         "SUBMIT": [
           {
@@ -114,14 +124,14 @@
       }
     },
     "gerichtsentscheidung-hinweis": {
-      "meta": { "progressPosition": 10 },
+      "meta": { "progressPosition": 11 },
       "on": {
         "SUBMIT": { "target": "verfahrenBegonnen" },
         "BACK": { "target": "gerichtsentscheidung" }
       }
     },
     "verfahrenBegonnen": {
-      "meta": { "progressPosition": 11 },
+      "meta": { "progressPosition": 12 },
       "on": {
         "SUBMIT": [
           {
@@ -137,14 +147,14 @@
       }
     },
     "verfahrenBegonnen-hinweis": {
-      "meta": { "progressPosition": 12 },
+      "meta": { "progressPosition": 13 },
       "on": {
         "SUBMIT": { "target": "privatperson" },
         "BACK": { "target": "verfahrenBegonnen" }
       }
     },
     "privatperson": {
-      "meta": { "progressPosition": 13 },
+      "meta": { "progressPosition": 14 },
       "on": {
         "SUBMIT": [
           {
@@ -160,13 +170,13 @@
       }
     },
     "privatperson-abbruch": {
-      "meta": { "progressPosition": 14 },
+      "meta": { "progressPosition": 15 },
       "on": {
         "BACK": { "target": "privatperson" }
       }
     },
     "wohnsitzDeutschland": {
-      "meta": { "progressPosition": 15 },
+      "meta": { "progressPosition": 16 },
       "on": {
         "SUBMIT": [
           {
@@ -182,13 +192,13 @@
       }
     },
     "wohnsitzDeutschland-abbruch": {
-      "meta": { "progressPosition": 16 },
+      "meta": { "progressPosition": 17 },
       "on": {
         "BACK": { "target": "wohnsitzDeutschland" }
       }
     },
     "abschluss": {
-      "meta": { "progressPosition": 17 },
+      "meta": { "progressPosition": 18 },
       "on": {
         "BACK": { "target": "wohnsitzDeutschland" }
       }
