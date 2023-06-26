@@ -42,7 +42,7 @@ describe("geldEinklagen/config", () => {
       { guards }
     );
 
-    const kontaktaufnahme = ["kontaktaufnahme"];
+    const kontaktaufnahme = ["start", "kontaktaufnahme"];
     const fristAbgelaufen = [...kontaktaufnahme, "fristAbgelaufen"];
     const verjaehrt = [...fristAbgelaufen, "verjaehrt"];
     const beweise = [...verjaehrt, "beweise"];
@@ -53,7 +53,7 @@ describe("geldEinklagen/config", () => {
       [kontaktaufnahmeYesDataFactory.build(), fristAbgelaufen],
       [
         kontaktaufnahmeNoDataFactory.build(),
-        ["kontaktaufnahme", "kontaktaufnahme-hinweis", "fristAbgelaufen"],
+        [...kontaktaufnahme, "kontaktaufnahme-hinweis", "fristAbgelaufen"],
       ],
       [fristNotSetDataFactory.build(), verjaehrt],
       [fristYesDataFactory.build(), [...fristAbgelaufen, "verjaehrt"]],

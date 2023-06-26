@@ -24,7 +24,8 @@
             "target": "fristAbgelaufen",
             "cond": "kontaktaufnahmeYes"
           }
-        ]
+        ],
+        "BACK": { "target": "start" }
       }
     },
     "kontaktaufnahme-hinweis": {
