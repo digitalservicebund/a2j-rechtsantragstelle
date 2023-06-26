@@ -37,13 +37,6 @@ test("vorabcheck can be traversed", async ({ page }) => {
   await vorabcheck.clickNext();
 
   await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("kostenfreieBeratung", "no");
-
-  // warning step
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.clickNext();
-
-  await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("staatlicheLeistungen", "keine");
 
   await expectPageToBeAccessible({ page });
