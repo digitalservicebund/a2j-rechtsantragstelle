@@ -8,6 +8,7 @@ import {
   verjaehrtYesDataFactory,
   beweiseNoDataFactory,
   beweiseYesDataFactory,
+  happyPathDataFactory,
 } from "tests/factories/flows/geldEinklagenVorabcheckData";
 import { createMachine } from "xstate";
 import { getSimplePaths } from "@xstate/graph";
@@ -47,16 +48,17 @@ describe("geldEinklagen/config", () => {
     const verjaehrt = [...fristAbgelaufen, "verjaehrt"];
     const beweise = [...verjaehrt, "beweise"];
     const gerichtsentscheidung = [...beweise, "gerichtsentscheidung"];
+    const verfahrenBegonnen = [...gerichtsentscheidung, "verfahrenBegonnen"];
+    const privatperson = [...verfahrenBegonnen, "privatperson"];
+    const wohnsitzDeutschland = [...privatperson, "wohnsitzDeutschland"];
+    const forderung = [...wohnsitzDeutschland, "forderung"];
 
     const cases: [GeldEinklagenVorabcheckContext, string[]][] = [
       [{}, kontaktaufnahme],
-      [kontaktaufnahmeYesDataFactory.build(), fristAbgelaufen],
       [
         kontaktaufnahmeNoDataFactory.build(),
         [...kontaktaufnahme, "kontaktaufnahme-hinweis", "fristAbgelaufen"],
       ],
-      [fristNotSetDataFactory.build(), verjaehrt],
-      [fristYesDataFactory.build(), [...fristAbgelaufen, "verjaehrt"]],
       [
         fristNoDataFactory.build(),
         [...fristAbgelaufen, "fristAbgelaufen-hinweis", "verjaehrt"],
@@ -65,12 +67,19 @@ describe("geldEinklagen/config", () => {
         verjaehrtYesDataFactory.build(),
         [...verjaehrt, "verjaehrt-hinweis", "beweise"],
       ],
-      [verjaehrtNoDataFactory.build(), beweise],
       [
         beweiseNoDataFactory.build(),
         [...beweise, "beweise-hinweis", "gerichtsentscheidung"],
       ],
-      [beweiseYesDataFactory.build(), gerichtsentscheidung],
+      [
+        happyPathDataFactory.build({ privatperson: "nonPrivate" }),
+        [...privatperson, "privatperson-abbruch"],
+      ],
+      [
+        happyPathDataFactory.build({ wohnsitzDeutschland: "no" }),
+        [...wohnsitzDeutschland, "wohnsitzDeutschland-abbruch"],
+      ],
+      [happyPathDataFactory.build(), [...forderung]],
     ];
 
     test.each(cases)(

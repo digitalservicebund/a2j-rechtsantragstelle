@@ -16,6 +16,13 @@ export const context = {
     "organisation",
   ]),
   wohnsitzDeutschland: YesNoAnswer,
+  forderung: z.enum([
+    "lessOrEqual5000",
+    "moreThan5000",
+    "action",
+    "moneyAndAction",
+    "unsure",
+  ]),
 } as const;
 
 const contextObject = z.object(context).partial();

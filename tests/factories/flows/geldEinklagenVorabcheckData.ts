@@ -45,6 +45,18 @@ export const beweiseYesDataFactory =
     };
   });
 
+export const happyPathDataFactory =
+  Factory.define<GeldEinklagenVorabcheckContext>(() => {
+    return {
+      ...beweiseYesDataFactory.build(),
+      gerichtsentscheidung: "no",
+      verfahrenBegonnen: "no",
+      privatperson: "yes",
+      wohnsitzDeutschland: "yes",
+      forderung: "lessOrEqual5000",
+    };
+  });
+
 export const beweiseNoDataFactory = beweiseYesDataFactory.params({
   beweise: "no",
 });

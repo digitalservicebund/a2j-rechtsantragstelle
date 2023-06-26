@@ -181,7 +181,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "abschluss",
+            "target": "forderung",
             "cond": "wohnsitzDeutschlandYes"
           },
           {
@@ -198,9 +198,10 @@
         "BACK": { "target": "wohnsitzDeutschland" }
       }
     },
-    "abschluss": {
+    "forderung": {
       "meta": { "progressPosition": 18 },
       "on": {
+        "SUBMIT": [],
         "BACK": { "target": "wohnsitzDeutschland" }
       }
     }
