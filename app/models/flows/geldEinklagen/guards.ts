@@ -25,7 +25,7 @@ export const guards = {
   ...yesNoGuards("verfahrenBegonnen"),
   ...yesNoGuards("privatperson"),
   notSinglePerson: (context: GeldEinklagenVorabcheckContext) =>
-    context.privatperson !== "yes",
+    Boolean(context.privatperson && context.privatperson !== "yes"),
   forderungIsNotLessOrEqual5000: (context: GeldEinklagenVorabcheckContext) =>
     Boolean(context.forderung && context.forderung !== "lessOrEqual5000"),
   forderungIsLessOrEqual5000: (context: GeldEinklagenVorabcheckContext) =>

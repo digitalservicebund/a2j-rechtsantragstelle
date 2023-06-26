@@ -45,6 +45,14 @@ export const beweiseYesDataFactory =
     };
   });
 
+export const gerichtsentscheidungNoDataFactory =
+  Factory.define<GeldEinklagenVorabcheckContext>(() => {
+    return {
+      ...beweiseYesDataFactory.build(),
+      gerichtsentscheidung: "no",
+    };
+  });
+
 export const happyPathDataFactory =
   Factory.define<GeldEinklagenVorabcheckContext>(() => {
     return {
@@ -63,3 +71,12 @@ export const happyPathDataFactory =
 export const beweiseNoDataFactory = beweiseYesDataFactory.params({
   beweise: "no",
 });
+
+export const gerichtsentscheidungYesDataFactory = beweiseYesDataFactory.params({
+  gerichtsentscheidung: "yes",
+});
+
+export const verfahrenBegonnenYesDataFactory =
+  gerichtsentscheidungNoDataFactory.params({
+    verfahrenBegonnen: "yes",
+  });

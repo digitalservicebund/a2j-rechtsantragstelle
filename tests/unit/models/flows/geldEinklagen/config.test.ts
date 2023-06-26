@@ -4,6 +4,8 @@ import {
   verjaehrtYesDataFactory,
   beweiseNoDataFactory,
   happyPathDataFactory,
+  gerichtsentscheidungYesDataFactory,
+  verfahrenBegonnenYesDataFactory,
 } from "tests/factories/flows/geldEinklagenVorabcheckData";
 import { createMachine } from "xstate";
 import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/pages";
@@ -82,6 +84,18 @@ describe("geldEinklagen/config", () => {
       [
         beweiseNoDataFactory.build(),
         [...beweise, "beweise-hinweis", "gerichtsentscheidung"],
+      ],
+      [
+        gerichtsentscheidungYesDataFactory.build(),
+        [
+          ...gerichtsentscheidung,
+          "gerichtsentscheidung-hinweis",
+          "verfahrenBegonnen",
+        ],
+      ],
+      [
+        verfahrenBegonnenYesDataFactory.build(),
+        [...verfahrenBegonnen, "verfahrenBegonnen-hinweis", "privatperson"],
       ],
       [
         happyPathDataFactory.build({ privatperson: "nonPrivate" }),
