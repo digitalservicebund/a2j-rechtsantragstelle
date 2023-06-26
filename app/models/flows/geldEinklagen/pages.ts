@@ -24,6 +24,7 @@ export const context = {
     "unsure",
   ]),
   bereich: z.enum(["work", "living", "shopping", "family", "travel", "other"]),
+  flug: YesNoAnswer,
 } as const;
 
 const contextObject = z.object(context).partial();

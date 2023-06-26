@@ -231,6 +231,14 @@
           {
             "target": "bereich-arbeit-abbruch",
             "cond": "bereichWork"
+          },
+          {
+            "target": "flug",
+            "cond": "bereichTravel"
+          },
+          {
+            "target": "gegenseite",
+            "cond": "bereichFilled"
           }
         ],
         "BACK": {
@@ -250,6 +258,39 @@
       "on": {
         "SUBMIT": [],
         "BACK": { "target": "bereich" }
+      }
+    },
+    "flug": {
+      "meta": { "progressPosition": 22 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "flug-abbruch",
+            "cond": "flugYes"
+          },
+          {
+            "target": "gegenseite",
+            "cond": "flugNo"
+          }
+        ],
+        "BACK": {
+          "target": "bereich"
+        }
+      }
+    },
+    "flug-abbruch": {
+      "meta": { "progressPosition": 23 },
+      "on": {
+        "BACK": { "target": "flug" }
+      }
+    },
+    "gegenseite": {
+      "meta": { "progressPosition": 24 },
+      "on": {
+        "BACK": [
+          { "target": "flug", "cond": "bereichTravel" },
+          { "target": "bereich", "cond": "bereichFilled" }
+        ]
       }
     }
   }

@@ -34,5 +34,9 @@ export const guards = {
     context.bereich == "family",
   bereichWork: (context: GeldEinklagenVorabcheckContext) =>
     context.bereich == "work",
+  bereichTravel: (context: GeldEinklagenVorabcheckContext) =>
+    context.bereich == "travel",
+  bereichFilled: (context: GeldEinklagenVorabcheckContext) => !!context.bereich,
   ...yesNoGuards("wohnsitzDeutschland"),
+  ...yesNoGuards("flug"),
 };
