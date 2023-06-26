@@ -52,14 +52,11 @@ const getReasonsToDisplay = (
       // TODO use reusable conditions for this
       switch (reason.attributes.elementId) {
         case "eigeninitiativeWarning":
-          return context.eigeninitiative?.hasHelpedThemselves == "no";
+          return context.eigeninitiative === "no";
         case "incomeTooHigh":
           return (
-            context.verfuegbaresEinkommen?.excessiveDisposableIncome ===
-              "yes" || isIncomeTooHigh(context)
+            context.verfuegbaresEinkommen === "yes" || isIncomeTooHigh(context)
           );
-        case "noKostenloseBeratung":
-          return context.kostenfreieBeratung?.hasTriedFreeServices == "no";
         default:
           return false;
       }
