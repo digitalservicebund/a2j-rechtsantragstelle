@@ -21,7 +21,6 @@ const flow: MachineConfig<any, any, any> = {
       },
     },
     step1Exit: {
-      type: "final",
       on: {
         BACK: { target: "step1" },
       },
@@ -38,7 +37,6 @@ const flow: MachineConfig<any, any, any> = {
       },
     },
     step3: {
-      type: "final",
       on: {
         BACK: { target: "step2" },
       },

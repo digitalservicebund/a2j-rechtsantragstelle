@@ -46,6 +46,14 @@ type BuildFlowControllerArgs = {
   guards?: any;
 };
 
+const isFinalStep = (
+  machine: ReturnType<typeof getStateMachine>,
+  stepId: string
+) => {
+  const transitions = machine.getStateNodeByPath(stepId).config.on;
+  return Boolean(transitions && !("SUBMIT" in transitions));
+};
+
 export const buildFlowController = ({
   flow,
   currentStepId,
@@ -62,7 +70,7 @@ export const buildFlowController = ({
 
   return {
     isInitial: () => flow.initial === currentStepId,
-    isFinal: () => machine.getStateNodeByPath(currentStepId).type === "final",
+    isFinal: () => isFinalStep(machine, currentStepId),
     isReachable: () => getSteps(machine).includes(currentStepId),
     getPrevious: () => {
       const name = getTransitionDestination(machine, currentStepId, "BACK");
@@ -88,8 +96,9 @@ export const buildFlowController = ({
             .filter((p) => p)
         ) + 1;
       const node = machine.getStateNodeByPath(currentStepId); //TODO: fix type
-      const current: number =
-        node.type === "final" ? total : node.meta?.progressPosition;
+      const current: number = isFinalStep(machine, currentStepId)
+        ? total
+        : node.meta?.progressPosition;
       return { total, current };
     },
   };
