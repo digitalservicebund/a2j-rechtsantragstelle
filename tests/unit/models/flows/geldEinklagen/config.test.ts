@@ -6,17 +6,27 @@ import {
   happyPathDataFactory,
 } from "tests/factories/flows/geldEinklagenVorabcheckData";
 import { createMachine } from "xstate";
-import { getSimplePaths } from "@xstate/graph";
 import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/pages";
 import { guards } from "~/models/flows/geldEinklagen/guards";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
 
-const getSteps = (machine: any, context: any) => {
-  return Object.values(
-    getSimplePaths(machine.withContext(context), {
-      events: { SUBMIT: [{ type: "SUBMIT" }] },
-    })
-  ).map(({ state }) => state.value);
+const getSteps = (
+  machine: ReturnType<typeof createMachine<GeldEinklagenVorabcheckContext>>,
+  context: GeldEinklagenVorabcheckContext,
+  transitionType: "SUBMIT" | "BACK",
+  firstStep: string
+) => {
+  let returnedSteps = [firstStep];
+  while (true) {
+    const nextStep = machine.transition(
+      returnedSteps.at(-1),
+      transitionType,
+      context
+    );
+    if (nextStep.value == returnedSteps.at(-1)) break;
+    returnedSteps.push(String(nextStep.value));
+  }
+  return returnedSteps;
 };
 
 /*
@@ -132,10 +142,15 @@ describe("geldEinklagen/config", () => {
     ];
 
     test.each(cases)(
-      "(%#) given context: %j, visits steps: %j",
+      "SUBMIT (%#) given context: %j, visits steps: %j",
       (context, steps) => {
         const expectedSteps = steps;
-        const actualSteps = getSteps(machine, context);
+        const actualSteps = getSteps(
+          machine,
+          context,
+          "SUBMIT",
+          expectedSteps[0]
+        );
         expect(actualSteps).toEqual(expectedSteps);
       }
     );
