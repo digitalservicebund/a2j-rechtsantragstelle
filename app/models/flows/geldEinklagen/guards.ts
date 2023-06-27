@@ -10,7 +10,7 @@ function yesNoGuards<Field extends keyof GeldEinklagenVorabcheckContext>(
   //@ts-ignore
   return {
     [`${field}Yes`]: ((context) => context[field] === "yes") as Guard,
-    [`${field}No`]: ((context) => context?.[field] === "no") as Guard,
+    [`${field}No`]: ((context) => context[field] === "no") as Guard,
   };
 }
 
