@@ -1,9 +1,9 @@
-import { happyPathData } from "tests/factories/flows/geldEinklagenVorabcheckData";
 import { createMachine } from "xstate";
+import { happyPathData } from "tests/fixtures/geldEinklagenVorabcheckData";
+import { getEnabledSteps } from "tests/unit/models/flows/getEnabledSteps";
 import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/pages";
 import { guards } from "~/models/flows/geldEinklagen/guards";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
-import { getEnabledSteps } from "tests/unit/models/flows/getEnabledSteps";
 
 /*
  * Note on testing xstate
