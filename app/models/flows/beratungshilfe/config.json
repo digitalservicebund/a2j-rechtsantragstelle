@@ -91,7 +91,7 @@
         "SUBMIT": [
           {
             "target": "eigeninitiative",
-            "cond": "beratungshilfe-beantragt-no"
+            "cond": "beratungshilfeBeantragtNo"
           },
           {
             "target": "beratungshilfe-beantragt-abbruch",
