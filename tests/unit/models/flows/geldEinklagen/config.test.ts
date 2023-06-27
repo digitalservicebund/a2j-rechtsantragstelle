@@ -1,12 +1,4 @@
-import {
-  kontaktaufnahmeNoDataFactory,
-  fristNoDataFactory,
-  verjaehrtYesDataFactory,
-  beweiseNoDataFactory,
-  happyPathDataFactory,
-  gerichtsentscheidungYesDataFactory,
-  verfahrenBegonnenYesDataFactory,
-} from "tests/factories/flows/geldEinklagenVorabcheckData";
+import { happyPathData } from "tests/factories/flows/geldEinklagenVorabcheckData";
 import { createMachine } from "xstate";
 import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/pages";
 import { guards } from "~/models/flows/geldEinklagen/guards";
@@ -52,23 +44,34 @@ describe("geldEinklagen/config", () => {
     const cases: [GeldEinklagenVorabcheckContext, string[]][] = [
       [{}, kontaktaufnahme],
       [
-        kontaktaufnahmeNoDataFactory.build(),
+        { kontaktaufnahme: "no" },
         [...kontaktaufnahme, "kontaktaufnahme-hinweis", "frist-abgelaufen"],
       ],
       [
-        fristNoDataFactory.build(),
+        { kontaktaufnahme: "yes", fristAbgelaufen: "no" },
         [...fristAbgelaufen, "frist-abgelaufen-hinweis", "verjaehrt"],
       ],
       [
-        verjaehrtYesDataFactory.build(),
+        { kontaktaufnahme: "yes", fristAbgelaufen: "yes", verjaehrt: "yes" },
         [...verjaehrt, "verjaehrt-hinweis", "beweise"],
       ],
       [
-        beweiseNoDataFactory.build(),
+        {
+          kontaktaufnahme: "yes",
+          fristAbgelaufen: "yes",
+          verjaehrt: "no",
+          beweise: "no",
+        },
         [...beweise, "beweise-hinweis", "gerichtsentscheidung"],
       ],
       [
-        gerichtsentscheidungYesDataFactory.build(),
+        {
+          kontaktaufnahme: "yes",
+          fristAbgelaufen: "yes",
+          verjaehrt: "no",
+          beweise: "yes",
+          gerichtsentscheidung: "yes",
+        },
         [
           ...gerichtsentscheidung,
           "gerichtsentscheidung-hinweis",
@@ -76,65 +79,73 @@ describe("geldEinklagen/config", () => {
         ],
       ],
       [
-        verfahrenBegonnenYesDataFactory.build(),
+        {
+          kontaktaufnahme: "yes",
+          fristAbgelaufen: "yes",
+          verjaehrt: "no",
+          beweise: "yes",
+          gerichtsentscheidung: "no",
+          verfahrenBegonnen: "yes",
+        },
         [...verfahrenBegonnen, "verfahren-begonnen-hinweis", "privatperson"],
       ],
       [
-        happyPathDataFactory.build({ privatperson: "nonPrivate" }),
+        { ...happyPathData, privatperson: "nonPrivate" },
         [...privatperson, "privatperson-abbruch"],
       ],
       [
-        happyPathDataFactory.build({ wohnsitzDeutschland: "no" }),
+        { ...happyPathData, wohnsitzDeutschland: "no" },
         [...wohnsitzDeutschland, "wohnsitz-deutschland-abbruch"],
       ],
       [
-        happyPathDataFactory.build({ forderung: "moreThan5000" }),
+        { ...happyPathData, forderung: "moreThan5000" },
         [...forderung, "forderung-abbruch"],
       ],
       [
-        happyPathDataFactory.build({ bereich: "family" }),
+        { ...happyPathData, bereich: "family" },
         [...bereich, "bereich-familie-abbruch"],
       ],
       [
-        happyPathDataFactory.build({ bereich: "work" }),
+        { ...happyPathData, bereich: "work" },
         [...bereich, "bereich-arbeit-abbruch"],
       ],
-      [happyPathDataFactory.build({ bereich: "travel" }), [...bereich, "flug"]],
+      [{ ...happyPathData, bereich: "travel" }, [...bereich, "flug"]],
       [
-        happyPathDataFactory.build({ bereich: "travel", flug: "yes" }),
+        { ...happyPathData, bereich: "travel", flug: "yes" },
         [...bereich, "flug", "flug-abbruch"],
       ],
       [
-        happyPathDataFactory.build({ gegenseite: "staat" }),
+        { ...happyPathData, gegenseite: "staat" },
         [...gegenseite, "gegenseite-staat-abbruch"],
       ],
       [
-        happyPathDataFactory.build({ gegenseite: "multiple" }),
+        { ...happyPathData, gegenseite: "multiple" },
         [...gegenseite, "gegenseite-mehrere-abbruch"],
       ],
       [
-        happyPathDataFactory.build({ gegenseite: "unternehmen" }),
+        { ...happyPathData, gegenseite: "unternehmen" },
         [...gegenseite, "gegenseite-unternehmen-deutschland"],
       ],
       [
-        happyPathDataFactory.build({ gegenseitePersonDeutschland: "no" }),
+        { ...happyPathData, gegenseitePersonDeutschland: "no" },
         [
           ...gegenseitePersonDeutschland,
           "gegenseite-person-deutschland-abbruch",
         ],
       ],
       [
-        happyPathDataFactory.build({
+        {
+          ...happyPathData,
           gegenseite: "unternehmen",
           gegenseiteUnternehmenDeutschland: "no",
-        }),
+        },
         [
           ...gegenseite,
           "gegenseite-unternehmen-deutschland",
           "gegenseite-unternehmen-deutschland-abbruch",
         ],
       ],
-      [happyPathDataFactory.build(), [...abschluss]],
+      [happyPathData, [...abschluss]],
     ];
 
     test.each(cases)(
