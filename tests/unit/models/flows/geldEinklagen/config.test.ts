@@ -152,12 +152,12 @@ describe("geldEinklagen/config", () => {
       "SUBMIT (%#) given context: %j, visits steps: %j",
       (context, steps) => {
         const expectedSteps = steps;
-        const actualSteps = getEnabledSteps(
+        const actualSteps = getEnabledSteps({
           machine,
           context,
-          "SUBMIT",
-          expectedSteps
-        );
+          transitionType: "SUBMIT",
+          steps: expectedSteps,
+        });
         expect(actualSteps).toEqual(expectedSteps);
       }
     );
@@ -166,12 +166,12 @@ describe("geldEinklagen/config", () => {
       "BACK (%#) given context: %j, visits steps: %j",
       (context, steps) => {
         const expectedSteps = steps.reverse();
-        const actualSteps = getEnabledSteps(
+        const actualSteps = getEnabledSteps({
           machine,
           context,
-          "BACK",
-          expectedSteps
-        );
+          transitionType: "BACK",
+          steps: expectedSteps,
+        });
         expect(actualSteps).toEqual(expectedSteps);
       }
     );

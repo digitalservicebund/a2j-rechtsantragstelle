@@ -1,11 +1,16 @@
 import type { createMachine } from "xstate";
 
-export function getEnabledSteps<T>(
-  machine: ReturnType<typeof createMachine<T>>,
-  context: T,
-  transitionType: "SUBMIT" | "BACK",
-  steps: string[]
-) {
+export function getEnabledSteps<T>({
+  machine,
+  context,
+  transitionType,
+  steps,
+}: {
+  machine: ReturnType<typeof createMachine<T>>;
+  context: T;
+  transitionType: "SUBMIT" | "BACK";
+  steps: string[];
+}) {
   return [
     steps[0],
     ...steps
