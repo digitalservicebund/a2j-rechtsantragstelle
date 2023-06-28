@@ -23,4 +23,4 @@ lefthook-local.yml
 # Gerichtsfinder data
 **/gerichtsfinder/_data/
 
-.code
+/.code/
