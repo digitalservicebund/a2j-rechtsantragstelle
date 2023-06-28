@@ -12,9 +12,6 @@ describe("beratungshilfe/config", () => {
       { guards }
     );
 
-    const rechtsschutzversicherung = ["rechtsschutzversicherung"];
-    const wurdeVerklagt = [...rechtsschutzversicherung, "wurde-verklagt"];
-
     const happyPathSteps = [
       "rechtsschutzversicherung",
       "wurde-verklagt",
@@ -40,18 +37,14 @@ describe("beratungshilfe/config", () => {
     ];
 
     const cases: [BeratungshilfeVorabcheckContext, string[]][] = [
-      [{}, rechtsschutzversicherung],
-      [happyPathData, happyPathSteps],
-
+      [{}, ["rechtsschutzversicherung"]],
       [
-        { ...happyPathData, rechtsschutzversicherung: "yes" },
+        { rechtsschutzversicherung: "yes" },
         ["rechtsschutzversicherung", "rechtsschutzversicherung-abbruch"],
       ],
-      [
-        { ...happyPathData, wurdeVerklagt: "yes" },
-        ["wurde-verklagt", "wurde-verklagt-abbruch"],
-      ],
+      [{ wurdeVerklagt: "yes" }, ["wurde-verklagt", "wurde-verklagt-abbruch"]],
       // TODO more cases
+      [happyPathData, happyPathSteps],
     ];
 
     test.each(cases)(
