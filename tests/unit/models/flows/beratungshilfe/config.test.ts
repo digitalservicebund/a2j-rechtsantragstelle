@@ -15,9 +15,43 @@ describe("beratungshilfe/config", () => {
     const rechtsschutzversicherung = ["rechtsschutzversicherung"];
     const wurdeVerklagt = [...rechtsschutzversicherung, "wurde-verklagt"];
 
+    const happyPathSteps = [
+      "rechtsschutzversicherung",
+      "wurde-verklagt",
+      "klage-eingereicht",
+      "hamburg-oder-bremen",
+      "beratungshilfe-beantragt",
+      "eigeninitiative",
+      "staatliche-leistungen",
+      "vermoegen",
+      "erwerbstaetigkeit",
+      "partnerschaft",
+      "genauigkeit",
+      "einkommen",
+      "einkommen-partner",
+      "kinder",
+      "kinder-anzahl",
+      "einkommen-kinder",
+      "unterhalt",
+      "unterhalt-summe",
+      "miete",
+      "weitere-zahlungen-summe",
+      "weitere-zahlungen-summe-abschluss-ja",
+    ];
+
     const cases: [BeratungshilfeVorabcheckContext, string[]][] = [
       [{}, rechtsschutzversicherung],
-      [happyPathData, wurdeVerklagt], // TODO
+      [happyPathData, happyPathSteps],
+
+      [
+        { ...happyPathData, rechtsschutzversicherung: "yes" },
+        ["rechtsschutzversicherung", "rechtsschutzversicherung-abbruch"],
+      ],
+      [
+        { ...happyPathData, wurdeVerklagt: "yes" },
+        ["wurde-verklagt", "wurde-verklagt-abbruch"],
+      ],
+      // TODO more cases
     ];
 
     test.each(cases)(
@@ -28,7 +62,7 @@ describe("beratungshilfe/config", () => {
           machine,
           context,
           "SUBMIT",
-          expectedSteps[0]
+          expectedSteps
         );
         expect(actualSteps).toEqual(expectedSteps);
       }
@@ -42,7 +76,7 @@ describe("beratungshilfe/config", () => {
           machine,
           context,
           "BACK",
-          expectedSteps[0]
+          expectedSteps
         );
         expect(actualSteps).toEqual(expectedSteps);
       }

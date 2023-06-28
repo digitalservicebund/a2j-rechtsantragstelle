@@ -156,7 +156,7 @@ describe("geldEinklagen/config", () => {
           machine,
           context,
           "SUBMIT",
-          expectedSteps[0]
+          expectedSteps
         );
         expect(actualSteps).toEqual(expectedSteps);
       }
@@ -170,7 +170,7 @@ describe("geldEinklagen/config", () => {
           machine,
           context,
           "BACK",
-          expectedSteps[0]
+          expectedSteps
         );
         expect(actualSteps).toEqual(expectedSteps);
       }

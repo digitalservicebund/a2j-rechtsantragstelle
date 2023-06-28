@@ -27,7 +27,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "klage-eingereicht-abbruch",
+            "target": "wurde-verklagt-abbruch",
             "cond": "wurdeVerklagtYes"
           },
           {

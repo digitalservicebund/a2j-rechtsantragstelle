@@ -4,17 +4,14 @@ export function getEnabledSteps<T>(
   machine: ReturnType<typeof createMachine<T>>,
   context: T,
   transitionType: "SUBMIT" | "BACK",
-  firstStep: string
+  steps: string[]
 ) {
-  let returnedSteps = [firstStep];
-  while (true) {
-    const nextStep = machine.transition(
-      returnedSteps.at(-1),
-      transitionType,
-      context
-    );
-    if (nextStep.value == returnedSteps.at(-1)) break;
-    returnedSteps.push(String(nextStep.value));
-  }
-  return returnedSteps;
+  return [
+    steps[0],
+    ...steps
+      .slice(0, -1)
+      .map((step) =>
+        String(machine.transition(step, transitionType, context).value)
+      ),
+  ];
 }
