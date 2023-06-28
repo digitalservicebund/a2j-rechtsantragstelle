@@ -24,128 +24,91 @@ describe("geldEinklagen/config", () => {
       { guards }
     );
 
-    const kontaktaufnahme = ["start", "kontaktaufnahme"];
-    const fristAbgelaufen = [...kontaktaufnahme, "frist-abgelaufen"];
-    const verjaehrt = [...fristAbgelaufen, "verjaehrt"];
-    const beweise = [...verjaehrt, "beweise"];
-    const gerichtsentscheidung = [...beweise, "gerichtsentscheidung"];
-    const verfahrenBegonnen = [...gerichtsentscheidung, "verfahren-begonnen"];
-    const privatperson = [...verfahrenBegonnen, "privatperson"];
-    const wohnsitzDeutschland = [...privatperson, "wohnsitz-deutschland"];
-    const forderung = [...wohnsitzDeutschland, "forderung"];
-    const bereich = [...forderung, "bereich"];
-    const gegenseite = [...bereich, "gegenseite"];
-    const gegenseitePersonDeutschland = [
-      ...gegenseite,
+    const happyPathSteps = [
+      "start",
+      "kontaktaufnahme",
+      "frist-abgelaufen",
+      "verjaehrt",
+      "beweise",
+      "gerichtsentscheidung",
+      "verfahren-begonnen",
+      "privatperson",
+      "wohnsitz-deutschland",
+      "forderung",
+      "bereich",
+      "gegenseite",
       "gegenseite-person-deutschland",
+      "abschluss",
     ];
-    const abschluss = [...gegenseitePersonDeutschland, "abschluss"];
 
     const cases: [GeldEinklagenVorabcheckContext, string[]][] = [
-      [{}, kontaktaufnahme],
+      [{}, ["start", "kontaktaufnahme"]],
       [
         { kontaktaufnahme: "no" },
-        [...kontaktaufnahme, "kontaktaufnahme-hinweis", "frist-abgelaufen"],
+        ["kontaktaufnahme", "kontaktaufnahme-hinweis", "frist-abgelaufen"],
       ],
       [
-        { kontaktaufnahme: "yes", fristAbgelaufen: "no" },
-        [...fristAbgelaufen, "frist-abgelaufen-hinweis", "verjaehrt"],
+        { fristAbgelaufen: "no" },
+        ["frist-abgelaufen", "frist-abgelaufen-hinweis", "verjaehrt"],
+      ],
+      [{ verjaehrt: "yes" }, ["verjaehrt", "verjaehrt-hinweis", "beweise"]],
+      [
+        { beweise: "no" },
+        ["beweise", "beweise-hinweis", "gerichtsentscheidung"],
       ],
       [
-        { kontaktaufnahme: "yes", fristAbgelaufen: "yes", verjaehrt: "yes" },
-        [...verjaehrt, "verjaehrt-hinweis", "beweise"],
-      ],
-      [
-        {
-          kontaktaufnahme: "yes",
-          fristAbgelaufen: "yes",
-          verjaehrt: "no",
-          beweise: "no",
-        },
-        [...beweise, "beweise-hinweis", "gerichtsentscheidung"],
-      ],
-      [
-        {
-          kontaktaufnahme: "yes",
-          fristAbgelaufen: "yes",
-          verjaehrt: "no",
-          beweise: "yes",
-          gerichtsentscheidung: "yes",
-        },
+        { gerichtsentscheidung: "yes" },
         [
-          ...gerichtsentscheidung,
+          "gerichtsentscheidung",
           "gerichtsentscheidung-hinweis",
           "verfahren-begonnen",
         ],
       ],
       [
-        {
-          kontaktaufnahme: "yes",
-          fristAbgelaufen: "yes",
-          verjaehrt: "no",
-          beweise: "yes",
-          gerichtsentscheidung: "no",
-          verfahrenBegonnen: "yes",
-        },
-        [...verfahrenBegonnen, "verfahren-begonnen-hinweis", "privatperson"],
+        { verfahrenBegonnen: "yes" },
+        ["verfahren-begonnen", "verfahren-begonnen-hinweis", "privatperson"],
       ],
       [
-        { ...happyPathData, privatperson: "nonPrivate" },
-        [...privatperson, "privatperson-abbruch"],
+        { privatperson: "nonPrivate" },
+        ["privatperson", "privatperson-abbruch"],
       ],
       [
-        { ...happyPathData, wohnsitzDeutschland: "no" },
-        [...wohnsitzDeutschland, "wohnsitz-deutschland-abbruch"],
+        { wohnsitzDeutschland: "no" },
+        ["wohnsitz-deutschland", "wohnsitz-deutschland-abbruch"],
+      ],
+      [{ forderung: "moreThan5000" }, ["forderung", "forderung-abbruch"]],
+      [{ bereich: "family" }, ["bereich", "bereich-familie-abbruch"]],
+      [{ bereich: "work" }, ["bereich", "bereich-arbeit-abbruch"]],
+      [{ bereich: "travel" }, ["bereich", "flug"]],
+      [{ bereich: "travel", flug: "yes" }, ["bereich", "flug", "flug-abbruch"]],
+      [{ gegenseite: "staat" }, ["gegenseite", "gegenseite-staat-abbruch"]],
+      [
+        { gegenseite: "multiple" },
+        ["gegenseite", "gegenseite-mehrere-abbruch"],
       ],
       [
-        { ...happyPathData, forderung: "moreThan5000" },
-        [...forderung, "forderung-abbruch"],
+        { gegenseite: "unternehmen" },
+        ["gegenseite", "gegenseite-unternehmen-deutschland"],
       ],
       [
-        { ...happyPathData, bereich: "family" },
-        [...bereich, "bereich-familie-abbruch"],
-      ],
-      [
-        { ...happyPathData, bereich: "work" },
-        [...bereich, "bereich-arbeit-abbruch"],
-      ],
-      [{ ...happyPathData, bereich: "travel" }, [...bereich, "flug"]],
-      [
-        { ...happyPathData, bereich: "travel", flug: "yes" },
-        [...bereich, "flug", "flug-abbruch"],
-      ],
-      [
-        { ...happyPathData, gegenseite: "staat" },
-        [...gegenseite, "gegenseite-staat-abbruch"],
-      ],
-      [
-        { ...happyPathData, gegenseite: "multiple" },
-        [...gegenseite, "gegenseite-mehrere-abbruch"],
-      ],
-      [
-        { ...happyPathData, gegenseite: "unternehmen" },
-        [...gegenseite, "gegenseite-unternehmen-deutschland"],
-      ],
-      [
-        { ...happyPathData, gegenseitePersonDeutschland: "no" },
+        { gegenseitePersonDeutschland: "no" },
         [
-          ...gegenseitePersonDeutschland,
+          "gegenseite-person-deutschland",
           "gegenseite-person-deutschland-abbruch",
         ],
       ],
       [
         {
-          ...happyPathData,
           gegenseite: "unternehmen",
           gegenseiteUnternehmenDeutschland: "no",
         },
         [
-          ...gegenseite,
+          "gegenseite",
           "gegenseite-unternehmen-deutschland",
           "gegenseite-unternehmen-deutschland-abbruch",
         ],
       ],
-      [happyPathData, [...abschluss]],
+      [happyPathData, happyPathSteps],
     ];
 
     test.each(cases)(
