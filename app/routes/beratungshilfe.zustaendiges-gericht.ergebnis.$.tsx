@@ -63,7 +63,7 @@ export const Component = () => {
             name={court.BEZEICHNUNG}
             street={court.STR_HNR}
             city={`${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`}
-            website={`https://${court.URL1}`}
+            website={court.URL1}
             phone={court.TEL}
             addressLabel={common.resultAddress}
             websiteLabel={common.resultWebsite}

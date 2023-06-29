@@ -14,3 +14,7 @@ export function splitObjectsByFirstLetter<
   });
   return result;
 }
+
+export function normalizeURL(url: string) {
+  return url?.startsWith("https") ? url : `https://${url}`;
+}

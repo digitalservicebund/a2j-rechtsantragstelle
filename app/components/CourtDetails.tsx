@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { normalizeURL } from "~/util/strings";
 
 export const CourtDetailsPropsSchema = z.object({
   name: z.string(),
@@ -6,7 +7,7 @@ export const CourtDetailsPropsSchema = z.object({
   street: z.string(),
   city: z.string(),
   websiteLabel: z.string(),
-  website: z.string().optional(),
+  website: z.string().url().optional(),
   phoneLabel: z.string(),
   phone: z.string().optional(),
 });
@@ -40,7 +41,7 @@ const CourtDetails = ({
             <h3 className="sr-only">{websiteLabel}</h3>
             <p>
               <a
-                href={website}
+                href={normalizeURL(website)}
                 rel="noopener noreferrer"
                 target="_blank"
                 className="ds-label-01-reg underline"
