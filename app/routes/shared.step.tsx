@@ -45,7 +45,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
 
 const getReasonsToDisplay = (
   reasons: { attributes: StrapiElementWithId }[] | null,
-  context: any
+  context: Record<string, string>
 ) => {
   return reasons
     ?.filter((reason) => {
@@ -78,15 +78,15 @@ const flowSpecifics = {
 };
 
 function buildStepValidator(
-  context: Record<string, any>,
+  schemas: Record<string, z.ZodTypeAny>,
   fieldNames: string[]
 ) {
-  let fieldSchemas: Record<string, z.ZodTypeAny> = {};
+  const fieldSchemas: Record<string, z.ZodTypeAny> = {};
   for (const fieldname of fieldNames) {
-    if (!isKeyOfObject(fieldname, context)) {
+    if (!isKeyOfObject(fieldname, schemas)) {
       throw Error(`No schema found for ${fieldname}`);
     }
-    fieldSchemas[fieldname] = context[fieldname];
+    fieldSchemas[fieldname] = schemas[fieldname];
   }
   return withZod(z.object(fieldSchemas));
 }

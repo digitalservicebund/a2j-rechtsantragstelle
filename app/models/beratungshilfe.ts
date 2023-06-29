@@ -29,7 +29,7 @@ export function freibetrag({
     betrag += Math.max(55200 - (partnerIncome ?? 0), 0);
   }
 
-  let childrenFreibetrag =
+  const childrenFreibetrag =
     (Number.isNaN(childrenBelow6) ? 0 : childrenBelow6 ?? 0) * 35000 +
     (Number.isNaN(children7To14) ? 0 : children7To14 ?? 0) * 38300 +
     (Number.isNaN(children15To18) ? 0 : children15To18 ?? 0) * 46200 +
