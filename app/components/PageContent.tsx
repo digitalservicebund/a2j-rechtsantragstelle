@@ -20,10 +20,11 @@ import Input from "./Input";
 import { getInputProps } from "~/services/props/getInputProps";
 import RadioGroup from "~/components/RadioGroup";
 import { getRadioGroupProps } from "~/services/props/getRadioGroupProps";
+import type { Replacements } from "~/util/fillTemplate";
 
 type PageContentProps = {
   content: Array<StrapiContent>;
-  templateReplacements?: Record<string, string>;
+  templateReplacements?: Replacements;
   className?: string;
 };
 
@@ -69,10 +70,7 @@ const wrapInBackground = (
   return <Background {...config}>{reactElement}</Background>;
 };
 
-function cmsToReact(
-  cms: StrapiContent,
-  templateReplacements: Record<string, string>
-) {
+function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
   const key = keyFromElement(cms);
   switch (cms.__component) {
     case "basic.heading":

@@ -1,8 +1,10 @@
 import mustache from "mustache";
 
+export type Replacements = Record<string, string>;
+
 type FillTemplateOpts = {
   template: string;
-  replacements?: Record<string, string>;
+  replacements?: Replacements;
 };
 
 export const fillTemplate = (opts: FillTemplateOpts) =>
