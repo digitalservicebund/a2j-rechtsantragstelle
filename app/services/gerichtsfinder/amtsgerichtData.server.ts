@@ -11,11 +11,12 @@ import type { Jmtd14VTErwerberPlzortk, Jmtd14VTErwerberPlzstrn } from "./types";
 
 const data = getEncrypted();
 
-export const courtAddress = (index: GerbehIndex) => {
+const courtAddress = (
+  courtData: Jmtd14VTErwerberPlzstrn | Jmtd14VTErwerberPlzortk
+) => {
   const gerbehDb: GerbehFile =
     data["JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json"];
-  const key = gerbehIndex(index);
-  return key in gerbehDb ? gerbehDb[key] : undefined;
+  return gerbehDb[gerbehIndex(buildGerbehIndex(courtData))];
 };
 
 export const courtForPlz = (PLZ: string | undefined) => {
@@ -31,23 +32,14 @@ export const edgeCasesForPlz = (PLZ: string | undefined) => {
 
 const buildGerbehIndex = (
   data: Jmtd14VTErwerberPlzstrn | Jmtd14VTErwerberPlzortk
-) => {
+): GerbehIndex => {
+  const isGerbeh = "GERBEH_LKZ" in data;
   return {
-    LKZ:
-      (data as Jmtd14VTErwerberPlzortk).GERBEH_LKZ ??
-      (data as Jmtd14VTErwerberPlzstrn).LKZ,
-    OLG:
-      (data as Jmtd14VTErwerberPlzortk).GERBEH_OLG ??
-      (data as Jmtd14VTErwerberPlzstrn).OLG,
-    LG:
-      (data as Jmtd14VTErwerberPlzortk).GERBEH_LG ??
-      (data as Jmtd14VTErwerberPlzstrn).LG,
-    AG:
-      (data as Jmtd14VTErwerberPlzortk).GERBEH_AG ??
-      (data as Jmtd14VTErwerberPlzstrn).AG,
-    typInfo:
-      (data as Jmtd14VTErwerberPlzortk).GERBEH_TYP_INFO ??
-      (data as Jmtd14VTErwerberPlzstrn).TYP_INFO,
+    LKZ: isGerbeh ? data.GERBEH_LKZ : data.LKZ,
+    OLG: isGerbeh ? data.GERBEH_OLG : data.OLG,
+    LG: isGerbeh ? data.GERBEH_LG : data.LG,
+    AG: isGerbeh ? data.GERBEH_AG : data.AG,
+    typInfo: isGerbeh ? data.GERBEH_TYP_INFO : data.TYP_INFO,
   };
 };
 
@@ -103,10 +95,10 @@ export const findCourt = ({
     const edgeCases = edgeCasesForPlz(zipCode);
     const edgeCase = edgeCases.find((e) => buildStreetSlug(e) === streetSlug);
     if (!edgeCase) throw new Error("streetSlug unknown");
-    return courtAddress(buildGerbehIndex(edgeCase));
+    return courtAddress(edgeCase);
   }
 
   const court = courtForPlz(zipCode);
   if (!court) throw new Error("zipCode unknown");
-  return courtAddress(buildGerbehIndex(court));
+  return courtAddress(court);
 };

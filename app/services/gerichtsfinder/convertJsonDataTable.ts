@@ -6,7 +6,7 @@ import type {
 } from "./types";
 import { objectMap, isKeyOfObject } from "~/util/objects";
 
-export type GerbehFile = Record<string, Jmtd14VTErwerberGerbeh>;
+export type GerbehFile = Record<string, Jmtd14VTErwerberGerbeh | undefined>;
 export type PlzOrtkFile = Record<string, Jmtd14VTErwerberPlzortk[]>;
 export type PlzStrnFile = Record<string, Jmtd14VTErwerberPlzstrn[]>;
 
@@ -45,7 +45,7 @@ export const conversions = {
   },
 
   "JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json": (object: ConversionInput) => {
-    let out: PlzOrtkFile = {};
+    const out: PlzOrtkFile = {};
     const plzOrtkData: Jmtd14VTErwerberPlzortk[] =
       object.JMTD14_VT_ERWERBER_PLZORTK;
 
@@ -62,7 +62,7 @@ export const conversions = {
   },
 
   "JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json": (object: ConversionInput) => {
-    let out: PlzStrnFile = {};
+    const out: PlzStrnFile = {};
     const plzStrnData: Jmtd14VTErwerberPlzstrn[] =
       object.JMTD14_VT_ERWERBER_PLZSTRN;
 
