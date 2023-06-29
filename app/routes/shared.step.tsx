@@ -24,10 +24,7 @@ import {
 import { buildFlowController } from "~/services/flow/buildFlowController";
 import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
-import {
-  isIncomeTooHigh,
-  guards as beratungshilfeGuards,
-} from "~/models/flows/beratungshilfe/guards";
+import { guards as beratungshilfeGuards } from "~/models/flows/beratungshilfe/guards";
 import { guards as geldEinklagenGuards } from "~/models/flows/geldEinklagen/guards";
 import invariant from "tiny-invariant";
 import type { MachineConfig } from "xstate";
@@ -35,34 +32,12 @@ import { getInitialStep } from "~/services/flow/getInitialStep";
 import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
 import { context as geldEinklagenContext } from "~/models/flows/geldEinklagen/pages";
 import { isKeyOfObject } from "~/util/objects";
-import { withZod } from "@remix-validated-form/with-zod";
-import { z } from "zod";
 import { context as contextBeratungshilfe } from "~/models/flows/beratungshilfe/pages";
+import { buildStepValidator, getReasonsToDisplay } from "~/models/flows/common";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
 ];
-
-const getReasonsToDisplay = (
-  reasons: { attributes: StrapiElementWithId }[] | null,
-  context: Record<string, string>
-) => {
-  return reasons
-    ?.filter((reason) => {
-      // TODO use reusable conditions for this
-      switch (reason.attributes.elementId) {
-        case "eigeninitiativeWarning":
-          return context.eigeninitiative === "no";
-        case "incomeTooHigh":
-          return (
-            context.verfuegbaresEinkommen === "yes" || isIncomeTooHigh(context)
-          );
-        default:
-          return false;
-      }
-    })
-    .map((reason) => reason.attributes);
-};
 
 const flowSpecifics = {
   beratungshilfe: {
@@ -76,20 +51,6 @@ const flowSpecifics = {
     context: geldEinklagenContext,
   },
 };
-
-function buildStepValidator(
-  schemas: Record<string, z.ZodTypeAny>,
-  fieldNames: string[]
-) {
-  const fieldSchemas: Record<string, z.ZodTypeAny> = {};
-  for (const fieldname of fieldNames) {
-    if (!isKeyOfObject(fieldname, schemas)) {
-      throw Error(`No schema found for ${fieldname}`);
-    }
-    fieldSchemas[fieldname] = schemas[fieldname];
-  }
-  return withZod(z.object(fieldSchemas));
-}
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   const splat = params["*"];
