@@ -17,6 +17,9 @@ export type RadioGroupProps = z.infer<typeof RadioGroupPropsSchema>;
 const RadioGroup = ({ name, options, label, altLabel }: RadioGroupProps) => {
   const { error } = useField(name);
   const errorId = `${name}-error`;
+  // TODO: Move into CMS (Common?)
+  const errorMessage =
+    error !== undefined ? "Bitte treffen Sie eine Auswahl." : undefined;
   return (
     <fieldset
       aria-label={altLabel ? altLabel : undefined}
@@ -29,7 +32,7 @@ const RadioGroup = ({ name, options, label, altLabel }: RadioGroupProps) => {
       {options.map((o) => (
         <Radio key={o.value} name={name} value={o.value} text={o.text} />
       ))}
-      <InputError id={errorId}>Bitte treffen Sie eine Auswahl.</InputError>
+      <InputError id={errorId}>{errorMessage}</InputError>
     </fieldset>
   );
 };
