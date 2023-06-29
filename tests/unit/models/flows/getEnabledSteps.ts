@@ -9,7 +9,7 @@ export function getEnabledSteps<T>({
   machine: ReturnType<typeof createMachine<T>>;
   context: T;
   transitionType: "SUBMIT" | "BACK";
-  steps: string[];
+  steps: Readonly<Array<string>>;
 }) {
   return [
     steps[0],
