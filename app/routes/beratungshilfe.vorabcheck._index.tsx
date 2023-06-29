@@ -1,7 +1,9 @@
 import { redirect } from "@remix-run/node";
 import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
-import { getInitialStep } from "~/services/flow/getInitialStep";
+import { buildFlowController } from "~/services/flow/buildFlowController";
 
 export const loader = async () => {
-  return redirect(getInitialStep({ flow: beratungshilfeFlow }).url);
+  return redirect(
+    buildFlowController({ flow: beratungshilfeFlow, data: {} }).getInitial().url
+  );
 };

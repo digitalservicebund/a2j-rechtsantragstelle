@@ -4,7 +4,7 @@ import { getShortestPaths } from "@xstate/graph";
 
 type GetStateMachineArgs = {
   config: MachineConfig<any, any, any>;
-  context: any;
+  context?: any;
   guards?: any;
 };
 
@@ -41,8 +41,7 @@ const getTransitionDestination = (
 
 type BuildFlowControllerArgs = {
   flow: MachineConfig<any, any, any>; // TODO correct type
-  currentStepId: string;
-  data: any; // TODO correct type
+  data?: any; // TODO correct type
   guards?: any;
 };
 
@@ -56,7 +55,6 @@ const isFinalStep = (
 
 export const buildFlowController = ({
   flow,
-  currentStepId,
   data,
   guards,
 }: BuildFlowControllerArgs) => {
@@ -69,14 +67,15 @@ export const buildFlowController = ({
   const baseUrl = flow.id;
 
   return {
-    isInitial: () => flow.initial === currentStepId,
-    isFinal: () => isFinalStep(machine, currentStepId),
-    isReachable: () => getSteps(machine).includes(currentStepId),
-    getPrevious: () => {
+    isInitial: (currentStepId: string) => flow.initial === currentStepId,
+    isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),
+    isReachable: (currentStepId: string) =>
+      getSteps(machine).includes(currentStepId),
+    getPrevious: (currentStepId: string) => {
       const name = getTransitionDestination(machine, currentStepId, "BACK");
       return { name, url: `${baseUrl}${name}` };
     },
-    getNext: () => {
+    getNext: (currentStepId: string) => {
       const name = getTransitionDestination(machine, currentStepId, "SUBMIT");
       return { name, url: `${baseUrl}${name}` };
     },
@@ -88,7 +87,7 @@ export const buildFlowController = ({
       const name = getSteps(machine).at(-1);
       return { name, url: `${baseUrl}${String(name)}` };
     },
-    getProgress: () => {
+    getProgress: (currentStepId: string) => {
       const total =
         Math.max(
           ...Object.values(machine.states)

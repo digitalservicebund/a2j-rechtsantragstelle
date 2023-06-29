@@ -51,8 +51,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: {},
-          currentStepId: "step1",
-        }).isInitial()
+        }).isInitial("step1")
       ).toBe(true);
     });
 
@@ -61,8 +60,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: {},
-          currentStepId: "step2",
-        }).isInitial()
+        }).isInitial("step2")
       ).toBe(false);
     });
   });
@@ -73,8 +71,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: {},
-          currentStepId: "step1Exit",
-        }).isFinal()
+        }).isFinal("step1Exit")
       ).toBe(true);
     });
 
@@ -83,8 +80,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: {},
-          currentStepId: "step1",
-        }).isFinal()
+        }).isFinal("step1")
       ).toBe(false);
     });
   });
@@ -95,8 +91,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: { step1: true },
-          currentStepId: "step3",
-        }).isReachable()
+        }).isReachable("step3")
       ).toBe(true);
     });
 
@@ -105,8 +100,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: {},
-          currentStepId: "step3",
-        }).isReachable()
+        }).isReachable("step3")
       ).toBe(false);
     });
   });
@@ -117,8 +111,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: { step1: true },
-          currentStepId: "step3",
-        }).getPrevious()
+        }).getPrevious("step3")
       ).toStrictEqual({
         name: "step2",
         url: "/flow/vorabcheck/step2",
@@ -130,8 +123,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: {},
-          currentStepId: "step1",
-        }).getPrevious()
+        }).getPrevious("step1")
       ).toThrow();
     });
   });
@@ -142,8 +134,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: { step1: true },
-          currentStepId: "step1",
-        }).getNext()
+        }).getNext("step1")
       ).toStrictEqual({
         name: "step2",
         url: "/flow/vorabcheck/step2",
@@ -155,8 +146,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: { step1: true },
-          currentStepId: "step3",
-        }).getNext()
+        }).getNext("step3")
       ).toThrow();
     });
   });
@@ -167,7 +157,6 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: {},
-          currentStepId: "step3",
         }).getInitial()
       ).toStrictEqual({
         name: "step1",
@@ -182,7 +171,6 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: { step1: true },
-          currentStepId: "step1",
         }).getLastReachable()
       ).toStrictEqual({
         name: "step3",
@@ -195,7 +183,6 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: {},
-          currentStepId: "step1",
         }).getLastReachable()
       ).toStrictEqual({
         name: "step1",
@@ -210,8 +197,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: { step1: true },
-          currentStepId: "step3",
-        }).getProgress()
+        }).getProgress("step3")
       ).toStrictEqual({
         current: 3,
         total: 3,
@@ -223,8 +209,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: {},
-          currentStepId: "step1",
-        }).getProgress()
+        }).getProgress("step1")
       ).toStrictEqual({
         current: 1,
         total: 3,
@@ -236,8 +221,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: { step1: false },
-          currentStepId: "step1Exit",
-        }).getProgress()
+        }).getProgress("step1Exit")
       ).toStrictEqual({
         current: 3,
         total: 3,
@@ -249,8 +233,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           flow,
           data: { step1: false },
-          currentStepId: "step2",
-        }).getProgress()
+        }).getProgress("step2")
       ).toStrictEqual({
         current: 2,
         total: 3,

@@ -28,7 +28,6 @@ import { guards as beratungshilfeGuards } from "~/models/flows/beratungshilfe/gu
 import { guards as geldEinklagenGuards } from "~/models/flows/geldEinklagen/guards";
 import invariant from "tiny-invariant";
 import type { MachineConfig } from "xstate";
-import { getInitialStep } from "~/services/flow/getInitialStep";
 import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
 import { context as geldEinklagenContext } from "~/models/flows/geldEinklagen/pages";
 import { isKeyOfObject } from "~/util/objects";
@@ -62,7 +61,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
   if (splat === "") {
     // redirect to initial step
-    return redirect(getInitialStep({ flow }).url);
+    return redirect(buildFlowController({ flow }).getInitial().url);
   }
 
   const stepId = splat;
@@ -71,12 +70,11 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
   const flowController = buildFlowController({
     flow: flow as MachineConfig<any, any, any>,
-    currentStepId: stepId,
     data: session.data,
     guards: flowSpecifics[flowId].guards,
   });
 
-  if (!flowController.isReachable()) {
+  if (!flowController.isReachable(stepId)) {
     return redirect(flowController.getInitial().url);
   }
 
@@ -88,14 +86,14 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   };
 
   const commonContent = await getStrapiVorabCheckCommon();
-  const progressBar = flowController.getProgress();
+  const progressBar = flowController.getProgress(stepId);
   const defaultValues = session.data;
   const progressStep = progressBar.current;
   const progressTotal = progressBar.total;
-  const isLast = flowController.isFinal();
-  const previousStep = flowController.isInitial()
+  const isLast = flowController.isFinal(stepId);
+  const previousStep = flowController.isInitial(stepId)
     ? undefined
-    : flowController.getPrevious().url;
+    : flowController.getPrevious(stepId).url;
 
   let formPageContent: StrapiVorabCheckPage | undefined;
   let resultContent: StrapiResultPage | undefined;
@@ -164,11 +162,10 @@ export const action: ActionFunction = async ({ params, request }) => {
 
   const flowController = buildFlowController({
     flow: flowSpecifics[flowId].flow as MachineConfig<any, any, any>,
-    currentStepId: stepId,
     data: session.data,
     guards: flowSpecifics[flowId].guards,
   });
-  return redirect(flowController.getNext().url, { headers });
+  return redirect(flowController.getNext(stepId).url, { headers });
 };
 
 export function Step() {
