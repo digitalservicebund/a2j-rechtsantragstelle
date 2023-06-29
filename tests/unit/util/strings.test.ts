@@ -2,6 +2,7 @@ import {
   normalizeURL,
   splitObjectsByFirstLetter,
   stripLeadingZeros,
+  stripTrailingSlashFromURL,
 } from "~/util/strings";
 
 describe("stripLeadingZeros", () => {
@@ -38,5 +39,20 @@ describe("normalizeUrl", () => {
   it("prepends https to urls if missing", () => {
     const url = "test.url";
     expect(normalizeURL(url)).toEqual(`https://${url}`);
+  });
+});
+
+describe("stripTrailingSlashFromURL", () => {
+  it("returnes undefined for correct URLs", () => {
+    expect(stripTrailingSlashFromURL("https://test.url")).toEqual(undefined);
+  });
+
+  it("returns URL without slash if needed", () => {
+    const url = "https://www.test.url/test/";
+    expect(stripTrailingSlashFromURL(url)).toEqual("/test");
+  });
+
+  it("throws if input isn't valid URL", () => {
+    expect(() => stripTrailingSlashFromURL("www.test.url/test/")).toThrow();
   });
 });

@@ -1,11 +1,12 @@
 import { PassThrough } from "stream";
 import type { EntryContext } from "@remix-run/node";
-import { Response } from "@remix-run/node";
+import { Response, redirect } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 import * as Sentry from "@sentry/remix";
 import { getWebConfig } from "./services/config";
+import { stripTrailingSlashFromURL } from "./util/strings";
 
 Sentry.init({
   dsn: getWebConfig().SENTRY_DSN,
@@ -20,6 +21,9 @@ export default function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
+  const urlIfChanged = stripTrailingSlashFromURL(request.url);
+  if (urlIfChanged !== undefined) return redirect(urlIfChanged, 301);
+
   return isbot(request.headers.get("user-agent"))
     ? handleBotRequest(
         request,
