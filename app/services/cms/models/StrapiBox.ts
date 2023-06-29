@@ -11,7 +11,7 @@ export const StrapiBoxSchema = z
     __component: z.literal("page.box").optional(),
     label: StrapiHeadingSchema.nullable(),
     heading: StrapiHeadingSchema.nullable(),
-    content: StrapiParagraphSchema.optional(),
+    content: StrapiParagraphSchema.nullable(),
     button: StrapiButtonSchema.nullable(),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
