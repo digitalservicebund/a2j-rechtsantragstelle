@@ -38,13 +38,41 @@ describe("beratungshilfe/config", () => {
 
     const cases: [BeratungshilfeVorabcheckContext, string[]][] = [
       [{}, ["rechtsschutzversicherung"]],
+      [happyPathData, happyPathSteps],
       [
         { rechtsschutzversicherung: "yes" },
         ["rechtsschutzversicherung", "rechtsschutzversicherung-abbruch"],
       ],
       [{ wurdeVerklagt: "yes" }, ["wurde-verklagt", "wurde-verklagt-abbruch"]],
-      // TODO more cases
-      [happyPathData, happyPathSteps],
+      [
+        { klageEingereicht: "yes" },
+        ["klage-eingereicht", "klage-eingereicht-abbruch"],
+      ],
+      [
+        { hamburgOderBremen: "yes" },
+        ["hamburg-oder-bremen", "hamburg-oder-bremen-abbruch"],
+      ],
+      [
+        { beratungshilfeBeantragt: "yes" },
+        ["beratungshilfe-beantragt", "beratungshilfe-beantragt-abbruch"],
+      ],
+      [
+        { eigeninitiative: "no" },
+        ["eigeninitiative", "eigeninitiative-warnung"],
+      ],
+      [
+        { staatlicheLeistungen: "asylbewerberleistungen" },
+        ["staatliche-leistungen", "staatliche-leistungen-abschluss-ja"],
+      ],
+      [
+        { staatlicheLeistungen: "grundsicherung" },
+        ["staatliche-leistungen", "staatliche-leistungen-abschluss-ja"],
+      ],
+      [{ vermoegen: "above_10k" }, ["vermoegen", "vermoegen-abbruch"]],
+      [
+        { vermoegen: "below_10k", staatlicheLeistungen: "buergergeld" },
+        ["vermoegen", "vermoegen-abschluss-ja"],
+      ],
     ];
 
     test.each(cases)(
