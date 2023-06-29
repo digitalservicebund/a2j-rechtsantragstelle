@@ -20,15 +20,18 @@ const Select = ({ name, label, options }: SelectProps) => {
   const selectClassName = classNames("ds-select", {
     "has-error": error,
   });
+  const errorId = `${name}-error`;
 
   return (
     <div>
-      {label ? <InputLabel id={name}>{label}</InputLabel> : ""}
+      {label && <InputLabel id={name}>{label}</InputLabel>}
 
       <select
         {...getInputProps({ id: name })}
         className={selectClassName}
-        aria-describedby={error ? `${name}-error` : undefined}
+        aria-invalid={error !== undefined}
+        aria-describedby={error && errorId}
+        aria-errormessage={error && errorId}
       >
         {options.map((option) => {
           return (
@@ -38,8 +41,7 @@ const Select = ({ name, label, options }: SelectProps) => {
           );
         })}
       </select>
-
-      {error ? <InputError inputName={name}>{error}</InputError> : ""}
+      <InputError id={errorId}>{error}</InputError>
     </div>
   );
 };

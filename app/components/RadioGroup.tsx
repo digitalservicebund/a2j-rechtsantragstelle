@@ -16,20 +16,20 @@ export type RadioGroupProps = z.infer<typeof RadioGroupPropsSchema>;
 
 const RadioGroup = ({ name, options, label, altLabel }: RadioGroupProps) => {
   const { error } = useField(name);
+  const errorId = `${name}-error`;
   return (
     <fieldset
       aria-label={altLabel ? altLabel : undefined}
       className="border-0 p-0 m-0 ds-stack-16"
+      aria-invalid={error !== undefined}
+      aria-describedby={error && errorId}
+      aria-errormessage={error && errorId}
     >
       {label && <legend>{label}</legend>}
       {options.map((o) => (
         <Radio key={o.value} name={name} value={o.value} text={o.text} />
       ))}
-      {error && (
-        <InputError inputName={name}>
-          Bitte treffen Sie eine Auswahl.
-        </InputError>
-      )}
+      <InputError id={errorId}>Bitte treffen Sie eine Auswahl.</InputError>
     </fieldset>
   );
 };

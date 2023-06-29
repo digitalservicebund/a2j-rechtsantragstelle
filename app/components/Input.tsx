@@ -33,6 +33,7 @@ const Input = ({
   errorMessages,
 }: InputProps) => {
   const { error, getInputProps } = useField(name);
+  const errorId = `${name}-error`;
 
   return (
     <div>
@@ -48,15 +49,15 @@ const Input = ({
             placeholder,
           })}
           className={classNames("ds-input", { "has-error": error })}
-          aria-describedby={error && `${name}-error`}
+          aria-invalid={error !== undefined}
+          aria-describedby={error && errorId}
+          aria-errormessage={error && errorId}
         />
         {suffix && <div className="ds-input-suffix">{suffix}</div>}
       </div>
-      {error && (
-        <InputError inputName={name}>
-          {errorMessages?.find((err) => err.code === error)?.text ?? error}
-        </InputError>
-      )}
+      <InputError id={errorId}>
+        {errorMessages?.find((err) => err.code === error)?.text ?? error}
+      </InputError>
     </div>
   );
 };
