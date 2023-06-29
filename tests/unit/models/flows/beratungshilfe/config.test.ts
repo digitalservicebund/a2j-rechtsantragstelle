@@ -33,7 +33,7 @@ describe("beratungshilfe/config", () => {
       "unterhalt-summe",
       "miete",
       "weitere-zahlungen-summe",
-      "weitere-zahlungen-summe-abschluss-ja",
+      "ergebnis/weitere-zahlungen-summe-abschluss-ja",
     ];
 
     const cases: [BeratungshilfeVorabcheckContext, string[]][] = [
@@ -41,20 +41,29 @@ describe("beratungshilfe/config", () => {
       [happyPathData, happyPathSteps],
       [
         { rechtsschutzversicherung: "yes" },
-        ["rechtsschutzversicherung", "rechtsschutzversicherung-abbruch"],
+        [
+          "rechtsschutzversicherung",
+          "ergebnis/rechtsschutzversicherung-abbruch",
+        ],
       ],
-      [{ wurdeVerklagt: "yes" }, ["wurde-verklagt", "wurde-verklagt-abbruch"]],
+      [
+        { wurdeVerklagt: "yes" },
+        ["wurde-verklagt", "ergebnis/wurde-verklagt-abbruch"],
+      ],
       [
         { klageEingereicht: "yes" },
-        ["klage-eingereicht", "klage-eingereicht-abbruch"],
+        ["klage-eingereicht", "ergebnis/klage-eingereicht-abbruch"],
       ],
       [
         { hamburgOderBremen: "yes" },
-        ["hamburg-oder-bremen", "hamburg-oder-bremen-abbruch"],
+        ["hamburg-oder-bremen", "ergebnis/hamburg-oder-bremen-abbruch"],
       ],
       [
         { beratungshilfeBeantragt: "yes" },
-        ["beratungshilfe-beantragt", "beratungshilfe-beantragt-abbruch"],
+        [
+          "beratungshilfe-beantragt",
+          "ergebnis/beratungshilfe-beantragt-abbruch",
+        ],
       ],
       [
         { eigeninitiative: "no" },
@@ -62,16 +71,22 @@ describe("beratungshilfe/config", () => {
       ],
       [
         { staatlicheLeistungen: "asylbewerberleistungen" },
-        ["staatliche-leistungen", "staatliche-leistungen-abschluss-ja"],
+        [
+          "staatliche-leistungen",
+          "ergebnis/staatliche-leistungen-abschluss-ja",
+        ],
       ],
       [
         { staatlicheLeistungen: "grundsicherung" },
-        ["staatliche-leistungen", "staatliche-leistungen-abschluss-ja"],
+        [
+          "staatliche-leistungen",
+          "ergebnis/staatliche-leistungen-abschluss-ja",
+        ],
       ],
-      [{ vermoegen: "above_10k" }, ["vermoegen", "vermoegen-abbruch"]],
+      [{ vermoegen: "above_10k" }, ["vermoegen", "ergebnis/vermoegen-abbruch"]],
       [
         { vermoegen: "below_10k", staatlicheLeistungen: "buergergeld" },
-        ["vermoegen", "vermoegen-abschluss-ja"],
+        ["vermoegen", "ergebnis/vermoegen-abschluss-ja"],
       ],
       [{ genauigkeit: "no" }, ["genauigkeit", "kinder-kurz"]],
 
@@ -83,17 +98,23 @@ describe("beratungshilfe/config", () => {
       ],
       [
         { verfuegbaresEinkommen: "yes" },
-        ["verfuegbares-einkommen", "verfuegbares-einkommen-abschluss-nein"],
+        [
+          "verfuegbares-einkommen",
+          "ergebnis/verfuegbares-einkommen-abschluss-nein",
+        ],
       ],
       [
         { verfuegbaresEinkommen: "no", eigeninitiative: "yes" },
-        ["verfuegbares-einkommen", "verfuegbares-einkommen-abschluss-ja"],
+        [
+          "verfuegbares-einkommen",
+          "ergebnis/verfuegbares-einkommen-abschluss-ja",
+        ],
       ],
       [
         { verfuegbaresEinkommen: "no", eigeninitiative: "no" },
         [
           "verfuegbares-einkommen",
-          "verfuegbares-einkommen-abschluss-vielleicht",
+          "ergebnis/verfuegbares-einkommen-abschluss-vielleicht",
         ],
       ],
 
@@ -102,13 +123,16 @@ describe("beratungshilfe/config", () => {
       [{ unterhalt: "no" }, ["unterhalt", "miete"]],
       [
         { einkommen: "10000000" },
-        ["weitere-zahlungen-summe", "weitere-zahlungen-summe-abschluss-nein"],
+        [
+          "weitere-zahlungen-summe",
+          "ergebnis/weitere-zahlungen-summe-abschluss-nein",
+        ],
       ],
       [
         { einkommen: "100", eigeninitiative: "no" },
         [
           "weitere-zahlungen-summe",
-          "weitere-zahlungen-summe-abschluss-vielleicht",
+          "ergebnis/weitere-zahlungen-summe-abschluss-vielleicht",
         ],
       ],
     ];

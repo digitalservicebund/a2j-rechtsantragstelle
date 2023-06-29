@@ -17,7 +17,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "kontaktaufnahme-hinweis",
+            "target": "ergebnis/kontaktaufnahme-hinweis",
             "cond": "kontaktaufnahmeNo"
           },
           {
@@ -28,7 +28,7 @@
         "BACK": { "target": "start" }
       }
     },
-    "kontaktaufnahme-hinweis": {
+    "ergebnis/kontaktaufnahme-hinweis": {
       "meta": { "progressPosition": 3 },
       "on": {
         "SUBMIT": { "target": "frist-abgelaufen" },
@@ -44,17 +44,17 @@
             "cond": "fristAbgelaufenYes"
           },
           {
-            "target": "frist-abgelaufen-hinweis",
+            "target": "ergebnis/frist-abgelaufen-hinweis",
             "cond": "fristAbgelaufenNo"
           },
           {
-            "target": "frist-abgelaufen-hinweis",
+            "target": "ergebnis/frist-abgelaufen-hinweis",
             "cond": "fristAbgelaufenNotSet"
           }
         ],
         "BACK": [
           {
-            "target": "kontaktaufnahme-hinweis",
+            "target": "ergebnis/kontaktaufnahme-hinweis",
             "cond": "kontaktaufnahmeNo"
           },
           {
@@ -64,7 +64,7 @@
         ]
       }
     },
-    "frist-abgelaufen-hinweis": {
+    "ergebnis/frist-abgelaufen-hinweis": {
       "meta": { "progressPosition": 5 },
       "on": {
         "SUBMIT": { "target": "verjaehrt" },
@@ -76,7 +76,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "verjaehrt-hinweis",
+            "target": "ergebnis/verjaehrt-hinweis",
             "cond": "verjaehrtYes"
           },
           {
@@ -86,11 +86,11 @@
         ],
         "BACK": [
           {
-            "target": "frist-abgelaufen-hinweis",
+            "target": "ergebnis/frist-abgelaufen-hinweis",
             "cond": "fristAbgelaufenNo"
           },
           {
-            "target": "frist-abgelaufen-hinweis",
+            "target": "ergebnis/frist-abgelaufen-hinweis",
             "cond": "fristAbgelaufenNotSet"
           },
           {
@@ -99,7 +99,7 @@
         ]
       }
     },
-    "verjaehrt-hinweis": {
+    "ergebnis/verjaehrt-hinweis": {
       "meta": { "progressPosition": 7 },
       "on": {
         "SUBMIT": {
@@ -115,7 +115,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "beweise-hinweis",
+            "target": "ergebnis/beweise-hinweis",
             "cond": "beweiseNo"
           },
           {
@@ -129,13 +129,13 @@
             "cond": "verjaehrtNo"
           },
           {
-            "target": "verjaehrt-hinweis",
+            "target": "ergebnis/verjaehrt-hinweis",
             "cond": "verjaehrtYes"
           }
         ]
       }
     },
-    "beweise-hinweis": {
+    "ergebnis/beweise-hinweis": {
       "meta": { "progressPosition": 9 },
       "on": {
         "SUBMIT": { "target": "gerichtsentscheidung" },
@@ -147,7 +147,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "gerichtsentscheidung-hinweis",
+            "target": "ergebnis/gerichtsentscheidung-hinweis",
             "cond": "gerichtsentscheidungYes"
           },
           {
@@ -161,13 +161,13 @@
             "cond": "beweiseYes"
           },
           {
-            "target": "beweise-hinweis",
+            "target": "ergebnis/beweise-hinweis",
             "cond": "beweiseNo"
           }
         ]
       }
     },
-    "gerichtsentscheidung-hinweis": {
+    "ergebnis/gerichtsentscheidung-hinweis": {
       "meta": { "progressPosition": 11 },
       "on": {
         "SUBMIT": { "target": "verfahren-begonnen" },
@@ -179,7 +179,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "verfahren-begonnen-hinweis",
+            "target": "ergebnis/verfahren-begonnen-hinweis",
             "cond": "verfahrenBegonnenYes"
           },
           {
@@ -193,13 +193,13 @@
             "cond": "gerichtsentscheidungNo"
           },
           {
-            "target": "gerichtsentscheidung-hinweis",
+            "target": "ergebnis/gerichtsentscheidung-hinweis",
             "cond": "gerichtsentscheidungYes"
           }
         ]
       }
     },
-    "verfahren-begonnen-hinweis": {
+    "ergebnis/verfahren-begonnen-hinweis": {
       "meta": { "progressPosition": 13 },
       "on": {
         "SUBMIT": { "target": "privatperson" },
@@ -215,7 +215,7 @@
             "cond": "privatpersonYes"
           },
           {
-            "target": "privatperson-abbruch",
+            "target": "ergebnis/privatperson-abbruch",
             "cond": "notSinglePerson"
           }
         ],
@@ -225,13 +225,13 @@
             "cond": "verfahrenBegonnenNo"
           },
           {
-            "target": "verfahren-begonnen-hinweis",
+            "target": "ergebnis/verfahren-begonnen-hinweis",
             "cond": "verfahrenBegonnenYes"
           }
         ]
       }
     },
-    "privatperson-abbruch": {
+    "ergebnis/privatperson-abbruch": {
       "meta": { "progressPosition": 15 },
       "on": {
         "BACK": { "target": "privatperson" }
@@ -246,14 +246,14 @@
             "cond": "wohnsitzDeutschlandYes"
           },
           {
-            "target": "wohnsitz-deutschland-abbruch",
+            "target": "ergebnis/wohnsitz-deutschland-abbruch",
             "cond": "wohnsitzDeutschlandNo"
           }
         ],
         "BACK": { "target": "privatperson" }
       }
     },
-    "wohnsitz-deutschland-abbruch": {
+    "ergebnis/wohnsitz-deutschland-abbruch": {
       "meta": { "progressPosition": 17 },
       "on": {
         "BACK": { "target": "wohnsitz-deutschland" }
@@ -264,7 +264,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "forderung-abbruch",
+            "target": "ergebnis/forderung-abbruch",
             "cond": "forderungIsNotLessOrEqual5000"
           },
           {
@@ -275,7 +275,7 @@
         "BACK": { "target": "wohnsitz-deutschland" }
       }
     },
-    "forderung-abbruch": {
+    "ergebnis/forderung-abbruch": {
       "meta": { "progressPosition": 19 },
       "on": {
         "BACK": { "target": "forderung" }
@@ -286,11 +286,11 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "bereich-familie-abbruch",
+            "target": "ergebnis/bereich-familie-abbruch",
             "cond": "bereichFamily"
           },
           {
-            "target": "bereich-arbeit-abbruch",
+            "target": "ergebnis/bereich-arbeit-abbruch",
             "cond": "bereichWork"
           },
           {
@@ -307,14 +307,14 @@
         }
       }
     },
-    "bereich-familie-abbruch": {
+    "ergebnis/bereich-familie-abbruch": {
       "meta": { "progressPosition": 21 },
       "on": {
         "SUBMIT": [],
         "BACK": { "target": "bereich" }
       }
     },
-    "bereich-arbeit-abbruch": {
+    "ergebnis/bereich-arbeit-abbruch": {
       "meta": { "progressPosition": 21 },
       "on": {
         "SUBMIT": [],
@@ -326,7 +326,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "flug-abbruch",
+            "target": "ergebnis/flug-abbruch",
             "cond": "flugYes"
           },
           {
@@ -339,7 +339,7 @@
         }
       }
     },
-    "flug-abbruch": {
+    "ergebnis/flug-abbruch": {
       "meta": { "progressPosition": 23 },
       "on": {
         "BACK": { "target": "flug" }
@@ -350,11 +350,11 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "gegenseite-mehrere-abbruch",
+            "target": "ergebnis/gegenseite-mehrere-abbruch",
             "cond": "gegenseiteMultiple"
           },
           {
-            "target": "gegenseite-staat-abbruch",
+            "target": "ergebnis/gegenseite-staat-abbruch",
             "cond": "gegenseiteStaat"
           },
           {
@@ -372,13 +372,13 @@
         ]
       }
     },
-    "gegenseite-mehrere-abbruch": {
+    "ergebnis/gegenseite-mehrere-abbruch": {
       "meta": { "progressPosition": 25 },
       "on": {
         "BACK": { "target": "gegenseite" }
       }
     },
-    "gegenseite-staat-abbruch": {
+    "ergebnis/gegenseite-staat-abbruch": {
       "meta": { "progressPosition": 25 },
       "on": {
         "BACK": { "target": "gegenseite" }
@@ -389,18 +389,18 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "gegenseite-person-deutschland-abbruch",
+            "target": "ergebnis/gegenseite-person-deutschland-abbruch",
             "cond": "gegenseitePersonDeutschlandNo"
           },
           {
-            "target": "abschluss",
+            "target": "ergebnis/abschluss",
             "cond": "gegenseitePersonDeutschlandYes"
           }
         ],
         "BACK": { "target": "gegenseite" }
       }
     },
-    "gegenseite-person-deutschland-abbruch": {
+    "ergebnis/gegenseite-person-deutschland-abbruch": {
       "meta": { "progressPosition": 26 },
       "on": {
         "BACK": { "target": "gegenseite-person-deutschland" }
@@ -411,24 +411,24 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "gegenseite-unternehmen-deutschland-abbruch",
+            "target": "ergebnis/gegenseite-unternehmen-deutschland-abbruch",
             "cond": "gegenseiteUnternehmenDeutschlandNo"
           },
           {
-            "target": "abschluss",
+            "target": "ergebnis/abschluss",
             "cond": "gegenseiteUnternehmenDeutschlandYes"
           }
         ],
         "BACK": { "target": "gegenseite" }
       }
     },
-    "gegenseite-unternehmen-deutschland-abbruch": {
+    "ergebnis/gegenseite-unternehmen-deutschland-abbruch": {
       "meta": { "progressPosition": 26 },
       "on": {
         "BACK": { "target": "gegenseite-unternehmen-deutschland" }
       }
     },
-    "abschluss": {
+    "ergebnis/abschluss": {
       "meta": { "progressPosition": 26 },
       "on": {
         "BACK": [

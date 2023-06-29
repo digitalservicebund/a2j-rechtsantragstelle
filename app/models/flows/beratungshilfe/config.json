@@ -9,7 +9,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "rechtsschutzversicherung-abbruch",
+            "target": "ergebnis/rechtsschutzversicherung-abbruch",
             "cond": "rechtsschutzversicherungYes"
           },
           {
@@ -19,7 +19,7 @@
         ]
       }
     },
-    "rechtsschutzversicherung-abbruch": {
+    "ergebnis/rechtsschutzversicherung-abbruch": {
       "on": {
         "BACK": {
           "target": "rechtsschutzversicherung"
@@ -33,7 +33,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "wurde-verklagt-abbruch",
+            "target": "ergebnis/wurde-verklagt-abbruch",
             "cond": "wurdeVerklagtYes"
           },
           {
@@ -46,7 +46,7 @@
         }
       }
     },
-    "wurde-verklagt-abbruch": {
+    "ergebnis/wurde-verklagt-abbruch": {
       "on": {
         "BACK": {
           "target": "wurde-verklagt"
@@ -64,7 +64,7 @@
             "cond": "klageEingereichtNo"
           },
           {
-            "target": "klage-eingereicht-abbruch",
+            "target": "ergebnis/klage-eingereicht-abbruch",
             "cond": "klageEingereichtYes"
           }
         ],
@@ -73,7 +73,7 @@
         }
       }
     },
-    "klage-eingereicht-abbruch": {
+    "ergebnis/klage-eingereicht-abbruch": {
       "on": {
         "BACK": {
           "target": "klage-eingereicht"
@@ -91,7 +91,7 @@
             "cond": "hamburgOderBremenNo"
           },
           {
-            "target": "hamburg-oder-bremen-abbruch",
+            "target": "ergebnis/hamburg-oder-bremen-abbruch",
             "cond": "hamburgOderBremenYes"
           }
         ],
@@ -100,7 +100,7 @@
         }
       }
     },
-    "hamburg-oder-bremen-abbruch": {
+    "ergebnis/hamburg-oder-bremen-abbruch": {
       "on": {
         "BACK": {
           "target": "hamburg-oder-bremen"
@@ -118,7 +118,7 @@
             "cond": "beratungshilfeBeantragtNo"
           },
           {
-            "target": "beratungshilfe-beantragt-abbruch",
+            "target": "ergebnis/beratungshilfe-beantragt-abbruch",
             "cond": "beratungshilfeBeantragtYes"
           }
         ],
@@ -127,7 +127,7 @@
         }
       }
     },
-    "beratungshilfe-beantragt-abbruch": {
+    "ergebnis/beratungshilfe-beantragt-abbruch": {
       "on": {
         "BACK": {
           "target": "beratungshilfe-beantragt"
@@ -174,7 +174,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "staatliche-leistungen-abschluss-ja",
+            "target": "ergebnis/staatliche-leistungen-abschluss-ja",
             "cond": "staatlicheLeistungenYes"
           },
           {
@@ -187,7 +187,7 @@
         }
       }
     },
-    "staatliche-leistungen-abschluss-ja": {
+    "ergebnis/staatliche-leistungen-abschluss-ja": {
       "on": {
         "BACK": {
           "target": "staatliche-leistungen"
@@ -201,7 +201,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "vermoegen-abschluss-ja",
+            "target": "ergebnis/vermoegen-abschluss-ja",
             "cond": "vermoegenBelow10kAndBuergergeld"
           },
           {
@@ -209,7 +209,7 @@
             "cond": "vermoegenBelow10k"
           },
           {
-            "target": "vermoegen-abbruch",
+            "target": "ergebnis/vermoegen-abbruch",
             "cond": "vermoegenAbove10k"
           }
         ],
@@ -218,14 +218,14 @@
         }
       }
     },
-    "vermoegen-abschluss-ja": {
+    "ergebnis/vermoegen-abschluss-ja": {
       "on": {
         "BACK": {
           "target": "vermoegen"
         }
       }
     },
-    "vermoegen-abbruch": {
+    "ergebnis/vermoegen-abbruch": {
       "on": {
         "BACK": {
           "target": "vermoegen"
@@ -321,15 +321,15 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "verfuegbares-einkommen-abschluss-ja",
+            "target": "ergebnis/verfuegbares-einkommen-abschluss-ja",
             "cond": "verfuegbaresEinkommenNoAndTriedFreeActions"
           },
           {
-            "target": "verfuegbares-einkommen-abschluss-vielleicht",
+            "target": "ergebnis/verfuegbares-einkommen-abschluss-vielleicht",
             "cond": "verfuegbaresEinkommenNo"
           },
           {
-            "target": "verfuegbares-einkommen-abschluss-nein",
+            "target": "ergebnis/verfuegbares-einkommen-abschluss-nein",
             "cond": "verfuegbaresEinkommenYes"
           }
         ],
@@ -344,21 +344,21 @@
         ]
       }
     },
-    "verfuegbares-einkommen-abschluss-ja": {
+    "ergebnis/verfuegbares-einkommen-abschluss-ja": {
       "on": {
         "BACK": {
           "target": "verfuegbares-einkommen"
         }
       }
     },
-    "verfuegbares-einkommen-abschluss-vielleicht": {
+    "ergebnis/verfuegbares-einkommen-abschluss-vielleicht": {
       "on": {
         "BACK": {
           "target": "verfuegbares-einkommen"
         }
       }
     },
-    "verfuegbares-einkommen-abschluss-nein": {
+    "ergebnis/verfuegbares-einkommen-abschluss-nein": {
       "on": {
         "BACK": {
           "target": "verfuegbares-einkommen"
@@ -522,15 +522,15 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "weitere-zahlungen-summe-abschluss-vielleicht",
+            "target": "ergebnis/weitere-zahlungen-summe-abschluss-vielleicht",
             "cond": "weitereZahlungenSummeWithWarnings"
           },
           {
-            "target": "weitere-zahlungen-summe-abschluss-nein",
+            "target": "ergebnis/weitere-zahlungen-summe-abschluss-nein",
             "cond": "weitereZahlungenSummeIncomeTooHigh"
           },
           {
-            "target": "weitere-zahlungen-summe-abschluss-ja",
+            "target": "ergebnis/weitere-zahlungen-summe-abschluss-ja",
             "cond": "weitereZahlungenSummeFilled"
           }
         ],
@@ -539,21 +539,21 @@
         }
       }
     },
-    "weitere-zahlungen-summe-abschluss-vielleicht": {
+    "ergebnis/weitere-zahlungen-summe-abschluss-vielleicht": {
       "on": {
         "BACK": {
           "target": "weitere-zahlungen-summe"
         }
       }
     },
-    "weitere-zahlungen-summe-abschluss-nein": {
+    "ergebnis/weitere-zahlungen-summe-abschluss-nein": {
       "on": {
         "BACK": {
           "target": "weitere-zahlungen-summe"
         }
       }
     },
-    "weitere-zahlungen-summe-abschluss-ja": {
+    "ergebnis/weitere-zahlungen-summe-abschluss-ja": {
       "on": {
         "BACK": {
           "target": "weitere-zahlungen-summe"

@@ -38,53 +38,73 @@ describe("geldEinklagen/config", () => {
       "bereich",
       "gegenseite",
       "gegenseite-person-deutschland",
-      "abschluss",
+      "ergebnis/abschluss",
     ];
 
     const cases: [GeldEinklagenVorabcheckContext, string[]][] = [
       [{}, ["start", "kontaktaufnahme"]],
       [
         { kontaktaufnahme: "no" },
-        ["kontaktaufnahme", "kontaktaufnahme-hinweis", "frist-abgelaufen"],
+        [
+          "kontaktaufnahme",
+          "ergebnis/kontaktaufnahme-hinweis",
+          "frist-abgelaufen",
+        ],
       ],
       [
         { fristAbgelaufen: "no" },
-        ["frist-abgelaufen", "frist-abgelaufen-hinweis", "verjaehrt"],
+        ["frist-abgelaufen", "ergebnis/frist-abgelaufen-hinweis", "verjaehrt"],
       ],
-      [{ verjaehrt: "yes" }, ["verjaehrt", "verjaehrt-hinweis", "beweise"]],
+      [
+        { verjaehrt: "yes" },
+        ["verjaehrt", "ergebnis/verjaehrt-hinweis", "beweise"],
+      ],
       [
         { beweise: "no" },
-        ["beweise", "beweise-hinweis", "gerichtsentscheidung"],
+        ["beweise", "ergebnis/beweise-hinweis", "gerichtsentscheidung"],
       ],
       [
         { gerichtsentscheidung: "yes" },
         [
           "gerichtsentscheidung",
-          "gerichtsentscheidung-hinweis",
+          "ergebnis/gerichtsentscheidung-hinweis",
           "verfahren-begonnen",
         ],
       ],
       [
         { verfahrenBegonnen: "yes" },
-        ["verfahren-begonnen", "verfahren-begonnen-hinweis", "privatperson"],
+        [
+          "verfahren-begonnen",
+          "ergebnis/verfahren-begonnen-hinweis",
+          "privatperson",
+        ],
       ],
       [
         { privatperson: "nonPrivate" },
-        ["privatperson", "privatperson-abbruch"],
+        ["privatperson", "ergebnis/privatperson-abbruch"],
       ],
       [
         { wohnsitzDeutschland: "no" },
-        ["wohnsitz-deutschland", "wohnsitz-deutschland-abbruch"],
+        ["wohnsitz-deutschland", "ergebnis/wohnsitz-deutschland-abbruch"],
       ],
-      [{ forderung: "moreThan5000" }, ["forderung", "forderung-abbruch"]],
-      [{ bereich: "family" }, ["bereich", "bereich-familie-abbruch"]],
-      [{ bereich: "work" }, ["bereich", "bereich-arbeit-abbruch"]],
+      [
+        { forderung: "moreThan5000" },
+        ["forderung", "ergebnis/forderung-abbruch"],
+      ],
+      [{ bereich: "family" }, ["bereich", "ergebnis/bereich-familie-abbruch"]],
+      [{ bereich: "work" }, ["bereich", "ergebnis/bereich-arbeit-abbruch"]],
       [{ bereich: "travel" }, ["bereich", "flug"]],
-      [{ bereich: "travel", flug: "yes" }, ["bereich", "flug", "flug-abbruch"]],
-      [{ gegenseite: "staat" }, ["gegenseite", "gegenseite-staat-abbruch"]],
+      [
+        { bereich: "travel", flug: "yes" },
+        ["bereich", "flug", "ergebnis/flug-abbruch"],
+      ],
+      [
+        { gegenseite: "staat" },
+        ["gegenseite", "ergebnis/gegenseite-staat-abbruch"],
+      ],
       [
         { gegenseite: "multiple" },
-        ["gegenseite", "gegenseite-mehrere-abbruch"],
+        ["gegenseite", "ergebnis/gegenseite-mehrere-abbruch"],
       ],
       [
         { gegenseite: "unternehmen" },
@@ -94,7 +114,7 @@ describe("geldEinklagen/config", () => {
         { gegenseitePersonDeutschland: "no" },
         [
           "gegenseite-person-deutschland",
-          "gegenseite-person-deutschland-abbruch",
+          "ergebnis/gegenseite-person-deutschland-abbruch",
         ],
       ],
       [
@@ -105,7 +125,7 @@ describe("geldEinklagen/config", () => {
         [
           "gegenseite",
           "gegenseite-unternehmen-deutschland",
-          "gegenseite-unternehmen-deutschland-abbruch",
+          "ergebnis/gegenseite-unternehmen-deutschland-abbruch",
         ],
       ],
       [happyPathData, happyPathSteps],
