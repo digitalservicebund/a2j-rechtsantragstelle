@@ -468,9 +468,16 @@
             "cond": "unterhaltNo"
           }
         ],
-        "BACK": {
-          "target": "einkommen-kinder"
-        }
+        "BACK": [
+          {
+            "target": "einkommen-kinder",
+            "cond": "kinderYes"
+          },
+          {
+            "target": "kinder",
+            "cond": "kinderNo"
+          }
+        ]
       }
     },
     "unterhalt-summe": {
@@ -496,9 +503,16 @@
           "target": "weitere-zahlungen-summe",
           "cond": "mieteFilled"
         },
-        "BACK": {
-          "target": "unterhalt-summe"
-        }
+        "BACK": [
+          {
+            "target": "unterhalt-summe",
+            "cond": "unterhaltYes"
+          },
+          {
+            "target": "unterhalt",
+            "cond": "unterhaltNo"
+          }
+        ]
       }
     },
     "weitere-zahlungen-summe": {

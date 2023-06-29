@@ -74,6 +74,7 @@ describe("beratungshilfe/config", () => {
         ["vermoegen", "vermoegen-abschluss-ja"],
       ],
       [{ genauigkeit: "no" }, ["genauigkeit", "kinder-kurz"]],
+
       [{ kinderKurz: "yes" }, ["kinder-kurz", "kinder-anzahl-kurz"]],
       [{ kinderKurz: "no" }, ["kinder-kurz", "verfuegbares-einkommen"]],
       [
@@ -93,6 +94,21 @@ describe("beratungshilfe/config", () => {
         [
           "verfuegbares-einkommen",
           "verfuegbares-einkommen-abschluss-vielleicht",
+        ],
+      ],
+
+      [{ partnerschaft: "no" }, ["einkommen", "kinder"]],
+      [{ kinder: "no" }, ["kinder", "unterhalt"]],
+      [{ unterhalt: "no" }, ["unterhalt", "miete"]],
+      [
+        { einkommen: "10000000" },
+        ["weitere-zahlungen-summe", "weitere-zahlungen-summe-abschluss-nein"],
+      ],
+      [
+        { einkommen: "100", eigeninitiative: "no" },
+        [
+          "weitere-zahlungen-summe",
+          "weitere-zahlungen-summe-abschluss-vielleicht",
         ],
       ],
     ];
@@ -121,7 +137,6 @@ describe("beratungshilfe/config", () => {
           transitionType: "BACK",
           steps: expectedSteps,
         });
-        console.log(actualSteps);
         expect(actualSteps).toEqual(expectedSteps);
       }
     );
