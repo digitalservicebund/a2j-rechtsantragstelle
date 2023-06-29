@@ -22,6 +22,7 @@ export const context = {
   partnerschaft: YesNoAnswer,
   einkommenPartner: buildMoneyValidationSchema(),
   kinder: YesNoAnswer,
+  kinderKurz: YesNoAnswer,
   kids6Below: buildKidsCountValidationSchema(),
   kids7To14: buildKidsCountValidationSchema(),
   kids15To18: buildKidsCountValidationSchema(),

@@ -73,6 +73,28 @@ describe("beratungshilfe/config", () => {
         { vermoegen: "below_10k", staatlicheLeistungen: "buergergeld" },
         ["vermoegen", "vermoegen-abschluss-ja"],
       ],
+      [{ genauigkeit: "no" }, ["genauigkeit", "kinder-kurz"]],
+      [{ kinderKurz: "yes" }, ["kinder-kurz", "kinder-anzahl-kurz"]],
+      [{ kinderKurz: "no" }, ["kinder-kurz", "verfuegbares-einkommen"]],
+      [
+        { kinderAnzahlKurz: "1", kinderKurz: "yes" },
+        ["kinder-anzahl-kurz", "verfuegbares-einkommen"],
+      ],
+      [
+        { verfuegbaresEinkommen: "yes" },
+        ["verfuegbares-einkommen", "verfuegbares-einkommen-abschluss-nein"],
+      ],
+      [
+        { verfuegbaresEinkommen: "no", eigeninitiative: "yes" },
+        ["verfuegbares-einkommen", "verfuegbares-einkommen-abschluss-ja"],
+      ],
+      [
+        { verfuegbaresEinkommen: "no", eigeninitiative: "no" },
+        [
+          "verfuegbares-einkommen",
+          "verfuegbares-einkommen-abschluss-vielleicht",
+        ],
+      ],
     ];
 
     test.each(cases)(
@@ -99,6 +121,7 @@ describe("beratungshilfe/config", () => {
           transitionType: "BACK",
           steps: expectedSteps,
         });
+        console.log(actualSteps);
         expect(actualSteps).toEqual(expectedSteps);
       }
     );

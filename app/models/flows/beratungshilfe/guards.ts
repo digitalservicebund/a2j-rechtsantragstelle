@@ -114,6 +114,7 @@ export const guards = {
   verfuegbaresEinkommenNoAndTriedFreeActions,
   ...yesNoGuards("verfuegbaresEinkommen"),
   ...yesNoGuards("kinder"),
+  ...yesNoGuards("kinderKurz"),
   ...filledGuard("kids6Below"),
   ...filledGuard("einkommenKinder"),
   ...yesNoGuards("unterhalt"),
