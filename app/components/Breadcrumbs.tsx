@@ -47,7 +47,7 @@ export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
             {idx === arr.length - 1 ? (
               <span className="text-black">{breadcrumb.title}</span>
             ) : (
-              <a href={breadcrumb.url} className={`underline ${linkClasses}`}>
+              <a href={breadcrumb.url} className="text-link">
                 {breadcrumb.title}
               </a>
             )}

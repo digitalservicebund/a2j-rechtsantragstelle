@@ -47,6 +47,53 @@ a {
   @apply mt-0;
 }
 
+.text-link {
+  /* IE 11 and others that don't support text-decoration-line */
+  text-decoration: underline;
+  @apply text-blue-800;
+  @apply underline;
+  @apply underline-offset-4;
+  @apply decoration-1;
+}
+
+.text-link:hover {
+  @apply decoration-[3px];
+}
+
+.text-link:visited {
+  @apply text-[#4c2c92];
+}
+
+/* browsers without :focus-visible support */
+.text-link:focus {
+  @apply outline;
+  @apply outline-2;
+  @apply no-underline;
+  @apply outline-offset-1;
+  @apply text-blue-800;
+  @apply outline-blue-800;
+}
+
+/* reset :focus styles for browsers with :focus-visible support */
+.text-link:not(:focus-visible):focus {
+  @apply outline-none;
+  @apply underline;
+}
+
+/* ignored by browsers without :focus-visible support */
+.text-link:focus-visible {
+  @apply outline;
+  @apply outline-2;
+  @apply no-underline;
+  @apply outline-offset-1;
+  @apply !text-blue-800;
+  @apply outline-blue-800;
+}
+
+.text-link:active {
+  @apply text-black;
+}
+
 @media (max-width: 499px) {
   /* project-specific overwriting of angie styling */
   .ds-heading-01-reg {

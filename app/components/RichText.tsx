@@ -14,11 +14,12 @@ const RichText = ({ markdown, renderer, ...props }: RichTextProps) => {
     headerIds: false,
     renderer: renderer || {
       link(href: string, title: string, text: string) {
+        const cssClass = "text-link";
         if (href.includes("ext:")) {
           const newHref = href.replace("ext:", "");
-          return `<a href=${newHref} target="_blank" rel="noreferrer">${text}</a>`;
+          return `<a href="${newHref}" class="${cssClass}" target="_blank" rel="noreferrer">${text}</a>`;
         }
-        return `<a href=${href}>${text}</a>`;
+        return `<a href="${href}" class="${cssClass}">${text}</a>`;
       },
       heading(text: string, level: number) {
         const cssClass =
