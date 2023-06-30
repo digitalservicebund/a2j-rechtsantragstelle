@@ -2,6 +2,6 @@ export {
   action,
   loader,
   meta,
-  ErrorBoundary,
   Step as default,
-} from "~/routes/shared.step";
+} from "~/routes/vorabcheck/step";
+export { ErrorBoundary } from "./error";

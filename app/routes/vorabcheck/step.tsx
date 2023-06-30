@@ -1,13 +1,21 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useLocation } from "@remix-run/react";
 import type {
   ActionFunction,
   LoaderArgs,
   V2_MetaFunction,
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { getSession } from "~/sessions";
-import ResultPage from "~/components/ResultPage";
-import { getStrapiResultPage, getStrapiVorabCheckCommon } from "~/services/cms";
+import { ValidatedForm, validationError } from "remix-validated-form";
+import { ButtonNavigation } from "~/components/form/ButtonNavigation";
+import { commitSession, getSession } from "~/sessions";
+import PageContent from "~/components/PageContent";
+import Container from "~/components/Container";
+import { Background } from "~/components";
+import ProgressBarArea from "~/components/form/ProgressBarArea";
+import {
+  getStrapiVorabCheckCommon,
+  getStrapiVorabCheckPage,
+} from "~/services/cms";
 import { buildFlowController } from "~/services/flow/buildFlowController";
 import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
@@ -19,7 +27,7 @@ import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
 import { context as geldEinklagenContext } from "~/models/flows/geldEinklagen/pages";
 import { isKeyOfObject } from "~/util/objects";
 import { context as contextBeratungshilfe } from "~/models/flows/beratungshilfe/pages";
-import { getReasonsToDisplay } from "~/models/flows/common";
+import { buildStepValidator } from "~/models/flows/common";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
@@ -46,19 +54,20 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   const flowId = pathname.split("/")[1] as keyof typeof flowSpecifics;
   const flow = flowSpecifics[flowId].flow;
 
+  if (splat === "") {
+    // redirect to initial step
+    return redirect(buildFlowController({ flow }).getInitial().url);
+  }
+
+  const stepId = splat;
+
   const session = await getSession(request.headers.get("Cookie"));
+
   const flowController = buildFlowController({
     flow: flow as MachineConfig<any, any, any>,
     data: session.data,
     guards: flowSpecifics[flowId].guards,
   });
-
-  if (splat === "") {
-    // redirect to initial step
-    return redirect(flowController.getInitial().url);
-  }
-
-  const stepId = "ergebnis/" + splat;
 
   if (!flowController.isReachable(stepId)) {
     return redirect(flowController.getInitial().url);
@@ -73,6 +82,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
   const commonContent = await getStrapiVorabCheckCommon();
   const progressBar = flowController.getProgress(stepId);
+  const defaultValues = session.data;
   const progressStep = progressBar.current;
   const progressTotal = progressBar.total;
   const isLast = flowController.isFinal(stepId);
@@ -81,20 +91,14 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     : flowController.getPrevious(stepId).url;
 
   const slug = pathname;
-  // Slug change to keep Strapi slugs without ergebnis/
-  const resultContent = await getStrapiResultPage({
-    slug: slug.replace(/ergebnis\//, ""),
-  });
-  const resultReasonsToDisplay = getReasonsToDisplay(
-    resultContent.reasonings.data,
-    session.data
-  );
+  const formPageContent = await getStrapiVorabCheckPage({ slug });
 
   return json({
+    defaultValues,
     commonContent,
-    resultContent,
-    meta: resultContent?.meta,
-    resultReasonsToDisplay,
+    preFormContent: formPageContent.pre_form,
+    formContent: formPageContent.form,
+    meta: formPageContent.meta,
     progressStep,
     progressTotal,
     isLast,
@@ -109,7 +113,7 @@ export const action: ActionFunction = async ({ params, request }) => {
 
   const pathname = new URL(request.url).pathname;
   const flowId = pathname.split("/")[1];
-  const stepId = "ergebnis/" + splat;
+  const stepId = splat;
 
   if (!isKeyOfObject(flowId, flowSpecifics)) {
     throw new Response(null, {
@@ -119,34 +123,90 @@ export const action: ActionFunction = async ({ params, request }) => {
   }
 
   const session = await getSession(request.headers.get("Cookie"));
+  const formData = await request.formData();
+  const { context } = flowSpecifics[flowId];
+
+  const fieldNames = Array.from(formData.entries())
+    .filter(([key]) => key !== "_action")
+    .map((entry) => entry.at(0) as string);
+
+  const validator = buildStepValidator(context, fieldNames);
+  const validationResult = await validator.validate(formData);
+  if (validationResult.error) return validationError(validationResult.error);
+
+  Object.entries(validationResult.data as Record<string, string>).forEach(
+    ([key, data]) => session.set(key, data)
+  );
+  const headers = { "Set-Cookie": await commitSession(session) };
+
   const flowController = buildFlowController({
     flow: flowSpecifics[flowId].flow as MachineConfig<any, any, any>,
     data: session.data,
     guards: flowSpecifics[flowId].guards,
   });
-
-  return redirect(flowController.getNext(stepId).url);
+  return redirect(flowController.getNext(stepId).url, { headers });
 };
 
 export function Step() {
   const {
+    defaultValues,
     commonContent,
-    resultContent,
-    resultReasonsToDisplay,
+    preFormContent,
+    formContent,
     progressStep,
     progressTotal,
     isLast,
     previousStep,
+    templateReplacements,
   } = useLoaderData<typeof loader>();
+  const location = useLocation();
+
+  const stepId = location.pathname.split("/").at(-1);
+  const flowId = location.pathname.split("/")[1];
+  if (!isKeyOfObject(flowId, flowSpecifics)) {
+    throw Error("Unkown flow");
+  }
+  const { context } = flowSpecifics[flowId];
+  const fieldNames = formContent.map((entry) => entry.name);
+  const validator = buildStepValidator(context, fieldNames);
 
   return (
-    <ResultPage
-      content={{ ...resultContent, ...commonContent }}
-      backDestination={previousStep}
-      reasonsToDisplay={resultReasonsToDisplay}
-      progressStep={progressStep}
-      progressTotal={progressTotal}
-      isLast={isLast}
-    />
+    <Background backgroundColor="blue">
+      <div className="min-h-screen">
+        <Container>
+          <div className="ds-stack-16">
+            <ProgressBarArea
+              label={commonContent?.progressBarLabel}
+              progressStep={progressStep}
+              progressTotal={progressTotal}
+            />
+            <div className="ds-stack-40">
+              <PageContent
+                content={preFormContent}
+                templateReplacements={templateReplacements}
+                className="ds-stack-16"
+              />
+              <ValidatedForm
+                key={`${stepId}_form`}
+                method="post"
+                validator={validator}
+                defaultValues={defaultValues}
+                noValidate
+                action={stepId}
+              >
+                <div className="ds-stack-40">
+                  <PageContent content={formContent} />
+                  <ButtonNavigation
+                    backDestination={previousStep}
+                    isLast={isLast}
+                    commonContent={commonContent}
+                  />
+                </div>
+              </ValidatedForm>
+            </div>
+          </div>
+        </Container>
+      </div>
+    </Background>
   );
 }
