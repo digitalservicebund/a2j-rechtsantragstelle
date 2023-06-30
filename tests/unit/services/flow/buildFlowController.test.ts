@@ -119,7 +119,7 @@ describe("buildFlowController", () => {
     });
 
     it("returns undefined if already first step", () => {
-      expect(() =>
+      expect(
         buildFlowController({
           flow,
           data: {},
