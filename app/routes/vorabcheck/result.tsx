@@ -9,7 +9,6 @@ import { getSession } from "~/sessions";
 import ResultPage from "~/components/ResultPage";
 import { getStrapiResultPage, getStrapiVorabCheckCommon } from "~/services/cms";
 import { buildFlowController } from "~/services/flow/buildFlowController";
-import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
 import { getReasonsToDisplay } from "~/models/flows/common";
 import {
   flowIDFromPathname,
@@ -36,12 +35,6 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
   if (!flowController.isReachable(stepId))
     return redirect(flowController.getInitial().url);
-
-  const verfuegbaresEinkommenFreibetrag =
-    getVerfuegbaresEinkommenFreibetrag(data);
-  const templateReplacements = {
-    verfuegbaresEinkommenFreibetrag: verfuegbaresEinkommenFreibetrag.toString(),
-  };
 
   const commonContent = await getStrapiVorabCheckCommon();
   const progressBar = flowController.getProgress(stepId);
@@ -70,7 +63,6 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     progressTotal,
     isLast,
     previousStep,
-    templateReplacements,
   });
 };
 
