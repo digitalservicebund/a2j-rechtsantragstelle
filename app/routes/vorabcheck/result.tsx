@@ -9,34 +9,16 @@ import { getSession } from "~/sessions";
 import ResultPage from "~/components/ResultPage";
 import { getStrapiResultPage, getStrapiVorabCheckCommon } from "~/services/cms";
 import { buildFlowController } from "~/services/flow/buildFlowController";
-import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
-import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
-import { guards as beratungshilfeGuards } from "~/models/flows/beratungshilfe/guards";
-import { guards as geldEinklagenGuards } from "~/models/flows/geldEinklagen/guards";
 import invariant from "tiny-invariant";
 import type { MachineConfig } from "xstate";
 import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
-import { context as geldEinklagenContext } from "~/models/flows/geldEinklagen/pages";
-import { context as contextBeratungshilfe } from "~/models/flows/beratungshilfe/pages";
 import { isKeyOfObject } from "~/util/objects";
 import { getReasonsToDisplay } from "~/models/flows/common";
+import { flowSpecifics } from "./flowSpecifics";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
 ];
-
-const flowSpecifics = {
-  beratungshilfe: {
-    flow: beratungshilfeFlow,
-    guards: beratungshilfeGuards,
-    context: contextBeratungshilfe,
-  },
-  "geld-einklagen": {
-    flow: geldEinklagenFlow,
-    guards: geldEinklagenGuards,
-    context: geldEinklagenContext,
-  },
-};
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   const splat = params["*"];
