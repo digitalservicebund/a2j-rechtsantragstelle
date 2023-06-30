@@ -13,7 +13,7 @@ test("forwarded to intial step", async ({ page }) => {
   await expect(page).toHaveURL(`${vorabcheck.url}/${vorabcheck.initialStep}`);
 });
 
-test("vorabcheck can be traversed", async ({ page }) => {
+test("vorabcheck can be traversed (long path)", async ({ page }) => {
   await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
 
@@ -75,6 +75,61 @@ test("vorabcheck can be traversed", async ({ page }) => {
   await expectPageToBeAccessible({ page });
   await expect(
     page.getByRole("heading").filter({ hasText: "Beratungshilfe erhalten" })
+  ).toHaveCount(1);
+});
+
+test("vorabcheck can be traversed (short path)", async ({ page }) => {
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
+
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("wurdeVerklagt", "no");
+
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("klageEingereicht", "no");
+
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("hamburgOderBremen", "no");
+
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("beratungshilfeBeantragt", "no");
+
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("eigeninitiative", "no");
+
+  // warning step
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.clickNext();
+
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("staatlicheLeistungen", "keine");
+
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("vermoegen", "below_10k");
+
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("erwerbstaetigkeit", "no");
+
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("partnerschaft", "no");
+
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("genauigkeit", "no");
+
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("kinderKurz", "yes");
+
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillInputPage("kinderAnzahlKurz", "5");
+
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("verfuegbaresEinkommen", "yes");
+
+  await expectPageToBeAccessible({ page });
+  await expect(
+    page
+      .getByRole("heading")
+      .filter({ hasText: "keine Beratungshilfe erhalten" })
   ).toHaveCount(1);
 });
 
