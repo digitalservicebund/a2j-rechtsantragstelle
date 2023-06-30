@@ -9,46 +9,36 @@ import { getSession } from "~/sessions";
 import ResultPage from "~/components/ResultPage";
 import { getStrapiResultPage, getStrapiVorabCheckCommon } from "~/services/cms";
 import { buildFlowController } from "~/services/flow/buildFlowController";
-import invariant from "tiny-invariant";
-import type { MachineConfig } from "xstate";
 import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
-import { isKeyOfObject } from "~/util/objects";
 import { getReasonsToDisplay } from "~/models/flows/common";
-import { flowSpecifics } from "./flowSpecifics";
+import {
+  flowIDFromPathname,
+  flowSpecifics,
+  splatFromParams,
+} from "./flowSpecifics";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
 ];
 
 export const loader = async ({ params, request }: LoaderArgs) => {
-  const splat = params["*"];
-  invariant(typeof splat !== "undefined");
+  const { pathname } = new URL(request.url);
+  const flowId = flowIDFromPathname(pathname);
+  const stepId = "ergebnis/" + splatFromParams(params);
 
-  const pathname = new URL(request.url).pathname;
-  const flowId = pathname.split("/")[1] as keyof typeof flowSpecifics;
-  const flow = flowSpecifics[flowId].flow;
+  const { data } = await getSession(request.headers.get("Cookie"));
 
-  const session = await getSession(request.headers.get("Cookie"));
   const flowController = buildFlowController({
-    flow: flow as MachineConfig<any, any, any>,
-    data: session.data,
+    flow: flowSpecifics[flowId].flow,
+    data,
     guards: flowSpecifics[flowId].guards,
   });
 
-  if (splat === "") {
-    // redirect to initial step
+  if (!flowController.isReachable(stepId))
     return redirect(flowController.getInitial().url);
-  }
 
-  const stepId = "ergebnis/" + splat;
-
-  if (!flowController.isReachable(stepId)) {
-    return redirect(flowController.getInitial().url);
-  }
-
-  const verfuegbaresEinkommenFreibetrag = getVerfuegbaresEinkommenFreibetrag(
-    session.data
-  );
+  const verfuegbaresEinkommenFreibetrag =
+    getVerfuegbaresEinkommenFreibetrag(data);
   const templateReplacements = {
     verfuegbaresEinkommenFreibetrag: verfuegbaresEinkommenFreibetrag.toString(),
   };
@@ -62,14 +52,13 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     ? undefined
     : flowController.getPrevious(stepId).url;
 
-  const slug = pathname;
   // Slug change to keep Strapi slugs without ergebnis/
   const resultContent = await getStrapiResultPage({
-    slug: slug.replace(/ergebnis\//, ""),
+    slug: pathname.replace(/ergebnis\//, ""),
   });
   const resultReasonsToDisplay = getReasonsToDisplay(
     resultContent.reasonings.data,
-    session.data
+    data
   );
 
   return json({
@@ -86,28 +75,16 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
-  const splat = params["*"];
-  invariant(typeof splat !== "undefined");
+  const splat = splatFromParams(params);
+  const flowId = flowIDFromPathname(new URL(request.url).pathname);
 
-  const pathname = new URL(request.url).pathname;
-  const flowId = pathname.split("/")[1];
-  const stepId = "ergebnis/" + splat;
-
-  if (!isKeyOfObject(flowId, flowSpecifics)) {
-    throw new Response(null, {
-      status: 404,
-      statusText: "Unknown Flow",
-    });
-  }
-
-  const session = await getSession(request.headers.get("Cookie"));
   const flowController = buildFlowController({
-    flow: flowSpecifics[flowId].flow as MachineConfig<any, any, any>,
-    data: session.data,
+    flow: flowSpecifics[flowId].flow,
+    data: (await getSession(request.headers.get("Cookie"))).data,
     guards: flowSpecifics[flowId].guards,
   });
 
-  return redirect(flowController.getNext(stepId).url);
+  return redirect(flowController.getNext("ergebnis/" + splat).url);
 };
 
 export function Step() {

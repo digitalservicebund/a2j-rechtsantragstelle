@@ -1,4 +1,4 @@
-import { useLoaderData, useLocation } from "@remix-run/react";
+import { useLoaderData, useLocation, useParams } from "@remix-run/react";
 import type {
   ActionFunction,
   LoaderArgs,
@@ -17,63 +17,50 @@ import {
   getStrapiVorabCheckPage,
 } from "~/services/cms";
 import { buildFlowController } from "~/services/flow/buildFlowController";
-import invariant from "tiny-invariant";
-import type { MachineConfig } from "xstate";
 import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
-import { isKeyOfObject } from "~/util/objects";
 import { buildStepValidator } from "~/models/flows/common";
-import { flowSpecifics } from "./flowSpecifics";
+import {
+  flowIDFromPathname,
+  flowSpecifics,
+  splatFromParams,
+} from "./flowSpecifics";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
 ];
 
 export const loader = async ({ params, request }: LoaderArgs) => {
-  const splat = params["*"];
-  invariant(typeof splat !== "undefined");
-
-  const pathname = new URL(request.url).pathname;
-  const flowId = pathname.split("/")[1] as keyof typeof flowSpecifics;
+  const stepId = splatFromParams(params);
+  const { pathname } = new URL(request.url);
+  const flowId = flowIDFromPathname(pathname);
   const flow = flowSpecifics[flowId].flow;
 
-  if (splat === "") {
-    // redirect to initial step
-    return redirect(buildFlowController({ flow }).getInitial().url);
-  }
-
-  const stepId = splat;
-
-  const session = await getSession(request.headers.get("Cookie"));
-
+  const { data } = await getSession(request.headers.get("Cookie"));
   const flowController = buildFlowController({
-    flow: flow as MachineConfig<any, any, any>,
-    data: session.data,
+    flow: flow,
+    data: data,
     guards: flowSpecifics[flowId].guards,
   });
 
-  if (!flowController.isReachable(stepId)) {
+  if (!flowController.isReachable(stepId))
     return redirect(flowController.getInitial().url);
-  }
 
-  const verfuegbaresEinkommenFreibetrag = getVerfuegbaresEinkommenFreibetrag(
-    session.data
-  );
+  const verfuegbaresEinkommenFreibetrag =
+    getVerfuegbaresEinkommenFreibetrag(data);
   const templateReplacements = {
     verfuegbaresEinkommenFreibetrag: verfuegbaresEinkommenFreibetrag.toString(),
   };
 
   const commonContent = await getStrapiVorabCheckCommon();
   const progressBar = flowController.getProgress(stepId);
-  const defaultValues = session.data;
+  const defaultValues = data;
   const progressStep = progressBar.current;
   const progressTotal = progressBar.total;
   const isLast = flowController.isFinal(stepId);
   const previousStep = flowController.isInitial(stepId)
     ? undefined
     : flowController.getPrevious(stepId).url;
-
-  const slug = pathname;
-  const formPageContent = await getStrapiVorabCheckPage({ slug });
+  const formPageContent = await getStrapiVorabCheckPage({ slug: pathname });
 
   return json({
     defaultValues,
@@ -90,20 +77,8 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
-  const splat = params["*"];
-  invariant(typeof splat !== "undefined");
-
-  const pathname = new URL(request.url).pathname;
-  const flowId = pathname.split("/")[1];
-  const stepId = splat;
-
-  if (!isKeyOfObject(flowId, flowSpecifics)) {
-    throw new Response(null, {
-      status: 404,
-      statusText: "Unknown Flow",
-    });
-  }
-
+  const stepId = splatFromParams(params);
+  const flowId = flowIDFromPathname(new URL(request.url).pathname);
   const session = await getSession(request.headers.get("Cookie"));
   const formData = await request.formData();
   const { context } = flowSpecifics[flowId];
@@ -122,7 +97,7 @@ export const action: ActionFunction = async ({ params, request }) => {
   const headers = { "Set-Cookie": await commitSession(session) };
 
   const flowController = buildFlowController({
-    flow: flowSpecifics[flowId].flow as MachineConfig<any, any, any>,
+    flow: flowSpecifics[flowId].flow,
     data: session.data,
     guards: flowSpecifics[flowId].guards,
   });
@@ -141,13 +116,8 @@ export function Step() {
     previousStep,
     templateReplacements,
   } = useLoaderData<typeof loader>();
-  const location = useLocation();
-
-  const stepId = location.pathname.split("/").at(-1);
-  const flowId = location.pathname.split("/")[1];
-  if (!isKeyOfObject(flowId, flowSpecifics)) {
-    throw Error("Unkown flow");
-  }
+  const stepId = splatFromParams(useParams());
+  const flowId = flowIDFromPathname(useLocation().pathname);
   const { context } = flowSpecifics[flowId];
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
