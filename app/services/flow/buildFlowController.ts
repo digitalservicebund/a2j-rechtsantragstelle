@@ -72,6 +72,7 @@ export const buildFlowController = ({
     isReachable: (currentStepId: string) =>
       getSteps(machine).includes(currentStepId),
     getPrevious: (currentStepId: string) => {
+      if (flow.initial === currentStepId) return undefined;
       const name = getTransitionDestination(machine, currentStepId, "BACK");
       return { name, url: `${baseUrl}${name}` };
     },

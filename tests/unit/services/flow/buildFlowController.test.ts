@@ -118,13 +118,13 @@ describe("buildFlowController", () => {
       });
     });
 
-    it("throws error if already first step", () => {
+    it("returns undefined if already first step", () => {
       expect(() =>
         buildFlowController({
           flow,
           data: {},
         }).getPrevious("step1")
-      ).toThrow();
+      ).toBeUndefined();
     });
   });
 

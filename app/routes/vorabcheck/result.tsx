@@ -41,9 +41,6 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   const progressStep = progressBar.current;
   const progressTotal = progressBar.total;
   const isLast = flowController.isFinal(stepId);
-  const previousStep = flowController.isInitial(stepId)
-    ? undefined
-    : flowController.getPrevious(stepId).url;
 
   // Slug change to keep Strapi slugs without ergebnis/
   const resultContent = await getStrapiResultPage({
@@ -62,7 +59,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     progressStep,
     progressTotal,
     isLast,
-    previousStep,
+    previousStep: flowController.getPrevious(stepId)?.url,
   });
 };
 

@@ -57,9 +57,6 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   const progressStep = progressBar.current;
   const progressTotal = progressBar.total;
   const isLast = flowController.isFinal(stepId);
-  const previousStep = flowController.isInitial(stepId)
-    ? undefined
-    : flowController.getPrevious(stepId).url;
   const formPageContent = await getStrapiVorabCheckPage({ slug: pathname });
 
   return json({
@@ -71,7 +68,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     progressStep,
     progressTotal,
     isLast,
-    previousStep,
+    previousStep: flowController.getPrevious(stepId)?.url,
     templateReplacements,
   });
 };
