@@ -54,6 +54,7 @@ export default function Footer({
   };
 
   return (
+    // TODO: footer should be outermost element
     <Container>
       <footer className="pt-48 pb-56 flex flex-wrap items-start justify-between gap-x-32 gap-y-40">
         <div className="flex flex-wrap flex-col-reverse gap-x-16 gap-y-8 sm:flex-row">

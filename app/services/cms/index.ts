@@ -3,7 +3,6 @@ import type { StrapiLocale } from "./models/StrapiLocale";
 import { getStrapiEntryFromFile } from "./getStrapiEntryFromFile";
 import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";
 import { StrapiFooterSchema } from "./models/StrapiFooter";
-import { StrapiNavigationSchema } from "./models/StrapiNavigation";
 import { StrapiPageSchema } from "./models/StrapiPage";
 import { StrapiResultPageSchema } from "./models/StrapiResultPage";
 import { StrapiVorabCheckCommonSchema } from "./models/StrapiVorabCheckCommon";
@@ -38,11 +37,6 @@ type StrapiSingleTypeGetterOpts = {
 
 export const getStrapiFooter = async (opts?: StrapiSingleTypeGetterOpts) =>
   StrapiFooterSchema.parse(await getStrapiEntry({ apiId: "footer", ...opts }));
-
-export const getStrapiNavigation = async (opts?: StrapiSingleTypeGetterOpts) =>
-  StrapiNavigationSchema.parse(
-    await getStrapiEntry({ apiId: "navigation", ...opts })
-  );
 
 export const getStrapiVorabCheckCommon = async (
   opts?: StrapiSingleTypeGetterOpts

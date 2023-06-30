@@ -13,11 +13,11 @@ import stylesheet from "~/styles.css";
 import fontsStylesheet from "@digitalservice4germany/angie/fonts.css";
 import { withSentry } from "@sentry/remix";
 import { getWebConfig } from "~/services/config";
-import { getStrapiFooter, getStrapiNavigation } from "~/services/cms";
+import { getStrapiFooter } from "~/services/cms";
 import { getFooterProps } from "~/services/props/getFooterProps";
 import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
-import { getNavbarProps } from "./services/props/getNavbarProps";
+import Breadcrumbs, { breadcrumbsFromURL } from "./components/Breadcrumbs";
+import Header from "./components/PageHeader";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { Analytics } from "./services/analytics/Analytics";
 
@@ -28,13 +28,13 @@ export const links: LinksFunction = () => [
 
 export const loader = async ({ request }: LoaderArgs) =>
   json({
+    breadcrumbs: await breadcrumbsFromURL(request.url),
     footer: getFooterProps(await getStrapiFooter()),
-    navigation: getNavbarProps(await getStrapiNavigation()),
     hasTrackingConsent: await hasTrackingConsent({ request }),
   });
 
 function App() {
-  const { footer, navigation, hasTrackingConsent } =
+  const { footer, hasTrackingConsent, breadcrumbs } =
     useLoaderData<typeof loader>();
 
   return (
@@ -51,7 +51,8 @@ function App() {
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
-        <Navbar {...navigation} />
+        <Header />
+        <Breadcrumbs breadcrumbs={breadcrumbs} />
         <main className="flex-grow">
           <Outlet />
         </main>
