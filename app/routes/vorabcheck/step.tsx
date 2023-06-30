@@ -51,23 +51,16 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     verfuegbaresEinkommenFreibetrag: verfuegbaresEinkommenFreibetrag.toString(),
   };
 
-  const commonContent = await getStrapiVorabCheckCommon();
-  const progressBar = flowController.getProgress(stepId);
-  const defaultValues = data;
-  const progressStep = progressBar.current;
-  const progressTotal = progressBar.total;
-  const isLast = flowController.isFinal(stepId);
   const formPageContent = await getStrapiVorabCheckPage({ slug: pathname });
 
   return json({
-    defaultValues,
-    commonContent,
+    defaultValues: data,
+    commonContent: await getStrapiVorabCheckCommon(),
     preFormContent: formPageContent.pre_form,
     formContent: formPageContent.form,
     meta: formPageContent.meta,
-    progressStep,
-    progressTotal,
-    isLast,
+    progress: flowController.getProgress(stepId),
+    isLast: flowController.isFinal(stepId),
     previousStep: flowController.getPrevious(stepId)?.url,
     templateReplacements,
   });
@@ -107,8 +100,7 @@ export function Step() {
     commonContent,
     preFormContent,
     formContent,
-    progressStep,
-    progressTotal,
+    progress,
     isLast,
     previousStep,
     templateReplacements,
@@ -126,8 +118,8 @@ export function Step() {
           <div className="ds-stack-16">
             <ProgressBarArea
               label={commonContent?.progressBarLabel}
-              progressStep={progressStep}
-              progressTotal={progressTotal}
+              progressStep={progress.current}
+              progressTotal={progress.total}
             />
             <div className="ds-stack-40">
               <PageContent

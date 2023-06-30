@@ -24,7 +24,6 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   const { pathname } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);
   const stepId = "ergebnis/" + splatFromParams(params);
-
   const { data } = await getSession(request.headers.get("Cookie"));
 
   const flowController = buildFlowController({
@@ -36,29 +35,17 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   if (!flowController.isReachable(stepId))
     return redirect(flowController.getInitial().url);
 
-  const commonContent = await getStrapiVorabCheckCommon();
-  const progressBar = flowController.getProgress(stepId);
-  const progressStep = progressBar.current;
-  const progressTotal = progressBar.total;
-  const isLast = flowController.isFinal(stepId);
-
   // Slug change to keep Strapi slugs without ergebnis/
-  const resultContent = await getStrapiResultPage({
-    slug: pathname.replace(/ergebnis\//, ""),
-  });
-  const resultReasonsToDisplay = getReasonsToDisplay(
-    resultContent.reasonings.data,
-    data
-  );
+  const slug = pathname.replace(/ergebnis\//, "");
+  const resultContent = await getStrapiResultPage({ slug });
 
   return json({
-    commonContent,
+    commonContent: await getStrapiVorabCheckCommon(),
     resultContent,
-    meta: resultContent?.meta,
-    resultReasonsToDisplay,
-    progressStep,
-    progressTotal,
-    isLast,
+    meta: resultContent.meta,
+    reasonsToDisplay: getReasonsToDisplay(resultContent.reasonings.data, data),
+    progress: flowController.getProgress(stepId),
+    isLast: flowController.isFinal(stepId),
     previousStep: flowController.getPrevious(stepId)?.url,
   });
 };
@@ -80,9 +67,8 @@ export function Step() {
   const {
     commonContent,
     resultContent,
-    resultReasonsToDisplay,
-    progressStep,
-    progressTotal,
+    reasonsToDisplay,
+    progress,
     isLast,
     previousStep,
   } = useLoaderData<typeof loader>();
@@ -91,9 +77,9 @@ export function Step() {
     <ResultPage
       content={{ ...resultContent, ...commonContent }}
       backDestination={previousStep}
-      reasonsToDisplay={resultReasonsToDisplay}
-      progressStep={progressStep}
-      progressTotal={progressTotal}
+      reasonsToDisplay={reasonsToDisplay}
+      progressStep={progress.current}
+      progressTotal={progress.total}
       isLast={isLast}
     />
   );
