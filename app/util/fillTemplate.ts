@@ -7,5 +7,5 @@ type FillTemplateOpts = {
   replacements?: Replacements;
 };
 
-export const fillTemplate = (opts: FillTemplateOpts) =>
-  mustache.render(opts.template, opts.replacements ?? {});
+export const fillTemplate = ({ template, replacements }: FillTemplateOpts) =>
+  replacements ? mustache.render(template, replacements) : template;
