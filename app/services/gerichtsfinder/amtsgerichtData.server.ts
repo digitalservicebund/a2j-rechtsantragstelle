@@ -43,13 +43,13 @@ const buildGerbehIndex = (
   };
 };
 
-export const buildStreetSlug = ({
-  HNR_VON,
-  HNR_BIS,
-  STRN,
-  HNR_MERKMAL_INFO,
-}: Jmtd14VTErwerberPlzstrn) => {
-  return `${STRN} ${HNR_MERKMAL_INFO} ${HNR_VON} ${HNR_BIS}`
+type StreetData = Pick<
+  Jmtd14VTErwerberPlzstrn,
+  "HNR_MERKMAL_INFO" | "HNR_VON" | "HNR_BIS" | "STRN"
+>;
+
+export const buildStreetSlug = (streetData: StreetData) => {
+  return `${streetData.STRN} ${streetData.HNR_MERKMAL_INFO} ${streetData.HNR_VON} ${streetData.HNR_BIS}`
     .toLowerCase()
     .replace(/ä/g, "ae")
     .replace(/ö/g, "oe")
@@ -66,22 +66,18 @@ const capitalizeStreet = (street: string) => {
   return street.toLowerCase().split(/\s/).map(capitalizeWord).join(" ");
 };
 
-export const decorateEdgeCase = (edgeCase: Jmtd14VTErwerberPlzstrn) => {
-  const street = capitalizeStreet(edgeCase.STRN);
-  const numbers = `(${edgeCase.HNR_MERKMAL_INFO} von ${stripLeadingZeros(
-    edgeCase.HNR_VON
-  )} bis ${stripLeadingZeros(edgeCase.HNR_BIS)})`;
-  const allNumbers = numbers === "(fortlaufende Hausnummern von 1 bis 999)";
+function streetForEdgeCase(streetData: StreetData) {
+  const streetNumbers = `(${
+    streetData.HNR_MERKMAL_INFO
+  } von ${stripLeadingZeros(streetData.HNR_VON)} bis ${stripLeadingZeros(
+    streetData.HNR_BIS
+  )})`;
+  const street = `${capitalizeStreet(streetData.STRN)} ${streetNumbers}`;
+  return { street, slug: buildStreetSlug(streetData) };
+}
 
-  return {
-    ...edgeCase,
-    street: allNumbers ? street : `${street} ${numbers}`,
-    streetSlug: buildStreetSlug(edgeCase),
-  };
-};
-
-export const findEdgeCases = ({ zipCode }: { zipCode?: string }) => {
-  return edgeCasesForPlz(zipCode).map(decorateEdgeCase);
+export const edgeCaseStreets = ({ zipCode }: { zipCode?: string }) => {
+  return edgeCasesForPlz(zipCode).map(streetForEdgeCase);
 };
 
 export const findCourt = ({

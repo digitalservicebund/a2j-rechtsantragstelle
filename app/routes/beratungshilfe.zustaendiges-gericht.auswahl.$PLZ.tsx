@@ -5,7 +5,7 @@ import { Background, Button, Container } from "~/components";
 import ButtonContainer from "~/components/ButtonContainer";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import { getStrapiAmtsgerichtCommon, getStrapiPage } from "~/services/cms";
-import { findEdgeCases } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import RichText from "~/components/RichText";
 import { fillTemplate } from "~/util/fillTemplate";
 import Heading from "~/components/Heading";
@@ -17,12 +17,12 @@ export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   const zipCode = params.PLZ;
-  const edgeCases = findEdgeCases({ zipCode });
+  const edgeCases = edgeCaseStreets({ zipCode });
   if (edgeCases.length == 0) {
     return redirect(`/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`);
   }
 
-  // Rmove PLZ from slug
+  // Remove PLZ from slug
   const { pathname } = new URL(request.url);
   const slug = pathname.substring(0, pathname.lastIndexOf("/"));
   const common = await getStrapiAmtsgerichtCommon();
@@ -67,9 +67,9 @@ export default function Index() {
                   </h2>
                   <ul className="list-none py-10 pl-0">
                     {edgeCasesForLetter.map((edgeCase) => (
-                      <li key={edgeCase.streetSlug} className="px-8">
+                      <li key={edgeCase.slug} className="px-8">
                         <a
-                          href={`${url}/${edgeCase.streetSlug}`}
+                          href={`${url}/${edgeCase.slug}`}
                           className="leading-9 underline"
                         >
                           {edgeCase.street}
