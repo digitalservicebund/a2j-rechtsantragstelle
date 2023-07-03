@@ -23,7 +23,6 @@ export function ProgressBar({
         id={id}
         value={progress}
         max={max}
-        tabIndex={0}
         aria-valuemin={1}
         aria-valuenow={progress}
         aria-valuemax={max}
