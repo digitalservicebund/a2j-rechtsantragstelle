@@ -3,7 +3,7 @@ import { getStrapiPage } from "~/services/cms";
 
 type Breadcrumb = {
   url: string;
-  title: string;
+  title?: string;
 };
 
 type BreadcrumbsProps = {
@@ -17,19 +17,19 @@ export async function breadcrumbsFromURL(url: string) {
   return (await Promise.all(
     pathnameSplit.map(async (_, idx, array) => {
       const url = "/" + array.slice(0, idx + 1).join("/");
-      let title = "";
       try {
         // TODO: maybe add getStrapiPageMeta ?
-        title = (await getStrapiPage({ slug: url })).meta.title;
-      } catch {}
-      return { url, title };
+        return { url, title: (await getStrapiPage({ slug: url })).meta.title };
+      } catch {
+        return { url };
+      }
     })
   )) satisfies Array<Breadcrumb>;
 }
 
 export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
   const validBreadcrumbs = breadcrumbs?.filter(
-    (breadcrumb) => breadcrumb.title !== ""
+    (breadcrumb) => breadcrumb.title !== undefined
   );
   const linkClasses =
     "hover:underline focus:outline active:underline active:decoration-4";
