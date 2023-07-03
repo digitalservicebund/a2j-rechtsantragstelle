@@ -11,7 +11,7 @@ import { commitSession, getSession } from "~/sessions";
 import PageContent from "~/components/PageContent";
 import Container from "~/components/Container";
 import { Background } from "~/components";
-import ProgressBarArea from "~/components/form/ProgressBarArea";
+import { ProgressBar } from "~/components/form/ProgressBar";
 import {
   getStrapiVorabCheckCommon,
   getStrapiVorabCheckPage,
@@ -116,10 +116,10 @@ export function Step() {
       <div className="min-h-screen">
         <Container>
           <div className="ds-stack-16">
-            <ProgressBarArea
+            <ProgressBar
               label={commonContent?.progressBarLabel}
-              progressStep={progress.current}
-              progressTotal={progress.total}
+              progress={progress.current}
+              max={progress.total}
             />
             <div className="ds-stack-40">
               <PageContent

@@ -12,7 +12,7 @@ import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";
 import PageContent, { keyFromElement } from "~/components/PageContent";
-import ProgressBarArea from "~/components/form/ProgressBarArea";
+import { ProgressBar } from "./form/ProgressBar";
 import RichText from "~/components/RichText";
 import InfoBox from "~/components/InfoBox";
 import invariant from "tiny-invariant";
@@ -100,10 +100,10 @@ const ResultPage = ({
     <div>
       <div className={pageProperties.background}>
         <Container>
-          <ProgressBarArea
+          <ProgressBar
             label={content.progressBarLabel}
-            progressStep={progressStep}
-            progressTotal={progressTotal}
+            progress={progressStep}
+            max={progressTotal}
           />
           <Heading
             tagName={content.heading.tagName}
