@@ -99,7 +99,7 @@ const ResultPage = ({
   return (
     <div>
       <div className={pageProperties.background}>
-        <Container>
+        <Container paddingTop="24">
           <ProgressBar
             label={content.progressBarLabel}
             progress={progressStep}

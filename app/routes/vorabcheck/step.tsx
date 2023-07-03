@@ -114,7 +114,7 @@ export function Step() {
   return (
     <Background backgroundColor="blue">
       <div className="min-h-screen">
-        <Container>
+        <Container paddingTop="24">
           <div className="ds-stack-16">
             <ProgressBar
               label={commonContent?.progressBarLabel}
