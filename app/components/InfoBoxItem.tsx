@@ -5,6 +5,7 @@ import Image, { ImagePropsSchema } from "./Image";
 import RichText from "./RichText";
 
 export const InfoBoxItemPropsSchema = z.object({
+  identifier: z.string().optional(),
   label: HeadingPropsSchema.optional(),
   headline: HeadingPropsSchema.optional(),
   image: ImagePropsSchema.optional(),
@@ -15,6 +16,7 @@ export const InfoBoxItemPropsSchema = z.object({
 export type InfoBoxItemProps = z.infer<typeof InfoBoxItemPropsSchema>;
 
 const InfoBoxItem = ({
+  identifier,
   label,
   headline,
   image,
@@ -22,7 +24,10 @@ const InfoBoxItem = ({
   button,
 }: InfoBoxItemProps) => {
   return (
-    <li className="flex flex-row items-center justify-center max-w-none max-[499px]:flex-col pt-32 border-solid border-0 border-t-2 border-gray-400 first:border-none first:pt-0">
+    <li
+      id={identifier}
+      className="flex flex-row items-center justify-center max-w-none max-[499px]:flex-col pt-32 border-solid border-0 border-t-2 border-gray-400 first:border-none first:pt-0"
+    >
       {image && (
         <Image
           {...image}

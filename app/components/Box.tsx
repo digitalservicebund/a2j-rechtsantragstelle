@@ -5,6 +5,7 @@ import { ParagraphPropsSchema } from "./Paragraph";
 import Button, { ButtonPropsSchema } from "./Button";
 
 export const BoxPropsSchema = z.object({
+  identifier: z.string().optional(),
   label: HeadingPropsSchema.optional(),
   heading: HeadingPropsSchema.optional(),
   content: ParagraphPropsSchema.optional(),
@@ -13,9 +14,9 @@ export const BoxPropsSchema = z.object({
 
 export type BoxProps = z.infer<typeof BoxPropsSchema>;
 
-const Box = ({ label, heading, content, button }: BoxProps) => {
+const Box = ({ identifier, label, heading, content, button }: BoxProps) => {
   return (
-    <div className="ds-stack-16">
+    <div className="ds-stack-16" id={identifier}>
       <div className="ds-stack-8">
         {label && <Heading {...label} />}
         {heading && <Heading {...heading} />}
