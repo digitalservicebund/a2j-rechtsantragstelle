@@ -51,7 +51,7 @@ export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
             ) : (
               <a
                 href={breadcrumb.url}
-                className="text-link increase-tap-area visited:text-black"
+                className="text-link increase-tap-area visited:text-blue-800"
               >
                 {breadcrumb.title}
               </a>
