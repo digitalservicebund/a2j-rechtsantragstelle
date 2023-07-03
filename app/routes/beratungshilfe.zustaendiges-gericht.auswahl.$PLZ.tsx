@@ -25,30 +25,30 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   // Rmove PLZ from slug
   const { pathname } = new URL(request.url);
   const slug = pathname.substring(0, pathname.lastIndexOf("/"));
+  const common = await getStrapiAmtsgerichtCommon();
+  const resultListHeading = fillTemplate({
+    template: common.resultListHeading,
+    replacements: { postcode: zipCode ?? "" },
+  });
 
   return json({
-    zipCode,
-    edgeCasesGroupedByLetter: splitObjectsByFirstLetter(edgeCases, "STRN"),
-    common: await getStrapiAmtsgerichtCommon(),
+    resultListHeading,
+    edgeCasesGroupedByLetter: splitObjectsByFirstLetter(edgeCases, "street"),
+    common,
     meta: (await getStrapiPage({ slug })).meta,
     url: `/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`,
   });
 };
 
 export default function Index() {
-  const { zipCode, edgeCasesGroupedByLetter, common, url } =
+  const { resultListHeading, edgeCasesGroupedByLetter, common, url } =
     useLoaderData<typeof loader>();
 
   return (
     <>
       <Background backgroundColor="blue">
         <CourtFinderHeader label={common.featureName}>
-          <RichText
-            markdown={fillTemplate({
-              template: common.resultListHeading,
-              replacements: { postcode: zipCode ?? "" },
-            })}
-          />
+          <RichText markdown={resultListHeading} />
         </CourtFinderHeader>
       </Background>
       <Container paddingTop="48">
