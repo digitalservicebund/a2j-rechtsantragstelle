@@ -5,6 +5,7 @@ import { StrapiContainerSchema } from "./StrapiContainer";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiParagraphSchema } from "./StrapiParagraph";
+import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 
 export const StrapiBoxSchema = z
   .object({
@@ -17,6 +18,7 @@ export const StrapiBoxSchema = z
     container: StrapiContainerSchema,
   })
   .merge(HasOptionalStrapiIdSchema)
+  .merge(OptionalStrapiLinkIdentifierSchema)
   .strict();
 
 export type StrapiBox = z.infer<typeof StrapiBoxSchema>;

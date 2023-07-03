@@ -3,6 +3,7 @@ import { StrapiButtonSchema } from "./StrapiButton";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiImageSchema } from "./StrapiImage";
+import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 
 export const StrapiInfoBoxItemSchema = z
   .object({
@@ -14,6 +15,7 @@ export const StrapiInfoBoxItemSchema = z
     button: StrapiButtonSchema.nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
+  .merge(OptionalStrapiLinkIdentifierSchema)
   .strict();
 
 export type StrapiInfoBoxItem = z.infer<typeof StrapiInfoBoxItemSchema>;
