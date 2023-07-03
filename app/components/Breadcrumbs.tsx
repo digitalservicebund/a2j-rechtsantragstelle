@@ -35,13 +35,9 @@ export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
   return (
     validBreadcrumbs.length > 0 && (
       <nav className="py-8 px-16 ds-link-02-bold font-normal bg-blue-100">
-        {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
-        <a
-          href="/"
-          className="hover:underline focus:outline active:underline active:decoration-4"
-          aria-label="Startseite"
-        >
-          <HomeOutlinedIcon />
+        {/* Note: can't use <Link> o  r <NavLink> as we require fresh data from the root loader */}
+        <a href="/" aria-label="Startseite" className="focus:outline">
+          <HomeOutlinedIcon className="inline-block !h-[1.5rem] !w-[1.5rem]" />
         </a>
         {validBreadcrumbs.map((breadcrumb, idx, arr) => (
           <span key={breadcrumb.title}>
