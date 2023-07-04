@@ -41,7 +41,6 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     meta: resultContent.meta,
     reasonsToDisplay: getReasonsToDisplay(resultContent.reasonings.data, data),
     progress: flowController.getProgress(stepId),
-    isLast: flowController.isFinal(stepId),
     previousStep: flowController.getPrevious(stepId)?.url,
   });
 };
@@ -61,7 +60,6 @@ export function Step() {
     resultContent,
     reasonsToDisplay,
     progress,
-    isLast,
     previousStep,
   } = useLoaderData<typeof loader>();
 
@@ -73,7 +71,6 @@ export function Step() {
       reasonsToDisplay={reasonsToDisplay}
       progressStep={progress.current}
       progressTotal={progress.total}
-      isLast={isLast}
     />
   );
 }

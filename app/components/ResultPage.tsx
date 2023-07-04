@@ -24,7 +24,6 @@ type ResultPageProps = {
   backDestination?: string;
   progressStep: number;
   progressTotal: number;
-  isLast: boolean;
 };
 
 const iconCSS = "inline-block mr-8 !h-[36px] !w-[36px]";
@@ -55,7 +54,6 @@ const ResultPage = ({
   reasonsToDisplay = [],
   progressStep,
   progressTotal,
-  isLast,
 }: ResultPageProps) => {
   const documentsList = content.documents.data?.attributes.element ?? [];
   const nextSteps = content.nextSteps.data?.attributes.element ?? [];
