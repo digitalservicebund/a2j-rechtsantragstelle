@@ -7,8 +7,6 @@ import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWit
 import type { StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
 import type { StrapiVorabCheckCommon } from "~/services/cms/models/StrapiVorabCheckCommon";
-import Button from "~/components/Button";
-import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";
 import PageContent, { keyFromElement } from "~/components/PageContent";
@@ -18,6 +16,7 @@ import InfoBox from "~/components/InfoBox";
 import invariant from "tiny-invariant";
 import { getInfoBoxItemProps } from "~/services/props/getInfoBoxItemProps";
 import type { InfoBoxItemProps } from "~/components/InfoBoxItem";
+import { ButtonNavigation } from "./form/ButtonNavigation";
 
 type ResultPageProps = {
   content: StrapiResultPage;
@@ -170,34 +169,16 @@ const ResultPage = ({
       )}
       <div className={`${documentsList.length > 0 && "bg-blue-100"}`}>
         <Container>
-          <ButtonContainer>
-            {backDestination && (
-              <Button
-                href={backDestination}
-                look="tertiary"
-                size="large"
-                className="w-fit"
-              >
-                {common.backButtonDefaultLabel}
-              </Button>
-            )}
-
-            {(!isLast || content.nextLink?.url) && (
-              <form method="post">
-                <Button
-                  type={content.nextLink?.url ? undefined : "submit"}
-                  name={content.nextLink?.url ? undefined : "_action"}
-                  href={
-                    content.nextLink?.url ? content.nextLink?.url : undefined
-                  }
-                  size="large"
-                  className="w-fit"
-                >
-                  {content.nextLink?.text ?? common.nextButtonDefaultLabel}
-                </Button>
-              </form>
-            )}
-          </ButtonContainer>
+          <ButtonNavigation
+            back={{
+              destination: backDestination,
+              label: common.backButtonDefaultLabel,
+            }}
+            next={{
+              destination: content.nextLink?.url ?? undefined,
+              label: content.nextLink?.text ?? undefined,
+            }}
+          />
         </Container>
         <div className="pb-48">
           <PageContent content={nextSteps} />

@@ -126,6 +126,10 @@ export function Step() {
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
 
+  const nextLabel = isLast
+    ? commonContent.lastNextButtonLabel
+    : commonContent.nextButtonDefaultLabel;
+
   return (
     <Background backgroundColor="blue">
       <div className="min-h-screen">
@@ -153,9 +157,11 @@ export function Step() {
                 <div className="ds-stack-40">
                   <PageContent content={formContent} />
                   <ButtonNavigation
-                    backDestination={previousStep}
-                    isLast={isLast}
-                    commonContent={commonContent}
+                    back={{
+                      destination: previousStep,
+                      label: commonContent.backButtonDefaultLabel,
+                    }}
+                    next={{ label: nextLabel }}
                   />
                 </div>
               </ValidatedForm>

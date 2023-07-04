@@ -1,42 +1,41 @@
 import { Button } from "~/components";
 import ButtonContainer from "~/components/ButtonContainer";
-import type { StrapiVorabCheckCommon } from "~/services/cms/models/StrapiVorabCheckCommon";
+
+type NavigationButton = {
+  destination?: string;
+  label?: string;
+};
 
 interface ButtonNavigationProps {
-  backDestination?: string;
-  isLast: boolean;
-  commonContent: StrapiVorabCheckCommon;
+  back: NavigationButton;
+  next: NavigationButton;
 }
 
-export function ButtonNavigation({
-  commonContent,
-  backDestination,
-  isLast,
-}: ButtonNavigationProps) {
+export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
   return (
     <ButtonContainer reverseOrder={true}>
-      {backDestination && (
+      {back.label && (
         <Button
-          href={backDestination}
+          href={back.destination}
           look="tertiary"
           size="large"
           className="w-fit"
         >
-          {commonContent.backButtonDefaultLabel}
+          {back.label}
         </Button>
       )}
-
-      <Button
-        type="submit"
-        name="_action"
-        value="next"
-        size="large"
-        className="w-fit"
-      >
-        {isLast
-          ? commonContent.lastNextButtonLabel
-          : commonContent.nextButtonDefaultLabel}
-      </Button>
+      {next.label && (
+        <Button
+          type={next.destination ? undefined : "submit"}
+          name={next.destination ? undefined : "_action"}
+          href={next.destination}
+          value="next"
+          size="large"
+          className="w-fit"
+        >
+          {next.label}
+        </Button>
+      )}
     </ButtonContainer>
   );
 }
