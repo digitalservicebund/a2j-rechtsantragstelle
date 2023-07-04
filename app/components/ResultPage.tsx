@@ -2,7 +2,6 @@ import type { ReactElement } from "react";
 import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
 import HighlightOff from "@mui/icons-material/HighlightOff";
 import WarningAmber from "@mui/icons-material/WarningAmber";
-import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
 import type { StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
 import type { StrapiVorabCheckCommon } from "~/services/cms/models/StrapiVorabCheckCommon";
@@ -12,15 +11,13 @@ import PageContent, { keyFromElement } from "~/components/PageContent";
 import { ProgressBar } from "./form/ProgressBar";
 import RichText from "~/components/RichText";
 import InfoBox from "~/components/InfoBox";
-import invariant from "tiny-invariant";
-import { getInfoBoxItemProps } from "~/services/props/getInfoBoxItemProps";
 import type { InfoBoxItemProps } from "~/components/InfoBoxItem";
 import { ButtonNavigation } from "./form/ButtonNavigation";
 
 type ResultPageProps = {
   content: StrapiResultPage;
   common: StrapiVorabCheckCommon;
-  reasonsToDisplay?: StrapiElementWithId[];
+  reasonsToDisplay: InfoBoxItemProps[];
   backDestination?: string;
   progressStep: number;
   progressTotal: number;
@@ -51,23 +48,12 @@ const ResultPage = ({
   content,
   common,
   backDestination,
-  reasonsToDisplay = [],
+  reasonsToDisplay,
   progressStep,
   progressTotal,
 }: ResultPageProps) => {
   const documentsList = content.documents.data?.attributes.element ?? [];
   const nextSteps = content.nextSteps.data?.attributes.element ?? [];
-
-  const infoBoxItems: InfoBoxItemProps[] = [];
-  reasonsToDisplay.forEach((reason) => {
-    reason.element.forEach((element) => {
-      invariant(
-        element.__component == "page.info-box-item",
-        "Reason to Display has to be an InfoBoxItem"
-      );
-      infoBoxItems.push(getInfoBoxItemProps(element));
-    });
-  });
 
   return (
     <div>
@@ -127,7 +113,7 @@ const ResultPage = ({
               text: "Begründung",
               className: "mb-16",
             }}
-            items={infoBoxItems}
+            items={reasonsToDisplay}
           />
         </Container>
       )}

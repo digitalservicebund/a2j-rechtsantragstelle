@@ -1,3 +1,4 @@
+import { isIncomeTooHigh } from "./flows/beratungshilfe/guards";
 import type { BeratungshilfeVorabcheckContext } from "./flows/beratungshilfe/pages";
 
 export function freibetrag({
@@ -63,3 +64,11 @@ export const getVerfuegbaresEinkommenFreibetrag = (
     context.kinder == "yes" ? parseFloat(context.kinderAnzahlKurz ?? "0") : 0;
   return freibetragShort(isWorking, isInPartnership, kidsCountTotal);
 };
+
+export const reasonsToDisplayBeratungshilfe = (
+  context: BeratungshilfeVorabcheckContext
+) => ({
+  eigeninitiativeWarning: context.eigeninitiative === "no",
+  incomeTooHigh:
+    context.verfuegbaresEinkommen === "yes" || isIncomeTooHigh(context),
+});

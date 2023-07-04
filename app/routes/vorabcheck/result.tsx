@@ -15,6 +15,7 @@ import {
   flowSpecifics,
   splatFromParams,
 } from "./flowSpecifics";
+import type { InfoBoxItemProps } from "~/components/InfoBoxItem";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
@@ -34,12 +35,14 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   // Slug change to keep Strapi slugs without ergebnis/
   const slug = pathname.replace(/ergebnis\//, "");
   const resultContent = await getStrapiResultPage({ slug });
+  const reasonElementsWithID =
+    resultContent.reasonings.data?.map((el) => el.attributes) ?? [];
 
   return json({
     commonContent: await getStrapiVorabCheckCommon(),
     resultContent,
     meta: resultContent.meta,
-    reasonsToDisplay: getReasonsToDisplay(resultContent.reasonings.data, data),
+    reasonsToDisplay: getReasonsToDisplay(reasonElementsWithID, data),
     progress: flowController.getProgress(stepId),
     previousStep: flowController.getPrevious(stepId)?.url,
   });
@@ -68,7 +71,7 @@ export function Step() {
       content={resultContent}
       common={commonContent}
       backDestination={previousStep}
-      reasonsToDisplay={reasonsToDisplay}
+      reasonsToDisplay={reasonsToDisplay as InfoBoxItemProps[]}
       progressStep={progress.current}
       progressTotal={progress.total}
     />
