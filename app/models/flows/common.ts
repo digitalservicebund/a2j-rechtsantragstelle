@@ -23,7 +23,7 @@ export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
 export function getReasonsToDisplay(
   reasons: StrapiElementWithId[],
   context: Context
-): InfoBoxItemProps[] {
+): Omit<InfoBoxItemProps, "button" | "buttons">[] {
   const reasonsToDisplay = reasonsToDisplayBeratungshilfe(context);
   const validReasons = reasons.filter((reason) =>
     isKeyOfObject(reason.elementId, reasonsToDisplay)
