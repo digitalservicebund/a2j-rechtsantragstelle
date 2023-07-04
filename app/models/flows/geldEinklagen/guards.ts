@@ -15,10 +15,10 @@ function yesNoGuards<Field extends keyof GeldEinklagenVorabcheckContext>(
 }
 
 export const guards = {
-  ...yesNoGuards("gerichstkostenvorschuss"),
-  gerichstkostenvorschussNotPossible: (
+  ...yesNoGuards("gerichtskostenvorschuss"),
+  gerichtskostenvorschussNotPossible: (
     context: GeldEinklagenVorabcheckContext
-  ) => context.gerichstkostenvorschuss === "notPossible",
+  ) => context.gerichtskostenvorschuss === "notPossible",
   ...yesNoGuards("kontaktaufnahme"),
   ...yesNoGuards("fristAbgelaufen"),
   fristAbgelaufenNotSet: (context: GeldEinklagenVorabcheckContext) =>
@@ -49,6 +49,4 @@ export const guards = {
     context.gegenseite == "privatperson",
   gegenseiteUnternehmen: (context: GeldEinklagenVorabcheckContext) =>
     context.gegenseite == "unternehmen",
-  ...yesNoGuards("gegenseitePersonDeutschland"),
-  ...yesNoGuards("gegenseiteUnternehmenDeutschland"),
 };

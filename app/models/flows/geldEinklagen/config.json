@@ -5,169 +5,40 @@
     "start": {
       "meta": { "progressPosition": 1 },
       "on": {
-        "SUBMIT": "gerichstkostenvorschuss"
+        "SUBMIT": "gerichtskostenvorschuss"
       }
     },
-    "gerichstkostenvorschuss": {
+    "gerichtskostenvorschuss": {
       "meta": { "progressPosition": 2 },
       "on": {
         "SUBMIT": [
           {
-            "target": "ergebnis/gerichstkostenvorschuss-abbruch",
-            "cond": "gerichstkostenvorschussNo"
+            "target": "ergebnis/gerichtskostenvorschuss-abbruch",
+            "cond": "gerichtskostenvorschussNo"
           },
           {
-            "target": "ergebnis/gerichstkostenvorschuss-hinweis",
-            "cond": "gerichstkostenvorschussNotPossible"
+            "target": "ergebnis/gerichtskostenvorschuss-hinweis",
+            "cond": "gerichtskostenvorschussNotPossible"
           },
           {
-            "target": "kontaktaufnahme",
-            "cond": "gerichstkostenvorschussYes"
+            "target": "forderung",
+            "cond": "gerichtskostenvorschussYes"
           }
         ],
         "BACK": { "target": "start" }
       }
     },
-    "ergebnis/gerichstkostenvorschuss-hinweis": {
+    "ergebnis/gerichtskostenvorschuss-hinweis": {
       "meta": { "progressPosition": 3 },
       "on": {
-        "SUBMIT": { "target": "kontaktaufnahme" },
-        "BACK": { "target": "gerichstkostenvorschuss" }
+        "SUBMIT": { "target": "forderung" },
+        "BACK": { "target": "gerichtskostenvorschuss" }
       }
     },
-    "ergebnis/gerichstkostenvorschuss-abbruch": {
+    "ergebnis/gerichtskostenvorschuss-abbruch": {
       "meta": { "progressPosition": 3 },
       "on": {
-        "BACK": { "target": "gerichstkostenvorschuss" }
-      }
-    },
-    "kontaktaufnahme": {
-      "meta": { "progressPosition": 2 },
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "ergebnis/kontaktaufnahme-hinweis",
-            "cond": "kontaktaufnahmeNo"
-          },
-          {
-            "target": "frist-abgelaufen",
-            "cond": "kontaktaufnahmeYes"
-          }
-        ],
-        "BACK": [
-          {
-            "target": "ergebnis/gerichstkostenvorschuss-hinweis",
-            "cond": "gerichstkostenvorschussNotPossible"
-          },
-          {
-            "target": "gerichstkostenvorschuss",
-            "cond": "gerichstkostenvorschussYes"
-          }
-        ]
-      }
-    },
-    "ergebnis/kontaktaufnahme-hinweis": {
-      "meta": { "progressPosition": 3 },
-      "on": {
-        "SUBMIT": { "target": "frist-abgelaufen" },
-        "BACK": { "target": "kontaktaufnahme" }
-      }
-    },
-    "frist-abgelaufen": {
-      "meta": { "progressPosition": 4 },
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "privatperson",
-            "cond": "fristAbgelaufenYes"
-          },
-          {
-            "target": "ergebnis/frist-abgelaufen-hinweis",
-            "cond": "fristAbgelaufenNo"
-          },
-          {
-            "target": "ergebnis/frist-abgelaufen-hinweis",
-            "cond": "fristAbgelaufenNotSet"
-          }
-        ],
-        "BACK": [
-          {
-            "target": "ergebnis/kontaktaufnahme-hinweis",
-            "cond": "kontaktaufnahmeNo"
-          },
-          {
-            "target": "kontaktaufnahme",
-            "cond": "kontaktaufnahmeYes"
-          }
-        ]
-      }
-    },
-    "ergebnis/frist-abgelaufen-hinweis": {
-      "meta": { "progressPosition": 5 },
-      "on": {
-        "SUBMIT": { "target": "privatperson" },
-        "BACK": { "target": "frist-abgelaufen" }
-      }
-    },
-    "privatperson": {
-      "meta": { "progressPosition": 14 },
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "bund-id-konto",
-            "cond": "privatpersonYes"
-          },
-          {
-            "target": "ergebnis/privatperson-abbruch",
-            "cond": "notSinglePerson"
-          }
-        ],
-        "BACK": [
-          {
-            "target": "frist-abgelaufen",
-            "cond": "fristAbgelaufenYes"
-          },
-          {
-            "target": "ergebnis/frist-abgelaufen-hinweis",
-            "cond": "fristAbgelaufenNo"
-          },
-          {
-            "target": "ergebnis/frist-abgelaufen-hinweis",
-            "cond": "fristAbgelaufenNotSet"
-          }
-        ]
-      }
-    },
-    "ergebnis/privatperson-abbruch": {
-      "meta": { "progressPosition": 15 },
-      "on": {
-        "BACK": { "target": "privatperson" }
-      }
-    },
-    "bund-id-konto": {
-      "meta": { "progressPosition": 16 },
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "forderung",
-            "cond": "bundIdAccountYes"
-          },
-          {
-            "target": "forderung",
-            "cond": "bundIdAccountWantTo"
-          },
-          {
-            "target": "ergebnis/bund-id-konto-abbruch",
-            "cond": "bundIdAccountNo"
-          }
-        ],
-        "BACK": { "target": "privatperson" }
-      }
-    },
-    "ergebnis/bund-id-konto-abbruch": {
-      "meta": { "progressPosition": 17 },
-      "on": {
-        "BACK": { "target": "bund-id-konto" }
+        "BACK": { "target": "gerichtskostenvorschuss" }
       }
     },
     "forderung": {
@@ -183,7 +54,16 @@
             "cond": "forderungIsLessOrEqual5000"
           }
         ],
-        "BACK": { "target": "bund-id-konto" }
+        "BACK": [
+          {
+            "target": "ergebnis/gerichtskostenvorschuss-hinweis",
+            "cond": "gerichtskostenvorschussNotPossible"
+          },
+          {
+            "target": "gerichtskostenvorschuss",
+            "cond": "gerichtskostenvorschussYes"
+          }
+        ]
       }
     },
     "ergebnis/forderung-abbruch": {
@@ -256,6 +136,7 @@
         "BACK": { "target": "flug" }
       }
     },
+
     "gegenseite": {
       "meta": { "progressPosition": 24 },
       "on": {
@@ -269,12 +150,12 @@
             "cond": "gegenseiteStaat"
           },
           {
-            "target": "gegenseite-person-deutschland",
-            "cond": "gegenseitePrivatperson"
+            "target": "kontaktaufnahme",
+            "cond": "gegenseiteUnternehmen"
           },
           {
-            "target": "gegenseite-unternehmen-deutschland",
-            "cond": "gegenseiteUnternehmen"
+            "target": "kontaktaufnahme",
+            "cond": "gegenseitePrivatperson"
           }
         ],
         "BACK": [
@@ -285,74 +166,133 @@
     },
     "ergebnis/gegenseite-mehrere-abbruch": {
       "meta": { "progressPosition": 25 },
-      "on": {
-        "BACK": { "target": "gegenseite" }
-      }
+      "on": { "BACK": "gegenseite" }
     },
     "ergebnis/gegenseite-staat-abbruch": {
       "meta": { "progressPosition": 25 },
-      "on": {
-        "BACK": { "target": "gegenseite" }
-      }
+      "on": { "BACK": "gegenseite" }
     },
-    "gegenseite-person-deutschland": {
-      "meta": { "progressPosition": 25 },
+
+    "kontaktaufnahme": {
+      "meta": { "progressPosition": 2 },
       "on": {
         "SUBMIT": [
           {
-            "target": "ergebnis/gegenseite-person-deutschland-abbruch",
-            "cond": "gegenseitePersonDeutschlandNo"
+            "target": "ergebnis/kontaktaufnahme-hinweis",
+            "cond": "kontaktaufnahmeNo"
           },
           {
-            "target": "ergebnis/abschluss",
-            "cond": "gegenseitePersonDeutschlandYes"
+            "target": "frist-abgelaufen",
+            "cond": "kontaktaufnahmeYes"
           }
         ],
-        "BACK": { "target": "gegenseite" }
+        "BACK": "gegenseite"
       }
     },
-    "ergebnis/gegenseite-person-deutschland-abbruch": {
-      "meta": { "progressPosition": 26 },
+    "ergebnis/kontaktaufnahme-hinweis": {
+      "meta": { "progressPosition": 3 },
       "on": {
-        "BACK": { "target": "gegenseite-person-deutschland" }
+        "SUBMIT": { "target": "frist-abgelaufen" },
+        "BACK": { "target": "kontaktaufnahme" }
       }
     },
-    "gegenseite-unternehmen-deutschland": {
-      "meta": { "progressPosition": 25 },
+    "frist-abgelaufen": {
+      "meta": { "progressPosition": 4 },
       "on": {
         "SUBMIT": [
           {
-            "target": "ergebnis/gegenseite-unternehmen-deutschland-abbruch",
-            "cond": "gegenseiteUnternehmenDeutschlandNo"
+            "target": "privatperson",
+            "cond": "fristAbgelaufenYes"
           },
           {
-            "target": "ergebnis/abschluss",
-            "cond": "gegenseiteUnternehmenDeutschlandYes"
+            "target": "ergebnis/frist-abgelaufen-hinweis",
+            "cond": "fristAbgelaufenNo"
+          },
+          {
+            "target": "ergebnis/frist-abgelaufen-hinweis",
+            "cond": "fristAbgelaufenNotSet"
           }
         ],
-        "BACK": { "target": "gegenseite" }
-      }
-    },
-    "ergebnis/gegenseite-unternehmen-deutschland-abbruch": {
-      "meta": { "progressPosition": 26 },
-      "on": {
-        "BACK": { "target": "gegenseite-unternehmen-deutschland" }
-      }
-    },
-    "ergebnis/abschluss": {
-      "meta": { "progressPosition": 26 },
-      "on": {
         "BACK": [
           {
-            "target": "gegenseite-person-deutschland",
-            "cond": "gegenseitePrivatperson"
+            "target": "ergebnis/kontaktaufnahme-hinweis",
+            "cond": "kontaktaufnahmeNo"
           },
           {
-            "target": "gegenseite-unternehmen-deutschland",
-            "cond": "gegenseiteUnternehmen"
+            "target": "kontaktaufnahme",
+            "cond": "kontaktaufnahmeYes"
           }
         ]
       }
+    },
+    "ergebnis/frist-abgelaufen-hinweis": {
+      "meta": { "progressPosition": 5 },
+      "on": {
+        "SUBMIT": "privatperson",
+        "BACK": "frist-abgelaufen"
+      }
+    },
+    "privatperson": {
+      "meta": { "progressPosition": 14 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "bund-id-konto",
+            "cond": "privatpersonYes"
+          },
+          {
+            "target": "ergebnis/privatperson-abbruch",
+            "cond": "notSinglePerson"
+          }
+        ],
+        "BACK": [
+          {
+            "target": "frist-abgelaufen",
+            "cond": "fristAbgelaufenYes"
+          },
+          {
+            "target": "ergebnis/frist-abgelaufen-hinweis",
+            "cond": "fristAbgelaufenNo"
+          },
+          {
+            "target": "ergebnis/frist-abgelaufen-hinweis",
+            "cond": "fristAbgelaufenNotSet"
+          }
+        ]
+      }
+    },
+    "ergebnis/privatperson-abbruch": {
+      "meta": { "progressPosition": 15 },
+      "on": { "BACK": "privatperson" }
+    },
+    "bund-id-konto": {
+      "meta": { "progressPosition": 16 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "ergebnis/abschluss",
+            "cond": "bundIdAccountYes"
+          },
+          {
+            "target": "ergebnis/abschluss",
+            "cond": "bundIdAccountWantTo"
+          },
+          {
+            "target": "ergebnis/bund-id-konto-abbruch",
+            "cond": "bundIdAccountNo"
+          }
+        ],
+        "BACK": "privatperson"
+      }
+    },
+    "ergebnis/bund-id-konto-abbruch": {
+      "meta": { "progressPosition": 17 },
+      "on": { "BACK": "bund-id-konto" }
+    },
+
+    "ergebnis/abschluss": {
+      "meta": { "progressPosition": 26 },
+      "on": { "BACK": "bund-id-konto" }
     }
   }
 }

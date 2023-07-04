@@ -2,7 +2,7 @@ import { z } from "zod";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const context = {
-  gerichstkostenvorschuss: z.enum(["yes", "notPossible", "no"]),
+  gerichtskostenvorschuss: z.enum(["yes", "notPossible", "no"]),
   kontaktaufnahme: YesNoAnswer,
   fristAbgelaufen: z.enum(["yes", "notSet", "no"]),
   privatperson: z.enum([
@@ -23,8 +23,6 @@ export const context = {
   bereich: z.enum(["work", "living", "shopping", "family", "travel", "other"]),
   flug: YesNoAnswer,
   gegenseite: z.enum(["privatperson", "unternehmen", "staat", "multiple"]),
-  gegenseitePersonDeutschland: YesNoAnswer,
-  gegenseiteUnternehmenDeutschland: YesNoAnswer,
 } as const;
 
 const contextObject = z.object(context).partial();

@@ -12,20 +12,48 @@ const machine = createMachine<GeldEinklagenVorabcheckContext>(
 
 const happyPathSteps = [
   "start",
-  "gerichstkostenvorschuss",
+  "gerichtskostenvorschuss",
+  "forderung",
+  "bereich",
+  "gegenseite",
   "kontaktaufnahme",
   "frist-abgelaufen",
   "privatperson",
   "bund-id-konto",
-  "forderung",
-  "bereich",
-  "gegenseite",
-  "gegenseite-person-deutschland",
   "ergebnis/abschluss",
 ];
 
 const cases = [
-  [{}, ["start", "gerichstkostenvorschuss"]],
+  [{}, ["start", "gerichtskostenvorschuss"]],
+  [
+    { gerichtskostenvorschuss: "no" },
+    ["gerichtskostenvorschuss", "ergebnis/gerichtskostenvorschuss-abbruch"],
+  ],
+  [
+    { gerichtskostenvorschuss: "notPossible" },
+    [
+      "gerichtskostenvorschuss",
+      "ergebnis/gerichtskostenvorschuss-hinweis",
+      "forderung",
+    ],
+  ],
+  [{ forderung: "moreThan5000" }, ["forderung", "ergebnis/forderung-abbruch"]],
+  [{ bereich: "work" }, ["bereich", "ergebnis/bereich-arbeit-abbruch"]],
+  [{ bereich: "family" }, ["bereich", "ergebnis/bereich-familie-abbruch"]],
+  [{ bereich: "travel" }, ["bereich", "flug"]],
+  [
+    { bereich: "travel", flug: "yes" },
+    ["bereich", "flug", "ergebnis/flug-abbruch"],
+  ],
+  [
+    { gegenseite: "staat" },
+    ["gegenseite", "ergebnis/gegenseite-staat-abbruch"],
+  ],
+  [
+    { gegenseite: "multiple" },
+    ["gegenseite", "ergebnis/gegenseite-mehrere-abbruch"],
+  ],
+  [{ gegenseite: "unternehmen" }, ["gegenseite", "kontaktaufnahme"]],
   [
     { kontaktaufnahme: "no" },
     ["kontaktaufnahme", "ergebnis/kontaktaufnahme-hinweis", "frist-abgelaufen"],
@@ -42,44 +70,7 @@ const cases = [
     { bundIdAccount: "no" },
     ["bund-id-konto", "ergebnis/bund-id-konto-abbruch"],
   ],
-  [{ forderung: "moreThan5000" }, ["forderung", "ergebnis/forderung-abbruch"]],
-  [{ bereich: "family" }, ["bereich", "ergebnis/bereich-familie-abbruch"]],
-  [{ bereich: "work" }, ["bereich", "ergebnis/bereich-arbeit-abbruch"]],
-  [{ bereich: "travel" }, ["bereich", "flug"]],
-  [
-    { bereich: "travel", flug: "yes" },
-    ["bereich", "flug", "ergebnis/flug-abbruch"],
-  ],
-  [
-    { gegenseite: "staat" },
-    ["gegenseite", "ergebnis/gegenseite-staat-abbruch"],
-  ],
-  [
-    { gegenseite: "multiple" },
-    ["gegenseite", "ergebnis/gegenseite-mehrere-abbruch"],
-  ],
-  [
-    { gegenseite: "unternehmen" },
-    ["gegenseite", "gegenseite-unternehmen-deutschland"],
-  ],
-  [
-    { gegenseitePersonDeutschland: "no" },
-    [
-      "gegenseite-person-deutschland",
-      "ergebnis/gegenseite-person-deutschland-abbruch",
-    ],
-  ],
-  [
-    {
-      gegenseite: "unternehmen",
-      gegenseiteUnternehmenDeutschland: "no",
-    },
-    [
-      "gegenseite",
-      "gegenseite-unternehmen-deutschland",
-      "ergebnis/gegenseite-unternehmen-deutschland-abbruch",
-    ],
-  ],
+
   [happyPathData, happyPathSteps],
 ] as const satisfies TestCases<GeldEinklagenVorabcheckContext>;
 
