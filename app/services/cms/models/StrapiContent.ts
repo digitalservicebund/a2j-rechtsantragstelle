@@ -9,46 +9,14 @@ import { StrapiInfoBoxItemSchema } from "~/services/cms/models/StrapiInfoBoxItem
 import { StrapiSelectSchema } from "~/services/cms/models/StrapiSelect";
 
 export const StrapiContentSchema = z.discriminatedUnion("__component", [
-  StrapiBoxSchema.merge(
-    z.object({
-      __component: z.literal("page.box"),
-    })
-  ),
-  StrapiHeaderSchema.merge(
-    z.object({
-      __component: z.literal("page.header"),
-    })
-  ),
-  StrapiHeadingSchema.merge(
-    z.object({
-      __component: z.literal("basic.heading"),
-    })
-  ),
-  StrapiInfoBoxSchema.merge(
-    z.object({
-      __component: z.literal("page.info-box"),
-    })
-  ),
-  StrapiInfoBoxItemSchema.merge(
-    z.object({
-      __component: z.literal("page.info-box-item"),
-    })
-  ),
-  StrapiParagraphSchema.merge(
-    z.object({
-      __component: z.literal("basic.paragraph"),
-    })
-  ),
-  StrapiInputSchema.merge(
-    z.object({
-      __component: z.literal("form-elements.input"),
-    })
-  ),
-  StrapiSelectSchema.merge(
-    z.object({
-      __component: z.literal("form-elements.select"),
-    })
-  ),
+  StrapiBoxSchema.required({ __component: true }),
+  StrapiHeaderSchema.required({ __component: true }),
+  StrapiHeadingSchema.required({ __component: true }),
+  StrapiInfoBoxSchema.required({ __component: true }),
+  StrapiInfoBoxItemSchema.required({ __component: true }),
+  StrapiParagraphSchema.required({ __component: true }),
+  StrapiInputSchema.required({ __component: true }),
+  StrapiSelectSchema.required({ __component: true }),
 ]);
 
 export type StrapiContent = z.infer<typeof StrapiContentSchema>;

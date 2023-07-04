@@ -3,16 +3,8 @@ import { StrapiInputSchema } from "./StrapiInput";
 import { StrapiSelectSchema } from "./StrapiSelect";
 
 export const StrapiFormComponentSchema = z.discriminatedUnion("__component", [
-  StrapiInputSchema.merge(
-    z.object({
-      __component: z.literal("form-elements.input"),
-    })
-  ),
-  StrapiSelectSchema.merge(
-    z.object({
-      __component: z.literal("form-elements.select"),
-    })
-  ),
+  StrapiInputSchema.required({ __component: true }),
+  StrapiSelectSchema.required({ __component: true }),
 ]);
 
 export type StrapiFormComponent = z.infer<typeof StrapiFormComponentSchema>;
