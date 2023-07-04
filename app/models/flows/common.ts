@@ -3,7 +3,6 @@ import { z } from "zod";
 import { isKeyOfObject } from "~/util/objects";
 import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
 import { infoBoxesFromElementsWithID } from "~/services/props/getInfoBoxItemProps";
-import type { InfoBoxItemProps } from "~/components/InfoBoxItem";
 import { reasonsToDisplayBeratungshilfe } from "../beratungshilfe";
 
 type Context = Record<string, string>;
@@ -23,7 +22,10 @@ export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
 export function getReasonsToDisplay(
   reasons: StrapiElementWithId[],
   context: Context
-): Omit<InfoBoxItemProps, "button" | "buttons">[] {
+): Omit<
+  ReturnType<typeof infoBoxesFromElementsWithID>,
+  "button" | "buttons"
+>[] {
   const reasonsToDisplay = reasonsToDisplayBeratungshilfe(context);
   const validReasons = reasons.filter((reason) =>
     isKeyOfObject(reason.elementId, reasonsToDisplay)
