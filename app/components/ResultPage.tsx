@@ -1,5 +1,4 @@
 import type { ReactElement } from "react";
-import classes from "classnames";
 import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
 import HighlightOff from "@mui/icons-material/HighlightOff";
 import WarningAmber from "@mui/icons-material/WarningAmber";
@@ -28,44 +27,25 @@ type ResultPageProps = {
   isLast: boolean;
 };
 
-type PageTypeProperties = {
-  background: string;
-  icon: (className: string) => ReactElement;
+const iconCSS = "inline-block mr-8 !h-[36px] !w-[36px]";
+
+const icons: Record<StrapiResultPageType, ReactElement> = {
+  error: <HighlightOff color="error" className={`${iconCSS} !text-red-900`} />,
+  success: (
+    <CheckCircleOutline
+      color="success"
+      className={`${iconCSS} !text-green-900`}
+    />
+  ),
+  warning: (
+    <WarningAmber color="warning" className={`${iconCSS} !text-yellow-900`} />
+  ),
 };
 
-const pageTypeProperties = (
-  pageType: StrapiResultPageType
-): PageTypeProperties => {
-  const pageTypePropertyMap = {
-    error: {
-      background: "bg-red-200",
-      icon: (className) => (
-        <HighlightOff
-          color="error"
-          className={classes(className, "!text-red-900")}
-        />
-      ),
-    },
-    success: {
-      background: "bg-green-200",
-      icon: (className) => (
-        <CheckCircleOutline
-          color="success"
-          className={classes(className, "!text-green-900")}
-        />
-      ),
-    },
-    warning: {
-      background: "bg-yellow-200",
-      icon: (className) => (
-        <WarningAmber
-          color="warning"
-          className={classes(className, "!text-yellow-900")}
-        />
-      ),
-    },
-  } as { [key in StrapiResultPageType]: PageTypeProperties };
-  return pageTypePropertyMap[pageType];
+const backgrounds: Record<StrapiResultPageType, string> = {
+  error: "bg-red-200",
+  success: "bg-green-200",
+  warning: "bg-yellow-200",
 };
 
 const ResultPage = ({
@@ -77,7 +57,6 @@ const ResultPage = ({
   progressTotal,
   isLast,
 }: ResultPageProps) => {
-  const pageProperties = pageTypeProperties(content.pageType);
   const documentsList = content.documents.data?.attributes.element ?? [];
   const nextSteps = content.nextSteps.data?.attributes.element ?? [];
 
@@ -94,7 +73,7 @@ const ResultPage = ({
 
   return (
     <div>
-      <div className={pageProperties.background}>
+      <div className={backgrounds[content.pageType]}>
         <Container paddingTop="24">
           <ProgressBar
             label={common.progressBarLabel}
@@ -106,8 +85,8 @@ const ResultPage = ({
             look={content.heading.look}
             className="flex items-center mb-0"
           >
-            {pageProperties.icon("inline-block mr-8 !h-[36px] !w-[36px]")}
-            {content.heading?.text}
+            {icons[content.pageType]}
+            {content.heading.text}
           </Heading>
         </Container>
 
@@ -136,12 +115,12 @@ const ResultPage = ({
           </Container>
         )}
       </div>
-      {content.freeZone && content.freeZone.length > 0 && (
+      {content.freeZone.length > 0 && (
         <Container>
           <PageContent content={content.freeZone} />
         </Container>
       )}
-      {reasonsToDisplay?.length > 0 && (
+      {reasonsToDisplay.length > 0 && (
         <Container>
           <InfoBox
             heading={{
