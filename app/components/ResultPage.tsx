@@ -17,7 +17,6 @@ import RichText from "~/components/RichText";
 import InfoBox from "~/components/InfoBox";
 import invariant from "tiny-invariant";
 import { getInfoBoxItemProps } from "~/services/props/getInfoBoxItemProps";
-import type { StrapiInfoBoxItem } from "~/services/cms/models/StrapiInfoBoxItem";
 import type { InfoBoxItemProps } from "~/components/InfoBoxItem";
 
 type ResultPageProps = {
@@ -80,21 +79,17 @@ const ResultPage = ({
   isLast,
 }: ResultPageProps) => {
   const pageProperties = pageTypeProperties(content.pageType);
-  const documentsList = content.documents.data
-    ? content.documents.data.attributes.element
-    : [];
-  const nextSteps = content.nextSteps.data
-    ? content.nextSteps.data.attributes.element
-    : [];
+  const documentsList = content.documents.data?.attributes.element ?? [];
+  const nextSteps = content.nextSteps.data?.attributes.element ?? [];
 
   const infoBoxItems: InfoBoxItemProps[] = [];
-  reasonsToDisplay?.forEach((reason) => {
+  reasonsToDisplay.forEach((reason) => {
     reason.element.forEach((element) => {
       invariant(
         element.__component == "page.info-box-item",
         "Reason to Display has to be an InfoBoxItem"
       );
-      infoBoxItems.push(getInfoBoxItemProps(element as StrapiInfoBoxItem));
+      infoBoxItems.push(getInfoBoxItemProps(element));
     });
   });
 

@@ -25,12 +25,8 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   const flowId = flowIDFromPathname(pathname);
   const stepId = "ergebnis/" + splatFromParams(params);
   const { data } = await getSession(request.headers.get("Cookie"));
-
-  const flowController = buildFlowController({
-    flow: flowSpecifics[flowId].flow,
-    data,
-    guards: flowSpecifics[flowId].guards,
-  });
+  const { flow, guards } = flowSpecifics[flowId];
+  const flowController = buildFlowController({ flow, data, guards });
 
   if (!flowController.isReachable(stepId))
     return redirect(flowController.getInitial().url);
@@ -53,13 +49,9 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 export const action: ActionFunction = async ({ params, request }) => {
   const splat = splatFromParams(params);
   const flowId = flowIDFromPathname(new URL(request.url).pathname);
-
-  const flowController = buildFlowController({
-    flow: flowSpecifics[flowId].flow,
-    data: (await getSession(request.headers.get("Cookie"))).data,
-    guards: flowSpecifics[flowId].guards,
-  });
-
+  const { data } = await getSession(request.headers.get("Cookie"));
+  const { flow, guards } = flowSpecifics[flowId];
+  const flowController = buildFlowController({ flow, data, guards });
   return redirect(flowController.getNext("ergebnis/" + splat).url);
 };
 
