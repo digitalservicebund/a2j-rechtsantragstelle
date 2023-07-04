@@ -7,6 +7,7 @@ import { StrapiHeaderSchema } from "./StrapiHeader";
 import { StrapiInputSchema } from "./StrapiInput";
 import { StrapiInfoBoxItemSchema } from "~/services/cms/models/StrapiInfoBoxItem";
 import { StrapiSelectSchema } from "~/services/cms/models/StrapiSelect";
+import { StrapiLinkListBoxSchema } from "./StrapiLinkListBox";
 
 export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiBoxSchema.required({ __component: true }),
@@ -17,6 +18,7 @@ export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiParagraphSchema.required({ __component: true }),
   StrapiInputSchema.required({ __component: true }),
   StrapiSelectSchema.required({ __component: true }),
+  StrapiLinkListBoxSchema.required({ __component: true }),
 ]);
 
 export type StrapiContent = z.infer<typeof StrapiContentSchema>;

@@ -14,7 +14,7 @@ const LinkPropsSchema = z.object({
 type LinkProps = z.infer<typeof LinkPropsSchema>;
 
 export const FooterPropsSchema = z.object({
-  image: ImagePropsSchema,
+  image: ImagePropsSchema.optional(),
   paragraphs: z.array(ParagraphPropsSchema),
   links: z.array(LinkPropsSchema),
 });
@@ -61,7 +61,9 @@ export default function Footer({
     <Container>
       <footer className="pt-48 pb-56 flex flex-wrap items-start justify-between gap-x-32 gap-y-40">
         <div className="flex flex-wrap flex-col-reverse gap-x-16 gap-y-8 sm:flex-row">
-          <Image {...{ ...image, style: { width: "120px" } }} />
+          {image != undefined ? (
+            <Image {...{ ...image, style: { width: "120px" } }} />
+          ) : null}
           <div className="ds-stack-8">
             {paragraphs.map((paragraph) => (
               <RichText

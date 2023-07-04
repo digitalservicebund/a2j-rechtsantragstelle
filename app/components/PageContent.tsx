@@ -21,6 +21,8 @@ import { getInputProps } from "~/services/props/getInputProps";
 import RadioGroup from "~/components/RadioGroup";
 import { getRadioGroupProps } from "~/services/props/getRadioGroupProps";
 import type { Replacements } from "~/util/fillTemplate";
+import LinkListBox from "./LinkListBox";
+import { getLinkListBoxProps } from "~/services/props/getLinkListBoxProps";
 
 type PageContentProps = {
   content: Array<StrapiContent>;
@@ -99,6 +101,8 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
       return <Box {...getBoxProps(cms)} key={key} />;
     case "page.info-box":
       return <InfoBox {...getInfoBoxProps(cms)} key={cms.id} />;
+    case "page.link-list-box":
+      return <LinkListBox {...getLinkListBoxProps(cms)} key={cms.id} />;
     default:
       return <></>;
   }

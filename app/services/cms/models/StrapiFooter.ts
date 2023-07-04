@@ -8,9 +8,9 @@ import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 
 export const StrapiFooterSchema = z
   .object({
-    image: StrapiImageSchema,
-    paragraphs: z.array(StrapiParagraphSchema),
-    links: z.array(StrapiLinkSchema),
+    image: StrapiImageSchema.nullable().optional(),
+    paragraphs: z.array(StrapiParagraphSchema).nullable(),
+    links: z.array(StrapiLinkSchema).nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
