@@ -5,11 +5,40 @@
     "start": {
       "meta": { "progressPosition": 1 },
       "on": {
+        "SUBMIT": "gerichstkostenvorschuss"
+      }
+    },
+    "gerichstkostenvorschuss": {
+      "meta": { "progressPosition": 2 },
+      "on": {
         "SUBMIT": [
           {
-            "target": "kontaktaufnahme"
+            "target": "ergebnis/gerichstkostenvorschuss-abbruch",
+            "cond": "gerichstkostenvorschussNo"
+          },
+          {
+            "target": "ergebnis/gerichstkostenvorschuss-hinweis",
+            "cond": "gerichstkostenvorschussNotPossible"
+          },
+          {
+            "target": "kontaktaufnahme",
+            "cond": "gerichstkostenvorschussYes"
           }
-        ]
+        ],
+        "BACK": { "target": "start" }
+      }
+    },
+    "ergebnis/gerichstkostenvorschuss-hinweis": {
+      "meta": { "progressPosition": 3 },
+      "on": {
+        "SUBMIT": { "target": "kontaktaufnahme" },
+        "BACK": { "target": "gerichstkostenvorschuss" }
+      }
+    },
+    "ergebnis/gerichstkostenvorschuss-abbruch": {
+      "meta": { "progressPosition": 3 },
+      "on": {
+        "BACK": { "target": "gerichstkostenvorschuss" }
       }
     },
     "kontaktaufnahme": {
@@ -25,7 +54,16 @@
             "cond": "kontaktaufnahmeYes"
           }
         ],
-        "BACK": { "target": "start" }
+        "BACK": [
+          {
+            "target": "ergebnis/gerichstkostenvorschuss-hinweis",
+            "cond": "gerichstkostenvorschussNotPossible"
+          },
+          {
+            "target": "gerichstkostenvorschuss",
+            "cond": "gerichstkostenvorschussYes"
+          }
+        ]
       }
     },
     "ergebnis/kontaktaufnahme-hinweis": {

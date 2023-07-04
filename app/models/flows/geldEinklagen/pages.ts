@@ -2,6 +2,7 @@ import { z } from "zod";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const context = {
+  gerichstkostenvorschuss: z.enum(["yes", "notPossible", "no"]),
   kontaktaufnahme: YesNoAnswer,
   fristAbgelaufen: z.enum(["yes", "notSet", "no"]),
   privatperson: z.enum([

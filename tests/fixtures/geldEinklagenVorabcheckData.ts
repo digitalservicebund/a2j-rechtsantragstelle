@@ -1,6 +1,7 @@
 import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/pages";
 
 export const happyPathData: GeldEinklagenVorabcheckContext = {
+  gerichstkostenvorschuss: "yes",
   kontaktaufnahme: "yes",
   fristAbgelaufen: "yes",
   privatperson: "yes",

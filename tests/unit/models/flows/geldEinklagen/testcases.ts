@@ -12,6 +12,7 @@ const machine = createMachine<GeldEinklagenVorabcheckContext>(
 
 const happyPathSteps = [
   "start",
+  "gerichstkostenvorschuss",
   "kontaktaufnahme",
   "frist-abgelaufen",
   "privatperson",
@@ -24,7 +25,7 @@ const happyPathSteps = [
 ];
 
 const cases = [
-  [{}, ["start", "kontaktaufnahme"]],
+  [{}, ["start", "gerichstkostenvorschuss"]],
   [
     { kontaktaufnahme: "no" },
     ["kontaktaufnahme", "ergebnis/kontaktaufnahme-hinweis", "frist-abgelaufen"],

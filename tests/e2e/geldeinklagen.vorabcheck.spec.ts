@@ -20,6 +20,9 @@ test("geldeinklagen can be traversed", async ({ page }) => {
   await geldEinklagen.clickNext();
 
   await expectPageToBeAccessible({ page });
+  await geldEinklagen.fillRadioPage("gerichstkostenvorschuss", "yes");
+
+  await expectPageToBeAccessible({ page });
   await geldEinklagen.fillRadioPage("kontaktaufnahme", "no");
 
   // warning step kontaktaufname-hinweis
