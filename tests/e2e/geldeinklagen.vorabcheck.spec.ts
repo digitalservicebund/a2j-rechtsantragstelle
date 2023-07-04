@@ -37,7 +37,7 @@ test("geldeinklagen can be traversed", async ({ page }) => {
   await geldEinklagen.fillRadioPage("privatperson", "yes");
 
   await expectPageToBeAccessible({ page });
-  await geldEinklagen.fillRadioPage("wohnsitzDeutschland", "yes");
+  await geldEinklagen.fillRadioPage("bundIdAccount", "yes");
 
   await expectPageToBeAccessible({ page });
   await geldEinklagen.fillRadioPage("forderung", "lessOrEqual5000");

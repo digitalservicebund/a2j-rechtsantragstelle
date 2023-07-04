@@ -33,8 +33,10 @@ export const guards = {
   bereichTravel: (context: GeldEinklagenVorabcheckContext) =>
     context.bereich == "travel",
   bereichFilled: (context: GeldEinklagenVorabcheckContext) => !!context.bereich,
-  ...yesNoGuards("wohnsitzDeutschland"),
   ...yesNoGuards("flug"),
+  ...yesNoGuards("bundIdAccount"),
+  bundIdAccountWantTo: (context: GeldEinklagenVorabcheckContext) =>
+    context.bundIdAccount === "wantTo",
   gegenseiteMultiple: (context: GeldEinklagenVorabcheckContext) =>
     context.gegenseite == "multiple",
   gegenseiteStaat: (context: GeldEinklagenVorabcheckContext) =>

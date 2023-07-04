@@ -11,7 +11,7 @@ export const context = {
     "representing",
     "organisation",
   ]),
-  wohnsitzDeutschland: YesNoAnswer,
+  bundIdAccount: z.enum(["yes", "wantTo", "no"]),
   forderung: z.enum([
     "lessOrEqual5000",
     "moreThan5000",

@@ -76,7 +76,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "wohnsitz-deutschland",
+            "target": "bund-id-konto",
             "cond": "privatpersonYes"
           },
           {
@@ -106,26 +106,30 @@
         "BACK": { "target": "privatperson" }
       }
     },
-    "wohnsitz-deutschland": {
+    "bund-id-konto": {
       "meta": { "progressPosition": 16 },
       "on": {
         "SUBMIT": [
           {
             "target": "forderung",
-            "cond": "wohnsitzDeutschlandYes"
+            "cond": "bundIdAccountYes"
           },
           {
-            "target": "ergebnis/wohnsitz-deutschland-abbruch",
-            "cond": "wohnsitzDeutschlandNo"
+            "target": "forderung",
+            "cond": "bundIdAccountWantTo"
+          },
+          {
+            "target": "ergebnis/bund-id-konto-abbruch",
+            "cond": "bundIdAccountNo"
           }
         ],
         "BACK": { "target": "privatperson" }
       }
     },
-    "ergebnis/wohnsitz-deutschland-abbruch": {
+    "ergebnis/bund-id-konto-abbruch": {
       "meta": { "progressPosition": 17 },
       "on": {
-        "BACK": { "target": "wohnsitz-deutschland" }
+        "BACK": { "target": "bund-id-konto" }
       }
     },
     "forderung": {
@@ -141,7 +145,7 @@
             "cond": "forderungIsLessOrEqual5000"
           }
         ],
-        "BACK": { "target": "wohnsitz-deutschland" }
+        "BACK": { "target": "bund-id-konto" }
       }
     },
     "ergebnis/forderung-abbruch": {

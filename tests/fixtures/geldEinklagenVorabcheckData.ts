@@ -4,7 +4,7 @@ export const happyPathData: GeldEinklagenVorabcheckContext = {
   kontaktaufnahme: "yes",
   fristAbgelaufen: "yes",
   privatperson: "yes",
-  wohnsitzDeutschland: "yes",
+  bundIdAccount: "yes",
   forderung: "lessOrEqual5000",
   bereich: "shopping",
   gegenseite: "privatperson",
