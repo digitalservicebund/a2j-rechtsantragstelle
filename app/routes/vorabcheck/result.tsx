@@ -75,7 +75,8 @@ export function Step() {
 
   return (
     <ResultPage
-      content={{ ...resultContent, ...commonContent }}
+      content={resultContent}
+      common={commonContent}
       backDestination={previousStep}
       reasonsToDisplay={reasonsToDisplay}
       progressStep={progress.current}

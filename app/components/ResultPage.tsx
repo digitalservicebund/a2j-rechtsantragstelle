@@ -21,7 +21,8 @@ import type { StrapiInfoBoxItem } from "~/services/cms/models/StrapiInfoBoxItem"
 import type { InfoBoxItemProps } from "~/components/InfoBoxItem";
 
 type ResultPageProps = {
-  content: StrapiResultPage & StrapiVorabCheckCommon;
+  content: StrapiResultPage;
+  common: StrapiVorabCheckCommon;
   reasonsToDisplay?: StrapiElementWithId[];
   backDestination?: string;
   progressStep: number;
@@ -71,6 +72,7 @@ const pageTypeProperties = (
 
 const ResultPage = ({
   content,
+  common,
   backDestination,
   reasonsToDisplay = [],
   progressStep,
@@ -101,7 +103,7 @@ const ResultPage = ({
       <div className={pageProperties.background}>
         <Container paddingTop="24">
           <ProgressBar
-            label={content.progressBarLabel}
+            label={common.progressBarLabel}
             progress={progressStep}
             max={progressTotal}
           />
@@ -123,7 +125,7 @@ const ResultPage = ({
             overhangingBackground={true}
           >
             <div className="ds-stack-8">
-              <p className="ds-label-02-bold">{content.resultHintLabel}</p>
+              <p className="ds-label-02-bold">{common.resultHintLabel}</p>
               <RichText markdown={content.hintText.text} />
             </div>
           </Container>
@@ -181,7 +183,7 @@ const ResultPage = ({
                 size="large"
                 className="w-fit"
               >
-                {content.backButtonDefaultLabel}
+                {common.backButtonDefaultLabel}
               </Button>
             )}
 
@@ -196,7 +198,7 @@ const ResultPage = ({
                   size="large"
                   className="w-fit"
                 >
-                  {content.nextLink?.text ?? content.nextButtonDefaultLabel}
+                  {content.nextLink?.text ?? common.nextButtonDefaultLabel}
                 </Button>
               </form>
             )}
