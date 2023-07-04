@@ -14,10 +14,6 @@ const happyPathSteps = [
   "start",
   "kontaktaufnahme",
   "frist-abgelaufen",
-  "verjaehrt",
-  "beweise",
-  "gerichtsentscheidung",
-  "verfahren-begonnen",
   "privatperson",
   "wohnsitz-deutschland",
   "forderung",
@@ -35,31 +31,7 @@ const cases = [
   ],
   [
     { fristAbgelaufen: "no" },
-    ["frist-abgelaufen", "ergebnis/frist-abgelaufen-hinweis", "verjaehrt"],
-  ],
-  [
-    { verjaehrt: "yes" },
-    ["verjaehrt", "ergebnis/verjaehrt-hinweis", "beweise"],
-  ],
-  [
-    { beweise: "no" },
-    ["beweise", "ergebnis/beweise-hinweis", "gerichtsentscheidung"],
-  ],
-  [
-    { gerichtsentscheidung: "yes" },
-    [
-      "gerichtsentscheidung",
-      "ergebnis/gerichtsentscheidung-hinweis",
-      "verfahren-begonnen",
-    ],
-  ],
-  [
-    { verfahrenBegonnen: "yes" },
-    [
-      "verfahren-begonnen",
-      "ergebnis/verfahren-begonnen-hinweis",
-      "privatperson",
-    ],
+    ["frist-abgelaufen", "ergebnis/frist-abgelaufen-hinweis", "privatperson"],
   ],
   [
     { privatperson: "nonPrivate" },

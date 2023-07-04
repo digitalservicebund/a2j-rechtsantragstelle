@@ -4,10 +4,6 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 export const context = {
   kontaktaufnahme: YesNoAnswer,
   fristAbgelaufen: z.enum(["yes", "notSet", "no"]),
-  verjaehrt: YesNoAnswer,
-  beweise: YesNoAnswer,
-  gerichtsentscheidung: YesNoAnswer,
-  verfahrenBegonnen: YesNoAnswer,
   privatperson: z.enum([
     "yes",
     "nonPrivate",

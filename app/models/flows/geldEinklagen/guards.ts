@@ -19,10 +19,6 @@ export const guards = {
   ...yesNoGuards("fristAbgelaufen"),
   fristAbgelaufenNotSet: (context: GeldEinklagenVorabcheckContext) =>
     context.fristAbgelaufen === "notSet",
-  ...yesNoGuards("verjaehrt"),
-  ...yesNoGuards("beweise"),
-  ...yesNoGuards("gerichtsentscheidung"),
-  ...yesNoGuards("verfahrenBegonnen"),
   ...yesNoGuards("privatperson"),
   notSinglePerson: (context: GeldEinklagenVorabcheckContext) =>
     Boolean(context.privatperson && context.privatperson !== "yes"),

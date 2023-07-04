@@ -34,34 +34,6 @@ test("geldeinklagen can be traversed", async ({ page }) => {
   await geldEinklagen.clickNext();
 
   await expectPageToBeAccessible({ page });
-  await geldEinklagen.fillRadioPage("verjaehrt", "yes");
-
-  // warning step verjaehrt-hinweis
-  await expectPageToBeAccessible({ page });
-  await geldEinklagen.clickNext();
-
-  await expectPageToBeAccessible({ page });
-  await geldEinklagen.fillRadioPage("beweise", "no");
-
-  // warning step beweise-hinweis
-  await expectPageToBeAccessible({ page });
-  await geldEinklagen.clickNext();
-
-  await expectPageToBeAccessible({ page });
-  await geldEinklagen.fillRadioPage("gerichtsentscheidung", "yes");
-
-  // warning step gerichtsentscheidung-hinweis
-  await expectPageToBeAccessible({ page });
-  await geldEinklagen.clickNext();
-
-  await expectPageToBeAccessible({ page });
-  await geldEinklagen.fillRadioPage("verfahrenBegonnen", "yes");
-
-  // warning step verfahren-begonnen-hinweis
-  await expectPageToBeAccessible({ page });
-  await geldEinklagen.clickNext();
-
-  await expectPageToBeAccessible({ page });
   await geldEinklagen.fillRadioPage("privatperson", "yes");
 
   await expectPageToBeAccessible({ page });
