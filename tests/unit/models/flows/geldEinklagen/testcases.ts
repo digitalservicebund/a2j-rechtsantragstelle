@@ -67,6 +67,12 @@ const cases = [
     ["privatperson", "ergebnis/privatperson-abbruch"],
   ],
   [
+    { privatperson: "organisation" },
+    ["privatperson", "ergebnis/privatperson-abbruch"],
+  ],
+  [{ privatperson: "nonSingle" }, ["privatperson", "bund-id-konto"]],
+  [{ privatperson: "representing" }, ["privatperson", "bund-id-konto"]],
+  [
     { bundIdAccount: "no" },
     ["bund-id-konto", "ergebnis/bund-id-konto-abbruch"],
   ],

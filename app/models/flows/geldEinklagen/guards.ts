@@ -23,9 +23,10 @@ export const guards = {
   ...yesNoGuards("fristAbgelaufen"),
   fristAbgelaufenNotSet: (context: GeldEinklagenVorabcheckContext) =>
     context.fristAbgelaufen === "notSet",
-  ...yesNoGuards("privatperson"),
-  notSinglePerson: (context: GeldEinklagenVorabcheckContext) =>
-    Boolean(context.privatperson && context.privatperson !== "yes"),
+  privatpersonEligible: (context: GeldEinklagenVorabcheckContext) =>
+    ["yes", "nonSingle", "representing"].includes(context.privatperson ?? ""),
+  privatpersonNotEligible: (context: GeldEinklagenVorabcheckContext) =>
+    ["nonPrivate", "organisation"].includes(context.privatperson ?? ""),
   forderungIsNotLessOrEqual5000: (context: GeldEinklagenVorabcheckContext) =>
     Boolean(context.forderung && context.forderung !== "lessOrEqual5000"),
   forderungIsLessOrEqual5000: (context: GeldEinklagenVorabcheckContext) =>

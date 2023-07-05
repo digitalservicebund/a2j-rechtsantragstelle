@@ -238,11 +238,11 @@
         "SUBMIT": [
           {
             "target": "bund-id-konto",
-            "cond": "privatpersonYes"
+            "cond": "privatpersonEligible"
           },
           {
             "target": "ergebnis/privatperson-abbruch",
-            "cond": "notSinglePerson"
+            "cond": "privatpersonNotEligible"
           }
         ],
         "BACK": [
