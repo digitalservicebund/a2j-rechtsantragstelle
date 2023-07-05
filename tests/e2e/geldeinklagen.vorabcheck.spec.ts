@@ -56,9 +56,7 @@ test("geldeinklagen can be traversed", async ({ page }) => {
 
   await expectPageToBeAccessible({ page });
   await expect(
-    page
-      .getByRole("heading")
-      .filter({ hasText: "Finden Sie jetzt Ihr Amtsgericht" })
+    page.getByRole("heading").filter({ hasText: "Super" })
   ).toHaveCount(1);
 });
 
