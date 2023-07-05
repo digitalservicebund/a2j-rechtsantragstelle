@@ -75,6 +75,46 @@ describe("buildFlowController", () => {
       ).toBe(true);
     });
 
+    it("returns true if final step but SUBMIT given as empty array", () => {
+      expect(
+        buildFlowController({
+          flow: {
+            id: "/flow/final/",
+            initial: "step1",
+            states: {
+              step1: {
+                on: {
+                  SUBMIT: [],
+                  BACK: { target: "step0" },
+                },
+              },
+            },
+          },
+          data: {},
+        }).isFinal("step1")
+      ).toBe(true);
+    });
+
+    it("returns true if final step but SUBMIT given as empty object", () => {
+      expect(
+        buildFlowController({
+          flow: {
+            id: "/flow/final/",
+            initial: "step1",
+            states: {
+              step1: {
+                on: {
+                  SUBMIT: {},
+                  BACK: { target: "step0" },
+                },
+              },
+            },
+          },
+          data: {},
+        }).isFinal("step1")
+      ).toBe(true);
+    });
+
     it("returns false if not final step", () => {
       expect(
         buildFlowController({

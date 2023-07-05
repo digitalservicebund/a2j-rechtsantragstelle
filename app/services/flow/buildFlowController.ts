@@ -50,7 +50,12 @@ const isFinalStep = (
   stepId: string
 ) => {
   const transitions = machine.getStateNodeByPath(stepId).config.on;
-  return Boolean(transitions && !("SUBMIT" in transitions));
+  return Boolean(
+    transitions &&
+      (!("SUBMIT" in transitions) ||
+        JSON.stringify(transitions["SUBMIT"]) == "{}" ||
+        JSON.stringify(transitions["SUBMIT"]) == "[]")
+  );
 };
 
 export const buildFlowController = ({
