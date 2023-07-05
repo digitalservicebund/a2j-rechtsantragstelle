@@ -101,14 +101,12 @@
     "ergebnis/bereich-familie-abbruch": {
       "meta": { "progressPosition": 21 },
       "on": {
-        "SUBMIT": [],
         "BACK": { "target": "bereich" }
       }
     },
     "ergebnis/bereich-arbeit-abbruch": {
       "meta": { "progressPosition": 21 },
       "on": {
-        "SUBMIT": [],
         "BACK": { "target": "bereich" }
       }
     },
