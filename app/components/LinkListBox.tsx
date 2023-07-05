@@ -1,6 +1,7 @@
 import { z } from "zod";
 import Heading, { HeadingPropsSchema } from "./Heading";
 import Button, { ButtonPropsSchema } from "./Button";
+import { Link } from "@remix-run/react";
 
 export const LinkListBoxPropsSchema = z.object({
   identifier: z.string().optional().nullable(),
@@ -37,13 +38,13 @@ const LinkListBox = ({
         {links && (
           <div className="flex flex-col">
             {links.map((link) => (
-              <a
+              <Link
                 className="underline"
-                key={link ? link.text : ""}
-                href={link ? link.url ?? undefined : undefined}
+                key={link?.text ?? ""}
+                to={link?.url ?? ""}
               >
-                {link ? link.text : ""}
-              </a>
+                {link?.text}
+              </Link>
             ))}
           </div>
         )}
