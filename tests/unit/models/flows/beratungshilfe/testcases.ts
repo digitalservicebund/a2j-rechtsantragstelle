@@ -6,7 +6,7 @@ import type { BeratungshilfeVorabcheckContext } from "~/models/flows/beratungshi
 import type { TestCases } from "../flows.test";
 
 const machine = createMachine<BeratungshilfeVorabcheckContext>(
-  { ...beratungshilfeFlow, context: {}, predictableActionArguments: true },
+  { ...beratungshilfeFlow, context: {} },
   { guards }
 );
 

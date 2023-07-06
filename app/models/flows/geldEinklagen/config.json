@@ -1,4 +1,5 @@
 {
+  "predictableActionArguments": true,
   "id": "/geld-einklagen/vorabcheck/",
   "initial": "start",
   "states": {

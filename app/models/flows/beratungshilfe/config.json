@@ -1,4 +1,5 @@
 {
+  "predictableActionArguments": true,
   "id": "/beratungshilfe/vorabcheck/",
   "initial": "rechtsschutzversicherung",
   "states": {

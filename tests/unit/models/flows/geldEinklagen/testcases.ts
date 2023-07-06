@@ -6,7 +6,7 @@ import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
 import type { TestCases } from "../flows.test";
 
 const machine = createMachine<GeldEinklagenVorabcheckContext>(
-  { ...geldEinklagenFlow, context: {}, predictableActionArguments: true },
+  { ...geldEinklagenFlow, context: {} },
   { guards }
 );
 

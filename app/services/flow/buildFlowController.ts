@@ -11,7 +11,6 @@ type GetStateMachineArgs = {
 const getStateMachine = ({ config, context, guards }: GetStateMachineArgs) => {
   const stateMachineConfig = {
     ...config,
-    predictableActionArguments: true,
     context,
   };
 
