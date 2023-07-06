@@ -37,13 +37,10 @@
       }
     },
     "ergebnis/gerichtskostenvorschuss-abbruch": {
-      "meta": { "progressPosition": 3 },
-      "on": {
-        "BACK": { "target": "gerichtskostenvorschuss" }
-      }
+      "on": { "BACK": { "target": "gerichtskostenvorschuss" } }
     },
     "forderung": {
-      "meta": { "progressPosition": 18 },
+      "meta": { "progressPosition": 4 },
       "on": {
         "SUBMIT": [
           {
@@ -68,13 +65,10 @@
       }
     },
     "ergebnis/forderung-abbruch": {
-      "meta": { "progressPosition": 19 },
-      "on": {
-        "BACK": { "target": "forderung" }
-      }
+      "on": { "BACK": { "target": "forderung" } }
     },
     "bereich": {
-      "meta": { "progressPosition": 20 },
+      "meta": { "progressPosition": 5 },
       "on": {
         "SUBMIT": [
           {
@@ -94,25 +88,17 @@
             "cond": "bereichFilled"
           }
         ],
-        "BACK": {
-          "target": "forderung"
-        }
+        "BACK": { "target": "forderung" }
       }
     },
     "ergebnis/bereich-familie-abbruch": {
-      "meta": { "progressPosition": 21 },
-      "on": {
-        "BACK": { "target": "bereich" }
-      }
+      "on": { "BACK": { "target": "bereich" } }
     },
     "ergebnis/bereich-arbeit-abbruch": {
-      "meta": { "progressPosition": 21 },
-      "on": {
-        "BACK": { "target": "bereich" }
-      }
+      "on": { "BACK": { "target": "bereich" } }
     },
     "flug": {
-      "meta": { "progressPosition": 22 },
+      "meta": { "progressPosition": 6 },
       "on": {
         "SUBMIT": [
           {
@@ -124,20 +110,14 @@
             "cond": "flugNo"
           }
         ],
-        "BACK": {
-          "target": "bereich"
-        }
+        "BACK": { "target": "bereich" }
       }
     },
     "ergebnis/flug-abbruch": {
-      "meta": { "progressPosition": 23 },
-      "on": {
-        "BACK": { "target": "flug" }
-      }
+      "on": { "BACK": { "target": "flug" } }
     },
-
     "gegenseite": {
-      "meta": { "progressPosition": 24 },
+      "meta": { "progressPosition": 7 },
       "on": {
         "SUBMIT": [
           {
@@ -164,16 +144,13 @@
       }
     },
     "ergebnis/gegenseite-mehrere-abbruch": {
-      "meta": { "progressPosition": 25 },
       "on": { "BACK": "gegenseite" }
     },
     "ergebnis/gegenseite-staat-abbruch": {
-      "meta": { "progressPosition": 25 },
       "on": { "BACK": "gegenseite" }
     },
-
     "kontaktaufnahme": {
-      "meta": { "progressPosition": 2 },
+      "meta": { "progressPosition": 8 },
       "on": {
         "SUBMIT": [
           {
@@ -189,14 +166,14 @@
       }
     },
     "ergebnis/kontaktaufnahme-hinweis": {
-      "meta": { "progressPosition": 3 },
+      "meta": { "progressPosition": 9 },
       "on": {
         "SUBMIT": { "target": "frist-abgelaufen" },
         "BACK": { "target": "kontaktaufnahme" }
       }
     },
     "frist-abgelaufen": {
-      "meta": { "progressPosition": 4 },
+      "meta": { "progressPosition": 10 },
       "on": {
         "SUBMIT": [
           {
@@ -225,14 +202,14 @@
       }
     },
     "ergebnis/frist-abgelaufen-hinweis": {
-      "meta": { "progressPosition": 5 },
+      "meta": { "progressPosition": 11 },
       "on": {
         "SUBMIT": "privatperson",
         "BACK": "frist-abgelaufen"
       }
     },
     "privatperson": {
-      "meta": { "progressPosition": 14 },
+      "meta": { "progressPosition": 12 },
       "on": {
         "SUBMIT": [
           {
@@ -261,11 +238,10 @@
       }
     },
     "ergebnis/privatperson-abbruch": {
-      "meta": { "progressPosition": 15 },
       "on": { "BACK": "privatperson" }
     },
     "bund-id-konto": {
-      "meta": { "progressPosition": 16 },
+      "meta": { "progressPosition": 13 },
       "on": {
         "SUBMIT": [
           {
@@ -285,12 +261,9 @@
       }
     },
     "ergebnis/bund-id-konto-abbruch": {
-      "meta": { "progressPosition": 17 },
       "on": { "BACK": "bund-id-konto" }
     },
-
     "ergebnis/abschluss": {
-      "meta": { "progressPosition": 26 },
       "on": { "BACK": "bund-id-konto" }
     }
   }
