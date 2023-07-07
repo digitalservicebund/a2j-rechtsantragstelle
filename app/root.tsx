@@ -13,6 +13,7 @@ import {
 import stylesheet from "~/styles.css";
 import fontsStylesheet from "@digitalservice4germany/angie/fonts.css";
 import { withSentry } from "@sentry/remix";
+import { PostHog } from "posthog-node";
 import { getWebConfig } from "~/services/config";
 import { getStrapiFooter } from "~/services/cms";
 import { getFooterProps } from "~/services/props/getFooterProps";
@@ -29,12 +30,29 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
 
-export const loader = async ({ request }: LoaderArgs) =>
-  json({
+export const loader = async ({ request }: LoaderArgs) => {
+  if (getWebConfig().POSTHOG_API_KEY) {
+    const client = new PostHog(getWebConfig().POSTHOG_API_KEY, {
+      host: getWebConfig().POSTHOG_API_HOST,
+    });
+
+    if (
+      request.url.includes("geld-einklagen") &&
+      (await client.isFeatureEnabled("hideOVFlow", "backend"))
+    ) {
+      throw new Response(null, {
+        status: 404,
+        statusText: "Seite konnte nicht gefunden werden",
+      });
+    }
+  }
+
+  return json({
     breadcrumbs: await breadcrumbsFromURL(request.url),
     footer: getFooterProps(await getStrapiFooter()),
     hasTrackingConsent: await hasTrackingConsent({ request }),
   });
+};
 
 function App() {
   const { footer, hasTrackingConsent, breadcrumbs } =
