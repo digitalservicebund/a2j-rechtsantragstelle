@@ -8,6 +8,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useRouteError,
 } from "@remix-run/react";
 import stylesheet from "~/styles.css";
 import fontsStylesheet from "@digitalservice4germany/angie/fonts.css";
@@ -20,6 +21,8 @@ import Breadcrumbs, { breadcrumbsFromURL } from "./components/Breadcrumbs";
 import Header from "./components/PageHeader";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { Analytics } from "./services/analytics/Analytics";
+import ErrorBox from "./components/ErrorBox";
+import errorMessage from "./util/errorMessage";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: fontsStylesheet },
@@ -66,4 +69,22 @@ function App() {
   );
 }
 
+export function ErrorBoundary() {
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <Header />
+        <main className="flex-grow">
+          <ErrorBox errorMessage={errorMessage(useRouteError())} />
+        </main>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
 export default withSentry(App);
