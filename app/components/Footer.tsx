@@ -61,9 +61,11 @@ export default function Footer({
       <Container>
         <div className="flex flex-wrap items-start justify-between gap-x-32 gap-y-40">
           <div className="flex flex-wrap flex-col-reverse gap-x-16 gap-y-8 sm:flex-row">
-            {image != undefined ? (
-              <Image {...{ ...image, style: { width: "120px" } }} />
-            ) : null}
+            {image?.url && (
+              <div>
+                <Image url={image.url} width={120} />
+              </div>
+            )}
             <div className="ds-stack-8">
               {paragraphs.map((paragraph) => (
                 <RichText

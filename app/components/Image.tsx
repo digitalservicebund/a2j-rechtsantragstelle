@@ -2,8 +2,8 @@ import { z } from "zod";
 
 export const ImagePropsSchema = z.object({
   url: z.string(),
-  width: z.number(),
-  height: z.number(),
+  width: z.number().optional(),
+  height: z.number().optional(),
   alternativeText: z.string().optional(),
 });
 
@@ -16,7 +16,7 @@ function Image({ url, width, height, alternativeText, ...props }: ImageProps) {
     <img
       {...props}
       src={url}
-      alt={alternativeText ?? ""}
+      alt={alternativeText}
       width={width}
       height={height}
     />
