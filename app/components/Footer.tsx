@@ -63,7 +63,11 @@ export default function Footer({
           <div className="flex flex-wrap flex-col-reverse gap-x-16 gap-y-8 sm:flex-row">
             {image?.url && (
               <div>
-                <Image url={image.url} width={120} />
+                <Image
+                  url={image.url}
+                  width={120}
+                  alternativeText={image.alternativeText}
+                />
               </div>
             )}
             <div className="ds-stack-8">
