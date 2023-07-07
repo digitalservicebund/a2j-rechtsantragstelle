@@ -16,7 +16,7 @@ export type BoxProps = z.infer<typeof BoxPropsSchema>;
 
 const Box = ({ identifier, label, heading, content, button }: BoxProps) => {
   return (
-    <div className="ds-stack-16" id={identifier}>
+    <div className="ds-stack-16 scroll-my-40" id={identifier}>
       <div className="ds-stack-8">
         {label && <Heading {...label} />}
         {heading && <Heading {...heading} />}

@@ -12,7 +12,7 @@ export type InfoBoxProps = z.infer<typeof InfoBoxPropsSchema>;
 
 const InfoBox = ({ identifier, items, heading }: InfoBoxProps) => {
   return (
-    <div className="ds-stack-8" id={identifier}>
+    <div className="ds-stack-8 scroll-my-40" id={identifier}>
       {heading && <Heading {...heading} />}
       <ul className="list-none ds-stack-32 ps-0 info-box">
         {items.map((item) => (
