@@ -5,13 +5,13 @@ import zlib from "node:zlib";
 import fs from "node:fs";
 import path from "node:path";
 import { applyDataConversions } from "./convertJsonDataTable";
-import { extractJsonFilesFromZip } from "~/util/file/extractJsonFilesFromZip";
+import { extractJsonFilesFromZip } from "../../util/file/extractJsonFilesFromZip";
 import dotenv from "dotenv";
 
 dotenv.config();
 const GERICHTSFINDER_ENCRYPTION_KEY = process.env.GERICHTSFINDER_ENCRYPTION_KEY;
 const OUTFILE = path.resolve(
-  path.join(process.cwd(), "app/services/gerichtsfinder/data.enc")
+  path.join(process.cwd(), "app/services/gerichtsfinder/data/courtData.enc")
 );
 
 function getCipher(password: string, forward: boolean) {

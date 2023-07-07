@@ -31,14 +31,29 @@ describe("groupByFirstLetter", () => {
 });
 
 describe("normalizeUrl", () => {
-  it("leaves https urls alone", () => {
+  it("by default leaves https alone", () => {
     const url = "https://test.url";
     expect(normalizeURL(url)).toEqual(url);
   });
 
-  it("prepends https to urls if missing", () => {
+  it("By default prepends https to urls if missing", () => {
     const url = "test.url";
     expect(normalizeURL(url)).toEqual(`https://${url}`);
+  });
+
+  it("can prepend http if wanted", () => {
+    const url = "test.url";
+    expect(normalizeURL(url, "http")).toEqual(`http://${url}`);
+  });
+
+  it("can enforce http if wanted", () => {
+    const url = "https://test.url";
+    expect(normalizeURL(url, "http")).toEqual("http://test.url");
+  });
+
+  it("leaves http if wanted", () => {
+    const url = "http://test.url";
+    expect(normalizeURL(url, "http")).toEqual(url);
   });
 });
 

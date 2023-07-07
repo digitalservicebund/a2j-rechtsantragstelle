@@ -28,6 +28,8 @@ Open the app in `localhost:3000`
 npm test
 ```
 
+To run a subset of test matching a specific string, use `npm run test -- -t "STRING_TO_MATCH" --no-coverage`
+
 #### e2e
 
 ```sh

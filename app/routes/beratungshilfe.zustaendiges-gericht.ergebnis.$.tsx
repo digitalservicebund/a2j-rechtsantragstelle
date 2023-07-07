@@ -11,12 +11,13 @@ import {
   edgeCasesForPlz,
   findCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import urlMap from "~/services/gerichtsfinder/data/sanitizedURLs.json";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
   { title: data?.meta.title ?? location.pathname },
 ];
 
-export const loader = async ({ request, params }: LoaderArgs) => {
+export const loader = async ({ params }: LoaderArgs) => {
   const splat = params["*"];
   invariant(typeof splat !== "undefined");
 
@@ -39,6 +40,9 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   const { content, meta } = await getStrapiPage({
     slug: "/beratungshilfe/zustaendiges-gericht/ergebnis",
   });
+
+  if (court.URL1 && court.URL1 in urlMap)
+    court.URL1 = urlMap[court.URL1 as keyof typeof urlMap];
 
   return json({
     court,

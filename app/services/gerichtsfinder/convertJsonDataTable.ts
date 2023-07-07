@@ -4,7 +4,7 @@ import type {
   Jmtd14VTErwerberPlzstrn,
   Jmtd14VTErwerberPlzortk,
 } from "./types";
-import { objectMap, isKeyOfObject } from "~/util/objects";
+import { objectMap, isKeyOfObject } from "../../util/objects";
 
 export type GerbehFile = Record<string, Jmtd14VTErwerberGerbeh | undefined>;
 export type PlzOrtkFile = Record<string, Jmtd14VTErwerberPlzortk[]>;
