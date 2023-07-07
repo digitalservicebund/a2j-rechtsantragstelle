@@ -57,32 +57,33 @@ export default function Footer({
   };
 
   return (
-    // TODO: footer should be outermost element
-    <Container>
-      <footer className="pt-48 pb-56 flex flex-wrap items-start justify-between gap-x-32 gap-y-40">
-        <div className="flex flex-wrap flex-col-reverse gap-x-16 gap-y-8 sm:flex-row">
-          {image != undefined ? (
-            <Image {...{ ...image, style: { width: "120px" } }} />
-          ) : null}
-          <div className="ds-stack-8">
-            {paragraphs.map((paragraph) => (
-              <RichText
-                markdown={paragraph.text}
-                renderer={paragraphRenderer}
-                key={paragraph.text}
-              />
-            ))}
-            <div className="ds-label-03-reg">
-              <ResetCookieLink />
+    <footer className="pt-48 pb-56">
+      <Container>
+        <div className="flex flex-wrap items-start justify-between gap-x-32 gap-y-40">
+          <div className="flex flex-wrap flex-col-reverse gap-x-16 gap-y-8 sm:flex-row">
+            {image != undefined ? (
+              <Image {...{ ...image, style: { width: "120px" } }} />
+            ) : null}
+            <div className="ds-stack-8">
+              {paragraphs.map((paragraph) => (
+                <RichText
+                  markdown={paragraph.text}
+                  renderer={paragraphRenderer}
+                  key={paragraph.text}
+                />
+              ))}
+              <div className="ds-label-03-reg">
+                <ResetCookieLink />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex flex-wrap gap-x-32 gap-y-8">
-          {renderLinks(linksFirstColumn)}
-          {renderLinks(linksSecondColumn)}
+          <div className="flex flex-wrap gap-x-32 gap-y-8">
+            {renderLinks(linksFirstColumn)}
+            {renderLinks(linksSecondColumn)}
+          </div>
         </div>
-      </footer>
-    </Container>
+      </Container>
+    </footer>
   );
 }
