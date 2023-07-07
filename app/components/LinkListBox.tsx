@@ -36,17 +36,18 @@ const LinkListBox = ({
         {label && <Heading {...label} />}
         {heading && <Heading {...heading} />}
         {links && (
-          <div className="flex flex-col">
+          <ul className="list-none pl-0">
             {links.map((link) => (
-              <Link
-                className="underline"
-                key={link?.text ?? ""}
-                to={link?.url ?? ""}
-              >
-                {link?.text}
-              </Link>
+              <li key={link?.text ?? ""} className="my-8">
+                <Link
+                  className="text-link visited:text-black !text-black"
+                  to={link?.url ?? ""}
+                >
+                  ↓ {link?.text}
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
       {button && (
