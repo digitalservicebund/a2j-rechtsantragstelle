@@ -24,6 +24,7 @@ function isValidPostcode(postcode: string) {
 const clientSchema = z.object({
   postcode: z
     .string()
+    .trim()
     .length(5, { message: "length" })
     .refine((postcode) => isValidPostcode(postcode), { message: "invalid" }),
 });
