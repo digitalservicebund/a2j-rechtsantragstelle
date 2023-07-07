@@ -44,17 +44,31 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
   // Slug change to keep Strapi slugs without ergebnis/
   const slug = pathname.replace(/ergebnis\//, "");
+  const common = await getStrapiVorabCheckCommon();
   const content = await getStrapiResultPage({ slug });
   const reasonElementsWithID =
     content.reasonings.data?.map((el) => el.attributes) ?? [];
 
+  const hideNextButton =
+    flowController.isFinal(stepId) && content.nextLink?.url === undefined;
+  const nextButton = hideNextButton
+    ? undefined
+    : {
+        destination: content.nextLink?.url ?? undefined,
+        label: content.nextLink?.text ?? common.nextButtonDefaultLabel,
+      };
+
   return json({
-    common: await getStrapiVorabCheckCommon(),
+    common,
     content,
     meta: content.meta,
-    reasonsToDisplay: getReasonsToDisplay(reasonElementsWithID, data),
+    reasons: getReasonsToDisplay(reasonElementsWithID, data),
     progress: flowController.getProgress(stepId),
-    previousStep: flowController.getPrevious(stepId)?.url,
+    nextButton,
+    backButton: {
+      destination: flowController.getPrevious(stepId)?.url,
+      label: common.backButtonDefaultLabel,
+    },
   });
 };
 
@@ -88,7 +102,7 @@ const backgrounds: Record<StrapiResultPageType, string> = {
 };
 
 export function Step() {
-  const { common, content, reasonsToDisplay, progress, previousStep } =
+  const { common, content, reasons, progress, nextButton, backButton } =
     useLoaderData<typeof loader>();
 
   const documentsList = content.documents.data?.attributes.element ?? [];
@@ -143,7 +157,7 @@ export function Step() {
           <PageContent content={content.freeZone} />
         </Container>
       )}
-      {reasonsToDisplay.length > 0 && (
+      {reasons.length > 0 && (
         <Container>
           <InfoBox
             heading={{
@@ -152,7 +166,7 @@ export function Step() {
               text: "Begründung",
               className: "mb-16",
             }}
-            items={reasonsToDisplay}
+            items={reasons}
           />
         </Container>
       )}
@@ -171,16 +185,9 @@ export function Step() {
       )}
       <div className={`${documentsList.length > 0 && "bg-blue-100"}`}>
         <Container>
-          <ButtonNavigation
-            back={{
-              destination: previousStep,
-              label: common.backButtonDefaultLabel,
-            }}
-            next={{
-              destination: content.nextLink?.url ?? undefined,
-              label: content.nextLink?.text ?? undefined,
-            }}
-          />
+          <form method="post">
+            <ButtonNavigation back={backButton} next={nextButton} />
+          </form>
         </Container>
         <div className="pb-48">
           <PageContent content={nextSteps} />

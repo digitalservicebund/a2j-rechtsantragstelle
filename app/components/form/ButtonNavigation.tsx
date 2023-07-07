@@ -3,18 +3,18 @@ import ButtonContainer from "~/components/ButtonContainer";
 
 type NavigationButton = {
   destination?: string;
-  label?: string;
+  label: string;
 };
 
 interface ButtonNavigationProps {
-  back: NavigationButton;
-  next: NavigationButton;
+  back?: NavigationButton;
+  next?: NavigationButton;
 }
 
 export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
   return (
     <ButtonContainer reverseOrder={true}>
-      {back.label && (
+      {back && (
         <Button
           href={back.destination}
           look="tertiary"
@@ -24,7 +24,7 @@ export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
           {back.label}
         </Button>
       )}
-      {next.label && (
+      {next && (
         <Button
           type={next.destination ? undefined : "submit"}
           name={next.destination ? undefined : "_action"}
