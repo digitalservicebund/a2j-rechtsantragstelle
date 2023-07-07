@@ -56,8 +56,11 @@ a {
   @apply decoration-1;
 }
 
-.text-link:hover {
-  @apply decoration-[3px];
+/* Only apply hover effect on devices that support it, see https://stackoverflow.com/a/28058919 */
+@media (hover: hover) {
+  .text-link:hover {
+    @apply decoration-[3px];
+  }
 }
 
 .text-link:visited {
