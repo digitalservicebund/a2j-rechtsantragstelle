@@ -24,6 +24,8 @@ import {
   flowSpecifics,
   splatFromParams,
 } from "./flowSpecifics";
+import type { StrapiHeading } from "~/services/cms/models/StrapiHeading";
+import type { StrapiSelect } from "~/services/cms/models/StrapiSelect";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
@@ -52,6 +54,19 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   };
 
   const formPageContent = await getStrapiVorabCheckPage({ slug: pathname });
+
+  // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
+  const mainHeading = formPageContent.pre_form.filter(
+    (component) =>
+      component.__component === "basic.heading" && component.tagName === "h1"
+  ) as StrapiHeading[];
+  const formLegend = mainHeading.length > 0 ? mainHeading[0].text : null;
+
+  formPageContent.form.forEach(({ __component, label }, idx) => {
+    if (__component === "form-elements.select" && label === null) {
+      (formPageContent.form[idx] as StrapiSelect).altLabel = formLegend;
+    }
+  });
 
   return json({
     defaultValues: data,
@@ -117,7 +132,7 @@ export function Step() {
         <Container paddingTop="24">
           <div className="ds-stack-16">
             <ProgressBar
-              label={commonContent?.progressBarLabel}
+              label={commonContent.progressBarLabel}
               progress={progress.current}
               max={progress.total}
             />

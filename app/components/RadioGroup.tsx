@@ -22,17 +22,19 @@ const RadioGroup = ({ name, options, label, altLabel }: RadioGroupProps) => {
     error !== undefined ? "Bitte treffen Sie eine Auswahl." : undefined;
   return (
     <fieldset
-      aria-label={altLabel ? altLabel : undefined}
-      className="border-0 p-0 m-0 ds-stack-16"
+      className="border-0 p-0 m-0"
       aria-invalid={error !== undefined}
       aria-describedby={error && errorId}
       aria-errormessage={error && errorId}
     >
-      {label && <legend>{label}</legend>}
-      {options.map((o) => (
-        <Radio key={o.value} name={name} value={o.value} text={o.text} />
-      ))}
-      <InputError id={errorId}>{errorMessage}</InputError>
+      {altLabel && <legend className="sr-only">{altLabel}</legend>}
+      <div className="ds-stack-16">
+        {label && <legend>{label}</legend>}
+        {options.map((o) => (
+          <Radio key={o.value} name={name} value={o.value} text={o.text} />
+        ))}
+        <InputError id={errorId}>{errorMessage}</InputError>
+      </div>
     </fieldset>
   );
 };
