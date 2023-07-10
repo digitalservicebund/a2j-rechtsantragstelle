@@ -23,6 +23,8 @@ import { getRadioGroupProps } from "~/services/props/getRadioGroupProps";
 import type { Replacements } from "~/util/fillTemplate";
 import LinkListBox from "./LinkListBox";
 import { getLinkListBoxProps } from "~/services/props/getLinkListBoxProps";
+import BoxWithImage from "./BoxWithImage";
+import { getBoxWithImageProps } from "~/services/props/getBoxWithImageProps";
 
 type PageContentProps = {
   content: Array<StrapiContent>;
@@ -53,9 +55,11 @@ const wrapInContainer = (
     return reactElement;
   }
   const isBox = cmsData.__component === "page.box";
+  const isBoxWithImage = cmsData.__component === "page.box-with-image";
+
   const config = transformCmsData(cmsData.container);
   return (
-    <Container {...config} overhangingBackground={isBox}>
+    <Container {...config} overhangingBackground={isBox || isBoxWithImage}>
       {reactElement}
     </Container>
   );
@@ -100,9 +104,11 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
     case "page.box":
       return <Box {...getBoxProps(cms)} key={key} />;
     case "page.info-box":
-      return <InfoBox {...getInfoBoxProps(cms)} key={cms.id} />;
+      return <InfoBox {...getInfoBoxProps(cms)} key={key} />;
     case "page.link-list-box":
-      return <LinkListBox {...getLinkListBoxProps(cms)} key={cms.id} />;
+      return <LinkListBox {...getLinkListBoxProps(cms)} key={key} />;
+    case "page.box-with-image":
+      return <BoxWithImage {...getBoxWithImageProps(cms)} key={key} />;
     default:
       return <></>;
   }

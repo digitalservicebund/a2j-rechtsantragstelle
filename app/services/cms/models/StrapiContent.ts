@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiBoxWithImageSchema } from "./StrapiBoxWithImage";
 import { StrapiParagraphSchema } from "./StrapiParagraph";
 import { StrapiInfoBoxSchema } from "./StrapiInfoBox";
 import { StrapiBoxSchema } from "./StrapiBox";
@@ -11,6 +12,7 @@ import { StrapiLinkListBoxSchema } from "./StrapiLinkListBox";
 
 export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiBoxSchema.required({ __component: true }),
+  StrapiBoxWithImageSchema.required({ __component: true }),
   StrapiHeaderSchema.required({ __component: true }),
   StrapiHeadingSchema.required({ __component: true }),
   StrapiInfoBoxSchema.required({ __component: true }),
