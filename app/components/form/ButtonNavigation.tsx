@@ -14,7 +14,7 @@ export function ButtonNavigation({
   isLast,
 }: ButtonNavigationProps) {
   return (
-    <ButtonContainer>
+    <ButtonContainer reverseOrder={true}>
       {backDestination && (
         <Button
           href={backDestination}
