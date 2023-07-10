@@ -52,7 +52,7 @@ const wrapInContainer = (
   if (!cmsData.container) {
     return reactElement;
   }
-  const isBox = reactElement.props.__component === "page.box";
+  const isBox = cmsData.__component === "page.box";
   const config = transformCmsData(cmsData.container);
   return (
     <Container {...config} overhangingBackground={isBox}>
