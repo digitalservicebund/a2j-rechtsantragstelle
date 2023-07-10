@@ -13,6 +13,7 @@ export const StrapiInfoBoxItemSchema = z
     image: StrapiImageSchema.optional(),
     content: z.string(),
     button: StrapiButtonSchema.nullable(),
+    buttons: z.array(StrapiButtonSchema).nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema)

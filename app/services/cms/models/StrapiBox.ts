@@ -16,6 +16,7 @@ export const StrapiBoxSchema = z
     button: StrapiButtonSchema.nullable(),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
+    buttons: z.array(StrapiButtonSchema).nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema)

@@ -3,6 +3,7 @@ import Button, { ButtonPropsSchema } from "./Button";
 import Heading, { HeadingPropsSchema } from "./Heading";
 import Image, { ImagePropsSchema } from "./Image";
 import RichText from "./RichText";
+import ButtonContainer from "./ButtonContainer";
 
 export const InfoBoxItemPropsSchema = z.object({
   identifier: z.string().optional(),
@@ -11,6 +12,7 @@ export const InfoBoxItemPropsSchema = z.object({
   image: ImagePropsSchema.optional(),
   content: z.string().optional(),
   button: ButtonPropsSchema.optional(),
+  buttons: z.array(ButtonPropsSchema).optional(),
 });
 
 export type InfoBoxItemProps = z.infer<typeof InfoBoxItemPropsSchema>;
@@ -22,6 +24,7 @@ const InfoBoxItem = ({
   image,
   content,
   button,
+  buttons,
 }: InfoBoxItemProps) => {
   return (
     <li
@@ -45,6 +48,13 @@ const InfoBoxItem = ({
         {headline && <Heading {...headline} />}
         {content && <RichText markdown={content} />}
         {button && <Button className="max-w-fit mt-16 mb-0" {...button} />}
+        {buttons && (
+          <ButtonContainer>
+            {buttons.map((button) => (
+              <Button key={button.text ?? button.href} {...button} />
+            ))}
+          </ButtonContainer>
+        )}
       </div>
     </li>
   );

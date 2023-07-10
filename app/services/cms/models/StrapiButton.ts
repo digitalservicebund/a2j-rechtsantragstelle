@@ -7,8 +7,8 @@ export const StrapiButtonSchema = z
     look: z.enum(["primary", "secondary", "tertiary", "ghost"]),
     size: z.enum(["large", "medium", "small"]),
     fullWidth: z.boolean(),
-    href: z.string().optional(),
-    text: z.string().optional(),
+    href: z.string().nullable(),
+    text: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .strict();

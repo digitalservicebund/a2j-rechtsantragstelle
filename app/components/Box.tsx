@@ -3,6 +3,7 @@ import Heading, { HeadingPropsSchema } from "./Heading";
 import RichText from "./RichText";
 import { ParagraphPropsSchema } from "./Paragraph";
 import Button, { ButtonPropsSchema } from "./Button";
+import ButtonContainer from "./ButtonContainer";
 
 export const BoxPropsSchema = z.object({
   identifier: z.string().optional(),
@@ -10,11 +11,19 @@ export const BoxPropsSchema = z.object({
   heading: HeadingPropsSchema.optional(),
   content: ParagraphPropsSchema.optional(),
   button: ButtonPropsSchema.optional(),
+  buttons: z.array(ButtonPropsSchema).optional(),
 });
 
 export type BoxProps = z.infer<typeof BoxPropsSchema>;
 
-const Box = ({ identifier, label, heading, content, button }: BoxProps) => {
+const Box = ({
+  identifier,
+  label,
+  heading,
+  content,
+  button,
+  buttons,
+}: BoxProps) => {
   return (
     <div className="ds-stack-16 scroll-my-40" id={identifier}>
       <div className="ds-stack-8">
@@ -30,6 +39,13 @@ const Box = ({ identifier, label, heading, content, button }: BoxProps) => {
         <div>
           <Button {...button} />
         </div>
+      )}
+      {buttons && (
+        <ButtonContainer>
+          {buttons.map((button) => (
+            <Button key={button.text ?? button.href} {...button} />
+          ))}
+        </ButtonContainer>
       )}
     </div>
   );

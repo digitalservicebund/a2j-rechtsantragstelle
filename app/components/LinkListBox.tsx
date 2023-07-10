@@ -2,23 +2,20 @@ import { z } from "zod";
 import Heading, { HeadingPropsSchema } from "./Heading";
 import Button, { ButtonPropsSchema } from "./Button";
 import { Link } from "@remix-run/react";
+import ButtonContainer from "./ButtonContainer";
 
 export const LinkListBoxPropsSchema = z.object({
-  identifier: z.string().optional().nullable(),
-  label: HeadingPropsSchema.optional().nullable(),
-  heading: HeadingPropsSchema.optional().nullable(),
-  links: z
-    .array(
-      z
-        .object({
-          text: z.string().nullable(),
-          url: z.string().nullable(),
-        })
-        .nullable()
-    )
-    .optional()
-    .nullable(),
-  button: ButtonPropsSchema.optional().nullable(),
+  identifier: z.string().optional(),
+  label: HeadingPropsSchema.optional(),
+  heading: HeadingPropsSchema.optional(),
+  links: z.array(
+    z.object({
+      text: z.string().optional(),
+      url: z.string().optional(),
+    })
+  ),
+  button: ButtonPropsSchema.optional(),
+  buttons: z.array(ButtonPropsSchema).optional(),
 });
 
 export type LinkListBoxProps = z.infer<typeof LinkListBoxPropsSchema>;
@@ -29,6 +26,7 @@ const LinkListBox = ({
   heading,
   links,
   button,
+  buttons,
 }: LinkListBoxProps) => {
   return (
     <div className="ds-stack-16" id={identifier ?? undefined}>
@@ -54,6 +52,13 @@ const LinkListBox = ({
         <div>
           <Button {...button} />
         </div>
+      )}
+      {buttons && (
+        <ButtonContainer>
+          {buttons.map((button) => (
+            <Button key={button.text ?? button.href} {...button} />
+          ))}
+        </ButtonContainer>
       )}
     </div>
   );
