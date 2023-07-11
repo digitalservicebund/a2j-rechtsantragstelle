@@ -5,6 +5,7 @@ import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { HasStrapiSlugSchema } from "./HasStrapiSlug";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
+import { HasStrapiVersionsSchema } from "./HasStrapiVersions";
 
 export const StrapiPageSchema = z
   .object({
@@ -15,6 +16,7 @@ export const StrapiPageSchema = z
   .merge(HasStrapiMetaSchema)
   .merge(HasStrapiSlugSchema)
   .merge(HasStrapiTimestampsSchema)
+  .merge(HasStrapiVersionsSchema)
   .strict();
 
 export type StrapiPage = z.infer<typeof StrapiPageSchema>;
