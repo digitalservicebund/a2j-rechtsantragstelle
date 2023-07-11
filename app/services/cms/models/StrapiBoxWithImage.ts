@@ -11,6 +11,7 @@ export const StrapiBoxWithImageSchema = z
     __component: z.literal("page.box-with-image"),
     heading: StrapiHeadingSchema.nullable(),
     image: StrapiImageSchema,
+    imageLabel: z.string().nullable(),
     content: z.string(),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
