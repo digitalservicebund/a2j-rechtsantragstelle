@@ -23,10 +23,12 @@ const BoxWithImage = ({
   return (
     <div
       id={identifier}
-      className="flex flex-row items-start gap-32 max-[499px]:flex-col-reverse"
+      className="flex flex-row items-start gap-32 max-[499px]:flex-col"
     >
       <div className="ds-stack-16">
-        {imageLabel && <p className="ds-label-section">{imageLabel}</p>}
+        {imageLabel && (
+          <p className="ds-label-section pt-4 text-gray-800">{imageLabel}</p>
+        )}
         {image && (
           <Image
             {...image}
