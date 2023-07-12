@@ -40,7 +40,7 @@ const Box = ({
           <Button {...button} />
         </div>
       )}
-      {buttons && (
+      {buttons && buttons.length > 0 && (
         <ButtonContainer>
           {buttons.map((button) => (
             <Button key={button.text ?? button.href} {...button} />

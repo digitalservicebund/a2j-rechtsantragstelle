@@ -48,7 +48,7 @@ const InfoBoxItem = ({
         {headline && <Heading {...headline} />}
         {content && <RichText markdown={content} />}
         {button && <Button className="max-w-fit mt-16 mb-0" {...button} />}
-        {buttons && (
+        {buttons && buttons.length > 0 && (
           <ButtonContainer>
             {buttons.map((button) => (
               <Button key={button.text ?? button.href} {...button} />
