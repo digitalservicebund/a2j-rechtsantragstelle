@@ -127,7 +127,7 @@ export default function Kitchensink() {
             <code>
               <pre>
                 {
-                  '<Background backgroundColor="yellow" paddingTop="32" paddingBottom="32">\n'
+                  '<Background backgroundColor="darkBlue" paddingTop="32" paddingBottom="32">\n'
                 }
                 {" some inner content\n"}
                 {"</Background>"}
@@ -135,7 +135,11 @@ export default function Kitchensink() {
             </code>
           </div>
         </Container>
-        <Background backgroundColor="yellow" paddingTop="32" paddingBottom="32">
+        <Background
+          backgroundColor="darkBlue"
+          paddingTop="32"
+          paddingBottom="32"
+        >
           inner content
         </Background>
       </div>

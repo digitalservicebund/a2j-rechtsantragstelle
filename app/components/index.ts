@@ -21,6 +21,7 @@ export { default as Container } from "./Container";
 export const BACKGROUND_COLORS = Object.freeze({
   white: "bg-white", // before:bg-white
   blue: "bg-blue-100", // before:bg-blue-100
+  darkBlue: "bg-blue-800", // before:bg-blue-800
   yellow: "bg-yellow-300", // before:bg-yellow-300
   green: "bg-green-200", // before:bg-green-200
   red: "bg-[#f9e5ec]", // before:bg-[#f9e5ec]
