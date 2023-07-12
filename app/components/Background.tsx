@@ -16,8 +16,8 @@ export default function Background({
 }: BackgroundProps) {
   const cssClasses = classNames(
     backgroundColor !== "default" && BACKGROUND_COLORS[backgroundColor],
-    `pt-${paddingTop === "default" ? DEFAULT_PADDING_TOP : paddingTop}`,
-    `pb-${
+    `!pt-${paddingTop === "default" ? DEFAULT_PADDING_TOP : paddingTop}`,
+    `!pb-${
       paddingBottom === "default" ? DEFAULT_PADDING_BOTTOM : paddingBottom
     }`,
     backgroundColor === "darkBlue" && "text-white"
