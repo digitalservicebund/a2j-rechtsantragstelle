@@ -1,4 +1,8 @@
-import type { LinksFunction, LoaderArgs } from "@remix-run/node";
+import type {
+  HeadersFunction,
+  LinksFunction,
+  LoaderArgs,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -24,6 +28,15 @@ import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { Analytics } from "./services/analytics/Analytics";
 import ErrorBox from "./components/ErrorBox";
 import errorMessage from "./util/errorMessage";
+
+export const headers: HeadersFunction = () => ({
+  // "Content-Security-Policy": "TODO",
+  "X-Frame-Options": "SAMEORIGIN",
+  "X-Content-Type-Options": "nosniff",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy":
+    "accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), cross-origin-isolated=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), navigation-override=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=(), clipboard-read=(), clipboard-write=(), gamepad=(), speaker-selection=(), conversion-measurement=(), focus-without-user-activation=(), hid=(), idle-detection=(), interest-cohort=(), serial=(), sync-script=(), trust-token-redemption=(), unload=(), window-placement=(), vertical-scroll=()",
+});
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: fontsStylesheet },
