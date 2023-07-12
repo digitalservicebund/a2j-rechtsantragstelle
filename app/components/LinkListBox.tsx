@@ -12,7 +12,7 @@ export const LinkListBoxPropsSchema = z.object({
     z.object({
       text: z.string().optional(),
       url: z.string().optional(),
-    }),
+    })
   ),
   button: ButtonPropsSchema.optional(),
   buttons: z.array(ButtonPropsSchema).optional(),
