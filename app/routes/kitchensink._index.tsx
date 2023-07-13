@@ -140,7 +140,7 @@ export default function Kitchensink() {
           paddingTop="32"
           paddingBottom="32"
         >
-          <Container textColor="white">inner content</Container>
+          <Container>inner content</Container>
         </Background>
       </div>
 

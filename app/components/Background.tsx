@@ -19,7 +19,8 @@ export default function Background({
     `!pt-${paddingTop === "default" ? DEFAULT_PADDING_TOP : paddingTop}`,
     `!pb-${
       paddingBottom === "default" ? DEFAULT_PADDING_BOTTOM : paddingBottom
-    }`
+    }`,
+    backgroundColor === "darkBlue" && "text-white"
   );
 
   return <div className={cssClasses}>{children}</div>;

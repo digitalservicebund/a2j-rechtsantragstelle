@@ -8,27 +8,22 @@ const DEFAULT_PADDING_BOTTOM = "48";
 
 export type ContainerProps = {
   overhangingBackground?: boolean;
-  textColor?: string;
 } & PropsWithChildren<CommonWrapperProps>;
 
 export default function Container({
   paddingTop = "default",
   paddingBottom = "default",
   backgroundColor = "default",
-  textColor = "default",
   overhangingBackground,
   children,
 }: ContainerProps) {
   let cssClasses = classNames(
     "container",
-    {
-      "text-white": textColor === "white",
-      "text-black": textColor === "black" || textColor === "default",
-    },
     `!pt-${paddingTop === "default" ? DEFAULT_PADDING_TOP : paddingTop}`,
     `!pb-${
       paddingBottom === "default" ? DEFAULT_PADDING_BOTTOM : paddingBottom
-    }`
+    }`,
+    backgroundColor !== "default" && "text-black"
   );
 
   if (backgroundColor === "default") {

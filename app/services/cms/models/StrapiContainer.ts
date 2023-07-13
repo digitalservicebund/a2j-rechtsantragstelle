@@ -5,7 +5,6 @@ import { StrapiWrapperSchema } from "./StrapiWrapper";
 export const StrapiContainerSchema = z
   .object({
     __component: z.literal("meta.container").optional(),
-    textColor: z.enum(["default", "white", "black"]).nullable(),
   })
   .merge(StrapiWrapperSchema)
   .merge(HasOptionalStrapiIdSchema)
