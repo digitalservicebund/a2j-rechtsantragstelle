@@ -1,3 +1,4 @@
+/* eslint sonarjs/no-duplicate-string: 0 */
 import { createMachine } from "xstate";
 import { happyPathData } from "tests/fixtures/beratungshilfeVorabcheckData";
 import { guards } from "~/models/flows/beratungshilfe/guards";

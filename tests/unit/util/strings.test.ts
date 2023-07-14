@@ -11,7 +11,7 @@ describe("stripLeadingZeros", () => {
   });
 
   it("can handle undefined input", () => {
-    expect(stripLeadingZeros(undefined)).toBe("");
+    expect(stripLeadingZeros()).toBe("");
   });
 });
 
@@ -31,14 +31,14 @@ describe("groupByFirstLetter", () => {
 });
 
 describe("normalizeUrl", () => {
+  const testURL = "https://test.url";
+
   it("by default leaves https alone", () => {
-    const url = "https://test.url";
-    expect(normalizeURL(url)).toEqual(url);
+    expect(normalizeURL(testURL)).toEqual(testURL);
   });
 
   it("By default prepends https to urls if missing", () => {
-    const url = "test.url";
-    expect(normalizeURL(url)).toEqual(`https://${url}`);
+    expect(normalizeURL("test.url")).toEqual(testURL);
   });
 
   it("can prepend http if wanted", () => {
@@ -47,8 +47,7 @@ describe("normalizeUrl", () => {
   });
 
   it("can enforce http if wanted", () => {
-    const url = "https://test.url";
-    expect(normalizeURL(url, "http")).toEqual("http://test.url");
+    expect(normalizeURL(testURL, "http")).toEqual("http://test.url");
   });
 
   it("leaves http if wanted", () => {
