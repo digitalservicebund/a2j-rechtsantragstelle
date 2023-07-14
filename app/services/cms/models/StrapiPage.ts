@@ -16,7 +16,6 @@ export const StrapiPageSchema = z
   .merge(HasStrapiMetaSchema)
   .merge(HasStrapiSlugSchema)
   .merge(HasStrapiTimestampsSchema)
-  .merge(HasStrapiVersionsSchema)
-  .strict();
+  .merge(HasStrapiVersionsSchema);
 
 export type StrapiPage = z.infer<typeof StrapiPageSchema>;
