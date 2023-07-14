@@ -2,7 +2,7 @@ import { withZod } from "@remix-validated-form/with-zod";
 import { z } from "zod";
 import { isKeyOfObject } from "~/util/objects";
 import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
-import { isIncomeTooHigh } from "./beratungshilfe/guards";
+import { reasonsToDisplayBeratungshilfe } from "../beratungshilfe";
 
 type Context = Record<string, string>;
 type Schemas = Record<string, z.ZodTypeAny>;
@@ -18,23 +18,12 @@ export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
   return withZod(z.object(fieldSchemas));
 }
 
-export const getReasonsToDisplay = (
-  reasons: { attributes: StrapiElementWithId }[] | null,
+export function getReasonsToDisplay(
+  reasons: StrapiElementWithId[],
   context: Context
-) => {
-  return reasons
-    ?.filter((reason) => {
-      // TODO use reusable conditions for this
-      switch (reason.attributes.elementId) {
-        case "eigeninitiativeWarning":
-          return context.eigeninitiative === "no";
-        case "incomeTooHigh":
-          return (
-            context.verfuegbaresEinkommen === "yes" || isIncomeTooHigh(context)
-          );
-        default:
-          return false;
-      }
-    })
-    .map((reason) => reason.attributes);
-};
+) {
+  const reasonsToDisplay = reasonsToDisplayBeratungshilfe(context);
+  return reasons.filter((reason) =>
+    isKeyOfObject(reason.elementId, reasonsToDisplay)
+  );
+}
