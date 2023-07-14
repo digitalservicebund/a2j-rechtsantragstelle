@@ -78,7 +78,7 @@ describe("gerbeh data conversions", () => {
   });
 
   it("filters non-amtsgericht Gerbeh content", () => {
-    let nonAmtsgericht = { ...gerbehAmtsgericht };
+    const nonAmtsgericht = { ...gerbehAmtsgericht };
     nonAmtsgericht.TYP_INFO = "Arbeitsgericht";
 
     expect(
@@ -112,7 +112,7 @@ describe("PlzOrtk data conversions", () => {
   });
 
   it("ignores entries without prozesskosten", () => {
-    let plzOrtkEntry2 = { ...plzOrtkEntry };
+    const plzOrtkEntry2 = { ...plzOrtkEntry };
     plzOrtkEntry2.ANGELEGENHEIT_INFO = "arbitrary value";
     const input = { JMTD14_VT_ERWERBER_PLZORTK: [plzOrtkEntry, plzOrtkEntry2] };
 
@@ -146,7 +146,7 @@ describe("PlzStrn data conversions", () => {
   });
 
   it("filters invalid PlzStrn data", () => {
-    let plzStrnEntry2 = { ...plzStrnEntry };
+    const plzStrnEntry2 = { ...plzStrnEntry };
     plzStrnEntry2.TYP_INFO = "Arbeitsgericht";
 
     const input = { JMTD14_VT_ERWERBER_PLZSTRN: [plzStrnEntry] };

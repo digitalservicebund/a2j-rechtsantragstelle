@@ -13,7 +13,7 @@ const buildUrl = ({ apiId, slug, locale }: GetStrapiEntryOpts) =>
   ].join("");
 
 const unpackResponse = (response: AxiosResponse) => {
-  let { data } = response.data;
+  const { data } = response.data;
   // collection type results come as an array with one item
   return Array.isArray(data) ? data[0] : data;
 };

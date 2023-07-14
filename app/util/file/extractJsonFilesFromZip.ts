@@ -4,7 +4,7 @@ import { unzipSync, strFromU8 } from "fflate";
 import { normalizeFilepath } from "./normalizeFilepath";
 
 export function extractJsonFilesFromZip(pathToZipFile: string) {
-  let fileContent = fs.readFileSync(normalizeFilepath(pathToZipFile));
+  const fileContent = fs.readFileSync(normalizeFilepath(pathToZipFile));
 
   // Only decompresses .json files into { path/to/filename1.json: U8Array, ... }
   const jsonFiles = unzipSync(fileContent, {

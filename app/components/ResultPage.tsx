@@ -85,7 +85,7 @@ const ResultPage = ({
     ? content.nextSteps.data.attributes.element
     : [];
 
-  let infoBoxItems: InfoBoxItemProps[] = [];
+  const infoBoxItems: InfoBoxItemProps[] = [];
   reasonsToDisplay?.forEach((reason) => {
     reason.element.forEach((element) => {
       invariant(
