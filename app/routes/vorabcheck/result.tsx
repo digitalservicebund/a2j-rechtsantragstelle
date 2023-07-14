@@ -26,6 +26,7 @@ import RichText from "~/components/RichText";
 import InfoBox from "~/components/InfoBox";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
+import { infoBoxesFromElementsWithID } from "~/services/props/getInfoBoxItemProps";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
@@ -166,7 +167,7 @@ export function Step() {
               text: "Begründung",
               className: "mb-16",
             }}
-            items={reasons}
+            items={infoBoxesFromElementsWithID(reasons)}
           />
         </Container>
       )}
