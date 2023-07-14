@@ -2,10 +2,6 @@ import { getEnabledSteps } from "tests/unit/models/flows/getEnabledSteps";
 import { testCasesBeratungshilfe } from "./beratungshilfe/testcases";
 import { testCasesGeldEinklagen } from "./geldEinklagen/testcases";
 
-export type TestCases<T extends Record<string, string>> = Readonly<
-  Array<Readonly<[T, Readonly<Array<string>>]>>
->;
-
 /*
  * Note on testing xstate
  *

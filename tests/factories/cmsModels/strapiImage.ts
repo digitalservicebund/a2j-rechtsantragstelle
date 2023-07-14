@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 import { sample } from "lodash";
 import type { StrapiImage } from "~/services/cms/models/StrapiImage";
 
-const EXTENSIONS = ["png", "jpg", "svg", "gif"];
+const EXTENSIONS = ["png", "jpg", "svg", "gif"] as const;
 
 export const strapiImageFactory = Factory.define<StrapiImage>(() => {
   const name = faker.string.alphanumeric({ length: 5 });

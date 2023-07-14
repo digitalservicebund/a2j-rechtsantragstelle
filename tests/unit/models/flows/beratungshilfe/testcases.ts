@@ -3,7 +3,7 @@ import { happyPathData } from "tests/fixtures/beratungshilfeVorabcheckData";
 import { guards } from "~/models/flows/beratungshilfe/guards";
 import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
 import type { BeratungshilfeVorabcheckContext } from "~/models/flows/beratungshilfe/pages";
-import type { TestCases } from "../flows.test";
+import type { TestCases } from "../TestCases";
 
 const machine = createMachine<BeratungshilfeVorabcheckContext>(
   { ...beratungshilfeFlow, context: {} },

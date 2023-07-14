@@ -3,7 +3,7 @@ import { happyPathData } from "tests/fixtures/geldEinklagenVorabcheckData";
 import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/pages";
 import { guards } from "~/models/flows/geldEinklagen/guards";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
-import type { TestCases } from "../flows.test";
+import type { TestCases } from "../TestCases";
 
 const machine = createMachine<GeldEinklagenVorabcheckContext>(
   { ...geldEinklagenFlow, context: {} },

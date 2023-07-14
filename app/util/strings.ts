@@ -3,7 +3,7 @@ export function stripLeadingZeros(s?: string) {
 }
 
 export function splitObjectsByFirstLetter<
-  T extends Record<string, any>,
+  T extends Record<string, string>,
   K extends keyof T
 >(objects: T[], key: K) {
   const result: Record<string, T[]> = {};

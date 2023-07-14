@@ -23,7 +23,7 @@ flowchart TD\n`;
       let arrow = edge.label.text === "SUBMIT" ? "-->" : ".->";
 
       if (edge.transition.cond?.name !== undefined)
-        arrow = `${arrow}|${edge.transition.cond?.name}|`;
+        arrow = `${arrow}|${edge.transition.cond?.name as string}|`;
 
       flowchartDiagram = flowchartDiagram.concat(
         `    ${source} ${arrow} ${target}\n`
