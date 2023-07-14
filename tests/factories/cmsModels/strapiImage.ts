@@ -1,6 +1,5 @@
 import { Factory } from "fishery";
 import { faker } from "@faker-js/faker";
-import { sample } from "lodash";
 import type { StrapiImage } from "~/services/cms/models/StrapiImage";
 
 const EXTENSIONS = ["png", "jpg", "svg", "gif"] as const;
@@ -8,7 +7,8 @@ const EXTENSIONS = ["png", "jpg", "svg", "gif"] as const;
 export const strapiImageFactory = Factory.define<StrapiImage>(() => {
   const name = faker.string.alphanumeric({ length: 5 });
   const hash = faker.string.alphanumeric({ length: 10 });
-  const ext = sample(EXTENSIONS);
+  const ext =
+    EXTENSIONS.at(Math.floor(Math.random() * EXTENSIONS.length)) ?? "gif";
 
   return {
     data: {
