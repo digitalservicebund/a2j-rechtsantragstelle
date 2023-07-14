@@ -24,3 +24,4 @@ lefthook-local.yml
 **/gerichtsfinder/_data/
 
 /.vscode/
+.eslintcache

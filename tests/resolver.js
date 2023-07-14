@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * a jest-only filter of package.json files to transform a package.json before jest processes it
  * > by combining defaultResolver and packageFilter we can implement a package.json "pre-processor"

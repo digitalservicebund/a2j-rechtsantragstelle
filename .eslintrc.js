@@ -1,5 +1,6 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
+  ignorePatterns: ["/*", "!/app", "!/tests"],
   extends: [
     "@remix-run/eslint-config",
     "@remix-run/eslint-config/node",
