@@ -45,7 +45,7 @@ const getVisualizationString = (
   return Buffer.from(flowChart).toString("base64");
 };
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = ({ request }: LoaderArgs) => {
   const { pathname } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);
   const { flow, guards } = flowSpecifics[flowId];
