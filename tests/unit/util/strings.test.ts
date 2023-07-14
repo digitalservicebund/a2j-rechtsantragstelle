@@ -18,7 +18,7 @@ describe("stripLeadingZeros", () => {
 describe("groupByFirstLetter", () => {
   it("groups by first letter", () => {
     expect(
-      splitObjectsByFirstLetter([{ t: "a" }, { t: "b" }], "t")
+      splitObjectsByFirstLetter([{ t: "a" }, { t: "b" }], "t"),
     ).toStrictEqual({
       a: [{ t: "a" }],
       b: [{ t: "b" }],

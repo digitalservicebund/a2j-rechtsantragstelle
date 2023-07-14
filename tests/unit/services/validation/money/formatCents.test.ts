@@ -24,14 +24,14 @@ describe("formatCents", () => {
       ({ cents, formatted }) => {
         const actual = formatCents(cents);
         expect(actual).toBe(formatted);
-      }
+      },
     );
   });
 
   describe("given other input", () => {
     test.each(failingCases)("given $cents, throws", (invalidInput) => {
       expect(() => formatCents(invalidInput)).toThrow(
-        "please pass only (safe) integers"
+        "please pass only (safe) integers",
       );
     });
   });

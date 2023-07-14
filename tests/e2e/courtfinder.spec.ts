@@ -12,13 +12,13 @@ test.beforeEach(async ({ page }) => {
 async function expectSingleCourtContent(courtfinder: CourtFinder) {
   const { page } = courtfinder;
   await expect(
-    page.getByRole("heading").filter({ hasText: "Adresse" })
+    page.getByRole("heading").filter({ hasText: "Adresse" }),
   ).toHaveCount(1);
   await expect(
-    page.getByRole("heading").filter({ hasText: "Telefonnummer" })
+    page.getByRole("heading").filter({ hasText: "Telefonnummer" }),
   ).toHaveCount(1);
   await expect(
-    page.getByRole("link").filter({ hasText: "Webseite" })
+    page.getByRole("link").filter({ hasText: "Webseite" }),
   ).toHaveCount(1);
 }
 
@@ -82,7 +82,7 @@ test.describe("edge cases results", () => {
   test("heading contains PLZ", async ({ page }) => {
     await courtfinder.searchPLZEdgeCases();
     await expect(page.locator("h1")).toContainText(
-      courtfinder.multipleResultPLZ
+      courtfinder.multipleResultPLZ,
     );
   });
 

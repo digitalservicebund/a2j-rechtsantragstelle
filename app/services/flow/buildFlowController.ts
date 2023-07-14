@@ -21,19 +21,19 @@ const getSteps = (machine: ReturnType<typeof getStateMachine>) => {
   return Object.values(
     getShortestPaths(machine, {
       events: { SUBMIT: [{ type: "SUBMIT" }] },
-    })
+    }),
   ).map(({ state }) => state.value);
 };
 
 const getTransitionDestination = (
   machine: ReturnType<typeof getStateMachine>,
   currentStep: string,
-  type: string
+  type: string,
 ) => {
   const transitions = machine.getStateNodeByPath(currentStep).config.on;
   if (!transitions || !(type in transitions))
     throw new Error(
-      `No transition of type ${type} defined on step ${currentStep}`
+      `No transition of type ${type} defined on step ${currentStep}`,
     );
   return machine.transition(currentStep, { type }).value as string;
 };
@@ -46,14 +46,14 @@ type BuildFlowControllerArgs = {
 
 const isFinalStep = (
   machine: ReturnType<typeof getStateMachine>,
-  stepId: string
+  stepId: string,
 ) => {
   const transitions = machine.getStateNodeByPath(stepId).config.on;
   return Boolean(
     transitions &&
       (!("SUBMIT" in transitions) ||
         JSON.stringify(transitions["SUBMIT"]) == "{}" ||
-        JSON.stringify(transitions["SUBMIT"]) == "[]")
+        JSON.stringify(transitions["SUBMIT"]) == "[]"),
   );
 };
 
@@ -97,7 +97,7 @@ export const buildFlowController = ({
         Math.max(
           ...Object.values(machine.states)
             .map((n) => n.meta?.progressPosition)
-            .filter((p) => p)
+            .filter((p) => p),
         ) + 1;
       const node = machine.getStateNodeByPath(currentStepId); //TODO: fix type
       const current: number = isFinalStep(machine, currentStepId)

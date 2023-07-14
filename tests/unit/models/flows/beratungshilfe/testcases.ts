@@ -8,7 +8,7 @@ import type { TestCases } from "../TestCases";
 
 const machine = createMachine<BeratungshilfeVorabcheckContext>(
   { ...beratungshilfeFlow, context: {} },
-  { guards }
+  { guards },
 );
 
 const happyPathSteps = [

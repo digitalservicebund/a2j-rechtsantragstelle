@@ -40,7 +40,7 @@ export const conversions = {
             typInfo: entry.TYP_INFO,
           }),
           entry,
-        ])
+        ]),
     );
   },
 
@@ -83,6 +83,6 @@ type JsonCollection = Record<string, Record<string, any>>;
 
 export function applyDataConversions(data: JsonCollection) {
   return objectMap(data, (entry, key) =>
-    isKeyOfObject(key, conversions) ? conversions[key](entry) : {}
+    isKeyOfObject(key, conversions) ? conversions[key](entry) : {},
   );
 }

@@ -34,7 +34,7 @@ export class CourtFinder {
     await this.fillSearchField(this.multipleResultPLZ);
     await this.submitSearchForm();
     await this.page.waitForURL(
-      `${this.baseURL}/auswahl/${this.multipleResultPLZ}`
+      `${this.baseURL}/auswahl/${this.multipleResultPLZ}`,
     );
   }
 

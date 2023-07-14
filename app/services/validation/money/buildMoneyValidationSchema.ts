@@ -11,7 +11,7 @@ type BuildMoneyValidationSchemaOptions = {
 };
 
 export const buildMoneyValidationSchema = (
-  opts: BuildMoneyValidationSchemaOptions = { min: 0 }
+  opts: BuildMoneyValidationSchemaOptions = { min: 0 },
 ) => {
   return z
     .string()

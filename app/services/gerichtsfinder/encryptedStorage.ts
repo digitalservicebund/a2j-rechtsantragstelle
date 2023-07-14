@@ -12,7 +12,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const GERICHTSFINDER_ENCRYPTION_KEY = process.env.GERICHTSFINDER_ENCRYPTION_KEY;
 const OUTFILE = path.resolve(
-  path.join(process.cwd(), "app/services/gerichtsfinder/data/courtData.enc")
+  path.join(process.cwd(), "app/services/gerichtsfinder/data/courtData.enc"),
 );
 
 function getCipher(password: string, forward: boolean) {
@@ -20,7 +20,7 @@ function getCipher(password: string, forward: boolean) {
   return func(
     "aes-256-cbc",
     crypto.scryptSync(password, "salt", 32),
-    Buffer.alloc(16, 0)
+    Buffer.alloc(16, 0),
   );
 }
 

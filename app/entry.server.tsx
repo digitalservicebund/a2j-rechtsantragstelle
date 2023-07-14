@@ -19,7 +19,7 @@ export default function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
 ) {
   const urlIfChanged = stripTrailingSlashFromURL(request.url);
   if (urlIfChanged !== undefined) return redirect(urlIfChanged, 301);
@@ -29,13 +29,13 @@ export default function handleRequest(
         request,
         responseStatusCode,
         responseHeaders,
-        remixContext
+        remixContext,
       )
     : handleBrowserRequest(
         request,
         responseStatusCode,
         responseHeaders,
-        remixContext
+        remixContext,
       );
 }
 
@@ -43,7 +43,7 @@ function handleBotRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
 ) {
   return new Promise((resolve, reject) => {
     let didError = false;
@@ -60,7 +60,7 @@ function handleBotRequest(
             new Response(body, {
               headers: responseHeaders,
               status: didError ? 500 : responseStatusCode,
-            })
+            }),
           );
 
           pipe(body);
@@ -73,7 +73,7 @@ function handleBotRequest(
 
           console.error(error);
         },
-      }
+      },
     );
 
     setTimeout(abort, ABORT_DELAY);
@@ -84,7 +84,7 @@ function handleBrowserRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
 ) {
   return new Promise((resolve, reject) => {
     let didError = false;
@@ -101,7 +101,7 @@ function handleBrowserRequest(
             new Response(body, {
               headers: responseHeaders,
               status: didError ? 500 : responseStatusCode,
-            })
+            }),
           );
 
           pipe(body);
@@ -121,7 +121,7 @@ function handleBrowserRequest(
 
           console.error(error);
         },
-      }
+      },
     );
 
     setTimeout(abort, ABORT_DELAY);

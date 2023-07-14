@@ -20,10 +20,10 @@ export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
 
 export function getReasonsToDisplay(
   reasons: StrapiElementWithId[],
-  context: Context
+  context: Context,
 ) {
   const reasonsToDisplay = reasonsToDisplayBeratungshilfe(context);
   return reasons.filter((reason) =>
-    isKeyOfObject(reason.elementId, reasonsToDisplay)
+    isKeyOfObject(reason.elementId, reasonsToDisplay),
   );
 }

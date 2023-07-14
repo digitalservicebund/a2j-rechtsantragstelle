@@ -21,7 +21,7 @@ const getStrapiEntryFromSource =
 const getStrapiEntry = async (
   opts: Pick<GetStrapiEntryOpts, "apiId" | "slug"> & {
     locale?: StrapiLocale;
-  }
+  },
 ) => {
   const data = await getStrapiEntryFromSource({ locale: "de", ...opts });
   // remove "attributes" key
@@ -39,17 +39,17 @@ export const getStrapiFooter = async (opts?: StrapiSingleTypeGetterOpts) =>
   StrapiFooterSchema.parse(await getStrapiEntry({ apiId: "footer", ...opts }));
 
 export const getStrapiVorabCheckCommon = async (
-  opts?: StrapiSingleTypeGetterOpts
+  opts?: StrapiSingleTypeGetterOpts,
 ) =>
   StrapiVorabCheckCommonSchema.parse(
-    await getStrapiEntry({ apiId: "vorab-check-common", ...opts })
+    await getStrapiEntry({ apiId: "vorab-check-common", ...opts }),
   );
 
 export const getStrapiAmtsgerichtCommon = async (
-  opts?: StrapiSingleTypeGetterOpts
+  opts?: StrapiSingleTypeGetterOpts,
 ) =>
   StrapiAmtsgerichtCommonSchema.parse(
-    await getStrapiEntry({ apiId: "amtsgericht-common", ...opts })
+    await getStrapiEntry({ apiId: "amtsgericht-common", ...opts }),
   );
 
 // collection types getters
@@ -59,10 +59,10 @@ type StrapiCollectionTypeGetterOpts = {
 } & StrapiSingleTypeGetterOpts;
 
 export const getStrapiResultPage = async (
-  opts: StrapiCollectionTypeGetterOpts
+  opts: StrapiCollectionTypeGetterOpts,
 ) =>
   StrapiResultPageSchema.parse(
-    await getStrapiEntry({ apiId: "result-pages", ...opts })
+    await getStrapiEntry({ apiId: "result-pages", ...opts }),
   );
 
 export const getStrapiPage = async (opts: StrapiCollectionTypeGetterOpts) => {
@@ -76,10 +76,10 @@ export const getStrapiPage = async (opts: StrapiCollectionTypeGetterOpts) => {
 };
 
 export const getStrapiVorabCheckPage = async (
-  opts: StrapiCollectionTypeGetterOpts
+  opts: StrapiCollectionTypeGetterOpts,
 ) =>
   StrapiVorabCheckPageSchema.parse(
-    await getStrapiEntry({ apiId: "vorab-check-pages", ...opts })
+    await getStrapiEntry({ apiId: "vorab-check-pages", ...opts }),
   );
 
 export const strapiPageFromRequest = async ({

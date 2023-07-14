@@ -11,7 +11,7 @@ export type StrapiPage = {
 
 export function getInputsContent(content: StrapiFormComponent[]) {
   return content.filter(
-    (el) => el.__component === "form-elements.input"
+    (el) => el.__component === "form-elements.input",
   ) as InputContent[];
 }
 
@@ -25,7 +25,7 @@ export function getRelevantInputContent({
   content = [],
 }: RelevantInputContent) {
   const matchingElements = getInputsContent(content).filter(
-    (el) => el.name === inputName
+    (el) => el.name === inputName,
   );
   return matchingElements[0] ?? { type: "text", label: inputName };
 }

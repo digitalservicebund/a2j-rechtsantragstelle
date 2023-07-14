@@ -31,7 +31,7 @@ const clientSchema = z.object({
 
 const serverSchema = clientSchema.refine(
   (postcodeObj) => courtForPlz(postcodeObj.postcode) !== undefined,
-  { path: ["postcode"], message: "notFound" }
+  { path: ["postcode"], message: "notFound" },
 );
 
 const validatorClient = withZod(clientSchema);
@@ -54,7 +54,7 @@ export async function loader({ request }: LoaderArgs) {
       title: meta.title,
       backURL,
     },
-    { headers: { "Set-Cookie": await commitSession(session) } }
+    { headers: { "Set-Cookie": await commitSession(session) } },
   );
 }
 
@@ -62,7 +62,7 @@ export async function action({ request }: ActionArgs) {
   const result = await validatorServer.validate(await request.formData());
   if (result.error) return validationError(result.error);
   return redirect(
-    `../beratungshilfe/zustaendiges-gericht/ergebnis/${result.data?.postcode}`
+    `../beratungshilfe/zustaendiges-gericht/ergebnis/${result.data?.postcode}`,
   );
 }
 

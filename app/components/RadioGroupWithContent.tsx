@@ -13,17 +13,17 @@ type RadioGroupWithContentProps = {
 
 const filterMatchingContent = (
   fieldname: string,
-  content: StrapiFormComponent[] = []
+  content: StrapiFormComponent[] = [],
 ) => {
   return content.filter(
-    (e) => e.name === fieldname && e.__component === "form-elements.select"
+    (e) => e.name === fieldname && e.__component === "form-elements.select",
   )[0] as StrapiSelect;
 };
 
 export function getRelevantOptions(
   content: StrapiFormComponent[],
   id: string,
-  defaultOptions?: DefaultOptions
+  defaultOptions?: DefaultOptions,
 ) {
   const relevantContent = filterMatchingContent(id, content);
   return relevantContent && "options" in relevantContent

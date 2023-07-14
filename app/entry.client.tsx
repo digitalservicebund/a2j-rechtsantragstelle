@@ -13,7 +13,7 @@ if (getWebConfig().SENTRY_DSN) {
         routingInstrumentation: Sentry.remixRouterInstrumentation(
           useEffect,
           useLocation,
-          useMatches
+          useMatches,
         ),
       }),
     ],
@@ -26,7 +26,7 @@ function hydrate() {
       document,
       <StrictMode>
         <RemixBrowser />
-      </StrictMode>
+      </StrictMode>,
     );
   });
 }

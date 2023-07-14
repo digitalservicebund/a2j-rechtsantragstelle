@@ -14,8 +14,8 @@ const manualReplacements = {
 const OUTFILE = path.resolve(
   path.join(
     process.cwd(),
-    "app/services/gerichtsfinder/data/sanitizedURLs.json"
-  )
+    "app/services/gerichtsfinder/data/sanitizedURLs.json",
+  ),
 );
 const concurrency = 50;
 
@@ -38,7 +38,7 @@ function checkUrl(urlString: string) {
             resolve([urlString, response.responseUrl]);
           })
           .on("error", () => resolve([urlString, ""]));
-      })
+      }),
   );
 }
 

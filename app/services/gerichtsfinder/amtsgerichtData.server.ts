@@ -12,7 +12,7 @@ import type { Jmtd14VTErwerberPlzortk, Jmtd14VTErwerberPlzstrn } from "./types";
 const data = getEncrypted();
 
 const courtAddress = (
-  courtData: Jmtd14VTErwerberPlzstrn | Jmtd14VTErwerberPlzortk
+  courtData: Jmtd14VTErwerberPlzstrn | Jmtd14VTErwerberPlzortk,
 ) => {
   const gerbehDb: GerbehFile =
     data["JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json"];
@@ -31,7 +31,7 @@ export const edgeCasesForPlz = (PLZ: string | undefined) => {
 };
 
 const buildGerbehIndex = (
-  data: Jmtd14VTErwerberPlzstrn | Jmtd14VTErwerberPlzortk
+  data: Jmtd14VTErwerberPlzstrn | Jmtd14VTErwerberPlzortk,
 ): GerbehIndex => {
   const isGerbeh = "GERBEH_LKZ" in data;
   return {
@@ -70,7 +70,7 @@ function streetForEdgeCase(streetData: StreetData) {
   const streetNumbers = `(${
     streetData.HNR_MERKMAL_INFO
   } von ${stripLeadingZeros(streetData.HNR_VON)} bis ${stripLeadingZeros(
-    streetData.HNR_BIS
+    streetData.HNR_BIS,
   )})`;
   const street = `${capitalizeStreet(streetData.STRN)} ${streetNumbers}`;
   return { street, slug: buildStreetSlug(streetData) };

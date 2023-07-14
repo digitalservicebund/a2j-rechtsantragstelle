@@ -3,7 +3,7 @@ import type { GeldEinklagenVorabcheckContext } from "./pages";
 type Guard = (context: GeldEinklagenVorabcheckContext) => boolean;
 
 function yesNoGuards<Field extends keyof GeldEinklagenVorabcheckContext>(
-  field: Field
+  field: Field,
 ): { [field in Field as `${field}Yes`]: Guard } & {
   [field in Field as `${field}No`]: Guard;
 } {
@@ -17,7 +17,7 @@ function yesNoGuards<Field extends keyof GeldEinklagenVorabcheckContext>(
 export const guards = {
   ...yesNoGuards("gerichtskostenvorschuss"),
   gerichtskostenvorschussNotPossible: (
-    context: GeldEinklagenVorabcheckContext
+    context: GeldEinklagenVorabcheckContext,
   ) => context.gerichtskostenvorschuss === "notPossible",
   ...yesNoGuards("kontaktaufnahme"),
   ...yesNoGuards("fristAbgelaufen"),

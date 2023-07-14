@@ -23,7 +23,7 @@ export default function Container({
     `!pb-${
       paddingBottom === "default" ? DEFAULT_PADDING_BOTTOM : paddingBottom
     }`,
-    backgroundColor !== "default" && "text-black"
+    backgroundColor !== "default" && "text-black",
   );
 
   if (backgroundColor === "default") {
@@ -34,7 +34,7 @@ export default function Container({
     cssClasses = classNames(
       cssClasses,
       "relative before:content-[''] before:absolute before:inset-y-0 before:-left-32 before:-right-32 before:rounded-lg",
-      `before:${BACKGROUND_COLORS[backgroundColor]}`
+      `before:${BACKGROUND_COLORS[backgroundColor]}`,
     );
 
     return (

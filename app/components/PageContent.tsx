@@ -36,7 +36,7 @@ export const keyFromElement = (element: StrapiContent) =>
   `${element.__component}_${element.id}`;
 
 const transformCmsData = (
-  cmsData: StrapiContainer | StrapiBackground
+  cmsData: StrapiContainer | StrapiBackground,
 ): ContainerProps | BackgroundProps => {
   return {
     ...cmsData,
@@ -49,7 +49,7 @@ const transformCmsData = (
 
 const wrapInContainer = (
   cmsData: { [key: string]: any; container?: StrapiContainer },
-  reactElement: ReactElement
+  reactElement: ReactElement,
 ): ReactElement => {
   if (!cmsData.container) {
     return reactElement;
@@ -67,7 +67,7 @@ const wrapInContainer = (
 
 const wrapInBackground = (
   cmsData: { [key: string]: any; outerBackground?: StrapiBackground | null },
-  reactElement: ReactElement
+  reactElement: ReactElement,
 ): ReactElement => {
   if (!cmsData.outerBackground) {
     return reactElement;
@@ -124,7 +124,7 @@ const PageContent = ({
       <div key={keyFromElement(el)}>
         {wrapInBackground(
           el,
-          wrapInContainer(el, cmsToReact(el, templateReplacements))
+          wrapInContainer(el, cmsToReact(el, templateReplacements)),
         )}
       </div>
     ))}

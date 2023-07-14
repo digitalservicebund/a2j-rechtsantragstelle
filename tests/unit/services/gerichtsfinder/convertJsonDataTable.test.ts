@@ -35,7 +35,7 @@ describe("gerbehIndex", () => {
         LG: "c",
         AG: "d",
         typInfo: validTypInfo,
-      })
+      }),
     ).not.toBe(gerbehIndex(index));
   });
 });
@@ -73,7 +73,7 @@ describe("gerbeh data conversions", () => {
     expect(
       conversions["JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json"]({
         JMTD14_VT_ERWERBER_GERBEH: [gerbehAmtsgericht],
-      })
+      }),
     ).toEqual({ [gerbehAmtsgerichtKey]: gerbehAmtsgericht });
   });
 
@@ -84,7 +84,7 @@ describe("gerbeh data conversions", () => {
     expect(
       conversions["JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json"]({
         JMTD14_VT_ERWERBER_GERBEH: [gerbehAmtsgericht, nonAmtsgericht],
-      })
+      }),
     ).toEqual({ [gerbehAmtsgerichtKey]: gerbehAmtsgericht });
   });
 });
@@ -107,7 +107,7 @@ describe("PlzOrtk data conversions", () => {
   it("handles valid PlzOrtk data", () => {
     const input = { JMTD14_VT_ERWERBER_PLZORTK: [plzOrtkEntry] };
     expect(
-      conversions["JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json"](input)
+      conversions["JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json"](input),
     ).toEqual({ [plzOrtkEntry.PLZ]: [plzOrtkEntry] });
   });
 
@@ -117,7 +117,7 @@ describe("PlzOrtk data conversions", () => {
     const input = { JMTD14_VT_ERWERBER_PLZORTK: [plzOrtkEntry, plzOrtkEntry2] };
 
     expect(
-      conversions["JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json"](input)
+      conversions["JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json"](input),
     ).toEqual({ [plzOrtkEntry.PLZ]: [plzOrtkEntry] });
   });
 });
@@ -141,7 +141,7 @@ describe("PlzStrn data conversions", () => {
   it("handles valid PlzStrn data", () => {
     const input = { JMTD14_VT_ERWERBER_PLZSTRN: [plzStrnEntry] };
     expect(
-      conversions["JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json"](input)
+      conversions["JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json"](input),
     ).toEqual({ [plzStrnEntry.PLZ]: [plzStrnEntry] });
   });
 
@@ -151,7 +151,7 @@ describe("PlzStrn data conversions", () => {
 
     const input = { JMTD14_VT_ERWERBER_PLZSTRN: [plzStrnEntry] };
     expect(
-      conversions["JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json"](input)
+      conversions["JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json"](input),
     ).toEqual({ [plzStrnEntry.PLZ]: [plzStrnEntry] });
   });
 });
