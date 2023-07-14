@@ -5,11 +5,10 @@ import Image, { ImagePropsSchema } from "./Image";
 import RichText from "./RichText";
 import ButtonContainer from "./ButtonContainer";
 
-// Omitting React components to make schema serializable
 export const InfoBoxItemPropsSchema = z.object({
   identifier: z.string().optional(),
-  label: HeadingPropsSchema.omit({ children: true }).optional(),
-  headline: HeadingPropsSchema.omit({ children: true }).optional(),
+  label: HeadingPropsSchema.optional(),
+  headline: HeadingPropsSchema.optional(),
   image: ImagePropsSchema.optional(),
   content: z.string().optional(),
   button: ButtonPropsSchema.optional(),
