@@ -30,6 +30,7 @@ import ErrorBox from "./components/ErrorBox";
 import errorMessage from "./util/errorMessage";
 import { createCSRFSession } from "./services/security/csrf.server";
 import { commitSession } from "./sessions";
+import { CSRFKey } from "./services/security/csrf";
 
 export const headers: HeadersFunction = () => ({
   // "Content-Security-Policy": "TODO",
@@ -65,7 +66,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   }
   return json(
     {
-      csrf,
+      [CSRFKey]: csrf,
       breadcrumbs: await breadcrumbsFromURL(request.url),
       footer: getFooterProps(await getStrapiFooter()),
       hasTrackingConsent: await hasTrackingConsent({ request }),
