@@ -6,7 +6,6 @@ export const StrapiSelectOptionSchema = z
     text: z.string(),
     value: z.string(),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .strict();
+  .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiSelectOption = z.infer<typeof StrapiSelectOptionSchema>;

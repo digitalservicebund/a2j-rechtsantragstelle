@@ -13,7 +13,6 @@ export const StrapiHeaderSchema = z
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .strict();
+  .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiHeader = z.infer<typeof StrapiHeaderSchema>;

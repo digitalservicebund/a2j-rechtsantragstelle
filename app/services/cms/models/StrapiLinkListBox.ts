@@ -19,7 +19,6 @@ export const StrapiLinkListBoxSchema = z
     links: z.array(StrapiLinkSchema),
   })
   .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema)
-  .strict();
+  .merge(OptionalStrapiLinkIdentifierSchema);
 
 export type StrapiLinkListBox = z.infer<typeof StrapiLinkListBoxSchema>;

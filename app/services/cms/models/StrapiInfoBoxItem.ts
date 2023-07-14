@@ -16,7 +16,6 @@ export const StrapiInfoBoxItemSchema = z
     buttons: z.array(StrapiButtonSchema).nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema)
-  .strict();
+  .merge(OptionalStrapiLinkIdentifierSchema);
 
 export type StrapiInfoBoxItem = z.infer<typeof StrapiInfoBoxItemSchema>;

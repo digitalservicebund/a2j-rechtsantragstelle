@@ -17,7 +17,6 @@ export const StrapiVorabCheckPageSchema = z
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiMetaSchema)
   .merge(HasStrapiSlugSchema)
-  .merge(HasStrapiTimestampsSchema)
-  .strict();
+  .merge(HasStrapiTimestampsSchema);
 
 export type StrapiVorabCheckPage = z.infer<typeof StrapiVorabCheckPageSchema>;

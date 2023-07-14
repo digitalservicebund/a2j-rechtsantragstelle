@@ -9,7 +9,6 @@ export const StrapiElementWithIdSchema = z
     element: z.array(StrapiContentSchema),
   })
   .merge(HasStrapiLocaleSchema)
-  .merge(HasStrapiTimestampsSchema)
-  .strict();
+  .merge(HasStrapiTimestampsSchema);
 
 export type StrapiElementWithId = z.infer<typeof StrapiElementWithIdSchema>;

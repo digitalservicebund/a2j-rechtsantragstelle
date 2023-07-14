@@ -10,7 +10,6 @@ export const StrapiButtonSchema = z
     href: z.string().nullable(),
     text: z.string().nullable(),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .strict();
+  .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiButton = z.infer<typeof StrapiButtonSchema>;

@@ -7,7 +7,6 @@ export const StrapiBackgroundSchema = z
     __component: z.literal("meta.background").optional(),
   })
   .merge(StrapiWrapperSchema)
-  .merge(HasOptionalStrapiIdSchema)
-  .strict();
+  .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiBackground = z.infer<typeof StrapiBackgroundSchema>;

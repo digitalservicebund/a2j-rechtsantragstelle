@@ -15,7 +15,6 @@ export const StrapiInfoBoxSchema = z
     container: StrapiContainerSchema,
   })
   .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema)
-  .strict();
+  .merge(OptionalStrapiLinkIdentifierSchema);
 
 export type StrapiInfoBox = z.infer<typeof StrapiInfoBoxSchema>;

@@ -7,7 +7,6 @@ export const StrapiContainerSchema = z
     __component: z.literal("meta.container").optional(),
   })
   .merge(StrapiWrapperSchema)
-  .merge(HasOptionalStrapiIdSchema)
-  .strict();
+  .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiContainer = z.infer<typeof StrapiContainerSchema>;

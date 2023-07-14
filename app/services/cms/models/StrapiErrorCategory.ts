@@ -7,7 +7,6 @@ export const StrapiErrorCategorySchema = z
     name: z.string(),
     errorCodes: z.array(StrapiFieldErrorSchema),
   })
-  .merge(HasStrapiTimestampsSchema)
-  .strict();
+  .merge(HasStrapiTimestampsSchema);
 
 export type StrapiErrorCategory = z.infer<typeof StrapiErrorCategorySchema>;

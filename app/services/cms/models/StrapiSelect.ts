@@ -10,7 +10,6 @@ export const StrapiSelectSchema = z
     altLabel: z.string().nullable(),
     options: z.array(StrapiSelectOptionSchema),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .strict();
+  .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiSelect = z.infer<typeof StrapiSelectSchema>;

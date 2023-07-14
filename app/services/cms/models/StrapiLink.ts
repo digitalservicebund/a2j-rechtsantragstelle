@@ -6,7 +6,6 @@ export const StrapiLinkSchema = z
     url: z.string().nullable(),
     text: z.string().nullable(),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .strict();
+  .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiLink = z.infer<typeof StrapiLinkSchema>;

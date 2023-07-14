@@ -6,7 +6,6 @@ export const StrapiFieldErrorSchema = z
     code: z.string(),
     text: z.string(),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .strict();
+  .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiFieldError = z.infer<typeof StrapiFieldErrorSchema>;

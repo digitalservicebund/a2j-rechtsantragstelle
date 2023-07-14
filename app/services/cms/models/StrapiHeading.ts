@@ -24,7 +24,6 @@ export const StrapiHeadingSchema = z
       "ds-body-02-reg",
     ]),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .strict();
+  .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiHeading = z.infer<typeof StrapiHeadingSchema>;

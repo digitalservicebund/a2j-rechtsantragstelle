@@ -14,7 +14,6 @@ export const StrapiFooterSchema = z
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
-  .merge(HasStrapiTimestampsSchema)
-  .strict();
+  .merge(HasStrapiTimestampsSchema);
 
 export type StrapiFooter = z.infer<typeof StrapiFooterSchema>;

@@ -5,7 +5,6 @@ export const StrapiMetaSchema = z
   .object({
     title: z.string(),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .strict();
+  .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiMeta = z.infer<typeof StrapiMetaSchema>;

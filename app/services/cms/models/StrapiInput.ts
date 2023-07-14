@@ -10,19 +10,16 @@ export const StrapiInputSchema = z
     type: z.enum(["text", "number"]),
     placeholder: z.string().nullable(),
     suffix: z.string().nullable(),
-    errors: z
-      .object({
-        data: z
-          .array(
-            HasStrapiIdSchema.extend({
-              attributes: StrapiErrorCategorySchema,
-            }).strict()
-          )
-          .optional(),
-      })
-      .strict(),
+    errors: z.object({
+      data: z
+        .array(
+          HasStrapiIdSchema.extend({
+            attributes: StrapiErrorCategorySchema,
+          })
+        )
+        .optional(),
+    }),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .strict();
+  .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiInput = z.infer<typeof StrapiInputSchema>;

@@ -7,7 +7,6 @@ export const StrapiNavigationItemSchema = z
     targeturl: z.string(),
     baseurl: z.string(),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .strict();
+  .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiNavigationItem = z.infer<typeof StrapiNavigationItemSchema>;
