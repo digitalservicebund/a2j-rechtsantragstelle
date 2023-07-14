@@ -14,7 +14,7 @@ interface ButtonNavigationProps {
 export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
   return (
     <ButtonContainer reverseOrder={true}>
-      {back && (
+      {back && back.destination && (
         <Button
           href={back.destination}
           look="tertiary"
