@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 
 test("forwarded to intial step", async ({ page }) => {
   await expect(page).toHaveURL(
-    `${geldEinklagen.url}/${geldEinklagen.initialStep}`
+    `${geldEinklagen.url}/${geldEinklagen.initialStep}`,
   );
 });
 
@@ -56,13 +56,13 @@ test("geldeinklagen can be traversed", async ({ page }) => {
 
   await expectPageToBeAccessible({ page });
   await expect(
-    page.getByRole("heading").filter({ hasText: "Super" })
+    page.getByRole("heading").filter({ hasText: "Super" }),
   ).toHaveCount(1);
 });
 
 test("funnel: invalid step redirects to start", async ({ page }) => {
   await page.goto(`${geldEinklagen.url}/stepDoesNotExist`);
   await expect(page).toHaveURL(
-    `${geldEinklagen.url}/${geldEinklagen.initialStep}`
+    `${geldEinklagen.url}/${geldEinklagen.initialStep}`,
   );
 });

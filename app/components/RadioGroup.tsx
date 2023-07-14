@@ -6,7 +6,7 @@ import { z } from "zod";
 export const RadioGroupPropsSchema = z.object({
   name: z.string(),
   options: z.array(
-    z.object({ value: z.string(), text: z.custom<ReactNode>().optional() })
+    z.object({ value: z.string(), text: z.custom<ReactNode>().optional() }),
   ),
   label: z.custom<ReactNode>().optional(),
   altLabel: z.string().optional(),

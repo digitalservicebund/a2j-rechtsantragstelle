@@ -11,7 +11,7 @@ describe("extractJsonFilesFromZip", () => {
 
   it("extracts all json from .zip file", () => {
     const zipContent = extractJsonFilesFromZip(
-      `${__dirname}/zipWithJsonFilesMacOS.zip`
+      `${__dirname}/zipWithJsonFilesMacOS.zip`,
     );
 
     expect(zipContent).toStrictEqual({

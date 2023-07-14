@@ -28,7 +28,7 @@ describe("state machine form flows", () => {
             steps: expectedSteps,
           });
           expect(actualSteps).toEqual(expectedSteps);
-        }
+        },
       );
 
       test.each(cases)(
@@ -42,8 +42,8 @@ describe("state machine form flows", () => {
             steps: expectedSteps,
           });
           expect(actualSteps).toEqual(expectedSteps);
-        }
+        },
       );
-    }
+    },
   );
 });

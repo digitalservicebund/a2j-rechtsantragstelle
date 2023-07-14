@@ -6,7 +6,7 @@ import { flowIDFromPathname, flowSpecifics } from "./flowSpecifics";
 
 const mermaidFlowchart = (
   digraph: ReturnType<typeof toDirectedGraph>,
-  ignoreBacklinks = false
+  ignoreBacklinks = false,
 ) => {
   // Converts a graph into mermaid.js flowchart syntax
   // See https://mermaid.js.org/syntax/flowchart.html
@@ -26,7 +26,7 @@ flowchart TD\n`;
         arrow = `${arrow}|${edge.transition.cond?.name as string}|`;
 
       flowchartDiagram = flowchartDiagram.concat(
-        `    ${source} ${arrow} ${target}\n`
+        `    ${source} ${arrow} ${target}\n`,
       );
     });
   });
@@ -36,7 +36,7 @@ flowchart TD\n`;
 
 const getVisualizationString = (
   stateMachine: AnyStateMachine,
-  ignoreBacklinks = true
+  ignoreBacklinks = true,
 ) => {
   const digraph = toDirectedGraph(stateMachine);
 

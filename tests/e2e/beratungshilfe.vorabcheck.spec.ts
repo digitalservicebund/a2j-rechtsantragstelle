@@ -74,7 +74,7 @@ test("vorabcheck can be traversed (long path)", async ({ page }) => {
 
   await expectPageToBeAccessible({ page });
   await expect(
-    page.getByRole("heading").filter({ hasText: "Beratungshilfe erhalten" })
+    page.getByRole("heading").filter({ hasText: "Beratungshilfe erhalten" }),
   ).toHaveCount(1);
 });
 
@@ -129,7 +129,7 @@ test("vorabcheck can be traversed (short path)", async ({ page }) => {
   await expect(
     page
       .getByRole("heading")
-      .filter({ hasText: "keine Beratungshilfe erhalten" })
+      .filter({ hasText: "keine Beratungshilfe erhalten" }),
   ).toHaveCount(1);
 });
 

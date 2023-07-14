@@ -5,7 +5,7 @@ import { omitNull } from "~/util/omitNull";
 
 export const getInputProps = (cmsData: StrapiInput): InputProps => {
   const errorMessages = cmsData.errors.data?.flatMap(
-    (cmsError) => cmsError.attributes.errorCodes
+    (cmsError) => cmsError.attributes.errorCodes,
   );
 
   const props = {

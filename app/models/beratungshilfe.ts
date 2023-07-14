@@ -44,7 +44,7 @@ export function freibetrag({
 export function freibetragShort(
   working?: boolean,
   partnership?: boolean,
-  childrenCount?: number
+  childrenCount?: number,
 ): number {
   const betrag = 552 + 20;
   return (
@@ -56,7 +56,7 @@ export function freibetragShort(
 }
 
 export const getVerfuegbaresEinkommenFreibetrag = (
-  context: BeratungshilfeVorabcheckContext
+  context: BeratungshilfeVorabcheckContext,
 ) => {
   const isWorking = context.erwerbstaetigkeit == "yes";
   const isInPartnership = context.partnerschaft == "yes";
@@ -66,7 +66,7 @@ export const getVerfuegbaresEinkommenFreibetrag = (
 };
 
 export const reasonsToDisplayBeratungshilfe = (
-  context: BeratungshilfeVorabcheckContext
+  context: BeratungshilfeVorabcheckContext,
 ) => ({
   eigeninitiativeWarning: context.eigeninitiative === "no",
   incomeTooHigh:

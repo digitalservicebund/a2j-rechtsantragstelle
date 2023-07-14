@@ -17,6 +17,6 @@ describe("preprocessMoney", () => {
     ({ userInput, preprocessed }) => {
       const actual = preprocessMoney(userInput);
       expect(actual).toBe(preprocessed);
-    }
+    },
   );
 });

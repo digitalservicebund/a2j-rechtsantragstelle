@@ -23,7 +23,7 @@ describe("money validation", () => {
       ({ input, expected }) => {
         const actual = buildKidsCountValidationSchema().safeParse(input);
         expect(actual).toEqual({ data: expected, success: true });
-      }
+      },
     );
   });
 
@@ -35,7 +35,7 @@ describe("money validation", () => {
         expect(actual.success).toBe(false);
         //@ts-ignore
         expect(actual.error.issues[0].message).toBe(errorMessage);
-      }
+      },
     );
   });
 });

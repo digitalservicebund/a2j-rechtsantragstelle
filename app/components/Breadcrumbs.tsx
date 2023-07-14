@@ -23,13 +23,13 @@ export async function breadcrumbsFromURL(url: string) {
       } catch {
         return { url };
       }
-    })
+    }),
   )) satisfies Array<Breadcrumb>;
 }
 
 export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
   const validBreadcrumbs = breadcrumbs?.filter(
-    (breadcrumb) => breadcrumb.title !== undefined
+    (breadcrumb) => breadcrumb.title !== undefined,
   );
 
   return (

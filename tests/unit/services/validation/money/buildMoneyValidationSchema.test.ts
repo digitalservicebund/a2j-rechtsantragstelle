@@ -26,7 +26,7 @@ describe("money validation", () => {
           min: Number.MIN_SAFE_INTEGER,
         }).safeParse(input);
         expect(actual).toEqual({ data: expected, success: true });
-      }
+      },
     );
   });
 
@@ -41,7 +41,7 @@ describe("money validation", () => {
         expect(actual.success).toBe(false);
         //@ts-ignore
         expect(actual.error.issues[0].message).toBe(errorMessage);
-      }
+      },
     );
   });
 });

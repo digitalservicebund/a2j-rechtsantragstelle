@@ -6,7 +6,7 @@ describe("freibetrag", () => {
       freibetrag({
         working: false,
         partnership: false,
-      })
+      }),
     ).toEqual(57200);
   });
 
@@ -15,7 +15,7 @@ describe("freibetrag", () => {
       freibetrag({
         working: true,
         partnership: false,
-      })
+      }),
     ).toEqual(57200 + 25100);
   });
 
@@ -24,7 +24,7 @@ describe("freibetrag", () => {
       freibetrag({
         working: false,
         partnership: true,
-      })
+      }),
     ).toEqual(57200 + 55200);
   });
 
@@ -34,7 +34,7 @@ describe("freibetrag", () => {
         working: false,
         partnership: true,
         partnerIncome: 50000,
-      })
+      }),
     ).toEqual(57200 + 55200 - 50000);
   });
 
@@ -44,7 +44,7 @@ describe("freibetrag", () => {
         working: false,
         partnership: true,
         partnerIncome: 80000,
-      })
+      }),
     ).toEqual(57200);
   });
 
@@ -52,7 +52,7 @@ describe("freibetrag", () => {
     expect(
       freibetrag({
         childrenBelow6: 1,
-      })
+      }),
     ).toEqual(57200 + 35000);
   });
 
@@ -60,7 +60,7 @@ describe("freibetrag", () => {
     expect(
       freibetrag({
         childrenBelow6: 1,
-      })
+      }),
     ).toEqual(57200 + 35000);
   });
 
@@ -68,7 +68,7 @@ describe("freibetrag", () => {
     expect(
       freibetrag({
         childrenBelow6: 2,
-      })
+      }),
     ).toEqual(57200 + 2 * 35000);
   });
 
@@ -77,7 +77,7 @@ describe("freibetrag", () => {
       freibetrag({
         childrenBelow6: 1,
         childrenIncome: 10000,
-      })
+      }),
     ).toEqual(57200 + 35000 - 10000);
   });
 
@@ -86,7 +86,7 @@ describe("freibetrag", () => {
       freibetrag({
         childrenBelow6: 1,
         childrenIncome: 80000,
-      })
+      }),
     ).toEqual(57200);
   });
 
@@ -95,7 +95,7 @@ describe("freibetrag", () => {
       freibetrag({
         childrenBelow6: 2,
         childrenIncome: 10000,
-      })
+      }),
     ).toEqual(57200 + 2 * 35000 - 10000);
   });
 
@@ -104,7 +104,7 @@ describe("freibetrag", () => {
       freibetrag({
         childrenBelow6: 2,
         childrenIncome: 50000,
-      })
+      }),
     ).toEqual(57200 + 2 * 35000 - 50000);
   });
 
@@ -112,7 +112,7 @@ describe("freibetrag", () => {
     expect(
       freibetrag({
         childrenBelow6: NaN,
-      })
+      }),
     ).toEqual(57200);
   });
 });

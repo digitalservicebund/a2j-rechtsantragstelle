@@ -18,7 +18,7 @@ export class Vorabcheck {
 
   async expectHeading(count = 2) {
     expect(await this.page.getByRole("heading").count()).toBeGreaterThanOrEqual(
-      count
+      count,
     );
   }
 

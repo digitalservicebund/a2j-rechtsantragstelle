@@ -22,7 +22,7 @@ export const StrapiResultPageSchema = z
         .array(
           HasStrapiIdSchema.extend({
             attributes: StrapiElementWithIdSchema,
-          })
+          }),
         )
         .nullable(),
     }),

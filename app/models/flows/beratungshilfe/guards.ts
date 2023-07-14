@@ -5,7 +5,7 @@ import type { BeratungshilfeVorabcheckContext } from "./pages";
 type Guard = (context: BeratungshilfeVorabcheckContext) => boolean;
 
 function yesNoGuards<Field extends keyof BeratungshilfeVorabcheckContext>(
-  field: Field
+  field: Field,
 ): { [field in Field as `${field}Yes`]: Guard } & {
   [field in Field as `${field}No`]: Guard;
 } {
@@ -17,14 +17,14 @@ function yesNoGuards<Field extends keyof BeratungshilfeVorabcheckContext>(
 }
 
 const yesOrNoGuard = (
-  field: keyof BeratungshilfeVorabcheckContext
+  field: keyof BeratungshilfeVorabcheckContext,
 ): Record<string, Guard> => ({
   [`${field}YesOrNo`]: (context) =>
     ["yes", "no"].includes(context[field] ?? ""),
 });
 
 const filledGuard = (
-  field: keyof BeratungshilfeVorabcheckContext
+  field: keyof BeratungshilfeVorabcheckContext,
 ): Record<string, Guard> => ({
   [`${field}Filled`]: (context) =>
     //@ts-ignore
@@ -101,7 +101,7 @@ export const guards = {
     ["buergergeld", "keine"].includes(context.staatlicheLeistungen ?? ""),
   staatlicheLeistungenYes: (context: BeratungshilfeVorabcheckContext) =>
     ["grundsicherung", "asylbewerberleistungen"].includes(
-      context.staatlicheLeistungen ?? ""
+      context.staatlicheLeistungen ?? "",
     ),
   vermoegenAbove10k,
   vermoegenBelow10kAndBuergergeld,

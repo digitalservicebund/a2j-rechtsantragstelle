@@ -15,7 +15,7 @@ export const StrapiInputSchema = z
         .array(
           HasStrapiIdSchema.extend({
             attributes: StrapiErrorCategorySchema,
-          })
+          }),
         )
         .optional(),
     }),

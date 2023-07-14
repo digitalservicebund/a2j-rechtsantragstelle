@@ -45,7 +45,7 @@ function Button({
       "ds-button-with-icon-only": (iconLeft ?? iconRight) && !children,
       "ds-button-full-width": fullWidth,
     },
-    props.className
+    props.className,
   );
 
   const textSpan = text ? <span>{text}</span> : "";

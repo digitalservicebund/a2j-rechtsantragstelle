@@ -58,7 +58,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
   const mainHeading = formPageContent.pre_form.filter(
     (component) =>
-      component.__component === "basic.heading" && component.tagName === "h1"
+      component.__component === "basic.heading" && component.tagName === "h1",
   ) as StrapiHeading[];
   const formLegend = mainHeading.length > 0 ? mainHeading[0].text : null;
 
@@ -97,7 +97,7 @@ export const action: ActionFunction = async ({ params, request }) => {
   if (validationResult.error) return validationError(validationResult.error);
 
   Object.entries(validationResult.data as Record<string, string>).forEach(
-    ([key, data]) => session.set(key, data)
+    ([key, data]) => session.set(key, data),
   );
   const headers = { "Set-Cookie": await commitSession(session) };
 

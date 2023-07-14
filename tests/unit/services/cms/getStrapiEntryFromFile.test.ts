@@ -37,7 +37,7 @@ describe("services/cms", () => {
         //@ts-ignore
         mockedStrapiFileContentSchema.parse.mockReturnValue({ footer: [data] });
         expect(
-          await getStrapiEntryFromFile({ ...defaultOptions, locale: "en" })
+          await getStrapiEntryFromFile({ ...defaultOptions, locale: "en" }),
         ).toBeUndefined();
       });
     });
@@ -53,7 +53,7 @@ describe("services/cms", () => {
             ...defaultOptions,
             apiId: "pages",
             slug: "impressum",
-          })
+          }),
         ).toEqual(data);
       });
 
@@ -70,7 +70,7 @@ describe("services/cms", () => {
               ...defaultOptions,
               apiId: "pages",
               slug: "datenschutz",
-            })
+            }),
           ).toBeUndefined();
         });
       });

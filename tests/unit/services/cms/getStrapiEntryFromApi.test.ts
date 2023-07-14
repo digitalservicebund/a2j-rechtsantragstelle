@@ -23,7 +23,7 @@ describe("services/cms", () => {
       await getStrapiEntryFromApi(defaultOptions);
       expect(axiosGetSpy).toHaveBeenCalledWith(
         expectedRequestUrl,
-        expect.anything()
+        expect.anything(),
       );
     });
 
@@ -34,7 +34,7 @@ describe("services/cms", () => {
         await getStrapiEntryFromApi({ ...defaultOptions, slug: "foobar" });
         expect(axiosGetSpy).toHaveBeenCalledWith(
           `${expectedRequestUrl}&filters[slug][$eq]=foobar`,
-          expect.anything()
+          expect.anything(),
         );
       });
     });

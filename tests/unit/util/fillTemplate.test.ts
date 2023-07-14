@@ -10,7 +10,7 @@ describe("fillTemplate", () => {
     it("should return template with not-matching replacments given", () => {
       const template = "foobar";
       expect(fillTemplate({ template, replacements: { bla: "blub" } })).toEqual(
-        template
+        template,
       );
     });
   });
@@ -19,7 +19,7 @@ describe("fillTemplate", () => {
     it("should return template", () => {
       const template = "foobar {{baz}} lala";
       expect(fillTemplate({ template, replacements: { baz: "buzz" } })).toEqual(
-        "foobar buzz lala"
+        "foobar buzz lala",
       );
     });
   });

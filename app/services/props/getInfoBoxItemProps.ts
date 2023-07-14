@@ -13,11 +13,11 @@ export const getInfoBoxItemProps = (cmsData: StrapiInfoBoxItem) => {
 };
 
 export function infoBoxesFromElementsWithID(
-  elementsWithID: StrapiElementWithId[]
+  elementsWithID: StrapiElementWithId[],
 ) {
   return elementsWithID.flatMap((elementWithID) =>
     elementWithID.element
       .filter((el) => el.__component === "page.info-box-item")
-      .map((el) => getInfoBoxItemProps(el as StrapiInfoBoxItem))
+      .map((el) => getInfoBoxItemProps(el as StrapiInfoBoxItem)),
   );
 }
