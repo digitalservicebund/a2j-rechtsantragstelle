@@ -1,4 +1,9 @@
-import { useLoaderData, useLocation, useParams } from "@remix-run/react";
+import {
+  useLoaderData,
+  useLocation,
+  useParams,
+  useRouteLoaderData,
+} from "@remix-run/react";
 import type {
   ActionFunction,
   LoaderArgs,
@@ -26,6 +31,8 @@ import {
 } from "./flowSpecifics";
 import type { StrapiHeading } from "~/services/cms/models/StrapiHeading";
 import type { StrapiSelect } from "~/services/cms/models/StrapiSelect";
+import { validatedSession } from "~/services/security/csrf.server";
+import { CSRFKey, csrfFromRouteLoader } from "~/services/security/csrf";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
@@ -82,14 +89,16 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
+  const session = await validatedSession(request);
+  if (session === undefined) return redirect("/"); //TODO: how to handle failure?
+
   const stepId = splatFromParams(params);
   const flowId = flowIDFromPathname(new URL(request.url).pathname);
-  const session = await getSession(request.headers.get("Cookie"));
   const formData = await request.formData();
   const { context } = flowSpecifics[flowId];
 
   const fieldNames = Array.from(formData.entries())
-    .filter(([key]) => key !== "_action")
+    .filter(([key]) => key !== "_action" && key !== CSRFKey)
     .map((entry) => entry.at(0) as string);
 
   const validator = buildStepValidator(context, fieldNames);
@@ -154,6 +163,11 @@ export function Step() {
                 noValidate
                 action={stepId}
               >
+                <input
+                  type="hidden"
+                  name={CSRFKey}
+                  value={csrfFromRouteLoader(useRouteLoaderData("root"))}
+                />
                 <div className="ds-stack-40">
                   <PageContent content={formContent} />
                   <ButtonNavigation
