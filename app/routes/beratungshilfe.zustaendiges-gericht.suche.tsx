@@ -9,7 +9,7 @@ import { withZod } from "@remix-validated-form/with-zod";
 import { z } from "zod";
 import {
   getStrapiAmtsgerichtCommon,
-  strapiPageFromRequest,
+  getStrapiVorabCheckPage,
 } from "~/services/cms";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
@@ -42,14 +42,15 @@ export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
 ];
 
 export async function loader({ request }: LoaderArgs) {
+  const slug = new URL(request.url).pathname;
+  const { form, meta } = await getStrapiVorabCheckPage({ slug });
   const { url: backURL, session } = getReturnToURL({
     request,
     session: await getSession(request.headers.get("Cookie")),
   });
-  const { content, meta } = await strapiPageFromRequest({ request });
   return json(
     {
-      content,
+      form,
       common: await getStrapiAmtsgerichtCommon(),
       title: meta.title,
       backURL,
@@ -67,7 +68,7 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function Index() {
-  const { common, content, backURL } = useLoaderData<typeof loader>();
+  const { common, form, backURL } = useLoaderData<typeof loader>();
 
   return (
     <Background backgroundColor="blue">
@@ -78,7 +79,7 @@ export default function Index() {
 
         <ValidatedForm method="post" validator={validatorClient} noValidate>
           <Container>
-            <PageContent content={content} />
+            <PageContent content={form} />
           </Container>
           <Container>
             <ButtonContainer>
