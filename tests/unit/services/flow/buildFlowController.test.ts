@@ -4,6 +4,7 @@ import { buildFlowController } from "~/services/flow/buildFlowController";
 const flow: MachineConfig<any, any, any> = {
   id: "/flow/vorabcheck/",
   initial: "step1",
+  predictableActionArguments: true,
   states: {
     step1: {
       meta: { progressPosition: 1 },
@@ -79,6 +80,7 @@ describe("buildFlowController", () => {
       expect(
         buildFlowController({
           flow: {
+            predictableActionArguments: true,
             id: "/flow/final/",
             initial: "step1",
             states: {
@@ -99,6 +101,7 @@ describe("buildFlowController", () => {
       expect(
         buildFlowController({
           flow: {
+            predictableActionArguments: true,
             id: "/flow/final/",
             initial: "step1",
             states: {
