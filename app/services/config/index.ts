@@ -35,7 +35,9 @@ export default function get(): Config {
       TRUSTED_IMAGE_SOURCES:
         "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
       TRUSTED_WEBSOCKET_SOURCES:
-        process.env.NODE_ENV === "development" ? "*" : "none",
+        process.env.NODE_ENV === "development"
+          ? "*"
+          : "https://*.ingest.sentry.io https://eu.posthog.com",
     };
   }
 
