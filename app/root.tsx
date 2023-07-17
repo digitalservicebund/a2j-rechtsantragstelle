@@ -28,6 +28,9 @@ import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { Analytics } from "./services/analytics/Analytics";
 import ErrorBox from "./components/ErrorBox";
 import errorMessage from "./util/errorMessage";
+import { createCSRFSession } from "./services/security/csrf.server";
+import { commitSession } from "./sessions";
+import { CSRFKey } from "./services/security/csrf";
 
 export const headers: HeadersFunction = () => ({
   "Content-Security-Policy": `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src ${
@@ -46,6 +49,8 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader = async ({ request }: LoaderArgs) => {
+  const { csrf, session } = await createCSRFSession(request);
+
   if (getWebConfig().POSTHOG_API_KEY) {
     const client = new PostHog(getWebConfig().POSTHOG_API_KEY, {
       host: getWebConfig().POSTHOG_API_HOST,
@@ -61,12 +66,15 @@ export const loader = async ({ request }: LoaderArgs) => {
       });
     }
   }
-
-  return json({
-    breadcrumbs: await breadcrumbsFromURL(request.url),
-    footer: getFooterProps(await getStrapiFooter()),
-    hasTrackingConsent: await hasTrackingConsent({ request }),
-  });
+  return json(
+    {
+      [CSRFKey]: csrf,
+      breadcrumbs: await breadcrumbsFromURL(request.url),
+      footer: getFooterProps(await getStrapiFooter()),
+      hasTrackingConsent: await hasTrackingConsent({ request }),
+    },
+    { headers: { "Set-Cookie": await commitSession(session) } },
+  );
 };
 
 function App() {

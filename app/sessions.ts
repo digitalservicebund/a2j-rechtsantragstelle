@@ -5,6 +5,9 @@ const { getSession, commitSession, destroySession } =
     cookie: createCookie("__session", {
       secrets: ["supers3cr3t"],
       sameSite: true,
+      httpOnly: true,
+      maxAge: 24 * 60 * 60,
+      secure: true,
     }),
   });
 
