@@ -1,4 +1,5 @@
-const moneyToCents = (validatedMoney: string) => {
+const moneyToCents = (validatedMoney: string | undefined) => {
+  if (validatedMoney === undefined) return undefined;
   let v = validatedMoney;
 
   // 1200,9

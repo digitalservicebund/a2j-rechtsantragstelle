@@ -52,29 +52,21 @@ const anyNonCriticalWarning: Guard = (context) => {
 };
 
 export const isIncomeTooHigh: Guard = (context) => {
-  const einkommen = context.einkommen ? moneyToCents(context.einkommen) : 0;
-  const miete = context.miete ? moneyToCents(context.miete) : 0;
-  const zahlungen = context.weitereZahlungenSumme
-    ? moneyToCents(context.weitereZahlungenSumme)
-    : 0;
+  const einkommen = moneyToCents(context.einkommen) ?? 0;
+  const miete = moneyToCents(context.miete) ?? 0;
+  const zahlungen = moneyToCents(context.weitereZahlungenSumme) ?? 0;
   const unterhalt =
-    context.unterhalt == "yes" && context.unterhaltSumme
-      ? moneyToCents(context.unterhaltSumme)
-      : 0;
+    (context.unterhalt == "yes" && moneyToCents(context.unterhaltSumme)) || 0;
 
   const calculatedFreibetrag = freibetrag({
     working: context.erwerbstaetigkeit === "yes",
     partnership: context.partnerschaft === "yes",
-    partnerIncome: context.einkommenPartner
-      ? moneyToCents(context.einkommenPartner)
-      : 0,
+    partnerIncome: moneyToCents(context.einkommenPartner) ?? 0,
     childrenBelow6: Number(String(context.kids6Below)?.replace(",", ".")),
     children7To14: Number(String(context.kids7To14)?.replace(",", ".")),
     children15To18: Number(String(context.kids15To18)?.replace(",", ".")),
     childrenAbove18: Number(String(context.kids18Above)?.replace(",", ".")),
-    childrenIncome: context.einkommenKinder
-      ? moneyToCents(context.einkommenKinder)
-      : 0,
+    childrenIncome: moneyToCents(context.einkommenKinder) ?? 0,
   });
 
   return einkommen - miete - zahlungen - unterhalt > calculatedFreibetrag;

@@ -1,6 +1,7 @@
 import moneyToCents from "~/services/validation/money/moneyToCents";
 
 const cases = [
+  { money: undefined, cents: undefined },
   { money: "-0", cents: 0 },
   { money: "0", cents: 0 },
   { money: "0000", cents: 0 },
