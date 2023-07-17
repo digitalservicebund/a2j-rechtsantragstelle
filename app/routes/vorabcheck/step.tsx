@@ -90,7 +90,12 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
 export const action: ActionFunction = async ({ params, request }) => {
   const session = await validatedSession(request);
-  if (session === undefined) return redirect("/"); //TODO: how to handle failure?
+  if (!session) {
+    throw new Response(null, {
+      status: 403,
+      statusText: "Diese Anfrage ist nicht erlaubt",
+    });
+  }
 
   const stepId = splatFromParams(params);
   const flowId = flowIDFromPathname(new URL(request.url).pathname);
