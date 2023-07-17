@@ -18,7 +18,8 @@ import stylesheet from "~/styles.css";
 import fontsStylesheet from "@digitalservice4germany/angie/fonts.css";
 import { withSentry } from "@sentry/remix";
 import { PostHog } from "posthog-node";
-import get, { getWebConfig } from "~/services/config";
+import { config as configWeb } from "~/services/env/web";
+import { config as configServer } from "~/services/env/env.server";
 import { getStrapiFooter } from "~/services/cms";
 import { getFooterProps } from "~/services/props/getFooterProps";
 import Footer from "./components/Footer";
@@ -34,8 +35,8 @@ import { CSRFKey } from "./services/security/csrf";
 
 export const headers: HeadersFunction = () => ({
   "Content-Security-Policy": `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src ${
-    get().TRUSTED_CSP_CONNECT_SOURCES
-  };  img-src 'self' ${get().TRUSTED_IMAGE_SOURCES}`,
+    configServer().TRUSTED_CSP_CONNECT_SOURCES
+  };  img-src 'self' ${configServer().TRUSTED_IMAGE_SOURCES}`,
   "X-Frame-Options": "SAMEORIGIN",
   "X-Content-Type-Options": "nosniff",
   "Referrer-Policy": "strict-origin-when-cross-origin",
@@ -51,9 +52,9 @@ export const links: LinksFunction = () => [
 export const loader = async ({ request }: LoaderArgs) => {
   const { csrf, session } = await createCSRFSession(request);
 
-  if (getWebConfig().POSTHOG_API_KEY) {
-    const client = new PostHog(getWebConfig().POSTHOG_API_KEY, {
-      host: getWebConfig().POSTHOG_API_HOST,
+  if (configWeb().POSTHOG_API_KEY) {
+    const client = new PostHog(configWeb().POSTHOG_API_KEY, {
+      host: configWeb().POSTHOG_API_HOST,
     });
 
     if (
@@ -88,7 +89,7 @@ function App() {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(getWebConfig())}`,
+            __html: `window.ENV = ${JSON.stringify(configWeb())}`,
           }}
         />
         <Meta />

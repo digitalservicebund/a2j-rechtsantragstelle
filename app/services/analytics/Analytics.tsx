@@ -1,5 +1,5 @@
 import { useFetcher, useLocation } from "@remix-run/react";
-import { getWebConfig } from "../config";
+import { config } from "~/services/env/web";
 import { useEffect, useState } from "react";
 import posthog from "posthog-js";
 import type { CommonWrapperProps } from "~/components";
@@ -27,7 +27,7 @@ export function ResetCookieLink() {
 }
 
 export function Analytics({ hasTrackingConsent }: AnalyticsProps) {
-  const { POSTHOG_API_KEY, POSTHOG_API_HOST } = getWebConfig();
+  const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
   const [posthogLoaded, setPosthogLoaded] = useState(false);
   const analyticsFetcher = useFetcher();
   const location = useLocation();

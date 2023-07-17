@@ -2,12 +2,12 @@ import { useLocation, useMatches, RemixBrowser } from "@remix-run/react";
 import { startTransition, StrictMode, useEffect } from "react";
 import { hydrateRoot } from "react-dom/client";
 import * as Sentry from "@sentry/remix";
-import { getWebConfig } from "./services/config";
+import { config } from "~/services/env/web";
 
-if (getWebConfig().SENTRY_DSN) {
+if (config().SENTRY_DSN) {
   Sentry.init({
-    dsn: getWebConfig().SENTRY_DSN,
-    environment: getWebConfig().ENVIRONMENT,
+    dsn: config().SENTRY_DSN,
+    environment: config().ENVIRONMENT,
     integrations: [
       new Sentry.BrowserTracing({
         routingInstrumentation: Sentry.remixRouterInstrumentation(

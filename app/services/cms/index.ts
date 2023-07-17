@@ -1,4 +1,4 @@
-import config from "../config";
+import { config } from "~/services/env/env.server";
 import type { StrapiLocale } from "./models/StrapiLocale";
 import { getStrapiEntryFromFile } from "./getStrapiEntryFromFile";
 import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";

@@ -1,9 +1,14 @@
-import config from "~/services/config";
+import { config as configServer } from "~/services/env/env.server";
+import { config as configWeb } from "~/services/env/web";
 
-it("Expect a configuration is available", () => {
-  expect(config()).not.toBeNull();
+it("Expect server configuration to be available", () => {
+  expect(configServer()).not.toBeNull();
 });
 
-it("Expect in the config a valid url to strapi", () => {
-  expect(config().STRAPI_API).toBe("http://localhost/api/");
+it("Expect web configuration to be available", () => {
+  expect(configWeb()).not.toBeNull();
+});
+
+it("Expect the server config to contain a valid url to strapi", () => {
+  expect(configServer().STRAPI_API).toBe("http://localhost/api/");
 });

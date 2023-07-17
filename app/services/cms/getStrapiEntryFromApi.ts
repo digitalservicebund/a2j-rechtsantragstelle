@@ -1,6 +1,6 @@
 import type { AxiosResponse } from "axios";
 import axios from "axios";
-import config from "~/services/config";
+import { config } from "~/services/env/env.server";
 import type { GetStrapiEntryOpts } from ".";
 
 const buildUrl = ({ apiId, slug, locale }: GetStrapiEntryOpts) =>

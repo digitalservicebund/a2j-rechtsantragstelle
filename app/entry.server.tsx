@@ -5,12 +5,12 @@ import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 import * as Sentry from "@sentry/remix";
-import { getWebConfig } from "./services/config";
+import { config } from "./services/env/web";
 import { stripTrailingSlashFromURL } from "./util/strings";
 
 Sentry.init({
-  dsn: getWebConfig().SENTRY_DSN,
-  environment: getWebConfig().ENVIRONMENT,
+  dsn: config().SENTRY_DSN,
+  environment: config().ENVIRONMENT,
 });
 
 const ABORT_DELAY = 5000;
