@@ -29,7 +29,7 @@ const LinkListBox = ({
   buttons,
 }: LinkListBoxProps) => {
   return (
-    <div className="ds-stack-16" id={identifier ?? undefined}>
+    <div className="ds-stack-16" id={identifier}>
       <div className="ds-stack-8">
         {label && <Heading {...label} />}
         {heading && <Heading {...heading} />}
