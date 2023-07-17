@@ -1,4 +1,8 @@
-import { freibetrag } from "~/models/beratungshilfe";
+import {
+  freibetrag,
+  getVerfuegbaresEinkommenFreibetrag,
+} from "~/models/beratungshilfe";
+import { BeratungshilfeVorabcheckContext } from "~/models/flows/beratungshilfe/pages";
 
 describe("freibetrag", () => {
   it("should return 572 when single not working", () => {
@@ -46,14 +50,6 @@ describe("freibetrag", () => {
         partnerIncome: 80000,
       }),
     ).toEqual(57200);
-  });
-
-  it("should return 572 + 350 when 1 child 0-6 not working", () => {
-    expect(
-      freibetrag({
-        childrenBelow6: 1,
-      }),
-    ).toEqual(57200 + 35000);
   });
 
   it("should return 572 + 350 when 1 child 0-6 not working", () => {
@@ -114,5 +110,65 @@ describe("freibetrag", () => {
         childrenBelow6: NaN,
       }),
     ).toEqual(57200);
+  });
+});
+
+const cases = [
+  {
+    condition: "empty context",
+    context: {},
+    result: 572,
+  },
+  {
+    condition: "partner",
+    context: { partnerschaft: "yes" },
+    result: 572 + 552,
+  },
+  {
+    condition: "partner and no kid but kinderAnzahlKurz given",
+    context: { partnerschaft: "yes", kinderAnzahlKurz: "1" },
+    result: 572 + 552,
+  },
+  {
+    condition: "partner and one kid",
+    context: { partnerschaft: "yes", kinderKurz: "yes", kinderAnzahlKurz: "1" },
+    result: 572 + 552 + 400,
+  },
+  {
+    condition: "no partner and one kid",
+    context: { partnerschaft: "no", kinderKurz: "yes", kinderAnzahlKurz: "1" },
+    result: 572 + 400,
+  },
+  {
+    condition: "no partner and three kids",
+    context: { partnerschaft: "no", kinderKurz: "yes", kinderAnzahlKurz: "3" },
+    result: 572 + 3 * 400,
+  },
+  {
+    condition: "erwerbstaetig",
+    context: { erwerbstaetigkeit: "yes" },
+    result: 572 + 251,
+  },
+  {
+    condition: "partner and erwerbstaetig",
+    context: { partnerschaft: "yes", erwerbstaetigkeit: "yes" },
+    result: 572 + 552 + 251,
+  },
+  {
+    condition: "partner and erwerbstaetig and two kids",
+    context: {
+      partnerschaft: "yes",
+      erwerbstaetigkeit: "yes",
+      kinderKurz: "yes",
+      kinderAnzahlKurz: "2",
+    },
+    result: 572 + 552 + 251 + 2 * 400,
+  },
+] as const;
+
+describe("getVerfuegbaresEinkommenFreibetrag", () => {
+  test.each(cases)("$condition, returns $result", ({ context, result }) => {
+    const freibetrag = getVerfuegbaresEinkommenFreibetrag(context);
+    expect(freibetrag).toEqual(result);
   });
 });

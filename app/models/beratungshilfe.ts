@@ -61,7 +61,9 @@ export const getVerfuegbaresEinkommenFreibetrag = (
   const isWorking = context.erwerbstaetigkeit == "yes";
   const isInPartnership = context.partnerschaft == "yes";
   const kidsCountTotal =
-    context.kinder == "yes" ? parseFloat(context.kinderAnzahlKurz ?? "0") : 0;
+    context.kinderKurz == "yes"
+      ? parseFloat(context.kinderAnzahlKurz ?? "0")
+      : 0;
   return freibetragShort(isWorking, isInPartnership, kidsCountTotal);
 };
 
