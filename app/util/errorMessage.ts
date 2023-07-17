@@ -9,7 +9,7 @@ export default function errorMessage(error: ReturnType<typeof useRouteError>) {
       errorMessage =
         "Die angefragte Seite konnte leider nicht gefunden werden.";
     } else {
-      errorMessage = error.data.message;
+      errorMessage = error.statusText;
     }
   } else if (typeof error === "string") {
     errorMessage = error.toUpperCase();
