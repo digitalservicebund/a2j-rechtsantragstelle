@@ -4,7 +4,7 @@ export interface Config {
   STRAPI_ACCESS_KEY: string;
   CMS: string;
   TRUSTED_IMAGE_SOURCES: string;
-  TRUSTED_WEBSOCKET_SOURCES: string;
+  TRUSTED_CSP_CONNECT_SOURCES: string;
 }
 
 let instance: Config | undefined = undefined;
@@ -34,10 +34,10 @@ export default function get(): Config {
       CMS: process.env.CMS?.trim() ?? "FILE",
       TRUSTED_IMAGE_SOURCES:
         "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
-      TRUSTED_WEBSOCKET_SOURCES:
+      TRUSTED_CSP_CONNECT_SOURCES:
         process.env.NODE_ENV === "development"
           ? "*"
-          : "https://*.ingest.sentry.io https://eu.posthog.com",
+          : "'self' https://*.ingest.sentry.io https://eu.posthog.com",
     };
   }
 

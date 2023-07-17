@@ -34,7 +34,7 @@ import { CSRFKey } from "./services/security/csrf";
 
 export const headers: HeadersFunction = () => ({
   "Content-Security-Policy": `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src ${
-    get().TRUSTED_WEBSOCKET_SOURCES
+    get().TRUSTED_CSP_CONNECT_SOURCES
   };  img-src 'self' ${get().TRUSTED_IMAGE_SOURCES}`,
   "X-Frame-Options": "SAMEORIGIN",
   "X-Content-Type-Options": "nosniff",
