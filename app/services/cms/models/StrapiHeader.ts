@@ -9,7 +9,7 @@ export const StrapiHeaderSchema = z
   .object({
     __component: z.literal("page.header").optional(),
     heading: StrapiHeadingSchema,
-    content: StrapiParagraphSchema,
+    content: StrapiParagraphSchema.nullable(),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
   })
