@@ -18,7 +18,7 @@ import stylesheet from "~/styles.css";
 import fontsStylesheet from "@digitalservice4germany/angie/fonts.css";
 import { withSentry } from "@sentry/remix";
 import { PostHog } from "posthog-node";
-import { getWebConfig } from "~/services/config";
+import get, { getWebConfig } from "~/services/config";
 import { getStrapiFooter } from "~/services/cms";
 import { getFooterProps } from "~/services/props/getFooterProps";
 import Footer from "./components/Footer";
@@ -30,7 +30,9 @@ import ErrorBox from "./components/ErrorBox";
 import errorMessage from "./util/errorMessage";
 
 export const headers: HeadersFunction = () => ({
-  // "Content-Security-Policy": "TODO",
+  "Content-Security-Policy": `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src ${
+    get().TRUSTED_WEBSOCKET_SOURCES
+  };  img-src 'self' ${get().TRUSTED_IMAGE_SOURCES}`,
   "X-Frame-Options": "SAMEORIGIN",
   "X-Content-Type-Options": "nosniff",
   "Referrer-Policy": "strict-origin-when-cross-origin",
