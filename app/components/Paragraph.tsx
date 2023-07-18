@@ -7,11 +7,8 @@ export const ParagraphPropsSchema = z.object({
   className: z.string().optional(),
 });
 
-// TODO: check, if this is correct (shouldn't we use z.infer here?)
-export interface ParagraphProps extends React.ClassAttributes<typeof RichText> {
-  text: string;
-  className?: string;
-}
+export type ParagraphProps = z.infer<typeof ParagraphPropsSchema> &
+  React.ClassAttributes<typeof RichText>;
 
 function Paragraph({ text, ...props }: ParagraphProps) {
   return <RichText markdown={text} {...props} />;

@@ -3,9 +3,15 @@ import { marked } from "marked";
 type RichTextProps = {
   markdown: string;
   renderer?: any;
+  className?: string;
 };
 
-const RichText = ({ markdown, renderer, ...props }: RichTextProps) => {
+const RichText = ({
+  markdown,
+  renderer,
+  className,
+  ...props
+}: RichTextProps) => {
   // TODO: Can now be fixed since Marked 5.1.0, see https://github.com/markedjs/marked/pull/2831
   // Reset marked to default options before use because of a bug in marked https://github.com/markedjs/marked/issues/907
   marked.setOptions(marked.getDefaults());
@@ -33,7 +39,7 @@ const RichText = ({ markdown, renderer, ...props }: RichTextProps) => {
   return (
     <div
       {...props}
-      className="rich-text ds-stack-8"
+      className={`rich-text ds-stack-8 ${className ?? ""}`}
       dangerouslySetInnerHTML={{ __html: marked.parse(markdown) }}
     />
   );
