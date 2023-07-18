@@ -4,7 +4,7 @@ import { z } from "zod";
 import { fillTemplate } from "~/util/fillTemplate";
 
 export const HeadingPropsSchema = z.object({
-  tagName: z.string().optional(), // TODO: This should be more narrow
+  tagName: z.enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"]).optional(),
   text: z.string().optional(),
   look: z.string().optional(),
   className: z.string().optional(),
