@@ -5,10 +5,7 @@ import { getImageProps } from "./getImageProps";
 import type { StrapiElementWithId } from "../cms/models/StrapiElementWithId";
 
 export const getInfoBoxItemProps = (cmsData: StrapiInfoBoxItem) => {
-  const props = {
-    ...cmsData,
-    image: cmsData.image ? getImageProps(cmsData.image) : undefined,
-  };
+  const props = { ...cmsData, image: getImageProps(cmsData.image) };
   return InfoBoxItemPropsSchema.parse(omitNull(props));
 };
 

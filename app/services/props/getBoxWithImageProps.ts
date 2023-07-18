@@ -4,9 +4,6 @@ import { getImageProps } from "./getImageProps";
 import { BoxWithImagePropsSchema } from "~/components/BoxWithImage";
 
 export const getBoxWithImageProps = (cmsData: StrapiBoxWithImage) => {
-  const props = {
-    ...cmsData,
-    image: cmsData.image ? getImageProps(cmsData.image) : undefined,
-  };
+  const props = { ...cmsData, image: getImageProps(cmsData.image) };
   return BoxWithImagePropsSchema.parse(omitNull(props));
 };

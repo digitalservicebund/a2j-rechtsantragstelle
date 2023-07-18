@@ -4,9 +4,6 @@ import { omitNull } from "~/util/omitNull";
 import { getImageProps } from "./getImageProps";
 
 export const getFooterProps = (cmsData: StrapiFooter) => {
-  const props = {
-    ...cmsData,
-    image: getImageProps(cmsData.image),
-  };
+  const props = { ...cmsData, image: getImageProps(cmsData.image) };
   return FooterPropsSchema.parse(omitNull(props));
 };
