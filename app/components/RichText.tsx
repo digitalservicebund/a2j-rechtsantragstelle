@@ -1,10 +1,28 @@
-import { marked } from "marked";
+import { type Renderer, marked } from "marked";
 
 type RichTextProps = {
   markdown: string;
-  renderer?: any;
+  renderer?: Partial<Renderer>;
   className?: string;
 };
+
+const defaultRenderer: Partial<Renderer> = {
+  link(href: string, title: string, text: string) {
+    const cssClass = "text-link";
+    if (href.includes("ext:")) {
+      const newHref = href.replace("ext:", "");
+      return `<a href="${newHref}" class="${cssClass}" target="_blank" rel="noreferrer">${text}</a>`;
+    }
+    return `<a href="${href}" class="${cssClass}">${text}</a>`;
+  },
+  heading(text: string, level: number) {
+    const cssClass =
+      ["ds-heading-01-reg", "ds-heading-02-reg", "ds-heading-03-reg"][
+        level - 1
+      ] || "ds-heading-03-reg";
+    return `<h${level} class="${cssClass}">${text}</h${level}>`;
+  },
+} as const;
 
 const RichText = ({
   markdown,
@@ -18,23 +36,7 @@ const RichText = ({
   marked.use({
     mangle: false,
     headerIds: false,
-    renderer: renderer || {
-      link(href: string, title: string, text: string) {
-        const cssClass = "text-link";
-        if (href.includes("ext:")) {
-          const newHref = href.replace("ext:", "");
-          return `<a href="${newHref}" class="${cssClass}" target="_blank" rel="noreferrer">${text}</a>`;
-        }
-        return `<a href="${href}" class="${cssClass}">${text}</a>`;
-      },
-      heading(text: string, level: number) {
-        const cssClass =
-          ["ds-heading-01-reg", "ds-heading-02-reg", "ds-heading-03-reg"][
-            level - 1
-          ] || "ds-heading-03-reg";
-        return `<h${level} class="${cssClass}">${text}</h${level}>`;
-      },
-    },
+    renderer: renderer ?? defaultRenderer,
   });
   return (
     <div
