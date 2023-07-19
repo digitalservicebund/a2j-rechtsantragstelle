@@ -22,7 +22,7 @@
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.14.0",
+    "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.14.0",
     "@remix-run/express": "^1.18.1",
     "@remix-run/node": "^1.18.1",
