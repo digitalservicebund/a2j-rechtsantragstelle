@@ -47,13 +47,9 @@ const transformCmsData = (
   };
 };
 
-const wrapInContainer = (
-  cmsData: { [key: string]: any; container?: StrapiContainer },
-  reactElement: ReactElement,
-): ReactElement => {
-  if (!cmsData.container) {
+function wrapInContainer(cmsData: StrapiContent, reactElement: ReactElement) {
+  if (!("container" in cmsData) || cmsData.container === null)
     return reactElement;
-  }
   const isBox = cmsData.__component === "page.box";
   const isBoxWithImage = cmsData.__component === "page.box-with-image";
 
@@ -63,18 +59,14 @@ const wrapInContainer = (
       {reactElement}
     </Container>
   );
-};
+}
 
-const wrapInBackground = (
-  cmsData: { [key: string]: any; outerBackground?: StrapiBackground | null },
-  reactElement: ReactElement,
-): ReactElement => {
-  if (!cmsData.outerBackground) {
+function wrapInBackground(cmsData: StrapiContent, reactElement: ReactElement) {
+  if (!("outerBackground" in cmsData) || cmsData.outerBackground === null)
     return reactElement;
-  }
   const config = transformCmsData(cmsData.outerBackground);
   return <Background {...config}>{reactElement}</Background>;
-};
+}
 
 function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
   const key = keyFromElement(cms);
