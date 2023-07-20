@@ -24,7 +24,7 @@ export function config(): Config {
       TRUSTED_CSP_CONNECT_SOURCES:
         process.env.NODE_ENV === "development"
           ? "*"
-          : "'self' https://*.ingest.sentry.io https://eu.posthog.com",
+          : "'self' https://*.ingest.sentry.io https://eu.posthog.com https://mermaid.ink",
     };
   }
 
