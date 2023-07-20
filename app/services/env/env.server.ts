@@ -20,11 +20,11 @@ export function config(): Config {
       STRAPI_ACCESS_KEY: process.env.STRAPI_ACCESS_KEY?.trim() ?? "",
       CMS: process.env.CMS?.trim() ?? "FILE",
       TRUSTED_IMAGE_SOURCES:
-        "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
+        "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com https://mermaid.ink",
       TRUSTED_CSP_CONNECT_SOURCES:
         process.env.NODE_ENV === "development"
           ? "*"
-          : "'self' https://*.ingest.sentry.io https://eu.posthog.com https://mermaid.ink",
+          : "'self' https://*.ingest.sentry.io https://eu.posthog.com",
     };
   }
 
