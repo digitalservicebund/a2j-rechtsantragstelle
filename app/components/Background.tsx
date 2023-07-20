@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import type { PropsWithChildren } from "react";
-import type { CommonWrapperProps } from ".";
+import type { CommonWrapperProps } from "./CommonWrapperProps";
 import { BACKGROUND_COLORS } from ".";
 
 const DEFAULT_PADDING_TOP = "0";

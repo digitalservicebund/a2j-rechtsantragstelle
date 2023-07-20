@@ -2,7 +2,7 @@ import { useFetcher, useLocation } from "@remix-run/react";
 import { config } from "~/services/env/web";
 import { useEffect, useState } from "react";
 import posthog from "posthog-js";
-import type { CommonWrapperProps } from "~/components";
+import type { CommonWrapperProps } from "~/components/CommonWrapperProps";
 import { Button, Container } from "~/components";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
@@ -51,11 +51,11 @@ export function Analytics({ hasTrackingConsent }: AnalyticsProps) {
   if (hasTrackingConsent !== undefined) {
     return <></>;
   }
-  const containerProps: CommonWrapperProps = {
+  const containerProps = {
     paddingBottom: "16",
     paddingTop: "16",
     backgroundColor: "white",
-  };
+  } satisfies CommonWrapperProps;
 
   return (
     <div

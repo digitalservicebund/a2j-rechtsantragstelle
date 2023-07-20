@@ -4,12 +4,9 @@ import Paragraph from "~/components/Paragraph";
 import Header from "./Header";
 import InfoBox from "./InfoBox";
 import type { StrapiContent } from "~/services/cms/models/StrapiContent";
-import type { StrapiContainer } from "~/services/cms/models/StrapiContainer";
-import type { StrapiBackground } from "~/services/cms/models/StrapiBackground";
+import { wrapperPropsFromCms } from "./CommonWrapperProps";
 import Box from "./Box";
-import type { ContainerProps } from "./Container";
 import Container from "./Container";
-import type { BackgroundProps } from "./Background";
 import Background from "./Background";
 import { getInfoBoxProps } from "~/services/props/getInfoBoxProps";
 import { getBoxProps } from "~/services/props/getBoxProps";
@@ -35,27 +32,15 @@ type PageContentProps = {
 export const keyFromElement = (element: StrapiContent) =>
   `${element.__component}_${element.id}`;
 
-const transformCmsData = (
-  cmsData: StrapiContainer | StrapiBackground,
-): ContainerProps | BackgroundProps => {
-  return {
-    ...cmsData,
-    //@ts-ignore
-    paddingTop: cmsData.paddingTop.replace(/^px/, ""),
-    //@ts-ignore
-    paddingBottom: cmsData.paddingBottom.replace(/^px/, ""),
-  };
-};
-
 function wrapInContainer(cmsData: StrapiContent, reactElement: ReactElement) {
   if (!("container" in cmsData) || cmsData.container === null)
     return reactElement;
   const isBox = cmsData.__component === "page.box";
   const isBoxWithImage = cmsData.__component === "page.box-with-image";
 
-  const config = transformCmsData(cmsData.container);
+  const props = wrapperPropsFromCms(cmsData.container);
   return (
-    <Container {...config} overhangingBackground={isBox || isBoxWithImage}>
+    <Container {...props} overhangingBackground={isBox || isBoxWithImage}>
       {reactElement}
     </Container>
   );
@@ -64,8 +49,8 @@ function wrapInContainer(cmsData: StrapiContent, reactElement: ReactElement) {
 function wrapInBackground(cmsData: StrapiContent, reactElement: ReactElement) {
   if (!("outerBackground" in cmsData) || cmsData.outerBackground === null)
     return reactElement;
-  const config = transformCmsData(cmsData.outerBackground);
-  return <Background {...config}>{reactElement}</Background>;
+  const props = wrapperPropsFromCms(cmsData.outerBackground);
+  return <Background {...props}>{reactElement}</Background>;
 }
 
 function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
