@@ -15,13 +15,12 @@ export function splitObjectsByFirstLetter<
   return result;
 }
 
-const PROTOCOLS = ["http", "https"] as const;
-type Protocol = (typeof PROTOCOLS)[number];
+type Protocol = "http" | "https";
 
 export function normalizeURL(url: string, protocol: Protocol = "https") {
   // Three cases: URL already is the desired protocol, URL is the other protocol, URL has no protocol
   if (url.startsWith(protocol + "://")) return url;
-  const otherProtocol = PROTOCOLS.find((el) => el !== protocol)!;
+  const otherProtocol = protocol === "https" ? "http" : "https";
   if (url.startsWith(otherProtocol + "://"))
     return protocol + url.substring(otherProtocol.length);
   return protocol + "://" + url;
