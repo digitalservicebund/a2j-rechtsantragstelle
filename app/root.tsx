@@ -41,8 +41,13 @@ export const headers: HeadersFunction = () => ({
   "X-Content-Type-Options": "nosniff",
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy":
-    "accelerometer=(), autoplay=(), camera=(), cross-origin-isolated=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), xr-spatial-tracking=(), clipboard-read=(), clipboard-write=(), gamepad=(), hid=(), interest-cohort=(), unload=(), window-placement=()",
+    "accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()",
 });
+
+const consoleMessage = `Note: Your browser console might be reporting several errors with the Permission-Policy header.
+We are actively disabling all permissions as recommended by https://owasp.org/www-project-secure-headers/#div-bestpractices
+
+Interested in working with us? Reach out https://digitalservice.bund.de/en/career`;
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: fontsStylesheet },
@@ -81,6 +86,8 @@ export const loader = async ({ request }: LoaderArgs) => {
 function App() {
   const { footer, hasTrackingConsent, breadcrumbs } =
     useLoaderData<typeof loader>();
+
+  if (typeof window !== "undefined") console.log(consoleMessage);
 
   return (
     <html lang="de" className="scroll-smooth">
