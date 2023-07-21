@@ -2,7 +2,6 @@ import {
   freibetrag,
   getVerfuegbaresEinkommenFreibetrag,
 } from "~/models/beratungshilfe";
-import { BeratungshilfeVorabcheckContext } from "~/models/flows/beratungshilfe/pages";
 
 describe("freibetrag", () => {
   it("should return 572 when single not working", () => {

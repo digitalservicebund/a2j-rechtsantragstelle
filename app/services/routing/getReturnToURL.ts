@@ -14,6 +14,6 @@ export const getReturnToURL = ({ request, session }: GetBackURLSchema) => {
     const { pathname: refererPath } = new URL(referer);
     session.set(currentPath, refererPath);
   }
-  const url: string | undefined = session.get(currentPath);
+  const url = session.get(currentPath) as string | undefined;
   return { url, session };
 };

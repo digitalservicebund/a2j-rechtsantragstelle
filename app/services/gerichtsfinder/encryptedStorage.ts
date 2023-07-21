@@ -29,7 +29,7 @@ function loadEncrypted(filename: string, password: string) {
   const decipher = getCipher(password, false);
   const decrypted = Buffer.concat([decipher.update(fileBuf), decipher.final()]);
   const unpacked = zlib.gunzipSync(decrypted).toString();
-  return JSON.parse(unpacked);
+  return JSON.parse(unpacked) as Record<string, unknown>;
 }
 
 function saveEncrypted(data: any, filename: string, password: string) {

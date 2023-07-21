@@ -20,7 +20,7 @@ export class CourtFinder {
 
   async gotoWithReferrer(baseURL: string | undefined) {
     await this.page.goto(`${this.searchURL}?returnToHere`, {
-      referer: `${baseURL}${this.referrer}`,
+      referer: `${baseURL ?? ""}${this.referrer}`,
     });
   }
 
