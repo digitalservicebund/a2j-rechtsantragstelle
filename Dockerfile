@@ -7,7 +7,7 @@ ENV APP_VERSION=$COMMIT_SHA
 WORKDIR /src
 # Required files are whitelisted in dockerignore
 COPY . ./
-RUN npm pkg delete scripts.prepare && npm ci && npm run build && npm prune --production
+RUN npm pkg delete scripts.prepare && npm cache clear --f && npm ci && npm run build && npm prune --production
 
 FROM node:18-alpine3.18
 RUN apk add --no-cache dumb-init \
