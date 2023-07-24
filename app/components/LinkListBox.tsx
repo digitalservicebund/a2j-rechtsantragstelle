@@ -34,14 +34,14 @@ const LinkListBox = ({
         {label && <Heading {...label} />}
         {heading && <Heading {...heading} />}
         {links && (
-          <ul className="list-none pl-0">
+          <ul className="list-none pl-0 ds-stack-16">
             {links.map((link) => (
-              <li key={link?.text ?? ""} className="my-8">
+              <li key={link.text ?? link.url}>
                 <Link
                   className="text-link visited:text-black !text-black"
-                  to={link?.url ?? ""}
+                  to={link.url ?? ""}
                 >
-                  ↓ {link?.text}
+                  ↓ {link.text}
                 </Link>
               </li>
             ))}
