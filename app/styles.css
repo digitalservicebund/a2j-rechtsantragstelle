@@ -16,10 +16,13 @@ ul {
   padding-left: 1.5rem;
 }
 
+html {
+  font-size: 18px;
+}
+
 body {
   font-family: "BundesSansWeb", "Calibri", "Verdana", "Arial", "Helvetica",
     sans-serif;
-  font-size: 16px;
   line-height: 1.5;
   min-height: 100vh;
 }
