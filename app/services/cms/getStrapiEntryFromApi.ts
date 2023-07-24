@@ -18,12 +18,22 @@ const unpackResponse = (response: AxiosResponse) => {
   return Array.isArray(data) ? data[0] : data;
 };
 
-export const getStrapiEntryFromApi = async (opts: GetStrapiEntryOpts) => {
-  const response = await axios.get(buildUrl(opts), {
+const makeStrapiRequest = async (opts: GetStrapiEntryOpts) =>
+  axios.get(buildUrl(opts), {
+    validateStatus: (status) => status < 500,
     headers: {
       Authorization: "Bearer " + config().STRAPI_ACCESS_KEY,
     },
   });
+
+export const getStrapiEntryFromApi = async (opts: GetStrapiEntryOpts) => {
+  // locale "sg" means "staging"
+  let response = await makeStrapiRequest({ ...opts, locale: "sg" });
+
+  const unpacked = unpackResponse(response);
+  if (!unpacked) {
+    response = await makeStrapiRequest(opts);
+  }
 
   return unpackResponse(response);
 };

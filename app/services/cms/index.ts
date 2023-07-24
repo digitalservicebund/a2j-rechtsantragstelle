@@ -23,7 +23,10 @@ const getStrapiEntry = async (
     locale?: StrapiLocale;
   },
 ) => {
-  const data = await getStrapiEntryFromSource({ locale: "de", ...opts });
+  const data = await getStrapiEntryFromSource({
+    ...opts,
+    locale: opts.locale ?? "de",
+  });
   // remove "attributes" key
   // { id: 12, attributes: { text: "…" } } => { id: 12, text: "…" }
   return data && { id: data.id, ...data.attributes };
@@ -84,6 +87,8 @@ export const getStrapiVorabCheckPage = async (
 
 export const strapiPageFromRequest = async ({
   request,
+  locale,
 }: {
   request: Request;
-}) => await getStrapiPage({ slug: new URL(request.url).pathname });
+  locale?: StrapiLocale;
+}) => await getStrapiPage({ slug: new URL(request.url).pathname, locale });
