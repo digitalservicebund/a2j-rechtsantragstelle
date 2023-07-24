@@ -9,8 +9,8 @@ const InputError = ({ id, children }: InputErrorProps) => {
   return (
     <div aria-live="assertive">
       {children && (
-        <div id={id} className="mt-4 text-xs text-red-800 relative pl-20">
-          <ErrorOutline className="!w-16 !h-16 absolute top-0 left-0" />
+        <div id={id} className="mt-4 text-red-800 flex items-center gap-x-4">
+          <ErrorOutline />
           <span className="sr-only">Fehler:</span> {children}
         </div>
       )}
