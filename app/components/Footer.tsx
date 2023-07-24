@@ -34,7 +34,7 @@ export default function Footer({
     <li key={link.url}>
       <a
         href={link.url}
-        className="ds-link-02-bold text-black focus-visible:outline"
+        className="text-link ds-link-02-bold underline focus-visible:outline"
       >
         {link.text}
       </a>
@@ -42,25 +42,25 @@ export default function Footer({
   );
 
   const renderLinks = (links: LinkProps[]) => (
-    <ul className="list-none m-0 p-0 ds-stack-8" key={links[0]?.url}>
+    <ul className="list-none m-0 p-0 ds-stack-24" key={links[0]?.url}>
       {links.map(renderLink)}
     </ul>
   );
 
   const paragraphRenderer: Partial<Renderer> = {
     link(href, _, text) {
-      return `<a class="ds-link-02-bold text-black underline whitespace-nowrap focus-visible:outline" href=${href} target="_blank" rel="noreferrer">${text}</a>`;
+      return `<a class="ds-link-02-bold underline whitespace-nowrap focus-visible:outline" href=${href} target="_blank" rel="noreferrer">${text}</a>`;
     },
     paragraph(text) {
-      return `<p class="ds-label-03-reg">${text}</p>`;
+      return `<p>${text}</p>`;
     },
   };
 
   return (
-    <footer className="pt-48 pb-56">
+    <footer className="pt-48 pb-56 ds-label-03-reg">
       <Container>
         <div className="flex flex-wrap items-start justify-between gap-x-32 gap-y-40">
-          <div className="flex flex-wrap flex-col-reverse gap-x-16 gap-y-8 sm:flex-row">
+          <div className="flex flex-wrap flex-col-reverse gap-x-16 gap-y-16 sm:flex-col">
             {image?.url && (
               <div>
                 <Image
@@ -70,17 +70,15 @@ export default function Footer({
                 />
               </div>
             )}
-            <div className="ds-stack-8">
+            <div className="ds-stack-32">
               {paragraphs.map((paragraph) => (
-                <RichText
-                  markdown={paragraph.text}
-                  renderer={paragraphRenderer}
-                  key={paragraph.text}
-                />
+                <div key={paragraph.text}>
+                  <RichText
+                    markdown={paragraph.text}
+                    renderer={paragraphRenderer}
+                  />
+                </div>
               ))}
-              <div className="ds-label-03-reg">
-                <ResetCookieLink />
-              </div>
             </div>
           </div>
 
