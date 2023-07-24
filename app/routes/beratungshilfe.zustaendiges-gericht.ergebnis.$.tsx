@@ -77,7 +77,7 @@ export const Component = () => {
         <Container>
           <a
             href="/beratungshilfe/zustaendiges-gericht/suche"
-            className="ds-link-02-bold text-black underline"
+            className="text-link underline"
             id="backLink"
           >
             {common.repeatSearch}

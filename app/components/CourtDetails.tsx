@@ -44,7 +44,7 @@ const CourtDetails = ({
                 href={normalizeURL(website)}
                 rel="noopener noreferrer"
                 target="_blank"
-                className="ds-label-01-reg underline"
+                className="text-link"
               >
                 {websiteLabel} {name}
               </a>
