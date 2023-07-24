@@ -67,6 +67,20 @@ const cases = [
     { staatlicheLeistungen: "grundsicherung" },
     ["staatliche-leistungen", "ergebnis/staatliche-leistungen-abschluss-ja"],
   ],
+  [
+    { staatlicheLeistungen: "grundsicherung", eigeninitiative: "no" },
+    [
+      "staatliche-leistungen",
+      "ergebnis/staatliche-leistungen-abschluss-vielleicht",
+    ],
+  ],
+  [
+    { staatlicheLeistungen: "asylbewerberleistungen", eigeninitiative: "no" },
+    [
+      "staatliche-leistungen",
+      "ergebnis/staatliche-leistungen-abschluss-vielleicht",
+    ],
+  ],
   [{ vermoegen: "above_10k" }, ["vermoegen", "ergebnis/vermoegen-abbruch"]],
   [
     { vermoegen: "below_10k", staatlicheLeistungen: "buergergeld" },

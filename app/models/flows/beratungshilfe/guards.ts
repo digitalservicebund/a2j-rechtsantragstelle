@@ -31,6 +31,12 @@ const filledGuard = (
     ![null, undefined].includes(context[field] ?? ""),
 });
 
+const staatlicheLeistungenYesButNoEigeninitiative: Guard = (context) => {
+  return (
+    guards.staatlicheLeistungenYes(context) && context.eigeninitiative == "no"
+  );
+};
+
 const vermoegenAbove10k: Guard = (context) => context.vermoegen === "above_10k";
 const vermoegenBelow10k: Guard = (context) => context.vermoegen === "below_10k";
 const vermoegenBelow10kAndBuergergeld: Guard = (context) =>
@@ -95,6 +101,7 @@ export const guards = {
     ["grundsicherung", "asylbewerberleistungen"].includes(
       context.staatlicheLeistungen ?? "",
     ),
+  staatlicheLeistungenYesButNoEigeninitiative,
   vermoegenAbove10k,
   vermoegenBelow10kAndBuergergeld,
   vermoegenBelow10k,

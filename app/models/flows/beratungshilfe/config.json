@@ -175,6 +175,10 @@
       "on": {
         "SUBMIT": [
           {
+            "target": "ergebnis/staatliche-leistungen-abschluss-vielleicht",
+            "cond": "staatlicheLeistungenYesButNoEigeninitiative"
+          },
+          {
             "target": "ergebnis/staatliche-leistungen-abschluss-ja",
             "cond": "staatlicheLeistungenYes"
           },
@@ -189,6 +193,13 @@
       }
     },
     "ergebnis/staatliche-leistungen-abschluss-ja": {
+      "on": {
+        "BACK": {
+          "target": "staatliche-leistungen"
+        }
+      }
+    },
+    "ergebnis/staatliche-leistungen-abschluss-vielleicht": {
       "on": {
         "BACK": {
           "target": "staatliche-leistungen"
