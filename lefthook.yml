@@ -6,3 +6,5 @@ pre-commit:
       run: npm run eslint:check
     typecheck:
       run: npm run typecheck
+    "unit tests":
+      run: npm test -- --no-coverage
