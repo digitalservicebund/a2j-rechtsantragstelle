@@ -9,3 +9,5 @@ tests/**/malformed.json
 *.zip
 *.py
 start.sh
+.node-version
+.prettierignore
