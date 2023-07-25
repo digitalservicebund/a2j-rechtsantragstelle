@@ -52,7 +52,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.7.3",
     "@faker-js/faker": "^8.0.2",
-    "@playwright/test": "^1.36.1",
+    "@playwright/test": "^1.36.2",
     "@remix-run/dev": "^1.19.1",
     "@remix-run/eslint-config": "^1.19.1",
     "@testing-library/jest-dom": "^5.17.0",
