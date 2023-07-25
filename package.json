@@ -40,7 +40,7 @@
     "isbot": "^3.6.13",
     "marked": "^5.1.1",
     "mustache": "^4.2.0",
-    "posthog-js": "^1.73.1",
+    "posthog-js": "^1.74.0",
     "posthog-node": "^3.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
