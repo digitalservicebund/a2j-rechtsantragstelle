@@ -36,6 +36,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "fflate": "^0.8.0",
+    "ioredis": "^5.3.2",
     "isbot": "^3.6.13",
     "marked": "^5.1.1",
     "mustache": "^4.2.0",
