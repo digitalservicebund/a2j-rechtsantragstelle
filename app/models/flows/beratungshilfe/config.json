@@ -213,6 +213,10 @@
       "on": {
         "SUBMIT": [
           {
+            "target": "ergebnis/vermoegen-abschluss-vielleicht",
+            "cond": "vermoegenBelow10kAndBuergergeldButNoEigeninitiative"
+          },
+          {
             "target": "ergebnis/vermoegen-abschluss-ja",
             "cond": "vermoegenBelow10kAndBuergergeld"
           },
@@ -231,6 +235,13 @@
       }
     },
     "ergebnis/vermoegen-abschluss-ja": {
+      "on": {
+        "BACK": {
+          "target": "vermoegen"
+        }
+      }
+    },
+    "ergebnis/vermoegen-abschluss-vielleicht": {
       "on": {
         "BACK": {
           "target": "vermoegen"

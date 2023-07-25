@@ -81,6 +81,18 @@ const cases = [
       "ergebnis/staatliche-leistungen-abschluss-vielleicht",
     ],
   ],
+  [
+    {
+      staatlicheLeistungen: "buergergeld",
+      vermoegen: "below_10k",
+      eigeninitiative: "no",
+    },
+    [
+      "staatliche-leistungen",
+      "vermoegen",
+      "ergebnis/vermoegen-abschluss-vielleicht",
+    ],
+  ],
   [{ vermoegen: "above_10k" }, ["vermoegen", "ergebnis/vermoegen-abbruch"]],
   [
     { vermoegen: "below_10k", staatlicheLeistungen: "buergergeld" },

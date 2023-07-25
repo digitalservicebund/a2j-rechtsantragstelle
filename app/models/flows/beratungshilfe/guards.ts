@@ -43,6 +43,14 @@ const vermoegenBelow10kAndBuergergeld: Guard = (context) =>
   context.vermoegen === "below_10k" &&
   context.staatlicheLeistungen === "buergergeld";
 
+const vermoegenBelow10kAndBuergergeldButNoEigeninitiative: Guard = (
+  context,
+) => {
+  return (
+    vermoegenBelow10kAndBuergergeld(context) && context.eigeninitiative == "no"
+  );
+};
+
 // TODO: Check warning vs success
 const verfuegbaresEinkommenNoAndTriedFreeActions: Guard = (context) =>
   context.verfuegbaresEinkommen === "no" && !anyNonCriticalWarning(context);
@@ -104,6 +112,7 @@ export const guards = {
   staatlicheLeistungenYesButNoEigeninitiative,
   vermoegenAbove10k,
   vermoegenBelow10kAndBuergergeld,
+  vermoegenBelow10kAndBuergergeldButNoEigeninitiative,
   vermoegenBelow10k,
   ...yesOrNoGuard("erwerbstaetigkeit"),
   ...yesOrNoGuard("partnerschaft"),
