@@ -22,6 +22,9 @@ const defaultRenderer: Partial<Renderer> = {
       ] || "ds-heading-03-reg";
     return `<h${level} class="${cssClass}">${text}</h${level}>`;
   },
+  paragraph(text: string) {
+    return `<p class="text-lg">${text}</p>`;
+  },
 } as const;
 
 const RichText = ({

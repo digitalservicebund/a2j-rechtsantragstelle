@@ -31,11 +31,8 @@ export default function Footer({
   const linksSecondColumn: typeof links = links.slice(linksMiddleIndex);
 
   const renderLink = (link: LinkProps) => (
-    <li key={link.url}>
-      <a
-        href={link.url}
-        className="text-link ds-link-02-bold underline focus-visible:outline"
-      >
+    <li key={link.url} className="leading-snug">
+      <a href={link.url} className="text-link increase-tap-area">
         {link.text}
       </a>
     </li>
@@ -49,18 +46,18 @@ export default function Footer({
 
   const paragraphRenderer: Partial<Renderer> = {
     link(href, _, text) {
-      return `<a class="ds-link-02-bold underline whitespace-nowrap focus-visible:outline" href=${href} target="_blank" rel="noreferrer">${text}</a>`;
+      return `<a class="text-link increase-tap-area whitespace-nowrap" href=${href} target="_blank" rel="noreferrer">${text}</a>`;
     },
     paragraph(text) {
-      return `<p>${text}</p>`;
+      return `<p class="leading-snug">${text}</p>`;
     },
   };
 
   return (
-    <footer className="pt-48 pb-56 ds-label-03-reg">
-      <Container>
+    <footer className="text-base">
+      <Container paddingTop="48">
         <div className="flex flex-wrap items-start justify-between gap-x-32 gap-y-40">
-          <div className="flex flex-wrap flex-col-reverse gap-x-16 gap-y-16 sm:flex-col">
+          <div className="flex flex-col-reverse gap-y-[1.125rem] sm:flex-col">
             {image?.url && (
               <div>
                 <Image
@@ -82,7 +79,7 @@ export default function Footer({
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-x-32 gap-y-8">
+          <div className="flex flex-wrap gap-x-56 gap-y-24">
             {renderLinks(linksFirstColumn)}
             {renderLinks(linksSecondColumn)}
           </div>
