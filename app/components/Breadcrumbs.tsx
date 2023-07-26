@@ -34,7 +34,7 @@ export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
 
   return (
     validBreadcrumbs.length > 0 && (
-      <nav className="py-8 px-16 bg-blue-100 flex items-center">
+      <nav className="py-8 px-16 bg-blue-100 flex flex-wrap items-center text-base">
         {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
         <a
           href="/"
@@ -44,19 +44,21 @@ export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
           <HomeOutlinedIcon className="!h-[1.6rem] !w-[1.6rem]" />
         </a>
         {validBreadcrumbs.map((breadcrumb, idx, arr) => (
-          <span key={breadcrumb.title}>
+          <>
             <span className="mx-8">/</span>
-            {idx === arr.length - 1 ? (
-              <span>{breadcrumb.title}</span>
-            ) : (
-              <a
-                href={breadcrumb.url}
-                className="text-link ds-link-01-bold increase-tap-area"
-              >
-                {breadcrumb.title}
-              </a>
-            )}
-          </span>
+            <span key={breadcrumb.title}>
+              {idx === arr.length - 1 ? (
+                <span>{breadcrumb.title}</span>
+              ) : (
+                <a
+                  href={breadcrumb.url}
+                  className="text-link increase-tap-area"
+                >
+                  {breadcrumb.title}
+                </a>
+              )}
+            </span>
+          </>
         ))}
       </nav>
     )

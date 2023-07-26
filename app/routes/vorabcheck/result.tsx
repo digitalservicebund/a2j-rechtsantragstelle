@@ -146,7 +146,7 @@ export function Step() {
           <Container paddingTop="32" paddingBottom="32">
             <a
               href="/beratungshilfe/vorabcheck"
-              className="text-link ds-link-02-bold increase-tap-area"
+              className="text-link text-base increase-tap-area"
             >
               {content.linkText}
             </a>
