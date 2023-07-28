@@ -21,6 +21,11 @@ const timeToLiveSeconds = 60 * 60 * 24;
 
 type RedisData = Record<string, any>;
 
+export function sessionAvailable() {
+  const { status } = global.ioredis;
+  return status === "connect" || status === "ready";
+}
+
 export function setDataForSession(uuid: string, data: RedisData) {
   return ioredis.set(uuid, JSON.stringify(data), "EX", timeToLiveSeconds);
 }

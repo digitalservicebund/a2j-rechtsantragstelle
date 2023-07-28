@@ -1,6 +1,7 @@
 import { createCookie } from "@remix-run/node";
 import { createDatabaseSessionStorage } from "~/services/session";
 import { config } from "~/services/env/env.server";
+export { sessionAvailable } from "~/services/session/redis";
 
 const { getSession, commitSession, destroySession } =
   createDatabaseSessionStorage({

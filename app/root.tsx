@@ -29,8 +29,8 @@ import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { Analytics } from "./services/analytics/Analytics";
 import ErrorBox from "./components/ErrorBox";
 import errorMessage from "./util/errorMessage";
-import { createCSRFSession } from "./services/security/csrf.server";
-import { commitSession } from "./sessions";
+import { createCSRFToken } from "./services/security/csrf.server";
+import { commitSession, getSession, sessionAvailable } from "./sessions";
 import { CSRFKey } from "./services/security/csrf";
 
 export const headers: HeadersFunction = () => ({
@@ -55,8 +55,6 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const { csrf, session } = await createCSRFSession(request);
-
   if (configWeb().POSTHOG_API_KEY) {
     const client = new PostHog(configWeb().POSTHOG_API_KEY, {
       host: configWeb().POSTHOG_API_HOST,
@@ -72,9 +70,14 @@ export const loader = async ({ request }: LoaderArgs) => {
       });
     }
   }
-  const headers = session
-    ? { "Set-Cookie": await commitSession(session) }
-    : undefined;
+
+  const csrf = createCSRFToken();
+  let headers = undefined;
+  if (sessionAvailable()) {
+    const session = await getSession(request.headers.get("Cookie"));
+    session.set(CSRFKey, csrf);
+    headers = { "Set-Cookie": await commitSession(session) };
+  }
 
   return json(
     {
