@@ -78,11 +78,8 @@ jobs:
 
       - name: Run Playwright e2e tests
         env:
-          STRAPI_API: "${{ secrets.STRAPI_API }}"
-          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
-          CMS: "FILE"
           GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
-        run: npx playwright test
+        run: npm run test:e2e
 
       - name: Upload Playwright test results
         uses: actions/upload-artifact@v3

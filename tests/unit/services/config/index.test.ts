@@ -10,5 +10,5 @@ it("Expect web configuration to be available", () => {
 });
 
 it("Expect the server config to contain a valid url to strapi", () => {
-  expect(configServer().STRAPI_API).toBe("http://localhost/api/");
+  expect(configServer().STRAPI_API).toBe("test://cms/api/");
 });

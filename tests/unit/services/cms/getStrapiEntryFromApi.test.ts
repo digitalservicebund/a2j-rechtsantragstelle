@@ -19,10 +19,9 @@ describe("services/cms", () => {
     };
     const defaultResponseData = { data: { data } };
     const emptyResponseData = { data: [] };
-    const expectedRequestUrl =
-      "http://localhost/api/api-id?populate=deep&locale=de";
+    const expectedRequestUrl = "test://cms/api/api-id?populate=deep&locale=de";
     const expectedStagingRequestUrl =
-      "http://localhost/api/api-id?populate=deep&locale=sg";
+      "test://cms/api/api-id?populate=deep&locale=sg";
     const axiosGetSpy = jest.spyOn(mockedAxios, "get");
 
     test("request url", async () => {
