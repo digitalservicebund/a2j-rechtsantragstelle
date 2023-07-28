@@ -6,6 +6,7 @@ interface Config {
   TRUSTED_IMAGE_SOURCES: string;
   TRUSTED_CSP_CONNECT_SOURCES: string;
   REDIS_URL: string;
+  COOKIE_SESSION_SECRET: string;
 }
 
 let instance: Config | undefined = undefined;
@@ -14,6 +15,9 @@ export function config(): Config {
   if (instance === undefined) {
     const STRAPI_API = process.env.STRAPI_API?.trim();
     const STRAPI_HOST = process.env.STRAPI_HOST?.trim();
+    const COOKIE_SESSION_SECRET = process.env.COOKIE_SESSION_SECRET?.trim();
+    if (!COOKIE_SESSION_SECRET)
+      throw new Error("Missing: Cookie Session Secret");
 
     instance = {
       STRAPI_API: STRAPI_API ?? `${STRAPI_HOST}/api/`,
@@ -27,6 +31,7 @@ export function config(): Config {
           ? "*"
           : "'self' https://*.ingest.sentry.io https://eu.posthog.com",
       REDIS_URL: process.env.REDIS_URL?.trim() ?? "",
+      COOKIE_SESSION_SECRET,
     };
   }
 

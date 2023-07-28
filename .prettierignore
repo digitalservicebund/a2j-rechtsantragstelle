@@ -11,3 +11,5 @@ tests/**/malformed.json
 start.sh
 .nvmrc
 .prettierignore
+.env.example
+config.env.test

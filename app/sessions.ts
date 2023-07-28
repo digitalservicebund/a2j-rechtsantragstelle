@@ -1,9 +1,11 @@
-import { createCookie, createCookieSessionStorage } from "@remix-run/node";
+import { createCookie } from "@remix-run/node";
+import { createDatabaseSessionStorage } from "~/services/session";
+import { config } from "~/services/env/env.server";
 
 const { getSession, commitSession, destroySession } =
-  createCookieSessionStorage({
+  createDatabaseSessionStorage({
     cookie: createCookie("__session", {
-      secrets: ["supers3cr3t"],
+      secrets: [config().COOKIE_SESSION_SECRET],
       sameSite: true,
       httpOnly: true,
       maxAge: 24 * 60 * 60,

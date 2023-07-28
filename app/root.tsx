@@ -72,6 +72,10 @@ export const loader = async ({ request }: LoaderArgs) => {
       });
     }
   }
+  const headers = session
+    ? { "Set-Cookie": await commitSession(session) }
+    : undefined;
+
   return json(
     {
       [CSRFKey]: csrf,
@@ -79,7 +83,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       footer: getFooterProps(await getStrapiFooter()),
       hasTrackingConsent: await hasTrackingConsent({ request }),
     },
-    { headers: { "Set-Cookie": await commitSession(session) } },
+    { headers },
   );
 };
 

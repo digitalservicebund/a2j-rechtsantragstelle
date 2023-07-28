@@ -12,5 +12,7 @@ STRAPI_API=$(cat /etc/strapi-api-secret/password) || true
 export STRAPI_API
 POSTHOG_API_KEY=$(cat /etc/posthog-secrets/password) || true
 export POSTHOG_API_KEY
+COOKIE_SESSION_SECRET=$(cat /etc/cookie-session-secret/password) || true
+export COOKIE_SESSION_SECRET
 
 node ./server.js

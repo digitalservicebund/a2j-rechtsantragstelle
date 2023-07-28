@@ -18,9 +18,13 @@ async function validateCSRFToken(request: Request, session: Session) {
 }
 
 export async function createCSRFSession(request: Request) {
-  const session = await getSession(request.headers.get("Cookie"));
   const csrf = createCSRFToken();
-  session.set(CSRFKey, csrf);
+  let session = undefined;
+  // Non-CSRF pages should still work in case the Redis server goes down
+  try {
+    session = await getSession(request.headers.get("Cookie"));
+    session.set(CSRFKey, csrf);
+  } catch {}
   return { session, csrf };
 }
 
