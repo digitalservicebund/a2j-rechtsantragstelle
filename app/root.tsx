@@ -26,7 +26,7 @@ import Footer from "./components/Footer";
 import Breadcrumbs, { breadcrumbsFromURL } from "./components/Breadcrumbs";
 import Header from "./components/PageHeader";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
-import { Analytics } from "./services/analytics/Analytics";
+import { CookieBanner } from "./services/analytics/Analytics";
 import ErrorBox from "./components/ErrorBox";
 import errorMessage from "./util/errorMessage";
 import { createCSRFToken } from "./services/security/csrf.server";
@@ -110,13 +110,13 @@ function App() {
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
+        <CookieBanner hasTrackingConsent={hasTrackingConsent} />
         <Header />
         <Breadcrumbs breadcrumbs={breadcrumbs} />
         <main className="flex-grow">
           <Outlet />
         </main>
         <Footer {...footer} />
-        <Analytics hasTrackingConsent={hasTrackingConsent} />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
