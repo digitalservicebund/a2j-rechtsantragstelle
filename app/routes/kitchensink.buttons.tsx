@@ -1,5 +1,11 @@
 import { Button } from "~/components";
 import Close from "@mui/icons-material/Close";
+import { throw404OnProduction } from "./error/throw404OnProduction";
+
+export const loader = () => {
+  throw404OnProduction();
+  return null;
+};
 
 export default function KitchensinkButtons() {
   return (

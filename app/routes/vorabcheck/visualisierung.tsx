@@ -3,6 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { createMachine, type AnyStateMachine } from "xstate";
 import { toDirectedGraph } from "@xstate/graph";
 import { flowIDFromPathname, flowSpecifics } from "./flowSpecifics";
+import { throw404OnProduction } from "../error/throw404OnProduction";
 
 const mermaidFlowchart = (
   digraph: ReturnType<typeof toDirectedGraph>,
@@ -46,6 +47,7 @@ const getVisualizationString = (
 };
 
 export const loader = ({ request }: LoaderArgs) => {
+  throw404OnProduction();
   const { pathname } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);
   const { flow, guards } = flowSpecifics[flowId];

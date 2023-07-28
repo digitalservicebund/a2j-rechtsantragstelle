@@ -23,6 +23,7 @@ import Header from "~/components/Header";
 import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms";
+import { throw404OnProduction } from "./error/throw404OnProduction";
 
 export const DummySchema = z.object({
   text: z.string().min(1),
@@ -41,6 +42,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
 ];
 
 export const loader = async ({ request }: LoaderArgs) => {
+  throw404OnProduction();
   const { content, meta } = await strapiPageFromRequest({ request });
   return json({ content, meta });
 };
