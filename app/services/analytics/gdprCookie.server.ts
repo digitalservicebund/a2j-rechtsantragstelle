@@ -14,9 +14,13 @@ async function parseTrackingCookie({
   return (await gdprCookie.parse(cookieHeader)) || {};
 }
 
-export async function hasTrackingConsent({ request }: CookieArgs) {
+export async function trackingCookieValue({ request }: CookieArgs) {
   const cookie = await parseTrackingCookie({ request });
-  const consentGiven = cookie[acceptCookiesFieldName];
+  return cookie[acceptCookiesFieldName];
+}
+
+export async function hasTrackingConsent({ request }: CookieArgs) {
+  const consentGiven = await trackingCookieValue({ request });
   return consentGiven ? consentGiven === "true" : undefined;
 }
 
