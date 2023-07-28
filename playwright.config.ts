@@ -1,11 +1,16 @@
 /* eslint @typescript-eslint/no-unsafe-call: 0, @typescript-eslint/no-var-requires: 0*/
 import { defineConfig, devices } from "@playwright/test";
+import dotenv from "dotenv";
+import path from "path";
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-require("dotenv").config();
+
+// Load both .env and test.env
+dotenv.config();
+dotenv.config({ path: "./tests/test.env" });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -54,9 +59,16 @@ export default defineConfig({
   // outputDir: 'test-results/',
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: "npm run dev",
-    url: "http://127.0.0.1:3000",
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: [
+    {
+      command: "docker compose up",
+      port: 6380,
+      reuseExistingServer: !process.env.CI,
+    },
+    {
+      command: "npm run dev",
+      url: "http://127.0.0.1:3000",
+      reuseExistingServer: !process.env.CI,
+    },
+  ],
 });
