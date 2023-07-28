@@ -44,9 +44,9 @@ export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
           <HomeOutlinedIcon className="!h-[1.6rem] !w-[1.6rem]" />
         </a>
         {validBreadcrumbs.map((breadcrumb, idx, arr) => (
-          <>
+          <div key={breadcrumb.title}>
             <span className="mx-8">/</span>
-            <span key={breadcrumb.title}>
+            <span>
               {idx === arr.length - 1 ? (
                 <span>{breadcrumb.title}</span>
               ) : (
@@ -58,7 +58,7 @@ export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
                 </a>
               )}
             </span>
-          </>
+          </div>
         ))}
       </nav>
     )
