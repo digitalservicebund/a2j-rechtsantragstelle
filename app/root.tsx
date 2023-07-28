@@ -13,6 +13,7 @@ import {
   ScrollRestoration,
   useLoaderData,
   useRouteError,
+  useRouteLoaderData,
 } from "@remix-run/react";
 import stylesheet from "~/styles.css";
 import fontsStylesheet from "@digitalservice4germany/angie/fonts.css";
@@ -126,6 +127,7 @@ function App() {
 }
 
 export function ErrorBoundary() {
+  const loaderData = useRouteLoaderData<typeof loader>("root");
   return (
     <html>
       <head>
@@ -138,7 +140,9 @@ export function ErrorBoundary() {
         <main className="flex-grow">
           <ErrorBox errorMessage={errorMessage(useRouteError())} />
         </main>
+        {loaderData && <Footer {...loaderData.footer} />}
         <Scripts />
+        <LiveReload />
       </body>
     </html>
   );
