@@ -25,7 +25,6 @@ export default function Index() {
   const navigation = useNavigation();
   const analyticsFetcher = useFetcher();
   const isSubmitting = navigation.state === "submitting";
-  console.log({ isSubmitting });
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(
     trackingConsent === undefined,
   );
