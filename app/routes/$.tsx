@@ -4,7 +4,6 @@ import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms";
-export { ErrorBoundary } from "./error";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta.title ?? location.pathname },

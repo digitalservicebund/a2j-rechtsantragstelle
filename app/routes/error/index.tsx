@@ -1,7 +1,6 @@
 import { useRouteError } from "@remix-run/react";
-import ErrorBox from "~/components/ErrorBox";
-import errorMessage from "~/util/errorMessage";
+import ErrorBox, { errorPageFromRouteError } from "~/components/ErrorBox";
 
 export function ErrorBoundary() {
-  return <ErrorBox errorMessage={errorMessage(useRouteError())} />;
+  return <ErrorBox {...errorPageFromRouteError(useRouteError())} />;
 }

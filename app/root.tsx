@@ -28,8 +28,7 @@ import Breadcrumbs, { breadcrumbsFromURL } from "./components/Breadcrumbs";
 import Header from "./components/PageHeader";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { CookieBanner } from "./services/analytics/Analytics";
-import ErrorBox from "./components/ErrorBox";
-import errorMessage from "./util/errorMessage";
+import ErrorBox, { errorPageFromRouteError } from "./components/ErrorBox";
 import { createCSRFToken } from "./services/security/csrf.server";
 import { commitSession, getSession, sessionAvailable } from "./sessions";
 import { CSRFKey } from "./services/security/csrf";
@@ -131,14 +130,14 @@ export function ErrorBoundary() {
   return (
     <html>
       <head>
-        <title>Oh no!</title>
+        <title>Justiz Services - Fehler aufgetreten</title>
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="min-h-screen">
         <Header />
-        <main className="flex-grow">
-          <ErrorBox errorMessage={errorMessage(useRouteError())} />
+        <main className="h-full grow">
+          <ErrorBox {...errorPageFromRouteError(useRouteError())} />
         </main>
         {loaderData && <Footer {...loaderData.footer} />}
         <Scripts />
