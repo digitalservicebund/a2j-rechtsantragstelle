@@ -12,4 +12,4 @@ start.sh
 .nvmrc
 .prettierignore
 .env.example
-config.env.test
+test.env
