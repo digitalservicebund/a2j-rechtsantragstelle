@@ -14,5 +14,7 @@ POSTHOG_API_KEY=$(cat /etc/posthog-secrets/password) || true
 export POSTHOG_API_KEY
 COOKIE_SESSION_SECRET=$(cat /etc/cookie-session-secret/password) || true
 export COOKIE_SESSION_SECRET
+REDIS_PASSWORD=$(cat /etc/redis-password-secret/password) || true
+export REDIS_PASSWORD
 
 node ./server.js
