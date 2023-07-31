@@ -2,11 +2,9 @@ import { useFetcher, useLocation } from "@remix-run/react";
 import { config } from "~/services/env/web";
 import { useEffect, useState } from "react";
 import posthog from "posthog-js";
-import type { CommonWrapperProps } from "~/components/CommonWrapperProps";
 import { Button, Container } from "~/components";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
-import ButtonContainer from "~/components/ButtonContainer";
 import { acceptCookiesFieldName } from "./gdprCookie.server";
 
 // TODO: move all text into CMS
