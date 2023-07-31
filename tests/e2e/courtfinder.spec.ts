@@ -51,12 +51,12 @@ test.describe("accessibility", () => {
 test.describe("form validation", () => {
   test("Invalid PLZ", async ({ page }) => {
     await courtfinder.searchPLZInvalid();
-    expect(page.getByTestId("inputError")).toBeVisible();
+    await expect(page.getByTestId("inputError")).toBeVisible();
   });
 
   test("Non-existant PLZ", async ({ page }) => {
     await courtfinder.searchPLZNonExistant();
-    expect(page.getByTestId("inputError")).toBeVisible();
+    await expect(page.getByTestId("inputError")).toBeVisible();
   });
 });
 
