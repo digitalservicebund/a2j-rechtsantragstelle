@@ -3,7 +3,7 @@ import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiLinkSchema = z
   .object({
-    url: z.string().nullable(),
+    url: z.string(),
     text: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
