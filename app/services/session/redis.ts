@@ -7,7 +7,7 @@ declare global {
 }
 
 const redisUrl = () =>
-  `redis://:${config().REDIS_PASSWORD}@${config().REDIS_ENDPOINT}`;
+  `redis://default:${config().REDIS_PASSWORD}@${config().REDIS_ENDPOINT}`;
 
 if (!global.ioredis) {
   try {
