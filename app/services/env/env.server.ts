@@ -5,7 +5,8 @@ interface Config {
   CMS: string;
   TRUSTED_IMAGE_SOURCES: string;
   TRUSTED_CSP_CONNECT_SOURCES: string;
-  REDIS_URL: string;
+  REDIS_ENDPOINT: string;
+  REDIS_PASSWORD: string;
   COOKIE_SESSION_SECRET: string;
 }
 
@@ -30,7 +31,8 @@ export function config(): Config {
         process.env.NODE_ENV === "development"
           ? "*"
           : "'self' https://*.ingest.sentry.io https://eu.posthog.com",
-      REDIS_URL: process.env.REDIS_URL?.trim() ?? "",
+      REDIS_ENDPOINT: process.env.REDIS_ENDPOINT?.trim() ?? "localhost:6380",
+      REDIS_PASSWORD: process.env.REDIS_PASSWORD?.trim() ?? "",
       COOKIE_SESSION_SECRET,
     };
   }

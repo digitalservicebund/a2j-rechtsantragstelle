@@ -6,9 +6,12 @@ declare global {
   var ioredis: Redis;
 }
 
+const redisUrl = () =>
+  `redis://:${config().REDIS_PASSWORD}@${config().REDIS_ENDPOINT}`;
+
 if (!global.ioredis) {
   try {
-    global.ioredis = new Redis(config().REDIS_URL, {
+    global.ioredis = new Redis(redisUrl(), {
       maxRetriesPerRequest: 1,
     });
     console.log("Redis connection opened");
