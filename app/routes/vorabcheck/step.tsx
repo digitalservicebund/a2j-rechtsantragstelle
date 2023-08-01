@@ -12,10 +12,7 @@ import type {
 import { json, redirect } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import {
-  commitSession,
-  getSession,
-} from "~/services/session/beratungshilfe.session";
+import { getSessionForContext } from "~/services/session";
 import PageContent from "~/components/PageContent";
 import Container from "~/components/Container";
 import { Background } from "~/components";
@@ -47,7 +44,9 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   const flowId = flowIDFromPathname(pathname);
   const flow = flowSpecifics[flowId].flow;
 
-  const { data } = await getSession(request.headers.get("Cookie"));
+  const { data } = await getSessionForContext(flowId).getSession(
+    request.headers.get("Cookie"),
+  );
   const flowController = buildFlowController({
     flow: flow,
     data: data,
@@ -99,10 +98,14 @@ export const action: ActionFunction = async ({ params, request }) => {
       statusText: "Diese Anfrage ist nicht erlaubt",
     });
   }
-
-  const beratungshilfeSesion = await getSession(request.headers.get("Cookie"));
   const stepId = splatFromParams(params);
   const flowId = flowIDFromPathname(new URL(request.url).pathname);
+  const sessionContext = getSessionForContext(flowId);
+
+  const flowSession = await sessionContext.getSession(
+    request.headers.get("Cookie"),
+  );
+
   const formData = await request.formData();
   const { context } = flowSpecifics[flowId];
 
@@ -115,13 +118,15 @@ export const action: ActionFunction = async ({ params, request }) => {
   if (validationResult.error) return validationError(validationResult.error);
 
   Object.entries(validationResult.data as Record<string, string>).forEach(
-    ([key, data]) => beratungshilfeSesion.set(key, data),
+    ([key, data]) => flowSession.set(key, data),
   );
-  const headers = { "Set-Cookie": await commitSession(beratungshilfeSesion) };
+  const headers = {
+    "Set-Cookie": await sessionContext.commitSession(flowSession),
+  };
 
   const flowController = buildFlowController({
     flow: flowSpecifics[flowId].flow,
-    data: beratungshilfeSesion.data,
+    data: flowSession.data,
     guards: flowSpecifics[flowId].guards,
   });
   return redirect(flowController.getNext(stepId).url, { headers });

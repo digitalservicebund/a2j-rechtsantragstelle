@@ -2,11 +2,12 @@ import crypto from "crypto";
 import {
   deleteSessionData,
   getDataForSession,
+  sessionAvailable,
   setDataForSession,
   updateDataForSession,
 } from "./redis";
 import type { Cookie } from "@remix-run/node";
-import { createSessionStorage } from "@remix-run/node";
+import { createSessionStorage, createCookie } from "@remix-run/node";
 import { config } from "~/services/env/env.server";
 
 export async function getReturnToURL(request: Request, uuid: string) {
@@ -26,18 +27,14 @@ export async function setReturnToURL(request: Request, uuid: string) {
   }
 }
 
-export enum SessionContext {
-  Main = "main",
-  Beratungshilfe = "beratungshilfe",
-  OnlineVerfahren = "onlineverfahren",
-}
+export type Context = "main" | "beratungshilfe" | "geld-einklagen";
 
 export function createDatabaseSessionStorage({
   cookie,
   context,
 }: {
   cookie: Cookie;
-  context: SessionContext;
+  context: Context;
 }) {
   return createSessionStorage({
     cookie,
@@ -65,3 +62,13 @@ export const cookieConfig = {
   maxAge: 24 * 60 * 60,
   secure: true,
 };
+
+export function getSessionForContext(context: Context) {
+  const { getSession, commitSession, destroySession } =
+    createDatabaseSessionStorage({
+      cookie: createCookie(`__session_${context}`, cookieConfig),
+      context: context,
+    });
+
+  return { getSession, commitSession, destroySession, sessionAvailable };
+}

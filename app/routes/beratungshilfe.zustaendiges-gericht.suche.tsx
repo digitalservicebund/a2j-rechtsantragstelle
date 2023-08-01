@@ -13,10 +13,7 @@ import {
 } from "~/services/cms";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
-import {
-  commitSession,
-  getSession,
-} from "~/services/session/beratungshilfe.session";
+import { getSessionForContext } from "~/services/session";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 
 function isValidPostcode(postcode: string) {
@@ -46,10 +43,11 @@ export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
 
 export async function loader({ request }: LoaderArgs) {
   const slug = new URL(request.url).pathname;
+  const sessionContext = getSessionForContext("beratungshilfe");
   const { form, meta } = await getStrapiVorabCheckPage({ slug });
   const { url: backURL, session } = getReturnToURL({
     request,
-    session: await getSession(request.headers.get("Cookie")),
+    session: await sessionContext.getSession(request.headers.get("Cookie")),
   });
   return json(
     {
@@ -58,7 +56,11 @@ export async function loader({ request }: LoaderArgs) {
       title: meta.title,
       backURL,
     },
-    { headers: { "Set-Cookie": await commitSession(session) } },
+    {
+      headers: {
+        "Set-Cookie": await sessionContext.commitSession(session),
+      },
+    },
   );
 }
 

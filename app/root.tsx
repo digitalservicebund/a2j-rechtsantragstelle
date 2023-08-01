@@ -30,11 +30,7 @@ import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { CookieBanner } from "./services/analytics/Analytics";
 import ErrorBox, { errorPageFromRouteError } from "./components/ErrorBox";
 import { createCSRFToken } from "./services/security/csrf.server";
-import {
-  commitSession,
-  getSession,
-  sessionAvailable,
-} from "./services/session/main.session";
+import { getSessionForContext } from "./services/session";
 import { CSRFKey } from "./services/security/csrf";
 
 export const headers: HeadersFunction = () => ({
@@ -77,10 +73,15 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   const csrf = createCSRFToken();
   let headers = undefined;
-  if (sessionAvailable()) {
-    const session = await getSession(request.headers.get("Cookie"));
+  const sessionContext = getSessionForContext("main");
+  if (sessionContext.sessionAvailable()) {
+    const session = await sessionContext.getSession(
+      request.headers.get("Cookie"),
+    );
     session.set(CSRFKey, csrf);
-    headers = { "Set-Cookie": await commitSession(session) };
+    headers = {
+      "Set-Cookie": await sessionContext.commitSession(session),
+    };
   }
 
   return json(
