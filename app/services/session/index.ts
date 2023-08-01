@@ -7,6 +7,7 @@ import {
 } from "./redis";
 import type { Cookie } from "@remix-run/node";
 import { createSessionStorage } from "@remix-run/node";
+import { config } from "~/services/env/env.server";
 
 export async function getReturnToURL(request: Request, uuid: string) {
   const { pathname: currentPath } = new URL(request.url);
@@ -25,11 +26,23 @@ export async function setReturnToURL(request: Request, uuid: string) {
   }
 }
 
-export function createDatabaseSessionStorage({ cookie }: { cookie: Cookie }) {
+export enum SessionContext {
+  Main = "main",
+  Beratungshilfe = "beratungshilfe",
+  OnlineVerfahren = "onlineverfahren",
+}
+
+export function createDatabaseSessionStorage({
+  cookie,
+  context,
+}: {
+  cookie: Cookie;
+  context: SessionContext;
+}) {
   return createSessionStorage({
     cookie,
     async createData(data, expires) {
-      const uuid = crypto.randomUUID();
+      const uuid = `${context}_${crypto.randomUUID()}`;
       await setDataForSession(uuid, data);
       return uuid;
     },
@@ -44,3 +57,11 @@ export function createDatabaseSessionStorage({ cookie }: { cookie: Cookie }) {
     },
   });
 }
+
+export const cookieConfig = {
+  secrets: [config().COOKIE_SESSION_SECRET],
+  sameSite: true,
+  httpOnly: true,
+  maxAge: 24 * 60 * 60,
+  secure: true,
+};

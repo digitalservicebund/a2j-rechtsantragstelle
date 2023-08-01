@@ -5,7 +5,7 @@ import type {
   V2_MetaFunction,
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { getSession } from "~/sessions";
+import { getSession } from "~/services/session/beratungshilfe.session";
 import { getStrapiResultPage, getStrapiVorabCheckCommon } from "~/services/cms";
 import { buildFlowController } from "~/services/flow/buildFlowController";
 import { getReasonsToDisplay } from "~/models/flows/common";

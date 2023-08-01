@@ -12,7 +12,10 @@ import type {
 import { json, redirect } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import { commitSession, getSession } from "~/sessions";
+import {
+  commitSession,
+  getSession,
+} from "~/services/session/beratungshilfe.session";
 import PageContent from "~/components/PageContent";
 import Container from "~/components/Container";
 import { Background } from "~/components";
@@ -97,6 +100,7 @@ export const action: ActionFunction = async ({ params, request }) => {
     });
   }
 
+  const beratungshilfeSesion = await getSession(request.headers.get("Cookie"));
   const stepId = splatFromParams(params);
   const flowId = flowIDFromPathname(new URL(request.url).pathname);
   const formData = await request.formData();
@@ -111,13 +115,13 @@ export const action: ActionFunction = async ({ params, request }) => {
   if (validationResult.error) return validationError(validationResult.error);
 
   Object.entries(validationResult.data as Record<string, string>).forEach(
-    ([key, data]) => session.set(key, data),
+    ([key, data]) => beratungshilfeSesion.set(key, data),
   );
-  const headers = { "Set-Cookie": await commitSession(session) };
+  const headers = { "Set-Cookie": await commitSession(beratungshilfeSesion) };
 
   const flowController = buildFlowController({
     flow: flowSpecifics[flowId].flow,
-    data: session.data,
+    data: beratungshilfeSesion.data,
     guards: flowSpecifics[flowId].guards,
   });
   return redirect(flowController.getNext(stepId).url, { headers });

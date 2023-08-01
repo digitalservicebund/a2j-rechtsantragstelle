@@ -13,7 +13,10 @@ import {
 } from "~/services/cms";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
-import { commitSession, getSession } from "~/sessions";
+import {
+  commitSession,
+  getSession,
+} from "~/services/session/beratungshilfe.session";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 
 function isValidPostcode(postcode: string) {

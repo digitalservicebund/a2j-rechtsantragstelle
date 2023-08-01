@@ -30,7 +30,11 @@ import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { CookieBanner } from "./services/analytics/Analytics";
 import ErrorBox, { errorPageFromRouteError } from "./components/ErrorBox";
 import { createCSRFToken } from "./services/security/csrf.server";
-import { commitSession, getSession, sessionAvailable } from "./sessions";
+import {
+  commitSession,
+  getSession,
+  sessionAvailable,
+} from "./services/session/main.session";
 import { CSRFKey } from "./services/security/csrf";
 
 export const headers: HeadersFunction = () => ({

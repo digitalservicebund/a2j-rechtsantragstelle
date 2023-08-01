@@ -1,7 +1,7 @@
 //https://sergiodxa.com/articles/adding-csrf-protection-to-remix
 import type { Session } from "@remix-run/node";
 import { randomBytes } from "crypto";
-import { getSession } from "~/sessions";
+import { getSession } from "~/services/session/main.session";
 import { CSRFKey } from "./csrf";
 
 export function createCSRFToken() {

@@ -30,15 +30,18 @@ export function sessionAvailable() {
 }
 
 export function setDataForSession(uuid: string, data: RedisData) {
+  console.log("setDataForSession", uuid, data);
   return ioredis.set(uuid, JSON.stringify(data), "EX", timeToLiveSeconds);
 }
 
 export async function updateDataForSession(uuid: string, data: RedisData) {
+  console.log("updateDataForSession", uuid, data);
   const currentData = await getDataForSession(uuid);
   return setDataForSession(uuid, { ...currentData, ...data });
 }
 
 export async function getDataForSession(uuid: string) {
+  console.log("getDataForSession", uuid);
   const redisResponse = await ioredis.get(uuid);
   return redisResponse !== null
     ? (JSON.parse(redisResponse) as RedisData)
@@ -46,5 +49,6 @@ export async function getDataForSession(uuid: string) {
 }
 
 export function deleteSessionData(uuid: string) {
+  console.log("deleteSessionData", uuid);
   return ioredis.del(uuid);
 }
