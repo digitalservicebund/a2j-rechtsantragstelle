@@ -1,10 +1,12 @@
-import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
-import { useFetcher, useLoaderData, useNavigation } from "@remix-run/react";
+import { redirect } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import { Form, useLoaderData, useNavigation } from "@remix-run/react";
 import { useState } from "react";
 import { Button, Container } from "~/components";
 import PageContent from "~/components/PageContent";
 import {
   acceptCookiesFieldName,
+  consentCookieFromRequest,
   trackingCookieValue,
 } from "~/services/analytics/gdprCookie.server";
 import { strapiPageFromRequest } from "~/services/cms";
@@ -19,11 +21,15 @@ export async function loader({ request }: LoaderArgs) {
   return { meta, content, trackingConsent, acceptCookiesFieldName };
 }
 
+export async function action({ request }: ActionArgs) {
+  const headers = { "Set-Cookie": await consentCookieFromRequest({ request }) };
+  return redirect("/cookie-einstellungen/erfolg", { headers });
+}
+
 export default function Index() {
   const { trackingConsent, content, acceptCookiesFieldName } =
     useLoaderData<typeof loader>();
   const navigation = useNavigation();
-  const analyticsFetcher = useFetcher();
   const isSubmitting = navigation.state === "submitting";
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(
     trackingConsent === undefined,
@@ -33,11 +39,7 @@ export default function Index() {
     <>
       <PageContent content={content} />
       <Container paddingTop="0">
-        <analyticsFetcher.Form
-          method="post"
-          action="/action/set-analytics"
-          className="ds-stack-24"
-        >
+        <Form method="post" className="ds-stack-24">
           <fieldset
             className="border-0 p-0 m-0 ds-stack-16"
             disabled={isSubmitting}
@@ -83,7 +85,7 @@ export default function Index() {
               }
             />
           </div>
-        </analyticsFetcher.Form>
+        </Form>
       </Container>
     </>
   );

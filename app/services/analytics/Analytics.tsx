@@ -54,6 +54,7 @@ export function CookieBanner({ hasTrackingConsent }: AnalyticsProps) {
     <div
       className="md:fixed bottom-16 right-16 left-16 md:border-2 border-b-2 border-blue-800 z-50 bg-blue-300"
       role="region"
+      data-testid="cookie-banner"
     >
       <analyticsFetcher.Form method="post" action="/action/set-analytics">
         <Container paddingTop="32" paddingBottom="40">
