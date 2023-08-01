@@ -12,7 +12,7 @@ export const StrapiBoxWithImageSchema = z
     heading: StrapiHeadingSchema.nullable(),
     image: StrapiImageSchema,
     imageLabel: z.string().nullable(),
-    content: z.string(),
+    content: z.string().nullable(),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
   })
