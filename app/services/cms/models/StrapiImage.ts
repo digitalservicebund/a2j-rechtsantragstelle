@@ -15,7 +15,7 @@ export const StrapiImageSchema = z.object({
         ext: z.string().startsWith("."),
         mime: z.string().startsWith("image/"),
         caption: z.string().nullable(),
-        formats: z.string().nullable(),
+        formats: z.record(z.string(), z.unknown()).nullable(),
         hash: z.string(),
         provider: z.string(),
         // eslint-disable-next-line camelcase
