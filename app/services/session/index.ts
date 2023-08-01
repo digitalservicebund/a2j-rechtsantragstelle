@@ -39,34 +39,36 @@ export function createDatabaseSessionStorage({
   return createSessionStorage({
     cookie,
     async createData(data, expires) {
-      const uuid = `${context}_${crypto.randomUUID()}`;
-      await setDataForSession(uuid, data);
+      const uuid = crypto.randomUUID();
+      await setDataForSession(`${context}_${uuid}`, data);
+      console.log("Session created", `${context}_${uuid}`, data);
       return uuid;
     },
     async readData(id) {
-      return getDataForSession(id);
+      console.log("Session read", `${context}_${id}`);
+      return getDataForSession(`${context}_${id}`);
     },
     async updateData(id, data, expires) {
-      await updateDataForSession(id, data);
+      console.log("Session updated", `${context}_${id}`, data);
+      await updateDataForSession(`${context}_${id}`, data);
     },
     async deleteData(id) {
-      await deleteSessionData(id);
+      console.log("Session deleted", `${context}_${id}`);
+      await deleteSessionData(`${context}_${id}`);
     },
   });
 }
 
-export const cookieConfig = {
-  secrets: [config().COOKIE_SESSION_SECRET],
-  sameSite: true,
-  httpOnly: true,
-  maxAge: 24 * 60 * 60,
-  secure: true,
-};
-
 export function getSessionForContext(context: Context) {
   const { getSession, commitSession, destroySession } =
     createDatabaseSessionStorage({
-      cookie: createCookie(`__session_${context}`, cookieConfig),
+      cookie: createCookie("__session", {
+        secrets: [config().COOKIE_SESSION_SECRET],
+        sameSite: true,
+        httpOnly: true,
+        maxAge: 24 * 60 * 60,
+        secure: true,
+      }),
       context: context,
     });
 
