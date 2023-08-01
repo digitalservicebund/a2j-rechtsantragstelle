@@ -1,7 +1,8 @@
 import { createCookie } from "@remix-run/node";
 
 export const acceptCookiesFieldName = "accept-cookies";
-export const gdprCookie = createCookie("gdpr-consent", {
+export const consentCookieName = "gdpr-consent";
+export const gdprCookie = createCookie(consentCookieName, {
   maxAge: 365 * 24 * 60 * 60,
 });
 
@@ -24,12 +25,25 @@ export async function hasTrackingConsent({ request }: CookieArgs) {
   return consentGiven ? consentGiven === "true" : undefined;
 }
 
-export async function createTrackingCookie({
+async function createTrackingCookie({
   request,
   consent,
 }: CookieArgs & { consent?: boolean }) {
   const cookie = await parseTrackingCookie({ request });
   cookie[acceptCookiesFieldName] =
     consent == undefined ? consent : String(consent);
-  return await gdprCookie.serialize(cookie);
+  return gdprCookie.serialize(cookie);
+}
+
+export async function consentCookieFromRequest({
+  request,
+}: {
+  request: Request;
+}) {
+  const formData = await request.formData();
+  const fieldContent = formData.get(acceptCookiesFieldName);
+  let consent = undefined;
+  if (fieldContent === "true") consent = true;
+  else if (fieldContent === "false") consent = false;
+  return createTrackingCookie({ request, consent });
 }
