@@ -5,7 +5,7 @@ import type {
   V2_MetaFunction,
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { getSession } from "~/sessions";
+import { getSessionForContext } from "~/services/session";
 import { getStrapiResultPage, getStrapiVorabCheckCommon } from "~/services/cms";
 import { buildFlowController } from "~/services/flow/buildFlowController";
 import { getReasonsToDisplay } from "~/models/flows/common";
@@ -36,7 +36,9 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   const { pathname } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);
   const stepId = "ergebnis/" + splatFromParams(params);
-  const { data } = await getSession(request.headers.get("Cookie"));
+  const { data } = await getSessionForContext(flowId).getSession(
+    request.headers.get("Cookie"),
+  );
   const { flow, guards } = flowSpecifics[flowId];
   const flowController = buildFlowController({ flow, data, guards });
 
@@ -76,7 +78,9 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 export const action: ActionFunction = async ({ params, request }) => {
   const splat = splatFromParams(params);
   const flowId = flowIDFromPathname(new URL(request.url).pathname);
-  const { data } = await getSession(request.headers.get("Cookie"));
+  const { data } = await getSessionForContext(flowId).getSession(
+    request.headers.get("Cookie"),
+  );
   const { flow, guards } = flowSpecifics[flowId];
   const flowController = buildFlowController({ flow, data, guards });
   return redirect(flowController.getNext("ergebnis/" + splat).url);
