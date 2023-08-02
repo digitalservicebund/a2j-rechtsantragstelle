@@ -213,9 +213,7 @@ export function Step() {
             </form>
           </Container>
         )}
-        <div className="pb-48">
-          <PageContent content={nextSteps} />
-        </div>
+        <PageContent content={nextSteps} />
       </div>
     </>
   );
