@@ -27,14 +27,14 @@ export async function setReturnToURL(request: Request, uuid: string) {
   }
 }
 
-export type Context = "main" | "beratungshilfe" | "geld-einklagen";
+export type SessionContext = "main" | "beratungshilfe" | "geld-einklagen";
 
 export function createDatabaseSessionStorage({
   cookie,
   context,
 }: {
   cookie: Cookie;
-  context: Context;
+  context: SessionContext;
 }) {
   return createSessionStorage({
     cookie,
@@ -55,7 +55,7 @@ export function createDatabaseSessionStorage({
   });
 }
 
-export function getSessionForContext(context: Context) {
+export function getSessionForContext(context: SessionContext) {
   const { getSession, commitSession, destroySession } =
     createDatabaseSessionStorage({
       cookie: createCookie("__session", {
