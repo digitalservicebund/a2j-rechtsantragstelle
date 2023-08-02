@@ -27,6 +27,8 @@ import InfoBox from "~/components/InfoBox";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { infoBoxesFromElementsWithID } from "~/services/props/getInfoBoxItemProps";
+import { Button } from "~/components";
+import ButtonContainer from "~/components/ButtonContainer";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
@@ -146,14 +148,29 @@ export function Step() {
           </Container>
         )}
 
-        {content.linkText && (
+        {(content.linkText || content.backLinkInHeader) && (
           <Container paddingTop="32" paddingBottom="32">
-            <a
-              href="/beratungshilfe/vorabcheck"
-              className="text-link text-base increase-tap-area"
-            >
-              {content.linkText}
-            </a>
+            <ButtonContainer>
+              {content.backLinkInHeader && (
+                <Button
+                  href={backButton.destination}
+                  look="tertiary"
+                  size="large"
+                  className="w-fit"
+                >
+                  {backButton.label}
+                </Button>
+              )}
+              {content.linkText && (
+                <Button
+                  look="tertiary"
+                  size="large"
+                  href="/beratungshilfe/vorabcheck"
+                >
+                  {content.linkText}
+                </Button>
+              )}
+            </ButtonContainer>
           </Container>
         )}
       </div>
@@ -189,11 +206,13 @@ export function Step() {
         </div>
       )}
       <div className={`${documentsList.length > 0 && "bg-blue-100"}`}>
-        <Container>
-          <form method="post">
-            <ButtonNavigation back={backButton} next={nextButton} />
-          </form>
-        </Container>
+        {!content.backLinkInHeader && (
+          <Container>
+            <form method="post">
+              <ButtonNavigation back={backButton} next={nextButton} />
+            </form>
+          </Container>
+        )}
         <div className="pb-48">
           <PageContent content={nextSteps} />
         </div>
