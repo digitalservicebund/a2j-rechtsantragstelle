@@ -10,20 +10,12 @@ export const BoxPropsSchema = z.object({
   label: HeadingPropsSchema.optional(),
   heading: HeadingPropsSchema.optional(),
   content: ParagraphPropsSchema.optional(),
-  button: ButtonPropsSchema.optional(),
   buttons: z.array(ButtonPropsSchema).optional(),
 });
 
 export type BoxProps = z.infer<typeof BoxPropsSchema>;
 
-const Box = ({
-  identifier,
-  label,
-  heading,
-  content,
-  button,
-  buttons,
-}: BoxProps) => {
+const Box = ({ identifier, label, heading, content, buttons }: BoxProps) => {
   return (
     <div className="ds-stack-16 scroll-my-40" id={identifier}>
       <div className="ds-stack-8">
@@ -35,11 +27,6 @@ const Box = ({
           </div>
         )}
       </div>
-      {button && (
-        <div>
-          <Button {...button} />
-        </div>
-      )}
       {buttons && buttons.length > 0 && (
         <ButtonContainer>
           {buttons.map((button) => (

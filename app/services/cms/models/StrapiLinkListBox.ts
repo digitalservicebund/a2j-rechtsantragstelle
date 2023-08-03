@@ -12,7 +12,6 @@ export const StrapiLinkListBoxSchema = z
     __component: z.literal("page.link-list-box").optional(),
     label: StrapiHeadingSchema.nullable(),
     heading: StrapiHeadingSchema.nullable(),
-    button: StrapiButtonSchema.nullable(),
     buttons: z.array(StrapiButtonSchema),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,

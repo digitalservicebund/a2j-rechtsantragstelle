@@ -11,7 +11,6 @@ export const InfoBoxItemPropsSchema = z.object({
   headline: HeadingPropsSchema.optional(),
   image: ImagePropsSchema.optional(),
   content: z.string().optional(),
-  button: ButtonPropsSchema.optional(),
   buttons: z.array(ButtonPropsSchema).optional(),
 });
 
@@ -23,7 +22,6 @@ const InfoBoxItem = ({
   headline,
   image,
   content,
-  button,
   buttons,
 }: InfoBoxItemProps) => {
   return (
@@ -47,7 +45,6 @@ const InfoBoxItem = ({
         {label && <Heading {...label} />}
         {headline && <Heading {...headline} />}
         {content && <RichText markdown={content} />}
-        {button && <Button className="max-w-fit mt-16 mb-0" {...button} />}
         {buttons && buttons.length > 0 && (
           <ButtonContainer>
             {buttons.map((button) => (

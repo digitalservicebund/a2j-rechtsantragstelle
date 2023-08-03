@@ -13,7 +13,6 @@ export const StrapiBoxSchema = z
     label: StrapiHeadingSchema.nullable(),
     heading: StrapiHeadingSchema.nullable(),
     content: StrapiParagraphSchema.nullable(),
-    button: StrapiButtonSchema.nullable(),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
     buttons: z.array(StrapiButtonSchema).nullable(),

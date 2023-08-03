@@ -243,7 +243,7 @@ export default function Kitchensink() {
               look: "ds-heading-02-reg",
             }}
             content={{ text: "Lorem **ipsum**" }}
-            button={{ text: "Button", href: "/", look: "tertiary" }}
+            buttons={[{ text: "Button", href: "/", look: "tertiary" }]}
           />
         </Container>
       </Background>

@@ -15,7 +15,6 @@ export const LinkListBoxPropsSchema = z.object({
       url: z.string().optional(),
     }),
   ),
-  button: ButtonPropsSchema.optional(),
   buttons: z.array(ButtonPropsSchema).optional(),
 });
 
@@ -26,7 +25,6 @@ const LinkListBox = ({
   label,
   heading,
   links,
-  button,
   buttons,
 }: LinkListBoxProps) => {
   return (
@@ -49,11 +47,6 @@ const LinkListBox = ({
           </ul>
         )}
       </div>
-      {button && (
-        <div>
-          <Button {...button} />
-        </div>
-      )}
       {buttons && buttons.length > 0 && (
         <ButtonContainer>
           {buttons.map((button) => (
