@@ -4,10 +4,11 @@ import { hydrateRoot } from "react-dom/client";
 import * as Sentry from "@sentry/remix";
 import { config } from "~/services/env/web";
 
-if (config().SENTRY_DSN) {
+const { SENTRY_DSN, ENVIRONMENT } = config();
+if (SENTRY_DSN !== undefined) {
   Sentry.init({
-    dsn: config().SENTRY_DSN,
-    environment: config().ENVIRONMENT,
+    dsn: SENTRY_DSN,
+    environment: ENVIRONMENT,
     integrations: [
       new Sentry.BrowserTracing({
         routingInstrumentation: Sentry.remixRouterInstrumentation(

@@ -55,10 +55,9 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader = async ({ request }: LoaderArgs) => {
-  if (configWeb().POSTHOG_API_KEY) {
-    const client = new PostHog(configWeb().POSTHOG_API_KEY, {
-      host: configWeb().POSTHOG_API_HOST,
-    });
+  const { POSTHOG_API_KEY, POSTHOG_API_HOST } = configWeb();
+  if (POSTHOG_API_KEY) {
+    const client = new PostHog(POSTHOG_API_KEY, { host: POSTHOG_API_HOST });
 
     if (
       request.url.includes("geld-einklagen") &&

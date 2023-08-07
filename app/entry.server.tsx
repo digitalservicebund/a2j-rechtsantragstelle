@@ -8,10 +8,13 @@ import * as Sentry from "@sentry/remix";
 import { config } from "./services/env/web";
 import { stripTrailingSlashFromURL } from "./util/strings";
 
-Sentry.init({
-  dsn: config().SENTRY_DSN,
-  environment: config().ENVIRONMENT,
-});
+const { SENTRY_DSN, ENVIRONMENT } = config();
+if (SENTRY_DSN !== undefined) {
+  Sentry.init({
+    dsn: SENTRY_DSN,
+    environment: ENVIRONMENT,
+  });
+}
 
 const ABORT_DELAY = 5000;
 
