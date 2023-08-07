@@ -8,18 +8,21 @@ test.beforeEach(async ({ page }) => {
 test.describe("homepage", () => {
   testPageToBeAccessible();
 
-  test.describe("links", () => {
+  test.describe("Footer links", () => {
     const expectedLinks = {
-      Beratungshilfe: "/beratungshilfe",
       Impressum: "/impressum",
+      Nutzungsbedingungen: "/nutzungsbedingungen",
       Datenschutzbestimmung: "/datenschutz",
+      "Cookie-Einstellungen": "/cookie-einstellungen",
+      // Barrierefreiheit: "/barrierefreiheit",
+      // Pressekontakt: "/pressekontakt",
     };
 
     let key: keyof typeof expectedLinks;
     for (key in expectedLinks) {
       const linkText = key;
       const url = expectedLinks[linkText];
-      test(`${linkText} link`, async ({ page }) => {
+      test(`${linkText}`, async ({ page }) => {
         const responsePromise = page.waitForResponse(
           (resp) => resp.url().includes(url) && resp.status() === 200,
         );
