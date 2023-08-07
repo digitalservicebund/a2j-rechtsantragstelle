@@ -22,7 +22,7 @@ export function config(): Config {
 
     instance = {
       STRAPI_API: STRAPI_API ?? `${STRAPI_HOST}/api/`,
-      STRAPI_HOST: STRAPI_HOST ?? STRAPI_API?.replace("api/", "") ?? "",
+      STRAPI_HOST: STRAPI_HOST ?? STRAPI_API?.replace("/api/", "") ?? "",
       STRAPI_ACCESS_KEY: process.env.STRAPI_ACCESS_KEY?.trim() ?? "",
       CMS: process.env.CMS?.trim() ?? "FILE",
       TRUSTED_IMAGE_SOURCES:
