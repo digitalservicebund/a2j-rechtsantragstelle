@@ -51,9 +51,25 @@ function Button({
   const textSpan = text ? <span>{text}</span> : "";
   const childrenSpan = <span>{children}</span>;
 
+  // for links that have role="button" we need to add an event handler so that it can
+  // be activated with the space bar
+  // see: https://github.com/alphagov/govuk_elements/pull/272#issuecomment-233028270
+  const onKeyDown = (event: React.KeyboardEvent<HTMLAnchorElement>) => {
+    if (event.code === "Space") {
+      event.currentTarget.click();
+      event.preventDefault();
+    }
+  };
+
   if (href) {
     return (
-      <a {...(props as ButtonLinkProps)} href={href} className={buttonClasses}>
+      <a
+        {...(props as ButtonLinkProps)}
+        href={href}
+        className={buttonClasses}
+        role="button"
+        onKeyDown={onKeyDown}
+      >
         {iconLeft} {children ? childrenSpan : textSpan} {iconRight}
       </a>
     );
