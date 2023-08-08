@@ -42,16 +42,12 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   const stepId = splatFromParams(params);
   const { pathname } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);
-  const flow = flowSpecifics[flowId].flow;
+  const { flow, guards } = flowSpecifics[flowId];
 
   const { data } = await getSessionForContext(flowId).getSession(
     request.headers.get("Cookie"),
   );
-  const flowController = buildFlowController({
-    flow: flow,
-    data: data,
-    guards: flowSpecifics[flowId].guards,
-  });
+  const flowController = buildFlowController({ flow, data, guards });
 
   if (!flowController.isReachable(stepId))
     return redirect(flowController.getInitial().url);
@@ -100,11 +96,8 @@ export const action: ActionFunction = async ({ params, request }) => {
   }
   const stepId = splatFromParams(params);
   const flowId = flowIDFromPathname(new URL(request.url).pathname);
-  const sessionContext = getSessionForContext(flowId);
-
-  const flowSession = await sessionContext.getSession(
-    request.headers.get("Cookie"),
-  );
+  const { getSession, commitSession } = getSessionForContext(flowId);
+  const flowSession = await getSession(request.headers.get("Cookie"));
 
   const formData = await request.formData();
   const { context } = flowSpecifics[flowId];
@@ -120,9 +113,7 @@ export const action: ActionFunction = async ({ params, request }) => {
   Object.entries(validationResult.data as Record<string, string>).forEach(
     ([key, data]) => flowSession.set(key, data),
   );
-  const headers = {
-    "Set-Cookie": await sessionContext.commitSession(flowSession),
-  };
+  const headers = { "Set-Cookie": await commitSession(flowSession) };
 
   const flowController = buildFlowController({
     flow: flowSpecifics[flowId].flow,
