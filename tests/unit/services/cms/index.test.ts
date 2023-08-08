@@ -1,4 +1,4 @@
-import { getStrapiFooter } from "~/services/cms";
+import { getStrapiFooter } from "~/services/cms/index.server";
 import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
 import { strapiFooterFactory } from "~/../tests/factories/cmsModels/strapiFooter";
 

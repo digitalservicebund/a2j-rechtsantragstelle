@@ -6,7 +6,10 @@ import { Background, Container } from "~/components";
 import CourtDetails from "~/components/CourtDetails";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
-import { getStrapiAmtsgerichtCommon, getStrapiPage } from "~/services/cms";
+import {
+  getStrapiAmtsgerichtCommon,
+  getStrapiPage,
+} from "~/services/cms/index.server";
 import {
   edgeCasesForPlz,
   findCourt,

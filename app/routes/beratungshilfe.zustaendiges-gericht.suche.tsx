@@ -10,7 +10,7 @@ import { z } from "zod";
 import {
   getStrapiAmtsgerichtCommon,
   getStrapiVorabCheckPage,
-} from "~/services/cms";
+} from "~/services/cms/index.server";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
 import { getSessionForContext } from "~/services/session";

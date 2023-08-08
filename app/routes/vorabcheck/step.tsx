@@ -20,7 +20,7 @@ import { ProgressBar } from "~/components/form/ProgressBar";
 import {
   getStrapiVorabCheckCommon,
   getStrapiVorabCheckPage,
-} from "~/services/cms";
+} from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/buildFlowController";
 import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
 import { buildStepValidator } from "~/models/flows/common";

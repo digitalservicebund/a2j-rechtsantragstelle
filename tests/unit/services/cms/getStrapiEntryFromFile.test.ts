@@ -1,5 +1,5 @@
 import { StrapiFileContentSchema } from "~/services/cms/models/StrapiFileContent";
-import type { GetStrapiEntryOpts } from "~/services/cms";
+import type { GetStrapiEntryOpts } from "~/services/cms/index.server";
 import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
 
 jest.mock("~/services/cms/models/StrapiFileContent", () => {

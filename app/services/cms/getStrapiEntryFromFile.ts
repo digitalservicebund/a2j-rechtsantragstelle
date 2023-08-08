@@ -1,5 +1,5 @@
 /* eslint @typescript-eslint/require-await: 0 */
-import type { GetStrapiEntryOpts } from ".";
+import type { GetStrapiEntryOpts } from "./index.server";
 import contentFile from "~/../content.json";
 import { StrapiFileContentSchema } from "./models/StrapiFileContent";
 

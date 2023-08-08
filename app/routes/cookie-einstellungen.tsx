@@ -9,7 +9,7 @@ import {
   consentCookieFromRequest,
   trackingCookieValue,
 } from "~/services/analytics/gdprCookie.server";
-import { strapiPageFromRequest } from "~/services/cms";
+import { strapiPageFromRequest } from "~/services/cms/index.server";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },

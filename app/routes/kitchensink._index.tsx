@@ -22,7 +22,7 @@ import {
 import Header from "~/components/Header";
 import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";
-import { strapiPageFromRequest } from "~/services/cms";
+import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { throw404OnProduction } from "./error/throw404OnProduction";
 
 export const DummySchema = z.object({

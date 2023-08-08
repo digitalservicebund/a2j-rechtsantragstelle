@@ -1,6 +1,6 @@
 import { Await, isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { Suspense } from "react";
-import { getStrapiPage } from "~/services/cms";
+import { getStrapiPage } from "~/services/cms/index.server";
 import PageContent from "./PageContent";
 import { Container } from ".";
 import { config } from "~/services/env/web";

@@ -6,7 +6,10 @@ import type {
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { getSessionForContext } from "~/services/session";
-import { getStrapiResultPage, getStrapiVorabCheckCommon } from "~/services/cms";
+import {
+  getStrapiResultPage,
+  getStrapiVorabCheckCommon,
+} from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/buildFlowController";
 import { getReasonsToDisplay } from "~/models/flows/common";
 import {

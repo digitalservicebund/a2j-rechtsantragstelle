@@ -20,7 +20,7 @@ import { withSentry } from "@sentry/remix";
 import { PostHog } from "posthog-node";
 import { config as configWeb } from "~/services/env/web";
 import { config as configServer } from "~/services/env/env.server";
-import { getStrapiFooter } from "~/services/cms";
+import { getStrapiFooter } from "~/services/cms/index.server";
 import { getFooterProps } from "~/services/props/getFooterProps";
 import Footer from "./components/Footer";
 import Breadcrumbs, { breadcrumbsFromURL } from "./components/Breadcrumbs";

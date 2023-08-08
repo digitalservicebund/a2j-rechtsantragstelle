@@ -1,5 +1,5 @@
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import { getStrapiPage } from "~/services/cms";
+import { getStrapiPage } from "~/services/cms/index.server";
 
 type Breadcrumb = {
   url: string;

@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { GetStrapiEntryOpts } from "~/services/cms";
+import type { GetStrapiEntryOpts } from "~/services/cms/index.server";
 import { getStrapiEntryFromApi } from "~/services/cms/getStrapiEntryFromApi";
 
 jest.mock("axios");
