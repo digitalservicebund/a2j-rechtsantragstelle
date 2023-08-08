@@ -12,7 +12,6 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-  useRouteError,
   useRouteLoaderData,
 } from "@remix-run/react";
 import stylesheet from "~/styles.css";
@@ -28,7 +27,7 @@ import Breadcrumbs, { breadcrumbsFromURL } from "./components/Breadcrumbs";
 import Header from "./components/PageHeader";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { CookieBanner } from "./services/analytics/Analytics";
-import ErrorBox, { errorPageFromRouteError } from "./components/ErrorBox";
+import ErrorBox from "./components/ErrorBox";
 import { createCSRFToken } from "./services/security/csrf.server";
 import { getSessionForContext } from "./services/session";
 import { CSRFKey } from "./services/security/csrf";
@@ -141,7 +140,7 @@ export function ErrorBoundary() {
       <body className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-grow">
-          <ErrorBox {...errorPageFromRouteError(useRouteError())} />
+          <ErrorBox />
         </main>
         {loaderData && <Footer {...loaderData.footer} />}
       </body>
