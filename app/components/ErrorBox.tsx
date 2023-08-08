@@ -3,8 +3,8 @@ import Button from "./Button";
 import type { useRouteError } from "@remix-run/react";
 import { isRouteErrorResponse } from "@remix-run/react";
 
-type ErrorPage = {
-  statuscode: number;
+type ErrorPageContent = {
+  statuscode: number | undefined;
   title: string;
   message: React.ReactElement | string;
 };
@@ -12,8 +12,8 @@ type ErrorPage = {
 export function errorPageFromRouteError(
   routeError: ReturnType<typeof useRouteError>,
 ) {
-  const errorPage: ErrorPage = {
-    statuscode: 0,
+  const errorPage: ErrorPageContent = {
+    statuscode: undefined,
     title: "Unbekannter Fehler",
     message:
       "Es tut uns leid, ein unbekannter Fehler ist aufgetreten. Versuche es später noch einmal.",
@@ -49,7 +49,11 @@ export function errorPageFromRouteError(
   return errorPage;
 }
 
-export default function ErrorBox({ statuscode, title, message }: ErrorPage) {
+export default function ErrorBox({
+  statuscode,
+  title,
+  message,
+}: ErrorPageContent) {
   return (
     <div className="border-t-2 border-gray-400">
       <Container>
