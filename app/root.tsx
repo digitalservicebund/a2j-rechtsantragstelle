@@ -138,14 +138,12 @@ export function ErrorBoundary() {
         <Meta />
         <Links />
       </head>
-      <body className="min-h-screen">
+      <body className="flex flex-col min-h-screen">
         <Header />
-        <main className="h-full grow">
+        <main className="flex-grow">
           <ErrorBox {...errorPageFromRouteError(useRouteError())} />
         </main>
         {loaderData && <Footer {...loaderData.footer} />}
-        <Scripts />
-        <LiveReload />
       </body>
     </html>
   );
