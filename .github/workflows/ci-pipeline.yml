@@ -131,12 +131,6 @@ jobs:
         with:
           sarif_file: "trivy-results.sarif"
 
-      - name: Create SBOM
-        uses: digitalservicebund/github-actions/create-sbom@40022b2843c5d9f9efba2c92d9421e19d3a1a3de
-        with:
-          repository: ${{ env.GITHUB_REGISTRY }}/${{ github.repository }}
-          image_tag: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}"
-
       - name: Login to container registry
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
         with:
