@@ -1,12 +1,17 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { config } from "~/services/env/env.server";
 
 export const StrapiImageSchema = z.object({
   data: z
     .object({
       attributes: z.object({
         name: z.string(),
-        url: z.string().url(),
+        url: z
+          .string()
+          .transform((url) =>
+            url.startsWith("/") ? config().STRAPI_HOST + url : url,
+          ),
         previewUrl: z.string().url().nullable(),
         width: z.number(),
         height: z.number(),
