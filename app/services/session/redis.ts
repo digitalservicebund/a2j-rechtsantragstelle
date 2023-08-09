@@ -7,19 +7,29 @@ declare global {
   var ioredis: Redis;
 }
 
+const useTls = configWeb().ENVIRONMENT === "staging";
+
 const redisUrl = () =>
-  `${configWeb().ENVIRONMENT === "staging" ? "rediss" : "redis"}://default:${
-    config().REDIS_PASSWORD
-  }@${config().REDIS_ENDPOINT}`;
+  `${useTls ? "rediss" : "redis"}://default:${config().REDIS_PASSWORD}@${
+    config().REDIS_ENDPOINT
+  }`;
 
 if (!global.ioredis) {
   try {
-    global.ioredis = new Redis(redisUrl(), {
+    const options = {
       maxRetriesPerRequest: 1,
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
+    };
+    global.ioredis = new Redis(
+      redisUrl(),
+      useTls
+        ? {
+            ...options,
+            tls: {
+              rejectUnauthorized: false,
+            },
+          }
+        : options,
+    );
     console.log("Redis connection opened");
   } catch (err) {
     console.error("Redis error", err);
