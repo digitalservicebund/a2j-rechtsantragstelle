@@ -16,6 +16,9 @@ if (!global.ioredis) {
   try {
     global.ioredis = new Redis(redisUrl(), {
       maxRetriesPerRequest: 1,
+      tls: {
+        rejectUnauthorized: false,
+      },
     });
     console.log("Redis connection opened");
   } catch (err) {
