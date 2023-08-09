@@ -1,5 +1,6 @@
 import { Redis } from "ioredis";
 import { config } from "../env/env.server";
+import { config as configWeb } from "../env/web";
 
 declare global {
   /* eslint-disable-next-line no-var*/
@@ -7,7 +8,9 @@ declare global {
 }
 
 const redisUrl = () =>
-  `redis://default:${config().REDIS_PASSWORD}@${config().REDIS_ENDPOINT}`;
+  `${configWeb().ENVIRONMENT === "staging" ? "rediss" : "redis"}://default:${
+    config().REDIS_PASSWORD
+  }@${config().REDIS_ENDPOINT}`;
 
 if (!global.ioredis) {
   try {
