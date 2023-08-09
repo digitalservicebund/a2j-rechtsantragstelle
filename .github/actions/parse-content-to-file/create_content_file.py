@@ -4,16 +4,16 @@ import os
 import requests
 import json
 
-STRAPI_HOST = os.getenv('STRAPI_HOST')
+STRAPI_API = os.getenv('STRAPI_API')
 STRAPI_ACCESS_KEY = os.getenv('STRAPI_ACCESS_KEY')
 CONTENT_FILE_PATH = os.getenv('CONTENT_FILE_PATH')
 PAGE_SIZE = 10
 
 
 def get_all_collection_types():
-    assert STRAPI_HOST is not None
+    assert STRAPI_API is not None
     assert STRAPI_ACCESS_KEY is not None
-    collection_types_response = requests.get(f"{STRAPI_HOST}/api/content-type-builder/content-types", headers={
+    collection_types_response = requests.get(f"{STRAPI_API}content-type-builder/content-types", headers={
         "Authorization": f"Bearer {STRAPI_ACCESS_KEY}",
     })
     print(f"content-type-builder/content-types status code: {collection_types_response.status_code}")
@@ -44,7 +44,7 @@ def collect_all_collection_data(collection_id):
     all_collection_data = []
     while True:
         res = requests.get(
-            f"{STRAPI_HOST}/api/{collection_id}?populate=deep&locale=all&pagination[pageSize]={PAGE_SIZE}&pagination[page]={page}",
+            f"{STRAPI_API}{collection_id}?populate=deep&locale=all&pagination[pageSize]={PAGE_SIZE}&pagination[page]={page}",
             headers={
                 "Authorization": f"Bearer {STRAPI_ACCESS_KEY}",
             })

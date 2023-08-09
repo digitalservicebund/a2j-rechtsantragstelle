@@ -30,7 +30,7 @@ jobs:
       - name: Parse Content to File
         uses: ./.github/actions/parse-content-to-file
         with:
-          STRAPI_HOST: "${{ secrets.STRAPI_HOST }}"
+          STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
 
       - name: Upload Content File for further steps
