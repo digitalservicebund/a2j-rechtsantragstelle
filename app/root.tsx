@@ -20,7 +20,7 @@ import { withSentry } from "@sentry/remix";
 import { PostHog } from "posthog-node";
 import { config as configWeb } from "~/services/env/web";
 import { config as configServer } from "~/services/env/env.server";
-import { getStrapiFooter } from "~/services/cms/index.server";
+import { getStrapiFooter, getStrapiPage } from "~/services/cms/index.server";
 import { getFooterProps } from "~/services/props/getFooterProps";
 import Footer from "./components/Footer";
 import Breadcrumbs, { breadcrumbsFromURL } from "./components/Breadcrumbs";
@@ -31,6 +31,9 @@ import ErrorBox from "./components/ErrorBox";
 import { createCSRFToken } from "./services/security/csrf.server";
 import { getSessionForContext } from "./services/session";
 import { CSRFKey } from "./services/security/csrf";
+import { promise } from "zod";
+import { StrapiPage } from "./services/cms/models/StrapiPage";
+import { error } from "xstate/lib/actions";
 
 export const headers: HeadersFunction = () => ({
   "Content-Security-Policy": `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src ${
@@ -81,6 +84,14 @@ export const loader = async ({ request }: LoaderArgs) => {
       "Set-Cookie": await sessionContext.commitSession(session),
     };
   }
+  // Preload error pages from strapi
+  const errorCodes = ["404", "500", "403", "fallback"];
+  const errorPages: Record<string, StrapiPage> = {};
+
+  for (const errorCode of errorCodes) {
+    const page = await getStrapiPage({ slug: `/error/${errorCode}` });
+    errorPages[errorCode] = page;
+  }
 
   return json(
     {
@@ -88,6 +99,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       breadcrumbs: await breadcrumbsFromURL(request.url),
       footer: getFooterProps(await getStrapiFooter()),
       hasTrackingConsent: await hasTrackingConsent({ request }),
+      errorPages,
     },
     { headers },
   );
@@ -130,6 +142,7 @@ function App() {
 
 export function ErrorBoundary() {
   const loaderData = useRouteLoaderData<typeof loader>("root");
+  console.log("loaderData", loaderData);
   return (
     <html>
       <head>
@@ -140,7 +153,7 @@ export function ErrorBoundary() {
       <body className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-grow">
-          <ErrorBox />
+          <ErrorBox errorPages={loaderData?.errorPages} />
         </main>
         {loaderData && <Footer {...loaderData.footer} />}
       </body>

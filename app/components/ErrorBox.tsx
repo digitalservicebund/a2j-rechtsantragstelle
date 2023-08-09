@@ -1,56 +1,45 @@
-import { Await, isRouteErrorResponse, useRouteError } from "@remix-run/react";
-import { Suspense } from "react";
-import { getStrapiPage } from "~/services/cms/index.server";
+import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import PageContent from "./PageContent";
 import { Container } from ".";
 import { config } from "~/services/env/web";
+import type { StrapiPage } from "~/services/cms/models/StrapiPage";
 
-type ErrorPageContent = {
-  content: ReturnType<typeof getStrapiPage>;
-  additionalContext: string | undefined;
-};
-
-export function errorPageFromRouteError(
+export function getJavaScriptErrorInDevEnvironments(
   routeError: ReturnType<typeof useRouteError>,
 ) {
-  const errorPage: ErrorPageContent = {
-    content: getStrapiPage({ slug: "/error/fallback" }),
-    additionalContext: undefined,
-  };
-
-  if (isRouteErrorResponse(routeError)) {
-    errorPage.content = getStrapiPage({
-      slug: `/error/${routeError.status}`,
-    });
-  } else if (config().ENVIRONMENT !== "production") {
+  if (config().ENVIRONMENT !== "production") {
     if (typeof routeError === "string") {
-      errorPage.additionalContext = routeError.toUpperCase();
+      return routeError.toUpperCase();
     } else if (routeError instanceof Error) {
-      errorPage.additionalContext = routeError.message;
+      return routeError.message;
     }
   }
-
-  return errorPage;
 }
 
-export default function ErrorBox() {
-  const { content, additionalContext } = errorPageFromRouteError(
-    useRouteError(),
-  );
-  const fallbackError = (
-    <Await resolve={getStrapiPage({ slug: "/error/fallback" })}>
-      {(pageContent) => <PageContent {...pageContent} />}
-    </Await>
-  );
+export default function ErrorBox({
+  errorPages,
+}: {
+  errorPages?: Record<string, StrapiPage>;
+}) {
+  const routerError = useRouteError();
+  const javaScriptError = getJavaScriptErrorInDevEnvironments(routerError);
+  let content;
+
+  if (isRouteErrorResponse(routerError)) {
+    content = errorPages?.[routerError.status]?.content;
+  }
+
+  if (content == undefined) {
+    // TODO introduce real fallback text (not even strapi/file are readable)
+    content = errorPages?.["fallback"]?.content ?? [];
+  }
+
   return (
     <div>
-      <Suspense>
-        <Await resolve={content} errorElement={fallbackError}>
-          {(pageContent) => <PageContent {...pageContent} />}
-        </Await>
-      </Suspense>
+      <PageContent content={content} />
+
       <Container>
-        <pre>{additionalContext}</pre>
+        <pre>{javaScriptError}</pre>
       </Container>
     </div>
   );
