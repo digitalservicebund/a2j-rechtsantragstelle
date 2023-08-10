@@ -16,11 +16,11 @@ We are a bit insecure about the jargon (e.g. architectual significance) around A
 
 We considered two template options.
 
-The _classic_ Nygard template is very visible and well adopted and plenty of [tooling](https://adr.github.io/#decision-capturing-tools) exists. It's also already used in the company by other teams.
+The _classic_ [Nygard template](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions) is very visible and well adopted and plenty of [tooling](https://adr.github.io/#decision-capturing-tools) exists. It's also already used in the company by other teams.
 
 The more _modern_ [MADR 3.0.0](https://adr.github.io/madr/) is offered as a template to capture any decisions, as its makers believe that any (important) decision should be captured - not only architectural significant ones. It broadens the scope of ADRs to "Any Decision Records" and advocates to not take the term "architecture" too seriously. It lacks adoption and tooling support.
 
-We will use Architecture Decision Records, as [described by Michael Nygard](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions). We extend their usage to include other (important) decisions, hence calling them _Any Decision Records_.
+We decided to use the _Nygard_ template with a little twist. Instead of only using it for architectural decisions, we will use it also for other (important) decisions, hence calling them _Any Decision Records_.
 
 ## Consequences
 
