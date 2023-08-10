@@ -1,10 +1,9 @@
 import { createCookie } from "@remix-run/node";
+import { acceptCookiesFieldName } from "./Analytics";
 
-export const acceptCookiesFieldName = "accept-cookies";
 export const consentCookieName = "gdpr-consent";
-export const gdprCookie = createCookie(consentCookieName, {
-  maxAge: 365 * 24 * 60 * 60,
-});
+const maxAge = 365 * 24 * 60 * 60;
+export const gdprCookie = createCookie(consentCookieName, { maxAge });
 
 type CookieArgs = { request: Request };
 

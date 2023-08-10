@@ -1,10 +1,8 @@
 import { Buffer } from "buffer";
 import { test, expect } from "@playwright/test";
 import { testPageToBeAccessible } from "./util/testPageToBeAccessible";
-import {
-  acceptCookiesFieldName,
-  consentCookieName,
-} from "~/services/analytics/gdprCookie.server";
+import { consentCookieName } from "~/services/analytics/gdprCookie.server";
+import { acceptCookiesFieldName } from "~/services/analytics/Analytics";
 
 const encode = (str: string): string =>
   Buffer.from(str, "binary").toString("base64");

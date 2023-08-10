@@ -5,9 +5,9 @@ import posthog from "posthog-js";
 import { Button, Container } from "~/components";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
-import { acceptCookiesFieldName } from "./gdprCookie.server";
 
 // TODO: move all text into CMS
+export const acceptCookiesFieldName = "accept-cookies";
 
 type AnalyticsProps = {
   hasTrackingConsent?: boolean;

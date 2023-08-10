@@ -4,8 +4,8 @@ import { Form, useLoaderData, useNavigation } from "@remix-run/react";
 import { useState } from "react";
 import { Button, Container } from "~/components";
 import PageContent from "~/components/PageContent";
+import { acceptCookiesFieldName } from "~/services/analytics/Analytics";
 import {
-  acceptCookiesFieldName,
   consentCookieFromRequest,
   trackingCookieValue,
 } from "~/services/analytics/gdprCookie.server";
