@@ -4,8 +4,9 @@ import { Container } from "../../components";
 import { config } from "~/services/env/web";
 import type { StrapiPage } from "~/services/cms/models/StrapiPage";
 import { getStrapiPage } from "~/services/cms/index.server";
+import fallbackStrapiInfoBox from "./fallbackInfobox";
 
-const errorCodes = ["404", "500", "403", "fallback"] as const;
+const errorCodes = ["404", "500", "403"] as const;
 type ErrorPages = Record<string, StrapiPage["content"]>;
 const errorSlugPrefix = "/error/";
 
@@ -41,15 +42,11 @@ function getJavaScriptErrorInDevEnvironments(
 
 export function ErrorBox({ errorPages }: { errorPages?: ErrorPages }) {
   const routerError = useRouteError();
-  let content: StrapiPage["content"] | undefined;
-
-  if (isRouteErrorResponse(routerError)) {
+  let content: StrapiPage["content"] = [fallbackStrapiInfoBox];
+  if (isRouteErrorResponse(routerError) && errorPages?.[routerError.status])
     content = errorPages?.[routerError.status];
-  }
-  if (!content) {
-    // TODO introduce real fallback text (not even strapi/file are readable)
-    content = errorPages?.["fallback"] ?? [];
-  }
+  else if (errorPages?.["500"]) content = errorPages?.["500"];
+
   return (
     <div>
       <PageContent content={content} />
