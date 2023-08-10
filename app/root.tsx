@@ -28,9 +28,6 @@ import Header from "./components/PageHeader";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { CookieBanner } from "./services/analytics/Analytics";
 import { ErrorBox, getErrorPages } from "./services/errorPages";
-import { createCSRFToken } from "./services/security/csrf.server";
-import { getSessionForContext } from "./services/session";
-import { CSRFKey } from "./services/security/csrf";
 
 export const headers: HeadersFunction = () => ({
   "Content-Security-Policy": `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src ${
@@ -69,29 +66,12 @@ export const loader = async ({ request }: LoaderArgs) => {
     }
   }
 
-  const csrf = createCSRFToken();
-  let headers = undefined;
-  const sessionContext = getSessionForContext("main");
-  if (sessionContext.sessionAvailable()) {
-    const session = await sessionContext.getSession(
-      request.headers.get("Cookie"),
-    );
-    session.set(CSRFKey, csrf);
-    headers = {
-      "Set-Cookie": await sessionContext.commitSession(session),
-    };
-  }
-
-  return json(
-    {
-      [CSRFKey]: csrf,
-      breadcrumbs: await breadcrumbsFromURL(request.url),
-      footer: getFooterProps(await getStrapiFooter()),
-      hasTrackingConsent: await hasTrackingConsent({ request }),
-      errorPages: await getErrorPages(),
-    },
-    { headers },
-  );
+  return json({
+    breadcrumbs: await breadcrumbsFromURL(request.url),
+    footer: getFooterProps(await getStrapiFooter()),
+    hasTrackingConsent: await hasTrackingConsent({ request }),
+    errorPages: await getErrorPages(),
+  });
 };
 
 function App() {

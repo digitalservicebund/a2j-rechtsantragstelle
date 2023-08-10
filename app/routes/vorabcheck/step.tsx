@@ -1,14 +1,5 @@
-import {
-  useLoaderData,
-  useLocation,
-  useParams,
-  useRouteLoaderData,
-} from "@remix-run/react";
-import type {
-  ActionFunction,
-  LoaderArgs,
-  V2_MetaFunction,
-} from "@remix-run/node";
+import { useLoaderData, useLocation, useParams } from "@remix-run/react";
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
@@ -31,8 +22,12 @@ import {
 } from "./flowSpecifics";
 import type { StrapiHeading } from "~/services/cms/models/StrapiHeading";
 import type { StrapiSelect } from "~/services/cms/models/StrapiSelect";
-import { validatedSession } from "~/services/security/csrf.server";
-import { CSRFKey, csrfFromRouteLoader } from "~/services/security/csrf";
+import {
+  createCSRFToken,
+  csrfSessionFromRequest,
+  validatedSession,
+} from "~/services/security/csrf.server";
+import { CSRFKey } from "~/services/security/csrfKey";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
@@ -73,20 +68,33 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     }
   });
 
-  return json({
-    defaultValues: data,
-    commonContent: await getStrapiVorabCheckCommon(),
-    preFormContent: formPageContent.pre_form,
-    formContent: formPageContent.form,
-    meta: formPageContent.meta,
-    progress: flowController.getProgress(stepId),
-    isLast: flowController.isFinal(stepId),
-    previousStep: flowController.getPrevious(stepId)?.url,
-    templateReplacements,
-  });
+  const csrf = createCSRFToken();
+  let headers = undefined;
+  const sessionContext = getSessionForContext("main");
+  if (sessionContext.sessionAvailable()) {
+    const session = await csrfSessionFromRequest(csrf, request);
+    const newCookie = await sessionContext.commitSession(session);
+    headers = { "Set-Cookie": newCookie };
+  }
+
+  return json(
+    {
+      csrf,
+      defaultValues: data,
+      commonContent: await getStrapiVorabCheckCommon(),
+      preFormContent: formPageContent.pre_form,
+      formContent: formPageContent.form,
+      meta: formPageContent.meta,
+      progress: flowController.getProgress(stepId),
+      isLast: flowController.isFinal(stepId),
+      previousStep: flowController.getPrevious(stepId)?.url,
+      templateReplacements,
+    },
+    { headers },
+  );
 };
 
-export const action: ActionFunction = async ({ params, request }) => {
+export const action = async ({ params, request }: ActionArgs) => {
   try {
     await validatedSession(request);
   } catch (csrfError) {
@@ -124,6 +132,7 @@ export const action: ActionFunction = async ({ params, request }) => {
 
 export function Step() {
   const {
+    csrf,
     defaultValues,
     commonContent,
     preFormContent,
@@ -167,11 +176,7 @@ export function Step() {
                 noValidate
                 action={stepId}
               >
-                <input
-                  type="hidden"
-                  name={CSRFKey}
-                  value={csrfFromRouteLoader(useRouteLoaderData("root"))}
-                />
+                <input type="hidden" name={CSRFKey} value={csrf} />
                 <div className="ds-stack-40">
                   <PageContent content={formContent} />
                   <ButtonNavigation
