@@ -3,7 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { createMachine, type AnyStateMachine } from "xstate";
 import { toDirectedGraph } from "@xstate/graph";
 import { flowIDFromPathname, flowSpecifics } from "./flowSpecifics";
-import { throw404OnProduction } from "../error/throw404OnProduction";
+import { throw404OnProduction } from "../../services/errorPages/throw404OnProduction";
 
 const mermaidFlowchart = (
   digraph: ReturnType<typeof toDirectedGraph>,
