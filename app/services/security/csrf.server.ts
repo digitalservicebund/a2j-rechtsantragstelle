@@ -9,25 +9,16 @@ export function createCSRFToken() {
 }
 
 async function validateCSRFToken(request: Request, session: Session) {
-  const bodyToken = (await request.clone().formData()).get(CSRFKey);
-  const sessionToken = session.get(CSRFKey) as string | undefined;
-  if (!sessionToken) throw new Error("Session: CSRF Token not included.");
-  if (!bodyToken) throw new Error("Body: CSRF Token not included.");
-  if (bodyToken !== session.get(CSRFKey))
-    throw new Error(`CSRF tokens between body and session do not match.`);
+  const csrfTokenForm = (await request.clone().formData()).get(CSRFKey);
+  const csrfTokenSession = session.get(CSRFKey) as string | undefined;
+  if (!csrfTokenSession) throw new Error("Session: CSRF Token not included.");
+  if (!csrfTokenForm) throw new Error("Form: CSRF Token not included.");
+  if (csrfTokenForm !== csrfTokenSession)
+    throw new Error(`CSRF tokens between form and session do not match.`);
 }
 
 export async function validatedSession(request: Request) {
-  const session = await getSessionForContext("main").getSession(
-    request.headers.get("Cookie"),
-  );
-  try {
-    await validateCSRFToken(request, session);
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
-    return;
-  }
-  return session;
+  const cookie = request.headers.get("Cookie");
+  const session = await getSessionForContext("main").getSession(cookie);
+  await validateCSRFToken(request, session);
 }
