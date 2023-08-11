@@ -9,29 +9,7 @@ STRAPI_ACCESS_KEY = os.getenv('STRAPI_ACCESS_KEY')
 CONTENT_FILE_PATH = os.getenv('CONTENT_FILE_PATH')
 PAGE_SIZE = 10
 
-
-def get_all_collection_types():
-    assert STRAPI_API is not None
-    assert STRAPI_ACCESS_KEY is not None
-    collection_types_response = requests.get(f"{STRAPI_API}content-type-builder/content-types", headers={
-        "Authorization": f"Bearer {STRAPI_ACCESS_KEY}",
-    })
-    print(f"content-type-builder/content-types status code: {collection_types_response.status_code}")
-    assert collection_types_response.status_code == 200
-    return json.loads(collection_types_response.text)
-
-
-def map_collection_type_to_api_identifier(collection_type):
-    if collection_type["schema"]["kind"] == "singleType":
-        return collection_type["schema"]["singularName"]
-    return collection_type["schema"]["pluralName"]
-
-
-def get_relevant_api_ids(collection_types):
-    relevant_collection_types = list(
-        filter(lambda collection_type: "api::" in collection_type["uid"], collection_types["data"]))
-    return list(map(map_collection_type_to_api_identifier, relevant_collection_types))
-
+relevant_api_ids = ['amtsgericht-common', 'footer', 'pages', 'result-pages', 'vorab-check-common', 'vorab-check-pages']
 
 def is_last_page(response):
     meta_information = response["meta"]
@@ -75,6 +53,4 @@ def write_content_to_file(api_ids):
         f.write("}")
 
 
-collection_types = get_all_collection_types()
-relevant_api_ids = get_relevant_api_ids(collection_types)
 write_content_to_file(relevant_api_ids)

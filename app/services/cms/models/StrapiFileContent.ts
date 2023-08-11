@@ -16,24 +16,9 @@ export const StrapiFileContentSchema = z.object({
       attributes: StrapiAmtsgerichtCommonSchema,
     }),
   ),
-  "element-with-ids": z.array(
-    HasStrapiIdSchema.extend({
-      attributes: StrapiElementWithIdSchema,
-    }),
-  ),
-  errors: z.array(
-    HasStrapiIdSchema.extend({
-      attributes: StrapiErrorCategorySchema,
-    }),
-  ),
   footer: z.array(
     HasStrapiIdSchema.extend({
       attributes: StrapiFooterSchema,
-    }),
-  ),
-  navigation: z.array(
-    HasStrapiIdSchema.extend({
-      attributes: StrapiNavigationSchema,
     }),
   ),
   pages: z.array(
