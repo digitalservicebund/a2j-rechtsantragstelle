@@ -21,7 +21,6 @@ import fontBold from "~/../public/fonts/BundesSansWeb-Bold.woff2";
 import { withSentry } from "@sentry/remix";
 import { PostHog } from "posthog-node";
 import { config as configWeb } from "~/services/env/web";
-import { config as configServer } from "~/services/env/env.server";
 import { getStrapiFooter } from "~/services/cms/index.server";
 import { getFooterProps } from "~/services/props/getFooterProps";
 import Footer from "./components/Footer";
@@ -30,11 +29,9 @@ import Header from "./components/PageHeader";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { CookieBanner } from "./services/analytics/Analytics";
 import { ErrorBox, getErrorPages } from "./services/errorPages";
+import { useNonce } from "./services/security/nonce";
 
 export const headers: HeadersFunction = () => ({
-  "Content-Security-Policy": `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src ${
-    configServer().TRUSTED_CSP_CONNECT_SOURCES
-  };  img-src 'self' localhost:* ${configServer().TRUSTED_IMAGE_SOURCES}`,
   "X-Frame-Options": "SAMEORIGIN",
   "X-Content-Type-Options": "nosniff",
   "Referrer-Policy": "strict-origin-when-cross-origin",
@@ -93,6 +90,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 function App() {
   const { footer, hasTrackingConsent, breadcrumbs } =
     useLoaderData<typeof loader>();
+  const nonce = useNonce();
 
   if (typeof window !== "undefined") console.log(consoleMessage);
 
@@ -102,6 +100,7 @@ function App() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <script
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `window.ENV = ${JSON.stringify(configWeb())}`,
           }}
@@ -117,9 +116,9 @@ function App() {
           <Outlet />
         </main>
         <Footer {...footer} />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+        <ScrollRestoration nonce={nonce} />
+        <Scripts nonce={nonce} />
+        <LiveReload nonce={nonce} />
       </body>
     </html>
   );

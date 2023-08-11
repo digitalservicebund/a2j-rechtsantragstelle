@@ -6,6 +6,8 @@ import isbot from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 import * as Sentry from "@sentry/remix";
 import { config } from "./services/env/web";
+import { config as configServer } from "~/services/env/env.server";
+import { generateNonce, NonceContext } from "./services/security/nonce";
 import { stripTrailingSlashFromURL } from "./util/strings";
 
 const { SENTRY_DSN, ENVIRONMENT } = config();
@@ -91,10 +93,20 @@ function handleBrowserRequest(
 ) {
   return new Promise((resolve, reject) => {
     let didError = false;
+    const cspNonce = generateNonce();
+    responseHeaders.set(
+      "Content-Security-Policy",
+      `default-src 'self'; script-src 'self' 'nonce-${cspNonce}'; style-src 'self' 'unsafe-inline'; connect-src ${
+        configServer().TRUSTED_CSP_CONNECT_SOURCES
+      };  img-src 'self' localhost:* ${configServer().TRUSTED_IMAGE_SOURCES}`,
+    );
 
     const { pipe, abort } = renderToPipeableStream(
-      <RemixServer context={remixContext} url={request.url} />,
+      <NonceContext.Provider value={cspNonce}>
+        <RemixServer context={remixContext} url={request.url} />
+      </NonceContext.Provider>,
       {
+        nonce: cspNonce,
         onShellReady() {
           const body = new PassThrough();
 
