@@ -1,5 +1,5 @@
 import { config } from "~/services/env/env.server";
-import type { StrapiLocale } from "./models/StrapiLocale";
+import { defaultLocale, type StrapiLocale } from "./models/StrapiLocale";
 import { getStrapiEntryFromFile } from "./getStrapiEntryFromFile";
 import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";
 import { StrapiFooterSchema } from "./models/StrapiFooter";
@@ -24,10 +24,8 @@ const getStrapiEntry = async (
     locale?: StrapiLocale;
   },
 ) => {
-  const data = await getStrapiEntryFromSource({
-    ...opts,
-    locale: opts.locale ?? "de",
-  });
+  const reqLocale = opts.locale ?? defaultLocale;
+  const data = await getStrapiEntryFromSource({ ...opts, locale: reqLocale });
   // remove "attributes" key
   // { id: 12, attributes: { text: "…" } } => { id: 12, text: "…" }
   return data && { id: data.id, ...data.attributes };

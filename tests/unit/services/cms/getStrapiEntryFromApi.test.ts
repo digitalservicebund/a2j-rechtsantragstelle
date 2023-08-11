@@ -1,6 +1,7 @@
 import axios from "axios";
 import type { GetStrapiEntryOpts } from "~/services/cms/index.server";
 import { getStrapiEntryFromApi } from "~/services/cms/getStrapiEntryFromApi";
+import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 
 jest.mock("axios");
 
@@ -15,7 +16,7 @@ describe("services/cms", () => {
     const data = "data";
     const defaultOptions: GetStrapiEntryOpts = {
       apiId: "pages",
-      locale: "de",
+      locale: defaultLocale,
     };
     const defaultResponseData = { data: { data } };
     const emptyResponseData = { data: [] };

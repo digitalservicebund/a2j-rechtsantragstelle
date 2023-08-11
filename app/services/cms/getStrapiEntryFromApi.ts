@@ -2,6 +2,7 @@ import type { AxiosResponse } from "axios";
 import axios from "axios";
 import { config } from "~/services/env/env.server";
 import type { GetStrapiEntryOpts } from "./index.server";
+import { stagingLocale } from "./models/StrapiLocale";
 
 const buildUrl = ({ apiId, slug, locale }: GetStrapiEntryOpts) =>
   [
@@ -18,8 +19,8 @@ const unpackResponse = (response: AxiosResponse) => {
   return Array.isArray(data) ? data[0] : data;
 };
 
-const makeStrapiRequest = async (opts: GetStrapiEntryOpts) =>
-  axios.get(buildUrl(opts), {
+const makeStrapiRequest = async (url: string) =>
+  axios.get(url, {
     validateStatus: (status) => status < 500,
     headers: {
       Authorization: "Bearer " + config().STRAPI_ACCESS_KEY,
@@ -27,13 +28,10 @@ const makeStrapiRequest = async (opts: GetStrapiEntryOpts) =>
   });
 
 export const getStrapiEntryFromApi = async (opts: GetStrapiEntryOpts) => {
-  // locale "sg" means "staging"
-  let response = await makeStrapiRequest({ ...opts, locale: "sg" });
-
-  const unpacked = unpackResponse(response);
-  if (!unpacked) {
-    response = await makeStrapiRequest(opts);
+  const stagingUrl = buildUrl({ ...opts, locale: stagingLocale });
+  let response = unpackResponse(await makeStrapiRequest(stagingUrl));
+  if (!response) {
+    response = unpackResponse(await makeStrapiRequest(buildUrl(opts)));
   }
-
-  return unpackResponse(response);
+  return response;
 };
