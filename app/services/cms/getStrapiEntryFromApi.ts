@@ -3,6 +3,7 @@ import axios from "axios";
 import { config } from "~/services/env/env.server";
 import type { GetStrapiEntryOpts } from "./index.server";
 import { stagingLocale } from "./models/StrapiLocale";
+import type { SingleStrapiEntry } from "./models/StrapiFileContent";
 
 const buildUrl = ({ apiId, slug, locale }: GetStrapiEntryOpts) =>
   [
@@ -16,7 +17,7 @@ const buildUrl = ({ apiId, slug, locale }: GetStrapiEntryOpts) =>
 const unpackResponse = (response: AxiosResponse) => {
   const { data } = response.data;
   // collection type results come as an array with one item
-  return Array.isArray(data) ? data[0] : data;
+  return (Array.isArray(data) ? data[0] : data) as SingleStrapiEntry;
 };
 
 const makeStrapiRequest = async (url: string) =>

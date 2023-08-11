@@ -1,8 +1,5 @@
 import { z } from "zod";
-import { StrapiElementWithIdSchema } from "./StrapiElementWithId";
-import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
 import { StrapiFooterSchema } from "./StrapiFooter";
-import { StrapiNavigationSchema } from "./StrapiNavigation";
 import { StrapiPageSchema } from "./StrapiPage";
 import { StrapiResultPageSchema } from "./StrapiResultPage";
 import { StrapiVorabCheckCommonSchema } from "./StrapiVorabCheckCommon";
@@ -44,3 +41,11 @@ export const StrapiFileContentSchema = z.object({
 });
 
 export type StrapiFileContent = z.infer<typeof StrapiFileContentSchema>;
+export type SingleStrapiEntry =
+  | StrapiFileContent["vorab-check-pages"][0]
+  | StrapiFileContent["amtsgericht-common"][0]
+  | StrapiFileContent["footer"][0]
+  | StrapiFileContent["pages"][0]
+  | StrapiFileContent["result-pages"][0]
+  | StrapiFileContent["vorab-check-common"][0]
+  | undefined;

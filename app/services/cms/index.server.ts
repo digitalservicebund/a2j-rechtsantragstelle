@@ -24,11 +24,8 @@ const getStrapiEntry = async (
     locale?: StrapiLocale;
   },
 ) => {
-  const reqLocale = opts.locale ?? defaultLocale;
-  const data = await getStrapiEntryFromSource({ ...opts, locale: reqLocale });
-  // remove "attributes" key
-  // { id: 12, attributes: { text: "…" } } => { id: 12, text: "…" }
-  return data && { id: data.id, ...data.attributes };
+  const requestOpts = { ...opts, locale: opts.locale ?? defaultLocale };
+  return (await getStrapiEntryFromSource(requestOpts))?.attributes;
 };
 
 // single types getters
