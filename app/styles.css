@@ -47,8 +47,9 @@ a {
   padding: 2.5rem clamp(1rem, 5vw, 3rem) 3rem clamp(1rem, 5vw, 3rem);
 }
 
-/* There is a specific design request to remove the margin above lists */
-.rich-text ul {
+/* There is a specific design request to remove the margin above lists and below small headlines */
+.rich-text ul,
+.rich-text .ds-label-01-bold + p {
   @apply mt-0;
 }
 
