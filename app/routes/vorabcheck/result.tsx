@@ -32,12 +32,14 @@ import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { infoBoxesFromElementsWithID } from "~/services/props/getInfoBoxItemProps";
 import { Button } from "~/components";
 import ButtonContainer from "~/components/ButtonContainer";
+import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
 ];
 
 export const loader = async ({ params, request }: LoaderArgs) => {
+  await throw404IfFeatureFlagEnabled(request);
   const { pathname } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);
   const stepId = "ergebnis/" + splatFromParams(params);

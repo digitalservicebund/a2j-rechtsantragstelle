@@ -19,7 +19,6 @@ import fontsStylesheet from "@digitalservice4germany/angie/fonts.css";
 import fontRegular from "~/../public/fonts/BundesSansWeb-Regular.woff2";
 import fontBold from "~/../public/fonts/BundesSansWeb-Bold.woff2";
 import { withSentry } from "@sentry/remix";
-import { PostHog } from "posthog-node";
 import { config as configWeb } from "~/services/env/web";
 import { getStrapiFooter } from "~/services/cms/index.server";
 import { getFooterProps } from "~/services/props/getFooterProps";
@@ -64,20 +63,6 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const { POSTHOG_API_KEY, POSTHOG_API_HOST } = configWeb();
-  if (POSTHOG_API_KEY) {
-    const client = new PostHog(POSTHOG_API_KEY, { host: POSTHOG_API_HOST });
-
-    if (
-      request.url.includes("geld-einklagen") &&
-      (await client.isFeatureEnabled("hideOVFlow", "backend"))
-    ) {
-      throw new Response(null, {
-        status: 404,
-        statusText: "Seite konnte nicht gefunden werden",
-      });
-    }
-  }
   const [breadcrumbs, strapiFooter, trackingConsent, errorPages] =
     await Promise.all([
       breadcrumbsFromURL(request.url),

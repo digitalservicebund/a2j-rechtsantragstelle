@@ -28,12 +28,14 @@ import {
   validatedSession,
 } from "~/services/security/csrf.server";
 import { CSRFKey } from "~/services/security/csrfKey";
+import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
 ];
 
 export const loader = async ({ params, request }: LoaderArgs) => {
+  await throw404IfFeatureFlagEnabled(request);
   const stepId = splatFromParams(params);
   const { pathname } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);

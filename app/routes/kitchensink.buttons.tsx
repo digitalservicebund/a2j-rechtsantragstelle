@@ -1,6 +1,6 @@
 import { Button } from "~/components";
 import Close from "@mui/icons-material/Close";
-import { throw404OnProduction } from "../services/errorPages/throw404OnProduction";
+import { throw404OnProduction } from "../services/errorPages/throw404";
 
 export const loader = () => {
   throw404OnProduction();
