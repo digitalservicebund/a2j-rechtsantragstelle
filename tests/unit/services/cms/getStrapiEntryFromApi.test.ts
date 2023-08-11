@@ -13,12 +13,13 @@ describe("services/cms", () => {
       axiosGetSpy.mockClear();
     });
 
-    const data = "data";
+    const expectedData = "data";
+    const dataResponse = { attributes: expectedData };
     const defaultOptions: GetStrapiEntryOpts = {
       apiId: "pages",
       locale: defaultLocale,
     };
-    const defaultResponseData = { data: { data } };
+    const defaultResponseData = { data: { data: dataResponse } };
     const emptyResponseData = { data: [] };
     const expectedRequestUrl = "test://cms/api/pages?populate=deep&locale=de";
     const expectedStagingRequestUrl =
@@ -60,8 +61,8 @@ describe("services/cms", () => {
     });
 
     test("response handling with api returning array", async () => {
-      mockedAxios.get.mockResolvedValue({ data: { data: [data] } });
-      expect(await getStrapiEntryFromApi(defaultOptions)).toEqual(data);
+      mockedAxios.get.mockResolvedValue({ data: { data: [dataResponse] } });
+      expect(await getStrapiEntryFromApi(defaultOptions)).toEqual(expectedData);
     });
   });
 });

@@ -1,5 +1,5 @@
 import { config } from "~/services/env/env.server";
-import { defaultLocale, type StrapiLocale } from "./models/StrapiLocale";
+import type { StrapiLocale } from "./models/StrapiLocale";
 import { getStrapiEntryFromFile } from "./getStrapiEntryFromFile";
 import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";
 import { StrapiFooterSchema } from "./models/StrapiFooter";
@@ -13,20 +13,11 @@ import type { StrapiFileContent } from "./models/StrapiFileContent";
 export type GetStrapiEntryOpts = {
   apiId: keyof StrapiFileContent;
   slug?: string;
-  locale: StrapiLocale;
+  locale?: StrapiLocale;
 };
 
-const getStrapiEntryFromSource =
+const getStrapiEntry =
   config().CMS === "FILE" ? getStrapiEntryFromFile : getStrapiEntryFromApi;
-
-const getStrapiEntry = async (
-  opts: Pick<GetStrapiEntryOpts, "apiId" | "slug"> & {
-    locale?: StrapiLocale;
-  },
-) => {
-  const requestOpts = { ...opts, locale: opts.locale ?? defaultLocale };
-  return (await getStrapiEntryFromSource(requestOpts))?.attributes;
-};
 
 // single types getters
 

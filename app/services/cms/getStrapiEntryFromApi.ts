@@ -2,10 +2,14 @@ import type { AxiosResponse } from "axios";
 import axios from "axios";
 import { config } from "~/services/env/env.server";
 import type { GetStrapiEntryOpts } from "./index.server";
-import { stagingLocale } from "./models/StrapiLocale";
-import type { SingleStrapiEntry } from "./models/StrapiFileContent";
+import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
+import type { StrapiFileContent } from "./models/StrapiFileContent";
 
-const buildUrl = ({ apiId, slug, locale }: GetStrapiEntryOpts) =>
+const buildUrl = ({
+  apiId,
+  slug,
+  locale = defaultLocale,
+}: GetStrapiEntryOpts) =>
   [
     config().STRAPI_API,
     apiId,
@@ -13,6 +17,15 @@ const buildUrl = ({ apiId, slug, locale }: GetStrapiEntryOpts) =>
     `&locale=${locale}`,
     slug ? `&filters[slug][$eq]=${slug}` : "",
   ].join("");
+
+type SingleStrapiEntry =
+  | StrapiFileContent["vorab-check-pages"][0]
+  | StrapiFileContent["amtsgericht-common"][0]
+  | StrapiFileContent["footer"][0]
+  | StrapiFileContent["pages"][0]
+  | StrapiFileContent["result-pages"][0]
+  | StrapiFileContent["vorab-check-common"][0]
+  | undefined;
 
 const unpackResponse = (response: AxiosResponse) => {
   const { data } = response.data;
@@ -34,5 +47,5 @@ export const getStrapiEntryFromApi = async (opts: GetStrapiEntryOpts) => {
   if (!response) {
     response = unpackResponse(await makeStrapiRequest(buildUrl(opts)));
   }
-  return response;
+  return response?.attributes;
 };

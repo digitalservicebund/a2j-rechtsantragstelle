@@ -15,9 +15,7 @@ describe("services/cms", () => {
   describe("getStrapiFooter", () => {
     test("returns a footer entry", async () => {
       const footerData = strapiFooterFactory.build();
-      mockedgetStrapiEntryFromFile.mockReturnValueOnce({
-        attributes: footerData,
-      });
+      mockedgetStrapiEntryFromFile.mockReturnValueOnce(footerData);
       expect(await getStrapiFooter()).toEqual(footerData);
     });
   });

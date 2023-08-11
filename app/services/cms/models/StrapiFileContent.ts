@@ -41,11 +41,3 @@ export const StrapiFileContentSchema = z.object({
 });
 
 export type StrapiFileContent = z.infer<typeof StrapiFileContentSchema>;
-export type SingleStrapiEntry =
-  | StrapiFileContent["vorab-check-pages"][0]
-  | StrapiFileContent["amtsgericht-common"][0]
-  | StrapiFileContent["footer"][0]
-  | StrapiFileContent["pages"][0]
-  | StrapiFileContent["result-pages"][0]
-  | StrapiFileContent["vorab-check-common"][0]
-  | undefined;

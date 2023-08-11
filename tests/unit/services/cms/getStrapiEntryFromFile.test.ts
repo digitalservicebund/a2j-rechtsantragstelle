@@ -19,23 +19,20 @@ const mockedStrapiFileContentSchema = StrapiFileContentSchema as jest.Mocked<
 
 describe("services/cms", () => {
   describe("getStrapiEntryFromFile", () => {
-    const footerData = { attributes: strapiFooterFactory.build(), id: 0 };
+    const footerData = strapiFooterFactory.build();
     const impressum = {
-      attributes: {
-        slug: "/impressum",
-        createdAt: faker.date.past().toISOString(),
-        updatedAt: faker.date.past().toISOString(),
-        publishedAt: faker.date.past().toISOString(),
-        locale: StrapiLocaleSchema.Values.de,
-        meta: { id: 0, title: "Impressum" },
-        content: [],
-      },
-      id: 0,
+      slug: "/impressum",
+      createdAt: faker.date.past().toISOString(),
+      updatedAt: faker.date.past().toISOString(),
+      publishedAt: faker.date.past().toISOString(),
+      locale: StrapiLocaleSchema.Values.de,
+      meta: { id: 0, title: "Impressum" },
+      content: [],
     };
 
     mockedStrapiFileContentSchema.parse.mockReturnValue({
-      footer: [footerData],
-      pages: [impressum],
+      footer: [{ attributes: footerData, id: 0 }],
+      pages: [{ id: 0, attributes: impressum }],
       "amtsgericht-common": [],
       "result-pages": [],
       "vorab-check-common": [],
