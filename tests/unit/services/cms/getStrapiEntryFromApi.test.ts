@@ -14,14 +14,14 @@ describe("services/cms", () => {
 
     const data = "data";
     const defaultOptions: GetStrapiEntryOpts = {
-      apiId: "api-id",
+      apiId: "pages",
       locale: "de",
     };
     const defaultResponseData = { data: { data } };
     const emptyResponseData = { data: [] };
-    const expectedRequestUrl = "test://cms/api/api-id?populate=deep&locale=de";
+    const expectedRequestUrl = "test://cms/api/pages?populate=deep&locale=de";
     const expectedStagingRequestUrl =
-      "test://cms/api/api-id?populate=deep&locale=sg";
+      "test://cms/api/pages?populate=deep&locale=sg";
     const axiosGetSpy = jest.spyOn(mockedAxios, "get");
 
     test("request url", async () => {

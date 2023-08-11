@@ -1,6 +1,8 @@
 import { StrapiFileContentSchema } from "~/services/cms/models/StrapiFileContent";
-import type { GetStrapiEntryOpts } from "~/services/cms/index.server";
 import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
+import { strapiFooterFactory } from "tests/factories/cmsModels/strapiFooter";
+import { StrapiLocaleSchema } from "~/services/cms/models/StrapiLocale";
+import { faker } from "@faker-js/faker";
 
 jest.mock("~/services/cms/models/StrapiFileContent", () => {
   return {
@@ -17,59 +19,79 @@ const mockedStrapiFileContentSchema = StrapiFileContentSchema as jest.Mocked<
 
 describe("services/cms", () => {
   describe("getStrapiEntryFromFile", () => {
-    const defaultOptions: GetStrapiEntryOpts = {
-      apiId: "footer",
-      locale: "de",
+    const footerData = { attributes: strapiFooterFactory.build(), id: 0 };
+    const impressum = {
+      attributes: {
+        slug: "/impressum",
+        createdAt: faker.date.past().toISOString(),
+        updatedAt: faker.date.past().toISOString(),
+        publishedAt: faker.date.past().toISOString(),
+        locale: StrapiLocaleSchema.Values.de,
+        meta: { id: 0, title: "Impressum" },
+        content: [],
+      },
+      id: 0,
     };
 
+    mockedStrapiFileContentSchema.parse.mockReturnValue({
+      footer: [footerData],
+      pages: [impressum],
+      "amtsgericht-common": [],
+      "result-pages": [],
+      "vorab-check-common": [],
+      "vorab-check-pages": [],
+    });
+
     test("returns an entry", async () => {
-      const data = { attributes: { locale: "de" } };
-      // TODO: return full footer object and remove ts-ignore
-      //@ts-ignore
-      mockedStrapiFileContentSchema.parse.mockReturnValue({ footer: [data] });
-      expect(await getStrapiEntryFromFile(defaultOptions)).toEqual(data);
+      expect(
+        await getStrapiEntryFromFile({
+          apiId: "footer",
+          locale: "de",
+        }),
+      ).toEqual(footerData);
     });
 
     describe("when no entry exists for the given locale", () => {
       it("returns undefined", async () => {
-        const data = { attributes: { locale: "de" } };
-        // TODO: return full footer object and remove ts-ignore
-        //@ts-ignore
-        mockedStrapiFileContentSchema.parse.mockReturnValue({ footer: [data] });
         expect(
-          await getStrapiEntryFromFile({ ...defaultOptions, locale: "en" }),
+          await getStrapiEntryFromFile({
+            apiId: "footer",
+            locale: "en",
+          }),
         ).toBeUndefined();
       });
     });
 
     describe("with a slug given", () => {
       it("returns an entry", async () => {
-        const data = { attributes: { slug: "impressum", locale: "de" } };
-        // TODO: return full page object and remove ts-ignore
-        //@ts-ignore
-        mockedStrapiFileContentSchema.parse.mockReturnValue({ pages: [data] });
         expect(
           await getStrapiEntryFromFile({
-            ...defaultOptions,
             apiId: "pages",
-            slug: "impressum",
+            slug: "/impressum",
+            locale: "de",
           }),
-        ).toEqual(data);
+        ).toEqual(impressum);
       });
 
       describe("when no entry exists for the given slug", () => {
         it("returns undefined", async () => {
-          const data = { attributes: { slug: "impressum", locale: "de" } };
-          mockedStrapiFileContentSchema.parse.mockReturnValue({
-            // TODO: return full page object and remove ts-ignore
-            //@ts-ignore
-            pages: [data],
-          });
           expect(
             await getStrapiEntryFromFile({
-              ...defaultOptions,
               apiId: "pages",
-              slug: "datenschutz",
+              slug: "/NOTAVAILABLE",
+              locale: "de",
+            }),
+          ).toBeUndefined();
+        });
+      });
+
+      describe("with an existing slug in the wrong locale", () => {
+        it("returns undefined", async () => {
+          expect(
+            await getStrapiEntryFromFile({
+              apiId: "pages",
+              slug: "/impressum",
+              locale: "en",
             }),
           ).toBeUndefined();
         });

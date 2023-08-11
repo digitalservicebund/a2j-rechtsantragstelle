@@ -8,9 +8,10 @@ import { StrapiResultPageSchema } from "./models/StrapiResultPage";
 import { StrapiVorabCheckCommonSchema } from "./models/StrapiVorabCheckCommon";
 import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
 import { StrapiAmtsgerichtCommonSchema } from "./models/StrapiAmtsgerichtCommon";
+import type { StrapiFileContent } from "./models/StrapiFileContent";
 
 export type GetStrapiEntryOpts = {
-  apiId: string;
+  apiId: keyof StrapiFileContent;
   slug?: string;
   locale: StrapiLocale;
 };
