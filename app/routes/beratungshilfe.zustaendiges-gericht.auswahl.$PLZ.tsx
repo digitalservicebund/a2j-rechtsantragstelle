@@ -28,7 +28,11 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   // Remove PLZ from slug
   const { pathname } = new URL(request.url);
   const slug = pathname.substring(0, pathname.lastIndexOf("/"));
-  const common = await getStrapiAmtsgerichtCommon();
+  const [common, { meta }] = await Promise.all([
+    getStrapiAmtsgerichtCommon(),
+    getStrapiPage({ slug }),
+  ]);
+
   const resultListHeading = fillTemplate({
     template: common.resultListHeading,
     replacements: { postcode: zipCode ?? "" },
@@ -38,7 +42,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     resultListHeading,
     edgeCasesGroupedByLetter: splitObjectsByFirstLetter(edgeCases, "street"),
     common,
-    meta: (await getStrapiPage({ slug })).meta,
+    meta,
     url: `/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`,
   });
 };

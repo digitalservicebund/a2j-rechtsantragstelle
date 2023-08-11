@@ -53,7 +53,10 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     verfuegbaresEinkommenFreibetrag: verfuegbaresEinkommenFreibetrag.toString(),
   };
 
-  const formPageContent = await getStrapiVorabCheckPage({ slug: pathname });
+  const [commonContent, formPageContent] = await Promise.all([
+    getStrapiVorabCheckCommon(),
+    getStrapiVorabCheckPage({ slug: pathname }),
+  ]);
 
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
   const mainHeading = formPageContent.pre_form.filter(
@@ -81,7 +84,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     {
       csrf,
       defaultValues: data,
-      commonContent: await getStrapiVorabCheckCommon(),
+      commonContent,
       preFormContent: formPageContent.pre_form,
       formContent: formPageContent.form,
       meta: formPageContent.meta,

@@ -78,12 +78,19 @@ export const loader = async ({ request }: LoaderArgs) => {
       });
     }
   }
+  const [breadcrumbs, strapiFooter, trackingConsent, errorPages] =
+    await Promise.all([
+      breadcrumbsFromURL(request.url),
+      getStrapiFooter(),
+      hasTrackingConsent({ request }),
+      getErrorPages(),
+    ]);
 
   return json({
-    breadcrumbs: await breadcrumbsFromURL(request.url),
-    footer: getFooterProps(await getStrapiFooter()),
-    hasTrackingConsent: await hasTrackingConsent({ request }),
-    errorPages: await getErrorPages(),
+    breadcrumbs,
+    footer: getFooterProps(strapiFooter),
+    hasTrackingConsent: trackingConsent,
+    errorPages,
   });
 };
 

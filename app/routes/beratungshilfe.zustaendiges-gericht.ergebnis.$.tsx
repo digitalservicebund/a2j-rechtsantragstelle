@@ -40,19 +40,17 @@ export const loader = async ({ params }: LoaderArgs) => {
   }
   invariant(court);
 
-  const { content, meta } = await getStrapiPage({
-    slug: "/beratungshilfe/zustaendiges-gericht/ergebnis",
-  });
+  const [common, { content, meta }] = await Promise.all([
+    await getStrapiAmtsgerichtCommon(),
+    getStrapiPage({
+      slug: "/beratungshilfe/zustaendiges-gericht/ergebnis",
+    }),
+  ]);
 
   if (court.URL1 && court.URL1 in urlMap)
     court.URL1 = urlMap[court.URL1 as keyof typeof urlMap];
 
-  return json({
-    court,
-    content,
-    meta,
-    common: await getStrapiAmtsgerichtCommon(),
-  });
+  return json({ court, content, meta, common });
 };
 
 export const Component = () => {

@@ -10,11 +10,11 @@ type BreadcrumbsProps = {
   breadcrumbs: Breadcrumb[];
 };
 
-export async function breadcrumbsFromURL(url: string) {
+export function breadcrumbsFromURL(url: string) {
   const { pathname } = new URL(url);
   const pathnameSplit = pathname === "/" ? [] : pathname.split("/").slice(1);
 
-  return (await Promise.all(
+  return Promise.all(
     pathnameSplit.map(async (_, idx, array) => {
       const url = "/" + array.slice(0, idx + 1).join("/");
       try {
@@ -24,7 +24,7 @@ export async function breadcrumbsFromURL(url: string) {
         return { url };
       }
     }),
-  )) satisfies Array<Breadcrumb>;
+  );
 }
 
 export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {

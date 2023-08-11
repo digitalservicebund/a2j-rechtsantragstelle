@@ -52,8 +52,11 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
   // Slug change to keep Strapi slugs without ergebnis/
   const slug = pathname.replace(/ergebnis\//, "");
-  const common = await getStrapiVorabCheckCommon();
-  const content = await getStrapiResultPage({ slug });
+  const [common, content] = await Promise.all([
+    getStrapiVorabCheckCommon(),
+    getStrapiResultPage({ slug }),
+  ]);
+
   const reasonElementsWithID =
     content.reasonings.data?.map((el) => el.attributes) ?? [];
 

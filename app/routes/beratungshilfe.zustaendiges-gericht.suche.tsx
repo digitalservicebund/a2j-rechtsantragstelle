@@ -44,24 +44,17 @@ export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
 export async function loader({ request }: LoaderArgs) {
   const slug = new URL(request.url).pathname;
   const sessionContext = getSessionForContext("beratungshilfe");
-  const { form, meta } = await getStrapiVorabCheckPage({ slug });
+
+  const [common, { form, meta }] = await Promise.all([
+    getStrapiAmtsgerichtCommon(),
+    getStrapiVorabCheckPage({ slug }),
+  ]);
   const { url: backURL, session } = getReturnToURL({
     request,
     session: await sessionContext.getSession(request.headers.get("Cookie")),
   });
-  return json(
-    {
-      form,
-      common: await getStrapiAmtsgerichtCommon(),
-      title: meta.title,
-      backURL,
-    },
-    {
-      headers: {
-        "Set-Cookie": await sessionContext.commitSession(session),
-      },
-    },
-  );
+  const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
+  return json({ form, common, title: meta.title, backURL }, { headers });
 }
 
 export async function action({ request }: ActionArgs) {
