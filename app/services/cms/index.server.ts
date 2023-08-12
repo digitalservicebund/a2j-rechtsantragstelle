@@ -9,6 +9,7 @@ import { StrapiVorabCheckCommonSchema } from "./models/StrapiVorabCheckCommon";
 import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
 import { StrapiAmtsgerichtCommonSchema } from "./models/StrapiAmtsgerichtCommon";
 import type { StrapiFileContent } from "./models/StrapiFileContent";
+import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
 
 export type GetStrapiEntryOpts = {
   apiId: keyof StrapiFileContent;
@@ -18,6 +19,14 @@ export type GetStrapiEntryOpts = {
 
 const getStrapiEntry =
   config().CMS === "FILE" ? getStrapiEntryFromFile : getStrapiEntryFromApi;
+
+export async function getStrapiMeta(
+  opts: Omit<StrapiCollectionTypeGetterOpts, "apiId">,
+) {
+  const populate = "meta";
+  const pageEntry = await getStrapiEntry({ ...opts, apiId: "pages", populate });
+  return HasStrapiMetaSchema.parse(pageEntry).meta;
+}
 
 // single types getters
 

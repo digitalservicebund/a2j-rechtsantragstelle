@@ -5,15 +5,18 @@ import type { GetStrapiEntryOpts } from "./index.server";
 import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
 import type { StrapiFileContent } from "./models/StrapiFileContent";
 
+type UrlOptions = GetStrapiEntryOpts & { populate?: string };
+
 const buildUrl = ({
   apiId,
   slug,
   locale = defaultLocale,
-}: GetStrapiEntryOpts) =>
+  populate = "deep",
+}: UrlOptions) =>
   [
     config().STRAPI_API,
     apiId,
-    "?populate=deep",
+    `?populate=${populate}`,
     `&locale=${locale}`,
     slug ? `&filters[slug][$eq]=${slug}` : "",
   ].join("");
@@ -41,7 +44,7 @@ const makeStrapiRequest = async (url: string) =>
     },
   });
 
-export const getStrapiEntryFromApi = async (opts: GetStrapiEntryOpts) => {
+export const getStrapiEntryFromApi = async (opts: UrlOptions) => {
   const stagingUrl = buildUrl({ ...opts, locale: stagingLocale });
   let response = unpackResponse(await makeStrapiRequest(stagingUrl));
   if (!response) {
