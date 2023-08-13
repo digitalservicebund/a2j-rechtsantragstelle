@@ -8,8 +8,8 @@ import { ValidatedForm, validationError } from "remix-validated-form";
 import { withZod } from "@remix-validated-form/with-zod";
 import { z } from "zod";
 import {
-  getStrapiAmtsgerichtCommon,
-  getStrapiVorabCheckPage,
+  fetchCollectionEntry,
+  fetchSingleEntry,
 } from "~/services/cms/index.server";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
@@ -46,8 +46,8 @@ export async function loader({ request }: LoaderArgs) {
   const sessionContext = getSessionForContext("beratungshilfe");
 
   const [common, { form, meta }] = await Promise.all([
-    getStrapiAmtsgerichtCommon(),
-    getStrapiVorabCheckPage({ slug }),
+    fetchSingleEntry("amtsgericht-common"),
+    fetchCollectionEntry("vorab-check-pages", slug),
   ]);
   const { url: backURL, session } = getReturnToURL({
     request,

@@ -10,6 +10,7 @@ import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
 import { StrapiAmtsgerichtCommonSchema } from "./models/StrapiAmtsgerichtCommon";
 import type { StrapiFileContent } from "./models/StrapiFileContent";
 import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
+import type { z } from "zod";
 
 export type GetStrapiEntryOpts = {
   apiId: keyof StrapiFileContent;
@@ -20,66 +21,44 @@ export type GetStrapiEntryOpts = {
 const getStrapiEntry =
   config().CMS === "FILE" ? getStrapiEntryFromFile : getStrapiEntryFromApi;
 
-export async function getStrapiMeta(
-  opts: Omit<StrapiCollectionTypeGetterOpts, "apiId">,
-) {
+export async function fetchMeta(opts: Omit<GetStrapiEntryOpts, "apiId">) {
   const populate = "meta";
   const pageEntry = await getStrapiEntry({ ...opts, apiId: "pages", populate });
   return HasStrapiMetaSchema.parse(pageEntry).meta;
 }
 
-// single types getters
+const entrySchemas = {
+  footer: StrapiFooterSchema,
+  "vorab-check-common": StrapiVorabCheckCommonSchema,
+  "amtsgericht-common": StrapiAmtsgerichtCommonSchema,
+} as const;
+type EntrySchemas = typeof entrySchemas;
 
-type StrapiSingleTypeGetterOpts = {
-  locale?: StrapiLocale;
-};
+export async function fetchSingleEntry<ApiId extends keyof EntrySchemas>(
+  apiId: ApiId,
+  locale?: StrapiLocale,
+): Promise<z.infer<EntrySchemas[ApiId]>> {
+  const strapiEntry = await getStrapiEntry({ apiId, locale });
+  return entrySchemas[apiId].parse(strapiEntry);
+}
 
-export const getStrapiFooter = async (opts?: StrapiSingleTypeGetterOpts) =>
-  StrapiFooterSchema.parse(await getStrapiEntry({ apiId: "footer", ...opts }));
+const collectionSchemas = {
+  pages: StrapiPageSchema,
+  "result-pages": StrapiResultPageSchema,
+  "vorab-check-pages": StrapiVorabCheckPageSchema,
+} as const;
+type CollectionSchemas = typeof collectionSchemas;
 
-export const getStrapiVorabCheckCommon = async (
-  opts?: StrapiSingleTypeGetterOpts,
-) =>
-  StrapiVorabCheckCommonSchema.parse(
-    await getStrapiEntry({ apiId: "vorab-check-common", ...opts }),
-  );
-
-export const getStrapiAmtsgerichtCommon = async (
-  opts?: StrapiSingleTypeGetterOpts,
-) =>
-  StrapiAmtsgerichtCommonSchema.parse(
-    await getStrapiEntry({ apiId: "amtsgericht-common", ...opts }),
-  );
-
-// collection types getters
-
-type StrapiCollectionTypeGetterOpts = {
-  slug: string;
-} & StrapiSingleTypeGetterOpts;
-
-export const getStrapiResultPage = async (
-  opts: StrapiCollectionTypeGetterOpts,
-) =>
-  StrapiResultPageSchema.parse(
-    await getStrapiEntry({ apiId: "result-pages", ...opts }),
-  );
-
-export const getStrapiPage = async (opts: StrapiCollectionTypeGetterOpts) => {
-  const entry = await getStrapiEntry({ apiId: "pages", ...opts });
-  if (!entry) {
-    const error = new Error(`page missing in cms: ${opts.slug}`);
-    error.name = "StrapiPageNotFound";
-    throw error;
-  }
-  return StrapiPageSchema.parse(entry);
-};
-
-export const getStrapiVorabCheckPage = async (
-  opts: StrapiCollectionTypeGetterOpts,
-) =>
-  StrapiVorabCheckPageSchema.parse(
-    await getStrapiEntry({ apiId: "vorab-check-pages", ...opts }),
-  );
+export async function fetchCollectionEntry<
+  ApiId extends keyof CollectionSchemas,
+>(
+  apiId: ApiId,
+  slug: string,
+  locale?: StrapiLocale,
+): Promise<z.infer<CollectionSchemas[ApiId]>> {
+  const strapiEntry = await getStrapiEntry({ apiId, locale, slug });
+  return collectionSchemas[apiId].parse(strapiEntry);
+}
 
 export const strapiPageFromRequest = async ({
   request,
@@ -87,4 +66,5 @@ export const strapiPageFromRequest = async ({
 }: {
   request: Request;
   locale?: StrapiLocale;
-}) => await getStrapiPage({ slug: new URL(request.url).pathname, locale });
+}) =>
+  await fetchCollectionEntry("pages", new URL(request.url).pathname, locale);

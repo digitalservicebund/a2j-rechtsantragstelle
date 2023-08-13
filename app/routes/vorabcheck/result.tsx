@@ -7,8 +7,8 @@ import type {
 import { json, redirect } from "@remix-run/node";
 import { getSessionForContext } from "~/services/session";
 import {
-  getStrapiResultPage,
-  getStrapiVorabCheckCommon,
+  fetchCollectionEntry,
+  fetchSingleEntry,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/buildFlowController";
 import { getReasonsToDisplay } from "~/models/flows/common";
@@ -55,8 +55,8 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   // Slug change to keep Strapi slugs without ergebnis/
   const slug = pathname.replace(/ergebnis\//, "");
   const [common, content] = await Promise.all([
-    getStrapiVorabCheckCommon(),
-    getStrapiResultPage({ slug }),
+    fetchSingleEntry("vorab-check-common"),
+    fetchCollectionEntry("result-pages", slug),
   ]);
 
   const reasonElementsWithID =

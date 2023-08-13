@@ -4,10 +4,7 @@ import { useLoaderData } from "@remix-run/react";
 import { Background, Button, Container } from "~/components";
 import ButtonContainer from "~/components/ButtonContainer";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
-import {
-  getStrapiAmtsgerichtCommon,
-  getStrapiPage,
-} from "~/services/cms/index.server";
+import { fetchMeta, fetchSingleEntry } from "~/services/cms/index.server";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import RichText from "~/components/RichText";
 import { fillTemplate } from "~/util/fillTemplate";
@@ -28,9 +25,9 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   // Remove PLZ from slug
   const { pathname } = new URL(request.url);
   const slug = pathname.substring(0, pathname.lastIndexOf("/"));
-  const [common, { meta }] = await Promise.all([
-    getStrapiAmtsgerichtCommon(),
-    getStrapiPage({ slug }),
+  const [common, meta] = await Promise.all([
+    fetchSingleEntry("amtsgericht-common"),
+    fetchMeta({ slug }),
   ]);
 
   const resultListHeading = fillTemplate({

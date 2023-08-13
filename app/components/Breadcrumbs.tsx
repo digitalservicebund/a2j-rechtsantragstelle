@@ -1,5 +1,5 @@
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import { getStrapiMeta } from "~/services/cms/index.server";
+import { fetchMeta } from "~/services/cms/index.server";
 
 type Breadcrumb = {
   url: string;
@@ -18,7 +18,7 @@ export function breadcrumbsFromURL(url: string) {
     pathnameSplit.map(async (_, idx, array) => {
       const url = "/" + array.slice(0, idx + 1).join("/");
       try {
-        return { url, title: (await getStrapiMeta({ slug: url })).title };
+        return { url, title: (await fetchMeta({ slug: url })).title };
       } catch {
         return { url };
       }

@@ -7,8 +7,8 @@ import CourtDetails from "~/components/CourtDetails";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
 import {
-  getStrapiAmtsgerichtCommon,
-  getStrapiPage,
+  fetchCollectionEntry,
+  fetchSingleEntry,
 } from "~/services/cms/index.server";
 import {
   edgeCasesForPlz,
@@ -40,11 +40,10 @@ export const loader = async ({ params }: LoaderArgs) => {
   }
   invariant(court);
 
+  const slug = "/beratungshilfe/zustaendiges-gericht/ergebnis";
   const [common, { content, meta }] = await Promise.all([
-    await getStrapiAmtsgerichtCommon(),
-    getStrapiPage({
-      slug: "/beratungshilfe/zustaendiges-gericht/ergebnis",
-    }),
+    fetchSingleEntry("amtsgericht-common"),
+    fetchCollectionEntry("pages", slug),
   ]);
 
   if (court.URL1 && court.URL1 in urlMap)

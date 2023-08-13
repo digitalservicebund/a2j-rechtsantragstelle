@@ -3,7 +3,7 @@ import PageContent from "../../components/PageContent";
 import { Container } from "../../components";
 import { config } from "~/services/env/web";
 import type { StrapiPage } from "~/services/cms/models/StrapiPage";
-import { getStrapiPage } from "~/services/cms/index.server";
+import { fetchCollectionEntry } from "../cms/index.server";
 import fallbackStrapiInfoBox from "./fallbackInfobox";
 
 const errorCodes = ["404", "500", "403"] as const;
@@ -12,7 +12,7 @@ const errorSlugPrefix = "/error/";
 
 export async function getErrorPages() {
   const errorPagePromises = errorCodes.map((errorCode) =>
-    getStrapiPage({ slug: `${errorSlugPrefix}${errorCode}` }),
+    fetchCollectionEntry("pages", `${errorSlugPrefix}${errorCode}`),
   );
   const availableErrorPages = (
     await Promise.allSettled(errorPagePromises)

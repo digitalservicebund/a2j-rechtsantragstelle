@@ -20,7 +20,7 @@ import fontRegular from "~/../public/fonts/BundesSansWeb-Regular.woff2";
 import fontBold from "~/../public/fonts/BundesSansWeb-Bold.woff2";
 import { withSentry } from "@sentry/remix";
 import { config as configWeb } from "~/services/env/web";
-import { getStrapiFooter } from "~/services/cms/index.server";
+import { fetchSingleEntry } from "~/services/cms/index.server";
 import { getFooterProps } from "~/services/props/getFooterProps";
 import Footer from "./components/Footer";
 import Breadcrumbs, { breadcrumbsFromURL } from "./components/Breadcrumbs";
@@ -66,7 +66,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   const [breadcrumbs, strapiFooter, trackingConsent, errorPages] =
     await Promise.all([
       breadcrumbsFromURL(request.url),
-      getStrapiFooter(),
+      fetchSingleEntry("footer"),
       hasTrackingConsent({ request }),
       getErrorPages(),
     ]);

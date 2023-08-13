@@ -9,8 +9,8 @@ import Container from "~/components/Container";
 import { Background } from "~/components";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import {
-  getStrapiVorabCheckCommon,
-  getStrapiVorabCheckPage,
+  fetchCollectionEntry,
+  fetchSingleEntry,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/buildFlowController";
 import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
@@ -56,8 +56,8 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   };
 
   const [commonContent, formPageContent] = await Promise.all([
-    getStrapiVorabCheckCommon(),
-    getStrapiVorabCheckPage({ slug: pathname }),
+    fetchSingleEntry("vorab-check-common"),
+    fetchCollectionEntry("vorab-check-pages", pathname),
   ]);
 
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
