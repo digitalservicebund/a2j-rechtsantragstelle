@@ -1,4 +1,12 @@
 {
+  "homepage": "https://service.justiz.de/",
+  "url": "https://github.com/digitalservicebund/a2j-rechtsantragstelle/issues",
+  "email": "github-community@digitalservice.bund.de",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digitalservicebund/a2j-rechtsantragstelle.git"
+  },
+  "license": "MIT",
   "private": true,
   "sideEffects": false,
   "scripts": {
