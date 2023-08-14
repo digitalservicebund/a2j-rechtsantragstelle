@@ -4,7 +4,6 @@ import Container from "./Container";
 import Image, { ImagePropsSchema } from "./Image";
 import { ParagraphPropsSchema } from "./Paragraph";
 import RichText from "./RichText";
-import { ResetCookieLink } from "~/services/analytics/Analytics";
 
 const LinkPropsSchema = z.object({
   url: z.string(),

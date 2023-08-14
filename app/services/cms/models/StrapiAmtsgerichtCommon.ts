@@ -21,7 +21,3 @@ export const StrapiAmtsgerichtCommonSchema = z
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiTimestampsSchema);
-
-export type StrapiAmtsgerichtCommon = z.infer<
-  typeof StrapiAmtsgerichtCommonSchema
->;

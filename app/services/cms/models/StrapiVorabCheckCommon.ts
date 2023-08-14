@@ -14,7 +14,3 @@ export const StrapiVorabCheckCommonSchema = z
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiTimestampsSchema);
-
-export type StrapiVorabCheckCommon = z.infer<
-  typeof StrapiVorabCheckCommonSchema
->;

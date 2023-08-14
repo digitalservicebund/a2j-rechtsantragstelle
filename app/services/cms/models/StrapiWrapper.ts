@@ -7,5 +7,3 @@ export const StrapiWrapperSchema = z.object({
   paddingTop: StrapiPaddingSchema.nullable(),
   paddingBottom: StrapiPaddingSchema.nullable(),
 });
-
-export type StrapiWrapper = z.infer<typeof StrapiWrapperSchema>;

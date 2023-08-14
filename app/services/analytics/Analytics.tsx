@@ -13,17 +13,6 @@ type AnalyticsProps = {
   hasTrackingConsent?: boolean;
 };
 
-export function ResetCookieLink() {
-  const analyticsFetcher = useFetcher();
-  return (
-    <analyticsFetcher.Form method="post" action="/action/set-analytics">
-      <button type="submit" name={acceptCookiesFieldName} value="undefined">
-        Cookie Einwilligung widerrufen
-      </button>
-    </analyticsFetcher.Form>
-  );
-}
-
 export function CookieBanner({ hasTrackingConsent }: AnalyticsProps) {
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
   const [posthogLoaded, setPosthogLoaded] = useState(false);

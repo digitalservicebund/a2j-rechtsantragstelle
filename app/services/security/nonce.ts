@@ -10,6 +10,5 @@ import * as React from "react";
 // we'd get a hydration warning.
 
 export const NonceContext = React.createContext<string | undefined>(undefined);
-export const NonceProvider = NonceContext.Provider;
 export const useNonce = () => React.useContext(NonceContext) ?? "";
 export const generateNonce = () => crypto.randomBytes(16).toString("hex");

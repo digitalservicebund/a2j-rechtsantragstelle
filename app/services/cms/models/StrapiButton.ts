@@ -11,5 +11,3 @@ export const StrapiButtonSchema = z
     text: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
-
-export type StrapiButton = z.infer<typeof StrapiButtonSchema>;

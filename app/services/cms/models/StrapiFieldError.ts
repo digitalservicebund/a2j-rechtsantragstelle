@@ -7,5 +7,3 @@ export const StrapiFieldErrorSchema = z
     text: z.string(),
   })
   .merge(HasOptionalStrapiIdSchema);
-
-export type StrapiFieldError = z.infer<typeof StrapiFieldErrorSchema>;

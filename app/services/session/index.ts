@@ -10,26 +10,9 @@ import type { Cookie } from "@remix-run/node";
 import { createSessionStorage, createCookie } from "@remix-run/node";
 import { config } from "~/services/env/env.server";
 
-export async function getReturnToURL(request: Request, uuid: string) {
-  const { pathname: currentPath } = new URL(request.url);
-  const sessionData = await getDataForSession(uuid);
-  return sessionData?.[currentPath] as Promise<string | undefined>;
-}
+type SessionContext = "main" | "beratungshilfe" | "geld-einklagen";
 
-export async function setReturnToURL(request: Request, uuid: string) {
-  const { searchParams, pathname: currentPath } = new URL(request.url);
-  const referer = request.headers.get("Referer");
-
-  // save to session only when returnToHere is present in referer
-  if (searchParams.get("returnToHere") !== null && referer) {
-    const { pathname: refererPath } = new URL(referer);
-    return updateDataForSession(uuid, { [currentPath]: refererPath });
-  }
-}
-
-export type SessionContext = "main" | "beratungshilfe" | "geld-einklagen";
-
-export function createDatabaseSessionStorage({
+function createDatabaseSessionStorage({
   cookie,
   context,
 }: {

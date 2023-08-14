@@ -9,5 +9,3 @@ export const StrapiBackgroundColorSchema = z.enum([
   "green",
   "red",
 ]);
-
-export type StrapiBackgroundColor = z.infer<typeof StrapiBackgroundColorSchema>;
