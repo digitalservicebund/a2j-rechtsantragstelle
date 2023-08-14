@@ -7,6 +7,7 @@ First draft of implementing a platform to create requests to the Rechtsantragste
 ### Requirements
 
 - Node.js >= 18.0.0
+- Docker (Redis dependency)
 - npm 7 or greater
 - A [strapi instance](https://github.com/digitalservicebund/a2j-rechtsantragstelle-strapi) and a configured .env file (see .env.example)
 
@@ -14,6 +15,7 @@ First draft of implementing a platform to create requests to the Rechtsantragste
 
 ```sh
 npm install
+docker compose up -d
 npm run dev
 ```
 
