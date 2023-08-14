@@ -63,7 +63,7 @@
     "@playwright/test": "^1.37.0",
     "@remix-run/dev": "^1.19.3",
     "@remix-run/eslint-config": "^1.19.3",
-    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
     "@types/follow-redirects": "^1.14.1",
     "@types/jest": "^29.5.3",
