@@ -100,7 +100,7 @@ test.describe("Cookie Banner", () => {
           .filter({ hasText: buttonOption.buttonLabel })
           .click();
 
-        page.waitForURL("/cookie-einstellungen");
+        await page.waitForURL("/cookie-einstellungen");
         await expect(page.getByTestId("cookie-banner")).not.toBeVisible();
 
         const foundCookie = (await page.context().cookies()).find(
