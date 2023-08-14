@@ -4,8 +4,6 @@ import { Response, redirect } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
-import * as Sentry from "@sentry/remix";
-import { config } from "./services/env/web";
 import { config as configServer } from "~/services/env/env.server";
 import { generateNonce, NonceContext } from "./services/security/nonce";
 import { stripTrailingSlashFromURL } from "./util/strings";
