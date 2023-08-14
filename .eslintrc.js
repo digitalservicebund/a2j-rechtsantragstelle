@@ -4,7 +4,6 @@ module.exports = {
   extends: [
     "@remix-run/eslint-config",
     "@remix-run/eslint-config/node",
-    "@remix-run/eslint-config/jest-testing-library",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:sonarjs/recommended",
@@ -25,5 +24,12 @@ module.exports = {
     "@typescript-eslint/no-unsafe-return": "warn",
     "@typescript-eslint/restrict-template-expressions": "warn",
     camelcase: ["error", { properties: "always", allow: ["^v2_", "^V2_"] }],
+    "import/no-unused-modules": [
+      1,
+      {
+        unusedExports: true,
+        ignoreExports: ["app/routes/*", "app/root.tsx", "app/entry.server.tsx"],
+      },
+    ],
   },
 };
