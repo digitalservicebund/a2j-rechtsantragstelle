@@ -1,5 +1,5 @@
 import { PassThrough } from "stream";
-import type { EntryContext } from "@remix-run/node";
+import type { DataFunctionArgs, EntryContext } from "@remix-run/node";
 import { Response, redirect } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
@@ -9,16 +9,16 @@ import { config } from "./services/env/web";
 import { config as configServer } from "~/services/env/env.server";
 import { generateNonce, NonceContext } from "./services/security/nonce";
 import { stripTrailingSlashFromURL } from "./util/strings";
-
-const { SENTRY_DSN, ENVIRONMENT } = config();
-if (SENTRY_DSN !== undefined) {
-  Sentry.init({
-    dsn: SENTRY_DSN,
-    environment: ENVIRONMENT,
-  });
-}
+import { logError } from "./services/logging";
 
 const ABORT_DELAY = 5000;
+
+export function handleError(
+  error: unknown,
+  { request }: DataFunctionArgs,
+): void {
+  logError({ error, request });
+}
 
 export default function handleRequest(
   request: Request,
@@ -76,7 +76,7 @@ function handleBotRequest(
         onError(error: unknown) {
           didError = true;
 
-          console.error(error);
+          logError({ error });
         },
       },
     );
@@ -121,20 +121,15 @@ function handleBrowserRequest(
 
           pipe(body);
         },
-        onShellError(err: unknown) {
-          Sentry.captureException(err);
+        onShellError(error: unknown) {
+          logError({ error });
 
-          // Sentry logging
-
-          reject(err);
+          reject(error);
         },
         onError(error: unknown) {
-          Sentry.captureException(error);
+          logError({ error });
+
           didError = true;
-
-          // Sentry logging
-
-          console.error(error);
         },
       },
     );

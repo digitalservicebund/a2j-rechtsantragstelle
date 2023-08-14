@@ -1,5 +1,6 @@
 import axios from "axios";
 import { config } from "~/services/env/env.server";
+import { logError } from "~/services/logging";
 
 export const loader = async () => {
   try {
@@ -11,7 +12,7 @@ export const loader = async () => {
     }
     return new Response("I'm fine, thanks for asking :)");
   } catch (error: unknown) {
-    console.error("healthcheck ❌", { error });
+    logError({ message: "healthcheck ❌", error });
     return new Response("ERROR", { status: 503 });
   }
 };

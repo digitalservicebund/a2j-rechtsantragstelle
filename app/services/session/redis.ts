@@ -1,6 +1,7 @@
 import { Redis } from "ioredis";
 import { config } from "../env/env.server";
 import { config as configWeb } from "../env/web";
+import { logError } from "../logging";
 
 declare global {
   /* eslint-disable-next-line no-var*/
@@ -31,8 +32,8 @@ if (!global.ioredis) {
         : options,
     );
     console.log("Redis connection opened");
-  } catch (err) {
-    console.error("Redis error", err);
+  } catch (error) {
+    logError({ message: "Redis error", error });
   }
 }
 

@@ -29,6 +29,7 @@ import {
 } from "~/services/security/csrf.server";
 import { CSRFKey } from "~/services/security/csrfKey";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
+import { logError } from "~/services/logging";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
   { title: data?.meta?.title ?? location.pathname },
@@ -103,7 +104,7 @@ export const action = async ({ params, request }: ActionArgs) => {
   try {
     await validatedSession(request);
   } catch (csrfError) {
-    console.error(csrfError);
+    logError({ error: csrfError });
     throw new Response(null, { status: 403 });
   }
   const stepId = splatFromParams(params);
