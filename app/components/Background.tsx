@@ -6,7 +6,7 @@ import { BACKGROUND_COLORS } from ".";
 const DEFAULT_PADDING_TOP = "0";
 const DEFAULT_PADDING_BOTTOM = "0";
 
-export type BackgroundProps = PropsWithChildren<CommonWrapperProps>;
+type BackgroundProps = PropsWithChildren<CommonWrapperProps>;
 
 export default function Background({
   backgroundColor = "default",

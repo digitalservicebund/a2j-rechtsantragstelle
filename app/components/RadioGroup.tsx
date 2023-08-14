@@ -12,7 +12,7 @@ export const RadioGroupPropsSchema = z.object({
   altLabel: z.string().optional(),
 });
 
-export type RadioGroupProps = z.infer<typeof RadioGroupPropsSchema>;
+type RadioGroupProps = z.infer<typeof RadioGroupPropsSchema>;
 
 const RadioGroup = ({ name, options, label, altLabel }: RadioGroupProps) => {
   const { error } = useField(name);

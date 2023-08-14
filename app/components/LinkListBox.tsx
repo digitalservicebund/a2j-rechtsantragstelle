@@ -18,7 +18,7 @@ export const LinkListBoxPropsSchema = z.object({
   buttons: z.array(ButtonPropsSchema).optional(),
 });
 
-export type LinkListBoxProps = z.infer<typeof LinkListBoxPropsSchema>;
+type LinkListBoxProps = z.infer<typeof LinkListBoxPropsSchema>;
 
 const LinkListBox = ({
   identifier,

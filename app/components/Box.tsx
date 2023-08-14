@@ -13,7 +13,7 @@ export const BoxPropsSchema = z.object({
   buttons: z.array(ButtonPropsSchema).optional(),
 });
 
-export type BoxProps = z.infer<typeof BoxPropsSchema>;
+type BoxProps = z.infer<typeof BoxPropsSchema>;
 
 const Box = ({ identifier, label, heading, content, buttons }: BoxProps) => {
   return (

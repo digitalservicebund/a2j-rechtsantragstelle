@@ -11,7 +11,7 @@ export const BoxWithImagePropsSchema = z.object({
   content: z.string().optional(),
 });
 
-export type BoxWithImageProps = z.infer<typeof BoxWithImagePropsSchema>;
+type BoxWithImageProps = z.infer<typeof BoxWithImagePropsSchema>;
 
 const BoxWithImage = ({
   identifier,

@@ -8,7 +8,7 @@ export const InfoBoxPropsSchema = z.object({
   items: z.array(InfoBoxItemPropsSchema),
 });
 
-export type InfoBoxProps = z.infer<typeof InfoBoxPropsSchema>;
+type InfoBoxProps = z.infer<typeof InfoBoxPropsSchema>;
 
 const InfoBox = ({ identifier, items, heading }: InfoBoxProps) => {
   return (

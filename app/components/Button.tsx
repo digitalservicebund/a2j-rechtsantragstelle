@@ -14,13 +14,8 @@ export const ButtonPropsSchema = z.object({
 
 type Props = z.infer<typeof ButtonPropsSchema>;
 
-export interface ButtonProps
-  extends React.ComponentPropsWithoutRef<"button">,
-    Props {}
-
-export interface ButtonLinkProps
-  extends React.ComponentPropsWithoutRef<"a">,
-    Props {}
+interface ButtonProps extends React.ComponentPropsWithoutRef<"button">, Props {}
+interface ButtonLinkProps extends React.ComponentPropsWithoutRef<"a">, Props {}
 
 function Button({
   children,

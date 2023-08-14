@@ -6,7 +6,7 @@ import { BACKGROUND_COLORS } from ".";
 const DEFAULT_PADDING_TOP = "40";
 const DEFAULT_PADDING_BOTTOM = "48";
 
-export type ContainerProps = {
+type ContainerProps = {
   overhangingBackground?: boolean;
 } & PropsWithChildren<CommonWrapperProps>;
 

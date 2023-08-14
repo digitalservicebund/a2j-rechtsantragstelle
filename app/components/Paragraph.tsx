@@ -7,7 +7,7 @@ export const ParagraphPropsSchema = z.object({
   className: z.string().optional(),
 });
 
-export type ParagraphProps = z.infer<typeof ParagraphPropsSchema> &
+type ParagraphProps = z.infer<typeof ParagraphPropsSchema> &
   React.ClassAttributes<typeof RichText>;
 
 function Paragraph({ text, ...props }: ParagraphProps) {

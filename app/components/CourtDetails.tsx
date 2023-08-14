@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { normalizeURL } from "~/util/strings";
 
-export const CourtDetailsPropsSchema = z.object({
+const CourtDetailsPropsSchema = z.object({
   name: z.string(),
   addressLabel: z.string(),
   street: z.string(),
@@ -12,7 +12,7 @@ export const CourtDetailsPropsSchema = z.object({
   phone: z.string().optional(),
 });
 
-export type CourtDetailsProps = z.infer<typeof CourtDetailsPropsSchema>;
+type CourtDetailsProps = z.infer<typeof CourtDetailsPropsSchema>;
 
 const CourtDetails = ({
   name,

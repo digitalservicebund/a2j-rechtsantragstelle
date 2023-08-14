@@ -12,7 +12,7 @@ export const HeadingPropsSchema = z.object({
   templateReplacements: z.record(z.string(), z.string()).optional(),
 });
 
-export type HeadingProps = z.infer<typeof HeadingPropsSchema>;
+type HeadingProps = z.infer<typeof HeadingPropsSchema>;
 
 function Heading({
   tagName = "h1",

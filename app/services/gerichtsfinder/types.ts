@@ -73,9 +73,9 @@ export interface Jmtd14VTErwerberGerbeh {
   XML_SUPPORT: JaNeinLong;
 }
 
-export type JaNeinShort = "J" | "N";
-export type ErvStraf = "S" | JaNeinShort;
-export type JaNeinLong = "JA" | "NEIN";
+type JaNeinShort = "J" | "N";
+type ErvStraf = "S" | JaNeinShort;
+type JaNeinLong = "JA" | "NEIN";
 
 export interface Jmtd14VTErwerberPlzstrn {
   AG: string;
@@ -92,7 +92,7 @@ export interface Jmtd14VTErwerberPlzstrn {
   TYP_INFO: TypInfo;
 }
 
-export type HnrMerkmalInfo =
+type HnrMerkmalInfo =
   | "fortlaufende Hausnummern"
   | "ungerade Hausnummern"
   | "gerade Hausnummern";

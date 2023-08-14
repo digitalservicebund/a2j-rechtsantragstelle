@@ -41,7 +41,7 @@ export function freibetrag({
   return betrag;
 }
 
-export function freibetragShort(
+function freibetragShort(
   working?: boolean,
   partnership?: boolean,
   childrenCount?: number,

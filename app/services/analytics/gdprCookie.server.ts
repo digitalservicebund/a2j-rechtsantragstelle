@@ -3,7 +3,7 @@ import { acceptCookiesFieldName } from "./Analytics";
 
 export const consentCookieName = "gdpr-consent";
 const maxAge = 365 * 24 * 60 * 60;
-export const gdprCookie = createCookie(consentCookieName, { maxAge });
+const gdprCookie = createCookie(consentCookieName, { maxAge });
 
 type CookieArgs = { request: Request };
 

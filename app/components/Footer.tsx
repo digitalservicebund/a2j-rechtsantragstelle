@@ -18,7 +18,7 @@ export const FooterPropsSchema = z.object({
   links: z.array(LinkPropsSchema),
 });
 
-export type FooterProps = z.infer<typeof FooterPropsSchema>;
+type FooterProps = z.infer<typeof FooterPropsSchema>;
 
 export default function Footer({
   image,

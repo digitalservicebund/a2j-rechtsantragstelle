@@ -14,7 +14,7 @@ export const InfoBoxItemPropsSchema = z.object({
   buttons: z.array(ButtonPropsSchema).optional(),
 });
 
-export type InfoBoxItemProps = z.infer<typeof InfoBoxItemPropsSchema>;
+type InfoBoxItemProps = z.infer<typeof InfoBoxItemPropsSchema>;
 
 const InfoBoxItem = ({
   identifier,

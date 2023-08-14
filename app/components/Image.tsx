@@ -7,7 +7,7 @@ export const ImagePropsSchema = z.object({
   alternativeText: z.string().optional(),
 });
 
-export type ImageProps = z.infer<typeof ImagePropsSchema>;
+type ImageProps = z.infer<typeof ImagePropsSchema>;
 
 function Image({ url, width, height, alternativeText, ...props }: ImageProps) {
   if (!url) return null;

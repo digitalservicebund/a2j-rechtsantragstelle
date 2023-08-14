@@ -48,7 +48,7 @@ type StreetData = Pick<
   "HNR_MERKMAL_INFO" | "HNR_VON" | "HNR_BIS" | "STRN"
 >;
 
-export const buildStreetSlug = (streetData: StreetData) => {
+const buildStreetSlug = (streetData: StreetData) => {
   return `${streetData.STRN} ${streetData.HNR_MERKMAL_INFO} ${streetData.HNR_VON} ${streetData.HNR_BIS}`
     .toLowerCase()
     .replace(/ä/g, "ae")
