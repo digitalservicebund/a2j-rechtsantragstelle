@@ -57,6 +57,11 @@ export async function fetchCollectionEntry<
   locale?: StrapiLocale,
 ): Promise<z.infer<CollectionSchemas[ApiId]>> {
   const strapiEntry = await getStrapiEntry({ apiId, locale, slug });
+  if (!strapiEntry) {
+    const error = new Error(`page missing in cms: ${slug}`);
+    error.name = "StrapiPageNotFound";
+    throw error;
+  }
   return collectionSchemas[apiId].parse(strapiEntry);
 }
 
