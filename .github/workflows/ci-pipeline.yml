@@ -144,11 +144,6 @@ jobs:
           docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}
           docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Create SBOM
-        uses: digitalservicebund/github-actions/create-sbom@40022b2843c5d9f9efba2c92d9421e19d3a1a3de
-        with:
-          repository: ${{ env.REGISTRY }}/${{ github.repository }}
-          image_tag: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}"
     outputs:
       content_checksum: ${{ steps.checksum-calculation.outputs.content_checksum }}
 
