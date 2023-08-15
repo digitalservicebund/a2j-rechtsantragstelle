@@ -11,7 +11,7 @@ const defaultRenderer: Partial<Renderer> = {
     const cssClass = "text-link";
     if (href.includes("ext:")) {
       const newHref = href.replace("ext:", "");
-      return `<a href="${newHref}" class="${cssClass}" target="_blank" rel="noreferrer">${text}</a>`;
+      return `<a href="${newHref}" class="${cssClass}" target="_blank" rel="noopener">${text}</a>`;
     }
     return `<a href="${href}" class="${cssClass}">${text}</a>`;
   },
