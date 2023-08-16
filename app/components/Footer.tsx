@@ -8,6 +8,7 @@ import RichText from "./RichText";
 const LinkPropsSchema = z.object({
   url: z.string(),
   text: z.string(),
+  openInNewTab: z.boolean().optional(),
 });
 
 type LinkProps = z.infer<typeof LinkPropsSchema>;
@@ -31,7 +32,12 @@ export default function Footer({
 
   const renderLink = (link: LinkProps) => (
     <li key={link.url} className="leading-snug">
-      <a href={link.url} className="text-link increase-tap-area">
+      <a
+        href={link.url}
+        className="text-link increase-tap-area"
+        target={link.openInNewTab ? "_blank" : undefined}
+        rel={link.openInNewTab ? "noopener" : undefined}
+      >
         {link.text}
       </a>
     </li>
@@ -45,7 +51,7 @@ export default function Footer({
 
   const paragraphRenderer: Partial<Renderer> = {
     link(href, _, text) {
-      return `<a class="text-link increase-tap-area whitespace-nowrap" href=${href} target="_blank" rel="noreferrer">${text}</a>`;
+      return `<a class="text-link increase-tap-area whitespace-nowrap" href=${href} target="_blank" rel="noopener">${text}</a>`;
     },
     paragraph(text) {
       return `<p class="leading-snug">${text}</p>`;

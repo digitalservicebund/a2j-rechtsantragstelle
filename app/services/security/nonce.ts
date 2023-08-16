@@ -1,6 +1,5 @@
 // from https://github.com/remix-run/remix/issues/5162#issuecomment-1400748264
 
-import crypto from "node:crypto";
 import * as React from "react";
 
 // This exists to allow us to render React with a nonce on the server and
@@ -11,4 +10,3 @@ import * as React from "react";
 
 export const NonceContext = React.createContext<string | undefined>(undefined);
 export const useNonce = () => React.useContext(NonceContext) ?? "";
-export const generateNonce = () => crypto.randomBytes(16).toString("hex");
