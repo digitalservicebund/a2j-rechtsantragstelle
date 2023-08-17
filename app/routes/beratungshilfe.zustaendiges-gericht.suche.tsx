@@ -1,8 +1,7 @@
 import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { Background, Button, Container } from "~/components";
-import ButtonContainer from "~/components/ButtonContainer";
+import { Background, Container } from "~/components";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { withZod } from "@remix-validated-form/with-zod";
@@ -15,6 +14,7 @@ import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
 import { getSessionForContext } from "~/services/session";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
+import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 
 function isValidPostcode(postcode: string) {
   const postcodeNum = parseInt(postcode, 10);
@@ -80,16 +80,15 @@ export default function Index() {
             <PageContent content={form} />
           </Container>
           <Container>
-            <ButtonContainer>
-              {backURL && (
-                <Button href={backURL} look="tertiary" size="large">
-                  {common.backButton}
-                </Button>
-              )}
-              <Button type="submit" size="large" id="submitButton">
-                {common.submitButton}
-              </Button>
-            </ButtonContainer>
+            <ButtonNavigation
+              back={{
+                destination: backURL,
+                label: common.backButton,
+              }}
+              next={{
+                label: String(common.submitButton),
+              }}
+            />
           </Container>
         </ValidatedForm>
       </div>
