@@ -49,6 +49,16 @@ test.describe("/cookie-einstellungen", () => {
       expect(foundCookie).toBeDefined();
     });
   }
+
+  test.describe("js disabled", () => {
+    test.use({ javaScriptEnabled: false });
+
+    test("submit button is enabled without selection", async ({ page }) => {
+      await expect(
+        page.getByRole("button", { name: "Speichern" }),
+      ).not.toBeDisabled();
+    });
+  });
 });
 
 test.describe("/cookie-einstellungen/erfolg", () => {

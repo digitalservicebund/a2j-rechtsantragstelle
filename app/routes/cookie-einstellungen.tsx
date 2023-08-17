@@ -1,7 +1,7 @@
 import { redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { Form, useLoaderData, useNavigation } from "@remix-run/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Container } from "~/components";
 import PageContent from "~/components/PageContent";
 import { acceptCookiesFieldName } from "~/services/analytics/Analytics";
@@ -31,9 +31,11 @@ export default function Index() {
     useLoaderData<typeof loader>();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
-  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(
-    trackingConsent === undefined,
-  );
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+
+  useEffect(() => {
+    setSubmitButtonDisabled(trackingConsent === undefined);
+  }, []);
 
   return (
     <>
