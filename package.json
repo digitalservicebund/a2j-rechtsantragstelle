@@ -49,7 +49,7 @@
     "marked": "^7.0.3",
     "mustache": "^4.2.0",
     "posthog-js": "^1.76.0",
-    "posthog-node": "^3.1.1",
+    "posthog-node": "^3.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "remix-validated-form": "^5.1.0",
