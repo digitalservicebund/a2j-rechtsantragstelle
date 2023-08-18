@@ -5,7 +5,7 @@ export const StrapiLinkSchema = z
   .object({
     url: z.string(),
     text: z.string().nullable(),
-    openInNewTab: z.boolean().nullable(),
+    openInNewTab: z.boolean().nullish(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
