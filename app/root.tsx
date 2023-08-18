@@ -2,6 +2,7 @@ import type {
   HeadersFunction,
   LinksFunction,
   LoaderArgs,
+  V2_MetaFunction,
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
@@ -12,6 +13,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useMatches,
   useRouteLoaderData,
 } from "@remix-run/react";
 import stylesheet from "~/styles.css";
@@ -20,10 +22,14 @@ import fontRegular from "~/../public/fonts/BundesSansWeb-Regular.woff2";
 import fontBold from "~/../public/fonts/BundesSansWeb-Bold.woff2";
 import { withSentry } from "@sentry/remix";
 import { config as configWeb } from "~/services/env/web";
-import { fetchSingleEntry } from "~/services/cms/index.server";
+import {
+  fetchMeta,
+  fetchSingleEntry,
+  strapiPageFromRequest,
+} from "~/services/cms/index.server";
 import { getFooterProps } from "~/services/props/getFooterProps";
 import Footer from "./components/Footer";
-import Breadcrumbs, { breadcrumbsFromURL } from "./components/Breadcrumbs";
+import Breadcrumbs from "./components/Breadcrumbs";
 import Header from "./components/PageHeader";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { CookieBanner } from "./services/analytics/Analytics";
@@ -63,26 +69,37 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const [breadcrumbs, strapiFooter, trackingConsent, errorPages] =
-    await Promise.all([
-      breadcrumbsFromURL(request.url),
-      fetchSingleEntry("footer"),
-      hasTrackingConsent({ request }),
-      getErrorPages(),
-    ]);
-
+  const [strapiFooter, trackingConsent, errorPages, meta] = await Promise.all([
+    fetchSingleEntry("footer"),
+    hasTrackingConsent({ request }),
+    getErrorPages(),
+    fetchMeta({ slug: "/" }),
+  ]);
   return json({
-    breadcrumbs,
     footer: getFooterProps(strapiFooter),
     hasTrackingConsent: trackingConsent,
     errorPages,
+    meta,
   });
 };
 
 function App() {
-  const { footer, hasTrackingConsent, breadcrumbs } =
-    useLoaderData<typeof loader>();
+  const { footer, hasTrackingConsent } = useLoaderData<typeof loader>();
   const nonce = useNonce();
+  const matches = useMatches();
+
+  const breadcrumbs = matches
+    .filter((m) => !m.id.match(/.*_index$/) && m.id !== "root")
+    .map((m) => ({
+      url: m.pathname,
+      title: m.data.meta?.breadcrumbTitle ?? m.data.meta?.title ?? "",
+    }));
+
+  const title = matches
+    .filter((m) => !m.id.match(/.*_index$/))
+    .map((m) => m.data.meta?.title ?? "")
+    .reverse()
+    .join(" - ");
 
   if (typeof window !== "undefined") console.log(consoleMessage);
 
@@ -91,6 +108,7 @@ function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>{title}</title>
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{

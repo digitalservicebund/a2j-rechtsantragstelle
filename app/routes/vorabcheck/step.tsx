@@ -1,5 +1,5 @@
 import { useLoaderData, useLocation, useParams } from "@remix-run/react";
-import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
@@ -10,6 +10,7 @@ import { Background } from "~/components";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import {
   fetchCollectionEntry,
+  fetchMeta,
   fetchSingleEntry,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/buildFlowController";
@@ -30,10 +31,6 @@ import {
 import { CSRFKey } from "~/services/security/csrfKey";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
-
-export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
-  { title: data?.meta?.title ?? location.pathname },
-];
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   await throw404IfFeatureFlagEnabled(request);
@@ -56,9 +53,10 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     verfuegbaresEinkommenFreibetrag: verfuegbaresEinkommenFreibetrag.toString(),
   };
 
-  const [commonContent, formPageContent] = await Promise.all([
+  const [commonContent, formPageContent, parentMeta] = await Promise.all([
     fetchSingleEntry("vorab-check-common"),
     fetchCollectionEntry("vorab-check-pages", pathname),
+    fetchMeta({ slug: pathname.substring(0, pathname.lastIndexOf("/")) }),
   ]);
 
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
@@ -83,6 +81,14 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     headers = { "Set-Cookie": newCookie };
   }
 
+  // The breadcrumb should not contain the current step title
+  // Also, the parent page title needs to be appended manually to the title
+  const meta = {
+    description: formPageContent.meta.description,
+    breadcrumbTitle: parentMeta.title,
+    title: `${formPageContent.meta.title} - ${parentMeta.title}`,
+  };
+
   return json(
     {
       csrf,
@@ -90,7 +96,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
       commonContent,
       preFormContent: formPageContent.pre_form,
       formContent: formPageContent.form,
-      meta: formPageContent.meta,
+      meta,
       progress: flowController.getProgress(stepId),
       isLast: flowController.isFinal(stepId),
       previousStep: flowController.getPrevious(stepId)?.url,

@@ -1,5 +1,4 @@
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import { fetchMeta } from "~/services/cms/index.server";
 
 type Breadcrumb = {
   url: string;
@@ -9,22 +8,6 @@ type Breadcrumb = {
 type BreadcrumbsProps = {
   breadcrumbs: Breadcrumb[];
 };
-
-export function breadcrumbsFromURL(url: string) {
-  const { pathname } = new URL(url);
-  const pathnameSplit = pathname === "/" ? [] : pathname.split("/").slice(1);
-
-  return Promise.all(
-    pathnameSplit.map(async (_, idx, array) => {
-      const url = "/" + array.slice(0, idx + 1).join("/");
-      try {
-        return { url, title: (await fetchMeta({ slug: url })).title };
-      } catch {
-        return { url };
-      }
-    }),
-  );
-}
 
 export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
   const validBreadcrumbs = breadcrumbs?.filter(

@@ -1,4 +1,4 @@
-import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Background, Button, Container } from "~/components";
@@ -10,10 +10,6 @@ import RichText from "~/components/RichText";
 import { fillTemplate } from "~/util/fillTemplate";
 import Heading from "~/components/Heading";
 import { splitObjectsByFirstLetter } from "~/util/strings";
-
-export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
-  { title: data?.meta.title ?? location.pathname },
-];
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   const zipCode = params.PLZ;

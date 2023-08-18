@@ -1,4 +1,4 @@
-import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Background, Container } from "~/components";
@@ -37,10 +37,6 @@ const serverSchema = clientSchema.refine(
 const validatorClient = withZod(clientSchema);
 const validatorServer = withZod(serverSchema);
 
-export const meta: V2_MetaFunction<typeof loader> = ({ location, data }) => [
-  { title: data?.title ?? location.pathname },
-];
-
 export async function loader({ request }: LoaderArgs) {
   const slug = new URL(request.url).pathname;
   const sessionContext = getSessionForContext("beratungshilfe");
@@ -54,15 +50,15 @@ export async function loader({ request }: LoaderArgs) {
     session: await sessionContext.getSession(request.headers.get("Cookie")),
   });
   const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
-  return json({ form, common, title: meta.title, backURL }, { headers });
+  return json({ form, common, meta, backURL }, { headers });
 }
 
 export async function action({ request }: ActionArgs) {
   const result = await validatorServer.validate(await request.formData());
   if (result.error) return validationError(result.error);
-  return redirect(
-    `../beratungshilfe/zustaendiges-gericht/ergebnis/${result.data?.postcode}`,
-  );
+  const { pathname } = new URL(request.url);
+  const urlStem = pathname.substring(0, pathname.lastIndexOf("/"));
+  return redirect(`${urlStem}/ergebnis/${result.data?.postcode}`);
 }
 
 export default function Index() {

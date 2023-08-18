@@ -1,9 +1,5 @@
 import { useLoaderData } from "@remix-run/react";
-import type {
-  ActionFunction,
-  LoaderArgs,
-  V2_MetaFunction,
-} from "@remix-run/node";
+import type { ActionFunction, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { getSessionForContext } from "~/services/session";
 import {
@@ -33,10 +29,6 @@ import { infoBoxesFromElementsWithID } from "~/services/props/getInfoBoxItemProp
 import { Button } from "~/components";
 import ButtonContainer from "~/components/ButtonContainer";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
-
-export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
-  { title: data?.meta?.title ?? location.pathname },
-];
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   await throw404IfFeatureFlagEnabled(request);

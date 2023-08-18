@@ -1,10 +1,6 @@
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import type {
-  DataFunctionArgs,
-  LoaderArgs,
-  V2_MetaFunction,
-} from "@remix-run/node";
+import type { DataFunctionArgs, LoaderArgs } from "@remix-run/node";
 
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
@@ -32,14 +28,6 @@ export const DummySchema = z.object({
 });
 
 const validator = withZod(DummySchema);
-
-export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
-  { title: data?.meta.title ?? location.pathname },
-  {
-    name: "robots",
-    content: "noindex",
-  },
-];
 
 export const loader = async ({ request }: LoaderArgs) => {
   throw404OnProduction();

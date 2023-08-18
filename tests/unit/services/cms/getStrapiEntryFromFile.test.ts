@@ -26,7 +26,7 @@ describe("services/cms", () => {
       updatedAt: faker.date.past().toISOString(),
       publishedAt: faker.date.past().toISOString(),
       locale: StrapiLocaleSchema.Values.de,
-      meta: { id: 0, title: "Impressum" },
+      meta: { id: 0, title: "Impressum", description: "description" },
       content: [],
     };
 

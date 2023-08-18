@@ -1,5 +1,5 @@
 import { redirect } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { Form, useLoaderData, useNavigation } from "@remix-run/react";
 import { useState, useEffect } from "react";
 import { Button, Container } from "~/components";
@@ -10,10 +10,6 @@ import {
   trackingCookieValue,
 } from "~/services/analytics/gdprCookie.server";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
-
-export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => [
-  { title: data?.meta?.title ?? location.pathname },
-];
 
 export async function loader({ request }: LoaderArgs) {
   const { content, meta } = await strapiPageFromRequest({ request });

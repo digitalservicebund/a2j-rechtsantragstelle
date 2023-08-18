@@ -1,6 +1,8 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
-export const StrapiMetaSchema = z
-  .object({ title: z.string() })
-  .merge(HasOptionalStrapiIdSchema);
+export const StrapiMetaSchema = z.object({
+  title: z.string(),
+  description: z.string().nullish(),
+});
+// technically the object contains an id, but we don't need it
+// .merge(HasOptionalStrapiIdSchema);

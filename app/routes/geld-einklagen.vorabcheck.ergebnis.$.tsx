@@ -1,6 +1,1 @@
-export {
-  action,
-  loader,
-  meta,
-  Step as default,
-} from "~/routes/vorabcheck/result";
+export { action, loader, Step as default } from "~/routes/vorabcheck/result";
