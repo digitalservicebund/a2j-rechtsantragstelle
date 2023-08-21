@@ -10,7 +10,9 @@ test.describe("CSRF token", () => {
     await vorabcheck2.goto();
     await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
     await expect(
-      vorabcheck.page.getByRole("heading").filter({ hasText: "verklagt" }),
+      vorabcheck.page
+        .getByRole("heading")
+        .filter({ hasText: "Gerichtsverfahren" }),
     ).toHaveCount(1);
   });
 
@@ -35,7 +37,9 @@ test.describe("CSRF token", () => {
     }
     await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
     await expect(
-      vorabcheck.page.getByRole("heading").filter({ hasText: "verklagt" }),
+      vorabcheck.page
+        .getByRole("heading")
+        .filter({ hasText: "Gerichtsverfahren" }),
     ).toHaveCount(1);
   });
 });
