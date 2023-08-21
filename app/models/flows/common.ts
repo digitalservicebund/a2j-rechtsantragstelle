@@ -9,11 +9,14 @@ type Schemas = Record<string, z.ZodTypeAny>;
 
 export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
   const fieldSchemas: Record<string, z.ZodTypeAny> = {};
+
   for (const fieldname of fieldNames) {
-    if (!isKeyOfObject(fieldname, schemas)) {
-      throw Error(`No schema found for ${fieldname}`);
+    // In case of nested fields, we take the parent key
+    const stepOrFieldName = fieldname.split(".")[0];
+    if (!isKeyOfObject(stepOrFieldName, schemas)) {
+      throw Error(`No schema found for ${stepOrFieldName}`);
     }
-    fieldSchemas[fieldname] = schemas[fieldname];
+    fieldSchemas[stepOrFieldName] = schemas[stepOrFieldName];
   }
   return withZod(z.object(fieldSchemas));
 }

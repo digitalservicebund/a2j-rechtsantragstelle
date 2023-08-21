@@ -17,10 +17,11 @@ function yesNoGuards<Field extends keyof BeratungshilfeVorabcheckContext>(
 }
 
 const yesOrNoGuard = (
-  field: keyof BeratungshilfeVorabcheckContext,
+  field: keyof Omit<BeratungshilfeVorabcheckContext, "kids">,
 ): Record<string, Guard> => ({
-  [`${field}YesOrNo`]: (context) =>
-    ["yes", "no"].includes(context[field] ?? ""),
+  [`${field}YesOrNo`]: (context) => {
+    return ["yes", "no"].includes(context[field] ?? "");
+  },
 });
 
 const filledGuard = (
@@ -76,10 +77,12 @@ export const isIncomeTooHigh: Guard = (context) => {
     working: context.erwerbstaetigkeit === "yes",
     partnership: context.partnerschaft === "yes",
     partnerIncome: moneyToCents(context.einkommenPartner) ?? 0,
-    childrenBelow6: Number(String(context.kids6Below)?.replace(",", ".")),
-    children7To14: Number(String(context.kids7To14)?.replace(",", ".")),
-    children15To18: Number(String(context.kids15To18)?.replace(",", ".")),
-    childrenAbove18: Number(String(context.kids18Above)?.replace(",", ".")),
+    childrenBelow6: Number(String(context.kids?.kids6Below)?.replace(",", ".")),
+    children7To14: Number(String(context.kids?.kids7To14)?.replace(",", ".")),
+    children15To18: Number(String(context.kids?.kids15To18)?.replace(",", ".")),
+    childrenAbove18: Number(
+      String(context.kids?.kids18Above)?.replace(",", "."),
+    ),
     childrenIncome: moneyToCents(context.einkommenKinder) ?? 0,
   });
 
@@ -88,10 +91,10 @@ export const isIncomeTooHigh: Guard = (context) => {
 
 function anyKinderAnzahlFilled(context: BeratungshilfeVorabcheckContext) {
   return (
-    context.kids6Below != undefined ||
-    context.kids7To14 != undefined ||
-    context.kids15To18 != undefined ||
-    context.kids18Above != undefined
+    context.kids?.kids6Below != undefined ||
+    context.kids?.kids7To14 != undefined ||
+    context.kids?.kids15To18 != undefined ||
+    context.kids?.kids18Above != undefined
   );
 }
 
@@ -123,7 +126,6 @@ export const guards = {
   ...yesNoGuards("verfuegbaresEinkommen"),
   ...yesNoGuards("kinder"),
   ...yesNoGuards("kinderKurz"),
-  ...filledGuard("kids6Below"),
   ...filledGuard("einkommenKinder"),
   ...yesNoGuards("unterhalt"),
   ...filledGuard("unterhaltSumme"),
