@@ -41,7 +41,7 @@ export class Vorabcheck {
   }
 
   async fillInputPage(field: string, value: string) {
-    await this.page.locator(`input[name=${field}]`).fill(value);
+    await this.page.locator(`input[name='${field}']`).fill(value);
     await this.clickNext();
   }
 }

@@ -58,7 +58,7 @@ test("vorabcheck can be traversed (long path)", async ({ page }) => {
   await vorabcheck.fillRadioPage("kinder", "yes");
 
   await expectPageToBeAccessible({ page });
-  await vorabcheck.fillInputPage("kids15To18", "1");
+  await vorabcheck.fillInputPage("kids.kids15To18", "1");
 
   await expectPageToBeAccessible({ page });
   await vorabcheck.fillInputPage("einkommenKinder", "0");
