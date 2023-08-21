@@ -14,6 +14,15 @@ env:
   IMAGE_VERSION: ${{ github.sha }}
 
 jobs:
+  repo-visualization:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Update diagram
+        uses: githubocto/repo-visualizer@a999615bdab757559bf94bda1fe6eef232765f85
+        with:
+          excluded_paths: "ignore,.github"
   code-quality:
     uses: ./.github/workflows/npm-checks.yml
     secrets:

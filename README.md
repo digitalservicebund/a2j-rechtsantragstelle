@@ -2,6 +2,8 @@
 
 First draft of implementing a platform to create requests to the Rechtsantragstelle.
 
+![Visualization of this repo](./diagram.svg)
+
 ## Development
 
 ### Requirements
