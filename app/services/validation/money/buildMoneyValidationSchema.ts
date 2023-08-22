@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import preprocessMoney from "./preprocessMoney";
 import validateMoney from "./validateMoney";
 import moneyToCents from "./moneyToCents";
 import formatCents from "./formatCents";
@@ -16,6 +17,7 @@ export const buildMoneyValidationSchema = (
     .string()
     .trim()
     .min(1, "required")
+    .transform((v) => preprocessMoney(v))
     .refine((v) => validateMoney(v), { message: "wrong_format" })
     .transform((v) => moneyToCents(v) as number)
     .refine((v) => v >= (opts.min ?? Number.MIN_SAFE_INTEGER), {
