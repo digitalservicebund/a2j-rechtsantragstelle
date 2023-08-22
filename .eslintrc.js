@@ -14,6 +14,7 @@ module.exports = {
     project: ["./tsconfig.json"],
   },
   rules: {
+    "react/jsx-no-target-blank": "off",
     "sonarjs/no-duplicate-string": "warn",
     "sonarjs/no-small-switch": "warn",
     "@typescript-eslint/ban-ts-comment": "warn",

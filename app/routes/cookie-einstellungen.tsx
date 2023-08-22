@@ -31,7 +31,7 @@ export default function Index() {
 
   useEffect(() => {
     setSubmitButtonDisabled(trackingConsent === undefined);
-  }, []);
+  }, [trackingConsent]);
 
   return (
     <>

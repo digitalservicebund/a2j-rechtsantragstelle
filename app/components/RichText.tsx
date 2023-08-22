@@ -16,14 +16,9 @@ const defaultRenderer: Partial<Renderer> = {
     return `<a href="${href}" class="${cssClass}">${text}</a>`;
   },
   heading(text: string, level: number) {
-    const cssClass = [
-      "ds-heading-01-reg",
-      "ds-heading-02-reg",
-      "ds-label-01-bold",
-      "ds-label-01-bold",
-      "ds-label-01-bold",
-      "ds-label-01-bold",
-    ][level - 1];
+    const cssClass =
+      ["ds-heading-01-reg", "ds-heading-02-reg"].at(level - 1) ??
+      "ds-label-01-bold";
     return `<h${level} class="${cssClass}">${text}</h${level}>`;
   },
   paragraph(text: string) {
