@@ -11,10 +11,10 @@ test.describe("homepage", () => {
   test.describe("Footer links", () => {
     const expectedLinks = {
       Impressum: "/impressum",
-      Nutzungsbedingungen: "/nutzungsbedingungen",
+      // Nutzungsbedingungen: "/nutzungsbedingungen",
       Datenschutzbestimmung: "/datenschutz",
       "Cookie-Einstellungen": "/cookie-einstellungen",
-      // Barrierefreiheit: "/barrierefreiheit",
+      Barrierefreiheit: "/barrierefreiheit",
       // Pressekontakt: "/pressekontakt",
     };
 
