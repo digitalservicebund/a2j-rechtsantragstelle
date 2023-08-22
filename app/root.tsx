@@ -121,7 +121,7 @@ function App() {
 export function ErrorBoundary() {
   const loaderData = useRouteLoaderData<typeof loader>("root");
   return (
-    <html>
+    <html lang="de">
       <head>
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <title>Justiz Services - Fehler aufgetreten</title>
