@@ -187,9 +187,15 @@
             "cond": "staatlicheLeistungenNo"
           }
         ],
-        "BACK": {
-          "target": "eigeninitiative"
-        }
+        "BACK": [
+          {
+            "target": "eigeninitiative-warnung",
+            "cond": "eigeninitiativeNo"
+          },
+          {
+            "target": "eigeninitiative"
+          }
+        ]
       }
     },
     "ergebnis/staatliche-leistungen-abschluss-ja": {

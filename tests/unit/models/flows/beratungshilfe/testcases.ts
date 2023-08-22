@@ -58,7 +58,10 @@ const cases = [
     { beratungshilfeBeantragt: "yes" },
     ["beratungshilfe-beantragt", "ergebnis/beratungshilfe-beantragt-abbruch"],
   ],
-  [{ eigeninitiative: "no" }, ["eigeninitiative", "eigeninitiative-warnung"]],
+  [
+    { eigeninitiative: "no" },
+    ["eigeninitiative", "eigeninitiative-warnung", "staatliche-leistungen"],
+  ],
   [
     { staatlicheLeistungen: "asylbewerberleistungen" },
     ["staatliche-leistungen", "ergebnis/staatliche-leistungen-abschluss-ja"],
