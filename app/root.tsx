@@ -30,6 +30,7 @@ import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { CookieBanner } from "./services/analytics/Analytics";
 import { ErrorBox, getErrorPages } from "./services/errorPages";
 import { useNonce } from "./services/security/nonce";
+import { metaFromMatches } from "./services/metaFromMatches";
 
 export const headers: HeadersFunction = () => ({
   "X-Frame-Options": "SAMEORIGIN",
@@ -80,21 +81,8 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 function App() {
   const { footer, hasTrackingConsent } = useLoaderData<typeof loader>();
+  const { breadcrumbs, title, description } = metaFromMatches(useMatches());
   const nonce = useNonce();
-  const matches = useMatches();
-
-  const breadcrumbs = matches
-    .filter((m) => !m.id.match(/.*_index$/) && m.id !== "root")
-    .map((m) => ({
-      url: m.pathname,
-      title: m.data.meta?.breadcrumbTitle ?? m.data.meta?.title ?? "",
-    }));
-
-  const title = matches
-    .filter((m) => !m.id.match(/.*_index$/))
-    .map((m) => m.data.meta?.title ?? "")
-    .reverse()
-    .join(" - ");
 
   if (typeof window !== "undefined") console.log(consoleMessage);
 
@@ -104,6 +92,7 @@ function App() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <title>{title}</title>
+        {description && <meta name="description" content={description} />}
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{

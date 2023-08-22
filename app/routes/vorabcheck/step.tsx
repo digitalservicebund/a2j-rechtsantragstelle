@@ -94,7 +94,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
       csrf,
       defaultValues: data,
       commonContent,
-      preFormContent: formPageContent.pre_form,
+      content: formPageContent.pre_form,
       formContent: formPageContent.form,
       meta,
       progress: flowController.getProgress(stepId),
@@ -147,7 +147,7 @@ export function Step() {
     csrf,
     defaultValues,
     commonContent,
-    preFormContent,
+    content,
     formContent,
     progress,
     isLast,
@@ -176,7 +176,7 @@ export function Step() {
             />
             <div className="ds-stack-40">
               <PageContent
-                content={preFormContent}
+                content={content}
                 templateReplacements={templateReplacements}
                 className="ds-stack-16"
               />

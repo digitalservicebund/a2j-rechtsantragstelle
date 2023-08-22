@@ -89,7 +89,7 @@
   "engines": {
     "node": ">=18"
   },
-  "volta": {
-    "node": "18.16.0"
+  "prettier": {
+    "trailingComma": "all"
   }
 }
