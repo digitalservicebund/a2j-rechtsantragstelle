@@ -13,6 +13,8 @@ import { splitObjectsByFirstLetter } from "~/util/strings";
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   const zipCode = params.PLZ;
+  if (zipCode === undefined)
+    throw Error("Something went wrong, no zipcode found");
   const edgeCases = edgeCaseStreets({ zipCode });
   if (edgeCases.length == 0) {
     return redirect(`/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`);

@@ -14,7 +14,7 @@ export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
     // In case of nested fields, we take the parent key
     const stepOrFieldName = fieldname.split(".")[0];
     if (!isKeyOfObject(stepOrFieldName, schemas)) {
-      throw Error(`No schema found for ${stepOrFieldName}`);
+      throw Error(`No schema found for ${stepOrFieldName as string}`);
     }
     fieldSchemas[stepOrFieldName] = schemas[stepOrFieldName];
   }

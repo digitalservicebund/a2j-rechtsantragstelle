@@ -30,7 +30,7 @@ type PageContentProps = {
 };
 
 export const keyFromElement = (element: StrapiContent) =>
-  `${element.__component}_${element.id}`;
+  `${element.__component}_${element.id ?? 0}`;
 
 function wrapInContainer(cmsData: StrapiContent, reactElement: ReactElement) {
   if (!("container" in cmsData) || cmsData.container === null)

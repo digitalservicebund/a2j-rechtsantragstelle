@@ -39,7 +39,7 @@ const InfoBoxItem = ({
       )}
       <div
         className={`ds-stack-8 break-words w-full ${
-          image && "min-[500px]:ml-16"
+          image ? "min-[500px]:ml-16" : ""
         }`}
       >
         {label && <Heading {...label} />}

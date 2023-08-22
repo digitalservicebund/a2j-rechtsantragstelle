@@ -205,7 +205,7 @@ export function Step() {
           ))}
         </div>
       )}
-      <div className={`${documentsList.length > 0 && "bg-blue-100"}`}>
+      <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
         {!content.backLinkInHeader && (
           <Container>
             <form method="post">
