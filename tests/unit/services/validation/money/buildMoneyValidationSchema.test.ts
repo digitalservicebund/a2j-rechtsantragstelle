@@ -4,6 +4,7 @@ import { buildMoneyValidationSchema } from "~/services/validation/money/buildMon
 describe("money validation", () => {
   describe("success cases", () => {
     const cases = [
+      { input: "1", expected: "1,00" },
       { input: "1,000.9", expected: "1.000,90" },
       { input: "00000", expected: "0,00" },
       { input: "999999999", expected: "999.999.999,00" },
@@ -27,6 +28,7 @@ describe("money validation", () => {
       { input: "", errorMessage: "required" },
       { input: "  ", errorMessage: "required" },
       { input: "foobar", errorMessage: "wrong_format" },
+      { input: "3 thousand", errorMessage: "wrong_format" },
       { input: "123,123,", errorMessage: "wrong_format" },
       { input: "2000000", errorMessage: "too_much" },
       { input: "-2000000", errorMessage: "too_little" },
