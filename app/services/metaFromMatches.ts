@@ -24,6 +24,8 @@ export function metaFromMatches(matches: RouteMatchKnown[]) {
     .reverse()
     .join(" - ");
 
+  const ogTitle = matches.at(-1)?.data.meta?.ogTitle;
+
   const description =
     matches.at(-1)?.data.meta?.description ??
     (
@@ -34,5 +36,5 @@ export function metaFromMatches(matches: RouteMatchKnown[]) {
         | undefined
     )?.content?.text;
 
-  return { breadcrumbs, title, description };
+  return { breadcrumbs, title, ogTitle, description };
 }

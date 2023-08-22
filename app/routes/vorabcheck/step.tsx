@@ -84,8 +84,9 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   // The breadcrumb should not contain the current step title
   // Also, the parent page title needs to be appended manually to the title
   const meta = {
-    description: formPageContent.meta.description,
+    description: formPageContent.meta.description ?? parentMeta.description,
     breadcrumbTitle: parentMeta.title,
+    ogTitle: formPageContent.meta.ogTitle ?? parentMeta.ogTitle,
     title: `${formPageContent.meta.title} - ${parentMeta.title}`,
   };
 

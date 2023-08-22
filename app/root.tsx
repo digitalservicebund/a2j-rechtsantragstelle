@@ -81,7 +81,9 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 function App() {
   const { footer, hasTrackingConsent } = useLoaderData<typeof loader>();
-  const { breadcrumbs, title, description } = metaFromMatches(useMatches());
+  const { breadcrumbs, title, ogTitle, description } = metaFromMatches(
+    useMatches(),
+  );
   const nonce = useNonce();
 
   if (typeof window !== "undefined") console.log(consoleMessage);
@@ -93,6 +95,10 @@ function App() {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <title>{title}</title>
         {description && <meta name="description" content={description} />}
+        <meta property="og:title" content={ogTitle ?? title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/og-image.png" />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
