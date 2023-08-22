@@ -2,7 +2,6 @@ import type {
   HeadersFunction,
   LinksFunction,
   LoaderArgs,
-  V2_MetaFunction,
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
@@ -22,11 +21,7 @@ import fontRegular from "~/../public/fonts/BundesSansWeb-Regular.woff2";
 import fontBold from "~/../public/fonts/BundesSansWeb-Bold.woff2";
 import { withSentry } from "@sentry/remix";
 import { config as configWeb } from "~/services/env/web";
-import {
-  fetchMeta,
-  fetchSingleEntry,
-  strapiPageFromRequest,
-} from "~/services/cms/index.server";
+import { fetchMeta, fetchSingleEntry } from "~/services/cms/index.server";
 import { getFooterProps } from "~/services/props/getFooterProps";
 import Footer from "./components/Footer";
 import Breadcrumbs from "./components/Breadcrumbs";
