@@ -19,6 +19,7 @@ import stylesheet from "~/styles.css";
 import fontsStylesheet from "@digitalservice4germany/angie/fonts.css";
 import fontRegular from "~/../public/fonts/BundesSansWeb-Regular.woff2";
 import fontBold from "~/../public/fonts/BundesSansWeb-Bold.woff2";
+import ogImage from "~/../public/og-image.png";
 import { withSentry } from "@sentry/remix";
 import { config as configWeb } from "~/services/env/web";
 import { fetchMeta, fetchSingleEntry } from "~/services/cms/index.server";
@@ -98,7 +99,7 @@ function App() {
         <meta property="og:title" content={ogTitle ?? title} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="/og-image.png" />
+        <meta property="og:image" content={ogImage} />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
