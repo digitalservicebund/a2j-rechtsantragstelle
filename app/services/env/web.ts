@@ -1,6 +1,6 @@
-const getNodeOrWebEnv = (): Record<string, string | undefined> =>
+const getNodeOrWebEnv = () =>
   typeof window === "object" && "ENV" in window
-    ? (window as any)?.ENV
+    ? (window?.ENV as Record<string, string | undefined>)
     : process.env;
 
 export function config() {

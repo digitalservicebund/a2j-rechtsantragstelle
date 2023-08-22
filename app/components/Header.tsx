@@ -7,7 +7,7 @@ export const HeaderPropsSchema = z.object({
   content: ParagraphPropsSchema.optional(),
 });
 
-export type HeaderProps = z.infer<typeof HeaderPropsSchema>;
+type HeaderProps = z.infer<typeof HeaderPropsSchema>;
 
 export default function Header({ heading, content }: HeaderProps) {
   return (

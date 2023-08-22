@@ -1,6 +1,6 @@
 interface ProgressBarProps {
   progress: number;
-  max?: number;
+  max: number;
   fallback?: string;
   label?: string;
 }

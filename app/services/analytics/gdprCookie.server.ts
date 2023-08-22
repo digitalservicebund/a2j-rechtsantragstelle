@@ -4,14 +4,15 @@ import { acceptCookiesFieldName } from "./Analytics";
 export const consentCookieName = "gdpr-consent";
 const maxAge = 365 * 24 * 60 * 60;
 const gdprCookie = createCookie(consentCookieName, { maxAge });
+type GdprCookie = {
+  [acceptCookiesFieldName]: "true" | "false" | undefined;
+};
 
 type CookieArgs = { request: Request };
 
-async function parseTrackingCookie({
-  request,
-}: CookieArgs): Promise<Record<string, string | undefined>> {
+async function parseTrackingCookie({ request }: CookieArgs) {
   const cookieHeader = request.headers.get("Cookie");
-  return (await gdprCookie.parse(cookieHeader)) || {};
+  return ((await gdprCookie.parse(cookieHeader)) as GdprCookie) || {};
 }
 
 export async function trackingCookieValue({ request }: CookieArgs) {
@@ -30,7 +31,7 @@ async function createTrackingCookie({
 }: CookieArgs & { consent?: boolean }) {
   const cookie = await parseTrackingCookie({ request });
   cookie[acceptCookiesFieldName] =
-    consent == undefined ? consent : String(consent);
+    consent === undefined ? undefined : consent ? "true" : "false";
   return gdprCookie.serialize(cookie);
 }
 

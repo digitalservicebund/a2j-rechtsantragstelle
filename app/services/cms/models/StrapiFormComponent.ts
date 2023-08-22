@@ -6,5 +6,3 @@ export const StrapiFormComponentSchema = z.discriminatedUnion("__component", [
   StrapiInputSchema.required({ __component: true }),
   StrapiSelectSchema.required({ __component: true }),
 ]);
-
-export type StrapiFormComponent = z.infer<typeof StrapiFormComponentSchema>;
