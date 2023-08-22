@@ -46,27 +46,28 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
   // Slug change to keep Strapi slugs without ergebnis/
   const slug = pathname.replace(/ergebnis\//, "");
-  const [common, content] = await Promise.all([
+  const [common, cmsData] = await Promise.all([
     fetchSingleEntry("vorab-check-common"),
     fetchCollectionEntry("result-pages", slug),
   ]);
 
   const reasonElementsWithID =
-    content.reasonings.data?.map((el) => el.attributes) ?? [];
+    cmsData.reasonings.data?.map((el) => el.attributes) ?? [];
 
   const hideNextButton =
-    flowController.isFinal(stepId) && content.nextLink?.url === undefined;
+    flowController.isFinal(stepId) && cmsData.nextLink?.url === undefined;
   const nextButton = hideNextButton
     ? undefined
     : {
-        destination: content.nextLink?.url ?? undefined,
-        label: content.nextLink?.text ?? common.nextButtonDefaultLabel,
+        destination: cmsData.nextLink?.url ?? undefined,
+        label: cmsData.nextLink?.text ?? common.nextButtonDefaultLabel,
       };
 
   return json({
     common,
-    content,
-    meta: content.meta,
+    cmsData: cmsData,
+    content: cmsData.freeZone,
+    meta: cmsData.meta,
     reasons: getReasonsToDisplay(reasonElementsWithID, data),
     progress: flowController.getProgress(stepId),
     nextButton,
@@ -109,15 +110,22 @@ const backgrounds: Record<StrapiResultPageType, string> = {
 };
 
 export function Step() {
-  const { common, content, reasons, progress, nextButton, backButton } =
-    useLoaderData<typeof loader>();
+  const {
+    common,
+    content,
+    cmsData,
+    reasons,
+    progress,
+    nextButton,
+    backButton,
+  } = useLoaderData<typeof loader>();
 
-  const documentsList = content.documents.data?.attributes.element ?? [];
-  const nextSteps = content.nextSteps.data?.attributes.element ?? [];
+  const documentsList = cmsData.documents.data?.attributes.element ?? [];
+  const nextSteps = cmsData.nextSteps.data?.attributes.element ?? [];
 
   return (
     <>
-      <div className={backgrounds[content.pageType]}>
+      <div className={backgrounds[cmsData.pageType]}>
         <Container paddingTop="24">
           <ProgressBar
             label={common.progressBarLabel}
@@ -125,16 +133,16 @@ export function Step() {
             max={progress.total}
           />
           <Heading
-            tagName={content.heading.tagName}
-            look={content.heading.look}
+            tagName={cmsData.heading.tagName}
+            look={cmsData.heading.look}
             className="flex items-center mb-0"
           >
-            {icons[content.pageType]}
-            {content.heading.text}
+            {icons[cmsData.pageType]}
+            {cmsData.heading.text}
           </Heading>
         </Container>
 
-        {content.hintText && (
+        {cmsData.hintText && (
           <Container
             backgroundColor="white"
             paddingTop="32"
@@ -143,15 +151,15 @@ export function Step() {
           >
             <div className="ds-stack-8">
               <p className="ds-label-02-bold">{common.resultHintLabel}</p>
-              <RichText markdown={content.hintText.text} />
+              <RichText markdown={cmsData.hintText.text} />
             </div>
           </Container>
         )}
 
-        {(content.linkText || content.backLinkInHeader) && (
+        {(cmsData.linkText || cmsData.backLinkInHeader) && (
           <Container paddingTop="32" paddingBottom="32">
             <ButtonContainer>
-              {content.backLinkInHeader && (
+              {cmsData.backLinkInHeader && (
                 <Button
                   href={backButton.destination}
                   look="tertiary"
@@ -161,22 +169,22 @@ export function Step() {
                   {backButton.label}
                 </Button>
               )}
-              {content.linkText && (
+              {cmsData.linkText && (
                 <Button
                   look="tertiary"
                   size="large"
                   href="/beratungshilfe/vorabcheck"
                 >
-                  {content.linkText}
+                  {cmsData.linkText}
                 </Button>
               )}
             </ButtonContainer>
           </Container>
         )}
       </div>
-      {content.freeZone.length > 0 && (
+      {content.length > 0 && (
         <Container>
-          <PageContent content={content.freeZone} />
+          <PageContent content={content} />
         </Container>
       )}
       {reasons.length > 0 && (
@@ -206,7 +214,7 @@ export function Step() {
         </div>
       )}
       <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
-        {!content.backLinkInHeader && (
+        {!cmsData.backLinkInHeader && (
           <Container>
             <form method="post">
               <ButtonNavigation back={backButton} next={nextButton} />
