@@ -33,7 +33,8 @@ const InfoBoxItem = ({
         <Image
           {...image}
           {...{
-            className: "max-[499px]:mb-16 w-[48px] h-[48px] self-baseline",
+            className:
+              "max-[499px]:mb-16 max-[499px]:w-[144px] max-[499px]h-[144px] h-[168px] w-[168px] self-baseline",
           }}
         />
       )}
