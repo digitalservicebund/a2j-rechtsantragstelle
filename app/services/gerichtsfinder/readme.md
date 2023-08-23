@@ -2,6 +2,13 @@
 
 ## Quickstart
 
+## How to update
+
+- Copy the `.zip` file to the root of the project
+- Run `npm run update:gerichtsfinder -- <NAME_OF_THE_ZIP>`
+- Run `npm run update:URLs`
+- Discard/remove your `.zip` file before commiting!
+
 ## Data Exploration
 
 `UpdateR2305.zip`:
