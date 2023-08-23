@@ -34,7 +34,7 @@ const InfoBoxItem = ({
           {...image}
           {...{
             className:
-              "max-[499px]:mb-16 max-[499px]:w-[144px] max-[499px]h-[144px] h-[168px] w-[168px] self-baseline",
+              "max-[499px]:mb-16 max-[499px]:w-[144px] max-[499px]:h-[144px] h-[168px] w-[168px] self-baseline",
           }}
         />
       )}
