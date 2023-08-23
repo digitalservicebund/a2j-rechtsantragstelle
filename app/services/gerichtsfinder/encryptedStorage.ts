@@ -8,7 +8,6 @@ import path from "node:path";
 import { applyDataConversions } from "./convertJsonDataTable";
 import { extractJsonFilesFromZip } from "../../util/file/extractJsonFilesFromZip";
 import dotenv from "dotenv";
-import { logError } from "../logging";
 
 dotenv.config();
 const GERICHTSFINDER_ENCRYPTION_KEY = process.env.GERICHTSFINDER_ENCRYPTION_KEY;
@@ -42,7 +41,7 @@ function saveEncrypted(data: any, filename: string, password: string) {
 
 function updateZipfile(zipFilepath: string) {
   if (!GERICHTSFINDER_ENCRYPTION_KEY) {
-    logError({ error: "GERICHTSFINDER_ENCRYPTION_KEY not set - aborting." });
+    console.error("GERICHTSFINDER_ENCRYPTION_KEY not set - aborting.");
     return;
   }
   const jsonObjects = extractJsonFilesFromZip(zipFilepath);
@@ -60,14 +59,14 @@ declare global {
 
 export function getEncrypted(): Record<string, any> {
   if (!GERICHTSFINDER_ENCRYPTION_KEY) {
-    logError({ error: "GERICHTSFINDER_ENCRYPTION_KEY not set - aborting." });
+    console.error("GERICHTSFINDER_ENCRYPTION_KEY not set - aborting.");
     return {};
   }
   if (global.__encData === undefined) {
     try {
       global.__encData = loadEncrypted(OUTFILE, GERICHTSFINDER_ENCRYPTION_KEY);
     } catch (error) {
-      logError({ error });
+      console.error(error);
       return {};
     }
   }

@@ -4,7 +4,7 @@ import { http, https } from "follow-redirects";
 import pMap from "p-map";
 import { getEncrypted } from "./encryptedStorage";
 import type { GerbehFile } from "./convertJsonDataTable";
-import { normalizeURL } from "~/util/strings";
+import { normalizeURL } from "../../util/strings";
 
 const manualReplacements = {
   "www.amtsgericht-straubing.de":
