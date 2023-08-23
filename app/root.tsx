@@ -99,7 +99,10 @@ function App() {
         <meta property="og:title" content={ogTitle ?? title} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={ogImage} />
+        <meta
+          property="og:image"
+          content={`https://service.justiz.de${ogImage}`}
+        />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
