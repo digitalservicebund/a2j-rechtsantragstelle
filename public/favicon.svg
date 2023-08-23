@@ -1,0 +1,20 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @media (prefers-color-scheme: dark) {
+
+      rect,
+      path {
+        fill: white
+      }
+    }
+  </style>
+  <rect x="6.0929" y="13.2207" width="1.33512" height="4.00534" transform="rotate(-90 6.0929 13.2207)" fill="#004B76" />
+  <rect x="2.5" y="10.0034" width="1.33512" height="4.00534" transform="rotate(-90 2.5 10.0034)" fill="#004B76" />
+  <rect x="9.68567" y="7.55762" width="1.33512" height="4.00534" transform="rotate(-90 9.68567 7.55762)"
+    fill="#004B76" />
+  <rect x="7.42798" y="4.50146" width="1.33511" height="7.91616" fill="#004B76" />
+  <rect x="3.83508" y="5.55371" width="1.33511" height="4.00534" fill="#004B76" />
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3577 3.44885L4.347 6.78664L3.8335 5.55422L12.3577 2V3.44885Z"
+    fill="#004B76" />
+  <path d="M11.0208 2.56396L11.8398 2.21729H12.3559V6.22263H11.0208L11.0208 2.56396Z" fill="#004B76" />
+</svg>
