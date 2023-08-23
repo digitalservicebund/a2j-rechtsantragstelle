@@ -182,11 +182,7 @@ export function Step() {
           </Container>
         )}
       </div>
-      {content.length > 0 && (
-        <Container>
-          <PageContent content={content} />
-        </Container>
-      )}
+      {content.length > 0 && <PageContent content={content} />}
       {reasons.length > 0 && (
         <Container>
           <InfoBox
