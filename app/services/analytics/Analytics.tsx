@@ -24,6 +24,8 @@ export function CookieBanner({ hasTrackingConsent }: AnalyticsProps) {
       posthog.init(POSTHOG_API_KEY, {
         // eslint-disable-next-line camelcase
         api_host: POSTHOG_API_HOST,
+        // eslint-disable-next-line camelcase
+        cross_subdomain_cookie: false, // set cookie for sub domain only
         loaded: () => {
           setPosthogLoaded(true);
         },

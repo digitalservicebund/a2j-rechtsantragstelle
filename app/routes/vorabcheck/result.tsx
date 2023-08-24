@@ -4,6 +4,7 @@ import { json, redirect } from "@remix-run/node";
 import { getSessionForContext } from "~/services/session";
 import {
   fetchCollectionEntry,
+  fetchMeta,
   fetchSingleEntry,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/buildFlowController";
@@ -46,9 +47,10 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
   // Slug change to keep Strapi slugs without ergebnis/
   const slug = pathname.replace(/ergebnis\//, "");
-  const [common, cmsData] = await Promise.all([
+  const [common, cmsData, parentMeta] = await Promise.all([
     fetchSingleEntry("vorab-check-common"),
     fetchCollectionEntry("result-pages", slug),
+    fetchMeta({ slug: pathname.substring(0, pathname.lastIndexOf("/")) }),
   ]);
 
   const reasonElementsWithID =
@@ -67,7 +69,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     common,
     cmsData: cmsData,
     content: cmsData.freeZone,
-    meta: cmsData.meta,
+    meta: { ...cmsData.meta, breadcrumbTitle: parentMeta.title },
     reasons: getReasonsToDisplay(reasonElementsWithID, data),
     progress: flowController.getProgress(stepId),
     nextButton,
@@ -182,11 +184,7 @@ export function Step() {
           </Container>
         )}
       </div>
-      {content.length > 0 && (
-        <Container>
-          <PageContent content={content} />
-        </Container>
-      )}
+      {content.length > 0 && <PageContent content={content} />}
       {reasons.length > 0 && (
         <Container>
           <InfoBox

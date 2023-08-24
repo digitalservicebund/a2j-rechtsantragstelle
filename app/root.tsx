@@ -99,7 +99,14 @@ function App() {
         <meta property="og:title" content={ogTitle ?? title} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={ogImage} />
+        <meta
+          property="og:image"
+          content={`https://service.justiz.de${ogImage}`}
+        />
+        <link rel="icon" href="/favicon.ico" sizes="32x32" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
