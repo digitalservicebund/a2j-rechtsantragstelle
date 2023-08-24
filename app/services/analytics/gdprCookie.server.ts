@@ -30,8 +30,9 @@ async function createTrackingCookie({
   consent,
 }: CookieArgs & { consent?: boolean }) {
   const cookie = await parseTrackingCookie({ request });
+  const stringifiedConsentValue = consent ? "true" : "false";
   cookie[acceptCookiesFieldName] =
-    consent === undefined ? undefined : consent ? "true" : "false";
+    consent === undefined ? undefined : stringifiedConsentValue;
   return gdprCookie.serialize(cookie);
 }
 
