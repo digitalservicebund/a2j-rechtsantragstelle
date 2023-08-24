@@ -3,6 +3,7 @@ import { test, expect } from "@playwright/test";
 import { testPageToBeAccessible } from "./util/testPageToBeAccessible";
 import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 import { acceptCookiesFieldName } from "~/services/analytics/Analytics";
+import { CookieSettings } from "./pom/CookieSettings";
 
 const encode = (str: string): string =>
   Buffer.from(str, "binary").toString("base64");
@@ -19,36 +20,30 @@ test.describe("/cookie-einstellungen", () => {
     ).toBeDisabled();
   });
 
-  const radioOptions = [
-    {
-      expectedCookie: { [acceptCookiesFieldName]: "true" },
-      radioLabel: "Analyse-Cookies einverstanden",
-    },
-    {
-      expectedCookie: { [acceptCookiesFieldName]: "false" },
-      radioLabel: "Analyse-Cookies nicht einverstanden",
-    },
-  ];
+  test("accept and decline cookies", async ({ page }) => {
+    const cookieSettings = new CookieSettings(page);
 
-  for (const radioOption of radioOptions) {
-    test(`option ${radioOption.radioLabel} can be selected and submitted`, async ({
-      page,
-    }) => {
-      const expectedCookie = encodeURIComponent(
-        encode(JSON.stringify(radioOption.expectedCookie)),
-      );
-      await page.getByLabel(radioOption.radioLabel).click();
-      await page.getByRole("button", { name: "Speichern" }).click();
-      await expect(page.getByRole("heading", { level: 1 })).toContainText(
-        "gespeichert",
-      );
-      const foundCookie = (await page.context().cookies()).find(
-        (cookie) =>
-          cookie.name === consentCookieName && cookie.value === expectedCookie,
-      );
-      expect(foundCookie).toBeDefined();
-    });
-  }
+    await cookieSettings.acceptCookies();
+
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      "gespeichert",
+    );
+
+    expect(await cookieSettings.consentCookieExists()).toBe(true);
+    expect(await cookieSettings.consentCookieValue()).toBe("true");
+    expect(await cookieSettings.posthogCookieExists()).toBe(true);
+
+    await cookieSettings.goBackToSettings();
+    await cookieSettings.declineCookies();
+
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      "gespeichert",
+    );
+
+    expect(await cookieSettings.consentCookieExists()).toBe(true);
+    expect(await cookieSettings.consentCookieValue()).toBe("false");
+    expect(await cookieSettings.posthogCookieExists()).toBe(false);
+  });
 
   test.describe("js disabled", () => {
     test.use({ javaScriptEnabled: false });

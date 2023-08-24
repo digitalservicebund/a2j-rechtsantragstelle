@@ -8,7 +8,7 @@ export const throw404OnProduction = () => {
 
 export const throw404IfFeatureFlagEnabled = async (request: Request) => {
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
-  if (POSTHOG_API_KEY) {
+  if (POSTHOG_API_KEY && config().ENVIRONMENT === "production") {
     const client = new PostHog(POSTHOG_API_KEY, { host: POSTHOG_API_HOST });
     if (
       request.url.includes("geld-einklagen") &&

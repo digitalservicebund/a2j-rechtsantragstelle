@@ -20,7 +20,12 @@ export function CookieBanner({ hasTrackingConsent }: AnalyticsProps) {
   const location = useLocation();
 
   useEffect(() => {
-    if (hasTrackingConsent && POSTHOG_API_KEY && POSTHOG_API_HOST) {
+    if (
+      hasTrackingConsent &&
+      !posthogLoaded &&
+      POSTHOG_API_KEY &&
+      POSTHOG_API_HOST
+    ) {
       posthog.init(POSTHOG_API_KEY, {
         // eslint-disable-next-line camelcase
         api_host: POSTHOG_API_HOST,
@@ -30,8 +35,18 @@ export function CookieBanner({ hasTrackingConsent }: AnalyticsProps) {
           setPosthogLoaded(true);
         },
       });
+    } else if (!hasTrackingConsent && posthogLoaded) {
+      posthog.opt_out_capturing();
+    } else if (hasTrackingConsent && posthogLoaded) {
+      posthog.opt_in_capturing();
     }
-  }, [location, hasTrackingConsent, POSTHOG_API_KEY, POSTHOG_API_HOST]);
+  }, [
+    location,
+    hasTrackingConsent,
+    posthogLoaded,
+    POSTHOG_API_KEY,
+    POSTHOG_API_HOST,
+  ]);
 
   useEffect(() => {
     if (posthogLoaded) posthog.capture("$pageview");
