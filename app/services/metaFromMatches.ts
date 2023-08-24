@@ -12,14 +12,14 @@ type RouteMatchKnown = Omit<ReturnType<typeof useMatches>[0], "data"> & {
 
 export function metaFromMatches(matches: RouteMatchKnown[]) {
   const breadcrumbs = matches
-    .filter((m) => !m.id.match(/.*_index$/) && m.id !== "root")
+    .filter((m) => !/.*_index$/.exec(m.id) && m.id !== "root")
     .map((m) => ({
       url: m.pathname,
       title: m.data.meta?.breadcrumbTitle ?? m.data.meta?.title ?? "",
     }));
 
   const title = matches
-    .filter((m) => !m.id.match(/.*_index$/))
+    .filter((m) => !/.*_index$/.exec(m.id))
     .map((m) => m.data.meta?.title ?? "")
     .reverse()
     .join(" - ");
