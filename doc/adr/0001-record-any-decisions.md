@@ -1,10 +1,10 @@
 # 1. Record any decisions
 
-Date: 2023-07-21
+Date: 2023-08-24
 
 ## Status
 
-Proposed
+Accepted
 
 ## Context
 
