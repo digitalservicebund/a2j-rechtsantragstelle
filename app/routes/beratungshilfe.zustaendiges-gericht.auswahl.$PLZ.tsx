@@ -1,7 +1,9 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { Background, Button, Container } from "~/components";
+import Background from "~/components/Background";
+import Button from "~/components/Button";
+import Container from "~/components/Container";
 import ButtonContainer from "~/components/ButtonContainer";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import { fetchMeta, fetchSingleEntry } from "~/services/cms/index.server";

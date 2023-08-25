@@ -1,6 +1,6 @@
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import PageContent from "../../components/PageContent";
-import { Container } from "../../components";
+import Container from "~/components/Container";
 import { config } from "~/services/env/web";
 import type { StrapiPage } from "~/services/cms/models/StrapiPage";
 import { fetchCollectionEntry } from "../cms/index.server";

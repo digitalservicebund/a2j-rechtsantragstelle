@@ -5,16 +5,13 @@ import type { DataFunctionArgs, LoaderArgs } from "@remix-run/node";
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm, validationError } from "remix-validated-form";
-
-import {
-  Background,
-  Box,
-  Button,
-  Container,
-  Input,
-  RadioGroup,
-  Select,
-} from "~/components";
+import Background from "~/components/Background";
+import Box from "~/components/Box";
+import Button from "~/components/Button";
+import Container from "~/components/Container";
+import Input from "~/components/Input";
+import RadioGroup from "~/components/RadioGroup";
+import Select from "~/components/Select";
 import Header from "~/components/Header";
 import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";

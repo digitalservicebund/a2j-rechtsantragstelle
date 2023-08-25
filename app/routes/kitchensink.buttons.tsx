@@ -1,4 +1,4 @@
-import { Button } from "~/components";
+import Button from "~/components/Button";
 import Close from "@mui/icons-material/Close";
 import { throw404OnProduction } from "../services/errorPages/throw404";
 

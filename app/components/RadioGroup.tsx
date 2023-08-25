@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useField } from "remix-validated-form";
-import { InputError, Radio } from "~/components";
+import InputError from "./InputError";
+import Radio from "./Radio";
 import { z } from "zod";
 
 export const RadioGroupPropsSchema = z.object({

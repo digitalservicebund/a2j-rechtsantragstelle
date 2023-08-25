@@ -2,7 +2,8 @@ import { useFetcher, useLocation } from "@remix-run/react";
 import { config } from "~/services/env/web";
 import { useEffect, useState } from "react";
 import posthog from "posthog-js";
-import { Button, Container } from "~/components";
+import Button from "~/components/Button";
+import Container from "~/components/Container";
 import Heading from "~/components/Heading";
 import Paragraph from "~/components/Paragraph";
 

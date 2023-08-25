@@ -6,7 +6,7 @@ import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { getSessionForContext } from "~/services/session";
 import PageContent from "~/components/PageContent";
 import Container from "~/components/Container";
-import { Background } from "~/components";
+import Background from "~/components/Background";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import {
   fetchCollectionEntry,

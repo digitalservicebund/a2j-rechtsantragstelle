@@ -1,7 +1,8 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { Background, Container } from "~/components";
+import Background from "~/components/Background";
+import Container from "~/components/Container";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { withZod } from "@remix-validated-form/with-zod";
