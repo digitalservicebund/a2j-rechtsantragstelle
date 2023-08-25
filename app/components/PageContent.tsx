@@ -1,6 +1,5 @@
 import type { ReactElement } from "react";
 import Heading from "~/components/Heading";
-import Paragraph from "~/components/Paragraph";
 import Header from "./Header";
 import InfoBox from "./InfoBox";
 import type { StrapiContent } from "~/services/cms/models/StrapiContent";
@@ -12,7 +11,7 @@ import { getInfoBoxProps } from "~/services/props/getInfoBoxProps";
 import { getBoxProps } from "~/services/props/getBoxProps";
 import { getHeadingProps } from "~/services/props/getHeadingProps";
 import { getHeaderProps } from "~/services/props/getHeaderProps";
-import { getParagraphProps } from "~/services/props/getParagraphProps";
+import { getRichTextProps } from "~/services/props/getRichTextProps";
 import Input from "./Input";
 import { getInputProps } from "~/services/props/getInputProps";
 import RadioGroup from "~/components/RadioGroup";
@@ -22,6 +21,7 @@ import LinkListBox from "./LinkListBox";
 import { getLinkListBoxProps } from "~/services/props/getLinkListBoxProps";
 import BoxWithImage from "./BoxWithImage";
 import { getBoxWithImageProps } from "~/services/props/getBoxWithImageProps";
+import RichText from "./RichText";
 
 type PageContentProps = {
   content: Array<StrapiContent>;
@@ -65,13 +65,7 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
         />
       );
     case "basic.paragraph":
-      return (
-        <Paragraph
-          {...getParagraphProps(cms)}
-          className="ds-body-01-reg"
-          key={key}
-        />
-      );
+      return <RichText {...getRichTextProps(cms)} key={key} />;
     case "page.header":
       return <Header {...getHeaderProps(cms)} key={key} />;
     case "form-elements.input":

@@ -2,8 +2,7 @@ import { z } from "zod";
 import type { Renderer } from "marked";
 import Container from "./Container";
 import Image, { ImagePropsSchema } from "./Image";
-import { ParagraphPropsSchema } from "./Paragraph";
-import RichText from "./RichText";
+import RichText, { RichTextPropsSchema } from "./RichText";
 
 const LinkPropsSchema = z.object({
   url: z.string(),
@@ -15,7 +14,7 @@ type LinkProps = z.infer<typeof LinkPropsSchema>;
 
 export const FooterPropsSchema = z.object({
   image: ImagePropsSchema.optional(),
-  paragraphs: z.array(ParagraphPropsSchema),
+  paragraphs: z.array(RichTextPropsSchema),
   links: z.array(LinkPropsSchema),
 });
 
@@ -74,11 +73,8 @@ export default function Footer({
             )}
             <div className="ds-stack-32">
               {paragraphs.map((paragraph) => (
-                <div key={paragraph.text}>
-                  <RichText
-                    markdown={paragraph.text}
-                    renderer={paragraphRenderer}
-                  />
+                <div key={paragraph.markdown}>
+                  <RichText {...paragraph} renderer={paragraphRenderer} />
                 </div>
               ))}
             </div>

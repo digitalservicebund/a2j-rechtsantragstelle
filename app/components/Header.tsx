@@ -1,10 +1,10 @@
 import { z } from "zod";
 import Heading, { HeadingPropsSchema } from "./Heading";
-import Paragraph, { ParagraphPropsSchema } from "./Paragraph";
+import RichText, { RichTextPropsSchema } from "./RichText";
 
 export const HeaderPropsSchema = z.object({
   heading: HeadingPropsSchema,
-  content: ParagraphPropsSchema.optional(),
+  content: RichTextPropsSchema.optional(),
 });
 
 type HeaderProps = z.infer<typeof HeaderPropsSchema>;
@@ -15,7 +15,7 @@ export default function Header({ heading, content }: HeaderProps) {
       <Heading {...heading} />
       {content && (
         <div className="ds-heading-03-reg">
-          <Paragraph {...content} />
+          <RichText {...content} />
         </div>
       )}
     </div>

@@ -1,7 +1,6 @@
 import { z } from "zod";
 import Heading, { HeadingPropsSchema } from "./Heading";
-import RichText from "./RichText";
-import { ParagraphPropsSchema } from "./Paragraph";
+import RichText, { RichTextPropsSchema } from "./RichText";
 import Button, { ButtonPropsSchema } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 
@@ -9,7 +8,7 @@ export const BoxPropsSchema = z.object({
   identifier: z.string().optional(),
   label: HeadingPropsSchema.optional(),
   heading: HeadingPropsSchema.optional(),
-  content: ParagraphPropsSchema.optional(),
+  content: RichTextPropsSchema.optional(),
   buttons: z.array(ButtonPropsSchema).optional(),
 });
 
@@ -23,7 +22,7 @@ const Box = ({ identifier, label, heading, content, buttons }: BoxProps) => {
         {heading && <Heading {...heading} />}
         {content && (
           <div>
-            <RichText markdown={content.text} />
+            <RichText {...content} />
           </div>
         )}
       </div>

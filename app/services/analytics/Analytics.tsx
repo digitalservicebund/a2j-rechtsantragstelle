@@ -5,7 +5,6 @@ import posthog from "posthog-js";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";
-import Paragraph from "~/components/Paragraph";
 
 // TODO: move all text into CMS
 export const acceptCookiesFieldName = "accept-cookies";
@@ -73,8 +72,14 @@ export function CookieBanner({ hasTrackingConsent }: AnalyticsProps) {
             />
             <div>
               <div className="ds-stack-8">
-                <Paragraph text="Wir setzen funktionale Cookies, damit der Service funktioniert." />
-                <Paragraph text="Wir verwenden auch Analyse-Cookies, um zu verstehen, wie Sie den Service nutzen und um Verbesserungen vornehmen zu können." />
+                <p>
+                  Wir setzen funktionale Cookies, damit der Service
+                  funktioniert."
+                </p>
+                <p>
+                  Wir verwenden auch Analyse-Cookies, um zu verstehen, wie Sie
+                  den Service nutzen und um Verbesserungen vornehmen zu können."
+                </p>
               </div>
             </div>
             <div className="flex items-end gap-24 flex-wrap">

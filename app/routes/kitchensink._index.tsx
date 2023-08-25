@@ -208,7 +208,7 @@ export default function Kitchensink() {
               tagName: "h3",
               look: "ds-heading-01-reg",
             }}
-            content={{ text: "Lorem **ipsum**" }}
+            content={{ markdown: "Lorem **ipsum**" }}
           />
         </Container>
       </div>
@@ -227,7 +227,7 @@ export default function Kitchensink() {
               tagName: "h3",
               look: "ds-heading-02-reg",
             }}
-            content={{ text: "Lorem **ipsum**" }}
+            content={{ markdown: "Lorem **ipsum**" }}
             buttons={[{ text: "Button", href: "/", look: "tertiary" }]}
           />
         </Container>
