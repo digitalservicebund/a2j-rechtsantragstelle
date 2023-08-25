@@ -13,3 +13,5 @@ start.sh
 .prettierignore
 .env.example
 test.env
+Dockerfile
+.gitignore
