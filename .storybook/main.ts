@@ -18,6 +18,7 @@ const config: StorybookConfig = {
         },
       },
     },
+    "@storybook/addon-a11y",
   ],
   framework: {
     name: "@storybook/react-webpack5",
