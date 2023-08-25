@@ -12,5 +12,9 @@
 !.env.example
 !start.sh
 !content.json
+!stories
+!.storybook
+!postcss.config.js
+!.babelrc.json
 **/*.test.*
 /public/build/
