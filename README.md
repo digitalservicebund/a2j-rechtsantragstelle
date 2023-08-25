@@ -2,6 +2,8 @@
 
 First draft of implementing a platform to create requests to the Rechtsantragstelle.
 
+[interactive code map](https://app.codesee.io/maps/public/394613e0-432c-11ee-be7c-257cf8b8fc87)
+
 ## Development
 
 ### Requirements
