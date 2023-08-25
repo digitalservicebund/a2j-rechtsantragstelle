@@ -1,0 +1,321 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Button/Button Ghost 1`] = `
+<button
+  className="ds-button ds-button-ghost"
+>
+   
+  <span>
+    Button
+  </span>
+   
+</button>
+`;
+
+exports[`Storyshots Button/Button Icon Left 1`] = `
+<button
+  className="ds-button ds-button-with-icon"
+>
+  <svg
+    aria-hidden={true}
+    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+    data-testid="HomeOutlinedIcon"
+    focusable="false"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81l5-4.5M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3z"
+    />
+  </svg>
+   
+  <span>
+    Button
+  </span>
+   
+</button>
+`;
+
+exports[`Storyshots Button/Button Icon Right 1`] = `
+<button
+  className="ds-button ds-button-with-icon"
+>
+   
+  <span>
+    Button
+  </span>
+   
+  <svg
+    aria-hidden={true}
+    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+    data-testid="HomeOutlinedIcon"
+    focusable="false"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="m12 5.69 5 4.5V18h-2v-6H9v6H7v-7.81l5-4.5M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3z"
+    />
+  </svg>
+</button>
+`;
+
+exports[`Storyshots Button/Button Large 1`] = `
+<button
+  className="ds-button ds-button-large"
+>
+   
+  <span>
+    Button
+  </span>
+   
+</button>
+`;
+
+exports[`Storyshots Button/Button Primary 1`] = `
+<button
+  className="ds-button"
+>
+   
+  <span>
+    Button
+  </span>
+   
+</button>
+`;
+
+exports[`Storyshots Button/Button Secondary 1`] = `
+<button
+  className="ds-button ds-button-secondary"
+>
+   
+  <span>
+    Button
+  </span>
+   
+</button>
+`;
+
+exports[`Storyshots Button/Button Small 1`] = `
+<button
+  className="ds-button ds-button-small"
+>
+   
+  <span>
+    Button
+  </span>
+   
+</button>
+`;
+
+exports[`Storyshots Button/Button Tertiary 1`] = `
+<button
+  className="ds-button ds-button-tertiary"
+>
+   
+  <span>
+    Button
+  </span>
+   
+</button>
+`;
+
+exports[`Storyshots Button/ButtonContainer Two Buttons 1`] = `
+<div
+  className="flex flex-wrap gap-24"
+>
+  <button
+    className="ds-button"
+  >
+     
+    <span>
+      Button 1
+    </span>
+     
+  </button>
+  <button
+    className="ds-button ds-button-secondary"
+  >
+     
+    <span>
+      Button 2
+    </span>
+     
+  </button>
+</div>
+`;
+
+exports[`Storyshots Container/Background Background Color 1`] = `
+<div
+  className="bg-blue-100 !pt-0 !pb-0"
+>
+  Lorem ipsum
+</div>
+`;
+
+exports[`Storyshots Container/Background Default 1`] = `
+<div
+  className="!pt-0 !pb-0"
+>
+  Lorem ipsum
+</div>
+`;
+
+exports[`Storyshots Container/Background Paddings 1`] = `
+<div
+  className="!pt-32 !pb-48"
+>
+  Lorem ipsum
+</div>
+`;
+
+exports[`Storyshots Container/Container Background Color 1`] = `
+<div
+  className="container !pt-40 !pb-48 text-black bg-blue-100"
+>
+  Lorem ipsum
+</div>
+`;
+
+exports[`Storyshots Container/Container Custom Paddings 1`] = `
+<div
+  className="container !pt-8 !pb-16"
+>
+  Lorem ipsum
+</div>
+`;
+
+exports[`Storyshots Container/Container Default 1`] = `
+<div
+  className="container !pt-40 !pb-48"
+>
+  Lorem ipsum
+</div>
+`;
+
+exports[`Storyshots Container/Container Overhanging Background 1`] = `
+<div
+  className="overflow-x-hidden mx-16 rounded-lg"
+>
+  <div
+    className="container !pt-40 !pb-48 text-black relative before:content-[''] before:absolute before:inset-y-0 before:-left-32 before:-right-32 before:rounded-lg before:bg-blue-100"
+  >
+    <div
+      className="relative"
+    >
+      Lorem ipsum
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Page/Footer Example 1`] = `
+<footer
+  className="text-base"
+>
+  <div
+    className="container !pt-48 !pb-48"
+  >
+    <div
+      className="flex flex-wrap items-start justify-between gap-x-32 gap-y-40"
+    >
+      <div
+        className="flex flex-col-reverse gap-y-[1.125rem] sm:flex-col"
+      >
+        <div>
+          <img
+            src="https://placehold.co/240x132/png"
+            width={120}
+          />
+        </div>
+        <div
+          className="ds-stack-32"
+        >
+          <div>
+            <div
+              className="rich-text ds-stack-8 "
+              dangerouslySetInnerHTML={
+                {
+                  "__html": "<p class="leading-snug">Lorem ipsum 1 <a class="text-link increase-tap-area whitespace-nowrap" href=/ target="_blank" rel="noopener">Link</a></p>",
+                }
+              }
+            />
+          </div>
+          <div>
+            <div
+              className="rich-text ds-stack-8 "
+              dangerouslySetInnerHTML={
+                {
+                  "__html": "<p class="leading-snug">Lorem ipsum 2 <a class="text-link increase-tap-area whitespace-nowrap" href=/ target="_blank" rel="noopener">Link</a></p>",
+                }
+              }
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="flex flex-wrap gap-x-56 gap-y-24"
+      >
+        <ul
+          className="list-none m-0 p-0 ds-stack-24"
+        >
+          <li
+            className="leading-snug"
+          >
+            <a
+              className="text-link increase-tap-area"
+              href="https://digitalservice.bund.de"
+              rel="noopener"
+              target="_blank"
+            >
+              DigitalService
+            </a>
+          </li>
+          <li
+            className="leading-snug"
+          >
+            <a
+              className="text-link increase-tap-area"
+              href="/"
+            >
+              Lorem ipsum 1
+            </a>
+          </li>
+          <li
+            className="leading-snug"
+          >
+            <a
+              className="text-link increase-tap-area"
+              href="/"
+            >
+              Lorem ipsum 2
+            </a>
+          </li>
+        </ul>
+        <ul
+          className="list-none m-0 p-0 ds-stack-24"
+        >
+          <li
+            className="leading-snug"
+          >
+            <a
+              className="text-link increase-tap-area"
+              href="/"
+            >
+              Lorem ipsum 3
+            </a>
+          </li>
+          <li
+            className="leading-snug"
+          >
+            <a
+              className="text-link increase-tap-area"
+              href="/"
+            >
+              Lorem ipsum 4
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+`;

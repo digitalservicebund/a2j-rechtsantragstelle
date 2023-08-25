@@ -4,6 +4,7 @@ module.exports = {
   moduleNameMapper: {
     "~/(.*)": "<rootDir>/app/$1",
     "tests/(.*)": "<rootDir>/tests/$1",
+    "^.+\\.css$": "<rootDir>/tests/cssStub.js",
   },
   preset: "ts-jest",
   setupFiles: ["<rootDir>/tests/setup.tests.ts"],
