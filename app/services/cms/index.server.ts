@@ -11,6 +11,7 @@ import { StrapiAmtsgerichtCommonSchema } from "./models/StrapiAmtsgerichtCommon"
 import type { StrapiFileContent } from "./models/StrapiFileContent";
 import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
 import type { z } from "zod";
+import { StrapiCookieBannerSchema } from "~/services/cms/models/StrapiCookieBannerSchema";
 
 export type GetStrapiEntryOpts = {
   apiId: keyof StrapiFileContent;
@@ -31,6 +32,7 @@ const entrySchemas = {
   footer: StrapiFooterSchema,
   "vorab-check-common": StrapiVorabCheckCommonSchema,
   "amtsgericht-common": StrapiAmtsgerichtCommonSchema,
+  "cookie-banner": StrapiCookieBannerSchema,
 } as const;
 type EntrySchemas = typeof entrySchemas;
 

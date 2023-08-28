@@ -5,15 +5,16 @@ import posthog from "posthog-js";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";
+import type { StrapiCookieBanner } from "~/services/cms/models/StrapiCookieBannerSchema";
 
-// TODO: move all text into CMS
 export const acceptCookiesFieldName = "accept-cookies";
 
 type AnalyticsProps = {
   hasTrackingConsent?: boolean;
+  content: StrapiCookieBanner;
 };
 
-export function CookieBanner({ hasTrackingConsent }: AnalyticsProps) {
+export function CookieBanner({ hasTrackingConsent, content }: AnalyticsProps) {
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
   const [posthogLoaded, setPosthogLoaded] = useState(false);
   const analyticsFetcher = useFetcher();
@@ -66,20 +67,15 @@ export function CookieBanner({ hasTrackingConsent }: AnalyticsProps) {
         <Container paddingTop="32" paddingBottom="40">
           <div className="ds-stack-16">
             <Heading
-              tagName="h2"
-              text="Hinweis zum Datenschutz"
-              look="ds-heading-03-reg"
+              tagName={content.heading.tagName}
+              text={content.heading.text}
+              look={content.heading.look}
             />
             <div>
               <div className="ds-stack-8">
-                <p>
-                  Wir setzen funktionale Cookies, damit der Service
-                  funktioniert."
-                </p>
-                <p>
-                  Wir verwenden auch Analyse-Cookies, um zu verstehen, wie Sie
-                  den Service nutzen und um Verbesserungen vornehmen zu können."
-                </p>
+                {content.paragraphs.map((paragraph, index) => (
+                  <p key={index}>{paragraph.text}</p>
+                ))}
               </div>
             </div>
             <div className="flex items-end gap-24 flex-wrap">
@@ -88,7 +84,7 @@ export function CookieBanner({ hasTrackingConsent }: AnalyticsProps) {
                 value="true"
                 type="submit"
                 look="primary"
-                text="Akzeptieren"
+                text={content.acceptButtonLabel}
                 size="large"
               />
               <Button
@@ -96,11 +92,11 @@ export function CookieBanner({ hasTrackingConsent }: AnalyticsProps) {
                 value="false"
                 type="submit"
                 look="primary"
-                text="Ablehnen"
+                text={content.declineButtonLabel}
                 size="large"
               />
               <a href="/cookie-einstellungen" className="text-link">
-                Cookie Einstellungen
+                {content.cookieSettingLinkText}
               </a>
             </div>
           </div>

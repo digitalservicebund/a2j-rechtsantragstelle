@@ -32,6 +32,7 @@ import { CookieBanner } from "./services/analytics/Analytics";
 import { ErrorBox, getErrorPages } from "./services/errorPages";
 import { useNonce } from "./services/security/nonce";
 import { metaFromMatches } from "./services/metaFromMatches";
+import { getCookieBannerProps } from "~/services/props/getCookieBannerProps";
 
 export const headers: HeadersFunction = () => ({
   "X-Frame-Options": "SAMEORIGIN",
@@ -66,14 +67,17 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const [strapiFooter, trackingConsent, errorPages, meta] = await Promise.all([
-    fetchSingleEntry("footer"),
-    hasTrackingConsent({ request }),
-    getErrorPages(),
-    fetchMeta({ slug: "/" }),
-  ]);
+  const [strapiFooter, cookieBannerContent, trackingConsent, errorPages, meta] =
+    await Promise.all([
+      fetchSingleEntry("footer"),
+      fetchSingleEntry("cookie-banner"),
+      hasTrackingConsent({ request }),
+      getErrorPages(),
+      fetchMeta({ slug: "/" }),
+    ]);
   return json({
     footer: getFooterProps(strapiFooter),
+    cookieBannerContent: getCookieBannerProps(cookieBannerContent),
     hasTrackingConsent: trackingConsent,
     errorPages,
     meta,
@@ -81,7 +85,8 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 function App() {
-  const { footer, hasTrackingConsent } = useLoaderData<typeof loader>();
+  const { footer, cookieBannerContent, hasTrackingConsent } =
+    useLoaderData<typeof loader>();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(
     useMatches(),
   );
@@ -117,7 +122,10 @@ function App() {
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
-        <CookieBanner hasTrackingConsent={hasTrackingConsent} />
+        <CookieBanner
+          hasTrackingConsent={hasTrackingConsent}
+          content={cookieBannerContent}
+        />
         <Header />
         <Breadcrumbs breadcrumbs={breadcrumbs} />
         <main className="flex-grow">

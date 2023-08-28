@@ -6,6 +6,7 @@ import { StrapiVorabCheckCommonSchema } from "./StrapiVorabCheckCommon";
 import { StrapiVorabCheckPageSchema } from "./StrapiVorabCheckPage";
 import { HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiAmtsgerichtCommonSchema } from "./StrapiAmtsgerichtCommon";
+import { StrapiCookieBannerSchema } from "~/services/cms/models/StrapiCookieBannerSchema";
 
 export const StrapiFileContentSchema = z.object({
   "amtsgericht-common": z.array(
@@ -16,6 +17,11 @@ export const StrapiFileContentSchema = z.object({
   footer: z.array(
     HasStrapiIdSchema.extend({
       attributes: StrapiFooterSchema,
+    }),
+  ),
+  "cookie-banner": z.array(
+    HasStrapiIdSchema.extend({
+      attributes: StrapiCookieBannerSchema,
     }),
   ),
   pages: z.array(
