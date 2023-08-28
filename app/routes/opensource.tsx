@@ -1,9 +1,9 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { Container } from "~/components";
 import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 import licenses from "~/package-licenses.json";
+import Container from "~/components/Container";
 
 export async function loader({ request }: LoaderArgs) {
   const { content } = await strapiPageFromRequest({ request });
