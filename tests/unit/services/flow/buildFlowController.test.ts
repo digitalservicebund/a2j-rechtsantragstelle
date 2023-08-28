@@ -1,8 +1,7 @@
-import type { MachineConfig } from "xstate";
 import { buildFlowController } from "~/services/flow/buildFlowController";
 
-const flow: MachineConfig<any, any, any> = {
-  id: "/flow/vorabcheck/",
+const flow: Parameters<typeof buildFlowController>[0]["flow"] = {
+  id: "/test/flow/",
   initial: "step1",
   predictableActionArguments: true,
   states: {
@@ -10,70 +9,34 @@ const flow: MachineConfig<any, any, any> = {
       meta: { progressPosition: 1 },
       on: {
         SUBMIT: [
-          {
-            target: "step1Exit",
-            cond: (context) => context.step1 === false,
-          },
-          {
-            target: "step2",
-            cond: (context) => context.step1 === true,
-          },
+          { target: "step1Exit", cond: (context) => context.step1 === false },
+          { target: "step2", cond: (context) => context.step1 === true },
         ],
       },
     },
-    step1Exit: {
-      on: {
-        BACK: { target: "step1" },
-      },
-    },
+    step1Exit: { on: { BACK: { target: "step1" } } },
     step2: {
       meta: { progressPosition: 2 },
-      on: {
-        SUBMIT: [
-          {
-            target: "step3",
-          },
-        ],
-        BACK: { target: "step1" },
-      },
+      on: { SUBMIT: [{ target: "step3" }], BACK: { target: "step1" } },
     },
-    step3: {
-      on: {
-        BACK: { target: "step2" },
-      },
-    },
+    step3: { on: { BACK: { target: "step2" } } },
   },
 };
 
 describe("buildFlowController", () => {
   describe("isInitial", () => {
     it("returns true if initial step", () => {
-      expect(
-        buildFlowController({
-          flow,
-          data: {},
-        }).isInitial("step1"),
-      ).toBe(true);
+      expect(buildFlowController({ flow }).isInitial("step1")).toBe(true);
     });
 
     it("returns false if not intial step", () => {
-      expect(
-        buildFlowController({
-          flow,
-          data: {},
-        }).isInitial("step2"),
-      ).toBe(false);
+      expect(buildFlowController({ flow }).isInitial("step2")).toBe(false);
     });
   });
 
   describe("isFinal", () => {
     it("returns true if final step", () => {
-      expect(
-        buildFlowController({
-          flow,
-          data: {},
-        }).isFinal("step1Exit"),
-      ).toBe(true);
+      expect(buildFlowController({ flow }).isFinal("step1Exit")).toBe(true);
     });
 
     it("returns true if final step but SUBMIT given as empty array", () => {
@@ -84,15 +47,9 @@ describe("buildFlowController", () => {
             id: "/flow/final/",
             initial: "step1",
             states: {
-              step1: {
-                on: {
-                  SUBMIT: [],
-                  BACK: { target: "step0" },
-                },
-              },
+              step1: { on: { SUBMIT: [], BACK: { target: "step0" } } },
             },
           },
-          data: {},
         }).isFinal("step1"),
       ).toBe(true);
     });
@@ -105,26 +62,15 @@ describe("buildFlowController", () => {
             id: "/flow/final/",
             initial: "step1",
             states: {
-              step1: {
-                on: {
-                  SUBMIT: {},
-                  BACK: { target: "step0" },
-                },
-              },
+              step1: { on: { SUBMIT: {}, BACK: { target: "step0" } } },
             },
           },
-          data: {},
         }).isFinal("step1"),
       ).toBe(true);
     });
 
     it("returns false if not final step", () => {
-      expect(
-        buildFlowController({
-          flow,
-          data: {},
-        }).isFinal("step1"),
-      ).toBe(false);
+      expect(buildFlowController({ flow }).isFinal("step1")).toBe(false);
     });
   });
 
@@ -139,12 +85,7 @@ describe("buildFlowController", () => {
     });
 
     it("returns false if step is not reachable", () => {
-      expect(
-        buildFlowController({
-          flow,
-          data: {},
-        }).isReachable("step3"),
-      ).toBe(false);
+      expect(buildFlowController({ flow }).isReachable("step3")).toBe(false);
     });
   });
 
@@ -157,16 +98,13 @@ describe("buildFlowController", () => {
         }).getPrevious("step3"),
       ).toStrictEqual({
         name: "step2",
-        url: "/flow/vorabcheck/step2",
+        url: "/test/flow/step2",
       });
     });
 
     it("returns undefined if already first step", () => {
       expect(
-        buildFlowController({
-          flow,
-          data: {},
-        }).getPrevious("step1"),
+        buildFlowController({ flow }).getPrevious("step1"),
       ).toBeUndefined();
     });
   });
@@ -180,7 +118,7 @@ describe("buildFlowController", () => {
         }).getNext("step1"),
       ).toStrictEqual({
         name: "step2",
-        url: "/flow/vorabcheck/step2",
+        url: "/test/flow/step2",
       });
     });
 
@@ -196,14 +134,9 @@ describe("buildFlowController", () => {
 
   describe("getInitial", () => {
     it("returns step1", () => {
-      expect(
-        buildFlowController({
-          flow,
-          data: {},
-        }).getInitial(),
-      ).toStrictEqual({
+      expect(buildFlowController({ flow }).getInitial()).toStrictEqual({
         name: "step1",
-        url: "/flow/vorabcheck/step1",
+        url: "/test/flow/step1",
       });
     });
   });
@@ -217,19 +150,14 @@ describe("buildFlowController", () => {
         }).getLastReachable(),
       ).toStrictEqual({
         name: "step3",
-        url: "/flow/vorabcheck/step3",
+        url: "/test/flow/step3",
       });
     });
 
     it("returns step1", () => {
-      expect(
-        buildFlowController({
-          flow,
-          data: {},
-        }).getLastReachable(),
-      ).toStrictEqual({
+      expect(buildFlowController({ flow }).getLastReachable()).toStrictEqual({
         name: "step1",
-        url: "/flow/vorabcheck/step1",
+        url: "/test/flow/step1",
       });
     });
   });
@@ -248,12 +176,7 @@ describe("buildFlowController", () => {
     });
 
     it("returns 1/3", () => {
-      expect(
-        buildFlowController({
-          flow,
-          data: {},
-        }).getProgress("step1"),
-      ).toStrictEqual({
+      expect(buildFlowController({ flow }).getProgress("step1")).toStrictEqual({
         current: 1,
         total: 3,
       });
