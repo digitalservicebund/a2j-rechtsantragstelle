@@ -10,6 +10,7 @@ type StateMachine = ReturnType<
 >;
 type Config = MachineConfig<Context, any, StateMachineEvents>;
 type Guards = Record<string, (context: Context) => boolean>;
+type Meta = { progressPosition: number | undefined };
 
 const getSteps = (machine: StateMachine) => {
   return Object.values(
@@ -50,7 +51,7 @@ export const buildFlowController = ({
   guards?: Guards;
 }) => {
   const machine = createMachine({ ...config, context }, { guards });
-  const baseUrl = config.id;
+  const baseUrl = config.id ?? "";
 
   return {
     isInitial: (currentStepId: string) => config.initial === currentStepId,
@@ -78,13 +79,13 @@ export const buildFlowController = ({
       const total =
         Math.max(
           ...Object.values(machine.states)
-            .map((n) => n.meta?.progressPosition)
+            .map((n) => (n.meta as Meta)?.progressPosition ?? 0)
             .filter((p) => p),
         ) + 1;
-      const node = machine.getStateNodeByPath(currentStepId); //TODO: fix type
-      const current: number = isFinalStep(machine, currentStepId)
+      const node = machine.getStateNodeByPath(currentStepId);
+      const current = isFinalStep(machine, currentStepId)
         ? total
-        : node.meta?.progressPosition;
+        : (node.meta as Meta)?.progressPosition ?? 0;
       return { total, current };
     },
   };
