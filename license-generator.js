@@ -33,11 +33,9 @@ exec(`license-checker-rseidelsohn`, function (error, stdOut, stdErr) {
       };
     };
 
-    const dependencies = Object.entries(packageJson.dependencies)
-      .map(extractDependency)
-      .concat(
-        Object.entries(packageJson.devDependencies).map(extractDependency),
-      );
+    const dependencies = Object.entries(packageJson.dependencies).map(
+      extractDependency,
+    );
 
     const licenses = {};
     dependencies.forEach((dependency) => {
