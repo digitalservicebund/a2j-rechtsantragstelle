@@ -57,3 +57,7 @@ npx playwright test
 1. download `playwright-report.zip` artifact from GitHub action summary page (only present on e2e failure for 30 days)
 2. unzip
 3. `npx playwright show-trace <DOWNLOAD_PATH>/data/<HASH>.zip`
+
+##### run license generator
+
+`npm run license`
