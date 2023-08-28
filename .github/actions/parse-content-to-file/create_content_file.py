@@ -9,7 +9,7 @@ STRAPI_ACCESS_KEY = os.getenv('STRAPI_ACCESS_KEY')
 CONTENT_FILE_PATH = os.getenv('CONTENT_FILE_PATH')
 PAGE_SIZE = 10
 
-relevant_api_ids = ['amtsgericht-common', 'footer', 'pages', 'result-pages', 'vorab-check-common', 'vorab-check-pages']
+relevant_api_ids = ['amtsgericht-common', 'footer', 'cookie-banner', 'pages', 'result-pages', 'vorab-check-common', 'vorab-check-pages']
 
 def is_last_page(response):
     meta_information = response["meta"]
