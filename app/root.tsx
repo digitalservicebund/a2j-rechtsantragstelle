@@ -2,6 +2,7 @@ import type {
   HeadersFunction,
   LinksFunction,
   LoaderArgs,
+  V2_MetaFunction,
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
@@ -64,7 +65,20 @@ export const links: LinksFunction = () => [
   },
   { rel: "stylesheet", href: fontsStylesheet },
   { rel: "stylesheet", href: stylesheet },
+  { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
+  { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+  { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+  { rel: "manifest", href: "/site.webmanifest" },
 ];
+
+export const meta: V2_MetaFunction<typeof loader> = () => {
+  return [
+    { charSet: "utf-8" },
+    { name: "viewport", content: "width=device-width,initial-scale=1" },
+    { property: "og:type", content: "website" },
+    { property: "og:image", content: `https://service.justiz.de${ogImage}` },
+  ];
+};
 
 export const loader = async ({ request }: LoaderArgs) => {
   const [strapiFooter, cookieBannerContent, trackingConsent, errorPages, meta] =
@@ -97,21 +111,10 @@ function App() {
   return (
     <html lang="de" className="scroll-smooth">
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <title>{title}</title>
         {description && <meta name="description" content={description} />}
         <meta property="og:title" content={ogTitle ?? title} />
         <meta property="og:description" content={description} />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:image"
-          content={`https://service.justiz.de${ogImage}`}
-        />
-        <link rel="icon" href="/favicon.ico" sizes="32x32" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
@@ -145,7 +148,6 @@ export function ErrorBoundary() {
   return (
     <html lang="de">
       <head>
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <title>Justiz Services - Fehler aufgetreten</title>
         <Meta />
         <Links />
