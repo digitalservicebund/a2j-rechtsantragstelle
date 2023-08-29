@@ -5,10 +5,10 @@ import { strapiPageFromRequest } from "~/services/cms/index.server";
 import licenses from "~/package-licenses.json";
 import Container from "~/components/Container";
 
-export async function loader({ request }: LoaderArgs) {
-  const { content } = await strapiPageFromRequest({ request });
-  return { content, licenses };
-}
+export const loader = async ({ request }: LoaderArgs) => {
+  const { content, meta } = await strapiPageFromRequest({ request });
+  return { meta, content, licenses };
+};
 
 export default function Index() {
   const { content, licenses } = useLoaderData<typeof loader>();
