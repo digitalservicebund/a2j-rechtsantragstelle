@@ -52,7 +52,6 @@ const vermoegenBelow10kAndBuergergeldButNoEigeninitiative: Guard = (
   );
 };
 
-// TODO: Check warning vs success
 const verfuegbaresEinkommenNoAndTriedFreeActions: Guard = (context) =>
   context.verfuegbaresEinkommen === "no" && !anyNonCriticalWarning(context);
 
