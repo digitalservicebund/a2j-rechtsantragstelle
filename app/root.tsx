@@ -34,6 +34,7 @@ import { ErrorBox, getErrorPages } from "./services/errorPages";
 import { useNonce } from "./services/security/nonce";
 import { metaFromMatches } from "./services/metaFromMatches";
 import { getCookieBannerProps } from "~/services/props/getCookieBannerProps";
+import { getPageHeaderProps } from "~/services/props/getPageHeaderProps";
 
 export const headers: HeadersFunction = () => ({
   "X-Frame-Options": "SAMEORIGIN",
@@ -81,15 +82,23 @@ export const meta: V2_MetaFunction<typeof loader> = () => {
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const [strapiFooter, cookieBannerContent, trackingConsent, errorPages, meta] =
-    await Promise.all([
-      fetchSingleEntry("footer"),
-      fetchSingleEntry("cookie-banner"),
-      hasTrackingConsent({ request }),
-      getErrorPages(),
-      fetchMeta({ slug: "/" }),
-    ]);
+  const [
+    strapiHeader,
+    strapiFooter,
+    cookieBannerContent,
+    trackingConsent,
+    errorPages,
+    meta,
+  ] = await Promise.all([
+    fetchSingleEntry("page-header"),
+    fetchSingleEntry("footer"),
+    fetchSingleEntry("cookie-banner"),
+    hasTrackingConsent({ request }),
+    getErrorPages(),
+    fetchMeta({ slug: "/" }),
+  ]);
   return json({
+    header: getPageHeaderProps(strapiHeader),
     footer: getFooterProps(strapiFooter),
     cookieBannerContent: getCookieBannerProps(cookieBannerContent),
     hasTrackingConsent: trackingConsent,
@@ -99,7 +108,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 function App() {
-  const { footer, cookieBannerContent, hasTrackingConsent } =
+  const { header, footer, cookieBannerContent, hasTrackingConsent } =
     useLoaderData<typeof loader>();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(
     useMatches(),
@@ -129,7 +138,7 @@ function App() {
           hasTrackingConsent={hasTrackingConsent}
           content={cookieBannerContent}
         />
-        <Header />
+        <Header {...header} />
         <Breadcrumbs breadcrumbs={breadcrumbs} />
         <main className="flex-grow">
           <Outlet />
@@ -153,7 +162,7 @@ export function ErrorBoundary() {
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
-        <Header />
+        {loaderData && <Header {...loaderData.header} />}
         <main className="flex-grow">
           <ErrorBox errorPages={loaderData?.errorPages} />
         </main>
