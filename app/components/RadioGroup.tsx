@@ -3,6 +3,7 @@ import { useField } from "remix-validated-form";
 import InputError from "./InputError";
 import Radio from "./Radio";
 import { z } from "zod";
+import { ErrorMessagePropsSchema } from ".";
 
 export const RadioGroupPropsSchema = z.object({
   name: z.string(),
@@ -11,16 +12,20 @@ export const RadioGroupPropsSchema = z.object({
   ),
   label: z.custom<ReactNode>().optional(),
   altLabel: z.string().optional(),
+  errorMessages: z.array(ErrorMessagePropsSchema).optional(),
 });
 
 type RadioGroupProps = z.infer<typeof RadioGroupPropsSchema>;
 
-const RadioGroup = ({ name, options, label, altLabel }: RadioGroupProps) => {
+const RadioGroup = ({
+  name,
+  options,
+  label,
+  altLabel,
+  errorMessages,
+}: RadioGroupProps) => {
   const { error } = useField(name);
   const errorId = `${name}-error`;
-  // TODO: Move into CMS (Common?)
-  const errorMessage =
-    error !== undefined ? "Bitte treffen Sie eine Auswahl." : undefined;
   return (
     <fieldset
       className="border-0 p-0 m-0"
@@ -34,7 +39,9 @@ const RadioGroup = ({ name, options, label, altLabel }: RadioGroupProps) => {
         {options.map((o) => (
           <Radio key={o.value} name={name} value={o.value} text={o.text} />
         ))}
-        <InputError id={errorId}>{errorMessage}</InputError>
+        <InputError id={errorId}>
+          {errorMessages?.find((err) => err.code === error)?.text ?? error}
+        </InputError>
       </div>
     </fieldset>
   );

@@ -1,6 +1,7 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiSelectOptionSchema } from "./StrapiSelectOption";
+import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
 
 export const StrapiSelectSchema = z
   .object({
@@ -9,6 +10,15 @@ export const StrapiSelectSchema = z
     label: z.string().nullable(),
     altLabel: z.string().nullable(),
     options: z.array(StrapiSelectOptionSchema),
+    errors: z.object({
+      data: z
+        .array(
+          HasStrapiIdSchema.extend({
+            attributes: StrapiErrorCategorySchema,
+          }),
+        )
+        .optional(),
+    }),
   })
   .merge(HasOptionalStrapiIdSchema);
 
