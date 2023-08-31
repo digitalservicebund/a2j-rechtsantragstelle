@@ -1,5 +1,8 @@
 import { z } from "zod";
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import {
+  customRequiredErrorMessage,
+  YesNoAnswer,
+} from "~/services/validation/YesNoAnswer";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 
@@ -40,14 +43,12 @@ export const context = {
   beratungshilfeBeantragt: YesNoAnswer,
   eigeninitiative: YesNoAnswer,
   wurdeVerklagt: YesNoAnswer,
-  staatlicheLeistungen: z.enum([
-    "grundsicherung",
-    "asylbewerberleistungen",
-    "buergergeld",
-    "keine",
-  ]),
+  staatlicheLeistungen: z.enum(
+    ["grundsicherung", "asylbewerberleistungen", "buergergeld", "keine"],
+    customRequiredErrorMessage,
+  ),
   erwerbstaetigkeit: YesNoAnswer,
-  vermoegen: z.enum(["below_10k", "above_10k"]),
+  vermoegen: z.enum(["below_10k", "above_10k"], customRequiredErrorMessage),
   genauigkeit: YesNoAnswer,
   partnerschaft: YesNoAnswer,
   einkommenPartner: buildMoneyValidationSchema(),
