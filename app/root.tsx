@@ -148,8 +148,8 @@ function App() {
         <Breadcrumbs breadcrumbs={breadcrumbs} />
         <main className="flex-grow">
           <Outlet />
+          <FeedbackBanner {...augmentFeedback(feedback, title)} />
         </main>
-        <FeedbackBanner {...augmentFeedback(feedback, title)} />
         <Footer {...footer} />
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
