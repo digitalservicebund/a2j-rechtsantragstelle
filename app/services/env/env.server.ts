@@ -8,6 +8,7 @@ interface Config {
   REDIS_ENDPOINT: string;
   REDIS_PASSWORD: string;
   COOKIE_SESSION_SECRET: string;
+  CONTENT_FILE_PATH: string;
 }
 
 let instance: Config | undefined = undefined;
@@ -33,6 +34,8 @@ export function config(): Config {
       REDIS_ENDPOINT: process.env.REDIS_ENDPOINT?.trim() ?? "localhost:6380",
       REDIS_PASSWORD: process.env.REDIS_PASSWORD?.trim() ?? "",
       COOKIE_SESSION_SECRET,
+      CONTENT_FILE_PATH:
+        process.env.CONTENT_FILE_PATH?.trim() ?? "./content.json",
     };
   }
 

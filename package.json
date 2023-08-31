@@ -14,7 +14,7 @@
     "dev": "remix dev",
     "start": "remix-serve build",
     "prepare": "lefthook install",
-    "postinstall": "test -f content.json || echo '{}' > content.json",
+    "dumpCmsToFile": "ts-node ./app/services/cms/dumpCmsToFile.ts dumpCmsToFile",
     "typecheck": "tsc",
     "prettier": "prettier --write . --ignore-path .prettierignore",
     "prettier:check": "prettier --check . --ignore-path .prettierignore",
