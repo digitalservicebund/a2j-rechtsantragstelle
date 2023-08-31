@@ -6,8 +6,8 @@ import { StrapiVorabCheckCommonSchema } from "./StrapiVorabCheckCommon";
 import { StrapiVorabCheckPageSchema } from "./StrapiVorabCheckPage";
 import { HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiAmtsgerichtCommonSchema } from "./StrapiAmtsgerichtCommon";
-import { StrapiCookieBannerSchema } from "~/services/cms/models/StrapiCookieBannerSchema";
-import { StrapiPageHeaderSchema } from "~/services/cms/models/StrapiPageHeader";
+import { StrapiCookieBannerSchema } from "./StrapiCookieBannerSchema";
+import { StrapiPageHeaderSchema } from "./StrapiPageHeader";
 import { StrapiGlobalSchema } from "./StrapiGlobal";
 
 export const StrapiFileContentSchema = z.object({

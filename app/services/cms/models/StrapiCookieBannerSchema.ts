@@ -2,8 +2,8 @@ import { z } from "zod";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import { StrapiHeadingSchema } from "~/services/cms/models/StrapiHeading";
-import { StrapiParagraphSchema } from "~/services/cms/models/StrapiParagraph";
+import { StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiParagraphSchema } from "./StrapiParagraph";
 
 export const StrapiCookieBannerSchema = z
   .object({

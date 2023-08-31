@@ -6,8 +6,8 @@ import { StrapiInfoBoxSchema } from "./StrapiInfoBox";
 import { StrapiBoxSchema } from "./StrapiBox";
 import { StrapiHeaderSchema } from "./StrapiHeader";
 import { StrapiInputSchema } from "./StrapiInput";
-import { StrapiInfoBoxItemSchema } from "~/services/cms/models/StrapiInfoBoxItem";
-import { StrapiSelectSchema } from "~/services/cms/models/StrapiSelect";
+import { StrapiInfoBoxItemSchema } from "./StrapiInfoBoxItem";
+import { StrapiSelectSchema } from "./StrapiSelect";
 import { StrapiLinkListBoxSchema } from "./StrapiLinkListBox";
 
 export const StrapiContentSchema = z.discriminatedUnion("__component", [

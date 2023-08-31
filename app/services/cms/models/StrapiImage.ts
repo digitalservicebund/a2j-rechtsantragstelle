@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import { config } from "~/services/env/env.server";
+import { config } from "../../env/env.server";
 
 export const StrapiImageSchema = z.object({
   data: z

@@ -1,4 +1,4 @@
-import { config } from "~/services/env/env.server";
+import { config } from "../env/env.server";
 import type { StrapiLocale } from "./models/StrapiLocale";
 import { getStrapiEntryFromFile } from "./getStrapiEntryFromFile";
 import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";
@@ -11,8 +11,8 @@ import { StrapiAmtsgerichtCommonSchema } from "./models/StrapiAmtsgerichtCommon"
 import type { StrapiFileContent } from "./models/StrapiFileContent";
 import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
 import type { z } from "zod";
-import { StrapiCookieBannerSchema } from "~/services/cms/models/StrapiCookieBannerSchema";
-import { StrapiPageHeaderSchema } from "~/services/cms/models/StrapiPageHeader";
+import { StrapiCookieBannerSchema } from "./models/StrapiCookieBannerSchema";
+import { StrapiPageHeaderSchema } from "./models/StrapiPageHeader";
 import { StrapiGlobalSchema } from "./models/StrapiGlobal";
 
 export type GetStrapiEntryOpts = {
