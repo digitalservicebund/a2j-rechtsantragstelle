@@ -1,3 +1,6 @@
+// Uncomment the following line to run `node server.js` for local testing
+// require("dotenv").config();
+
 /* eslint-disable @typescript-eslint/no-var-requires */
 const express = require("express");
 const { createRequestHandler } = require("@remix-run/express");
