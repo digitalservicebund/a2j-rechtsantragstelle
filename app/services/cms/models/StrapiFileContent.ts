@@ -8,6 +8,7 @@ import { HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiAmtsgerichtCommonSchema } from "./StrapiAmtsgerichtCommon";
 import { StrapiCookieBannerSchema } from "~/services/cms/models/StrapiCookieBannerSchema";
 import { StrapiPageHeaderSchema } from "~/services/cms/models/StrapiPageHeader";
+import { StrapiGlobalSchema } from "./StrapiGlobal";
 
 export const StrapiFileContentSchema = z.object({
   "amtsgericht-common": z.array(
@@ -18,6 +19,11 @@ export const StrapiFileContentSchema = z.object({
   "page-header": z.array(
     HasStrapiIdSchema.extend({
       attributes: StrapiPageHeaderSchema,
+    }),
+  ),
+  global: z.array(
+    HasStrapiIdSchema.extend({
+      attributes: StrapiGlobalSchema,
     }),
   ),
   footer: z.array(

@@ -32,6 +32,7 @@ describe("services/cms", () => {
 
     mockedStrapiFileContentSchema.parse.mockReturnValue({
       "page-header": [],
+      global: [],
       footer: [{ attributes: footerData, id: 0 }],
       pages: [{ id: 0, attributes: impressum }],
       "cookie-banner": [],

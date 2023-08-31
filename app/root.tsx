@@ -35,6 +35,8 @@ import { useNonce } from "./services/security/nonce";
 import { metaFromMatches } from "./services/metaFromMatches";
 import { getCookieBannerProps } from "~/services/props/getCookieBannerProps";
 import { getPageHeaderProps } from "~/services/props/getPageHeaderProps";
+import FeedbackBanner, { augmentFeedback } from "./components/FeedbackBanner";
+import { getStrapiFeedback } from "./services/cms/models/StrapiGlobal";
 
 export const headers: HeadersFunction = () => ({
   "X-Frame-Options": "SAMEORIGIN",
@@ -84,6 +86,7 @@ export const meta: V2_MetaFunction<typeof loader> = () => {
 export const loader = async ({ request }: LoaderArgs) => {
   const [
     strapiHeader,
+    globalVars,
     strapiFooter,
     cookieBannerContent,
     trackingConsent,
@@ -91,13 +94,16 @@ export const loader = async ({ request }: LoaderArgs) => {
     meta,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
+    fetchSingleEntry("global"),
     fetchSingleEntry("footer"),
     fetchSingleEntry("cookie-banner"),
     hasTrackingConsent({ request }),
     getErrorPages(),
     fetchMeta({ slug: "/" }),
   ]);
+
   return json({
+    feedback: getStrapiFeedback(globalVars),
     header: getPageHeaderProps(strapiHeader),
     footer: getFooterProps(strapiFooter),
     cookieBannerContent: getCookieBannerProps(cookieBannerContent),
@@ -108,7 +114,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 function App() {
-  const { header, footer, cookieBannerContent, hasTrackingConsent } =
+  const { header, footer, cookieBannerContent, hasTrackingConsent, feedback } =
     useLoaderData<typeof loader>();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(
     useMatches(),
@@ -143,6 +149,7 @@ function App() {
         <main className="flex-grow">
           <Outlet />
         </main>
+        <FeedbackBanner {...augmentFeedback(feedback, title)} />
         <Footer {...footer} />
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />

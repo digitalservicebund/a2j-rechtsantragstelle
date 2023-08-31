@@ -13,6 +13,7 @@ import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
 import type { z } from "zod";
 import { StrapiCookieBannerSchema } from "~/services/cms/models/StrapiCookieBannerSchema";
 import { StrapiPageHeaderSchema } from "~/services/cms/models/StrapiPageHeader";
+import { StrapiGlobalSchema } from "./models/StrapiGlobal";
 
 export type GetStrapiEntryOpts = {
   apiId: keyof StrapiFileContent;
@@ -31,6 +32,7 @@ export async function fetchMeta(opts: Omit<GetStrapiEntryOpts, "apiId">) {
 
 const entrySchemas = {
   "page-header": StrapiPageHeaderSchema,
+  global: StrapiGlobalSchema,
   footer: StrapiFooterSchema,
   "vorab-check-common": StrapiVorabCheckCommonSchema,
   "amtsgericht-common": StrapiAmtsgerichtCommonSchema,

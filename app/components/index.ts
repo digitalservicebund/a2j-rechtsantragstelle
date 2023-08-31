@@ -12,6 +12,7 @@ import { z } from "zod";
 export const BACKGROUND_COLORS = Object.freeze({
   white: "bg-white", // before:bg-white
   blue: "bg-blue-100", // before:bg-blue-100
+  midBlue: "bg-blue-300", // before:bg-blue-300
   darkBlue: "bg-blue-800", // before:bg-blue-800
   yellow: "bg-yellow-300", // before:bg-yellow-300
   green: "bg-green-200", // before:bg-green-200
