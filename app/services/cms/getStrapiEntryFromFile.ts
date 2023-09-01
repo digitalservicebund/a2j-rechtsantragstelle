@@ -1,5 +1,4 @@
 /* eslint @typescript-eslint/require-await: 0 */
-import path from "node:path";
 import fs from "node:fs";
 import type { GetStrapiEntryOpts } from "./index.server";
 import {

@@ -1,21 +1,12 @@
-import { StrapiFileContentSchema } from "~/services/cms/models/StrapiFileContent";
+import fs from "node:fs";
+import { type StrapiPage } from "~/services/cms/models/StrapiPage";
+import { type StrapiFileContent } from "~/services/cms/models/StrapiFileContent";
 import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
 import { strapiFooterFactory } from "tests/factories/cmsModels/strapiFooter";
 import { StrapiLocaleSchema } from "~/services/cms/models/StrapiLocale";
 import { faker } from "@faker-js/faker";
 
-jest.mock("~/services/cms/models/StrapiFileContent", () => {
-  return {
-    __esModule: true,
-    StrapiFileContentSchema: {
-      parse: jest.fn(),
-    },
-  };
-});
-
-const mockedStrapiFileContentSchema = StrapiFileContentSchema as jest.Mocked<
-  typeof StrapiFileContentSchema
->;
+jest.mock("node:fs");
 
 describe("services/cms", () => {
   describe("getStrapiEntryFromFile", () => {
@@ -26,21 +17,23 @@ describe("services/cms", () => {
       updatedAt: faker.date.past().toISOString(),
       publishedAt: faker.date.past().toISOString(),
       locale: StrapiLocaleSchema.Values.de,
-      meta: { id: 0, title: "Impressum", description: "description" },
+      meta: { title: "Impressum", description: "description" },
       content: [],
-    };
+    } satisfies StrapiPage;
 
-    mockedStrapiFileContentSchema.parse.mockReturnValue({
+    const fileContent = {
       "page-header": [],
       global: [],
-      footer: [{ attributes: footerData, id: 0 }],
+      footer: [{ id: 0, attributes: footerData }],
       pages: [{ id: 0, attributes: impressum }],
       "cookie-banner": [],
       "amtsgericht-common": [],
       "result-pages": [],
       "vorab-check-common": [],
       "vorab-check-pages": [],
-    });
+    } satisfies StrapiFileContent;
+
+    (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(fileContent));
 
     test("returns an entry", async () => {
       expect(
