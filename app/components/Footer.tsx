@@ -43,7 +43,7 @@ export default function Footer({
   );
 
   const renderLinks = (links: LinkProps[]) => (
-    <ul className="list-none m-0 p-0 ds-stack-24" key={links[0]?.url}>
+    <ul className="list-none m-0 p-0 ds-stack-8" key={links[0]?.url}>
       {links.map(renderLink)}
     </ul>
   );
@@ -60,8 +60,8 @@ export default function Footer({
   return (
     <footer className="text-base">
       <Container paddingTop="48">
-        <div className="flex flex-wrap items-start justify-between gap-x-32 gap-y-40">
-          <div className="flex flex-col-reverse gap-y-[1.125rem] sm:flex-col">
+        <div className="flex flex-wrap items-start justify-between gap-y-32">
+          <div className="flex flex-col flex-col-reverse sm:flex-row gap-y-8 gap-x-16">
             {image?.url && (
               <div>
                 <Image
@@ -71,7 +71,7 @@ export default function Footer({
                 />
               </div>
             )}
-            <div className="ds-stack-32">
+            <div className="ds-stack-8">
               {paragraphs.map((paragraph) => (
                 <div key={paragraph.markdown}>
                   <RichText {...paragraph} renderer={paragraphRenderer} />
@@ -80,7 +80,7 @@ export default function Footer({
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-x-56 gap-y-24">
+          <div className="flex flex-wrap gap-x-32 gap-y-8">
             {renderLinks(linksFirstColumn)}
             {renderLinks(linksSecondColumn)}
           </div>
