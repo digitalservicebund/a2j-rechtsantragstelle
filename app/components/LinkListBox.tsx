@@ -40,7 +40,9 @@ const LinkListBox = ({
                   className="text-link visited:text-black !text-black"
                   to={link.url ?? ""}
                 >
-                  <ArrowDownward className="h-[1em] w-[1em]" /> {link.text}
+                  <span>
+                    <ArrowDownward className="h-[1em] w-[1em]" /> {link.text}
+                  </span>
                 </Link>
               </li>
             ))}
