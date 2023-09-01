@@ -193,7 +193,13 @@ exports[`Storyshots Container/Container Default 1`] = `
 
 exports[`Storyshots Container/Container Overhanging Background 1`] = `
 <div
-  className="overflow-x-hidden mx-16 rounded-lg"
+  className="overflow-x-hidden rounded-lg"
+  style={
+    {
+      "marginLeft": "clamp(1rem, 5vw, 3rem)",
+      "marginRight": "clamp(1rem, 5vw, 3rem)",
+    }
+  }
 >
   <div
     className="container !pt-40 !pb-48 text-black relative before:content-[''] before:absolute before:inset-y-0 before:-left-32 before:-right-32 before:rounded-lg before:bg-blue-100"
