@@ -54,7 +54,9 @@ const CourtDetails = ({
         {phone && (
           <div>
             <h3 className="ds-label-02-bold">{phoneLabel}</h3>
-            <p className="ds-label-01-reg">{phone}</p>
+            <a className="text-link" href={`tel:${phone}`}>
+              {phone}
+            </a>
           </div>
         )}
       </address>
