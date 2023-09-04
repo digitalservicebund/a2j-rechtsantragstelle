@@ -39,7 +39,7 @@ jobs:
           name: content-file
           path: content.json
 
-  e2e-tests:
+  verify-local-e2e:
     needs: [create-content-file]
     uses: ./.github/workflows/e2e-test.yml
     secrets:
