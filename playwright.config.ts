@@ -59,18 +59,19 @@ export default defineConfig({
   // outputDir: 'test-results/',
 
   /* Run your local dev server before starting the tests */
-  webServer: process.env.E2E_USE_EXISTING_SERVER
-    ? []
-    : [
-        {
-          command: "docker compose up",
-          port: 6380,
-          reuseExistingServer: !process.env.CI,
-        },
-        {
-          command: "npm run dev",
-          url: "http://127.0.0.1:3000",
-          reuseExistingServer: !process.env.CI,
-        },
-      ],
+  webServer:
+    process.env.E2E_USE_EXISTING_SERVER === "true"
+      ? []
+      : [
+          {
+            command: "docker compose up",
+            port: 6380,
+            reuseExistingServer: !process.env.CI,
+          },
+          {
+            command: "npm run dev",
+            url: "http://127.0.0.1:3000",
+            reuseExistingServer: !process.env.CI,
+          },
+        ],
 });
