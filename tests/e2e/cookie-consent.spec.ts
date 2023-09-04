@@ -32,7 +32,8 @@ test.describe(pageUrl, () => {
 
     expect(await cookieSettings.consentCookieExists()).toBe(true);
     expect(await cookieSettings.consentCookieValue()).toBe("true");
-    expect(await cookieSettings.posthogCookieExists()).toBe(true);
+    if (await cookieSettings.posthogEnabled())
+      expect(await cookieSettings.posthogCookieExists()).toBe(true);
 
     await cookieSettings.goBackToSettings();
     await cookieSettings.declineCookies();

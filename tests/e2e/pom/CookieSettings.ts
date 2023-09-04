@@ -19,6 +19,10 @@ export class CookieSettings {
     await this.page.goto(this.url);
   }
 
+  async posthogEnabled() {
+    return (await this.page.evaluate("ENV.POSTHOG_API_KEY")) !== "";
+  }
+
   async submitForm() {
     return this.page.getByRole("button", { name: "Speichern" }).click();
   }
