@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 
 test("forwarded to intial step", async ({ page }) => {
   await expect(page).toHaveURL(
-    `${geldEinklagen.url}/${geldEinklagen.initialStep}`,
+    new RegExp(`.+${geldEinklagen.url}/${geldEinklagen.initialStep}$`),
   );
 });
 
@@ -63,6 +63,6 @@ test("geldeinklagen can be traversed", async ({ page }) => {
 test("funnel: invalid step redirects to start", async ({ page }) => {
   await page.goto(`${geldEinklagen.url}/stepDoesNotExist`);
   await expect(page).toHaveURL(
-    `${geldEinklagen.url}/${geldEinklagen.initialStep}`,
+    new RegExp(`.+${geldEinklagen.url}/${geldEinklagen.initialStep}$`),
   );
 });

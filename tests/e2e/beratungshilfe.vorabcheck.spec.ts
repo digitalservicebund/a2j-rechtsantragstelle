@@ -10,7 +10,9 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("forwarded to intial step", async ({ page }) => {
-  await expect(page).toHaveURL(`${vorabcheck.url}/${vorabcheck.initialStep}`);
+  await expect(page).toHaveURL(
+    new RegExp(`.+${vorabcheck.url}/${vorabcheck.initialStep}$`),
+  );
 });
 
 test("vorabcheck can be traversed (long path)", async ({ page }) => {
@@ -135,5 +137,7 @@ test("vorabcheck can be traversed (short path)", async ({ page }) => {
 
 test("funnel: invalid step redirects to start", async ({ page }) => {
   await page.goto(`${vorabcheck.url}/stepDoesNotExist`);
-  await expect(page).toHaveURL(`${vorabcheck.url}/${vorabcheck.initialStep}`);
+  await expect(page).toHaveURL(
+    new RegExp(`.+${vorabcheck.url}/${vorabcheck.initialStep}$`),
+  );
 });
