@@ -5,15 +5,16 @@ import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 import { acceptCookiesFieldName } from "~/services/analytics/Analytics";
 import { CookieSettings } from "./pom/CookieSettings";
 
+const pageUrl = "/cookie-einstellungen";
 const encode = (str: string): string =>
   Buffer.from(str, "binary").toString("base64");
 
-test.describe("/cookie-einstellungen", () => {
+test.describe(pageUrl, () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/cookie-einstellungen");
+    await page.goto(pageUrl);
   });
 
-  testPageToBeAccessible("/cookie-einstellungen");
+  testPageToBeAccessible(pageUrl);
   test("submission button is disabled without selection", async ({ page }) => {
     await expect(
       page.getByRole("button", { name: "Speichern" }),
@@ -105,7 +106,7 @@ test.describe("Cookie Banner", () => {
           .filter({ hasText: buttonOption.buttonLabel })
           .click();
 
-        await page.waitForURL("/cookie-einstellungen");
+        await page.waitForURL(pageUrl);
         await expect(page.getByTestId("cookie-banner")).not.toBeVisible();
 
         const foundCookie = (await page.context().cookies()).find(
