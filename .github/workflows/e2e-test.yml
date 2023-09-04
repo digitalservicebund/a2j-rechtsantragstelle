@@ -1,0 +1,64 @@
+name: E2E Test
+on:
+  workflow_call:
+    inputs:
+      USE_EXISTING_SERVER:
+        required: false
+        type: boolean
+    secrets:
+      GERICHTSFINDER_ENCRYPTION_KEY:
+        required: true
+      BASE_URL:
+        required: false
+
+jobs:
+  e2e-tests:
+    permissions:
+      packages: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+          cache: "npm"
+
+      - run: npm install
+
+      - name: Get Playwright version
+        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages[''].devDependencies['@playwright/test'])")" >> $GITHUB_ENV
+
+      - name: Download Content File
+        uses: actions/download-artifact@v3
+        with:
+          name: content-file
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ env.PLAYWRIGHT_VERSION }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright e2e tests
+        env:
+          GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
+          E2E_BASE_URL: "${{ inputs.BASE_URL }}"
+          E2E_USE_EXISTING_SERVER: "${{ inputs.USE_EXISTING_SERVER }}"
+        run: npm run test:e2e
+
+      - name: Upload Playwright test results
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
