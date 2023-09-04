@@ -46,7 +46,7 @@ jobs:
       GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
 
   build-push-image:
-    needs: [e2e-tests]
+    needs: [verify-local-e2e]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
