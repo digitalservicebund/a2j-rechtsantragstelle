@@ -51,7 +51,7 @@ jobs:
       - name: Run Playwright e2e tests
         env:
           GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
-          E2E_BASE_URL: "${{ inputs.BASE_URL }}"
+          E2E_BASE_URL: "${{ secrets.BASE_URL }}"
           E2E_USE_EXISTING_SERVER: "${{ inputs.USE_EXISTING_SERVER }}"
         run: npm run test:e2e
 
