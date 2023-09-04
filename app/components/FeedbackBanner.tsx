@@ -1,12 +1,6 @@
-import { z } from "zod";
 import Background from "./Background";
 import Box from "./Box";
 import Container from "./Container";
-
-export const FeedbackSchema = z.object({
-  heading: z.string().optional(),
-  content: z.string().optional(),
-});
 
 export type FeedbackProps = {
   heading?: string;
