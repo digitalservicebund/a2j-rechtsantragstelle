@@ -41,7 +41,7 @@ export default defineConfig({
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: "http://127.0.0.1:3000",
+    baseURL: process.env.E2E_BASE_URL ?? "http://127.0.0.1:3000",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
@@ -59,16 +59,18 @@ export default defineConfig({
   // outputDir: 'test-results/',
 
   /* Run your local dev server before starting the tests */
-  webServer: [
-    {
-      command: "docker compose up",
-      port: 6380,
-      reuseExistingServer: !process.env.CI,
-    },
-    {
-      command: "npm run dev",
-      url: "http://127.0.0.1:3000",
-      reuseExistingServer: !process.env.CI,
-    },
-  ],
+  webServer: process.env.E2E_USE_EXISTING_SERVER
+    ? []
+    : [
+        {
+          command: "docker compose up",
+          port: 6380,
+          reuseExistingServer: !process.env.CI,
+        },
+        {
+          command: "npm run dev",
+          url: "http://127.0.0.1:3000",
+          reuseExistingServer: !process.env.CI,
+        },
+      ],
 });
