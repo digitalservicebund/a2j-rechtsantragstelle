@@ -8,7 +8,7 @@ export class CourtFinder {
   readonly selectiontURL: string = `${this.baseURL}/auswahl`;
   readonly singleResultPLZ = "13086";
   readonly multipleResultPLZ = "20457";
-  readonly referrer = "/beratungshilfe";
+  readonly referrer = "beratungshilfe";
 
   constructor(page: Page) {
     this.page = page;
@@ -18,10 +18,9 @@ export class CourtFinder {
     await this.page.goto(this.searchURL);
   }
 
-  async gotoWithReferrer(baseURL: string | undefined) {
-    await this.page.goto(`${this.searchURL}?returnToHere`, {
-      referer: `${baseURL ?? ""}${this.referrer}`,
-    });
+  async gotoWithReferrer(baseURL: string) {
+    const referer = `${baseURL}${this.referrer}`;
+    await this.page.goto(`${this.searchURL}?returnToHere`, { referer });
   }
 
   async searchPLZSingleResult() {
