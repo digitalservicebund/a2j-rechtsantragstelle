@@ -104,25 +104,36 @@ test.describe("edge cases results", () => {
 });
 
 test.describe("back button", () => {
+  // Warning - this is quite brittle due to potential username:pw in the baseURL
+  // Make sure to test against staging!
+
+  function cleanBaseUrl(baseURL?: string) {
+    const url = new URL(baseURL ?? "");
+    return `${url.origin}${url.pathname}`;
+  }
+
   test("works with searching", async ({ page, baseURL }) => {
-    await courtfinder.gotoWithReferrer(baseURL);
+    const cleanBaseURL = cleanBaseUrl(baseURL);
+    await courtfinder.gotoWithReferrer(cleanBaseURL);
     await courtfinder.clickBackButton();
-    await page.waitForURL(courtfinder.referrer);
+    expect(page.url().endsWith(courtfinder.referrer)).toBeTruthy();
   });
 
   test("works after single result", async ({ page, baseURL }) => {
-    await courtfinder.gotoWithReferrer(baseURL);
+    const cleanBaseURL = cleanBaseUrl(baseURL);
+    await courtfinder.gotoWithReferrer(cleanBaseURL);
     await courtfinder.searchPLZSingleResult();
     await page.getByRole("link", { name: "Suche wiederholen" }).click();
     await courtfinder.clickBackButton();
-    await page.waitForURL(courtfinder.referrer);
+    expect(page.url().endsWith(courtfinder.referrer)).toBeTruthy();
   });
 
   test("works after edge cases", async ({ page, baseURL }) => {
-    await courtfinder.gotoWithReferrer(baseURL);
+    const cleanBaseURL = cleanBaseUrl(baseURL);
+    await courtfinder.gotoWithReferrer(cleanBaseURL);
     await courtfinder.searchPLZEdgeCases();
     await courtfinder.clickBackButton();
     await courtfinder.clickBackButton();
-    await page.waitForURL(courtfinder.referrer);
+    expect(page.url().endsWith(courtfinder.referrer)).toBeTruthy();
   });
 });
