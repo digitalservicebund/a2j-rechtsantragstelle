@@ -16,12 +16,6 @@ const baseURL = useDefaultBaseUrl
   ? "http://127.0.0.1:3000"
   : process.env.E2E_BASE_URL;
 
-console.log(`Testing against base url ${baseURL}`);
-console.log(`(process.env.E2E_BASE_URL: ${process.env.E2E_BASE_URL}`);
-console.log(
-  `(process.env.E2E_USE_EXISTING_SERVER: ${process.env.E2E_USE_EXISTING_SERVER}`,
-);
-
 /**
  * See https://playwright.dev/docs/test-configuration.
  */

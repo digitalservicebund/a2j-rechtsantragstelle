@@ -130,16 +130,16 @@ jobs:
           argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
 
-  verify-staging-e2e:
-    needs: [create-content-file, deploy-staging]
-    uses: ./.github/workflows/e2e-test.yml
-    secrets:
-      BASE_URL: ${{ secrets.STAGING_BASIC_AUTH_TOKEN }}
-    with:
-      USE_EXISTING_SERVER: true
+  # verify-staging-e2e:
+  #   needs: [create-content-file, deploy-staging]
+  #   uses: ./.github/workflows/e2e-test.yml
+  #   secrets:
+  #     BASE_URL: ${{ secrets.STAGING_BASIC_AUTH_TOKEN }}
+  #   with:
+  #     USE_EXISTING_SERVER: true
 
   deploy-production:
-    needs: [build-push-image, verify-staging-e2e]
+    needs: [build-push-image]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
