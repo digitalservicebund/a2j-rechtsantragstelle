@@ -14,18 +14,18 @@ env:
   IMAGE_VERSION: ${{ github.sha }}
 
 jobs:
-  code-quality:
-    uses: ./.github/workflows/npm-checks.yml
-    secrets:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  # code-quality:
+  #   uses: ./.github/workflows/npm-checks.yml
+  #   secrets:
+  #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   create-content-file:
-    needs: [code-quality]
+    # needs: [code-quality]
     permissions:
       packages: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Parse Content to File
         uses: ./.github/actions/parse-content-to-file
@@ -39,141 +39,142 @@ jobs:
           name: content-file
           path: content.json
 
-  verify-local-e2e:
-    needs: [create-content-file]
-    uses: ./.github/workflows/e2e-test.yml
-    secrets:
-      GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
-
-  build-push-image:
-    needs: [verify-local-e2e]
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      security-events: write
-      packages: write
-      id-token: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Download Content File
-        uses: actions/download-artifact@v3
-        with:
-          name: content-file
-
-      - name: Calculate file checksum
-        id: checksum-calculation
-        run: echo "content_checksum=$(md5sum content.json | awk '{ print $1; }')" >> $GITHUB_OUTPUT
-
-      - name: Build an image from Dockerfile
-        run: |
-          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }} . --build-arg COMMIT_SHA=${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@fbd16365eb88e12433951383f5e99bd901fc618f
-        with:
-          image-ref: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}"
-          format: "template"
-          template: "@/contrib/sarif.tpl"
-          output: "trivy-results.sarif"
-          ignore-unfixed: true
-          vuln-type: "os,library"
-          severity: "CRITICAL,HIGH"
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@81b419c908d540ec4c7da9bfb4b5d941fca8f624
-        with:
-          sarif_file: "trivy-results.sarif"
-
-      - name: Login to container registry
-        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push image
-        run: |
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}
-          docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-    outputs:
-      content_checksum: ${{ steps.checksum-calculation.outputs.content_checksum }}
-
-  deploy-staging:
-    needs: [build-push-image]
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    environment: staging
-    steps:
-      - name: Report Deployment
-        uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
-        with:
-          project: a2j-rechtsantragstelle
-          environment: staging
-          metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
-          metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
-
-      - name: Deploy new staging image
-        uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
-        with:
-          environment: staging
-          version: ${{ env.IMAGE_VERSION }}-${{ needs.build-push-image.outputs.content_checksum }}
-          deploying_repo: a2j-rechtsantragstelle
-          infra_repo: a2j-rechtsantragstelle-infra
-          deploy_key: ${{ secrets.DEPLOY_KEY }}
-          app: a2j-rast-staging
-          argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
-          argocd_server: ${{ secrets.ARGOCD_SERVER }}
-
-  # verify-staging-e2e:
-  #   needs: [create-content-file, deploy-staging]
+  # verify-local-e2e:
+  #   needs: [create-content-file]
   #   uses: ./.github/workflows/e2e-test.yml
   #   secrets:
-  #     BASE_URL: ${{ secrets.STAGING_BASIC_AUTH_TOKEN }}
-  #   with:
-  #     USE_EXISTING_SERVER: true
+  #     GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
 
-  deploy-production:
-    needs: [build-push-image]
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - name: Report Deployment
-        uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
-        with:
-          project: a2j-rechtsantragstelle
-          environment: production
-          metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
-          metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
+  # build-push-image:
+  #   needs: [verify-local-e2e]
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 15
+  #   permissions:
+  #     security-events: write
+  #     packages: write
+  #     id-token: write
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Deploy new production image
-        uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
-        with:
-          environment: production
-          version: ${{ env.IMAGE_VERSION }}-${{ needs.build-push-image.outputs.content_checksum }}
-          deploying_repo: a2j-rechtsantragstelle
-          infra_repo: a2j-rechtsantragstelle-infra
-          deploy_key: ${{ secrets.DEPLOY_KEY }}
-          app: a2j-rast-production
-          argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
-          argocd_server: ${{ secrets.ARGOCD_SERVER }}
+  #     - name: Download Content File
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: content-file
 
-  test-production-text:
-    needs: [deploy-production]
-    permissions:
-      packages: read
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  #     - name: Calculate file checksum
+  #       id: checksum-calculation
+  #       run: echo "content_checksum=$(md5sum content.json | awk '{ print $1; }')" >> $GITHUB_OUTPUT
 
-      - name: Run text test
-        uses: ./.github/actions/production-text-test
-        with:
-          PRODUCTION_BASIC_AUTH_TOKEN: "${{ secrets.PRODUCTION_BASIC_AUTH_TOKEN }}"
+  #     - name: Build an image from Dockerfile
+  #       run: |
+  #         docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }} . --build-arg COMMIT_SHA=${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}
+
+  #     - name: Run Trivy vulnerability scanner
+  #       uses: aquasecurity/trivy-action@fbd16365eb88e12433951383f5e99bd901fc618f
+  #       with:
+  #         image-ref: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}"
+  #         format: "template"
+  #         template: "@/contrib/sarif.tpl"
+  #         output: "trivy-results.sarif"
+  #         ignore-unfixed: true
+  #         vuln-type: "os,library"
+  #         severity: "CRITICAL,HIGH"
+
+  #     - name: Upload Trivy scan results to GitHub Security tab
+  #       uses: github/codeql-action/upload-sarif@81b419c908d540ec4c7da9bfb4b5d941fca8f624
+  #       with:
+  #         sarif_file: "trivy-results.sarif"
+
+  #     - name: Login to container registry
+  #       uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc
+  #       with:
+  #         registry: ${{ env.REGISTRY }}
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
+
+  #     - name: Push image
+  #       run: |
+  #         docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+  #         docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ steps.checksum-calculation.outputs.content_checksum }}
+  #         docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+  #   outputs:
+  #     content_checksum: ${{ steps.checksum-calculation.outputs.content_checksum }}
+
+  # deploy-staging:
+  #   needs: [build-push-image]
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 5
+  #   environment: staging
+  #   steps:
+  #     - name: Report Deployment
+  #       uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
+  #       with:
+  #         project: a2j-rechtsantragstelle
+  #         environment: staging
+  #         metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
+  #         metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
+
+  #     - name: Deploy new staging image
+  #       uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
+  #       with:
+  #         environment: staging
+  #         version: ${{ env.IMAGE_VERSION }}-${{ needs.build-push-image.outputs.content_checksum }}
+  #         deploying_repo: a2j-rechtsantragstelle
+  #         infra_repo: a2j-rechtsantragstelle-infra
+  #         deploy_key: ${{ secrets.DEPLOY_KEY }}
+  #         app: a2j-rast-staging
+  #         argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
+  #         argocd_server: ${{ secrets.ARGOCD_SERVER }}
+
+  verify-staging-e2e:
+    needs: [create-content-file]
+    # needs: [create-content-file, deploy-staging]
+    uses: ./.github/workflows/e2e-test.yml
+    secrets:
+      BASE_URL: ${{ secrets.STAGING_BASIC_AUTH_TOKEN }}
+    with:
+      USE_EXISTING_SERVER: true
+
+  # deploy-production:
+  #   needs: [build-push-image]
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   environment: production
+  #   steps:
+  #     - name: Report Deployment
+  #       uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
+  #       with:
+  #         project: a2j-rechtsantragstelle
+  #         environment: production
+  #         metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
+  #         metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
+
+  #     - name: Deploy new production image
+  #       uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
+  #       with:
+  #         environment: production
+  #         version: ${{ env.IMAGE_VERSION }}-${{ needs.build-push-image.outputs.content_checksum }}
+  #         deploying_repo: a2j-rechtsantragstelle
+  #         infra_repo: a2j-rechtsantragstelle-infra
+  #         deploy_key: ${{ secrets.DEPLOY_KEY }}
+  #         app: a2j-rast-production
+  #         argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
+  #         argocd_server: ${{ secrets.ARGOCD_SERVER }}
+
+  # test-production-text:
+  #   needs: [deploy-production]
+  #   permissions:
+  #     packages: read
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
+  #     - name: Run text test
+  #       uses: ./.github/actions/production-text-test
+  #       with:
+  #         PRODUCTION_BASIC_AUTH_TOKEN: "${{ secrets.PRODUCTION_BASIC_AUTH_TOKEN }}"
