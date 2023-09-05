@@ -10,6 +10,7 @@ export const getInputProps = (cmsData: StrapiInput): InputProps => {
 
   const props = {
     ...cmsData,
+    width: cmsData.width?.replace("characters", ""),
     errorMessages,
   };
 

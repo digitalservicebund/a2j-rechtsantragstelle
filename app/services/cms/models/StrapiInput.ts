@@ -19,6 +19,18 @@ export const StrapiInputSchema = z
         )
         .optional(),
     }),
+    width: z
+      .enum([
+        "characters3",
+        "characters5",
+        "characters7",
+        "characters10",
+        "characters16",
+        "characters24",
+        "characters36",
+        "characters54",
+      ])
+      .nullish(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
