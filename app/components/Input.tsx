@@ -19,9 +19,23 @@ export const InputPropsSchema = z.object({
   prefix: z.string().optional(),
   suffix: z.string().optional(),
   errorMessages: z.array(ErrorMessagePropsSchema).optional(),
+  width: z.enum(["3", "5", "7", "10", "16", "24", "36", "54"]).optional(),
 });
 
 export type InputProps = z.infer<typeof InputPropsSchema>;
+
+const widthClass = (width: string) => {
+  return {
+    "3": "w-[9ch]",
+    "5": "w-[11ch]",
+    "7": "w-[13ch]",
+    "10": "w-[16ch]",
+    "16": "w-[22ch]",
+    "24": "w-[30ch]",
+    "36": "w-[42ch]",
+    "54": "w-[60ch]",
+  }[width];
+};
 
 const Input = ({
   name,
@@ -32,6 +46,7 @@ const Input = ({
   prefix,
   suffix,
   errorMessages,
+  width,
 }: InputProps) => {
   const { error, getInputProps } = useField(name);
   const errorId = `${name}-error`;
@@ -49,7 +64,11 @@ const Input = ({
             inputMode: type === "number" ? "decimal" : undefined,
             placeholder,
           })}
-          className={classNames("ds-input", { "has-error": error })}
+          className={classNames(
+            "ds-input",
+            { "has-error": error },
+            width && widthClass(width),
+          )}
           aria-invalid={error !== undefined}
           aria-describedby={error && errorId}
           aria-errormessage={error && errorId}
