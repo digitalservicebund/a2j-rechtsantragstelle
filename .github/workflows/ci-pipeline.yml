@@ -135,7 +135,6 @@ jobs:
     uses: ./.github/workflows/e2e-test.yml
     secrets:
       BASE_URL: ${{ secrets.STAGING_BASIC_AUTH_TOKEN }}
-      GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
     with:
       USE_EXISTING_SERVER: true
 

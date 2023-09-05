@@ -7,7 +7,7 @@ on:
         type: boolean
     secrets:
       GERICHTSFINDER_ENCRYPTION_KEY:
-        required: true
+        required: false
       BASE_URL:
         required: false
 
