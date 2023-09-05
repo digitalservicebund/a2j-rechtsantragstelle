@@ -14,12 +14,12 @@ env:
   IMAGE_VERSION: ${{ github.sha }}
 
 jobs:
-   code-quality:
-     uses: ./.github/workflows/npm-checks.yml
-     secrets:
-       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  code-quality:
+    uses: ./.github/workflows/npm-checks.yml
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   create-content-file:
-     needs: [code-quality]
+    needs: [code-quality]
     permissions:
       packages: read
     runs-on: ubuntu-latest
@@ -39,11 +39,11 @@ jobs:
           name: content-file
           path: content.json
 
-   verify-local-e2e:
-     needs: [create-content-file]
-     uses: ./.github/workflows/e2e-test.yml
-     secrets:
-       GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
+  verify-local-e2e:
+    needs: [create-content-file]
+    uses: ./.github/workflows/e2e-test.yml
+    secrets:
+      GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
 
   build-push-image:
     needs: [verify-local-e2e]
@@ -139,7 +139,7 @@ jobs:
       USE_EXISTING_SERVER: true
 
   deploy-production:
-    needs: [verify-staging-e2e]
+    needs: [build-push-image, verify-staging-e2e]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
