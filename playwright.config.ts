@@ -11,6 +11,17 @@ import dotenv from "dotenv";
 dotenv.config();
 dotenv.config({ path: "./tests/test.env" });
 
+const useDefaultBaseUrl = ["", undefined].includes(process.env.E2E_BASE_URL);
+const baseURL = useDefaultBaseUrl
+  ? "http://127.0.0.1:3000"
+  : process.env.E2E_BASE_URL;
+
+console.log(`Testing against base url ${baseURL}`);
+console.log(`(process.env.E2E_BASE_URL: ${process.env.E2E_BASE_URL}`);
+console.log(
+  `(process.env.E2E_USE_EXISTING_SERVER: ${process.env.E2E_USE_EXISTING_SERVER}`,
+);
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -40,9 +51,7 @@ export default defineConfig({
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: ["", undefined].includes(process.env.E2E_BASE_URL)
-      ? "http://127.0.0.1:3000"
-      : process.env.E2E_BASE_URL,
+    baseURL,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
   },
