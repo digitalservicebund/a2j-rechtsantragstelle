@@ -41,7 +41,8 @@ const LinkListBox = ({
                   to={link.url ?? ""}
                 >
                   <span>
-                    <ArrowDownward className="h-[1em] w-[1em]" /> {link.text}
+                    <ArrowDownward className="h-[1em] w-[1em] inline-block" />{" "}
+                    {link.text}
                   </span>
                 </Link>
               </li>
