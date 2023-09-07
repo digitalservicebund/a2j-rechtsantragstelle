@@ -2,7 +2,7 @@
 
 First draft of implementing a platform to create requests to the Rechtsantragstelle.
 
-[interactive code map](https://app.codesee.io/maps/public/394613e0-432c-11ee-be7c-257cf8b8fc87)
+[interactive code map](https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=digitalservicebund%2Fa2j-rechtsantragstelle)
 
 ## Development
 
