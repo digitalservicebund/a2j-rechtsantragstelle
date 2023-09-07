@@ -6,8 +6,31 @@
     "start": {
       "meta": { "progressPosition": 1 },
       "on": {
-        "SUBMIT": "gerichtskostenvorschuss"
+        "SUBMIT": "forderung"
       }
+    },
+    "forderung": {
+      "meta": { "progressPosition": 2 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "ergebnis/forderung-abbruch",
+            "cond": "forderungNotOnlyMoney"
+          },
+          {
+            "target": "gerichtskostenvorschuss",
+            "cond": "forderungOnlyMoney"
+          }
+        ],
+        "BACK": [
+          {
+            "target": "start"
+          }
+        ]
+      }
+    },
+    "ergebnis/forderung-abbruch": {
+      "on": { "BACK": { "target": "forderung" } }
     },
     "gerichtskostenvorschuss": {
       "meta": { "progressPosition": 2 },
@@ -22,50 +45,22 @@
             "cond": "gerichtskostenvorschussNotPossible"
           },
           {
-            "target": "forderung",
+            "target": "bereich",
             "cond": "gerichtskostenvorschussYes"
           }
         ],
-        "BACK": { "target": "start" }
+        "BACK": { "target": "forderung" }
       }
     },
     "ergebnis/gerichtskostenvorschuss-hinweis": {
       "meta": { "progressPosition": 3 },
       "on": {
-        "SUBMIT": { "target": "forderung" },
+        "SUBMIT": { "target": "bereich" },
         "BACK": { "target": "gerichtskostenvorschuss" }
       }
     },
     "ergebnis/gerichtskostenvorschuss-abbruch": {
       "on": { "BACK": { "target": "gerichtskostenvorschuss" } }
-    },
-    "forderung": {
-      "meta": { "progressPosition": 4 },
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "ergebnis/forderung-abbruch",
-            "cond": "forderungIsNotLessOrEqual5000"
-          },
-          {
-            "target": "bereich",
-            "cond": "forderungIsLessOrEqual5000"
-          }
-        ],
-        "BACK": [
-          {
-            "target": "ergebnis/gerichtskostenvorschuss-hinweis",
-            "cond": "gerichtskostenvorschussNotPossible"
-          },
-          {
-            "target": "gerichtskostenvorschuss",
-            "cond": "gerichtskostenvorschussYes"
-          }
-        ]
-      }
-    },
-    "ergebnis/forderung-abbruch": {
-      "on": { "BACK": { "target": "forderung" } }
     },
     "bereich": {
       "meta": { "progressPosition": 5 },
@@ -88,7 +83,15 @@
             "cond": "bereichFilled"
           }
         ],
-        "BACK": { "target": "forderung" }
+        "BACK": [
+          {
+            "target": "ergebnis/gerichtskostenvorschuss-hinweis",
+            "cond": "gerichtskostenvorschussNotPossible"
+          },
+          {
+            "target": "gerichtskostenvorschuss"
+          }
+        ]
       }
     },
     "ergebnis/bereich-familie-abbruch": {

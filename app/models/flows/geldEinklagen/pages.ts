@@ -5,6 +5,10 @@ import {
 } from "~/services/validation/YesNoAnswer";
 
 export const context = {
+  forderung: z.enum(
+    ["money", "action", "moneyAndAction"],
+    customRequiredErrorMessage,
+  ),
   gerichtskostenvorschuss: z.enum(
     ["yes", "notPossible", "no"],
     customRequiredErrorMessage,
@@ -16,10 +20,6 @@ export const context = {
     customRequiredErrorMessage,
   ),
   bundIdAccount: z.enum(["yes", "wantTo", "no"], customRequiredErrorMessage),
-  forderung: z.enum(
-    ["lessOrEqual5000", "moreThan5000", "action", "moneyAndAction", "unsure"],
-    customRequiredErrorMessage,
-  ),
   bereich: z.enum(
     ["work", "living", "shopping", "family", "travel", "other"],
     customRequiredErrorMessage,

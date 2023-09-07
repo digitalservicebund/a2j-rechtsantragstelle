@@ -27,10 +27,10 @@ export const guards = {
     ["yes", "nonSingle", "representing"].includes(context.privatperson ?? ""),
   privatpersonNotEligible: (context: GeldEinklagenVorabcheckContext) =>
     ["nonPrivate", "organisation"].includes(context.privatperson ?? ""),
-  forderungIsNotLessOrEqual5000: (context: GeldEinklagenVorabcheckContext) =>
-    Boolean(context.forderung && context.forderung !== "lessOrEqual5000"),
-  forderungIsLessOrEqual5000: (context: GeldEinklagenVorabcheckContext) =>
-    context.forderung === "lessOrEqual5000",
+  forderungOnlyMoney: (context: GeldEinklagenVorabcheckContext) =>
+    context.forderung === "money",
+  forderungNotOnlyMoney: (context: GeldEinklagenVorabcheckContext) =>
+    Boolean(context.forderung && context.forderung !== "money"),
   bereichFamily: (context: GeldEinklagenVorabcheckContext) =>
     context.bereich == "family",
   bereichWork: (context: GeldEinklagenVorabcheckContext) =>

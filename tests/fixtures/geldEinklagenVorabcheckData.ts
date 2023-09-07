@@ -2,7 +2,7 @@ import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklage
 
 export const happyPathData: GeldEinklagenVorabcheckContext = {
   gerichtskostenvorschuss: "yes",
-  forderung: "lessOrEqual5000",
+  forderung: "money",
   bereich: "shopping",
   gegenseite: "privatperson",
   kontaktaufnahme: "yes",
