@@ -107,7 +107,6 @@ jobs:
     needs: [build-push-image]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
     environment: staging
     steps:
       - name: Report Deployment
@@ -129,6 +128,7 @@ jobs:
           app: a2j-rast-staging
           argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
+          argocd_sync_timeout: 300
 
   verify-staging-e2e:
     needs: [create-content-file, deploy-staging]
@@ -163,6 +163,7 @@ jobs:
           app: a2j-rast-production
           argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
+          argocd_sync_timeout: 300
 
   test-production-text:
     needs: [deploy-production]
