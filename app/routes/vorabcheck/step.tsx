@@ -31,6 +31,7 @@ import {
 import { CSRFKey } from "~/services/security/csrfKey";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
+import { getGerichtskostenvorschuss } from "~/models/geldEinklagen";
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   await throw404IfFeatureFlagEnabled(request);
@@ -49,8 +50,11 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
   const verfuegbaresEinkommenFreibetrag =
     getVerfuegbaresEinkommenFreibetrag(data);
+  const gerichtskostenvorschuss = getGerichtskostenvorschuss(data);
+
   const templateReplacements = {
     verfuegbaresEinkommenFreibetrag: verfuegbaresEinkommenFreibetrag.toString(),
+    gerichtskostenvorschuss: gerichtskostenvorschuss.toString(),
   };
 
   const [commonContent, formPageContent, parentMeta] = await Promise.all([
