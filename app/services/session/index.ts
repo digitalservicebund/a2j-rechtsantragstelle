@@ -9,6 +9,7 @@ import {
 import type { Cookie } from "@remix-run/node";
 import { createSessionStorage, createCookie } from "@remix-run/node";
 import { config } from "~/services/env/env.server";
+import { useSecureCookie } from "~/util/useSecureCookie";
 
 type SessionContext = "main" | "beratungshilfe" | "geld-einklagen";
 
@@ -43,10 +44,10 @@ export function getSessionForContext(context: SessionContext) {
     createDatabaseSessionStorage({
       cookie: createCookie("__session", {
         secrets: [config().COOKIE_SESSION_SECRET],
-        sameSite: true,
+        sameSite: "lax",
         httpOnly: true,
         maxAge: 24 * 60 * 60,
-        secure: true,
+        secure: useSecureCookie,
       }),
       context: context,
     });
