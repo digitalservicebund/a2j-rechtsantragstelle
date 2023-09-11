@@ -60,20 +60,11 @@
       "on": { "BACK": { "target": "geldspanne" } }
     },
     "gerichtskostenvorschuss": {
-      "meta": { "progressPosition": 2 },
+      "meta": { "progressPosition": 4 },
       "on": {
         "SUBMIT": [
           {
-            "target": "ergebnis/gerichtskostenvorschuss-abbruch",
-            "cond": "gerichtskostenvorschussNo"
-          },
-          {
-            "target": "ergebnis/gerichtskostenvorschuss-hinweis",
-            "cond": "gerichtskostenvorschussNotPossible"
-          },
-          {
-            "target": "bereich",
-            "cond": "gerichtskostenvorschussYes"
+            "target": "bereich"
           }
         ],
         "BACK": { "target": "geldspanne" }
@@ -111,10 +102,6 @@
           }
         ],
         "BACK": [
-          {
-            "target": "ergebnis/gerichtskostenvorschuss-hinweis",
-            "cond": "gerichtskostenvorschussNotPossible"
-          },
           {
             "target": "gerichtskostenvorschuss"
           }

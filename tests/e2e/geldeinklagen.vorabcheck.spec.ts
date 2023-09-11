@@ -26,7 +26,7 @@ test("geldeinklagen can be traversed", async ({ page }) => {
   await geldEinklagen.fillDropdownPage("geldspanne", "above_1000");
 
   await expectPageToBeAccessible({ page });
-  await geldEinklagen.fillRadioPage("gerichtskostenvorschuss", "yes");
+  await geldEinklagen.clickNext();
 
   await expectPageToBeAccessible({ page });
   await geldEinklagen.fillRadioPage("bereich", "travel");

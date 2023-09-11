@@ -9,10 +9,6 @@ export const context = {
     ["money", "action", "moneyAndAction"],
     customRequiredErrorMessage,
   ),
-  gerichtskostenvorschuss: z.enum(
-    ["yes", "notPossible", "no"],
-    customRequiredErrorMessage,
-  ),
   geldspanne: z.enum(
     [
       "below_500",

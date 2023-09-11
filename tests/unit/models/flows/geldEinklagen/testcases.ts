@@ -29,18 +29,6 @@ const cases = [
   [{}, ["start", "forderung"]],
   [{ forderung: "action" }, ["forderung", "ergebnis/forderung-abbruch"]],
   [{ geldspanne: "above_5000" }, ["geldspanne", "ergebnis/geldspanne-abbruch"]],
-  [
-    { gerichtskostenvorschuss: "no" },
-    ["gerichtskostenvorschuss", "ergebnis/gerichtskostenvorschuss-abbruch"],
-  ],
-  [
-    { gerichtskostenvorschuss: "notPossible" },
-    [
-      "gerichtskostenvorschuss",
-      "ergebnis/gerichtskostenvorschuss-hinweis",
-      "bereich",
-    ],
-  ],
   [{ bereich: "work" }, ["bereich", "ergebnis/bereich-arbeit-abbruch"]],
   [{ bereich: "family" }, ["bereich", "ergebnis/bereich-familie-abbruch"]],
   [{ bereich: "travel" }, ["bereich", "flug"]],

@@ -21,10 +21,6 @@ const geldspanneBelow5k: Guard = (context) =>
 const geldspanneWithoutClaim: Guard = (context) => context.geldspanne === "no";
 
 export const guards = {
-  ...yesNoGuards("gerichtskostenvorschuss"),
-  gerichtskostenvorschussNotPossible: (
-    context: GeldEinklagenVorabcheckContext,
-  ) => context.gerichtskostenvorschuss === "notPossible",
   ...yesNoGuards("kontaktaufnahme"),
   ...yesNoGuards("fristAbgelaufen"),
   fristAbgelaufenNotSet: (context: GeldEinklagenVorabcheckContext) =>
