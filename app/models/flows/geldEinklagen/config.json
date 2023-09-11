@@ -18,7 +18,7 @@
             "cond": "forderungNotOnlyMoney"
           },
           {
-            "target": "gerichtskostenvorschuss",
+            "target": "geldspanne",
             "cond": "forderungOnlyMoney"
           }
         ],
@@ -31,6 +31,33 @@
     },
     "ergebnis/forderung-abbruch": {
       "on": { "BACK": { "target": "forderung" } }
+    },
+    "geldspanne": {
+      "meta": { "progressPosition": 3 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "ergebnis/geldspanne-abbruch",
+            "cond": "geldspanneWithoutClaim"
+          },
+          {
+            "target": "ergebnis/geldspanne-abbruch",
+            "cond": "geldspanneAbove5k"
+          },
+          {
+            "target": "gerichtskostenvorschuss",
+            "cond": "geldspanneBelow5k"
+          }
+        ],
+        "BACK": [
+          {
+            "target": "forderung"
+          }
+        ]
+      }
+    },
+    "ergebnis/geldspanne-abbruch": {
+      "on": { "BACK": { "target": "geldspanne" } }
     },
     "gerichtskostenvorschuss": {
       "meta": { "progressPosition": 2 },
@@ -49,7 +76,7 @@
             "cond": "gerichtskostenvorschussYes"
           }
         ],
-        "BACK": { "target": "forderung" }
+        "BACK": { "target": "geldspanne" }
       }
     },
     "ergebnis/gerichtskostenvorschuss-hinweis": {

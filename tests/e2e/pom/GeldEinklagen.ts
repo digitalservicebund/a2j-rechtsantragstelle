@@ -1,6 +1,7 @@
 import type { Page } from "@playwright/test";
 import { expect } from "@playwright/test";
 
+// TODO: refactor (this is 95% duplicate of pom/Vorabcheck)
 export class GeldEinklagen {
   readonly page: Page;
   readonly url = "/geld-einklagen/vorabcheck";
@@ -42,6 +43,11 @@ export class GeldEinklagen {
 
   async fillInputPage(field: string, value: string) {
     await this.page.locator(`input[name=${field}]`).fill(value);
+    await this.clickNext();
+  }
+
+  async fillDropdownPage(field: string, value: string) {
+    await this.page.locator(`select[name=${field}]`).selectOption(value);
     await this.clickNext();
   }
 }

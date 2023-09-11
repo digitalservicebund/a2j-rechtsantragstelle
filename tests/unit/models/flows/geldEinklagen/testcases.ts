@@ -14,6 +14,7 @@ const machine = createMachine<GeldEinklagenVorabcheckContext>(
 const happyPathSteps = [
   "start",
   "forderung",
+  "geldspanne",
   "gerichtskostenvorschuss",
   "bereich",
   "gegenseite",
@@ -27,6 +28,7 @@ const happyPathSteps = [
 const cases = [
   [{}, ["start", "forderung"]],
   [{ forderung: "action" }, ["forderung", "ergebnis/forderung-abbruch"]],
+  [{ geldspanne: "above_5000" }, ["geldspanne", "ergebnis/geldspanne-abbruch"]],
   [
     { gerichtskostenvorschuss: "no" },
     ["gerichtskostenvorschuss", "ergebnis/gerichtskostenvorschuss-abbruch"],

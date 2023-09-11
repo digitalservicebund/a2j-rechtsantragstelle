@@ -14,6 +14,12 @@ function yesNoGuards<Field extends keyof GeldEinklagenVorabcheckContext>(
   };
 }
 
+const geldspanneAbove5k: Guard = (context) =>
+  context.geldspanne === "above_5000";
+const geldspanneBelow5k: Guard = (context) =>
+  context.geldspanne !== "above_5000";
+const geldspanneWithoutClaim: Guard = (context) => context.geldspanne === "no";
+
 export const guards = {
   ...yesNoGuards("gerichtskostenvorschuss"),
   gerichtskostenvorschussNotPossible: (
@@ -50,4 +56,7 @@ export const guards = {
     context.gegenseite == "privatperson",
   gegenseiteUnternehmen: (context: GeldEinklagenVorabcheckContext) =>
     context.gegenseite == "unternehmen",
+  geldspanneBelow5k,
+  geldspanneAbove5k,
+  geldspanneWithoutClaim,
 };

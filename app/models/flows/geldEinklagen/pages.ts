@@ -13,6 +13,20 @@ export const context = {
     ["yes", "notPossible", "no"],
     customRequiredErrorMessage,
   ),
+  geldspanne: z.enum(
+    [
+      "below_500",
+      "above_500",
+      "above_1000",
+      "above_1500",
+      "above_2000",
+      "above_3000",
+      "above_4000",
+      "above_5000",
+      "no",
+    ],
+    customRequiredErrorMessage,
+  ),
   kontaktaufnahme: YesNoAnswer,
   fristAbgelaufen: z.enum(["yes", "notSet", "no"], customRequiredErrorMessage),
   privatperson: z.enum(
