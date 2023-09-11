@@ -22,6 +22,8 @@ import { getLinkListBoxProps } from "~/services/props/getLinkListBoxProps";
 import BoxWithImage from "./BoxWithImage";
 import { getBoxWithImageProps } from "~/services/props/getBoxWithImageProps";
 import RichText from "./RichText";
+import Select from "./Select";
+import { getDropdownProps } from "~/services/props/getDropdownProps";
 
 type PageContentProps = {
   content: Array<StrapiContent>;
@@ -72,6 +74,8 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
       return <Input {...getInputProps(cms)} key={key} />;
     case "form-elements.select":
       return <RadioGroup {...getRadioGroupProps(cms)} key={key} />;
+    case "form-elements.dropdown":
+      return <Select {...getDropdownProps(cms)} key={key} />;
     case "page.box":
       return <Box {...getBoxProps(cms)} key={key} />;
     case "page.info-box":

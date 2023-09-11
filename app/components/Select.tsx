@@ -1,21 +1,29 @@
 import type { ReactNode } from "react";
+import { z } from "zod";
 import { useField } from "remix-validated-form";
 import classNames from "classnames";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
+import { ErrorMessagePropsSchema } from ".";
 
-type SelectOptionProps = {
-  text: string;
-  value: string;
-};
+export const DropdownPropsSchema = z.object({
+  name: z.string(),
+  options: z.array(z.object({ value: z.string(), text: z.string() })),
+  label: z.custom<ReactNode>().optional(),
+  altLabel: z.string().optional(),
+  placeholder: z.string().optional(),
+  errorMessages: z.array(ErrorMessagePropsSchema).optional(),
+});
 
-type SelectProps = {
-  name: string;
-  label?: ReactNode;
-  options: SelectOptionProps[];
-};
+type SelectProps = z.infer<typeof DropdownPropsSchema>;
 
-const Select = ({ name, label, options }: SelectProps) => {
+const Select = ({
+  name,
+  label,
+  options,
+  placeholder,
+  errorMessages,
+}: SelectProps) => {
   const { error, getInputProps } = useField(name);
 
   const selectClassName = classNames("ds-select", {
@@ -34,6 +42,7 @@ const Select = ({ name, label, options }: SelectProps) => {
         aria-describedby={error && errorId}
         aria-errormessage={error && errorId}
       >
+        {placeholder && <option hidden>{placeholder}</option>}
         {options.map((option) => {
           return (
             <option value={option.value} key={option.value}>
@@ -42,7 +51,9 @@ const Select = ({ name, label, options }: SelectProps) => {
           );
         })}
       </select>
-      <InputError id={errorId}>{error}</InputError>
+      <InputError id={errorId}>
+        {errorMessages?.find((err) => err.code === error)?.text ?? error}
+      </InputError>
     </div>
   );
 };
