@@ -89,7 +89,7 @@
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.15",
-    "eslint": "^8.48.0",
+    "eslint": "^8.49.0",
     "eslint-plugin-sonarjs": "^0.21.0",
     "eslint-plugin-storybook": "^0.6.13",
     "fishery": "^2.2.2",
