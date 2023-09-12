@@ -93,6 +93,14 @@
             "cond": "bereichWork"
           },
           {
+            "target": "ergebnis/bereich-tax-abbruch",
+            "cond": "bereichTax"
+          },
+          {
+            "target": "wohnraeume",
+            "cond": "bereichLiving"
+          },
+          {
             "target": "flug",
             "cond": "bereichTravel"
           },
@@ -108,14 +116,33 @@
         ]
       }
     },
+    "ergebnis/bereich-tax-abbruch": {
+      "on": { "BACK": { "target": "bereich" } }
+    },
     "ergebnis/bereich-familie-abbruch": {
       "on": { "BACK": { "target": "bereich" } }
     },
     "ergebnis/bereich-arbeit-abbruch": {
       "on": { "BACK": { "target": "bereich" } }
     },
-    "flug": {
+    "wohnraeume": {
       "meta": { "progressPosition": 6 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "gegenseite",
+            "cond": "wohnraeumeYes"
+          },
+          {
+            "target": "gegenseite",
+            "cond": "wohnraeumeNo"
+          }
+        ],
+        "BACK": { "target": "bereich" }
+      }
+    },
+    "flug": {
+      "meta": { "progressPosition": 7 },
       "on": {
         "SUBMIT": [
           {

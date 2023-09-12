@@ -31,7 +31,16 @@ export const context = {
   ),
   bundIdAccount: z.enum(["yes", "wantTo", "no"], customRequiredErrorMessage),
   bereich: z.enum(
-    ["work", "living", "shopping", "family", "travel", "other"],
+    [
+      "work",
+      "living",
+      "shopping",
+      "family",
+      "travel",
+      "tax",
+      "violation",
+      "other",
+    ],
     customRequiredErrorMessage,
   ),
   flug: YesNoAnswer,
@@ -39,6 +48,7 @@ export const context = {
     ["privatperson", "unternehmen", "staat", "multiple"],
     customRequiredErrorMessage,
   ),
+  wohnraeume: YesNoAnswer,
 } as const;
 
 const contextObject = z.object(context).partial();
