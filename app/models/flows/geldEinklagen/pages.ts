@@ -45,9 +45,11 @@ export const context = {
   ),
   flug: YesNoAnswer,
   gegenseite: z.enum(
-    ["privatperson", "unternehmen", "staat", "multiple"],
+    ["privatperson", "unternehmen", "multiple"],
     customRequiredErrorMessage,
   ),
+  gegenseitePersonDeutschland: YesNoAnswer,
+  gegenseiteUnternehmenDeutschland: YesNoAnswer,
   wohnraeume: YesNoAnswer,
 } as const;
 

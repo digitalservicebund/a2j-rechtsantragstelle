@@ -25,6 +25,7 @@ test("geldeinklagen can be traversed", async ({ page }) => {
   await expectPageToBeAccessible({ page });
   await geldEinklagen.fillDropdownPage("geldspanne", "above_1000");
 
+  // gerichtskostenvorschuss
   await expectPageToBeAccessible({ page });
   await geldEinklagen.clickNext();
 
@@ -35,27 +36,13 @@ test("geldeinklagen can be traversed", async ({ page }) => {
   await geldEinklagen.fillRadioPage("flug", "no");
 
   await expectPageToBeAccessible({ page });
-  await geldEinklagen.fillRadioPage("gegenseite", "unternehmen");
-
-  await expectPageToBeAccessible({ page });
-  await geldEinklagen.fillRadioPage("kontaktaufnahme", "no");
-
-  // warning step kontaktaufname-hinweis
-  await expectPageToBeAccessible({ page });
-  await geldEinklagen.clickNext();
-
-  await expectPageToBeAccessible({ page });
-  await geldEinklagen.fillRadioPage("fristAbgelaufen", "notSet");
-
-  // warning step frist-abgelaufen-hinweis
-  await expectPageToBeAccessible({ page });
-  await geldEinklagen.clickNext();
-
-  await expectPageToBeAccessible({ page });
   await geldEinklagen.fillRadioPage("privatperson", "yes");
 
   await expectPageToBeAccessible({ page });
-  await geldEinklagen.fillRadioPage("bundIdAccount", "yes");
+  await geldEinklagen.fillRadioPage("gegenseite", "unternehmen");
+
+  await expectPageToBeAccessible({ page });
+  await geldEinklagen.fillRadioPage("gegenseiteUnternehmenDeutschland", "yes");
 
   await expectPageToBeAccessible({ page });
   await expect(

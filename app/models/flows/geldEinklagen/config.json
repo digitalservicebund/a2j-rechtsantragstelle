@@ -71,7 +71,7 @@
       }
     },
     "ergebnis/gerichtskostenvorschuss-hinweis": {
-      "meta": { "progressPosition": 3 },
+      "meta": { "progressPosition": 5 },
       "on": {
         "SUBMIT": { "target": "bereich" },
         "BACK": { "target": "gerichtskostenvorschuss" }
@@ -81,7 +81,7 @@
       "on": { "BACK": { "target": "gerichtskostenvorschuss" } }
     },
     "bereich": {
-      "meta": { "progressPosition": 5 },
+      "meta": { "progressPosition": 6 },
       "on": {
         "SUBMIT": [
           {
@@ -105,7 +105,7 @@
             "cond": "bereichTravel"
           },
           {
-            "target": "gegenseite",
+            "target": "privatperson",
             "cond": "bereichFilled"
           }
         ],
@@ -126,15 +126,15 @@
       "on": { "BACK": { "target": "bereich" } }
     },
     "wohnraeume": {
-      "meta": { "progressPosition": 6 },
+      "meta": { "progressPosition": 7 },
       "on": {
         "SUBMIT": [
           {
-            "target": "gegenseite",
+            "target": "privatperson",
             "cond": "wohnraeumeYes"
           },
           {
-            "target": "gegenseite",
+            "target": "privatperson",
             "cond": "wohnraeumeNo"
           }
         ],
@@ -142,122 +142,31 @@
       }
     },
     "flug": {
-      "meta": { "progressPosition": 7 },
+      "meta": { "progressPosition": 8 },
       "on": {
         "SUBMIT": [
           {
-            "target": "ergebnis/flug-abbruch",
+            "target": "privatperson",
             "cond": "flugYes"
           },
           {
-            "target": "gegenseite",
+            "target": "privatperson",
             "cond": "flugNo"
           }
         ],
         "BACK": { "target": "bereich" }
       }
     },
-    "ergebnis/flug-abbruch": {
-      "on": { "BACK": { "target": "flug" } }
-    },
-    "gegenseite": {
-      "meta": { "progressPosition": 7 },
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "ergebnis/gegenseite-mehrere-abbruch",
-            "cond": "gegenseiteMultiple"
-          },
-          {
-            "target": "ergebnis/gegenseite-staat-abbruch",
-            "cond": "gegenseiteStaat"
-          },
-          {
-            "target": "kontaktaufnahme",
-            "cond": "gegenseiteUnternehmen"
-          },
-          {
-            "target": "kontaktaufnahme",
-            "cond": "gegenseitePrivatperson"
-          }
-        ],
-        "BACK": [
-          { "target": "flug", "cond": "bereichTravel" },
-          { "target": "bereich", "cond": "bereichFilled" }
-        ]
-      }
-    },
-    "ergebnis/gegenseite-mehrere-abbruch": {
-      "on": { "BACK": "gegenseite" }
-    },
-    "ergebnis/gegenseite-staat-abbruch": {
-      "on": { "BACK": "gegenseite" }
-    },
-    "kontaktaufnahme": {
-      "meta": { "progressPosition": 8 },
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "ergebnis/kontaktaufnahme-hinweis",
-            "cond": "kontaktaufnahmeNo"
-          },
-          {
-            "target": "frist-abgelaufen",
-            "cond": "kontaktaufnahmeYes"
-          }
-        ],
-        "BACK": "gegenseite"
-      }
-    },
-    "ergebnis/kontaktaufnahme-hinweis": {
+    "privatperson": {
       "meta": { "progressPosition": 9 },
       "on": {
-        "SUBMIT": { "target": "frist-abgelaufen" },
-        "BACK": { "target": "kontaktaufnahme" }
-      }
-    },
-    "frist-abgelaufen": {
-      "meta": { "progressPosition": 10 },
-      "on": {
         "SUBMIT": [
           {
-            "target": "privatperson",
-            "cond": "fristAbgelaufenYes"
+            "target": "gegenseite-unternehmen-deutschland",
+            "cond": "privatpersonEligibleAndFlugYes"
           },
           {
-            "target": "ergebnis/frist-abgelaufen-hinweis",
-            "cond": "fristAbgelaufenNo"
-          },
-          {
-            "target": "ergebnis/frist-abgelaufen-hinweis",
-            "cond": "fristAbgelaufenNotSet"
-          }
-        ],
-        "BACK": [
-          {
-            "target": "ergebnis/kontaktaufnahme-hinweis",
-            "cond": "kontaktaufnahmeNo"
-          },
-          {
-            "target": "kontaktaufnahme",
-            "cond": "kontaktaufnahmeYes"
-          }
-        ]
-      }
-    },
-    "ergebnis/frist-abgelaufen-hinweis": {
-      "meta": { "progressPosition": 11 },
-      "on": {
-        "SUBMIT": "privatperson",
-        "BACK": "frist-abgelaufen"
-      }
-    },
-    "privatperson": {
-      "meta": { "progressPosition": 12 },
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "bund-id-konto",
+            "target": "gegenseite",
             "cond": "privatpersonEligible"
           },
           {
@@ -267,48 +176,105 @@
         ],
         "BACK": [
           {
-            "target": "frist-abgelaufen",
-            "cond": "fristAbgelaufenYes"
+            "target": "wohnraeume",
+            "cond": "bereichLiving"
           },
           {
-            "target": "ergebnis/frist-abgelaufen-hinweis",
-            "cond": "fristAbgelaufenNo"
+            "target": "flug",
+            "cond": "bereichTravel"
           },
           {
-            "target": "ergebnis/frist-abgelaufen-hinweis",
-            "cond": "fristAbgelaufenNotSet"
+            "target": "bereich"
           }
         ]
       }
     },
-    "ergebnis/privatperson-abbruch": {
-      "on": { "BACK": "privatperson" }
+    "ergebnis/gegenseite-person-deutschland-abbruch": {
+      "on": { "BACK": { "target": "gegenseite-person-deutschland" } }
     },
-    "bund-id-konto": {
-      "meta": { "progressPosition": 13 },
+    "ergebnis/gegenseite-unternehmen-deutschland-abbruch": {
+      "on": { "BACK": { "target": "gegenseite-unternehmen-deutschland" } }
+    },
+    "ergebnis/flug-abbruch": {
+      "on": { "BACK": { "target": "flug" } }
+    },
+    "gegenseite": {
+      "meta": { "progressPosition": 10 },
       "on": {
         "SUBMIT": [
           {
-            "target": "ergebnis/abschluss",
-            "cond": "bundIdAccountYes"
+            "target": "ergebnis/gegenseite-mehrere-abbruch",
+            "cond": "gegenseiteMultiple"
           },
           {
-            "target": "ergebnis/abschluss",
-            "cond": "bundIdAccountWantTo"
+            "target": "gegenseite-unternehmen-deutschland",
+            "cond": "gegenseiteUnternehmen"
           },
           {
-            "target": "ergebnis/bund-id-konto-abbruch",
-            "cond": "bundIdAccountNo"
+            "target": "gegenseite-person-deutschland",
+            "cond": "gegenseitePrivatperson"
           }
         ],
-        "BACK": "privatperson"
+        "BACK": [{ "target": "privatperson" }]
       }
     },
-    "ergebnis/bund-id-konto-abbruch": {
-      "on": { "BACK": "bund-id-konto" }
+    "gegenseite-person-deutschland": {
+      "meta": { "progressPosition": 11 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "ergebnis/gegenseite-person-deutschland-abbruch",
+            "cond": "gegenseitePersonDeutschlandNo"
+          },
+          {
+            "target": "ergebnis/abschluss"
+          }
+        ],
+        "BACK": "gegenseite"
+      }
+    },
+    "gegenseite-unternehmen-deutschland": {
+      "meta": { "progressPosition": 11 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "ergebnis/gegenseite-unternehmen-deutschland-abbruch",
+            "cond": "gegenseiteUnternehmenDeutschlandNo"
+          },
+          {
+            "target": "ergebnis/abschluss"
+          }
+        ],
+        "BACK": [
+          {
+            "target": "privatperson",
+            "cond": "privatpersonEligibleAndFlugYes"
+          },
+          {
+            "target": "gegenseite"
+          }
+        ]
+      }
+    },
+    "ergebnis/gegenseite-mehrere-abbruch": {
+      "on": { "BACK": "gegenseite" }
+    },
+    "ergebnis/privatperson-abbruch": {
+      "on": { "BACK": "privatperson" }
     },
     "ergebnis/abschluss": {
-      "on": { "BACK": "bund-id-konto" }
+      "on": {
+        "BACK": [
+          {
+            "target": "gegenseite-unternehmen-deutschland",
+            "cond": "gegenseiteUnternehmen"
+          },
+          {
+            "target": "gegenseite-person-deutschland",
+            "cond": "gegenseitePrivatperson"
+          }
+        ]
+      }
     }
   }
 }

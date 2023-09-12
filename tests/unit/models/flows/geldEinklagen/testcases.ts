@@ -17,12 +17,9 @@ const happyPathSteps = [
   "geldspanne",
   "gerichtskostenvorschuss",
   "bereich",
-  "gegenseite",
-  "kontaktaufnahme",
-  "frist-abgelaufen",
   "privatperson",
-  "bund-id-konto",
-  "ergebnis/abschluss",
+  "gegenseite",
+  "gegenseite-person-deutschland",
 ];
 
 const cases = [
@@ -33,25 +30,12 @@ const cases = [
   [{ bereich: "family" }, ["bereich", "ergebnis/bereich-familie-abbruch"]],
   [{ bereich: "travel" }, ["bereich", "flug"]],
   [
-    { bereich: "travel", flug: "yes" },
-    ["bereich", "flug", "ergebnis/flug-abbruch"],
-  ],
-  [
-    { gegenseite: "staat" },
-    ["gegenseite", "ergebnis/gegenseite-staat-abbruch"],
-  ],
-  [
     { gegenseite: "multiple" },
     ["gegenseite", "ergebnis/gegenseite-mehrere-abbruch"],
   ],
-  [{ gegenseite: "unternehmen" }, ["gegenseite", "kontaktaufnahme"]],
   [
-    { kontaktaufnahme: "no" },
-    ["kontaktaufnahme", "ergebnis/kontaktaufnahme-hinweis", "frist-abgelaufen"],
-  ],
-  [
-    { fristAbgelaufen: "no" },
-    ["frist-abgelaufen", "ergebnis/frist-abgelaufen-hinweis", "privatperson"],
+    { gegenseite: "unternehmen" },
+    ["gegenseite", "gegenseite-unternehmen-deutschland"],
   ],
   [
     { privatperson: "nonPrivate" },
@@ -61,13 +45,8 @@ const cases = [
     { privatperson: "organisation" },
     ["privatperson", "ergebnis/privatperson-abbruch"],
   ],
-  [{ privatperson: "nonSingle" }, ["privatperson", "bund-id-konto"]],
-  [{ privatperson: "representing" }, ["privatperson", "bund-id-konto"]],
-  [
-    { bundIdAccount: "no" },
-    ["bund-id-konto", "ergebnis/bund-id-konto-abbruch"],
-  ],
-
+  [{ privatperson: "nonSingle" }, ["privatperson", "gegenseite"]],
+  [{ privatperson: "representing" }, ["privatperson", "gegenseite"]],
   [happyPathData, happyPathSteps],
 ] as const satisfies TestCases<GeldEinklagenVorabcheckContext>;
 

@@ -2,10 +2,8 @@ import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklage
 
 export const happyPathData: GeldEinklagenVorabcheckContext = {
   forderung: "money",
+  geldspanne: "above_1500",
   bereich: "shopping",
-  gegenseite: "privatperson",
-  kontaktaufnahme: "yes",
-  fristAbgelaufen: "yes",
   privatperson: "yes",
-  bundIdAccount: "yes",
+  gegenseite: "privatperson",
 };
