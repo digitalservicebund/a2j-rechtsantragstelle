@@ -12,7 +12,7 @@ const Radio = ({ name, value, text }: RadioProps) => {
   const id = `${name}-${value}`;
 
   return (
-    <div>
+    <div className="flex">
       <input
         {...getInputProps({ type: "radio", id, value })}
         className="ds-radio"
