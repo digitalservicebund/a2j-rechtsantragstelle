@@ -1,4 +1,4 @@
-import { GeldEinklagenVorabcheckContext } from "./flows/geldEinklagen/pages";
+import type { GeldEinklagenVorabcheckContext } from "./flows/geldEinklagen/pages";
 
 export const getGerichtskostenvorschuss = (
   context: GeldEinklagenVorabcheckContext,
