@@ -97,7 +97,7 @@
     "follow-redirects": "^1.15.2",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "lefthook": "^1.4.10",
+    "lefthook": "^1.4.11",
     "license-checker-rseidelsohn": "^4.2.6",
     "p-map": "^4.0.0",
     "postcss": "^8.4.29",
