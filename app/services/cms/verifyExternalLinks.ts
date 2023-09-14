@@ -1,5 +1,4 @@
 import fs from "node:fs";
-import { config } from "../env/env.server";
 import { configDotenv } from "dotenv";
 
 const allowedExternalLinks = [
@@ -20,8 +19,8 @@ const allowedExternalLinks = [
 
 function verifyExternalLinks() {
   configDotenv();
-  const { CONTENT_FILE_PATH } = config();
-  const content = fs.readFileSync(CONTENT_FILE_PATH, "utf-8");
+  const filePath = process.env.CONTENT_FILE_PATH ?? "./content.json";
+  const content = fs.readFileSync(filePath, "utf-8");
 
   const urlRegex =
     /((https?):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi;
