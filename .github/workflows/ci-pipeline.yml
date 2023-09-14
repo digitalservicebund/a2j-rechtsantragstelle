@@ -33,6 +33,9 @@ jobs:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
 
+      - name: Verify external links
+        run: npm run verifyExternalLinks
+
       - name: Upload Content File for further steps
         uses: actions/upload-artifact@v3
         with:
