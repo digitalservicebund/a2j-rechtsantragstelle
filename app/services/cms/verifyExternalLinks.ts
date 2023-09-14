@@ -14,7 +14,7 @@ const allowedExternalLinks = [
   "https://www.gesetze-im-internet.de",
   "https://www.schlichtungsstelle-bgg.de",
   "https://posthog.com",
-  "https://formulare.bfdi.bund.de",
+  "https://www.bfdi.bund.de",
   "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
 ];
 
