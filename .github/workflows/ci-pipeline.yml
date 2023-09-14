@@ -33,14 +33,24 @@ jobs:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
 
-      - name: Verify external links
-        run: npm run verifyExternalLinks
-
       - name: Upload Content File for further steps
         uses: actions/upload-artifact@v3
         with:
           name: content-file
           path: content.json
+
+  verify-external-links:
+    needs: [create-content-file]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download Content File
+        uses: actions/download-artifact@v3
+        with:
+          name: content-file
+      - run: npm ci
+      - run: npm run verifyExternalLinks
 
   verify-local-e2e:
     needs: [create-content-file]
@@ -49,7 +59,7 @@ jobs:
       GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
 
   build-push-image:
-    needs: [verify-local-e2e]
+    needs: [verify-local-e2e, verify-external-links]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
