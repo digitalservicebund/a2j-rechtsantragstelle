@@ -1,0 +1,241 @@
+{
+  "@digitalservice4germany/angie@1.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/digitalservicebund/angie",
+    "path": "a2j-rechtsantragstelle/node_modules/@digitalservice4germany/angie",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@digitalservice4germany/angie/LICENSE",
+    "direct": true
+  },
+  "@digitalservice4germany/style-dictionary@2.0.0": {
+    "licenses": "MIT",
+    "publisher": "Joschka de Cuveland",
+    "email": "joschka.decuveland@digitalservice.bund.de",
+    "path": "a2j-rechtsantragstelle/node_modules/@digitalservice4germany/style-dictionary",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@digitalservice4germany/style-dictionary/LICENSE",
+    "direct": true
+  },
+  "@emotion/react@11.11.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/emotion-js/emotion.git#main",
+    "publisher": "Emotion Contributors",
+    "path": "a2j-rechtsantragstelle/node_modules/@emotion/react",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@emotion/react/LICENSE",
+    "direct": true
+  },
+  "@emotion/styled@11.11.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/emotion-js/emotion.git#main",
+    "path": "a2j-rechtsantragstelle/node_modules/@emotion/styled",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@emotion/styled/LICENSE",
+    "direct": true
+  },
+  "@mui/icons-material@5.14.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mui/material-ui",
+    "publisher": "MUI Team",
+    "path": "a2j-rechtsantragstelle/node_modules/@mui/icons-material",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@mui/icons-material/LICENSE",
+    "direct": true
+  },
+  "@mui/material@5.14.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mui/material-ui",
+    "publisher": "MUI Team",
+    "path": "a2j-rechtsantragstelle/node_modules/@mui/material",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@mui/material/LICENSE",
+    "direct": true
+  },
+  "@remix-run/express@1.19.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/remix-run/remix",
+    "path": "a2j-rechtsantragstelle/node_modules/@remix-run/express",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@remix-run/express/LICENSE.md",
+    "direct": true
+  },
+  "@remix-run/node@1.19.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/remix-run/remix",
+    "path": "a2j-rechtsantragstelle/node_modules/@remix-run/node",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@remix-run/node/LICENSE.md",
+    "direct": true
+  },
+  "@remix-run/react@1.19.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/remix-run/remix",
+    "path": "a2j-rechtsantragstelle/node_modules/@remix-run/react",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@remix-run/react/LICENSE.md",
+    "direct": true
+  },
+  "@remix-run/serve@1.19.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/remix-run/remix",
+    "path": "a2j-rechtsantragstelle/node_modules/@remix-run/serve",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@remix-run/serve/LICENSE.md",
+    "direct": true
+  },
+  "@remix-validated-form/with-zod@2.0.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/airjp73/remix-validated-form",
+    "path": "a2j-rechtsantragstelle/node_modules/@remix-validated-form/with-zod",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@remix-validated-form/with-zod/README.md",
+    "direct": true
+  },
+  "@sentry/remix@7.68.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/getsentry/sentry-javascript",
+    "publisher": "Sentry",
+    "path": "a2j-rechtsantragstelle/node_modules/@sentry/remix",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@sentry/remix/LICENSE",
+    "direct": true
+  },
+  "@xstate/graph@1.4.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/statelyai/xstate",
+    "publisher": "David Khourshid",
+    "email": "davidkpiano@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/@xstate/graph",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@xstate/graph/LICENSE",
+    "direct": true
+  },
+  "axios@1.5.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/axios/axios",
+    "publisher": "Matt Zabriskie",
+    "path": "a2j-rechtsantragstelle/node_modules/axios",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/axios/LICENSE",
+    "direct": true
+  },
+  "classnames@2.3.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/JedWatson/classnames",
+    "publisher": "Jed Watson",
+    "path": "a2j-rechtsantragstelle/node_modules/classnames",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/classnames/LICENSE",
+    "direct": true
+  },
+  "dotenv@16.3.1": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/motdotla/dotenv",
+    "path": "a2j-rechtsantragstelle/node_modules/dotenv",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/dotenv/LICENSE",
+    "direct": true
+  },
+  "express@4.18.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expressjs/express",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@vision-media.ca",
+    "path": "a2j-rechtsantragstelle/node_modules/express",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/express/LICENSE",
+    "direct": true
+  },
+  "fflate@0.8.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/101arrowz/fflate",
+    "publisher": "Arjun Barrett",
+    "email": "arjunbarrett@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/fflate",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/fflate/LICENSE",
+    "direct": true
+  },
+  "ioredis@5.3.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/luin/ioredis",
+    "publisher": "Zihua Li",
+    "email": "i@zihua.li",
+    "path": "a2j-rechtsantragstelle/node_modules/ioredis",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/ioredis/LICENSE",
+    "direct": true
+  },
+  "isbot@3.6.13": {
+    "licenses": "Unlicense",
+    "repository": "https://github.com/omrilotan/isbot",
+    "path": "a2j-rechtsantragstelle/node_modules/isbot",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/isbot/LICENSE",
+    "direct": true
+  },
+  "marked@9.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/markedjs/marked",
+    "publisher": "Christopher Jeffrey",
+    "path": "a2j-rechtsantragstelle/node_modules/marked",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/marked/LICENSE.md",
+    "direct": true
+  },
+  "mustache@4.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/janl/mustache.js",
+    "publisher": "mustache.js Authors",
+    "email": "http://github.com/janl/mustache.js",
+    "path": "a2j-rechtsantragstelle/node_modules/mustache",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/mustache/LICENSE",
+    "direct": true
+  },
+  "posthog-js@1.78.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/PostHog/posthog-js",
+    "publisher": "hey@posthog.com",
+    "path": "a2j-rechtsantragstelle/node_modules/posthog-js",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/posthog-js/LICENSE",
+    "direct": true
+  },
+  "posthog-node@3.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/PostHog/posthog-node",
+    "publisher": "PostHog",
+    "email": "hey@posthog.com",
+    "path": "a2j-rechtsantragstelle/node_modules/posthog-node",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/posthog-node/README.md",
+    "direct": true
+  },
+  "react-dom@18.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/facebook/react",
+    "path": "a2j-rechtsantragstelle/node_modules/react-dom",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/react-dom/LICENSE",
+    "direct": true
+  },
+  "react@18.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/facebook/react",
+    "path": "a2j-rechtsantragstelle/node_modules/react",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/react/LICENSE",
+    "direct": true
+  },
+  "remix-validated-form@5.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/airjp73/remix-validated-form",
+    "publisher": "Aaron Pettengill",
+    "email": "pettengill.aaron@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/remix-validated-form",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/remix-validated-form/README.md",
+    "direct": true
+  },
+  "tiny-invariant@1.3.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/alexreardon/tiny-invariant",
+    "publisher": "Alex Reardon",
+    "email": "alexreardon@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/tiny-invariant",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/tiny-invariant/LICENSE",
+    "direct": true
+  },
+  "xstate@4.38.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/statelyai/xstate",
+    "publisher": "David Khourshid",
+    "email": "davidkpiano@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/xstate",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/xstate/LICENSE",
+    "direct": true
+  },
+  "zod@3.22.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/colinhacks/zod",
+    "publisher": "Colin McDonnell",
+    "email": "colin@colinhacks.com",
+    "path": "a2j-rechtsantragstelle/node_modules/zod",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/zod/LICENSE",
+    "direct": true
+  }
+}

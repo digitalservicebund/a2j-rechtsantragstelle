@@ -28,7 +28,7 @@
     "test:e2e": "npx playwright test",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --output-dir=public/storybook",
-    "license": "node license-generator.js"
+    "generate-opensource-licenses": "ts-node -T ./app/services/openSourceLicenses/generate.ts generateLicenseFile"
   },
   "dependencies": {
     "@digitalservice4germany/angie": "^1.1.0",
