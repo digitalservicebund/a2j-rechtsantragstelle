@@ -31,9 +31,6 @@
     "verifyEmails": "ts-node ./app/services/cms/verifyExternalLinks.ts verifyEmails",
     "verifyWebsites": "ts-node ./app/services/cms/verifyExternalLinks.ts verifyWebsites"
   },
-  "prettier": {
-    "trailingComma": "all"
-  },
   "dependencies": {
     "@digitalservice4germany/angie": "^1.1.0",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
