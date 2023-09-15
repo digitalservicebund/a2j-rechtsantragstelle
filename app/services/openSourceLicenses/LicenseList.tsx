@@ -14,16 +14,14 @@ const mentionableTransitiveDependencies = Object.fromEntries(
 );
 
 const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
-  const versionSplitIdx = dependencyString.lastIndexOf("@");
-  const depencenyName = dependencyString.substring(0, versionSplitIdx);
   return (
-    <li key={depencenyName}>
+    <li key={dependencyString}>
       {infos.repository ? (
         <a href={infos.repository} className="text-link" target="_blank">
-          {depencenyName}
+          {dependencyString}
         </a>
       ) : (
-        depencenyName
+        dependencyString
       )}
 
       {infos.publisher && (

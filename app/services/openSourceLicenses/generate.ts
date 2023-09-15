@@ -52,7 +52,16 @@ const licenseMentionable = (dependency: Dependency) =>
 const stripLocalPath = (path: string) =>
   path.substring(path.indexOf(packageName));
 
+const dropVersion = (dependency: string) =>
+  dependency.substring(0, dependency.lastIndexOf("@"));
+
 export async function allRelevantLicenses(path = "./") {
+  // 1. Get license info for all and direct dependencies
+  // 2. Mark direct dependencies with {direct: true}
+  // 3. Only keep mentionable licenses (either direct or not in 'notMentionableLicenses')
+  // 4. Drop version from dependency string (@dependency/package@1.12.3 -> @dependency/package)
+  // 5. Drop local folders from path & licenseFile (/full/path/to/project/node_modules/dependency -> project/node_modules/dependency)
+
   const [licenses, directLicenses] = (await Promise.all([
     licensesFromPackageJson(),
     licensesFromPackageJson(true),
@@ -66,7 +75,7 @@ export async function allRelevantLicenses(path = "./") {
     Object.entries(licenses)
       .filter(([_, dep]) => licenseMentionable(dep))
       .map(([name, dependency]) => [
-        name,
+        dropVersion(name),
         {
           ...dependency,
           path: stripLocalPath(dependency.path ?? ""),
