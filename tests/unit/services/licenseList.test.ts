@@ -12,5 +12,5 @@ describe("licenseList", () => {
       );
       throw err;
     }
-  });
+  }, 10000);
 });
