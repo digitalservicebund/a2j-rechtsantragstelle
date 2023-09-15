@@ -115,11 +115,5 @@
   },
   "prettier": {
     "trailingComma": "all"
-  },
-  "overrides": {
-    "@types/node-fetch": {
-      "comment": "Avoids runtime issue 'Error: Cannot find module form-data' due to old sub-dependency",
-      "form-data": "^4.0.0"
-    }
   }
 }
