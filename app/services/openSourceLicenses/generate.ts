@@ -50,7 +50,7 @@ const licenseMentionable = (dependency: Dependency) =>
   );
 
 const stripLocalPath = (path: string) =>
-  path.substring(path.indexOf(packageName));
+  path.substring(path.lastIndexOf(packageName));
 
 const dropVersion = (dependency: string) =>
   dependency.substring(0, dependency.lastIndexOf("@"));
