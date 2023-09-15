@@ -50,7 +50,8 @@ jobs:
         with:
           name: content-file
       - run: npm ci
-      - run: npm run verifyExternalLinks
+      - run: npm run verifyWebsites
+      - run: npm run verifyEmails
 
   verify-local-e2e:
     needs: [create-content-file]
