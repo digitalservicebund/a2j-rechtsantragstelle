@@ -29,7 +29,7 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@emotion/styled/LICENSE",
     "direct": true
   },
-  "@mui/icons-material@5.14.8": {
+  "@mui/icons-material@5.14.9": {
     "licenses": "MIT",
     "repository": "https://github.com/mui/material-ui",
     "publisher": "MUI Team",
@@ -37,7 +37,7 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@mui/icons-material/LICENSE",
     "direct": true
   },
-  "@mui/material@5.14.8": {
+  "@mui/material@5.14.9": {
     "licenses": "MIT",
     "repository": "https://github.com/mui/material-ui",
     "publisher": "MUI Team",
@@ -80,7 +80,7 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@remix-validated-form/with-zod/README.md",
     "direct": true
   },
-  "@sentry/remix@7.68.0": {
+  "@sentry/remix@7.69.0": {
     "licenses": "MIT",
     "repository": "https://github.com/getsentry/sentry-javascript",
     "publisher": "Sentry",
@@ -171,7 +171,7 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/mustache/LICENSE",
     "direct": true
   },
-  "posthog-js@1.78.2": {
+  "posthog-js@1.78.5": {
     "licenses": "MIT",
     "repository": "https://github.com/PostHog/posthog-js",
     "publisher": "hey@posthog.com",
