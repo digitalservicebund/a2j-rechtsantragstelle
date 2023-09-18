@@ -16,3 +16,4 @@ test.env
 Dockerfile
 .gitignore
 *.snap
+*.sh
