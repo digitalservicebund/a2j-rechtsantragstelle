@@ -1,6 +1,6 @@
 import { PassThrough } from "stream";
 import type { DataFunctionArgs, EntryContext } from "@remix-run/node";
-import { Response, redirect } from "@remix-run/node";
+import { createReadableStreamFromReadable, redirect } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
@@ -57,11 +57,10 @@ function handleBotRequest(
       {
         onAllReady() {
           const body = new PassThrough();
-
           responseHeaders.set("Content-Type", "text/html");
 
           resolve(
-            new Response(body, {
+            new Response(createReadableStreamFromReadable(body), {
               headers: responseHeaders,
               status: didError ? 500 : responseStatusCode,
             }),
@@ -108,11 +107,10 @@ function handleBrowserRequest(
         nonce: cspNonce,
         onShellReady() {
           const body = new PassThrough();
-
           responseHeaders.set("Content-Type", "text/html");
 
           resolve(
-            new Response(body, {
+            new Response(createReadableStreamFromReadable(body), {
               headers: responseHeaders,
               status: didError ? 500 : responseStatusCode,
             }),
