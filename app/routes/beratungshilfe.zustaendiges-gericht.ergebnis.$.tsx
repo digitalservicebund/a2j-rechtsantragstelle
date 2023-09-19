@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
@@ -17,7 +17,7 @@ import {
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import urlMap from "~/services/gerichtsfinder/data/sanitizedURLs.json";
 
-export const loader = async ({ params }: LoaderArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const splat = params["*"];
   invariant(typeof splat !== "undefined");
 

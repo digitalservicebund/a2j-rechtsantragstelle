@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Background from "~/components/Background";
@@ -13,7 +13,7 @@ import { fillTemplate } from "~/util/fillTemplate";
 import Heading from "~/components/Heading";
 import { splitObjectsByFirstLetter } from "~/util/strings";
 
-export const loader = async ({ params, request }: LoaderArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;
   if (zipCode === undefined)
     throw Error("Something went wrong, no zipcode found");

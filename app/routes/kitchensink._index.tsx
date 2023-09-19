@@ -1,6 +1,6 @@
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import type { DataFunctionArgs, LoaderArgs } from "@remix-run/node";
+import type { DataFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
@@ -26,7 +26,7 @@ export const DummySchema = z.object({
 
 const validator = withZod(DummySchema);
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   throw404OnProduction();
   const { content, meta } = await strapiPageFromRequest({ request });
   return json({ content, meta });

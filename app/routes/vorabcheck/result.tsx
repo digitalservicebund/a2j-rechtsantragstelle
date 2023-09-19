@@ -1,5 +1,5 @@
 import { useLoaderData } from "@remix-run/react";
-import type { ActionFunction, LoaderArgs } from "@remix-run/node";
+import type { ActionFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { getSessionForContext } from "~/services/session";
 import {
@@ -31,7 +31,7 @@ import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 
-export const loader = async ({ params, request }: LoaderArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
   const { pathname } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);

@@ -1,8 +1,8 @@
 import type {
   HeadersFunction,
   LinksFunction,
-  LoaderArgs,
-  V2_MetaFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
@@ -74,7 +74,7 @@ export const links: LinksFunction = () => [
   { rel: "manifest", href: "/site.webmanifest" },
 ];
 
-export const meta: V2_MetaFunction<typeof loader> = () => {
+export const meta: MetaFunction<typeof loader> = () => {
   return [
     { charSet: "utf-8" },
     { name: "viewport", content: "width=device-width,initial-scale=1" },
@@ -83,7 +83,7 @@ export const meta: V2_MetaFunction<typeof loader> = () => {
   ];
 };
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const [
     strapiHeader,
     globalVars,

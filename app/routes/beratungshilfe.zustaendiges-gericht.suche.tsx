@@ -1,4 +1,4 @@
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Background from "~/components/Background";
@@ -38,7 +38,7 @@ const serverSchema = clientSchema.refine(
 const validatorClient = withZod(clientSchema);
 const validatorServer = withZod(serverSchema);
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const slug = new URL(request.url).pathname;
   const sessionContext = getSessionForContext("beratungshilfe");
 
@@ -54,7 +54,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ form, common, meta, backURL }, { headers });
 }
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const result = await validatorServer.validate(await request.formData());
   if (result.error) return validationError(result.error);
   const { pathname } = new URL(request.url);
