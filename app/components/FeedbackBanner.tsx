@@ -10,7 +10,7 @@ export type FeedbackProps = {
 // Appends the current page title as email subject
 export function augmentFeedback(
   feedback: FeedbackProps,
-  subject: string,
+  subject?: string,
 ): FeedbackProps {
   const emailRegex = /[^\s]*@[a-z0-9.-]*/;
   return {
@@ -18,7 +18,8 @@ export function augmentFeedback(
     content:
       feedback.content?.replace(
         emailRegex,
-        (email) => `[${email}](mailto:${email}?subject=${encodeURI(subject)})`,
+        (email) =>
+          `[${email}](mailto:${email}?subject=${encodeURI(subject ?? "")})`,
       ) ?? undefined,
   };
 }
