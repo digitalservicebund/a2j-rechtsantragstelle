@@ -1,4 +1,4 @@
-import { Redis } from "ioredis";
+import { Redis, type RedisOptions } from "ioredis";
 import { config } from "../env/env.server";
 import { config as configWeb } from "../env/web";
 import { logError } from "../logging";
@@ -15,12 +15,13 @@ const redisUrl = () =>
     config().REDIS_ENDPOINT
   }`;
 
-function getRedisInstance() {
+async function getRedisInstance() {
   if (!global.ioredis) {
     try {
       const options = {
         maxRetriesPerRequest: 1,
-      };
+        lazyConnect: true,
+      } satisfies RedisOptions;
       global.ioredis = new Redis(
         redisUrl(),
         useTls
@@ -32,7 +33,9 @@ function getRedisInstance() {
             }
           : options,
       );
-      console.log("Redis connection opened");
+      console.log("Awaiting redis connection...");
+      await global.ioredis.connect();
+      console.log(`global.ioredis.status: ${global.ioredis.status}`);
     } catch (error) {
       logError({ message: "Redis error", error });
     }
@@ -44,13 +47,8 @@ const timeToLiveSeconds = 60 * 60 * 24;
 
 type RedisData = Record<string, any>;
 
-export function sessionAvailable() {
-  const { status } = getRedisInstance();
-  return status === "connect" || status === "ready";
-}
-
-export function setDataForSession(uuid: string, data: RedisData) {
-  return getRedisInstance().set(
+export async function setDataForSession(uuid: string, data: RedisData) {
+  return (await getRedisInstance()).set(
     uuid,
     JSON.stringify(data),
     "EX",
@@ -64,12 +62,12 @@ export async function updateDataForSession(uuid: string, data: RedisData) {
 }
 
 export async function getDataForSession(uuid: string) {
-  const redisResponse = await getRedisInstance().get(uuid);
+  const redisResponse = await (await getRedisInstance()).get(uuid);
   return redisResponse !== null
     ? (JSON.parse(redisResponse) as RedisData)
     : null;
 }
 
-export function deleteSessionData(uuid: string) {
-  return getRedisInstance().del(uuid);
+export async function deleteSessionData(uuid: string) {
+  return (await getRedisInstance()).del(uuid);
 }

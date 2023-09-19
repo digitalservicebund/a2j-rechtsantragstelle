@@ -77,13 +77,9 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   });
 
   const csrf = createCSRFToken();
-  let headers = undefined;
   const sessionContext = getSessionForContext("main");
-  if (sessionContext.sessionAvailable()) {
-    const session = await csrfSessionFromRequest(csrf, request);
-    const newCookie = await sessionContext.commitSession(session);
-    headers = { "Set-Cookie": newCookie };
-  }
+  const session = await csrfSessionFromRequest(csrf, request);
+  const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
 
   // The breadcrumb should not contain the current step title
   // Also, the parent page title needs to be appended manually to the title

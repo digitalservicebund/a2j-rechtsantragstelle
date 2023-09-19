@@ -2,7 +2,6 @@ import crypto from "crypto";
 import {
   deleteSessionData,
   getDataForSession,
-  sessionAvailable,
   setDataForSession,
   updateDataForSession,
 } from "./redis";
@@ -28,7 +27,7 @@ function createDatabaseSessionStorage({
       return uuid;
     },
     async readData(id) {
-      return getDataForSession(`${context}_${id}`);
+      return await getDataForSession(`${context}_${id}`);
     },
     async updateData(id, data, expires) {
       await updateDataForSession(`${context}_${id}`, data);
@@ -52,5 +51,5 @@ export function getSessionForContext(context: SessionContext) {
       context: context,
     });
 
-  return { getSession, commitSession, destroySession, sessionAvailable };
+  return { getSession, commitSession, destroySession };
 }
