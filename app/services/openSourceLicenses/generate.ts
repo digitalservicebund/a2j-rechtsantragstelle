@@ -28,7 +28,6 @@ async function licensesFromPackageJson(direct = false): Promise<ModuleInfos> {
   const opts = {
     start: "./",
     production: true,
-    // @ts-ignore, due to bug in API: https://github.com/RSeidelsohn/license-checker-rseidelsohn/issues/83
     direct: direct ? 0 : undefined,
   } satisfies InitOpts;
 
@@ -37,7 +36,6 @@ async function licensesFromPackageJson(direct = false): Promise<ModuleInfos> {
       if (err !== null) reject(err);
       resolve(ret);
     };
-    // @ts-ignore, see above
     init(opts, callback);
   });
 }
