@@ -93,7 +93,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   return json(
     {
       csrf,
-      defaultValues: data,
+      defaultValues: data as Record<string, string>,
       commonContent,
       content: formPageContent.pre_form,
       formContent: formPageContent.form,
