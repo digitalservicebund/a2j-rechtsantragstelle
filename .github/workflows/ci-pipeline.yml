@@ -188,5 +188,3 @@ jobs:
 
       - name: Run text test
         uses: ./.github/actions/production-text-test
-        with:
-          PRODUCTION_BASIC_AUTH_TOKEN: "${{ secrets.PRODUCTION_BASIC_AUTH_TOKEN }}"
