@@ -27,7 +27,7 @@ jobs:
           node-version: "18.x"
           cache: "npm"
 
-      - run: npm install
+      - run: npm ci
 
       - name: Get Playwright version
         run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages[''].devDependencies['@playwright/test'])")" >> $GITHUB_ENV
