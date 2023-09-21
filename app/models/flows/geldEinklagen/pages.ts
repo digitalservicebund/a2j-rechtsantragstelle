@@ -4,6 +4,11 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
+const plzSchema = z
+  .string()
+  .length(5, "length")
+  .regex(/^\d{5}$/, "invalid");
+
 export const context = {
   forderung: z.enum(
     ["money", "action", "moneyAndAction"],
@@ -51,6 +56,11 @@ export const context = {
   gegenseitePersonDeutschland: YesNoAnswer,
   gegenseiteUnternehmenDeutschland: YesNoAnswer,
   wohnraeume: YesNoAnswer,
+  wohnraumPlz: plzSchema,
+  gegenseitePersonPlz: plzSchema,
+  gegenseiteUnternehmenPlz: plzSchema,
+  schadenPlz: plzSchema,
+  ortLeistungPlz: plzSchema,
 } as const;
 
 const contextObject = z.object(context).partial();

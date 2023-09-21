@@ -227,16 +227,47 @@
             "cond": "gegenseitePersonDeutschlandNo"
           },
           {
-            "target": "ergebnis/abschluss"
+            "target": "wohnraum-plz",
+            "cond": "wohnraeumeYes"
+          },
+          {
+            "target": "gegenseite-person-plz",
+            "cond": "gegenseitePrivatperson"
           }
         ],
         "BACK": "gegenseite"
+      }
+    },
+    "wohnraum-plz": {
+      "meta": { "progressPosition": 12 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "ergebnis/abschluss"
+          }
+        ],
+        "BACK": "gegenseite-person-deutschland"
+      }
+    },
+    "gegenseite-person-plz": {
+      "meta": { "progressPosition": 12 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "schaden-plz"
+          }
+        ],
+        "BACK": "gegenseite-person-deutschland"
       }
     },
     "gegenseite-unternehmen-deutschland": {
       "meta": { "progressPosition": 11 },
       "on": {
         "SUBMIT": [
+          {
+            "target": "gegenseite-unternehmen-plz",
+            "cond": "gegenseiteUnternehmenDeutschlandYes"
+          },
           {
             "target": "ergebnis/gegenseite-unternehmen-deutschland-abbruch",
             "cond": "gegenseiteUnternehmenDeutschlandNo"
@@ -254,6 +285,57 @@
             "target": "gegenseite"
           }
         ]
+      }
+    },
+    "gegenseite-unternehmen-plz": {
+      "meta": { "progressPosition": 12 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "ort-leistung-plz"
+          }
+        ],
+        "BACK": [
+          {
+            "target": "gegenseite-unternehmen-plz",
+            "cond": "gegenseiteUnternehmen"
+          },
+          {
+            "target": "gegenseite-person-plz",
+            "cond": "gegenseitePrivatperson"
+          }
+        ]
+      }
+    },
+    "schaden-plz": {
+      "meta": { "progressPosition": 13 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "ergebnis/abschluss"
+          }
+        ],
+        "BACK": [
+          {
+            "target": "gegenseite-unternehmen-plz",
+            "cond": "gegenseiteUnternehmen"
+          },
+          {
+            "target": "gegenseite-person-plz",
+            "cond": "gegenseitePrivatperson"
+          }
+        ]
+      }
+    },
+    "ort-leistung-plz": {
+      "meta": { "progressPosition": 13 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "ergebnis/abschluss"
+          }
+        ],
+        "BACK": "gegenseite-unternehmen-plz"
       }
     },
     "ergebnis/gegenseite-mehrere-abbruch": {
