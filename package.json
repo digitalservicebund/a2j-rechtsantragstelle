@@ -72,7 +72,7 @@
     "@playwright/test": "^1.38.0",
     "@remix-run/dev": "^1.19.3",
     "@remix-run/eslint-config": "^1.19.3",
-    "@storybook/addon-a11y": "^7.4.2",
+    "@storybook/addon-a11y": "^7.4.3",
     "@storybook/addon-essentials": "^7.4.2",
     "@storybook/addon-interactions": "^7.4.2",
     "@storybook/addon-links": "^7.4.2",
