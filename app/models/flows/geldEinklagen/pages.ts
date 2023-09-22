@@ -1,13 +1,9 @@
 import { z } from "zod";
+import { postcodeSchema } from "~/services/validation/plz";
 import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
-
-const plzSchema = z
-  .string()
-  .length(5, "length")
-  .regex(/^\d{5}$/, "invalid");
 
 export const context = {
   forderung: z.enum(
@@ -56,11 +52,11 @@ export const context = {
   gegenseitePersonDeutschland: YesNoAnswer,
   gegenseiteUnternehmenDeutschland: YesNoAnswer,
   wohnraeume: YesNoAnswer,
-  wohnraumPlz: plzSchema,
-  gegenseitePersonPlz: plzSchema,
-  gegenseiteUnternehmenPlz: plzSchema,
-  schadenPlz: plzSchema,
-  ortLeistungPlz: plzSchema,
+  wohnraumPlz: postcodeSchema,
+  gegenseitePersonPlz: postcodeSchema,
+  gegenseiteUnternehmenPlz: postcodeSchema,
+  schadenPlz: postcodeSchema,
+  ortLeistungPlz: postcodeSchema,
 } as const;
 
 const contextObject = z.object(context).partial();

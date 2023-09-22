@@ -16,19 +16,9 @@ import PageContent from "~/components/PageContent";
 import { getSessionForContext } from "~/services/session";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
+import { postcodeSchema } from "~/services/validation/plz";
 
-function isValidPostcode(postcode: string) {
-  const postcodeNum = parseInt(postcode, 10);
-  return postcodeNum >= 1067 && postcodeNum <= 99998;
-}
-
-const clientSchema = z.object({
-  postcode: z
-    .string()
-    .trim()
-    .length(5, { message: "length" })
-    .refine((postcode) => isValidPostcode(postcode), { message: "invalid" }),
-});
+const clientSchema = z.object({ postcode: postcodeSchema });
 
 const serverSchema = clientSchema.refine(
   (postcodeObj) => courtForPlz(postcodeObj.postcode) !== undefined,
