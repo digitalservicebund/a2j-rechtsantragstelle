@@ -69,7 +69,7 @@
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.22.15",
     "@faker-js/faker": "^8.1.0",
-    "@playwright/test": "^1.38.0",
+    "@playwright/test": "^1.38.1",
     "@remix-run/dev": "^1.19.3",
     "@remix-run/eslint-config": "^1.19.3",
     "@storybook/addon-a11y": "^7.4.3",
