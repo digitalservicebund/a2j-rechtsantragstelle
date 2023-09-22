@@ -71,7 +71,7 @@
     "@faker-js/faker": "^8.1.0",
     "@playwright/test": "^1.38.1",
     "@remix-run/dev": "^1.19.3",
-    "@remix-run/eslint-config": "^1.19.3",
+    "@remix-run/eslint-config": "^2.0.1",
     "@storybook/addon-a11y": "^7.4.3",
     "@storybook/addon-essentials": "^7.4.3",
     "@storybook/addon-interactions": "^7.4.3",
