@@ -10,24 +10,47 @@ import { getEncrypted } from "./encryptedStorage";
 import type { Jmtd14VTErwerberPlzortk, Jmtd14VTErwerberPlzstrn } from "./types";
 import partnerGerichte from "./data/partnerGerichte.json";
 
-const data = getEncrypted();
+// Encrypted court data & gerbehIndex of partner courts are cached
+let courtdata: Record<string, object> | undefined = undefined;
+let partnerCourtsGerbehIndex: Record<string, object> | undefined = undefined;
+
+function getCourtData() {
+  if (courtdata === undefined) courtdata = getEncrypted();
+  return courtdata;
+}
+
+function getPartnerCourtsGerbehIndex() {
+  if (partnerCourtsGerbehIndex === undefined) {
+    partnerCourtsGerbehIndex = Object.fromEntries(
+      Object.entries(partnerGerichte).map(([courtPostcode, courtInfos]) => [
+        gerbehIndexForPlz(courtPostcode),
+        courtInfos,
+      ]),
+    );
+  }
+  return partnerCourtsGerbehIndex;
+}
 
 const courtAddress = (
   courtData: Jmtd14VTErwerberPlzstrn | Jmtd14VTErwerberPlzortk,
 ) => {
-  const gerbehDb: GerbehFile =
-    data["JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json"];
+  const gerbehDb = getCourtData()[
+    "JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json"
+  ] as GerbehFile;
   return gerbehDb[gerbehIndex(buildGerbehIndex(courtData))];
 };
 
 export const courtForPlz = (PLZ: string | undefined) => {
-  const plzDb: PlzOrtkFile = data["JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json"];
+  const plzDb = getCourtData()[
+    "JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json"
+  ] as PlzOrtkFile;
   return PLZ && plzDb && PLZ in plzDb ? plzDb[PLZ][0] : undefined;
 };
 
 export const edgeCasesForPlz = (PLZ: string | undefined) => {
-  const edgeCaseDb: PlzStrnFile =
-    data["JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json"];
+  const edgeCaseDb = getCourtData()[
+    "JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json"
+  ] as PlzStrnFile;
   return PLZ && PLZ in edgeCaseDb ? edgeCaseDb[PLZ] : [];
 };
 
@@ -106,17 +129,10 @@ export const findCourt = ({
   return courtAddress(court);
 };
 
-const partnerCourtsGerbehIndex = Object.fromEntries(
-  Object.entries(partnerGerichte).map(([courtPostcode, courtInfos]) => [
-    gerbehIndexForPlz(courtPostcode),
-    courtInfos,
-  ]),
-);
-
 export function isPartnerCourt(zipCode?: string) {
   if (!zipCode) return false;
   try {
-    return gerbehIndexForPlz(zipCode) in partnerCourtsGerbehIndex;
+    return gerbehIndexForPlz(zipCode) in getPartnerCourtsGerbehIndex();
   } catch {
     return false;
   }
