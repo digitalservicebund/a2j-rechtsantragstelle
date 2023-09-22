@@ -70,13 +70,6 @@
         "BACK": { "target": "geldspanne" }
       }
     },
-    "ergebnis/gerichtskostenvorschuss-hinweis": {
-      "meta": { "progressPosition": 5 },
-      "on": {
-        "SUBMIT": { "target": "bereich" },
-        "BACK": { "target": "gerichtskostenvorschuss" }
-      }
-    },
     "ergebnis/gerichtskostenvorschuss-abbruch": {
       "on": { "BACK": { "target": "gerichtskostenvorschuss" } }
     },
@@ -242,9 +235,8 @@
       "meta": { "progressPosition": 12 },
       "on": {
         "SUBMIT": [
-          {
-            "target": "ergebnis/abschluss"
-          }
+          { "cond": "wohnraumPlzPartnerCourt", "target": "ergebnis/abschluss" },
+          "ergebnis/kein-partergericht-abbruch"
         ],
         "BACK": "gegenseite-person-deutschland"
       }
@@ -254,8 +246,14 @@
       "on": {
         "SUBMIT": [
           {
+            "cond": "gegenseitePersonPlzPartnerCourt",
+            "target": "ergebnis/abschluss"
+          },
+          {
+            "cond": "wasUnerlaubteHandlung",
             "target": "schaden-plz"
-          }
+          },
+          "ort-leistung-plz"
         ],
         "BACK": "gegenseite-person-deutschland"
       }
@@ -292,19 +290,16 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "ort-leistung-plz"
-          }
-        ],
-        "BACK": [
-          {
-            "target": "gegenseite-unternehmen-plz",
-            "cond": "gegenseiteUnternehmen"
+            "cond": "gegenseiteUnternehmenPlzPartnerCourt",
+            "target": "ergebnis/abschluss"
           },
           {
-            "target": "gegenseite-person-plz",
-            "cond": "gegenseitePrivatperson"
-          }
-        ]
+            "cond": "wasUnerlaubteHandlung",
+            "target": "schaden-plz"
+          },
+          "ort-leistung-plz"
+        ],
+        "BACK": "gegenseite-unternehmen-deutschland"
       }
     },
     "schaden-plz": {
@@ -312,8 +307,10 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "ergebnis/abschluss"
-          }
+            "target": "ergebnis/abschluss",
+            "cond": "schadenPlzPartnerCourt"
+          },
+          "ergebnis/kein-partergericht-abbruch"
         ],
         "BACK": [
           {
@@ -332,8 +329,10 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "ergebnis/abschluss"
-          }
+            "target": "ergebnis/abschluss",
+            "cond": "ortLeistungPlzPartnerCourt"
+          },
+          "ergebnis/kein-partergericht-abbruch"
         ],
         "BACK": "gegenseite-unternehmen-plz"
       }
@@ -343,6 +342,24 @@
     },
     "ergebnis/privatperson-abbruch": {
       "on": { "BACK": "privatperson" }
+    },
+    "ergebnis/kein-partergericht-abbruch": {
+      "on": {
+        "BACK": [
+          {
+            "cond": "wohnraeumeYes",
+            "target": "wohnraum-plz"
+          },
+          {
+            "cond": "wasUnerlaubteHandlung",
+            "target": "schaden-plz"
+          },
+          {
+            "cond": "wasUnerlaubteHandlung",
+            "target": "ort-leistung-plz"
+          }
+        ]
+      }
     },
     "ergebnis/abschluss": {
       "on": {

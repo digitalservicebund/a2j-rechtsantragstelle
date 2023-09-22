@@ -8,6 +8,7 @@ import type {
 import { gerbehIndex } from "./convertJsonDataTable";
 import { getEncrypted } from "./encryptedStorage";
 import type { Jmtd14VTErwerberPlzortk, Jmtd14VTErwerberPlzstrn } from "./types";
+import partnerGerichte from "./data/partnerGerichte.json";
 
 const data = getEncrypted();
 
@@ -80,6 +81,12 @@ export const edgeCaseStreets = ({ zipCode }: { zipCode?: string }) => {
   return edgeCasesForPlz(zipCode).map(streetForEdgeCase);
 };
 
+const gerbehIndexForPlz = (zipCode: string) => {
+  const court = courtForPlz(zipCode);
+  if (!court) throw Error(`Not court with postcode ${zipCode}`);
+  return gerbehIndex(buildGerbehIndex(court));
+};
+
 export const findCourt = ({
   zipCode,
   streetSlug,
@@ -98,3 +105,19 @@ export const findCourt = ({
   if (!court) throw new Error("zipCode unknown");
   return courtAddress(court);
 };
+
+const partnerCourtsGerbehIndex = Object.fromEntries(
+  Object.entries(partnerGerichte).map(([courtPostcode, courtInfos]) => [
+    gerbehIndexForPlz(courtPostcode),
+    courtInfos,
+  ]),
+);
+
+export function isPartnerCourt(zipCode?: string) {
+  if (!zipCode) return false;
+  try {
+    return gerbehIndexForPlz(zipCode) in partnerCourtsGerbehIndex;
+  } catch {
+    return false;
+  }
+}

@@ -1,3 +1,4 @@
+import { isPartnerCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { GeldEinklagenVorabcheckContext } from "./pages";
 
 type Guard = (context: GeldEinklagenVorabcheckContext) => boolean;
@@ -64,4 +65,17 @@ export const guards = {
   geldspanneBelow5k,
   geldspanneAbove5k,
   geldspanneWithoutClaim,
+  gegenseiteUnternehmenPlzPartnerCourt: (
+    context: GeldEinklagenVorabcheckContext,
+  ) => isPartnerCourt(context.gegenseiteUnternehmenPlz),
+  gegenseitePersonPlzPartnerCourt: (context: GeldEinklagenVorabcheckContext) =>
+    isPartnerCourt(context.gegenseitePersonPlz),
+  schadenPlzPartnerCourt: (context: GeldEinklagenVorabcheckContext) =>
+    isPartnerCourt(context.schadenPlz),
+  ortLeistungPlzPartnerCourt: (context: GeldEinklagenVorabcheckContext) =>
+    isPartnerCourt(context.ortLeistungPlz),
+  wohnraumPlzPartnerCourt: (context: GeldEinklagenVorabcheckContext) =>
+    isPartnerCourt(context.wohnraumPlz),
+  wasUnerlaubteHandlung: (context: GeldEinklagenVorabcheckContext) =>
+    context.bereich === "violation",
 };
