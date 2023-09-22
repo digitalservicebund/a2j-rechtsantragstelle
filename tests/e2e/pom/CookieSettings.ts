@@ -20,7 +20,8 @@ export class CookieSettings {
   }
 
   async posthogEnabled() {
-    return (await this.page.evaluate("ENV.POSTHOG_API_KEY")) !== "";
+    const posthogFrontendKey = await this.page.evaluate("ENV.POSTHOG_API_KEY");
+    return posthogFrontendKey !== undefined && posthogFrontendKey !== "";
   }
 
   async submitForm() {
