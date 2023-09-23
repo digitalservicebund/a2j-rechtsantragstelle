@@ -48,7 +48,7 @@ test("geldeinklagen can be traversed", async ({ page }) => {
   await geldEinklagen.fillInputPage("gegenseiteUnternehmenPlz", "85433"); // not a partner court
 
   await expectPageToBeAccessible({ page });
-  await geldEinklagen.fillInputPage("schadenPlz", "85435"); // partner court
+  await geldEinklagen.fillInputPage("ortLeistungPlz", "85435"); // partner court
 
   await expectPageToBeAccessible({ page });
   await expect(
