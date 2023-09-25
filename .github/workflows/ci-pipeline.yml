@@ -46,7 +46,6 @@ jobs:
 
   build-image:
     needs: [create-content-file]
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -120,6 +119,7 @@ jobs:
 
       - name: Push image
         run: |
+          docker load < container.tar
           docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ needs.build-image.outputs.content_checksum }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ needs.build-image.outputs.content_checksum }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ needs.build-image.outputs.content_checksum }}
           docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
