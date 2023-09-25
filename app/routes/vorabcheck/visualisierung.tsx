@@ -1,4 +1,4 @@
-import { type LoaderArgs, json } from "@remix-run/node";
+import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { createMachine, type AnyStateMachine } from "xstate";
 import { toDirectedGraph } from "@xstate/graph";
@@ -46,7 +46,7 @@ const getVisualizationString = (
   return Buffer.from(flowChart).toString("base64");
 };
 
-export const loader = ({ request }: LoaderArgs) => {
+export const loader = ({ request }: LoaderFunctionArgs) => {
   throw404OnProduction();
   const url = new URL(request.url);
   const flowId = flowIDFromPathname(url.pathname);

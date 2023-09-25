@@ -1,5 +1,5 @@
 import { redirect } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form, useLoaderData, useNavigation } from "@remix-run/react";
 import { useState, useEffect } from "react";
 import Button from "~/components/Button";
@@ -12,13 +12,13 @@ import {
 } from "~/services/analytics/gdprCookie.server";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const { content, meta } = await strapiPageFromRequest({ request });
   const trackingConsent = await trackingCookieValue({ request });
   return { meta, content, trackingConsent, acceptCookiesFieldName };
 }
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const headers = { "Set-Cookie": await consentCookieFromRequest({ request }) };
   return redirect("/cookie-einstellungen/erfolg", { headers });
 }

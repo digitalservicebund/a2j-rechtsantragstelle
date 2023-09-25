@@ -1,5 +1,5 @@
 import { useLoaderData, useLocation, useParams } from "@remix-run/react";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
@@ -33,7 +33,7 @@ import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
 import { getGerichtskostenvorschuss } from "~/models/geldEinklagen";
 
-export const loader = async ({ params, request }: LoaderArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
   const stepId = splatFromParams(params);
   const { pathname } = new URL(request.url);
@@ -93,7 +93,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   return json(
     {
       csrf,
-      defaultValues: data,
+      defaultValues: data as Record<string, string>,
       commonContent,
       content: formPageContent.pre_form,
       formContent: formPageContent.form,
@@ -107,7 +107,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   );
 };
 
-export const action = async ({ params, request }: ActionArgs) => {
+export const action = async ({ params, request }: ActionFunctionArgs) => {
   try {
     await validatedSession(request);
   } catch (csrfError) {

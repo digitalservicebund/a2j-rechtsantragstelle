@@ -9,8 +9,22 @@ type RouteMatchKnown = Omit<ReturnType<typeof useMatches>[0], "data"> & {
     content: StrapiContent[] | undefined;
   };
 };
+function isMatchesWithDataObject(
+  matches: ReturnType<typeof useMatches>,
+): matches is RouteMatchKnown[] {
+  return matches.every(({ data }) => typeof data === "object");
+}
 
-export function metaFromMatches(matches: RouteMatchKnown[]) {
+export function metaFromMatches(matches: ReturnType<typeof useMatches>) {
+  if (!isMatchesWithDataObject(matches)) {
+    return {
+      title: undefined,
+      breadcrumbs: [],
+      ogTitle: undefined,
+      description: undefined,
+    };
+  }
+
   const breadcrumbs = matches
     .filter((m) => !/.*_index$/.exec(m.id) && m.id !== "root")
     .map((m) => ({
