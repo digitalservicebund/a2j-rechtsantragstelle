@@ -16,6 +16,8 @@ const allowedWebsites = [
   "https://posthog.com",
   "https://www.bfdi.bund.de",
   "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
+  "https://soep-online.de/",
+  "https://www.bundesjustizamt.de/",
 ];
 
 const allowedEmails = [
