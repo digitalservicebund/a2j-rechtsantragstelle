@@ -61,12 +61,9 @@ test("geldeinklagen can be traversed", async ({ page }) => {
 
   await expectPageToBeAccessible({ page });
   await expect(
-    page
-      .getByRole("heading")
-      .filter({
-        hasText:
-          "Ein Pilotgericht ist wahrscheinlich für Ihren Fall zuständig.",
-      }),
+    page.getByRole("heading").filter({
+      hasText: "Ein Pilotgericht ist wahrscheinlich für Ihren Fall zuständig.",
+    }),
   ).toHaveCount(1);
 });
 
