@@ -51,8 +51,22 @@ test("geldeinklagen can be traversed", async ({ page }) => {
   await geldEinklagen.fillInputPage("ortLeistungPlz", "85435"); // partner court
 
   await expectPageToBeAccessible({ page });
+  await geldEinklagen.fillRadioPage("gegenseiteKontakt", "yes");
+
+  await expectPageToBeAccessible({ page });
+  await geldEinklagen.fillRadioPage("gegenseiteFrist", "yesExpired");
+
+  await expectPageToBeAccessible({ page });
+  await geldEinklagen.fillRadioPage("digitalAusweisen", "yesWithId");
+
+  await expectPageToBeAccessible({ page });
   await expect(
-    page.getByRole("heading").filter({ hasText: "Super" }),
+    page
+      .getByRole("heading")
+      .filter({
+        hasText:
+          "Ein Pilotgericht ist wahrscheinlich für Ihren Fall zuständig.",
+      }),
   ).toHaveCount(1);
 });
 

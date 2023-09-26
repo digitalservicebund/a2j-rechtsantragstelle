@@ -62,7 +62,7 @@ export const context = {
     ["yes", "yesExpired", "no"],
     customRequiredErrorMessage,
   ),
-  elektronischAusweisen: z.enum(
+  digitalAusweisen: z.enum(
     ["yesWithId", "yesWithElectronicResidencePermitOrUnionCitizenCard", "no"],
     customRequiredErrorMessage,
   ),

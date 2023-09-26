@@ -405,7 +405,7 @@
         "SUBMIT": [
           {
             "target": "ergebnis/stopp-ausweis",
-            "cond": "elektronischAusweisenNo"
+            "cond": "digitalAusweisenNo"
           },
           {
             "target": "partnergericht/ergebnis/positiv"

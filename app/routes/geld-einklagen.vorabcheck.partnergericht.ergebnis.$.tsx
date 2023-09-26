@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
@@ -26,7 +26,7 @@ import type { ReactElement } from "react";
 import RichText from "~/components/RichText";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 
-export const loader = async ({ params, request }: LoaderArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);
 

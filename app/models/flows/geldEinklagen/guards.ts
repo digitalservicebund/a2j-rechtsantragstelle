@@ -81,6 +81,6 @@ export const guards = {
   ...yesNoGuards("gegenseiteKontakt"),
   gegenseiteFristYesExpired: (context: GeldEinklagenVorabcheckContext) =>
     context.gegenseiteFrist === "yesExpired",
-  elektronischAusweisenNo: (context: GeldEinklagenVorabcheckContext) =>
-    context.elektronischAusweisen === "no",
+  digitalAusweisenNo: (context: GeldEinklagenVorabcheckContext) =>
+    context.digitalAusweisen === "no",
 };
