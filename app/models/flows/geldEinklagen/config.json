@@ -235,7 +235,7 @@
       "meta": { "progressPosition": 12 },
       "on": {
         "SUBMIT": [
-          { "cond": "wohnraumPlzPartnerCourt", "target": "ergebnis/abschluss" },
+          { "cond": "wohnraumPlzPartnerCourt", "target": "gegenseite-kontakt" },
           "ergebnis/kein-partergericht-abbruch"
         ],
         "BACK": "gegenseite-person-deutschland"
@@ -247,7 +247,7 @@
         "SUBMIT": [
           {
             "cond": "gegenseitePersonPlzPartnerCourt",
-            "target": "ergebnis/abschluss"
+            "target": "gegenseite-kontakt"
           },
           {
             "cond": "wasUnerlaubteHandlung",
@@ -263,15 +263,15 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "gegenseite-unternehmen-plz",
-            "cond": "gegenseiteUnternehmenDeutschlandYes"
-          },
-          {
             "target": "ergebnis/gegenseite-unternehmen-deutschland-abbruch",
             "cond": "gegenseiteUnternehmenDeutschlandNo"
           },
           {
-            "target": "ergebnis/abschluss"
+            "target": "wohnraum-plz",
+            "cond": "wohnraeumeYes"
+          },
+          {
+            "target": "gegenseite-unternehmen-plz"
           }
         ],
         "BACK": [
@@ -291,13 +291,15 @@
         "SUBMIT": [
           {
             "cond": "gegenseiteUnternehmenPlzPartnerCourt",
-            "target": "ergebnis/abschluss"
+            "target": "gegenseite-kontakt"
           },
           {
             "cond": "wasUnerlaubteHandlung",
             "target": "schaden-plz"
           },
-          "ort-leistung-plz"
+          {
+            "target": "ort-leistung-plz"
+          }
         ],
         "BACK": "gegenseite-unternehmen-deutschland"
       }
@@ -307,10 +309,12 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "ergebnis/abschluss",
+            "target": "gegenseite-kontakt",
             "cond": "schadenPlzPartnerCourt"
           },
-          "ergebnis/kein-partergericht-abbruch"
+          {
+            "target": "ergebnis/kein-partergericht-abbruch"
+          }
         ],
         "BACK": [
           {
@@ -329,13 +333,116 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "ergebnis/abschluss",
+            "target": "gegenseite-kontakt",
             "cond": "ortLeistungPlzPartnerCourt"
           },
           "ergebnis/kein-partergericht-abbruch"
         ],
         "BACK": "gegenseite-unternehmen-plz"
       }
+    },
+    "gegenseite-kontakt": {
+      "meta": { "progressPosition": 14 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "gegenseite-frist",
+            "cond": "gegenseiteKontaktYes"
+          },
+          {
+            "target": "eigeninitiative-warnung"
+          }
+        ],
+        "BACK": [
+          {
+            "target": "gegenseite-unternehmen-plz",
+            "cond": "gegenseiteUnternehmen"
+          },
+          {
+            "target": "gegenseite-person-plz",
+            "cond": "gegenseitePrivatperson"
+          }
+        ]
+      }
+    },
+    "gegenseite-frist": {
+      "meta": { "progressPosition": 15 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "digital-ausweisen",
+            "cond": "gegenseiteFristYesExpired"
+          },
+          {
+            "target": "frist-warnung"
+          }
+        ],
+        "BACK": [
+          {
+            "target": "gegenseite-kontakt"
+          }
+        ]
+      }
+    },
+    "frist-warnung": {
+      "meta": { "progressPosition": 15 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "digital-ausweisen"
+          }
+        ],
+        "BACK": [
+          {
+            "target": "gegenseite-frist"
+          }
+        ]
+      }
+    },
+    "digital-ausweisen": {
+      "meta": { "progressPosition": 16 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "ergebnis/stopp-ausweis",
+            "cond": "elektronischAusweisenNo"
+          },
+          {
+            "target": "partnergericht/ergebnis/positiv"
+          }
+        ],
+        "BACK": [
+          {
+            "target": "gegenseite-unternehmen-plz",
+            "cond": "gegenseiteUnternehmen"
+          },
+          {
+            "target": "gegenseite-person-plz",
+            "cond": "gegenseitePrivatperson"
+          }
+        ]
+      }
+    },
+    "eigeninitiative-warnung": {
+      "meta": { "progressPosition": 15 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "gegenseite-frist"
+          }
+        ],
+        "BACK": [
+          {
+            "target": "gegenseite-kontakt"
+          }
+        ]
+      }
+    },
+    "partnergericht/ergebnis/positiv": {
+      "on": { "BACK": "digital-ausweisen" }
+    },
+    "ergebnis/stopp-ausweis": {
+      "on": { "BACK": "digital-ausweisen" }
     },
     "ergebnis/gegenseite-mehrere-abbruch": {
       "on": { "BACK": "gegenseite" }

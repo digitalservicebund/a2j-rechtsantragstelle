@@ -78,4 +78,9 @@ export const guards = {
     isPartnerCourt(context.wohnraumPlz),
   wasUnerlaubteHandlung: (context: GeldEinklagenVorabcheckContext) =>
     context.bereich === "violation",
+  ...yesNoGuards("gegenseiteKontakt"),
+  gegenseiteFristYesExpired: (context: GeldEinklagenVorabcheckContext) =>
+    context.gegenseiteFrist === "yesExpired",
+  elektronischAusweisenNo: (context: GeldEinklagenVorabcheckContext) =>
+    context.elektronischAusweisen === "no",
 };

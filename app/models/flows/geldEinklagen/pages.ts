@@ -57,6 +57,15 @@ export const context = {
   gegenseiteUnternehmenPlz: postcodeSchema,
   schadenPlz: postcodeSchema,
   ortLeistungPlz: postcodeSchema,
+  gegenseiteKontakt: YesNoAnswer,
+  gegenseiteFrist: z.enum(
+    ["yes", "yesExpired", "no"],
+    customRequiredErrorMessage,
+  ),
+  elektronischAusweisen: z.enum(
+    ["yesWithId", "yesWithElectronicResidencePermitOrUnionCitizenCard", "no"],
+    customRequiredErrorMessage,
+  ),
 } as const;
 
 const contextObject = z.object(context).partial();
