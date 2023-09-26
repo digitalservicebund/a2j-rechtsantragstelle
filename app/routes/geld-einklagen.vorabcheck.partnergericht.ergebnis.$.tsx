@@ -13,7 +13,10 @@ import {
   fetchCollectionEntry,
   fetchSingleEntry,
 } from "~/services/cms/index.server";
-import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import {
+  findCourt,
+  isPartnerCourt,
+} from "~/services/gerichtsfinder/amtsgerichtData.server";
 import urlMap from "~/services/gerichtsfinder/data/sanitizedURLs.json";
 import {
   flowIDFromPathname,
@@ -52,7 +55,9 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
           court.URL1 = urlMap[court?.URL1 as keyof typeof urlMap];
         }
         invariant(court);
-        courts.push(court);
+        if (isPartnerCourt(court.PLZ_ZUSTELLBEZIRK)) {
+          courts.push(court);
+        }
       }
     } catch (err) {}
   });
