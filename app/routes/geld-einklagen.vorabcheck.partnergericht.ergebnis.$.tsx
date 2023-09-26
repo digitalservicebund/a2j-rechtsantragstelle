@@ -45,29 +45,34 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     contextData.gegenseitePersonPlz,
     contextData.gegenseiteUnternehmenPlz,
   ];
+  const pageType = splatFromParams(params);
 
   const courts: Jmtd14VTErwerberGerbeh[] = [];
-  zipCodes.forEach((zipCode) => {
-    try {
-      if (zipCode) {
-        const court = findCourt({ zipCode });
-        if (court?.URL1 && court?.URL1 in urlMap) {
-          court.URL1 = urlMap[court?.URL1 as keyof typeof urlMap];
+  zipCodes
+    .filter((value, index, array) => array.indexOf(value) === index)
+    .forEach((zipCode) => {
+      try {
+        if (zipCode) {
+          const court = findCourt({ zipCode });
+          if (court?.URL1 && court?.URL1 in urlMap) {
+            court.URL1 = urlMap[court?.URL1 as keyof typeof urlMap];
+          }
+          invariant(court);
+          if (
+            isPartnerCourt(court.PLZ_ZUSTELLBEZIRK) ||
+            pageType == "negativ"
+          ) {
+            courts.push(court);
+          }
         }
-        invariant(court);
-        if (isPartnerCourt(court.PLZ_ZUSTELLBEZIRK)) {
-          courts.push(court);
-        }
-      }
-    } catch (err) {}
-  });
+      } catch (err) {}
+    });
 
   const slug = pathname;
   const [common, { heading, freeZone, hintText, meta }] = await Promise.all([
     fetchSingleEntry("amtsgericht-common"),
     fetchCollectionEntry("result-pages", slug),
   ]);
-  const pageType = splatFromParams(params);
 
   return json({ courts, freeZone, heading, hintText, pageType, meta, common });
 };

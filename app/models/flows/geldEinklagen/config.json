@@ -155,12 +155,12 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "gegenseite-unternehmen-deutschland",
-            "cond": "privatpersonEligibleAndFlugYes"
-          },
-          {
             "target": "gegenseite",
             "cond": "privatpersonEligible"
+          },
+          {
+            "target": "gegenseite-unternehmen-deutschland",
+            "cond": "privatpersonEligibleAndFlugYes"
           },
           {
             "target": "ergebnis/privatperson-abbruch",
@@ -236,7 +236,7 @@
       "on": {
         "SUBMIT": [
           { "cond": "wohnraumPlzPartnerCourt", "target": "gegenseite-kontakt" },
-          "ergebnis/kein-partergericht-abbruch"
+          "partnergericht/ergebnis/negativ"
         ],
         "BACK": "gegenseite-person-deutschland"
       }
@@ -313,7 +313,7 @@
             "cond": "schadenPlzPartnerCourt"
           },
           {
-            "target": "ergebnis/kein-partergericht-abbruch"
+            "target": "partnergericht/ergebnis/negativ"
           }
         ],
         "BACK": [
@@ -336,7 +336,7 @@
             "target": "gegenseite-kontakt",
             "cond": "ortLeistungPlzPartnerCourt"
           },
-          "ergebnis/kein-partergericht-abbruch"
+          "partnergericht/ergebnis/negativ"
         ],
         "BACK": "gegenseite-unternehmen-plz"
       }
@@ -439,7 +439,22 @@
       }
     },
     "partnergericht/ergebnis/positiv": {
-      "on": { "BACK": "digital-ausweisen" }
+      "on": {
+        "BACK": [
+          {
+            "cond": "livingAndWohnraumeYes",
+            "target": "wohnraum-plz"
+          },
+          {
+            "cond": "wasUnerlaubteHandlung",
+            "target": "schaden-plz"
+          },
+          {
+            "cond": "wasUnerlaubteHandlung",
+            "target": "ort-leistung-plz"
+          }
+        ]
+      }
     },
     "ergebnis/stopp-ausweis": {
       "on": { "BACK": "digital-ausweisen" }
@@ -450,7 +465,7 @@
     "ergebnis/privatperson-abbruch": {
       "on": { "BACK": "privatperson" }
     },
-    "ergebnis/kein-partergericht-abbruch": {
+    "partnergericht/ergebnis/negativ": {
       "on": {
         "BACK": [
           {
