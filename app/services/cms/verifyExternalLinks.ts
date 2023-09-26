@@ -19,6 +19,7 @@ const allowedWebsites = [
   "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
   "https://soep-online.de/",
   "https://www.bundesjustizamt.de/",
+  "https://service.justiz.de/",
 ];
 
 const allowedEmails = [
