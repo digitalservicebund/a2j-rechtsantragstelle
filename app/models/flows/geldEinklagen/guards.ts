@@ -83,4 +83,6 @@ export const guards = {
     context.gegenseiteFrist === "yesExpired",
   digitalAusweisenNo: (context: GeldEinklagenVorabcheckContext) =>
     context.digitalAusweisen === "no",
+  livingAndWohnraumeYes: (context: GeldEinklagenVorabcheckContext) =>
+    context.bereich === "living" && context.wohnraeume == "yes",
 };
