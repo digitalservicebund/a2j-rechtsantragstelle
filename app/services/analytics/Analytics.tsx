@@ -1,26 +1,68 @@
 import { useFetcher, useLocation } from "@remix-run/react";
 import { config } from "~/services/env/web";
 import { useEffect, useState } from "react";
-import posthog from "posthog-js";
+import { posthog, PostHog } from "posthog-js";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";
 import type { StrapiCookieBanner } from "~/services/cms/models/StrapiCookieBannerSchema";
+import CryptoJS from "crypto-js";
 
 export const acceptCookiesFieldName = "accept-cookies";
 
 type AnalyticsProps = {
   hasTrackingConsent?: boolean;
   content: StrapiCookieBanner;
+  ip: string;
 };
 
-export function CookieBanner({ hasTrackingConsent, content }: AnalyticsProps) {
+function captureUniquePageView(ip: string) {
+  const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
+
+  if (!POSTHOG_API_KEY || !POSTHOG_API_HOST) {
+    return;
+  }
+
+  new PostHog().init(
+    POSTHOG_API_KEY,
+    {
+      /* eslint-disable camelcase */
+      api_host: POSTHOG_API_HOST,
+      disable_cookie: true,
+      disable_persistence: true,
+      disable_session_recording: true,
+      disable_compression: true,
+      advanced_disable_decide: true,
+      advanced_disable_feature_flags: true,
+      advanced_disable_feature_flags_on_first_load: true,
+      advanced_disable_toolbar_metrics: true,
+      capture_pageleave: false,
+      capture_pageview: false,
+      autocapture: false,
+
+      loaded: (posthog: PostHog) => {
+        posthog.capture("page view", {
+          distinct_id: CryptoJS.MD5(ip).toString(),
+        });
+      },
+      /* eslint-enable camelcase */
+    },
+    "capture only",
+  );
+}
+
+export function CookieBanner({
+  hasTrackingConsent,
+  content,
+  ip,
+}: AnalyticsProps) {
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
   const [posthogLoaded, setPosthogLoaded] = useState(false);
   const analyticsFetcher = useFetcher();
   const location = useLocation();
 
   useEffect(() => {
+    captureUniquePageView(ip);
     if (
       hasTrackingConsent &&
       !posthogLoaded &&
