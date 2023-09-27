@@ -62,7 +62,7 @@ export function CookieBanner({
   const location = useLocation();
 
   useEffect(() => {
-    captureUniquePageView(ip);
+    // captureUniquePageView(ip);
     if (
       hasTrackingConsent &&
       !posthogLoaded &&
