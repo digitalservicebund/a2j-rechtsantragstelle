@@ -2,7 +2,11 @@ import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
-import { type FeedbackProps } from "~/components/FeedbackBanner";
+
+export type FeedbackProps = {
+  heading?: string;
+  content?: string;
+};
 
 export const StrapiGlobalSchema = z
   .object({
