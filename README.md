@@ -52,3 +52,9 @@ Open the app in `localhost:3000`
 ### run license generator
 
 `npm run license`
+
+### Git Hooks
+
+We use [lefthook](https://github.com/evilmartians/lefthook) for running several pre-commit hooks,install them using `npm run init`.
+
+The git hooks check formatting, linting, unit tests, typecheck (see `lefthook.yaml` for more details). You may execute them before commiting using `lefthook run pre-commit`.
