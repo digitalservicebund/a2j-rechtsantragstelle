@@ -16,9 +16,6 @@ let instance: Config | undefined = undefined;
 export function config(): Config {
   if (instance === undefined) {
     const STRAPI_API = process.env.STRAPI_API?.trim();
-    const COOKIE_SESSION_SECRET = process.env.COOKIE_SESSION_SECRET?.trim();
-    if (!COOKIE_SESSION_SECRET)
-      throw new Error("Missing: Cookie Session Secret");
 
     instance = {
       STRAPI_API: STRAPI_API ?? "",
@@ -33,7 +30,8 @@ export function config(): Config {
           : "'self' https://*.ingest.sentry.io https://eu.posthog.com",
       REDIS_ENDPOINT: process.env.REDIS_ENDPOINT?.trim() ?? "localhost:6380",
       REDIS_PASSWORD: process.env.REDIS_PASSWORD?.trim() ?? "",
-      COOKIE_SESSION_SECRET,
+      COOKIE_SESSION_SECRET:
+        process.env.COOKIE_SESSION_SECRET?.trim() ?? "s3cr3t",
       CONTENT_FILE_PATH:
         process.env.CONTENT_FILE_PATH?.trim() ?? "./content.json",
     };
