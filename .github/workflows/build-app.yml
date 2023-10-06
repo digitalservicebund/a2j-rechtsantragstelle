@@ -11,9 +11,17 @@ env:
 jobs:
   build-image:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
-      - name: Build docker image
-        run: |
-          docker build -t ${{ env.IMAGE_NAME }} -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} --target app --build-arg="CONTENT_IMAGE=a2j-rechtsantragstelle-content" -f split.Dockerfile .
-          docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build image
+        run: docker build -t ${{ env.IMAGE_NAME }} -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} --target app --build-arg="CONTENT_IMAGE=a2j-rechtsantragstelle-content" -f split.Dockerfile .
+      - name: Push image
+        run: docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
