@@ -69,7 +69,7 @@ function handleBotRequest(
           pipe(body);
         },
         onShellError(error: unknown) {
-          reject(error);
+          reject(error ?? "Unknown error");
         },
         onError(error: unknown) {
           didError = true;
@@ -121,7 +121,7 @@ function handleBrowserRequest(
         onShellError(error: unknown) {
           logError({ error });
 
-          reject(error);
+          reject(error ?? "Unknown error");
         },
         onError(error: unknown) {
           logError({ error });
