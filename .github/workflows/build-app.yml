@@ -1,0 +1,19 @@
+name: buildAppImage
+on:
+  # Allow to run this workflow manually
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}-app
+  IMAGE_VERSION: ${{ github.sha }}
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build docker image
+        run: |
+          docker build -t ${{ env.IMAGE_NAME }} -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} --target app --build-arg="CONTENT_IMAGE=a2j-rechtsantragstelle-content" -f split.Dockerfile .
+          docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
