@@ -4,6 +4,11 @@
 # 2. app image: npm build (including storybook)
 # 3. prod image: combine content from (1.) and app build from (2.)
 
+# This meta image allows for specifying --build-arg="CONTENT_IMAGE=a2j-rechtsantragstelle-content"
+# This is later used to copy from, see `COPY --link --from=contentStageForCopy`
+ARG CONTENT_IMAGE=content
+FROM ${CONTENT_IMAGE} AS contentStageForCopy
+
 FROM node:18.18.0-alpine3.18 AS base
 WORKDIR /a2j-rast
 COPY package.json package-lock.json ./
@@ -21,11 +26,6 @@ RUN npm run dumpCmsToFile
 
 FROM scratch AS content
 COPY --from=content-fetch /a2j-rast/content.json /
-
-# This meta image allows for specifying --build-arg="CONTENT_IMAGE=a2j-rechtsantragstelle-content"
-# This is later used to copy from, see `COPY --link --from=contentStageForCopy`
-ARG CONTENT_IMAGE=content
-FROM ${CONTENT_IMAGE} AS contentStageForCopy
 
 # === APP BUILD
 FROM base AS app-build
