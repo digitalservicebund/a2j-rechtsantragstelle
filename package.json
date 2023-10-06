@@ -57,7 +57,7 @@
     "marked": "^9.1.0",
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
-    "posthog-js": "^1.82.1",
+    "posthog-js": "^1.82.2",
     "posthog-node": "^3.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
