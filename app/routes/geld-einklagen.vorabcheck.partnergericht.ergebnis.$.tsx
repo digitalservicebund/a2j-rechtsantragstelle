@@ -126,6 +126,7 @@ export const Component = () => {
             paddingTop="24"
             backgroundColor="white"
             overhangingBackground
+            key={court.BEZEICHNUNG}
           >
             <CourtDetails
               name={court.BEZEICHNUNG}
