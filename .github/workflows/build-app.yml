@@ -22,6 +22,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build image
-        run: docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} --target app --build-arg="CONTENT_IMAGE=a2j-rechtsantragstelle-content" -f split.Dockerfile
+        run: docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} --target app --build-arg="CONTENT_IMAGE=${{ env.REGISTRY }}/${{ github.repository }}-content" -f split.Dockerfile
       - name: Push image
         run: docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
