@@ -4,8 +4,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-app
-  IMAGE_TAG: ${{ github.sha }}
+  IMAGE_NAME: ${{ github.repository }}-prod
+  IMAGE_TAG: $(date +%Y%m%d%H%M%S)
 
 jobs:
   build-image:
@@ -21,6 +21,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build image
-        run: docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --target app -f split.Dockerfile
+        run: docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --target prod --build-arg="CONTENT_IMAGE=${{ env.REGISTRY }}/${{ github.repository }}-content" --build-arg="APP_IMAGE=${{ env.REGISTRY }}/${{ github.repository }}-app" -f split.Dockerfile
       - name: Push image
         run: docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}

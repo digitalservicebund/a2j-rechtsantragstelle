@@ -1,11 +1,11 @@
 name: buildContentImage
 on:
-  # Allow to run this workflow manually
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}-content
+  IMAGE_TAG: $(date +%Y%m%d%H%M%S)
 
 jobs:
   build-image:
@@ -21,6 +21,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build image
-        run: docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$(date +%Y%m%d%H%M%S) --target content --build-arg="STRAPI_API=${{ secrets.STRAPI_API }}" --build-arg="STRAPI_ACCESS_KEY=${{ secrets.STRAPI_ACCESS_KEY }}" -f split.Dockerfile
+        run: docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --target content --build-arg="STRAPI_API=${{ secrets.STRAPI_API }}" --build-arg="STRAPI_ACCESS_KEY=${{ secrets.STRAPI_ACCESS_KEY }}" -f split.Dockerfile
       - name: Push image
         run: docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}

@@ -4,10 +4,9 @@
 # 2. app image: npm build (including storybook)
 # 3. prod image: combine content from (1.) and app build from (2.)
 
-# This meta image allows for specifying --build-arg="CONTENT_IMAGE=a2j-rechtsantragstelle-content"
-# This is later used to copy from, see `COPY --link --from=contentStageForCopy`
+# This images allow for specifying source image as --build-arg, which is then used as COPY --from=
 ARG CONTENT_IMAGE=content
-FROM ${CONTENT_IMAGE} AS contentStageForCopy
+ARG APP_IMAGE=app
 
 FROM node:18.18.0-alpine3.18 AS base
 WORKDIR /a2j-rast
@@ -28,7 +27,7 @@ FROM scratch AS content
 COPY --from=content-fetch /a2j-rast/content.json /
 
 # === APP BUILD
-FROM base AS app-build
+FROM base AS app-builder
 WORKDIR /a2j-rast
 ADD app/ app/
 ADD public/ public/
@@ -37,16 +36,20 @@ ADD stories/ stories/
 COPY remix.config.js tailwind.config.js postcss.config.js .babelrc.json ./
 RUN npm run build && npm run build-storybook && npm prune --omit=dev
 
+FROM scratch AS app
+COPY --from=app-builder /a2j-rast/node_modules /node_modules/
+COPY --from=app-builder /a2j-rast/build /build/
+COPY --from=app-builder /a2j-rast/public /public/
+
 # === PROD IMAGE
-FROM node:18.18.0-alpine3.18 AS app
-ARG CONTENT_IMAGE
+FROM ${CONTENT_IMAGE} AS contentStageForCopy
+FROM ${APP_IMAGE} AS appStageForCopy
+FROM node:18-alpine AS prod
 RUN apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
 
 USER node
 WORKDIR /a2j-rast
-COPY --chown=node:node --from=app-build /a2j-rast/node_modules ./node_modules/
-COPY --chown=node:node --from=app-build /a2j-rast/build ./build/
-COPY --chown=node:node --from=app-build /a2j-rast/public ./public/
+COPY --link --chown=node:node --from=appStageForCopy / ./
 COPY --link --from=contentStageForCopy /content.json ./
 COPY start.sh server.js package.json tsconfig.json ./
 EXPOSE 3000
