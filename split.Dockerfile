@@ -22,10 +22,13 @@ RUN npm run dumpCmsToFile
 FROM scratch AS content
 COPY --from=content-fetch /a2j-rast/content.json /
 
+# This meta image allows for specifying --build-arg="CONTENT_IMAGE=a2j-rechtsantragstelle-content"
+# This is later used to copy from, see `COPY --link --from=contentStageForCopy`
+ARG CONTENT_IMAGE=content
+FROM ${CONTENT_IMAGE} AS contentStageForCopy
+
 # === APP BUILD
 FROM base AS app-build
-ARG COMMIT_SHA
-ENV APP_VERSION=$COMMIT_SHA
 WORKDIR /a2j-rast
 ADD app/ app/
 ADD public/ public/
@@ -36,17 +39,15 @@ RUN npm run build && npm run build-storybook && npm prune --omit=dev
 
 # === PROD IMAGE
 FROM node:18.18.0-alpine3.18 AS app
+ARG CONTENT_IMAGE
 RUN apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
-USER node
-ENV ENVIRONMENT=production
-ARG COMMIT_SHA
-ENV APP_VERSION=$COMMIT_SHA
 
+USER node
 WORKDIR /a2j-rast
 COPY --chown=node:node --from=app-build /a2j-rast/node_modules ./node_modules/
 COPY --chown=node:node --from=app-build /a2j-rast/build ./build/
 COPY --chown=node:node --from=app-build /a2j-rast/public ./public/
-COPY --link --from=a2jcontent /content.json ./
+COPY --link --from=contentStageForCopy /content.json ./
 COPY start.sh server.js package.json tsconfig.json ./
 EXPOSE 3000
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
