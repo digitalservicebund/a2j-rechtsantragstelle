@@ -1,4 +1,4 @@
-name: buildAppImage
+name: buildProdImage
 on:
   workflow_dispatch:
 
