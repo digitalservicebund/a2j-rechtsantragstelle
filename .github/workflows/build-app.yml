@@ -1,4 +1,4 @@
-name: buildContentImage
+name: buildAppImage
 on:
   # Allow to run this workflow manually
   workflow_dispatch:
