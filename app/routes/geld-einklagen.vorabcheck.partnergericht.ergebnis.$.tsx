@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import Background from "~/components/Background";
@@ -8,7 +8,6 @@ import CourtDetails from "~/components/CourtDetails";
 import PageContent from "~/components/PageContent";
 import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
 import HighlightOff from "@mui/icons-material/HighlightOff";
-import WarningAmber from "@mui/icons-material/WarningAmber";
 import {
   fetchCollectionEntry,
   fetchSingleEntry,
