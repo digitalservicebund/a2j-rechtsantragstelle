@@ -21,6 +21,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build image
-        run: docker build -t ${{ env.IMAGE_NAME }} -t ${{ env.IMAGE_NAME }}:$(date +%Y%m%d%H%M%S) --target content --build-arg="STRAPI_API=${{ secrets.STRAPI_API }}" --build-arg="STRAPI_ACCESS_KEY=${{ secrets.STRAPI_ACCESS_KEY }}" -f split.Dockerfile .
+        run: docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$(date +%Y%m%d%H%M%S) --target content --build-arg="STRAPI_API=${{ secrets.STRAPI_API }}" --build-arg="STRAPI_ACCESS_KEY=${{ secrets.STRAPI_ACCESS_KEY }}" -f split.Dockerfile
       - name: Push image
         run: docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
