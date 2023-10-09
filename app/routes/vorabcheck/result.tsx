@@ -31,14 +31,18 @@ import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+export const loader = async ({
+  params,
+  request,
+  context,
+}: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
   const { pathname } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);
   const stepId = "ergebnis/" + splatFromParams(params);
-  const { data } = await getSessionForContext(flowId).getSession(
-    request.headers.get("Cookie"),
-  );
+  const cookieId = request.headers.get("Cookie");
+  const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
+  context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
   const { flow, guards } = flowSpecifics[flowId];
   const flowController = buildFlowController({ flow, data, guards });
 
@@ -80,12 +84,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   });
 };
 
-export const action: ActionFunction = async ({ params, request }) => {
+export const action: ActionFunction = async ({ params, request, context }) => {
   const splat = splatFromParams(params);
   const flowId = flowIDFromPathname(new URL(request.url).pathname);
-  const { data } = await getSessionForContext(flowId).getSession(
-    request.headers.get("Cookie"),
-  );
+  const cookieId = request.headers.get("Cookie");
+  const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
+  context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
   const { flow, guards } = flowSpecifics[flowId];
   const flowController = buildFlowController({ flow, data, guards });
   return redirect(flowController.getNext("ergebnis/" + splat).url);

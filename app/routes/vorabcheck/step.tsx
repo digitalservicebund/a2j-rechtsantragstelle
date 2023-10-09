@@ -33,16 +33,19 @@ import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
 import { getGerichtskostenvorschuss } from "~/models/geldEinklagen";
 
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+export const loader = async ({
+  params,
+  request,
+  context,
+}: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
   const stepId = splatFromParams(params);
   const { pathname } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);
+  const cookieId = request.headers.get("Cookie");
+  const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
+  context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
   const { flow, guards } = flowSpecifics[flowId];
-
-  const { data } = await getSessionForContext(flowId).getSession(
-    request.headers.get("Cookie"),
-  );
   const flowController = buildFlowController({ flow, data, guards });
 
   if (!flowController.isReachable(stepId))

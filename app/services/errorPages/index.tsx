@@ -5,6 +5,7 @@ import { config } from "~/services/env/web";
 import type { StrapiPage } from "~/services/cms/models/StrapiPage";
 import { fetchCollectionEntry } from "../cms/index.server";
 import fallbackStrapiInfoBox from "./fallbackInfobox";
+import type { AppLoadContext } from "@remix-run/node";
 
 const errorCodes = ["404", "500", "403"] as const;
 type ErrorPages = Record<string, StrapiPage["content"]>;
@@ -40,7 +41,13 @@ function getJavaScriptErrorInDevEnvironments(
   }
 }
 
-export function ErrorBox({ errorPages }: { errorPages?: ErrorPages }) {
+export function ErrorBox({
+  errorPages,
+  context,
+}: {
+  errorPages?: ErrorPages;
+  context: AppLoadContext;
+}) {
   const routerError = useRouteError();
   let content: StrapiPage["content"] = [fallbackStrapiInfoBox];
   if (isRouteErrorResponse(routerError) && errorPages?.[routerError.status])
@@ -51,6 +58,7 @@ export function ErrorBox({ errorPages }: { errorPages?: ErrorPages }) {
     <div>
       <PageContent content={content} />
       <Container>
+        <pre>ID: {context.sessionId as string | undefined}</pre>
         <pre>{getJavaScriptErrorInDevEnvironments(routerError)}</pre>
       </Container>
     </div>
