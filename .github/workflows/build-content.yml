@@ -8,7 +8,7 @@ env:
   IMAGE_TAG: $(date +%Y%m%d%H%M%S)
 
 jobs:
-  build-image:
+  build-push-content-prod:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -20,7 +20,12 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build image
+      - name: Build content image
         run: docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --target content --build-arg="STRAPI_API=${{ secrets.STRAPI_API }}" --build-arg="STRAPI_ACCESS_KEY=${{ secrets.STRAPI_ACCESS_KEY }}" -f split.Dockerfile
-      - name: Push image
+      - name: Push content image
         run: docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - uses: ./.github/actions/build-prod-image
+        with:
+          IMAGE_NAME: ${{ env.REGISTRY }}/${{ github.repository }}-prod
+          CONTENT_IMAGE: ${{ env.REGISTRY }}/${{ github.repository }}-content
+          APP_IMAGE: ${{ env.REGISTRY }}/${{ github.repository }}-app
