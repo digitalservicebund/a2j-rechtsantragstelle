@@ -57,20 +57,22 @@ const generate = async () => {
     properties: {} as { [k: string]: any },
   };
 
-  fields
-    .sort((x, y) => x.getName().localeCompare(y.getName()))
-    .forEach((field) => {
-      const fieldName = normalizePropertyName(field.getName());
-      let ref = "#/definitions/StringField";
+  const sortedFields = fields.sort((x, y) =>
+    x.getName().localeCompare(y.getName()),
+  );
 
-      if (field instanceof PDFCheckBox) {
-        ref = "#/definitions/BooleanField";
-      }
+  sortedFields.forEach((field) => {
+    const fieldName = normalizePropertyName(field.getName());
+    let ref = "#/definitions/StringField";
 
-      beratungshilfePDF.properties[fieldName] = {
-        $ref: ref,
-      };
-    });
+    if (field instanceof PDFCheckBox) {
+      ref = "#/definitions/BooleanField";
+    }
+
+    beratungshilfePDF.properties[fieldName] = {
+      $ref: ref,
+    };
+  });
   quickTypeJSONSchema["definitions"]["BeratungshilfePDF"] = beratungshilfePDF;
 
   const schemaInput = new JSONSchemaInput(new FetchingJSONSchemaStore());
