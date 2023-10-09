@@ -12,6 +12,8 @@ export type GetStrapiEntryOpts = {
   apiId: keyof StrapiFileContent;
   slug?: string;
   locale?: StrapiLocale;
+  populate?: string;
+  pageSize?: string;
 };
 
 const getStrapiEntry =

@@ -5,15 +5,13 @@ import type { GetStrapiEntryOpts } from "./index.server";
 import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
 import type { StrapiFileContent } from "./models/StrapiFileContent";
 
-type UrlOptions = GetStrapiEntryOpts & { populate?: string; pageSize?: string };
-
 const buildUrl = ({
   apiId,
   slug,
   pageSize,
   locale = defaultLocale,
   populate = "deep",
-}: UrlOptions) =>
+}: GetStrapiEntryOpts) =>
   [
     config().STRAPI_API,
     apiId,
@@ -46,10 +44,10 @@ const makeStrapiRequest = async (url: string) =>
     },
   });
 
-export const getStrapiCollectionFromApi = async (opts: UrlOptions) =>
+export const getStrapiCollectionFromApi = async (opts: GetStrapiEntryOpts) =>
   ((await makeStrapiRequest(buildUrl(opts))).data as { data: object }).data;
 
-export const getStrapiEntryFromApi = async (opts: UrlOptions) => {
+export const getStrapiEntryFromApi = async (opts: GetStrapiEntryOpts) => {
   const stagingUrl = buildUrl({ ...opts, locale: stagingLocale });
   let response = unpackResponse(await makeStrapiRequest(stagingUrl));
   if (!response) {
