@@ -11,6 +11,7 @@ import { config } from "~/services/env/env.server";
 import { useSecureCookie } from "~/util/useSecureCookie";
 
 type SessionContext = "main" | "beratungshilfe" | "geld-einklagen";
+const fullId = (context: SessionContext, id: string) => `${context}_${id}`;
 
 function createDatabaseSessionStorage({
   cookie,
@@ -23,17 +24,17 @@ function createDatabaseSessionStorage({
     cookie,
     async createData(data, expires) {
       const uuid = crypto.randomUUID();
-      await setDataForSession(`${context}_${uuid}`, data);
+      await setDataForSession(fullId(context, uuid), data);
       return uuid;
     },
     async readData(id) {
-      return await getDataForSession(`${context}_${id}`);
+      return await getDataForSession(fullId(context, id));
     },
     async updateData(id, data, expires) {
-      await updateDataForSession(`${context}_${id}`, data);
+      await updateDataForSession(fullId(context, id), data);
     },
     async deleteData(id) {
-      await deleteSessionData(`${context}_${id}`);
+      await deleteSessionData(fullId(context, id));
     },
   });
 }
@@ -50,6 +51,6 @@ export function getSessionForContext(context: SessionContext) {
       }),
       context: context,
     });
-
-  return { getSession, commitSession, destroySession };
+  const getFullId = (id: string) => fullId(context, id);
+  return { getSession, commitSession, destroySession, getSessionId: getFullId };
 }

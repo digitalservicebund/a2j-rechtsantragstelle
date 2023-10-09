@@ -83,7 +83,7 @@ export const meta: MetaFunction<typeof loader> = () => {
   ];
 };
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const [
     strapiHeader,
     globalVars,
@@ -110,6 +110,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     hasTrackingConsent: trackingConsent,
     errorPages,
     meta,
+    context,
     ip:
       request.headers.get("x-forwarded-for") ??
       request.headers.get("x-client-ip") ??
@@ -195,7 +196,10 @@ export function ErrorBoundary() {
       <body className="flex flex-col min-h-screen">
         {loaderData && <Header {...loaderData.header} />}
         <main className="flex-grow">
-          <ErrorBox errorPages={loaderData?.errorPages} />
+          <ErrorBox
+            errorPages={loaderData?.errorPages}
+            context={loaderData?.context ?? {}}
+          />
         </main>
         {loaderData && <Footer {...loaderData.footer} />}
       </body>

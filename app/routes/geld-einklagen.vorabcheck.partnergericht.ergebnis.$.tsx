@@ -28,13 +28,16 @@ import type { ReactElement } from "react";
 import RichText from "~/components/RichText";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+export const loader = async ({
+  params,
+  request,
+  context,
+}: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);
-
-  const { data } = await getSessionForContext(flowId).getSession(
-    request.headers.get("Cookie"),
-  );
+  const cookieId = request.headers.get("Cookie");
+  const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
+  context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
 
   const contextData = data as GeldEinklagenVorabcheckContext;
   const zipCodes = [
