@@ -44,7 +44,13 @@ export const context = {
   eigeninitiative: YesNoAnswer,
   wurdeVerklagt: YesNoAnswer,
   staatlicheLeistungen: z.enum(
-    ["grundsicherung", "asylbewerberleistungen", "buergergeld", "keine"],
+    [
+      "grundsicherung",
+      "asylbewerberleistungen",
+      "buergergeld",
+      "andereLeistung",
+      "keine",
+    ],
     customRequiredErrorMessage,
   ),
   erwerbstaetigkeit: YesNoAnswer,

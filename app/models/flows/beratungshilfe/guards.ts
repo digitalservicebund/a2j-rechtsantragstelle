@@ -106,7 +106,9 @@ export const guards = {
   ...yesNoGuards("beratungshilfeBeantragt"),
   ...yesNoGuards("eigeninitiative"),
   staatlicheLeistungenNo: (context: BeratungshilfeVorabcheckContext) =>
-    ["buergergeld", "keine"].includes(context.staatlicheLeistungen ?? ""),
+    ["buergergeld", "keine", "andereLeistung"].includes(
+      context.staatlicheLeistungen ?? "",
+    ),
   staatlicheLeistungenYes: (context: BeratungshilfeVorabcheckContext) =>
     ["grundsicherung", "asylbewerberleistungen"].includes(
       context.staatlicheLeistungen ?? "",
