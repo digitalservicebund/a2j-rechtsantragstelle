@@ -1,1 +1,1 @@
-export { loader, Index as default } from "./vorabcheck/visualisierung";
+export { loader, Index as default } from "./shared/visualisierung";
