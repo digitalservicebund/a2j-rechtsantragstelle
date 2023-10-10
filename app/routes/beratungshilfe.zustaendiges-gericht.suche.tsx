@@ -30,7 +30,7 @@ const validatorServer = withZod(serverSchema);
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const slug = new URL(request.url).pathname;
-  const sessionContext = getSessionForContext("beratungshilfe");
+  const sessionContext = getSessionForContext("beratungshilfe/vorabcheck");
 
   const [common, { form, meta }] = await Promise.all([
     fetchSingleEntry("amtsgericht-common"),
