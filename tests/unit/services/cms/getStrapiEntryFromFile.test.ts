@@ -31,6 +31,7 @@ describe("services/cms", () => {
       "result-pages": [],
       "vorab-check-common": [],
       "vorab-check-pages": [],
+      "form-flow-pages": [],
     } satisfies StrapiFileContent;
 
     (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(fileContent));
