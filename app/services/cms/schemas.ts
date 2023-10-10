@@ -7,6 +7,7 @@ import { StrapiAmtsgerichtCommonSchema } from "./models/StrapiAmtsgerichtCommon"
 import { StrapiCookieBannerSchema } from "./models/StrapiCookieBannerSchema";
 import { StrapiPageHeaderSchema } from "./models/StrapiPageHeader";
 import { StrapiGlobalSchema } from "./models/StrapiGlobal";
+import { StrapiFormFlowPageSchema } from "./models/StrapiFormFlowPage";
 
 export const entrySchemas = {
   "page-header": StrapiPageHeaderSchema,
@@ -22,5 +23,6 @@ export const collectionSchemas = {
   pages: StrapiPageSchema,
   "result-pages": StrapiResultPageSchema,
   "vorab-check-pages": StrapiVorabCheckPageSchema,
+  "form-flow-pages": StrapiFormFlowPageSchema,
 } as const;
 export type CollectionSchemas = typeof collectionSchemas;

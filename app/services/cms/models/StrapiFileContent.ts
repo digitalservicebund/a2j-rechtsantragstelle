@@ -9,6 +9,7 @@ import { StrapiAmtsgerichtCommonSchema } from "./StrapiAmtsgerichtCommon";
 import { StrapiCookieBannerSchema } from "./StrapiCookieBannerSchema";
 import { StrapiPageHeaderSchema } from "./StrapiPageHeader";
 import { StrapiGlobalSchema } from "./StrapiGlobal";
+import { StrapiFormFlowPageSchema } from "./StrapiFormFlowPage";
 
 export const StrapiFileContentSchema = z.object({
   "amtsgericht-common": z.array(
@@ -54,6 +55,11 @@ export const StrapiFileContentSchema = z.object({
   "vorab-check-pages": z.array(
     HasStrapiIdSchema.extend({
       attributes: StrapiVorabCheckPageSchema,
+    }),
+  ),
+  "form-flow-pages": z.array(
+    HasStrapiIdSchema.extend({
+      attributes: StrapiFormFlowPageSchema,
     }),
   ),
 });
