@@ -1,0 +1,12 @@
+{
+  "predictableActionArguments": true,
+  "id": "/geld-einklagen/formular/",
+  "initial": "start",
+  "states": {
+    "start": {
+      "meta": {
+        "progressPosition": 1
+      }
+    }
+  }
+}

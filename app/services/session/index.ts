@@ -10,7 +10,11 @@ import { createSessionStorage, createCookie } from "@remix-run/node";
 import { config } from "~/services/env/env.server";
 import { useSecureCookie } from "~/util/useSecureCookie";
 
-type SessionContext = "main" | "beratungshilfe" | "geld-einklagen";
+type SessionContext =
+  | "main"
+  | "geld-einklagen/vorabcheck"
+  | "geld-einklagen/formular"
+  | "beratungshilfe/vorabcheck";
 const fullId = (context: SessionContext, id: string) => `${context}_${id}`;
 
 function createDatabaseSessionStorage({

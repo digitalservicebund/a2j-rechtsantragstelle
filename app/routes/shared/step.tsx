@@ -62,7 +62,12 @@ export const loader = async ({
 
   const [commonContent, formPageContent, parentMeta] = await Promise.all([
     fetchSingleEntry("vorab-check-common"),
-    fetchCollectionEntry("vorab-check-pages", pathname),
+    fetchCollectionEntry(
+      pathname.startsWith("/geld-einklagen/formular")
+        ? "form-flow-pages"
+        : "vorab-check-pages",
+      pathname,
+    ),
     fetchMeta({ slug: pathname.substring(0, pathname.lastIndexOf("/")) }),
   ]);
 
