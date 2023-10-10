@@ -18,6 +18,7 @@
     "eslint:check": "eslint --cache .",
     "generate:pdf": "ts-node ./app/services/pdf/pdf.generator.ts",
     "generate:opensource-licenses": "ts-node -T ./app/services/openSourceLicenses/generate.ts generateLicenseFile",
+    "generate:strapi": "ts-node ./app/services/cms/model.generator.ts",
     "init": "lefthook install",
     "prettier": "prettier --write . --ignore-path .prettierignore",
     "prettier:check": "prettier --check . --ignore-path .prettierignore",

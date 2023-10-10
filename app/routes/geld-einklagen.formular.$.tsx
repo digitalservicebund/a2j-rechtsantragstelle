@@ -4,7 +4,8 @@ import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import PageContent from "~/components/PageContent";
 import Container from "~/components/Container";
 import Background from "~/components/Background";
-import { action, loader } from "~/routes/shared/step";
+import type { loader } from "~/routes/shared/step";
+import { action } from "~/routes/shared/step";
 import {
   flowIDFromPathname,
   flowSpecifics,
