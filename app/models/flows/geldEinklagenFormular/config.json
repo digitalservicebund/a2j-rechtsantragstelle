@@ -6,6 +6,27 @@
     "start": {
       "meta": {
         "progressPosition": 1
+      },
+      "on": {
+        "SUBMIT": "dokumente"
+      }
+    },
+    "dokumente": {
+      "meta": {
+        "progressPosition": 2
+      },
+      "on": {
+        "SUBMIT": "daten-uebernahme",
+        "BACK": "start"
+      }
+    },
+    "daten-uebernahme": {
+      "meta": {
+        "progressPosition": 3
+      },
+      "on": {
+        "SUBMIT": "",
+        "BACK": "dokumente"
       }
     }
   }

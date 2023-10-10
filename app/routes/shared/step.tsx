@@ -103,6 +103,8 @@ export const loader = async ({
       csrf,
       defaultValues: data as Record<string, string>,
       commonContent,
+      heading:
+        "heading" in formPageContent ? formPageContent.heading : undefined,
       content: formPageContent.pre_form,
       formContent: formPageContent.form,
       meta,
