@@ -7,24 +7,51 @@ import {
 } from "quicktype-core";
 import * as fs from "fs";
 
-import { normalizePropertyName } from "../pdf.server";
-import { getBeratungshilfePdf } from "./beratungshilfe.server";
+import { normalizePropertyName } from "./pdf.server";
 import path from "path";
+import * as readline from "readline";
 
+const serviceDirectory = "app/services/pdf/";
+
+const question = (questionText: string) => {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  return new Promise<string>((resolve) =>
+    rl.question(questionText, resolve),
+  ).finally(() => rl.close());
+};
+
+// This will generate a TypeScript file from a PDF file based on the PDF's form fields.
+// The generated file will contain a TypeScript interface
+// that can be used to validate the PDF's form fields.
+// To map the generated properties to the PDF's form fields,
+// use tools like pdffiller.com to find the form field id names
 const generate = async () => {
-  const pdfDoc = await PDFDocument.load(getBeratungshilfePdf());
+  const pdfFilePath = await question(
+    "Enter the path to the PDF file (example: beratungshilfe/Antrag_auf_Bewilligung_von_Beratungshilfe.pdf): ",
+  );
+  const definitionName = await question(
+    "Enter the name of the definition (example: BeratungshilfePDF): ",
+  );
+  const generatedFile = await question(
+    "Enter the path to the generated output file (example: beratungshilfe/beratungshilfe.generated.ts): ",
+  );
+
+  const pdfDoc = await PDFDocument.load(
+    fs.readFileSync(
+      path.resolve(path.join(process.cwd(), serviceDirectory, pdfFilePath)),
+    ),
+  );
   const form = pdfDoc.getForm();
   const fields = form.getFields();
 
   const quickTypeJSONSchema: { [k: string]: any } = {};
 
-  quickTypeJSONSchema["$ref"] = "#/definitions/BeratungshilfePDF";
+  quickTypeJSONSchema["$ref"] = "#/definitions/" + definitionName;
   quickTypeJSONSchema["definitions"] = {
-    BeratungshilfePDF: {
-      type: "object",
-      additionalProperties: false,
-      properties: {},
-    },
     BooleanField: {
       type: "object",
       properties: {
@@ -51,7 +78,13 @@ const generate = async () => {
     },
   };
 
-  const beratungshilfePDF = {
+  quickTypeJSONSchema["definitions"][definitionName] = {
+    type: "object",
+    additionalProperties: false,
+    properties: {},
+  };
+
+  const jsonPDF = {
     type: "object",
     additionalProperties: false,
     properties: {} as { [k: string]: any },
@@ -69,15 +102,15 @@ const generate = async () => {
       ref = "#/definitions/BooleanField";
     }
 
-    beratungshilfePDF.properties[fieldName] = {
+    jsonPDF.properties[fieldName] = {
       $ref: ref,
     };
   });
-  quickTypeJSONSchema["definitions"]["BeratungshilfePDF"] = beratungshilfePDF;
+  quickTypeJSONSchema["definitions"][definitionName] = jsonPDF;
 
   const schemaInput = new JSONSchemaInput(new FetchingJSONSchemaStore());
   await schemaInput.addSource({
-    name: "BeratungshilfePdf",
+    name: definitionName,
     schema: JSON.stringify(quickTypeJSONSchema),
   });
   const inputData = new InputData();
@@ -93,7 +126,7 @@ const generate = async () => {
   });
 
   fs.writeFileSync(
-    path.join(__dirname, "/beratungshilfe.generated.ts"),
+    path.join(process.cwd(), serviceDirectory, generatedFile),
     quickType.lines.join("\n"),
   );
 

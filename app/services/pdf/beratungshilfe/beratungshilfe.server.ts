@@ -12,7 +12,7 @@ import { normalizePropertyName } from "../pdf.server";
 
 export async function getBeratungshilfeParameters() {
   const json: { [key: string]: StringField | BooleanField } = {};
-  await PDFDocument.load(getBeratungshilfePdf()).then((pdfDoc) => {
+  await PDFDocument.load(getBeratungshilfePdfBuffer()).then((pdfDoc) => {
     const form = pdfDoc.getForm();
     const fields = form.getFields();
 
@@ -38,6 +38,24 @@ export async function getBeratungshilfeParameters() {
   });
 
   return Convert.toBeratungshilfePDF(JSON.stringify(json));
+}
+
+export async function fillOutBeratungshilfe(values: BeratungshilfePDF) {
+  return await PDFDocument.load(getBeratungshilfePdfBuffer()).then((pdfDoc) => {
+    const form = pdfDoc.getForm();
+
+    Object.entries(values).forEach(([, value]) => {
+      // When value is a BooleanField
+      const booleanField = value as BooleanField;
+      if (!changeBooleanField(booleanField, form)) {
+        // When value is a StringField
+        const stringField = value as StringField;
+        changeStringField(stringField, form);
+      }
+    });
+
+    return pdfDoc.save();
+  });
 }
 
 function changeBooleanField(field: BooleanField, form: PDFForm) {
@@ -79,7 +97,8 @@ declare global {
   var __beratungshilfeBuffer: ArrayBuffer | undefined; // NOSONAR
 }
 
-export function getBeratungshilfePdf(): ArrayBuffer {
+// Singleton to prevent multiple file reads
+function getBeratungshilfePdfBuffer(): ArrayBuffer {
   if (!global.__beratungshilfeBuffer) {
     try {
       const file = path.resolve(
@@ -96,22 +115,4 @@ export function getBeratungshilfePdf(): ArrayBuffer {
   }
 
   return global.__beratungshilfeBuffer ?? ArrayBuffer.prototype;
-}
-
-export async function fillOutBeratungshilfe(values: BeratungshilfePDF) {
-  return await PDFDocument.load(getBeratungshilfePdf()).then((pdfDoc) => {
-    const form = pdfDoc.getForm();
-
-    Object.entries(values).forEach(([key, value]) => {
-      // When value is a BooleanField
-      const booleanField = value as BooleanField;
-      if (!changeBooleanField(booleanField, form)) {
-        // When value is a StringField
-        const stringField = value as StringField;
-        changeStringField(stringField, form);
-      }
-    });
-
-    return pdfDoc.save();
-  });
 }

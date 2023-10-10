@@ -16,7 +16,7 @@
     "dumpCmsToFile": "ts-node ./app/services/cms/dumpCmsToFile.ts dumpCmsToFile",
     "eslint": "eslint . --fix",
     "eslint:check": "eslint --cache .",
-    "generate:beratungshilfe": "ts-node ./app/services/pdf/beratungshilfe/beratungshilfe.generator.ts",
+    "generate:pdf": "ts-node ./app/services/pdf/pdf.generator.ts",
     "generate:opensource-licenses": "ts-node -T ./app/services/openSourceLicenses/generate.ts generateLicenseFile",
     "init": "lefthook install",
     "prettier": "prettier --write . --ignore-path .prettierignore",
