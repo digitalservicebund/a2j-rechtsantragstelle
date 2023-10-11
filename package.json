@@ -36,7 +36,7 @@
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.14.12",
+    "@mui/icons-material": "^5.14.13",
     "@mui/material": "^5.14.13",
     "@remix-run/express": "^2.0.1",
     "@remix-run/node": "^2.0.1",
