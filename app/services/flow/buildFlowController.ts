@@ -1,4 +1,4 @@
-import type { MachineConfig } from "xstate";
+import type { MachineConfig, StateValue } from "xstate";
 import { createMachine } from "xstate";
 import { getShortestPaths } from "@xstate/graph";
 
@@ -12,10 +12,21 @@ type Config = MachineConfig<Context, any, StateMachineEvents>;
 type Guards = Record<string, (context: Context) => boolean>;
 type Meta = { progressPosition: number | undefined };
 
+// We have to differentiate between non- and nested steps.
+// Nested steps are returned by xstate as an object, so they are concatenated to get a valid string
+const getStateValueString = (stateValue: StateValue) => {
+  if (typeof stateValue == "string") {
+    return stateValue;
+  } else if (Object.keys(stateValue).length == 1) {
+    return Object.entries(stateValue)[0].join(".");
+  }
+  throw Error("It is not expected to have other than one next (nested) step");
+};
+
 const getSteps = (machine: StateMachine) => {
   return Object.values(
     getShortestPaths(machine, { events: { SUBMIT: [{ type: "SUBMIT" }] } }),
-  ).map(({ state }) => state.value);
+  ).map(({ state }) => getStateValueString(state.value));
 };
 
 const getTransitionDestination = (
@@ -28,7 +39,7 @@ const getTransitionDestination = (
     throw new Error(
       `No transition of type ${type} defined on step ${currentStep}`,
     );
-  return machine.transition(currentStep, { type }).value as string;
+  return getStateValueString(machine.transition(currentStep, { type }).value);
 };
 
 const isFinalStep = (machine: StateMachine, stepId: string) => {
@@ -52,38 +63,50 @@ export const buildFlowController = ({
 }) => {
   const machine = createMachine({ ...config, context }, { guards });
   const baseUrl = config.id ?? "";
+  const normalizeStepId = (stepId: string) =>
+    stepId.replace("/", ".").replace("ergebnis.", "ergebnis/");
+  const denormalizeStepId = (stepId: string) => stepId.replace(".", "/");
 
   return {
-    isInitial: (currentStepId: string) => config.initial === currentStepId,
-    isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),
-    isReachable: (currentStepId: string) =>
-      getSteps(machine).includes(currentStepId),
+    isInitial: (currentStepId: string) =>
+      config.initial === normalizeStepId(currentStepId),
+    isFinal: (currentStepId: string) =>
+      isFinalStep(machine, normalizeStepId(currentStepId)),
+    isReachable: (currentStepId: string) => {
+      return getSteps(machine).includes(normalizeStepId(currentStepId));
+    },
     getPrevious: (currentStepId: string) => {
-      if (config.initial === currentStepId) return undefined;
-      const name = getTransitionDestination(machine, currentStepId, "BACK");
-      return { name, url: `${baseUrl}${name}` };
+      const stepId = normalizeStepId(currentStepId);
+      if (config.initial === stepId) return undefined;
+      const name = getTransitionDestination(machine, stepId, "BACK");
+      return { name, url: `${baseUrl}${denormalizeStepId(name)}` };
     },
     getNext: (currentStepId: string) => {
-      const name = getTransitionDestination(machine, currentStepId, "SUBMIT");
-      return { name, url: `${baseUrl}${name}` };
+      const name = getTransitionDestination(
+        machine,
+        normalizeStepId(currentStepId),
+        "SUBMIT",
+      );
+      return { name, url: `${baseUrl}${denormalizeStepId(name)}` };
     },
     getInitial: () => {
       const name = config.initial;
-      return { name, url: `${baseUrl}${String(name)}` };
+      return { name, url: `${baseUrl}${denormalizeStepId(String(name))}` };
     },
     getLastReachable: () => {
       const name = getSteps(machine).at(-1);
-      return { name, url: `${baseUrl}${String(name)}` };
+      return { name, url: `${baseUrl}${denormalizeStepId(String(name))}` };
     },
     getProgress: (currentStepId: string) => {
+      const stepId = normalizeStepId(currentStepId);
       const total =
         Math.max(
           ...Object.values(machine.states)
             .map((n) => (n.meta as Meta)?.progressPosition ?? 0)
             .filter((p) => p),
         ) + 1;
-      const node = machine.getStateNodeByPath(currentStepId);
-      const current = isFinalStep(machine, currentStepId)
+      const node = machine.getStateNodeByPath(stepId);
+      const current = isFinalStep(machine, stepId)
         ? total
         : (node.meta as Meta)?.progressPosition ?? 0;
       return { total, current };

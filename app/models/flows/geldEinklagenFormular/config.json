@@ -4,29 +4,32 @@
   "initial": "start",
   "states": {
     "start": {
-      "meta": {
-        "progressPosition": 1
-      },
       "on": {
         "SUBMIT": "dokumente"
       }
     },
     "dokumente": {
-      "meta": {
-        "progressPosition": 2
-      },
       "on": {
         "SUBMIT": "daten-uebernahme",
         "BACK": "start"
       }
     },
     "daten-uebernahme": {
-      "meta": {
-        "progressPosition": 3
-      },
       "on": {
-        "SUBMIT": "",
+        "SUBMIT": "persoenliche-daten",
         "BACK": "dokumente"
+      }
+    },
+    "persoenliche-daten": {
+      "id": "persoenliche-daten",
+      "initial": "start",
+      "states": {
+        "start": {
+          "on": {
+            "SUBMIT": "",
+            "BACK": "#/geld-einklagen/formular/.daten-uebernahme"
+          }
+        }
       }
     }
   }

@@ -19,7 +19,28 @@ const flow: Parameters<typeof buildFlowController>[0]["flow"] = {
       meta: { progressPosition: 2 },
       on: { SUBMIT: [{ target: "step3" }], BACK: { target: "step1" } },
     },
-    step3: { on: { BACK: { target: "step2" } } },
+    step3: {
+      meta: { progressPosition: 3 },
+      on: { SUBMIT: [{ target: "step4" }], BACK: { target: "step2" } },
+    },
+    step4: {
+      meta: { progressPosition: 4 },
+      initial: "step1",
+      states: {
+        step1: {
+          on: {
+            SUBMIT: [{ target: "step2" }],
+            BACK: { target: "#/test/flow/.step3" },
+          },
+        },
+        step2: {
+          on: { BACK: { target: "step1" } },
+        },
+      },
+    },
+    step5: {
+      on: { BACK: { target: "step4" } },
+    },
   },
 };
 
@@ -31,6 +52,12 @@ describe("buildFlowController", () => {
 
     it("returns false if not intial step", () => {
       expect(buildFlowController({ flow }).isInitial("step2")).toBe(false);
+    });
+
+    it("returns false if nested step is not initial step", () => {
+      expect(buildFlowController({ flow }).isInitial("step4/step1")).toBe(
+        false,
+      );
     });
   });
 
@@ -72,6 +99,14 @@ describe("buildFlowController", () => {
     it("returns false if not final step", () => {
       expect(buildFlowController({ flow }).isFinal("step1")).toBe(false);
     });
+
+    it("returns false if nested step is not final step", () => {
+      expect(buildFlowController({ flow }).isFinal("step4/step1")).toBe(false);
+    });
+
+    it("returns true if nested step is final step", () => {
+      expect(buildFlowController({ flow }).isFinal("step4/step2")).toBe(true);
+    });
   });
 
   describe("isReachable", () => {
@@ -87,6 +122,21 @@ describe("buildFlowController", () => {
     it("returns false if step is not reachable", () => {
       expect(buildFlowController({ flow }).isReachable("step3")).toBe(false);
     });
+
+    it("returns false if nested step is not reachable", () => {
+      expect(buildFlowController({ flow }).isReachable("step4/step1")).toBe(
+        false,
+      );
+    });
+
+    it("returns true if nested step is reachable with given data", () => {
+      expect(
+        buildFlowController({
+          flow,
+          data: { step1: true },
+        }).isReachable("step4/step2"),
+      ).toBe(true);
+    });
   });
 
   describe("getPrevious", () => {
@@ -99,6 +149,42 @@ describe("buildFlowController", () => {
       ).toStrictEqual({
         name: "step2",
         url: "/test/flow/step2",
+      });
+    });
+
+    it("returns previous nested step if data is correct", () => {
+      expect(
+        buildFlowController({
+          flow,
+          data: { step1: true },
+        }).getPrevious("step4/step2"),
+      ).toStrictEqual({
+        name: "step4.step1",
+        url: "/test/flow/step4/step1",
+      });
+    });
+
+    it("returns previous step from nested step if data is correct", () => {
+      expect(
+        buildFlowController({
+          flow,
+          data: { step1: true },
+        }).getPrevious("step4/step1"),
+      ).toStrictEqual({
+        name: "step3",
+        url: "/test/flow/step3",
+      });
+    });
+
+    it("returns previous nested step from step if data is correct", () => {
+      expect(
+        buildFlowController({
+          flow,
+          data: { step1: true },
+        }).getPrevious("step5"),
+      ).toStrictEqual({
+        name: "step4.step1",
+        url: "/test/flow/step4/step1",
       });
     });
 
@@ -122,12 +208,45 @@ describe("buildFlowController", () => {
       });
     });
 
-    it("throws error if already last step", () => {
-      expect(() =>
+    it("returns the next nested step from a step with valid data", () => {
+      expect(
         buildFlowController({
           flow,
           data: { step1: true },
         }).getNext("step3"),
+      ).toStrictEqual({
+        name: "step4.step1",
+        url: "/test/flow/step4/step1",
+      });
+    });
+
+    it("returns the next nested step from a nested step with valid data", () => {
+      expect(
+        buildFlowController({
+          flow,
+          data: { step1: true },
+        }).getNext("step4.step1"),
+      ).toStrictEqual({
+        name: "step4.step2",
+        url: "/test/flow/step4/step2",
+      });
+    });
+
+    it("throws error if already last step", () => {
+      expect(() =>
+        buildFlowController({
+          flow,
+          data: {},
+        }).getNext("step5"),
+      ).toThrow();
+    });
+
+    it("throws error if already last nested step", () => {
+      expect(() =>
+        buildFlowController({
+          flow,
+          data: { step1: true },
+        }).getNext("step4/step2"),
       ).toThrow();
     });
   });
@@ -142,15 +261,15 @@ describe("buildFlowController", () => {
   });
 
   describe("getLastReachable", () => {
-    it("returns step3", () => {
+    it("returns step4.step2", () => {
       expect(
         buildFlowController({
           flow,
           data: { step1: true },
         }).getLastReachable(),
       ).toStrictEqual({
-        name: "step3",
-        url: "/test/flow/step3",
+        name: "step4.step2",
+        url: "/test/flow/step4/step2",
       });
     });
 
@@ -163,7 +282,19 @@ describe("buildFlowController", () => {
   });
 
   describe("getProgress", () => {
-    it("returns 3/3", () => {
+    it("returns 5/5", () => {
+      expect(
+        buildFlowController({
+          flow,
+          data: { step1: true },
+        }).getProgress("step5"),
+      ).toStrictEqual({
+        current: 5,
+        total: 5,
+      });
+    });
+
+    it("returns 3/5", () => {
       expect(
         buildFlowController({
           flow,
@@ -171,30 +302,31 @@ describe("buildFlowController", () => {
         }).getProgress("step3"),
       ).toStrictEqual({
         current: 3,
-        total: 3,
+        total: 5,
       });
     });
 
-    it("returns 1/3", () => {
+    // TODO: We ignore nested steps for now, we have to fix the getProgress function to include nested steps.
+    it("returns 1/5", () => {
       expect(buildFlowController({ flow }).getProgress("step1")).toStrictEqual({
         current: 1,
-        total: 3,
+        total: 5,
       });
     });
 
-    it("returns 3/3 for final step", () => {
+    it("returns 5/5 for final step", () => {
       expect(
         buildFlowController({
           flow,
           data: { step1: false },
         }).getProgress("step1Exit"),
       ).toStrictEqual({
-        current: 3,
-        total: 3,
+        current: 5,
+        total: 5,
       });
     });
 
-    it("returns 2/3 even if data doesn't fit", () => {
+    it("returns 2/5 even if data doesn't fit", () => {
       expect(
         buildFlowController({
           flow,
@@ -202,7 +334,7 @@ describe("buildFlowController", () => {
         }).getProgress("step2"),
       ).toStrictEqual({
         current: 2,
-        total: 3,
+        total: 5,
       });
     });
   });
