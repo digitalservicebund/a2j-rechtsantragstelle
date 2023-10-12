@@ -5,34 +5,54 @@ import { toDirectedGraph } from "@xstate/graph";
 import { flowIDFromPathname, flowSpecifics } from "./flowSpecifics";
 import { throw404OnProduction } from "../../services/errorPages/throw404";
 
+function statesToGraph(
+  children: ReturnType<typeof toDirectedGraph>["children"],
+  ignoreBacklinks: boolean,
+) {
+  let outString = "";
+  children.forEach((state) => {
+    state.edges.forEach((edge) => {
+      const source =
+        edge.source.parent && !edge.source.parent?.id.startsWith("/")
+          ? `${edge.source.parent?.id}.${edge.source.key}`
+          : edge.source.key;
+      const target =
+        edge.target.parent && !edge.target.parent?.id.startsWith("/")
+          ? `${edge.target.parent?.id}.${edge.target.key}`
+          : edge.target.key;
+
+      let arrow = edge.label.text === "SUBMIT" ? "-->" : ".->";
+      if (edge.transition.cond?.name !== undefined)
+        arrow = `${arrow}|${edge.transition.cond?.name}|`;
+      const transition = `    ${source} ${arrow} ${target}\n`;
+
+      if (!(ignoreBacklinks && edge.label.text === "BACK"))
+        outString = outString.concat(transition);
+    });
+
+    if (state.children.length > 0) {
+      outString = outString.concat(
+        `\n    subgraph ${state.id}\n${statesToGraph(
+          state.children,
+          ignoreBacklinks,
+        )}    end\n`,
+      );
+    }
+  });
+  return outString;
+}
+
 const mermaidFlowchart = (
   digraph: ReturnType<typeof toDirectedGraph>,
   ignoreBacklinks = false,
 ) => {
   // Converts a graph into mermaid.js flowchart syntax
   // See https://mermaid.js.org/syntax/flowchart.html
-  let flowchartDiagram = `---
+  return `---
 title: Vorabcheck Flowchart
 ---
-flowchart TD\n`;
-
-  digraph.children.forEach((state) => {
-    state.edges.forEach((edge) => {
-      const source = edge.source.path[0];
-      const target = edge.target.path[0];
-      if (ignoreBacklinks && edge.label.text === "BACK") return;
-      let arrow = edge.label.text === "SUBMIT" ? "-->" : ".->";
-
-      if (edge.transition.cond?.name !== undefined)
-        arrow = `${arrow}|${edge.transition.cond?.name as string}|`;
-
-      flowchartDiagram = flowchartDiagram.concat(
-        `    ${source} ${arrow} ${target}\n`,
-      );
-    });
-  });
-
-  return flowchartDiagram;
+flowchart TD
+${statesToGraph(digraph.children, ignoreBacklinks)}`;
 };
 
 const getVisualizationString = (

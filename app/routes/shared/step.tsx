@@ -3,7 +3,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import { getSessionForContext } from "~/services/session";
+import { getSessionForContext, updateSession } from "~/services/session";
 import PageContent from "~/components/PageContent";
 import Container from "~/components/Container";
 import Background from "~/components/Background";
@@ -142,9 +142,8 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   const validationResult = await validator.validate(formData);
   if (validationResult.error) return validationError(validationResult.error);
 
-  Object.entries(validationResult.data as Record<string, string>).forEach(
-    ([key, data]) => flowSession.set(key, data),
-  );
+  updateSession(flowSession, validationResult.data);
+
   const headers = { "Set-Cookie": await commitSession(flowSession) };
 
   const flowController = buildFlowController({

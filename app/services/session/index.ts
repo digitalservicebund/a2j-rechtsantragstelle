@@ -5,10 +5,12 @@ import {
   setDataForSession,
   updateDataForSession,
 } from "./redis";
-import type { Cookie } from "@remix-run/node";
+import type { Cookie, Session } from "@remix-run/node";
 import { createSessionStorage, createCookie } from "@remix-run/node";
 import { config } from "~/services/env/env.server";
 import { useSecureCookie } from "~/util/useSecureCookie";
+import _ from "lodash";
+import type { AllContexts } from "~/models/flows/common";
 
 type SessionContext =
   | "main"
@@ -58,3 +60,10 @@ export function getSessionForContext(context: SessionContext) {
   const getFullId = (id: string) => fullId(context, id);
   return { getSession, commitSession, destroySession, getSessionId: getFullId };
 }
+
+export const updateSession = (session: Session, validatedData: AllContexts) => {
+  const updatedData = _.merge(session.data, validatedData);
+  Object.entries(updatedData).forEach(([key, value]) => {
+    session.set(key, value);
+  });
+};

@@ -62,11 +62,173 @@
         },
         "bevollmaechtigte-person": {
           "on": {
-            "SUBMIT": "",
+            "SUBMIT": "#/geld-einklagen/formular/.gegenseite",
             "BACK": "gesetzliche-vertretung"
           }
         }
       }
+    },
+    "gegenseite": {
+      "id": "gegenseite",
+      "initial": "start",
+      "states": {
+        "start": {
+          "on": {
+            "BACK": "#/geld-einklagen/formular/.persoenliche-daten.bevollmaechtigte-person",
+            "SUBMIT": "typ"
+          }
+        },
+        "typ": {
+          "on": {
+            "BACK": "start",
+            "SUBMIT": [
+              {
+                "cond": "gegenseiteTypPrivatperson",
+                "target": "privatperson-name"
+              },
+              {
+                "cond": "gegenseiteTypUnternehmen",
+                "target": "unternehmen-name"
+              }
+            ]
+          }
+        },
+        "privatperson-name": {
+          "on": {
+            "BACK": "typ",
+            "SUBMIT": "privatperson-adresse"
+          }
+        },
+        "privatperson-adresse": {
+          "on": {
+            "BACK": "privatperson-name",
+            "SUBMIT": "privatperson-kontakt"
+          }
+        },
+        "privatperson-kontakt": {
+          "on": {
+            "BACK": "privatperson-adresse",
+            "SUBMIT": "privatperson-bevollmaechtigte-person"
+          }
+        },
+        "privatperson-bevollmaechtigte-person": {
+          "on": {
+            "BACK": "privatperson-kontakt",
+            "SUBMIT": "#/geld-einklagen/formular/.forderung"
+          }
+        },
+        "unternehmen-name": {
+          "on": {
+            "BACK": "typ",
+            "SUBMIT": "unternehmen-adresse"
+          }
+        },
+        "unternehmen-adresse": {
+          "on": {
+            "BACK": "unternehmen-name",
+            "SUBMIT": "unternehmen-telefonnummer"
+          }
+        },
+        "unternehmen-telefonnummer": {
+          "on": {
+            "BACK": "unternehmen-adresse",
+            "SUBMIT": "unternehmen-bevollmaechtigte-person"
+          }
+        },
+        "unternehmen-bevollmaechtigte-person": {
+          "on": {
+            "BACK": "unternehmen-telefonnummer",
+            "SUBMIT": "#/geld-einklagen/formular/.forderung"
+          }
+        }
+      }
+    },
+    "forderung": {
+      "id": "forderung",
+      "initial": "start",
+      "states": {
+        "start": {
+          "on": {
+            "BACK": [
+              {
+                "cond": "gegenseiteTypPrivatperson",
+                "target": "#/geld-einklagen/formular/.gegenseite.privatperson-bevollmaechtigte-person"
+              },
+              {
+                "cond": "gegenseiteTypUnternehmen",
+                "target": "#/geld-einklagen/formular/.gegenseite.unternehmen-bevollmaechtigte-person"
+              }
+            ],
+            "SUBMIT": "gegenseite"
+          }
+        },
+        "gegenseite": {
+          "on": {
+            "BACK": "start",
+            "SUBMIT": "forderung-1-beschreibung"
+          }
+        },
+        "forderung-1-beschreibung": {
+          "on": {
+            "BACK": "gegenseite",
+            "SUBMIT": "forderung-1-beweise"
+          }
+        },
+        "forderung-1-beweise": {
+          "on": {
+            "BACK": "forderung-1-beschreibung",
+            "SUBMIT": "person-1-adresse"
+          }
+        },
+        "person-1-adresse": {
+          "on": {
+            "BACK": "forderung-1-beweise",
+            "SUBMIT": "person-1-kontakt"
+          }
+        },
+        "person-1-kontakt": {
+          "on": {
+            "BACK": "person-1-adresse",
+            "SUBMIT": "forderung-2-beschreibung"
+          }
+        },
+        "forderung-2-beschreibung": {
+          "on": {
+            "BACK": "person-1-kontakt",
+            "SUBMIT": "nebenforderungen"
+          }
+        },
+        "nebenforderungen": {
+          "on": {
+            "BACK": "forderung-2-beschreibung",
+            "SUBMIT": "kosten"
+          }
+        },
+        "kosten": {
+          "on": {
+            "BACK": "nebenforderungen",
+            "SUBMIT": "#/geld-einklagen/formular/.versaeumnisurteil"
+          }
+        }
+      }
+    },
+    "versaeumnisurteil": {
+      "on": {
+        "SUBMIT": "anmerkung",
+        "BACK": "#/geld-einklagen/formular/.forderung.kosten"
+      }
+    },
+    "anmerkung": {
+      "on": { "SUBMIT": "ueberpruefung", "BACK": "versaeumnisurteil" }
+    },
+    "ueberpruefung": {
+      "on": { "SUBMIT": "aenderungMitteilung", "BACK": "anmerkung" }
+    },
+    "aenderungMitteilung": {
+      "on": { "SUBMIT": "einverstaendnis", "BACK": "ueberpruefung" }
+    },
+    "einverstaendnis": {
+      "on": { "BACK": "aenderungMitteilung" }
     }
   }
 }
