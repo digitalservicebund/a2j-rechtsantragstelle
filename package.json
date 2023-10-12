@@ -68,7 +68,7 @@
     "@axe-core/playwright": "^4.7.3",
     "@babel/preset-env": "^7.22.20",
     "@babel/preset-react": "^7.22.15",
-    "@babel/preset-typescript": "^7.23.0",
+    "@babel/preset-typescript": "^7.23.2",
     "@faker-js/faker": "^8.1.0",
     "@playwright/test": "^1.38.1",
     "@remix-run/dev": "^2.0.1",
