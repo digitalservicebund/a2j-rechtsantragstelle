@@ -4,11 +4,7 @@ import classNames from "classnames";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import { z } from "zod";
-
-const ErrorMessagePropsSchema = z.object({
-  code: z.string(),
-  text: z.string(),
-});
+import { ErrorMessagePropsSchema } from ".";
 
 export const InputPropsSchema = z.object({
   name: z.string(),

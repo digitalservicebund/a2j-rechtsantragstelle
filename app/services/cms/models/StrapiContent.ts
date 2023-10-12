@@ -10,6 +10,7 @@ import { StrapiInfoBoxItemSchema } from "./StrapiInfoBoxItem";
 import { StrapiSelectSchema } from "./StrapiSelect";
 import { StrapiLinkListBoxSchema } from "./StrapiLinkListBox";
 import { StrapiDropdownSchema } from "./StrapiDropdown";
+import { StrapiTextareaSchema } from "./StrapiTextarea";
 
 export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiBoxSchema.required({ __component: true }),
@@ -20,6 +21,7 @@ export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiInfoBoxItemSchema.required({ __component: true }),
   StrapiParagraphSchema.required({ __component: true }),
   StrapiInputSchema.required({ __component: true }),
+  StrapiTextareaSchema.required({ __component: true }),
   StrapiSelectSchema.required({ __component: true }),
   StrapiLinkListBoxSchema.required({ __component: true }),
   StrapiDropdownSchema.required({ __component: true }),

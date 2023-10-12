@@ -17,6 +17,7 @@ import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { throw404OnProduction } from "../services/errorPages/throw404";
+import Textarea from "~/components/Textarea";
 
 export const DummySchema = z.object({
   text: z.string().min(1),
@@ -58,7 +59,10 @@ export default function Kitchensink() {
         <div className="ds-stack-32">
           <div className="ds-stack-24">
             <h3>{"<Input>"}</h3>
-            <Input name="text" label="Text" />
+            <Input name="text" label="Label for input" />
+
+            <h3>{"<Textarea>"}</h3>
+            <Textarea name="text" label="Label for textarea" />
 
             <h3>{"<Select>"}</h3>
             <Select

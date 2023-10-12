@@ -24,6 +24,8 @@ import { getBoxWithImageProps } from "~/services/props/getBoxWithImageProps";
 import RichText from "./RichText";
 import Select from "./Select";
 import { getDropdownProps } from "~/services/props/getDropdownProps";
+import Textarea from "./Textarea";
+import { getTextareaProps } from "~/services/props/getTextareaProps";
 
 type PageContentProps = {
   content: Array<StrapiContent>;
@@ -72,6 +74,8 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
       return <Header {...getHeaderProps(cms)} key={key} />;
     case "form-elements.input":
       return <Input {...getInputProps(cms)} key={key} />;
+    case "form-elements.textarea":
+      return <Textarea {...getTextareaProps(cms)} key={key} />;
     case "form-elements.select":
       return <RadioGroup {...getRadioGroupProps(cms)} key={key} />;
     case "form-elements.dropdown":
