@@ -26,8 +26,44 @@
       "states": {
         "start": {
           "on": {
-            "SUBMIT": "",
+            "SUBMIT": "name",
             "BACK": "#/geld-einklagen/formular/.daten-uebernahme"
+          }
+        },
+        "name": {
+          "on": {
+            "SUBMIT": "geburtsdatum",
+            "BACK": "start"
+          }
+        },
+        "geburtsdatum": {
+          "on": {
+            "SUBMIT": "adresse",
+            "BACK": "name"
+          }
+        },
+        "adresse": {
+          "on": {
+            "SUBMIT": "telefonnummer",
+            "BACK": "geburtsdatum"
+          }
+        },
+        "telefonnummer": {
+          "on": {
+            "SUBMIT": "gesetzliche-vertretung",
+            "BACK": "adresse"
+          }
+        },
+        "gesetzliche-vertretung": {
+          "on": {
+            "SUBMIT": "bevollmaechtigte-person",
+            "BACK": "telefonnummer"
+          }
+        },
+        "bevollmaechtigte-person": {
+          "on": {
+            "SUBMIT": "",
+            "BACK": "gesetzliche-vertretung"
           }
         }
       }
