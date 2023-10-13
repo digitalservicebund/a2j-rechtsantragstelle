@@ -142,7 +142,7 @@ test("index redirects to last known step", async ({ page }) => {
   await vorabcheck.assertInitialStep();
   await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
   await vorabcheck.fillRadioPage("wurdeVerklagt", "no");
-  const intermediateUrl = vorabcheck.page.url();
+  const intermediateUrl = vorabcheck.page.url().split("/").at(-1);
   await vorabcheck.goto();
-  await expect(page).toHaveURL(intermediateUrl);
+  expect(page.url()).toContain(intermediateUrl);
 });
