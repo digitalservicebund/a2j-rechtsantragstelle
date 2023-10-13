@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { config } from "../../env/env.server";
+import { ImagePropsSchema } from "~/components/Image";
+import { omitNull } from "~/util/omitNull";
 
 export const StrapiImageSchema = z.object({
   data: z
@@ -35,3 +37,8 @@ export const StrapiImageSchema = z.object({
 });
 
 export type StrapiImage = z.infer<typeof StrapiImageSchema>;
+
+export const getImageProps = (cmsData: StrapiImage | null | undefined) => {
+  if (!cmsData?.data) return undefined;
+  return ImagePropsSchema.parse(omitNull(cmsData.data.attributes));
+};

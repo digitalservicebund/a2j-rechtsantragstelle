@@ -2,8 +2,11 @@ import { z } from "zod";
 import { StrapiButtonSchema } from "./StrapiButton";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import { StrapiImageSchema } from "./StrapiImage";
+import { StrapiImageSchema, getImageProps } from "./StrapiImage";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
+import { omitNull } from "~/util/omitNull";
+import { InfoBoxItemPropsSchema } from "~/components/InfoBoxItem";
+import { type StrapiElementWithId } from "./StrapiElementWithId";
 
 export const StrapiInfoBoxItemSchema = z
   .object({
@@ -17,4 +20,19 @@ export const StrapiInfoBoxItemSchema = z
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);
 
-export type StrapiInfoBoxItem = z.infer<typeof StrapiInfoBoxItemSchema>;
+type StrapiInfoBoxItem = z.infer<typeof StrapiInfoBoxItemSchema>;
+
+export const getInfoBoxItemProps = (cmsData: StrapiInfoBoxItem) => {
+  const props = { ...cmsData, image: getImageProps(cmsData.image) };
+  return InfoBoxItemPropsSchema.parse(omitNull(props));
+};
+
+export function infoBoxesFromElementsWithID(
+  elementsWithID: StrapiElementWithId[],
+) {
+  return elementsWithID.flatMap((elementWithID) =>
+    elementWithID.element
+      .filter((el) => el.__component === "page.info-box-item")
+      .map((el) => getInfoBoxItemProps(el as StrapiInfoBoxItem)),
+  );
+}

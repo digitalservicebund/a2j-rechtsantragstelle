@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
+import { InputPropsSchema } from "~/components/Input";
+import { omitNull } from "~/util/omitNull";
 
 export const StrapiInputSchema = z
   .object({
@@ -34,4 +36,12 @@ export const StrapiInputSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-export type StrapiInput = z.infer<typeof StrapiInputSchema>;
+type StrapiInput = z.infer<typeof StrapiInputSchema>;
+
+export const getInputProps = (cmsData: StrapiInput) => {
+  const errorMessages = cmsData.errors.data?.flatMap(
+    (cmsError) => cmsError.attributes.errorCodes,
+  );
+  const width = cmsData.width?.replace("characters", "");
+  return InputPropsSchema.parse(omitNull({ ...cmsData, width, errorMessages }));
+};

@@ -4,7 +4,9 @@ import { StrapiContainerSchema } from "./StrapiContainer";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
-import { StrapiImageSchema } from "./StrapiImage";
+import { StrapiImageSchema, getImageProps } from "./StrapiImage";
+import { omitNull } from "~/util/omitNull";
+import { BoxWithImagePropsSchema } from "~/components/BoxWithImage";
 
 export const StrapiBoxWithImageSchema = z
   .object({
@@ -19,4 +21,9 @@ export const StrapiBoxWithImageSchema = z
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);
 
-export type StrapiBoxWithImage = z.infer<typeof StrapiBoxWithImageSchema>;
+type StrapiBoxWithImage = z.infer<typeof StrapiBoxWithImageSchema>;
+
+export const getBoxWithImageProps = (cmsData: StrapiBoxWithImage) => {
+  const props = { ...cmsData, image: getImageProps(cmsData.image) };
+  return BoxWithImagePropsSchema.parse(omitNull(props));
+};

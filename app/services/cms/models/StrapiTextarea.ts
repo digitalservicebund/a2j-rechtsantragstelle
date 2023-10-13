@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
+import { omitNull } from "~/util/omitNull";
+import { TextareaPropsSchema } from "~/components/Textarea";
 
 export const StrapiTextareaSchema = z
   .object({
@@ -20,4 +22,11 @@ export const StrapiTextareaSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-export type StrapiTextarea = z.infer<typeof StrapiTextareaSchema>;
+type StrapiTextarea = z.infer<typeof StrapiTextareaSchema>;
+
+export const getTextareaProps = (cmsData: StrapiTextarea) => {
+  const errorMessages = cmsData.errors.data?.flatMap(
+    (cmsError) => cmsError.attributes.errorCodes,
+  );
+  return TextareaPropsSchema.parse(omitNull({ ...cmsData, errorMessages }));
+};

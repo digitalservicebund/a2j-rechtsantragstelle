@@ -2,6 +2,8 @@ import { z } from "zod";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiSelectOptionSchema } from "./StrapiSelectOption";
 import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
+import { RadioGroupPropsSchema } from "~/components/RadioGroup";
+import { omitNull } from "~/util/omitNull";
 
 export const StrapiSelectSchema = z
   .object({
@@ -23,3 +25,10 @@ export const StrapiSelectSchema = z
   .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiSelect = z.infer<typeof StrapiSelectSchema>;
+
+export const getRadioGroupProps = (cmsData: StrapiSelect) => {
+  const errorMessages = cmsData.errors.data?.flatMap(
+    (cmsError) => cmsError.attributes.errorCodes,
+  );
+  return RadioGroupPropsSchema.parse(omitNull({ ...cmsData, errorMessages }));
+};

@@ -6,6 +6,8 @@ import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiLinkSchema } from "./StrapiLink";
+import { LinkListBoxPropsSchema } from "~/components/LinkListBox";
+import { omitNull } from "~/util/omitNull";
 
 export const StrapiLinkListBoxSchema = z
   .object({
@@ -20,4 +22,8 @@ export const StrapiLinkListBoxSchema = z
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);
 
-export type StrapiLinkListBox = z.infer<typeof StrapiLinkListBoxSchema>;
+type StrapiLinkListBox = z.infer<typeof StrapiLinkListBoxSchema>;
+
+export const getLinkListBoxProps = (cmsData: StrapiLinkListBox) => {
+  return LinkListBoxPropsSchema.parse(omitNull(cmsData));
+};

@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
+import { omitNull } from "~/util/omitNull";
+import { DropdownPropsSchema } from "~/components/Select";
 
 export const StrapiDropdownSchema = z
   .object({
@@ -22,4 +24,11 @@ export const StrapiDropdownSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-export type StrapiDropdown = z.infer<typeof StrapiDropdownSchema>;
+type StrapiDropdown = z.infer<typeof StrapiDropdownSchema>;
+
+export const getDropdownProps = (cmsData: StrapiDropdown) => {
+  const errorMessages = cmsData.errors.data?.flatMap(
+    (cmsError) => cmsError.attributes.errorCodes,
+  );
+  return DropdownPropsSchema.parse(omitNull({ ...cmsData, errorMessages }));
+};

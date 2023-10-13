@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HeadingPropsSchema } from "~/components/Heading";
+import { omitNull } from "~/util/omitNull";
 
 export const StrapiHeadingSchema = z
   .object({
@@ -27,3 +29,7 @@ export const StrapiHeadingSchema = z
   .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiHeading = z.infer<typeof StrapiHeadingSchema>;
+
+export const getHeadingProps = (cmsData: StrapiHeading) => {
+  return HeadingPropsSchema.parse(omitNull(cmsData));
+};

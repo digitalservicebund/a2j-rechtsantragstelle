@@ -4,8 +4,10 @@ import { StrapiButtonSchema } from "./StrapiButton";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import { StrapiParagraphSchema } from "./StrapiParagraph";
+import { StrapiParagraphSchema, getRichTextProps } from "./StrapiParagraph";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
+import { BoxPropsSchema } from "~/components/Box";
+import { omitNull } from "~/util/omitNull";
 
 export const StrapiBoxSchema = z
   .object({
@@ -20,4 +22,9 @@ export const StrapiBoxSchema = z
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);
 
-export type StrapiBox = z.infer<typeof StrapiBoxSchema>;
+type StrapiBox = z.infer<typeof StrapiBoxSchema>;
+
+export const getBoxProps = (cmsData: StrapiBox) => {
+  const content = cmsData.content && getRichTextProps(cmsData.content);
+  return BoxPropsSchema.parse(omitNull({ ...cmsData, content }));
+};

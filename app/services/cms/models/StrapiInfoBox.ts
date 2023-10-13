@@ -3,8 +3,13 @@ import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import { StrapiInfoBoxItemSchema } from "./StrapiInfoBoxItem";
+import {
+  StrapiInfoBoxItemSchema,
+  getInfoBoxItemProps,
+} from "./StrapiInfoBoxItem";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
+import { omitNull } from "~/util/omitNull";
+import { InfoBoxPropsSchema } from "~/components/InfoBox";
 
 export const StrapiInfoBoxSchema = z
   .object({
@@ -18,3 +23,8 @@ export const StrapiInfoBoxSchema = z
   .merge(OptionalStrapiLinkIdentifierSchema);
 
 export type StrapiInfoBox = z.infer<typeof StrapiInfoBoxSchema>;
+
+export const getInfoBoxProps = (cmsData: StrapiInfoBox) => {
+  const items = cmsData.items.map(getInfoBoxItemProps);
+  return InfoBoxPropsSchema.parse(omitNull({ ...cmsData, items }));
+};

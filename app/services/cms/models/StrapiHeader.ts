@@ -3,7 +3,9 @@ import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import { StrapiParagraphSchema } from "./StrapiParagraph";
+import { StrapiParagraphSchema, getRichTextProps } from "./StrapiParagraph";
+import { HeaderPropsSchema } from "~/components/Header";
+import { omitNull } from "~/util/omitNull";
 
 export const StrapiHeaderSchema = z
   .object({
@@ -16,3 +18,8 @@ export const StrapiHeaderSchema = z
   .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiHeader = z.infer<typeof StrapiHeaderSchema>;
+
+export const getHeaderProps = (cmsData: StrapiHeader) => {
+  const content = cmsData.content && getRichTextProps(cmsData.content);
+  return HeaderPropsSchema.parse(omitNull({ ...cmsData, content }));
+};

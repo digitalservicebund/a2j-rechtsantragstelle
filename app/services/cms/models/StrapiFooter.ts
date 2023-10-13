@@ -1,10 +1,12 @@
 import { z } from "zod";
-import { StrapiImageSchema } from "./StrapiImage";
+import { StrapiImageSchema, getImageProps } from "./StrapiImage";
 import { StrapiLinkSchema } from "./StrapiLink";
-import { StrapiParagraphSchema } from "./StrapiParagraph";
+import { StrapiParagraphSchema, getRichTextProps } from "./StrapiParagraph";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
+import { FooterPropsSchema } from "~/components/Footer";
+import { omitNull } from "~/util/omitNull";
 
 export const StrapiFooterSchema = z
   .object({
@@ -17,3 +19,9 @@ export const StrapiFooterSchema = z
   .merge(HasStrapiTimestampsSchema);
 
 export type StrapiFooter = z.infer<typeof StrapiFooterSchema>;
+
+export const getFooterProps = (cmsData: StrapiFooter) => {
+  const paragraphs = cmsData.paragraphs?.map((p) => getRichTextProps(p));
+  const image = getImageProps(cmsData.image);
+  return FooterPropsSchema.parse(omitNull({ ...cmsData, paragraphs, image }));
+};
