@@ -31,7 +31,7 @@ import ButtonContainer from "~/components/ButtonContainer";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
 import { mainSessionFromRequest } from "~/services/security/csrf.server";
-import { lastStepKey } from "~/services/flow/lastStep";
+import { dataDeletionKey, lastStepKey } from "~/services/flow/lastStep";
 
 export const loader = async ({
   params,
@@ -188,7 +188,7 @@ export function Step() {
                 <Button
                   look="tertiary"
                   size="large"
-                  href="/beratungshilfe/vorabcheck"
+                  href={`/beratungshilfe/vorabcheck?${dataDeletionKey}`}
                 >
                   {cmsData.linkText}
                 </Button>
