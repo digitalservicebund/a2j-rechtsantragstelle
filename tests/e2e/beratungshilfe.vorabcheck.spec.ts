@@ -10,9 +10,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("forwarded to intial step", async ({ page }) => {
-  await expect(page).toHaveURL(
-    new RegExp(`.+${vorabcheck.url}/${vorabcheck.initialStep}$`),
-  );
+  await vorabcheck.assertInitialStep();
 });
 
 test("vorabcheck can be traversed (long path)", async ({ page }) => {
@@ -137,7 +135,14 @@ test("vorabcheck can be traversed (short path)", async ({ page }) => {
 
 test("funnel: invalid step redirects to start", async ({ page }) => {
   await page.goto(`${vorabcheck.url}/stepDoesNotExist`);
-  await expect(page).toHaveURL(
-    new RegExp(`.+${vorabcheck.url}/${vorabcheck.initialStep}$`),
-  );
+  await vorabcheck.assertInitialStep();
+});
+
+test("index redirects to last known step", async ({ page }) => {
+  await vorabcheck.assertInitialStep();
+  await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
+  await vorabcheck.fillRadioPage("wurdeVerklagt", "no");
+  const intermediateUrl = vorabcheck.page.url();
+  await vorabcheck.goto();
+  await expect(page).toHaveURL(intermediateUrl);
 });

@@ -32,6 +32,7 @@ import { CSRFKey } from "~/services/security/csrfKey";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
 import { getGerichtskostenvorschuss } from "~/models/geldEinklagen";
+import { lastStepKey } from "~/services/flow/lastStep";
 
 export const loader = async ({
   params,
@@ -87,6 +88,7 @@ export const loader = async ({
   const csrf = createCSRFToken();
   const sessionContext = getSessionForContext("main");
   const session = await csrfSessionFromRequest(csrf, request);
+  session.set(lastStepKey, { [flowId]: stepId });
   const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
 
   // The breadcrumb should not contain the current step title

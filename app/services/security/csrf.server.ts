@@ -13,7 +13,7 @@ export function createCSRFToken() {
 const getCSRFFromSession = (session: Session) =>
   session.get(CSRFKey) as string[] | null;
 
-async function mainSessionFromRequest(request: Request) {
+export async function mainSessionFromRequest(request: Request) {
   const cookie = request.headers.get("Cookie");
   return getSessionForContext("main").getSession(cookie);
 }
