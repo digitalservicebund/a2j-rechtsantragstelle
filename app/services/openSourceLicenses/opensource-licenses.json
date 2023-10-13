@@ -113,6 +113,14 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/classnames/LICENSE",
     "direct": true
   },
+  "crypto-js": {
+    "licenses": "MIT",
+    "repository": "https://github.com/brix/crypto-js",
+    "publisher": "Evan Vosberg",
+    "path": "a2j-rechtsantragstelle/node_modules/crypto-js",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/crypto-js/LICENSE",
+    "direct": true
+  },
   "dotenv": {
     "licenses": "BSD-2-Clause",
     "repository": "https://github.com/motdotla/dotenv",
