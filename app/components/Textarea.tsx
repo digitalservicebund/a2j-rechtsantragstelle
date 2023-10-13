@@ -13,7 +13,7 @@ export const TextareaPropsSchema = z.object({
   errorMessages: z.array(ErrorMessagePropsSchema).optional(),
 });
 
-export type TextareaProps = z.infer<typeof TextareaPropsSchema>;
+type TextareaProps = z.infer<typeof TextareaPropsSchema>;
 
 const Textarea = ({
   name,

@@ -18,7 +18,7 @@ export const InputPropsSchema = z.object({
   width: z.enum(["3", "5", "7", "10", "16", "24", "36", "54"]).optional(),
 });
 
-export type InputProps = z.infer<typeof InputPropsSchema>;
+type InputProps = z.infer<typeof InputPropsSchema>;
 
 const widthClass = (width: string) => {
   return {

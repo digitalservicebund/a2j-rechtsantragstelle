@@ -1,10 +1,10 @@
 import { useLoaderData, useLocation, useParams } from "@remix-run/react";
-import { ValidatedForm, validationError } from "remix-validated-form";
+import { ValidatedForm } from "remix-validated-form";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import PageContent from "~/components/PageContent";
 import Container from "~/components/Container";
 import Background from "~/components/Background";
-import { action, loader } from "~/routes/shared/step";
+import { type loader } from "~/routes/shared/step";
 import {
   flowIDFromPathname,
   flowSpecifics,
@@ -13,7 +13,6 @@ import {
 import { buildStepValidator } from "~/models/flows/common";
 import { CSRFKey } from "~/services/security/csrfKey";
 import Heading from "~/components/Heading";
-
 export { action, loader } from "~/routes/shared/step";
 
 export default function Step() {
