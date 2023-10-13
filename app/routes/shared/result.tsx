@@ -30,6 +30,8 @@ import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
+import { mainSessionFromRequest } from "~/services/security/csrf.server";
+import { lastStepKey } from "~/services/flow/lastStep";
 
 export const loader = async ({
   params,
@@ -69,19 +71,26 @@ export const loader = async ({
         label: cmsData.nextLink?.text ?? common.nextButtonDefaultLabel,
       };
 
-  return json({
-    common,
-    cmsData: cmsData,
-    content: cmsData.freeZone,
-    meta: { ...cmsData.meta, breadcrumbTitle: parentMeta.title },
-    reasons: getReasonsToDisplay(reasonElementsWithID, data),
-    progress: flowController.getProgress(stepId),
-    nextButton,
-    backButton: {
-      destination: flowController.getPrevious(stepId)?.url,
-      label: common.backButtonDefaultLabel,
+  const session = await mainSessionFromRequest(request);
+  session.set(lastStepKey, { [flowId]: stepId });
+  const sessionContext = getSessionForContext("main");
+
+  return json(
+    {
+      common,
+      cmsData: cmsData,
+      content: cmsData.freeZone,
+      meta: { ...cmsData.meta, breadcrumbTitle: parentMeta.title },
+      reasons: getReasonsToDisplay(reasonElementsWithID, data),
+      progress: flowController.getProgress(stepId),
+      nextButton,
+      backButton: {
+        destination: flowController.getPrevious(stepId)?.url,
+        label: common.backButtonDefaultLabel,
+      },
     },
-  });
+    { headers: { "Set-Cookie": await sessionContext.commitSession(session) } },
+  );
 };
 
 export const action: ActionFunction = async ({ params, request, context }) => {
