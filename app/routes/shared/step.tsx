@@ -57,7 +57,7 @@ export const loader = async ({
   const gerichtskostenvorschuss = getGerichtskostenvorschuss(data);
 
   const forderungReplacements =
-    "forderung" in data
+    "forderung" in data && typeof data.forderung === "object"
       ? {
           forderung1Betrag: data.forderung.forderung1.betrag,
           forderung1Title: data.forderung.forderung1.title,
