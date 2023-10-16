@@ -33,9 +33,9 @@ export default function Step() {
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
 
-  const nextLabel = isLast
-    ? "Klage versenden"
-    : commonContent.nextButtonDefaultLabel;
+  const nextButtonProps = isLast
+    ? { label: "Klage versenden", destination: "#" }
+    : { label: commonContent.nextButtonDefaultLabel };
 
   return (
     <Background backgroundColor="blue">
@@ -65,7 +65,7 @@ export default function Step() {
                       destination: previousStep,
                       label: commonContent.backButtonDefaultLabel,
                     }}
-                    next={{ label: nextLabel, destination: "#" }}
+                    next={nextButtonProps}
                   />
                 </div>
               </ValidatedForm>
