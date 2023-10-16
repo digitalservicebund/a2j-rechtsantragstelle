@@ -13,6 +13,7 @@ import {
 import { buildStepValidator } from "~/models/flows/common";
 import { CSRFKey } from "~/services/security/csrfKey";
 import Heading from "~/components/Heading";
+import { fillTemplate } from "~/util/fillTemplate";
 export { action, loader } from "~/routes/shared/step";
 
 export default function Step() {
@@ -21,6 +22,7 @@ export default function Step() {
     defaultValues,
     commonContent,
     heading,
+    preHeading,
     content,
     formContent,
     isLast,
@@ -43,6 +45,14 @@ export default function Step() {
         <Container paddingTop="24">
           <div className="ds-stack-16">
             <div className="ds-stack-40">
+              {preHeading && (
+                <p>
+                  {fillTemplate({
+                    template: preHeading,
+                    replacements: templateReplacements,
+                  })}
+                </p>
+              )}
               <Heading text={heading} look="ds-heading-02-reg" />
               <PageContent
                 content={content}

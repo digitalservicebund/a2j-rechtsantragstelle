@@ -56,9 +56,20 @@ export const loader = async ({
     getVerfuegbaresEinkommenFreibetrag(data);
   const gerichtskostenvorschuss = getGerichtskostenvorschuss(data);
 
+  const forderungReplacements =
+    "forderung" in data
+      ? {
+          forderung1Betrag: data.forderung.forderung1.betrag,
+          forderung1Title: data.forderung.forderung1.title,
+          forderung2Betrag: data.forderung.forderung2.betrag,
+          forderung2Title: data.forderung.forderung2.title,
+        }
+      : {};
+
   const templateReplacements = {
     verfuegbaresEinkommenFreibetrag: verfuegbaresEinkommenFreibetrag.toString(),
     gerichtskostenvorschuss: gerichtskostenvorschuss.toString(),
+    ...forderungReplacements,
   };
 
   const [commonContent, formPageContent, parentMeta] = await Promise.all([
@@ -107,6 +118,10 @@ export const loader = async ({
       commonContent,
       heading:
         "heading" in formPageContent ? formPageContent.heading : undefined,
+      preHeading:
+        "preHeading" in formPageContent
+          ? formPageContent.preHeading
+          : undefined,
       content: formPageContent.pre_form,
       formContent: formPageContent.form,
       meta,
