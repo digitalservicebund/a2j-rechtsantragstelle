@@ -15,7 +15,7 @@ import {
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/buildFlowController";
 import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
-import { AllContexts, buildStepValidator } from "~/models/flows/common";
+import { type AllContexts, buildStepValidator } from "~/models/flows/common";
 import {
   flowIDFromPathname,
   flowSpecifics,
@@ -31,8 +31,12 @@ import {
 import { CSRFKey } from "~/services/security/csrfKey";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
-import { getGerichtskostenvorschuss } from "~/models/geldEinklagen";
+import {
+  gerichtskostenFromBetrag,
+  getGerichtskostenvorschuss,
+} from "~/models/geldEinklagen";
 import { lastStepKey } from "~/services/flow/lastStep";
+import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 
 export const loader = async ({
   params,
@@ -62,6 +66,13 @@ export const loader = async ({
   const gerichtskostenvorschuss = getGerichtskostenvorschuss(flowContext);
 
   // TODO Move this closer to the flow
+  const gesamtForderung =
+    "forderung" in flowContext && typeof flowContext.forderung === "object"
+      ? parseCurrencyStringDE(flowContext.forderung?.forderung2?.betrag) +
+        parseCurrencyStringDE(flowContext.forderung?.forderung1?.betrag)
+      : 0;
+  const berechneteGerichtskosten = gerichtskostenFromBetrag(gesamtForderung);
+
   const forderungReplacements =
     "forderung" in flowContext && typeof flowContext.forderung === "object"
       ? {
@@ -69,13 +80,8 @@ export const loader = async ({
           forderung1Title: flowContext.forderung.forderung1?.title,
           forderung2Betrag: flowContext.forderung.forderung2?.betrag,
           forderung2Title: flowContext.forderung.forderung2?.title,
-          gesamtForderung: String(
-            Number.parseFloat(flowContext.forderung.forderung2?.betrag ?? "0") +
-              Number.parseFloat(
-                flowContext.forderung.forderung1?.betrag ?? "0",
-              ),
-          ),
-          berechneteGerichtskosten: "123",
+          gesamtForderung: gesamtForderung.toString(),
+          berechneteGerichtskosten: berechneteGerichtskosten.toString(),
         }
       : {};
 

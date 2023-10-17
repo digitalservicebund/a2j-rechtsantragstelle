@@ -22,3 +22,13 @@ export const getGerichtskostenvorschuss = (context: AllContexts) => {
     return 0;
   return gerichtskostenvorschuss[context.geldspanne];
 };
+
+export const gerichtskostenFromBetrag = (betrag: number) => {
+  if (betrag < 500) return gerichtskostenvorschuss.below_500;
+  if (betrag < 1000) return gerichtskostenvorschuss.above_500;
+  if (betrag < 1500) return gerichtskostenvorschuss.above_1000;
+  if (betrag < 2000) return gerichtskostenvorschuss.above_1500;
+  if (betrag < 3000) return gerichtskostenvorschuss.above_2000;
+  if (betrag < 4000) return gerichtskostenvorschuss.above_3000;
+  return gerichtskostenvorschuss.above_4000;
+};
