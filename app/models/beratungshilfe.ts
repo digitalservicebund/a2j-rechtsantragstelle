@@ -1,5 +1,6 @@
 import { isIncomeTooHigh } from "./flows/beratungshilfe/guards";
 import type { BeratungshilfeVorabcheckContext } from "./flows/beratungshilfe/pages";
+import { type AllContexts } from "./flows/common";
 
 export function freibetrag({
   working,
@@ -55,13 +56,13 @@ function freibetragShort(
   );
 }
 
-export const getVerfuegbaresEinkommenFreibetrag = (
-  context: BeratungshilfeVorabcheckContext,
-) => {
-  const isWorking = context.erwerbstaetigkeit == "yes";
-  const isInPartnership = context.partnerschaft == "yes";
+export const getVerfuegbaresEinkommenFreibetrag = (context: AllContexts) => {
+  const isWorking =
+    "erwerbstaetigkeit" in context && context.erwerbstaetigkeit == "yes";
+  const isInPartnership =
+    "partnerschaft" in context && context.partnerschaft == "yes";
   const kidsCountTotal =
-    context.kinderKurz == "yes"
+    "kinderKurz" in context && context.kinderKurz == "yes"
       ? parseFloat(context.kinderAnzahlKurz ?? "0")
       : 0;
   return freibetragShort(isWorking, isInPartnership, kidsCountTotal);

@@ -94,7 +94,7 @@ export const context = {
     })
     .partial(),
   versaeumnisurteil: YesNoAnswer,
-  anmerkung: z.string().nullish(),
+  anmerkung: z.string(),
 } as const;
 
 const contextObject = z.object(context).partial();

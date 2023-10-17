@@ -15,7 +15,7 @@ import {
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/buildFlowController";
 import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
-import { buildStepValidator } from "~/models/flows/common";
+import { AllContexts, buildStepValidator } from "~/models/flows/common";
 import {
   flowIDFromPathname,
   flowSpecifics,
@@ -45,28 +45,35 @@ export const loader = async ({
   const flowId = flowIDFromPathname(pathname);
   const cookieId = request.headers.get("Cookie");
   const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
+  const flowContext: AllContexts = data; // Recast for now to get type safety
   context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
   const { flow, guards } = flowSpecifics[flowId];
-  const flowController = buildFlowController({ flow, data, guards });
+  const flowController = buildFlowController({
+    flow,
+    data: flowContext,
+    guards,
+  });
 
   if (!flowController.isReachable(stepId))
     return redirect(flowController.getInitial().url);
 
   const verfuegbaresEinkommenFreibetrag =
-    getVerfuegbaresEinkommenFreibetrag(data);
-  const gerichtskostenvorschuss = getGerichtskostenvorschuss(data);
+    getVerfuegbaresEinkommenFreibetrag(flowContext);
+  const gerichtskostenvorschuss = getGerichtskostenvorschuss(flowContext);
 
   // TODO Move this closer to the flow
   const forderungReplacements =
-    "forderung" in data && typeof data.forderung === "object"
+    "forderung" in flowContext && typeof flowContext.forderung === "object"
       ? {
-          forderung1Betrag: data.forderung.forderung1.betrag,
-          forderung1Title: data.forderung.forderung1.title,
-          forderung2Betrag: data.forderung.forderung2.betrag,
-          forderung2Title: data.forderung.forderung2.title,
+          forderung1Betrag: flowContext.forderung.forderung1?.betrag,
+          forderung1Title: flowContext.forderung.forderung1?.title,
+          forderung2Betrag: flowContext.forderung.forderung2?.betrag,
+          forderung2Title: flowContext.forderung.forderung2?.title,
           gesamtForderung: String(
-            Number.parseFloat(data.forderung.forderung2.betrag) +
-              Number.parseFloat(data.forderung.forderung1.betrag),
+            Number.parseFloat(flowContext.forderung.forderung2?.betrag ?? "0") +
+              Number.parseFloat(
+                flowContext.forderung.forderung1?.betrag ?? "0",
+              ),
           ),
           berechneteGerichtskosten: "123",
         }
