@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import type { Replacements } from "~/util/fillTemplate";
+import { fillTemplate, type Replacements } from "~/util/fillTemplate";
 import type { StrapiContent } from "~/services/cms/models/StrapiContent";
 import { wrapperPropsFromCms } from "./CommonWrapperProps";
 import { getBoxProps } from "~/services/cms/models/StrapiBox";
@@ -58,36 +58,41 @@ function wrapInBackground(cmsData: StrapiContent, reactElement: ReactElement) {
 }
 
 function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
-  const key = keyFromElement(cms);
-  switch (cms.__component) {
+  const replacedTemplate = JSON.parse(
+    fillTemplate({
+      template: JSON.stringify(cms),
+      replacements: templateReplacements,
+    }),
+  ) as StrapiContent;
+
+  const key = keyFromElement(replacedTemplate);
+  switch (replacedTemplate.__component) {
     case "basic.heading":
-      return (
-        <Heading
-          {...getHeadingProps(cms)}
-          templateReplacements={templateReplacements}
-          key={key}
-        />
-      );
+      return <Heading {...getHeadingProps(replacedTemplate)} key={key} />;
     case "basic.paragraph":
-      return <RichText {...getRichTextProps(cms)} key={key} />;
+      return <RichText {...getRichTextProps(replacedTemplate)} key={key} />;
     case "page.header":
-      return <Header {...getHeaderProps(cms)} key={key} />;
+      return <Header {...getHeaderProps(replacedTemplate)} key={key} />;
     case "form-elements.input":
-      return <Input {...getInputProps(cms)} key={key} />;
+      return <Input {...getInputProps(replacedTemplate)} key={key} />;
     case "form-elements.textarea":
-      return <Textarea {...getTextareaProps(cms)} key={key} />;
+      return <Textarea {...getTextareaProps(replacedTemplate)} key={key} />;
     case "form-elements.select":
-      return <RadioGroup {...getRadioGroupProps(cms)} key={key} />;
+      return <RadioGroup {...getRadioGroupProps(replacedTemplate)} key={key} />;
     case "form-elements.dropdown":
-      return <Select {...getDropdownProps(cms)} key={key} />;
+      return <Select {...getDropdownProps(replacedTemplate)} key={key} />;
     case "page.box":
-      return <Box {...getBoxProps(cms)} key={key} />;
+      return <Box {...getBoxProps(replacedTemplate)} key={key} />;
     case "page.info-box":
-      return <InfoBox {...getInfoBoxProps(cms)} key={key} />;
+      return <InfoBox {...getInfoBoxProps(replacedTemplate)} key={key} />;
     case "page.link-list-box":
-      return <LinkListBox {...getLinkListBoxProps(cms)} key={key} />;
+      return (
+        <LinkListBox {...getLinkListBoxProps(replacedTemplate)} key={key} />
+      );
     case "page.box-with-image":
-      return <BoxWithImage {...getBoxWithImageProps(cms)} key={key} />;
+      return (
+        <BoxWithImage {...getBoxWithImageProps(replacedTemplate)} key={key} />
+      );
     default:
       return <></>;
   }

@@ -56,6 +56,7 @@ export const loader = async ({
     getVerfuegbaresEinkommenFreibetrag(data);
   const gerichtskostenvorschuss = getGerichtskostenvorschuss(data);
 
+  // TODO Move this closer to the flow
   const forderungReplacements =
     "forderung" in data && typeof data.forderung === "object"
       ? {
@@ -63,6 +64,11 @@ export const loader = async ({
           forderung1Title: data.forderung.forderung1.title,
           forderung2Betrag: data.forderung.forderung2.betrag,
           forderung2Title: data.forderung.forderung2.title,
+          gesamtForderung: String(
+            Number.parseFloat(data.forderung.forderung2.betrag) +
+              Number.parseFloat(data.forderung.forderung1.betrag),
+          ),
+          berechneteGerichtskosten: "123",
         }
       : {};
 
