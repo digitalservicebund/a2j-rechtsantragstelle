@@ -6,10 +6,7 @@ import {
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { postcodeSchema } from "~/services/validation/plz";
 
-const titleSchema = z.enum(
-  ["Keine Auswahl", "Dr."],
-  customRequiredErrorMessage,
-);
+const titleSchema = z.enum(["none", "dr"], customRequiredErrorMessage);
 
 export const context = {
   titel: titleSchema,
