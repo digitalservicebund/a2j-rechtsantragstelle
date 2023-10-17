@@ -4,11 +4,13 @@ import { guards as geldEinklagenFormularGuards } from "~/models/flows/geldEinkla
 import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
 import geldEinklagenFormularFlow from "~/models/flows/geldEinklagenFormular/config.json";
+import persoenlicheDaten from "~/models/flows/persoenlicheDaten.json";
 import { context as geldEinklagenContext } from "~/models/flows/geldEinklagen/pages";
 import { context as geldEinklagenFormularContext } from "~/models/flows/geldEinklagenFormular/context";
 import { context as beratungshilfeContext } from "~/models/flows/beratungshilfe/pages";
 import invariant from "tiny-invariant";
 import type { Params } from "@remix-run/react";
+import _ from "lodash";
 
 export const flowSpecifics = {
   "beratungshilfe/vorabcheck": {
@@ -22,7 +24,16 @@ export const flowSpecifics = {
     context: geldEinklagenContext,
   },
   "geld-einklagen/formular": {
-    flow: geldEinklagenFormularFlow,
+    flow: _.merge(geldEinklagenFormularFlow, {
+      states: {
+        "persoenliche-daten": _.merge(persoenlicheDaten, {
+          states: {
+            start: { on: { BACK: "#daten-uebernahme" } },
+            "bevollmaechtigte-person": { on: { SUBMIT: "#gegenseite" } },
+          },
+        }),
+      },
+    }),
     guards: geldEinklagenFormularGuards,
     context: geldEinklagenFormularContext,
   },
