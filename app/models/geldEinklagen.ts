@@ -1,3 +1,4 @@
+import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { type AllContexts } from "./flows/common";
 
 /* eslint-disable camelcase */
@@ -31,4 +32,11 @@ export const gerichtskostenFromBetrag = (betrag: number) => {
   if (betrag < 3000) return gerichtskostenvorschuss.above_2000;
   if (betrag < 4000) return gerichtskostenvorschuss.above_3000;
   return gerichtskostenvorschuss.above_4000;
+};
+
+export const gesamtKosten = (context: AllContexts) => {
+  return "forderung" in context && typeof context.forderung === "object"
+    ? parseCurrencyStringDE(context.forderung?.forderung2?.betrag) +
+        parseCurrencyStringDE(context.forderung?.forderung1?.betrag)
+    : 0;
 };

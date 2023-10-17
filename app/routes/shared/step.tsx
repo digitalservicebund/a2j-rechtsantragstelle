@@ -33,10 +33,10 @@ import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
 import {
   gerichtskostenFromBetrag,
+  gesamtKosten,
   getGerichtskostenvorschuss,
 } from "~/models/geldEinklagen";
 import { lastStepKey } from "~/services/flow/lastStep";
-import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 
 export const loader = async ({
   params,
@@ -66,11 +66,7 @@ export const loader = async ({
   const gerichtskostenvorschuss = getGerichtskostenvorschuss(flowContext);
 
   // TODO Move this closer to the flow
-  const gesamtForderung =
-    "forderung" in flowContext && typeof flowContext.forderung === "object"
-      ? parseCurrencyStringDE(flowContext.forderung?.forderung2?.betrag) +
-        parseCurrencyStringDE(flowContext.forderung?.forderung1?.betrag)
-      : 0;
+  const gesamtForderung = gesamtKosten(flowContext);
   const berechneteGerichtskosten = gerichtskostenFromBetrag(gesamtForderung);
 
   const forderungReplacements =
