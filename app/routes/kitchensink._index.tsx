@@ -41,7 +41,7 @@ export const action = async ({ request }: DataFunctionArgs) => {
 
 export default function Kitchensink() {
   const loaderData = useLoaderData<typeof loader>();
-  const actionData = useActionData();
+  const actionData = useActionData<typeof action>();
   return (
     <div>
       <h1>{loaderData.meta?.title}</h1>
