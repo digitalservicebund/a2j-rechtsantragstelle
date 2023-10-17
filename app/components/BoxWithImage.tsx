@@ -20,6 +20,7 @@ const BoxWithImage = ({
   imageLabel,
   content,
 }: BoxWithImageProps) => {
+  console.log("COntent", content);
   return (
     <div
       id={identifier}
@@ -33,7 +34,7 @@ const BoxWithImage = ({
           <Image
             {...image}
             {...{
-              className: "w-[160px]",
+              className: content ? "w-[160px]" : "max-w-none",
             }}
           />
         )}
