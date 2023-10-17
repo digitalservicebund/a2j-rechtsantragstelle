@@ -130,6 +130,8 @@ export const loader = async ({
           : undefined,
       content: formPageContent.pre_form,
       formContent: formPageContent.form,
+      postFormContent:
+        "post_form" in formPageContent ? formPageContent.post_form : undefined,
       meta,
       progress: flowController.getProgress(stepId),
       isLast: flowController.isFinal(stepId),

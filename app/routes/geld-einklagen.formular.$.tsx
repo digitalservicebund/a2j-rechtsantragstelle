@@ -25,6 +25,7 @@ export default function Step() {
     preHeading,
     content,
     formContent,
+    postFormContent,
     isLast,
     previousStep,
     templateReplacements,
@@ -70,6 +71,7 @@ export default function Step() {
                 <input type="hidden" name={CSRFKey} value={csrf} />
                 <div className="ds-stack-40">
                   <PageContent content={formContent} />
+                  {postFormContent && <PageContent content={postFormContent} />}
                   <ButtonNavigation
                     back={{
                       destination: previousStep,
