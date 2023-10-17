@@ -63,14 +63,25 @@ export const context = {
           title: z.string().min(1),
           betrag: buildMoneyValidationSchema(),
           beschreibung: z.string().min(1),
-          person1Title: titleSchema,
-          person1Nachname: z.string().min(1),
-          person1Vorname: z.string().min(1),
-          person1StrasseHausnummer: z.string().min(1),
-          person1Plz: postcodeSchema,
-          person1Telefonnummer: z.string().optional(),
-          person1Email: z.string().optional(),
-          person1Ort: z.string().min(1),
+          person: z
+            .object({
+              ort: z.string().min(1),
+              strasseHausnummer: z.string().min(1),
+              plz: postcodeSchema,
+              telefonnummer: z.string().optional(),
+              email: z.string().optional(),
+              title: titleSchema,
+              nachname: z.string().min(1),
+              vorname: z.string().min(1),
+            })
+            .partial(),
+          zeuge: z
+            .object({
+              title: titleSchema,
+              nachname: z.string().min(1),
+              vorname: z.string().min(1),
+            })
+            .partial(),
         })
         .partial(),
       forderung2: z

@@ -177,12 +177,18 @@
         "forderung-1-beweise": {
           "on": {
             "BACK": "forderung-1-beschreibung",
+            "SUBMIT": "forderung-1-zeugen"
+          }
+        },
+        "forderung-1-zeugen": {
+          "on": {
+            "BACK": "forderung-1-beweise",
             "SUBMIT": "person-1-adresse"
           }
         },
         "person-1-adresse": {
           "on": {
-            "BACK": "forderung-1-beweise",
+            "BACK": "forderung-1-zeugen",
             "SUBMIT": "person-1-kontakt"
           }
         },
