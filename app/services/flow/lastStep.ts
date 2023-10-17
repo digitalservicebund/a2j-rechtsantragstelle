@@ -1,4 +1,5 @@
 import {
+  type FlowId,
   flowIDFromPathname,
   flowSpecifics,
 } from "~/routes/shared/flowSpecifics";
@@ -8,7 +9,7 @@ import { throw404IfFeatureFlagEnabled } from "../errorPages/throw404";
 import { buildFlowController } from "./buildFlowController";
 import { getSessionForContext } from "../session";
 
-type LastStep = Record<keyof typeof flowSpecifics, string>;
+type LastStep = Record<FlowId, string>;
 export const lastStepKey = "lastStep";
 export const dataDeletionKey = "deleteData";
 
