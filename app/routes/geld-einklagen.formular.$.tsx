@@ -46,7 +46,7 @@ export default function Step() {
           <div className="ds-stack-16">
             <div className="ds-stack-40">
               {preHeading && (
-                <p>
+                <p className="ds-label-01-bold">
                   {fillTemplate({
                     template: preHeading,
                     replacements: templateReplacements,
