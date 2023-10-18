@@ -70,7 +70,7 @@ export default function Step() {
               >
                 <input type="hidden" name={CSRFKey} value={csrf} />
                 <div className="ds-stack-40">
-                  <PageContent content={formContent} />
+                  <PageContent content={formContent} className="ds-stack-40" />
                   {postFormContent && <PageContent content={postFormContent} />}
                   <ButtonNavigation
                     back={{
