@@ -4,6 +4,7 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 
 const titleSchema = z.enum(["none", "dr"], customRequiredErrorMessage);
@@ -16,7 +17,7 @@ export const context = {
   strasse: z.string().min(1),
   plz: postcodeSchema,
   ort: z.string().min(1),
-  telefonnummer: z.string().min(1),
+  telefonnummer: phoneNumberSchema,
   gesetzlicheVertretung: YesNoAnswer,
   bevollmaechtigtePerson: z.enum(
     ["lawyer", "yes", "no"],
