@@ -3,6 +3,7 @@ import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
+import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
@@ -12,12 +13,12 @@ const titleSchema = z.enum(["", "dr"]);
 export const context = {
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
   titel: titleSchema,
-  nachname: z.string().min(1),
-  vorname: z.string().min(1),
+  nachname: inputRequiredSchema,
+  vorname: inputRequiredSchema,
   volljaerig: YesNoAnswer,
-  strasse: z.string().min(1),
-  plz: postcodeSchema,
-  ort: z.string().min(1),
+  strasse: inputRequiredSchema,
+  plz: inputRequiredSchema.pipe(postcodeSchema),
+  ort: inputRequiredSchema,
   telefonnummer: phoneNumberSchema,
   gesetzlicheVertretung: YesNoAnswer,
   bevollmaechtigtePerson: z.enum(
