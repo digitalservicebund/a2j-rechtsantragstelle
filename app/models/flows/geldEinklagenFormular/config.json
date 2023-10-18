@@ -38,11 +38,11 @@
         },
         "name": {
           "on": {
-            "SUBMIT": "geburtsdatum",
+            "SUBMIT": "volljaerig",
             "BACK": "anzahl"
           }
         },
-        "geburtsdatum": {
+        "volljaerig": {
           "on": {
             "SUBMIT": "adresse",
             "BACK": "name"
@@ -51,7 +51,7 @@
         "adresse": {
           "on": {
             "SUBMIT": "telefonnummer",
-            "BACK": "geburtsdatum"
+            "BACK": "volljaerig"
           }
         },
         "telefonnummer": {

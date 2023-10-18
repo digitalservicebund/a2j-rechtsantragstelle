@@ -14,7 +14,7 @@ export const context = {
   titel: titleSchema,
   nachname: z.string().min(1),
   vorname: z.string().min(1),
-  geburtsdatum: z.string().min(1),
+  volljaerig: YesNoAnswer,
   strasse: z.string().min(1),
   plz: postcodeSchema,
   ort: z.string().min(1),
