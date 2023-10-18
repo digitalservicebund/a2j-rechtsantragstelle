@@ -8,7 +8,7 @@ import { buildMoneyValidationSchema } from "~/services/validation/money/buildMon
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 
-const titleSchema = z.enum(["", "dr"]);
+const titleSchema = z.enum(["none", "dr"]);
 
 export const context = {
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
