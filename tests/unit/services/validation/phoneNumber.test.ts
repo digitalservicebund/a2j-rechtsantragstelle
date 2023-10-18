@@ -19,10 +19,7 @@ describe("phoneNumber validation", () => {
   });
 
   describe("failing cases", () => {
-    const cases = [
-      { input: "", errorMessage: "required" },
-      { input: "abcde", errorMessage: "invalid" },
-    ];
+    const cases = [{ input: "abcde", errorMessage: "invalid" }];
 
     test.each(cases)(
       "given $input, returns $errorMessage",
