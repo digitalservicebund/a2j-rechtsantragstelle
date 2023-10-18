@@ -42,7 +42,7 @@ const Select = ({
         aria-describedby={error && errorId}
         aria-errormessage={error && errorId}
       >
-        {placeholder && <option hidden>{placeholder}</option>}
+        {placeholder && <option value="">{placeholder}</option>}
         {options.map((option) => {
           return (
             <option value={option.value} key={option.value}>
