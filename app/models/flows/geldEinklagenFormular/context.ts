@@ -4,7 +4,7 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { postcodeSchema } from "~/services/validation/plz";
+import { postcodeSchema } from "~/services/validation/postcode";
 
 const titleSchema = z.enum(["none", "dr"], customRequiredErrorMessage);
 

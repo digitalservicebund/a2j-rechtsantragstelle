@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { postcodeSchema } from "~/services/validation/plz";
+import { postcodeSchema } from "~/services/validation/postcode";
 import {
   customRequiredErrorMessage,
   YesNoAnswer,

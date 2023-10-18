@@ -16,7 +16,7 @@ import PageContent from "~/components/PageContent";
 import { getSessionForContext } from "~/services/session";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import { postcodeSchema } from "~/services/validation/plz";
+import { postcodeSchema } from "~/services/validation/postcode";
 
 const clientSchema = z.object({ postcode: postcodeSchema });
 
