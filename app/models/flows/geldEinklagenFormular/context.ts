@@ -10,6 +10,7 @@ import { postcodeSchema } from "~/services/validation/postcode";
 const titleSchema = z.enum(["", "dr"]);
 
 export const context = {
+  anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
   titel: titleSchema,
   nachname: z.string().min(1),
   vorname: z.string().min(1),

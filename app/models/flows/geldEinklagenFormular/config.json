@@ -26,14 +26,20 @@
       "states": {
         "start": {
           "on": {
-            "SUBMIT": "name",
+            "SUBMIT": "anzahl",
             "BACK": "#/geld-einklagen/formular/.daten-uebernahme"
+          }
+        },
+        "anzahl": {
+          "on": {
+            "SUBMIT": "name",
+            "BACK": "start"
           }
         },
         "name": {
           "on": {
             "SUBMIT": "geburtsdatum",
-            "BACK": "start"
+            "BACK": "anzahl"
           }
         },
         "geburtsdatum": {
