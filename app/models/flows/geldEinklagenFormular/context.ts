@@ -3,6 +3,7 @@ import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
+import { emailSchema } from "~/services/validation/email";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
@@ -68,8 +69,8 @@ export const context = {
               ort: inputRequiredSchema,
               strasseHausnummer: inputRequiredSchema,
               plz: inputRequiredSchema.pipe(postcodeSchema),
-              telefonnummer: phoneNumberSchema.optional(),
-              email: z.string().optional(),
+              telefonnummer: z.union([phoneNumberSchema, z.literal("")]),
+              email: z.union([emailSchema, z.literal("")]),
               title: titleSchema,
               nachname: inputRequiredSchema,
               vorname: inputRequiredSchema,
