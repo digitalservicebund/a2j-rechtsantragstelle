@@ -4,7 +4,7 @@ import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 
-const titleSchema = z.enum(["", "dr"]);
+export const titleSchema = z.enum(["", "dr"]);
 
 export const adresse = {
   strasseHausnummer: inputRequiredSchema,
