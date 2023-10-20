@@ -12,6 +12,7 @@ import { context as beratungshilfeContext } from "~/models/flows/beratungshilfe/
 import invariant from "tiny-invariant";
 import type { Params } from "@remix-run/react";
 import _ from "lodash";
+import { fluggastrechtContext } from "~/models/flows/fluggastrechte/context";
 
 export const flowSpecifics = {
   "beratungshilfe/vorabcheck": {
@@ -49,8 +50,8 @@ export const flowSpecifics = {
         }),
       },
     }),
-    guards: geldEinklagenFormularGuards,
-    context: geldEinklagenFormularContext,
+    guards: {},
+    context: fluggastrechtContext,
   },
 } as const;
 

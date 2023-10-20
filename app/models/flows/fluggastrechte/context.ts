@@ -5,7 +5,7 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { adresse, persoenlicheDaten } from "../persoenlicheDaten/context";
 
-export const context = {
+export const fluggastrechtContext = {
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
   ...persoenlicheDaten,
   ...adresse,
@@ -15,5 +15,5 @@ export const context = {
   anmerkung: z.string(),
 } as const;
 
-const contextObject = z.object(context).partial();
-export type GeldEinklagenFormularContext = z.infer<typeof contextObject>;
+const contextObject = z.object(fluggastrechtContext).partial();
+export type FluggastrechtContext = z.infer<typeof contextObject>;
