@@ -5,6 +5,7 @@ import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
 import geldEinklagenFormularFlow from "~/models/flows/geldEinklagenFormular/config.json";
 import persoenlicheDatenFlow from "~/models/flows/persoenlicheDaten/config.json";
+import fluggastrechteFlow from "~/models/flows/fluggastrechte/config.json";
 import { context as geldEinklagenContext } from "~/models/flows/geldEinklagen/pages";
 import { context as geldEinklagenFormularContext } from "~/models/flows/geldEinklagenFormular/context";
 import { context as beratungshilfeContext } from "~/models/flows/beratungshilfe/pages";
@@ -30,6 +31,20 @@ export const flowSpecifics = {
           states: {
             start: { on: { BACK: "#daten-uebernahme" } },
             "bevollmaechtigte-person": { on: { SUBMIT: "#gegenseite" } },
+          },
+        }),
+      },
+    }),
+    guards: geldEinklagenFormularGuards,
+    context: geldEinklagenFormularContext,
+  },
+  "geld-einklagen/fluggastrechte": {
+    flow: _.merge(fluggastrechteFlow, {
+      states: {
+        "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
+          states: {
+            start: { on: { BACK: "#start" } },
+            "bevollmaechtigte-person": { on: { SUBMIT: "#versaeumnisurteil" } },
           },
         }),
       },
