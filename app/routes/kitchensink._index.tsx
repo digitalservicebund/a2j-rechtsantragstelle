@@ -6,7 +6,6 @@ import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import Background from "~/components/Background";
-import Box from "~/components/Box";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
 import Input from "~/components/Input";
@@ -216,26 +215,6 @@ export default function Kitchensink() {
           />
         </Container>
       </div>
-
-      <h3>Box</h3>
-      <Background backgroundColor="blue" paddingTop="64">
-        <Container backgroundColor="yellow" paddingBottom="64">
-          <Box
-            label={{
-              text: "Label",
-              tagName: "p",
-              look: "ds-label-02-bold",
-            }}
-            heading={{
-              text: "Heading",
-              tagName: "h3",
-              look: "ds-heading-02-reg",
-            }}
-            content={{ markdown: "Lorem **ipsum**" }}
-            buttons={[{ text: "Button", href: "/", look: "tertiary" }]}
-          />
-        </Container>
-      </Background>
 
       <h3>InfoBox</h3>
       <Background backgroundColor="blue">
