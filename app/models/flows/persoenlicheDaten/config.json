@@ -3,15 +3,18 @@
   "id": "persoenliche-daten",
   "initial": "start",
   "states": {
-    "start": { "on": { "SUBMIT": "name" } },
-    "name": {
-      "on": { "SUBMIT": "geburtsdatum", "BACK": "start" }
+    "start": { "on": { "SUBMIT": "anzahl" } },
+    "anzahl": {
+      "on": { "SUBMIT": "name", "BACK": "start" }
     },
-    "geburtsdatum": {
+    "name": {
+      "on": { "SUBMIT": "volljaerig", "BACK": "anzahl" }
+    },
+    "volljaerig": {
       "on": { "SUBMIT": "adresse", "BACK": "name" }
     },
     "adresse": {
-      "on": { "SUBMIT": "telefonnummer", "BACK": "geburtsdatum" }
+      "on": { "SUBMIT": "telefonnummer", "BACK": "volljaerig" }
     },
     "telefonnummer": {
       "on": { "SUBMIT": "gesetzliche-vertretung", "BACK": "adresse" }

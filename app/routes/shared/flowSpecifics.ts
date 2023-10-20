@@ -4,7 +4,7 @@ import { guards as geldEinklagenFormularGuards } from "~/models/flows/geldEinkla
 import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
 import geldEinklagenFormularFlow from "~/models/flows/geldEinklagenFormular/config.json";
-import persoenlicheDaten from "~/models/flows/persoenlicheDaten.json";
+import persoenlicheDatenFlow from "~/models/flows/persoenlicheDaten/config.json";
 import { context as geldEinklagenContext } from "~/models/flows/geldEinklagen/pages";
 import { context as geldEinklagenFormularContext } from "~/models/flows/geldEinklagenFormular/context";
 import { context as beratungshilfeContext } from "~/models/flows/beratungshilfe/pages";
@@ -26,7 +26,7 @@ export const flowSpecifics = {
   "geld-einklagen/formular": {
     flow: _.merge(geldEinklagenFormularFlow, {
       states: {
-        "persoenliche-daten": _.merge(persoenlicheDaten, {
+        "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
           states: {
             start: { on: { BACK: "#daten-uebernahme" } },
             "bevollmaechtigte-person": { on: { SUBMIT: "#gegenseite" } },

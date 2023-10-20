@@ -45,7 +45,7 @@ test("geldeinklagen formular can be traversed for privatperson", async ({
 
   // /geld-einklagen/formular/persoenliche-daten/name
   await expectPageToBeAccessible({ page });
-  await geldEinklagenFormular.fillDropdown("titel", "");
+  await geldEinklagenFormular.fillDropdown("title", "");
   await geldEinklagenFormular.fillInput("nachname", "Donatello");
   await geldEinklagenFormular.fillInput("vorname", "Cowabunga");
   await geldEinklagenFormular.clickNext();
