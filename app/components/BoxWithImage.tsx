@@ -20,7 +20,6 @@ const BoxWithImage = ({
   imageLabel,
   content,
 }: BoxWithImageProps) => {
-  console.log("COntent", content);
   return (
     <div
       id={identifier}
