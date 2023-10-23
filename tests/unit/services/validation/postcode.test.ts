@@ -24,6 +24,9 @@ describe("postcode validation", () => {
       { input: "abcde", errorMessage: "invalid" },
       { input: "99999", errorMessage: "invalid" },
       { input: "01066", errorMessage: "invalid" },
+      { input: "4000x", errorMessage: "invalid" },
+      { input: "4000-", errorMessage: "invalid" },
+      { input: "40 00", errorMessage: "invalid" },
     ];
 
     test.each(cases)(
