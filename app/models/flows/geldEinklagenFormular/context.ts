@@ -46,7 +46,7 @@ export const context = {
           title: titleSchema,
           name: inputRequiredSchema,
           inhaber: inputRequiredSchema,
-          adresszusatz: inputRequiredSchema,
+          adresszusatz: z.string().trim(),
           strasseHausnummer: inputRequiredSchema,
           plz: inputRequiredSchema.pipe(postcodeSchema),
           ort: inputRequiredSchema,
