@@ -21,13 +21,14 @@
         "BACK": "dokumente"
       }
     },
+    "persoenliche-daten": {},
     "gegenseite": {
       "id": "gegenseite",
       "initial": "start",
       "states": {
         "start": {
           "on": {
-            "BACK": "#/geld-einklagen/formular/.persoenliche-daten.bevollmaechtigte-person",
+            "BACK": "#persoenliche-daten.bevollmaechtigte-person",
             "SUBMIT": "typ"
           }
         },

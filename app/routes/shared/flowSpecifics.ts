@@ -16,19 +16,22 @@ import { fluggastrechtContext } from "~/models/flows/fluggastrechte/context";
 
 export const flowSpecifics = {
   "beratungshilfe/vorabcheck": {
+    cmsSlug: "vorab-check-pages",
     flow: beratungshilfeFlow,
     guards: beratungshilfeGuards,
     context: beratungshilfeContext,
   },
   "geld-einklagen/vorabcheck": {
+    cmsSlug: "vorab-check-pages",
     flow: geldEinklagenFlow,
     guards: geldEinklagenGuards,
     context: geldEinklagenContext,
   },
   "geld-einklagen/formular": {
+    cmsSlug: "form-flow-pages",
     flow: _.merge(geldEinklagenFormularFlow, {
       states: {
-        "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
+        "persoenliche-daten": _.merge(_.cloneDeep(persoenlicheDatenFlow), {
           states: {
             start: { on: { BACK: "#daten-uebernahme" } },
             "bevollmaechtigte-person": { on: { SUBMIT: "#gegenseite" } },
@@ -40,9 +43,10 @@ export const flowSpecifics = {
     context: geldEinklagenFormularContext,
   },
   "geld-einklagen/fluggastrechte": {
+    cmsSlug: "form-flow-pages",
     flow: _.merge(fluggastrechteFlow, {
       states: {
-        "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
+        "persoenliche-daten": _.merge(_.cloneDeep(persoenlicheDatenFlow), {
           states: {
             start: { on: { BACK: "#start" } },
             "bevollmaechtigte-person": { on: { SUBMIT: "#versaeumnisurteil" } },

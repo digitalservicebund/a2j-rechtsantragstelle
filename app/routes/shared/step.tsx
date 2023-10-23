@@ -37,6 +37,8 @@ import {
   getGerichtskostenvorschuss,
 } from "~/models/geldEinklagen";
 import { lastStepKey } from "~/services/flow/lastStep";
+import { fillTemplate } from "~/util/fillTemplate";
+import Heading from "~/components/Heading";
 
 export const loader = async ({
   params,
@@ -51,7 +53,7 @@ export const loader = async ({
   const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
   const flowContext: AllContexts = data; // Recast for now to get type safety
   context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
-  const { flow, guards } = flowSpecifics[flowId];
+  const { flow, guards, cmsSlug } = flowSpecifics[flowId];
   const flowController = buildFlowController({
     flow,
     data: flowContext,
@@ -87,15 +89,14 @@ export const loader = async ({
     ...forderungReplacements,
   };
 
+  const lookupPath = pathname.includes("persoenliche-daten")
+    ? pathname.replace("fluggastrechte", "formular")
+    : pathname;
+
   const [commonContent, formPageContent, parentMeta] = await Promise.all([
     fetchSingleEntry("vorab-check-common"),
-    fetchCollectionEntry(
-      pathname.startsWith("/geld-einklagen/formular")
-        ? "form-flow-pages"
-        : "vorab-check-pages",
-      pathname,
-    ),
-    fetchMeta({ slug: pathname.substring(0, pathname.lastIndexOf("/")) }),
+    fetchCollectionEntry(cmsSlug, lookupPath),
+    fetchMeta({ slug: lookupPath.substring(0, lookupPath.lastIndexOf("/")) }),
   ]);
 
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
@@ -188,7 +189,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   return redirect(flowController.getNext(stepId).url, { headers });
 };
 
-export function Step() {
+export function StepWithProgressBar() {
   const {
     csrf,
     defaultValues,
@@ -243,6 +244,79 @@ export function Step() {
                       label: commonContent.backButtonDefaultLabel,
                     }}
                     next={{ label: nextLabel }}
+                  />
+                </div>
+              </ValidatedForm>
+            </div>
+          </div>
+        </Container>
+      </div>
+    </Background>
+  );
+}
+
+export function StepWithPreHeading() {
+  const {
+    csrf,
+    defaultValues,
+    commonContent,
+    heading,
+    preHeading,
+    content,
+    formContent,
+    postFormContent,
+    isLast,
+    previousStep,
+    templateReplacements,
+  } = useLoaderData<typeof loader>();
+  const stepId = splatFromParams(useParams());
+  const flowId = flowIDFromPathname(useLocation().pathname);
+  const { context } = flowSpecifics[flowId];
+  const fieldNames = formContent.map((entry) => entry.name);
+  const validator = buildStepValidator(context, fieldNames);
+
+  const nextButtonProps = isLast
+    ? { label: "Klage versenden", destination: "#" }
+    : { label: commonContent.nextButtonDefaultLabel };
+
+  return (
+    <Background backgroundColor="blue">
+      <div className="min-h-screen">
+        <Container paddingTop="24">
+          <div className="ds-stack-16">
+            <div className="ds-stack-40">
+              {preHeading && (
+                <p className="ds-label-01-bold">
+                  {fillTemplate({
+                    template: preHeading,
+                    replacements: templateReplacements,
+                  })}
+                </p>
+              )}
+              <Heading text={heading} look="ds-heading-02-reg" />
+              <PageContent
+                content={content}
+                templateReplacements={templateReplacements}
+                className="ds-stack-16"
+              />
+              <ValidatedForm
+                key={`${stepId}_form`}
+                method="post"
+                validator={validator}
+                defaultValues={defaultValues}
+                noValidate
+                action={stepId}
+              >
+                <input type="hidden" name={CSRFKey} value={csrf} />
+                <div className="ds-stack-40">
+                  <PageContent content={formContent} className="ds-stack-40" />
+                  {postFormContent && <PageContent content={postFormContent} />}
+                  <ButtonNavigation
+                    back={{
+                      destination: previousStep,
+                      label: commonContent.backButtonDefaultLabel,
+                    }}
+                    next={nextButtonProps}
                   />
                 </div>
               </ValidatedForm>

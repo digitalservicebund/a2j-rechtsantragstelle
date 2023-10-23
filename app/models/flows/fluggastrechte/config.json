@@ -6,7 +6,7 @@
     "start": { "id": "start", "on": { "SUBMIT": "persoenliche-daten" } },
     "persoenliche-daten": {},
     "versaeumnisurteil": {
-      "id": "#versaeumnisurteil",
+      "id": "versaeumnisurteil",
       "on": { "SUBMIT": "anmerkung", "BACK": "#persoenliche-daten" }
     },
     "anmerkung": {
