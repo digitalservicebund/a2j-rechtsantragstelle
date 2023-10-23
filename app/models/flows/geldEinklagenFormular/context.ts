@@ -6,52 +6,39 @@ import {
 import { emailSchema } from "~/services/validation/email";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { phoneNumberSchema } from "~/services/validation/phoneNumber";
-import { postcodeSchema } from "~/services/validation/postcode";
-
-const titleSchema = z.enum(["", "dr"]);
+import {
+  adresse,
+  namePrivatPerson,
+  persoenlicheDaten,
+  titleSchema,
+} from "../persoenlicheDaten/context";
 
 export const context = {
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
-  titel: titleSchema,
-  nachname: inputRequiredSchema,
-  vorname: inputRequiredSchema,
+  ...namePrivatPerson,
+  ...persoenlicheDaten,
+  ...adresse,
+  titel: titleSchema, //TODO: remove and replace by persoenlicheDaten.title after merge
   volljaerig: YesNoAnswer,
-  strasse: inputRequiredSchema,
-  plz: inputRequiredSchema.pipe(postcodeSchema),
-  ort: inputRequiredSchema,
-  telefonnummer: inputRequiredSchema.pipe(phoneNumberSchema),
+  strasse: inputRequiredSchema, // TODO: replace by adresse.strasseHausnummer after merge
   gesetzlicheVertretung: YesNoAnswer,
-  bevollmaechtigtePerson: z.enum(
-    ["lawyer", "yes", "no"],
-    customRequiredErrorMessage,
-  ),
   gegenseite: z
     .object({
       typ: z.enum(["privatperson", "unternehmen"], customRequiredErrorMessage),
       privatperson: z
         .object({
-          title: titleSchema,
-          nachname: inputRequiredSchema,
-          vorname: inputRequiredSchema,
-          strasseHausnummer: inputRequiredSchema,
-          plz: inputRequiredSchema.pipe(postcodeSchema),
-          ort: inputRequiredSchema,
-          telefonnummer: inputRequiredSchema.pipe(phoneNumberSchema),
-          bevollmaechtigtePerson: YesNoAnswer,
+          ...namePrivatPerson,
+          ...persoenlicheDaten,
+          ...adresse,
         })
         .partial(),
       unternehmen: z
         .object({
-          title: titleSchema,
           name: inputRequiredSchema,
           inhaber: inputRequiredSchema,
           adresszusatz: z.string().trim(),
-          strasseHausnummer: inputRequiredSchema,
-          plz: inputRequiredSchema.pipe(postcodeSchema),
-          ort: inputRequiredSchema,
-          telefonnummer: inputRequiredSchema.pipe(phoneNumberSchema),
-          bevollmaechtigtePerson: YesNoAnswer,
+          ...adresse,
+          ...persoenlicheDaten,
         })
         .partial(),
     })
@@ -66,23 +53,13 @@ export const context = {
           beschreibung: inputRequiredSchema,
           person: z
             .object({
-              ort: inputRequiredSchema,
-              strasseHausnummer: inputRequiredSchema,
-              plz: inputRequiredSchema.pipe(postcodeSchema),
-              telefonnummer: z.union([phoneNumberSchema, z.literal("")]),
+              ...namePrivatPerson,
+              ...adresse,
+              ...persoenlicheDaten,
               email: z.union([emailSchema, z.literal("")]),
-              title: titleSchema,
-              nachname: inputRequiredSchema,
-              vorname: inputRequiredSchema,
             })
             .partial(),
-          zeuge: z
-            .object({
-              title: titleSchema,
-              nachname: inputRequiredSchema,
-              vorname: inputRequiredSchema,
-            })
-            .partial(),
+          zeuge: z.object(namePrivatPerson).partial(),
         })
         .partial(),
       forderung2: z

@@ -15,63 +15,10 @@
       }
     },
     "daten-uebernahme": {
+      "id": "daten-uebernahme",
       "on": {
         "SUBMIT": "persoenliche-daten",
         "BACK": "dokumente"
-      }
-    },
-    "persoenliche-daten": {
-      "id": "persoenliche-daten",
-      "initial": "start",
-      "states": {
-        "start": {
-          "on": {
-            "SUBMIT": "anzahl",
-            "BACK": "#/geld-einklagen/formular/.daten-uebernahme"
-          }
-        },
-        "anzahl": {
-          "on": {
-            "SUBMIT": "name",
-            "BACK": "start"
-          }
-        },
-        "name": {
-          "on": {
-            "SUBMIT": "volljaerig",
-            "BACK": "anzahl"
-          }
-        },
-        "volljaerig": {
-          "on": {
-            "SUBMIT": "adresse",
-            "BACK": "name"
-          }
-        },
-        "adresse": {
-          "on": {
-            "SUBMIT": "telefonnummer",
-            "BACK": "volljaerig"
-          }
-        },
-        "telefonnummer": {
-          "on": {
-            "SUBMIT": "gesetzliche-vertretung",
-            "BACK": "adresse"
-          }
-        },
-        "gesetzliche-vertretung": {
-          "on": {
-            "SUBMIT": "bevollmaechtigte-person",
-            "BACK": "telefonnummer"
-          }
-        },
-        "bevollmaechtigte-person": {
-          "on": {
-            "SUBMIT": "#/geld-einklagen/formular/.gegenseite",
-            "BACK": "gesetzliche-vertretung"
-          }
-        }
       }
     },
     "gegenseite": {
