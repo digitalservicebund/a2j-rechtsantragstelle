@@ -166,12 +166,14 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const { context } = flowSpecifics[flowId];
 
-  const fieldNames = Array.from(formData.entries())
-    .filter(([key]) => key !== "_action" && key !== CSRFKey)
-    .map((entry) => entry.at(0) as string);
-
-  const validator = buildStepValidator(context, fieldNames);
-  const validationResult = await validator.validate(formData);
+  // Note: This also reduces same-named fields to the last entry
+  const relevantFormData = Object.fromEntries(
+    Array.from(formData.entries()).filter(
+      ([key]) => key !== "_action" && key !== CSRFKey,
+    ),
+  );
+  const validator = buildStepValidator(context, Object.keys(relevantFormData));
+  const validationResult = await validator.validate(relevantFormData);
   if (validationResult.error) return validationError(validationResult.error);
 
   updateSession(flowSession, validationResult.data);

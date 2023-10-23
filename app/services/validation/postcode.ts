@@ -2,7 +2,7 @@ import { z } from "zod";
 
 function isValidPostcode(postcode: string) {
   const postcodeNum = parseInt(postcode, 10);
-  return postcodeNum >= 1067 && postcodeNum <= 99998;
+  return postcodeNum >= 1067 && postcodeNum <= 99998 && /\d{5}/.test(postcode);
 }
 
 export const postcodeSchema = z

@@ -213,6 +213,78 @@ exports[`Storyshots Container/Container Overhanging Background 1`] = `
 </div>
 `;
 
+exports[`Storyshots Content/Box Default 1`] = `
+<div
+  className="bg-blue-100 !pt-32 !pb-32"
+>
+  <div
+    className="container !pt-32 !pb-40 text-black bg-yellow-300"
+  >
+    <div
+      className="ds-stack-16 scroll-my-40"
+      id="default-box-id"
+    >
+      <div
+        className="ds-stack-8"
+      >
+        <p
+          className="ds-label-02-reg"
+          dangerouslySetInnerHTML={
+            {
+              "__html": "Label text",
+            }
+          }
+        />
+        <h2
+          className="ds-heading-03-bold"
+          dangerouslySetInnerHTML={
+            {
+              "__html": "Heading text",
+            }
+          }
+        />
+        <div>
+          <div
+            className="rich-text ds-stack-8 "
+            dangerouslySetInnerHTML={
+              {
+                "__html": "<p class="text-lg">Lorem <strong>ipsum</strong></p><ul>
+<li>Lorem ipsum</li>
+<li>Lorem ipsum</li>
+</ul>
+",
+              }
+            }
+          />
+        </div>
+      </div>
+      <div
+        className="flex flex-wrap gap-24"
+      >
+        <button
+          className="ds-button ds-button-tertiary"
+        >
+           
+          <span>
+            Button 1
+          </span>
+           
+        </button>
+        <button
+          className="ds-button"
+        >
+           
+          <span>
+            Button 2
+          </span>
+           
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Page/Footer Example 1`] = `
 <footer
   className="text-base"

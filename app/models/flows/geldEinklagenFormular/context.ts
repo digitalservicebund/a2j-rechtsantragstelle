@@ -36,7 +36,7 @@ export const context = {
         .object({
           name: inputRequiredSchema,
           inhaber: inputRequiredSchema,
-          adresszusatz: z.string().optional(),
+          adresszusatz: z.string().trim(),
           ...adresse,
           ...persoenlicheDaten,
         })
