@@ -90,7 +90,7 @@ export const loader = async ({
   };
 
   const lookupPath = pathname.includes("persoenliche-daten")
-    ? pathname.replace("fluggastrechte", "formular")
+    ? pathname.replace("fluggastrechte", "geld-einklagen")
     : pathname;
 
   const [commonContent, formPageContent, parentMeta] = await Promise.all([

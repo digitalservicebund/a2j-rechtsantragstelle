@@ -42,7 +42,7 @@ export const flowSpecifics = {
     guards: geldEinklagenFormularGuards,
     context: geldEinklagenFormularContext,
   },
-  "geld-einklagen/fluggastrechte": {
+  "fluggastrechte/formular": {
     cmsSlug: "form-flow-pages",
     flow: _.merge(fluggastrechteFlow, {
       states: {

@@ -1,6 +1,6 @@
 {
   "predictableActionArguments": true,
-  "id": "/geld-einklagen/fluggastrechte/",
+  "id": "/fluggastrechte/formular/",
   "initial": "start",
   "states": {
     "start": { "id": "start", "on": { "SUBMIT": "persoenliche-daten" } },
