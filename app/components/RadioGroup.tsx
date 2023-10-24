@@ -24,11 +24,13 @@ const RadioGroup = ({
   altLabel,
   errorMessages,
 }: RadioGroupProps) => {
-  const { error } = useField(name);
+  const { error, defaultValue } = useField(name);
   const errorId = `${name}-error`;
   // Without JS, we need a same-named hidden field for validation without user input
   // It gets removed on clicking any radio option to still allow for front-end validation
-  const [renderHiddenField, setRenderHiddenField] = useState(true);
+  const [renderHiddenField, setRenderHiddenField] = useState(
+    defaultValue === undefined,
+  );
 
   return (
     <fieldset
