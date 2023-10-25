@@ -4,9 +4,14 @@ import {
   customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
 
+const partnerAirportsSchema = z.enum(
+  ["BRE", "BER", "DUS", "FRA", "HAM", "MUC", "STR"],
+  customRequiredErrorMessage,
+);
+
 export const fluggastrechteVorabcheckContext = {
-  startAirport: z.string(),
-  endAirport: z.string(),
+  startAirport: partnerAirportsSchema,
+  endAirport: partnerAirportsSchema,
   fluggesellschaft: z.enum(["lufthansa", "ryanair"]),
   bereich: z.enum(
     ["nichtbefoerderung", "verspaetet", "annulierung", "anderes"],
