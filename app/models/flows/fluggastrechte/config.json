@@ -1,25 +1,228 @@
 {
   "predictableActionArguments": true,
-  "id": "/fluggastrechte/formular/",
-  "initial": "start",
+  "id": "/fluggastrechte/vorabcheck/",
+  "initial": "flughaefen",
   "states": {
-    "start": { "id": "start", "on": { "SUBMIT": "persoenliche-daten" } },
-    "persoenliche-daten": {},
-    "versaeumnisurteil": {
-      "id": "versaeumnisurteil",
-      "on": { "SUBMIT": "anmerkung", "BACK": "#persoenliche-daten" }
+    "flughaefen": {
+      "meta": { "progressPosition": 1 },
+      "on": { "SUBMIT": "fluggesellschaft" }
     },
-    "anmerkung": {
-      "on": { "SUBMIT": "ueberpruefung", "BACK": "versaeumnisurteil" }
+    "fluggesellschaft": {
+      "meta": { "progressPosition": 2 },
+      "on": { "BACK": "flughaefen", "SUBMIT": "bereich" }
     },
-    "ueberpruefung": {
-      "on": { "SUBMIT": "aenderungMitteilung", "BACK": "anmerkung" }
+    "bereich": {
+      "meta": { "progressPosition": 3 },
+      "on": {
+        "BACK": "fluggesellschaft",
+        "SUBMIT": [
+          {
+            "target": "verspaetung",
+            "cond": "bereichVerspaetet"
+          },
+          {
+            "target": "ergebnis/bereich-abbruch"
+          }
+        ]
+      }
     },
-    "aenderungMitteilung": {
-      "on": { "SUBMIT": "einverstaendnis", "BACK": "ueberpruefung" }
+    "ergebnis/bereich-abbruch": {
+      "on": {
+        "BACK": "bereich"
+      }
     },
-    "einverstaendnis": {
-      "on": { "BACK": "aenderungMitteilung" }
+    "verspaetung": {
+      "meta": { "progressPosition": 4 },
+      "on": {
+        "BACK": "bereich",
+        "SUBMIT": [
+          {
+            "target": "checkin",
+            "cond": "verspaetungYes"
+          },
+          {
+            "target": "ergebnis/verspaetung-abbruch"
+          }
+        ]
+      }
+    },
+    "ergebnis/verspaetung-abbruch": {
+      "on": {
+        "BACK": "verspaetung"
+      }
+    },
+    "checkin": {
+      "meta": { "progressPosition": 5 },
+      "on": {
+        "BACK": "verspaetung",
+        "SUBMIT": [
+          {
+            "target": "gruende",
+            "cond": "checkinYes"
+          },
+          {
+            "target": "ergebnis/checkin-abbruch"
+          }
+        ]
+      }
+    },
+    "ergebnis/checkin-abbruch": {
+      "on": {
+        "BACK": "checkin"
+      }
+    },
+    "gruende": {
+      "meta": { "progressPosition": 6 },
+      "on": {
+        "BACK": "checkin",
+        "SUBMIT": [
+          {
+            "target": "entschaedigung",
+            "cond": "gruendeNo"
+          },
+          {
+            "target": "gruende-hinweis",
+            "cond": "gruendeYes"
+          }
+        ]
+      }
+    },
+    "gruende-hinweis": {
+      "meta": { "progressPosition": 7 },
+      "on": {
+        "BACK": "gruende",
+        "SUBMIT": "entschaedigung"
+      }
+    },
+    "entschaedigung": {
+      "meta": { "progressPosition": 8 },
+      "on": {
+        "BACK": "gruende",
+        "SUBMIT": [
+          {
+            "target": "gericht",
+            "cond": "entschaedigungYes"
+          },
+          {
+            "target": "ergebnis/entschaedigung-abbruch",
+            "cond": "entschaedigungNo"
+          }
+        ]
+      }
+    },
+    "ergebnis/entschaedigung-abbruch": {
+      "on": {
+        "BACK": "entschaedigung"
+      }
+    },
+    "gericht": {
+      "meta": { "progressPosition": 9 },
+      "on": {
+        "BACK": "entschaedigung",
+        "SUBMIT": [
+          {
+            "target": "anwalt",
+            "cond": "gerichtNo"
+          },
+          {
+            "target": "ergebnis/gericht-abbruch",
+            "cond": "gerichtYes"
+          }
+        ]
+      }
+    },
+    "ergebnis/gericht-abbruch": {
+      "on": {
+        "BACK": "gericht"
+      }
+    },
+    "anwalt": {
+      "meta": { "progressPosition": 10 },
+      "on": {
+        "BACK": "gericht",
+        "SUBMIT": [
+          {
+            "target": "kostenlos",
+            "cond": "anwaltNo"
+          },
+          {
+            "target": "ergebnis/anwalt-abbruch",
+            "cond": "anwaltYes"
+          }
+        ]
+      }
+    },
+    "ergebnis/anwalt-abbruch": {
+      "on": {
+        "BACK": "anwalt"
+      }
+    },
+    "kostenlos": {
+      "meta": { "progressPosition": 11 },
+      "on": {
+        "BACK": "anwalt",
+        "SUBMIT": [
+          {
+            "target": "ergebnis/kostenlos-abbruch",
+            "cond": "kostenlosYesOther"
+          },
+          {
+            "target": "rabatt"
+          }
+        ]
+      }
+    },
+    "ergebnis/kostenlos-abbruch": {
+      "on": {
+        "BACK": "kostenlos"
+      }
+    },
+    "rabatt": {
+      "meta": { "progressPosition": 12 },
+      "on": {
+        "BACK": "kostenlos",
+        "SUBMIT": [
+          {
+            "target": "buchung",
+            "cond": "rabattNo"
+          },
+          {
+            "target": "ergebnis/rabatt-abbruch",
+            "cond": "rabattYes"
+          }
+        ]
+      }
+    },
+    "ergebnis/rabatt-abbruch": {
+      "on": {
+        "BACK": "rabatt"
+      }
+    },
+    "buchung": {
+      "meta": { "progressPosition": 13 },
+      "on": {
+        "BACK": "rabatt",
+        "SUBMIT": [
+          {
+            "target": "ergebnis/erfolg",
+            "cond": "buchungYes"
+          },
+          {
+            "target": "ergebnis/buchung-abbruch",
+            "cond": "buchungNo"
+          }
+        ]
+      }
+    },
+    "ergebnis/buchung-abbruch": {
+      "on": {
+        "BACK": "buchung"
+      }
+    },
+    "ergebnis/erfolg": {
+      "on": {
+        "BACK": "buchung"
+      }
     }
   }
 }

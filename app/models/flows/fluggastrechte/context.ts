@@ -1,28 +1,27 @@
 import { z } from "zod";
 import {
-  customRequiredErrorMessage,
   YesNoAnswer,
+  customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
-import {
-  adresse,
-  persoenlicheDaten,
-  namePrivatPerson,
-  titleSchema,
-} from "../persoenlicheDaten/context";
-import { inputRequiredSchema } from "~/services/validation/inputRequired";
 
-export const fluggastrechtContext = {
-  anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
-  ...persoenlicheDaten,
-  ...adresse,
-  ...namePrivatPerson,
-  titel: titleSchema, //TODO: remove and replace by persoenlicheDaten.title after merge
-  strasse: inputRequiredSchema, // TODO: replace by adresse.strasseHausnummer after merge
-  volljaerig: YesNoAnswer,
-  gesetzlicheVertretung: YesNoAnswer,
-  versaeumnisurteil: YesNoAnswer,
-  anmerkung: z.string(),
+export const fluggastrechteVorabcheckContext = {
+  startAirport: z.string(),
+  endAirport: z.string(),
+  fluggesellschaft: z.enum(["lufthansa", "ryanair"]),
+  bereich: z.enum(
+    ["nichtbefoerderung", "verspaetet", "annulierung", "anderes"],
+    customRequiredErrorMessage,
+  ),
+  verspaetung: YesNoAnswer,
+  checkin: YesNoAnswer,
+  gruende: YesNoAnswer,
+  entschaedigung: YesNoAnswer,
+  gericht: YesNoAnswer,
+  anwalt: YesNoAnswer,
+  kostenlos: z.enum(["yesBonus", "yesOther", "no"], customRequiredErrorMessage),
+  rabatt: YesNoAnswer,
+  buchung: YesNoAnswer,
 } as const;
 
-const contextObject = z.object(fluggastrechtContext).partial();
-export type FluggastrechtContext = z.infer<typeof contextObject>;
+const contextObject = z.object(fluggastrechteVorabcheckContext).partial();
+export type FluggastrechtVorabcheckContext = z.infer<typeof contextObject>;

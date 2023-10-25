@@ -1,0 +1,25 @@
+{
+  "predictableActionArguments": true,
+  "id": "/fluggastrechte/formular/",
+  "initial": "start",
+  "states": {
+    "start": { "id": "start", "on": { "SUBMIT": "persoenliche-daten" } },
+    "persoenliche-daten": {},
+    "versaeumnisurteil": {
+      "id": "versaeumnisurteil",
+      "on": { "SUBMIT": "anmerkung", "BACK": "#persoenliche-daten" }
+    },
+    "anmerkung": {
+      "on": { "SUBMIT": "ueberpruefung", "BACK": "versaeumnisurteil" }
+    },
+    "ueberpruefung": {
+      "on": { "SUBMIT": "aenderungMitteilung", "BACK": "anmerkung" }
+    },
+    "aenderungMitteilung": {
+      "on": { "SUBMIT": "einverstaendnis", "BACK": "ueberpruefung" }
+    },
+    "einverstaendnis": {
+      "on": { "BACK": "aenderungMitteilung" }
+    }
+  }
+}

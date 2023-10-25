@@ -1,18 +1,21 @@
 import { guards as beratungshilfeGuards } from "~/models/flows/beratungshilfe/guards";
 import { guards as geldEinklagenGuards } from "~/models/flows/geldEinklagen/guards";
 import { guards as geldEinklagenFormularGuards } from "~/models/flows/geldEinklagenFormular/guards";
+import { guards as fluggastrechteVorabcheckGuards } from "~/models/flows/fluggastrechte/guards";
 import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
 import geldEinklagenFormularFlow from "~/models/flows/geldEinklagenFormular/config.json";
 import persoenlicheDatenFlow from "~/models/flows/persoenlicheDaten/config.json";
-import fluggastrechteFlow from "~/models/flows/fluggastrechte/config.json";
+import fluggastrechteFlow from "~/models/flows/fluggastrechteFormular/config.json";
+import fluggastrechteVorabcheckFlow from "~/models/flows/fluggastrechte/config.json";
 import { context as geldEinklagenContext } from "~/models/flows/geldEinklagen/pages";
 import { context as geldEinklagenFormularContext } from "~/models/flows/geldEinklagenFormular/context";
 import { context as beratungshilfeContext } from "~/models/flows/beratungshilfe/pages";
 import invariant from "tiny-invariant";
 import type { Params } from "@remix-run/react";
 import _ from "lodash";
-import { fluggastrechtContext } from "~/models/flows/fluggastrechte/context";
+import { fluggastrechtContext } from "~/models/flows/fluggastrechteFormular/context";
+import { fluggastrechteVorabcheckContext } from "~/models/flows/fluggastrechte/context";
 
 export const flowSpecifics = {
   "beratungshilfe/vorabcheck": {
@@ -41,6 +44,12 @@ export const flowSpecifics = {
     }),
     guards: geldEinklagenFormularGuards,
     context: geldEinklagenFormularContext,
+  },
+  "fluggastrechte/vorabcheck": {
+    cmsSlug: "vorab-check-pages",
+    flow: fluggastrechteVorabcheckFlow,
+    guards: fluggastrechteVorabcheckGuards,
+    context: fluggastrechteVorabcheckContext,
   },
   "fluggastrechte/formular": {
     cmsSlug: "form-flow-pages",
