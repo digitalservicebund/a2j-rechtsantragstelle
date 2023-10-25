@@ -5,7 +5,23 @@
   "states": {
     "flughaefen": {
       "meta": { "progressPosition": 1 },
-      "on": { "SUBMIT": "fluggesellschaft" }
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "fluggesellschaft",
+            "cond": "isPartnerAirport"
+          },
+          {
+            "target": "ergebnis/flughaefen-abbruch",
+            "cond": "fluggesellschaftFilled"
+          }
+        ]
+      }
+    },
+    "ergebnis/flughaefen-abbruch": {
+      "on": {
+        "BACK": "flughaefen"
+      }
     },
     "fluggesellschaft": {
       "meta": { "progressPosition": 2 },
