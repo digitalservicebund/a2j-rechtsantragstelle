@@ -4,14 +4,15 @@ import {
   customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
 
-const partnerAirportsSchema = z.enum(
-  ["BRE", "BER", "DUS", "FRA", "HAM", "MUC", "STR"],
-  customRequiredErrorMessage,
-);
+const airportSchema = z
+  .string()
+  .trim()
+  .regex(/^[a-zA-Z]{3}$/, "wrong_airport_format")
+  .transform((v) => v.toUpperCase());
 
 export const fluggastrechteVorabcheckContext = {
-  startAirport: partnerAirportsSchema,
-  endAirport: partnerAirportsSchema,
+  startAirport: airportSchema,
+  endAirport: airportSchema,
   fluggesellschaft: z.enum(["lufthansa", "ryanair"]),
   bereich: z.enum(
     ["nichtbefoerderung", "verspaetet", "annulierung", "anderes"],
