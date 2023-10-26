@@ -10,6 +10,7 @@ ARG APP_IMAGE=app
 
 FROM node:18.18.0-alpine3.18 AS base
 WORKDIR /a2j-rast
+ADD app/ app/
 COPY package.json package-lock.json tsconfig.json ./
 RUN npm ci
 
@@ -19,7 +20,6 @@ ARG STRAPI_API
 ARG STRAPI_ACCESS_KEY
 ENV STRAPI_API=$STRAPI_API
 ENV STRAPI_ACCESS_KEY=$STRAPI_ACCESS_KEY
-ADD app/services/ app/services/
 RUN npm run dumpCmsToFile 
 
 FROM scratch AS content
@@ -28,7 +28,6 @@ COPY --from=content-fetch /a2j-rast/content.json /
 # === APP BUILD
 FROM base AS app-builder
 WORKDIR /a2j-rast
-ADD app/ app/
 ADD public/ public/
 ADD .storybook/ .storybook/
 ADD stories/ stories/
@@ -40,8 +39,7 @@ FROM scratch AS app
 COPY --from=app-builder /a2j-rast/node_modules /node_modules/
 COPY --from=app-builder /a2j-rast/build /build/
 COPY --from=app-builder /a2j-rast/public /public/
-COPY --from=app-builder start.sh server.js package.json tsconfig.json /
-COPY --from=app-builder /a2j-rast/app /app/
+COPY --from=app-builder  /a2j-rast/start.sh  /a2j-rast/server.js /
 
 # === PROD IMAGE
 FROM ${CONTENT_IMAGE} AS contentStageForCopy
