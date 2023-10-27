@@ -14,7 +14,6 @@ import {
   fetchSingleEntry,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/buildFlowController";
-import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
 import { type AllContexts, buildStepValidator } from "~/models/flows/common";
 import {
   flowIDFromPathname,
@@ -31,11 +30,6 @@ import {
 import { CSRFKey } from "~/services/security/csrfKey";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
-import {
-  gerichtskostenFromBetrag,
-  gesamtKosten,
-  getGerichtskostenvorschuss,
-} from "~/models/geldEinklagen";
 import { lastStepKey } from "~/services/flow/lastStep";
 import { fillTemplate } from "~/util/fillTemplate";
 import Heading from "~/components/Heading";
@@ -53,41 +47,15 @@ export const loader = async ({
   const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
   const flowContext: AllContexts = data; // Recast for now to get type safety
   context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
-  const { flow, guards, cmsSlug } = flowSpecifics[flowId];
+  const currentFlow = flowSpecifics[flowId];
   const flowController = buildFlowController({
-    flow,
+    flow: currentFlow.flow,
     data: flowContext,
-    guards,
+    guards: currentFlow.guards,
   });
 
   if (!flowController.isReachable(stepId))
     return redirect(flowController.getInitial().url);
-
-  const verfuegbaresEinkommenFreibetrag =
-    getVerfuegbaresEinkommenFreibetrag(flowContext);
-  const gerichtskostenvorschuss = getGerichtskostenvorschuss(flowContext);
-
-  // TODO Move this closer to the flow
-  const gesamtForderung = gesamtKosten(flowContext);
-  const berechneteGerichtskosten = gerichtskostenFromBetrag(gesamtForderung);
-
-  const forderungReplacements =
-    "forderung" in flowContext && typeof flowContext.forderung === "object"
-      ? {
-          forderung1Betrag: flowContext.forderung.forderung1?.betrag,
-          forderung1Title: flowContext.forderung.forderung1?.title,
-          forderung2Betrag: flowContext.forderung.forderung2?.betrag,
-          forderung2Title: flowContext.forderung.forderung2?.title,
-          gesamtForderung: gesamtForderung.toString(),
-          berechneteGerichtskosten: berechneteGerichtskosten.toString(),
-        }
-      : {};
-
-  const templateReplacements = {
-    verfuegbaresEinkommenFreibetrag: verfuegbaresEinkommenFreibetrag.toString(),
-    gerichtskostenvorschuss: gerichtskostenvorschuss.toString(),
-    ...forderungReplacements,
-  };
 
   const lookupPath = pathname.includes("persoenliche-daten")
     ? pathname.replace("fluggastrechte", "geld-einklagen")
@@ -95,7 +63,7 @@ export const loader = async ({
 
   const [commonContent, formPageContent, parentMeta] = await Promise.all([
     fetchSingleEntry("vorab-check-common"),
-    fetchCollectionEntry(cmsSlug, lookupPath),
+    fetchCollectionEntry(currentFlow.cmsSlug, lookupPath),
     fetchMeta({ slug: lookupPath.substring(0, lookupPath.lastIndexOf("/")) }),
   ]);
 
@@ -146,7 +114,11 @@ export const loader = async ({
       progress: flowController.getProgress(stepId),
       isLast: flowController.isFinal(stepId),
       previousStep: flowController.getPrevious(stepId)?.url,
-      templateReplacements,
+      templateReplacements: {
+        ...("stringReplacements" in currentFlow
+          ? currentFlow.stringReplacements(flowContext)
+          : {}),
+      },
     },
     { headers },
   );

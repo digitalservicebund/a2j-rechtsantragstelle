@@ -1,4 +1,4 @@
-import { GeldEinklagenFormularContext } from "~/models/flows/geldEinklagenFormular/context";
+import type { GeldEinklagenFormularContext } from "~/models/flows/geldEinklagenFormular/context";
 
 const gegenseiteTypPrivatperson = (context: GeldEinklagenFormularContext) => {
   return context.gegenseite?.typ === "privatperson";

@@ -2,7 +2,7 @@ import type { MachineConfig, StateValue } from "xstate";
 import { createMachine } from "xstate";
 import { getShortestPaths } from "@xstate/graph";
 
-type Context = Record<string, boolean | string | object>;
+type Context = Record<string, boolean | string | object | number>;
 type Event = "SUBMIT" | "BACK";
 type StateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
 type StateMachine = ReturnType<
