@@ -10,7 +10,6 @@ import {
   adresse,
   namePrivatPerson,
   persoenlicheDaten,
-  titleSchema,
 } from "../persoenlicheDaten/context";
 
 export const context = {
@@ -18,9 +17,7 @@ export const context = {
   ...namePrivatPerson,
   ...persoenlicheDaten,
   ...adresse,
-  titel: titleSchema, //TODO: remove and replace by persoenlicheDaten.title after merge
   volljaerig: YesNoAnswer,
-  strasse: inputRequiredSchema, // TODO: replace by adresse.strasseHausnummer after merge
   gesetzlicheVertretung: YesNoAnswer,
   gegenseite: z
     .object({
