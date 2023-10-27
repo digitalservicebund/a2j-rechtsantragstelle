@@ -7,7 +7,7 @@ import { throw404OnProduction } from "../../services/errorPages/throw404";
 
 function statesToGraph(
   children: ReturnType<typeof toDirectedGraph>["children"],
-  ignoreBacklinks: boolean,
+  showBacklinks: boolean,
 ) {
   let outString = "";
   children.forEach((state) => {
@@ -26,7 +26,7 @@ function statesToGraph(
         arrow = `${arrow}|${edge.transition.cond?.name}|`;
       const transition = `    ${source} ${arrow} ${target}\n`;
 
-      if (!(ignoreBacklinks && edge.label.text === "BACK"))
+      if (showBacklinks || edge.label.text !== "BACK")
         outString = outString.concat(transition);
     });
 
@@ -34,7 +34,7 @@ function statesToGraph(
       outString = outString.concat(
         `\n    subgraph ${state.id}\n${statesToGraph(
           state.children,
-          ignoreBacklinks,
+          showBacklinks,
         )}    end\n`,
       );
     }
@@ -44,7 +44,7 @@ function statesToGraph(
 
 const mermaidFlowchart = (
   digraph: ReturnType<typeof toDirectedGraph>,
-  ignoreBacklinks = false,
+  showBacklinks = false,
 ) => {
   // Converts a graph into mermaid.js flowchart syntax
   // See https://mermaid.js.org/syntax/flowchart.html
@@ -52,17 +52,17 @@ const mermaidFlowchart = (
 title: Vorabcheck Flowchart
 ---
 flowchart TD
-${statesToGraph(digraph.children, ignoreBacklinks)}`;
+${statesToGraph(digraph.children, showBacklinks)}`;
 };
 
 const getVisualizationString = (
   stateMachine: AnyStateMachine,
-  ignoreBacklinks = true,
+  showBacklinks = false,
 ) => {
   const digraph = toDirectedGraph(stateMachine);
 
   // Mermaid generates a picture when given a base64 encoded chart description
-  const flowChart = mermaidFlowchart(digraph, ignoreBacklinks);
+  const flowChart = mermaidFlowchart(digraph, showBacklinks);
   return Buffer.from(flowChart).toString("base64");
 };
 
@@ -71,11 +71,11 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const flowId = flowIDFromPathname(url.pathname);
   const { flow, guards } = flowSpecifics[flowId];
-  const ignoreBacklinks = url.searchParams.get("ignoreBacklinks") !== null;
+  const showBacklinks = url.searchParams.get("showBacklinks") !== null;
 
   //@ts-ignore
   const machine = createMachine(flow, { guards });
-  const base64Graph = getVisualizationString(machine, ignoreBacklinks);
+  const base64Graph = getVisualizationString(machine, showBacklinks);
   return json({ url: `https://mermaid.ink/img/${base64Graph}` });
 };
 
