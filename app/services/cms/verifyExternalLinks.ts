@@ -20,6 +20,7 @@ const allowedWebsites = [
   "https://soep-online.de/",
   "https://www.bundesjustizamt.de/",
   "https://service.justiz.de/",
+  "https://www.luftlinie.org",
 ];
 
 const allowedEmails = [
