@@ -16,6 +16,7 @@ import type { Params } from "@remix-run/react";
 import _ from "lodash";
 import { fluggastrechtContext } from "~/models/flows/fluggastrechteFormular/context";
 import { fluggastrechteVorabcheckContext } from "~/models/flows/fluggastrechte/context";
+import { fluggastrechteGuards } from "~/models/flows/fluggastrechteFormular/guards";
 
 export const flowSpecifics = {
   "beratungshilfe/vorabcheck": {
@@ -57,13 +58,13 @@ export const flowSpecifics = {
       states: {
         "persoenliche-daten": _.merge(_.cloneDeep(persoenlicheDatenFlow), {
           states: {
-            start: { on: { BACK: "#start" } },
-            "bevollmaechtigte-person": { on: { SUBMIT: "#versaeumnisurteil" } },
+            anzahl: { on: { BACK: "#anzahl" } },
+            "bevollmaechtigte-person": { on: { SUBMIT: "#entfernung" } },
           },
         }),
       },
     }),
-    guards: {},
+    guards: fluggastrechteGuards,
     context: fluggastrechtContext,
   },
 } as const;

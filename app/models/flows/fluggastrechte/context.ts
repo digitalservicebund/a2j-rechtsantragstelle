@@ -3,12 +3,7 @@ import {
   YesNoAnswer,
   customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
-
-const airportSchema = z
-  .string()
-  .trim()
-  .regex(/^[a-zA-Z]{3}$/, "wrong_airport_format")
-  .transform((v) => v.toUpperCase());
+import { airportSchema } from "~/services/validation/airport";
 
 export const fluggastrechteVorabcheckContext = {
   startAirport: airportSchema,

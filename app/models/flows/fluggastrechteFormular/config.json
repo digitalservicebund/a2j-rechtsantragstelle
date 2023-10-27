@@ -3,11 +3,78 @@
   "id": "/fluggastrechte/formular/",
   "initial": "start",
   "states": {
-    "start": { "id": "start", "on": { "SUBMIT": "persoenliche-daten" } },
+    "start": { "on": { "SUBMIT": "dokumente" } },
+    "dokumente": {
+      "on": { "SUBMIT": "daten-uebernahme", "BACK": "start" }
+    },
+    "daten-uebernahme": {
+      "on": { "SUBMIT": "zwischenstopps", "BACK": "dokumente" }
+    },
+    "zwischenstopps": {
+      "on": {
+        "SUBMIT": [
+          {
+            "cond": "zwischenstoppsYes",
+            "target": "zwischenstopps-eingabe"
+          },
+          {
+            "cond": "zwischenstoppsNo",
+            "target": "flug-details"
+          }
+        ],
+        "BACK": "daten-uebernahme"
+      }
+    },
+    "zwischenstopps-eingabe": {
+      "on": { "SUBMIT": "flug-details", "BACK": "zwischenstopps" }
+    },
+    "flug-details": {
+      "on": {
+        "SUBMIT": "ankunftszeit",
+        "BACK": [
+          { "target": "zwischenstopps-eingabe", "cond": "zwischenstoppsYes" },
+          { "target": "zwischenstopps", "cond": "zwischenstoppsNo" }
+        ]
+      }
+    },
+    "ankunftszeit": {
+      "on": { "SUBMIT": "anzahl", "BACK": "flug-details" }
+    },
+    "anzahl": {
+      "id": "anzahl",
+      "on": { "SUBMIT": "persoenliche-daten.name", "BACK": "ankunftszeit" }
+    },
     "persoenliche-daten": {},
+    "entfernung": {
+      "id": "entfernung",
+      "on": {
+        "SUBMIT": "forderung",
+        "BACK": "persoenliche-daten.bevollmaechtigte-person"
+      }
+    },
+    "forderung": {
+      "on": { "SUBMIT": "teilentschaedigung", "BACK": "entfernung" }
+    },
+    "teilentschaedigung": {
+      "on": { "SUBMIT": "nebenforderungen", "BACK": "forderung" }
+    },
+    "nebenforderungen": {
+      "on": { "SUBMIT": "buchungsbestaetigung", "BACK": "teilentschaedigung" }
+    },
+    "buchungsbestaetigung": {
+      "on": { "SUBMIT": "buchungsreferenz", "BACK": "nebenforderungen" }
+    },
+    "buchungsreferenz": {
+      "on": { "SUBMIT": "schriftverkehr", "BACK": "buchungsbestaetigung" }
+    },
+    "schriftverkehr": {
+      "on": { "SUBMIT": "frist", "BACK": "buchungsreferenz" }
+    },
+    "frist": {
+      "on": { "SUBMIT": "versaeumnisurteil", "BACK": "schriftverkehr" }
+    },
     "versaeumnisurteil": {
-      "id": "versaeumnisurteil",
-      "on": { "SUBMIT": "anmerkung", "BACK": "#persoenliche-daten" }
+      "on": { "SUBMIT": "anmerkung", "BACK": "frist" }
     },
     "anmerkung": {
       "on": { "SUBMIT": "ueberpruefung", "BACK": "versaeumnisurteil" }
