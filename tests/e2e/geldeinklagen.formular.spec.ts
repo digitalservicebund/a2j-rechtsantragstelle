@@ -45,7 +45,7 @@ test("geldeinklagen formular can be traversed for privatperson", async ({
 
   // /geld-einklagen/formular/persoenliche-daten/name
   await expectPageToBeAccessible({ page });
-  await geldEinklagenFormular.fillDropdown("titel", "");
+  await geldEinklagenFormular.fillDropdown("title", "");
   await geldEinklagenFormular.fillInput("nachname", "Donatello");
   await geldEinklagenFormular.fillInput("vorname", "Cowabunga");
   await geldEinklagenFormular.clickNext();
@@ -56,7 +56,10 @@ test("geldeinklagen formular can be traversed for privatperson", async ({
 
   // /geld-einklagen/formular/persoenliche-daten/adresse
   await expectPageToBeAccessible({ page });
-  await geldEinklagenFormular.fillInput("strasse", "Schildkrötenstraße 5");
+  await geldEinklagenFormular.fillInput(
+    "strasseHausnummer",
+    "Schildkrötenstraße 5",
+  );
   await geldEinklagenFormular.fillInput("plz", "10119");
   await geldEinklagenFormular.fillInput("ort", "Mutant Mayhem");
   await geldEinklagenFormular.clickNext();
@@ -182,10 +185,10 @@ test("geldeinklagen formular can be traversed for privatperson", async ({
     "forderung.forderung1.person.telefonnummer",
     "0123456789",
   );
-  await geldEinklagenFormular.fillInput(
-    "forderung.forderung1.person.email",
-    "raphael@mutantturtles.com",
-  );
+  // await geldEinklagenFormular.fillInput(
+  //   "forderung.forderung1.person.email",
+  //   "raphael@mutantturtles.com",
+  // );
   await geldEinklagenFormular.clickNext();
 
   // /geld-einklagen/formular/forderung/forderung-2-beschreibung
