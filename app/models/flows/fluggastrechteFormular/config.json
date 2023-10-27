@@ -62,13 +62,13 @@
       "on": { "SUBMIT": "buchungsbestaetigung", "BACK": "teilentschaedigung" }
     },
     "buchungsbestaetigung": {
-      "on": { "SUBMIT": "buchungsreferenz", "BACK": "nebenforderungen" }
+      "on": { "SUBMIT": "ticketnummer", "BACK": "nebenforderungen" }
     },
-    "buchungsreferenz": {
+    "ticketnummer": {
       "on": { "SUBMIT": "schriftverkehr", "BACK": "buchungsbestaetigung" }
     },
     "schriftverkehr": {
-      "on": { "SUBMIT": "frist", "BACK": "buchungsreferenz" }
+      "on": { "SUBMIT": "frist", "BACK": "ticketnummer" }
     },
     "frist": {
       "on": { "SUBMIT": "versaeumnisurteil", "BACK": "schriftverkehr" }
