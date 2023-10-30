@@ -50,6 +50,13 @@ export class Vorabcheck {
     await this.clickNext();
   }
 
+  async fillMultipleInputPage(fields: { field: string; value: string }[]) {
+    for (const { field, value } of fields) {
+      await this.page.locator(`input[name='${field}']`).fill(value);
+    }
+    await this.clickNext();
+  }
+
   async fillDropdownPage(field: string, value: string) {
     await this.page.locator(`select[name=${field}]`).selectOption(value);
     await this.clickNext();
