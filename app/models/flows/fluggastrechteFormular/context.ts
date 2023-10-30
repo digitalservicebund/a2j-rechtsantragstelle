@@ -18,7 +18,7 @@ export const fluggastrechtContext = {
   zwischenstoppFlughafen: z.union([airportSchema, z.literal("")]),
   ankunftsDatum: inputRequiredSchema, // TODO: validate as German date in the past
   ankunftsZeit: inputRequiredSchema,
-  ankunftsFlugnummer: inputRequiredSchema,
+  ankunftsFlugnummer: inputRequiredSchema, // TODO: rename this to just "flugnummer" - no need to tie it to the page
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
   ...persoenlicheDaten,
   ...adresse,
