@@ -18,7 +18,7 @@ export const fluggastrechteVorabcheckContext = {
   gruende: YesNoAnswer,
   entschaedigung: YesNoAnswer,
   gericht: YesNoAnswer,
-  anwalt: YesNoAnswer,
+  abtretung: YesNoAnswer,
   kostenlos: YesNoAnswer,
   rabatt: YesNoAnswer,
   buchung: YesNoAnswer,

@@ -137,7 +137,7 @@
         "BACK": "entschaedigung",
         "SUBMIT": [
           {
-            "target": "anwalt",
+            "target": "abtretung",
             "cond": "gerichtNo"
           },
           {
@@ -152,31 +152,31 @@
         "BACK": "gericht"
       }
     },
-    "anwalt": {
+    "abtretung": {
       "meta": { "progressPosition": 10 },
       "on": {
         "BACK": "gericht",
         "SUBMIT": [
           {
             "target": "kostenlos",
-            "cond": "anwaltNo"
+            "cond": "abtretungNo"
           },
           {
-            "target": "ergebnis/anwalt-abbruch",
-            "cond": "anwaltYes"
+            "target": "ergebnis/abtretung-abbruch",
+            "cond": "abtretungYes"
           }
         ]
       }
     },
-    "ergebnis/anwalt-abbruch": {
+    "ergebnis/abtretung-abbruch": {
       "on": {
-        "BACK": "anwalt"
+        "BACK": "abtretung"
       }
     },
     "kostenlos": {
       "meta": { "progressPosition": 11 },
       "on": {
-        "BACK": "anwalt",
+        "BACK": "abtretung",
         "SUBMIT": [
           {
             "target": "ergebnis/kostenlos-abbruch",

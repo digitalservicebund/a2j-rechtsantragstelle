@@ -33,7 +33,7 @@ export const guards = {
   ...yesNoGuards("gruende"),
   ...yesNoGuards("entschaedigung"),
   ...yesNoGuards("gericht"),
-  ...yesNoGuards("anwalt"),
+  ...yesNoGuards("abtretung"),
   ...yesNoGuards("kostenlos"),
   ...yesNoGuards("rabatt"),
   ...yesNoGuards("buchung"),
