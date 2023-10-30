@@ -43,6 +43,9 @@
               {
                 "cond": "gegenseiteTypUnternehmen",
                 "target": "unternehmen-name"
+              },
+              {
+                "target": "#forderung"
               }
             ]
           }
@@ -106,11 +109,14 @@
             "BACK": [
               {
                 "cond": "gegenseiteTypPrivatperson",
-                "target": "#/geld-einklagen/formular/.gegenseite.privatperson-bevollmaechtigte-person"
+                "target": "#gegenseite.privatperson-bevollmaechtigte-person"
               },
               {
                 "cond": "gegenseiteTypUnternehmen",
-                "target": "#/geld-einklagen/formular/.gegenseite.unternehmen-bevollmaechtigte-person"
+                "target": "#gegenseite.unternehmen-bevollmaechtigte-person"
+              },
+              {
+                "target": "#gegenseite.typ"
               }
             ],
             "SUBMIT": "gegenseite"
