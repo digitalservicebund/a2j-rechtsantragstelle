@@ -34,8 +34,7 @@ export const guards = {
   ...yesNoGuards("entschaedigung"),
   ...yesNoGuards("gericht"),
   ...yesNoGuards("anwalt"),
-  kostenlosYesOther: (context: FluggastrechtVorabcheckContext) =>
-    context.kostenlos === "yesOther",
+  ...yesNoGuards("kostenlos"),
   ...yesNoGuards("rabatt"),
   ...yesNoGuards("buchung"),
 };

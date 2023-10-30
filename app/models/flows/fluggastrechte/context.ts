@@ -19,7 +19,7 @@ export const fluggastrechteVorabcheckContext = {
   entschaedigung: YesNoAnswer,
   gericht: YesNoAnswer,
   anwalt: YesNoAnswer,
-  kostenlos: z.enum(["yesBonus", "yesOther", "no"], customRequiredErrorMessage),
+  kostenlos: YesNoAnswer,
   rabatt: YesNoAnswer,
   buchung: YesNoAnswer,
 } as const;

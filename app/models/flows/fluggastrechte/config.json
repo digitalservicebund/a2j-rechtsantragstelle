@@ -180,7 +180,7 @@
         "SUBMIT": [
           {
             "target": "ergebnis/kostenlos-abbruch",
-            "cond": "kostenlosYesOther"
+            "cond": "kostenlosYes"
           },
           {
             "target": "rabatt"
