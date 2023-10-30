@@ -39,6 +39,11 @@ a {
   background-color: #f9e5ec;
 }
 
+/* TODO: needs to be fixed in Angie */
+.ds-radio {
+  background: #fff; /* for old Safari */
+}
+
 /* Tailwind's container core plugin is disabled,
  * because its breakpoint-based nature does not fit our needs */
 .container {
