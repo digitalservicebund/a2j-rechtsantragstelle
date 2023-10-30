@@ -17,7 +17,7 @@ export const context = {
   ...namePrivatPerson,
   ...persoenlicheDaten,
   ...adresse,
-  volljaerig: YesNoAnswer,
+  volljaehrig: YesNoAnswer,
   gesetzlicheVertretung: YesNoAnswer,
   gegenseite: z
     .object({

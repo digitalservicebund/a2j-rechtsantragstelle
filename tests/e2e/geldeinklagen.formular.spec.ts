@@ -50,9 +50,9 @@ test("geldeinklagen formular can be traversed for privatperson", async ({
   await geldEinklagenFormular.fillInput("vorname", "Cowabunga");
   await geldEinklagenFormular.clickNext();
 
-  // /geld-einklagen/formular/persoenliche-daten/volljaerig
+  // /geld-einklagen/formular/persoenliche-daten/volljaehrig
   await expectPageToBeAccessible({ page });
-  await geldEinklagenFormular.fillRadioPage("volljaerig", "yes");
+  await geldEinklagenFormular.fillRadioPage("volljaehrig", "yes");
 
   // /geld-einklagen/formular/persoenliche-daten/adresse
   await expectPageToBeAccessible({ page });

@@ -21,7 +21,7 @@ export const fluggastrechtContext = {
   ...persoenlicheDaten,
   ...adresse,
   ...namePrivatPerson,
-  volljaerig: YesNoAnswer,
+  volljaehrig: YesNoAnswer,
   gesetzlicheVertretung: YesNoAnswer,
   entfernung: z.coerce.number().min(1),
   teilentschaedigung: YesNoAnswer,

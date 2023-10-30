@@ -8,13 +8,13 @@
       "on": { "SUBMIT": "name", "BACK": "start" }
     },
     "name": {
-      "on": { "SUBMIT": "volljaerig", "BACK": "anzahl" }
+      "on": { "SUBMIT": "volljaehrig", "BACK": "anzahl" }
     },
-    "volljaerig": {
+    "volljaehrig": {
       "on": { "SUBMIT": "adresse", "BACK": "name" }
     },
     "adresse": {
-      "on": { "SUBMIT": "telefonnummer", "BACK": "volljaerig" }
+      "on": { "SUBMIT": "telefonnummer", "BACK": "volljaehrig" }
     },
     "telefonnummer": {
       "on": { "SUBMIT": "gesetzliche-vertretung", "BACK": "adresse" }
