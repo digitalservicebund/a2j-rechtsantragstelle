@@ -1,11 +1,11 @@
 import { test, expect } from "@playwright/test";
-import { Vorabcheck } from "./pom/Vorabcheck";
 import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
+import { BeratungshilfeVorabcheck } from "tests/e2e/pom/BeratungshilfeVorabcheck";
 
-let vorabcheck: Vorabcheck;
+let vorabcheck: BeratungshilfeVorabcheck;
 
 test.beforeEach(async ({ page }) => {
-  vorabcheck = new Vorabcheck(page);
+  vorabcheck = new BeratungshilfeVorabcheck(page);
   await vorabcheck.goto();
 });
 

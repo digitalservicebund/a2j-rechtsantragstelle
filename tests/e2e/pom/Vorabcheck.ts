@@ -3,8 +3,8 @@ import { expect } from "@playwright/test";
 
 export class Vorabcheck {
   readonly page: Page;
-  readonly url = "/beratungshilfe/vorabcheck";
-  readonly initialStep = "rechtsschutzversicherung";
+  readonly url: string = "";
+  readonly initialStep: string = "";
   readonly nextButtonName = "_action";
   readonly timeout = 5000;
 
@@ -47,6 +47,11 @@ export class Vorabcheck {
 
   async fillInputPage(field: string, value: string) {
     await this.page.locator(`input[name='${field}']`).fill(value);
+    await this.clickNext();
+  }
+
+  async fillDropdownPage(field: string, value: string) {
+    await this.page.locator(`select[name=${field}]`).selectOption(value);
     await this.clickNext();
   }
 }

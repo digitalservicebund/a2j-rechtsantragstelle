@@ -1,12 +1,12 @@
 import { test, expect } from "@playwright/test";
-import { Vorabcheck } from "./pom/Vorabcheck";
+import { BeratungshilfeVorabcheck } from "./pom/BeratungshilfeVorabcheck";
 import { csrfCountMax } from "~/services/security/csrf.server";
 
 test.describe("CSRF token", () => {
   test("multiple tabs work", async ({ page, context }) => {
-    const vorabcheck = new Vorabcheck(page);
+    const vorabcheck = new BeratungshilfeVorabcheck(page);
     await vorabcheck.goto();
-    const vorabcheck2 = new Vorabcheck(await context.newPage());
+    const vorabcheck2 = new BeratungshilfeVorabcheck(await context.newPage());
     await vorabcheck2.goto();
     await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
     await expect(
@@ -17,11 +17,11 @@ test.describe("CSRF token", () => {
   });
 
   test("N+1 form tabs return 403", async ({ page, context }) => {
-    const vorabcheck = new Vorabcheck(page);
+    const vorabcheck = new BeratungshilfeVorabcheck(page);
     await vorabcheck.goto();
 
     for (let idx = 0; idx < csrfCountMax; idx++) {
-      const newPage = new Vorabcheck(await context.newPage());
+      const newPage = new BeratungshilfeVorabcheck(await context.newPage());
       await newPage.goto();
     }
     await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
@@ -29,7 +29,7 @@ test.describe("CSRF token", () => {
   });
 
   test("N+1 non-form tabs still work", async ({ page, context }) => {
-    const vorabcheck = new Vorabcheck(page);
+    const vorabcheck = new BeratungshilfeVorabcheck(page);
     await vorabcheck.goto();
 
     for (let idx = 0; idx < csrfCountMax; idx++) {

@@ -1,11 +1,11 @@
 import { test, expect } from "@playwright/test";
 import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
-import { GeldEinklagen } from "./pom/GeldEinklagen";
+import { GeldEinklagenVorabcheck } from "./pom/GeldEinklagenVorabcheck";
 
-let geldEinklagen: GeldEinklagen;
+let geldEinklagen: GeldEinklagenVorabcheck;
 
 test.beforeEach(async ({ page }) => {
-  geldEinklagen = new GeldEinklagen(page);
+  geldEinklagen = new GeldEinklagenVorabcheck(page);
   await geldEinklagen.goto();
 });
 
