@@ -1,7 +1,6 @@
 import type { Page } from "@playwright/test";
-import { expect } from "@playwright/test";
 
-export class Vorabcheck {
+export class Formular {
   readonly page: Page;
   readonly url: string = "";
   readonly initialStep: string = "";
@@ -16,15 +15,12 @@ export class Vorabcheck {
     await this.page.goto(this.url);
   }
 
-  async assertInitialStep() {
-    const firstStepRegex = new RegExp(`.+${this.url}/${this.initialStep}$`);
-    await expect(this.page).toHaveURL(firstStepRegex);
-  }
-
   async select(field: string, option: string) {
     // We have to click the label because the input is covered by the before element
     // The label text itself is unknown due to using a cms
-    await this.page.locator(`label[for=${field}-${option}]`).click();
+    await this.page
+      .locator(`label[for=${field.split(".").join("\\.")}-${option}]`)
+      .click();
   }
 
   async clickNext() {
@@ -39,20 +35,32 @@ export class Vorabcheck {
     await this.clickNext();
   }
 
-  async fillInputPage(field: string, value: string) {
-    await this.page.locator(`input[name='${field}']`).fill(value);
+  async fillTextareaPage(field: string, value: string) {
+    await this.page
+      .locator(`textarea[name=${field.split(".").join("\\.")}]`)
+      .fill(value);
     await this.clickNext();
   }
 
-  async fillMultipleInputPage(fields: { field: string; value: string }[]) {
-    for (const { field, value } of fields) {
-      await this.page.locator(`input[name='${field}']`).fill(value);
-    }
+  async fillInput(field: string, value: string) {
+    await this.page
+      .locator(`input[name=${field.split(".").join("\\.")}]`)
+      .fill(value);
+  }
+
+  async fillInputPage(field: string, value: string) {
+    await this.fillInput(field, value);
     await this.clickNext();
+  }
+
+  async fillDropdown(field: string, value: string) {
+    await this.page
+      .locator(`select[name="${field.split(".").join("\\.")}"]`)
+      .selectOption(value);
   }
 
   async fillDropdownPage(field: string, value: string) {
-    await this.page.locator(`select[name=${field}]`).selectOption(value);
+    await this.fillDropdown(field, value);
     await this.clickNext();
   }
 }
