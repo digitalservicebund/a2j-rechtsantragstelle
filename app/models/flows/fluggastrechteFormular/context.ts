@@ -12,6 +12,8 @@ import { airportSchema } from "~/services/validation/airport";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
 
 export const fluggastrechtContext = {
+  startAirport: airportSchema,
+  endAirport: airportSchema,
   zwischenstopps: YesNoAnswer,
   zwischenstoppFlughafen: z.union([airportSchema, z.literal("")]),
   ankunftsDatum: inputRequiredSchema, // TODO: validate as German date in the past
@@ -33,6 +35,7 @@ export const fluggastrechtContext = {
   nebenforderungen: YesNoAnswer,
   versaeumnisurteil: YesNoAnswer,
   anmerkung: z.string(),
+  doMigration: YesNoAnswer,
 } as const;
 
 const contextObject = z.object(fluggastrechtContext).partial();

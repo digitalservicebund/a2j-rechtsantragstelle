@@ -89,10 +89,12 @@ export const flowSpecifics = {
     context: fluggastrechteVorabcheckContext,
   },
   "fluggastrechte/formular": {
+    migrationSource: "fluggastrechte/vorabcheck",
     stringReplacements: (context: AllContexts) => {
-      if (!("entfernung" in context)) return {};
+      if (!("zwischenstopps" in context)) return {};
       return {
         entfernung: context.entfernung?.toString(),
+        endAirport: context.endAirport,
         forderung: forderungFromEntfernung(context.entfernung ?? 0).toString(),
         kosten: gerichtskostenFromBetrag(
           forderungFromEntfernung(context.entfernung ?? 0),
@@ -115,7 +117,8 @@ export const flowSpecifics = {
   },
 } as const;
 
-export type FlowId = keyof typeof flowSpecifics;
+export type FlowSpecifics = typeof flowSpecifics;
+export type FlowId = keyof FlowSpecifics;
 
 export function flowIDFromPathname(pathname: string) {
   const flowID = [pathname.split("/")[1], pathname.split("/")[2]].join("/");

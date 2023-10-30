@@ -33,6 +33,8 @@ import { logError } from "~/services/logging";
 import { lastStepKey } from "~/services/flow/lastStep";
 import { fillTemplate } from "~/util/fillTemplate";
 import Heading from "~/components/Heading";
+import Box from "~/components/Box";
+import { getMigrationData } from "~/services/session/crossFlowMigration";
 
 export const loader = async ({
   params,
@@ -56,6 +58,11 @@ export const loader = async ({
 
   if (!flowController.isReachable(stepId))
     return redirect(flowController.getInitial().url);
+
+  // Not having data here could skip the migration step
+  let migrationData: Record<string, unknown> = {};
+  if (stepId === "daten-uebernahme" && "migrationSource" in currentFlow)
+    migrationData = await getMigrationData(currentFlow, cookieId);
 
   const lookupPath = pathname.includes("persoenliche-daten")
     ? pathname.replace("fluggastrechte", "geld-einklagen")
@@ -111,6 +118,7 @@ export const loader = async ({
       postFormContent:
         "post_form" in formPageContent ? formPageContent.post_form : undefined,
       meta,
+      migrationData,
       progress: flowController.getProgress(stepId),
       isLast: flowController.isFinal(stepId),
       previousStep: flowController.getPrevious(stepId)?.url,
@@ -134,10 +142,11 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   const stepId = splatFromParams(params);
   const flowId = flowIDFromPathname(new URL(request.url).pathname);
   const { getSession, commitSession } = getSessionForContext(flowId);
-  const flowSession = await getSession(request.headers.get("Cookie"));
+  const cookieId = request.headers.get("Cookie");
+  const flowSession = await getSession(cookieId);
 
   const formData = await request.formData();
-  const { context } = flowSpecifics[flowId];
+  const currentFlow = flowSpecifics[flowId];
 
   // Note: This also reduces same-named fields to the last entry
   const relevantFormData = Object.fromEntries(
@@ -145,11 +154,22 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
       ([key]) => key !== "_action" && key !== CSRFKey,
     ),
   );
-  const validator = buildStepValidator(context, Object.keys(relevantFormData));
+  const validator = buildStepValidator(
+    currentFlow.context,
+    Object.keys(relevantFormData),
+  );
   const validationResult = await validator.validate(relevantFormData);
   if (validationResult.error) return validationError(validationResult.error);
 
   updateSession(flowSession, validationResult.data);
+
+  if (
+    stepId === "daten-uebernahme" &&
+    "migrationSource" in currentFlow &&
+    validationResult.data["doMigration"] === "yes"
+  ) {
+    updateSession(flowSession, await getMigrationData(currentFlow, cookieId));
+  }
 
   const headers = { "Set-Cookie": await commitSession(flowSession) };
 
@@ -239,6 +259,7 @@ export function StepWithPreHeading() {
     postFormContent,
     isLast,
     previousStep,
+    migrationData,
     templateReplacements,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
@@ -265,12 +286,34 @@ export function StepWithPreHeading() {
                   })}
                 </p>
               )}
-              <Heading text={heading} look="ds-heading-02-reg" />
+              <Heading
+                text={fillTemplate({
+                  template: heading ?? "",
+                  replacements: templateReplacements,
+                })}
+                look="ds-heading-02-reg"
+              />
               <PageContent
                 content={content}
                 templateReplacements={templateReplacements}
                 className="ds-stack-16"
               />
+              {Object.keys(migrationData).length > 0 && (
+                <Background backgroundColor="white">
+                  <Container>
+                    <Box
+                      content={{
+                        markdown: Object.entries(migrationData)
+                          .map(
+                            ([key, val]) =>
+                              `**${key}:**\n\n${val as string}\n\n`,
+                          )
+                          .join(""),
+                      }}
+                    />
+                  </Container>
+                </Background>
+              )}
               <ValidatedForm
                 key={`${stepId}_form`}
                 method="post"
