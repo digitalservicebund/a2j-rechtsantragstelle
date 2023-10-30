@@ -44,7 +44,17 @@ a {
 .container {
   @apply mx-auto;
   max-width: 59rem;
-  padding: 2.5rem clamp(1rem, 5vw, 3rem) 3rem clamp(1rem, 5vw, 3rem);
+  padding: 2.5rem 1rem 3rem 1rem;
+  padding-left: clamp(
+    1rem,
+    5vw,
+    3rem
+  ); /* ignored when clamp is not available */
+  padding-right: clamp(
+    1rem,
+    5vw,
+    3rem
+  ); /* ignored when clamp is not available */
 }
 
 /* There is a specific design request to remove the margin above lists and below small headlines */
