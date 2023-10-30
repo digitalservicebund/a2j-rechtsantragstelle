@@ -371,7 +371,7 @@
         "SUBMIT": [
           {
             "target": "digital-ausweisen",
-            "cond": "gegenseiteFristYesExpired"
+            "cond": "gegenseiteFristYes"
           },
           {
             "target": "frist-warnung"

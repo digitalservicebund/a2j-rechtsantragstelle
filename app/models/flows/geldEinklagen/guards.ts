@@ -79,8 +79,7 @@ export const guards = {
   wasUnerlaubteHandlung: (context: GeldEinklagenVorabcheckContext) =>
     context.bereich === "violation",
   ...yesNoGuards("gegenseiteKontakt"),
-  gegenseiteFristYesExpired: (context: GeldEinklagenVorabcheckContext) =>
-    context.gegenseiteFrist === "yesExpired",
+  ...yesNoGuards("gegenseiteFrist"),
   digitalAusweisenNo: (context: GeldEinklagenVorabcheckContext) =>
     context.digitalAusweisen === "no",
   livingAndWohnraumeYes: (context: GeldEinklagenVorabcheckContext) =>

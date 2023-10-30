@@ -54,7 +54,7 @@ test("geldeinklagen can be traversed", async ({ page }) => {
   await geldEinklagen.fillRadioPage("gegenseiteKontakt", "yes");
 
   await expectPageToBeAccessible({ page });
-  await geldEinklagen.fillRadioPage("gegenseiteFrist", "yesExpired");
+  await geldEinklagen.fillRadioPage("gegenseiteFrist", "yes");
 
   await expectPageToBeAccessible({ page });
   await geldEinklagen.fillRadioPage("digitalAusweisen", "yesWithId");

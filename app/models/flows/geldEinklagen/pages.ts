@@ -58,10 +58,7 @@ export const context = {
   schadenPlz: postcodeSchema,
   ortLeistungPlz: postcodeSchema,
   gegenseiteKontakt: YesNoAnswer,
-  gegenseiteFrist: z.enum(
-    ["yes", "yesExpired", "no"],
-    customRequiredErrorMessage,
-  ),
+  gegenseiteFrist: YesNoAnswer,
   digitalAusweisen: z.enum(
     ["yesWithId", "yesWithElectronicResidencePermitOrUnionCitizenCard", "no"],
     customRequiredErrorMessage,
