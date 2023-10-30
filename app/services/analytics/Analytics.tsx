@@ -58,6 +58,8 @@ export function CookieBanner({
 }: AnalyticsProps) {
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
   const [posthogLoaded, setPosthogLoaded] = useState(false);
+  const [clientJavaScriptAvailable, setClientJavaScriptAvailable] =
+    useState(false);
   const analyticsFetcher = useFetcher();
   const location = useLocation();
 
@@ -95,6 +97,10 @@ export function CookieBanner({
     if (posthogLoaded) posthog.capture("$pageview");
   }, [posthogLoaded, location.pathname]);
 
+  useEffect(() => {
+    setClientJavaScriptAvailable(true);
+  }, []);
+
   if (hasTrackingConsent !== undefined) {
     return <></>;
   }
@@ -105,7 +111,12 @@ export function CookieBanner({
       role="region"
       data-testid="cookie-banner"
     >
-      <analyticsFetcher.Form method="post" action="/action/set-analytics">
+      <analyticsFetcher.Form
+        method="post"
+        action={`/action/set-analytics${
+          clientJavaScriptAvailable ? "?js=1" : ""
+        }`}
+      >
         <Container paddingTop="32" paddingBottom="40">
           <div className="ds-stack-16">
             <Heading

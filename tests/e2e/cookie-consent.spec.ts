@@ -93,7 +93,7 @@ test.describe("Cookie Banner", () => {
     });
   }
 
-  test.describe("js disabled", () => {
+  test.describe("JavaScript not available in the client", () => {
     test.use({ javaScriptEnabled: false });
 
     for (const buttonOption of buttonOptions) {
