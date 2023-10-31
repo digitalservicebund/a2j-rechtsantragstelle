@@ -5,7 +5,7 @@ import Container from "./Container";
 // TODO: Temporary, these values should actually be fetched from the CMS
 const keyTranslations: Record<string, string> = {
   startAirport: "Startflughafen",
-  endAirport: "Endflughafen",
+  endAirport: "Zielflughafen",
   fluggesellschaft: "Fluggesellschaft",
   bereich: "Problem",
 };
