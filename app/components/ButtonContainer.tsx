@@ -8,7 +8,7 @@ type ButtonContainerProps = PropsWithChildren & {
 const ButtonContainer = ({ children, reverseOrder }: ButtonContainerProps) => {
   return (
     <div
-      className={classNames("flex flex-wrap gap-24", {
+      className={classNames("ds-gap-24", {
         "flex-wrap-reverse": reverseOrder,
       })}
     >

@@ -131,7 +131,7 @@ export function CookieBanner({
                 ))}
               </div>
             </div>
-            <div className="flex items-end gap-24 flex-wrap">
+            <div className="items-end ds-gap-24">
               <Button
                 name={acceptCookiesFieldName}
                 value="true"
