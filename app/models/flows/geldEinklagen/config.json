@@ -365,21 +365,41 @@
         ]
       }
     },
-    "gegenseite-frist": {
+    "eigeninitiative-warnung": {
       "meta": { "progressPosition": 15 },
       "on": {
         "SUBMIT": [
           {
-            "target": "digital-ausweisen",
-            "cond": "gegenseiteFristYes"
-          },
-          {
-            "target": "frist-warnung"
+            "target": "gegenseite-frist"
           }
         ],
         "BACK": [
           {
             "target": "gegenseite-kontakt"
+          }
+        ]
+      }
+    },
+    "gegenseite-frist": {
+      "meta": { "progressPosition": 15 },
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "frist-warnung",
+            "cond": "gegenseiteFristNo"
+          },
+          {
+            "target": "digital-ausweisen",
+            "cond": "gegenseiteFristYes"
+          }
+        ],
+        "BACK": [
+          {
+            "target": "gegenseite-kontakt",
+            "cond": "gegenseiteKontaktYes"
+          },
+          {
+            "target": "eigeninitiative-warnung"
           }
         ]
       }
@@ -413,27 +433,12 @@
         ],
         "BACK": [
           {
-            "target": "gegenseite-unternehmen-plz",
-            "cond": "gegenseiteUnternehmen"
+            "target": "frist-warnung",
+            "cond": "gegenseiteFristNo"
           },
           {
-            "target": "gegenseite-person-plz",
-            "cond": "gegenseitePrivatperson"
-          }
-        ]
-      }
-    },
-    "eigeninitiative-warnung": {
-      "meta": { "progressPosition": 15 },
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "gegenseite-frist"
-          }
-        ],
-        "BACK": [
-          {
-            "target": "gegenseite-kontakt"
+            "target": "gegenseite-frist",
+            "cond": "gegenseiteFristYes"
           }
         ]
       }

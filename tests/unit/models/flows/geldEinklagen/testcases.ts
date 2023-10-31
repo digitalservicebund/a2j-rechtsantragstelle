@@ -47,6 +47,16 @@ const cases = [
   ],
   [{ privatperson: "nonSingle" }, ["privatperson", "gegenseite"]],
   [{ privatperson: "representing" }, ["privatperson", "gegenseite"]],
+  [
+    { gegenseiteKontakt: "no" },
+    ["gegenseite-kontakt", "eigeninitiative-warnung", "gegenseite-frist"],
+  ],
+  [{ gegenseiteKontakt: "yes" }, ["gegenseite-kontakt", "gegenseite-frist"]],
+  [{ gegenseiteFrist: "yes" }, ["gegenseite-frist", "digital-ausweisen"]],
+  [
+    { gegenseiteFrist: "no" },
+    ["gegenseite-frist", "frist-warnung", "digital-ausweisen"],
+  ],
   [happyPathData, happyPathSteps],
 ] as const satisfies TestCases<GeldEinklagenVorabcheckContext>;
 
