@@ -5,14 +5,17 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { airportSchema } from "~/services/validation/airport";
 
+export const airlineSchema = z.enum(["lufthansa", "ryanair"]);
+export const fluggastBereichSchema = z.enum(
+  ["nichtbefoerderung", "verspaetet", "annulierung", "anderes"],
+  customRequiredErrorMessage,
+);
+
 export const fluggastrechteVorabcheckContext = {
   startAirport: airportSchema,
   endAirport: airportSchema,
-  fluggesellschaft: z.enum(["lufthansa", "ryanair"]),
-  bereich: z.enum(
-    ["nichtbefoerderung", "verspaetet", "annulierung", "anderes"],
-    customRequiredErrorMessage,
-  ),
+  fluggesellschaft: airlineSchema,
+  bereich: fluggastBereichSchema,
   verspaetung: YesNoAnswer,
   checkin: YesNoAnswer,
   gruende: YesNoAnswer,

@@ -10,10 +10,16 @@ import {
 } from "../persoenlicheDaten/context";
 import { airportSchema } from "~/services/validation/airport";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
+import {
+  airlineSchema,
+  fluggastBereichSchema,
+} from "../fluggastrechte/context";
 
 export const fluggastrechtContext = {
   startAirport: airportSchema,
   endAirport: airportSchema,
+  fluggesellschaft: airlineSchema,
+  bereich: fluggastBereichSchema,
   zwischenstopps: YesNoAnswer,
   zwischenstoppFlughafen: z.union([airportSchema, z.literal("")]),
   ankunftsDatum: inputRequiredSchema, // TODO: validate as German date in the past

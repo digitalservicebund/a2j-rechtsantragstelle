@@ -33,7 +33,7 @@ import { logError } from "~/services/logging";
 import { lastStepKey } from "~/services/flow/lastStep";
 import { fillTemplate } from "~/util/fillTemplate";
 import Heading from "~/components/Heading";
-import Box from "~/components/Box";
+import MigrationDataOverview from "~/components/MigrationDataOverview";
 import { getMigrationData } from "~/services/session/crossFlowMigration";
 
 export const loader = async ({
@@ -298,22 +298,7 @@ export function StepWithPreHeading() {
                 templateReplacements={templateReplacements}
                 className="ds-stack-16"
               />
-              {Object.keys(migrationData).length > 0 && (
-                <Background backgroundColor="white">
-                  <Container>
-                    <Box
-                      content={{
-                        markdown: Object.entries(migrationData)
-                          .map(
-                            ([key, val]) =>
-                              `**${key}:**\n\n${val as string}\n\n`,
-                          )
-                          .join(""),
-                      }}
-                    />
-                  </Container>
-                </Background>
-              )}
+              <MigrationDataOverview migrationData={migrationData} />
               <ValidatedForm
                 key={`${stepId}_form`}
                 method="post"
