@@ -172,26 +172,20 @@ export function Step() {
         )}
 
         {(cmsData.linkText || cmsData.backLinkInHeader) && (
-          <Container paddingTop="32" paddingBottom="32">
+          <Container paddingTop="16" paddingBottom="16">
             <ButtonContainer>
               {cmsData.backLinkInHeader && (
-                <Button
-                  href={backButton.destination}
-                  look="tertiary"
-                  size="large"
-                  className="w-fit"
-                >
+                <a className="text-link" href={backButton.destination}>
                   {backButton.label}
-                </Button>
+                </a>
               )}
               {cmsData.linkText && (
-                <Button
-                  look="tertiary"
-                  size="large"
+                <a
+                  className="text-link"
                   href={`/beratungshilfe/vorabcheck?${dataDeletionKey}`}
                 >
                   {cmsData.linkText}
-                </Button>
+                </a>
               )}
             </ButtonContainer>
           </Container>
