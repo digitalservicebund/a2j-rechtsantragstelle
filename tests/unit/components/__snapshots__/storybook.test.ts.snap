@@ -300,6 +300,7 @@ exports[`Storyshots Page/Footer Example 1`] = `
       >
         <div>
           <img
+            alt=""
             src="https://placehold.co/240x132/png"
             width={120}
           />
