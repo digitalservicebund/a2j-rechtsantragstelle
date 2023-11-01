@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import type { ReactElement } from "react";
+import { cloneElement, type ReactElement } from "react";
 import { z } from "zod";
 
 export const ButtonPropsSchema = z.object({
@@ -43,8 +43,11 @@ function Button({
     props.className,
   );
 
-  const textSpan = text ? <span>{text}</span> : "";
-  const childrenSpan = <span>{children}</span>;
+  iconLeft = iconLeft && cloneElement(iconLeft, { className: iconLeft.props.className as string + " ds-button-icon"});
+  iconRight = iconRight && cloneElement(iconRight, { className: iconRight.props.className as string + " ds-button-icon"});
+
+  const textSpan = text ? <span className="ds-button-label">{text}</span> : "";
+  const childrenSpan = <span className="ds-button-label">{children}</span>;
 
   // for links that have role="button" we need to add an event handler so that it can
   // be activated with the space bar
