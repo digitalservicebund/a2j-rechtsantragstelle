@@ -26,7 +26,6 @@ import RichText from "~/components/RichText";
 import InfoBox from "~/components/InfoBox";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";

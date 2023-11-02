@@ -1,17 +1,15 @@
 import { z } from "zod";
 import Heading, { HeadingPropsSchema } from "./Heading";
-import { ButtonGroup } from "@mui/material";
 import Button from "./Button";
 import ThumbUpIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownIcon from "@mui/icons-material/ThumbDownOutlined";
 import ButtonContainer from "./ButtonContainer";
 import Background from "./Background";
 import Container from "./Container";
-import { Form } from "@remix-run/react";
-import { FormEvent, useEffect, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import RichText, { RichTextPropsSchema } from "./RichText";
 
-export const UserFeedbackPropsSchema = z.object({
+const UserFeedbackPropsSchema = z.object({
   heading: HeadingPropsSchema,
   yesButtonLabel: z.string(),
   noButtonLabel: z.string(),
