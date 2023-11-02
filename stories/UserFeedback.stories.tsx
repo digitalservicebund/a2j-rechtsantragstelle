@@ -19,18 +19,18 @@ export const Example: Story = {
     heading: {
       text: "Hat Ihnen der Vorab-Check geholfen?",
       look: "ds-label-01-bold",
-      tagName: "h1"
+      tagName: "h1",
     },
     yesButtonLabel: "Ja",
     noButtonLabel: "Nein",
     successHeading: {
       text: "Vielen Dank!",
       look: "ds-label-01-bold",
-      tagName: "h1"
+      tagName: "h1",
     },
     successText: {
-      markdown: "Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!"
-    }
+      markdown:
+        "Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!",
+    },
   },
 };
-

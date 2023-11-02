@@ -5,7 +5,9 @@ exports[`Storyshots Button/Button Ghost 1`] = `
   className="ds-button ds-button-ghost"
 >
    
-  <span>
+  <span
+    className="ds-button-label"
+  >
     Button
   </span>
    
@@ -18,7 +20,7 @@ exports[`Storyshots Button/Button Icon Left 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium ds-button-icon  css-i4bv87-MuiSvgIcon-root"
     data-testid="HomeOutlinedIcon"
     focusable="false"
     viewBox="0 0 24 24"
@@ -28,7 +30,9 @@ exports[`Storyshots Button/Button Icon Left 1`] = `
     />
   </svg>
    
-  <span>
+  <span
+    className="ds-button-label"
+  >
     Button
   </span>
    
@@ -40,13 +44,15 @@ exports[`Storyshots Button/Button Icon Right 1`] = `
   className="ds-button ds-button-with-icon"
 >
    
-  <span>
+  <span
+    className="ds-button-label"
+  >
     Button
   </span>
    
   <svg
     aria-hidden={true}
-    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium ds-button-icon  css-i4bv87-MuiSvgIcon-root"
     data-testid="HomeOutlinedIcon"
     focusable="false"
     viewBox="0 0 24 24"
@@ -63,7 +69,9 @@ exports[`Storyshots Button/Button Large 1`] = `
   className="ds-button ds-button-large"
 >
    
-  <span>
+  <span
+    className="ds-button-label"
+  >
     Button
   </span>
    
@@ -75,7 +83,9 @@ exports[`Storyshots Button/Button Primary 1`] = `
   className="ds-button"
 >
    
-  <span>
+  <span
+    className="ds-button-label"
+  >
     Button
   </span>
    
@@ -87,7 +97,9 @@ exports[`Storyshots Button/Button Secondary 1`] = `
   className="ds-button ds-button-secondary"
 >
    
-  <span>
+  <span
+    className="ds-button-label"
+  >
     Button
   </span>
    
@@ -99,7 +111,9 @@ exports[`Storyshots Button/Button Small 1`] = `
   className="ds-button ds-button-small"
 >
    
-  <span>
+  <span
+    className="ds-button-label"
+  >
     Button
   </span>
    
@@ -111,7 +125,9 @@ exports[`Storyshots Button/Button Tertiary 1`] = `
   className="ds-button ds-button-tertiary"
 >
    
-  <span>
+  <span
+    className="ds-button-label"
+  >
     Button
   </span>
    
@@ -126,7 +142,9 @@ exports[`Storyshots Button/ButtonContainer Two Buttons 1`] = `
     className="ds-button"
   >
      
-    <span>
+    <span
+      className="ds-button-label"
+    >
       Button 1
     </span>
      
@@ -135,7 +153,9 @@ exports[`Storyshots Button/ButtonContainer Two Buttons 1`] = `
     className="ds-button ds-button-secondary"
   >
      
-    <span>
+    <span
+      className="ds-button-label"
+    >
       Button 2
     </span>
      
@@ -265,7 +285,9 @@ exports[`Storyshots Content/Box Default 1`] = `
           className="ds-button ds-button-tertiary"
         >
            
-          <span>
+          <span
+            className="ds-button-label"
+          >
             Button 1
           </span>
            
@@ -274,7 +296,9 @@ exports[`Storyshots Content/Box Default 1`] = `
           className="ds-button"
         >
            
-          <span>
+          <span
+            className="ds-button-label"
+          >
             Button 2
           </span>
            
@@ -284,6 +308,8 @@ exports[`Storyshots Content/Box Default 1`] = `
   </div>
 </div>
 `;
+
+exports[`Storyshots Content/UserFeedback Example 1`] = `null`;
 
 exports[`Storyshots Page/Footer Example 1`] = `
 <footer

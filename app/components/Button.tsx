@@ -17,6 +17,12 @@ type Props = z.infer<typeof ButtonPropsSchema>;
 interface ButtonProps extends React.ComponentPropsWithoutRef<"button">, Props {}
 interface ButtonLinkProps extends React.ComponentPropsWithoutRef<"a">, Props {}
 
+function formatIcon(icon: ReactElement | undefined) {
+  if (!icon) return undefined;
+  const className = `ds-button-icon ${icon.props.className ?? ""}`;
+  return cloneElement(icon, { className });
+}
+
 function Button({
   children,
   text,
@@ -43,11 +49,10 @@ function Button({
     props.className,
   );
 
-  iconLeft = iconLeft && cloneElement(iconLeft, { className: iconLeft.props.className as string + " ds-button-icon"});
-  iconRight = iconRight && cloneElement(iconRight, { className: iconRight.props.className as string + " ds-button-icon"});
-
   const textSpan = text ? <span className="ds-button-label">{text}</span> : "";
   const childrenSpan = <span className="ds-button-label">{children}</span>;
+  iconLeft = formatIcon(iconLeft);
+  iconRight = formatIcon(iconRight);
 
   // for links that have role="button" we need to add an event handler so that it can
   // be activated with the space bar
