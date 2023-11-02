@@ -1,6 +1,8 @@
+import posthog from "posthog-js";
 import { useLoaderData } from "@remix-run/react";
 import type { ActionFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
+import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { getSessionForContext } from "~/services/session";
 import {
   fetchCollectionEntry,
@@ -14,7 +16,7 @@ import {
   flowSpecifics,
   splatFromParams,
 } from "./flowSpecifics";
-import type { ReactElement } from "react";
+import { type ReactElement, useEffect, useState } from "react";
 import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
 import HighlightOff from "@mui/icons-material/HighlightOff";
 import WarningAmber from "@mui/icons-material/WarningAmber";
@@ -24,13 +26,15 @@ import Heading from "~/components/Heading";
 import PageContent, { keyFromElement } from "~/components/PageContent";
 import RichText from "~/components/RichText";
 import InfoBox from "~/components/InfoBox";
+import UserFeedback from "~/components/UserFeedback";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import ButtonContainer from "~/components/ButtonContainer";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
-import { mainSessionFromRequest } from "~/services/security/csrf.server";
 import { dataDeletionKey, lastStepKey } from "~/services/flow/lastStep";
+import { wasHelpfulName } from "../action.send-feedback";
+import { config } from "~/services/env/web";
 
 export const loader = async ({
   params,
@@ -70,13 +74,16 @@ export const loader = async ({
         label: cmsData.nextLink?.text ?? common.nextButtonDefaultLabel,
       };
 
-  const session = await mainSessionFromRequest(request);
+  const { getSession, commitSession } = getSessionForContext("main");
+  const session = await getSession(cookieId);
   session.set(lastStepKey, { [flowId]: stepId });
-  const sessionContext = getSessionForContext("main");
+  const wasHelpful =
+    (session.get(wasHelpfulName) as Record<string, boolean>) ?? {};
 
   return json(
     {
       common,
+      consentGiven: await hasTrackingConsent({ request }),
       cmsData: cmsData,
       content: cmsData.freeZone,
       meta: { ...cmsData.meta, breadcrumbTitle: parentMeta.title },
@@ -87,8 +94,9 @@ export const loader = async ({
         destination: flowController.getPrevious(stepId)?.url,
         label: common.backButtonDefaultLabel,
       },
+      feedbackSubmitted: pathname in wasHelpful,
     },
-    { headers: { "Set-Cookie": await sessionContext.commitSession(session) } },
+    { headers: { "Set-Cookie": await commitSession(session) } },
   );
 };
 
@@ -126,16 +134,19 @@ const backgrounds: Record<StrapiResultPageType, string> = {
 export function Step() {
   const {
     common,
+    consentGiven,
     content,
     cmsData,
     reasons,
     progress,
     nextButton,
     backButton,
+    feedbackSubmitted,
   } = useLoaderData<typeof loader>();
 
   const documentsList = cmsData.documents.data?.attributes.element ?? [];
   const nextSteps = cmsData.nextSteps.data?.attributes.element ?? [];
+  const { ENVIRONMENT } = config();
 
   return (
     <>
@@ -216,6 +227,17 @@ export function Step() {
             </div>
           ))}
         </div>
+      )}
+
+      {ENVIRONMENT !== "production" && consentGiven && (
+        <UserFeedback
+          showSuccess={feedbackSubmitted}
+          heading="Hat Ihnen der Vorab-Check geholfen?"
+          successHeading="Vielen Dank!"
+          successText="Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!"
+          yesButtonLabel="Ja"
+          noButtonLabel="Nein"
+        />
       )}
       <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
         {!cmsData.backLinkInHeader && (

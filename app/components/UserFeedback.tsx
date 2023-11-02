@@ -1,20 +1,24 @@
 import { z } from "zod";
-import Heading, { HeadingPropsSchema } from "./Heading";
+import Heading from "./Heading";
 import Button from "./Button";
 import ThumbUpIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownIcon from "@mui/icons-material/ThumbDownOutlined";
 import ButtonContainer from "./ButtonContainer";
 import Background from "./Background";
 import Container from "./Container";
-import { type FormEvent, useEffect, useState } from "react";
-import RichText, { RichTextPropsSchema } from "./RichText";
+import { useState, useEffect } from "react";
+import RichText from "./RichText";
+import { useFetcher, useLocation } from "@remix-run/react";
+
+export const wasHelpfulFieldname = "wasHelpful";
 
 const UserFeedbackPropsSchema = z.object({
-  heading: HeadingPropsSchema,
+  heading: z.string(),
   yesButtonLabel: z.string(),
   noButtonLabel: z.string(),
-  successHeading: HeadingPropsSchema,
-  successText: RichTextPropsSchema,
+  successHeading: z.string(),
+  successText: z.string(),
+  showSuccess: z.boolean(),
 });
 
 type UserFeedbackProps = z.infer<typeof UserFeedbackPropsSchema>;
@@ -25,37 +29,18 @@ export default function UserFeedback({
   noButtonLabel,
   successHeading,
   successText,
-}: UserFeedbackProps) {
-  const [showSuccess, setShowSuccess] = useState(false);
+  showSuccess,
+}: Readonly<UserFeedbackProps>) {
+  const url = useLocation().pathname;
+  const wasHelpfulFetcher = useFetcher();
   const [clientJavaScriptAvailable, setClientJavaScriptAvailable] =
     useState(false);
-
   useEffect(() => {
     setClientJavaScriptAvailable(true);
   }, []);
 
-  const submitFeedbackYes = (event: FormEvent) => {
-    console.log("YES");
-    // posthog call?
-    setShowSuccess(true);
-    event.preventDefault();
-  };
-
-  const submitFeedbackNo = (event: FormEvent) => {
-    console.log("NO");
-    // posthog call?
-    setShowSuccess(true);
-    event.preventDefault();
-  };
-
-  if (!clientJavaScriptAvailable) {
-    return null;
-  }
-
   return (
     <Background paddingTop="32" paddingBottom="40">
-      <form onSubmit={submitFeedbackYes} id="formYes"></form>
-      <form onSubmit={submitFeedbackNo} id="formNo"></form>
       <Container
         paddingTop="32"
         paddingBottom="32"
@@ -65,28 +50,43 @@ export default function UserFeedback({
         <div className="ds-stack-16">
           {showSuccess ? (
             <>
-              <Heading {...successHeading} />
-              <RichText {...successText} />
+              <Heading
+                look="ds-label-01-bold"
+                tagName="h2"
+                text={successHeading}
+              />
+              <RichText markdown={successText} />
             </>
           ) : (
             <>
-              <Heading {...heading} />
-              <ButtonContainer>
-                <Button
-                  iconLeft={<ThumbUpIcon />}
-                  look="tertiary"
-                  form="formYes"
-                >
-                  {yesButtonLabel}
-                </Button>
-                <Button
-                  iconLeft={<ThumbDownIcon />}
-                  look="tertiary"
-                  form="formNo"
-                >
-                  {noButtonLabel}
-                </Button>
-              </ButtonContainer>
+              <Heading look="ds-label-01-bold" tagName="h2" text={heading} />
+              <wasHelpfulFetcher.Form
+                method="post"
+                action={`/action/send-feedback?url=${url}${
+                  clientJavaScriptAvailable ? "&js=1" : ""
+                }`}
+              >
+                <ButtonContainer>
+                  <Button
+                    iconLeft={<ThumbUpIcon />}
+                    look="tertiary"
+                    name={wasHelpfulFieldname}
+                    value="yes"
+                    type="submit"
+                  >
+                    {yesButtonLabel}
+                  </Button>
+                  <Button
+                    iconLeft={<ThumbDownIcon />}
+                    look="tertiary"
+                    name={wasHelpfulFieldname}
+                    value="no"
+                    type="submit"
+                  >
+                    {noButtonLabel}
+                  </Button>
+                </ButtonContainer>
+              </wasHelpfulFetcher.Form>
             </>
           )}
         </div>

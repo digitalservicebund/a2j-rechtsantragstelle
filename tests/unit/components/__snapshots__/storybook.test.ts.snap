@@ -309,8 +309,6 @@ exports[`Storyshots Content/Box Default 1`] = `
 </div>
 `;
 
-exports[`Storyshots Content/UserFeedback Example 1`] = `null`;
-
 exports[`Storyshots Page/Footer Example 1`] = `
 <footer
   className="text-base"
