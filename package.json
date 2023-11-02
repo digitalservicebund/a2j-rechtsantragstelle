@@ -97,7 +97,7 @@
     "@types/validator": "^13.11.5",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.52.0",
-    "eslint-plugin-sonarjs": "^0.21.0",
+    "eslint-plugin-sonarjs": "^0.22.0",
     "eslint-plugin-storybook": "^0.6.15",
     "fishery": "^2.2.2",
     "follow-redirects": "^1.15.3",
