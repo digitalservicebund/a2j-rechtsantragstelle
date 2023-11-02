@@ -54,7 +54,7 @@
     "ioredis": "^5.3.2",
     "isbot": "^3.7.0",
     "lodash": "^4.17.21",
-    "marked": "^9.1.4",
+    "marked": "^9.1.5",
     "mustache": "^4.2.0",
     "posthog-js": "^1.87.6",
     "posthog-node": "^3.1.3",
