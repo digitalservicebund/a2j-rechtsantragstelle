@@ -40,12 +40,12 @@ export default function UserFeedback({
   }, []);
 
   return (
-    <Background paddingTop="32" paddingBottom="40">
+    <Background paddingTop="32" paddingBottom="40" backgroundColor="white">
       <Container
         paddingTop="32"
         paddingBottom="32"
         overhangingBackground
-        backgroundColor="blue"
+        backgroundColor="midBlue"
       >
         <div className="ds-stack-16">
           {showSuccess ? (

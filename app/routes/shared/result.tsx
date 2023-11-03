@@ -228,16 +228,6 @@ export function Step() {
         </div>
       )}
 
-      {ENVIRONMENT !== "production" && consentGiven && (
-        <UserFeedback
-          showSuccess={feedbackSubmitted}
-          heading="Hat Ihnen der Vorab-Check geholfen?"
-          successHeading="Vielen Dank!"
-          successText="Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!"
-          yesButtonLabel="Ja"
-          noButtonLabel="Nein"
-        />
-      )}
       <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
         {!cmsData.backLinkInHeader && (
           <Container>
@@ -246,6 +236,18 @@ export function Step() {
             </form>
           </Container>
         )}
+
+        {ENVIRONMENT !== "production" && consentGiven && (
+          <UserFeedback
+            showSuccess={feedbackSubmitted}
+            heading="Hat Ihnen der Vorab-Check geholfen?"
+            successHeading="Vielen Dank!"
+            successText="Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!"
+            yesButtonLabel="Ja"
+            noButtonLabel="Nein"
+          />
+        )}
+
         <PageContent content={nextSteps} />
       </div>
     </>
