@@ -15,8 +15,9 @@ const posthogClient = POSTHOG_API_KEY
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const { searchParams } = new URL(request.url);
-  const clientJavaScriptAvailable = searchParams.get("js");
+  const clientJavaScriptAvailable = searchParams.get("js") === "true";
   const url = searchParams.get("url") ?? "";
+  const context = searchParams.get("context") ?? "";
 
   const cookie = request.headers.get("Cookie");
   const { getSession, commitSession } = getSessionForContext("main");
@@ -33,7 +34,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     distinctId: ENVIRONMENT,
     event: "feedback given",
     // eslint-disable-next-line camelcase
-    properties: { wasHelpful: wasHelpful[url], $current_url: url },
+    properties: { wasHelpful: wasHelpful[url], $current_url: url, context },
   });
 
   return clientJavaScriptAvailable

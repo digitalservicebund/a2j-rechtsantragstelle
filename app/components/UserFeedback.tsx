@@ -1,4 +1,3 @@
-import { z } from "zod";
 import Heading from "./Heading";
 import Button from "./Button";
 import ThumbUpIcon from "@mui/icons-material/ThumbUpOutlined";
@@ -12,16 +11,15 @@ import { useFetcher, useLocation } from "@remix-run/react";
 
 export const wasHelpfulFieldname = "wasHelpful";
 
-const UserFeedbackPropsSchema = z.object({
-  heading: z.string(),
-  yesButtonLabel: z.string(),
-  noButtonLabel: z.string(),
-  successHeading: z.string(),
-  successText: z.string(),
-  showSuccess: z.boolean(),
-});
-
-type UserFeedbackProps = z.infer<typeof UserFeedbackPropsSchema>;
+type UserFeedbackProps = {
+  heading: string;
+  yesButtonLabel: string;
+  noButtonLabel: string;
+  successHeading: string;
+  successText: string;
+  showSuccess: boolean;
+  context?: string | undefined;
+};
 
 export default function UserFeedback({
   heading,
@@ -30,14 +28,12 @@ export default function UserFeedback({
   successHeading,
   successText,
   showSuccess,
+  context,
 }: Readonly<UserFeedbackProps>) {
   const url = useLocation().pathname;
   const wasHelpfulFetcher = useFetcher();
-  const [clientJavaScriptAvailable, setClientJavaScriptAvailable] =
-    useState(false);
-  useEffect(() => {
-    setClientJavaScriptAvailable(true);
-  }, []);
+  const [jsAvailable, setJsAvailable] = useState(false);
+  useEffect(() => setJsAvailable(true), []);
 
   return (
     <Background paddingTop="32" paddingBottom="40" backgroundColor="white">
@@ -62,9 +58,9 @@ export default function UserFeedback({
               <Heading look="ds-label-01-bold" tagName="h2" text={heading} />
               <wasHelpfulFetcher.Form
                 method="post"
-                action={`/action/send-feedback?url=${url}${
-                  clientJavaScriptAvailable ? "&js=1" : ""
-                }`}
+                action={`/action/send-feedback?url=${url}&context=${
+                  context ?? ""
+                }&js=${String(jsAvailable)}`}
               >
                 <ButtonContainer>
                   <Button

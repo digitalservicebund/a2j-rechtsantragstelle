@@ -81,6 +81,7 @@ export const loader = async ({
 
   return json(
     {
+      flowId,
       common,
       consentGiven: await hasTrackingConsent({ request }),
       cmsData: cmsData,
@@ -132,6 +133,7 @@ const backgrounds: Record<StrapiResultPageType, string> = {
 
 export function Step() {
   const {
+    flowId,
     common,
     consentGiven,
     content,
@@ -245,6 +247,7 @@ export function Step() {
             successText="Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!"
             yesButtonLabel="Ja"
             noButtonLabel="Nein"
+            context={flowId}
           />
         )}
 
