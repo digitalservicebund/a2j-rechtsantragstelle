@@ -1,4 +1,3 @@
-import posthog from "posthog-js";
 import { useLoaderData } from "@remix-run/react";
 import type { ActionFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
@@ -16,7 +15,7 @@ import {
   flowSpecifics,
   splatFromParams,
 } from "./flowSpecifics";
-import { type ReactElement, useEffect, useState } from "react";
+import { type ReactElement } from "react";
 import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
 import HighlightOff from "@mui/icons-material/HighlightOff";
 import WarningAmber from "@mui/icons-material/WarningAmber";
