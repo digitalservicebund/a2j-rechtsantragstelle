@@ -239,7 +239,7 @@ export function Step() {
           </Container>
         )}
 
-        {ENVIRONMENT !== "production" && consentGiven && (
+        {consentGiven && (
           <UserFeedback
             showSuccess={feedbackSubmitted}
             heading="Hat Ihnen der Vorab-Check geholfen?"
