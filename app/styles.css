@@ -41,7 +41,7 @@ a {
 
 /* TODO: needs to be fixed in Angie */
 .ds-radio {
-  background: #fff; /* for old Safari */
+  background: transparent; /* for old Safari */
 }
 
 /* Tailwind's container core plugin is disabled,
