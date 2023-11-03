@@ -136,7 +136,7 @@ exports[`Storyshots Button/Button Tertiary 1`] = `
 
 exports[`Storyshots Button/ButtonContainer Two Buttons 1`] = `
 <div
-  className="ds-gap-24"
+  className="flex flex-wrap gap-24"
 >
   <button
     className="ds-button"
@@ -279,7 +279,7 @@ exports[`Storyshots Content/Box Default 1`] = `
         </div>
       </div>
       <div
-        className="ds-gap-24"
+        className="flex flex-wrap gap-24"
       >
         <button
           className="ds-button ds-button-tertiary"
