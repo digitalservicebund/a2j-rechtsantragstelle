@@ -32,7 +32,9 @@ const Textarea = ({
           id: name,
           placeholder,
         })}
-        className={classNames("ds-textarea", { "has-error": error })}
+        className={classNames("ds-textarea placeholder-gray-600", {
+          "has-error": error,
+        })}
         aria-invalid={error !== undefined}
         aria-describedby={error && errorId}
         aria-errormessage={error && errorId}

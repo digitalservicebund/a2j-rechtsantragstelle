@@ -24,13 +24,15 @@ import Heading from "~/components/Heading";
 import PageContent, { keyFromElement } from "~/components/PageContent";
 import RichText from "~/components/RichText";
 import InfoBox from "~/components/InfoBox";
-import UserFeedback, { wasHelpfulFieldname } from "~/components/UserFeedback";
+import UserFeedback, { BannerState } from "~/components/UserFeedback";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import ButtonContainer from "~/components/ButtonContainer";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
 import { dataDeletionKey, lastStepKey } from "~/services/flow/lastStep";
+
+export const bannerStateName = "bannerState";
 
 export const loader = async ({
   params,
@@ -73,8 +75,10 @@ export const loader = async ({
   const { getSession, commitSession } = getSessionForContext("main");
   const session = await getSession(cookieId);
   session.set(lastStepKey, { [flowId]: stepId });
-  const wasHelpful =
-    (session.get(wasHelpfulFieldname) as Record<string, boolean>) ?? {};
+  const bannerStates = (session.get(bannerStateName) as Record<
+    string,
+    BannerState
+  >) ?? { [pathname]: BannerState.ShowRating };
 
   return json(
     {
@@ -90,7 +94,7 @@ export const loader = async ({
         destination: flowController.getPrevious(stepId)?.url,
         label: common.backButtonDefaultLabel,
       },
-      feedbackSubmitted: pathname in wasHelpful,
+      bannerState: bannerStates[pathname],
     },
     { headers: { "Set-Cookie": await commitSession(session) } },
   );
@@ -137,7 +141,7 @@ export function Step() {
     progress,
     nextButton,
     backButton,
-    feedbackSubmitted,
+    bannerState,
   } = useLoaderData<typeof loader>();
 
   const documentsList = cmsData.documents.data?.attributes.element ?? [];
@@ -234,7 +238,11 @@ export function Step() {
         )}
 
         <UserFeedback
-          showSuccess={feedbackSubmitted}
+          bannerState={bannerState}
+          feedbackHeading="Haben sie Verbesserungsvorschläge"
+          feedbackPlaceholder="Bitte tragen Sie keine persönlichen Daten ein!"
+          feedbackAbortButton="Abbrechen"
+          feedbackSubmitButton="Abschicken"
           heading="Hat Ihnen der Vorab-Check geholfen?"
           successHeading="Vielen Dank!"
           successText="Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!"
