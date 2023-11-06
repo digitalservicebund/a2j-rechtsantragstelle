@@ -6,7 +6,6 @@ import { PostHog } from "posthog-node";
 import { config } from "~/services/env/web";
 
 export const loader = () => redirect("/");
-export const wasHelpfulName = "wasHelpful";
 
 const { POSTHOG_API_KEY, POSTHOG_API_HOST, ENVIRONMENT } = config();
 const posthogClient = POSTHOG_API_KEY
@@ -14,6 +13,7 @@ const posthogClient = POSTHOG_API_KEY
   : undefined;
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  console.log("action");
   const { searchParams } = new URL(request.url);
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
   const url = searchParams.get("url") ?? "";
@@ -23,16 +23,16 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionForContext("main");
   const session = await getSession(cookie);
   const wasHelpful =
-    (session.get(wasHelpfulName) as Record<string, boolean>) ?? {};
-
+    (session.get(wasHelpfulFieldname) as Record<string, boolean>) ?? {};
+  console.log({ wasHelpful });
   const formData = await request.formData();
   wasHelpful[url] = formData.get(wasHelpfulFieldname) === "yes";
-  session.set(wasHelpfulName, wasHelpful);
+  session.set(wasHelpfulFieldname, wasHelpful);
   const headers = { "Set-Cookie": await commitSession(session) };
 
   posthogClient?.capture({
     distinctId: ENVIRONMENT,
-    event: "feedback given",
+    event: "rating given",
     // eslint-disable-next-line camelcase
     properties: { wasHelpful: wasHelpful[url], $current_url: url, context },
   });

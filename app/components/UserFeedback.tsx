@@ -58,7 +58,7 @@ export default function UserFeedback({
               <Heading look="ds-label-01-bold" tagName="h2" text={heading} />
               <wasHelpfulFetcher.Form
                 method="post"
-                action={`/action/send-feedback?url=${url}&context=${
+                action={`/action/send-rating?url=${url}&context=${
                   context ?? ""
                 }&js=${String(jsAvailable)}`}
               >

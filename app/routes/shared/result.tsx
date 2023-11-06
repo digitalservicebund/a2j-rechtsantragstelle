@@ -24,14 +24,13 @@ import Heading from "~/components/Heading";
 import PageContent, { keyFromElement } from "~/components/PageContent";
 import RichText from "~/components/RichText";
 import InfoBox from "~/components/InfoBox";
-import UserFeedback from "~/components/UserFeedback";
+import UserFeedback, { wasHelpfulFieldname } from "~/components/UserFeedback";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import ButtonContainer from "~/components/ButtonContainer";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
 import { dataDeletionKey, lastStepKey } from "~/services/flow/lastStep";
-import { wasHelpfulName } from "../action.send-feedback";
 
 export const loader = async ({
   params,
@@ -75,7 +74,7 @@ export const loader = async ({
   const session = await getSession(cookieId);
   session.set(lastStepKey, { [flowId]: stepId });
   const wasHelpful =
-    (session.get(wasHelpfulName) as Record<string, boolean>) ?? {};
+    (session.get(wasHelpfulFieldname) as Record<string, boolean>) ?? {};
 
   return json(
     {
