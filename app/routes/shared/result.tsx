@@ -1,7 +1,6 @@
 import { useLoaderData } from "@remix-run/react";
 import type { ActionFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { getSessionForContext } from "~/services/session";
 import {
   fetchCollectionEntry,
@@ -33,7 +32,6 @@ import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
 import { dataDeletionKey, lastStepKey } from "~/services/flow/lastStep";
 import { wasHelpfulName } from "../action.send-feedback";
-import { config } from "~/services/env/web";
 
 export const loader = async ({
   params,
@@ -83,7 +81,6 @@ export const loader = async ({
     {
       flowId,
       common,
-      consentGiven: await hasTrackingConsent({ request }),
       cmsData: cmsData,
       content: cmsData.freeZone,
       meta: { ...cmsData.meta, breadcrumbTitle: parentMeta.title },
@@ -135,7 +132,6 @@ export function Step() {
   const {
     flowId,
     common,
-    consentGiven,
     content,
     cmsData,
     reasons,
@@ -147,7 +143,6 @@ export function Step() {
 
   const documentsList = cmsData.documents.data?.attributes.element ?? [];
   const nextSteps = cmsData.nextSteps.data?.attributes.element ?? [];
-  const { ENVIRONMENT } = config();
 
   return (
     <>
@@ -239,17 +234,15 @@ export function Step() {
           </Container>
         )}
 
-        {consentGiven && (
-          <UserFeedback
-            showSuccess={feedbackSubmitted}
-            heading="Hat Ihnen der Vorab-Check geholfen?"
-            successHeading="Vielen Dank!"
-            successText="Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!"
-            yesButtonLabel="Ja"
-            noButtonLabel="Nein"
-            context={flowId}
-          />
-        )}
+        <UserFeedback
+          showSuccess={feedbackSubmitted}
+          heading="Hat Ihnen der Vorab-Check geholfen?"
+          successHeading="Vielen Dank!"
+          successText="Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!"
+          yesButtonLabel="Ja"
+          noButtonLabel="Nein"
+          context={flowId}
+        />
 
         <PageContent content={nextSteps} />
       </div>
