@@ -73,7 +73,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
         overhangingBackground
         backgroundColor="midBlue"
       >
-        <div className="ds-stack-16">
+        <div className="ds-stack-16" data-testid="user-feedback-banner">
           {props.bannerState === BannerState.ShowRating ? (
             <>
               <Heading
