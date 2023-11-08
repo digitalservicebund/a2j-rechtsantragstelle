@@ -58,7 +58,7 @@ jobs:
           docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ needs.create-content-file.outputs.content_checksum }} . --build-arg COMMIT_SHA=${{ env.IMAGE_VERSION }}-${{ needs.create-content-file.outputs.content_checksum }}
           docker save ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ needs.create-content-file.outputs.content_checksum }} > container.tar
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@f78e9ecf42a1271402d4f484518b9313235990e1
+        uses: aquasecurity/trivy-action@2b6a709cf9c4025c5438138008beaddbb02086f0
         with:
           image-ref: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ needs.create-content-file.outputs.content_checksum }}"
           format: "sarif"
