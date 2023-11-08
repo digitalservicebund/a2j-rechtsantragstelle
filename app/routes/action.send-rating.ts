@@ -45,5 +45,5 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   return clientJavaScriptAvailable
     ? json({ success: true }, { headers })
-    : redirect(url, { headers });
+    : redirect(`/feedback/senden?url=${url}`, { headers });
 };
