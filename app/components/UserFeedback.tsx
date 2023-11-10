@@ -18,7 +18,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUpOutlined";
 export const wasHelpfulFieldname = "wasHelpful";
 export const feedbackFieldname = "feedback";
 export const feedbackButtonFieldname = "feedbackButton";
-
+export const feedbackFormName = "feedbackForm";
 export enum BannerState {
   ShowRating = "showRating",
   ShowFeedback = "showFeedback",
@@ -64,6 +64,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const wasHelpfulFetcher = useFetcher();
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
+  const { pathname } = useLocation();
 
   return (
     <Background paddingTop="32" paddingBottom="40" backgroundColor="white">
@@ -118,10 +119,9 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
               />
               <ValidatedForm
                 validator={feedbackValidator}
+                subaction={feedbackFormName}
                 method="post"
-                action={`/action/send-feedback?url=${url}&context=${
-                  props.context ?? ""
-                }&js=${String(jsAvailable)}`}
+                action={pathname}
               >
                 <div className="ds-stack-16">
                   <Textarea

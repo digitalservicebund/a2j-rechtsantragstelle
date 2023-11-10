@@ -4,7 +4,7 @@ import { BannerState, wasHelpfulFieldname } from "~/components/UserFeedback";
 import { getSessionForContext } from "~/services/session";
 import { PostHog } from "posthog-node";
 import { config } from "~/services/env/web";
-import { bannerStateName } from "./shared/result";
+import { bannerStateName } from "~/services/feedback/handleFeedback";
 
 export const loader = () => redirect("/");
 
@@ -45,5 +45,5 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   return clientJavaScriptAvailable
     ? json({ success: true }, { headers })
-    : redirect(`/feedback/senden?url=${url}`, { headers });
+    : redirect(url, { headers });
 };

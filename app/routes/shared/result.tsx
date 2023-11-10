@@ -31,8 +31,11 @@ import ButtonContainer from "~/components/ButtonContainer";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
 import { dataDeletionKey, lastStepKey } from "~/services/flow/lastStep";
-
-export const bannerStateName = "bannerState";
+import {
+  getFeedbackBannerState,
+  handleFeedback,
+  isFeedbackForm,
+} from "~/services/feedback/handleFeedback";
 
 export const loader = async ({
   params,
@@ -75,10 +78,6 @@ export const loader = async ({
   const { getSession, commitSession } = getSessionForContext("main");
   const session = await getSession(cookieId);
   session.set(lastStepKey, { [flowId]: stepId });
-  const bannerStates = (session.get(bannerStateName) as Record<
-    string,
-    BannerState
-  >) ?? { [pathname]: BannerState.ShowRating };
 
   return json(
     {
@@ -94,21 +93,16 @@ export const loader = async ({
         destination: flowController.getPrevious(stepId)?.url,
         label: common.backButtonDefaultLabel,
       },
-      bannerState: bannerStates[pathname],
+      bannerState:
+        getFeedbackBannerState(session, pathname) ?? BannerState.ShowRating,
     },
     { headers: { "Set-Cookie": await commitSession(session) } },
   );
 };
 
-export const action: ActionFunction = async ({ params, request, context }) => {
-  const splat = splatFromParams(params);
-  const flowId = flowIDFromPathname(new URL(request.url).pathname);
-  const cookieId = request.headers.get("Cookie");
-  const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
-  context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
-  const { flow, guards } = flowSpecifics[flowId];
-  const flowController = buildFlowController({ flow, data, guards });
-  return redirect(flowController.getNext("ergebnis/" + splat).url);
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  if (isFeedbackForm(formData)) return handleFeedback(formData, request);
 };
 
 const iconCSS = "inline-block mr-8 !h-[36px] !w-[36px]";
