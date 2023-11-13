@@ -3,26 +3,38 @@ import { BeratungshilfeVorabcheck } from "tests/e2e/pom/BeratungshilfeVorabcheck
 
 let vorabcheck: BeratungshilfeVorabcheck;
 
-test.beforeEach(({ page }) => {
+const submissionBoxId = "user-feedback-submission";
+
+test.beforeEach(async ({ page }) => {
   vorabcheck = new BeratungshilfeVorabcheck(page);
+  // Move the user to the nearest page with feedback component
+  await vorabcheck.goto();
+  await vorabcheck.fillRadioPage("rechtsschutzversicherung", "yes");
+  await expect(page.getByTestId("user-feedback-banner")).toBeVisible();
 });
 
 test.describe("User Feedback", () => {
-  test("feedback submission happy path", async ({ page }) => {
-    // Given user is on the vorabchek flow
-    await vorabcheck.goto();
-    // and user answers
-    // and user lands on the result page
-    await vorabcheck.fillRadioPage("rechtsschutzversicherung", "yes");
-    // then user should see rating banner
-    await expect(page.getByTestId("user-feedback-banner")).toBeVisible();
-    // when user clicks thumb-up icon
+  test("positive feedback submission", async ({ page }) => {
+    // the user should see submission feedback after clicking thumb-up icon and submitting feedback
     await page.getByTestId("ThumbUpOutlinedIcon").click();
-    // then user should see a text box and fills with text
-    await page.getByRole("textbox").fill("amazing product!");
-    // when user submits the feedback
+    await page.getByRole("textbox").fill("### e2e test submission positive");
     await page.getByTestId("SendOutlinedIcon").click();
-    // then the user should receive info on their submission
-    await expect(page.getByText("Vielen Dank!")).toBeVisible();
+    await expect(page.getByTestId(submissionBoxId)).toBeVisible();
+  });
+
+  test("negative feedback submission", async ({ page }) => {
+    // the user should see submission feedback after clicking thumb-down icon and submitting feedback
+    await page.getByTestId("ThumbDownOutlinedIcon").click();
+    await page.getByRole("textbox").fill("### e2e test submission negative");
+    await page.getByTestId("SendOutlinedIcon").click();
+    await expect(page.getByTestId(submissionBoxId)).toBeVisible();
+  });
+
+  test("feedback submission abort", async ({ page }) => {
+    // the user should see thank you after clicking abort feedback
+    await page.getByTestId("ThumbDownOutlinedIcon").click();
+    await page.getByRole("textbox").fill("### e2e test submission negative");
+    await page.getByTestId("CloseOutlinedIcon").click();
+    await expect(page.getByTestId(submissionBoxId)).toBeVisible();
   });
 });

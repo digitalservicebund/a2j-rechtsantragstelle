@@ -152,14 +152,14 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
               </ValidatedForm>
             </>
           ) : props.bannerState === BannerState.FeedbackGiven ? (
-            <>
+            <div data-testid="user-feedback-submission">
               <Heading
                 look="ds-label-01-bold"
                 tagName="h2"
                 text={props.successHeading}
               />
               <RichText markdown={props.successText} />
-            </>
+            </div>
           ) : (
             <></>
           )}
