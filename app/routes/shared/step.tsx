@@ -309,7 +309,12 @@ export function StepWithPreHeading() {
               >
                 <input type="hidden" name={CSRFKey} value={csrf} />
                 <div className="ds-stack-40">
-                  <PageContent content={formContent} className="ds-stack-40" />
+                  {formContent && formContent.length != 0 && (
+                    <PageContent
+                      content={formContent}
+                      className="ds-stack-40"
+                    />
+                  )}
                   {postFormContent && postFormContent.length != 0 && (
                     <PageContent content={postFormContent} />
                   )}
