@@ -127,9 +127,8 @@ function App() {
     feedback,
     ip,
   } = useLoaderData<typeof loader>();
-  const { breadcrumbs, title, ogTitle, description } = metaFromMatches(
-    useMatches(),
-  );
+  const { breadcrumbs, title, ogTitle, description } =
+    metaFromMatches(useMatches());
   const nonce = useNonce();
 
   if (typeof window !== "undefined") console.log(consoleMessage);
