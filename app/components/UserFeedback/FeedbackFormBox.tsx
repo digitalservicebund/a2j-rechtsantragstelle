@@ -3,10 +3,10 @@ import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm } from "remix-validated-form";
 import CloseIcon from "@mui/icons-material/CloseOutlined";
 import SendIcon from "@mui/icons-material/SendOutlined";
-import Button from "~/components/Button";
-import ButtonContainer from "~/components/ButtonContainer";
-import Heading from "~/components/Heading";
-import Textarea from "~/components/Textarea";
+import Button from "../Button";
+import ButtonContainer from "../ButtonContainer";
+import Heading from "../Heading";
+import Textarea from "../Textarea";
 
 export const feedbackFormName = "feedbackForm";
 const feedbackFieldname = "feedback";

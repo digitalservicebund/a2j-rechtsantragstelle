@@ -1,7 +1,10 @@
 import { getSessionForContext } from "../session";
 import { BannerState } from "~/components/UserFeedback";
-import { feedbackFormName, feedbackValidator } from "./FeedbackFormBox";
-import { userRatingFieldname } from "./RatingBox";
+import {
+  feedbackFormName,
+  feedbackValidator,
+} from "~/components/UserFeedback/FeedbackFormBox";
+import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
 import { validationError } from "remix-validated-form";
 import { config } from "../env/web";
 import { PostHog } from "posthog-node";

@@ -1,10 +1,10 @@
-import Button from "~/components/Button";
-import ButtonContainer from "~/components/ButtonContainer";
-import Heading from "~/components/Heading";
+import { useEffect, useState } from "react";
+import { useFetcher } from "@remix-run/react";
 import ThumbDownIcon from "@mui/icons-material/ThumbDownOutlined";
 import ThumbUpIcon from "@mui/icons-material/ThumbUpOutlined";
-import { useFetcher } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import Button from "../Button";
+import ButtonContainer from "../ButtonContainer";
+import Heading from "../Heading";
 
 export const userRatingFieldname = "wasHelpful";
 

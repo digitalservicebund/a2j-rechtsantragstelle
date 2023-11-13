@@ -1,5 +1,5 @@
-import Heading from "~/components/Heading";
-import RichText from "~/components/RichText";
+import Heading from "../Heading";
+import RichText from "../RichText";
 
 export interface PostSubmissionBoxProps {
   heading: string;
