@@ -310,7 +310,9 @@ export function StepWithPreHeading() {
                 <input type="hidden" name={CSRFKey} value={csrf} />
                 <div className="ds-stack-40">
                   <PageContent content={formContent} className="ds-stack-40" />
-                  {postFormContent && <PageContent content={postFormContent} />}
+                  {postFormContent && postFormContent.length != 0 && (
+                    <PageContent content={postFormContent} />
+                  )}
                   <ButtonNavigation
                     back={{
                       destination: previousStep,
