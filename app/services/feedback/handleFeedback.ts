@@ -1,7 +1,7 @@
 import { getSessionForContext } from "../session";
 import { BannerState } from "~/components/UserFeedback";
 import { feedbackFormName, feedbackValidator } from "./FeedbackFormBox";
-import { wasHelpfulFieldname } from "./RatingBox";
+import { userRatingFieldname } from "./RatingBox";
 import { validationError } from "remix-validated-form";
 import { config } from "../env/web";
 import { PostHog } from "posthog-node";
@@ -22,9 +22,8 @@ export const handleFeedback = async (formData: FormData, request: Request) => {
   const { getSession, commitSession } = getSessionForContext("main");
   const session = await getSession(cookie);
 
-  const wasHelpfulObj =
-    (session.get(wasHelpfulFieldname) as Record<string, boolean>) ?? {};
-  const wasHelpful = wasHelpfulObj[pathname];
+  const userRating =
+    (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
   const bannerState =
     (session.get(bannerStateName) as Record<string, BannerState>) ?? {};
 
@@ -37,7 +36,7 @@ export const handleFeedback = async (formData: FormData, request: Request) => {
     distinctId: ENVIRONMENT,
     event: "feedback given",
     properties: {
-      wasHelpful,
+      wasHelpful: userRating[pathname],
       feedback: result.data?.feedback ?? "",
       // eslint-disable-next-line camelcase
       $current_url: pathname,

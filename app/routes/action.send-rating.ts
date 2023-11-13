@@ -1,7 +1,7 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { BannerState } from "~/components/UserFeedback";
-import { wasHelpfulFieldname } from "~/services/feedback/RatingBox";
+import { userRatingFieldname } from "~/services/feedback/RatingBox";
 import { getSessionForContext } from "~/services/session";
 import { PostHog } from "posthog-node";
 import { config } from "~/services/env/web";
@@ -25,10 +25,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionForContext("main");
   const session = await getSession(cookie);
 
-  const wasHelpful =
-    (session.get(wasHelpfulFieldname) as Record<string, boolean>) ?? {};
-  wasHelpful[url] = formData.get(wasHelpfulFieldname) === "yes";
-  session.set(wasHelpfulFieldname, wasHelpful);
+  const userRatings =
+    (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
+  userRatings[url] = formData.get(userRatingFieldname) === "yes";
+  session.set(userRatingFieldname, userRatings);
 
   const bannerState =
     (session.get(bannerStateName) as Record<string, BannerState>) ?? {};
@@ -41,7 +41,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     distinctId: ENVIRONMENT,
     event: "rating given",
     // eslint-disable-next-line camelcase
-    properties: { wasHelpful: wasHelpful[url], $current_url: url, context },
+    properties: { wasHelpful: userRatings[url], $current_url: url, context },
   });
 
   return clientJavaScriptAvailable
