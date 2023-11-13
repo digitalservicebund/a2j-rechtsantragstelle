@@ -24,13 +24,18 @@ import Heading from "~/components/Heading";
 import PageContent, { keyFromElement } from "~/components/PageContent";
 import RichText from "~/components/RichText";
 import InfoBox from "~/components/InfoBox";
-import UserFeedback, { wasHelpfulFieldname } from "~/components/UserFeedback";
+import UserFeedback, { BannerState } from "~/components/UserFeedback";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import ButtonContainer from "~/components/ButtonContainer";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
 import { dataDeletionKey, lastStepKey } from "~/services/flow/lastStep";
+import {
+  getFeedbackBannerState,
+  handleFeedback,
+  isFeedbackForm,
+} from "~/services/feedback/handleFeedback";
 
 export const loader = async ({
   params,
@@ -73,8 +78,6 @@ export const loader = async ({
   const { getSession, commitSession } = getSessionForContext("main");
   const session = await getSession(cookieId);
   session.set(lastStepKey, { [flowId]: stepId });
-  const wasHelpful =
-    (session.get(wasHelpfulFieldname) as Record<string, boolean>) ?? {};
 
   return json(
     {
@@ -90,21 +93,16 @@ export const loader = async ({
         destination: flowController.getPrevious(stepId)?.url,
         label: common.backButtonDefaultLabel,
       },
-      feedbackSubmitted: pathname in wasHelpful,
+      bannerState:
+        getFeedbackBannerState(session, pathname) ?? BannerState.ShowRating,
     },
     { headers: { "Set-Cookie": await commitSession(session) } },
   );
 };
 
-export const action: ActionFunction = async ({ params, request, context }) => {
-  const splat = splatFromParams(params);
-  const flowId = flowIDFromPathname(new URL(request.url).pathname);
-  const cookieId = request.headers.get("Cookie");
-  const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
-  context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
-  const { flow, guards } = flowSpecifics[flowId];
-  const flowController = buildFlowController({ flow, data, guards });
-  return redirect(flowController.getNext("ergebnis/" + splat).url);
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  if (isFeedbackForm(formData)) return handleFeedback(formData, request);
 };
 
 const iconCSS = "inline-block mr-8 !h-[36px] !w-[36px]";
@@ -137,7 +135,7 @@ export function Step() {
     progress,
     nextButton,
     backButton,
-    feedbackSubmitted,
+    bannerState,
   } = useLoaderData<typeof loader>();
 
   const documentsList = cmsData.documents.data?.attributes.element ?? [];
@@ -234,13 +232,23 @@ export function Step() {
         )}
 
         <UserFeedback
-          showSuccess={feedbackSubmitted}
-          heading="Hat Ihnen der Vorab-Check geholfen?"
-          successHeading="Vielen Dank!"
-          successText="Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!"
-          yesButtonLabel="Ja"
-          noButtonLabel="Nein"
-          context={flowId}
+          bannerState={bannerState}
+          rating={{
+            heading: "Hat Ihnen der Vorab-Check geholfen?",
+            yesButtonLabel: "Ja",
+            noButtonLabel: "Nein",
+            context: flowId,
+          }}
+          feedback={{
+            heading: "Haben sie Verbesserungsvorschläge",
+            placeholder: "Bitte tragen Sie keine persönlichen Daten ein!",
+            abortButtonLabel: "Abbrechen",
+            submitButtonLabel: "Abschicken",
+          }}
+          postSubmission={{
+            heading: "Vielen Dank!",
+            text: "Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!",
+          }}
         />
 
         <PageContent content={nextSteps} />
