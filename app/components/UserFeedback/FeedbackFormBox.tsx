@@ -22,7 +22,7 @@ export const feedbackValidator = withZod(
     feedback: z
       .string()
       .refine(
-        (feedback) => !/\s0[0-9]/.test(feedback),
+        (feedback) => !/\s0[\d]/.test(feedback),
         "Bitte geben sie keine Telefonnummer ein.",
       )
       .refine(
