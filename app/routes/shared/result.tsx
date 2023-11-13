@@ -233,16 +233,22 @@ export function Step() {
 
         <UserFeedback
           bannerState={bannerState}
-          feedbackHeading="Haben sie Verbesserungsvorschläge"
-          feedbackPlaceholder="Bitte tragen Sie keine persönlichen Daten ein!"
-          feedbackAbortButton="Abbrechen"
-          feedbackSubmitButton="Abschicken"
-          heading="Hat Ihnen der Vorab-Check geholfen?"
-          successHeading="Vielen Dank!"
-          successText="Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!"
-          yesButtonLabel="Ja"
-          noButtonLabel="Nein"
-          context={flowId}
+          rating={{
+            heading: "Hat Ihnen der Vorab-Check geholfen?",
+            yesButtonLabel: "Ja",
+            noButtonLabel: "Nein",
+            context: flowId,
+          }}
+          feedback={{
+            heading: "Haben sie Verbesserungsvorschläge",
+            placeholder: "Bitte tragen Sie keine persönlichen Daten ein!",
+            abortButtonText: "Abbrechen",
+            submitButtonText: "Abschicken",
+          }}
+          postSubmission={{
+            heading: "Vielen Dank!",
+            text: "Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!",
+          }}
         />
 
         <PageContent content={nextSteps} />

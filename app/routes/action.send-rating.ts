@@ -1,6 +1,7 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { BannerState, wasHelpfulFieldname } from "~/components/UserFeedback";
+import { BannerState } from "~/components/UserFeedback";
+import { wasHelpfulFieldname } from "~/services/feedback/RatingBox";
 import { getSessionForContext } from "~/services/session";
 import { PostHog } from "posthog-node";
 import { config } from "~/services/env/web";
