@@ -309,6 +309,104 @@ exports[`Storyshots Content/Box Default 1`] = `
 </div>
 `;
 
+exports[`Storyshots Content/UserFeedback Example 1`] = `
+<div
+  className="bg-white !pt-32 !pb-40"
+>
+  <div
+    className="overflow-x-hidden rounded-lg"
+    style={
+      {
+        "marginLeft": "clamp(1rem, 5vw, 3rem)",
+        "marginRight": "clamp(1rem, 5vw, 3rem)",
+      }
+    }
+  >
+    <div
+      className="container !pt-32 !pb-32 text-black relative before:content-[''] before:absolute before:inset-y-0 before:-left-32 before:-right-32 before:rounded-lg before:bg-blue-300"
+    >
+      <div
+        className="relative"
+      >
+        <div
+          className="ds-stack-16"
+          data-testid="user-feedback-banner"
+        >
+          <h2
+            className="ds-label-01-bold"
+            dangerouslySetInnerHTML={
+              {
+                "__html": "Hat Ihnen der Vorab-Check geholfen?",
+              }
+            }
+          />
+          <form
+            action="/action/send-rating?url=/&context=&js=false"
+            method="post"
+            onSubmit={[Function]}
+          >
+            <div
+              className="flex flex-wrap gap-24"
+            >
+              <button
+                className="ds-button ds-button-tertiary ds-button-with-icon"
+                name="wasHelpful"
+                type="submit"
+                value="yes"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium ds-button-icon  css-i4bv87-MuiSvgIcon-root"
+                  data-testid="ThumbUpOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M9 21h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.58 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2zM9 9l4.34-4.34L12 10h9v2l-3 7H9V9zM1 9h4v12H1z"
+                  />
+                </svg>
+                 
+                <span
+                  className="ds-button-label"
+                >
+                  Ja
+                </span>
+                 
+              </button>
+              <button
+                className="ds-button ds-button-tertiary ds-button-with-icon"
+                name="wasHelpful"
+                type="submit"
+                value="no"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium ds-button-icon  css-i4bv87-MuiSvgIcon-root"
+                  data-testid="ThumbDownOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm0 12-4.34 4.34L12 14H3v-2l3-7h9v10zm4-12h4v12h-4z"
+                  />
+                </svg>
+                 
+                <span
+                  className="ds-button-label"
+                >
+                  Nein
+                </span>
+                 
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Page/Footer Example 1`] = `
 <footer
   className="text-base"

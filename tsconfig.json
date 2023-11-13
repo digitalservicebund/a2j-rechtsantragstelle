@@ -1,5 +1,5 @@
 {
-  "include": ["remix.env.d.ts", "app/", "tests/"],
+  "include": ["remix.env.d.ts", "app/", "tests/", "stories/"],
   "compilerOptions": {
     "incremental": true,
     "skipLibCheck": true,

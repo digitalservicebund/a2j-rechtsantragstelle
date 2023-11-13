@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import UserFeedback from "../app/components/UserFeedback";
+import UserFeedback, { BannerState } from "../app/components/UserFeedback";
+import { createRemixStub } from "@remix-run/testing";
 
 const meta = {
   title: "Content/UserFeedback",
@@ -12,25 +13,34 @@ const meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
-
-export const Example: Story = {
+export const Example: StoryObj<typeof meta> = {
   args: {
-    heading: {
-      text: "Hat Ihnen der Vorab-Check geholfen?",
-      look: "ds-label-01-bold",
-      tagName: "h1",
+    bannerState: BannerState.ShowRating,
+    rating: {
+      heading: "Hat Ihnen der Vorab-Check geholfen?",
+      yesButtonLabel: "Ja",
+      noButtonLabel: "Nein",
     },
-    yesButtonLabel: "Ja",
-    noButtonLabel: "Nein",
-    successHeading: {
-      text: "Vielen Dank!",
-      look: "ds-label-01-bold",
-      tagName: "h1",
+    feedback: {
+      heading: "Haben sie Verbesserungsvorschläge",
+      placeholder: "Bitte tragen Sie keine persönlichen Daten ein!",
+      abortButtonLabel: "Abbrechen",
+      submitButtonLabel: "Abschicken",
     },
-    successText: {
-      markdown:
-        "Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!",
+    postSubmission: {
+      heading: "Vielen Dank!",
+      text: "Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!",
     },
   },
+  decorators: [
+    (Story) => {
+      const RemixStub = createRemixStub([
+        {
+          path: "/",
+          Component: Story,
+        },
+      ]);
+      return <RemixStub />;
+    },
+  ],
 };
