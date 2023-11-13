@@ -36,7 +36,7 @@ export const fluggastrechtContext = {
   ticketnummer: z
     .string()
     .trim()
-    .regex(/^\+?[0-9]{13}$/, { message: "invalid-eticketnummer" }),
+    .regex(/^\+?\d{13}$/, { message: "invalid-eticketnummer" }),
   frist: z.string(), // TODO: validate as German date in the future
   nebenforderungen: YesNoAnswer,
   versaeumnisurteil: YesNoAnswer,
