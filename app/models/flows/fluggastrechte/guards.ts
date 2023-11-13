@@ -1,4 +1,4 @@
-import { FluggastrechtVorabcheckContext } from "./context";
+import type { FluggastrechtVorabcheckContext } from "./context";
 
 type Guard = (context: FluggastrechtVorabcheckContext) => boolean;
 
