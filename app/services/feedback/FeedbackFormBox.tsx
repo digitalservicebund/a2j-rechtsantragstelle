@@ -36,16 +36,16 @@ export interface FeedbackBoxProps {
   destination: string;
   heading: string;
   placeholder: string;
-  abortButtonText: string;
-  submitButtonText: string;
+  abortButtonLabel: string;
+  submitButtonLabel: string;
 }
 
 export const FeedbackFormBox = ({
   destination,
   heading,
   placeholder,
-  abortButtonText,
-  submitButtonText,
+  abortButtonLabel,
+  submitButtonLabel,
 }: FeedbackBoxProps) => (
   <>
     <Heading look="ds-label-01-bold" tagName="h2" text={heading} />
@@ -65,7 +65,7 @@ export const FeedbackFormBox = ({
             value={FeedbackButtons.Abort}
             type="submit"
           >
-            {abortButtonText}
+            {abortButtonLabel}
           </Button>
           <Button
             look="primary"
@@ -74,7 +74,7 @@ export const FeedbackFormBox = ({
             value={FeedbackButtons.Submit}
             type="submit"
           >
-            {submitButtonText}
+            {submitButtonLabel}
           </Button>
         </ButtonContainer>
       </div>

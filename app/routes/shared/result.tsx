@@ -242,8 +242,8 @@ export function Step() {
           feedback={{
             heading: "Haben sie Verbesserungsvorschläge",
             placeholder: "Bitte tragen Sie keine persönlichen Daten ein!",
-            abortButtonText: "Abbrechen",
-            submitButtonText: "Abschicken",
+            abortButtonLabel: "Abbrechen",
+            submitButtonLabel: "Abschicken",
           }}
           postSubmission={{
             heading: "Vielen Dank!",
