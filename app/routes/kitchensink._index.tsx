@@ -18,7 +18,6 @@ import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { throw404OnProduction } from "../services/errorPages/throw404";
 import Textarea from "~/components/Textarea";
-import CheckboxGroup from "~/components/CheckboxGroup";
 
 export const DummySchema = z.object({
   text: z.string().min(1),
@@ -94,16 +93,6 @@ export default function Kitchensink() {
 
             <h3>{"<Checkbox>"}</h3>
             <Checkbox name="checkbox" value="1" text="bitte auswählen" />
-
-            <h3>{"<CheckboxGroup>"}</h3>
-            <CheckboxGroup
-              name="checkboxGroup"
-              options={[
-                { text: "Option 1", value: "1" },
-                { text: "Option 2", value: "2" },
-                { text: "Option 3", value: "3" },
-              ]}
-            />
           </div>
           <div>
             <Button>Abschicken</Button>
