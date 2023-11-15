@@ -239,9 +239,8 @@ export default function Kitchensink() {
         </Container>
       </Background>
       <Container>
-        <h3>NumericList</h3>
+        <h3 className="mb-16">NumericList</h3>
         <NumericList
-          hasSeparator={true}
           isNumeric={true}
           items={[
             { content: "Test 1", identifier: "test1" },

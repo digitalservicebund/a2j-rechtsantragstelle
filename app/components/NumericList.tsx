@@ -6,7 +6,6 @@ export const NumericListPropsSchema = z.object({
   identifier: z.string().optional(),
   heading: HeadingPropsSchema.optional(),
   items: z.array(NumericListItemPropsSchema),
-  hasSeparator: z.boolean().optional(),
   isNumeric: z.boolean().optional(),
 });
 
@@ -16,7 +15,6 @@ const NumericList = ({
   identifier,
   items,
   heading,
-  hasSeparator,
   isNumeric,
 }: NumericListProps) => {
   return (
@@ -27,7 +25,7 @@ const NumericList = ({
           <li
             key={item.identifier}
             className={`pt-6 first:pt-0 scroll-my-40 ${
-              hasSeparator
+              !isNumeric
                 ? "border-0 border-solid border-0 border-t-2 border-gray-400 first:border-none max-w-none max-[499px]:flex-col"
                 : ""
             }`}
