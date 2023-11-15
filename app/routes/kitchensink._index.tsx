@@ -18,6 +18,8 @@ import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { throw404OnProduction } from "../services/errorPages/throw404";
 import Textarea from "~/components/Textarea";
+import NumericList from "~/components/NumericList";
+import NumericListItem from "~/components/NumericListItem";
 
 export const DummySchema = z.object({
   text: z.string().min(1),
@@ -220,9 +222,9 @@ export default function Kitchensink() {
         </Container>
       </div>
 
-      <h3>InfoBox</h3>
       <Background backgroundColor="blue">
         <Container>
+          <h3>InfoBox</h3>
           <InfoBox
             heading={{
               text: "Heading",
@@ -236,6 +238,17 @@ export default function Kitchensink() {
           />
         </Container>
       </Background>
+      <Container>
+        <h3>NumericList</h3>
+        <NumericList
+          hasSeparator={true}
+          isNumeric={true}
+          items={[
+            { content: "Test 1", identifier: "test1" },
+            { content: "Test 2", identifier: "test2" },
+          ]}
+        />
+      </Container>
 
       <h2>CMS components</h2>
       {loaderData.content ? (
