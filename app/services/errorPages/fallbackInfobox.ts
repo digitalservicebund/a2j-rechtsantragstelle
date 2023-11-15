@@ -18,8 +18,6 @@ const fallbackStrapiInfoBox = {
         "Leider ist ein Fehler ist aufgetreten. Wir arbeiten ständig an der Verbesserung unserer Service und sind bereits informiert.\n\nBitte versuchen Sie es später noch einmal.",
       buttons: null,
       identifier: null,
-      imageClassNames: null,
-      hasSeparator: null,
     },
   ],
   container: { backgroundColor: null, paddingBottom: null, paddingTop: null },

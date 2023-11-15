@@ -10,8 +10,6 @@ export const InfoBoxItemPropsSchema = z.object({
   label: HeadingPropsSchema.optional(),
   headline: HeadingPropsSchema.optional(),
   image: ImagePropsSchema.optional(),
-  imageClassNames: z.string().optional(),
-  hasSeparator: z.boolean().optional(),
   content: z.string().optional(),
   buttons: z.array(ButtonPropsSchema).optional(),
 });
@@ -23,8 +21,6 @@ const InfoBoxItem = ({
   label,
   headline,
   image,
-  imageClassNames,
-  hasSeparator,
   content,
   buttons,
 }: InfoBoxItemProps) => {
@@ -32,10 +28,7 @@ const InfoBoxItem = ({
     <li
       id={identifier}
       className={
-        (hasSeparator ?? true
-          ? "border-solid border-0 border-t-2 border-gray-400 first:border-none "
-          : "") +
-        "flex flex-row items-center justify-center max-w-none max-[499px]:flex-col pt-32 first:pt-0 scroll-my-40 border-0"
+        "flex flex-row items-center justify-center max-w-none max-[499px]:flex-col pt-32 first:pt-0 scroll-my-40 border-0 border-solid border-0 border-t-2 border-gray-400 first:border-none"
       }
     >
       {image && (
@@ -43,8 +36,7 @@ const InfoBoxItem = ({
           {...image}
           {...{
             className:
-              (imageClassNames ??
-                "max-[499px]:mb-16 max-[499px]:w-[144px] max-[499px]:h-[144px] h-[168px] w-[168px]") +
+              "max-[499px]:mb-16 max-[499px]:w-[144px] max-[499px]:h-[144px] h-[168px] w-[168px]" +
               " self-baseline",
           }}
         />
