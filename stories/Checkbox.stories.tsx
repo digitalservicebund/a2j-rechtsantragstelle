@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import Checkbox from "../app/components/inputs/Checkbox";
-import { createRemixStub } from "@remix-run/testing";
-import { createElement } from "react";
+import { remixContext } from "../.storybook/remixContext";
 const component = Checkbox;
 
 const meta = {
@@ -18,9 +17,6 @@ export const Default = {
     label: "label",
     formId: "formId",
   },
-  decorators: [
-    (Story) =>
-      createElement(createRemixStub([{ path: "/", Component: Story }])),
-  ],
+  decorators: [(Story) => remixContext(Story)],
 } satisfies StoryObj<typeof meta>;
 export default meta;

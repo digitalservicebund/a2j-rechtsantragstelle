@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import UserFeedback, { BannerState } from "../app/components/UserFeedback";
-import { createRemixStub } from "@remix-run/testing";
+import { remixContext } from "../.storybook/remixContext";
 
 const meta = {
   title: "Content/UserFeedback",
@@ -32,15 +32,5 @@ export const Example: StoryObj<typeof meta> = {
       text: "Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!",
     },
   },
-  decorators: [
-    (Story) => {
-      const RemixStub = createRemixStub([
-        {
-          path: "/",
-          Component: Story,
-        },
-      ]);
-      return <RemixStub />;
-    },
-  ],
+  decorators: [(Story) => remixContext(Story)],
 };
