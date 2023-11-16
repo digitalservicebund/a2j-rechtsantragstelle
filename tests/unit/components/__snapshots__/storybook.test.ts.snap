@@ -163,6 +163,27 @@ exports[`Storyshots Button/ButtonContainer Two Buttons 1`] = `
 </div>
 `;
 
+exports[`Storyshots Component/Checkbox Default 1`] = `
+<div
+  className="flex"
+>
+  <input
+    className="ds-checkbox"
+    id="name-value"
+    name="name"
+    onBlur={[Function]}
+    onChange={[Function]}
+    type="checkbox"
+    value="value"
+  />
+  <label
+    htmlFor="name-value"
+  >
+    label
+  </label>
+</div>
+`;
+
 exports[`Storyshots Container/Background Background Color 1`] = `
 <div
   className="bg-blue-100 !pt-0 !pb-0"
