@@ -26,6 +26,8 @@ const RadioGroup = ({
 }: RadioGroupProps) => {
   const { error, defaultValue } = useField(name);
   const errorId = `${name}-error`;
+  const errorToDisplay =
+    errorMessages?.find((err) => err.code === error)?.text ?? error;
   // Without JS, we need a same-named hidden field for validation without user input
   // It gets removed on clicking any radio option to still allow for front-end validation
   const [renderHiddenField, setRenderHiddenField] = useState(
@@ -52,9 +54,9 @@ const RadioGroup = ({
             onClick={() => setRenderHiddenField(false)}
           />
         ))}
-        <InputError id={errorId}>
-          {errorMessages?.find((err) => err.code === error)?.text ?? error}
-        </InputError>
+        {errorToDisplay && (
+          <InputError id={errorId}>{errorToDisplay}</InputError>
+        )}
       </div>
     </fieldset>
   );
