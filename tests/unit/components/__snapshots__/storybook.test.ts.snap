@@ -496,7 +496,7 @@ exports[`Storyshots Page/Footer Example 1`] = `
           >
             <a
               className="text-link increase-tap-area"
-              href="/"
+              href="/url1"
             >
               Lorem ipsum 1
             </a>
@@ -506,7 +506,7 @@ exports[`Storyshots Page/Footer Example 1`] = `
           >
             <a
               className="text-link increase-tap-area"
-              href="/"
+              href="/url2"
             >
               Lorem ipsum 2
             </a>
@@ -520,7 +520,7 @@ exports[`Storyshots Page/Footer Example 1`] = `
           >
             <a
               className="text-link increase-tap-area"
-              href="/"
+              href="/url3"
             >
               Lorem ipsum 3
             </a>
@@ -530,7 +530,7 @@ exports[`Storyshots Page/Footer Example 1`] = `
           >
             <a
               className="text-link increase-tap-area"
-              href="/"
+              href="/url4"
             >
               Lorem ipsum 4
             </a>
