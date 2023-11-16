@@ -3,13 +3,20 @@ import { useField } from "remix-validated-form";
 
 type CheckboxProps = {
   name: string;
-  value: string;
+  value?: string; // Defaults to "on", see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input/checkbox#value
   onClick?: () => void;
-  text?: ReactNode;
+  label?: ReactNode;
+  formId?: string;
 };
 
-const Checkbox = ({ name, value, onClick, text }: CheckboxProps) => {
-  const { error, getInputProps } = useField(name);
+const Checkbox = ({
+  name,
+  value = "on",
+  onClick,
+  label: text,
+  formId,
+}: CheckboxProps) => {
+  const { error, getInputProps } = useField(name, { formId });
   const id = `${name}-${value}`;
 
   return (

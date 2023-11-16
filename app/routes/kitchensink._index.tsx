@@ -94,7 +94,7 @@ export default function Kitchensink() {
             </fieldset>
 
             <h3>{"<Checkbox>"}</h3>
-            <Checkbox name="checkbox" value="1" text="bitte auswählen" />
+            <Checkbox name="checkbox" value="1" label="bitte auswählen" />
           </div>
           <div>
             <Button>Abschicken</Button>
