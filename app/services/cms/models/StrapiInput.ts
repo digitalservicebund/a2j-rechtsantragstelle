@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
-import { InputPropsSchema } from "~/components/Input";
+import { InputPropsSchema } from "~/components/inputs/Input";
 import { omitNull } from "~/util/omitNull";
 
 export const StrapiInputSchema = z

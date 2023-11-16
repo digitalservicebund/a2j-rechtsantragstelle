@@ -2,7 +2,7 @@ import { z } from "zod";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiSelectOptionSchema } from "./StrapiSelectOption";
 import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
-import { RadioGroupPropsSchema } from "~/components/RadioGroup";
+import { RadioGroupPropsSchema } from "~/components/inputs/RadioGroup";
 import { omitNull } from "~/util/omitNull";
 
 export const StrapiSelectSchema = z

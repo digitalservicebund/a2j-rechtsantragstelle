@@ -2,7 +2,7 @@ import { z } from "zod";
 import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import { omitNull } from "~/util/omitNull";
-import { TextareaPropsSchema } from "~/components/Textarea";
+import { TextareaPropsSchema } from "~/components/inputs/Textarea";
 
 export const StrapiTextareaSchema = z
   .object({

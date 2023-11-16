@@ -2,7 +2,7 @@ import { z } from "zod";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
 import { omitNull } from "~/util/omitNull";
-import { DropdownPropsSchema } from "~/components/Select";
+import { DropdownPropsSchema } from "~/components/inputs/Select";
 
 export const StrapiDropdownSchema = z
   .object({

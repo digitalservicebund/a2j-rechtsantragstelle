@@ -6,7 +6,7 @@ import SendIcon from "@mui/icons-material/SendOutlined";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 import Heading from "../Heading";
-import Textarea from "../Textarea";
+import Textarea from "../inputs/Textarea";
 
 export const feedbackFormName = "feedbackForm";
 const feedbackFieldname = "feedback";

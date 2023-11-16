@@ -7,8 +7,6 @@
  * @see: https://tailwindcss.com/docs/content-configuration#dynamic-class-names
  */
 
-import { z } from "zod";
-
 export const BACKGROUND_COLORS = Object.freeze({
   white: "bg-white", // before:bg-white
   blue: "bg-blue-100", // before:bg-blue-100
@@ -20,8 +18,3 @@ export const BACKGROUND_COLORS = Object.freeze({
 });
 
 export type BackgroundColor = "default" | keyof typeof BACKGROUND_COLORS;
-
-export const ErrorMessagePropsSchema = z.object({
-  code: z.string(),
-  text: z.string(),
-});

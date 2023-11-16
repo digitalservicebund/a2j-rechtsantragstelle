@@ -22,12 +22,12 @@ import Container from "./Container";
 import Header from "./Header";
 import Heading from "~/components/Heading";
 import InfoBox from "./InfoBox";
-import Input from "./Input";
+import Input from "./inputs/Input";
 import LinkListBox from "./LinkListBox";
-import RadioGroup from "~/components/RadioGroup";
+import RadioGroup from "~/components/inputs/RadioGroup";
 import RichText from "./RichText";
-import Select from "./Select";
-import Textarea from "./Textarea";
+import Select from "./inputs/Select";
+import Textarea from "./inputs/Textarea";
 import NumericList from "./NumericList";
 
 type PageContentProps = {
