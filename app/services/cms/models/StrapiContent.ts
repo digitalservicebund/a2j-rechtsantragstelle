@@ -13,11 +13,13 @@ import { StrapiDropdownSchema } from "./StrapiDropdown";
 import { StrapiTextareaSchema } from "./StrapiTextarea";
 import { StrapiNumericListSchema } from "./StrapiNumericList";
 import { StrapiNumericListItemSchema } from "./StrapiNumericListItem";
+import { StrapiCheckboxSchema } from "./StrapiCheckbox";
 
 export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiBoxSchema.required({ __component: true }),
   StrapiBoxWithImageSchema.required({ __component: true }),
   StrapiHeaderSchema.required({ __component: true }),
+  StrapiCheckboxSchema.required({ __component: true }),
   StrapiHeadingSchema.required({ __component: true }),
   StrapiInfoBoxSchema.required({ __component: true }),
   StrapiInfoBoxItemSchema.required({ __component: true }),
