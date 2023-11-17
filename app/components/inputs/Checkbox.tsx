@@ -1,33 +1,60 @@
 import { useField } from "remix-validated-form";
+import { useEffect, useState } from "react";
+import InputError from "./InputError";
+import RichText from "../RichText";
 
 type CheckboxProps = {
   name: string;
   value?: string; // Defaults to "on", see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input/checkbox#value
-  onClick?: () => void;
   label?: string;
   formId?: string;
+  required?: boolean;
+  errorMessage?: string;
 };
 
 const Checkbox = ({
   name,
   value = "on",
-  onClick,
   label,
   formId,
+  required = false,
+  errorMessage,
 }: CheckboxProps) => {
-  const { error, getInputProps } = useField(name, { formId });
-  const id = `${name}-${value}`;
+  const { error, getInputProps, defaultValue } = useField(name, { formId });
+  const errorId = `${name}-error`;
+  const className = `ds-checkbox ${error ? "has-error" : ""}`;
+  // HTML Forms do not send unchecked checkboxes.
+  // For server-side validation we need a same-named hidden field
+  // For front-end validation, we need to hide that field if checkbox is checked
+  // const alreadyChecked = defaultValue === value
+  const [renderHiddenField, setRenderHiddenField] = useState(
+    defaultValue !== value,
+  );
+  const [jsAvailable, setJsAvailable] = useState(false);
+  useEffect(() => setJsAvailable(true), []);
 
   return (
-    <div className="flex">
+    <div>
+      {(!jsAvailable || renderHiddenField) && (
+        <input type="hidden" name={name} value="off" />
+      )}
       <input
-        {...getInputProps({ type: "checkbox", id, value })}
-        key={id}
-        className="ds-checkbox"
-        aria-describedby={error && `${name}-error`}
-        onClick={onClick}
+        {...getInputProps({ type: "checkbox", id: name, value })}
+        className={className}
+        aria-describedby={error && errorId}
+        onClick={() => setRenderHiddenField(!renderHiddenField)}
+        required={required}
+        defaultChecked={defaultValue === value}
       />
-      {label && <label htmlFor={id}>{label}</label>}
+
+      {label && (
+        <label htmlFor={name}>
+          <RichText markdown={label} />
+          {error && (
+            <InputError id={errorId}>{errorMessage ?? error}</InputError>
+          )}
+        </label>
+      )}
     </div>
   );
 };

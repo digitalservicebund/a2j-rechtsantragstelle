@@ -164,22 +164,35 @@ exports[`Storyshots Button/ButtonContainer Two Buttons 1`] = `
 `;
 
 exports[`Storyshots Component/Checkbox Default 1`] = `
-<div
-  className="flex"
->
+<div>
   <input
-    className="ds-checkbox"
-    id="name-value"
+    name="name"
+    type="hidden"
+    value="off"
+  />
+  <input
+    className="ds-checkbox "
+    defaultChecked={false}
+    id="name"
     name="name"
     onBlur={[Function]}
     onChange={[Function]}
+    onClick={[Function]}
+    required={false}
     type="checkbox"
     value="value"
   />
   <label
-    htmlFor="name-value"
+    htmlFor="name"
   >
-    label
+    <div
+      className="rich-text ds-stack-8 "
+      dangerouslySetInnerHTML={
+        {
+          "__html": "<p class="text-lg">label</p>",
+        }
+      }
+    />
   </label>
 </div>
 `;
