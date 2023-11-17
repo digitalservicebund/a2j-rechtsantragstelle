@@ -70,6 +70,7 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
   ) as StrapiContent;
 
   const key = keyFromElement(replacedTemplate);
+  // TODO: move from props matching to returning components (see renderCheckboxFromStrapi())
   switch (replacedTemplate.__component) {
     case "basic.heading":
       return <Heading {...getHeadingProps(replacedTemplate)} key={key} />;
