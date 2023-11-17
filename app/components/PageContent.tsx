@@ -29,6 +29,7 @@ import RichText from "./RichText";
 import Select from "./inputs/Select";
 import Textarea from "./inputs/Textarea";
 import NumericList from "./NumericList";
+import { renderCheckboxFromStrapi } from "~/services/cms/models/StrapiCheckbox";
 
 type PageContentProps = {
   content: Array<StrapiContent>;
@@ -69,6 +70,7 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
   ) as StrapiContent;
 
   const key = keyFromElement(replacedTemplate);
+  // TODO: move from props matching to returning components (see renderCheckboxFromStrapi())
   switch (replacedTemplate.__component) {
     case "basic.heading":
       return <Heading {...getHeadingProps(replacedTemplate)} key={key} />;
@@ -84,6 +86,8 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
       return <RadioGroup {...getRadioGroupProps(replacedTemplate)} key={key} />;
     case "form-elements.dropdown":
       return <Select {...getDropdownProps(replacedTemplate)} key={key} />;
+    case "form-elements.checkbox":
+      return renderCheckboxFromStrapi(replacedTemplate);
     case "page.box":
       return <Box {...getBoxProps(replacedTemplate)} key={key} />;
     case "page.info-box":
