@@ -16,13 +16,14 @@ export const StrapiNumericListSchema = z
     __component: z.literal("page.numeric-list").optional(),
     heading: StrapiHeadingSchema.nullable(),
     items: z.array(StrapiNumericListItemSchema),
+    isNumeric: z.boolean(),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);
 
-export type StrapiNumericList = z.infer<typeof StrapiNumericListSchema>;
+type StrapiNumericList = z.infer<typeof StrapiNumericListSchema>;
 
 export const getNumericListProps = (cmsData: StrapiNumericList) => {
   const items = cmsData.items.map(getNumericListItemProps);
