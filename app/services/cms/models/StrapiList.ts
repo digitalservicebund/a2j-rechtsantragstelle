@@ -3,19 +3,16 @@ import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import {
-  StrapiNumericListItemSchema,
-  getNumericListItemProps,
-} from "./StrapiNumericListItem";
+import { StrapiListItemSchema, getListItemProps } from "./StrapiListItem";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { omitNull } from "~/util/omitNull";
-import { NumericListPropsSchema } from "~/components/NumericList";
+import { ListPropsSchema } from "~/components/List";
 
-export const StrapiNumericListSchema = z
+export const StrapiListSchema = z
   .object({
-    __component: z.literal("page.numeric-list").optional(),
+    __component: z.literal("page.list").optional(),
     heading: StrapiHeadingSchema.nullable(),
-    items: z.array(StrapiNumericListItemSchema),
+    items: z.array(StrapiListItemSchema),
     isNumeric: z.boolean(),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
@@ -23,9 +20,9 @@ export const StrapiNumericListSchema = z
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);
 
-type StrapiNumericList = z.infer<typeof StrapiNumericListSchema>;
+type StrapiList = z.infer<typeof StrapiListSchema>;
 
-export const getNumericListProps = (cmsData: StrapiNumericList) => {
-  const items = cmsData.items.map(getNumericListItemProps);
-  return NumericListPropsSchema.parse(omitNull({ ...cmsData, items }));
+export const getListProps = (cmsData: StrapiList) => {
+  const items = cmsData.items.map(getListItemProps);
+  return ListPropsSchema.parse(omitNull({ ...cmsData, items }));
 };

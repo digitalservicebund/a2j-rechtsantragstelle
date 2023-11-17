@@ -1,22 +1,17 @@
 import { z } from "zod";
 import Heading, { HeadingPropsSchema } from "./Heading";
-import NumericListItem, { NumericListItemPropsSchema } from "./NumericListItem";
+import ListItem, { ListItemPropsSchema } from "./ListItem";
 
-export const NumericListPropsSchema = z.object({
+export const ListPropsSchema = z.object({
   identifier: z.string().optional(),
   heading: HeadingPropsSchema.optional(),
-  items: z.array(NumericListItemPropsSchema),
+  items: z.array(ListItemPropsSchema),
   isNumeric: z.boolean().optional(),
 });
 
-type NumericListProps = z.infer<typeof NumericListPropsSchema>;
+type ListProps = z.infer<typeof ListPropsSchema>;
 
-const NumericList = ({
-  identifier,
-  items,
-  heading,
-  isNumeric,
-}: NumericListProps) => {
+const List = ({ identifier, items, heading, isNumeric }: ListProps) => {
   return (
     <div className="ds-stack-8 scroll-my-40">
       {heading && <Heading {...heading} />}
@@ -36,10 +31,7 @@ const NumericList = ({
                   {index + 1}
                 </div>
               )}
-              <NumericListItem
-                {...item}
-                key={item.headline?.text ?? item.content}
-              />
+              <ListItem {...item} key={item.headline?.text ?? item.content} />
             </div>
           </li>
         ))}
@@ -48,4 +40,4 @@ const NumericList = ({
   );
 };
 
-export default NumericList;
+export default List;

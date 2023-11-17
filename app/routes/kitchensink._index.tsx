@@ -18,8 +18,8 @@ import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { throw404OnProduction } from "../services/errorPages/throw404";
 import Textarea from "~/components/inputs/Textarea";
-import NumericList from "~/components/NumericList";
-import NumericListItem from "~/components/NumericListItem";
+import List from "~/components/List";
+import ListItem from "~/components/ListItem";
 
 export const DummySchema = z.object({
   text: z.string().min(1),
@@ -239,8 +239,8 @@ export default function Kitchensink() {
         </Container>
       </Background>
       <Container>
-        <h3 className="mb-16">NumericList</h3>
-        <NumericList
+        <h3 className="mb-16">List</h3>
+        <List
           isNumeric={true}
           items={[
             { content: "Test 1", identifier: "test1" },
