@@ -37,7 +37,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export const action = async ({ request }: DataFunctionArgs) => {
   const data = await validator.validate(await request.formData());
-  if (data.error) return validationError(data.error);
+  if (data.error) return validationError(data.error, data.submittedData);
   return json(data.data);
 };
 

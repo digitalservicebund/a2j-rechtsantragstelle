@@ -46,7 +46,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export async function action({ request }: ActionFunctionArgs) {
   const result = await validatorServer.validate(await request.formData());
-  if (result.error) return validationError(result.error);
+  if (result.error) return validationError(result.error, result.submittedData);
   const { pathname } = new URL(request.url);
   const urlStem = pathname.substring(0, pathname.lastIndexOf("/"));
   return redirect(`${urlStem}/ergebnis/${result.data?.postcode}`);

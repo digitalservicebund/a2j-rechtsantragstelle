@@ -159,7 +159,11 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     Object.keys(relevantFormData),
   );
   const validationResult = await validator.validate(relevantFormData);
-  if (validationResult.error) return validationError(validationResult.error);
+  if (validationResult.error)
+    return validationError(
+      validationResult.error,
+      validationResult.submittedData,
+    );
 
   updateSession(flowSession, validationResult.data);
 
