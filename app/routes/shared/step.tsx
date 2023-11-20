@@ -210,7 +210,7 @@ export function StepWithProgressBar() {
   return (
     <Background backgroundColor="blue">
       <div className="min-h-screen">
-        <Container paddingTop="24">
+        <Container paddingTop="24" paddingBottom="64">
           <div className="ds-stack-16">
             <ProgressBar
               label={commonContent.progressBarLabel}
@@ -279,7 +279,7 @@ export function StepWithPreHeading() {
   return (
     <Background backgroundColor="blue">
       <div className="min-h-screen">
-        <Container paddingTop="24">
+        <Container paddingTop="24" paddingBottom="64">
           <div className="ds-stack-16">
             <div className="ds-stack-40">
               {preHeading && (
