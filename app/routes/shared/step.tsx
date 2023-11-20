@@ -35,6 +35,7 @@ import { fillTemplate } from "~/util/fillTemplate";
 import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import { getMigrationData } from "~/services/session/crossFlowMigration";
+import FlowNavigation from "~/components/FlowNavigation";
 
 export const loader = async ({
   params,
@@ -281,58 +282,61 @@ export function StepWithPreHeading() {
   return (
     <Background backgroundColor="blue">
       <div className="min-h-screen">
-        <Container paddingTop="24" paddingBottom="64">
-          <div className="ds-stack-16">
-            <div className="ds-stack-40">
-              {preHeading && (
-                <p className="ds-label-01-bold">
-                  {fillTemplate({
-                    template: preHeading,
+        <Container paddingTop="32" paddingBottom="48">
+          <div className="flex flex-row gap-48">
+            <FlowNavigation />
+            <div className="ds-stack-16">
+              <div className="ds-stack-40">
+                {preHeading && (
+                  <p className="ds-label-01-bold">
+                    {fillTemplate({
+                      template: preHeading,
+                      replacements: templateReplacements,
+                    })}
+                  </p>
+                )}
+                <Heading
+                  text={fillTemplate({
+                    template: heading ?? "",
                     replacements: templateReplacements,
                   })}
-                </p>
-              )}
-              <Heading
-                text={fillTemplate({
-                  template: heading ?? "",
-                  replacements: templateReplacements,
-                })}
-                look="ds-heading-02-reg"
-              />
-              <PageContent
-                content={content}
-                templateReplacements={templateReplacements}
-                className="ds-stack-16"
-              />
-              <MigrationDataOverview migrationData={migrationData} />
-              <ValidatedForm
-                key={`${stepId}_form`}
-                method="post"
-                validator={validator}
-                defaultValues={defaultValues}
-                noValidate
-                action={pathname}
-              >
-                <input type="hidden" name={CSRFKey} value={csrf} />
-                <div className="ds-stack-40">
-                  {formContent && formContent.length != 0 && (
-                    <PageContent
-                      content={formContent}
-                      className="ds-stack-40"
+                  look="ds-heading-02-reg"
+                />
+                <PageContent
+                  content={content}
+                  templateReplacements={templateReplacements}
+                  className="ds-stack-16"
+                />
+                <MigrationDataOverview migrationData={migrationData} />
+                <ValidatedForm
+                  key={`${stepId}_form`}
+                  method="post"
+                  validator={validator}
+                  defaultValues={defaultValues}
+                  noValidate
+                  action={pathname}
+                >
+                  <input type="hidden" name={CSRFKey} value={csrf} />
+                  <div className="ds-stack-40">
+                    {formContent && formContent.length != 0 && (
+                      <PageContent
+                        content={formContent}
+                        className="ds-stack-40"
+                      />
+                    )}
+                    {postFormContent && postFormContent.length != 0 && (
+                      <PageContent content={postFormContent} />
+                    )}
+                    <ButtonNavigation
+                      back={{
+                        destination: previousStep,
+                        label: commonContent.backButtonDefaultLabel,
+                      }}
+                      next={nextButtonProps}
                     />
-                  )}
-                  {postFormContent && postFormContent.length != 0 && (
-                    <PageContent content={postFormContent} />
-                  )}
-                  <ButtonNavigation
-                    back={{
-                      destination: previousStep,
-                      label: commonContent.backButtonDefaultLabel,
-                    }}
-                    next={nextButtonProps}
-                  />
-                </div>
-              </ValidatedForm>
+                  </div>
+                </ValidatedForm>
+              </div>
             </div>
           </div>
         </Container>
