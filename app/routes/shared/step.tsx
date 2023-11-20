@@ -198,7 +198,8 @@ export function StepWithProgressBar() {
     templateReplacements,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
-  const flowId = flowIDFromPathname(useLocation().pathname);
+  const { pathname } = useLocation();
+  const flowId = flowIDFromPathname(pathname);
   const { context } = flowSpecifics[flowId];
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
@@ -229,7 +230,7 @@ export function StepWithProgressBar() {
                 validator={validator}
                 defaultValues={defaultValues}
                 noValidate
-                action={stepId}
+                action={pathname}
               >
                 <input type="hidden" name={CSRFKey} value={csrf} />
                 <div className="ds-stack-40">
@@ -267,7 +268,8 @@ export function StepWithPreHeading() {
     templateReplacements,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
-  const flowId = flowIDFromPathname(useLocation().pathname);
+  const { pathname } = useLocation();
+  const flowId = flowIDFromPathname(pathname);
   const { context } = flowSpecifics[flowId];
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
@@ -309,7 +311,7 @@ export function StepWithPreHeading() {
                 validator={validator}
                 defaultValues={defaultValues}
                 noValidate
-                action={stepId}
+                action={pathname}
               >
                 <input type="hidden" name={CSRFKey} value={csrf} />
                 <div className="ds-stack-40">
