@@ -61,6 +61,8 @@
     "posthog-node": "^3.1.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "//": "Do not upgrade to v7 until this is fixed: https://github.com/uNmAnNeR/imaskjs/issues/961",
+    "react-imask": "^6.6.3",
     "remix-validated-form": "^5.1.5",
     "tiny-invariant": "^1.3.1",
     "validator": "^13.11.0",
