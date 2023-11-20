@@ -197,6 +197,96 @@ exports[`Storyshots Component/Checkbox Default 1`] = `
 </div>
 `;
 
+exports[`Storyshots Component/DateInput Default 1`] = `
+[
+  <h2>
+    Unexpected Application Error!
+  </h2>,
+  <h3
+    style={
+      {
+        "fontStyle": "italic",
+      }
+    }
+  >
+    Cannot read properties of null (reading 'isContentEditable')
+  </h3>,
+  <pre
+    style={
+      {
+        "backgroundColor": "rgba(200,200,200, 0.5)",
+        "padding": "0.5rem",
+      }
+    }
+  >
+    TypeError: Cannot read properties of null (reading 'isContentEditable')
+    at new isContentEditable (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/imask/src/controls/input.js:52:11)
+    at Object.IMask [as default] (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/imask/src/core/holder.js:11:10)
+    at MaskedComponent.initMask (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/react-imask/src/mixin.ts:201:27)
+    at MaskedComponent.initMask [as componentDidMount] (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/react-imask/src/mixin.ts:167:12)
+    at commitLayoutEffectOnFiber (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13151:28)
+    at commitLayoutMountEffects_complete (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14330:9)
+    at commitLayoutEffects_begin (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14316:7)
+    at commitLayoutEffects (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14301:3)
+    at commitRootImpl (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:16062:5)
+    at commitRoot (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15933:5)
+    at performSyncWorkOnRoot (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15454:3)
+    at flushSyncCallbacks (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2597:22)
+    at flushSyncCallbacksOnlyInLegacyMode (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2576:5)
+    at scheduleUpdateOnFiber (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14910:7)
+    at updateContainer (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17770:5)
+    at create (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:18510:3)
+    at getRenderedTree (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/@storybook/addon-storyshots/dist/frameworks/react/renderTree.js:12:18)
+    at /Users/frede/Documents/a2j-rechtsantragstelle/node_modules/@storybook/addon-storyshots/dist/test-bodies.js:9:24
+    at Object.&lt;anonymous&gt; (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/@storybook/addon-storyshots/dist/api/snapshotsTestsTemplate.js:20:29)
+    at Promise.then.completed (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/jest-circus/build/run.js:121:9)
+    at _runTestsForDescribeBlock (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/jest-circus/build/run.js:121:9)
+    at run (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/jest-runner/build/runTest.js:444:34)
+    at Object.worker (/Users/frede/Documents/a2j-rechtsantragstelle/node_modules/jest-runner/build/testWorker.js:106:12)
+  </pre>,
+  <p>
+    💿 Hey developer 👋
+  </p>,
+  <p>
+    You can provide a way better UX than this when your app throws errors by providing your own 
+    <code
+      style={
+        {
+          "backgroundColor": "rgba(200,200,200, 0.5)",
+          "padding": "2px 4px",
+        }
+      }
+    >
+      ErrorBoundary
+    </code>
+     or
+     
+    <code
+      style={
+        {
+          "backgroundColor": "rgba(200,200,200, 0.5)",
+          "padding": "2px 4px",
+        }
+      }
+    >
+      errorElement
+    </code>
+     prop on your route.
+  </p>,
+]
+`;
+
 exports[`Storyshots Container/Background Background Color 1`] = `
 <div
   className="bg-blue-100 !pt-0 !pb-0"
