@@ -13,7 +13,7 @@ import { getLinkListBoxProps } from "~/services/cms/models/StrapiLinkListBox";
 import { getRadioGroupProps } from "~/services/cms/models/StrapiSelect";
 import { getRichTextProps } from "~/services/cms/models/StrapiParagraph";
 import { getTextareaProps } from "~/services/cms/models/StrapiTextarea";
-import { getNumericListProps } from "~/services/cms/models/StrapiNumericList";
+import { getListProps } from "~/services/cms/models/StrapiList";
 
 import Background from "./Background";
 import Box from "./Box";
@@ -28,7 +28,7 @@ import RadioGroup from "~/components/inputs/RadioGroup";
 import RichText from "./RichText";
 import Select from "./inputs/Select";
 import Textarea from "./inputs/Textarea";
-import NumericList from "./NumericList";
+import List from "./List";
 import { renderCheckboxFromStrapi } from "~/services/cms/models/StrapiCheckbox";
 
 type PageContentProps = {
@@ -101,9 +101,7 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
         <BoxWithImage {...getBoxWithImageProps(replacedTemplate)} key={key} />
       );
     case "page.numeric-list":
-      return (
-        <NumericList {...getNumericListProps(replacedTemplate)} key={key} />
-      );
+      return <List {...getListProps(replacedTemplate)} key={key} />;
     default:
       return <></>;
   }

@@ -5,7 +5,7 @@ import Image, { ImagePropsSchema } from "./Image";
 import RichText from "./RichText";
 import ButtonContainer from "./ButtonContainer";
 
-export const NumericListItemPropsSchema = z.object({
+export const ListItemPropsSchema = z.object({
   identifier: z.string().optional(),
   label: HeadingPropsSchema.optional(),
   headline: HeadingPropsSchema.optional(),
@@ -14,16 +14,16 @@ export const NumericListItemPropsSchema = z.object({
   buttons: z.array(ButtonPropsSchema).optional(),
 });
 
-type NumericListItemProps = z.infer<typeof NumericListItemPropsSchema>;
+type ListItemProps = z.infer<typeof ListItemPropsSchema>;
 
-const NumericListItem = ({
+const ListItem = ({
   identifier,
   label,
   headline,
   image,
   content,
   buttons,
-}: NumericListItemProps) => {
+}: ListItemProps) => {
   return (
     <div
       key={identifier}
@@ -59,4 +59,4 @@ const NumericListItem = ({
   );
 };
 
-export default NumericListItem;
+export default ListItem;

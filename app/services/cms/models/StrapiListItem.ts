@@ -5,10 +5,10 @@ import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiImageSchema, getImageProps } from "./StrapiImage";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { omitNull } from "~/util/omitNull";
-import { NumericListItemPropsSchema } from "~/components/NumericListItem";
+import { ListItemPropsSchema } from "~/components/ListItem";
 import { type StrapiElementWithId } from "./StrapiElementWithId";
 
-export const StrapiNumericListItemSchema = z
+export const StrapiListItemSchema = z
   .object({
     __component: z.literal("page.numeric-list-item").optional(),
     label: StrapiHeadingSchema.nullable(),
@@ -20,19 +20,19 @@ export const StrapiNumericListItemSchema = z
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);
 
-type StrapiNumericListItem = z.infer<typeof StrapiNumericListItemSchema>;
+type StrapiListItem = z.infer<typeof StrapiListItemSchema>;
 
-export const getNumericListItemProps = (cmsData: StrapiNumericListItem) => {
+export const getListItemProps = (cmsData: StrapiListItem) => {
   const props = { ...cmsData, image: getImageProps(cmsData.image) };
-  return NumericListItemPropsSchema.parse(omitNull(props));
+  return ListItemPropsSchema.parse(omitNull(props));
 };
 
-export function NumericListesFromElementsWithID(
+export function ListesFromElementsWithID(
   elementsWithID: StrapiElementWithId[],
 ) {
   return elementsWithID.flatMap((elementWithID) =>
     elementWithID.element
       .filter((el) => el.__component === "page.numeric-list-item")
-      .map((el) => getNumericListItemProps(el as StrapiNumericListItem)),
+      .map((el) => getListItemProps(el as StrapiListItem)),
   );
 }
