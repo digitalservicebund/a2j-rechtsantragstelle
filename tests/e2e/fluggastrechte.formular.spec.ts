@@ -127,6 +127,7 @@ test("fluggastrechte formular can be traversed", async ({ page }) => {
 
   // /fluggastrechte/formular/aenderungMitteilung
   await expectPageToBeAccessible({ page });
+  await fluggastrechte.clickLabelFor("aenderungMitteilung");
   await fluggastrechte.clickNext();
 
   // /fluggastrechte/formular/einverstaendnis

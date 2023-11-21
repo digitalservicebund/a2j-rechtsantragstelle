@@ -15,12 +15,14 @@ export class Formular {
     await this.page.goto(this.url);
   }
 
+  async clickLabelFor(label: string) {
+    await this.page.locator(`label[for=${label}]`).click();
+  }
+
   async select(field: string, option: string) {
     // We have to click the label because the input is covered by the before element
     // The label text itself is unknown due to using a cms
-    await this.page
-      .locator(`label[for=${field.split(".").join("\\.")}-${option}]`)
-      .click();
+    await this.clickLabelFor(`${field.split(".").join("\\.")}-${option}`);
   }
 
   async clickNext() {
