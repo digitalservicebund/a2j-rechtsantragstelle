@@ -20,6 +20,8 @@ import { throw404OnProduction } from "../services/errorPages/throw404";
 import Textarea from "~/components/inputs/Textarea";
 import List from "~/components/List";
 import ListItem from "~/components/ListItem";
+import FlowNavigation, { NavState } from "~/components/FlowNavigation";
+import Heading from "~/components/Heading";
 
 export const DummySchema = z.object({
   text: z.string().min(1),
@@ -245,6 +247,38 @@ export default function Kitchensink() {
           items={[
             { content: "Test 1", identifier: "test1" },
             { content: "Test 2", identifier: "test2" },
+          ]}
+        />
+      </Container>
+      <Container>
+        <Heading text="FlowNavigation" tagName="h2" look="ds-heading-01-reg" />
+        <FlowNavigation
+          navItems={[
+            {
+              destination: ".",
+              label: "Grundvoraussetzungen",
+              state: NavState.DoneDisabled,
+            },
+            {
+              destination: ".",
+              label: "Das Rechtsproblem",
+              state: NavState.Done,
+            },
+            {
+              destination: ".",
+              label: "Finanzielle Angaben",
+              state: NavState.Current,
+            },
+            {
+              destination: ".",
+              label: "Persönliche Daten",
+              state: NavState.Open,
+            },
+            {
+              destination: ".",
+              label: "Abgabe",
+              state: NavState.OpenDisabled,
+            },
           ]}
         />
       </Container>

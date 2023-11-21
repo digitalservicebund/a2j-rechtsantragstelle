@@ -2,7 +2,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 import RadioButtonCheckedOutlinedIcon from "@mui/icons-material/RadioButtonCheckedOutlined";
 
-enum NavState {
+export enum NavState {
   DoneDisabled,
   Done,
   Current,
@@ -10,38 +10,16 @@ enum NavState {
   OpenDisabled,
 }
 
-const navigationLinks = [
-  {
-    destination: ".",
-    labelText: "Grundvoraussetzungen",
-    state: NavState.DoneDisabled,
-  },
-  {
-    destination: ".",
-    labelText: "Das Rechtsproblem",
-    state: NavState.Done,
-  },
-  {
-    destination: ".",
-    labelText: "Finanzielle Angaben",
-    state: NavState.Current,
-  },
-  {
-    destination: ".",
-    labelText: "Persönliche Daten",
-    state: NavState.Open,
-  },
-  {
-    destination: ".",
-    labelText: "Abgabe",
-    state: NavState.OpenDisabled,
-  },
-];
+export type NavItem = {
+  destination: string;
+  label: string;
+  state: NavState;
+};
 
-export default function FlowNavigation() {
+export default function FlowNavigation({ navItems }: { navItems: NavItem[] }) {
   return (
     <ul>
-      {navigationLinks.map(({ destination, labelText, state }) => (
+      {navItems.map(({ destination, label, state }) => (
         <li
           key={destination}
           className="p-16 list-none border-b-2 border-white"
@@ -66,7 +44,7 @@ export default function FlowNavigation() {
             ) : (
               <CircleOutlinedIcon />
             )}
-            {labelText}
+            {label}
           </a>
         </li>
       ))}
