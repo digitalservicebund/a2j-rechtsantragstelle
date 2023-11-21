@@ -6,7 +6,7 @@ export const StrapiTileSchema = z
   .object({
     text: z.string(),
     value: z.string(),
-    description: z.string().optional(),
+    description: z.string().nullable(),
     image: StrapiImageSchema.optional(),
   })
   .merge(HasOptionalStrapiIdSchema);
