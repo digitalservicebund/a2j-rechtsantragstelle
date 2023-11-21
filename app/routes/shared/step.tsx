@@ -36,6 +36,7 @@ import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import { getMigrationData } from "~/services/session/crossFlowMigration";
 import FlowNavigation from "~/components/FlowNavigation";
+import { navItemsFromFlowSpecifics } from "~/services/flowNavigation";
 
 export const loader = async ({
   params,
@@ -128,6 +129,7 @@ export const loader = async ({
           ? currentFlow.stringReplacements(flowContext)
           : {}),
       },
+      navItems: navItemsFromFlowSpecifics(stepId, flowId, currentFlow),
     },
     { headers },
   );
@@ -267,6 +269,7 @@ export function StepWithPreHeading() {
     previousStep,
     migrationData,
     templateReplacements,
+    navItems,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
@@ -283,7 +286,7 @@ export function StepWithPreHeading() {
     <Background backgroundColor="blue">
       <div className="min-h-screen">
         <div className="flex flex-row gap-48 pt-32 pl-32 pb-48 flex-wrap flex-wrap-reverse">
-          <FlowNavigation />
+          {navItems && <FlowNavigation navItems={navItems} />}
           <div className="ds-stack-16">
             <div className="ds-stack-40">
               {preHeading && (
