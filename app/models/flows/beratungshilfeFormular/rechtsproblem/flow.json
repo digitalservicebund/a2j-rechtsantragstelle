@@ -1,0 +1,50 @@
+{
+  "predictableActionArguments": true,
+  "initial": "start",
+  "id": "rechtsproblem",
+  "states": {
+    "start": { "on": { "SUBMIT": "bereich" } },
+    "bereich": {
+      "on": { "SUBMIT": "beschreibung", "BACK": "start" }
+    },
+    "beschreibung": {
+      "on": {
+        "SUBMIT": "eigeninitiative",
+        "BACK": "bereich"
+      }
+    },
+    "eigeninitiative": {
+      "on": {
+        "SUBMIT": [
+          {
+            "cond": "eigeninitiativeYes",
+            "target": "eigeninitiativeBeschreibung"
+          },
+          { "target": "keineEigeninitiativeBeschreibung" }
+        ],
+        "BACK": "beschreibung"
+      }
+    },
+    "eigeninitiativeBeschreibung": {
+      "on": { "SUBMIT": "sonstiges", "BACK": "eigeninitiative" }
+    },
+    "keineEigeninitiativeBeschreibung": {
+      "on": { "SUBMIT": "sonstiges", "BACK": "eigeninitiative" }
+    },
+    "sonstiges": {
+      "on": {
+        "SUBMIT": "danke",
+        "BACK": [
+          {
+            "cond": "eigeninitiativeYes",
+            "target": "eigeninitiativeBeschreibung"
+          },
+          "keineEigeninitiativeBeschreibung"
+        ]
+      }
+    },
+    "danke": {
+      "on": { "BACK": "sonstiges" }
+    }
+  }
+}

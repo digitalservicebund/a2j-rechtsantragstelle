@@ -1,0 +1,40 @@
+{
+  "predictableActionArguments": true,
+  "initial": "start",
+  "id": "grundvoraussetzungen",
+  "states": {
+    "start": { "on": { "SUBMIT": "rechtsschutzversicherung" } },
+    "rechtsschutzversicherung": {
+      "on": {
+        "SUBMIT": {
+          "cond": "rechtsschutzversicherungNo",
+          "target": "wurdeVerklagt"
+        },
+        "BACK": "start"
+      }
+    },
+    "wurdeVerklagt": {
+      "on": {
+        "SUBMIT": {
+          "cond": "wurdeVerklagtNo",
+          "target": "klageEingereicht"
+        },
+        "BACK": "rechtsschutzversicherung"
+      }
+    },
+    "klageEingereicht": {
+      "on": {
+        "SUBMIT": {
+          "cond": "klageEingereichtNo",
+          "target": "beratungshilfeBeantragt"
+        },
+        "BACK": "wurdeVerklagt"
+      }
+    },
+    "beratungshilfeBeantragt": {
+      "on": {
+        "BACK": "klageEingereicht"
+      }
+    }
+  }
+}

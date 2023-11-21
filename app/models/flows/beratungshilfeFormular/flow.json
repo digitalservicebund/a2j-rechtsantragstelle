@@ -1,0 +1,11 @@
+{
+  "predictableActionArguments": true,
+  "id": "/beratungshilfe/antrag/",
+  "initial": "start",
+  "states": {
+    "start": {
+      "id": "antragStart",
+      "on": { "SUBMIT": "#grundvoraussetzungen" }
+    }
+  }
+}

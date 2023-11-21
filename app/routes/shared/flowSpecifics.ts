@@ -25,8 +25,10 @@ import {
 } from "~/models/geldEinklagen";
 import { type AllContexts } from "~/models/flows/common";
 import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
+import { beratungshilfeAntrag } from "~/models/flows/beratungshilfeFormular";
 
 export const flowSpecifics = {
+  "beratungshilfe/antrag": beratungshilfeAntrag,
   "beratungshilfe/vorabcheck": {
     cmsSlug: "vorab-check-pages",
     stringReplacements: (context: AllContexts) => {
