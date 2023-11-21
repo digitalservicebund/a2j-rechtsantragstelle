@@ -97,7 +97,7 @@
     "@types/mustache": "^4.2.5",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
-    "@types/validator": "^13.11.6",
+    "@types/validator": "^13.11.7",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.53.0",
     "eslint-plugin-sonarjs": "^0.23.0",
