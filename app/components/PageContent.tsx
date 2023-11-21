@@ -14,6 +14,7 @@ import { getRadioGroupProps } from "~/services/cms/models/StrapiSelect";
 import { getRichTextProps } from "~/services/cms/models/StrapiParagraph";
 import { getTextareaProps } from "~/services/cms/models/StrapiTextarea";
 import { getListProps } from "~/services/cms/models/StrapiList";
+import { getTileGroupProps } from "~/services/cms/models/StrapiTileGroup";
 
 import Background from "./Background";
 import Box from "./Box";
@@ -29,6 +30,7 @@ import RichText from "./RichText";
 import Select from "./inputs/Select";
 import Textarea from "./inputs/Textarea";
 import List from "./List";
+import TileGroup from "./inputs/TileGroup";
 import { renderCheckboxFromStrapi } from "~/services/cms/models/StrapiCheckbox";
 
 type PageContentProps = {
@@ -88,6 +90,8 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
       return <Select {...getDropdownProps(replacedTemplate)} key={key} />;
     case "form-elements.checkbox":
       return renderCheckboxFromStrapi(replacedTemplate);
+    case "form-elements.tile-group":
+      return <TileGroup {...getTileGroupProps(replacedTemplate)} key={key} />;
     case "page.box":
       return <Box {...getBoxProps(replacedTemplate)} key={key} />;
     case "page.info-box":
@@ -100,6 +104,7 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
       return (
         <BoxWithImage {...getBoxWithImageProps(replacedTemplate)} key={key} />
       );
+    // TODO SNH: Please rename numeric list to list
     case "page.numeric-list":
       return <List {...getListProps(replacedTemplate)} key={key} />;
     default:

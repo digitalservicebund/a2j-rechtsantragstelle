@@ -14,6 +14,7 @@ import { StrapiTextareaSchema } from "./StrapiTextarea";
 import { StrapiListSchema } from "./StrapiList";
 import { StrapiListItemSchema } from "./StrapiListItem";
 import { StrapiCheckboxSchema } from "./StrapiCheckbox";
+import { StrapiTileGroupSchema } from "./StrapiTileGroup";
 
 export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiBoxSchema.required({ __component: true }),
@@ -31,6 +32,7 @@ export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiDropdownSchema.required({ __component: true }),
   StrapiListSchema.required({ __component: true }),
   StrapiListItemSchema.required({ __component: true }),
+  StrapiTileGroupSchema.required({ __component: true }),
 ]);
 
 export type StrapiContent = z.infer<typeof StrapiContentSchema>;
