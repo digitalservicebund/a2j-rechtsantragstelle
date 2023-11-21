@@ -5,6 +5,7 @@ import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import { z } from "zod";
 import { ErrorMessagePropsSchema } from ".";
+import React from "react";
 
 export const InputPropsSchema = z.object({
   name: z.string(),
@@ -16,9 +17,10 @@ export const InputPropsSchema = z.object({
   suffix: z.string().optional(),
   errorMessages: z.array(ErrorMessagePropsSchema).optional(),
   width: z.enum(["3", "5", "7", "10", "16", "24", "36", "54"]).optional(),
+  formId: z.string().optional(),
 });
 
-type InputProps = z.infer<typeof InputPropsSchema>;
+export type InputProps = z.infer<typeof InputPropsSchema>;
 
 const widthClass = (width: string) => {
   return {
@@ -33,50 +35,57 @@ const widthClass = (width: string) => {
   }[width];
 };
 
-const Input = ({
-  name,
-  label,
-  type = "text",
-  step,
-  placeholder,
-  prefix,
-  suffix,
-  errorMessages,
-  width,
-}: InputProps) => {
-  const { error, getInputProps } = useField(name);
-  const errorId = `${name}-error`;
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      name,
+      label,
+      type = "text",
+      step,
+      placeholder,
+      prefix,
+      suffix,
+      errorMessages,
+      width,
+      formId,
+    },
+    ref,
+  ) => {
+    const { error, getInputProps } = useField(name, { formId });
+    const errorId = `${name}-error`;
 
-  return (
-    // TODO: This is a one-time hack for /geld-einklagen/formular/forderung/gegenseite. We should move to input groups asap
-    <div className={`${name == "forderung.forderung1.title" ? "pb-40" : ""}`}>
-      {label && <InputLabel id={name}>{label}</InputLabel>}
-      <div className="ds-input-group">
-        {prefix && <div className="ds-input-prefix">{prefix}</div>}
-        <input
-          {...getInputProps({
-            type: type === "number" ? "text" : type,
-            step,
-            id: name,
-            inputMode: type === "number" ? "decimal" : undefined,
-            placeholder,
-          })}
-          className={classNames(
-            "ds-input",
-            { "has-error": error },
-            width && widthClass(width),
-          )}
-          aria-invalid={error !== undefined}
-          aria-describedby={error && errorId}
-          aria-errormessage={error && errorId}
-        />
-        {suffix && <div className="ds-input-suffix">{suffix}</div>}
+    return (
+      // TODO: This is a one-time hack for /geld-einklagen/formular/forderung/gegenseite. We should move to input groups asap
+      <div className={`${name == "forderung.forderung1.title" ? "pb-40" : ""}`}>
+        {label && <InputLabel id={name}>{label}</InputLabel>}
+        <div className="ds-input-group">
+          {prefix && <div className="ds-input-prefix">{prefix}</div>}
+          <input
+            {...getInputProps({
+              type: type === "number" ? "text" : type,
+              step,
+              id: name,
+              inputMode: type === "number" ? "decimal" : undefined,
+              placeholder,
+            })}
+            ref={ref}
+            className={classNames(
+              "ds-input",
+              { "has-error": error },
+              width && widthClass(width),
+            )}
+            aria-invalid={error !== undefined}
+            aria-describedby={error && errorId}
+            aria-errormessage={error && errorId}
+          />
+          {suffix && <div className="ds-input-suffix">{suffix}</div>}
+        </div>
+        <InputError id={errorId}>
+          {errorMessages?.find((err) => err.code === error)?.text ?? error}
+        </InputError>
       </div>
-      <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === error)?.text ?? error}
-      </InputError>
-    </div>
-  );
-};
+    );
+  },
+);
 
 export default Input;
