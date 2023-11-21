@@ -14,6 +14,10 @@ import {
   airlineSchema,
   fluggastBereichSchema,
 } from "../fluggastrechte/context";
+import {
+  checkedOptional,
+  checkedRequired,
+} from "~/services/validation/checkedCheckbox";
 
 export const fluggastrechtContext = {
   startAirport: airportSchema,
@@ -42,6 +46,8 @@ export const fluggastrechtContext = {
   versaeumnisurteil: YesNoAnswer,
   anmerkung: z.string(),
   doMigration: YesNoAnswer,
+  aenderungMitteilung: checkedRequired,
+  zahlungOptional: checkedOptional,
 } as const;
 
 const contextObject = z.object(fluggastrechtContext).partial();

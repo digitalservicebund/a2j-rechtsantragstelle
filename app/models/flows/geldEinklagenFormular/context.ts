@@ -11,6 +11,10 @@ import {
   namePrivatPerson,
   persoenlicheDaten,
 } from "../persoenlicheDaten/context";
+import {
+  checkedOptional,
+  checkedRequired,
+} from "~/services/validation/checkedCheckbox";
 
 export const context = {
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
@@ -70,6 +74,8 @@ export const context = {
     .partial(),
   versaeumnisurteil: YesNoAnswer,
   anmerkung: z.string(),
+  aenderungMitteilung: checkedRequired,
+  zahlungOptional: checkedOptional,
 } as const;
 
 const contextObject = z.object(context).partial();
