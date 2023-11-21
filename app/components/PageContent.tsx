@@ -104,8 +104,7 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
       return (
         <BoxWithImage {...getBoxWithImageProps(replacedTemplate)} key={key} />
       );
-    // TODO SNH: Please rename numeric list to list
-    case "page.numeric-list":
+    case "page.list":
       return <List {...getListProps(replacedTemplate)} key={key} />;
     default:
       return <></>;

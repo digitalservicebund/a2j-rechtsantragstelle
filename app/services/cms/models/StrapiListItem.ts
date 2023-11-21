@@ -10,7 +10,7 @@ import { type StrapiElementWithId } from "./StrapiElementWithId";
 
 export const StrapiListItemSchema = z
   .object({
-    __component: z.literal("page.numeric-list-item").optional(),
+    __component: z.literal("page.list-item").optional(),
     label: StrapiHeadingSchema.nullable(),
     headline: StrapiHeadingSchema.nullable(),
     image: StrapiImageSchema.optional(),
@@ -32,7 +32,7 @@ export function ListesFromElementsWithID(
 ) {
   return elementsWithID.flatMap((elementWithID) =>
     elementWithID.element
-      .filter((el) => el.__component === "page.numeric-list-item")
+      .filter((el) => el.__component === "page.list-item")
       .map((el) => getListItemProps(el as StrapiListItem)),
   );
 }

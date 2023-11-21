@@ -10,7 +10,7 @@ import { ListPropsSchema } from "~/components/List";
 
 export const StrapiListSchema = z
   .object({
-    __component: z.literal("page.numeric-list").optional(),
+    __component: z.literal("page.list").optional(),
     heading: StrapiHeadingSchema.nullable(),
     items: z.array(StrapiListItemSchema),
     isNumeric: z.boolean(),
