@@ -28,22 +28,22 @@ const Tile = ({
   const id = `${name}-${value}`;
 
   return (
-    <div className="flex">
+    <div className="ds-tile">
       {image && <Image {...image} />}
       <input
         {...getInputProps({ type: "tile", id, value })}
-        className="hidden"
+        className="opacity-0 fixed w-0"
         name={name}
         type="radio"
         aria-describedby={error && `${name}-error`}
         onClick={onClick}
       />
       <label
-        className="flex flex-col p-4 border-2 border-gray-400 cursor-pointer"
+        className="flex flex-col p-16 rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#ECF1F4] bg-white"
         htmlFor={id}
       >
-        <span className="ds-label-01-bold">{text}</span>
-        <span className="ds-label-01-reg">{description}</span>
+        <div className="ds-label-01-bold">{text}</div>
+        <div className="ds-label-01-reg">{description}</div>
       </label>
     </div>
   );
