@@ -32,6 +32,7 @@ import Textarea from "./inputs/Textarea";
 import List from "./List";
 import TileGroup from "./inputs/TileGroup";
 import { renderCheckboxFromStrapi } from "~/services/cms/models/StrapiCheckbox";
+import { renderDateInputFromStrapi } from "~/services/cms/models/StrapiDateInput";
 
 type PageContentProps = {
   content: Array<StrapiContent>;
@@ -82,6 +83,8 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
       return <Header {...getHeaderProps(replacedTemplate)} key={key} />;
     case "form-elements.input":
       return <Input {...getInputProps(replacedTemplate)} key={key} />;
+    case "form-elements.date-input":
+      return renderDateInputFromStrapi(replacedTemplate);
     case "form-elements.textarea":
       return <Textarea {...getTextareaProps(replacedTemplate)} key={key} />;
     case "form-elements.select":
