@@ -554,3 +554,104 @@ exports[`Storyshots Page/Footer Example 1`] = `
   </div>
 </footer>
 `;
+
+exports[`Storyshots Page/List Example 1`] = `
+<div
+  className="!pt-32 !pb-32"
+>
+  <div
+    className="container !pt-32 !pb-40"
+  >
+    <div
+      className="ds-stack-8 scroll-my-40"
+    >
+      <h2
+        className="ds-heading-02-reg"
+        dangerouslySetInnerHTML={
+          {
+            "__html": "This is a heading text for list",
+          }
+        }
+      />
+      <ol
+        className="list-none ds-stack-32 ps-0"
+      >
+        <li
+          className="pt-6 first:pt-0 scroll-my-40 "
+        >
+          <div
+            className="flex flex-row gap-32 items-center"
+          >
+            <div
+              className="w-[40px] h-[40px] pt-[6px] text-center border border-solid border-gray-400 rounded-full"
+            >
+              1
+            </div>
+            <div
+              className="flex flex-row items-center justify-center"
+            >
+              <div
+                className="ds-stack-16 break-words w-full "
+              >
+                <h1
+                  className="ds-heading-03-reg"
+                  dangerouslySetInnerHTML={
+                    {
+                      "__html": "Lorem ipsum dolor sit amet",
+                    }
+                  }
+                />
+                <div
+                  className="rich-text ds-stack-8 "
+                  dangerouslySetInnerHTML={
+                    {
+                      "__html": "<p class="text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+                    }
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          className="pt-6 first:pt-0 scroll-my-40 "
+        >
+          <div
+            className="flex flex-row gap-32 items-center"
+          >
+            <div
+              className="w-[40px] h-[40px] pt-[6px] text-center border border-solid border-gray-400 rounded-full"
+            >
+              2
+            </div>
+            <div
+              className="flex flex-row items-center justify-center"
+            >
+              <div
+                className="ds-stack-16 break-words w-full "
+              >
+                <h1
+                  className="ds-heading-03-reg"
+                  dangerouslySetInnerHTML={
+                    {
+                      "__html": "Lorem ipsum dolor sit amet",
+                    }
+                  }
+                />
+                <div
+                  className="rich-text ds-stack-8 "
+                  dangerouslySetInnerHTML={
+                    {
+                      "__html": "<p class="text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+                    }
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>
+`;
