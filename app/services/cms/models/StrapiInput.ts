@@ -1,8 +1,11 @@
 import { z } from "zod";
-import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
-import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { InputPropsSchema } from "~/components/inputs/Input";
 import { omitNull } from "~/util/omitNull";
+import {
+  flattenStrapiErrors,
+  StrapiErrorRelationSchema,
+} from "~/services/cms/flattenStrapiErrors";
 
 export const StrapiInputSchema = z
   .object({
@@ -12,15 +15,7 @@ export const StrapiInputSchema = z
     type: z.enum(["text", "number"]),
     placeholder: z.string().nullable(),
     suffix: z.string().nullable(),
-    errors: z.object({
-      data: z
-        .array(
-          HasStrapiIdSchema.extend({
-            attributes: StrapiErrorCategorySchema,
-          }),
-        )
-        .optional(),
-    }),
+    errors: StrapiErrorRelationSchema,
     width: z
       .enum([
         "characters3",
@@ -36,12 +31,10 @@ export const StrapiInputSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-type StrapiInput = z.infer<typeof StrapiInputSchema>;
+export type StrapiInput = z.infer<typeof StrapiInputSchema>;
 
 export const getInputProps = (cmsData: StrapiInput) => {
-  const errorMessages = cmsData.errors.data?.flatMap(
-    (cmsError) => cmsError.attributes.errorCodes,
-  );
+  const errorMessages = flattenStrapiErrors(cmsData.errors);
   const width = cmsData.width?.replace("characters", "");
   return InputPropsSchema.parse(omitNull({ ...cmsData, width, errorMessages }));
 };
