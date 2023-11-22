@@ -8,7 +8,11 @@ import { ErrorMessagePropsSchema } from ".";
 export const TileGroupPropsSchema = z.object({
   name: z.string(),
   options: z.array(
-    z.object({ value: z.string(), text: z.custom<ReactNode>().optional() }),
+    z.object({
+      value: z.string(),
+      text: z.custom<ReactNode>().optional(),
+      description: z.string().optional(),
+    }),
   ),
   label: z.custom<ReactNode>().optional(),
   altLabel: z.string().optional(),
@@ -45,12 +49,13 @@ const TileGroup = ({
       {renderHiddenField && <input type="hidden" name={name} />}
       <div className="ds-stack-16">
         {label && <legend>{label}</legend>}
-        {options.map((o) => (
+        {options.map((option) => (
           <Tile
-            key={o.value}
+            key={option.value}
+            description={option.description}
             name={name}
-            value={o.value}
-            text={o.text}
+            value={option.value}
+            text={option.text}
             onClick={() => setRenderHiddenField(false)}
           />
         ))}

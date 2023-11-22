@@ -33,7 +33,7 @@ const Tile = ({
       <input
         {...getInputProps({ type: "tile", id, value })}
         className="hidden"
-        name="name"
+        name={name}
         type="radio"
         aria-describedby={error && `${name}-error`}
         onClick={onClick}
