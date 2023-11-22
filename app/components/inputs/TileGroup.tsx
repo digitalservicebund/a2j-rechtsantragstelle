@@ -59,6 +59,8 @@ const TileGroup = ({
             onClick={() => setRenderHiddenField(false)}
           />
         ))}
+      </div>
+      <div className="pt-16">
         {errorToDisplay && (
           <InputError id={errorId}>{errorToDisplay}</InputError>
         )}
