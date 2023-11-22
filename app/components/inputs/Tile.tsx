@@ -31,7 +31,7 @@ const Tile = ({
     <div className="ds-tile">
       {image && <Image {...image} />}
       <input
-        {...getInputProps({ type: "tile", id, value })}
+        {...getInputProps({ type: "radio", id, value })}
         className="opacity-0 fixed w-0"
         name={name}
         type="radio"
