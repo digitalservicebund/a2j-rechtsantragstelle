@@ -29,7 +29,6 @@ const TileGroup = ({
   errorMessages,
 }: TileGroupProps) => {
   const { error, defaultValue } = useField(name);
-  console.log(defaultValue);
   const errorId = `${name}-error`;
   const errorToDisplay =
     errorMessages?.find((err) => err.code === error)?.text ?? error;
