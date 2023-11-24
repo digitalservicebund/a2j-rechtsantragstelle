@@ -19,7 +19,6 @@ import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { throw404OnProduction } from "../services/errorPages/throw404";
 import Textarea from "~/components/inputs/Textarea";
 import List from "~/components/List";
-import ListItem from "~/components/ListItem";
 import DateInput from "~/components/inputs/DateInput";
 
 export const DummySchema = z.object({

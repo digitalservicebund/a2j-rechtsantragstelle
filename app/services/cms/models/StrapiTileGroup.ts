@@ -24,7 +24,7 @@ export const StrapiTileGroupSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-export type StrapiTileGroup = z.infer<typeof StrapiTileGroupSchema>;
+type StrapiTileGroup = z.infer<typeof StrapiTileGroupSchema>;
 
 export const getTileGroupProps = (cmsData: StrapiTileGroup) => {
   const errorMessages = cmsData.errors.data?.flatMap(

@@ -17,7 +17,7 @@ export const StrapiDateInputSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-export type StrapiDateInput = z.infer<typeof StrapiDateInputSchema>;
+type StrapiDateInput = z.infer<typeof StrapiDateInputSchema>;
 
 export const renderDateInputFromStrapi = (strapiDateInput: StrapiDateInput) => {
   const props: InputProps = {
