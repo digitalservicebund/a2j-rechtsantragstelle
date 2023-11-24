@@ -19,6 +19,7 @@ describe("date validation", () => {
       { input: "", errorMessage: "required" },
       { input: "    ", errorMessage: "required" },
       { input: "10.20.2010", errorMessage: "invalid" },
+      { input: "10.10.2010.20", errorMessage: "invalid" },
       { input: "2010-12-01", errorMessage: "invalid" },
       { input: "01.01.2023hihi", errorMessage: "invalid" },
       { input: "01.01.2023456", errorMessage: "invalid" },
