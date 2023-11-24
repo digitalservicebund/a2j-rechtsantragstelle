@@ -153,3 +153,20 @@ a {
 .progress-bar::-moz-progress-bar {
   @apply bg-blue-800;
 }
+
+.ds-tile input[type="radio"]:focus + label,
+.ds-tile input[type="radio"]:focus-visible + label,
+.ds-tile input[type="radio"]:checked + label {
+  /* Increasing the border width causes neighbour elements to shift
+    https://stackoverflow.com/questions/19248985/how-to-prevent-shifting-when-changing-border-width
+  */
+  border-color: transparent;
+  box-shadow: 0 0 0 4px #004b76;
+}
+.ds-tile input[type="radio"]:focus + label,
+.ds-tile input[type="radio"]:focus-visible + label {
+  background: var(--background-color-blue-200, #ecf1f4);
+}
+.ds-tile input[type="radio"]:checked + label {
+  background: var(--background-color-white, white);
+}

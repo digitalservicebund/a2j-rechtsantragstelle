@@ -225,6 +225,7 @@ test("geldeinklagen formular can be traversed for privatperson", async ({
 
   // /geld-einklagen/formular/aenderungMitteilung
   await expectPageToBeAccessible({ page });
+  await geldEinklagenFormular.clickLabelFor("aenderungMitteilung");
   await geldEinklagenFormular.clickNext();
 
   // /geld-einklagen/formular/einverstaendnis

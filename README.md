@@ -58,3 +58,11 @@ Open the app in `localhost:3000`
 We use [lefthook](https://github.com/evilmartians/lefthook) for running several pre-commit hooks,install them using `npm run init`.
 
 The git hooks check formatting, linting, unit tests, typecheck (see `lefthook.yaml` for more details). You may execute them before commiting using `lefthook run pre-commit`.
+
+### How to add a new "Antrag" or form pdf to services/pdf/
+
+1. Create a new folder for example: `prozesskostenhilfe`
+2. Store the antrag or form pdf there: `prozesskostenhilfe/Erklaerung_Verhaeltnisse_Prozess_oder_Verfahrenskostenhilfe.pdf`
+3. Run `npm run generate:pdf`
+
+After running the command, a new file named `prozesskostenhilfe.generated.ts` will be generated in the specified directory. You can use this file to fill out the PDF based on the input fields defined within it.

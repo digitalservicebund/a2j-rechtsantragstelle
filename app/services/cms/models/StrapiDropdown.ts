@@ -1,8 +1,11 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
-import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { omitNull } from "~/util/omitNull";
 import { DropdownPropsSchema } from "~/components/inputs/Select";
+import {
+  flattenStrapiErrors,
+  StrapiErrorRelationSchema,
+} from "~/services/cms/flattenStrapiErrors";
 
 export const StrapiDropdownSchema = z
   .object({
@@ -12,23 +15,13 @@ export const StrapiDropdownSchema = z
     altLabel: z.string().nullable(),
     options: z.array(z.object({ value: z.string(), text: z.string() })),
     placeholder: z.string().nullish(),
-    errors: z.object({
-      data: z
-        .array(
-          HasStrapiIdSchema.extend({
-            attributes: StrapiErrorCategorySchema,
-          }),
-        )
-        .optional(),
-    }),
+    errors: StrapiErrorRelationSchema,
   })
   .merge(HasOptionalStrapiIdSchema);
 
 type StrapiDropdown = z.infer<typeof StrapiDropdownSchema>;
 
 export const getDropdownProps = (cmsData: StrapiDropdown) => {
-  const errorMessages = cmsData.errors.data?.flatMap(
-    (cmsError) => cmsError.attributes.errorCodes,
-  );
+  const errorMessages = flattenStrapiErrors(cmsData.errors);
   return DropdownPropsSchema.parse(omitNull({ ...cmsData, errorMessages }));
 };

@@ -18,3 +18,5 @@ Dockerfile
 .gitignore
 *.snap
 *.sh
+*.pdf
+*.generated.ts

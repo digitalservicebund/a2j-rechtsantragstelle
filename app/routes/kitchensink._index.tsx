@@ -19,9 +19,9 @@ import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { throw404OnProduction } from "../services/errorPages/throw404";
 import Textarea from "~/components/inputs/Textarea";
 import List from "~/components/List";
-import ListItem from "~/components/ListItem";
 import FlowNavigation, { NavState } from "~/components/FlowNavigation";
 import Heading from "~/components/Heading";
+import DateInput from "~/components/inputs/DateInput";
 
 export const DummySchema = z.object({
   text: z.string().min(1),
@@ -97,6 +97,9 @@ export default function Kitchensink() {
 
             <h3>{"<Checkbox>"}</h3>
             <Checkbox name="checkbox" value="1" label="bitte auswählen" />
+
+            <h3>{"<DateInput>"}</h3>
+            <DateInput name="date" label="Geburtsdatum" />
           </div>
           <div>
             <Button>Abschicken</Button>

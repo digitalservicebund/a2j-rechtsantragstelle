@@ -3,6 +3,7 @@ import {
   YesNoAnswer,
   customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
+import { inputRequiredSchema } from "~/services/validation/inputRequired";
 
 export const beratungshilfeRechtsproblem = {
   rechtsschutzversicherung: YesNoAnswer,
@@ -11,6 +12,7 @@ export const beratungshilfeRechtsproblem = {
   beratungshilfeBeantragt: YesNoAnswer,
   bereich: z.enum(
     [
+      "authorities",
       "living",
       "work",
       "separation",
@@ -22,10 +24,10 @@ export const beratungshilfeRechtsproblem = {
     ],
     customRequiredErrorMessage,
   ),
-  beschreibung: z.string().min(3),
+  beschreibung: inputRequiredSchema,
   eigeninitiative: YesNoAnswer,
-  eigeninitiativeBeschreibung: z.string().min(3),
-  keineEigeninitiativeBeschreibung: z.string().min(3),
+  eigeninitiativeBeschreibung: inputRequiredSchema,
+  keineEigeninitiativeBeschreibung: inputRequiredSchema,
   sonstiges: z.string(),
 };
 
