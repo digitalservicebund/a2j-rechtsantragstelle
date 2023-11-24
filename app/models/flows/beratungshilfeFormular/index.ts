@@ -10,6 +10,7 @@ import {
   beratungshilfeRechtsproblem,
   beratungshilfeRechtsproblemGuards,
 } from "./rechtsproblem/context";
+import abgabeFlow from "./abgabe/flow.json";
 
 export const beratungshilfeAntrag = {
   cmsSlug: "form-flow-pages",
@@ -35,6 +36,16 @@ export const beratungshilfeAntrag = {
         states: {
           start: {
             on: { BACK: "#grundvoraussetzungen.beratungshilfeBeantragt" },
+          },
+          danke: {
+            on: { SUBMIT: "#abgabe.uebersicht" },
+          },
+        },
+      }),
+      abgabe: _.merge(_.cloneDeep(abgabeFlow), {
+        states: {
+          uebersicht: {
+            on: { BACK: "#rechtsproblem.danke" },
           },
         },
       }),
