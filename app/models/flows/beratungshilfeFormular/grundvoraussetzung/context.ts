@@ -22,7 +22,7 @@ export const beratungshilfeGrundvoraussetzungenGuards = {
   beratungshilfeBeantragtNo: (context: BeratungshilfeGrundvoraussetzungen) =>
     context.beratungshilfeBeantragt === "no",
 
-  eigeninitiativeGrundvorraussetzungNo: (
+  eigeninitiativeGrundvorraussetzungYes: (
     context: BeratungshilfeGrundvoraussetzungen,
-  ) => context.eigeninitiativeGrundvorraussetzung === "no",
+  ) => context.eigeninitiativeGrundvorraussetzung === "yes",
 };

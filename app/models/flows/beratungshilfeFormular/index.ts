@@ -26,7 +26,7 @@ export const beratungshilfeAntrag = {
               on: {
                 SUBMIT: {
                   target: "#rechtsproblem.start",
-                  cond: "eigeninitiativeGrundvorraussetzungNo",
+                  cond: "eigeninitiativeGrundvorraussetzungYes",
                 },
               },
             },
