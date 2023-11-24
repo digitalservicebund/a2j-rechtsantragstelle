@@ -18,6 +18,7 @@ import {
   checkedOptional,
   checkedRequired,
 } from "~/services/validation/checkedCheckbox";
+import { dateSchema } from "~/services/validation/date";
 
 export const fluggastrechtContext = {
   startAirport: airportSchema,
@@ -26,7 +27,7 @@ export const fluggastrechtContext = {
   bereich: fluggastBereichSchema,
   zwischenstopps: YesNoAnswer,
   zwischenstoppFlughafen: z.union([airportSchema, z.literal("")]),
-  ankunftsDatum: inputRequiredSchema, // TODO: validate as German date in the past
+  ankunftsDatum: dateSchema, // TODO: validate as German date in the past
   ankunftsZeit: inputRequiredSchema,
   ankunftsFlugnummer: inputRequiredSchema, // TODO: rename this to just "flugnummer" - no need to tie it to the page
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
