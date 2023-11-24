@@ -1,5 +1,6 @@
 import _ from "lodash";
 import {
+  BeratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungenGuards,
 } from "./grundvoraussetzung/context";
@@ -7,6 +8,7 @@ import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.js
 import beratungshilfeAntragFlow from "./flow.json";
 import rechtsproblemFlow from "./rechtsproblem/flow.json";
 import {
+  BeratungshilfeRechtsproblem,
   beratungshilfeRechtsproblem,
   beratungshilfeRechtsproblemGuards,
 } from "./rechtsproblem/context";
@@ -49,3 +51,7 @@ export const beratungshilfeAntrag = {
     ...beratungshilfeRechtsproblem,
   },
 } as const;
+
+export type BeratungshilfeAntragContext =
+  | BeratungshilfeGrundvoraussetzungen
+  | BeratungshilfeRechtsproblem;

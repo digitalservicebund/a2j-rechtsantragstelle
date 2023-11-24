@@ -9,7 +9,7 @@ export const beratungshilfeGrundvoraussetzungen = {
 };
 
 const contextObject = z.object(beratungshilfeGrundvoraussetzungen).partial();
-type BeratungshilfeGrundvoraussetzungen = z.infer<typeof contextObject>;
+export type BeratungshilfeGrundvoraussetzungen = z.infer<typeof contextObject>;
 
 export const beratungshilfeGrundvoraussetzungenGuards = {
   rechtsschutzversicherungNo: (context: BeratungshilfeGrundvoraussetzungen) =>
