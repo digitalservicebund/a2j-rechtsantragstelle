@@ -10,7 +10,11 @@ type StateMachine = ReturnType<
 >;
 type Config = MachineConfig<Context, any, StateMachineEvents>;
 type Guards = Record<string, (context: Context) => boolean>;
-type Meta = { progressPosition: number | undefined };
+type Meta = {
+  progressPosition: number | undefined;
+  isUneditable: boolean | undefined;
+  done: (context: Context) => boolean | undefined;
+};
 
 // We have to differentiate between non- and nested steps.
 // Nested steps are returned by xstate as an object, so they are concatenated to get a valid string
@@ -68,6 +72,14 @@ export const buildFlowController = ({
   const denormalizeStepId = (stepId: string) => stepId.replace(".", "/");
 
   return {
+    isDone: (currentStepId: string) => {
+      const meta: Meta = machine.getStateNodeByPath(currentStepId).meta;
+      return meta && "done" in meta && meta.done(context);
+    },
+    isUneditable: (currentStepId: string) => {
+      const meta: Meta = machine.getStateNodeByPath(currentStepId).meta;
+      return meta && meta.isUneditable === true;
+    },
     getFlow: () => config,
     isInitial: (currentStepId: string) =>
       config.initial === normalizeStepId(currentStepId),
