@@ -6,19 +6,11 @@ export function navItemsFromFlowSpecifics(
   flowId: FlowId,
   currentFlow: (typeof flowSpecifics)[keyof typeof flowSpecifics],
 ): NavItem[] {
-  return Object.entries(currentFlow.flow.states).map(([stateName, state]) => ({
-    destination:
-      "states" in state
-        ? `/${flowId}/${stateName}/${state.initial}`
-        : `/${flowId}/${stateName}`,
-    label: stateName,
-    state:
-      "states" in state
-        ? stepId.includes(stateName)
-          ? NavState.Current
-          : NavState.Open
-        : stepId === stateName
-          ? NavState.Current
-          : NavState.Open,
-  }));
+  return Object.entries(currentFlow.flow.states)
+    .filter(([_, state]) => "states" in state)
+    .map(([stateName, state]) => ({
+      destination: `/${flowId}/${stateName}/${state.initial}`,
+      label: stateName,
+      state: stepId.includes(stateName) ? NavState.Current : NavState.Open,
+    }));
 }
