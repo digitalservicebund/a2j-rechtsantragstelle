@@ -129,7 +129,7 @@ export const loader = async ({
           ? currentFlow.stringReplacements(flowContext)
           : {}),
       },
-      navItems: navItemsFromFlowSpecifics(stepId, flowId, currentFlow),
+      navItems: navItemsFromFlowSpecifics(stepId, flowId, flowController),
     },
     { headers },
   );

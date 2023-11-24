@@ -68,6 +68,7 @@ export const buildFlowController = ({
   const denormalizeStepId = (stepId: string) => stepId.replace(".", "/");
 
   return {
+    getFlow: () => config,
     isInitial: (currentStepId: string) =>
       config.initial === normalizeStepId(currentStepId),
     isFinal: (currentStepId: string) =>

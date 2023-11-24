@@ -1,5 +1,6 @@
 import _ from "lodash";
 import {
+  type BeratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungenGuards,
 } from "./grundvoraussetzung/context";
@@ -7,9 +8,11 @@ import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.js
 import beratungshilfeAntragFlow from "./flow.json";
 import rechtsproblemFlow from "./rechtsproblem/flow.json";
 import {
+  type BeratungshilfeRechtsproblem,
   beratungshilfeRechtsproblem,
   beratungshilfeRechtsproblemGuards,
 } from "./rechtsproblem/context";
+import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import abgabeFlow from "./abgabe/flow.json";
 
 export const beratungshilfeAntrag = {
@@ -38,7 +41,9 @@ export const beratungshilfeAntrag = {
             on: { BACK: "#grundvoraussetzungen.beratungshilfeBeantragt" },
           },
           danke: {
-            on: { SUBMIT: "#abgabe.uebersicht" },
+            on: {
+              SUBMIT: { target: "#abgabe.uebersicht", cond: "readyForAbgabe" },
+            },
           },
         },
       }),
@@ -54,9 +59,13 @@ export const beratungshilfeAntrag = {
   guards: {
     ...beratungshilfeGrundvoraussetzungenGuards,
     ...beratungshilfeRechtsproblemGuards,
+    ...beratungshilfeAbgabeGuards,
   },
   context: {
     ...beratungshilfeGrundvoraussetzungen,
     ...beratungshilfeRechtsproblem,
   },
 } as const;
+
+export type BeratungshilfeAntragContext = BeratungshilfeRechtsproblem &
+  BeratungshilfeGrundvoraussetzungen;

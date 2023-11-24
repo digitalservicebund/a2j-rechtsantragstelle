@@ -6,10 +6,6 @@ import {
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
 
 export const beratungshilfeRechtsproblem = {
-  rechtsschutzversicherung: YesNoAnswer,
-  wurdeVerklagt: YesNoAnswer,
-  klageEingereicht: YesNoAnswer,
-  beratungshilfeBeantragt: YesNoAnswer,
   bereich: z.enum(
     [
       "authorities",
@@ -32,7 +28,7 @@ export const beratungshilfeRechtsproblem = {
 };
 
 const contextObject = z.object(beratungshilfeRechtsproblem).partial();
-type BeratungshilfeRechtsproblem = z.infer<typeof contextObject>;
+export type BeratungshilfeRechtsproblem = z.infer<typeof contextObject>;
 
 export const beratungshilfeRechtsproblemGuards = {
   eigeninitiativeYes: (context: BeratungshilfeRechtsproblem) =>
