@@ -35,6 +35,10 @@ export default function FlowNavigation({ navItems }: { navItems: NavItem[] }) {
                 ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none"
                 : ""
             }`}
+            aria-disabled={[
+              NavState.DoneDisabled,
+              NavState.OpenDisabled,
+            ].includes(state)}
           >
             {state === NavState.Current ? (
               <RadioButtonCheckedOutlinedIcon />
