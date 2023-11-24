@@ -23,17 +23,16 @@ export default function FlowNavigation({ navItems }: { navItems: NavItem[] }) {
         <li
           key={destination}
           className="p-16 list-none border-b-2 border-white"
-          style={{ width: "256px" }}
         >
           <a
             href={destination}
             className={`flex gap-x-16 items-center ${
               state === NavState.Current
                 ? "ds-label-02-bold"
-                : "ds-label-02-reg"
+                : "ds-label-02-reg hover:font-bold"
             } ${
               [NavState.DoneDisabled, NavState.OpenDisabled].includes(state)
-                ? "text-gray-600"
+                ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none"
                 : ""
             }`}
           >

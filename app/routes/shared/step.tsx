@@ -284,10 +284,23 @@ export function StepWithPreHeading() {
 
   return (
     <Background backgroundColor="blue">
-      <div className="min-h-screen">
-        <div className="flex flex-row gap-48 pt-32 pl-32 pb-48 flex-wrap flex-wrap-reverse">
-          {navItems && <FlowNavigation navItems={navItems} />}
-          <div className="ds-stack-40">
+      <div className="flex flex-row flex-wrap flex-wrap-reverse pt-32">
+        <div className="flex-1 pb-48">
+          {/* using ml-auto below floats the navigation right but looks bad once wrapped */}
+          <div className="w-fit">
+            {navItems && <FlowNavigation navItems={navItems} />}
+          </div>
+        </div>
+        <div
+          className="ds-stack-40 w-full pb-48 pt-[14px]" // hacky alignment of pre-heading to navigation
+          style={{
+            // the padding below matches Container. look to re-use it instead
+            maxWidth: "59rem",
+            paddingLeft: "clamp(1rem, 5vw, 3rem)",
+            paddingRight: "clamp(1rem, 5vw, 3rem)",
+          }}
+        >
+          <div className="ds-stack-16">
             {preHeading && (
               <p className="ds-label-01-bold">
                 {fillTemplate({
@@ -308,34 +321,36 @@ export function StepWithPreHeading() {
               templateReplacements={templateReplacements}
               className="ds-stack-16"
             />
-            <MigrationDataOverview migrationData={migrationData} />
-            <ValidatedForm
-              key={`${stepId}_form`}
-              method="post"
-              validator={validator}
-              defaultValues={defaultValues}
-              noValidate
-              action={pathname}
-            >
-              <input type="hidden" name={CSRFKey} value={csrf} />
-              <div className="ds-stack-40">
-                {formContent && formContent.length != 0 && (
-                  <PageContent content={formContent} className="ds-stack-40" />
-                )}
-                {postFormContent && postFormContent.length != 0 && (
-                  <PageContent content={postFormContent} />
-                )}
-                <ButtonNavigation
-                  back={{
-                    destination: previousStep,
-                    label: commonContent.backButtonDefaultLabel,
-                  }}
-                  next={nextButtonProps}
-                />
-              </div>
-            </ValidatedForm>
           </div>
+
+          <MigrationDataOverview migrationData={migrationData} />
+          <ValidatedForm
+            key={`${stepId}_form`}
+            method="post"
+            validator={validator}
+            defaultValues={defaultValues}
+            noValidate
+            action={pathname}
+          >
+            <input type="hidden" name={CSRFKey} value={csrf} />
+            <div className="ds-stack-40">
+              {formContent && formContent.length != 0 && (
+                <PageContent content={formContent} className="ds-stack-40" />
+              )}
+              {postFormContent && postFormContent.length != 0 && (
+                <PageContent content={postFormContent} />
+              )}
+              <ButtonNavigation
+                back={{
+                  destination: previousStep,
+                  label: commonContent.backButtonDefaultLabel,
+                }}
+                next={nextButtonProps}
+              />
+            </div>
+          </ValidatedForm>
         </div>
+        <div className="flex-1"></div>
       </div>
     </Background>
   );
