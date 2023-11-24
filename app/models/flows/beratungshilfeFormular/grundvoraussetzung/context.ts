@@ -21,3 +21,13 @@ export const beratungshilfeGrundvoraussetzungenGuards = {
   beratungshilfeBeantragtNo: (context: BeratungshilfeGrundvoraussetzungen) =>
     context.beratungshilfeBeantragt === "no",
 };
+
+export const grundvoraussetzungDone = (
+  context: BeratungshilfeGrundvoraussetzungen,
+) =>
+  Boolean(
+    context.rechtsschutzversicherung === "no" &&
+      context.wurdeVerklagt === "no" &&
+      context.klageEingereicht === "no" &&
+      context.beratungshilfeBeantragt === "no",
+  );

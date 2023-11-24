@@ -34,3 +34,12 @@ export const beratungshilfeRechtsproblemGuards = {
   eigeninitiativeYes: (context: BeratungshilfeRechtsproblem) =>
     context.eigeninitiative === "yes",
 };
+
+export const rechtsproblemDone = (context: BeratungshilfeRechtsproblem) =>
+  Boolean(
+    context.bereich &&
+      context.beschreibung &&
+      context.eigeninitiative &&
+      (context.eigeninitiativeBeschreibung ||
+        context.keineEigeninitiativeBeschreibung),
+  );

@@ -3,6 +3,7 @@ import {
   type BeratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungenGuards,
+  grundvoraussetzungDone,
 } from "./grundvoraussetzung/context";
 import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.json";
 import beratungshilfeAntragFlow from "./flow.json";
@@ -11,6 +12,7 @@ import {
   type BeratungshilfeRechtsproblem,
   beratungshilfeRechtsproblem,
   beratungshilfeRechtsproblemGuards,
+  rechtsproblemDone,
 } from "./rechtsproblem/context";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import abgabeFlow from "./abgabe/flow.json";
@@ -22,6 +24,7 @@ export const beratungshilfeAntrag = {
       grundvoraussetzungen: _.merge(
         _.cloneDeep(beratungshilfeGrundvoraussetzungenFlow),
         {
+          meta: { done: grundvoraussetzungDone },
           states: {
             start: { on: { BACK: "#antragStart" } },
             beratungshilfeBeantragt: {
@@ -36,6 +39,7 @@ export const beratungshilfeAntrag = {
         },
       ),
       rechtsproblem: _.merge(_.cloneDeep(rechtsproblemFlow), {
+        meta: { done: rechtsproblemDone },
         states: {
           start: {
             on: { BACK: "#grundvoraussetzungen.beratungshilfeBeantragt" },
