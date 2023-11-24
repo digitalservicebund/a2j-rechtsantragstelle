@@ -96,7 +96,7 @@
     "@types/jest": "^29.5.10",
     "@types/mustache": "^4.2.5",
     "@types/react": "^18.2.38",
-    "@types/react-dom": "^18.2.16",
+    "@types/react-dom": "^18.2.17",
     "@types/validator": "^13.11.7",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.54.0",
