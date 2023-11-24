@@ -6,6 +6,7 @@ export const beratungshilfeGrundvoraussetzungen = {
   wurdeVerklagt: YesNoAnswer,
   klageEingereicht: YesNoAnswer,
   beratungshilfeBeantragt: YesNoAnswer,
+  eigeninitiativeGrundvorraussetzung: YesNoAnswer,
 };
 
 const contextObject = z.object(beratungshilfeGrundvoraussetzungen).partial();
@@ -20,4 +21,8 @@ export const beratungshilfeGrundvoraussetzungenGuards = {
     context.klageEingereicht === "no",
   beratungshilfeBeantragtNo: (context: BeratungshilfeGrundvoraussetzungen) =>
     context.beratungshilfeBeantragt === "no",
+
+  eigeninitiativeGrundvorraussetzungNo: (
+    context: BeratungshilfeGrundvoraussetzungen,
+  ) => context.eigeninitiativeGrundvorraussetzung === "no",
 };

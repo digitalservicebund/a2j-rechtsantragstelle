@@ -22,11 +22,11 @@ export const beratungshilfeAntrag = {
         {
           states: {
             start: { on: { BACK: "#antragStart" } },
-            beratungshilfeBeantragt: {
+            eigeninitiativeGrundvorraussetzung: {
               on: {
                 SUBMIT: {
                   target: "#rechtsproblem.start",
-                  cond: "beratungshilfeBeantragtNo",
+                  cond: "eigeninitiativeGrundvorraussetzungNo",
                 },
               },
             },
