@@ -31,7 +31,7 @@ export const StrapiInputSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-export type StrapiInput = z.infer<typeof StrapiInputSchema>;
+type StrapiInput = z.infer<typeof StrapiInputSchema>;
 
 export const getInputProps = (cmsData: StrapiInput) => {
   const errorMessages = flattenStrapiErrors(cmsData.errors);

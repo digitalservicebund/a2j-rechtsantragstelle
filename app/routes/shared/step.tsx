@@ -282,58 +282,53 @@ export function StepWithPreHeading() {
     <Background backgroundColor="blue">
       <div className="min-h-screen">
         <Container paddingTop="24" paddingBottom="64">
-          <div className="ds-stack-16">
-            <div className="ds-stack-40">
-              {preHeading && (
-                <p className="ds-label-01-bold">
-                  {fillTemplate({
-                    template: preHeading,
-                    replacements: templateReplacements,
-                  })}
-                </p>
-              )}
-              <Heading
-                text={fillTemplate({
-                  template: heading ?? "",
+          <div className="ds-stack-40">
+            {preHeading && (
+              <p className="ds-label-01-bold">
+                {fillTemplate({
+                  template: preHeading,
                   replacements: templateReplacements,
                 })}
-                look="ds-heading-02-reg"
-              />
-              <PageContent
-                content={content}
-                templateReplacements={templateReplacements}
-                className="ds-stack-16"
-              />
-              <MigrationDataOverview migrationData={migrationData} />
-              <ValidatedForm
-                key={`${stepId}_form`}
-                method="post"
-                validator={validator}
-                defaultValues={defaultValues}
-                noValidate
-                action={pathname}
-              >
-                <input type="hidden" name={CSRFKey} value={csrf} />
-                <div className="ds-stack-40">
-                  {formContent && formContent.length != 0 && (
-                    <PageContent
-                      content={formContent}
-                      className="ds-stack-40"
-                    />
-                  )}
-                  {postFormContent && postFormContent.length != 0 && (
-                    <PageContent content={postFormContent} />
-                  )}
-                  <ButtonNavigation
-                    back={{
-                      destination: previousStep,
-                      label: commonContent.backButtonDefaultLabel,
-                    }}
-                    next={nextButtonProps}
-                  />
-                </div>
-              </ValidatedForm>
-            </div>
+              </p>
+            )}
+            <Heading
+              text={fillTemplate({
+                template: heading ?? "",
+                replacements: templateReplacements,
+              })}
+              look="ds-heading-02-reg"
+            />
+            <PageContent
+              content={content}
+              templateReplacements={templateReplacements}
+              className="ds-stack-16"
+            />
+            <MigrationDataOverview migrationData={migrationData} />
+            <ValidatedForm
+              key={`${stepId}_form`}
+              method="post"
+              validator={validator}
+              defaultValues={defaultValues}
+              noValidate
+              action={pathname}
+            >
+              <input type="hidden" name={CSRFKey} value={csrf} />
+              <div className="ds-stack-40">
+                {formContent && formContent.length != 0 && (
+                  <PageContent content={formContent} className="ds-stack-40" />
+                )}
+                {postFormContent && postFormContent.length != 0 && (
+                  <PageContent content={postFormContent} />
+                )}
+                <ButtonNavigation
+                  back={{
+                    destination: previousStep,
+                    label: commonContent.backButtonDefaultLabel,
+                  }}
+                  next={nextButtonProps}
+                />
+              </div>
+            </ValidatedForm>
           </div>
         </Container>
       </div>

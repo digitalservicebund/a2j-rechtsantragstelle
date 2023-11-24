@@ -27,9 +27,7 @@ export const getListItemProps = (cmsData: StrapiListItem) => {
   return ListItemPropsSchema.parse(omitNull(props));
 };
 
-export function ListesFromElementsWithID(
-  elementsWithID: StrapiElementWithId[],
-) {
+function ListesFromElementsWithID(elementsWithID: StrapiElementWithId[]) {
   return elementsWithID.flatMap((elementWithID) =>
     elementWithID.element
       .filter((el) => el.__component === "page.list-item")
