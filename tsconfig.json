@@ -1,6 +1,7 @@
 {
   "include": ["remix.env.d.ts", "app/", "tests/", "stories/"],
   "compilerOptions": {
+    "preserveSymlinks": true,
     "incremental": true,
     "skipLibCheck": true,
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
@@ -11,7 +12,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "target": "ES2019",
-    "types": ["@testing-library/jest-dom"],
+    "types": ["@testing-library/jest-dom", "node"],
     "strict": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
