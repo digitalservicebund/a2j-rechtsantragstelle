@@ -17,7 +17,7 @@ export function navItemsFromFlowSpecifics(
 
       let state = NavState.OpenDisabled;
 
-      if (currentStepId.includes(rootStateName)) {
+      if (currentStepId.startsWith(rootStateName)) {
         state = NavState.Current;
       } else if (flowController.isReachable(destinationStepId)) {
         if (flowController.isDone(rootStateName)) {
