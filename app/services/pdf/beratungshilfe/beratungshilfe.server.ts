@@ -83,6 +83,7 @@ function changeStringField(field: StringField, form: PDFForm) {
       const textField = field;
       if (textField) {
         textField.setText(stringField.value);
+        textField.setFontSize(10);
         return true;
       }
     }

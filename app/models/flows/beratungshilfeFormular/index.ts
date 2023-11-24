@@ -27,11 +27,11 @@ export const beratungshilfeAntrag = {
           meta: { done: grundvoraussetzungDone },
           states: {
             start: { on: { BACK: "#antragStart" } },
-            beratungshilfeBeantragt: {
+            eigeninitiativeGrundvorraussetzung: {
               on: {
                 SUBMIT: {
                   target: "#rechtsproblem.start",
-                  cond: "beratungshilfeBeantragtNo",
+                  cond: "eigeninitiativeGrundvorraussetzungYes",
                 },
               },
             },
@@ -42,7 +42,9 @@ export const beratungshilfeAntrag = {
         meta: { done: rechtsproblemDone },
         states: {
           start: {
-            on: { BACK: "#grundvoraussetzungen.beratungshilfeBeantragt" },
+            on: {
+              BACK: "#grundvoraussetzungen.eigeninitiativeGrundvorraussetzung",
+            },
           },
           danke: {
             on: {
@@ -71,5 +73,5 @@ export const beratungshilfeAntrag = {
   },
 } as const;
 
-export type BeratungshilfeAntragContext = BeratungshilfeRechtsproblem &
-  BeratungshilfeGrundvoraussetzungen;
+export type BeratungshilfeAntragContext = BeratungshilfeGrundvoraussetzungen &
+  BeratungshilfeRechtsproblem;
