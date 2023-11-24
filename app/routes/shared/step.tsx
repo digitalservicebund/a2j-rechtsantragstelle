@@ -284,7 +284,7 @@ export function StepWithPreHeading() {
 
   return (
     <Background backgroundColor="blue">
-      <div className="flex flex-row flex-wrap flex-wrap-reverse pt-32">
+      <div className="flex flex-row flex-wrap flex-wrap-reverse pt-32 min-h-screen">
         <div className="flex-1 pb-48">
           {/* using ml-auto below floats the navigation right but looks bad once wrapped */}
           <div className="w-fit">
