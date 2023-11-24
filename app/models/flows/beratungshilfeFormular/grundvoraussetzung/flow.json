@@ -34,7 +34,7 @@
     "beratungshilfeBeantragt": {
       "on": {
         "SUBMIT": {
-          "cond": "eigeninitiativeGrundvorraussetzungNo",
+          "cond": "beratungshilfeBeantragtNo",
           "target": "eigeninitiativeGrundvorraussetzung"
         },
         "BACK": "klageEingereicht"

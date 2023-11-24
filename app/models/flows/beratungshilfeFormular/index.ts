@@ -36,7 +36,9 @@ export const beratungshilfeAntrag = {
       rechtsproblem: _.merge(_.cloneDeep(rechtsproblemFlow), {
         states: {
           start: {
-            on: { BACK: "#grundvoraussetzungen.beratungshilfeBeantragt" },
+            on: {
+              BACK: "#grundvoraussetzungen.eigeninitiativeGrundvorraussetzung",
+            },
           },
         },
       }),
