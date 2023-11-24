@@ -6,8 +6,13 @@ import type {
 import { Convert } from "./beratungshilfe.generated";
 import fs from "node:fs";
 import path from "node:path";
-import type { PDFForm } from "pdf-lib";
-import { PDFDocument, PDFTextField, PDFCheckBox } from "pdf-lib";
+import {
+  type PDFForm,
+  PDFDocument,
+  PDFTextField,
+  PDFCheckBox,
+  PageSizes,
+} from "pdf-lib";
 import { normalizePropertyName } from "../pdf.server";
 
 export async function getBeratungshilfeParameters() {
@@ -38,6 +43,32 @@ export async function getBeratungshilfeParameters() {
   });
 
   return Convert.toBeratungshilfePDF(JSON.stringify(json));
+}
+
+export async function fillAndAppendBeratungsHilfe(values: BeratungshilfePDF) {
+  return await PDFDocument.load(getBeratungshilfePdfBuffer()).then((pdfDoc) => {
+    const form = pdfDoc.getForm();
+
+    Object.entries(values).forEach(([, value]) => {
+      // When value is a BooleanField
+      const booleanField = value as BooleanField;
+      if (!changeBooleanField(booleanField, form)) {
+        // When value is a StringField
+        const stringField = value as StringField;
+        changeStringField(stringField, form);
+      }
+    });
+
+    pdfDoc.insertPage(3, PageSizes.A4);
+
+    const pages = pdfDoc.getPages();
+    pages[3].drawText("Creating PDFs in JavaScript is awesome! - A2J", {
+      x: PageSizes.A4[0] - 500,
+      y: PageSizes.A4[1] - 120,
+      size: 20,
+    });
+    return pdfDoc.save();
+  });
 }
 
 export async function fillOutBeratungshilfe(values: BeratungshilfePDF) {
