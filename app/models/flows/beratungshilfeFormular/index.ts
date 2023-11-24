@@ -54,6 +54,5 @@ export const beratungshilfeAntrag = {
   },
 } as const;
 
-export type BeratungshilfeAntragContext =
-  | BeratungshilfeGrundvoraussetzungen
-  | BeratungshilfeRechtsproblem;
+export type BeratungshilfeAntragContext = BeratungshilfeGrundvoraussetzungen &
+  BeratungshilfeRechtsproblem;

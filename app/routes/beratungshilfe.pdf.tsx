@@ -6,10 +6,19 @@ import {
 } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import { getSessionForContext } from "~/services/session";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const parameters = await getBeratungshilfeParameters();
+const handleBeschreibungText = (context: BeratungshilfeAntragContext) => {
+  if (context.beschreibung && context.beschreibung.length <= 255) {
+    return context.beschreibung;
+  }
 
-  if (!parameters) {
+  return "Please see new attachment";
+};
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const pdfFields = await getBeratungshilfeParameters();
+
+  if (!pdfFields) {
+    //TODO: This should return a non-recoverable error, because it requires a PDF to fulfill the job
     return {};
   }
 
@@ -21,13 +30,21 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const context: BeratungshilfeAntragContext = data; // Recast for now to get type safety
 
   try {
-    parameters.bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein!.value =
-      context.rechtsschutzversicherung! === "no";
+    pdfFields.bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein!.value =
+      context.rechtsschutzversicherung === "no";
+    pdfFields.b3IndieserAngelegenheitistmirbisherBeratungshilfewederbewilligtnochversagtworden!.value =
+      context.beratungshilfeBeantragt === "no";
+    pdfFields.b2IndieserAngelegenheitbestehtfurmichnachmeinerKenntniskeineandereMoeglichkeitkostenloseBeratungundVertretunginAnspruchzunehmen!.value =
+      context.eigeninitiativeGrundvorraussetzung === "yes";
+    pdfFields.b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt!.value =
+      context.klageEingereicht === "no";
+    pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern!.value =
+      handleBeschreibungText(context);
   } catch (error) {
     console.error(error);
   }
 
-  return new Response(await fillOutBeratungshilfe(parameters), {
+  return new Response(await fillOutBeratungshilfe(pdfFields), {
     headers: {
       "Content-Type": "application/pdf",
     },

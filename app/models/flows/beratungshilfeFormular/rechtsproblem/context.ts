@@ -5,6 +5,7 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
 
+//TODO: what was the reason of the duplication below
 export const beratungshilfeRechtsproblem = {
   rechtsschutzversicherung: YesNoAnswer,
   wurdeVerklagt: YesNoAnswer,
