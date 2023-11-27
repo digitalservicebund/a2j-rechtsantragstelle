@@ -4,7 +4,7 @@ import MaskedInput from "./MaskedInput";
 const DateInput = (props: InputProps) => {
   return (
     <MaskedInput
-      mask={Date}
+      mask={"00.00.0000"}
       type="number"
       placeholder="TT.MM.JJJJ"
       width="10"

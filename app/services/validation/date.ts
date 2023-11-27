@@ -5,7 +5,7 @@ export const dateSchema = z
   .string()
   .trim()
   .min(1, { message: "required" })
-  .length(10, { message: "invalid" }) // obsolete once this is merged: https://github.com/validatorjs/validator.js/pull/2056
+  .refine((date) => /^\d\d\.\d\d\.\d\d\d\d$/.test(date), { message: "format" })
   .refine(
     (date) =>
       isDate(date, {

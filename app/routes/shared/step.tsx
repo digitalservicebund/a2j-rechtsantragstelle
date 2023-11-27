@@ -278,8 +278,19 @@ export function StepWithPreHeading() {
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
 
+  const isBeratungshilfeAntrag = pathname.includes("beratungshilfe/antrag");
+
+  // when the last step is reached, the next button should be a download or send button based on pathname of the url
+  const lastNextButtonProps = isBeratungshilfeAntrag
+    ? {
+        label: "Antrag herunterladen",
+        destination: "/beratungshilfe/antrag/pdf",
+        downloadFile: "Beratungshilfe Antrag.pdf",
+      }
+    : { label: "Klage versenden", destination: "#" };
+
   const nextButtonProps = isLast
-    ? { label: "Klage versenden", destination: "#" }
+    ? lastNextButtonProps
     : { label: commonContent.nextButtonDefaultLabel };
 
   return (

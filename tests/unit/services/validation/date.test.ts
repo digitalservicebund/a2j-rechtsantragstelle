@@ -18,13 +18,15 @@ describe("date validation", () => {
     const cases = [
       { input: "", errorMessage: "required" },
       { input: "    ", errorMessage: "required" },
+      { input: "1234567890", errorMessage: "format" },
+      { input: "10.10.2010.20", errorMessage: "format" },
+      { input: "2010-12-01", errorMessage: "format" },
+      { input: "01.01.2023hihi", errorMessage: "format" },
+      { input: "01.01.2023456", errorMessage: "format" },
+      { input: "1.1.2023", errorMessage: "format" },
+      { input: "01.01.23", errorMessage: "format" },
+      { input: "40.10.2010", errorMessage: "invalid" },
       { input: "10.20.2010", errorMessage: "invalid" },
-      { input: "10.10.2010.20", errorMessage: "invalid" },
-      { input: "2010-12-01", errorMessage: "invalid" },
-      { input: "01.01.2023hihi", errorMessage: "invalid" },
-      { input: "01.01.2023456", errorMessage: "invalid" },
-      { input: "1.1.2023", errorMessage: "invalid" },
-      { input: "01.01.23", errorMessage: "invalid" },
     ];
 
     test.each(cases)(

@@ -4,6 +4,7 @@ import ButtonContainer from "~/components/ButtonContainer";
 type NavigationButton = {
   destination?: string;
   label: string;
+  downloadFile?: string;
 };
 
 interface ButtonNavigationProps {
@@ -29,6 +30,7 @@ export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
           type={next.destination ? undefined : "submit"}
           name={next.destination ? undefined : "_action"}
           href={next.destination}
+          downloadFile={next.downloadFile}
           value="next"
           size="large"
           className="w-fit"
