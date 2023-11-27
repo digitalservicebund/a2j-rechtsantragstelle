@@ -1,5 +1,5 @@
 import { type NavItem } from "~/components/FlowNavigation";
-import type { FlowId, flowSpecifics } from "~/routes/shared/flowSpecifics";
+import type { FlowId, FlowSpecifics } from "~/routes/shared/flowSpecifics";
 import { type buildFlowController } from "./flow/buildFlowController";
 
 export enum NavState {
@@ -16,7 +16,8 @@ export function navItemsFromFlowSpecifics(
   flowController: ReturnType<typeof buildFlowController>,
 ): NavItem[] {
   const currentFlow =
-    flowController.getFlow() as (typeof flowSpecifics)[keyof typeof flowSpecifics]["flow"];
+    flowController.getFlow() as FlowSpecifics[keyof FlowSpecifics]["flow"];
+
   return Object.entries(currentFlow.states)
     .filter(([_, state]) => "states" in state)
     .map(([rootStateName, rootState]) => {
