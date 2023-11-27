@@ -12,3 +12,15 @@ export const beratungshilfePersoenlicheDaten = {
 
 const contextObject = z.object(beratungshilfePersoenlicheDaten).partial();
 export type BeratungshilfePersoenlicheDaten = z.infer<typeof contextObject>;
+
+export const beratungshilfePersoenlicheDatenDone = (
+  context: BeratungshilfePersoenlicheDaten,
+) =>
+  Boolean(
+    context.vorname &&
+      context.nachname &&
+      context.geburtsdatum &&
+      context.strasseHausnummer &&
+      context.plz &&
+      context.ort,
+  );

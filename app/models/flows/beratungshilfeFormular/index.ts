@@ -16,8 +16,16 @@ import {
 } from "./rechtsproblem/context";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import abgabeFlow from "./abgabe/flow.json";
-import { beratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
-import { beratungshilfePersoenlicheDaten } from "./persoenlicheDaten/context";
+import {
+  type BeratungshilfeFinanzielleAngaben,
+  beratungshilfeFinanzielleAngaben,
+  beratungshilfeFinanzielleAngabeDone,
+} from "./finanzielleAngaben/context";
+import {
+  type BeratungshilfePersoenlicheDaten,
+  beratungshilfePersoenlicheDaten,
+  beratungshilfePersoenlicheDatenDone,
+} from "./persoenlicheDaten/context";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 
@@ -54,12 +62,14 @@ export const beratungshilfeAntrag = {
         },
       }),
       finanzielleAngaben: _.merge(_.cloneDeep(finanzielleAngabenFlow), {
+        meta: { done: beratungshilfeFinanzielleAngabeDone },
         states: {
           start: { on: { BACK: "#rechtsproblem.danke" } },
           danke: { on: { SUBMIT: "#persoenlicheDaten.start" } },
         },
       }),
       persoenlicheDaten: _.merge(_.cloneDeep(persoenlicheDatenFlow), {
+        meta: { done: beratungshilfePersoenlicheDatenDone },
         states: {
           start: { on: { BACK: "#finanzielleAngaben.danke" } },
           danke: {
@@ -90,4 +100,6 @@ export const beratungshilfeAntrag = {
 } as const;
 
 export type BeratungshilfeAntragContext = BeratungshilfeGrundvoraussetzungen &
-  BeratungshilfeRechtsproblem;
+  BeratungshilfeRechtsproblem &
+  BeratungshilfeFinanzielleAngaben &
+  BeratungshilfePersoenlicheDaten;

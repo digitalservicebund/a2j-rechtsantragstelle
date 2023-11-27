@@ -7,3 +7,7 @@ export const beratungshilfeFinanzielleAngaben = {
 
 const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();
 export type BeratungshilfeFinanzielleAngaben = z.infer<typeof contextObject>;
+
+export const beratungshilfeFinanzielleAngabeDone = (
+  context: BeratungshilfeFinanzielleAngaben,
+) => Boolean(context.einkommen);
