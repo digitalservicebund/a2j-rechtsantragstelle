@@ -1,0 +1,10 @@
+{
+  "predictableActionArguments": true,
+  "initial": "start",
+  "id": "finanzielleAngaben",
+  "states": {
+    "start": { "on": { "SUBMIT": "einkommen" } },
+    "einkommen": { "on": { "BACK": "start", "SUBMIT": "danke" } },
+    "danke": { "on": { "BACK": "einkommen" } }
+  }
+}

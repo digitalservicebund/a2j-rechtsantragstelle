@@ -1,0 +1,13 @@
+{
+  "predictableActionArguments": true,
+  "initial": "start",
+  "id": "persoenlicheDaten",
+  "states": {
+    "start": { "on": { "SUBMIT": "name" } },
+    "name": { "on": { "BACK": "start", "SUBMIT": "geburtsdatum" } },
+    "geburtsdatum": { "on": { "BACK": "name", "SUBMIT": "adresse" } },
+    "adresse": { "on": { "BACK": "geburtsdatum", "SUBMIT": "telefonnummer" } },
+    "telefonnummer": { "on": { "BACK": "adresse", "SUBMIT": "danke" } },
+    "danke": { "on": { "BACK": "telefonnummer" } }
+  }
+}

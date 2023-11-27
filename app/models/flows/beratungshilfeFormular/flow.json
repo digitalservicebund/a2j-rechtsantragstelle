@@ -5,7 +5,7 @@
   "states": {
     "start": {
       "id": "antragStart",
-      "on": { "SUBMIT": "#grundvoraussetzungen" }
+      "on": { "SUBMIT": "#grundvoraussetzungen.start" }
     }
   }
 }

@@ -162,6 +162,15 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/isbot/LICENSE",
     "direct": true
   },
+  "lodash": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lodash/lodash",
+    "publisher": "John-David Dalton",
+    "email": "john.david.dalton@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/lodash",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/lodash/LICENSE",
+    "direct": true
+  },
   "marked": {
     "licenses": "MIT",
     "repository": "https://github.com/markedjs/marked",
@@ -177,6 +186,21 @@
     "email": "http://github.com/janl/mustache.js",
     "path": "a2j-rechtsantragstelle/node_modules/mustache",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/mustache/LICENSE",
+    "direct": true
+  },
+  "pako": {
+    "licenses": "(MIT AND Zlib)",
+    "repository": "https://github.com/nodeca/pako",
+    "path": "a2j-rechtsantragstelle/node_modules/@pdf-lib/standard-fonts/node_modules/pako",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@pdf-lib/standard-fonts/node_modules/pako/LICENSE"
+  },
+  "pdf-lib": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Hopding/pdf-lib",
+    "publisher": "Andrew Dillon",
+    "email": "andrew.dillon.j@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/pdf-lib",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/pdf-lib/LICENSE.md",
     "direct": true
   },
   "posthog-js": {
@@ -196,11 +220,26 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/posthog-node/README.md",
     "direct": true
   },
+  "quicktype-core": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/quicktype/quicktype",
+    "path": "a2j-rechtsantragstelle/node_modules/quicktype-core",
+    "direct": true,
+    "licenseFile": ""
+  },
   "react-dom": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react",
     "path": "a2j-rechtsantragstelle/node_modules/react-dom",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/react-dom/LICENSE",
+    "direct": true
+  },
+  "react-imask": {
+    "licenses": "MIT",
+    "repository": "https://github.com/uNmAnNeR/imaskjs.git#master",
+    "publisher": "Alexey Kryazhev",
+    "path": "a2j-rechtsantragstelle/node_modules/react-imask",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/react-imask/LICENSE",
     "direct": true
   },
   "react": {
@@ -226,6 +265,15 @@
     "email": "alexreardon@gmail.com",
     "path": "a2j-rechtsantragstelle/node_modules/tiny-invariant",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/tiny-invariant/LICENSE",
+    "direct": true
+  },
+  "validator": {
+    "licenses": "MIT",
+    "repository": "https://github.com/validatorjs/validator.js",
+    "publisher": "Chris O'Hara",
+    "email": "cohara87@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/validator",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/validator/LICENSE",
     "direct": true
   },
   "xstate": {

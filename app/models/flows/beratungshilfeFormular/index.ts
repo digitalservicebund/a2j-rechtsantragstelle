@@ -16,6 +16,10 @@ import {
 } from "./rechtsproblem/context";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import abgabeFlow from "./abgabe/flow.json";
+import { beratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
+import { beratungshilfePersoenlicheDaten } from "./persoenlicheDaten/context";
+import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
+import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 
 export const beratungshilfeAntrag = {
   cmsSlug: "form-flow-pages",
@@ -46,6 +50,18 @@ export const beratungshilfeAntrag = {
               BACK: "#grundvoraussetzungen.eigeninitiativeGrundvorraussetzung",
             },
           },
+          danke: { on: { SUBMIT: "#finanzielleAngaben.start" } },
+        },
+      }),
+      finanzielleAngaben: _.merge(_.cloneDeep(finanzielleAngabenFlow), {
+        states: {
+          start: { on: { BACK: "#rechtsproblem.danke" } },
+          danke: { on: { SUBMIT: "#persoenlicheDaten.start" } },
+        },
+      }),
+      persoenlicheDaten: _.merge(_.cloneDeep(persoenlicheDatenFlow), {
+        states: {
+          start: { on: { BACK: "#finanzielleAngaben.danke" } },
           danke: {
             on: {
               SUBMIT: { target: "#abgabe.uebersicht", cond: "readyForAbgabe" },
@@ -55,9 +71,7 @@ export const beratungshilfeAntrag = {
       }),
       abgabe: _.merge(_.cloneDeep(abgabeFlow), {
         states: {
-          uebersicht: {
-            on: { BACK: "#rechtsproblem.danke" },
-          },
+          uebersicht: { on: { BACK: "#persoenlicheDaten.danke" } },
         },
       }),
     },
@@ -70,6 +84,8 @@ export const beratungshilfeAntrag = {
   context: {
     ...beratungshilfeGrundvoraussetzungen,
     ...beratungshilfeRechtsproblem,
+    ...beratungshilfeFinanzielleAngaben,
+    ...beratungshilfePersoenlicheDaten,
   },
 } as const;
 
