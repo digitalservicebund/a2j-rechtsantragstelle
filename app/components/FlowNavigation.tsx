@@ -1,14 +1,7 @@
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 import RadioButtonCheckedOutlinedIcon from "@mui/icons-material/RadioButtonCheckedOutlined";
-
-export enum NavState {
-  DoneDisabled,
-  Done,
-  Current,
-  Open,
-  OpenDisabled,
-}
+import { NavState } from "~/services/flowNavigation";
 
 export type NavItem = {
   destination: string;

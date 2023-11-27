@@ -10,7 +10,7 @@ import fluggastrechteFlow from "~/models/flows/fluggastrechteFormular/config.jso
 import fluggastrechteVorabcheckFlow from "~/models/flows/fluggastrechte/config.json";
 import { context as geldEinklagenContext } from "~/models/flows/geldEinklagen/pages";
 import {
-  GeldEinklagenFormularContext,
+  type GeldEinklagenFormularContext,
   context as geldEinklagenFormularContext,
 } from "~/models/flows/geldEinklagenFormular/context";
 import { context as beratungshilfeContext } from "~/models/flows/beratungshilfe/pages";

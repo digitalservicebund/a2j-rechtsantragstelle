@@ -1,6 +1,14 @@
-import { NavState, type NavItem } from "~/components/FlowNavigation";
+import { type NavItem } from "~/components/FlowNavigation";
 import type { FlowId, flowSpecifics } from "~/routes/shared/flowSpecifics";
 import { type buildFlowController } from "./flow/buildFlowController";
+
+export enum NavState {
+  DoneDisabled,
+  Done,
+  Current,
+  Open,
+  OpenDisabled,
+}
 
 export function navItemsFromFlowSpecifics(
   currentStepId: string,
@@ -13,28 +21,34 @@ export function navItemsFromFlowSpecifics(
     .filter(([_, state]) => "states" in state)
     .map(([rootStateName, rootState]) => {
       const destinationStepId = `${rootStateName}/${rootState.initial}`;
-      const destination = `/${flowId}/${destinationStepId}`;
-
-      let state = NavState.OpenDisabled;
-
-      if (currentStepId.startsWith(rootStateName)) {
-        state = NavState.Current;
-      } else if (flowController.isReachable(destinationStepId)) {
-        if (flowController.isDone(rootStateName)) {
-          if (flowController.isUneditable(rootStateName)) {
-            state = NavState.DoneDisabled;
-          } else {
-            state = NavState.Done;
-          }
-        } else {
-          state = NavState.Open;
-        }
-      }
 
       return {
-        destination,
+        destination: `/${flowId}/${destinationStepId}`,
         label: rootStateName,
-        state,
+        state: navState({
+          isCurrent: currentStepId.startsWith(rootStateName),
+          isReachable: flowController.isReachable(destinationStepId),
+          isDone: flowController.isDone(rootStateName),
+          isUneditable: flowController.isUneditable(rootStateName),
+        }),
       };
     });
+}
+
+export function navState({
+  isCurrent,
+  isReachable,
+  isDone,
+  isUneditable,
+}: {
+  isCurrent: boolean;
+  isReachable: boolean;
+  isDone: boolean;
+  isUneditable: boolean;
+}) {
+  if (isCurrent) return NavState.Current;
+  if (isUneditable && isDone) return NavState.DoneDisabled;
+  if (isReachable && isDone) return NavState.Done;
+  if (isReachable) return NavState.Open;
+  return NavState.OpenDisabled;
 }
