@@ -12,6 +12,7 @@ import {
   PDFTextField,
   PDFCheckBox,
   PageSizes,
+  StandardFonts,
 } from "pdf-lib";
 import { normalizePropertyName } from "../pdf.server";
 
@@ -46,29 +47,48 @@ export async function getBeratungshilfeParameters() {
 }
 
 export async function fillAndAppendBeratungsHilfe(values: BeratungshilfePDF) {
-  return await PDFDocument.load(getBeratungshilfePdfBuffer()).then((pdfDoc) => {
-    const form = pdfDoc.getForm();
+  return await PDFDocument.load(getBeratungshilfePdfBuffer()).then(
+    async (pdfDoc) => {
+      const form = pdfDoc.getForm();
 
-    Object.entries(values).forEach(([, value]) => {
-      // When value is a BooleanField
-      const booleanField = value as BooleanField;
-      if (!changeBooleanField(booleanField, form)) {
-        // When value is a StringField
-        const stringField = value as StringField;
-        changeStringField(stringField, form);
-      }
-    });
+      Object.entries(values).forEach(([, value]) => {
+        // When value is a BooleanField
+        const booleanField = value as BooleanField;
+        if (!changeBooleanField(booleanField, form)) {
+          // When value is a StringField
+          const stringField = value as StringField;
+          changeStringField(stringField, form);
+        }
+      });
 
-    pdfDoc.insertPage(3, PageSizes.A4);
+      const page = pdfDoc.insertPage(3, PageSizes.A4);
+      const paddingLeft = PageSizes.A4[0] - 480;
+      const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+      const normal = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-    const pages = pdfDoc.getPages();
-    pages[3].drawText("Creating PDFs in JavaScript is awesome! - A2J", {
-      x: PageSizes.A4[0] - 500,
-      y: PageSizes.A4[1] - 120,
-      size: 20,
-    });
-    return pdfDoc.save();
-  });
+      page.drawText("Anhang zum Antrag auf Beratungshilfe", {
+        x: paddingLeft,
+        y: PageSizes.A4[1] - 100,
+        size: 20,
+      });
+
+      page.drawText("Thema des Rechtsproblems: ", {
+        x: paddingLeft,
+        y: PageSizes.A4[1] - 140,
+        size: 12,
+        font: bold,
+      });
+
+      page.drawText("Thema des Rechtsproblems: ", {
+        x: paddingLeft,
+        y: PageSizes.A4[1] - 140,
+        size: 12,
+        font: bold,
+      });
+
+      return pdfDoc.save();
+    },
+  );
 }
 
 export async function fillOutBeratungshilfe(values: BeratungshilfePDF) {
