@@ -46,7 +46,10 @@ export async function getBeratungshilfeParameters() {
   return Convert.toBeratungshilfePDF(JSON.stringify(json));
 }
 
-export async function fillAndAppendBeratungsHilfe(values: BeratungshilfePDF) {
+export async function fillAndAppendBeratungsHilfe(
+  values: BeratungshilfePDF,
+  description: { title: string; text: string }[],
+) {
   return await PDFDocument.load(getBeratungshilfePdfBuffer()).then(
     async (pdfDoc) => {
       const form = pdfDoc.getForm();
@@ -68,22 +71,27 @@ export async function fillAndAppendBeratungsHilfe(values: BeratungshilfePDF) {
 
       page.drawText("Anhang zum Antrag auf Beratungshilfe", {
         x: paddingLeft,
-        y: PageSizes.A4[1] - 100,
+        y: PageSizes.A4[1] - 80,
         size: 20,
       });
 
-      page.drawText("Thema des Rechtsproblems: ", {
-        x: paddingLeft,
-        y: PageSizes.A4[1] - 140,
-        size: 12,
-        font: bold,
-      });
+      description.forEach((item, index) => {
+        const offset = index * 60 + 140;
 
-      page.drawText("Thema des Rechtsproblems: ", {
-        x: paddingLeft,
-        y: PageSizes.A4[1] - 140,
-        size: 12,
-        font: bold,
+        page.drawText(item.title, {
+          x: paddingLeft,
+          y: PageSizes.A4[1] - offset + 15,
+          size: 12,
+          font: bold,
+        });
+
+        page.drawText(item.text, {
+          x: paddingLeft,
+          y: PageSizes.A4[1] - offset - 5,
+          size: 12,
+          font: normal,
+          maxWidth: 400,
+        });
       });
 
       return pdfDoc.save();

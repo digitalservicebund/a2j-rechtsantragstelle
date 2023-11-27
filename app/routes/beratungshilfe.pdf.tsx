@@ -7,14 +7,56 @@ import {
 } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import { getSessionForContext } from "~/services/session";
 
-const handleBeschreibungText = (context: BeratungshilfeAntragContext) => {
-  if (context.beschreibung && context.beschreibung.length <= 255) {
-    return { shouldCreateNewPage: false, description: context.beschreibung };
+const isANewAttachmentPageNeeded = (context: BeratungshilfeAntragContext) => {
+  const description = [];
+
+  if (context.bereich) {
+    // TODO move to strapi
+    const bereichMapping = {
+      authorities: "Behörden",
+      living: "Wohnen",
+      work: "Arbeit",
+      separation: "Trennung & Unterhalt",
+      trade: "Handel & Verträge",
+      debt: "Schulden & Forderungen",
+      inheritance: "Erben",
+      criminalProcedure: "Strafverfahren",
+      other: "Sonstiges",
+    };
+
+    description.push({
+      title: "Thema des Rechtsproblems:",
+      text: bereichMapping[context.bereich],
+    });
+  }
+
+  if (context.beschreibung) {
+    description.push({
+      title: "Beschreibung Angelegenheit:",
+      text: context.beschreibung,
+    });
+  }
+
+  if (context.eigeninitiativeBeschreibung) {
+    description.push({
+      title: "Beschreibung Angelegenheit:",
+      text: context.eigeninitiativeBeschreibung,
+    });
+  } else if (context.keineEigeninitiativeBeschreibung) {
+    description.push({
+      title: "Keine Eigenbemühung, weil:",
+      text: context.keineEigeninitiativeBeschreibung,
+    });
+  }
+
+  if (context.sonstiges) {
+    description.push({ title: "Weitere Anmerkung:", text: context.sonstiges });
   }
 
   return {
-    shouldCreateNewPage: true,
-    description: "Bitte beachten: Siehe Anhang",
+    shouldCreateNewPage:
+      description.map((x) => x.title + x.text).join(" ").length > 255,
+    description,
   };
 };
 
@@ -23,6 +65,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   if (!pdfFields) {
     //TODO: This should return a non-recoverable error, because it requires a PDF to fulfill the job
+    console.error("This should not happen - pdf file is missing!");
     return {};
   }
 
@@ -33,7 +76,14 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const context: BeratungshilfeAntragContext = data; // Recast for now to get type safety
 
-  const { shouldCreateNewPage, description } = handleBeschreibungText(context);
+  if (!context) {
+    // TODO Handle error here
+    console.log("No context found - please restart flow");
+    return {};
+  }
+
+  const { shouldCreateNewPage, description } =
+    isANewAttachmentPageNeeded(context);
 
   try {
     pdfFields.bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein!.value =
@@ -47,20 +97,20 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
     if (shouldCreateNewPage) {
       pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern!.value =
-        description;
+        "Bitte im Anhang prüfen";
+    } else {
+      pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern!.value =
+        description.map((x) => `${x.title} ${x.text}`).join("\n");
     }
-
-    pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern!.value =
-      description;
   } catch (error) {
     console.error(error);
   }
 
   const pdfResponse = shouldCreateNewPage
-    ? fillAndAppendBeratungsHilfe
-    : fillOutBeratungshilfe;
+    ? fillAndAppendBeratungsHilfe(pdfFields, description)
+    : fillOutBeratungshilfe(pdfFields);
 
-  return new Response(await pdfResponse(pdfFields), {
+  return new Response(await pdfResponse, {
     headers: {
       "Content-Type": "application/pdf",
     },
