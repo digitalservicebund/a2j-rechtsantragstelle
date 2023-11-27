@@ -2,14 +2,14 @@ import type { MachineConfig, StateValue } from "xstate";
 import { createMachine } from "xstate";
 import { getShortestPaths } from "@xstate/graph";
 
-export type Context = Record<string, boolean | string | object | number>;
+type Context = Record<string, boolean | string | object | number>;
 type Event = "SUBMIT" | "BACK";
 type StateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
 type StateMachine = ReturnType<
   typeof createMachine<Context, StateMachineEvents>
 >;
-export type Config = MachineConfig<Context, any, StateMachineEvents>;
-export type Guards = Record<string, (context: Context) => boolean>;
+type Config = MachineConfig<Context, any, StateMachineEvents>;
+type Guards = Record<string, (context: Context) => boolean>;
 type Meta = {
   progressPosition: number | undefined;
   isUneditable: boolean | undefined;
