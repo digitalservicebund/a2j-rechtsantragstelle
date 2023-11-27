@@ -1,5 +1,5 @@
 import { type NavItem } from "~/components/FlowNavigation";
-import type { FlowId, FlowSpecifics } from "~/routes/shared/flowSpecifics";
+import type { FlowSpecifics } from "~/routes/shared/flowSpecifics";
 import { type buildFlowController } from "./flow/buildFlowController";
 
 export enum NavState {
@@ -12,7 +12,6 @@ export enum NavState {
 
 export function navItemsFromFlowSpecifics(
   currentStepId: string,
-  flowId: FlowId,
   flowController: ReturnType<typeof buildFlowController>,
 ): NavItem[] {
   const currentFlow =
@@ -22,9 +21,9 @@ export function navItemsFromFlowSpecifics(
     .filter(([_, state]) => "states" in state)
     .map(([rootStateName, rootState]) => {
       const destinationStepId = `${rootStateName}/${rootState.initial}`;
-
+      const pathPrefix = currentStepId.includes("/") ? ".." : "."; // account for both nested and non-nested steps
       return {
-        destination: `/${flowId}/${destinationStepId}`,
+        destination: `${pathPrefix}/${destinationStepId}`,
         label: rootStateName,
         state: navState({
           isCurrent: currentStepId.startsWith(rootStateName),
