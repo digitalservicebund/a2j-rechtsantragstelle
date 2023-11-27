@@ -276,17 +276,18 @@ export function StepWithPreHeading() {
 
   const isBeratungshilfeAntrag = pathname.includes("beratungshilfe/antrag");
 
-  const nextButtonProps:
-    | { label: string; destination: string; downloadFile?: string }
-    | { label: string } = isBeratungshilfeAntrag
-    ? isLast
-      ? {
-          label: "Antrag herunterladen",
-          destination: "/beratungshilfe/antrag/pdf",
-          downloadFile: "Beratungshilfe Antrag.pdf",
-        }
-      : { label: commonContent.nextButtonDefaultLabel }
+  // when the last step is reached, the next button should be a download or send button based on pathname of the url
+  const lastNextButtonProps = isBeratungshilfeAntrag
+    ? {
+        label: "Antrag herunterladen",
+        destination: "/beratungshilfe/antrag/pdf",
+        downloadFile: "Beratungshilfe Antrag.pdf",
+      }
     : { label: "Klage versenden", destination: "#" };
+
+  const nextButtonProps = isLast
+    ? lastNextButtonProps
+    : { label: commonContent.nextButtonDefaultLabel };
 
   return (
     <Background backgroundColor="blue">
