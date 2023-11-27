@@ -274,9 +274,19 @@ export function StepWithPreHeading() {
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
 
-  const nextButtonProps = isLast
-    ? { label: "Klage versenden", destination: "/beratungshilfe/antrag/pdf" }
-    : { label: commonContent.nextButtonDefaultLabel };
+  const isBeratungshilfeAntrag = pathname.includes("beratungshilfe/antrag");
+
+  const nextButtonProps:
+    | { label: string; destination: string; downloadFile?: string }
+    | { label: string } = isBeratungshilfeAntrag
+    ? isLast
+      ? {
+          label: "Antrag herunterladen",
+          destination: "/beratungshilfe/antrag/pdf",
+          downloadFile: "Beratungshilfe Antrag.pdf",
+        }
+      : { label: commonContent.nextButtonDefaultLabel }
+    : { label: "Klage versenden", destination: "#" };
 
   return (
     <Background backgroundColor="blue">

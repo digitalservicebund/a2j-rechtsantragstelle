@@ -1,14 +1,14 @@
 import _ from "lodash";
+import type { BeratungshilfeGrundvoraussetzungen } from "./grundvoraussetzung/context";
 import {
-  BeratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungenGuards,
 } from "./grundvoraussetzung/context";
 import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.json";
 import beratungshilfeAntragFlow from "./flow.json";
 import rechtsproblemFlow from "./rechtsproblem/flow.json";
+import type { BeratungshilfeRechtsproblem } from "./rechtsproblem/context";
 import {
-  BeratungshilfeRechtsproblem,
   beratungshilfeRechtsproblem,
   beratungshilfeRechtsproblemGuards,
 } from "./rechtsproblem/context";
