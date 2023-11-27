@@ -10,6 +10,7 @@ export const ButtonPropsSchema = z.object({
   iconLeft: z.custom<ReactElement>().optional(),
   iconRight: z.custom<ReactElement>().optional(),
   fullWidth: z.boolean().optional(),
+  isDownload: z.boolean().optional(),
 });
 
 type Props = z.infer<typeof ButtonPropsSchema>;
@@ -32,6 +33,7 @@ function Button({
   look,
   size,
   href,
+  isDownload,
   ...props
 }: ButtonProps | ButtonLinkProps) {
   const buttonClasses = classNames(
@@ -72,6 +74,7 @@ function Button({
         className={buttonClasses}
         role="button"
         onKeyDown={onKeyDown}
+        download={isDownload}
       >
         {iconLeft} {children ? childrenSpan : textSpan} {iconRight}
       </a>
