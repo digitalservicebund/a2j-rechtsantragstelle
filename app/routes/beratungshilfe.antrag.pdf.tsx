@@ -1,4 +1,5 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { LoaderFunctionArgs, redirect } from "@remix-run/node";
+import _ from "lodash";
 import { BeratungshilfeAntragContext } from "~/models/flows/beratungshilfeFormular";
 import {
   fillAndAppendBeratungsHilfe,
@@ -64,9 +65,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const pdfFields = await getBeratungshilfeParameters();
 
   if (!pdfFields) {
-    //TODO: This should return a non-recoverable error, because it requires a PDF to fulfill the job
-    console.error("This should not happen - pdf file is missing!");
-    return {};
+    console.error("No pdf fields or file found for beratungshilfe!");
+
+    return new Response("No pdf fields or file found for beratungshilfe!", {
+      status: 500,
+    });
   }
 
   const cookieId = request.headers.get("Cookie");
@@ -74,12 +77,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     "beratungshilfe/antrag",
   ).getSession(cookieId);
 
+  console.log("data", data);
   const context: BeratungshilfeAntragContext = data; // Recast for now to get type safety
 
-  if (!context) {
-    // TODO Handle error here
-    console.log("No context found - please restart flow");
-    return {};
+  if (_.isEmpty(context)) {
+    console.error("No context found - please restart flow");
+
+    return redirect("/beratungshilfe/antrag");
   }
 
   const { shouldCreateNewPage, description } =
