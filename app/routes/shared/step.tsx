@@ -275,7 +275,7 @@ export function StepWithPreHeading() {
   const validator = buildStepValidator(context, fieldNames);
 
   const nextButtonProps = isLast
-    ? { label: "Klage versenden", destination: "#" }
+    ? { label: "Klage versenden", destination: "/beratungshilfe/antrag/pdf" }
     : { label: commonContent.nextButtonDefaultLabel };
 
   return (
