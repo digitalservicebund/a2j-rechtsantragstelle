@@ -43,7 +43,7 @@ export default function FlowNavigation({ navItems }: { navItems: NavItem[] }) {
             {state === NavState.Current ? (
               <RadioButtonCheckedOutlinedIcon />
             ) : [NavState.DoneDisabled, NavState.Done].includes(state) ? (
-              <CheckCircleOutlineIcon />
+              <CheckCircleOutlineIcon className="text-green-800" />
             ) : (
               <CircleOutlinedIcon />
             )}
