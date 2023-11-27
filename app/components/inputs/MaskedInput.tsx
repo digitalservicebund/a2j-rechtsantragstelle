@@ -2,7 +2,7 @@ import Input, { type InputProps } from "./Input";
 import { IMaskMixin } from "react-imask";
 
 type MaskedInputProps = InputProps & {
-  mask: string | RegExp | DateConstructor;
+  mask: string | RegExp;
 };
 
 const MaskedStyledInput = IMaskMixin<
