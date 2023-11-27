@@ -9,7 +9,10 @@ import persoenlicheDatenFlow from "~/models/flows/persoenlicheDaten/config.json"
 import fluggastrechteFlow from "~/models/flows/fluggastrechteFormular/config.json";
 import fluggastrechteVorabcheckFlow from "~/models/flows/fluggastrechte/config.json";
 import { context as geldEinklagenContext } from "~/models/flows/geldEinklagen/pages";
-import { context as geldEinklagenFormularContext } from "~/models/flows/geldEinklagenFormular/context";
+import {
+  type GeldEinklagenFormularContext,
+  context as geldEinklagenFormularContext,
+} from "~/models/flows/geldEinklagenFormular/context";
 import { context as beratungshilfeContext } from "~/models/flows/beratungshilfe/pages";
 import invariant from "tiny-invariant";
 import type { Params } from "@remix-run/react";
@@ -74,11 +77,50 @@ export const flowSpecifics = {
     flow: _.merge(geldEinklagenFormularFlow, {
       states: {
         "persoenliche-daten": _.merge(_.cloneDeep(persoenlicheDatenFlow), {
+          meta: {
+            done: (context: GeldEinklagenFormularContext) =>
+              Boolean(
+                context.anzahl &&
+                  context.vorname &&
+                  context.nachname &&
+                  context.volljaehrig &&
+                  context.strasseHausnummer &&
+                  context.plz &&
+                  context.ort &&
+                  context.telefonnummer &&
+                  context.gesetzlicheVertretung &&
+                  context.bevollmaechtigtePerson,
+              ),
+          },
           states: {
             start: { on: { BACK: "#daten-uebernahme" } },
             "bevollmaechtigte-person": { on: { SUBMIT: "#gegenseite" } },
           },
         }),
+        gegenseite: {
+          meta: {
+            done: (context: GeldEinklagenFormularContext) =>
+              Boolean(
+                (context.gegenseite?.typ === "privatperson" &&
+                  context.gegenseite.privatperson?.vorname &&
+                  context.gegenseite.privatperson?.nachname &&
+                  context.gegenseite.privatperson?.strasseHausnummer &&
+                  context.gegenseite.privatperson?.plz &&
+                  context.gegenseite.privatperson?.ort &&
+                  context.gegenseite.privatperson?.telefonnummer &&
+                  context.gegenseite.privatperson?.bevollmaechtigtePerson &&
+                  context.gegenseite.privatperson?.vorname) ||
+                  (context.gegenseite?.typ === "unternehmen" &&
+                    context.gegenseite.unternehmen?.name &&
+                    context.gegenseite.unternehmen?.inhaber &&
+                    context.gegenseite.unternehmen?.strasseHausnummer &&
+                    context.gegenseite.unternehmen?.plz &&
+                    context.gegenseite.unternehmen?.ort &&
+                    context.gegenseite.unternehmen?.telefonnummer &&
+                    context.gegenseite.unternehmen?.bevollmaechtigtePerson),
+              ),
+          },
+        },
       },
     }),
     guards: geldEinklagenFormularGuards,

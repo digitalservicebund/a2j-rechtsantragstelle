@@ -2,6 +2,7 @@
   "predictableActionArguments": true,
   "initial": "start",
   "id": "grundvoraussetzungen",
+  "meta": { "isUneditable": true },
   "states": {
     "start": { "on": { "SUBMIT": "rechtsschutzversicherung" } },
     "rechtsschutzversicherung": {

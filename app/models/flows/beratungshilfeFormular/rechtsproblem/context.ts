@@ -7,10 +7,6 @@ import { inputRequiredSchema } from "~/services/validation/inputRequired";
 
 //TODO: what was the reason of the duplication below
 export const beratungshilfeRechtsproblem = {
-  rechtsschutzversicherung: YesNoAnswer,
-  wurdeVerklagt: YesNoAnswer,
-  klageEingereicht: YesNoAnswer,
-  beratungshilfeBeantragt: YesNoAnswer,
   bereich: z.enum(
     [
       "authorities",
@@ -39,3 +35,12 @@ export const beratungshilfeRechtsproblemGuards = {
   eigeninitiativeYes: (context: BeratungshilfeRechtsproblem) =>
     context.eigeninitiative === "yes",
 };
+
+export const rechtsproblemDone = (context: BeratungshilfeRechtsproblem) =>
+  Boolean(
+    context.bereich &&
+      context.beschreibung &&
+      context.eigeninitiative &&
+      (context.eigeninitiativeBeschreibung ||
+        context.keineEigeninitiativeBeschreibung),
+  );

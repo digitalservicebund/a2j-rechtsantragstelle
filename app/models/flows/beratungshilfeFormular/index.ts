@@ -1,19 +1,31 @@
 import _ from "lodash";
-import type { BeratungshilfeGrundvoraussetzungen } from "./grundvoraussetzung/context";
 import {
+  type BeratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungenGuards,
+  grundvoraussetzungDone,
 } from "./grundvoraussetzung/context";
 import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.json";
 import beratungshilfeAntragFlow from "./flow.json";
 import rechtsproblemFlow from "./rechtsproblem/flow.json";
-import type { BeratungshilfeRechtsproblem } from "./rechtsproblem/context";
 import {
+  type BeratungshilfeRechtsproblem,
   beratungshilfeRechtsproblem,
   beratungshilfeRechtsproblemGuards,
+  rechtsproblemDone,
 } from "./rechtsproblem/context";
-import { beratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
-import { beratungshilfePersoenlicheDaten } from "./persoenlicheDaten/context";
+import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
+import abgabeFlow from "./abgabe/flow.json";
+import {
+  type BeratungshilfeFinanzielleAngaben,
+  beratungshilfeFinanzielleAngaben,
+  beratungshilfeFinanzielleAngabeDone,
+} from "./finanzielleAngaben/context";
+import {
+  type BeratungshilfePersoenlicheDaten,
+  beratungshilfePersoenlicheDaten,
+  beratungshilfePersoenlicheDatenDone,
+} from "./persoenlicheDaten/context";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 
@@ -24,6 +36,7 @@ export const beratungshilfeAntrag = {
       grundvoraussetzungen: _.merge(
         _.cloneDeep(beratungshilfeGrundvoraussetzungenFlow),
         {
+          meta: { done: grundvoraussetzungDone },
           states: {
             start: { on: { BACK: "#antragStart" } },
             eigeninitiativeGrundvorraussetzung: {
@@ -38,6 +51,7 @@ export const beratungshilfeAntrag = {
         },
       ),
       rechtsproblem: _.merge(_.cloneDeep(rechtsproblemFlow), {
+        meta: { done: rechtsproblemDone },
         states: {
           start: {
             on: {
@@ -48,14 +62,26 @@ export const beratungshilfeAntrag = {
         },
       }),
       finanzielleAngaben: _.merge(_.cloneDeep(finanzielleAngabenFlow), {
+        meta: { done: beratungshilfeFinanzielleAngabeDone },
         states: {
           start: { on: { BACK: "#rechtsproblem.danke" } },
           danke: { on: { SUBMIT: "#persoenlicheDaten.start" } },
         },
       }),
       persoenlicheDaten: _.merge(_.cloneDeep(persoenlicheDatenFlow), {
+        meta: { done: beratungshilfePersoenlicheDatenDone },
         states: {
           start: { on: { BACK: "#finanzielleAngaben.danke" } },
+          danke: {
+            on: {
+              SUBMIT: { target: "#abgabe.uebersicht", cond: "readyForAbgabe" },
+            },
+          },
+        },
+      }),
+      abgabe: _.merge(_.cloneDeep(abgabeFlow), {
+        states: {
+          uebersicht: { on: { BACK: "#persoenlicheDaten.danke" } },
         },
       }),
     },
@@ -63,6 +89,7 @@ export const beratungshilfeAntrag = {
   guards: {
     ...beratungshilfeGrundvoraussetzungenGuards,
     ...beratungshilfeRechtsproblemGuards,
+    ...beratungshilfeAbgabeGuards,
   },
   context: {
     ...beratungshilfeGrundvoraussetzungen,
@@ -73,4 +100,6 @@ export const beratungshilfeAntrag = {
 } as const;
 
 export type BeratungshilfeAntragContext = BeratungshilfeGrundvoraussetzungen &
-  BeratungshilfeRechtsproblem;
+  BeratungshilfeRechtsproblem &
+  BeratungshilfeFinanzielleAngaben &
+  BeratungshilfePersoenlicheDaten;

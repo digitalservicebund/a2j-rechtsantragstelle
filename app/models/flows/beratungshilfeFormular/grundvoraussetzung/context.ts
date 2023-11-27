@@ -26,3 +26,13 @@ export const beratungshilfeGrundvoraussetzungenGuards = {
     context: BeratungshilfeGrundvoraussetzungen,
   ) => context.eigeninitiativeGrundvorraussetzung === "yes",
 };
+
+export const grundvoraussetzungDone = (
+  context: BeratungshilfeGrundvoraussetzungen,
+) =>
+  Boolean(
+    context.rechtsschutzversicherung === "no" &&
+      context.wurdeVerklagt === "no" &&
+      context.klageEingereicht === "no" &&
+      context.beratungshilfeBeantragt === "no",
+  );

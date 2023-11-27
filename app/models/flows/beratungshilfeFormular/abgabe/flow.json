@@ -1,0 +1,9 @@
+{
+  "predictableActionArguments": true,
+  "initial": "uebersicht",
+  "id": "abgabe",
+  "states": {
+    "uebersicht": { "on": { "SUBMIT": "download" } },
+    "download": { "on": { "BACK": "uebersicht" } }
+  }
+}
