@@ -39,7 +39,7 @@ const isANewAttachmentPageNeeded = (context: BeratungshilfeAntragContext) => {
 
   if (context.eigeninitiativeBeschreibung) {
     description.push({
-      title: "Beschreibung Angelegenheit:",
+      title: "Eigenbemühungen:",
       text: context.eigeninitiativeBeschreibung,
     });
   } else if (context.keineEigeninitiativeBeschreibung) {
