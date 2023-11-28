@@ -78,7 +78,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     "beratungshilfe/antrag",
   ).getSession(cookieId);
 
-  console.log("data", data);
   const context: BeratungshilfeAntragContext = data; // Recast for now to get type safety
 
   if (_.isEmpty(context)) {
