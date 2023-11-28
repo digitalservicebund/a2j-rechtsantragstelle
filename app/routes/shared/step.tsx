@@ -37,6 +37,7 @@ import MigrationDataOverview from "~/components/MigrationDataOverview";
 import { getMigrationData } from "~/services/session/crossFlowMigration";
 import FlowNavigation from "~/components/FlowNavigation";
 import { navItemsFromFlowSpecifics } from "~/services/flowNavigation";
+import { getNextButtonProps } from "~/util/getNextButtonProps";
 import { z } from "zod";
 import { CollectionSchemas } from "~/services/cms/schemas";
 
@@ -49,6 +50,10 @@ const structureCmsContent = (
     heading: "heading" in formPageContent ? formPageContent.heading : undefined,
     preHeading:
       "preHeading" in formPageContent ? formPageContent.preHeading : undefined,
+    nextButtonLabel:
+      "nextButtonLabel" in formPageContent
+        ? formPageContent.nextButtonLabel
+        : undefined,
     content: formPageContent.pre_form,
     formContent: formPageContent.form,
     postFormContent:
@@ -272,6 +277,7 @@ export function StepWithPreHeading() {
     commonContent,
     heading,
     preHeading,
+    nextButtonLabel,
     content,
     formContent,
     postFormContent,
@@ -288,20 +294,12 @@ export function StepWithPreHeading() {
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
 
-  const isBeratungshilfeAntrag = pathname.includes("beratungshilfe/antrag");
-
-  // when the last step is reached, the next button should be a download or send button based on pathname of the url
-  const lastNextButtonProps = isBeratungshilfeAntrag
-    ? {
-        label: "Antrag herunterladen",
-        destination: "/beratungshilfe/antrag/pdf",
-        downloadFile: "Beratungshilfe Antrag.pdf",
-      }
-    : { label: "Klage versenden", destination: "#" };
-
-  const nextButtonProps = isLast
-    ? lastNextButtonProps
-    : { label: commonContent.nextButtonDefaultLabel };
+  const nextButtonProps = getNextButtonProps({
+    pathname,
+    defaultLabel: commonContent.nextButtonDefaultLabel,
+    isLast: isLast,
+    nextButtonLabel: nextButtonLabel,
+  });
 
   return (
     <Background backgroundColor="blue">
