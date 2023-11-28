@@ -37,7 +37,24 @@ import MigrationDataOverview from "~/components/MigrationDataOverview";
 import { getMigrationData } from "~/services/session/crossFlowMigration";
 import FlowNavigation from "~/components/FlowNavigation";
 import { navItemsFromFlowSpecifics } from "~/services/flowNavigation";
+import { z } from "zod";
+import { CollectionSchemas } from "~/services/cms/schemas";
 
+const structureCmsContent = (
+  formPageContent: z.infer<
+    CollectionSchemas["form-flow-pages" | "vorab-check-pages"]
+  >,
+) => {
+  return {
+    heading: "heading" in formPageContent ? formPageContent.heading : undefined,
+    preHeading:
+      "preHeading" in formPageContent ? formPageContent.preHeading : undefined,
+    content: formPageContent.pre_form,
+    formContent: formPageContent.form,
+    postFormContent:
+      "post_form" in formPageContent ? formPageContent.post_form : undefined,
+  };
+};
 export const loader = async ({
   params,
   request,
@@ -104,21 +121,14 @@ export const loader = async ({
     title: `${formPageContent.meta.title} - ${parentMeta.title}`,
   };
 
+  const cmsContent = structureCmsContent(formPageContent);
+
   return json(
     {
       csrf,
       defaultValues: data as Record<string, string>,
       commonContent,
-      heading:
-        "heading" in formPageContent ? formPageContent.heading : undefined,
-      preHeading:
-        "preHeading" in formPageContent
-          ? formPageContent.preHeading
-          : undefined,
-      content: formPageContent.pre_form,
-      formContent: formPageContent.form,
-      postFormContent:
-        "post_form" in formPageContent ? formPageContent.post_form : undefined,
+      ...cmsContent,
       meta,
       migrationData,
       progress: flowController.getProgress(stepId),
