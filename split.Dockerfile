@@ -8,7 +8,7 @@
 ARG CONTENT_IMAGE=content
 ARG APP_IMAGE=app
 
-FROM node:18.18.0-alpine3.18 AS base
+FROM node:20-alpine AS base
 WORKDIR /a2j-rast
 ADD app/ app/
 COPY package.json package-lock.json tsconfig.json ./
@@ -44,7 +44,7 @@ COPY --from=app-builder  /a2j-rast/start.sh  /a2j-rast/server.js /
 # === PROD IMAGE
 FROM ${CONTENT_IMAGE} AS contentStageForCopy
 FROM ${APP_IMAGE} AS appStageForCopy
-FROM node:18-alpine AS prod
+FROM node:20-alpine AS prod
 RUN apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
 
 USER node
