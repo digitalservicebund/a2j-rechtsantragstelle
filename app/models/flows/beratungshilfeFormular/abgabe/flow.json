@@ -3,6 +3,15 @@
   "initial": "download",
   "id": "abgabe",
   "states": {
-    "download": {}
+    "download": {
+      "meta": {
+        "buttonNavigationProps": {
+          "next": {
+            "destination": "/beratungshilfe/antrag/pdf",
+            "downloadFile": "Beratungshilfe Antrag.pdf"
+          }
+        }
+      }
+    }
   }
 }

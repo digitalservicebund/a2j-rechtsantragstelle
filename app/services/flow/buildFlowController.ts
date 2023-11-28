@@ -10,10 +10,20 @@ type StateMachine = ReturnType<
 >;
 export type Config = MachineConfig<Context, any, StateMachineEvents>;
 export type Guards = Record<string, (context: Context) => boolean>;
-type Meta = {
+export type Meta = {
   progressPosition: number | undefined;
   isUneditable: boolean | undefined;
   done: (context: Context) => boolean | undefined;
+  buttonNavigationProps?: {
+    next?: {
+      destination?: string;
+      downloadFile?: string;
+      label?: string;
+    };
+    back?: {
+      label?: string;
+    };
+  };
 };
 
 // We have to differentiate between non- and nested steps.
@@ -72,6 +82,9 @@ export const buildFlowController = ({
   const denormalizeStepId = (stepId: string) => stepId.replace(".", "/");
 
   return {
+    getMeta: (currentStepId: string): Meta => {
+      return machine.getStateNodeByPath(normalizeStepId(currentStepId)).meta;
+    },
     isDone: (currentStepId: string) => {
       const meta: Meta = machine.getStateNodeByPath(currentStepId).meta;
       return meta && "done" in meta && meta.done(context) === true;

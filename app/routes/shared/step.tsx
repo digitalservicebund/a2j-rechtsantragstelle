@@ -38,9 +38,9 @@ import MigrationDataOverview from "~/components/MigrationDataOverview";
 import { getMigrationData } from "~/services/session/crossFlowMigration";
 import FlowNavigation from "~/components/FlowNavigation";
 import { navItemsFromFlowSpecifics } from "~/services/flowNavigation";
-import { getNextButtonProps } from "~/util/getNextButtonProps";
-import { z } from "zod";
-import { CollectionSchemas } from "~/services/cms/schemas";
+import type { z } from "zod";
+import type { CollectionSchemas } from "~/services/cms/schemas";
+import { getButtonNavigationProps } from "~/util/getButtonNavigationProps";
 
 const structureCmsContent = (
   formPageContent: z.infer<
@@ -138,6 +138,13 @@ export const loader = async ({
     ),
   );
 
+  const buttonNavigationProps = getButtonNavigationProps({
+    commonContent,
+    cmsContent,
+    configMetadata: flowController.getMeta(stepId),
+    previousStepUrl: flowController.getPrevious(stepId)?.url,
+  });
+
   return json(
     {
       csrf,
@@ -147,13 +154,12 @@ export const loader = async ({
       meta,
       migrationData,
       progress: flowController.getProgress(stepId),
-      isLast: flowController.isFinal(stepId),
-      previousStep: flowController.getPrevious(stepId)?.url,
       templateReplacements: {
         ...("stringReplacements" in currentFlow
           ? currentFlow.stringReplacements(flowContext)
           : {}),
       },
+      buttonNavigationProps,
       navItems: navItemsFromFlowSpecifics(
         stepId,
         flowController,
@@ -225,9 +231,8 @@ export function StepWithProgressBar() {
     content,
     formContent,
     progress,
-    isLast,
-    previousStep,
     templateReplacements,
+    buttonNavigationProps,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
@@ -235,10 +240,6 @@ export function StepWithProgressBar() {
   const { context } = flowSpecifics[flowId];
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
-
-  const nextLabel = isLast
-    ? commonContent.lastNextButtonLabel
-    : commonContent.nextButtonDefaultLabel;
 
   return (
     <Background backgroundColor="blue">
@@ -267,13 +268,7 @@ export function StepWithProgressBar() {
                 <input type="hidden" name={CSRFKey} value={csrf} />
                 <div className="ds-stack-40">
                   <PageContent content={formContent} className="ds-stack-40" />
-                  <ButtonNavigation
-                    back={{
-                      destination: previousStep,
-                      label: commonContent.backButtonDefaultLabel,
-                    }}
-                    next={{ label: nextLabel }}
-                  />
+                  <ButtonNavigation {...buttonNavigationProps} />
                 </div>
               </ValidatedForm>
             </div>
@@ -288,17 +283,14 @@ export function StepWithPreHeading() {
   const {
     csrf,
     defaultValues,
-    commonContent,
     heading,
     preHeading,
-    nextButtonLabel,
     content,
     formContent,
     postFormContent,
-    isLast,
-    previousStep,
     migrationData,
     templateReplacements,
+    buttonNavigationProps,
     navItems,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
@@ -307,13 +299,6 @@ export function StepWithPreHeading() {
   const { context } = flowSpecifics[flowId];
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
-
-  const nextButtonProps = getNextButtonProps({
-    pathname,
-    defaultLabel: commonContent.nextButtonDefaultLabel,
-    isLast: isLast,
-    nextButtonLabel: nextButtonLabel,
-  });
 
   return (
     <Background backgroundColor="blue">
@@ -373,13 +358,7 @@ export function StepWithPreHeading() {
               {postFormContent && postFormContent.length != 0 && (
                 <PageContent content={postFormContent} />
               )}
-              <ButtonNavigation
-                back={{
-                  destination: previousStep,
-                  label: commonContent.backButtonDefaultLabel,
-                }}
-                next={nextButtonProps}
-              />
+              <ButtonNavigation {...buttonNavigationProps} />
             </div>
           </ValidatedForm>
         </div>

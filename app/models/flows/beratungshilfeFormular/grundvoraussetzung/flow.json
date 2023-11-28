@@ -20,7 +20,11 @@
       }
     },
     "rechtsschutzversicherung-hinweis": {
-      "meta": { "softExit": true },
+      "meta": {
+        "buttonNavigationProps": {
+          "next": null
+        }
+      },
       "on": {
         "BACK": "rechtsschutzversicherung"
       }
@@ -40,7 +44,11 @@
       }
     },
     "wurdeVerklagt-hinweis": {
-      "meta": { "softExit": true },
+      "meta": {
+        "buttonNavigationProps": {
+          "next": null
+        }
+      },
       "on": {
         "BACK": "wurdeVerklagt"
       }
@@ -60,7 +68,11 @@
       }
     },
     "klageEingereicht-hinweis": {
-      "meta": { "softExit": true },
+      "meta": {
+        "buttonNavigationProps": {
+          "next": null
+        }
+      },
       "on": {
         "BACK": "klageEingereicht"
       }
@@ -80,7 +92,11 @@
       }
     },
     "beratungshilfeBeantragt-hinweis": {
-      "meta": { "softExit": true },
+      "meta": {
+        "buttonNavigationProps": {
+          "next": null
+        }
+      },
       "on": {
         "BACK": "beratungshilfeBeantragt"
       }
@@ -91,7 +107,11 @@
       }
     },
     "eigeninitiativeGrundvorraussetzung-hinweis": {
-      "meta": { "softExit": true },
+      "meta": {
+        "buttonNavigationProps": {
+          "next": null
+        }
+      },
       "on": {
         "BACK": "eigeninitiativeGrundvorraussetzung"
       }
