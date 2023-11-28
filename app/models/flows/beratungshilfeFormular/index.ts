@@ -74,14 +74,14 @@ export const beratungshilfeAntrag = {
           start: { on: { BACK: "#finanzielleAngaben.danke" } },
           danke: {
             on: {
-              SUBMIT: { target: "#abgabe.uebersicht", cond: "readyForAbgabe" },
+              SUBMIT: { target: "#abgabe.download", cond: "readyForAbgabe" },
             },
           },
         },
       }),
       abgabe: _.merge(_.cloneDeep(abgabeFlow), {
         states: {
-          uebersicht: { on: { BACK: "#persoenlicheDaten.danke" } },
+          download: { on: { BACK: "#persoenlicheDaten.danke" } },
         },
       }),
     },
