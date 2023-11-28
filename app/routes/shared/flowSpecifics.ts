@@ -6,6 +6,21 @@ import { geldEinklagenVorabcheck } from "~/models/flows/geldEinklagen";
 import { geldEinklagenFormular } from "~/models/flows/geldEinklagenFormular";
 import { fluggastrechtFlow } from "~/models/flows/fluggastrechteFormular";
 import { fluggastrechteVorabcheck } from "~/models/flows/fluggastrechte";
+import type {
+  Config,
+  Context,
+  Guards,
+} from "~/services/flow/buildFlowController";
+import { type CollectionSchemas } from "~/services/cms/schemas";
+
+type FlowConfig = {
+  cmsSlug: keyof CollectionSchemas;
+  flow: Config;
+  guards: Guards;
+  context: Record<string, boolean | string | object | number>;
+  migrationSource?: string;
+  stringReplacements?: (context: Context) => Record<string, string | undefined>;
+};
 
 export const flowSpecifics = {
   "beratungshilfe/antrag": beratungshilfeAntrag,
@@ -14,7 +29,7 @@ export const flowSpecifics = {
   "geld-einklagen/formular": geldEinklagenFormular,
   "fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
   "fluggastrechte/formular": fluggastrechtFlow,
-} as const;
+} as const satisfies Record<string, FlowConfig>;
 
 export type FlowSpecifics = typeof flowSpecifics;
 export type FlowId = keyof FlowSpecifics;
