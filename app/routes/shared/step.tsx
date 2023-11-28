@@ -18,6 +18,7 @@ import { type AllContexts, buildStepValidator } from "~/models/flows/common";
 import {
   flowIDFromPathname,
   flowSpecifics,
+  getSubflowsEntries,
   splatFromParams,
 } from "./flowSpecifics";
 import type { StrapiHeading } from "~/services/cms/models/StrapiHeading";
@@ -127,6 +128,15 @@ export const loader = async ({
   };
 
   const cmsContent = structureCmsContent(formPageContent);
+  const navigationLabels = Object.fromEntries(
+    await Promise.all(
+      getSubflowsEntries(currentFlow.flow).map(([subflowName]) =>
+        fetchMeta({ slug: `/${flowId}/${subflowName}` }).then(
+          (meta) => [subflowName, meta.title] as [string, string],
+        ),
+      ),
+    ),
+  );
 
   return json(
     {
@@ -144,7 +154,11 @@ export const loader = async ({
           ? currentFlow.stringReplacements(flowContext)
           : {}),
       },
-      navItems: navItemsFromFlowSpecifics(stepId, flowController),
+      navItems: navItemsFromFlowSpecifics(
+        stepId,
+        flowController,
+        navigationLabels,
+      ),
     },
     { headers },
   );

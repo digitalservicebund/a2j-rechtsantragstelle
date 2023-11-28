@@ -31,6 +31,11 @@ export const flowSpecifics = {
   "fluggastrechte/formular": fluggastrechtFlow,
 } as const satisfies Record<string, FlowConfig>;
 
+export function getSubflowsEntries(flow: FlowConfig["flow"]) {
+  if (!flow.states) return [];
+  return Object.entries(flow.states).filter(([_, state]) => "states" in state);
+}
+
 export type FlowSpecifics = typeof flowSpecifics;
 export type FlowId = keyof FlowSpecifics;
 
