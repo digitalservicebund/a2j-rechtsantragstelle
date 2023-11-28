@@ -41,10 +41,15 @@ export const beratungshilfeAntrag = {
             start: { on: { BACK: "#antragStart" } },
             eigeninitiativeGrundvorraussetzung: {
               on: {
-                SUBMIT: {
-                  target: "#rechtsproblem.start",
-                  cond: "eigeninitiativeGrundvorraussetzungYes",
-                },
+                SUBMIT: [
+                  {
+                    target: "#rechtsproblem.start",
+                    cond: "eigeninitiativeGrundvorraussetzungYes",
+                  },
+                  {
+                    target: "eigeninitiativeGrundvorraussetzung-hinweis",
+                  },
+                ],
               },
             },
           },

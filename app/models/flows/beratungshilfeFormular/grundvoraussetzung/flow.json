@@ -7,43 +7,93 @@
     "start": { "on": { "SUBMIT": "rechtsschutzversicherung" } },
     "rechtsschutzversicherung": {
       "on": {
-        "SUBMIT": {
-          "cond": "rechtsschutzversicherungNo",
-          "target": "wurdeVerklagt"
-        },
+        "SUBMIT": [
+          {
+            "cond": "rechtsschutzversicherungNo",
+            "target": "wurdeVerklagt"
+          },
+          {
+            "target": "rechtsschutzversicherung-hinweis"
+          }
+        ],
         "BACK": "start"
+      }
+    },
+    "rechtsschutzversicherung-hinweis": {
+      "meta": { "softExit": true },
+      "on": {
+        "BACK": "rechtsschutzversicherung"
       }
     },
     "wurdeVerklagt": {
       "on": {
-        "SUBMIT": {
-          "cond": "wurdeVerklagtNo",
-          "target": "klageEingereicht"
-        },
+        "SUBMIT": [
+          {
+            "cond": "wurdeVerklagtNo",
+            "target": "klageEingereicht"
+          },
+          {
+            "target": "wurdeVerklagt-hinweis"
+          }
+        ],
         "BACK": "rechtsschutzversicherung"
+      }
+    },
+    "wurdeVerklagt-hinweis": {
+      "meta": { "softExit": true },
+      "on": {
+        "BACK": "wurdeVerklagt"
       }
     },
     "klageEingereicht": {
       "on": {
-        "SUBMIT": {
-          "cond": "klageEingereichtNo",
-          "target": "beratungshilfeBeantragt"
-        },
+        "SUBMIT": [
+          {
+            "cond": "klageEingereichtNo",
+            "target": "beratungshilfeBeantragt"
+          },
+          {
+            "target": "klageEingereicht-hinweis"
+          }
+        ],
         "BACK": "wurdeVerklagt"
+      }
+    },
+    "klageEingereicht-hinweis": {
+      "meta": { "softExit": true },
+      "on": {
+        "BACK": "klageEingereicht"
       }
     },
     "beratungshilfeBeantragt": {
       "on": {
-        "SUBMIT": {
-          "cond": "beratungshilfeBeantragtNo",
-          "target": "eigeninitiativeGrundvorraussetzung"
-        },
+        "SUBMIT": [
+          {
+            "cond": "beratungshilfeBeantragtNo",
+            "target": "eigeninitiativeGrundvorraussetzung"
+          },
+          {
+            "target": "beratungshilfeBeantragt-hinweis"
+          }
+        ],
         "BACK": "klageEingereicht"
+      }
+    },
+    "beratungshilfeBeantragt-hinweis": {
+      "meta": { "softExit": true },
+      "on": {
+        "BACK": "beratungshilfeBeantragt"
       }
     },
     "eigeninitiativeGrundvorraussetzung": {
       "on": {
         "BACK": "beratungshilfeBeantragt"
+      }
+    },
+    "eigeninitiativeGrundvorraussetzung-hinweis": {
+      "meta": { "softExit": true },
+      "on": {
+        "BACK": "eigeninitiativeGrundvorraussetzung"
       }
     }
   }
