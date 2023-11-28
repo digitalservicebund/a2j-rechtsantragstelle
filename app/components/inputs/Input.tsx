@@ -16,6 +16,7 @@ export const InputPropsSchema = z.object({
   prefix: z.string().optional(),
   suffix: z.string().optional(),
   errorMessages: z.array(ErrorMessagePropsSchema).optional(),
+  helperText: z.string().optional(),
   width: z.enum(["3", "5", "7", "10", "16", "24", "36", "54"]).optional(),
   formId: z.string().optional(),
 });
@@ -46,6 +47,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       prefix,
       suffix,
       errorMessages,
+      helperText,
       width,
       formId,
     },
@@ -53,6 +55,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const { error, getInputProps } = useField(name, { formId });
     const errorId = `${name}-error`;
+    const helperId = `${name}-helper`;
 
     return (
       // TODO: This is a one-time hack for /geld-einklagen/formular/forderung/gegenseite. We should move to input groups asap
@@ -75,10 +78,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               width && widthClass(width),
             )}
             aria-invalid={error !== undefined}
-            aria-describedby={error && errorId}
+            aria-describedby={[error && errorId, helperText && helperId].join(
+              " ",
+            )}
             aria-errormessage={error && errorId}
           />
           {suffix && <div className="ds-input-suffix">{suffix}</div>}
+        </div>
+        <div className="label-text mt-6" id={helperId}>
+          {helperText}
         </div>
         <InputError id={errorId}>
           {errorMessages?.find((err) => err.code === error)?.text ?? error}
