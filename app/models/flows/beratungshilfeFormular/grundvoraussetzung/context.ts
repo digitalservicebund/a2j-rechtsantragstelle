@@ -21,10 +21,9 @@ export const beratungshilfeGrundvoraussetzungenGuards = {
     context.klageEingereicht === "no",
   beratungshilfeBeantragtNo: (context: BeratungshilfeGrundvoraussetzungen) =>
     context.beratungshilfeBeantragt === "no",
-
-  eigeninitiativeGrundvorraussetzungYes: (
+  eigeninitiativeGrundvorraussetzungNo: (
     context: BeratungshilfeGrundvoraussetzungen,
-  ) => context.eigeninitiativeGrundvorraussetzung === "yes",
+  ) => context.eigeninitiativeGrundvorraussetzung === "no",
 };
 
 export const grundvoraussetzungDone = (
