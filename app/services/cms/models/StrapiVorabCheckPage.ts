@@ -12,6 +12,7 @@ export const StrapiVorabCheckPageSchema = z
     // eslint-disable-next-line camelcase
     pre_form: z.array(StrapiContentSchema),
     form: z.array(StrapiFormComponentSchema),
+    nextButtonLabel: z.string().nullable().optional(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
