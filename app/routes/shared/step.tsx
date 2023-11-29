@@ -302,21 +302,14 @@ export function StepWithPreHeading() {
 
   return (
     <Background backgroundColor="blue">
-      <div className="flex flex-row flex-wrap flex-wrap-reverse pt-32 min-h-screen">
-        <div className="flex-1 pb-48">
-          {/* using ml-auto below floats the navigation right but looks bad once wrapped */}
-          <div className="w-fit">
-            {navItems && <FlowNavigation navItems={navItems} />}
+      <div className="pt-32 pb-48 min-h-screen flex flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start">
+        {navItems && (
+          <div className="md:pt-[1.4rem] md:shrink-0 md:grow md:min-w-[max-content] md:max-w-[calc(50vw_-_29.5rem)] md:flex md:justify-end">
+            <FlowNavigation navItems={navItems} />
           </div>
-        </div>
+        )}
         <div
-          className="ds-stack-40 w-full pb-48 pt-[14px]" // hacky alignment of pre-heading to navigation
-          style={{
-            // the padding below matches Container. look to re-use it instead
-            maxWidth: "59rem",
-            paddingLeft: "clamp(1rem, 5vw, 3rem)",
-            paddingRight: "clamp(1rem, 5vw, 3rem)",
-          }}
+          className={`ds-stack-40 container md:flex-1 ${navItems && "!ml-0"}`}
         >
           <div className="ds-stack-16">
             {preHeading && (
@@ -362,7 +355,6 @@ export function StepWithPreHeading() {
             </div>
           </ValidatedForm>
         </div>
-        <div className="flex-1"></div>
       </div>
     </Background>
   );
