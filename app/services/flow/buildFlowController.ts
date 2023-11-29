@@ -18,10 +18,6 @@ export type Meta = {
     next?: {
       destination?: string;
       downloadFile?: string;
-      label?: string;
-    };
-    back?: {
-      label?: string;
     };
   };
 };
