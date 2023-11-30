@@ -1,4 +1,5 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
+import { renderToStream } from "@react-pdf/renderer";
 import { redirect } from "@remix-run/node";
 import _ from "lodash";
 import type { BeratungshilfeAntragContext } from "~/models/flows/beratungshilfeFormular";
@@ -8,9 +9,10 @@ import {
   getBeratungshilfeParameters,
 } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import { getSessionForContext } from "~/services/session";
+import FormAttachment from "~/components/FormAttachment";
 
 const isANewAttachmentPageNeeded = (context: BeratungshilfeAntragContext) => {
-  const description = [];
+  const descriptions = [];
 
   if (context.bereich) {
     // TODO move to strapi
@@ -26,39 +28,39 @@ const isANewAttachmentPageNeeded = (context: BeratungshilfeAntragContext) => {
       other: "Sonstiges",
     };
 
-    description.push({
+    descriptions.push({
       title: "Thema des Rechtsproblems:",
       text: bereichMapping[context.bereich],
     });
   }
 
   if (context.beschreibung) {
-    description.push({
+    descriptions.push({
       title: "Beschreibung Angelegenheit:",
       text: context.beschreibung,
     });
   }
 
   if (context.eigeninitiativeBeschreibung) {
-    description.push({
+    descriptions.push({
       title: "Eigenbemühungen:",
       text: context.eigeninitiativeBeschreibung,
     });
   } else if (context.keineEigeninitiativeBeschreibung) {
-    description.push({
+    descriptions.push({
       title: "Keine Eigenbemühung, weil:",
       text: context.keineEigeninitiativeBeschreibung,
     });
   }
 
   if (context.sonstiges) {
-    description.push({ title: "Weitere Anmerkung:", text: context.sonstiges });
+    descriptions.push({ title: "Weitere Anmerkung:", text: context.sonstiges });
   }
 
   return {
     shouldCreateNewPage:
-      description.map((x) => x.title + x.text).join(" ").length > 255,
-    description,
+      descriptions.map((x) => x.title + x.text).join(" ").length > 255,
+    descriptions,
   };
 };
 
@@ -86,7 +88,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     return redirect("/beratungshilfe/antrag");
   }
 
-  const { shouldCreateNewPage, description } =
+  const { shouldCreateNewPage, descriptions } =
     isANewAttachmentPageNeeded(context);
 
   try {
@@ -104,14 +106,29 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
         "Bitte im Anhang prüfen";
     } else {
       pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern!.value =
-        description.map((x) => `${x.title} ${x.text}`).join("\n");
+        descriptions.map((x) => `${x.title} ${x.text}`).join("\n");
     }
   } catch (error) {
     console.error(error);
   }
 
+  const stream = await renderToStream(
+    <FormAttachment descriptions={descriptions} />,
+  );
+
+  const PDFAttachmentAsBuffer: Buffer = await new Promise((resolve, reject) => {
+    const buffers: Uint8Array[] = [];
+    stream.on("data", (data: Uint8Array) => {
+      buffers.push(data);
+    });
+    stream.on("end", () => {
+      resolve(Buffer.concat(buffers));
+    });
+    stream.on("error", reject);
+  });
+
   const pdfResponse = shouldCreateNewPage
-    ? fillAndAppendBeratungsHilfe(pdfFields, description)
+    ? fillAndAppendBeratungsHilfe(pdfFields, PDFAttachmentAsBuffer)
     : fillOutBeratungshilfe(pdfFields);
 
   return new Response(await pdfResponse, {

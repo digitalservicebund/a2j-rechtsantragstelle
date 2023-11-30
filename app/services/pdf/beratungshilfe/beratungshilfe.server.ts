@@ -6,14 +6,7 @@ import type {
 import { Convert } from "./beratungshilfe.generated";
 import fs from "node:fs";
 import path from "node:path";
-import {
-  type PDFForm,
-  PDFDocument,
-  PDFTextField,
-  PDFCheckBox,
-  PageSizes,
-  StandardFonts,
-} from "pdf-lib";
+import { type PDFForm, PDFDocument, PDFTextField, PDFCheckBox } from "pdf-lib";
 import { normalizePropertyName } from "../pdf.server";
 
 export async function getBeratungshilfeParameters() {
@@ -48,7 +41,7 @@ export async function getBeratungshilfeParameters() {
 
 export async function fillAndAppendBeratungsHilfe(
   values: BeratungshilfePDF,
-  description: { title: string; text: string }[],
+  PDFAttachmentAsStream: Buffer,
 ) {
   return await PDFDocument.load(getBeratungshilfePdfBuffer()).then(
     async (pdfDoc) => {
@@ -64,35 +57,11 @@ export async function fillAndAppendBeratungsHilfe(
         }
       });
 
-      const page = pdfDoc.insertPage(3, PageSizes.A4);
-      const paddingLeft = PageSizes.A4[0] - 480;
-      const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-      const normal = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const PDFAttachment = await PDFDocument.load(PDFAttachmentAsStream);
 
-      page.drawText("Anhang zum Antrag auf Beratungshilfe", {
-        x: paddingLeft,
-        y: PageSizes.A4[1] - 80,
-        size: 20,
-      });
+      const [PDFAttachmentAsCopy] = await pdfDoc.copyPages(PDFAttachment, [0]);
 
-      description.forEach((item, index) => {
-        const offset = index * 60 + 140;
-
-        page.drawText(item.title, {
-          x: paddingLeft,
-          y: PageSizes.A4[1] - offset + 15,
-          size: 12,
-          font: bold,
-        });
-
-        page.drawText(item.text, {
-          x: paddingLeft,
-          y: PageSizes.A4[1] - offset - 5,
-          size: 12,
-          font: normal,
-          maxWidth: 400,
-        });
-      });
+      pdfDoc.insertPage(3, PDFAttachmentAsCopy);
 
       return pdfDoc.save();
     },
