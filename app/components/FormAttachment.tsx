@@ -14,7 +14,7 @@ Font.register({
 });
 
 Font.register({
-  family: "BundesSansBold",
+  family: "BundesSans",
   src: "./public/fonts/BundesSansWeb-Bold.woff",
   fontWeight: "bold",
 });
@@ -22,7 +22,7 @@ Font.register({
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
-    padding: "32px 48px",
+    padding: "48px 72px",
     fontFamily: "BundesSans",
   },
   pageHeader: {
@@ -36,10 +36,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 12,
-    fontFamily: "BundesSansBold",
+    fontWeight: "bold",
+    paddingBottom: "2px",
   },
   text: {
     fontSize: 12,
+    lineHeight: 1.4,
   },
 });
 
