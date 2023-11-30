@@ -58,10 +58,14 @@ export async function fillAndAppendBeratungsHilfe(
       });
 
       const PDFAttachment = await PDFDocument.load(PDFAttachmentAsStream);
+      const pages = PDFAttachment.getPages();
 
-      const [PDFAttachmentAsCopy] = await pdfDoc.copyPages(PDFAttachment, [0]);
-
-      pdfDoc.insertPage(3, PDFAttachmentAsCopy);
+      for (let index = 0; index < pages.length; index++) {
+        const [PDFAttachmentAsCopy] = await pdfDoc.copyPages(PDFAttachment, [
+          index,
+        ]);
+        pdfDoc.insertPage(3 + index, PDFAttachmentAsCopy);
+      }
 
       return pdfDoc.save();
     },

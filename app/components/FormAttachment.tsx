@@ -1,21 +1,42 @@
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
+
+Font.register({
+  family: "BundesSans",
+  src: "./public/fonts/BundesSansWeb-Regular.woff",
+  fontWeight: "normal",
+});
+
+Font.register({
+  family: "BundesSansBold",
+  src: "./public/fonts/BundesSansWeb-Bold.woff",
+  fontWeight: "bold",
+});
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
     padding: "32px 48px",
+    fontFamily: "BundesSans",
   },
   pageHeader: {
     paddingBottom: 20,
-    fontSize: 25,
-    textAlign: "center",
+    fontSize: 16,
+    textAlign: "left",
   },
   section: {
-    padding: 5,
+    padding: "5px 0",
     flexGrow: 1,
   },
   title: {
-    fontSize: 15,
+    fontSize: 12,
+    fontFamily: "BundesSansBold",
   },
   text: {
     fontSize: 12,
