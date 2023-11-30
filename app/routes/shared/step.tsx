@@ -302,9 +302,9 @@ export function StepWithPreHeading() {
 
   return (
     <Background backgroundColor="blue">
-      <div className="pt-32 pb-48 min-h-screen flex flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start">
+      <div className="pt-32 min-h-screen flex flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start">
         {navItems && (
-          <div className="md:pt-[1.4rem] md:shrink-0 md:grow md:min-w-[max-content] md:max-w-[calc(50vw_-_29.5rem)] md:flex md:justify-end">
+          <div className="pb-48 md:pt-[1.4rem] md:shrink-0 md:grow md:min-w-[max-content] md:max-w-[calc(50vw_-_29.5rem)] md:flex md:justify-end">
             <FlowNavigation navItems={navItems} />
           </div>
         )}
