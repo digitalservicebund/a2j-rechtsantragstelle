@@ -95,7 +95,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     pdfFields.b3IndieserAngelegenheitistmirbisherBeratungshilfewederbewilligtnochversagtworden!.value =
       context.beratungshilfeBeantragt === "no";
     pdfFields.b2IndieserAngelegenheitbestehtfurmichnachmeinerKenntniskeineandereMoeglichkeitkostenloseBeratungundVertretunginAnspruchzunehmen!.value =
-      context.eigeninitiativeGrundvorraussetzung === "yes";
+      context.eigeninitiativeGrundvorraussetzung === "no";
     pdfFields.b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt!.value =
       context.klageEingereicht === "no";
 
