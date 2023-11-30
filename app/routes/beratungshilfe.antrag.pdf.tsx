@@ -1,5 +1,4 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { renderToStream } from "@react-pdf/renderer";
 import { redirect } from "@remix-run/node";
 import _ from "lodash";
 import type { BeratungshilfeAntragContext } from "~/models/flows/beratungshilfeFormular";
@@ -9,7 +8,6 @@ import {
   getBeratungshilfeParameters,
 } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import { getSessionForContext } from "~/services/session";
-import FormAttachment from "~/components/FormAttachment";
 
 const isANewAttachmentPageNeeded = (context: BeratungshilfeAntragContext) => {
   const descriptions = [];
@@ -112,23 +110,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     console.error(error);
   }
 
-  const stream = await renderToStream(
-    <FormAttachment descriptions={descriptions} />,
-  );
-
-  const PDFAttachmentAsBuffer: Buffer = await new Promise((resolve, reject) => {
-    const buffers: Uint8Array[] = [];
-    stream.on("data", (data: Uint8Array) => {
-      buffers.push(data);
-    });
-    stream.on("end", () => {
-      resolve(Buffer.concat(buffers));
-    });
-    stream.on("error", reject);
-  });
-
   const pdfResponse = shouldCreateNewPage
-    ? fillAndAppendBeratungsHilfe(pdfFields, PDFAttachmentAsBuffer)
+    ? fillAndAppendBeratungsHilfe(pdfFields, descriptions)
     : fillOutBeratungshilfe(pdfFields);
 
   return new Response(await pdfResponse, {

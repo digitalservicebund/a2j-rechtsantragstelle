@@ -1,3 +1,4 @@
+import { renderToStream } from "@react-pdf/renderer";
 import type {
   BeratungshilfePDF,
   StringField,
@@ -8,6 +9,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { type PDFForm, PDFDocument, PDFTextField, PDFCheckBox } from "pdf-lib";
 import { normalizePropertyName } from "../pdf.server";
+import FormAttachment from "~/components/FormAttachment";
 
 export async function getBeratungshilfeParameters() {
   const json: { [key: string]: StringField | BooleanField } = {};
@@ -41,7 +43,7 @@ export async function getBeratungshilfeParameters() {
 
 export async function fillAndAppendBeratungsHilfe(
   values: BeratungshilfePDF,
-  PDFAttachmentAsStream: Buffer,
+  descriptions: { title: string; text: string }[],
 ) {
   return await PDFDocument.load(getBeratungshilfePdfBuffer()).then(
     async (pdfDoc) => {
@@ -57,7 +59,24 @@ export async function fillAndAppendBeratungsHilfe(
         }
       });
 
-      const PDFAttachment = await PDFDocument.load(PDFAttachmentAsStream);
+      const stream = await renderToStream(
+        <FormAttachment descriptions={descriptions} />,
+      );
+
+      const PDFAttachmentAsBuffer: Buffer = await new Promise(
+        (resolve, reject) => {
+          const buffers: Uint8Array[] = [];
+          stream.on("data", (data: Uint8Array) => {
+            buffers.push(data);
+          });
+          stream.on("end", () => {
+            resolve(Buffer.concat(buffers));
+          });
+          stream.on("error", reject);
+        },
+      );
+
+      const PDFAttachment = await PDFDocument.load(PDFAttachmentAsBuffer);
       const pages = PDFAttachment.getPages();
 
       for (let index = 0; index < pages.length; index++) {
