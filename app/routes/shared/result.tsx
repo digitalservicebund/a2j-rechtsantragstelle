@@ -36,6 +36,9 @@ import {
   handleFeedback,
   isFeedbackForm,
 } from "~/services/feedback/handleFeedback";
+import CourtDetails from "~/components/CourtDetails";
+import { partnerCourtFromAirports } from "~/models/flows/fluggastrechte";
+import Background from "~/components/Background";
 
 export const loader = async ({
   params,
@@ -57,10 +60,11 @@ export const loader = async ({
 
   // Slug change to keep Strapi slugs without ergebnis/
   const slug = pathname.replace(/ergebnis\//, "");
-  const [common, cmsData, parentMeta] = await Promise.all([
+  const [common, cmsData, parentMeta, amtsgerichtCommon] = await Promise.all([
     fetchSingleEntry("vorab-check-common"),
     fetchCollectionEntry("result-pages", slug),
     fetchMeta({ slug: pathname.substring(0, pathname.lastIndexOf("/")) }),
+    fetchSingleEntry("amtsgericht-common"),
   ]);
 
   const reasonElementsWithID =
@@ -95,6 +99,8 @@ export const loader = async ({
       },
       bannerState:
         getFeedbackBannerState(session, pathname) ?? BannerState.ShowRating,
+      amtsgerichtCommon,
+      courts: partnerCourtFromAirports([data.startAirport, data.endAirport]),
     },
     { headers: { "Set-Cookie": await commitSession(session) } },
   );
@@ -136,6 +142,8 @@ export function Step() {
     nextButton,
     backButton,
     bannerState,
+    amtsgerichtCommon,
+    courts,
   } = useLoaderData<typeof loader>();
 
   const documentsList = cmsData.documents.data?.attributes.element ?? [];
@@ -173,9 +181,8 @@ export function Step() {
             </div>
           </Container>
         )}
-
-        {(cmsData.linkText || cmsData.backLinkInHeader) && (
-          <Container paddingTop="16" paddingBottom="16">
+        <Container paddingTop="16" paddingBottom="16">
+          {(cmsData.linkText || cmsData.backLinkInHeader) && (
             <ButtonContainer>
               {cmsData.backLinkInHeader && (
                 <a className="text-link" href={backButton.destination}>
@@ -191,9 +198,52 @@ export function Step() {
                 </a>
               )}
             </ButtonContainer>
-          </Container>
-        )}
+          )}
+        </Container>
       </div>
+
+      {courts && courts.length > 0 && (
+        <>
+          {courts.length > 1 && (
+            <Background backgroundColor="blue">
+              <Container
+                backgroundColor="blue"
+                overhangingBackground
+                paddingBottom="0"
+              >
+                {/* TODO: Move to CMS */}
+                Wir haben für Sie mehrere passende Amtsgerichte gefunden. Sie
+                können entscheiden, bei welchem Gericht sie eine Klage
+                einreichen möchten.
+              </Container>
+            </Background>
+          )}
+
+          {courts.map((court) => (
+            <div key={court.BEZEICHNUNG}>
+              <Background
+                backgroundColor="blue"
+                paddingBottom="48"
+                paddingTop="40"
+              >
+                <Container backgroundColor="white" overhangingBackground>
+                  <CourtDetails
+                    name={court.BEZEICHNUNG}
+                    street={court.STR_HNR}
+                    city={`${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`}
+                    website={court.URL1}
+                    phone={court.TEL}
+                    addressLabel={amtsgerichtCommon.resultAddress}
+                    websiteLabel={amtsgerichtCommon.resultWebsite}
+                    phoneLabel={amtsgerichtCommon.resultPhone}
+                  />
+                </Container>
+              </Background>
+            </div>
+          ))}
+        </>
+      )}
+
       {content.length > 0 && <PageContent content={content} />}
       {reasons.length > 0 && (
         <Container>

@@ -1,3 +1,4 @@
+import { partnerCourtAirports } from ".";
 import type { FluggastrechtVorabcheckContext } from "./context";
 
 type Guard = (context: FluggastrechtVorabcheckContext) => boolean;
@@ -15,10 +16,10 @@ function yesNoGuards<Field extends keyof FluggastrechtVorabcheckContext>(
 }
 
 const isPartnerAirport = (context: FluggastrechtVorabcheckContext) => {
-  const partnerAirports = ["BRE", "BER", "DUS", "FRA", "HAM", "MUC", "STR"];
+  const airportAbbreviations = Object.keys(partnerCourtAirports);
   return (
-    partnerAirports.includes(context.startAirport ?? "") ||
-    partnerAirports.includes(context.endAirport ?? "")
+    airportAbbreviations.includes(context.startAirport ?? "") ||
+    airportAbbreviations.includes(context.endAirport ?? "")
   );
 };
 
