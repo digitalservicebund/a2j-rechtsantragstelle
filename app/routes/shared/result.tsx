@@ -240,7 +240,7 @@ export function Step() {
             context: flowId,
           }}
           feedback={{
-            heading: "Haben sie Verbesserungsvorschläge",
+            heading: "Was können wir verbessern?",
             placeholder: "Bitte tragen Sie keine persönlichen Daten ein!",
             abortButtonLabel: "Abbrechen",
             submitButtonLabel: "Abschicken",
