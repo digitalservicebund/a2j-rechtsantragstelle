@@ -45,6 +45,15 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@mui/material/LICENSE",
     "direct": true
   },
+  "@react-pdf/renderer": {
+    "licenses": "MIT",
+    "repository": "https://github.com/diegomura/react-pdf",
+    "publisher": "Diego Muracciole",
+    "email": "diegomuracciole@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/@react-pdf/renderer",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@react-pdf/renderer/README.md",
+    "direct": true
+  },
   "@remix-run/express": {
     "licenses": "MIT",
     "repository": "https://github.com/remix-run/remix",
@@ -191,8 +200,8 @@
   "pako": {
     "licenses": "(MIT AND Zlib)",
     "repository": "https://github.com/nodeca/pako",
-    "path": "a2j-rechtsantragstelle/node_modules/@pdf-lib/standard-fonts/node_modules/pako",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@pdf-lib/standard-fonts/node_modules/pako/LICENSE"
+    "path": "a2j-rechtsantragstelle/node_modules/pako",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/pako/LICENSE"
   },
   "pdf-lib": {
     "licenses": "MIT",
