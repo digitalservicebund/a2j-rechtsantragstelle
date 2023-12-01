@@ -24,10 +24,10 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   // Remove PLZ from slug
   const { pathname } = new URL(request.url);
-  const slug = pathname.substring(0, pathname.lastIndexOf("/"));
+  const filterValue = pathname.substring(0, pathname.lastIndexOf("/"));
   const [common, meta] = await Promise.all([
     fetchSingleEntry("amtsgericht-common"),
-    fetchMeta({ slug }),
+    fetchMeta({ filterValue }),
   ]);
 
   const resultListHeading = fillTemplate({

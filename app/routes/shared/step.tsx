@@ -96,7 +96,9 @@ export const loader = async ({
   const [commonContent, formPageContent, parentMeta] = await Promise.all([
     fetchSingleEntry("vorab-check-common"),
     fetchCollectionEntry(currentFlow.cmsSlug, lookupPath),
-    fetchMeta({ slug: lookupPath.substring(0, lookupPath.lastIndexOf("/")) }),
+    fetchMeta({
+      filterValue: lookupPath.substring(0, lookupPath.lastIndexOf("/")),
+    }),
   ]);
 
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
@@ -131,7 +133,7 @@ export const loader = async ({
   const navigationLabels = Object.fromEntries(
     await Promise.all(
       getSubflowsEntries(currentFlow.flow).map(([subflowName]) =>
-        fetchMeta({ slug: `/${flowId}/${subflowName}` }).then(
+        fetchMeta({ filterValue: `/${flowId}/${subflowName}` }).then(
           (meta) => [subflowName, meta.title] as [string, string],
         ),
       ),
