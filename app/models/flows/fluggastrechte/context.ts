@@ -5,7 +5,20 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { airportSchema } from "~/services/validation/airport";
 
-export const airlineSchema = z.enum(["lufthansa", "ryanair"]);
+export const airlineSchema = z.enum([
+  "alitalia",
+  "airfrance",
+  "austrianairlines",
+  "britishairways",
+  "lufthansa",
+  "easyjet",
+  "klm",
+  "finnair",
+  "ryanair",
+  "scandinavian",
+  "sonstiges",
+]);
+
 export const fluggastBereichSchema = z.enum(
   ["nichtbefoerderung", "verspaetet", "annulierung", "anderes"],
   customRequiredErrorMessage,
