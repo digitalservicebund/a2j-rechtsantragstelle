@@ -7,8 +7,9 @@ import type { StrapiFileContent } from "./models/StrapiFileContent";
 
 const buildUrl = ({
   apiId,
-  slug,
   pageSize,
+  filterField = "slug",
+  filterValue,
   locale = defaultLocale,
   populate = "deep",
 }: GetStrapiEntryOpts) =>
@@ -18,7 +19,9 @@ const buildUrl = ({
     `?populate=${populate}`,
     `&locale=${locale}`,
     pageSize ? `&pagination[pageSize]=${pageSize}` : "",
-    slug ? `&filters[slug][$eq]=${slug}` : "",
+    filterField && filterValue
+      ? `&filters[${filterField}][$eq]=${filterValue}`
+      : "",
   ].join("");
 
 type SingleStrapiEntry =

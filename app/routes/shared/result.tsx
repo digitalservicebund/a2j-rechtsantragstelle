@@ -63,7 +63,9 @@ export const loader = async ({
   const [common, cmsData, parentMeta, amtsgerichtCommon] = await Promise.all([
     fetchSingleEntry("vorab-check-common"),
     fetchCollectionEntry("result-pages", slug),
-    fetchMeta({ slug: pathname.substring(0, pathname.lastIndexOf("/")) }),
+    fetchMeta({
+      filterValue: pathname.substring(0, pathname.lastIndexOf("/")),
+    }),
     fetchSingleEntry("amtsgericht-common"),
   ]);
 

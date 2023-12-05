@@ -32,6 +32,7 @@ describe("services/cms", () => {
       "vorab-check-common": [],
       "vorab-check-pages": [],
       "form-flow-pages": [],
+      translations: [],
     } satisfies StrapiFileContent;
 
     (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(fileContent));
@@ -61,7 +62,7 @@ describe("services/cms", () => {
         expect(
           await getStrapiEntryFromFile({
             apiId: "pages",
-            slug: "/impressum",
+            filterValue: "/impressum",
             locale: "de",
           }),
         ).toEqual(impressum);
@@ -72,7 +73,7 @@ describe("services/cms", () => {
           expect(
             await getStrapiEntryFromFile({
               apiId: "pages",
-              slug: "/NOTAVAILABLE",
+              filterValue: "/NOTAVAILABLE",
               locale: "de",
             }),
           ).toBeUndefined();
@@ -84,7 +85,7 @@ describe("services/cms", () => {
           expect(
             await getStrapiEntryFromFile({
               apiId: "pages",
-              slug: "/impressum",
+              filterValue: "/impressum",
               locale: "en",
             }),
           ).toBeUndefined();

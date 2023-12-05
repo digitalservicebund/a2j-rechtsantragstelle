@@ -6,8 +6,8 @@ import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 export async function loader({ request }: LoaderFunctionArgs) {
   await throw404IfFeatureFlagEnabled(request);
   const { pathname } = new URL(request.url);
-  const slug = `/${pathname.split("/").at(1) ?? ""}`;
-  return json({ meta: await fetchMeta({ slug }) });
+  const filterValue = `/${pathname.split("/").at(1) ?? ""}`;
+  return json({ meta: await fetchMeta({ filterValue }) });
 }
 
 export default function View() {

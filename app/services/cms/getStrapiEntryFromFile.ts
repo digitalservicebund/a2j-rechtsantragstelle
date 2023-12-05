@@ -30,9 +30,9 @@ export const getStrapiEntryFromFile = async ({
       return false;
 
     return !(
-      opts.slug &&
+      opts.filterValue &&
       "slug" in item.attributes &&
-      item.attributes.slug !== opts.slug
+      item.attributes.slug !== opts.filterValue
     );
   })?.attributes;
 };

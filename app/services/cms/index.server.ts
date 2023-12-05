@@ -10,7 +10,8 @@ import { collectionSchemas, entrySchemas } from "./schemas";
 
 export type GetStrapiEntryOpts = {
   apiId: keyof StrapiFileContent;
-  slug?: string;
+  filterField?: string;
+  filterValue?: string;
   locale?: StrapiLocale;
   populate?: string;
   pageSize?: string;
@@ -37,17 +38,36 @@ export async function fetchCollectionEntry<
   ApiId extends keyof CollectionSchemas,
 >(
   apiId: ApiId,
-  slug: string,
+  filterValue: string,
+  filterField = "slug",
   locale?: StrapiLocale,
 ): Promise<z.infer<CollectionSchemas[ApiId]>> {
-  const strapiEntry = await getStrapiEntry({ apiId, locale, slug });
+  const strapiEntry = await getStrapiEntry({
+    apiId,
+    locale,
+    filterValue,
+    filterField,
+  });
+
   if (!strapiEntry) {
-    const error = new Error(`page missing in cms: ${slug}`);
+    const error = new Error(
+      `page missing in cms: ${filterField}:${filterValue}`,
+    );
     error.name = "StrapiPageNotFound";
     throw error;
   }
   return collectionSchemas[apiId].parse(strapiEntry);
 }
+
+export const strapiTranslation = async (
+  name: string,
+  locale?: StrapiLocale,
+) => {
+  const entry = fetchCollectionEntry("translations", name, "scope", locale);
+  return Object.fromEntries(
+    (await entry).field.map(({ name, value }) => [name, value]),
+  );
+};
 
 export const strapiPageFromRequest = async ({
   request,

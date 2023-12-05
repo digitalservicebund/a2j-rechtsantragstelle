@@ -99,7 +99,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchSingleEntry("cookie-banner"),
     hasTrackingConsent({ request }),
     getErrorPages(),
-    fetchMeta({ slug: "/" }),
+    fetchMeta({ filterValue: "/" }),
   ]);
 
   return json({
