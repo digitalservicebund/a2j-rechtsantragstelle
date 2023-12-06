@@ -102,7 +102,9 @@ export const loader = async ({
       bannerState:
         getFeedbackBannerState(session, pathname) ?? BannerState.ShowRating,
       amtsgerichtCommon,
-      courts: partnerCourtFromAirports([data.startAirport, data.endAirport]),
+      courts:
+        cmsData.pageType === "success" &&
+        partnerCourtFromAirports([data.startAirport, data.endAirport]),
     },
     { headers: { "Set-Cookie": await commitSession(session) } },
   );
