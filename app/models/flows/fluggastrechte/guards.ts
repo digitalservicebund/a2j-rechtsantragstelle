@@ -29,6 +29,8 @@ export const guards = {
   isPartnerAirport,
   fluggesellschaftFilled: (context: FluggastrechtVorabcheckContext) =>
     Boolean(context.startAirport && context.endAirport),
+  isKnownPartnerAirline: (context: FluggastrechtVorabcheckContext) =>
+    context.fluggesellschaft !== "sonstiges",
   ...yesNoGuards("verspaetung"),
   ...yesNoGuards("checkin"),
   ...yesNoGuards("gruende"),

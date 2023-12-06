@@ -25,7 +25,23 @@
     },
     "fluggesellschaft": {
       "meta": { "progressPosition": 2 },
-      "on": { "BACK": "flughaefen", "SUBMIT": "bereich" }
+      "on": {
+        "BACK": "flughaefen",
+        "SUBMIT": [
+          {
+            "target": "bereich",
+            "cond": "isKnownPartnerAirline"
+          },
+          {
+            "target": "ergebnis/fluggesellschaft-abbruch"
+          }
+        ]
+      }
+    },
+    "ergebnis/fluggesellschaft-abbruch": {
+      "on": {
+        "BACK": "fluggesellschaft"
+      }
     },
     "bereich": {
       "meta": { "progressPosition": 3 },
