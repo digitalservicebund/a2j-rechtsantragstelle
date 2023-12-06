@@ -19,9 +19,10 @@ export const getStrapiEntryFromFile = async ({
       const filePath = config().CONTENT_FILE_PATH;
       const fileContent = fs.readFileSync(filePath, { encoding: "utf-8" });
       content = StrapiFileContentSchema.parse(JSON.parse(fileContent));
-    } catch {
+    } catch (error) {
+      console.error(error);
       throw Error(
-        "No valid content.json found while using 'CMS=FILE'.\nEither run 'npm run dumpCmsToFile' or try another CMS source.",
+        "No valid content.json found while using 'CMS=FILE'.\nEither run 'npm run dumpCmsToFile' or try another CMS source",
       );
     }
   }
