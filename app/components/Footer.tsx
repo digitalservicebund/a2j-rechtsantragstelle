@@ -58,7 +58,7 @@ export default function Footer({
   };
 
   return (
-    <footer className="text-base">
+    <footer className="text-base overflow-x-hidden">
       <Container paddingTop="48">
         <div className="flex flex-wrap items-start justify-between gap-y-32">
           <div className="flex flex-col flex-col-reverse sm:flex-row gap-y-8 gap-x-16">

@@ -11,7 +11,7 @@ type HeaderProps = z.infer<typeof HeaderPropsSchema>;
 
 export default function Header({ heading, content }: HeaderProps) {
   return (
-    <div className="ds-stack-16">
+    <div className="ds-stack-16 overflow-x-hidden">
       <Heading {...heading} />
       {content && (
         <div className="ds-heading-03-reg">
