@@ -1,12 +1,19 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import { StrapiImageSchema } from "./StrapiImage";
+import { StrapiImageSchema, getImageProps } from "./StrapiImage";
+import { TilePropsSchema } from "~/components/inputs/Tile";
 
 export const StrapiTileSchema = z
   .object({
-    text: z.string(),
+    title: z.string(),
     value: z.string(),
     description: z.string().nullable(),
-    image: StrapiImageSchema.optional(),
+    image: StrapiImageSchema.optional().transform(getImageProps),
   })
   .merge(HasOptionalStrapiIdSchema);
+
+type StrapiTile = z.infer<typeof StrapiTileSchema>;
+
+export const getTileProps = (cmsData: StrapiTile) => {
+  return TilePropsSchema.parse(cmsData);
+};

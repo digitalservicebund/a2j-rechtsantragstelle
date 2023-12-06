@@ -1,19 +1,14 @@
 import { type ReactNode, useState } from "react";
 import { useField } from "remix-validated-form";
 import InputError from "./InputError";
-import Tile from "./Tile";
+import Tile, { TilePropsSchema } from "./Tile";
 import { z } from "zod";
 import { ErrorMessagePropsSchema } from ".";
+import { ImagePropsSchema } from "../Image";
 
 export const TileGroupPropsSchema = z.object({
   name: z.string(),
-  options: z.array(
-    z.object({
-      value: z.string(),
-      text: z.custom<ReactNode>().optional(),
-      description: z.string().optional(),
-    }),
-  ),
+  options: z.array(TilePropsSchema),
   label: z.custom<ReactNode>().optional(),
   altLabel: z.string().optional(),
   errorMessages: z.array(ErrorMessagePropsSchema).optional(),
@@ -55,8 +50,9 @@ const TileGroup = ({
             description={option.description}
             name={name}
             value={option.value}
-            text={option.text}
+            title={option.title}
             onClick={() => setRenderHiddenField(false)}
+            image={option.image}
           />
         ))}
       </div>
