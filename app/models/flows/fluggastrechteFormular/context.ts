@@ -38,10 +38,6 @@ export const fluggastrechtContext = {
   gesetzlicheVertretung: YesNoAnswer,
   entfernung: z.coerce.number().min(1),
   teilentschaedigung: YesNoAnswer,
-  ticketnummer: z
-    .string()
-    .trim()
-    .regex(/^\+?\d{13}$/, { message: "invalid-eticketnummer" }),
   frist: z.string(), // TODO: validate as German date in the future
   nebenforderungen: YesNoAnswer,
   versaeumnisurteil: YesNoAnswer,

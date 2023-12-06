@@ -101,10 +101,6 @@ test("fluggastrechte formular can be traversed", async ({ page }) => {
   await expectPageToBeAccessible({ page });
   await fluggastrechte.clickNext();
 
-  // /fluggastrechte/formular/ticketnummer
-  await expectPageToBeAccessible({ page });
-  await fluggastrechte.fillInputPage("ticketnummer", "2572128958883");
-
   // /fluggastrechte/formular/schriftverkehr
   await expectPageToBeAccessible({ page });
   await fluggastrechte.clickNext();
