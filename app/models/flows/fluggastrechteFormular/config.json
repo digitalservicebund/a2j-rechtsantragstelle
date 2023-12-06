@@ -61,7 +61,7 @@
       "on": { "SUBMIT": "buchungsbestaetigung", "BACK": "teilentschaedigung" }
     },
     "buchungsbestaetigung": {
-      "on": { "SUBMIT": "frist", "BACK": "nebenforderungen" }
+      "on": { "SUBMIT": "schriftverkehr", "BACK": "nebenforderungen" }
     },
     "schriftverkehr": {
       "on": { "SUBMIT": "frist", "BACK": "buchungsbestaetigung" }
