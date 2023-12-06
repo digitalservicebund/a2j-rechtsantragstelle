@@ -170,7 +170,7 @@ function App() {
         />
         <Header {...header} />
         <Breadcrumbs breadcrumbs={breadcrumbs} />
-        <main className="flex-grow overflow-x-hidden">
+        <main className="flex-grow">
           <Outlet />
           <FeedbackBanner {...augmentFeedback(feedback, title)} />
         </main>

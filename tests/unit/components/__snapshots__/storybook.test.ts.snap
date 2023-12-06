@@ -443,7 +443,7 @@ exports[`Storyshots Content/UserFeedback Example 1`] = `
 
 exports[`Storyshots Page/Footer Example 1`] = `
 <footer
-  className="text-base overflow-x-hidden"
+  className="text-base"
 >
   <div
     className="container !pt-48 !pb-48"
