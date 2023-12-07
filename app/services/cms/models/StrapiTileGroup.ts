@@ -2,10 +2,8 @@ import { z } from "zod";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
 import { omitNull } from "~/util/omitNull";
-import { StrapiTileSchema } from "./StrapiTile";
+import { StrapiTileSchema, getTileProps } from "./StrapiTile";
 import { TileGroupPropsSchema } from "~/components/inputs/TileGroup";
-import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
-import { getImageProps } from "./StrapiImage";
 
 export const StrapiTileGroupSchema = z
   .object({
@@ -33,5 +31,9 @@ export const getTileGroupProps = (cmsData: StrapiTileGroup) => {
     (cmsError) => cmsError.attributes.errorCodes,
   );
 
-  return TileGroupPropsSchema.parse(omitNull({ ...cmsData, errorMessages }));
+  const options = cmsData.options.map(getTileProps);
+
+  return TileGroupPropsSchema.parse(
+    omitNull({ ...cmsData, errorMessages, options }),
+  );
 };

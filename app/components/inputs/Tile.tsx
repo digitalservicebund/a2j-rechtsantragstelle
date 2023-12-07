@@ -5,7 +5,7 @@ import Image, { ImagePropsSchema } from "../Image";
 import RichText from "../RichText";
 
 export const TilePropsSchema = z.object({
-  description: z.string().optional(),
+  description: z.string().nullable().optional(),
   value: z.string(),
   title: z.string().optional(),
   image: ImagePropsSchema.optional(),
@@ -38,8 +38,10 @@ const Tile = ({
         className="flex flex-col p-16 rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#ECF1F4] bg-white"
         htmlFor={id}
       >
-        {image && <Image {...image} />}
-        <div className="ds-label-01-bold">{title}</div>
+        <div className="ds-label-01-bold flex flex-row space-x-8">
+          {image && <Image {...image} />}
+          <span>{title}</span>
+        </div>
         {description && (
           <RichText className="ds-label-03-reg" markdown={description} />
         )}
