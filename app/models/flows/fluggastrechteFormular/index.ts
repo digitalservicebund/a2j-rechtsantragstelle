@@ -24,6 +24,7 @@ export const fluggastrechtFlow = {
   flow: _.merge(fluggastrechteFlow, {
     states: {
       "persoenliche-daten": _.merge(_.cloneDeep(persoenlicheDatenFlow), {
+        initial: "name",
         states: {
           name: { on: { BACK: "#flugdaten.anzahl" } },
           "bevollmaechtigte-person": {
