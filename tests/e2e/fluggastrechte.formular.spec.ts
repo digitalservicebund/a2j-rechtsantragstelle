@@ -143,8 +143,8 @@ test("funnel: invalid step redirects to start", async ({ page }) => {
 });
 
 test("funnel: last enabled step can be accessed directly", async ({ page }) => {
-  await page.goto(`${fluggastrechte.url}/einverstaendnis`);
+  await page.goto(`${fluggastrechte.url}/versand/einverstaendnis`);
   await expect(page).toHaveURL(
-    new RegExp(`.+${fluggastrechte.url}/einverstaendnis$`),
+    new RegExp(`.+${fluggastrechte.url}/versand/einverstaendnis$`),
   );
 });
