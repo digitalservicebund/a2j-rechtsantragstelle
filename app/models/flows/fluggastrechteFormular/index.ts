@@ -25,8 +25,10 @@ export const fluggastrechtFlow = {
     states: {
       "persoenliche-daten": _.merge(_.cloneDeep(persoenlicheDatenFlow), {
         states: {
-          anzahl: { on: { BACK: "#anzahl" } },
-          "bevollmaechtigte-person": { on: { SUBMIT: "#entfernung" } },
+          name: { on: { BACK: "#flugdaten.anzahl" } },
+          "bevollmaechtigte-person": {
+            on: { SUBMIT: "#forderung.entfernung" },
+          },
         },
       }),
     },

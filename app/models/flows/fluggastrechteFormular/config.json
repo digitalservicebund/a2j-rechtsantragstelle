@@ -8,81 +8,116 @@
       "on": { "SUBMIT": "daten-uebernahme", "BACK": "start" }
     },
     "daten-uebernahme": {
-      "on": { "SUBMIT": "zwischenstopps", "BACK": "dokumente" }
+      "id": "daten-uebernahme",
+      "on": { "SUBMIT": "#flugdaten.zwischenstopps", "BACK": "dokumente" }
     },
-    "zwischenstopps": {
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "zwischenstopps-eingabe",
-            "cond": "zwischenstoppsYes"
-          },
-          {
-            "target": "flug-details"
+    "flugdaten": {
+      "id": "flugdaten",
+      "initial": "zwischenstopps",
+      "states": {
+        "zwischenstopps": {
+          "on": {
+            "SUBMIT": [
+              {
+                "target": "zwischenstopps-eingabe",
+                "cond": "zwischenstoppsYes"
+              },
+              {
+                "target": "flug-details"
+              }
+            ],
+            "BACK": "#daten-uebernahme"
           }
-        ],
-        "BACK": "daten-uebernahme"
+        },
+        "zwischenstopps-eingabe": {
+          "on": { "SUBMIT": "flug-details", "BACK": "zwischenstopps" }
+        },
+        "flug-details": {
+          "on": {
+            "SUBMIT": "ankunftszeit",
+            "BACK": [
+              {
+                "target": "zwischenstopps-eingabe",
+                "cond": "zwischenstoppsYes"
+              },
+              { "target": "zwischenstopps" }
+            ]
+          }
+        },
+        "ankunftszeit": {
+          "on": { "SUBMIT": "anzahl", "BACK": "flug-details" }
+        },
+        "anzahl": {
+          "on": { "SUBMIT": "#persoenliche-daten.name", "BACK": "ankunftszeit" }
+        }
       }
-    },
-    "zwischenstopps-eingabe": {
-      "on": { "SUBMIT": "flug-details", "BACK": "zwischenstopps" }
-    },
-    "flug-details": {
-      "on": {
-        "SUBMIT": "ankunftszeit",
-        "BACK": [
-          { "target": "zwischenstopps-eingabe", "cond": "zwischenstoppsYes" },
-          { "target": "zwischenstopps" }
-        ]
-      }
-    },
-    "ankunftszeit": {
-      "on": { "SUBMIT": "anzahl", "BACK": "flug-details" }
-    },
-    "anzahl": {
-      "id": "anzahl",
-      "on": { "SUBMIT": "persoenliche-daten.name", "BACK": "ankunftszeit" }
     },
     "persoenliche-daten": {},
-    "entfernung": {
-      "id": "entfernung",
-      "on": {
-        "SUBMIT": "forderung",
-        "BACK": "persoenliche-daten.bevollmaechtigte-person"
+    "forderung": {
+      "id": "forderung",
+      "initial": "entfernung",
+      "states": {
+        "entfernung": {
+          "on": {
+            "SUBMIT": "forderung",
+            "BACK": "#persoenliche-daten.bevollmaechtigte-person"
+          }
+        },
+        "forderung": {
+          "on": { "SUBMIT": "teilentschaedigung", "BACK": "entfernung" }
+        },
+        "teilentschaedigung": {
+          "on": { "SUBMIT": "nebenforderungen", "BACK": "forderung" }
+        },
+        "nebenforderungen": {
+          "on": {
+            "SUBMIT": "#daten-upload.buchungsbestaetigung",
+            "BACK": "teilentschaedigung"
+          }
+        }
       }
     },
-    "forderung": {
-      "on": { "SUBMIT": "teilentschaedigung", "BACK": "entfernung" }
+    "daten-upload": {
+      "id": "daten-upload",
+      "initial": "buchungsbestaetigung",
+      "states": {
+        "buchungsbestaetigung": {
+          "on": {
+            "SUBMIT": "schriftverkehr",
+            "BACK": "#forderung.nebenforderungen"
+          }
+        },
+        "schriftverkehr": {
+          "on": { "SUBMIT": "#versand.frist", "BACK": "buchungsbestaetigung" }
+        }
+      }
     },
-    "teilentschaedigung": {
-      "on": { "SUBMIT": "nebenforderungen", "BACK": "forderung" }
-    },
-    "nebenforderungen": {
-      "on": { "SUBMIT": "buchungsbestaetigung", "BACK": "teilentschaedigung" }
-    },
-    "buchungsbestaetigung": {
-      "on": { "SUBMIT": "schriftverkehr", "BACK": "nebenforderungen" }
-    },
-    "schriftverkehr": {
-      "on": { "SUBMIT": "frist", "BACK": "buchungsbestaetigung" }
-    },
-    "frist": {
-      "on": { "SUBMIT": "versaeumnisurteil", "BACK": "schriftverkehr" }
-    },
-    "versaeumnisurteil": {
-      "on": { "SUBMIT": "anmerkung", "BACK": "frist" }
-    },
-    "anmerkung": {
-      "on": { "SUBMIT": "ueberpruefung", "BACK": "versaeumnisurteil" }
-    },
-    "ueberpruefung": {
-      "on": { "SUBMIT": "aenderungMitteilung", "BACK": "anmerkung" }
-    },
-    "aenderungMitteilung": {
-      "on": { "SUBMIT": "einverstaendnis", "BACK": "ueberpruefung" }
-    },
-    "einverstaendnis": {
-      "on": { "BACK": "aenderungMitteilung" }
+    "versand": {
+      "id": "versand",
+      "initial": "frist",
+      "states": {
+        "frist": {
+          "on": {
+            "SUBMIT": "versaeumnisurteil",
+            "BACK": "#daten-upload.schriftverkehr"
+          }
+        },
+        "versaeumnisurteil": {
+          "on": { "SUBMIT": "anmerkung", "BACK": "frist" }
+        },
+        "anmerkung": {
+          "on": { "SUBMIT": "ueberpruefung", "BACK": "versaeumnisurteil" }
+        },
+        "ueberpruefung": {
+          "on": { "SUBMIT": "aenderungMitteilung", "BACK": "anmerkung" }
+        },
+        "aenderungMitteilung": {
+          "on": { "SUBMIT": "einverstaendnis", "BACK": "ueberpruefung" }
+        },
+        "einverstaendnis": {
+          "on": { "BACK": "aenderungMitteilung" }
+        }
+      }
     }
   }
 }
