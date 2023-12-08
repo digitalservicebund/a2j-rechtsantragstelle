@@ -98,6 +98,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       context.eigeninitiativeGrundvorraussetzung === "no";
     pdfFields.b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt!.value =
       context.klageEingereicht === "no";
+    pdfFields.c2Einkuenftenetto!.value = context.einkommen;
 
     if (shouldCreateNewPage) {
       pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern!.value =
