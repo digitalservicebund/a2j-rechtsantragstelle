@@ -57,7 +57,10 @@ async function checkAllURLS() {
 async function writeURLMap() {
   const urlMap = await checkAllURLS();
   console.log(`Writing URL map to ${OUTFILE}...`);
-  fs.writeFileSync(OUTFILE, JSON.stringify(urlMap), "utf8");
+  fs.writeFile(OUTFILE, JSON.stringify(urlMap), "utf8", () => {
+    console.log("Task is finished.");
+    process.exit();
+  });
 }
 
 if (process.argv[2] === "checkURLs") writeURLMap();
