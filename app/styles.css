@@ -168,5 +168,5 @@ a {
   background: var(--background-color-blue-200, #ecf1f4);
 }
 .ds-tile input[type="radio"]:checked + label {
-  background: var(--background-color-white, white);
+  background: var(--background-color-blue-200, #ecf1f4);
 }

@@ -35,10 +35,12 @@ const Tile = ({
         onClick={onClick}
       />
       <label
-        className="flex flex-col p-16 rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#ECF1F4] bg-white"
+        className={`flex flex-col py-24 px-32 rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#ECF1F4] bg-white ${
+          image ? "pb-32 px-40" : ""
+        }`}
         htmlFor={id}
       >
-        <div className="ds-label-01-bold flex flex-row space-x-8">
+        <div className="ds-label-01-bold flex flex-row space-x-8 items-center">
           {image && <Image {...image} />}
           <span>{title}</span>
         </div>

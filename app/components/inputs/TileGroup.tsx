@@ -4,7 +4,6 @@ import InputError from "./InputError";
 import Tile, { TilePropsSchema } from "./Tile";
 import { z } from "zod";
 import { ErrorMessagePropsSchema } from ".";
-import { ImagePropsSchema } from "../Image";
 
 export const TileGroupPropsSchema = z.object({
   name: z.string(),
@@ -12,6 +11,7 @@ export const TileGroupPropsSchema = z.object({
   label: z.custom<ReactNode>().optional(),
   altLabel: z.string().optional(),
   errorMessages: z.array(ErrorMessagePropsSchema).optional(),
+  useTwoColumns: z.boolean().optional(),
 });
 
 type TileGroupProps = z.infer<typeof TileGroupPropsSchema>;
@@ -22,6 +22,7 @@ const TileGroup = ({
   label,
   altLabel,
   errorMessages,
+  useTwoColumns,
 }: TileGroupProps) => {
   const { error, defaultValue } = useField(name);
   const errorId = `${name}-error`;
@@ -42,7 +43,11 @@ const TileGroup = ({
     >
       {altLabel && <legend className="sr-only">{altLabel}</legend>}
       {renderHiddenField && <input type="hidden" name={name} />}
-      <div className="grid sm:grid-cols-1 gap-16 md:grid-cols-2 md:max-w-[630px]">
+      <div
+        className={`grid sm:grid-cols-1 gap-16 ${
+          useTwoColumns ? "md:max-w-[630px] md:grid-cols-2" : ""
+        }`}
+      >
         {label && <legend>{label}</legend>}
         {options.map((option) => (
           <Tile
