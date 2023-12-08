@@ -21,7 +21,7 @@ export const StrapiTileGroupSchema = z
         )
         .optional(),
     }),
-    useTwoColumns: z.boolean().optional(),
+    useTwoColumns: z.boolean().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
