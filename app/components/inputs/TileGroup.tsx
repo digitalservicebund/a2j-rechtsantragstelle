@@ -45,7 +45,7 @@ const TileGroup = ({
       {renderHiddenField && <input type="hidden" name={name} />}
       <div
         className={`grid sm:grid-cols-1 gap-16 ${
-          useTwoColumns ? "md:max-w-[630px] md:grid-cols-2" : ""
+          useTwoColumns ? "md:grid-cols-2" : "md:max-w-[630px]"
         }`}
       >
         {label && <legend>{label}</legend>}
