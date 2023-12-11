@@ -41,57 +41,42 @@ export async function getBeratungshilfeParameters() {
   return Convert.toBeratungshilfePDF(JSON.stringify(json));
 }
 
-export async function fillAndAppendBeratungsHilfe(
-  values: BeratungshilfePDF,
+async function handleOutOfLimitDescription(
   descriptions: { title: string; text: string }[],
+  pdfDoc: PDFDocument,
 ) {
-  return await PDFDocument.load(getBeratungshilfePdfBuffer()).then(
-    async (pdfDoc) => {
-      const form = pdfDoc.getForm();
-
-      Object.entries(values).forEach(([, value]) => {
-        // When value is a BooleanField
-        const booleanField = value as BooleanField;
-        if (!changeBooleanField(booleanField, form)) {
-          // When value is a StringField
-          const stringField = value as StringField;
-          changeStringField(stringField, form);
-        }
-      });
-
-      const stream = await renderToStream(
-        <FormAttachment descriptions={descriptions} />,
-      );
-
-      const PDFAttachmentAsBuffer: Buffer = await new Promise(
-        (resolve, reject) => {
-          const buffers: Uint8Array[] = [];
-          stream.on("data", (data: Uint8Array) => {
-            buffers.push(data);
-          });
-          stream.on("end", () => {
-            resolve(Buffer.concat(buffers));
-          });
-          stream.on("error", reject);
-        },
-      );
-
-      const PDFAttachment = await PDFDocument.load(PDFAttachmentAsBuffer);
-      const pages = PDFAttachment.getPages();
-
-      for (let index = 0; index < pages.length; index++) {
-        const [PDFAttachmentAsCopy] = await pdfDoc.copyPages(PDFAttachment, [
-          index,
-        ]);
-        pdfDoc.insertPage(3 + index, PDFAttachmentAsCopy);
-      }
-
-      return pdfDoc.save();
-    },
+  const stream = await renderToStream(
+    <FormAttachment descriptions={descriptions} />,
   );
+
+  const PDFAttachmentAsBuffer: Buffer = await new Promise((resolve, reject) => {
+    const buffers: Uint8Array[] = [];
+    stream.on("data", (data: Uint8Array) => {
+      buffers.push(data);
+    });
+    stream.on("end", () => {
+      resolve(Buffer.concat(buffers));
+    });
+    stream.on("error", reject);
+  });
+
+  const PDFAttachment = await PDFDocument.load(PDFAttachmentAsBuffer);
+  const pages = PDFAttachment.getPages();
+
+  for (let index = 0; index < pages.length; index++) {
+    const [PDFAttachmentAsCopy] = await pdfDoc.copyPages(PDFAttachment, [
+      index,
+    ]);
+    pdfDoc.insertPage(3 + index, PDFAttachmentAsCopy);
+  }
+  return pdfDoc.save();
 }
 
-export async function fillOutBeratungshilfe(values: BeratungshilfePDF) {
+export async function fillOutBeratungshilfe(
+  values: BeratungshilfePDF,
+  descriptions: { title: string; text: string }[],
+  shouldCreateNewPage: boolean,
+) {
   return await PDFDocument.load(getBeratungshilfePdfBuffer()).then((pdfDoc) => {
     const form = pdfDoc.getForm();
 
@@ -104,6 +89,10 @@ export async function fillOutBeratungshilfe(values: BeratungshilfePDF) {
         changeStringField(stringField, form);
       }
     });
+
+    if (shouldCreateNewPage) {
+      return handleOutOfLimitDescription(descriptions, pdfDoc);
+    }
 
     return pdfDoc.save();
   });

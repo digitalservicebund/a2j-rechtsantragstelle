@@ -3,7 +3,6 @@ import { redirect } from "@remix-run/node";
 import _ from "lodash";
 import type { BeratungshilfeAntragContext } from "~/models/flows/beratungshilfeFormular";
 import {
-  fillAndAppendBeratungsHilfe,
   fillOutBeratungshilfe,
   getBeratungshilfeParameters,
 } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
@@ -116,9 +115,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     console.error(error);
   }
 
-  const pdfResponse = shouldCreateNewPage
-    ? fillAndAppendBeratungsHilfe(pdfFields, descriptions)
-    : fillOutBeratungshilfe(pdfFields);
+  const pdfResponse = fillOutBeratungshilfe(
+    pdfFields,
+    descriptions,
+    shouldCreateNewPage,
+  );
 
   return new Response(await pdfResponse, {
     headers: {
