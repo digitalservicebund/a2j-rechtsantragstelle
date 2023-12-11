@@ -99,6 +99,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     pdfFields.b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt!.value =
       context.klageEingereicht === "no";
     pdfFields.c2Einkuenftenetto!.value = context.einkommen;
+    pdfFields.antragstellerNameVornameggfGeburtsname!.value = `${context.nachname}, ${context.vorname}`;
+    pdfFields.geburtsdatumdesAntragstellers!.value = context.geburtsdatum;
+    pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers!.value = `${context.strasseHausnummer}, ${context.plz}, ${context.ort}`;
+    pdfFields.tagsueberTelefonischerreichbarunterNummer!.value =
+      context.telefonnummer;
 
     if (shouldCreateNewPage) {
       pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern!.value =
