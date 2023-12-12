@@ -95,7 +95,7 @@ test("fluggastrechte formular can be traversed", async ({ page }) => {
 
   // /fluggastrechte/formular/nebenforderungen
   await expectPageToBeAccessible({ page });
-  await fluggastrechte.fillRadioPage("nebenforderungen", "no");
+  await fluggastrechte.clickNext();
 
   // /fluggastrechte/formular/buchungsbestaetigung
   await expectPageToBeAccessible({ page });

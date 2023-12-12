@@ -39,7 +39,10 @@ export const fluggastrechtContext = {
   entfernung: z.coerce.number().min(1),
   teilentschaedigung: YesNoAnswer,
   frist: z.string(), // TODO: validate as German date in the future
-  nebenforderungen: YesNoAnswer,
+  nebenforderungen: z.object({
+    verzugszinsen: checkedOptional,
+    prozesszinsen: checkedOptional,
+  }),
   versaeumnisurteil: YesNoAnswer,
   anmerkung: z.string(),
   doMigration: YesNoAnswer,
