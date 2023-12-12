@@ -17,7 +17,12 @@ const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
   return (
     <li key={dependencyString}>
       {infos.repository ? (
-        <a href={infos.repository} className="text-link" target="_blank">
+        <a
+          href={infos.repository}
+          className="text-link"
+          target="_blank"
+          rel="noopener"
+        >
           {dependencyString}
         </a>
       ) : (
