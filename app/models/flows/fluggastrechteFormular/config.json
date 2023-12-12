@@ -1,15 +1,31 @@
 {
   "predictableActionArguments": true,
   "id": "/fluggastrechte/formular/",
-  "initial": "start",
+  "initial": "intro",
   "states": {
-    "start": { "on": { "SUBMIT": "dokumente" } },
-    "dokumente": {
-      "on": { "SUBMIT": "daten-uebernahme", "BACK": "start" }
-    },
-    "daten-uebernahme": {
-      "id": "daten-uebernahme",
-      "on": { "SUBMIT": "#flugdaten.zwischenstopps", "BACK": "dokumente" }
+    "intro": {
+      "id": "intro",
+      "initial": "start",
+      "states": {
+        "start": {
+          "on": {
+            "SUBMIT": "dokumente"
+          }
+        },
+        "dokumente": {
+          "on": {
+            "SUBMIT": "daten-uebernahme",
+            "BACK": "start"
+          }
+        },
+        "daten-uebernahme": {
+          "id": "daten-uebernahme",
+          "on": {
+            "SUBMIT": "#flugdaten.zwischenstopps",
+            "BACK": "dokumente"
+          }
+        }
+      }
     },
     "flugdaten": {
       "id": "flugdaten",
