@@ -73,9 +73,12 @@ export const buildFlowController = ({
 }) => {
   const machine = createMachine({ ...config, context }, { guards });
   const baseUrl = config.id ?? "";
+  const initialStepId = getStateValueString(machine.initialState.value);
   const normalizeStepId = (stepId: string) =>
     stepId.replace("/", ".").replace("ergebnis.", "ergebnis/");
   const denormalizeStepId = (stepId: string) => stepId.replace(".", "/");
+  const isInitialStepId = (currentStepId: string) =>
+    initialStepId === normalizeStepId(currentStepId);
 
   return {
     getMeta: (currentStepId: string): Meta => {
@@ -90,8 +93,7 @@ export const buildFlowController = ({
       return meta && meta.isUneditable === true;
     },
     getFlow: () => config,
-    isInitial: (currentStepId: string) =>
-      config.initial === normalizeStepId(currentStepId),
+    isInitial: isInitialStepId,
     isFinal: (currentStepId: string) =>
       isFinalStep(machine, normalizeStepId(currentStepId)),
     isReachable: (currentStepId: string) => {
@@ -99,7 +101,7 @@ export const buildFlowController = ({
     },
     getPrevious: (currentStepId: string) => {
       const stepId = normalizeStepId(currentStepId);
-      if (config.initial === stepId) return undefined;
+      if (isInitialStepId(stepId)) return undefined;
       const name = getTransitionDestination(machine, stepId, "BACK");
       return { name, url: `${baseUrl}${denormalizeStepId(name)}` };
     },
@@ -112,7 +114,7 @@ export const buildFlowController = ({
       return { name, url: `${baseUrl}${denormalizeStepId(name)}` };
     },
     getInitial: () => {
-      const name = config.initial;
+      const name = initialStepId;
       return { name, url: `${baseUrl}${denormalizeStepId(String(name))}` };
     },
     getLastReachable: () => {

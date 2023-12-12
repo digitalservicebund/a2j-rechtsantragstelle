@@ -44,10 +44,40 @@ const flow: Parameters<typeof buildFlowController>[0]["flow"] = {
   },
 };
 
+const nestedInitialStateFlow: Parameters<
+  typeof buildFlowController
+>[0]["flow"] = {
+  id: "/test/nested/",
+  initial: "parent1",
+  predictableActionArguments: true,
+  states: {
+    parent1: {
+      id: "/test/nested/",
+      initial: "step1",
+      states: {
+        step1: {
+          on: {
+            SUBMIT: { target: "step2" },
+          },
+        },
+        step2: {},
+      },
+    },
+  },
+};
+
 describe("buildFlowController", () => {
   describe("isInitial", () => {
     it("returns true if initial step", () => {
       expect(buildFlowController({ flow }).isInitial("step1")).toBe(true);
+    });
+
+    it("returns true if nested initial step", () => {
+      expect(
+        buildFlowController({ flow: nestedInitialStateFlow }).isInitial(
+          "parent1.step1",
+        ),
+      ).toBe(true);
     });
 
     it("returns false if not intial step", () => {
@@ -74,7 +104,7 @@ describe("buildFlowController", () => {
             id: "/flow/final/",
             initial: "step1",
             states: {
-              step1: { on: { SUBMIT: [], BACK: { target: "step0" } } },
+              step1: { on: { SUBMIT: [] } },
             },
           },
         }).isFinal("step1"),
@@ -89,7 +119,7 @@ describe("buildFlowController", () => {
             id: "/flow/final/",
             initial: "step1",
             states: {
-              step1: { on: { SUBMIT: {}, BACK: { target: "step0" } } },
+              step1: { on: { SUBMIT: {} } },
             },
           },
         }).isFinal("step1"),
@@ -193,6 +223,14 @@ describe("buildFlowController", () => {
         buildFlowController({ flow }).getPrevious("step1"),
       ).toBeUndefined();
     });
+
+    it("returns undefined if already first nested step", () => {
+      expect(
+        buildFlowController({ flow: nestedInitialStateFlow }).getPrevious(
+          "parent1.step1",
+        ),
+      ).toBeUndefined();
+    });
   });
 
   describe("getNext", () => {
@@ -252,10 +290,19 @@ describe("buildFlowController", () => {
   });
 
   describe("getInitial", () => {
-    it("returns step1", () => {
+    it("returns correct simple step", () => {
       expect(buildFlowController({ flow }).getInitial()).toStrictEqual({
         name: "step1",
         url: "/test/flow/step1",
+      });
+    });
+
+    it("returns correct step if nested initial step", () => {
+      expect(
+        buildFlowController({ flow: nestedInitialStateFlow }).getInitial(),
+      ).toStrictEqual({
+        name: "parent1.step1",
+        url: "/test/nested/parent1/step1",
       });
     });
   });
