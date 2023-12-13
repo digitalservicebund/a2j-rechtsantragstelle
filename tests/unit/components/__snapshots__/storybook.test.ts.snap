@@ -577,13 +577,13 @@ exports[`Storyshots Page/List Example 1`] = `
         className="list-none ds-stack-32 ps-0"
       >
         <li
-          className="pt-6 first:pt-0 scroll-my-40"
+          className="first:pt-0 scroll-my-40"
         >
           <div
             className="flex flex-row items-center justify-center"
           >
             <div
-              className="ds-stack-16 break-words w-full "
+              className="break-words w-full "
             >
               <div
                 className="flex flex-row gap-16 items-center"
@@ -614,13 +614,13 @@ exports[`Storyshots Page/List Example 1`] = `
           </div>
         </li>
         <li
-          className="pt-6 first:pt-0 scroll-my-40"
+          className="first:pt-0 scroll-my-40"
         >
           <div
             className="flex flex-row items-center justify-center"
           >
             <div
-              className="ds-stack-16 break-words w-full "
+              className="break-words w-full "
             >
               <div
                 className="flex flex-row gap-16 items-center"

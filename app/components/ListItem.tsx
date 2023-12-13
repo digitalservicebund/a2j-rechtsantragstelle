@@ -40,11 +40,7 @@ const ListItem = ({
           }}
         />
       )}
-      <div
-        className={`ds-stack-16 break-words w-full ${
-          image ? "min-[500px]:ml-16" : ""
-        }`}
-      >
+      <div className={`break-words w-full ${image ? "min-[500px]:ml-16" : ""}`}>
         <div className="flex flex-row gap-16 items-center">
           {numeric ? (
             <div className="min-w-[40px] w-[40px] h-[40px] pt-[4px] text-center border-2 border-solid border-gray-400 rounded-full">

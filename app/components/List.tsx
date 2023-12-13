@@ -17,7 +17,7 @@ const List = ({ identifier, items, heading, isNumeric }: ListProps) => {
       {heading && <Heading {...heading} />}
       <ol className="list-none ds-stack-32 ps-0" key={identifier}>
         {items.map((item, index) => (
-          <li key={item.identifier} className="pt-6 first:pt-0 scroll-my-40">
+          <li key={item.identifier} className="first:pt-0 scroll-my-40">
             <ListItem
               {...item}
               key={item.headline?.text ?? item.content}
