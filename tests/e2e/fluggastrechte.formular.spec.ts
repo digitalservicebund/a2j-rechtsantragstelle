@@ -34,14 +34,18 @@ test("fluggastrechte formular can be traversed", async ({ page }) => {
 
   // /fluggastrechte/formular/flugdaten/flug-details-single-flugnummer
   await expectPageToBeAccessible({ page });
-  await fluggastrechte.clickNext();
+  await fluggastrechte.fillInputPage("singleFlugnummer", "EJ 1234");
 
   // /fluggastrechte/formular/flugdaten/flug-details-single-abflug
   await expectPageToBeAccessible({ page });
+  await fluggastrechte.fillInput("singleAbflugDatum", "12.12.2022");
+  await fluggastrechte.fillInput("singleAbflugZeit", "10:00");
   await fluggastrechte.clickNext();
 
   // /fluggastrechte/formular/flugdaten/flug-details-single-ankunft
   await expectPageToBeAccessible({ page });
+  await fluggastrechte.fillInput("singleAnkunftDatum", "12.12.2022");
+  await fluggastrechte.fillInput("singleAnkunftZeit", "10:00");
   await fluggastrechte.clickNext();
 
   // /fluggastrechte/formular/ankunftszeit
