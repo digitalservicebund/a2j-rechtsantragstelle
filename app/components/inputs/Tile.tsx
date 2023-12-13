@@ -35,7 +35,7 @@ const Tile = ({
         onClick={onClick}
       />
       <label
-        className={`flex flex-col py-24 px-32 h-full rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#ECF1F4] bg-white ${
+        className={`flex flex-col py-24 px-32 h-full rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#ECF1F4] bg-white break-words ${
           image ? "pb-32 px-40" : ""
         }`}
         htmlFor={id}
