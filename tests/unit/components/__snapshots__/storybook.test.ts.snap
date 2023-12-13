@@ -580,19 +580,19 @@ exports[`Storyshots Page/List Example 1`] = `
           className="pt-6 first:pt-0 scroll-my-40"
         >
           <div
-            className="flex flex-row gap-16"
+            className="flex flex-row items-center justify-center"
           >
             <div
-              className="min-w-[40px] w-[44px] h-[40px] pt-[4px] text-center border-2 border-solid border-gray-400 rounded-full"
-            >
-              1
-            </div>
-            <div
-              className="flex flex-row items-center justify-center"
+              className="ds-stack-16 break-words w-full "
             >
               <div
-                className="ds-stack-16 break-words w-full "
+                className="flex flex-row gap-16 items-center"
               >
+                <div
+                  className="min-w-[40px] w-[40px] h-[40px] pt-[4px] text-center border-2 border-solid border-gray-400 rounded-full"
+                >
+                  1
+                </div>
                 <h1
                   className="ds-heading-03-reg"
                   dangerouslySetInnerHTML={
@@ -601,15 +601,15 @@ exports[`Storyshots Page/List Example 1`] = `
                     }
                   }
                 />
-                <div
-                  className="rich-text ds-stack-8 "
-                  dangerouslySetInnerHTML={
-                    {
-                      "__html": "<p class="text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
-                    }
-                  }
-                />
               </div>
+              <div
+                className="rich-text ds-stack-8 ml-[56px]"
+                dangerouslySetInnerHTML={
+                  {
+                    "__html": "<p class="text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+                  }
+                }
+              />
             </div>
           </div>
         </li>
@@ -617,19 +617,19 @@ exports[`Storyshots Page/List Example 1`] = `
           className="pt-6 first:pt-0 scroll-my-40"
         >
           <div
-            className="flex flex-row gap-16"
+            className="flex flex-row items-center justify-center"
           >
             <div
-              className="min-w-[40px] w-[44px] h-[40px] pt-[4px] text-center border-2 border-solid border-gray-400 rounded-full"
-            >
-              2
-            </div>
-            <div
-              className="flex flex-row items-center justify-center"
+              className="ds-stack-16 break-words w-full "
             >
               <div
-                className="ds-stack-16 break-words w-full "
+                className="flex flex-row gap-16 items-center"
               >
+                <div
+                  className="min-w-[40px] w-[40px] h-[40px] pt-[4px] text-center border-2 border-solid border-gray-400 rounded-full"
+                >
+                  2
+                </div>
                 <h1
                   className="ds-heading-03-reg"
                   dangerouslySetInnerHTML={
@@ -638,15 +638,15 @@ exports[`Storyshots Page/List Example 1`] = `
                     }
                   }
                 />
-                <div
-                  className="rich-text ds-stack-8 "
-                  dangerouslySetInnerHTML={
-                    {
-                      "__html": "<p class="text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
-                    }
-                  }
-                />
               </div>
+              <div
+                className="rich-text ds-stack-8 ml-[56px]"
+                dangerouslySetInnerHTML={
+                  {
+                    "__html": "<p class="text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+                  }
+                }
+              />
             </div>
           </div>
         </li>

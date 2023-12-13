@@ -23,7 +23,8 @@ const ListItem = ({
   image,
   content,
   buttons,
-}: ListItemProps) => {
+  numeric,
+}: ListItemProps & { numeric?: number }) => {
   return (
     <div
       key={identifier}
@@ -44,9 +45,18 @@ const ListItem = ({
           image ? "min-[500px]:ml-16" : ""
         }`}
       >
-        {label && <Heading {...label} />}
-        {headline && <Heading {...headline} />}
-        {content && <RichText markdown={content} />}
+        <div className="flex flex-row gap-16 items-center">
+          {numeric ? (
+            <div className="min-w-[40px] w-[40px] h-[40px] pt-[4px] text-center border-2 border-solid border-gray-400 rounded-full">
+              {numeric}
+            </div>
+          ) : (
+            <div className="w-[16px] min-h-[1px] border border-solid border-black mr-[5px] ml-[17px]" />
+          )}
+          {label && <Heading {...label} />}
+          {headline && <Heading {...headline} />}
+        </div>
+        {content && <RichText markdown={content} className="ml-[56px]" />}
         {buttons && buttons.length > 0 && (
           <ButtonContainer>
             {buttons.map((button) => (
