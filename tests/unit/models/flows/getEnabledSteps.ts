@@ -1,4 +1,5 @@
 import type { createMachine } from "xstate";
+import { getStateValueString } from "~/services/flow/getStateValueString";
 
 export function getEnabledSteps<T>({
   machine,
@@ -16,7 +17,9 @@ export function getEnabledSteps<T>({
     ...steps
       .slice(0, -1)
       .map((step) =>
-        String(machine.transition(step, transitionType, context).value),
+        getStateValueString(
+          machine.transition(step, transitionType, context).value,
+        ),
       ),
   ];
 }
