@@ -30,13 +30,17 @@ test("fluggastrechte formular can be traversed", async ({ page }) => {
 
   // /fluggastrechte/formular/zwischenstopps
   await expectPageToBeAccessible({ page });
-  await fluggastrechte.fillRadioPage("zwischenstopps", "yes");
+  await fluggastrechte.fillRadioPage("zwischenstopps", "no");
 
-  // /fluggastrechte/formular/zwischenstopps-eingabe
+  // /fluggastrechte/formular/flugdaten/flug-details-single-flugnummer
   await expectPageToBeAccessible({ page });
-  await fluggastrechte.fillInputPage("zwischenstoppFlughafen", "BER");
+  await fluggastrechte.clickNext();
 
-  // /fluggastrechte/formular/flug-details
+  // /fluggastrechte/formular/flugdaten/flug-details-single-abflug
+  await expectPageToBeAccessible({ page });
+  await fluggastrechte.clickNext();
+
+  // /fluggastrechte/formular/flugdaten/flug-details-single-ankunft
   await expectPageToBeAccessible({ page });
   await fluggastrechte.clickNext();
 

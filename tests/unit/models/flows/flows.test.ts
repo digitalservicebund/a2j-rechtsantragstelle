@@ -1,6 +1,7 @@
 import { getEnabledSteps } from "tests/unit/models/flows/getEnabledSteps";
 import { testCasesBeratungshilfe } from "./beratungshilfe/testcases";
 import { testCasesGeldEinklagen } from "./geldEinklagen/testcases";
+import { testCasesFluggastrechteFormular } from "tests/unit/models/flows/fluggastrechteFormular/testcases";
 
 /*
  * Note on testing xstate
@@ -15,35 +16,37 @@ import { testCasesGeldEinklagen } from "./geldEinklagen/testcases";
  */
 
 describe("state machine form flows", () => {
-  [testCasesBeratungshilfe, testCasesGeldEinklagen].forEach(
-    ({ machine, cases }) => {
-      test.each(cases)(
-        "SUBMIT (%#) given context: %j, visits steps: %j",
-        (context, steps) => {
-          const expectedSteps = steps;
-          const actualSteps = getEnabledSteps({
-            machine,
-            context,
-            transitionType: "SUBMIT",
-            steps: expectedSteps,
-          });
-          expect(actualSteps).toEqual(expectedSteps);
-        },
-      );
+  [
+    testCasesBeratungshilfe,
+    testCasesGeldEinklagen,
+    testCasesFluggastrechteFormular,
+  ].forEach(({ machine, cases }) => {
+    test.each(cases)(
+      "SUBMIT (%#) given context: %j, visits steps: %j",
+      (context, steps) => {
+        const expectedSteps = steps;
+        const actualSteps = getEnabledSteps({
+          machine,
+          context,
+          transitionType: "SUBMIT",
+          steps: expectedSteps,
+        });
+        expect(actualSteps).toEqual(expectedSteps);
+      },
+    );
 
-      test.each(cases)(
-        "BACK (%#) given context: %j, visits steps: %j",
-        (context, steps) => {
-          const expectedSteps = [...steps].reverse();
-          const actualSteps = getEnabledSteps({
-            machine,
-            context,
-            transitionType: "BACK",
-            steps: expectedSteps,
-          });
-          expect(actualSteps).toEqual(expectedSteps);
-        },
-      );
-    },
-  );
+    test.each(cases)(
+      "BACK (%#) given context: %j, visits steps: %j",
+      (context, steps) => {
+        const expectedSteps = [...steps].reverse();
+        const actualSteps = getEnabledSteps({
+          machine,
+          context,
+          transitionType: "BACK",
+          steps: expectedSteps,
+        });
+        expect(actualSteps).toEqual(expectedSteps);
+      },
+    );
+  });
 });
