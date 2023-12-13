@@ -305,9 +305,6 @@ export function StepWithPreHeading() {
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
 
-  console.log(stepId);
-  console.log(buttonNavigationProps);
-
   return (
     <Background backgroundColor="blue">
       <div className="pt-32 min-h-screen flex flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start">
