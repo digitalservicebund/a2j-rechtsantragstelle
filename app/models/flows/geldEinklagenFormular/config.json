@@ -194,7 +194,10 @@
       "on": { "SUBMIT": "einverstaendnis", "BACK": "ueberpruefung" }
     },
     "einverstaendnis": {
-      "on": { "BACK": "aenderungMitteilung" }
+      "on": { "SUBMIT": "klageVersenden", "BACK": "aenderungMitteilung" }
+    },
+    "klageVersenden": {
+      "on": { "SUBMIT": "klageVersenden", "BACK": "einverstaendnis" }
     }
   }
 }
