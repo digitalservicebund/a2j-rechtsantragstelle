@@ -161,7 +161,10 @@ export const loader = async ({
           ? currentFlow.stringReplacements(flowContext)
           : {}),
       },
-      buttonNavigationProps,
+      // For fluggastrechte and geld-einklagen there is no next step after klageVersenden
+      buttonNavigationProps: stepId.includes("klageVersenden")
+        ? { back: buttonNavigationProps.back }
+        : buttonNavigationProps,
       navItems: navItemsFromFlowSpecifics(
         stepId,
         flowController,
@@ -301,6 +304,9 @@ export function StepWithPreHeading() {
   const { context } = flowSpecifics[flowId];
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
+
+  console.log(stepId);
+  console.log(buttonNavigationProps);
 
   return (
     <Background backgroundColor="blue">
