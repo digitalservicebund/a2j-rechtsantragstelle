@@ -26,6 +26,11 @@ export const fluggastrechtContext = {
   fluggesellschaft: airlineSchema,
   bereich: fluggastBereichSchema,
   zwischenstopps: YesNoAnswer,
+  singleFlugnummer: inputRequiredSchema,
+  singleAbflugDatum: dateSchema,
+  singleAbflugZeit: inputRequiredSchema,
+  singleAnkunftDatum: dateSchema,
+  singleAnkunftZeit: inputRequiredSchema,
   zwischenstoppFlughafen: z.union([airportSchema, z.literal("")]),
   ankunftsDatum: dateSchema, // TODO: validate as German date in the past
   ankunftsZeit: inputRequiredSchema,
