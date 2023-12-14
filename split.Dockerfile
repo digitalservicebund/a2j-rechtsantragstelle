@@ -21,6 +21,8 @@ ARG STRAPI_ACCESS_KEY
 ENV STRAPI_API=$STRAPI_API
 ENV STRAPI_ACCESS_KEY=$STRAPI_ACCESS_KEY
 RUN npm run dumpCmsToFile 
+RUN npm run verifyWebsites 
+RUN npm run verifyEmails 
 
 FROM scratch AS content
 COPY --from=content-fetch /a2j-rast/content.json /
