@@ -4,7 +4,7 @@ import Background from "../app/components/Background";
 import Container from "../app/components/Container";
 
 const meta = {
-  title: "Page/Alert",
+  title: "Basic/Alert",
   component: Alert,
   parameters: {
     layout: "fullscreen",
@@ -34,9 +34,7 @@ export const Example: Story = {
       tagName: "h2",
       look: "ds-label-01-bold",
     },
-    content: {
-      markdown:
-        "Geben Sie unbedingt den vollständigen Namen einschließlich der in der Bezeichnung enthaltenen Rechtsform, zum Beispiel “ABC GmbH” an.",
-    },
+    content:
+      "Geben Sie unbedingt den vollständigen Namen einschließlich der in der Bezeichnung enthaltenen Rechtsform, zum Beispiel “ABC GmbH” an.",
   },
 };
