@@ -65,8 +65,8 @@ export const buildFlowController = ({
   const baseUrl = config.id ?? "";
   const initialStepId = getStateValueString(machine.initialState.value);
   const normalizeStepId = (stepId: string) =>
-    stepId.replace("/", ".").replace("ergebnis.", "ergebnis/");
-  const denormalizeStepId = (stepId: string) => stepId.replace(".", "/");
+    stepId.replace(/\//g, ".").replace("ergebnis.", "ergebnis/");
+  const denormalizeStepId = (stepId: string) => stepId.replace(/\./g, "/");
   const isInitialStepId = (currentStepId: string) =>
     initialStepId === normalizeStepId(currentStepId);
 

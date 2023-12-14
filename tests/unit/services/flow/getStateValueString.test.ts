@@ -11,9 +11,10 @@ describe("getStateValueString", () => {
     );
   });
 
-  // TODO: make multiple nested possible
   it("returns simple value if multiple nested state given", () => {
-    //expect(getStateValueString({parent1: { parent2: "state" } })).toStrictEqual("parent1.parent2.state")
+    expect(
+      getStateValueString({ parent1: { parent2: "state" } }),
+    ).toStrictEqual("parent1.parent2.state");
   });
 
   it("throws error if multiple states given", () => {
