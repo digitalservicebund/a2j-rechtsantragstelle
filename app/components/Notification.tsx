@@ -38,7 +38,7 @@ export const Notification = ({
           {heading && <Heading {...heading} />}
         </div>
         {content && (
-          <div>
+          <div className="tracking-[0.16px] leading-[26px]">
             <RichText {...content} />
           </div>
         )}
