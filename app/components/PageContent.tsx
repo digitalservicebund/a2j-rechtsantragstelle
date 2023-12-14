@@ -33,6 +33,7 @@ import List from "./List";
 import TileGroup from "./inputs/TileGroup";
 import { renderCheckboxFromStrapi } from "~/services/cms/models/StrapiCheckbox";
 import { renderDateInputFromStrapi } from "~/services/cms/models/StrapiDateInput";
+import { renderAlertFromStrapi } from "~/services/cms/models/StrapiAlert";
 
 type PageContentProps = {
   content: Array<StrapiContent>;
@@ -79,6 +80,8 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
       return <Heading {...getHeadingProps(replacedTemplate)} key={key} />;
     case "basic.paragraph":
       return <RichText {...getRichTextProps(replacedTemplate)} key={key} />;
+    case "basic.alert":
+      return renderAlertFromStrapi(replacedTemplate);
     case "page.header":
       return <Header {...getHeaderProps(replacedTemplate)} key={key} />;
     case "form-elements.input":

@@ -1,13 +1,13 @@
 import { z } from "zod";
 import Heading, { HeadingPropsSchema } from "./Heading";
-import RichText, { RichTextPropsSchema } from "./RichText";
+import RichText from "./RichText";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 
 export const AlertPropsSchema = z.object({
   identifier: z.string().optional(),
-  heading: HeadingPropsSchema.optional(),
+  heading: HeadingPropsSchema.nullable(),
   look: z.enum(["hint"]),
-  content: RichTextPropsSchema.optional(),
+  content: z.string().optional(),
 });
 
 type AlertProps = z.infer<typeof AlertPropsSchema>;
@@ -34,7 +34,7 @@ export const Alert = ({ identifier, heading, look, content }: AlertProps) => {
         </div>
         {content && (
           <div className="tracking-[0.16px] leading-[26px]">
-            <RichText {...content} />
+            {content && <RichText markdown={content} />}
           </div>
         )}
       </div>
