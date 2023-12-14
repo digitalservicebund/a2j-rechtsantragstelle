@@ -441,6 +441,67 @@ exports[`Storyshots Content/UserFeedback Example 1`] = `
 </div>
 `;
 
+exports[`Storyshots Page/Alert Example 1`] = `
+<div
+  className="!pt-32 !pb-32"
+>
+  <div
+    className="container !pt-32 !pb-40"
+  >
+    <div
+      className="ds-stack-16 scroll-my-40 rounded-lg pt-24 pb-32 px-40 bg-yellow-500 md:max-w-[630px]"
+      id="default-alert-id"
+    >
+      <div
+        className="ds-stack-4"
+      >
+        <div
+          className="flex flex-row gap-[8px] items-center"
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="NotificationsNoneIcon"
+            focusable="false"
+            style={
+              {
+                "height": 28,
+                "width": 28,
+              }
+            }
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"
+            />
+          </svg>
+          <h2
+            className="ds-label-01-bold"
+            dangerouslySetInnerHTML={
+              {
+                "__html": "Hinweis",
+              }
+            }
+          />
+        </div>
+        <div
+          className="tracking-[0.16px] leading-[26px]"
+        >
+          <div
+            className="rich-text ds-stack-8 "
+            dangerouslySetInnerHTML={
+              {
+                "__html": "<p class="text-lg">Geben Sie unbedingt den vollständigen Namen einschließlich der in der Bezeichnung enthaltenen Rechtsform, zum Beispiel “ABC GmbH” an.</p>",
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Page/Footer Example 1`] = `
 <footer
   className="text-base"
@@ -651,67 +712,6 @@ exports[`Storyshots Page/List Example 1`] = `
           </div>
         </li>
       </ol>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Storyshots Page/Notification Example 1`] = `
-<div
-  className="!pt-32 !pb-32"
->
-  <div
-    className="container !pt-32 !pb-40"
-  >
-    <div
-      className="ds-stack-16 scroll-my-40 rounded-lg pt-24 pb-32 px-40 bg-yellow-500 md:max-w-[630px]"
-      id="default-notification-id"
-    >
-      <div
-        className="ds-stack-4"
-      >
-        <div
-          className="flex flex-row gap-[8px] items-center"
-        >
-          <svg
-            aria-hidden={true}
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="NotificationsNoneIcon"
-            focusable="false"
-            style={
-              {
-                "height": 28,
-                "width": 28,
-              }
-            }
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"
-            />
-          </svg>
-          <h2
-            className="ds-label-01-bold"
-            dangerouslySetInnerHTML={
-              {
-                "__html": "Hinweis",
-              }
-            }
-          />
-        </div>
-        <div
-          className="tracking-[0.16px] leading-[26px]"
-        >
-          <div
-            className="rich-text ds-stack-8 "
-            dangerouslySetInnerHTML={
-              {
-                "__html": "<p class="text-lg">Geben Sie unbedingt den vollständigen Namen einschließlich der in der Bezeichnung enthaltenen Rechtsform, zum Beispiel “ABC GmbH” an.</p>",
-              }
-            }
-          />
-        </div>
-      </div>
     </div>
   </div>
 </div>

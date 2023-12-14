@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Notification } from "../app/components/Notification";
+import { Alert } from "../app/components/Alert";
 import Background from "../app/components/Background";
 import Container from "../app/components/Container";
 
 const meta = {
-  title: "Page/Notification",
-  component: Notification,
+  title: "Page/Alert",
+  component: Alert,
   parameters: {
     layout: "fullscreen",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof Notification>;
+} satisfies Meta<typeof Alert>;
 
 export default meta;
 
@@ -27,7 +27,7 @@ export const Example: Story = {
     ),
   ],
   args: {
-    identifier: "default-notification-id",
+    identifier: "default-alert-id",
     look: "hint",
     heading: {
       text: "Hinweis",

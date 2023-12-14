@@ -3,14 +3,14 @@ import Heading, { HeadingPropsSchema } from "./Heading";
 import RichText, { RichTextPropsSchema } from "./RichText";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 
-export const NotificationProsSchema = z.object({
+export const AlertPropsSchema = z.object({
   identifier: z.string().optional(),
   heading: HeadingPropsSchema.optional(),
   look: z.enum(["hint"]),
   content: RichTextPropsSchema.optional(),
 });
 
-type NotificationProps = z.infer<typeof NotificationProsSchema>;
+type AlertProps = z.infer<typeof AlertPropsSchema>;
 
 const lookConfig = {
   hint: {
@@ -19,12 +19,7 @@ const lookConfig = {
   },
 };
 
-export const Notification = ({
-  identifier,
-  heading,
-  look,
-  content,
-}: NotificationProps) => {
+export const Alert = ({ identifier, heading, look, content }: AlertProps) => {
   const { backgroundColor, IconComponent } = lookConfig[look];
 
   return (
