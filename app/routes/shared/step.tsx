@@ -86,7 +86,7 @@ export const loader = async ({
 
   // Not having data here could skip the migration step
   let migrationData: Record<string, unknown> = {};
-  if (stepId === "daten-uebernahme" && "migrationSource" in currentFlow)
+  if (stepId === "intro/daten-uebernahme" && "migrationSource" in currentFlow)
     migrationData = await getMigrationData(currentFlow, cookieId);
 
   const lookupPath = pathname.includes("persoenliche-daten")
@@ -211,7 +211,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   updateSession(flowSession, validationResult.data);
 
   if (
-    stepId === "daten-uebernahme" &&
+    stepId === "intro/daten-uebernahme" &&
     "migrationSource" in currentFlow &&
     validationResult.data["doMigration"] === "yes"
   ) {
