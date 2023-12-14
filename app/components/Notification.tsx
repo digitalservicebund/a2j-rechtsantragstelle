@@ -32,8 +32,8 @@ export const Notification = ({
       className={`ds-stack-16 scroll-my-40 rounded-lg pt-24 pb-32 px-40 ${backgroundColor} md:max-w-[630px]`}
       id={identifier}
     >
-      <div className="ds-stack-8">
-        <div className="flex flex-row gap-[2px] items-center">
+      <div className="ds-stack-4">
+        <div className="flex flex-row gap-[8px] items-center">
           <IconComponent style={{ width: 28, height: 28 }} />
           {heading && <Heading {...heading} />}
         </div>

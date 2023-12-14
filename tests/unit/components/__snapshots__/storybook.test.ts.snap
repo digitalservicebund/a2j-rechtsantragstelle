@@ -668,10 +668,10 @@ exports[`Storyshots Page/Notification Example 1`] = `
       id="default-notification-id"
     >
       <div
-        className="ds-stack-8"
+        className="ds-stack-4"
       >
         <div
-          className="flex flex-row gap-[2px] items-center"
+          className="flex flex-row gap-[8px] items-center"
         >
           <svg
             aria-hidden={true}
