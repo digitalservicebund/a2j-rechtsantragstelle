@@ -7,7 +7,7 @@ if [ "$#" -le 1 ]; then
     exit 1
 fi
 
-PROJECT_NAME=a2j-rechtsantragstelle
+PROJECT_NAME=digitalservicebund/a2j-rechtsantragstelle
 DOCKERFILE=split.Dockerfile
 
 while [[ "$#" -gt 0 ]]; do
