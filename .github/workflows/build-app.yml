@@ -4,10 +4,12 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-app
-  IMAGE_TAG: ${{ github.sha }}
 
 jobs:
+  code-quality:
+    uses: ./.github/workflows/npm-checks.yml
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   build-push-app-prod:
     runs-on: ubuntu-latest
     permissions:
@@ -20,12 +22,53 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build app image
-        run: docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --target app -f split.Dockerfile
-      - name: Push app image
-        run: docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      - uses: ./.github/actions/build-prod-image
+      - name: Build app & prod image
+        run: |
+          ./docker.sh --build --registry ${{ env.REGISTRY }} app
+          ./docker.sh --build --registry ${{ env.REGISTRY }} prod
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@91713af97dc80187565512baba96e4364e983601
         with:
-          IMAGE_NAME: ${{ env.REGISTRY }}/${{ github.repository }}-prod
-          CONTENT_IMAGE: ${{ env.REGISTRY }}/${{ github.repository }}-content
-          APP_IMAGE: ${{ env.REGISTRY }}/${{ github.repository }}-app
+          image-ref: "${{ env.REGISTRY }}/${{ github.repository }}-prod"
+          format: "sarif"
+          output: "trivy-results.sarif"
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          severity: "CRITICAL,HIGH"
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@81b419c908d540ec4c7da9bfb4b5d941fca8f624
+        with:
+          sarif_file: "trivy-results.sarif"
+      # - name: run local e2e test
+      #   run: tbd
+      - name: push app & prod image
+        run: |
+          ./docker.sh --push --registry ${{ env.REGISTRY }} app
+          ./docker.sh --push --registry ${{ env.REGISTRY }} prod
+  # deploy-staging:
+  #   needs: [build-push-app-prod]
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   environment: staging
+  #   steps:
+  #     - name: Report Deployment
+  #       uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
+  #       with:
+  #         project: a2j-rechtsantragstelle
+  #         environment: staging
+  #         metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
+  #         metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
+
+  #     - name: Deploy new staging image
+  #       uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
+  #       with:
+  #         environment: staging
+  #         version: ${{ env.IMAGE_VERSION }}-${{ needs.create-content-file.outputs.content_checksum }}
+  #         deploying_repo: a2j-rechtsantragstelle
+  #         infra_repo: a2j-rechtsantragstelle-infra
+  #         deploy_key: ${{ secrets.DEPLOY_KEY }}
+  #         app: a2j-rast-staging
+  #         argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
+  #         argocd_server: ${{ secrets.ARGOCD_SERVER }}
+  #         argocd_sync_timeout: 300

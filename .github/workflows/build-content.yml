@@ -4,8 +4,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-content
-  IMAGE_TAG: $(date +%Y%m%d%H%M%S)
 
 jobs:
   build-push-content-prod:
@@ -20,12 +18,13 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build content image
-        run: docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --target content --build-arg="STRAPI_API=${{ secrets.STRAPI_API }}" --build-arg="STRAPI_ACCESS_KEY=${{ secrets.STRAPI_ACCESS_KEY }}" -f split.Dockerfile
-      - name: Push content image
-        run: docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      - uses: ./.github/actions/build-prod-image
-        with:
-          IMAGE_NAME: ${{ env.REGISTRY }}/${{ github.repository }}-prod
-          CONTENT_IMAGE: ${{ env.REGISTRY }}/${{ github.repository }}-content
-          APP_IMAGE: ${{ env.REGISTRY }}/${{ github.repository }}-app
+      - name: Build content & prod image
+        run: |
+          ./docker.sh --build --registry ${{ env.REGISTRY }} content
+          ./docker.sh --build --registry ${{ env.REGISTRY }} prod
+      # - name: run local e2e test
+      #   run: tbd
+      - name: push content & prod image
+        run: |
+          ./docker.sh --push --registry ${{ env.REGISTRY }} content
+          ./docker.sh --push --registry ${{ env.REGISTRY }} prod
