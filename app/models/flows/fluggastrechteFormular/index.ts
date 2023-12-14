@@ -13,7 +13,9 @@ export const fluggastrechtFlow = {
     if (!("zwischenstopps" in context)) return {};
     return {
       entfernung: context.entfernung?.toString(),
+      startAirport: context.startAirport,
       endAirport: context.endAirport,
+      zwischenstoppAirport: context.zwischenstoppFlughafen,
       forderung: forderungFromEntfernung(context.entfernung ?? 0).toString(),
       kosten: gerichtskostenFromBetrag(
         forderungFromEntfernung(context.entfernung ?? 0),
