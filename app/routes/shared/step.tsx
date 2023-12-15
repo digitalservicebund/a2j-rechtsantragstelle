@@ -123,10 +123,10 @@ export const loader = async ({
   // The breadcrumb should not contain the current step title
   // Also, the parent page title needs to be appended manually to the title
   const meta = {
-    description: formPageContent.meta.description ?? parentMeta.description,
-    breadcrumbTitle: parentMeta.title,
-    ogTitle: formPageContent.meta.ogTitle ?? parentMeta.ogTitle,
-    title: `${formPageContent.meta.title} - ${parentMeta.title}`,
+    description: formPageContent.meta.description ?? parentMeta?.description,
+    breadcrumbTitle: parentMeta?.title,
+    ogTitle: formPageContent.meta.ogTitle ?? parentMeta?.ogTitle,
+    title: `${formPageContent.meta.title} - ${parentMeta?.title ?? ""}`,
   };
 
   const cmsContent = structureCmsContent(formPageContent);
@@ -134,7 +134,7 @@ export const loader = async ({
     await Promise.all(
       getSubflowsEntries(currentFlow.flow).map(([subflowName]) =>
         fetchMeta({ filterValue: `/${flowId}/${subflowName}` }).then(
-          (meta) => [subflowName, meta.title] as [string, string],
+          (meta) => [subflowName, meta?.title ?? ""] as [string, string],
         ),
       ),
     ),

@@ -23,7 +23,8 @@ const getStrapiEntry =
 export async function fetchMeta(opts: Omit<GetStrapiEntryOpts, "apiId">) {
   const populate = "meta";
   const pageEntry = await getStrapiEntry({ ...opts, apiId: "pages", populate });
-  return HasStrapiMetaSchema.parse(pageEntry).meta;
+  const parsedEntry = HasStrapiMetaSchema.safeParse(pageEntry);
+  return parsedEntry.success ? parsedEntry.data.meta : null;
 }
 
 export async function fetchSingleEntry<ApiId extends keyof EntrySchemas>(
