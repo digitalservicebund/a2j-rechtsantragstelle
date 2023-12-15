@@ -37,7 +37,7 @@ jobs:
         run: echo "content_checksum=$(md5sum content.json | awk '{ print $1; }')" >> $GITHUB_OUTPUT
 
       - name: Upload Content File for further steps
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: content-file
           path: content.json
@@ -50,7 +50,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: content-file
       - name: Build docker image
@@ -71,7 +71,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@81b419c908d540ec4c7da9bfb4b5d941fca8f624
         with:
           sarif_file: "trivy-results.sarif"
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: docker-image
           path: container.tar
@@ -85,7 +85,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Download Content File
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: content-file
       - run: npm ci
@@ -108,7 +108,7 @@ jobs:
       packages: write
       id-token: write
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: docker-image
       - uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d

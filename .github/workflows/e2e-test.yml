@@ -33,7 +33,7 @@ jobs:
         run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages[''].devDependencies['@playwright/test'])")" >> $GITHUB_ENV
 
       - name: Download Content File
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: content-file
 
@@ -56,7 +56,7 @@ jobs:
         run: npm run test:e2e
 
       - name: Upload Playwright test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: playwright-report
