@@ -37,7 +37,7 @@ jobs:
         run: echo "content_checksum=$(md5sum content.json | awk '{ print $1; }')" >> $GITHUB_OUTPUT
 
       - name: Upload Content File for further steps
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: content-file
           path: content.json
@@ -71,7 +71,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@81b419c908d540ec4c7da9bfb4b5d941fca8f624
         with:
           sarif_file: "trivy-results.sarif"
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: docker-image
           path: container.tar
