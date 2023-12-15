@@ -50,7 +50,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: content-file
       - name: Build docker image
@@ -85,7 +85,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Download Content File
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: content-file
       - run: npm ci
@@ -108,7 +108,7 @@ jobs:
       packages: write
       id-token: write
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: docker-image
       - uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
