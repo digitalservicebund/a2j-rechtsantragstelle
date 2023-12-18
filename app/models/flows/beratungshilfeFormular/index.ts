@@ -28,6 +28,7 @@ import {
 } from "./persoenlicheDaten/context";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
+import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 
 export const beratungshilfeAntrag = {
   cmsSlug: "form-flow-pages",
@@ -95,6 +96,7 @@ export const beratungshilfeAntrag = {
     ...beratungshilfeGrundvoraussetzungenGuards,
     ...beratungshilfeRechtsproblemGuards,
     ...beratungshilfeAbgabeGuards,
+    ...finanzielleAngabeGuards,
   },
   context: {
     ...beratungshilfeGrundvoraussetzungen,

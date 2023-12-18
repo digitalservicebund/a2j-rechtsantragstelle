@@ -36,6 +36,17 @@ export const kidsSchema = z
     }
   });
 
+export const staatlicheLeistungen = z.enum(
+  [
+    "grundsicherung",
+    "asylbewerberleistungen",
+    "buergergeld",
+    "andereLeistung",
+    "keine",
+  ],
+  customRequiredErrorMessage,
+);
+
 export const context = {
   rechtsschutzversicherung: YesNoAnswer,
   klageEingereicht: YesNoAnswer,
@@ -43,16 +54,7 @@ export const context = {
   beratungshilfeBeantragt: YesNoAnswer,
   eigeninitiative: YesNoAnswer,
   wurdeVerklagt: YesNoAnswer,
-  staatlicheLeistungen: z.enum(
-    [
-      "grundsicherung",
-      "asylbewerberleistungen",
-      "buergergeld",
-      "andereLeistung",
-      "keine",
-    ],
-    customRequiredErrorMessage,
-  ),
+  staatlicheLeistungen,
   erwerbstaetigkeit: YesNoAnswer,
   vermoegen: z.enum(["below_10k", "above_10k"], customRequiredErrorMessage),
   genauigkeit: YesNoAnswer,

@@ -3,8 +3,87 @@
   "initial": "start",
   "id": "finanzielleAngaben",
   "states": {
-    "start": { "on": { "SUBMIT": "einkommen" } },
-    "einkommen": { "on": { "BACK": "start", "SUBMIT": "danke" } },
-    "danke": { "on": { "BACK": "einkommen" } }
+    "start": {
+      "on": { "SUBMIT": "#beruf.staatliche-leistungen" }
+    },
+    "beruf": {
+      "id": "beruf",
+      "states": {
+        "staatliche-leistungen": {
+          "on": {
+            "BACK": "#finanzielleAngaben.start",
+            "SUBMIT": [
+              {
+                "cond": "staatlicheLeistungenIsBuergergeld",
+                "target": "#besitz.besitz"
+              },
+              {
+                "cond": "staatlicheLeistungenIsAsylbewerberleistungen",
+                "target": "#finanzielleAngaben.danke"
+              },
+              {
+                "cond": "staatlicheLeistungenIsGrundsicherung",
+                "target": "#finanzielleAngaben.danke"
+              },
+              "erwerbstaetig"
+            ]
+          }
+        },
+        "erwerbstaetig": {
+          "on": {
+            "BACK": "staatliche-leistungen",
+            "SUBMIT": "#einkommen.einkommen"
+          }
+        }
+      }
+    },
+    "einkommen": {
+      "id": "einkommen",
+      "initial": "einkommen",
+      "states": {
+        "einkommen": {
+          "on": {
+            "BACK": "#beruf.erwerbstaetig",
+            "SUBMIT": "#besitz.besitz"
+          }
+        }
+      }
+    },
+    "besitz": {
+      "id": "besitz",
+      "states": {
+        "besitz": {
+          "on": {
+            "BACK": [
+              {
+                "cond": "staatlicheLeistungenIsBuergergeld",
+                "target": "#beruf.staatliche-leistungen"
+              },
+              "#einkommen.einkommen"
+            ],
+            "SUBMIT": "#danke"
+          }
+        }
+      }
+    },
+    "danke": {
+      "id": "danke",
+      "on": {
+        "BACK": [
+          {
+            "cond": "staatlicheLeistungenIsAsylbewerberleistungen",
+            "target": "#beruf.staatliche-leistungen"
+          },
+          {
+            "cond": "staatlicheLeistungenIsGrundsicherung",
+            "target": "#beruf.staatliche-leistungen"
+          },
+          {
+            "cond": "staatlicheLeistungenIsBuergergeld",
+            "target": "#besitz.besitz"
+          }
+        ]
+      }
+    }
   }
 }
