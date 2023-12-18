@@ -43,7 +43,7 @@
                 "cond": "zwischenstoppsNo"
               },
               {
-                "target": "ankunftszeit"
+                "target": "ankunft"
               }
             ],
             "BACK": "#daten-uebernahme"
@@ -63,7 +63,7 @@
         },
         "flug-details-single-ankunft": {
           "on": {
-            "SUBMIT": "ankunftszeit",
+            "SUBMIT": "ankunft",
             "BACK": "flug-details-single-abflug"
           }
         },
@@ -105,13 +105,21 @@
         },
         "flug-details-zwischenstopp-2-ankunft": {
           "on": {
-            "SUBMIT": "ankunftszeit",
+            "SUBMIT": "ankunft",
             "BACK": "flug-details-zwischenstopp-2-abflug"
           }
         },
-        "ankunftszeit": {
+        "ankunft": {
           "on": {
-            "SUBMIT": "anzahl",
+            "SUBMIT": [
+              {
+                "target": "ankunft-flugnummer",
+                "cond": "ankunftWithSameFlightNo"
+              },
+              {
+                "target": "ankunftszeit"
+              }
+            ],
             "BACK": [
               {
                 "cond": "zwischenstoppsNo",
@@ -122,6 +130,26 @@
                 "target": "flug-details-zwischenstopp-2-ankunft"
               },
               { "target": "zwischenstopps" }
+            ]
+          }
+        },
+        "ankunft-flugnummer": {
+          "on": {
+            "SUBMIT": "ankunftszeit",
+            "BACK": "ankunft"
+          }
+        },
+        "ankunftszeit": {
+          "on": {
+            "SUBMIT": "anzahl",
+            "BACK": [
+              {
+                "target": "ankunft-flugnummer",
+                "cond": "ankunftWithSameFlightNo"
+              },
+              {
+                "target": "ankunft"
+              }
             ]
           }
         },

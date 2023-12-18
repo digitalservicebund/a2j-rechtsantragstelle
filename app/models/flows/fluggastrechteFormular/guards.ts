@@ -16,4 +16,5 @@ function yesNoGuards<Field extends keyof FluggastrechtContext>(
 
 export const fluggastrechteGuards = {
   ...yesNoGuards("zwischenstopps"),
+  ...yesNoGuards("ankunftWithSameFlight"),
 };

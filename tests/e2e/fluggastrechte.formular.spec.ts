@@ -48,11 +48,18 @@ test("fluggastrechte formular can be traversed", async ({ page }) => {
   await fluggastrechte.fillInput("singleAnkunftZeit", "10:00");
   await fluggastrechte.clickNext();
 
+  // /fluggastrechte/formular/ankunft
+  await expectPageToBeAccessible({ page });
+  await fluggastrechte.fillRadioPage("ankunftWithSameFlight", "no");
+
+  // /fluggastrechte/formular/ankunft-flugnummer
+  await expectPageToBeAccessible({ page });
+  await fluggastrechte.fillInputPage("ankunftsFlugnummer", "BE5678");
+
   // /fluggastrechte/formular/ankunftszeit
   await expectPageToBeAccessible({ page });
   await fluggastrechte.fillInput("ankunftsDatum", "01.01.2022");
   await fluggastrechte.fillInput("ankunftsZeit", "13:20");
-  await fluggastrechte.fillInput("ankunftsFlugnummer", "BE5678");
   await fluggastrechte.clickNext();
 
   // /fluggastrechte/formular/persoenliche-daten/anzahl

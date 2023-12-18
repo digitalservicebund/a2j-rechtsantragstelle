@@ -15,7 +15,7 @@ const happyPathSteps = [
   "intro.dokumente",
   "intro.daten-uebernahme",
   "flugdaten.zwischenstopps",
-  "flugdaten.ankunftszeit",
+  "flugdaten.ankunft",
 ];
 
 const cases = [
@@ -27,6 +27,7 @@ const cases = [
       "flugdaten.flug-details-single-flugnummer",
       "flugdaten.flug-details-single-abflug",
       "flugdaten.flug-details-single-ankunft",
+      "flugdaten.ankunft",
       "flugdaten.ankunftszeit",
     ],
   ],
@@ -41,6 +42,15 @@ const cases = [
       "flugdaten.flug-details-zwischenstopp-2-flugnummer",
       "flugdaten.flug-details-zwischenstopp-2-abflug",
       "flugdaten.flug-details-zwischenstopp-2-ankunft",
+      "flugdaten.ankunft",
+      "flugdaten.ankunftszeit",
+    ],
+  ],
+  [
+    { ankunftWithSameFlight: "no" },
+    [
+      "flugdaten.ankunft",
+      "flugdaten.ankunft-flugnummer",
       "flugdaten.ankunftszeit",
     ],
   ],
