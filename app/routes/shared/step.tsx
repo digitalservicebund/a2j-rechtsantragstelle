@@ -259,7 +259,7 @@ export function StepWithProgressBar() {
                 className="ds-stack-16"
               />
               <ValidatedForm
-                key={`${stepId}_form`}
+                id={`${stepId}_form`}
                 method="post"
                 validator={validator}
                 defaultValues={defaultValues}
@@ -337,7 +337,7 @@ export function StepWithPreHeading() {
 
           <MigrationDataOverview migrationData={migrationData} />
           <ValidatedForm
-            key={`${stepId}_form`}
+            id={`${stepId}_form`}
             method="post"
             validator={validator}
             defaultValues={defaultValues}
