@@ -14,7 +14,7 @@ type AlertProps = z.infer<typeof AlertPropsSchema>;
 
 const lookConfig = {
   hint: {
-    backgroundColor: "bg-yellow-500",
+    backgroundColor: "bg-yellow-300",
     IconComponent: NotificationsNoneIcon,
   },
 };

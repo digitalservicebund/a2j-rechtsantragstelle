@@ -8,7 +8,7 @@ exports[`Storyshots Basic/Alert Example 1`] = `
     className="container !pt-32 !pb-40"
   >
     <div
-      className="ds-stack-16 scroll-my-40 rounded-lg mt-24 pt-24 pb-32 px-40 bg-yellow-500 md:max-w-[630px]"
+      className="ds-stack-16 scroll-my-40 rounded-lg mt-24 pt-24 pb-32 px-40 bg-yellow-300 md:max-w-[630px]"
       id="default-alert-id"
     >
       <div
