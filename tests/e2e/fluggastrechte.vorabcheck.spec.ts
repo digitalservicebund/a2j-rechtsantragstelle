@@ -57,7 +57,7 @@ test("geldeinklagen can be traversed", async ({ page }) => {
 
   await expect(
     page.getByRole("heading").filter({
-      hasText: "Sie haben vermutlich Anspruch",
+      hasText: "Sie erfüllen die Kriterien",
     }),
   ).toHaveCount(1);
 });
