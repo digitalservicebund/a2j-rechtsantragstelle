@@ -1,1 +1,1 @@
-export const CSRFKey = "csrf";
+export const CSRFKey = "_csrf";

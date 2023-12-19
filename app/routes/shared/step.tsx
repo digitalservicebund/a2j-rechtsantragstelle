@@ -191,9 +191,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
   // Note: This also reduces same-named fields to the last entry
   const relevantFormData = Object.fromEntries(
-    Array.from(formData.entries()).filter(
-      ([key]) => key !== "_action" && key !== CSRFKey,
-    ),
+    Array.from(formData.entries()).filter(([key]) => !key.startsWith("_")),
   );
   const validator = buildStepValidator(
     currentFlow.context,
