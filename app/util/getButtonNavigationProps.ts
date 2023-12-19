@@ -1,41 +1,32 @@
-import _ from "lodash";
+import type { z } from "zod";
+import type { StrapiVorabCheckCommonSchema } from "~/services/cms/models/StrapiVorabCheckCommon";
 import type { Meta } from "~/services/flow/buildFlowController";
 
 export const getButtonNavigationProps = ({
   commonContent,
-  cmsContent,
+  nextButtonLabel,
   configMetadata,
   previousStepUrl,
+  isFinal,
 }: {
-  commonContent: {
-    nextButtonDefaultLabel: string;
-    backButtonDefaultLabel: string;
-  };
-  cmsContent: {
-    nextButtonLabel?: string | null;
-  };
+  commonContent: z.infer<typeof StrapiVorabCheckCommonSchema>;
+  nextButtonLabel?: string | null;
   configMetadata?: Meta;
   previousStepUrl?: string;
+  isFinal: boolean;
 }) => {
-  const defaultProps = {
-    next: {
-      label: commonContent.nextButtonDefaultLabel,
-    },
+  return {
+    next: isFinal
+      ? undefined
+      : {
+          label: nextButtonLabel ?? commonContent.nextButtonDefaultLabel,
+          destination: configMetadata?.buttonNavigationProps?.next?.destination,
+          downloadFile:
+            configMetadata?.buttonNavigationProps?.next?.downloadFile,
+        },
     back: {
       destination: previousStepUrl,
       label: commonContent.backButtonDefaultLabel,
     },
   };
-
-  const cmsProps = cmsContent.nextButtonLabel
-    ? {
-        next: {
-          label: cmsContent.nextButtonLabel,
-        },
-      }
-    : {};
-
-  const configProps = configMetadata?.buttonNavigationProps;
-
-  return _.merge({}, defaultProps, cmsProps, configProps);
 };

@@ -197,7 +197,7 @@
       "on": { "SUBMIT": "klageVersenden", "BACK": "aenderungMitteilung" }
     },
     "klageVersenden": {
-      "on": { "SUBMIT": "klageVersenden", "BACK": "einverstaendnis" }
+      "on": { "BACK": "einverstaendnis" }
     }
   }
 }

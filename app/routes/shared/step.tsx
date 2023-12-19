@@ -142,7 +142,8 @@ export const loader = async ({
 
   const buttonNavigationProps = getButtonNavigationProps({
     commonContent,
-    cmsContent,
+    nextButtonLabel: cmsContent.nextButtonLabel,
+    isFinal: flowController.isFinal(stepId),
     configMetadata: flowController.getMeta(stepId),
     previousStepUrl: flowController.getPrevious(stepId)?.url,
   });
@@ -161,10 +162,7 @@ export const loader = async ({
           ? currentFlow.stringReplacements(flowContext)
           : {}),
       },
-      // For fluggastrechte and geld-einklagen there is no next step after klageVersenden
-      buttonNavigationProps: stepId.includes("klageVersenden")
-        ? { back: buttonNavigationProps.back }
-        : buttonNavigationProps,
+      buttonNavigationProps,
       navItems: navItemsFromFlowSpecifics(
         stepId,
         flowController,
