@@ -41,6 +41,7 @@ import { navItemsFromFlowSpecifics } from "~/services/flowNavigation";
 import type { z } from "zod";
 import type { CollectionSchemas } from "~/services/cms/schemas";
 import { getButtonNavigationProps } from "~/util/getButtonNavigationProps";
+import { sendCustomEvent } from "~/services/analytics/customEvent";
 
 const structureCmsContent = (
   formPageContent: z.infer<
@@ -204,6 +205,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
       validationResult.submittedData,
     );
 
+  void sendCustomEvent("stepSubmitted", validationResult.data, request);
   updateSession(flowSession, validationResult.data);
 
   if (
