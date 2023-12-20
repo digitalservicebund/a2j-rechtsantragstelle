@@ -19,7 +19,6 @@ async function getRedisInstance() {
   if (!global.ioredis) {
     try {
       const options = {
-        maxRetriesPerRequest: 1,
         lazyConnect: true,
       } satisfies RedisOptions;
       global.ioredis = new Redis(
