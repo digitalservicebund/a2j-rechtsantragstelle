@@ -84,7 +84,7 @@
     "@remix-run/testing": "^2.4.0",
     "@storybook/addon-a11y": "^7.6.5",
     "@storybook/addon-essentials": "^7.6.5",
-    "@storybook/addon-interactions": "^7.6.5",
+    "@storybook/addon-interactions": "^7.6.6",
     "@storybook/addon-links": "^7.6.5",
     "@storybook/addon-onboarding": "^1.0.10",
     "@storybook/addon-storyshots": "^7.6.5",
