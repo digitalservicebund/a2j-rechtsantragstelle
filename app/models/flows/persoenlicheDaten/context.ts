@@ -19,7 +19,7 @@ export const namePrivatPerson = {
 };
 
 export const persoenlicheDaten = {
-  telefonnummer: inputRequiredSchema.pipe(phoneNumberSchema),
+  telefonnummer: z.union([phoneNumberSchema, z.literal("")]),
   bevollmaechtigtePerson: z.enum(
     ["lawyer", "yes", "no"],
     customRequiredErrorMessage,
