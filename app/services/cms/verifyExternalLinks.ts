@@ -21,6 +21,7 @@ const allowedWebsites = [
   "https://www.bundesjustizamt.de/",
   "https://service.justiz.de/",
   "https://www.luftlinie.org",
+  "https://www.verbraucherzentrale.de",
 ];
 
 const allowedEmails = [
