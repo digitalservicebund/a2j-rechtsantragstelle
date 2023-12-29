@@ -22,6 +22,7 @@ const allowedWebsites = [
   "https://service.justiz.de/",
   "https://www.luftlinie.org",
   "https://www.verbraucherzentrale.de",
+  "https://www.zugang-zum-recht-projekte.de",
 ];
 
 const allowedEmails = [
