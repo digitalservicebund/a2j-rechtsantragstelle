@@ -1,7 +1,7 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import Button from "../app/components/Button";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
 
 const meta = {
   title: "Button/Button",

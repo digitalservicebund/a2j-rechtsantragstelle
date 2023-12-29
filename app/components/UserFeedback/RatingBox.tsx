@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useFetcher } from "@remix-run/react";
-import ThumbDownIcon from "@mui/icons-material/ThumbDownOutlined";
-import ThumbUpIcon from "@mui/icons-material/ThumbUpOutlined";
+import ThumbDownIcon from "@digitalservicebund/icons/ThumbDownOutlined";
+import ThumbUpIcon from "@digitalservicebund/icons/ThumbUpOutlined";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 import Heading from "../Heading";

@@ -14,35 +14,13 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@digitalservice4germany/style-dictionary/LICENSE",
     "direct": true
   },
-  "@emotion/react": {
+  "@digitalservicebund/icons": {
     "licenses": "MIT",
-    "repository": "https://github.com/emotion-js/emotion.git#main",
-    "publisher": "Emotion Contributors",
-    "path": "a2j-rechtsantragstelle/node_modules/@emotion/react",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@emotion/react/LICENSE",
-    "direct": true
-  },
-  "@emotion/styled": {
-    "licenses": "MIT",
-    "repository": "https://github.com/emotion-js/emotion.git#main",
-    "path": "a2j-rechtsantragstelle/node_modules/@emotion/styled",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@emotion/styled/LICENSE",
-    "direct": true
-  },
-  "@mui/icons-material": {
-    "licenses": "MIT",
-    "repository": "https://github.com/mui/material-ui",
-    "publisher": "MUI Team",
-    "path": "a2j-rechtsantragstelle/node_modules/@mui/icons-material",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@mui/icons-material/LICENSE",
-    "direct": true
-  },
-  "@mui/material": {
-    "licenses": "MIT",
-    "repository": "https://github.com/mui/material-ui",
-    "publisher": "MUI Team",
-    "path": "a2j-rechtsantragstelle/node_modules/@mui/material",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@mui/material/LICENSE",
+    "repository": "https://github.com/digitalservicebund/icons",
+    "publisher": "Joschka de Cuveland",
+    "email": "joschka.decuveland@digitalservice.bund.de",
+    "path": "a2j-rechtsantragstelle/node_modules/@digitalservicebund/icons",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@digitalservicebund/icons/README.md",
     "direct": true
   },
   "@react-pdf/renderer": {

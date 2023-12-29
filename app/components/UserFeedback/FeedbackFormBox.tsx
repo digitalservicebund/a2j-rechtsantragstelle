@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm } from "remix-validated-form";
-import CloseIcon from "@mui/icons-material/CloseOutlined";
-import SendIcon from "@mui/icons-material/SendOutlined";
+import CloseIcon from "@digitalservicebund/icons/CloseOutlined";
+import SendIcon from "@digitalservicebund/icons/SendOutlined";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 import Heading from "../Heading";

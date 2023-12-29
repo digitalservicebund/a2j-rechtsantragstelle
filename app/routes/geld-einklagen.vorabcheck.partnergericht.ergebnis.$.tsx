@@ -6,8 +6,8 @@ import Background from "~/components/Background";
 import Container from "~/components/Container";
 import CourtDetails from "~/components/CourtDetails";
 import PageContent from "~/components/PageContent";
-import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
-import HighlightOff from "@mui/icons-material/HighlightOff";
+import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
+import HighlightOff from "@digitalservicebund/icons/HighlightOff";
 import {
   fetchCollectionEntry,
   fetchSingleEntry,
