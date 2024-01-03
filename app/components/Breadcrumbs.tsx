@@ -1,4 +1,4 @@
-import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
 type Breadcrumb = {
   url: string;

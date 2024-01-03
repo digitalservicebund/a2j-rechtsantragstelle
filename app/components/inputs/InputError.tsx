@@ -1,4 +1,4 @@
-import ErrorOutline from "@digitalservicebund/icons/ErrorOutline";
+import ErrorOutline from "@mui/icons-material/ErrorOutline";
 import type { PropsWithChildren } from "react";
 
 type InputErrorProps = PropsWithChildren<{

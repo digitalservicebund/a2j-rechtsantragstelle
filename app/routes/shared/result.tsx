@@ -15,9 +15,9 @@ import {
   splatFromParams,
 } from "./flowSpecifics";
 import { type ReactElement } from "react";
-import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
-import HighlightOff from "@digitalservicebund/icons/HighlightOff";
-import WarningAmber from "@digitalservicebund/icons/WarningAmber";
+import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
+import HighlightOff from "@mui/icons-material/HighlightOff";
+import WarningAmber from "@mui/icons-material/WarningAmber";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";

@@ -1,6 +1,6 @@
-import CheckCircleOutlineIcon from "@digitalservicebund/icons/CheckCircleOutline";
-import CircleOutlinedIcon from "@digitalservicebund/icons/CircleOutlined";
-import RadioButtonCheckedOutlinedIcon from "@digitalservicebund/icons/RadioButtonCheckedOutlined";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
+import RadioButtonCheckedOutlinedIcon from "@mui/icons-material/RadioButtonCheckedOutlined";
 import { NavState } from "~/services/flowNavigation";
 
 export type NavItem = {
