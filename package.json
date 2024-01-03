@@ -61,7 +61,7 @@
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
     "posthog-js": "^1.96.1",
-    "posthog-node": "^3.2.1",
+    "posthog-node": "^3.3.0",
     "quicktype-core": "^23.0.80",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
