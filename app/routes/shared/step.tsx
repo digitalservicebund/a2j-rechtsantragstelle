@@ -41,6 +41,7 @@ import { navItemsFromFlowSpecifics } from "~/services/flowNavigation";
 import type { z } from "zod";
 import type { CollectionSchemas } from "~/services/cms/schemas";
 import { getButtonNavigationProps } from "~/util/getButtonNavigationProps";
+import { sendCustomEvent } from "~/services/analytics/customEvent";
 
 const structureCmsContent = (
   formPageContent: z.infer<
@@ -221,6 +222,11 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     data: flowSession.data,
     guards: flowSpecifics[flowId].guards,
   });
+
+  const customEventName = flowController.getMeta(stepId)?.customEventName;
+  if (customEventName)
+    void sendCustomEvent(customEventName, validationResult.data, request);
+
   return redirect(flowController.getNext(stepId).url, { headers });
 };
 

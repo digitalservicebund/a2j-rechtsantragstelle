@@ -12,6 +12,7 @@ type StateMachine = ReturnType<
 export type Config = MachineConfig<Context, any, StateMachineEvents>;
 export type Guards = Record<string, (context: Context) => boolean>;
 export type Meta = {
+  customEventName?: string;
   progressPosition: number | undefined;
   isUneditable: boolean | undefined;
   done: (context: Context) => boolean | undefined;
@@ -70,18 +71,15 @@ export const buildFlowController = ({
   const isInitialStepId = (currentStepId: string) =>
     initialStepId === normalizeStepId(currentStepId);
 
+  const getMeta = (currentStepId: string): Meta | undefined =>
+    machine.getStateNodeByPath(normalizeStepId(currentStepId)).meta;
+
   return {
-    getMeta: (currentStepId: string): Meta => {
-      return machine.getStateNodeByPath(normalizeStepId(currentStepId)).meta;
-    },
-    isDone: (currentStepId: string) => {
-      const meta: Meta = machine.getStateNodeByPath(currentStepId).meta;
-      return meta && "done" in meta && meta.done(context) === true;
-    },
-    isUneditable: (currentStepId: string) => {
-      const meta: Meta = machine.getStateNodeByPath(currentStepId).meta;
-      return meta && meta.isUneditable === true;
-    },
+    getMeta,
+    isDone: (currentStepId: string) =>
+      Boolean(getMeta(currentStepId)?.done(context)),
+    isUneditable: (currentStepId: string) =>
+      Boolean(getMeta(currentStepId)?.isUneditable),
     getFlow: () => config,
     isInitial: isInitialStepId,
     isFinal: (currentStepId: string) =>
