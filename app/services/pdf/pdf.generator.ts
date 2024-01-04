@@ -133,4 +133,4 @@ const generate = async () => {
   console.log("Done");
 };
 
-generate();
+void generate();

@@ -24,7 +24,7 @@ export function logError({
   else console.error(error);
   // Log server exceptions to Sentry if possible
   if (error instanceof Error && request) {
-    Sentry.captureRemixServerException(error, "server", request);
+    void Sentry.captureRemixServerException(error, "server", request);
   } else {
     Sentry.captureException(error);
   }

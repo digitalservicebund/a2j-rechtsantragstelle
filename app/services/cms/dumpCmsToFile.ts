@@ -29,4 +29,4 @@ async function dumpCmsToFile() {
   fs.writeFileSync(CONTENT_FILE_PATH, JSON.stringify(content) + "\n", "utf8");
 }
 
-if (process.argv[2] === "dumpCmsToFile") dumpCmsToFile();
+if (process.argv[2] === "dumpCmsToFile") void dumpCmsToFile();
