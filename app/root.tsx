@@ -111,22 +111,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     errorPages,
     meta,
     context,
-    ip:
-      request.headers.get("x-forwarded-for") ??
-      request.headers.get("x-client-ip") ??
-      "unknown",
   });
 };
 
 function App() {
-  const {
-    header,
-    footer,
-    cookieBannerContent,
-    hasTrackingConsent,
-    feedback,
-    ip,
-  } = useLoaderData<typeof loader>();
+  const { header, footer, cookieBannerContent, hasTrackingConsent, feedback } =
+    useLoaderData<typeof loader>();
   const { breadcrumbs, title, ogTitle, description } =
     metaFromMatches(useMatches());
   const nonce = useNonce();
@@ -166,7 +156,6 @@ function App() {
         <CookieBanner
           hasTrackingConsent={hasTrackingConsent}
           content={cookieBannerContent}
-          ip={ip}
         />
         <Header {...header} />
         <Breadcrumbs breadcrumbs={breadcrumbs} />
