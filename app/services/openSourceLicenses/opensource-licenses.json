@@ -222,7 +222,7 @@
   },
   "posthog-node": {
     "licenses": "MIT",
-    "repository": "https://github.com/PostHog/posthog-node",
+    "repository": "https://github.com/PostHog/posthog-js-lite",
     "publisher": "PostHog",
     "email": "hey@posthog.com",
     "path": "a2j-rechtsantragstelle/node_modules/posthog-node",
