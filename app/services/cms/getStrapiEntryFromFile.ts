@@ -11,7 +11,7 @@ import { config } from "../env/env.server";
 let content: StrapiFileContent | undefined;
 
 export const getStrapiEntryFromFile = async ({
-  locale = config().ENVIRONMENT != "production" ? defaultLocale : stagingLocale,
+  locale = config().ENVIRONMENT == "production" ? defaultLocale : stagingLocale,
   ...opts
 }: GetStrapiEntryOpts) => {
   if (!content) {
