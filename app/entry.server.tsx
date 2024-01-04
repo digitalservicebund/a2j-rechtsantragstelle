@@ -1,5 +1,9 @@
 import { PassThrough } from "stream";
-import type { DataFunctionArgs, EntryContext } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  EntryContext,
+  LoaderFunctionArgs,
+} from "@remix-run/node";
 import { createReadableStreamFromReadable, redirect } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
@@ -14,7 +18,7 @@ const ABORT_DELAY = 5000;
 
 export function handleError(
   error: unknown,
-  { request }: DataFunctionArgs,
+  { request }: LoaderFunctionArgs | ActionFunctionArgs,
 ): void {
   logError({ error, request });
 }
