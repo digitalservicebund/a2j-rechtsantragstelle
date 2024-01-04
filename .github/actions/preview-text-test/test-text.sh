@@ -1,5 +1,5 @@
 #!/bin/sh
-PREVIEW_URL="https://a2j-rast-preview.dev.ds4g.net"
+PREVIEW_URL="https://a2j-preview.dev.ds4g.net"
 TEXT="Justiz-Services"
 
 if curl -s $PRODUCTION_URL | grep -o "$TEXT"; then
