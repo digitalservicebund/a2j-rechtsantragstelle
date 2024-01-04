@@ -47,13 +47,13 @@ describe("services/cms", () => {
     });
 
     describe("when no entry exists for the given locale", () => {
-      it("returns undefined", async () => {
+      it("returns default", async () => {
         expect(
           await getStrapiEntryFromFile({
             apiId: "footer",
             locale: "en",
           }),
-        ).toBeUndefined();
+        ).toEqual(footerData);
       });
     });
 
@@ -88,7 +88,7 @@ describe("services/cms", () => {
               filterValue: "/impressum",
               locale: "en",
             }),
-          ).toBeUndefined();
+          ).toEqual(impressum);
         });
       });
     });

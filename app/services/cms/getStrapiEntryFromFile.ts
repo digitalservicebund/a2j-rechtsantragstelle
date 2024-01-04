@@ -11,7 +11,7 @@ import { config } from "../env/env.server";
 let content: StrapiFileContent | undefined;
 
 export const getStrapiEntryFromFile = async ({
-  locale = config().ENVIRONMENT == "production" ? defaultLocale : stagingLocale,
+  locale = config().ENVIRONMENT != "production" ? stagingLocale : defaultLocale,
   ...opts
 }: GetStrapiEntryOpts) => {
   if (!content) {
@@ -26,14 +26,28 @@ export const getStrapiEntryFromFile = async ({
       );
     }
   }
-  return [...content[opts.apiId]].find((item) => {
-    if ("locale" in item.attributes && item.attributes.locale !== locale)
-      return false;
 
-    return !(
-      opts.filterValue &&
-      "slug" in item.attributes &&
-      item.attributes.slug !== opts.filterValue
+  const contentItems = [...content[opts.apiId]].filter(
+    (item) =>
+      !(
+        opts.filterValue &&
+        "slug" in item.attributes &&
+        item.attributes.slug !== opts.filterValue
+      ),
+  );
+
+  // search for the locale
+  let contentItem = contentItems.find(
+    (item) => "locale" in item.attributes && item.attributes.locale == locale,
+  );
+
+  if (!contentItem) {
+    // if the locale is not found, search for the default locale
+    contentItem = contentItems.find(
+      (item) =>
+        "locale" in item.attributes && item.attributes.locale == defaultLocale,
     );
-  })?.attributes;
+  }
+
+  return contentItem?.attributes;
 };
