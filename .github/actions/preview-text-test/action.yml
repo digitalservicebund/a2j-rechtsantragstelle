@@ -1,0 +1,11 @@
+name: "Test Preview Text"
+description: "Check that a specific text is displayed on the preview system"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+
+    - name: Execute text-test script
+      shell: bash
+      run: sh .github/actions/preview-text-test/test-text.sh

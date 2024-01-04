@@ -159,6 +159,45 @@ jobs:
     with:
       USE_EXISTING_SERVER: true
 
+  deploy-preview:
+    needs: [create-content-file, push-image, verify-staging-e2e]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: preview
+    steps:
+      - name: Report Deployment
+        uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
+        with:
+          project: a2j-rechtsantragstelle
+          environment: preview
+          metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
+          metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
+
+      - name: Deploy new preview image
+        uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
+        with:
+          environment: preview
+          version: ${{ env.IMAGE_VERSION }}-${{ needs.create-content-file.outputs.content_checksum }}
+          deploying_repo: a2j-rechtsantragstelle
+          infra_repo: a2j-rechtsantragstelle-infra
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          app: a2j-rast-preview
+          argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
+          argocd_server: ${{ secrets.ARGOCD_SERVER }}
+          argocd_sync_timeout: 300
+
+  test-preview-text:
+    needs: [deploy-preview]
+    permissions:
+      packages: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run text test
+        uses: ./.github/actions/preview-text-test
+
   deploy-production:
     needs: [create-content-file, push-image, verify-staging-e2e]
     if: github.ref == 'refs/heads/main'
