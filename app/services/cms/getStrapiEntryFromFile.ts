@@ -5,13 +5,13 @@ import {
   type StrapiFileContent,
   StrapiFileContentSchema,
 } from "./models/StrapiFileContent";
-import { defaultLocale } from "./models/StrapiLocale";
+import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
 import { config } from "../env/env.server";
 
 let content: StrapiFileContent | undefined;
 
 export const getStrapiEntryFromFile = async ({
-  locale = defaultLocale,
+  locale = config().ENVIRONMENT != "production" ? defaultLocale : stagingLocale,
   ...opts
 }: GetStrapiEntryOpts) => {
   if (!content) {

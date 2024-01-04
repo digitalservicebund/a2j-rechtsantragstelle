@@ -9,6 +9,7 @@ interface Config {
   REDIS_PASSWORD: string;
   COOKIE_SESSION_SECRET: string;
   CONTENT_FILE_PATH: string;
+  ENVIRONMENT: string;
 }
 
 let instance: Config | undefined = undefined;
@@ -34,6 +35,7 @@ export function config(): Config {
         process.env.COOKIE_SESSION_SECRET?.trim() ?? "s3cr3t",
       CONTENT_FILE_PATH:
         process.env.CONTENT_FILE_PATH?.trim() ?? "./content.json",
+      ENVIRONMENT: process.env.NODE_ENV?.trim() ?? "development",
     };
   }
 
