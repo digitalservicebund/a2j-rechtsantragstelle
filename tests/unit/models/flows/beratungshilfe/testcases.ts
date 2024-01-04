@@ -18,6 +18,7 @@ const happyPathSteps = [
   "hamburg-oder-bremen",
   "beratungshilfe-beantragt",
   "eigeninitiative",
+  "bereich",
   "staatliche-leistungen",
   "vermoegen",
   "erwerbstaetigkeit",
@@ -60,7 +61,7 @@ const cases = [
   ],
   [
     { eigeninitiative: "no" },
-    ["eigeninitiative", "eigeninitiative-warnung", "staatliche-leistungen"],
+    ["eigeninitiative", "eigeninitiative-warnung", "bereich"],
   ],
   [
     { staatlicheLeistungen: "asylbewerberleistungen" },

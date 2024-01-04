@@ -142,7 +142,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "staatliche-leistungen",
+            "target": "bereich",
             "cond": "eigeninitiativeYes"
           },
           {
@@ -161,16 +161,32 @@
       },
       "on": {
         "SUBMIT": {
-          "target": "staatliche-leistungen"
+          "target": "bereich"
         },
         "BACK": {
           "target": "eigeninitiative"
         }
       }
     },
+    "bereich": {
+      "meta": {
+        "customEventName": "beratungshilfe vorabcheck bereich submitted",
+        "progressPosition": 8
+      },
+      "on": {
+        "SUBMIT": "staatliche-leistungen",
+        "BACK": [
+          {
+            "target": "eigeninitiative-warnung",
+            "cond": "eigeninitiativeNo"
+          },
+          "eigeninitiative"
+        ]
+      }
+    },
     "staatliche-leistungen": {
       "meta": {
-        "progressPosition": 8
+        "progressPosition": 9
       },
       "on": {
         "SUBMIT": [
@@ -187,15 +203,7 @@
             "cond": "staatlicheLeistungenNo"
           }
         ],
-        "BACK": [
-          {
-            "target": "eigeninitiative-warnung",
-            "cond": "eigeninitiativeNo"
-          },
-          {
-            "target": "eigeninitiative"
-          }
-        ]
+        "BACK": "bereich"
       }
     },
     "ergebnis/staatliche-leistungen-abschluss-ja": {
@@ -214,7 +222,7 @@
     },
     "vermoegen": {
       "meta": {
-        "progressPosition": 9
+        "progressPosition": 10
       },
       "on": {
         "SUBMIT": [
@@ -263,7 +271,7 @@
     },
     "erwerbstaetigkeit": {
       "meta": {
-        "progressPosition": 10
+        "progressPosition": 11
       },
       "on": {
         "SUBMIT": {
@@ -277,7 +285,7 @@
     },
     "partnerschaft": {
       "meta": {
-        "progressPosition": 11
+        "progressPosition": 12
       },
       "on": {
         "SUBMIT": {
@@ -291,7 +299,7 @@
     },
     "genauigkeit": {
       "meta": {
-        "progressPosition": 12
+        "progressPosition": 13
       },
       "on": {
         "SUBMIT": [
@@ -311,7 +319,7 @@
     },
     "kinder-kurz": {
       "meta": {
-        "progressPosition": 13
+        "progressPosition": 14
       },
       "on": {
         "SUBMIT": [
@@ -331,7 +339,7 @@
     },
     "kinder-anzahl-kurz": {
       "meta": {
-        "progressPosition": 14
+        "progressPosition": 15
       },
       "on": {
         "SUBMIT": {
@@ -345,7 +353,7 @@
     },
     "verfuegbares-einkommen": {
       "meta": {
-        "progressPosition": 15
+        "progressPosition": 16
       },
       "on": {
         "SUBMIT": [
@@ -396,7 +404,7 @@
     },
     "einkommen": {
       "meta": {
-        "progressPosition": 13
+        "progressPosition": 14
       },
       "on": {
         "SUBMIT": [
@@ -416,7 +424,7 @@
     },
     "einkommen-partner": {
       "meta": {
-        "progressPosition": 14
+        "progressPosition": 15
       },
       "on": {
         "SUBMIT": {
@@ -429,7 +437,7 @@
     },
     "kinder": {
       "meta": {
-        "progressPosition": 15
+        "progressPosition": 16
       },
       "on": {
         "SUBMIT": [
@@ -456,7 +464,7 @@
     },
     "kinder-anzahl": {
       "meta": {
-        "progressPosition": 16
+        "progressPosition": 17
       },
       "on": {
         "SUBMIT": {
@@ -470,7 +478,7 @@
     },
     "einkommen-kinder": {
       "meta": {
-        "progressPosition": 17
+        "progressPosition": 18
       },
       "on": {
         "SUBMIT": {
@@ -484,7 +492,7 @@
     },
     "unterhalt": {
       "meta": {
-        "progressPosition": 18
+        "progressPosition": 19
       },
       "on": {
         "SUBMIT": [
@@ -511,7 +519,7 @@
     },
     "unterhalt-summe": {
       "meta": {
-        "progressPosition": 19
+        "progressPosition": 20
       },
       "on": {
         "SUBMIT": {
@@ -525,7 +533,7 @@
     },
     "miete": {
       "meta": {
-        "progressPosition": 20
+        "progressPosition": 21
       },
       "on": {
         "SUBMIT": {
@@ -546,7 +554,7 @@
     },
     "weitere-zahlungen-summe": {
       "meta": {
-        "progressPosition": 21
+        "progressPosition": 22
       },
       "on": {
         "SUBMIT": [

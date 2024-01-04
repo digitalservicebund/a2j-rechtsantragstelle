@@ -5,6 +5,7 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { bereich } from "../beratungshilfeFormular/rechtsproblem/context";
 
 export const kidsSchema = z
   .object({
@@ -54,6 +55,7 @@ export const context = {
   beratungshilfeBeantragt: YesNoAnswer,
   eigeninitiative: YesNoAnswer,
   wurdeVerklagt: YesNoAnswer,
+  bereich,
   staatlicheLeistungen,
   erwerbstaetigkeit: YesNoAnswer,
   vermoegen: z.enum(["below_10k", "above_10k"], customRequiredErrorMessage),
