@@ -2,7 +2,7 @@ import { PassThrough } from "stream";
 import type { DataFunctionArgs, EntryContext } from "@remix-run/node";
 import { createReadableStreamFromReadable, redirect } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
-import isbot from "isbot";
+import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 import { config as configServer } from "~/services/env/env.server";
 import { generateNonce } from "./services/security/nonce.server";
