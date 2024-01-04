@@ -3,16 +3,11 @@ import { json, redirect } from "@remix-run/node";
 import { BannerState } from "~/components/UserFeedback";
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
 import { getSessionForContext } from "~/services/session";
-import { PostHog } from "posthog-node";
 import { config } from "~/services/env/web";
 import { bannerStateName } from "~/services/feedback/handleFeedback";
+import { getPosthogClient } from "~/services/analytics/posthogClient.server";
 
 export const loader = () => redirect("/");
-
-const { POSTHOG_API_KEY, POSTHOG_API_HOST, ENVIRONMENT } = config();
-const posthogClient = POSTHOG_API_KEY
-  ? new PostHog(POSTHOG_API_KEY, { host: POSTHOG_API_HOST })
-  : undefined;
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const { searchParams } = new URL(request.url);
@@ -37,8 +32,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const headers = { "Set-Cookie": await commitSession(session) };
 
-  posthogClient?.capture({
-    distinctId: ENVIRONMENT,
+  getPosthogClient()?.capture({
+    distinctId: config().ENVIRONMENT,
     event: "rating given",
     // eslint-disable-next-line camelcase
     properties: { wasHelpful: userRatings[url], $current_url: url, context },

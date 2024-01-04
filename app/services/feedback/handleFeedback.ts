@@ -7,13 +7,8 @@ import {
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
 import { validationError } from "remix-validated-form";
 import { config } from "../env/web";
-import { PostHog } from "posthog-node";
 import { type Session, redirect } from "@remix-run/node";
-
-const { POSTHOG_API_KEY, POSTHOG_API_HOST, ENVIRONMENT } = config();
-const posthogClient = POSTHOG_API_KEY
-  ? new PostHog(POSTHOG_API_KEY, { host: POSTHOG_API_HOST })
-  : undefined;
+import { getPosthogClient } from "../analytics/posthogClient.server";
 
 export const bannerStateName = "bannerState";
 
@@ -35,8 +30,8 @@ export const handleFeedback = async (formData: FormData, request: Request) => {
     return validationError(result.error, result.submittedData);
   }
   bannerState[pathname] = BannerState.FeedbackGiven;
-  posthogClient?.capture({
-    distinctId: ENVIRONMENT,
+  getPosthogClient()?.capture({
+    distinctId: config().ENVIRONMENT,
     event: "feedback given",
     properties: {
       wasHelpful: userRating[pathname],
