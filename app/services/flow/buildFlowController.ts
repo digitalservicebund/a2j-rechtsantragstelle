@@ -12,6 +12,7 @@ type StateMachine = ReturnType<
 export type Config = MachineConfig<Context, any, StateMachineEvents>;
 export type Guards = Record<string, (context: Context) => boolean>;
 export type Meta = {
+  customEventName?: string;
   progressPosition: number | undefined;
   isUneditable: boolean | undefined;
   done: (context: Context) => boolean | undefined;

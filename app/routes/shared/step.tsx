@@ -205,7 +205,6 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
       validationResult.submittedData,
     );
 
-  void sendCustomEvent("stepSubmitted", validationResult.data, request);
   updateSession(flowSession, validationResult.data);
 
   if (
@@ -223,6 +222,11 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     data: flowSession.data,
     guards: flowSpecifics[flowId].guards,
   });
+
+  const { customEventName } = flowController.getMeta(stepId);
+  if (customEventName)
+    void sendCustomEvent(customEventName, validationResult.data, request);
+
   return redirect(flowController.getNext(stepId).url, { headers });
 };
 
