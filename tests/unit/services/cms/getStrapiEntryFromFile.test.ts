@@ -47,7 +47,7 @@ describe("services/cms", () => {
     });
 
     describe("when no entry exists for the given locale", () => {
-      it("returns default", async () => {
+      it("returns default entry", async () => {
         expect(
           await getStrapiEntryFromFile({
             apiId: "footer",
@@ -81,7 +81,7 @@ describe("services/cms", () => {
       });
 
       describe("with an existing slug in the wrong locale", () => {
-        it("returns undefined", async () => {
+        it("returns the default impressum", async () => {
           expect(
             await getStrapiEntryFromFile({
               apiId: "pages",
