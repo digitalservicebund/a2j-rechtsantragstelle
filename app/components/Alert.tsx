@@ -1,7 +1,7 @@
 import { z } from "zod";
 import Heading, { HeadingPropsSchema } from "./Heading";
 import RichText from "./RichText";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import NotificationsNoneIcon from "@digitalservicebund/icons/NotificationsNone";
 
 const AlertPropsSchema = z.object({
   identifier: z.string().optional(),

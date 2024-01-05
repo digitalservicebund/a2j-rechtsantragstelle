@@ -3,7 +3,7 @@ import Heading, { HeadingPropsSchema } from "./Heading";
 import Button, { ButtonPropsSchema } from "./Button";
 import { Link } from "@remix-run/react";
 import ButtonContainer from "./ButtonContainer";
-import ArrowDownward from "@mui/icons-material/ArrowDownward";
+import ArrowDownward from "@digitalservicebund/icons/ArrowDownward";
 
 export const LinkListBoxPropsSchema = z.object({
   identifier: z.string().optional(),

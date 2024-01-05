@@ -1,5 +1,5 @@
 import Button from "~/components/Button";
-import Close from "@mui/icons-material/Close";
+import Close from "@digitalservicebund/icons/Close";
 import { throw404OnProduction } from "../services/errorPages/throw404";
 
 export const loader = () => {
