@@ -3,9 +3,12 @@ import fluggastrechteFlow from "./config.json";
 import { fluggastrechtContext } from "./context";
 import { fluggastrechteGuards } from "./guards";
 import { type AllContexts } from "../common";
-import { gerichtskostenFromBetrag } from "~/models/geldEinklagen";
+import { gerichtskostenFromBetrag } from "../gerichtskosten";
 import persoenlicheDatenFlow from "../persoenlicheDaten/config.json";
-import { forderungFromEntfernung } from "~/models/fluggastrechte";
+
+function forderungFromEntfernung(entfernung: number) {
+  return entfernung < 1500 ? 250 : entfernung < 3500 ? 400 : 600;
+}
 
 export const fluggastrechtFlow = {
   migrationSource: "fluggastrechte/vorabcheck",

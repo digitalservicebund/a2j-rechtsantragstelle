@@ -1,7 +1,7 @@
 import {
   freibetrag,
   getVerfuegbaresEinkommenFreibetrag,
-} from "~/models/beratungshilfe";
+} from "~/models/flows/beratungshilfe/freibetrag";
 
 describe("freibetrag", () => {
   it("should return 572 when single not working", () => {

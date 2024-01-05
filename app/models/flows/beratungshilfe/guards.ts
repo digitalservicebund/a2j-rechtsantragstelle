@@ -1,4 +1,4 @@
-import { freibetrag } from "~/models/beratungshilfe";
+import { freibetrag } from "./freibetrag";
 import moneyToCents from "../../../services/validation/money/moneyToCents";
 import type { BeratungshilfeVorabcheckContext } from "./context";
 

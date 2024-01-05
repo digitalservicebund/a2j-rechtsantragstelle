@@ -4,7 +4,7 @@ import type { GeldEinklagenFormularContext } from "./context";
 import { context } from "./context";
 import { guards } from "./guards";
 import { type AllContexts } from "../common";
-import { gerichtskostenFromBetrag, gesamtKosten } from "~/models/geldEinklagen";
+import { gerichtskostenFromBetrag, gesamtKosten } from "../gerichtskosten";
 import persoenlicheDatenFlow from "../persoenlicheDaten/config.json";
 
 export const geldEinklagenFormular = {
