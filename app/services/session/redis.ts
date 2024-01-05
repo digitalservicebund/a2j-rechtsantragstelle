@@ -8,7 +8,9 @@ declare global {
   var ioredis: Redis;
 }
 
-const useTls = ["staging", "production"].includes(configWeb().ENVIRONMENT);
+const useTls = ["staging", "production", "preview"].includes(
+  configWeb().ENVIRONMENT,
+);
 
 const redisUrl = () =>
   `${useTls ? "rediss" : "redis"}://default:${config().REDIS_PASSWORD}@${
