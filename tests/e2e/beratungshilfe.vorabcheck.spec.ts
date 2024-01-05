@@ -37,6 +37,9 @@ test("vorabcheck can be traversed (long path)", async ({ page }) => {
   await vorabcheck.clickNext();
 
   await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("bereich", "other");
+
+  await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("staatlicheLeistungen", "keine");
 
   await expectPageToBeAccessible({ page });
@@ -100,6 +103,9 @@ test("vorabcheck can be traversed (short path)", async ({ page }) => {
   // warning step
   await expectPageToBeAccessible({ page });
   await vorabcheck.clickNext();
+
+  await expectPageToBeAccessible({ page });
+  await vorabcheck.fillRadioPage("bereich", "other");
 
   await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("staatlicheLeistungen", "keine");
