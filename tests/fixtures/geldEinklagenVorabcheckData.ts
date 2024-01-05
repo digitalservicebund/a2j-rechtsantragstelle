@@ -1,4 +1,4 @@
-import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/pages";
+import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/context";
 
 export const happyPathData: GeldEinklagenVorabcheckContext = {
   forderung: "money",

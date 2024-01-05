@@ -1,5 +1,5 @@
 import { isPartnerCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import type { GeldEinklagenVorabcheckContext } from "./pages";
+import type { GeldEinklagenVorabcheckContext } from "./context";
 
 type Guard = (context: GeldEinklagenVorabcheckContext) => boolean;
 

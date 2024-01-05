@@ -1,5 +1,5 @@
 import flow from "./config.json";
-import { context } from "./pages";
+import { context } from "./context";
 import { guards } from "./guards";
 import { type AllContexts } from "../common";
 import { getGerichtskostenvorschuss } from "~/models/geldEinklagen";

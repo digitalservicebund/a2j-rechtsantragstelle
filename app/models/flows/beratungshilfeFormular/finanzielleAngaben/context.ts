@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { staatlicheLeistungen } from "../../beratungshilfe/pages";
+import { staatlicheLeistungen } from "../../beratungshilfe/context";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const beratungshilfeFinanzielleAngaben = {

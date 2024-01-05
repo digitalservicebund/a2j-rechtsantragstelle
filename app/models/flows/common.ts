@@ -4,8 +4,8 @@ import { isKeyOfObject } from "~/util/objects";
 import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
 import { reasonsToDisplayBeratungshilfe } from "../beratungshilfe";
 import type { GeldEinklagenFormularContext } from "./geldEinklagenFormular/context";
-import type { GeldEinklagenVorabcheckContext } from "./geldEinklagen/pages";
-import type { BeratungshilfeVorabcheckContext } from "./beratungshilfe/pages";
+import type { GeldEinklagenVorabcheckContext } from "./geldEinklagen/context";
+import type { BeratungshilfeVorabcheckContext } from "./beratungshilfe/context";
 import type { FluggastrechtContext } from "./fluggastrechteFormular/context";
 
 export type AllContexts =

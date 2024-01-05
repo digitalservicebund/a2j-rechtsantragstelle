@@ -1,6 +1,6 @@
 import { freibetrag } from "~/models/beratungshilfe";
 import moneyToCents from "../../../services/validation/money/moneyToCents";
-import type { BeratungshilfeVorabcheckContext } from "./pages";
+import type { BeratungshilfeVorabcheckContext } from "./context";
 
 type Guard = (context: BeratungshilfeVorabcheckContext) => boolean;
 

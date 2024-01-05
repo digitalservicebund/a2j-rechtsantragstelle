@@ -1,5 +1,5 @@
 import { withZod } from "@remix-validated-form/with-zod";
-import { kidsSchema } from "~/models/flows/beratungshilfe/pages";
+import { kidsSchema } from "~/models/flows/beratungshilfe/context";
 
 describe("kidsSchema validation", () => {
   it("fails when no fields given", async () => {

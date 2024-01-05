@@ -19,7 +19,7 @@ import {
 import urlMap from "~/services/gerichtsfinder/data/sanitizedURLs.json";
 import { flowIDFromPathname, splatFromParams } from "./shared/flowSpecifics";
 import { getSessionForContext } from "~/services/session";
-import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/pages";
+import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/context";
 import Heading from "~/components/Heading";
 import type { ReactElement } from "react";
 import RichText from "~/components/RichText";

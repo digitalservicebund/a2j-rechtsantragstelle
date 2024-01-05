@@ -1,5 +1,5 @@
 import { isIncomeTooHigh } from "./flows/beratungshilfe/guards";
-import type { BeratungshilfeVorabcheckContext } from "./flows/beratungshilfe/pages";
+import type { BeratungshilfeVorabcheckContext } from "./flows/beratungshilfe/context";
 import { type AllContexts } from "./flows/common";
 
 export function freibetrag({

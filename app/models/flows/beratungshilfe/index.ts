@@ -1,5 +1,5 @@
 import flow from "./config.json";
-import { context } from "./pages";
+import { context } from "./context";
 import { guards } from "./guards";
 import { getVerfuegbaresEinkommenFreibetrag } from "~/models/beratungshilfe";
 import { type AllContexts } from "../common";
