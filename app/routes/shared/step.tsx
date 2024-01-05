@@ -19,6 +19,7 @@ import {
   flowIDFromPathname,
   flowSpecifics,
   getSubflowsEntries,
+  parentFromParams,
   splatFromParams,
 } from "./flowSpecifics";
 import type { StrapiHeading } from "~/services/cms/models/StrapiHeading";
@@ -97,9 +98,7 @@ export const loader = async ({
   const [commonContent, formPageContent, parentMeta] = await Promise.all([
     fetchSingleEntry("vorab-check-common"),
     fetchCollectionEntry(currentFlow.cmsSlug, lookupPath),
-    fetchMeta({
-      filterValue: lookupPath.substring(0, lookupPath.lastIndexOf("/")),
-    }),
+    fetchMeta({ filterValue: parentFromParams(pathname, params) }),
   ]);
 
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
