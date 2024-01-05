@@ -92,7 +92,9 @@ export const loader = async ({
       cmsData: cmsData,
       content: cmsData.freeZone,
       meta: { ...cmsData.meta, breadcrumbTitle: parentMeta?.title ?? "" },
-      reasons: getReasonsToDisplay(reasonElementsWithID, data),
+      reasons: reasonElementsWithID.filter((reason) =>
+        Boolean(getReasonsToDisplay(data)[reason.elementId]),
+      ),
       progress: flowController.getProgress(stepId),
       nextButton,
       backButton: {

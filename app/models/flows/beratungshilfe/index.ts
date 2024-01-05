@@ -1,21 +1,16 @@
 import flow from "./config.json";
-import { type BeratungshilfeVorabcheckContext, context } from "./context";
+import { context } from "./context";
 import { guards, isIncomeTooHigh } from "./guards";
 import { getVerfuegbaresEinkommenFreibetrag } from "./freibetrag";
 import { type AllContexts } from "../common";
 
-function isBeratungshilfeVorabcheckContext(
-  context: AllContexts,
-): context is BeratungshilfeVorabcheckContext {
-  return "rechtsschutzversicherung" in context;
-}
-
 export function reasonsToDisplayBeratungshilfe(context: AllContexts) {
-  if (!isBeratungshilfeVorabcheckContext(context)) return {};
   return {
-    eigeninitiativeWarning: context.eigeninitiative === "no",
+    eigeninitiativeWarning:
+      "eigeninitiative" in context && context.eigeninitiative === "no",
     incomeTooHigh:
-      context.verfuegbaresEinkommen === "yes" || isIncomeTooHigh(context),
+      "verfuegbaresEinkommen" in context &&
+      (context.verfuegbaresEinkommen === "yes" || isIncomeTooHigh(context)),
   };
 }
 

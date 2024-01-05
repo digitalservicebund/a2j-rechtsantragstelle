@@ -1,7 +1,6 @@
 import { withZod } from "@remix-validated-form/with-zod";
 import { z } from "zod";
 import { isKeyOfObject } from "~/util/objects";
-import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
 import { reasonsToDisplayBeratungshilfe } from "./beratungshilfe";
 import type { GeldEinklagenFormularContext } from "./geldEinklagenFormular/context";
 import type { GeldEinklagenVorabcheckContext } from "./geldEinklagen/context";
@@ -30,14 +29,10 @@ export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
 }
 
 export function getReasonsToDisplay(
-  reasons: StrapiElementWithId[],
   context: AllContexts,
-) {
+): Record<string, boolean> {
   if ("rechtsschutzversicherung" in context) {
-    const reasonsToDisplay = reasonsToDisplayBeratungshilfe(context);
-    return reasons.filter((reason) =>
-      isKeyOfObject(reason.elementId, reasonsToDisplay),
-    );
+    return reasonsToDisplayBeratungshilfe(context);
   }
-  return [];
+  return {};
 }
