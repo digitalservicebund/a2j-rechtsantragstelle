@@ -199,7 +199,7 @@ jobs:
         uses: ./.github/actions/preview-text-test
 
   deploy-production:
-    needs: [test-preview-text]
+    needs: [create-content-file, test-preview-text]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
