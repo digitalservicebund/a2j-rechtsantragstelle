@@ -36,10 +36,7 @@ import { metaFromMatches } from "./services/metaFromMatches";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import FeedbackBanner, { augmentFeedback } from "./components/FeedbackBanner";
-import {
-  getStrapiEnvironmentBanner,
-  getStrapiFeedback,
-} from "./services/cms/models/StrapiGlobal";
+import { getStrapiFeedback } from "./services/cms/models/StrapiGlobal";
 
 export const headers: HeadersFunction = () => ({
   "X-Frame-Options": "SAMEORIGIN",
@@ -106,7 +103,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   ]);
 
   return json({
-    environmentBanner: getStrapiEnvironmentBanner(globalVars),
     feedback: getStrapiFeedback(globalVars),
     header: getPageHeaderProps(strapiHeader),
     footer: getFooterProps(strapiFooter),
@@ -119,14 +115,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 };
 
 function App() {
-  const {
-    header,
-    footer,
-    cookieBannerContent,
-    hasTrackingConsent,
-    feedback,
-    environmentBanner,
-  } = useLoaderData<typeof loader>();
+  const { header, footer, cookieBannerContent, hasTrackingConsent, feedback } =
+    useLoaderData<typeof loader>();
   const { breadcrumbs, title, ogTitle, description } =
     metaFromMatches(useMatches());
   const nonce = useNonce();
