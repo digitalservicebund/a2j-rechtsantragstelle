@@ -37,7 +37,6 @@ import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import FeedbackBanner, { augmentFeedback } from "./components/FeedbackBanner";
 import { getStrapiFeedback } from "./services/cms/models/StrapiGlobal";
-import { EnvironmentBanner } from "./components/EnvironmentBanner";
 
 export const headers: HeadersFunction = () => ({
   "X-Frame-Options": "SAMEORIGIN",
@@ -158,7 +157,6 @@ function App() {
           hasTrackingConsent={hasTrackingConsent}
           content={cookieBannerContent}
         />
-        <EnvironmentBanner />
         <Header {...header} />
         <Breadcrumbs breadcrumbs={breadcrumbs} />
         <main className="flex-grow">
@@ -184,7 +182,6 @@ export function ErrorBoundary() {
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
-        <EnvironmentBanner />
         {loaderData && <Header {...loaderData.header} />}
         <main className="flex-grow">
           <ErrorBox
