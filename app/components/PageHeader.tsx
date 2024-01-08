@@ -13,7 +13,6 @@ export default function Header({
   linkLabel,
   environmentBannerLabel,
 }: PageHeaderProps) {
-  console.log(environmentBannerLabel);
   return (
     <header>
       <EnvironmentBanner environmentBannerLabel={environmentBannerLabel} />
