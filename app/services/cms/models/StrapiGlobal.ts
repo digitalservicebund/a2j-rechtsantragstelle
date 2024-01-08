@@ -8,10 +8,15 @@ export type FeedbackProps = {
   content?: string;
 };
 
+export type EnvironmentBannerProps = {
+  content?: string;
+};
+
 export const StrapiGlobalSchema = z
   .object({
     feedbackHeading: z.string().nullish(),
     feedbackContent: z.string().nullish(),
+    environmentBanner: z.string().nullish(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
@@ -26,4 +31,11 @@ export const getStrapiFeedback = (global: StrapiGlobal) => {
     content:
       global.feedbackContent === null ? undefined : global.feedbackContent,
   } satisfies FeedbackProps;
+};
+
+export const getStrapiEnvironmentBanner = (global: StrapiGlobal) => {
+  return {
+    content:
+      global.environmentBanner === null ? undefined : global.environmentBanner,
+  } satisfies EnvironmentBannerProps;
 };
