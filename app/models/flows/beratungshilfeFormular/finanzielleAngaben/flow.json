@@ -32,7 +32,37 @@
         "erwerbstaetig": {
           "on": {
             "BACK": "staatliche-leistungen",
-            "SUBMIT": "#einkommen.einkommen"
+            "SUBMIT": [
+              {
+                "cond": "erwerbstaetigYes",
+                "target": "art"
+              },
+              "situation"
+            ]
+          }
+        },
+        "art": {
+          "on": {
+            "BACK": "erwerbstaetig",
+            "SUBMIT": "situation"
+          }
+        },
+        "situation": {
+          "on": {
+            "BACK": [
+              {
+                "cond": "erwerbstaetigYes",
+                "target": "art"
+              },
+              "erwerbstaetig"
+            ],
+            "SUBMIT": "weiteres-einkommen"
+          }
+        },
+        "weiteres-einkommen": {
+          "on": {
+            "SUBMIT": "#einkommen.einkommen",
+            "BACK": "situation"
           }
         }
       }
@@ -43,7 +73,7 @@
       "states": {
         "einkommen": {
           "on": {
-            "BACK": "#beruf.erwerbstaetig",
+            "BACK": "#beruf.weiteres-einkommen",
             "SUBMIT": "#besitz.besitz"
           }
         }
