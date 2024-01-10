@@ -101,6 +101,7 @@
     "@types/validator": "^13.11.7",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.56.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-sonarjs": "^0.23.0",
     "eslint-plugin-storybook": "^0.6.15",
     "fishery": "^2.2.2",

@@ -8,6 +8,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:sonarjs/recommended",
     "plugin:storybook/recommended",
+    "plugin:jsx-a11y/strict",
   ],
   plugins: ["sonarjs", "@typescript-eslint"],
   parserOptions: {
