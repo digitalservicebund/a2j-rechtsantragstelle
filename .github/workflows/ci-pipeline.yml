@@ -1,42 +1,31 @@
-name: CI
-
+name: buildAppImage
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-  # Allow to run this workflow manually
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-  IMAGE_VERSION: ${{ github.sha }}
 
 jobs:
   code-quality:
     uses: ./.github/workflows/npm-checks.yml
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  create-content-file:
-    permissions:
-      packages: read
+
+  get-content-file:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Parse Content to File
-        uses: ./.github/actions/parse-content-to-file
-        with:
+      - uses: actions/checkout@v4
+      - run: ./docker.sh --contentFromImage && mv content_from_image.json content.json
+        continue-on-error: true
+      - if: failure()
+        run: npm ci && npm run dumpCmsToFile
+        env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
-
-      - name: Calculate file checksum
+      - name: Calculate content checksum
         id: checksum
-        run: echo "content_checksum=$(md5sum content.json | awk '{ print $1; }')" >> $GITHUB_OUTPUT
-
-      - name: Upload Content File for further steps
+        run: echo "content_checksum=$(./docker.sh --contentHashFromImage)" >> $GITHUB_OUTPUT
+      - name: Upload content.json
         uses: actions/upload-artifact@v4
         with:
           name: content-file
@@ -44,88 +33,41 @@ jobs:
     outputs:
       content_checksum: ${{ steps.checksum.outputs.content_checksum }}
 
-  build-image:
-    needs: [create-content-file]
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          name: content-file
-      - name: Build docker image
-        run: |
-          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ needs.create-content-file.outputs.content_checksum }} . --build-arg COMMIT_SHA=${{ env.IMAGE_VERSION }}-${{ needs.create-content-file.outputs.content_checksum }}
-          docker save ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ needs.create-content-file.outputs.content_checksum }} > container.tar
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
-        with:
-          image-ref: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ needs.create-content-file.outputs.content_checksum }}"
-          format: "sarif"
-          output: "trivy-results.sarif"
-          ignore-unfixed: true
-          vuln-type: "os,library"
-          severity: "CRITICAL,HIGH"
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@81b419c908d540ec4c7da9bfb4b5d941fca8f624
-        with:
-          sarif_file: "trivy-results.sarif"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: docker-image
-          path: container.tar
-    outputs:
-      content_checksum: ${{ needs.create-content-file.outputs.content_checksum }}
-
-  verify-external-links:
-    needs: [create-content-file]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Download Content File
-        uses: actions/download-artifact@v4
-        with:
-          name: content-file
-      - run: npm ci
-      - run: npm run verifyWebsites
-      - run: npm run verifyEmails
-
   verify-local-e2e:
-    needs: [create-content-file]
+    needs: [get-content-file]
     uses: ./.github/workflows/e2e-test.yml
     secrets:
       GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
 
-  push-image:
-    needs: [verify-local-e2e, verify-external-links, code-quality, build-image]
+  build-push-app-image:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      security-events: write
-      packages: write
-      id-token: write
+    needs: [code-quality, verify-local-e2e]
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: docker-image
       - uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push image
-        run: |
-          docker load < container.tar
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ needs.build-image.outputs.content_checksum }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ needs.build-image.outputs.content_checksum }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ needs.build-image.outputs.content_checksum }}
-          docker push --all-tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - uses: ./.github/actions/cached-checkout-install
+      - run: ./docker.sh --build app
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
+        with:
+          image-ref: "${{ env.REGISTRY }}/${{ github.repository }}"
+          format: "sarif"
+          output: "trivy-results.sarif"
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          severity: "CRITICAL,HIGH"
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@81b419c908d540ec4c7da9bfb4b5d941fca8f624
+        with:
+          sarif_file: "trivy-results.sarif"
+      - run: ./docker.sh --push app
 
   deploy-staging:
-    needs: [create-content-file, push-image]
+    needs: [build-push-app-image, get-content-file]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: staging
@@ -142,7 +84,7 @@ jobs:
         uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
         with:
           environment: staging
-          version: ${{ env.IMAGE_VERSION }}-${{ needs.create-content-file.outputs.content_checksum }}
+          version: ${{ env.IMAGE_VERSION }}-${{ needs.get-content-file.outputs.content_checksum }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
           deploy_key: ${{ secrets.DEPLOY_KEY }}
@@ -151,16 +93,8 @@ jobs:
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
           argocd_sync_timeout: 300
 
-  verify-staging-e2e:
-    needs: [create-content-file, deploy-staging]
-    uses: ./.github/workflows/e2e-test.yml
-    secrets:
-      BASE_URL: ${{ secrets.STAGING_BASIC_AUTH_TOKEN }}
-    with:
-      USE_EXISTING_SERVER: true
-
   deploy-preview:
-    needs: [create-content-file, push-image, verify-staging-e2e]
+    needs: [build-push-app-image, get-content-file]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: preview
@@ -177,7 +111,7 @@ jobs:
         uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
         with:
           environment: preview
-          version: ${{ env.IMAGE_VERSION }}-${{ needs.create-content-file.outputs.content_checksum }}
+          version: ${{ env.IMAGE_VERSION }}-${{ needs.get-content-file.outputs.content_checksum }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
           deploy_key: ${{ secrets.DEPLOY_KEY }}
@@ -186,20 +120,16 @@ jobs:
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
           argocd_sync_timeout: 300
 
-  test-preview-text:
+  verify-preview-e2e:
     needs: [deploy-preview]
-    permissions:
-      packages: read
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run text test
-        uses: ./.github/actions/preview-text-test
+    uses: ./.github/workflows/e2e-test.yml
+    secrets:
+      BASE_URL: a2j-preview.dev.ds4g.net
+    with:
+      USE_EXISTING_SERVER: true
 
   deploy-production:
-    needs: [create-content-file, test-preview-text]
+    needs: [verify-preview-e2e, get-content-file]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
@@ -216,7 +146,7 @@ jobs:
         uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
         with:
           environment: production
-          version: ${{ env.IMAGE_VERSION }}-${{ needs.create-content-file.outputs.content_checksum }}
+          version: ${{ env.IMAGE_VERSION }}-${{ needs.get-content-file.outputs.content_checksum }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
           deploy_key: ${{ secrets.DEPLOY_KEY }}
@@ -231,8 +161,4 @@ jobs:
       packages: read
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run text test
-        uses: ./.github/actions/production-text-test
+      - run: curl -s "https://service.justiz.de" | grep -q "Justiz-Services"

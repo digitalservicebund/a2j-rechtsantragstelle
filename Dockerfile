@@ -1,27 +1,34 @@
-FROM node:20-alpine3.18 AS build
+# Needed for specifying source image as --build-arg, which is then used as COPY --from=
+ARG CONTENT_IMAGE=content
+ARG APP_IMAGE=app
 
-ARG COMMIT_SHA
-ENV APP_VERSION=$COMMIT_SHA
+FROM node:20-alpine AS app-base
+WORKDIR /a2j-rast
+COPY ./node_modules ./node_modules/
+COPY ./build ./build/
+COPY ./public ./public/
+COPY ./start.sh ./server.js package.json package-lock.json ./
+RUN npm prune --omit=dev
 
-# Create app directory
-WORKDIR /src
-# Required files are whitelisted in dockerignore
-COPY . ./
-RUN npm pkg delete scripts.prepare && npm ci && npm run build && npm run build-storybook && npm prune --production
+FROM scratch AS app
+COPY --link --from=app-base  /a2j-rast/node_modules /node_modules/
+COPY --link --from=app-base  /a2j-rast/build /build/
+COPY --link --from=app-base  /a2j-rast/public /public/
+COPY --link --from=app-base  /a2j-rast/start.sh  /a2j-rast/server.js /
 
-FROM node:20-alpine3.18
-RUN apk add --no-cache dumb-init \
-  && rm -rf /var/cache/apk/*
+FROM scratch AS content
+COPY ./content.json ./server.js /
+
+# === PROD IMAGE
+FROM ${CONTENT_IMAGE} AS contentStageForCopy
+FROM ${APP_IMAGE} AS appStageForCopy
+FROM node:20-alpine AS prod
+RUN apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
 
 USER node
-ENV ENVIRONMENT=production
-ARG COMMIT_SHA
-ENV APP_VERSION=$COMMIT_SHA
-
-WORKDIR /home/node/src
-COPY --chown=node:node --from=build /src ./
-# Purge source maps
-RUN find public/build -name '*.map' -exec rm {} \;
+WORKDIR /a2j-rast
+COPY --link --chown=node:node --from=appStageForCopy / ./
+COPY --link --from=contentStageForCopy /content.json ./
 EXPOSE 3000
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["sh", "./start.sh"]

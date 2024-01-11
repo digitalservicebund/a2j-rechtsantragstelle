@@ -15,16 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     name: npm run ${{ matrix.npmCMD }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of SonarCloud analysis
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20.x"
-          cache: "npm"
-      - run: npm ci
+      - uses: ./.github/actions/cached-checkout-install
       - run: npm run ${{ matrix.npmCMD }}
       - name: SonarCloud Scan
         if: ${{ github.actor != 'dependabot[bot]' && matrix.npmCMD == 'test:coverage' }}

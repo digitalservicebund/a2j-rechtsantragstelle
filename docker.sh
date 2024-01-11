@@ -1,106 +1,107 @@
 #!/usr/bin/env bash
-set -eo pipefail
+set -euo pipefail
 
-HELP_TEXT="USAGE: --build (--push, --rebuild, --registry link.to.registry) [app/content/prod]"
-if [ "$#" -le 1 ]; then
-    echo $HELP_TEXT
-    exit 1
-fi
+HELP_TEXT="USAGE: --contentFromImage, --contentHashFromImage, --build [app/content], --push [app/content]"
+REGISTRY=ghcr.io
+IMAGE_NAME=digitalservicebund/a2j-rechtsantragstelle
+CONTENT_FILENAME=content_from_image.json
+DOCKERFILE=Dockerfile
+APP_IMAGE=$REGISTRY/$IMAGE_NAME-app
+CONTENT_IMAGE=$REGISTRY/$IMAGE_NAME-content
+PROD_IMAGE=$REGISTRY/$IMAGE_NAME
 
-PROJECT_NAME=digitalservicebund/a2j-rechtsantragstelle
-DOCKERFILE=split.Dockerfile
-
-while [[ "$#" -gt 0 ]]; do
-    case $1 in
-    --registry)
-        REGISTRY="$2"
-        shift
-        ;;
-    -b | --build) build=1 ;;
-    -p | --push) push=1 ;;
-    -r | --rebuild) rebuild=1 ;;
-    content | app | prod) TARGET=$1 ;;
+function parseValidTarget() {
+    if [ "$#" -le 1 ]; then
+        echo "Missing target, aborting..."
+        echo $HELP_TEXT
+        exit 1
+    fi
+    case $2 in
+    app | content) TARGET=$2 ;;
     *)
-        echo "Unknown parameter passed: $1"
-        echo "$HELP_TEXT"
+        echo "Unknown target $2, aborting..."
+        echo $HELP_TEXT
         exit 1
         ;;
     esac
-    shift
-done
-
-if [[ -n "$REGISTRY" ]]; then
-    PROJECT_NAME="$REGISTRY/$PROJECT_NAME"
-fi
-
-## BUILD ARGUMENTS
-case ${TARGET} in
-app) ;;
-content)
-    # Load .env file if STRAPI_API or STRAPI_ACCESS_KEY isn't available
-    if [[ -z "$STRAPI_API" || -z "$STRAPI_ACCESS_KEY" ]]; then
-        [ ! -f .env ] || export $(grep -v '^#' .env | xargs)
-    fi
-    if [[ -z "$STRAPI_API" || -z "$STRAPI_ACCESS_KEY" ]]; then
-        echo "Can't build content without STRAPI_API and STRAPI_ACCESS_KEY. Either pass via ENV variables or add to .env file"
-        exit 1
-    fi
-    BUILD_ARGS="--build-arg=STRAPI_API=$STRAPI_API --build-arg=STRAPI_ACCESS_KEY=$STRAPI_ACCESS_KEY"
-    ;;
-prod)
-    BUILD_ARGS="--build-arg=CONTENT_IMAGE=$PROJECT_NAME-content --build-arg=APP_IMAGE=$PROJECT_NAME-app"
-    ;;
-*)
-    echo "no valid target, aborting"
-    echo "$HELP_TEXT"
-    exit -1
-    ;;
-esac
-
-if [ -n "$rebuild" ]; then
-    echo "rebuilding without docker cache"
-    BUILD_ARGS="$BUILD_ARGS --no-cache"
-fi
-
-IMAGE_NAME=$PROJECT_NAME-$TARGET
-
-## BUILD ARGUMENTS
-if [ -n "$build" ]; then
-    echo "Building $IMAGE_NAME"
-    docker build -t $IMAGE_NAME --target $TARGET $BUILD_ARGS -f $DOCKERFILE .
-fi
-
-## PUSHING
-# The content file lives inside container. To get its sha256 hash:
-# Create tmp container, copy content.json out, store hash, delete tmp file & container
-function contentHashFromImage() {
-    tmp_container_id=$(docker create $PROJECT_NAME-content null)
-    docker cp --quiet $tmp_container_id:/content.json ./content.json.tmp && docker rm $tmp_container_id &>/dev/null
-    CONTENT_HASH=$(sha256sum content.json.tmp | cut -d' ' -f1)
-    rm content.json.tmp
 }
 
-if [ -n "$push" ]; then
-    LATEST_GIT_TAG=$(git rev-parse HEAD)
+# The content file lives inside $CONTENT_IMAGE. To get its sha256 hash:
+# Create tmp container, copy content.json out, store hash, delete tmp file & container
+function getContentFromLatestImage() {
+    tmp_container_id=$(docker create $CONTENT_IMAGE null)
+    docker cp --quiet $tmp_container_id:/content.json ./$CONTENT_FILENAME && docker rm $tmp_container_id &>/dev/null
+}
+function getContentHashFromLatestImage() {
+    getContentFromLatestImage
+    CONTENT_HASH=$(sha256sum $CONTENT_FILENAME | cut -d' ' -f1)
+    rm $CONTENT_FILENAME
+}
+function printContentHashFromLatestImage() {
+    getContentHashFromLatestImage
+    echo $CONTENT_HASH
+}
 
-    ## TAGGING
+case $1 in
+--contentFromImage)
+    echo "Extracting content from $CONTENT_IMAGE into ./$CONTENT_FILENAME..."
+    getContentFromLatestImage
+    exit 0
+    ;;
+--contentHashFromImage)
+    printContentHashFromLatestImage
+    exit 0
+    ;;
+--build)
+    parseValidTarget "$@"
+
     case ${TARGET} in
     app)
-        IMAGE_TAG="$LATEST_GIT_TAG"
+        npm run build
+        npm run build-storybook
+        # npm prune --omit=dev
+        echo "Building $APP_IMAGE..."
+        docker build -t $APP_IMAGE -f $DOCKERFILE --target app .
         ;;
     content)
-        contentHashFromImage
-        IMAGE_TAG="$CONTENT_HASH"
-        ;;
-    prod)
-        contentHashFromImage
-        IMAGE_TAG="$LATEST_GIT_TAG-$CONTENT_HASH"
+        docker build -t $CONTENT_IMAGE -f $DOCKERFILE --target content .
         ;;
     esac
 
-    echo "Tagging as $IMAGE_NAME:$IMAGE_TAG"
-    docker tag $IMAGE_NAME $IMAGE_NAME:$IMAGE_TAG
+    echo "Building $PROD_IMAGE..."
+    docker build -t $PROD_IMAGE -f $DOCKERFILE --build-arg="APP_IMAGE=$APP_IMAGE" --build-arg="CONTENT_IMAGE=$CONTENT_IMAGE" --target prod .
+    ;;
+--push)
+    parseValidTarget "$@"
 
-    echo "Pushing to $IMAGE_NAME"
-    docker push --all-tags $IMAGE_NAME
-fi
+    LATEST_GIT_TAG=$(git rev-parse HEAD)
+    APP_IMAGE_TAG=$APP_IMAGE:$LATEST_GIT_TAG
+    CONTENT_IMAGE_TAG=$CONTENT_IMAGE:$CONTENT_HASH
+
+    case ${TARGET} in
+    app)
+        echo "Tagging and pushing $APP_IMAGE_TAG"
+        docker tag $APP_IMAGE $APP_IMAGE:$LATEST_GIT_TAG
+        docker push --all-tags $APP_IMAGE
+        getContentHashFromLatestImage # populates $CONTENT_HASH
+        ;;
+    content)
+        echo "Tagging and pushing $CONTENT_IMAGE_TAG"
+        CONTENT_HASH=$(sha256sum content.json | cut -d' ' -f1)
+        docker tag $CONTENT_IMAGE $CONTENT_IMAGE:$CONTENT_HASH
+        docker push --all-tags $CONTENT_IMAGE
+        ;;
+    esac
+
+    PROD_IMAGE_TAG=$PROD_IMAGE:$LATEST_GIT_TAG-$CONTENT_HASH
+    echo "Tagging and pushing $PROD_IMAGE_TAG"
+    docker tag $PROD_IMAGE $PROD_IMAGE_TAG
+    docker push --all-tags $PROD_IMAGE
+    ;;
+
+*)
+    echo "Unknown command $1"
+    echo "$HELP_TEXT"
+    exit 1
+    ;;
+esac

@@ -18,16 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20.x"
-          cache: "npm"
-
-      - run: npm ci
+      - uses: ./.github/actions/cached-checkout-install
 
       - name: Get Playwright version
         run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages[''].devDependencies['@playwright/test'])")" >> $GITHUB_ENV
@@ -53,7 +44,7 @@ jobs:
           GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
           E2E_BASE_URL: "${{ secrets.BASE_URL }}"
           E2E_USE_EXISTING_SERVER: "${{ inputs.USE_EXISTING_SERVER }}"
-        run: npm run test:e2e
+        run: CMS=FILE npm run test:e2e
 
       - name: Upload Playwright test results
         uses: actions/upload-artifact@v4
