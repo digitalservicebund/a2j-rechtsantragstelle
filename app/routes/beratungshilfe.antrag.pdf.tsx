@@ -86,7 +86,7 @@ const getOccupationDetails = (context: BeratungshilfeAntragContext) => {
   if (context.erwerbstaetig === "no") {
     description.push("nicht erwerbstätig");
   } else if (context.berufart) {
-    const occupation = "erwerbstätig";
+    const occupation = "Erwerbstätig";
     const occupationTypeSelected = getSelectedOptions(
       {
         selbststaendig: "selbstständig",
@@ -126,8 +126,7 @@ const getOccupationDetails = (context: BeratungshilfeAntragContext) => {
     description.push(otherIncomes);
   }
 
-  const descriptionResult = description.filter((value) => value).join(", ");
-  return descriptionResult.length > 30 ? "siehe Anhang" : descriptionResult;
+  return description.filter((value) => value).join(", ");
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -154,9 +153,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     return redirect("/beratungshilfe/antrag");
   }
 
-  const { shouldCreateNewPage, descriptions } =
-    isANewAttachmentPageNeeded(context);
-
   try {
     pdfFields.bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein!.value =
       context.rechtsschutzversicherung === "no";
@@ -174,26 +170,38 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       context.telefonnummer;
     pdfFields.berufErwerbstaetigkeit!.value = getOccupationDetails(context);
 
-    if (shouldCreateNewPage) {
+    const attachment = isANewAttachmentPageNeeded(context);
+
+    if (attachment.shouldCreateNewPage) {
       pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern!.value =
         "Bitte im Anhang prüfen";
     } else {
       pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern!.value =
-        descriptions.map((x) => `${x.title} ${x.text} `).join("\n");
+        attachment.descriptions.map((x) => `${x.title} ${x.text} `).join("\n");
     }
+
+    if (pdfFields.berufErwerbstaetigkeit!.value.length > 30) {
+      attachment.shouldCreateNewPage = true;
+      attachment.descriptions.unshift({
+        title: "Beruf / Erwerbstätigkeit:",
+        text: pdfFields.berufErwerbstaetigkeit!.value,
+      });
+      pdfFields.berufErwerbstaetigkeit!.value = "Bitte im Anhang prüfen";
+    }
+    const pdfResponse = fillOutBeratungshilfe(
+      pdfFields,
+      attachment.descriptions,
+      attachment.shouldCreateNewPage,
+    );
+
+    return new Response(await pdfResponse, {
+      headers: {
+        "Content-Type": "application/pdf",
+      },
+    });
   } catch (error) {
     console.error(error);
   }
 
-  const pdfResponse = fillOutBeratungshilfe(
-    pdfFields,
-    descriptions,
-    shouldCreateNewPage,
-  );
-
-  return new Response(await pdfResponse, {
-    headers: {
-      "Content-Type": "application/pdf",
-    },
-  });
+  return new Response("Error while generating PDF");
 };
