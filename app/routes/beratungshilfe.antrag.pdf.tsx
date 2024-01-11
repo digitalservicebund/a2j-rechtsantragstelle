@@ -61,6 +61,49 @@ const isANewAttachmentPageNeeded = (context: BeratungshilfeAntragContext) => {
   };
 };
 
+const getOccupationDetails = (context: BeratungshilfeAntragContext) => {
+  // if erwerbstätig dont print
+  // if not erwerbstätig print "nicht erwerbstätig"
+
+  const description: string[] = [];
+  if (context.erwerbstaetig === "no") {
+    description.push("nicht erwerbstätig");
+  } else {
+    const occupation = "erwebstätig";
+    const occupationTypeSelected = Object.entries(context.berufart ?? {})
+      .map(([key, value]) => {
+        if (value === "on") {
+          switch (key) {
+            case "selbstaendig":
+              return "selbständig";
+            case "festangestellt":
+              return "festangestellt";
+          }
+        }
+
+        return "";
+      })
+      .filter((entry) => entry)
+      .join(", ");
+    return `${occupation}${
+      occupationTypeSelected ? " (" + occupationTypeSelected + ")" : ""
+    }`;
+  }
+
+  if (context.berufsituation) {
+    switch (context.berufsituation) {
+      case "pupil":
+        description.push("Schüler:in");
+      case "student":
+        description.push("Student:in");
+      case "retiree":
+        description.push("Rentner:in");
+    }
+  }
+
+  return description.join(", ");
+};
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const pdfFields = await getBeratungshilfeParameters();
 
@@ -103,6 +146,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers!.value = `${context.strasseHausnummer}, ${context.plz}, ${context.ort}`;
     pdfFields.tagsueberTelefonischerreichbarunterNummer!.value =
       context.telefonnummer;
+    pdfFields.berufErwerbstaetigkeit!.value = getOccupationDetails(context);
 
     if (shouldCreateNewPage) {
       pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern!.value =
