@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     name: npm run ${{ matrix.npmCMD }}
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: ./.github/actions/cached-checkout-install
       - run: npm run ${{ matrix.npmCMD }}
       - name: SonarCloud Scan

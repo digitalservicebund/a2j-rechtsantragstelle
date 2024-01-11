@@ -54,6 +54,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/cached-checkout-install
       - run: ./docker.sh --build app
       - name: Run Trivy vulnerability scanner
