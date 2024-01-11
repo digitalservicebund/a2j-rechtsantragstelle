@@ -1,5 +1,10 @@
 name: buildAppImage
 on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Allow to run this workflow manually
   workflow_dispatch:
 
 env:
