@@ -27,13 +27,13 @@ jobs:
       content_checksum: ${{ steps.checksum.outputs.content_checksum }}
 
   verify-local-e2e:
+    # WARNING: we're testing new repo code but later re-deploying the old app
     needs: [get-content-file]
     uses: ./.github/workflows/e2e-test.yml
     secrets:
       GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
 
   build-push-content-image:
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: [verify-local-e2e]
     steps:
@@ -49,7 +49,6 @@ jobs:
 
   deploy-preview:
     needs: [build-push-content-image, get-content-file]
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: preview
     steps:
@@ -84,7 +83,6 @@ jobs:
 
   deploy-production:
     needs: [verify-preview-e2e, get-content-file]
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
     steps:
