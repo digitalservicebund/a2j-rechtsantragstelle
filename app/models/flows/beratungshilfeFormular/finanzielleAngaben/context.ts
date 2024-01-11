@@ -12,7 +12,7 @@ export const beratungshilfeFinanzielleAngaben = {
   erwerbstaetig: YesNoAnswer,
   staatlicheLeistungen,
   berufart: z.object({
-    selbstaendig: checkedOptional,
+    selbststaendig: checkedOptional,
     festangestellt: checkedOptional,
   }),
   weitereseinkommen: z.object({

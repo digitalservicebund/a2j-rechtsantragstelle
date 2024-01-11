@@ -61,47 +61,73 @@ const isANewAttachmentPageNeeded = (context: BeratungshilfeAntragContext) => {
   };
 };
 
-const getOccupationDetails = (context: BeratungshilfeAntragContext) => {
-  // if erwerbstätig dont print
-  // if not erwerbstätig print "nicht erwerbstätig"
+function getSelectedOptions(
+  mapping: { [key: string]: string },
+  options?: { [key: string]: "on" | "off" },
+) {
+  if (!options) {
+    return "";
+  }
 
+  return Object.entries(options)
+    .map(([key, value]) => {
+      if (value === "on") {
+        return mapping[key];
+      }
+      return "";
+    })
+    .filter((entry) => entry)
+    .join(", ");
+}
+
+const getOccupationDetails = (context: BeratungshilfeAntragContext) => {
   const description: string[] = [];
+
   if (context.erwerbstaetig === "no") {
     description.push("nicht erwerbstätig");
-  } else {
-    const occupation = "erwebstätig";
-    const occupationTypeSelected = Object.entries(context.berufart ?? {})
-      .map(([key, value]) => {
-        if (value === "on") {
-          switch (key) {
-            case "selbstaendig":
-              return "selbständig";
-            case "festangestellt":
-              return "festangestellt";
-          }
-        }
+  } else if (context.berufart) {
+    const occupation = "erwerbstätig";
+    const occupationTypeSelected = getSelectedOptions(
+      {
+        selbststaendig: "selbstständig",
+        festangestellt: "festangestellt",
+      },
+      context.berufart,
+    );
 
-        return "";
-      })
-      .filter((entry) => entry)
-      .join(", ");
-    return `${occupation}${
-      occupationTypeSelected ? " (" + occupationTypeSelected + ")" : ""
-    }`;
+    description.push(
+      `${occupation}${
+        occupationTypeSelected ? " (" + occupationTypeSelected + ")" : ""
+      }`,
+    );
   }
 
-  if (context.berufsituation) {
-    switch (context.berufsituation) {
-      case "pupil":
-        description.push("Schüler:in");
-      case "student":
-        description.push("Student:in");
-      case "retiree":
-        description.push("Rentner:in");
-    }
+  const berufsituationMapping = {
+    no: "",
+    pupil: "Schüler:in",
+    student: "Student:in",
+    retiree: "Rentner:in",
+  };
+
+  description.push(berufsituationMapping[context.berufsituation ?? "no"]);
+
+  if (context.weitereseinkommen) {
+    const otherIncomes = getSelectedOptions(
+      {
+        unterhaltszahlungen: "Unterhaltszahlungen",
+        wohngeld: "Wohngeld",
+        kindergeld: "Kindergeld",
+        bafoeg: "Bafög",
+        others: "Sonstiges",
+      },
+      context.weitereseinkommen,
+    );
+
+    description.push(otherIncomes);
   }
 
-  return description.join(", ");
+  const descriptionResult = description.filter((value) => value).join(", ");
+  return descriptionResult.length > 30 ? "siehe Anhang" : descriptionResult;
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -141,9 +167,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     pdfFields.b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt!.value =
       context.klageEingereicht === "no";
     pdfFields.c2Einkuenftenetto!.value = context.einkommen;
-    pdfFields.antragstellerNameVornameggfGeburtsname!.value = `${context.nachname}, ${context.vorname}`;
+    pdfFields.antragstellerNameVornameggfGeburtsname!.value = `${context.nachname}, ${context.vorname} `;
     pdfFields.geburtsdatumdesAntragstellers!.value = context.geburtsdatum;
-    pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers!.value = `${context.strasseHausnummer}, ${context.plz}, ${context.ort}`;
+    pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers!.value = `${context.strasseHausnummer}, ${context.plz}, ${context.ort} `;
     pdfFields.tagsueberTelefonischerreichbarunterNummer!.value =
       context.telefonnummer;
     pdfFields.berufErwerbstaetigkeit!.value = getOccupationDetails(context);
@@ -153,7 +179,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
         "Bitte im Anhang prüfen";
     } else {
       pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern!.value =
-        descriptions.map((x) => `${x.title} ${x.text}`).join("\n");
+        descriptions.map((x) => `${x.title} ${x.text} `).join("\n");
     }
   } catch (error) {
     console.error(error);
