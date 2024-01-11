@@ -16,6 +16,7 @@ import { StrapiListItemSchema } from "./StrapiListItem";
 import { StrapiCheckboxSchema } from "./StrapiCheckbox";
 import { StrapiTileGroupSchema } from "./StrapiTileGroup";
 import { StrapiDateInputSchema } from "~/services/cms/models/StrapiDateInput";
+import { StrapiFileInputSchema } from "~/services/cms/models/StrapiFileInput";
 import { StrapiAlertSchema } from "./StrapiAlert";
 
 export const StrapiContentSchema = z.discriminatedUnion("__component", [
@@ -36,6 +37,7 @@ export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiListItemSchema.required({ __component: true }),
   StrapiTileGroupSchema.required({ __component: true }),
   StrapiDateInputSchema.required({ __component: true }),
+  StrapiFileInputSchema.required({ __component: true }),
   StrapiAlertSchema.required({ __component: true }),
 ]);
 
