@@ -26,16 +26,16 @@ jobs:
     outputs:
       content_checksum: ${{ steps.checksum.outputs.content_checksum }}
 
-  verify-local-e2e:
-    # WARNING: we're testing new repo code but later re-deploying the old app
-    needs: [get-content-file]
-    uses: ./.github/workflows/e2e-test.yml
-    secrets:
-      GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
+  # WARNING: we're testing new repo code but later re-deploying the old app
+  # verify-local-e2e:
+  #   needs: [get-content-file]
+  #   uses: ./.github/workflows/e2e-test.yml
+  #   secrets:
+  #     GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
 
   build-push-content-image:
     runs-on: ubuntu-latest
-    needs: [verify-local-e2e]
+    needs: [get-content-file]
     steps:
       - uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
         with:
@@ -44,6 +44,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v4
       - uses: ./.github/actions/cached-checkout-install
+      - name: Download Content File
+        uses: actions/download-artifact@v4
+        with:
+          name: content-file
+      - run: npm run verifyEmails
+      - run: npm run verifyWebsites
       - run: ./docker.sh --build content
       - run: ./docker.sh --push content
 
