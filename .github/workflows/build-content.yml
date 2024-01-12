@@ -51,6 +51,10 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - run: ./docker.sh --appFromImage && mv ./a2j-app/* ./
+        continue-on-error: true
+      - if: failure()
+        run: npm ci
+
       - name: Run Playwright e2e tests
         env:
           GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
