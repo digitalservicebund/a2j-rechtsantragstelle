@@ -88,6 +88,12 @@ jobs:
       - run: npm run verifyWebsites
       - run: ./docker.sh --build content
       - run: ./docker.sh --push content
+      - run: ./docker.sh --build prod
+      - run: ./docker.sh --push prod
+      - id: prod_image_tag
+        run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
+    outputs:
+      prod_image_tag: ${{ steps.prod_image_tag.outputs.prod_image_tag }}
 
   deploy-preview:
     needs: [build-push-content-image, get-content-file]
@@ -106,7 +112,7 @@ jobs:
         uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
         with:
           environment: preview
-          version: ${{ env.IMAGE_VERSION }}-${{ needs.get-content-file.outputs.content_checksum }}
+          version: ${{ needs.build-push-content-image.outputs.prod_image_tag }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
           deploy_key: ${{ secrets.DEPLOY_KEY }}
@@ -124,7 +130,7 @@ jobs:
       USE_EXISTING_SERVER: true
 
   deploy-production:
-    needs: [verify-preview-e2e, get-content-file]
+    needs: [verify-preview-e2e, build-push-content-image]
     runs-on: ubuntu-latest
     environment: production
     steps:
@@ -140,7 +146,7 @@ jobs:
         uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
         with:
           environment: production
-          version: ${{ env.IMAGE_VERSION }}-${{ needs.get-content-file.outputs.content_checksum }}
+          version: ${{ needs.build-push-content-image.outputs.prod_image_tag }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
           deploy_key: ${{ secrets.DEPLOY_KEY }}
