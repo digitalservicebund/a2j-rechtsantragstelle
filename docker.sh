@@ -11,21 +11,21 @@ DOCKERFILE=Dockerfile
 
 if [ "$#" -eq 0 ]; then
     echo "Missing action"
-    echo $HELP_TEXT
+    echo "$HELP_TEXT"
     exit 1
 fi
 
 function parseValidTarget() {
     if [ "$#" -le 1 ]; then
         echo "Missing target, aborting..."
-        echo $HELP_TEXT
+        echo "$HELP_TEXT"
         exit 1
     fi
     case $2 in
     app | content | prod) TARGET=$2 ;;
     *)
         echo "Unknown target $2, aborting..."
-        echo $HELP_TEXT
+        echo "$HELP_TEXT"
         exit 1
         ;;
     esac
@@ -34,16 +34,18 @@ function parseValidTarget() {
 # The content file lives inside $CONTENT_IMAGE. To get its sha256 hash:
 # Create tmp container, copy content.json to provided location, delete container
 function getContentFromLatestImage() {
-    local tmp_container_id=$(docker create $CONTENT_IMAGE null)
-    docker cp --quiet $tmp_container_id:/content.json $1 && docker rm $tmp_container_id &>/dev/null
+    local tmp_container_id
+    tmp_container_id=$(docker create $CONTENT_IMAGE null)
+    docker cp --quiet "$tmp_container_id:/content.json" "$1" && docker rm "$tmp_container_id" &>/dev/null
 }
 function getAppFromLatestImage() {
-    local tmp_container_id=$(docker create $APP_IMAGE null)
-    docker cp --quiet $tmp_container_id:/a2j-app/. $1 && docker rm $tmp_container_id &>/dev/null
+    local tmp_container_id
+    tmp_container_id=$(docker create $APP_IMAGE null)
+    docker cp --quiet "$tmp_container_id:/a2j-app/." "$1" && docker rm "$tmp_container_id" &>/dev/null
 }
 
 function hashFromContentFile() {
-    echo $(sha256sum $1 | cut -d' ' -f1)
+    sha256sum "$1" | cut -d' ' -f1
 }
 
 function hashFromImage() {
@@ -96,7 +98,7 @@ case $1 in
         docker build -t $APP_IMAGE --label "hash=$LATEST_GIT_TAG" -f $DOCKERFILE --target app --quiet .
 
         echo "Tagging latest app image as $APP_IMAGE_TAG"
-        docker tag $APP_IMAGE $APP_IMAGE_TAG
+        docker tag $APP_IMAGE "$APP_IMAGE_TAG"
         ;;
     content)
         CONTENT_HASH=$(hashFromContentFile content.json)
@@ -106,7 +108,7 @@ case $1 in
         docker build -t $CONTENT_IMAGE --label "hash=$CONTENT_HASH" -f $DOCKERFILE --target content --quiet .
 
         echo "Tagging latest content image as $CONTENT_IMAGE_TAG"
-        docker tag $CONTENT_IMAGE $CONTENT_IMAGE:$CONTENT_HASH
+        docker tag $CONTENT_IMAGE "$CONTENT_IMAGE:$CONTENT_HASH"
         ;;
     prod)
         echo -e "\nBuilding $PROD_IMAGE..."
