@@ -141,6 +141,15 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/isbot/LICENSE",
     "direct": true
   },
+  "license-checker-rseidelsohn": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/RSeidelsohn/license-checker-rseidelsohn",
+    "publisher": "Roman Seidelsohn",
+    "email": "rseidelsohn@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/license-checker-rseidelsohn",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/license-checker-rseidelsohn/LICENSE",
+    "direct": true
+  },
   "lodash": {
     "licenses": "MIT",
     "repository": "https://github.com/lodash/lodash",
@@ -213,6 +222,14 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/react-dom/LICENSE",
     "direct": true
   },
+  "react-dropzone": {
+    "licenses": "MIT",
+    "repository": "https://github.com/react-dropzone/react-dropzone",
+    "publisher": "Param Aggarwal",
+    "path": "a2j-rechtsantragstelle/node_modules/react-dropzone",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/react-dropzone/LICENSE",
+    "direct": true
+  },
   "react-imask": {
     "licenses": "MIT",
     "repository": "https://github.com/uNmAnNeR/imaskjs.git#master",
@@ -236,6 +253,20 @@
     "path": "a2j-rechtsantragstelle/node_modules/remix-validated-form",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/remix-validated-form/README.md",
     "direct": true
+  },
+  "spdx-exceptions": {
+    "licenses": "CC-BY-3.0",
+    "repository": "https://github.com/kemitchell/spdx-exceptions.json",
+    "publisher": "The Linux Foundation",
+    "path": "a2j-rechtsantragstelle/node_modules/spdx-exceptions",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/spdx-exceptions/README.md"
+  },
+  "spdx-ranges": {
+    "licenses": "(MIT AND CC-BY-3.0)",
+    "repository": "https://github.com/kemitchell/spdx-ranges.js",
+    "publisher": "The Linux Foundation",
+    "path": "a2j-rechtsantragstelle/node_modules/spdx-ranges",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/spdx-ranges/LICENSE.md"
   },
   "tiny-invariant": {
     "licenses": "MIT",
