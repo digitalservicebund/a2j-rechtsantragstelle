@@ -15,6 +15,8 @@ jobs:
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
+      - run: npm run verifyEmails
+      - run: npm run verifyWebsites
       - name: Calculate content checksum
         id: checksum
         run: echo "content_checksum=$(./docker.sh --contentHash)" >> $GITHUB_OUTPUT
@@ -79,13 +81,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/cached-checkout-install
       - name: Download Content File
         uses: actions/download-artifact@v4
         with:
           name: content-file
-      - run: npm run verifyEmails
-      - run: npm run verifyWebsites
       - run: ./docker.sh --build content
       - run: ./docker.sh --push content
       - run: ./docker.sh --build prod
@@ -125,7 +124,7 @@ jobs:
     needs: [deploy-preview]
     uses: ./.github/workflows/e2e-test.yml
     secrets:
-      BASE_URL: a2j-preview.dev.ds4g.net
+      BASE_URL: https://a2j-preview.dev.ds4g.net
     with:
       USE_EXISTING_SERVER: true
 
