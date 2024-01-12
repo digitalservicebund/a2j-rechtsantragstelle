@@ -4,17 +4,16 @@ ARG APP_IMAGE=app
 
 FROM node:20-alpine AS app-base
 WORKDIR /a2j
-COPY ./build ./build/
-COPY ./public ./public/
-COPY ./start.sh ./server.js package.json package-lock.json ./
+COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
 FROM scratch AS app
 WORKDIR /a2j-app
 COPY --link --from=app-base /a2j/node_modules ./node_modules/
-COPY --link --from=app-base /a2j/build ./build/
-COPY --link --from=app-base /a2j/public ./public/
-COPY --link --from=app-base /a2j/start.sh  /a2j/server.js ./
+COPY ./build ./build/
+COPY ./public ./public/
+COPY ./app/services ./app/services/
+COPY ./start.sh  ./server.js ./
 
 FROM scratch AS content
 COPY ./content.json /
