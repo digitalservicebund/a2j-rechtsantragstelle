@@ -31,6 +31,11 @@ function getContentFromLatestImage() {
     local tmp_container_id=$(docker create $CONTENT_IMAGE null)
     docker cp --quiet $tmp_container_id:/content.json $1 && docker rm $tmp_container_id &>/dev/null
 }
+function getAppFromLatestImage() {
+    local tmp_container_id=$(docker create $APP_IMAGE null)
+    docker cp --quiet $tmp_container_id:/a2j-app/. $1 && docker rm $tmp_container_id &>/dev/null
+}
+
 function hashFromContentFile() {
     echo $(sha256sum $1 | cut -d' ' -f1)
 }
@@ -43,6 +48,12 @@ function getContentHashFromLatestImage() {
 }
 
 case $1 in
+--appFromImage)
+    DESTINATION=./a2j-app
+    echo "Extraction app from $APP_IMAGE into $DESTINATION..."
+    getAppFromLatestImage $DESTINATION
+    exit 0
+    ;;
 --contentFromImage)
     IMAGE_CONTENT_FILE=./content_from_image.json
     echo "Extracting content from $CONTENT_IMAGE into $IMAGE_CONTENT_FILE..."
@@ -64,7 +75,6 @@ case $1 in
     app)
         npm run build
         npm run build-storybook
-        # npm prune --omit=dev
         echo "Building $APP_IMAGE..."
         docker build -t $APP_IMAGE -f $DOCKERFILE --target app .
         ;;

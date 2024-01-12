@@ -26,16 +26,47 @@ jobs:
     outputs:
       content_checksum: ${{ steps.checksum.outputs.content_checksum }}
 
-  # WARNING: we're testing new repo code but later re-deploying the old app
-  # verify-local-e2e:
-  #   needs: [get-content-file]
-  #   uses: ./.github/workflows/e2e-test.yml
-  #   secrets:
-  #     GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
+  verify-local-e2e:
+    needs: [get-content-file]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get Playwright version
+        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages[''].devDependencies['@playwright/test'])")" >> $GITHUB_ENV
+
+      - name: Download Content File
+        uses: actions/download-artifact@v4
+        with:
+          name: content-file
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ env.PLAYWRIGHT_VERSION }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - run: docker.sh --appFromImage && mv ./a2j-app/* ./
+      - name: Run Playwright e2e tests
+        env:
+          GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
+        run: CMS=FILE npx playwright test
+
+      - name: Upload Playwright test results
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
 
   build-push-content-image:
     runs-on: ubuntu-latest
-    needs: [get-content-file]
+    needs: [verify-local-e2e]
     steps:
       - uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
         with:
