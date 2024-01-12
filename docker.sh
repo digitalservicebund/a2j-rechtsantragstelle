@@ -47,7 +47,7 @@ function hashFromContentFile() {
 }
 
 function hashFromImage() {
-    docker image inspect "$1" &>/dev/null || docker pull "$1" --quiet
+    docker image inspect "$1" &>/dev/null || docker pull "$1" --quiet &>/dev/null
     docker image inspect "$1" --format '{{ json .Config.Labels.hash }}' | tr -d '"'
 }
 
