@@ -17,7 +17,7 @@ jobs:
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
       - name: Calculate content checksum
         id: checksum
-        run: echo "content_checksum=$(./docker.sh --contentHashFromImage)" >> $GITHUB_OUTPUT
+        run: echo "content_checksum=$(./docker.sh --contentHash)" >> $GITHUB_OUTPUT
       - name: Upload content.json
         uses: actions/upload-artifact@v4
         with:
