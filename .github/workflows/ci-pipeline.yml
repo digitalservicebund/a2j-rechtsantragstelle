@@ -20,9 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: ./docker.sh --contentFromImage && mv content_from_image.json content.json
+      - id: fetchLatestImageContent
+        run: ./docker.sh --contentFromImage && mv content_from_image.json content.json
         continue-on-error: true
-      - if: failure()
+      - if: steps.fetchLatestImageContent.outcome == 'failure'
         run: npm ci && npm run dumpCmsToFile
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"

@@ -50,9 +50,10 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
 
-      - run: ./docker.sh --appFromImage && mv ./a2j-app/* ./
+      - id: fetchLatestImageApp
+        run: ./docker.sh --appFromImage && mv ./a2j-app/* ./
         continue-on-error: true
-      - if: failure()
+      - if: steps.fetchLatestImageApp.outcome == 'failure'
         run: npm ci
 
       - name: Run Playwright e2e tests
