@@ -13,6 +13,10 @@ on:
 
 jobs:
   e2e-tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1/4, 2/4, 3/4, 4/4]
     permissions:
       packages: read
     runs-on: ubuntu-latest
@@ -45,7 +49,7 @@ jobs:
           GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
           E2E_BASE_URL: "${{ secrets.BASE_URL }}"
           E2E_USE_EXISTING_SERVER: "${{ inputs.USE_EXISTING_SERVER }}"
-        run: CMS=FILE npm run test:e2e
+        run: CMS=FILE npm run test:e2e -- --shard ${{ matrix.shard }}
 
       - name: Upload Playwright test results
         uses: actions/upload-artifact@v4
