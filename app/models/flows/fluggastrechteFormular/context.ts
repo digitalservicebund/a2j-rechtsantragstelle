@@ -20,12 +20,16 @@ import {
 } from "~/services/validation/checkedCheckbox";
 import { dateSchema } from "~/services/validation/date";
 
+const FileUploadDummySchema = z.string().or(z.object({})).or(z.array(z.any()));
+
 export const fluggastrechtContext = {
   startAirport: airportSchema,
   endAirport: airportSchema,
   fluggesellschaft: airlineSchema,
   bereich: fluggastBereichSchema,
   zwischenstopps: YesNoAnswer,
+  buchungsbestaetigung: FileUploadDummySchema,
+  schriftverkehr: FileUploadDummySchema,
   singleFlugnummer: inputRequiredSchema,
   singleAbflugDatum: dateSchema,
   singleAbflugZeit: inputRequiredSchema,
