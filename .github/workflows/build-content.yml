@@ -53,10 +53,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - id: fetchLatestImageApp
-        run: ./docker.sh --appFromImage && mv ./a2j-app/* ./
-        continue-on-error: true
-      - if: steps.fetchLatestImageApp.outcome == 'failure'
-        run: npm ci
+        run: ./docker.sh --appFromImage && mv --force ./a2j-app/* ./
 
       - name: Run Playwright e2e tests
         env:
