@@ -50,7 +50,7 @@ const FileListItem = ({
   </li>
 );
 
-function UploadZone() {
+function UploadZone(props: { name: string }) {
   const [files, setFiles] = useState<FileMap>({});
 
   const onDrop = useCallback(
@@ -65,6 +65,7 @@ function UploadZone() {
           setFiles({ ...files, ...newFiles });
         };
         reader.readAsArrayBuffer(file);
+        // TODO: add files to .files of the <input> field, such that dropping behaves similar to the file selection dialog
       });
     },
     [files],
@@ -83,14 +84,15 @@ function UploadZone() {
           isDragActive ? "border-4 border-solid" : "border-2 border-dashed"
         }`}
       >
-        <input {...getInputProps()} />
+        {/*  TODO: currently JS only */}
+        <input {...getInputProps()} name={props.name} />
         <div className="flex items-center flex-col">
           <UploadIcon className="!h-[3.5rem] !w-[3.5rem] text-blue-800 mb-24" />
           <div className="ds-stack-8 items-center mb-48">
             <span className="font-bold">Datei ziehen und ablegen</span>
             <span>JPG, PNG, oder PDF, nicht größer als 10 MB</span>
           </div>
-          <Button onClick={open} size="large" look="primary">
+          <Button onClick={open} size="large" look="primary" type="button">
             Datei auswählen
           </Button>
         </div>

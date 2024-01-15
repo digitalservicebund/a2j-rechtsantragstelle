@@ -13,5 +13,5 @@ export const StrapiFileInputSchema = z
 type StrapiFileInput = z.infer<typeof StrapiFileInputSchema>;
 
 export const renderFileInputFromStrapi = (strapiFileInput: StrapiFileInput) => {
-  return <UploadZone />;
+  return <UploadZone name={strapiFileInput.name} />;
 };
