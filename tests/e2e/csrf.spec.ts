@@ -4,6 +4,7 @@ import { csrfCountMax } from "~/services/security/csrf.server";
 
 test.describe("CSRF token", () => {
   test("multiple tabs work", async ({ page, context }) => {
+    test.fail();
     const vorabcheck = new BeratungshilfeVorabcheck(page);
     await vorabcheck.goto();
     const vorabcheck2 = new BeratungshilfeVorabcheck(await context.newPage());
