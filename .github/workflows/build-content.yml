@@ -124,6 +124,7 @@ jobs:
       BASE_URL: https://a2j-preview.dev.ds4g.net
     with:
       use-existing-server: true
+      e2e-target: preview
 
   deploy-production:
     needs: [verify-preview-e2e, build-push-content-image]
