@@ -5,6 +5,9 @@ on:
       USE_EXISTING_SERVER:
         required: false
         type: boolean
+      e2e-target:
+        required: true
+        type: string
     secrets:
       GERICHTSFINDER_ENCRYPTION_KEY:
         required: false
