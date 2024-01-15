@@ -2,7 +2,7 @@ name: E2E Test
 on:
   workflow_call:
     inputs:
-      USE_EXISTING_SERVER:
+      use-existing-server:
         required: false
         type: boolean
       e2e-target:
@@ -51,7 +51,7 @@ jobs:
         env:
           GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
           E2E_BASE_URL: "${{ secrets.BASE_URL }}"
-          E2E_USE_EXISTING_SERVER: "${{ inputs.USE_EXISTING_SERVER }}"
+          E2E_USE_EXISTING_SERVER: "${{ inputs.use-existing-server }}"
         run: CMS=FILE npm run test:e2e -- --shard ${{ matrix.shard }}/${{ strategy.job-total }}
 
       - name: Upload Playwright blob report
