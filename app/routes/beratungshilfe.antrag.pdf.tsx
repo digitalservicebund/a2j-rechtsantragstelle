@@ -156,6 +156,17 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     return redirect("/beratungshilfe/antrag");
   }
 
+  const hasStaatlicheLeistung =
+    context.staatlicheLeistungen != "andereLeistung" &&
+    context.staatlicheLeistungen != "keine";
+  const staatlicheLeistungMapping = {
+    grundsicherung: "Grundsicherung",
+    asylbewerberleistungen: "Asylbewerberleistungen",
+    buergergeld: "Bürgergeld",
+    andereLeistung: "Andere Leistung",
+    keine: "Keine",
+  };
+
   try {
     pdfFields.bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein!.value =
       context.rechtsschutzversicherung === "no";
@@ -171,7 +182,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers!.value = `${context.strasseHausnummer}, ${context.plz}, ${context.ort} `;
     pdfFields.tagsueberTelefonischerreichbarunterNummer!.value =
       context.telefonnummer;
-    pdfFields.berufErwerbstaetigkeit!.value = getOccupationDetails(context);
+    pdfFields.berufErwerbstaetigkeit!.value = hasStaatlicheLeistung
+      ? staatlicheLeistungMapping[context.staatlicheLeistungen ?? "keine"]
+      : getOccupationDetails(context);
 
     const attachment = isANewAttachmentPageNeeded(context);
 
@@ -183,7 +196,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
         attachment.descriptions.map((x) => `${x.title} ${x.text} `).join("\n");
     }
 
-    if (pdfFields.berufErwerbstaetigkeit!.value.length > 30) {
+    if (
+      !hasStaatlicheLeistung &&
+      pdfFields.berufErwerbstaetigkeit!.value.length > 30
+    ) {
       attachment.shouldCreateNewPage = true;
       attachment.descriptions.unshift({
         title: "Weiteres Einkommen:",
