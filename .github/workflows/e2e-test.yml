@@ -53,10 +53,10 @@ jobs:
 
       - name: Upload Playwright blob report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-blob-reports
-          path: playwright-blob-report
+          path: blob-report
           retention-days: 1
 
   merge-reports:
@@ -68,7 +68,7 @@ jobs:
       - uses: ./.github/actions/cached-checkout-install
 
       - name: Download blob reports from GitHub Actions Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: playwright-blob-reports
           path: playwright-blob-reports
