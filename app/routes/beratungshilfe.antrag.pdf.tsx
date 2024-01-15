@@ -80,7 +80,10 @@ function getSelectedOptions(
     .join(", ");
 }
 
-const getOccupationDetails = (context: BeratungshilfeAntragContext) => {
+const getOccupationDetails = (
+  context: BeratungshilfeAntragContext,
+  withAdditionalIncome = true,
+) => {
   const description: string[] = [];
 
   if (context.erwerbstaetig === "no") {
@@ -111,7 +114,7 @@ const getOccupationDetails = (context: BeratungshilfeAntragContext) => {
 
   description.push(berufsituationMapping[context.berufsituation ?? "no"]);
 
-  if (context.weitereseinkommen) {
+  if (context.weitereseinkommen && withAdditionalIncome) {
     const otherIncomes = getSelectedOptions(
       {
         unterhaltszahlungen: "Unterhaltszahlungen",
@@ -183,8 +186,21 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     if (pdfFields.berufErwerbstaetigkeit!.value.length > 30) {
       attachment.shouldCreateNewPage = true;
       attachment.descriptions.unshift({
+        title: "Weiteres Einkommen:",
+        text: getSelectedOptions(
+          {
+            unterhaltszahlungen: "Unterhaltszahlungen",
+            wohngeld: "Wohngeld",
+            kindergeld: "Kindergeld",
+            bafoeg: "Bafög",
+            others: "Sonstiges",
+          },
+          context.weitereseinkommen ?? {},
+        ),
+      });
+      attachment.descriptions.unshift({
         title: "Beruf / Erwerbstätigkeit:",
-        text: pdfFields.berufErwerbstaetigkeit!.value,
+        text: getOccupationDetails(context, false),
       });
       pdfFields.berufErwerbstaetigkeit!.value = "Bitte im Anhang prüfen";
     }
