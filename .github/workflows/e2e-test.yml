@@ -2,9 +2,12 @@ name: E2E Test
 on:
   workflow_call:
     inputs:
-      USE_EXISTING_SERVER:
+      use-existing-server:
         required: false
         type: boolean
+      e2e-target:
+        required: true
+        type: string
     secrets:
       GERICHTSFINDER_ENCRYPTION_KEY:
         required: false
@@ -13,6 +16,10 @@ on:
 
 jobs:
   e2e-tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     permissions:
       packages: read
     runs-on: ubuntu-latest
@@ -44,13 +51,38 @@ jobs:
         env:
           GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
           E2E_BASE_URL: "${{ secrets.BASE_URL }}"
-          E2E_USE_EXISTING_SERVER: "${{ inputs.USE_EXISTING_SERVER }}"
-        run: CMS=FILE npm run test:e2e
+          E2E_USE_EXISTING_SERVER: "${{ inputs.use-existing-server }}"
+        run: CMS=FILE npm run test:e2e -- --shard ${{ matrix.shard }}/${{ strategy.job-total }}
+
+      - name: Upload Playwright blob report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-blob-report-${{ inputs.e2e-target }}-${{ matrix.shard }}
+          path: blob-report/*.zip
+          retention-days: 1
+
+  merge-reports:
+    if: failure()
+    needs: [e2e-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/cached-checkout-install
+
+      - name: Download blob reports from GitHub Actions Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+          pattern: playwright-blob-report-${{ inputs.e2e-target }}-*
+          path: playwright-blob-reports
+
+      - name: Merge into HTML Report
+        run: npx playwright merge-reports --reporter html ./playwright-blob-reports
 
       - name: Upload Playwright test results
         uses: actions/upload-artifact@v4
-        if: failure()
         with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+          name: playwright-report-${{ inputs.e2e-target }}-${{ github.run_attempt }}
+          path: playwright-report
+          retention-days: 14
