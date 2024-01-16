@@ -2,6 +2,7 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import _ from "lodash";
 import type { BeratungshilfeAntragContext } from "~/models/flows/beratungshilfeFormular";
+import { BeratungshilfePDF } from "~/services/pdf/beratungshilfe/beratungshilfe.generated";
 import {
   fillOutBeratungshilfe,
   getBeratungshilfeParameters,
@@ -168,23 +169,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   };
 
   try {
-    pdfFields.bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein!.value =
-      context.rechtsschutzversicherung === "no";
-    pdfFields.b3IndieserAngelegenheitistmirbisherBeratungshilfewederbewilligtnochversagtworden!.value =
-      context.beratungshilfeBeantragt === "no";
-    pdfFields.b2IndieserAngelegenheitbestehtfurmichnachmeinerKenntniskeineandereMoeglichkeitkostenloseBeratungundVertretunginAnspruchzunehmen!.value =
-      context.eigeninitiativeGrundvorraussetzung === "no";
-    pdfFields.b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt!.value =
-      context.klageEingereicht === "no";
-    pdfFields.c2Einkuenftenetto!.value = context.einkommen;
-    pdfFields.antragstellerNameVornameggfGeburtsname!.value = `${context.nachname}, ${context.vorname} `;
-    pdfFields.geburtsdatumdesAntragstellers!.value = context.geburtsdatum;
-    pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers!.value = `${context.strasseHausnummer}, ${context.plz}, ${context.ort} `;
-    pdfFields.tagsueberTelefonischerreichbarunterNummer!.value =
-      context.telefonnummer;
-    pdfFields.berufErwerbstaetigkeit!.value = hasStaatlicheLeistung
-      ? staatlicheLeistungMapping[context.staatlicheLeistungen ?? "keine"]
-      : getOccupationDetails(context);
+    fillCommonPDFFields(
+      pdfFields,
+      context,
+      hasStaatlicheLeistung,
+      staatlicheLeistungMapping,
+    );
 
     const attachment = isANewAttachmentPageNeeded(context);
 
@@ -198,7 +188,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
     if (
       !hasStaatlicheLeistung &&
-      pdfFields.berufErwerbstaetigkeit!.value.length > 30
+      (pdfFields.berufErwerbstaetigkeit!.value?.length ?? 0) > 30
     ) {
       attachment.shouldCreateNewPage = true;
       attachment.descriptions.unshift({
@@ -220,6 +210,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       });
       pdfFields.berufErwerbstaetigkeit!.value = "Bitte im Anhang prüfen";
     }
+
+    fillPartner(context, pdfFields);
+
     const pdfResponse = fillOutBeratungshilfe(
       pdfFields,
       attachment.descriptions,
@@ -237,3 +230,59 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   return new Response("Error while generating PDF");
 };
+
+function fillCommonPDFFields(
+  pdfFields: BeratungshilfePDF,
+  context: BeratungshilfeAntragContext,
+  hasStaatlicheLeistung: boolean,
+  staatlicheLeistungMapping: {
+    grundsicherung: string;
+    asylbewerberleistungen: string;
+    buergergeld: string;
+    andereLeistung: string;
+    keine: string;
+  },
+) {
+  pdfFields.bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein!.value =
+    context.rechtsschutzversicherung === "no";
+  pdfFields.b3IndieserAngelegenheitistmirbisherBeratungshilfewederbewilligtnochversagtworden!.value =
+    context.beratungshilfeBeantragt === "no";
+  pdfFields.b2IndieserAngelegenheitbestehtfurmichnachmeinerKenntniskeineandereMoeglichkeitkostenloseBeratungundVertretunginAnspruchzunehmen!.value =
+    context.eigeninitiativeGrundvorraussetzung === "no";
+  pdfFields.b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt!.value =
+    context.klageEingereicht === "no";
+  pdfFields.c2Einkuenftenetto!.value = context.einkommen;
+  pdfFields.antragstellerNameVornameggfGeburtsname!.value = `${context.nachname}, ${context.vorname} `;
+  pdfFields.geburtsdatumdesAntragstellers!.value = context.geburtsdatum;
+  pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers!.value = `${context.strasseHausnummer}, ${context.plz}, ${context.ort} `;
+  pdfFields.tagsueberTelefonischerreichbarunterNummer!.value =
+    context.telefonnummer;
+  pdfFields.berufErwerbstaetigkeit!.value = hasStaatlicheLeistung
+    ? staatlicheLeistungMapping[context.staatlicheLeistungen ?? "keine"]
+    : getOccupationDetails(context);
+}
+
+function fillPartner(
+  context: BeratungshilfeAntragContext,
+  pdfFields: BeratungshilfePDF,
+) {
+  if (
+    context.partnerschaft === "yes" &&
+    context.zusammenleben === "yes" &&
+    context.partnerEinkommen === "yes"
+  ) {
+    pdfFields.c3EinkuenftePartner!.value = true;
+    pdfFields.c4EinkuenftePartnernetto!.value = context.partnerEinkommenSumme;
+  } else if (
+    context.partnerschaft === "yes" &&
+    context.zusammenleben === "no" &&
+    context.unterhalt === "yes"
+  ) {
+    pdfFields.e1Person1!.value = [
+      context.partnerVorname ?? "",
+      context.partnerNachname ?? "",
+    ].join(" ");
+    pdfFields.e3Familienverhaeltnis!.value = "Partner:in";
+    pdfFields.e4Zahlung1!.value = context.unterhaltsSumme;
+  }
+}
