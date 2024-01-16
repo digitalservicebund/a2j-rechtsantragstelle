@@ -25,4 +25,20 @@ export const finanzielleAngabeGuards = {
     context: BeratungshilfeFinanzielleAngaben,
   ) => context.staatlicheLeistungen === "buergergeld",
   ...yesNoGuards("erwerbstaetig"),
+  ...yesNoGuards("partnerschaft"),
+  ...yesNoGuards("zusammenleben"),
+  ...yesNoGuards("unterhalt"),
+  ...yesNoGuards("partnerEinkommen"),
+  isPartnerschaftZusammenlebenEinkommenNo: (
+    context: BeratungshilfeFinanzielleAngaben,
+  ) =>
+    context.partnerschaft === "yes" &&
+    context.zusammenleben === "yes" &&
+    context.partnerEinkommen === "no",
+  isPartnerschaftZusammenlebenEinkommenYes: (
+    context: BeratungshilfeFinanzielleAngaben,
+  ) =>
+    context.partnerschaft === "yes" &&
+    context.zusammenleben === "yes" &&
+    context.partnerEinkommen === "yes",
 };

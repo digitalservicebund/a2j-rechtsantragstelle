@@ -6,6 +6,7 @@ import {
   customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
+import { inputRequiredSchema } from "~/services/validation/inputRequired";
 
 export const beratungshilfeFinanzielleAngaben = {
   einkommen: buildMoneyValidationSchema(),
@@ -26,6 +27,14 @@ export const beratungshilfeFinanzielleAngaben = {
     ["pupil", "student", "retiree", "no"],
     customRequiredErrorMessage,
   ),
+  partnerschaft: YesNoAnswer,
+  zusammenleben: YesNoAnswer,
+  unterhalt: YesNoAnswer,
+  unterhaltsSumme: buildMoneyValidationSchema(),
+  partnerEinkommen: YesNoAnswer,
+  partnerEinkommenSumme: buildMoneyValidationSchema(),
+  partnerVorname: inputRequiredSchema,
+  partnerNachname: inputRequiredSchema,
 };
 
 const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();

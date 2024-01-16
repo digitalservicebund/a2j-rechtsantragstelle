@@ -74,6 +74,96 @@
         "einkommen": {
           "on": {
             "BACK": "#beruf.weiteres-einkommen",
+            "SUBMIT": "#partner.partnerschaft"
+          }
+        }
+      }
+    },
+    "partner": {
+      "id": "partner",
+      "initial": "partnerschaft",
+      "states": {
+        "partnerschaft": {
+          "on": {
+            "BACK": "#einkommen.einkommen",
+            "SUBMIT": [
+              {
+                "cond": "partnerschaftNo",
+                "target": "#besitz.besitz"
+              },
+              {
+                "cond": "partnerschaftYes",
+                "target": "zusammenleben"
+              }
+            ]
+          }
+        },
+        "zusammenleben": {
+          "on": {
+            "BACK": "partnerschaft",
+            "SUBMIT": [
+              {
+                "cond": "zusammenlebenYes",
+                "target": "partner-einkommen"
+              },
+              {
+                "cond": "zusammenlebenNo",
+                "target": "unterhalt"
+              }
+            ]
+          }
+        },
+        "unterhalt": {
+          "on": {
+            "BACK": "zusammenleben",
+            "SUBMIT": [
+              {
+                "cond": "unterhaltYes",
+                "target": "unterhalts-summe"
+              },
+              {
+                "cond": "unterhaltNo",
+                "target": "keine-rolle"
+              }
+            ]
+          }
+        },
+        "keine-rolle": {
+          "on": {
+            "BACK": "unterhalt",
+            "SUBMIT": "#besitz.besitz"
+          }
+        },
+        "unterhalts-summe": {
+          "on": {
+            "BACK": "unterhalt",
+            "SUBMIT": "partner-name"
+          }
+        },
+        "partner-name": {
+          "on": {
+            "BACK": "unterhalts-summe",
+            "SUBMIT": "#besitz.besitz"
+          }
+        },
+        "partner-einkommen": {
+          "on": {
+            "BACK": "zusammenleben",
+            "SUBMIT": [
+              {
+                "cond": "partnerEinkommenYes",
+                "target": "partner-einkommen-summe"
+              },
+              {
+                "cond": "partnerEinkommenNo",
+                "target": "#besitz.besitz"
+              }
+            ]
+          }
+        },
+        "partner-einkommen-summe": {
+          "on": {
+            "BACK": "partner-einkommen",
             "SUBMIT": "#besitz.besitz"
           }
         }
@@ -86,10 +176,26 @@
           "on": {
             "BACK": [
               {
-                "cond": "staatlicheLeistungenIsBuergergeld",
-                "target": "#beruf.staatliche-leistungen"
+                "cond": "partnerschaftNo",
+                "target": "#partner.partnerschaft"
               },
-              "#einkommen.einkommen"
+              {
+                "cond": "isPartnerschaftZusammenlebenEinkommenNo",
+                "target": "#partner.partner-einkommen"
+              },
+              {
+                "cond": "isPartnerschaftZusammenlebenEinkommenYes",
+                "target": "#partner.partner-einkommen-summe"
+              },
+              {
+                "cond": "unterhaltNo",
+                "target": "#partner.keine-rolle"
+              },
+              {
+                "cond": "unterhaltYes",
+                "target": "#partner.partner-name"
+              },
+              "#partner.partnerschaft"
             ],
             "SUBMIT": "#danke"
           }
