@@ -37,7 +37,7 @@ const widthClass = (width: string) => {
 };
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  (
+  function InputComponent(
     {
       name,
       label,
@@ -52,7 +52,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       formId,
     },
     ref,
-  ) => {
+  ) {
     const { error, getInputProps } = useField(name, { formId });
     const errorId = `${name}-error`;
     const helperId = `${name}-helper`;
