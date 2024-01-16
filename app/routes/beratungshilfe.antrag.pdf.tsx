@@ -13,7 +13,7 @@ const isANewAttachmentPageNeeded = (context: BeratungshilfeAntragContext) => {
   const descriptions = [];
 
   if (context.bereich) {
-    // TODO move to strapi
+    // TODO move to another function and use strapi as a source
     const bereichMapping = {
       authorities: "Behörden",
       living: "Wohnen",
