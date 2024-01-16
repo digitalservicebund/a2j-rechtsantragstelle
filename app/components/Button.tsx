@@ -2,13 +2,15 @@ import classNames from "classnames";
 import { cloneElement, type ReactElement } from "react";
 import { z } from "zod";
 
+const iconSchema = z.custom<ReactElement<{ className: string }>>().optional();
+
 export const ButtonPropsSchema = z.object({
   text: z.string().optional(),
   look: z.enum(["primary", "secondary", "tertiary", "ghost"]).optional(),
   size: z.enum(["large", "medium", "small"]).optional(),
   href: z.string().optional(),
-  iconLeft: z.custom<ReactElement>().optional(),
-  iconRight: z.custom<ReactElement>().optional(),
+  iconLeft: iconSchema,
+  iconRight: iconSchema,
   fullWidth: z.boolean().optional(),
   downloadFile: z.string().optional(),
 });
@@ -18,7 +20,7 @@ type Props = z.infer<typeof ButtonPropsSchema>;
 interface ButtonProps extends React.ComponentPropsWithoutRef<"button">, Props {}
 interface ButtonLinkProps extends React.ComponentPropsWithoutRef<"a">, Props {}
 
-function formatIcon(icon: ReactElement | undefined) {
+function formatIcon(icon: z.infer<typeof iconSchema>) {
   if (!icon) return undefined;
   const className = `ds-button-icon ${icon.props.className ?? ""}`;
   return cloneElement(icon, { className });
