@@ -1,27 +1,15 @@
+import { type Translations } from "~/services/cms/index.server";
 import Background from "./Background";
 import Box from "./Box";
 import Container from "./Container";
 
-// TODO: Temporary, these values should actually be fetched from the CMS
-const keyTranslations: Record<string, string> = {
-  startAirport: "Startflughafen",
-  endAirport: "Zielflughafen",
-  fluggesellschaft: "Fluggesellschaft",
-  bereich: "Problem",
-};
-
-const fieldTranslations: Record<string, string> = {
-  lufthansa: "Deutsche Lufthansa AG",
-  nichtbefoerderung: "Keine Beförderung",
-  verspaetet: "Verspätete Beförderung",
-  annulierung: "Annulierung",
-  anderes: "Etwas anderes",
-};
-
 const lookupOrKey = (key: string, lookup: Record<string, string>) =>
   key in lookup ? lookup[key] : key;
 
-type MigrationDataProps = { migrationData: Record<string, unknown> };
+type MigrationDataProps = {
+  migrationData: Record<string, unknown>;
+  translations: Translations;
+};
 
 export default function MigrationDataOverview(props: MigrationDataProps) {
   if (Object.keys(props.migrationData).length == 0) return false;
@@ -33,9 +21,9 @@ export default function MigrationDataOverview(props: MigrationDataProps) {
             markdown: Object.entries(props.migrationData)
               .map(
                 ([key, field]) =>
-                  `**${lookupOrKey(key, keyTranslations)}:**\n\n${lookupOrKey(
+                  `**${lookupOrKey(key, props.translations)}:**\n\n${lookupOrKey(
                     field as string,
-                    fieldTranslations,
+                    props.translations,
                   )}\n\n`,
               )
               .join(""),

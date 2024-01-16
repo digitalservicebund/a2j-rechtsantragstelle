@@ -17,6 +17,8 @@ export type GetStrapiEntryOpts = {
   pageSize?: string;
 };
 
+export type Translations = Record<string, string>;
+
 const getStrapiEntry =
   config().CMS === "FILE" ? getStrapiEntryFromFile : getStrapiEntryFromApi;
 
@@ -60,14 +62,18 @@ export async function fetchCollectionEntry<
   return collectionSchemas[apiId].parse(strapiEntry);
 }
 
-export const strapiTranslation = async (
+export const fetchTranslations = async (
   name: string,
   locale?: StrapiLocale,
-) => {
-  const entry = fetchCollectionEntry("translations", name, "scope", locale);
-  return Object.fromEntries(
-    (await entry).field.map(({ name, value }) => [name, value]),
-  );
+): Promise<Translations> => {
+  try {
+    const entry = fetchCollectionEntry("translations", name, "scope", locale);
+    return Object.fromEntries(
+      (await entry).field.map(({ name, value }) => [name, value]),
+    );
+  } catch {
+    return {};
+  }
 };
 
 export const strapiPageFromRequest = async ({

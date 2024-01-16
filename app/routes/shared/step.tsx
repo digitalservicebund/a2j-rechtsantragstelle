@@ -12,6 +12,7 @@ import {
   fetchCollectionEntry,
   fetchMeta,
   fetchSingleEntry,
+  fetchTranslations,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/buildFlowController";
 import { type AllContexts, buildStepValidator } from "~/models/flows/common";
@@ -95,11 +96,13 @@ export const loader = async ({
     ? pathname.replace("fluggastrechte", "geld-einklagen")
     : pathname;
 
-  const [commonContent, formPageContent, parentMeta] = await Promise.all([
-    fetchSingleEntry("vorab-check-common"),
-    fetchCollectionEntry(currentFlow.cmsSlug, lookupPath),
-    fetchMeta({ filterValue: parentFromParams(pathname, params) }),
-  ]);
+  const [commonContent, formPageContent, parentMeta, translations] =
+    await Promise.all([
+      fetchSingleEntry("vorab-check-common"),
+      fetchCollectionEntry(currentFlow.cmsSlug, lookupPath),
+      fetchMeta({ filterValue: parentFromParams(pathname, params) }),
+      fetchTranslations(flowId),
+    ]);
 
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
   const mainHeading = formPageContent.pre_form.filter(
@@ -156,6 +159,7 @@ export const loader = async ({
       ...cmsContent,
       meta,
       migrationData,
+      translations,
       progress: flowController.getProgress(stepId),
       templateReplacements: {
         ...("stringReplacements" in currentFlow
@@ -297,6 +301,7 @@ export function StepWithPreHeading() {
     migrationData,
     templateReplacements,
     buttonNavigationProps,
+    translations,
     navItems,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
@@ -340,7 +345,10 @@ export function StepWithPreHeading() {
             />
           </div>
 
-          <MigrationDataOverview migrationData={migrationData} />
+          <MigrationDataOverview
+            migrationData={migrationData}
+            translations={translations}
+          />
           <ValidatedForm
             id={`${stepId}_form`}
             method="post"
