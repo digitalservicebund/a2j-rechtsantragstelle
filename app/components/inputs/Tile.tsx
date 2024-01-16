@@ -1,5 +1,4 @@
 import { z } from "zod";
-import type { ReactNode } from "react";
 import { useField } from "remix-validated-form";
 import Image, { ImagePropsSchema } from "../Image";
 import RichText from "../RichText";

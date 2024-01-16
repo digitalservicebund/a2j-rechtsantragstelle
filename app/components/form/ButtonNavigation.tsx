@@ -1,7 +1,7 @@
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 
-export type NavigationButton = {
+type NavigationButton = {
   destination?: string;
   label: string;
   downloadFile?: string;
