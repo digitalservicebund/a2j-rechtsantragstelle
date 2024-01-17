@@ -4,10 +4,11 @@
   "id": "finanzielleAngaben",
   "states": {
     "start": {
-      "on": { "SUBMIT": "#beruf.staatliche-leistungen" }
+      "on": { "SUBMIT": "#einkommen.staatliche-leistungen" }
     },
-    "beruf": {
-      "id": "beruf",
+    "einkommen": {
+      "id": "einkommen",
+      "initial": "einkommen",
       "states": {
         "staatliche-leistungen": {
           "on": {
@@ -61,19 +62,13 @@
         },
         "weiteres-einkommen": {
           "on": {
-            "SUBMIT": "#einkommen.einkommen",
+            "SUBMIT": "einkommen",
             "BACK": "situation"
           }
-        }
-      }
-    },
-    "einkommen": {
-      "id": "einkommen",
-      "initial": "einkommen",
-      "states": {
+        },
         "einkommen": {
           "on": {
-            "BACK": "#beruf.weiteres-einkommen",
+            "BACK": "weiteres-einkommen",
             "SUBMIT": "#partner.partnerschaft"
           }
         }
@@ -208,11 +203,11 @@
         "BACK": [
           {
             "cond": "staatlicheLeistungenIsAsylbewerberleistungen",
-            "target": "#beruf.staatliche-leistungen"
+            "target": "#einkommen.staatliche-leistungen"
           },
           {
             "cond": "staatlicheLeistungenIsGrundsicherung",
-            "target": "#beruf.staatliche-leistungen"
+            "target": "#einkommen.staatliche-leistungen"
           },
           {
             "cond": "staatlicheLeistungenIsBuergergeld",
