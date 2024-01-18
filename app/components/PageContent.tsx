@@ -33,6 +33,7 @@ import List from "./List";
 import TileGroup from "./inputs/TileGroup";
 import { renderCheckboxFromStrapi } from "~/services/cms/models/StrapiCheckbox";
 import { renderDateInputFromStrapi } from "~/services/cms/models/StrapiDateInput";
+import { renderTimeInputFromStrapi } from "~/services/cms/models/StrapiTimeInput";
 import { renderFileInputFromStrapi } from "~/services/cms/models/StrapiFileInput";
 import { renderAlertFromStrapi } from "~/services/cms/models/StrapiAlert";
 
@@ -89,6 +90,8 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
       return <Input {...getInputProps(replacedTemplate)} key={key} />;
     case "form-elements.date-input":
       return renderDateInputFromStrapi(replacedTemplate);
+    case "form-elements.time-input":
+      return renderTimeInputFromStrapi(replacedTemplate);
     case "form-elements.file-input":
       return renderFileInputFromStrapi(replacedTemplate);
     case "form-elements.textarea":

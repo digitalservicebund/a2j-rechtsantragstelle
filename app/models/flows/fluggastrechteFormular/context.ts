@@ -19,6 +19,7 @@ import {
   checkedRequired,
 } from "~/services/validation/checkedCheckbox";
 import { dateSchema } from "~/services/validation/date";
+import { timeSchema } from "~/services/validation/time";
 
 const FileUploadDummySchema = z.string().or(z.object({})).or(z.array(z.any()));
 
@@ -32,22 +33,22 @@ export const fluggastrechtContext = {
   schriftverkehr: FileUploadDummySchema,
   singleFlugnummer: inputRequiredSchema,
   singleAbflugDatum: dateSchema,
-  singleAbflugZeit: inputRequiredSchema,
+  singleAbflugZeit: timeSchema,
   singleAnkunftDatum: dateSchema,
-  singleAnkunftZeit: inputRequiredSchema,
+  singleAnkunftZeit: timeSchema,
   zwischenstoppFlugnummer: inputRequiredSchema,
   zwischenstoppAbflugDatum: dateSchema,
-  zwischenstoppAbflugZeit: inputRequiredSchema,
+  zwischenstoppAbflugZeit: timeSchema,
   zwischenstoppAnkunftDatum: dateSchema,
-  zwischenstoppAnkunftZeit: inputRequiredSchema,
+  zwischenstoppAnkunftZeit: timeSchema,
   zwischenstoppFlugnummer2: inputRequiredSchema,
   zwischenstoppAbflugDatum2: dateSchema,
-  zwischenstoppAbflugZeit2: inputRequiredSchema,
+  zwischenstoppAbflugZeit2: timeSchema,
   zwischenstoppAnkunftDatum2: dateSchema,
-  zwischenstoppAnkunftZeit2: inputRequiredSchema,
+  zwischenstoppAnkunftZeit2: timeSchema,
   zwischenstoppFlughafen: z.union([airportSchema, z.literal("")]),
   ankunftsDatum: dateSchema, // TODO: validate as German date in the past
-  ankunftsZeit: inputRequiredSchema,
+  ankunftsZeit: timeSchema,
   ankunftsFlugnummer: inputRequiredSchema,
   ankunftWithSameFlight: YesNoAnswer,
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
