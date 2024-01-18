@@ -2,7 +2,7 @@ import type { PropsWithChildren } from "react";
 import classNames from "classnames";
 
 type ButtonContainerProps = PropsWithChildren & {
-  reverseOrder?: boolean;
+  readonly reverseOrder?: boolean;
 };
 
 const ButtonContainer = ({ children, reverseOrder }: ButtonContainerProps) => {

@@ -24,7 +24,7 @@ const ListItem = ({
   content,
   buttons,
   numeric,
-}: ListItemProps & { numeric?: number }) => {
+}: ListItemProps & { readonly numeric?: number }) => {
   return (
     <div
       key={identifier}

@@ -4,12 +4,12 @@ import InputError from "./InputError";
 import RichText from "../RichText";
 
 type CheckboxProps = {
-  name: string;
-  value?: string; // Defaults to "on", see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input/checkbox#value
-  label?: string;
-  formId?: string;
-  required?: boolean;
-  errorMessage?: string;
+  readonly name: string;
+  readonly value?: string; // Defaults to "on", see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input/checkbox#value
+  readonly label?: string;
+  readonly formId?: string;
+  readonly required?: boolean;
+  readonly errorMessage?: string;
 };
 
 const Checkbox = ({

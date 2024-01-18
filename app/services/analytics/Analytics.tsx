@@ -10,8 +10,8 @@ import type { StrapiCookieBanner } from "~/services/cms/models/StrapiCookieBanne
 export const acceptCookiesFieldName = "accept-cookies";
 
 type AnalyticsProps = {
-  hasTrackingConsent?: boolean;
-  content: StrapiCookieBanner;
+  readonly hasTrackingConsent?: boolean;
+  readonly content: StrapiCookieBanner;
 };
 
 export function CookieBanner({ hasTrackingConsent, content }: AnalyticsProps) {

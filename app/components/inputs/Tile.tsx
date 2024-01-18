@@ -19,7 +19,7 @@ const Tile = ({
   title,
   image,
   onClick,
-}: TileProps & { name: string; onClick: () => void }) => {
+}: TileProps & { readonly name: string; readonly onClick: () => void }) => {
   const { error, getInputProps } = useField(name);
   const id = `${name}-${value}`;
 

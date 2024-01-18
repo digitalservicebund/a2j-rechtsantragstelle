@@ -7,7 +7,7 @@ const DEFAULT_PADDING_TOP = "40";
 const DEFAULT_PADDING_BOTTOM = "48";
 
 type ContainerProps = {
-  overhangingBackground?: boolean;
+  readonly overhangingBackground?: boolean;
 } & PropsWithChildren<CommonWrapperProps>;
 
 export default function Container({

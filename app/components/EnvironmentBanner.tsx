@@ -4,7 +4,7 @@ import Background from "./Background";
 import Container from "./Container";
 
 type EnvironmentBannerProps = {
-  environmentBannerLabel: string | null | undefined;
+  readonly environmentBannerLabel: string | null | undefined;
 };
 
 export function EnvironmentBanner({

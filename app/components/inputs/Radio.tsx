@@ -2,10 +2,10 @@ import type { ReactNode } from "react";
 import { useField } from "remix-validated-form";
 
 type RadioProps = {
-  name: string;
-  value: string;
-  onClick?: () => void;
-  text?: ReactNode;
+  readonly name: string;
+  readonly value: string;
+  readonly onClick?: () => void;
+  readonly text?: ReactNode;
 };
 
 const Radio = ({ name, value, onClick, text }: RadioProps) => {

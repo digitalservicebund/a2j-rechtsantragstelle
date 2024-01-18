@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
 
 type InputLabelProps = PropsWithChildren<{
-  id: string;
+  readonly id: string;
 }>;
 
 const InputLabel = ({ id, children }: InputLabelProps) => {

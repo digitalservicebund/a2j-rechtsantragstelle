@@ -7,8 +7,8 @@ const lookupOrKey = (key: string, lookup: Record<string, string>) =>
   key in lookup ? lookup[key] : key;
 
 type MigrationDataProps = {
-  migrationData: Record<string, unknown>;
-  translations: Translations;
+  readonly migrationData: Record<string, unknown>;
+  readonly translations: Translations;
 };
 
 export default function MigrationDataOverview(props: MigrationDataProps) {

@@ -1,8 +1,8 @@
 interface ProgressBarProps {
-  progress: number;
-  max: number;
-  fallback?: string;
-  label?: string;
+  readonly progress: number;
+  readonly max: number;
+  readonly fallback?: string;
+  readonly label?: string;
 }
 
 export function ProgressBar({

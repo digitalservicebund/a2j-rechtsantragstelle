@@ -7,7 +7,7 @@ export const RichTextPropsSchema = z.object({
 });
 
 type RichTextProps = z.infer<typeof RichTextPropsSchema> & {
-  renderer?: Partial<Renderer>;
+  readonly renderer?: Partial<Renderer>;
 };
 
 const defaultRenderer: Partial<Renderer> = {

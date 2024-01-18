@@ -45,8 +45,8 @@ export function ErrorBox({
   errorPages,
   context,
 }: {
-  errorPages?: ErrorPages;
-  context: AppLoadContext;
+  readonly errorPages?: ErrorPages;
+  readonly context: AppLoadContext;
 }) {
   const routerError = useRouteError();
   let content: StrapiPage["content"] = [fallbackStrapiInfoBox];

@@ -9,7 +9,11 @@ export type NavItem = {
   state: NavState;
 };
 
-export default function FlowNavigation({ navItems }: { navItems: NavItem[] }) {
+export default function FlowNavigation({
+  navItems,
+}: {
+  readonly navItems: NavItem[];
+}) {
   return (
     <ul>
       {navItems.map(({ destination, label, state }) => (

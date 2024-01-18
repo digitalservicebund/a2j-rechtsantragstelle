@@ -33,11 +33,11 @@ export const feedbackValidator = withZod(
 );
 
 export interface FeedbackBoxProps {
-  destination: string;
-  heading: string;
-  placeholder: string;
-  abortButtonLabel: string;
-  submitButtonLabel: string;
+  readonly destination: string;
+  readonly heading: string;
+  readonly placeholder: string;
+  readonly abortButtonLabel: string;
+  readonly submitButtonLabel: string;
 }
 
 export const FeedbackFormBox = ({

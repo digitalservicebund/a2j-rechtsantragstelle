@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 });
 
 type DescriptionsProps = {
-  descriptions: {
+  readonly descriptions: {
     title: string;
     text: string;
   }[];

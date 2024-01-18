@@ -3,7 +3,7 @@ import Container from "./Container";
 import Heading from "./Heading";
 
 type CourtFinderHeaderProps = PropsWithChildren<{
-  label: string;
+  readonly label: string;
 }>;
 
 const CourtFinderHeader = ({ label, children }: CourtFinderHeaderProps) => {

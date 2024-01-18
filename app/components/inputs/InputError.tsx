@@ -2,7 +2,7 @@ import ErrorOutline from "@digitalservicebund/icons/ErrorOutline";
 import type { PropsWithChildren } from "react";
 
 type InputErrorProps = PropsWithChildren<{
-  id: string;
+  readonly id: string;
 }>;
 
 const InputError = ({ id, children }: InputErrorProps) => {

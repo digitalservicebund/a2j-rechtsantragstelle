@@ -2,8 +2,8 @@ import Heading from "../Heading";
 import RichText from "../RichText";
 
 export interface PostSubmissionBoxProps {
-  heading: string;
-  text: string;
+  readonly heading: string;
+  readonly text: string;
 }
 
 export const PostSubmissionBox = ({

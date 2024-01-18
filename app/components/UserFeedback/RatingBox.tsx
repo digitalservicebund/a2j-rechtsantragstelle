@@ -9,11 +9,11 @@ import Heading from "../Heading";
 export const userRatingFieldname = "wasHelpful";
 
 export interface RatingBoxProps {
-  heading: string;
-  url: string;
-  context?: string;
-  yesButtonLabel: string;
-  noButtonLabel: string;
+  readonly heading: string;
+  readonly url: string;
+  readonly context?: string;
+  readonly yesButtonLabel: string;
+  readonly noButtonLabel: string;
 }
 
 export const RatingBox = ({

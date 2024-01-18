@@ -8,8 +8,8 @@ type NavigationButton = {
 };
 
 interface ButtonNavigationProps {
-  back?: NavigationButton;
-  next?: NavigationButton;
+  readonly back?: NavigationButton;
+  readonly next?: NavigationButton;
 }
 
 export function ButtonNavigation({ back, next }: ButtonNavigationProps) {

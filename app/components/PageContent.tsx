@@ -37,9 +37,9 @@ import { renderFileInputFromStrapi } from "~/services/cms/models/StrapiFileInput
 import { renderAlertFromStrapi } from "~/services/cms/models/StrapiAlert";
 
 type PageContentProps = {
-  content: Array<StrapiContent>;
-  templateReplacements?: Replacements;
-  className?: string;
+  readonly content: Array<StrapiContent>;
+  readonly templateReplacements?: Replacements;
+  readonly className?: string;
 };
 
 export const keyFromElement = (element: StrapiContent) =>

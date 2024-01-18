@@ -21,9 +21,9 @@ function humanFileSize(size: number) {
 }
 
 interface FileListProps extends React.ComponentPropsWithoutRef<"li"> {
-  filename: string;
-  filesize?: number;
-  onRemove?: () => void;
+  readonly filename: string;
+  readonly filesize?: number;
+  readonly onRemove?: () => void;
 }
 
 const FileListItem = ({
@@ -50,7 +50,7 @@ const FileListItem = ({
   </li>
 );
 
-function UploadZone(props: { name: string }) {
+function UploadZone(props: { readonly name: string }) {
   const [files, setFiles] = useState<FileMap>({});
 
   const onDrop = useCallback(
