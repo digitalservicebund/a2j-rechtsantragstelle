@@ -46,7 +46,7 @@ function verifyExternalLinks(allowedList: Array<string>, regexPattern: RegExp) {
   const filePath = process.env.CONTENT_FILE_PATH ?? "./content.json";
   const content = fs.readFileSync(filePath, "utf-8");
 
-  const linksFromContent = content.match(regexPattern);
+  const linksFromContent = regexPattern.exec(content);
 
   if (linksFromContent) {
     for (const link of linksFromContent) {
