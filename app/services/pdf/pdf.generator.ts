@@ -90,7 +90,7 @@ const generate = async () => {
     properties: {} as { [k: string]: any },
   };
 
-  const sortedFields = fields.sort((x, y) =>
+  const sortedFields = [...fields].sort((x, y) =>
     x.getName().localeCompare(y.getName()),
   );
 
