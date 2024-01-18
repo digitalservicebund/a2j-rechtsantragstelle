@@ -20,3 +20,4 @@ Dockerfile
 *.sh
 *.pdf
 *.generated.ts
+sonar-project.properties
