@@ -41,7 +41,7 @@ async function licensesFromPackageJson(direct = false): Promise<ModuleInfos> {
 }
 
 const licenseMentionable = (dependency: Dependency) =>
-  dependency.direct ||
+  dependency.direct ??
   !(
     typeof dependency.licenses === "string" &&
     notMentionableLicenses.includes(dependency.licenses)

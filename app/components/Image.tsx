@@ -13,16 +13,11 @@ type ImageProps = z.infer<typeof ImagePropsSchema>;
 
 function Image({ url, width, height, alternativeText, ...props }: ImageProps) {
   if (!url) return null;
-
-  // when no alternative text is given, the image is treated
-  // as a decorative image
-  const decorativeImage = "";
-
   return (
     <img
       {...props}
       src={url}
-      alt={alternativeText || decorativeImage}
+      alt={alternativeText ?? ""} // without alternative text an image is treated as decorative
       width={width}
       height={height}
     />
