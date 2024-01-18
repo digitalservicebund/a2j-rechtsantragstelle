@@ -19,15 +19,15 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
-      "tests/*": ["./tests/*"]
+      "tests/*": ["./tests/*"],
     },
     // Remix takes care of building everything in `remix build`.
-    "noEmit": true
+    "noEmit": true,
   },
   "watchOptions": {
-    "excludeDirectories": ["build", "public/build"]
+    "excludeDirectories": ["build", "public/build"],
   },
   "ts-node": {
-    "require": ["tsconfig-paths/register"]
-  }
+    "require": ["tsconfig-paths/register"],
+  },
 }
