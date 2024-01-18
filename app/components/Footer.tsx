@@ -12,11 +12,13 @@ const LinkPropsSchema = z.object({
 
 type LinkProps = z.infer<typeof LinkPropsSchema>;
 
-export const FooterPropsSchema = z.object({
-  image: ImagePropsSchema.optional(),
-  paragraphs: z.array(RichTextPropsSchema),
-  links: z.array(LinkPropsSchema),
-});
+export const FooterPropsSchema = z
+  .object({
+    image: ImagePropsSchema.optional(),
+    paragraphs: z.array(RichTextPropsSchema),
+    links: z.array(LinkPropsSchema),
+  })
+  .readonly();
 
 type FooterProps = z.infer<typeof FooterPropsSchema>;
 

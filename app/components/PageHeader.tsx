@@ -1,11 +1,13 @@
 import { z } from "zod";
 import { EnvironmentBanner } from "./EnvironmentBanner";
 
-export const PageHeaderPropsSchema = z.object({
-  title: z.string(),
-  linkLabel: z.string(),
-  environmentBannerLabel: z.string().nullish(),
-});
+export const PageHeaderPropsSchema = z
+  .object({
+    title: z.string(),
+    linkLabel: z.string(),
+    environmentBannerLabel: z.string().nullish(),
+  })
+  .readonly();
 type PageHeaderProps = z.infer<typeof PageHeaderPropsSchema>;
 
 export default function Header({
