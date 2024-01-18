@@ -3,6 +3,11 @@ import { useEffect, useState } from "react";
 import InputError from "./InputError";
 import RichText from "../RichText";
 
+export enum CheckboxValue {
+  on = "on",
+  off = "off",
+}
+
 type CheckboxProps = {
   readonly name: string;
   readonly value?: string; // Defaults to "on", see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input/checkbox#value
@@ -14,13 +19,16 @@ type CheckboxProps = {
 
 const Checkbox = ({
   name,
-  value = "on",
+  value = CheckboxValue.on,
   label,
   formId,
   required = false,
   errorMessage,
 }: CheckboxProps) => {
-  const { error, getInputProps, defaultValue } = useField(name, { formId });
+  const { error, getInputProps } = useField(name, { formId });
+  const defaultValue = useField(name, { formId }).defaultValue as
+    | CheckboxValue
+    | undefined;
   const errorId = `${name}-error`;
   const className = `ds-checkbox ${error ? "has-error" : ""}`;
   // HTML Forms do not send unchecked checkboxes.
@@ -36,7 +44,7 @@ const Checkbox = ({
   return (
     <div>
       {(!jsAvailable || renderHiddenField) && (
-        <input type="hidden" name={name} value="off" />
+        <input type="hidden" name={name} value={CheckboxValue.off} />
       )}
       <input
         {...getInputProps({ type: "checkbox", id: name, value })}

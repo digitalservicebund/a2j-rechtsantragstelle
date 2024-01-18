@@ -1,6 +1,7 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import _ from "lodash";
+import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeAntragContext } from "~/models/flows/beratungshilfeFormular";
 import type { BeratungshilfePDF } from "~/services/pdf/beratungshilfe/beratungshilfe.generated";
 import {
@@ -64,7 +65,7 @@ const isANewAttachmentPageNeeded = (context: BeratungshilfeAntragContext) => {
 
 function getSelectedOptions(
   mapping: { [key: string]: string },
-  options?: { [key: string]: "on" | "off" },
+  options?: { [key: string]: CheckboxValue },
 ) {
   if (!options) {
     return "";
@@ -72,7 +73,7 @@ function getSelectedOptions(
 
   return Object.entries(options)
     .map(([key, value]) => {
-      if (value === "on") {
+      if (value === CheckboxValue.on) {
         return mapping[key];
       }
       return "";
