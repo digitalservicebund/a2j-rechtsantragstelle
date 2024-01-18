@@ -1,6 +1,6 @@
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import type { DataFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
@@ -38,7 +38,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ content, meta });
 };
 
-export const action = async ({ request }: DataFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const data = await validator.validate(await request.formData());
   if (data.error) return validationError(data.error, data.submittedData);
   return json(data.data);
