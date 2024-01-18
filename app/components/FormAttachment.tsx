@@ -60,8 +60,8 @@ const FormAttachment = ({ descriptions }: DescriptionsProps) => {
           <Text style={styles.pageHeader}>
             Anhang zum Antrag auf Beratungshilfe
           </Text>
-          {descriptions.map((description, index) => (
-            <View key={index} style={styles.section}>
+          {descriptions.map((description) => (
+            <View key={description.title} style={styles.section}>
               <Text style={styles.title}>{description.title}</Text>
               <Text style={styles.text}>{description.text}</Text>
             </View>
