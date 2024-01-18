@@ -7,7 +7,10 @@ import { gerichtskostenFromBetrag } from "../gerichtskosten";
 import persoenlicheDatenFlow from "../persoenlicheDaten/config.json";
 
 function forderungFromEntfernung(entfernung: number) {
-  return entfernung < 1500 ? 250 : entfernung < 3500 ? 400 : 600;
+  // TODO: handle negative distance?
+  if (entfernung < 1500) return 250;
+  if (entfernung < 3500) return 400;
+  return 600;
 }
 
 export const fluggastrechtFlow = {

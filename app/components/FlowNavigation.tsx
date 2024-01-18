@@ -9,6 +9,13 @@ export type NavItem = {
   state: NavState;
 };
 
+const StateIcon = ({ state }: { readonly state: NavState }) => {
+  if (state === NavState.Current) return <RadioButtonCheckedOutlinedIcon />;
+  if (state === NavState.DoneDisabled || state === NavState.Done)
+    return <CheckCircleOutlineIcon className="text-green-800" />;
+  return <CircleOutlinedIcon />;
+};
+
 export default function FlowNavigation({
   navItems,
 }: {
@@ -37,13 +44,7 @@ export default function FlowNavigation({
               NavState.OpenDisabled,
             ].includes(state)}
           >
-            {state === NavState.Current ? (
-              <RadioButtonCheckedOutlinedIcon />
-            ) : [NavState.DoneDisabled, NavState.Done].includes(state) ? (
-              <CheckCircleOutlineIcon className="text-green-800" />
-            ) : (
-              <CircleOutlinedIcon />
-            )}
+            <StateIcon state={state} />
             {label}
           </a>
         </li>
