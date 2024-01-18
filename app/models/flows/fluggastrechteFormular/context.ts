@@ -20,6 +20,7 @@ import {
 } from "~/services/validation/checkedCheckbox";
 import { dateSchema } from "~/services/validation/date";
 import { timeSchema } from "~/services/validation/time";
+import { integerSchema } from "~/services/validation/integer";
 
 const FileUploadDummySchema = z.string().or(z.object({})).or(z.array(z.any()));
 
@@ -57,7 +58,7 @@ export const fluggastrechtContext = {
   ...namePrivatPerson,
   volljaehrig: YesNoAnswer,
   gesetzlicheVertretung: YesNoAnswer,
-  entfernung: z.coerce.number().min(1),
+  entfernung: integerSchema,
   teilentschaedigung: YesNoAnswer,
   frist: z.string(), // TODO: validate as German date in the future
   nebenforderungen: z.object({

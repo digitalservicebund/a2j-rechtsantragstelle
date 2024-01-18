@@ -18,7 +18,7 @@ export const fluggastrechtFlow = {
   stringReplacements: (context: AllContexts) => {
     if (!("zwischenstopps" in context)) return {};
     return {
-      entfernung: context.entfernung?.toString(),
+      entfernung: context.entfernung?.toLocaleString("de"),
       startAirport: context.startAirport,
       endAirport: context.endAirport,
       zwischenstoppAirport: context.zwischenstoppFlughafen,
