@@ -35,7 +35,9 @@ const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
           <i>{infos.publisher}</i>
         </>
       )}
-      <> - License: {infos.licenses}</>
+      {infos.licenses &&
+        infos.licenses.length > 0 &&
+        ` - License: ${Array.isArray(infos.licenses) ? infos.licenses.join(", ") : infos.licenses}`}
     </li>
   );
 };
