@@ -18,7 +18,7 @@ import {
   checkedOptional,
   checkedRequired,
 } from "~/services/validation/checkedCheckbox";
-import { dateSchema } from "~/services/validation/date";
+import { createDateSchema, today, addDays } from "~/services/validation/date";
 import { timeSchema } from "~/services/validation/time";
 import { integerSchema } from "~/services/validation/integer";
 
@@ -33,22 +33,22 @@ export const fluggastrechtContext = {
   buchungsbestaetigung: FileUploadDummySchema,
   schriftverkehr: FileUploadDummySchema,
   singleFlugnummer: inputRequiredSchema,
-  singleAbflugDatum: dateSchema,
+  singleAbflugDatum: createDateSchema(),
   singleAbflugZeit: timeSchema,
-  singleAnkunftDatum: dateSchema,
+  singleAnkunftDatum: createDateSchema(),
   singleAnkunftZeit: timeSchema,
   zwischenstoppFlugnummer: inputRequiredSchema,
-  zwischenstoppAbflugDatum: dateSchema,
+  zwischenstoppAbflugDatum: createDateSchema(),
   zwischenstoppAbflugZeit: timeSchema,
-  zwischenstoppAnkunftDatum: dateSchema,
+  zwischenstoppAnkunftDatum: createDateSchema(),
   zwischenstoppAnkunftZeit: timeSchema,
   zwischenstoppFlugnummer2: inputRequiredSchema,
-  zwischenstoppAbflugDatum2: dateSchema,
+  zwischenstoppAbflugDatum2: createDateSchema(),
   zwischenstoppAbflugZeit2: timeSchema,
-  zwischenstoppAnkunftDatum2: dateSchema,
+  zwischenstoppAnkunftDatum2: createDateSchema(),
   zwischenstoppAnkunftZeit2: timeSchema,
   zwischenstoppFlughafen: z.union([airportSchema, z.literal("")]),
-  ankunftsDatum: dateSchema, // TODO: validate as German date in the past
+  ankunftsDatum: createDateSchema({ latest: () => today() }),
   ankunftsZeit: timeSchema,
   ankunftsFlugnummer: inputRequiredSchema,
   ankunftWithSameFlight: YesNoAnswer,
@@ -60,7 +60,10 @@ export const fluggastrechtContext = {
   gesetzlicheVertretung: YesNoAnswer,
   entfernung: integerSchema,
   teilentschaedigung: YesNoAnswer,
-  frist: z.string(), // TODO: validate as German date in the future
+  frist: createDateSchema({
+    earliest: () => addDays(today(), -3 * 365),
+    latest: () => addDays(today(), -1),
+  }),
   nebenforderungen: z.object({
     verzugszinsen: checkedOptional,
     prozesszinsen: checkedOptional,

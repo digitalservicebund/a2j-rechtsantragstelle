@@ -1,5 +1,5 @@
 import type { SafeParseError } from "zod";
-import { dateSchema } from "~/services/validation/date";
+import { createDateSchema } from "~/services/validation/date";
 
 describe("date validation", () => {
   describe("success cases", () => {
@@ -8,7 +8,7 @@ describe("date validation", () => {
     test.each(cases)(
       "given $input, returns $expected",
       ({ input, expected }) => {
-        const actual = dateSchema.safeParse(input);
+        const actual = createDateSchema().safeParse(input);
         expect(actual).toEqual({ data: expected, success: true });
       },
     );
@@ -27,12 +27,22 @@ describe("date validation", () => {
       { input: "01.01.23", errorMessage: "format" },
       { input: "40.10.2010", errorMessage: "invalid" },
       { input: "10.20.2010", errorMessage: "invalid" },
+      {
+        input: "01.01.2020",
+        errorMessage: "too_early",
+        earliest: () => new Date("2020-01-02"),
+      },
+      {
+        input: "02.01.2020",
+        errorMessage: "too_late",
+        latest: () => new Date("2020-01-01"),
+      },
     ];
 
     test.each(cases)(
       "given $input, returns $errorMessage",
-      ({ input, errorMessage }) => {
-        const actual = dateSchema.safeParse(input);
+      ({ input, errorMessage, earliest, latest }) => {
+        const actual = createDateSchema({ earliest, latest }).safeParse(input);
         expect(actual.success).toBe(false);
         expect(
           (actual as SafeParseError<unknown>).error.issues[0].message,

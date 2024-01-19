@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { namePrivatPerson, adresse } from "../../persoenlicheDaten/context";
-import { dateSchema } from "~/services/validation/date";
+import { createDateSchema } from "~/services/validation/date";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 
 export const beratungshilfePersoenlicheDaten = {
   ...namePrivatPerson,
-  geburtsdatum: dateSchema,
+  geburtsdatum: createDateSchema(),
   ...adresse,
   telefonnummer: phoneNumberSchema.or(z.string().max(0)), //either optional or proper phone number
 };
