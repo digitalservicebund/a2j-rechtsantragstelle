@@ -10,7 +10,6 @@ export type NavItem = {
 };
 
 const StateIcon = ({ state }: { readonly state: NavState }) => {
-  if (state === NavState.Current) return <RadioButtonCheckedOutlinedIcon />;
   if (state === NavState.DoneDisabled || state === NavState.Done)
     return <CheckCircleOutlineIcon className="text-green-800" />;
   return <CircleOutlinedIcon />;
@@ -60,11 +59,7 @@ function navItem(
           state,
         )}
       >
-        {[NavState.DoneDisabled, NavState.Done].includes(state) ? (
-          <CheckCircleOutlineIcon className="text-green-800" />
-        ) : (
-          <CircleOutlinedIcon />
-        )}
+        <StateIcon state={state} />
         {label}
       </a>
       {subflows.length > 0 && (
@@ -99,11 +94,7 @@ function navSubflowItem(destination: string, state: NavState, label: string) {
           state,
         )}
       >
-        {[NavState.DoneDisabled, NavState.Done].includes(state) ? (
-          <CheckCircleOutlineIcon className="text-green-800" />
-        ) : (
-          <CircleOutlinedIcon />
-        )}
+        <StateIcon state={state} />
         {label}
       </a>
     </li>
