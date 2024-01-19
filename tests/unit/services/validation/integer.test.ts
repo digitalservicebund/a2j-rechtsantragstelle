@@ -8,6 +8,8 @@ describe("integer", () => {
       { input: "1000", expected: 1000 },
       { input: "1.000", expected: 1000 },
       { input: "1.000.000", expected: 1000000 },
+      { input: "1000,9", expected: 1001 },
+      { input: "1.000.000,1", expected: 1000000 },
     ];
 
     test.each(cases)(
@@ -23,9 +25,11 @@ describe("integer", () => {
     const cases = [
       { input: "", errorMessage: "required" },
       { input: "    ", errorMessage: "required" },
+      { input: "10a", errorMessage: "invalidInteger" },
       { input: "1.0", errorMessage: "invalidInteger" },
       { input: "1000.0", errorMessage: "invalidInteger" },
-      { input: "1000,0", errorMessage: "invalidInteger" },
+      { input: "1000,0,", errorMessage: "invalidInteger" },
+      { input: "100.0,", errorMessage: "invalidInteger" },
     ];
 
     test.each(cases)(
