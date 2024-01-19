@@ -8,7 +8,7 @@
     },
     "einkommen": {
       "id": "einkommen",
-      "initial": "einkommen",
+      "initial": "staatliche-leistungen",
       "states": {
         "staatliche-leistungen": {
           "on": {
@@ -166,6 +166,7 @@
     },
     "besitz": {
       "id": "besitz",
+      "initial": "besitz",
       "states": {
         "besitz": {
           "on": {

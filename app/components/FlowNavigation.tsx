@@ -1,12 +1,12 @@
 import CheckCircleOutlineIcon from "@digitalservicebund/icons/CheckCircleOutline";
 import CircleOutlinedIcon from "@digitalservicebund/icons/CircleOutlined";
-import RadioButtonCheckedOutlinedIcon from "@digitalservicebund/icons/RadioButtonCheckedOutlined";
 import { NavState } from "~/services/flowNavigation";
 
 export type NavItem = {
   destination: string;
   label: string;
   state: NavState;
+  subflows?: NavItem[];
 };
 
 const StateIcon = ({ state }: { readonly state: NavState }) => {
@@ -23,32 +23,89 @@ export default function FlowNavigation({
 }) {
   return (
     <ul>
-      {navItems.map(({ destination, label, state }) => (
-        <li
-          key={destination}
-          className="p-16 list-none border-b-2 border-white"
-        >
-          <a
-            href={destination}
-            className={`flex gap-x-16 items-center ${
-              state === NavState.Current
-                ? "ds-label-02-bold"
-                : "ds-label-02-reg hover:font-bold"
-            } ${
-              [NavState.DoneDisabled, NavState.OpenDisabled].includes(state)
-                ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none"
-                : ""
-            }`}
-            aria-disabled={[
-              NavState.DoneDisabled,
-              NavState.OpenDisabled,
-            ].includes(state)}
-          >
-            <StateIcon state={state} />
-            {label}
-          </a>
-        </li>
-      ))}
+      {navItems.map(({ destination, label, state, subflows }) =>
+        navItem(destination, state, label, subflows),
+      )}
     </ul>
+  );
+}
+
+function navItem(
+  destination: string,
+  state: NavState,
+  label: string,
+  subflows = [] as NavItem[],
+) {
+  return (
+    <li
+      key={destination}
+      className={"list-none border-t-2 border-white first:border-t-0"}
+    >
+      <a
+        href={destination}
+        className={`p-16 flex gap-x-16 items-center 
+        ${
+          state === NavState.Current
+            ? "ds-label-02-bold"
+            : "ds-label-02-reg hover:font-bold"
+        } 
+        ${
+          [NavState.DoneDisabled, NavState.OpenDisabled].includes(state)
+            ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none"
+            : ""
+        }
+        ${subflows.length > 0 ? "border-b-2 border-white" : ""}
+      `}
+        aria-disabled={[NavState.DoneDisabled, NavState.OpenDisabled].includes(
+          state,
+        )}
+      >
+        {[NavState.DoneDisabled, NavState.Done].includes(state) ? (
+          <CheckCircleOutlineIcon className="text-green-800" />
+        ) : (
+          <CircleOutlinedIcon />
+        )}
+        {label}
+      </a>
+      {subflows.length > 0 && (
+        <ul className="pt-8 pl-32 mr-8 pl-0 min-w-fit max-w-fit  md:min-w-[250px] md:max-w-[250px] break-words">
+          {subflows.map(({ destination, label, state }) =>
+            navSubflowItem(destination, state, label),
+          )}
+        </ul>
+      )}
+    </li>
+  );
+}
+
+function navSubflowItem(destination: string, state: NavState, label: string) {
+  return (
+    <li key={destination} className="list-none">
+      <a
+        href={destination}
+        className={`p-16 flex gap-x-16 items-center 
+        ${
+          state === NavState.Current
+            ? "ds-label-02-bold"
+            : "ds-label-02-reg hover:font-bold"
+        } 
+        ${
+          [NavState.DoneDisabled, NavState.OpenDisabled].includes(state)
+            ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none"
+            : ""
+        }
+        `}
+        aria-disabled={[NavState.DoneDisabled, NavState.OpenDisabled].includes(
+          state,
+        )}
+      >
+        {[NavState.DoneDisabled, NavState.Done].includes(state) ? (
+          <CheckCircleOutlineIcon className="text-green-800" />
+        ) : (
+          <CircleOutlinedIcon />
+        )}
+        {label}
+      </a>
+    </li>
   );
 }

@@ -33,7 +33,7 @@ export const flowSpecifics = {
 
 export function getSubflowsEntries(flow: FlowConfig["flow"]) {
   if (!flow.states) return [];
-  return Object.entries(flow.states).filter(([_, state]) => "states" in state);
+  return Object.entries(flow.states).filter(([, state]) => "states" in state);
 }
 
 export type FlowSpecifics = typeof flowSpecifics;

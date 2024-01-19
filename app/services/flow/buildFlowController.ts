@@ -16,6 +16,7 @@ export type Meta = {
   progressPosition: number | undefined;
   isUneditable: boolean | undefined;
   done: (context: Context) => boolean | undefined;
+  subflowDone: (context: Context, subflowId: string) => boolean | undefined;
   buttonNavigationProps?: {
     next?: {
       destination?: string;
@@ -78,6 +79,8 @@ export const buildFlowController = ({
     getMeta,
     isDone: (currentStepId: string) =>
       Boolean(getMeta(currentStepId)?.done(context)),
+    isSubflowDone: (currentStepId: string, subflowId: string) =>
+      Boolean(getMeta(currentStepId)?.subflowDone(context, subflowId)),
     isUneditable: (currentStepId: string) =>
       Boolean(getMeta(currentStepId)?.isUneditable),
     getFlow: () => config,

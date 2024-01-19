@@ -20,6 +20,7 @@ import {
   type BeratungshilfeFinanzielleAngaben,
   beratungshilfeFinanzielleAngaben,
   beratungshilfeFinanzielleAngabeDone,
+  beratungshilfeFinanzielleAngabenSubflowDone,
 } from "./finanzielleAngaben/context";
 import {
   type BeratungshilfePersoenlicheDaten,
@@ -68,7 +69,10 @@ export const beratungshilfeAntrag = {
         },
       }),
       finanzielleAngaben: _.merge(_.cloneDeep(finanzielleAngabenFlow), {
-        meta: { done: beratungshilfeFinanzielleAngabeDone },
+        meta: {
+          done: beratungshilfeFinanzielleAngabeDone,
+          subflowDone: beratungshilfeFinanzielleAngabenSubflowDone,
+        },
         states: {
           start: { on: { BACK: "#rechtsproblem.danke" } },
           danke: { on: { SUBMIT: "#persoenlicheDaten.start" } },

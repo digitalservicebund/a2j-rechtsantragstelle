@@ -40,18 +40,39 @@ export const beratungshilfeFinanzielleAngaben = {
 const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();
 export type BeratungshilfeFinanzielleAngaben = z.infer<typeof contextObject>;
 
-const besitzAngabeDone = (context: BeratungshilfeFinanzielleAngaben) => true;
-const berufAngabeDone = (context: BeratungshilfeFinanzielleAngaben) =>
-  context.erwerbstaetig !== undefined && context.einkommen !== undefined;
-
 export const beratungshilfeFinanzielleAngabeDone = (
   context: BeratungshilfeFinanzielleAngaben,
 ) =>
-  context.staatlicheLeistungen === "grundsicherung" ||
-  context.staatlicheLeistungen === "asylbewerberleistungen" ||
-  (context.staatlicheLeistungen === "buergergeld" &&
-    besitzAngabeDone(context)) ||
-  ((context.staatlicheLeistungen === "andereLeistung" ||
-    context.staatlicheLeistungen === "keine") &&
-    berufAngabeDone(context) &&
-    besitzAngabeDone(context));
+  beratungshilfeFinanzielleAngabenEinkommenDone(context) &&
+  beratungshilfeFinanzielleAngabenPartnerDone(context);
+
+export const beratungshilfeFinanzielleAngabenSubflowDone = (
+  context: BeratungshilfeFinanzielleAngaben,
+  subflowId: string,
+) => {
+  switch (subflowId) {
+    case "einkommen":
+      return beratungshilfeFinanzielleAngabenEinkommenDone(context);
+    case "partner":
+      return beratungshilfeFinanzielleAngabenPartnerDone(context);
+    default:
+      return false;
+  }
+};
+
+const beratungshilfeFinanzielleAngabenPartnerDone = (
+  context: BeratungshilfeFinanzielleAngaben,
+) =>
+  context.partnerschaft == "no" ||
+  context.unterhalt == "no" ||
+  context.partnerEinkommen == "no" ||
+  context.partnerEinkommenSumme != undefined ||
+  (context.partnerNachname != undefined && context.partnerVorname != undefined);
+
+const beratungshilfeFinanzielleAngabenEinkommenDone = (
+  context: BeratungshilfeFinanzielleAngaben,
+) =>
+  context.staatlicheLeistungen == "asylbewerberleistungen" ||
+  context.staatlicheLeistungen == "buergergeld" ||
+  context.staatlicheLeistungen == "grundsicherung" ||
+  context.einkommen != undefined;

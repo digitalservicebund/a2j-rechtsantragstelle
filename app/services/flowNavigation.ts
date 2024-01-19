@@ -4,6 +4,8 @@ import {
   type FlowSpecifics,
 } from "~/routes/shared/flowSpecifics";
 import { type buildFlowController } from "./flow/buildFlowController";
+import _ from "lodash";
+import { type Translations } from "./cms/index.server";
 
 export enum NavState {
   DoneDisabled,
@@ -16,27 +18,64 @@ export enum NavState {
 export function navItemsFromFlowSpecifics(
   currentStepId: string,
   flowController: ReturnType<typeof buildFlowController>,
-  labels?: Record<string, string>,
+  translation: Translations = {},
 ): NavItem[] {
   const currentFlow =
     flowController.getFlow() as FlowSpecifics[keyof FlowSpecifics]["flow"];
 
-  return getSubflowsEntries(currentFlow).map(([rootStateName, { initial }]) => {
+  const flowRoot = currentFlow.id ?? "";
+
+  return getSubflowsEntries(currentFlow).map(([rootStateName, flowEntry]) => {
     const destinationStepId = `${rootStateName}/${
-      typeof initial === "string" ? initial : ""
+      typeof flowEntry.initial === "string" ? flowEntry.initial : ""
     }`;
-    const pathPrefix = currentStepId.includes("/") ? ".." : "."; // account for both nested and non-nested steps
-    const label =
-      labels && rootStateName in labels ? labels[rootStateName] : rootStateName;
+
+    const subflows =
+      "states" in flowEntry
+        ? Object.entries(flowEntry.states || {}).filter(
+            ([, state]) => "states" in state,
+          )
+        : [];
+    const rootLabel = translation[rootStateName] ?? flowEntry.key ?? "No key";
     return {
-      destination: `${pathPrefix}/${destinationStepId}`,
-      label,
+      destination: flowRoot + destinationStepId,
+      label: rootLabel,
       state: navState({
         isCurrent: currentStepId.startsWith(rootStateName),
         isReachable: flowController.isReachable(destinationStepId),
         isDone: flowController.isDone(rootStateName),
         isUneditable: flowController.isUneditable(rootStateName),
       }),
+      subflows:
+        currentStepId.startsWith(rootStateName) && subflows.length > 0
+          ? _.flatten(
+              subflows.map((entry) => {
+                const subflow = entry[1] ?? {};
+                const subflowKey = entry[0] ?? "No key";
+                const subflowRoot = `${rootStateName}/${subflow?.id ?? ""}`;
+                const subflowDestionationStepId = `${subflowRoot}/${
+                  typeof subflow?.initial === "string" ? subflow?.initial : ""
+                }`;
+                const subflowLabel = translation[subflowRoot] ?? subflowKey;
+
+                return {
+                  destination: flowRoot + subflowDestionationStepId,
+                  label: subflowLabel ?? subflowKey,
+                  state: navState({
+                    isCurrent: currentStepId.startsWith(
+                      subflowDestionationStepId,
+                    ),
+                    isReachable: true,
+                    isDone: flowController.isSubflowDone(
+                      rootStateName,
+                      subflowKey,
+                    ),
+                    isUneditable: flowController.isUneditable(subflowRoot),
+                  }),
+                };
+              }),
+            )
+          : [],
     };
   });
 }

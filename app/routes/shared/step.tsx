@@ -19,7 +19,6 @@ import { type AllContexts, buildStepValidator } from "~/models/flows/common";
 import {
   flowIDFromPathname,
   flowSpecifics,
-  getSubflowsEntries,
   parentFromParams,
   splatFromParams,
 } from "./flowSpecifics";
@@ -96,13 +95,19 @@ export const loader = async ({
     ? pathname.replace("fluggastrechte", "geld-einklagen")
     : pathname;
 
-  const [commonContent, formPageContent, parentMeta, translations] =
-    await Promise.all([
-      fetchSingleEntry("vorab-check-common"),
-      fetchCollectionEntry(currentFlow.cmsSlug, lookupPath),
-      fetchMeta({ filterValue: parentFromParams(pathname, params) }),
-      fetchTranslations(flowId),
-    ]);
+  const [
+    commonContent,
+    formPageContent,
+    parentMeta,
+    translations,
+    navTranslations,
+  ] = await Promise.all([
+    fetchSingleEntry("vorab-check-common"),
+    fetchCollectionEntry(currentFlow.cmsSlug, lookupPath),
+    fetchMeta({ filterValue: parentFromParams(pathname, params) }),
+    fetchTranslations(flowId),
+    fetchTranslations(`${flowId}/menu`),
+  ]);
 
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
   const mainHeading = formPageContent.pre_form.filter(
@@ -133,15 +138,6 @@ export const loader = async ({
   };
 
   const cmsContent = structureCmsContent(formPageContent);
-  const navigationLabels = Object.fromEntries(
-    await Promise.all(
-      getSubflowsEntries(currentFlow.flow).map(([subflowName]) =>
-        fetchMeta({ filterValue: `/${flowId}/${subflowName}` }).then(
-          (meta) => [subflowName, meta?.title ?? ""] as [string, string],
-        ),
-      ),
-    ),
-  );
 
   const buttonNavigationProps = getButtonNavigationProps({
     commonContent,
@@ -170,7 +166,7 @@ export const loader = async ({
       navItems: navItemsFromFlowSpecifics(
         stepId,
         flowController,
-        navigationLabels,
+        navTranslations,
       ),
     },
     { headers },
