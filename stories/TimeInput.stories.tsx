@@ -18,7 +18,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     name: "arrivalTime",
-    label: <span>arrival time</span>,
+    label: "arrival time",
     formId: "formId",
     helperText: "Please write in HH:MM format",
     width: "5",

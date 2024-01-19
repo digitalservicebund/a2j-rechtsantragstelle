@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { useField } from "remix-validated-form";
 import classNames from "classnames";
 import InputError from "./InputError";
@@ -9,9 +8,9 @@ import React from "react";
 
 export const InputPropsSchema = z.object({
   name: z.string(),
-  label: z.custom<ReactNode>().optional(),
+  label: z.string().optional(),
   type: z.string().optional(),
-  step: z.string().optional(),
+  step: z.string().or(z.number()).optional(),
   placeholder: z.string().optional(),
   prefix: z.string().optional(),
   suffix: z.string().optional(),
