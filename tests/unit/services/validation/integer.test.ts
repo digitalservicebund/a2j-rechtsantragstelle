@@ -25,7 +25,7 @@ describe("integer", () => {
     const cases = [
       { input: "", errorMessage: "required" },
       { input: "    ", errorMessage: "required" },
-      { input: "10a", errorMessage: "invalidInteger" },
+      { input: "10a", errorMessage: "invalidNumber" },
       { input: "1.0", errorMessage: "invalidInteger" },
       { input: "1000.0", errorMessage: "invalidInteger" },
       { input: "1000,0,", errorMessage: "invalidInteger" },
