@@ -9,11 +9,13 @@
   "license": "MIT",
   "private": true,
   "sideEffects": false,
+  "type": "module",
   "scripts": {
-    "build": "remix build",
     "build-storybook": "storybook build --output-dir=public/storybook",
-    "dev": "remix dev",
     "dumpCmsToFile": "tsx ./app/services/cms/dumpCmsToFile.ts dumpCmsToFile",
+    "dev": "remix vite:dev",
+    "build": "remix vite:build",
+    "start": "remix-serve ./build/server/index.js",
     "eslint": "eslint . --fix",
     "eslint:check": "eslint --cache .",
     "generate:pdf": "tsx ./app/services/pdf/pdf.generator.ts",
@@ -21,7 +23,6 @@
     "init": "lefthook install",
     "prettier": "prettier --write . --ignore-path .prettierignore",
     "prettier:check": "prettier --check . --ignore-path .prettierignore",
-    "start": "remix-serve build",
     "storybook": "storybook dev -p 6006",
     "test": "jest --testPathPattern=/tests/unit/ --maxWorkers=50%",
     "test:coverage": "jest --testPathPattern=/tests/unit/ --maxWorkers=50% --coverage --collectCoverageFrom='./app/**'",
@@ -111,7 +112,10 @@
     "tailwindcss": "^3.4.1",
     "ts-jest": "^29.1.2",
     "tsx": "^4.7.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12",
+    "vite-plugin-cjs-interop": "^2.0.3",
+    "vite-tsconfig-paths": "^4.3.1"
   },
   "engines": {
     "node": ">=20"

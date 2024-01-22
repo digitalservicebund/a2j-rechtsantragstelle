@@ -4,10 +4,10 @@ module.exports = {
   moduleNameMapper: {
     "~/(.*)": "<rootDir>/app/$1",
     "tests/(.*)": "<rootDir>/tests/$1",
-    "^.+\\.css$": "<rootDir>/tests/cssStub.js",
+    "^.+\\.css$": "<rootDir>/tests/cssStub.cjs",
   },
   preset: "ts-jest",
   setupFiles: ["<rootDir>/tests/setup.tests.ts"],
-  setupFilesAfterEnv: ["<rootDir>/tests/setupAfterEnv.tests.js"],
-  resolver: "<rootDir>/tests/resolver.js",
+  setupFilesAfterEnv: ["<rootDir>/tests/setupAfterEnv.tests.cjs"],
+  resolver: "<rootDir>/tests/resolver.cjs",
 };

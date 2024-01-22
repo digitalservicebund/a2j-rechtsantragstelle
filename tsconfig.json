@@ -1,5 +1,5 @@
 {
-  "include": ["remix.env.d.ts", "app/", "tests/", "stories/"],
+  "include": ["env.d.ts", "app/", "tests/", "stories/"],
   "compilerOptions": {
     "preserveSymlinks": true,
     "incremental": true,
@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
+    "module": "ESNext",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "target": "ES2022",
