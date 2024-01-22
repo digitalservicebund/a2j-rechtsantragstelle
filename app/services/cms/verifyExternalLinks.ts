@@ -50,6 +50,9 @@ function verifyExternalLinks(allowedList: Array<string>, regexPattern: RegExp) {
 
   if (linksFromContent) {
     for (const link of linksFromContent) {
+      // skip this for now
+      if (link == "https") continue;
+
       const rejectedUrl = !allowedList.some((allowedLinks) =>
         link.includes(allowedLinks),
       );
