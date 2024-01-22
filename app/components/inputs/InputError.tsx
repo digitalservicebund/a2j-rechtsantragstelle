@@ -9,14 +9,14 @@ const InputError = ({ id, children }: InputErrorProps) => {
   return (
     <div aria-live="assertive">
       {children && (
-        <div
+        <p
           id={id}
           data-testid="inputError"
-          className="mt-4 text-red-800 flex items-center gap-x-4"
+          className="mt-4 text-red-800 flex gap-x-4"
         >
-          <ErrorOutline className="!w-18 !h-18" />
+          <ErrorOutline className="w-20 h-20 shrink-0 mt-2" />
           <span className="sr-only">Fehler:</span> {children}
-        </div>
+        </p>
       )}
     </div>
   );
