@@ -3,6 +3,7 @@ import { IMaskMixin } from "react-imask";
 
 type MaskedInputProps = InputProps & {
   readonly mask: string | RegExp;
+  readonly eager?: boolean | ("remove" | "append");
 };
 
 const MaskedStyledInput = IMaskMixin<HTMLInputElement, InputProps>(

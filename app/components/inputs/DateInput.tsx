@@ -8,6 +8,7 @@ const DateInput = (props: InputProps) => {
       type="number"
       placeholder="TT.MM.JJJJ"
       width="10"
+      eager={"append"}
       {...props}
     />
   );
