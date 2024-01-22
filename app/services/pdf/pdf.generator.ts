@@ -73,6 +73,7 @@ const generate = async () => {
         value: {
           type: "string",
         },
+        require: true,
       },
       additionalProperties: false,
     },
@@ -84,15 +85,20 @@ const generate = async () => {
     properties: {},
   };
 
+  const sortedFields = [...fields].sort((x, y) =>
+    x.getName().localeCompare(y.getName()),
+  );
+
+  const requiredFields = sortedFields.map((field) =>
+    normalizePropertyName(field.getName()),
+  );
+
   const jsonPDF = {
     type: "object",
     additionalProperties: false,
     properties: {} as { [k: string]: any },
+    required: requiredFields,
   };
-
-  const sortedFields = [...fields].sort((x, y) =>
-    x.getName().localeCompare(y.getName()),
-  );
 
   sortedFields.forEach((field) => {
     const fieldName = normalizePropertyName(field.getName());
@@ -106,6 +112,8 @@ const generate = async () => {
       $ref: ref,
     };
   });
+  jsonPDF.required = requiredFields;
+
   quickTypeJSONSchema["definitions"][definitionName] = jsonPDF;
 
   const schemaInput = new JSONSchemaInput(new FetchingJSONSchemaStore());
