@@ -41,8 +41,7 @@ export const getStrapiEntryFromFile = async ({
 
   // search for the locale
   let contentItem = contentItems.find(
-    (item) =>
-      !("locale" in item.attributes) || item.attributes.locale == locale,
+    (item) => "locale" in item.attributes && item.attributes.locale == locale,
   );
 
   if (!contentItem) {
