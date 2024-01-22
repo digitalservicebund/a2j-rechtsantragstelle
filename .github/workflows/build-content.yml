@@ -52,14 +52,8 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
 
-      - name: Remove possible cached folders
-        run: |
-          rm -rf ./app
-          rm -rf ./public
-          rm -rf ./build
-
       - id: fetchLatestImageApp
-        run: ./docker.sh --appFromImage && mv --force ./a2j-app/* ./
+        run: ./docker.sh --appFromImage && rsync -a ./a2j-app/* ./
 
       - name: Run Playwright e2e tests
         env:
