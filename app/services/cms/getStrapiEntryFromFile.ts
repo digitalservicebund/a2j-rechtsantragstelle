@@ -27,18 +27,22 @@ export const getStrapiEntryFromFile = async ({
     }
   }
 
+  const filterField = opts.filterField ?? "slug";
+
   const contentItems = [...content[opts.apiId]].filter(
     (item) =>
       !(
         opts.filterValue &&
-        "slug" in item.attributes &&
-        item.attributes.slug !== opts.filterValue
+        filterField in item.attributes &&
+        item.attributes[filterField as keyof typeof item.attributes] !==
+          opts.filterValue
       ),
   );
 
   // search for the locale
   let contentItem = contentItems.find(
-    (item) => "locale" in item.attributes && item.attributes.locale == locale,
+    (item) =>
+      !("locale" in item.attributes) || item.attributes.locale == locale,
   );
 
   if (!contentItem) {
