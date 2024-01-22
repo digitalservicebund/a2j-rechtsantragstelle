@@ -63,6 +63,9 @@ export const beratungshilfeFinanzielleAngabenSubflowDone = (
 const beratungshilfeFinanzielleAngabenPartnerDone = (
   context: BeratungshilfeFinanzielleAngaben,
 ) =>
+  context.staatlicheLeistungen == "asylbewerberleistungen" ||
+  context.staatlicheLeistungen == "buergergeld" ||
+  context.staatlicheLeistungen == "grundsicherung" ||
   context.partnerschaft == "no" ||
   context.unterhalt == "no" ||
   context.partnerEinkommen == "no" ||

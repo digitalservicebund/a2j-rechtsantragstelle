@@ -16,14 +16,16 @@ export const getButtonNavigationProps = ({
   isFinal: boolean;
 }) => {
   return {
-    next: isFinal
-      ? undefined
-      : {
-          label: nextButtonLabel ?? commonContent.nextButtonDefaultLabel,
-          destination: configMetadata?.buttonNavigationProps?.next?.destination,
-          downloadFile:
-            configMetadata?.buttonNavigationProps?.next?.downloadFile,
-        },
+    next:
+      isFinal && !configMetadata?.buttonNavigationProps?.next
+        ? undefined
+        : {
+            label: nextButtonLabel ?? commonContent.nextButtonDefaultLabel,
+            destination:
+              configMetadata?.buttonNavigationProps?.next?.destination,
+            downloadFile:
+              configMetadata?.buttonNavigationProps?.next?.downloadFile,
+          },
     back: {
       destination: previousStepUrl,
       label: commonContent.backButtonDefaultLabel,

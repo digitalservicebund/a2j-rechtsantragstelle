@@ -62,9 +62,7 @@ export function navItemsFromFlowSpecifics(
                   destination: flowRoot + subflowDestionationStepId,
                   label: subflowLabel ?? subflowKey,
                   state: navState({
-                    isCurrent: currentStepId.startsWith(
-                      subflowDestionationStepId,
-                    ),
+                    isCurrent: currentStepId.startsWith(subflowRoot),
                     isReachable: true,
                     isDone: flowController.isSubflowDone(
                       rootStateName,
