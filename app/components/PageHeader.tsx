@@ -1,23 +1,16 @@
 import { z } from "zod";
-import { EnvironmentBanner } from "./EnvironmentBanner";
 
 export const PageHeaderPropsSchema = z
   .object({
     title: z.string(),
     linkLabel: z.string(),
-    environmentBannerLabel: z.string().nullish(),
   })
   .readonly();
 type PageHeaderProps = z.infer<typeof PageHeaderPropsSchema>;
 
-export default function Header({
-  title,
-  linkLabel,
-  environmentBannerLabel,
-}: PageHeaderProps) {
+export default function Header({ title, linkLabel }: PageHeaderProps) {
   return (
     <header>
-      <EnvironmentBanner environmentBannerLabel={environmentBannerLabel} />
       <div className="py-20 px-16">
         <a
           href="/"
