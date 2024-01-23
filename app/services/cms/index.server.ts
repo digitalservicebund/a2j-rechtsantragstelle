@@ -7,6 +7,8 @@ import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
 import type { z } from "zod";
 import type { CollectionSchemas, EntrySchemas } from "./schemas";
 import { collectionSchemas, entrySchemas } from "./schemas";
+import { httpErrorCodes } from "../errorPages/ErrorBox";
+import type { StrapiPage } from "./models/StrapiPage";
 
 export type GetStrapiEntryOpts = {
   apiId: keyof StrapiFileContent;
@@ -84,3 +86,23 @@ export const strapiPageFromRequest = async ({
   locale?: StrapiLocale;
 }) =>
   await fetchCollectionEntry("pages", new URL(request.url).pathname, locale);
+
+export async function fetchErrors() {
+  const cmsErrorSlug = "/error/";
+
+  const errorPagePromises = httpErrorCodes.map((errorCode) =>
+    fetchCollectionEntry("pages", `${cmsErrorSlug}${errorCode}`),
+  );
+
+  const errorPageEntries = (await Promise.allSettled(errorPagePromises))
+    .filter(
+      (promise): promise is PromiseFulfilledResult<StrapiPage> =>
+        promise.status === "fulfilled",
+    )
+    .map((errorPage) => [
+      errorPage.value.slug.replace(cmsErrorSlug, ""),
+      errorPage.value.content,
+    ]) satisfies [string, StrapiPage["content"]][];
+
+  return Object.fromEntries(errorPageEntries);
+}

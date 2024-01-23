@@ -23,14 +23,18 @@ import fontBold from "~/../public/fonts/BundesSansWeb-Bold.woff2";
 import ogImage from "~/../public/og-image.png";
 import { withSentry } from "@sentry/remix";
 import { config as configWeb } from "~/services/env/web";
-import { fetchMeta, fetchSingleEntry } from "~/services/cms/index.server";
+import {
+  fetchMeta,
+  fetchSingleEntry,
+  fetchErrors,
+} from "~/services/cms/index.server";
 import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import Footer from "./components/Footer";
 import Breadcrumbs from "./components/Breadcrumbs";
 import Header from "./components/PageHeader";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { CookieBanner } from "./services/analytics/Analytics";
-import { ErrorBox, getErrorPages } from "./services/errorPages";
+import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { useNonce } from "./services/security/nonce";
 import { metaFromMatches } from "./services/metaFromMatches";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
@@ -98,7 +102,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchSingleEntry("footer"),
     fetchSingleEntry("cookie-banner"),
     hasTrackingConsent({ request }),
-    getErrorPages(),
+    fetchErrors(),
     fetchMeta({ filterValue: "/" }),
   ]);
 
