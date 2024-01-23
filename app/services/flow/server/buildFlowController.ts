@@ -1,5 +1,5 @@
 import type { MachineConfig } from "xstate";
-import { createMachine } from "xstate";
+import { createMachine, setup } from "xstate";
 import { getShortestPaths } from "@xstate/graph";
 import { getStateValueString } from "~/services/flow/getStateValueString";
 import type { Context } from "~/models/flows/contexts";
@@ -7,10 +7,16 @@ import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzi
 
 type Event = "SUBMIT" | "BACK";
 type StateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
-type StateMachine = ReturnType<
-  typeof createMachine<Context, StateMachineEvents>
->;
-export type Config = MachineConfig<Context, any, StateMachineEvents>;
+
+const genericMachine = setup({
+  types: {} as {
+    context: Context;
+    events: StateMachineEvents;
+  },
+});
+
+type StateMachine = typeof genericMachine;
+export type Config = MachineConfig<Context, StateMachineEvents>;
 export type Guards = Record<string, (context: Context) => boolean>;
 export type Meta = {
   customEventName?: string;
