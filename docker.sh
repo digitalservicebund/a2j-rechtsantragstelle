@@ -135,19 +135,19 @@ case $1 in
         echo "Pushing $APP_IMAGE..."
         docker push --all-tags $APP_IMAGE
         echo "Signing $APP_IMAGE with cosign"
-        cosign sign --yes $APP_IMAGE
+        # cosign sign --yes $APP_IMAGE
         ;;
     content)
         echo "Pushing $CONTENT_IMAGE..."
         docker push --all-tags $CONTENT_IMAGE
         echo "Signing $CONTENT_IMAGE with cosign"
-        cosign sign --yes $CONTENT_IMAGE
+        # cosign sign --yes $CONTENT_IMAGE
         ;;
     prod)
         echo "Pushing $PROD_IMAGE..."
         docker push --all-tags $PROD_IMAGE
         echo "Signing $PROD_IMAGE with cosign"
-        cosign sign --yes $PROD_IMAGE
+        # cosign sign --yes $PROD_IMAGE
         ;;
     esac
     ;;

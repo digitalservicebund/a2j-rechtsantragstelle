@@ -96,7 +96,7 @@ jobs:
         with:
           name: "${{ env.VULNERABILITY_SCAN_RECORD }}"
       - run: ./docker.sh --push prod
-      - run: ./docker.sh --attest
+      # - run: ./docker.sh --attest
       - id: prod_image_tag
         run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
     outputs:
