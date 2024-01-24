@@ -67,9 +67,9 @@ case $1 in
     exit 0
     ;;
 --attest)
-    cosign attest --yes --replace --predicate vuln-backend.json --type vuln $APP_IMAGE
-    cosign attest --yes --replace --predicate vuln-backend.json --type vuln $CONTENT_IMAGE
-    cosign attest --yes --replace --predicate vuln-backend.json --type vuln $PROD_IMAGE
+    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $APP_IMAGE
+    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $CONTENT_IMAGE
+    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $PROD_IMAGE
     exit 0
     ;;
 --contentFromImage)
