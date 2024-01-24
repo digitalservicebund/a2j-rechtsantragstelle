@@ -47,7 +47,7 @@ export function navItemsFromFlowSpecifics(
         isUneditable: flowController.isUneditable(rootStateName),
       }),
       subflows:
-        currentStepId.startsWith(rootStateName) && subflows.length > 0
+        subflows.length > 0
           ? _.flatten(
               subflows.map((entry) => {
                 const subflow = entry[1] ?? {};

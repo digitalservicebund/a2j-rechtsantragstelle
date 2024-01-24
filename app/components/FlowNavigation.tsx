@@ -35,6 +35,26 @@ function navItem(
   label: string,
   subflows = [] as NavItem[],
 ) {
+  const relevantSubflows = subflows.filter((subflow, index) => {
+    const isCurrentState = subflow.state === NavState.Current;
+    const isDoneState = subflow.state === NavState.Done;
+    const isReachableState = [
+      NavState.Open,
+      NavState.Current,
+      NavState.Done,
+    ].includes(subflow.state);
+
+    const previousSubflow = subflows[index - 1];
+    const previousSubflowState = previousSubflow?.state ?? NavState.Done;
+    const isPreviousSubflowReachable = previousSubflowState === NavState.Done;
+
+    return (
+      isCurrentState ||
+      isDoneState ||
+      (isReachableState && isPreviousSubflowReachable)
+    );
+  });
+
   return (
     <li
       key={destination}
@@ -53,7 +73,7 @@ function navItem(
             ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none"
             : ""
         }
-        ${subflows.length > 0 ? "border-b-2 border-white" : ""}
+        ${relevantSubflows.length > 0 ? "border-b-2 border-white" : ""}
       `}
         aria-disabled={[NavState.DoneDisabled, NavState.OpenDisabled].includes(
           state,
@@ -62,13 +82,17 @@ function navItem(
         <StateIcon state={state} />
         {label}
       </a>
-      {subflows.length > 0 && (
-        <ul className="pt-8 pl-32 mr-8 pl-0 min-w-fit max-w-fit  md:min-w-[250px] md:max-w-[250px] break-words">
-          {subflows.map(({ destination, label, state }) =>
-            navSubflowItem(destination, state, label),
-          )}
-        </ul>
-      )}
+      {[NavState.Current, NavState.Open, NavState.Done].includes(state) &&
+        relevantSubflows.some((subflow) =>
+          [NavState.Current, NavState.Done].includes(subflow.state),
+        ) &&
+        relevantSubflows.length > 0 && (
+          <ul className="pt-8 pl-32 mr-8 pl-0 min-w-fit max-w-fit  md:min-w-[250px] md:max-w-[250px] break-words">
+            {relevantSubflows.map(({ destination, label, state }) =>
+              navSubflowItem(destination, state, label),
+            )}
+          </ul>
+        )}
     </li>
   );
 }

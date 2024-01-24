@@ -295,13 +295,17 @@ function fillPersonalData(
   antragstellerNameVornameggfGeburtsname.value = [
     context.nachname,
     context.vorname,
-  ].join(", ");
+  ]
+    .filter((entry) => entry)
+    .join(", ");
   geburtsdatumdesAntragstellers.value = context.geburtsdatum;
   anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = [
     context.strasseHausnummer,
     context.plz,
     context.ort,
-  ].join(", ");
+  ]
+    .filter((entry) => entry)
+    .join(", ");
   tagsueberTelefonischerreichbarunterNummer.value = context.telefonnummer;
   berufErwerbstaetigkeit.value = hasStaatlicheLeistung
     ? staatlicheLeistungMapping[context.staatlicheLeistungen ?? "keine"]

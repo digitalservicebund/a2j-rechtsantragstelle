@@ -60,12 +60,16 @@ export const beratungshilfeFinanzielleAngabenSubflowDone = (
   }
 };
 
+const hasStaatlicheLeistungen = (context: BeratungshilfeFinanzielleAngaben) =>
+  context.staatlicheLeistungen == "asylbewerberleistungen" ||
+  context.staatlicheLeistungen == "buergergeld" ||
+  context.staatlicheLeistungen == "grundsicherung";
+
 const beratungshilfeFinanzielleAngabenPartnerDone = (
   context: BeratungshilfeFinanzielleAngaben,
 ) =>
-  context.staatlicheLeistungen == "asylbewerberleistungen" ||
-  context.staatlicheLeistungen == "buergergeld" ||
-  context.staatlicheLeistungen == "grundsicherung" ||
+  (context.staatlicheLeistungen != undefined &&
+    hasStaatlicheLeistungen(context)) ||
   context.partnerschaft == "no" ||
   context.unterhalt == "no" ||
   context.partnerEinkommen == "no" ||
@@ -75,7 +79,6 @@ const beratungshilfeFinanzielleAngabenPartnerDone = (
 const beratungshilfeFinanzielleAngabenEinkommenDone = (
   context: BeratungshilfeFinanzielleAngaben,
 ) =>
-  context.staatlicheLeistungen == "asylbewerberleistungen" ||
-  context.staatlicheLeistungen == "buergergeld" ||
-  context.staatlicheLeistungen == "grundsicherung" ||
+  (context.staatlicheLeistungen != undefined &&
+    hasStaatlicheLeistungen(context)) ||
   context.einkommen != undefined;
