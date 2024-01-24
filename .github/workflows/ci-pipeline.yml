@@ -91,10 +91,10 @@ jobs:
         uses: github/codeql-action/upload-sarif@81b419c908d540ec4c7da9bfb4b5d941fca8f624
         with:
           sarif_file: "trivy-results.sarif"
-      - name: Download cosign vulnerability scan record
-        uses: actions/download-artifact@v3
-        with:
-          name: "${{ env.VULNERABILITY_SCAN_RECORD }}"
+      # - name: Download cosign vulnerability scan record
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: "${{ env.VULNERABILITY_SCAN_RECORD }}"
       - run: ./docker.sh --push prod
       # - run: ./docker.sh --attest
       - id: prod_image_tag
