@@ -146,10 +146,11 @@ case $1 in
     esac
     ;;
 --sign)
-        echo "Signing images with cosign"
-        cosign sign --yes $APP_IMAGE
-        cosign sign --yes $CONTENT_IMAGE
-        cosign sign --yes $PROD_IMAGE
+    echo "Signing images with cosign"
+    cosign sign --yes $APP_IMAGE
+    cosign sign --yes $CONTENT_IMAGE
+    cosign sign --yes $PROD_IMAGE
+    ;;
 *)
     echo "Unknown command $1"
     echo "$HELP_TEXT"
