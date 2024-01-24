@@ -55,6 +55,10 @@ function navItem(
     );
   });
 
+  const isDisabled = [NavState.DoneDisabled, NavState.OpenDisabled].includes(
+    state,
+  );
+
   return (
     <li
       key={destination}
@@ -63,18 +67,18 @@ function navItem(
       <a
         href={destination}
         className={`p-16 flex gap-x-16 items-center 
-        ${
-          state === NavState.Current
-            ? "ds-label-02-bold"
-            : "ds-label-02-reg hover:font-bold"
-        } 
-        ${
-          [NavState.DoneDisabled, NavState.OpenDisabled].includes(state)
-            ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none"
-            : ""
-        }
-        ${relevantSubflows.length > 0 ? "border-b-2 border-white" : ""}
-      `}
+          ${
+            state === NavState.Current
+              ? "ds-label-02-bold"
+              : "ds-label-02-reg hover:font-bold"
+          } 
+          ${
+            isDisabled
+              ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none"
+              : ""
+          }
+          ${relevantSubflows.length > 0 && !isDisabled ? "border-b-2 border-white" : ""}
+        `}
         aria-disabled={[NavState.DoneDisabled, NavState.OpenDisabled].includes(
           state,
         )}
