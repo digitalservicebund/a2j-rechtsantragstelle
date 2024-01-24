@@ -71,18 +71,18 @@ jobs:
       - run: ./docker.sh --build app
       - run: ./docker.sh --push app
       - run: ./docker.sh --build prod
-      - name: Generate cosign vulnerability scan record
-        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
-        with:
-          image-ref: "${{ env.REGISTRY }}/${{ github.repository }}"
-          format: "cosign-vuln"
-          output: "${{ env.VULNERABILITY_SCAN_RECORD }}"
-      - name: Upload cosign vulnerability scan record
-        uses: actions/upload-artifact@v4
-        with:
-          name: "${{ env.VULNERABILITY_SCAN_RECORD }}"
-          path: "${{ env.VULNERABILITY_SCAN_RECORD }}"
-          if-no-files-found: error
+      # - name: Generate cosign vulnerability scan record
+      #   uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
+      #   with:
+      #     image-ref: "${{ env.REGISTRY }}/${{ github.repository }}"
+      #     format: "cosign-vuln"
+      #     output: "${{ env.VULNERABILITY_SCAN_RECORD }}"
+      # - name: Upload cosign vulnerability scan record
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: "${{ env.VULNERABILITY_SCAN_RECORD }}"
+      #     path: "${{ env.VULNERABILITY_SCAN_RECORD }}"
+      #     if-no-files-found: error
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
         with:
@@ -96,13 +96,13 @@ jobs:
         uses: github/codeql-action/upload-sarif@81b419c908d540ec4c7da9bfb4b5d941fca8f624
         with:
           sarif_file: "trivy-results.sarif"
-      - name: Download cosign vulnerability scan record
-        uses: actions/download-artifact@v3
-        with:
-          name: "${{ env.VULNERABILITY_SCAN_RECORD }}"
+      # - name: Download cosign vulnerability scan record
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: "${{ env.VULNERABILITY_SCAN_RECORD }}"
       - run: ./docker.sh --push prod
       - run: ./docker.sh --sign
-      - run: ./docker.sh --attest
+      # - run: ./docker.sh --attest
       - id: prod_image_tag
         run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
     outputs:
