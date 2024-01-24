@@ -97,7 +97,7 @@ jobs:
         with:
           sarif_file: "trivy-results.sarif"
       - name: Download cosign vulnerability scan record
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: "${{ env.VULNERABILITY_SCAN_RECORD }}"
       - run: ./docker.sh --push prod
