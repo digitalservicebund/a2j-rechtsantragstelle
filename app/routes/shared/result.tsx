@@ -37,8 +37,12 @@ import {
   isFeedbackForm,
 } from "~/services/feedback/handleFeedback";
 import CourtDetails from "~/components/CourtDetails";
-import { partnerCourtFromAirports } from "~/models/flows/fluggastrechte";
+import {
+  isPartnerAirport,
+  partnerCourtAirports,
+} from "~/models/flows/fluggastrechte";
 import Background from "~/components/Background";
+import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
 export const loader = async ({
   params,
@@ -106,7 +110,11 @@ export const loader = async ({
       amtsgerichtCommon,
       courts:
         cmsData.pageType === "success" &&
-        partnerCourtFromAirports([data.startAirport, data.endAirport]),
+        [data.startAirport, data.endAirport]
+          .filter(isPartnerAirport)
+          .map((airport) =>
+            findCourt({ zipCode: partnerCourtAirports[airport] }),
+          ),
     },
     { headers: { "Set-Cookie": await commitSession(session) } },
   );

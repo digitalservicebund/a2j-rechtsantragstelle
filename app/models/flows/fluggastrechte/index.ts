@@ -1,8 +1,6 @@
 import { guards as fluggastrechteVorabcheckGuards } from "~/models/flows/fluggastrechte/guards";
 import fluggastrechteVorabcheckFlow from "~/models/flows/fluggastrechte/config.json";
 import { fluggastrechteVorabcheckContext } from "~/models/flows/fluggastrechte/context";
-import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { type Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 
 export const fluggastrechteVorabcheck = {
   cmsSlug: "vorab-check-pages",
@@ -21,15 +19,7 @@ export const partnerCourtAirports = {
   STR: "70629",
 } as const;
 
-function partnerCourtFromAirport(airport: string) {
-  if (airport in partnerCourtAirports) {
-    const zipCode =
-      partnerCourtAirports[airport as keyof typeof partnerCourtAirports];
-    return findCourt({ zipCode });
-  }
-}
+type PartnerAirport = keyof typeof partnerCourtAirports;
 
-export const partnerCourtFromAirports = (airports: string[]) =>
-  airports
-    .map(partnerCourtFromAirport)
-    .filter((airport) => airport) as Jmtd14VTErwerberGerbeh[];
+export const isPartnerAirport = (airport: string): airport is PartnerAirport =>
+  airport in partnerCourtAirports;
