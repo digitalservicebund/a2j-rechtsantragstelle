@@ -1,14 +1,21 @@
 import fs from "node:fs";
 import path from "node:path";
-import { http, https } from "follow-redirects";
+import { type FollowResponse, http, https } from "follow-redirects";
 import pMap from "p-map";
 import { getEncrypted } from "./encryptedStorage";
 import type { GerbehFile } from "./convertJsonDataTable";
 import { normalizeURL } from "../../util/strings";
+import { type IncomingMessage } from "node:http";
 
-const manualReplacements = {
+const manualReplacements: Record<string, string> = {
   "www.amtsgericht-straubing.de":
     "https://www.justiz.bayern.de/gerichte-und-behoerden/amtsgerichte/straubing/",
+  "www.saarland.de/amtsgericht_saarlouis.htm":
+    "https://www.saarland.de/agsls/DE/home/home_node.html",
+  "www.justiz.bayern.de/gericht/ag-aoe":
+    "https://www.justiz.bayern.de/gerichte-und-behoerden/amtsgerichte/altoetting/",
+  "https://ordentliche-gerichtsbarkeit.hessen.de/AG-Koenigstein":
+    "https://ordentliche-gerichtsbarkeit.hessen.de/landgerichtsbezirk-frankfurt-am-main/amtsgericht-koenigstein-im-taunus",
 };
 
 const OUTFILE = path.resolve(
@@ -25,19 +32,48 @@ function allCourtURLs() {
   return Object.values(gerbehDb).map((court) => court?.URL1 ?? "");
 }
 
+function warnIfNot200(
+  intialUrl: string,
+  response: IncomingMessage & FollowResponse,
+) {
+  if (response.statusCode && response.statusCode !== 200)
+    console.warn(
+      `Warning: ${intialUrl} was forwarded to ${response.responseUrl} with statuscode ${response.statusCode}`,
+    );
+}
+
 function checkUrl(urlString: string) {
-  // First follow https, then follow http
+  //  1. try manual replacement or https, 2. try http, 3. try strip www. subdomain (for example www.ag-badliebenwerda.brandenburg.de)
   return new Promise<[string, string]>((resolve) =>
     https
-      .get(normalizeURL(urlString, "https"), (response) => {
-        resolve([urlString, response.responseUrl]);
-      })
+      .get(
+        manualReplacements[urlString] ?? normalizeURL(urlString, "https"),
+        (response) => {
+          warnIfNot200(urlString, response);
+          resolve([urlString, response.responseUrl]);
+        },
+      )
       .on("error", () => {
         http
           .get(normalizeURL(urlString, "http"), (response) => {
+            warnIfNot200(urlString, response);
             resolve([urlString, response.responseUrl]);
           })
-          .on("error", () => resolve([urlString, ""]));
+          .on("error", () => {
+            https
+              .get(
+                normalizeURL(urlString.replace("www.", ""), "https"),
+                (response) => {
+                  warnIfNot200(urlString, response);
+                  resolve([urlString, response.responseUrl]);
+                },
+              )
+              .on("error", () => {
+                if (urlString)
+                  console.error(`No valid redirect found for ${urlString}`);
+                resolve([urlString, ""]);
+              });
+          });
       }),
   );
 }
@@ -46,12 +82,7 @@ async function checkAllURLS() {
   const urls = allCourtURLs();
   const uniqueURLs = Array.from(new Set(urls));
   console.log(`Checking a total of ${uniqueURLs.length} unique URLs...`);
-  const checkedURLs = await pMap(uniqueURLs, checkUrl, { concurrency });
-  const urlMap = Object.fromEntries(checkedURLs);
-  for (const [url, correction] of Object.entries(manualReplacements)) {
-    urlMap[url] = correction;
-  }
-  return urlMap;
+  return Object.fromEntries(await pMap(uniqueURLs, checkUrl, { concurrency }));
 }
 
 async function writeURLMap() {
