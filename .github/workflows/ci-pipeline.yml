@@ -76,13 +76,6 @@ jobs:
           image-ref: "${{ env.REGISTRY }}/${{ github.repository }}"
           format: "cosign-vuln"
           output: "vulnerabilities.json"
-      - name: Upload cosign vulnerability scan record
-        uses: actions/upload-artifact@v4
-        with:
-          name: vulnerabilities-file
-          path: vulnerabilities.json
-          compression-level: 0 # no compression
-          if-no-files-found: error
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
         with:
