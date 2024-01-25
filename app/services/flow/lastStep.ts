@@ -3,11 +3,10 @@ import {
   flowIDFromPathname,
   flowSpecifics,
 } from "~/routes/shared/flowSpecifics";
-import { mainSessionFromRequest } from "../security/csrf.server";
 import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { throw404IfFeatureFlagEnabled } from "../errorPages/throw404";
 import { buildFlowController } from "./buildFlowController";
-import { getSessionForContext } from "../session";
+import { getSessionForContext, mainSessionFromRequest } from "../session";
 
 type LastStep = Record<FlowId, string>;
 export const lastStepKey = "lastStep";

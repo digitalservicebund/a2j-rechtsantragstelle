@@ -64,3 +64,6 @@ export const updateSession = (session: Session, validatedData: AllContexts) => {
     session.set(key, value);
   });
 };
+
+export const mainSessionFromRequest = async (request: Request) =>
+  getSessionForContext("main").getSession(request.headers.get("Cookie"));

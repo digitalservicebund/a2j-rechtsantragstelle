@@ -1,7 +1,7 @@
 //https://sergiodxa.com/articles/adding-csrf-protection-to-remix
 import type { Session } from "@remix-run/node";
 import { randomBytes } from "crypto";
-import { getSessionForContext } from "~/services/session/";
+import { mainSessionFromRequest } from "~/services/session/";
 import { CSRFKey } from "./csrfKey";
 
 export const csrfCountMax = 10;
@@ -12,11 +12,6 @@ export function createCSRFToken() {
 
 const getCSRFFromSession = (session: Session) =>
   session.get(CSRFKey) as string[] | null;
-
-export async function mainSessionFromRequest(request: Request) {
-  const cookie = request.headers.get("Cookie");
-  return getSessionForContext("main").getSession(cookie);
-}
 
 async function validateCSRFToken(request: Request, session: Session) {
   const formData = await request.clone().formData();
