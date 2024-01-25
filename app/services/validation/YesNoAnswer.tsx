@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { ZodErrorMap } from "zod/lib/ZodError";
+import type { ZodErrorMap } from "zod";
 
 export const customRequiredErrorMessage: { errorMap: ZodErrorMap } = {
   errorMap: (issue, ctx) => ({ message: "required" }),
