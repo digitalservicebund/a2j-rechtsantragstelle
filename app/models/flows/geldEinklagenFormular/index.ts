@@ -24,7 +24,7 @@ export const geldEinklagenFormular = {
       berechneteGerichtskosten: berechneteGerichtskosten.toString(),
     };
   },
-  flow: _.merge(geldEinklagenFormularFlow, {
+  config: _.merge(geldEinklagenFormularFlow, {
     states: {
       "persoenliche-daten": _.merge(_.cloneDeep(persoenlicheDatenFlow), {
         meta: {

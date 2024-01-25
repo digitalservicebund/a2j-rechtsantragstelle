@@ -33,7 +33,7 @@ import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 
 export const beratungshilfeAntrag = {
   cmsSlug: "form-flow-pages",
-  flow: _.merge(beratungshilfeAntragFlow, {
+  config: _.merge(beratungshilfeAntragFlow, {
     states: {
       grundvoraussetzungen: _.merge(
         _.cloneDeep(beratungshilfeGrundvoraussetzungenFlow),

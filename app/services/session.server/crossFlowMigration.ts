@@ -1,12 +1,13 @@
-import { type FlowSpecifics } from "~/routes/shared/flowSpecifics";
+import { isFlowId, type Flow } from "~/routes/shared/flowSpecifics";
 import { getSessionForContext } from ".";
 
 export async function getMigrationData(
-  currentFlow: FlowSpecifics[keyof FlowSpecifics],
+  currentFlow: Flow,
   cookieId: string | null,
 ) {
-  if (!("migrationSource" in currentFlow) || cookieId === null) return {};
   const { migrationSource, context } = currentFlow;
+  if (!migrationSource || !isFlowId(migrationSource) || cookieId === null)
+    return {};
   const session = getSessionForContext(migrationSource);
   const migrationSession = await session.getSession(cookieId);
   return Object.fromEntries(

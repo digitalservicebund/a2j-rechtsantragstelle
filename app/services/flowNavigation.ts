@@ -20,9 +20,7 @@ export function navItemsFromFlowSpecifics(
   flowController: ReturnType<typeof buildFlowController>,
   translation: Translations = {},
 ): NavItem[] {
-  const currentFlow =
-    flowController.getFlow() as FlowSpecifics[keyof FlowSpecifics]["flow"];
-
+  const currentFlow = flowController.getConfig();
   const flowRoot = currentFlow.id ?? "";
 
   return getSubflowsEntries(currentFlow).map(([rootStateName, flowEntry]) => {
@@ -32,7 +30,7 @@ export function navItemsFromFlowSpecifics(
 
     const subflows =
       "states" in flowEntry
-        ? Object.entries(flowEntry.states || {}).filter(
+        ? Object.entries(flowEntry.states ?? {}).filter(
             ([, state]) => "states" in state,
           )
         : [];

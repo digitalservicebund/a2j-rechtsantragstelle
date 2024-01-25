@@ -18,7 +18,7 @@ import { buildFlowController } from "~/services/flow/server/buildFlowController"
 import { type AllContexts, buildStepValidator } from "~/models/flows/common";
 import {
   flowIDFromPathname,
-  flowSpecifics,
+  flows,
   parentFromParams,
   splatFromParams,
 } from "./flowSpecifics";
@@ -76,9 +76,9 @@ export const loader = async ({
   const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
   const flowContext: AllContexts = data; // Recast for now to get type safety
   context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
-  const currentFlow = flowSpecifics[flowId];
+  const currentFlow = flows[flowId];
   const flowController = buildFlowController({
-    flow: currentFlow.flow,
+    config: currentFlow.config,
     data: flowContext,
     guards: currentFlow.guards,
   });
@@ -187,7 +187,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   const flowSession = await getSession(cookieId);
 
   const formData = await request.formData();
-  const currentFlow = flowSpecifics[flowId];
+  const currentFlow = flows[flowId];
 
   // Note: This also reduces same-named fields to the last entry
   const relevantFormData = Object.fromEntries(
@@ -217,9 +217,9 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   const headers = { "Set-Cookie": await commitSession(flowSession) };
 
   const flowController = buildFlowController({
-    flow: flowSpecifics[flowId].flow,
+    config: flows[flowId].config,
     data: flowSession.data,
-    guards: flowSpecifics[flowId].guards,
+    guards: flows[flowId].guards,
   });
 
   const customEventName = flowController.getMeta(stepId)?.customEventName;
@@ -243,7 +243,7 @@ export function StepWithProgressBar() {
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
   const flowId = flowIDFromPathname(pathname);
-  const { context } = flowSpecifics[flowId];
+  const { context } = flows[flowId];
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
 
@@ -303,7 +303,7 @@ export function StepWithPreHeading() {
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
   const flowId = flowIDFromPathname(pathname);
-  const { context } = flowSpecifics[flowId];
+  const { context } = flows[flowId];
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
 

@@ -13,36 +13,38 @@ import type {
 } from "~/services/flow/server/buildFlowController";
 import { type CollectionSchemas } from "~/services/cms/schemas";
 
-type FlowConfig = {
+export type Flow = {
   cmsSlug: keyof CollectionSchemas;
-  flow: Config;
+  config: Config;
   guards: Guards;
   context: Record<string, boolean | string | object | number>;
   migrationSource?: string;
   stringReplacements?: (context: Context) => Record<string, string | undefined>;
 };
 
-export const flowSpecifics = {
+export const flows = {
   "beratungshilfe/antrag": beratungshilfeAntrag,
   "beratungshilfe/vorabcheck": beratungshilfeVorabcheck,
   "geld-einklagen/vorabcheck": geldEinklagenVorabcheck,
   "geld-einklagen/formular": geldEinklagenFormular,
   "fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
   "fluggastrechte/formular": fluggastrechtFlow,
-} as const satisfies Record<string, FlowConfig>;
+} as const satisfies Record<string, Flow>;
 
-export function getSubflowsEntries(flow: FlowConfig["flow"]) {
-  if (!flow.states) return [];
-  return Object.entries(flow.states).filter(([, state]) => "states" in state);
+export function getSubflowsEntries(config: Config) {
+  if (!config.states) return [];
+  return Object.entries(config.states).filter(([, state]) => "states" in state);
 }
 
-export type FlowSpecifics = typeof flowSpecifics;
+export type FlowSpecifics = typeof flows;
 export type FlowId = keyof FlowSpecifics;
+
+export const isFlowId = (s: string): s is FlowId => s in flows;
 
 export function flowIDFromPathname(pathname: string) {
   const flowID = [pathname.split("/")[1], pathname.split("/")[2]].join("/");
-  if (!(flowID in flowSpecifics)) throw Error("Unknown flow ID");
-  return flowID as FlowId;
+  if (isFlowId(flowID)) return flowID;
+  throw Error("Unknown flow ID");
 }
 
 export function splatFromParams(params: Params) {

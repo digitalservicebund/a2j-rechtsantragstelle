@@ -29,7 +29,7 @@ export const fluggastrechtFlow = {
     };
   },
   cmsSlug: "form-flow-pages",
-  flow: _.merge(fluggastrechteFlow, {
+  config: _.merge(fluggastrechteFlow, {
     states: {
       "persoenliche-daten": _.merge(_.cloneDeep(persoenlicheDatenFlow), {
         initial: "name",

@@ -2,7 +2,7 @@ import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { createMachine, type AnyStateMachine } from "xstate";
 import { toDirectedGraph } from "@xstate/graph";
-import { flowIDFromPathname, flowSpecifics } from "./flowSpecifics";
+import { flowIDFromPathname, flows } from "./flowSpecifics";
 import { throw404OnProduction } from "../../services/errorPages/throw404";
 
 function statesToGraph(
@@ -70,11 +70,11 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   throw404OnProduction();
   const url = new URL(request.url);
   const flowId = flowIDFromPathname(url.pathname);
-  const { flow, guards } = flowSpecifics[flowId];
+  const { config, guards } = flows[flowId];
   const showBacklinks = url.searchParams.get("showBacklinks") !== null;
 
   //@ts-ignore
-  const machine = createMachine(flow, { guards });
+  const machine = createMachine(config, { guards });
   const base64Graph = getVisualizationString(machine, showBacklinks);
   return json({ url: `https://mermaid.ink/img/${base64Graph}` });
 };

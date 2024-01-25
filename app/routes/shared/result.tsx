@@ -9,11 +9,7 @@ import {
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getReasonsToDisplay } from "~/models/flows/common";
-import {
-  flowIDFromPathname,
-  flowSpecifics,
-  splatFromParams,
-} from "./flowSpecifics";
+import { flowIDFromPathname, flows, splatFromParams } from "./flowSpecifics";
 import { type ReactElement } from "react";
 import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
 import HighlightOff from "@digitalservicebund/icons/HighlightOff";
@@ -56,8 +52,8 @@ export const loader = async ({
   const cookieId = request.headers.get("Cookie");
   const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
   context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
-  const { flow, guards } = flowSpecifics[flowId];
-  const flowController = buildFlowController({ flow, data, guards });
+  const { config, guards } = flows[flowId];
+  const flowController = buildFlowController({ config, data, guards });
 
   if (!flowController.isReachable(stepId))
     return redirect(flowController.getInitial().url);

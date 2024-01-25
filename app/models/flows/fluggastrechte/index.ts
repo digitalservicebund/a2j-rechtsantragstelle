@@ -4,7 +4,7 @@ import { fluggastrechteVorabcheckContext } from "~/models/flows/fluggastrechte/c
 
 export const fluggastrechteVorabcheck = {
   cmsSlug: "vorab-check-pages",
-  flow: fluggastrechteVorabcheckFlow,
+  config: fluggastrechteVorabcheckFlow,
   guards: fluggastrechteVorabcheckGuards,
   context: fluggastrechteVorabcheckContext,
 } as const;

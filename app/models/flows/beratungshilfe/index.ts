@@ -1,4 +1,4 @@
-import flow from "./config.json";
+import config from "./config.json";
 import { context } from "./context";
 import { guards, isIncomeTooHigh } from "./guards";
 import { getVerfuegbaresEinkommenFreibetrag } from "./freibetrag";
@@ -20,7 +20,7 @@ export const beratungshilfeVorabcheck = {
     verfuegbaresEinkommenFreibetrag:
       getVerfuegbaresEinkommenFreibetrag(context).toString(),
   }),
-  flow,
+  config,
   guards,
   context,
 } as const;

@@ -29,7 +29,7 @@ describe("flowNavigation", () => {
   });
 
   describe("flow to NavState", () => {
-    const flow = {
+    const config = {
       id: "/test/flow/",
       initial: "step1",
       predictableActionArguments: true,
@@ -43,7 +43,7 @@ describe("flowNavigation", () => {
     };
 
     describe("checks open state", () => {
-      const flowController = buildFlowController({ flow });
+      const flowController = buildFlowController({ config });
       expect(
         navItemsFromFlowSpecifics("step1.step1a", flowController)[0].state,
       ).toBe(NavState.Current);
@@ -55,7 +55,7 @@ describe("flowNavigation", () => {
 
     describe("checks done state", () => {
       const flowController = buildFlowController({
-        flow: _.merge(_.cloneDeep(flow), {
+        config: _.merge(_.cloneDeep(config), {
           states: { step1: { meta: { done: () => true } } },
         }),
       });
@@ -71,7 +71,7 @@ describe("flowNavigation", () => {
 
     describe("works with isUneditable", () => {
       const flowController = buildFlowController({
-        flow: _.merge(_.cloneDeep(flow), {
+        config: _.merge(_.cloneDeep(config), {
           states: { step1: { meta: { isUneditable: true, done: () => true } } },
         }),
       });
@@ -87,7 +87,7 @@ describe("flowNavigation", () => {
 
     describe("checks open state", () => {
       const flowController = buildFlowController({
-        flow: _.merge(_.cloneDeep(flow), {
+        config: _.merge(_.cloneDeep(config), {
           states: {
             step2: {
               initial: "step2a",

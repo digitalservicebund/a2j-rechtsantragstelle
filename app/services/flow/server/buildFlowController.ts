@@ -55,11 +55,11 @@ const isFinalStep = (machine: StateMachine, stepId: string) => {
 };
 
 export const buildFlowController = ({
-  flow: config,
+  config,
   data: context = {},
   guards,
 }: {
-  flow: Config;
+  config: Config;
   data?: Context;
   guards?: Guards;
 }) => {
@@ -83,7 +83,7 @@ export const buildFlowController = ({
       Boolean(getMeta(currentStepId)?.subflowDone(context, subflowId)),
     isUneditable: (currentStepId: string) =>
       Boolean(getMeta(currentStepId)?.isUneditable),
-    getFlow: () => config,
+    getConfig: () => config,
     isInitial: isInitialStepId,
     isFinal: (currentStepId: string) =>
       isFinalStep(machine, normalizeStepId(currentStepId)),
