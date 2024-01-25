@@ -1,4 +1,4 @@
-import { type FlowId, flowIDFromPathname, flows } from "~/models/flows";
+import { flows } from "~/models/flows/flows.server";
 import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { throw404IfFeatureFlagEnabled } from "../../errorPages/throw404";
 import { buildFlowController } from "./buildFlowController";
@@ -7,6 +7,7 @@ import {
   mainSessionFromRequest,
 } from "../../session.server";
 import { dataDeletionKey, lastStepKey } from "../constants";
+import { type FlowId, flowIDFromPathname } from "~/models/flows/contexts";
 
 type LastStep = Record<FlowId, string>;
 

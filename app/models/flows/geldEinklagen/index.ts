@@ -1,5 +1,4 @@
 import config from "./config.json";
-import { context } from "./context";
 import { guards } from "./guards";
 import { type AllContexts } from "../common";
 import { getGerichtskostenvorschuss } from "../gerichtskosten";
@@ -11,5 +10,4 @@ export const geldEinklagenVorabcheck = {
   }),
   config,
   guards,
-  context,
 } as const;

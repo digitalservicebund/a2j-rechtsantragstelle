@@ -1,6 +1,5 @@
 import _ from "lodash";
 import fluggastrechteFlow from "./config.json";
-import { fluggastrechtContext } from "./context";
 import { fluggastrechteGuards } from "./guards";
 import { type AllContexts } from "../common";
 import { gerichtskostenFromBetrag } from "../gerichtskosten";
@@ -43,5 +42,4 @@ export const fluggastrechtFlow = {
     },
   }),
   guards: fluggastrechteGuards,
-  context: fluggastrechtContext,
 } as const;

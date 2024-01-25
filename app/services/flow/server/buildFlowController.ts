@@ -2,8 +2,8 @@ import type { MachineConfig } from "xstate";
 import { createMachine } from "xstate";
 import { getShortestPaths } from "@xstate/graph";
 import { getStateValueString } from "~/services/flow/getStateValueString";
+import type { Context } from "~/models/flows/contexts";
 
-export type Context = Record<string, boolean | string | object | number>;
 type Event = "SUBMIT" | "BACK";
 type StateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
 type StateMachine = ReturnType<

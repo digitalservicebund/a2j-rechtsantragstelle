@@ -1,5 +1,4 @@
 import config from "./config.json";
-import { context } from "./context";
 import { guards, isIncomeTooHigh } from "./guards";
 import { getVerfuegbaresEinkommenFreibetrag } from "./freibetrag";
 import { type AllContexts } from "../common";
@@ -22,5 +21,4 @@ export const beratungshilfeVorabcheck = {
   }),
   config,
   guards,
-  context,
 } as const;

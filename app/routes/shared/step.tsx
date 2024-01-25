@@ -16,7 +16,8 @@ import {
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { type AllContexts, buildStepValidator } from "~/models/flows/common";
-import { flowIDFromPathname, flows } from "~/models/flows";
+import { getContext, flowIDFromPathname } from "~/models/flows/contexts";
+import { flows } from "~/models/flows/flows.server";
 import type { StrapiHeading } from "~/services/cms/models/StrapiHeading";
 import type { StrapiSelect } from "~/services/cms/models/StrapiSelect";
 import {
@@ -85,7 +86,7 @@ export const loader = async ({
   // Not having data here could skip the migration step
   let migrationData: Record<string, unknown> = {};
   if (stepId === "intro/daten-uebernahme" && "migrationSource" in currentFlow)
-    migrationData = await getMigrationData(currentFlow, cookieId);
+    migrationData = await getMigrationData(flowId, currentFlow, cookieId);
 
   const lookupPath = pathname.includes("persoenliche-daten")
     ? pathname.replace("fluggastrechte", "geld-einklagen")
@@ -190,7 +191,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     Array.from(formData.entries()).filter(([key]) => !key.startsWith("_")),
   );
   const validator = buildStepValidator(
-    currentFlow.context,
+    getContext(flowId),
     Object.keys(relevantFormData),
   );
   const validationResult = await validator.validate(relevantFormData);
@@ -207,7 +208,8 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     "migrationSource" in currentFlow &&
     validationResult.data["doMigration"] === "yes"
   ) {
-    updateSession(flowSession, await getMigrationData(currentFlow, cookieId));
+    const migrationData = await getMigrationData(flowId, currentFlow, cookieId);
+    updateSession(flowSession, migrationData);
   }
 
   const headers = { "Set-Cookie": await commitSession(flowSession) };
@@ -239,7 +241,7 @@ export function StepWithProgressBar() {
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
   const flowId = flowIDFromPathname(pathname);
-  const { context } = flows[flowId];
+  const context = getContext(flowId);
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
 
@@ -299,7 +301,7 @@ export function StepWithPreHeading() {
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
   const flowId = flowIDFromPathname(pathname);
-  const { context } = flows[flowId];
+  const context = getContext(flowId);
   const fieldNames = formContent.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
 

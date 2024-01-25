@@ -1,7 +1,6 @@
 import _ from "lodash";
 import {
   type BeratungshilfeGrundvoraussetzungen,
-  beratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungenGuards,
   grundvoraussetzungDone,
 } from "./grundvoraussetzung/context";
@@ -10,7 +9,6 @@ import beratungshilfeAntragFlow from "./flow.json";
 import rechtsproblemFlow from "./rechtsproblem/flow.json";
 import {
   type BeratungshilfeRechtsproblem,
-  beratungshilfeRechtsproblem,
   beratungshilfeRechtsproblemGuards,
   rechtsproblemDone,
 } from "./rechtsproblem/context";
@@ -18,13 +16,11 @@ import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import abgabeFlow from "./abgabe/flow.json";
 import {
   type BeratungshilfeFinanzielleAngaben,
-  beratungshilfeFinanzielleAngaben,
   beratungshilfeFinanzielleAngabeDone,
   beratungshilfeFinanzielleAngabenSubflowDone,
 } from "./finanzielleAngaben/context";
 import {
   type BeratungshilfePersoenlicheDaten,
-  beratungshilfePersoenlicheDaten,
   beratungshilfePersoenlicheDatenDone,
 } from "./persoenlicheDaten/context";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
@@ -101,12 +97,6 @@ export const beratungshilfeAntrag = {
     ...beratungshilfeRechtsproblemGuards,
     ...beratungshilfeAbgabeGuards,
     ...finanzielleAngabeGuards,
-  },
-  context: {
-    ...beratungshilfeGrundvoraussetzungen,
-    ...beratungshilfeRechtsproblem,
-    ...beratungshilfeFinanzielleAngaben,
-    ...beratungshilfePersoenlicheDaten,
   },
 } as const;
 

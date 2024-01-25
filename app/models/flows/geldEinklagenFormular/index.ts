@@ -1,7 +1,6 @@
 import _ from "lodash";
 import geldEinklagenFormularFlow from "./config.json";
 import type { GeldEinklagenFormularContext } from "./context";
-import { context } from "./context";
 import { guards } from "./guards";
 import { type AllContexts } from "../common";
 import { gerichtskostenFromBetrag, gesamtKosten } from "../gerichtskosten";
@@ -74,5 +73,4 @@ export const geldEinklagenFormular = {
     },
   }),
   guards,
-  context,
 } as const;

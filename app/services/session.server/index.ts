@@ -11,7 +11,7 @@ import { config } from "~/services/env/env.server";
 import { useSecureCookie } from "~/util/useSecureCookie";
 import _ from "lodash";
 import type { AllContexts } from "~/models/flows/common";
-import { type FlowId } from "~/models/flows";
+import { type FlowId } from "~/models/flows/contexts";
 
 type SessionContext = "main" | FlowId;
 const fullId = (context: SessionContext, id: string) => `${context}_${id}`;

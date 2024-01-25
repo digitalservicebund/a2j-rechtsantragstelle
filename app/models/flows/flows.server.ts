@@ -6,17 +6,16 @@ import { fluggastrechtFlow } from "~/models/flows/fluggastrechteFormular";
 import { fluggastrechteVorabcheck } from "~/models/flows/fluggastrechte";
 import type {
   Config,
-  Context,
   Guards,
 } from "~/services/flow/server/buildFlowController";
 import { type CollectionSchemas } from "~/services/cms/schemas";
+import type { FlowId, Context } from "./contexts";
 
 export type Flow = {
   cmsSlug: keyof CollectionSchemas;
   config: Config;
   guards: Guards;
-  context: Record<string, boolean | string | object | number>;
-  migrationSource?: string;
+  migrationSource?: FlowId;
   stringReplacements?: (context: Context) => Record<string, string | undefined>;
 };
 
@@ -32,15 +31,4 @@ export const flows = {
 export function getSubflowsEntries(config: Config) {
   if (!config.states) return [];
   return Object.entries(config.states).filter(([, state]) => "states" in state);
-}
-
-export type FlowSpecifics = typeof flows;
-export type FlowId = keyof FlowSpecifics;
-
-export const isFlowId = (s: string): s is FlowId => s in flows;
-
-export function flowIDFromPathname(pathname: string) {
-  const flowID = [pathname.split("/")[1], pathname.split("/")[2]].join("/");
-  if (isFlowId(flowID)) return flowID;
-  throw Error("Unknown flow ID");
 }
