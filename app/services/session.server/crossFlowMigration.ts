@@ -1,4 +1,4 @@
-import { isFlowId, type Flow } from "~/routes/shared/flowSpecifics";
+import { isFlowId, type Flow } from "~/models/flows";
 import { getSessionForContext } from ".";
 
 export async function getMigrationData(

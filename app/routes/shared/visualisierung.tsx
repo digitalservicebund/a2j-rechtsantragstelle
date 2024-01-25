@@ -2,7 +2,7 @@ import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { createMachine, type AnyStateMachine } from "xstate";
 import { toDirectedGraph } from "@xstate/graph";
-import { flowIDFromPathname, flows } from "./flowSpecifics";
+import { flowIDFromPathname, flows } from "~/models/flows";
 import { throw404OnProduction } from "../../services/errorPages/throw404";
 
 function statesToGraph(

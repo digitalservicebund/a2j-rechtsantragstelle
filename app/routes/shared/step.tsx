@@ -16,7 +16,7 @@ import {
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { type AllContexts, buildStepValidator } from "~/models/flows/common";
-import { flowIDFromPathname, flows } from "./flowSpecifics";
+import { flowIDFromPathname, flows } from "~/models/flows";
 import type { StrapiHeading } from "~/services/cms/models/StrapiHeading";
 import type { StrapiSelect } from "~/services/cms/models/StrapiSelect";
 import {

@@ -1,8 +1,5 @@
 import { type NavItem } from "~/components/FlowNavigation";
-import {
-  getSubflowsEntries,
-  type FlowSpecifics,
-} from "~/routes/shared/flowSpecifics";
+import { getSubflowsEntries, type FlowSpecifics } from "~/models/flows";
 import { type buildFlowController } from "./flow/server/buildFlowController";
 import _ from "lodash";
 import { type Translations } from "./cms/index.server";

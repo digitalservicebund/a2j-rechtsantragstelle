@@ -17,7 +17,7 @@ import {
   isPartnerCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import urlMap from "~/services/gerichtsfinder/data/sanitizedURLs.json";
-import { flowIDFromPathname } from "./shared/flowSpecifics";
+import { flowIDFromPathname } from "~/models/flows";
 import { splatFromParams } from "~/services/params";
 import { getSessionForContext } from "~/services/session.server";
 import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/context";
