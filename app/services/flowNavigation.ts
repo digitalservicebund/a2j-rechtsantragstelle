@@ -3,7 +3,7 @@ import {
   getSubflowsEntries,
   type FlowSpecifics,
 } from "~/routes/shared/flowSpecifics";
-import { type buildFlowController } from "./flow/buildFlowController";
+import { type buildFlowController } from "./flow/server/buildFlowController";
 import _ from "lodash";
 import { type Translations } from "./cms/index.server";
 

@@ -2,7 +2,7 @@ import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { BannerState } from "~/components/UserFeedback";
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
-import { getSessionForContext } from "~/services/session";
+import { getSessionForContext } from "~/services/session.server";
 import { config } from "~/services/env/web";
 import { bannerStateName } from "~/services/feedback/handleFeedback";
 import { getPosthogClient } from "~/services/analytics/posthogClient.server";

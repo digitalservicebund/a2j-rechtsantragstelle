@@ -13,7 +13,7 @@ import {
 } from "~/services/cms/index.server";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
-import { getSessionForContext } from "~/services/session";
+import { getSessionForContext } from "~/services/session.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { postcodeSchema } from "~/services/validation/postcode";

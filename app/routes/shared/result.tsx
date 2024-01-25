@@ -1,13 +1,13 @@
 import { useLoaderData } from "@remix-run/react";
 import type { ActionFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { getSessionForContext } from "~/services/session";
+import { getSessionForContext } from "~/services/session.server";
 import {
   fetchCollectionEntry,
   fetchMeta,
   fetchSingleEntry,
 } from "~/services/cms/index.server";
-import { buildFlowController } from "~/services/flow/buildFlowController";
+import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getReasonsToDisplay } from "~/models/flows/common";
 import {
   flowIDFromPathname,
@@ -30,7 +30,7 @@ import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import ButtonContainer from "~/components/ButtonContainer";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
-import { dataDeletionKey, lastStepKey } from "~/services/flow/lastStep";
+import { dataDeletionKey, lastStepKey } from "~/services/flow/constants";
 import {
   getFeedbackBannerState,
   handleFeedback,

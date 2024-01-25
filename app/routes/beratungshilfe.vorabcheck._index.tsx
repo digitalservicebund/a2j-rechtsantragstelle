@@ -1,1 +1,1 @@
-export { loader } from "~/services/flow/lastStep";
+export { loader } from "~/services/flow/server/lastStep";

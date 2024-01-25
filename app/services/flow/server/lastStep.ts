@@ -4,13 +4,15 @@ import {
   flowSpecifics,
 } from "~/routes/shared/flowSpecifics";
 import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
-import { throw404IfFeatureFlagEnabled } from "../errorPages/throw404";
+import { throw404IfFeatureFlagEnabled } from "../../errorPages/throw404";
 import { buildFlowController } from "./buildFlowController";
-import { getSessionForContext, mainSessionFromRequest } from "../session";
+import {
+  getSessionForContext,
+  mainSessionFromRequest,
+} from "../../session.server";
+import { dataDeletionKey, lastStepKey } from "../constants";
 
 type LastStep = Record<FlowId, string>;
-export const lastStepKey = "lastStep";
-export const dataDeletionKey = "deleteData";
 
 async function lastStepFromRequest(request: Request) {
   const mainSession = await mainSessionFromRequest(request);

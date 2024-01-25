@@ -3,7 +3,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import { getSessionForContext, updateSession } from "~/services/session";
+import { getSessionForContext, updateSession } from "~/services/session.server";
 import PageContent from "~/components/PageContent";
 import Container from "~/components/Container";
 import Background from "~/components/Background";
@@ -14,7 +14,7 @@ import {
   fetchSingleEntry,
   fetchTranslations,
 } from "~/services/cms/index.server";
-import { buildFlowController } from "~/services/flow/buildFlowController";
+import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { type AllContexts, buildStepValidator } from "~/models/flows/common";
 import {
   flowIDFromPathname,
@@ -32,11 +32,11 @@ import {
 import { CSRFKey } from "~/services/security/csrfKey";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
-import { lastStepKey } from "~/services/flow/lastStep";
+import { lastStepKey } from "~/services/flow/constants";
 import { fillTemplate } from "~/util/fillTemplate";
 import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
-import { getMigrationData } from "~/services/session/crossFlowMigration";
+import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import FlowNavigation from "~/components/FlowNavigation";
 import { navItemsFromFlowSpecifics } from "~/services/flowNavigation";
 import type { z } from "zod";

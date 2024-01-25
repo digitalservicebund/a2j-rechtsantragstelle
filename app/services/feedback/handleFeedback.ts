@@ -1,4 +1,4 @@
-import { getSessionForContext } from "../session";
+import { getSessionForContext } from "../session.server";
 import { BannerState } from "~/components/UserFeedback";
 import {
   feedbackFormName,

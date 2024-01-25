@@ -10,7 +10,7 @@ import type {
   Config,
   Context,
   Guards,
-} from "~/services/flow/buildFlowController";
+} from "~/services/flow/server/buildFlowController";
 import { type CollectionSchemas } from "~/services/cms/schemas";
 
 type FlowConfig = {

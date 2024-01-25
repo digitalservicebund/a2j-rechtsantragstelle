@@ -3,7 +3,7 @@ import {
   navState,
   NavState,
 } from "~/services/flowNavigation";
-import { buildFlowController } from "~/services/flow/buildFlowController";
+import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import _ from "lodash";
 
 describe("flowNavigation", () => {

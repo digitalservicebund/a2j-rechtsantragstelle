@@ -1,6 +1,6 @@
 import type { z } from "zod";
 import type { StrapiVorabCheckCommonSchema } from "~/services/cms/models/StrapiVorabCheckCommon";
-import type { Meta } from "~/services/flow/buildFlowController";
+import type { Meta } from "~/services/flow/server/buildFlowController";
 
 export const getButtonNavigationProps = ({
   commonContent,

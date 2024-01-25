@@ -8,7 +8,7 @@ import {
   fillOutBeratungshilfe,
   getBeratungshilfeParameters,
 } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
-import { getSessionForContext } from "~/services/session";
+import { getSessionForContext } from "~/services/session.server";
 
 const isANewAttachmentPageNeeded = (context: BeratungshilfeAntragContext) => {
   const descriptions = [];

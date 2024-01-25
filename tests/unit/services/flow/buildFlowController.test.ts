@@ -1,4 +1,4 @@
-import { buildFlowController } from "~/services/flow/buildFlowController";
+import { buildFlowController } from "~/services/flow/server/buildFlowController";
 
 const flow: Parameters<typeof buildFlowController>[0]["flow"] = {
   id: "/test/flow/",
