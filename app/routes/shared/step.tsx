@@ -16,12 +16,7 @@ import {
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { type AllContexts, buildStepValidator } from "~/models/flows/common";
-import {
-  flowIDFromPathname,
-  flows,
-  parentFromParams,
-  splatFromParams,
-} from "./flowSpecifics";
+import { flowIDFromPathname, flows } from "./flowSpecifics";
 import type { StrapiHeading } from "~/services/cms/models/StrapiHeading";
 import type { StrapiSelect } from "~/services/cms/models/StrapiSelect";
 import {
@@ -43,6 +38,7 @@ import type { z } from "zod";
 import type { CollectionSchemas } from "~/services/cms/schemas";
 import { getButtonNavigationProps } from "~/util/getButtonNavigationProps";
 import { sendCustomEvent } from "~/services/analytics/customEvent";
+import { parentFromParams, splatFromParams } from "~/services/params";
 
 const structureCmsContent = (
   formPageContent: z.infer<

@@ -1,5 +1,3 @@
-import invariant from "tiny-invariant";
-import type { Params } from "@remix-run/react";
 import { beratungshilfeAntrag } from "~/models/flows/beratungshilfeFormular";
 import { beratungshilfeVorabcheck } from "~/models/flows/beratungshilfe";
 import { geldEinklagenVorabcheck } from "~/models/flows/geldEinklagen";
@@ -45,16 +43,4 @@ export function flowIDFromPathname(pathname: string) {
   const flowID = [pathname.split("/")[1], pathname.split("/")[2]].join("/");
   if (isFlowId(flowID)) return flowID;
   throw Error("Unknown flow ID");
-}
-
-export function splatFromParams(params: Params) {
-  const splat = params["*"];
-  invariant(typeof splat !== "undefined");
-  return splat;
-}
-
-export function parentFromParams(pathname: string, params: Params) {
-  const splat = params["*"];
-  invariant(splat && pathname.endsWith(splat));
-  return pathname.slice(0, -splat.length - 1);
 }

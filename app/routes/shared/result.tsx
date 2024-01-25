@@ -9,7 +9,8 @@ import {
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getReasonsToDisplay } from "~/models/flows/common";
-import { flowIDFromPathname, flows, splatFromParams } from "./flowSpecifics";
+import { flowIDFromPathname, flows } from "./flowSpecifics";
+import { splatFromParams } from "~/services/params";
 import { type ReactElement } from "react";
 import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
 import HighlightOff from "@digitalservicebund/icons/HighlightOff";
