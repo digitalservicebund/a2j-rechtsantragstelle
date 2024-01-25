@@ -79,8 +79,8 @@ jobs:
       - name: Upload cosign vulnerability scan record
         uses: actions/upload-artifact@v4
         with:
-          name: "vulnerabilities"
-          path: "vulnerabilities.json"
+          name: vulnerabilities-file
+          path: vulnerabilities.json
           compression-level: 0 # no compression
           if-no-files-found: error
       - name: Run Trivy vulnerability scanner
@@ -99,7 +99,7 @@ jobs:
       - name: Download cosign vulnerability scan record
         uses: actions/download-artifact@v4
         with:
-          name: "vulnerabilities.json"
+          name: vulnerabilities-file
       - run: ./docker.sh --push prod
       - run: ./docker.sh --sign
       - run: ./docker.sh --attest
