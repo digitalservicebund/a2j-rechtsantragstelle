@@ -1,4 +1,4 @@
-import { allRelevantLicenses } from "~/services/openSourceLicenses/generate";
+import { allRelevantLicenses } from "~/services/openSourceLicenses/generate.server";
 import licenseListFile from "~/services/openSourceLicenses/opensource-licenses.json";
 
 describe("licenseList", () => {

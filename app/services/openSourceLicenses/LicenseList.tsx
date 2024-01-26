@@ -1,17 +1,4 @@
-import { type Dependency } from "./generate";
-import packageLicenses from "./opensource-licenses.json";
-
-const directDependencies = Object.fromEntries(
-  Object.entries(packageLicenses).filter(
-    ([_, info]) => "direct" in info && info.direct,
-  ),
-);
-
-const mentionableTransitiveDependencies = Object.fromEntries(
-  Object.entries(packageLicenses).filter(
-    ([dependency, _]) => !(dependency in directDependencies),
-  ),
-);
+import type { Dependency } from "./generate.server";
 
 const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
   return (
@@ -42,17 +29,25 @@ const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
   );
 };
 
-const LicenseList = () => (
+type LicenseListProps = {
+  readonly dependencies: {
+    directDependencies: Record<string, Dependency>;
+    mentionableTransitiveDependencies: Record<string, Dependency>;
+  };
+};
+
+const LicenseList = ({ dependencies }: LicenseListProps) => (
   <div className="ds-stack-8 ">
     <ul>
-      {Object.entries(directDependencies).map(([dependencyString, infos]) =>
-        renderLicenseEntry(dependencyString, infos),
+      {Object.entries(dependencies.directDependencies).map(
+        ([dependencyString, infos]) =>
+          renderLicenseEntry(dependencyString, infos),
       )}
     </ul>
 
-    {Object.keys(mentionableTransitiveDependencies).length > 0 && (
+    {Object.keys(dependencies.mentionableTransitiveDependencies).length > 0 && (
       <ul>
-        {Object.entries(mentionableTransitiveDependencies).map(
+        {Object.entries(dependencies.mentionableTransitiveDependencies).map(
           ([dependencyString, infos]) =>
             renderLicenseEntry(dependencyString, infos),
         )}
