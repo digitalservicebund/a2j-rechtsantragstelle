@@ -66,6 +66,13 @@ function navItem(
     state,
   );
 
+  const hasActiveSubflows =
+    [NavState.Current, NavState.Open, NavState.Done].includes(state) &&
+    relevantSubflows.some((subflow) =>
+      [NavState.Current, NavState.Done].includes(subflow.state),
+    ) &&
+    relevantSubflows.length > 0;
+
   return (
     <li
       key={destination}
@@ -84,7 +91,7 @@ function navItem(
               ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none"
               : ""
           }
-          ${relevantSubflows.length > 0 && !isDisabled ? "border-b-2 border-white" : ""}
+          ${hasActiveSubflows && !isDisabled ? "border-b-2 border-white" : ""}
         `}
         aria-disabled={[NavState.DoneDisabled, NavState.OpenDisabled].includes(
           state,
@@ -93,17 +100,13 @@ function navItem(
         <StateIcon state={state} />
         {label}
       </a>
-      {[NavState.Current, NavState.Open, NavState.Done].includes(state) &&
-        relevantSubflows.some((subflow) =>
-          [NavState.Current, NavState.Done].includes(subflow.state),
-        ) &&
-        relevantSubflows.length > 0 && (
-          <ul className="pt-8 pl-32 mr-8 pl-0 min-w-fit max-w-fit  md:min-w-[250px] md:max-w-[250px] break-words">
-            {relevantSubflows.map(({ destination, label, state }) =>
-              navSubflowItem(destination, state, label),
-            )}
-          </ul>
-        )}
+      {hasActiveSubflows && (
+        <ul className="pt-8 pl-32 mr-8 pl-0 min-w-fit max-w-fit  md:min-w-[250px] md:max-w-[250px] break-words">
+          {relevantSubflows.map(({ destination, label, state }) =>
+            navSubflowItem(destination, state, label),
+          )}
+        </ul>
+      )}
     </li>
   );
 }

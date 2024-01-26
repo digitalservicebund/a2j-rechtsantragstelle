@@ -61,7 +61,7 @@ export const beratungshilfeAntrag = {
               BACK: "#grundvoraussetzungen.eigeninitiativeGrundvorraussetzung",
             },
           },
-          danke: { on: { SUBMIT: "#finanzielleAngaben.start" } },
+          danke: { on: { SUBMIT: "#finanzielleAngaben" } },
         },
       }),
       finanzielleAngaben: _.merge(_.cloneDeep(finanzielleAngabenFlow), {
@@ -71,7 +71,7 @@ export const beratungshilfeAntrag = {
         },
         states: {
           start: { on: { BACK: "#rechtsproblem.danke" } },
-          danke: { on: { SUBMIT: "#persoenlicheDaten.start" } },
+          danke: { on: { SUBMIT: "#persoenlicheDaten" } },
         },
       }),
       persoenlicheDaten: _.merge(_.cloneDeep(persoenlicheDatenFlow), {

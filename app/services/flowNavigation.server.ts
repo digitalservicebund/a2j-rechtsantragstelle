@@ -12,18 +12,32 @@ export function navItemsFromFlowSpecifics(
   const currentFlow = flowController.getConfig();
   const flowRoot = currentFlow.id ?? "";
 
+  // Fixme Sanny: This function is too complex
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   return getSubflowsEntries(currentFlow).map(([rootStateName, flowEntry]) => {
-    const destinationStepId = `${rootStateName}/${
-      typeof flowEntry.initial === "string" ? flowEntry.initial : ""
-    }`;
-
     const subflows =
       "states" in flowEntry
         ? Object.entries(flowEntry.states ?? {}).filter(
             ([, state]) => "states" in state,
           )
         : [];
+
+    const subflowEntry = subflows.find(
+      (entry) => entry[0] === flowEntry.initial,
+    );
+
+    const destinationStepId = `${rootStateName}/${
+      typeof flowEntry.initial === "string" ? flowEntry.initial : ""
+    }${
+      subflowEntry
+        ? typeof subflowEntry[1].initial === "string"
+          ? `/${subflowEntry[1].initial}`
+          : ""
+        : ""
+    }`;
+
     const rootLabel = translation[rootStateName] ?? flowEntry.key ?? "No key";
+
     return {
       destination: flowRoot + destinationStepId,
       label: rootLabel,
@@ -80,5 +94,6 @@ export function navState({
   if (isUneditable && isDone) return NavState.DoneDisabled;
   if (isReachable && isDone) return NavState.Done;
   if (isReachable) return NavState.Open;
+
   return NavState.OpenDisabled;
 }
