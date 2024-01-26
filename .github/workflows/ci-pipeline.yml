@@ -186,8 +186,6 @@ jobs:
 
   test-production-text:
     needs: [deploy-production]
-    permissions:
-      packages: read
     runs-on: ubuntu-latest
     steps:
       - run: curl -s "https://service.justiz.de" | grep -q "Justiz-Services"
