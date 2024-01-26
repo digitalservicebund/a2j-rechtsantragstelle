@@ -1,5 +1,5 @@
 {
-  "include": ["env.d.ts", "app/", "tests/", "stories/"],
+  "include": ["env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "preserveSymlinks": true,
     "incremental": true,
@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
-    "module": "ESNext",
+    "module": "ES2022",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "target": "ES2022",
@@ -22,10 +22,7 @@
       "~/*": ["./app/*"],
       "tests/*": ["./tests/*"],
     },
-    // Remix takes care of building everything in `remix build`.
+    // Vite takes care of building everything
     "noEmit": true,
-  },
-  "watchOptions": {
-    "excludeDirectories": ["build", "public/build"],
   },
 }
