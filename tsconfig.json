@@ -27,7 +27,4 @@
   "watchOptions": {
     "excludeDirectories": ["build", "public/build"],
   },
-  "ts-node": {
-    "require": ["tsconfig-paths/register"],
-  },
 }

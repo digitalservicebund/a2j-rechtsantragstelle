@@ -13,11 +13,11 @@
     "build": "remix build",
     "build-storybook": "storybook build --output-dir=public/storybook",
     "dev": "remix dev",
-    "dumpCmsToFile": "ts-node ./app/services/cms/dumpCmsToFile.ts dumpCmsToFile",
+    "dumpCmsToFile": "tsx ./app/services/cms/dumpCmsToFile.ts dumpCmsToFile",
     "eslint": "eslint . --fix",
     "eslint:check": "eslint --cache .",
-    "generate:pdf": "ts-node ./app/services/pdf/pdf.generator.ts",
-    "generate-opensource-licenses": "ts-node -T ./app/services/openSourceLicenses/generate.ts generateLicenseFile",
+    "generate:pdf": "tsx ./app/services/pdf/pdf.generator.ts",
+    "generate-opensource-licenses": "tsx ./app/services/openSourceLicenses/generate.server.ts generateLicenseFile",
     "init": "lefthook install",
     "prettier": "prettier --write . --ignore-path .prettierignore",
     "prettier:check": "prettier --check . --ignore-path .prettierignore",
@@ -28,10 +28,10 @@
     "test:e2e": "npx playwright test",
     "test:e2e:ui": "npx playwright test --ui",
     "typecheck": "tsc",
-    "update:URLs": "ts-node ./app/services/gerichtsfinder/checkURLs.ts checkURLs",
-    "update:gerichtsfinder": "ts-node ./app/services/gerichtsfinder/encryptedStorage.ts updateZip",
-    "verifyEmails": "ts-node ./app/services/cms/verifyExternalLinks.ts verifyEmails",
-    "verifyWebsites": "ts-node ./app/services/cms/verifyExternalLinks.ts verifyWebsites"
+    "update:URLs": "tsx ./app/services/gerichtsfinder/checkURLs.ts checkURLs",
+    "update:gerichtsfinder": "tsx ./app/services/gerichtsfinder/encryptedStorage.ts updateZip",
+    "verifyEmails": "tsx ./app/services/cms/verifyExternalLinks.ts verifyEmails",
+    "verifyWebsites": "tsx ./app/services/cms/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
     "@digitalservice4germany/angie": "^1.1.1",
@@ -116,7 +116,7 @@
     "storybook": "^7.6.10",
     "tailwindcss": "^3.4.1",
     "ts-jest": "^29.1.2",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.7.0",
     "typescript": "^5.3.3"
   },
   "engines": {
