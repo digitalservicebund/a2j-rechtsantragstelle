@@ -23,8 +23,9 @@ import FlowNavigation, { NavState } from "~/components/FlowNavigation";
 import Heading from "~/components/Heading";
 import DateInput from "~/components/inputs/DateInput";
 
-export const DummySchema = z.object({
+const DummySchema = z.object({
   text: z.string().min(1),
+  textarea: z.string(),
   options: z.enum(["1", "2", "3"]),
   radioOptions: z.enum(["yes", "no", "maybe"]),
 });
@@ -66,7 +67,7 @@ export default function Kitchensink() {
             <Input name="text" label="Label for input" />
 
             <h3>{"<Textarea>"}</h3>
-            <Textarea name="text" label="Label for textarea" />
+            <Textarea name="textarea" label="Label for textarea" />
 
             <h3>{"<Select>"}</h3>
             <Select
@@ -237,8 +238,8 @@ export default function Kitchensink() {
               look: "ds-heading-02-reg",
             }}
             items={[
-              { label: { text: "Lorem ipsum", tagName: "h4" } },
-              { label: { text: "Lorem ipsum", tagName: "h4" } },
+              { label: { text: "Lorem ipsum1", tagName: "h4" } },
+              { label: { text: "Lorem ipsum2", tagName: "h4" } },
             ]}
           />
         </Container>
