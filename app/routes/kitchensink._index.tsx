@@ -19,10 +19,9 @@ import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { throw404OnProduction } from "../services/errorPages/throw404";
 import Textarea from "~/components/inputs/Textarea";
 import List from "~/components/List";
-import FlowNavigation from "~/components/FlowNavigation";
+import FlowNavigation, { NavState } from "~/components/FlowNavigation";
 import Heading from "~/components/Heading";
 import DateInput from "~/components/inputs/DateInput";
-import { NavState } from "~/services/flowNavigation";
 
 export const DummySchema = z.object({
   text: z.string().min(1),

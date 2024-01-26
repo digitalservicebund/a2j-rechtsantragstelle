@@ -23,7 +23,7 @@ import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
 import { lastStepKey } from "~/services/flow/constants";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
-import { navItemsFromFlowSpecifics } from "~/services/flowNavigation";
+import { navItemsFromFlowSpecifics } from "~/services/flowNavigation.server";
 import type { z } from "zod";
 import type { CollectionSchemas } from "~/services/cms/schemas";
 import { getButtonNavigationProps } from "~/util/getButtonNavigationProps";

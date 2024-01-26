@@ -1,10 +1,10 @@
 import {
   navItemsFromFlowSpecifics,
   navState,
-  NavState,
-} from "~/services/flowNavigation";
+} from "~/services/flowNavigation.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import _ from "lodash";
+import { NavState } from "~/components/FlowNavigation";
 
 describe("flowNavigation", () => {
   describe("navState", () => {

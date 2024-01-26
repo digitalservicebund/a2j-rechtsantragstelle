@@ -1,6 +1,13 @@
 import CheckCircleOutlineIcon from "@digitalservicebund/icons/CheckCircleOutline";
 import CircleOutlinedIcon from "@digitalservicebund/icons/CircleOutlined";
-import { NavState } from "~/services/flowNavigation";
+
+export enum NavState {
+  DoneDisabled,
+  Done,
+  Current,
+  Open,
+  OpenDisabled,
+}
 
 export type NavItem = {
   destination: string;

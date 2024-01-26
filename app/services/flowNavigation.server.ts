@@ -1,16 +1,8 @@
-import { type NavItem } from "~/components/FlowNavigation";
+import { NavState, type NavItem } from "~/components/FlowNavigation";
 import { getSubflowsEntries } from "~/models/flows/flows.server";
 import { type buildFlowController } from "./flow/server/buildFlowController";
 import _ from "lodash";
 import { type Translations } from "./cms/index.server";
-
-export enum NavState {
-  DoneDisabled,
-  Done,
-  Current,
-  Open,
-  OpenDisabled,
-}
 
 export function navItemsFromFlowSpecifics(
   currentStepId: string,
