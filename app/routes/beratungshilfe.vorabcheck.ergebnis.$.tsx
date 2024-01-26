@@ -1,1 +1,2 @@
-export { action, loader, Step as default } from "~/routes/shared/result";
+export { action, loader } from "~/routes/shared/result";
+export { Result as default } from "./shared/components/Result";

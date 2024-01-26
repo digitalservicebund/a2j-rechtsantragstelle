@@ -1,13 +1,7 @@
-import { useLoaderData, useLocation, useParams } from "@remix-run/react";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { ValidatedForm, validationError } from "remix-validated-form";
-import { ButtonNavigation } from "~/components/form/ButtonNavigation";
+import { validationError } from "remix-validated-form";
 import { getSessionForContext, updateSession } from "~/services/session.server";
-import PageContent from "~/components/PageContent";
-import Container from "~/components/Container";
-import Background from "~/components/Background";
-import { ProgressBar } from "~/components/form/ProgressBar";
 import {
   fetchCollectionEntry,
   fetchMeta,
@@ -25,15 +19,10 @@ import {
   csrfSessionFromRequest,
   validatedSession,
 } from "~/services/security/csrf.server";
-import { CSRFKey } from "~/services/security/csrfKey";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
 import { lastStepKey } from "~/services/flow/constants";
-import { fillTemplate } from "~/util/fillTemplate";
-import Heading from "~/components/Heading";
-import MigrationDataOverview from "~/components/MigrationDataOverview";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
-import FlowNavigation from "~/components/FlowNavigation";
 import { navItemsFromFlowSpecifics } from "~/services/flowNavigation";
 import type { z } from "zod";
 import type { CollectionSchemas } from "~/services/cms/schemas";
@@ -226,144 +215,3 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
   return redirect(flowController.getNext(stepId).url, { headers });
 };
-
-export function StepWithProgressBar() {
-  const {
-    csrf,
-    defaultValues,
-    commonContent,
-    content,
-    formContent,
-    progress,
-    templateReplacements,
-    buttonNavigationProps,
-  } = useLoaderData<typeof loader>();
-  const stepId = splatFromParams(useParams());
-  const { pathname } = useLocation();
-  const flowId = flowIDFromPathname(pathname);
-  const context = getContext(flowId);
-  const fieldNames = formContent.map((entry) => entry.name);
-  const validator = buildStepValidator(context, fieldNames);
-
-  return (
-    <Background backgroundColor="blue">
-      <div className="min-h-screen">
-        <Container paddingTop="24" paddingBottom="64">
-          <div className="ds-stack-16">
-            <ProgressBar
-              label={commonContent.progressBarLabel}
-              progress={progress.current}
-              max={progress.total}
-            />
-            <div className="ds-stack-40">
-              <PageContent
-                content={content}
-                templateReplacements={templateReplacements}
-                className="ds-stack-16"
-              />
-              <ValidatedForm
-                id={`${stepId}_form`}
-                method="post"
-                validator={validator}
-                defaultValues={defaultValues}
-                noValidate
-                action={pathname}
-              >
-                <input type="hidden" name={CSRFKey} value={csrf} />
-                <div className="ds-stack-40">
-                  <PageContent content={formContent} className="ds-stack-40" />
-                  <ButtonNavigation {...buttonNavigationProps} />
-                </div>
-              </ValidatedForm>
-            </div>
-          </div>
-        </Container>
-      </div>
-    </Background>
-  );
-}
-
-export function StepWithPreHeading() {
-  const {
-    csrf,
-    defaultValues,
-    heading,
-    preHeading,
-    content,
-    formContent,
-    postFormContent,
-    migrationData,
-    templateReplacements,
-    buttonNavigationProps,
-    translations,
-    navItems,
-  } = useLoaderData<typeof loader>();
-  const stepId = splatFromParams(useParams());
-  const { pathname } = useLocation();
-  const flowId = flowIDFromPathname(pathname);
-  const context = getContext(flowId);
-  const fieldNames = formContent.map((entry) => entry.name);
-  const validator = buildStepValidator(context, fieldNames);
-
-  return (
-    <Background backgroundColor="blue">
-      <div className="pt-32 min-h-screen flex flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start">
-        {navItems && (
-          <div className="pb-48 md:pt-[1.4rem] md:shrink-0 md:grow md:min-w-[max-content] md:max-w-[calc(50vw_-_29.5rem)] md:flex md:justify-end">
-            <FlowNavigation navItems={navItems} />
-          </div>
-        )}
-        <div
-          className={`ds-stack-40 container md:flex-1 ${navItems && "!ml-0"}`}
-        >
-          <div className="ds-stack-16">
-            {preHeading && (
-              <p className="ds-label-01-bold">
-                {fillTemplate({
-                  template: preHeading,
-                  replacements: templateReplacements,
-                })}
-              </p>
-            )}
-            <Heading
-              text={fillTemplate({
-                template: heading ?? "",
-                replacements: templateReplacements,
-              })}
-              look="ds-heading-02-reg"
-            />
-            <PageContent
-              content={content}
-              templateReplacements={templateReplacements}
-              className="ds-stack-16"
-            />
-          </div>
-
-          <MigrationDataOverview
-            migrationData={migrationData}
-            translations={translations}
-          />
-          <ValidatedForm
-            id={`${stepId}_form`}
-            method="post"
-            validator={validator}
-            defaultValues={defaultValues}
-            noValidate
-            action={pathname}
-          >
-            <input type="hidden" name={CSRFKey} value={csrf} />
-            <div className="ds-stack-40">
-              {formContent && formContent.length != 0 && (
-                <PageContent content={formContent} className="ds-stack-40" />
-              )}
-              {postFormContent && postFormContent.length != 0 && (
-                <PageContent content={postFormContent} />
-              )}
-              <ButtonNavigation {...buttonNavigationProps} />
-            </div>
-          </ValidatedForm>
-        </div>
-      </div>
-    </Background>
-  );
-}

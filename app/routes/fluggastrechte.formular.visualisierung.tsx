@@ -1,1 +1,2 @@
-export { loader, Index as default } from "./shared/visualisierung";
+export { loader } from "./shared/visualisierung";
+export { Visualisierung as default } from "./shared/components/Visualisierung";

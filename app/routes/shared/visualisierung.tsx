@@ -1,5 +1,4 @@
 import { type LoaderFunctionArgs, json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
 import { createMachine, type AnyStateMachine } from "xstate";
 import { toDirectedGraph } from "@xstate/graph";
 import { flows } from "~/models/flows/flows.server";
@@ -79,8 +78,3 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   const base64Graph = getVisualizationString(machine, showBacklinks);
   return json({ url: `https://mermaid.ink/img/${base64Graph}` });
 };
-
-export function Index() {
-  const { url } = useLoaderData<typeof loader>();
-  return <img alt="current flow chart" src={url}></img>;
-}
