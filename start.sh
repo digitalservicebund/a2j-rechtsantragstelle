@@ -10,4 +10,4 @@ export POSTHOG_API_KEY="${POSTHOG_API_KEY:=$(cat /etc/posthog-secrets/password)}
 export COOKIE_SESSION_SECRET="${COOKIE_SESSION_SECRET:=$(cat /etc/cookie-session-secret/password)}"
 export REDIS_PASSWORD="${REDIS_PASSWORD:=$(cat /etc/redis-password-secret/password)}"
 
-node ./server.js
+NODE_ENV=production node ./server.js
