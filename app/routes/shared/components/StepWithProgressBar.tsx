@@ -9,7 +9,7 @@ import { buildStepValidator } from "~/models/flows/common";
 import { getContext, flowIDFromPathname } from "~/models/flows/contexts";
 import { CSRFKey } from "~/services/security/csrfKey";
 import { splatFromParams } from "~/services/params";
-import type { loader } from "../step";
+import type { loader } from "../step.server";
 
 export function StepWithProgressBar() {
   const {

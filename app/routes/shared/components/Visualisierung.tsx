@@ -1,5 +1,5 @@
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "../visualisierung";
+import type { loader } from "../visualisierung.server";
 
 export function Visualisierung() {
   const { url } = useLoaderData<typeof loader>();

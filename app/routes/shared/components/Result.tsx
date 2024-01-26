@@ -17,7 +17,7 @@ import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBox
 import { dataDeletionKey } from "~/services/flow/constants";
 import CourtDetails from "~/components/CourtDetails";
 import Background from "~/components/Background";
-import type { loader } from "../result";
+import type { loader } from "../result.server";
 
 const iconCSS = "inline-block mr-8 !h-[36px] !w-[36px]";
 export const icons: Record<StrapiResultPageType, ReactElement> = {

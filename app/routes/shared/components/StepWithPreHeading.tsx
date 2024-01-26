@@ -11,7 +11,7 @@ import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/FlowNavigation";
 import { splatFromParams } from "~/services/params";
-import type { loader } from "../step";
+import type { loader } from "../step.server";
 
 export function StepWithPreHeading() {
   const {
