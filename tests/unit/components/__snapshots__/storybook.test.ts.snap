@@ -681,6 +681,7 @@ exports[`Storyshots Page/List Example 1`] = `
         >
           <div
             className="flex flex-row items-center justify-center"
+            id="default-list-item-id-1"
           >
             <div
               className="break-words w-full "
@@ -718,6 +719,7 @@ exports[`Storyshots Page/List Example 1`] = `
         >
           <div
             className="flex flex-row items-center justify-center"
+            id="default-list-item-id-2"
           >
             <div
               className="break-words w-full "

@@ -27,7 +27,7 @@ const ListItem = ({
 }: ListItemProps & { readonly numeric?: number }) => {
   return (
     <div
-      key={identifier}
+      id={identifier}
       className={"flex flex-row items-center justify-center"}
     >
       {image && (

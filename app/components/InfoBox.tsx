@@ -16,7 +16,16 @@ const InfoBox = ({ identifier, items, heading }: InfoBoxProps) => {
       {heading && <Heading {...heading} />}
       <ul className="list-none ds-stack-32 ps-0 info-box">
         {items.map((item) => (
-          <InfoBoxItem {...item} key={item.headline?.text ?? item.content} />
+          <InfoBoxItem
+            {...item}
+            key={
+              item.identifier ??
+              item.headline?.text ??
+              item.content ??
+              item.label?.text ??
+              ""
+            }
+          />
         ))}
       </ul>
     </div>

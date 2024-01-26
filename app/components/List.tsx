@@ -15,14 +15,13 @@ const List = ({ identifier, items, heading, isNumeric }: ListProps) => {
   return (
     <div className="ds-stack-8 scroll-my-40">
       {heading && <Heading {...heading} />}
-      <ol className="list-none ds-stack-32 ps-0" key={identifier}>
+      <ol className="list-none ds-stack-32 ps-0">
         {items.map((item, index) => (
-          <li key={item.identifier} className="first:pt-0 scroll-my-40">
-            <ListItem
-              {...item}
-              key={item.headline?.text ?? item.content}
-              numeric={isNumeric ? index + 1 : undefined}
-            />
+          <li
+            key={item.identifier ?? item.headline?.text ?? item.content}
+            className="first:pt-0 scroll-my-40"
+          >
+            <ListItem {...item} numeric={isNumeric ? index + 1 : undefined} />
           </li>
         ))}
       </ol>
