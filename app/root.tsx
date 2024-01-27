@@ -128,7 +128,7 @@ function App() {
   if (typeof window !== "undefined") console.log(consoleMessage);
 
   return (
-    <html lang="de" className="scroll-smooth">
+    <html lang="de">
       <head>
         <title>{title}</title>
         {description && <meta name="description" content={description} />}
