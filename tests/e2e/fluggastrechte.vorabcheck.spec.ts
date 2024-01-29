@@ -17,6 +17,9 @@ test("forwarded to intial step", async ({ page }) => {
 
 test("geldeinklagen can be traversed", async ({ page }) => {
   await expectPageToBeAccessible({ page });
+  await vorabcheck.clickNext();
+
+  await expectPageToBeAccessible({ page });
   await vorabcheck.fillMultipleInputPage([
     { field: "startAirport", value: "BER" },
     { field: "endAirport", value: "FRA" },
