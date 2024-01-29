@@ -135,24 +135,15 @@ function NavItem({
         getNavRootItem(destination, state, isDisabled, hasActiveSubflows, label)
       )}
       {hasActiveSubflows && (
-        <section className="w-[245px]" {...collapse.getCollapseProps()}>
-          <SubflowNavigation
-            subflows={relevantSubflows}
-            destination={destination}
-          />
+        <section className="w-[240px]" {...collapse.getCollapseProps()}>
+          <SubflowNavigation subflows={relevantSubflows} />
         </section>
       )}
     </li>
   );
 }
 
-function SubflowNavigation({
-  subflows,
-  destination,
-}: {
-  readonly subflows: NavItem[];
-  readonly destination: string;
-}) {
+function SubflowNavigation({ subflows }: { readonly subflows: NavItem[] }) {
   return (
     <ul className="pt-8 pl-32 mr-8 pl-0 min-w-fit max-w-fit  md:min-w-[250px] md:max-w-[250px] break-words">
       {subflows.map(({ destination, label, state }) =>
