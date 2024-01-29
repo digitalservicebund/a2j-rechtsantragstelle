@@ -1,5 +1,5 @@
 {
-  "include": ["env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["env.d.ts", "app/**/*", "stories/**/*", "tests/**/*"],
   "compilerOptions": {
     "preserveSymlinks": true,
     "incremental": true,
