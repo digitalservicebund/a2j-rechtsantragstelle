@@ -3,9 +3,6 @@ node_modules
 /.cache
 /build
 /coverage
-/public/build
-/public/storybook
-/public/uploads
 .env
 tsconfig.tsbuildinfo
 **/content.json

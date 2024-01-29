@@ -17,6 +17,7 @@ let instance: Config | undefined = undefined;
 export function config(): Config {
   if (instance === undefined) {
     const STRAPI_API = process.env.STRAPI_API?.trim();
+    const ENVIRONMENT = process.env.ENVIRONMENT?.trim() ?? "development";
 
     instance = {
       STRAPI_API: STRAPI_API ?? "",
@@ -26,7 +27,7 @@ export function config(): Config {
       TRUSTED_IMAGE_SOURCES:
         "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com https://mermaid.ink data:",
       TRUSTED_CSP_CONNECT_SOURCES:
-        process.env.NODE_ENV === "development"
+        ENVIRONMENT === "development"
           ? "*"
           : "'self' https://*.ingest.sentry.io https://eu.posthog.com",
       REDIS_ENDPOINT: process.env.REDIS_ENDPOINT?.trim() ?? "localhost:6380",
@@ -35,7 +36,7 @@ export function config(): Config {
         process.env.COOKIE_SESSION_SECRET?.trim() ?? "s3cr3t",
       CONTENT_FILE_PATH:
         process.env.CONTENT_FILE_PATH?.trim() ?? "./content.json",
-      ENVIRONMENT: process.env.ENVIRONMENT?.trim() ?? "development",
+      ENVIRONMENT,
     };
   }
 

@@ -16,11 +16,11 @@ import {
   useMatches,
   useRouteLoaderData,
 } from "@remix-run/react";
-import stylesheet from "~/styles.css";
-import fontsStylesheet from "@digitalservice4germany/angie/fonts.css";
-import fontRegular from "~/../public/fonts/BundesSansWeb-Regular.woff2";
-import fontBold from "~/../public/fonts/BundesSansWeb-Bold.woff2";
-import ogImage from "~/../public/og-image.png";
+import "~/styles.css";
+import "@digitalservice4germany/angie/fonts.css";
+import fontRegular from "/fonts/BundesSansWeb-Regular.woff2";
+import fontBold from "/fonts/BundesSansWeb-Bold.woff2";
+import ogImage from "/og-image.png";
 import { withSentry } from "@sentry/remix";
 import { config as configWeb } from "~/services/env/web";
 import {
@@ -70,8 +70,6 @@ export const links: LinksFunction = () => [
     href: fontBold,
     crossOrigin: "anonymous",
   },
-  { rel: "stylesheet", href: fontsStylesheet },
-  { rel: "stylesheet", href: stylesheet },
   { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },

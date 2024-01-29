@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   testEnvironment: "jsdom",
   moduleDirectories: ["node_modules", "<rootDir>/app"],
   moduleNameMapper: {
@@ -9,5 +9,7 @@ module.exports = {
   preset: "ts-jest",
   setupFiles: ["<rootDir>/tests/setup.tests.ts"],
   setupFilesAfterEnv: ["<rootDir>/tests/setupAfterEnv.tests.js"],
-  resolver: "<rootDir>/tests/resolver.js",
+  resolver: "<rootDir>/tests/resolver.cjs",
 };
+
+export default config;
