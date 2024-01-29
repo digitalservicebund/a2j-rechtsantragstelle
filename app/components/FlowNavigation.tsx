@@ -88,7 +88,7 @@ function NavItem({
   const hasActiveSubflows =
     [NavState.Current, NavState.Open, NavState.Done].includes(state) &&
     relevantSubflows.some((subflow) =>
-      [NavState.Current, NavState.Done].includes(subflow.state),
+      [NavState.Current, NavState.Open, NavState.Done].includes(subflow.state),
     ) &&
     relevantSubflows.length > 0;
 
@@ -99,7 +99,7 @@ function NavItem({
     >
       {hasActiveSubflows ? (
         <div
-          className={`p-16 pr-0 flex gap-x-16 items-center min-w-[242px]
+          className={`p-16 md:pr-0 flex gap-x-16 items-center min-w-[242px]
           ${
             state === NavState.Current
               ? "ds-label-02-bold"
