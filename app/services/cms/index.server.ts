@@ -9,7 +9,6 @@ import type { CollectionSchemas, EntrySchemas } from "./schemas";
 import { collectionSchemas, entrySchemas } from "./schemas";
 import { httpErrorCodes } from "../errorPages/ErrorBox";
 import type { StrapiPage } from "./models/StrapiPage";
-import { stripTrailingSlashFromURL } from "~/util/strings";
 
 export type GetStrapiEntryOpts = {
   apiId: keyof StrapiFileContent;
