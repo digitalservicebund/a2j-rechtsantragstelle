@@ -15,6 +15,6 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "github-actions"
-    directory: "`/.github/actions/cached-checkout-install"
+    directory: "/.github/actions/cached-checkout-install"
     schedule:
       interval: "daily"
