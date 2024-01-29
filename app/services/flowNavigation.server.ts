@@ -12,7 +12,6 @@ export function navItemsFromFlowSpecifics(
   const currentFlow = flowController.getConfig();
   const flowRoot = currentFlow.id ?? "";
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   return getSubflowsEntries(currentFlow).map(([rootStateName, flowEntry]) => {
     const subflows =
       "states" in flowEntry
@@ -42,25 +41,16 @@ export function navItemsFromFlowSpecifics(
             subflows.map((entry) => {
               const subflow = entry[1] ?? {};
               const subflowKey = entry[0] ?? "No key";
-              const subflowRoot = `${rootStateName}/${subflow?.id ?? ""}`;
-              const subflowDestionationStepId = `${subflowRoot}/${
-                typeof subflow?.initial === "string" ? subflow?.initial : ""
-              }`;
-              const subflowLabel = translation[subflowRoot] ?? subflowKey;
-
-              return {
-                destination: flowRoot + subflowDestionationStepId,
-                label: subflowLabel ?? subflowKey,
-                state: navState({
-                  isCurrent: currentStepId.startsWith(subflowRoot),
-                  isReachable: true,
-                  isDone: flowController.isSubflowDone(
-                    rootStateName,
-                    subflowKey,
-                  ),
-                  isUneditable: flowController.isUneditable(subflowRoot),
-                }),
-              };
+              return getSubflowSpecifics(
+                rootStateName,
+                subflow?.id ?? "",
+                typeof subflow?.initial === "string" ? subflow?.initial : "",
+                translation,
+                subflowKey,
+                flowRoot,
+                currentStepId,
+                flowController,
+              );
             }),
           )
         : [];
@@ -77,6 +67,32 @@ export function navItemsFromFlowSpecifics(
       subflows: subflowSpecifics,
     };
   });
+}
+
+function getSubflowSpecifics(
+  rootStateName: string,
+  id: string,
+  initial: string,
+  translation: Translations,
+  subflowKey: string,
+  flowRoot: string,
+  currentStepId: string,
+  flowController: ReturnType<typeof buildFlowController>,
+) {
+  const subflowRoot = `${rootStateName}/${id ?? ""}`;
+  const subflowDestionationStepId = `${subflowRoot}/${initial ?? ""}`;
+  const subflowLabel = translation[subflowRoot] ?? subflowKey;
+
+  return {
+    destination: flowRoot + subflowDestionationStepId,
+    label: subflowLabel ?? subflowKey,
+    state: navState({
+      isCurrent: currentStepId.startsWith(subflowRoot),
+      isReachable: true,
+      isDone: flowController.isSubflowDone(rootStateName, subflowKey),
+      isUneditable: flowController.isUneditable(subflowRoot),
+    }),
+  };
 }
 
 export function navState({
