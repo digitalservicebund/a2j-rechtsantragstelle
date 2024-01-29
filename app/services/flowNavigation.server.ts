@@ -12,7 +12,6 @@ export function navItemsFromFlowSpecifics(
   const currentFlow = flowController.getConfig();
   const flowRoot = currentFlow.id ?? "";
 
-  // Fixme Sanny: This function is too complex
   // eslint-disable-next-line sonarjs/cognitive-complexity
   return getSubflowsEntries(currentFlow).map(([rootStateName, flowEntry]) => {
     const subflows =
@@ -37,6 +36,34 @@ export function navItemsFromFlowSpecifics(
     }`;
 
     const rootLabel = translation[rootStateName] ?? flowEntry.key ?? "No key";
+    const subflowSpecifics =
+      subflows.length > 0
+        ? _.flatten(
+            subflows.map((entry) => {
+              const subflow = entry[1] ?? {};
+              const subflowKey = entry[0] ?? "No key";
+              const subflowRoot = `${rootStateName}/${subflow?.id ?? ""}`;
+              const subflowDestionationStepId = `${subflowRoot}/${
+                typeof subflow?.initial === "string" ? subflow?.initial : ""
+              }`;
+              const subflowLabel = translation[subflowRoot] ?? subflowKey;
+
+              return {
+                destination: flowRoot + subflowDestionationStepId,
+                label: subflowLabel ?? subflowKey,
+                state: navState({
+                  isCurrent: currentStepId.startsWith(subflowRoot),
+                  isReachable: true,
+                  isDone: flowController.isSubflowDone(
+                    rootStateName,
+                    subflowKey,
+                  ),
+                  isUneditable: flowController.isUneditable(subflowRoot),
+                }),
+              };
+            }),
+          )
+        : [];
 
     return {
       destination: flowRoot + destinationStepId,
@@ -47,34 +74,7 @@ export function navItemsFromFlowSpecifics(
         isDone: flowController.isDone(rootStateName),
         isUneditable: flowController.isUneditable(rootStateName),
       }),
-      subflows:
-        subflows.length > 0
-          ? _.flatten(
-              subflows.map((entry) => {
-                const subflow = entry[1] ?? {};
-                const subflowKey = entry[0] ?? "No key";
-                const subflowRoot = `${rootStateName}/${subflow?.id ?? ""}`;
-                const subflowDestionationStepId = `${subflowRoot}/${
-                  typeof subflow?.initial === "string" ? subflow?.initial : ""
-                }`;
-                const subflowLabel = translation[subflowRoot] ?? subflowKey;
-
-                return {
-                  destination: flowRoot + subflowDestionationStepId,
-                  label: subflowLabel ?? subflowKey,
-                  state: navState({
-                    isCurrent: currentStepId.startsWith(subflowRoot),
-                    isReachable: true,
-                    isDone: flowController.isSubflowDone(
-                      rootStateName,
-                      subflowKey,
-                    ),
-                    isUneditable: flowController.isUneditable(subflowRoot),
-                  }),
-                };
-              }),
-            )
-          : [],
+      subflows: subflowSpecifics,
     };
   });
 }

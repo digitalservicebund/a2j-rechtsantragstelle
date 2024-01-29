@@ -1,5 +1,10 @@
 import CheckCircleOutlineIcon from "@digitalservicebund/icons/CheckCircleOutline";
 import CircleOutlinedIcon from "@digitalservicebund/icons/CircleOutlined";
+import React from "react";
+import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
+import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
+
+import { useCollapse } from "react-collapsed";
 
 export enum NavState {
   DoneDisabled,
@@ -29,19 +34,30 @@ export default function FlowNavigation({
 }) {
   return (
     <ul>
-      {navItems.map(({ destination, label, state, subflows }) =>
-        navItem(destination, state, label, subflows),
-      )}
+      {navItems.map(({ destination, label, state, subflows }) => (
+        <NavItem
+          key={destination}
+          destination={destination}
+          state={state}
+          label={label}
+          subflows={subflows ?? []}
+        />
+      ))}
     </ul>
   );
 }
 
-function navItem(
-  destination: string,
-  state: NavState,
-  label: string,
-  subflows = [] as NavItem[],
-) {
+function NavItem({
+  destination,
+  label,
+  state,
+  subflows,
+}: {
+  readonly destination: string;
+  readonly state: NavState;
+  readonly label: string;
+  readonly subflows: NavItem[];
+}) {
   const relevantSubflows = subflows.filter((subflow, index) => {
     const isCurrentState = subflow.state === NavState.Current;
     const isDoneState = subflow.state === NavState.Done;
@@ -62,6 +78,11 @@ function navItem(
     );
   });
 
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
+    defaultExpanded: state === NavState.Current,
+  });
+
   const isDisabled = [NavState.DoneDisabled, NavState.OpenDisabled].includes(
     state,
   );
@@ -78,9 +99,82 @@ function navItem(
       key={destination}
       className={"list-none border-t-2 border-white first:border-t-0"}
     >
-      <a
-        href={destination}
-        className={`p-16 flex gap-x-16 items-center 
+      {hasActiveSubflows ? (
+        <div
+          className={`p-16 pr-0 flex gap-x-16 items-center min-w-[242px]
+          ${
+            state === NavState.Current
+              ? "ds-label-02-bold"
+              : "ds-label-02-reg hover:font-bold"
+          } 
+          ${
+            isDisabled
+              ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none"
+              : ""
+          }
+          ${!isDisabled && isExpanded ? "border-b-2 border-white" : ""}
+        `}
+          aria-disabled={[
+            NavState.DoneDisabled,
+            NavState.OpenDisabled,
+          ].includes(state)}
+        >
+          <button
+            className="relative flex items-center w-full cursor-pointer flex gap-x-16 items-center"
+            {...getToggleProps()}
+          >
+            <StateIcon state={state} />
+            {label}
+            <i className="absolute right-0 pt-1 text-base transition-transform fa fa-chevron-down group-open:rotate-180"></i>
+            {isExpanded ? (
+              <ExpandLessIcon className="ml-auto" />
+            ) : (
+              <ExpandMoreIcon className="ml-auto" />
+            )}
+          </button>
+        </div>
+      ) : (
+        getNavRootItem(destination, state, isDisabled, hasActiveSubflows, label)
+      )}
+      {hasActiveSubflows && (
+        <section className="w-[245px]" {...getCollapseProps()}>
+          <SubflowNavigation
+            subflows={relevantSubflows}
+            destination={destination}
+          />
+        </section>
+      )}
+    </li>
+  );
+}
+
+function SubflowNavigation({
+  subflows,
+  destination,
+}: {
+  readonly subflows: NavItem[];
+  readonly destination: string;
+}) {
+  return (
+    <ul className="pt-8 pl-32 mr-8 pl-0 min-w-fit max-w-fit  md:min-w-[250px] md:max-w-[250px] break-words">
+      {subflows.map(({ destination, label, state }) =>
+        navSubflowItem(destination, state, label),
+      )}
+    </ul>
+  );
+}
+
+function getNavRootItem(
+  destination: string,
+  state: NavState,
+  isDisabled: boolean,
+  hasActiveSubflows: boolean,
+  label: string,
+) {
+  return (
+    <a
+      href={destination}
+      className={`p-16 flex gap-x-16 items-center 
           ${
             state === NavState.Current
               ? "ds-label-02-bold"
@@ -93,27 +187,23 @@ function navItem(
           }
           ${hasActiveSubflows && !isDisabled ? "border-b-2 border-white" : ""}
         `}
-        aria-disabled={[NavState.DoneDisabled, NavState.OpenDisabled].includes(
-          state,
-        )}
-      >
-        <StateIcon state={state} />
-        {label}
-      </a>
-      {hasActiveSubflows && (
-        <ul className="pt-8 pl-32 mr-8 pl-0 min-w-fit max-w-fit  md:min-w-[250px] md:max-w-[250px] break-words">
-          {relevantSubflows.map(({ destination, label, state }) =>
-            navSubflowItem(destination, state, label),
-          )}
-        </ul>
+      aria-disabled={[NavState.DoneDisabled, NavState.OpenDisabled].includes(
+        state,
       )}
-    </li>
+    >
+      <StateIcon state={state} />
+      {label}
+    </a>
   );
 }
 
 function navSubflowItem(destination: string, state: NavState, label: string) {
   return (
-    <li key={destination} className="list-none">
+    <li
+      data-collapse={`collapse-${destination}`}
+      key={destination}
+      className="list-none"
+    >
       <a
         href={destination}
         className={`p-16 flex gap-x-16 items-center 
