@@ -9,6 +9,7 @@ import type { CollectionSchemas, EntrySchemas } from "./schemas";
 import { collectionSchemas, entrySchemas } from "./schemas";
 import { httpErrorCodes } from "../errorPages/ErrorBox";
 import type { StrapiPage } from "./models/StrapiPage";
+import { stripTrailingSlashFromURL } from "~/util/strings";
 
 export type GetStrapiEntryOpts = {
   apiId: keyof StrapiFileContent;
@@ -47,10 +48,14 @@ export async function fetchCollectionEntry<
   filterField = "slug",
   locale?: StrapiLocale,
 ): Promise<z.infer<CollectionSchemas[ApiId]>> {
+  // We are stripping single trailing slash e.g. .../beratungshilfe/
   const strapiEntry = await getStrapiEntry({
     apiId,
     locale,
-    filterValue,
+    filterValue:
+      filterField === "slug" && filterValue !== "/" && filterValue.endsWith("/")
+        ? filterValue.slice(0, -1)
+        : filterValue,
     filterField,
   });
 
