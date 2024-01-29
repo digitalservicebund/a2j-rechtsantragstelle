@@ -1,6 +1,5 @@
 import CheckCircleOutlineIcon from "@digitalservicebund/icons/CheckCircleOutline";
 import CircleOutlinedIcon from "@digitalservicebund/icons/CircleOutlined";
-import React from "react";
 import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
 import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
 
@@ -78,8 +77,7 @@ function NavItem({
     );
   });
 
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
+  const collapse = useCollapse({
     defaultExpanded: state === NavState.Current,
   });
 
@@ -112,7 +110,7 @@ function NavItem({
               ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none"
               : ""
           }
-          ${!isDisabled && isExpanded ? "border-b-2 border-white" : ""}
+          ${!isDisabled && collapse.isExpanded ? "border-b-2 border-white" : ""}
         `}
           aria-disabled={[
             NavState.DoneDisabled,
@@ -121,12 +119,12 @@ function NavItem({
         >
           <button
             className="relative flex items-center w-full cursor-pointer flex gap-x-16 items-center"
-            {...getToggleProps()}
+            {...collapse.getToggleProps()}
           >
             <StateIcon state={state} />
             {label}
             <i className="absolute right-0 pt-1 text-base transition-transform fa fa-chevron-down group-open:rotate-180"></i>
-            {isExpanded ? (
+            {collapse.isExpanded ? (
               <ExpandLessIcon className="ml-auto" />
             ) : (
               <ExpandMoreIcon className="ml-auto" />
@@ -137,7 +135,7 @@ function NavItem({
         getNavRootItem(destination, state, isDisabled, hasActiveSubflows, label)
       )}
       {hasActiveSubflows && (
-        <section className="w-[245px]" {...getCollapseProps()}>
+        <section className="w-[245px]" {...collapse.getCollapseProps()}>
           <SubflowNavigation
             subflows={relevantSubflows}
             destination={destination}
