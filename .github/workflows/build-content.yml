@@ -33,6 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: ./.github/actions/cached-checkout-install
       - name: Get Playwright version
         run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages[''].devDependencies['@playwright/test'])")" >> $GITHUB_ENV
 
