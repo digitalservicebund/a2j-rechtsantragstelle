@@ -83,7 +83,7 @@
     "@storybook/addon-storyshots": "^7.6.10",
     "@storybook/react": "^7.6.10",
     "@storybook/react-vite": "^8.0.0-alpha.15",
-    "@testing-library/jest-dom": "^6.3.0",
+    "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/react": "^14.1.2",
     "@types/follow-redirects": "^1.14.4",
     "@types/jest": "^29.5.11",
@@ -102,7 +102,7 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "lefthook": "^1.6.1",
-    "p-map": "^4.0.0",
+    "p-map": "^7.0.1",
     "postcss": "^8.4.33",
     "prettier": "^3.2.4",
     "storybook": "^7.6.10",
@@ -111,7 +111,7 @@
     "tsx": "^4.7.0",
     "typescript": "^5.3.3",
     "vite": "^5.0.12",
-    "vite-plugin-cjs-interop": "^2.0.3",
+    "vite-plugin-cjs-interop": "^2.0.4",
     "vite-tsconfig-paths": "^4.3.1"
   },
   "engines": {
