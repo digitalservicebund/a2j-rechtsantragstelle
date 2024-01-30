@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { useDropzone } from "react-dropzone-esm";
 import UploadIcon from "@digitalservicebund/icons/FileUploadOutlined";
 import CloseIcon from "@digitalservicebund/icons/CloseOutlined";
 import FileCopyOutlinedIcon from "@digitalservicebund/icons/FileCopyOutlined";
