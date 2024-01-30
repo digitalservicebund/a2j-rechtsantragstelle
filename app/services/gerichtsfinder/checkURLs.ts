@@ -1,11 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
-import { type FollowResponse, http, https } from "follow-redirects";
+import { type FollowResponse } from "follow-redirects";
+import followRedirects from "follow-redirects";
 import pMap from "p-map";
 import { getEncrypted } from "./encryptedStorage";
 import type { GerbehFile } from "./convertJsonDataTable";
 import { normalizeURL } from "../../util/strings";
 import { type IncomingMessage } from "node:http";
+
+const { http, https } = followRedirects; // Workaround, as follow-redirects is not ESM ready
 
 const manualReplacements: Record<string, string> = {
   "www.amtsgericht-straubing.de":
