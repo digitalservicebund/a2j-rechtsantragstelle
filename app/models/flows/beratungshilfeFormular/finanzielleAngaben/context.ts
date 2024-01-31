@@ -51,15 +51,16 @@ export const beratungshilfeFinanzielleAngabenSubflowState = (
   switch (subflowId) {
     case "einkommen":
       if (einkommenDone(context)) return "Done";
+      break;
     case "partner":
-      if (!partnerReachable(context)) return undefined;
+      if (!partnerReachable(context)) break;
       if (partnerDone(context)) return "Done";
-      return "Open";
+      break;
     case "besitz":
       return "Open";
-    default:
-      return undefined;
   }
+
+  return undefined;
 };
 
 const hasStaatlicheLeistungen = (context: BeratungshilfeFinanzielleAngaben) =>
