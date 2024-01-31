@@ -209,6 +209,8 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     guards: flows[flowId].guards,
   });
 
+  const meta = flowController.getMeta(stepId);
+
   const customEventName = flowController.getMeta(stepId)?.customEventName;
   if (customEventName)
     void sendCustomEvent(customEventName, validationResult.data, request);

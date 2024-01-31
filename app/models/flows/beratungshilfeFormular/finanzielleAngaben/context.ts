@@ -35,6 +35,15 @@ export const beratungshilfeFinanzielleAngaben = {
   partnerEinkommenSumme: buildMoneyValidationSchema(),
   partnerVorname: inputRequiredSchema,
   partnerNachname: inputRequiredSchema,
+  hasBankkonto: YesNoAnswer,
+  bankkonten: z.array(
+    z.object({
+      bankName: z.string(),
+      kontostand: buildMoneyValidationSchema(),
+      iban: z.string(),
+      kontoEigentuemer: z.enum(["alone"]),
+    }),
+  ),
 };
 
 const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();

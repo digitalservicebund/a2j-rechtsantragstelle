@@ -194,7 +194,28 @@
               },
               "#partner.partnerschaft"
             ],
-            "SUBMIT": "#danke"
+            "SUBMIT": [
+              {
+                "cond": "hasBankAccountYes",
+                "target": "bankkonto"
+              }
+            ]
+          }
+        },
+        "bankkonto": {
+          "meta": {
+            "isArray": true
+          },
+          "id": "bankkonto",
+          "on": {
+            "SUBMIT": "weiteres-bankkonto",
+            "BACK": "besitz"
+          }
+        },
+        "weiteres-bankkonto": {
+          "id": "weiteres-bankkonto",
+          "on": {
+            "SUBMIT": "bankkonto"
           }
         }
       }
