@@ -96,7 +96,7 @@ case $1 in
     case ${TARGET} in
     app)
         LATEST_GIT_TAG=$(git rev-parse HEAD)
-        APP_IMAGE_TAG=$APP_IMAGE:$LATEST_GIT_TAG
+        APP_IMAGE_TAG=$APP_IMAGE
 
         npm run build
         npm run build-storybook
