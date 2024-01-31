@@ -4,7 +4,7 @@ set -euo pipefail
 HELP_TEXT="USAGE: ./docker.sh (--contentHash | --contentHashFromImage | --contentFromImage | --appFromImage | --prodImageTag | --build (app | content | prod) | --push (app | content | prod))"
 REGISTRY=ghcr.io
 IMAGE_NAME=digitalservicebund/a2j-rechtsantragstelle
-# APP_IMAGE=$REGISTRY/$IMAGE_NAME-app
+APP_IMAGE=$REGISTRY/$IMAGE_NAME-app
 CONTENT_IMAGE=$REGISTRY/$IMAGE_NAME-content
 PROD_IMAGE=$REGISTRY/$IMAGE_NAME
 DOCKERFILE=Dockerfile
