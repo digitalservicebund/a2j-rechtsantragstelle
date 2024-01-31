@@ -99,7 +99,6 @@ jobs:
 
   deploy-staging:
     needs: [build-push-app-image]
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: staging
     steps:
