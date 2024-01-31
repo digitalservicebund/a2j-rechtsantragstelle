@@ -141,7 +141,7 @@ case $1 in
     ;;
 --sign)
     echo "Signing images with cosign"
-    cosign sign --yes $PROD_IMAGE
+    cosign sign --yes $PROD_IMAGE:$(prodImageTag)
     echo "Attest images with cosign"
     cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $APP_IMAGE
     cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $CONTENT_IMAGE
