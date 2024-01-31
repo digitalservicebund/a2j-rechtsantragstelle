@@ -82,7 +82,7 @@
     "@storybook/addon-essentials": "^7.6.10",
     "@storybook/addon-storyshots": "^7.6.10",
     "@storybook/react": "^7.6.10",
-    "@storybook/react-vite": "^8.0.0-alpha.15",
+    "@storybook/react-vite": "^8.0.0-alpha.16",
     "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/react": "^14.1.2",
     "@types/follow-redirects": "^1.14.4",
