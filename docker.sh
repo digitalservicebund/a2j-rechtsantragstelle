@@ -4,7 +4,7 @@ set -euo pipefail
 HELP_TEXT="USAGE: ./docker.sh (--contentHash | --contentHashFromImage | --contentFromImage | --appFromImage | --prodImageTag | --build (app | content | prod) | --push (app | content | prod))"
 REGISTRY=ghcr.io
 IMAGE_NAME=digitalservicebund/a2j-rechtsantragstelle
-APP_IMAGE=$REGISTRY/$IMAGE_NAME-app
+# APP_IMAGE=$REGISTRY/$IMAGE_NAME-app
 CONTENT_IMAGE=$REGISTRY/$IMAGE_NAME-content
 PROD_IMAGE=$REGISTRY/$IMAGE_NAME
 DOCKERFILE=Dockerfile
@@ -147,8 +147,6 @@ case $1 in
     ;;
 --sign)
     echo "Signing images with cosign"
-    cosign sign --yes $APP_IMAGE
-    cosign sign --yes $CONTENT_IMAGE
     cosign sign --yes $PROD_IMAGE
     ;;
 *)
