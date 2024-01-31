@@ -89,9 +89,8 @@ jobs:
         uses: github/codeql-action/upload-sarif@81b419c908d540ec4c7da9bfb4b5d941fca8f624
         with:
           sarif_file: "trivy-results.sarif"
-      - run: ./docker.sh --push prod
       - run: ./docker.sh --sign
-      - run: ./docker.sh --attest
+      - run: ./docker.sh --push prod
       - id: prod_image_tag
         run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
     outputs:
