@@ -83,13 +83,18 @@ function getSubflowSpecifics(
   const subflowDestionationStepId = `${subflowRoot}/${initial ?? ""}`;
   const subflowLabel = translation[subflowRoot] ?? subflowKey;
 
+  const subflowState = flowController.getSubflowState(
+    rootStateName,
+    subflowKey,
+  );
+
   return {
     destination: flowRoot + subflowDestionationStepId,
     label: subflowLabel ?? subflowKey,
     state: navState({
       isCurrent: currentStepId.startsWith(subflowRoot),
-      isReachable: true,
-      isDone: flowController.isSubflowDone(rootStateName, subflowKey),
+      isReachable: subflowState !== undefined,
+      isDone: subflowState == "Done",
       isUneditable: flowController.isUneditable(subflowRoot),
     }),
   };

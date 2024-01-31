@@ -24,6 +24,10 @@ export const finanzielleAngabeGuards = {
   staatlicheLeistungenIsBuergergeld: (
     context: BeratungshilfeFinanzielleAngaben,
   ) => context.staatlicheLeistungen === "buergergeld",
+  hasStaatlicheLeistungen: (context: BeratungshilfeFinanzielleAngaben) =>
+    context.staatlicheLeistungen === "asylbewerberleistungen" ||
+    context.staatlicheLeistungen === "buergergeld" ||
+    context.staatlicheLeistungen === "grundsicherung",
   ...yesNoGuards("erwerbstaetig"),
   ...yesNoGuards("partnerschaft"),
   ...yesNoGuards("zusammenleben"),

@@ -17,7 +17,7 @@ import abgabeFlow from "./abgabe/flow.json";
 import {
   type BeratungshilfeFinanzielleAngaben,
   beratungshilfeFinanzielleAngabeDone,
-  beratungshilfeFinanzielleAngabenSubflowDone,
+  beratungshilfeFinanzielleAngabenSubflowState,
 } from "./finanzielleAngaben/context";
 import {
   type BeratungshilfePersoenlicheDaten,
@@ -67,7 +67,7 @@ export const beratungshilfeAntrag = {
       finanzielleAngaben: _.merge(_.cloneDeep(finanzielleAngabenFlow), {
         meta: {
           done: beratungshilfeFinanzielleAngabeDone,
-          subflowDone: beratungshilfeFinanzielleAngabenSubflowDone,
+          subflowState: beratungshilfeFinanzielleAngabenSubflowState,
         },
         states: {
           start: { on: { BACK: "#rechtsproblem.danke" } },

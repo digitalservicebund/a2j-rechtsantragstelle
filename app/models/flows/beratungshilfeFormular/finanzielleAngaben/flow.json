@@ -169,6 +169,10 @@
           "on": {
             "BACK": [
               {
+                "cond": "hasStaatlicheLeistungen",
+                "target": "#einkommen.staatliche-leistungen"
+              },
+              {
                 "cond": "partnerschaftNo",
                 "target": "#partner.partnerschaft"
               },

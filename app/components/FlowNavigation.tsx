@@ -66,9 +66,16 @@ function NavItem({
       NavState.Done,
     ].includes(subflow.state);
 
-    const previousSubflow = subflows[index - 1];
-    const previousSubflowState = previousSubflow?.state ?? NavState.Done;
-    const isPreviousSubflowReachable = previousSubflowState === NavState.Done;
+    let isPreviousSubflowReachable = false;
+
+    for (let subflowIndex = index - 1; subflowIndex >= 0; subflowIndex--) {
+      const previousSubflow = subflows[subflowIndex];
+      const previousSubflowState = previousSubflow?.state ?? NavState.Done;
+      if (previousSubflowState === NavState.OpenDisabled) continue;
+
+      isPreviousSubflowReachable = previousSubflowState === NavState.Done;
+      break;
+    }
 
     return (
       isCurrentState ||

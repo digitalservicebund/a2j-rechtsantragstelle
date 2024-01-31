@@ -9,6 +9,7 @@ type StateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
 type StateMachine = ReturnType<
   typeof createMachine<Context, StateMachineEvents>
 >;
+type SubflowState = "Done" | "Open" | "Unreachable" | undefined;
 export type Config = MachineConfig<Context, any, StateMachineEvents>;
 export type Guards = Record<string, (context: Context) => boolean>;
 export type Meta = {
@@ -16,6 +17,7 @@ export type Meta = {
   progressPosition: number | undefined;
   isUneditable: boolean | undefined;
   done: (context: Context) => boolean | undefined;
+  subflowState: (context: Context, subflowId: string) => SubflowState;
   subflowDone: (context: Context, subflowId: string) => boolean | undefined;
   buttonNavigationProps?: {
     next?: {
@@ -79,8 +81,8 @@ export const buildFlowController = ({
     getMeta,
     isDone: (currentStepId: string) =>
       Boolean(getMeta(currentStepId)?.done(context)),
-    isSubflowDone: (currentStepId: string, subflowId: string) =>
-      Boolean(getMeta(currentStepId)?.subflowDone(context, subflowId)),
+    getSubflowState: (currentStepId: string, subflowId: string) =>
+      getMeta(currentStepId)?.subflowState(context, subflowId),
     isUneditable: (currentStepId: string) =>
       Boolean(getMeta(currentStepId)?.isUneditable),
     getConfig: () => config,

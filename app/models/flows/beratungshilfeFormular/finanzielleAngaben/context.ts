@@ -42,21 +42,23 @@ export type BeratungshilfeFinanzielleAngaben = z.infer<typeof contextObject>;
 
 export const beratungshilfeFinanzielleAngabeDone = (
   context: BeratungshilfeFinanzielleAngaben,
-) =>
-  beratungshilfeFinanzielleAngabenEinkommenDone(context) &&
-  beratungshilfeFinanzielleAngabenPartnerDone(context);
+) => einkommenDone(context) && partnerDone(context);
 
-export const beratungshilfeFinanzielleAngabenSubflowDone = (
+export const beratungshilfeFinanzielleAngabenSubflowState = (
   context: BeratungshilfeFinanzielleAngaben,
   subflowId: string,
 ) => {
   switch (subflowId) {
     case "einkommen":
-      return beratungshilfeFinanzielleAngabenEinkommenDone(context);
+      if (einkommenDone(context)) return "Done";
     case "partner":
-      return beratungshilfeFinanzielleAngabenPartnerDone(context);
+      if (!partnerReachable(context)) return undefined;
+      if (partnerDone(context)) return "Done";
+      return "Open";
+    case "besitz":
+      return "Open";
     default:
-      return false;
+      return undefined;
   }
 };
 
@@ -65,9 +67,7 @@ const hasStaatlicheLeistungen = (context: BeratungshilfeFinanzielleAngaben) =>
   context.staatlicheLeistungen == "buergergeld" ||
   context.staatlicheLeistungen == "grundsicherung";
 
-const beratungshilfeFinanzielleAngabenPartnerDone = (
-  context: BeratungshilfeFinanzielleAngaben,
-) =>
+const partnerDone = (context: BeratungshilfeFinanzielleAngaben) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen(context)) ||
   context.partnerschaft == "no" ||
@@ -76,9 +76,10 @@ const beratungshilfeFinanzielleAngabenPartnerDone = (
   context.partnerEinkommenSumme != undefined ||
   (context.partnerNachname != undefined && context.partnerVorname != undefined);
 
-const beratungshilfeFinanzielleAngabenEinkommenDone = (
-  context: BeratungshilfeFinanzielleAngaben,
-) =>
+const partnerReachable = (context: BeratungshilfeFinanzielleAngaben) =>
+  !hasStaatlicheLeistungen(context);
+
+const einkommenDone = (context: BeratungshilfeFinanzielleAngaben) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen(context)) ||
   context.einkommen != undefined;
