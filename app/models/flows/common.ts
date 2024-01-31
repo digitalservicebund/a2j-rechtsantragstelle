@@ -1,5 +1,5 @@
 import { withZod } from "@remix-validated-form/with-zod";
-import { z } from "zod";
+import { ZodArray, ZodObject, ZodTypeAny, z } from "zod";
 import { isKeyOfObject } from "~/util/objects";
 import { reasonsToDisplayBeratungshilfe } from "./beratungshilfe";
 import type { GeldEinklagenFormularContext } from "./geldEinklagenFormular/context";
@@ -15,17 +15,29 @@ export type AllContexts =
 type Schemas = Record<string, z.ZodTypeAny>;
 
 export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
-  const fieldSchemas: Record<string, z.ZodTypeAny> = {};
+  const fieldValidators: Record<string, z.ZodTypeAny> = {};
 
   for (const fieldname of fieldNames) {
     // In case of nested fields, we take the parent key
-    const stepOrFieldName = fieldname.split(".")[0];
-    if (!isKeyOfObject(stepOrFieldName, schemas)) {
-      throw Error(`No schema found for ${stepOrFieldName as string}`);
+    // if fieldname contains []
+    if (fieldname.includes("[]")) {
+      // then destructure
+      const fieldnameArray = fieldname.split("[].")[0];
+      const fieldnameProperty = fieldname.split("[].")[1];
+      const zodArray = schemas[fieldnameArray] as z.ZodArray<z.ZodTypeAny>;
+      const zodElement = zodArray.element as z.ZodObject<any>;
+      fieldValidators[fieldnameArray] = zodElement.shape[
+        fieldnameProperty
+      ] as z.ZodTypeAny;
+    } else {
+      const stepOrFieldName = fieldname.split(".")[0];
+      if (!isKeyOfObject(stepOrFieldName, schemas)) {
+        throw Error(`No schema found for ${stepOrFieldName as string}`);
+      }
+      fieldValidators[stepOrFieldName] = schemas[stepOrFieldName];
     }
-    fieldSchemas[stepOrFieldName] = schemas[stepOrFieldName];
   }
-  return withZod(z.object(fieldSchemas));
+  return withZod(z.object(fieldValidators));
 }
 
 export function getReasonsToDisplay(

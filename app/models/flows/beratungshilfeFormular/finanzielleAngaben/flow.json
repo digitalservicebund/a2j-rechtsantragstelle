@@ -196,7 +196,7 @@
             ],
             "SUBMIT": [
               {
-                "cond": "hasBankAccountYes",
+                "cond": "hasBankkontoYes",
                 "target": "bankkonto"
               }
             ]
