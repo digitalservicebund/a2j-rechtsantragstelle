@@ -44,7 +44,7 @@
     "@remix-run/react": "^2.5.1",
     "@remix-run/serve": "^2.5.1",
     "@remix-validated-form/with-zod": "^2.0.7",
-    "@sentry/remix": "^7.98.0",
+    "@sentry/remix": "^7.99.0",
     "@xstate/graph": "^1.4.2",
     "axios": "^1.6.7",
     "classnames": "^2.5.1",
