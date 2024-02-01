@@ -26,9 +26,7 @@ export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
       const fieldnameProperty = fieldname.split("[].")[1];
       const zodArray = schemas[fieldnameArray] as z.ZodArray<z.ZodTypeAny>;
       const zodElement = zodArray.element as z.ZodObject<any>;
-      fieldValidators[fieldnameArray] = zodElement.shape[
-        fieldnameProperty
-      ] as z.ZodTypeAny;
+      fieldValidators[fieldnameArray] = zodElement.shape[fieldnameProperty];
     } else {
       const stepOrFieldName = fieldname.split(".")[0];
       if (!isKeyOfObject(stepOrFieldName, schemas)) {
