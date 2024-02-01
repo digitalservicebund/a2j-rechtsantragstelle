@@ -38,10 +38,10 @@ export const beratungshilfeFinanzielleAngaben = {
   hasBankkonto: YesNoAnswer,
   bankkonten: z.array(
     z.object({
-      bankName: z.string(),
+      bankName: inputRequiredSchema,
       kontostand: buildMoneyValidationSchema(),
-      iban: z.string(),
-      kontoEigentuemer: z.enum(["alone"]),
+      iban: inputRequiredSchema,
+      kontoEigentuemer: z.enum(["alone"], customRequiredErrorMessage),
     }),
   ),
 };
