@@ -12,6 +12,7 @@ export const beratungshilfeFinanzielleAngaben = {
   einkommen: buildMoneyValidationSchema(),
   erwerbstaetig: YesNoAnswer,
   staatlicheLeistungen,
+  hasBankkonto: YesNoAnswer,
   berufart: z.object({
     selbststaendig: checkedOptional,
     festangestellt: checkedOptional,
@@ -44,10 +45,12 @@ export const beratungshilfeFinanzielleAngabeDone = (
   context: BeratungshilfeFinanzielleAngaben,
 ) => einkommenDone(context) && partnerDone(context);
 
+export type SubflowState = "Done" | "Open" | "Unreachable" | undefined;
+
 export const beratungshilfeFinanzielleAngabenSubflowState = (
   context: BeratungshilfeFinanzielleAngaben,
   subflowId: string,
-) => {
+): SubflowState => {
   switch (subflowId) {
     case "einkommen":
       if (einkommenDone(context)) return "Done";
