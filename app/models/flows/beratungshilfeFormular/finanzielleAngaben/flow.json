@@ -197,16 +197,16 @@
             "SUBMIT": [
               {
                 "cond": "hasBankkontoYes",
-                "target": "bankkonto"
+                "target": "bankkonten"
               }
             ]
           }
         },
-        "bankkonto": {
+        "bankkonten": {
           "meta": {
             "isArray": true
           },
-          "id": "bankkonto",
+          "id": "bankkonten",
           "on": {
             "SUBMIT": "weiteres-bankkonto",
             "BACK": "besitz"
@@ -215,7 +215,7 @@
         "weiteres-bankkonto": {
           "id": "weiteres-bankkonto",
           "on": {
-            "SUBMIT": "bankkonto"
+            "SUBMIT": "bankkonten"
           }
         }
       }
