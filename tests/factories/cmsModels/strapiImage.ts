@@ -18,7 +18,7 @@ export const strapiImageFactory = Factory.define<StrapiImage>(() => {
         previewUrl: null,
         width: faker.number.int({ min: 1, max: 640 }),
         height: faker.number.int({ min: 1, max: 480 }),
-        size: faker.number.float({ max: 10, precision: 2 }),
+        size: faker.number.float({ max: 10, multipleOf: 0.01 }),
         alternativeText: faker.lorem.sentence(),
         ext: `.${ext}`,
         mime: `image/${ext}`,
