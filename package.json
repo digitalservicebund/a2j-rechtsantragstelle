@@ -84,7 +84,7 @@
     "@storybook/react": "^7.6.12",
     "@storybook/react-vite": "^8.0.0-alpha.15",
     "@testing-library/jest-dom": "^6.4.1",
-    "@testing-library/react": "^14.2.0",
+    "@testing-library/react": "^14.2.1",
     "@types/follow-redirects": "^1.14.4",
     "@types/jest": "^29.5.11",
     "@types/mustache": "^4.2.5",
