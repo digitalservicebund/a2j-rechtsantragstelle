@@ -87,7 +87,6 @@ export const updateSession = (
       session.set(arrayName, [newArrayElement]);
     }
   });
-  console.log(session.data);
 
   const nonArrayData = Object.fromEntries(
     Object.entries(validatedData).filter(([key]) => !fieldIsArray(key)),

@@ -5,7 +5,14 @@ import { fluggastrechtContext } from "./fluggastrechteFormular/context";
 import { context as geldEinklagenContext } from "./geldEinklagen/context";
 import { context as geldEinklagenFormularContext } from "./geldEinklagenFormular/context";
 
-export type Context = Record<string, boolean | string | object | number>;
+export type Context = Record<
+  string,
+  | boolean
+  | string
+  | number
+  | object
+  | Record<string, boolean | string | number>[]
+>;
 
 const contexts = {
   "beratungshilfe/antrag": beratungshilfeFormularContext,
@@ -32,8 +39,9 @@ export function parsePathname(pathname: string) {
   const pathSegments = pathname.split("/");
   const flowId = `${pathSegments[1]}/${pathSegments[2]}`;
   if (!isFlowId(flowId)) throw Error("Unknown flow ID");
-  const arrayIndex = Number(pathSegments.at(-1));
-  const lastPathSegment = isNaN(arrayIndex) ? undefined : -1;
+  const arrayIndexParsed = Number(pathSegments.at(-1));
+  const arrayIndex = isNaN(arrayIndexParsed) ? undefined : arrayIndexParsed;
+  const lastPathSegment = arrayIndex === undefined ? undefined : -1;
   const stepId = pathSegments.slice(3, lastPathSegment).join("/");
   return { flowId, stepId, arrayIndex };
 }

@@ -12,15 +12,11 @@ import { buildFlowController } from "~/services/flow/server/buildFlowController"
 import {
   type AllContexts,
   buildStepValidator,
-  arrayChar,
   fieldIsArray,
   splitArrayName,
 } from "~/models/flows/common";
-import {
-  getContext,
-  flowIDFromPathname,
-  parsePathname,
-} from "~/models/flows/contexts";
+import type { Context } from "~/models/flows/contexts";
+import { getContext, parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import type { StrapiHeading } from "~/services/cms/models/StrapiHeading";
 import type { StrapiSelect } from "~/services/cms/models/StrapiSelect";
@@ -38,7 +34,7 @@ import type { z } from "zod";
 import type { CollectionSchemas } from "~/services/cms/schemas";
 import { getButtonNavigationProps } from "~/util/getButtonNavigationProps";
 import { sendCustomEvent } from "~/services/analytics/customEvent";
-import { parentFromParams, splatFromParams } from "~/services/params";
+import { parentFromParams } from "~/services/params";
 
 const structureCmsContent = (
   formPageContent: z.infer<
@@ -59,6 +55,26 @@ const structureCmsContent = (
       "post_form" in formPageContent ? formPageContent.post_form : undefined,
   };
 };
+
+function stepDataFromFieldNames(
+  fieldNames: string[],
+  data: Context,
+  arrayIndex?: number,
+) {
+  return Object.fromEntries(
+    fieldNames.map((fieldName) => {
+      let entry = data[fieldName];
+      if (fieldIsArray(fieldName) && arrayIndex !== undefined) {
+        const [arrayName, arrayFieldname] = splitArrayName(fieldName);
+        const arrayForStep = data[arrayName];
+        if (Array.isArray(arrayForStep) && arrayForStep.length > arrayIndex)
+          entry = arrayForStep[arrayIndex][arrayFieldname];
+      }
+      return [fieldName, entry] as [string, boolean | string | number];
+    }),
+  );
+}
+
 export const loader = async ({
   params,
   request,
@@ -106,18 +122,8 @@ export const loader = async ({
   ]);
 
   const fieldNames = formPageContent.form.map((entry) => entry.name);
+  const stepData = stepDataFromFieldNames(fieldNames, data, arrayIndex);
 
-  const stepData = Object.fromEntries(
-    fieldNames.map((fieldName) => {
-      let entry = data[fieldName];
-      if (fieldIsArray(fieldName)) {
-        const [arrayName, arrayFieldname] = splitArrayName(fieldName);
-        if (arrayName in data && data[arrayName].length > arrayIndex)
-          entry = data[arrayName][arrayIndex][arrayFieldname];
-      }
-      return [fieldName, entry] as [string, string | undefined];
-    }),
-  );
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
   const mainHeading = formPageContent.pre_form.filter(
     (component) =>
@@ -182,7 +188,7 @@ export const loader = async ({
   );
 };
 
-export const action = async ({ params, request }: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   try {
     await validatedSession(request);
   } catch (csrfError) {
