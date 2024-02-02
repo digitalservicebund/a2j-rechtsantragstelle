@@ -9,7 +9,11 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { type AllContexts, buildStepValidator } from "~/models/flows/common";
+import {
+  type AllContexts,
+  buildStepValidator,
+  arrayChar,
+} from "~/models/flows/common";
 import { getContext, flowIDFromPathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import type { StrapiHeading } from "~/services/cms/models/StrapiHeading";
@@ -177,12 +181,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
   // Note: This also reduces same-named fields to the last entry
   const relevantFormData = Object.fromEntries(
-    Array.from(formData.entries())
-      .map((entry) => {
-        entry[0] = entry[0].replace("[]", "");
-        return entry;
-      })
-      .filter(([key]) => !key.startsWith("_")),
+    Array.from(formData.entries()).filter(([key]) => !key.startsWith("_")),
   );
 
   const validator = buildStepValidator(
@@ -216,7 +215,6 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   });
 
   const meta = flowController.getMeta(stepId);
-  console.log(meta);
 
   const customEventName = flowController.getMeta(stepId)?.customEventName;
   if (customEventName)

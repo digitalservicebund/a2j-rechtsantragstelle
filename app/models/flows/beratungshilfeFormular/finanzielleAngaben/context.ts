@@ -44,6 +44,7 @@ export const beratungshilfeFinanzielleAngaben = {
       kontoEigentuemer: z.enum(["alone"], customRequiredErrorMessage),
     }),
   ),
+  hasAdditionalBankkonto: YesNoAnswer,
 };
 
 const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();

@@ -215,7 +215,11 @@
         "weiteres-bankkonto": {
           "id": "weiteres-bankkonto",
           "on": {
-            "SUBMIT": "bankkonten"
+            "BACK": "bankkonten",
+            "SUBMIT": [
+              { "target": "bankkonten", "cond": "hasAdditionalBankkontoYes" },
+              "#danke"
+            ]
           }
         }
       }
@@ -234,7 +238,7 @@
           },
           {
             "cond": "staatlicheLeistungenIsBuergergeld",
-            "target": "#besitz.besitz"
+            "target": "#besitz.weiteres-bankkonto"
           }
         ]
       }

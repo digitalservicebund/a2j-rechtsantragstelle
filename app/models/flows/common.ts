@@ -14,19 +14,26 @@ export type AllContexts =
   | FluggastrechtContext;
 type Schemas = Record<string, z.ZodTypeAny>;
 
+export const arrayChar = "#";
+export const splitArrayName = (key: string) => key.split(arrayChar);
+export const fieldIsArray = (fieldname: string) =>
+  fieldname.includes(arrayChar);
+
 export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
   const fieldValidators: Record<string, z.ZodTypeAny> = {};
 
   for (const fieldname of fieldNames) {
     // In case of nested fields, we take the parent key
     // if fieldname contains []
-    if (fieldname.includes("[]")) {
+    if (fieldIsArray(fieldname)) {
       // then destructure
-      const fieldnameArray = fieldname.split("[].")[0];
-      const fieldnameProperty = fieldname.split("[].")[1];
-      const zodArray = schemas[fieldnameArray] as z.ZodArray<z.ZodTypeAny>;
-      const zodElement = zodArray.element as z.ZodObject<any>;
-      fieldValidators[fieldnameArray] = zodElement.shape[fieldnameProperty];
+      const [arrayName, arrayFieldname] = splitArrayName(fieldname);
+      const objectSchemas = (schemas[arrayName] as z.ZodArray<z.ZodObject<any>>)
+        .element.shape;
+      if (!isKeyOfObject(arrayFieldname, objectSchemas)) {
+        throw Error(`No schema found for ${arrayFieldname as string}`);
+      }
+      fieldValidators[fieldname] = objectSchemas[arrayFieldname];
     } else {
       const stepOrFieldName = fieldname.split(".")[0];
       if (!isKeyOfObject(stepOrFieldName, schemas)) {
