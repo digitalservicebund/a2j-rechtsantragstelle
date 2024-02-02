@@ -77,7 +77,6 @@ export const loader = async ({
     data: flowContext,
     guards: currentFlow.guards,
   });
-  const isArray = flowController.getMeta(stepId)?.isArray ?? false;
 
   if (!flowController.isReachable(stepId))
     return redirect(flowController.getInitial().url);
@@ -116,10 +115,9 @@ export const loader = async ({
         if (arrayName in data && data[arrayName].length > arrayIndex)
           entry = data[arrayName][arrayIndex][arrayFieldname];
       }
-      return [fieldName, entry];
+      return [fieldName, entry] as [string, string | undefined];
     }),
   );
-  console.log(stepData);
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
   const mainHeading = formPageContent.pre_form.filter(
     (component) =>
@@ -161,7 +159,7 @@ export const loader = async ({
   return json(
     {
       csrf,
-      defaultValues: data as Record<string, string>,
+      defaultValues: stepData,
       commonContent,
       ...cmsContent,
       meta,
@@ -191,8 +189,8 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     logError({ error: csrfError });
     throw new Response(null, { status: 403 });
   }
-  const stepId = splatFromParams(params);
-  const flowId = flowIDFromPathname(new URL(request.url).pathname);
+  const { pathname } = new URL(request.url);
+  const { flowId, stepId, arrayIndex } = parsePathname(pathname);
   const { getSession, commitSession } = getSessionForContext(flowId);
   const cookieId = request.headers.get("Cookie");
   const flowSession = await getSession(cookieId);
@@ -215,8 +213,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
       validationResult.error,
       validationResult.submittedData,
     );
-
-  updateSession(flowSession, validationResult.data);
+  updateSession(flowSession, validationResult.data, arrayIndex);
 
   if (
     stepId === "intro/daten-uebernahme" &&
@@ -234,8 +231,6 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     data: flowSession.data,
     guards: flows[flowId].guards,
   });
-
-  const meta = flowController.getMeta(stepId);
 
   const customEventName = flowController.getMeta(stepId)?.customEventName;
   if (customEventName)

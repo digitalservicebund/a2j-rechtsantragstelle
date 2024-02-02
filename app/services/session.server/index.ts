@@ -62,7 +62,11 @@ export function getSessionForContext(context: SessionContext) {
   return { getSession, commitSession, destroySession, getSessionId: getFullId };
 }
 
-export const updateSession = (session: Session, validatedData: AllContexts) => {
+export const updateSession = (
+  session: Session,
+  validatedData: AllContexts,
+  arrayIndex?: number,
+) => {
   const unflattenedArrays: Record<string, any> = {};
   Object.entries(validatedData)
     .filter(([key]) => fieldIsArray(key))
@@ -72,16 +76,15 @@ export const updateSession = (session: Session, validatedData: AllContexts) => {
       unflattenedArrays[arrayName][fieldName] = val;
     });
 
-  Object.entries(unflattenedArrays).forEach(([arrayName, arrayEntry]) => {
+  Object.entries(unflattenedArrays).forEach(([arrayName, newArrayElement]) => {
     if (session.has(arrayName)) {
-      // 1. array eintrag neu
       const existingArray = session.get(arrayName) as any[];
-      existingArray.push(arrayEntry);
-      //TODO: editieren statt pushen
+      if (arrayIndex !== undefined && arrayIndex < existingArray.length) {
+        existingArray[arrayIndex] = newArrayElement;
+      } else existingArray.push(newArrayElement);
       session.set(arrayName, existingArray);
     } else {
-      // 2. array noch nicht in session.data
-      session.set(arrayName, [arrayEntry]);
+      session.set(arrayName, [newArrayElement]);
     }
   });
   console.log(session.data);
