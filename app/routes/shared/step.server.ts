@@ -13,6 +13,8 @@ import {
   type AllContexts,
   buildStepValidator,
   arrayChar,
+  fieldIsArray,
+  splitArrayName,
 } from "~/models/flows/common";
 import {
   getContext,
@@ -75,7 +77,8 @@ export const loader = async ({
     data: flowContext,
     guards: currentFlow.guards,
   });
-  const stepMeta = flowController.getMeta(stepId);
+  const isArray = flowController.getMeta(stepId)?.isArray ?? false;
+
   if (!flowController.isReachable(stepId))
     return redirect(flowController.getInitial().url);
 
@@ -103,6 +106,20 @@ export const loader = async ({
     fetchTranslations(`${flowId}/menu`),
   ]);
 
+  const fieldNames = formPageContent.form.map((entry) => entry.name);
+
+  const stepData = Object.fromEntries(
+    fieldNames.map((fieldName) => {
+      let entry = data[fieldName];
+      if (fieldIsArray(fieldName)) {
+        const [arrayName, arrayFieldname] = splitArrayName(fieldName);
+        if (arrayName in data && data[arrayName].length > arrayIndex)
+          entry = data[arrayName][arrayIndex][arrayFieldname];
+      }
+      return [fieldName, entry];
+    }),
+  );
+  console.log(stepData);
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
   const mainHeading = formPageContent.pre_form.filter(
     (component) =>
