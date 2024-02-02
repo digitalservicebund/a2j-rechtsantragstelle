@@ -14,7 +14,11 @@ import {
   buildStepValidator,
   arrayChar,
 } from "~/models/flows/common";
-import { getContext, flowIDFromPathname } from "~/models/flows/contexts";
+import {
+  getContext,
+  flowIDFromPathname,
+  parsePathname,
+} from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import type { StrapiHeading } from "~/services/cms/models/StrapiHeading";
 import type { StrapiSelect } from "~/services/cms/models/StrapiSelect";
@@ -59,9 +63,8 @@ export const loader = async ({
   context,
 }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
-  const stepId = splatFromParams(params);
   const { pathname } = new URL(request.url);
-  const flowId = flowIDFromPathname(pathname);
+  const { flowId, stepId, arrayIndex } = parsePathname(pathname);
   const cookieId = request.headers.get("Cookie");
   const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
   const flowContext: AllContexts = data; // Recast for now to get type safety
@@ -72,7 +75,7 @@ export const loader = async ({
     data: flowContext,
     guards: currentFlow.guards,
   });
-
+  const stepMeta = flowController.getMeta(stepId);
   if (!flowController.isReachable(stepId))
     return redirect(flowController.getInitial().url);
 
@@ -81,9 +84,10 @@ export const loader = async ({
   if (stepId === "intro/daten-uebernahme" && "migrationSource" in currentFlow)
     migrationData = await getMigrationData(flowId, currentFlow, cookieId);
 
-  const lookupPath = pathname.includes("persoenliche-daten")
-    ? pathname.replace("fluggastrechte", "geld-einklagen")
-    : pathname;
+  const pathNameWithoutArrayIndex = `/${flowId}/${stepId}`;
+  const lookupPath = pathNameWithoutArrayIndex.includes("persoenliche-daten")
+    ? pathNameWithoutArrayIndex.replace("fluggastrechte", "geld-einklagen")
+    : pathNameWithoutArrayIndex;
 
   const [
     commonContent,

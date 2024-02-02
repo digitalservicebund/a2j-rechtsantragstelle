@@ -27,3 +27,13 @@ export function flowIDFromPathname(pathname: string) {
   if (isFlowId(flowID)) return flowID;
   throw Error("Unknown flow ID");
 }
+export function parsePathname(pathname: string) {
+  // /beratungshilfe/antrag/finanzielleAngaben/besitz/bankkonten/1
+  const pathSegments = pathname.split("/");
+  const flowId = `${pathSegments[1]}/${pathSegments[2]}`;
+  if (!isFlowId(flowId)) throw Error("Unknown flow ID");
+  const arrayIndex = Number(pathSegments.at(-1));
+  const lastPathSegment = isNaN(arrayIndex) ? undefined : -1;
+  const stepId = pathSegments.slice(3, lastPathSegment).join("/");
+  return { flowId, stepId, arrayIndex };
+}
