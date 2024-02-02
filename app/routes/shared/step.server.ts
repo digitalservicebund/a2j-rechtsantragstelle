@@ -177,8 +177,14 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
   // Note: This also reduces same-named fields to the last entry
   const relevantFormData = Object.fromEntries(
-    Array.from(formData.entries()).filter(([key]) => !key.startsWith("_")),
+    Array.from(formData.entries())
+      .map((entry) => {
+        entry[0] = entry[0].replace("[]", "");
+        return entry;
+      })
+      .filter(([key]) => !key.startsWith("_")),
   );
+
   const validator = buildStepValidator(
     getContext(flowId),
     Object.keys(relevantFormData),
@@ -210,6 +216,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   });
 
   const meta = flowController.getMeta(stepId);
+  console.log(meta);
 
   const customEventName = flowController.getMeta(stepId)?.customEventName;
   if (customEventName)
