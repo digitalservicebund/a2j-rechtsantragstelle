@@ -1,10 +1,9 @@
 import { z } from "zod";
 import Heading, { HeadingPropsSchema } from "./Heading";
 import ArrayElement, { ArrayElementPropsSchema } from "./ArrayElement";
-import { Translations } from "~/services/cms/index.server";
+import type { Translations } from "~/services/cms/index.server";
 
 export const ArraySummaryPropsSchema = z.object({
-  // __component: z.literal("page.array-summary").optional(),
   identifier: z.string().optional(),
   heading: HeadingPropsSchema,
   arrayKey: z.string(),
@@ -30,10 +29,7 @@ const ArraySummary = ({
       {heading && <Heading {...heading} />}
       <ol className="list-none ds-stack-32 ps-0">
         {items.map((item, index) => (
-          <li
-            key={item.identifier ?? item.headline?.text ?? item.content}
-            className="first:pt-0 scroll-my-40"
-          >
+          <li key={index} className="first:pt-0 scroll-my-40">
             <ArrayElement {...item} />
           </li>
         ))}
