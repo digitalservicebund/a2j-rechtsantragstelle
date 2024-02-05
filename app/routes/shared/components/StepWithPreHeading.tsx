@@ -64,6 +64,7 @@ export function StepWithPreHeading() {
             />
             <PageContent
               content={content}
+              translations={translations}
               templateReplacements={templateReplacements}
               className="ds-stack-16"
             />

@@ -26,16 +26,22 @@ import {
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
-import { type AllContexts } from "../common";
 
 export const beratungshilfeAntrag = {
   cmsSlug: "form-flow-pages",
-  stringReplacements: (context: AllContexts) => {
-    return {
-      finanzielleAngabe: {
-        bankkonten: "",
-      },
-    };
+  stringReplacements: (context: BeratungshilfeFinanzielleAngabenContext) => {
+    return (
+      context.bankkonten
+        ?.map((bankkonto, index) => {
+          return {
+            [`bankkonten.bankName.${index}`]: bankkonto.bankName ?? "",
+            [`bankkonten.kontostand.${index}`]: bankkonto.kontostand ?? "",
+            [`bankkonten.kontoEigentuemer.${index}`]:
+              bankkonto.kontoEigentuemer ?? "",
+          };
+        })
+        .reduce((acc, val) => ({ ...acc, ...val }), {}) ?? {}
+    );
   },
   config: _.merge(beratungshilfeAntragFlow, {
     states: {

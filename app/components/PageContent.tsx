@@ -38,10 +38,12 @@ import { renderFileInputFromStrapi } from "~/services/cms/models/StrapiFileInput
 import { renderAlertFromStrapi } from "~/services/cms/models/StrapiAlert";
 import ArraySummary from "./ArraySummary";
 import { getArraySummaryProps } from "~/services/cms/models/StrapiArraySummary";
+import type { Translations } from "~/services/cms/index.server";
 
 type PageContentProps = {
   readonly content: Array<StrapiContent>;
   readonly templateReplacements?: Replacements;
+  readonly translations?: Translations;
   readonly className?: string;
 };
 
@@ -69,7 +71,11 @@ function wrapInBackground(cmsData: StrapiContent, reactElement: ReactElement) {
   return <Background {...props}>{reactElement}</Background>;
 }
 
-function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
+function cmsToReact(
+  cms: StrapiContent,
+  templateReplacements: Replacements,
+  translations?: Translations,
+) {
   const replacedTemplate = JSON.parse(
     fillTemplate({
       template: JSON.stringify(cms),
@@ -124,7 +130,8 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
       return (
         <ArraySummary
           {...getArraySummaryProps(replacedTemplate)}
-          key={key}
+          translations={translations}
+          sessionData={templateReplacements}
         />
       );
     default:
@@ -135,6 +142,7 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
 const PageContent = ({
   content = [],
   templateReplacements = {},
+  translations,
   className,
 }: PageContentProps) => (
   <div className={className}>
@@ -142,7 +150,10 @@ const PageContent = ({
       <div key={keyFromElement(el)}>
         {wrapInBackground(
           el,
-          wrapInContainer(el, cmsToReact(el, templateReplacements)),
+          wrapInContainer(
+            el,
+            cmsToReact(el, templateReplacements, translations),
+          ),
         )}
       </div>
     ))}
