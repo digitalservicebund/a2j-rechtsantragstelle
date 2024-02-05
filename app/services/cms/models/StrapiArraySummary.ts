@@ -11,7 +11,7 @@ import { StrapiHeadingSchema } from "./StrapiHeading";
 
 export const StrapiArraySummarySchema = z
   .object({
-    __component: z.literal("page.array-summary"),
+    __component: z.literal("page.array-summary").optional(),
     identifier: z.string().optional(),
     heading: StrapiHeadingSchema.nullable(),
     arrayKey: z.string(),
