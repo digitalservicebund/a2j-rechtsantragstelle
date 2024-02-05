@@ -6,7 +6,6 @@ import { StrapiImageSchema, getImageProps } from "./StrapiImage";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { omitNull } from "~/util/omitNull";
 import { ListItemPropsSchema } from "~/components/ListItem";
-import { type StrapiElementWithId } from "./StrapiElementWithId";
 
 export const StrapiListItemSchema = z
   .object({
@@ -26,11 +25,3 @@ export const getListItemProps = (cmsData: StrapiListItem) => {
   const props = { ...cmsData, image: getImageProps(cmsData.image) };
   return ListItemPropsSchema.parse(omitNull(props));
 };
-
-function ListesFromElementsWithID(elementsWithID: StrapiElementWithId[]) {
-  return elementsWithID.flatMap((elementWithID) =>
-    elementWithID.element
-      .filter((el) => el.__component === "page.list-item")
-      .map((el) => getListItemProps(el as StrapiListItem)),
-  );
-}

@@ -41,7 +41,10 @@ export const beratungshilfeFinanzielleAngaben = {
       bankName: inputRequiredSchema,
       kontostand: buildMoneyValidationSchema(),
       iban: inputRequiredSchema,
-      kontoEigentuemer: z.enum(["alone"], customRequiredErrorMessage),
+      kontoEigentuemer: z.enum(
+        ["myself", "partner"],
+        customRequiredErrorMessage,
+      ),
     }),
   ),
   hasAdditionalBankkonto: YesNoAnswer,

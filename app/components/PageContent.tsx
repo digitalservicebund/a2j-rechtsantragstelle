@@ -36,6 +36,8 @@ import { renderDateInputFromStrapi } from "~/services/cms/models/StrapiDateInput
 import { renderTimeInputFromStrapi } from "~/services/cms/models/StrapiTimeInput";
 import { renderFileInputFromStrapi } from "~/services/cms/models/StrapiFileInput";
 import { renderAlertFromStrapi } from "~/services/cms/models/StrapiAlert";
+import ArraySummary from "./ArraySummary";
+import { getArraySummaryProps } from "~/services/cms/models/StrapiArraySummary";
 
 type PageContentProps = {
   readonly content: Array<StrapiContent>;
@@ -118,6 +120,14 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
       );
     case "page.list":
       return <List {...getListProps(replacedTemplate)} key={key} />;
+    case "page.array-summary":
+      return (
+        <ArraySummary
+          templateReplacements={templateReplacements}
+          {...getArraySummaryProps(replacedTemplate)}
+          key={key}
+        />
+      );
     default:
       return <></>;
   }

@@ -218,8 +218,15 @@
             "BACK": "bankkonten",
             "SUBMIT": [
               { "target": "bankkonten", "cond": "hasAdditionalBankkontoYes" },
-              "#danke"
+              "zusammenfassung"
             ]
+          }
+        },
+        "zusammenfassung": {
+          "id": "zusammenfassung",
+          "on": {
+            "BACK": "weiteres-bankkonto",
+            "SUBMIT": ["#danke"]
           }
         }
       }
