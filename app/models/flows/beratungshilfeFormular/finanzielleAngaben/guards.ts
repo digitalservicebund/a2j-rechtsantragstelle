@@ -1,8 +1,10 @@
-import { type BeratungshilfeFinanzielleAngaben } from "./context";
+import { type BeratungshilfeFinanzielleAngabenContext } from "./context";
 
-type Guard = (context: BeratungshilfeFinanzielleAngaben) => boolean;
+type Guard = (context: BeratungshilfeFinanzielleAngabenContext) => boolean;
 
-function yesNoGuards<Field extends keyof BeratungshilfeFinanzielleAngaben>(
+function yesNoGuards<
+  Field extends keyof BeratungshilfeFinanzielleAngabenContext,
+>(
   field: Field,
 ): { [field in Field as `${field}Yes`]: Guard } & {
   [field in Field as `${field}No`]: Guard;
@@ -16,15 +18,15 @@ function yesNoGuards<Field extends keyof BeratungshilfeFinanzielleAngaben>(
 
 export const finanzielleAngabeGuards = {
   staatlicheLeistungenIsGrundsicherung: (
-    context: BeratungshilfeFinanzielleAngaben,
+    context: BeratungshilfeFinanzielleAngabenContext,
   ) => context.staatlicheLeistungen === "grundsicherung",
   staatlicheLeistungenIsAsylbewerberleistungen: (
-    context: BeratungshilfeFinanzielleAngaben,
+    context: BeratungshilfeFinanzielleAngabenContext,
   ) => context.staatlicheLeistungen === "asylbewerberleistungen",
   staatlicheLeistungenIsBuergergeld: (
-    context: BeratungshilfeFinanzielleAngaben,
+    context: BeratungshilfeFinanzielleAngabenContext,
   ) => context.staatlicheLeistungen === "buergergeld",
-  hasStaatlicheLeistungen: (context: BeratungshilfeFinanzielleAngaben) =>
+  hasStaatlicheLeistungen: (context: BeratungshilfeFinanzielleAngabenContext) =>
     context.staatlicheLeistungen === "asylbewerberleistungen" ||
     context.staatlicheLeistungen === "buergergeld" ||
     context.staatlicheLeistungen === "grundsicherung",
@@ -36,13 +38,13 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("hasBankkonto"),
   ...yesNoGuards("hasAdditionalBankkonto"),
   isPartnerschaftZusammenlebenEinkommenNo: (
-    context: BeratungshilfeFinanzielleAngaben,
+    context: BeratungshilfeFinanzielleAngabenContext,
   ) =>
     context.partnerschaft === "yes" &&
     context.zusammenleben === "yes" &&
     context.partnerEinkommen === "no",
   isPartnerschaftZusammenlebenEinkommenYes: (
-    context: BeratungshilfeFinanzielleAngaben,
+    context: BeratungshilfeFinanzielleAngabenContext,
   ) =>
     context.partnerschaft === "yes" &&
     context.zusammenleben === "yes" &&

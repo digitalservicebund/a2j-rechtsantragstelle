@@ -3,21 +3,21 @@ import type { Translations } from "~/services/cms/index.server";
 
 export const ArrayElementPropsSchema = z.object({
   title: z.string(),
-  key: z.string(),
+  elementKey: z.string(),
 });
 
 type ArrayElementProps = z.infer<typeof ArrayElementPropsSchema>;
 
 const ArrayElement = ({
   title,
-  key,
-}: ArrayElementProps & { readonly translations?: Translations }) => {
-  console.log("Array Element", title, key);
-
+  elementKey,
+  templateReplacements,
+}: ArrayElementProps & { readonly templateReplacements?: Translations }) => {
   return (
     <div className={"flex flex-row items-center justify-center"}>
       <div className={"break-words w-full"}>
-        <div className="flex flex-row gap-16 items-center"></div>
+        <div className="flex flex-row gap-16 items-center">{title}</div>
+        {elementKey}
       </div>
     </div>
   );

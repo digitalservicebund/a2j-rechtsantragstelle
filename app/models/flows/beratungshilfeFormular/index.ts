@@ -15,7 +15,7 @@ import {
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import abgabeFlow from "./abgabe/flow.json";
 import {
-  type BeratungshilfeFinanzielleAngaben,
+  type BeratungshilfeFinanzielleAngabenContext,
   beratungshilfeFinanzielleAngabeDone,
   beratungshilfeFinanzielleAngabenSubflowState,
 } from "./finanzielleAngaben/context";
@@ -29,6 +29,11 @@ import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 
 export const beratungshilfeAntrag = {
   cmsSlug: "form-flow-pages",
+  stringReplacements: (context: BeratungshilfeFinanzielleAngabenContext) => ({
+    finanzielleAngabe: {
+      bankkonten: context,
+    },
+  }),
   config: _.merge(beratungshilfeAntragFlow, {
     states: {
       grundvoraussetzungen: _.merge(
@@ -102,5 +107,5 @@ export const beratungshilfeAntrag = {
 
 export type BeratungshilfeAntragContext = BeratungshilfeGrundvoraussetzungen &
   BeratungshilfeRechtsproblem &
-  BeratungshilfeFinanzielleAngaben &
+  BeratungshilfeFinanzielleAngabenContext &
   BeratungshilfePersoenlicheDaten;

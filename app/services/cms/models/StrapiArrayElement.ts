@@ -6,7 +6,7 @@ export const StrapiArrayElementSchema = z
   .object({
     __component: z.literal("page.array-element").optional(),
     title: z.string(),
-    key: z.string(),
+    elementKey: z.string(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
