@@ -1,5 +1,4 @@
 import { z } from "zod";
-import type { Translations } from "~/services/cms/index.server";
 
 export const ArrayElementPropsSchema = z.object({
   title: z.string(),
@@ -8,11 +7,7 @@ export const ArrayElementPropsSchema = z.object({
 
 type ArrayElementProps = z.infer<typeof ArrayElementPropsSchema>;
 
-const ArrayElement = ({
-  title,
-  elementKey,
-  templateReplacements,
-}: ArrayElementProps & { readonly templateReplacements?: Translations }) => {
+const ArrayElement = ({ title, elementKey }: ArrayElementProps) => {
   return (
     <div className={"flex flex-row items-center justify-center"}>
       <div className={"break-words w-full"}>

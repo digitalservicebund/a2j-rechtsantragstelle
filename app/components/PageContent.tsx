@@ -123,7 +123,6 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
     case "page.array-summary":
       return (
         <ArraySummary
-          templateReplacements={templateReplacements}
           {...getArraySummaryProps(replacedTemplate)}
           key={key}
         />

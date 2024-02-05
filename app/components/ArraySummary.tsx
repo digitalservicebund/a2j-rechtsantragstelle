@@ -1,7 +1,6 @@
 import { z } from "zod";
 import Heading, { HeadingPropsSchema } from "./Heading";
 import ArrayElement, { ArrayElementPropsSchema } from "./ArrayElement";
-import type { Translations } from "~/services/cms/index.server";
 
 export const ArraySummaryPropsSchema = z.object({
   identifier: z.string().optional(),
@@ -23,8 +22,7 @@ const ArraySummary = ({
   deleteButtonText,
   addButtonText,
   items,
-  templateReplacements,
-}: ArraySummaryProps & { readonly templateReplacements?: Translations }) => {
+}: ArraySummaryProps) => {
   return (
     <div className="ds-stack-8 scroll-my-40">
       {heading && <Heading {...heading} />}
@@ -32,10 +30,7 @@ const ArraySummary = ({
         {items.map((item, index) => {
           return (
             <div key={index} className="first:pt-0 scroll-my-40">
-              <ArrayElement
-                templateReplacements={templateReplacements}
-                {...item}
-              />
+              <ArrayElement {...item} />
             </div>
           );
         })}

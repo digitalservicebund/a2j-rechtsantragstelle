@@ -26,14 +26,17 @@ import {
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
+import { type AllContexts } from "../common";
 
 export const beratungshilfeAntrag = {
   cmsSlug: "form-flow-pages",
-  stringReplacements: (context: BeratungshilfeFinanzielleAngabenContext) => ({
-    finanzielleAngabe: {
-      bankkonten: context,
-    },
-  }),
+  stringReplacements: (context: AllContexts) => {
+    return {
+      finanzielleAngabe: {
+        bankkonten: "",
+      },
+    };
+  },
   config: _.merge(beratungshilfeAntragFlow, {
     states: {
       grundvoraussetzungen: _.merge(
