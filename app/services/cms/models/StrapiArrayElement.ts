@@ -4,7 +4,7 @@ import { omitNull } from "~/util/omitNull";
 
 export const StrapiArrayElementSchema = z
   .object({
-    __component: z.literal("page.array-element").optional(),
+    __component: z.literal("page.array-element"),
     title: z.string(),
     elementKey: z.string(),
   })
