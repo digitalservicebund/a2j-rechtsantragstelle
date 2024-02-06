@@ -38,7 +38,7 @@
     "@digitalservice4germany/angie": "^1.1.1",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@digitalservicebund/icons": "^1.1.1",
-    "@react-pdf/renderer": "^3.3.4",
+    "@react-pdf/renderer": "^3.3.6",
     "@remix-run/express": "^2.6.0",
     "@remix-run/node": "^2.6.0",
     "@remix-run/react": "^2.6.0",
