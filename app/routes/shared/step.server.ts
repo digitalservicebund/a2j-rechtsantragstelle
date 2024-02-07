@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unused-modules */
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
@@ -55,6 +56,23 @@ const structureCmsContent = (
       "post_form" in formPageContent ? formPageContent.post_form : undefined,
   };
 };
+
+
+function getArrayDataFromArrayKey(
+  arrayKeys: keyof (AllContexts)[],
+  data: AllContexts,
+) {
+  return arrayKeys.map((arrayKey) => {
+    if (Array.isArray(data[arrayKey])) {
+      const arrayForStep = data[arrayKey] as Record<string, boolean | string | number>[] | undefined;
+      return {
+        [arrayKey]: arrayForStep
+      }
+    }
+
+    return {};
+  });
+}
 
 function stepDataFromFieldNames(
   fieldNames: string[],
@@ -123,6 +141,13 @@ export const loader = async ({
 
   const fieldNames = formPageContent.form.map((entry) => entry.name);
   const stepData = stepDataFromFieldNames(fieldNames, data, arrayIndex);
+
+  const arrayKeys = formPageContent.pre_form
+    // 2 Entries
+    .filter((entry) => "arrayKey" in entry)
+    .map((entry) => "arrayKey" in entry ? (entry?.arrayKey) : "");
+
+  const arrayData = getArrayDataFromArrayKey(arrayKeys, data);
 
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
   const mainHeading = formPageContent.pre_form.filter(

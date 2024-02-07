@@ -45,7 +45,10 @@ type PageContentProps = {
   readonly templateReplacements?: Replacements;
   readonly translations?: Translations;
   readonly className?: string;
+  readonly sessionData?: SessionType
 };
+
+export type SessionType = Record<string, string | number | boolean |  Record<string, string | number | boolean>[]>;
 
 export const keyFromElement = (element: StrapiContent) =>
   `${element.__component}_${element.id ?? 0}`;
@@ -75,6 +78,7 @@ function cmsToReact(
   cms: StrapiContent,
   templateReplacements: Replacements,
   translations?: Translations,
+  sessionData?: SessionType,
 ) {
   const replacedTemplate = JSON.parse(
     fillTemplate({
@@ -131,7 +135,7 @@ function cmsToReact(
         <ArraySummary
           {...getArraySummaryProps(replacedTemplate)}
           translations={translations}
-          sessionData={templateReplacements}
+          sessionData={sessionData}
         />
       );
     default:
@@ -144,6 +148,7 @@ const PageContent = ({
   templateReplacements = {},
   translations,
   className,
+  sessionData,
 }: PageContentProps) => (
   <div className={className}>
     {content.map((el) => (
@@ -152,7 +157,7 @@ const PageContent = ({
           el,
           wrapInContainer(
             el,
-            cmsToReact(el, templateReplacements, translations),
+            cmsToReact(el, templateReplacements, translations, sessionData),
           ),
         )}
       </div>

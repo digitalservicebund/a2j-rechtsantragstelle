@@ -16,7 +16,7 @@ import type { loader } from "../step.server";
 export function StepWithPreHeading() {
   const {
     csrf,
-    defaultValues,
+    sessionData,
     heading,
     preHeading,
     content,
@@ -78,17 +78,17 @@ export function StepWithPreHeading() {
             id={`${stepId}_form`}
             method="post"
             validator={validator}
-            defaultValues={defaultValues}
+            defaultValues={sessionData}
             noValidate
             action={pathname}
           >
             <input type="hidden" name={CSRFKey} value={csrf} />
             <div className="ds-stack-40">
               {formContent && formContent.length != 0 && (
-                <PageContent content={formContent} className="ds-stack-40" />
+                <PageContent content={formContent} className="ds-stack-40" sessionData={sessionData} />
               )}
               {postFormContent && postFormContent.length != 0 && (
-                <PageContent content={postFormContent} />
+                <PageContent content={postFormContent} sessionData={sessionData} />
               )}
               <ButtonNavigation {...buttonNavigationProps} />
             </div>
