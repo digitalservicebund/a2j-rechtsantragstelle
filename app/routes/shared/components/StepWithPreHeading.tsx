@@ -17,6 +17,7 @@ export function StepWithPreHeading() {
   const {
     csrf,
     sessionData,
+    arrayData,
     heading,
     preHeading,
     content,
@@ -85,10 +86,14 @@ export function StepWithPreHeading() {
             <input type="hidden" name={CSRFKey} value={csrf} />
             <div className="ds-stack-40">
               {formContent && formContent.length != 0 && (
-                <PageContent content={formContent} className="ds-stack-40" sessionData={sessionData} />
+                <PageContent
+                  content={formContent}
+                  arrayData={arrayData}
+                  className="ds-stack-40"
+                />
               )}
               {postFormContent && postFormContent.length != 0 && (
-                <PageContent content={postFormContent} sessionData={sessionData} />
+                <PageContent content={postFormContent} arrayData={arrayData} />
               )}
               <ButtonNavigation {...buttonNavigationProps} />
             </div>

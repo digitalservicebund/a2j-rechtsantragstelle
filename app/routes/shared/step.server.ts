@@ -57,23 +57,6 @@ const structureCmsContent = (
   };
 };
 
-
-function getArrayDataFromArrayKey(
-  arrayKeys: keyof (AllContexts)[],
-  data: AllContexts,
-) {
-  return arrayKeys.map((arrayKey) => {
-    if (Array.isArray(data[arrayKey])) {
-      const arrayForStep = data[arrayKey] as Record<string, boolean | string | number>[] | undefined;
-      return {
-        [arrayKey]: arrayForStep
-      }
-    }
-
-    return {};
-  });
-}
-
 function stepDataFromFieldNames(
   fieldNames: string[],
   data: Context,
@@ -145,9 +128,49 @@ export const loader = async ({
   const arrayKeys = formPageContent.pre_form
     // 2 Entries
     .filter((entry) => "arrayKey" in entry)
-    .map((entry) => "arrayKey" in entry ? (entry?.arrayKey) : "");
+    .map((entry) =>
+      "arrayKey" in entry ? entry?.arrayKey : "",
+    ) as unknown as keyof AllContexts[];
+  console.log("arrayKeys", arrayKeys);
 
-  const arrayData = getArrayDataFromArrayKey(arrayKeys, data);
+  //   { bankkonten: [
+  //     {
+  //     bankName: "Commerzbank",
+  //     kontostand: 1000,
+  //     iban: "DE1234567890",
+  //     kontoEigentuemer: "myself"
+  //   },
+  //     {
+  //     bankName: "Commerzbank",
+  //     kontostand: 1000,
+  //     iban: "DE1234567890",
+  //     kontoEigentuemer: "myself"
+  //   }
+  //   ],
+  //   kraftfahrzeuge: [
+  //    {}, {}
+  // }
+
+  const arrayData = getArrayDataFromArrayKey(arrayKeys, flowContext);
+  console.log("arrayData", arrayData);
+
+  function getArrayDataFromArrayKey(
+    arrayKeys: keyof AllContexts[],
+    flowContext: AllContexts,
+  ) {
+    return arrayKeys.map((arrayKey) => {
+      const arrayForStep = flowContext[arrayKey] as
+        | Record<string, boolean | string | number>[]
+        | undefined;
+      if (Array.isArray(arrayForStep)) {
+        return {
+          [arrayKey]: arrayForStep,
+        };
+      }
+
+      return {};
+    });
+  }
 
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
   const mainHeading = formPageContent.pre_form.filter(
@@ -191,6 +214,7 @@ export const loader = async ({
     {
       csrf,
       defaultValues: stepData,
+      arrayData,
       commonContent,
       ...cmsContent,
       meta,

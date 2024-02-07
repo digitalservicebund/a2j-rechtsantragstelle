@@ -9,7 +9,7 @@ import ButtonContainer from "./ButtonContainer";
 import Button from "./Button";
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
-import type { SessionType } from "./PageContent";
+import type { ArrayType } from "./PageContent";
 
 export const ArraySummaryPropsSchema = z.object({
   identifier: z.string().optional(),
@@ -24,10 +24,9 @@ export const ArraySummaryPropsSchema = z.object({
 
 type ArraySummaryProps = z.infer<typeof ArraySummaryPropsSchema>;
 type ArraySummaryDataProps = {
-  readonly sessionData?: SessionType;
+  readonly sessionData?: ArrayType;
   readonly translations?: Translations;
 };
-
 
 const ArraySummary = ({
   identifier,
@@ -41,7 +40,9 @@ const ArraySummary = ({
   translations,
   sessionData,
 }: ArraySummaryProps & ArraySummaryDataProps) => {
-  const result = Object.entries(sessionData ?? {}).find(([key, value]) => key === arrayKey); // bankkonten
+  const result = Object.entries(sessionData ?? {}).find(
+    ([key, value]) => key === arrayKey,
+  ); // bankkonten
   console.log(result);
 
   // .map(([key, value]) =>
@@ -88,11 +89,7 @@ const ArraySummary = ({
     <div className="ds-stack-8 scroll-my-40">
       {heading && <Heading {...heading} />}
       {content && <RichText {...content} />}
-      {
-        
-        result
-
-      }
+      {result}
     </div>
   );
 };
