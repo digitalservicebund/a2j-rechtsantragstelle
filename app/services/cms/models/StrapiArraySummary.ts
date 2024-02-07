@@ -8,12 +8,14 @@ import {
 } from "./StrapiArrayElement";
 import { ArraySummaryPropsSchema } from "~/components/ArraySummary";
 import { StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiParagraphSchema, getRichTextProps } from "./StrapiParagraph";
 
 export const StrapiArraySummarySchema = z
   .object({
     __component: z.literal("page.array-summary").optional(),
     identifier: z.string().optional(),
     heading: StrapiHeadingSchema.nullable(),
+    content: StrapiParagraphSchema.nullable(),
     arrayKey: z.string(),
     editButtonText: z.string(),
     deleteButtonText: z.string(),
@@ -27,5 +29,12 @@ type StrapiArraySummary = z.infer<typeof StrapiArraySummarySchema>;
 
 export const getArraySummaryProps = (cmsData: StrapiArraySummary) => {
   const items = cmsData.items.map(getArrayElementProps);
-  return ArraySummaryPropsSchema.parse(omitNull({ ...cmsData, items }));
+  const content = cmsData.content && getRichTextProps(cmsData.content);
+  return ArraySummaryPropsSchema.parse(
+    omitNull({
+      ...cmsData,
+      items,
+      content,
+    }),
+  );
 };

@@ -48,6 +48,20 @@ export const beratungshilfeFinanzielleAngaben = {
     }),
   ),
   hasAdditionalBankkonto: YesNoAnswer,
+  hasKraftfahrzeuge: YesNoAnswer,
+  kraftfahrzeuge: z.array(
+    // TODO: correct types
+    z.object({
+      typ: inputRequiredSchema,
+      marke: inputRequiredSchema,
+      eigentuemer: inputRequiredSchema,
+      verkaufswert: buildMoneyValidationSchema(),
+      kilometerstand: inputRequiredSchema,
+      baujahr: inputRequiredSchema,
+      bemerkung: inputRequiredSchema,
+    }),
+  ),
+  hasAdditionalKraftfahrzeuge: YesNoAnswer,
 };
 
 const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();

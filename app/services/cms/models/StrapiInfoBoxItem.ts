@@ -11,11 +11,11 @@ import { type StrapiElementWithId } from "./StrapiElementWithId";
 export const StrapiInfoBoxItemSchema = z
   .object({
     __component: z.literal("page.info-box-item").optional(),
-    label: StrapiHeadingSchema.nullable(),
-    headline: StrapiHeadingSchema.nullable(),
+    label: StrapiHeadingSchema.optional(),
+    headline: StrapiHeadingSchema.optional(),
     image: StrapiImageSchema.optional(),
-    content: z.string().nullable(),
-    buttons: z.array(StrapiButtonSchema).nullable(),
+    content: z.string().optional(),
+    buttons: z.array(StrapiButtonSchema).optional(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);
