@@ -82,6 +82,7 @@ export function StepWithPreHeading() {
               description={"this is our description"}
               arrayKey={arrayKey}
               arrayData={array}
+              linkTo={pathname.slice(0, pathname.lastIndexOf("/"))}
               translations={translations}
             />
           ))}
