@@ -6,11 +6,13 @@ import type { GeldEinklagenFormularContext } from "./geldEinklagenFormular/conte
 import type { GeldEinklagenVorabcheckContext } from "./geldEinklagen/context";
 import type { BeratungshilfeVorabcheckContext } from "./beratungshilfe/context";
 import type { FluggastrechtContext } from "./fluggastrechteFormular/context";
+import { BeratungshilfeAntragContext } from "~/models/flows/beratungshilfeFormular";
 
 export type AllContexts =
   | GeldEinklagenFormularContext
   | GeldEinklagenVorabcheckContext
   | BeratungshilfeVorabcheckContext
+  | BeratungshilfeAntragContext
   | FluggastrechtContext;
 type Schemas = Record<string, z.ZodTypeAny>;
 
