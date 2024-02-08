@@ -107,15 +107,19 @@ export const beratungshilfeAntrag = {
 
 const getAmtsgerichtStrings = (context: AllContexts) => {
   if ("plz" in context && context.plz) {
-    const courtData = findCourt({ zipCode: context.plz });
-    return {
-      courtName: courtData?.BEZEICHNUNG,
-      courtStreetNumber: courtData?.STR_HNR,
-      courtPlz: courtData?.PLZ_ZUSTELLBEZIRK,
-      courtOrt: courtData?.ORT,
-      courtWebsite: courtData?.URL1,
-      courtTelephone: courtData?.TEL,
-    };
+    try {
+      const courtData = findCourt({ zipCode: context.plz });
+      return {
+        courtName: courtData?.BEZEICHNUNG,
+        courtStreetNumber: courtData?.STR_HNR,
+        courtPlz: courtData?.PLZ_ZUSTELLBEZIRK,
+        courtOrt: courtData?.ORT,
+        courtWebsite: courtData?.URL1,
+        courtTelephone: courtData?.TEL,
+      };
+    } catch (e) {
+      console.error(`Did not find court for plz: ${context.plz}`, e);
+    }
   }
   return {};
 };
