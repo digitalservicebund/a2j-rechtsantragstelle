@@ -98,7 +98,10 @@ export function StepWithPreHeading() {
                 <PageContent content={formContent} className="ds-stack-40" />
               )}
               {postFormContent && postFormContent.length != 0 && (
-                <PageContent content={postFormContent} />
+                <PageContent
+                  content={postFormContent}
+                  templateReplacements={templateReplacements}
+                />
               )}
               <ButtonNavigation {...buttonNavigationProps} />
             </div>

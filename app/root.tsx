@@ -134,19 +134,6 @@ function App() {
         <meta property="og:description" content={description} />
         <script
           nonce={nonce}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: `
-          ${JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "Justiz-Services",
-            url: "https://service.justiz.de/",
-          })}`,
-          }}
-        />
-        <script
-          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `window.ENV = ${JSON.stringify(configWeb())}`,
           }}

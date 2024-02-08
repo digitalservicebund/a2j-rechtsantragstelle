@@ -26,6 +26,8 @@ import {
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
+import type { AllContexts } from "~/models/flows/common";
+import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
 export const beratungshilfeAntrag = {
   cmsSlug: "form-flow-pages",
@@ -98,7 +100,29 @@ export const beratungshilfeAntrag = {
     ...beratungshilfeAbgabeGuards,
     ...finanzielleAngabeGuards,
   },
+  stringReplacements: (context: AllContexts) => ({
+    ...getAmtsgerichtStrings(context),
+  }),
 } as const;
+
+const getAmtsgerichtStrings = (context: AllContexts) => {
+  if ("plz" in context && context.plz) {
+    try {
+      const courtData = findCourt({ zipCode: context.plz });
+      return {
+        courtName: courtData?.BEZEICHNUNG,
+        courtStreetNumber: courtData?.STR_HNR,
+        courtPlz: courtData?.PLZ_ZUSTELLBEZIRK,
+        courtOrt: courtData?.ORT,
+        courtWebsite: courtData?.URL1,
+        courtTelephone: courtData?.TEL,
+      };
+    } catch (e) {
+      console.error(`Did not find court for plz: ${context.plz}`, e);
+    }
+  }
+  return {};
+};
 
 export type BeratungshilfeAntragContext = BeratungshilfeGrundvoraussetzungen &
   BeratungshilfeRechtsproblem &

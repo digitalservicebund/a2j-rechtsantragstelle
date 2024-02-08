@@ -3,13 +3,13 @@ import { createMachine } from "xstate";
 import { getShortestPaths } from "@xstate/graph";
 import { getStateValueString } from "~/services/flow/getStateValueString";
 import type { Context } from "~/models/flows/contexts";
+import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
 
 type Event = "SUBMIT" | "BACK";
 type StateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
 type StateMachine = ReturnType<
   typeof createMachine<Context, StateMachineEvents>
 >;
-type SubflowState = "Done" | "Open" | "Unreachable" | undefined;
 export type Config = MachineConfig<Context, any, StateMachineEvents>;
 export type Guards = Record<string, (context: Context) => boolean>;
 export type Meta = {

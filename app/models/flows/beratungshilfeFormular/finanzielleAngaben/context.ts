@@ -73,10 +73,12 @@ export const beratungshilfeFinanzielleAngabeDone = (
   context: BeratungshilfeFinanzielleAngabenContext,
 ) => einkommenDone(context) && partnerDone(context);
 
+export type SubflowState = "Done" | "Open" | "Unreachable" | undefined;
+
 export const beratungshilfeFinanzielleAngabenSubflowState = (
   context: BeratungshilfeFinanzielleAngabenContext,
   subflowId: string,
-) => {
+): SubflowState => {
   switch (subflowId) {
     case "einkommen":
       if (einkommenDone(context)) return "Done";
