@@ -1,12 +1,9 @@
-import { z } from "zod";
 import type { Translations } from "~/services/cms/index.server";
 
-export const ArrayElementPropsSchema = z.object({
-  title: z.string(),
-  elementKey: z.string(),
-});
-
-type ArrayElementProps = z.infer<typeof ArrayElementPropsSchema>;
+type ArrayElementProps = {
+  title: string
+  elementKey: string
+};
 
 type ArrayElementDataProps = {
   readonly sessionData?: Record<string, Record<string, string>[]>;

@@ -1,67 +1,60 @@
-import { z } from "zod";
-import Heading, { HeadingPropsSchema } from "./Heading";
-import ArrayElementEntry, {
-  ArrayElementPropsSchema,
-} from "./ArrayElementEntry";
+import Heading from "./Heading";
+import ArrayElementEntry from "./ArrayElementEntry";
 import type { Translations } from "~/services/cms/index.server";
-import RichText, { RichTextPropsSchema } from "./RichText";
 import ButtonContainer from "./ButtonContainer";
 import Button from "./Button";
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
-import type { ArrayType } from "./PageContent";
+import RichText from "./RichText";
 
-export const ArraySummaryPropsSchema = z.object({
-  identifier: z.string().optional(),
-  heading: HeadingPropsSchema,
-  content: RichTextPropsSchema,
-  arrayKey: z.string(),
-  editButtonText: z.string(),
-  deleteButtonText: z.string(),
-  addButtonText: z.string(),
-  items: z.array(ArrayElementPropsSchema),
-});
-
-type ArraySummaryProps = z.infer<typeof ArraySummaryPropsSchema>;
-type ArraySummaryDataProps = {
-  readonly sessionData?: ArrayType;
-  readonly arrayData?: ArrayType;
+type ArraySummaryProps = {
+  readonly title: string;
+  readonly description?: string;
+  readonly arrayKey: string;
+  readonly arrayData: ArrayType;
   readonly translations?: Translations;
 };
 
+type ArrayElement = Record<string, string | number | boolean>;
+type ArrayType = ArrayElement[];
+export type ArrayCollection = Record<string, ArrayType>;
+
+// const ArraySummary = ({
+//   title,
+
+// }: ArraySummaryProps) => {
+//   return (<div>{title}</div>)
+// }
+
 const ArraySummary = ({
-  identifier,
-  heading,
-  content,
+  title,
+  description,
   arrayKey,
-  editButtonText,
-  deleteButtonText,
-  addButtonText,
-  items,
-  translations,
-  sessionData,
   arrayData,
-}: ArraySummaryProps & ArraySummaryDataProps) => {
-  console.log("arrayData", arrayData);
+  translations,
+}: ArraySummaryProps) => {
+  const editButtonText = "Bearbeiten"
+  const deleteButtonText = "Löschen"
   return (
     <div className="ds-stack-8 scroll-my-40">
-      {heading && <Heading {...heading} />}
-      {content && <RichText {...content} />}
-      {sessionData?.bankkonten.map((bankkonto, index) => {
-        // TODO: create separate ArrayElement component
+      <Heading text={title} tagName="h2" look="ds-heading-03-bold" />
+      {description && <RichText markdown={description} />}
+      {arrayData.map((element) => {
         return (
-          <div key={index} className="ds-stack-32 bg-white p-16 pb-[24px]">
-            {Object.entries(bankkonto).map((bankkontoEntry, index) => {
+          <div key={arrayKey} className="ds-stack-32 bg-white p-16 pb-[24px]">
+            {Object.entries(element).map(([elementKey, elementValue]) => {
               return (
-                <div key={index} className="first:pt-0 scroll-my-40">
-                  <ArrayElementEntry
-                    title={bankkontoEntry[0]}
-                    elementKey={bankkontoEntry[1]}
+                <div key={elementKey} className="first:pt-0 scroll-my-40">
+                  {elementKey}
+                  {elementValue}
+                  {/* <ArrayElementEntry
+                    title={elementKey}
+                    elementKey={elementKey[1]}
                     translations={translations}
                     arrayKey={arrayKey}
                     sessionData={sessionData}
                     index={index}
-                  />
+                  /> */}
                 </div>
               );
             })}

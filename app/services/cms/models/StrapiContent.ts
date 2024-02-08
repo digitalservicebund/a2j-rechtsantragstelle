@@ -20,7 +20,6 @@ import { StrapiTimeInputSchema } from "~/services/cms/models/StrapiTimeInput";
 import { StrapiFileInputSchema } from "~/services/cms/models/StrapiFileInput";
 import { StrapiAlertSchema } from "./StrapiAlert";
 import { StrapiArraySummarySchema } from "./StrapiArraySummary";
-import { StrapiArrayElementSchema } from "./StrapiArrayElement";
 
 export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiBoxSchema.required({ __component: true }),
@@ -44,7 +43,6 @@ export const StrapiContentSchema = z.discriminatedUnion("__component", [
   StrapiFileInputSchema.required({ __component: true }),
   StrapiAlertSchema.required({ __component: true }),
   StrapiArraySummarySchema.required({ __component: true }),
-  StrapiArrayElementSchema.required({ __component: true }),
 ]);
 
 export type StrapiContent = z.infer<typeof StrapiContentSchema>;

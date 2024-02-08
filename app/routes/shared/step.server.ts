@@ -36,6 +36,7 @@ import type { CollectionSchemas } from "~/services/cms/schemas";
 import { getButtonNavigationProps } from "~/util/getButtonNavigationProps";
 import { sendCustomEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
+import { ArrayCollection } from "~/components/ArraySummary";
 
 const structureCmsContent = (
   formPageContent: z.infer<
@@ -125,30 +126,14 @@ export const loader = async ({
   const fieldNames = formPageContent.form.map((entry) => entry.name);
   const stepData = stepDataFromFieldNames(fieldNames, data, arrayIndex);
 
-  const arrayKeys = formPageContent.pre_form
-    .filter((entry) => "arrayKey" in entry)
-    .map((entry) =>
-      "arrayKey" in entry ? entry?.arrayKey : "",
-    )
+  const arrayData: ArrayCollection = Object.fromEntries(
+    formPageContent.pre_form
+      .filter((entry) => "arrayKey" in entry)
+      .map((entry) => [entry.arrayKey, flowContext[entry?.arrayKey]]),
+  );
 
-  function getArrayDataFromArrayKey(
-    arrayKeys: string[],
-    flowContext: AllContexts,
-  ) {
-    return arrayKeys.map((arrayKey) => {
-      const arrayForStep = flowContext[arrayKey];
-      if (Array.isArray(arrayForStep)) {
-        return { [arrayKey]: arrayForStep };
-      }
-      return null;
-    }).filter(item => item !== null);
-  }
-
-  const arrayData = getArrayDataFromArrayKey(arrayKeys, flowContext);
-  // console.log("arrayKeys", arrayKeys);
-  console.log("arrayData", arrayData);
-  // console.log("flowContext", flowContext);
-
+  console.log("translations", translations);
+  console.log("arrayData", JSON.stringify(arrayData));
 
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
   const mainHeading = formPageContent.pre_form.filter(

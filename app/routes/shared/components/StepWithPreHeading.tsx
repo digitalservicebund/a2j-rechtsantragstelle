@@ -12,11 +12,12 @@ import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/FlowNavigation";
 import { splatFromParams } from "~/services/params";
 import type { loader } from "../step.server";
+import ArraySummary from "~/components/ArraySummary";
 
 export function StepWithPreHeading() {
   const {
     csrf,
-    sessionData,
+    defaultValues,
     arrayData,
     heading,
     preHeading,
@@ -65,7 +66,6 @@ export function StepWithPreHeading() {
             />
             <PageContent
               content={content}
-              translations={translations}
               templateReplacements={templateReplacements}
               className="ds-stack-16"
             />
@@ -75,25 +75,31 @@ export function StepWithPreHeading() {
             migrationData={migrationData}
             translations={translations}
           />
+          {Object.entries(arrayData).map(([arrayKey, array]) => (
+            <ArraySummary
+              key={arrayKey}
+              title={"TITEL"}
+              description={"this is our description"}
+              arrayKey={arrayKey}
+              arrayData={array}
+              translations={translations}
+            />
+          ))}
           <ValidatedForm
             id={`${stepId}_form`}
             method="post"
             validator={validator}
-            defaultValues={sessionData}
+            defaultValues={defaultValues}
             noValidate
             action={pathname}
           >
             <input type="hidden" name={CSRFKey} value={csrf} />
             <div className="ds-stack-40">
               {formContent && formContent.length != 0 && (
-                <PageContent
-                  content={formContent}
-                  arrayData={arrayData}
-                  className="ds-stack-40"
-                />
+                <PageContent content={formContent} className="ds-stack-40" />
               )}
               {postFormContent && postFormContent.length != 0 && (
-                <PageContent content={postFormContent} arrayData={arrayData} />
+                <PageContent content={postFormContent} />
               )}
               <ButtonNavigation {...buttonNavigationProps} />
             </div>

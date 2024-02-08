@@ -36,22 +36,12 @@ import { renderDateInputFromStrapi } from "~/services/cms/models/StrapiDateInput
 import { renderTimeInputFromStrapi } from "~/services/cms/models/StrapiTimeInput";
 import { renderFileInputFromStrapi } from "~/services/cms/models/StrapiFileInput";
 import { renderAlertFromStrapi } from "~/services/cms/models/StrapiAlert";
-import ArraySummary from "./ArraySummary";
-import { getArraySummaryProps } from "~/services/cms/models/StrapiArraySummary";
-import type { Translations } from "~/services/cms/index.server";
 
 type PageContentProps = {
   readonly content: Array<StrapiContent>;
   readonly templateReplacements?: Replacements;
-  readonly translations?: Translations;
   readonly className?: string;
-  readonly arrayData?: ArrayType;
 };
-
-export type ArrayType = Record<
-  string,
-  string | number | boolean | Record<string, string | number | boolean>[]
->;
 
 export const keyFromElement = (element: StrapiContent) =>
   `${element.__component}_${element.id ?? 0}`;
@@ -80,8 +70,6 @@ function wrapInBackground(cmsData: StrapiContent, reactElement: ReactElement) {
 function cmsToReact(
   cms: StrapiContent,
   templateReplacements: Replacements,
-  translations?: Translations,
-  sessionData?: ArrayType,
 ) {
   const replacedTemplate = JSON.parse(
     fillTemplate({
@@ -133,14 +121,6 @@ function cmsToReact(
       );
     case "page.list":
       return <List {...getListProps(replacedTemplate)} key={key} />;
-    case "page.array-summary":
-      return (
-        <ArraySummary
-          {...getArraySummaryProps(replacedTemplate)}
-          translations={translations}
-          sessionData={sessionData}
-        />
-      );
     default:
       return <></>;
   }
@@ -149,9 +129,7 @@ function cmsToReact(
 const PageContent = ({
   content = [],
   templateReplacements = {},
-  translations,
   className,
-  arrayData,
 }: PageContentProps) => (
   <div className={className}>
     {content.map((el) => (
@@ -160,7 +138,7 @@ const PageContent = ({
           el,
           wrapInContainer(
             el,
-            cmsToReact(el, templateReplacements, translations, arrayData),
+            cmsToReact(el, templateReplacements),
           ),
         )}
       </div>
