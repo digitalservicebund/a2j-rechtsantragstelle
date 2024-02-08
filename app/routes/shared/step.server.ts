@@ -37,10 +37,7 @@ import { getButtonNavigationProps } from "~/util/getButtonNavigationProps";
 import { sendCustomEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
 import type { ArrayCollection } from "~/components/ArraySummary";
-import {
-  isStrapiArraySummary,
-  type StrapiArraySummary,
-} from "~/services/cms/models/StrapiArraySummary";
+import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
 
 const structureCmsContent = (
   formPageContent: z.infer<
