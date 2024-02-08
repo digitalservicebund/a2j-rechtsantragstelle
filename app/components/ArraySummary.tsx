@@ -6,21 +6,19 @@ import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import AddButton from "@digitalservicebund/icons/AddCircleOutlined";
 import RichText from "./RichText";
-import { Form } from "@remix-run/react";
+import { Form, useLocation } from "@remix-run/react";
 import { lookupOrKey } from "~/util/lookupOrKey";
 
 export type ArrayElement = Record<string, string | number | boolean>;
 export type ArrayCollection = Record<string, ArrayElement[]>;
 
 type ArraySummaryProps = {
-  readonly linkTo: string;
   readonly arrayKey: string;
   readonly arrayData: ArrayElement[];
   readonly translations?: Translations;
 };
 
 const ArraySummary = ({
-  linkTo,
   arrayKey,
   arrayData,
   translations = {},
@@ -32,6 +30,7 @@ const ArraySummary = ({
   const subtitle = lookupOrKey(`${arrayKey}.label.subtitle`, translations);
   const description: string | undefined =
     translations[`${arrayKey}.description`];
+  const { pathname } = useLocation();
 
   return (
     <div className="ds-stack-8 scroll-my-40">
@@ -91,7 +90,7 @@ const ArraySummary = ({
       <Button
         look="ghost"
         iconLeft={<AddButton />}
-        href={`${linkTo}/${arrayKey}`}
+        href={`${pathname.slice(0, pathname.lastIndexOf("/"))}/${arrayKey}`}
       >{`${subtitle} ${addButtonText}`}</Button>
     </div>
   );
