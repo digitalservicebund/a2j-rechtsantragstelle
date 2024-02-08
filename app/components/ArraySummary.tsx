@@ -1,10 +1,10 @@
 import Heading from "./Heading";
-import ArrayElementEntry from "./ArrayElementEntry";
 import type { Translations } from "~/services/cms/index.server";
 import ButtonContainer from "./ButtonContainer";
 import Button from "./Button";
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
+import AddButton from "@digitalservicebund/icons/AddCircleOutlined";
 import RichText from "./RichText";
 
 type ArraySummaryProps = {
@@ -19,22 +19,16 @@ type ArrayElement = Record<string, string | number | boolean>;
 type ArrayType = ArrayElement[];
 export type ArrayCollection = Record<string, ArrayType>;
 
-// const ArraySummary = ({
-//   title,
-
-// }: ArraySummaryProps) => {
-//   return (<div>{title}</div>)
-// }
-
 const ArraySummary = ({
   title,
   description,
   arrayKey,
   arrayData,
-  translations,
+  translations = {},
 }: ArraySummaryProps) => {
-  const editButtonText = "Bearbeiten"
-  const deleteButtonText = "Löschen"
+  const editButtonText = translations["arrayEditButtonLabel"] ?? "Bearbeiten";
+  const deleteButtonText = translations["arrayDeleteButtonLabel"] ?? "Löschen";
+
   return (
     <div className="ds-stack-8 scroll-my-40">
       <Heading text={title} tagName="h2" look="ds-heading-03-bold" />
@@ -45,16 +39,15 @@ const ArraySummary = ({
             {Object.entries(element).map(([elementKey, elementValue]) => {
               return (
                 <div key={elementKey} className="first:pt-0 scroll-my-40">
-                  {elementKey}
-                  {elementValue}
-                  {/* <ArrayElementEntry
-                    title={elementKey}
-                    elementKey={elementKey[1]}
-                    translations={translations}
-                    arrayKey={arrayKey}
-                    sessionData={sessionData}
-                    index={index}
-                  /> */}
+                  <Heading
+                    text={
+                      translations[`${arrayKey}.${elementKey}`] ?? elementKey
+                    }
+                    tagName="h3"
+                    look="ds-label-02-bold"
+                  />
+                  {translations[`${arrayKey}.${elementKey}.${elementValue}`] ??
+                    elementValue}
                 </div>
               );
             })}
@@ -73,7 +66,6 @@ const ArraySummary = ({
                 iconLeft={<DeleteIcon />}
                 name={editButtonText}
                 value={"abort"}
-                type="submit"
               >
                 {deleteButtonText}
               </Button>
@@ -81,6 +73,7 @@ const ArraySummary = ({
           </div>
         );
       })}
+      <AddButton />
     </div>
   );
 };
