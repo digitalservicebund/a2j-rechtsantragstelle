@@ -67,10 +67,7 @@ function wrapInBackground(cmsData: StrapiContent, reactElement: ReactElement) {
   return <Background {...props}>{reactElement}</Background>;
 }
 
-function cmsToReact(
-  cms: StrapiContent,
-  templateReplacements: Replacements,
-) {
+function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
   const replacedTemplate = JSON.parse(
     fillTemplate({
       template: JSON.stringify(cms),
@@ -136,10 +133,7 @@ const PageContent = ({
       <div key={keyFromElement(el)}>
         {wrapInBackground(
           el,
-          wrapInContainer(
-            el,
-            cmsToReact(el, templateReplacements),
-          ),
+          wrapInContainer(el, cmsToReact(el, templateReplacements)),
         )}
       </div>
     ))}
