@@ -25,6 +25,7 @@ export const ArraySummaryPropsSchema = z.object({
 type ArraySummaryProps = z.infer<typeof ArraySummaryPropsSchema>;
 type ArraySummaryDataProps = {
   readonly sessionData?: ArrayType;
+  readonly arrayData?: ArrayType;
   readonly translations?: Translations;
 };
 
@@ -39,57 +40,54 @@ const ArraySummary = ({
   items,
   translations,
   sessionData,
+  arrayData,
 }: ArraySummaryProps & ArraySummaryDataProps) => {
-  const result = Object.entries(sessionData ?? {}).find(
-    ([key, value]) => key === arrayKey,
-  ); // bankkonten
-  console.log(result);
-
-  // .map(([key, value]) =>
-  //           (
-  //             <div key={index} className="ds-stack-32 bg-white p-16 pb-[24px]">
-  //               {Object.entries(bankkonto).map((bankkontoEntry, index) => {
-  //                 return (
-  //                   <div key={index} className="first:pt-0 scroll-my-40">
-  //                     <ArrayElementEntry
-  //                       title={bankkontoEntry[0]}
-  //                       elementKey={bankkontoEntry[1]}
-  //                       translations={translations}
-  //                       arrayKey={arrayKey}
-  //                       sessionData={sessionData}
-  //                       index={index}
-  //                     />
-  //                   </div>
-  //                 );
-  //               })}
-  //               <ButtonContainer>
-  //                 <Button
-  //                   iconLeft={<EditButton />}
-  //                   look="tertiary"
-  //                   name={editButtonText}
-  //                   value={"abort"}
-  //                   type="submit"
-  //                 >
-  //                   {editButtonText}
-  //                 </Button>
-  //                 <Button
-  //                   look="tertiary"
-  //                   iconLeft={<DeleteIcon />}
-  //                   name={editButtonText}
-  //                   value={"abort"}
-  //                   type="submit"
-  //                 >
-  //                   {deleteButtonText}
-  //                 </Button>
-  //               </ButtonContainer>
-  //             </div>
-  //           );
-
+  console.log("arrayData", arrayData);
   return (
     <div className="ds-stack-8 scroll-my-40">
       {heading && <Heading {...heading} />}
       {content && <RichText {...content} />}
-      {result}
+      {sessionData?.bankkonten.map((bankkonto, index) => {
+        // TODO: create separate ArrayElement component
+        return (
+          <div key={index} className="ds-stack-32 bg-white p-16 pb-[24px]">
+            {Object.entries(bankkonto).map((bankkontoEntry, index) => {
+              return (
+                <div key={index} className="first:pt-0 scroll-my-40">
+                  <ArrayElementEntry
+                    title={bankkontoEntry[0]}
+                    elementKey={bankkontoEntry[1]}
+                    translations={translations}
+                    arrayKey={arrayKey}
+                    sessionData={sessionData}
+                    index={index}
+                  />
+                </div>
+              );
+            })}
+            <ButtonContainer>
+              <Button
+                iconLeft={<EditButton />}
+                look="tertiary"
+                name={editButtonText}
+                value={"abort"}
+                type="submit"
+              >
+                {editButtonText}
+              </Button>
+              <Button
+                look="tertiary"
+                iconLeft={<DeleteIcon />}
+                name={editButtonText}
+                value={"abort"}
+                type="submit"
+              >
+                {deleteButtonText}
+              </Button>
+            </ButtonContainer>
+          </div>
+        );
+      })}
     </div>
   );
 };

@@ -16,7 +16,7 @@ export type AllContexts =
   | FluggastrechtContext;
 type Schemas = Record<string, z.ZodTypeAny>;
 
-export const arrayChar = "#";
+const arrayChar = "#";
 export const splitArrayName = (key: string) => key.split(arrayChar);
 export const fieldIsArray = (fieldname: string) =>
   fieldname.includes(arrayChar);

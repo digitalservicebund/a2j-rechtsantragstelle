@@ -126,51 +126,29 @@ export const loader = async ({
   const stepData = stepDataFromFieldNames(fieldNames, data, arrayIndex);
 
   const arrayKeys = formPageContent.pre_form
-    // 2 Entries
     .filter((entry) => "arrayKey" in entry)
     .map((entry) =>
       "arrayKey" in entry ? entry?.arrayKey : "",
-    ) as unknown as keyof AllContexts[];
-  console.log("arrayKeys", arrayKeys);
-
-  //   { bankkonten: [
-  //     {
-  //     bankName: "Commerzbank",
-  //     kontostand: 1000,
-  //     iban: "DE1234567890",
-  //     kontoEigentuemer: "myself"
-  //   },
-  //     {
-  //     bankName: "Commerzbank",
-  //     kontostand: 1000,
-  //     iban: "DE1234567890",
-  //     kontoEigentuemer: "myself"
-  //   }
-  //   ],
-  //   kraftfahrzeuge: [
-  //    {}, {}
-  // }
-
-  const arrayData = getArrayDataFromArrayKey(arrayKeys, flowContext);
-  console.log("arrayData", arrayData);
+    )
 
   function getArrayDataFromArrayKey(
-    arrayKeys: keyof AllContexts[],
+    arrayKeys: string[],
     flowContext: AllContexts,
   ) {
     return arrayKeys.map((arrayKey) => {
-      const arrayForStep = flowContext[arrayKey] as
-        | Record<string, boolean | string | number>[]
-        | undefined;
+      const arrayForStep = flowContext[arrayKey];
       if (Array.isArray(arrayForStep)) {
-        return {
-          [arrayKey]: arrayForStep,
-        };
+        return { [arrayKey]: arrayForStep };
       }
-
-      return {};
-    });
+      return null;
+    }).filter(item => item !== null);
   }
+
+  const arrayData = getArrayDataFromArrayKey(arrayKeys, flowContext);
+  // console.log("arrayKeys", arrayKeys);
+  console.log("arrayData", arrayData);
+  // console.log("flowContext", flowContext);
+
 
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
   const mainHeading = formPageContent.pre_form.filter(
