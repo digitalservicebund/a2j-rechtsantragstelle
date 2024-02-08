@@ -25,10 +25,7 @@ export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
   const fieldValidators: Record<string, z.ZodTypeAny> = {};
 
   for (const fieldname of fieldNames) {
-    // In case of nested fields, we take the parent key
-    // if fieldname contains []
     if (fieldIsArray(fieldname)) {
-      // then destructure
       const [arrayName, arrayFieldname] = splitArrayName(fieldname);
       const objectSchemas = (schemas[arrayName] as z.ZodArray<z.ZodObject<any>>)
         .element.shape;

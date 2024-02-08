@@ -32,7 +32,6 @@ export function flowIDFromPathname(pathname: string) {
   throw Error("Unknown flow ID");
 }
 export function parsePathname(pathname: string) {
-  // /beratungshilfe/antrag/finanzielleAngaben/besitz/bankkonten/1
   const pathSegments = pathname.split("/");
   const flowId = `${pathSegments[1]}/${pathSegments[2]}`;
   if (!isFlowId(flowId)) throw Error("Unknown flow ID");
