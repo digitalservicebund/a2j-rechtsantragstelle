@@ -1,3 +1,4 @@
+import type { ArrayElement } from "~/components/ArraySummary";
 import { context as beratungshilfeContext } from "./beratungshilfe/context";
 import { beratungshilfeFormularContext } from "./beratungshilfeFormular/context";
 import { fluggastrechteVorabcheckContext } from "./fluggastrechte/context";
@@ -7,11 +8,7 @@ import { context as geldEinklagenFormularContext } from "./geldEinklagenFormular
 
 export type Context = Record<
   string,
-  | boolean
-  | string
-  | number
-  | object
-  | Record<string, boolean | string | number>[]
+  boolean | string | number | object | ArrayElement[]
 >;
 
 const contexts = {

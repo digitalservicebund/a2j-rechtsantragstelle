@@ -9,16 +9,15 @@ import RichText from "./RichText";
 import { Form } from "@remix-run/react";
 import { lookupOrKey } from "~/util/lookupOrKey";
 
+export type ArrayElement = Record<string, string | number | boolean>;
+export type ArrayCollection = Record<string, ArrayElement[]>;
+
 type ArraySummaryProps = {
   readonly linkTo: string;
   readonly arrayKey: string;
-  readonly arrayData: ArrayType;
+  readonly arrayData: ArrayElement[];
   readonly translations?: Translations;
 };
-
-type ArrayElement = Record<string, string | number | boolean>;
-type ArrayType = ArrayElement[];
-export type ArrayCollection = Record<string, ArrayType>;
 
 const ArraySummary = ({
   linkTo,
