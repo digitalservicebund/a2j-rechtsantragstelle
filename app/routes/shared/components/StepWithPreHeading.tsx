@@ -78,8 +78,6 @@ export function StepWithPreHeading() {
           {Object.entries(arrayData).map(([arrayKey, array]) => (
             <ArraySummary
               key={arrayKey}
-              title={"TITEL"}
-              description={"this is our description"}
               arrayKey={arrayKey}
               arrayData={array}
               linkTo={pathname.slice(0, pathname.lastIndexOf("/"))}

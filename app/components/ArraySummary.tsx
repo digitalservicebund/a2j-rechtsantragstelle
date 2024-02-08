@@ -7,10 +7,9 @@ import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import AddButton from "@digitalservicebund/icons/AddCircleOutlined";
 import RichText from "./RichText";
 import { Form } from "@remix-run/react";
+import { lookupOrKey } from "~/util/lookupOrKey";
 
 type ArraySummaryProps = {
-  readonly title: string;
-  readonly description?: string;
   readonly linkTo: string;
   readonly arrayKey: string;
   readonly arrayData: ArrayType;
@@ -22,8 +21,6 @@ type ArrayType = ArrayElement[];
 export type ArrayCollection = Record<string, ArrayType>;
 
 const ArraySummary = ({
-  title,
-  description,
   linkTo,
   arrayKey,
   arrayData,
@@ -32,10 +29,10 @@ const ArraySummary = ({
   const addButtonText = translations["arrayAddButtonLabel"] ?? "Hinzufügen";
   const editButtonText = translations["arrayEditButtonLabel"] ?? "Bearbeiten";
   const deleteButtonText = translations["arrayDeleteButtonLabel"] ?? "Löschen";
-  const titleHeading =
-    translations[`${arrayKey}.label.title`] ?? `${arrayKey}.label.title`;
-  const subtitle =
-    translations[`${arrayKey}.label.subtitle`] ?? `${arrayKey}.label.subtitle`;
+  const titleHeading = lookupOrKey(`${arrayKey}.label.title`, translations);
+  const subtitle = lookupOrKey(`${arrayKey}.label.subtitle`, translations);
+  const description: string | undefined =
+    translations[`${arrayKey}.description`];
 
   return (
     <div className="ds-stack-8 scroll-my-40">
