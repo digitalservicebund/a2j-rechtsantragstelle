@@ -36,14 +36,14 @@ const ArraySummary = ({
     <div className="ds-stack-8 scroll-my-40">
       <Heading text={titleHeading} tagName="h2" look="ds-heading-03-bold" />
       {description && <RichText markdown={description} />}
-      <div className="!mt-[32px]">
+      <div className="space-y-32">
         {arrayData.map((element, index) => {
           const subtitleHeading = `${subtitle} ${index + 1}`;
 
           return (
             <div
               key={subtitleHeading}
-              className="ds-stack-8 bg-white p-16 pb-[24px]"
+              className="space-y-8 bg-white p-16 pb-[24px]"
             >
               {Object.entries(element).map(([elementKey, elementValue]) => {
                 return (
@@ -89,6 +89,7 @@ const ArraySummary = ({
       </div>
       <Button
         look="ghost"
+        className="hover:shadow-none"
         iconLeft={<AddButton />}
         href={`${pathname.slice(0, pathname.lastIndexOf("/"))}/${arrayKey}`}
       >{`${subtitle} ${addButtonText}`}</Button>
