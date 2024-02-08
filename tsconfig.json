@@ -20,9 +20,9 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
-      "tests/*": ["./tests/*"],
+      "tests/*": ["./tests/*"]
     },
     // Vite takes care of building everything
-    "noEmit": true,
-  },
+    "noEmit": true
+  }
 }
