@@ -12,11 +12,13 @@ import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/FlowNavigation";
 import { splatFromParams } from "~/services/params";
 import type { loader } from "../step.server";
+import ArraySummary from "~/components/ArraySummary";
 
 export function StepWithPreHeading() {
   const {
     csrf,
     defaultValues,
+    arrayData,
     heading,
     preHeading,
     content,
@@ -73,6 +75,14 @@ export function StepWithPreHeading() {
             migrationData={migrationData}
             translations={translations}
           />
+          {Object.entries(arrayData).map(([arrayKey, array]) => (
+            <ArraySummary
+              key={arrayKey}
+              arrayKey={arrayKey}
+              arrayData={array}
+              translations={translations}
+            />
+          ))}
           <ValidatedForm
             id={`${stepId}_form`}
             method="post"

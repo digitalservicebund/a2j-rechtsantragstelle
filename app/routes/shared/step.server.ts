@@ -9,8 +9,9 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { type AllContexts, buildStepValidator } from "~/models/flows/common";
-import { getContext, flowIDFromPathname } from "~/models/flows/contexts";
+import { buildStepValidator } from "~/models/flows/common";
+import type { ArrayCollection, Context } from "~/models/flows/contexts";
+import { getContext, parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import type { StrapiHeading } from "~/services/cms/models/StrapiHeading";
 import type { StrapiSelect } from "~/services/cms/models/StrapiSelect";
@@ -28,7 +29,9 @@ import type { z } from "zod";
 import type { CollectionSchemas } from "~/services/cms/schemas";
 import { getButtonNavigationProps } from "~/util/getButtonNavigationProps";
 import { sendCustomEvent } from "~/services/analytics/customEvent";
-import { parentFromParams, splatFromParams } from "~/services/params";
+import { parentFromParams } from "~/services/params";
+import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
+import { fieldIsArray, splitArrayName } from "~/util/arrayVariable";
 
 const structureCmsContent = (
   formPageContent: z.infer<
@@ -49,18 +52,37 @@ const structureCmsContent = (
       "post_form" in formPageContent ? formPageContent.post_form : undefined,
   };
 };
+
+function stepDataFromFieldNames(
+  fieldNames: string[],
+  data: Context,
+  arrayIndex?: number,
+) {
+  return Object.fromEntries(
+    fieldNames.map((fieldName) => {
+      let entry = data[fieldName];
+      if (fieldIsArray(fieldName) && arrayIndex !== undefined) {
+        const [arrayName, arrayFieldname] = splitArrayName(fieldName);
+        const arrayForStep = data[arrayName];
+        if (Array.isArray(arrayForStep) && arrayForStep.length > arrayIndex)
+          entry = arrayForStep[arrayIndex][arrayFieldname];
+      }
+      return [fieldName, entry];
+    }),
+  );
+}
+
 export const loader = async ({
   params,
   request,
   context,
 }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
-  const stepId = splatFromParams(params);
   const { pathname } = new URL(request.url);
-  const flowId = flowIDFromPathname(pathname);
+  const { flowId, stepId, arrayIndex } = parsePathname(pathname);
   const cookieId = request.headers.get("Cookie");
   const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
-  const flowContext: AllContexts = data; // Recast for now to get type safety
+  const flowContext: Context = data; // Recast for now to get type safety
   context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
   const currentFlow = flows[flowId];
   const flowController = buildFlowController({
@@ -77,9 +99,10 @@ export const loader = async ({
   if (stepId === "intro/daten-uebernahme" && "migrationSource" in currentFlow)
     migrationData = await getMigrationData(flowId, currentFlow, cookieId);
 
-  const lookupPath = pathname.includes("persoenliche-daten")
-    ? pathname.replace("fluggastrechte", "geld-einklagen")
-    : pathname;
+  const pathNameWithoutArrayIndex = `/${flowId}/${stepId}`;
+  const lookupPath = pathNameWithoutArrayIndex.includes("persoenliche-daten")
+    ? pathNameWithoutArrayIndex.replace("fluggastrechte", "geld-einklagen")
+    : pathNameWithoutArrayIndex;
 
   const [
     commonContent,
@@ -94,6 +117,19 @@ export const loader = async ({
     fetchTranslations(flowId),
     fetchTranslations(`${flowId}/menu`),
   ]);
+
+  const fieldNames = formPageContent.form.map((entry) => entry.name);
+  const stepData = stepDataFromFieldNames(fieldNames, data, arrayIndex);
+
+  const arrayData: ArrayCollection = Object.fromEntries(
+    formPageContent.pre_form.filter(isStrapiArraySummary).map((entry) => {
+      const possibleArray = flowContext[entry.arrayKey];
+      return [
+        entry.arrayKey,
+        Array.isArray(possibleArray) ? possibleArray : [],
+      ];
+    }),
+  );
 
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
   const mainHeading = formPageContent.pre_form.filter(
@@ -136,7 +172,8 @@ export const loader = async ({
   return json(
     {
       csrf,
-      defaultValues: data as Record<string, string>,
+      defaultValues: stepData,
+      arrayData,
       commonContent,
       ...cmsContent,
       meta,
@@ -159,15 +196,15 @@ export const loader = async ({
   );
 };
 
-export const action = async ({ params, request }: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   try {
     await validatedSession(request);
   } catch (csrfError) {
     logError({ error: csrfError });
     throw new Response(null, { status: 403 });
   }
-  const stepId = splatFromParams(params);
-  const flowId = flowIDFromPathname(new URL(request.url).pathname);
+  const { pathname } = new URL(request.url);
+  const { flowId, stepId, arrayIndex } = parsePathname(pathname);
   const { getSession, commitSession } = getSessionForContext(flowId);
   const cookieId = request.headers.get("Cookie");
   const flowSession = await getSession(cookieId);
@@ -179,6 +216,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   const relevantFormData = Object.fromEntries(
     Array.from(formData.entries()).filter(([key]) => !key.startsWith("_")),
   );
+
   const validator = buildStepValidator(
     getContext(flowId),
     Object.keys(relevantFormData),
@@ -189,8 +227,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
       validationResult.error,
       validationResult.submittedData,
     );
-
-  updateSession(flowSession, validationResult.data);
+  updateSession(flowSession, validationResult.data, arrayIndex);
 
   if (
     stepId === "intro/daten-uebernahme" &&

@@ -12,7 +12,6 @@ export const beratungshilfeFinanzielleAngaben = {
   einkommen: buildMoneyValidationSchema(),
   erwerbstaetig: YesNoAnswer,
   staatlicheLeistungen,
-  hasBankkonto: YesNoAnswer,
   berufart: z.object({
     selbststaendig: checkedOptional,
     festangestellt: checkedOptional,
@@ -36,6 +35,33 @@ export const beratungshilfeFinanzielleAngaben = {
   partnerEinkommenSumme: buildMoneyValidationSchema(),
   partnerVorname: inputRequiredSchema,
   partnerNachname: inputRequiredSchema,
+  hasBankkonto: YesNoAnswer,
+  bankkonten: z.array(
+    z.object({
+      bankName: inputRequiredSchema,
+      kontostand: buildMoneyValidationSchema(),
+      iban: inputRequiredSchema,
+      kontoEigentuemer: z.enum(
+        ["myself", "partner"],
+        customRequiredErrorMessage,
+      ),
+    }),
+  ),
+  hasAdditionalBankkonto: YesNoAnswer,
+  hasKraftfahrzeuge: YesNoAnswer,
+  kraftfahrzeuge: z.array(
+    // TODO: correct types
+    z.object({
+      typ: inputRequiredSchema,
+      marke: inputRequiredSchema,
+      eigentuemer: inputRequiredSchema,
+      verkaufswert: buildMoneyValidationSchema(),
+      kilometerstand: inputRequiredSchema,
+      baujahr: inputRequiredSchema,
+      bemerkung: inputRequiredSchema,
+    }),
+  ),
+  hasAdditionalKraftfahrzeuge: YesNoAnswer,
 };
 
 const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();
