@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { beratungshilfeGrundvoraussetzungen } from "./grundvoraussetzung/context";
 import { beratungshilfeRechtsproblem } from "./rechtsproblem/context";
 import { beratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
@@ -10,6 +9,3 @@ export const beratungshilfeFormularContext = {
   ...beratungshilfeFinanzielleAngaben,
   ...beratungshilfePersoenlicheDaten,
 } as const;
-
-const contextObject = z.object(beratungshilfeFormularContext).partial();
-export type BeratungshilfeFormularContext = z.infer<typeof contextObject>;
