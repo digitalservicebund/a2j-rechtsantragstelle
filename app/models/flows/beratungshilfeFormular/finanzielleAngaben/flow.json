@@ -208,7 +208,7 @@
           "id": "bankkonten",
           "on": {
             "SUBMIT": "weiteres-bankkonto",
-            "BACK": "bankkonto"
+            "BACK": "bankkonto-frage"
           }
         },
         "weiteres-bankkonto": {
@@ -236,7 +236,7 @@
                 "cond": "hasBankkontoYes",
                 "target": "weiteres-bankkonto"
               },
-              "bankkonto"
+              "bankkonto-frage"
             ]
           }
         },
