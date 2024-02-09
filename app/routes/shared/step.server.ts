@@ -81,6 +81,7 @@ export const loader = async ({
   params,
   request,
   context,
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
   const { pathname } = new URL(request.url);
@@ -173,6 +174,11 @@ export const loader = async ({
     configMetadata: flowController.getMeta(stepId),
     previousStepUrl: flowController.getPrevious(stepId)?.url,
   });
+
+  // TODO: fix (Inside an array, we need to patch the back & submit button to return to the overview)
+  if (arrayIndex !== undefined) {
+    buttonNavigationProps.back.destination = `${pathname}/../../zusammenfassung`;
+  }
 
   return json(
     {

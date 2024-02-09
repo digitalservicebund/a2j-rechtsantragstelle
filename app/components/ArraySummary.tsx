@@ -67,9 +67,7 @@ const ArraySummary = ({
                 <Button
                   iconLeft={<EditButton />}
                   look="tertiary"
-                  name={editButtonText}
-                  value={"abort"}
-                  type="submit"
+                  href={`${arrayKey}/${index}`}
                 >
                   {editButtonText}
                 </Button>
