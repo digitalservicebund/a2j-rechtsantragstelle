@@ -16,7 +16,6 @@ export type Meta = {
   customEventName?: string;
   progressPosition: number | undefined;
   isUneditable: boolean | undefined;
-  isArray: boolean | undefined;
   done: (context: Context) => boolean | undefined;
   subflowState: (context: Context, subflowId: string) => SubflowState;
   subflowDone: (context: Context, subflowId: string) => boolean | undefined;
@@ -128,11 +127,6 @@ export const buildFlowController = ({
         ? total
         : (node.meta as Meta)?.progressPosition ?? 0;
       return { total, current };
-    },
-    isArray: (currentStepId: string) => {
-      const stepId = normalizeStepId(currentStepId);
-      const node = machine.getStateNodeByPath(stepId);
-      return (node.meta as Meta)?.isArray;
     },
   };
 };

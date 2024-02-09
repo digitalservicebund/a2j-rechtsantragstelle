@@ -203,9 +203,6 @@
           }
         },
         "bankkonten": {
-          "meta": {
-            "isArray": true
-          },
           "id": "bankkonten",
           "on": {
             "SUBMIT": "weiteres-bankkonto",
