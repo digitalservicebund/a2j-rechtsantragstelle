@@ -23,8 +23,8 @@ export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
   for (const fieldname of fieldNames) {
     if (fieldIsArray(fieldname)) {
       const [arrayName, arrayFieldname] = splitArrayName(fieldname);
-      const objectSchemas = (schemas[arrayName] as z.ZodArray<z.ZodObject<any>>)
-        .element.shape;
+      const arraySchema = schemas[arrayName] as z.ZodArray<z.AnyZodObject>;
+      const objectSchemas = arraySchema.element.shape as Schemas;
       if (!isKeyOfObject(arrayFieldname, objectSchemas)) {
         throw Error(`No schema found for ${arrayFieldname as string}`);
       }

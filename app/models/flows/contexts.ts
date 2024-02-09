@@ -1,4 +1,4 @@
-import type { ArrayElement } from "~/components/ArraySummary";
+import type { ZodTypeAny } from "zod";
 import { context as beratungshilfeContext } from "./beratungshilfe/context";
 import { beratungshilfeFormularContext } from "./beratungshilfeFormular/context";
 import { fluggastrechteVorabcheckContext } from "./fluggastrechte/context";
@@ -6,10 +6,10 @@ import { fluggastrechtContext } from "./fluggastrechteFormular/context";
 import { context as geldEinklagenContext } from "./geldEinklagen/context";
 import { context as geldEinklagenFormularContext } from "./geldEinklagenFormular/context";
 
-export type Context = Record<
-  string,
-  boolean | string | number | object | ArrayElement[]
->;
+type BasicTypes = string | number | boolean;
+export type ObjectType = Record<string, BasicTypes>;
+export type ArrayCollection = Record<string, ObjectType[]>;
+export type Context = Record<string, BasicTypes | ObjectType | ArrayCollection>;
 
 const contexts = {
   "beratungshilfe/antrag": beratungshilfeFormularContext,
@@ -18,7 +18,7 @@ const contexts = {
   "geld-einklagen/formular": geldEinklagenFormularContext,
   "fluggastrechte/vorabcheck": fluggastrechteVorabcheckContext,
   "fluggastrechte/formular": fluggastrechtContext,
-} as const satisfies Record<string, Context>;
+} as const satisfies Record<string, Record<string, ZodTypeAny>>;
 
 export type FlowId = keyof typeof contexts;
 

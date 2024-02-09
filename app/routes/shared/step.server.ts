@@ -9,8 +9,8 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { type AllContexts, buildStepValidator } from "~/models/flows/common";
-import type { Context } from "~/models/flows/contexts";
+import { buildStepValidator } from "~/models/flows/common";
+import type { ArrayCollection, Context } from "~/models/flows/contexts";
 import { getContext, parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import type { StrapiHeading } from "~/services/cms/models/StrapiHeading";
@@ -30,7 +30,6 @@ import type { CollectionSchemas } from "~/services/cms/schemas";
 import { getButtonNavigationProps } from "~/util/getButtonNavigationProps";
 import { sendCustomEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
-import type { ArrayCollection } from "~/components/ArraySummary";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
 import { fieldIsArray, splitArrayName } from "~/util/arrayVariable";
 
@@ -68,7 +67,7 @@ function stepDataFromFieldNames(
         if (Array.isArray(arrayForStep) && arrayForStep.length > arrayIndex)
           entry = arrayForStep[arrayIndex][arrayFieldname];
       }
-      return [fieldName, entry] as [string, boolean | string | number];
+      return [fieldName, entry];
     }),
   );
 }
@@ -83,7 +82,7 @@ export const loader = async ({
   const { flowId, stepId, arrayIndex } = parsePathname(pathname);
   const cookieId = request.headers.get("Cookie");
   const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
-  const flowContext: AllContexts = data; // Recast for now to get type safety
+  const flowContext: Context = data; // Recast for now to get type safety
   context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
   const currentFlow = flows[flowId];
   const flowController = buildFlowController({
@@ -123,12 +122,13 @@ export const loader = async ({
   const stepData = stepDataFromFieldNames(fieldNames, data, arrayIndex);
 
   const arrayData: ArrayCollection = Object.fromEntries(
-    formPageContent.pre_form
-      .filter(isStrapiArraySummary)
-      .map((entry) => [
+    formPageContent.pre_form.filter(isStrapiArraySummary).map((entry) => {
+      const possibleArray = flowContext[entry.arrayKey];
+      return [
         entry.arrayKey,
-        flowContext[entry.arrayKey as keyof AllContexts] ?? [],
-      ]),
+        Array.isArray(possibleArray) ? possibleArray : [],
+      ];
+    }),
   );
 
   // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it

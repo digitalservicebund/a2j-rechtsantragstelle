@@ -8,13 +8,11 @@ import AddButton from "@digitalservicebund/icons/AddCircleOutlined";
 import RichText from "./RichText";
 import { Form, useLocation } from "@remix-run/react";
 import { lookupOrKey } from "~/util/lookupOrKey";
-
-export type ArrayElement = Record<string, string | number | boolean>;
-export type ArrayCollection = Record<string, ArrayElement[]>;
+import type { ObjectType } from "~/models/flows/contexts";
 
 type ArraySummaryProps = {
   readonly arrayKey: string;
-  readonly arrayData: ArrayElement[];
+  readonly arrayData: ObjectType[];
   readonly translations?: Translations;
 };
 
