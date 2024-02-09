@@ -32,6 +32,11 @@ import { sendCustomEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
 import { fieldIsArray, splitArrayName } from "~/util/arrayVariable";
+import {
+  arrayFromSession,
+  arrayIndexFromFormData,
+  deleteFromArrayInplace,
+} from "~/services/session.server/arrayDeletion";
 
 const structureCmsContent = (
   formPageContent: z.infer<
@@ -216,6 +221,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const relevantFormData = Object.fromEntries(
     Array.from(formData.entries()).filter(([key]) => !key.startsWith("_")),
   );
+
+  if (formData.get("_action") === "delete") {
+    try {
+      const { arrayName, index } = arrayIndexFromFormData(relevantFormData);
+      const arrayToMutate = arrayFromSession(arrayName, flowSession);
+      deleteFromArrayInplace(arrayToMutate, index);
+      updateSession(flowSession, { [arrayName]: arrayToMutate });
+      const headers = { "Set-Cookie": await commitSession(flowSession) };
+      return new Response("success", { status: 200, headers });
+    } catch (err) {
+      return new Response((err as Error).message, { status: 422 });
+    }
+  }
 
   const validator = buildStepValidator(
     getContext(flowId),

@@ -9,7 +9,7 @@ import { context as geldEinklagenFormularContext } from "./geldEinklagenFormular
 type BasicTypes = string | number | boolean;
 export type ObjectType = Record<string, BasicTypes>;
 export type ArrayCollection = Record<string, ObjectType[]>;
-export type Context = Record<string, BasicTypes | ObjectType | ArrayCollection>;
+export type Context = Record<string, BasicTypes | ObjectType | ObjectType[]>;
 
 const contexts = {
   "beratungshilfe/antrag": beratungshilfeFormularContext,

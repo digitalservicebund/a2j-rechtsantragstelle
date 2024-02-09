@@ -6,19 +6,22 @@ import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import AddButton from "@digitalservicebund/icons/AddCircleOutlined";
 import RichText from "./RichText";
-import { Form, useLocation } from "@remix-run/react";
+import { useFetcher, useLocation } from "@remix-run/react";
 import { lookupOrKey } from "~/util/lookupOrKey";
 import type { ObjectType } from "~/models/flows/contexts";
+import { CSRFKey } from "~/services/security/csrfKey";
 
 type ArraySummaryProps = {
   readonly arrayKey: string;
   readonly arrayData: ObjectType[];
   readonly translations?: Translations;
+  readonly csrf: string;
 };
 
 const ArraySummary = ({
   arrayKey,
   arrayData,
+  csrf,
   translations = {},
 }: ArraySummaryProps) => {
   const addButtonText = translations["arrayAddButtonLabel"] ?? "Hinzufügen";
@@ -29,6 +32,7 @@ const ArraySummary = ({
   const description: string | undefined =
     translations[`${arrayKey}.description`];
   const { pathname } = useLocation();
+  const deleteFetcher = useFetcher();
 
   return (
     <div className="ds-stack-8 scroll-my-40">
@@ -69,7 +73,10 @@ const ArraySummary = ({
                 >
                   {editButtonText}
                 </Button>
-                <Form method="delete">
+                {/* form method 'delete' isn't supported without js, see https://github.com/remix-run/remix/discussions/4420 */}
+                <deleteFetcher.Form method="post" action={pathname}>
+                  <input type="hidden" name={CSRFKey} value={csrf} />
+                  <input type="hidden" name="_action" value="delete" />
                   <Button
                     look="tertiary"
                     iconLeft={<DeleteIcon />}
@@ -79,7 +86,7 @@ const ArraySummary = ({
                   >
                     {deleteButtonText}
                   </Button>
-                </Form>
+                </deleteFetcher.Form>
               </ButtonContainer>
             </div>
           );

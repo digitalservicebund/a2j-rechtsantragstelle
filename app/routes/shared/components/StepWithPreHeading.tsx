@@ -81,6 +81,7 @@ export function StepWithPreHeading() {
               arrayKey={arrayKey}
               arrayData={array}
               translations={translations}
+              csrf={csrf}
             />
           ))}
           <ValidatedForm
