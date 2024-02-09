@@ -9,12 +9,7 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import {
-  type AllContexts,
-  buildStepValidator,
-  fieldIsArray,
-  splitArrayName,
-} from "~/models/flows/common";
+import { type AllContexts, buildStepValidator } from "~/models/flows/common";
 import type { Context } from "~/models/flows/contexts";
 import { getContext, parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
@@ -37,6 +32,7 @@ import { sendCustomEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
 import type { ArrayCollection } from "~/components/ArraySummary";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
+import { fieldIsArray, splitArrayName } from "~/util/arrayVariable";
 
 const structureCmsContent = (
   formPageContent: z.infer<

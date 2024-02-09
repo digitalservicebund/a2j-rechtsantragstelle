@@ -7,6 +7,7 @@ import type { GeldEinklagenVorabcheckContext } from "./geldEinklagen/context";
 import type { BeratungshilfeVorabcheckContext } from "./beratungshilfe/context";
 import type { FluggastrechtContext } from "./fluggastrechteFormular/context";
 import type { BeratungshilfeAntragContext } from "./beratungshilfeFormular";
+import { fieldIsArray, splitArrayName } from "~/util/arrayVariable";
 
 export type AllContexts =
   | GeldEinklagenFormularContext
@@ -15,11 +16,6 @@ export type AllContexts =
   | BeratungshilfeAntragContext
   | FluggastrechtContext;
 type Schemas = Record<string, z.ZodTypeAny>;
-
-const arrayChar = "#";
-export const splitArrayName = (key: string) => key.split(arrayChar);
-export const fieldIsArray = (fieldname: string) =>
-  fieldname.includes(arrayChar);
 
 export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
   const fieldValidators: Record<string, z.ZodTypeAny> = {};

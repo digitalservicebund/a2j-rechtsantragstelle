@@ -10,12 +10,9 @@ import { createSessionStorage, createCookie } from "@remix-run/node";
 import { config } from "~/services/env/env.server";
 import { useSecureCookie } from "~/util/useSecureCookie";
 import _ from "lodash";
-import {
-  splitArrayName,
-  type AllContexts,
-  fieldIsArray,
-} from "~/models/flows/common";
+import { type AllContexts } from "~/models/flows/common";
 import { type FlowId } from "~/models/flows/contexts";
+import { fieldIsArray, splitArrayName } from "~/util/arrayVariable";
 
 type SessionContext = "main" | FlowId;
 const fullId = (context: SessionContext, id: string) => `${context}_${id}`;
