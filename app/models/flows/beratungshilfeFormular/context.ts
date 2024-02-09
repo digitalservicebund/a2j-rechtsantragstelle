@@ -1,8 +1,11 @@
-import { z } from "zod";
 import { beratungshilfeGrundvoraussetzungen } from "./grundvoraussetzung/context";
 import { beratungshilfeRechtsproblem } from "./rechtsproblem/context";
 import { beratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import { beratungshilfePersoenlicheDaten } from "./persoenlicheDaten/context";
+import type { BeratungshilfeGrundvoraussetzungen } from "./grundvoraussetzung/context";
+import type { BeratungshilfeRechtsproblem } from "./rechtsproblem/context";
+import type { BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
+import type { BeratungshilfePersoenlicheDaten } from "./persoenlicheDaten/context";
 
 export const beratungshilfeFormularContext = {
   ...beratungshilfeGrundvoraussetzungen,
@@ -11,5 +14,7 @@ export const beratungshilfeFormularContext = {
   ...beratungshilfePersoenlicheDaten,
 } as const;
 
-const contextObject = z.object(beratungshilfeFormularContext).partial();
-export type BeratungshilfeFormularContext = z.infer<typeof contextObject>;
+export type BeratungshilfeAntragContext = BeratungshilfeGrundvoraussetzungen &
+  BeratungshilfeRechtsproblem &
+  BeratungshilfeFinanzielleAngaben &
+  BeratungshilfePersoenlicheDaten;

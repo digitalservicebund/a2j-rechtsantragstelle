@@ -1,6 +1,5 @@
 import _ from "lodash";
 import {
-  type BeratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungenGuards,
   grundvoraussetzungDone,
 } from "./grundvoraussetzung/context";
@@ -8,21 +7,16 @@ import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.js
 import beratungshilfeAntragFlow from "./flow.json";
 import rechtsproblemFlow from "./rechtsproblem/flow.json";
 import {
-  type BeratungshilfeRechtsproblem,
   beratungshilfeRechtsproblemGuards,
   rechtsproblemDone,
 } from "./rechtsproblem/context";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import abgabeFlow from "./abgabe/flow.json";
 import {
-  type BeratungshilfeFinanzielleAngaben,
   beratungshilfeFinanzielleAngabeDone,
   beratungshilfeFinanzielleAngabenSubflowState,
 } from "./finanzielleAngaben/context";
-import {
-  type BeratungshilfePersoenlicheDaten,
-  beratungshilfePersoenlicheDatenDone,
-} from "./persoenlicheDaten/context";
+import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/context";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
@@ -123,8 +117,3 @@ const getAmtsgerichtStrings = (context: AllContexts) => {
   }
   return {};
 };
-
-export type BeratungshilfeAntragContext = BeratungshilfeGrundvoraussetzungen &
-  BeratungshilfeRechtsproblem &
-  BeratungshilfeFinanzielleAngaben &
-  BeratungshilfePersoenlicheDaten;

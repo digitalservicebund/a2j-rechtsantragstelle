@@ -2,7 +2,7 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import _ from "lodash";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import type { BeratungshilfeAntragContext } from "~/models/flows/beratungshilfeFormular";
+import type { BeratungshilfeAntragContext } from "~/models/flows/beratungshilfeFormular/context";
 import type { BeratungshilfePDF } from "~/services/pdf/beratungshilfe/beratungshilfe.generated";
 import {
   fillOutBeratungshilfe,

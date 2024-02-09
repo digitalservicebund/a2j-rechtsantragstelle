@@ -1,4 +1,4 @@
-import { type BeratungshilfeAntragContext } from "..";
+import { type BeratungshilfeAntragContext } from "../context";
 import { beratungshilfeFinanzielleAngabeDone } from "../finanzielleAngaben/context";
 import { grundvoraussetzungDone } from "../grundvoraussetzung/context";
 import { beratungshilfePersoenlicheDatenDone } from "../persoenlicheDaten/context";
