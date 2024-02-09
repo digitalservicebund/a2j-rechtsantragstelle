@@ -15,7 +15,7 @@ import {
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import abgabeFlow from "./abgabe/flow.json";
 import {
-  type BeratungshilfeFinanzielleAngabenContext,
+  type BeratungshilfeFinanzielleAngaben,
   beratungshilfeFinanzielleAngabeDone,
   beratungshilfeFinanzielleAngabenSubflowState,
 } from "./finanzielleAngaben/context";
@@ -126,5 +126,5 @@ const getAmtsgerichtStrings = (context: AllContexts) => {
 
 export type BeratungshilfeAntragContext = BeratungshilfeGrundvoraussetzungen &
   BeratungshilfeRechtsproblem &
-  BeratungshilfeFinanzielleAngabenContext &
+  BeratungshilfeFinanzielleAngaben &
   BeratungshilfePersoenlicheDaten;

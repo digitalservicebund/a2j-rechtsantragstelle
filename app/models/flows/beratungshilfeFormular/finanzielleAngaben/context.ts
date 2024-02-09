@@ -65,18 +65,16 @@ export const beratungshilfeFinanzielleAngaben = {
 };
 
 const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();
-export type BeratungshilfeFinanzielleAngabenContext = z.infer<
-  typeof contextObject
->;
+export type BeratungshilfeFinanzielleAngaben = z.infer<typeof contextObject>;
 
 export const beratungshilfeFinanzielleAngabeDone = (
-  context: BeratungshilfeFinanzielleAngabenContext,
+  context: BeratungshilfeFinanzielleAngaben,
 ) => einkommenDone(context) && partnerDone(context);
 
 export type SubflowState = "Done" | "Open" | "Unreachable" | undefined;
 
 export const beratungshilfeFinanzielleAngabenSubflowState = (
-  context: BeratungshilfeFinanzielleAngabenContext,
+  context: BeratungshilfeFinanzielleAngaben,
   subflowId: string,
 ): SubflowState => {
   switch (subflowId) {
@@ -94,14 +92,12 @@ export const beratungshilfeFinanzielleAngabenSubflowState = (
   return undefined;
 };
 
-const hasStaatlicheLeistungen = (
-  context: BeratungshilfeFinanzielleAngabenContext,
-) =>
+const hasStaatlicheLeistungen = (context: BeratungshilfeFinanzielleAngaben) =>
   context.staatlicheLeistungen == "asylbewerberleistungen" ||
   context.staatlicheLeistungen == "buergergeld" ||
   context.staatlicheLeistungen == "grundsicherung";
 
-const partnerDone = (context: BeratungshilfeFinanzielleAngabenContext) =>
+const partnerDone = (context: BeratungshilfeFinanzielleAngaben) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen(context)) ||
   context.partnerschaft == "no" ||
@@ -110,10 +106,10 @@ const partnerDone = (context: BeratungshilfeFinanzielleAngabenContext) =>
   context.partnerEinkommenSumme != undefined ||
   (context.partnerNachname != undefined && context.partnerVorname != undefined);
 
-const partnerReachable = (context: BeratungshilfeFinanzielleAngabenContext) =>
+const partnerReachable = (context: BeratungshilfeFinanzielleAngaben) =>
   !hasStaatlicheLeistungen(context);
 
-const einkommenDone = (context: BeratungshilfeFinanzielleAngabenContext) =>
+const einkommenDone = (context: BeratungshilfeFinanzielleAngaben) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen(context)) ||
   context.einkommen != undefined;
