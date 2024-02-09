@@ -13,7 +13,7 @@
             "SUBMIT": [
               {
                 "cond": "staatlicheLeistungenIsBuergergeld",
-                "target": "#besitz.besitz"
+                "target": "#besitz.bankkonto"
               },
               {
                 "cond": "staatlicheLeistungenIsAsylbewerberleistungen",
@@ -81,7 +81,7 @@
             "SUBMIT": [
               {
                 "cond": "partnerschaftNo",
-                "target": "#besitz.besitz"
+                "target": "#besitz.bankkonto"
               },
               {
                 "cond": "partnerschaftYes",
@@ -123,7 +123,7 @@
         "keine-rolle": {
           "on": {
             "BACK": "unterhalt",
-            "SUBMIT": "#besitz.besitz"
+            "SUBMIT": "#besitz.bankkonto"
           }
         },
         "unterhalts-summe": {
@@ -135,7 +135,7 @@
         "partner-name": {
           "on": {
             "BACK": "unterhalts-summe",
-            "SUBMIT": "#besitz.besitz"
+            "SUBMIT": "#besitz.bankkonto"
           }
         },
         "partner-einkommen": {
@@ -148,7 +148,7 @@
               },
               {
                 "cond": "partnerEinkommenNo",
-                "target": "#besitz.besitz"
+                "target": "#besitz.bankkonto"
               }
             ]
           }
@@ -156,16 +156,16 @@
         "partner-einkommen-summe": {
           "on": {
             "BACK": "partner-einkommen",
-            "SUBMIT": "#besitz.besitz"
+            "SUBMIT": "#besitz.bankkonto"
           }
         }
       }
     },
     "besitz": {
       "id": "besitz",
-      "initial": "besitz",
+      "initial": "bankkonto",
       "states": {
-        "besitz": {
+        "bankkonto": {
           "on": {
             "BACK": [
               {
@@ -206,7 +206,7 @@
           "id": "bankkonten",
           "on": {
             "SUBMIT": "weiteres-bankkonto",
-            "BACK": "besitz"
+            "BACK": "bankkonto"
           }
         },
         "weiteres-bankkonto": {
