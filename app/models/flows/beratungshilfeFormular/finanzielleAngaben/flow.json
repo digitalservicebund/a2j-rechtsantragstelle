@@ -255,9 +255,48 @@
                 "target": "kraftfahrzeuge",
                 "cond": "hasAdditionalKraftfahrzeugYes"
               },
-              "zusammenfassung"
+              "geldanlage-frage"
             ],
             "BACK": "kraftfahrzeuge"
+          }
+        },
+        "geldanlage-frage": {
+          "id": "geldanlage-frage",
+          "on": {
+            "SUBMIT": [
+              {
+                "cond": "hasGeldanlageYes",
+                "target": "geldanlagen"
+              },
+              "zusammenfassung"
+            ],
+            "BACK": [
+              {
+                "cond": "hasKraftfahrzeugYes",
+                "target": "weiteres-kraftfahrzeug"
+              },
+              "kraftfahrzeug-frage"
+            ]
+          }
+        },
+        "geldanlagen": {
+          "id": "geldanlagen",
+          "on": {
+            "SUBMIT": "weiteres-geldanlage",
+            "BACK": "geldanlage-frage"
+          }
+        },
+        "weiteres-geldanlage": {
+          "id": "weiteres-geldanlage",
+          "on": {
+            "SUBMIT": [
+              {
+                "target": "geldanlagen",
+                "cond": "hasAdditionalGeldanlageYes"
+              },
+              "zusammenfassung"
+            ],
+            "BACK": "geldanlagen"
           }
         },
         "zusammenfassung": {

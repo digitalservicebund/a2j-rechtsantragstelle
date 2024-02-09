@@ -65,6 +65,17 @@ export const beratungshilfeFinanzielleAngaben = {
     }),
   ),
   hasAdditionalKraftfahrzeug: YesNoAnswer,
+  hasGeldanlage: YesNoAnswer,
+  geldanlagen: z.array(
+    z.object({
+      art: inputRequiredSchema,
+      eigentuemer: Eigentuemer,
+      verwendungszweck: inputRequiredSchema,
+      auszahlungwert: buildMoneyValidationSchema(),
+      auszahlungdatum: inputRequiredSchema,
+    }),
+  ),
+  hasAdditionalGeldanlage: YesNoAnswer,
 };
 
 const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();
