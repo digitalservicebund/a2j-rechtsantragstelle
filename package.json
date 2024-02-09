@@ -57,7 +57,7 @@
     "marked": "^11.2.0",
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
-    "posthog-js": "^1.105.5",
+    "posthog-js": "^1.105.6",
     "posthog-node": "^3.6.2",
     "quicktype-core": "^23.0.81",
     "react": "^18.2.0",
