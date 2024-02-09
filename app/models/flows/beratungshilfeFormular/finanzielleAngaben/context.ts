@@ -8,6 +8,11 @@ import {
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
 
+const Eigentuemer = z.enum(
+  ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
+  customRequiredErrorMessage,
+);
+
 export const beratungshilfeFinanzielleAngaben = {
   einkommen: buildMoneyValidationSchema(),
   erwerbstaetig: YesNoAnswer,
@@ -41,27 +46,25 @@ export const beratungshilfeFinanzielleAngaben = {
       bankName: inputRequiredSchema,
       kontostand: buildMoneyValidationSchema(),
       iban: inputRequiredSchema,
-      kontoEigentuemer: z.enum(
-        ["myself", "partner"],
-        customRequiredErrorMessage,
-      ),
+      kontoEigentuemer: Eigentuemer,
     }),
   ),
   hasAdditionalBankkonto: YesNoAnswer,
-  hasKraftfahrzeuge: YesNoAnswer,
+  hasKraftfahrzeug: YesNoAnswer,
   kraftfahrzeuge: z.array(
-    // TODO: correct types
     z.object({
-      typ: inputRequiredSchema,
+      art: inputRequiredSchema,
       marke: inputRequiredSchema,
-      eigentuemer: inputRequiredSchema,
+      eigentuemer: Eigentuemer,
       verkaufswert: buildMoneyValidationSchema(),
       kilometerstand: inputRequiredSchema,
+      anschaffungsjahr: inputRequiredSchema,
       baujahr: inputRequiredSchema,
       bemerkung: inputRequiredSchema,
+      arbeitsweg: inputRequiredSchema,
     }),
   ),
-  hasAdditionalKraftfahrzeuge: YesNoAnswer,
+  hasAdditionalKraftfahrzeug: YesNoAnswer,
 };
 
 const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();

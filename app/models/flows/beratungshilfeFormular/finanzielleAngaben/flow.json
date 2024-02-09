@@ -13,7 +13,7 @@
             "SUBMIT": [
               {
                 "cond": "staatlicheLeistungenIsBuergergeld",
-                "target": "#besitz.bankkonto"
+                "target": "#besitz.bankkonto-frage"
               },
               {
                 "cond": "staatlicheLeistungenIsAsylbewerberleistungen",
@@ -81,7 +81,7 @@
             "SUBMIT": [
               {
                 "cond": "partnerschaftNo",
-                "target": "#besitz.bankkonto"
+                "target": "#besitz.bankkonto-frage"
               },
               {
                 "cond": "partnerschaftYes",
@@ -123,7 +123,7 @@
         "keine-rolle": {
           "on": {
             "BACK": "unterhalt",
-            "SUBMIT": "#besitz.bankkonto"
+            "SUBMIT": "#besitz.bankkonto-frage"
           }
         },
         "unterhalts-summe": {
@@ -135,7 +135,7 @@
         "partner-name": {
           "on": {
             "BACK": "unterhalts-summe",
-            "SUBMIT": "#besitz.bankkonto"
+            "SUBMIT": "#besitz.bankkonto-frage"
           }
         },
         "partner-einkommen": {
@@ -148,7 +148,7 @@
               },
               {
                 "cond": "partnerEinkommenNo",
-                "target": "#besitz.bankkonto"
+                "target": "#besitz.bankkonto-frage"
               }
             ]
           }
@@ -156,16 +156,17 @@
         "partner-einkommen-summe": {
           "on": {
             "BACK": "partner-einkommen",
-            "SUBMIT": "#besitz.bankkonto"
+            "SUBMIT": "#besitz.bankkonto-frage"
           }
         }
       }
     },
     "besitz": {
       "id": "besitz",
-      "initial": "bankkonto",
+      "initial": "bankkonto-frage",
       "states": {
-        "bankkonto": {
+        "bankkonto-frage": {
+          "id": "bankkonto-frage",
           "on": {
             "BACK": [
               {
@@ -198,7 +199,8 @@
               {
                 "cond": "hasBankkontoYes",
                 "target": "bankkonten"
-              }
+              },
+              "kraftfahrzeug-frage"
             ]
           }
         },
@@ -215,8 +217,47 @@
             "BACK": "bankkonten",
             "SUBMIT": [
               { "target": "bankkonten", "cond": "hasAdditionalBankkontoYes" },
-              "zusammenfassung"
+              "kraftfahrzeug-frage"
             ]
+          }
+        },
+        "kraftfahrzeug-frage": {
+          "id": "kraftfahrzeug-frage",
+          "on": {
+            "SUBMIT": [
+              {
+                "cond": "hasKraftfahrzeugYes",
+                "target": "kraftfahrzeuge"
+              },
+              "zusammenfassung"
+            ],
+            "BACK": [
+              {
+                "cond": "hasBankkontoYes",
+                "target": "weiteres-bankkonto"
+              },
+              "bankkonto"
+            ]
+          }
+        },
+        "kraftfahrzeuge": {
+          "id": "kraftfahrzeuge",
+          "on": {
+            "SUBMIT": "weiteres-kraftfahrzeug",
+            "BACK": "kraftfahrzeug-frage"
+          }
+        },
+        "weiteres-kraftfahrzeug": {
+          "id": "weiteres-kraftfahrzeug",
+          "on": {
+            "SUBMIT": [
+              {
+                "target": "kraftfahrzeuge",
+                "cond": "hasAdditionalKraftfahrzeugYes"
+              },
+              "zusammenfassung"
+            ],
+            "BACK": "kraftfahrzeuge"
           }
         },
         "zusammenfassung": {
