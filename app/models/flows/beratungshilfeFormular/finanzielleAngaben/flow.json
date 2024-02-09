@@ -282,27 +282,93 @@
         "geldanlagen": {
           "id": "geldanlagen",
           "on": {
-            "SUBMIT": "weiteres-geldanlage",
+            "SUBMIT": "weitere-geldanlage",
             "BACK": "geldanlage-frage"
           }
         },
-        "weiteres-geldanlage": {
-          "id": "weiteres-geldanlage",
+        "weitere-geldanlage": {
+          "id": "weitere-geldanlage",
           "on": {
             "SUBMIT": [
               {
                 "target": "geldanlagen",
                 "cond": "hasAdditionalGeldanlageYes"
               },
-              "zusammenfassung"
+              "grundeigentum-frage"
             ],
             "BACK": "geldanlagen"
+          }
+        },
+        "grundeigentum-frage": {
+          "id": "grundeigentum-frage",
+          "on": {
+            "SUBMIT": [
+              {
+                "cond": "hasGrundeigentumYes",
+                "target": "grundeigentum"
+              },
+              "zusammenfassung"
+            ],
+            "BACK": "weitere-geldanlage"
+          }
+        },
+        "grundeigentum": {
+          "id": "grundeigentum",
+          "on": {
+            "SUBMIT": "weiteres-grundeigentum",
+            "BACK": "grundeigentum-frage"
+          }
+        },
+        "weiteres-grundeigentum": {
+          "id": "weiteres-grundeigentum",
+          "on": {
+            "SUBMIT": [
+              {
+                "target": "grundeigentum",
+                "cond": "hasAdditionalGrundeigentumYes"
+              },
+              "wertsache-frage"
+            ],
+            "BACK": "grundeigentum"
+          }
+        },
+        "wertsache-frage": {
+          "id": "wertsache-frage",
+          "on": {
+            "SUBMIT": [
+              {
+                "cond": "hasWertsacheYes",
+                "target": "wertsachen"
+              },
+              "zusammenfassung"
+            ],
+            "BACK": "weiteres-grundeigentum"
+          }
+        },
+        "wertsachen": {
+          "id": "wertsachen",
+          "on": {
+            "SUBMIT": "weitere-wertsache",
+            "BACK": "wertsache-frage"
+          }
+        },
+        "weitere-wertsache": {
+          "id": "weitere-wertsache",
+          "on": {
+            "SUBMIT": [
+              {
+                "target": "wertsachen",
+                "cond": "hasAdditionalWertsacheYes"
+              },
+              "zusammenfassung"
+            ],
+            "BACK": "wertsachen"
           }
         },
         "zusammenfassung": {
           "id": "zusammenfassung",
           "on": {
-            "BACK": "weiteres-bankkonto",
+            "BACK": "weitere-wertsache",
             "SUBMIT": ["#danke"]
           }
         }

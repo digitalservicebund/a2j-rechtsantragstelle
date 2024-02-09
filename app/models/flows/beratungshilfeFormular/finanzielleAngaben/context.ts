@@ -13,6 +13,17 @@ const Eigentuemer = z.enum(
   customRequiredErrorMessage,
 );
 
+const GrundeigentumArt = z.enum(
+  [
+    "apartment",
+    "houseForFamily",
+    "houseWithMultipleApartments",
+    "property",
+    "hereditaryBuildingLaw",
+  ],
+  customRequiredErrorMessage,
+);
+
 export const beratungshilfeFinanzielleAngaben = {
   einkommen: buildMoneyValidationSchema(),
   erwerbstaetig: YesNoAnswer,
@@ -68,7 +79,10 @@ export const beratungshilfeFinanzielleAngaben = {
   hasGeldanlage: YesNoAnswer,
   geldanlagen: z.array(
     z.object({
-      art: inputRequiredSchema,
+      art: z.enum(
+        ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
+        customRequiredErrorMessage,
+      ),
       eigentuemer: Eigentuemer,
       verwendungszweck: inputRequiredSchema,
       auszahlungwert: buildMoneyValidationSchema(),
@@ -76,6 +90,48 @@ export const beratungshilfeFinanzielleAngaben = {
     }),
   ),
   hasAdditionalGeldanlage: YesNoAnswer,
+  hasGrundeigentum: YesNoAnswer,
+  grundeigentumBewohnt: z.array(
+    z.object({
+      art: GrundeigentumArt,
+      eigentuemer: Eigentuemer,
+      flaeche: inputRequiredSchema,
+      verkaufswert: buildMoneyValidationSchema(),
+    }),
+  ),
+  grundeigentum: z.array(
+    z.object({
+      art: GrundeigentumArt,
+      eigentuemer: Eigentuemer,
+      flaeche: inputRequiredSchema,
+      verkaufswert: buildMoneyValidationSchema(),
+      strassehausnummer: inputRequiredSchema,
+      plz: inputRequiredSchema,
+      ort: inputRequiredSchema,
+      land: inputRequiredSchema,
+    }),
+  ),
+  hasAdditionalGrundeigentum: YesNoAnswer,
+  hasWertsache: YesNoAnswer,
+  wertsachen: z.array(
+    z.object({
+      art: z.enum(
+        [
+          "cash",
+          "valuableItem",
+          "digitalMoney",
+          "securities",
+          "claim",
+          "equalizationOfGains",
+          "other",
+        ],
+        customRequiredErrorMessage,
+      ),
+      eigentuemer: Eigentuemer,
+      wert: buildMoneyValidationSchema(),
+    }),
+  ),
+  hasAdditionalWertsache: YesNoAnswer,
 };
 
 const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();
