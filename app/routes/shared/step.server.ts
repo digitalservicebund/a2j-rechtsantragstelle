@@ -274,5 +274,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (customEventName)
     void sendCustomEvent(customEventName, validationResult.data, request);
 
-  return redirect(flowController.getNext(stepId).url, { headers });
+  return redirect(
+    flowController.getNext(stepId)?.url ?? flowController.getInitial().url,
+    { headers },
+  );
 };

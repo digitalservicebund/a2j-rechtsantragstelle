@@ -366,10 +366,7 @@
         },
         "zusammenfassung": {
           "id": "zusammenfassung",
-          "on": {
-            "BACK": "weitere-wertsache",
-            "SUBMIT": "#danke"
-          }
+          "on": { "SUBMIT": "#danke" }
         }
       }
     },

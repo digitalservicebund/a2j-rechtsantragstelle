@@ -273,22 +273,22 @@ describe("buildFlowController", () => {
       });
     });
 
-    it("throws error if already last step", () => {
-      expect(() =>
+    it("returns undefined if already last step", () => {
+      expect(
         buildFlowController({
           config,
           data: {},
         }).getNext("step5"),
-      ).toThrow();
+      ).toBeUndefined();
     });
 
-    it("throws error if already last nested step", () => {
-      expect(() =>
+    it("returns undefined if already last nested step", () => {
+      expect(
         buildFlowController({
           config,
           data: { step1: true },
         }).getNext("step4/step2"),
-      ).toThrow();
+      ).toBeUndefined();
     });
   });
 

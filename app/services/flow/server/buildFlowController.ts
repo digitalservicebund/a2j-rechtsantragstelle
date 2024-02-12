@@ -39,10 +39,7 @@ const getTransitionDestination = (
   type: Event,
 ) => {
   const transitions = machine.getStateNodeByPath(currentStep).config.on;
-  if (!transitions || !(type in transitions))
-    throw new Error(
-      `No transition of type ${type} defined on step ${currentStep}`,
-    );
+  if (!transitions || !(type in transitions)) return undefined;
   return getStateValueString(machine.transition(currentStep, { type }).value);
 };
 
@@ -96,6 +93,7 @@ export const buildFlowController = ({
       const stepId = normalizeStepId(currentStepId);
       if (isInitialStepId(stepId)) return undefined;
       const name = getTransitionDestination(machine, stepId, "BACK");
+      if (!name) return undefined;
       return { name, url: `${baseUrl}${denormalizeStepId(name)}` };
     },
     getNext: (currentStepId: string) => {
@@ -104,6 +102,7 @@ export const buildFlowController = ({
         normalizeStepId(currentStepId),
         "SUBMIT",
       );
+      if (!name) return undefined;
       return { name, url: `${baseUrl}${denormalizeStepId(name)}` };
     },
     getInitial: () => {
