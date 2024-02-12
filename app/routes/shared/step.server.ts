@@ -36,6 +36,7 @@ import {
   arrayIndexFromFormData,
   deleteFromArrayInplace,
 } from "~/services/session.server/arrayDeletion";
+import type { StrapiMeta } from "~/services/cms/models/StrapiMeta";
 
 const structureCmsContent = (
   formPageContent: z.infer<
@@ -74,6 +75,17 @@ function stepDataFromFieldNames(
       return [fieldName, entry];
     }),
   );
+}
+
+function stepMeta(pageMeta: StrapiMeta, parentMeta: StrapiMeta | null) {
+  // The breadcrumb should not contain the current step title
+  // Also, the parent page title needs to be appended manually to the title
+  return {
+    description: pageMeta.description ?? parentMeta?.description,
+    breadcrumbTitle: parentMeta?.title,
+    ogTitle: pageMeta.ogTitle ?? parentMeta?.ogTitle,
+    title: `${pageMeta.title} - ${parentMeta?.title ?? ""}`,
+  };
 }
 
 export const loader = async ({
@@ -155,15 +167,6 @@ export const loader = async ({
   session.set(lastStepKey, { [flowId]: stepId });
   const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
 
-  // The breadcrumb should not contain the current step title
-  // Also, the parent page title needs to be appended manually to the title
-  const meta = {
-    description: formPageContent.meta.description ?? parentMeta?.description,
-    breadcrumbTitle: parentMeta?.title,
-    ogTitle: formPageContent.meta.ogTitle ?? parentMeta?.ogTitle,
-    title: `${formPageContent.meta.title} - ${parentMeta?.title ?? ""}`,
-  };
-
   const cmsContent = structureCmsContent(formPageContent);
 
   const buttonNavigationProps = getButtonNavigationProps({
@@ -183,7 +186,7 @@ export const loader = async ({
       arrayData,
       commonContent,
       ...cmsContent,
-      meta,
+      meta: stepMeta(formPageContent.meta, parentMeta),
       migrationData,
       translations,
       progress: flowController.getProgress(stepId),
