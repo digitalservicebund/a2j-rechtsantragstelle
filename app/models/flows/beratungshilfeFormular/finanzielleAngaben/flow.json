@@ -213,7 +213,7 @@
         "weiteres-bankkonto": {
           "id": "weiteres-bankkonto",
           "on": {
-            "BACK": "bankkonten",
+            "BACK": "bankkonto-frage",
             "SUBMIT": [
               { "target": "bankkonten", "cond": "hasAdditionalBankkontoYes" },
               "kraftfahrzeug-frage"
@@ -256,7 +256,7 @@
               },
               "geldanlage-frage"
             ],
-            "BACK": "kraftfahrzeuge"
+            "BACK": "kraftfahrzeug-frage"
           }
         },
         "geldanlage-frage": {
@@ -295,7 +295,7 @@
               },
               "grundeigentum-frage"
             ],
-            "BACK": "geldanlagen"
+            "BACK": "geldanlage-frage"
           }
         },
         "grundeigentum-frage": {
@@ -328,7 +328,7 @@
               },
               "wertsache-frage"
             ],
-            "BACK": "grundeigentum"
+            "BACK": "grundeigentum-frage"
           }
         },
         "wertsache-frage": {
@@ -361,7 +361,7 @@
               },
               "zusammenfassung"
             ],
-            "BACK": "wertsachen"
+            "BACK": "wertsache-frage"
           }
         },
         "zusammenfassung": {
