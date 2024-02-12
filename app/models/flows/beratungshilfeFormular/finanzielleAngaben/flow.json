@@ -12,7 +12,7 @@
             "SUBMIT": [
               {
                 "cond": "staatlicheLeistungenIsBuergergeld",
-                "target": "#besitz.bankkonto-frage"
+                "target": "#besitz.bankkonten-frage"
               },
               {
                 "cond": "staatlicheLeistungenIsAsylbewerberleistungen",
@@ -80,7 +80,7 @@
             "SUBMIT": [
               {
                 "cond": "partnerschaftNo",
-                "target": "#besitz.bankkonto-frage"
+                "target": "#besitz.bankkonten-frage"
               },
               {
                 "cond": "partnerschaftYes",
@@ -122,7 +122,7 @@
         "keine-rolle": {
           "on": {
             "BACK": "unterhalt",
-            "SUBMIT": "#besitz.bankkonto-frage"
+            "SUBMIT": "#besitz.bankkonten-frage"
           }
         },
         "unterhalts-summe": {
@@ -134,7 +134,7 @@
         "partner-name": {
           "on": {
             "BACK": "unterhalts-summe",
-            "SUBMIT": "#besitz.bankkonto-frage"
+            "SUBMIT": "#besitz.bankkonten-frage"
           }
         },
         "partner-einkommen": {
@@ -147,7 +147,7 @@
               },
               {
                 "cond": "partnerEinkommenNo",
-                "target": "#besitz.bankkonto-frage"
+                "target": "#besitz.bankkonten-frage"
               }
             ]
           }
@@ -155,7 +155,7 @@
         "partner-einkommen-summe": {
           "on": {
             "BACK": "partner-einkommen",
-            "SUBMIT": "#besitz.bankkonto-frage"
+            "SUBMIT": "#besitz.bankkonten-frage"
           }
         }
       }
@@ -164,7 +164,7 @@
       "id": "besitz",
       "initial": "zusammenfassung",
       "states": {
-        "bankkonto-frage": {
+        "bankkonten-frage": {
           "id": "bankkonto-frage",
           "on": {
             "BACK": [
@@ -199,7 +199,7 @@
                 "cond": "hasBankkontoYes",
                 "target": "bankkonten"
               },
-              "kraftfahrzeug-frage"
+              "kraftfahrzeuge-frage"
             ]
           }
         },
@@ -207,21 +207,21 @@
           "id": "bankkonten",
           "on": {
             "SUBMIT": "weiteres-bankkonto",
-            "BACK": "bankkonto-frage"
+            "BACK": "bankkonten-frage"
           }
         },
         "weiteres-bankkonto": {
           "id": "weiteres-bankkonto",
           "on": {
-            "BACK": "bankkonto-frage",
+            "BACK": "bankkonten-frage",
             "SUBMIT": [
               { "target": "bankkonten", "cond": "hasAdditionalBankkontoYes" },
-              "kraftfahrzeug-frage"
+              "kraftfahrzeuge-frage"
             ]
           }
         },
-        "kraftfahrzeug-frage": {
-          "id": "kraftfahrzeug-frage",
+        "kraftfahrzeuge-frage": {
+          "id": "kraftfahrzeuge-frage",
           "on": {
             "SUBMIT": [
               {
@@ -235,7 +235,7 @@
                 "cond": "hasBankkontoYes",
                 "target": "weiteres-bankkonto"
               },
-              "bankkonto-frage"
+              "bankkonten-frage"
             ]
           }
         },
@@ -243,7 +243,7 @@
           "id": "kraftfahrzeuge",
           "on": {
             "SUBMIT": "weiteres-kraftfahrzeug",
-            "BACK": "kraftfahrzeug-frage"
+            "BACK": "kraftfahrzeuge-frage"
           }
         },
         "weiteres-kraftfahrzeug": {
@@ -254,13 +254,13 @@
                 "target": "kraftfahrzeuge",
                 "cond": "hasAdditionalKraftfahrzeugYes"
               },
-              "geldanlage-frage"
+              "geldanlagen-frage"
             ],
-            "BACK": "kraftfahrzeug-frage"
+            "BACK": "kraftfahrzeuge-frage"
           }
         },
-        "geldanlage-frage": {
-          "id": "geldanlage-frage",
+        "geldanlagen-frage": {
+          "id": "geldanlagen-frage",
           "on": {
             "SUBMIT": [
               {
@@ -274,7 +274,7 @@
                 "cond": "hasKraftfahrzeugYes",
                 "target": "weiteres-kraftfahrzeug"
               },
-              "kraftfahrzeug-frage"
+              "kraftfahrzeuge-frage"
             ]
           }
         },
@@ -282,7 +282,7 @@
           "id": "geldanlagen",
           "on": {
             "SUBMIT": "weitere-geldanlage",
-            "BACK": "geldanlage-frage"
+            "BACK": "geldanlagen-frage"
           }
         },
         "weitere-geldanlage": {
@@ -295,7 +295,7 @@
               },
               "grundeigentum-frage"
             ],
-            "BACK": "geldanlage-frage"
+            "BACK": "geldanlagen-frage"
           }
         },
         "grundeigentum-frage": {
@@ -306,7 +306,7 @@
                 "cond": "hasGrundeigentumYes",
                 "target": "grundeigentum"
               },
-              "wertsache-frage"
+              "wertsachen-frage"
             ],
             "BACK": "weitere-geldanlage"
           }
@@ -326,13 +326,13 @@
                 "target": "grundeigentum",
                 "cond": "hasAdditionalGrundeigentumYes"
               },
-              "wertsache-frage"
+              "wertsachen-frage"
             ],
             "BACK": "grundeigentum-frage"
           }
         },
-        "wertsache-frage": {
-          "id": "wertsache-frage",
+        "wertsachen-frage": {
+          "id": "wertsachen-frage",
           "on": {
             "SUBMIT": [
               {
@@ -348,7 +348,7 @@
           "id": "wertsachen",
           "on": {
             "SUBMIT": "weitere-wertsache",
-            "BACK": "wertsache-frage"
+            "BACK": "wertsachen-frage"
           }
         },
         "weitere-wertsache": {
@@ -361,7 +361,7 @@
               },
               "zusammenfassung"
             ],
-            "BACK": "wertsache-frage"
+            "BACK": "wertsachen-frage"
           }
         },
         "zusammenfassung": {

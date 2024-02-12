@@ -34,6 +34,9 @@ const ArraySummary = ({
   const { pathname } = useLocation();
   const deleteFetcher = useFetcher();
 
+  const pathroot = pathname.slice(0, pathname.lastIndexOf("/"));
+  const addButtonDestination = `${pathroot}/${arrayKey}${arrayData.length > 0 ? "" : "-frage"}`;
+
   return (
     <div className="ds-stack-8 scroll-my-40">
       <Heading text={titleHeading} tagName="h2" look="ds-heading-03-bold" />
@@ -94,7 +97,7 @@ const ArraySummary = ({
         look="ghost"
         className="hover:shadow-none"
         iconLeft={<AddButton />}
-        href={`${pathname.slice(0, pathname.lastIndexOf("/"))}/${arrayKey}`}
+        href={addButtonDestination}
       >{`${subtitle} ${addButtonText}`}</Button>
     </div>
   );
