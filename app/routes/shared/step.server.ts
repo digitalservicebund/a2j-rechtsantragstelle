@@ -13,7 +13,6 @@ import { buildStepValidator } from "~/models/flows/common";
 import type { ArrayCollection, Context } from "~/models/flows/contexts";
 import { getContext, parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
-import type { StrapiHeading } from "~/services/cms/models/StrapiHeading";
 import type { StrapiSelect } from "~/services/cms/models/StrapiSelect";
 import {
   createCSRFToken,
@@ -138,16 +137,15 @@ export const loader = async ({
     }),
   );
 
-  // To add a <legend> inside radio groups, we extract the text from the first <h1> and replace any null labels with it
-  const mainHeading = formPageContent.pre_form.filter(
-    (component) =>
-      component.__component === "basic.heading" && component.tagName === "h1",
-  ) as StrapiHeading[];
-  const formLegend = mainHeading.length > 0 ? mainHeading[0].text : null;
-
+  // Inject heading into <legend> inside radio groups
   formPageContent.form.forEach(({ __component, label }, idx) => {
-    if (__component === "form-elements.select" && label === null) {
-      (formPageContent.form[idx] as StrapiSelect).altLabel = formLegend;
+    if (
+      __component === "form-elements.select" &&
+      label === null &&
+      "heading" in formPageContent
+    ) {
+      (formPageContent.form[idx] as StrapiSelect).altLabel =
+        formPageContent.heading;
     }
   });
 
