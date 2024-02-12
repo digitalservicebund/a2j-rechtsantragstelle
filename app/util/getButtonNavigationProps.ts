@@ -23,8 +23,6 @@ export const getButtonNavigationProps = ({
             label: nextButtonLabel ?? commonContent.nextButtonDefaultLabel,
             destination:
               configMetadata?.buttonNavigationProps?.next?.destination,
-            downloadFile:
-              configMetadata?.buttonNavigationProps?.next?.downloadFile,
           },
     back: {
       destination: previousStepUrl,

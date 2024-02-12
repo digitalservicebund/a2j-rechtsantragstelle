@@ -22,7 +22,6 @@ export type Meta = {
   buttonNavigationProps?: {
     next?: {
       destination?: string;
-      downloadFile?: string;
     };
   };
 };
