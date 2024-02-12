@@ -85,6 +85,7 @@ export const loader = async ({
 }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
   const { pathname, searchParams } = new URL(request.url);
+  const returnTo = searchParams.get("returnTo") ?? undefined;
   const { flowId, stepId, arrayIndex } = parsePathname(pathname);
   const cookieId = request.headers.get("Cookie");
   const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
@@ -97,7 +98,7 @@ export const loader = async ({
     guards: currentFlow.guards,
   });
 
-  if (!flowController.isReachable(stepId))
+  if (!returnTo && !flowController.isReachable(stepId))
     return redirect(flowController.getInitial().url);
 
   // Not having data here could skip the migration step
@@ -175,6 +176,8 @@ export const loader = async ({
     previousStepUrl: flowController.getPrevious(stepId)?.url,
   });
 
+  if (returnTo) buttonNavigationProps.back.destination = returnTo;
+
   return json(
     {
       csrf,
@@ -197,7 +200,7 @@ export const loader = async ({
         flowController,
         navTranslations,
       ),
-      returnTo: searchParams.get("returnTo") ?? undefined,
+      returnTo,
     },
     { headers },
   );
