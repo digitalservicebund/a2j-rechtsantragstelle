@@ -156,10 +156,11 @@ export const beratungshilfeFinanzielleAngabenSubflowState = (
       if (partnerDone(context)) return "Done";
       break;
     case "besitz":
-      if (besitzReachable(context)) return "Open";
+      if (!besitzReachable(context)) return "Hidden";
+      if (besitzDone(context)) return "Done";
   }
 
-  return "Hidden";
+  return "Open";
 };
 
 const hasStaatlicheLeistungen = (context: BeratungshilfeFinanzielleAngaben) =>
@@ -189,3 +190,10 @@ const besitzReachable = (context: BeratungshilfeFinanzielleAngaben) =>
   (context.staatlicheLeistungen === "buergergeld" ||
     context.staatlicheLeistungen === "andereLeistung" ||
     context.staatlicheLeistungen === "keine");
+
+const besitzDone = (context: BeratungshilfeFinanzielleAngaben) =>
+  context.hasBankkonto !== undefined &&
+  context.hasKraftfahrzeug !== undefined &&
+  context.hasGeldanlage !== undefined &&
+  context.hasGrundeigentum !== undefined &&
+  context.hasWertsache !== undefined;
