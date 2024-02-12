@@ -368,7 +368,7 @@
           "id": "zusammenfassung",
           "on": {
             "BACK": "weitere-wertsache",
-            "SUBMIT": ["#danke"]
+            "SUBMIT": "#danke"
           }
         }
       }
