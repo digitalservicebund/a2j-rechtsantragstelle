@@ -1,6 +1,6 @@
 {
   "predictableActionArguments": true,
-  "initial": "download",
+  "initial": "art",
   "id": "abgabe",
   "states": {
     "art": {
