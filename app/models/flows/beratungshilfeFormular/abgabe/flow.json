@@ -7,11 +7,11 @@
       "on": {
         "SUBMIT": [
           { "target": "online", "cond": "abgabeOnline" },
-          { "target": "download", "cond": "abgabeDownload" }
+          { "target": "ausdrucken", "cond": "abgabeAusdrucken" }
         ]
       }
     },
-    "download": {
+    "ausdrucken": {
       "meta": {
         "buttonNavigationProps": {
           "next": {

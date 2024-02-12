@@ -12,6 +12,6 @@ export const beratungshilfeAbgabeGuards = {
     beratungshilfePersoenlicheDatenDone(context),
   abgabeOnline: (context: BeratungshilfeAntragContext) =>
     context.abgabeArt == "online",
-  abgabeDownload: (context: BeratungshilfeAntragContext) =>
-    context.abgabeArt == "download",
+  abgabeAusdrucken: (context: BeratungshilfeAntragContext) =>
+    context.abgabeArt == "ausdrucken",
 };
