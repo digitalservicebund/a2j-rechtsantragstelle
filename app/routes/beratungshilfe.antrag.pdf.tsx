@@ -179,6 +179,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       staatlicheLeistungMapping,
     );
 
+    fillFinancial(pdfFields, context);
+
     const attachment = isANewAttachmentPageNeeded(context);
 
     if (attachment.shouldCreateNewPage) {
@@ -310,4 +312,39 @@ function fillPersonalData(
   berufErwerbstaetigkeit.value = hasStaatlicheLeistung
     ? staatlicheLeistungMapping[context.staatlicheLeistungen ?? "keine"]
     : getOccupationDetails(context);
+}
+
+function fillFinancial(
+  pdfFields: BeratungshilfePDF,
+  context: BeratungshilfeAntragContext,
+) {
+  const hasBankkonten = context.bankkonten
+    ? context.bankkonten?.length > 0
+    : false;
+  pdfFields.f1Konten1.value = !hasBankkonten;
+  pdfFields.f1Konten2.value = hasBankkonten;
+
+  const hasGrundeigentum = context.grundeigentum
+    ? context.grundeigentum?.length > 0
+    : false;
+  const hasGrundeigentumBewohnt = context.grundeigentumBewohnt
+    ? context.grundeigentumBewohnt?.length > 0
+    : false;
+
+  pdfFields.f5Grundeigentum1.value =
+    !hasGrundeigentum && !hasGrundeigentumBewohnt;
+  pdfFields.f5Grundeigentum2.value =
+    hasGrundeigentum || hasGrundeigentumBewohnt;
+
+  const hasKraftfahrzeug = context.bankkonten
+    ? context.bankkonten?.length > 0
+    : false;
+  pdfFields.f9Kraftfahrzeug1.value = !hasKraftfahrzeug;
+  pdfFields.f9Kraftfahrzeuge2.value = hasKraftfahrzeug;
+
+  const hasWertsachen = context.wertsachen
+    ? context.wertsachen?.length > 0
+    : false;
+  pdfFields.f13Vermoegenswerte1.value = !hasWertsachen;
+  pdfFields.f13Vermoegenswerte1.value = hasWertsachen;
 }
