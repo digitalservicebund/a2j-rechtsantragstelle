@@ -207,7 +207,13 @@
           "id": "bankkonten",
           "on": {
             "SUBMIT": "weiteres-bankkonto",
-            "BACK": "bankkonten-frage"
+            "BACK": [
+              {
+                "cond": "hasAdditionalBankkontoNo",
+                "target": "zusammenfassung"
+              },
+              "bankkonten-frage"
+            ]
           }
         },
         "weiteres-bankkonto": {
@@ -243,7 +249,13 @@
           "id": "kraftfahrzeuge",
           "on": {
             "SUBMIT": "weiteres-kraftfahrzeug",
-            "BACK": "kraftfahrzeuge-frage"
+            "BACK": [
+              {
+                "cond": "hasAdditionalKraftfahrzeugNo",
+                "target": "zusammenfassung"
+              },
+              "kraftfahrzeuge-frage"
+            ]
           }
         },
         "weiteres-kraftfahrzeug": {
@@ -282,7 +294,13 @@
           "id": "geldanlagen",
           "on": {
             "SUBMIT": "weitere-geldanlage",
-            "BACK": "geldanlagen-frage"
+            "BACK": [
+              {
+                "cond": "hasAdditionalGeldanlageNo",
+                "target": "zusammenfassung"
+              },
+              "geldanlagen-frage"
+            ]
           }
         },
         "weitere-geldanlage": {
@@ -315,7 +333,13 @@
           "id": "grundeigentum",
           "on": {
             "SUBMIT": "weiteres-grundeigentum",
-            "BACK": "grundeigentum-frage"
+            "BACK": [
+              {
+                "cond": "hasAdditionalGrundeigentumNo",
+                "target": "zusammenfassung"
+              },
+              "grundeigentum-frage"
+            ]
           }
         },
         "weiteres-grundeigentum": {
@@ -348,7 +372,13 @@
           "id": "wertsachen",
           "on": {
             "SUBMIT": "weitere-wertsache",
-            "BACK": "wertsachen-frage"
+            "BACK": [
+              {
+                "cond": "hasAdditionalWertsacheNo",
+                "target": "zusammenfassung"
+              },
+              "wertsachen-frage"
+            ]
           }
         },
         "weitere-wertsache": {

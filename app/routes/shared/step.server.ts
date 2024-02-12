@@ -175,11 +175,6 @@ export const loader = async ({
     previousStepUrl: flowController.getPrevious(stepId)?.url,
   });
 
-  // TODO: fix (Inside an array, we need to patch the back & submit button to return to the overview)
-  if (arrayIndex !== undefined) {
-    buttonNavigationProps.back.destination = `${pathname}/../../zusammenfassung`;
-  }
-
   return json(
     {
       csrf,
