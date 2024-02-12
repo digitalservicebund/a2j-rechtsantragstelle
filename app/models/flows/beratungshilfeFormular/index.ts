@@ -72,7 +72,11 @@ export const beratungshilfeAntrag = {
           subflowState: beratungshilfeFinanzielleAngabenSubflowState,
         },
         states: {
-          start: { on: { BACK: "#rechtsproblem.danke" } },
+          einkommen: {
+            states: {
+              "staatliche-leistungen": { on: { BACK: "#rechtsproblem.danke" } },
+            },
+          },
           danke: { on: { SUBMIT: "#persoenlicheDaten" } },
         },
       }),

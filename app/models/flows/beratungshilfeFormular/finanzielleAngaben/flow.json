@@ -9,7 +9,6 @@
       "states": {
         "staatliche-leistungen": {
           "on": {
-            "BACK": "#finanzielleAngaben",
             "SUBMIT": [
               {
                 "cond": "staatlicheLeistungenIsBuergergeld",
@@ -389,7 +388,8 @@
           {
             "cond": "staatlicheLeistungenIsBuergergeld",
             "target": "#besitz.weiteres-bankkonto"
-          }
+          },
+          "#besitz.zusammenfassung"
         ]
       }
     }
