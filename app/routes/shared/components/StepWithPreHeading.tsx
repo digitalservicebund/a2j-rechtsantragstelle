@@ -75,15 +75,17 @@ export function StepWithPreHeading() {
             migrationData={migrationData}
             translations={translations}
           />
-          {Object.entries(arrayData).map(([arrayKey, array]) => (
-            <ArraySummary
-              key={arrayKey}
-              arrayKey={arrayKey}
-              arrayData={array}
-              translations={translations}
-              csrf={csrf}
-            />
-          ))}
+          <div>
+            {Object.entries(arrayData).map(([arrayKey, array]) => (
+              <ArraySummary
+                key={arrayKey}
+                arrayKey={arrayKey}
+                arrayData={array}
+                translations={translations}
+                csrf={csrf}
+              />
+            ))}
+          </div>
           <ValidatedForm
             id={`${stepId}_form`}
             method="post"

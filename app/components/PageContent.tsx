@@ -123,20 +123,24 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
   }
 }
 
+const skipComponents = ["page.array-summary"];
+
 const PageContent = ({
   content = [],
   templateReplacements = {},
   className,
 }: PageContentProps) => (
   <div className={className}>
-    {content.map((el) => (
-      <div key={keyFromElement(el)}>
-        {wrapInBackground(
-          el,
-          wrapInContainer(el, cmsToReact(el, templateReplacements)),
-        )}
-      </div>
-    ))}
+    {content
+      .filter((el) => !skipComponents.includes(el.__component))
+      .map((el) => (
+        <div key={keyFromElement(el)}>
+          {wrapInBackground(
+            el,
+            wrapInContainer(el, cmsToReact(el, templateReplacements)),
+          )}
+        </div>
+      ))}
   </div>
 );
 
