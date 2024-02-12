@@ -162,7 +162,7 @@
     },
     "besitz": {
       "id": "besitz",
-      "initial": "bankkonto-frage",
+      "initial": "zusammenfassung",
       "states": {
         "bankkonto-frage": {
           "id": "bankkonto-frage",
