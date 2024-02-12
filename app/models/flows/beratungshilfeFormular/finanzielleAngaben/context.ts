@@ -69,7 +69,7 @@ export const beratungshilfeFinanzielleAngaben = {
       eigentuemer: Eigentuemer,
       verkaufswert: buildMoneyValidationSchema(),
       kilometerstand: inputRequiredSchema,
-      anschaffungsjahr: inputRequiredSchema,
+      anschaffungsjahr: z.string(),
       baujahr: inputRequiredSchema,
       bemerkung: inputRequiredSchema,
       arbeitsweg: inputRequiredSchema,
