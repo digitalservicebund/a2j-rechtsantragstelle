@@ -141,7 +141,7 @@ export const beratungshilfeFinanzielleAngabeDone = (
   context: BeratungshilfeFinanzielleAngaben,
 ) => einkommenDone(context) && partnerDone(context);
 
-export type SubflowState = "Done" | "Open" | "Unreachable" | undefined;
+export type SubflowState = "Done" | "Open" | "Hidden";
 
 export const beratungshilfeFinanzielleAngabenSubflowState = (
   context: BeratungshilfeFinanzielleAngaben,
@@ -152,14 +152,14 @@ export const beratungshilfeFinanzielleAngabenSubflowState = (
       if (einkommenDone(context)) return "Done";
       break;
     case "partner":
-      if (!partnerReachable(context)) break;
+      if (!partnerReachable(context)) return "Hidden";
       if (partnerDone(context)) return "Done";
       break;
     case "besitz":
       return "Open";
   }
 
-  return undefined;
+  return "Hidden";
 };
 
 const hasStaatlicheLeistungen = (context: BeratungshilfeFinanzielleAngaben) =>

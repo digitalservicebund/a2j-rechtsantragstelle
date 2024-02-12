@@ -93,7 +93,7 @@ function getSubflowSpecifics(
     label: subflowLabel ?? subflowKey,
     state: navState({
       isCurrent: currentStepId.startsWith(subflowRoot),
-      isReachable: subflowState !== undefined,
+      isReachable: subflowState !== "Hidden",
       isDone: subflowState == "Done",
       isUneditable: flowController.isUneditable(subflowRoot),
     }),
