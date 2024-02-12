@@ -1,9 +1,15 @@
 import _ from "lodash";
 import {
+  type BeratungshilfeAnwaltlicheVertretung,
+  beratungshilfeAnwaltlicheVertretungGuards,
+  anwaltlicheVertretungDone,
+} from "./anwaltlicheVertretung/context";
+import {
   type BeratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungenGuards,
   grundvoraussetzungDone,
 } from "./grundvoraussetzung/context";
+import beratungshilfeAnwaltlicheVertretungFlow from "./anwaltlicheVertretung/flow.json";
 import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.json";
 import beratungshilfeAntragFlow from "./flow.json";
 import rechtsproblemFlow from "./rechtsproblem/flow.json";
@@ -44,7 +50,7 @@ export const beratungshilfeAntrag = {
               on: {
                 SUBMIT: [
                   {
-                    target: "#rechtsproblem.start",
+                    target: "#anwaltlicheVertretung.start",
                     cond: "eigeninitiativeGrundvorraussetzungNo",
                   },
                   {
@@ -56,12 +62,39 @@ export const beratungshilfeAntrag = {
           },
         },
       ),
+      anwaltlicheVertretung: _.merge(
+        _.cloneDeep(beratungshilfeAnwaltlicheVertretungFlow),
+        {
+          meta: { done: anwaltlicheVertretungDone },
+          states: {
+            start: {
+              on: {
+                BACK: "#grundvoraussetzungen.eigeninitiativeGrundvorraussetzung",
+              },
+            },
+            anwaltKontaktdaten: { on: { SUBMIT: "#rechtsproblem.start" } },
+          },
+        },
+      ),
+
       rechtsproblem: _.merge(_.cloneDeep(rechtsproblemFlow), {
         meta: { done: rechtsproblemDone },
         states: {
           start: {
             on: {
-              BACK: "#grundvoraussetzungen.eigeninitiativeGrundvorraussetzung",
+              BACK: [
+                {
+                  cond: "anwaltskanzleiNo",
+                  target: "#anwaltlicheVertretung.start",
+                },
+                {
+                  cond: "beratungStattgefundenNo",
+                  target: "#anwaltlicheVertretung.beratungStattgefunden",
+                },
+                {
+                  target: "#anwaltlicheVertretung.anwaltKontaktdaten",
+                },
+              ],
             },
           },
           danke: { on: { SUBMIT: "#finanzielleAngaben" } },
@@ -101,6 +134,7 @@ export const beratungshilfeAntrag = {
   }),
   guards: {
     ...beratungshilfeGrundvoraussetzungenGuards,
+    ...beratungshilfeAnwaltlicheVertretungGuards,
     ...beratungshilfeRechtsproblemGuards,
     ...beratungshilfeAbgabeGuards,
     ...finanzielleAngabeGuards,
@@ -130,6 +164,7 @@ const getAmtsgerichtStrings = (context: AllContexts) => {
 };
 
 export type BeratungshilfeAntragContext = BeratungshilfeGrundvoraussetzungen &
+  BeratungshilfeAnwaltlicheVertretung &
   BeratungshilfeRechtsproblem &
   BeratungshilfeFinanzielleAngaben &
   BeratungshilfePersoenlicheDaten &

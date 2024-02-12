@@ -1,7 +1,7 @@
 import { z } from "zod";
 import isDate from "validator/lib/isDate";
 
-function dateUTCFromGermanDateString(date: string) {
+export function dateUTCFromGermanDateString(date: string) {
   const [day, month, year] = date.split(".");
   return new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
 }
