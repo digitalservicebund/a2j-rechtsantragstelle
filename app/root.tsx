@@ -17,9 +17,6 @@ import {
 } from "@remix-run/react";
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
-import fontRegular from "/fonts/BundesSansWeb-Regular.woff2";
-import fontBold from "/fonts/BundesSansWeb-Bold.woff2";
-import ogImage from "/og-image.png";
 import { withSentry } from "@sentry/remix";
 import { config as configWeb } from "~/services/env/web";
 import {
@@ -59,14 +56,14 @@ export const links: LinksFunction = () => [
     rel: "preload",
     as: "font",
     type: "font/woff2",
-    href: fontRegular,
+    href: "/fonts/BundesSansWeb-Regular.woff2",
     crossOrigin: "anonymous",
   },
   {
     rel: "preload",
     as: "font",
     type: "font/woff2",
-    href: fontBold,
+    href: "/fonts/BundesSansWeb-Bold.woff2",
     crossOrigin: "anonymous",
   },
   { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
@@ -80,7 +77,7 @@ export const meta: MetaFunction<typeof loader> = () => {
     { charSet: "utf-8" },
     { name: "viewport", content: "width=device-width,initial-scale=1" },
     { property: "og:type", content: "website" },
-    { property: "og:image", content: `https://service.justiz.de${ogImage}` },
+    { property: "og:image", content: "https://service.justiz.de/og-image.png" },
   ];
 };
 
