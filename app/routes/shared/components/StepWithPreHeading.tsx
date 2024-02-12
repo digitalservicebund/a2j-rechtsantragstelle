@@ -29,6 +29,7 @@ export function StepWithPreHeading() {
     buttonNavigationProps,
     translations,
     navItems,
+    returnTo,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
@@ -101,6 +102,7 @@ export function StepWithPreHeading() {
               {formContent && formContent.length != 0 && (
                 <PageContent content={formContent} className="ds-stack-40" />
               )}
+              <input type="hidden" name="_returnTo" value={returnTo} />
               {postFormContent && postFormContent.length != 0 && (
                 <PageContent
                   content={postFormContent}

@@ -35,7 +35,7 @@ const ArraySummary = ({
   const deleteFetcher = useFetcher();
 
   const pathroot = pathname.slice(0, pathname.lastIndexOf("/"));
-  const addButtonDestination = `${pathroot}/${arrayKey}${arrayData.length > 0 ? "" : "-frage"}`;
+  const addButtonDestination = `${pathroot}/${arrayKey}${arrayData.length > 0 ? "" : "-frage"}?returnTo=${pathname}`;
 
   return (
     <div className="ds-stack-8 scroll-my-40">
@@ -70,7 +70,7 @@ const ArraySummary = ({
                 <Button
                   iconLeft={<EditButton />}
                   look="tertiary"
-                  href={`${arrayKey}/${index}`}
+                  href={`${arrayKey}/${index}?returnTo=${pathname}`}
                 >
                   {editButtonText}
                 </Button>

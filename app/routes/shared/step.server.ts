@@ -84,7 +84,7 @@ export const loader = async ({
   // eslint-disable-next-line sonarjs/cognitive-complexity
 }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
-  const { pathname } = new URL(request.url);
+  const { pathname, searchParams } = new URL(request.url);
   const { flowId, stepId, arrayIndex } = parsePathname(pathname);
   const cookieId = request.headers.get("Cookie");
   const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
@@ -197,6 +197,7 @@ export const loader = async ({
         flowController,
         navTranslations,
       ),
+      returnTo: searchParams.get("returnTo") ?? undefined,
     },
     { headers },
   );
@@ -269,8 +270,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (customEventName)
     void sendCustomEvent(customEventName, validationResult.data, request);
 
-  return redirect(
-    flowController.getNext(stepId)?.url ?? flowController.getInitial().url,
-    { headers },
-  );
+  const returnTo = formData.get("_returnTo");
+  const destination =
+    returnTo && typeof returnTo === "string" && returnTo !== ""
+      ? returnTo
+      : flowController.getNext(stepId)?.url ?? flowController.getInitial().url;
+
+  return redirect(destination, { headers });
 };
