@@ -28,7 +28,7 @@ import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import type { AllContexts } from "~/models/flows/common";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { BeratungshilfeAbgabe } from "~/models/flows/beratungshilfeFormular/abgabe/context";
+import type { BeratungshilfeAbgabe } from "~/models/flows/beratungshilfeFormular/abgabe/context";
 
 export const beratungshilfeAntrag = {
   cmsSlug: "form-flow-pages",
