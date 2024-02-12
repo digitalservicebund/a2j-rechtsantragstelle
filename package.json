@@ -80,7 +80,7 @@
     "@remix-run/testing": "^2.6.0",
     "@storybook/addon-a11y": "^7.6.13",
     "@storybook/addon-essentials": "^7.6.13",
-    "@storybook/addon-storyshots": "^7.6.13",
+    "@storybook/addon-storyshots": "^7.6.14",
     "@storybook/react": "^7.6.13",
     "@storybook/react-vite": "^8.0.0-alpha.15",
     "@testing-library/jest-dom": "^6.4.2",
