@@ -3,6 +3,14 @@
   "initial": "download",
   "id": "abgabe",
   "states": {
+    "art": {
+      "on": {
+        "SUBMIT": [
+          { "target": "online", "cond": "abgabeOnline" },
+          { "target": "download", "cond": "abgabeDownload" }
+        ]
+      }
+    },
     "download": {
       "meta": {
         "buttonNavigationProps": {
@@ -10,6 +18,26 @@
             "destination": "/beratungshilfe/antrag/pdf",
             "downloadFile": "Beratungshilfe Antrag.pdf"
           }
+        }
+      },
+      "on": {
+        "BACK": {
+          "target": "art"
+        }
+      }
+    },
+    "online": {
+      "meta": {
+        "buttonNavigationProps": {
+          "next": {
+            "destination": "/beratungshilfe/antrag/pdf",
+            "downloadFile": "Beratungshilfe Antrag.pdf"
+          }
+        }
+      },
+      "on": {
+        "BACK": {
+          "target": "art"
         }
       }
     }

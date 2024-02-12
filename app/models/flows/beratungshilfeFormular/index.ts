@@ -28,6 +28,7 @@ import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import type { AllContexts } from "~/models/flows/common";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { BeratungshilfeAbgabe } from "~/models/flows/beratungshilfeFormular/abgabe/context";
 
 export const beratungshilfeAntrag = {
   cmsSlug: "form-flow-pages",
@@ -86,14 +87,14 @@ export const beratungshilfeAntrag = {
           start: { on: { BACK: "#finanzielleAngaben.danke" } },
           danke: {
             on: {
-              SUBMIT: { target: "#abgabe.download", cond: "readyForAbgabe" },
+              SUBMIT: [{ target: "#abgabe.art", cond: "readyForAbgabe" }],
             },
           },
         },
       }),
       abgabe: _.merge(_.cloneDeep(abgabeFlow), {
         states: {
-          download: { on: { BACK: "#persoenlicheDaten.danke" } },
+          art: { on: { BACK: "#persoenlicheDaten.danke" } },
         },
       }),
     },
@@ -131,4 +132,5 @@ const getAmtsgerichtStrings = (context: AllContexts) => {
 export type BeratungshilfeAntragContext = BeratungshilfeGrundvoraussetzungen &
   BeratungshilfeRechtsproblem &
   BeratungshilfeFinanzielleAngaben &
-  BeratungshilfePersoenlicheDaten;
+  BeratungshilfePersoenlicheDaten &
+  BeratungshilfeAbgabe;

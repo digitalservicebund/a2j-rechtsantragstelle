@@ -10,4 +10,8 @@ export const beratungshilfeAbgabeGuards = {
     rechtsproblemDone(context) &&
     beratungshilfeFinanzielleAngabeDone(context) &&
     beratungshilfePersoenlicheDatenDone(context),
+  abgabeOnline: (context: BeratungshilfeAntragContext) =>
+    context.abgabeArt == "online",
+  abgabeDownload: (context: BeratungshilfeAntragContext) =>
+    context.abgabeArt == "download",
 };
