@@ -12,10 +12,10 @@ export const beratungshilfeAnwaltlicheVertretung = {
   anwaltskanzlei: YesNoAnswer,
   beratungStattgefunden: YesNoAnswer,
   beratungStattgefundenDatum: createDateSchema(),
-  name: inputRequiredSchema,
-  strasseUndHausnummer: inputRequiredSchema,
-  plz: inputRequiredSchema.pipe(postcodeSchema),
-  ort: inputRequiredSchema,
+  anwaltName: inputRequiredSchema,
+  anwaltStrasseUndHausnummer: inputRequiredSchema,
+  anwaltPlz: inputRequiredSchema.pipe(postcodeSchema),
+  anwaltOrt: inputRequiredSchema,
 };
 
 const contextObject = z.object(beratungshilfeAnwaltlicheVertretung).partial();
@@ -48,8 +48,8 @@ export const anwaltlicheVertretungDone = (
   Boolean(
     context.beratungStattgefunden === "yes" &&
       context.beratungStattgefundenDatum &&
-      context.name &&
-      context.strasseUndHausnummer &&
-      context.plz &&
-      context.ort,
+      context.anwaltName &&
+      context.anwaltStrasseUndHausnummer &&
+      context.anwaltPlz &&
+      context.anwaltOrt,
   );

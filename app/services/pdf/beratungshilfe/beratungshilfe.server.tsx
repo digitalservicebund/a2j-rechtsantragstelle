@@ -14,6 +14,7 @@ import FormAttachment from "~/components/FormAttachment";
 import _ from "lodash";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeAntragContext } from "~/models/flows/beratungshilfeFormular";
+import invariant from "tiny-invariant";
 
 const isANewAttachmentPageNeeded = (context: BeratungshilfeAntragContext) => {
   const descriptions = [];
@@ -207,6 +208,8 @@ export async function getBeratungshilfePdfFromContext(
 
   fillPartner(context, pdfFields);
 
+  fillBeratungsperson(pdfFields, context);
+
   return fillOutBeratungshilfe(
     pdfFields,
     attachment.descriptions,
@@ -363,6 +366,21 @@ function fillFinancialBankkonto(
 
     pdfFields.f3Bank1.value = bezeichnung.join(", ");
   }
+}
+
+function fillBeratungsperson(
+  pdfFields: BeratungshilfePDF,
+  context: BeratungshilfeAntragContext,
+) {
+  invariant(
+    context.anwaltName &&
+      context.anwaltStrasseUndHausnummer &&
+      context.anwaltPlz &&
+      context.anwaltOrt,
+    "Anwaltliche Vertretung not filled out",
+  );
+  pdfFields.beratungsperson.value = `${context.anwaltName}, ${context.anwaltStrasseUndHausnummer}, ${context.anwaltPlz} ${context.anwaltOrt}`;
+  pdfFields.datumBeratung.value = context.beratungStattgefundenDatum;
 }
 
 export async function getBeratungshilfeParameters() {
