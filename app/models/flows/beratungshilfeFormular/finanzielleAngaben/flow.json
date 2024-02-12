@@ -228,7 +228,7 @@
                 "cond": "hasKraftfahrzeugYes",
                 "target": "kraftfahrzeuge"
               },
-              "zusammenfassung"
+              "geldanlagen-frage"
             ],
             "BACK": [
               {
@@ -267,7 +267,7 @@
                 "cond": "hasGeldanlageYes",
                 "target": "geldanlagen"
               },
-              "zusammenfassung"
+              "grundeigentum-frage"
             ],
             "BACK": [
               {
@@ -306,7 +306,7 @@
                 "cond": "hasGrundeigentumYes",
                 "target": "grundeigentum"
               },
-              "zusammenfassung"
+              "wertsache-frage"
             ],
             "BACK": "weitere-geldanlage"
           }
