@@ -635,7 +635,7 @@ function getKraftfahrzeugBezeichnung(
   }
 
   if (kraftfahrzeug?.art) {
-    bezeichnung.push(`Art des Fahrzeugs:: ${kraftfahrzeug?.art}`);
+    bezeichnung.push(`Art des Fahrzeugs: ${kraftfahrzeug?.art}`);
   }
 
   if (kraftfahrzeug?.marke) {
