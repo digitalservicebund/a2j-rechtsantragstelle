@@ -751,7 +751,7 @@ function getGrundeigentumBewohntBezeichnung(
     hereditaryBuildingLaw: "Erbbaurecht",
   };
 
-  bezeichnung.push(`Grundeigentum ist der Hauptwohnsitz des Antragstellers`);
+  //bezeichnung.push(`Grundeigentum ist der Hauptwohnsitz des Antragstellers`);
 
   if (grundeigentum?.art) {
     bezeichnung.push(`Art des Eigentums: ${artMapping[grundeigentum.art]}`);
