@@ -306,10 +306,27 @@ function fillFinancial(
   context: BeratungshilfeAntragContext,
   attachment: Attachment,
 ) {
-  fillFinancialBankkonto(pdfFields, context, attachment);
-  fillFinancialGrundeigentum(pdfFields, context, attachment);
-  fillFinancialKraftfahrzeug(pdfFields, context, attachment);
-  fillFinancialWertsachen(pdfFields, context, attachment);
+  const financialAttachment: Attachment = {
+    shouldCreateNewPage: false,
+    descriptions: [],
+  };
+
+  fillFinancialBankkonto(pdfFields, context, financialAttachment);
+  fillFinancialGrundeigentum(pdfFields, context, financialAttachment);
+  fillFinancialKraftfahrzeug(pdfFields, context, financialAttachment);
+  fillFinancialWertsachen(pdfFields, context, financialAttachment);
+
+  if (financialAttachment.shouldCreateNewPage) {
+    attachment.shouldCreateNewPage = true;
+    financialAttachment.descriptions.unshift({
+      title: "F Bankkonten/Grundeigentum/Kraftfahrzeuge/Bargeld/Vermögenswerte",
+      text: "",
+    });
+
+    attachment.descriptions = attachment.descriptions.concat(
+      financialAttachment.descriptions,
+    );
+  }
 }
 
 const eigentuemerMapping = {
