@@ -55,4 +55,14 @@ export const finanzielleAngabeGuards = {
     context.partnerschaft === "yes" &&
     context.zusammenleben === "yes" &&
     context.partnerEinkommen === "yes",
+  hasKinderYes: (context: BeratungshilfeFinanzielleAngaben) =>
+    context.hasKinder === "yes",
+  // TODO: replace with the correct guards
+  kindWohnortBeiAntragstellerYes: (context: BeratungshilfeFinanzielleAngaben) =>
+    context.kinder?.[0]?.wohnortBeiAntragsteller === "yes" ||
+    context.kinder?.[0]?.wohnortBeiAntragsteller === "partially",
+  kindEigeneEinnahmenYes: (context: BeratungshilfeFinanzielleAngaben) =>
+    context.kinder?.[0]?.eigeneEinnahmen === "yes",
+  kindUnterhaltYes: (context: BeratungshilfeFinanzielleAngaben) =>
+    context.kinder?.[0]?.unterhalt === "yes",
 };

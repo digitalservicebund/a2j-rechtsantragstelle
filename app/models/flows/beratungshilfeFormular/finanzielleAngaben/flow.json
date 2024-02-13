@@ -80,7 +80,7 @@
             "SUBMIT": [
               {
                 "cond": "partnerschaftNo",
-                "target": "#besitz.bankkonten-frage"
+                "target": "#kinder.kinder-frage"
               },
               {
                 "cond": "partnerschaftYes",
@@ -122,7 +122,7 @@
         "keine-rolle": {
           "on": {
             "BACK": "unterhalt",
-            "SUBMIT": "#besitz.bankkonten-frage"
+            "SUBMIT": "#kinder.kinder-frage"
           }
         },
         "unterhalts-summe": {
@@ -134,7 +134,7 @@
         "partner-name": {
           "on": {
             "BACK": "unterhalts-summe",
-            "SUBMIT": "#besitz.bankkonten-frage"
+            "SUBMIT": "#kinder.kinder-frage"
           }
         },
         "partner-einkommen": {
@@ -147,7 +147,7 @@
               },
               {
                 "cond": "partnerEinkommenNo",
-                "target": "#besitz.bankkonten-frage"
+                "target": "#kinder.kinder-frage"
               }
             ]
           }
@@ -155,6 +155,96 @@
         "partner-einkommen-summe": {
           "on": {
             "BACK": "partner-einkommen",
+            "SUBMIT": "#kinder.kinder-frage"
+          }
+        }
+      }
+    },
+    "kinder": {
+      "id": "kinder",
+      "initial": "kinder-frage",
+      "states": {
+        "kinder-frage": {
+          "on": {
+            "BACK": "#partner.partner-einkommen-summe",
+            "SUBMIT": [
+              {
+                "cond": "hasKinderYes",
+                "target": "kind-name-geburtsdatum"
+              },
+              "#besitz.bankkonten-frage"
+            ]
+          }
+        },
+        "kind-name-geburtsdatum": {
+          "on": {
+            "BACK": [
+              {
+                "cond": "hasKinderYes",
+                "target": "uebersicht"
+              },
+              "kinder-frage"
+            ],
+            "SUBMIT": "kind-wohnort"
+          }
+        },
+        "kind-wohnort": {
+          "on": {
+            "BACK": "kind-name-geburtsdatum",
+            "SUBMIT": [
+              {
+                "cond": "kindWohnortBeiAntragstellerYes",
+                "target": "kind-eigene-einnahmen-frage"
+              },
+              "kind-unterhalt-frage"
+            ]
+          }
+        },
+        "kind-eigene-einnahmen-frage": {
+          "on": {
+            "BACK": "kind-wohnort",
+            "SUBMIT": [
+              {
+                "cond": "kindEigeneEinnahmenYes",
+                "target": "kind-eigene-einnahmen"
+              },
+              "uebersicht"
+            ]
+          }
+        },
+        "kind-eigene-einnahmen": {
+          "on": {
+            "BACK": "kind-eigene-einnahmen-frage",
+            "SUBMIT": "uebersicht"
+          }
+        },
+        "kind-unterhalt-frage": {
+          "on": {
+            "BACK": "kind-wohnort",
+            "SUBMIT": [
+              {
+                "cond": "kindUnterhaltYes",
+                "target": "kind-unterhalt"
+              },
+              "kind-unterhalt-ende"
+            ]
+          }
+        },
+        "kind-unterhalt": {
+          "on": {
+            "BACK": "kind-unterhalt-frage",
+            "SUBMIT": "uebersicht"
+          }
+        },
+        "kind-unterhalt-ende": {
+          "on": {
+            "BACK": "kind-unterhalt-frage",
+            "SUBMIT": "uebersicht"
+          }
+        },
+        "uebersicht": {
+          "on": {
+            "BACK": "kinder-frage",
             "SUBMIT": "#besitz.bankkonten-frage"
           }
         }
@@ -215,7 +305,10 @@
           "on": {
             "BACK": "bankkonten-frage",
             "SUBMIT": [
-              { "target": "bankkonten", "cond": "hasAdditionalBankkontoYes" },
+              {
+                "target": "bankkonten",
+                "cond": "hasAdditionalBankkontoYes"
+              },
               "kraftfahrzeuge-frage"
             ]
           }
@@ -366,7 +459,9 @@
         },
         "zusammenfassung": {
           "id": "zusammenfassung",
-          "on": { "SUBMIT": "#danke" }
+          "on": {
+            "SUBMIT": "#danke"
+          }
         }
       }
     },
