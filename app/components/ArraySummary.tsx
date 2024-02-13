@@ -38,7 +38,7 @@ const ArraySummary = ({
   const addButtonDestination = `${pathroot}/${arrayKey}?returnTo=${pathname}`;
 
   return (
-    <div className="ds-stack-8 scroll-my-40">
+    <div className="ds-stack-8 scroll-my-40 mb-24">
       <Heading text={titleHeading} tagName="h2" look="ds-heading-03-bold" />
       {description && <RichText markdown={description} />}
       <div className="space-y-32">
@@ -95,7 +95,7 @@ const ArraySummary = ({
       </div>
       <Button
         look="ghost"
-        className="hover:shadow-none"
+        className="hover:shadow-none pl-0 pt-8"
         iconLeft={<AddButton />}
         href={addButtonDestination}
       >{`${subtitle} ${addButtonText}`}</Button>

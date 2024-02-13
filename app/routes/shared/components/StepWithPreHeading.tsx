@@ -77,7 +77,7 @@ export function StepWithPreHeading() {
             translations={translations}
           />
           {arrayData && Object.keys(arrayData).length != 0 && (
-            <div>
+            <div className="!mt-24">
               {Object.entries(arrayData).map(([arrayKey, array]) => (
                 <ArraySummary
                   key={arrayKey}
