@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
 import { getSessionForContext, updateSession } from "~/services/session.server";
 import {
@@ -110,7 +110,7 @@ export const loader = async ({
   });
 
   if (!returnTo && !flowController.isReachable(stepId))
-    return redirect(flowController.getInitial().url);
+    return redirectDocument(flowController.getInitial().url);
 
   // Not having data here could skip the migration step
   let migrationData: Record<string, unknown> = {};
@@ -280,5 +280,5 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       ? returnTo
       : flowController.getNext(stepId)?.url ?? flowController.getInitial().url;
 
-  return redirect(destination, { headers });
+  return redirectDocument(destination, { headers });
 };
