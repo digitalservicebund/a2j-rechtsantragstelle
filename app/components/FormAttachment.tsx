@@ -7,23 +7,10 @@ import {
   Font,
 } from "@react-pdf/renderer";
 
-Font.register({
-  family: "BundesSans",
-  src: "./public/fonts/BundesSansWeb-Regular.woff",
-  fontWeight: "normal",
-});
-
-Font.register({
-  family: "BundesSans",
-  src: "./public/fonts/BundesSansWeb-Bold.woff",
-  fontWeight: "bold",
-});
-
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
     padding: "48px 72px",
-    fontFamily: "BundesSans",
   },
   pageHeader: {
     paddingBottom: 20,

@@ -398,10 +398,6 @@ function fillFinancialGrundeigentum(
     (context.grundeigentum?.length ?? 0) > 0
   ) {
     const bezeichnung: string[] = [];
-    console.log(
-      context.grundeigentumBewohnt !== undefined ||
-        context.grundeigentum !== undefined,
-    );
 
     context.grundeigentum?.forEach((grundeigentum) => {
       bezeichnung.push(
