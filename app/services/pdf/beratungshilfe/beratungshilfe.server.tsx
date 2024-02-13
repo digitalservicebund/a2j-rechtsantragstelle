@@ -638,7 +638,7 @@ function getKraftfahrzeugBezeichnung(
 ) {
   const bezeichnung = [];
 
-  if (kraftfahrzeug?.arbeitsweg) {
+  if (kraftfahrzeug?.arbeitsweg === "on") {
     bezeichnung.push(`Fahrzeug wird für den Arbeitsweg genutzt`);
   }
 
