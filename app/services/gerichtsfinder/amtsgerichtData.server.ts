@@ -9,6 +9,7 @@ import { gerbehIndex } from "./convertJsonDataTable";
 import { getEncrypted } from "./encryptedStorage";
 import type { Jmtd14VTErwerberPlzortk, Jmtd14VTErwerberPlzstrn } from "./types";
 import partnerGerichte from "./data/partnerGerichte.json";
+import courtURLs from "~/services/gerichtsfinder/data/sanitizedURLs.json";
 
 // Encrypted court data & gerbehIndex of partner courts are cached
 let courtdata: Record<string, object> | undefined = undefined;
@@ -37,7 +38,13 @@ const courtAddress = (
   const gerbehDb = getCourtData()[
     "JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json"
   ] as GerbehFile;
-  return gerbehDb[gerbehIndex(buildGerbehIndex(courtData))];
+  const fullCourtData = gerbehDb[gerbehIndex(buildGerbehIndex(courtData))];
+
+  if (fullCourtData?.URL1 && fullCourtData.URL1 in courtURLs)
+    fullCourtData.URL1 =
+      courtURLs[fullCourtData.URL1 as keyof typeof courtURLs];
+
+  return fullCourtData;
 };
 
 export const courtForPlz = (PLZ: string | undefined) => {

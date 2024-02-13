@@ -16,7 +16,6 @@ import {
   findCourt,
   isPartnerCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import urlMap from "~/services/gerichtsfinder/data/sanitizedURLs.json";
 import { flowIDFromPathname } from "~/models/flows/contexts";
 import { splatFromParams } from "~/services/params";
 import { getSessionForContext } from "~/services/session.server";
@@ -54,9 +53,6 @@ export const loader = async ({
       try {
         if (zipCode) {
           const court = findCourt({ zipCode });
-          if (court?.URL1 && court?.URL1 in urlMap) {
-            court.URL1 = urlMap[court?.URL1 as keyof typeof urlMap];
-          }
           invariant(court);
           if (
             isPartnerCourt(court.PLZ_ZUSTELLBEZIRK) ||
