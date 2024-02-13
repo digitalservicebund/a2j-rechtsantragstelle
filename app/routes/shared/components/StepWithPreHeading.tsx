@@ -98,11 +98,11 @@ export function StepWithPreHeading() {
             action={pathname}
           >
             <input type="hidden" name={CSRFKey} value={csrf} />
+            <input type="hidden" name="_returnTo" value={returnTo} />
             <div className="ds-stack-40">
               {formContent && formContent.length != 0 && (
                 <PageContent content={formContent} className="ds-stack-40" />
               )}
-              <input type="hidden" name="_returnTo" value={returnTo} />
               {postFormContent && postFormContent.length != 0 && (
                 <PageContent
                   content={postFormContent}
