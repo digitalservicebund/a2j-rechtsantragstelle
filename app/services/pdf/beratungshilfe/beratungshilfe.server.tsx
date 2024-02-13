@@ -516,7 +516,7 @@ function fillFinancialWertsachen(
 
       attachment.descriptions.unshift({
         title: "Wertsachen",
-        text: bezeichnung.join("\n"),
+        text: bezeichnung.join("\n\n"),
       });
     }
   }
