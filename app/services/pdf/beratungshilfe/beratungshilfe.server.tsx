@@ -425,8 +425,8 @@ function fillFinancialKraftfahrzeug(
   context: BeratungshilfeAntragContext,
   attachment: Attachment,
 ) {
-  const hasKraftfahrzeug = context.bankkonten
-    ? context.bankkonten?.length > 0
+  const hasKraftfahrzeug = context.kraftfahrzeuge
+    ? context.kraftfahrzeuge?.length > 0
     : false;
   pdfFields.f9Kraftfahrzeug1.value = !hasKraftfahrzeug;
   pdfFields.f9Kraftfahrzeuge2.value = hasKraftfahrzeug;
