@@ -141,6 +141,7 @@ export const beratungshilfeAntrag = {
   },
   stringReplacements: (context: AllContexts) => ({
     ...getAmtsgerichtStrings(context),
+    ...getStaatlicheLeistungenStrings(context),
   }),
 } as const;
 
@@ -161,6 +162,24 @@ const getAmtsgerichtStrings = (context: AllContexts) => {
     }
   }
   return {};
+};
+
+const getStaatlicheLeistungenStrings = (context: AllContexts) => {
+  const getTrueOrUndefined = (keyWord: string) => {
+    return (
+      ("staatlicheLeistungen" in context &&
+        context.staatlicheLeistungen == keyWord &&
+        "true") ||
+      undefined
+    );
+  };
+  return {
+    hasBuergergeld: getTrueOrUndefined("buergergeld"),
+    hasGrundsicherung: getTrueOrUndefined("grundsicherung"),
+    hasAsylbewerberleistungen: getTrueOrUndefined("asylbewerberleistungen"),
+    hasAndereLeistung: getTrueOrUndefined("andereLeistung"),
+    hasNoSozialleistung: getTrueOrUndefined("keine"),
+  };
 };
 
 export type BeratungshilfeAntragContext = BeratungshilfeGrundvoraussetzungen &
