@@ -7,6 +7,7 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
+import { postcodeSchema } from "~/services/validation/postcode";
 
 const Eigentuemer = z.enum(
   ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -106,7 +107,7 @@ export const beratungshilfeFinanzielleAngaben = {
       flaeche: inputRequiredSchema,
       verkaufswert: buildMoneyValidationSchema(),
       strassehausnummer: inputRequiredSchema,
-      plz: inputRequiredSchema,
+      plz: postcodeSchema,
       ort: inputRequiredSchema,
       land: inputRequiredSchema,
     }),
