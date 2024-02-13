@@ -700,7 +700,8 @@ function getGrundeigentumBezeichnung(
     hereditaryBuildingLaw: "Erbbaurecht",
   };
 
-  bezeichnung.push(`Grundeigentum wird nicht vom Antragsteller bewohnt`);
+  // Clearify if needed
+  //bezeichnung.push(`Grundeigentum wird nicht vom Antragsteller bewohnt`);
 
   if (grundeigentum?.art) {
     bezeichnung.push(`Art des Eigentums: ${artMapping[grundeigentum.art]}`);
