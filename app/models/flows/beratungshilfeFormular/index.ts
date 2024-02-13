@@ -142,6 +142,10 @@ export const beratungshilfeAntrag = {
   stringReplacements: (context: AllContexts) => ({
     ...getAmtsgerichtStrings(context),
     ...getStaatlicheLeistungenStrings(context),
+    hasNoAnwalt:
+      !("anwaltskanzlei" in context) || context.anwaltskanzlei == "no"
+        ? "true"
+        : undefined,
   }),
 } as const;
 
