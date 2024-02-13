@@ -382,10 +382,6 @@
             "cond": "staatlicheLeistungenIsGrundsicherung",
             "target": "#einkommen.staatliche-leistungen"
           },
-          {
-            "cond": "staatlicheLeistungenIsBuergergeld",
-            "target": "#besitz.weiteres-bankkonto"
-          },
           "#besitz.zusammenfassung"
         ]
       }
