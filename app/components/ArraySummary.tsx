@@ -36,6 +36,7 @@ const ArraySummary = ({
 
   const pathroot = pathname.slice(0, pathname.lastIndexOf("/"));
   const addButtonDestination = `${pathroot}/${arrayKey}?returnTo=${pathname}`;
+  const emptyArrayFallbackString = "Das besitze ich nicht."; // TODO: Validate & move to strapi
 
   return (
     <div className="ds-stack-8 scroll-my-40 mb-24">
@@ -46,10 +47,7 @@ const ArraySummary = ({
           const subtitleHeading = `${subtitle} ${index + 1}`;
 
           return (
-            <div
-              key={subtitleHeading}
-              className="space-y-8 bg-white p-16 pb-[24px]"
-            >
+            <div key={subtitleHeading} className="space-y-8 bg-white p-16">
               {Object.entries(element).map(([elementKey, elementValue]) => {
                 return (
                   <div key={elementKey} className="first:pt-0 scroll-my-40">
@@ -92,6 +90,11 @@ const ArraySummary = ({
             </div>
           );
         })}
+        {arrayData.length === 0 && (
+          <div className="bg-white p-16 ds-label-02-bold">
+            <strong>{emptyArrayFallbackString}</strong>
+          </div>
+        )}
       </div>
       <Button
         look="ghost"
