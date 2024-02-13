@@ -56,7 +56,7 @@ export const beratungshilfeFinanzielleAngaben = {
     z.object({
       bankName: inputRequiredSchema,
       kontostand: buildMoneyValidationSchema(),
-      iban: inputRequiredSchema,
+      iban: z.string(),
       kontoEigentuemer: Eigentuemer,
     }),
   ),
