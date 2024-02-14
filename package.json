@@ -111,7 +111,7 @@
     "tsx": "^4.7.1",
     "typescript": "^5.3.3",
     "vite": "^5.1.1",
-    "vite-plugin-cjs-interop": "^2.0.5",
+    "vite-plugin-cjs-interop": "^2.0.6",
     "vite-tsconfig-paths": "^4.3.1"
   },
   "engines": {
