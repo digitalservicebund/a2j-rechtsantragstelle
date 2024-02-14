@@ -170,13 +170,13 @@
             "SUBMIT": [
               {
                 "cond": "hasKinderYes",
-                "target": "kind-name-geburtsdatum"
+                "target": "kinder"
               },
               "#besitz.bankkonten-frage"
             ]
           }
         },
-        "kind-name-geburtsdatum": {
+        "kinder": {
           "on": {
             "BACK": [
               {
@@ -190,7 +190,7 @@
         },
         "kind-wohnort": {
           "on": {
-            "BACK": "kind-name-geburtsdatum",
+            "BACK": "kinder",
             "SUBMIT": [
               {
                 "cond": "kindWohnortBeiAntragstellerYes",

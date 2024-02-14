@@ -12,6 +12,7 @@ import { useSecureCookie } from "~/util/useSecureCookie";
 import _ from "lodash";
 import type { Context, FlowId } from "~/models/flows/contexts";
 import { fieldIsArray, splitArrayName } from "~/util/arrayVariable";
+import type { ObjectType } from "quicktype-core";
 
 type SessionContext = "main" | FlowId;
 const fullId = (context: SessionContext, id: string) => `${context}_${id}`;
@@ -74,11 +75,32 @@ export const updateSession = (
 
   Object.entries(unflattenedArrays).forEach(([arrayName, newArrayElement]) => {
     if (session.has(arrayName)) {
-      const existingArray = session.get(arrayName) as any[];
-      if (arrayIndex !== undefined && arrayIndex < existingArray.length) {
-        existingArray[arrayIndex] = newArrayElement;
-      } else existingArray.push(newArrayElement);
-      session.set(arrayName, existingArray);
+      const existingSessionArray = session.get(arrayName) as ObjectType[];
+      if (
+        arrayIndex !== undefined &&
+        arrayIndex < existingSessionArray.length
+      ) {
+        existingSessionArray[arrayIndex] = newArrayElement as ObjectType;
+      } else {
+        if (
+          // TODO: handle case when array is empty
+          // add the new object to the last element of the array if the array is not empty
+          arrayName.includes("kinder") &&
+          !Object.keys(newArrayElement).includes(
+            "vorname" || "nachname" || "geburtsdatum",
+          )
+        ) {
+          const lastIndex = existingSessionArray.length - 1;
+          existingSessionArray[lastIndex] = {
+            ...existingSessionArray[lastIndex],
+            ...newArrayElement,
+          };
+        } else {
+          // create a new element in the array if the object is the initial object
+          existingSessionArray.push(newArrayElement);
+        }
+      }
+      session.set(arrayName, existingSessionArray);
     } else {
       session.set(arrayName, [newArrayElement]);
     }
