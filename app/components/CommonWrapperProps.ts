@@ -19,6 +19,7 @@ export type CommonWrapperProps = {
   backgroundColor?: BackgroundColor;
   paddingTop?: Padding;
   paddingBottom?: Padding;
+  fullScreen?: boolean;
 };
 
 const convertCmsPixels = (cmsPadding: StrapiPadding | null | undefined) =>

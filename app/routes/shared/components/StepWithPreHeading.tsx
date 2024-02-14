@@ -68,6 +68,7 @@ export function StepWithPreHeading() {
             <PageContent
               content={content}
               templateReplacements={templateReplacements}
+              fullScreen={false}
               className="ds-stack-16"
             />
           </div>
@@ -107,6 +108,7 @@ export function StepWithPreHeading() {
                 <PageContent
                   content={postFormContent}
                   templateReplacements={templateReplacements}
+                  fullScreen={false}
                 />
               )}
               <ButtonNavigation {...buttonNavigationProps} />
