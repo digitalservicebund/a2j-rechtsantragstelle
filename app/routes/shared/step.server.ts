@@ -204,8 +204,8 @@ export const loader = async ({
     isFinal: flowController.isFinal(stepId),
     configMetadata: flowController.getMeta(stepId),
     previousStepUrl: flowController.getPrevious(stepId)?.url,
+    returnTo,
   });
-  if (returnTo) buttonNavigationProps.back.destination = returnTo;
 
   // get navigation items -> Formular
   const navItems = navItemsFromFlowSpecifics(

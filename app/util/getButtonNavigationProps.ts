@@ -8,12 +8,14 @@ export const getButtonNavigationProps = ({
   configMetadata,
   previousStepUrl,
   isFinal,
+  returnTo,
 }: {
   commonContent: z.infer<typeof StrapiVorabCheckCommonSchema>;
   nextButtonLabel?: string | null;
   configMetadata?: Meta;
   previousStepUrl?: string;
   isFinal: boolean;
+  returnTo?: string;
 }) => {
   return {
     next:
@@ -25,7 +27,7 @@ export const getButtonNavigationProps = ({
               configMetadata?.buttonNavigationProps?.next?.destination,
           },
     back: {
-      destination: previousStepUrl,
+      destination: returnTo ?? previousStepUrl,
       label: commonContent.backButtonDefaultLabel,
     },
   };
