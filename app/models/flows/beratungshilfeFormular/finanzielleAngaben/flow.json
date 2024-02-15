@@ -181,7 +181,7 @@
             "BACK": [
               {
                 "cond": "hasKinderYes",
-                "target": "uebersicht"
+                "target": "zusammenfassung"
               },
               "kinder-frage"
             ],
@@ -208,14 +208,14 @@
                 "cond": "kindEigeneEinnahmenYes",
                 "target": "kind-eigene-einnahmen"
               },
-              "uebersicht"
+              "zusammenfassung"
             ]
           }
         },
         "kind-eigene-einnahmen": {
           "on": {
             "BACK": "kind-eigene-einnahmen-frage",
-            "SUBMIT": "uebersicht"
+            "SUBMIT": "zusammenfassung"
           }
         },
         "kind-unterhalt-frage": {
@@ -233,16 +233,16 @@
         "kind-unterhalt": {
           "on": {
             "BACK": "kind-unterhalt-frage",
-            "SUBMIT": "uebersicht"
+            "SUBMIT": "zusammenfassung"
           }
         },
         "kind-unterhalt-ende": {
           "on": {
             "BACK": "kind-unterhalt-frage",
-            "SUBMIT": "uebersicht"
+            "SUBMIT": "zusammenfassung"
           }
         },
-        "uebersicht": {
+        "zusammenfassung": {
           "on": {
             "BACK": "kinder-frage",
             "SUBMIT": "#besitz.bankkonten-frage"
