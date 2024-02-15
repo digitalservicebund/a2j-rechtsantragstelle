@@ -95,13 +95,19 @@ export const loader = async ({
   // eslint-disable-next-line sonarjs/cognitive-complexity
 }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
+
+  // get data from request
   const { pathname, searchParams } = new URL(request.url);
   const returnTo = searchParams.get("returnTo") ?? undefined;
   const { flowId, stepId, arrayIndex } = parsePathname(pathname);
   const cookieId = request.headers.get("Cookie");
+
+  // get data from redis
   const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
   const flowContext: Context = data; // Recast for now to get type safety
   context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
+
+  // get flow controller
   const currentFlow = flows[flowId];
   const flowController = buildFlowController({
     config: currentFlow.config,
@@ -109,19 +115,21 @@ export const loader = async ({
     guards: currentFlow.guards,
   });
 
+  // check funnel logic -> Vorabcheck + Formular?
   if (!returnTo && !flowController.isReachable(stepId))
     return redirectDocument(flowController.getInitial().url);
 
+  // get migration data to display -> Formular
   // Not having data here could skip the migration step
   let migrationData: Record<string, unknown> = {};
   if (stepId === "intro/daten-uebernahme" && "migrationSource" in currentFlow)
     migrationData = await getMigrationData(flowId, currentFlow, cookieId);
 
+  // get all relevant strapi data
   const pathNameWithoutArrayIndex = `/${flowId}/${stepId}`;
   const lookupPath = pathNameWithoutArrayIndex.includes("persoenliche-daten")
     ? pathNameWithoutArrayIndex.replace("fluggastrechte", "geld-einklagen")
     : pathNameWithoutArrayIndex;
-
   const [
     commonContent,
     formPageContent,
@@ -129,16 +137,18 @@ export const loader = async ({
     translations,
     navTranslations,
   ] = await Promise.all([
-    fetchSingleEntry("vorab-check-common"),
+    fetchSingleEntry("vorab-check-common"), // TODO replace with translations
     fetchCollectionEntry(currentFlow.cmsSlug, lookupPath),
     fetchMeta({ filterValue: parentFromParams(pathname, params) }),
     fetchTranslations(flowId),
     fetchTranslations(`${flowId}/menu`),
   ]);
 
+  // filter user data for current step
   const fieldNames = formPageContent.form.map((entry) => entry.name);
   const stepData = stepDataFromFieldNames(fieldNames, data, arrayIndex);
 
+  // get array data to display in ArraySummary -> Formular + Vorabcheck?
   const arrayData: ArrayCollection = Object.fromEntries(
     formPageContent.pre_form.filter(isStrapiArraySummary).map((entry) => {
       const possibleArray = flowContext[entry.arrayKey];
@@ -150,6 +160,8 @@ export const loader = async ({
   );
 
   // Inject heading into <legend> inside radio groups
+  // TODO: only do for pages with *one* select?
+  // TODO: We're not doing this for vorabcheck anymore -> revert acd2634b90b2edd95493fe140bd1c316a7b81ad8
   formPageContent.form.forEach(({ __component, label }, idx) => {
     if (
       __component === "form-elements.select" &&
@@ -161,10 +173,15 @@ export const loader = async ({
     }
   });
 
+  // update session with csrf
   const csrf = createCSRFToken();
-  const sessionContext = getSessionForContext("main");
   const session = await csrfSessionFromRequest(csrf, request);
+
+  // update session with last valid step
   session.set(lastStepKey, { [flowId]: stepId });
+
+  // set session in header
+  const sessionContext = getSessionForContext("main");
   const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
 
   const cmsContent = structureCmsContent(formPageContent);
