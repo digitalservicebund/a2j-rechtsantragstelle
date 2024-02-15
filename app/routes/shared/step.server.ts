@@ -144,6 +144,33 @@ export const loader = async ({
     fetchTranslations(`${flowId}/menu`),
   ]);
 
+  // Inject heading into <legend> inside radio groups
+  // TODO: only do for pages with *one* select?
+  // TODO: We're not doing this for vorabcheck anymore -> revert acd2634b90b2edd95493fe140bd1c316a7b81ad8
+  formPageContent.form.forEach(({ __component, label }, idx) => {
+    if (
+      __component === "form-elements.select" &&
+      label === null &&
+      "heading" in formPageContent
+    ) {
+      (formPageContent.form[idx] as StrapiSelect).altLabel =
+        formPageContent.heading;
+    }
+  });
+
+  // structure cms content -> merge with getting data?
+  const cmsContent = structureCmsContent(formPageContent);
+
+  // get meta content for step, used in breadcrumbs -> actually only Vorabcheck, *but* used in root.tsx
+  const meta = stepMeta(formPageContent.meta, parentMeta);
+
+  // get list of template replacements -> replace data placeholder in content directly here?
+  const templateReplacements = {
+    ...("stringReplacements" in currentFlow
+      ? currentFlow.stringReplacements(flowContext)
+      : {}),
+  };
+
   // filter user data for current step
   const fieldNames = formPageContent.form.map((entry) => entry.name);
   const stepData = stepDataFromFieldNames(fieldNames, data, arrayIndex);
@@ -159,20 +186,6 @@ export const loader = async ({
     }),
   );
 
-  // Inject heading into <legend> inside radio groups
-  // TODO: only do for pages with *one* select?
-  // TODO: We're not doing this for vorabcheck anymore -> revert acd2634b90b2edd95493fe140bd1c316a7b81ad8
-  formPageContent.form.forEach(({ __component, label }, idx) => {
-    if (
-      __component === "form-elements.select" &&
-      label === null &&
-      "heading" in formPageContent
-    ) {
-      (formPageContent.form[idx] as StrapiSelect).altLabel =
-        formPageContent.heading;
-    }
-  });
-
   // update session with csrf
   const csrf = createCSRFToken();
   const session = await csrfSessionFromRequest(csrf, request);
@@ -184,8 +197,7 @@ export const loader = async ({
   const sessionContext = getSessionForContext("main");
   const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
 
-  const cmsContent = structureCmsContent(formPageContent);
-
+  // get navigation destinations + labels
   const buttonNavigationProps = getButtonNavigationProps({
     commonContent,
     nextButtonLabel: cmsContent.nextButtonLabel,
@@ -193,8 +205,17 @@ export const loader = async ({
     configMetadata: flowController.getMeta(stepId),
     previousStepUrl: flowController.getPrevious(stepId)?.url,
   });
-
   if (returnTo) buttonNavigationProps.back.destination = returnTo;
+
+  // get navigation items -> Formular
+  const navItems = navItemsFromFlowSpecifics(
+    stepId,
+    flowController,
+    navTranslations,
+  );
+
+  // get progress -> Vorabcheck
+  const progress = flowController.getProgress(stepId);
 
   return json(
     {
@@ -203,21 +224,13 @@ export const loader = async ({
       arrayData,
       commonContent,
       ...cmsContent,
-      meta: stepMeta(formPageContent.meta, parentMeta),
+      meta,
       migrationData,
       translations,
-      progress: flowController.getProgress(stepId),
-      templateReplacements: {
-        ...("stringReplacements" in currentFlow
-          ? currentFlow.stringReplacements(flowContext)
-          : {}),
-      },
+      progress,
+      templateReplacements,
       buttonNavigationProps,
-      navItems: navItemsFromFlowSpecifics(
-        stepId,
-        flowController,
-        navTranslations,
-      ),
+      navItems,
       returnTo,
     },
     { headers },
