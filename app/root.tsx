@@ -32,7 +32,7 @@ import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { CookieBanner } from "./services/analytics/Analytics";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { useNonce } from "./services/security/nonce";
-import { metaFromMatches } from "./services/metaFromMatches";
+import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import FeedbackBanner, { augmentFeedback } from "./components/FeedbackBanner";

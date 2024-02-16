@@ -16,6 +16,11 @@ async function lastStepFromRequest(request: Request) {
   return mainSession.get(lastStepKey) as undefined | LastStep;
 }
 
+async function setLastStep(request: Request) {
+  const mainSession = await mainSessionFromRequest(request);
+  return mainSession.get(lastStepKey) as undefined | LastStep;
+}
+
 export async function loader({ request }: LoaderFunctionArgs) {
   await throw404IfFeatureFlagEnabled(request);
   const { pathname, searchParams } = new URL(request.url);

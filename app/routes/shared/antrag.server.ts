@@ -5,15 +5,14 @@ import { getSessionForContext, updateSession } from "~/services/session.server";
 import {
   fetchCollectionEntry,
   fetchMeta,
-  fetchSingleEntry,
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { buildStepValidator } from "~/models/flows/common";
-import type { ArrayCollection, Context } from "~/models/flows/contexts";
+import type { Context } from "~/models/flows/contexts";
 import { getContext, parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
-import type { StrapiSelect } from "~/services/cms/models/StrapiSelect";
+import { isStrapiSelectComponent } from "~/services/cms/models/StrapiSelect";
 import {
   createCSRFToken,
   csrfSessionFromRequest,
@@ -26,7 +25,7 @@ import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { navItemsFromFlowSpecifics } from "~/services/flowNavigation.server";
 import type { z } from "zod";
 import type { CollectionSchemas } from "~/services/cms/schemas";
-import { getButtonNavigationProps } from "~/util/getButtonNavigationProps";
+import { buttonProps } from "~/util/buttonProps";
 import { sendCustomEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
@@ -36,13 +35,12 @@ import {
   arrayIndexFromFormData,
   deleteFromArrayInplace,
 } from "~/services/session.server/arrayDeletion";
-import type { StrapiMeta } from "~/services/cms/models/StrapiMeta";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
+import { interpolateDeep } from "~/util/fillTemplate";
+import { stepMeta } from "~/services/meta/formStepMeta";
 
 const structureCmsContent = (
-  formPageContent: z.infer<
-    CollectionSchemas["form-flow-pages" | "vorab-check-pages"]
-  >,
+  formPageContent: z.infer<CollectionSchemas["form-flow-pages"]>,
 ) => {
   return {
     heading: "heading" in formPageContent ? formPageContent.heading : undefined,
@@ -55,7 +53,7 @@ const structureCmsContent = (
     content: formPageContent.pre_form,
     formContent: formPageContent.form,
     postFormContent:
-      "post_form" in formPageContent ? formPageContent.post_form : undefined,
+      "post_form" in formPageContent ? formPageContent.post_form : [],
   };
 };
 
@@ -78,22 +76,10 @@ function stepDataFromFieldNames(
   );
 }
 
-function stepMeta(pageMeta: StrapiMeta, parentMeta: StrapiMeta | null) {
-  // The breadcrumb should not contain the current step title
-  // Also, the parent page title needs to be appended manually to the title
-  return {
-    description: pageMeta.description ?? parentMeta?.description,
-    breadcrumbTitle: parentMeta?.title,
-    ogTitle: pageMeta.ogTitle ?? parentMeta?.ogTitle,
-    title: `${pageMeta.title} - ${parentMeta?.title ?? ""}`,
-  };
-}
-
 export const loader = async ({
   params,
   request,
   context,
-  // eslint-disable-next-line sonarjs/cognitive-complexity
 }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
 
@@ -120,64 +106,54 @@ export const loader = async ({
   if (!returnTo && !flowController.isReachable(stepId))
     return redirectDocument(flowController.getInitial().url);
 
-  // get migration data to display -> Formular
-  // Not having data here could skip the migration step
-  let migrationData: Record<string, unknown> = {};
-  if (stepId === "intro/daten-uebernahme" && "migrationSource" in currentFlow)
-    migrationData = await getMigrationData(flowId, currentFlow, cookieId);
-
   // get all relevant strapi data
   const pathNameWithoutArrayIndex = `/${flowId}/${stepId}`;
   const lookupPath = pathNameWithoutArrayIndex.includes("persoenliche-daten")
     ? pathNameWithoutArrayIndex.replace("fluggastrechte", "geld-einklagen")
     : pathNameWithoutArrayIndex;
+
   const [
-    commonContent,
     formPageContent,
     parentMeta,
-    translations,
-    navTranslations,
+    flowStrings,
+    navigationStrings,
+    defaultStrings,
   ] = await Promise.all([
-    fetchSingleEntry("vorab-check-common"), // TODO replace with translations
-    fetchCollectionEntry(currentFlow.cmsSlug, lookupPath),
+    fetchCollectionEntry("form-flow-pages", lookupPath),
     fetchMeta({ filterValue: parentFromParams(pathname, params) }),
     fetchTranslations(flowId),
     fetchTranslations(`${flowId}/menu`),
+    fetchTranslations("vorabcheck"), // TODO: rename to defaultTranslations in strapi?
   ]);
+  // structure cms content -> merge with getting data?
+  const cmsContent = interpolateDeep(
+    structureCmsContent(formPageContent),
+    "stringReplacements" in currentFlow
+      ? currentFlow.stringReplacements(flowContext)
+      : {},
+  );
 
   // Inject heading into <legend> inside radio groups
   // TODO: only do for pages with *one* select?
-  // TODO: We're not doing this for vorabcheck anymore -> revert acd2634b90b2edd95493fe140bd1c316a7b81ad8
-  formPageContent.form.forEach(({ __component, label }, idx) => {
+  const formElements = cmsContent.formContent.map((strapiFormElement) => {
     if (
-      __component === "form-elements.select" &&
-      label === null &&
-      "heading" in formPageContent
-    ) {
-      (formPageContent.form[idx] as StrapiSelect).altLabel =
-        formPageContent.heading;
-    }
+      isStrapiSelectComponent(strapiFormElement) &&
+      strapiFormElement.label === null &&
+      cmsContent.heading
+    )
+      strapiFormElement.altLabel = cmsContent.heading;
+    return strapiFormElement;
   });
-
-  // structure cms content -> merge with getting data?
-  const cmsContent = structureCmsContent(formPageContent);
 
   // get meta content for step, used in breadcrumbs -> actually only Vorabcheck, *but* used in root.tsx
   const meta = stepMeta(formPageContent.meta, parentMeta);
-
-  // get list of template replacements -> replace data placeholder in content directly here?
-  const templateReplacements = {
-    ...("stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(flowContext)
-      : {}),
-  };
 
   // filter user data for current step
   const fieldNames = formPageContent.form.map((entry) => entry.name);
   const stepData = stepDataFromFieldNames(fieldNames, data, arrayIndex);
 
   // get array data to display in ArraySummary -> Formular + Vorabcheck?
-  const arrayData: ArrayCollection = Object.fromEntries(
+  const arrayData = Object.fromEntries(
     formPageContent.pre_form.filter(isStrapiArraySummary).map((entry) => {
       const possibleArray = flowContext[entry.arrayKey];
       return [
@@ -199,40 +175,50 @@ export const loader = async ({
   const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
 
   // get navigation destinations + labels
-  const buttonNavigationProps = getButtonNavigationProps({
-    commonContent,
-    nextButtonLabel: cmsContent.nextButtonLabel,
-    isFinal: flowController.isFinal(stepId),
-    configMetadata: flowController.getMeta(stepId),
-    previousStepUrl: flowController.getPrevious(stepId)?.url,
-    returnTo,
-  });
+  const buttonNavigationProps = {
+    next: flowController.isFinal(stepId)
+      ? undefined
+      : buttonProps(
+          cmsContent.nextButtonLabel ??
+            defaultStrings["nextButtonDefaultLabel"],
+        ),
+    back: buttonProps(
+      defaultStrings["backButtonDefaultLabel"],
+      returnTo ?? flowController.getPrevious(stepId)?.url,
+    ),
+  };
 
   // get navigation items -> Formular
   const navItems = navItemsFromFlowSpecifics(
     stepId,
     flowController,
-    navTranslations,
+    navigationStrings,
   );
 
-  // get progress -> Vorabcheck
-  const progress = flowController.getProgress(stepId);
+  // get migration data to display -> Formular
+  const migrationData = await getMigrationData(
+    stepId,
+    flowId,
+    currentFlow,
+    cookieId,
+  );
 
   return json(
     {
-      csrf,
-      defaultValues: stepData,
       arrayData,
-      commonContent,
-      ...cmsContent,
+      buttonNavigationProps,
+      content: cmsContent.content,
+      csrf,
+      formElements,
+      heading: cmsContent.heading,
       meta,
       migrationData,
-      translations,
-      progress,
-      templateReplacements,
-      buttonNavigationProps,
       navItems,
+      postFormContent: cmsContent.postFormContent,
+      preHeading: cmsContent.preHeading,
       returnTo,
+      stepData,
+      translations: flowStrings,
     },
     { headers },
   );
@@ -284,16 +270,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     );
   updateSession(flowSession, validationResult.data, arrayIndex);
 
-  if (
-    stepId === "intro/daten-uebernahme" &&
-    "migrationSource" in currentFlow &&
-    validationResult.data["doMigration"] === "yes"
-  ) {
-    const migrationData = await getMigrationData(flowId, currentFlow, cookieId);
+  const migrationData = await getMigrationData(
+    stepId,
+    flowId,
+    currentFlow,
+    cookieId,
+  );
+  if (migrationData && validationResult.data["doMigration"] === "yes") {
     updateSession(flowSession, migrationData);
   }
-
-  const headers = { "Set-Cookie": await commitSession(flowSession) };
 
   const flowController = buildFlowController({
     config: flows[flowId].config,
@@ -315,5 +300,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       ? returnTo
       : flowController.getNext(stepId)?.url ?? flowController.getInitial().url;
 
+  const headers = { "Set-Cookie": await commitSession(flowSession) };
   return redirectDocument(destination, { headers });
 };

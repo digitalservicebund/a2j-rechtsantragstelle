@@ -9,24 +9,22 @@ import { buildStepValidator } from "~/models/flows/common";
 import { getContext, flowIDFromPathname } from "~/models/flows/contexts";
 import { CSRFKey } from "~/services/security/csrfKey";
 import { splatFromParams } from "~/services/params";
-import type { loader } from "../step.server";
+import type { loader } from "../vorabcheck.server";
 
-export function StepWithProgressBar() {
+export function VorabcheckPage() {
   const {
     csrf,
-    defaultValues,
-    commonContent,
-    content,
-    formContent,
-    progress,
-    templateReplacements,
+    stepData,
+    contentElements,
+    formElements,
+    progressProps,
     buttonNavigationProps,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
   const flowId = flowIDFromPathname(pathname);
   const context = getContext(flowId);
-  const fieldNames = formContent.map((entry) => entry.name);
+  const fieldNames = formElements.map((entry) => entry.name);
   const validator = buildStepValidator(context, fieldNames);
 
   return (
@@ -34,28 +32,20 @@ export function StepWithProgressBar() {
       <div className="min-h-screen">
         <Container paddingTop="24" paddingBottom="64">
           <div className="ds-stack-16">
-            <ProgressBar
-              label={commonContent.progressBarLabel}
-              progress={progress.current}
-              max={progress.total}
-            />
+            <ProgressBar {...progressProps} />
             <div className="ds-stack-40">
-              <PageContent
-                content={content}
-                templateReplacements={templateReplacements}
-                className="ds-stack-16"
-              />
+              <PageContent content={contentElements} className="ds-stack-16" />
               <ValidatedForm
                 id={`${stepId}_form`}
                 method="post"
                 validator={validator}
-                defaultValues={defaultValues}
+                defaultValues={stepData}
                 noValidate
                 action={pathname}
               >
                 <input type="hidden" name={CSRFKey} value={csrf} />
                 <div className="ds-stack-40">
-                  <PageContent content={formContent} className="ds-stack-40" />
+                  <PageContent content={formElements} className="ds-stack-40" />
                   <ButtonNavigation {...buttonNavigationProps} />
                 </div>
               </ValidatedForm>

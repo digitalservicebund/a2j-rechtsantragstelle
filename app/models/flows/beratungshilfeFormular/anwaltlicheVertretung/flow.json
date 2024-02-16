@@ -60,14 +60,7 @@
       }
     },
     "anwalt-ende": {
-      "meta": {
-        "buttonNavigationProps": {
-          "next": null
-        }
-      },
-      "on": {
-        "BACK": "beratungStattgefundenDatum"
-      }
+      "on": { "BACK": "beratungStattgefundenDatum" }
     }
   }
 }

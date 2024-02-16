@@ -2,17 +2,28 @@ import { type Flow } from "~/models/flows/flows.server";
 import { type FlowId, getContext } from "~/models/flows/contexts";
 import { getSessionForContext } from ".";
 
-export async function getMigrationData(
+const migrationKey = "daten-uebernahme";
+
+async function doMigration(
   flowId: FlowId,
-  currentFlow: Flow,
+  migrationSource: FlowId,
+  cookieId: string,
+) {
+  const { data } =
+    await getSessionForContext(migrationSource).getSession(cookieId);
+  return Object.fromEntries(
+    Object.entries(data).filter(([key]) => key in getContext(flowId)),
+  );
+}
+
+export function getMigrationData(
+  stepId: string,
+  flowId: FlowId,
+  flow: Flow,
   cookieId: string | null,
 ) {
-  const { migrationSource } = currentFlow;
-  if (!migrationSource || cookieId === null) return {};
-  const context = getContext(flowId);
-  const session = getSessionForContext(migrationSource);
-  const migrationSession = await session.getSession(cookieId);
-  return Object.fromEntries(
-    Object.entries(migrationSession.data).filter(([key]) => key in context),
-  );
+  const { migrationSource } = flow;
+  if (!migrationSource || !stepId.includes(migrationKey) || cookieId === null)
+    return undefined;
+  return doMigration(flowId, migrationSource, cookieId);
 }
