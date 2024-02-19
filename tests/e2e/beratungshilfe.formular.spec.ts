@@ -25,7 +25,10 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startGrundvoraussetzungen(page);
   await startAnwaltlicheVertretung(page);
   await startRechtsproblem(page);
+  await startFinanzielleAngaben(page);
+});
 
+async function startFinanzielleAngaben(page: Page) {
   // beratungshilfe/antrag/finanzielleAngaben/einkommen/staatliche-leistungen
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("staatlicheLeistungen", "keine");
@@ -42,7 +45,20 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   );
 
   // beratungshilfe/antrag/finanzielleAngaben/einkommen/situation
-});
+  await expectPageToBeAccessible({ page });
+  await beratungshilfeFormular.fillRadioPage("berufsituation", "student");
+
+  // beratungshilfe/antrag/finanzielleAngaben/einkommen/weiteres-einkommen
+  await expectPageToBeAccessible({ page });
+  await beratungshilfeFormular.fillCheckboxPage(
+    "weitereseinkommen.unterhaltszahlungen",
+    "weitereseinkommen.wohngeld",
+  );
+
+  // beratungshilfe/antrag/finanzielleAngaben/einkommen/weiteres-einkommen
+  await expectPageToBeAccessible({ page });
+  await beratungshilfeFormular.fillInputPage("einkommen", "100");
+}
 
 async function startRechtsproblem(page: Page) {
   // beratungshilfe/antrag/rechtsproblem/start
@@ -55,7 +71,7 @@ async function startRechtsproblem(page: Page) {
 
   // beratungshilfe/antrag/rechtsproblem/beschreibung
   await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillInputPage(
+  await beratungshilfeFormular.fillTextareaPage(
     "beschreibung",
     "Ich habe ein Problem mit der Verwaltung",
   );
@@ -66,14 +82,14 @@ async function startRechtsproblem(page: Page) {
 
   // beratungshilfe/antrag/rechtsproblem/eigeninitiativeBeschreibung
   await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillInputPage(
+  await beratungshilfeFormular.fillTextareaPage(
     "eigeninitiativeBeschreibung",
     "Ich habe das Problem gelöst",
   );
 
   // beratungshilfe/antrag/rechtsproblem/sonstiges
   await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillInputPage(
+  await beratungshilfeFormular.fillTextareaPage(
     "sonstiges",
     "Ich habe das Problem gelöst",
   );
@@ -101,7 +117,6 @@ async function startAnwaltlicheVertretung(page: Page) {
     day: "2-digit",
   });
 
-  console.log(dateFormat);
   await beratungshilfeFormular.fillInputPage(
     "beratungStattgefundenDatum",
     dateFormat,

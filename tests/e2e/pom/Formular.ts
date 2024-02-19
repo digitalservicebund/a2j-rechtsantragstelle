@@ -39,9 +39,10 @@ export class Formular {
 
   async fillCheckboxPage(...fields: string[]) {
     for (const field of fields) {
-      await this.page.locator(`${field}`).click();
+      await this.page
+        .locator(`input[type="checkbox"][name=${field.split(".").join("\\.")}]`)
+        .click({ timeout: this.timeout });
     }
-
     await this.clickNext();
   }
 
