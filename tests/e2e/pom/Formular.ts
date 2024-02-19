@@ -37,6 +37,14 @@ export class Formular {
     await this.clickNext();
   }
 
+  async fillCheckboxPage(...fields: string[]) {
+    for (const field of fields) {
+      await this.page.locator(`${field}`).click();
+    }
+
+    await this.clickNext();
+  }
+
   async fillTextareaPage(field: string, value: string) {
     await this.page
       .locator(`textarea[name=${field.split(".").join("\\.")}]`)
