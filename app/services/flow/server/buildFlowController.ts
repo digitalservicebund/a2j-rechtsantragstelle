@@ -19,11 +19,6 @@ export type Meta = {
   done: (context: Context) => boolean | undefined;
   subflowState: (context: Context, subflowId: string) => SubflowState;
   subflowDone: (context: Context, subflowId: string) => boolean | undefined;
-  buttonNavigationProps?: {
-    next?: {
-      destination?: string;
-    };
-  };
 };
 
 const getSteps = (machine: StateMachine) => {
