@@ -1,7 +1,7 @@
-import { hasTrackingConsent } from "./gdprCookie.server";
 import { config } from "../env/web";
 import { parse } from "cookie";
 import { getPosthogClient } from "./posthogClient.server";
+import type { Context } from "~/models/flows/contexts";
 
 function idFromCookie(request: Request) {
   // Note: can't use cookie.parse(): https://github.com/remix-run/remix/discussions/5198
@@ -14,20 +14,25 @@ function idFromCookie(request: Request) {
   return phCookieObject["distinct_id"] ?? ENVIRONMENT;
 }
 
-export async function sendCustomEvent(
-  eventName: string,
-  context: Record<string, any>,
-  request: Request,
-) {
-  if (!(await hasTrackingConsent({ request }))) return;
-
+export function sendCustomEvent({
+  request,
+  eventName,
+  context,
+  properties,
+}: {
+  request: Request;
+  eventName: string;
+  context?: Context;
+  properties?: Record<string, string | boolean | undefined>;
+}) {
   getPosthogClient()?.capture({
     distinctId: idFromCookie(request),
     event: eventName,
     properties: {
+      ...context,
       // eslint-disable-next-line camelcase
       $current_url: new URL(request.url).pathname,
-      ...context,
+      ...properties,
     },
   });
 }

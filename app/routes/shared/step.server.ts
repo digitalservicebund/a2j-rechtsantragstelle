@@ -37,6 +37,7 @@ import {
   deleteFromArrayInplace,
 } from "~/services/session.server/arrayDeletion";
 import type { StrapiMeta } from "~/services/cms/models/StrapiMeta";
+import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 
 const structureCmsContent = (
   formPageContent: z.infer<
@@ -301,8 +302,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   });
 
   const customEventName = flowController.getMeta(stepId)?.customEventName;
-  if (customEventName)
-    void sendCustomEvent(customEventName, validationResult.data, request);
+  if (customEventName && (await hasTrackingConsent({ request })))
+    sendCustomEvent({
+      eventName: customEventName,
+      context: validationResult.data,
+      request,
+    });
 
   const returnTo = formData.get("_returnTo");
   const destination =

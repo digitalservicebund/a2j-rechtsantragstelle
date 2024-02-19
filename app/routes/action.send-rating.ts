@@ -3,9 +3,8 @@ import { json, redirect } from "@remix-run/node";
 import { BannerState } from "~/components/UserFeedback";
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
 import { getSessionForContext } from "~/services/session.server";
-import { config } from "~/services/env/web";
 import { bannerStateName } from "~/services/feedback/handleFeedback";
-import { getPosthogClient } from "~/services/analytics/posthogClient.server";
+import { sendCustomEvent } from "~/services/analytics/customEvent";
 
 export const loader = () => redirect("/");
 
@@ -32,11 +31,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const headers = { "Set-Cookie": await commitSession(session) };
 
-  getPosthogClient()?.capture({
-    distinctId: config().ENVIRONMENT,
-    event: "rating given",
-    // eslint-disable-next-line camelcase
-    properties: { wasHelpful: userRatings[url], $current_url: url, context },
+  sendCustomEvent({
+    eventName: "rating given",
+    request,
+    properties: { wasHelpful: userRatings[url], context },
   });
 
   return clientJavaScriptAvailable
