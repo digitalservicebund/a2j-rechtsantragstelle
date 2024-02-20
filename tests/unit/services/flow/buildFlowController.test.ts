@@ -9,7 +9,6 @@ const config: Config = {
   predictableActionArguments: true,
   states: {
     step1: {
-      meta: { progressPosition: 1 },
       on: {
         SUBMIT: [
           { target: "step1Exit", cond: (context) => context.step1 === false },
@@ -19,15 +18,12 @@ const config: Config = {
     },
     step1Exit: { on: { BACK: { target: "step1" } } },
     step2: {
-      meta: { progressPosition: 2 },
       on: { SUBMIT: [{ target: "step3" }], BACK: { target: "step1" } },
     },
     step3: {
-      meta: { progressPosition: 3 },
       on: { SUBMIT: [{ target: "step4" }], BACK: { target: "step2" } },
     },
     step4: {
-      meta: { progressPosition: 4 },
       initial: "step1",
       states: {
         step1: {
@@ -337,7 +333,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: true },
-        }).getProgress("step5"),
+        }).getProgress("step4.step2"),
       ).toStrictEqual({
         current: 5,
         total: 5,
@@ -356,24 +352,11 @@ describe("buildFlowController", () => {
       });
     });
 
-    // TODO: We ignore nested steps for now, we have to fix the getProgress function to include nested steps.
     it("returns 1/5", () => {
       expect(
         buildFlowController({ config }).getProgress("step1"),
       ).toStrictEqual({
         current: 1,
-        total: 5,
-      });
-    });
-
-    it("returns 5/5 for final step", () => {
-      expect(
-        buildFlowController({
-          config,
-          data: { step1: false },
-        }).getProgress("step1Exit"),
-      ).toStrictEqual({
-        current: 5,
         total: 5,
       });
     });

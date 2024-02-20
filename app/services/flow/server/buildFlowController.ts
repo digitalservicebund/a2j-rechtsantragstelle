@@ -4,17 +4,21 @@ import { getShortestPaths } from "@xstate/graph";
 import { getStateValueString } from "~/services/flow/getStateValueString";
 import type { Context } from "~/models/flows/contexts";
 import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
+import {
+  allProgress,
+  allSubmitTransitions,
+  progressLookupForMachine,
+} from "./progress";
 
 type Event = "SUBMIT" | "BACK";
 type StateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
-type StateMachine = ReturnType<
+export type StateMachine = ReturnType<
   typeof createMachine<Context, StateMachineEvents>
 >;
 export type Config = MachineConfig<Context, any, StateMachineEvents>;
 export type Guards = Record<string, (context: Context) => boolean>;
 export type Meta = {
   customEventName?: string;
-  progressPosition: number | undefined;
   isUneditable: boolean | undefined;
   done: (context: Context) => boolean | undefined;
   subflowState: (context: Context, subflowId: string) => SubflowState;
@@ -42,15 +46,8 @@ const getTransitionDestination = (
   return getStateValueString(machine.transition(currentStep, { type }).value);
 };
 
-const isFinalStep = (machine: StateMachine, stepId: string) => {
-  const transitions = machine.getStateNodeByPath(stepId).config.on;
-  return Boolean(
-    transitions &&
-      (!("SUBMIT" in transitions) ||
-        JSON.stringify(transitions["SUBMIT"]) == "{}" ||
-        JSON.stringify(transitions["SUBMIT"]) == "[]"),
-  );
-};
+const isFinalStep = (machine: StateMachine, stepId: string) =>
+  allSubmitTransitions(machine.getStateNodeByPath(stepId)).length === 0;
 
 export const buildFlowController = ({
   config,
@@ -114,17 +111,9 @@ export const buildFlowController = ({
     },
     getProgress: (currentStepId: string) => {
       const stepId = normalizeStepId(currentStepId);
-      const total =
-        Math.max(
-          ...Object.values(machine.states)
-            .map((n) => (n.meta as Meta)?.progressPosition ?? 0)
-            .filter((p) => p),
-        ) + 1;
-      const node = machine.getStateNodeByPath(stepId);
-      const current = isFinalStep(machine, stepId)
-        ? total
-        : (node.meta as Meta)?.progressPosition ?? 0;
-      return { total, current };
+      const { total, progressLookup } =
+        allProgress[machine.id] ?? progressLookupForMachine(machine);
+      return { total, current: progressLookup[stepId] };
     },
   };
 };

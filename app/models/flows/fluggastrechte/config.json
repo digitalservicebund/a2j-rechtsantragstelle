@@ -4,13 +4,11 @@
   "initial": "start",
   "states": {
     "start": {
-      "meta": { "progressPosition": 1 },
       "on": {
         "SUBMIT": "flughaefen"
       }
     },
     "flughaefen": {
-      "meta": { "progressPosition": 2 },
       "on": {
         "BACK": "start",
         "SUBMIT": [
@@ -31,7 +29,6 @@
       }
     },
     "fluggesellschaft": {
-      "meta": { "progressPosition": 3 },
       "on": {
         "BACK": "flughaefen",
         "SUBMIT": [
@@ -51,7 +48,6 @@
       }
     },
     "bereich": {
-      "meta": { "progressPosition": 4 },
       "on": {
         "BACK": "fluggesellschaft",
         "SUBMIT": [
@@ -71,7 +67,6 @@
       }
     },
     "verspaetung": {
-      "meta": { "progressPosition": 5 },
       "on": {
         "BACK": "bereich",
         "SUBMIT": [
@@ -91,7 +86,6 @@
       }
     },
     "checkin": {
-      "meta": { "progressPosition": 6 },
       "on": {
         "BACK": "verspaetung",
         "SUBMIT": [
@@ -111,7 +105,6 @@
       }
     },
     "gruende": {
-      "meta": { "progressPosition": 7 },
       "on": {
         "BACK": "checkin",
         "SUBMIT": [
@@ -127,14 +120,12 @@
       }
     },
     "gruende-hinweis": {
-      "meta": { "progressPosition": 8 },
       "on": {
         "BACK": "gruende",
         "SUBMIT": "entschaedigung"
       }
     },
     "entschaedigung": {
-      "meta": { "progressPosition": 9 },
       "on": {
         "BACK": "gruende",
         "SUBMIT": [
@@ -155,7 +146,6 @@
       }
     },
     "gericht": {
-      "meta": { "progressPosition": 10 },
       "on": {
         "BACK": "entschaedigung",
         "SUBMIT": [
@@ -176,7 +166,6 @@
       }
     },
     "abtretung": {
-      "meta": { "progressPosition": 11 },
       "on": {
         "BACK": "gericht",
         "SUBMIT": [
@@ -197,7 +186,6 @@
       }
     },
     "kostenlos": {
-      "meta": { "progressPosition": 12 },
       "on": {
         "BACK": "abtretung",
         "SUBMIT": [
@@ -217,7 +205,6 @@
       }
     },
     "rabatt": {
-      "meta": { "progressPosition": 13 },
       "on": {
         "BACK": "kostenlos",
         "SUBMIT": [
@@ -238,7 +225,6 @@
       }
     },
     "buchung": {
-      "meta": { "progressPosition": 14 },
       "on": {
         "BACK": "rabatt",
         "SUBMIT": [

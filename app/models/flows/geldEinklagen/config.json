@@ -4,13 +4,11 @@
   "initial": "start",
   "states": {
     "start": {
-      "meta": { "progressPosition": 1 },
       "on": {
         "SUBMIT": "forderung"
       }
     },
     "forderung": {
-      "meta": { "progressPosition": 2 },
       "on": {
         "SUBMIT": [
           {
@@ -33,7 +31,6 @@
       "on": { "BACK": { "target": "forderung" } }
     },
     "geldspanne": {
-      "meta": { "progressPosition": 3 },
       "on": {
         "SUBMIT": [
           {
@@ -60,7 +57,6 @@
       "on": { "BACK": { "target": "geldspanne" } }
     },
     "gerichtskostenvorschuss": {
-      "meta": { "progressPosition": 4 },
       "on": {
         "SUBMIT": [
           {
@@ -74,7 +70,6 @@
       "on": { "BACK": { "target": "gerichtskostenvorschuss" } }
     },
     "bereich": {
-      "meta": { "progressPosition": 6 },
       "on": {
         "SUBMIT": [
           {
@@ -119,7 +114,6 @@
       "on": { "BACK": { "target": "bereich" } }
     },
     "wohnraeume": {
-      "meta": { "progressPosition": 7 },
       "on": {
         "SUBMIT": [
           {
@@ -135,7 +129,6 @@
       }
     },
     "flug": {
-      "meta": { "progressPosition": 8 },
       "on": {
         "SUBMIT": [
           {
@@ -151,7 +144,6 @@
       }
     },
     "privatperson": {
-      "meta": { "progressPosition": 9 },
       "on": {
         "SUBMIT": [
           {
@@ -192,7 +184,6 @@
       "on": { "BACK": { "target": "flug" } }
     },
     "gegenseite": {
-      "meta": { "progressPosition": 10 },
       "on": {
         "SUBMIT": [
           {
@@ -212,7 +203,6 @@
       }
     },
     "gegenseite-person-deutschland": {
-      "meta": { "progressPosition": 11 },
       "on": {
         "SUBMIT": [
           {
@@ -232,7 +222,6 @@
       }
     },
     "wohnraum-plz": {
-      "meta": { "progressPosition": 12 },
       "on": {
         "SUBMIT": [
           { "cond": "wohnraumPlzPartnerCourt", "target": "gegenseite-kontakt" },
@@ -242,7 +231,6 @@
       }
     },
     "gegenseite-person-plz": {
-      "meta": { "progressPosition": 12 },
       "on": {
         "SUBMIT": [
           {
@@ -259,7 +247,6 @@
       }
     },
     "gegenseite-unternehmen-deutschland": {
-      "meta": { "progressPosition": 11 },
       "on": {
         "SUBMIT": [
           {
@@ -286,7 +273,6 @@
       }
     },
     "gegenseite-unternehmen-plz": {
-      "meta": { "progressPosition": 12 },
       "on": {
         "SUBMIT": [
           {
@@ -305,7 +291,6 @@
       }
     },
     "schaden-plz": {
-      "meta": { "progressPosition": 13 },
       "on": {
         "SUBMIT": [
           {
@@ -329,7 +314,6 @@
       }
     },
     "ort-leistung-plz": {
-      "meta": { "progressPosition": 13 },
       "on": {
         "SUBMIT": [
           {
@@ -342,7 +326,6 @@
       }
     },
     "gegenseite-kontakt": {
-      "meta": { "progressPosition": 14 },
       "on": {
         "SUBMIT": [
           {
@@ -366,7 +349,6 @@
       }
     },
     "eigeninitiative-warnung": {
-      "meta": { "progressPosition": 15 },
       "on": {
         "SUBMIT": [
           {
@@ -381,7 +363,6 @@
       }
     },
     "gegenseite-frist": {
-      "meta": { "progressPosition": 15 },
       "on": {
         "SUBMIT": [
           {
@@ -405,7 +386,6 @@
       }
     },
     "frist-warnung": {
-      "meta": { "progressPosition": 15 },
       "on": {
         "SUBMIT": [
           {
@@ -420,7 +400,6 @@
       }
     },
     "digital-ausweisen": {
-      "meta": { "progressPosition": 16 },
       "on": {
         "SUBMIT": [
           {
