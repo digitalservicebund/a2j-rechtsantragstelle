@@ -9,7 +9,6 @@ const config: Config = {
   initial: "step1",
   states: {
     step1: {
-      meta: { progressPosition: 1 },
       on: {
         SUBMIT: [
           {
@@ -22,15 +21,12 @@ const config: Config = {
     },
     step1Exit: { on: { BACK: { target: "step1" } } },
     step2: {
-      meta: { progressPosition: 2 },
       on: { SUBMIT: [{ target: "step3" }], BACK: { target: "step1" } },
     },
     step3: {
-      meta: { progressPosition: 3 },
       on: { SUBMIT: [{ target: "step4" }], BACK: { target: "step2" } },
     },
     step4: {
-      meta: { progressPosition: 4 },
       initial: "step1",
       states: {
         step1: {
@@ -239,7 +235,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: true },
-        }).getProgress("step5"),
+        }).getProgress("step4.step2"),
       ).toStrictEqual({
         progress: 5,
         max: 5,
@@ -264,18 +260,6 @@ describe("buildFlowController", () => {
         buildFlowController({ config }).getProgress("step1"),
       ).toStrictEqual({
         progress: 1,
-        max: 5,
-      });
-    });
-
-    it("returns 5/5 for final step", () => {
-      expect(
-        buildFlowController({
-          config,
-          data: { step1: false },
-        }).getProgress("step1Exit"),
-      ).toStrictEqual({
-        progress: 5,
         max: 5,
       });
     });

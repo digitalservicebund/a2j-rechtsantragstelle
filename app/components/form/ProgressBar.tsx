@@ -1,6 +1,6 @@
 interface ProgressBarProps {
-  readonly progress: number;
-  readonly max: number;
+  readonly progress?: number;
+  readonly max?: number;
   readonly fallback?: string;
   readonly label?: string;
 }
