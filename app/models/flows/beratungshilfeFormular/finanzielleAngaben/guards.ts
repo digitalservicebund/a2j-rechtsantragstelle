@@ -33,6 +33,16 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("zusammenleben"),
   ...yesNoGuards("unterhalt"),
   ...yesNoGuards("partnerEinkommen"),
+  ...yesNoGuards("hasBankkonto"),
+  ...yesNoGuards("hasAdditionalBankkonto"),
+  ...yesNoGuards("hasKraftfahrzeug"),
+  ...yesNoGuards("hasAdditionalKraftfahrzeug"),
+  ...yesNoGuards("hasGeldanlage"),
+  ...yesNoGuards("hasAdditionalGeldanlage"),
+  ...yesNoGuards("hasGrundeigentum"),
+  ...yesNoGuards("hasAdditionalGrundeigentum"),
+  ...yesNoGuards("hasWertsache"),
+  ...yesNoGuards("hasAdditionalWertsache"),
   isPartnerschaftZusammenlebenEinkommenNo: (
     context: BeratungshilfeFinanzielleAngaben,
   ) =>

@@ -65,19 +65,17 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/cached-checkout-install
       - name: Install cosign
-        uses: sigstore/cosign-installer@9614fae9e5c5eddabb09f90a270fcb487c9f7149
+        uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4
       - run: ./docker.sh --build app
       - run: ./docker.sh --push app
       - run: ./docker.sh --build prod
-      - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
-      - name: Generate cosign vulnerability scan record for PROD image
-        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
+
         with:
           image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.PROD_IMAGE_TAG }}
           format: "cosign-vuln"
           output: "vulnerabilities.json"
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
+        uses: aquasecurity/trivy-action@84384bd6e777ef152729993b8145ea352e9dd3ef
         with:
           image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.PROD_IMAGE_TAG }}
           format: "sarif"

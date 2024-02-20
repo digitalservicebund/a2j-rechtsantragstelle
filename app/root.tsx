@@ -7,7 +7,6 @@ import type {
 import { json } from "@remix-run/node";
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -18,9 +17,6 @@ import {
 } from "@remix-run/react";
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
-import fontRegular from "/fonts/BundesSansWeb-Regular.woff2";
-import fontBold from "/fonts/BundesSansWeb-Bold.woff2";
-import ogImage from "/og-image.png";
 import { withSentry } from "@sentry/remix";
 import { config as configWeb } from "~/services/env/web";
 import {
@@ -60,14 +56,14 @@ export const links: LinksFunction = () => [
     rel: "preload",
     as: "font",
     type: "font/woff2",
-    href: fontRegular,
+    href: "/fonts/BundesSansWeb-Regular.woff2",
     crossOrigin: "anonymous",
   },
   {
     rel: "preload",
     as: "font",
     type: "font/woff2",
-    href: fontBold,
+    href: "/fonts/BundesSansWeb-Bold.woff2",
     crossOrigin: "anonymous",
   },
   { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
@@ -81,7 +77,7 @@ export const meta: MetaFunction<typeof loader> = () => {
     { charSet: "utf-8" },
     { name: "viewport", content: "width=device-width,initial-scale=1" },
     { property: "og:type", content: "website" },
-    { property: "og:image", content: `https://service.justiz.de${ogImage}` },
+    { property: "og:image", content: "https://service.justiz.de/og-image.png" },
   ];
 };
 
@@ -134,19 +130,6 @@ function App() {
         <meta property="og:description" content={description} />
         <script
           nonce={nonce}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: `
-          ${JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "Justiz-Services",
-            url: "https://service.justiz.de/",
-          })}`,
-          }}
-        />
-        <script
-          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `window.ENV = ${JSON.stringify(configWeb())}`,
           }}
@@ -168,7 +151,6 @@ function App() {
         <Footer {...footer} />
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
-        <LiveReload nonce={nonce} />
       </body>
     </html>
   );

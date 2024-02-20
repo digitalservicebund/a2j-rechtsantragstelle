@@ -6,26 +6,38 @@ import type { GeldEinklagenFormularContext } from "./geldEinklagenFormular/conte
 import type { GeldEinklagenVorabcheckContext } from "./geldEinklagen/context";
 import type { BeratungshilfeVorabcheckContext } from "./beratungshilfe/context";
 import type { FluggastrechtContext } from "./fluggastrechteFormular/context";
+import type { BeratungshilfeAntragContext } from "./beratungshilfeFormular";
+import { fieldIsArray, splitArrayName } from "~/util/arrayVariable";
 
 export type AllContexts =
   | GeldEinklagenFormularContext
   | GeldEinklagenVorabcheckContext
   | BeratungshilfeVorabcheckContext
+  | BeratungshilfeAntragContext
   | FluggastrechtContext;
 type Schemas = Record<string, z.ZodTypeAny>;
 
 export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
-  const fieldSchemas: Record<string, z.ZodTypeAny> = {};
+  const fieldValidators: Record<string, z.ZodTypeAny> = {};
 
   for (const fieldname of fieldNames) {
-    // In case of nested fields, we take the parent key
-    const stepOrFieldName = fieldname.split(".")[0];
-    if (!isKeyOfObject(stepOrFieldName, schemas)) {
-      throw Error(`No schema found for ${stepOrFieldName as string}`);
+    if (fieldIsArray(fieldname)) {
+      const [arrayName, arrayFieldname] = splitArrayName(fieldname);
+      const arraySchema = schemas[arrayName] as z.ZodArray<z.AnyZodObject>;
+      const objectSchemas = arraySchema.element.shape as Schemas;
+      if (!isKeyOfObject(arrayFieldname, objectSchemas)) {
+        throw Error(`No schema found for ${arrayFieldname as string}`);
+      }
+      fieldValidators[fieldname] = objectSchemas[arrayFieldname];
+    } else {
+      const stepOrFieldName = fieldname.split(".")[0];
+      if (!isKeyOfObject(stepOrFieldName, schemas)) {
+        throw Error(`No schema found for ${stepOrFieldName as string}`);
+      }
+      fieldValidators[stepOrFieldName] = schemas[stepOrFieldName];
     }
-    fieldSchemas[stepOrFieldName] = schemas[stepOrFieldName];
   }
-  return withZod(z.object(fieldSchemas));
+  return withZod(z.object(fieldValidators));
 }
 
 export function getReasonsToDisplay(

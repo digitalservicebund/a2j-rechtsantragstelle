@@ -40,13 +40,18 @@ import { renderAlertFromStrapi } from "~/services/cms/models/StrapiAlert";
 type PageContentProps = {
   readonly content: Array<StrapiContent>;
   readonly templateReplacements?: Replacements;
+  readonly fullScreen?: boolean;
   readonly className?: string;
 };
 
 export const keyFromElement = (element: StrapiContent) =>
   `${element.__component}_${element.id ?? 0}`;
 
-function wrapInContainer(cmsData: StrapiContent, reactElement: ReactElement) {
+function wrapInContainer(
+  cmsData: StrapiContent,
+  reactElement: ReactElement,
+  fullScreen: boolean | undefined,
+) {
   if (!("container" in cmsData) || cmsData.container === null)
     return reactElement;
   const isBox = cmsData.__component === "page.box";
@@ -54,7 +59,11 @@ function wrapInContainer(cmsData: StrapiContent, reactElement: ReactElement) {
 
   const props = wrapperPropsFromCms(cmsData.container);
   return (
-    <Container {...props} overhangingBackground={isBox || isBoxWithImage}>
+    <Container
+      {...props}
+      overhangingBackground={isBox || isBoxWithImage}
+      fullScreen={fullScreen}
+    >
       {reactElement}
     </Container>
   );
@@ -123,20 +132,29 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
   }
 }
 
+const skipComponents = ["page.array-summary"];
+
 const PageContent = ({
   content = [],
   templateReplacements = {},
+  fullScreen,
   className,
 }: PageContentProps) => (
   <div className={className}>
-    {content.map((el) => (
-      <div key={keyFromElement(el)}>
-        {wrapInBackground(
-          el,
-          wrapInContainer(el, cmsToReact(el, templateReplacements)),
-        )}
-      </div>
-    ))}
+    {content
+      .filter((el) => !skipComponents.includes(el.__component))
+      .map((el) => (
+        <div key={keyFromElement(el)}>
+          {wrapInBackground(
+            el,
+            wrapInContainer(
+              el,
+              cmsToReact(el, templateReplacements),
+              fullScreen,
+            ),
+          )}
+        </div>
+      ))}
   </div>
 );
 

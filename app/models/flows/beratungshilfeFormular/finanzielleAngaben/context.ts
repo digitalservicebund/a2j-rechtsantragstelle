@@ -7,6 +7,23 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
+import { postcodeSchema } from "~/services/validation/postcode";
+
+const Eigentuemer = z.enum(
+  ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
+  customRequiredErrorMessage,
+);
+
+const GrundeigentumArt = z.enum(
+  [
+    "apartment",
+    "houseForFamily",
+    "houseWithMultipleApartments",
+    "property",
+    "hereditaryBuildingLaw",
+  ],
+  customRequiredErrorMessage,
+);
 
 export const beratungshilfeFinanzielleAngaben = {
   einkommen: buildMoneyValidationSchema(),
@@ -35,6 +52,87 @@ export const beratungshilfeFinanzielleAngaben = {
   partnerEinkommenSumme: buildMoneyValidationSchema(),
   partnerVorname: inputRequiredSchema,
   partnerNachname: inputRequiredSchema,
+  hasBankkonto: YesNoAnswer,
+  bankkonten: z.array(
+    z.object({
+      bankName: inputRequiredSchema,
+      kontostand: buildMoneyValidationSchema(),
+      iban: z.string(),
+      kontoEigentuemer: Eigentuemer,
+    }),
+  ),
+  hasAdditionalBankkonto: YesNoAnswer,
+  hasKraftfahrzeug: YesNoAnswer,
+  kraftfahrzeuge: z.array(
+    z.object({
+      art: inputRequiredSchema,
+      marke: inputRequiredSchema,
+      eigentuemer: Eigentuemer,
+      verkaufswert: buildMoneyValidationSchema(),
+      kilometerstand: inputRequiredSchema,
+      anschaffungsjahr: z.string(),
+      baujahr: inputRequiredSchema,
+      bemerkung: inputRequiredSchema,
+      arbeitsweg: inputRequiredSchema,
+    }),
+  ),
+  hasAdditionalKraftfahrzeug: YesNoAnswer,
+  hasGeldanlage: YesNoAnswer,
+  geldanlagen: z.array(
+    z.object({
+      art: z.enum(
+        ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
+        customRequiredErrorMessage,
+      ),
+      eigentuemer: Eigentuemer,
+      verwendungszweck: inputRequiredSchema,
+      auszahlungwert: buildMoneyValidationSchema(),
+      auszahlungdatum: inputRequiredSchema,
+    }),
+  ),
+  hasAdditionalGeldanlage: YesNoAnswer,
+  hasGrundeigentum: YesNoAnswer,
+  grundeigentumBewohnt: z.array(
+    z.object({
+      art: GrundeigentumArt,
+      eigentuemer: Eigentuemer,
+      flaeche: inputRequiredSchema,
+      verkaufswert: buildMoneyValidationSchema(),
+    }),
+  ),
+  grundeigentum: z.array(
+    z.object({
+      art: GrundeigentumArt,
+      eigentuemer: Eigentuemer,
+      flaeche: inputRequiredSchema,
+      verkaufswert: buildMoneyValidationSchema(),
+      strassehausnummer: inputRequiredSchema,
+      plz: postcodeSchema,
+      ort: inputRequiredSchema,
+      land: inputRequiredSchema,
+    }),
+  ),
+  hasAdditionalGrundeigentum: YesNoAnswer,
+  hasWertsache: YesNoAnswer,
+  wertsachen: z.array(
+    z.object({
+      art: z.enum(
+        [
+          "cash",
+          "valuableItem",
+          "digitalMoney",
+          "securities",
+          "claim",
+          "equalizationOfGains",
+          "other",
+        ],
+        customRequiredErrorMessage,
+      ),
+      eigentuemer: Eigentuemer,
+      wert: buildMoneyValidationSchema(),
+    }),
+  ),
+  hasAdditionalWertsache: YesNoAnswer,
 };
 
 const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();
@@ -44,22 +142,26 @@ export const beratungshilfeFinanzielleAngabeDone = (
   context: BeratungshilfeFinanzielleAngaben,
 ) => einkommenDone(context) && partnerDone(context);
 
+export type SubflowState = "Done" | "Open" | "Hidden";
+
 export const beratungshilfeFinanzielleAngabenSubflowState = (
   context: BeratungshilfeFinanzielleAngaben,
   subflowId: string,
-) => {
+): SubflowState => {
   switch (subflowId) {
     case "einkommen":
       if (einkommenDone(context)) return "Done";
+      break;
     case "partner":
-      if (!partnerReachable(context)) return undefined;
+      if (!partnerReachable(context)) return "Hidden";
       if (partnerDone(context)) return "Done";
-      return "Open";
+      break;
     case "besitz":
-      return "Open";
-    default:
-      return undefined;
+      if (!besitzReachable(context)) return "Hidden";
+      if (besitzDone(context)) return "Done";
   }
+
+  return "Open";
 };
 
 const hasStaatlicheLeistungen = (context: BeratungshilfeFinanzielleAngaben) =>
@@ -83,3 +185,16 @@ const einkommenDone = (context: BeratungshilfeFinanzielleAngaben) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen(context)) ||
   context.einkommen != undefined;
+
+const besitzReachable = (context: BeratungshilfeFinanzielleAngaben) =>
+  context.staatlicheLeistungen &&
+  (context.staatlicheLeistungen === "buergergeld" ||
+    context.staatlicheLeistungen === "andereLeistung" ||
+    context.staatlicheLeistungen === "keine");
+
+const besitzDone = (context: BeratungshilfeFinanzielleAngaben) =>
+  context.hasBankkonto !== undefined &&
+  context.hasKraftfahrzeug !== undefined &&
+  context.hasGeldanlage !== undefined &&
+  context.hasGrundeigentum !== undefined &&
+  context.hasWertsache !== undefined;

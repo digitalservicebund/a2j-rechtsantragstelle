@@ -1,9 +1,15 @@
 import _ from "lodash";
 import {
+  type BeratungshilfeAnwaltlicheVertretung,
+  beratungshilfeAnwaltlicheVertretungGuards,
+  anwaltlicheVertretungDone,
+} from "./anwaltlicheVertretung/context";
+import {
   type BeratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungenGuards,
   grundvoraussetzungDone,
 } from "./grundvoraussetzung/context";
+import beratungshilfeAnwaltlicheVertretungFlow from "./anwaltlicheVertretung/flow.json";
 import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.json";
 import beratungshilfeAntragFlow from "./flow.json";
 import rechtsproblemFlow from "./rechtsproblem/flow.json";
@@ -26,6 +32,9 @@ import {
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
+import type { AllContexts } from "~/models/flows/common";
+import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import type { BeratungshilfeAbgabe } from "~/models/flows/beratungshilfeFormular/abgabe/context";
 
 export const beratungshilfeAntrag = {
   cmsSlug: "form-flow-pages",
@@ -41,7 +50,7 @@ export const beratungshilfeAntrag = {
               on: {
                 SUBMIT: [
                   {
-                    target: "#rechtsproblem.start",
+                    target: "#anwaltlicheVertretung.start",
                     cond: "eigeninitiativeGrundvorraussetzungNo",
                   },
                   {
@@ -53,12 +62,39 @@ export const beratungshilfeAntrag = {
           },
         },
       ),
+      anwaltlicheVertretung: _.merge(
+        _.cloneDeep(beratungshilfeAnwaltlicheVertretungFlow),
+        {
+          meta: { done: anwaltlicheVertretungDone },
+          states: {
+            start: {
+              on: {
+                BACK: "#grundvoraussetzungen.eigeninitiativeGrundvorraussetzung",
+              },
+            },
+            anwaltKontaktdaten: { on: { SUBMIT: "#rechtsproblem.start" } },
+          },
+        },
+      ),
+
       rechtsproblem: _.merge(_.cloneDeep(rechtsproblemFlow), {
         meta: { done: rechtsproblemDone },
         states: {
           start: {
             on: {
-              BACK: "#grundvoraussetzungen.eigeninitiativeGrundvorraussetzung",
+              BACK: [
+                {
+                  cond: "anwaltskanzleiNo",
+                  target: "#anwaltlicheVertretung.start",
+                },
+                {
+                  cond: "beratungStattgefundenNo",
+                  target: "#anwaltlicheVertretung.beratungStattgefunden",
+                },
+                {
+                  target: "#anwaltlicheVertretung.anwaltKontaktdaten",
+                },
+              ],
             },
           },
           danke: { on: { SUBMIT: "#finanzielleAngaben" } },
@@ -70,7 +106,11 @@ export const beratungshilfeAntrag = {
           subflowState: beratungshilfeFinanzielleAngabenSubflowState,
         },
         states: {
-          start: { on: { BACK: "#rechtsproblem.danke" } },
+          einkommen: {
+            states: {
+              "staatliche-leistungen": { on: { BACK: "#rechtsproblem.danke" } },
+            },
+          },
           danke: { on: { SUBMIT: "#persoenlicheDaten" } },
         },
       }),
@@ -80,27 +120,75 @@ export const beratungshilfeAntrag = {
           start: { on: { BACK: "#finanzielleAngaben.danke" } },
           danke: {
             on: {
-              SUBMIT: { target: "#abgabe.download", cond: "readyForAbgabe" },
+              SUBMIT: [{ target: "#abgabe.art", cond: "readyForAbgabe" }],
             },
           },
         },
       }),
       abgabe: _.merge(_.cloneDeep(abgabeFlow), {
         states: {
-          download: { on: { BACK: "#persoenlicheDaten.danke" } },
+          art: { on: { BACK: "#persoenlicheDaten.danke" } },
         },
       }),
     },
   }),
   guards: {
     ...beratungshilfeGrundvoraussetzungenGuards,
+    ...beratungshilfeAnwaltlicheVertretungGuards,
     ...beratungshilfeRechtsproblemGuards,
     ...beratungshilfeAbgabeGuards,
     ...finanzielleAngabeGuards,
   },
+  stringReplacements: (context: AllContexts) => ({
+    ...getAmtsgerichtStrings(context),
+    ...getStaatlicheLeistungenStrings(context),
+    hasNoAnwalt:
+      !("anwaltskanzlei" in context) || context.anwaltskanzlei == "no"
+        ? "true"
+        : undefined,
+  }),
 } as const;
 
+const getAmtsgerichtStrings = (context: AllContexts) => {
+  if ("plz" in context && context.plz) {
+    try {
+      const courtData = findCourt({ zipCode: context.plz });
+      return {
+        courtName: courtData?.BEZEICHNUNG,
+        courtStreetNumber: courtData?.STR_HNR,
+        courtPlz: courtData?.PLZ_ZUSTELLBEZIRK,
+        courtOrt: courtData?.ORT,
+        courtWebsite: courtData?.URL1,
+        courtTelephone: courtData?.TEL,
+      };
+    } catch (e) {
+      console.error(`Did not find court for plz: ${context.plz}`, e);
+    }
+  }
+  return {};
+};
+
+const getStaatlicheLeistungenStrings = (context: AllContexts) => {
+  const getTrueOrUndefined = (keyWord: string) => {
+    return (
+      ("staatlicheLeistungen" in context &&
+        context.staatlicheLeistungen == keyWord &&
+        "true") ||
+      undefined
+    );
+  };
+  return {
+    hasBuergergeld: getTrueOrUndefined("buergergeld"),
+    hasGrundsicherung: getTrueOrUndefined("grundsicherung"),
+    hasAsylbewerberleistungen: getTrueOrUndefined("asylbewerberleistungen"),
+    hasAndereLeistung: getTrueOrUndefined("andereLeistung"),
+    hasNoSozialleistung: getTrueOrUndefined("keine"),
+  };
+};
+
 export type BeratungshilfeAntragContext = BeratungshilfeGrundvoraussetzungen &
+  BeratungshilfeAnwaltlicheVertretung &
   BeratungshilfeRechtsproblem &
   BeratungshilfeFinanzielleAngaben &
-  BeratungshilfePersoenlicheDaten;
+  BeratungshilfePersoenlicheDaten &
+  BeratungshilfeAbgabe;

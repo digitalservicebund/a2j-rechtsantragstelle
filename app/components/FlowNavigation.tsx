@@ -20,11 +20,31 @@ export type NavItem = {
   subflows?: NavItem[];
 };
 
-const StateIcon = ({ state }: { readonly state: NavState }) => {
-  if (state === NavState.DoneDisabled || state === NavState.Done)
-    return <CheckCircleOutlineIcon className="text-green-800" />;
+const StateIcon = ({ isDone }: { readonly isDone: boolean }) => {
+  if (isDone) return <CheckCircleOutlineIcon className="text-green-800" />;
   return <CircleOutlinedIcon />;
 };
+
+const stateIsDisabled = (state: NavState) =>
+  state === NavState.DoneDisabled || state === NavState.OpenDisabled;
+
+const stateIsDone = (state: NavState) =>
+  state === NavState.DoneDisabled || state === NavState.Done;
+
+const stateIsActive = (state: NavState) =>
+  [NavState.Current, NavState.Open, NavState.Done].includes(state);
+
+const navItemClassnames = (
+  isCurrent: boolean,
+  isDisabled: boolean,
+  isExpanded = false,
+) =>
+  "p-16 flex gap-x-16 items-center " +
+  (isCurrent ? "ds-label-02-bold " : "ds-label-02-reg hover:font-bold ") +
+  (isDisabled
+    ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none "
+    : " ") +
+  (!isDisabled && isExpanded ? "border-b-2 border-white" : "");
 
 export default function FlowNavigation({
   navItems,
@@ -46,58 +66,51 @@ export default function FlowNavigation({
   );
 }
 
-function NavItem({
-  destination,
-  label,
-  state,
-  subflows,
-}: {
-  readonly destination: string;
-  readonly state: NavState;
-  readonly label: string;
-  readonly subflows: NavItem[];
-}) {
-  const relevantSubflows = subflows.filter((subflow, index) => {
-    const isCurrentState = subflow.state === NavState.Current;
-    const isDoneState = subflow.state === NavState.Done;
-    const isReachableState = [
-      NavState.Open,
-      NavState.Current,
-      NavState.Done,
-    ].includes(subflow.state);
+function isSubflowVisible(navItems: NavItem[], index: number) {
+  if (index === 0) return true;
+  const { state } = navItems[index];
+  const isCurrentState = state === NavState.Current;
+  const isDoneState = state === NavState.Done;
+  const isReachableState = [
+    NavState.Open,
+    NavState.Current,
+    NavState.Done,
+  ].includes(state);
 
-    let isPreviousSubflowReachable = false;
+  let isPreviousSubflowReachable = false;
 
-    for (let subflowIndex = index - 1; subflowIndex >= 0; subflowIndex--) {
-      const previousSubflow = subflows[subflowIndex];
-      const previousSubflowState = previousSubflow?.state ?? NavState.Done;
-      if (previousSubflowState === NavState.OpenDisabled) continue;
-
-      isPreviousSubflowReachable = previousSubflowState === NavState.Done;
+  for (let previousIndex = index - 1; previousIndex >= 0; previousIndex--) {
+    const previousSubflow = navItems[previousIndex];
+    if (previousSubflow.state !== NavState.OpenDisabled) {
+      isPreviousSubflowReachable = previousSubflow.state === NavState.Done;
       break;
     }
+  }
 
-    return (
-      isCurrentState ||
-      isDoneState ||
-      (isReachableState && isPreviousSubflowReachable)
-    );
-  });
+  return (
+    isCurrentState ||
+    isDoneState ||
+    (isReachableState && isPreviousSubflowReachable)
+  );
+}
 
-  const collapse = useCollapse({
-    defaultExpanded: state === NavState.Current,
-  });
-
-  const isDisabled = [NavState.DoneDisabled, NavState.OpenDisabled].includes(
-    state,
+function NavItem({ destination, label, state, subflows }: Readonly<NavItem>) {
+  const visibleSubflows = (subflows ?? []).filter((_, index, navItems) =>
+    isSubflowVisible(navItems, index),
   );
 
+  const isDisabled = stateIsDisabled(state);
+  const isCurrent = state === NavState.Current;
+  const isDone = stateIsDone(state);
   const hasActiveSubflows =
-    [NavState.Current, NavState.Open, NavState.Done].includes(state) &&
-    relevantSubflows.some((subflow) =>
-      [NavState.Current, NavState.Open, NavState.Done].includes(subflow.state),
-    ) &&
-    relevantSubflows.length > 0;
+    stateIsActive(state) &&
+    visibleSubflows.some((subflow) => stateIsActive(subflow.state));
+  const collapse = useCollapse({ defaultExpanded: isCurrent });
+  const stateClassNames = navItemClassnames(
+    isCurrent,
+    isDisabled,
+    collapse.isExpanded,
+  );
 
   return (
     <li
@@ -106,29 +119,14 @@ function NavItem({
     >
       {hasActiveSubflows ? (
         <div
-          className={`p-16 md:pr-0 flex gap-x-16 items-center min-w-[242px]
-          ${
-            state === NavState.Current
-              ? "ds-label-02-bold"
-              : "ds-label-02-reg hover:font-bold"
-          } 
-          ${
-            isDisabled
-              ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none"
-              : ""
-          }
-          ${!isDisabled && collapse.isExpanded ? "border-b-2 border-white" : ""}
-        `}
-          aria-disabled={[
-            NavState.DoneDisabled,
-            NavState.OpenDisabled,
-          ].includes(state)}
+          className={`md:pr-0 min-w-[242px] ${stateClassNames}`}
+          aria-disabled={isDisabled}
         >
           <button
             className="relative flex items-center w-full cursor-pointer flex gap-x-16 items-center"
             {...collapse.getToggleProps()}
           >
-            <StateIcon state={state} />
+            <StateIcon isDone={isDone} />
             {label}
             <i className="absolute right-0 pt-1 text-base transition-transform fa fa-chevron-down group-open:rotate-180"></i>
             {collapse.isExpanded ? (
@@ -139,11 +137,18 @@ function NavItem({
           </button>
         </div>
       ) : (
-        getNavRootItem(destination, state, isDisabled, hasActiveSubflows, label)
+        <a
+          href={destination}
+          className={stateClassNames}
+          aria-disabled={isDisabled}
+        >
+          <StateIcon isDone={isDone} />
+          {label}
+        </a>
       )}
       {hasActiveSubflows && (
         <section className="w-[240px]" {...collapse.getCollapseProps()}>
-          <SubflowNavigation subflows={relevantSubflows} />
+          <SubflowNavigation subflows={visibleSubflows} />
         </section>
       )}
     </li>
@@ -160,40 +165,8 @@ function SubflowNavigation({ subflows }: { readonly subflows: NavItem[] }) {
   );
 }
 
-function getNavRootItem(
-  destination: string,
-  state: NavState,
-  isDisabled: boolean,
-  hasActiveSubflows: boolean,
-  label: string,
-) {
-  return (
-    <a
-      href={destination}
-      className={`p-16 flex gap-x-16 items-center 
-          ${
-            state === NavState.Current
-              ? "ds-label-02-bold"
-              : "ds-label-02-reg hover:font-bold"
-          } 
-          ${
-            isDisabled
-              ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none"
-              : ""
-          }
-          ${hasActiveSubflows && !isDisabled ? "border-b-2 border-white" : ""}
-        `}
-      aria-disabled={[NavState.DoneDisabled, NavState.OpenDisabled].includes(
-        state,
-      )}
-    >
-      <StateIcon state={state} />
-      {label}
-    </a>
-  );
-}
-
 function navSubflowItem(destination: string, state: NavState, label: string) {
+  const isDisabled = stateIsDisabled(state);
   return (
     <li
       data-collapse={`collapse-${destination}`}
@@ -202,23 +175,10 @@ function navSubflowItem(destination: string, state: NavState, label: string) {
     >
       <a
         href={destination}
-        className={`p-16 flex gap-x-16 items-center 
-        ${
-          state === NavState.Current
-            ? "ds-label-02-bold"
-            : "ds-label-02-reg hover:font-bold"
-        } 
-        ${
-          [NavState.DoneDisabled, NavState.OpenDisabled].includes(state)
-            ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none"
-            : ""
-        }
-        `}
-        aria-disabled={[NavState.DoneDisabled, NavState.OpenDisabled].includes(
-          state,
-        )}
+        className={navItemClassnames(state === NavState.Current, isDisabled)}
+        aria-disabled={isDisabled}
       >
-        <StateIcon state={state} />
+        <StateIcon isDone={stateIsDone(state)} />
         {label}
       </a>
     </li>

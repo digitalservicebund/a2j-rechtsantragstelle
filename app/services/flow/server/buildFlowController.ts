@@ -3,13 +3,13 @@ import { createMachine } from "xstate";
 import { getShortestPaths } from "@xstate/graph";
 import { getStateValueString } from "~/services/flow/getStateValueString";
 import type { Context } from "~/models/flows/contexts";
+import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
 
 type Event = "SUBMIT" | "BACK";
 type StateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
 type StateMachine = ReturnType<
   typeof createMachine<Context, StateMachineEvents>
 >;
-type SubflowState = "Done" | "Open" | "Unreachable" | undefined;
 export type Config = MachineConfig<Context, any, StateMachineEvents>;
 export type Guards = Record<string, (context: Context) => boolean>;
 export type Meta = {
@@ -22,7 +22,6 @@ export type Meta = {
   buttonNavigationProps?: {
     next?: {
       destination?: string;
-      downloadFile?: string;
     };
   };
 };
@@ -39,10 +38,7 @@ const getTransitionDestination = (
   type: Event,
 ) => {
   const transitions = machine.getStateNodeByPath(currentStep).config.on;
-  if (!transitions || !(type in transitions))
-    throw new Error(
-      `No transition of type ${type} defined on step ${currentStep}`,
-    );
+  if (!transitions || !(type in transitions)) return undefined;
   return getStateValueString(machine.transition(currentStep, { type }).value);
 };
 
@@ -96,6 +92,7 @@ export const buildFlowController = ({
       const stepId = normalizeStepId(currentStepId);
       if (isInitialStepId(stepId)) return undefined;
       const name = getTransitionDestination(machine, stepId, "BACK");
+      if (!name) return undefined;
       return { name, url: `${baseUrl}${denormalizeStepId(name)}` };
     },
     getNext: (currentStepId: string) => {
@@ -104,6 +101,7 @@ export const buildFlowController = ({
         normalizeStepId(currentStepId),
         "SUBMIT",
       );
+      if (!name) return undefined;
       return { name, url: `${baseUrl}${denormalizeStepId(name)}` };
     },
     getInitial: () => {

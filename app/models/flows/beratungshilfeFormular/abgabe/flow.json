@@ -1,15 +1,27 @@
 {
   "predictableActionArguments": true,
-  "initial": "download",
+  "initial": "art",
   "id": "abgabe",
   "states": {
-    "download": {
-      "meta": {
-        "buttonNavigationProps": {
-          "next": {
-            "destination": "/beratungshilfe/antrag/pdf",
-            "downloadFile": "Beratungshilfe Antrag.pdf"
-          }
+    "art": {
+      "on": {
+        "SUBMIT": [
+          { "target": "online", "cond": "abgabeOnline" },
+          { "target": "ausdrucken", "cond": "abgabeAusdrucken" }
+        ]
+      }
+    },
+    "ausdrucken": {
+      "on": {
+        "BACK": {
+          "target": "art"
+        }
+      }
+    },
+    "online": {
+      "on": {
+        "BACK": {
+          "target": "art"
         }
       }
     }

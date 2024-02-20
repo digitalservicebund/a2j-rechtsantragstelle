@@ -9,11 +9,10 @@
       "states": {
         "staatliche-leistungen": {
           "on": {
-            "BACK": "#finanzielleAngaben",
             "SUBMIT": [
               {
                 "cond": "staatlicheLeistungenIsBuergergeld",
-                "target": "#besitz.besitz"
+                "target": "#besitz.bankkonten-frage"
               },
               {
                 "cond": "staatlicheLeistungenIsAsylbewerberleistungen",
@@ -81,7 +80,7 @@
             "SUBMIT": [
               {
                 "cond": "partnerschaftNo",
-                "target": "#besitz.besitz"
+                "target": "#besitz.bankkonten-frage"
               },
               {
                 "cond": "partnerschaftYes",
@@ -123,7 +122,7 @@
         "keine-rolle": {
           "on": {
             "BACK": "unterhalt",
-            "SUBMIT": "#besitz.besitz"
+            "SUBMIT": "#besitz.bankkonten-frage"
           }
         },
         "unterhalts-summe": {
@@ -135,7 +134,7 @@
         "partner-name": {
           "on": {
             "BACK": "unterhalts-summe",
-            "SUBMIT": "#besitz.besitz"
+            "SUBMIT": "#besitz.bankkonten-frage"
           }
         },
         "partner-einkommen": {
@@ -148,7 +147,7 @@
               },
               {
                 "cond": "partnerEinkommenNo",
-                "target": "#besitz.besitz"
+                "target": "#besitz.bankkonten-frage"
               }
             ]
           }
@@ -156,16 +155,17 @@
         "partner-einkommen-summe": {
           "on": {
             "BACK": "partner-einkommen",
-            "SUBMIT": "#besitz.besitz"
+            "SUBMIT": "#besitz.bankkonten-frage"
           }
         }
       }
     },
     "besitz": {
       "id": "besitz",
-      "initial": "besitz",
+      "initial": "zusammenfassung",
       "states": {
-        "besitz": {
+        "bankkonten-frage": {
+          "id": "bankkonto-frage",
           "on": {
             "BACK": [
               {
@@ -194,8 +194,179 @@
               },
               "#partner.partnerschaft"
             ],
-            "SUBMIT": "#danke"
+            "SUBMIT": [
+              {
+                "cond": "hasBankkontoYes",
+                "target": "bankkonten"
+              },
+              "kraftfahrzeuge-frage"
+            ]
           }
+        },
+        "bankkonten": {
+          "id": "bankkonten",
+          "on": {
+            "SUBMIT": "weiteres-bankkonto",
+            "BACK": "bankkonten-frage"
+          }
+        },
+        "weiteres-bankkonto": {
+          "id": "weiteres-bankkonto",
+          "on": {
+            "BACK": "bankkonten-frage",
+            "SUBMIT": [
+              { "target": "bankkonten", "cond": "hasAdditionalBankkontoYes" },
+              "kraftfahrzeuge-frage"
+            ]
+          }
+        },
+        "kraftfahrzeuge-frage": {
+          "id": "kraftfahrzeuge-frage",
+          "on": {
+            "SUBMIT": [
+              {
+                "cond": "hasKraftfahrzeugYes",
+                "target": "kraftfahrzeuge"
+              },
+              "geldanlagen-frage"
+            ],
+            "BACK": [
+              {
+                "cond": "hasBankkontoYes",
+                "target": "weiteres-bankkonto"
+              },
+              "bankkonten-frage"
+            ]
+          }
+        },
+        "kraftfahrzeuge": {
+          "id": "kraftfahrzeuge",
+          "on": {
+            "SUBMIT": "weiteres-kraftfahrzeug",
+            "BACK": "kraftfahrzeuge-frage"
+          }
+        },
+        "weiteres-kraftfahrzeug": {
+          "id": "weiteres-kraftfahrzeug",
+          "on": {
+            "SUBMIT": [
+              {
+                "target": "kraftfahrzeuge",
+                "cond": "hasAdditionalKraftfahrzeugYes"
+              },
+              "geldanlagen-frage"
+            ],
+            "BACK": "kraftfahrzeuge-frage"
+          }
+        },
+        "geldanlagen-frage": {
+          "id": "geldanlagen-frage",
+          "on": {
+            "SUBMIT": [
+              {
+                "cond": "hasGeldanlageYes",
+                "target": "geldanlagen"
+              },
+              "grundeigentum-frage"
+            ],
+            "BACK": [
+              {
+                "cond": "hasKraftfahrzeugYes",
+                "target": "weiteres-kraftfahrzeug"
+              },
+              "kraftfahrzeuge-frage"
+            ]
+          }
+        },
+        "geldanlagen": {
+          "id": "geldanlagen",
+          "on": {
+            "SUBMIT": "weitere-geldanlage",
+            "BACK": "geldanlagen-frage"
+          }
+        },
+        "weitere-geldanlage": {
+          "id": "weitere-geldanlage",
+          "on": {
+            "SUBMIT": [
+              {
+                "target": "geldanlagen",
+                "cond": "hasAdditionalGeldanlageYes"
+              },
+              "grundeigentum-frage"
+            ],
+            "BACK": "geldanlagen-frage"
+          }
+        },
+        "grundeigentum-frage": {
+          "id": "grundeigentum-frage",
+          "on": {
+            "SUBMIT": [
+              {
+                "cond": "hasGrundeigentumYes",
+                "target": "grundeigentum"
+              },
+              "wertsachen-frage"
+            ],
+            "BACK": "weitere-geldanlage"
+          }
+        },
+        "grundeigentum": {
+          "id": "grundeigentum",
+          "on": {
+            "SUBMIT": "weiteres-grundeigentum",
+            "BACK": "grundeigentum-frage"
+          }
+        },
+        "weiteres-grundeigentum": {
+          "id": "weiteres-grundeigentum",
+          "on": {
+            "SUBMIT": [
+              {
+                "target": "grundeigentum",
+                "cond": "hasAdditionalGrundeigentumYes"
+              },
+              "wertsachen-frage"
+            ],
+            "BACK": "grundeigentum-frage"
+          }
+        },
+        "wertsachen-frage": {
+          "id": "wertsachen-frage",
+          "on": {
+            "SUBMIT": [
+              {
+                "cond": "hasWertsacheYes",
+                "target": "wertsachen"
+              },
+              "zusammenfassung"
+            ],
+            "BACK": "weiteres-grundeigentum"
+          }
+        },
+        "wertsachen": {
+          "id": "wertsachen",
+          "on": {
+            "SUBMIT": "weitere-wertsache",
+            "BACK": "wertsachen-frage"
+          }
+        },
+        "weitere-wertsache": {
+          "id": "weitere-wertsache",
+          "on": {
+            "SUBMIT": [
+              {
+                "target": "wertsachen",
+                "cond": "hasAdditionalWertsacheYes"
+              },
+              "zusammenfassung"
+            ],
+            "BACK": "wertsachen-frage"
+          }
+        },
+        "zusammenfassung": {
+          "id": "zusammenfassung",
+          "on": { "SUBMIT": "#danke" }
         }
       }
     },
@@ -211,10 +382,7 @@
             "cond": "staatlicheLeistungenIsGrundsicherung",
             "target": "#einkommen.staatliche-leistungen"
           },
-          {
-            "cond": "staatlicheLeistungenIsBuergergeld",
-            "target": "#besitz.besitz"
-          }
+          "#besitz.zusammenfassung"
         ]
       }
     }

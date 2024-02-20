@@ -12,11 +12,13 @@ import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/FlowNavigation";
 import { splatFromParams } from "~/services/params";
 import type { loader } from "../step.server";
+import ArraySummary from "~/components/ArraySummary";
 
 export function StepWithPreHeading() {
   const {
     csrf,
     defaultValues,
+    arrayData,
     heading,
     preHeading,
     content,
@@ -27,6 +29,7 @@ export function StepWithPreHeading() {
     buttonNavigationProps,
     translations,
     navItems,
+    returnTo,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
@@ -65,6 +68,7 @@ export function StepWithPreHeading() {
             <PageContent
               content={content}
               templateReplacements={templateReplacements}
+              fullScreen={false}
               className="ds-stack-16"
             />
           </div>
@@ -73,6 +77,19 @@ export function StepWithPreHeading() {
             migrationData={migrationData}
             translations={translations}
           />
+          {arrayData && Object.keys(arrayData).length != 0 && (
+            <div className="!mt-24">
+              {Object.entries(arrayData).map(([arrayKey, array]) => (
+                <ArraySummary
+                  key={arrayKey}
+                  arrayKey={arrayKey}
+                  arrayData={array}
+                  translations={translations}
+                  csrf={csrf}
+                />
+              ))}
+            </div>
+          )}
           <ValidatedForm
             id={`${stepId}_form`}
             method="post"
@@ -82,12 +99,17 @@ export function StepWithPreHeading() {
             action={pathname}
           >
             <input type="hidden" name={CSRFKey} value={csrf} />
+            <input type="hidden" name="_returnTo" value={returnTo} />
             <div className="ds-stack-40">
               {formContent && formContent.length != 0 && (
                 <PageContent content={formContent} className="ds-stack-40" />
               )}
               {postFormContent && postFormContent.length != 0 && (
-                <PageContent content={postFormContent} />
+                <PageContent
+                  content={postFormContent}
+                  templateReplacements={templateReplacements}
+                  fullScreen={false}
+                />
               )}
               <ButtonNavigation {...buttonNavigationProps} />
             </div>

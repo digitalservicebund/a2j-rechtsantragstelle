@@ -1,7 +1,7 @@
 import { z } from "zod";
 import isDate from "validator/lib/isDate";
 
-function dateUTCFromGermanDateString(date: string) {
+export function dateUTCFromGermanDateString(date: string) {
   const [day, month, year] = date.split(".");
   return new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
 }
@@ -30,7 +30,7 @@ export const createDateSchema = (args?: {
   earliest?: () => Date;
   latest?: () => Date;
 }) => {
-  if (args && args.earliest && args.latest && args.latest() <= args.earliest())
+  if (args?.earliest && args?.latest && args.latest() <= args.earliest())
     throw Error(
       `Latest valid ${args.latest().toDateString()} can't be before earliest valid ${args.earliest().toDateString()}`,
     );
@@ -52,13 +52,13 @@ export const createDateSchema = (args?: {
     .refine(isValidDate, { message: "invalid" })
     .superRefine((dateString, ctx) => {
       const date = dateUTCFromGermanDateString(dateString);
-      if (args && args.earliest && date < args.earliest()) {
+      if (args?.earliest && date < args.earliest()) {
         ctx.addIssue({
           code: z.ZodIssueCode.invalid_date,
           message: "too_early",
         });
       }
-      if (args && args.latest && date > args.latest()) {
+      if (args?.latest && date > args.latest()) {
         ctx.addIssue({
           code: z.ZodIssueCode.invalid_date,
           message: "too_late",

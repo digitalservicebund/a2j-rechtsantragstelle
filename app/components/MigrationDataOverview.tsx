@@ -2,9 +2,7 @@ import { type Translations } from "~/services/cms/index.server";
 import Background from "./Background";
 import Box from "./Box";
 import Container from "./Container";
-
-const lookupOrKey = (key: string, lookup: Record<string, string>) =>
-  key in lookup ? lookup[key] : key;
+import { lookupOrKey } from "../util/lookupOrKey";
 
 type MigrationDataProps = {
   readonly migrationData: Record<string, unknown>;

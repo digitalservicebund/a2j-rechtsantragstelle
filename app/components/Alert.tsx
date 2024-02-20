@@ -24,7 +24,7 @@ export const Alert = ({ identifier, heading, look, content }: AlertProps) => {
 
   return (
     <div
-      className={`ds-stack-16 scroll-my-40 rounded-lg mt-24 pt-24 pb-32 px-40 ${backgroundColor} md:max-w-[630px]`}
+      className={`ds-stack-16 scroll-my-40 rounded-lg pt-24 pb-32 px-40 ${backgroundColor} md:max-w-[630px]`}
       id={identifier}
     >
       <div className="ds-stack-4">

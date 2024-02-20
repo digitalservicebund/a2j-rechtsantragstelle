@@ -15,7 +15,6 @@ import {
   edgeCasesForPlz,
   findCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import urlMap from "~/services/gerichtsfinder/data/sanitizedURLs.json";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const splat = params["*"];
@@ -42,9 +41,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     fetchSingleEntry("amtsgericht-common"),
     fetchCollectionEntry("pages", slug),
   ]);
-
-  if (court.URL1 && court.URL1 in urlMap)
-    court.URL1 = urlMap[court.URL1 as keyof typeof urlMap];
 
   return json({ court, content, meta, common });
 };
