@@ -77,6 +77,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       reasons: reasonElementsWithID.filter((reason) =>
         Boolean(getReasonsToDisplay(data)[reason.elementId]),
       ),
+      progress: flowController.getProgress(stepId),
       nextButton,
       backButton: {
         destination: flowController.getPrevious(stepId)?.url,
