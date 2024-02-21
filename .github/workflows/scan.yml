@@ -87,7 +87,19 @@ jobs:
           registry: ${{ env.CONTAINER_REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get Docker image digest
+        id: get_docker_digest
+        run: |
+          digest=$(docker inspect --format='{{ index .RepoDigests 0 }}' ghcr.io/digitalservicebund/a2j-rechtsantragstelle:latest)
+          echo "::set-output name=digest::$digest"
+
+      - name: Print Docker image digest
+        run: echo "Image latest digest is ${{ steps.get_docker_digest.outputs.digest }}\n"
+
+      - name: Set up environment
+        run: echo "IMAGE_DIGEST=${{ steps.get_docker_digest.outputs.digest }}" >> $GITHUB_ENV
+
       - name: Attest vulnerability scan
-        run: cosign attest --yes --replace --predicate vulnerabilities.json --type vuln ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
+        run: cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $IMAGE_DIGEST
         env:
           COSIGN_EXPERIMENTAL: "true"

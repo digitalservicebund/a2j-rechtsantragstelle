@@ -141,11 +141,10 @@ case $1 in
     ;;
 --sign)
     echo "Signing images with cosign"
-    cosign sign --yes $PROD_IMAGE:$(prodImageTag)
+    DOCKER_IMAGE_DIGEST=$(docker inspect --format='{{ index .RepoDigests 0 }}' ghcr.io/digitalservicebund/a2j-rechtsantragstelle:latest)
+    cosign sign --yes $DOCKER_IMAGE_DIGEST
     echo "Attest images with cosign"
-    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $APP_IMAGE
-    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $CONTENT_IMAGE
-    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $PROD_IMAGE
+    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $DOCKER_IMAGE_DIGEST
     ;;
 *)
     echo "Unknown command $1"
