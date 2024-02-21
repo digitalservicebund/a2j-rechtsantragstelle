@@ -55,7 +55,7 @@ const ArraySummary = ({
                       text={
                         translations[`${arrayKey}.${elementKey}`] ?? elementKey
                       }
-                      tagName="h4"
+                      tagName="h3"
                       look="ds-label-02-bold"
                     />
                     {translations[

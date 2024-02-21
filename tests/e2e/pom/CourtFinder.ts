@@ -54,7 +54,7 @@ export class CourtFinder {
   }
 
   async fillSearchField(value: string) {
-    await this.page.locator("input[name=postcode]").fill(value);
+    await this.page.locator('input[name="postcode"]').fill(value);
   }
 
   async submitSearchForm() {

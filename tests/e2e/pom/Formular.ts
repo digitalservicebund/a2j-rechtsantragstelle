@@ -16,7 +16,7 @@ export class Formular {
   }
 
   async clickLabelFor(label: string) {
-    await this.page.locator(`label[for=${label}]`).click();
+    await this.page.locator(`label[for="${label}"]`).click();
   }
 
   async select(field: string, option: string) {
@@ -27,7 +27,7 @@ export class Formular {
 
   async clickNext() {
     await this.page
-      .locator(`button[name=${this.nextButtonName}]`)
+      .locator(`button[name="${this.nextButtonName}"]`)
       .click({ timeout: this.timeout });
     await this.page.waitForNavigation(); // deprecated but URL for waitForURL is unknown
   }
@@ -37,25 +37,31 @@ export class Formular {
     await this.clickNext();
   }
 
-  async fillCheckboxPage(...fields: string[]) {
-    for (const field of fields) {
+  async fillCheckboxes(...checkboxNames: string[]) {
+    for (const checkboxName of checkboxNames) {
       await this.page
-        .locator(`input[type="checkbox"][name=${field.split(".").join("\\.")}]`)
+        .locator(
+          `input[type="checkbox"][name="${checkboxName.split(".").join("\\.")}"]`,
+        )
         .click({ timeout: this.timeout });
     }
+  }
+
+  async fillCheckboxesPage(...checkboxNames: string[]) {
+    await this.fillCheckboxes(...checkboxNames);
     await this.clickNext();
   }
 
   async fillTextareaPage(field: string, value: string) {
     await this.page
-      .locator(`textarea[name=${field.split(".").join("\\.")}]`)
+      .locator(`textarea[name="${field.split(".").join("\\.")}"]`)
       .fill(value);
     await this.clickNext();
   }
 
   async fillInput(field: string, value: string) {
     await this.page
-      .locator(`input[name=${field.split(".").join("\\.")}]`)
+      .locator(`input[name="${field.split(".").join("\\.")}"]`)
       .fill(value);
   }
 
