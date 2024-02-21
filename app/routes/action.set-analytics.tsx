@@ -8,8 +8,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { searchParams } = new URL(request.url);
   const clientJavaScriptAvailable = searchParams.get("js");
 
-  const cookie = await consentCookieFromRequest({ request });
-  const headers = { "Set-Cookie": cookie };
+  const headers = await consentCookieFromRequest({ request });
 
   if (clientJavaScriptAvailable) {
     return json({ success: true }, { headers });
