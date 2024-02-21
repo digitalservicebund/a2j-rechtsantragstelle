@@ -1,4 +1,4 @@
-import { beratungshilfeAntrag } from "~/models/flows/beratungshilfeFormular";
+import { beratungshilfeFormular } from "~/models/flows/beratungshilfeFormular";
 import { beratungshilfeVorabcheck } from "~/models/flows/beratungshilfe";
 import { geldEinklagenVorabcheck } from "~/models/flows/geldEinklagen";
 import { geldEinklagenFormular } from "~/models/flows/geldEinklagenFormular";
@@ -20,7 +20,7 @@ export type Flow = {
 };
 
 export const flows = {
-  "beratungshilfe/antrag": beratungshilfeAntrag,
+  "beratungshilfe/antrag": beratungshilfeFormular,
   "beratungshilfe/vorabcheck": beratungshilfeVorabcheck,
   "geld-einklagen/vorabcheck": geldEinklagenVorabcheck,
   "geld-einklagen/formular": geldEinklagenFormular,

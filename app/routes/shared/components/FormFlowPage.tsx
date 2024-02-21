@@ -10,10 +10,10 @@ import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/FlowNavigation";
 import { splatFromParams } from "~/services/params";
-import type { loader } from "../antrag.server";
+import type { loader } from "../formular.server";
 import ArraySummary from "~/components/ArraySummary";
 
-export function AntragPage() {
+export function FormFlowPage() {
   const {
     arrayData,
     buttonNavigationProps,

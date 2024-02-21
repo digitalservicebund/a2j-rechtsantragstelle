@@ -6,14 +6,14 @@ import type { GeldEinklagenFormularContext } from "./geldEinklagenFormular/conte
 import type { GeldEinklagenVorabcheckContext } from "./geldEinklagen/context";
 import type { BeratungshilfeVorabcheckContext } from "./beratungshilfe/context";
 import type { FluggastrechtContext } from "./fluggastrechteFormular/context";
-import type { BeratungshilfeAntragContext } from "./beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "./beratungshilfeFormular";
 import { fieldIsArray, splitArrayName } from "~/util/arrayVariable";
 
 export type AllContexts =
   | GeldEinklagenFormularContext
   | GeldEinklagenVorabcheckContext
   | BeratungshilfeVorabcheckContext
-  | BeratungshilfeAntragContext
+  | BeratungshilfeFormularContext
   | FluggastrechtContext;
 type Schemas = Record<string, z.ZodTypeAny>;
 
