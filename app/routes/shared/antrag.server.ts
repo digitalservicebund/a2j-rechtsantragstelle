@@ -91,14 +91,14 @@ export const loader = async ({
 
   // get data from redis
   const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
-  const flowContext: Context = data; // Recast for now to get type safety
+  const userDataFromRedis: Context = data; // Recast for now to get type safety
   context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
 
   // get flow controller
   const currentFlow = flows[flowId];
   const flowController = buildFlowController({
     config: currentFlow.config,
-    data: flowContext,
+    data: userDataFromRedis,
     guards: currentFlow.guards,
   });
 
@@ -129,7 +129,7 @@ export const loader = async ({
   const cmsContent = interpolateDeep(
     structureCmsContent(formPageContent),
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(flowContext)
+      ? currentFlow.stringReplacements(userDataFromRedis)
       : {},
   );
 
@@ -155,7 +155,7 @@ export const loader = async ({
   // get array data to display in ArraySummary -> Formular + Vorabcheck?
   const arrayData = Object.fromEntries(
     formPageContent.pre_form.filter(isStrapiArraySummary).map((entry) => {
-      const possibleArray = flowContext[entry.arrayKey];
+      const possibleArray = userDataFromRedis[entry.arrayKey];
       return [
         entry.arrayKey,
         Array.isArray(possibleArray) ? possibleArray : [],

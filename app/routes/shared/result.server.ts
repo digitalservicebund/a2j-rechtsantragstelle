@@ -64,8 +64,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       };
 
   const { getSession, commitSession } = getSessionForContext("main");
-  const session = await getSession(cookieId);
-  session.set(lastStepKey, { [flowId]: stepId });
+  const userDataFromRedis = await getSession(cookieId);
+  userDataFromRedis.set(lastStepKey, { [flowId]: stepId });
 
   return json(
     {
@@ -83,7 +83,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         label: common.backButtonDefaultLabel,
       },
       bannerState:
-        getFeedbackBannerState(session, pathname) ?? BannerState.ShowRating,
+        getFeedbackBannerState(userDataFromRedis, pathname) ??
+        BannerState.ShowRating,
       amtsgerichtCommon,
       courts:
         cmsData.pageType === "success" &&
@@ -93,7 +94,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
             findCourt({ zipCode: partnerCourtAirports[airport] }),
           ),
     },
-    { headers: { "Set-Cookie": await commitSession(session) } },
+    { headers: { "Set-Cookie": await commitSession(userDataFromRedis) } },
   );
 };
 

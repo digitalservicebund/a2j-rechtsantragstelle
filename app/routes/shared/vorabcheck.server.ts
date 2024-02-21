@@ -107,9 +107,12 @@ export const loader = async ({
 
   // get navigation destinations + labels
   const buttonNavigationProps = {
-    next: buttonProps(
-      vorabcheckPage.nextButtonLabel ?? translations["nextButtonDefaultLabel"],
-    ),
+    next: flowController.isFinal(stepId)
+      ? undefined
+      : buttonProps(
+          vorabcheckPage.nextButtonLabel ??
+            translations["nextButtonDefaultLabel"],
+        ),
     back: buttonProps(
       translations["backButtonDefaultLabel"],
       flowController.getPrevious(stepId)?.url,
