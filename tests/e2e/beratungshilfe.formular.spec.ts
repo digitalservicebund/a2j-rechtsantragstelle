@@ -354,19 +354,14 @@ async function startAnwaltlicheVertretung(page: Page) {
   await beratungshilfeFormular.clickNext();
 }
 
-// test("funnel: invalid step redirects to start", async ({ page }) => {
-//   await page.goto(`${fluggastrechte.url}/stepDoesNotExist`);
-//   await expect(page).toHaveURL(
-//     new RegExp(`.+${fluggastrechte.url}/${fluggastrechte.initialStep}$`),
-//   );
-// });
-
-// test("funnel: last enabled step can be accessed directly", async ({ page }) => {
-//   await page.goto(`${fluggastrechte.url}/versand/einverstaendnis`);
-//   await expect(page).toHaveURL(
-//     new RegExp(`.+${fluggastrechte.url}/versand/einverstaendnis$`),
-//   );
-// });
+test("funnel: invalid step redirects to start", async ({ page }) => {
+  await page.goto(`${beratungshilfeFormular.url}/stepDoesNotExist`);
+  await expect(page).toHaveURL(
+    new RegExp(
+      `.+${beratungshilfeFormular.url}/${beratungshilfeFormular.initialStep}$`,
+    ),
+  );
+});
 
 async function startGrundvoraussetzungen(page: Page) {
   // beratungshilfe/antrag/grundvoraussetzungen/start
