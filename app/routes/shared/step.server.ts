@@ -304,9 +304,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const customEventName = flowController.getMeta(stepId)?.customEventName;
   if (customEventName && (await hasTrackingConsent({ request })))
     sendCustomEvent({
-      eventName: customEventName,
-      context: validationResult.data,
       request,
+      eventName: customEventName,
+      properties: { context: validationResult.data },
     });
 
   const returnTo = formData.get("_returnTo");

@@ -38,34 +38,28 @@ async function createTrackingCookie({
   consent,
 }: CookieArgs & { consent?: boolean }) {
   const cookie = await parseTrackingCookie({ request });
-  let cookieUpdated = false;
   const stringifiedConsentValue = consent ? "true" : "false";
-  if (cookie[acceptCookiesFieldName] !== stringifiedConsentValue) {
-    cookie[acceptCookiesFieldName] =
-      consent === undefined ? undefined : stringifiedConsentValue;
-    sendCustomEvent({
-      eventName: "cookie consent given",
-      request,
-      properties: { consent: stringifiedConsentValue },
-    });
-    cookieUpdated = true;
-  }
-  return {
-    cookie: await gdprCookie.serialize(cookie),
-    updated: cookieUpdated,
-  };
+  if (cookie[acceptCookiesFieldName] === stringifiedConsentValue)
+    return {} as HeadersInit;
+  cookie[acceptCookiesFieldName] =
+    consent === undefined ? undefined : stringifiedConsentValue;
+  sendCustomEvent({
+    eventName: "cookie consent given",
+    request,
+    properties: { consent: stringifiedConsentValue },
+  });
+  return { "Set-Cookie": await gdprCookie.serialize(cookie) } as HeadersInit;
 }
 
 export async function consentCookieFromRequest({
   request,
 }: {
   request: Request;
-}): Promise<Record<string, string | never>> {
+}) {
   const formData = await request.formData();
   const fieldContent = formData.get(acceptCookiesFieldName);
   let consent = undefined;
   if (fieldContent === "true") consent = true;
   else if (fieldContent === "false") consent = false;
-  const { cookie, updated } = await createTrackingCookie({ request, consent });
-  return updated ? { "Set-Cookie": cookie } : {};
+  return createTrackingCookie({ request, consent });
 }

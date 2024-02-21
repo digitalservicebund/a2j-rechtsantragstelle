@@ -34,7 +34,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   sendCustomEvent({
     eventName: "rating given",
     request,
-    properties: { wasHelpful: userRatings[url], context },
+    properties: {
+      wasHelpful: userRatings[url],
+      context,
+    },
   });
 
   return clientJavaScriptAvailable
