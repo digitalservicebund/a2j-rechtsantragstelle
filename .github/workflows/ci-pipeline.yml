@@ -70,16 +70,17 @@ jobs:
       - run: ./docker.sh --build app
       - run: ./docker.sh --push app
       - run: ./docker.sh --build prod
-      - name: Generate cosign vulnerability scan record
+      - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
+      - name: Generate cosign vulnerability scan record for PROD image
         uses: aquasecurity/trivy-action@84384bd6e777ef152729993b8145ea352e9dd3ef
         with:
-          image-ref: "${{ env.REGISTRY }}/${{ github.repository }}"
+          image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.PROD_IMAGE_TAG }}
           format: "cosign-vuln"
           output: "vulnerabilities.json"
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@84384bd6e777ef152729993b8145ea352e9dd3ef
         with:
-          image-ref: "${{ env.REGISTRY }}/${{ github.repository }}"
+          image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.PROD_IMAGE_TAG }}
           format: "sarif"
           output: "trivy-results.sarif"
           ignore-unfixed: true
@@ -91,15 +92,14 @@ jobs:
           sarif_file: "trivy-results.sarif"
       - run: ./docker.sh --push prod
       - run: ./docker.sh --sign
-      - run: ./docker.sh --attest
       - id: prod_image_tag
         run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
     outputs:
       prod_image_tag: ${{ steps.prod_image_tag.outputs.prod_image_tag }}
 
   deploy-staging:
-    needs: [build-push-app-image]
     if: github.ref == 'refs/heads/main'
+    needs: [build-push-app-image]
     runs-on: ubuntu-latest
     environment: staging
     steps:

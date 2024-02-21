@@ -66,12 +66,6 @@ case $1 in
     getAppFromLatestImage $DESTINATION
     exit 0
     ;;
---attest)
-    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $APP_IMAGE
-    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $CONTENT_IMAGE
-    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $PROD_IMAGE
-    exit 0
-    ;;
 --contentFromImage)
     IMAGE_CONTENT_FILE=./content_from_image.json
     echo "Extracting content from $CONTENT_IMAGE into $IMAGE_CONTENT_FILE..."
@@ -96,7 +90,7 @@ case $1 in
     case ${TARGET} in
     app)
         LATEST_GIT_TAG=$(git rev-parse HEAD)
-        APP_IMAGE_TAG=$APP_IMAGE:$LATEST_GIT_TAG
+        APP_IMAGE_TAG=$APP_IMAGE
 
         npm run build
         npm run build-storybook
@@ -133,7 +127,7 @@ case $1 in
     case ${TARGET} in
     app)
         echo "Pushing $APP_IMAGE..."
-        docker push --all-tags $APP_IMAGE
+        docker push $APP_IMAGE
         ;;
     content)
         echo "Pushing $CONTENT_IMAGE..."
@@ -147,9 +141,11 @@ case $1 in
     ;;
 --sign)
     echo "Signing images with cosign"
-    cosign sign --yes $APP_IMAGE
-    cosign sign --yes $CONTENT_IMAGE
-    cosign sign --yes $PROD_IMAGE
+    cosign sign --yes $PROD_IMAGE:$(prodImageTag)
+    echo "Attest images with cosign"
+    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $APP_IMAGE
+    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $CONTENT_IMAGE
+    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $PROD_IMAGE
     ;;
 *)
     echo "Unknown command $1"
