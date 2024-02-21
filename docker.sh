@@ -127,7 +127,7 @@ case $1 in
     case ${TARGET} in
     app)
         echo "Pushing $APP_IMAGE..."
-        docker push $APP_IMAGE
+        docker push --all-tags $APP_IMAGE
         ;;
     content)
         echo "Pushing $CONTENT_IMAGE..."
