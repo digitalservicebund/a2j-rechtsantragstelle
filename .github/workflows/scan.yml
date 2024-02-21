@@ -87,6 +87,10 @@ jobs:
           registry: ${{ env.CONTAINER_REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull latest docker image
+        run: docker pull ghcr.io/digitalservicebund/a2j-rechtsantragstelle:latest
+
       - name: Get Docker image digest
         id: get_docker_digest
         run: |
