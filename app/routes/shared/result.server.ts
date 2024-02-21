@@ -8,9 +8,8 @@ import {
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getReasonsToDisplay } from "~/models/flows/common";
-import { flowIDFromPathname } from "~/models/flows/contexts";
+import { parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
-import { splatFromParams } from "~/services/params";
 import { BannerState } from "~/components/UserFeedback";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { lastStepKey } from "~/services/flow/constants";
@@ -25,18 +24,16 @@ import {
 } from "~/models/flows/fluggastrechte";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
-export const loader = async ({
-  params,
-  request,
-  context,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
+
+  // get data from request
   const { pathname } = new URL(request.url);
-  const flowId = flowIDFromPathname(pathname);
-  const stepId = "ergebnis/" + splatFromParams(params);
+  const { flowId, stepId } = parsePathname(pathname);
   const cookieId = request.headers.get("Cookie");
   const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
   context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
+
   const { config, guards } = flows[flowId];
   const flowController = buildFlowController({ config, data, guards });
 
@@ -80,7 +77,6 @@ export const loader = async ({
       reasons: reasonElementsWithID.filter((reason) =>
         Boolean(getReasonsToDisplay(data)[reason.elementId]),
       ),
-      progress: flowController.getProgress(stepId),
       nextButton,
       backButton: {
         destination: flowController.getPrevious(stepId)?.url,
