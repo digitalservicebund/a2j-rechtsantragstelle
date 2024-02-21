@@ -123,7 +123,7 @@ export const loader = async ({
     fetchMeta({ filterValue: parentFromParams(pathname, params) }),
     fetchTranslations(flowId),
     fetchTranslations(`${flowId}/menu`),
-    fetchTranslations("vorabcheck"), // TODO: rename to defaultTranslations in strapi?
+    fetchTranslations("defaultTranslations"),
   ]);
   // structure cms content -> merge with getting data?
   const cmsContent = interpolateDeep(

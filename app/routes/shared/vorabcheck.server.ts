@@ -62,7 +62,7 @@ export const loader = async ({
   const [vorabcheckPage, parentMeta, translations] = await Promise.all([
     fetchCollectionEntry("vorab-check-pages", pathname),
     fetchMeta({ filterValue: parentFromParams(pathname, params) }),
-    fetchTranslations("vorabcheck"),
+    fetchTranslations("defaultTranslations"),
   ]);
 
   //  Do string replacement in content if necessary
