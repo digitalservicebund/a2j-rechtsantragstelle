@@ -37,7 +37,6 @@ jobs:
       packages: write # for updating cosign attestation
       security-events: write
     steps:
-      - run: echo "CONTAINER_IMAGE_VERSION=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
       - uses: actions/checkout@v4
       - name: Run Trivy vulnerability scanner
         # Third-party action, pin to commit SHA!
@@ -47,7 +46,7 @@ jobs:
           TRIVY_USERNAME: ${{ github.actor }}
           TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         with:
-          image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
+          image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:latest
           format: "sarif"
           output: "trivy-results.sarif"
       - name: Check trivy results
