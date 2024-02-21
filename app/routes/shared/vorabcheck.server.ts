@@ -183,7 +183,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const customEventName = flowController.getMeta(stepId)?.customEventName;
   if (customEventName)
-    void sendCustomEvent(customEventName, validationResult.data, request);
+    sendCustomEvent({
+      request,
+      eventName: customEventName,
+      properties: validationResult.data,
+    });
 
   const destination =
     flowController.getNext(stepId)?.url ?? flowController.getInitial().url;
