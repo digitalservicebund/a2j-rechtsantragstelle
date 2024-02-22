@@ -1,5 +1,5 @@
 import type { MachineConfig } from "xstate";
-import { createMachine, setup } from "xstate";
+import { getNextSnapshot, setup } from "xstate";
 import { getShortestPaths } from "@xstate/graph";
 import { getStateValueString } from "~/services/flow/getStateValueString";
 import type { Context } from "~/models/flows/contexts";
@@ -8,16 +8,19 @@ import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzi
 type Event = "SUBMIT" | "BACK";
 type StateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
 
-const genericMachine = setup({
-  types: {} as {
-    context: Context;
-    events: StateMachineEvents;
-  },
-});
+const stateMachineTypes = {
+  context: {} as Context,
+  events: {} as StateMachineEvents,
+};
+const genericMachine = setup({ types: stateMachineTypes });
+type StateMachine = typeof genericMachine.createMachine;
 
-type StateMachine = typeof genericMachine;
 export type Config = MachineConfig<Context, StateMachineEvents>;
-export type Guards = Record<string, (context: Context) => boolean>;
+
+export type Guards = Record<
+  string,
+  ({ context }: { context: Context }) => boolean
+>;
 export type Meta = {
   customEventName?: string;
   progressPosition: number | undefined;
@@ -27,9 +30,13 @@ export type Meta = {
   subflowDone: (context: Context, subflowId: string) => boolean | undefined;
 };
 
+function getStateNodeByPath(machine: StateMachine, stepId: string) {
+  return Object.values(machine.states).find((state) => state.key === stepId);
+}
+
 const getSteps = (machine: StateMachine) => {
   return Object.values(
-    getShortestPaths(machine, { events: { SUBMIT: [{ type: "SUBMIT" }] } }),
+    getShortestPaths(machine, { events: [{ type: "SUBMIT" }] }),
   ).map(({ state }) => getStateValueString(state.value));
 };
 
@@ -38,13 +45,23 @@ const getTransitionDestination = (
   currentStep: string,
   type: Event,
 ) => {
-  const transitions = machine.getStateNodeByPath(currentStep).config.on;
-  if (!transitions || !(type in transitions)) return undefined;
-  return getStateValueString(machine.transition(currentStep, { type }).value);
+  const transitions = getStateNodeByPath(machine, currentStep).config.on;
+  if (!transitions || !(type in transitions))
+    throw new Error(
+      `No transition of type ${type} defined on step ${currentStep}`,
+    );
+
+  // if (!transitions || !(type in transitions)) return undefined;
+  const nextState = getNextSnapshot(
+    machine,
+    machine.resolveState({ value: currentStep }),
+    { type },
+  );
+  return getStateValueString(nextState.value);
 };
 
 const isFinalStep = (machine: StateMachine, stepId: string) => {
-  const transitions = machine.getStateNodeByPath(stepId).config.on;
+  const transitions = getStateNodeByPath(machine, stepId).config.on;
   return Boolean(
     transitions &&
       (!("SUBMIT" in transitions) ||
@@ -62,9 +79,12 @@ export const buildFlowController = ({
   data?: Context;
   guards?: Guards;
 }) => {
-  const machine = createMachine({ ...config, context }, { guards });
+  const machine = setup({
+    types: stateMachineTypes,
+    guards,
+  }).createMachine({ ...config, context });
   const baseUrl = config.id ?? "";
-  const initialStepId = getStateValueString(machine.initialState.value);
+  const initialStepId = getStateValueString(machine.getInitialSnapshot().value);
   const normalizeStepId = (stepId: string) =>
     stepId.replace(/\//g, ".").replace("ergebnis.", "ergebnis/");
   const denormalizeStepId = (stepId: string) => stepId.replace(/\./g, "/");
@@ -72,7 +92,7 @@ export const buildFlowController = ({
     initialStepId === normalizeStepId(currentStepId);
 
   const getMeta = (currentStepId: string): Meta | undefined =>
-    machine.getStateNodeByPath(normalizeStepId(currentStepId)).meta;
+    getStateNodeByPath(machine, normalizeStepId(currentStepId)).meta;
 
   return {
     getMeta,
@@ -121,7 +141,7 @@ export const buildFlowController = ({
             .map((n) => (n.meta as Meta)?.progressPosition ?? 0)
             .filter((p) => p),
         ) + 1;
-      const node = machine.getStateNodeByPath(stepId);
+      const node = getStateNodeByPath(machine, stepId);
       const current = isFinalStep(machine, stepId)
         ? total
         : (node.meta as Meta)?.progressPosition ?? 0;
