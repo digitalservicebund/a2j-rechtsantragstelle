@@ -1,12 +1,9 @@
 import { freibetrag } from "./freibetrag";
 import moneyToCents from "../../../services/validation/money/moneyToCents";
 import type { BeratungshilfeVorabcheckContext } from "./context";
+import type { Guards } from "../guards.server";
 
-type Guard = ({
-  context,
-}: {
-  context: BeratungshilfeVorabcheckContext;
-}) => boolean;
+type Guard = Guards<BeratungshilfeVorabcheckContext>[string];
 
 function yesNoGuards<Field extends keyof BeratungshilfeVorabcheckContext>(
   field: Field,
@@ -15,21 +12,19 @@ function yesNoGuards<Field extends keyof BeratungshilfeVorabcheckContext>(
 } {
   //@ts-ignore
   return {
-    [`${field}Yes`]: (({ context }) => context[field] === "yes") as Guard,
-    [`${field}No`]: (({ context }) => context[field] === "no") as Guard,
-  };
+    [`${field}Yes`]: ({ context }) => context[field] === "yes",
+    [`${field}No`]: ({ context }) => context[field] === "no",
+  } satisfies Guards;
 }
 
 const yesOrNoGuard = (
   field: keyof BeratungshilfeVorabcheckContext,
-): Record<string, Guard> => ({
+): Guards => ({
   [`${field}YesOrNo`]: ({ context }) =>
     context[field] === "yes" && context[field] === "no",
 });
 
-const filledGuard = (
-  field: keyof BeratungshilfeVorabcheckContext,
-): Record<string, Guard> => ({
+const filledGuard = (field: keyof BeratungshilfeVorabcheckContext): Guards => ({
   [`${field}Filled`]: ({ context }) =>
     context[field] !== undefined && context[field] !== null,
 });
@@ -94,18 +89,11 @@ export const isIncomeTooHigh: Guard = ({ context }) => {
   return einkommen - miete - zahlungen - unterhalt > calculatedFreibetrag;
 };
 
-function anyKinderAnzahlFilled({
-  context,
-}: {
-  context: BeratungshilfeVorabcheckContext;
-}) {
-  return (
-    context.kids?.kids6Below != undefined ||
-    context.kids?.kids7To14 != undefined ||
-    context.kids?.kids15To18 != undefined ||
-    context.kids?.kids18Above != undefined
-  );
-}
+const anyKinderAnzahlFilled: Guard = ({ context }) =>
+  context.kids?.kids6Below != undefined ||
+  context.kids?.kids7To14 != undefined ||
+  context.kids?.kids15To18 != undefined ||
+  context.kids?.kids18Above != undefined;
 
 export const guards = {
   anyKinderAnzahlFilled,
@@ -144,4 +132,4 @@ export const guards = {
   weitereZahlungenSummeIncomeTooHigh,
   weitereZahlungenSummeWithWarnings,
   ...filledGuard("weitereZahlungenSumme"),
-} satisfies Record<string, Guard>;
+} satisfies Guards<BeratungshilfeVorabcheckContext>;

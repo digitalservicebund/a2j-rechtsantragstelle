@@ -9,7 +9,7 @@ export function reasonsToDisplayBeratungshilfe(context: AllContexts) {
       "eigeninitiative" in context && context.eigeninitiative === "no",
     incomeTooHigh:
       "verfuegbaresEinkommen" in context &&
-      (context.verfuegbaresEinkommen === "yes" || isIncomeTooHigh(context)),
+      (context.verfuegbaresEinkommen === "yes" || isIncomeTooHigh({ context })),
   };
 }
 

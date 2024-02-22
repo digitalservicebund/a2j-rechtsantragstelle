@@ -2,7 +2,7 @@ import { guards, isIncomeTooHigh } from "~/models/flows/beratungshilfe/guards";
 
 describe("isIncomeTooHigh", () => {
   it("returns false for random example case", () => {
-    const input = {
+    const context = {
       einkommen: "1200",
       miete: "500",
       kids: {
@@ -13,18 +13,18 @@ describe("isIncomeTooHigh", () => {
       },
       einkommenKinder: "100",
     };
-    expect(isIncomeTooHigh(input)).toEqual(false);
+    expect(isIncomeTooHigh({ context })).toEqual(false);
   });
 });
 
 describe("anyKinderAnzahlFilled", () => {
   it("returns false for kids not given", () => {
-    const input = {};
-    expect(guards.anyKinderAnzahlFilled(input)).toEqual(false);
+    const context = {};
+    expect(guards.anyKinderAnzahlFilled({ context })).toEqual(false);
   });
 
   it("returns true for kids filled", () => {
-    const input = {
+    const context = {
       kids: {
         kids6Below: "0",
         kids7To14: "0",
@@ -32,6 +32,6 @@ describe("anyKinderAnzahlFilled", () => {
         kids18Above: "0",
       },
     };
-    expect(guards.anyKinderAnzahlFilled(input)).toEqual(true);
+    expect(guards.anyKinderAnzahlFilled({ context })).toEqual(true);
   });
 });

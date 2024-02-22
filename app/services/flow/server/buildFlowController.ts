@@ -4,6 +4,7 @@ import { getShortestPaths } from "@xstate/graph";
 import { getStateValueString } from "~/services/flow/getStateValueString";
 import type { Context } from "~/models/flows/contexts";
 import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
+import type { Guards } from "~/models/flows/guards.server";
 
 type Event = "SUBMIT" | "BACK";
 type StateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
@@ -17,10 +18,6 @@ type StateMachine = typeof genericMachine.createMachine;
 
 export type Config = MachineConfig<Context, StateMachineEvents>;
 
-export type Guards = Record<
-  string,
-  ({ context }: { context: Context }) => boolean
->;
 export type Meta = {
   customEventName?: string;
   progressPosition: number | undefined;
