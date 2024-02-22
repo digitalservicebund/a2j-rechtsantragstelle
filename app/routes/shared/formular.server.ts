@@ -282,12 +282,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   });
 
   const customEventName = flowController.getMeta(stepId)?.customEventName;
-  if (customEventName)
+  if (customEventName) {
     sendCustomEvent({
       request,
       eventName: customEventName,
       properties: validationResult.data,
     });
+  }
 
   const returnTo = formData.get("_returnTo");
   const destination =
