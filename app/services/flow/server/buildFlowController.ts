@@ -44,6 +44,7 @@ const getTransitionDestination = (
   machine: StateMachine,
   currentStep: string,
   type: Event,
+  context: Context,
 ) => {
   const transitions = getStateNodeByPath(machine, currentStep).config.on;
   if (!transitions || !(type in transitions))
@@ -51,10 +52,12 @@ const getTransitionDestination = (
       `No transition of type ${type} defined on step ${currentStep}`,
     );
 
-  // if (!transitions || !(type in transitions)) return undefined;
   const nextState = getNextSnapshot(
     machine,
-    machine.resolveState({ value: currentStep }),
+    machine.resolveState({
+      value: currentStep,
+      context,
+    }),
     { type },
   );
   return getStateValueString(nextState.value);
@@ -112,7 +115,7 @@ export const buildFlowController = ({
     getPrevious: (currentStepId: string) => {
       const stepId = normalizeStepId(currentStepId);
       if (isInitialStepId(stepId)) return undefined;
-      const name = getTransitionDestination(machine, stepId, "BACK");
+      const name = getTransitionDestination(machine, stepId, "BACK", context);
       if (!name) return undefined;
       return { name, url: `${baseUrl}${denormalizeStepId(name)}` };
     },
@@ -121,6 +124,7 @@ export const buildFlowController = ({
         machine,
         normalizeStepId(currentStepId),
         "SUBMIT",
+        context,
       );
       if (!name) return undefined;
       return { name, url: `${baseUrl}${denormalizeStepId(name)}` };
