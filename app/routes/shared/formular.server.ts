@@ -8,9 +8,9 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { buildStepValidator } from "~/models/flows/common";
+import { validateFormData } from "~/services/validation/validateFormData.server";
 import type { Context } from "~/models/flows/contexts";
-import { getContext, parsePathname } from "~/models/flows/contexts";
+import { parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import { isStrapiSelectComponent } from "~/services/cms/models/StrapiSelect";
 import {
@@ -35,7 +35,6 @@ import {
   arrayIndexFromFormData,
   deleteFromArrayInplace,
 } from "~/services/session.server/arrayDeletion";
-import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { interpolateDeep } from "~/util/fillTemplate";
 import { stepMeta } from "~/services/meta/formStepMeta";
 
@@ -258,11 +257,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
   }
 
-  const validator = buildStepValidator(
-    getContext(flowId),
-    Object.keys(relevantFormData),
-  );
-  const validationResult = await validator.validate(relevantFormData);
+  const validationResult = await validateFormData(flowId, relevantFormData);
   if (validationResult.error)
     return validationError(
       validationResult.error,

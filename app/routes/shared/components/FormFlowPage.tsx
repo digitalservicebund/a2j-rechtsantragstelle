@@ -3,8 +3,7 @@ import { ValidatedForm } from "remix-validated-form";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import PageContent from "~/components/PageContent";
 import Background from "~/components/Background";
-import { buildStepValidator } from "~/models/flows/common";
-import { getContext, flowIDFromPathname } from "~/models/flows/contexts";
+import { validatorForFieldnames } from "~/services/validation/buildStepValidator";
 import { CSRFKey } from "~/services/security/csrfKey";
 import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
@@ -31,10 +30,8 @@ export function FormFlowPage() {
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
-  const flowId = flowIDFromPathname(pathname);
-  const context = getContext(flowId);
   const fieldNames = formElements.map((entry) => entry.name);
-  const validator = buildStepValidator(context, fieldNames);
+  const validator = validatorForFieldnames(fieldNames, pathname);
 
   return (
     <Background backgroundColor="blue">

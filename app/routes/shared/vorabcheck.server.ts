@@ -8,9 +8,9 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { buildStepValidator } from "~/models/flows/common";
+import { validateFormData } from "~/services/validation/validateFormData.server";
 import type { Context } from "~/models/flows/contexts";
-import { getContext, parsePathname } from "~/models/flows/contexts";
+import { parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import { isStrapiSelectComponent } from "~/services/cms/models/StrapiSelect";
 import {
@@ -162,11 +162,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     Array.from(formData.entries()).filter(([key]) => !key.startsWith("_")),
   );
 
-  const validator = buildStepValidator(
-    getContext(flowId),
-    Object.keys(relevantFormData),
-  );
-  const validationResult = await validator.validate(relevantFormData);
+  const validationResult = await validateFormData(flowId, relevantFormData);
   if (validationResult.error)
     return validationError(
       validationResult.error,
