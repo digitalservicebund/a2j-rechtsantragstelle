@@ -1,5 +1,4 @@
 {
-  "predictableActionArguments": true,
   "id": "/geld-einklagen/formular/",
   "initial": "start",
   "states": {
@@ -37,11 +36,11 @@
             "BACK": "start",
             "SUBMIT": [
               {
-                "cond": "gegenseiteTypPrivatperson",
+                "guard": "gegenseiteTypPrivatperson",
                 "target": "privatperson-name"
               },
               {
-                "cond": "gegenseiteTypUnternehmen",
+                "guard": "gegenseiteTypUnternehmen",
                 "target": "unternehmen-name"
               },
               {
@@ -108,11 +107,11 @@
           "on": {
             "BACK": [
               {
-                "cond": "gegenseiteTypPrivatperson",
+                "guard": "gegenseiteTypPrivatperson",
                 "target": "#gegenseite.privatperson-bevollmaechtigte-person"
               },
               {
-                "cond": "gegenseiteTypUnternehmen",
+                "guard": "gegenseiteTypUnternehmen",
                 "target": "#gegenseite.unternehmen-bevollmaechtigte-person"
               },
               {

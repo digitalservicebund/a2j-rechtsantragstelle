@@ -1,13 +1,12 @@
 {
-  "predictableActionArguments": true,
   "initial": "art",
   "id": "abgabe",
   "states": {
     "art": {
       "on": {
         "SUBMIT": [
-          { "target": "online", "cond": "abgabeOnline" },
-          { "target": "ausdrucken", "cond": "abgabeAusdrucken" }
+          { "target": "online", "guard": "abgabeOnline" },
+          { "target": "ausdrucken", "guard": "abgabeAusdrucken" }
         ]
       }
     },

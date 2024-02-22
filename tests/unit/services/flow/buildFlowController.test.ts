@@ -6,14 +6,16 @@ import {
 const config: Config = {
   id: "/test/flow/",
   initial: "step1",
-  predictableActionArguments: true,
   states: {
     step1: {
       meta: { progressPosition: 1 },
       on: {
         SUBMIT: [
-          { target: "step1Exit", cond: (context) => context.step1 === false },
-          { target: "step2", cond: (context) => context.step1 === true },
+          {
+            target: "step1Exit",
+            guard: ({ context }) => context.step1 === false,
+          },
+          { target: "step2", guard: ({ context }) => context.step1 === true },
         ],
       },
     },
@@ -50,7 +52,6 @@ const config: Config = {
 const nestedInitialStateConfig: Config = {
   id: "/test/nested/",
   initial: "parent1",
-  predictableActionArguments: true,
   states: {
     parent1: {
       id: "/test/nested/",
@@ -101,7 +102,6 @@ describe("buildFlowController", () => {
       expect(
         buildFlowController({
           config: {
-            predictableActionArguments: true,
             id: "/flow/final/",
             initial: "step1",
             states: {
@@ -116,7 +116,6 @@ describe("buildFlowController", () => {
       expect(
         buildFlowController({
           config: {
-            predictableActionArguments: true,
             id: "/flow/final/",
             initial: "step1",
             states: {

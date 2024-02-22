@@ -51,7 +51,7 @@ export const beratungshilfeFormular = {
                 SUBMIT: [
                   {
                     target: "#anwaltlicheVertretung.start",
-                    cond: "eigeninitiativeGrundvorraussetzungNo",
+                    guard: "eigeninitiativeGrundvorraussetzungNo",
                   },
                   {
                     target: "eigeninitiativeGrundvorraussetzung-hinweis",
@@ -84,11 +84,11 @@ export const beratungshilfeFormular = {
             on: {
               BACK: [
                 {
-                  cond: "anwaltskanzleiNo",
+                  guard: "anwaltskanzleiNo",
                   target: "#anwaltlicheVertretung.start",
                 },
                 {
-                  cond: "beratungStattgefundenNo",
+                  guard: "beratungStattgefundenNo",
                   target: "#anwaltlicheVertretung.beratungStattgefunden",
                 },
                 {
@@ -120,7 +120,7 @@ export const beratungshilfeFormular = {
           start: { on: { BACK: "#finanzielleAngaben.danke" } },
           danke: {
             on: {
-              SUBMIT: [{ target: "#abgabe.art", cond: "readyForAbgabe" }],
+              SUBMIT: [{ target: "#abgabe.art", guard: "readyForAbgabe" }],
             },
           },
         },
