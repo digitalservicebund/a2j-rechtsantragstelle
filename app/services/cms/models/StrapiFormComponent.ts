@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { StrapiInputSchema } from "./StrapiInput";
-import { StrapiSelectSchema } from "./StrapiSelect";
+import { StrapiSelectComponentSchema } from "./StrapiSelect";
 import { StrapiDropdownSchema } from "./StrapiDropdown";
 import { StrapiTextareaSchema } from "./StrapiTextarea";
 import { StrapiCheckboxSchema } from "./StrapiCheckbox";
@@ -15,7 +15,7 @@ export const StrapiFormComponentSchema = z.discriminatedUnion("__component", [
   StrapiTimeInputSchema.required({ __component: true }),
   StrapiFileInputSchema.required({ __component: true }),
   StrapiTextareaSchema.required({ __component: true }),
-  StrapiSelectSchema.required({ __component: true }),
+  StrapiSelectComponentSchema,
   StrapiDropdownSchema.required({ __component: true }),
   StrapiCheckboxSchema.required({ __component: true }),
   StrapiTileGroupSchema.required({ __component: true }),

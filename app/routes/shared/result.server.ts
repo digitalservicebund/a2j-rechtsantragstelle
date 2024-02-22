@@ -8,9 +8,8 @@ import {
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getReasonsToDisplay } from "~/models/flows/common";
-import { flowIDFromPathname } from "~/models/flows/contexts";
+import { parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
-import { splatFromParams } from "~/services/params";
 import { BannerState } from "~/components/UserFeedback";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { lastStepKey } from "~/services/flow/constants";
@@ -25,18 +24,16 @@ import {
 } from "~/models/flows/fluggastrechte";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
-export const loader = async ({
-  params,
-  request,
-  context,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
+
+  // get data from request
   const { pathname } = new URL(request.url);
-  const flowId = flowIDFromPathname(pathname);
-  const stepId = "ergebnis/" + splatFromParams(params);
+  const { flowId, stepId } = parsePathname(pathname);
   const cookieId = request.headers.get("Cookie");
   const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
   context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
+
   const { config, guards } = flows[flowId];
   const flowController = buildFlowController({ config, data, guards });
 
@@ -67,8 +64,8 @@ export const loader = async ({
       };
 
   const { getSession, commitSession } = getSessionForContext("main");
-  const session = await getSession(cookieId);
-  session.set(lastStepKey, { [flowId]: stepId });
+  const userDataFromRedis = await getSession(cookieId);
+  userDataFromRedis.set(lastStepKey, { [flowId]: stepId });
 
   return json(
     {
@@ -87,7 +84,8 @@ export const loader = async ({
         label: common.backButtonDefaultLabel,
       },
       bannerState:
-        getFeedbackBannerState(session, pathname) ?? BannerState.ShowRating,
+        getFeedbackBannerState(userDataFromRedis, pathname) ??
+        BannerState.ShowRating,
       amtsgerichtCommon,
       courts:
         cmsData.pageType === "success" &&
@@ -97,7 +95,7 @@ export const loader = async ({
             findCourt({ zipCode: partnerCourtAirports[airport] }),
           ),
     },
-    { headers: { "Set-Cookie": await commitSession(session) } },
+    { headers: { "Set-Cookie": await commitSession(userDataFromRedis) } },
   );
 };
 

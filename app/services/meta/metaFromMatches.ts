@@ -1,7 +1,7 @@
 import type { useMatches } from "@remix-run/react";
-import type { StrapiHeader } from "./cms/models/StrapiHeader";
-import type { StrapiContent } from "./cms/models/StrapiContent";
-import type { StrapiMeta } from "./cms/models/StrapiMeta";
+import type { StrapiHeader } from "../cms/models/StrapiHeader";
+import type { StrapiContent } from "../cms/models/StrapiContent";
+import type { StrapiMeta } from "../cms/models/StrapiMeta";
 
 type RouteMatchKnown = Omit<ReturnType<typeof useMatches>[0], "data"> & {
   data: {

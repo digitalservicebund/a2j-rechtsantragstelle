@@ -1,7 +1,7 @@
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 
-type NavigationButton = {
+export type NavigationButton = {
   destination?: string;
   label: string;
 };

@@ -1,2 +1,2 @@
-export { action, loader } from "~/routes/shared/step.server";
-export { StepWithProgressBar as default } from "~/routes/shared/components/StepWithProgressBar";
+export { action, loader } from "~/routes/shared/vorabcheck.server";
+export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";

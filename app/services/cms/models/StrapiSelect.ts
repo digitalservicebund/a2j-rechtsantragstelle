@@ -7,10 +7,10 @@ import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
+import type { StrapiContent } from "./StrapiContent";
 
-export const StrapiSelectSchema = z
+const StrapiSelectSchema = z
   .object({
-    __component: z.literal("form-elements.select").optional(),
     name: z.string(),
     label: z.string().nullable(),
     altLabel: z.string().nullable(),
@@ -19,9 +19,18 @@ export const StrapiSelectSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-export type StrapiSelect = z.infer<typeof StrapiSelectSchema>;
+type StrapiSelect = z.infer<typeof StrapiSelectSchema>;
+
+export const StrapiSelectComponentSchema = StrapiSelectSchema.extend({
+  __component: z.literal("form-elements.select"),
+});
 
 export const getRadioGroupProps = (cmsData: StrapiSelect) => {
   const errorMessages = flattenStrapiErrors(cmsData.errors);
   return RadioGroupPropsSchema.parse(omitNull({ ...cmsData, errorMessages }));
 };
+
+export const isStrapiSelectComponent = (
+  strapiContent: StrapiContent,
+): strapiContent is z.infer<typeof StrapiSelectComponentSchema> =>
+  strapiContent.__component === "form-elements.select";

@@ -1,6 +1,6 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
-import type { BeratungshilfeAntragContext } from "~/models/flows/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { getBeratungshilfePdfFromContext } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import { getSessionForContext } from "~/services/session.server";
 
@@ -10,7 +10,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     "beratungshilfe/antrag",
   ).getSession(cookieId);
 
-  const context: BeratungshilfeAntragContext = data; // Recast for now to get type safety
+  const context: BeratungshilfeFormularContext = data; // Recast for now to get type safety
 
   if (_.isEmpty(context)) {
     return redirect("/beratungshilfe/antrag");
