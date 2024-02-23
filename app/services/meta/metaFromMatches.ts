@@ -32,12 +32,7 @@ export function metaFromMatches(matches: ReturnType<typeof useMatches>) {
       title: m.data.meta?.breadcrumbTitle ?? m.data.meta?.title ?? "",
     }));
 
-  const title = matches
-    .filter((m) => !/.*_index$/.exec(m.id))
-    .map((m) => m.data.meta?.title ?? "")
-    .reverse()
-    .join(" - ");
-
+  const title = matches.at(-1)?.data.meta?.title;
   const ogTitle = matches.at(-1)?.data.meta?.ogTitle;
 
   const description =
