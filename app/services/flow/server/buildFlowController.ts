@@ -1,10 +1,20 @@
 import type { MachineConfig } from "xstate";
-import { getNextSnapshot, setup } from "xstate";
+import {
+  createActor,
+  createMachine,
+  getNextSnapshot,
+  pathToStateValue,
+  setup,
+} from "xstate";
 import { getShortestPaths } from "@xstate/graph";
-import { getStateValueString } from "~/services/flow/getStateValueString";
+import {
+  getStateValueString,
+  stepIdToPath,
+} from "~/services/flow/getStateValueString";
 import type { Context } from "~/models/flows/contexts";
 import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
 import type { Guards } from "~/models/flows/guards.server";
+import _ from "lodash";
 
 type Event = "SUBMIT" | "BACK";
 type StateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
@@ -12,6 +22,7 @@ type StateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
 const stateMachineTypes = {
   context: {} as Context,
   events: {} as StateMachineEvents,
+  input: {} as Context,
 };
 const genericMachine = setup({ types: stateMachineTypes });
 type StateMachine = typeof genericMachine.createMachine;
@@ -27,48 +38,57 @@ export type Meta = {
   subflowDone: (context: Context, subflowId: string) => boolean | undefined;
 };
 
-function getStateNodeByPath(machine: StateMachine, stepId: string) {
-  return Object.values(machine.states).find((state) => state.key === stepId);
-}
-
-const getSteps = (machine: StateMachine) => {
-  return Object.values(
-    getShortestPaths(machine, { events: [{ type: "SUBMIT" }] }),
-  ).map(({ state }) => getStateValueString(state.value));
+const getSteps = (machine: StateMachine, context: Context) => {
+  // todo: remove machine relying on context passed at createMachine()...
+  // https://www.jsdocs.io/package/xstate#StateMachine.provide is supposed to allow this but context isn't applied
+  // idea: machine.provide() with action that assigns the new context
+  const possiblePaths = getShortestPaths(machine, {
+    events: [{ type: "SUBMIT" }],
+  });
+  return Object.values(possiblePaths).map(({ state }) =>
+    getStateValueString(state.value),
+  );
 };
 
-const getTransitionDestination = (
+const transitionDestination = (
   machine: StateMachine,
-  currentStep: string,
+  stepId: string,
   type: Event,
   context: Context,
 ) => {
-  const transitions = getStateNodeByPath(machine, currentStep).config.on;
-  if (!transitions || !(type in transitions))
-    throw new Error(
-      `No transition of type ${type} defined on step ${currentStep}`,
-    );
+  // First, resolve the state with the given step and context
+  const resolvedState = machine.resolveState({
+    value: pathToStateValue(stepIdToPath(stepId)),
+    context,
+  });
+  // Get snapshot of next machine state using the given event
+  const nextState = getNextSnapshot(machine, resolvedState, { type });
+  const nextStateId = getStateValueString(nextState.value);
+  // If the stepId if the new state matches the previous one: Return undefined. else: return full path
+  return nextStateId == stepId ? undefined : `${machine.id}${nextStateId}`;
+};
 
-  const nextState = getNextSnapshot(
-    machine,
-    machine.resolveState({
-      value: currentStep,
-      context,
-    }),
-    { type },
-  );
-  return getStateValueString(nextState.value);
+const findNode = (machine: StateMachine, stepId: string) => {
+  const statepath = stepIdToPath(stepId);
+  const resolvedState = machine.resolveState({
+    value: pathToStateValue(statepath),
+    context: {},
+  });
+  return resolvedState._nodes.find((node) => _.isEqual(node.path, statepath));
 };
 
 const isFinalStep = (machine: StateMachine, stepId: string) => {
-  const transitions = getStateNodeByPath(machine, stepId).config.on;
-  return Boolean(
-    transitions &&
-      (!("SUBMIT" in transitions) ||
-        JSON.stringify(transitions["SUBMIT"]) == "{}" ||
-        JSON.stringify(transitions["SUBMIT"]) == "[]"),
-  );
+  const transitions = findNode(machine, stepId)?.transitions;
+  return transitions && !transitions.has("SUBMIT");
 };
+
+const metaFromStepId = (machine: StateMachine, currentStepId: string) => {
+  return findNode(machine, currentStepId)?.meta as Meta | undefined;
+};
+
+function getInitial(machine: StateMachine) {
+  return machine.config.initial;
+}
 
 export const buildFlowController = ({
   config,
@@ -77,76 +97,44 @@ export const buildFlowController = ({
 }: {
   config: Config;
   data?: Context;
-  guards?: Guards;
+  guards?: Guards; // TODO: non-optional?
 }) => {
   const machine = setup({
     types: stateMachineTypes,
     guards,
   }).createMachine({ ...config, context });
   const baseUrl = config.id ?? "";
-  const initialStepId = getStateValueString(machine.getInitialSnapshot().value);
-  const normalizeStepId = (stepId: string) =>
-    stepId.replace(/\//g, ".").replace("ergebnis.", "ergebnis/");
-  const denormalizeStepId = (stepId: string) => stepId.replace(/\./g, "/");
-  const isInitialStepId = (currentStepId: string) =>
-    initialStepId === normalizeStepId(currentStepId);
-
-  const getMeta = (currentStepId: string): Meta | undefined =>
-    getStateNodeByPath(machine, normalizeStepId(currentStepId)).meta;
 
   return {
-    getMeta,
+    getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
     isDone: (currentStepId: string) =>
-      Boolean(getMeta(currentStepId)?.done(context)),
+      Boolean(metaFromStepId(machine, currentStepId)?.done(context)),
     getSubflowState: (currentStepId: string, subflowId: string) =>
-      getMeta(currentStepId)?.subflowState(context, subflowId),
+      metaFromStepId(machine, currentStepId)?.subflowState(context, subflowId),
     isUneditable: (currentStepId: string) =>
-      Boolean(getMeta(currentStepId)?.isUneditable),
+      Boolean(metaFromStepId(machine, currentStepId)?.isUneditable),
     getConfig: () => config,
-    isInitial: isInitialStepId,
-    isFinal: (currentStepId: string) =>
-      isFinalStep(machine, normalizeStepId(currentStepId)),
+    isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),
     isReachable: (currentStepId: string) => {
-      return getSteps(machine).includes(normalizeStepId(currentStepId));
+      // depends on context
+      return getSteps(machine, context).includes(currentStepId);
     },
-    getPrevious: (currentStepId: string) => {
-      const stepId = normalizeStepId(currentStepId);
-      if (isInitialStepId(stepId)) return undefined;
-      const name = getTransitionDestination(machine, stepId, "BACK", context);
-      if (!name) return undefined;
-      return { name, url: `${baseUrl}${denormalizeStepId(name)}` };
+    getPrevious: (stepId: string) => {
+      return transitionDestination(machine, stepId, "BACK", context);
     },
-    getNext: (currentStepId: string) => {
-      const name = getTransitionDestination(
-        machine,
-        normalizeStepId(currentStepId),
-        "SUBMIT",
-        context,
-      );
-      if (!name) return undefined;
-      return { name, url: `${baseUrl}${denormalizeStepId(name)}` };
+    getNext: (stepId: string) => {
+      return transitionDestination(machine, stepId, "SUBMIT", context);
     },
-    getInitial: () => {
-      const name = initialStepId;
-      return { name, url: `${baseUrl}${denormalizeStepId(String(name))}` };
-    },
-    getLastReachable: () => {
-      const name = getSteps(machine).at(-1);
-      return { name, url: `${baseUrl}${denormalizeStepId(String(name))}` };
-    },
+    getInitial: () => `${baseUrl}${getInitial(machine)}`,
     getProgress: (currentStepId: string) => {
-      const stepId = normalizeStepId(currentStepId);
       const total =
         Math.max(
           ...Object.values(machine.states)
             .map((n) => (n.meta as Meta)?.progressPosition ?? 0)
             .filter((p) => p),
         ) + 1;
-      const node = getStateNodeByPath(machine, stepId);
-      const current = isFinalStep(machine, stepId)
-        ? total
-        : (node.meta as Meta)?.progressPosition ?? 0;
-      return { total, current };
+      const meta = metaFromStepId(machine, currentStepId);
+      return { total, current: meta?.progressPosition ?? 0 };
     },
   };
 };

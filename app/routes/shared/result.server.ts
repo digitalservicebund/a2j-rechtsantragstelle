@@ -38,7 +38,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const flowController = buildFlowController({ config, data, guards });
 
   if (!flowController.isReachable(stepId))
-    return redirect(flowController.getInitial().url);
+    return redirect(flowController.getInitial());
 
   // Slug change to keep Strapi slugs without ergebnis/
   const slug = pathname.replace(/ergebnis\//, "");
@@ -80,7 +80,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       progress: flowController.getProgress(stepId),
       nextButton,
       backButton: {
-        destination: flowController.getPrevious(stepId)?.url,
+        destination: flowController.getPrevious(stepId),
         label: common.backButtonDefaultLabel,
       },
       bannerState:

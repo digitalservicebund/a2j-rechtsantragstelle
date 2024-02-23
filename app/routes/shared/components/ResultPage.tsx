@@ -63,7 +63,7 @@ export function Result() {
         <Container paddingTop="24">
           <ProgressBar
             label={common.progressBarLabel}
-            progress={progress.current}
+            progress={progress.total}
             max={progress.total}
           />
           <Heading

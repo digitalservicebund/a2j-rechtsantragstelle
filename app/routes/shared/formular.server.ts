@@ -103,7 +103,7 @@ export const loader = async ({
 
   // check funnel logic -> Vorabcheck + Formular?
   if (!returnTo && !flowController.isReachable(stepId))
-    return redirectDocument(flowController.getInitial().url);
+    return redirectDocument(flowController.getInitial());
 
   // get all relevant strapi data
   const pathNameWithoutArrayIndex = `/${flowId}/${stepId}`;
@@ -183,7 +183,7 @@ export const loader = async ({
         ),
     back: buttonProps(
       defaultStrings["backButtonDefaultLabel"],
-      returnTo ?? flowController.getPrevious(stepId)?.url,
+      returnTo ?? flowController.getPrevious(stepId),
     ),
   };
 
@@ -294,7 +294,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const destination =
     returnTo && typeof returnTo === "string" && returnTo !== ""
       ? returnTo
-      : flowController.getNext(stepId)?.url ?? flowController.getInitial().url;
+      : flowController.getNext(stepId) ?? flowController.getInitial();
 
   const headers = { "Set-Cookie": await commitSession(flowSession) };
   return redirectDocument(destination, { headers });

@@ -69,30 +69,6 @@ const nestedInitialStateConfig: Config = {
 };
 
 describe("buildFlowController", () => {
-  describe("isInitial", () => {
-    it("returns true if initial step", () => {
-      expect(buildFlowController({ config }).isInitial("step1")).toBe(true);
-    });
-
-    it("returns true if nested initial step", () => {
-      expect(
-        buildFlowController({ config: nestedInitialStateConfig }).isInitial(
-          "parent1.step1",
-        ),
-      ).toBe(true);
-    });
-
-    it("returns false if not intial step", () => {
-      expect(buildFlowController({ config }).isInitial("step2")).toBe(false);
-    });
-
-    it("returns false if nested step is not initial step", () => {
-      expect(buildFlowController({ config }).isInitial("step4/step1")).toBe(
-        false,
-      );
-    });
-  });
-
   describe("isFinal", () => {
     it("returns true if final step", () => {
       expect(buildFlowController({ config }).isFinal("step1Exit")).toBe(true);
@@ -178,10 +154,7 @@ describe("buildFlowController", () => {
           config,
           data: { step1: true },
         }).getPrevious("step3"),
-      ).toStrictEqual({
-        name: "step2",
-        url: "/test/flow/step2",
-      });
+      ).toEqual("/test/flow/step2");
     });
 
     it("returns previous nested step if data is correct", () => {
@@ -190,10 +163,7 @@ describe("buildFlowController", () => {
           config,
           data: { step1: true },
         }).getPrevious("step4/step2"),
-      ).toStrictEqual({
-        name: "step4.step1",
-        url: "/test/flow/step4/step1",
-      });
+      ).toEqual("/test/flow/step4/step1");
     });
 
     it("returns previous step from nested step if data is correct", () => {
@@ -202,10 +172,7 @@ describe("buildFlowController", () => {
           config,
           data: { step1: true },
         }).getPrevious("step4/step1"),
-      ).toStrictEqual({
-        name: "step3",
-        url: "/test/flow/step3",
-      });
+      ).toEqual("/test/flow/step3");
     });
 
     it("returns previous nested step from step if data is correct", () => {
@@ -214,10 +181,7 @@ describe("buildFlowController", () => {
           config,
           data: { step1: true },
         }).getPrevious("step5"),
-      ).toStrictEqual({
-        name: "step4.step1",
-        url: "/test/flow/step4/step1",
-      });
+      ).toEqual("/test/flow/step4/step1");
     });
 
     it("returns undefined if already first step", () => {
@@ -242,10 +206,7 @@ describe("buildFlowController", () => {
           config,
           data: { step1: true },
         }).getNext("step1"),
-      ).toStrictEqual({
-        name: "step2",
-        url: "/test/flow/step2",
-      });
+      ).toEqual("/test/flow/step2");
     });
 
     it("returns the next nested step from a step with valid data", () => {
@@ -254,10 +215,7 @@ describe("buildFlowController", () => {
           config,
           data: { step1: true },
         }).getNext("step3"),
-      ).toStrictEqual({
-        name: "step4.step1",
-        url: "/test/flow/step4/step1",
-      });
+      ).toEqual("/test/flow/step4/step1");
     });
 
     it("returns the next nested step from a nested step with valid data", () => {
@@ -266,10 +224,7 @@ describe("buildFlowController", () => {
           config,
           data: { step1: true },
         }).getNext("step4.step1"),
-      ).toStrictEqual({
-        name: "step4.step2",
-        url: "/test/flow/step4/step2",
-      });
+      ).toEqual("/test/flow/step4/step2");
     });
 
     it("returns undefined if already last step", () => {
@@ -293,40 +248,15 @@ describe("buildFlowController", () => {
 
   describe("getInitial", () => {
     it("returns correct simple step", () => {
-      expect(buildFlowController({ config }).getInitial()).toStrictEqual({
-        name: "step1",
-        url: "/test/flow/step1",
-      });
+      expect(buildFlowController({ config }).getInitial()).toEqual(
+        "/test/flow/step1",
+      );
     });
 
     it("returns correct step if nested initial step", () => {
       expect(
         buildFlowController({ config: nestedInitialStateConfig }).getInitial(),
-      ).toStrictEqual({
-        name: "parent1.step1",
-        url: "/test/nested/parent1/step1",
-      });
-    });
-  });
-
-  describe("getLastReachable", () => {
-    it("returns step4.step2", () => {
-      expect(
-        buildFlowController({
-          config,
-          data: { step1: true },
-        }).getLastReachable(),
-      ).toStrictEqual({
-        name: "step4.step2",
-        url: "/test/flow/step4/step2",
-      });
-    });
-
-    it("returns step1", () => {
-      expect(buildFlowController({ config }).getLastReachable()).toStrictEqual({
-        name: "step1",
-        url: "/test/flow/step1",
-      });
+      ).toEqual("/test/nested/parent1/step1");
     });
   });
 

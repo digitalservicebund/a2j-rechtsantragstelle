@@ -20,7 +20,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   await throw404IfFeatureFlagEnabled(request);
   const { pathname, searchParams } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);
-  const { config } = flows[flowId];
+  const { config, guards } = flows[flowId];
 
   let headers = {};
   if (searchParams.get(dataDeletionKey) !== null) {
@@ -33,6 +33,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const destination =
     lastStep && flowId in lastStep
       ? lastStep[flowId]
-      : buildFlowController({ config }).getInitial().url;
+      : buildFlowController({ config, guards }).getInitial();
   return redirect(destination, { headers });
 }
