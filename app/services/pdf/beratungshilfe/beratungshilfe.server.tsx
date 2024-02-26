@@ -7,145 +7,17 @@ import type {
 import { Convert } from "./beratungshilfe.generated";
 import fs from "node:fs";
 import path from "node:path";
-import { type PDFForm, PDFDocument, PDFTextField, PDFCheckBox } from "pdf-lib";
-import { normalizePropertyName } from "../pdf.server";
+import { PDFDocument, PDFTextField, PDFCheckBox } from "pdf-lib";
+import {
+  changeBooleanField,
+  changeStringField,
+  normalizePropertyName,
+} from "../pdf.server";
 import FormAttachment from "~/components/FormAttachment";
 
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-
-const newPageHint = "Bitte im Anhang prüfen";
-
-const isANewAttachmentPageNeeded = (
-  context: BeratungshilfeFormularContext,
-): Attachment => {
-  const descriptions = [];
-
-  if (context.bereich) {
-    // TODO move to another function and use strapi as a source
-    const bereichMapping = {
-      authorities: "Behörden",
-      living: "Wohnen",
-      work: "Arbeit",
-      separation: "Trennung & Unterhalt",
-      trade: "Handel & Verträge",
-      debt: "Schulden & Forderungen",
-      inheritance: "Erben",
-      criminalProcedure: "Strafverfahren",
-      other: "Sonstiges",
-    };
-
-    descriptions.push({
-      title: "Thema des Rechtsproblems:",
-      text: bereichMapping[context.bereich],
-    });
-  }
-
-  if (context.beschreibung) {
-    descriptions.push({
-      title: "Beschreibung Angelegenheit:",
-      text: context.beschreibung,
-    });
-  }
-
-  if (context.eigeninitiativeBeschreibung) {
-    descriptions.push({
-      title: "Eigenbemühungen:",
-      text: context.eigeninitiativeBeschreibung,
-    });
-  } else if (context.keineEigeninitiativeBeschreibung) {
-    descriptions.push({
-      title: "Keine Eigenbemühung, weil:",
-      text: context.keineEigeninitiativeBeschreibung,
-    });
-  }
-
-  if (context.sonstiges) {
-    descriptions.push({ title: "Weitere Anmerkung:", text: context.sonstiges });
-  }
-
-  return {
-    shouldCreateNewPage:
-      descriptions.map((x) => x.title + x.text).join(" ").length > 255,
-    descriptions,
-  };
-};
-
-type Attachment = {
-  shouldCreateNewPage: boolean;
-  descriptions: { title: string; text: string }[];
-};
-
-function getSelectedOptions(
-  mapping: { [key: string]: string },
-  options?: { [key: string]: CheckboxValue },
-) {
-  if (!options) {
-    return "";
-  }
-
-  return Object.entries(options)
-    .map(([key, value]) => {
-      if (value === CheckboxValue.on) {
-        return mapping[key];
-      }
-      return "";
-    })
-    .filter((entry) => entry)
-    .join(", ");
-}
-
-const getOccupationDetails = (
-  context: BeratungshilfeFormularContext,
-  withAdditionalIncome = true,
-) => {
-  const description: string[] = [];
-
-  if (context.erwerbstaetig === "no") {
-    description.push("nicht erwerbstätig");
-  } else if (context.berufart) {
-    const occupation = "Erwerbstätig";
-    const occupationTypeSelected = getSelectedOptions(
-      {
-        selbststaendig: "selbstständig",
-        festangestellt: "festangestellt",
-      },
-      context.berufart,
-    );
-
-    description.push(
-      `${occupation}${
-        occupationTypeSelected ? " (" + occupationTypeSelected + ")" : ""
-      }`,
-    );
-  }
-
-  const berufsituationMapping = {
-    no: "",
-    pupil: "Schüler:in",
-    student: "Student:in",
-    retiree: "Rentner:in",
-  };
-
-  description.push(berufsituationMapping[context.berufsituation ?? "no"]);
-
-  if (context.weitereseinkommen && withAdditionalIncome) {
-    const otherIncomes = getSelectedOptions(
-      {
-        unterhaltszahlungen: "Unterhaltszahlungen",
-        wohngeld: "Wohngeld",
-        kindergeld: "Kindergeld",
-        bafoeg: "Bafög",
-        others: "Sonstiges",
-      },
-      context.weitereseinkommen,
-    );
-
-    description.push(otherIncomes);
-  }
-
-  return description.filter((value) => value).join(", ");
-};
+import fillHeader from "./sections/header";
+import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
 
 export async function getBeratungshilfePdfFromContext(
   context: BeratungshilfeFormularContext,
@@ -159,22 +31,10 @@ export async function getBeratungshilfePdfFromContext(
   const hasStaatlicheLeistung =
     context.staatlicheLeistungen != "andereLeistung" &&
     context.staatlicheLeistungen != "keine";
-  const staatlicheLeistungMapping = {
-    grundsicherung: "Grundsicherung",
-    asylbewerberleistungen: "Asylbewerberleistungen",
-    buergergeld: "Bürgergeld",
-    andereLeistung: "Andere Leistung",
-    keine: "Keine",
-  };
 
-  fillCommonPDFFields(pdfFields, context);
+  fillVorraussetzungen(pdfFields, context);
 
-  fillPersonalData(
-    context,
-    pdfFields,
-    hasStaatlicheLeistung,
-    staatlicheLeistungMapping,
-  );
+  fillHeader(context, pdfFields, hasStaatlicheLeistung);
 
   const attachment = isANewAttachmentPageNeeded(context);
   if (attachment.shouldCreateNewPage) {
@@ -223,21 +83,6 @@ export async function getBeratungshilfePdfFromContext(
   );
 }
 
-function fillCommonPDFFields(
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  pdfFields.bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein.value =
-    context.rechtsschutzversicherung === "no";
-  pdfFields.b3IndieserAngelegenheitistmirbisherBeratungshilfewederbewilligtnochversagtworden.value =
-    context.beratungshilfeBeantragt === "no";
-  pdfFields.b2IndieserAngelegenheitbestehtfurmichnachmeinerKenntniskeineandereMoeglichkeitkostenloseBeratungundVertretunginAnspruchzunehmen.value =
-    context.eigeninitiativeGrundvorraussetzung === "no";
-  pdfFields.b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt.value =
-    context.klageEingereicht === "no";
-  pdfFields.c2Einkuenftenetto.value = context.einkommen;
-}
-
 function fillPartner(
   context: BeratungshilfeFormularContext,
   pdfFields: BeratungshilfePDF,
@@ -261,44 +106,6 @@ function fillPartner(
     pdfFields.e3Familienverhaeltnis.value = "Partner:in";
     pdfFields.e4Zahlung1.value = context.unterhaltsSumme;
   }
-}
-
-function fillPersonalData(
-  context: BeratungshilfeFormularContext,
-  {
-    anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers,
-    antragstellerNameVornameggfGeburtsname,
-    berufErwerbstaetigkeit,
-    geburtsdatumdesAntragstellers,
-    tagsueberTelefonischerreichbarunterNummer,
-  }: BeratungshilfePDF,
-  hasStaatlicheLeistung: boolean,
-  staatlicheLeistungMapping: {
-    grundsicherung: string;
-    asylbewerberleistungen: string;
-    buergergeld: string;
-    andereLeistung: string;
-    keine: string;
-  },
-) {
-  antragstellerNameVornameggfGeburtsname.value = [
-    context.nachname,
-    context.vorname,
-  ]
-    .filter((entry) => entry)
-    .join(", ");
-  geburtsdatumdesAntragstellers.value = context.geburtsdatum;
-  anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = [
-    context.strasseHausnummer,
-    context.plz,
-    context.ort,
-  ]
-    .filter((entry) => entry)
-    .join(", ");
-  tagsueberTelefonischerreichbarunterNummer.value = context.telefonnummer;
-  berufErwerbstaetigkeit.value = hasStaatlicheLeistung
-    ? staatlicheLeistungMapping[context.staatlicheLeistungen ?? "keine"]
-    : getOccupationDetails(context);
 }
 
 function fillFinancial(
@@ -931,39 +738,6 @@ async function fillOutBeratungshilfe(
 
     return pdfDoc.save();
   });
-}
-
-function changeBooleanField(field: BooleanField, form: PDFForm) {
-  // When value is a BooleanField
-  const booleanField = field;
-  if (booleanField) {
-    const field = form.getField(booleanField.name ?? "");
-    if (field instanceof PDFCheckBox) {
-      const checkBox = field;
-      checkBox.uncheck();
-      if (booleanField.value) {
-        checkBox.check();
-      }
-      return true;
-    }
-  }
-  return false;
-}
-
-function changeStringField(field: StringField, form: PDFForm) {
-  const stringField = field;
-  if (stringField) {
-    const field = form.getField(stringField.name ?? "");
-    if (field instanceof PDFTextField) {
-      const textField = field;
-      if (textField) {
-        textField.setText(stringField.value);
-        textField.setFontSize(10);
-        return true;
-      }
-    }
-  }
-  return false;
 }
 
 // Caching file read, decryption & parsing to survive server reload
