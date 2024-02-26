@@ -69,7 +69,7 @@ const getSteps = (machine: FlowStateMachine, context: Context) => {
   );
 };
 
-const transitionDestination = (
+export const transitionDestination = (
   machine: FlowStateMachine,
   stepId: string,
   type: Event,

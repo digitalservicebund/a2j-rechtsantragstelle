@@ -11,15 +11,26 @@ import type { StateValue } from "xstate";
 export const stepIdToPath = (stepId: string) =>
   stepId.replace(/\//g, ".").replace("ergebnis.", "ergebnis/").split(".");
 
-// TODO: rename to stateValueToStateId()
 export const getStateValueString = (stateValue: StateValue): string => {
   if (typeof stateValue == "string") {
     return stateValue;
   } else if (Object.keys(stateValue).length == 1) {
     return [
       Object.keys(stateValue)[0],
-      getStateValueString(Object.values(stateValue)[0]),
+      getStateValueString(Object.values(stateValue)[0] as StateValue),
     ].join("/");
   }
   throw Error("It is not expected to have other than one next (nested) step");
 };
+
+export const stateValueToStateId = (stateValue: StateValue): string => {
+  if (typeof stateValue == "string") {
+    return stateValue;
+  } else if (Object.keys(stateValue).length == 1) {
+    return [
+      Object.keys(stateValue)[0],
+      stateValueToStateId(Object.values(stateValue)[0] as StateValue),
+    ].join(".");
+  }
+  throw Error("It is not expected to have other than one next (nested) step");
+}

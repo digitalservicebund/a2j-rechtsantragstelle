@@ -1,12 +1,13 @@
 /* eslint sonarjs/no-duplicate-string: 0 */
 import { createMachine } from "xstate";
 import { fluggastrechteGuards } from "~/models/flows/fluggastrechteFormular/guards";
-import fluggastrechteFormularFlow from "~/models/flows/fluggastrechteFormular/config.json";
+import { fluggastrechtFlow } from "~/models/flows/fluggastrechteFormular";
 import type { TestCases } from "../TestCases";
 import type { FluggastrechtContext } from "~/models/flows/fluggastrechteFormular/context";
+import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
-const machine = createMachine<FluggastrechtContext>(
-  { ...fluggastrechteFormularFlow, context: {} },
+const machine: FlowStateMachine = createMachine(
+  { ...fluggastrechtFlow, context: {} },
   { guards: fluggastrechteGuards },
 );
 
