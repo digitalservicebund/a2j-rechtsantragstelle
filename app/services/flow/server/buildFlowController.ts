@@ -1,11 +1,5 @@
-import type { MachineConfig } from "xstate";
-import {
-  createActor,
-  createMachine,
-  getNextSnapshot,
-  pathToStateValue,
-  setup,
-} from "xstate";
+import type { MachineConfig, StateMachine, StateValue } from "xstate";
+import { getNextSnapshot, pathToStateValue, setup } from "xstate";
 import { getShortestPaths } from "@xstate/graph";
 import {
   getStateValueString,
@@ -17,17 +11,30 @@ import type { Guards } from "~/models/flows/guards.server";
 import _ from "lodash";
 
 type Event = "SUBMIT" | "BACK";
-type StateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
+type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
 
 const stateMachineTypes = {
   context: {} as Context,
-  events: {} as StateMachineEvents,
+  events: {} as FlowStateMachineEvents,
   input: {} as Context,
+  guards: {} as Guards,
 };
-const genericMachine = setup({ types: stateMachineTypes });
-type StateMachine = typeof genericMachine.createMachine;
+type FlowStateMachine = StateMachine<
+  Context, // context
+  FlowStateMachineEvents, // event
+  any, // children
+  any, // actor
+  any, // action
+  any, // guard
+  any, // delay
+  StateValue, // state value
+  any, // tag
+  any, // input
+  any, // output
+  any
+>;
 
-export type Config = MachineConfig<Context, StateMachineEvents>;
+export type Config = MachineConfig<Context, FlowStateMachineEvents>;
 
 export type Meta = {
   customEventName?: string;
@@ -38,9 +45,9 @@ export type Meta = {
   subflowDone: (context: Context, subflowId: string) => boolean | undefined;
 };
 
-const getSteps = (machine: StateMachine, context: Context) => {
+const getSteps = (machine: FlowStateMachine, context: Context) => {
   // todo: remove machine relying on context passed at createMachine()...
-  // https://www.jsdocs.io/package/xstate#StateMachine.provide is supposed to allow this but context isn't applied
+  // https://www.jsdocs.io/package/xstate#FlowStateMachine.provide is supposed to allow this but context isn't applied
   // idea: machine.provide() with action that assigns the new context
   const possiblePaths = getShortestPaths(machine, {
     events: [{ type: "SUBMIT" }],
@@ -51,7 +58,7 @@ const getSteps = (machine: StateMachine, context: Context) => {
 };
 
 const transitionDestination = (
-  machine: StateMachine,
+  machine: FlowStateMachine,
   stepId: string,
   type: Event,
   context: Context,
@@ -68,7 +75,7 @@ const transitionDestination = (
   return nextStateId == stepId ? undefined : `${machine.id}${nextStateId}`;
 };
 
-const findNode = (machine: StateMachine, stepId: string) => {
+const findNode = (machine: FlowStateMachine, stepId: string) => {
   const statepath = stepIdToPath(stepId);
   const resolvedState = machine.resolveState({
     value: pathToStateValue(statepath),
@@ -77,16 +84,16 @@ const findNode = (machine: StateMachine, stepId: string) => {
   return resolvedState._nodes.find((node) => _.isEqual(node.path, statepath));
 };
 
-const isFinalStep = (machine: StateMachine, stepId: string) => {
+const isFinalStep = (machine: FlowStateMachine, stepId: string) => {
   const transitions = findNode(machine, stepId)?.transitions;
   return transitions && !transitions.has("SUBMIT");
 };
 
-const metaFromStepId = (machine: StateMachine, currentStepId: string) => {
+const metaFromStepId = (machine: FlowStateMachine, currentStepId: string) => {
   return findNode(machine, currentStepId)?.meta as Meta | undefined;
 };
 
-function getInitial(machine: StateMachine) {
+function getInitial(machine: FlowStateMachine) {
   return machine.config.initial;
 }
 
@@ -99,6 +106,8 @@ export const buildFlowController = ({
   data?: Context;
   guards?: Guards; // TODO: non-optional?
 }) => {
+  // console.log("guards", guards);
+  console.log("config", config);
   const machine = setup({
     types: stateMachineTypes,
     guards,
