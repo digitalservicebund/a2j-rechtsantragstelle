@@ -1,25 +1,30 @@
-import type { MachineConfig, StateMachine, StateValue } from "xstate";
+import type {
+  AnyStateMachine,
+  MachineConfig,
+  StateMachine,
+  StateValue,
+} from "xstate";
 import { getNextSnapshot, pathToStateValue, setup } from "xstate";
 import { getShortestPaths } from "@xstate/graph";
 import {
   getStateValueString,
   stepIdToPath,
 } from "~/services/flow/getStateValueString";
-import type { Context } from "~/models/flows/contexts";
+import type { Context, FlowId } from "~/models/flows/contexts";
 import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
 import type { Guards } from "~/models/flows/guards.server";
 import _ from "lodash";
+import type { Flow } from "~/models/flows/flows.server";
 
 type Event = "SUBMIT" | "BACK";
-type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
+export type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
 
-const stateMachineTypes = {
+export const stateMachineTypes = {
   context: {} as Context,
   events: {} as FlowStateMachineEvents,
   input: {} as Context,
-  guards: {} as Guards,
 };
-type FlowStateMachine = StateMachine<
+export type FlowStateMachine = StateMachine<
   Context, // context
   FlowStateMachineEvents, // event
   any, // children
@@ -27,14 +32,21 @@ type FlowStateMachine = StateMachine<
   any, // action
   any, // guard
   any, // delay
-  StateValue, // state value
+  any, // state value
   any, // tag
   any, // input
   any, // output
   any
 >;
 
-export type Config = MachineConfig<Context, FlowStateMachineEvents>;
+export type Config = MachineConfig<
+  Context,
+  FlowStateMachineEvents,
+  never,
+  never,
+  { type: string; params: unknown },
+  never
+>;
 
 export type Meta = {
   customEventName?: string;
@@ -104,10 +116,8 @@ export const buildFlowController = ({
 }: {
   config: Config;
   data?: Context;
-  guards?: Guards; // TODO: non-optional?
+  guards?: Guards;
 }) => {
-  // console.log("guards", guards);
-  console.log("config", config);
   const machine = setup({
     types: stateMachineTypes,
     guards,
