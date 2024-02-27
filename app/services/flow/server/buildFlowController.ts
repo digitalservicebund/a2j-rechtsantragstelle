@@ -7,9 +7,9 @@ import {
 } from "xstate";
 import { getShortestPaths } from "@xstate/graph";
 import {
-  getStateValueString,
+  stateValueToStepId,
   stepIdToPath,
-} from "~/services/flow/getStateValueString";
+} from "~/services/flow/stepIdConverter";
 import type { Context } from "~/models/flows/contexts";
 import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
 import type { Guards } from "~/models/flows/guards.server";
@@ -56,7 +56,7 @@ const getSteps = (machine: FlowStateMachine, context: Context) => {
     events: [{ type: "SUBMIT" }],
   });
   return Object.values(possiblePaths).map(({ state }) =>
-    getStateValueString(state.value),
+    stateValueToStepId(state.value),
   );
 };
 
@@ -73,7 +73,7 @@ export const transitionDestination = (
   });
   // Get snapshot of next machine state using the given event
   const nextState = getNextSnapshot(machine, resolvedState, { type });
-  const nextStateId = getStateValueString(nextState.value);
+  const nextStateId = stateValueToStepId(nextState.value);
   // If the stepId if the new state matches the previous one: Return undefined. else: return full path
   return nextStateId == stepId ? undefined : `${machine.id}${nextStateId}`;
 };
@@ -99,7 +99,7 @@ const metaFromStepId = (machine: FlowStateMachine, currentStepId: string) => {
 function getInitial(machine: FlowStateMachine) {
   // The initial state might be nested and needs to be resolved
   const initialSnapshot = getInitialSnapshot(machine);
-  return getStateValueString(initialSnapshot.value);
+  return stateValueToStepId(initialSnapshot.value);
 }
 
 export const buildFlowController = ({
