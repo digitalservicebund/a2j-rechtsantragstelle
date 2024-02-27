@@ -78,5 +78,5 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   //@ts-ignore
   const machine = createMachine(config, { guards });
   const base64Graph = getVisualizationString(machine, showBacklinks);
-  return json({ url: `https://mermaid.ink/img/${base64Graph}` });
+  return json({ url: `https://mermaid.ink/img/${base64Graph}?bgColor=!white` });
 };
