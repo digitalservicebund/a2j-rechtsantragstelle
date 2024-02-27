@@ -21,12 +21,12 @@ const yesOrNoGuard = (
   field: keyof BeratungshilfeVorabcheckContext,
 ): Guards => ({
   [`${field}YesOrNo`]: ({ context }) =>
-    context[field] === "yes" && context[field] === "no",
+    context[field] === "yes" || context[field] === "no",
 });
 
 const filledGuard = (field: keyof BeratungshilfeVorabcheckContext): Guards => ({
   [`${field}Filled`]: ({ context }) =>
-    context[field] !== undefined && context[field] !== null,
+    context[field] !== undefined || context[field] !== null,
 });
 
 const staatlicheLeistungenYesButNoEigeninitiative: Guard = ({ context }) => {

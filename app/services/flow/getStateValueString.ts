@@ -33,4 +33,4 @@ export const stateValueToStateId = (stateValue: StateValue): string => {
     ].join(".");
   }
   throw Error("It is not expected to have other than one next (nested) step");
-}
+};
