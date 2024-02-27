@@ -1,45 +1,34 @@
-import type {
-  AnyStateMachine,
-  MachineConfig,
-  StateMachine,
-  StateValue,
+import type { MachineConfig } from "xstate";
+import {
   getInitialSnapshot,
+  getNextSnapshot,
+  pathToStateValue,
+  setup,
 } from "xstate";
-import { getNextSnapshot, pathToStateValue, setup } from "xstate";
 import { getShortestPaths } from "@xstate/graph";
 import {
   getStateValueString,
   stepIdToPath,
 } from "~/services/flow/getStateValueString";
-import type { Context, FlowId } from "~/models/flows/contexts";
+import type { Context } from "~/models/flows/contexts";
 import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
 import type { Guards } from "~/models/flows/guards.server";
 import _ from "lodash";
-import type { Flow } from "~/models/flows/flows.server";
 
 type Event = "SUBMIT" | "BACK";
-export type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
+type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
 
-export const stateMachineTypes = {
-  context: {} as Context,
-  events: {} as FlowStateMachineEvents,
-  input: {} as Context,
+type StateMachineTypes = {
+  context: Context;
+  events: FlowStateMachineEvents;
 };
 
-export type FlowStateMachine = StateMachine<
-  Context, // context
-  FlowStateMachineEvents, // event
-  any, // children
-  any, // actor
-  any, // action
-  any, // guard
-  any, // delay
-  any, // state value
-  any, // tag
-  any, // input
-  any, // output
-  any
->;
+const genericMachine = setup({
+  types: {} as StateMachineTypes,
+  guards: {} as Guards,
+});
+
+export type FlowStateMachine = ReturnType<typeof genericMachine.createMachine>;
 
 export type Config = MachineConfig<
   Context,
@@ -123,7 +112,7 @@ export const buildFlowController = ({
   guards?: Guards;
 }) => {
   const machine = setup({
-    types: stateMachineTypes,
+    types: {} as StateMachineTypes,
     guards,
   }).createMachine({ ...config, context });
   const baseUrl = config.id ?? "";
