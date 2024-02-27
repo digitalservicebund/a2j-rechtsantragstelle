@@ -21,9 +21,9 @@ function statesToGraph(
           ? `${edge.target.parent?.id}.${edge.target.key}`
           : edge.target.key;
 
-      let arrow = edge.label.text === "SUBMIT" ? "-->" : ".->";
-      if (edge.transition.guard?.name !== undefined)
-        arrow = `${arrow}|${edge.transition.guard?.name}|`;
+      const arrow = edge.label.text === "SUBMIT" ? "-->" : ".->";
+      // if (edge.transition.guard?.name !== undefined)
+      //   arrow = `${arrow}|${edge.transition.guard?.name}|`;
       const transition = `    ${source} ${arrow} ${target}\n`;
 
       if (showBacklinks || edge.label.text !== "BACK")
