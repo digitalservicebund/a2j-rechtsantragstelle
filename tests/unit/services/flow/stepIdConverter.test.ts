@@ -1,4 +1,7 @@
-import { stateValueToStepId } from "~/services/flow/stepIdConverter";
+import {
+  stateValueToStepId,
+  stepIdToPath,
+} from "~/services/flow/stepIdConverter";
 
 describe("getStateValueString", () => {
   it("returns simple value if single state given", () => {
@@ -21,5 +24,16 @@ describe("getStateValueString", () => {
     expect(() =>
       stateValueToStepId({ parent1: "state1", parent2: "state2" }),
     ).toThrow();
+  });
+});
+
+describe("stepIdToPath", () => {
+  it.each([
+    ["", [""]],
+    ["a/b", ["a", "b"]],
+    ["a/b/c", ["a", "b", "c"]],
+    ["ergebnis/b/c", ["ergebnis/b", "c"]],
+  ])("when the input is '%s'", (text, expected) => {
+    expect(stepIdToPath(text)).toEqual(expected);
   });
 });
