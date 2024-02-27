@@ -24,6 +24,7 @@ export const stateMachineTypes = {
   events: {} as FlowStateMachineEvents,
   input: {} as Context,
 };
+
 export type FlowStateMachine = StateMachine<
   Context, // context
   FlowStateMachineEvents, // event
@@ -106,7 +107,22 @@ const metaFromStepId = (machine: FlowStateMachine, currentStepId: string) => {
 };
 
 function getInitial(machine: FlowStateMachine) {
-  return machine.config.initial;
+  // For fluggastrechte flow, the initial state is "intro/start" but 
+  // it's a step in a subflow and not a step on the root level
+  // that means we have to redirect for this case to the initial step of the subflow
+  const machineStates = Object.entries(machine.config.states ?? {});
+  const possibleSubflow = machineStates?.find((state) => state[0] === machine.config.initial);
+  const initialStep = machine.config.initial as string;
+
+  if (possibleSubflow) {
+    const subflowInitialStep = possibleSubflow[1]?.initial as string;
+
+    if (subflowInitialStep) {
+      return `${initialStep}/${subflowInitialStep}`;
+    }
+  }  
+
+  return (initialStep);
 }
 
 export const buildFlowController = ({
