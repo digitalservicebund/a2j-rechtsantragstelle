@@ -98,7 +98,7 @@ function handleBrowserRequest(
     const cspNonce = generateNonce();
     responseHeaders.set(
       "Content-Security-Policy",
-      `default-src 'self'; script-src 'self' 'nonce-${cspNonce}' https://eu.posthog.com/static/recorder-v2.js; style-src 'self' 'unsafe-inline'; connect-src ${
+      `default-src 'self'; script-src 'self' 'nonce-${cspNonce}' https://*.posthog.com; style-src 'self' 'unsafe-inline'; connect-src ${
         configServer().TRUSTED_CSP_CONNECT_SOURCES
       };  img-src 'self' localhost:* ${configServer().TRUSTED_IMAGE_SOURCES}`,
     );
