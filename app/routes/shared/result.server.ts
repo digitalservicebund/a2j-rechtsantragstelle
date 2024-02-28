@@ -1,6 +1,6 @@
 import type { ActionFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { getSessionForContext } from "~/services/session.server";
+import { getSessionForContext, updateSession } from "~/services/session.server";
 import {
   fetchCollectionEntry,
   fetchMeta,
@@ -23,6 +23,7 @@ import {
   partnerCourtAirports,
 } from "~/models/flows/fluggastrechte";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
@@ -31,8 +32,28 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const { flowId, stepId } = parsePathname(pathname);
   const cookieId = request.headers.get("Cookie");
-  const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
+  const flowSession = await getSessionForContext(flowId).getSession(cookieId);
+  const { data, id } = flowSession;
   context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
+
+  const courts = [data.startAirport, data.endAirport]
+    .filter(isPartnerAirport)
+    .map((airport) => findCourt({ zipCode: partnerCourtAirports[airport] }))
+    .filter(Boolean) as Jmtd14VTErwerberGerbeh[];
+
+  // TODO: move logic that enriches user data out of the loader
+  const zustaendigesAmtsgericht = courts.map((court) => ({
+    bezeichnung: court.BEZEICHNUNG,
+    strasseMitHausnummer: court.STR_HNR,
+    plzUndStadt: `${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`,
+  }));
+
+  if (zustaendigesAmtsgericht.length > 0) {
+    updateSession(flowSession, {
+      zustaendigesAmtsgericht: zustaendigesAmtsgericht[0],
+    });
+    await getSessionForContext(flowId).commitSession(flowSession);
+  }
 
   const { config, guards } = flows[flowId];
   const flowController = buildFlowController({ config, data, guards });
@@ -87,13 +108,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         getFeedbackBannerState(userDataFromRedis, pathname) ??
         BannerState.ShowRating,
       amtsgerichtCommon,
-      courts:
-        cmsData.pageType === "success" &&
-        [data.startAirport, data.endAirport]
-          .filter(isPartnerAirport)
-          .map((airport) =>
-            findCourt({ zipCode: partnerCourtAirports[airport] }),
-          ),
+      courts: cmsData.pageType === "success" && courts,
     },
     { headers: { "Set-Cookie": await commitSession(userDataFromRedis) } },
   );
