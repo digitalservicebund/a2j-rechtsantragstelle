@@ -1,7 +1,11 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
-import { getSessionForContext, updateSession } from "~/services/session.server";
+import {
+  getSessionData,
+  getSessionForContext,
+  updateSession,
+} from "~/services/session.server";
 import {
   fetchCollectionEntry,
   fetchMeta,
@@ -41,10 +45,11 @@ export const loader = async ({
   const { flowId, stepId } = parsePathname(pathname);
   const cookieId = request.headers.get("Cookie");
 
-  // get data from redis
-  const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
-  const userDataFromRedis: Context = data; // Recast for now to get type safety
-  context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
+  const { userDataFromRedis, sessionId } = await getSessionData(
+    flowId,
+    cookieId,
+  );
+  context.sessionId = sessionId; // For showing in errors
 
   // get flow controller
   const currentFlow = flows[flowId];

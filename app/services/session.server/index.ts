@@ -58,6 +58,17 @@ export function getSessionForContext(context: SessionContext) {
   return { getSession, commitSession, destroySession, getSessionId: getFullId };
 }
 
+export const getSessionData = async (
+  flowId: SessionContext,
+  cookieId: string | null,
+) => {
+  const contextSession = getSessionForContext(flowId);
+  const { data, id } = await contextSession.getSession(cookieId);
+  const userDataFromRedis: Context = data; // Recast for now to get type safety
+  const sessionId = contextSession.getSessionId(id);
+  return { userDataFromRedis, sessionId };
+};
+
 export const updateSession = (
   session: Session,
   validatedData: Context,
