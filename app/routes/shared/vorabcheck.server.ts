@@ -31,6 +31,7 @@ import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiHeading";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { stepMeta } from "~/services/meta/formStepMeta";
 import { getProgressProps } from "~/services/flow/server/progress";
+import { updateSessionInHeader } from "~/services/session.server/updateSessionInHeader";
 
 export const loader = async ({
   params,
@@ -98,14 +99,11 @@ export const loader = async ({
   const fieldNames = formElements.map((entry) => entry.name);
   const stepData = _.pick(userDataFromRedis, fieldNames);
 
-  const { session, csrf } = await updateSessionWithCsrfToken(request);
-
-  // update session with last valid step
-  session.set(lastStepKey, { [flowId]: stepId });
-
-  // set session in header
-  const sessionContext = getSessionForContext("main");
-  const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
+  const { headers, csrf } = await updateSessionInHeader({
+    request,
+    flowId,
+    stepId,
+  });
 
   const buttonNavigationProps = getButtonNavigationProps({
     flowController,

@@ -40,6 +40,7 @@ import {
 } from "~/services/session.server/arrayDeletion";
 import { interpolateDeep } from "~/util/fillTemplate";
 import { stepMeta } from "~/services/meta/formStepMeta";
+import { updateSessionInHeader } from "~/services/session.server/updateSessionInHeader";
 
 const structureCmsContent = (
   formPageContent: z.infer<CollectionSchemas["form-flow-pages"]>,
@@ -170,16 +171,12 @@ export const loader = async ({
     }),
   );
 
-  const { session, csrf } = await updateSessionWithCsrfToken(request);
+  const { headers, csrf } = await updateSessionInHeader({
+    request,
+    flowId,
+    stepId,
+  });
 
-  // update session with last valid step
-  session.set(lastStepKey, { [flowId]: stepId });
-
-  // set session in header
-  const sessionContext = getSessionForContext("main");
-  const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
-
-  // get navigation destinations + labels
   const buttonNavigationProps = getButtonNavigationProps({
     flowController,
     stepId,
