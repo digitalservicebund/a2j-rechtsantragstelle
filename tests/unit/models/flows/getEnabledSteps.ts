@@ -13,19 +13,16 @@ export function getEnabledSteps<T>({
   transitionType: "SUBMIT" | "BACK";
   steps: Readonly<Array<string>>;
 }) {
-  return [
-    steps[0],
-    ...steps.map((step) => {
-      const { stepId } = parsePathname(
-        transitionDestination(machine, step, transitionType, context) ?? "",
-      );
-      return stepId;
-    }),
-
-    // ...steps.slice(0, -1).map((step) => {
-    //   getStateValueString(
-    //     machine.transition(step, transitionType, context).value,
-    //   );
-    // }),
-  ];
+  const initialStep = steps[0];
+  const reachableSteps = steps.slice(0, -1).map((step) => {
+    const transDest = transitionDestination(
+      machine,
+      step,
+      transitionType,
+      context,
+    );
+    const { stepId } = parsePathname(transDest ?? "");
+    return stepId;
+  });
+  return [initialStep, ...reachableSteps];
 }
