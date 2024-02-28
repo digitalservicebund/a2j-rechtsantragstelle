@@ -28,7 +28,7 @@ import { parentFromParams } from "~/services/params";
 import { interpolateDeep } from "~/util/fillTemplate";
 import _ from "lodash";
 import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiHeading";
-import { buttonProps } from "~/util/buttonProps";
+import { getButtonNavigationProps } from "~/util/buttonProps";
 import { stepMeta } from "~/services/meta/formStepMeta";
 import { getProgressProps } from "~/services/flow/server/progress";
 
@@ -107,19 +107,12 @@ export const loader = async ({
   const sessionContext = getSessionForContext("main");
   const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
 
-  // get navigation destinations + labels
-  const buttonNavigationProps = {
-    next: flowController.isFinal(stepId)
-      ? undefined
-      : buttonProps(
-          vorabcheckPage.nextButtonLabel ??
-            translations["nextButtonDefaultLabel"],
-        ),
-    back: buttonProps(
-      translations["backButtonDefaultLabel"],
-      flowController.getPrevious(stepId)?.url,
-    ),
-  };
+  const buttonNavigationProps = getButtonNavigationProps({
+    flowController,
+    stepId,
+    nextButtonLabel: vorabcheckPage.nextButtonLabel,
+    defaultStrings: translations,
+  });
 
   const progressProps = getProgressProps({
     flowController,

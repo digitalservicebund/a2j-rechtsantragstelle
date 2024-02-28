@@ -1,11 +1,11 @@
-import type { buildFlowController } from "~/services/flow/server/buildFlowController";
+import type { FlowController } from "~/services/flow/server/buildFlowController";
 
 export const getProgressProps = ({
   flowController,
   stepId,
   progressBarLabel,
 }: {
-  flowController: ReturnType<typeof buildFlowController>;
+  flowController: FlowController;
   stepId: string;
   progressBarLabel: string;
 }) => {

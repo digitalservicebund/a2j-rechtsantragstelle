@@ -28,7 +28,7 @@ import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { navItemsFromFlowSpecifics } from "~/services/flowNavigation.server";
 import type { z } from "zod";
 import type { CollectionSchemas } from "~/services/cms/schemas";
-import { buttonProps } from "~/util/buttonProps";
+import { getButtonNavigationProps } from "~/util/buttonProps";
 import { sendCustomEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
@@ -180,18 +180,13 @@ export const loader = async ({
   const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
 
   // get navigation destinations + labels
-  const buttonNavigationProps = {
-    next: flowController.isFinal(stepId)
-      ? undefined
-      : buttonProps(
-          cmsContent.nextButtonLabel ??
-            defaultStrings["nextButtonDefaultLabel"],
-        ),
-    back: buttonProps(
-      defaultStrings["backButtonDefaultLabel"],
-      returnTo ?? flowController.getPrevious(stepId)?.url,
-    ),
-  };
+  const buttonNavigationProps = getButtonNavigationProps({
+    flowController,
+    stepId,
+    nextButtonLabel: cmsContent.nextButtonLabel,
+    defaultStrings,
+    returnTo,
+  });
 
   // get navigation items -> Formular
   const navItems = navItemsFromFlowSpecifics(

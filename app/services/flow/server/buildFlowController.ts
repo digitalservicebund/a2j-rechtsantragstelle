@@ -47,6 +47,8 @@ const isFinalStep = (machine: StateMachine, stepId: string) => {
   );
 };
 
+export type FlowController = ReturnType<typeof buildFlowController>;
+
 export const buildFlowController = ({
   config,
   data: context = {},
