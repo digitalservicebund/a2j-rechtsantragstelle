@@ -146,7 +146,7 @@ export const buildFlowController = ({
             .filter((p) => p),
         ) + 1;
       const meta = metaFromStepId(machine, currentStepId);
-      return { total, current: meta?.progressPosition ?? 0 };
+      return { total, current: meta?.progressPosition ?? total };
     },
   };
 };

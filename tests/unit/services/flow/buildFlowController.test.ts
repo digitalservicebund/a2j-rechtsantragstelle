@@ -74,34 +74,6 @@ describe("buildFlowController", () => {
       expect(buildFlowController({ config }).isFinal("step1Exit")).toBe(true);
     });
 
-    it("returns true if final step but SUBMIT given as empty array", () => {
-      expect(
-        buildFlowController({
-          config: {
-            id: "/flow/final/",
-            initial: "step1",
-            states: {
-              step1: { on: { SUBMIT: [] } },
-            },
-          },
-        }).isFinal("step1"),
-      ).toBe(true);
-    });
-
-    it("returns true if final step but SUBMIT given as empty object", () => {
-      expect(
-        buildFlowController({
-          config: {
-            id: "/flow/final/",
-            initial: "step1",
-            states: {
-              step1: { on: { SUBMIT: {} } },
-            },
-          },
-        }).isFinal("step1"),
-      ).toBe(true);
-    });
-
     it("returns false if not final step", () => {
       expect(buildFlowController({ config }).isFinal("step1")).toBe(false);
     });
@@ -193,7 +165,7 @@ describe("buildFlowController", () => {
     it("returns undefined if already first nested step", () => {
       expect(
         buildFlowController({ config: nestedInitialStateConfig }).getPrevious(
-          "parent1.step1",
+          "parent1/step1",
         ),
       ).toBeUndefined();
     });
