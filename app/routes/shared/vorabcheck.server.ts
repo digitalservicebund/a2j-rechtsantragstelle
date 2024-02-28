@@ -30,6 +30,7 @@ import _ from "lodash";
 import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiHeading";
 import { buttonProps } from "~/util/buttonProps";
 import { stepMeta } from "~/services/meta/formStepMeta";
+import { getProgressProps } from "~/services/flow/server/progress";
 
 export const loader = async ({
   params,
@@ -120,13 +121,11 @@ export const loader = async ({
     ),
   };
 
-  // get progress -> Vorabcheck
-  const { total, current } = flowController.getProgress(stepId);
-  const progressProps = {
-    progress: current,
-    max: total,
-    label: translations["progressBarLabel"],
-  };
+  const progressProps = getProgressProps({
+    flowController,
+    stepId,
+    progressBarLabel: translations["progressBarLabel"],
+  });
 
   return json(
     {
