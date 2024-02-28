@@ -13,13 +13,11 @@ import {
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { validateFormData } from "~/services/validation/validateFormData.server";
-import type { Context } from "~/models/flows/contexts";
 import { parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import { isStrapiSelectComponent } from "~/services/cms/models/StrapiSelect";
 import {
-  createCSRFToken,
-  csrfSessionFromRequest,
+  updateSessionWithCsrfToken,
   validatedSession,
 } from "~/services/security/csrf.server";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
@@ -99,9 +97,7 @@ export const loader = async ({
   const fieldNames = formElements.map((entry) => entry.name);
   const stepData = _.pick(userDataFromRedis, fieldNames);
 
-  // update session with csrf
-  const csrf = createCSRFToken();
-  const session = await csrfSessionFromRequest(csrf, request);
+  const { session, csrf } = await updateSessionWithCsrfToken(request);
 
   // update session with last valid step
   session.set(lastStepKey, { [flowId]: stepId });

@@ -37,3 +37,9 @@ export async function csrfSessionFromRequest(csrf: string, request: Request) {
   session.set(CSRFKey, newSessionCSRF);
   return session;
 }
+
+export async function updateSessionWithCsrfToken(request: Request) {
+  const csrf = createCSRFToken();
+  const session = await csrfSessionFromRequest(csrf, request);
+  return { session, csrf };
+}
