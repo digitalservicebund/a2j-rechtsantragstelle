@@ -174,11 +174,11 @@ export const loader = async ({
   });
 
   const buttonNavigationProps = getButtonNavigationProps({
-    flowController,
-    stepId,
-    nextButtonLabel: cmsContent.nextButtonLabel,
-    defaultStrings,
-    returnTo,
+    backButtonLabel: defaultStrings["backButtonDefaultLabel"],
+    nextButtonLabel:
+      cmsContent.nextButtonLabel ?? defaultStrings["nextButtonDefaultLabel"],
+    isFinal: flowController.isFinal(stepId),
+    backDestination: returnTo ?? flowController.getPrevious(stepId),
   });
 
   // get navigation items -> Formular

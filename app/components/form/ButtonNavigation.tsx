@@ -1,12 +1,12 @@
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 
-export type NavigationButton = {
+type NavigationButton = {
   destination?: string;
   label: string;
 };
 
-interface ButtonNavigationProps {
+export interface ButtonNavigationProps {
   readonly back?: NavigationButton;
   readonly next?: NavigationButton;
 }

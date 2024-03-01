@@ -102,10 +102,11 @@ export const loader = async ({
   });
 
   const buttonNavigationProps = getButtonNavigationProps({
-    flowController,
-    stepId,
-    nextButtonLabel: vorabcheckPage.nextButtonLabel,
-    defaultStrings: translations,
+    backButtonLabel: translations["backButtonDefaultLabel"],
+    nextButtonLabel:
+      vorabcheckPage.nextButtonLabel ?? translations["nextButtonDefaultLabel"],
+    isFinal: flowController.isFinal(stepId),
+    backDestination: flowController.getPrevious(stepId),
   });
 
   const progressProps = getProgressProps({
