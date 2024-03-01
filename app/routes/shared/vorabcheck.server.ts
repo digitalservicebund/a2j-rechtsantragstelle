@@ -107,7 +107,6 @@ export const loader = async ({
     nextButtonLabel: vorabcheckPage.nextButtonLabel,
     defaultStrings: translations,
   });
-  console.log({ buttonNavigationProps });
 
   const progressProps = getProgressProps({
     flowController,
