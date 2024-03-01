@@ -22,7 +22,7 @@ export const getStrapiEntryFromFile = async ({
     } catch (error) {
       console.error(error);
       throw Error(
-        "No valid content.json found while using 'CMS=FILE'.\nEither run 'npm run dumpCmsToFile' or try another CMS source",
+        "No valid content.json found while using 'CMS=FILE'.\nEither run 'npm run build:localContent' or try another CMS source",
       );
     }
   }
