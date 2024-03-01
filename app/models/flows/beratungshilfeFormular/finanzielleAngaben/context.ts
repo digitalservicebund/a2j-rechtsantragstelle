@@ -56,7 +56,7 @@ export const beratungshilfeFinanzielleAngaben = {
   bankkonten: z.array(
     z.object({
       bankName: inputRequiredSchema,
-      kontostand: buildMoneyValidationSchema(),
+      kontostand: buildMoneyValidationSchema({}),
       iban: z.string(),
       kontoEigentuemer: Eigentuemer,
     }),
