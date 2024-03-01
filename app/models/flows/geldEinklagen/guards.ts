@@ -1,18 +1,6 @@
 import { isPartnerCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { GeldEinklagenVorabcheckContext } from "./context";
-import type { Guards } from "../guards.server";
-
-function yesNoGuards<Field extends keyof GeldEinklagenVorabcheckContext>(
-  field: Field,
-): { [field in Field as `${field}Yes`]: Guards[string] } & {
-  [field in Field as `${field}No`]: Guards[string];
-} {
-  //@ts-ignore
-  return {
-    [`${field}Yes`]: ({ context }) => context[field] === "yes",
-    [`${field}No`]: ({ context }) => context[field] === "no",
-  } satisfies Guards<GeldEinklagenVorabcheckContext>;
-}
+import { yesNoGuards, type Guards } from "../guards.server";
 
 const privatpersonEligible: Guards<GeldEinklagenVorabcheckContext>[string] = ({
   context,

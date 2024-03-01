@@ -1,17 +1,5 @@
-import type { Guards } from "../../guards.server";
+import { yesNoGuards, type Guards } from "../../guards.server";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
-
-function yesNoGuards<Field extends keyof BeratungshilfeFinanzielleAngaben>(
-  field: Field,
-): { [field in Field as `${field}Yes`]: Guards[string] } & {
-  [field in Field as `${field}No`]: Guards[string];
-} {
-  //@ts-ignore
-  return {
-    [`${field}Yes`]: ({ context }) => context[field] === "yes",
-    [`${field}No`]: ({ context }) => context[field] === "no",
-  } satisfies Guards;
-}
 
 export const finanzielleAngabeGuards = {
   staatlicheLeistungenIsGrundsicherung: ({ context }) =>

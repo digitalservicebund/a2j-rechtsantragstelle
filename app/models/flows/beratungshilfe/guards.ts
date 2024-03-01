@@ -1,21 +1,9 @@
 import { freibetrag } from "./freibetrag";
 import moneyToCents from "../../../services/validation/money/moneyToCents";
 import type { BeratungshilfeVorabcheckContext } from "./context";
-import type { Guards } from "../guards.server";
+import { yesNoGuards, type Guards, type GenericGuard } from "../guards.server";
 
-type Guard = Guards<BeratungshilfeVorabcheckContext>[string];
-
-function yesNoGuards<Field extends keyof BeratungshilfeVorabcheckContext>(
-  field: Field,
-): { [field in Field as `${field}Yes`]: Guard } & {
-  [field in Field as `${field}No`]: Guard;
-} {
-  //@ts-ignore
-  return {
-    [`${field}Yes`]: ({ context }) => context[field] === "yes",
-    [`${field}No`]: ({ context }) => context[field] === "no",
-  } satisfies Guards;
-}
+type Guard = GenericGuard<BeratungshilfeVorabcheckContext>;
 
 const yesOrNoGuard = (
   field: keyof BeratungshilfeVorabcheckContext,
