@@ -16,13 +16,9 @@ import { validateFormData } from "~/services/validation/validateFormData.server"
 import { parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import { isStrapiSelectComponent } from "~/services/cms/models/StrapiSelect";
-import {
-  updateSessionWithCsrfToken,
-  validatedSession,
-} from "~/services/security/csrf.server";
+import { validatedSession } from "~/services/security/csrf.server";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
-import { lastStepKey } from "~/services/flow/constants";
 import { sendCustomEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
 import { interpolateDeep } from "~/util/fillTemplate";

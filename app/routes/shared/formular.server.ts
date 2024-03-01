@@ -17,13 +17,9 @@ import type { Context } from "~/models/flows/contexts";
 import { parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import { isStrapiSelectComponent } from "~/services/cms/models/StrapiSelect";
-import {
-  updateSessionWithCsrfToken,
-  validatedSession,
-} from "~/services/security/csrf.server";
+import { validatedSession } from "~/services/security/csrf.server";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
-import { lastStepKey } from "~/services/flow/constants";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { navItemsFromFlowSpecifics } from "~/services/flowNavigation.server";
 import type { z } from "zod";

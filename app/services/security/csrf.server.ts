@@ -6,7 +6,7 @@ import { CSRFKey } from "./csrfKey";
 
 export const csrfCountMax = 10;
 
-export function createCSRFToken() {
+function createCSRFToken() {
   return randomBytes(100).toString("base64");
 }
 
@@ -28,7 +28,7 @@ export async function validatedSession(request: Request) {
   await validateCSRFToken(request, session);
 }
 
-export async function csrfSessionFromRequest(csrf: string, request: Request) {
+async function csrfSessionFromRequest(csrf: string, request: Request) {
   const session = await mainSessionFromRequest(request);
   const sessionCSRF = getCSRFFromSession(session);
   const newSessionCSRF = Array.isArray(sessionCSRF)
