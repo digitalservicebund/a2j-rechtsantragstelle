@@ -5,11 +5,11 @@ import {
   JSONSchemaInput,
   FetchingJSONSchemaStore,
 } from "quicktype-core";
-import * as fs from "fs";
+import fs from "node:fs";
+import path from "node:path";
+import readline from "node:readline";
 
 import { normalizePropertyName } from "./pdf.server";
-import path from "path";
-import * as readline from "readline";
 
 const dataDirectory = "data/pdf/";
 
