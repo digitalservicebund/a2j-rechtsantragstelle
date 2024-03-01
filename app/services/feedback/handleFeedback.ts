@@ -1,4 +1,4 @@
-import { getSessionForContext } from "../session.server";
+import { getSessionManager } from "../session.server";
 import { BannerState } from "~/components/UserFeedback";
 import {
   feedbackFormName,
@@ -16,7 +16,7 @@ export const handleFeedback = async (formData: FormData, request: Request) => {
   const context = searchParams.get("context") ?? "";
 
   const cookie = request.headers.get("Cookie");
-  const { getSession, commitSession } = getSessionForContext("main");
+  const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(cookie);
 
   const userRating =

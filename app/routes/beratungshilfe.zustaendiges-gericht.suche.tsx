@@ -13,7 +13,7 @@ import {
 } from "~/services/cms/index.server";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
-import { getSessionForContext } from "~/services/session.server";
+import { getSessionManager } from "~/services/session.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { postcodeSchema } from "~/services/validation/postcode";
@@ -30,7 +30,7 @@ const validatorServer = withZod(serverSchema);
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const slug = new URL(request.url).pathname;
-  const sessionContext = getSessionForContext("beratungshilfe/vorabcheck");
+  const sessionContext = getSessionManager("beratungshilfe/vorabcheck");
 
   const [common, { form, meta }] = await Promise.all([
     fetchSingleEntry("amtsgericht-common"),

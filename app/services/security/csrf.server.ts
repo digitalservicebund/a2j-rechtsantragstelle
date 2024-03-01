@@ -1,7 +1,10 @@
 //https://sergiodxa.com/articles/adding-csrf-protection-to-remix
 import type { Session } from "@remix-run/node";
 import { randomBytes } from "node:crypto";
-import { mainSessionFromRequest } from "~/services/session.server";
+import {
+  type CookieHeader,
+  mainSessionFromCookieHeader,
+} from "~/services/session.server";
 import { CSRFKey } from "./csrfKey";
 
 export const csrfCountMax = 10;
@@ -25,12 +28,16 @@ async function validateCSRFToken(request: Request, session: Session) {
 }
 
 export async function validatedSession(request: Request) {
-  const session = await mainSessionFromRequest(request);
+  const cookieHeader = request.headers.get("Cookie");
+  const session = await mainSessionFromCookieHeader(cookieHeader);
   await validateCSRFToken(request, session);
 }
 
-async function csrfSessionFromRequest(csrf: string, request: Request) {
-  const session = await mainSessionFromRequest(request);
+async function csrfSessionFromCookieHeader(
+  csrf: string,
+  cookieHeader: CookieHeader,
+) {
+  const session = await mainSessionFromCookieHeader(cookieHeader);
   const sessionCSRF = getCSRFFromSession(session);
   const newSessionCSRF = Array.isArray(sessionCSRF)
     ? [...sessionCSRF, csrf].slice(-csrfCountMax)
@@ -39,8 +46,8 @@ async function csrfSessionFromRequest(csrf: string, request: Request) {
   return session;
 }
 
-export async function updateSessionWithCsrfToken(request: Request) {
+export async function createSessionWithCsrf(cookieHeader: CookieHeader) {
   const csrf = createCSRFToken();
-  const session = await csrfSessionFromRequest(csrf, request);
+  const session = await csrfSessionFromCookieHeader(csrf, cookieHeader);
   return { session, csrf };
 }

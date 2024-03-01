@@ -1,6 +1,11 @@
 import type { ActionFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { getSessionForContext, updateSession } from "~/services/session.server";
+import {
+  getSessionData,
+  getSessionManager,
+  mainSessionFromCookieHeader,
+  updateSession,
+} from "~/services/session.server";
 import {
   fetchCollectionEntry,
   fetchMeta,
@@ -12,7 +17,6 @@ import { parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import { BannerState } from "~/components/UserFeedback";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
-import { lastStepKey } from "~/services/flow/constants";
 import {
   getFeedbackBannerState,
   handleFeedback,
@@ -24,19 +28,29 @@ import {
 } from "~/models/flows/fluggastrechte";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
 
-  // get data from request
   const { pathname } = new URL(request.url);
   const { flowId, stepId } = parsePathname(pathname);
-  const cookieId = request.headers.get("Cookie");
-  const flowSession = await getSessionForContext(flowId).getSession(cookieId);
-  const { data, id } = flowSession;
-  context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
+  const cookieHeader = request.headers.get("Cookie");
 
-  const courts = [data.startAirport, data.endAirport]
+  const sessionManager = getSessionManager(flowId);
+  const { userData, debugId } = await getSessionData(flowId, cookieHeader);
+  context.debugId = debugId; // For showing in errors
+
+  const flowController = buildFlowController({
+    config: flows[flowId].config,
+    data: userData,
+    guards: flows[flowId].guards,
+  });
+
+  if (!flowController.isReachable(stepId))
+    return redirect(flowController.getInitial());
+
+  const courts = [userData.startAirport, userData.endAirport]
     .filter(isPartnerAirport)
     .map((airport) => findCourt({ zipCode: partnerCourtAirports[airport] }))
     .filter(Boolean) as Jmtd14VTErwerberGerbeh[];
@@ -49,17 +63,10 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   }));
 
   if (zustaendigesAmtsgericht.length > 0) {
-    updateSession(flowSession, {
-      zustaendigesAmtsgericht: zustaendigesAmtsgericht[0],
-    });
-    await getSessionForContext(flowId).commitSession(flowSession);
+    const session = await sessionManager.getSession(cookieHeader);
+    session.set("zustaendigesAmtsgericht", zustaendigesAmtsgericht[0]);
+    await sessionManager.commitSession(session);
   }
-
-  const { config, guards } = flows[flowId];
-  const flowController = buildFlowController({ config, data, guards });
-
-  if (!flowController.isReachable(stepId))
-    return redirect(flowController.getInitial());
 
   // Slug change to keep Strapi slugs without ergebnis/
   const slug = pathname.replace(/ergebnis\//, "");
@@ -84,9 +91,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         label: cmsData.nextLink?.text ?? common.nextButtonDefaultLabel,
       };
 
-  const { getSession, commitSession } = getSessionForContext("main");
-  const userDataFromRedis = await getSession(cookieId);
-  userDataFromRedis.set(lastStepKey, { [flowId]: stepId });
+  const mainSession = await mainSessionFromCookieHeader(cookieHeader);
+  const { headers } = await updateMainSession({
+    cookieHeader,
+    flowId,
+    stepId,
+  });
 
   return json(
     {
@@ -96,7 +106,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       content: cmsData.freeZone,
       meta: { ...cmsData.meta, breadcrumbTitle: parentMeta?.title ?? "" },
       reasons: reasonElementsWithID.filter((reason) =>
-        Boolean(getReasonsToDisplay(data)[reason.elementId]),
+        Boolean(getReasonsToDisplay(userData)[reason.elementId]),
       ),
       progress: flowController.getProgress(stepId),
       nextButton,
@@ -105,12 +115,11 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         label: common.backButtonDefaultLabel,
       },
       bannerState:
-        getFeedbackBannerState(userDataFromRedis, pathname) ??
-        BannerState.ShowRating,
+        getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
       amtsgerichtCommon,
       courts: cmsData.pageType === "success" && courts,
     },
-    { headers: { "Set-Cookie": await commitSession(userDataFromRedis) } },
+    { headers },
   );
 };
 

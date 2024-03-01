@@ -30,13 +30,13 @@ type ErrorBoxProps = {
 
 export function ErrorBox({ errorPages, context }: ErrorBoxProps) {
   const routerError = useRouteError();
-  const sessionId = context.sessionId as string | undefined;
+  const debugId = context.debugId as string | undefined;
   const isProd = config().ENVIRONMENT === "production";
   return (
     <div>
       <PageContent content={matchingError(routerError, errorPages)} />
       <Container>
-        {sessionId && <pre>ID: {sessionId}</pre>}
+        {debugId && <pre>ID: {debugId}</pre>}
         {!isProd && <pre>{jsError(routerError)}</pre>}
       </Container>
     </div>

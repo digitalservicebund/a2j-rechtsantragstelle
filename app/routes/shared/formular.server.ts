@@ -3,7 +3,7 @@ import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
 import {
   getSessionData,
-  getSessionForContext,
+  getSessionManager,
   updateSession,
 } from "~/services/session.server";
 import {
@@ -36,7 +36,7 @@ import {
 } from "~/services/session.server/arrayDeletion";
 import { interpolateDeep } from "~/util/fillTemplate";
 import { stepMeta } from "~/services/meta/formStepMeta";
-import { updateSessionInHeader } from "~/services/session.server/updateSessionInHeader";
+import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 
 const structureCmsContent = (
   formPageContent: z.infer<CollectionSchemas["form-flow-pages"]>,
@@ -86,19 +86,16 @@ export const loader = async ({
   const { pathname, searchParams } = new URL(request.url);
   const returnTo = searchParams.get("returnTo") ?? undefined;
   const { flowId, stepId, arrayIndex } = parsePathname(pathname);
-  const cookieId = request.headers.get("Cookie");
+  const cookieHeader = request.headers.get("Cookie");
 
-  const { userDataFromRedis, sessionId } = await getSessionData(
-    flowId,
-    cookieId,
-  );
-  context.sessionId = sessionId; // For showing in errors
+  const { userData, debugId } = await getSessionData(flowId, cookieHeader);
+  context.debugId = debugId; // For showing in errors
 
   // get flow controller
   const currentFlow = flows[flowId];
   const flowController = buildFlowController({
     config: currentFlow.config,
-    data: userDataFromRedis,
+    data: userData,
     guards: currentFlow.guards,
   });
 
@@ -129,7 +126,7 @@ export const loader = async ({
   const cmsContent = interpolateDeep(
     structureCmsContent(formPageContent),
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userDataFromRedis)
+      ? currentFlow.stringReplacements(userData)
       : {},
   );
 
@@ -150,16 +147,12 @@ export const loader = async ({
 
   // filter user data for current step
   const fieldNames = formPageContent.form.map((entry) => entry.name);
-  const stepData = stepDataFromFieldNames(
-    fieldNames,
-    userDataFromRedis,
-    arrayIndex,
-  );
+  const stepData = stepDataFromFieldNames(fieldNames, userData, arrayIndex);
 
   // get array data to display in ArraySummary -> Formular + Vorabcheck?
   const arrayData = Object.fromEntries(
     formPageContent.pre_form.filter(isStrapiArraySummary).map((entry) => {
-      const possibleArray = userDataFromRedis[entry.arrayKey];
+      const possibleArray = userData[entry.arrayKey];
       return [
         entry.arrayKey,
         Array.isArray(possibleArray) ? possibleArray : [],
@@ -167,8 +160,8 @@ export const loader = async ({
     }),
   );
 
-  const { headers, csrf } = await updateSessionInHeader({
-    request,
+  const { headers, csrf } = await updateMainSession({
+    cookieHeader,
     flowId,
     stepId,
   });
@@ -193,7 +186,7 @@ export const loader = async ({
     stepId,
     flowId,
     currentFlow,
-    cookieId,
+    cookieHeader,
   );
 
   return json(
@@ -226,9 +219,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
   const { pathname } = new URL(request.url);
   const { flowId, stepId, arrayIndex } = parsePathname(pathname);
-  const { getSession, commitSession } = getSessionForContext(flowId);
-  const cookieId = request.headers.get("Cookie");
-  const flowSession = await getSession(cookieId);
+  const { getSession, commitSession } = getSessionManager(flowId);
+  const cookieHeader = request.headers.get("Cookie");
+  const flowSession = await getSession(cookieHeader);
 
   const formData = await request.formData();
   const currentFlow = flows[flowId];
@@ -263,7 +256,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     stepId,
     flowId,
     currentFlow,
-    cookieId,
+    cookieHeader,
   );
   if (migrationData && validationResult.data["doMigration"] === "yes") {
     updateSession(flowSession, migrationData);

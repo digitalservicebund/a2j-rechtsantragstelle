@@ -3,7 +3,7 @@ import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
 import {
   getSessionData,
-  getSessionForContext,
+  getSessionManager,
   updateSession,
 } from "~/services/session.server";
 import {
@@ -27,7 +27,7 @@ import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiHeading";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { stepMeta } from "~/services/meta/formStepMeta";
 import { getProgressProps } from "~/services/flow/server/progress";
-import { updateSessionInHeader } from "~/services/session.server/updateSessionInHeader";
+import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 
 export const loader = async ({
   params,
@@ -35,23 +35,17 @@ export const loader = async ({
   context,
 }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
-
-  // get data from request
   const { pathname } = new URL(request.url);
   const { flowId, stepId } = parsePathname(pathname);
-  const cookieId = request.headers.get("Cookie");
+  const cookieHeader = request.headers.get("Cookie");
 
-  const { userDataFromRedis, sessionId } = await getSessionData(
-    flowId,
-    cookieId,
-  );
-  context.sessionId = sessionId; // For showing in errors
+  const { userData, debugId } = await getSessionData(flowId, cookieHeader);
+  context.debugId = debugId; // For showing in errors
 
-  // get flow controller
   const currentFlow = flows[flowId];
   const flowController = buildFlowController({
     config: currentFlow.config,
-    data: userDataFromRedis,
+    data: userData,
     guards: currentFlow.guards,
   });
 
@@ -70,7 +64,7 @@ export const loader = async ({
   const contentElements = interpolateDeep(
     vorabcheckPage.pre_form,
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userDataFromRedis)
+      ? currentFlow.stringReplacements(userData)
       : undefined,
   );
 
@@ -93,10 +87,10 @@ export const loader = async ({
 
   // filter user data for current step
   const fieldNames = formElements.map((entry) => entry.name);
-  const stepData = _.pick(userDataFromRedis, fieldNames);
+  const stepData = _.pick(userData, fieldNames);
 
-  const { headers, csrf } = await updateSessionInHeader({
-    request,
+  const { headers, csrf } = await updateMainSession({
+    cookieHeader,
     flowId,
     stepId,
   });
@@ -139,10 +133,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const { pathname } = new URL(request.url);
   const { flowId, stepId } = parsePathname(pathname);
-  const { getSession, commitSession } = getSessionForContext(flowId);
-  const cookieId = request.headers.get("Cookie");
-  const flowSession = await getSession(cookieId);
-
+  const sessionManager = getSessionManager(flowId);
+  const cookieHeader = request.headers.get("Cookie");
+  const flowSession = await sessionManager.getSession(cookieHeader);
   const formData = await request.formData();
 
   // Note: This also reduces same-named fields to the last entry
@@ -176,7 +169,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const destination =
     flowController.getNext(stepId) ?? flowController.getInitial();
-  const headers = { "Set-Cookie": await commitSession(flowSession) };
+  const headers = {
+    "Set-Cookie": await sessionManager.commitSession(flowSession),
+  };
 
   return redirectDocument(destination, { headers });
 };

@@ -3,16 +3,17 @@ import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { throw404IfFeatureFlagEnabled } from "../../errorPages/throw404";
 import { buildFlowController } from "./buildFlowController";
 import {
-  getSessionForContext,
-  mainSessionFromRequest,
+  type CookieHeader,
+  getSessionManager,
+  mainSessionFromCookieHeader,
 } from "../../session.server";
 import { dataDeletionKey, lastStepKey } from "../constants";
 import { type FlowId, flowIDFromPathname } from "~/models/flows/contexts";
 
 type LastStep = Record<FlowId, string>;
 
-async function lastStepFromRequest(request: Request) {
-  const mainSession = await mainSessionFromRequest(request);
+async function lastStepFromRequest(cookieHeader: CookieHeader) {
+  const mainSession = await mainSessionFromCookieHeader(cookieHeader);
   return mainSession.get(lastStepKey) as undefined | LastStep;
 }
 
@@ -21,15 +22,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { pathname, searchParams } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);
   const { config, guards } = flows[flowId];
+  const cookieHeader = request.headers.get("Cookie");
 
   let headers = {};
   if (searchParams.get(dataDeletionKey) !== null) {
-    const cookie = request.headers.get("Cookie");
-    const context = getSessionForContext(flowId);
-    const session = await context.getSession(cookie);
-    headers = { "Set-Cookie": await context.destroySession(session) };
+    const sessionManager = getSessionManager(flowId);
+    const session = await sessionManager.getSession(cookieHeader);
+    headers = { "Set-Cookie": await sessionManager.destroySession(session) };
   }
-  const lastStep = await lastStepFromRequest(request);
+  const lastStep = await lastStepFromRequest(cookieHeader);
   const destination =
     lastStep && flowId in lastStep
       ? lastStep[flowId]
