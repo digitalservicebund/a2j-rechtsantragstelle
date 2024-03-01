@@ -10,9 +10,9 @@ export function getButtonNavigationProps({
   nextButtonLabel: string;
   isFinal?: boolean;
   backDestination?: string;
-}): ButtonNavigationProps {
+}) {
   return {
     back: { label: backButtonLabel, destination: backDestination },
     next: isFinal ? undefined : { label: nextButtonLabel },
-  };
+  } satisfies ButtonNavigationProps;
 }
