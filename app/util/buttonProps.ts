@@ -27,7 +27,7 @@ export function getButtonNavigationProps({
         ),
     back: buttonProps(
       defaultStrings["backButtonDefaultLabel"],
-      returnTo ?? flowController.getPrevious(stepId)?.url,
+      returnTo ?? flowController.getPrevious(stepId),
     ),
   };
 }

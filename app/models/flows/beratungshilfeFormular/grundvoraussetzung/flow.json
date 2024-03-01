@@ -1,5 +1,4 @@
 {
-  "predictableActionArguments": true,
   "initial": "start",
   "id": "grundvoraussetzungen",
   "meta": { "isUneditable": true },
@@ -9,7 +8,7 @@
       "on": {
         "SUBMIT": [
           {
-            "cond": "rechtsschutzversicherungNo",
+            "guard": "rechtsschutzversicherungNo",
             "target": "wurdeVerklagt"
           },
           {
@@ -26,7 +25,7 @@
       "on": {
         "SUBMIT": [
           {
-            "cond": "wurdeVerklagtNo",
+            "guard": "wurdeVerklagtNo",
             "target": "klageEingereicht"
           },
           {
@@ -43,7 +42,7 @@
       "on": {
         "SUBMIT": [
           {
-            "cond": "klageEingereichtNo",
+            "guard": "klageEingereichtNo",
             "target": "beratungshilfeBeantragt"
           },
           {
@@ -60,7 +59,7 @@
       "on": {
         "SUBMIT": [
           {
-            "cond": "beratungshilfeBeantragtNo",
+            "guard": "beratungshilfeBeantragtNo",
             "target": "eigeninitiativeGrundvorraussetzung"
           },
           {

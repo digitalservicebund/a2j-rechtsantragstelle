@@ -1,14 +1,9 @@
 import type { GeldEinklagenFormularContext } from "~/models/flows/geldEinklagenFormular/context";
-
-const gegenseiteTypPrivatperson = (context: GeldEinklagenFormularContext) => {
-  return context.gegenseite?.typ === "privatperson";
-};
-
-const gegenseiteTypUnternehmen = (context: GeldEinklagenFormularContext) => {
-  return context.gegenseite?.typ === "unternehmen";
-};
+import type { Guards } from "../guards.server";
 
 export const guards = {
-  gegenseiteTypPrivatperson,
-  gegenseiteTypUnternehmen,
-};
+  gegenseiteTypPrivatperson: ({ context }) =>
+    context.gegenseite?.typ === "privatperson",
+  gegenseiteTypUnternehmen: ({ context }) =>
+    context.gegenseite?.typ === "unternehmen",
+} satisfies Guards<GeldEinklagenFormularContext>;

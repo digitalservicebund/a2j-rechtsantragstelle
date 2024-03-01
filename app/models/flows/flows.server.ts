@@ -4,12 +4,10 @@ import { geldEinklagenVorabcheck } from "~/models/flows/geldEinklagen";
 import { geldEinklagenFormular } from "~/models/flows/geldEinklagenFormular";
 import { fluggastrechtFlow } from "~/models/flows/fluggastrechteFormular";
 import { fluggastrechteVorabcheck } from "~/models/flows/fluggastrechte";
-import type {
-  Config,
-  Guards,
-} from "~/services/flow/server/buildFlowController";
+import type { Config } from "~/services/flow/server/buildFlowController";
 import { type CollectionSchemas } from "~/services/cms/schemas";
 import type { FlowId, Context } from "./contexts";
+import type { Guards } from "./guards.server";
 
 export type Flow = {
   cmsSlug: keyof CollectionSchemas;

@@ -1,30 +1,26 @@
+import type { Guards } from "../../guards.server";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
-
-type Guard = (context: BeratungshilfeFinanzielleAngaben) => boolean;
 
 function yesNoGuards<Field extends keyof BeratungshilfeFinanzielleAngaben>(
   field: Field,
-): { [field in Field as `${field}Yes`]: Guard } & {
-  [field in Field as `${field}No`]: Guard;
+): { [field in Field as `${field}Yes`]: Guards[string] } & {
+  [field in Field as `${field}No`]: Guards[string];
 } {
   //@ts-ignore
   return {
-    [`${field}Yes`]: ((context) => context[field] === "yes") as Guard,
-    [`${field}No`]: ((context) => context[field] === "no") as Guard,
-  };
+    [`${field}Yes`]: ({ context }) => context[field] === "yes",
+    [`${field}No`]: ({ context }) => context[field] === "no",
+  } satisfies Guards;
 }
 
 export const finanzielleAngabeGuards = {
-  staatlicheLeistungenIsGrundsicherung: (
-    context: BeratungshilfeFinanzielleAngaben,
-  ) => context.staatlicheLeistungen === "grundsicherung",
-  staatlicheLeistungenIsAsylbewerberleistungen: (
-    context: BeratungshilfeFinanzielleAngaben,
-  ) => context.staatlicheLeistungen === "asylbewerberleistungen",
-  staatlicheLeistungenIsBuergergeld: (
-    context: BeratungshilfeFinanzielleAngaben,
-  ) => context.staatlicheLeistungen === "buergergeld",
-  hasStaatlicheLeistungen: (context: BeratungshilfeFinanzielleAngaben) =>
+  staatlicheLeistungenIsGrundsicherung: ({ context }) =>
+    context.staatlicheLeistungen === "grundsicherung",
+  staatlicheLeistungenIsAsylbewerberleistungen: ({ context }) =>
+    context.staatlicheLeistungen === "asylbewerberleistungen",
+  staatlicheLeistungenIsBuergergeld: ({ context }) =>
+    context.staatlicheLeistungen === "buergergeld",
+  hasStaatlicheLeistungen: ({ context }) =>
     context.staatlicheLeistungen === "asylbewerberleistungen" ||
     context.staatlicheLeistungen === "buergergeld" ||
     context.staatlicheLeistungen === "grundsicherung",
@@ -43,16 +39,12 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("hasAdditionalGrundeigentum"),
   ...yesNoGuards("hasWertsache"),
   ...yesNoGuards("hasAdditionalWertsache"),
-  isPartnerschaftZusammenlebenEinkommenNo: (
-    context: BeratungshilfeFinanzielleAngaben,
-  ) =>
+  isPartnerschaftZusammenlebenEinkommenNo: ({ context }) =>
     context.partnerschaft === "yes" &&
     context.zusammenleben === "yes" &&
     context.partnerEinkommen === "no",
-  isPartnerschaftZusammenlebenEinkommenYes: (
-    context: BeratungshilfeFinanzielleAngaben,
-  ) =>
+  isPartnerschaftZusammenlebenEinkommenYes: ({ context }) =>
     context.partnerschaft === "yes" &&
     context.zusammenleben === "yes" &&
     context.partnerEinkommen === "yes",
-};
+} satisfies Guards<BeratungshilfeFinanzielleAngaben>;
