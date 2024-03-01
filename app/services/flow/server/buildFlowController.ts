@@ -88,7 +88,7 @@ const findNode = (machine: FlowStateMachine, stepId: string) => {
 
 const isFinalStep = (machine: FlowStateMachine, stepId: string) => {
   const transitions = findNode(machine, stepId)?.transitions;
-  return transitions && !transitions.has("SUBMIT");
+  return !transitions || !transitions.has("SUBMIT");
 };
 
 const metaFromStepId = (machine: FlowStateMachine, currentStepId: string) => {
