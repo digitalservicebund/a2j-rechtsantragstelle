@@ -30,7 +30,7 @@ const validatorServer = withZod(serverSchema);
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const slug = new URL(request.url).pathname;
-  const sessionContext = getSessionManager("beratungshilfe/vorabcheck");
+  const sessionManager = getSessionManager("beratungshilfe/vorabcheck");
 
   const [common, { form, meta }] = await Promise.all([
     fetchSingleEntry("amtsgericht-common"),
@@ -38,9 +38,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
   ]);
   const { url: backURL, session } = getReturnToURL({
     request,
-    session: await sessionContext.getSession(request.headers.get("Cookie")),
+    session: await sessionManager.getSession(request.headers.get("Cookie")),
   });
-  const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
+  const headers = { "Set-Cookie": await sessionManager.commitSession(session) };
   return json({ form, common, meta, backURL }, { headers });
 }
 
