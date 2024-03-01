@@ -1,5 +1,5 @@
 import { allRelevantLicenses } from "~/services/openSourceLicenses/generate.server";
-import licenseListFile from "~/services/openSourceLicenses/opensource-licenses.json";
+import licenseListFile from "data/opensource-licenses.json";
 
 describe.skip("licenseList", () => {
   it("is up-to-date", async () => {

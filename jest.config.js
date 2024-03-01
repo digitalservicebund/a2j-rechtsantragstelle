@@ -4,6 +4,7 @@ const config = {
   moduleNameMapper: {
     "~/(.*)": "<rootDir>/app/$1",
     "tests/(.*)": "<rootDir>/tests/$1",
+    "data/(.*)": "<rootDir>/data/$1",
     "^.+\\.css$": "<rootDir>/tests/cssStub.js",
   },
   preset: "ts-jest",

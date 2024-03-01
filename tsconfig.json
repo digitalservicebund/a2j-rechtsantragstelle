@@ -1,5 +1,11 @@
 {
-  "include": ["env.d.ts", "app/**/*", "stories/**/*", "tests/**/*"],
+  "include": [
+    "env.d.ts",
+    "app/**/*",
+    "stories/**/*",
+    "tests/**/*",
+    "data/**/*.ts"
+  ],
   "compilerOptions": {
     "preserveSymlinks": true,
     "incremental": true,
@@ -21,6 +27,7 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
+      "data/*": ["./data/*"],
       "tests/*": ["./tests/*"]
     },
     // Vite takes care of building everything

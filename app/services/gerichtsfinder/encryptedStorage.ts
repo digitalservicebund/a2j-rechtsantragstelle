@@ -12,7 +12,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const GERICHTSFINDER_ENCRYPTION_KEY = process.env.GERICHTSFINDER_ENCRYPTION_KEY;
 const OUTFILE = path.resolve(
-  path.join(process.cwd(), "app/services/gerichtsfinder/data/courtData.enc"),
+  path.join(process.cwd(), "data/courts/courtData.enc"),
 );
 
 function getCipher(password: string, forward: boolean) {

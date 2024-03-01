@@ -8,8 +8,8 @@ import type {
 import { gerbehIndex } from "./convertJsonDataTable";
 import { getEncrypted } from "./encryptedStorage";
 import type { Jmtd14VTErwerberPlzortk, Jmtd14VTErwerberPlzstrn } from "./types";
-import partnerGerichte from "./data/partnerGerichte.json";
-import courtURLs from "~/services/gerichtsfinder/data/sanitizedURLs.json";
+import partnerGerichte from "data/courts/partnerGerichte.json";
+import courtURLs from "data/courts/sanitizedURLs.json";
 
 // Encrypted court data & gerbehIndex of partner courts are cached
 let courtdata: Record<string, object> | undefined = undefined;
