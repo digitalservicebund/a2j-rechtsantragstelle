@@ -36,4 +36,12 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ["**/*.test.ts"],
+      rules: {
+        "sonarjs/no-duplicate-string": "off",
+      },
+    },
+  ],
 };

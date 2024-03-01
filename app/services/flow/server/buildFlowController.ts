@@ -38,8 +38,7 @@ export type Config = MachineConfig<
   { type: string; params: unknown },
   never
 >;
-
-export type Meta = {
+type Meta = {
   customEventName?: string;
   progressPosition: number | undefined;
   isUneditable: boolean | undefined;
@@ -101,6 +100,8 @@ function getInitial(machine: FlowStateMachine) {
   const initialSnapshot = getInitialSnapshot(machine);
   return stateValueToStepId(initialSnapshot.value);
 }
+
+export type FlowController = ReturnType<typeof buildFlowController>;
 
 export const buildFlowController = ({
   config,

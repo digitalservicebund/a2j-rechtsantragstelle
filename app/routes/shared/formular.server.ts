@@ -1,7 +1,11 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
-import { getSessionForContext, updateSession } from "~/services/session.server";
+import {
+  getSessionData,
+  getSessionForContext,
+  updateSession,
+} from "~/services/session.server";
 import {
   fetchCollectionEntry,
   fetchMeta,
@@ -13,19 +17,14 @@ import type { Context } from "~/models/flows/contexts";
 import { parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import { isStrapiSelectComponent } from "~/services/cms/models/StrapiSelect";
-import {
-  createCSRFToken,
-  csrfSessionFromRequest,
-  validatedSession,
-} from "~/services/security/csrf.server";
+import { validatedSession } from "~/services/security/csrf.server";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
-import { lastStepKey } from "~/services/flow/constants";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { navItemsFromFlowSpecifics } from "~/services/flowNavigation.server";
 import type { z } from "zod";
 import type { CollectionSchemas } from "~/services/cms/schemas";
-import { buttonProps } from "~/util/buttonProps";
+import { getButtonNavigationProps } from "~/util/buttonProps";
 import { sendCustomEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
@@ -37,6 +36,7 @@ import {
 } from "~/services/session.server/arrayDeletion";
 import { interpolateDeep } from "~/util/fillTemplate";
 import { stepMeta } from "~/services/meta/formStepMeta";
+import { updateSessionInHeader } from "~/services/session.server/updateSessionInHeader";
 
 const structureCmsContent = (
   formPageContent: z.infer<CollectionSchemas["form-flow-pages"]>,
@@ -88,10 +88,11 @@ export const loader = async ({
   const { flowId, stepId, arrayIndex } = parsePathname(pathname);
   const cookieId = request.headers.get("Cookie");
 
-  // get data from redis
-  const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
-  const userDataFromRedis: Context = data; // Recast for now to get type safety
-  context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
+  const { userDataFromRedis, sessionId } = await getSessionData(
+    flowId,
+    cookieId,
+  );
+  context.sessionId = sessionId; // For showing in errors
 
   // get flow controller
   const currentFlow = flows[flowId];
@@ -149,7 +150,11 @@ export const loader = async ({
 
   // filter user data for current step
   const fieldNames = formPageContent.form.map((entry) => entry.name);
-  const stepData = stepDataFromFieldNames(fieldNames, data, arrayIndex);
+  const stepData = stepDataFromFieldNames(
+    fieldNames,
+    userDataFromRedis,
+    arrayIndex,
+  );
 
   // get array data to display in ArraySummary -> Formular + Vorabcheck?
   const arrayData = Object.fromEntries(
@@ -162,30 +167,19 @@ export const loader = async ({
     }),
   );
 
-  // update session with csrf
-  const csrf = createCSRFToken();
-  const session = await csrfSessionFromRequest(csrf, request);
+  const { headers, csrf } = await updateSessionInHeader({
+    request,
+    flowId,
+    stepId,
+  });
 
-  // update session with last valid step
-  session.set(lastStepKey, { [flowId]: stepId });
-
-  // set session in header
-  const sessionContext = getSessionForContext("main");
-  const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
-
-  // get navigation destinations + labels
-  const buttonNavigationProps = {
-    next: flowController.isFinal(stepId)
-      ? undefined
-      : buttonProps(
-          cmsContent.nextButtonLabel ??
-            defaultStrings["nextButtonDefaultLabel"],
-        ),
-    back: buttonProps(
-      defaultStrings["backButtonDefaultLabel"],
-      returnTo ?? flowController.getPrevious(stepId),
-    ),
-  };
+  const buttonNavigationProps = getButtonNavigationProps({
+    flowController,
+    stepId,
+    nextButtonLabel: cmsContent.nextButtonLabel,
+    defaultStrings,
+    returnTo,
+  });
 
   // get navigation items -> Formular
   const navItems = navItemsFromFlowSpecifics(

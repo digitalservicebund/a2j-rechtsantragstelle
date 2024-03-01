@@ -24,6 +24,14 @@ export const fluggastBereichSchema = z.enum(
   customRequiredErrorMessage,
 );
 
+export const zustaendigesAmtsgerichtSchema = z.array(
+  z.object({
+    bezeichnung: z.string(),
+    strasseMitHausnummer: z.string(),
+    plzUndStadt: z.string(),
+  }),
+);
+
 export const fluggastrechteVorabcheckContext = {
   startAirport: airportSchema,
   endAirport: airportSchema,
@@ -38,6 +46,7 @@ export const fluggastrechteVorabcheckContext = {
   kostenlos: YesNoAnswer,
   rabatt: YesNoAnswer,
   buchung: YesNoAnswer,
+  zustaendigesAmtsgericht: zustaendigesAmtsgerichtSchema.optional(),
 } as const;
 
 const contextObject = z.object(fluggastrechteVorabcheckContext).partial();

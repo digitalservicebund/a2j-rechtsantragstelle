@@ -1,7 +1,11 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
-import { getSessionForContext, updateSession } from "~/services/session.server";
+import {
+  getSessionData,
+  getSessionForContext,
+  updateSession,
+} from "~/services/session.server";
 import {
   fetchCollectionEntry,
   fetchMeta,
@@ -9,25 +13,21 @@ import {
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { validateFormData } from "~/services/validation/validateFormData.server";
-import type { Context } from "~/models/flows/contexts";
 import { parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import { isStrapiSelectComponent } from "~/services/cms/models/StrapiSelect";
-import {
-  createCSRFToken,
-  csrfSessionFromRequest,
-  validatedSession,
-} from "~/services/security/csrf.server";
+import { validatedSession } from "~/services/security/csrf.server";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
-import { lastStepKey } from "~/services/flow/constants";
 import { sendCustomEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
 import { interpolateDeep } from "~/util/fillTemplate";
 import _ from "lodash";
 import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiHeading";
-import { buttonProps } from "~/util/buttonProps";
+import { getButtonNavigationProps } from "~/util/buttonProps";
 import { stepMeta } from "~/services/meta/formStepMeta";
+import { getProgressProps } from "~/services/flow/server/progress";
+import { updateSessionInHeader } from "~/services/session.server/updateSessionInHeader";
 
 export const loader = async ({
   params,
@@ -41,10 +41,11 @@ export const loader = async ({
   const { flowId, stepId } = parsePathname(pathname);
   const cookieId = request.headers.get("Cookie");
 
-  // get data from redis
-  const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
-  const userDataFromRedis: Context = data; // Recast for now to get type safety
-  context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
+  const { userDataFromRedis, sessionId } = await getSessionData(
+    flowId,
+    cookieId,
+  );
+  context.sessionId = sessionId; // For showing in errors
 
   // get flow controller
   const currentFlow = flows[flowId];
@@ -94,38 +95,25 @@ export const loader = async ({
   const fieldNames = formElements.map((entry) => entry.name);
   const stepData = _.pick(userDataFromRedis, fieldNames);
 
-  // update session with csrf
-  const csrf = createCSRFToken();
-  const session = await csrfSessionFromRequest(csrf, request);
+  const { headers, csrf } = await updateSessionInHeader({
+    request,
+    flowId,
+    stepId,
+  });
 
-  // update session with last valid step
-  session.set(lastStepKey, { [flowId]: stepId });
+  const buttonNavigationProps = getButtonNavigationProps({
+    flowController,
+    stepId,
+    nextButtonLabel: vorabcheckPage.nextButtonLabel,
+    defaultStrings: translations,
+  });
+  console.log({ buttonNavigationProps });
 
-  // set session in header
-  const sessionContext = getSessionForContext("main");
-  const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
-
-  // get navigation destinations + labels
-  const buttonNavigationProps = {
-    next: flowController.isFinal(stepId)
-      ? undefined
-      : buttonProps(
-          vorabcheckPage.nextButtonLabel ??
-            translations["nextButtonDefaultLabel"],
-        ),
-    back: buttonProps(
-      translations["backButtonDefaultLabel"],
-      flowController.getPrevious(stepId),
-    ),
-  };
-
-  // get progress -> Vorabcheck
-  const { total, current } = flowController.getProgress(stepId);
-  const progressProps = {
-    progress: current,
-    max: total,
-    label: translations["progressBarLabel"],
-  };
+  const progressProps = getProgressProps({
+    flowController,
+    stepId,
+    progressBarLabel: translations["progressBarLabel"],
+  });
 
   return json(
     {
