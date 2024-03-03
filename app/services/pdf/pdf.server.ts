@@ -1,5 +1,6 @@
-import { PDFCheckBox, PDFForm, PDFTextField } from "pdf-lib";
-import {
+import type { PDFForm } from "pdf-lib";
+import { PDFCheckBox, PDFTextField } from "pdf-lib";
+import type {
   BooleanField,
   StringField,
 } from "./beratungshilfe/beratungshilfe.generated";

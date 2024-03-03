@@ -2,10 +2,13 @@ import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilf
 import type { BeratungshilfePDF } from "~/services/pdf/beratungshilfe/beratungshilfe.generated";
 import {
   getOccupationDetails,
+  getSelectedOptions,
   staatlicheLeistungMapping,
 } from "../beratungshilfe.pdf";
+import type { Attachment } from "../attachment";
 
 export default function fillHeader(
+  attachment: Attachment,
   context: BeratungshilfeFormularContext,
   {
     anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers,
@@ -14,8 +17,11 @@ export default function fillHeader(
     geburtsdatumdesAntragstellers,
     tagsueberTelefonischerreichbarunterNummer,
   }: BeratungshilfePDF,
-  hasStaatlicheLeistung: boolean,
 ) {
+  const hasStaatlicheLeistung =
+    context.staatlicheLeistungen != "andereLeistung" &&
+    context.staatlicheLeistungen != "keine";
+
   antragstellerNameVornameggfGeburtsname.value = [
     context.nachname,
     context.vorname,
@@ -31,7 +37,28 @@ export default function fillHeader(
     .filter((entry) => entry)
     .join(", ");
   tagsueberTelefonischerreichbarunterNummer.value = context.telefonnummer;
-  berufErwerbstaetigkeit.value = hasStaatlicheLeistung
+  const occupationDetails = hasStaatlicheLeistung
     ? staatlicheLeistungMapping[context.staatlicheLeistungen ?? "keine"]
     : getOccupationDetails(context);
+  berufErwerbstaetigkeit.value = occupationDetails;
+
+  if (!hasStaatlicheLeistung && occupationDetails.length > 30) {
+    attachment.descriptions.unshift({
+      title: "Weiteres Einkommen:",
+      text: getSelectedOptions(
+        {
+          unterhaltszahlungen: "Unterhaltszahlungen",
+          wohngeld: "Wohngeld",
+          kindergeld: "Kindergeld",
+          bafoeg: "Bafög",
+          others: "Sonstiges",
+        },
+        context.weitereseinkommen ?? {},
+      ),
+    });
+    attachment.descriptions.unshift({
+      title: "Beruf / Erwerbstätigkeit:",
+      text: getOccupationDetails(context, false),
+    });
+  }
 }

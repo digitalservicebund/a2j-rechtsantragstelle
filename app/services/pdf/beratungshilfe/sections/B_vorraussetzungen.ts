@@ -1,5 +1,5 @@
-import { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { BeratungshilfePDF } from "../beratungshilfe.generated";
+import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import type { BeratungshilfePDF } from "../beratungshilfe.generated";
 
 export function fillVorraussetzungen(
   pdfFields: BeratungshilfePDF,
@@ -13,5 +13,4 @@ export function fillVorraussetzungen(
     context.eigeninitiativeGrundvorraussetzung === "no";
   pdfFields.b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt.value =
     context.klageEingereicht === "no";
-  pdfFields.c2Einkuenftenetto.value = context.einkommen;
 }
