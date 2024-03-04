@@ -82,7 +82,6 @@ export const loader = async ({
 }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
 
-  // get data from request
   const { pathname, searchParams } = new URL(request.url);
   const returnTo = searchParams.get("returnTo") ?? undefined;
   const { flowId, stepId, arrayIndex } = parsePathname(pathname);
@@ -91,7 +90,6 @@ export const loader = async ({
   const { userData, debugId } = await getSessionData(flowId, cookieHeader);
   context.debugId = debugId; // For showing in errors
 
-  // get flow controller
   const currentFlow = flows[flowId];
   const flowController = buildFlowController({
     config: currentFlow.config,
@@ -99,7 +97,6 @@ export const loader = async ({
     guards: currentFlow.guards,
   });
 
-  // check funnel logic -> Vorabcheck + Formular?
   if (!returnTo && !flowController.isReachable(stepId))
     return redirectDocument(flowController.getInitial());
 
@@ -108,7 +105,6 @@ export const loader = async ({
   const lookupPath = pathNameWithoutArrayIndex.includes("persoenliche-daten")
     ? pathNameWithoutArrayIndex.replace("fluggastrechte", "geld-einklagen")
     : pathNameWithoutArrayIndex;
-
   const [
     formPageContent,
     parentMeta,
@@ -142,14 +138,13 @@ export const loader = async ({
     return strapiFormElement;
   });
 
-  // get meta content for step, used in breadcrumbs -> actually only Vorabcheck, *but* used in root.tsx
   const meta = stepMeta(formPageContent.meta, parentMeta);
 
   // filter user data for current step
   const fieldNames = formPageContent.form.map((entry) => entry.name);
   const stepData = stepDataFromFieldNames(fieldNames, userData, arrayIndex);
 
-  // get array data to display in ArraySummary -> Formular + Vorabcheck?
+  // get array data to display in ArraySummary
   const arrayData = Object.fromEntries(
     formPageContent.pre_form.filter(isStrapiArraySummary).map((entry) => {
       const possibleArray = userData[entry.arrayKey];
@@ -174,14 +169,12 @@ export const loader = async ({
     backDestination: returnTo ?? flowController.getPrevious(stepId),
   });
 
-  // get navigation items -> Formular
   const navItems = navItemsFromFlowSpecifics(
     stepId,
     flowController,
     navigationStrings,
   );
 
-  // get migration data to display -> Formular
   const migrationData = await getMigrationData(
     stepId,
     flowId,

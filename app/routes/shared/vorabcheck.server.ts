@@ -49,18 +49,16 @@ export const loader = async ({
     guards: currentFlow.guards,
   });
 
-  // check funnel logic -> Vorabcheck + Formular?
   if (!flowController.isReachable(stepId))
     return redirectDocument(flowController.getInitial());
 
-  // get all relevant strapi data
   const [vorabcheckPage, parentMeta, translations] = await Promise.all([
     fetchCollectionEntry("vorab-check-pages", pathname),
     fetchMeta({ filterValue: parentFromParams(pathname, params) }),
     fetchTranslations("defaultTranslations"),
   ]);
 
-  //  Do string replacement in content if necessary
+  // Do string replacement in content if necessary
   const contentElements = interpolateDeep(
     vorabcheckPage.pre_form,
     "stringReplacements" in currentFlow
@@ -82,7 +80,6 @@ export const loader = async ({
     return strapiFormElement;
   });
 
-  // get meta content for step, used in breadcrumbs -> actually only Vorabcheck, *but* used in root.tsx
   const meta = stepMeta(vorabcheckPage.meta, parentMeta);
 
   // filter user data for current step
