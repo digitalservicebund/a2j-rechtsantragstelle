@@ -35,7 +35,8 @@ const ArraySummary = ({
   const deleteFetcher = useFetcher();
 
   const pathroot = pathname.slice(0, pathname.lastIndexOf("/"));
-  const addButtonDestination = `${pathroot}/${arrayKey}?returnTo=${pathname}`;
+  const nextItemIndex = arrayData.length;
+  const addButtonDestination = `${pathroot}/${arrayKey}/${nextItemIndex}?returnTo=${pathname}`;
   const emptyArrayFallbackString = "Das besitze ich nicht."; // TODO: Validate & move to strapi
 
   return (
