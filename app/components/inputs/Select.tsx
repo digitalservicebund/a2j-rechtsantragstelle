@@ -1,21 +1,17 @@
 import type { ReactNode } from "react";
-import { z } from "zod";
 import { useField } from "remix-validated-form";
 import classNames from "classnames";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
-import { ErrorMessagePropsSchema } from ".";
+import type { ErrorMessageProps } from "./ErrorMessageProps";
 
-export const DropdownPropsSchema = z.object({
-  name: z.string(),
-  options: z.array(z.object({ value: z.string(), text: z.string() })),
-  label: z.custom<ReactNode>().optional(),
-  altLabel: z.string().optional(),
-  placeholder: z.string().optional(),
-  errorMessages: z.array(ErrorMessagePropsSchema).optional(),
-});
-
-type SelectProps = z.infer<typeof DropdownPropsSchema>;
+type SelectProps = Readonly<{
+  name: string;
+  options: { value: string; text?: ReactNode }[];
+  label?: ReactNode;
+  placeholder?: string | null;
+  errorMessages?: ErrorMessageProps[];
+}>;
 
 const Select = ({
   name,

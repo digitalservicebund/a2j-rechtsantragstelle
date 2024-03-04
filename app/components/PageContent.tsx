@@ -3,17 +3,17 @@ import type { StrapiContent } from "~/services/cms/models/StrapiContent";
 import { wrapperPropsFromCms } from "./CommonWrapperProps";
 import { getBoxProps } from "~/services/cms/models/StrapiBox";
 import { getBoxWithImageProps } from "~/services/cms/models/StrapiBoxWithImage";
-import { getDropdownProps } from "~/services/cms/models/StrapiDropdown";
+import { StrapiDropdown } from "~/services/cms/models/StrapiDropdown";
 import { getHeaderProps } from "~/services/cms/models/StrapiHeader";
 import { getHeadingProps } from "~/services/cms/models/StrapiHeading";
 import { getInfoBoxProps } from "~/services/cms/models/StrapiInfoBox";
-import { getInputProps } from "~/services/cms/models/StrapiInput";
+import { StrapiInput } from "~/services/cms/models/StrapiInput";
 import { getLinkListBoxProps } from "~/services/cms/models/StrapiLinkListBox";
-import { getRadioGroupProps } from "~/services/cms/models/StrapiSelect";
+import { StrapiSelect } from "~/services/cms/models/StrapiSelect";
 import { getRichTextProps } from "~/services/cms/models/StrapiParagraph";
-import { getTextareaProps } from "~/services/cms/models/StrapiTextarea";
+import { StrapiTextarea } from "~/services/cms/models/StrapiTextarea";
 import { getListProps } from "~/services/cms/models/StrapiList";
-import { getTileGroupProps } from "~/services/cms/models/StrapiTileGroup";
+import { StrapiTileGroup } from "~/services/cms/models/StrapiTileGroup";
 
 import Background from "./Background";
 import Box from "./Box";
@@ -22,18 +22,13 @@ import Container from "./Container";
 import Header from "./Header";
 import Heading from "~/components/Heading";
 import InfoBox from "./InfoBox";
-import Input from "./inputs/Input";
 import LinkListBox from "./LinkListBox";
-import RadioGroup from "~/components/inputs/RadioGroup";
 import RichText from "./RichText";
-import Select from "./inputs/Select";
-import Textarea from "./inputs/Textarea";
 import List from "./List";
-import TileGroup from "./inputs/TileGroup";
-import { renderCheckboxFromStrapi } from "~/services/cms/models/StrapiCheckbox";
-import { renderDateInputFromStrapi } from "~/services/cms/models/StrapiDateInput";
-import { renderTimeInputFromStrapi } from "~/services/cms/models/StrapiTimeInput";
-import { renderFileInputFromStrapi } from "~/services/cms/models/StrapiFileInput";
+import { StrapiCheckbox } from "~/services/cms/models/StrapiCheckbox";
+import { StrapiDateInput } from "~/services/cms/models/StrapiDateInput";
+import { StrapiTimeInput } from "~/services/cms/models/StrapiTimeInput";
+import { StrapiFileInput } from "~/services/cms/models/StrapiFileInput";
 import { renderAlertFromStrapi } from "~/services/cms/models/StrapiAlert";
 
 type PageContentProps = {
@@ -75,47 +70,43 @@ function wrapInBackground(cmsData: StrapiContent, reactElement: ReactElement) {
 }
 
 function cmsToReact(strapiContent: StrapiContent) {
-  const key = keyFromElement(strapiContent);
-  // TODO: move from props matching to returning components (see renderCheckboxFromStrapi())
   switch (strapiContent.__component) {
     case "basic.heading":
-      return <Heading {...getHeadingProps(strapiContent)} key={key} />;
+      return <Heading {...getHeadingProps(strapiContent)} />;
     case "basic.paragraph":
-      return <RichText {...getRichTextProps(strapiContent)} key={key} />;
+      return <RichText {...getRichTextProps(strapiContent)} />;
     case "basic.alert":
       return renderAlertFromStrapi(strapiContent);
     case "page.header":
-      return <Header {...getHeaderProps(strapiContent)} key={key} />;
+      return <Header {...getHeaderProps(strapiContent)} />;
     case "form-elements.input":
-      return <Input {...getInputProps(strapiContent)} key={key} />;
+      return <StrapiInput {...strapiContent} />;
     case "form-elements.date-input":
-      return renderDateInputFromStrapi(strapiContent);
+      return <StrapiDateInput {...strapiContent} />;
     case "form-elements.time-input":
-      return renderTimeInputFromStrapi(strapiContent);
+      return <StrapiTimeInput {...strapiContent} />;
     case "form-elements.file-input":
-      return renderFileInputFromStrapi(strapiContent);
+      return <StrapiFileInput {...strapiContent} />;
     case "form-elements.textarea":
-      return <Textarea {...getTextareaProps(strapiContent)} key={key} />;
+      return <StrapiTextarea {...strapiContent} />;
     case "form-elements.select":
-      return <RadioGroup {...getRadioGroupProps(strapiContent)} key={key} />;
+      return <StrapiSelect {...strapiContent} />;
     case "form-elements.dropdown":
-      return <Select {...getDropdownProps(strapiContent)} key={key} />;
+      return <StrapiDropdown {...strapiContent} />;
     case "form-elements.checkbox":
-      return renderCheckboxFromStrapi(strapiContent);
+      return <StrapiCheckbox {...strapiContent} />;
     case "form-elements.tile-group":
-      return <TileGroup {...getTileGroupProps(strapiContent)} key={key} />;
+      return <StrapiTileGroup {...strapiContent} />;
     case "page.box":
-      return <Box {...getBoxProps(strapiContent)} key={key} />;
+      return <Box {...getBoxProps(strapiContent)} />;
     case "page.info-box":
-      return <InfoBox {...getInfoBoxProps(strapiContent)} key={key} />;
+      return <InfoBox {...getInfoBoxProps(strapiContent)} />;
     case "page.link-list-box":
-      return <LinkListBox {...getLinkListBoxProps(strapiContent)} key={key} />;
+      return <LinkListBox {...getLinkListBoxProps(strapiContent)} />;
     case "page.box-with-image":
-      return (
-        <BoxWithImage {...getBoxWithImageProps(strapiContent)} key={key} />
-      );
+      return <BoxWithImage {...getBoxWithImageProps(strapiContent)} />;
     case "page.list":
-      return <List {...getListProps(strapiContent)} key={key} />;
+      return <List {...getListProps(strapiContent)} />;
     default:
       return <></>;
   }

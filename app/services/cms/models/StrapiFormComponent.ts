@@ -1,22 +1,22 @@
 import { z } from "zod";
-import { StrapiInputSchema } from "./StrapiInput";
+import { StrapiInputComponentSchema } from "./StrapiInput";
 import { StrapiSelectComponentSchema } from "./StrapiSelect";
-import { StrapiDropdownSchema } from "./StrapiDropdown";
-import { StrapiTextareaSchema } from "./StrapiTextarea";
-import { StrapiCheckboxSchema } from "./StrapiCheckbox";
-import { StrapiTileGroupSchema } from "./StrapiTileGroup";
-import { StrapiDateInputSchema } from "~/services/cms/models/StrapiDateInput";
-import { StrapiTimeInputSchema } from "~/services/cms/models/StrapiTimeInput";
-import { StrapiFileInputSchema } from "~/services/cms/models/StrapiFileInput";
+import { StrapiDropdownComponentSchema } from "./StrapiDropdown";
+import { StrapiTextareaComponentSchema } from "./StrapiTextarea";
+import { StrapiCheckboxComponentSchema } from "./StrapiCheckbox";
+import { StrapiTileGroupComponentSchema } from "./StrapiTileGroup";
+import { StrapiDateInputComponentSchema } from "~/services/cms/models/StrapiDateInput";
+import { StrapiTimeInputComponentSchema } from "~/services/cms/models/StrapiTimeInput";
+import { StrapiFileInputComponentSchema } from "~/services/cms/models/StrapiFileInput";
 
 export const StrapiFormComponentSchema = z.discriminatedUnion("__component", [
-  StrapiInputSchema.required({ __component: true }),
-  StrapiDateInputSchema.required({ __component: true }),
-  StrapiTimeInputSchema.required({ __component: true }),
-  StrapiFileInputSchema.required({ __component: true }),
-  StrapiTextareaSchema.required({ __component: true }),
+  StrapiInputComponentSchema,
+  StrapiDateInputComponentSchema,
+  StrapiTimeInputComponentSchema,
+  StrapiFileInputComponentSchema,
+  StrapiTextareaComponentSchema,
   StrapiSelectComponentSchema,
-  StrapiDropdownSchema.required({ __component: true }),
-  StrapiCheckboxSchema.required({ __component: true }),
-  StrapiTileGroupSchema.required({ __component: true }),
+  StrapiDropdownComponentSchema,
+  StrapiCheckboxComponentSchema,
+  StrapiTileGroupComponentSchema,
 ]);

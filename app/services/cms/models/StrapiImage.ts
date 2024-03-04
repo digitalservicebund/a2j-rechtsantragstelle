@@ -27,7 +27,6 @@ export const StrapiImageSchema = z.object({
       }),
     })
     .merge(HasOptionalStrapiIdSchema)
-
     .nullable(),
 });
 

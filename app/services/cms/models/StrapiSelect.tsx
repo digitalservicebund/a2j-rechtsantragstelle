@@ -1,8 +1,7 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiSelectOptionSchema } from "./StrapiSelectOption";
-import { RadioGroupPropsSchema } from "~/components/inputs/RadioGroup";
-import { omitNull } from "~/util/omitNull";
+import RadioGroup from "~/components/inputs/RadioGroup";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
@@ -25,12 +24,11 @@ export const StrapiSelectComponentSchema = StrapiSelectSchema.extend({
   __component: z.literal("form-elements.select"),
 });
 
-export const getRadioGroupProps = (cmsData: StrapiSelect) => {
-  const errorMessages = flattenStrapiErrors(cmsData.errors);
-  return RadioGroupPropsSchema.parse(omitNull({ ...cmsData, errorMessages }));
-};
-
 export const isStrapiSelectComponent = (
   strapiContent: StrapiContent,
 ): strapiContent is z.infer<typeof StrapiSelectComponentSchema> =>
   strapiContent.__component === "form-elements.select";
+
+export const StrapiSelect = ({ errors, ...props }: StrapiSelect) => {
+  return <RadioGroup errorMessages={flattenStrapiErrors(errors)} {...props} />;
+};

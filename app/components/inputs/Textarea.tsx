@@ -3,17 +3,14 @@ import { useField } from "remix-validated-form";
 import classNames from "classnames";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
-import { z } from "zod";
-import { ErrorMessagePropsSchema } from ".";
+import type { ErrorMessageProps } from "./ErrorMessageProps";
 
-export const TextareaPropsSchema = z.object({
-  name: z.string(),
-  label: z.custom<ReactNode>().optional(),
-  placeholder: z.string().optional(),
-  errorMessages: z.array(ErrorMessagePropsSchema).optional(),
-});
-
-type TextareaProps = z.infer<typeof TextareaPropsSchema>;
+type TextareaProps = Readonly<{
+  name: string;
+  label?: ReactNode;
+  placeholder?: string | null;
+  errorMessages?: ErrorMessageProps[];
+}>;
 
 const Textarea = ({
   name,
@@ -30,7 +27,7 @@ const Textarea = ({
       <textarea
         {...getInputProps({
           id: name,
-          placeholder,
+          placeholder: placeholder ?? undefined,
         })}
         className={classNames("ds-textarea placeholder-gray-600", {
           "has-error": error,

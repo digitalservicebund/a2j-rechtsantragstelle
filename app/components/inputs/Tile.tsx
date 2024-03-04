@@ -1,16 +1,15 @@
-import { z } from "zod";
 import { useField } from "remix-validated-form";
-import Image, { ImagePropsSchema } from "../Image";
+import { type ImageProps } from "../Image";
 import RichText from "../RichText";
 
-export const TilePropsSchema = z.object({
-  description: z.string().nullable().optional(),
-  value: z.string(),
-  title: z.string().optional(),
-  image: ImagePropsSchema.optional(),
-});
-
-type TileProps = z.infer<typeof TilePropsSchema>;
+export type TileProps = Readonly<{
+  name: string;
+  onClick: () => void;
+  value: string;
+  description?: string | null;
+  title?: string;
+  image?: React.ReactElement<ImageProps>;
+}>;
 
 const Tile = ({
   name,
@@ -19,7 +18,7 @@ const Tile = ({
   title,
   image,
   onClick,
-}: TileProps & { readonly name: string; readonly onClick: () => void }) => {
+}: TileProps) => {
   const { error, getInputProps } = useField(name);
   const id = `${name}-${value}`;
 
@@ -40,7 +39,7 @@ const Tile = ({
         htmlFor={id}
       >
         <div className="ds-label-01-bold flex flex-row space-x-8 items-center">
-          {image && <Image {...image} />}
+          {image}
           <span>{title}</span>
         </div>
         {description && (

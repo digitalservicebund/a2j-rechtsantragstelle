@@ -1,15 +1,13 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import { omitNull } from "~/util/omitNull";
-import { DropdownPropsSchema } from "~/components/inputs/Select";
+import Select from "~/components/inputs/Select";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
 
-export const StrapiDropdownSchema = z
+const StrapiDropdownSchema = z
   .object({
-    __component: z.literal("form-elements.dropdown").optional(),
     name: z.string(),
     label: z.string().nullable(),
     altLabel: z.string().nullable(),
@@ -19,9 +17,12 @@ export const StrapiDropdownSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
+export const StrapiDropdownComponentSchema = StrapiDropdownSchema.extend({
+  __component: z.literal("form-elements.dropdown"),
+});
+
 type StrapiDropdown = z.infer<typeof StrapiDropdownSchema>;
 
-export const getDropdownProps = (cmsData: StrapiDropdown) => {
-  const errorMessages = flattenStrapiErrors(cmsData.errors);
-  return DropdownPropsSchema.parse(omitNull({ ...cmsData, errorMessages }));
-};
+export const StrapiDropdown = ({ errors, ...props }: StrapiDropdown) => (
+  <Select errorMessages={flattenStrapiErrors(errors)} {...props} />
+);

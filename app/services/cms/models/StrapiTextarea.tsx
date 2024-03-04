@@ -1,15 +1,13 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import { omitNull } from "~/util/omitNull";
-import { TextareaPropsSchema } from "~/components/inputs/Textarea";
+import Textarea from "~/components/inputs/Textarea";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
 
-export const StrapiTextareaSchema = z
+const StrapiTextareaSchema = z
   .object({
-    __component: z.literal("form-elements.textarea").optional(),
     name: z.string(),
     label: z.string().nullable(),
     placeholder: z.string().nullable(),
@@ -17,9 +15,12 @@ export const StrapiTextareaSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
+export const StrapiTextareaComponentSchema = StrapiTextareaSchema.extend({
+  __component: z.literal("form-elements.textarea"),
+});
+
 type StrapiTextarea = z.infer<typeof StrapiTextareaSchema>;
 
-export const getTextareaProps = (cmsData: StrapiTextarea) => {
-  const errorMessages = flattenStrapiErrors(cmsData.errors);
-  return TextareaPropsSchema.parse(omitNull({ ...cmsData, errorMessages }));
-};
+export const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => (
+  <Textarea {...props} errorMessages={flattenStrapiErrors(errors)} />
+);

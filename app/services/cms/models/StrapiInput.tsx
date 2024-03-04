@@ -1,15 +1,13 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import { InputPropsSchema } from "~/components/inputs/Input";
-import { omitNull } from "~/util/omitNull";
+import Input, { type InputProps } from "~/components/inputs/Input";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
 
-export const StrapiInputSchema = z
+const StrapiInputSchema = z
   .object({
-    __component: z.literal("form-elements.input").optional(),
     name: z.string(),
     label: z.string().nullable(),
     type: z.enum(["text", "number"]),
@@ -33,8 +31,28 @@ export const StrapiInputSchema = z
 
 type StrapiInput = z.infer<typeof StrapiInputSchema>;
 
-export const getInputProps = (cmsData: StrapiInput) => {
-  const errorMessages = flattenStrapiErrors(cmsData.errors);
-  const width = cmsData.width?.replace("characters", "");
-  return InputPropsSchema.parse(omitNull({ ...cmsData, width, errorMessages }));
+export const StrapiInputComponentSchema = StrapiInputSchema.extend({
+  __component: z.literal("form-elements.input"),
+});
+
+function convertWidth(width: StrapiInput["width"]) {
+  return (width?.replace("characters", "") ?? undefined) as InputProps["width"];
+}
+
+export const StrapiInput = ({
+  errors,
+  width,
+  label,
+  placeholder,
+  ...props
+}: StrapiInput) => {
+  return (
+    <Input
+      label={label ?? undefined}
+      placeholder={placeholder ?? undefined}
+      width={convertWidth(width)}
+      errorMessages={flattenStrapiErrors(errors)}
+      {...props}
+    />
+  );
 };
