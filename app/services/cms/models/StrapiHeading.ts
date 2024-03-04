@@ -2,10 +2,10 @@ import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HeadingPropsSchema } from "~/components/Heading";
 import { omitNull } from "~/util/omitNull";
+import type { StrapiContent } from "./StrapiContent";
 
 export const StrapiHeadingSchema = z
   .object({
-    __component: z.literal("basic.heading").optional(),
     text: z.string(),
     tagName: z.enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"]),
     look: z.enum([
@@ -28,8 +28,17 @@ export const StrapiHeadingSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-export type StrapiHeading = z.infer<typeof StrapiHeadingSchema>;
+export const StrapiHeadingComponentSchema = StrapiHeadingSchema.extend({
+  __component: z.literal("basic.heading"),
+});
+
+type StrapiHeading = z.infer<typeof StrapiHeadingSchema>;
 
 export const getHeadingProps = (cmsData: StrapiHeading) => {
   return HeadingPropsSchema.parse(omitNull(cmsData));
 };
+
+export const isStrapiHeadingComponent = (
+  strapiContent: StrapiContent,
+): strapiContent is z.infer<typeof StrapiHeadingComponentSchema> =>
+  strapiContent.__component === "basic.heading";

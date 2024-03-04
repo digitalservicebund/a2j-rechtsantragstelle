@@ -1,5 +1,4 @@
 {
-  "predictableActionArguments": true,
   "initial": "start",
   "id": "grundvoraussetzungen",
   "meta": { "isUneditable": true },
@@ -9,7 +8,7 @@
       "on": {
         "SUBMIT": [
           {
-            "cond": "rechtsschutzversicherungNo",
+            "guard": "rechtsschutzversicherungNo",
             "target": "wurdeVerklagt"
           },
           {
@@ -20,20 +19,13 @@
       }
     },
     "rechtsschutzversicherung-hinweis": {
-      "meta": {
-        "buttonNavigationProps": {
-          "next": null
-        }
-      },
-      "on": {
-        "BACK": "rechtsschutzversicherung"
-      }
+      "on": { "BACK": "rechtsschutzversicherung" }
     },
     "wurdeVerklagt": {
       "on": {
         "SUBMIT": [
           {
-            "cond": "wurdeVerklagtNo",
+            "guard": "wurdeVerklagtNo",
             "target": "klageEingereicht"
           },
           {
@@ -44,20 +36,13 @@
       }
     },
     "wurdeVerklagt-hinweis": {
-      "meta": {
-        "buttonNavigationProps": {
-          "next": null
-        }
-      },
-      "on": {
-        "BACK": "wurdeVerklagt"
-      }
+      "on": { "BACK": "wurdeVerklagt" }
     },
     "klageEingereicht": {
       "on": {
         "SUBMIT": [
           {
-            "cond": "klageEingereichtNo",
+            "guard": "klageEingereichtNo",
             "target": "beratungshilfeBeantragt"
           },
           {
@@ -68,20 +53,13 @@
       }
     },
     "klageEingereicht-hinweis": {
-      "meta": {
-        "buttonNavigationProps": {
-          "next": null
-        }
-      },
-      "on": {
-        "BACK": "klageEingereicht"
-      }
+      "on": { "BACK": "klageEingereicht" }
     },
     "beratungshilfeBeantragt": {
       "on": {
         "SUBMIT": [
           {
-            "cond": "beratungshilfeBeantragtNo",
+            "guard": "beratungshilfeBeantragtNo",
             "target": "eigeninitiativeGrundvorraussetzung"
           },
           {
@@ -92,14 +70,7 @@
       }
     },
     "beratungshilfeBeantragt-hinweis": {
-      "meta": {
-        "buttonNavigationProps": {
-          "next": null
-        }
-      },
-      "on": {
-        "BACK": "beratungshilfeBeantragt"
-      }
+      "on": { "BACK": "beratungshilfeBeantragt" }
     },
     "eigeninitiativeGrundvorraussetzung": {
       "on": {
@@ -107,14 +78,7 @@
       }
     },
     "eigeninitiativeGrundvorraussetzung-hinweis": {
-      "meta": {
-        "buttonNavigationProps": {
-          "next": null
-        }
-      },
-      "on": {
-        "BACK": "eigeninitiativeGrundvorraussetzung"
-      }
+      "on": { "BACK": "eigeninitiativeGrundvorraussetzung" }
     }
   }
 }

@@ -3,8 +3,8 @@ import type {
   BeratungshilfePDF,
   StringField,
   BooleanField,
-} from "./beratungshilfe.generated";
-import { Convert } from "./beratungshilfe.generated";
+} from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import { Convert } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import fs from "node:fs";
 import path from "node:path";
 import { type PDFForm, PDFDocument, PDFTextField, PDFCheckBox } from "pdf-lib";
@@ -12,12 +12,12 @@ import { normalizePropertyName } from "../pdf.server";
 import FormAttachment from "~/components/FormAttachment";
 
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import type { BeratungshilfeAntragContext } from "~/models/flows/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 
 const newPageHint = "Bitte im Anhang prüfen";
 
 const isANewAttachmentPageNeeded = (
-  context: BeratungshilfeAntragContext,
+  context: BeratungshilfeFormularContext,
 ): Attachment => {
   const descriptions = [];
 
@@ -96,7 +96,7 @@ function getSelectedOptions(
 }
 
 const getOccupationDetails = (
-  context: BeratungshilfeAntragContext,
+  context: BeratungshilfeFormularContext,
   withAdditionalIncome = true,
 ) => {
   const description: string[] = [];
@@ -148,7 +148,7 @@ const getOccupationDetails = (
 };
 
 export async function getBeratungshilfePdfFromContext(
-  context: BeratungshilfeAntragContext,
+  context: BeratungshilfeFormularContext,
 ) {
   const pdfFields = await getBeratungshilfeParameters();
 
@@ -225,7 +225,7 @@ export async function getBeratungshilfePdfFromContext(
 
 function fillCommonPDFFields(
   pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeAntragContext,
+  context: BeratungshilfeFormularContext,
 ) {
   pdfFields.bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein.value =
     context.rechtsschutzversicherung === "no";
@@ -239,7 +239,7 @@ function fillCommonPDFFields(
 }
 
 function fillPartner(
-  context: BeratungshilfeAntragContext,
+  context: BeratungshilfeFormularContext,
   pdfFields: BeratungshilfePDF,
 ) {
   if (
@@ -264,7 +264,7 @@ function fillPartner(
 }
 
 function fillPersonalData(
-  context: BeratungshilfeAntragContext,
+  context: BeratungshilfeFormularContext,
   {
     anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers,
     antragstellerNameVornameggfGeburtsname,
@@ -303,7 +303,7 @@ function fillPersonalData(
 
 function fillFinancial(
   pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeAntragContext,
+  context: BeratungshilfeFormularContext,
   attachment: Attachment,
 ) {
   const financialAttachment: Attachment = {
@@ -338,7 +338,7 @@ const eigentuemerMapping = {
 
 function fillFinancialBankkonto(
   pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeAntragContext,
+  context: BeratungshilfeFormularContext,
   attachment: Attachment,
 ) {
   const hasBankkonten = context.bankkonten
@@ -379,7 +379,7 @@ function fillFinancialBankkonto(
 
 function fillFinancialGrundeigentum(
   pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeAntragContext,
+  context: BeratungshilfeFormularContext,
   attachment: Attachment,
 ) {
   const hasGrundeigentum = context.grundeigentum
@@ -439,7 +439,7 @@ function fillFinancialGrundeigentum(
 
 function fillFinancialKraftfahrzeug(
   pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeAntragContext,
+  context: BeratungshilfeFormularContext,
   attachment: Attachment,
 ) {
   const hasKraftfahrzeug = context.kraftfahrzeuge
@@ -484,7 +484,7 @@ function fillFinancialKraftfahrzeug(
 
 function fillFinancialWertsachen(
   pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeAntragContext,
+  context: BeratungshilfeFormularContext,
   attachment: Attachment,
 ) {
   const hasWertsachen = context.wertsachen
@@ -516,7 +516,7 @@ function fillFinancialWertsachen(
 
       attachment.descriptions.unshift({
         title: "Wertsachen",
-        text: bezeichnung.join("\n"),
+        text: bezeichnung.join("\n\n"),
       });
     }
   }
@@ -831,7 +831,7 @@ function getBankkontoBezeichnung(
 
 function fillBeratungsperson(
   pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeAntragContext,
+  context: BeratungshilfeFormularContext,
 ) {
   const address = [
     context.anwaltName ?? "",

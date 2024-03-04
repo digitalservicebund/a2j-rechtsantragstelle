@@ -19,7 +19,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  const headers = { "Set-Cookie": await consentCookieFromRequest({ request }) };
+  const headers = await consentCookieFromRequest({ request });
   return redirect("/cookie-einstellungen/erfolg", { headers });
 }
 

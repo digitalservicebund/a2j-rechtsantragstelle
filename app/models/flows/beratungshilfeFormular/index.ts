@@ -11,7 +11,7 @@ import {
 } from "./grundvoraussetzung/context";
 import beratungshilfeAnwaltlicheVertretungFlow from "./anwaltlicheVertretung/flow.json";
 import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.json";
-import beratungshilfeAntragFlow from "./flow.json";
+import beratungshilfeFormularFlow from "./flow.json";
 import rechtsproblemFlow from "./rechtsproblem/flow.json";
 import {
   type BeratungshilfeRechtsproblem,
@@ -36,9 +36,9 @@ import type { AllContexts } from "~/models/flows/common";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { BeratungshilfeAbgabe } from "~/models/flows/beratungshilfeFormular/abgabe/context";
 
-export const beratungshilfeAntrag = {
+export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
-  config: _.merge(beratungshilfeAntragFlow, {
+  config: _.merge(beratungshilfeFormularFlow, {
     states: {
       grundvoraussetzungen: _.merge(
         _.cloneDeep(beratungshilfeGrundvoraussetzungenFlow),
@@ -51,7 +51,7 @@ export const beratungshilfeAntrag = {
                 SUBMIT: [
                   {
                     target: "#anwaltlicheVertretung.start",
-                    cond: "eigeninitiativeGrundvorraussetzungNo",
+                    guard: "eigeninitiativeGrundvorraussetzungNo",
                   },
                   {
                     target: "eigeninitiativeGrundvorraussetzung-hinweis",
@@ -84,11 +84,11 @@ export const beratungshilfeAntrag = {
             on: {
               BACK: [
                 {
-                  cond: "anwaltskanzleiNo",
+                  guard: "anwaltskanzleiNo",
                   target: "#anwaltlicheVertretung.start",
                 },
                 {
-                  cond: "beratungStattgefundenNo",
+                  guard: "beratungStattgefundenNo",
                   target: "#anwaltlicheVertretung.beratungStattgefunden",
                 },
                 {
@@ -120,7 +120,7 @@ export const beratungshilfeAntrag = {
           start: { on: { BACK: "#finanzielleAngaben.danke" } },
           danke: {
             on: {
-              SUBMIT: [{ target: "#abgabe.art", cond: "readyForAbgabe" }],
+              SUBMIT: [{ target: "#abgabe.art", guard: "readyForAbgabe" }],
             },
           },
         },
@@ -186,7 +186,7 @@ const getStaatlicheLeistungenStrings = (context: AllContexts) => {
   };
 };
 
-export type BeratungshilfeAntragContext = BeratungshilfeGrundvoraussetzungen &
+export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &
   BeratungshilfeAnwaltlicheVertretung &
   BeratungshilfeRechtsproblem &
   BeratungshilfeFinanzielleAngaben &

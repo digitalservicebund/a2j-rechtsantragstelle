@@ -15,6 +15,7 @@ export default function Container({
   paddingBottom = "default",
   backgroundColor = "default",
   overhangingBackground,
+  fullScreen = true,
   children,
 }: ContainerProps) {
   let cssClasses = classNames(
@@ -24,6 +25,10 @@ export default function Container({
       paddingBottom === "default" ? DEFAULT_PADDING_BOTTOM : paddingBottom
     }`,
     backgroundColor !== "default" && "text-black",
+    {
+      "!pl-0": !fullScreen && !overhangingBackground,
+      "!pr-0": !fullScreen && !overhangingBackground,
+    },
   );
 
   if (backgroundColor === "default") {
@@ -37,15 +42,15 @@ export default function Container({
       `before:${BACKGROUND_COLORS[backgroundColor]}`,
     );
 
-    return (
-      <div
-        className="overflow-x-hidden rounded-lg"
-        // Matches padding of .container (see style.css)
-        style={{
+    // Matches padding of .container (see style.css)
+    const style = fullScreen
+      ? {
           marginLeft: "clamp(1rem, 5vw, 3rem)",
           marginRight: "clamp(1rem, 5vw, 3rem)",
-        }}
-      >
+        }
+      : {};
+    return (
+      <div className="overflow-x-hidden rounded-lg" style={style}>
         <div className={cssClasses}>
           <div className="relative">{children}</div>
         </div>

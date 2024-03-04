@@ -1,5 +1,4 @@
 {
-  "predictableActionArguments": true,
   "initial": "start",
   "id": "anwaltlicheVertretung",
   "meta": {
@@ -10,7 +9,7 @@
       "on": {
         "SUBMIT": [
           {
-            "cond": "anwaltskanzleiNo",
+            "guard": "anwaltskanzleiNo",
             "target": "#rechtsproblem"
           },
           {
@@ -23,7 +22,7 @@
       "on": {
         "SUBMIT": [
           {
-            "cond": "beratungStattgefundenNo",
+            "guard": "beratungStattgefundenNo",
             "target": "#rechtsproblem"
           },
           {
@@ -37,7 +36,7 @@
       "on": {
         "SUBMIT": [
           {
-            "cond": "beratungStattgefundenDatumEarlierThanFourWeeks",
+            "guard": "beratungStattgefundenDatumEarlierThanFourWeeks",
             "target": "frist-hinweis"
           },
           {
@@ -60,14 +59,7 @@
       }
     },
     "anwalt-ende": {
-      "meta": {
-        "buttonNavigationProps": {
-          "next": null
-        }
-      },
-      "on": {
-        "BACK": "beratungStattgefundenDatum"
-      }
+      "on": { "BACK": "beratungStattgefundenDatum" }
     }
   }
 }

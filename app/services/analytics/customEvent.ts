@@ -1,4 +1,3 @@
-import { hasTrackingConsent } from "./gdprCookie.server";
 import { config } from "../env/web";
 import { parse } from "cookie";
 import { getPosthogClient } from "./posthogClient.server";
@@ -14,20 +13,25 @@ function idFromCookie(request: Request) {
   return phCookieObject["distinct_id"] ?? ENVIRONMENT;
 }
 
-export async function sendCustomEvent(
-  eventName: string,
-  context: Record<string, any>,
-  request: Request,
-) {
-  if (!(await hasTrackingConsent({ request }))) return;
-
+export function sendCustomAnalyticsEvent({
+  request,
+  eventName,
+  properties,
+}: {
+  request: Request;
+  eventName: string;
+  properties?: Record<
+    string,
+    string | boolean | Record<string, string | boolean>
+  >;
+}) {
   getPosthogClient()?.capture({
     distinctId: idFromCookie(request),
     event: eventName,
     properties: {
       // eslint-disable-next-line camelcase
       $current_url: new URL(request.url).pathname,
-      ...context,
+      ...properties,
     },
   });
 }

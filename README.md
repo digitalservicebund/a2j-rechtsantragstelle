@@ -51,7 +51,7 @@ Open the app in `localhost:3000`
 
 ### run license generator
 
-`npm run license`
+`npm run build:licenses`
 
 ### Git Hooks
 
@@ -63,6 +63,6 @@ The git hooks check formatting, linting, unit tests, typecheck (see `lefthook.ya
 
 1. Create a new folder for example: `prozesskostenhilfe`
 2. Store the antrag or form pdf there: `prozesskostenhilfe/Erklaerung_Verhaeltnisse_Prozess_oder_Verfahrenskostenhilfe.pdf`
-3. Run `npm run generate:pdf`
+3. Run `npm run build:pdf`
 
 After running the command, a new file named `prozesskostenhilfe.generated.ts` will be generated in the specified directory. You can use this file to fill out the PDF based on the input fields defined within it.

@@ -1,5 +1,4 @@
 {
-  "predictableActionArguments": true,
   "initial": "einkommen",
   "id": "finanzielleAngaben",
   "states": {
@@ -11,15 +10,15 @@
           "on": {
             "SUBMIT": [
               {
-                "cond": "staatlicheLeistungenIsBuergergeld",
+                "guard": "staatlicheLeistungenIsBuergergeld",
                 "target": "#besitz.bankkonten-frage"
               },
               {
-                "cond": "staatlicheLeistungenIsAsylbewerberleistungen",
+                "guard": "staatlicheLeistungenIsAsylbewerberleistungen",
                 "target": "#finanzielleAngaben.danke"
               },
               {
-                "cond": "staatlicheLeistungenIsGrundsicherung",
+                "guard": "staatlicheLeistungenIsGrundsicherung",
                 "target": "#finanzielleAngaben.danke"
               },
               "erwerbstaetig"
@@ -31,7 +30,7 @@
             "BACK": "staatliche-leistungen",
             "SUBMIT": [
               {
-                "cond": "erwerbstaetigYes",
+                "guard": "erwerbstaetigYes",
                 "target": "art"
               },
               "situation"
@@ -48,7 +47,7 @@
           "on": {
             "BACK": [
               {
-                "cond": "erwerbstaetigYes",
+                "guard": "erwerbstaetigYes",
                 "target": "art"
               },
               "erwerbstaetig"
@@ -79,11 +78,11 @@
             "BACK": "#einkommen.einkommen",
             "SUBMIT": [
               {
-                "cond": "partnerschaftNo",
+                "guard": "partnerschaftNo",
                 "target": "#kinder.kinder-frage"
               },
               {
-                "cond": "partnerschaftYes",
+                "guard": "partnerschaftYes",
                 "target": "zusammenleben"
               }
             ]
@@ -94,11 +93,11 @@
             "BACK": "partnerschaft",
             "SUBMIT": [
               {
-                "cond": "zusammenlebenYes",
+                "guard": "zusammenlebenYes",
                 "target": "partner-einkommen"
               },
               {
-                "cond": "zusammenlebenNo",
+                "guard": "zusammenlebenNo",
                 "target": "unterhalt"
               }
             ]
@@ -109,11 +108,11 @@
             "BACK": "zusammenleben",
             "SUBMIT": [
               {
-                "cond": "unterhaltYes",
+                "guard": "unterhaltYes",
                 "target": "unterhalts-summe"
               },
               {
-                "cond": "unterhaltNo",
+                "guard": "unterhaltNo",
                 "target": "keine-rolle"
               }
             ]
@@ -142,11 +141,11 @@
             "BACK": "zusammenleben",
             "SUBMIT": [
               {
-                "cond": "partnerEinkommenYes",
+                "guard": "partnerEinkommenYes",
                 "target": "partner-einkommen-summe"
               },
               {
-                "cond": "partnerEinkommenNo",
+                "guard": "partnerEinkommenNo",
                 "target": "#kinder.kinder-frage"
               }
             ]
@@ -169,7 +168,7 @@
             "BACK": "#partner.partner-einkommen-summe",
             "SUBMIT": [
               {
-                "cond": "hasKinderYes",
+                "guard": "hasKinderYes",
                 "target": "kinder"
               },
               "#besitz.bankkonten-frage"
@@ -180,7 +179,7 @@
           "on": {
             "BACK": [
               {
-                "cond": "hasKinderYes",
+                "guard": "hasKinderYes",
                 "target": "zusammenfassung"
               },
               "kinder-frage"
@@ -193,7 +192,7 @@
             "BACK": "kinder",
             "SUBMIT": [
               {
-                "cond": "kindWohnortBeiAntragstellerYes",
+                "guard": "kindWohnortBeiAntragstellerYes",
                 "target": "kind-eigene-einnahmen-frage"
               },
               "kind-unterhalt-frage"
@@ -205,7 +204,7 @@
             "BACK": "kind-wohnort",
             "SUBMIT": [
               {
-                "cond": "kindEigeneEinnahmenYes",
+                "guard": "kindEigeneEinnahmenYes",
                 "target": "kind-eigene-einnahmen"
               },
               "zusammenfassung"
@@ -223,7 +222,7 @@
             "BACK": "kind-wohnort",
             "SUBMIT": [
               {
-                "cond": "kindUnterhaltYes",
+                "guard": "kindUnterhaltYes",
                 "target": "kind-unterhalt"
               },
               "kind-unterhalt-ende"
@@ -259,34 +258,34 @@
           "on": {
             "BACK": [
               {
-                "cond": "hasStaatlicheLeistungen",
+                "guard": "hasStaatlicheLeistungen",
                 "target": "#einkommen.staatliche-leistungen"
               },
               {
-                "cond": "partnerschaftNo",
+                "guard": "partnerschaftNo",
                 "target": "#partner.partnerschaft"
               },
               {
-                "cond": "isPartnerschaftZusammenlebenEinkommenNo",
+                "guard": "isPartnerschaftZusammenlebenEinkommenNo",
                 "target": "#partner.partner-einkommen"
               },
               {
-                "cond": "isPartnerschaftZusammenlebenEinkommenYes",
+                "guard": "isPartnerschaftZusammenlebenEinkommenYes",
                 "target": "#partner.partner-einkommen-summe"
               },
               {
-                "cond": "unterhaltNo",
+                "guard": "unterhaltNo",
                 "target": "#partner.keine-rolle"
               },
               {
-                "cond": "unterhaltYes",
+                "guard": "unterhaltYes",
                 "target": "#partner.partner-name"
               },
               "#partner.partnerschaft"
             ],
             "SUBMIT": [
               {
-                "cond": "hasBankkontoYes",
+                "guard": "hasBankkontoYes",
                 "target": "bankkonten"
               },
               "kraftfahrzeuge-frage"
@@ -307,7 +306,7 @@
             "SUBMIT": [
               {
                 "target": "bankkonten",
-                "cond": "hasAdditionalBankkontoYes"
+                "guard": "hasAdditionalBankkontoYes"
               },
               "kraftfahrzeuge-frage"
             ]
@@ -318,14 +317,14 @@
           "on": {
             "SUBMIT": [
               {
-                "cond": "hasKraftfahrzeugYes",
+                "guard": "hasKraftfahrzeugYes",
                 "target": "kraftfahrzeuge"
               },
               "geldanlagen-frage"
             ],
             "BACK": [
               {
-                "cond": "hasBankkontoYes",
+                "guard": "hasBankkontoYes",
                 "target": "weiteres-bankkonto"
               },
               "bankkonten-frage"
@@ -345,7 +344,7 @@
             "SUBMIT": [
               {
                 "target": "kraftfahrzeuge",
-                "cond": "hasAdditionalKraftfahrzeugYes"
+                "guard": "hasAdditionalKraftfahrzeugYes"
               },
               "geldanlagen-frage"
             ],
@@ -357,14 +356,14 @@
           "on": {
             "SUBMIT": [
               {
-                "cond": "hasGeldanlageYes",
+                "guard": "hasGeldanlageYes",
                 "target": "geldanlagen"
               },
               "grundeigentum-frage"
             ],
             "BACK": [
               {
-                "cond": "hasKraftfahrzeugYes",
+                "guard": "hasKraftfahrzeugYes",
                 "target": "weiteres-kraftfahrzeug"
               },
               "kraftfahrzeuge-frage"
@@ -384,7 +383,7 @@
             "SUBMIT": [
               {
                 "target": "geldanlagen",
-                "cond": "hasAdditionalGeldanlageYes"
+                "guard": "hasAdditionalGeldanlageYes"
               },
               "grundeigentum-frage"
             ],
@@ -396,7 +395,7 @@
           "on": {
             "SUBMIT": [
               {
-                "cond": "hasGrundeigentumYes",
+                "guard": "hasGrundeigentumYes",
                 "target": "grundeigentum"
               },
               "wertsachen-frage"
@@ -417,7 +416,7 @@
             "SUBMIT": [
               {
                 "target": "grundeigentum",
-                "cond": "hasAdditionalGrundeigentumYes"
+                "guard": "hasAdditionalGrundeigentumYes"
               },
               "wertsachen-frage"
             ],
@@ -429,7 +428,7 @@
           "on": {
             "SUBMIT": [
               {
-                "cond": "hasWertsacheYes",
+                "guard": "hasWertsacheYes",
                 "target": "wertsachen"
               },
               "zusammenfassung"
@@ -450,7 +449,7 @@
             "SUBMIT": [
               {
                 "target": "wertsachen",
-                "cond": "hasAdditionalWertsacheYes"
+                "guard": "hasAdditionalWertsacheYes"
               },
               "zusammenfassung"
             ],
@@ -470,11 +469,11 @@
       "on": {
         "BACK": [
           {
-            "cond": "staatlicheLeistungenIsAsylbewerberleistungen",
+            "guard": "staatlicheLeistungenIsAsylbewerberleistungen",
             "target": "#einkommen.staatliche-leistungen"
           },
           {
-            "cond": "staatlicheLeistungenIsGrundsicherung",
+            "guard": "staatlicheLeistungenIsGrundsicherung",
             "target": "#einkommen.staatliche-leistungen"
           },
           "#besitz.zusammenfassung"

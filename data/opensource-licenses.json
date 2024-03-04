@@ -215,6 +215,15 @@
     "direct": true,
     "licenseFile": ""
   },
+  "react-collapsed": {
+    "licenses": "MIT",
+    "repository": "https://github.com/roginfarrer/collapsed",
+    "publisher": "Rogin Farrer",
+    "email": "rogin@roginfarrer.com",
+    "path": "a2j-rechtsantragstelle/node_modules/react-collapsed",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/react-collapsed/LICENSE",
+    "direct": true
+  },
   "react-dom": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react",
@@ -222,12 +231,13 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/react-dom/LICENSE",
     "direct": true
   },
-  "react-dropzone": {
+  "react-dropzone-esm": {
     "licenses": "MIT",
-    "repository": "https://github.com/react-dropzone/react-dropzone",
-    "publisher": "Param Aggarwal",
-    "path": "a2j-rechtsantragstelle/node_modules/react-dropzone",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/react-dropzone/LICENSE",
+    "repository": "https://github.com/rtivital/react-dropzone-esm",
+    "publisher": "Vitaly Rtishchev",
+    "email": "rtivital@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/react-dropzone-esm",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/react-dropzone-esm/LICENSE",
     "direct": true
   },
   "react-imask": {

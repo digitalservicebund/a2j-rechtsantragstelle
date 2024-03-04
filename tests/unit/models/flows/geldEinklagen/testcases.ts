@@ -5,8 +5,9 @@ import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklage
 import { guards } from "~/models/flows/geldEinklagen/guards";
 import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
 import type { TestCases } from "../TestCases";
+import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
-const machine = createMachine<GeldEinklagenVorabcheckContext>(
+const machine: FlowStateMachine = createMachine(
   { ...geldEinklagenFlow, context: {} },
   { guards },
 );

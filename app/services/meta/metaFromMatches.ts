@@ -1,7 +1,7 @@
 import type { useMatches } from "@remix-run/react";
-import type { StrapiHeader } from "./cms/models/StrapiHeader";
-import type { StrapiContent } from "./cms/models/StrapiContent";
-import type { StrapiMeta } from "./cms/models/StrapiMeta";
+import type { StrapiHeader } from "../cms/models/StrapiHeader";
+import type { StrapiContent } from "../cms/models/StrapiContent";
+import type { StrapiMeta } from "../cms/models/StrapiMeta";
 
 type RouteMatchKnown = Omit<ReturnType<typeof useMatches>[0], "data"> & {
   data: {
@@ -32,12 +32,7 @@ export function metaFromMatches(matches: ReturnType<typeof useMatches>) {
       title: m.data.meta?.breadcrumbTitle ?? m.data.meta?.title ?? "",
     }));
 
-  const title = matches
-    .filter((m) => !/.*_index$/.exec(m.id))
-    .map((m) => m.data.meta?.title ?? "")
-    .reverse()
-    .join(" - ");
-
+  const title = matches.at(-1)?.data.meta?.title;
   const ogTitle = matches.at(-1)?.data.meta?.ogTitle;
 
   const description =

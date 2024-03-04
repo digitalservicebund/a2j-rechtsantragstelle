@@ -1,18 +1,28 @@
 import { type Flow } from "~/models/flows/flows.server";
 import { type FlowId, getContext } from "~/models/flows/contexts";
-import { getSessionForContext } from ".";
+import { type CookieHeader, getSessionData } from ".";
 
-export async function getMigrationData(
+const migrationKey = "daten-uebernahme";
+
+async function doMigration(
   flowId: FlowId,
-  currentFlow: Flow,
-  cookieId: string | null,
+  migrationSource: FlowId,
+  cookieHeader: string,
 ) {
-  const { migrationSource } = currentFlow;
-  if (!migrationSource || cookieId === null) return {};
-  const context = getContext(flowId);
-  const session = getSessionForContext(migrationSource);
-  const migrationSession = await session.getSession(cookieId);
+  const { userData } = await getSessionData(migrationSource, cookieHeader);
   return Object.fromEntries(
-    Object.entries(migrationSession.data).filter(([key]) => key in context),
+    Object.entries(userData).filter(([key]) => key in getContext(flowId)),
   );
+}
+
+export function getMigrationData(
+  stepId: string,
+  flowId: FlowId,
+  flow: Flow,
+  cookieHeader: CookieHeader,
+) {
+  const { migrationSource } = flow;
+  if (!migrationSource || !stepId.includes(migrationKey) || !cookieHeader)
+    return undefined;
+  return doMigration(flowId, migrationSource, cookieHeader);
 }

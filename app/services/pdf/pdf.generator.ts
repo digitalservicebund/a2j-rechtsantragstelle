@@ -5,13 +5,13 @@ import {
   JSONSchemaInput,
   FetchingJSONSchemaStore,
 } from "quicktype-core";
-import * as fs from "fs";
+import fs from "node:fs";
+import path from "node:path";
+import readline from "node:readline";
 
 import { normalizePropertyName } from "./pdf.server";
-import path from "path";
-import * as readline from "readline";
 
-const serviceDirectory = "app/services/pdf/";
+const dataDirectory = "data/pdf/";
 
 const question = (questionText: string) => {
   const rl = readline.createInterface({
@@ -42,7 +42,7 @@ const generate = async () => {
 
   const pdfDoc = await PDFDocument.load(
     fs.readFileSync(
-      path.resolve(path.join(process.cwd(), serviceDirectory, pdfFilePath)),
+      path.resolve(path.join(process.cwd(), dataDirectory, pdfFilePath)),
     ),
   );
   const form = pdfDoc.getForm();
@@ -134,7 +134,7 @@ const generate = async () => {
   });
 
   fs.writeFileSync(
-    path.join(process.cwd(), serviceDirectory, generatedFile),
+    path.join(process.cwd(), dataDirectory, generatedFile),
     quickType.lines.join("\n"),
   );
 

@@ -32,7 +32,6 @@ describe("flowNavigation", () => {
     const config = {
       id: "/test/flow/",
       initial: "step1",
-      predictableActionArguments: true,
       states: {
         step1: {
           initial: "step1a",

@@ -20,7 +20,7 @@ import Background from "~/components/Background";
 import type { loader } from "../result.server";
 
 const iconCSS = "inline-block mr-8 !h-[36px] !w-[36px]";
-export const icons: Record<StrapiResultPageType, ReactElement> = {
+const icons: Record<StrapiResultPageType, ReactElement> = {
   error: <HighlightOff color="error" className={`${iconCSS} !text-red-900`} />,
   success: (
     <CheckCircleOutline
@@ -33,7 +33,7 @@ export const icons: Record<StrapiResultPageType, ReactElement> = {
   ),
 };
 
-export const backgrounds: Record<StrapiResultPageType, string> = {
+const backgrounds: Record<StrapiResultPageType, string> = {
   error: "bg-red-200",
   success: "bg-green-200",
   warning: "bg-yellow-200",
@@ -63,7 +63,7 @@ export function Result() {
         <Container paddingTop="24">
           <ProgressBar
             label={common.progressBarLabel}
-            progress={progress.current}
+            progress={progress.total}
             max={progress.total}
           />
           <Heading

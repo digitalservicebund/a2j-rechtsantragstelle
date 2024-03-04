@@ -1,7 +1,6 @@
 {
-  "predictableActionArguments": true,
-  "initial": "start",
   "id": "persoenlicheDaten",
+  "initial": "start",
   "states": {
     "start": { "on": { "SUBMIT": "name" } },
     "name": { "on": { "BACK": "start", "SUBMIT": "geburtsdatum" } },

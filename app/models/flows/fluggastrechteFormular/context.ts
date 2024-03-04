@@ -13,6 +13,7 @@ import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import {
   airlineSchema,
   fluggastBereichSchema,
+  zustaendigesAmtsgerichtSchema,
 } from "../fluggastrechte/context";
 import {
   checkedOptional,
@@ -73,6 +74,7 @@ export const fluggastrechtContext = {
   doMigration: YesNoAnswer,
   aenderungMitteilung: checkedRequired,
   zahlungOptional: checkedOptional,
+  zustaendigesAmtsgericht: zustaendigesAmtsgerichtSchema.optional(),
 } as const;
 
 const contextObject = z.object(fluggastrechtContext).partial();

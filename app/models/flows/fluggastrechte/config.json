@@ -1,5 +1,4 @@
 {
-  "predictableActionArguments": true,
   "id": "/fluggastrechte/vorabcheck/",
   "initial": "start",
   "states": {
@@ -16,11 +15,11 @@
         "SUBMIT": [
           {
             "target": "fluggesellschaft",
-            "cond": "isPartnerAirport"
+            "guard": "isPartnerAirport"
           },
           {
             "target": "ergebnis/flughaefen-abbruch",
-            "cond": "fluggesellschaftFilled"
+            "guard": "fluggesellschaftFilled"
           }
         ]
       }
@@ -37,7 +36,7 @@
         "SUBMIT": [
           {
             "target": "bereich",
-            "cond": "isKnownPartnerAirline"
+            "guard": "isKnownPartnerAirline"
           },
           {
             "target": "ergebnis/fluggesellschaft-abbruch"
@@ -57,7 +56,7 @@
         "SUBMIT": [
           {
             "target": "verspaetung",
-            "cond": "bereichVerspaetet"
+            "guard": "bereichVerspaetet"
           },
           {
             "target": "ergebnis/bereich-abbruch"
@@ -77,7 +76,7 @@
         "SUBMIT": [
           {
             "target": "checkin",
-            "cond": "verspaetungYes"
+            "guard": "verspaetungYes"
           },
           {
             "target": "ergebnis/verspaetung-abbruch"
@@ -97,7 +96,7 @@
         "SUBMIT": [
           {
             "target": "gruende",
-            "cond": "checkinYes"
+            "guard": "checkinYes"
           },
           {
             "target": "ergebnis/checkin-abbruch"
@@ -117,11 +116,11 @@
         "SUBMIT": [
           {
             "target": "entschaedigung",
-            "cond": "gruendeNo"
+            "guard": "gruendeNo"
           },
           {
             "target": "gruende-hinweis",
-            "cond": "gruendeYes"
+            "guard": "gruendeYes"
           }
         ]
       }
@@ -140,11 +139,11 @@
         "SUBMIT": [
           {
             "target": "gericht",
-            "cond": "entschaedigungYes"
+            "guard": "entschaedigungYes"
           },
           {
             "target": "ergebnis/entschaedigung-abbruch",
-            "cond": "entschaedigungNo"
+            "guard": "entschaedigungNo"
           }
         ]
       }
@@ -161,11 +160,11 @@
         "SUBMIT": [
           {
             "target": "abtretung",
-            "cond": "gerichtNo"
+            "guard": "gerichtNo"
           },
           {
             "target": "ergebnis/gericht-abbruch",
-            "cond": "gerichtYes"
+            "guard": "gerichtYes"
           }
         ]
       }
@@ -182,11 +181,11 @@
         "SUBMIT": [
           {
             "target": "kostenlos",
-            "cond": "abtretungNo"
+            "guard": "abtretungNo"
           },
           {
             "target": "ergebnis/abtretung-abbruch",
-            "cond": "abtretungYes"
+            "guard": "abtretungYes"
           }
         ]
       }
@@ -203,7 +202,7 @@
         "SUBMIT": [
           {
             "target": "ergebnis/kostenlos-abbruch",
-            "cond": "kostenlosYes"
+            "guard": "kostenlosYes"
           },
           {
             "target": "rabatt"
@@ -223,11 +222,11 @@
         "SUBMIT": [
           {
             "target": "buchung",
-            "cond": "rabattNo"
+            "guard": "rabattNo"
           },
           {
             "target": "ergebnis/rabatt-abbruch",
-            "cond": "rabattYes"
+            "guard": "rabattYes"
           }
         ]
       }
@@ -244,11 +243,11 @@
         "SUBMIT": [
           {
             "target": "ergebnis/erfolg",
-            "cond": "buchungYes"
+            "guard": "buchungYes"
           },
           {
             "target": "ergebnis/buchung-abbruch",
-            "cond": "buchungNo"
+            "guard": "buchungNo"
           }
         ]
       }

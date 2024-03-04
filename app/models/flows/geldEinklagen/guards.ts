@@ -1,87 +1,55 @@
 import { isPartnerCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { GeldEinklagenVorabcheckContext } from "./context";
+import { yesNoGuards, type Guards } from "../guards.server";
 
-type Guard = (context: GeldEinklagenVorabcheckContext) => boolean;
-
-function yesNoGuards<Field extends keyof GeldEinklagenVorabcheckContext>(
-  field: Field,
-): { [field in Field as `${field}Yes`]: Guard } & {
-  [field in Field as `${field}No`]: Guard;
-} {
-  //@ts-ignore
-  return {
-    [`${field}Yes`]: ((context) => context[field] === "yes") as Guard,
-    [`${field}No`]: ((context) => context[field] === "no") as Guard,
-  };
-}
-
-const geldspanneAbove5k: Guard = (context) =>
-  context.geldspanne === "above_5000";
-const geldspanneBelow5k: Guard = (context) =>
-  context.geldspanne !== "above_5000";
-const geldspanneWithoutClaim: Guard = (context) => context.geldspanne === "no";
-const privatpersonEligible = (context: GeldEinklagenVorabcheckContext) =>
-  ["yes", "nonSingle", "representing"].includes(context.privatperson ?? "");
+const privatpersonEligible: Guards<GeldEinklagenVorabcheckContext>[string] = ({
+  context,
+}) => ["yes", "nonSingle", "representing"].includes(context.privatperson ?? "");
 const yesNoGuardsFlug = yesNoGuards("flug");
 
 export const guards = {
   ...yesNoGuards("kontaktaufnahme"),
   ...yesNoGuards("fristAbgelaufen"),
-  fristAbgelaufenNotSet: (context: GeldEinklagenVorabcheckContext) =>
-    context.fristAbgelaufen === "notSet",
-  privatpersonNotEligible: (context: GeldEinklagenVorabcheckContext) =>
+  fristAbgelaufenNotSet: ({ context }) => context.fristAbgelaufen === "notSet",
+  privatpersonNotEligible: ({ context }) =>
     ["nonPrivate", "organisation"].includes(context.privatperson ?? ""),
-  privatpersonEligibleAndFlugYes: (context: GeldEinklagenVorabcheckContext) =>
-    privatpersonEligible(context) && yesNoGuardsFlug.flugYes(context),
+  privatpersonEligibleAndFlugYes: ({ context }) =>
+    privatpersonEligible({ context }) && yesNoGuardsFlug.flugYes({ context }),
   privatpersonEligible,
-  forderungOnlyMoney: (context: GeldEinklagenVorabcheckContext) =>
-    context.forderung === "money",
-  forderungNotOnlyMoney: (context: GeldEinklagenVorabcheckContext) =>
+  forderungOnlyMoney: ({ context }) => context.forderung === "money",
+  forderungNotOnlyMoney: ({ context }) =>
     Boolean(context.forderung && context.forderung !== "money"),
-  bereichFamily: (context: GeldEinklagenVorabcheckContext) =>
-    context.bereich === "family",
-  bereichWork: (context: GeldEinklagenVorabcheckContext) =>
-    context.bereich === "work",
-  bereichTravel: (context: GeldEinklagenVorabcheckContext) =>
-    context.bereich === "travel",
-  bereichLiving: (context: GeldEinklagenVorabcheckContext) =>
-    context.bereich === "living",
-  bereichTax: (context: GeldEinklagenVorabcheckContext) =>
-    context.bereich === "tax",
-  bereichFilled: (context: GeldEinklagenVorabcheckContext) => !!context.bereich,
+  bereichFamily: ({ context }) => context.bereich === "family",
+  bereichWork: ({ context }) => context.bereich === "work",
+  bereichTravel: ({ context }) => context.bereich === "travel",
+  bereichLiving: ({ context }) => context.bereich === "living",
+  bereichTax: ({ context }) => context.bereich === "tax",
+  bereichFilled: ({ context }) => !!context.bereich,
   ...yesNoGuardsFlug,
   ...yesNoGuards("gegenseitePersonDeutschland"),
   ...yesNoGuards("gegenseiteUnternehmenDeutschland"),
   ...yesNoGuards("bundIdAccount"),
   ...yesNoGuards("wohnraeume"),
-  bundIdAccountWantTo: (context: GeldEinklagenVorabcheckContext) =>
-    context.bundIdAccount === "wantTo",
-  gegenseiteMultiple: (context: GeldEinklagenVorabcheckContext) =>
-    context.gegenseite === "multiple",
-  gegenseitePrivatperson: (context: GeldEinklagenVorabcheckContext) =>
+  bundIdAccountWantTo: ({ context }) => context.bundIdAccount === "wantTo",
+  gegenseiteMultiple: ({ context }) => context.gegenseite === "multiple",
+  gegenseitePrivatperson: ({ context }) =>
     context.gegenseite === "privatperson",
-  gegenseiteUnternehmen: (context: GeldEinklagenVorabcheckContext) =>
-    context.gegenseite === "unternehmen",
-  geldspanneBelow5k,
-  geldspanneAbove5k,
-  geldspanneWithoutClaim,
-  gegenseiteUnternehmenPlzPartnerCourt: (
-    context: GeldEinklagenVorabcheckContext,
-  ) => isPartnerCourt(context.gegenseiteUnternehmenPlz),
-  gegenseitePersonPlzPartnerCourt: (context: GeldEinklagenVorabcheckContext) =>
+  gegenseiteUnternehmen: ({ context }) => context.gegenseite === "unternehmen",
+  geldspanneBelow5k: ({ context }) => context.geldspanne !== "above_5000",
+  geldspanneAbove5k: ({ context }) => context.geldspanne === "above_5000",
+  geldspanneWithoutClaim: ({ context }) => context.geldspanne === "no",
+  gegenseiteUnternehmenPlzPartnerCourt: ({ context }) =>
+    isPartnerCourt(context.gegenseiteUnternehmenPlz),
+  gegenseitePersonPlzPartnerCourt: ({ context }) =>
     isPartnerCourt(context.gegenseitePersonPlz),
-  schadenPlzPartnerCourt: (context: GeldEinklagenVorabcheckContext) =>
-    isPartnerCourt(context.schadenPlz),
-  ortLeistungPlzPartnerCourt: (context: GeldEinklagenVorabcheckContext) =>
+  schadenPlzPartnerCourt: ({ context }) => isPartnerCourt(context.schadenPlz),
+  ortLeistungPlzPartnerCourt: ({ context }) =>
     isPartnerCourt(context.ortLeistungPlz),
-  wohnraumPlzPartnerCourt: (context: GeldEinklagenVorabcheckContext) =>
-    isPartnerCourt(context.wohnraumPlz),
-  wasUnerlaubteHandlung: (context: GeldEinklagenVorabcheckContext) =>
-    context.bereich === "violation",
+  wohnraumPlzPartnerCourt: ({ context }) => isPartnerCourt(context.wohnraumPlz),
+  wasUnerlaubteHandlung: ({ context }) => context.bereich === "violation",
   ...yesNoGuards("gegenseiteKontakt"),
   ...yesNoGuards("gegenseiteFrist"),
-  digitalAusweisenNo: (context: GeldEinklagenVorabcheckContext) =>
-    context.digitalAusweisen === "no",
-  livingAndWohnraumeYes: (context: GeldEinklagenVorabcheckContext) =>
+  digitalAusweisenNo: ({ context }) => context.digitalAusweisen === "no",
+  livingAndWohnraumeYes: ({ context }) =>
     context.bereich === "living" && context.wohnraeume == "yes",
-};
+} satisfies Guards<GeldEinklagenVorabcheckContext>;

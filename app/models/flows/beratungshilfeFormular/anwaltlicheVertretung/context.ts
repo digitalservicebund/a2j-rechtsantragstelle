@@ -7,6 +7,7 @@ import {
 } from "~/services/validation/date";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { postcodeSchema } from "~/services/validation/postcode";
+import type { Guards } from "../../guards.server";
 
 export const beratungshilfeAnwaltlicheVertretung = {
   anwaltskanzlei: YesNoAnswer,
@@ -22,14 +23,11 @@ const contextObject = z.object(beratungshilfeAnwaltlicheVertretung).partial();
 export type BeratungshilfeAnwaltlicheVertretung = z.infer<typeof contextObject>;
 
 export const beratungshilfeAnwaltlicheVertretungGuards = {
-  anwaltskanzleiNo: (context: BeratungshilfeAnwaltlicheVertretung) =>
-    context.anwaltskanzlei === "no",
-  beratungStattgefundenNo: (context: BeratungshilfeAnwaltlicheVertretung) =>
+  anwaltskanzleiNo: ({ context }) => context.anwaltskanzlei === "no",
+  beratungStattgefundenNo: ({ context }) =>
     context.beratungStattgefunden === "no",
-  beratungStattgefundenDatumEarlierThanFourWeeks: (
-    context: BeratungshilfeAnwaltlicheVertretung,
-  ) => {
-    if (context.beratungStattgefundenDatum === undefined) return false;
+  beratungStattgefundenDatumEarlierThanFourWeeks: ({ context }) => {
+    if (typeof context.beratungStattgefundenDatum !== "string") return false;
     const inputDateAsUTC = dateUTCFromGermanDateString(
       context.beratungStattgefundenDatum,
     );
@@ -37,7 +35,7 @@ export const beratungshilfeAnwaltlicheVertretungGuards = {
       (today().getTime() - inputDateAsUTC.getTime()) / 1000 / 60 / 60 / 24; // ms to days
     return differenceInDays < 28;
   },
-};
+} satisfies Guards<BeratungshilfeAnwaltlicheVertretung>;
 
 export const anwaltlicheVertretungDone = (
   context: BeratungshilfeAnwaltlicheVertretung,

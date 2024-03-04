@@ -1,5 +1,4 @@
 import type { ReactElement } from "react";
-import { fillTemplate, type Replacements } from "~/util/fillTemplate";
 import type { StrapiContent } from "~/services/cms/models/StrapiContent";
 import { wrapperPropsFromCms } from "./CommonWrapperProps";
 import { getBoxProps } from "~/services/cms/models/StrapiBox";
@@ -39,14 +38,18 @@ import { renderAlertFromStrapi } from "~/services/cms/models/StrapiAlert";
 
 type PageContentProps = {
   readonly content: Array<StrapiContent>;
-  readonly templateReplacements?: Replacements;
+  readonly fullScreen?: boolean;
   readonly className?: string;
 };
 
 export const keyFromElement = (element: StrapiContent) =>
   `${element.__component}_${element.id ?? 0}`;
 
-function wrapInContainer(cmsData: StrapiContent, reactElement: ReactElement) {
+function wrapInContainer(
+  cmsData: StrapiContent,
+  reactElement: ReactElement,
+  fullScreen: boolean | undefined,
+) {
   if (!("container" in cmsData) || cmsData.container === null)
     return reactElement;
   const isBox = cmsData.__component === "page.box";
@@ -54,7 +57,11 @@ function wrapInContainer(cmsData: StrapiContent, reactElement: ReactElement) {
 
   const props = wrapperPropsFromCms(cmsData.container);
   return (
-    <Container {...props} overhangingBackground={isBox || isBoxWithImage}>
+    <Container
+      {...props}
+      overhangingBackground={isBox || isBoxWithImage}
+      fullScreen={fullScreen}
+    >
       {reactElement}
     </Container>
   );
@@ -67,57 +74,48 @@ function wrapInBackground(cmsData: StrapiContent, reactElement: ReactElement) {
   return <Background {...props}>{reactElement}</Background>;
 }
 
-function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
-  const replacedTemplate = JSON.parse(
-    fillTemplate({
-      template: JSON.stringify(cms),
-      replacements: templateReplacements,
-    }),
-  ) as StrapiContent;
-
-  const key = keyFromElement(replacedTemplate);
+function cmsToReact(strapiContent: StrapiContent) {
+  const key = keyFromElement(strapiContent);
   // TODO: move from props matching to returning components (see renderCheckboxFromStrapi())
-  switch (replacedTemplate.__component) {
+  switch (strapiContent.__component) {
     case "basic.heading":
-      return <Heading {...getHeadingProps(replacedTemplate)} key={key} />;
+      return <Heading {...getHeadingProps(strapiContent)} key={key} />;
     case "basic.paragraph":
-      return <RichText {...getRichTextProps(replacedTemplate)} key={key} />;
+      return <RichText {...getRichTextProps(strapiContent)} key={key} />;
     case "basic.alert":
-      return renderAlertFromStrapi(replacedTemplate);
+      return renderAlertFromStrapi(strapiContent);
     case "page.header":
-      return <Header {...getHeaderProps(replacedTemplate)} key={key} />;
+      return <Header {...getHeaderProps(strapiContent)} key={key} />;
     case "form-elements.input":
-      return <Input {...getInputProps(replacedTemplate)} key={key} />;
+      return <Input {...getInputProps(strapiContent)} key={key} />;
     case "form-elements.date-input":
-      return renderDateInputFromStrapi(replacedTemplate);
+      return renderDateInputFromStrapi(strapiContent);
     case "form-elements.time-input":
-      return renderTimeInputFromStrapi(replacedTemplate);
+      return renderTimeInputFromStrapi(strapiContent);
     case "form-elements.file-input":
-      return renderFileInputFromStrapi(replacedTemplate);
+      return renderFileInputFromStrapi(strapiContent);
     case "form-elements.textarea":
-      return <Textarea {...getTextareaProps(replacedTemplate)} key={key} />;
+      return <Textarea {...getTextareaProps(strapiContent)} key={key} />;
     case "form-elements.select":
-      return <RadioGroup {...getRadioGroupProps(replacedTemplate)} key={key} />;
+      return <RadioGroup {...getRadioGroupProps(strapiContent)} key={key} />;
     case "form-elements.dropdown":
-      return <Select {...getDropdownProps(replacedTemplate)} key={key} />;
+      return <Select {...getDropdownProps(strapiContent)} key={key} />;
     case "form-elements.checkbox":
-      return renderCheckboxFromStrapi(replacedTemplate);
+      return renderCheckboxFromStrapi(strapiContent);
     case "form-elements.tile-group":
-      return <TileGroup {...getTileGroupProps(replacedTemplate)} key={key} />;
+      return <TileGroup {...getTileGroupProps(strapiContent)} key={key} />;
     case "page.box":
-      return <Box {...getBoxProps(replacedTemplate)} key={key} />;
+      return <Box {...getBoxProps(strapiContent)} key={key} />;
     case "page.info-box":
-      return <InfoBox {...getInfoBoxProps(replacedTemplate)} key={key} />;
+      return <InfoBox {...getInfoBoxProps(strapiContent)} key={key} />;
     case "page.link-list-box":
-      return (
-        <LinkListBox {...getLinkListBoxProps(replacedTemplate)} key={key} />
-      );
+      return <LinkListBox {...getLinkListBoxProps(strapiContent)} key={key} />;
     case "page.box-with-image":
       return (
-        <BoxWithImage {...getBoxWithImageProps(replacedTemplate)} key={key} />
+        <BoxWithImage {...getBoxWithImageProps(strapiContent)} key={key} />
       );
     case "page.list":
-      return <List {...getListProps(replacedTemplate)} key={key} />;
+      return <List {...getListProps(strapiContent)} key={key} />;
     default:
       return <></>;
   }
@@ -125,23 +123,25 @@ function cmsToReact(cms: StrapiContent, templateReplacements: Replacements) {
 
 const skipComponents = ["page.array-summary"];
 
-const PageContent = ({
+function PageContent({
   content = [],
-  templateReplacements = {},
+  fullScreen,
   className,
-}: PageContentProps) => (
-  <div className={className}>
-    {content
-      .filter((el) => !skipComponents.includes(el.__component))
-      .map((el) => (
-        <div key={keyFromElement(el)}>
-          {wrapInBackground(
-            el,
-            wrapInContainer(el, cmsToReact(el, templateReplacements)),
-          )}
-        </div>
-      ))}
-  </div>
-);
-
+}: PageContentProps) {
+  if (content.length === 0) return <></>;
+  return (
+    <div className={className}>
+      {content
+        .filter((el) => !skipComponents.includes(el.__component))
+        .map((el) => (
+          <div key={keyFromElement(el)}>
+            {wrapInBackground(
+              el,
+              wrapInContainer(el, cmsToReact(el), fullScreen),
+            )}
+          </div>
+        ))}
+    </div>
+  );
+}
 export default PageContent;

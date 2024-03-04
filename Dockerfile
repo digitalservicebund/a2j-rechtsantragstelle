@@ -12,6 +12,7 @@ WORKDIR /a2j-app
 COPY --link --from=app-base /a2j/node_modules ./node_modules/
 COPY ./build ./build/
 COPY ./app/services ./app/services/
+COPY ./data ./data/
 COPY ./start.sh ./server.js package.json ./
 
 FROM scratch AS content

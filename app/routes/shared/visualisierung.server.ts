@@ -22,8 +22,8 @@ function statesToGraph(
           : edge.target.key;
 
       let arrow = edge.label.text === "SUBMIT" ? "-->" : ".->";
-      if (edge.transition.cond?.name !== undefined)
-        arrow = `${arrow}|${edge.transition.cond?.name}|`;
+      if (typeof edge.transition.guard === "string")
+        arrow = `${arrow}|${edge.transition.guard}|`;
       const transition = `    ${source} ${arrow} ${target}\n`;
 
       if (showBacklinks || edge.label.text !== "BACK")
@@ -59,7 +59,9 @@ const getVisualizationString = (
   stateMachine: AnyStateMachine,
   showBacklinks = false,
 ) => {
-  const digraph = toDirectedGraph(stateMachine);
+  // normally this should be the machine but somehow the following line doesn't return the root inside the function:
+  // const stateNode = stateMachine instanceof xstate.StateMachine ? stateMachine.root : stateMachine;
+  const digraph = toDirectedGraph(stateMachine.root);
 
   // Mermaid generates a picture when given a base64 encoded chart description
   const flowChart = mermaidFlowchart(digraph, showBacklinks);
@@ -76,5 +78,5 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   //@ts-ignore
   const machine = createMachine(config, { guards });
   const base64Graph = getVisualizationString(machine, showBacklinks);
-  return json({ url: `https://mermaid.ink/img/${base64Graph}` });
+  return json({ url: `https://mermaid.ink/img/${base64Graph}?bgColor=!white` });
 };

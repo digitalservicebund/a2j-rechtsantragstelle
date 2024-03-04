@@ -22,10 +22,7 @@ const manualReplacements: Record<string, string> = {
 };
 
 const OUTFILE = path.resolve(
-  path.join(
-    process.cwd(),
-    "app/services/gerichtsfinder/data/sanitizedURLs.json",
-  ),
+  path.join(process.cwd(), "data/courts/sanitizedURLs.json"),
 );
 const concurrency = 50;
 

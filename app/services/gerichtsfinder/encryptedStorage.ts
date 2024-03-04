@@ -1,5 +1,5 @@
 /* eslint no-var: 0, @typescript-eslint/no-explicit-any: 0*/
-// Update zip file using npm run update:gerichtsfinder -- /path/to/file.zip
+// Update zip file using npm run update:courtData -- /path/to/file.zip
 
 import crypto from "node:crypto";
 import zlib from "node:zlib";
@@ -12,7 +12,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const GERICHTSFINDER_ENCRYPTION_KEY = process.env.GERICHTSFINDER_ENCRYPTION_KEY;
 const OUTFILE = path.resolve(
-  path.join(process.cwd(), "app/services/gerichtsfinder/data/courtData.enc"),
+  path.join(process.cwd(), "data/courts/courtData.enc"),
 );
 
 function getCipher(password: string, forward: boolean) {

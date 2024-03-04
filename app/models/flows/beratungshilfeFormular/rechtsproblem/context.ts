@@ -4,6 +4,7 @@ import {
   customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
+import type { Guards } from "../../guards.server";
 
 export const bereich = z.enum(
   [
@@ -34,9 +35,8 @@ const contextObject = z.object(beratungshilfeRechtsproblem).partial();
 export type BeratungshilfeRechtsproblem = z.infer<typeof contextObject>;
 
 export const beratungshilfeRechtsproblemGuards = {
-  eigeninitiativeYes: (context: BeratungshilfeRechtsproblem) =>
-    context.eigeninitiative === "yes",
-};
+  eigeninitiativeYes: ({ context }) => context.eigeninitiative === "yes",
+} satisfies Guards;
 
 export const rechtsproblemDone = (context: BeratungshilfeRechtsproblem) =>
   Boolean(

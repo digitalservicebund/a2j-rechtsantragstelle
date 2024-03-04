@@ -1,5 +1,4 @@
 {
-  "predictableActionArguments": true,
   "initial": "start",
   "id": "rechtsproblem",
   "states": {
@@ -17,7 +16,7 @@
       "on": {
         "SUBMIT": [
           {
-            "cond": "eigeninitiativeYes",
+            "guard": "eigeninitiativeYes",
             "target": "eigeninitiativeBeschreibung"
           },
           { "target": "keineEigeninitiativeBeschreibung" }
@@ -36,7 +35,7 @@
         "SUBMIT": "danke",
         "BACK": [
           {
-            "cond": "eigeninitiativeYes",
+            "guard": "eigeninitiativeYes",
             "target": "eigeninitiativeBeschreibung"
           },
           "keineEigeninitiativeBeschreibung"

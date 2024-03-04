@@ -18,7 +18,7 @@ import {
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { flowIDFromPathname } from "~/models/flows/contexts";
 import { splatFromParams } from "~/services/params";
-import { getSessionForContext } from "~/services/session.server";
+import { getSessionManager } from "~/services/session.server";
 import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/context";
 import Heading from "~/components/Heading";
 import type { ReactElement } from "react";
@@ -32,9 +32,10 @@ export const loader = async ({
 }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);
-  const cookieId = request.headers.get("Cookie");
-  const { data, id } = await getSessionForContext(flowId).getSession(cookieId);
-  context.sessionId = getSessionForContext(flowId).getSessionId(id); // For showing in errors
+  const cookieHeader = request.headers.get("Cookie");
+  const sessionManager = getSessionManager(flowId);
+  const { data, id } = await sessionManager.getSession(cookieHeader);
+  context.debugId = sessionManager.getDebugId(id); // For showing in errors
 
   const contextData = data as GeldEinklagenVorabcheckContext;
   const zipCodes = [

@@ -1,5 +1,4 @@
 {
-  "predictableActionArguments": true,
   "id": "/beratungshilfe/antrag/",
   "initial": "start",
   "states": {

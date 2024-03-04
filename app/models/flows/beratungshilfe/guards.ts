@@ -1,71 +1,60 @@
 import { freibetrag } from "./freibetrag";
 import moneyToCents from "../../../services/validation/money/moneyToCents";
 import type { BeratungshilfeVorabcheckContext } from "./context";
+import { yesNoGuards, type Guards, type GenericGuard } from "../guards.server";
 
-type Guard = (context: BeratungshilfeVorabcheckContext) => boolean;
-
-function yesNoGuards<Field extends keyof BeratungshilfeVorabcheckContext>(
-  field: Field,
-): { [field in Field as `${field}Yes`]: Guard } & {
-  [field in Field as `${field}No`]: Guard;
-} {
-  //@ts-ignore
-  return {
-    [`${field}Yes`]: ((context) => context[field] === "yes") as Guard,
-    [`${field}No`]: ((context) => context[field] === "no") as Guard,
-  };
-}
+type Guard = GenericGuard<BeratungshilfeVorabcheckContext>;
 
 const yesOrNoGuard = (
-  field: keyof Omit<BeratungshilfeVorabcheckContext, "kids">,
-): Record<string, Guard> => ({
-  [`${field}YesOrNo`]: (context) => {
-    return ["yes", "no"].includes(context[field] ?? "");
-  },
-});
-
-const filledGuard = (
   field: keyof BeratungshilfeVorabcheckContext,
-): Record<string, Guard> => ({
-  [`${field}Filled`]: (context) =>
-    //@ts-ignore
-    ![null, undefined].includes(context[field] ?? ""),
+): Guards => ({
+  [`${field}YesOrNo`]: ({ context }) =>
+    context[field] === "yes" || context[field] === "no",
 });
 
-const staatlicheLeistungenYesButNoEigeninitiative: Guard = (context) => {
+const filledGuard = (field: keyof BeratungshilfeVorabcheckContext): Guards => ({
+  [`${field}Filled`]: ({ context }) =>
+    context[field] !== undefined || context[field] !== null,
+});
+
+const staatlicheLeistungenYesButNoEigeninitiative: Guard = ({ context }) => {
   return (
-    guards.staatlicheLeistungenYes(context) && context.eigeninitiative == "no"
+    guards.staatlicheLeistungenYes({ context }) &&
+    context.eigeninitiative == "no"
   );
 };
 
-const vermoegenAbove10k: Guard = (context) => context.vermoegen === "above_10k";
-const vermoegenBelow10k: Guard = (context) => context.vermoegen === "below_10k";
-const vermoegenBelow10kAndBuergergeld: Guard = (context) =>
+const vermoegenAbove10k: Guard = ({ context }) =>
+  context.vermoegen === "above_10k";
+const vermoegenBelow10k: Guard = ({ context }) =>
+  context.vermoegen === "below_10k";
+const vermoegenBelow10kAndBuergergeld: Guard = ({ context }) =>
   context.vermoegen === "below_10k" &&
   context.staatlicheLeistungen === "buergergeld";
 
-const vermoegenBelow10kAndBuergergeldButNoEigeninitiative: Guard = (
+const vermoegenBelow10kAndBuergergeldButNoEigeninitiative: Guard = ({
   context,
-) => {
+}) => {
   return (
-    vermoegenBelow10kAndBuergergeld(context) && context.eigeninitiative == "no"
+    vermoegenBelow10kAndBuergergeld({ context }) &&
+    context.eigeninitiative == "no"
   );
 };
 
-const verfuegbaresEinkommenNoAndTriedFreeActions: Guard = (context) =>
-  context.verfuegbaresEinkommen === "no" && !anyNonCriticalWarning(context);
+const verfuegbaresEinkommenNoAndTriedFreeActions: Guard = ({ context }) =>
+  context.verfuegbaresEinkommen === "no" && !anyNonCriticalWarning({ context });
 
-const weitereZahlungenSummeIncomeTooHigh: Guard = (context) =>
-  isIncomeTooHigh(context);
+const weitereZahlungenSummeIncomeTooHigh: Guard = ({ context }) =>
+  isIncomeTooHigh({ context });
 
-const weitereZahlungenSummeWithWarnings: Guard = (context) =>
-  !isIncomeTooHigh(context) && anyNonCriticalWarning(context);
+const weitereZahlungenSummeWithWarnings: Guard = ({ context }) =>
+  !isIncomeTooHigh({ context }) && anyNonCriticalWarning({ context });
 
-const anyNonCriticalWarning: Guard = (context) => {
+const anyNonCriticalWarning: Guard = ({ context }) => {
   return context.eigeninitiative == "no";
 };
 
-export const isIncomeTooHigh: Guard = (context) => {
+export const isIncomeTooHigh: Guard = ({ context }) => {
   const einkommen = moneyToCents(context.einkommen) ?? 0;
   const miete = moneyToCents(context.miete) ?? 0;
   const zahlungen = moneyToCents(context.weitereZahlungenSumme) ?? 0;
@@ -88,14 +77,11 @@ export const isIncomeTooHigh: Guard = (context) => {
   return einkommen - miete - zahlungen - unterhalt > calculatedFreibetrag;
 };
 
-function anyKinderAnzahlFilled(context: BeratungshilfeVorabcheckContext) {
-  return (
-    context.kids?.kids6Below != undefined ||
-    context.kids?.kids7To14 != undefined ||
-    context.kids?.kids15To18 != undefined ||
-    context.kids?.kids18Above != undefined
-  );
-}
+const anyKinderAnzahlFilled: Guard = ({ context }) =>
+  context.kids?.kids6Below != undefined ||
+  context.kids?.kids7To14 != undefined ||
+  context.kids?.kids15To18 != undefined ||
+  context.kids?.kids18Above != undefined;
 
 export const guards = {
   anyKinderAnzahlFilled,
@@ -105,11 +91,11 @@ export const guards = {
   ...yesNoGuards("hamburgOderBremen"),
   ...yesNoGuards("beratungshilfeBeantragt"),
   ...yesNoGuards("eigeninitiative"),
-  staatlicheLeistungenNo: (context: BeratungshilfeVorabcheckContext) =>
+  staatlicheLeistungenNo: ({ context }) =>
     ["buergergeld", "keine", "andereLeistung"].includes(
       context.staatlicheLeistungen ?? "",
     ),
-  staatlicheLeistungenYes: (context: BeratungshilfeVorabcheckContext) =>
+  staatlicheLeistungenYes: ({ context }) =>
     ["grundsicherung", "asylbewerberleistungen"].includes(
       context.staatlicheLeistungen ?? "",
     ),
@@ -134,4 +120,4 @@ export const guards = {
   weitereZahlungenSummeIncomeTooHigh,
   weitereZahlungenSummeWithWarnings,
   ...filledGuard("weitereZahlungenSumme"),
-};
+} satisfies Guards<BeratungshilfeVorabcheckContext>;

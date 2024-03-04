@@ -5,8 +5,9 @@ import { guards } from "~/models/flows/beratungshilfe/guards";
 import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
 import type { BeratungshilfeVorabcheckContext } from "~/models/flows/beratungshilfe/context";
 import type { TestCases } from "../TestCases";
+import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
-const machine = createMachine<BeratungshilfeVorabcheckContext>(
+const machine: FlowStateMachine = createMachine(
   { ...beratungshilfeFlow, context: {} },
   { guards },
 );

@@ -7,9 +7,14 @@ import { context as geldEinklagenContext } from "./geldEinklagen/context";
 import { context as geldEinklagenFormularContext } from "./geldEinklagenFormular/context";
 
 type BasicTypes = string | number | boolean;
-export type ObjectType = Record<string, BasicTypes>;
-export type ArrayCollection = Record<string, ObjectType[]>;
-export type Context = Record<string, BasicTypes | ObjectType | ObjectType[]>;
+export type ObjectType = Record<
+  string,
+  BasicTypes | Record<string, BasicTypes | Record<string, BasicTypes>> // TODO: check whether GeldEinklagenFormularContext should be triple nested
+>;
+export type Context = Record<
+  string,
+  BasicTypes | ObjectType | ObjectType[] | undefined
+>;
 
 const contexts = {
   "beratungshilfe/antrag": beratungshilfeFormularContext,

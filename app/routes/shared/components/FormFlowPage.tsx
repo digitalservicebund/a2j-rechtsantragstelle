@@ -3,71 +3,51 @@ import { ValidatedForm } from "remix-validated-form";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import PageContent from "~/components/PageContent";
 import Background from "~/components/Background";
-import { buildStepValidator } from "~/models/flows/common";
-import { getContext, flowIDFromPathname } from "~/models/flows/contexts";
+import { validatorForFieldnames } from "~/services/validation/buildStepValidator";
 import { CSRFKey } from "~/services/security/csrfKey";
-import { fillTemplate } from "~/util/fillTemplate";
 import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/FlowNavigation";
 import { splatFromParams } from "~/services/params";
-import type { loader } from "../step.server";
+import type { loader } from "../formular.server";
 import ArraySummary from "~/components/ArraySummary";
 
-export function StepWithPreHeading() {
+export function FormFlowPage() {
   const {
-    csrf,
-    defaultValues,
     arrayData,
-    heading,
-    preHeading,
-    content,
-    formContent,
-    postFormContent,
-    migrationData,
-    templateReplacements,
     buttonNavigationProps,
-    translations,
+    content,
+    csrf,
+    formElements,
+    heading,
+    migrationData,
     navItems,
+    postFormContent,
+    preHeading,
     returnTo,
+    stepData,
+    translations,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
-  const flowId = flowIDFromPathname(pathname);
-  const context = getContext(flowId);
-  const fieldNames = formContent.map((entry) => entry.name);
-  const validator = buildStepValidator(context, fieldNames);
+  const fieldNames = formElements.map((entry) => entry.name);
+  const validator = validatorForFieldnames(fieldNames, pathname);
 
   return (
     <Background backgroundColor="blue">
       <div className="pt-32 min-h-screen flex flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start">
-        {navItems && (
-          <div className="pb-48 md:pt-[1.4rem] md:shrink-0 md:grow md:min-w-[max-content] md:max-w-[calc(50vw_-_29.5rem)] md:flex md:justify-end">
-            <FlowNavigation navItems={navItems} />
-          </div>
-        )}
+        <div className="pb-48 md:pt-[1.4rem] md:shrink-0 md:grow md:min-w-[max-content] md:max-w-[calc(50vw_-_29.5rem)] md:flex md:justify-end">
+          <FlowNavigation navItems={navItems} />
+        </div>
         <div
           className={`ds-stack-40 container md:flex-1 ${navItems && "!ml-0"}`}
         >
           <div className="ds-stack-16">
-            {preHeading && (
-              <p className="ds-label-01-bold">
-                {fillTemplate({
-                  template: preHeading,
-                  replacements: templateReplacements,
-                })}
-              </p>
-            )}
-            <Heading
-              text={fillTemplate({
-                template: heading ?? "",
-                replacements: templateReplacements,
-              })}
-              look="ds-heading-02-reg"
-            />
+            {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
+            <Heading text={heading} look="ds-heading-02-reg" />
             <PageContent
               content={content}
-              templateReplacements={templateReplacements}
+              fullScreen={false}
               className="ds-stack-16"
             />
           </div>
@@ -76,7 +56,7 @@ export function StepWithPreHeading() {
             migrationData={migrationData}
             translations={translations}
           />
-          {arrayData && Object.keys(arrayData).length != 0 && (
+          {Object.keys(arrayData).length != 0 && (
             <div className="!mt-24">
               {Object.entries(arrayData).map(([arrayKey, array]) => (
                 <ArraySummary
@@ -93,22 +73,15 @@ export function StepWithPreHeading() {
             id={`${stepId}_form`}
             method="post"
             validator={validator}
-            defaultValues={defaultValues}
+            defaultValues={stepData}
             noValidate
             action={pathname}
           >
             <input type="hidden" name={CSRFKey} value={csrf} />
             <input type="hidden" name="_returnTo" value={returnTo} />
             <div className="ds-stack-40">
-              {formContent && formContent.length != 0 && (
-                <PageContent content={formContent} className="ds-stack-40" />
-              )}
-              {postFormContent && postFormContent.length != 0 && (
-                <PageContent
-                  content={postFormContent}
-                  templateReplacements={templateReplacements}
-                />
-              )}
+              <PageContent content={formElements} className="ds-stack-40" />
+              <PageContent content={postFormContent} fullScreen={false} />
               <ButtonNavigation {...buttonNavigationProps} />
             </div>
           </ValidatedForm>

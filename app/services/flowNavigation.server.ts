@@ -34,7 +34,7 @@ export function navItemsFromFlowSpecifics(
         : ""
     }`;
 
-    const rootLabel = translation[rootStateName] ?? flowEntry.key ?? "No key";
+    const rootLabel = translation[rootStateName] ?? "No key";
     const subflowSpecifics =
       subflows.length > 0
         ? _.flatten(

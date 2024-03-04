@@ -1,56 +1,107 @@
 import type { MachineConfig } from "xstate";
-import { createMachine } from "xstate";
+import {
+  getInitialSnapshot,
+  getNextSnapshot,
+  pathToStateValue,
+  setup,
+} from "xstate";
 import { getShortestPaths } from "@xstate/graph";
-import { getStateValueString } from "~/services/flow/getStateValueString";
+import {
+  stateValueToStepId,
+  stepIdToPath,
+} from "~/services/flow/stepIdConverter";
 import type { Context } from "~/models/flows/contexts";
 import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
+import type { Guards } from "~/models/flows/guards.server";
+import _ from "lodash";
 
 type Event = "SUBMIT" | "BACK";
-type StateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
-type StateMachine = ReturnType<
-  typeof createMachine<Context, StateMachineEvents>
+type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
+
+type StateMachineTypes = {
+  context: Context;
+  events: FlowStateMachineEvents;
+};
+
+const genericMachine = setup({
+  types: {} as StateMachineTypes,
+  guards: {} as Guards,
+});
+
+export type FlowStateMachine = ReturnType<typeof genericMachine.createMachine>;
+
+export type Config = MachineConfig<
+  Context,
+  FlowStateMachineEvents,
+  never,
+  never,
+  { type: string; params: unknown },
+  never
 >;
-export type Config = MachineConfig<Context, any, StateMachineEvents>;
-export type Guards = Record<string, (context: Context) => boolean>;
-export type Meta = {
-  customEventName?: string;
+type Meta = {
+  customAnalyticsEventName?: string;
   progressPosition: number | undefined;
   isUneditable: boolean | undefined;
   done: (context: Context) => boolean | undefined;
   subflowState: (context: Context, subflowId: string) => SubflowState;
   subflowDone: (context: Context, subflowId: string) => boolean | undefined;
-  buttonNavigationProps?: {
-    next?: {
-      destination?: string;
-    };
-  };
 };
 
-const getSteps = (machine: StateMachine) => {
-  return Object.values(
-    getShortestPaths(machine, { events: { SUBMIT: [{ type: "SUBMIT" }] } }),
-  ).map(({ state }) => getStateValueString(state.value));
-};
-
-const getTransitionDestination = (
-  machine: StateMachine,
-  currentStep: string,
-  type: Event,
-) => {
-  const transitions = machine.getStateNodeByPath(currentStep).config.on;
-  if (!transitions || !(type in transitions)) return undefined;
-  return getStateValueString(machine.transition(currentStep, { type }).value);
-};
-
-const isFinalStep = (machine: StateMachine, stepId: string) => {
-  const transitions = machine.getStateNodeByPath(stepId).config.on;
-  return Boolean(
-    transitions &&
-      (!("SUBMIT" in transitions) ||
-        JSON.stringify(transitions["SUBMIT"]) == "{}" ||
-        JSON.stringify(transitions["SUBMIT"]) == "[]"),
+const getSteps = (machine: FlowStateMachine, context: Context) => {
+  // todo: remove machine relying on context passed at createMachine()...
+  // https://www.jsdocs.io/package/xstate#FlowStateMachine.provide is supposed to allow this but context isn't applied
+  // idea: machine.provide() with action that assigns the new context
+  const possiblePaths = getShortestPaths(machine, {
+    events: [{ type: "SUBMIT" }],
+  });
+  return Object.values(possiblePaths).map(({ state }) =>
+    stateValueToStepId(state.value),
   );
 };
+
+export const transitionDestination = (
+  machine: FlowStateMachine,
+  stepId: string,
+  type: Event,
+  context: Context,
+) => {
+  // First, resolve the state with the given step and context
+  const resolvedState = machine.resolveState({
+    value: pathToStateValue(stepIdToPath(stepId)),
+    context,
+  });
+  // Get snapshot of next machine state using the given event
+  const nextState = getNextSnapshot(machine, resolvedState, { type });
+  const nextStateId = stateValueToStepId(nextState.value);
+  // If the stepId if the new state matches the previous one: Return undefined. else: return full path
+  return nextStateId == stepId ? undefined : `${machine.id}${nextStateId}`;
+};
+
+const findNode = (machine: FlowStateMachine, stepId: string) => {
+  const statepath = stepIdToPath(stepId);
+  const resolvedState = machine.resolveState({
+    value: pathToStateValue(statepath),
+    context: {},
+  });
+  return resolvedState._nodes.find((node) => _.isEqual(node.path, statepath));
+};
+
+const isFinalStep = (machine: FlowStateMachine, stepId: string) => {
+  const transitions = findNode(machine, stepId)?.transitions;
+  return !transitions || !transitions.has("SUBMIT");
+};
+
+const metaFromStepId = (machine: FlowStateMachine, currentStepId: string) => {
+  return findNode(machine, currentStepId)?.meta as Meta | undefined;
+};
+
+function getInitial(machine: FlowStateMachine) {
+  // The initial state might be nested and needs to be resolved
+  const initialSnapshot = getInitialSnapshot(machine);
+  return stateValueToStepId(initialSnapshot.value);
+}
+
+export type FlowController = ReturnType<typeof buildFlowController>;
 
 export const buildFlowController = ({
   config,
@@ -61,70 +112,42 @@ export const buildFlowController = ({
   data?: Context;
   guards?: Guards;
 }) => {
-  const machine = createMachine({ ...config, context }, { guards });
+  const machine = setup({
+    types: {} as StateMachineTypes,
+    guards,
+  }).createMachine({ ...config, context });
   const baseUrl = config.id ?? "";
-  const initialStepId = getStateValueString(machine.initialState.value);
-  const normalizeStepId = (stepId: string) =>
-    stepId.replace(/\//g, ".").replace("ergebnis.", "ergebnis/");
-  const denormalizeStepId = (stepId: string) => stepId.replace(/\./g, "/");
-  const isInitialStepId = (currentStepId: string) =>
-    initialStepId === normalizeStepId(currentStepId);
-
-  const getMeta = (currentStepId: string): Meta | undefined =>
-    machine.getStateNodeByPath(normalizeStepId(currentStepId)).meta;
 
   return {
-    getMeta,
+    getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
     isDone: (currentStepId: string) =>
-      Boolean(getMeta(currentStepId)?.done(context)),
+      Boolean(metaFromStepId(machine, currentStepId)?.done(context)),
     getSubflowState: (currentStepId: string, subflowId: string) =>
-      getMeta(currentStepId)?.subflowState(context, subflowId),
+      metaFromStepId(machine, currentStepId)?.subflowState(context, subflowId),
     isUneditable: (currentStepId: string) =>
-      Boolean(getMeta(currentStepId)?.isUneditable),
+      Boolean(metaFromStepId(machine, currentStepId)?.isUneditable),
     getConfig: () => config,
-    isInitial: isInitialStepId,
-    isFinal: (currentStepId: string) =>
-      isFinalStep(machine, normalizeStepId(currentStepId)),
+    isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),
     isReachable: (currentStepId: string) => {
-      return getSteps(machine).includes(normalizeStepId(currentStepId));
+      // depends on context
+      return getSteps(machine, context).includes(currentStepId);
     },
-    getPrevious: (currentStepId: string) => {
-      const stepId = normalizeStepId(currentStepId);
-      if (isInitialStepId(stepId)) return undefined;
-      const name = getTransitionDestination(machine, stepId, "BACK");
-      if (!name) return undefined;
-      return { name, url: `${baseUrl}${denormalizeStepId(name)}` };
+    getPrevious: (stepId: string) => {
+      return transitionDestination(machine, stepId, "BACK", context);
     },
-    getNext: (currentStepId: string) => {
-      const name = getTransitionDestination(
-        machine,
-        normalizeStepId(currentStepId),
-        "SUBMIT",
-      );
-      if (!name) return undefined;
-      return { name, url: `${baseUrl}${denormalizeStepId(name)}` };
+    getNext: (stepId: string) => {
+      return transitionDestination(machine, stepId, "SUBMIT", context);
     },
-    getInitial: () => {
-      const name = initialStepId;
-      return { name, url: `${baseUrl}${denormalizeStepId(String(name))}` };
-    },
-    getLastReachable: () => {
-      const name = getSteps(machine).at(-1);
-      return { name, url: `${baseUrl}${denormalizeStepId(String(name))}` };
-    },
+    getInitial: () => `${baseUrl}${getInitial(machine)}`,
     getProgress: (currentStepId: string) => {
-      const stepId = normalizeStepId(currentStepId);
       const total =
         Math.max(
           ...Object.values(machine.states)
             .map((n) => (n.meta as Meta)?.progressPosition ?? 0)
             .filter((p) => p),
         ) + 1;
-      const node = machine.getStateNodeByPath(stepId);
-      const current = isFinalStep(machine, stepId)
-        ? total
-        : (node.meta as Meta)?.progressPosition ?? 0;
-      return { total, current };
+      const meta = metaFromStepId(machine, currentStepId);
+      return { total, current: meta?.progressPosition ?? total };
     },
   };
 };

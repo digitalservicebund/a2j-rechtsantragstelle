@@ -1,30 +1,14 @@
+import { yesNoGuards, type Guards } from "../../guards.server";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
 
-type Guard = (context: BeratungshilfeFinanzielleAngaben) => boolean;
-
-function yesNoGuards<Field extends keyof BeratungshilfeFinanzielleAngaben>(
-  field: Field,
-): { [field in Field as `${field}Yes`]: Guard } & {
-  [field in Field as `${field}No`]: Guard;
-} {
-  //@ts-ignore
-  return {
-    [`${field}Yes`]: ((context) => context[field] === "yes") as Guard,
-    [`${field}No`]: ((context) => context[field] === "no") as Guard,
-  };
-}
-
 export const finanzielleAngabeGuards = {
-  staatlicheLeistungenIsGrundsicherung: (
-    context: BeratungshilfeFinanzielleAngaben,
-  ) => context.staatlicheLeistungen === "grundsicherung",
-  staatlicheLeistungenIsAsylbewerberleistungen: (
-    context: BeratungshilfeFinanzielleAngaben,
-  ) => context.staatlicheLeistungen === "asylbewerberleistungen",
-  staatlicheLeistungenIsBuergergeld: (
-    context: BeratungshilfeFinanzielleAngaben,
-  ) => context.staatlicheLeistungen === "buergergeld",
-  hasStaatlicheLeistungen: (context: BeratungshilfeFinanzielleAngaben) =>
+  staatlicheLeistungenIsGrundsicherung: ({ context }) =>
+    context.staatlicheLeistungen === "grundsicherung",
+  staatlicheLeistungenIsAsylbewerberleistungen: ({ context }) =>
+    context.staatlicheLeistungen === "asylbewerberleistungen",
+  staatlicheLeistungenIsBuergergeld: ({ context }) =>
+    context.staatlicheLeistungen === "buergergeld",
+  hasStaatlicheLeistungen: ({ context }) =>
     context.staatlicheLeistungen === "asylbewerberleistungen" ||
     context.staatlicheLeistungen === "buergergeld" ||
     context.staatlicheLeistungen === "grundsicherung",
@@ -43,26 +27,20 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("hasAdditionalGrundeigentum"),
   ...yesNoGuards("hasWertsache"),
   ...yesNoGuards("hasAdditionalWertsache"),
-  isPartnerschaftZusammenlebenEinkommenNo: (
-    context: BeratungshilfeFinanzielleAngaben,
-  ) =>
+  isPartnerschaftZusammenlebenEinkommenNo: ({ context }) =>
     context.partnerschaft === "yes" &&
     context.zusammenleben === "yes" &&
     context.partnerEinkommen === "no",
-  isPartnerschaftZusammenlebenEinkommenYes: (
-    context: BeratungshilfeFinanzielleAngaben,
-  ) =>
+  isPartnerschaftZusammenlebenEinkommenYes: ({ context }) =>
     context.partnerschaft === "yes" &&
     context.zusammenleben === "yes" &&
     context.partnerEinkommen === "yes",
-  hasKinderYes: (context: BeratungshilfeFinanzielleAngaben) =>
-    context.hasKinder === "yes",
+  hasKinderYes: ({ context }) => context.hasKinder === "yes",
   // TODO: replace with the correct guards
-  kindWohnortBeiAntragstellerYes: (context: BeratungshilfeFinanzielleAngaben) =>
+  kindWohnortBeiAntragstellerYes: ({ context }) =>
     context.kinder?.[0]?.wohnortBeiAntragsteller === "yes" ||
     context.kinder?.[0]?.wohnortBeiAntragsteller === "partially",
-  kindEigeneEinnahmenYes: (context: BeratungshilfeFinanzielleAngaben) =>
+  kindEigeneEinnahmenYes: ({ context }) =>
     context.kinder?.[0]?.eigeneEinnahmen === "yes",
-  kindUnterhaltYes: (context: BeratungshilfeFinanzielleAngaben) =>
-    context.kinder?.[0]?.unterhalt === "yes",
-};
+  kindUnterhaltYes: ({ context }) => context.kinder?.[0]?.unterhalt === "yes",
+} satisfies Guards<BeratungshilfeFinanzielleAngaben>;

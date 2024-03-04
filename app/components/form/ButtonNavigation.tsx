@@ -6,7 +6,7 @@ type NavigationButton = {
   label: string;
 };
 
-interface ButtonNavigationProps {
+export interface ButtonNavigationProps {
   readonly back?: NavigationButton;
   readonly next?: NavigationButton;
 }

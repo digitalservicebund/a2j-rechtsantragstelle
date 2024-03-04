@@ -1,5 +1,4 @@
 {
-  "predictableActionArguments": true,
   "id": "/geld-einklagen/vorabcheck/",
   "initial": "start",
   "states": {
@@ -15,11 +14,11 @@
         "SUBMIT": [
           {
             "target": "ergebnis/forderung-abbruch",
-            "cond": "forderungNotOnlyMoney"
+            "guard": "forderungNotOnlyMoney"
           },
           {
             "target": "geldspanne",
-            "cond": "forderungOnlyMoney"
+            "guard": "forderungOnlyMoney"
           }
         ],
         "BACK": [
@@ -38,15 +37,15 @@
         "SUBMIT": [
           {
             "target": "ergebnis/geldspanne-abbruch",
-            "cond": "geldspanneWithoutClaim"
+            "guard": "geldspanneWithoutClaim"
           },
           {
             "target": "ergebnis/geldspanne-abbruch",
-            "cond": "geldspanneAbove5k"
+            "guard": "geldspanneAbove5k"
           },
           {
             "target": "gerichtskostenvorschuss",
-            "cond": "geldspanneBelow5k"
+            "guard": "geldspanneBelow5k"
           }
         ],
         "BACK": [
@@ -79,27 +78,27 @@
         "SUBMIT": [
           {
             "target": "ergebnis/bereich-familie-abbruch",
-            "cond": "bereichFamily"
+            "guard": "bereichFamily"
           },
           {
             "target": "ergebnis/bereich-arbeit-abbruch",
-            "cond": "bereichWork"
+            "guard": "bereichWork"
           },
           {
             "target": "ergebnis/bereich-tax-abbruch",
-            "cond": "bereichTax"
+            "guard": "bereichTax"
           },
           {
             "target": "wohnraeume",
-            "cond": "bereichLiving"
+            "guard": "bereichLiving"
           },
           {
             "target": "flug",
-            "cond": "bereichTravel"
+            "guard": "bereichTravel"
           },
           {
             "target": "privatperson",
-            "cond": "bereichFilled"
+            "guard": "bereichFilled"
           }
         ],
         "BACK": [
@@ -124,11 +123,11 @@
         "SUBMIT": [
           {
             "target": "privatperson",
-            "cond": "wohnraeumeYes"
+            "guard": "wohnraeumeYes"
           },
           {
             "target": "privatperson",
-            "cond": "wohnraeumeNo"
+            "guard": "wohnraeumeNo"
           }
         ],
         "BACK": { "target": "bereich" }
@@ -140,11 +139,11 @@
         "SUBMIT": [
           {
             "target": "privatperson",
-            "cond": "flugYes"
+            "guard": "flugYes"
           },
           {
             "target": "privatperson",
-            "cond": "flugNo"
+            "guard": "flugNo"
           }
         ],
         "BACK": { "target": "bereich" }
@@ -156,25 +155,25 @@
         "SUBMIT": [
           {
             "target": "gegenseite",
-            "cond": "privatpersonEligible"
+            "guard": "privatpersonEligible"
           },
           {
             "target": "gegenseite-unternehmen-deutschland",
-            "cond": "privatpersonEligibleAndFlugYes"
+            "guard": "privatpersonEligibleAndFlugYes"
           },
           {
             "target": "ergebnis/privatperson-abbruch",
-            "cond": "privatpersonNotEligible"
+            "guard": "privatpersonNotEligible"
           }
         ],
         "BACK": [
           {
             "target": "wohnraeume",
-            "cond": "bereichLiving"
+            "guard": "bereichLiving"
           },
           {
             "target": "flug",
-            "cond": "bereichTravel"
+            "guard": "bereichTravel"
           },
           {
             "target": "bereich"
@@ -197,15 +196,15 @@
         "SUBMIT": [
           {
             "target": "ergebnis/gegenseite-mehrere-abbruch",
-            "cond": "gegenseiteMultiple"
+            "guard": "gegenseiteMultiple"
           },
           {
             "target": "gegenseite-unternehmen-deutschland",
-            "cond": "gegenseiteUnternehmen"
+            "guard": "gegenseiteUnternehmen"
           },
           {
             "target": "gegenseite-person-deutschland",
-            "cond": "gegenseitePrivatperson"
+            "guard": "gegenseitePrivatperson"
           }
         ],
         "BACK": [{ "target": "privatperson" }]
@@ -217,15 +216,15 @@
         "SUBMIT": [
           {
             "target": "ergebnis/gegenseite-person-deutschland-abbruch",
-            "cond": "gegenseitePersonDeutschlandNo"
+            "guard": "gegenseitePersonDeutschlandNo"
           },
           {
             "target": "wohnraum-plz",
-            "cond": "livingAndWohnraumeYes"
+            "guard": "livingAndWohnraumeYes"
           },
           {
             "target": "gegenseite-person-plz",
-            "cond": "gegenseitePrivatperson"
+            "guard": "gegenseitePrivatperson"
           }
         ],
         "BACK": "gegenseite"
@@ -235,7 +234,10 @@
       "meta": { "progressPosition": 12 },
       "on": {
         "SUBMIT": [
-          { "cond": "wohnraumPlzPartnerCourt", "target": "gegenseite-kontakt" },
+          {
+            "guard": "wohnraumPlzPartnerCourt",
+            "target": "gegenseite-kontakt"
+          },
           "partnergericht/ergebnis/negativ"
         ],
         "BACK": "gegenseite-person-deutschland"
@@ -246,11 +248,11 @@
       "on": {
         "SUBMIT": [
           {
-            "cond": "gegenseitePersonPlzPartnerCourt",
+            "guard": "gegenseitePersonPlzPartnerCourt",
             "target": "gegenseite-kontakt"
           },
           {
-            "cond": "wasUnerlaubteHandlung",
+            "guard": "wasUnerlaubteHandlung",
             "target": "schaden-plz"
           },
           "ort-leistung-plz"
@@ -264,11 +266,11 @@
         "SUBMIT": [
           {
             "target": "ergebnis/gegenseite-unternehmen-deutschland-abbruch",
-            "cond": "gegenseiteUnternehmenDeutschlandNo"
+            "guard": "gegenseiteUnternehmenDeutschlandNo"
           },
           {
             "target": "wohnraum-plz",
-            "cond": "livingAndWohnraumeYes"
+            "guard": "livingAndWohnraumeYes"
           },
           {
             "target": "gegenseite-unternehmen-plz"
@@ -277,7 +279,7 @@
         "BACK": [
           {
             "target": "privatperson",
-            "cond": "privatpersonEligibleAndFlugYes"
+            "guard": "privatpersonEligibleAndFlugYes"
           },
           {
             "target": "gegenseite"
@@ -290,11 +292,11 @@
       "on": {
         "SUBMIT": [
           {
-            "cond": "gegenseiteUnternehmenPlzPartnerCourt",
+            "guard": "gegenseiteUnternehmenPlzPartnerCourt",
             "target": "gegenseite-kontakt"
           },
           {
-            "cond": "wasUnerlaubteHandlung",
+            "guard": "wasUnerlaubteHandlung",
             "target": "schaden-plz"
           },
           {
@@ -310,7 +312,7 @@
         "SUBMIT": [
           {
             "target": "gegenseite-kontakt",
-            "cond": "schadenPlzPartnerCourt"
+            "guard": "schadenPlzPartnerCourt"
           },
           {
             "target": "partnergericht/ergebnis/negativ"
@@ -319,11 +321,11 @@
         "BACK": [
           {
             "target": "gegenseite-unternehmen-plz",
-            "cond": "gegenseiteUnternehmen"
+            "guard": "gegenseiteUnternehmen"
           },
           {
             "target": "gegenseite-person-plz",
-            "cond": "gegenseitePrivatperson"
+            "guard": "gegenseitePrivatperson"
           }
         ]
       }
@@ -334,7 +336,7 @@
         "SUBMIT": [
           {
             "target": "gegenseite-kontakt",
-            "cond": "ortLeistungPlzPartnerCourt"
+            "guard": "ortLeistungPlzPartnerCourt"
           },
           "partnergericht/ergebnis/negativ"
         ],
@@ -347,7 +349,7 @@
         "SUBMIT": [
           {
             "target": "gegenseite-frist",
-            "cond": "gegenseiteKontaktYes"
+            "guard": "gegenseiteKontaktYes"
           },
           {
             "target": "eigeninitiative-warnung"
@@ -356,11 +358,11 @@
         "BACK": [
           {
             "target": "gegenseite-unternehmen-plz",
-            "cond": "gegenseiteUnternehmen"
+            "guard": "gegenseiteUnternehmen"
           },
           {
             "target": "gegenseite-person-plz",
-            "cond": "gegenseitePrivatperson"
+            "guard": "gegenseitePrivatperson"
           }
         ]
       }
@@ -386,17 +388,17 @@
         "SUBMIT": [
           {
             "target": "frist-warnung",
-            "cond": "gegenseiteFristNo"
+            "guard": "gegenseiteFristNo"
           },
           {
             "target": "digital-ausweisen",
-            "cond": "gegenseiteFristYes"
+            "guard": "gegenseiteFristYes"
           }
         ],
         "BACK": [
           {
             "target": "gegenseite-kontakt",
-            "cond": "gegenseiteKontaktYes"
+            "guard": "gegenseiteKontaktYes"
           },
           {
             "target": "eigeninitiative-warnung"
@@ -425,7 +427,7 @@
         "SUBMIT": [
           {
             "target": "ergebnis/stopp-ausweis",
-            "cond": "digitalAusweisenNo"
+            "guard": "digitalAusweisenNo"
           },
           {
             "target": "partnergericht/ergebnis/positiv"
@@ -434,11 +436,11 @@
         "BACK": [
           {
             "target": "frist-warnung",
-            "cond": "gegenseiteFristNo"
+            "guard": "gegenseiteFristNo"
           },
           {
             "target": "gegenseite-frist",
-            "cond": "gegenseiteFristYes"
+            "guard": "gegenseiteFristYes"
           }
         ]
       }
@@ -447,15 +449,15 @@
       "on": {
         "BACK": [
           {
-            "cond": "livingAndWohnraumeYes",
+            "guard": "livingAndWohnraumeYes",
             "target": "wohnraum-plz"
           },
           {
-            "cond": "wasUnerlaubteHandlung",
+            "guard": "wasUnerlaubteHandlung",
             "target": "schaden-plz"
           },
           {
-            "cond": "wasUnerlaubteHandlung",
+            "guard": "wasUnerlaubteHandlung",
             "target": "ort-leistung-plz"
           }
         ]
@@ -474,15 +476,15 @@
       "on": {
         "BACK": [
           {
-            "cond": "livingAndWohnraumeYes",
+            "guard": "livingAndWohnraumeYes",
             "target": "wohnraum-plz"
           },
           {
-            "cond": "wasUnerlaubteHandlung",
+            "guard": "wasUnerlaubteHandlung",
             "target": "schaden-plz"
           },
           {
-            "cond": "wasUnerlaubteHandlung",
+            "guard": "wasUnerlaubteHandlung",
             "target": "ort-leistung-plz"
           }
         ]
@@ -493,11 +495,11 @@
         "BACK": [
           {
             "target": "gegenseite-unternehmen-deutschland",
-            "cond": "gegenseiteUnternehmen"
+            "guard": "gegenseiteUnternehmen"
           },
           {
             "target": "gegenseite-person-deutschland",
-            "cond": "gegenseitePrivatperson"
+            "guard": "gegenseitePrivatperson"
           }
         ]
       }

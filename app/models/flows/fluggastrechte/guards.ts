@@ -1,35 +1,19 @@
 import { partnerCourtAirports } from ".";
+import { yesNoGuards, type Guards } from "../guards.server";
 import type { FluggastrechtVorabcheckContext } from "./context";
 
-type Guard = (context: FluggastrechtVorabcheckContext) => boolean;
-
-function yesNoGuards<Field extends keyof FluggastrechtVorabcheckContext>(
-  field: Field,
-): { [field in Field as `${field}Yes`]: Guard } & {
-  [field in Field as `${field}No`]: Guard;
-} {
-  //@ts-ignore
-  return {
-    [`${field}Yes`]: ((context) => context[field] === "yes") as Guard,
-    [`${field}No`]: ((context) => context[field] === "no") as Guard,
-  };
-}
-
-const isPartnerAirport = (context: FluggastrechtVorabcheckContext) => {
-  const airportAbbreviations = Object.keys(partnerCourtAirports);
-  return (
-    airportAbbreviations.includes(context.startAirport ?? "") ||
-    airportAbbreviations.includes(context.endAirport ?? "")
-  );
-};
-
 export const guards = {
-  bereichVerspaetet: (context: FluggastrechtVorabcheckContext) =>
-    context.bereich === "verspaetet",
-  isPartnerAirport,
-  fluggesellschaftFilled: (context: FluggastrechtVorabcheckContext) =>
+  bereichVerspaetet: ({ context }) => context.bereich === "verspaetet",
+  isPartnerAirport: ({ context }) => {
+    const airportAbbreviations = Object.keys(partnerCourtAirports);
+    return (
+      airportAbbreviations.includes(context.startAirport ?? "") ||
+      airportAbbreviations.includes(context.endAirport ?? "")
+    );
+  },
+  fluggesellschaftFilled: ({ context }) =>
     Boolean(context.startAirport && context.endAirport),
-  isKnownPartnerAirline: (context: FluggastrechtVorabcheckContext) =>
+  isKnownPartnerAirline: ({ context }) =>
     context.fluggesellschaft !== "sonstiges",
   ...yesNoGuards("verspaetung"),
   ...yesNoGuards("checkin"),
@@ -40,4 +24,4 @@ export const guards = {
   ...yesNoGuards("kostenlos"),
   ...yesNoGuards("rabatt"),
   ...yesNoGuards("buchung"),
-};
+} satisfies Guards<FluggastrechtVorabcheckContext>;

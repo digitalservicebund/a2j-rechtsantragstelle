@@ -1,5 +1,4 @@
 {
-  "predictableActionArguments": true,
   "id": "/beratungshilfe/vorabcheck/",
   "initial": "rechtsschutzversicherung",
   "states": {
@@ -11,11 +10,11 @@
         "SUBMIT": [
           {
             "target": "ergebnis/rechtsschutzversicherung-abbruch",
-            "cond": "rechtsschutzversicherungYes"
+            "guard": "rechtsschutzversicherungYes"
           },
           {
             "target": "wurde-verklagt",
-            "cond": "rechtsschutzversicherungNo"
+            "guard": "rechtsschutzversicherungNo"
           }
         ]
       }
@@ -35,11 +34,11 @@
         "SUBMIT": [
           {
             "target": "ergebnis/wurde-verklagt-abbruch",
-            "cond": "wurdeVerklagtYes"
+            "guard": "wurdeVerklagtYes"
           },
           {
             "target": "klage-eingereicht",
-            "cond": "wurdeVerklagtNo"
+            "guard": "wurdeVerklagtNo"
           }
         ],
         "BACK": {
@@ -62,11 +61,11 @@
         "SUBMIT": [
           {
             "target": "hamburg-oder-bremen",
-            "cond": "klageEingereichtNo"
+            "guard": "klageEingereichtNo"
           },
           {
             "target": "ergebnis/klage-eingereicht-abbruch",
-            "cond": "klageEingereichtYes"
+            "guard": "klageEingereichtYes"
           }
         ],
         "BACK": {
@@ -89,11 +88,11 @@
         "SUBMIT": [
           {
             "target": "beratungshilfe-beantragt",
-            "cond": "hamburgOderBremenNo"
+            "guard": "hamburgOderBremenNo"
           },
           {
             "target": "ergebnis/hamburg-oder-bremen-abbruch",
-            "cond": "hamburgOderBremenYes"
+            "guard": "hamburgOderBremenYes"
           }
         ],
         "BACK": {
@@ -116,11 +115,11 @@
         "SUBMIT": [
           {
             "target": "eigeninitiative",
-            "cond": "beratungshilfeBeantragtNo"
+            "guard": "beratungshilfeBeantragtNo"
           },
           {
             "target": "ergebnis/beratungshilfe-beantragt-abbruch",
-            "cond": "beratungshilfeBeantragtYes"
+            "guard": "beratungshilfeBeantragtYes"
           }
         ],
         "BACK": {
@@ -143,11 +142,11 @@
         "SUBMIT": [
           {
             "target": "bereich",
-            "cond": "eigeninitiativeYes"
+            "guard": "eigeninitiativeYes"
           },
           {
             "target": "eigeninitiative-warnung",
-            "cond": "eigeninitiativeNo"
+            "guard": "eigeninitiativeNo"
           }
         ],
         "BACK": {
@@ -170,7 +169,7 @@
     },
     "bereich": {
       "meta": {
-        "customEventName": "beratungshilfe vorabcheck bereich submitted",
+        "customAnalyticsEventName": "beratungshilfe vorabcheck bereich submitted",
         "progressPosition": 8
       },
       "on": {
@@ -178,7 +177,7 @@
         "BACK": [
           {
             "target": "eigeninitiative-warnung",
-            "cond": "eigeninitiativeNo"
+            "guard": "eigeninitiativeNo"
           },
           "eigeninitiative"
         ]
@@ -192,15 +191,15 @@
         "SUBMIT": [
           {
             "target": "ergebnis/staatliche-leistungen-abschluss-vielleicht",
-            "cond": "staatlicheLeistungenYesButNoEigeninitiative"
+            "guard": "staatlicheLeistungenYesButNoEigeninitiative"
           },
           {
             "target": "ergebnis/staatliche-leistungen-abschluss-ja",
-            "cond": "staatlicheLeistungenYes"
+            "guard": "staatlicheLeistungenYes"
           },
           {
             "target": "vermoegen",
-            "cond": "staatlicheLeistungenNo"
+            "guard": "staatlicheLeistungenNo"
           }
         ],
         "BACK": "bereich"
@@ -228,19 +227,19 @@
         "SUBMIT": [
           {
             "target": "ergebnis/vermoegen-abschluss-vielleicht",
-            "cond": "vermoegenBelow10kAndBuergergeldButNoEigeninitiative"
+            "guard": "vermoegenBelow10kAndBuergergeldButNoEigeninitiative"
           },
           {
             "target": "ergebnis/vermoegen-abschluss-ja",
-            "cond": "vermoegenBelow10kAndBuergergeld"
+            "guard": "vermoegenBelow10kAndBuergergeld"
           },
           {
             "target": "erwerbstaetigkeit",
-            "cond": "vermoegenBelow10k"
+            "guard": "vermoegenBelow10k"
           },
           {
             "target": "ergebnis/vermoegen-abbruch",
-            "cond": "vermoegenAbove10k"
+            "guard": "vermoegenAbove10k"
           }
         ],
         "BACK": {
@@ -276,7 +275,7 @@
       "on": {
         "SUBMIT": {
           "target": "partnerschaft",
-          "cond": "erwerbstaetigkeitYesOrNo"
+          "guard": "erwerbstaetigkeitYesOrNo"
         },
         "BACK": {
           "target": "vermoegen"
@@ -290,7 +289,7 @@
       "on": {
         "SUBMIT": {
           "target": "genauigkeit",
-          "cond": "partnerschaftYesOrNo"
+          "guard": "partnerschaftYesOrNo"
         },
         "BACK": {
           "target": "erwerbstaetigkeit"
@@ -305,11 +304,11 @@
         "SUBMIT": [
           {
             "target": "kinder-kurz",
-            "cond": "genauigkeitNo"
+            "guard": "genauigkeitNo"
           },
           {
             "target": "einkommen",
-            "cond": "genauigkeitYes"
+            "guard": "genauigkeitYes"
           }
         ],
         "BACK": {
@@ -325,11 +324,11 @@
         "SUBMIT": [
           {
             "target": "kinder-anzahl-kurz",
-            "cond": "kinderKurzYes"
+            "guard": "kinderKurzYes"
           },
           {
             "target": "verfuegbares-einkommen",
-            "cond": "kinderKurzNo"
+            "guard": "kinderKurzNo"
           }
         ],
         "BACK": {
@@ -344,7 +343,7 @@
       "on": {
         "SUBMIT": {
           "target": "verfuegbares-einkommen",
-          "cond": "kinderAnzahlKurzFilled"
+          "guard": "kinderAnzahlKurzFilled"
         },
         "BACK": {
           "target": "kinder-kurz"
@@ -359,21 +358,21 @@
         "SUBMIT": [
           {
             "target": "ergebnis/verfuegbares-einkommen-abschluss-ja",
-            "cond": "verfuegbaresEinkommenNoAndTriedFreeActions"
+            "guard": "verfuegbaresEinkommenNoAndTriedFreeActions"
           },
           {
             "target": "ergebnis/verfuegbares-einkommen-abschluss-vielleicht",
-            "cond": "verfuegbaresEinkommenNo"
+            "guard": "verfuegbaresEinkommenNo"
           },
           {
             "target": "ergebnis/verfuegbares-einkommen-abschluss-nein",
-            "cond": "verfuegbaresEinkommenYes"
+            "guard": "verfuegbaresEinkommenYes"
           }
         ],
         "BACK": [
           {
             "target": "kinder-anzahl-kurz",
-            "cond": "kinderKurzYes"
+            "guard": "kinderKurzYes"
           },
           {
             "target": "kinder-kurz"
@@ -410,11 +409,11 @@
         "SUBMIT": [
           {
             "target": "einkommen-partner",
-            "cond": "partnerschaftYes"
+            "guard": "partnerschaftYes"
           },
           {
             "target": "kinder",
-            "cond": "partnerschaftNo"
+            "guard": "partnerschaftNo"
           }
         ],
         "BACK": {
@@ -443,21 +442,21 @@
         "SUBMIT": [
           {
             "target": "kinder-anzahl",
-            "cond": "kinderYes"
+            "guard": "kinderYes"
           },
           {
             "target": "unterhalt",
-            "cond": "kinderNo"
+            "guard": "kinderNo"
           }
         ],
         "BACK": [
           {
             "target": "einkommen-partner",
-            "cond": "partnerschaftYes"
+            "guard": "partnerschaftYes"
           },
           {
             "target": "einkommen",
-            "cond": "partnerschaftNo"
+            "guard": "partnerschaftNo"
           }
         ]
       }
@@ -469,7 +468,7 @@
       "on": {
         "SUBMIT": {
           "target": "einkommen-kinder",
-          "cond": "anyKinderAnzahlFilled"
+          "guard": "anyKinderAnzahlFilled"
         },
         "BACK": {
           "target": "kinder"
@@ -483,7 +482,7 @@
       "on": {
         "SUBMIT": {
           "target": "unterhalt",
-          "cond": "einkommenKinderFilled"
+          "guard": "einkommenKinderFilled"
         },
         "BACK": {
           "target": "kinder-anzahl"
@@ -498,21 +497,21 @@
         "SUBMIT": [
           {
             "target": "unterhalt-summe",
-            "cond": "unterhaltYes"
+            "guard": "unterhaltYes"
           },
           {
             "target": "miete",
-            "cond": "unterhaltNo"
+            "guard": "unterhaltNo"
           }
         ],
         "BACK": [
           {
             "target": "einkommen-kinder",
-            "cond": "kinderYes"
+            "guard": "kinderYes"
           },
           {
             "target": "kinder",
-            "cond": "kinderNo"
+            "guard": "kinderNo"
           }
         ]
       }
@@ -524,7 +523,7 @@
       "on": {
         "SUBMIT": {
           "target": "miete",
-          "cond": "unterhaltSummeFilled"
+          "guard": "unterhaltSummeFilled"
         },
         "BACK": {
           "target": "unterhalt"
@@ -538,16 +537,16 @@
       "on": {
         "SUBMIT": {
           "target": "weitere-zahlungen-summe",
-          "cond": "mieteFilled"
+          "guard": "mieteFilled"
         },
         "BACK": [
           {
             "target": "unterhalt-summe",
-            "cond": "unterhaltYes"
+            "guard": "unterhaltYes"
           },
           {
             "target": "unterhalt",
-            "cond": "unterhaltNo"
+            "guard": "unterhaltNo"
           }
         ]
       }
@@ -560,15 +559,15 @@
         "SUBMIT": [
           {
             "target": "ergebnis/weitere-zahlungen-summe-abschluss-vielleicht",
-            "cond": "weitereZahlungenSummeWithWarnings"
+            "guard": "weitereZahlungenSummeWithWarnings"
           },
           {
             "target": "ergebnis/weitere-zahlungen-summe-abschluss-nein",
-            "cond": "weitereZahlungenSummeIncomeTooHigh"
+            "guard": "weitereZahlungenSummeIncomeTooHigh"
           },
           {
             "target": "ergebnis/weitere-zahlungen-summe-abschluss-ja",
-            "cond": "weitereZahlungenSummeFilled"
+            "guard": "weitereZahlungenSummeFilled"
           }
         ],
         "BACK": {

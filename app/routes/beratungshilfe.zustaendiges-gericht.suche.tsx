@@ -13,7 +13,7 @@ import {
 } from "~/services/cms/index.server";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
-import { getSessionForContext } from "~/services/session.server";
+import { getSessionManager } from "~/services/session.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { postcodeSchema } from "~/services/validation/postcode";
@@ -30,7 +30,7 @@ const validatorServer = withZod(serverSchema);
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const slug = new URL(request.url).pathname;
-  const sessionContext = getSessionForContext("beratungshilfe/vorabcheck");
+  const sessionManager = getSessionManager("beratungshilfe/vorabcheck");
 
   const [common, { form, meta }] = await Promise.all([
     fetchSingleEntry("amtsgericht-common"),
@@ -38,9 +38,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
   ]);
   const { url: backURL, session } = getReturnToURL({
     request,
-    session: await sessionContext.getSession(request.headers.get("Cookie")),
+    session: await sessionManager.getSession(request.headers.get("Cookie")),
   });
-  const headers = { "Set-Cookie": await sessionContext.commitSession(session) };
+  const headers = { "Set-Cookie": await sessionManager.commitSession(session) };
   return json({ form, common, meta, backURL }, { headers });
 }
 

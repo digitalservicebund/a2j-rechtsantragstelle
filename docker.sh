@@ -66,12 +66,6 @@ case $1 in
     getAppFromLatestImage $DESTINATION
     exit 0
     ;;
---attest)
-    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $APP_IMAGE
-    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $CONTENT_IMAGE
-    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $PROD_IMAGE
-    exit 0
-    ;;
 --contentFromImage)
     IMAGE_CONTENT_FILE=./content_from_image.json
     echo "Extracting content from $CONTENT_IMAGE into $IMAGE_CONTENT_FILE..."
@@ -96,10 +90,10 @@ case $1 in
     case ${TARGET} in
     app)
         LATEST_GIT_TAG=$(git rev-parse HEAD)
-        APP_IMAGE_TAG=$APP_IMAGE:$LATEST_GIT_TAG
+        APP_IMAGE_TAG=$APP_IMAGE
 
         npm run build
-        npm run build-storybook
+        npm run build:storybook
         echo "Building $APP_IMAGE..."
         docker build -t $APP_IMAGE --label "hash=$LATEST_GIT_TAG" -f $DOCKERFILE --target app --quiet .
 
@@ -147,9 +141,10 @@ case $1 in
     ;;
 --sign)
     echo "Signing images with cosign"
-    cosign sign --yes $APP_IMAGE
-    cosign sign --yes $CONTENT_IMAGE
-    cosign sign --yes $PROD_IMAGE
+    DOCKER_IMAGE_DIGEST=$(docker inspect --format='{{ index .RepoDigests 0 }}' ghcr.io/digitalservicebund/a2j-rechtsantragstelle:latest)
+    cosign sign --yes $DOCKER_IMAGE_DIGEST
+    echo "Attest images with cosign"
+    cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $DOCKER_IMAGE_DIGEST
     ;;
 *)
     echo "Unknown command $1"

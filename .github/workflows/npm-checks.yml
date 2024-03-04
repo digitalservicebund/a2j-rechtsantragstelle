@@ -9,7 +9,7 @@ jobs:
   code-quality:
     strategy:
       matrix:
-        npmCMD: ["prettier:check", "eslint:check", "typecheck", "test:coverage"]
+        npmCMD: ["format", "lint", "typecheck", "test:coverage"]
     permissions:
       packages: read
     runs-on: ubuntu-latest

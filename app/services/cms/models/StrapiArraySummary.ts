@@ -9,7 +9,7 @@ export const StrapiArraySummarySchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-export type StrapiArraySummary = z.infer<typeof StrapiArraySummarySchema>;
+type StrapiArraySummary = z.infer<typeof StrapiArraySummarySchema>;
 
 export const isStrapiArraySummary = (
   strapiContent: StrapiContent,
