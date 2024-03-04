@@ -82,8 +82,7 @@ export const loader = async ({
 }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
 
-  const { pathname, searchParams } = new URL(request.url);
-  const returnTo = searchParams.get("returnTo") ?? undefined;
+  const { pathname } = new URL(request.url);
   const { flowId, stepId, arrayIndex } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
 
@@ -97,7 +96,7 @@ export const loader = async ({
     guards: currentFlow.guards,
   });
 
-  if (!returnTo && !flowController.isReachable(stepId))
+  if (!flowController.isReachable(stepId))
     return redirectDocument(flowController.getInitial());
 
   // get all relevant strapi data
@@ -166,7 +165,7 @@ export const loader = async ({
     nextButtonLabel:
       cmsContent.nextButtonLabel ?? defaultStrings["nextButtonDefaultLabel"],
     isFinal: flowController.isFinal(stepId),
-    backDestination: returnTo ?? flowController.getPrevious(stepId),
+    backDestination: flowController.getPrevious(stepId),
   });
 
   const navItems = navItemsFromFlowSpecifics(
@@ -195,7 +194,6 @@ export const loader = async ({
       navItems,
       postFormContent: cmsContent.postFormContent,
       preHeading: cmsContent.preHeading,
-      returnTo,
       stepData,
       translations: flowStrings,
     },
@@ -271,11 +269,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     });
   }
 
-  const returnTo = formData.get("_returnTo");
   const destination =
-    returnTo && typeof returnTo === "string" && returnTo !== ""
-      ? returnTo
-      : flowController.getNext(stepId) ?? flowController.getInitial();
+    flowController.getNext(stepId) ?? flowController.getInitial();
 
   const headers = { "Set-Cookie": await commitSession(flowSession) };
   return redirectDocument(destination, { headers });

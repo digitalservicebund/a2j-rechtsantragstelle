@@ -36,7 +36,7 @@ const ArraySummary = ({
 
   const pathroot = pathname.slice(0, pathname.lastIndexOf("/"));
   const nextItemIndex = arrayData.length;
-  const addButtonDestination = `${pathroot}/${arrayKey}/${nextItemIndex}?returnTo=${pathname}`;
+  const addButtonDestination = `${pathroot}/${arrayKey}/${nextItemIndex}`;
   const emptyArrayFallbackString = "Das besitze ich nicht."; // TODO: Validate & move to strapi
 
   return (
@@ -69,7 +69,7 @@ const ArraySummary = ({
                 <Button
                   iconLeft={<EditButton />}
                   look="tertiary"
-                  href={`${arrayKey}/${index}?returnTo=${pathname}`}
+                  href={`${arrayKey}/${index}`}
                 >
                   {editButtonText}
                 </Button>

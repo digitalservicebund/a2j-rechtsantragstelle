@@ -24,7 +24,6 @@ export function FormFlowPage() {
     navItems,
     postFormContent,
     preHeading,
-    returnTo,
     stepData,
     translations,
   } = useLoaderData<typeof loader>();
@@ -78,7 +77,6 @@ export function FormFlowPage() {
             action={pathname}
           >
             <input type="hidden" name={CSRFKey} value={csrf} />
-            <input type="hidden" name="_returnTo" value={returnTo} />
             <div className="ds-stack-40">
               <PageContent content={formElements} className="ds-stack-40" />
               <PageContent content={postFormContent} fullScreen={false} />
