@@ -39,7 +39,7 @@ export type Config = MachineConfig<
   never
 >;
 type Meta = {
-  customEventName?: string;
+  customAnalyticsEventName?: string;
   progressPosition: number | undefined;
   isUneditable: boolean | undefined;
   done: (context: Context) => boolean | undefined;

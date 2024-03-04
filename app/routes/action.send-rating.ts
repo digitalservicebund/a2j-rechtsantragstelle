@@ -4,7 +4,7 @@ import { BannerState } from "~/components/UserFeedback";
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
 import { getSessionManager } from "~/services/session.server";
 import { bannerStateName } from "~/services/feedback/handleFeedback";
-import { sendCustomEvent } from "~/services/analytics/customEvent";
+import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 
 export const loader = () => redirect("/");
 
@@ -31,7 +31,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const headers = { "Set-Cookie": await commitSession(session) };
 
-  sendCustomEvent({
+  sendCustomAnalyticsEvent({
     eventName: "rating given",
     request,
     properties: {

@@ -7,7 +7,7 @@ import {
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
 import { validationError } from "remix-validated-form";
 import { type Session, redirect } from "@remix-run/node";
-import { sendCustomEvent } from "../analytics/customEvent";
+import { sendCustomAnalyticsEvent } from "../analytics/customEvent";
 
 export const bannerStateName = "bannerState";
 
@@ -29,7 +29,7 @@ export const handleFeedback = async (formData: FormData, request: Request) => {
     return validationError(result.error, result.submittedData);
   }
   bannerState[pathname] = BannerState.FeedbackGiven;
-  sendCustomEvent({
+  sendCustomAnalyticsEvent({
     eventName: "feedback given",
     request,
     properties: {

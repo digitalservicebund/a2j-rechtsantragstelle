@@ -169,7 +169,7 @@
     },
     "bereich": {
       "meta": {
-        "customEventName": "beratungshilfe vorabcheck bereich submitted",
+        "customAnalyticsEventName": "beratungshilfe vorabcheck bereich submitted",
         "progressPosition": 8
       },
       "on": {

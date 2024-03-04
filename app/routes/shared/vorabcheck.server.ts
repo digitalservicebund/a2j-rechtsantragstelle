@@ -19,7 +19,7 @@ import { isStrapiSelectComponent } from "~/services/cms/models/StrapiSelect";
 import { validatedSession } from "~/services/security/csrf.server";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
-import { sendCustomEvent } from "~/services/analytics/customEvent";
+import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
 import { interpolateDeep } from "~/util/fillTemplate";
 import _ from "lodash";
@@ -158,11 +158,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     guards: flows[flowId].guards,
   });
 
-  const customEventName = flowController.getMeta(stepId)?.customEventName;
-  if (customEventName) {
-    sendCustomEvent({
+  const customAnalyticsEventName =
+    flowController.getMeta(stepId)?.customAnalyticsEventName;
+  if (customAnalyticsEventName) {
+    sendCustomAnalyticsEvent({
       request,
-      eventName: customEventName,
+      eventName: customAnalyticsEventName,
       properties: validationResult.data,
     });
   }

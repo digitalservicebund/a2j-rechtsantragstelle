@@ -25,7 +25,7 @@ import { navItemsFromFlowSpecifics } from "~/services/flowNavigation.server";
 import type { z } from "zod";
 import type { CollectionSchemas } from "~/services/cms/schemas";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { sendCustomEvent } from "~/services/analytics/customEvent";
+import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
 import { fieldIsArray, splitArrayName } from "~/util/arrayVariable";
@@ -268,11 +268,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     guards: flows[flowId].guards,
   });
 
-  const customEventName = flowController.getMeta(stepId)?.customEventName;
-  if (customEventName) {
-    sendCustomEvent({
+  const customAnalyticsEventName =
+    flowController.getMeta(stepId)?.customAnalyticsEventName;
+  if (customAnalyticsEventName) {
+    sendCustomAnalyticsEvent({
       request,
-      eventName: customEventName,
+      eventName: customAnalyticsEventName,
       properties: validationResult.data,
     });
   }
