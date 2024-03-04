@@ -664,6 +664,7 @@ exports[`Storyshots Page/List Example 1`] = `
   >
     <div
       className="ds-stack-8 scroll-my-40"
+      id="default-list-id"
     >
       <h2
         className="ds-heading-02-reg"
