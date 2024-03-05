@@ -26,7 +26,6 @@ import _ from "lodash";
 import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiHeading";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { stepMeta } from "~/services/meta/formStepMeta";
-import { getProgressProps } from "~/services/flow/server/progress";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 
 export const loader = async ({
@@ -100,11 +99,10 @@ export const loader = async ({
     backDestination: flowController.getPrevious(stepId),
   });
 
-  const progressProps = getProgressProps({
-    flowController,
-    stepId,
-    progressBarLabel: translations["progressBarLabel"],
-  });
+  const progressProps = {
+    ...flowController.getProgress(stepId),
+    label: translations["progressBarLabel"],
+  };
 
   return json(
     {

@@ -140,14 +140,14 @@ export const buildFlowController = ({
     },
     getInitial: () => `${baseUrl}${getInitial(machine)}`,
     getProgress: (currentStepId: string) => {
-      const total =
+      const max =
         Math.max(
           ...Object.values(machine.states)
             .map((n) => (n.meta as Meta)?.progressPosition ?? 0)
             .filter((p) => p),
         ) + 1;
       const meta = metaFromStepId(machine, currentStepId);
-      return { total, current: meta?.progressPosition ?? total };
+      return { max, progress: meta?.progressPosition ?? max };
     },
   };
 };

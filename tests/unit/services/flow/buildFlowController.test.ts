@@ -240,8 +240,8 @@ describe("buildFlowController", () => {
           data: { step1: true },
         }).getProgress("step5"),
       ).toStrictEqual({
-        current: 5,
-        total: 5,
+        progress: 5,
+        max: 5,
       });
     });
 
@@ -252,8 +252,8 @@ describe("buildFlowController", () => {
           data: { step1: true },
         }).getProgress("step3"),
       ).toStrictEqual({
-        current: 3,
-        total: 5,
+        progress: 3,
+        max: 5,
       });
     });
 
@@ -262,8 +262,8 @@ describe("buildFlowController", () => {
       expect(
         buildFlowController({ config }).getProgress("step1"),
       ).toStrictEqual({
-        current: 1,
-        total: 5,
+        progress: 1,
+        max: 5,
       });
     });
 
@@ -274,8 +274,8 @@ describe("buildFlowController", () => {
           data: { step1: false },
         }).getProgress("step1Exit"),
       ).toStrictEqual({
-        current: 5,
-        total: 5,
+        progress: 5,
+        max: 5,
       });
     });
 
@@ -286,8 +286,8 @@ describe("buildFlowController", () => {
           data: { step1: false },
         }).getProgress("step2"),
       ).toStrictEqual({
-        current: 2,
-        total: 5,
+        progress: 2,
+        max: 5,
       });
     });
   });
