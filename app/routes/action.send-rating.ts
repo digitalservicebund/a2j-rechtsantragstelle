@@ -2,9 +2,9 @@ import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { BannerState } from "~/components/UserFeedback";
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
-import { getSessionForContext } from "~/services/session.server";
+import { getSessionManager } from "~/services/session.server";
 import { bannerStateName } from "~/services/feedback/handleFeedback";
-import { sendCustomEvent } from "~/services/analytics/customEvent";
+import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 
 export const loader = () => redirect("/");
 
@@ -16,7 +16,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
 
   const cookie = request.headers.get("Cookie");
-  const { getSession, commitSession } = getSessionForContext("main");
+  const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(cookie);
 
   const userRatings =
@@ -31,7 +31,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const headers = { "Set-Cookie": await commitSession(session) };
 
-  sendCustomEvent({
+  sendCustomAnalyticsEvent({
     eventName: "rating given",
     request,
     properties: {

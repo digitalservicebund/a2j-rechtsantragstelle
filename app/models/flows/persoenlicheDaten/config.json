@@ -1,5 +1,4 @@
 {
-  "predictableActionArguments": true,
   "id": "persoenliche-daten",
   "initial": "start",
   "states": {

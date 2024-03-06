@@ -1,16 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 import { init } from "license-checker-rseidelsohn";
 import type { ModuleInfos, InitOpts } from "license-checker-rseidelsohn";
 
 export type Dependency = ModuleInfos[0] & { direct?: boolean };
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const filepath = `${__dirname}/opensource-licenses.json`;
+const filepath = path.resolve(
+  path.join(process.cwd(), "data", "opensource-licenses.json"),
+);
 const packageName = "a2j-rechtsantragstelle";
 const notMentionableLicenses = [
   "MIT",

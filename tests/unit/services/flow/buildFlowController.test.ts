@@ -6,14 +6,16 @@ import {
 const config: Config = {
   id: "/test/flow/",
   initial: "step1",
-  predictableActionArguments: true,
   states: {
     step1: {
       meta: { progressPosition: 1 },
       on: {
         SUBMIT: [
-          { target: "step1Exit", cond: (context) => context.step1 === false },
-          { target: "step2", cond: (context) => context.step1 === true },
+          {
+            target: "step1Exit",
+            guard: ({ context }) => context.step1 === false,
+          },
+          { target: "step2", guard: ({ context }) => context.step1 === true },
         ],
       },
     },
@@ -50,7 +52,6 @@ const config: Config = {
 const nestedInitialStateConfig: Config = {
   id: "/test/nested/",
   initial: "parent1",
-  predictableActionArguments: true,
   states: {
     parent1: {
       id: "/test/nested/",
@@ -68,63 +69,9 @@ const nestedInitialStateConfig: Config = {
 };
 
 describe("buildFlowController", () => {
-  describe("isInitial", () => {
-    it("returns true if initial step", () => {
-      expect(buildFlowController({ config }).isInitial("step1")).toBe(true);
-    });
-
-    it("returns true if nested initial step", () => {
-      expect(
-        buildFlowController({ config: nestedInitialStateConfig }).isInitial(
-          "parent1.step1",
-        ),
-      ).toBe(true);
-    });
-
-    it("returns false if not intial step", () => {
-      expect(buildFlowController({ config }).isInitial("step2")).toBe(false);
-    });
-
-    it("returns false if nested step is not initial step", () => {
-      expect(buildFlowController({ config }).isInitial("step4/step1")).toBe(
-        false,
-      );
-    });
-  });
-
   describe("isFinal", () => {
     it("returns true if final step", () => {
       expect(buildFlowController({ config }).isFinal("step1Exit")).toBe(true);
-    });
-
-    it("returns true if final step but SUBMIT given as empty array", () => {
-      expect(
-        buildFlowController({
-          config: {
-            predictableActionArguments: true,
-            id: "/flow/final/",
-            initial: "step1",
-            states: {
-              step1: { on: { SUBMIT: [] } },
-            },
-          },
-        }).isFinal("step1"),
-      ).toBe(true);
-    });
-
-    it("returns true if final step but SUBMIT given as empty object", () => {
-      expect(
-        buildFlowController({
-          config: {
-            predictableActionArguments: true,
-            id: "/flow/final/",
-            initial: "step1",
-            states: {
-              step1: { on: { SUBMIT: {} } },
-            },
-          },
-        }).isFinal("step1"),
-      ).toBe(true);
     });
 
     it("returns false if not final step", () => {
@@ -179,10 +126,7 @@ describe("buildFlowController", () => {
           config,
           data: { step1: true },
         }).getPrevious("step3"),
-      ).toStrictEqual({
-        name: "step2",
-        url: "/test/flow/step2",
-      });
+      ).toEqual("/test/flow/step2");
     });
 
     it("returns previous nested step if data is correct", () => {
@@ -191,10 +135,7 @@ describe("buildFlowController", () => {
           config,
           data: { step1: true },
         }).getPrevious("step4/step2"),
-      ).toStrictEqual({
-        name: "step4.step1",
-        url: "/test/flow/step4/step1",
-      });
+      ).toEqual("/test/flow/step4/step1");
     });
 
     it("returns previous step from nested step if data is correct", () => {
@@ -203,10 +144,7 @@ describe("buildFlowController", () => {
           config,
           data: { step1: true },
         }).getPrevious("step4/step1"),
-      ).toStrictEqual({
-        name: "step3",
-        url: "/test/flow/step3",
-      });
+      ).toEqual("/test/flow/step3");
     });
 
     it("returns previous nested step from step if data is correct", () => {
@@ -215,10 +153,7 @@ describe("buildFlowController", () => {
           config,
           data: { step1: true },
         }).getPrevious("step5"),
-      ).toStrictEqual({
-        name: "step4.step1",
-        url: "/test/flow/step4/step1",
-      });
+      ).toEqual("/test/flow/step4/step1");
     });
 
     it("returns undefined if already first step", () => {
@@ -230,7 +165,7 @@ describe("buildFlowController", () => {
     it("returns undefined if already first nested step", () => {
       expect(
         buildFlowController({ config: nestedInitialStateConfig }).getPrevious(
-          "parent1.step1",
+          "parent1/step1",
         ),
       ).toBeUndefined();
     });
@@ -243,10 +178,7 @@ describe("buildFlowController", () => {
           config,
           data: { step1: true },
         }).getNext("step1"),
-      ).toStrictEqual({
-        name: "step2",
-        url: "/test/flow/step2",
-      });
+      ).toEqual("/test/flow/step2");
     });
 
     it("returns the next nested step from a step with valid data", () => {
@@ -255,10 +187,7 @@ describe("buildFlowController", () => {
           config,
           data: { step1: true },
         }).getNext("step3"),
-      ).toStrictEqual({
-        name: "step4.step1",
-        url: "/test/flow/step4/step1",
-      });
+      ).toEqual("/test/flow/step4/step1");
     });
 
     it("returns the next nested step from a nested step with valid data", () => {
@@ -267,10 +196,7 @@ describe("buildFlowController", () => {
           config,
           data: { step1: true },
         }).getNext("step4.step1"),
-      ).toStrictEqual({
-        name: "step4.step2",
-        url: "/test/flow/step4/step2",
-      });
+      ).toEqual("/test/flow/step4/step2");
     });
 
     it("returns undefined if already last step", () => {
@@ -294,40 +220,15 @@ describe("buildFlowController", () => {
 
   describe("getInitial", () => {
     it("returns correct simple step", () => {
-      expect(buildFlowController({ config }).getInitial()).toStrictEqual({
-        name: "step1",
-        url: "/test/flow/step1",
-      });
+      expect(buildFlowController({ config }).getInitial()).toEqual(
+        "/test/flow/step1",
+      );
     });
 
     it("returns correct step if nested initial step", () => {
       expect(
         buildFlowController({ config: nestedInitialStateConfig }).getInitial(),
-      ).toStrictEqual({
-        name: "parent1.step1",
-        url: "/test/nested/parent1/step1",
-      });
-    });
-  });
-
-  describe("getLastReachable", () => {
-    it("returns step4.step2", () => {
-      expect(
-        buildFlowController({
-          config,
-          data: { step1: true },
-        }).getLastReachable(),
-      ).toStrictEqual({
-        name: "step4.step2",
-        url: "/test/flow/step4/step2",
-      });
-    });
-
-    it("returns step1", () => {
-      expect(buildFlowController({ config }).getLastReachable()).toStrictEqual({
-        name: "step1",
-        url: "/test/flow/step1",
-      });
+      ).toEqual("/test/nested/parent1/step1");
     });
   });
 
@@ -339,8 +240,8 @@ describe("buildFlowController", () => {
           data: { step1: true },
         }).getProgress("step5"),
       ).toStrictEqual({
-        current: 5,
-        total: 5,
+        progress: 5,
+        max: 5,
       });
     });
 
@@ -351,8 +252,8 @@ describe("buildFlowController", () => {
           data: { step1: true },
         }).getProgress("step3"),
       ).toStrictEqual({
-        current: 3,
-        total: 5,
+        progress: 3,
+        max: 5,
       });
     });
 
@@ -361,8 +262,8 @@ describe("buildFlowController", () => {
       expect(
         buildFlowController({ config }).getProgress("step1"),
       ).toStrictEqual({
-        current: 1,
-        total: 5,
+        progress: 1,
+        max: 5,
       });
     });
 
@@ -373,8 +274,8 @@ describe("buildFlowController", () => {
           data: { step1: false },
         }).getProgress("step1Exit"),
       ).toStrictEqual({
-        current: 5,
-        total: 5,
+        progress: 5,
+        max: 5,
       });
     });
 
@@ -385,8 +286,8 @@ describe("buildFlowController", () => {
           data: { step1: false },
         }).getProgress("step2"),
       ).toStrictEqual({
-        current: 2,
-        total: 5,
+        progress: 2,
+        max: 5,
       });
     });
   });

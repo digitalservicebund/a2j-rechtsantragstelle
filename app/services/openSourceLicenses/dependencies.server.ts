@@ -1,4 +1,4 @@
-import packageLicenses from "./opensource-licenses.json";
+import packageLicenses from "data/opensource-licenses.json";
 
 const directDependencies = Object.fromEntries(
   Object.entries(packageLicenses).filter(

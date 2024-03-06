@@ -3,8 +3,8 @@ import type {
   BeratungshilfePDF,
   StringField,
   BooleanField,
-} from "./beratungshilfe.generated";
-import { Convert } from "./beratungshilfe.generated";
+} from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import { Convert } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import fs from "node:fs";
 import path from "node:path";
 import { PDFDocument, PDFTextField, PDFCheckBox } from "pdf-lib";

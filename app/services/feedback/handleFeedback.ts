@@ -1,4 +1,4 @@
-import { getSessionForContext } from "../session.server";
+import { getSessionManager } from "../session.server";
 import { BannerState } from "~/components/UserFeedback";
 import {
   feedbackFormName,
@@ -7,7 +7,7 @@ import {
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
 import { validationError } from "remix-validated-form";
 import { type Session, redirect } from "@remix-run/node";
-import { sendCustomEvent } from "../analytics/customEvent";
+import { sendCustomAnalyticsEvent } from "../analytics/customEvent";
 
 export const bannerStateName = "bannerState";
 
@@ -16,7 +16,7 @@ export const handleFeedback = async (formData: FormData, request: Request) => {
   const context = searchParams.get("context") ?? "";
 
   const cookie = request.headers.get("Cookie");
-  const { getSession, commitSession } = getSessionForContext("main");
+  const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(cookie);
 
   const userRating =
@@ -29,7 +29,7 @@ export const handleFeedback = async (formData: FormData, request: Request) => {
     return validationError(result.error, result.submittedData);
   }
   bannerState[pathname] = BannerState.FeedbackGiven;
-  sendCustomEvent({
+  sendCustomAnalyticsEvent({
     eventName: "feedback given",
     request,
     properties: {

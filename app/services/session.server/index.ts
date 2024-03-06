@@ -42,7 +42,7 @@ function createDatabaseSessionStorage({
   });
 }
 
-export function getSessionForContext(context: SessionContext) {
+export function getSessionManager(context: SessionContext) {
   const { getSession, commitSession, destroySession } =
     createDatabaseSessionStorage({
       cookie: createCookie("__session", {
@@ -54,9 +54,19 @@ export function getSessionForContext(context: SessionContext) {
       }),
       context: context,
     });
-  const getFullId = (id: string) => fullId(context, id);
-  return { getSession, commitSession, destroySession, getSessionId: getFullId };
+  const debugId = (id: string) => fullId(context, id);
+  return { getSession, commitSession, destroySession, getDebugId: debugId };
 }
+
+export const getSessionData = async (
+  flowId: SessionContext,
+  cookieHeader: CookieHeader,
+) => {
+  const contextSession = getSessionManager(flowId);
+  const { data, id } = await contextSession.getSession(cookieHeader);
+  const userData: Context = data; // Recast for now to get type safety
+  return { userData, debugId: contextSession.getDebugId(id) };
+};
 
 export const updateSession = (
   session: Session,
@@ -94,5 +104,6 @@ export const updateSession = (
   });
 };
 
-export const mainSessionFromRequest = async (request: Request) =>
-  getSessionForContext("main").getSession(request.headers.get("Cookie"));
+export type CookieHeader = string | null | undefined;
+export const mainSessionFromCookieHeader = async (cookieHeader: CookieHeader) =>
+  getSessionManager("main").getSession(cookieHeader);

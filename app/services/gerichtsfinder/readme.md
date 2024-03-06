@@ -5,7 +5,7 @@
 ## How to update
 
 - Copy the `.zip` file to the root of the project
-- Run `npm run update:gerichtsfinder -- <NAME_OF_THE_ZIP>`
+- Run `npm run update:courtData -- <NAME_OF_THE_ZIP>`
 - Run `npm run update:URLs`
 - Discard/remove your `.zip` file before commiting!
 

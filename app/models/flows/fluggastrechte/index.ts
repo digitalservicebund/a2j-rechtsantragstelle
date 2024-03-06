@@ -1,5 +1,6 @@
 import { guards as fluggastrechteVorabcheckGuards } from "~/models/flows/fluggastrechte/guards";
 import fluggastrechteVorabcheckFlow from "~/models/flows/fluggastrechte/config.json";
+import type { Context } from "../contexts";
 
 export const fluggastrechteVorabcheck = {
   cmsSlug: "vorab-check-pages",
@@ -19,5 +20,7 @@ export const partnerCourtAirports = {
 
 type PartnerAirport = keyof typeof partnerCourtAirports;
 
-export const isPartnerAirport = (airport: string): airport is PartnerAirport =>
-  airport in partnerCourtAirports;
+export const isPartnerAirport = (
+  airport: Context[string],
+): airport is PartnerAirport =>
+  typeof airport === "string" && airport in partnerCourtAirports;

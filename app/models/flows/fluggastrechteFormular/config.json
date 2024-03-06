@@ -1,5 +1,4 @@
 {
-  "predictableActionArguments": true,
   "id": "/fluggastrechte/formular/",
   "initial": "intro",
   "states": {
@@ -36,11 +35,11 @@
             "SUBMIT": [
               {
                 "target": "zwischenstopps-eingabe",
-                "cond": "zwischenstoppsYes"
+                "guard": "zwischenstoppsYes"
               },
               {
                 "target": "flug-details-single-flugnummer",
-                "cond": "zwischenstoppsNo"
+                "guard": "zwischenstoppsNo"
               },
               {
                 "target": "ankunft"
@@ -114,7 +113,7 @@
             "SUBMIT": [
               {
                 "target": "ankunft-flugnummer",
-                "cond": "ankunftWithSameFlightNo"
+                "guard": "ankunftWithSameFlightNo"
               },
               {
                 "target": "ankunftszeit"
@@ -122,11 +121,11 @@
             ],
             "BACK": [
               {
-                "cond": "zwischenstoppsNo",
+                "guard": "zwischenstoppsNo",
                 "target": "flug-details-single-ankunft"
               },
               {
-                "cond": "zwischenstoppsYes",
+                "guard": "zwischenstoppsYes",
                 "target": "flug-details-zwischenstopp-2-ankunft"
               },
               { "target": "zwischenstopps" }
@@ -145,7 +144,7 @@
             "BACK": [
               {
                 "target": "ankunft-flugnummer",
-                "cond": "ankunftWithSameFlightNo"
+                "guard": "ankunftWithSameFlightNo"
               },
               {
                 "target": "ankunft"

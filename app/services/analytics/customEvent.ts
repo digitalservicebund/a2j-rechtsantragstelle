@@ -13,7 +13,7 @@ function idFromCookie(request: Request) {
   return phCookieObject["distinct_id"] ?? ENVIRONMENT;
 }
 
-export function sendCustomEvent({
+export function sendCustomAnalyticsEvent({
   request,
   eventName,
   properties,

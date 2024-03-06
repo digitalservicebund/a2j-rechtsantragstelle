@@ -1,7 +1,7 @@
 import { createCookie } from "@remix-run/node";
 import { acceptCookiesFieldName } from "./Analytics";
 import { useSecureCookie } from "~/util/useSecureCookie";
-import { sendCustomEvent } from "./customEvent";
+import { sendCustomAnalyticsEvent } from "./customEvent";
 
 export const consentCookieName = "gdpr-consent";
 
@@ -43,7 +43,7 @@ async function createTrackingCookie({
     return {} as HeadersInit;
   cookie[acceptCookiesFieldName] =
     consent === undefined ? undefined : stringifiedConsentValue;
-  sendCustomEvent({
+  sendCustomAnalyticsEvent({
     eventName: "cookie consent given",
     request,
     properties: { consent: stringifiedConsentValue },
