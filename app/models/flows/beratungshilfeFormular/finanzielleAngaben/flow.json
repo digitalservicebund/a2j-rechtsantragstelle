@@ -169,82 +169,94 @@
             "SUBMIT": [
               {
                 "guard": "hasKinderYes",
-                "target": "kinder"
+                "target": "zusammenfassung"
               },
               "#besitz.bankkonten-frage"
             ]
           }
         },
-        "kinder": {
-          "on": {
-            "BACK": [
-              {
-                "guard": "hasKinderYes",
-                "target": "zusammenfassung"
-              },
-              "kinder-frage"
-            ],
-            "SUBMIT": "kind-wohnort"
-          }
-        },
-        "kind-wohnort": {
-          "on": {
-            "BACK": "kinder",
-            "SUBMIT": [
-              {
-                "guard": "kindWohnortBeiAntragstellerYes",
-                "target": "kind-eigene-einnahmen-frage"
-              },
-              "kind-unterhalt-frage"
-            ]
-          }
-        },
-        "kind-eigene-einnahmen-frage": {
-          "on": {
-            "BACK": "kind-wohnort",
-            "SUBMIT": [
-              {
-                "guard": "kindEigeneEinnahmenYes",
-                "target": "kind-eigene-einnahmen"
-              },
-              "zusammenfassung"
-            ]
-          }
-        },
-        "kind-eigene-einnahmen": {
-          "on": {
-            "BACK": "kind-eigene-einnahmen-frage",
-            "SUBMIT": "zusammenfassung"
-          }
-        },
-        "kind-unterhalt-frage": {
-          "on": {
-            "BACK": "kind-wohnort",
-            "SUBMIT": [
-              {
-                "guard": "kindUnterhaltYes",
-                "target": "kind-unterhalt"
-              },
-              "kind-unterhalt-ende"
-            ]
-          }
-        },
-        "kind-unterhalt": {
-          "on": {
-            "BACK": "kind-unterhalt-frage",
-            "SUBMIT": "zusammenfassung"
-          }
-        },
-        "kind-unterhalt-ende": {
-          "on": {
-            "BACK": "kind-unterhalt-frage",
-            "SUBMIT": "zusammenfassung"
-          }
-        },
         "zusammenfassung": {
           "on": {
             "BACK": "kinder-frage",
-            "SUBMIT": "#besitz.bankkonten-frage"
+            "SUBMIT": "#besitz",
+            "ADDITEM": {
+              "target": ["kinder", "haustiere"]
+            }
+          }
+        },
+        "kinder": {
+          "id": "kinderCategory",
+          "initial": "name",
+          "states": {
+            "name": {
+              "on": {
+                "BACK": "#kinder.zusammenfassung",
+                "SUBMIT": "wohnort"
+              }
+            },
+            "wohnort": {
+              "on": {
+                "BACK": "name",
+                "SUBMIT": [
+                  {
+                    "guard": "kindWohnortBeiAntragstellerYes",
+                    "target": "kind-eigene-einnahmen-frage"
+                  },
+                  "kind-unterhalt-frage"
+                ]
+              }
+            },
+            "kind-eigene-einnahmen-frage": {
+              "on": {
+                "BACK": "wohnort",
+                "SUBMIT": [
+                  {
+                    "guard": "kindEigeneEinnahmenYes",
+                    "target": "kind-eigene-einnahmen"
+                  },
+                  "#kinder.zusammenfassung"
+                ]
+              }
+            },
+            "kind-eigene-einnahmen": {
+              "on": {
+                "BACK": "kind-eigene-einnahmen-frage",
+                "SUBMIT": "#kinder.zusammenfassung"
+              }
+            },
+            "kind-unterhalt-frage": {
+              "on": {
+                "BACK": "wohnort",
+                "SUBMIT": [
+                  {
+                    "guard": "kindUnterhaltYes",
+                    "target": "kind-unterhalt"
+                  },
+                  "kind-unterhalt-ende"
+                ]
+              }
+            },
+            "kind-unterhalt": {
+              "on": {
+                "BACK": "kind-unterhalt-frage",
+                "SUBMIT": "#kinder.zusammenfassung"
+              }
+            },
+            "kind-unterhalt-ende": {
+              "on": {
+                "BACK": "kind-unterhalt-frage",
+                "SUBMIT": "#kinder.zusammenfassung"
+              }
+            }
+          }
+        },
+        "haustiere": {
+          "id": "haustiere",
+          "initial": "name",
+          "states": {
+            "name": {
+              "on": {}
+            }
           }
         }
       }
@@ -253,6 +265,21 @@
       "id": "besitz",
       "initial": "zusammenfassung",
       "states": {
+        "zusammenfassung": {
+          "id": "zusammenfassung",
+          "on": {
+            "SUBMIT": "#danke",
+            "ADDITEM": {
+              "target": [
+                "bankkonten",
+                "wertsachen",
+                "grundeigentum",
+                "geldanlagen",
+                "kraftfahrzeuge"
+              ]
+            }
+          }
+        },
         "bankkonten-frage": {
           "id": "bankkonto-frage",
           "on": {
@@ -294,9 +321,62 @@
         },
         "bankkonten": {
           "id": "bankkonten",
-          "on": {
-            "SUBMIT": "weiteres-bankkonto",
-            "BACK": "bankkonten-frage"
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "SUBMIT": "#besitz.weiteres-bankkonto",
+                "BACK": "#besitz.bankkonten-frage"
+              }
+            }
+          }
+        },
+        "kraftfahrzeuge": {
+          "id": "kraftfahrzeuge",
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "SUBMIT": "#besitz.weiteres-kraftfahrzeug",
+                "BACK": "#besitz.kraftfahrzeuge-frage"
+              }
+            }
+          }
+        },
+        "geldanlagen": {
+          "id": "geldanlagen",
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "SUBMIT": "#besitz.weitere-geldanlage",
+                "BACK": "#besitz.geldanlagen-frage"
+              }
+            }
+          }
+        },
+        "grundeigentum": {
+          "id": "grundeigentum",
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "SUBMIT": "#besitz.weiteres-grundeigentum",
+                "BACK": "#besitz.grundeigentum-frage"
+              }
+            }
+          }
+        },
+        "wertsachen": {
+          "id": "wertsachen",
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "SUBMIT": "#besitz.weitere-wertsache",
+                "BACK": "#besitz.wertsachen-frage"
+              }
+            }
           }
         },
         "weiteres-bankkonto": {
@@ -331,13 +411,6 @@
             ]
           }
         },
-        "kraftfahrzeuge": {
-          "id": "kraftfahrzeuge",
-          "on": {
-            "SUBMIT": "weiteres-kraftfahrzeug",
-            "BACK": "kraftfahrzeuge-frage"
-          }
-        },
         "weiteres-kraftfahrzeug": {
           "id": "weiteres-kraftfahrzeug",
           "on": {
@@ -370,13 +443,6 @@
             ]
           }
         },
-        "geldanlagen": {
-          "id": "geldanlagen",
-          "on": {
-            "SUBMIT": "weitere-geldanlage",
-            "BACK": "geldanlagen-frage"
-          }
-        },
         "weitere-geldanlage": {
           "id": "weitere-geldanlage",
           "on": {
@@ -401,13 +467,6 @@
               "wertsachen-frage"
             ],
             "BACK": "weitere-geldanlage"
-          }
-        },
-        "grundeigentum": {
-          "id": "grundeigentum",
-          "on": {
-            "SUBMIT": "weiteres-grundeigentum",
-            "BACK": "grundeigentum-frage"
           }
         },
         "weiteres-grundeigentum": {
@@ -436,13 +495,6 @@
             "BACK": "weiteres-grundeigentum"
           }
         },
-        "wertsachen": {
-          "id": "wertsachen",
-          "on": {
-            "SUBMIT": "weitere-wertsache",
-            "BACK": "wertsachen-frage"
-          }
-        },
         "weitere-wertsache": {
           "id": "weitere-wertsache",
           "on": {
@@ -454,12 +506,6 @@
               "zusammenfassung"
             ],
             "BACK": "wertsachen-frage"
-          }
-        },
-        "zusammenfassung": {
-          "id": "zusammenfassung",
-          "on": {
-            "SUBMIT": "#danke"
           }
         }
       }
