@@ -1,43 +1,33 @@
-type InputType =
-  | {
-      [key: string]: any;
-    }
-  | null
-  | InputType[];
-
-type OutputType =
-  | {
-      [key: string]: any;
-    }
-  | undefined
-  | OutputType[];
+export type NullToUndefined<T> = T extends null
+  ? undefined
+  : T extends (infer U)[]
+    ? NullToUndefined<U>[]
+    : T extends Record<string, unknown>
+      ? { [K in keyof T]: NullToUndefined<T[K]> }
+      : T;
 
 /**
- * Deep omitting of null values in object, array or combination.
+ * Deep replacing null values with undefined, see https://stackoverflow.com/a/72549576
  *
  * @example
- * // returns { a: { c: 1 } }
+ * // returns { a: { b: undefined, c: 1 } }
  * omitNull({ a: { b: null, c: 1 } });
  *
  * @example
- * // returns { d: undefined, e: [{}] }
+ * // returns { d: undefined, e: [undefined, { f: undefined }] }
  * omitNull({ d: undefined, e: [null, { f: null }] });
  */
-export function omitNull(data?: InputType): OutputType {
-  if (data === null) return undefined;
-  if (!data) return data;
 
-  const entries = Object.entries(data).filter(([, value]) => value !== null);
-
-  const withoutNull = entries.map(([key, v]) => {
-    const value = typeof v === "object" ? omitNull(v) : v;
-    return [key, value];
-  });
-
-  if (Array.isArray(data)) {
-    // return a "real" array
-    return withoutNull.map((v) => v[1]);
+export function omitNull<T>(data: T) {
+  let out: unknown = data;
+  if (data === null) {
+    out = undefined;
+  } else if (Array.isArray(data)) {
+    out = data.map((value) => omitNull(value));
+  } else if (typeof data === "object") {
+    out = Object.fromEntries(
+      Object.entries(data).map(([key, value]) => [key, omitNull(value)]),
+    );
   }
-
-  return Object.fromEntries(withoutNull);
+  return out as NullToUndefined<T>;
 }
