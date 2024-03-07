@@ -18,7 +18,8 @@ import FormAttachment from "~/components/FormAttachment";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import fillHeader from "./sections/header";
 import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
-import { DescriptionField } from "./descriptionField";
+import type { DescriptionField } from "./descriptionField";
+import { createDescriptionField } from "./descriptionField";
 import { fillAngelegenheit } from "./sections/A_angelegenheit";
 import { fillEinkommen } from "./sections/C_einkommen";
 import { fillUnterhalt } from "./sections/E_unterhalt";
@@ -29,27 +30,23 @@ export async function getBeratungshilfePdfFromContext(
   context: BeratungshilfeFormularContext,
 ) {
   const pdfFields = await getBeratungshilfeParameters();
-  const attachment = new DescriptionField(context);
+  const descriptionField = createDescriptionField(context);
 
   if (!pdfFields) {
     throw new Error("No pdf fields or file found for beratungshilfe!");
   }
 
-  fillHeader(attachment, pdfFields, context);
-  fillAngelegenheit(attachment, pdfFields);
+  fillHeader(descriptionField, pdfFields, context);
+  fillAngelegenheit(descriptionField, pdfFields);
   fillVorraussetzungen(pdfFields, context);
   fillEinkommen(pdfFields, context);
   // fillWohnung
   fillUnterhalt(pdfFields, context);
-  fillBesitz(attachment, pdfFields, context);
+  fillBesitz(descriptionField, pdfFields, context);
 
   fillFooter(pdfFields, context);
 
-  return fillOutBeratungshilfe(
-    pdfFields,
-    attachment.descriptions,
-    attachment.shouldCreateAttachment,
-  );
+  return fillOutBeratungshilfe(pdfFields, descriptionField);
 }
 
 export async function getBeratungshilfeParameters() {
@@ -115,8 +112,7 @@ async function handleOutOfLimitDescription(
 
 async function fillOutBeratungshilfe(
   values: BeratungshilfePDF,
-  descriptions: { title: string; text: string }[],
-  shouldCreateNewPage: boolean,
+  descriptionField: DescriptionField,
 ) {
   return await PDFDocument.load(getBeratungshilfePdfBuffer()).then((pdfDoc) => {
     const form = pdfDoc.getForm();
@@ -131,8 +127,8 @@ async function fillOutBeratungshilfe(
       }
     });
 
-    if (shouldCreateNewPage) {
-      return handleOutOfLimitDescription(descriptions, pdfDoc);
+    if (descriptionField.shouldCreateAttachment) {
+      return handleOutOfLimitDescription(descriptionField.descriptions, pdfDoc);
     }
 
     return pdfDoc.save();
@@ -156,7 +152,6 @@ function getBeratungshilfePdfBuffer(): ArrayBuffer {
           "../../../../data/pdf/beratungshilfe/Antrag_auf_Bewilligung_von_Beratungshilfe.pdf",
         ),
       );
-      console.log(file);
       global.__beratungshilfeBuffer = fs.readFileSync(file);
     } catch (error) {
       console.error(error);

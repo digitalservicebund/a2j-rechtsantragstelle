@@ -1,13 +1,14 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import { DescriptionField } from "../descriptionField";
+import type { DescriptionField } from "../descriptionField";
+import { createDescriptionField, newPageHint } from "../descriptionField";
 
 export function fillBesitz(
   descriptionField: DescriptionField,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const financialdescriptionField = new DescriptionField(context);
+  const financialdescriptionField = createDescriptionField(context);
 
   fillFinancialBankkonto(financialdescriptionField, pdfFields, context);
   fillFinancialGrundeigentum(financialdescriptionField, pdfFields, context);
@@ -67,6 +68,8 @@ export function fillFinancialBankkonto(
         bezeichnung.push(getBankkontoBezeichnung(bankkonto, true).join("\n"));
       });
 
+      pdfFields.f3Bank1.value = newPageHint;
+
       descriptionField.descriptions.unshift({
         title: "Bankkonten",
         text: bezeichnung.join("\n\n"),
@@ -75,7 +78,7 @@ export function fillFinancialBankkonto(
   }
 }
 
-function fillFinancialGrundeigentum(
+export function fillFinancialGrundeigentum(
   descriptionField: DescriptionField,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
@@ -93,25 +96,43 @@ function fillFinancialGrundeigentum(
     hasGrundeigentum || hasGrundeigentumBewohnt;
 
   if (
-    context.grundeigentum &&
-    context.grundeigentum?.length == 1 &&
-    context.grundeigentumBewohnt?.length == 0
+    context.grundeigentumBewohnt &&
+    context.grundeigentumBewohnt?.length == 1 &&
+    (!context.grundeigentum || context.grundeigentum?.length == 0)
   ) {
-    const grundeigentumBewohnt = context.grundeigentumBewohnt.pop();
+    const grundeigentumBewohnt = context.grundeigentumBewohnt?.pop();
 
     pdfFields.f1InhaberA.value = grundeigentumBewohnt?.eigentuemer == "myself";
     pdfFields.f2InhaberB.value = grundeigentumBewohnt?.eigentuemer == "partner";
     pdfFields.f2InhaberC.value =
       grundeigentumBewohnt?.eigentuemer == "myselfAndPartner";
+    pdfFields.f8Verkehrswert.value = grundeigentumBewohnt?.verkaufswert
+      ? `${grundeigentumBewohnt?.verkaufswert} €`
+      : "Keine Angaben";
 
     const bezeichnung =
       getGrundeigentumBewohntBezeichnung(grundeigentumBewohnt);
 
     pdfFields.f7Nutzungsart.value = bezeichnung.join(", ");
   } else if (
-    (context.grundeigentumBewohnt?.length ?? 0) > 0 ||
-    (context.grundeigentum?.length ?? 0) > 0
+    context.grundeigentum &&
+    context.grundeigentum?.length == 1 &&
+    (!context.grundeigentumBewohnt || context.grundeigentumBewohnt?.length == 0)
   ) {
+    const grundeigentum = context.grundeigentum?.pop();
+
+    pdfFields.f1InhaberA.value = grundeigentum?.eigentuemer == "myself";
+    pdfFields.f2InhaberB.value = grundeigentum?.eigentuemer == "partner";
+    pdfFields.f2InhaberC.value =
+      grundeigentum?.eigentuemer == "myselfAndPartner";
+    pdfFields.f8Verkehrswert.value = grundeigentum?.verkaufswert
+      ? `${grundeigentum?.verkaufswert} €`
+      : "Keine Angaben";
+
+    const bezeichnung = getGrundeigentumBezeichnung(grundeigentum);
+
+    pdfFields.f7Nutzungsart.value = bezeichnung.join(", ");
+  } else {
     const bezeichnung: string[] = [];
 
     context.grundeigentum?.forEach((grundeigentum) => {
@@ -126,7 +147,7 @@ function fillFinancialGrundeigentum(
       );
     });
 
-    pdfFields.f7Nutzungsart.value = descriptionField.newPageHint;
+    pdfFields.f7Nutzungsart.value = newPageHint;
     descriptionField.shouldCreateAttachment = true;
     descriptionField.descriptions.unshift({
       title: "Grundeigentum",
@@ -162,7 +183,7 @@ function fillFinancialKraftfahrzeug(
       pdfFields.f12Verkehrswert.value =
         kraftfahrzeug?.verkaufswert ?? "Keine Angaben";
     } else {
-      pdfFields.f11Fahrzeugart.value = descriptionField.newPageHint;
+      pdfFields.f11Fahrzeugart.value = newPageHint;
       descriptionField.shouldCreateAttachment = true;
       const bezeichnung: string[] = [];
 
@@ -203,7 +224,7 @@ function fillFinancialWertsachen(
       pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value =
         wertsache?.wert ?? "Keine Angaben";
     } else {
-      pdfFields.f15Bezeichnung.value = descriptionField.newPageHint;
+      pdfFields.f15Bezeichnung.value = newPageHint;
       descriptionField.shouldCreateAttachment = true;
 
       const bezeichnung: string[] = [];

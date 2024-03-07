@@ -1,5 +1,5 @@
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { DescriptionField } from "~/services/pdf/beratungshilfe/descriptionField";
+import { createDescriptionField } from "~/services/pdf/beratungshilfe/descriptionField";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import { fillAngelegenheit } from "~/services/pdf/beratungshilfe/sections/A_angelegenheit";
 
@@ -11,7 +11,7 @@ describe("A_angelegenheit", () => {
       eigeninitiativeBeschreibung: "eigeninitiativeBeschreibung",
       keineEigeninitiativeBeschreibung: "keineEigeninitiativeBeschreibung",
     };
-    const descriptionField = new DescriptionField(context);
+    const descriptionField = createDescriptionField(context);
     const pdfFields = await getBeratungshilfeParameters();
 
     fillAngelegenheit(descriptionField, pdfFields);
@@ -22,9 +22,9 @@ describe("A_angelegenheit", () => {
         .value,
     ).toBe(
       [
-        "Thema des Rechtsproblems: Behörden ",
-        "Beschreibung Angelegenheit: beschreibung ",
-        "Eigenbemühungen: eigeninitiativeBeschreibung ",
+        "Thema des Rechtsproblems: Behörden",
+        "Beschreibung Angelegenheit: beschreibung",
+        "Eigenbemühungen: eigeninitiativeBeschreibung",
       ].join("\n"),
     );
   });

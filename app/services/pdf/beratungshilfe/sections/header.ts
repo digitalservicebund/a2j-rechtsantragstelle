@@ -5,7 +5,7 @@ import {
   getSelectedOptions,
   staatlicheLeistungMapping,
 } from "../beratungshilfe.pdf";
-import type { DescriptionField } from "../descriptionField";
+import { newPageHint, type DescriptionField } from "../descriptionField";
 
 export default function fillHeader(
   descriptionField: DescriptionField,
@@ -52,5 +52,6 @@ export default function fillHeader(
       title: "Beruf / Erwerbstätigkeit:",
       text: getOccupationDetails(context, false),
     });
+    pdfFields.berufErwerbstaetigkeit.value = newPageHint;
   }
 }
