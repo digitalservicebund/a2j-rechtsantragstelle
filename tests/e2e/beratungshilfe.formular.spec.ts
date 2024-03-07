@@ -154,128 +154,128 @@ async function startFinanzielleAngabenBesitz(page: Page) {
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasBankkonto", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/bankkonten
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillDropdown(
-    "bankkonten#kontoEigentuemer",
-    "myself",
-  );
-  await beratungshilfeFormular.fillInput(
-    "bankkonten#bankName",
-    "Glatzenkogel in Entenhausen",
-  );
-  await beratungshilfeFormular.fillInput("bankkonten#kontostand", "100");
-  await beratungshilfeFormular.fillInput(
-    "bankkonten#iban",
-    "176671176167176761",
-  );
-  await beratungshilfeFormular.clickNext();
-
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/weiteres-bankkonto
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillRadioPage("hasAdditionalBankkonto", "no");
-
   // beratungshilfe/antrag/finanzielleAngaben/besitz/kraftfahrzeuge-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasKraftfahrzeug", "yes");
-
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/kraftfahrzeuge
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillDropdown(
-    "kraftfahrzeuge#eigentuemer",
-    "myself",
-  );
-  await beratungshilfeFormular.fillInput("kraftfahrzeuge#art", "Trabant");
-  await beratungshilfeFormular.fillInput("kraftfahrzeuge#marke", "601");
-  await beratungshilfeFormular.fillInput(
-    "kraftfahrzeuge#kilometerstand",
-    "999999",
-  );
-  await beratungshilfeFormular.fillInput("kraftfahrzeuge#verkaufswert", "1");
-  await beratungshilfeFormular.fillInput("kraftfahrzeuge#baujahr", "1957");
-  await beratungshilfeFormular.fillInput(
-    "kraftfahrzeuge#anschaffungsjahr",
-    "1991",
-  );
-  await beratungshilfeFormular.fillCheckboxes("kraftfahrzeuge#arbeitsweg");
-  await beratungshilfeFormular.clickNext();
-
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/weiteres-kraftfahrzeug
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillRadioPage(
-    "hasAdditionalKraftfahrzeug",
-    "no",
-  );
 
   // beratungshilfe/antrag/finanzielleAngaben/besitz/geldanlagen-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasGeldanlage", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/geldanlagen
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillDropdown(
-    "geldanlagen#eigentuemer",
-    "myself",
-  );
-  await beratungshilfeFormular.fillDropdown("geldanlagen#art", "lifeInsurance");
-  await beratungshilfeFormular.fillInput(
-    "geldanlagen#verwendungszweck",
-    "Altersvorsorge",
-  );
-  await beratungshilfeFormular.fillInput("geldanlagen#auszahlungwert", "100");
-  await beratungshilfeFormular.fillInput(
-    "geldanlagen#auszahlungdatum",
-    "01.01.2050",
-  );
-  await beratungshilfeFormular.clickNext();
-
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/weitere-geldanlage
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillRadioPage("hasAdditionalGeldanlage", "no");
-
   // beratungshilfe/antrag/finanzielleAngaben/besitz/grundeigentum-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasGrundeigentum", "yes");
-
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/grundeigentum
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillDropdown(
-    "grundeigentum#eigentuemer",
-    "myself",
-  );
-  await beratungshilfeFormular.fillDropdown("grundeigentum#art", "apartment");
-  await beratungshilfeFormular.fillInput("grundeigentum#flaeche", "100");
-  await beratungshilfeFormular.fillInput("grundeigentum#verkaufswert", "10");
-  await beratungshilfeFormular.fillInput(
-    "grundeigentum#strassehausnummer",
-    "Berlinadestraße 123",
-  );
-  await beratungshilfeFormular.fillInput("grundeigentum#plz", "12345");
-  await beratungshilfeFormular.fillInput("grundeigentum#ort", "Berlin");
-  await beratungshilfeFormular.fillInput("grundeigentum#land", "Deutschland");
-  await beratungshilfeFormular.clickNext();
-
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/weiteres-grundeigentum
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillRadioPage(
-    "hasAdditionalGrundeigentum",
-    "no",
-  );
 
   // beratungshilfe/antrag/finanzielleAngaben/besitz/wertsachen-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasWertsache", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/wertsachen
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillDropdown("wertsachen#art", "cash");
-  await beratungshilfeFormular.fillDropdown("wertsachen#eigentuemer", "myself");
-  await beratungshilfeFormular.fillInput("wertsachen#wert", "1000");
-  await beratungshilfeFormular.clickNext();
+  // // beratungshilfe/antrag/finanzielleAngaben/besitz/bankkonten
+  // await expectPageToBeAccessible({ page });
+  // await beratungshilfeFormular.fillDropdown(
+  //   "bankkonten#kontoEigentuemer",
+  //   "myself",
+  // );
+  // await beratungshilfeFormular.fillInput(
+  //   "bankkonten#bankName",
+  //   "Glatzenkogel in Entenhausen",
+  // );
+  // await beratungshilfeFormular.fillInput("bankkonten#kontostand", "100");
+  // await beratungshilfeFormular.fillInput(
+  //   "bankkonten#iban",
+  //   "176671176167176761",
+  // );
+  // await beratungshilfeFormular.clickNext();
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/weitere-wertsache
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillRadioPage("hasAdditionalWertsache", "no");
+  // // beratungshilfe/antrag/finanzielleAngaben/besitz/weiteres-bankkonto
+  // await expectPageToBeAccessible({ page });
+  // await beratungshilfeFormular.fillRadioPage("hasAdditionalBankkonto", "no");
+
+  // // beratungshilfe/antrag/finanzielleAngaben/besitz/kraftfahrzeuge
+  // await expectPageToBeAccessible({ page });
+  // await beratungshilfeFormular.fillDropdown(
+  //   "kraftfahrzeuge#eigentuemer",
+  //   "myself",
+  // );
+  // await beratungshilfeFormular.fillInput("kraftfahrzeuge#art", "Trabant");
+  // await beratungshilfeFormular.fillInput("kraftfahrzeuge#marke", "601");
+  // await beratungshilfeFormular.fillInput(
+  //   "kraftfahrzeuge#kilometerstand",
+  //   "999999",
+  // );
+  // await beratungshilfeFormular.fillInput("kraftfahrzeuge#verkaufswert", "1");
+  // await beratungshilfeFormular.fillInput("kraftfahrzeuge#baujahr", "1957");
+  // await beratungshilfeFormular.fillInput(
+  //   "kraftfahrzeuge#anschaffungsjahr",
+  //   "1991",
+  // );
+  // await beratungshilfeFormular.fillCheckboxes("kraftfahrzeuge#arbeitsweg");
+  // await beratungshilfeFormular.clickNext();
+
+  // // beratungshilfe/antrag/finanzielleAngaben/besitz/weiteres-kraftfahrzeug
+  // await expectPageToBeAccessible({ page });
+  // await beratungshilfeFormular.fillRadioPage(
+  //   "hasAdditionalKraftfahrzeug",
+  //   "no",
+  // );
+
+  // // beratungshilfe/antrag/finanzielleAngaben/besitz/geldanlagen
+  // await expectPageToBeAccessible({ page });
+  // await beratungshilfeFormular.fillDropdown(
+  //   "geldanlagen#eigentuemer",
+  //   "myself",
+  // );
+  // await beratungshilfeFormular.fillDropdown("geldanlagen#art", "lifeInsurance");
+  // await beratungshilfeFormular.fillInput(
+  //   "geldanlagen#verwendungszweck",
+  //   "Altersvorsorge",
+  // );
+  // await beratungshilfeFormular.fillInput("geldanlagen#auszahlungwert", "100");
+  // await beratungshilfeFormular.fillInput(
+  //   "geldanlagen#auszahlungdatum",
+  //   "01.01.2050",
+  // );
+  // await beratungshilfeFormular.clickNext();
+
+  // // beratungshilfe/antrag/finanzielleAngaben/besitz/weitere-geldanlage
+  // await expectPageToBeAccessible({ page });
+  // await beratungshilfeFormular.fillRadioPage("hasAdditionalGeldanlage", "no");
+
+  // // beratungshilfe/antrag/finanzielleAngaben/besitz/grundeigentum
+  // await expectPageToBeAccessible({ page });
+  // await beratungshilfeFormular.fillDropdown(
+  //   "grundeigentum#eigentuemer",
+  //   "myself",
+  // );
+  // await beratungshilfeFormular.fillDropdown("grundeigentum#art", "apartment");
+  // await beratungshilfeFormular.fillInput("grundeigentum#flaeche", "100");
+  // await beratungshilfeFormular.fillInput("grundeigentum#verkaufswert", "10");
+  // await beratungshilfeFormular.fillInput(
+  //   "grundeigentum#strassehausnummer",
+  //   "Berlinadestraße 123",
+  // );
+  // await beratungshilfeFormular.fillInput("grundeigentum#plz", "12345");
+  // await beratungshilfeFormular.fillInput("grundeigentum#ort", "Berlin");
+  // await beratungshilfeFormular.fillInput("grundeigentum#land", "Deutschland");
+  // await beratungshilfeFormular.clickNext();
+
+  // // beratungshilfe/antrag/finanzielleAngaben/besitz/weiteres-grundeigentum
+  // await expectPageToBeAccessible({ page });
+  // await beratungshilfeFormular.fillRadioPage(
+  //   "hasAdditionalGrundeigentum",
+  //   "no",
+  // );
+
+  // // beratungshilfe/antrag/finanzielleAngaben/besitz/wertsachen
+  // await expectPageToBeAccessible({ page });
+  // await beratungshilfeFormular.fillDropdown("wertsachen#art", "cash");
+  // await beratungshilfeFormular.fillDropdown("wertsachen#eigentuemer", "myself");
+  // await beratungshilfeFormular.fillInput("wertsachen#wert", "1000");
+  // await beratungshilfeFormular.clickNext();
+
+  // // beratungshilfe/antrag/finanzielleAngaben/besitz/weitere-wertsache
+  // await expectPageToBeAccessible({ page });
+  // await beratungshilfeFormular.fillRadioPage("hasAdditionalWertsache", "no");
 }
 
 async function startFinanzielleAngabenEinkommen(page: Page) {
