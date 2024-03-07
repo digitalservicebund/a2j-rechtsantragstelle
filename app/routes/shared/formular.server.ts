@@ -172,12 +172,19 @@ export const loader = async ({
     stepId,
   });
 
+  const backDestination = flowController.getPrevious(stepId);
+
+  const backDestinationWithArrayIndexes =
+    backDestination && arrayIndexes
+      ? insertIndexesIntoPath(pathname, backDestination, arrayIndexes)
+      : backDestination;
+
   const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel: defaultStrings["backButtonDefaultLabel"],
     nextButtonLabel:
       cmsContent.nextButtonLabel ?? defaultStrings["nextButtonDefaultLabel"],
     isFinal: flowController.isFinal(stepId),
-    backDestination: flowController.getPrevious(stepId),
+    backDestination: backDestinationWithArrayIndexes,
   });
 
   const navItems = navItemsFromFlowSpecifics(
