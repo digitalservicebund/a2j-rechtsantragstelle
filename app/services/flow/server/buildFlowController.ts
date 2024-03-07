@@ -7,7 +7,7 @@ import {
 } from "xstate";
 import { getShortestPaths } from "@xstate/graph";
 import {
-  stateValueToStepId,
+  stateValueToStepIds,
   stepIdToPath,
 } from "~/services/flow/stepIdConverter";
 import type { Context } from "~/models/flows/contexts";
@@ -15,8 +15,11 @@ import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzi
 import type { Guards } from "~/models/flows/guards.server";
 import _ from "lodash";
 
-type Event = "SUBMIT" | "BACK";
-type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
+type Event = "SUBMIT" | "BACK" | "ADDITEM";
+type FlowStateMachineEvents =
+  | { type: "SUBMIT" }
+  | { type: "BACK" }
+  | { type: "ADDITEM" };
 
 type StateMachineTypes = {
   context: Context;
@@ -52,14 +55,19 @@ const getSteps = (machine: FlowStateMachine, context: Context) => {
   // https://www.jsdocs.io/package/xstate#FlowStateMachine.provide is supposed to allow this but context isn't applied
   // idea: machine.provide() with action that assigns the new context
   const possiblePaths = getShortestPaths(machine, {
-    events: [{ type: "SUBMIT" }],
+    events: [{ type: "SUBMIT" }, { type: "ADDITEM" }],
   });
-  return Object.values(possiblePaths).map(({ state }) =>
-    stateValueToStepId(state.value),
-  );
+
+  return [
+    ...new Set(
+      Object.values(possiblePaths)
+        .map(({ state }) => stateValueToStepIds(state.value))
+        .flat(),
+    ),
+  ];
 };
 
-export const transitionDestination = (
+export const transitionDestinations = (
   machine: FlowStateMachine,
   stepId: string,
   type: Event,
@@ -71,10 +79,18 @@ export const transitionDestination = (
     context,
   });
   // Get snapshot of next machine state using the given event
-  const nextState = getNextSnapshot(machine, resolvedState, { type });
-  const nextStateId = stateValueToStepId(nextState.value);
+  const destinationState = getNextSnapshot(machine, resolvedState, { type });
+  const destinationStepIds = stateValueToStepIds(destinationState.value);
+
   // If the stepId if the new state matches the previous one: Return undefined. else: return full path
-  return nextStateId == stepId ? undefined : `${machine.id}${nextStateId}`;
+  if (
+    destinationStepIds.length === 0 ||
+    (destinationStepIds.length === 1 && destinationStepIds[0] === stepId)
+  )
+    return undefined;
+  return destinationStepIds.map(
+    (transitionId) => `${machine.id}${transitionId}`,
+  );
 };
 
 const findNode = (machine: FlowStateMachine, stepId: string) => {
@@ -98,7 +114,7 @@ const metaFromStepId = (machine: FlowStateMachine, currentStepId: string) => {
 function getInitial(machine: FlowStateMachine) {
   // The initial state might be nested and needs to be resolved
   const initialSnapshot = getInitialSnapshot(machine);
-  return stateValueToStepId(initialSnapshot.value);
+  return stateValueToStepIds(initialSnapshot.value).pop();
 }
 
 export type FlowController = ReturnType<typeof buildFlowController>;
@@ -130,13 +146,29 @@ export const buildFlowController = ({
     isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),
     isReachable: (currentStepId: string) => {
       // depends on context
-      return getSteps(machine, context).includes(currentStepId);
+      const steps = getSteps(machine, context);
+      return steps.includes(currentStepId);
     },
     getPrevious: (stepId: string) => {
-      return transitionDestination(machine, stepId, "BACK", context);
+      const backArray = transitionDestinations(
+        machine,
+        stepId,
+        "BACK",
+        context,
+      );
+      if (backArray) return backArray[0];
     },
     getNext: (stepId: string) => {
-      return transitionDestination(machine, stepId, "SUBMIT", context);
+      const nextArray = transitionDestinations(
+        machine,
+        stepId,
+        "SUBMIT",
+        context,
+      );
+      if (nextArray) return nextArray[0];
+    },
+    getItems: (stepId: string) => {
+      return transitionDestinations(machine, stepId, "ADDITEM", context);
     },
     getInitial: () => `${baseUrl}${getInitial(machine)}`,
     getProgress: (currentStepId: string) => {
