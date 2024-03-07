@@ -13,7 +13,6 @@ import {
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { validateFormData } from "~/services/validation/validateFormData.server";
-import type { Context } from "~/models/flows/contexts";
 import { parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import { isStrapiSelectComponent } from "~/services/cms/models/StrapiSelect";
@@ -28,7 +27,6 @@ import { getButtonNavigationProps } from "~/util/buttonProps";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
-import { toLodashFormat } from "~/util/arrayVariable";
 import {
   arrayFromSession,
   arrayIndexFromFormData,
@@ -38,7 +36,8 @@ import { interpolateDeep } from "~/util/fillTemplate";
 import { stepMeta } from "~/services/meta/formStepMeta";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
-import _ from "lodash";
+import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
+import { normalizeObject } from "~/util/normalizeObject";
 
 const structureCmsContent = (
   formPageContent: z.infer<CollectionSchemas["form-flow-pages"]>,
@@ -57,19 +56,6 @@ const structureCmsContent = (
       "post_form" in formPageContent ? formPageContent.post_form : [],
   };
 };
-
-function stepDataFromFieldNames(
-  fieldNames: string[],
-  data: Context,
-  arrayIndexes?: number[],
-) {
-  return Object.fromEntries(
-    fieldNames.map((fieldname) => [
-      fieldname,
-      _.get(data, toLodashFormat(fieldname, arrayIndexes)),
-    ]),
-  );
-}
 
 export const loader = async ({
   params,
@@ -135,9 +121,9 @@ export const loader = async ({
 
   const meta = stepMeta(formPageContent.meta, parentMeta);
 
-  // filter user data for current step
+  // Retrieve user data for current step
   const fieldNames = formPageContent.form.map((entry) => entry.name);
-  const stepData = stepDataFromFieldNames(fieldNames, userData, arrayIndexes);
+  const stepData = fieldsFromContext(userData, fieldNames, arrayIndexes);
 
   // get array data to display in ArraySummary
   const strapiArraySummaries =
@@ -226,9 +212,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
-
   const formData = await request.formData();
-  const currentFlow = flows[flowId];
 
   // Note: This also reduces same-named fields to the last entry
   const relevantFormData = Object.fromEntries(
@@ -248,17 +232,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
   }
 
-  const dataWithResolvedArrays = Object.fromEntries(
-    Object.entries(relevantFormData).map(([key, value]) => [
-      toLodashFormat(key, arrayIndexes),
-      value,
-    ]),
-  );
-
-  const validationResult = await validateFormData(
-    flowId,
-    dataWithResolvedArrays,
-  );
+  const validationResult = await validateFormData(flowId, relevantFormData);
 
   if (validationResult.error)
     return validationError(
@@ -266,12 +240,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       validationResult.submittedData,
     );
 
-  updateSession(flowSession, validationResult.data);
+  updateSession(
+    flowSession,
+    normalizeObject(validationResult.data, arrayIndexes),
+  );
 
   const migrationData = await getMigrationData(
     stepId,
     flowId,
-    currentFlow,
+    flows[flowId],
     cookieHeader,
   );
   if (migrationData && validationResult.data["doMigration"] === "yes") {
@@ -301,7 +278,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     ? insertIndexesIntoPath(pathname, destination, arrayIndexes)
     : destination;
 
-  console.log({ destinationWithArrayIndexes });
   const headers = { "Set-Cookie": await commitSession(flowSession) };
   return redirectDocument(destinationWithArrayIndexes, { headers });
 };

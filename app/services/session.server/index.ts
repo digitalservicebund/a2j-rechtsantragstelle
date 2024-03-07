@@ -68,8 +68,8 @@ export const getSessionData = async (
 };
 
 export const updateSession = (session: Session, validatedData: Context) => {
-  const updatedData = _.merge(session.data, validatedData);
-  Object.entries(updatedData).forEach(([key, value]) => {
+  const mergedData = _.merge(session.data, validatedData);
+  Object.entries(mergedData).forEach(([key, value]) => {
     session.set(key, value);
   });
 };

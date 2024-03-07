@@ -7,9 +7,11 @@ const arrayChar = "#";
 export const splitArrayName = (key: string) => key.split(arrayChar);
 export const fieldIsArray = (fieldname: string) =>
   fieldname.includes(arrayChar);
-export const toLodashFormat = (fieldname: string, arrayIndexes?: number[]) => {
-  // Replace hashes inside string with [index], eg toLodashFormat(a.b#c, [3]) -> a.b[3]c
-  // Useful in combination with https://docs-lodash.com/v4/get/
+
+export const interpolateArrayChar = (
+  fieldname: string,
+  arrayIndexes?: number[],
+) => {
   const hashCount = (fieldname.match(/#/g) ?? []).length;
   const indexCount = arrayIndexes?.length ?? 0;
   invariant(
@@ -19,7 +21,7 @@ export const toLodashFormat = (fieldname: string, arrayIndexes?: number[]) => {
   let updatedFieldname = fieldname;
   arrayIndexes?.forEach(
     (index) =>
-      (updatedFieldname = updatedFieldname.replace("#", `[${String(index)}].`)),
+      (updatedFieldname = updatedFieldname.replace("#", `[${String(index)}]`)),
   );
   return updatedFieldname;
 };
