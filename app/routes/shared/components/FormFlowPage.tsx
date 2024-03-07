@@ -14,7 +14,7 @@ import ArraySummary from "~/components/ArraySummary";
 
 export function FormFlowPage() {
   const {
-    arrayData,
+    arraySummaryData,
     buttonNavigationProps,
     content,
     csrf,
@@ -55,9 +55,9 @@ export function FormFlowPage() {
             migrationData={migrationData}
             translations={translations}
           />
-          {Object.keys(arrayData).length != 0 && (
+          {arraySummaryData && Object.keys(arraySummaryData).length != 0 && (
             <div className="!mt-24">
-              {Object.entries(arrayData).map(([arrayKey, array]) => (
+              {Object.entries(arraySummaryData).map(([arrayKey, array]) => (
                 <ArraySummary
                   key={arrayKey}
                   arrayKey={arrayKey}
