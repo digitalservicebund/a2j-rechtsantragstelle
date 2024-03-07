@@ -13,7 +13,7 @@ import { CSRFKey } from "~/services/security/csrfKey";
 
 type ArraySummaryProps = {
   readonly arrayKey: string;
-  readonly arrayData: ObjectType[];
+  readonly arrayData: { data: ObjectType[]; url: string; initialStep: string };
   readonly translations?: Translations;
   readonly csrf: string;
 };
@@ -34,9 +34,8 @@ const ArraySummary = ({
   const { pathname } = useLocation();
   const deleteFetcher = useFetcher();
 
-  const pathroot = pathname.slice(0, pathname.lastIndexOf("/"));
-  const nextItemIndex = arrayData.length;
-  const addButtonDestination = `${pathroot}/${arrayKey}/${nextItemIndex}`;
+  const nextItemIndex = arrayData.data.length;
+  const addButtonDestination = `${arrayData.url}/${nextItemIndex}/${arrayData.initialStep}`;
   const emptyArrayFallbackString = "Das besitze ich nicht."; // TODO: Validate & move to strapi
 
   return (
@@ -44,7 +43,7 @@ const ArraySummary = ({
       <Heading text={titleHeading} tagName="h2" look="ds-heading-03-bold" />
       {description && <RichText markdown={description} />}
       <div className="space-y-32">
-        {arrayData.map((element, index) => {
+        {arrayData.data.map((element, index) => {
           const subtitleHeading = `${subtitle} ${index + 1}`;
 
           return (
@@ -69,7 +68,7 @@ const ArraySummary = ({
                 <Button
                   iconLeft={<EditButton />}
                   look="tertiary"
-                  href={`${arrayKey}/${index}`}
+                  href={`${arrayData.url}/${index}/${arrayData.initialStep}`}
                 >
                   {editButtonText}
                 </Button>
@@ -91,7 +90,7 @@ const ArraySummary = ({
             </div>
           );
         })}
-        {arrayData.length === 0 && (
+        {arrayData.data.length === 0 && (
           <div className="bg-white p-16 ds-label-02-bold">
             <strong>{emptyArrayFallbackString}</strong>
           </div>

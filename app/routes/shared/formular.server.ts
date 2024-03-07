@@ -37,6 +37,7 @@ import {
 import { interpolateDeep } from "~/util/fillTemplate";
 import { stepMeta } from "~/services/meta/formStepMeta";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 
 const structureCmsContent = (
   formPageContent: z.infer<CollectionSchemas["form-flow-pages"]>,
@@ -59,8 +60,9 @@ const structureCmsContent = (
 function stepDataFromFieldNames(
   fieldNames: string[],
   data: Context,
-  arrayIndex?: number,
+  arrayIndexes?: number[],
 ) {
+  const arrayIndex = arrayIndexes?.at(0); // For nested arrays we might need to recurse here
   return Object.fromEntries(
     fieldNames.map((fieldName) => {
       let entry = data[fieldName];
@@ -83,7 +85,7 @@ export const loader = async ({
   await throw404IfFeatureFlagEnabled(request);
 
   const { pathname } = new URL(request.url);
-  const { flowId, stepId, arrayIndex } = parsePathname(pathname);
+  const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
 
   const { userData, debugId } = await getSessionData(flowId, cookieHeader);
@@ -141,18 +143,28 @@ export const loader = async ({
 
   // filter user data for current step
   const fieldNames = formPageContent.form.map((entry) => entry.name);
-  const stepData = stepDataFromFieldNames(fieldNames, userData, arrayIndex);
+  const stepData = stepDataFromFieldNames(fieldNames, userData, arrayIndexes);
 
   // get array data to display in ArraySummary
-  const arrayData = Object.fromEntries(
-    formPageContent.pre_form.filter(isStrapiArraySummary).map((entry) => {
-      const possibleArray = userData[entry.arrayKey];
-      return [
-        entry.arrayKey,
-        Array.isArray(possibleArray) ? possibleArray : [],
-      ];
-    }),
-  );
+  const strapiArraySummaries =
+    formPageContent.pre_form.filter(isStrapiArraySummary);
+  const nextArrayItemSteps = flowController.getItems(stepId);
+
+  const arraySummaryData =
+    nextArrayItemSteps &&
+    Object.fromEntries(
+      strapiArraySummaries.map(({ category, categoryUrl }) => {
+        const possibleArray = userData[category];
+        const data = Array.isArray(possibleArray) ? possibleArray : [];
+        const url = `/${flowId}${categoryUrl}`;
+        const initialStep =
+          nextArrayItemSteps
+            .find((possibleItem) => possibleItem.includes(categoryUrl))
+            ?.replace(url + "/", "") ?? "";
+
+        return [category, { data, url, initialStep }];
+      }),
+    );
 
   const { headers, csrf } = await updateMainSession({
     cookieHeader,
@@ -183,7 +195,7 @@ export const loader = async ({
 
   return json(
     {
-      arrayData,
+      arraySummaryData,
       buttonNavigationProps,
       content: cmsContent.content,
       csrf,
@@ -209,7 +221,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     throw new Response(null, { status: 403 });
   }
   const { pathname } = new URL(request.url);
-  const { flowId, stepId, arrayIndex } = parsePathname(pathname);
+  const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
@@ -241,7 +253,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       validationResult.error,
       validationResult.submittedData,
     );
-  updateSession(flowSession, validationResult.data, arrayIndex);
+  updateSession(flowSession, validationResult.data, arrayIndexes);
 
   const migrationData = await getMigrationData(
     stepId,
@@ -272,6 +284,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const destination =
     flowController.getNext(stepId) ?? flowController.getInitial();
 
+  const destinationWithArrayIndexes = arrayIndexes
+    ? insertIndexesIntoPath(pathname, destination, arrayIndexes)
+    : destination;
+
   const headers = { "Set-Cookie": await commitSession(flowSession) };
-  return redirectDocument(destination, { headers });
+  return redirectDocument(destinationWithArrayIndexes, { headers });
 };

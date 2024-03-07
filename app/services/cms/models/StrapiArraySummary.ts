@@ -6,6 +6,8 @@ export const StrapiArraySummarySchema = z
   .object({
     __component: z.literal("page.array-summary"),
     arrayKey: z.string(),
+    category: z.string(),
+    categoryUrl: z.string(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
