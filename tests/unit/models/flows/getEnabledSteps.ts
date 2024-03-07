@@ -1,8 +1,8 @@
 import { parsePathname, type Context } from "~/models/flows/contexts";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
-import { transitionDestination } from "~/services/flow/server/buildFlowController";
+import { transitionDestinations } from "~/services/flow/server/buildFlowController";
 
-export function getEnabledSteps<T>({
+export function getEnabledSteps({
   machine,
   context,
   transitionType,
@@ -15,13 +15,13 @@ export function getEnabledSteps<T>({
 }) {
   const initialStep = steps[0];
   const reachableSteps = steps.slice(0, -1).map((step) => {
-    const transDest = transitionDestination(
+    const transDest = transitionDestinations(
       machine,
       step,
       transitionType,
       context,
     );
-    const { stepId } = parsePathname(transDest ?? "");
+    const { stepId } = parsePathname(transDest?.at(0) ?? "");
     return stepId;
   });
   return [initialStep, ...reachableSteps];

@@ -12,7 +12,7 @@ import { useSecureCookie } from "~/util/useSecureCookie";
 import _ from "lodash";
 import type { Context, FlowId } from "~/models/flows/contexts";
 import { fieldIsArray, splitArrayName } from "~/util/arrayVariable";
-import type { ObjectType } from "quicktype-core";
+import { updateData } from "~/services/session.server/updateData";
 
 type SessionContext = "main" | FlowId;
 const fullId = (context: SessionContext, id: string) => `${context}_${id}`;
@@ -72,54 +72,9 @@ export const getSessionData = async (
 export const updateSession = (
   session: Session,
   validatedData: Context,
-  arrayIndex?: number,
+  arrayIndexes?: number[],
 ) => {
-  const unflattenedArrays: Record<string, any> = {};
-  Object.entries(validatedData)
-    .filter(([key]) => fieldIsArray(key))
-    .forEach(([key, val]) => {
-      const [arrayName, fieldName] = splitArrayName(key);
-      if (!(arrayName in unflattenedArrays)) unflattenedArrays[arrayName] = {};
-      unflattenedArrays[arrayName][fieldName] = val;
-    });
-
-  Object.entries(unflattenedArrays).forEach(([arrayName, newArrayElement]) => {
-    if (session.has(arrayName)) {
-      const existingSessionArray = session.get(arrayName) as ObjectType[];
-      if (
-        arrayIndex !== undefined &&
-        arrayIndex < existingSessionArray.length
-      ) {
-        existingSessionArray[arrayIndex] = newArrayElement as ObjectType;
-      } else {
-        if (
-          // TODO: handle case when array is empty
-          // add the new object to the last element of the array if the array is not empty
-          arrayName.includes("kinder") &&
-          !Object.keys(newArrayElement).includes(
-            "vorname" || "nachname" || "geburtsdatum",
-          )
-        ) {
-          const lastIndex = existingSessionArray.length - 1;
-          existingSessionArray[lastIndex] = {
-            ...existingSessionArray[lastIndex],
-            ...newArrayElement,
-          };
-        } else {
-          // create a new element in the array if the object is the initial object
-          existingSessionArray.push(newArrayElement);
-        }
-      }
-      session.set(arrayName, existingSessionArray);
-    } else {
-      session.set(arrayName, [newArrayElement]);
-    }
-  });
-
-  const nonArrayData = Object.fromEntries(
-    Object.entries(validatedData).filter(([key]) => !fieldIsArray(key)),
-  );
-  const updatedData = _.merge(session.data, nonArrayData);
+  const updatedData = updateData(session.data, validatedData, arrayIndexes);
 
   Object.entries(updatedData).forEach(([key, value]) => {
     session.set(key, value);
