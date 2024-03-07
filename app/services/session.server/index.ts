@@ -11,8 +11,6 @@ import { config } from "~/services/env/env.server";
 import { useSecureCookie } from "~/util/useSecureCookie";
 import _ from "lodash";
 import type { Context, FlowId } from "~/models/flows/contexts";
-import { fieldIsArray, splitArrayName } from "~/util/arrayVariable";
-import { updateData } from "~/services/session.server/updateData";
 
 type SessionContext = "main" | FlowId;
 const fullId = (context: SessionContext, id: string) => `${context}_${id}`;
@@ -69,13 +67,8 @@ export const getSessionData = async (
   return { userData, debugId: contextSession.getDebugId(id) };
 };
 
-export const updateSession = (
-  session: Session,
-  validatedData: Context,
-  arrayIndexes?: number[],
-) => {
-  const updatedData = updateData(session.data, validatedData, arrayIndexes);
-
+export const updateSession = (session: Session, validatedData: Context) => {
+  const updatedData = _.merge(session.data, validatedData);
   Object.entries(updatedData).forEach(([key, value]) => {
     session.set(key, value);
   });

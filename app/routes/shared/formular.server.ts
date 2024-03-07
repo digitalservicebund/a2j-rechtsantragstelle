@@ -28,7 +28,7 @@ import { getButtonNavigationProps } from "~/util/buttonProps";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
-import { fieldIsArray, splitArrayName } from "~/util/arrayVariable";
+import { toLodashFormat } from "~/util/arrayVariable";
 import {
   arrayFromSession,
   arrayIndexFromFormData,
@@ -38,6 +38,7 @@ import { interpolateDeep } from "~/util/fillTemplate";
 import { stepMeta } from "~/services/meta/formStepMeta";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
+import _ from "lodash";
 
 const structureCmsContent = (
   formPageContent: z.infer<CollectionSchemas["form-flow-pages"]>,
@@ -62,18 +63,11 @@ function stepDataFromFieldNames(
   data: Context,
   arrayIndexes?: number[],
 ) {
-  const arrayIndex = arrayIndexes?.at(0); // For nested arrays we might need to recurse here
   return Object.fromEntries(
-    fieldNames.map((fieldName) => {
-      let entry = data[fieldName];
-      if (fieldIsArray(fieldName) && arrayIndex !== undefined) {
-        const [arrayName, arrayFieldname] = splitArrayName(fieldName);
-        const arrayForStep = data[arrayName];
-        if (Array.isArray(arrayForStep) && arrayForStep.length > arrayIndex)
-          entry = arrayForStep[arrayIndex][arrayFieldname];
-      }
-      return [fieldName, entry];
-    }),
+    fieldNames.map((fieldname) => [
+      fieldname,
+      _.get(data, toLodashFormat(fieldname, arrayIndexes)),
+    ]),
   );
 }
 
@@ -254,13 +248,25 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
   }
 
-  const validationResult = await validateFormData(flowId, relevantFormData);
+  const dataWithResolvedArrays = Object.fromEntries(
+    Object.entries(relevantFormData).map(([key, value]) => [
+      toLodashFormat(key, arrayIndexes),
+      value,
+    ]),
+  );
+
+  const validationResult = await validateFormData(
+    flowId,
+    dataWithResolvedArrays,
+  );
+
   if (validationResult.error)
     return validationError(
       validationResult.error,
       validationResult.submittedData,
     );
-  updateSession(flowSession, validationResult.data, arrayIndexes);
+
+  updateSession(flowSession, validationResult.data);
 
   const migrationData = await getMigrationData(
     stepId,
@@ -295,6 +301,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     ? insertIndexesIntoPath(pathname, destination, arrayIndexes)
     : destination;
 
+  console.log({ destinationWithArrayIndexes });
   const headers = { "Set-Cookie": await commitSession(flowSession) };
   return redirectDocument(destinationWithArrayIndexes, { headers });
 };
