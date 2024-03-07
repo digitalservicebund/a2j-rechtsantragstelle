@@ -39,17 +39,9 @@ function convertWidth(width: StrapiInput["width"]) {
   return (width?.replace("characters", "") ?? undefined) as InputProps["width"];
 }
 
-export const StrapiInput = ({
-  errors,
-  width,
-  label,
-  placeholder,
-  ...props
-}: StrapiInput) => {
+export const StrapiInput = ({ errors, width, ...props }: StrapiInput) => {
   return (
     <Input
-      label={label ?? undefined}
-      placeholder={placeholder ?? undefined}
       width={convertWidth(width)}
       errorMessages={flattenStrapiErrors(errors)}
       {...props}

@@ -21,11 +21,6 @@ export const StrapiDateInputComponentSchema = StrapiDateInputSchema.extend({
 
 type StrapiDateInput = z.infer<typeof StrapiDateInputSchema>;
 
-export const StrapiDateInput = ({
-  label,
-  placeholder,
-  errors,
-  ...props
-}: StrapiDateInput) => (
+export const StrapiDateInput = ({ errors, ...props }: StrapiDateInput) => (
   <DateInput errorMessages={flattenStrapiErrors(errors)} {...props} />
 );

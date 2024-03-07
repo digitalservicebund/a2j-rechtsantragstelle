@@ -7,10 +7,10 @@ import React from "react";
 
 export type InputProps = Readonly<{
   name: string;
-  label?: string;
+  label?: string | null;
   type?: string;
   step?: string | number;
-  placeholder?: string;
+  placeholder?: string | null;
   prefix?: string;
   suffix?: string | null;
   errorMessages?: ErrorMessageProps[];
