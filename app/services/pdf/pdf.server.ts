@@ -1,9 +1,10 @@
 import type { PDFForm } from "pdf-lib";
 import { PDFCheckBox, PDFTextField } from "pdf-lib";
+
 import type {
   BooleanField,
   StringField,
-} from "./beratungshilfe/beratungshilfe.generated";
+} from "data/pdf/beratungshilfe/beratungshilfe.generated";
 
 const umlautMap = {
   ä: "ae",

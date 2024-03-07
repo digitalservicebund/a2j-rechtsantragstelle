@@ -1,49 +1,41 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import type { BeratungshilfePDF } from "~/services/pdf/beratungshilfe/beratungshilfe.generated";
+import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import {
   getOccupationDetails,
   getSelectedOptions,
   staatlicheLeistungMapping,
 } from "../beratungshilfe.pdf";
-import type { Attachment } from "../attachment";
+import type { DescriptionField } from "../descriptionField";
 
 export default function fillHeader(
-  attachment: Attachment,
+  descriptionField: DescriptionField,
+  pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
-  {
-    anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers,
-    antragstellerNameVornameggfGeburtsname,
-    berufErwerbstaetigkeit,
-    geburtsdatumdesAntragstellers,
-    tagsueberTelefonischerreichbarunterNummer,
-  }: BeratungshilfePDF,
 ) {
   const hasStaatlicheLeistung =
     context.staatlicheLeistungen != "andereLeistung" &&
     context.staatlicheLeistungen != "keine";
 
-  antragstellerNameVornameggfGeburtsname.value = [
+  pdfFields.antragstellerNameVornameggfGeburtsname.value = [
     context.nachname,
     context.vorname,
   ]
     .filter((entry) => entry)
     .join(", ");
-  geburtsdatumdesAntragstellers.value = context.geburtsdatum;
-  anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = [
-    context.strasseHausnummer,
-    context.plz,
-    context.ort,
-  ]
-    .filter((entry) => entry)
-    .join(", ");
-  tagsueberTelefonischerreichbarunterNummer.value = context.telefonnummer;
+  pdfFields.geburtsdatumdesAntragstellers.value = context.geburtsdatum;
+  pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value =
+    [context.strasseHausnummer, context.plz, context.ort]
+      .filter((entry) => entry)
+      .join(", ");
+  pdfFields.tagsueberTelefonischerreichbarunterNummer.value =
+    context.telefonnummer;
   const occupationDetails = hasStaatlicheLeistung
     ? staatlicheLeistungMapping[context.staatlicheLeistungen ?? "keine"]
     : getOccupationDetails(context);
-  berufErwerbstaetigkeit.value = occupationDetails;
+  pdfFields.berufErwerbstaetigkeit.value = occupationDetails;
 
   if (!hasStaatlicheLeistung && occupationDetails.length > 30) {
-    attachment.descriptions.unshift({
+    descriptionField.descriptions.unshift({
       title: "Weiteres Einkommen:",
       text: getSelectedOptions(
         {
@@ -56,7 +48,7 @@ export default function fillHeader(
         context.weitereseinkommen ?? {},
       ),
     });
-    attachment.descriptions.unshift({
+    descriptionField.descriptions.unshift({
       title: "Beruf / Erwerbstätigkeit:",
       text: getOccupationDetails(context, false),
     });

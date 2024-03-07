@@ -18,7 +18,7 @@ import FormAttachment from "~/components/FormAttachment";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import fillHeader from "./sections/header";
 import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
-import { Attachment } from "./attachment";
+import { DescriptionField } from "./descriptionField";
 import { fillAngelegenheit } from "./sections/A_angelegenheit";
 import { fillEinkommen } from "./sections/C_einkommen";
 import { fillUnterhalt } from "./sections/E_unterhalt";
@@ -29,19 +29,19 @@ export async function getBeratungshilfePdfFromContext(
   context: BeratungshilfeFormularContext,
 ) {
   const pdfFields = await getBeratungshilfeParameters();
-  const attachment = new Attachment(context);
+  const attachment = new DescriptionField(context);
 
   if (!pdfFields) {
     throw new Error("No pdf fields or file found for beratungshilfe!");
   }
 
-  fillHeader(attachment, context, pdfFields);
+  fillHeader(attachment, pdfFields, context);
   fillAngelegenheit(attachment, pdfFields);
   fillVorraussetzungen(pdfFields, context);
   fillEinkommen(pdfFields, context);
   // fillWohnung
-  fillUnterhalt(context, pdfFields);
-  fillBesitz(pdfFields, context, attachment);
+  fillUnterhalt(pdfFields, context);
+  fillBesitz(attachment, pdfFields, context);
 
   fillFooter(pdfFields, context);
 
@@ -152,10 +152,11 @@ function getBeratungshilfePdfBuffer(): ArrayBuffer {
     try {
       const file = path.resolve(
         path.join(
-          process.cwd(),
-          "app/services/pdf/beratungshilfe/Antrag_auf_Bewilligung_von_Beratungshilfe.pdf",
+          __dirname,
+          "../../../../data/pdf/beratungshilfe/Antrag_auf_Bewilligung_von_Beratungshilfe.pdf",
         ),
       );
+      console.log(file);
       global.__beratungshilfeBuffer = fs.readFileSync(file);
     } catch (error) {
       console.error(error);

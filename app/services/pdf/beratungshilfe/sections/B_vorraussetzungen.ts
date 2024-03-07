@@ -1,5 +1,5 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import type { BeratungshilfePDF } from "../beratungshilfe.generated";
+import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 
 export function fillVorraussetzungen(
   pdfFields: BeratungshilfePDF,

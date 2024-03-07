@@ -1,9 +1,9 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import type { BeratungshilfePDF } from "../beratungshilfe.generated";
+import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 
 export function fillUnterhalt(
-  context: BeratungshilfeFormularContext,
   pdfFields: BeratungshilfePDF,
+  context: BeratungshilfeFormularContext,
 ) {
   if (
     context.partnerschaft === "yes" &&

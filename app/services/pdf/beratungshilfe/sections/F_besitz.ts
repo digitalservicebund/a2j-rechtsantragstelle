@@ -1,29 +1,30 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import type { BeratungshilfePDF } from "../beratungshilfe.generated";
-import { Attachment } from "../attachment";
+import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import { DescriptionField } from "../descriptionField";
 
 export function fillBesitz(
+  descriptionField: DescriptionField,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
-  attachment: Attachment,
 ) {
-  const financialAttachment = new Attachment(context);
+  const financialdescriptionField = new DescriptionField(context);
 
-  fillFinancialBankkonto(pdfFields, context, financialAttachment);
-  fillFinancialGrundeigentum(pdfFields, context, financialAttachment);
-  fillFinancialKraftfahrzeug(pdfFields, context, financialAttachment);
-  fillFinancialWertsachen(pdfFields, context, financialAttachment);
+  fillFinancialBankkonto(financialdescriptionField, pdfFields, context);
+  fillFinancialGrundeigentum(financialdescriptionField, pdfFields, context);
+  fillFinancialKraftfahrzeug(financialdescriptionField, pdfFields, context);
+  fillFinancialWertsachen(financialdescriptionField, pdfFields, context);
 
-  if (financialAttachment.shouldCreateAttachment) {
-    financialAttachment.descriptions.unshift({
+  if (financialdescriptionField.shouldCreateAttachment) {
+    financialdescriptionField.descriptions.unshift({
       title: "F Bankkonten/Grundeigentum/Kraftfahrzeuge/Bargeld/Vermögenswerte",
       text: "",
     });
 
-    attachment.shouldCreateAttachment = true;
-    attachment.descriptions = financialAttachment.descriptions.concat(
-      financialAttachment.descriptions,
-    );
+    descriptionField.shouldCreateAttachment = true;
+    descriptionField.descriptions =
+      financialdescriptionField.descriptions.concat(
+        financialdescriptionField.descriptions,
+      );
   }
 }
 
@@ -34,10 +35,10 @@ const eigentuemerMapping = {
   myselfAndSomeoneElse: "Ich gemeinsam mit jemand anderem",
 };
 
-function fillFinancialBankkonto(
+export function fillFinancialBankkonto(
+  descriptionField: DescriptionField,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
-  attachment: Attachment,
 ) {
   const hasBankkonten = context.bankkonten
     ? context.bankkonten?.length > 0
@@ -59,14 +60,14 @@ function fillFinancialBankkonto(
       pdfFields.f3Bank1.value = bezeichnung.join(", ");
       pdfFields.f4Kontostand.value = `${bankkonto?.kontostand} €`;
     } else {
-      attachment.shouldCreateAttachment = true;
+      descriptionField.shouldCreateAttachment = true;
       const bezeichnung: string[] = [];
 
       context.bankkonten.forEach((bankkonto) => {
         bezeichnung.push(getBankkontoBezeichnung(bankkonto, true).join("\n"));
       });
 
-      attachment.descriptions.unshift({
+      descriptionField.descriptions.unshift({
         title: "Bankkonten",
         text: bezeichnung.join("\n\n"),
       });
@@ -75,9 +76,9 @@ function fillFinancialBankkonto(
 }
 
 function fillFinancialGrundeigentum(
+  descriptionField: DescriptionField,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
-  attachment: Attachment,
 ) {
   const hasGrundeigentum = context.grundeigentum
     ? context.grundeigentum?.length > 0
@@ -125,9 +126,9 @@ function fillFinancialGrundeigentum(
       );
     });
 
-    pdfFields.f7Nutzungsart.value = attachment.newPageHint;
-    attachment.shouldCreateAttachment = true;
-    attachment.descriptions.unshift({
+    pdfFields.f7Nutzungsart.value = descriptionField.newPageHint;
+    descriptionField.shouldCreateAttachment = true;
+    descriptionField.descriptions.unshift({
       title: "Grundeigentum",
       text: bezeichnung.join("\n\n"),
     });
@@ -135,9 +136,9 @@ function fillFinancialGrundeigentum(
 }
 
 function fillFinancialKraftfahrzeug(
+  descriptionField: DescriptionField,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
-  attachment: Attachment,
 ) {
   const hasKraftfahrzeug = context.kraftfahrzeuge
     ? context.kraftfahrzeuge?.length > 0
@@ -161,8 +162,8 @@ function fillFinancialKraftfahrzeug(
       pdfFields.f12Verkehrswert.value =
         kraftfahrzeug?.verkaufswert ?? "Keine Angaben";
     } else {
-      pdfFields.f11Fahrzeugart.value = attachment.newPageHint;
-      attachment.shouldCreateAttachment = true;
+      pdfFields.f11Fahrzeugart.value = descriptionField.newPageHint;
+      descriptionField.shouldCreateAttachment = true;
       const bezeichnung: string[] = [];
 
       context.kraftfahrzeuge.forEach((kraftfahrzeug) => {
@@ -171,7 +172,7 @@ function fillFinancialKraftfahrzeug(
         );
       });
 
-      attachment.descriptions.unshift({
+      descriptionField.descriptions.unshift({
         title: "Kraftfahrzeuge",
         text: bezeichnung.join("\n\n"),
       });
@@ -180,9 +181,9 @@ function fillFinancialKraftfahrzeug(
 }
 
 function fillFinancialWertsachen(
+  descriptionField: DescriptionField,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
-  attachment: Attachment,
 ) {
   const hasWertsachen = context.wertsachen
     ? context.wertsachen?.length > 0
@@ -202,8 +203,8 @@ function fillFinancialWertsachen(
       pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value =
         wertsache?.wert ?? "Keine Angaben";
     } else {
-      pdfFields.f15Bezeichnung.value = attachment.newPageHint;
-      attachment.shouldCreateAttachment = true;
+      pdfFields.f15Bezeichnung.value = descriptionField.newPageHint;
+      descriptionField.shouldCreateAttachment = true;
 
       const bezeichnung: string[] = [];
 
@@ -211,7 +212,7 @@ function fillFinancialWertsachen(
         bezeichnung.push(getWertsachenBezeichnung(wertsache, true).join("\n"));
       });
 
-      attachment.descriptions.unshift({
+      descriptionField.descriptions.unshift({
         title: "Wertsachen",
         text: bezeichnung.join("\n\n"),
       });

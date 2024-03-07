@@ -1,10 +1,12 @@
-import type { BeratungshilfePDF } from "../beratungshilfe.generated";
-import type { Attachment } from "../attachment";
+import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import type { DescriptionField } from "../descriptionField";
 
 export function fillAngelegenheit(
-  attachment: Attachment,
+  descriptionField: DescriptionField,
   pdfFields: BeratungshilfePDF,
 ) {
   pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
-    attachment.descriptions.map((x) => `${x.title} ${x.text} `).join("\n");
+    descriptionField.descriptions
+      .map((x) => `${x.title} ${x.text} `)
+      .join("\n");
 }

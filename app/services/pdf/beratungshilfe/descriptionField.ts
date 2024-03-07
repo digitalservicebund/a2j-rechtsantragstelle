@@ -1,7 +1,7 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import type { BeratungshilfePDF } from "./beratungshilfe.generated";
+import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 
-export class Attachment {
+export class DescriptionField {
   newPageHint = "Bitte im Anhang prüfen";
 
   descriptions: { title: string; text: string }[] = [];
@@ -71,18 +71,11 @@ export class Attachment {
   }
 
   getAttachment(pdfFields: BeratungshilfePDF) {
-    /* 
-                const hasStaatlicheLeistung =
-          context.staatlicheLeistungen != "andereLeistung" &&
-          context.staatlicheLeistungen != "keine";
-
-        */
-    // pdfFields.berufErwerbstaetigkeit.value = newPageHint;
-    //     pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
-    // newPageHint;
-    //   pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
-    //     newPageHint;
-    //    pdfFields.f3Bank1.value = attachment.newPageHint;
-    // ...
+    pdfFields.berufErwerbstaetigkeit.value = this.newPageHint;
+    pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
+      this.newPageHint;
+    pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
+      this.newPageHint;
+    pdfFields.f3Bank1.value = this.newPageHint;
   }
 }
