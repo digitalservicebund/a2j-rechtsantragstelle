@@ -11,6 +11,8 @@ import {
 import {
   fillFinancialBankkonto,
   fillFinancialGrundeigentum,
+  fillFinancialKraftfahrzeug,
+  fillFinancialWertsachen,
 } from "~/services/pdf/beratungshilfe/sections/F_besitz";
 
 describe("F_besitz", () => {
@@ -117,7 +119,7 @@ describe("F_besitz", () => {
       expect(pdfFields.f2InhaberB.value).toBe(false);
       expect(pdfFields.f2InhaberC.value).toBe(false);
       expect(pdfFields.f7Nutzungsart.value).toBe(
-        "Art des Eigentums: Hauf für Familie, Eigentümer:in: Ich alleine",
+        "Art des Eigentums: Haus für Familie, Eigentümer:in: Ich alleine, Fläche: 100 m²",
       );
       expect(pdfFields.f8Verkehrswert.value).toBe("100000 €");
     });
@@ -148,8 +150,59 @@ describe("F_besitz", () => {
       expect(pdfFields.f2InhaberB.value).toBe(false);
       expect(pdfFields.f2InhaberC.value).toBe(false);
       expect(pdfFields.f7Nutzungsart.value).toBe(
-        "Art des Eigentums: Hauf für Familie, Eigentümer:in: Ich alleine, Fläche: 100 m²",
+        "Art des Eigentums: Haus für Familie, Eigentümer:in: Ich alleine, Fläche: 100 m²",
       );
+    });
+
+    it("should create attachment when grundeigentum and grundegentum bewohnt is given in context", async () => {
+      const context: BeratungshilfeFormularContext = {
+        grundeigentum: [
+          {
+            eigentuemer: "myself",
+            art: "apartment",
+            flaeche: "100",
+            verkaufswert: "100001",
+            land: "Deutschland",
+            ort: "Berlin",
+            plz: "12345",
+            strassehausnummer: "Musterstraße 1",
+          },
+        ],
+        grundeigentumBewohnt: [
+          {
+            eigentuemer: "myself",
+            art: "hereditaryBuildingLaw",
+            flaeche: "100",
+            verkaufswert: "100002",
+          },
+        ],
+      };
+      const pdfFields = await getBeratungshilfeParameters();
+      const descriptionField = createDescriptionField(context);
+
+      fillFinancialGrundeigentum(descriptionField, pdfFields, context);
+
+      expect(descriptionField.shouldCreateAttachment).toBe(true);
+      expect(descriptionField.descriptions[0]).toEqual({
+        title: "Grundeigentum",
+        text:
+          "Art des Eigentums: Wohnung\n" +
+          "Eigentümer:in: Ich alleine\n" +
+          "Fläche: 100 m²\n" +
+          "Verkehrswert: 100001 €\n" +
+          "\n" +
+          "Art des Eigentums: Erbbaurecht\n" +
+          "Eigentümer:in: Ich alleine\n" +
+          "Fläche: 100 m²\n" +
+          "Verkehrswert: 100002 €",
+      });
+
+      expect(pdfFields.f5Grundeigentum1.value).toBe(false);
+      expect(pdfFields.f5Grundeigentum2.value).toBe(true);
+      expect(pdfFields.f1InhaberA.value).toBe(false);
+      expect(pdfFields.f2InhaberB.value).toBe(false);
+      expect(pdfFields.f2InhaberC.value).toBe(false);
+      expect(pdfFields.f7Nutzungsart.value).toBe(newPageHint);
     });
 
     it("should create attachment when multiple grundeigentum and grundeigentum bewohnt is given in context", async () => {
@@ -196,8 +249,6 @@ describe("F_besitz", () => {
 
       fillFinancialGrundeigentum(descriptionField, pdfFields, context);
 
-      console.log(descriptionField.descriptions);
-
       expect(descriptionField.shouldCreateAttachment).toBe(true);
       expect(descriptionField.descriptions[0]).toEqual({
         title: "Grundeigentum",
@@ -207,17 +258,19 @@ describe("F_besitz", () => {
           "Fläche: 100 m²\n" +
           "Verkehrswert: 100001 €\n" +
           "\n" +
-          "Art des Eigentums: Hauf für Familie\n" +
+          "Art des Eigentums: Haus für Familie\n" +
           "Eigentümer:in: Ehe-Partner:in\n" +
           "Fläche: 100 m²\n" +
           "Verkehrswert: 100002 €\n" +
           "\n" +
           "Art des Eigentums: Erbbaurecht\n" +
           "Eigentümer:in: Ich alleine\n" +
+          "Fläche: 100 m²\n" +
           "Verkehrswert: 100003 €\n" +
           "\n" +
           "Art des Eigentums: Grundstück\n" +
           "Eigentümer:in: Ehe-Partner:in\n" +
+          "Fläche: 100 m²\n" +
           "Verkehrswert: 100004 €",
       });
 
@@ -227,6 +280,183 @@ describe("F_besitz", () => {
       expect(pdfFields.f2InhaberB.value).toBe(false);
       expect(pdfFields.f2InhaberC.value).toBe(false);
       expect(pdfFields.f7Nutzungsart.value).toBe(newPageHint);
+    });
+  });
+
+  describe("fillFinancialKraftfahrzeug", () => {
+    it("should fill kraftfahrzeug pdf field when kraftfahrzeug is given in context", async () => {
+      const context: BeratungshilfeFormularContext = {
+        kraftfahrzeuge: [
+          {
+            eigentuemer: "partner",
+            art: "P 50",
+            marke: "Trabant",
+            anschaffungsjahr: "1985",
+            arbeitsweg: "on",
+            baujahr: "1990",
+            bemerkung: "Bemerkung",
+            kilometerstand: "999999",
+            verkaufswert: "100000",
+          },
+        ],
+      };
+      const pdfFields = await getBeratungshilfeParameters();
+      const descriptionField = createDescriptionField(context);
+
+      fillFinancialKraftfahrzeug(descriptionField, pdfFields, context);
+
+      expect(pdfFields.f9Kraftfahrzeug1.value).toBe(false);
+      expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(true);
+      expect(pdfFields.f10KraftfahrzeugeA.value).toBe(false);
+      expect(pdfFields.f10KraftfahrzeugB.value).toBe(true);
+      expect(pdfFields.f10KraftfahrzeugC.value).toBe(false);
+      expect(pdfFields.f11Fahrzeugart.value).toBe(
+        "P 50, Trabant, Baujahr: 1990, km-Stand: 999999, Wird für den Arbeitsweg gebraucht",
+      );
+      expect(pdfFields.f12Verkehrswert.value).toBe("100000");
+
+      expect(descriptionField.shouldCreateAttachment).toBe(false);
+    });
+
+    it("should fill multiple kraftfahrzeug pdf field when kraftfahrzeug is given in context", async () => {
+      const context: BeratungshilfeFormularContext = {
+        kraftfahrzeuge: [
+          {
+            eigentuemer: "partner",
+            art: "P 50",
+            marke: "Trabant",
+            anschaffungsjahr: "1985",
+            arbeitsweg: "on",
+            baujahr: "1990",
+            bemerkung: "Bemerkung",
+            kilometerstand: "999999",
+            verkaufswert: "100000",
+          },
+          {
+            eigentuemer: "myself",
+            art: "P 40",
+            marke: "Trabbi",
+            anschaffungsjahr: "1995",
+            arbeitsweg: "on",
+            baujahr: "1988",
+            bemerkung: "Bemerkung 2",
+            kilometerstand: "99999",
+            verkaufswert: "10000",
+          },
+        ],
+      };
+      const pdfFields = await getBeratungshilfeParameters();
+      const descriptionField = createDescriptionField(context);
+
+      fillFinancialKraftfahrzeug(descriptionField, pdfFields, context);
+
+      expect(pdfFields.f9Kraftfahrzeug1.value).toBe(false);
+      expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(true);
+      expect(pdfFields.f10KraftfahrzeugeA.value).toBe(false);
+      expect(pdfFields.f10KraftfahrzeugB.value).toBe(false);
+      expect(pdfFields.f10KraftfahrzeugC.value).toBe(false);
+      expect(pdfFields.f11Fahrzeugart.value).toBe(newPageHint);
+      expect(pdfFields.f12Verkehrswert.value).toBe(undefined);
+
+      expect(descriptionField.shouldCreateAttachment).toBe(true);
+      expect(descriptionField.descriptions[0]).toEqual({
+        title: "Kraftfahrzeuge",
+        text:
+          "Fahrzeug wird für den Arbeitsweg genutzt\n" +
+          "Eigentümer:in: Ehe-Partner:in\n" +
+          "Art des Fahrzeugs: P 50\n" +
+          "Marke: Trabant\n" +
+          "Anschaffungsjahr: 1985\n" +
+          "Baujahr: 1990\n" +
+          "Kilometerstand (ca.): 999999 km\n" +
+          "Verkehrswert: 100000 €\n" +
+          "\n" +
+          "Fahrzeug wird für den Arbeitsweg genutzt\n" +
+          "Eigentümer:in: Ich alleine\n" +
+          "Art des Fahrzeugs: P 40\n" +
+          "Marke: Trabbi\n" +
+          "Anschaffungsjahr: 1995\n" +
+          "Baujahr: 1988\n" +
+          "Kilometerstand (ca.): 99999 km\n" +
+          "Verkehrswert: 10000 €",
+      });
+    });
+  });
+
+  describe("fillFinancialWertsachen", () => {
+    it("should fill wertsachen pdf field when wertsachen is given in context", async () => {
+      const context: BeratungshilfeFormularContext = {
+        wertsachen: [
+          {
+            eigentuemer: "partner",
+            art: "valuableItem",
+            wert: "100000",
+          },
+        ],
+      };
+      const pdfFields = await getBeratungshilfeParameters();
+      const descriptionField = createDescriptionField(context);
+
+      fillFinancialWertsachen(descriptionField, pdfFields, context);
+
+      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
+      expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
+      expect(pdfFields.f14InhaberA.value).toBe(false);
+      expect(pdfFields.f14InhaberB.value).toBe(true);
+      expect(pdfFields.f14VermoegenswerteC.value).toBe(false);
+      expect(pdfFields.f15Bezeichnung.value).toBe(
+        "Wertgegenstand, Eigentümer:in: Ehe-Partner:in",
+      );
+      expect(pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
+        "100000",
+      );
+
+      expect(descriptionField.shouldCreateAttachment).toBe(false);
+    });
+
+    it("should fill multiple wertsachen pdf field when wertsachen is given in context", async () => {
+      const context: BeratungshilfeFormularContext = {
+        wertsachen: [
+          {
+            eigentuemer: "partner",
+            art: "valuableItem",
+            wert: "100000",
+          },
+          {
+            eigentuemer: "myself",
+            art: "cash",
+            wert: "10000",
+          },
+        ],
+      };
+      const pdfFields = await getBeratungshilfeParameters();
+      const descriptionField = createDescriptionField(context);
+
+      fillFinancialWertsachen(descriptionField, pdfFields, context);
+
+      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
+      expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
+      expect(pdfFields.f14InhaberA.value).toBe(false);
+      expect(pdfFields.f14InhaberB.value).toBe(false);
+      expect(pdfFields.f14VermoegenswerteC.value).toBe(false);
+      expect(pdfFields.f15Bezeichnung.value).toBe(newPageHint);
+      expect(pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
+        undefined,
+      );
+
+      expect(descriptionField.shouldCreateAttachment).toBe(true);
+
+      expect(descriptionField.descriptions[0]).toEqual({
+        title: "Wertsachen",
+        text:
+          "Wertgegenstand\n" +
+          "Eigentümer:in: Ehe-Partner:in\n" +
+          "Verkehrswert: 100000 €\n" +
+          "\n" +
+          "Bargeld\n" +
+          "Eigentümer:in: Ich alleine\n" +
+          "Verkehrswert: 10000 €",
+      });
     });
   });
 });

@@ -97,11 +97,7 @@ export function fillFinancialGrundeigentum(
   pdfFields.f5Grundeigentum2.value =
     hasGrundeigentum || hasGrundeigentumBewohnt;
 
-  if (
-    context.grundeigentumBewohnt &&
-    context.grundeigentumBewohnt?.length == 1 &&
-    (!context.grundeigentum || context.grundeigentum?.length == 0)
-  ) {
+  if (!hasGrundeigentum && hasGrundeigentumBewohnt) {
     const grundeigentumBewohnt = context.grundeigentumBewohnt?.pop();
 
     pdfFields.f1InhaberA.value = grundeigentumBewohnt?.eigentuemer == "myself";
@@ -116,11 +112,7 @@ export function fillFinancialGrundeigentum(
       getGrundeigentumBewohntBezeichnung(grundeigentumBewohnt);
 
     pdfFields.f7Nutzungsart.value = bezeichnung.join(", ");
-  } else if (
-    context.grundeigentum &&
-    context.grundeigentum?.length == 1 &&
-    (!context.grundeigentumBewohnt || context.grundeigentumBewohnt?.length == 0)
-  ) {
+  } else if (hasGrundeigentum && !hasGrundeigentumBewohnt) {
     const grundeigentum = context.grundeigentum?.pop();
 
     pdfFields.f1InhaberA.value = grundeigentum?.eigentuemer == "myself";
@@ -134,7 +126,7 @@ export function fillFinancialGrundeigentum(
     const bezeichnung = getGrundeigentumBezeichnung(grundeigentum);
 
     pdfFields.f7Nutzungsart.value = bezeichnung.join(", ");
-  } else {
+  } else if (hasGrundeigentum && hasGrundeigentumBewohnt) {
     const bezeichnung: string[] = [];
 
     context.grundeigentum?.forEach((grundeigentum) => {
@@ -158,7 +150,7 @@ export function fillFinancialGrundeigentum(
   }
 }
 
-function fillFinancialKraftfahrzeug(
+export function fillFinancialKraftfahrzeug(
   descriptionField: DescriptionField,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
@@ -203,7 +195,7 @@ function fillFinancialKraftfahrzeug(
   }
 }
 
-function fillFinancialWertsachen(
+export function fillFinancialWertsachen(
   descriptionField: DescriptionField,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
@@ -385,7 +377,7 @@ function getKraftfahrzeugBezeichnung(
   }
 
   if (kraftfahrzeug?.baujahr) {
-    bezeichnung.push(`Baujahr: ${kraftfahrzeug?.baujahr} km`);
+    bezeichnung.push(`Baujahr: ${kraftfahrzeug?.baujahr}`);
   }
 
   if (kraftfahrzeug?.kilometerstand) {
@@ -428,7 +420,7 @@ function getGrundeigentumBezeichnung(
   const bezeichnung = [];
   const artMapping = {
     apartment: "Wohnung",
-    houseForFamily: "Hauf für Familie",
+    houseForFamily: "Haus für Familie",
     houseWithMultipleApartments: "Haus mit mehreren Wohnungen",
     property: "Grundstück",
     hereditaryBuildingLaw: "Erbbaurecht",
@@ -476,14 +468,15 @@ function getGrundeigentumBewohntBezeichnung(
           | "property"
           | "hereditaryBuildingLaw";
         verkaufswert: string;
+        flaeche: string;
       }
     | undefined,
-  hasMultipleGrundeigentum = false,
+  hasMultipleGrundeigentumBewohnt = false,
 ) {
   const bezeichnung = [];
   const artMapping = {
     apartment: "Wohnung",
-    houseForFamily: "Hauf für Familie",
+    houseForFamily: "Haus für Familie",
     houseWithMultipleApartments: "Haus mit mehreren Wohnungen",
     property: "Grundstück",
     hereditaryBuildingLaw: "Erbbaurecht",
@@ -504,7 +497,11 @@ function getGrundeigentumBewohntBezeichnung(
     );
   }
 
-  if (hasMultipleGrundeigentum && grundeigentum?.verkaufswert) {
+  if (grundeigentum?.flaeche) {
+    bezeichnung.push(`Fläche: ${grundeigentum?.flaeche} m²`);
+  }
+
+  if (hasMultipleGrundeigentumBewohnt && grundeigentum?.verkaufswert) {
     bezeichnung.push(`Verkehrswert: ${grundeigentum?.verkaufswert} €`);
   }
 
