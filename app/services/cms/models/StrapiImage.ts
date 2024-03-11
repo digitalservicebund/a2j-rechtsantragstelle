@@ -1,20 +1,27 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import { config } from "../../env/env.server";
 import { ImagePropsSchema } from "~/components/Image";
 import { omitNull } from "~/util/omitNull";
+
+function appendStrapiUrlOnDev(imageUrl: string) {
+  // Without S3 bucket, Strapi returns relative URLs
+  // For development with local strapi instances, we need to prepend the correct hostname
+  if (!imageUrl.startsWith("/")) return imageUrl;
+  const { ENVIRONMENT, STRAPI_API } = process.env;
+  const strapiUrl =
+    (ENVIRONMENT?.trim() === "development"
+      ? STRAPI_API?.replace("/api/", "")
+      : "") ?? "";
+
+  return strapiUrl + imageUrl;
+}
 
 export const StrapiImageSchema = z.object({
   data: z
     .object({
       attributes: z.object({
         name: z.string(),
-        url: z
-          .string()
-          // Hack code to return correctly URL, Strapi returns on local machine the relative URL
-          .transform((url) =>
-            url.startsWith("/") ? config().STRAPI_HOST + url : url,
-          ),
+        url: z.string().transform(appendStrapiUrlOnDev),
         previewUrl: z.string().url().nullable(),
         width: z.number(),
         height: z.number(),
