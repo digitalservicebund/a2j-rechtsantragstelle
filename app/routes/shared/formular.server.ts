@@ -37,7 +37,7 @@ import { stepMeta } from "~/services/meta/formStepMeta";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
-import { normalizeObject } from "~/util/normalizeObject";
+import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 
 const structureCmsContent = (
   formPageContent: z.infer<CollectionSchemas["form-flow-pages"]>,
@@ -240,10 +240,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       validationResult.submittedData,
     );
 
-  updateSession(
-    flowSession,
-    normalizeObject(validationResult.data, arrayIndexes),
+  const resolvedData = resolveArraysFromKeys(
+    validationResult.data,
+    arrayIndexes,
   );
+  updateSession(flowSession, resolvedData);
 
   const migrationData = await getMigrationData(
     stepId,

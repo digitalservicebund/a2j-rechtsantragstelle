@@ -1,4 +1,4 @@
-import { resolveArrayCharacter } from "~/util/arrayVariable";
+import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
 
 describe("resolveArrayCharacter()", () => {
   it("leaves strings without hash", () => {

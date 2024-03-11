@@ -1,7 +1,7 @@
 import _ from "lodash";
 import type { Context } from "~/models/flows/contexts";
 
-import { resolveArrayCharacter } from "~/util/arrayVariable";
+import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
 
 export const fieldsFromContext = (
   context: Context,

@@ -2,11 +2,7 @@
 // For example: The form field 'accounts#owner' belongs to the object field 'owner' inside the 'accounts' array
 
 import invariant from "tiny-invariant";
-
-const arrayChar = "#";
-export const splitArrayName = (key: string) => key.split(arrayChar);
-export const fieldIsArray = (fieldname: string) =>
-  fieldname.includes(arrayChar);
+import { arrayChar } from ".";
 
 export const resolveArrayCharacter = (
   fieldname: string,
@@ -16,12 +12,15 @@ export const resolveArrayCharacter = (
   const indexCount = arrayIndexes?.length ?? 0;
   invariant(
     indexCount === hashCount,
-    `${fieldname} number of hashes ${hashCount} doesn't match number of indicies ${indexCount}`,
+    `${fieldname} number of ${arrayChar} (${hashCount}) doesn't match number of indicies (${indexCount})`,
   );
   let updatedFieldname = fieldname;
   arrayIndexes?.forEach(
     (index) =>
-      (updatedFieldname = updatedFieldname.replace("#", `[${String(index)}]`)),
+      (updatedFieldname = updatedFieldname.replace(
+        arrayChar,
+        `[${String(index)}]`,
+      )),
   );
   return updatedFieldname;
 };
