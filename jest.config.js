@@ -1,4 +1,5 @@
 const config = {
+  testEnvironment: "jsdom",
   moduleDirectories: ["node_modules", "<rootDir>/app"],
   moduleNameMapper: {
     "~/(.*)": "<rootDir>/app/$1",

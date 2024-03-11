@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { createDescriptionField } from "~/services/pdf/beratungshilfe/descriptionField";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";

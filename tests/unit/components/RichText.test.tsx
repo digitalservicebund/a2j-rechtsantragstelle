@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import RichText from "~/components/RichText";
 
 describe("RichText component", () => {
-  it.skip("should render internal link", () => {
+  it("should render internal link", () => {
     const markdown = "[Link](/link)";
     render(<RichText markdown={markdown} />);
     expect(screen.getByText("Link")).toBeInTheDocument();
@@ -10,7 +10,7 @@ describe("RichText component", () => {
     expect(screen.getByText("Link")).not.toHaveAttribute("target");
   });
 
-  it.skip("should render external link", () => {
+  it("should render external link", () => {
     const markdown = "[Link](ext:/link)";
     render(<RichText markdown={markdown} />);
     expect(screen.getByText("Link")).toBeInTheDocument();
