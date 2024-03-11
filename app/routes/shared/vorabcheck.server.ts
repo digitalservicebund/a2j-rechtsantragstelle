@@ -22,11 +22,11 @@ import { logError } from "~/services/logging";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { parentFromParams } from "~/services/params";
 import { interpolateDeep } from "~/util/fillTemplate";
-import _ from "lodash";
 import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiHeading";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { stepMeta } from "~/services/meta/formStepMeta";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 
 export const loader = async ({
   params,
@@ -83,7 +83,7 @@ export const loader = async ({
 
   // filter user data for current step
   const fieldNames = formElements.map((entry) => entry.name);
-  const stepData = _.pick(userData, fieldNames);
+  const stepData = fieldsFromContext(userData, fieldNames);
 
   const { headers, csrf } = await updateMainSession({
     cookieHeader,

@@ -79,7 +79,7 @@
             "SUBMIT": [
               {
                 "guard": "partnerschaftNo",
-                "target": "#besitz.bankkonten-frage"
+                "target": "#kinder.kinder-frage"
               },
               {
                 "guard": "partnerschaftYes",
@@ -121,7 +121,7 @@
         "keine-rolle": {
           "on": {
             "BACK": "unterhalt",
-            "SUBMIT": "#besitz.bankkonten-frage"
+            "SUBMIT": "#kinder.kinder-frage"
           }
         },
         "unterhalts-summe": {
@@ -133,7 +133,7 @@
         "partner-name": {
           "on": {
             "BACK": "unterhalts-summe",
-            "SUBMIT": "#besitz.bankkonten-frage"
+            "SUBMIT": "#kinder.kinder-frage"
           }
         },
         "partner-einkommen": {
@@ -146,7 +146,7 @@
               },
               {
                 "guard": "partnerEinkommenNo",
-                "target": "#besitz.bankkonten-frage"
+                "target": "#kinder.kinder-frage"
               }
             ]
           }
@@ -154,14 +154,105 @@
         "partner-einkommen-summe": {
           "on": {
             "BACK": "partner-einkommen",
-            "SUBMIT": "#besitz.bankkonten-frage"
+            "SUBMIT": "#kinder.kinder-frage"
+          }
+        }
+      }
+    },
+    "kinder": {
+      "id": "kinder",
+      "initial": "kinder-frage",
+      "states": {
+        "kinder-frage": {
+          "on": {
+            "BACK": "#partner.partner-einkommen-summe",
+            "SUBMIT": [
+              {
+                "guard": "hasKinderYes",
+                "target": "zusammenfassung"
+              },
+              "#besitz.bankkonten-frage"
+            ]
+          }
+        },
+        "zusammenfassung": {
+          "on": {
+            "BACK": "kinder-frage",
+            "SUBMIT": "#besitz",
+            "ADDITEM": "kinder"
+          }
+        },
+        "kinder": {
+          "id": "kinderCategory",
+          "initial": "name",
+          "states": {
+            "name": {
+              "on": {
+                "BACK": "#kinder.zusammenfassung",
+                "SUBMIT": "wohnort"
+              }
+            },
+            "wohnort": {
+              "on": {
+                "BACK": "name",
+                "SUBMIT": [
+                  {
+                    "guard": "kindWohnortBeiAntragstellerYes",
+                    "target": "kind-eigene-einnahmen-frage"
+                  },
+                  "kind-unterhalt-frage"
+                ]
+              }
+            },
+            "kind-eigene-einnahmen-frage": {
+              "on": {
+                "BACK": "wohnort",
+                "SUBMIT": [
+                  {
+                    "guard": "kindEigeneEinnahmenYes",
+                    "target": "kind-eigene-einnahmen"
+                  },
+                  "#kinder.zusammenfassung"
+                ]
+              }
+            },
+            "kind-eigene-einnahmen": {
+              "on": {
+                "BACK": "kind-eigene-einnahmen-frage",
+                "SUBMIT": "#kinder.zusammenfassung"
+              }
+            },
+            "kind-unterhalt-frage": {
+              "on": {
+                "BACK": "wohnort",
+                "SUBMIT": [
+                  {
+                    "guard": "kindUnterhaltYes",
+                    "target": "kind-unterhalt"
+                  },
+                  "kind-unterhalt-ende"
+                ]
+              }
+            },
+            "kind-unterhalt": {
+              "on": {
+                "BACK": "kind-unterhalt-frage",
+                "SUBMIT": "#kinder.zusammenfassung"
+              }
+            },
+            "kind-unterhalt-ende": {
+              "on": {
+                "BACK": "kind-unterhalt-frage",
+                "SUBMIT": "#kinder.zusammenfassung"
+              }
+            }
           }
         }
       }
     },
     "besitz": {
       "id": "besitz",
-      "initial": "zusammenfassung",
+      "initial": "bankkonten-frage",
       "states": {
         "bankkonten-frage": {
           "id": "bankkonto-frage",
@@ -193,179 +284,112 @@
               },
               "#partner.partnerschaft"
             ],
-            "SUBMIT": [
-              {
-                "guard": "hasBankkontoYes",
-                "target": "bankkonten"
-              },
-              "kraftfahrzeuge-frage"
-            ]
-          }
-        },
-        "bankkonten": {
-          "id": "bankkonten",
-          "on": {
-            "SUBMIT": "weiteres-bankkonto",
-            "BACK": "bankkonten-frage"
-          }
-        },
-        "weiteres-bankkonto": {
-          "id": "weiteres-bankkonto",
-          "on": {
-            "BACK": "bankkonten-frage",
-            "SUBMIT": [
-              { "target": "bankkonten", "guard": "hasAdditionalBankkontoYes" },
-              "kraftfahrzeuge-frage"
-            ]
+            "SUBMIT": "kraftfahrzeuge-frage"
           }
         },
         "kraftfahrzeuge-frage": {
           "id": "kraftfahrzeuge-frage",
           "on": {
-            "SUBMIT": [
-              {
-                "guard": "hasKraftfahrzeugYes",
-                "target": "kraftfahrzeuge"
-              },
-              "geldanlagen-frage"
-            ],
-            "BACK": [
-              {
-                "guard": "hasBankkontoYes",
-                "target": "weiteres-bankkonto"
-              },
-              "bankkonten-frage"
-            ]
-          }
-        },
-        "kraftfahrzeuge": {
-          "id": "kraftfahrzeuge",
-          "on": {
-            "SUBMIT": "weiteres-kraftfahrzeug",
-            "BACK": "kraftfahrzeuge-frage"
-          }
-        },
-        "weiteres-kraftfahrzeug": {
-          "id": "weiteres-kraftfahrzeug",
-          "on": {
-            "SUBMIT": [
-              {
-                "target": "kraftfahrzeuge",
-                "guard": "hasAdditionalKraftfahrzeugYes"
-              },
-              "geldanlagen-frage"
-            ],
-            "BACK": "kraftfahrzeuge-frage"
+            "SUBMIT": "geldanlagen-frage",
+            "BACK": "bankkonten-frage"
           }
         },
         "geldanlagen-frage": {
           "id": "geldanlagen-frage",
           "on": {
-            "SUBMIT": [
-              {
-                "guard": "hasGeldanlageYes",
-                "target": "geldanlagen"
-              },
-              "grundeigentum-frage"
-            ],
-            "BACK": [
-              {
-                "guard": "hasKraftfahrzeugYes",
-                "target": "weiteres-kraftfahrzeug"
-              },
-              "kraftfahrzeuge-frage"
-            ]
-          }
-        },
-        "geldanlagen": {
-          "id": "geldanlagen",
-          "on": {
-            "SUBMIT": "weitere-geldanlage",
-            "BACK": "geldanlagen-frage"
-          }
-        },
-        "weitere-geldanlage": {
-          "id": "weitere-geldanlage",
-          "on": {
-            "SUBMIT": [
-              {
-                "target": "geldanlagen",
-                "guard": "hasAdditionalGeldanlageYes"
-              },
-              "grundeigentum-frage"
-            ],
-            "BACK": "geldanlagen-frage"
+            "SUBMIT": "grundeigentum-frage",
+            "BACK": "kraftfahrzeuge-frage"
           }
         },
         "grundeigentum-frage": {
           "id": "grundeigentum-frage",
           "on": {
-            "SUBMIT": [
-              {
-                "guard": "hasGrundeigentumYes",
-                "target": "grundeigentum"
-              },
-              "wertsachen-frage"
-            ],
-            "BACK": "weitere-geldanlage"
-          }
-        },
-        "grundeigentum": {
-          "id": "grundeigentum",
-          "on": {
-            "SUBMIT": "weiteres-grundeigentum",
-            "BACK": "grundeigentum-frage"
-          }
-        },
-        "weiteres-grundeigentum": {
-          "id": "weiteres-grundeigentum",
-          "on": {
-            "SUBMIT": [
-              {
-                "target": "grundeigentum",
-                "guard": "hasAdditionalGrundeigentumYes"
-              },
-              "wertsachen-frage"
-            ],
-            "BACK": "grundeigentum-frage"
+            "SUBMIT": "wertsachen-frage",
+            "BACK": "geldanlagen-frage"
           }
         },
         "wertsachen-frage": {
           "id": "wertsachen-frage",
           "on": {
-            "SUBMIT": [
-              {
-                "guard": "hasWertsacheYes",
-                "target": "wertsachen"
-              },
-              "zusammenfassung"
-            ],
-            "BACK": "weiteres-grundeigentum"
-          }
-        },
-        "wertsachen": {
-          "id": "wertsachen",
-          "on": {
-            "SUBMIT": "weitere-wertsache",
-            "BACK": "wertsachen-frage"
-          }
-        },
-        "weitere-wertsache": {
-          "id": "weitere-wertsache",
-          "on": {
-            "SUBMIT": [
-              {
-                "target": "wertsachen",
-                "guard": "hasAdditionalWertsacheYes"
-              },
-              "zusammenfassung"
-            ],
-            "BACK": "wertsachen-frage"
+            "SUBMIT": "zusammenfassung",
+            "BACK": "grundeigentum-frage"
           }
         },
         "zusammenfassung": {
           "id": "zusammenfassung",
-          "on": { "SUBMIT": "#danke" }
+          "on": {
+            "BACK": "#besitz.wertsachen-frage",
+            "SUBMIT": "#danke",
+            "ADDITEM": {
+              "target": [
+                "bankkonten",
+                "wertsachen",
+                "grundeigentum",
+                "geldanlagen",
+                "kraftfahrzeuge"
+              ]
+            }
+          }
+        },
+        "bankkonten": {
+          "id": "bankkonten",
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "SUBMIT": "#besitz.zusammenfassung",
+                "BACK": "#besitz.zusammenfassung"
+              }
+            }
+          }
+        },
+        "kraftfahrzeuge": {
+          "id": "kraftfahrzeuge",
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "SUBMIT": "#besitz.zusammenfassung",
+                "BACK": "#besitz.zusammenfassung"
+              }
+            }
+          }
+        },
+        "geldanlagen": {
+          "id": "geldanlagen",
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "SUBMIT": "#besitz.zusammenfassung",
+                "BACK": "#besitz.zusammenfassung"
+              }
+            }
+          }
+        },
+        "grundeigentum": {
+          "id": "grundeigentum",
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "SUBMIT": "#besitz.zusammenfassung",
+                "BACK": "#besitz.zusammenfassung"
+              }
+            }
+          }
+        },
+        "wertsachen": {
+          "id": "wertsachen",
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "SUBMIT": "#besitz.zusammenfassung",
+                "BACK": "#besitz.zusammenfassung"
+              }
+            }
+          }
         }
       }
     },

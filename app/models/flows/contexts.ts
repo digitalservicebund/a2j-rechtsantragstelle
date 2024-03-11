@@ -40,9 +40,12 @@ export function parsePathname(pathname: string) {
   const pathSegments = pathname.split("/");
   const flowId = `${pathSegments[1]}/${pathSegments[2]}`;
   if (!isFlowId(flowId)) throw Error("Unknown flow ID");
-  const arrayIndexParsed = Number(pathSegments.at(-1));
-  const arrayIndex = isNaN(arrayIndexParsed) ? undefined : arrayIndexParsed;
-  const lastPathSegment = arrayIndex === undefined ? undefined : -1;
-  const stepId = pathSegments.slice(3, lastPathSegment).join("/");
-  return { flowId, stepId, arrayIndex };
+  const arrayIndexes = pathname
+    .match(/(\/\d+)/g)
+    ?.map((index) => Number(index.replace("/", "")));
+  const stepId = pathSegments
+    .slice(3)
+    .join("/")
+    .replaceAll(/(\/\d+)/g, "");
+  return { flowId, stepId, arrayIndexes };
 }
