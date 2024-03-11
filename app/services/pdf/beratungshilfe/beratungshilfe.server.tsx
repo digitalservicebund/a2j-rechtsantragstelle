@@ -146,9 +146,11 @@ function getBeratungshilfePdfBuffer(): ArrayBuffer {
   if (!global.__beratungshilfeBuffer) {
     try {
       const file = path.resolve(
-        path.join(
-          __dirname,
-          "../../../../data/pdf/beratungshilfe/Antrag_auf_Bewilligung_von_Beratungshilfe.pdf",
+        path.resolve(
+          path.join(
+            process.cwd(),
+            "data/pdf/beratungshilfe/Antrag_auf_Bewilligung_von_Beratungshilfe.pdf",
+          ),
         ),
       );
       global.__beratungshilfeBuffer = fs.readFileSync(file);

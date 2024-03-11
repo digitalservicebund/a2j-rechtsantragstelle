@@ -1,14 +1,17 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { DescriptionField } from "../descriptionField";
-import { createDescriptionField, newPageHint } from "../descriptionField";
+import { newPageHint } from "../descriptionField";
 
 export function fillBesitz(
   descriptionField: DescriptionField,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const financialdescriptionField = createDescriptionField(context);
+  const financialdescriptionField: DescriptionField = {
+    descriptions: [],
+    shouldCreateAttachment: false,
+  };
 
   fillFinancialBankkonto(financialdescriptionField, pdfFields, context);
   fillFinancialGrundeigentum(financialdescriptionField, pdfFields, context);
@@ -22,10 +25,9 @@ export function fillBesitz(
     });
 
     descriptionField.shouldCreateAttachment = true;
-    descriptionField.descriptions =
-      financialdescriptionField.descriptions.concat(
-        financialdescriptionField.descriptions,
-      );
+    descriptionField.descriptions = descriptionField.descriptions.concat(
+      financialdescriptionField.descriptions,
+    );
   }
 }
 
