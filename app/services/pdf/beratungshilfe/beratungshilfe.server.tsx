@@ -40,7 +40,6 @@ export async function getBeratungshilfePdfFromContext(
   fillAngelegenheit(descriptionField, pdfFields);
   fillVorraussetzungen(pdfFields, context);
   fillEinkommen(pdfFields, context);
-  // fillWohnung
   fillUnterhalt(pdfFields, context);
   fillBesitz(descriptionField, pdfFields, context);
 
