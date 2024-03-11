@@ -14,7 +14,7 @@ import ArraySummary from "~/components/ArraySummary";
 
 export function FormFlowPage() {
   const {
-    arrayData,
+    arraySummaryData,
     buttonNavigationProps,
     content,
     csrf,
@@ -24,7 +24,6 @@ export function FormFlowPage() {
     navItems,
     postFormContent,
     preHeading,
-    returnTo,
     stepData,
     translations,
   } = useLoaderData<typeof loader>();
@@ -56,9 +55,9 @@ export function FormFlowPage() {
             migrationData={migrationData}
             translations={translations}
           />
-          {Object.keys(arrayData).length != 0 && (
+          {arraySummaryData && Object.keys(arraySummaryData).length != 0 && (
             <div className="!mt-24">
-              {Object.entries(arrayData).map(([arrayKey, array]) => (
+              {Object.entries(arraySummaryData).map(([arrayKey, array]) => (
                 <ArraySummary
                   key={arrayKey}
                   arrayKey={arrayKey}
@@ -78,7 +77,6 @@ export function FormFlowPage() {
             action={pathname}
           >
             <input type="hidden" name={CSRFKey} value={csrf} />
-            <input type="hidden" name="_returnTo" value={returnTo} />
             <div className="ds-stack-40">
               <PageContent content={formElements} className="ds-stack-40" />
               <PageContent content={postFormContent} fullScreen={false} />
