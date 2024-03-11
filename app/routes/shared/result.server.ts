@@ -104,7 +104,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       common: defaultStrings,
       cmsData: cmsData,
       content: cmsData.freeZone,
-      meta: cmsData.meta,
+      meta: { ...cmsData.meta, breadcrumb: parentMeta?.breadcrumb },
       reasons: reasonElementsWithID.filter((reason) =>
         Boolean(getReasonsToDisplay(userData)[reason.elementId]),
       ),
