@@ -4,6 +4,7 @@
 
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import { createDescriptionField } from "~/services/pdf/beratungshilfe/descriptionField";
 import { fillUnterhalt } from "~/services/pdf/beratungshilfe/sections/E_unterhalt";
 
 describe("E_unterhalt", () => {
@@ -15,14 +16,25 @@ describe("E_unterhalt", () => {
       partnerVorname: "Donald",
       partnerNachname: "Duck",
       klageEingereicht: "yes",
-      unterhaltsSumme: "1000€",
+      unterhaltsSumme: "1000",
     };
     const pdfFields = await getBeratungshilfeParameters();
+    const descriptionField = createDescriptionField(context);
 
-    fillUnterhalt(pdfFields, context);
+    fillUnterhalt(descriptionField, pdfFields, context);
 
     expect(pdfFields.e1Person1.value).toBe("Donald Duck");
     expect(pdfFields.e3Familienverhaeltnis.value).toBe("Partner:in");
-    expect(pdfFields.e4Zahlung1.value).toBe("1000€");
+    expect(pdfFields.e4Zahlung1.value).toBe("1000");
+
+    expect(descriptionField.shouldCreateAttachment).toBe(true);
+    expect(descriptionField.descriptions[0]).toEqual({
+      title: "Unterhalt",
+      text: [
+        "Unterhalt für Partner:in Donald Duck",
+        "Gemeinsame Wohnung: Nein",
+        "Monatliche Summe: 1000 €",
+      ].join("\n\n"),
+    });
   });
 });
