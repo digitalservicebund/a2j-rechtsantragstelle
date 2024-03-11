@@ -8,7 +8,7 @@ export const splitArrayName = (key: string) => key.split(arrayChar);
 export const fieldIsArray = (fieldname: string) =>
   fieldname.includes(arrayChar);
 
-export const interpolateArrayChar = (
+export const resolveArrayCharacter = (
   fieldname: string,
   arrayIndexes?: number[],
 ) => {
