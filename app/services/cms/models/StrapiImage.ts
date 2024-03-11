@@ -11,6 +11,7 @@ export const StrapiImageSchema = z.object({
         name: z.string(),
         url: z
           .string()
+          // Hack code to return correctly URL, Strapi returns on local machine the relative URL
           .transform((url) =>
             url.startsWith("/") ? config().STRAPI_HOST + url : url,
           ),
