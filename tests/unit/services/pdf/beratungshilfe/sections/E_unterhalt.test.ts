@@ -31,7 +31,7 @@ describe("E_unterhalt", () => {
     expect(descriptionField.descriptions[0]).toEqual({
       title: "Unterhalt",
       text:
-        "Unterhalt für Partner:in Donald Duck \n" +
+        "Unterhalt für Partner:in - Donald Duck\n" +
         "Gemeinsame Wohnung: Ja\n" +
         "Monatliche Summe: 1000 €",
     });
@@ -60,7 +60,7 @@ describe("E_unterhalt", () => {
         {
           eigeneEinnahmen: "no",
           vorname: "Dagobert",
-          nachname: "Duck",
+          nachname: "Daisy",
           geburtsdatum: "01.01.2001",
           unterhaltsSumme: "200",
           einnahmen: "0",
@@ -86,17 +86,17 @@ describe("E_unterhalt", () => {
     expect(descriptionField.descriptions[0]).toEqual({
       title: "Unterhalt",
       text:
-        "Unterhalt für Partner:in Dagobert Duck 01.01.2001\n" +
+        "Unterhalt für Partner:in - Donald Duck\n" +
         "Gemeinsame Wohnung: Ja\n" +
-        "Monatliche Summe: 200 €\n" +
+        "Monatliche Summe: 1000 €\n" +
         "\n" +
-        "Unterhalt für Partner:in Dagobert Duck 01.01.2000\n" +
+        "Unterhalt für Kind - Dagobert Duck\n" +
         "Gemeinsame Wohnung: Ja\n" +
         "Monatliche Summe: 500 €\n" +
         "\n" +
-        "Unterhalt für Partner:in Donald Duck \n" +
+        "Unterhalt für Kind - Dagobert Daisy\n" +
         "Gemeinsame Wohnung: Ja\n" +
-        "Monatliche Summe: 1000 €",
+        "Monatliche Summe: 200 €",
     });
   });
 });

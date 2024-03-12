@@ -4,7 +4,6 @@ import type { DescriptionField } from "../descriptionField";
 
 type UnterhaltPdfFields = {
   name: string;
-  geburtsdatum: string;
   familienverhaeltnis: string;
   unterhaltSumme: string;
   hatEinnahmen: boolean;
@@ -23,7 +22,6 @@ export function fillUnterhalt(
       name: [context.partnerVorname ?? "", context.partnerNachname ?? ""].join(
         " ",
       ),
-      geburtsdatum: "", // FIXME: Geburtsdatum is not in the context
       familienverhaeltnis: "Partner:in",
       unterhaltSumme: context.unterhaltsSumme ?? "",
       hatEinnahmen: context.partnerEinkommen === "yes",
@@ -35,7 +33,6 @@ export function fillUnterhalt(
     context.kinder.forEach((kind) => {
       unterhaltPdfFields.unshift({
         name: [kind.vorname ?? "", kind.nachname ?? ""].join(" "),
-        geburtsdatum: kind.geburtsdatum ?? "",
         familienverhaeltnis: "Kind",
         unterhaltSumme: kind.unterhaltsSumme ?? "",
         hatEinnahmen: kind.eigeneEinnahmen === "yes",
@@ -51,10 +48,10 @@ export function fillUnterhalt(
   const description: string[] = [];
 
   unterhaltPdfFields.forEach((unterhaltPdfField) => {
-    description.push(
-      getUnerhaltDescription(
+    description.unshift(
+      getUnterhaltDescription(
         unterhaltPdfField.name,
-        unterhaltPdfField.geburtsdatum,
+        unterhaltPdfField.familienverhaeltnis,
         unterhaltPdfField.unterhaltSumme,
         context.zusammenleben,
       ).join("\n"),
@@ -88,7 +85,6 @@ function fillPerson1(
   unterhaltPdfFields: UnterhaltPdfFields,
 ) {
   pdfFields.e1Person1.value = unterhaltPdfFields.name;
-  pdfFields.e2Geburtsdatum.value = unterhaltPdfFields.geburtsdatum;
   pdfFields.e3Familienverhaeltnis.value =
     unterhaltPdfFields.familienverhaeltnis;
   pdfFields.e4Zahlung1.value = unterhaltPdfFields.unterhaltSumme;
@@ -100,7 +96,6 @@ function fillPerson2(
   unterhaltPdfFields: UnterhaltPdfFields,
 ) {
   pdfFields.e1Person2.value = unterhaltPdfFields.name;
-  pdfFields.e2Geburtsdatum2.value = unterhaltPdfFields.geburtsdatum;
   pdfFields.e3Familienverhaeltnis2.value =
     unterhaltPdfFields.familienverhaeltnis;
   pdfFields.e4Zahlung2.value = unterhaltPdfFields.unterhaltSumme;
@@ -112,7 +107,6 @@ function fillPerson3(
   unterhaltPdfFields: UnterhaltPdfFields,
 ) {
   pdfFields.e1Person3.value = unterhaltPdfFields.name;
-  pdfFields.e2Geburtsdatum3.value = unterhaltPdfFields.geburtsdatum;
   pdfFields.e3Familienverhaeltnis3.value =
     unterhaltPdfFields.familienverhaeltnis;
   pdfFields.e4Zahlung3.value = unterhaltPdfFields.unterhaltSumme;
@@ -124,23 +118,22 @@ function fillPerson4(
   unterhaltPdfFields: UnterhaltPdfFields,
 ) {
   pdfFields.e1Person4.value = unterhaltPdfFields.name;
-  pdfFields.e2Geburtsdatum4.value = unterhaltPdfFields.geburtsdatum;
   pdfFields.e3Familienverhaeltnis4.value =
     unterhaltPdfFields.familienverhaeltnis;
   pdfFields.e4Zahlung4.value = unterhaltPdfFields.unterhaltSumme;
   pdfFields.e5Einnahmen4.value = unterhaltPdfFields.hatEinnahmen;
 }
 
-function getUnerhaltDescription(
-  partnerVorname?: string,
-  partnerNachname?: string,
+function getUnterhaltDescription(
+  name?: string,
+  familienverhaeltnis?: string,
   unterhaltsSumme?: string,
   zusammenleben?: "yes" | "no",
 ) {
   const description = [];
 
   description.push(
-    `Unterhalt für Partner:in ${partnerVorname ?? ""} ${partnerNachname ?? ""}`,
+    `Unterhalt für ${familienverhaeltnis ?? ""} - ${name ?? ""}`,
   );
   description.push(
     `Gemeinsame Wohnung: ${zusammenleben === "yes" ? "Ja" : "Nein"}`,
