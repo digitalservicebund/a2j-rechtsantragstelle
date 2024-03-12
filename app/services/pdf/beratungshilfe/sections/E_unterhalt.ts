@@ -1,7 +1,6 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { DescriptionField } from "../descriptionField";
-import { reactRouterV3Instrumentation } from "@sentry/remix";
 
 type UnterhaltPdfFields = {
   name: string;
