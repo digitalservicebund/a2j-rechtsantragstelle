@@ -63,6 +63,7 @@ const generate = async () => {
         },
       },
       additionalProperties: false,
+      required: ["name"],
     },
     StringField: {
       type: "object",
@@ -73,8 +74,8 @@ const generate = async () => {
         value: {
           type: "string",
         },
-        require: true,
       },
+      required: ["name"],
       additionalProperties: false,
     },
   };
