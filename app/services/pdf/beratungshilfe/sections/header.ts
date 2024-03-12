@@ -5,10 +5,10 @@ import {
   staatlicheLeistungMapping,
 } from "../beratungshilfe.pdf";
 import { checkboxListToString } from "../../checkboxListToString";
-import { newPageHint, type DescriptionField } from "../descriptionField";
+import { newPageHint, type Attachment } from "../attachment";
 
 export default function fillHeader(
-  descriptionField: DescriptionField,
+  attachment: Attachment,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
@@ -22,20 +22,20 @@ export default function fillHeader(
   ]
     .filter((entry) => entry)
     .join(", ");
-  pdfFields.geburtsdatumdesAntragstellers.value = context.geburtsdatum;
+  pdfFields.geburtsdatumdesAntragstellers.value = context.geburtsdatum ?? "";
   pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value =
     [context.strasseHausnummer, context.plz, context.ort]
       .filter((entry) => entry)
       .join(", ");
   pdfFields.tagsueberTelefonischerreichbarunterNummer.value =
-    context.telefonnummer;
+    context.telefonnummer ?? "";
   const occupationDetails = hasStaatlicheLeistung
     ? staatlicheLeistungMapping[context.staatlicheLeistungen ?? "keine"]
     : getOccupationDetails(context);
   pdfFields.berufErwerbstaetigkeit.value = occupationDetails;
 
   if (!hasStaatlicheLeistung && occupationDetails.length > 30) {
-    descriptionField.descriptions.unshift({
+    attachment.descriptions.unshift({
       title: "Weiteres Einkommen:",
       text: checkboxListToString(
         {
@@ -48,7 +48,7 @@ export default function fillHeader(
         context.weitereseinkommen,
       ),
     });
-    descriptionField.descriptions.unshift({
+    attachment.descriptions.unshift({
       title: "Beruf / Erwerbstätigkeit:",
       text: getOccupationDetails(context, false),
     });

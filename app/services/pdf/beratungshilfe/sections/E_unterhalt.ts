@@ -1,6 +1,7 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { DescriptionField } from "../descriptionField";
+import type { Attachment } from "../attachment";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 type UnterhaltPdfFields = {
   name: string;
@@ -11,7 +12,7 @@ type UnterhaltPdfFields = {
 };
 
 export function fillUnterhalt(
-  descriptionField: DescriptionField,
+  attachment: Attachment,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
@@ -43,7 +44,7 @@ export function fillUnterhalt(
 
   if (unterhaltPdfFields.length == 0) return;
 
-  descriptionField.shouldCreateAttachment = true;
+  attachment.shouldCreateAttachment = true;
 
   const description: string[] = [];
 
@@ -58,7 +59,7 @@ export function fillUnterhalt(
     );
   });
 
-  descriptionField.descriptions.unshift({
+  attachment.descriptions.unshift({
     title: "Unterhalt",
     text: description.join("\n\n"),
   });

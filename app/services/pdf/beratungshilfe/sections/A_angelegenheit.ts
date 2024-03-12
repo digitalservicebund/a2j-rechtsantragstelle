@@ -1,17 +1,15 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import { newPageHint, type DescriptionField } from "../descriptionField";
+import { newPageHint, type Attachment } from "../attachment";
 
 export function fillAngelegenheit(
-  descriptionField: DescriptionField,
+  attachment: Attachment,
   pdfFields: BeratungshilfePDF,
 ) {
-  if (descriptionField.shouldCreateAttachment) {
+  if (attachment.shouldCreateAttachment) {
     pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
       newPageHint;
   } else {
     pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
-      descriptionField.descriptions
-        .map((x) => `${x.title} ${x.text}`)
-        .join("\n");
+      attachment.descriptions.map((x) => `${x.title} ${x.text}`).join("\n");
   }
 }

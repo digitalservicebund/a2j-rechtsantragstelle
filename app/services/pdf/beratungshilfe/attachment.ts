@@ -1,10 +1,10 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 
-export function createDescriptionField(
+export function createAttachment(
   context: BeratungshilfeFormularContext,
   maxLength = 255,
 ) {
-  const descriptions: { title: string; text: string }[] = [];
+  const descriptions: Attachment["descriptions"] = [];
 
   if (context.bereich) {
     // TODO move to another function and use strapi as a source
@@ -51,17 +51,18 @@ export function createDescriptionField(
       text: context.sonstiges,
     });
   }
+  const shouldCreateAttachment =
+    descriptions.map((x) => x.title + x.text).join(" ").length > maxLength;
 
   return {
     descriptions,
-    shouldCreateAttachment:
-      descriptions.map((x) => x.title + x.text).join(" ").length > maxLength,
-  } as DescriptionField;
+    shouldCreateAttachment,
+  } satisfies Attachment;
 }
 
 export const newPageHint = "Bitte im Anhang prüfen";
 
-export type DescriptionField = {
+export type Attachment = {
   descriptions: { title: string; text: string }[];
   shouldCreateAttachment: boolean;
 };

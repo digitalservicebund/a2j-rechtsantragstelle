@@ -15,5 +15,5 @@ export function fillFooter(
     .join(", ");
 
   pdfFields.beratungsperson.value = address;
-  pdfFields.datumBeratung.value = context.beratungStattgefundenDatum;
+  pdfFields.datumBeratung.value = context.beratungStattgefundenDatum ?? "";
 }

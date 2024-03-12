@@ -18,8 +18,8 @@ import FormAttachment from "~/components/FormAttachment";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import fillHeader from "./sections/header";
 import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
-import type { DescriptionField } from "./descriptionField";
-import { createDescriptionField } from "./descriptionField";
+import type { Attachment } from "./attachment";
+import { createAttachment } from "./attachment";
 import { fillAngelegenheit } from "./sections/A_angelegenheit";
 import { fillEinkommen } from "./sections/C_einkommen";
 import { fillUnterhalt } from "./sections/E_unterhalt";
@@ -30,22 +30,21 @@ export async function getBeratungshilfePdfFromContext(
   context: BeratungshilfeFormularContext,
 ) {
   const pdfFields = await getBeratungshilfeParameters();
-  const descriptionField = createDescriptionField(context);
-
   if (!pdfFields) {
     throw new Error("No pdf fields or file found for beratungshilfe!");
   }
 
-  fillHeader(descriptionField, pdfFields, context);
-  fillAngelegenheit(descriptionField, pdfFields);
+  const attachmentContent = createAttachment(context);
+
+  fillHeader(attachmentContent, pdfFields, context);
+  fillAngelegenheit(attachmentContent, pdfFields);
   fillVorraussetzungen(pdfFields, context);
   fillEinkommen(pdfFields, context);
-  fillUnterhalt(descriptionField, pdfFields, context);
-  fillBesitz(descriptionField, pdfFields, context);
-
+  fillUnterhalt(attachmentContent, pdfFields, context);
+  fillBesitz(attachmentContent, pdfFields, context);
   fillFooter(pdfFields, context);
 
-  return fillOutBeratungshilfe(pdfFields, descriptionField);
+  return fillOutBeratungshilfe(pdfFields, attachmentContent);
 }
 
 export async function getBeratungshilfeParameters() {
@@ -109,25 +108,33 @@ async function handleOutOfLimitDescription(
   return pdfDoc.save();
 }
 
+type PdfField = BeratungshilfePDF[keyof BeratungshilfePDF];
+
+function isBooleanField(field: PdfField): field is BooleanField {
+  return typeof field.value === "boolean";
+}
+
+function isStringField(field: PdfField): field is StringField {
+  return typeof field.value === "string";
+}
+
 async function fillOutBeratungshilfe(
   values: BeratungshilfePDF,
-  descriptionField: DescriptionField,
+  attachment: Attachment,
 ) {
   return await PDFDocument.load(getBeratungshilfePdfBuffer()).then((pdfDoc) => {
     const form = pdfDoc.getForm();
 
-    Object.entries(values).forEach(([, value]) => {
-      // When value is a BooleanField
-      const booleanField = value as BooleanField;
-      if (!changeBooleanField(booleanField, form)) {
-        // When value is a StringField
-        const stringField = value as StringField;
-        changeStringField(stringField, form);
+    Object.values(values).forEach((value: PdfField) => {
+      if (isBooleanField(value)) {
+        changeBooleanField(value, form);
+      } else if (isStringField(value)) {
+        changeStringField(value, form);
       }
     });
 
-    if (descriptionField.shouldCreateAttachment) {
-      return handleOutOfLimitDescription(descriptionField.descriptions, pdfDoc);
+    if (attachment.shouldCreateAttachment) {
+      return handleOutOfLimitDescription(attachment.descriptions, pdfDoc);
     }
 
     return pdfDoc.save();

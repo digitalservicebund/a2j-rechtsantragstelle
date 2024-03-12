@@ -4,7 +4,7 @@
 
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
-import { createDescriptionField } from "~/services/pdf/beratungshilfe/descriptionField";
+import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
 import { fillUnterhalt } from "~/services/pdf/beratungshilfe/sections/E_unterhalt";
 
 describe("E_unterhalt", () => {
@@ -19,16 +19,16 @@ describe("E_unterhalt", () => {
       unterhaltsSumme: "1000",
     };
     const pdfFields = await getBeratungshilfeParameters();
-    const descriptionField = createDescriptionField(context);
+    const attachment = createAttachment(context);
 
-    fillUnterhalt(descriptionField, pdfFields, context);
+    fillUnterhalt(attachment, pdfFields, context);
 
     expect(pdfFields.e1Person1.value).toBe("Donald Duck");
     expect(pdfFields.e3Familienverhaeltnis.value).toBe("Partner:in");
     expect(pdfFields.e4Zahlung1.value).toBe("1000");
 
-    expect(descriptionField.shouldCreateAttachment).toBe(true);
-    expect(descriptionField.descriptions[0]).toEqual({
+    expect(attachment.shouldCreateAttachment).toBe(true);
+    expect(attachment.descriptions[0]).toEqual({
       title: "Unterhalt",
       text:
         "Unterhalt für Partner:in - Donald Duck\n" +
@@ -70,9 +70,9 @@ describe("E_unterhalt", () => {
       ],
     };
     const pdfFields = await getBeratungshilfeParameters();
-    const descriptionField = createDescriptionField(context);
+    const attachment = createAttachment(context);
 
-    fillUnterhalt(descriptionField, pdfFields, context);
+    fillUnterhalt(attachment, pdfFields, context);
 
     expect(pdfFields.e1Person1.value).toBe("Donald Duck");
     expect(pdfFields.e3Familienverhaeltnis.value).toBe("Partner:in");
@@ -82,8 +82,8 @@ describe("E_unterhalt", () => {
     expect(pdfFields.e4Zahlung2.value).toBe("500");
     expect(pdfFields.e5Einnahmen2.value).toBe(true);
 
-    expect(descriptionField.shouldCreateAttachment).toBe(true);
-    expect(descriptionField.descriptions[0]).toEqual({
+    expect(attachment.shouldCreateAttachment).toBe(true);
+    expect(attachment.descriptions[0]).toEqual({
       title: "Unterhalt",
       text:
         "Unterhalt für Partner:in - Donald Duck\n" +

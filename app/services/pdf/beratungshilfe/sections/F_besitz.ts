@@ -1,32 +1,32 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { DescriptionField } from "../descriptionField";
-import { newPageHint } from "../descriptionField";
+import type { Attachment } from "../attachment";
+import { newPageHint } from "../attachment";
 
 export function fillBesitz(
-  descriptionField: DescriptionField,
+  attachment: Attachment,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const financialdescriptionField: DescriptionField = {
+  const financialAttachment: Attachment = {
     descriptions: [],
     shouldCreateAttachment: false,
   };
 
-  fillFinancialBankkonto(financialdescriptionField, pdfFields, context);
-  fillFinancialGrundeigentum(financialdescriptionField, pdfFields, context);
-  fillFinancialKraftfahrzeug(financialdescriptionField, pdfFields, context);
-  fillFinancialWertsachen(financialdescriptionField, pdfFields, context);
+  fillFinancialBankkonto(financialAttachment, pdfFields, context);
+  fillFinancialGrundeigentum(financialAttachment, pdfFields, context);
+  fillFinancialKraftfahrzeug(financialAttachment, pdfFields, context);
+  fillFinancialWertsachen(financialAttachment, pdfFields, context);
 
-  if (financialdescriptionField.shouldCreateAttachment) {
-    financialdescriptionField.descriptions.unshift({
+  if (financialAttachment.shouldCreateAttachment) {
+    financialAttachment.descriptions.unshift({
       title: "F Bankkonten/Grundeigentum/Kraftfahrzeuge/Bargeld/Vermögenswerte",
       text: "",
     });
 
-    descriptionField.shouldCreateAttachment = true;
-    descriptionField.descriptions = descriptionField.descriptions.concat(
-      financialdescriptionField.descriptions,
+    attachment.shouldCreateAttachment = true;
+    attachment.descriptions = attachment.descriptions.concat(
+      financialAttachment.descriptions,
     );
   }
 }
@@ -39,7 +39,7 @@ const eigentuemerMapping = {
 } as const;
 
 export function fillFinancialBankkonto(
-  descriptionField: DescriptionField,
+  attachment: Attachment,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
@@ -63,7 +63,7 @@ export function fillFinancialBankkonto(
       pdfFields.f3Bank1.value = bezeichnung.join(", ");
       pdfFields.f4Kontostand.value = `${bankkonto?.kontostand} €`;
     } else {
-      descriptionField.shouldCreateAttachment = true;
+      attachment.shouldCreateAttachment = true;
       const bezeichnung: string[] = [];
 
       context.bankkonten.forEach((bankkonto) => {
@@ -72,7 +72,7 @@ export function fillFinancialBankkonto(
 
       pdfFields.f3Bank1.value = newPageHint;
 
-      descriptionField.descriptions.unshift({
+      attachment.descriptions.unshift({
         title: "Bankkonten",
         text: bezeichnung.join("\n\n"),
       });
@@ -81,7 +81,7 @@ export function fillFinancialBankkonto(
 }
 
 export function fillFinancialGrundeigentum(
-  descriptionField: DescriptionField,
+  attachment: Attachment,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
@@ -142,8 +142,8 @@ export function fillFinancialGrundeigentum(
     });
 
     pdfFields.f7Nutzungsart.value = newPageHint;
-    descriptionField.shouldCreateAttachment = true;
-    descriptionField.descriptions.unshift({
+    attachment.shouldCreateAttachment = true;
+    attachment.descriptions.unshift({
       title: "Grundeigentum",
       text: bezeichnung.join("\n\n"),
     });
@@ -151,7 +151,7 @@ export function fillFinancialGrundeigentum(
 }
 
 export function fillFinancialKraftfahrzeug(
-  descriptionField: DescriptionField,
+  attachment: Attachment,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
@@ -178,7 +178,7 @@ export function fillFinancialKraftfahrzeug(
         kraftfahrzeug?.verkaufswert ?? "Keine Angaben";
     } else {
       pdfFields.f11Fahrzeugart.value = newPageHint;
-      descriptionField.shouldCreateAttachment = true;
+      attachment.shouldCreateAttachment = true;
       const bezeichnung: string[] = [];
 
       context.kraftfahrzeuge.forEach((kraftfahrzeug) => {
@@ -187,7 +187,7 @@ export function fillFinancialKraftfahrzeug(
         );
       });
 
-      descriptionField.descriptions.unshift({
+      attachment.descriptions.unshift({
         title: "Kraftfahrzeuge",
         text: bezeichnung.join("\n\n"),
       });
@@ -196,7 +196,7 @@ export function fillFinancialKraftfahrzeug(
 }
 
 export function fillFinancialWertsachen(
-  descriptionField: DescriptionField,
+  attachment: Attachment,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
@@ -219,7 +219,7 @@ export function fillFinancialWertsachen(
         wertsache?.wert ?? "Keine Angaben";
     } else {
       pdfFields.f15Bezeichnung.value = newPageHint;
-      descriptionField.shouldCreateAttachment = true;
+      attachment.shouldCreateAttachment = true;
 
       const bezeichnung: string[] = [];
 
@@ -227,7 +227,7 @@ export function fillFinancialWertsachen(
         bezeichnung.push(getWertsachenBezeichnung(wertsache, true).join("\n"));
       });
 
-      descriptionField.descriptions.unshift({
+      attachment.descriptions.unshift({
         title: "Wertsachen",
         text: bezeichnung.join("\n\n"),
       });

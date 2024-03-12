@@ -5,7 +5,7 @@ export function fillEinkommen(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  pdfFields.c2Einkuenftenetto.value = context.einkommen;
+  pdfFields.c2Einkuenftenetto.value = context.einkommen ?? "";
 
   if (
     context.partnerschaft === "yes" &&
@@ -13,6 +13,7 @@ export function fillEinkommen(
     context.partnerEinkommen === "yes"
   ) {
     pdfFields.c3EinkuenftePartner.value = true;
-    pdfFields.c4EinkuenftePartnernetto.value = context.partnerEinkommenSumme;
+    pdfFields.c4EinkuenftePartnernetto.value =
+      context.partnerEinkommenSumme ?? "";
   }
 }

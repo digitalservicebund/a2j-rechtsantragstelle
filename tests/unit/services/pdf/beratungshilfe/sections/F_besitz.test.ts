@@ -5,9 +5,9 @@
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import {
-  createDescriptionField,
+  createAttachment,
   newPageHint,
-} from "~/services/pdf/beratungshilfe/descriptionField";
+} from "~/services/pdf/beratungshilfe/attachment";
 import {
   fillFinancialBankkonto,
   fillFinancialGrundeigentum,
@@ -29,9 +29,9 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = await getBeratungshilfeParameters();
-      const descriptionField = createDescriptionField(context);
+      const attachment = createAttachment(context);
 
-      fillFinancialBankkonto(descriptionField, pdfFields, context);
+      fillFinancialBankkonto(attachment, pdfFields, context);
 
       expect(pdfFields.f1Konten1.value).toBe(false);
       expect(pdfFields.f1Konten2.value).toBe(true);
@@ -68,9 +68,9 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = await getBeratungshilfeParameters();
-      const descriptionField = createDescriptionField(context);
+      const attachment = createAttachment(context);
 
-      fillFinancialBankkonto(descriptionField, pdfFields, context);
+      fillFinancialBankkonto(attachment, pdfFields, context);
 
       expect(pdfFields.f1Konten1.value).toBe(false);
       expect(pdfFields.f1Konten2.value).toBe(true);
@@ -80,17 +80,17 @@ describe("F_besitz", () => {
       expect(pdfFields.f3Bank1.value).toBe("Bitte im Anhang prüfen");
       expect(pdfFields.f4Kontostand.value).toBe(undefined);
 
-      const bankkontenDescriptionField = descriptionField.descriptions.find(
+      const bankkontenattachment = attachment.descriptions.find(
         (d) => d.title === "Bankkonten",
       )?.text;
 
-      expect(bankkontenDescriptionField).toContain(
+      expect(bankkontenattachment).toContain(
         "Bank: Bank1\nEigentümer:in: Ich alleine\nKontostand: 2222 €\n",
       );
-      expect(bankkontenDescriptionField).toContain(
+      expect(bankkontenattachment).toContain(
         "Bank: Bank2\nEigentümer:in: Ehe-Partner:in\nKontostand: 3333 €\n",
       );
-      expect(bankkontenDescriptionField).toContain(
+      expect(bankkontenattachment).toContain(
         "Bank: Bank3\nEigentümer:in: Mein:e Ehe-Partner:in und ich gemeinsam\nKontostand: 4444 €",
       );
     });
@@ -109,9 +109,9 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = await getBeratungshilfeParameters();
-      const descriptionField = createDescriptionField(context);
+      const attachment = createAttachment(context);
 
-      fillFinancialGrundeigentum(descriptionField, pdfFields, context);
+      fillFinancialGrundeigentum(attachment, pdfFields, context);
 
       expect(pdfFields.f5Grundeigentum1.value).toBe(false);
       expect(pdfFields.f5Grundeigentum2.value).toBe(true);
@@ -140,9 +140,9 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = await getBeratungshilfeParameters();
-      const descriptionField = createDescriptionField(context);
+      const attachment = createAttachment(context);
 
-      fillFinancialGrundeigentum(descriptionField, pdfFields, context);
+      fillFinancialGrundeigentum(attachment, pdfFields, context);
 
       expect(pdfFields.f5Grundeigentum1.value).toBe(false);
       expect(pdfFields.f5Grundeigentum2.value).toBe(true);
@@ -178,12 +178,12 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = await getBeratungshilfeParameters();
-      const descriptionField = createDescriptionField(context);
+      const attachment = createAttachment(context);
 
-      fillFinancialGrundeigentum(descriptionField, pdfFields, context);
+      fillFinancialGrundeigentum(attachment, pdfFields, context);
 
-      expect(descriptionField.shouldCreateAttachment).toBe(true);
-      expect(descriptionField.descriptions[0]).toEqual({
+      expect(attachment.shouldCreateAttachment).toBe(true);
+      expect(attachment.descriptions[0]).toEqual({
         title: "Grundeigentum",
         text:
           "Art des Eigentums: Wohnung\n" +
@@ -245,12 +245,12 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = await getBeratungshilfeParameters();
-      const descriptionField = createDescriptionField(context);
+      const attachment = createAttachment(context);
 
-      fillFinancialGrundeigentum(descriptionField, pdfFields, context);
+      fillFinancialGrundeigentum(attachment, pdfFields, context);
 
-      expect(descriptionField.shouldCreateAttachment).toBe(true);
-      expect(descriptionField.descriptions[0]).toEqual({
+      expect(attachment.shouldCreateAttachment).toBe(true);
+      expect(attachment.descriptions[0]).toEqual({
         title: "Grundeigentum",
         text:
           "Art des Eigentums: Wohnung\n" +
@@ -301,9 +301,9 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = await getBeratungshilfeParameters();
-      const descriptionField = createDescriptionField(context);
+      const attachment = createAttachment(context);
 
-      fillFinancialKraftfahrzeug(descriptionField, pdfFields, context);
+      fillFinancialKraftfahrzeug(attachment, pdfFields, context);
 
       expect(pdfFields.f9Kraftfahrzeug1.value).toBe(false);
       expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(true);
@@ -315,7 +315,7 @@ describe("F_besitz", () => {
       );
       expect(pdfFields.f12Verkehrswert.value).toBe("100000");
 
-      expect(descriptionField.shouldCreateAttachment).toBe(false);
+      expect(attachment.shouldCreateAttachment).toBe(false);
     });
 
     it("should fill multiple kraftfahrzeug pdf field when kraftfahrzeug is given in context", async () => {
@@ -346,9 +346,9 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = await getBeratungshilfeParameters();
-      const descriptionField = createDescriptionField(context);
+      const attachment = createAttachment(context);
 
-      fillFinancialKraftfahrzeug(descriptionField, pdfFields, context);
+      fillFinancialKraftfahrzeug(attachment, pdfFields, context);
 
       expect(pdfFields.f9Kraftfahrzeug1.value).toBe(false);
       expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(true);
@@ -358,8 +358,8 @@ describe("F_besitz", () => {
       expect(pdfFields.f11Fahrzeugart.value).toBe(newPageHint);
       expect(pdfFields.f12Verkehrswert.value).toBe(undefined);
 
-      expect(descriptionField.shouldCreateAttachment).toBe(true);
-      expect(descriptionField.descriptions[0]).toEqual({
+      expect(attachment.shouldCreateAttachment).toBe(true);
+      expect(attachment.descriptions[0]).toEqual({
         title: "Kraftfahrzeuge",
         text:
           "Fahrzeug wird für den Arbeitsweg genutzt\n" +
@@ -395,9 +395,9 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = await getBeratungshilfeParameters();
-      const descriptionField = createDescriptionField(context);
+      const attachment = createAttachment(context);
 
-      fillFinancialWertsachen(descriptionField, pdfFields, context);
+      fillFinancialWertsachen(attachment, pdfFields, context);
 
       expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
       expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
@@ -411,7 +411,7 @@ describe("F_besitz", () => {
         "100000",
       );
 
-      expect(descriptionField.shouldCreateAttachment).toBe(false);
+      expect(attachment.shouldCreateAttachment).toBe(false);
     });
 
     it("should fill multiple wertsachen pdf field when wertsachen is given in context", async () => {
@@ -430,9 +430,9 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = await getBeratungshilfeParameters();
-      const descriptionField = createDescriptionField(context);
+      const attachment = createAttachment(context);
 
-      fillFinancialWertsachen(descriptionField, pdfFields, context);
+      fillFinancialWertsachen(attachment, pdfFields, context);
 
       expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
       expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
@@ -444,9 +444,9 @@ describe("F_besitz", () => {
         undefined,
       );
 
-      expect(descriptionField.shouldCreateAttachment).toBe(true);
+      expect(attachment.shouldCreateAttachment).toBe(true);
 
-      expect(descriptionField.descriptions[0]).toEqual({
+      expect(attachment.descriptions[0]).toEqual({
         title: "Wertsachen",
         text:
           "Wertgegenstand\n" +
