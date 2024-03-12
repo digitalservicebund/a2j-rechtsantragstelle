@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { StrapiElementWithIdSchema } from "./StrapiElementWithId";
-import { StrapiContentSchema } from "./StrapiContent";
+import { StrapiContentComponentSchema } from "./StrapiContentComponent";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
@@ -37,7 +37,7 @@ export const StrapiResultPageSchema = z
         attributes: StrapiElementWithIdSchema,
       }).nullable(),
     }),
-    freeZone: z.array(StrapiContentSchema),
+    freeZone: z.array(StrapiContentComponentSchema),
     nextLink: StrapiLinkSchema.nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)

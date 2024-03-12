@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { StrapiContentSchema } from "./StrapiContent";
+import { StrapiContentComponentSchema } from "./StrapiContentComponent";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
@@ -8,7 +8,7 @@ import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 
 export const StrapiPageSchema = z
   .object({
-    content: z.array(StrapiContentSchema),
+    content: z.array(StrapiContentComponentSchema),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)

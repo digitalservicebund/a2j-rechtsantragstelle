@@ -20,3 +20,5 @@ export const StrapiFormComponentSchema = z.discriminatedUnion("__component", [
   StrapiCheckboxComponentSchema,
   StrapiTileGroupComponentSchema,
 ]);
+
+export type StrapiFormComponent = z.infer<typeof StrapiFormComponentSchema>;

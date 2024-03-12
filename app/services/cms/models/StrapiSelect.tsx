@@ -6,7 +6,7 @@ import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
-import type { StrapiContent } from "./StrapiContent";
+import type { StrapiFormComponent } from "./StrapiFormComponent";
 
 const StrapiSelectSchema = z
   .object({
@@ -25,7 +25,7 @@ export const StrapiSelectComponentSchema = StrapiSelectSchema.extend({
 });
 
 export const isStrapiSelectComponent = (
-  strapiContent: StrapiContent,
+  strapiContent: StrapiFormComponent,
 ): strapiContent is z.infer<typeof StrapiSelectComponentSchema> =>
   strapiContent.__component === "form-elements.select";
 

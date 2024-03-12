@@ -2,7 +2,7 @@ import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HeadingPropsSchema } from "~/components/Heading";
 import { omitNull } from "~/util/omitNull";
-import type { StrapiContent } from "./StrapiContent";
+import type { StrapiContentComponent } from "./StrapiContentComponent";
 
 export const StrapiHeadingSchema = z
   .object({
@@ -39,6 +39,6 @@ export const getHeadingProps = (cmsData: StrapiHeading) => {
 };
 
 export const isStrapiHeadingComponent = (
-  strapiContent: StrapiContent,
+  strapiContent: StrapiContentComponent,
 ): strapiContent is z.infer<typeof StrapiHeadingComponentSchema> =>
   strapiContent.__component === "basic.heading";

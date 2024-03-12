@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
-import type { StrapiContent } from "~/services/cms/models/StrapiContent";
+import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
+import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { wrapperPropsFromCms } from "./CommonWrapperProps";
 import { getBoxProps } from "~/services/cms/models/StrapiBox";
 import { getBoxWithImageProps } from "~/services/cms/models/StrapiBoxWithImage";
@@ -30,6 +31,8 @@ import { StrapiDateInput } from "~/services/cms/models/StrapiDateInput";
 import { StrapiTimeInput } from "~/services/cms/models/StrapiTimeInput";
 import { StrapiFileInput } from "~/services/cms/models/StrapiFileInput";
 import { renderAlertFromStrapi } from "~/services/cms/models/StrapiAlert";
+
+type StrapiContent = StrapiContentComponent | StrapiFormComponent;
 
 type PageContentProps = {
   readonly content: Array<StrapiContent>;

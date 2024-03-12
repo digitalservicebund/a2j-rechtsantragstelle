@@ -4,7 +4,7 @@ import Container from "~/components/Container";
 import fallbackStrapiInfoBox from "./fallbackInfobox";
 import { config } from "~/services/env/web";
 import type { AppLoadContext } from "@remix-run/node";
-import type { StrapiContent } from "../cms/models/StrapiContent";
+import type { StrapiContentComponent } from "../cms/models/StrapiContentComponent";
 
 export const httpErrorCodes = ["404", "500", "403"] as const;
 
@@ -15,7 +15,7 @@ function jsError(routeError: unknown) {
 
 function matchingError(
   routeError: unknown,
-  errorPages?: Record<string, StrapiContent[]>,
+  errorPages?: Record<string, StrapiContentComponent[]>,
 ) {
   if (isRouteErrorResponse(routeError) && errorPages?.[routeError.status])
     return errorPages?.[routeError.status];
@@ -24,7 +24,7 @@ function matchingError(
 }
 
 type ErrorBoxProps = {
-  readonly errorPages?: Record<string, StrapiContent[]>;
+  readonly errorPages?: Record<string, StrapiContentComponent[]>;
   readonly context: AppLoadContext;
 };
 
