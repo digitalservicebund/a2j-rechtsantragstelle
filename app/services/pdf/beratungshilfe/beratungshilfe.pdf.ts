@@ -1,5 +1,5 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import { checkboxListToString } from "../checkboxListToString";
 
 export const staatlicheLeistungMapping = {
   grundsicherung: "Grundsicherung",
@@ -19,7 +19,7 @@ export const getOccupationDetails = (
     description.push("nicht erwerbstätig");
   } else if (context.berufart) {
     const occupation = "Erwerbstätig";
-    const occupationTypeSelected = getSelectedOptions(
+    const occupationTypeSelected = checkboxListToString(
       {
         selbststaendig: "selbstständig",
         festangestellt: "festangestellt",
@@ -44,7 +44,7 @@ export const getOccupationDetails = (
   description.push(berufsituationMapping[context.berufsituation ?? "no"]);
 
   if (context.weitereseinkommen && withAdditionalIncome) {
-    const otherIncomes = getSelectedOptions(
+    const otherIncomes = checkboxListToString(
       {
         unterhaltszahlungen: "Unterhaltszahlungen",
         wohngeld: "Wohngeld",
@@ -60,22 +60,3 @@ export const getOccupationDetails = (
 
   return description.filter((value) => value).join(", ");
 };
-
-export function getSelectedOptions(
-  mapping: { [key: string]: string },
-  options?: { [key: string]: CheckboxValue },
-) {
-  if (!options) {
-    return "";
-  }
-
-  return Object.entries(options)
-    .map(([key, value]) => {
-      if (value === CheckboxValue.on) {
-        return mapping[key];
-      }
-      return "";
-    })
-    .filter((entry) => entry)
-    .join(", ");
-}

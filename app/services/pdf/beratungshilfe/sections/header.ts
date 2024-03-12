@@ -2,9 +2,9 @@ import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilf
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import {
   getOccupationDetails,
-  getSelectedOptions,
   staatlicheLeistungMapping,
 } from "../beratungshilfe.pdf";
+import { checkboxListToString } from "../../checkboxListToString";
 import { newPageHint, type DescriptionField } from "../descriptionField";
 
 export default function fillHeader(
@@ -37,7 +37,7 @@ export default function fillHeader(
   if (!hasStaatlicheLeistung && occupationDetails.length > 30) {
     descriptionField.descriptions.unshift({
       title: "Weiteres Einkommen:",
-      text: getSelectedOptions(
+      text: checkboxListToString(
         {
           unterhaltszahlungen: "Unterhaltszahlungen",
           wohngeld: "Wohngeld",
@@ -45,7 +45,7 @@ export default function fillHeader(
           bafoeg: "Bafög",
           others: "Sonstiges",
         },
-        context.weitereseinkommen ?? {},
+        context.weitereseinkommen,
       ),
     });
     descriptionField.descriptions.unshift({
