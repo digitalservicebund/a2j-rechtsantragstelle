@@ -5,7 +5,7 @@ import type { StrapiMeta } from "../cms/models/StrapiMeta";
 
 type RouteMatchKnown = Omit<ReturnType<typeof useMatches>[0], "data"> & {
   data: {
-    meta: (StrapiMeta & { breadcrumbTitle?: string }) | undefined;
+    meta: StrapiMeta | undefined;
     content: StrapiContentComponent[] | undefined;
   };
 };
@@ -29,7 +29,7 @@ export function metaFromMatches(matches: ReturnType<typeof useMatches>) {
     .filter((m) => !/.*_index$/.exec(m.id) && m.id !== "root")
     .map((m) => ({
       url: m.pathname,
-      title: m.data.meta?.breadcrumbTitle ?? m.data.meta?.title ?? "",
+      title: m.data.meta?.breadcrumb ?? m.data.meta?.title ?? "",
     }));
 
   const title = matches.at(-1)?.data.meta?.title;

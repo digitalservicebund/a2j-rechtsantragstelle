@@ -5,7 +5,7 @@ export function stepMeta(pageMeta: StrapiMeta, parentMeta: StrapiMeta | null) {
   // Also, the parent page title needs to be appended manually to the title
   return {
     description: pageMeta.description ?? parentMeta?.description,
-    breadcrumbTitle: parentMeta?.title,
+    breadcrumb: parentMeta?.breadcrumb,
     ogTitle: pageMeta.ogTitle ?? parentMeta?.ogTitle,
     title: `${pageMeta.title} - ${parentMeta?.title ?? ""}`,
   };

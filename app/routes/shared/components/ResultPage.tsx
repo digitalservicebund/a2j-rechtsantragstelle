@@ -61,11 +61,7 @@ export function Result() {
     <>
       <div className={backgrounds[cmsData.pageType]}>
         <Container paddingTop="24">
-          <ProgressBar
-            label={common.progressBarLabel}
-            progress={progress.total}
-            max={progress.total}
-          />
+          <ProgressBar label={common.progressBarLabel} {...progress} />
           <Heading
             tagName={cmsData.heading.tagName}
             look={cmsData.heading.look}

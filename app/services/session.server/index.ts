@@ -11,7 +11,6 @@ import { config } from "~/services/env/env.server";
 import { useSecureCookie } from "~/util/useSecureCookie";
 import _ from "lodash";
 import type { Context, FlowId } from "~/models/flows/contexts";
-import { fieldIsArray, splitArrayName } from "~/util/arrayVariable";
 
 type SessionContext = "main" | FlowId;
 const fullId = (context: SessionContext, id: string) => `${context}_${id}`;
@@ -68,38 +67,9 @@ export const getSessionData = async (
   return { userData, debugId: contextSession.getDebugId(id) };
 };
 
-export const updateSession = (
-  session: Session,
-  validatedData: Context,
-  arrayIndex?: number,
-) => {
-  const unflattenedArrays: Record<string, any> = {};
-  Object.entries(validatedData)
-    .filter(([key]) => fieldIsArray(key))
-    .forEach(([key, val]) => {
-      const [arrayName, fieldName] = splitArrayName(key);
-      if (!(arrayName in unflattenedArrays)) unflattenedArrays[arrayName] = {};
-      unflattenedArrays[arrayName][fieldName] = val;
-    });
-
-  Object.entries(unflattenedArrays).forEach(([arrayName, newArrayElement]) => {
-    if (session.has(arrayName)) {
-      const existingArray = session.get(arrayName) as any[];
-      if (arrayIndex !== undefined && arrayIndex < existingArray.length) {
-        existingArray[arrayIndex] = newArrayElement;
-      } else existingArray.push(newArrayElement);
-      session.set(arrayName, existingArray);
-    } else {
-      session.set(arrayName, [newArrayElement]);
-    }
-  });
-
-  const nonArrayData = Object.fromEntries(
-    Object.entries(validatedData).filter(([key]) => !fieldIsArray(key)),
-  );
-  const updatedData = _.merge(session.data, nonArrayData);
-
-  Object.entries(updatedData).forEach(([key, value]) => {
+export const updateSession = (session: Session, validatedData: Context) => {
+  const mergedData = _.merge(session.data, validatedData);
+  Object.entries(mergedData).forEach(([key, value]) => {
     session.set(key, value);
   });
 };

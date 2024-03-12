@@ -8,6 +8,7 @@ import {
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { postcodeSchema } from "~/services/validation/postcode";
+import { createDateSchema } from "~/services/validation/date";
 
 const Eigentuemer = z.enum(
   ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -52,6 +53,19 @@ export const beratungshilfeFinanzielleAngaben = {
   partnerEinkommenSumme: buildMoneyValidationSchema(),
   partnerVorname: inputRequiredSchema,
   partnerNachname: inputRequiredSchema,
+  hasKinder: YesNoAnswer,
+  kinder: z.array(
+    z.object({
+      vorname: inputRequiredSchema,
+      nachname: inputRequiredSchema,
+      geburtsdatum: createDateSchema(),
+      wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
+      eigeneEinnahmen: YesNoAnswer,
+      einnahmen: buildMoneyValidationSchema(),
+      unterhalt: YesNoAnswer,
+      unterhaltsSumme: buildMoneyValidationSchema(),
+    }),
+  ),
   hasBankkonto: YesNoAnswer,
   bankkonten: z.array(
     z.object({
@@ -156,6 +170,10 @@ export const beratungshilfeFinanzielleAngabenSubflowState = (
       if (!partnerReachable(context)) return "Hidden";
       if (partnerDone(context)) return "Done";
       break;
+    case "kinder":
+      if (!kinderReachable(context)) return "Hidden";
+      if (kinderDone(context)) return "Done";
+      break;
     case "besitz":
       if (!besitzReachable(context)) return "Hidden";
       if (besitzDone(context)) return "Done";
@@ -169,6 +187,14 @@ const hasStaatlicheLeistungen = (context: BeratungshilfeFinanzielleAngaben) =>
   context.staatlicheLeistungen == "buergergeld" ||
   context.staatlicheLeistungen == "grundsicherung";
 
+const einkommenDone = (context: BeratungshilfeFinanzielleAngaben) =>
+  (context.staatlicheLeistungen != undefined &&
+    hasStaatlicheLeistungen(context)) ||
+  context.einkommen != undefined;
+
+const partnerReachable = (context: BeratungshilfeFinanzielleAngaben) =>
+  !hasStaatlicheLeistungen(context);
+
 const partnerDone = (context: BeratungshilfeFinanzielleAngaben) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen(context)) ||
@@ -178,13 +204,11 @@ const partnerDone = (context: BeratungshilfeFinanzielleAngaben) =>
   context.partnerEinkommenSumme != undefined ||
   (context.partnerNachname != undefined && context.partnerVorname != undefined);
 
-const partnerReachable = (context: BeratungshilfeFinanzielleAngaben) =>
+const kinderReachable = (context: BeratungshilfeFinanzielleAngaben) =>
   !hasStaatlicheLeistungen(context);
 
-const einkommenDone = (context: BeratungshilfeFinanzielleAngaben) =>
-  (context.staatlicheLeistungen != undefined &&
-    hasStaatlicheLeistungen(context)) ||
-  context.einkommen != undefined;
+const kinderDone = (context: BeratungshilfeFinanzielleAngaben) =>
+  context.hasKinder == "no" || context.kinder !== undefined;
 
 const besitzReachable = (context: BeratungshilfeFinanzielleAngaben) =>
   context.staatlicheLeistungen &&
