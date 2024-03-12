@@ -25,35 +25,19 @@ export function normalizePropertyName(propertyName: string) {
     .replace(/[^a-zA-Z0-9]/g, "");
 }
 
-export function changeBooleanField(field: BooleanField, form: PDFForm) {
-  // When value is a BooleanField
-  const booleanField = field;
-  if (booleanField) {
-    const field = form.getField(booleanField.name ?? "");
-    if (field instanceof PDFCheckBox) {
-      const checkBox = field;
-      checkBox.uncheck();
-      if (booleanField.value) {
-        checkBox.check();
-      }
-      return true;
-    }
+export function changeBooleanField(booleanField: BooleanField, form: PDFForm) {
+  if (!booleanField.value) return;
+  const formField = form.getField(booleanField.name);
+  if (formField instanceof PDFCheckBox) {
+    formField.check();
   }
-  return false;
 }
 
-export function changeStringField(field: StringField, form: PDFForm) {
-  const stringField = field;
-  if (stringField) {
-    const field = form.getField(stringField.name ?? "");
-    if (field instanceof PDFTextField) {
-      const textField = field;
-      if (textField) {
-        textField.setText(stringField.value);
-        textField.setFontSize(10);
-        return true;
-      }
-    }
+export function changeStringField(stringField: StringField, form: PDFForm) {
+  if (!stringField.value) return;
+  const formField = form.getField(stringField.name);
+  if (formField instanceof PDFTextField) {
+    formField.setText(stringField.value);
+    formField.setFontSize(10);
   }
-  return false;
 }
