@@ -1,7 +1,8 @@
 import type { useMatches } from "@remix-run/react";
-import type { StrapiHeader } from "../cms/models/StrapiHeader";
+import { isStrapiHeader } from "../cms/models/StrapiHeader";
 import type { StrapiContentComponent } from "../cms/models/StrapiContentComponent";
 import type { StrapiMeta } from "../cms/models/StrapiMeta";
+import type { Breadcrumb } from "~/components/Breadcrumbs";
 
 type RouteMatchKnown = Omit<ReturnType<typeof useMatches>[0], "data"> & {
   data: {
@@ -15,6 +16,17 @@ function isMatchesWithDataObject(
   return matches.every(({ data }) => typeof data === "object");
 }
 
+function headerTextFromContent(content?: StrapiContentComponent[]) {
+  return content?.find(isStrapiHeader)?.content?.text;
+}
+
+function breadcrumbFromMatch(match: RouteMatchKnown) {
+  return {
+    url: match.pathname,
+    title: match.data.meta?.breadcrumb ?? match.data.meta?.title ?? "",
+  } satisfies Breadcrumb;
+}
+
 export function metaFromMatches(matches: ReturnType<typeof useMatches>) {
   if (!isMatchesWithDataObject(matches)) {
     return {
@@ -24,26 +36,16 @@ export function metaFromMatches(matches: ReturnType<typeof useMatches>) {
       description: undefined,
     };
   }
+  const lastMatchData = matches.at(-1)?.data;
 
-  const breadcrumbs = matches
-    .filter((m) => !/.*_index$/.exec(m.id) && m.id !== "root")
-    .map((m) => ({
-      url: m.pathname,
-      title: m.data.meta?.breadcrumb ?? m.data.meta?.title ?? "",
-    }));
-
-  const title = matches.at(-1)?.data.meta?.title;
-  const ogTitle = matches.at(-1)?.data.meta?.ogTitle;
-
-  const description =
-    matches.at(-1)?.data.meta?.description ??
-    (
-      matches
-        .at(-1)
-        ?.data.content?.find((c) => c.__component === "page.header") as
-        | StrapiHeader
-        | undefined
-    )?.content?.text;
-
-  return { breadcrumbs, title, ogTitle, description };
+  return {
+    breadcrumbs: matches
+      .filter((m) => !m.id.includes("_index") && m.id !== "root")
+      .map(breadcrumbFromMatch),
+    title: lastMatchData?.meta?.title,
+    ogTitle: lastMatchData?.meta?.ogTitle,
+    description:
+      lastMatchData?.meta?.description ??
+      headerTextFromContent(lastMatchData?.content),
+  };
 }

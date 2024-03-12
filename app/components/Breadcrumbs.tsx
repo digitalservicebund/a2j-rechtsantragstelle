@@ -1,6 +1,6 @@
 import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
 
-type Breadcrumb = {
+export type Breadcrumb = {
   url: string;
   title?: string;
 };
