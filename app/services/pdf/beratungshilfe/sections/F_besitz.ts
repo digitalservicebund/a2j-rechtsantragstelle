@@ -36,7 +36,7 @@ const eigentuemerMapping = {
   partner: "Ehe-Partner:in",
   myselfAndPartner: "Mein:e Ehe-Partner:in und ich gemeinsam",
   myselfAndSomeoneElse: "Ich gemeinsam mit jemand anderem",
-};
+} as const;
 
 export function fillFinancialBankkonto(
   descriptionField: DescriptionField,
@@ -243,67 +243,38 @@ const wertsachenMapping = {
   claim: "Forderung",
   equalizationOfGains: "Anspruch auf Zugewinnausgleich",
   other: "Sonstiges",
-};
+} as const;
+
+type Wertsache = NonNullable<BeratungshilfeFormularContext["wertsachen"]>[0];
 
 function getWertsachenBezeichnung(
-  wertsachen:
-    | {
-        art:
-          | "cash"
-          | "valuableItem"
-          | "digitalMoney"
-          | "securities"
-          | "claim"
-          | "equalizationOfGains"
-          | "other";
-        eigentuemer:
-          | "myself"
-          | "partner"
-          | "myselfAndPartner"
-          | "myselfAndSomeoneElse";
-        wert: string;
-      }
-    | undefined,
+  wertsache?: Wertsache,
   hasMultipleWertsachen = false,
 ) {
   const bezeichnung = [];
 
-  if (wertsachen?.art && wertsachenMapping[wertsachen?.art]) {
-    bezeichnung.push(`${wertsachenMapping[wertsachen?.art]}`);
+  if (wertsache?.art && wertsachenMapping[wertsache?.art]) {
+    bezeichnung.push(`${wertsachenMapping[wertsache?.art]}`);
   }
 
-  if (wertsachen?.eigentuemer && eigentuemerMapping[wertsachen?.eigentuemer]) {
+  if (wertsache?.eigentuemer && eigentuemerMapping[wertsache?.eigentuemer]) {
     bezeichnung.push(
-      `Eigentümer:in: ${eigentuemerMapping[wertsachen?.eigentuemer]}`,
+      `Eigentümer:in: ${eigentuemerMapping[wertsache?.eigentuemer]}`,
     );
   }
 
-  if (hasMultipleWertsachen && wertsachen?.wert) {
-    bezeichnung.push(`Verkehrswert: ${wertsachen?.wert} €`);
+  if (hasMultipleWertsachen && wertsache?.wert) {
+    bezeichnung.push(`Verkehrswert: ${wertsache?.wert} €`);
   }
 
   return bezeichnung;
 }
 
-function getKraftfahrzeugShortBezeichnung(
-  kraftfahrzeug:
-    | {
-        art: string;
-        marke: string;
-        eigentuemer:
-          | "myself"
-          | "partner"
-          | "myselfAndPartner"
-          | "myselfAndSomeoneElse";
-        verkaufswert: string;
-        kilometerstand: string;
-        anschaffungsjahr: string;
-        baujahr: string;
-        bemerkung: string;
-        arbeitsweg: string;
-      }
-    | undefined,
-) {
+type Kraftfahrzeug = NonNullable<
+  BeratungshilfeFormularContext["kraftfahrzeuge"]
+>[0];
+
+function getKraftfahrzeugShortBezeichnung(kraftfahrzeug?: Kraftfahrzeug) {
   const bezeichnung = [];
 
   if (kraftfahrzeug?.art) {
@@ -330,23 +301,7 @@ function getKraftfahrzeugShortBezeichnung(
 }
 
 function getKraftfahrzeugBezeichnung(
-  kraftfahrzeug:
-    | {
-        art: string;
-        marke: string;
-        eigentuemer:
-          | "myself"
-          | "partner"
-          | "myselfAndPartner"
-          | "myselfAndSomeoneElse";
-        verkaufswert: string;
-        kilometerstand: string;
-        anschaffungsjahr: string;
-        baujahr: string;
-        bemerkung: string;
-        arbeitsweg: string;
-      }
-    | undefined,
+  kraftfahrzeug?: Kraftfahrzeug,
   hasMultipleKraftfahrzeug = false,
 ) {
   const bezeichnung = [];
@@ -393,28 +348,12 @@ function getKraftfahrzeugBezeichnung(
   return bezeichnung;
 }
 
+type GrundeigentumBewohnt = NonNullable<
+  BeratungshilfeFormularContext["grundeigentumBewohnt"]
+>[0];
+
 function getGrundeigentumBezeichnung(
-  grundeigentum:
-    | {
-        eigentuemer:
-          | "myself"
-          | "partner"
-          | "myselfAndPartner"
-          | "myselfAndSomeoneElse";
-        art:
-          | "apartment"
-          | "houseForFamily"
-          | "houseWithMultipleApartments"
-          | "property"
-          | "hereditaryBuildingLaw";
-        verkaufswert: string;
-        flaeche: string;
-        strassehausnummer: string;
-        plz: string;
-        ort: string;
-        land: string;
-      }
-    | undefined,
+  grundeigentum?: GrundeigentumBewohnt,
   hasMultipleGrundeigentum = false,
 ) {
   const bezeichnung = [];
@@ -454,23 +393,7 @@ function getGrundeigentumBezeichnung(
 }
 
 function getGrundeigentumBewohntBezeichnung(
-  grundeigentum:
-    | {
-        eigentuemer:
-          | "myself"
-          | "partner"
-          | "myselfAndPartner"
-          | "myselfAndSomeoneElse";
-        art:
-          | "apartment"
-          | "houseForFamily"
-          | "houseWithMultipleApartments"
-          | "property"
-          | "hereditaryBuildingLaw";
-        verkaufswert: string;
-        flaeche: string;
-      }
-    | undefined,
+  grundeigentum?: GrundeigentumBewohnt,
   hasMultipleGrundeigentumBewohnt = false,
 ) {
   const bezeichnung = [];
@@ -508,19 +431,10 @@ function getGrundeigentumBewohntBezeichnung(
   return bezeichnung;
 }
 
+type Bankkonto = NonNullable<BeratungshilfeFormularContext["bankkonten"]>[0];
+
 function getBankkontoBezeichnung(
-  bankkonto:
-    | {
-        bankName: string;
-        kontostand: string;
-        iban: string;
-        kontoEigentuemer:
-          | "myself"
-          | "partner"
-          | "myselfAndPartner"
-          | "myselfAndSomeoneElse";
-      }
-    | undefined,
+  bankkonto?: Bankkonto,
   hasMultipleBankkonto = false,
 ) {
   const bezeichnung = [];
