@@ -57,10 +57,10 @@ export function FormFlowPage() {
           />
           {arraySummaryData && Object.keys(arraySummaryData).length != 0 && (
             <div className="!mt-24">
-              {Object.entries(arraySummaryData).map(([arrayKey, array]) => (
+              {Object.entries(arraySummaryData).map(([category, array]) => (
                 <ArraySummary
-                  key={arrayKey}
-                  arrayKey={arrayKey}
+                  key={category}
+                  category={category}
                   arrayData={array}
                   translations={translations}
                   csrf={csrf}
