@@ -103,7 +103,7 @@ export const loader = async ({
   const cmsContent = interpolateDeep(
     structureCmsContent(formPageContent),
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userData)
+      ? currentFlow.stringReplacements(userData, arrayIndexes)
       : {},
   );
 
