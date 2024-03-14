@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { omitNull } from "~/util/omitNull";
 import Select from "~/components/inputs/Select";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
-import { omitNull } from "~/util/omitNull";
 
 const StrapiDropdownSchema = z
   .object({

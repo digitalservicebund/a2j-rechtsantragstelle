@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import Input, { type InputProps } from "~/components/inputs/Input";
+import { omitNull } from "~/util/omitNull";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
-import { omitNull } from "~/util/omitNull";
 
 const StrapiInputSchema = z
   .object({
@@ -37,14 +37,14 @@ export const StrapiInputComponentSchema = StrapiInputSchema.extend({
 });
 
 function convertWidth(width: StrapiInput["width"]) {
-  return (width?.replace("characters", "") ?? undefined) as InputProps["width"];
+  return width?.replace("characters", "") as InputProps["width"];
 }
 
 export const StrapiInput = ({ errors, width, ...props }: StrapiInput) => {
   return (
     <Input
-      width={convertWidth(width)}
       errorMessages={flattenStrapiErrors(errors)}
+      width={convertWidth(width)}
       {...omitNull(props)}
     />
   );

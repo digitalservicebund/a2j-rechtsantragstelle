@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import Textarea from "~/components/inputs/Textarea";
+import { omitNull } from "~/util/omitNull";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
-import { omitNull } from "~/util/omitNull";
 
 const StrapiTextareaSchema = z
   .object({

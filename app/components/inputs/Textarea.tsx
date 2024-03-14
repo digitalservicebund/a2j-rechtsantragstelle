@@ -27,7 +27,7 @@ const Textarea = ({
       <textarea
         {...getInputProps({
           id: name,
-          placeholder: placeholder ?? undefined,
+          placeholder,
         })}
         className={classNames("ds-textarea placeholder-gray-600", {
           "has-error": error,

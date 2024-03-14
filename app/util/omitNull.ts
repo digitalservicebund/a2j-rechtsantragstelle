@@ -1,4 +1,4 @@
-export type NullToUndefined<T> = T extends null
+type NullToUndefined<T> = T extends null
   ? undefined
   : T extends (infer U)[]
     ? NullToUndefined<U>[]
