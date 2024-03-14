@@ -9,9 +9,10 @@ export const ImagePropsSchema = z
   })
   .readonly();
 
-export type ImageProps = z.infer<typeof ImagePropsSchema>;
+type ImageProps = z.infer<typeof ImagePropsSchema>;
 
 function Image({ url, width, height, alternativeText, ...props }: ImageProps) {
+  if (!url) return null;
   return (
     <img
       {...props}
