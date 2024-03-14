@@ -2,16 +2,12 @@ import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
-
-export type FeedbackProps = {
-  heading?: string;
-  content?: string;
-};
+import type { FeedbackProps } from "~/components/FeedbackBanner";
 
 export const StrapiGlobalSchema = z
   .object({
-    feedbackHeading: z.string().nullish(),
-    feedbackContent: z.string().nullish(),
+    feedbackHeading: z.string().nullable(),
+    feedbackContent: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
@@ -21,9 +17,7 @@ type StrapiGlobal = z.infer<typeof StrapiGlobalSchema>;
 
 export const getStrapiFeedback = (global: StrapiGlobal) => {
   return {
-    heading:
-      global.feedbackHeading === null ? undefined : global.feedbackHeading,
-    content:
-      global.feedbackContent === null ? undefined : global.feedbackContent,
+    heading: global.feedbackHeading ?? undefined,
+    content: global.feedbackContent ?? undefined,
   } satisfies FeedbackProps;
 };

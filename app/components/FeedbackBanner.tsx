@@ -1,7 +1,11 @@
 import Background from "./Background";
 import Box from "./Box";
 import Container from "./Container";
-import type { FeedbackProps } from "~/services/cms/models/StrapiGlobal";
+
+export type FeedbackProps = {
+  heading?: string;
+  content?: string;
+};
 
 // Appends the current page title as email subject
 export function augmentFeedback(
