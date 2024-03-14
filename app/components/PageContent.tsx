@@ -78,19 +78,18 @@ function wrapInBackground(cmsData: StrapiContent, reactElement: ReactElement) {
 }
 
 function cmsToReact(strapiContent: StrapiContent) {
-  const key = keyFromElement(strapiContent);
   // TODO: move from props matching to returning components (see renderCheckboxFromStrapi())
   switch (strapiContent.__component) {
     case "basic.heading":
-      return <Heading {...getHeadingProps(strapiContent)} key={key} />;
+      return <Heading {...getHeadingProps(strapiContent)} />;
     case "basic.paragraph":
-      return <RichText {...getRichTextProps(strapiContent)} key={key} />;
+      return <RichText {...getRichTextProps(strapiContent)} />;
     case "basic.alert":
       return renderAlertFromStrapi(strapiContent);
     case "page.header":
-      return <Header {...getHeaderProps(strapiContent)} key={key} />;
+      return <Header {...getHeaderProps(strapiContent)} />;
     case "form-elements.input":
-      return <Input {...getInputProps(strapiContent)} key={key} />;
+      return <Input {...getInputProps(strapiContent)} />;
     case "form-elements.date-input":
       return renderDateInputFromStrapi(strapiContent);
     case "form-elements.time-input":
@@ -98,27 +97,25 @@ function cmsToReact(strapiContent: StrapiContent) {
     case "form-elements.file-input":
       return renderFileInputFromStrapi(strapiContent);
     case "form-elements.textarea":
-      return <Textarea {...getTextareaProps(strapiContent)} key={key} />;
+      return <Textarea {...getTextareaProps(strapiContent)} />;
     case "form-elements.select":
-      return <RadioGroup {...getRadioGroupProps(strapiContent)} key={key} />;
+      return <RadioGroup {...getRadioGroupProps(strapiContent)} />;
     case "form-elements.dropdown":
-      return <Select {...getDropdownProps(strapiContent)} key={key} />;
+      return <Select {...getDropdownProps(strapiContent)} />;
     case "form-elements.checkbox":
       return renderCheckboxFromStrapi(strapiContent);
     case "form-elements.tile-group":
-      return <TileGroup {...getTileGroupProps(strapiContent)} key={key} />;
+      return <TileGroup {...getTileGroupProps(strapiContent)} />;
     case "page.box":
-      return <Box {...getBoxProps(strapiContent)} key={key} />;
+      return <Box {...getBoxProps(strapiContent)} />;
     case "page.info-box":
-      return <InfoBox {...getInfoBoxProps(strapiContent)} key={key} />;
+      return <InfoBox {...getInfoBoxProps(strapiContent)} />;
     case "page.link-list-box":
-      return <LinkListBox {...getLinkListBoxProps(strapiContent)} key={key} />;
+      return <LinkListBox {...getLinkListBoxProps(strapiContent)} />;
     case "page.box-with-image":
-      return (
-        <BoxWithImage {...getBoxWithImageProps(strapiContent)} key={key} />
-      );
+      return <BoxWithImage {...getBoxWithImageProps(strapiContent)} />;
     case "page.list":
-      return <List {...getListProps(strapiContent)} key={key} />;
+      return <List {...getListProps(strapiContent)} />;
     default:
       return <></>;
   }
