@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { StrapiFormComponentSchema } from "./StrapiFormComponent";
-import { StrapiContentSchema } from "./StrapiContent";
+import { StrapiContentComponentSchema } from "./StrapiContentComponent";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
@@ -10,7 +10,7 @@ import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 export const StrapiVorabCheckPageSchema = z
   .object({
     // eslint-disable-next-line camelcase
-    pre_form: z.array(StrapiContentSchema),
+    pre_form: z.array(StrapiContentComponentSchema),
     form: z.array(StrapiFormComponentSchema),
     nextButtonLabel: z.string().nullable().optional(),
   })

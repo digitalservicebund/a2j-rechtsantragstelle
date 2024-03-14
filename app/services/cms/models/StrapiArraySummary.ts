@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import type { StrapiContent } from "./StrapiContent";
+import type { StrapiContentComponent } from "./StrapiContentComponent";
 
 const StrapiArraySummarySchema = z
   .object({
@@ -19,6 +19,6 @@ type StrapiArraySummaryComponent = z.infer<
 >;
 
 export const isStrapiArraySummary = (
-  strapiContent: StrapiContent,
+  strapiContent: StrapiContentComponent,
 ): strapiContent is StrapiArraySummaryComponent =>
   strapiContent.__component === "page.array-summary";

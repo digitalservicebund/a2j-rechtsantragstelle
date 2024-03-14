@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import type { StrapiContent as StrapiContentComponent } from "~/services/cms/models/StrapiContent";
+import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { wrapperPropsFromCms } from "./CommonWrapperProps";
 import { getBoxProps } from "~/services/cms/models/StrapiBox";

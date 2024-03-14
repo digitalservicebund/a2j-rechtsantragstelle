@@ -11,18 +11,23 @@ import { StrapiListComponentSchema } from "./StrapiList";
 import { StrapiAlertComponentSchema } from "./StrapiAlert";
 import { StrapiArraySummaryComponentSchema } from "./StrapiArraySummary";
 
-export const StrapiContentSchema = z.discriminatedUnion("__component", [
-  StrapiBoxComponentSchema,
-  StrapiBoxWithImageComponentSchema,
-  StrapiHeaderComponentSchema,
-  StrapiHeadingComponentSchema,
-  StrapiInfoBoxComponentSchema,
-  StrapiInfoBoxItemComponentSchema,
-  StrapiParagraphComponentSchema,
-  StrapiLinkListBoxComponentSchema,
-  StrapiListComponentSchema,
-  StrapiAlertComponentSchema,
-  StrapiArraySummaryComponentSchema,
-]);
+export const StrapiContentComponentSchema = z.discriminatedUnion(
+  "__component",
+  [
+    StrapiBoxComponentSchema,
+    StrapiBoxWithImageComponentSchema,
+    StrapiHeaderComponentSchema,
+    StrapiHeadingComponentSchema,
+    StrapiInfoBoxComponentSchema,
+    StrapiInfoBoxItemComponentSchema,
+    StrapiParagraphComponentSchema,
+    StrapiLinkListBoxComponentSchema,
+    StrapiListComponentSchema,
+    StrapiAlertComponentSchema,
+    StrapiArraySummaryComponentSchema,
+  ],
+);
 
-export type StrapiContent = z.infer<typeof StrapiContentSchema>;
+export type StrapiContentComponent = z.infer<
+  typeof StrapiContentComponentSchema
+>;
