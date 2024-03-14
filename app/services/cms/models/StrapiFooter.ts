@@ -10,7 +10,7 @@ import { omitNull } from "~/util/omitNull";
 
 export const StrapiFooterSchema = z
   .object({
-    image: StrapiImageSchema.nullable().optional(),
+    image: StrapiImageSchema.nullable(),
     paragraphs: z.array(StrapiParagraphSchema).nullable(),
     links: z.array(StrapiLinkSchema).nullable(),
   })
