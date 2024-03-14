@@ -15,8 +15,6 @@ const StrapiCheckboxSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-type StrapiCheckbox = z.infer<typeof StrapiCheckboxSchema>;
-
 export const StrapiCheckboxComponentSchema = StrapiCheckboxSchema.extend({
   __component: z.literal("form-elements.checkbox"),
 });
@@ -24,7 +22,7 @@ export const StrapiCheckboxComponentSchema = StrapiCheckboxSchema.extend({
 export const StrapiCheckbox = ({
   isRequiredError,
   ...props
-}: StrapiCheckbox) => (
+}: z.infer<typeof StrapiCheckboxSchema>) => (
   <Checkbox
     required={isRequiredError.data !== null}
     errorMessage={isRequiredError?.data?.attributes.errorCodes[0].text}

@@ -18,11 +18,11 @@ const StrapiDropdownSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
+type StrapiDropdown = z.infer<typeof StrapiDropdownSchema>;
+
 export const StrapiDropdownComponentSchema = StrapiDropdownSchema.extend({
   __component: z.literal("form-elements.dropdown"),
 });
-
-type StrapiDropdown = z.infer<typeof StrapiDropdownSchema>;
 
 export const StrapiDropdown = ({ errors, ...props }: StrapiDropdown) => (
   <Select errorMessages={flattenStrapiErrors(errors)} {...omitNull(props)} />

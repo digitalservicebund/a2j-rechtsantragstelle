@@ -16,11 +16,11 @@ const StrapiTextareaSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
+type StrapiTextarea = z.infer<typeof StrapiTextareaSchema>;
+
 export const StrapiTextareaComponentSchema = StrapiTextareaSchema.extend({
   __component: z.literal("form-elements.textarea"),
 });
-
-type StrapiTextarea = z.infer<typeof StrapiTextareaSchema>;
 
 export const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => (
   <Textarea {...omitNull(props)} errorMessages={flattenStrapiErrors(errors)} />

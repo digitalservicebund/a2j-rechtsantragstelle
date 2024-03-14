@@ -36,16 +36,10 @@ export const StrapiInputComponentSchema = StrapiInputSchema.extend({
   __component: z.literal("form-elements.input"),
 });
 
-function convertWidth(width: StrapiInput["width"]) {
-  return width?.replace("characters", "") as InputProps["width"];
-}
-
 export const StrapiInput = ({ errors, width, ...props }: StrapiInput) => {
+  const inWidth = width?.replace("characters", "") as InputProps["width"];
+  const errorMessages = flattenStrapiErrors(errors);
   return (
-    <Input
-      errorMessages={flattenStrapiErrors(errors)}
-      width={convertWidth(width)}
-      {...omitNull(props)}
-    />
+    <Input {...omitNull(props)} width={inWidth} errorMessages={errorMessages} />
   );
 };
