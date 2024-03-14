@@ -7,9 +7,8 @@ import {
 } from "~/services/cms/flattenStrapiErrors";
 import type { InputProps } from "~/components/inputs/Input";
 
-export const StrapiTimeInputSchema = z
+const StrapiTimeInputSchema = z
   .object({
-    __component: z.literal("form-elements.time-input").optional(),
     name: z.string(),
     label: z.string().nullable(),
     placeholder: z.string().nullable().optional(),
@@ -18,6 +17,10 @@ export const StrapiTimeInputSchema = z
   .merge(HasOptionalStrapiIdSchema);
 
 type StrapiTimeInput = z.infer<typeof StrapiTimeInputSchema>;
+
+export const StrapiTimeInputComponentSchema = StrapiTimeInputSchema.extend({
+  __component: z.literal("form-elements.time-input"),
+});
 
 export const renderTimeInputFromStrapi = (strapiTimeInput: StrapiTimeInput) => {
   const props: InputProps = {

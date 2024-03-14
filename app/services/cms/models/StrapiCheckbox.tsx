@@ -3,9 +3,8 @@ import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import Checkbox from "~/components/inputs/Checkbox";
 import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
 
-export const StrapiCheckboxSchema = z
+const StrapiCheckboxSchema = z
   .object({
-    __component: z.literal("form-elements.checkbox").optional(),
     name: z.string(),
     label: z.string(),
     isRequiredError: z.object({
@@ -15,6 +14,10 @@ export const StrapiCheckboxSchema = z
     }),
   })
   .merge(HasOptionalStrapiIdSchema);
+
+export const StrapiCheckboxComponentSchema = StrapiCheckboxSchema.extend({
+  __component: z.literal("form-elements.checkbox"),
+});
 
 export const renderCheckboxFromStrapi = (
   strapiCheckbox: z.infer<typeof StrapiCheckboxSchema>,

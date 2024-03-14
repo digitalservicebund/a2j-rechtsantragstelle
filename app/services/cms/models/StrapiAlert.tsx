@@ -4,9 +4,8 @@ import { StrapiHeadingSchema } from "./StrapiHeading";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { Alert } from "~/components/Alert";
 
-export const StrapiAlertSchema = z
+const StrapiAlertSchema = z
   .object({
-    __component: z.literal("basic.alert"),
     heading: StrapiHeadingSchema.nullable(),
     look: z.enum(["hint"]),
     content: z.string().optional(),
@@ -15,6 +14,10 @@ export const StrapiAlertSchema = z
   .merge(OptionalStrapiLinkIdentifierSchema);
 
 type StrapiAlert = z.infer<typeof StrapiAlertSchema>;
+
+export const StrapiAlertComponentSchema = StrapiAlertSchema.extend({
+  __component: z.literal("basic.alert"),
+});
 
 export const renderAlertFromStrapi = (strapiAlert: StrapiAlert) => {
   const { heading, look, content } = strapiAlert;

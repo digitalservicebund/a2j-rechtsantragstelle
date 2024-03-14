@@ -8,9 +8,8 @@ import { StrapiImageSchema, getImageProps } from "./StrapiImage";
 import { omitNull } from "~/util/omitNull";
 import { BoxWithImagePropsSchema } from "~/components/BoxWithImage";
 
-export const StrapiBoxWithImageSchema = z
+const StrapiBoxWithImageSchema = z
   .object({
-    __component: z.literal("page.box-with-image"),
     heading: StrapiHeadingSchema.nullable(),
     image: StrapiImageSchema,
     imageLabel: z.string().nullable(),
@@ -20,6 +19,11 @@ export const StrapiBoxWithImageSchema = z
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);
+
+export const StrapiBoxWithImageComponentSchema =
+  StrapiBoxWithImageSchema.extend({
+    __component: z.literal("page.box-with-image"),
+  });
 
 type StrapiBoxWithImage = z.infer<typeof StrapiBoxWithImageSchema>;
 

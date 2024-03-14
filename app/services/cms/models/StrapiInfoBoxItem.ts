@@ -10,7 +10,6 @@ import { type StrapiElementWithId } from "./StrapiElementWithId";
 
 export const StrapiInfoBoxItemSchema = z
   .object({
-    __component: z.literal("page.info-box-item").optional(),
     label: StrapiHeadingSchema.nullable(),
     headline: StrapiHeadingSchema.nullable(),
     image: StrapiImageSchema.optional(),
@@ -19,6 +18,10 @@ export const StrapiInfoBoxItemSchema = z
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);
+
+export const StrapiInfoBoxItemComponentSchema = StrapiInfoBoxItemSchema.extend({
+  __component: z.literal("page.info-box-item"),
+});
 
 type StrapiInfoBoxItem = z.infer<typeof StrapiInfoBoxItemSchema>;
 

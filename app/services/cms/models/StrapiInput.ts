@@ -7,9 +7,8 @@ import {
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
 
-export const StrapiInputSchema = z
+const StrapiInputSchema = z
   .object({
-    __component: z.literal("form-elements.input").optional(),
     name: z.string(),
     label: z.string().nullable(),
     type: z.enum(["text", "number"]),
@@ -32,6 +31,10 @@ export const StrapiInputSchema = z
   .merge(HasOptionalStrapiIdSchema);
 
 type StrapiInput = z.infer<typeof StrapiInputSchema>;
+
+export const StrapiInputComponentSchema = StrapiInputSchema.extend({
+  __component: z.literal("form-elements.input"),
+});
 
 export const getInputProps = (cmsData: StrapiInput) => {
   const errorMessages = flattenStrapiErrors(cmsData.errors);

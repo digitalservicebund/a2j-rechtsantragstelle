@@ -1,10 +1,9 @@
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
-import PageContent from "../../components/PageContent";
+import PageContent, { type StrapiContent } from "../../components/PageContent";
 import Container from "~/components/Container";
 import fallbackStrapiInfoBox from "./fallbackInfobox";
 import { config } from "~/services/env/web";
 import type { AppLoadContext } from "@remix-run/node";
-import type { StrapiContent } from "../cms/models/StrapiContent";
 
 export const httpErrorCodes = ["404", "500", "403"] as const;
 

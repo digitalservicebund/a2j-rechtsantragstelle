@@ -7,9 +7,8 @@ import {
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
 
-export const StrapiDropdownSchema = z
+const StrapiDropdownSchema = z
   .object({
-    __component: z.literal("form-elements.dropdown").optional(),
     name: z.string(),
     label: z.string().nullable(),
     altLabel: z.string().nullable(),
@@ -20,6 +19,10 @@ export const StrapiDropdownSchema = z
   .merge(HasOptionalStrapiIdSchema);
 
 type StrapiDropdown = z.infer<typeof StrapiDropdownSchema>;
+
+export const StrapiDropdownComponentSchema = StrapiDropdownSchema.extend({
+  __component: z.literal("form-elements.dropdown"),
+});
 
 export const getDropdownProps = (cmsData: StrapiDropdown) => {
   const errorMessages = flattenStrapiErrors(cmsData.errors);

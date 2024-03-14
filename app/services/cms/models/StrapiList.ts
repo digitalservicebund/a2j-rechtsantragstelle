@@ -8,9 +8,8 @@ import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { omitNull } from "~/util/omitNull";
 import { ListPropsSchema } from "~/components/List";
 
-export const StrapiListSchema = z
+const StrapiListSchema = z
   .object({
-    __component: z.literal("page.list").optional(),
     heading: StrapiHeadingSchema.nullable(),
     items: z.array(StrapiListItemSchema),
     isNumeric: z.boolean(),
@@ -21,6 +20,10 @@ export const StrapiListSchema = z
   .merge(OptionalStrapiLinkIdentifierSchema);
 
 type StrapiList = z.infer<typeof StrapiListSchema>;
+
+export const StrapiListComponentSchema = StrapiListSchema.extend({
+  __component: z.literal("page.list"),
+});
 
 export const getListProps = (cmsData: StrapiList) => {
   const items = cmsData.items.map(getListItemProps);

@@ -7,9 +7,8 @@ import {
 } from "~/services/cms/flattenStrapiErrors";
 import type { InputProps } from "~/components/inputs/Input";
 
-export const StrapiDateInputSchema = z
+const StrapiDateInputSchema = z
   .object({
-    __component: z.literal("form-elements.date-input").optional(),
     name: z.string(),
     label: z.string().nullable(),
     placeholder: z.string().nullable().optional(),
@@ -19,11 +18,15 @@ export const StrapiDateInputSchema = z
 
 type StrapiDateInput = z.infer<typeof StrapiDateInputSchema>;
 
+export const StrapiDateInputComponentSchema = StrapiDateInputSchema.extend({
+  __component: z.literal("form-elements.date-input"),
+});
+
 export const renderDateInputFromStrapi = (strapiDateInput: StrapiDateInput) => {
-  const props: InputProps = {
+  const props = {
     name: strapiDateInput.name,
     errorMessages: flattenStrapiErrors(strapiDateInput.errors),
-  };
+  } satisfies InputProps;
 
   return (
     <DateInput

@@ -2,17 +2,23 @@ import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import type { StrapiContent } from "./StrapiContent";
 
-export const StrapiArraySummarySchema = z
+const StrapiArraySummarySchema = z
   .object({
-    __component: z.literal("page.array-summary"),
     category: z.string(),
     categoryUrl: z.string(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
-type StrapiArraySummary = z.infer<typeof StrapiArraySummarySchema>;
+export const StrapiArraySummaryComponentSchema =
+  StrapiArraySummarySchema.extend({
+    __component: z.literal("page.array-summary"),
+  });
+
+type StrapiArraySummaryComponent = z.infer<
+  typeof StrapiArraySummaryComponentSchema
+>;
 
 export const isStrapiArraySummary = (
   strapiContent: StrapiContent,
-): strapiContent is StrapiArraySummary =>
+): strapiContent is StrapiArraySummaryComponent =>
   strapiContent.__component === "page.array-summary";

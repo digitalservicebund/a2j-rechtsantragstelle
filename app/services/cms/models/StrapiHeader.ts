@@ -8,9 +8,8 @@ import { HeaderPropsSchema } from "~/components/Header";
 import { omitNull } from "~/util/omitNull";
 import type { StrapiContent } from "./StrapiContent";
 
-export const StrapiHeaderSchema = z
+const StrapiHeaderSchema = z
   .object({
-    __component: z.literal("page.header"),
     heading: StrapiHeadingSchema,
     content: StrapiParagraphSchema.nullable(),
     outerBackground: StrapiBackgroundSchema.nullable(),
@@ -18,7 +17,13 @@ export const StrapiHeaderSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-export type StrapiHeader = z.infer<typeof StrapiHeaderSchema>;
+type StrapiHeader = z.infer<typeof StrapiHeaderSchema>;
+
+export const StrapiHeaderComponentSchema = StrapiHeaderSchema.extend({
+  __component: z.literal("page.header"),
+});
+
+type StrapiHeaderComponent = z.infer<typeof StrapiHeaderComponentSchema>;
 
 export const getHeaderProps = (cmsData: StrapiHeader) => {
   const content = cmsData.content && getRichTextProps(cmsData.content);
@@ -27,4 +32,4 @@ export const getHeaderProps = (cmsData: StrapiHeader) => {
 
 export const isStrapiHeader = (
   content: StrapiContent,
-): content is StrapiHeader => content.__component === "page.header";
+): content is StrapiHeaderComponent => content.__component === "page.header";

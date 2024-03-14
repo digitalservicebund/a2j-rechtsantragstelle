@@ -7,9 +7,8 @@ import {
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
 
-export const StrapiTextareaSchema = z
+const StrapiTextareaSchema = z
   .object({
-    __component: z.literal("form-elements.textarea").optional(),
     name: z.string(),
     label: z.string().nullable(),
     placeholder: z.string().nullable(),
@@ -18,6 +17,10 @@ export const StrapiTextareaSchema = z
   .merge(HasOptionalStrapiIdSchema);
 
 type StrapiTextarea = z.infer<typeof StrapiTextareaSchema>;
+
+export const StrapiTextareaComponentSchema = StrapiTextareaSchema.extend({
+  __component: z.literal("form-elements.textarea"),
+});
 
 export const getTextareaProps = (cmsData: StrapiTextarea) => {
   const errorMessages = flattenStrapiErrors(cmsData.errors);

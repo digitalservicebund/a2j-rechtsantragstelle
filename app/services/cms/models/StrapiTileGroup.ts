@@ -5,9 +5,8 @@ import { omitNull } from "~/util/omitNull";
 import { StrapiTileSchema, getTileProps } from "./StrapiTile";
 import { TileGroupPropsSchema } from "~/components/inputs/TileGroup";
 
-export const StrapiTileGroupSchema = z
+const StrapiTileGroupSchema = z
   .object({
-    __component: z.literal("form-elements.tile-group").optional(),
     name: z.string(),
     label: z.string().nullable(),
     altLabel: z.string().nullable(),
@@ -26,6 +25,10 @@ export const StrapiTileGroupSchema = z
   .merge(HasOptionalStrapiIdSchema);
 
 type StrapiTileGroup = z.infer<typeof StrapiTileGroupSchema>;
+
+export const StrapiTileGroupComponentSchema = StrapiTileGroupSchema.extend({
+  __component: z.literal("form-elements.tile-group"),
+});
 
 export const getTileGroupProps = (cmsData: StrapiTileGroup) => {
   const errorMessages = cmsData.errors.data?.flatMap(
