@@ -13,7 +13,7 @@ const StrapiDropdownSchema = z
     label: z.string().nullable(),
     altLabel: z.string().nullable(),
     options: z.array(z.object({ value: z.string(), text: z.string() })),
-    placeholder: z.string().nullish(),
+    placeholder: z.string().nullable(),
     errors: StrapiErrorRelationSchema,
   })
   .merge(HasOptionalStrapiIdSchema);

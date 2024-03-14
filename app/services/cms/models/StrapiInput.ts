@@ -26,7 +26,7 @@ const StrapiInputSchema = z
         "characters36",
         "characters54",
       ])
-      .nullish(),
+      .nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
