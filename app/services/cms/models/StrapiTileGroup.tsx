@@ -4,6 +4,7 @@ import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
 import { StrapiTileSchema } from "./StrapiTile";
 import TileGroup from "~/components/inputs/TileGroup";
 import Image from "~/components/Image";
+import { omitNull } from "~/util/omitNull";
 
 const StrapiTileGroupSchema = z
   .object({
@@ -38,12 +39,20 @@ export const StrapiTileGroup = ({
   const errorMessages = errors.data?.flatMap(
     (cmsError) => cmsError.attributes.errorCodes,
   );
-  const tileOptions = options.map((tileOption) => ({
-    ...tileOption,
-    image: <Image {...tileOption.image?.data?.attributes} />,
-  }));
+  const tileOptions = omitNull(
+    options.map((tileOption) => ({
+      ...tileOption,
+      image: tileOption.image?.data?.attributes.url ? (
+        <Image {...omitNull(tileOption.image?.data?.attributes)} />
+      ) : undefined,
+    })),
+  );
 
   return (
-    <TileGroup errorMessages={errorMessages} options={tileOptions} {...props} />
+    <TileGroup
+      errorMessages={errorMessages}
+      options={tileOptions}
+      {...omitNull(props)}
+    />
   );
 };

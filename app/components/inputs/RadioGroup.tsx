@@ -8,7 +8,7 @@ type RadioGroupProps = Readonly<{
   name: string;
   options: { value: string; text?: ReactNode }[];
   label?: ReactNode;
-  altLabel?: string | null;
+  altLabel?: string;
   errorMessages?: ErrorMessageProps[];
 }>;
 

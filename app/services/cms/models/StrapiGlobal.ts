@@ -10,8 +10,8 @@ export type FeedbackProps = {
 
 export const StrapiGlobalSchema = z
   .object({
-    feedbackHeading: z.string().nullish(),
-    feedbackContent: z.string().nullish(),
+    feedbackHeading: z.string().nullable(),
+    feedbackContent: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)

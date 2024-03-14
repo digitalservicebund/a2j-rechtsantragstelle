@@ -8,7 +8,7 @@ import type { ErrorMessageProps } from "./ErrorMessageProps";
 type TextareaProps = Readonly<{
   name: string;
   label?: ReactNode;
-  placeholder?: string | null;
+  placeholder?: string;
   errorMessages?: ErrorMessageProps[];
 }>;
 

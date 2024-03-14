@@ -5,12 +5,13 @@ import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
+import { omitNull } from "~/util/omitNull";
 
 const StrapiTimeInputSchema = z
   .object({
     name: z.string(),
     label: z.string().nullable(),
-    placeholder: z.string().nullable().optional(),
+    placeholder: z.string().nullable(),
     errors: StrapiErrorRelationSchema,
   })
   .merge(HasOptionalStrapiIdSchema);
@@ -22,5 +23,5 @@ export const StrapiTimeInputComponentSchema = StrapiTimeInputSchema.extend({
 type StrapiTimeInput = z.infer<typeof StrapiTimeInputSchema>;
 
 export const StrapiTimeInput = ({ errors, ...props }: StrapiTimeInput) => (
-  <TimeInput errorMessages={flattenStrapiErrors(errors)} {...props} />
+  <TimeInput errorMessages={flattenStrapiErrors(errors)} {...omitNull(props)} />
 );

@@ -9,7 +9,7 @@ type SelectProps = Readonly<{
   name: string;
   options: { value: string; text?: ReactNode }[];
   label?: ReactNode;
-  placeholder?: string | null;
+  placeholder?: string;
   errorMessages?: ErrorMessageProps[];
 }>;
 

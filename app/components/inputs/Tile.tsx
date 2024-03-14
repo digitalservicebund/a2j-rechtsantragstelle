@@ -6,7 +6,7 @@ export type TileProps = Readonly<{
   name: string;
   onClick: () => void;
   value: string;
-  description?: string | null;
+  description?: string;
   title?: string;
   image?: React.ReactElement<ImageProps>;
 }>;

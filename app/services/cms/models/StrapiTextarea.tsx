@@ -5,6 +5,7 @@ import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
+import { omitNull } from "~/util/omitNull";
 
 const StrapiTextareaSchema = z
   .object({
@@ -22,5 +23,5 @@ export const StrapiTextareaComponentSchema = StrapiTextareaSchema.extend({
 type StrapiTextarea = z.infer<typeof StrapiTextareaSchema>;
 
 export const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => (
-  <Textarea {...props} errorMessages={flattenStrapiErrors(errors)} />
+  <Textarea {...omitNull(props)} errorMessages={flattenStrapiErrors(errors)} />
 );

@@ -7,12 +7,12 @@ import React from "react";
 
 export type InputProps = Readonly<{
   name: string;
-  label?: string | null;
+  label?: string;
   type?: string;
   step?: string | number;
-  placeholder?: string | null;
+  placeholder?: string;
   prefix?: string;
-  suffix?: string | null;
+  suffix?: string;
   errorMessages?: ErrorMessageProps[];
   helperText?: string;
   formId?: string;
@@ -65,7 +65,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               step,
               id: name,
               inputMode: type === "number" ? "decimal" : undefined,
-              placeholder: placeholder ?? undefined,
+              placeholder,
             })}
             ref={ref}
             className={classNames(

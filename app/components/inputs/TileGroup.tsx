@@ -7,10 +7,10 @@ import { type ErrorMessageProps } from "./ErrorMessageProps";
 type TileGroupProps = Readonly<{
   name: string;
   options: Omit<TileProps, "name" | "onClick">[];
-  altLabel?: string | null;
-  label?: string | null;
+  altLabel?: string;
+  label?: string;
   errorMessages?: ErrorMessageProps[];
-  useTwoColumns?: boolean | null;
+  useTwoColumns?: boolean;
 }>;
 
 const TileGroup = ({

@@ -5,6 +5,7 @@ import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
+import { omitNull } from "~/util/omitNull";
 
 const StrapiInputSchema = z
   .object({
@@ -25,7 +26,7 @@ const StrapiInputSchema = z
         "characters36",
         "characters54",
       ])
-      .nullish(),
+      .nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
@@ -44,7 +45,7 @@ export const StrapiInput = ({ errors, width, ...props }: StrapiInput) => {
     <Input
       width={convertWidth(width)}
       errorMessages={flattenStrapiErrors(errors)}
-      {...props}
+      {...omitNull(props)}
     />
   );
 };

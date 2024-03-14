@@ -7,6 +7,7 @@ import {
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
 import type { StrapiFormComponent } from "./StrapiFormComponent";
+import { omitNull } from "~/util/omitNull";
 
 const StrapiSelectSchema = z
   .object({
@@ -30,5 +31,10 @@ export const isStrapiSelectComponent = (
   strapiContent.__component === "form-elements.select";
 
 export const StrapiSelect = ({ errors, ...props }: StrapiSelect) => {
-  return <RadioGroup errorMessages={flattenStrapiErrors(errors)} {...props} />;
+  return (
+    <RadioGroup
+      errorMessages={flattenStrapiErrors(errors)}
+      {...omitNull(props)}
+    />
+  );
 };

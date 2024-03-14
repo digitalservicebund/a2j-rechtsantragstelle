@@ -5,6 +5,7 @@ import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
+import { omitNull } from "~/util/omitNull";
 
 const StrapiDropdownSchema = z
   .object({
@@ -12,7 +13,7 @@ const StrapiDropdownSchema = z
     label: z.string().nullable(),
     altLabel: z.string().nullable(),
     options: z.array(z.object({ value: z.string(), text: z.string() })),
-    placeholder: z.string().nullish(),
+    placeholder: z.string().nullable(),
     errors: StrapiErrorRelationSchema,
   })
   .merge(HasOptionalStrapiIdSchema);
@@ -24,5 +25,5 @@ export const StrapiDropdownComponentSchema = StrapiDropdownSchema.extend({
 type StrapiDropdown = z.infer<typeof StrapiDropdownSchema>;
 
 export const StrapiDropdown = ({ errors, ...props }: StrapiDropdown) => (
-  <Select errorMessages={flattenStrapiErrors(errors)} {...props} />
+  <Select errorMessages={flattenStrapiErrors(errors)} {...omitNull(props)} />
 );

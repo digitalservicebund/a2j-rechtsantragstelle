@@ -4,7 +4,7 @@ import { StrapiContainerSchema } from "./StrapiContainer";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
-import { StrapiImageSchema, getImageProps } from "./StrapiImage";
+import { StrapiImage, StrapiImageSchema, getImageProps } from "./StrapiImage";
 import { omitNull } from "~/util/omitNull";
 import { BoxWithImagePropsSchema } from "~/components/BoxWithImage";
 

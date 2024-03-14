@@ -2,17 +2,16 @@ import { z } from "zod";
 
 export const ImagePropsSchema = z
   .object({
-    url: z.string().nullish(),
+    url: z.string(),
     width: z.number().optional(),
     height: z.number().optional(),
-    alternativeText: z.string().nullish(),
+    alternativeText: z.string().optional(),
   })
   .readonly();
 
 export type ImageProps = z.infer<typeof ImagePropsSchema>;
 
 function Image({ url, width, height, alternativeText, ...props }: ImageProps) {
-  if (!url) return null;
   return (
     <img
       {...props}

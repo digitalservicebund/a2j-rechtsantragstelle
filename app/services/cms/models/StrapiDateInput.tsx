@@ -5,6 +5,7 @@ import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
+import { omitNull } from "~/util/omitNull";
 
 const StrapiDateInputSchema = z
   .object({
@@ -22,5 +23,5 @@ export const StrapiDateInputComponentSchema = StrapiDateInputSchema.extend({
 type StrapiDateInput = z.infer<typeof StrapiDateInputSchema>;
 
 export const StrapiDateInput = ({ errors, ...props }: StrapiDateInput) => (
-  <DateInput errorMessages={flattenStrapiErrors(errors)} {...props} />
+  <DateInput errorMessages={flattenStrapiErrors(errors)} {...omitNull(props)} />
 );
