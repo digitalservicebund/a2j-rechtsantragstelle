@@ -38,6 +38,10 @@ Open the app in `localhost:3000`
 - UI: `npx playwright test --ui`
 - debug (F10 to step over): `npx playwright test --debug`
 
+> **Note**
+>
+> Remember to install playwright cli and set the environment variable GERICHTSFINDER_ENCRYPTION_KEY.
+
 #### write tests
 
 - [getting started](https://playwright.dev/docs/writing-tests) writing tests
