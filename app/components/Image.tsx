@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const ImagePropsSchema = z
   .object({
-    url: z.string(),
+    url: z.string().optional(),
     width: z.number().optional(),
     height: z.number().optional(),
     alternativeText: z.string().optional(),
