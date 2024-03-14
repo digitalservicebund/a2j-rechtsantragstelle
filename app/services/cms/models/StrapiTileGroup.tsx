@@ -5,6 +5,7 @@ import { omitNull } from "~/util/omitNull";
 import { StrapiTileSchema } from "./StrapiTile";
 import TileGroup from "~/components/inputs/TileGroup";
 import Image from "~/components/Image";
+import { getImageProps } from "./StrapiImage";
 
 const StrapiTileGroupSchema = z
   .object({
@@ -39,14 +40,10 @@ export const StrapiTileGroup = ({
   const errorMessages = errors.data?.flatMap(
     (cmsError) => cmsError.attributes.errorCodes,
   );
-  const tileOptions = omitNull(
-    options.map((tileOption) => ({
-      ...tileOption,
-      image: tileOption.image?.data?.attributes.url ? (
-        <Image {...omitNull(tileOption.image?.data?.attributes)} />
-      ) : undefined,
-    })),
-  );
+  const tileOptions = options.map((tileOption) => ({
+    ...omitNull(tileOption),
+    image: <Image {...getImageProps(tileOption.image)} />,
+  }));
 
   return (
     <TileGroup
