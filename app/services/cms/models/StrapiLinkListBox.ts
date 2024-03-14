@@ -9,9 +9,8 @@ import { StrapiLinkSchema } from "./StrapiLink";
 import { LinkListBoxPropsSchema } from "~/components/LinkListBox";
 import { omitNull } from "~/util/omitNull";
 
-export const StrapiLinkListBoxSchema = z
+const StrapiLinkListBoxSchema = z
   .object({
-    __component: z.literal("page.link-list-box").optional(),
     label: StrapiHeadingSchema.nullable(),
     heading: StrapiHeadingSchema.nullable(),
     buttons: z.array(StrapiButtonSchema),
@@ -23,6 +22,10 @@ export const StrapiLinkListBoxSchema = z
   .merge(OptionalStrapiLinkIdentifierSchema);
 
 type StrapiLinkListBox = z.infer<typeof StrapiLinkListBoxSchema>;
+
+export const StrapiLinkListBoxComponentSchema = StrapiLinkListBoxSchema.extend({
+  __component: z.literal("page.link-list-box"),
+});
 
 export const getLinkListBoxProps = (cmsData: StrapiLinkListBox) => {
   return LinkListBoxPropsSchema.parse(omitNull(cmsData));

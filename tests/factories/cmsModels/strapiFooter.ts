@@ -10,7 +10,7 @@ export const strapiFooterFactory = Factory.define<StrapiFooter>(() => {
   return {
     locale: defaultLocale,
     image: strapiImageFactory.build(),
-    paragraphs: strapiParagraphFactory.buildList(2, { __component: undefined }),
+    paragraphs: strapiParagraphFactory.buildList(2),
     links: strapiLinkFactory.buildList(7),
     createdAt: faker.date.past().toISOString(),
     updatedAt: faker.date.recent().toISOString(),

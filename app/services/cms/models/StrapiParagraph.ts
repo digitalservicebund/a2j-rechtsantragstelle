@@ -4,11 +4,12 @@ import { RichTextPropsSchema } from "~/components/RichText";
 import { omitNull } from "~/util/omitNull";
 
 export const StrapiParagraphSchema = z
-  .object({
-    __component: z.literal("basic.paragraph").optional(),
-    text: z.string(),
-  })
+  .object({ text: z.string() })
   .merge(HasOptionalStrapiIdSchema);
+
+export const StrapiParagraphComponentSchema = StrapiParagraphSchema.extend({
+  __component: z.literal("basic.paragraph"),
+});
 
 export type StrapiParagraph = z.infer<typeof StrapiParagraphSchema>;
 

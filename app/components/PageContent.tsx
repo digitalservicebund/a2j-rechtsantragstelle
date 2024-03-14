@@ -32,7 +32,7 @@ import { StrapiTimeInput } from "~/services/cms/models/StrapiTimeInput";
 import { StrapiFileInput } from "~/services/cms/models/StrapiFileInput";
 import { renderAlertFromStrapi } from "~/services/cms/models/StrapiAlert";
 
-type StrapiContent = StrapiContentComponent | StrapiFormComponent;
+export type StrapiContent = StrapiContentComponent | StrapiFormComponent;
 
 type PageContentProps = {
   readonly content: Array<StrapiContent>;

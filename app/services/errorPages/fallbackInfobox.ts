@@ -1,4 +1,4 @@
-import type { StrapiInfoBox } from "../cms/models/StrapiInfoBox";
+import type { StrapiInfoBoxComponent } from "../cms/models/StrapiInfoBox";
 
 const fallbackStrapiInfoBox = {
   __component: "page.info-box",
@@ -7,7 +7,6 @@ const fallbackStrapiInfoBox = {
   outerBackground: null,
   items: [
     {
-      __component: "page.info-box-item",
       label: { text: "500", look: "ds-label-01-reg", tagName: "div" },
       headline: {
         text: "Unerwarteter Fehler",
@@ -21,6 +20,6 @@ const fallbackStrapiInfoBox = {
     },
   ],
   container: { backgroundColor: null, paddingBottom: null, paddingTop: null },
-} satisfies StrapiInfoBox;
+} satisfies StrapiInfoBoxComponent;
 
 export default fallbackStrapiInfoBox;

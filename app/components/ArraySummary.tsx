@@ -12,14 +12,14 @@ import type { ObjectType } from "~/models/flows/contexts";
 import { CSRFKey } from "~/services/security/csrfKey";
 
 type ArraySummaryProps = {
-  readonly arrayKey: string;
+  readonly category: string;
   readonly arrayData: { data: ObjectType[]; url: string; initialStep: string };
   readonly translations?: Translations;
   readonly csrf: string;
 };
 
 const ArraySummary = ({
-  arrayKey,
+  category,
   arrayData,
   csrf,
   translations = {},
@@ -27,17 +27,16 @@ const ArraySummary = ({
   const addButtonText = translations["arrayAddButtonLabel"] ?? "Hinzufügen";
   const editButtonText = translations["arrayEditButtonLabel"] ?? "Bearbeiten";
   const deleteButtonText = translations["arrayDeleteButtonLabel"] ?? "Löschen";
-  const titleHeading = lookupOrKey(`${arrayKey}.label.title`, translations);
-  const subtitle = lookupOrKey(`${arrayKey}.label.subtitle`, translations);
+  const titleHeading = lookupOrKey(`${category}.label.title`, translations);
+  const subtitle = lookupOrKey(`${category}.label.subtitle`, translations);
   const description: string | undefined =
-    translations[`${arrayKey}.description`];
+    translations[`${category}.description`];
   const { pathname } = useLocation();
   const deleteFetcher = useFetcher();
 
   const nextItemIndex = arrayData.data.length;
   const addButtonDestination = `${arrayData.url}/${nextItemIndex}/${arrayData.initialStep}`;
   const emptyArrayFallbackString = "Das besitze ich nicht."; // TODO: Validate & move to strapi
-
   return (
     <div className="ds-stack-8 scroll-my-40 mb-24">
       <Heading text={titleHeading} tagName="h2" look="ds-heading-03-bold" />
@@ -53,13 +52,13 @@ const ArraySummary = ({
                   <div key={elementKey} className="first:pt-0 scroll-my-40">
                     <Heading
                       text={
-                        translations[`${arrayKey}.${elementKey}`] ?? elementKey
+                        translations[`${category}.${elementKey}`] ?? elementKey
                       }
                       tagName="h3"
                       look="ds-label-02-bold"
                     />
                     {translations[
-                      `${arrayKey}.${elementKey}.${elementValue}`
+                      `${category}.${elementKey}.${elementValue}`
                     ] ?? elementValue}
                   </div>
                 );
@@ -79,7 +78,7 @@ const ArraySummary = ({
                   <Button
                     look="tertiary"
                     iconLeft={<DeleteIcon />}
-                    name={`${arrayKey}`}
+                    name={`${category}`}
                     value={`${index}`}
                     type="submit"
                   >

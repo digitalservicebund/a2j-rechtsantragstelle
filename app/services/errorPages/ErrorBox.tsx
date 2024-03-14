@@ -1,10 +1,9 @@
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
-import PageContent from "../../components/PageContent";
+import PageContent, { type StrapiContent } from "../../components/PageContent";
 import Container from "~/components/Container";
 import fallbackStrapiInfoBox from "./fallbackInfobox";
 import { config } from "~/services/env/web";
 import type { AppLoadContext } from "@remix-run/node";
-import type { StrapiContentComponent } from "../cms/models/StrapiContentComponent";
 
 export const httpErrorCodes = ["404", "500", "403"] as const;
 
@@ -15,7 +14,7 @@ function jsError(routeError: unknown) {
 
 function matchingError(
   routeError: unknown,
-  errorPages?: Record<string, StrapiContentComponent[]>,
+  errorPages?: Record<string, StrapiContent[]>,
 ) {
   if (isRouteErrorResponse(routeError) && errorPages?.[routeError.status])
     return errorPages?.[routeError.status];
@@ -24,7 +23,7 @@ function matchingError(
 }
 
 type ErrorBoxProps = {
-  readonly errorPages?: Record<string, StrapiContentComponent[]>;
+  readonly errorPages?: Record<string, StrapiContent[]>;
   readonly context: AppLoadContext;
 };
 

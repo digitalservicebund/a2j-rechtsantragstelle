@@ -32,9 +32,13 @@ import {
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
-import type { AllContexts } from "~/models/flows/common";
-import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { BeratungshilfeAbgabe } from "~/models/flows/beratungshilfeFormular/abgabe/context";
+import {
+  getKinderStrings,
+  getAmtsgerichtStrings,
+  getStaatlicheLeistungenStrings,
+  getAnwaltStrings,
+} from "./stringReplacements";
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -139,52 +143,16 @@ export const beratungshilfeFormular = {
     ...beratungshilfeAbgabeGuards,
     ...finanzielleAngabeGuards,
   },
-  stringReplacements: (context: AllContexts) => ({
+  stringReplacements: (
+    context: BeratungshilfeFormularContext,
+    arrayIndexes?: number[],
+  ) => ({
     ...getAmtsgerichtStrings(context),
     ...getStaatlicheLeistungenStrings(context),
-    hasNoAnwalt:
-      !("anwaltskanzlei" in context) || context.anwaltskanzlei == "no"
-        ? "true"
-        : undefined,
+    ...getKinderStrings(context, arrayIndexes),
+    ...getAnwaltStrings(context),
   }),
 } as const;
-
-const getAmtsgerichtStrings = (context: AllContexts) => {
-  if ("plz" in context && context.plz) {
-    try {
-      const courtData = findCourt({ zipCode: context.plz });
-      return {
-        courtName: courtData?.BEZEICHNUNG,
-        courtStreetNumber: courtData?.STR_HNR,
-        courtPlz: courtData?.PLZ_ZUSTELLBEZIRK,
-        courtOrt: courtData?.ORT,
-        courtWebsite: courtData?.URL1,
-        courtTelephone: courtData?.TEL,
-      };
-    } catch (e) {
-      console.error(`Did not find court for plz: ${context.plz}`, e);
-    }
-  }
-  return {};
-};
-
-const getStaatlicheLeistungenStrings = (context: AllContexts) => {
-  const getTrueOrUndefined = (keyWord: string) => {
-    return (
-      ("staatlicheLeistungen" in context &&
-        context.staatlicheLeistungen == keyWord &&
-        "true") ||
-      undefined
-    );
-  };
-  return {
-    hasBuergergeld: getTrueOrUndefined("buergergeld"),
-    hasGrundsicherung: getTrueOrUndefined("grundsicherung"),
-    hasAsylbewerberleistungen: getTrueOrUndefined("asylbewerberleistungen"),
-    hasAndereLeistung: getTrueOrUndefined("andereLeistung"),
-    hasNoSozialleistung: getTrueOrUndefined("keine"),
-  };
-};
 
 export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &
   BeratungshilfeAnwaltlicheVertretung &

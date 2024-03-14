@@ -131,13 +131,12 @@ export interface BeratungshilfePDF {
 }
 
 export interface StringField {
-    name?:    string;
-    require?: any;
-    value?:   string;
+    name:   string;
+    value?: string;
 }
 
 export interface BooleanField {
-    name?:  string;
+    name:   string;
     value?: boolean;
 }
 
@@ -429,12 +428,11 @@ const typeMap: any = {
         { json: "Wohnkosten", js: "wohnkosten", typ: r("BooleanField") },
     ], false),
     "StringField": o([
-        { json: "name", js: "name", typ: u(undefined, "") },
-        { json: "require", js: "require", typ: u(undefined, "any") },
+        { json: "name", js: "name", typ: "" },
         { json: "value", js: "value", typ: u(undefined, "") },
     ], false),
     "BooleanField": o([
-        { json: "name", js: "name", typ: u(undefined, "") },
+        { json: "name", js: "name", typ: "" },
         { json: "value", js: "value", typ: u(undefined, true) },
     ], false),
 };

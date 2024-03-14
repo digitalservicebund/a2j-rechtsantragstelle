@@ -9,7 +9,6 @@ import { ListItemPropsSchema } from "~/components/ListItem";
 
 export const StrapiListItemSchema = z
   .object({
-    __component: z.literal("page.list-item").optional(),
     label: StrapiHeadingSchema.nullable(),
     headline: StrapiHeadingSchema.nullable(),
     image: StrapiImageSchema.optional(),

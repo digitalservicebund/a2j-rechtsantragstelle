@@ -9,9 +9,8 @@ import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { BoxPropsSchema } from "~/components/Box";
 import { omitNull } from "~/util/omitNull";
 
-export const StrapiBoxSchema = z
+const StrapiBoxSchema = z
   .object({
-    __component: z.literal("page.box").optional(),
     label: StrapiHeadingSchema.nullable(),
     heading: StrapiHeadingSchema.nullable(),
     content: StrapiParagraphSchema.nullable(),
@@ -23,6 +22,10 @@ export const StrapiBoxSchema = z
   .merge(OptionalStrapiLinkIdentifierSchema);
 
 type StrapiBox = z.infer<typeof StrapiBoxSchema>;
+
+export const StrapiBoxComponentSchema = StrapiBoxSchema.extend({
+  __component: z.literal("page.box"),
+});
 
 export const getBoxProps = (cmsData: StrapiBox) => {
   const content = cmsData.content && getRichTextProps(cmsData.content);
