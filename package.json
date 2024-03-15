@@ -97,7 +97,7 @@
     "eslint-plugin-sonarjs": "^0.24.0",
     "eslint-plugin-storybook": "^0.8.0",
     "fishery": "^2.2.2",
-    "follow-redirects": "^1.15.5",
+    "follow-redirects": "^1.15.6",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "lefthook": "^1.6.5",
