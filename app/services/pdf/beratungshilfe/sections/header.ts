@@ -19,6 +19,8 @@ export default function fillHeader(
     .filter((entry) => entry)
     .join(", ");
   pdfFields.geburtsdatumdesAntragstellers.value = context.geburtsdatum ?? "";
+  pdfFields.familienstanddesAntragstellers.value =
+    getMaritalDescriptionByContext(context);
   pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value =
     [context.strasseHausnummer, context.plz, context.ort]
       .filter((entry) => entry)
@@ -51,6 +53,23 @@ export default function fillHeader(
     pdfFields.berufErwerbstaetigkeit.value = newPageHint;
   }
 }
+
+export const getMaritalDescriptionByContext = ({
+  partnerschaft,
+}: BeratungshilfeFormularContext): string => {
+  if (typeof partnerschaft === "undefined") {
+    return "";
+  }
+
+  return maritalDescriptionMapping[partnerschaft];
+};
+
+const maritalDescriptionMapping = {
+  yes: "verheiratet/ in eingetragener Lebenspartnerschaft",
+  no: "ledig",
+  separated: "getrennt",
+  widowed: "verwitwet",
+};
 
 const staatlicheLeistungMapping = {
   grundsicherung: "Grundsicherung",

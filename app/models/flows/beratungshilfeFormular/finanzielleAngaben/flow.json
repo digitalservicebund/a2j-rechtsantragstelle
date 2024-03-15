@@ -78,11 +78,11 @@
             "BACK": "#einkommen.einkommen",
             "SUBMIT": [
               {
-                "guard": "partnerschaftNo",
+                "guard": "hasPartnerschaftNoOrWidowed",
                 "target": "#kinder.kinder-frage"
               },
               {
-                "guard": "partnerschaftYes",
+                "guard": "hasPartnerschaftOrSeparated",
                 "target": "zusammenleben"
               }
             ]
@@ -165,7 +165,16 @@
       "states": {
         "kinder-frage": {
           "on": {
-            "BACK": "#partner.partner-einkommen-summe",
+            "BACK": [
+              {
+                "guard": "hasPartnerschaftOrSeparated",
+                "target": "#partner.partner-einkommen-summe"
+              },
+              {
+                "guard": "hasPartnerschaftNoOrWidowed",
+                "target": "#partner.partnerschaft"
+              }
+            ],
             "SUBMIT": [
               {
                 "guard": "hasKinderYes",
@@ -263,7 +272,7 @@
                 "target": "#einkommen.staatliche-leistungen"
               },
               {
-                "guard": "partnerschaftNo",
+                "guard": "hasPartnerschaftNoOrWidowed",
                 "target": "#partner.partnerschaft"
               },
               {

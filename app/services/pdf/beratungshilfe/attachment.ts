@@ -1,10 +1,16 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import { getMaritalDescriptionByContext } from "./sections/header";
+
+const MAXIMUM_LENGTH_MARITAL_DESCRIPTION = 10;
+export const MARTIAL_STATUS_TITLE = "Familienstand:";
 
 export function createAttachment(
   context: BeratungshilfeFormularContext,
   maxLength = 255,
 ) {
   const descriptions: Attachment["descriptions"] = [];
+
+  addMaritalToAttachment({ descriptions, context });
 
   if (context.bereich) {
     // TODO move to another function and use strapi as a source
@@ -51,6 +57,7 @@ export function createAttachment(
       text: context.sonstiges,
     });
   }
+
   const shouldCreateAttachment =
     descriptions.map((x) => x.title + x.text).join(" ").length > maxLength;
 
@@ -65,4 +72,23 @@ export const newPageHint = "Bitte im Anhang prüfen";
 export type Attachment = {
   descriptions: { title: string; text: string }[];
   shouldCreateAttachment: boolean;
+};
+
+type MaritalAttachment = {
+  descriptions: Attachment["descriptions"];
+  context: BeratungshilfeFormularContext;
+};
+
+const addMaritalToAttachment = ({
+  context,
+  descriptions,
+}: MaritalAttachment): void => {
+  const maritalDescription = getMaritalDescriptionByContext(context);
+
+  if (maritalDescription.length > MAXIMUM_LENGTH_MARITAL_DESCRIPTION) {
+    descriptions.push({
+      title: MARTIAL_STATUS_TITLE,
+      text: maritalDescription,
+    });
+  }
 };

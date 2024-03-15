@@ -45,7 +45,10 @@ export const beratungshilfeFinanzielleAngaben = {
     ["pupil", "student", "retiree", "no"],
     customRequiredErrorMessage,
   ),
-  partnerschaft: YesNoAnswer,
+  partnerschaft: z.enum(
+    ["yes", "no", "separated", "widowed"],
+    customRequiredErrorMessage,
+  ),
   zusammenleben: YesNoAnswer,
   unterhalt: YesNoAnswer,
   unterhaltsSumme: buildMoneyValidationSchema(),
@@ -198,7 +201,7 @@ const partnerReachable = (context: BeratungshilfeFinanzielleAngaben) =>
 const partnerDone = (context: BeratungshilfeFinanzielleAngaben) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen(context)) ||
-  context.partnerschaft == "no" ||
+  ["no", "widowed"].includes(context.partnerschaft ?? "") ||
   context.unterhalt == "no" ||
   context.partnerEinkommen == "no" ||
   context.partnerEinkommenSumme != undefined ||
