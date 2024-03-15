@@ -28,13 +28,13 @@ describe("finanzielleAngabeGuards", () => {
     });
   });
 
-  describe("hasNoPartnerschaftOrWidowed", () => {
+  describe("hasPartnerschaftNoOrWidowed", () => {
     it("should return truthy for single context", () => {
       const context: BeratungshilfeFinanzielleAngaben = {
         partnerschaft: "no",
       };
 
-      const actual = finanzielleAngabeGuards.hasNoPartnerschaftOrWidowed({
+      const actual = finanzielleAngabeGuards.hasPartnerschaftNoOrWidowed({
         context,
       });
 
@@ -46,7 +46,7 @@ describe("finanzielleAngabeGuards", () => {
         partnerschaft: "widowed",
       };
 
-      const actual = finanzielleAngabeGuards.hasNoPartnerschaftOrWidowed({
+      const actual = finanzielleAngabeGuards.hasPartnerschaftNoOrWidowed({
         context,
       });
 

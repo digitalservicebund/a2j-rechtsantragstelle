@@ -14,7 +14,7 @@ export const finanzielleAngabeGuards = {
     context.staatlicheLeistungen === "grundsicherung",
   hasPartnerschaftOrSeparated: ({ context }) =>
     context.partnerschaft === "yes" || context.partnerschaft === "separated",
-  hasNoPartnerschaftOrWidowed: ({ context }) =>
+  hasPartnerschaftNoOrWidowed: ({ context }) =>
     context.partnerschaft === "no" || context.partnerschaft === "widowed",
   ...yesNoGuards("erwerbstaetig"),
   ...yesNoGuards("zusammenleben"),

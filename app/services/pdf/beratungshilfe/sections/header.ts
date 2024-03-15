@@ -57,18 +57,18 @@ export default function fillHeader(
 export const getMaritalDescriptionByContext = ({
   partnerschaft,
 }: BeratungshilfeFormularContext): string => {
-  switch (partnerschaft) {
-    case "yes":
-      return "verheiratet/ in eingetragener Lebenspartnerschaft";
-    case "no":
-      return "ledig";
-    case "separated":
-      return "getrennt";
-    case "widowed":
-      return "verwitwet";
-    default:
-      return "";
+  if (typeof partnerschaft === "undefined") {
+    return "";
   }
+
+  return maritalDescriptionMapping[partnerschaft];
+};
+
+const maritalDescriptionMapping = {
+  yes: "verheiratet/ in eingetragener Lebenspartnerschaft",
+  no: "ledig",
+  separated: "getrennt",
+  widowed: "verwitwet",
 };
 
 const staatlicheLeistungMapping = {

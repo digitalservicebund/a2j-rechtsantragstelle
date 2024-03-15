@@ -33,4 +33,26 @@ describe("getMaritalDescriptionByContext", () => {
 
     expect(expectec).toBe(actual);
   });
+
+  it("should return `getrennt` when partnerschaft is `separated`", () => {
+    const context: BeratungshilfeFormularContext = {
+      partnerschaft: "separated",
+    };
+
+    const actual = getMaritalDescriptionByContext(context);
+    const expectec = "getrennt";
+
+    expect(expectec).toBe(actual);
+  });
+
+  it("should return `` when partnerschaft is `undefined`", () => {
+    const context: BeratungshilfeFormularContext = {
+      partnerschaft: undefined,
+    };
+
+    const actual = getMaritalDescriptionByContext(context);
+    const expectec = "";
+
+    expect(expectec).toBe(actual);
+  });
 });
