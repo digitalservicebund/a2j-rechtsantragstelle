@@ -38,6 +38,7 @@ import { updateMainSession } from "~/services/session.server/updateSessionInHead
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
+import { addPageDataToUserData } from "~/services/flow/pageData";
 
 const structureCmsContent = (
   formPageContent: z.infer<CollectionSchemas["form-flow-pages"]>,
@@ -72,9 +73,12 @@ export const loader = async ({
   context.debugId = debugId; // For showing in errors
 
   const currentFlow = flows[flowId];
+  const userDataWithPageData = addPageDataToUserData(userData, {
+    arrayIndexes,
+  });
   const flowController = buildFlowController({
     config: currentFlow.config,
-    data: userData,
+    data: userDataWithPageData,
     guards: currentFlow.guards,
   });
 
@@ -103,7 +107,7 @@ export const loader = async ({
   const cmsContent = interpolateDeep(
     structureCmsContent(formPageContent),
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userData, arrayIndexes)
+      ? currentFlow.stringReplacements(userDataWithPageData)
       : {},
   );
 
@@ -123,7 +127,7 @@ export const loader = async ({
 
   // Retrieve user data for current step
   const fieldNames = formPageContent.form.map((entry) => entry.name);
-  const stepData = fieldsFromContext(userData, fieldNames, arrayIndexes);
+  const stepData = fieldsFromContext(userDataWithPageData, fieldNames);
 
   // get array data to display in ArraySummary
   const strapiArraySummaries =
@@ -258,7 +262,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const flowController = buildFlowController({
     config: flows[flowId].config,
-    data: flowSession.data,
+    data: addPageDataToUserData(flowSession.data, { arrayIndexes }),
     guards: flows[flowId].guards,
   });
 

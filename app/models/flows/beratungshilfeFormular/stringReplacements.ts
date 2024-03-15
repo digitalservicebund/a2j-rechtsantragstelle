@@ -1,24 +1,20 @@
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { BeratungshilfeFormularContext } from ".";
 
-export const getKinderStrings = (
-  context: BeratungshilfeFormularContext,
-  arrayIndexes?: number[],
-) => {
-  // TODO: Handle nested array e.g. /lol/1/rofl/2
-  const arrayIndex = arrayIndexes?.[0];
+export const getKinderStrings = (context: BeratungshilfeFormularContext) => {
+  const arrayIndex = context.pageData?.arrayIndexes.at(0);
   if (
-    typeof arrayIndex === "number" &&
-    context.kinder &&
-    context.kinder.length > arrayIndex
-  ) {
-    return {
-      "kind#index": `${arrayIndex + 1}`,
-      "kind#vorname": context.kinder?.[arrayIndex].vorname,
-      "kind#nachname": context.kinder?.[arrayIndex].nachname,
-    };
-  }
-  return {};
+    typeof arrayIndex === "undefined" ||
+    !context.kinder ||
+    arrayIndex >= context.kinder.length
+  )
+    return {};
+
+  return {
+    "kind#index": `${arrayIndex + 1}`,
+    "kind#vorname": context.kinder?.[arrayIndex].vorname,
+    "kind#nachname": context.kinder?.[arrayIndex].nachname,
+  };
 };
 
 export const getAmtsgerichtStrings = (

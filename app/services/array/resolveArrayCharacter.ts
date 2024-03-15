@@ -6,16 +6,16 @@ import { arrayChar } from ".";
 
 export const resolveArrayCharacter = (
   fieldname: string,
-  arrayIndexes?: number[],
+  arrayIndexes: number[],
 ) => {
   const hashCount = (fieldname.match(/#/g) ?? []).length;
-  const indexCount = arrayIndexes?.length ?? 0;
+  const indexCount = arrayIndexes.length ?? 0;
   invariant(
     indexCount === hashCount,
     `${fieldname} number of ${arrayChar} (${hashCount}) doesn't match number of indicies (${indexCount})`,
   );
   let updatedFieldname = fieldname;
-  arrayIndexes?.forEach(
+  arrayIndexes.forEach(
     (index) =>
       (updatedFieldname = updatedFieldname.replace(
         arrayChar,

@@ -9,6 +9,7 @@ import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { createDateSchema } from "~/services/validation/date";
+import { pageDataSchema } from "~/services/flow/pageData";
 
 const Eigentuemer = z.enum(
   ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -150,6 +151,7 @@ export const beratungshilfeFinanzielleAngaben = {
     }),
   ),
   hasAdditionalWertsache: YesNoAnswer,
+  pageData: pageDataSchema,
 };
 
 const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();

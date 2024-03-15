@@ -21,7 +21,11 @@ describe("fieldsFromContext()", () => {
   });
 
   it("should work for arrays", () => {
-    expect(fieldsFromContext({ a: [{ b: 1 }] }, ["a#b"], [0])).toStrictEqual({
+    expect(
+      fieldsFromContext({ a: [{ b: 1 }], pageData: { arrayIndexes: [0] } }, [
+        "a#b",
+      ]),
+    ).toStrictEqual({
       "a#b": 1,
     });
   });

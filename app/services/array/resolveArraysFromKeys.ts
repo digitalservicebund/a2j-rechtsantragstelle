@@ -4,7 +4,7 @@ import { resolveArrayCharacter } from "./resolveArrayCharacter";
 
 export const resolveArraysFromKeys = (
   data: Context,
-  arrayIndexes?: number[],
+  arrayIndexes: number[] = [],
 ) => {
   const resolvedObject: Context = {};
   Object.entries(data).forEach(([key, value]) =>

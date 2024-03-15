@@ -143,13 +143,10 @@ export const beratungshilfeFormular = {
     ...beratungshilfeAbgabeGuards,
     ...finanzielleAngabeGuards,
   },
-  stringReplacements: (
-    context: BeratungshilfeFormularContext,
-    arrayIndexes?: number[],
-  ) => ({
+  stringReplacements: (context: BeratungshilfeFormularContext) => ({
     ...getAmtsgerichtStrings(context),
     ...getStaatlicheLeistungenStrings(context),
-    ...getKinderStrings(context, arrayIndexes),
+    ...getKinderStrings(context),
     ...getAnwaltStrings(context),
   }),
 } as const;

@@ -40,10 +40,24 @@ export const finanzielleAngabeGuards = {
     context.partnerEinkommen === "yes",
   hasKinderYes: ({ context }) => context.hasKinder === "yes",
   // TODO: replace with the correct guards
-  kindWohnortBeiAntragstellerYes: ({ context }) =>
-    context.kinder?.[0]?.wohnortBeiAntragsteller === "yes" ||
-    context.kinder?.[0]?.wohnortBeiAntragsteller === "partially",
-  kindEigeneEinnahmenYes: ({ context }) =>
-    context.kinder?.[0]?.eigeneEinnahmen === "yes",
-  kindUnterhaltYes: ({ context }) => context.kinder?.[0]?.unterhalt === "yes",
+  kindWohnortBeiAntragstellerYes: ({ context: { pageData, kinder } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    const kinderWohnortBeiAntragsteller =
+      kinder?.[pageData.arrayIndexes[0]]?.wohnortBeiAntragsteller;
+    return (
+      kinderWohnortBeiAntragsteller === "yes" ||
+      kinderWohnortBeiAntragsteller === "partially"
+    );
+  },
+  kindEigeneEinnahmenYes: ({ context: { pageData, kinder } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return kinder?.[pageData.arrayIndexes[0]]?.eigeneEinnahmen === "yes";
+  },
+  kindUnterhaltYes: ({ context: { pageData, kinder } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return kinder?.[pageData.arrayIndexes[0]]?.unterhalt === "yes";
+  },
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;

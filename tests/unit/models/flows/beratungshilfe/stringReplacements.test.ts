@@ -3,7 +3,10 @@ import { getKinderStrings } from "~/models/flows/beratungshilfeFormular/stringRe
 
 describe("getKinderStrings", () => {
   it("returns correct property for one array index", () => {
-    const kinderStringReplacement = getKinderStrings(happyPathData, [0]);
+    const kinderStringReplacement = getKinderStrings({
+      ...happyPathData,
+      pageData: { arrayIndexes: [0] },
+    });
     expect(kinderStringReplacement).toEqual({
       "kind#index": "1",
       "kind#vorname": happyPathData.kinder?.[0]?.vorname,
@@ -11,7 +14,10 @@ describe("getKinderStrings", () => {
     });
   });
   it("returns correct property for multiple array indexes", () => {
-    const kinderStringReplacement = getKinderStrings(happyPathData, [1, 2]);
+    const kinderStringReplacement = getKinderStrings({
+      ...happyPathData,
+      pageData: { arrayIndexes: [1, 2] },
+    });
     expect(kinderStringReplacement).toEqual({
       "kind#index": "2",
       "kind#vorname": happyPathData.kinder?.[1]?.vorname,
@@ -33,16 +39,18 @@ describe("getKinderStrings", () => {
   });
   it("returns empty object when array index is empty array", () => {
     // this case happens when Kinder array is created, then entries are deleted
-    const emptyKinderArrayInHappyPathData = happyPathData;
-    emptyKinderArrayInHappyPathData.kinder = [];
-    const kinderStringReplacement = getKinderStrings(
-      emptyKinderArrayInHappyPathData,
-      [1],
-    );
+    const kinderStringReplacement = getKinderStrings({
+      ...happyPathData,
+      kinder: [],
+      pageData: { arrayIndexes: [0] },
+    });
     expect(kinderStringReplacement).toEqual({});
   });
   it("returns empty object when array index is greater than kinder array in context", () => {
-    const kinderStringReplacement = getKinderStrings(happyPathData, [10]);
+    const kinderStringReplacement = getKinderStrings({
+      ...happyPathData,
+      pageData: { arrayIndexes: [10] },
+    });
     expect(kinderStringReplacement).toEqual({});
   });
 });
