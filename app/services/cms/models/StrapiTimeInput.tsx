@@ -11,7 +11,7 @@ const StrapiTimeInputSchema = z
   .object({
     name: z.string(),
     label: z.string().nullable(),
-    placeholder: z.string().nullable().optional(),
+    placeholder: z.string().nullable(),
     errors: StrapiErrorRelationSchema,
   })
   .merge(HasOptionalStrapiIdSchema);
