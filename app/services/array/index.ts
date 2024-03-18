@@ -1,4 +1,14 @@
+import type { AllContextKeys } from "~/models/flows/common";
+
 export const arrayChar = "#";
 export const splitArrayName = (key: string) => key.split(arrayChar);
 export const fieldIsArray = (fieldname: string) =>
   fieldname.includes(arrayChar);
+
+export type ArrayConfig = {
+  url: string;
+  initialInputUrl: string;
+  questionUrl: string;
+  statementKey: AllContextKeys;
+  statementValue?: boolean;
+};

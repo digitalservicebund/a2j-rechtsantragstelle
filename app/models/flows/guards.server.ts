@@ -1,4 +1,4 @@
-import type { AllContexts } from "./common";
+import type { AllContextKeys, AllContexts } from "./common";
 import type { Context } from "./contexts";
 
 export type GenericGuard<TContext extends Context> = ({
@@ -12,9 +12,7 @@ export type Guards<TContext extends Context = Context> = Record<
   GenericGuard<TContext>
 >;
 
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-
-export function yesNoGuards<Field extends KeysOfUnion<AllContexts>>(
+export function yesNoGuards<Field extends AllContextKeys>(
   field: Field,
 ): { [field in Field as `${field}Yes`]: GenericGuard<AllContexts> } & {
   [field in Field as `${field}No`]: GenericGuard<AllContexts>;

@@ -1,6 +1,7 @@
 import { type Page, expect, test } from "@playwright/test";
-import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
+import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";
 import { BeratungshilfeFormular } from "tests/e2e/pom/BeratungshilfeFormular";
+import { startFinanzielleAngabenBesitz } from "./finanzielleAngabenBesitz";
 
 let beratungshilfeFormular: BeratungshilfeFormular;
 
@@ -78,9 +79,8 @@ async function startFinanzielleAngaben(page: Page) {
   await startFinanzielleAngabenEinkommen(page);
   await startFinanzielleAngabenPartner(page);
   await startFinanzielleAngabenKinder(page);
-  await startFinanzielleAngabenBesitz(page);
-
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/zusammenfassung
+  await startFinanzielleAngabenBesitz(page, beratungshilfeFormular);
+  await startFinanzielleAngabenZusammenfassung(page);
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.clickNext();
 
@@ -149,27 +149,7 @@ async function startFinanzielleAngabenKinder(page: Page) {
   await beratungshilfeFormular.clickNext();
 }
 
-async function startFinanzielleAngabenBesitz(page: Page) {
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/bankkonten-frage
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillRadioPage("hasBankkonto", "yes");
-
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/kraftfahrzeuge-frage
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillRadioPage("hasKraftfahrzeug", "yes");
-
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/geldanlagen-frage
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillRadioPage("hasGeldanlage", "yes");
-
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/grundeigentum-frage
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillRadioPage("hasGrundeigentum", "yes");
-
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/wertsachen-frage
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillRadioPage("hasWertsache", "yes");
-
+async function startFinanzielleAngabenZusammenfassung(page: Page) {
   // // beratungshilfe/antrag/finanzielleAngaben/besitz/bankkonten
   // await expectPageToBeAccessible({ page });
   // await beratungshilfeFormular.fillDropdown(
@@ -186,11 +166,9 @@ async function startFinanzielleAngabenBesitz(page: Page) {
   //   "176671176167176761",
   // );
   // await beratungshilfeFormular.clickNext();
-
   // // beratungshilfe/antrag/finanzielleAngaben/besitz/weiteres-bankkonto
   // await expectPageToBeAccessible({ page });
   // await beratungshilfeFormular.fillRadioPage("hasAdditionalBankkonto", "no");
-
   // // beratungshilfe/antrag/finanzielleAngaben/besitz/kraftfahrzeuge
   // await expectPageToBeAccessible({ page });
   // await beratungshilfeFormular.fillDropdown(
@@ -211,14 +189,12 @@ async function startFinanzielleAngabenBesitz(page: Page) {
   // );
   // await beratungshilfeFormular.fillCheckboxes("kraftfahrzeuge#arbeitsweg");
   // await beratungshilfeFormular.clickNext();
-
   // // beratungshilfe/antrag/finanzielleAngaben/besitz/weiteres-kraftfahrzeug
   // await expectPageToBeAccessible({ page });
   // await beratungshilfeFormular.fillRadioPage(
   //   "hasAdditionalKraftfahrzeug",
   //   "no",
   // );
-
   // // beratungshilfe/antrag/finanzielleAngaben/besitz/geldanlagen
   // await expectPageToBeAccessible({ page });
   // await beratungshilfeFormular.fillDropdown(
@@ -236,11 +212,9 @@ async function startFinanzielleAngabenBesitz(page: Page) {
   //   "01.01.2050",
   // );
   // await beratungshilfeFormular.clickNext();
-
   // // beratungshilfe/antrag/finanzielleAngaben/besitz/weitere-geldanlage
   // await expectPageToBeAccessible({ page });
   // await beratungshilfeFormular.fillRadioPage("hasAdditionalGeldanlage", "no");
-
   // // beratungshilfe/antrag/finanzielleAngaben/besitz/grundeigentum
   // await expectPageToBeAccessible({ page });
   // await beratungshilfeFormular.fillDropdown(
@@ -258,21 +232,18 @@ async function startFinanzielleAngabenBesitz(page: Page) {
   // await beratungshilfeFormular.fillInput("grundeigentum#ort", "Berlin");
   // await beratungshilfeFormular.fillInput("grundeigentum#land", "Deutschland");
   // await beratungshilfeFormular.clickNext();
-
   // // beratungshilfe/antrag/finanzielleAngaben/besitz/weiteres-grundeigentum
   // await expectPageToBeAccessible({ page });
   // await beratungshilfeFormular.fillRadioPage(
   //   "hasAdditionalGrundeigentum",
   //   "no",
   // );
-
   // // beratungshilfe/antrag/finanzielleAngaben/besitz/wertsachen
   // await expectPageToBeAccessible({ page });
   // await beratungshilfeFormular.fillDropdown("wertsachen#art", "cash");
   // await beratungshilfeFormular.fillDropdown("wertsachen#eigentuemer", "myself");
   // await beratungshilfeFormular.fillInput("wertsachen#wert", "1000");
   // await beratungshilfeFormular.clickNext();
-
   // // beratungshilfe/antrag/finanzielleAngaben/besitz/weitere-wertsache
   // await expectPageToBeAccessible({ page });
   // await beratungshilfeFormular.fillRadioPage("hasAdditionalWertsache", "no");

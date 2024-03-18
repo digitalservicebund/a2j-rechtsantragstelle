@@ -39,6 +39,7 @@ import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { addPageDataToUserData } from "~/services/flow/pageData";
+import { getSummaryData } from "~/services/array/getSummaryData";
 
 const structureCmsContent = (
   formPageContent: z.infer<CollectionSchemas["form-flow-pages"]>,
@@ -129,26 +130,20 @@ export const loader = async ({
   const fieldNames = formPageContent.form.map((entry) => entry.name);
   const stepData = fieldsFromContext(userDataWithPageData, fieldNames);
 
-  // get array data to display in ArraySummary
-  const strapiArraySummaries =
-    formPageContent.pre_form.filter(isStrapiArraySummary);
-  const nextArrayItemSteps = flowController.getItems(stepId);
+  const categories = formPageContent.pre_form
+    .filter(isStrapiArraySummary)
+    .map((strapiSummary) => strapiSummary.category);
 
-  const arraySummaryData =
-    nextArrayItemSteps &&
-    Object.fromEntries(
-      strapiArraySummaries.map(({ category, categoryUrl }) => {
-        const possibleArray = userData[category];
-        const data = Array.isArray(possibleArray) ? possibleArray : [];
-        const url = `/${flowId}${categoryUrl}`;
-        const initialStep =
-          nextArrayItemSteps
-            .find((possibleItem) => possibleItem.includes(categoryUrl))
-            ?.replace(url + "/", "") ?? "";
+  const arrayConfigurations =
+    "arrayConfigurations" in currentFlow
+      ? currentFlow.arrayConfigurations
+      : undefined;
 
-        return [category, { data, url, initialStep }];
-      }),
-    );
+  const arraySummaryData = getSummaryData(
+    categories,
+    arrayConfigurations,
+    userData,
+  );
 
   const { headers, csrf } = await updateMainSession({
     cookieHeader,
@@ -231,6 +226,21 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       updateSession(flowSession, { [arrayName]: arrayToMutate });
       const headers = { "Set-Cookie": await commitSession(flowSession) };
       return new Response("success", { status: 200, headers });
+    } catch (err) {
+      return new Response((err as Error).message, { status: 422 });
+    }
+  }
+
+  if (formData.get("_action") === "changeStatement") {
+    try {
+      const categoryStatement = relevantFormData.categoryStatement as string;
+      const buttonDestination = relevantFormData.buttonDestination as string;
+      updateSession(flowSession, { [categoryStatement]: "yes" });
+      const headers = { "Set-Cookie": await commitSession(flowSession) };
+      return new Response(null, {
+        status: 303,
+        headers: { ...headers, location: buttonDestination },
+      });
     } catch (err) {
       return new Response((err as Error).message, { status: 422 });
     }

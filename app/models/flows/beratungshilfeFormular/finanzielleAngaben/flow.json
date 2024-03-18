@@ -264,7 +264,6 @@
       "initial": "bankkonten-frage",
       "states": {
         "bankkonten-frage": {
-          "id": "bankkonto-frage",
           "on": {
             "BACK": [
               {
@@ -320,10 +319,16 @@
         "wertsachen-frage": {
           "id": "wertsachen-frage",
           "on": {
-            "SUBMIT": "zusammenfassung",
+            "SUBMIT": "#besitzZusammenfassung",
             "BACK": "grundeigentum-frage"
           }
-        },
+        }
+      }
+    },
+    "besitzZusammenfassung": {
+      "id": "besitzZusammenfassung",
+      "initial": "zusammenfassung",
+      "states": {
         "zusammenfassung": {
           "id": "zusammenfassung",
           "on": {
@@ -346,8 +351,8 @@
           "states": {
             "daten": {
               "on": {
-                "SUBMIT": "#besitz.zusammenfassung",
-                "BACK": "#besitz.zusammenfassung"
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+                "BACK": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }
@@ -358,8 +363,8 @@
           "states": {
             "daten": {
               "on": {
-                "SUBMIT": "#besitz.zusammenfassung",
-                "BACK": "#besitz.zusammenfassung"
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+                "BACK": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }
@@ -370,8 +375,8 @@
           "states": {
             "daten": {
               "on": {
-                "SUBMIT": "#besitz.zusammenfassung",
-                "BACK": "#besitz.zusammenfassung"
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+                "BACK": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }
@@ -382,8 +387,8 @@
           "states": {
             "daten": {
               "on": {
-                "SUBMIT": "#besitz.zusammenfassung",
-                "BACK": "#besitz.zusammenfassung"
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+                "BACK": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }
@@ -394,8 +399,8 @@
           "states": {
             "daten": {
               "on": {
-                "SUBMIT": "#besitz.zusammenfassung",
-                "BACK": "#besitz.zusammenfassung"
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+                "BACK": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }
@@ -414,7 +419,7 @@
             "guard": "staatlicheLeistungenIsGrundsicherung",
             "target": "#einkommen.staatliche-leistungen"
           },
-          "#besitz.zusammenfassung"
+          "#besitzZusammenfassung"
         ]
       }
     }
