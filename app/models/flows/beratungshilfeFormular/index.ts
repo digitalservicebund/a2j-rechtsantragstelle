@@ -38,6 +38,7 @@ import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
   getAnwaltStrings,
+  besitzZusammenfassungWarning,
 } from "./stringReplacements";
 import type { ArrayConfig } from "~/services/array";
 
@@ -194,6 +195,7 @@ export const beratungshilfeFormular = {
     ...getStaatlicheLeistungenStrings(context),
     ...getKinderStrings(context),
     ...getAnwaltStrings(context),
+    ...besitzZusammenfassungWarning(context),
   }),
   arrayConfigurations,
 } as const;

@@ -111,6 +111,10 @@ export const beratungshilfeFinanzielleAngaben = {
       auszahlungdatum: inputRequiredSchema,
     }),
   ),
+  besitzTotalWorth: z.enum(
+    ["less10000", "more10000", "unsure"],
+    customRequiredErrorMessage,
+  ),
   hasAdditionalGeldanlage: YesNoAnswer,
   hasGrundeigentum: YesNoAnswer,
   grundeigentumBewohnt: z.array(
