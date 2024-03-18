@@ -23,6 +23,10 @@ export class Formular {
     await this.page.locator(`a:has-text("${innerText}")`).click();
   }
 
+  async clickAnchorById(id: string) {
+    await this.page.locator(`#${id}`).click();
+  }
+
   async select(field: string, option: string) {
     // We have to click the label because the input is covered by the before element
     // The label text itself is unknown due to using a cms
