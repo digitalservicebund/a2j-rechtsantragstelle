@@ -19,7 +19,7 @@ async function addWertsachen(
   beratungshilfeFormular: BeratungshilfeFormular,
   page: Page,
 ) {
-  await beratungshilfeFormular.clickAnchorById("add-wertsachen");
+  await page.getByTestId("add-wertsachen").click();
 
   // beratungshilfe/antrag/finanzielleAngaben/besitz/wertsachen
   await expectPageToBeAccessible({ page });
@@ -33,7 +33,7 @@ async function addGrundeigentum(
   beratungshilfeFormular: BeratungshilfeFormular,
   page: Page,
 ) {
-  await beratungshilfeFormular.clickAnchorById("add-grundeigentum");
+  await page.getByTestId("add-grundeigentum").click();
 
   // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/grundeigentum/0/daten
   await expectPageToBeAccessible({ page });
@@ -58,7 +58,7 @@ async function addGeldanlage(
   beratungshilfeFormular: BeratungshilfeFormular,
   page: Page,
 ) {
-  await beratungshilfeFormular.clickAnchorById("add-geldanlagen");
+  await page.getByTestId("add-geldanlagen").click();
 
   // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/geldanlagen/0/daten
   await expectPageToBeAccessible({ page });
@@ -83,7 +83,7 @@ async function addKraftfahrzeug(
   beratungshilfeFormular: BeratungshilfeFormular,
   page: Page,
 ) {
-  await beratungshilfeFormular.clickAnchorById("add-kraftfahrzeuge");
+  await page.getByTestId("add-kraftfahrzeuge").click();
 
   // beratungshilfe/antrag/finanzielleAngaben/besitz/kraftfahrzeuge
   await expectPageToBeAccessible({ page });
@@ -114,7 +114,7 @@ async function addBankkonto(
   page: Page,
   beratungshilfeFormular: BeratungshilfeFormular,
 ) {
-  await beratungshilfeFormular.clickAnchorById("add-bankkonten");
+  await page.getByTestId("add-bankkonten").click();
 
   // beratungshilfe/antrag/finanzielleAngaben/besitz/bankkonten
   await expectPageToBeAccessible({ page });

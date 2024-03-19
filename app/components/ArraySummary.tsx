@@ -124,7 +124,7 @@ const ArraySummary = ({
           look="ghost"
           className="hover:shadow-none pl-0 pt-8"
           iconLeft={<AddButton />}
-          id={`add-${category}`}
+          data-testid={`add-${category}`}
           href={`${url}/${Number(nextItemIndex)}/${arrayData.arrayConfiguration.initialInputUrl}`}
         >{`${subtitle} ${addButtonText}`}</Button>
       )}
