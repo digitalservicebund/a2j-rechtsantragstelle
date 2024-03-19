@@ -18,7 +18,7 @@ export async function startFinanzielleAngabenKinder(
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillInput("kinder#vorname", "Clara");
   await beratungshilfeFormular.fillInput("kinder#nachname", "Musterian");
-  await beratungshilfeFormular.fillInput("kinder#geburtsdatum", "12.12.1992");
+  await beratungshilfeFormular.fillInput("kinder#geburtsdatum", "12.12.2020");
   await beratungshilfeFormular.clickNext();
 
   // beratungshilfe/antrag/finanzielleAngaben/kinder/kinder/0/wohnort
