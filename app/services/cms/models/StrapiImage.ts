@@ -46,5 +46,7 @@ export const StrapiImageSchema = z.object({
 
 export type StrapiImage = z.infer<typeof StrapiImageSchema>;
 
-export const getImageProps = (cmsData: StrapiImage | null) =>
+export const getImageProps = (cmsData: StrapiImage | null) => {
+  if (!cmsData?.data) return undefined;
   ImagePropsSchema.parse(omitNull({ ...cmsData?.data?.attributes }));
+};
