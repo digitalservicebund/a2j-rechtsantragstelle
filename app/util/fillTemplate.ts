@@ -1,6 +1,6 @@
 import mustache from "mustache";
 
-type Replacements = Record<string, string | undefined>;
+export type Replacements = Record<string, string | boolean | undefined>;
 
 type FillTemplateOpts = {
   template: string;

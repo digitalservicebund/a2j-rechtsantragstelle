@@ -11,7 +11,7 @@
             "SUBMIT": [
               {
                 "guard": "staatlicheLeistungenIsBuergergeld",
-                "target": "#besitz.bankkonten-frage"
+                "target": "#besitz.eigentum-info"
               },
               {
                 "guard": "staatlicheLeistungenIsAsylbewerberleistungen",
@@ -167,12 +167,16 @@
           "on": {
             "BACK": [
               {
-                "guard": "hasPartnerschaftOrSeparated",
-                "target": "#partner.partner-einkommen-summe"
-              },
-              {
                 "guard": "hasPartnerschaftNoOrWidowed",
                 "target": "#partner.partnerschaft"
+              },
+              {
+                "guard": "partnerEinkommenNo",
+                "target": "#partner.partner-einkommen"
+              },
+              {
+                "guard": "hasPartnerschaftOrSeparated",
+                "target": "#partner.partner-einkommen-summe"
               }
             ],
             "SUBMIT": [
@@ -180,7 +184,7 @@
                 "guard": "hasKinderYes",
                 "target": "zusammenfassung"
               },
-              "#besitz.bankkonten-frage"
+              "#besitz.eigentum-info"
             ]
           }
         },
@@ -261,66 +265,73 @@
     },
     "besitz": {
       "id": "besitz",
-      "initial": "bankkonten-frage",
+      "initial": "eigentum-info",
       "states": {
+        "eigentum-info": {
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "hasPartnerschaftYes",
+                "target": "heirat-info"
+              },
+              "bankkonten-frage"
+            ],
+            "BACK": [
+              {
+                "guard": "staatlicheLeistungenIsBuergergeld",
+                "target": "#einkommen.staatliche-leistungen"
+              },
+              { "guard": "hasKinderYes", "target": "#kinder.zusammenfassung" },
+              "#kinder.kinder-frage"
+            ]
+          }
+        },
+        "heirat-info": {
+          "on": {
+            "BACK": "eigentum-info",
+            "SUBMIT": "bankkonten-frage"
+          }
+        },
         "bankkonten-frage": {
           "on": {
             "BACK": [
               {
-                "guard": "hasStaatlicheLeistungen",
-                "target": "#einkommen.staatliche-leistungen"
+                "guard": "hasPartnerschaftYes",
+                "target": "heirat-info"
               },
-              {
-                "guard": "hasPartnerschaftNoOrWidowed",
-                "target": "#partner.partnerschaft"
-              },
-              {
-                "guard": "isPartnerschaftZusammenlebenEinkommenNo",
-                "target": "#partner.partner-einkommen"
-              },
-              {
-                "guard": "isPartnerschaftZusammenlebenEinkommenYes",
-                "target": "#partner.partner-einkommen-summe"
-              },
-              {
-                "guard": "unterhaltNo",
-                "target": "#partner.keine-rolle"
-              },
-              {
-                "guard": "unterhaltYes",
-                "target": "#partner.partner-name"
-              },
-              "#partner.partnerschaft"
+              "eigentum-info"
             ],
-            "SUBMIT": "kraftfahrzeuge-frage"
-          }
-        },
-        "kraftfahrzeuge-frage": {
-          "id": "kraftfahrzeuge-frage",
-          "on": {
-            "SUBMIT": "geldanlagen-frage",
-            "BACK": "bankkonten-frage"
+            "SUBMIT": "geldanlagen-frage"
           }
         },
         "geldanlagen-frage": {
-          "id": "geldanlagen-frage",
-          "on": {
-            "SUBMIT": "grundeigentum-frage",
-            "BACK": "kraftfahrzeuge-frage"
-          }
-        },
-        "grundeigentum-frage": {
-          "id": "grundeigentum-frage",
           "on": {
             "SUBMIT": "wertsachen-frage",
-            "BACK": "geldanlagen-frage"
+            "BACK": "bankkonten-frage"
           }
         },
         "wertsachen-frage": {
-          "id": "wertsachen-frage",
           "on": {
-            "SUBMIT": "#besitzZusammenfassung",
+            "SUBMIT": "grundeigentum-frage",
+            "BACK": "geldanlagen-frage"
+          }
+        },
+        "grundeigentum-frage": {
+          "on": {
+            "SUBMIT": "kraftfahrzeuge-frage",
+            "BACK": "wertsachen-frage"
+          }
+        },
+        "kraftfahrzeuge-frage": {
+          "on": {
+            "SUBMIT": "gesamtwert",
             "BACK": "grundeigentum-frage"
+          }
+        },
+        "gesamtwert": {
+          "on": {
+            "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+            "BACK": "kraftfahrzeuge-frage"
           }
         }
       }
@@ -330,9 +341,8 @@
       "initial": "zusammenfassung",
       "states": {
         "zusammenfassung": {
-          "id": "zusammenfassung",
           "on": {
-            "BACK": "#besitz.wertsachen-frage",
+            "BACK": "#besitz.gesamtwert",
             "SUBMIT": "#danke",
             "ADDITEM": {
               "target": [

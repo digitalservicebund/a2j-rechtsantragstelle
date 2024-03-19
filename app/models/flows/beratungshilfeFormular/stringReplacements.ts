@@ -1,5 +1,6 @@
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { BeratungshilfeFormularContext } from ".";
+import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 
 export const getKinderStrings = (context: BeratungshilfeFormularContext) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
@@ -64,5 +65,21 @@ export const getAnwaltStrings = (context: BeratungshilfeFormularContext) => {
       !("anwaltskanzlei" in context) || context.anwaltskanzlei == "no"
         ? "true"
         : undefined,
+  };
+};
+
+export const besitzZusammenfassungWarning = (
+  context: BeratungshilfeFormularContext,
+) => {
+  const { hasPartnerschaftOrSeparated, besitzTotalWorthLessThan10000 } =
+    finanzielleAngabeGuards;
+
+  return {
+    hasPartnerschaftOrSeparated: hasPartnerschaftOrSeparated({
+      context,
+    }),
+    besitzTotalWorthLessThan10000: besitzTotalWorthLessThan10000({
+      context,
+    }),
   };
 };

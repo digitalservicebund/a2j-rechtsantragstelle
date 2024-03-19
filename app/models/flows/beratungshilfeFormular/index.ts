@@ -38,6 +38,7 @@ import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
   getAnwaltStrings,
+  besitzZusammenfassungWarning,
 } from "./stringReplacements";
 import type { ArrayConfig } from "~/services/array";
 
@@ -143,7 +144,11 @@ export const beratungshilfeFormular = {
               ],
             },
           },
-          danke: { on: { SUBMIT: "#finanzielleAngaben" } },
+          danke: {
+            on: {
+              SUBMIT: "#finanzielleAngaben.einkommen.staatliche-leistungen",
+            },
+          },
         },
       }),
       finanzielleAngaben: _.merge(_.cloneDeep(finanzielleAngabenFlow), {
@@ -157,7 +162,7 @@ export const beratungshilfeFormular = {
               "staatliche-leistungen": { on: { BACK: "#rechtsproblem.danke" } },
             },
           },
-          danke: { on: { SUBMIT: "#persoenlicheDaten" } },
+          danke: { on: { SUBMIT: "#persoenlicheDaten.start" } },
         },
       }),
       persoenlicheDaten: _.merge(_.cloneDeep(persoenlicheDatenFlow), {
@@ -190,6 +195,7 @@ export const beratungshilfeFormular = {
     ...getStaatlicheLeistungenStrings(context),
     ...getKinderStrings(context),
     ...getAnwaltStrings(context),
+    ...besitzZusammenfassungWarning(context),
   }),
   arrayConfigurations,
 } as const;

@@ -12,6 +12,9 @@ export const finanzielleAngabeGuards = {
     context.staatlicheLeistungen === "asylbewerberleistungen" ||
     context.staatlicheLeistungen === "buergergeld" ||
     context.staatlicheLeistungen === "grundsicherung",
+  hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",
+  besitzTotalWorthLessThan10000: ({ context }) =>
+    context.besitzTotalWorth === "less10000",
   hasPartnerschaftOrSeparated: ({ context }) =>
     context.partnerschaft === "yes" || context.partnerschaft === "separated",
   hasPartnerschaftNoOrWidowed: ({ context }) =>
