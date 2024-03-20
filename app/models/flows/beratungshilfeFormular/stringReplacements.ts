@@ -4,13 +4,9 @@ import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 
 export const getKinderStrings = (context: BeratungshilfeFormularContext) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
-  if (
-    typeof arrayIndex === "undefined" ||
-    !context.kinder ||
-    arrayIndex >= context.kinder.length
-  )
-    return {};
-
+  if (typeof arrayIndex === "undefined" || !context.kinder) return {};
+  if (arrayIndex >= context.kinder.length)
+    return { "kind#index": `${context.kinder.length + 1}` };
   return {
     "kind#index": `${arrayIndex + 1}`,
     "kind#vorname": context.kinder?.[arrayIndex].vorname,

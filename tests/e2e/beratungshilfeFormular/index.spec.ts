@@ -48,6 +48,26 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startAbgabe(page);
 });
 
+test("invalid array index redirects to initial step of sublow", async ({
+  page,
+}) => {
+  await expectPageToBeAccessible({ page });
+  await beratungshilfeFormular.clickNext();
+
+  await startGrundvoraussetzungen(page, beratungshilfeFormular);
+  await startAnwaltlicheVertretung(page, beratungshilfeFormular);
+  await startRechtsproblem(page, beratungshilfeFormular);
+  await startFinanzielleAngabenEinkommen(page, beratungshilfeFormular);
+  await startFinanzielleAngabenPartner(page, beratungshilfeFormular);
+  await startFinanzielleAngabenKinder(page, beratungshilfeFormular);
+  await page.goto(
+    `${beratungshilfeFormular.url}/finanzielleAngaben/kinder/kinder/5/name`,
+  );
+  await expect(page).toHaveURL(
+    new RegExp(`.+${beratungshilfeFormular.url}/start`),
+  );
+});
+
 async function startAbgabe(page: Page) {
   // beratungshilfe/antrag/abgabe/art
   // FIXME: This step is not accessible

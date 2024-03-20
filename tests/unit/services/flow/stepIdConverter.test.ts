@@ -61,9 +61,9 @@ describe("insertIndexesIntoPath", () => {
     ],
     [
       "/beratungshilfe/antrag/finanzielleAngaben/kinder/kinder/4/spielzeug/spielzeug/6/name",
-      "/beratungshilfe/antrag/finanzielleAngaben/kinder/kinder/spielzeug/zusammenfassung",
+      "/beratungshilfe/antrag/finanzielleAngaben/kinder/kinder/spielzeug/uebersicht",
       [4, 6],
-      "/beratungshilfe/antrag/finanzielleAngaben/kinder/kinder/4/spielzeug/zusammenfassung",
+      "/beratungshilfe/antrag/finanzielleAngaben/kinder/kinder/4/spielzeug/uebersicht",
     ],
    */
   it.each([
@@ -75,9 +75,9 @@ describe("insertIndexesIntoPath", () => {
     ],
     [
       "/beratungshilfe/antrag/finanzielleAngaben/kinder/kinder/4/name",
-      "/beratungshilfe/antrag/finanzielleAngaben/kinder/zusammenfassung",
+      "/beratungshilfe/antrag/finanzielleAngaben/kinder/uebersicht",
       [4],
-      "/beratungshilfe/antrag/finanzielleAngaben/kinder/zusammenfassung",
+      "/beratungshilfe/antrag/finanzielleAngaben/kinder/uebersicht",
     ],
     [
       "/beratungshilfe/antrag/finanzielleAngaben/eigentum/konto/4/daten",

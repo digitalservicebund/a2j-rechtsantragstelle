@@ -11,4 +11,5 @@ export type ArrayConfig = {
   questionUrl: string;
   statementKey: AllContextKeys;
   statementValue?: boolean;
+  hiddenFields?: string[];
 };

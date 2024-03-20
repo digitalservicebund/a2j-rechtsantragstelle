@@ -63,4 +63,13 @@ export const finanzielleAngabeGuards = {
       return false;
     return kinder?.[pageData.arrayIndexes[0]]?.unterhalt === "yes";
   },
+  isValidKinderArrayIndex: ({ context: { pageData, kinder } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    const arrayIndex = pageData.arrayIndexes[0];
+    if ((kinder?.length === 0 && arrayIndex > 0) || arrayIndex < 0)
+      return false;
+
+    return !(arrayIndex > (kinder?.length ?? 0));
+  },
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;

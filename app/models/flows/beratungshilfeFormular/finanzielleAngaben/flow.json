@@ -182,17 +182,22 @@
             "SUBMIT": [
               {
                 "guard": "hasKinderYes",
-                "target": "zusammenfassung"
+                "target": "uebersicht"
               },
               "#besitz.eigentum-info"
             ]
           }
         },
-        "zusammenfassung": {
+        "uebersicht": {
           "on": {
             "BACK": "kinder-frage",
             "SUBMIT": "#besitz",
-            "ADDITEM": "kinder"
+            "ADDITEM": [
+              {
+                "guard": "isValidKinderArrayIndex",
+                "target": "kinder"
+              }
+            ]
           }
         },
         "kinder": {
@@ -201,7 +206,7 @@
           "states": {
             "name": {
               "on": {
-                "BACK": "#kinder.zusammenfassung",
+                "BACK": "#kinder.uebersicht",
                 "SUBMIT": "wohnort"
               }
             },
@@ -225,14 +230,14 @@
                     "guard": "kindEigeneEinnahmenYes",
                     "target": "kind-eigene-einnahmen"
                   },
-                  "#kinder.zusammenfassung"
+                  "#kinder.uebersicht"
                 ]
               }
             },
             "kind-eigene-einnahmen": {
               "on": {
                 "BACK": "kind-eigene-einnahmen-frage",
-                "SUBMIT": "#kinder.zusammenfassung"
+                "SUBMIT": "#kinder.uebersicht"
               }
             },
             "kind-unterhalt-frage": {
@@ -250,13 +255,13 @@
             "kind-unterhalt": {
               "on": {
                 "BACK": "kind-unterhalt-frage",
-                "SUBMIT": "#kinder.zusammenfassung"
+                "SUBMIT": "#kinder.uebersicht"
               }
             },
             "kind-unterhalt-ende": {
               "on": {
                 "BACK": "kind-unterhalt-frage",
-                "SUBMIT": "#kinder.zusammenfassung"
+                "SUBMIT": "#kinder.uebersicht"
               }
             }
           }
@@ -281,7 +286,7 @@
                 "guard": "staatlicheLeistungenIsBuergergeld",
                 "target": "#einkommen.staatliche-leistungen"
               },
-              { "guard": "hasKinderYes", "target": "#kinder.zusammenfassung" },
+              { "guard": "hasKinderYes", "target": "#kinder.uebersicht" },
               "#kinder.kinder-frage"
             ]
           }

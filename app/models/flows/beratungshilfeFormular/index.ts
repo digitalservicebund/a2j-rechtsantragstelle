@@ -80,6 +80,7 @@ const arrayConfigurations = {
     initialInputUrl: `name`,
     questionUrl: `${flowId}finanzielleAngaben/kinder/kinder-frage`,
     statementKey: "hasKinder",
+    hiddenFields: ["eigeneEinnahmen", "unterhalt"],
   },
 } satisfies Record<string, ArrayConfig>;
 

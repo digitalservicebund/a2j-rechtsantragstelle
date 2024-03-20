@@ -10,7 +10,7 @@ export async function startFinanzielleAngabenKinder(
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasKinder", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/kinder/zusammenfassung
+  // beratungshilfe/antrag/finanzielleAngaben/kinder/uebersicht
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.clickAnchorByText("Kind hinzufügen");
 
@@ -36,7 +36,7 @@ export async function startFinanzielleAngabenKinder(
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillInputPage("kinder#einnahmen", "5");
 
-  // beratungshilfe/antrag/finanzielleAngaben/kinder/zusammenfassung
+  // beratungshilfe/antrag/finanzielleAngaben/kinder/uebersicht
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.clickNext();
 }

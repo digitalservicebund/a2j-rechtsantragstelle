@@ -54,22 +54,30 @@ const ArraySummary = ({
 
           return (
             <div key={subtitleHeading} className="space-y-8 bg-white p-16">
-              {Object.entries(element).map(([elementKey, elementValue]) => {
-                return (
-                  <div key={elementKey} className="first:pt-0 scroll-my-40">
-                    <Heading
-                      text={
-                        translations[`${category}.${elementKey}`] ?? elementKey
-                      }
-                      tagName="h3"
-                      look="ds-label-02-bold"
-                    />
-                    {translations[
-                      `${category}.${elementKey}.${elementValue}`
-                    ] ?? elementValue}
-                  </div>
-                );
-              })}
+              {Object.entries(element)
+                .filter(
+                  ([elementKey]) =>
+                    !arrayData.arrayConfiguration.hiddenFields?.includes(
+                      elementKey,
+                    ),
+                )
+                .map(([elementKey, elementValue]) => {
+                  return (
+                    <div key={elementKey} className="first:pt-0 scroll-my-40">
+                      <Heading
+                        text={
+                          translations[`${category}.${elementKey}`] ??
+                          elementKey
+                        }
+                        tagName="h3"
+                        look="ds-label-02-bold"
+                      />
+                      {translations[
+                        `${category}.${elementKey}.${elementValue}`
+                      ] ?? elementValue}
+                    </div>
+                  );
+                })}
               <ButtonContainer>
                 <Button
                   iconLeft={<EditButton />}
