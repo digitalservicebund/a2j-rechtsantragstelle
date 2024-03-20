@@ -53,87 +53,10 @@ const cases = [
       `${FINANZIELLE_ANGABEN}/einkommen/situation`,
     ],
   ],
-  [
-    { partnerschaft: "no" },
-    [
-      `${FINANZIELLE_ANGABEN}/partner/partnerschaft`,
-      `${FINANZIELLE_ANGABEN}/kinder/kinder-frage`,
-    ],
-  ],
-  [
-    { partnerschaft: "yes" },
-    [
-      `${FINANZIELLE_ANGABEN}/partner/partnerschaft`,
-      `${FINANZIELLE_ANGABEN}/partner/zusammenleben`,
-    ],
-  ],
-  [
-    { hasKinder: "yes" },
-    [
-      `${FINANZIELLE_ANGABEN}/kinder/kinder-frage`,
-      `${FINANZIELLE_ANGABEN}/kinder/uebersicht`,
-    ],
-  ],
-  [
-    { hasKinder: "no" },
-    [
-      `${FINANZIELLE_ANGABEN}/kinder/kinder-frage`,
-      `${FINANZIELLE_ANGABEN}/besitz/eigentum-info`,
-    ],
-  ],
-  [
-    {},
-    [
-      `${FINANZIELLE_ANGABEN}/besitz/bankkonten-frage`,
-      `${FINANZIELLE_ANGABEN}/besitz/geldanlagen-frage`,
-    ],
-  ],
-  [
-    {},
-    [
-      `${FINANZIELLE_ANGABEN}/besitz/geldanlagen-frage`,
-      `${FINANZIELLE_ANGABEN}/besitz/wertsachen-frage`,
-    ],
-  ],
-  [
-    {},
-    [
-      `${FINANZIELLE_ANGABEN}/besitz/wertsachen-frage`,
-      `${FINANZIELLE_ANGABEN}/besitz/grundeigentum-frage`,
-    ],
-  ],
-  [
-    {},
-    [
-      `${FINANZIELLE_ANGABEN}/besitz/grundeigentum-frage`,
-      `${FINANZIELLE_ANGABEN}/besitz/kraftfahrzeuge-frage`,
-    ],
-  ],
-  [
-    {},
-    [
-      `${FINANZIELLE_ANGABEN}/besitz/kraftfahrzeuge-frage`,
-      `${FINANZIELLE_ANGABEN}/besitz/gesamtwert`,
-    ],
-  ],
-  [
-    {},
-    [
-      `${FINANZIELLE_ANGABEN}/besitz/gesamtwert`,
-      `${FINANZIELLE_ANGABEN}/besitzZusammenfassung/zusammenfassung`,
-    ],
-  ],
-  [
-    {},
-    [
-      `${FINANZIELLE_ANGABEN}/besitzZusammenfassung/zusammenfassung`,
-      `${FINANZIELLE_ANGABEN}/danke`,
-    ],
-  ],
   [{}, [`${FINANZIELLE_ANGABEN}/danke`, "persoenlicheDaten/start"]],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
 
-export const testCasesBeratungshilfeFormularFinanzielleAngaben = {
+export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = {
   machine,
   cases,
 };
