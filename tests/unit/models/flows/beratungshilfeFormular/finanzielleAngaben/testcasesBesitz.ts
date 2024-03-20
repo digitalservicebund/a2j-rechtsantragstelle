@@ -16,51 +16,15 @@ const cases = [
     [
       `${FINANZIELLE_ANGABEN}/besitz/bankkonten-frage`,
       `${FINANZIELLE_ANGABEN}/besitz/geldanlagen-frage`,
-    ],
-  ],
-  [
-    {},
-    [
-      `${FINANZIELLE_ANGABEN}/besitz/geldanlagen-frage`,
-      `${FINANZIELLE_ANGABEN}/besitz/wertsachen-frage`,
-    ],
-  ],
-  [
-    {},
-    [
       `${FINANZIELLE_ANGABEN}/besitz/wertsachen-frage`,
       `${FINANZIELLE_ANGABEN}/besitz/grundeigentum-frage`,
-    ],
-  ],
-  [
-    {},
-    [
-      `${FINANZIELLE_ANGABEN}/besitz/grundeigentum-frage`,
-      `${FINANZIELLE_ANGABEN}/besitz/kraftfahrzeuge-frage`,
-    ],
-  ],
-  [
-    {},
-    [
       `${FINANZIELLE_ANGABEN}/besitz/kraftfahrzeuge-frage`,
       `${FINANZIELLE_ANGABEN}/besitz/gesamtwert`,
-    ],
-  ],
-  [
-    {},
-    [
-      `${FINANZIELLE_ANGABEN}/besitz/gesamtwert`,
-      `${FINANZIELLE_ANGABEN}/besitzZusammenfassung/zusammenfassung`,
-    ],
-  ],
-  [
-    {},
-    [
       `${FINANZIELLE_ANGABEN}/besitzZusammenfassung/zusammenfassung`,
       `${FINANZIELLE_ANGABEN}/danke`,
+      "persoenlicheDaten/start",
     ],
   ],
-  [{}, [`${FINANZIELLE_ANGABEN}/danke`, "persoenlicheDaten/start"]],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
 
 export const testCasesBeratungshilfeFormularFinanzielleAngabenBesitz = {
