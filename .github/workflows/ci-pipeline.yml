@@ -44,6 +44,7 @@ jobs:
     needs: [get-content-file]
     uses: ./.github/workflows/e2e-test.yml
     with:
+      require-published-app: false
       e2e-target: local
     secrets:
       GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
