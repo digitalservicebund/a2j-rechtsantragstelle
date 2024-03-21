@@ -75,7 +75,8 @@ const subflowNavigationConfig: SubflowNavigationConfig = {
     done: besitzDone,
   },
   besitzZusammenfassung: {
-    hidden: ({ context }) => !besitzDone({ context }),
+    hidden: ({ context }) =>
+      besitzHidden({ context }) || !besitzDone({ context }),
     done: besitzZusammenfassungDone,
   },
   wohnung: {
