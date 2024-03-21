@@ -40,7 +40,8 @@ const Tile = ({
         htmlFor={id}
       >
         <div className="ds-label-01-bold flex flex-row space-x-8 items-center">
-          {image && <Image {...image} />} <span>{title}</span>
+          {image && <Image {...image} />}
+          <span>{title}</span>
         </div>
         {description && (
           <RichText className="ds-label-03-reg" markdown={description} />
