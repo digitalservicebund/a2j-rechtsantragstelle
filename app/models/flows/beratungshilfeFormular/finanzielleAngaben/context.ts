@@ -191,8 +191,12 @@ export const beratungshilfeFinanzielleAngabenSubflowState = (
     case "besitz":
       if (!besitzReachable(context)) return "Hidden";
       if (besitzDone(context)) return "Done";
+      break;
+    case "wohnung":
+      if (!wohnungReachable(context)) return "Hidden";
+      if (wohnungDone(context)) return "Done";
+      break;
   }
-
   return "Open";
 };
 
@@ -236,3 +240,24 @@ const besitzDone = (context: BeratungshilfeFinanzielleAngaben) =>
   context.hasGeldanlage !== undefined &&
   context.hasGrundeigentum !== undefined &&
   context.hasWertsache !== undefined;
+
+const wohnungReachable = (context: BeratungshilfeFinanzielleAngaben) =>
+  context.staatlicheLeistungen &&
+  (context.staatlicheLeistungen === "andereLeistung" ||
+    context.staatlicheLeistungen === "keine");
+
+const wohnungAloneDone = (context: BeratungshilfeFinanzielleAngaben) =>
+  context.livingSituation === "alone" &&
+  context.apartmentCostAlone !== undefined;
+
+const wohnungWithOthersDone = (context: BeratungshilfeFinanzielleAngaben) =>
+  (context.livingSituation === "withOthers" ||
+    context.livingSituation === "withRelatives") &&
+  context.apartmentPersonCount !== undefined &&
+  context.apartmentCostOwnShare !== undefined &&
+  context.apartmentCostFull !== undefined;
+
+const wohnungDone = (context: BeratungshilfeFinanzielleAngaben) =>
+  context.livingSituation !== undefined &&
+  context.apartmentSizeSqm !== undefined &&
+  (wohnungAloneDone(context) || wohnungWithOthersDone(context));
