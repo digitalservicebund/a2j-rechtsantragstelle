@@ -59,6 +59,13 @@ const cases = [
       "finanzielleAngaben/partner/keine-rolle",
     ],
   ],
+  [
+    { unterhalt: "yes", partnerschaft: "yes", partnerEinkommen: "yes" },
+    [
+      "finanzielleAngaben/partner/partner-name",
+      "finanzielleAngaben/kinder/kinder-frage",
+    ],
+  ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
 
 export const testCasesBeratungshilfeFormularFinanzielleAngabenPartner = {

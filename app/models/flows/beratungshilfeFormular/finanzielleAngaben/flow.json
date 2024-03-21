@@ -171,6 +171,10 @@
                 "target": "#partner.partnerschaft"
               },
               {
+                "guard": "unterhaltYes",
+                "target": "#partner.partner-name"
+              },
+              {
                 "guard": "partnerEinkommenNo",
                 "target": "#partner.partner-einkommen"
               },
