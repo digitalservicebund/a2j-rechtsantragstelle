@@ -8,20 +8,18 @@ const machine: FlowStateMachine = createMachine(beratungshilfeFormular.config, {
   guards: beratungshilfeFormular.guards,
 });
 
-const FINANZIELLE_ANGABEN = "finanzielleAngaben";
-
 const cases = [
   [
     {},
     [
-      `${FINANZIELLE_ANGABEN}/besitz/bankkonten-frage`,
-      `${FINANZIELLE_ANGABEN}/besitz/geldanlagen-frage`,
-      `${FINANZIELLE_ANGABEN}/besitz/wertsachen-frage`,
-      `${FINANZIELLE_ANGABEN}/besitz/grundeigentum-frage`,
-      `${FINANZIELLE_ANGABEN}/besitz/kraftfahrzeuge-frage`,
-      `${FINANZIELLE_ANGABEN}/besitz/gesamtwert`,
-      `${FINANZIELLE_ANGABEN}/besitzZusammenfassung/zusammenfassung`,
-      `${FINANZIELLE_ANGABEN}/danke`,
+      "finanzielleAngaben/besitz/bankkonten-frage",
+      "finanzielleAngaben/besitz/geldanlagen-frage",
+      "finanzielleAngaben/besitz/wertsachen-frage",
+      "finanzielleAngaben/besitz/grundeigentum-frage",
+      "finanzielleAngaben/besitz/kraftfahrzeuge-frage",
+      "finanzielleAngaben/besitz/gesamtwert",
+      "finanzielleAngaben/besitzZusammenfassung/zusammenfassung",
+      "finanzielleAngaben/danke",
       "persoenlicheDaten/start",
     ],
   ],

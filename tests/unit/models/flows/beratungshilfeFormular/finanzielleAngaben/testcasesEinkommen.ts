@@ -8,52 +8,50 @@ const machine: FlowStateMachine = createMachine(beratungshilfeFormular.config, {
   guards: beratungshilfeFormular.guards,
 });
 
-const FINANZIELLE_ANGABEN = "finanzielleAngaben";
-
 const cases = [
   [
     { staatlicheLeistungen: "buergergeld" },
     [
-      `${FINANZIELLE_ANGABEN}/einkommen/staatliche-leistungen`,
-      `${FINANZIELLE_ANGABEN}/besitz/eigentum-info`,
+      "finanzielleAngaben/einkommen/staatliche-leistungen",
+      "finanzielleAngaben/besitz/eigentum-info",
     ],
   ],
   [
     { staatlicheLeistungen: "asylbewerberleistungen" },
     [
-      `${FINANZIELLE_ANGABEN}/einkommen/staatliche-leistungen`,
-      `${FINANZIELLE_ANGABEN}/danke`,
+      "finanzielleAngaben/einkommen/staatliche-leistungen",
+      "finanzielleAngaben/danke",
     ],
   ],
   [
     { staatlicheLeistungen: "grundsicherung" },
     [
-      `${FINANZIELLE_ANGABEN}/einkommen/staatliche-leistungen`,
-      `${FINANZIELLE_ANGABEN}/danke`,
+      "finanzielleAngaben/einkommen/staatliche-leistungen",
+      "finanzielleAngaben/danke",
     ],
   ],
   [
     { staatlicheLeistungen: "keine" },
     [
-      `${FINANZIELLE_ANGABEN}/einkommen/staatliche-leistungen`,
-      `${FINANZIELLE_ANGABEN}/einkommen/erwerbstaetig`,
+      "finanzielleAngaben/einkommen/staatliche-leistungen",
+      "finanzielleAngaben/einkommen/erwerbstaetig",
     ],
   ],
   [
     { erwerbstaetig: "yes" },
     [
-      `${FINANZIELLE_ANGABEN}/einkommen/erwerbstaetig`,
-      `${FINANZIELLE_ANGABEN}/einkommen/art`,
+      "finanzielleAngaben/einkommen/erwerbstaetig",
+      "finanzielleAngaben/einkommen/art",
     ],
   ],
   [
     { erwerbstaetig: "no" },
     [
-      `${FINANZIELLE_ANGABEN}/einkommen/erwerbstaetig`,
-      `${FINANZIELLE_ANGABEN}/einkommen/situation`,
+      "finanzielleAngaben/einkommen/erwerbstaetig",
+      "finanzielleAngaben/einkommen/situation",
     ],
   ],
-  [{}, [`${FINANZIELLE_ANGABEN}/danke`, "persoenlicheDaten/start"]],
+  [{}, ["finanzielleAngaben/danke", "persoenlicheDaten/start"]],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
 
 export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = {

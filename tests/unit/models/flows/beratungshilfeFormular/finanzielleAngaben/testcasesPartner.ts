@@ -8,63 +8,61 @@ const machine: FlowStateMachine = createMachine(beratungshilfeFormular.config, {
   guards: beratungshilfeFormular.guards,
 });
 
-const FINANZIELLE_ANGABEN = "finanzielleAngaben";
-
 const cases = [
   [
     { partnerschaft: "no" },
     [
-      `${FINANZIELLE_ANGABEN}/partner/partnerschaft`,
-      `${FINANZIELLE_ANGABEN}/kinder/kinder-frage`,
+      "finanzielleAngaben/partner/partnerschaft",
+      "finanzielleAngaben/kinder/kinder-frage",
     ],
   ],
   [
     { partnerschaft: "yes" },
     [
-      `${FINANZIELLE_ANGABEN}/partner/partnerschaft`,
-      `${FINANZIELLE_ANGABEN}/partner/zusammenleben`,
+      "finanzielleAngaben/partner/partnerschaft",
+      "finanzielleAngaben/partner/zusammenleben",
     ],
   ],
   [
     { zusammenleben: "yes" },
     [
-      `${FINANZIELLE_ANGABEN}/partner/zusammenleben`,
-      `${FINANZIELLE_ANGABEN}/partner/partner-einkommen`,
+      "finanzielleAngaben/partner/zusammenleben",
+      "finanzielleAngaben/partner/partner-einkommen",
     ],
   ],
   [
     { zusammenleben: "no" },
     [
-      `${FINANZIELLE_ANGABEN}/partner/zusammenleben`,
-      `${FINANZIELLE_ANGABEN}/partner/unterhalt`,
+      "finanzielleAngaben/partner/zusammenleben",
+      "finanzielleAngaben/partner/unterhalt",
     ],
   ],
   [
     { partnerEinkommen: "yes" },
     [
-      `${FINANZIELLE_ANGABEN}/partner/partner-einkommen`,
-      `${FINANZIELLE_ANGABEN}/partner/partner-einkommen-summe`,
+      "finanzielleAngaben/partner/partner-einkommen",
+      "finanzielleAngaben/partner/partner-einkommen-summe",
     ],
   ],
   [
     { partnerEinkommen: "no" },
     [
-      `${FINANZIELLE_ANGABEN}/partner/partner-einkommen`,
-      `${FINANZIELLE_ANGABEN}/kinder/kinder-frage`,
+      "finanzielleAngaben/partner/partner-einkommen",
+      "finanzielleAngaben/kinder/kinder-frage",
     ],
   ],
   [
     { unterhalt: "yes" },
     [
-      `${FINANZIELLE_ANGABEN}/partner/unterhalt`,
-      `${FINANZIELLE_ANGABEN}/partner/unterhalts-summe`,
+      "finanzielleAngaben/partner/unterhalt",
+      "finanzielleAngaben/partner/unterhalts-summe",
     ],
   ],
   [
     { unterhalt: "no" },
     [
-      `${FINANZIELLE_ANGABEN}/partner/unterhalt`,
-      `${FINANZIELLE_ANGABEN}/partner/keine-rolle`,
+      "finanzielleAngaben/partner/unterhalt",
+      "finanzielleAngaben/partner/keine-rolle",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

@@ -16,15 +16,15 @@ const cases = [
   [
     { hasKinder: "yes" },
     [
-      `${FINANZIELLE_ANGABEN}/kinder/kinder-frage`,
-      `${FINANZIELLE_ANGABEN}/kinder/uebersicht`,
+      "finanzielleAngaben/kinder/kinder-frage",
+      "finanzielleAngaben/kinder/uebersicht",
     ],
   ],
   [
     { hasKinder: "no" },
     [
-      `${FINANZIELLE_ANGABEN}/kinder/kinder-frage`,
-      `${FINANZIELLE_ANGABEN}/besitz/eigentum-info`,
+      "finanzielleAngaben/kinder/kinder-frage",
+      "finanzielleAngaben/besitz/eigentum-info",
     ],
   ],
   [
@@ -44,8 +44,8 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      `${FINANZIELLE_ANGABEN}/kinder/kinder/wohnort`,
-      `${FINANZIELLE_ANGABEN}/kinder/kinder/kind-eigene-einnahmen-frage`,
+      "finanzielleAngaben/kinder/kinder/wohnort",
+      "finanzielleAngaben/kinder/kinder/kind-eigene-einnahmen-frage",
     ],
   ],
   [
@@ -65,15 +65,15 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      `${FINANZIELLE_ANGABEN}/kinder/kinder/kind-eigene-einnahmen-frage`,
-      `${FINANZIELLE_ANGABEN}/kinder/kinder/kind-eigene-einnahmen`,
+      "finanzielleAngaben/kinder/kinder/kind-eigene-einnahmen-frage",
+      "finanzielleAngaben/kinder/kinder/kind-eigene-einnahmen",
     ],
   ],
   [
     { hasKinder: "yes" },
     [
-      `${FINANZIELLE_ANGABEN}/kinder/uebersicht`,
-      `${FINANZIELLE_ANGABEN}/besitz/eigentum-info`,
+      "finanzielleAngaben/kinder/uebersicht",
+      "finanzielleAngaben/besitz/eigentum-info",
     ],
   ],
   [
@@ -93,8 +93,8 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      `${FINANZIELLE_ANGABEN}/kinder/kinder/wohnort`,
-      `${FINANZIELLE_ANGABEN}/kinder/kinder/kind-unterhalt-frage`,
+      "finanzielleAngaben/kinder/kinder/wohnort",
+      "finanzielleAngaben/kinder/kinder/kind-unterhalt-frage",
     ],
   ],
   [
@@ -114,8 +114,8 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      `${FINANZIELLE_ANGABEN}/kinder/kinder/kind-unterhalt-frage`,
-      `${FINANZIELLE_ANGABEN}/kinder/kinder/kind-unterhalt`,
+      "finanzielleAngaben/kinder/kinder/kind-unterhalt-frage",
+      "finanzielleAngaben/kinder/kinder/kind-unterhalt",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
