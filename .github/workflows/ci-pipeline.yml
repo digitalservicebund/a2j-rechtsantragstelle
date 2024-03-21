@@ -157,6 +157,7 @@ jobs:
     secrets:
       BASE_URL: https://a2j-test.dev.ds4g.net
     with:
+      require-published-app: false
       use-existing-server: true
       e2e-target: preview
 
