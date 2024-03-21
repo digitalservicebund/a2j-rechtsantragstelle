@@ -6,7 +6,7 @@ import {
 
 describe("stringReplacements", () => {
   describe("getKinderStrings", () => {
-    it("returns a flattened array item for given context", () => {
+    it("returns vorname and nachname for given context", () => {
       const context = {
         ...happyPathData,
         pageData: {
@@ -17,13 +17,25 @@ describe("stringReplacements", () => {
       const kinderStrings = getKinderStrings(context);
 
       expect(kinderStrings).toEqual({
-        "kind#index": "1",
         "kind#vorname": context.kinder?.[0].vorname,
         "kind#nachname": context.kinder?.[0].nachname,
       });
     });
 
-    it("returns a empty object for given context when arrayIndexes missing", () => {
+    it("returns an empty object when arrayIndex is too high", () => {
+      const context = {
+        ...happyPathData,
+        pageData: {
+          arrayIndexes: [5],
+        },
+      };
+
+      const kinderStrings = getKinderStrings(context);
+
+      expect(kinderStrings).toEqual({});
+    });
+
+    it("returns an empty object for given context when arrayIndexes missing", () => {
       const context = happyPathData;
 
       const kinderStrings = getKinderStrings(context);
@@ -31,7 +43,7 @@ describe("stringReplacements", () => {
       expect(kinderStrings).toEqual({});
     });
 
-    it("returns a empty object for given context when kinder is undefined", () => {
+    it("returns an empty object for given context when kinder is undefined", () => {
       const context = {
         ...happyPathData,
         kinder: undefined,
@@ -41,36 +53,9 @@ describe("stringReplacements", () => {
 
       expect(kinderStrings).toEqual({});
     });
-
-    it("returns only the kind index when context kinder and a greater arrayIndexes is given", () => {
-      const context = {
-        ...happyPathData,
-        pageData: {
-          arrayIndexes: [4],
-        },
-      };
-
-      const kinderStrings = getKinderStrings(context);
-
-      expect(kinderStrings).toEqual({ "kind#index": "3" });
-    });
-
-    it("returns only the kind index when context kinder is an empty array", () => {
-      const context = {
-        ...happyPathData,
-        kinder: [],
-        pageData: {
-          arrayIndexes: [0],
-        },
-      };
-
-      const kinderStrings = getKinderStrings(context);
-
-      expect(kinderStrings).toEqual({ "kind#index": "1" });
-    });
   });
   describe("getArrayIndexStrings", () => {
-    it("returns a array index for given context", () => {
+    it("returns an array index for given context", () => {
       const context = {
         ...happyPathData,
         pageData: {
@@ -83,7 +68,7 @@ describe("stringReplacements", () => {
       expect(arrayIndexStrings).toEqual({ "array#index": "4" });
     });
 
-    it("returns a empty object for given context when arrayIndexes are not passed", () => {
+    it("returns an empty object for given context when arrayIndexes are not passed", () => {
       const context = happyPathData;
 
       const arrayIndexStrings = getArrayIndexStrings(context);
