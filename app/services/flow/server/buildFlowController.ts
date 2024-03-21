@@ -50,7 +50,7 @@ type Meta = {
   subflowDone: (context: Context, subflowId: string) => boolean | undefined;
 };
 
-const getSteps = (machine: FlowStateMachine, context: Context) => {
+const getSteps = (machine: FlowStateMachine) => {
   // todo: remove machine relying on context passed at createMachine()...
   // https://www.jsdocs.io/package/xstate#FlowStateMachine.provide is supposed to allow this but context isn't applied
   // idea: machine.provide() with action that assigns the new context
@@ -146,7 +146,8 @@ export const buildFlowController = ({
     isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),
     isReachable: (currentStepId: string) => {
       // depends on context
-      const steps = getSteps(machine, context);
+      const steps = getSteps(machine);
+      console.log({ steps });
       return steps.includes(currentStepId);
     },
     getPrevious: (stepId: string) => {

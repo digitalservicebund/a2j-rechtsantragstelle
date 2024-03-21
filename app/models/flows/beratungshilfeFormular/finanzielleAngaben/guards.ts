@@ -42,7 +42,6 @@ export const finanzielleAngabeGuards = {
     context.zusammenleben === "yes" &&
     context.partnerEinkommen === "yes",
   hasKinderYes: ({ context }) => context.hasKinder === "yes",
-  // TODO: replace with the correct guards
   kindWohnortBeiAntragstellerYes: ({ context: { pageData, kinder } }) => {
     if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
       return false;
@@ -73,4 +72,12 @@ export const finanzielleAngabeGuards = {
     return !(arrayIndex > (kinder?.length ?? 0));
   },
   livesAlone: ({ context }) => context.livingSituation === "alone",
+  isGrundeigentumBewohntYes: ({ context: { pageData, grundeigentum } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return (
+      grundeigentum?.[pageData.arrayIndexes[0]]?.istBewohnt === "yes" ||
+      grundeigentum?.[pageData.arrayIndexes[0]]?.istBewohnt === "family"
+    );
+  },
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;

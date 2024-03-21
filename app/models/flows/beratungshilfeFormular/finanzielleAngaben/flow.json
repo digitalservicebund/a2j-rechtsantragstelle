@@ -402,12 +402,24 @@
         },
         "grundeigentum": {
           "id": "grundeigentum",
-          "initial": "daten",
+          "initial": "grundeigentum-bewohnt-frage",
           "states": {
-            "daten": {
+            "grundeigentum-bewohnt-frage": {
               "on": {
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+                "SUBMIT": "grundeigentum-daten",
                 "BACK": "#besitzZusammenfassung.zusammenfassung"
+              }
+            },
+            "grundeigentum-bewohnt-daten": {
+              "on": {
+                "BACK": "grundeigentum-bewohnt-frage",
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+              }
+            },
+            "grundeigentum-daten": {
+              "on": {
+                "BACK": "grundeigentum-bewohnt-frage",
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }

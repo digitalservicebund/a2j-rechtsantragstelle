@@ -124,16 +124,9 @@ export const beratungshilfeFinanzielleAngaben = {
   ),
   hasAdditionalGeldanlage: YesNoAnswer,
   hasGrundeigentum: YesNoAnswer,
-  grundeigentumBewohnt: z.array(
-    z.object({
-      art: GrundeigentumArt,
-      eigentuemer: Eigentuemer,
-      flaeche: inputRequiredSchema,
-      verkaufswert: buildMoneyValidationSchema(),
-    }),
-  ),
   grundeigentum: z.array(
     z.object({
+      istBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),
       art: GrundeigentumArt,
       eigentuemer: Eigentuemer,
       flaeche: inputRequiredSchema,

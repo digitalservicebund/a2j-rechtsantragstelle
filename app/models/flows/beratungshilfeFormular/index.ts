@@ -66,7 +66,7 @@ const arrayConfigurations = {
   },
   grundeigentum: {
     url: `${flowId}finanzielleAngaben/besitzZusammenfassung/grundeigentum`,
-    initialInputUrl: "daten",
+    initialInputUrl: "grundeigentum-bewohnt-frage",
     questionUrl: `${flowId}finanzielleAngaben/besitz/grundeigentum-frage`,
     statementKey: "hasGrundeigentum",
   },
