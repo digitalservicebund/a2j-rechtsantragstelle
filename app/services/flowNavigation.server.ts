@@ -91,7 +91,9 @@ function getSubflowSpecifics(
     destination: flowRoot + subflowDestionationStepId,
     label: translation[subflowRoot] ?? subflowKey,
     state: navState({
-      isCurrent: currentStepId.startsWith(subflowRoot),
+      isCurrent:
+        currentStepId.startsWith(subflowRoot) &&
+        currentStepId.at(subflowRoot.length) === "/", // subflows might start with the same name, this ensures the following characters
       isReachable: subflowState !== "Hidden",
       isDone: subflowState == "Done",
       isUneditable: flowController.isUneditable(subflowRoot),
