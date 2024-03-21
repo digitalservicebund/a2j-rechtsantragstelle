@@ -14,13 +14,11 @@ const StrapiTileGroupSchema = z
     altLabel: z.string().nullable(),
     options: z.array(StrapiTileSchema),
     errors: z.object({
-      data: z
-        .array(
-          HasStrapiIdSchema.extend({
-            attributes: StrapiErrorCategorySchema,
-          }),
-        )
-        .optional(),
+      data: z.array(
+        HasStrapiIdSchema.extend({
+          attributes: StrapiErrorCategorySchema,
+        }),
+      ),
     }),
     useTwoColumns: z.boolean().nullable(),
   })

@@ -1,14 +1,15 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { Attachment } from "../attachment";
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-type UnterhaltPdfFields = {
+type UnterhaltPdfField = {
   name: string;
-  familienverhaeltnis: string;
-  unterhaltSumme: string;
+  geburtsdatum?: string;
+  familienverhaeltnis: "Kind" | "Partner:in";
+  unterhaltSumme?: string;
   hatEinnahmen: boolean;
-  einnahmenSumme: string;
+  einnahmenSumme?: string;
+  lebenZusammen?: boolean;
 };
 
 export function fillUnterhalt(
@@ -16,130 +17,118 @@ export function fillUnterhalt(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const unterhaltPdfFields: UnterhaltPdfFields[] = [];
+  const partner: UnterhaltPdfField | undefined =
+    context.partnerschaft === "yes" && context.unterhalt === "yes"
+      ? {
+          name: `${context.partnerVorname ?? ""} ${context.partnerNachname ?? ""}`,
+          familienverhaeltnis: "Partner:in",
+          unterhaltSumme: context.unterhaltsSumme,
+          hatEinnahmen: context.partnerEinkommen === "yes",
+          einnahmenSumme: context.partnerEinkommen,
+          lebenZusammen: context.zusammenleben === "yes",
+        }
+      : undefined;
 
-  if (context.partnerschaft === "yes" && context.unterhalt === "yes") {
-    unterhaltPdfFields.push({
-      name: [context.partnerVorname ?? "", context.partnerNachname ?? ""].join(
-        " ",
-      ),
-      familienverhaeltnis: "Partner:in",
-      unterhaltSumme: context.unterhaltsSumme ?? "",
-      hatEinnahmen: context.partnerEinkommen === "yes",
-      einnahmenSumme: context.partnerEinkommen ?? "",
-    });
-  }
-
-  if (context.kinder && context.kinder.length > 0) {
-    context.kinder.forEach((kind) => {
-      unterhaltPdfFields.unshift({
-        name: [kind.vorname ?? "", kind.nachname ?? ""].join(" "),
+  const kinder: UnterhaltPdfField[] = context.kinder
+    ? context.kinder.map((kind) => ({
+        name: `${kind.vorname ?? ""} ${kind.nachname ?? ""}`,
+        geburtsdatum: kind.geburtsdatum,
         familienverhaeltnis: "Kind",
-        unterhaltSumme: kind.unterhaltsSumme ?? "",
+        unterhaltSumme: kind.unterhaltsSumme,
         hatEinnahmen: kind.eigeneEinnahmen === "yes",
-        einnahmenSumme: kind.einnahmen ?? "",
-      });
-    });
-  }
+        einnahmenSumme: kind.einnahmen,
+        lebenZusammen: kind.wohnortBeiAntragsteller === "yes",
+      }))
+    : [];
 
-  if (unterhaltPdfFields.length == 0) return;
+  [partner, ...kinder]
+    .filter(Boolean)
+    .forEach((field, idx) =>
+      fillPersonInPdf(pdfFields, field as UnterhaltPdfField, idx),
+    );
+
+  if (!partner && kinder.length === 0) return;
 
   attachment.shouldCreateAttachment = true;
 
-  const description: string[] = [];
+  let attachmentText = "";
 
-  unterhaltPdfFields.forEach((unterhaltPdfField) => {
-    description.unshift(
-      getUnterhaltDescription(
-        unterhaltPdfField.name,
-        unterhaltPdfField.familienverhaeltnis,
-        unterhaltPdfField.unterhaltSumme,
-        context.zusammenleben,
-      ).join("\n"),
-    );
+  if (kinder.length > 0) {
+    attachmentText += `Kinder:\n\n`;
+    kinder.forEach((kind, index) => {
+      attachmentText += `Kind ${index + 1}:\n`;
+      attachmentText += getUnterhaltDescription(kind);
+      attachmentText += "\n\n";
+    });
+  }
+
+  if (partner) {
+    attachmentText += "\n\n";
+    attachmentText += "Unterhaltszahlungen für andere Angehörige\n\n";
+    attachmentText += getUnterhaltDescription(partner);
+  }
+
+  attachment.descriptions.push({
+    title: "Feld E Unterhaltszahlungen",
+    text: attachmentText,
   });
-
-  attachment.descriptions.unshift({
-    title: "Unterhalt",
-    text: description.join("\n\n"),
-  });
-
-  const person1 = unterhaltPdfFields.pop();
-  if (!person1) return;
-  fillPerson1(pdfFields, person1);
-
-  const person2 = unterhaltPdfFields.pop();
-  if (!person2) return;
-  fillPerson2(pdfFields, person2);
-
-  const person3 = unterhaltPdfFields.pop();
-  if (!person3) return;
-  fillPerson3(pdfFields, person3);
-
-  const person4 = unterhaltPdfFields.pop();
-  if (!person4) return;
-  fillPerson4(pdfFields, person4);
 }
 
-function fillPerson1(
+function fillPersonInPdf(
   pdfFields: BeratungshilfePDF,
-  unterhaltPdfFields: UnterhaltPdfFields,
+  unterhaltPdfFields: UnterhaltPdfField,
+  index: number,
 ) {
-  pdfFields.e1Person1.value = unterhaltPdfFields.name;
-  pdfFields.e3Familienverhaeltnis.value =
-    unterhaltPdfFields.familienverhaeltnis;
-  pdfFields.e4Zahlung1.value = unterhaltPdfFields.unterhaltSumme;
-  pdfFields.e5Einnahmen1.value = unterhaltPdfFields.hatEinnahmen;
+  const nameKey = `e1Person${index + 1}` as keyof BeratungshilfePDF;
+  const birthdayKey =
+    `e2Geburtsdatum${index === 0 ? "" : index + 1}` as keyof BeratungshilfePDF;
+  const relationKey =
+    `e3Familienverhaeltnis${index === 0 ? "" : index + 1}` as keyof BeratungshilfePDF;
+  const unterhaltKey = `e4Zahlung${index + 1}` as keyof BeratungshilfePDF;
+  const einnahmenKey = `e5Einnahmen${index + 1}` as keyof BeratungshilfePDF;
+  const einnahmenSummeKey = `e6Betrag${index + 1}` as keyof BeratungshilfePDF;
+
+  if (nameKey in pdfFields)
+    pdfFields[nameKey].value =
+      unterhaltPdfFields.name +
+      (unterhaltPdfFields.lebenZusammen ? "" : " (Gemeinsame Wohnung: Nein)");
+  if (birthdayKey in pdfFields)
+    pdfFields[birthdayKey].value = unterhaltPdfFields.geburtsdatum;
+  if (relationKey in pdfFields)
+    pdfFields[relationKey].value = unterhaltPdfFields.familienverhaeltnis;
+  if (unterhaltKey in pdfFields)
+    pdfFields[unterhaltKey].value =
+      unterhaltPdfFields.unterhaltSumme &&
+      unterhaltPdfFields.unterhaltSumme + " €";
+  if (einnahmenKey in pdfFields)
+    pdfFields[einnahmenKey].value = !unterhaltPdfFields.hatEinnahmen;
+  if (einnahmenSummeKey in pdfFields)
+    pdfFields[einnahmenSummeKey].value =
+      unterhaltPdfFields.einnahmenSumme &&
+      unterhaltPdfFields.einnahmenSumme + " €";
 }
 
-function fillPerson2(
-  pdfFields: BeratungshilfePDF,
-  unterhaltPdfFields: UnterhaltPdfFields,
-) {
-  pdfFields.e1Person2.value = unterhaltPdfFields.name;
-  pdfFields.e3Familienverhaeltnis2.value =
-    unterhaltPdfFields.familienverhaeltnis;
-  pdfFields.e4Zahlung2.value = unterhaltPdfFields.unterhaltSumme;
-  pdfFields.e5Einnahmen2.value = unterhaltPdfFields.hatEinnahmen;
-}
-
-function fillPerson3(
-  pdfFields: BeratungshilfePDF,
-  unterhaltPdfFields: UnterhaltPdfFields,
-) {
-  pdfFields.e1Person3.value = unterhaltPdfFields.name;
-  pdfFields.e3Familienverhaeltnis3.value =
-    unterhaltPdfFields.familienverhaeltnis;
-  pdfFields.e4Zahlung3.value = unterhaltPdfFields.unterhaltSumme;
-  pdfFields.e5Einnahmen3.value = unterhaltPdfFields.hatEinnahmen;
-}
-
-function fillPerson4(
-  pdfFields: BeratungshilfePDF,
-  unterhaltPdfFields: UnterhaltPdfFields,
-) {
-  pdfFields.e1Person4.value = unterhaltPdfFields.name;
-  pdfFields.e3Familienverhaeltnis4.value =
-    unterhaltPdfFields.familienverhaeltnis;
-  pdfFields.e4Zahlung4.value = unterhaltPdfFields.unterhaltSumme;
-  pdfFields.e5Einnahmen4.value = unterhaltPdfFields.hatEinnahmen;
-}
-
-function getUnterhaltDescription(
-  name?: string,
-  familienverhaeltnis?: string,
-  unterhaltsSumme?: string,
-  zusammenleben?: "yes" | "no",
-) {
+function getUnterhaltDescription({
+  name,
+  unterhaltSumme,
+  geburtsdatum,
+  lebenZusammen,
+  einnahmenSumme,
+  familienverhaeltnis,
+  hatEinnahmen,
+}: UnterhaltPdfField) {
   const description = [];
 
+  description.push(`Name: ${name ?? ""}`);
+  description.push(`Geburtsdatum: ${geburtsdatum ?? ""}`);
+  if (hatEinnahmen && einnahmenSumme)
+    description.push(`Eigene monatlichen Einnahmen: ${einnahmenSumme} €`);
+  if (familienverhaeltnis === "Partner:in")
+    description.push(`Familienverhältnis: ${familienverhaeltnis}`);
   description.push(
-    `Unterhalt für ${familienverhaeltnis ?? ""} - ${name ?? ""}`,
+    `Monatliche Unterhaltszahlungen: ${unterhaltSumme ? unterhaltSumme + " €" : "Keine Angabe"}`,
   );
-  description.push(
-    `Gemeinsame Wohnung: ${zusammenleben === "yes" ? "Ja" : "Nein"}`,
-  );
-  description.push(`Monatliche Summe: ${unterhaltsSumme ?? "Keine Angabe"} €`);
+  description.push(`Gemeinsame Wohnung: ${lebenZusammen ? "Ja" : "Nein"}`);
 
-  return description;
+  return description.join("\n");
 }

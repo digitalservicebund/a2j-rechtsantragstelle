@@ -93,7 +93,6 @@ jobs:
         with:
           sarif_file: "trivy-results.sarif"
       - run: ./docker.sh --push prod
-      - run: ./docker.sh --sign
       - id: prod_image_tag
         run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
     outputs:
@@ -106,7 +105,7 @@ jobs:
     environment: staging
     steps:
       - name: Deploy new staging image
-        uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
+        uses: digitalservicebund/argocd-deploy@4fac1bb67c92ed168f6d9b22f8779ce241a9e412 # v1.0.0
         with:
           environment: staging
           version: ${{ needs.build-push-app-image.outputs.prod_image_tag }}
@@ -118,7 +117,7 @@ jobs:
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
           argocd_sync_timeout: 300
       - name: Report Deployment
-        uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
+        uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
         with:
           project: a2j-rechtsantragstelle
           environment: staging
@@ -132,7 +131,7 @@ jobs:
     environment: preview
     steps:
       - name: Deploy new preview image
-        uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
+        uses: digitalservicebund/argocd-deploy@4fac1bb67c92ed168f6d9b22f8779ce241a9e412 # v1.0.0
         with:
           environment: preview
           version: ${{ needs.build-push-app-image.outputs.prod_image_tag }}
@@ -144,7 +143,7 @@ jobs:
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
           argocd_sync_timeout: 300
       - name: Report Deployment
-        uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
+        uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
         with:
           project: a2j-rechtsantragstelle
           environment: preview
@@ -167,7 +166,7 @@ jobs:
     environment: production
     steps:
       - name: Deploy new production image
-        uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
+        uses: digitalservicebund/argocd-deploy@4fac1bb67c92ed168f6d9b22f8779ce241a9e412 # v1.0.0
         with:
           environment: production
           version: ${{ needs.build-push-app-image.outputs.prod_image_tag }}
@@ -179,7 +178,7 @@ jobs:
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
           argocd_sync_timeout: 300
       - name: Report Deployment
-        uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
+        uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
         with:
           project: a2j-rechtsantragstelle
           environment: production

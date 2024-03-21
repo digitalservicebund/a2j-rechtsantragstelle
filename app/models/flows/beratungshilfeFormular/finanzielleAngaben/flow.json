@@ -11,7 +11,7 @@
             "SUBMIT": [
               {
                 "guard": "staatlicheLeistungenIsBuergergeld",
-                "target": "#besitz.bankkonten-frage"
+                "target": "#besitz.eigentum-info"
               },
               {
                 "guard": "staatlicheLeistungenIsAsylbewerberleistungen",
@@ -78,11 +78,11 @@
             "BACK": "#einkommen.einkommen",
             "SUBMIT": [
               {
-                "guard": "partnerschaftNo",
+                "guard": "hasPartnerschaftNoOrWidowed",
                 "target": "#kinder.kinder-frage"
               },
               {
-                "guard": "partnerschaftYes",
+                "guard": "hasPartnerschaftOrSeparated",
                 "target": "zusammenleben"
               }
             ]
@@ -165,21 +165,39 @@
       "states": {
         "kinder-frage": {
           "on": {
-            "BACK": "#partner.partner-einkommen-summe",
+            "BACK": [
+              {
+                "guard": "hasPartnerschaftNoOrWidowed",
+                "target": "#partner.partnerschaft"
+              },
+              {
+                "guard": "partnerEinkommenNo",
+                "target": "#partner.partner-einkommen"
+              },
+              {
+                "guard": "hasPartnerschaftOrSeparated",
+                "target": "#partner.partner-einkommen-summe"
+              }
+            ],
             "SUBMIT": [
               {
                 "guard": "hasKinderYes",
-                "target": "zusammenfassung"
+                "target": "uebersicht"
               },
-              "#besitz.bankkonten-frage"
+              "#besitz.eigentum-info"
             ]
           }
         },
-        "zusammenfassung": {
+        "uebersicht": {
           "on": {
             "BACK": "kinder-frage",
             "SUBMIT": "#besitz",
-            "ADDITEM": "kinder"
+            "ADDITEM": [
+              {
+                "guard": "isValidKinderArrayIndex",
+                "target": "kinder"
+              }
+            ]
           }
         },
         "kinder": {
@@ -188,7 +206,7 @@
           "states": {
             "name": {
               "on": {
-                "BACK": "#kinder.zusammenfassung",
+                "BACK": "#kinder.uebersicht",
                 "SUBMIT": "wohnort"
               }
             },
@@ -212,14 +230,14 @@
                     "guard": "kindEigeneEinnahmenYes",
                     "target": "kind-eigene-einnahmen"
                   },
-                  "#kinder.zusammenfassung"
+                  "#kinder.uebersicht"
                 ]
               }
             },
             "kind-eigene-einnahmen": {
               "on": {
                 "BACK": "kind-eigene-einnahmen-frage",
-                "SUBMIT": "#kinder.zusammenfassung"
+                "SUBMIT": "#kinder.uebersicht"
               }
             },
             "kind-unterhalt-frage": {
@@ -237,13 +255,13 @@
             "kind-unterhalt": {
               "on": {
                 "BACK": "kind-unterhalt-frage",
-                "SUBMIT": "#kinder.zusammenfassung"
+                "SUBMIT": "#kinder.uebersicht"
               }
             },
             "kind-unterhalt-ende": {
               "on": {
                 "BACK": "kind-unterhalt-frage",
-                "SUBMIT": "#kinder.zusammenfassung"
+                "SUBMIT": "#kinder.uebersicht"
               }
             }
           }
@@ -252,73 +270,84 @@
     },
     "besitz": {
       "id": "besitz",
-      "initial": "bankkonten-frage",
+      "initial": "eigentum-info",
       "states": {
+        "eigentum-info": {
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "hasPartnerschaftYes",
+                "target": "heirat-info"
+              },
+              "bankkonten-frage"
+            ],
+            "BACK": [
+              {
+                "guard": "staatlicheLeistungenIsBuergergeld",
+                "target": "#einkommen.staatliche-leistungen"
+              },
+              { "guard": "hasKinderYes", "target": "#kinder.uebersicht" },
+              "#kinder.kinder-frage"
+            ]
+          }
+        },
+        "heirat-info": {
+          "on": {
+            "BACK": "eigentum-info",
+            "SUBMIT": "bankkonten-frage"
+          }
+        },
         "bankkonten-frage": {
-          "id": "bankkonto-frage",
           "on": {
             "BACK": [
               {
-                "guard": "hasStaatlicheLeistungen",
-                "target": "#einkommen.staatliche-leistungen"
+                "guard": "hasPartnerschaftYes",
+                "target": "heirat-info"
               },
-              {
-                "guard": "partnerschaftNo",
-                "target": "#partner.partnerschaft"
-              },
-              {
-                "guard": "isPartnerschaftZusammenlebenEinkommenNo",
-                "target": "#partner.partner-einkommen"
-              },
-              {
-                "guard": "isPartnerschaftZusammenlebenEinkommenYes",
-                "target": "#partner.partner-einkommen-summe"
-              },
-              {
-                "guard": "unterhaltNo",
-                "target": "#partner.keine-rolle"
-              },
-              {
-                "guard": "unterhaltYes",
-                "target": "#partner.partner-name"
-              },
-              "#partner.partnerschaft"
+              "eigentum-info"
             ],
-            "SUBMIT": "kraftfahrzeuge-frage"
-          }
-        },
-        "kraftfahrzeuge-frage": {
-          "id": "kraftfahrzeuge-frage",
-          "on": {
-            "SUBMIT": "geldanlagen-frage",
-            "BACK": "bankkonten-frage"
+            "SUBMIT": "geldanlagen-frage"
           }
         },
         "geldanlagen-frage": {
-          "id": "geldanlagen-frage",
-          "on": {
-            "SUBMIT": "grundeigentum-frage",
-            "BACK": "kraftfahrzeuge-frage"
-          }
-        },
-        "grundeigentum-frage": {
-          "id": "grundeigentum-frage",
           "on": {
             "SUBMIT": "wertsachen-frage",
-            "BACK": "geldanlagen-frage"
+            "BACK": "bankkonten-frage"
           }
         },
         "wertsachen-frage": {
-          "id": "wertsachen-frage",
           "on": {
-            "SUBMIT": "zusammenfassung",
+            "SUBMIT": "grundeigentum-frage",
+            "BACK": "geldanlagen-frage"
+          }
+        },
+        "grundeigentum-frage": {
+          "on": {
+            "SUBMIT": "kraftfahrzeuge-frage",
+            "BACK": "wertsachen-frage"
+          }
+        },
+        "kraftfahrzeuge-frage": {
+          "on": {
+            "SUBMIT": "gesamtwert",
             "BACK": "grundeigentum-frage"
           }
         },
-        "zusammenfassung": {
-          "id": "zusammenfassung",
+        "gesamtwert": {
           "on": {
-            "BACK": "#besitz.wertsachen-frage",
+            "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+            "BACK": "kraftfahrzeuge-frage"
+          }
+        }
+      }
+    },
+    "besitzZusammenfassung": {
+      "id": "besitzZusammenfassung",
+      "initial": "zusammenfassung",
+      "states": {
+        "zusammenfassung": {
+          "on": {
+            "BACK": "#besitz.gesamtwert",
             "SUBMIT": "#danke",
             "ADDITEM": {
               "target": [
@@ -337,8 +366,8 @@
           "states": {
             "daten": {
               "on": {
-                "SUBMIT": "#besitz.zusammenfassung",
-                "BACK": "#besitz.zusammenfassung"
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+                "BACK": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }
@@ -349,8 +378,8 @@
           "states": {
             "daten": {
               "on": {
-                "SUBMIT": "#besitz.zusammenfassung",
-                "BACK": "#besitz.zusammenfassung"
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+                "BACK": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }
@@ -361,8 +390,8 @@
           "states": {
             "daten": {
               "on": {
-                "SUBMIT": "#besitz.zusammenfassung",
-                "BACK": "#besitz.zusammenfassung"
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+                "BACK": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }
@@ -373,8 +402,8 @@
           "states": {
             "daten": {
               "on": {
-                "SUBMIT": "#besitz.zusammenfassung",
-                "BACK": "#besitz.zusammenfassung"
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+                "BACK": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }
@@ -385,8 +414,8 @@
           "states": {
             "daten": {
               "on": {
-                "SUBMIT": "#besitz.zusammenfassung",
-                "BACK": "#besitz.zusammenfassung"
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+                "BACK": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }
@@ -405,7 +434,7 @@
             "guard": "staatlicheLeistungenIsGrundsicherung",
             "target": "#einkommen.staatliche-leistungen"
           },
-          "#besitz.zusammenfassung"
+          "#besitzZusammenfassung"
         ]
       }
     }

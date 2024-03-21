@@ -8,7 +8,7 @@ const StrapiAlertSchema = z
   .object({
     heading: StrapiHeadingSchema.nullable(),
     look: z.enum(["hint"]),
-    content: z.string().optional(),
+    content: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);
@@ -21,5 +21,5 @@ export const StrapiAlertComponentSchema = StrapiAlertSchema.extend({
 
 export const renderAlertFromStrapi = (strapiAlert: StrapiAlert) => {
   const { heading, look, content } = strapiAlert;
-  return <Alert heading={heading} look={look} content={content} />;
+  return <Alert heading={heading} look={look} content={content ?? undefined} />;
 };

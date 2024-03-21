@@ -10,10 +10,14 @@ import { useFetcher, useLocation } from "@remix-run/react";
 import { lookupOrKey } from "~/util/lookupOrKey";
 import type { ObjectType } from "~/models/flows/contexts";
 import { CSRFKey } from "~/services/security/csrfKey";
+import type { ArrayConfig } from "~/services/array";
 
 type ArraySummaryProps = {
   readonly category: string;
-  readonly arrayData: { data: ObjectType[]; url: string; initialStep: string };
+  readonly arrayData: {
+    data: ObjectType[];
+    arrayConfiguration: ArrayConfig;
+  };
   readonly translations?: Translations;
   readonly csrf: string;
 };
@@ -27,16 +31,19 @@ const ArraySummary = ({
   const addButtonText = translations["arrayAddButtonLabel"] ?? "Hinzufügen";
   const editButtonText = translations["arrayEditButtonLabel"] ?? "Bearbeiten";
   const deleteButtonText = translations["arrayDeleteButtonLabel"] ?? "Löschen";
+  // TODO: Validate & move strings to strapi
+  const emptyArrayFallbackString = "Das habe ich nicht.";
+  const changeEntryString = "ändern";
+
   const titleHeading = lookupOrKey(`${category}.label.title`, translations);
   const subtitle = lookupOrKey(`${category}.label.subtitle`, translations);
   const description: string | undefined =
     translations[`${category}.description`];
   const { pathname } = useLocation();
-  const deleteFetcher = useFetcher();
+  const fetcher = useFetcher();
 
-  const nextItemIndex = arrayData.data.length;
-  const addButtonDestination = `${arrayData.url}/${nextItemIndex}/${arrayData.initialStep}`;
-  const emptyArrayFallbackString = "Das besitze ich nicht."; // TODO: Validate & move to strapi
+  const nextItemIndex = String(arrayData.data.length);
+  const { url } = arrayData.arrayConfiguration;
   return (
     <div className="ds-stack-8 scroll-my-40 mb-24">
       <Heading text={titleHeading} tagName="h2" look="ds-heading-03-bold" />
@@ -47,60 +54,88 @@ const ArraySummary = ({
 
           return (
             <div key={subtitleHeading} className="space-y-8 bg-white p-16">
-              {Object.entries(element).map(([elementKey, elementValue]) => {
-                return (
-                  <div key={elementKey} className="first:pt-0 scroll-my-40">
-                    <Heading
-                      text={
-                        translations[`${category}.${elementKey}`] ?? elementKey
-                      }
-                      tagName="h3"
-                      look="ds-label-02-bold"
-                    />
-                    {translations[
-                      `${category}.${elementKey}.${elementValue}`
-                    ] ?? elementValue}
-                  </div>
-                );
-              })}
+              {Object.entries(element)
+                .filter(
+                  ([elementKey]) =>
+                    !arrayData.arrayConfiguration.hiddenFields?.includes(
+                      elementKey,
+                    ),
+                )
+                .map(([elementKey, elementValue]) => {
+                  return (
+                    <div key={elementKey} className="first:pt-0 scroll-my-40">
+                      <Heading
+                        text={
+                          translations[`${category}.${elementKey}`] ??
+                          elementKey
+                        }
+                        tagName="h3"
+                        look="ds-label-02-bold"
+                      />
+                      {translations[
+                        `${category}.${elementKey}.${elementValue}`
+                      ] ?? elementValue}
+                    </div>
+                  );
+                })}
               <ButtonContainer>
                 <Button
                   iconLeft={<EditButton />}
                   look="tertiary"
-                  href={`${arrayData.url}/${index}/${arrayData.initialStep}`}
+                  href={`${url}/${index}/${arrayData.arrayConfiguration.initialInputUrl}`}
                 >
                   {editButtonText}
                 </Button>
                 {/* form method 'delete' isn't supported without js, see https://github.com/remix-run/remix/discussions/4420 */}
-                <deleteFetcher.Form method="post" action={pathname}>
+                <fetcher.Form method="post" action={pathname}>
                   <input type="hidden" name={CSRFKey} value={csrf} />
                   <input type="hidden" name="_action" value="delete" />
                   <Button
                     look="tertiary"
                     iconLeft={<DeleteIcon />}
-                    name={`${category}`}
-                    value={`${index}`}
+                    name={category}
+                    value={index}
                     type="submit"
                   >
                     {deleteButtonText}
                   </Button>
-                </deleteFetcher.Form>
+                </fetcher.Form>
               </ButtonContainer>
             </div>
           );
         })}
-        {arrayData.data.length === 0 && (
-          <div className="bg-white p-16 ds-label-02-bold">
-            <strong>{emptyArrayFallbackString}</strong>
-          </div>
-        )}
+        {!arrayData.arrayConfiguration.statementValue &&
+          arrayData.data.length === 0 && (
+            <div
+              className="bg-white p-16 ds-label-02-bold"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <strong>{emptyArrayFallbackString}</strong>
+              <Button
+                look="ghost"
+                className="hover:shadow-none pl-0 pt-8"
+                iconLeft={<EditButton />}
+                href={arrayData.arrayConfiguration.questionUrl}
+              >
+                {changeEntryString}
+              </Button>
+            </div>
+          )}
       </div>
-      <Button
-        look="ghost"
-        className="hover:shadow-none pl-0 pt-8"
-        iconLeft={<AddButton />}
-        href={addButtonDestination}
-      >{`${subtitle} ${addButtonText}`}</Button>
+      {(arrayData.arrayConfiguration.statementValue ||
+        arrayData.data.length > 0) && (
+        <Button
+          look="ghost"
+          className="hover:shadow-none pl-0 pt-8"
+          iconLeft={<AddButton />}
+          data-testid={`add-${category}`}
+          href={`${url}/${Number(nextItemIndex)}/${arrayData.arrayConfiguration.initialInputUrl}`}
+        >{`${subtitle} ${addButtonText}`}</Button>
+      )}
     </div>
   );
 };

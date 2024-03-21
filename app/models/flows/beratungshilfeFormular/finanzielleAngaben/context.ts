@@ -8,7 +8,8 @@ import {
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { postcodeSchema } from "~/services/validation/postcode";
-import { createDateSchema } from "~/services/validation/date";
+import { addDays, createDateSchema, today } from "~/services/validation/date";
+import { pageDataSchema } from "~/services/flow/pageData";
 
 const Eigentuemer = z.enum(
   ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -45,7 +46,10 @@ export const beratungshilfeFinanzielleAngaben = {
     ["pupil", "student", "retiree", "no"],
     customRequiredErrorMessage,
   ),
-  partnerschaft: YesNoAnswer,
+  partnerschaft: z.enum(
+    ["yes", "no", "separated", "widowed"],
+    customRequiredErrorMessage,
+  ),
   zusammenleben: YesNoAnswer,
   unterhalt: YesNoAnswer,
   unterhaltsSumme: buildMoneyValidationSchema(),
@@ -58,7 +62,10 @@ export const beratungshilfeFinanzielleAngaben = {
     z.object({
       vorname: inputRequiredSchema,
       nachname: inputRequiredSchema,
-      geburtsdatum: createDateSchema(),
+      geburtsdatum: createDateSchema({
+        earliest: () => addDays(today(), -24 * 365),
+        latest: () => today(),
+      }),
       wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
       eigeneEinnahmen: YesNoAnswer,
       einnahmen: buildMoneyValidationSchema(),
@@ -104,6 +111,10 @@ export const beratungshilfeFinanzielleAngaben = {
       auszahlungdatum: inputRequiredSchema,
     }),
   ),
+  besitzTotalWorth: z.enum(
+    ["less10000", "more10000", "unsure"],
+    customRequiredErrorMessage,
+  ),
   hasAdditionalGeldanlage: YesNoAnswer,
   hasGrundeigentum: YesNoAnswer,
   grundeigentumBewohnt: z.array(
@@ -147,6 +158,7 @@ export const beratungshilfeFinanzielleAngaben = {
     }),
   ),
   hasAdditionalWertsache: YesNoAnswer,
+  pageData: pageDataSchema,
 };
 
 const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();
@@ -198,7 +210,7 @@ const partnerReachable = (context: BeratungshilfeFinanzielleAngaben) =>
 const partnerDone = (context: BeratungshilfeFinanzielleAngaben) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen(context)) ||
-  context.partnerschaft == "no" ||
+  ["no", "widowed"].includes(context.partnerschaft ?? "") ||
   context.unterhalt == "no" ||
   context.partnerEinkommen == "no" ||
   context.partnerEinkommenSumme != undefined ||

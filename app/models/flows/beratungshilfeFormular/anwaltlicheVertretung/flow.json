@@ -10,7 +10,7 @@
         "SUBMIT": [
           {
             "guard": "anwaltskanzleiNo",
-            "target": "#rechtsproblem"
+            "target": "#rechtsproblem.start"
           },
           {
             "target": "beratungStattgefunden"
@@ -23,7 +23,7 @@
         "SUBMIT": [
           {
             "guard": "beratungStattgefundenNo",
-            "target": "#rechtsproblem"
+            "target": "#rechtsproblem.start"
           },
           {
             "target": "beratungStattgefundenDatum"

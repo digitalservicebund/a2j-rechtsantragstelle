@@ -38,7 +38,51 @@ import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
   getAnwaltStrings,
+  besitzZusammenfassungWarning,
 } from "./stringReplacements";
+import type { ArrayConfig } from "~/services/array";
+
+const flowId = "/beratungshilfe/antrag/";
+
+const arrayConfigurations = {
+  bankkonten: {
+    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/bankkonten`,
+    initialInputUrl: "daten",
+    questionUrl: `${flowId}finanzielleAngaben/besitz/bankkonten-frage`,
+    statementKey: "hasBankkonto",
+  },
+  kraftfahrzeuge: {
+    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge`,
+    initialInputUrl: "daten",
+    questionUrl: `${flowId}finanzielleAngaben/besitz/kraftfahrzeuge-frage`,
+    statementKey: "hasKraftfahrzeug",
+  },
+  geldanlagen: {
+    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/geldanlagen`,
+    initialInputUrl: "daten",
+    questionUrl: `${flowId}finanzielleAngaben/besitz/geldanlagen-frage`,
+    statementKey: "hasGeldanlage",
+  },
+  grundeigentum: {
+    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/grundeigentum`,
+    initialInputUrl: "daten",
+    questionUrl: `${flowId}finanzielleAngaben/besitz/grundeigentum-frage`,
+    statementKey: "hasGrundeigentum",
+  },
+  wertsachen: {
+    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/wertsachen`,
+    initialInputUrl: "daten",
+    questionUrl: `${flowId}finanzielleAngaben/besitz/wertsachen-frage`,
+    statementKey: "hasWertsache",
+  },
+  kinder: {
+    url: `${flowId}finanzielleAngaben/kinder/kinder`,
+    initialInputUrl: `name`,
+    questionUrl: `${flowId}finanzielleAngaben/kinder/kinder-frage`,
+    statementKey: "hasKinder",
+    hiddenFields: ["eigeneEinnahmen", "unterhalt"],
+  },
+} satisfies Record<string, ArrayConfig>;
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -101,7 +145,11 @@ export const beratungshilfeFormular = {
               ],
             },
           },
-          danke: { on: { SUBMIT: "#finanzielleAngaben" } },
+          danke: {
+            on: {
+              SUBMIT: "#finanzielleAngaben.einkommen.staatliche-leistungen",
+            },
+          },
         },
       }),
       finanzielleAngaben: _.merge(_.cloneDeep(finanzielleAngabenFlow), {
@@ -115,7 +163,7 @@ export const beratungshilfeFormular = {
               "staatliche-leistungen": { on: { BACK: "#rechtsproblem.danke" } },
             },
           },
-          danke: { on: { SUBMIT: "#persoenlicheDaten" } },
+          danke: { on: { SUBMIT: "#persoenlicheDaten.start" } },
         },
       }),
       persoenlicheDaten: _.merge(_.cloneDeep(persoenlicheDatenFlow), {
@@ -143,15 +191,14 @@ export const beratungshilfeFormular = {
     ...beratungshilfeAbgabeGuards,
     ...finanzielleAngabeGuards,
   },
-  stringReplacements: (
-    context: BeratungshilfeFormularContext,
-    arrayIndexes?: number[],
-  ) => ({
+  stringReplacements: (context: BeratungshilfeFormularContext) => ({
     ...getAmtsgerichtStrings(context),
     ...getStaatlicheLeistungenStrings(context),
-    ...getKinderStrings(context, arrayIndexes),
+    ...getKinderStrings(context),
     ...getAnwaltStrings(context),
+    ...besitzZusammenfassungWarning(context),
   }),
+  arrayConfigurations,
 } as const;
 
 export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &

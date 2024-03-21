@@ -14,6 +14,9 @@ export type AllContexts =
   | FluggastrechtVorabcheckContext
   | FluggastrechtContext;
 
+type KeysOfUnion<T> = T extends T ? keyof T : never;
+export type AllContextKeys = KeysOfUnion<AllContexts>;
+
 export function getReasonsToDisplay(
   context: AllContexts,
 ): Record<string, boolean> {

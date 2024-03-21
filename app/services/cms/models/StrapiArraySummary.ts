@@ -14,7 +14,7 @@ export const StrapiArraySummaryComponentSchema =
     __component: z.literal("page.array-summary"),
   });
 
-type StrapiArraySummaryComponent = z.infer<
+export type StrapiArraySummaryComponent = z.infer<
   typeof StrapiArraySummaryComponentSchema
 >;
 

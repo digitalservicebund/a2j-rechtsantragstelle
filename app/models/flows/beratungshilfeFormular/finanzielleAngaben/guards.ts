@@ -12,8 +12,14 @@ export const finanzielleAngabeGuards = {
     context.staatlicheLeistungen === "asylbewerberleistungen" ||
     context.staatlicheLeistungen === "buergergeld" ||
     context.staatlicheLeistungen === "grundsicherung",
+  hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",
+  besitzTotalWorthLessThan10000: ({ context }) =>
+    context.besitzTotalWorth === "less10000",
+  hasPartnerschaftOrSeparated: ({ context }) =>
+    context.partnerschaft === "yes" || context.partnerschaft === "separated",
+  hasPartnerschaftNoOrWidowed: ({ context }) =>
+    context.partnerschaft === "no" || context.partnerschaft === "widowed",
   ...yesNoGuards("erwerbstaetig"),
-  ...yesNoGuards("partnerschaft"),
   ...yesNoGuards("zusammenleben"),
   ...yesNoGuards("unterhalt"),
   ...yesNoGuards("partnerEinkommen"),
@@ -37,10 +43,33 @@ export const finanzielleAngabeGuards = {
     context.partnerEinkommen === "yes",
   hasKinderYes: ({ context }) => context.hasKinder === "yes",
   // TODO: replace with the correct guards
-  kindWohnortBeiAntragstellerYes: ({ context }) =>
-    context.kinder?.[0]?.wohnortBeiAntragsteller === "yes" ||
-    context.kinder?.[0]?.wohnortBeiAntragsteller === "partially",
-  kindEigeneEinnahmenYes: ({ context }) =>
-    context.kinder?.[0]?.eigeneEinnahmen === "yes",
-  kindUnterhaltYes: ({ context }) => context.kinder?.[0]?.unterhalt === "yes",
+  kindWohnortBeiAntragstellerYes: ({ context: { pageData, kinder } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    const kinderWohnortBeiAntragsteller =
+      kinder?.[pageData.arrayIndexes[0]]?.wohnortBeiAntragsteller;
+    return (
+      kinderWohnortBeiAntragsteller === "yes" ||
+      kinderWohnortBeiAntragsteller === "partially"
+    );
+  },
+  kindEigeneEinnahmenYes: ({ context: { pageData, kinder } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return kinder?.[pageData.arrayIndexes[0]]?.eigeneEinnahmen === "yes";
+  },
+  kindUnterhaltYes: ({ context: { pageData, kinder } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return kinder?.[pageData.arrayIndexes[0]]?.unterhalt === "yes";
+  },
+  isValidKinderArrayIndex: ({ context: { pageData, kinder } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    const arrayIndex = pageData.arrayIndexes[0];
+    if ((kinder?.length === 0 && arrayIndex > 0) || arrayIndex < 0)
+      return false;
+
+    return !(arrayIndex > (kinder?.length ?? 0));
+  },
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;

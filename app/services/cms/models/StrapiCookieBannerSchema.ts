@@ -12,7 +12,7 @@ export const StrapiCookieBannerSchema = z
     paragraphs: z.array(StrapiParagraphSchema),
     acceptButtonLabel: z.string(),
     declineButtonLabel: z.string(),
-    cookieSettingLinkText: z.string().nullable().optional(),
+    cookieSettingLinkText: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)

@@ -9,7 +9,9 @@ import { context as geldEinklagenFormularContext } from "./geldEinklagenFormular
 type BasicTypes = string | number | boolean;
 export type ObjectType = Record<
   string,
-  BasicTypes | Record<string, BasicTypes | Record<string, BasicTypes>> // TODO: check whether GeldEinklagenFormularContext should be triple nested
+  | BasicTypes
+  | BasicTypes[]
+  | Record<string, BasicTypes | Record<string, BasicTypes>> // TODO: check whether GeldEinklagenFormularContext should be triple nested
 >;
 export type Context = Record<
   string,
@@ -40,9 +42,10 @@ export function parsePathname(pathname: string) {
   const pathSegments = pathname.split("/");
   const flowId = `${pathSegments[1]}/${pathSegments[2]}`;
   if (!isFlowId(flowId)) throw Error("Unknown flow ID");
-  const arrayIndexes = pathname
-    .match(/(\/\d+)/g)
-    ?.map((index) => Number(index.replace("/", "")));
+  const arrayIndexes =
+    pathname
+      .match(/(\/\d+)/g)
+      ?.map((index) => Number(index.replace("/", ""))) ?? [];
   const stepId = pathSegments
     .slice(3)
     .join("/")

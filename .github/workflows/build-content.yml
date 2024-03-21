@@ -98,7 +98,7 @@ jobs:
     environment: preview
     steps:
       - name: Report Deployment
-        uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
+        uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
         with:
           project: a2j-rechtsantragstelle
           environment: preview
@@ -106,7 +106,7 @@ jobs:
           metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
 
       - name: Deploy new preview image
-        uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
+        uses: digitalservicebund/argocd-deploy@4fac1bb67c92ed168f6d9b22f8779ce241a9e412 # v1.0.0
         with:
           environment: preview
           version: ${{ needs.build-push-content-image.outputs.prod_image_tag }}
@@ -133,7 +133,7 @@ jobs:
     environment: production
     steps:
       - name: Report Deployment
-        uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
+        uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
         with:
           project: a2j-rechtsantragstelle
           environment: production
@@ -141,7 +141,7 @@ jobs:
           metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
 
       - name: Deploy new production image
-        uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
+        uses: digitalservicebund/argocd-deploy@4fac1bb67c92ed168f6d9b22f8779ce241a9e412 # v1.0.0
         with:
           environment: production
           version: ${{ needs.build-push-content-image.outputs.prod_image_tag }}
