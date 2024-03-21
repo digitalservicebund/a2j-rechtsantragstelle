@@ -21,9 +21,9 @@ async function addWertsachen(
 ) {
   await page.getByTestId("add-wertsachen").click();
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/wertsachen
+  // beratungshilfe/antrag/finanzielleAngaben/besitz/wertgegenstaende
   await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillDropdown("wertsachen#art", "cash");
+  await beratungshilfeFormular.fillInput("wertsachen#art", "Bargeld");
   await beratungshilfeFormular.fillDropdown("wertsachen#eigentuemer", "myself");
   await beratungshilfeFormular.fillInput("wertsachen#wert", "1000");
   await beratungshilfeFormular.clickNext();

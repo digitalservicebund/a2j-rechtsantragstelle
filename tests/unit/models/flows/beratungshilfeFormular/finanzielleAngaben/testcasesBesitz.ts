@@ -8,7 +8,7 @@ const cases = [
     [
       "finanzielleAngaben/besitz/bankkonten-frage",
       "finanzielleAngaben/besitz/geldanlagen-frage",
-      "finanzielleAngaben/besitz/wertsachen-frage",
+      "finanzielleAngaben/besitz/wertgegenstaende-frage",
       "finanzielleAngaben/besitz/grundeigentum-frage",
       "finanzielleAngaben/besitz/kraftfahrzeuge-frage",
       "finanzielleAngaben/besitz/gesamtwert",
