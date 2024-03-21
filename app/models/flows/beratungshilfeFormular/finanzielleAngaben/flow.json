@@ -315,11 +315,11 @@
         },
         "geldanlagen-frage": {
           "on": {
-            "SUBMIT": "wertsachen-frage",
+            "SUBMIT": "wertgegenstaende-frage",
             "BACK": "bankkonten-frage"
           }
         },
-        "wertsachen-frage": {
+        "wertgegenstaende-frage": {
           "on": {
             "SUBMIT": "grundeigentum-frage",
             "BACK": "geldanlagen-frage"
@@ -328,7 +328,7 @@
         "grundeigentum-frage": {
           "on": {
             "SUBMIT": "kraftfahrzeuge-frage",
-            "BACK": "wertsachen-frage"
+            "BACK": "wertgegenstaende-frage"
           }
         },
         "kraftfahrzeuge-frage": {
@@ -356,7 +356,7 @@
             "ADDITEM": {
               "target": [
                 "bankkonten",
-                "wertsachen",
+                "wertgegenstaende",
                 "grundeigentum",
                 "geldanlagen",
                 "kraftfahrzeuge"
@@ -412,8 +412,8 @@
             }
           }
         },
-        "wertsachen": {
-          "id": "wertsachen",
+        "wertgegenstaende": {
+          "id": "wertgegenstaende",
           "initial": "daten",
           "states": {
             "daten": {

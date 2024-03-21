@@ -5,6 +5,7 @@ import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 export const getKinderStrings = (context: BeratungshilfeFormularContext) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
   if (typeof arrayIndex === "undefined" || !context.kinder) return {};
+  // TODO: remove kind#index in both places after content publishing
   if (arrayIndex >= context.kinder.length)
     return { "kind#index": `${context.kinder.length + 1}` };
   return {
@@ -12,6 +13,15 @@ export const getKinderStrings = (context: BeratungshilfeFormularContext) => {
     "kind#vorname": context.kinder?.[arrayIndex].vorname,
     "kind#nachname": context.kinder?.[arrayIndex].nachname,
   };
+};
+
+export const getArrayIndexStrings = (
+  context: BeratungshilfeFormularContext,
+) => {
+  const arrayIndex = context.pageData?.arrayIndexes.at(0);
+  return typeof arrayIndex !== "undefined"
+    ? { "array#index": String(arrayIndex + 1) }
+    : {};
 };
 
 export const getAmtsgerichtStrings = (

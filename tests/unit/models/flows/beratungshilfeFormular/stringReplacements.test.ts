@@ -1,5 +1,8 @@
 import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
-import { getKinderStrings } from "~/models/flows/beratungshilfeFormular/stringReplacements";
+import {
+  getKinderStrings,
+  getArrayIndexStrings,
+} from "~/models/flows/beratungshilfeFormular/stringReplacements";
 
 describe("stringReplacements", () => {
   describe("getKinderStrings", () => {
@@ -64,6 +67,28 @@ describe("stringReplacements", () => {
       const kinderStrings = getKinderStrings(context);
 
       expect(kinderStrings).toEqual({ "kind#index": "1" });
+    });
+  });
+  describe("getArrayIndexStrings", () => {
+    it("returns a array index for given context", () => {
+      const context = {
+        ...happyPathData,
+        pageData: {
+          arrayIndexes: [3],
+        },
+      };
+
+      const arrayIndexStrings = getArrayIndexStrings(context);
+
+      expect(arrayIndexStrings).toEqual({ "array#index": "4" });
+    });
+
+    it("returns a empty object for given context when arrayIndexes are not passed", () => {
+      const context = happyPathData;
+
+      const arrayIndexStrings = getArrayIndexStrings(context);
+
+      expect(arrayIndexStrings).toEqual({});
     });
   });
 });

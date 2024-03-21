@@ -35,6 +35,7 @@ import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import type { BeratungshilfeAbgabe } from "~/models/flows/beratungshilfeFormular/abgabe/context";
 import {
   getKinderStrings,
+  getArrayIndexStrings,
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
   getAnwaltStrings,
@@ -70,9 +71,9 @@ const arrayConfigurations = {
     statementKey: "hasGrundeigentum",
   },
   wertsachen: {
-    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/wertsachen`,
+    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/wertgegenstaende`,
     initialInputUrl: "daten",
-    questionUrl: `${flowId}finanzielleAngaben/besitz/wertsachen-frage`,
+    questionUrl: `${flowId}finanzielleAngaben/besitz/wertgegenstaende-frage`,
     statementKey: "hasWertsache",
   },
   kinder: {
@@ -195,6 +196,7 @@ export const beratungshilfeFormular = {
     ...getAmtsgerichtStrings(context),
     ...getStaatlicheLeistungenStrings(context),
     ...getKinderStrings(context),
+    ...getArrayIndexStrings(context),
     ...getAnwaltStrings(context),
     ...besitzZusammenfassungWarning(context),
   }),

@@ -389,7 +389,7 @@ describe("F_besitz", () => {
         wertsachen: [
           {
             eigentuemer: "partner",
-            art: "valuableItem",
+            art: "Teure Sache",
             wert: "100000",
           },
         ],
@@ -405,7 +405,7 @@ describe("F_besitz", () => {
       expect(pdfFields.f14InhaberB.value).toBe(true);
       expect(pdfFields.f14VermoegenswerteC.value).toBe(false);
       expect(pdfFields.f15Bezeichnung.value).toBe(
-        "Wertgegenstand, Eigentümer:in: Ehe-Partner:in",
+        "Teure Sache, Eigentümer:in: Ehe-Partner:in",
       );
       expect(pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
         "100000",
@@ -419,12 +419,12 @@ describe("F_besitz", () => {
         wertsachen: [
           {
             eigentuemer: "partner",
-            art: "valuableItem",
+            art: "Teure Sache",
             wert: "100000",
           },
           {
             eigentuemer: "myself",
-            art: "cash",
+            art: "Bargeld",
             wert: "10000",
           },
         ],
@@ -449,7 +449,7 @@ describe("F_besitz", () => {
       expect(attachment.descriptions[0]).toEqual({
         title: "Wertsachen",
         text:
-          "Wertgegenstand\n" +
+          "Teure Sache\n" +
           "Eigentümer:in: Ehe-Partner:in\n" +
           "Verkehrswert: 100000 €\n" +
           "\n" +

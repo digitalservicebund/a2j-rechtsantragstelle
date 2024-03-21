@@ -235,16 +235,6 @@ export function fillFinancialWertsachen(
   }
 }
 
-const wertsachenMapping = {
-  cash: "Bargeld",
-  valuableItem: "Wertgegenstand",
-  digitalMoney: "Paypal- oder Kryprowährung",
-  securities: "Wertpapiere, Aktien, Fonds",
-  claim: "Forderung",
-  equalizationOfGains: "Anspruch auf Zugewinnausgleich",
-  other: "Sonstiges",
-} as const;
-
 type Wertsache = NonNullable<BeratungshilfeFormularContext["wertsachen"]>[0];
 
 function getWertsachenBezeichnung(
@@ -253,8 +243,8 @@ function getWertsachenBezeichnung(
 ) {
   const bezeichnung = [];
 
-  if (wertsache?.art && wertsachenMapping[wertsache?.art]) {
-    bezeichnung.push(`${wertsachenMapping[wertsache?.art]}`);
+  if (wertsache?.art) {
+    bezeichnung.push(wertsache?.art);
   }
 
   if (wertsache?.eigentuemer && eigentuemerMapping[wertsache?.eigentuemer]) {

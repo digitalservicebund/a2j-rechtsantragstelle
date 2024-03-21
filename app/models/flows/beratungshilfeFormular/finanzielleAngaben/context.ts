@@ -141,18 +141,7 @@ export const beratungshilfeFinanzielleAngaben = {
   hasWertsache: YesNoAnswer,
   wertsachen: z.array(
     z.object({
-      art: z.enum(
-        [
-          "cash",
-          "valuableItem",
-          "digitalMoney",
-          "securities",
-          "claim",
-          "equalizationOfGains",
-          "other",
-        ],
-        customRequiredErrorMessage,
-      ),
+      art: inputRequiredSchema,
       eigentuemer: Eigentuemer,
       wert: buildMoneyValidationSchema(),
     }),
