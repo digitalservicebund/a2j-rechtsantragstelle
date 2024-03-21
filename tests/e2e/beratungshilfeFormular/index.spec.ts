@@ -10,6 +10,7 @@ import { startPersoenlicheDaten } from "./persoenlicheDaten";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
 import { startRechtsproblem } from "./rechtsproblem";
 import { startGrundvoraussetzungen } from "./grundvoraussetzungen";
+import { startFinanzielleAngabenWohnung } from "./finanzielleAngabenWohnung";
 
 let beratungshilfeFormular: BeratungshilfeFormular;
 
@@ -84,10 +85,11 @@ async function startFinanzielleAngaben(page: Page) {
   await startFinanzielleAngabenKinder(page, beratungshilfeFormular);
   await startFinanzielleAngabenBesitz(page, beratungshilfeFormular);
   await startFinanzielleAngabenZusammenfassung(page, beratungshilfeFormular);
-  await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.clickNext();
 
-  // beratungshilfe/antrag/finanzielleAngaben/danke
-  await expectPageToBeAccessible({ page });
+  await startFinanzielleAngabenWohnung(page, beratungshilfeFormular);
+  await expectPageToBeAccessible({ page }); // finanzielleAngaben/danke
   await beratungshilfeFormular.clickNext();
+
+  await beratungshilfeFormular.clickNext(); // leave finanzielle Angaben
 }

@@ -13,8 +13,7 @@ const cases = [
       "finanzielleAngaben/besitz/kraftfahrzeuge-frage",
       "finanzielleAngaben/besitz/gesamtwert",
       "finanzielleAngaben/besitzZusammenfassung/zusammenfassung",
-      "finanzielleAngaben/danke",
-      "persoenlicheDaten/start",
+      "finanzielleAngaben/wohnung/wohnsituation",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

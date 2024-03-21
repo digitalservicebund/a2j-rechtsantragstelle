@@ -10,6 +10,7 @@ import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { addDays, createDateSchema, today } from "~/services/validation/date";
 import { pageDataSchema } from "~/services/flow/pageData";
+import { integerSchema } from "~/services/validation/integer";
 
 const Eigentuemer = z.enum(
   ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -153,6 +154,12 @@ export const beratungshilfeFinanzielleAngaben = {
     }),
   ),
   hasAdditionalWertsache: YesNoAnswer,
+  livingSituation: z.enum(["alone", "withRelatives", "withOthers"]),
+  apartmentSizeSqm: integerSchema,
+  apartmentPersonCount: integerSchema,
+  apartmentCostOwnShare: buildMoneyValidationSchema(),
+  apartmentCostFull: buildMoneyValidationSchema(),
+  apartmentCostAlone: buildMoneyValidationSchema(),
   pageData: pageDataSchema,
 };
 

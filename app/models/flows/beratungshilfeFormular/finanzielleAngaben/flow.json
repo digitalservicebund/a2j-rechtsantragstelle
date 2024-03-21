@@ -352,7 +352,7 @@
         "zusammenfassung": {
           "on": {
             "BACK": "#besitz.gesamtwert",
-            "SUBMIT": "#danke",
+            "SUBMIT": "#wohnung.wohnsituation",
             "ADDITEM": {
               "target": [
                 "bankkonten",
@@ -426,6 +426,45 @@
         }
       }
     },
+    "wohnung": {
+      "id": "wohnung",
+      "initial": "wohnsituation",
+      "states": {
+        "wohnsituation": {
+          "on": {
+            "BACK": "#besitzZusammenfassung.zusammenfassung",
+            "SUBMIT": "groesse"
+          }
+        },
+        "groesse": {
+          "on": {
+            "BACK": "wohnsituation",
+            "SUBMIT": [
+              { "target": "wohnkostenAllein", "guard": "livesAlone" },
+              "personenAnzahl"
+            ]
+          }
+        },
+        "wohnkostenAllein": {
+          "on": {
+            "BACK": "groesse",
+            "SUBMIT": "#danke"
+          }
+        },
+        "personenAnzahl": {
+          "on": {
+            "BACK": "groesse",
+            "SUBMIT": "wohnkostenGeteilt"
+          }
+        },
+        "wohnkostenGeteilt": {
+          "on": {
+            "BACK": "personenAnzahl",
+            "SUBMIT": "#danke"
+          }
+        }
+      }
+    },
     "danke": {
       "id": "danke",
       "on": {
@@ -438,7 +477,11 @@
             "guard": "staatlicheLeistungenIsGrundsicherung",
             "target": "#einkommen.staatliche-leistungen"
           },
-          "#besitzZusammenfassung"
+          {
+            "guard": "livesAlone",
+            "target": "#wohnung.wohnkostenAllein"
+          },
+          "#wohnung.wohnkostenGeteilt"
         ]
       }
     }

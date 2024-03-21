@@ -72,4 +72,5 @@ export const finanzielleAngabeGuards = {
 
     return !(arrayIndex > (kinder?.length ?? 0));
   },
+  livesAlone: ({ context }) => context.livingSituation === "alone",
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;
