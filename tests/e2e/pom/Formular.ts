@@ -5,7 +5,6 @@ export class Formular {
   readonly url: string = "";
   readonly initialStep: string = "";
   readonly nextButtonName = "_action";
-  readonly timeout = 5000;
 
   constructor(page: Page) {
     this.page = page;
@@ -30,9 +29,7 @@ export class Formular {
   }
 
   async clickNext() {
-    await this.page
-      .locator(`button[name="${this.nextButtonName}"]`)
-      .click({ timeout: this.timeout });
+    await this.page.locator(`button[name="${this.nextButtonName}"]`).click();
     await this.page.waitForNavigation(); // deprecated but URL for waitForURL is unknown
   }
 
@@ -47,7 +44,7 @@ export class Formular {
         .locator(
           `input[type="checkbox"][name="${checkboxName.split(".").join("\\.")}"]`,
         )
-        .click({ timeout: this.timeout });
+        .click();
     }
   }
 

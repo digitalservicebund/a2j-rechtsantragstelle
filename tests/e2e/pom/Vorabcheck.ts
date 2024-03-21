@@ -6,7 +6,6 @@ export class Vorabcheck {
   readonly url: string = "";
   readonly initialStep: string = "";
   readonly nextButtonName = "_action";
-  readonly timeout = 5000;
 
   constructor(page: Page) {
     this.page = page;
@@ -28,9 +27,7 @@ export class Vorabcheck {
   }
 
   async clickNext() {
-    await this.page
-      .locator(`button[name="${this.nextButtonName}"]`)
-      .click({ timeout: this.timeout });
+    await this.page.locator(`button[name="${this.nextButtonName}"]`).click();
     await this.page.waitForNavigation(); // deprecated but URL for waitForURL is unknown
   }
 
