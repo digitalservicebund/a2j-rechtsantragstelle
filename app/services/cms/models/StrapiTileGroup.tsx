@@ -40,7 +40,7 @@ export const StrapiTileGroup = ({
   );
   const tileOptions = options.map((tileOption) => ({
     ...omitNull(tileOption),
-    image: <Image {...getImageProps(tileOption.image)} />,
+    image: getImageProps(tileOption.image),
   }));
 
   return (

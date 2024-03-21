@@ -1,17 +1,20 @@
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 import { useField } from "remix-validated-form";
 import InputError from "./InputError";
-import Tile, { type TileProps } from "./Tile";
-import { type ErrorMessageProps } from "./ErrorMessageProps";
+import Tile, { TilePropsSchema } from "./Tile";
+import { z } from "zod";
+import { ErrorMessagePropsSchema } from ".";
 
-type TileGroupProps = Readonly<{
-  name: string;
-  options: Omit<TileProps, "name" | "onClick">[];
-  altLabel?: string;
-  label?: string;
-  errorMessages?: ErrorMessageProps[];
-  useTwoColumns?: boolean;
-}>;
+const TileGroupPropsSchema = z.object({
+  name: z.string(),
+  options: z.array(TilePropsSchema),
+  label: z.custom<ReactNode>().optional(),
+  altLabel: z.string().optional(),
+  errorMessages: z.array(ErrorMessagePropsSchema).optional(),
+  useTwoColumns: z.boolean().optional(),
+});
+
+type TileGroupProps = z.infer<typeof TileGroupPropsSchema>;
 
 const TileGroup = ({
   name,

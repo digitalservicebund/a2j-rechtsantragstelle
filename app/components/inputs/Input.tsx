@@ -2,22 +2,25 @@ import { useField } from "remix-validated-form";
 import classNames from "classnames";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
-import type { ErrorMessageProps } from "./ErrorMessageProps";
+import { z } from "zod";
+import { ErrorMessagePropsSchema } from ".";
 import React from "react";
 
-export type InputProps = Readonly<{
-  name: string;
-  label?: string;
-  type?: string;
-  step?: string | number;
-  placeholder?: string;
-  prefix?: string;
-  suffix?: string;
-  errorMessages?: ErrorMessageProps[];
-  helperText?: string;
-  formId?: string;
-  width?: "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54";
-}>;
+export const InputPropsSchema = z.object({
+  name: z.string(),
+  label: z.string().optional(),
+  type: z.string().optional(),
+  step: z.string().or(z.number()).optional(),
+  placeholder: z.string().optional(),
+  prefix: z.string().optional(),
+  suffix: z.string().optional(),
+  errorMessages: z.array(ErrorMessagePropsSchema).optional(),
+  helperText: z.string().optional(),
+  width: z.enum(["3", "5", "7", "10", "16", "24", "36", "54"]).optional(),
+  formId: z.string().optional(),
+});
+
+export type InputProps = z.infer<typeof InputPropsSchema>;
 
 const widthClass = (width: string) => {
   return {

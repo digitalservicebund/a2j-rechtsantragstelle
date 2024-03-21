@@ -3,14 +3,17 @@ import { useField } from "remix-validated-form";
 import classNames from "classnames";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
-import type { ErrorMessageProps } from "./ErrorMessageProps";
+import { z } from "zod";
+import { ErrorMessagePropsSchema } from ".";
 
-type TextareaProps = Readonly<{
-  name: string;
-  label?: ReactNode;
-  placeholder?: string;
-  errorMessages?: ErrorMessageProps[];
-}>;
+const TextareaPropsSchema = z.object({
+  name: z.string(),
+  label: z.custom<ReactNode>().optional(),
+  placeholder: z.string().optional(),
+  errorMessages: z.array(ErrorMessagePropsSchema).optional(),
+});
+
+type TextareaProps = z.infer<typeof TextareaPropsSchema>;
 
 const Textarea = ({
   name,
