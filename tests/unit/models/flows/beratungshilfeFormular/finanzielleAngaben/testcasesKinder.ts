@@ -8,10 +8,6 @@ const machine: FlowStateMachine = createMachine(beratungshilfeFormular.config, {
   guards: beratungshilfeFormular.guards,
 });
 
-const BIRTHDAY_KID_MOCK = "10.10.2020";
-
-const FINANZIELLE_ANGABEN = "finanzielleAngaben";
-
 const cases = [
   [
     { hasKinder: "yes" },
@@ -33,7 +29,7 @@ const cases = [
         {
           vorname: "vorname",
           nachname: "nachname",
-          geburtsdatum: BIRTHDAY_KID_MOCK,
+          geburtsdatum: "10.10.2020",
           eigeneEinnahmen: "yes",
           einnahmen: "",
           unterhalt: "no",
@@ -54,7 +50,7 @@ const cases = [
         {
           vorname: "vorname",
           nachname: "nachname",
-          geburtsdatum: BIRTHDAY_KID_MOCK,
+          geburtsdatum: "10.10.2020",
           eigeneEinnahmen: "yes",
           einnahmen: "",
           unterhalt: "no",
@@ -82,7 +78,7 @@ const cases = [
         {
           vorname: "vorname",
           nachname: "nachname",
-          geburtsdatum: BIRTHDAY_KID_MOCK,
+          geburtsdatum: "10.10.2020",
           eigeneEinnahmen: "yes",
           einnahmen: "",
           unterhalt: "no",
@@ -103,7 +99,7 @@ const cases = [
         {
           vorname: "vorname",
           nachname: "nachname",
-          geburtsdatum: BIRTHDAY_KID_MOCK,
+          geburtsdatum: "10.10.2020",
           eigeneEinnahmen: "yes",
           einnahmen: "",
           unterhalt: "yes",
