@@ -37,9 +37,15 @@ export const beratungshilfeFinanzielleAngaben = {
   }),
   weitereseinkommen: z.object({
     unterhaltszahlungen: checkedOptional,
+    arbeitlosengeld: checkedOptional,
     wohngeld: checkedOptional,
     kindergeld: checkedOptional,
     bafoeg: checkedOptional,
+    krankengeld: checkedOptional,
+    rente: checkedOptional,
+    elterngeld: checkedOptional,
+    insolvenzgeld: checkedOptional,
+    ueberbrueckungsgeld: checkedOptional,
     others: checkedOptional,
   }),
   berufsituation: z.enum(
