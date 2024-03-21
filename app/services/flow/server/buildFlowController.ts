@@ -11,7 +11,7 @@ import {
   stepIdToPath,
 } from "~/services/flow/stepIdConverter";
 import type { Context } from "~/models/flows/contexts";
-import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
+import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
 import type { Guards } from "~/models/flows/guards.server";
 import _ from "lodash";
 

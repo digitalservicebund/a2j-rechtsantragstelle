@@ -1,0 +1,106 @@
+import type { GenericGuard } from "../../guards.server";
+import {
+  besitzDone,
+  besitzHidden,
+  besitzZusammenfassungDone,
+} from "./navStatesBesitz";
+import type { BeratungshilfeFinanzielleAngaben } from "./context";
+
+export type SubflowState = "Done" | "Open" | "Hidden";
+
+export type FinanzielleAngabenGuard =
+  GenericGuard<BeratungshilfeFinanzielleAngaben>;
+
+const einkommenDone: FinanzielleAngabenGuard = ({ context }) =>
+  (context.staatlicheLeistungen != undefined &&
+    hasStaatlicheLeistungen({ context })) ||
+  context.einkommen != undefined;
+
+const partnerDone: FinanzielleAngabenGuard = ({ context }) =>
+  (context.staatlicheLeistungen != undefined &&
+    hasStaatlicheLeistungen({ context })) ||
+  ["no", "widowed"].includes(context.partnerschaft ?? "") ||
+  context.unterhalt == "no" ||
+  context.partnerEinkommen == "no" ||
+  context.partnerEinkommenSumme != undefined ||
+  (context.partnerNachname != undefined && context.partnerVorname != undefined);
+
+const hasStaatlicheLeistungen: FinanzielleAngabenGuard = ({ context }) =>
+  context.staatlicheLeistungen == "asylbewerberleistungen" ||
+  context.staatlicheLeistungen == "buergergeld" ||
+  context.staatlicheLeistungen == "grundsicherung";
+
+const kinderDone: FinanzielleAngabenGuard = ({ context }) =>
+  context.hasKinder == "no" || context.kinder !== undefined;
+
+const wohnungAloneDone: FinanzielleAngabenGuard = ({ context }) =>
+  context.livingSituation === "alone" &&
+  context.apartmentCostAlone !== undefined;
+
+const wohnungWithOthersDone: FinanzielleAngabenGuard = ({ context }) =>
+  (context.livingSituation === "withOthers" ||
+    context.livingSituation === "withRelatives") &&
+  context.apartmentPersonCount !== undefined &&
+  context.apartmentCostOwnShare !== undefined &&
+  context.apartmentCostFull !== undefined;
+
+const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
+  context.livingSituation !== undefined &&
+  context.apartmentSizeSqm !== undefined &&
+  (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context }));
+
+type SubflowNavigationConfig = Record<
+  string,
+  {
+    hidden: FinanzielleAngabenGuard;
+    done: FinanzielleAngabenGuard;
+  }
+>;
+
+const subflowNavigationConfig: SubflowNavigationConfig = {
+  einkommen: {
+    hidden: () => false,
+    done: einkommenDone,
+  },
+  partner: {
+    hidden: hasStaatlicheLeistungen,
+    done: partnerDone,
+  },
+  kinder: {
+    hidden: hasStaatlicheLeistungen,
+    done: kinderDone,
+  },
+  besitz: {
+    hidden: besitzHidden,
+    done: besitzDone,
+  },
+  besitzZusammenfassung: {
+    hidden: ({ context }) => !besitzDone({ context }),
+    done: besitzZusammenfassungDone,
+  },
+  wohnung: {
+    hidden: hasStaatlicheLeistungen,
+    done: wohnungDone,
+  },
+};
+
+export const beratungshilfeFinanzielleAngabenSubflowState = (
+  context: BeratungshilfeFinanzielleAngaben,
+  subflowId: string,
+): SubflowState => {
+  if (subflowId in subflowNavigationConfig) {
+    const subflowConfig = subflowNavigationConfig[subflowId];
+    if (subflowConfig.hidden({ context })) return "Hidden";
+    if (subflowConfig.done({ context })) return "Done";
+  }
+  return "Open";
+};
+
+export const beratungshilfeFinanzielleAngabeDone = (
+  context: BeratungshilfeFinanzielleAngaben,
+) =>
+  Object.keys(subflowNavigationConfig)
+    .map((subflowId) =>
+      beratungshilfeFinanzielleAngabenSubflowState(context, subflowId),
+    )
+    .find((state) => state === "Open") === undefined;
