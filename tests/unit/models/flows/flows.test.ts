@@ -2,6 +2,10 @@ import { getEnabledSteps } from "tests/unit/models/flows/getEnabledSteps";
 import { testCasesBeratungshilfe } from "./beratungshilfe/testcases";
 import { testCasesGeldEinklagen } from "./geldEinklagen/testcases";
 import { testCasesFluggastrechteFormular } from "tests/unit/models/flows/fluggastrechteFormular/testcases";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen } from "./beratungshilfeFormular/finanzielleAngaben/testcasesEinkommen";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenPartner } from "./beratungshilfeFormular/finanzielleAngaben/testcasesPartner";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenKinder } from "./beratungshilfeFormular/finanzielleAngaben/testcasesKinder";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenBesitz } from "./beratungshilfeFormular/finanzielleAngaben/testcasesBesitz";
 
 /*
  * Note on testing xstate
@@ -20,6 +24,10 @@ describe("state machine form flows", () => {
     testCasesBeratungshilfe,
     testCasesGeldEinklagen,
     testCasesFluggastrechteFormular,
+    testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen,
+    testCasesBeratungshilfeFormularFinanzielleAngabenPartner,
+    testCasesBeratungshilfeFormularFinanzielleAngabenKinder,
+    testCasesBeratungshilfeFormularFinanzielleAngabenBesitz,
   ].forEach(({ machine, cases }) => {
     test.each(cases)(
       "SUBMIT (%#) given context: %j, visits steps: %j",
