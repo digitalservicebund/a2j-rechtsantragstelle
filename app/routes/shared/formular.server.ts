@@ -231,21 +231,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
   }
 
-  if (formData.get("_action") === "changeStatement") {
-    try {
-      const categoryStatement = relevantFormData.categoryStatement as string;
-      const buttonDestination = relevantFormData.buttonDestination as string;
-      updateSession(flowSession, { [categoryStatement]: "yes" });
-      const headers = { "Set-Cookie": await commitSession(flowSession) };
-      return new Response(null, {
-        status: 303,
-        headers: { ...headers, location: buttonDestination },
-      });
-    } catch (err) {
-      return new Response((err as Error).message, { status: 422 });
-    }
-  }
-
   const validationResult = await validateFormData(flowId, relevantFormData);
 
   if (validationResult.error)
