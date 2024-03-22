@@ -1,9 +1,5 @@
 import type { FinanzielleAngabenGuard } from "./navStates";
 
-export const besitzHidden: FinanzielleAngabenGuard = ({ context }) =>
-  context.staatlicheLeistungen === "grundsicherung" ||
-  context.staatlicheLeistungen === "asylbewerberleistungen";
-
 export const besitzDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasBankkonto !== undefined &&
   context.hasKraftfahrzeug !== undefined &&

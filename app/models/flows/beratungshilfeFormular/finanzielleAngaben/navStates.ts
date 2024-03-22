@@ -1,12 +1,8 @@
 import type { GenericGuard } from "../../guards.server";
-import {
-  besitzDone,
-  besitzHidden,
-  besitzZusammenfassungDone,
-} from "./navStatesBesitz";
+import { besitzDone, besitzZusammenfassungDone } from "./navStatesBesitz";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
 
-export type SubflowState = "Done" | "Open" | "Hidden";
+export type SubflowState = "Done" | "Open";
 
 export type FinanzielleAngabenGuard =
   GenericGuard<BeratungshilfeFinanzielleAngaben>;
@@ -52,35 +48,27 @@ const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
 type SubflowNavigationConfig = Record<
   string,
   {
-    hidden: FinanzielleAngabenGuard;
     done: FinanzielleAngabenGuard;
   }
 >;
 
 const subflowNavigationConfig: SubflowNavigationConfig = {
   einkommen: {
-    hidden: () => false,
     done: einkommenDone,
   },
   partner: {
-    hidden: hasStaatlicheLeistungen,
     done: partnerDone,
   },
   kinder: {
-    hidden: hasStaatlicheLeistungen,
     done: kinderDone,
   },
   besitz: {
-    hidden: besitzHidden,
     done: besitzDone,
   },
   besitzZusammenfassung: {
-    hidden: ({ context }) =>
-      besitzHidden({ context }) || !besitzDone({ context }),
     done: besitzZusammenfassungDone,
   },
   wohnung: {
-    hidden: hasStaatlicheLeistungen,
     done: wohnungDone,
   },
 };
@@ -91,7 +79,6 @@ export const beratungshilfeFinanzielleAngabenSubflowState = (
 ): SubflowState => {
   if (subflowId in subflowNavigationConfig) {
     const subflowConfig = subflowNavigationConfig[subflowId];
-    if (subflowConfig.hidden({ context })) return "Hidden";
     if (subflowConfig.done({ context })) return "Done";
   }
   return "Open";

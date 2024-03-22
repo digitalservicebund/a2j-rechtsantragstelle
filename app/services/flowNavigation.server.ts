@@ -94,7 +94,7 @@ function getSubflowSpecifics(
       isCurrent:
         currentStepId.startsWith(subflowRoot) &&
         currentStepId.at(subflowRoot.length) === "/", // subflows might start with the same name, this ensures the following characters
-      isReachable: subflowState !== "Hidden",
+      isReachable: flowController.isReachable(subflowDestionationStepId),
       isDone: subflowState == "Done",
       isUneditable: flowController.isUneditable(subflowRoot),
     }),
