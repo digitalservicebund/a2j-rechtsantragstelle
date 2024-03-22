@@ -2,14 +2,15 @@ import { createRequestHandler } from "@remix-run/express";
 import compression from "compression";
 import express from "express";
 
-const viteDevServer =
-  process.env.NODE_ENV === "production"
-    ? undefined
-    : await import("vite").then((vite) =>
-        vite.createServer({
-          server: { middlewareMode: true },
-        }),
-      );
+const isProductionEnvironment = process.env.NODE_ENV === "production";
+
+const viteDevServer = isProductionEnvironment
+  ? undefined
+  : await import("vite").then((vite) =>
+      vite.createServer({
+        server: { middlewareMode: true },
+      }),
+    );
 
 const remixHandler = createRequestHandler({
   build: viteDevServer
@@ -37,7 +38,14 @@ if (viteDevServer) {
 
 // Everything else (like favicon.ico) is cached for an hour. You may want to be
 // more aggressive with this caching.
-app.use(express.static("build/client", { maxAge: "1h" }));
+const staticFileServer = express.static("build/client", { maxAge: "1h" });
+const mountPathWithoutStorybook = [
+  /^\/build\/client\/storybook($|\/)/,
+  "/build/client",
+];
+isProductionEnvironment
+  ? app.use(mountPathWithoutStorybook, staticFileServer)
+  : app.use(staticFileServer);
 
 // handle SSR requests
 app.all("*", remixHandler);

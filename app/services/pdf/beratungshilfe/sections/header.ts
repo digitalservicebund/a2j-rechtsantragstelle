@@ -3,6 +3,20 @@ import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.g
 import { checkboxListToString } from "../../checkboxListToString";
 import { newPageHint, type Attachment } from "../attachment";
 
+const weiteresEinkommenMapping = {
+  unterhaltszahlungen: "Unterhaltszahlungen",
+  arbeitlosengeld: "Arbeitlosengeld 1",
+  wohngeld: "Wohngeld",
+  kindergeld: "Kindergeld",
+  bafoeg: "Bafög oder Ausbildungsförderung",
+  krankengeld: "Krankengeld oder Pflegegeld",
+  rente: "Rente",
+  elterngeld: "Elterngeld",
+  insolvenzgeld: "Insolvenzgeld",
+  ueberbrueckungsgeld: "Überbrückungsgeld (nach einer Haftentlassung)",
+  others: "Sonstiges",
+};
+
 export default function fillHeader(
   attachment: Attachment,
   pdfFields: BeratungshilfePDF,
@@ -36,13 +50,7 @@ export default function fillHeader(
     attachment.descriptions.unshift({
       title: "Weiteres Einkommen:",
       text: checkboxListToString(
-        {
-          unterhaltszahlungen: "Unterhaltszahlungen",
-          wohngeld: "Wohngeld",
-          kindergeld: "Kindergeld",
-          bafoeg: "Bafög",
-          others: "Sonstiges",
-        },
+        weiteresEinkommenMapping,
         context.weitereseinkommen,
       ),
     });
@@ -50,6 +58,7 @@ export default function fillHeader(
       title: "Beruf / Erwerbstätigkeit:",
       text: getOccupationDetails(context, false),
     });
+    attachment.shouldCreateAttachment = true;
     pdfFields.berufErwerbstaetigkeit.value = newPageHint;
   }
 }
@@ -115,13 +124,7 @@ const getOccupationDetails = (
 
   if (context.weitereseinkommen && withAdditionalIncome) {
     const otherIncomes = checkboxListToString(
-      {
-        unterhaltszahlungen: "Unterhaltszahlungen",
-        wohngeld: "Wohngeld",
-        kindergeld: "Kindergeld",
-        bafoeg: "Bafög",
-        others: "Sonstiges",
-      },
+      weiteresEinkommenMapping,
       context.weitereseinkommen,
     );
 

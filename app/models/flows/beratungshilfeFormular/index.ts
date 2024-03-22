@@ -20,11 +20,11 @@ import {
 } from "./rechtsproblem/context";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import abgabeFlow from "./abgabe/flow.json";
+import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import {
-  type BeratungshilfeFinanzielleAngaben,
   beratungshilfeFinanzielleAngabeDone,
   beratungshilfeFinanzielleAngabenSubflowState,
-} from "./finanzielleAngaben/context";
+} from "./finanzielleAngaben/navStates";
 import {
   type BeratungshilfePersoenlicheDaten,
   beratungshilfePersoenlicheDatenDone,
@@ -39,7 +39,7 @@ import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
   getAnwaltStrings,
-  besitzZusammenfassungWarning,
+  besitzZusammenfassungShowWarnings,
 } from "./stringReplacements";
 import type { ArrayConfig } from "~/services/array";
 
@@ -198,7 +198,7 @@ export const beratungshilfeFormular = {
     ...getKinderStrings(context),
     ...getArrayIndexStrings(context),
     ...getAnwaltStrings(context),
-    ...besitzZusammenfassungWarning(context),
+    ...besitzZusammenfassungShowWarnings(context),
   }),
   arrayConfigurations,
 } as const;

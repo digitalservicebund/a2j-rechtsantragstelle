@@ -76,18 +76,21 @@ export const getAnwaltStrings = (context: BeratungshilfeFormularContext) => {
   };
 };
 
-export const besitzZusammenfassungWarning = (
+export const besitzZusammenfassungShowWarnings = (
   context: BeratungshilfeFormularContext,
 ) => {
-  const { hasPartnerschaftOrSeparated, besitzTotalWorthLessThan10000 } =
-    finanzielleAngabeGuards;
-
+  // TODO: remove hasPartnerschaftOrSeparated once '/beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/zusammenfassung' has been changed to use 'hasPartnerschaftYes'
   return {
-    hasPartnerschaftOrSeparated: hasPartnerschaftOrSeparated({
+    hasPartnerschaftOrSeparated:
+      finanzielleAngabeGuards.hasPartnerschaftOrSeparated({
+        context,
+      }),
+    hasPartnerschaftYes: finanzielleAngabeGuards.hasPartnerschaftYes({
       context,
     }),
-    besitzTotalWorthLessThan10000: besitzTotalWorthLessThan10000({
-      context,
-    }),
+    besitzTotalWorthLessThan10000:
+      finanzielleAngabeGuards.besitzTotalWorthLessThan10000({
+        context,
+      }),
   };
 };

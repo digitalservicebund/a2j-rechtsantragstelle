@@ -4,10 +4,25 @@ import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungsh
 
 const cases = [
   [
-    { staatlicheLeistungen: "buergergeld" },
+    {
+      staatlicheLeistungen: "buergergeld",
+      hasBankkonto: "no",
+      hasWertsache: "no",
+      hasGeldanlage: "no",
+      hasGrundeigentum: "no",
+      hasKraftfahrzeug: "no",
+    },
     [
       "finanzielleAngaben/einkommen/staatliche-leistungen",
       "finanzielleAngaben/besitz/eigentum-info",
+      "finanzielleAngaben/besitz/bankkonten-frage",
+      "finanzielleAngaben/besitz/geldanlagen-frage",
+      "finanzielleAngaben/besitz/wertgegenstaende-frage",
+      "finanzielleAngaben/besitz/grundeigentum-frage",
+      "finanzielleAngaben/besitz/kraftfahrzeuge-frage",
+      "finanzielleAngaben/besitz/gesamtwert",
+      "finanzielleAngaben/besitzZusammenfassung/zusammenfassung",
+      "finanzielleAngaben/danke",
     ],
   ],
   [
@@ -25,22 +40,17 @@ const cases = [
     ],
   ],
   [
-    { staatlicheLeistungen: "keine" },
+    { staatlicheLeistungen: "keine", erwerbstaetig: "yes" },
     [
       "finanzielleAngaben/einkommen/staatliche-leistungen",
-      "finanzielleAngaben/einkommen/erwerbstaetig",
-    ],
-  ],
-  [
-    { erwerbstaetig: "yes" },
-    [
       "finanzielleAngaben/einkommen/erwerbstaetig",
       "finanzielleAngaben/einkommen/art",
     ],
   ],
   [
-    { erwerbstaetig: "no" },
+    { staatlicheLeistungen: "keine", erwerbstaetig: "no" },
     [
+      "finanzielleAngaben/einkommen/staatliche-leistungen",
       "finanzielleAngaben/einkommen/erwerbstaetig",
       "finanzielleAngaben/einkommen/situation",
     ],

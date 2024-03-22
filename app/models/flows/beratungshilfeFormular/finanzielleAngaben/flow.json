@@ -280,7 +280,7 @@
           "on": {
             "SUBMIT": [
               {
-                "guard": "hasPartnerschaftYes",
+                "guard": "hasPartnerschaftYesAndNoStaatlicheLeistungen",
                 "target": "heirat-info"
               },
               "bankkonten-frage"
@@ -305,7 +305,7 @@
           "on": {
             "BACK": [
               {
-                "guard": "hasPartnerschaftYes",
+                "guard": "hasPartnerschaftYesAndNoStaatlicheLeistungen",
                 "target": "heirat-info"
               },
               "eigentum-info"
@@ -352,7 +352,10 @@
         "zusammenfassung": {
           "on": {
             "BACK": "#besitz.gesamtwert",
-            "SUBMIT": "#wohnung.wohnsituation",
+            "SUBMIT": [
+              { "guard": "hasStaatlicheLeistungen", "target": "#danke" },
+              "#wohnung.wohnsituation"
+            ],
             "ADDITEM": {
               "target": [
                 "bankkonten",
@@ -488,6 +491,10 @@
           {
             "guard": "staatlicheLeistungenIsGrundsicherung",
             "target": "#einkommen.staatliche-leistungen"
+          },
+          {
+            "guard": "hasStaatlicheLeistungen",
+            "target": "#besitzZusammenfassung.zusammenfassung"
           },
           {
             "guard": "livesAlone",
