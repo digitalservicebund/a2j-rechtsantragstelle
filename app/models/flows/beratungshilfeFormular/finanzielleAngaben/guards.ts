@@ -21,6 +21,7 @@ export const finanzielleAngabeGuards = {
     context.besitzTotalWorth === "less10000",
   hasPartnerschaftOrSeparated: ({ context }) =>
     context.partnerschaft === "yes" || context.partnerschaft === "separated",
+  hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",
   hasPartnerschaftNoOrWidowed: ({ context }) =>
     context.partnerschaft === "no" || context.partnerschaft === "widowed",
   ...yesNoGuards("erwerbstaetig"),
