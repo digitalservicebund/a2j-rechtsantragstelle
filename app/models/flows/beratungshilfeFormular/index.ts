@@ -85,6 +85,11 @@ const arrayConfigurations = {
   },
 } satisfies Record<string, ArrayConfig>;
 
+const arrayKeys = Object.keys(arrayConfigurations);
+export const arrayEvents = arrayKeys.map((key) => ({
+  type: `add-${key}`,
+}));
+
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
   config: _.merge(beratungshilfeFormularFlow, {

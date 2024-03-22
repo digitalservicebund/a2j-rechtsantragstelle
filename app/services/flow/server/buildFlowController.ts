@@ -14,12 +14,10 @@ import type { Context } from "~/models/flows/contexts";
 import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
 import type { Guards } from "~/models/flows/guards.server";
 import _ from "lodash";
+import { arrayEvents } from "~/models/flows/beratungshilfeFormular";
 
-type Event = "SUBMIT" | "BACK" | "ADDITEM";
-type FlowStateMachineEvents =
-  | { type: "SUBMIT" }
-  | { type: "BACK" }
-  | { type: "ADDITEM" };
+type Event = "SUBMIT" | "BACK";
+type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
 
 type StateMachineTypes = {
   context: Context;
@@ -55,7 +53,7 @@ const getSteps = (machine: FlowStateMachine) => {
   // https://www.jsdocs.io/package/xstate#FlowStateMachine.provide is supposed to allow this but context isn't applied
   // idea: machine.provide() with action that assigns the new context
   const possiblePaths = getShortestPaths(machine, {
-    events: [{ type: "SUBMIT" }, { type: "ADDITEM" }],
+    events: [{ type: "SUBMIT" }, ...(arrayEvents as FlowStateMachineEvents[])],
   });
 
   return [
@@ -147,7 +145,6 @@ export const buildFlowController = ({
     isReachable: (currentStepId: string) => {
       // depends on context
       const steps = getSteps(machine);
-      console.log({ steps });
       return steps.includes(currentStepId);
     },
     getPrevious: (stepId: string) => {
@@ -167,9 +164,6 @@ export const buildFlowController = ({
         context,
       );
       if (nextArray) return nextArray[0];
-    },
-    getItems: (stepId: string) => {
-      return transitionDestinations(machine, stepId, "ADDITEM", context);
     },
     getInitial: () => `${baseUrl}${getInitial(machine)}`,
     getProgress: (currentStepId: string) => {
