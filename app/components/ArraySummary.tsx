@@ -31,9 +31,10 @@ const ArraySummary = ({
   const addButtonText = translations["arrayAddButtonLabel"] ?? "Hinzufügen";
   const editButtonText = translations["arrayEditButtonLabel"] ?? "Bearbeiten";
   const deleteButtonText = translations["arrayDeleteButtonLabel"] ?? "Löschen";
-  // TODO: Validate & move strings to strapi
-  const emptyArrayFallbackString = "Das habe ich nicht.";
-  const changeEntryString = "ändern";
+  const changeEntryString =
+    translations["arrayChangeStatementButtonLabel"] ?? "Ändern";
+  const emptyArrayFallbackString =
+    translations["arrayStatementIsNoLabel"] ?? "Das habe ich nicht.";
 
   const titleHeading = lookupOrKey(`${category}.label.title`, translations);
   const subtitle = lookupOrKey(`${category}.label.subtitle`, translations);
