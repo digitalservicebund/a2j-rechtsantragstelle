@@ -1,6 +1,12 @@
 import { yesNoGuards, type Guards } from "../../guards.server";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
 
+const hasStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] =
+  ({ context }) =>
+    context.staatlicheLeistungen === "asylbewerberleistungen" ||
+    context.staatlicheLeistungen === "buergergeld" ||
+    context.staatlicheLeistungen === "grundsicherung";
+
 export const finanzielleAngabeGuards = {
   staatlicheLeistungenIsGrundsicherung: ({ context }) =>
     context.staatlicheLeistungen === "grundsicherung",
@@ -8,11 +14,9 @@ export const finanzielleAngabeGuards = {
     context.staatlicheLeistungen === "asylbewerberleistungen",
   staatlicheLeistungenIsBuergergeld: ({ context }) =>
     context.staatlicheLeistungen === "buergergeld",
-  hasStaatlicheLeistungen: ({ context }) =>
-    context.staatlicheLeistungen === "asylbewerberleistungen" ||
-    context.staatlicheLeistungen === "buergergeld" ||
-    context.staatlicheLeistungen === "grundsicherung",
-  hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",
+  hasStaatlicheLeistungen,
+  hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
+    context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context }),
   besitzTotalWorthLessThan10000: ({ context }) =>
     context.besitzTotalWorth === "less10000",
   hasPartnerschaftOrSeparated: ({ context }) =>
