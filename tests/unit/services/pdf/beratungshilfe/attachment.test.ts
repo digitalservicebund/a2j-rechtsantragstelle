@@ -1,4 +1,4 @@
-import { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import {
   MARTIAL_STATUS_TITLE,
   createAttachment,
@@ -11,7 +11,7 @@ describe("createAttachment", () => {
     };
 
     const attachment = createAttachment(context);
-    const hasMaritalDescription = attachment.descriptions.find(
+    const hasMaritalDescription = attachment.descriptions.some(
       (description) => description.title === MARTIAL_STATUS_TITLE,
     );
     expect(hasMaritalDescription).toBeTruthy();
@@ -23,7 +23,7 @@ describe("createAttachment", () => {
     };
 
     const attachment = createAttachment(context);
-    const hasMaritalDescription = attachment.descriptions.find(
+    const hasMaritalDescription = attachment.descriptions.some(
       (description) => description.title === MARTIAL_STATUS_TITLE,
     );
     expect(hasMaritalDescription).toBeFalsy();
