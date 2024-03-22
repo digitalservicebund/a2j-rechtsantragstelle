@@ -1,5 +1,62 @@
-import { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { getMaritalDescriptionByContext } from "~/services/pdf/beratungshilfe/sections/header";
+/**
+ * @jest-environment node
+ */
+
+import { CheckboxValue } from "~/components/inputs/Checkbox";
+import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
+import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import fillHeader, {
+  getMaritalDescriptionByContext,
+} from "~/services/pdf/beratungshilfe/sections/header";
+import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
+
+describe("fillHeader", () => {
+  it("should add weiteres einkommen into attachment", async () => {
+    const context: BeratungshilfeFormularContext = {
+      staatlicheLeistungen: "keine",
+      erwerbstaetig: "yes",
+      berufart: {
+        selbststaendig: CheckboxValue.on,
+        festangestellt: CheckboxValue.off,
+      },
+      weitereseinkommen: happyPathData.weitereseinkommen,
+    };
+
+    const pdfFields = await getBeratungshilfeParameters();
+    const attachment = createAttachment(context);
+
+    fillHeader(attachment, pdfFields, context);
+
+    const hasWeiteresEinkommen = attachment.descriptions.some(
+      (description) => description.title === "Weiteres Einkommen:",
+    );
+
+    expect(hasWeiteresEinkommen).toEqual(true);
+  });
+  it("should not add weiteres einkommen into attachment", async () => {
+    const context: BeratungshilfeFormularContext = {
+      staatlicheLeistungen: "buergergeld",
+      erwerbstaetig: "yes",
+      berufart: {
+        selbststaendig: CheckboxValue.on,
+        festangestellt: CheckboxValue.off,
+      },
+      weitereseinkommen: happyPathData.weitereseinkommen,
+    };
+
+    const pdfFields = await getBeratungshilfeParameters();
+    const attachment = createAttachment(context);
+
+    fillHeader(attachment, pdfFields, context);
+
+    const hasWeiteresEinkommen = attachment.descriptions.some(
+      (description) => description.title === "Weiteres Einkommen:",
+    );
+
+    expect(hasWeiteresEinkommen).toEqual(false);
+  });
+});
 
 describe("getMaritalDescriptionByContext", () => {
   it("should return `verheiratet/ in eingetragener Lebenspartnerschaft` when partnerschaft is `yes`", () => {
@@ -8,9 +65,9 @@ describe("getMaritalDescriptionByContext", () => {
     };
 
     const actual = getMaritalDescriptionByContext(context);
-    const expectec = "verheiratet/ in eingetragener Lebenspartnerschaft";
+    const expected = "verheiratet/ in eingetragener Lebenspartnerschaft";
 
-    expect(expectec).toBe(actual);
+    expect(expected).toBe(actual);
   });
   it("should return `ledig` when partnerschaft is `no`", () => {
     const context: BeratungshilfeFormularContext = {
@@ -18,9 +75,9 @@ describe("getMaritalDescriptionByContext", () => {
     };
 
     const actual = getMaritalDescriptionByContext(context);
-    const expectec = "ledig";
+    const expected = "ledig";
 
-    expect(expectec).toBe(actual);
+    expect(expected).toBe(actual);
   });
 
   it("should return `verwitwet` when partnerschaft is `widowed`", () => {
@@ -29,9 +86,9 @@ describe("getMaritalDescriptionByContext", () => {
     };
 
     const actual = getMaritalDescriptionByContext(context);
-    const expectec = "verwitwet";
+    const expected = "verwitwet";
 
-    expect(expectec).toBe(actual);
+    expect(expected).toBe(actual);
   });
 
   it("should return `getrennt` when partnerschaft is `separated`", () => {
@@ -40,9 +97,9 @@ describe("getMaritalDescriptionByContext", () => {
     };
 
     const actual = getMaritalDescriptionByContext(context);
-    const expectec = "getrennt";
+    const expected = "getrennt";
 
-    expect(expectec).toBe(actual);
+    expect(expected).toBe(actual);
   });
 
   it("should return `` when partnerschaft is `undefined`", () => {
@@ -51,8 +108,8 @@ describe("getMaritalDescriptionByContext", () => {
     };
 
     const actual = getMaritalDescriptionByContext(context);
-    const expectec = "";
+    const expected = "";
 
-    expect(expectec).toBe(actual);
+    expect(expected).toBe(actual);
   });
 });
