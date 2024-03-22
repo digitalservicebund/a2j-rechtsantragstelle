@@ -205,7 +205,6 @@
           }
         },
         "kinder": {
-          "id": "kinderCategory",
           "initial": "name",
           "states": {
             "name": {
@@ -368,7 +367,6 @@
           }
         },
         "bankkonten": {
-          "id": "bankkonten",
           "initial": "daten",
           "states": {
             "daten": {
@@ -380,7 +378,6 @@
           }
         },
         "kraftfahrzeuge": {
-          "id": "kraftfahrzeuge",
           "initial": "daten",
           "states": {
             "daten": {
@@ -392,7 +389,6 @@
           }
         },
         "geldanlagen": {
-          "id": "geldanlagen",
           "initial": "daten",
           "states": {
             "daten": {
@@ -404,31 +400,29 @@
           }
         },
         "grundeigentum": {
-          "id": "grundeigentum",
-          "initial": "grundeigentum-bewohnt-frage",
+          "initial": "bewohnt-frage",
           "states": {
-            "grundeigentum-bewohnt-frage": {
+            "bewohnt-frage": {
               "on": {
-                "SUBMIT": "grundeigentum-daten",
-                "BACK": "#besitzZusammenfassung.zusammenfassung"
+                "BACK": "#besitzZusammenfassung.zusammenfassung",
+                "SUBMIT": "daten"
               }
             },
-            "grundeigentum-bewohnt-daten": {
+            "daten": {
               "on": {
-                "BACK": "grundeigentum-bewohnt-frage",
+                "BACK": "bewohnt-frage",
                 "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
               }
             },
-            "grundeigentum-daten": {
+            "bewohnt-daten": {
               "on": {
-                "BACK": "grundeigentum-bewohnt-frage",
+                "BACK": "bewohnt-frage",
                 "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }
         },
         "wertgegenstaende": {
-          "id": "wertgegenstaende",
           "initial": "daten",
           "states": {
             "daten": {
