@@ -38,9 +38,15 @@ export default function fillHeader(
       text: checkboxListToString(
         {
           unterhaltszahlungen: "Unterhaltszahlungen",
+          arbeitlosengeld: "Arbeitlosengeld 1",
           wohngeld: "Wohngeld",
           kindergeld: "Kindergeld",
-          bafoeg: "Bafög",
+          bafoeg: "Bafög oder Ausbildungsförderung",
+          krankengeld: "Krankengeld oder Pflegegeld",
+          rente: "Rente",
+          elterngeld: "Elterngeld",
+          insolvenzgeld: "Insolvenzgeld",
+          ueberbrueckungsgeld: "Überbrückungsgeld (nach einer Haftentlassung)",
           others: "Sonstiges",
         },
         context.weitereseinkommen,
@@ -50,6 +56,7 @@ export default function fillHeader(
       title: "Beruf / Erwerbstätigkeit:",
       text: getOccupationDetails(context, false),
     });
+    attachment.shouldCreateAttachment = true;
     pdfFields.berufErwerbstaetigkeit.value = newPageHint;
   }
 }
@@ -117,9 +124,15 @@ const getOccupationDetails = (
     const otherIncomes = checkboxListToString(
       {
         unterhaltszahlungen: "Unterhaltszahlungen",
+        arbeitlosengeld: "Arbeitlosengeld 1",
         wohngeld: "Wohngeld",
         kindergeld: "Kindergeld",
-        bafoeg: "Bafög",
+        bafoeg: "Bafög oder Ausbildungsförderung",
+        krankengeld: "Krankengeld oder Pflegegeld",
+        rente: "Rente",
+        elterngeld: "Elterngeld",
+        insolvenzgeld: "Insolvenzgeld",
+        ueberbrueckungsgeld: "Überbrückungsgeld (nach einer Haftentlassung)",
         others: "Sonstiges",
       },
       context.weitereseinkommen,
