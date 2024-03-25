@@ -16,6 +16,7 @@ describe("getSummaryData", () => {
         questionUrl:
           "/beratungshilfe/antrag/finanzielleAngaben/besitz/bankkonten-frage",
         statementKey: "hasBankkonto",
+        event: "add-bankkonten",
       },
     } satisfies Record<string, ArrayConfig>;
 
@@ -47,6 +48,7 @@ describe("getSummaryData", () => {
         questionUrl:
           "/beratungshilfe/antrag/finanzielleAngaben/besitz/bankkonten-frage",
         statementKey: "hasBankkonto",
+        event: "add-bankkonten",
       },
       kraftfahrzeuge: {
         url: "/beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge",
@@ -54,6 +56,7 @@ describe("getSummaryData", () => {
         questionUrl:
           "/beratungshilfe/antrag/finanzielleAngaben/besitz/kraftfahrzeuge-frage",
         statementKey: "hasKraftfahrzeug",
+        event: "add-kraftfahrzeuge",
       },
     } satisfies Record<string, ArrayConfig>;
 
@@ -88,6 +91,7 @@ describe("getSummaryData", () => {
     const mockArrayConfig = {
       bankkonten: {
         url: "/beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/bankkonten",
+        event: "add-bankkonten",
         initialInputUrl: "daten",
         questionUrl:
           "/beratungshilfe/antrag/finanzielleAngaben/besitz/bankkonten-frage",

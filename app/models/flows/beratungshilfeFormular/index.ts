@@ -46,6 +46,7 @@ import { finanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfigu
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
   config: _.merge(beratungshilfeFormularFlow, {
+    meta: { arrays: finanzielleAngabenArrayConfig },
     states: {
       grundvoraussetzungen: _.merge(
         _.cloneDeep(beratungshilfeGrundvoraussetzungenFlow),
@@ -158,7 +159,6 @@ export const beratungshilfeFormular = {
     ...getAnwaltStrings(context),
     ...besitzZusammenfassungShowWarnings(context),
   }),
-  arrayConfigurations: finanzielleAngabenArrayConfig,
 } as const;
 
 export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &

@@ -14,7 +14,7 @@ import type { Context } from "~/models/flows/contexts";
 import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
 import type { Guards } from "~/models/flows/guards.server";
 import _ from "lodash";
-import { arrayEvents } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/arrayConfiguration";
+import type { ArrayConfig } from "~/services/array";
 
 type Event = "SUBMIT" | "BACK";
 type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
@@ -46,14 +46,22 @@ type Meta = {
   done: (context: Context) => boolean | undefined;
   subflowState: (context: Context, subflowId: string) => SubflowState;
   subflowDone: (context: Context, subflowId: string) => boolean | undefined;
+  arrays?: Record<string, ArrayConfig>;
 };
 
 const getSteps = (machine: FlowStateMachine) => {
   // todo: remove machine relying on context passed at createMachine()...
   // https://www.jsdocs.io/package/xstate#FlowStateMachine.provide is supposed to allow this but context isn't applied
   // idea: machine.provide() with action that assigns the new context
+
+  // Technically, arrayEvents are never triggered. They are only added here to make the subflows reachable to xstate
+  const arrayConfig = rootMeta(machine)?.arrays ?? {};
+  const arrayEvents = Object.values(arrayConfig).map(({ event }) => ({
+    type: event as Event,
+  }));
+
   const possiblePaths = getShortestPaths(machine, {
-    events: [{ type: "SUBMIT" }, ...(arrayEvents as FlowStateMachineEvents[])],
+    events: [{ type: "SUBMIT" }, ...arrayEvents],
   });
 
   return [
@@ -105,6 +113,10 @@ const isFinalStep = (machine: FlowStateMachine, stepId: string) => {
   return !transitions || !transitions.has("SUBMIT");
 };
 
+const rootMeta = (machine: FlowStateMachine) => {
+  return machine.config?.meta as Meta | undefined;
+};
+
 const metaFromStepId = (machine: FlowStateMachine, currentStepId: string) => {
   return findNode(machine, currentStepId)?.meta as Meta | undefined;
 };
@@ -134,6 +146,7 @@ export const buildFlowController = ({
 
   return {
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
+    getRootMeta: () => rootMeta(machine),
     isDone: (currentStepId: string) =>
       Boolean(metaFromStepId(machine, currentStepId)?.done(context)),
     getSubflowState: (currentStepId: string, subflowId: string) =>

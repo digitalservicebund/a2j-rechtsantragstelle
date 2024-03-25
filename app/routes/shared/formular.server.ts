@@ -134,14 +134,9 @@ export const loader = async ({
     .filter(isStrapiArraySummary)
     .map((strapiSummary) => strapiSummary.category);
 
-  const arrayConfigurations =
-    "arrayConfigurations" in currentFlow
-      ? currentFlow.arrayConfigurations
-      : undefined;
-
   const arraySummaryData = getSummaryData(
     categories,
-    arrayConfigurations,
+    flowController.getRootMeta()?.arrays,
     userData,
   );
 
