@@ -97,35 +97,9 @@ describe("F_besitz", () => {
   });
 
   describe("fillFinancialGrundeigentum", () => {
-    it("should fill grundeigentum bewohnt pdf field when grundeigentum bewohnt is given in context", async () => {
-      const context: BeratungshilfeFormularContext = {
-        grundeigentumBewohnt: [
-          {
-            eigentuemer: "myself",
-            art: "houseForFamily",
-            flaeche: "100",
-            verkaufswert: "100000",
-          },
-        ],
-      };
-      const pdfFields = await getBeratungshilfeParameters();
-      const attachment = createAttachment(context);
-
-      fillFinancialGrundeigentum(attachment, pdfFields, context);
-
-      expect(pdfFields.f5Grundeigentum1.value).toBe(false);
-      expect(pdfFields.f5Grundeigentum2.value).toBe(true);
-      expect(pdfFields.f1InhaberA.value).toBe(true);
-      expect(pdfFields.f2InhaberB.value).toBe(false);
-      expect(pdfFields.f2InhaberC.value).toBe(false);
-      expect(pdfFields.f7Nutzungsart.value).toBe(
-        "Art des Eigentums: Haus für Familie, Eigentümer:in: Ich alleine, Fläche: 100 m²",
-      );
-      expect(pdfFields.f8Verkehrswert.value).toBe("100000 €");
-    });
-
     it("should fill grundeigentum pdf field when grundeigentum is given in context", async () => {
       const context: BeratungshilfeFormularContext = {
+        hasGrundeigentum: "yes",
         grundeigentum: [
           {
             eigentuemer: "myself",
@@ -136,6 +110,7 @@ describe("F_besitz", () => {
             ort: "Berlin",
             plz: "12345",
             strassehausnummer: "Musterstraße 1",
+            istBewohnt: "yes",
           },
         ],
       };
@@ -150,12 +125,13 @@ describe("F_besitz", () => {
       expect(pdfFields.f2InhaberB.value).toBe(false);
       expect(pdfFields.f2InhaberC.value).toBe(false);
       expect(pdfFields.f7Nutzungsart.value).toBe(
-        "Art des Eigentums: Haus für Familie, Eigentümer:in: Ich alleine, Fläche: 100 m²",
+        "Art des Eigentums: Haus für Familie, Eigentümer:in: Ich alleine, Fläche: 100 m², Selbst bewohnt",
       );
     });
 
-    it("should create attachment when grundeigentum and grundegentum bewohnt is given in context", async () => {
+    it("should create attachment when multiple grundeigentum is given in context", async () => {
       const context: BeratungshilfeFormularContext = {
+        hasGrundeigentum: "yes",
         grundeigentum: [
           {
             eigentuemer: "myself",
@@ -166,60 +142,11 @@ describe("F_besitz", () => {
             ort: "Berlin",
             plz: "12345",
             strassehausnummer: "Musterstraße 1",
-          },
-        ],
-        grundeigentumBewohnt: [
-          {
-            eigentuemer: "myself",
-            art: "hereditaryBuildingLaw",
-            flaeche: "100",
-            verkaufswert: "100002",
-          },
-        ],
-      };
-      const pdfFields = await getBeratungshilfeParameters();
-      const attachment = createAttachment(context);
-
-      fillFinancialGrundeigentum(attachment, pdfFields, context);
-
-      expect(attachment.shouldCreateAttachment).toBe(true);
-      expect(attachment.descriptions[0]).toEqual({
-        title: "Grundeigentum",
-        text:
-          "Art des Eigentums: Wohnung\n" +
-          "Eigentümer:in: Ich alleine\n" +
-          "Fläche: 100 m²\n" +
-          "Verkehrswert: 100001 €\n" +
-          "\n" +
-          "Art des Eigentums: Erbbaurecht\n" +
-          "Eigentümer:in: Ich alleine\n" +
-          "Fläche: 100 m²\n" +
-          "Verkehrswert: 100002 €",
-      });
-
-      expect(pdfFields.f5Grundeigentum1.value).toBe(false);
-      expect(pdfFields.f5Grundeigentum2.value).toBe(true);
-      expect(pdfFields.f1InhaberA.value).toBe(false);
-      expect(pdfFields.f2InhaberB.value).toBe(false);
-      expect(pdfFields.f2InhaberC.value).toBe(false);
-      expect(pdfFields.f7Nutzungsart.value).toBe(newPageHint);
-    });
-
-    it("should create attachment when multiple grundeigentum and grundeigentum bewohnt is given in context", async () => {
-      const context: BeratungshilfeFormularContext = {
-        grundeigentum: [
-          {
-            eigentuemer: "myself",
-            art: "apartment",
-            flaeche: "100",
-            verkaufswert: "100001",
-            land: "Deutschland",
-            ort: "Berlin",
-            plz: "12345",
-            strassehausnummer: "Musterstraße 1",
+            istBewohnt: "yes",
           },
           {
             eigentuemer: "partner",
+            istBewohnt: "no",
             art: "houseForFamily",
             flaeche: "100",
             verkaufswert: "100002",
@@ -229,20 +156,6 @@ describe("F_besitz", () => {
             strassehausnummer: "Musterstraße 1",
           },
         ],
-        grundeigentumBewohnt: [
-          {
-            eigentuemer: "myself",
-            art: "hereditaryBuildingLaw",
-            flaeche: "100",
-            verkaufswert: "100003",
-          },
-          {
-            eigentuemer: "partner",
-            art: "property",
-            flaeche: "100",
-            verkaufswert: "100004",
-          },
-        ],
       };
       const pdfFields = await getBeratungshilfeParameters();
       const attachment = createAttachment(context);
@@ -257,21 +170,12 @@ describe("F_besitz", () => {
           "Eigentümer:in: Ich alleine\n" +
           "Fläche: 100 m²\n" +
           "Verkehrswert: 100001 €\n" +
+          "Selbst bewohnt\n" +
           "\n" +
           "Art des Eigentums: Haus für Familie\n" +
           "Eigentümer:in: Ehe-Partner:in\n" +
           "Fläche: 100 m²\n" +
-          "Verkehrswert: 100002 €\n" +
-          "\n" +
-          "Art des Eigentums: Erbbaurecht\n" +
-          "Eigentümer:in: Ich alleine\n" +
-          "Fläche: 100 m²\n" +
-          "Verkehrswert: 100003 €\n" +
-          "\n" +
-          "Art des Eigentums: Grundstück\n" +
-          "Eigentümer:in: Ehe-Partner:in\n" +
-          "Fläche: 100 m²\n" +
-          "Verkehrswert: 100004 €",
+          "Verkehrswert: 100002 €",
       });
 
       expect(pdfFields.f5Grundeigentum1.value).toBe(false);
