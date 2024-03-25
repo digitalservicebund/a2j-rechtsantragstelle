@@ -37,7 +37,7 @@ export const finanzielleAngabenArrayConfig = {
     initialInputUrl: "daten",
     questionUrl: `${prefix}/besitz/wertgegenstaende-frage`,
     statementKey: "hasWertsache",
-    event: "add-wertsachen",
+    event: "add-wertgegenstaende",
   },
   kinder: {
     url: `${prefix}/kinder/kinder`,
