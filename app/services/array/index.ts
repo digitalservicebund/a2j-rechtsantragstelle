@@ -9,7 +9,7 @@ export type ArrayConfig = {
   event: string;
   url: string;
   initialInputUrl: string;
-  questionUrl: string;
+  statementUrl: string;
   statementKey: AllContextKeys;
   statementValue?: boolean;
   hiddenFields?: string[];

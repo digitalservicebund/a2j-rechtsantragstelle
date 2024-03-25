@@ -134,7 +134,7 @@ const ArraySummary = ({
               look="ghost"
               className="hover:shadow-none pl-0 pt-8"
               iconLeft={<EditButton />}
-              href={arrayData.arrayConfiguration.questionUrl}
+              href={arrayData.arrayConfiguration.statementUrl}
             >
               {changeEntryString}
             </Button>
