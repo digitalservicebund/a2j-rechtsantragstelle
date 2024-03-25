@@ -1,4 +1,4 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { testPageToBeAccessible } from "./util/testPageToBeAccessible";
 
 test.beforeEach(async ({ page }) => {
@@ -7,6 +7,12 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("homepage", () => {
   testPageToBeAccessible();
+
+  test("BMF logo is displayed", async ({ page }) => {
+    const allImages = await page.getByRole("img").all();
+    expect(allImages.length).toBeGreaterThan(0);
+    await expect(allImages[0]).toBeVisible();
+  });
 
   test.describe("Footer links", () => {
     const expectedLinks = {
