@@ -68,8 +68,6 @@ jobs:
       - uses: ./.github/actions/cached-checkout-install
       - name: Install cosign
         uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4
-        with:
-          cosign-release: "v1.13.1"
       - run: ./docker.sh --build app
       - run: ./docker.sh --push app
       - run: ./docker.sh --build prod
@@ -94,6 +92,7 @@ jobs:
         with:
           sarif_file: "trivy-results.sarif"
       - run: ./docker.sh --push prod
+      - run: ./docker.sh --sign
       - id: prod_image_tag
         run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
     outputs:
