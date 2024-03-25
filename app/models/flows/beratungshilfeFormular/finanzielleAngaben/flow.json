@@ -196,16 +196,13 @@
           "on": {
             "BACK": "kinder-frage",
             "SUBMIT": "#besitz",
-            "ADDITEM": [
-              {
-                "guard": "isValidKinderArrayIndex",
-                "target": "kinder"
-              }
-            ]
+            "add-kinder": {
+              "guard": "isValidKinderArrayIndex",
+              "target": "kinder"
+            }
           }
         },
         "kinder": {
-          "id": "kinderCategory",
           "initial": "name",
           "states": {
             "name": {
@@ -356,19 +353,14 @@
               { "guard": "hasStaatlicheLeistungen", "target": "#danke" },
               "#wohnung.wohnsituation"
             ],
-            "ADDITEM": {
-              "target": [
-                "bankkonten",
-                "wertgegenstaende",
-                "grundeigentum",
-                "geldanlagen",
-                "kraftfahrzeuge"
-              ]
-            }
+            "add-bankkonten": "bankkonten",
+            "add-wertgegenstaende": "wertgegenstaende",
+            "add-geldanlagen": "geldanlagen",
+            "add-kraftfahrzeuge": "kraftfahrzeuge",
+            "add-grundeigentum": "grundeigentum"
           }
         },
         "bankkonten": {
-          "id": "bankkonten",
           "initial": "daten",
           "states": {
             "daten": {
@@ -380,7 +372,6 @@
           }
         },
         "kraftfahrzeuge": {
-          "id": "kraftfahrzeuge",
           "initial": "daten",
           "states": {
             "daten": {
@@ -392,7 +383,6 @@
           }
         },
         "geldanlagen": {
-          "id": "geldanlagen",
           "initial": "daten",
           "states": {
             "daten": {
@@ -404,19 +394,29 @@
           }
         },
         "grundeigentum": {
-          "id": "grundeigentum",
-          "initial": "daten",
+          "initial": "bewohnt-frage",
           "states": {
+            "bewohnt-frage": {
+              "on": {
+                "BACK": "#besitzZusammenfassung.zusammenfassung",
+                "SUBMIT": "daten"
+              }
+            },
             "daten": {
               "on": {
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
-                "BACK": "#besitzZusammenfassung.zusammenfassung"
+                "BACK": "bewohnt-frage",
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+              }
+            },
+            "bewohnt-daten": {
+              "on": {
+                "BACK": "bewohnt-frage",
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }
         },
         "wertgegenstaende": {
-          "id": "wertgegenstaende",
           "initial": "daten",
           "states": {
             "daten": {

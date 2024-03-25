@@ -85,67 +85,39 @@ export function fillFinancialGrundeigentum(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const hasGrundeigentum = context.grundeigentum
-    ? context.grundeigentum?.length > 0
-    : false;
-  const hasGrundeigentumBewohnt = context.grundeigentumBewohnt
-    ? context.grundeigentumBewohnt?.length > 0
-    : false;
+  const { hasGrundeigentum, grundeigentum: grundeigentumArray } = context;
+  const validGrundEigentum =
+    hasGrundeigentum === "yes" &&
+    grundeigentumArray &&
+    grundeigentumArray.length > 0;
 
-  pdfFields.f5Grundeigentum1.value =
-    !hasGrundeigentum && !hasGrundeigentumBewohnt;
-  pdfFields.f5Grundeigentum2.value =
-    hasGrundeigentum || hasGrundeigentumBewohnt;
+  pdfFields.f5Grundeigentum1.value = !validGrundEigentum;
+  pdfFields.f5Grundeigentum2.value = validGrundEigentum;
+  if (!validGrundEigentum) return;
 
-  if (!hasGrundeigentum && hasGrundeigentumBewohnt) {
-    const grundeigentumBewohnt = context.grundeigentumBewohnt?.pop();
+  if (grundeigentumArray.length === 1) {
+    const grundeigentum = grundeigentumArray[0];
 
-    pdfFields.f1InhaberA.value = grundeigentumBewohnt?.eigentuemer == "myself";
-    pdfFields.f2InhaberB.value = grundeigentumBewohnt?.eigentuemer == "partner";
+    pdfFields.f1InhaberA.value = grundeigentum.eigentuemer == "myself";
+    pdfFields.f2InhaberB.value = grundeigentum.eigentuemer == "partner";
     pdfFields.f2InhaberC.value =
-      grundeigentumBewohnt?.eigentuemer == "myselfAndPartner";
-    pdfFields.f8Verkehrswert.value = grundeigentumBewohnt?.verkaufswert
-      ? `${grundeigentumBewohnt?.verkaufswert} €`
+      grundeigentum.eigentuemer == "myselfAndPartner";
+    pdfFields.f8Verkehrswert.value = grundeigentum.verkaufswert
+      ? `${grundeigentum.verkaufswert} €`
       : "Keine Angaben";
 
-    const bezeichnung =
-      getGrundeigentumBewohntBezeichnung(grundeigentumBewohnt);
-
-    pdfFields.f7Nutzungsart.value = bezeichnung.join(", ");
-  } else if (hasGrundeigentum && !hasGrundeigentumBewohnt) {
-    const grundeigentum = context.grundeigentum?.pop();
-
-    pdfFields.f1InhaberA.value = grundeigentum?.eigentuemer == "myself";
-    pdfFields.f2InhaberB.value = grundeigentum?.eigentuemer == "partner";
-    pdfFields.f2InhaberC.value =
-      grundeigentum?.eigentuemer == "myselfAndPartner";
-    pdfFields.f8Verkehrswert.value = grundeigentum?.verkaufswert
-      ? `${grundeigentum?.verkaufswert} €`
-      : "Keine Angaben";
-
-    const bezeichnung = getGrundeigentumBezeichnung(grundeigentum);
-
-    pdfFields.f7Nutzungsart.value = bezeichnung.join(", ");
-  } else if (hasGrundeigentum && hasGrundeigentumBewohnt) {
-    const bezeichnung: string[] = [];
-
-    context.grundeigentum?.forEach((grundeigentum) => {
-      bezeichnung.push(
-        getGrundeigentumBezeichnung(grundeigentum, true).join("\n"),
-      );
-    });
-
-    context.grundeigentumBewohnt?.forEach((grundeigentum) => {
-      bezeichnung.push(
-        getGrundeigentumBewohntBezeichnung(grundeigentum, true).join("\n"),
-      );
-    });
-
+    pdfFields.f7Nutzungsart.value =
+      getGrundeigentumBezeichnung(grundeigentum).join(", ");
+  } else {
     pdfFields.f7Nutzungsart.value = newPageHint;
     attachment.shouldCreateAttachment = true;
     attachment.descriptions.unshift({
       title: "Grundeigentum",
-      text: bezeichnung.join("\n\n"),
+      text: grundeigentumArray
+        .map((grundeigentum) =>
+          getGrundeigentumBezeichnung(grundeigentum, true).join("\n"),
+        )
+        .join("\n\n"),
     });
   }
 }
@@ -338,12 +310,12 @@ function getKraftfahrzeugBezeichnung(
   return bezeichnung;
 }
 
-type GrundeigentumBewohnt = NonNullable<
-  BeratungshilfeFormularContext["grundeigentumBewohnt"]
+type Grundeigentum = NonNullable<
+  BeratungshilfeFormularContext["grundeigentum"]
 >[0];
 
 function getGrundeigentumBezeichnung(
-  grundeigentum?: GrundeigentumBewohnt,
+  grundeigentum: Grundeigentum,
   hasMultipleGrundeigentum = false,
 ) {
   const bezeichnung = [];
@@ -355,68 +327,27 @@ function getGrundeigentumBezeichnung(
     hereditaryBuildingLaw: "Erbbaurecht",
   };
 
-  // Clearify if needed
-  //bezeichnung.push(`Grundeigentum wird nicht vom Antragsteller bewohnt`);
-
-  if (grundeigentum?.art) {
+  if (grundeigentum.art) {
     bezeichnung.push(`Art des Eigentums: ${artMapping[grundeigentum.art]}`);
   }
 
   if (
-    grundeigentum?.eigentuemer &&
-    eigentuemerMapping[grundeigentum?.eigentuemer]
+    grundeigentum.eigentuemer &&
+    eigentuemerMapping[grundeigentum.eigentuemer]
   ) {
     bezeichnung.push(
-      `Eigentümer:in: ${eigentuemerMapping[grundeigentum?.eigentuemer]}`,
+      `Eigentümer:in: ${eigentuemerMapping[grundeigentum.eigentuemer]}`,
     );
   }
 
-  if (grundeigentum?.flaeche) {
-    bezeichnung.push(`Fläche: ${grundeigentum?.flaeche} m²`);
+  if (grundeigentum.flaeche) {
+    bezeichnung.push(`Fläche: ${grundeigentum.flaeche} m²`);
   }
 
-  if (hasMultipleGrundeigentum && grundeigentum?.verkaufswert) {
-    bezeichnung.push(`Verkehrswert: ${grundeigentum?.verkaufswert} €`);
+  if (hasMultipleGrundeigentum && grundeigentum.verkaufswert) {
+    bezeichnung.push(`Verkehrswert: ${grundeigentum.verkaufswert} €`);
   }
-
-  return bezeichnung;
-}
-
-function getGrundeigentumBewohntBezeichnung(
-  grundeigentum?: GrundeigentumBewohnt,
-  hasMultipleGrundeigentumBewohnt = false,
-) {
-  const bezeichnung = [];
-  const artMapping = {
-    apartment: "Wohnung",
-    houseForFamily: "Haus für Familie",
-    houseWithMultipleApartments: "Haus mit mehreren Wohnungen",
-    property: "Grundstück",
-    hereditaryBuildingLaw: "Erbbaurecht",
-  };
-
-  //bezeichnung.push(`Grundeigentum ist der Hauptwohnsitz des Antragstellers`);
-
-  if (grundeigentum?.art) {
-    bezeichnung.push(`Art des Eigentums: ${artMapping[grundeigentum.art]}`);
-  }
-
-  if (
-    grundeigentum?.eigentuemer &&
-    eigentuemerMapping[grundeigentum?.eigentuemer]
-  ) {
-    bezeichnung.push(
-      `Eigentümer:in: ${eigentuemerMapping[grundeigentum?.eigentuemer]}`,
-    );
-  }
-
-  if (grundeigentum?.flaeche) {
-    bezeichnung.push(`Fläche: ${grundeigentum?.flaeche} m²`);
-  }
-
-  if (hasMultipleGrundeigentumBewohnt && grundeigentum?.verkaufswert) {
-    bezeichnung.push(`Verkehrswert: ${grundeigentum?.verkaufswert} €`);
-  }
+  if (grundeigentum.istBewohnt === "yes") bezeichnung.push("Selbst bewohnt");
 
   return bezeichnung;
 }

@@ -35,6 +35,10 @@ async function addGrundeigentum(
 ) {
   await page.getByTestId("add-grundeigentum").click();
 
+  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/grundeigentum/0/bewohnt-frage
+  await expectPageToBeAccessible({ page });
+  await beratungshilfeFormular.fillRadioPage("grundeigentum#istBewohnt", "yes");
+
   // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/grundeigentum/0/daten
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillDropdown("grundeigentum#art", "apartment");

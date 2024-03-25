@@ -41,53 +41,12 @@ import {
   getAnwaltStrings,
   besitzZusammenfassungShowWarnings,
 } from "./stringReplacements";
-import type { ArrayConfig } from "~/services/array";
-
-const flowId = "/beratungshilfe/antrag/";
-
-const arrayConfigurations = {
-  bankkonten: {
-    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/bankkonten`,
-    initialInputUrl: "daten",
-    questionUrl: `${flowId}finanzielleAngaben/besitz/bankkonten-frage`,
-    statementKey: "hasBankkonto",
-  },
-  kraftfahrzeuge: {
-    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge`,
-    initialInputUrl: "daten",
-    questionUrl: `${flowId}finanzielleAngaben/besitz/kraftfahrzeuge-frage`,
-    statementKey: "hasKraftfahrzeug",
-  },
-  geldanlagen: {
-    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/geldanlagen`,
-    initialInputUrl: "daten",
-    questionUrl: `${flowId}finanzielleAngaben/besitz/geldanlagen-frage`,
-    statementKey: "hasGeldanlage",
-  },
-  grundeigentum: {
-    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/grundeigentum`,
-    initialInputUrl: "daten",
-    questionUrl: `${flowId}finanzielleAngaben/besitz/grundeigentum-frage`,
-    statementKey: "hasGrundeigentum",
-  },
-  wertsachen: {
-    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/wertgegenstaende`,
-    initialInputUrl: "daten",
-    questionUrl: `${flowId}finanzielleAngaben/besitz/wertgegenstaende-frage`,
-    statementKey: "hasWertsache",
-  },
-  kinder: {
-    url: `${flowId}finanzielleAngaben/kinder/kinder`,
-    initialInputUrl: `name`,
-    questionUrl: `${flowId}finanzielleAngaben/kinder/kinder-frage`,
-    statementKey: "hasKinder",
-    hiddenFields: ["eigeneEinnahmen", "unterhalt"],
-  },
-} satisfies Record<string, ArrayConfig>;
+import { finanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
   config: _.merge(beratungshilfeFormularFlow, {
+    meta: { arrays: finanzielleAngabenArrayConfig },
     states: {
       grundvoraussetzungen: _.merge(
         _.cloneDeep(beratungshilfeGrundvoraussetzungenFlow),
@@ -200,7 +159,6 @@ export const beratungshilfeFormular = {
     ...getAnwaltStrings(context),
     ...besitzZusammenfassungShowWarnings(context),
   }),
-  arrayConfigurations,
 } as const;
 
 export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &

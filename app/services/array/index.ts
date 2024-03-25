@@ -6,6 +6,7 @@ export const fieldIsArray = (fieldname: string) =>
   fieldname.includes(arrayChar);
 
 export type ArrayConfig = {
+  event: string;
   url: string;
   initialInputUrl: string;
   questionUrl: string;

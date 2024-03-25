@@ -8,7 +8,6 @@ import type { Config } from "~/services/flow/server/buildFlowController";
 import { type CollectionSchemas } from "~/services/cms/schemas";
 import type { FlowId, Context } from "./contexts";
 import type { Guards } from "./guards.server";
-import type { ArrayConfig } from "~/services/array";
 import type { Replacements } from "~/util/fillTemplate";
 
 export type Flow = {
@@ -17,7 +16,6 @@ export type Flow = {
   guards: Guards;
   migrationSource?: FlowId;
   stringReplacements?: (context: Context) => Replacements;
-  arrayConfigurations?: Record<string, ArrayConfig>;
 };
 
 export const flows = {
