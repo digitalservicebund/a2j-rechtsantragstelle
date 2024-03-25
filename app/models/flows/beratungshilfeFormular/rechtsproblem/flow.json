@@ -4,46 +4,16 @@
   "states": {
     "start": { "on": { "SUBMIT": "bereich" } },
     "bereich": {
-      "on": { "SUBMIT": "beschreibung", "BACK": "start" }
+      "on": { "SUBMIT": "beschreibungssituationen", "BACK": "start" }
     },
-    "beschreibung": {
+    "beschreibungssituationen": {
       "on": {
-        "SUBMIT": "eigeninitiative",
+        "SUBMIT": "danke",
         "BACK": "bereich"
       }
     },
-    "eigeninitiative": {
-      "on": {
-        "SUBMIT": [
-          {
-            "guard": "eigeninitiativeYes",
-            "target": "eigeninitiativeBeschreibung"
-          },
-          { "target": "keineEigeninitiativeBeschreibung" }
-        ],
-        "BACK": "beschreibung"
-      }
-    },
-    "eigeninitiativeBeschreibung": {
-      "on": { "SUBMIT": "sonstiges", "BACK": "eigeninitiative" }
-    },
-    "keineEigeninitiativeBeschreibung": {
-      "on": { "SUBMIT": "sonstiges", "BACK": "eigeninitiative" }
-    },
-    "sonstiges": {
-      "on": {
-        "SUBMIT": "danke",
-        "BACK": [
-          {
-            "guard": "eigeninitiativeYes",
-            "target": "eigeninitiativeBeschreibung"
-          },
-          "keineEigeninitiativeBeschreibung"
-        ]
-      }
-    },
     "danke": {
-      "on": { "BACK": "sonstiges" }
+      "on": { "BACK": "beschreibungssituationen" }
     }
   }
 }
