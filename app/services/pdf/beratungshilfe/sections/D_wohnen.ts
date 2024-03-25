@@ -7,9 +7,15 @@ export function fillWohnen(
 ) {
   pdfFields.d1Wohnung.value = context.apartmentSizeSqm?.toString() ?? "";
   pdfFields.d2Wohnkosten.value = context.apartmentCostFull;
-  pdfFields.d3Teilwohnkosten.value = isLivingAlone(context)
-    ? ""
-    : context.apartmentCostOwnShare;
+  pdfFields.d3Teilwohnkosten.value =
+    isLivingAlone(context) ||
+    typeof context.apartmentCostOwnShare === "undefined"
+      ? ""
+      : Math.round(
+          Number(
+            context.apartmentCostOwnShare.replace(/\./g, "").replace(",", "."),
+          ),
+        ).toString();
   pdfFields.d4Wohnungalleine.value = isLivingAlone(context);
   pdfFields.d5Wohnunggemeinsam.value = !isLivingAlone(context);
   pdfFields.d6WonungweiterePersonen.value = isLivingAlone(context)

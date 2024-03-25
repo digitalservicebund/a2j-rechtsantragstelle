@@ -87,4 +87,20 @@ describe("fillWohnen", () => {
       context.apartmentPersonCount?.toString(),
     );
   });
+
+  it("should should round cost own share", async () => {
+    const context: BeratungshilfeFormularContext = {
+      apartmentSizeSqm: 10,
+      apartmentCostFull: "100",
+      apartmentCostOwnShare: "20,20",
+      apartmentPersonCount: 5,
+      livingSituation: "withRelatives",
+    };
+
+    const pdfFields = await getBeratungshilfeParameters();
+
+    fillWohnen(pdfFields, context);
+
+    expect(pdfFields.d3Teilwohnkosten.value).toEqual("20");
+  });
 });
