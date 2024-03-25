@@ -14,7 +14,7 @@ import type { Context } from "~/models/flows/contexts";
 import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
 import type { Guards } from "~/models/flows/guards.server";
 import _ from "lodash";
-import { arrayEvents } from "~/models/flows/beratungshilfeFormular";
+import { arrayEvents } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/arrayConfiguration";
 
 type Event = "SUBMIT" | "BACK";
 type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
