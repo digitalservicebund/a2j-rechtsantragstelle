@@ -14,30 +14,26 @@ export async function startRechtsproblem(
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("bereich", "authorities");
 
-  // beratungshilfe/antrag/rechtsproblem/beschreibung
+  // beratungshilfe/antrag/rechtsproblem/beschreibungssituationen
   await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillTextareaPage(
+  await beratungshilfeFormular.fillTextarea("gegenseite", "Jobcenter");
+
+  await beratungshilfeFormular.fillTextarea(
     "beschreibung",
-    "Ich habe ein Problem mit der Verwaltung",
+    "Ich habe ein Problem mit der Jobcenter",
   );
 
-  // beratungshilfe/antrag/rechtsproblem/eigeninitiative
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillRadioPage("eigeninitiative", "yes");
+  await beratungshilfeFormular.fillTextarea(
+    "ziel",
+    "Ich möchte, dass das Jobcenter mir sofort alle Kürzungen zurückzahlt",
+  );
 
-  // beratungshilfe/antrag/rechtsproblem/eigeninitiativeBeschreibung
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillTextareaPage(
+  await beratungshilfeFormular.fillTextarea(
     "eigeninitiativeBeschreibung",
-    "Ich habe das Problem berichtet",
+    "Ich habe dem Jobcenter geschrieben, aber sie antworten nicht",
   );
 
-  // beratungshilfe/antrag/rechtsproblem/sonstiges
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillTextareaPage(
-    "sonstiges",
-    "Ich habe das Problem gelöst",
-  );
+  await beratungshilfeFormular.clickNext();
 
   // beratungshilfe/antrag/rechtsproblem/danke
   await expectPageToBeAccessible({ page });

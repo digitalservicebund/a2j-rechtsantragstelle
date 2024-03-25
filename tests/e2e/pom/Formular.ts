@@ -53,6 +53,12 @@ export class Formular {
     await this.clickNext();
   }
 
+  async fillTextarea(field: string, value: string) {
+    await this.page
+      .locator(`textarea[name="${field.split(".").join("\\.")}"]`)
+      .fill(value);
+  }
+
   async fillTextareaPage(field: string, value: string) {
     await this.page
       .locator(`textarea[name="${field.split(".").join("\\.")}"]`)
