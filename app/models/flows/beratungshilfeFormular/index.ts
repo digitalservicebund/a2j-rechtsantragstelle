@@ -58,7 +58,7 @@ export const beratungshilfeFormular = {
                 SUBMIT: [
                   {
                     target: "#anwaltlicheVertretung.start",
-                    guard: "eigeninitiativeGrundvorraussetzungNo",
+                    guard: "grundvoraussetzungDone",
                   },
                   {
                     target: "eigeninitiativeGrundvorraussetzung-hinweis",

@@ -13,17 +13,6 @@ export const beratungshilfeGrundvoraussetzungen = {
 const contextObject = z.object(beratungshilfeGrundvoraussetzungen).partial();
 export type BeratungshilfeGrundvoraussetzungen = z.infer<typeof contextObject>;
 
-export const beratungshilfeGrundvoraussetzungenGuards = {
-  rechtsschutzversicherungNo: ({ context }) =>
-    context.rechtsschutzversicherung === "no",
-  wurdeVerklagtNo: ({ context }) => context.wurdeVerklagt === "no",
-  klageEingereichtNo: ({ context }) => context.klageEingereicht === "no",
-  beratungshilfeBeantragtNo: ({ context }) =>
-    context.beratungshilfeBeantragt === "no",
-  eigeninitiativeGrundvorraussetzungNo: ({ context }) =>
-    context.eigeninitiativeGrundvorraussetzung === "no",
-} satisfies Guards<BeratungshilfeGrundvoraussetzungen>;
-
 export const grundvoraussetzungDone: GenericGuard<
   BeratungshilfeGrundvoraussetzungen
 > = ({ context }) =>
@@ -34,3 +23,13 @@ export const grundvoraussetzungDone: GenericGuard<
       context.beratungshilfeBeantragt === "no" &&
       context.eigeninitiativeGrundvorraussetzung === "no",
   );
+
+export const beratungshilfeGrundvoraussetzungenGuards = {
+  rechtsschutzversicherungNo: ({ context }) =>
+    context.rechtsschutzversicherung === "no",
+  wurdeVerklagtNo: ({ context }) => context.wurdeVerklagt === "no",
+  klageEingereichtNo: ({ context }) => context.klageEingereicht === "no",
+  beratungshilfeBeantragtNo: ({ context }) =>
+    context.beratungshilfeBeantragt === "no",
+  grundvoraussetzungDone,
+} satisfies Guards<BeratungshilfeGrundvoraussetzungen>;
