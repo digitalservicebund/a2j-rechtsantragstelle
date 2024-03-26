@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
+import type { GenericGuard } from "../../guards.server";
 
 export const bereich = z.enum(
   [
@@ -29,7 +30,9 @@ export const beratungshilfeRechtsproblem = {
 const contextObject = z.object(beratungshilfeRechtsproblem).partial();
 export type BeratungshilfeRechtsproblem = z.infer<typeof contextObject>;
 
-export const rechtsproblemDone = (context: BeratungshilfeRechtsproblem) =>
+export const rechtsproblemDone: GenericGuard<BeratungshilfeRechtsproblem> = ({
+  context,
+}) =>
   Boolean(
     context.bereich &&
       context.gegenseite &&

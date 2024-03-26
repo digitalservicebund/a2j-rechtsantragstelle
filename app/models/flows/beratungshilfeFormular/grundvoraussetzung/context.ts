@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import type { Guards } from "../../guards.server";
+import type { GenericGuard, Guards } from "../../guards.server";
 
 export const beratungshilfeGrundvoraussetzungen = {
   rechtsschutzversicherung: YesNoAnswer,
@@ -24,12 +24,13 @@ export const beratungshilfeGrundvoraussetzungenGuards = {
     context.eigeninitiativeGrundvorraussetzung === "no",
 } satisfies Guards<BeratungshilfeGrundvoraussetzungen>;
 
-export const grundvoraussetzungDone = (
-  context: BeratungshilfeGrundvoraussetzungen,
-) =>
+export const grundvoraussetzungDone: GenericGuard<
+  BeratungshilfeGrundvoraussetzungen
+> = ({ context }) =>
   Boolean(
     context.rechtsschutzversicherung === "no" &&
       context.wurdeVerklagt === "no" &&
       context.klageEingereicht === "no" &&
-      context.beratungshilfeBeantragt === "no",
+      context.beratungshilfeBeantragt === "no" &&
+      context.eigeninitiativeGrundvorraussetzung === "no",
   );

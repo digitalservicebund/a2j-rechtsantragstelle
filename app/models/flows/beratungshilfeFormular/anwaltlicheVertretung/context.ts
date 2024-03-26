@@ -7,7 +7,7 @@ import {
 } from "~/services/validation/date";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { postcodeSchema } from "~/services/validation/postcode";
-import type { Guards } from "../../guards.server";
+import type { GenericGuard, Guards } from "../../guards.server";
 
 export const beratungshilfeAnwaltlicheVertretung = {
   anwaltskanzlei: YesNoAnswer,
@@ -37,9 +37,9 @@ export const beratungshilfeAnwaltlicheVertretungGuards = {
   },
 } satisfies Guards<BeratungshilfeAnwaltlicheVertretung>;
 
-export const anwaltlicheVertretungDone = (
-  context: BeratungshilfeAnwaltlicheVertretung,
-) =>
+export const anwaltlicheVertretungDone: GenericGuard<
+  BeratungshilfeAnwaltlicheVertretung
+> = ({ context }) =>
   Boolean(
     context.anwaltskanzlei === "no" || context.beratungStattgefunden === "no",
   ) ||

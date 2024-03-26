@@ -12,7 +12,7 @@ import {
 } from "~/services/flow/stepIdConverter";
 import type { Context } from "~/models/flows/contexts";
 import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
-import type { Guards } from "~/models/flows/guards.server";
+import type { GenericGuard, Guards } from "~/models/flows/guards.server";
 import _ from "lodash";
 import type { ArrayConfig } from "~/services/array";
 
@@ -43,7 +43,7 @@ type Meta = {
   customAnalyticsEventName?: string;
   progressPosition: number | undefined;
   isUneditable: boolean | undefined;
-  done: (context: Context) => boolean | undefined;
+  done: GenericGuard<Context>;
   subflowState: (context: Context, subflowId: string) => SubflowState;
   subflowDone: (context: Context, subflowId: string) => boolean | undefined;
   arrays?: Record<string, ArrayConfig>;
@@ -148,7 +148,7 @@ export const buildFlowController = ({
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
     getRootMeta: () => rootMeta(machine),
     isDone: (currentStepId: string) =>
-      Boolean(metaFromStepId(machine, currentStepId)?.done(context)),
+      Boolean(metaFromStepId(machine, currentStepId)?.done({ context })),
     getSubflowState: (currentStepId: string, subflowId: string) =>
       metaFromStepId(machine, currentStepId)?.subflowState(context, subflowId),
     isUneditable: (currentStepId: string) =>

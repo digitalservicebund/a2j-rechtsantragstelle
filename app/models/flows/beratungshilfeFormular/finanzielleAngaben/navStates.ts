@@ -84,9 +84,9 @@ export const beratungshilfeFinanzielleAngabenSubflowState = (
   return "Open";
 };
 
-export const beratungshilfeFinanzielleAngabeDone = (
-  context: BeratungshilfeFinanzielleAngaben,
-) =>
+export const beratungshilfeFinanzielleAngabeDone: GenericGuard<
+  BeratungshilfeFinanzielleAngaben
+> = ({ context }) =>
   Object.keys(subflowNavigationConfig)
     .map((subflowId) =>
       beratungshilfeFinanzielleAngabenSubflowState(context, subflowId),
