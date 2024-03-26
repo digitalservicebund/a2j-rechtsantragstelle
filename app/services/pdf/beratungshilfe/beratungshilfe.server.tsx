@@ -23,7 +23,7 @@ import { createAttachment } from "./attachment";
 import { fillAngelegenheit } from "./sections/A_angelegenheit";
 import { fillEinkommen } from "./sections/C_einkommen";
 import { fillUnterhalt } from "./sections/E_unterhalt";
-import { fillBesitz } from "./sections/F_besitz";
+import { fillBesitz } from "./sections/F_besitz/F_besitz";
 import { fillFooter } from "./sections/footer";
 import { fillWohnen } from "./sections/D_wohnen";
 

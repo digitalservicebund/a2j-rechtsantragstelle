@@ -1,7 +1,8 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { Attachment } from "../attachment";
-import { newPageHint } from "../attachment";
+import type { Attachment } from "../../attachment";
+import { newPageHint } from "../../attachment";
+import { fillFinancialKraftfahrzeug } from "./financialKraftfahrzeug";
 
 export function fillBesitz(
   attachment: Attachment,
@@ -31,7 +32,7 @@ export function fillBesitz(
   }
 }
 
-const eigentuemerMapping = {
+export const eigentuemerMapping = {
   myself: "Ich alleine",
   partner: "Ehe-Partner:in",
   myselfAndPartner: "Mein:e Ehe-Partner:in und ich gemeinsam",
@@ -122,51 +123,6 @@ export function fillFinancialGrundeigentum(
   }
 }
 
-export function fillFinancialKraftfahrzeug(
-  attachment: Attachment,
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  const hasKraftfahrzeug = context.kraftfahrzeuge
-    ? context.kraftfahrzeuge?.length > 0
-    : false;
-  pdfFields.f9Kraftfahrzeug1.value = !hasKraftfahrzeug;
-  pdfFields.f9Kraftfahrzeuge2.value = hasKraftfahrzeug;
-
-  if (context.kraftfahrzeuge && context.kraftfahrzeuge.length > 0) {
-    if (context.kraftfahrzeuge.length == 1) {
-      const kraftfahrzeug = context.kraftfahrzeuge.pop();
-
-      pdfFields.f10KraftfahrzeugeA.value =
-        kraftfahrzeug?.eigentuemer == "myself";
-      pdfFields.f10KraftfahrzeugB.value =
-        kraftfahrzeug?.eigentuemer == "partner";
-      pdfFields.f10KraftfahrzeugC.value =
-        kraftfahrzeug?.eigentuemer == "myselfAndPartner";
-
-      pdfFields.f11Fahrzeugart.value =
-        getKraftfahrzeugShortBezeichnung(kraftfahrzeug);
-      pdfFields.f12Verkehrswert.value =
-        kraftfahrzeug?.verkaufswert ?? "Keine Angaben";
-    } else {
-      pdfFields.f11Fahrzeugart.value = newPageHint;
-      attachment.shouldCreateAttachment = true;
-      const bezeichnung: string[] = [];
-
-      context.kraftfahrzeuge.forEach((kraftfahrzeug) => {
-        bezeichnung.push(
-          getKraftfahrzeugBezeichnung(kraftfahrzeug, true).join("\n"),
-        );
-      });
-
-      attachment.descriptions.unshift({
-        title: "Kraftfahrzeuge",
-        text: bezeichnung.join("\n\n"),
-      });
-    }
-  }
-}
-
 export function fillFinancialWertsachen(
   attachment: Attachment,
   pdfFields: BeratungshilfePDF,
@@ -227,84 +183,6 @@ function getWertsachenBezeichnung(
 
   if (hasMultipleWertsachen && wertsache?.wert) {
     bezeichnung.push(`Verkehrswert: ${wertsache?.wert} €`);
-  }
-
-  return bezeichnung;
-}
-
-type Kraftfahrzeug = NonNullable<
-  BeratungshilfeFormularContext["kraftfahrzeuge"]
->[0];
-
-function getKraftfahrzeugShortBezeichnung(kraftfahrzeug?: Kraftfahrzeug) {
-  const bezeichnung = [];
-
-  if (kraftfahrzeug?.art) {
-    bezeichnung.push(`${kraftfahrzeug?.art}`);
-  }
-
-  if (kraftfahrzeug?.marke) {
-    bezeichnung.push(`${kraftfahrzeug?.marke}`);
-  }
-
-  if (kraftfahrzeug?.baujahr) {
-    bezeichnung.push(`Baujahr: ${kraftfahrzeug?.baujahr}`);
-  }
-
-  if (kraftfahrzeug?.kilometerstand) {
-    bezeichnung.push(`km-Stand: ${kraftfahrzeug?.kilometerstand}`);
-  }
-
-  if (kraftfahrzeug?.arbeitsweg) {
-    bezeichnung.push(`Wird für den Arbeitsweg gebraucht`);
-  }
-
-  return bezeichnung.join(", ");
-}
-
-function getKraftfahrzeugBezeichnung(
-  kraftfahrzeug?: Kraftfahrzeug,
-  hasMultipleKraftfahrzeug = false,
-) {
-  const bezeichnung = [];
-
-  if (kraftfahrzeug?.arbeitsweg === "on") {
-    bezeichnung.push(`Fahrzeug wird für den Arbeitsweg genutzt`);
-  }
-
-  if (
-    kraftfahrzeug?.eigentuemer &&
-    eigentuemerMapping[kraftfahrzeug?.eigentuemer]
-  ) {
-    bezeichnung.push(
-      `Eigentümer:in: ${eigentuemerMapping[kraftfahrzeug?.eigentuemer]}`,
-    );
-  }
-
-  if (kraftfahrzeug?.art) {
-    bezeichnung.push(`Art des Fahrzeugs: ${kraftfahrzeug?.art}`);
-  }
-
-  if (kraftfahrzeug?.marke) {
-    bezeichnung.push(`Marke: ${kraftfahrzeug?.marke}`);
-  }
-
-  if (kraftfahrzeug?.anschaffungsjahr) {
-    bezeichnung.push(`Anschaffungsjahr: ${kraftfahrzeug?.anschaffungsjahr}`);
-  }
-
-  if (kraftfahrzeug?.baujahr) {
-    bezeichnung.push(`Baujahr: ${kraftfahrzeug?.baujahr}`);
-  }
-
-  if (kraftfahrzeug?.kilometerstand) {
-    bezeichnung.push(
-      `Kilometerstand (ca.): ${kraftfahrzeug?.kilometerstand} km`,
-    );
-  }
-
-  if (hasMultipleKraftfahrzeug && kraftfahrzeug?.verkaufswert) {
-    bezeichnung.push(`Verkehrswert: ${kraftfahrzeug?.verkaufswert} €`);
   }
 
   return bezeichnung;
