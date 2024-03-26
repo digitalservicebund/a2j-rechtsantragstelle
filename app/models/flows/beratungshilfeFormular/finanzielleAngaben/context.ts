@@ -89,7 +89,6 @@ export const beratungshilfeFinanzielleAngaben = {
       kontoEigentuemer: Eigentuemer,
     }),
   ),
-  hasAdditionalBankkonto: YesNoAnswer,
   hasKraftfahrzeug: YesNoAnswer,
   kraftfahrzeuge: z.array(
     z.object({
@@ -104,7 +103,6 @@ export const beratungshilfeFinanzielleAngaben = {
       arbeitsweg: inputRequiredSchema,
     }),
   ),
-  hasAdditionalKraftfahrzeug: YesNoAnswer,
   hasGeldanlage: YesNoAnswer,
   geldanlagen: z.array(
     z.object({
@@ -140,7 +138,6 @@ export const beratungshilfeFinanzielleAngaben = {
     ["less10000", "more10000", "unsure"],
     customRequiredErrorMessage,
   ),
-  hasAdditionalGeldanlage: YesNoAnswer,
   hasGrundeigentum: YesNoAnswer,
   grundeigentum: z.array(
     z.object({
@@ -155,7 +152,6 @@ export const beratungshilfeFinanzielleAngaben = {
       land: inputRequiredSchema,
     }),
   ),
-  hasAdditionalGrundeigentum: YesNoAnswer,
   hasWertsache: YesNoAnswer,
   wertsachen: z.array(
     z.object({
@@ -164,7 +160,6 @@ export const beratungshilfeFinanzielleAngaben = {
       wert: buildMoneyValidationSchema(),
     }),
   ),
-  hasAdditionalWertsache: YesNoAnswer,
   livingSituation: z.enum(["alone", "withRelatives", "withOthers"]),
   apartmentSizeSqm: integerSchema,
   apartmentPersonCount: integerSchema,
