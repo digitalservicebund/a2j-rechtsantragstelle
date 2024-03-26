@@ -2,15 +2,16 @@ import { createRequestHandler } from "@remix-run/express";
 import compression from "compression";
 import express from "express";
 
-const isProductionEnvironment = process.env.NODE_ENV === "production";
+const shouldStartDevServer = process.env.NODE_ENV !== "production";
+const isStagingOrPreviewEnvironment = process.env.ENVIRONMENT !== "production";
 
-const viteDevServer = isProductionEnvironment
-  ? undefined
-  : await import("vite").then((vite) =>
+const viteDevServer = shouldStartDevServer
+  ? await import("vite").then((vite) =>
       vite.createServer({
         server: { middlewareMode: true },
       }),
-    );
+    )
+  : undefined;
 
 const remixHandler = createRequestHandler({
   build: viteDevServer
@@ -43,9 +44,10 @@ const mountPathWithoutStorybook = [
   /^\/build\/client\/storybook($|\/)/,
   "/build/client",
 ];
-isProductionEnvironment
-  ? app.use(mountPathWithoutStorybook, staticFileServer)
-  : app.use(staticFileServer);
+
+isStagingOrPreviewEnvironment
+  ? app.use(staticFileServer)
+  : app.use(mountPathWithoutStorybook, staticFileServer);
 
 // handle SSR requests
 app.all("*", remixHandler);
