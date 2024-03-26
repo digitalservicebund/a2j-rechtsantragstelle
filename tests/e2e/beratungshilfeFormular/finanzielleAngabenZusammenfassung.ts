@@ -1,4 +1,5 @@
 import type { Page } from "@playwright/test";
+import { expect } from "@playwright/test";
 import type { BeratungshilfeFormular } from "../pom/BeratungshilfeFormular";
 import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";
 
@@ -64,22 +65,18 @@ async function addGeldanlage(
 ) {
   await page.getByTestId("add-geldanlagen").click();
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/geldanlagen/0/daten
+  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/geldanlagen/0/art
+  await expectPageToBeAccessible({ page });
+  await beratungshilfeFormular.fillRadioPage("geldanlagen#art", "bargeld");
+
+  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/geldanlagen/0/bargeld
+  expect(page.url()).toContain("bargeld");
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillDropdown(
     "geldanlagen#eigentuemer",
     "myself",
   );
-  await beratungshilfeFormular.fillDropdown("geldanlagen#art", "lifeInsurance");
-  await beratungshilfeFormular.fillInput(
-    "geldanlagen#verwendungszweck",
-    "Altersvorsorge",
-  );
-  await beratungshilfeFormular.fillInput("geldanlagen#auszahlungwert", "100");
-  await beratungshilfeFormular.fillInput(
-    "geldanlagen#auszahlungdatum",
-    "01.01.2050",
-  );
+  await beratungshilfeFormular.fillInput("geldanlagen#wert", "100");
   await beratungshilfeFormular.clickNext();
 }
 
