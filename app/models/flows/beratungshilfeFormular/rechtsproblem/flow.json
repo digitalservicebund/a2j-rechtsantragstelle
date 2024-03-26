@@ -4,16 +4,16 @@
   "states": {
     "start": { "on": { "SUBMIT": "bereich" } },
     "bereich": {
-      "on": { "SUBMIT": "beschreibungssituationen", "BACK": "start" }
+      "on": { "SUBMIT": "situation-beschreibung", "BACK": "start" }
     },
-    "beschreibungssituationen": {
+    "situation-beschreibung": {
       "on": {
         "SUBMIT": "danke",
         "BACK": "bereich"
       }
     },
     "danke": {
-      "on": { "BACK": "beschreibungssituationen" }
+      "on": { "BACK": "situation-beschreibung" }
     }
   }
 }

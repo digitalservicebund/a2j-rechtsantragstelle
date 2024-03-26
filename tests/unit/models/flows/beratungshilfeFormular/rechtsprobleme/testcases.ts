@@ -14,7 +14,7 @@ const cases = [
     [
       "rechtsproblem/start",
       "rechtsproblem/bereich",
-      "rechtsproblem/beschreibungssituationen",
+      "rechtsproblem/situation-beschreibung",
       "rechtsproblem/danke",
     ],
   ],
