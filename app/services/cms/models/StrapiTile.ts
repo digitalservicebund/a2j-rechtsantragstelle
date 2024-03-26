@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import { StrapiImageSchema, getImageProps } from "./StrapiImage";
-import { TilePropsSchema } from "~/components/inputs/Tile";
+import { StrapiImageSchema } from "./StrapiImage";
 
 export const StrapiTileSchema = z
   .object({
@@ -11,12 +10,3 @@ export const StrapiTileSchema = z
     image: StrapiImageSchema.nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
-
-type StrapiTile = z.infer<typeof StrapiTileSchema>;
-
-export const getTileProps = (cmsData: StrapiTile) => {
-  return TilePropsSchema.parse({
-    ...cmsData,
-    image: getImageProps(cmsData.image),
-  });
-};

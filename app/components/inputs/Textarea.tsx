@@ -6,7 +6,7 @@ import InputLabel from "./InputLabel";
 import { z } from "zod";
 import { ErrorMessagePropsSchema } from ".";
 
-export const TextareaPropsSchema = z.object({
+const TextareaPropsSchema = z.object({
   name: z.string(),
   label: z.custom<ReactNode>().optional(),
   placeholder: z.string().optional(),

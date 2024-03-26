@@ -4,11 +4,11 @@ describe("util/omitNull", () => {
   const cases = [
     {
       input: { a: { b: null, c: 1 } },
-      output: { a: { c: 1 } },
+      output: { a: { b: undefined, c: 1 } },
     },
     {
       input: { d: undefined, e: [null, { f: null }] },
-      output: { d: undefined, e: [{}] },
+      output: { d: undefined, e: [undefined, { f: undefined }] },
     },
     {
       input: [],
@@ -16,11 +16,11 @@ describe("util/omitNull", () => {
     },
     {
       input: [null, null],
-      output: [],
+      output: [undefined, undefined],
     },
     {
       input: [null, undefined, { x: false, y: "", z: 0 }],
-      output: [undefined, { x: false, y: "", z: 0 }],
+      output: [undefined, undefined, { x: false, y: "", z: 0 }],
     },
     {
       input: null,
@@ -55,12 +55,15 @@ describe("util/omitNull", () => {
       output: {
         a: {
           b: 1,
+          c: undefined,
           d: [
             {
               e: 2,
+              f: undefined,
             },
             {
               g: 3,
+              h: undefined,
             },
           ],
           i: undefined,
