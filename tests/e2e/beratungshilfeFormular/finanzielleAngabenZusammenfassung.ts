@@ -86,7 +86,21 @@ async function addKraftfahrzeug(
 ) {
   await page.getByTestId("add-kraftfahrzeuge").click();
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/kraftfahrzeuge
+  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/arbeitsweg
+  await expectPageToBeAccessible({ page });
+  await beratungshilfeFormular.fillRadioPage(
+    "kraftfahrzeuge#hasArbeitweg",
+    "yes",
+  );
+
+  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/wert
+  await expectPageToBeAccessible({ page });
+  await beratungshilfeFormular.fillRadioPage(
+    "kraftfahrzeuge#wert",
+    "over10000",
+  );
+
+  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/daten
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillDropdown(
     "kraftfahrzeuge#eigentuemer",
