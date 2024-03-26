@@ -13,6 +13,7 @@ export const TextareaPropsSchema = z.object({
   label: z.custom<ReactNode>().optional(),
   placeholder: z.string().optional(),
   errorMessages: z.array(ErrorMessagePropsSchema).optional(),
+  formId: z.string().optional(),
 });
 
 type TextareaProps = z.infer<typeof TextareaPropsSchema>;
@@ -20,11 +21,12 @@ type TextareaProps = z.infer<typeof TextareaPropsSchema>;
 const Textarea = ({
   name,
   description,
+  formId,
   label,
   placeholder,
   errorMessages,
 }: TextareaProps) => {
-  const { error, getInputProps } = useField(name);
+  const { error, getInputProps } = useField(name, { formId });
   const errorId = `${name}-error`;
 
   return (
