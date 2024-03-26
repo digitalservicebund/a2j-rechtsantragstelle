@@ -2,7 +2,7 @@ import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilf
 import { getMaritalDescriptionByContext } from "./sections/header";
 
 const MAXIMUM_LENGTH_MARITAL_DESCRIPTION = 10;
-export const MARITIAL_STATUS_TITLE = "Familienstand:";
+export const MARITAL_STATUS_TITLE = "Familienstand:";
 export const THEMA_RECHTSPROBLEM_TITLE = "Thema des Rechtsproblems:";
 export const GEGNER_TITLE = "Gegner:";
 export const BESCHREIBUNG_ANGELEGENHEIT_TITLE = "Beschreibung Angelegenheit:";
@@ -94,7 +94,7 @@ const addMaritalToAttachment = ({
 
   if (maritalDescription.length > MAXIMUM_LENGTH_MARITAL_DESCRIPTION) {
     descriptions.push({
-      title: MARITIAL_STATUS_TITLE,
+      title: MARITAL_STATUS_TITLE,
       text: maritalDescription,
     });
   }

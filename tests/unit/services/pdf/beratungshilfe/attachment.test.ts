@@ -3,7 +3,7 @@ import {
   BESCHREIBUNG_ANGELEGENHEIT_TITLE,
   EIGENBEMUEHUNG_TITLE,
   GEGNER_TITLE,
-  MARITIAL_STATUS_TITLE,
+  MARITAL_STATUS_TITLE,
   THEMA_RECHTSPROBLEM_TITLE,
   ZIEL_ANGELEGENHEIT_TITLE,
   createAttachment,
@@ -17,7 +17,7 @@ describe("createAttachment", () => {
 
     const attachment = createAttachment(context);
     const hasMaritalDescription = attachment.descriptions.some(
-      (description) => description.title === MARITIAL_STATUS_TITLE,
+      (description) => description.title === MARITAL_STATUS_TITLE,
     );
     expect(hasMaritalDescription).toBeTruthy();
   });
@@ -29,7 +29,7 @@ describe("createAttachment", () => {
 
     const attachment = createAttachment(context);
     const hasMaritalDescription = attachment.descriptions.some(
-      (description) => description.title === MARITIAL_STATUS_TITLE,
+      (description) => description.title === MARITAL_STATUS_TITLE,
     );
     expect(hasMaritalDescription).toBeFalsy();
   });
