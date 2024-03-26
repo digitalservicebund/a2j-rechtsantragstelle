@@ -20,7 +20,7 @@ export const finanzielleAngabenArrayConfig = {
   },
   geldanlagen: {
     url: `${prefix}/besitzZusammenfassung/geldanlagen`,
-    initialInputUrl: "daten",
+    initialInputUrl: "art",
     statementUrl: `${prefix}/besitz/geldanlagen-frage`,
     statementKey: "hasGeldanlage",
     event: "add-geldanlagen",

@@ -401,12 +401,72 @@
           }
         },
         "geldanlagen": {
-          "initial": "daten",
+          "id": "geldanlagen",
+          "initial": "art",
           "states": {
-            "daten": {
+            "art": {
               "on": {
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+                "SUBMIT": [
+                  { "target": "bargeld", "guard": "isGeldanlageBargeld" },
+                  {
+                    "target": "wertpapiere",
+                    "guard": "isGeldanlageWertpapiere"
+                  },
+                  {
+                    "target": "guthabenkontoKrypto",
+                    "guard": "isGeldanlageGuthabenkontoKrypto"
+                  },
+                  {
+                    "target": "giroTagesgeldSparkonto",
+                    "guard": "isGeldanlageGiroTagesgeldSparkonto"
+                  },
+                  { "target": "befristet", "guard": "isGeldanlageBefristet" },
+                  { "target": "forderung", "guard": "isGeldanlageForderung" },
+                  { "target": "sonstiges", "guard": "isGeldanlageSonstiges" }
+                ],
                 "BACK": "#besitzZusammenfassung.zusammenfassung"
+              }
+            },
+            "bargeld": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+              }
+            },
+            "wertpapiere": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+              }
+            },
+            "guthabenkontoKrypto": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+              }
+            },
+            "giroTagesgeldSparkonto": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+              }
+            },
+            "befristet": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+              }
+            },
+            "forderung": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+              }
+            },
+            "sonstiges": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }

@@ -114,12 +114,30 @@ export const beratungshilfeFinanzielleAngaben = {
   geldanlagen: z.array(
     z.object({
       art: z.enum(
-        ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
+        [
+          "bargeld",
+          "wertpapiere",
+          "guthabenkontoKrypto",
+          "giroTagesgeldSparkonto",
+          "befristet",
+          "forderung",
+          "sonstiges",
+        ],
         customRequiredErrorMessage,
       ),
       eigentuemer: Eigentuemer,
+      wert: buildMoneyValidationSchema(),
+
+      kontoBankName: inputRequiredSchema,
+      kontoIban: z.string(),
+      kontoBezeichnung: z.string(),
+
+      befristetArt: z.enum(
+        ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
+        customRequiredErrorMessage,
+      ),
+      forderung: inputRequiredSchema,
       verwendungszweck: inputRequiredSchema,
-      auszahlungwert: buildMoneyValidationSchema(),
       auszahlungdatum: inputRequiredSchema,
     }),
   ),

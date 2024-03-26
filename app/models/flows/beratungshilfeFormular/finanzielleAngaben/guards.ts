@@ -85,6 +85,48 @@ export const finanzielleAngabeGuards = {
       grundeigentum?.[pageData.arrayIndexes[0]]?.istBewohnt === "family"
     );
   },
+  isGeldanlageBargeld: ({ context: { pageData, geldanlagen } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+
+    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "bargeld";
+  },
+  isGeldanlageWertpapiere: ({ context: { pageData, geldanlagen } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "wertpapiere";
+  },
+  isGeldanlageGuthabenkontoKrypto: ({ context: { pageData, geldanlagen } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return (
+      geldanlagen?.[pageData.arrayIndexes[0]]?.art === "guthabenkontoKrypto"
+    );
+  },
+  isGeldanlageGiroTagesgeldSparkonto: ({
+    context: { pageData, geldanlagen },
+  }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return (
+      geldanlagen?.[pageData.arrayIndexes[0]]?.art === "giroTagesgeldSparkonto"
+    );
+  },
+  isGeldanlageBefristet: ({ context: { pageData, geldanlagen } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "befristet";
+  },
+  isGeldanlageForderung: ({ context: { pageData, geldanlagen } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "forderung";
+  },
+  isGeldanlageSonstiges: ({ context: { pageData, geldanlagen } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "sonstiges";
+  },
   isKraftfahrzeugWertAbove1000OrUnsure: ({
     context: { pageData, kraftfahrzeuge },
   }) => {

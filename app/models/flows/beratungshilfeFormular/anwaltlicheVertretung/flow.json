@@ -1,9 +1,6 @@
 {
   "initial": "start",
   "id": "anwaltlicheVertretung",
-  "meta": {
-    "isUneditable": true
-  },
   "states": {
     "start": {
       "on": {
