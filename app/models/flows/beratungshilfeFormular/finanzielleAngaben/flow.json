@@ -386,13 +386,13 @@
                 "SUBMIT": [
                   {
                     "guard": "isKraftfahrzeugWertAbove1000OrUnsure",
-                    "target": "daten"
+                    "target": "fahrzeuge"
                   },
                   "#besitzZusammenfassung.zusammenfassung"
                 ]
               }
             },
-            "daten": {
+            "fahrzeuge": {
               "on": {
                 "BACK": "wert",
                 "SUBMIT": "#besitzZusammenfassung.zusammenfassung"

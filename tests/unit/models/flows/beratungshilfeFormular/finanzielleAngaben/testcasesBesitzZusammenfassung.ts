@@ -11,7 +11,6 @@ const cases = [
           wert: "under10000",
           hasArbeitweg: "yes",
           anschaffungsjahr: "anschaffungsjahr",
-          arbeitsweg: "arbeitsweg",
           art: "art",
           baujahr: "baujahr",
           bemerkung: "baujahr",
@@ -36,7 +35,6 @@ const cases = [
           wert: "over10000",
           hasArbeitweg: "yes",
           anschaffungsjahr: "anschaffungsjahr",
-          arbeitsweg: "arbeitsweg",
           art: "art",
           baujahr: "baujahr",
           bemerkung: "baujahr",
@@ -51,7 +49,7 @@ const cases = [
     [
       "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/arbeitsweg",
       "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/wert",
-      "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/daten",
+      "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/fahrzeuge",
     ],
   ],
   [
@@ -62,7 +60,6 @@ const cases = [
           wert: "unsure",
           hasArbeitweg: "yes",
           anschaffungsjahr: "anschaffungsjahr",
-          arbeitsweg: "arbeitsweg",
           art: "art",
           baujahr: "baujahr",
           bemerkung: "baujahr",
@@ -77,7 +74,7 @@ const cases = [
     [
       "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/arbeitsweg",
       "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/wert",
-      "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/daten",
+      "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/fahrzeuge",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

@@ -100,7 +100,7 @@ async function addKraftfahrzeug(
     "over10000",
   );
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/daten
+  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/fahrzeuge
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillDropdown(
     "kraftfahrzeuge#eigentuemer",
@@ -121,7 +121,6 @@ async function addKraftfahrzeug(
     "1991",
   );
 
-  await beratungshilfeFormular.fillCheckboxes("kraftfahrzeuge#arbeitsweg");
   await beratungshilfeFormular.clickNext();
 }
 
