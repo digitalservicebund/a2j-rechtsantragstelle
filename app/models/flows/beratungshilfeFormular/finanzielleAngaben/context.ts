@@ -102,6 +102,11 @@ export const beratungshilfeFinanzielleAngaben = {
       baujahr: inputRequiredSchema,
       bemerkung: inputRequiredSchema,
       arbeitsweg: inputRequiredSchema,
+      hasArbeitweg: YesNoAnswer,
+      wert: z.enum(
+        ["under10000", "over10000", "unsure"],
+        customRequiredErrorMessage,
+      ),
     }),
   ),
   hasAdditionalKraftfahrzeug: YesNoAnswer,

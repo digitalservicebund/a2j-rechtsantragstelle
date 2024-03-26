@@ -201,6 +201,8 @@ describe("F_besitz", () => {
             bemerkung: "Bemerkung",
             kilometerstand: "999999",
             verkaufswert: "100000",
+            hasArbeitweg: "yes",
+            wert: "over10000",
           },
         ],
       };
@@ -235,6 +237,8 @@ describe("F_besitz", () => {
             bemerkung: "Bemerkung",
             kilometerstand: "999999",
             verkaufswert: "100000",
+            hasArbeitweg: "yes",
+            wert: "over10000",
           },
           {
             eigentuemer: "myself",
@@ -246,6 +250,8 @@ describe("F_besitz", () => {
             bemerkung: "Bemerkung 2",
             kilometerstand: "99999",
             verkaufswert: "10000",
+            hasArbeitweg: "yes",
+            wert: "over10000",
           },
         ],
       };

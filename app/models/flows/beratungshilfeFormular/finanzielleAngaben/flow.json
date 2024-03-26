@@ -372,12 +372,30 @@
           }
         },
         "kraftfahrzeuge": {
-          "initial": "daten",
+          "initial": "arbeitsweg",
           "states": {
+            "arbeitsweg": {
+              "on": {
+                "BACK": "#besitzZusammenfassung.zusammenfassung",
+                "SUBMIT": "wert"
+              }
+            },
+            "wert": {
+              "on": {
+                "BACK": "arbeitsweg",
+                "SUBMIT": [
+                  {
+                    "guard": "isKraftfahrzeugWertAbove1000OrUnsure",
+                    "target": "daten"
+                  },
+                  "#besitzZusammenfassung.zusammenfassung"
+                ]
+              }
+            },
             "daten": {
               "on": {
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
-                "BACK": "#besitzZusammenfassung.zusammenfassung"
+                "BACK": "wert",
+                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
               }
             }
           }

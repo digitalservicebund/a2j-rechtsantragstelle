@@ -85,4 +85,15 @@ export const finanzielleAngabeGuards = {
       grundeigentum?.[pageData.arrayIndexes[0]]?.istBewohnt === "family"
     );
   },
+  isKraftfahrzeugWertAbove1000OrUnsure: ({
+    context: { pageData, kraftfahrzeuge },
+  }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+
+    return (
+      kraftfahrzeuge?.[pageData.arrayIndexes[0]]?.wert === "over10000" ||
+      kraftfahrzeuge?.[pageData.arrayIndexes[0]]?.wert === "unsure"
+    );
+  },
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;
