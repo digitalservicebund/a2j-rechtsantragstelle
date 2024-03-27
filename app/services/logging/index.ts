@@ -2,11 +2,13 @@ import { config } from "~/services/env/web";
 import * as Sentry from "@sentry/remix";
 
 const { SENTRY_DSN, ENVIRONMENT } = config();
+let sentryHasBeenInitialized = false;
 if (SENTRY_DSN !== undefined) {
   Sentry.init({
     dsn: SENTRY_DSN,
     environment: ENVIRONMENT,
   });
+  sentryHasBeenInitialized = true;
 }
 
 type Error = {
@@ -27,5 +29,14 @@ export function logError({
     void Sentry.captureRemixServerException(error, "server", request);
   } else {
     Sentry.captureException(error);
+  }
+}
+
+export function sendSentryMessage(
+  message: string,
+  level: Sentry.SeverityLevel,
+): void {
+  if (sentryHasBeenInitialized) {
+    Sentry.captureMessage(message, level);
   }
 }

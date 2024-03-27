@@ -1,3 +1,4 @@
+import * as logging from "~/services/logging";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
 
 const TRANSLATION_KEY_RECORD = {
@@ -12,17 +13,15 @@ describe("getTranslationByKey", () => {
     expect(actual).toEqual(TRANSLATION_KEY_RECORD[mockKeyValue]);
   });
 
-  it("in case the key does not exist in the translation record, it should call console.log error and return the key ", () => {
+  it("in case the key does not exist in the translation record, it should call sendSentryMessage and return the key ", () => {
     const mockKeyValue = "not_existing_key";
-    const logSpy = jest
-      .spyOn(global.console, "error")
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      .mockImplementation(() => {});
+    const logSpy = jest.spyOn(logging, "sendSentryMessage");
     const actual = getTranslationByKey(mockKeyValue, TRANSLATION_KEY_RECORD);
 
     expect(logSpy).toHaveBeenCalled();
     expect(logSpy).toHaveBeenCalledWith(
       `Key translation ${mockKeyValue} is not available in the translation record. Please take a look in the CMS system!`,
+      "warning",
     );
     expect(actual).toEqual(mockKeyValue);
 
