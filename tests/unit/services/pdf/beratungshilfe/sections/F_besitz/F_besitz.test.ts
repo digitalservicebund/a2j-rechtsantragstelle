@@ -287,9 +287,10 @@ describe("F_besitz", () => {
       expect(attachment.descriptions[0]).toEqual({
         title: "Geldanlagen",
         text:
+          "\nGeldanlage 1\n" +
           "Art der Geldanlage: Bargeld\n" +
-          "Wert: 100000 €\n" +
-          "Eigentümer:in: Ehe-Partner:in\n",
+          "Betrag: 100000 €\n" +
+          "Eigentümer:in: Ehe-Partner:in",
       });
     });
 
@@ -318,12 +319,13 @@ describe("F_besitz", () => {
       expect(attachment.descriptions[0]).toEqual({
         title: "Geldanlagen",
         text:
+          "\nGeldanlage 1\n" +
           "Art der Geldanlage: Girokonto / Tagesgeld / Sparkonto\n" +
-          "Wert: 1000 €\n" +
+          "Betrag: 1000 €\n" +
           "Eigentümer:in: Ehe-Partner:in\n" +
           "Name der Bank: Bank\n" +
           "IBAN: 12356789\n" +
-          "Bezeichnung: Bezeichnung\n",
+          "Bezeichnung: Bezeichnung",
       });
     });
 
@@ -351,11 +353,12 @@ describe("F_besitz", () => {
       expect(attachment.descriptions[0]).toEqual({
         title: "Geldanlagen",
         text:
+          "\nGeldanlage 1\n" +
           "Art der Geldanlage: Befristete Geldanlage\n" +
-          "Wert: 1000 €\n" +
+          "Betrag: 1000 €\n" +
           "Eigentümer:in: Ehe-Partner:in\n" +
           "Verwendungszweck: Verwendung\n" +
-          "Auszahlungstermin: 12.12.1990\n",
+          "Auszahlungstermin: 12.12.1990",
       });
     });
 
@@ -382,10 +385,11 @@ describe("F_besitz", () => {
       expect(attachment.descriptions[0]).toEqual({
         title: "Geldanlagen",
         text:
+          "\nGeldanlage 1\n" +
           "Art der Geldanlage: Sonstiges\n" +
-          "Wert: 1000 €\n" +
+          "Betrag: 1000 €\n" +
           "Eigentümer:in: Ehe-Partner:in\n" +
-          "Beschreibung: Beschreibung\n",
+          "Beschreibung: Beschreibung",
       });
     });
 

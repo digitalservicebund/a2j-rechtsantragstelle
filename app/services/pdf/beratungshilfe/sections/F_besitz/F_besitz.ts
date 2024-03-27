@@ -296,11 +296,15 @@ type Geldanlage = NonNullable<BeratungshilfeFormularContext["geldanlagen"]>[0];
 function getGeldanlagenBezeichnung(geldanlagen?: Geldanlage[]): string[] {
   const bezeichnung: string[] = [];
 
-  geldanlagen?.forEach((geldanlage) => {
+  geldanlagen?.forEach((geldanlage, index) => {
+    // Create a new line for each entry
+    bezeichnung.push("");
+
+    bezeichnung.push(`Geldanlage ${index + 1}`);
     bezeichnung.push(
       `Art der Geldanlage: ${geldanlageArtMapping[geldanlage.art]}`,
     );
-    bezeichnung.push(`Wert: ${geldanlage.wert} €`);
+    bezeichnung.push(`Betrag: ${geldanlage.wert} €`);
     bezeichnung.push(
       `Eigentümer:in: ${eigentuemerMapping[geldanlage.eigentuemer]}`,
     );
@@ -328,8 +332,6 @@ function getGeldanlagenBezeichnung(geldanlagen?: Geldanlage[]): string[] {
     if (geldanlage.art === "sonstiges") {
       bezeichnung.push(`Beschreibung: ${geldanlage.verwendungszweck ?? ""}`);
     }
-    // Create a new line between each entry
-    bezeichnung.push("");
   });
 
   return bezeichnung;
