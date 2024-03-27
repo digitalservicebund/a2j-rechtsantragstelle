@@ -7,10 +7,10 @@ import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import AddButton from "@digitalservicebund/icons/AddCircleOutlined";
 import RichText from "./RichText";
 import { useFetcher, useLocation } from "@remix-run/react";
-import { lookupOrKey } from "~/util/lookupOrKey";
 import type { ObjectType } from "~/models/flows/contexts";
 import { CSRFKey } from "~/services/security/csrfKey";
 import type { ArrayConfig } from "~/services/array";
+import { getTranslationByKey } from "~/util/getTranslationByKey";
 
 type ArraySummaryProps = {
   readonly category: string;
@@ -28,16 +28,35 @@ const ArraySummary = ({
   csrf,
   translations = {},
 }: ArraySummaryProps) => {
-  const addButtonText = translations["arrayAddButtonLabel"] ?? "Hinzufügen";
-  const editButtonText = translations["arrayEditButtonLabel"] ?? "Bearbeiten";
-  const deleteButtonText = translations["arrayDeleteButtonLabel"] ?? "Löschen";
-  const changeEntryString =
-    translations["arrayChangeStatementButtonLabel"] ?? "Ändern";
-  const emptyArrayFallbackString =
-    translations["arrayStatementIsNoLabel"] ?? "Das habe ich nicht.";
+  const addButtonText = getTranslationByKey(
+    "arrayAddButtonLabel",
+    translations,
+  );
+  const editButtonText = getTranslationByKey(
+    "arrayEditButtonLabel",
+    translations,
+  );
+  const deleteButtonText = getTranslationByKey(
+    "arrayDeleteButtonLabel",
+    translations,
+  );
+  const changeEntryString = getTranslationByKey(
+    "arrayChangeStatementButtonLabel",
+    translations,
+  );
+  const emptyArrayFallbackString = getTranslationByKey(
+    "arrayStatementIsNoLabel",
+    translations,
+  );
 
-  const titleHeading = lookupOrKey(`${category}.label.title`, translations);
-  const subtitle = lookupOrKey(`${category}.label.subtitle`, translations);
+  const titleHeading = getTranslationByKey(
+    `${category}.label.title`,
+    translations,
+  );
+  const subtitle = getTranslationByKey(
+    `${category}.label.subtitle`,
+    translations,
+  );
   const description: string | undefined =
     translations[`${category}.description`];
   const { pathname } = useLocation();
@@ -73,10 +92,10 @@ const ArraySummary = ({
                           className="first:pt-0 scroll-my-40"
                         >
                           <Heading
-                            text={
-                              translations[`${category}.${elementKey}`] ??
-                              elementKey
-                            }
+                            text={getTranslationByKey(
+                              `${category}.${elementKey}`,
+                              translations,
+                            )}
                             tagName="h3"
                             look="ds-label-02-bold"
                           />
