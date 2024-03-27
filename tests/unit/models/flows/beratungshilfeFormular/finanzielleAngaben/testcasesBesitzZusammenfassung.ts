@@ -1,4 +1,4 @@
-import { machine } from "./testMachine";
+import { machine } from "../testMachine";
 import type { TestCases } from "../../TestCases";
 import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
 
