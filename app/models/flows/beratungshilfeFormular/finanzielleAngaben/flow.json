@@ -477,7 +477,13 @@
             "bewohnt-frage": {
               "on": {
                 "BACK": "#besitzZusammenfassung.zusammenfassung",
-                "SUBMIT": "daten"
+                "SUBMIT": [
+                  {
+                    "guard": "grundeigentumIsBewohnt",
+                    "target": "bewohnt-daten"
+                  },
+                  "daten"
+                ]
               }
             },
             "daten": {

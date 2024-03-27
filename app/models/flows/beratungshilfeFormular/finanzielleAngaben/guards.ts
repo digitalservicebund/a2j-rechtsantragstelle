@@ -133,4 +133,12 @@ export const finanzielleAngabeGuards = {
       kraftfahrzeuge?.[pageData.arrayIndexes[0]]?.wert === "unsure"
     );
   },
+  grundeigentumIsBewohnt: ({ context: { pageData, grundeigentum } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return (
+      grundeigentum?.[pageData.arrayIndexes[0]]?.istBewohnt === "yes" ||
+      grundeigentum?.[pageData.arrayIndexes[0]]?.istBewohnt === "family"
+    );
+  },
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;

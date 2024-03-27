@@ -4,6 +4,7 @@ import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungsh
 
 const cases = [
   [
+    // Kraftfahrzeuge
     {
       hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
@@ -75,6 +76,51 @@ const cases = [
       "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/arbeitsweg",
       "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/wert",
       "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/fahrzeuge",
+    ],
+  ],
+
+  // Grundeigentum
+  [
+    { hasGrundeigentum: "yes" },
+    [
+      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/bewohnt-frage",
+      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/daten",
+    ],
+  ],
+  [
+    {
+      hasGrundeigentum: "yes",
+      // @ts-ignore
+      grundeigentum: [{ istBewohnt: "no" }],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/bewohnt-frage",
+      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/daten",
+    ],
+  ],
+  [
+    {
+      hasGrundeigentum: "yes",
+      // @ts-ignore
+      grundeigentum: [{ istBewohnt: "yes" }],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/bewohnt-frage",
+      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/bewohnt-daten",
+    ],
+  ],
+  [
+    {
+      hasGrundeigentum: "yes",
+      // @ts-ignore
+      grundeigentum: [{ istBewohnt: "no" }, { istBewohnt: "yes" }],
+      pageData: { arrayIndexes: [1] },
+    },
+    [
+      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/bewohnt-frage",
+      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/bewohnt-daten",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
