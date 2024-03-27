@@ -4,10 +4,8 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
-import { ValidatedForm, validationError } from "remix-validated-form";
+import { validationError } from "remix-validated-form";
 import Background from "~/components/Background";
-import Checkbox from "~/components/inputs/Checkbox";
-import Button from "~/components/Button";
 import Container from "~/components/Container";
 import Header from "~/components/Header";
 import InfoBox from "~/components/InfoBox";
@@ -17,7 +15,6 @@ import { throw404OnProduction } from "~/services/errorPages/throw404";
 import List from "~/components/List";
 import FlowNavigation, { NavState } from "~/components/FlowNavigation";
 import Heading from "~/components/Heading";
-import DateInput from "~/components/inputs/DateInput";
 
 const DummySchema = z.object({
   text: z.string().min(1),
@@ -34,162 +31,15 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ content, meta });
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const data = await validator.validate(await request.formData());
-  if (data.error) return validationError(data.error, data.submittedData);
-  return json(data.data);
-};
-
 export default function Kitchensink() {
   const loaderData = useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>();
   return (
     <div>
       <h1>{loaderData.meta?.title}</h1>
-      <h2>{"<ValidatedForm>"}</h2>
-      <ValidatedForm
-        validator={validator}
-        method="post"
-        className="my-6"
-        defaultValues={{
-          text: "hello",
-          radioOptions: "no",
-        }}
-        noValidate
-      >
-        <div className="ds-stack-32">
-          <div className="ds-stack-24">
-            <h3>{"<Checkbox>"}</h3>
-            <Checkbox name="checkbox" value="1" label="bitte auswählen" />
-
-            <h3>{"<DateInput>"}</h3>
-            <DateInput name="date" label="Geburtsdatum" />
-          </div>
-          <div>
-            <Button>Abschicken</Button>
-          </div>
-        </div>
-      </ValidatedForm>
-
-      {actionData && (
-        <pre className="p-5 bg-gray-200 rounded-md">
-          {JSON.stringify(actionData, null, 2)}
-        </pre>
-      )}
 
       <Container>
         <h2 className="ds-heading-02-reg">React components</h2>
       </Container>
-
-      <div>
-        <Container paddingBottom="8">
-          <div className="ds-stack-8">
-            <h3>Background</h3>
-            <p>
-              A simple wrapper with a background color. You can optionally add
-              top and bottom padding. Defaults to zero padding.
-            </p>
-            <code>
-              <pre>
-                {
-                  '<Background backgroundColor="darkBlue" paddingTop="32" paddingBottom="32">\n'
-                }
-                {" some inner content\n"}
-                {"</Background>"}
-              </pre>
-            </code>
-          </div>
-        </Container>
-        <Background
-          backgroundColor="darkBlue"
-          paddingTop="32"
-          paddingBottom="32"
-        >
-          <Container>inner content</Container>
-        </Background>
-      </div>
-
-      <div>
-        <Container paddingBottom="8">
-          <div className="ds-stack-8">
-            <h3>Container</h3>
-            <p>
-              A wrapper to limit the width of the content + centering of the
-              content. You can change top and bottom padding. Defaults to 40px
-              top and 48px bottom padding. You can optionally add a background
-              color. That background color is only behind the content.
-            </p>
-            <code>
-              <pre>
-                {
-                  '<Container backgroundColor="yellow" paddingTop="16" paddingBottom="16">\n'
-                }
-                {" foo inner content\n"}
-                {"</Container>"}
-              </pre>
-            </code>
-          </div>
-        </Container>
-        <Container backgroundColor="yellow" paddingTop="16" paddingBottom="16">
-          inner content
-        </Container>
-      </div>
-
-      <div>
-        <Container paddingBottom="8">
-          <div className="ds-stack-8">
-            <h3>Background + Container combination</h3>
-            <p>It's common to combine Background and Container.</p>
-            <code>
-              <pre>
-                {
-                  '<Background backgroundColor="yellow" paddingTop="32" paddingBottom="32">\n'
-                }
-                {'  <Container backgroundColor="white">\n'}
-                {"    inner content\n"}
-                {"  </Container>\n"}
-                {"</Background>"}
-              </pre>
-            </code>
-          </div>
-        </Container>
-        <Background backgroundColor="yellow" paddingTop="32" paddingBottom="32">
-          <Container backgroundColor="white">inner content</Container>
-        </Background>
-      </div>
-
-      <div>
-        <Container paddingBottom="8">
-          <div className="ds-stack-8">
-            <h3>Header</h3>
-            <p>A simple headline + text combination.</p>
-            <code>
-              <pre>{`
-<Container>
-  <Header
-    heading={{
-      text: "Heading",
-      tagName: "h3",
-      look: "ds-heading-01-reg",
-    }}
-    content={{ text: "Lorem **ipsum**" }}
-  />
-</Container>
-            `}</pre>
-            </code>
-          </div>
-        </Container>
-        <Container>
-          <Header
-            heading={{
-              text: "Heading",
-              tagName: "h3",
-              look: "ds-heading-01-reg",
-            }}
-            content={{ markdown: "Lorem **ipsum**" }}
-          />
-        </Container>
-      </div>
 
       <Background backgroundColor="blue">
         <Container>
