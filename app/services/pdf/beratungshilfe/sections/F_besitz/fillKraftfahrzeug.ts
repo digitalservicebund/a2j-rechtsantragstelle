@@ -7,7 +7,7 @@ type Kraftfahrzeug = NonNullable<
   BeratungshilfeFormularContext["kraftfahrzeuge"]
 >[0];
 
-export function fillFinancialKraftfahrzeug(
+export function fillKraftfahrzeug(
   attachment: Attachment,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,

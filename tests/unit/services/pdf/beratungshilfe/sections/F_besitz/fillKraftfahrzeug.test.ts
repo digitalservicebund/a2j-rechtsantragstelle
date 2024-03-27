@@ -8,9 +8,9 @@ import {
   newPageHint,
 } from "~/services/pdf/beratungshilfe/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
-import { fillFinancialKraftfahrzeug } from "~/services/pdf/beratungshilfe/sections/F_besitz/financialKraftfahrzeug";
+import { fillKraftfahrzeug } from "~/services/pdf/beratungshilfe/sections/F_besitz/fillKraftfahrzeug";
 
-describe("fillFinancialKraftfahrzeug", () => {
+describe("fillKraftfahrzeug", () => {
   it("should fill kraftfahrzeug pdf field when kraftfahrzeug is given in context", async () => {
     const context: BeratungshilfeFormularContext = {
       kraftfahrzeuge: [
@@ -31,7 +31,7 @@ describe("fillFinancialKraftfahrzeug", () => {
     const pdfFields = await getBeratungshilfeParameters();
     const attachment = createAttachment(context);
 
-    fillFinancialKraftfahrzeug(attachment, pdfFields, context);
+    fillKraftfahrzeug(attachment, pdfFields, context);
 
     expect(pdfFields.f9Kraftfahrzeug1.value).toBe(false);
     expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(true);
@@ -78,7 +78,7 @@ describe("fillFinancialKraftfahrzeug", () => {
     const pdfFields = await getBeratungshilfeParameters();
     const attachment = createAttachment(context);
 
-    fillFinancialKraftfahrzeug(attachment, pdfFields, context);
+    fillKraftfahrzeug(attachment, pdfFields, context);
 
     expect(pdfFields.f9Kraftfahrzeug1.value).toBe(false);
     expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(true);
@@ -120,7 +120,7 @@ describe("fillFinancialKraftfahrzeug", () => {
     const pdfFields = await getBeratungshilfeParameters();
     const attachment = createAttachment(context);
 
-    fillFinancialKraftfahrzeug(attachment, pdfFields, context);
+    fillKraftfahrzeug(attachment, pdfFields, context);
 
     expect(pdfFields.f9Kraftfahrzeug1.value).toBe(true);
     expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(false);

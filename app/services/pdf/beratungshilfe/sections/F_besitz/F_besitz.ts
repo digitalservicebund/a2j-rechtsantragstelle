@@ -2,7 +2,7 @@ import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilf
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { Attachment } from "../../attachment";
 import { newPageHint } from "../../attachment";
-import { fillFinancialKraftfahrzeug } from "./financialKraftfahrzeug";
+import { fillKraftfahrzeug } from "./fillKraftfahrzeug";
 
 export function fillBesitz(
   attachment: Attachment,
@@ -16,7 +16,7 @@ export function fillBesitz(
 
   fillFinancialBankkonto(financialAttachment, pdfFields, context);
   fillFinancialGrundeigentum(financialAttachment, pdfFields, context);
-  fillFinancialKraftfahrzeug(financialAttachment, pdfFields, context);
+  fillKraftfahrzeug(financialAttachment, pdfFields, context);
   fillFinancialWertsachen(financialAttachment, pdfFields, context);
   fillGeldanlagen(financialAttachment, pdfFields, context);
 
