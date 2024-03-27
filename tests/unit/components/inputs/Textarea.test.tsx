@@ -1,6 +1,6 @@
 import * as remixValidatedForm from "remix-validated-form";
 import { createRemixStub } from "@remix-run/testing";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Textarea from "~/components/inputs/Textarea";
 
 jest.mock("remix-validated-form", () => ({
@@ -109,5 +109,30 @@ describe("Textarea component", () => {
     expect(element).toHaveAttribute("aria-describedby", "test-error");
 
     expect(screen.getByText("error")).toBeInTheDocument();
+  });
+
+  it("allows users to type in the textarea", () => {
+    jest.spyOn(remixValidatedForm, "useField").mockReturnValue({
+      error: undefined,
+      getInputProps: jest.fn(),
+      clearError: jest.fn(),
+      validate: jest.fn(),
+      touched: false,
+      setTouched: jest.fn(),
+    });
+
+    const RemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => <Textarea name="componentName" label="Test Label" />,
+      },
+    ]);
+
+    render(<RemixStub />);
+
+    const textarea = screen.getByRole("textbox");
+    fireEvent.change(textarea, { target: { value: "Test input" } });
+
+    expect(textarea).toHaveValue("Test input");
   });
 });
