@@ -122,4 +122,15 @@ export const finanzielleAngabeGuards = {
       return false;
     return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "sonstiges";
   },
+  isKraftfahrzeugWertAbove10000OrUnsure: ({
+    context: { pageData, kraftfahrzeuge },
+  }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+
+    return (
+      kraftfahrzeuge?.[pageData.arrayIndexes[0]]?.wert === "over10000" ||
+      kraftfahrzeuge?.[pageData.arrayIndexes[0]]?.wert === "unsure"
+    );
+  },
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;

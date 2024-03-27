@@ -13,7 +13,7 @@ export const finanzielleAngabenArrayConfig = {
   },
   kraftfahrzeuge: {
     url: `${prefix}/besitzZusammenfassung/kraftfahrzeuge`,
-    initialInputUrl: "daten",
+    initialInputUrl: "arbeitsweg",
     statementUrl: `${prefix}/besitz/kraftfahrzeuge-frage`,
     statementKey: "hasKraftfahrzeug",
     event: "add-kraftfahrzeuge",
