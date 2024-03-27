@@ -52,13 +52,6 @@ async function addGrundeigentum(
   );
   await beratungshilfeFormular.fillInput("grundeigentum#flaeche", "100");
   await beratungshilfeFormular.fillInput("grundeigentum#verkaufswert", "10");
-  await beratungshilfeFormular.fillInput(
-    "grundeigentum#strassehausnummer",
-    "Berlinadestraße 123",
-  );
-  await beratungshilfeFormular.fillInput("grundeigentum#plz", "12345");
-  await beratungshilfeFormular.fillInput("grundeigentum#ort", "Berlin");
-  await beratungshilfeFormular.fillInput("grundeigentum#land", "Deutschland");
   await beratungshilfeFormular.clickNext();
 }
 
