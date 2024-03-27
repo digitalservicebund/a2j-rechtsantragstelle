@@ -13,6 +13,7 @@ import {
   fillFinancialGrundeigentum,
   fillFinancialKraftfahrzeug,
   fillFinancialWertsachen,
+  fillGeldanlagen,
 } from "~/services/pdf/beratungshilfe/sections/F_besitz";
 
 describe("F_besitz", () => {
@@ -361,6 +362,148 @@ describe("F_besitz", () => {
           "Eigentümer:in: Ich alleine\n" +
           "Verkehrswert: 10000 €",
       });
+    });
+  });
+
+  describe("fillGeldanlagen", () => {
+    it("should create a attachment when at least one geldanlage is given in context", async () => {
+      const context: BeratungshilfeFormularContext = {
+        geldanlagen: [
+          {
+            eigentuemer: "partner",
+            art: "bargeld",
+            wert: "100000",
+          },
+        ],
+      };
+      const pdfFields = await getBeratungshilfeParameters();
+      const attachment = createAttachment(context);
+
+      fillGeldanlagen(attachment, pdfFields, context);
+
+      expect(pdfFields.f1Konten1.value).toBe(false);
+      expect(pdfFields.f1Konten2.value).toBe(true);
+      expect(pdfFields.f3Bank1.value).toBe(newPageHint);
+      expect(attachment.shouldCreateAttachment).toBe(true);
+      expect(attachment.descriptions[0]).toEqual({
+        title: "Geldanlagen",
+        text:
+          "Art der Geldanlage: Bargeld\n" +
+          "Wert: 100000 €\n" +
+          "Eigentümer:in: Ehe-Partner:in\n",
+      });
+    });
+
+    it("should create a valid attachment when a girokonto geldanlage is given in context", async () => {
+      const context: BeratungshilfeFormularContext = {
+        geldanlagen: [
+          {
+            eigentuemer: "partner",
+            art: "giroTagesgeldSparkonto",
+            wert: "1000",
+            kontoBankName: "Bank",
+            kontoIban: "12356789",
+            kontoBezeichnung: "Bezeichnung",
+          },
+        ],
+      };
+      const pdfFields = await getBeratungshilfeParameters();
+      const attachment = createAttachment(context);
+
+      fillGeldanlagen(attachment, pdfFields, context);
+
+      expect(pdfFields.f1Konten1.value).toBe(false);
+      expect(pdfFields.f1Konten2.value).toBe(true);
+      expect(pdfFields.f3Bank1.value).toBe(newPageHint);
+      expect(attachment.shouldCreateAttachment).toBe(true);
+      expect(attachment.descriptions[0]).toEqual({
+        title: "Geldanlagen",
+        text:
+          "Art der Geldanlage: Girokonto / Tagesgeld / Sparkonto\n" +
+          "Wert: 1000 €\n" +
+          "Eigentümer:in: Ehe-Partner:in\n" +
+          "Name der Bank: Bank\n" +
+          "IBAN: 12356789\n" +
+          "Bezeichnung: Bezeichnung\n",
+      });
+    });
+
+    it("should create a valid attachment when a befristete geldanlage is given in context", async () => {
+      const context: BeratungshilfeFormularContext = {
+        geldanlagen: [
+          {
+            eigentuemer: "partner",
+            art: "befristet",
+            wert: "1000",
+            verwendungszweck: "Verwendung",
+            auszahlungdatum: "12.12.1990",
+          },
+        ],
+      };
+      const pdfFields = await getBeratungshilfeParameters();
+      const attachment = createAttachment(context);
+
+      fillGeldanlagen(attachment, pdfFields, context);
+
+      expect(pdfFields.f1Konten1.value).toBe(false);
+      expect(pdfFields.f1Konten2.value).toBe(true);
+      expect(pdfFields.f3Bank1.value).toBe(newPageHint);
+      expect(attachment.shouldCreateAttachment).toBe(true);
+      expect(attachment.descriptions[0]).toEqual({
+        title: "Geldanlagen",
+        text:
+          "Art der Geldanlage: Befristete Geldanlage\n" +
+          "Wert: 1000 €\n" +
+          "Eigentümer:in: Ehe-Partner:in\n" +
+          "Verwendungszweck: Verwendung\n" +
+          "Auszahlungstermin: 12.12.1990\n",
+      });
+    });
+
+    it("should create a valid attachment when a sonstiges geldanlage is given in context", async () => {
+      const context: BeratungshilfeFormularContext = {
+        geldanlagen: [
+          {
+            eigentuemer: "partner",
+            art: "sonstiges",
+            wert: "1000",
+            verwendungszweck: "Beschreibung",
+          },
+        ],
+      };
+      const pdfFields = await getBeratungshilfeParameters();
+      const attachment = createAttachment(context);
+
+      fillGeldanlagen(attachment, pdfFields, context);
+
+      expect(pdfFields.f1Konten1.value).toBe(false);
+      expect(pdfFields.f1Konten2.value).toBe(true);
+      expect(pdfFields.f3Bank1.value).toBe(newPageHint);
+      expect(attachment.shouldCreateAttachment).toBe(true);
+      expect(attachment.descriptions[0]).toEqual({
+        title: "Geldanlagen",
+        text:
+          "Art der Geldanlage: Sonstiges\n" +
+          "Wert: 1000 €\n" +
+          "Eigentümer:in: Ehe-Partner:in\n" +
+          "Beschreibung: Beschreibung\n",
+      });
+    });
+
+    it("should not create a attachment when no geldanlage is given in context", async () => {
+      const context: BeratungshilfeFormularContext = {
+        geldanlagen: [],
+      };
+      const pdfFields = await getBeratungshilfeParameters();
+      const attachment = createAttachment(context);
+
+      fillGeldanlagen(attachment, pdfFields, context);
+
+      expect(pdfFields.f1Konten1.value).toBe(false);
+      expect(pdfFields.f1Konten2.value).toBe(false);
+      expect(pdfFields.f3Bank1.value).toBe(undefined);
+      expect(attachment.shouldCreateAttachment).toBe(false);
+      expect(attachment.descriptions.length).toBe(0);
     });
   });
 });

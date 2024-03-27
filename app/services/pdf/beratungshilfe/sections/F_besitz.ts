@@ -17,6 +17,7 @@ export function fillBesitz(
   fillFinancialGrundeigentum(financialAttachment, pdfFields, context);
   fillFinancialKraftfahrzeug(financialAttachment, pdfFields, context);
   fillFinancialWertsachen(financialAttachment, pdfFields, context);
+  fillGeldanlagen(financialAttachment, pdfFields, context);
 
   if (financialAttachment.shouldCreateAttachment) {
     financialAttachment.descriptions.unshift({
@@ -207,6 +208,27 @@ export function fillFinancialWertsachen(
   }
 }
 
+export function fillGeldanlagen(
+  attachment: Attachment,
+  pdfFields: BeratungshilfePDF,
+  context: BeratungshilfeFormularContext,
+) {
+  if (context.geldanlagen && context.geldanlagen.length > 0) {
+    pdfFields.f1Konten1.value = false;
+    pdfFields.f1Konten2.value = true;
+    pdfFields.f3Bank1.value = newPageHint;
+
+    const attachmentDescription = getGeldanlagenBezeichnung(
+      context.geldanlagen,
+    ).join("\n");
+    attachment.descriptions.unshift({
+      title: "Geldanlagen",
+      text: attachmentDescription,
+    });
+    attachment.shouldCreateAttachment = true;
+  }
+}
+
 type Wertsache = NonNullable<BeratungshilfeFormularContext["wertsachen"]>[0];
 
 function getWertsachenBezeichnung(
@@ -378,6 +400,59 @@ function getBankkontoBezeichnung(
       `Kontostand: ${bankkonto?.kontostand ? bankkonto?.kontostand + " €" : "Keine Angabe"}`,
     );
   }
+
+  return bezeichnung;
+}
+
+const geldanlageArtMapping = {
+  bargeld: "Bargeld",
+  wertpapiere: "Wertpapiere",
+  guthabenkontoKrypto: "Paypal oder Crypto",
+  giroTagesgeldSparkonto: "Girokonto / Tagesgeld / Sparkonto",
+  befristet: "Befristete Geldanlage",
+  forderung: "Forderung",
+  sonstiges: "Sonstiges",
+} as const;
+
+type Geldanlage = NonNullable<BeratungshilfeFormularContext["geldanlagen"]>[0];
+function getGeldanlagenBezeichnung(geldanlagen?: Geldanlage[]): string[] {
+  const bezeichnung: string[] = [];
+
+  geldanlagen?.forEach((geldanlage) => {
+    bezeichnung.push(
+      `Art der Geldanlage: ${geldanlageArtMapping[geldanlage.art]}`,
+    );
+    bezeichnung.push(`Wert: ${geldanlage.wert} €`);
+    bezeichnung.push(
+      `Eigentümer:in: ${eigentuemerMapping[geldanlage.eigentuemer]}`,
+    );
+
+    if (geldanlage.art === "giroTagesgeldSparkonto") {
+      bezeichnung.push(`Name der Bank: ${geldanlage.kontoBankName ?? ""}`);
+      if (geldanlage.kontoIban && (geldanlage.kontoIban?.length ?? 0) > 0)
+        bezeichnung.push(`IBAN: ${geldanlage.kontoIban}`);
+      if (
+        geldanlage.kontoBezeichnung &&
+        (geldanlage.kontoBezeichnung?.length ?? 0) > 0
+      )
+        bezeichnung.push(`Bezeichnung: ${geldanlage.kontoBezeichnung}`);
+    }
+
+    if (geldanlage.art === "befristet") {
+      bezeichnung.push(
+        `Verwendungszweck: ${geldanlage.verwendungszweck ?? ""}`,
+      );
+      bezeichnung.push(
+        `Auszahlungstermin: ${geldanlage.auszahlungdatum ?? ""}`,
+      );
+    }
+
+    if (geldanlage.art === "sonstiges") {
+      bezeichnung.push(`Beschreibung: ${geldanlage.verwendungszweck ?? ""}`);
+    }
+    // Create a new line between each entry
+    bezeichnung.push("");
+  });
 
   return bezeichnung;
 }
