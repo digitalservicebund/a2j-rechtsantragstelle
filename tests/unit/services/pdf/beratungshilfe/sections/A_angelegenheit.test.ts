@@ -3,7 +3,14 @@
  */
 
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
+import {
+  BESCHREIBUNG_ANGELEGENHEIT_TITLE,
+  EIGENBEMUEHUNG_TITLE,
+  GEGNER_TITLE,
+  THEMA_RECHTSPROBLEM_TITLE,
+  ZIEL_ANGELEGENHEIT_TITLE,
+  createAttachment,
+} from "~/services/pdf/beratungshilfe/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import { fillAngelegenheit } from "~/services/pdf/beratungshilfe/sections/A_angelegenheit";
 
@@ -11,9 +18,10 @@ describe("A_angelegenheit", () => {
   it("should fill angelegenheit pdf field when correct context is given", async () => {
     const context: BeratungshilfeFormularContext = {
       bereich: "authorities",
+      gegenseite: "gegner",
       beschreibung: "beschreibung",
+      ziel: "ziel",
       eigeninitiativeBeschreibung: "eigeninitiativeBeschreibung",
-      keineEigeninitiativeBeschreibung: "keineEigeninitiativeBeschreibung",
     };
     const attachment = createAttachment(context);
     const pdfFields = await getBeratungshilfeParameters();
@@ -26,9 +34,11 @@ describe("A_angelegenheit", () => {
         .value,
     ).toBe(
       [
-        "Thema des Rechtsproblems: Behörden",
-        "Beschreibung Angelegenheit: beschreibung",
-        "Eigenbemühungen: eigeninitiativeBeschreibung",
+        `${THEMA_RECHTSPROBLEM_TITLE} Behörden`,
+        `${GEGNER_TITLE} gegner`,
+        `${BESCHREIBUNG_ANGELEGENHEIT_TITLE} beschreibung`,
+        `${ZIEL_ANGELEGENHEIT_TITLE} ziel`,
+        `${EIGENBEMUEHUNG_TITLE} eigeninitiativeBeschreibung`,
       ].join("\n"),
     );
   });
