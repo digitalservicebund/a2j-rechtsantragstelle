@@ -170,9 +170,9 @@ export function fillGeldanlagen(
   context: BeratungshilfeFormularContext,
 ) {
   if (context.geldanlagen && context.geldanlagen.length > 0) {
-    pdfFields.f1Konten1.value = false;
-    pdfFields.f1Konten2.value = true;
-    pdfFields.f3Bank1.value = newPageHint;
+    pdfFields.f13Vermoegenswerte1.value = false;
+    pdfFields.f13Vermoegenswerte2.value = true;
+    pdfFields.f15Bezeichnung.value = newPageHint;
 
     const attachmentDescription = getGeldanlagenBezeichnung(
       context.geldanlagen,

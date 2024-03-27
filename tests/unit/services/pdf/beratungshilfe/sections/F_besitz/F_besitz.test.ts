@@ -280,9 +280,9 @@ describe("F_besitz", () => {
 
       fillGeldanlagen(attachment, pdfFields, context);
 
-      expect(pdfFields.f1Konten1.value).toBe(false);
-      expect(pdfFields.f1Konten2.value).toBe(true);
-      expect(pdfFields.f3Bank1.value).toBe(newPageHint);
+      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
+      expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
+      expect(pdfFields.f15Bezeichnung.value).toBe(newPageHint);
       expect(attachment.shouldCreateAttachment).toBe(true);
       expect(attachment.descriptions[0]).toEqual({
         title: "Geldanlagen",
@@ -311,9 +311,9 @@ describe("F_besitz", () => {
 
       fillGeldanlagen(attachment, pdfFields, context);
 
-      expect(pdfFields.f1Konten1.value).toBe(false);
-      expect(pdfFields.f1Konten2.value).toBe(true);
-      expect(pdfFields.f3Bank1.value).toBe(newPageHint);
+      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
+      expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
+      expect(pdfFields.f15Bezeichnung.value).toBe(newPageHint);
       expect(attachment.shouldCreateAttachment).toBe(true);
       expect(attachment.descriptions[0]).toEqual({
         title: "Geldanlagen",
@@ -344,9 +344,9 @@ describe("F_besitz", () => {
 
       fillGeldanlagen(attachment, pdfFields, context);
 
-      expect(pdfFields.f1Konten1.value).toBe(false);
-      expect(pdfFields.f1Konten2.value).toBe(true);
-      expect(pdfFields.f3Bank1.value).toBe(newPageHint);
+      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
+      expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
+      expect(pdfFields.f15Bezeichnung.value).toBe(newPageHint);
       expect(attachment.shouldCreateAttachment).toBe(true);
       expect(attachment.descriptions[0]).toEqual({
         title: "Geldanlagen",
@@ -375,9 +375,9 @@ describe("F_besitz", () => {
 
       fillGeldanlagen(attachment, pdfFields, context);
 
-      expect(pdfFields.f1Konten1.value).toBe(false);
-      expect(pdfFields.f1Konten2.value).toBe(true);
-      expect(pdfFields.f3Bank1.value).toBe(newPageHint);
+      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
+      expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
+      expect(pdfFields.f15Bezeichnung.value).toBe(newPageHint);
       expect(attachment.shouldCreateAttachment).toBe(true);
       expect(attachment.descriptions[0]).toEqual({
         title: "Geldanlagen",
@@ -398,9 +398,9 @@ describe("F_besitz", () => {
 
       fillGeldanlagen(attachment, pdfFields, context);
 
-      expect(pdfFields.f1Konten1.value).toBe(false);
-      expect(pdfFields.f1Konten2.value).toBe(false);
-      expect(pdfFields.f3Bank1.value).toBe(undefined);
+      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
+      expect(pdfFields.f13Vermoegenswerte2.value).toBe(false);
+      expect(pdfFields.f15Bezeichnung.value).toBe(undefined);
       expect(attachment.shouldCreateAttachment).toBe(false);
       expect(attachment.descriptions.length).toBe(0);
     });
