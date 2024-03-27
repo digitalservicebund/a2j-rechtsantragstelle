@@ -125,17 +125,20 @@ export const beratungshilfeFinanzielleAngaben = {
       eigentuemer: Eigentuemer,
       wert: buildMoneyValidationSchema(),
 
-      kontoBankName: inputRequiredSchema,
-      kontoIban: z.string(),
-      kontoBezeichnung: z.string(),
+      kontoBankName: inputRequiredSchema.optional(),
+      kontoIban: z.string().optional(),
+      kontoBezeichnung: z.string().optional(),
 
-      befristetArt: z.enum(
-        ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
-        customRequiredErrorMessage,
-      ),
-      forderung: inputRequiredSchema,
-      verwendungszweck: inputRequiredSchema,
-      auszahlungdatum: inputRequiredSchema,
+      befristetArt: z
+        .enum(
+          ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
+          customRequiredErrorMessage,
+        )
+        .optional(),
+
+      forderung: inputRequiredSchema.optional(),
+      verwendungszweck: inputRequiredSchema.optional(),
+      auszahlungdatum: inputRequiredSchema.optional(),
     }),
   ),
   besitzTotalWorth: z.enum(

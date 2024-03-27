@@ -15,7 +15,6 @@ import beratungshilfeFormularFlow from "./flow.json";
 import rechtsproblemFlow from "./rechtsproblem/flow.json";
 import {
   type BeratungshilfeRechtsproblem,
-  beratungshilfeRechtsproblemGuards,
   rechtsproblemDone,
 } from "./rechtsproblem/context";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
@@ -147,7 +146,6 @@ export const beratungshilfeFormular = {
   guards: {
     ...beratungshilfeGrundvoraussetzungenGuards,
     ...beratungshilfeAnwaltlicheVertretungGuards,
-    ...beratungshilfeRechtsproblemGuards,
     ...beratungshilfeAbgabeGuards,
     ...finanzielleAngabeGuards,
   },

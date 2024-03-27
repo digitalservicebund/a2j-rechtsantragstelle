@@ -7,6 +7,7 @@ import { testCasesBeratungshilfeFormularFinanzielleAngabenPartner } from "./bera
 import { testCasesBeratungshilfeFormularFinanzielleAngabenKinder } from "./beratungshilfeFormular/finanzielleAngaben/testcasesKinder";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenBesitz } from "./beratungshilfeFormular/finanzielleAngaben/testcasesBesitz";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenBesitzZusammenfassung } from "./beratungshilfeFormular/finanzielleAngaben/testcasesBesitzZusammenfassung";
+import { testCasesBeratungshilfeRechtsproblem } from "./beratungshilfeFormular/rechtsprobleme/testcases";
 
 /*
  * Note on testing xstate
@@ -25,6 +26,7 @@ describe("state machine form flows", () => {
     testCasesBeratungshilfe,
     testCasesGeldEinklagen,
     testCasesFluggastrechteFormular,
+    testCasesBeratungshilfeRechtsproblem,
     testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen,
     testCasesBeratungshilfeFormularFinanzielleAngabenPartner,
     testCasesBeratungshilfeFormularFinanzielleAngabenKinder,

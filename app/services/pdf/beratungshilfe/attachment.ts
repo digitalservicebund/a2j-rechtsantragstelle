@@ -2,7 +2,12 @@ import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilf
 import { getMaritalDescriptionByContext } from "./sections/header";
 
 const MAXIMUM_LENGTH_MARITAL_DESCRIPTION = 10;
-export const MARTIAL_STATUS_TITLE = "Familienstand:";
+export const MARITAL_STATUS_TITLE = "Familienstand:";
+export const THEMA_RECHTSPROBLEM_TITLE = "Thema des Rechtsproblems:";
+export const GEGNER_TITLE = "Gegner:";
+export const BESCHREIBUNG_ANGELEGENHEIT_TITLE = "Beschreibung Angelegenheit:";
+export const ZIEL_ANGELEGENHEIT_TITLE = "Ziel der Angelegenheit:";
+export const EIGENBEMUEHUNG_TITLE = "Eigenbemühung:";
 
 export function createAttachment(
   context: BeratungshilfeFormularContext,
@@ -27,34 +32,36 @@ export function createAttachment(
     };
 
     descriptions.push({
-      title: "Thema des Rechtsproblems:",
+      title: THEMA_RECHTSPROBLEM_TITLE,
       text: bereichMapping[context.bereich],
+    });
+  }
+
+  if (context.gegenseite) {
+    descriptions.push({
+      title: GEGNER_TITLE,
+      text: context.gegenseite,
     });
   }
 
   if (context.beschreibung) {
     descriptions.push({
-      title: "Beschreibung Angelegenheit:",
+      title: BESCHREIBUNG_ANGELEGENHEIT_TITLE,
       text: context.beschreibung,
+    });
+  }
+
+  if (context.ziel) {
+    descriptions.push({
+      title: ZIEL_ANGELEGENHEIT_TITLE,
+      text: context.ziel,
     });
   }
 
   if (context.eigeninitiativeBeschreibung) {
     descriptions.push({
-      title: "Eigenbemühungen:",
+      title: EIGENBEMUEHUNG_TITLE,
       text: context.eigeninitiativeBeschreibung,
-    });
-  } else if (context.keineEigeninitiativeBeschreibung) {
-    descriptions.push({
-      title: "Keine Eigenbemühung, weil:",
-      text: context.keineEigeninitiativeBeschreibung,
-    });
-  }
-
-  if (context.sonstiges) {
-    descriptions.push({
-      title: "Weitere Anmerkung:",
-      text: context.sonstiges,
     });
   }
 
@@ -87,7 +94,7 @@ const addMaritalToAttachment = ({
 
   if (maritalDescription.length > MAXIMUM_LENGTH_MARITAL_DESCRIPTION) {
     descriptions.push({
-      title: MARTIAL_STATUS_TITLE,
+      title: MARITAL_STATUS_TITLE,
       text: maritalDescription,
     });
   }

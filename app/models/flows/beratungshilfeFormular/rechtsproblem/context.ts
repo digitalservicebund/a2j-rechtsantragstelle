@@ -1,10 +1,6 @@
 import { z } from "zod";
-import {
-  YesNoAnswer,
-  customRequiredErrorMessage,
-} from "~/services/validation/YesNoAnswer";
+import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
-import type { Guards } from "../../guards.server";
 
 export const bereich = z.enum(
   [
@@ -24,25 +20,20 @@ export const bereich = z.enum(
 //TODO: what was the reason of the duplication below
 export const beratungshilfeRechtsproblem = {
   bereich,
+  gegenseite: inputRequiredSchema,
   beschreibung: inputRequiredSchema,
-  eigeninitiative: YesNoAnswer,
+  ziel: inputRequiredSchema,
   eigeninitiativeBeschreibung: inputRequiredSchema,
-  keineEigeninitiativeBeschreibung: inputRequiredSchema,
-  sonstiges: z.string(),
 };
 
 const contextObject = z.object(beratungshilfeRechtsproblem).partial();
 export type BeratungshilfeRechtsproblem = z.infer<typeof contextObject>;
 
-export const beratungshilfeRechtsproblemGuards = {
-  eigeninitiativeYes: ({ context }) => context.eigeninitiative === "yes",
-} satisfies Guards;
-
 export const rechtsproblemDone = (context: BeratungshilfeRechtsproblem) =>
   Boolean(
     context.bereich &&
+      context.gegenseite &&
       context.beschreibung &&
-      context.eigeninitiative &&
-      (context.eigeninitiativeBeschreibung ||
-        context.keineEigeninitiativeBeschreibung),
+      context.ziel &&
+      context.eigeninitiativeBeschreibung,
   );
