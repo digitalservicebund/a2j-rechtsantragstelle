@@ -74,7 +74,7 @@ function getKraftfahrzeugShortBezeichnung(kraftfahrzeug?: Kraftfahrzeug) {
     bezeichnung.push(`km-Stand: ${kraftfahrzeug?.kilometerstand}`);
   }
 
-  bezeichnung.push(getHasArbeitWegMappingDescription(kraftfahrzeug));
+  bezeichnung.push(getHasArbeitswegMappingDescription(kraftfahrzeug));
 
   return bezeichnung.join(", ");
 }
@@ -82,7 +82,7 @@ function getKraftfahrzeugShortBezeichnung(kraftfahrzeug?: Kraftfahrzeug) {
 function getKraftfahrzeugBezeichnung(kraftfahrzeug?: Kraftfahrzeug) {
   const bezeichnung = [];
 
-  if (kraftfahrzeug?.hasArbeitweg === "yes") {
+  if (kraftfahrzeug?.hasArbeitsweg === "yes") {
     bezeichnung.push(`Fahrzeug wird für den Arbeitsweg genutzt`);
   }
 
@@ -135,38 +135,38 @@ const getVerkauftMappingDescription = (
     return "";
   }
 
-  if (typeof kraftfahrzeug.hasArbeitweg === "undefined") {
+  if (typeof kraftfahrzeug.hasArbeitsweg === "undefined") {
     return "";
   }
 
-  if (kraftfahrzeug.hasArbeitweg === "yes") {
+  if (kraftfahrzeug.hasArbeitsweg === "yes") {
     return `${kraftfahrzeug.verkaufswert}€`;
   }
 
-  return verkaufWertMappingDescription[kraftfahrzeug.wert];
+  return verkaufswertMappingDescription[kraftfahrzeug.wert];
 };
 
-const verkaufWertMappingDescription = {
+const verkaufswertMappingDescription = {
   under10000: "unter 10.000€",
   over10000: "Mehr als 10.000€",
   unsure: "Ich bin mir nicht sicher",
 };
 
-const getHasArbeitWegMappingDescription = (
+const getHasArbeitswegMappingDescription = (
   kraftfahrzeug?: Kraftfahrzeug,
 ): string => {
   if (typeof kraftfahrzeug === "undefined") {
     return "";
   }
 
-  if (typeof kraftfahrzeug.hasArbeitweg === "undefined") {
+  if (typeof kraftfahrzeug.hasArbeitsweg === "undefined") {
     return "";
   }
 
-  return hasArbeitWegMappingDescription[kraftfahrzeug.hasArbeitweg];
+  return hasArbeitswegMappingDescription[kraftfahrzeug.hasArbeitsweg];
 };
 
-const hasArbeitWegMappingDescription = {
+const hasArbeitswegMappingDescription = {
   yes: "Wird für den Arbeitsweg gebraucht",
   no: "Wird nicht für einen Arbeitsweg gebraucht",
 };

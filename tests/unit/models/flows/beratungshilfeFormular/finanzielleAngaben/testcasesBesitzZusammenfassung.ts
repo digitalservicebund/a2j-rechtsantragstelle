@@ -9,7 +9,7 @@ const cases = [
       kraftfahrzeuge: [
         {
           wert: "under10000",
-          hasArbeitweg: "yes",
+          hasArbeitsweg: "yes",
           anschaffungsjahr: "anschaffungsjahr",
           art: "art",
           baujahr: "baujahr",
@@ -33,7 +33,7 @@ const cases = [
       kraftfahrzeuge: [
         {
           wert: "over10000",
-          hasArbeitweg: "yes",
+          hasArbeitsweg: "yes",
           anschaffungsjahr: "anschaffungsjahr",
           art: "art",
           baujahr: "baujahr",
@@ -58,7 +58,7 @@ const cases = [
       kraftfahrzeuge: [
         {
           wert: "unsure",
-          hasArbeitweg: "yes",
+          hasArbeitsweg: "yes",
           anschaffungsjahr: "anschaffungsjahr",
           art: "art",
           baujahr: "baujahr",

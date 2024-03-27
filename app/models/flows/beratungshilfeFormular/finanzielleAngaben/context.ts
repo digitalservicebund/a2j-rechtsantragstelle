@@ -100,7 +100,7 @@ export const beratungshilfeFinanzielleAngaben = {
       anschaffungsjahr: z.string(),
       baujahr: inputRequiredSchema,
       bemerkung: inputRequiredSchema,
-      hasArbeitweg: YesNoAnswer,
+      hasArbeitsweg: YesNoAnswer,
       wert: z.enum(
         ["under10000", "over10000", "unsure"],
         customRequiredErrorMessage,

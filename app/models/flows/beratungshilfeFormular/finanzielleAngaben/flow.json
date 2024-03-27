@@ -385,7 +385,7 @@
                 "BACK": "arbeitsweg",
                 "SUBMIT": [
                   {
-                    "guard": "isKraftfahrzeugWertAbove1000OrUnsure",
+                    "guard": "isKraftfahrzeugWertAbove10000OrUnsure",
                     "target": "fahrzeuge"
                   },
                   "#besitzZusammenfassung.zusammenfassung"

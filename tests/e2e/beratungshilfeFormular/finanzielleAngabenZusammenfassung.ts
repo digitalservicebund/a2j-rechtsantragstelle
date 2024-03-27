@@ -89,7 +89,7 @@ async function addKraftfahrzeug(
   // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/arbeitsweg
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage(
-    "kraftfahrzeuge#hasArbeitweg",
+    "kraftfahrzeuge#hasArbeitsweg",
     "yes",
   );
 
