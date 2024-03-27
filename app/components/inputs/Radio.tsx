@@ -6,10 +6,11 @@ type RadioProps = {
   readonly value: string;
   readonly onClick?: () => void;
   readonly text?: ReactNode;
+  readonly formId?: string;
 };
 
-const Radio = ({ name, value, onClick, text }: RadioProps) => {
-  const { error, getInputProps } = useField(name);
+const Radio = ({ name, value, onClick, text, formId }: RadioProps) => {
+  const { error, getInputProps } = useField(name, { formId });
   const id = `${name}-${value}`;
 
   return (

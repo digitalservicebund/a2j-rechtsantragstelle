@@ -13,6 +13,7 @@ export const RadioGroupPropsSchema = z.object({
   label: z.custom<ReactNode>().optional(),
   altLabel: z.string().optional(),
   errorMessages: z.array(ErrorMessagePropsSchema).optional(),
+  formId: z.string().optional(),
 });
 
 type RadioGroupProps = z.infer<typeof RadioGroupPropsSchema>;
@@ -23,8 +24,9 @@ const RadioGroup = ({
   label,
   altLabel,
   errorMessages,
+  formId,
 }: RadioGroupProps) => {
-  const { error, defaultValue } = useField(name);
+  const { error, defaultValue } = useField(name, { formId });
   const errorId = `${name}-error`;
   const errorToDisplay =
     errorMessages?.find((err) => err.code === error)?.text ?? error;
@@ -51,6 +53,7 @@ const RadioGroup = ({
             name={name}
             value={o.value}
             text={o.text}
+            formId={formId}
             onClick={() => setRenderHiddenField(false)}
           />
         ))}

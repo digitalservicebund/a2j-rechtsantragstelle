@@ -9,14 +9,11 @@ import Background from "~/components/Background";
 import Checkbox from "~/components/inputs/Checkbox";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
-import RadioGroup from "~/components/inputs/RadioGroup";
-import Select from "~/components/inputs/Select";
 import Header from "~/components/Header";
 import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { throw404OnProduction } from "~/services/errorPages/throw404";
-import Textarea from "~/components/inputs/Textarea";
 import List from "~/components/List";
 import FlowNavigation, { NavState } from "~/components/FlowNavigation";
 import Heading from "~/components/Heading";
@@ -62,21 +59,6 @@ export default function Kitchensink() {
       >
         <div className="ds-stack-32">
           <div className="ds-stack-24">
-            <h3>{"<fieldset> + <legend>"}</h3>
-            <fieldset>
-              <legend>Leben Sie in Berlin?</legend>
-
-              <h3>{"<RadioGroup>"}</h3>
-              <RadioGroup
-                name="radioOptions"
-                options={[
-                  { text: "ja", value: "yes" },
-                  { text: "nein", value: "no" },
-                  { text: "weiß nicht", value: "maybe" },
-                ]}
-              />
-            </fieldset>
-
             <h3>{"<Checkbox>"}</h3>
             <Checkbox name="checkbox" value="1" label="bitte auswählen" />
 
