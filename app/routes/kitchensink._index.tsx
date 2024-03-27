@@ -9,14 +9,13 @@ import Background from "~/components/Background";
 import Checkbox from "~/components/inputs/Checkbox";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
-import Input from "~/components/inputs/Input";
 import RadioGroup from "~/components/inputs/RadioGroup";
 import Select from "~/components/inputs/Select";
 import Header from "~/components/Header";
 import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
-import { throw404OnProduction } from "../services/errorPages/throw404";
+import { throw404OnProduction } from "~/services/errorPages/throw404";
 import Textarea from "~/components/inputs/Textarea";
 import List from "~/components/List";
 import FlowNavigation, { NavState } from "~/components/FlowNavigation";
@@ -63,9 +62,6 @@ export default function Kitchensink() {
       >
         <div className="ds-stack-32">
           <div className="ds-stack-24">
-            <h3>{"<Input>"}</h3>
-            <Input name="text" label="Label for input" />
-
             <h3>{"<Textarea>"}</h3>
             <Textarea name="textarea" label="Label for textarea" />
 

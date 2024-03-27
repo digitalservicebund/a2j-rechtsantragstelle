@@ -121,3 +121,8 @@ flowchart TD
     end
 
 ```
+
+### Storybook
+
+We have a storybook instance running. On the Staging and preview environments it can ba accessed via `/storybook`.
+In development mode, run the `npm run start:storybook` command.
