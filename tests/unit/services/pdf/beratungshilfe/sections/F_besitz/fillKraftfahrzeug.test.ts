@@ -41,7 +41,7 @@ describe("fillKraftfahrzeug", () => {
     expect(pdfFields.f11Fahrzeugart.value).toBe(
       "P 50, Trabant, Baujahr: 1990, km-Stand: 999999, Wird nicht für einen Arbeitsweg gebraucht",
     );
-    expect(pdfFields.f12Verkehrswert.value).toBe("Mehr als 10.000€");
+    expect(pdfFields.f12Verkehrswert.value).toBe("100000€");
 
     expect(attachment.shouldCreateAttachment).toBe(false);
   });

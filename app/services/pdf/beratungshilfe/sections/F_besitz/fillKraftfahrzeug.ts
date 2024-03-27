@@ -135,15 +135,15 @@ const getVerkauftMappingDescription = (
     return "";
   }
 
-  if (typeof kraftfahrzeug.hasArbeitsweg === "undefined") {
+  if (kraftfahrzeug.wert === "under10000") {
+    return verkaufswertMappingDescription[kraftfahrzeug.wert];
+  }
+
+  if (typeof kraftfahrzeug.verkaufswert === "undefined") {
     return "";
   }
 
-  if (kraftfahrzeug.hasArbeitsweg === "yes") {
-    return `${kraftfahrzeug.verkaufswert}€`;
-  }
-
-  return verkaufswertMappingDescription[kraftfahrzeug.wert];
+  return `${kraftfahrzeug.verkaufswert}€`;
 };
 
 const verkaufswertMappingDescription = {
