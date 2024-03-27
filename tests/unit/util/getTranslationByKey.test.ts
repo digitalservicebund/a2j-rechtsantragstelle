@@ -15,7 +15,7 @@ describe("getTranslationByKey", () => {
   it("in case the key does not exist in the translation record, it should call console.log warn and return the key ", () => {
     const mockKeyValue = "not_existing_key";
     const logSpy = jest
-      .spyOn(global.console, "warn")
+      .spyOn(global.console, "error")
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       .mockImplementation(() => {});
     const actual = getTranslationByKey(mockKeyValue, TRANSLATION_KEY_RECORD);

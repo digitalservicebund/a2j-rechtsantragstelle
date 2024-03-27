@@ -7,7 +7,7 @@ export function getTranslationByKey(
   const translation = translationRecord[translationKey];
 
   if (typeof translation === "undefined") {
-    console.warn(
+    console.error(
       `Key translation ${translationKey} is not available in the translation record. Please take a look in the CMS system!`,
     );
     return translationKey;
