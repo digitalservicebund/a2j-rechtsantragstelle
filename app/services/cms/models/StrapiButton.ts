@@ -10,5 +10,6 @@ export const StrapiButtonSchema = z
     href: z.string().nullable(),
     text: z.string().nullable(),
     downloadFile: z.string().nullable(),
+    openInNewTab: z.boolean(),
   })
   .merge(HasOptionalStrapiIdSchema);
