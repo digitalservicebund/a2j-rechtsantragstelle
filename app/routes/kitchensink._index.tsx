@@ -62,21 +62,6 @@ export default function Kitchensink() {
       >
         <div className="ds-stack-32">
           <div className="ds-stack-24">
-            <h3>{"<Textarea>"}</h3>
-            <Textarea name="textarea" label="Label for textarea" />
-
-            <h3>{"<Select>"}</h3>
-            <Select
-              name="options"
-              label="Option"
-              options={[
-                { text: "bitte auswählen", value: "" },
-                { text: "Option 1", value: "1" },
-                { text: "Option 2", value: "2" },
-                { text: "Option 3", value: "3" },
-              ]}
-            />
-
             <h3>{"<fieldset> + <legend>"}</h3>
             <fieldset>
               <legend>Leben Sie in Berlin?</legend>
