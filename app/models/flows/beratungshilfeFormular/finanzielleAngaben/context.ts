@@ -19,11 +19,12 @@ const Eigentuemer = z.enum(
 
 const GrundeigentumArt = z.enum(
   [
-    "apartment",
-    "houseForFamily",
-    "houseWithMultipleApartments",
-    "property",
-    "hereditaryBuildingLaw",
+    "eigentumswohnung",
+    "einfamilienhaus",
+    "mehrereWohnungen",
+    "unbebaut",
+    "erbbaurecht",
+    "garage",
   ],
   customRequiredErrorMessage,
 );

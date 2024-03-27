@@ -220,11 +220,12 @@ function getGrundeigentumBezeichnung(
 ) {
   const bezeichnung = [];
   const artMapping = {
-    apartment: "Wohnung",
-    houseForFamily: "Haus für Familie",
-    houseWithMultipleApartments: "Haus mit mehreren Wohnungen",
-    property: "Grundstück",
-    hereditaryBuildingLaw: "Erbbaurecht",
+    eigentumswohnung: "Wohnung",
+    einfamilienhaus: "Haus für Familie",
+    mehrereWohnungen: "Haus mit mehreren Wohnungen",
+    unbebaut: "Grundstück",
+    erbbaurecht: "Erbbaurecht",
+    garage: "Garagen(-hof)",
   };
 
   if (grundeigentum.art) {

@@ -42,7 +42,10 @@ async function addGrundeigentum(
 
   // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/grundeigentum/0/daten
   await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillDropdown("grundeigentum#art", "apartment");
+  await beratungshilfeFormular.fillDropdown(
+    "grundeigentum#art",
+    "eigentumswohnung",
+  );
   await beratungshilfeFormular.fillDropdown(
     "grundeigentum#eigentuemer",
     "myself",

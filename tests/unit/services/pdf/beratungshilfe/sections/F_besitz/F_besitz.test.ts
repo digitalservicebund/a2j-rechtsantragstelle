@@ -103,7 +103,7 @@ describe("F_besitz", () => {
         grundeigentum: [
           {
             eigentuemer: "myself",
-            art: "houseForFamily",
+            art: "einfamilienhaus",
             flaeche: "100",
             verkaufswert: "100000",
             land: "Deutschland",
@@ -135,7 +135,7 @@ describe("F_besitz", () => {
         grundeigentum: [
           {
             eigentuemer: "myself",
-            art: "apartment",
+            art: "eigentumswohnung",
             flaeche: "100",
             verkaufswert: "100001",
             land: "Deutschland",
@@ -147,7 +147,7 @@ describe("F_besitz", () => {
           {
             eigentuemer: "partner",
             istBewohnt: "no",
-            art: "houseForFamily",
+            art: "einfamilienhaus",
             flaeche: "100",
             verkaufswert: "100002",
             land: "Deutschland",
