@@ -58,20 +58,22 @@ function fillKraftfahrzeugData(
 function getKraftfahrzeugShortBezeichnung(kraftfahrzeug?: Kraftfahrzeug) {
   const bezeichnung = [];
 
-  if (kraftfahrzeug?.art) {
-    bezeichnung.push(`${kraftfahrzeug?.art}`);
-  }
+  if (kraftfahrzeug?.wert !== "under10000") {
+    if (kraftfahrzeug?.art) {
+      bezeichnung.push(`${kraftfahrzeug?.art}`);
+    }
 
-  if (kraftfahrzeug?.marke) {
-    bezeichnung.push(`${kraftfahrzeug?.marke}`);
-  }
+    if (kraftfahrzeug?.marke) {
+      bezeichnung.push(`${kraftfahrzeug?.marke}`);
+    }
 
-  if (kraftfahrzeug?.baujahr) {
-    bezeichnung.push(`Baujahr: ${kraftfahrzeug?.baujahr}`);
-  }
+    if (kraftfahrzeug?.baujahr) {
+      bezeichnung.push(`Baujahr: ${kraftfahrzeug?.baujahr}`);
+    }
 
-  if (kraftfahrzeug?.kilometerstand) {
-    bezeichnung.push(`km-Stand: ${kraftfahrzeug?.kilometerstand}`);
+    if (kraftfahrzeug?.kilometerstand) {
+      bezeichnung.push(`km-Stand: ${kraftfahrzeug?.kilometerstand}`);
+    }
   }
 
   bezeichnung.push(getHasArbeitswegMappingDescription(kraftfahrzeug));
@@ -86,35 +88,37 @@ function getKraftfahrzeugBezeichnung(kraftfahrzeug?: Kraftfahrzeug) {
     bezeichnung.push(`Fahrzeug wird für den Arbeitsweg genutzt`);
   }
 
-  if (
-    kraftfahrzeug?.eigentuemer &&
-    eigentuemerMapping[kraftfahrzeug?.eigentuemer]
-  ) {
-    bezeichnung.push(
-      `Eigentümer:in: ${eigentuemerMapping[kraftfahrzeug?.eigentuemer]}`,
-    );
-  }
+  if (kraftfahrzeug?.wert !== "under10000") {
+    if (
+      kraftfahrzeug?.eigentuemer &&
+      eigentuemerMapping[kraftfahrzeug?.eigentuemer]
+    ) {
+      bezeichnung.push(
+        `Eigentümer:in: ${eigentuemerMapping[kraftfahrzeug?.eigentuemer]}`,
+      );
+    }
 
-  if (kraftfahrzeug?.art) {
-    bezeichnung.push(`Art des Fahrzeugs: ${kraftfahrzeug?.art}`);
-  }
+    if (kraftfahrzeug?.art) {
+      bezeichnung.push(`Art des Fahrzeugs: ${kraftfahrzeug?.art}`);
+    }
 
-  if (kraftfahrzeug?.marke) {
-    bezeichnung.push(`Marke: ${kraftfahrzeug?.marke}`);
-  }
+    if (kraftfahrzeug?.marke) {
+      bezeichnung.push(`Marke: ${kraftfahrzeug?.marke}`);
+    }
 
-  if (kraftfahrzeug?.anschaffungsjahr) {
-    bezeichnung.push(`Anschaffungsjahr: ${kraftfahrzeug?.anschaffungsjahr}`);
-  }
+    if (kraftfahrzeug?.anschaffungsjahr) {
+      bezeichnung.push(`Anschaffungsjahr: ${kraftfahrzeug?.anschaffungsjahr}`);
+    }
 
-  if (kraftfahrzeug?.baujahr) {
-    bezeichnung.push(`Baujahr: ${kraftfahrzeug?.baujahr}`);
-  }
+    if (kraftfahrzeug?.baujahr) {
+      bezeichnung.push(`Baujahr: ${kraftfahrzeug?.baujahr}`);
+    }
 
-  if (kraftfahrzeug?.kilometerstand) {
-    bezeichnung.push(
-      `Kilometerstand (ca.): ${kraftfahrzeug?.kilometerstand} km`,
-    );
+    if (kraftfahrzeug?.kilometerstand) {
+      bezeichnung.push(
+        `Kilometerstand (ca.): ${kraftfahrzeug?.kilometerstand} km`,
+      );
+    }
   }
 
   bezeichnung.push(

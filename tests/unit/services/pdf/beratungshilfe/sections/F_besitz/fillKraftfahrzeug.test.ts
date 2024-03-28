@@ -125,4 +125,93 @@ describe("fillKraftfahrzeug", () => {
     expect(pdfFields.f9Kraftfahrzeug1.value).toBe(true);
     expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(false);
   });
+
+  it("should fill kraftfahrzeug data only with the hasArbeitsweg and not fill other data even they are filled in the context for wert under10000", async () => {
+    const context: BeratungshilfeFormularContext = {
+      kraftfahrzeuge: [
+        {
+          eigentuemer: "partner",
+          art: "P 50",
+          marke: "Trabant",
+          anschaffungsjahr: "1985",
+          baujahr: "1990",
+          bemerkung: "Bemerkung",
+          kilometerstand: "999999",
+          verkaufswert: "100000",
+          hasArbeitsweg: "no",
+          wert: "under10000",
+        },
+      ],
+    };
+    const pdfFields = await getBeratungshilfeParameters();
+    const attachment = createAttachment(context);
+
+    fillKraftfahrzeug(attachment, pdfFields, context);
+
+    expect(pdfFields.f9Kraftfahrzeug1.value).toBe(false);
+    expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(true);
+    expect(pdfFields.f10KraftfahrzeugeA.value).toBe(false);
+    expect(pdfFields.f10KraftfahrzeugB.value).toBe(true);
+    expect(pdfFields.f10KraftfahrzeugC.value).toBe(false);
+    expect(pdfFields.f11Fahrzeugart.value).toBe(
+      "Wird nicht für einen Arbeitsweg gebraucht",
+    );
+    expect(pdfFields.f12Verkehrswert.value).toBe("unter 10.000€");
+
+    expect(attachment.shouldCreateAttachment).toBe(false);
+  });
+
+  it("should fill multiple kraftfahrzeug data only with the hasArbeitsweg and not fill other data even they are filled in the context for wert under10000", async () => {
+    const context: BeratungshilfeFormularContext = {
+      kraftfahrzeuge: [
+        {
+          eigentuemer: "partner",
+          art: "P 50",
+          marke: "Trabant",
+          anschaffungsjahr: "1985",
+          baujahr: "1990",
+          bemerkung: "Bemerkung",
+          kilometerstand: "999999",
+          verkaufswert: "100000",
+          hasArbeitsweg: "yes",
+          wert: "under10000",
+        },
+        {
+          eigentuemer: "myself",
+          art: "P 40",
+          marke: "Trabbi",
+          anschaffungsjahr: "1995",
+          baujahr: "1988",
+          bemerkung: "Bemerkung 2",
+          kilometerstand: "99999",
+          verkaufswert: "10000",
+          hasArbeitsweg: "yes",
+          wert: "under10000",
+        },
+      ],
+    };
+    const pdfFields = await getBeratungshilfeParameters();
+    const attachment = createAttachment(context);
+
+    fillKraftfahrzeug(attachment, pdfFields, context);
+
+    expect(pdfFields.f9Kraftfahrzeug1.value).toBe(false);
+    expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(true);
+    expect(pdfFields.f10KraftfahrzeugeA.value).toBe(false);
+    expect(pdfFields.f10KraftfahrzeugB.value).toBe(false);
+    expect(pdfFields.f10KraftfahrzeugC.value).toBe(false);
+    expect(pdfFields.f11Fahrzeugart.value).toBe(newPageHint);
+    expect(pdfFields.f12Verkehrswert.value).toBe(undefined);
+
+    expect(attachment.shouldCreateAttachment).toBe(true);
+    expect(attachment.descriptions[0]).toEqual({
+      title: "Kraftfahrzeuge",
+      text:
+        "Fahrzeug wird für den Arbeitsweg genutzt\n" +
+        "Verkehrswert: unter 10.000€\n" +
+        "\n" +
+        "Fahrzeug wird für den Arbeitsweg genutzt\n" +
+        "Verkehrswert: unter 10.000€",
+    });
+  });
 });
