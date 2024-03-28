@@ -4,7 +4,17 @@ import {
   grundvoraussetzungDone,
   type BeratungshilfeGrundvoraussetzungen,
 } from "~/models/flows/beratungshilfeFormular/grundvoraussetzung/context";
+import { beratungshilfePersoenlicheDatenDone } from "~/models/flows/beratungshilfeFormular/persoenlicheDaten/context";
 import { rechtsproblemDone } from "~/models/flows/beratungshilfeFormular/rechtsproblem/context";
+
+function dropEachProperty(context: object) {
+  return Object.values(
+    Object.keys(context).map((key) => {
+      const { [key as keyof typeof context]: _, ...rest } = context;
+      return rest;
+    }),
+  );
+}
 
 describe("grundvoraussetzungDone", () => {
   it("tests all revelant fields", () => {
@@ -30,13 +40,8 @@ describe("grundvoraussetzungDone", () => {
       eigeninitiativeGrundvorraussetzung: "no",
     } satisfies BeratungshilfeGrundvoraussetzungen;
 
-    Object.keys(validContext).forEach((key) => {
-      const { [key as keyof typeof validContext]: _, ...invalidContext } =
-        validContext;
-      expect(grundvoraussetzungDone({ context: invalidContext })).toBeFalsy();
-      expect(
-        grundvoraussetzungDone({ context: { ...validContext, [key]: "yes" } }),
-      ).toBeFalsy();
+    dropEachProperty(validContext).forEach((context) => {
+      expect(grundvoraussetzungDone({ context })).toBeFalsy();
     });
   });
 });
@@ -124,5 +129,28 @@ describe("finanzielleAngabenDone", () => {
         },
       }),
     ).toBeTruthy();
+  });
+});
+
+describe("beratungshilfePersoenlicheDatenDone", () => {
+  const validContext = {
+    vorname: "A",
+    nachname: "B",
+    geburtsdatum: "1234",
+    strasseHausnummer: "abc",
+    plz: "12345",
+    ort: "ABC",
+  };
+
+  it("should return true when all required fields are present", () => {
+    expect(
+      beratungshilfePersoenlicheDatenDone({ context: validContext }),
+    ).toBeTruthy();
+  });
+
+  it("should return false when any required field is missing", () => {
+    dropEachProperty(validContext).forEach((context) => {
+      expect(beratungshilfePersoenlicheDatenDone({ context })).toBeFalsy();
+    });
   });
 });
