@@ -45,51 +45,46 @@ const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
   context.apartmentSizeSqm !== undefined &&
   (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context }));
 
-type SubflowNavigationConfig = Record<
-  string,
-  {
-    done: FinanzielleAngabenGuard;
-  }
->;
-
-const subflowNavigationConfig: SubflowNavigationConfig = {
-  einkommen: {
-    done: einkommenDone,
-  },
-  partner: {
-    done: partnerDone,
-  },
-  kinder: {
-    done: kinderDone,
-  },
-  besitz: {
-    done: besitzDone,
-  },
-  besitzZusammenfassung: {
-    done: besitzZusammenfassungDone,
-  },
-  wohnung: {
-    done: wohnungDone,
-  },
+const subflowDoneConfig: Record<string, FinanzielleAngabenGuard> = {
+  einkommen: einkommenDone,
+  partner: partnerDone,
+  kinder: kinderDone,
+  besitz: besitzDone,
+  besitzZusammenfassung: besitzZusammenfassungDone,
+  wohnung: wohnungDone,
 };
 
 export const beratungshilfeFinanzielleAngabenSubflowState = (
   context: BeratungshilfeFinanzielleAngaben,
   subflowId: string,
 ): SubflowState => {
-  if (subflowId in subflowNavigationConfig) {
-    const subflowConfig = subflowNavigationConfig[subflowId];
-    if (subflowConfig.done({ context })) return "Done";
+  if (
+    subflowId in subflowDoneConfig &&
+    subflowDoneConfig[subflowId]({ context })
+  ) {
+    return "Done";
   }
   return "Open";
 };
 
 export const beratungshilfeFinanzielleAngabeDone: GenericGuard<
   BeratungshilfeFinanzielleAngaben
-> = ({ context }) =>
-  //FIXME: skip nonreachable / hidden subflows
-  Object.keys(subflowNavigationConfig)
-    .map((subflowId) =>
-      beratungshilfeFinanzielleAngabenSubflowState(context, subflowId),
-    )
-    .find((state) => state === "Open") === undefined;
+> = ({ context }) => {
+  switch (context.staatlicheLeistungen) {
+    case "asylbewerberleistungen":
+    case "grundsicherung":
+      return true;
+    case "buergergeld":
+      return besitzDone({ context }) && besitzZusammenfassungDone({ context });
+    case "andereLeistung":
+    case "keine":
+      return (
+        partnerDone({ context }) &&
+        besitzDone({ context }) &&
+        besitzZusammenfassungDone({ context }) &&
+        einkommenDone({ context }) &&
+        wohnungDone({ context })
+      );
+  }
+  return false;
+};
