@@ -7,7 +7,7 @@ export type SubflowState = "Done" | "Open";
 export type FinanzielleAngabenGuard =
   GenericGuard<BeratungshilfeFinanzielleAngaben>;
 
-const einkommenDone: FinanzielleAngabenGuard = ({ context }) =>
+export const einkommenDone: FinanzielleAngabenGuard = ({ context }) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen({ context })) ||
   context.einkommen != undefined;

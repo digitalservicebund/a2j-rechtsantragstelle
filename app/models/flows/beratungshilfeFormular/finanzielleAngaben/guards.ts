@@ -1,5 +1,6 @@
 import { yesNoGuards, type Guards } from "../../guards.server";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
+import { einkommenDone } from "./navStates";
 import { besitzDone } from "./navStatesBesitz";
 
 const hasStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] =
@@ -143,4 +144,5 @@ export const finanzielleAngabeGuards = {
       grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "family"
     );
   },
+  einkommenDone,
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;
