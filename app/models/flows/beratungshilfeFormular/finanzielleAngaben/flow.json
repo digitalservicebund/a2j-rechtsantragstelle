@@ -84,10 +84,7 @@
                 "guard": "hasPartnerschaftNoOrWidowed",
                 "target": "#kinder.kinder-frage"
               },
-              {
-                "guard": "hasPartnerschaftOrSeparated",
-                "target": "zusammenleben"
-              }
+              "zusammenleben"
             ]
           }
         },
@@ -99,10 +96,7 @@
                 "guard": "zusammenlebenYes",
                 "target": "partner-einkommen"
               },
-              {
-                "guard": "zusammenlebenNo",
-                "target": "unterhalt"
-              }
+              "unterhalt"
             ]
           }
         },
@@ -114,10 +108,7 @@
                 "guard": "unterhaltYes",
                 "target": "unterhalts-summe"
               },
-              {
-                "guard": "unterhaltNo",
-                "target": "keine-rolle"
-              }
+              "keine-rolle"
             ]
           }
         },
