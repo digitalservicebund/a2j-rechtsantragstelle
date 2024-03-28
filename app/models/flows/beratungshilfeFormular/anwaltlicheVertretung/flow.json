@@ -33,8 +33,8 @@
       "on": {
         "SUBMIT": [
           {
-            "guard": "beratungStattgefundenDatumEarlierThanFourWeeks",
-            "target": "frist-hinweis"
+            "guard": "beratungStattgefundenDatumLaterThanFourWeeks",
+            "target": "anwalt-ende"
           },
           {
             "target": "anwalt-ende"

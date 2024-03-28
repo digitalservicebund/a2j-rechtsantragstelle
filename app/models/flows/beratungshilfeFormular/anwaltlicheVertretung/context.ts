@@ -26,14 +26,14 @@ export const beratungshilfeAnwaltlicheVertretungGuards = {
   anwaltskanzleiNo: ({ context }) => context.anwaltskanzlei === "no",
   beratungStattgefundenNo: ({ context }) =>
     context.beratungStattgefunden === "no",
-  beratungStattgefundenDatumEarlierThanFourWeeks: ({ context }) => {
+  beratungStattgefundenDatumLaterThanFourWeeks: ({ context }) => {
     if (typeof context.beratungStattgefundenDatum !== "string") return false;
     const inputDateAsUTC = dateUTCFromGermanDateString(
       context.beratungStattgefundenDatum,
     );
     const differenceInDays =
       (today().getTime() - inputDateAsUTC.getTime()) / 1000 / 60 / 60 / 24; // ms to days
-    return differenceInDays < 28;
+    return differenceInDays > 28;
   },
 } satisfies Guards<BeratungshilfeAnwaltlicheVertretung>;
 
