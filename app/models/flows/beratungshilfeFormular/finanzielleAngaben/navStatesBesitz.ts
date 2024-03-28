@@ -5,7 +5,8 @@ export const besitzDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasKraftfahrzeug !== undefined &&
   context.hasGeldanlage !== undefined &&
   context.hasGrundeigentum !== undefined &&
-  context.hasWertsache !== undefined;
+  context.hasWertsache !== undefined &&
+  context.besitzTotalWorth !== undefined;
 
 const bankKontoDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasBankkonto === "no" ||

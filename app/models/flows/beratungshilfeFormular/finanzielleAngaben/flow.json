@@ -336,7 +336,10 @@
         },
         "gesamtwert": {
           "on": {
-            "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
+            "SUBMIT": {
+              "target": "#besitzZusammenfassung.zusammenfassung",
+              "guard": "besitzDone"
+            },
             "BACK": "kraftfahrzeuge-frage"
           }
         }

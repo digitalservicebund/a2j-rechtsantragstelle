@@ -1,5 +1,6 @@
 import { yesNoGuards, type Guards } from "../../guards.server";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
+import { besitzDone } from "./navStatesBesitz";
 
 const hasStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] =
   ({ context }) =>
@@ -8,6 +9,7 @@ const hasStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] 
     context.staatlicheLeistungen === "grundsicherung";
 
 export const finanzielleAngabeGuards = {
+  besitzDone,
   staatlicheLeistungenIsGrundsicherung: ({ context }) =>
     context.staatlicheLeistungen === "grundsicherung",
   staatlicheLeistungenIsAsylbewerberleistungen: ({ context }) =>

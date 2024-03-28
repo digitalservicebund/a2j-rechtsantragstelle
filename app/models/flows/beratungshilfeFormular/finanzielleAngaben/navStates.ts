@@ -87,6 +87,7 @@ export const beratungshilfeFinanzielleAngabenSubflowState = (
 export const beratungshilfeFinanzielleAngabeDone: GenericGuard<
   BeratungshilfeFinanzielleAngaben
 > = ({ context }) =>
+  //FIXME: skip nonreachable / hidden subflows
   Object.keys(subflowNavigationConfig)
     .map((subflowId) =>
       beratungshilfeFinanzielleAngabenSubflowState(context, subflowId),
