@@ -49,7 +49,7 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startAbgabe(page);
 });
 
-test("invalid array index redirects to initial step of sublow", async ({
+test("invalid array index redirects to initial step of subflow", async ({
   page,
 }) => {
   await expectPageToBeAccessible({ page });
