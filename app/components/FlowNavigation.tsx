@@ -40,7 +40,7 @@ const navItemClassnames = (
   isExpanded = false,
 ) =>
   "p-16 flex gap-x-16 items-center " +
-  (isCurrent ? "ds-label-02-bold " : "ds-label-02-reg hover:font-bold ") +
+  (isCurrent ? "ds-label-02-bold " : "ds-label-02-reg hover:underline ") +
   (isDisabled
     ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none "
     : " ") +
