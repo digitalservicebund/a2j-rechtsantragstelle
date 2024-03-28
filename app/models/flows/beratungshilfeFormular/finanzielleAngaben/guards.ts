@@ -76,8 +76,8 @@ export const finanzielleAngabeGuards = {
     if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
       return false;
     return (
-      grundeigentum?.[pageData.arrayIndexes[0]]?.istBewohnt === "yes" ||
-      grundeigentum?.[pageData.arrayIndexes[0]]?.istBewohnt === "family"
+      grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "yes" ||
+      grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "family"
     );
   },
   isGeldanlageBargeld: ({ context: { pageData, geldanlagen } }) => {
@@ -137,8 +137,8 @@ export const finanzielleAngabeGuards = {
     if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
       return false;
     return (
-      grundeigentum?.[pageData.arrayIndexes[0]]?.istBewohnt === "yes" ||
-      grundeigentum?.[pageData.arrayIndexes[0]]?.istBewohnt === "family"
+      grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "yes" ||
+      grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "family"
     );
   },
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;

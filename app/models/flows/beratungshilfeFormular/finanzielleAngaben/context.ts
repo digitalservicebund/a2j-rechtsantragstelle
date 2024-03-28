@@ -149,7 +149,7 @@ export const beratungshilfeFinanzielleAngaben = {
   hasGrundeigentum: YesNoAnswer,
   grundeigentum: z.array(
     z.object({
-      istBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),
+      isBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),
       art: GrundeigentumArt,
       eigentuemer: Eigentuemer,
       flaeche: inputRequiredSchema,

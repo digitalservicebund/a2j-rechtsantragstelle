@@ -248,7 +248,7 @@ function getGrundeigentumBezeichnung(
   if (hasMultipleGrundeigentum && grundeigentum.verkaufswert) {
     bezeichnung.push(`Verkehrswert: ${grundeigentum.verkaufswert} €`);
   }
-  if (grundeigentum.istBewohnt === "yes") bezeichnung.push("Selbst bewohnt");
+  if (grundeigentum.isBewohnt === "yes") bezeichnung.push("Selbst bewohnt");
 
   return bezeichnung;
 }

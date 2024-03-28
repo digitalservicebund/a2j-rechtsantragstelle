@@ -110,7 +110,7 @@ describe("F_besitz", () => {
             ort: "Berlin",
             plz: "12345",
             strassehausnummer: "Musterstraße 1",
-            istBewohnt: "yes",
+            isBewohnt: "yes",
           },
         ],
       };
@@ -142,11 +142,11 @@ describe("F_besitz", () => {
             ort: "Berlin",
             plz: "12345",
             strassehausnummer: "Musterstraße 1",
-            istBewohnt: "yes",
+            isBewohnt: "yes",
           },
           {
             eigentuemer: "partner",
-            istBewohnt: "no",
+            isBewohnt: "no",
             art: "einfamilienhaus",
             flaeche: "100",
             verkaufswert: "100002",

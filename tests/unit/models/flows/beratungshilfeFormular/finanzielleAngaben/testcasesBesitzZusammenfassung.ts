@@ -91,7 +91,7 @@ const cases = [
     {
       hasGrundeigentum: "yes",
       // @ts-ignore
-      grundeigentum: [{ istBewohnt: "no" }],
+      grundeigentum: [{ isBewohnt: "no" }],
       pageData: { arrayIndexes: [0] },
     },
     [
@@ -103,7 +103,7 @@ const cases = [
     {
       hasGrundeigentum: "yes",
       // @ts-ignore
-      grundeigentum: [{ istBewohnt: "yes" }],
+      grundeigentum: [{ isBewohnt: "yes" }],
       pageData: { arrayIndexes: [0] },
     },
     [
@@ -115,7 +115,7 @@ const cases = [
     {
       hasGrundeigentum: "yes",
       // @ts-ignore
-      grundeigentum: [{ istBewohnt: "no" }, { istBewohnt: "yes" }],
+      grundeigentum: [{ isBewohnt: "no" }, { isBewohnt: "yes" }],
       pageData: { arrayIndexes: [1] },
     },
     [

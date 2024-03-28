@@ -38,7 +38,7 @@ async function addGrundeigentum(
 
   // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/grundeigentum/0/bewohnt-frage
   await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillRadioPage("grundeigentum#istBewohnt", "yes");
+  await beratungshilfeFormular.fillRadioPage("grundeigentum#isBewohnt", "yes");
 
   // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/grundeigentum/0/daten
   await expectPageToBeAccessible({ page });
