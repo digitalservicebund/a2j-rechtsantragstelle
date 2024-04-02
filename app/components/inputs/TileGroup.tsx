@@ -5,7 +5,7 @@ import Tile, { TilePropsSchema } from "./Tile";
 import { z } from "zod";
 import { ErrorMessagePropsSchema } from ".";
 
-const TileGroupPropsSchema = z.object({
+export const TileGroupPropsSchema = z.object({
   name: z.string(),
   options: z.array(TilePropsSchema),
   label: z.custom<ReactNode>().optional(),

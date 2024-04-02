@@ -7,7 +7,7 @@ import { z } from "zod";
 import { ErrorMessagePropsSchema } from ".";
 import RichText from "../RichText";
 
-const TextareaPropsSchema = z.object({
+export const TextareaPropsSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
   label: z.custom<ReactNode>().optional(),

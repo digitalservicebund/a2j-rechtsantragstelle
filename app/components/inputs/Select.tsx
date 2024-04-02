@@ -6,7 +6,7 @@ import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import { ErrorMessagePropsSchema } from ".";
 
-const DropdownPropsSchema = z.object({
+export const DropdownPropsSchema = z.object({
   name: z.string(),
   options: z.array(z.object({ value: z.string(), text: z.string() })),
   label: z.custom<ReactNode>().optional(),
