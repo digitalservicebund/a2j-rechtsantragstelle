@@ -7,7 +7,7 @@ import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import AddButton from "@digitalservicebund/icons/AddCircleOutlined";
 import RichText from "./RichText";
 import { useFetcher, useLocation } from "@remix-run/react";
-import type { ObjectType } from "~/models/flows/contexts";
+import type { ArrayData } from "~/models/flows/contexts";
 import { CSRFKey } from "~/services/security/csrfKey";
 import type { ArrayConfig } from "~/services/array";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
@@ -15,7 +15,7 @@ import { getTranslationByKey } from "~/util/getTranslationByKey";
 type ArraySummaryProps = {
   readonly category: string;
   readonly arrayData: {
-    data: ObjectType[];
+    data: ArrayData;
     arrayConfiguration: ArrayConfig;
   };
   readonly translations?: Translations;
@@ -61,7 +61,6 @@ const ArraySummary = ({
     translations[`${category}.description`];
   const { pathname } = useLocation();
   const fetcher = useFetcher();
-
   const nextItemIndex = String(arrayData.data.length);
   const { url } = arrayData.arrayConfiguration;
   const statementValue = Boolean(arrayData.arrayConfiguration.statementValue);
@@ -100,7 +99,7 @@ const ArraySummary = ({
                             look="ds-label-02-bold"
                           />
                           {translations[
-                            `${category}.${elementKey}.${elementValue}`
+                            `${category}.${elementKey}.${String(elementValue)}`
                           ] ?? elementValue}
                         </div>
                       );

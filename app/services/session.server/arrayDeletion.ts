@@ -25,7 +25,7 @@ export function arrayFromSession(arrayName: string, flowSession: Session) {
     console.error(`Deletion request for ${arrayName}, but it is not an array.`);
     throw Error("Requested field is not an array");
   }
-  return arrayToMutate as ObjectType[];
+  return arrayToMutate;
 }
 
 export function deleteFromArrayInplace(array: ObjectType[], index: number) {
