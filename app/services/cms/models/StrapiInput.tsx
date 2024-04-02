@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import { InputPropsSchema } from "~/components/inputs/Input";
+import Input, { type InputProps } from "~/components/inputs/Input";
 import { omitNull } from "~/util/omitNull";
 import {
   flattenStrapiErrors,
@@ -36,8 +36,10 @@ export const StrapiInputComponentSchema = StrapiInputSchema.extend({
   __component: z.literal("form-elements.input"),
 });
 
-export const getInputProps = (cmsData: StrapiInput) => {
-  const errorMessages = flattenStrapiErrors(cmsData.errors);
-  const width = cmsData.width?.replace("characters", "");
-  return InputPropsSchema.parse(omitNull({ ...cmsData, width, errorMessages }));
+export const StrapiInput = ({ errors, width, ...props }: StrapiInput) => {
+  const inWidth = width?.replace("characters", "") as InputProps["width"];
+  const errorMessages = flattenStrapiErrors(errors);
+  return (
+    <Input {...omitNull(props)} width={inWidth} errorMessages={errorMessages} />
+  );
 };

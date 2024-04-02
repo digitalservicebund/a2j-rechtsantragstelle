@@ -2,8 +2,9 @@ import { z } from "zod";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
 import { omitNull } from "~/util/omitNull";
-import { StrapiTileSchema, getTileProps } from "./StrapiTile";
-import { TileGroupPropsSchema } from "~/components/inputs/TileGroup";
+import { StrapiTileSchema } from "./StrapiTile";
+import TileGroup from "~/components/inputs/TileGroup";
+import { getImageProps } from "./StrapiImage";
 
 const StrapiTileGroupSchema = z
   .object({
@@ -28,14 +29,24 @@ export const StrapiTileGroupComponentSchema = StrapiTileGroupSchema.extend({
   __component: z.literal("form-elements.tile-group"),
 });
 
-export const getTileGroupProps = (cmsData: StrapiTileGroup) => {
-  const errorMessages = cmsData.errors.data?.flatMap(
+export const StrapiTileGroup = ({
+  errors,
+  options,
+  ...props
+}: StrapiTileGroup) => {
+  const errorMessages = errors.data?.flatMap(
     (cmsError) => cmsError.attributes.errorCodes,
   );
+  const tileOptions = options.map((tileOption) => ({
+    ...omitNull(tileOption),
+    image: getImageProps(tileOption.image),
+  }));
 
-  const options = cmsData.options.map(getTileProps);
-
-  return TileGroupPropsSchema.parse(
-    omitNull({ ...cmsData, errorMessages, options }),
+  return (
+    <TileGroup
+      errorMessages={errorMessages}
+      options={tileOptions}
+      {...omitNull(props)}
+    />
   );
 };

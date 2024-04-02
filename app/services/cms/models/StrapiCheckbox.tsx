@@ -19,15 +19,13 @@ export const StrapiCheckboxComponentSchema = StrapiCheckboxSchema.extend({
   __component: z.literal("form-elements.checkbox"),
 });
 
-export const renderCheckboxFromStrapi = (
-  strapiCheckbox: z.infer<typeof StrapiCheckboxSchema>,
-) => (
+export const StrapiCheckbox = ({
+  isRequiredError,
+  ...props
+}: z.infer<typeof StrapiCheckboxSchema>) => (
   <Checkbox
-    name={strapiCheckbox.name}
-    label={strapiCheckbox.label ?? undefined}
-    required={strapiCheckbox.isRequiredError.data !== null}
-    errorMessage={
-      strapiCheckbox.isRequiredError?.data?.attributes.errorCodes[0].text
-    }
+    required={isRequiredError.data !== null}
+    errorMessage={isRequiredError?.data?.attributes.errorCodes[0].text}
+    {...props}
   />
 );
