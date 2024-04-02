@@ -1,20 +1,17 @@
 import { type ReactNode, useState } from "react";
 import { useStringField } from "~/services/validation/useStringField";
 import InputError from "./InputError";
-import Tile, { TilePropsSchema } from "./Tile";
-import { z } from "zod";
-import { ErrorMessagePropsSchema } from ".";
+import Tile, { type TileProps } from "./Tile";
+import { type ErrorMessageProps } from ".";
 
-export const TileGroupPropsSchema = z.object({
-  name: z.string(),
-  options: z.array(TilePropsSchema),
-  label: z.custom<ReactNode>().optional(),
-  altLabel: z.string().optional(),
-  errorMessages: z.array(ErrorMessagePropsSchema).optional(),
-  useTwoColumns: z.boolean().optional(),
-});
-
-type TileGroupProps = z.infer<typeof TileGroupPropsSchema>;
+type TileGroupProps = Readonly<{
+  name: string;
+  options: TileProps[];
+  label?: ReactNode;
+  altLabel?: string;
+  errorMessages?: ErrorMessageProps[];
+  useTwoColumns?: boolean;
+}>;
 
 const TileGroup = ({
   name,

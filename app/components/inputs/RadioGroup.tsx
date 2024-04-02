@@ -2,21 +2,19 @@ import { type ReactNode, useState } from "react";
 import { useStringField } from "~/services/validation/useStringField";
 import InputError from "./InputError";
 import Radio from "./Radio";
-import { z } from "zod";
-import { ErrorMessagePropsSchema } from ".";
+import { type ErrorMessageProps } from ".";
 
-export const RadioGroupPropsSchema = z.object({
-  name: z.string(),
-  options: z.array(
-    z.object({ value: z.string(), text: z.custom<ReactNode>().optional() }),
-  ),
-  label: z.custom<ReactNode>().optional(),
-  altLabel: z.string().optional(),
-  errorMessages: z.array(ErrorMessagePropsSchema).optional(),
-  formId: z.string().optional(),
-});
-
-type RadioGroupProps = z.infer<typeof RadioGroupPropsSchema>;
+type RadioGroupProps = Readonly<{
+  name: string;
+  options: {
+    value: string;
+    text?: ReactNode;
+  }[];
+  label?: ReactNode;
+  altLabel?: string;
+  errorMessages?: ErrorMessageProps[];
+  formId?: string;
+}>;
 
 const RadioGroup = ({
   name,
