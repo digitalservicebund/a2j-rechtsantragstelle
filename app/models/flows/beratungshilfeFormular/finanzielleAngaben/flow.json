@@ -1,6 +1,9 @@
 {
   "initial": "einkommen",
   "id": "finanzielleAngaben",
+  "on": {
+    "SUBMIT": ["#finanzielleAngaben.danke"]
+  },
   "states": {
     "einkommen": {
       "id": "einkommen",
@@ -60,13 +63,10 @@
         "einkommen": {
           "on": {
             "BACK": "weiteres-einkommen",
-            "SUBMIT": [
-              {
-                "target": "#partner.partnerschaft",
-                "guard": "einkommenDone"
-              },
-              "#finanzielleAngaben.danke"
-            ]
+            "SUBMIT": {
+              "target": "#partner.partnerschaft",
+              "guard": "einkommenDone"
+            }
           }
         }
       }
@@ -329,13 +329,10 @@
         },
         "gesamtwert": {
           "on": {
-            "SUBMIT": [
-              {
-                "target": "#besitzZusammenfassung.zusammenfassung",
-                "guard": "besitzDone"
-              },
-              "#finanzielleAngaben.danke"
-            ],
+            "SUBMIT": {
+              "target": "#besitzZusammenfassung.zusammenfassung",
+              "guard": "besitzDone"
+            },
             "BACK": "kraftfahrzeuge-frage"
           }
         }
