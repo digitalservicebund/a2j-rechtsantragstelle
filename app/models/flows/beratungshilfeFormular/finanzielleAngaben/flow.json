@@ -14,11 +14,7 @@
                 "target": "#besitz.eigentum-info"
               },
               {
-                "guard": "staatlicheLeistungenIsAsylbewerberleistungen",
-                "target": "#finanzielleAngaben.danke"
-              },
-              {
-                "guard": "staatlicheLeistungenIsGrundsicherung",
+                "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",
                 "target": "#finanzielleAngaben.danke"
               },
               "erwerbstaetig"
@@ -560,11 +556,7 @@
       "on": {
         "BACK": [
           {
-            "guard": "staatlicheLeistungenIsAsylbewerberleistungen",
-            "target": "#einkommen.staatliche-leistungen"
-          },
-          {
-            "guard": "staatlicheLeistungenIsGrundsicherung",
+            "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",
             "target": "#einkommen.staatliche-leistungen"
           },
           {

@@ -11,10 +11,10 @@ const hasStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] 
 
 export const finanzielleAngabeGuards = {
   besitzDone,
-  staatlicheLeistungenIsGrundsicherung: ({ context }) =>
+
+  staatlicheLeistungenIsAsylOrGrundsicherung: ({ context }) =>
+    context.staatlicheLeistungen === "asylbewerberleistungen" ||
     context.staatlicheLeistungen === "grundsicherung",
-  staatlicheLeistungenIsAsylbewerberleistungen: ({ context }) =>
-    context.staatlicheLeistungen === "asylbewerberleistungen",
   staatlicheLeistungenIsBuergergeld: ({ context }) =>
     context.staatlicheLeistungen === "buergergeld",
   hasStaatlicheLeistungen,
