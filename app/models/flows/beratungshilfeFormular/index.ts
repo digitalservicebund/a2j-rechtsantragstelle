@@ -15,16 +15,15 @@ import beratungshilfeFormularFlow from "./flow.json";
 import rechtsproblemFlow from "./rechtsproblem/flow.json";
 import {
   type BeratungshilfeRechtsproblem,
-  beratungshilfeRechtsproblemGuards,
   rechtsproblemDone,
 } from "./rechtsproblem/context";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import abgabeFlow from "./abgabe/flow.json";
+import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import {
-  type BeratungshilfeFinanzielleAngaben,
   beratungshilfeFinanzielleAngabeDone,
   beratungshilfeFinanzielleAngabenSubflowState,
-} from "./finanzielleAngaben/context";
+} from "./finanzielleAngaben/navStates";
 import {
   type BeratungshilfePersoenlicheDaten,
   beratungshilfePersoenlicheDatenDone,
@@ -35,58 +34,18 @@ import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import type { BeratungshilfeAbgabe } from "~/models/flows/beratungshilfeFormular/abgabe/context";
 import {
   getKinderStrings,
+  getArrayIndexStrings,
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
   getAnwaltStrings,
-  besitzZusammenfassungWarning,
+  besitzZusammenfassungShowWarnings,
 } from "./stringReplacements";
-import type { ArrayConfig } from "~/services/array";
-
-const flowId = "/beratungshilfe/antrag/";
-
-const arrayConfigurations = {
-  bankkonten: {
-    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/bankkonten`,
-    initialInputUrl: "daten",
-    questionUrl: `${flowId}finanzielleAngaben/besitz/bankkonten-frage`,
-    statementKey: "hasBankkonto",
-  },
-  kraftfahrzeuge: {
-    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge`,
-    initialInputUrl: "daten",
-    questionUrl: `${flowId}finanzielleAngaben/besitz/kraftfahrzeuge-frage`,
-    statementKey: "hasKraftfahrzeug",
-  },
-  geldanlagen: {
-    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/geldanlagen`,
-    initialInputUrl: "daten",
-    questionUrl: `${flowId}finanzielleAngaben/besitz/geldanlagen-frage`,
-    statementKey: "hasGeldanlage",
-  },
-  grundeigentum: {
-    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/grundeigentum`,
-    initialInputUrl: "daten",
-    questionUrl: `${flowId}finanzielleAngaben/besitz/grundeigentum-frage`,
-    statementKey: "hasGrundeigentum",
-  },
-  wertsachen: {
-    url: `${flowId}finanzielleAngaben/besitzZusammenfassung/wertsachen`,
-    initialInputUrl: "daten",
-    questionUrl: `${flowId}finanzielleAngaben/besitz/wertsachen-frage`,
-    statementKey: "hasWertsache",
-  },
-  kinder: {
-    url: `${flowId}finanzielleAngaben/kinder/kinder`,
-    initialInputUrl: `name`,
-    questionUrl: `${flowId}finanzielleAngaben/kinder/kinder-frage`,
-    statementKey: "hasKinder",
-    hiddenFields: ["eigeneEinnahmen", "unterhalt"],
-  },
-} satisfies Record<string, ArrayConfig>;
+import { finanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
   config: _.merge(beratungshilfeFormularFlow, {
+    meta: { arrays: finanzielleAngabenArrayConfig },
     states: {
       grundvoraussetzungen: _.merge(
         _.cloneDeep(beratungshilfeGrundvoraussetzungenFlow),
@@ -99,7 +58,7 @@ export const beratungshilfeFormular = {
                 SUBMIT: [
                   {
                     target: "#anwaltlicheVertretung.start",
-                    guard: "eigeninitiativeGrundvorraussetzungNo",
+                    guard: "grundvoraussetzungDone",
                   },
                   {
                     target: "eigeninitiativeGrundvorraussetzung-hinweis",
@@ -187,7 +146,6 @@ export const beratungshilfeFormular = {
   guards: {
     ...beratungshilfeGrundvoraussetzungenGuards,
     ...beratungshilfeAnwaltlicheVertretungGuards,
-    ...beratungshilfeRechtsproblemGuards,
     ...beratungshilfeAbgabeGuards,
     ...finanzielleAngabeGuards,
   },
@@ -195,10 +153,10 @@ export const beratungshilfeFormular = {
     ...getAmtsgerichtStrings(context),
     ...getStaatlicheLeistungenStrings(context),
     ...getKinderStrings(context),
+    ...getArrayIndexStrings(context),
     ...getAnwaltStrings(context),
-    ...besitzZusammenfassungWarning(context),
+    ...besitzZusammenfassungShowWarnings(context),
   }),
-  arrayConfigurations,
 } as const;
 
 export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &

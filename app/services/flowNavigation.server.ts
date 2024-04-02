@@ -10,7 +10,7 @@ export function navItemsFromFlowSpecifics(
   translation: Translations = {},
 ): NavItem[] {
   const currentFlow = flowController.getConfig();
-  const flowRoot = currentFlow.id ?? "";
+  const flowId = currentFlow.id ?? "";
 
   return getSubflowsEntries(currentFlow).map(([rootStateName, flowEntry]) => {
     const subflows =
@@ -20,16 +20,16 @@ export function navItemsFromFlowSpecifics(
           )
         : [];
 
-    const subflowEntry = subflows.find(
+    const firstSubflowEntry = subflows.find(
       (entry) => entry[0] === flowEntry.initial,
     );
 
     const destinationStepId = `${rootStateName}/${
       typeof flowEntry.initial === "string" ? flowEntry.initial : ""
     }${
-      subflowEntry
-        ? typeof subflowEntry[1].initial === "string"
-          ? `/${subflowEntry[1].initial}`
+      firstSubflowEntry
+        ? typeof firstSubflowEntry[1].initial === "string"
+          ? `/${firstSubflowEntry[1].initial}`
           : ""
         : ""
     }`;
@@ -47,7 +47,7 @@ export function navItemsFromFlowSpecifics(
                 typeof subflow?.initial === "string" ? subflow?.initial : "",
                 translation,
                 subflowKey,
-                flowRoot,
+                flowId,
                 currentStepId,
                 flowController,
               );
@@ -56,7 +56,7 @@ export function navItemsFromFlowSpecifics(
         : [];
 
     return {
-      destination: flowRoot + destinationStepId,
+      destination: flowId + destinationStepId,
       label: rootLabel,
       state: navState({
         isCurrent: currentStepId.startsWith(rootStateName),
@@ -75,7 +75,7 @@ function getSubflowSpecifics(
   initial: string,
   translation: Translations,
   subflowKey: string,
-  flowRoot: string,
+  flowId: string,
   currentStepId: string,
   flowController: ReturnType<typeof buildFlowController>,
 ) {
@@ -88,11 +88,13 @@ function getSubflowSpecifics(
   );
 
   return {
-    destination: flowRoot + subflowDestionationStepId,
+    destination: flowId + subflowDestionationStepId,
     label: translation[subflowRoot] ?? subflowKey,
     state: navState({
-      isCurrent: currentStepId.startsWith(subflowRoot),
-      isReachable: subflowState !== "Hidden",
+      isCurrent:
+        currentStepId.startsWith(subflowRoot) &&
+        currentStepId.at(subflowRoot.length) === "/", // subflows might start with the same name, this ensures the following characters
+      isReachable: flowController.isReachable(subflowDestionationStepId),
       isDone: subflowState == "Done",
       isUneditable: flowController.isUneditable(subflowRoot),
     }),

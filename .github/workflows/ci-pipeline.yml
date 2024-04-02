@@ -44,6 +44,7 @@ jobs:
     needs: [get-content-file]
     uses: ./.github/workflows/e2e-test.yml
     with:
+      require-published-app: false
       e2e-target: local
     secrets:
       GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
@@ -67,20 +68,18 @@ jobs:
       - uses: ./.github/actions/cached-checkout-install
       - name: Install cosign
         uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4
-        with:
-          cosign-release: "v1.13.1"
       - run: ./docker.sh --build app
       - run: ./docker.sh --push app
       - run: ./docker.sh --build prod
       - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
       - name: Generate cosign vulnerability scan record for PROD image
-        uses: aquasecurity/trivy-action@062f2592684a31eb3aa050cc61e7ca1451cecd3d
+        uses: aquasecurity/trivy-action@d710430a6722f083d3b36b8339ff66b32f22ee55
         with:
           image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.PROD_IMAGE_TAG }}
           format: "cosign-vuln"
           output: "vulnerabilities.json"
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@062f2592684a31eb3aa050cc61e7ca1451cecd3d
+        uses: aquasecurity/trivy-action@d710430a6722f083d3b36b8339ff66b32f22ee55
         with:
           image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.PROD_IMAGE_TAG }}
           format: "sarif"
@@ -93,6 +92,7 @@ jobs:
         with:
           sarif_file: "trivy-results.sarif"
       - run: ./docker.sh --push prod
+      - run: ./docker.sh --sign
       - id: prod_image_tag
         run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
     outputs:
@@ -156,6 +156,7 @@ jobs:
     secrets:
       BASE_URL: https://a2j-test.dev.ds4g.net
     with:
+      require-published-app: false
       use-existing-server: true
       e2e-target: preview
 

@@ -10,6 +10,7 @@ import {
 const StrapiTextareaSchema = z
   .object({
     name: z.string(),
+    description: z.string().nullable(),
     label: z.string().nullable(),
     placeholder: z.string().nullable(),
     errors: StrapiErrorRelationSchema,

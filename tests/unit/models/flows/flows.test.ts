@@ -2,6 +2,12 @@ import { getEnabledSteps } from "tests/unit/models/flows/getEnabledSteps";
 import { testCasesBeratungshilfe } from "./beratungshilfe/testcases";
 import { testCasesGeldEinklagen } from "./geldEinklagen/testcases";
 import { testCasesFluggastrechteFormular } from "tests/unit/models/flows/fluggastrechteFormular/testcases";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen } from "./beratungshilfeFormular/finanzielleAngaben/testcasesEinkommen";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenPartner } from "./beratungshilfeFormular/finanzielleAngaben/testcasesPartner";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenKinder } from "./beratungshilfeFormular/finanzielleAngaben/testcasesKinder";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenBesitz } from "./beratungshilfeFormular/finanzielleAngaben/testcasesBesitz";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenBesitzZusammenfassung } from "./beratungshilfeFormular/finanzielleAngaben/testcasesBesitzZusammenfassung";
+import { testCasesBeratungshilfeRechtsproblem } from "./beratungshilfeFormular/rechtsprobleme/testcases";
 
 /*
  * Note on testing xstate
@@ -20,6 +26,12 @@ describe("state machine form flows", () => {
     testCasesBeratungshilfe,
     testCasesGeldEinklagen,
     testCasesFluggastrechteFormular,
+    testCasesBeratungshilfeRechtsproblem,
+    testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen,
+    testCasesBeratungshilfeFormularFinanzielleAngabenPartner,
+    testCasesBeratungshilfeFormularFinanzielleAngabenKinder,
+    testCasesBeratungshilfeFormularFinanzielleAngabenBesitz,
+    testCasesBeratungshilfeFormularFinanzielleAngabenBesitzZusammenfassung,
   ].forEach(({ machine, cases }) => {
     test.each(cases)(
       "SUBMIT (%#) given context: %j, visits steps: %j",

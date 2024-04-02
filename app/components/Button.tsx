@@ -13,6 +13,7 @@ export const ButtonPropsSchema = z.object({
   iconRight: iconSchema,
   fullWidth: z.boolean().optional(),
   downloadFile: z.string().optional(),
+  openInNewTab: z.boolean().optional(),
 });
 
 type Props = z.infer<typeof ButtonPropsSchema>;
@@ -36,6 +37,7 @@ function Button({
   size,
   href,
   downloadFile,
+  openInNewTab,
   ...props
 }: ButtonProps | ButtonLinkProps) {
   const buttonClasses = classNames(
@@ -76,6 +78,9 @@ function Button({
         className={buttonClasses}
         role="button"
         onKeyDown={onKeyDown}
+        {...(openInNewTab
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {})}
         {...(downloadFile && downloadFile !== ""
           ? { download: downloadFile }
           : {})}

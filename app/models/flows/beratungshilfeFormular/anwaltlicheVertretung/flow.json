@@ -1,9 +1,6 @@
 {
   "initial": "start",
   "id": "anwaltlicheVertretung",
-  "meta": {
-    "isUneditable": true
-  },
   "states": {
     "start": {
       "on": {
@@ -36,11 +33,11 @@
       "on": {
         "SUBMIT": [
           {
-            "guard": "beratungStattgefundenDatumEarlierThanFourWeeks",
-            "target": "frist-hinweis"
+            "guard": "beratungStattgefundenDatumLaterThanFourWeeks",
+            "target": "anwalt-ende"
           },
           {
-            "target": "anwalt-ende"
+            "target": "frist-hinweis"
           }
         ],
         "BACK": "beratungStattgefunden"

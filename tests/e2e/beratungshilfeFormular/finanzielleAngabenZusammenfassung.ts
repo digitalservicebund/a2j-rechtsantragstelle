@@ -1,4 +1,5 @@
 import type { Page } from "@playwright/test";
+import { expect } from "@playwright/test";
 import type { BeratungshilfeFormular } from "../pom/BeratungshilfeFormular";
 import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";
 
@@ -21,9 +22,9 @@ async function addWertsachen(
 ) {
   await page.getByTestId("add-wertsachen").click();
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/wertsachen
+  // beratungshilfe/antrag/finanzielleAngaben/besitz/wertgegenstaende
   await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillDropdown("wertsachen#art", "cash");
+  await beratungshilfeFormular.fillInput("wertsachen#art", "Bargeld");
   await beratungshilfeFormular.fillDropdown("wertsachen#eigentuemer", "myself");
   await beratungshilfeFormular.fillInput("wertsachen#wert", "1000");
   await beratungshilfeFormular.clickNext();
@@ -35,22 +36,22 @@ async function addGrundeigentum(
 ) {
   await page.getByTestId("add-grundeigentum").click();
 
+  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/grundeigentum/0/bewohnt-frage
+  await expectPageToBeAccessible({ page });
+  await beratungshilfeFormular.fillRadioPage("grundeigentum#isBewohnt", "yes");
+
   // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/grundeigentum/0/daten
   await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillDropdown("grundeigentum#art", "apartment");
+  await beratungshilfeFormular.fillDropdown(
+    "grundeigentum#art",
+    "eigentumswohnung",
+  );
   await beratungshilfeFormular.fillDropdown(
     "grundeigentum#eigentuemer",
     "myself",
   );
   await beratungshilfeFormular.fillInput("grundeigentum#flaeche", "100");
   await beratungshilfeFormular.fillInput("grundeigentum#verkaufswert", "10");
-  await beratungshilfeFormular.fillInput(
-    "grundeigentum#strassehausnummer",
-    "Berlinadestraße 123",
-  );
-  await beratungshilfeFormular.fillInput("grundeigentum#plz", "12345");
-  await beratungshilfeFormular.fillInput("grundeigentum#ort", "Berlin");
-  await beratungshilfeFormular.fillInput("grundeigentum#land", "Deutschland");
   await beratungshilfeFormular.clickNext();
 }
 
@@ -60,22 +61,18 @@ async function addGeldanlage(
 ) {
   await page.getByTestId("add-geldanlagen").click();
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/geldanlagen/0/daten
+  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/geldanlagen/0/art
+  await expectPageToBeAccessible({ page });
+  await beratungshilfeFormular.fillRadioPage("geldanlagen#art", "bargeld");
+
+  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/geldanlagen/0/bargeld
+  expect(page.url()).toContain("bargeld");
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillDropdown(
     "geldanlagen#eigentuemer",
     "myself",
   );
-  await beratungshilfeFormular.fillDropdown("geldanlagen#art", "lifeInsurance");
-  await beratungshilfeFormular.fillInput(
-    "geldanlagen#verwendungszweck",
-    "Altersvorsorge",
-  );
-  await beratungshilfeFormular.fillInput("geldanlagen#auszahlungwert", "100");
-  await beratungshilfeFormular.fillInput(
-    "geldanlagen#auszahlungdatum",
-    "01.01.2050",
-  );
+  await beratungshilfeFormular.fillInput("geldanlagen#wert", "100");
   await beratungshilfeFormular.clickNext();
 }
 
@@ -85,7 +82,21 @@ async function addKraftfahrzeug(
 ) {
   await page.getByTestId("add-kraftfahrzeuge").click();
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/kraftfahrzeuge
+  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/arbeitsweg
+  await expectPageToBeAccessible({ page });
+  await beratungshilfeFormular.fillRadioPage(
+    "kraftfahrzeuge#hasArbeitsweg",
+    "yes",
+  );
+
+  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/wert
+  await expectPageToBeAccessible({ page });
+  await beratungshilfeFormular.fillRadioPage(
+    "kraftfahrzeuge#wert",
+    "over10000",
+  );
+
+  // beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/fahrzeuge
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillDropdown(
     "kraftfahrzeuge#eigentuemer",
@@ -106,7 +117,6 @@ async function addKraftfahrzeug(
     "1991",
   );
 
-  await beratungshilfeFormular.fillCheckboxes("kraftfahrzeuge#arbeitsweg");
   await beratungshilfeFormular.clickNext();
 }
 

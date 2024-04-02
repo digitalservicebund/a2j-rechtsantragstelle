@@ -5,6 +5,7 @@ import type {
   BooleanField,
   StringField,
 } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import { getFontSizeFieldValue } from "./getFontSizeFieldValue";
 
 const umlautMap = {
   ä: "ae",
@@ -38,6 +39,7 @@ export function changeStringField(stringField: StringField, form: PDFForm) {
   const formField = form.getField(stringField.name);
   if (formField instanceof PDFTextField) {
     formField.setText(stringField.value);
-    formField.setFontSize(10);
+    const fontSize = getFontSizeFieldValue(stringField.name);
+    formField.setFontSize(fontSize);
   }
 }

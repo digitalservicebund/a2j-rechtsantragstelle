@@ -40,7 +40,7 @@ const navItemClassnames = (
   isExpanded = false,
 ) =>
   "p-16 flex gap-x-16 items-center " +
-  (isCurrent ? "ds-label-02-bold " : "ds-label-02-reg hover:font-bold ") +
+  (isCurrent ? "ds-label-02-bold " : "ds-label-02-reg hover:underline ") +
   (isDisabled
     ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none "
     : " ") +
@@ -67,30 +67,11 @@ export default function FlowNavigation({
 }
 
 function isSubflowVisible(navItems: NavItem[], index: number) {
-  if (index === 0) return true;
-  const { state } = navItems[index];
-  const isCurrentState = state === NavState.Current;
-  const isDoneState = state === NavState.Done;
-  const isReachableState = [
-    NavState.Open,
-    NavState.Current,
-    NavState.Done,
-  ].includes(state);
-
-  let isPreviousSubflowReachable = false;
-
-  for (let previousIndex = index - 1; previousIndex >= 0; previousIndex--) {
-    const previousSubflow = navItems[previousIndex];
-    if (previousSubflow.state !== NavState.OpenDisabled) {
-      isPreviousSubflowReachable = previousSubflow.state === NavState.Done;
-      break;
-    }
-  }
-
   return (
-    isCurrentState ||
-    isDoneState ||
-    (isReachableState && isPreviousSubflowReachable)
+    index === 0 ||
+    [NavState.Open, NavState.Current, NavState.Done].includes(
+      navItems[index].state,
+    )
   );
 }
 

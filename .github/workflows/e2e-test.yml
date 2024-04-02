@@ -8,6 +8,9 @@ on:
       e2e-target:
         required: true
         type: string
+      require-published-app:
+        required: true
+        type: boolean
     secrets:
       GERICHTSFINDER_ENCRYPTION_KEY:
         required: false
@@ -46,6 +49,10 @@ jobs:
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
+
+      - name: Fetch published image app from registry
+        if: inputs.require-published-app == true
+        run: ./docker.sh --appFromImage && rsync -a ./a2j-app/* ./
 
       - name: Run Playwright e2e tests
         env:

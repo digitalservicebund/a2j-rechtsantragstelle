@@ -13,6 +13,7 @@ const DropdownPropsSchema = z.object({
   altLabel: z.string().optional(),
   placeholder: z.string().optional(),
   errorMessages: z.array(ErrorMessagePropsSchema).optional(),
+  formId: z.string().optional(),
 });
 
 type SelectProps = z.infer<typeof DropdownPropsSchema>;
@@ -23,8 +24,9 @@ const Select = ({
   options,
   placeholder,
   errorMessages,
+  formId,
 }: SelectProps) => {
-  const { error, getInputProps } = useField(name);
+  const { error, getInputProps } = useField(name, { formId });
 
   const selectClassName = classNames("ds-select", {
     "has-error": error,

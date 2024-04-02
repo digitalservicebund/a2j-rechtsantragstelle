@@ -1,22 +1,30 @@
 import { yesNoGuards, type Guards } from "../../guards.server";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
+import { einkommenDone } from "./navStates";
+import { besitzDone } from "./navStatesBesitz";
+
+const hasStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] =
+  ({ context }) =>
+    context.staatlicheLeistungen === "asylbewerberleistungen" ||
+    context.staatlicheLeistungen === "buergergeld" ||
+    context.staatlicheLeistungen === "grundsicherung";
 
 export const finanzielleAngabeGuards = {
+  besitzDone,
   staatlicheLeistungenIsGrundsicherung: ({ context }) =>
     context.staatlicheLeistungen === "grundsicherung",
   staatlicheLeistungenIsAsylbewerberleistungen: ({ context }) =>
     context.staatlicheLeistungen === "asylbewerberleistungen",
   staatlicheLeistungenIsBuergergeld: ({ context }) =>
     context.staatlicheLeistungen === "buergergeld",
-  hasStaatlicheLeistungen: ({ context }) =>
-    context.staatlicheLeistungen === "asylbewerberleistungen" ||
-    context.staatlicheLeistungen === "buergergeld" ||
-    context.staatlicheLeistungen === "grundsicherung",
-  hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",
+  hasStaatlicheLeistungen,
+  hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
+    context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context }),
   besitzTotalWorthLessThan10000: ({ context }) =>
     context.besitzTotalWorth === "less10000",
   hasPartnerschaftOrSeparated: ({ context }) =>
     context.partnerschaft === "yes" || context.partnerschaft === "separated",
+  hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",
   hasPartnerschaftNoOrWidowed: ({ context }) =>
     context.partnerschaft === "no" || context.partnerschaft === "widowed",
   ...yesNoGuards("erwerbstaetig"),
@@ -24,15 +32,10 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("unterhalt"),
   ...yesNoGuards("partnerEinkommen"),
   ...yesNoGuards("hasBankkonto"),
-  ...yesNoGuards("hasAdditionalBankkonto"),
   ...yesNoGuards("hasKraftfahrzeug"),
-  ...yesNoGuards("hasAdditionalKraftfahrzeug"),
   ...yesNoGuards("hasGeldanlage"),
-  ...yesNoGuards("hasAdditionalGeldanlage"),
   ...yesNoGuards("hasGrundeigentum"),
-  ...yesNoGuards("hasAdditionalGrundeigentum"),
   ...yesNoGuards("hasWertsache"),
-  ...yesNoGuards("hasAdditionalWertsache"),
   isPartnerschaftZusammenlebenEinkommenNo: ({ context }) =>
     context.partnerschaft === "yes" &&
     context.zusammenleben === "yes" &&
@@ -42,7 +45,6 @@ export const finanzielleAngabeGuards = {
     context.zusammenleben === "yes" &&
     context.partnerEinkommen === "yes",
   hasKinderYes: ({ context }) => context.hasKinder === "yes",
-  // TODO: replace with the correct guards
   kindWohnortBeiAntragstellerYes: ({ context: { pageData, kinder } }) => {
     if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
       return false;
@@ -72,4 +74,75 @@ export const finanzielleAngabeGuards = {
 
     return !(arrayIndex > (kinder?.length ?? 0));
   },
+  livesAlone: ({ context }) => context.livingSituation === "alone",
+  isGrundeigentumBewohntYes: ({ context: { pageData, grundeigentum } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return (
+      grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "yes" ||
+      grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "family"
+    );
+  },
+  isGeldanlageBargeld: ({ context: { pageData, geldanlagen } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+
+    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "bargeld";
+  },
+  isGeldanlageWertpapiere: ({ context: { pageData, geldanlagen } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "wertpapiere";
+  },
+  isGeldanlageGuthabenkontoKrypto: ({ context: { pageData, geldanlagen } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return (
+      geldanlagen?.[pageData.arrayIndexes[0]]?.art === "guthabenkontoKrypto"
+    );
+  },
+  isGeldanlageGiroTagesgeldSparkonto: ({
+    context: { pageData, geldanlagen },
+  }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return (
+      geldanlagen?.[pageData.arrayIndexes[0]]?.art === "giroTagesgeldSparkonto"
+    );
+  },
+  isGeldanlageBefristet: ({ context: { pageData, geldanlagen } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "befristet";
+  },
+  isGeldanlageForderung: ({ context: { pageData, geldanlagen } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "forderung";
+  },
+  isGeldanlageSonstiges: ({ context: { pageData, geldanlagen } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "sonstiges";
+  },
+  isKraftfahrzeugWertAbove10000OrUnsure: ({
+    context: { pageData, kraftfahrzeuge },
+  }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+
+    return (
+      kraftfahrzeuge?.[pageData.arrayIndexes[0]]?.wert === "over10000" ||
+      kraftfahrzeuge?.[pageData.arrayIndexes[0]]?.wert === "unsure"
+    );
+  },
+  grundeigentumIsBewohnt: ({ context: { pageData, grundeigentum } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return (
+      grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "yes" ||
+      grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "family"
+    );
+  },
+  einkommenDone,
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;

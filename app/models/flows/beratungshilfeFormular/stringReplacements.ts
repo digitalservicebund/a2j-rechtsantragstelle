@@ -4,14 +4,26 @@ import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 
 export const getKinderStrings = (context: BeratungshilfeFormularContext) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
-  if (typeof arrayIndex === "undefined" || !context.kinder) return {};
-  if (arrayIndex >= context.kinder.length)
-    return { "kind#index": `${context.kinder.length + 1}` };
-  return {
-    "kind#index": `${arrayIndex + 1}`,
-    "kind#vorname": context.kinder?.[arrayIndex].vorname,
-    "kind#nachname": context.kinder?.[arrayIndex].nachname,
-  };
+  if (
+    typeof arrayIndex === "undefined" ||
+    !context.kinder ||
+    arrayIndex > context.kinder.length + 1
+  )
+    return {};
+  if (arrayIndex < context.kinder.length)
+    return {
+      "kind#vorname": context.kinder?.[arrayIndex].vorname,
+      "kind#nachname": context.kinder?.[arrayIndex].nachname,
+    };
+};
+
+export const getArrayIndexStrings = (
+  context: BeratungshilfeFormularContext,
+) => {
+  const arrayIndex = context.pageData?.arrayIndexes.at(0);
+  return typeof arrayIndex !== "undefined"
+    ? { "array#index": String(arrayIndex + 1) }
+    : {};
 };
 
 export const getAmtsgerichtStrings = (
@@ -64,18 +76,21 @@ export const getAnwaltStrings = (context: BeratungshilfeFormularContext) => {
   };
 };
 
-export const besitzZusammenfassungWarning = (
+export const besitzZusammenfassungShowWarnings = (
   context: BeratungshilfeFormularContext,
 ) => {
-  const { hasPartnerschaftOrSeparated, besitzTotalWorthLessThan10000 } =
-    finanzielleAngabeGuards;
-
+  // TODO: remove hasPartnerschaftOrSeparated once '/beratungshilfe/antrag/finanzielleAngaben/besitzZusammenfassung/zusammenfassung' has been changed to use 'hasPartnerschaftYes'
   return {
-    hasPartnerschaftOrSeparated: hasPartnerschaftOrSeparated({
+    hasPartnerschaftOrSeparated:
+      finanzielleAngabeGuards.hasPartnerschaftOrSeparated({
+        context,
+      }),
+    hasPartnerschaftYes: finanzielleAngabeGuards.hasPartnerschaftYes({
       context,
     }),
-    besitzTotalWorthLessThan10000: besitzTotalWorthLessThan10000({
-      context,
-    }),
+    besitzTotalWorthLessThan10000:
+      finanzielleAngabeGuards.besitzTotalWorthLessThan10000({
+        context,
+      }),
   };
 };

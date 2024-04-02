@@ -93,7 +93,6 @@ case $1 in
         APP_IMAGE_TAG=$APP_IMAGE
 
         npm run build
-        npm run build:storybook
         echo "Building $APP_IMAGE..."
         docker build -t $APP_IMAGE --label "hash=$LATEST_GIT_TAG" -f $DOCKERFILE --target app --quiet .
 

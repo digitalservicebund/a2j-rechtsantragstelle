@@ -134,14 +134,9 @@ export const loader = async ({
     .filter(isStrapiArraySummary)
     .map((strapiSummary) => strapiSummary.category);
 
-  const arrayConfigurations =
-    "arrayConfigurations" in currentFlow
-      ? currentFlow.arrayConfigurations
-      : undefined;
-
   const arraySummaryData = getSummaryData(
     categories,
-    arrayConfigurations,
+    flowController.getRootMeta()?.arrays,
     userData,
   );
 
@@ -226,21 +221,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       updateSession(flowSession, { [arrayName]: arrayToMutate });
       const headers = { "Set-Cookie": await commitSession(flowSession) };
       return new Response("success", { status: 200, headers });
-    } catch (err) {
-      return new Response((err as Error).message, { status: 422 });
-    }
-  }
-
-  if (formData.get("_action") === "changeStatement") {
-    try {
-      const categoryStatement = relevantFormData.categoryStatement as string;
-      const buttonDestination = relevantFormData.buttonDestination as string;
-      updateSession(flowSession, { [categoryStatement]: "yes" });
-      const headers = { "Set-Cookie": await commitSession(flowSession) };
-      return new Response(null, {
-        status: 303,
-        headers: { ...headers, location: buttonDestination },
-      });
     } catch (err) {
       return new Response((err as Error).message, { status: 422 });
     }

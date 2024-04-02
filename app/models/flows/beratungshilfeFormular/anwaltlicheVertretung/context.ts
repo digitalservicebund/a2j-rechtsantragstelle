@@ -7,7 +7,7 @@ import {
 } from "~/services/validation/date";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { postcodeSchema } from "~/services/validation/postcode";
-import type { Guards } from "../../guards.server";
+import type { GenericGuard, Guards } from "../../guards.server";
 
 export const beratungshilfeAnwaltlicheVertretung = {
   anwaltskanzlei: YesNoAnswer,
@@ -26,20 +26,20 @@ export const beratungshilfeAnwaltlicheVertretungGuards = {
   anwaltskanzleiNo: ({ context }) => context.anwaltskanzlei === "no",
   beratungStattgefundenNo: ({ context }) =>
     context.beratungStattgefunden === "no",
-  beratungStattgefundenDatumEarlierThanFourWeeks: ({ context }) => {
+  beratungStattgefundenDatumLaterThanFourWeeks: ({ context }) => {
     if (typeof context.beratungStattgefundenDatum !== "string") return false;
     const inputDateAsUTC = dateUTCFromGermanDateString(
       context.beratungStattgefundenDatum,
     );
     const differenceInDays =
       (today().getTime() - inputDateAsUTC.getTime()) / 1000 / 60 / 60 / 24; // ms to days
-    return differenceInDays < 28;
+    return differenceInDays > 28;
   },
 } satisfies Guards<BeratungshilfeAnwaltlicheVertretung>;
 
-export const anwaltlicheVertretungDone = (
-  context: BeratungshilfeAnwaltlicheVertretung,
-) =>
+export const anwaltlicheVertretungDone: GenericGuard<
+  BeratungshilfeAnwaltlicheVertretung
+> = ({ context }) =>
   Boolean(
     context.anwaltskanzlei === "no" || context.beratungStattgefunden === "no",
   ) ||

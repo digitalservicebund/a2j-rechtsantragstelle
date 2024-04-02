@@ -11,15 +11,13 @@ import {
   stepIdToPath,
 } from "~/services/flow/stepIdConverter";
 import type { Context } from "~/models/flows/contexts";
-import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
-import type { Guards } from "~/models/flows/guards.server";
+import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
+import type { GenericGuard, Guards } from "~/models/flows/guards.server";
 import _ from "lodash";
+import type { ArrayConfig } from "~/services/array";
 
-type Event = "SUBMIT" | "BACK" | "ADDITEM";
-type FlowStateMachineEvents =
-  | { type: "SUBMIT" }
-  | { type: "BACK" }
-  | { type: "ADDITEM" };
+type Event = "SUBMIT" | "BACK";
+type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
 
 type StateMachineTypes = {
   context: Context;
@@ -45,17 +43,25 @@ type Meta = {
   customAnalyticsEventName?: string;
   progressPosition: number | undefined;
   isUneditable: boolean | undefined;
-  done: (context: Context) => boolean | undefined;
+  done: GenericGuard<Context>;
   subflowState: (context: Context, subflowId: string) => SubflowState;
   subflowDone: (context: Context, subflowId: string) => boolean | undefined;
+  arrays?: Record<string, ArrayConfig>;
 };
 
-const getSteps = (machine: FlowStateMachine, context: Context) => {
+const getSteps = (machine: FlowStateMachine) => {
   // todo: remove machine relying on context passed at createMachine()...
   // https://www.jsdocs.io/package/xstate#FlowStateMachine.provide is supposed to allow this but context isn't applied
   // idea: machine.provide() with action that assigns the new context
+
+  // Technically, arrayEvents are never triggered. They are only added here to make the subflows reachable to xstate
+  const arrayConfig = rootMeta(machine)?.arrays ?? {};
+  const arrayEvents = Object.values(arrayConfig).map(({ event }) => ({
+    type: event as Event,
+  }));
+
   const possiblePaths = getShortestPaths(machine, {
-    events: [{ type: "SUBMIT" }, { type: "ADDITEM" }],
+    events: [{ type: "SUBMIT" }, ...arrayEvents],
   });
 
   return [
@@ -107,6 +113,10 @@ const isFinalStep = (machine: FlowStateMachine, stepId: string) => {
   return !transitions || !transitions.has("SUBMIT");
 };
 
+const rootMeta = (machine: FlowStateMachine) => {
+  return machine.config?.meta as Meta | undefined;
+};
+
 const metaFromStepId = (machine: FlowStateMachine, currentStepId: string) => {
   return findNode(machine, currentStepId)?.meta as Meta | undefined;
 };
@@ -136,8 +146,9 @@ export const buildFlowController = ({
 
   return {
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
+    getRootMeta: () => rootMeta(machine),
     isDone: (currentStepId: string) =>
-      Boolean(metaFromStepId(machine, currentStepId)?.done(context)),
+      Boolean(metaFromStepId(machine, currentStepId)?.done({ context })),
     getSubflowState: (currentStepId: string, subflowId: string) =>
       metaFromStepId(machine, currentStepId)?.subflowState(context, subflowId),
     isUneditable: (currentStepId: string) =>
@@ -146,7 +157,7 @@ export const buildFlowController = ({
     isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),
     isReachable: (currentStepId: string) => {
       // depends on context
-      const steps = getSteps(machine, context);
+      const steps = getSteps(machine);
       return steps.includes(currentStepId);
     },
     getPrevious: (stepId: string) => {
@@ -166,9 +177,6 @@ export const buildFlowController = ({
         context,
       );
       if (nextArray) return nextArray[0];
-    },
-    getItems: (stepId: string) => {
-      return transitionDestinations(machine, stepId, "ADDITEM", context);
     },
     getInitial: () => `${baseUrl}${getInitial(machine)}`,
     getProgress: (currentStepId: string) => {
