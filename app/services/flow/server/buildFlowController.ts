@@ -127,8 +127,6 @@ function getInitial(machine: FlowStateMachine) {
   return stateValueToStepIds(initialSnapshot.value).pop();
 }
 
-export type FlowController = ReturnType<typeof buildFlowController>;
-
 export const buildFlowController = ({
   config,
   data: context = {},

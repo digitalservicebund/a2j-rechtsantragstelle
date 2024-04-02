@@ -13,7 +13,6 @@ const cases = [
       "finanzielleAngaben/wohnung/wohnsituation",
       "finanzielleAngaben/wohnung/groesse",
       "finanzielleAngaben/wohnung/wohnkostenAllein",
-      "finanzielleAngaben/wohnung/wohnkostenAllein",
       "finanzielleAngaben/danke",
     ],
   ],
