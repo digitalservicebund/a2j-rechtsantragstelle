@@ -64,10 +64,13 @@
         "einkommen": {
           "on": {
             "BACK": "weiteres-einkommen",
-            "SUBMIT": {
-              "target": "#partner.partnerschaft",
-              "guard": "einkommenDone"
-            }
+            "SUBMIT": [
+              {
+                "target": "#partner.partnerschaft",
+                "guard": "einkommenDone"
+              },
+              "#finanzielleAngaben.danke"
+            ]
           }
         }
       }
@@ -330,10 +333,13 @@
         },
         "gesamtwert": {
           "on": {
-            "SUBMIT": {
-              "target": "#besitzZusammenfassung.zusammenfassung",
-              "guard": "besitzDone"
-            },
+            "SUBMIT": [
+              {
+                "target": "#besitzZusammenfassung.zusammenfassung",
+                "guard": "besitzDone"
+              },
+              "#finanzielleAngaben.danke"
+            ],
             "BACK": "kraftfahrzeuge-frage"
           }
         }
