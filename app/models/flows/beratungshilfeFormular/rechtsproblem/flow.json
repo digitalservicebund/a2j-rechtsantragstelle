@@ -2,7 +2,24 @@
   "initial": "start",
   "id": "rechtsproblem",
   "states": {
-    "start": { "on": { "SUBMIT": "bereich" } },
+    "start": {
+      "on": {
+        "SUBMIT": "bereich",
+        "BACK": [
+          {
+            "guard": "anwaltskanzleiNo",
+            "target": "#anwaltlicheVertretung.start"
+          },
+          {
+            "guard": "beratungStattgefundenNo",
+            "target": "#anwaltlicheVertretung.beratungStattgefunden"
+          },
+          {
+            "target": "#anwaltlicheVertretung.anwaltKontaktdaten"
+          }
+        ]
+      }
+    },
     "bereich": {
       "on": { "SUBMIT": "situation-beschreibung", "BACK": "start" }
     },
@@ -13,7 +30,10 @@
       }
     },
     "danke": {
-      "on": { "BACK": "situation-beschreibung" }
+      "on": {
+        "BACK": "situation-beschreibung",
+        "SUBMIT": "#finanzielleAngaben.einkommen.staatliche-leistungen"
+      }
     }
   }
 }

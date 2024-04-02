@@ -2,11 +2,18 @@
   "id": "persoenlicheDaten",
   "initial": "start",
   "states": {
-    "start": { "on": { "SUBMIT": "name" } },
+    "start": {
+      "on": { "SUBMIT": "name", "BACK": "#finanzielleAngaben.danke" }
+    },
     "name": { "on": { "BACK": "start", "SUBMIT": "geburtsdatum" } },
     "geburtsdatum": { "on": { "BACK": "name", "SUBMIT": "adresse" } },
     "adresse": { "on": { "BACK": "geburtsdatum", "SUBMIT": "telefonnummer" } },
     "telefonnummer": { "on": { "BACK": "adresse", "SUBMIT": "danke" } },
-    "danke": { "on": { "BACK": "telefonnummer" } }
+    "danke": {
+      "on": {
+        "BACK": "telefonnummer",
+        "SUBMIT": [{ "target": "#abgabe.art", "guard": "readyForAbgabe" }]
+      }
+    }
   }
 }

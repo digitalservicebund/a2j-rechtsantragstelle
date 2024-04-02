@@ -3,7 +3,9 @@
   "id": "grundvoraussetzungen",
   "meta": { "isUneditable": true },
   "states": {
-    "start": { "on": { "SUBMIT": "rechtsschutzversicherung" } },
+    "start": {
+      "on": { "SUBMIT": "rechtsschutzversicherung", "BACK": "#antragStart" }
+    },
     "rechtsschutzversicherung": {
       "on": {
         "SUBMIT": [
@@ -74,6 +76,15 @@
     },
     "eigeninitiativeGrundvorraussetzung": {
       "on": {
+        "SUBMIT": [
+          {
+            "target": "#anwaltlicheVertretung.start",
+            "guard": "grundvoraussetzungDone"
+          },
+          {
+            "target": "eigeninitiativeGrundvorraussetzung-hinweis"
+          }
+        ],
         "BACK": "beratungshilfeBeantragt"
       }
     },

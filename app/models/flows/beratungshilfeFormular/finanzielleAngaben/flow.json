@@ -21,7 +21,8 @@
                 "target": "#finanzielleAngaben.danke"
               },
               "erwerbstaetig"
-            ]
+            ],
+            "BACK": "#rechtsproblem.danke"
           }
         },
         "erwerbstaetig": {
@@ -551,6 +552,7 @@
     "danke": {
       "id": "danke",
       "on": {
+        "SUBMIT": "#persoenlicheDaten.start",
         "BACK": [
           {
             "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",

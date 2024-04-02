@@ -47,100 +47,25 @@ export const beratungshilfeFormular = {
   config: _.merge(beratungshilfeFormularFlow, {
     meta: { arrays: finanzielleAngabenArrayConfig },
     states: {
-      grundvoraussetzungen: _.merge(
-        _.cloneDeep(beratungshilfeGrundvoraussetzungenFlow),
-        {
-          meta: { done: grundvoraussetzungDone },
-          states: {
-            start: { on: { BACK: "#antragStart" } },
-            eigeninitiativeGrundvorraussetzung: {
-              on: {
-                SUBMIT: [
-                  {
-                    target: "#anwaltlicheVertretung.start",
-                    guard: "grundvoraussetzungDone",
-                  },
-                  {
-                    target: "eigeninitiativeGrundvorraussetzung-hinweis",
-                  },
-                ],
-              },
-            },
-          },
-        },
-      ),
-      anwaltlicheVertretung: _.merge(
-        _.cloneDeep(beratungshilfeAnwaltlicheVertretungFlow),
-        {
-          meta: { done: anwaltlicheVertretungDone },
-          states: {
-            start: {
-              on: {
-                BACK: "#grundvoraussetzungen.eigeninitiativeGrundvorraussetzung",
-              },
-            },
-            anwaltKontaktdaten: { on: { SUBMIT: "#rechtsproblem.start" } },
-          },
-        },
-      ),
-
-      rechtsproblem: _.merge(_.cloneDeep(rechtsproblemFlow), {
-        meta: { done: rechtsproblemDone },
-        states: {
-          start: {
-            on: {
-              BACK: [
-                {
-                  guard: "anwaltskanzleiNo",
-                  target: "#anwaltlicheVertretung.start",
-                },
-                {
-                  guard: "beratungStattgefundenNo",
-                  target: "#anwaltlicheVertretung.beratungStattgefunden",
-                },
-                {
-                  target: "#anwaltlicheVertretung.anwaltKontaktdaten",
-                },
-              ],
-            },
-          },
-          danke: {
-            on: {
-              SUBMIT: "#finanzielleAngaben.einkommen.staatliche-leistungen",
-            },
-          },
-        },
+      grundvoraussetzungen: _.merge(beratungshilfeGrundvoraussetzungenFlow, {
+        meta: { done: grundvoraussetzungDone },
       }),
-      finanzielleAngaben: _.merge(_.cloneDeep(finanzielleAngabenFlow), {
+      anwaltlicheVertretung: _.merge(beratungshilfeAnwaltlicheVertretungFlow, {
+        meta: { done: anwaltlicheVertretungDone },
+      }),
+      rechtsproblem: _.merge(rechtsproblemFlow, {
+        meta: { done: rechtsproblemDone },
+      }),
+      finanzielleAngaben: _.merge(finanzielleAngabenFlow, {
         meta: {
           done: beratungshilfeFinanzielleAngabeDone,
           subflowState: beratungshilfeFinanzielleAngabenSubflowState,
         },
-        states: {
-          einkommen: {
-            states: {
-              "staatliche-leistungen": { on: { BACK: "#rechtsproblem.danke" } },
-            },
-          },
-          danke: { on: { SUBMIT: "#persoenlicheDaten.start" } },
-        },
       }),
-      persoenlicheDaten: _.merge(_.cloneDeep(persoenlicheDatenFlow), {
+      persoenlicheDaten: _.merge(persoenlicheDatenFlow, {
         meta: { done: beratungshilfePersoenlicheDatenDone },
-        states: {
-          start: { on: { BACK: "#finanzielleAngaben.danke" } },
-          danke: {
-            on: {
-              SUBMIT: [{ target: "#abgabe.art", guard: "readyForAbgabe" }],
-            },
-          },
-        },
       }),
-      abgabe: _.merge(_.cloneDeep(abgabeFlow), {
-        states: {
-          art: { on: { BACK: "#persoenlicheDaten.danke" } },
-        },
-      }),
+      abgabe: abgabeFlow,
     },
   }),
   guards: {
