@@ -21,8 +21,10 @@ import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import abgabeFlow from "./abgabe/flow.json";
 import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import {
-  beratungshilfeFinanzielleAngabeDone,
-  beratungshilfeFinanzielleAngabenSubflowState,
+  einkommenDone,
+  kinderDone,
+  partnerDone,
+  wohnungDone,
 } from "./finanzielleAngaben/navStates";
 import {
   type BeratungshilfePersoenlicheDaten,
@@ -41,6 +43,10 @@ import {
   besitzZusammenfassungShowWarnings,
 } from "./stringReplacements";
 import { finanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
+import {
+  besitzDone,
+  besitzZusammenfassungDone,
+} from "./finanzielleAngaben/navStatesBesitz";
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -112,12 +118,14 @@ export const beratungshilfeFormular = {
         },
       }),
       finanzielleAngaben: _.merge(_.cloneDeep(finanzielleAngabenFlow), {
-        meta: {
-          done: beratungshilfeFinanzielleAngabeDone,
-          subflowState: beratungshilfeFinanzielleAngabenSubflowState,
-        },
         states: {
+          partner: { meta: { done: partnerDone } },
+          wohnung: { meta: { done: wohnungDone } },
+          kinder: { meta: { done: kinderDone } },
+          besitz: { meta: { done: besitzDone } },
+          besitzZusammenfassung: { meta: { done: besitzZusammenfassungDone } },
           einkommen: {
+            meta: { done: einkommenDone },
             states: {
               "staatliche-leistungen": { on: { BACK: "#rechtsproblem.danke" } },
             },
@@ -140,6 +148,7 @@ export const beratungshilfeFormular = {
         states: {
           art: { on: { BACK: "#persoenlicheDaten.danke" } },
         },
+        meta: { done: () => false },
       }),
     },
   }),

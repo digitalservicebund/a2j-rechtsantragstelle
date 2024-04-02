@@ -26,8 +26,3 @@ export const flows = {
   "fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
   "fluggastrechte/formular": fluggastrechtFlow,
 } as const satisfies Record<FlowId, Flow>;
-
-export function getSubflowsEntries(config: Config) {
-  if (!config.states) return [];
-  return Object.entries(config.states).filter(([, state]) => "states" in state);
-}

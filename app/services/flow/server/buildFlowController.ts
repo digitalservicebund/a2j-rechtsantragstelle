@@ -1,4 +1,4 @@
-import type { MachineConfig } from "xstate";
+import type { MachineConfig, StateNode } from "xstate";
 import {
   getInitialSnapshot,
   getNextSnapshot,
@@ -44,8 +44,6 @@ type Meta = {
   progressPosition: number | undefined;
   isUneditable: boolean | undefined;
   done: GenericGuard<Context>;
-  subflowState: (context: Context, subflowId: string) => SubflowState;
-  subflowDone: (context: Context, subflowId: string) => boolean | undefined;
   arrays?: Record<string, ArrayConfig>;
 };
 
@@ -127,6 +125,58 @@ function getInitial(machine: FlowStateMachine) {
   return stateValueToStepIds(initialSnapshot.value).pop();
 }
 
+export type DoneState = {
+  stepId: string;
+  isDone: boolean;
+  isReachable: boolean;
+  isUneditable: boolean;
+  url: string;
+  subStates?: DoneState[];
+};
+
+function doneStates(
+  stateNode: FlowStateMachine["states"][string],
+  reachableSteps: string[],
+): DoneState[] {
+  const context = (stateNode.machine.config.context ?? {}) as Context;
+
+  const statesWithDoneFunctionOrSubstates = Object.values(
+    stateNode.states ?? {},
+  ).filter((state) => state.meta?.done || Object.keys(state.states).length > 0);
+
+  return statesWithDoneFunctionOrSubstates.map((state) => {
+    const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
+    const meta = state.meta as Meta | undefined;
+    const isUneditable = Boolean(meta?.isUneditable);
+    const subDoneStates = doneStates(state, reachableSteps);
+
+    // Ignore subflows if empty or parent state has done function
+    if (meta?.done !== undefined || subDoneStates.length === 0) {
+      const initialStepId = `${stepId}/${state.config.initial as string}`;
+      return {
+        url: `${state.machine.id}${initialStepId}`,
+        isDone: meta?.done ? meta.done({ context }) : false,
+        stepId,
+        isUneditable,
+        isReachable: reachableSteps.includes(initialStepId),
+      };
+    }
+
+    const reachableSubStates = subDoneStates.filter(
+      (state) => state.isReachable,
+    );
+
+    return {
+      url: `${state.machine.id}${stepId}`,
+      isDone: reachableSubStates.every((state) => state.isDone),
+      stepId,
+      isUneditable,
+      isReachable: reachableSubStates.length > 0,
+      subStates: subDoneStates,
+    };
+  });
+}
+
 export type FlowController = ReturnType<typeof buildFlowController>;
 
 export const buildFlowController = ({
@@ -143,22 +193,20 @@ export const buildFlowController = ({
     guards,
   }).createMachine({ ...config, context });
   const baseUrl = config.id ?? "";
+  const reachableSteps = getSteps(machine); // depends on context
 
   return {
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
     getRootMeta: () => rootMeta(machine),
+    doneStates: () => doneStates(machine.root, reachableSteps),
     isDone: (currentStepId: string) =>
       Boolean(metaFromStepId(machine, currentStepId)?.done({ context })),
-    getSubflowState: (currentStepId: string, subflowId: string) =>
-      metaFromStepId(machine, currentStepId)?.subflowState(context, subflowId),
     isUneditable: (currentStepId: string) =>
       Boolean(metaFromStepId(machine, currentStepId)?.isUneditable),
     getConfig: () => config,
     isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),
     isReachable: (currentStepId: string) => {
-      // depends on context
-      const steps = getSteps(machine);
-      return steps.includes(currentStepId);
+      return reachableSteps.includes(currentStepId);
     },
     getPrevious: (stepId: string) => {
       const backArray = transitionDestinations(
