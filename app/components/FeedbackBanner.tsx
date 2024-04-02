@@ -2,10 +2,10 @@ import Background from "./Background";
 import Box from "./Box";
 import Container from "./Container";
 
-export type FeedbackProps = {
+export type FeedbackProps = Readonly<{
   heading?: string;
   content?: string;
-};
+}>;
 
 // Appends the current page title as email subject
 export function augmentFeedback(

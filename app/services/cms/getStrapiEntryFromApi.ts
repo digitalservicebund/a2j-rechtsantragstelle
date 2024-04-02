@@ -35,6 +35,7 @@ type SingleStrapiEntry =
   | undefined;
 
 const unpackResponse = (response: AxiosResponse) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { data } = response.data;
   // collection type results come as an array with one item
   return (Array.isArray(data) ? data[0] : data) as SingleStrapiEntry;
