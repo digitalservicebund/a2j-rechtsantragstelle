@@ -4,7 +4,6 @@ import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
 import { omitNull } from "~/util/omitNull";
 import { StrapiTileSchema } from "./StrapiTile";
 import TileGroup from "~/components/inputs/TileGroup";
-import Image from "~/components/Image";
 import { getImageProps } from "./StrapiImage";
 
 const StrapiTileGroupSchema = z
