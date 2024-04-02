@@ -1,4 +1,4 @@
-import { useField } from "remix-validated-form";
+import { useStringField } from "~/services/validation/useStringField";
 import { useEffect, useState } from "react";
 import InputError from "./InputError";
 import RichText from "../RichText";
@@ -25,10 +25,9 @@ const Checkbox = ({
   required = false,
   errorMessage,
 }: CheckboxProps) => {
-  const { error, getInputProps } = useField(name, { formId });
-  const defaultValue = useField(name, { formId }).defaultValue as
-    | CheckboxValue
-    | undefined;
+  const { error, getInputProps, defaultValue } = useStringField(name, {
+    formId,
+  });
   const errorId = `${name}-error`;
   const className = `ds-checkbox ${error ? "has-error" : ""}`;
   // HTML Forms do not send unchecked checkboxes.

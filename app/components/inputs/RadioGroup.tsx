@@ -1,5 +1,5 @@
 import { type ReactNode, useState } from "react";
-import { useField } from "remix-validated-form";
+import { useStringField } from "~/services/validation/useStringField";
 import InputError from "./InputError";
 import Radio from "./Radio";
 import { z } from "zod";
@@ -26,7 +26,7 @@ const RadioGroup = ({
   errorMessages,
   formId,
 }: RadioGroupProps) => {
-  const { error, defaultValue } = useField(name, { formId });
+  const { error, defaultValue } = useStringField(name, { formId });
   const errorId = `${name}-error`;
   const errorToDisplay =
     errorMessages?.find((err) => err.code === error)?.text ?? error;

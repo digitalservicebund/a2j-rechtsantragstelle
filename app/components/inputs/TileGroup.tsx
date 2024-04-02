@@ -1,5 +1,5 @@
 import { type ReactNode, useState } from "react";
-import { useField } from "remix-validated-form";
+import { useStringField } from "~/services/validation/useStringField";
 import InputError from "./InputError";
 import Tile, { TilePropsSchema } from "./Tile";
 import { z } from "zod";
@@ -24,7 +24,7 @@ const TileGroup = ({
   errorMessages,
   useTwoColumns,
 }: TileGroupProps) => {
-  const { error, defaultValue } = useField(name);
+  const { error, defaultValue } = useStringField(name);
   const errorId = `${name}-error`;
   const errorToDisplay =
     errorMessages?.find((err) => err.code === error)?.text ?? error;
