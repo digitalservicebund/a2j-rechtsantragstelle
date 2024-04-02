@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [verify-local-e2e]
     steps:
-      - uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20
+      - uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
