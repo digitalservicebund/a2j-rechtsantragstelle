@@ -63,7 +63,7 @@ export function fillFinancialBankkonto(
       const bezeichnung = getBankkontoBezeichnung(bankkonto);
 
       pdfFields.f3Bank1.value = bezeichnung.join(", ");
-      pdfFields.f4Kontostand.value = `${bankkonto?.kontostand} €`;
+      pdfFields.f4Kontostand.value = `${bankkonto?.kontostand ?? ""} €`;
     } else {
       attachment.shouldCreateAttachment = true;
       const bezeichnung: string[] = [];

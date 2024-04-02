@@ -1,4 +1,4 @@
-import type { AllContextKeys, AllContexts } from "./common";
+import type { AllContextKeys } from "./common";
 import type { Context } from "./contexts";
 
 export type GenericGuard<TContext extends Context> = ({
@@ -12,14 +12,11 @@ export type Guards<TContext extends Context = Context> = Record<
   GenericGuard<TContext>
 >;
 
-export function yesNoGuards<Field extends AllContextKeys>(
-  field: Field,
-): { [field in Field as `${field}Yes`]: GenericGuard<AllContexts> } & {
-  [field in Field as `${field}No`]: GenericGuard<AllContexts>;
-} {
-  //@ts-ignore
+export function yesNoGuards<Field extends AllContextKeys>(field: Field) {
+  const fieldYes = `${field}Yes` as const;
+  const fieldNo = `${field}No` as const;
   return {
-    [`${field}Yes`]: ({ context }) => context[field] === "yes",
-    [`${field}No`]: ({ context }) => context[field] === "no",
-  } satisfies Guards;
+    [fieldYes]: ({ context }: { context: Context }) => context[field] === "yes",
+    [fieldNo]: ({ context }: { context: Context }) => context[field] === "no",
+  } as Record<typeof fieldYes | typeof fieldNo, GenericGuard<Context>>;
 }

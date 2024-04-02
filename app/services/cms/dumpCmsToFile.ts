@@ -15,7 +15,7 @@ async function dumpCmsToFile() {
     Object.keys(collectionSchemas),
   ) as (keyof EntrySchemas | keyof CollectionSchemas)[];
 
-  const content: Record<string, any> = {};
+  const content: Record<string, unknown> = {};
   for (const apiId of apiIds) {
     console.log(`Fetching ${apiId}`);
     content[apiId] = await getStrapiCollectionFromApi({
