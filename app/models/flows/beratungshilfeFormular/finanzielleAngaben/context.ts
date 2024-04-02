@@ -9,7 +9,7 @@ import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { addDays, createDateSchema, today } from "~/services/validation/date";
-import { pageDataSchema } from "~/services/flow/pageData";
+import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { integerSchema } from "~/services/validation/integer";
 
 const Eigentuemer = z.enum(
