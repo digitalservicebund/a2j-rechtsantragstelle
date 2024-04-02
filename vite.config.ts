@@ -7,6 +7,7 @@ import { cjsInterop } from "vite-plugin-cjs-interop";
 
 installGlobals();
 const isStorybook = process.argv[1]?.includes("storybook");
+const sentryActive = Boolean(process.env.SENTRY_AUTH_TOKEN);
 
 export default defineConfig({
   server: {
@@ -14,17 +15,17 @@ export default defineConfig({
   },
   plugins: [
     !isStorybook && remix(),
+    !isStorybook &&
+      sentryActive &&
+      sentryVitePlugin({
+        org: "digitalservice",
+        project: "a2j-rast",
+        telemetry: false,
+      }),
     tsconfigPaths(),
     cjsInterop({
       dependencies: ["@digitalservicebund/icons/*"],
     }),
-    sentryVitePlugin({
-      // authToken: process.env.SENTRY_AUTH_TOKEN,
-      org: "digitalservice",
-      project: "a2j-rast",
-    }),
   ],
-  build: {
-    sourcemap: true,
-  },
+  build: { sourcemap: sentryActive },
 });
