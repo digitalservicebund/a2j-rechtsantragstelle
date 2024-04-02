@@ -23,21 +23,21 @@ const cases = [
       "finanzielleAngaben/besitz/kraftfahrzeuge-frage",
       "finanzielleAngaben/besitz/gesamtwert",
       "finanzielleAngaben/besitzZusammenfassung/zusammenfassung",
-      "finanzielleAngaben/danke",
+      "persoenlicheDaten/start",
     ],
   ],
   [
     { staatlicheLeistungen: "asylbewerberleistungen" },
     [
       "finanzielleAngaben/einkommen/staatliche-leistungen",
-      "finanzielleAngaben/danke",
+      "persoenlicheDaten/start",
     ],
   ],
   [
     { staatlicheLeistungen: "grundsicherung" },
     [
       "finanzielleAngaben/einkommen/staatliche-leistungen",
-      "finanzielleAngaben/danke",
+      "persoenlicheDaten/start",
     ],
   ],
   [
@@ -56,7 +56,6 @@ const cases = [
       "finanzielleAngaben/einkommen/situation",
     ],
   ],
-  [{}, ["finanzielleAngaben/danke", "persoenlicheDaten/start"]],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
 
 export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = {

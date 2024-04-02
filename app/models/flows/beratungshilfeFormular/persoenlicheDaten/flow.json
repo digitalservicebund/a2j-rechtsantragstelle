@@ -3,16 +3,32 @@
   "initial": "start",
   "states": {
     "start": {
-      "on": { "SUBMIT": "name", "BACK": "#finanzielleAngaben.danke" }
+      "on": {
+        "SUBMIT": "name",
+        "BACK": [
+          {
+            "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",
+            "target": "#finanzielleAngaben.einkommen.staatliche-leistungen"
+          },
+          {
+            "guard": "hasStaatlicheLeistungen",
+            "target": "#finanzielleAngaben.besitzZusammenfassung.zusammenfassung"
+          },
+          {
+            "guard": "livesAlone",
+            "target": "#finanzielleAngaben.wohnung.wohnkostenAllein"
+          },
+          "#finanzielleAngaben.wohnung.wohnkostenGeteilt"
+        ]
+      }
     },
     "name": { "on": { "BACK": "start", "SUBMIT": "geburtsdatum" } },
     "geburtsdatum": { "on": { "BACK": "name", "SUBMIT": "adresse" } },
     "adresse": { "on": { "BACK": "geburtsdatum", "SUBMIT": "telefonnummer" } },
-    "telefonnummer": { "on": { "BACK": "adresse", "SUBMIT": "danke" } },
-    "danke": {
+    "telefonnummer": {
       "on": {
-        "BACK": "telefonnummer",
-        "SUBMIT": [{ "target": "#abgabe.art", "guard": "readyForAbgabe" }]
+        "BACK": "adresse",
+        "SUBMIT": { "target": "#abgabe", "guard": "readyForAbgabe" }
       }
     }
   }

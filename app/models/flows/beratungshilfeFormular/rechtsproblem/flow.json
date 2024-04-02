@@ -25,14 +25,8 @@
     },
     "situation-beschreibung": {
       "on": {
-        "SUBMIT": "danke",
+        "SUBMIT": "#finanzielleAngaben",
         "BACK": "bereich"
-      }
-    },
-    "danke": {
-      "on": {
-        "BACK": "situation-beschreibung",
-        "SUBMIT": "#finanzielleAngaben.einkommen.staatliche-leistungen"
       }
     }
   }

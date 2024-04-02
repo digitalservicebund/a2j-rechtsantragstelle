@@ -2,7 +2,7 @@
   "initial": "einkommen",
   "id": "finanzielleAngaben",
   "on": {
-    "SUBMIT": ["#finanzielleAngaben.danke"]
+    "SUBMIT": "#persoenlicheDaten.start"
   },
   "states": {
     "einkommen": {
@@ -18,11 +18,11 @@
               },
               {
                 "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",
-                "target": "#finanzielleAngaben.danke"
+                "target": "#persoenlicheDaten.start"
               },
               "erwerbstaetig"
             ],
-            "BACK": "#rechtsproblem.danke"
+            "BACK": "#rechtsproblem.situation-beschreibung"
           }
         },
         "erwerbstaetig": {
@@ -330,10 +330,17 @@
         },
         "gesamtwert": {
           "on": {
-            "SUBMIT": {
-              "target": "#besitzZusammenfassung.zusammenfassung",
-              "guard": "besitzDone"
-            },
+            "SUBMIT": [
+              {
+                "target": "#besitzZusammenfassung.zusammenfassung",
+                "guard": "besitzDone"
+              },
+              {
+                "target": "#persoenlicheDaten.start",
+                "guard": "staatlicheLeistungenIsBuergergeld"
+              },
+              "#wohnung.wohnsituation"
+            ],
             "BACK": "kraftfahrzeuge-frage"
           }
         }
@@ -347,7 +354,10 @@
           "on": {
             "BACK": "#besitz.gesamtwert",
             "SUBMIT": [
-              { "guard": "hasStaatlicheLeistungen", "target": "#danke" },
+              {
+                "guard": "hasStaatlicheLeistungen",
+                "target": "#persoenlicheDaten.start"
+              },
               "#wohnung.wohnsituation"
             ],
             "add-bankkonten": "bankkonten",
@@ -516,7 +526,13 @@
       "states": {
         "wohnsituation": {
           "on": {
-            "BACK": "#besitzZusammenfassung.zusammenfassung",
+            "BACK": [
+              {
+                "guard": "besitzDone",
+                "target": "#besitzZusammenfassung.zusammenfassung"
+              },
+              "#besitz.gesamtwert"
+            ],
             "SUBMIT": "groesse"
           }
         },
@@ -524,7 +540,10 @@
           "on": {
             "BACK": "wohnsituation",
             "SUBMIT": [
-              { "target": "wohnkostenAllein", "guard": "livesAlone" },
+              {
+                "target": "wohnkostenAllein",
+                "guard": "livesAlone"
+              },
               "personenAnzahl"
             ]
           }
@@ -532,7 +551,7 @@
         "wohnkostenAllein": {
           "on": {
             "BACK": "groesse",
-            "SUBMIT": "#danke"
+            "SUBMIT": "#persoenlicheDaten.start"
           }
         },
         "personenAnzahl": {
@@ -544,30 +563,9 @@
         "wohnkostenGeteilt": {
           "on": {
             "BACK": "personenAnzahl",
-            "SUBMIT": "#danke"
+            "SUBMIT": "#persoenlicheDaten.start"
           }
         }
-      }
-    },
-    "danke": {
-      "id": "danke",
-      "on": {
-        "SUBMIT": "#persoenlicheDaten.start",
-        "BACK": [
-          {
-            "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",
-            "target": "#einkommen.staatliche-leistungen"
-          },
-          {
-            "guard": "hasStaatlicheLeistungen",
-            "target": "#besitzZusammenfassung.zusammenfassung"
-          },
-          {
-            "guard": "livesAlone",
-            "target": "#wohnung.wohnkostenAllein"
-          },
-          "#wohnung.wohnkostenGeteilt"
-        ]
       }
     }
   }
