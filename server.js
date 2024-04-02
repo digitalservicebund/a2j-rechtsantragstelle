@@ -1,6 +1,10 @@
+import { wrapExpressCreateRequestHandler } from "@sentry/remix";
 import { createRequestHandler } from "@remix-run/express";
 import compression from "compression";
 import express from "express";
+
+const sentryCreateRequestHandler =
+  wrapExpressCreateRequestHandler(createRequestHandler);
 
 const shouldStartDevServer = process.env.NODE_ENV !== "production";
 const isStagingOrPreviewEnvironment = process.env.ENVIRONMENT !== "production";
@@ -13,7 +17,7 @@ const viteDevServer = shouldStartDevServer
     )
   : undefined;
 
-const remixHandler = createRequestHandler({
+const remixHandler = sentryCreateRequestHandler({
   build: viteDevServer
     ? () => viteDevServer.ssrLoadModule("virtual:remix/server-build")
     : await import("./build/server/index.js"),

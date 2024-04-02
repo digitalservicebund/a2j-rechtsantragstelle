@@ -8,7 +8,7 @@ type RouteMatchKnown = Omit<ReturnType<typeof useMatches>[0], "data"> & {
   data: {
     meta: StrapiMeta | undefined;
     content: StrapiContentComponent[] | undefined;
-  };
+  } | null;
 };
 function isMatchesWithDataObject(
   matches: ReturnType<typeof useMatches>,
@@ -23,7 +23,7 @@ function headerTextFromContent(content?: StrapiContentComponent[]) {
 function breadcrumbFromMatch(match: RouteMatchKnown) {
   return {
     url: match.pathname,
-    title: match.data.meta?.breadcrumb ?? match.data.meta?.title ?? "",
+    title: match.data?.meta?.breadcrumb ?? match.data?.meta?.title ?? "",
   } satisfies Breadcrumb;
 }
 

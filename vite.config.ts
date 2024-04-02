@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { vitePlugin as remix } from "@remix-run/dev";
 import { installGlobals } from "@remix-run/node";
 import { defineConfig } from "vite";
@@ -17,5 +18,13 @@ export default defineConfig({
     cjsInterop({
       dependencies: ["@digitalservicebund/icons/*"],
     }),
+    sentryVitePlugin({
+      // authToken: process.env.SENTRY_AUTH_TOKEN,
+      org: "digitalservice",
+      project: "a2j-rast",
+    }),
   ],
+  build: {
+    sourcemap: true,
+  },
 });
