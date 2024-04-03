@@ -6,6 +6,9 @@ export async function startFinanzielleAngabenEinkommen(
   page: Page,
   beratungshilfeFormular: BeratungshilfeFormular,
 ) {
+  // beratungshilfe/antrag/finanzielleAngaben/start
+  await beratungshilfeFormular.clickNext();
+
   // beratungshilfe/antrag/finanzielleAngaben/einkommen/staatliche-leistungen
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("staatlicheLeistungen", "keine");
