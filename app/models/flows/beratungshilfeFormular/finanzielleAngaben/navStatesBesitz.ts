@@ -8,31 +8,35 @@ export const besitzDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasWertsache !== undefined &&
   context.besitzTotalWorth !== undefined;
 
-const bankKontoDone: FinanzielleAngabenGuard = ({ context }) =>
+export const bankKontoDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasBankkonto === "no" ||
   (context.hasBankkonto === "yes" &&
     context.bankkonten !== undefined &&
     context.bankkonten.length > 0);
 
-const geldanlagenDone: FinanzielleAngabenGuard = ({ context }) =>
+export const geldanlagenDone: FinanzielleAngabenGuard = ({ context }) =>
+  context.besitzTotalWorth === "less10000" ||
   context.hasGeldanlage === "no" ||
   (context.hasGeldanlage === "yes" &&
     context.geldanlagen !== undefined &&
     context.geldanlagen.length > 0);
 
-const grundeigentumDone: FinanzielleAngabenGuard = ({ context }) =>
+export const grundeigentumDone: FinanzielleAngabenGuard = ({ context }) =>
+  context.besitzTotalWorth === "less10000" ||
   context.hasGrundeigentum === "no" ||
   (context.hasGrundeigentum === "yes" &&
     context.grundeigentum !== undefined &&
     context.grundeigentum.length > 0);
 
-const kraftfahrzeugeDone: FinanzielleAngabenGuard = ({ context }) =>
+export const kraftfahrzeugeDone: FinanzielleAngabenGuard = ({ context }) =>
+  context.besitzTotalWorth === "less10000" ||
   context.hasKraftfahrzeug === "no" ||
   (context.hasKraftfahrzeug === "yes" &&
     context.kraftfahrzeuge !== undefined &&
     context.kraftfahrzeuge.length > 0);
 
-const wertsachenDone: FinanzielleAngabenGuard = ({ context }) =>
+export const wertsachenDone: FinanzielleAngabenGuard = ({ context }) =>
+  context.besitzTotalWorth === "less10000" ||
   context.hasWertsache === "no" ||
   (context.hasWertsache === "yes" &&
     context.wertsachen !== undefined &&
