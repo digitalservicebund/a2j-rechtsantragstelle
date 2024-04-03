@@ -47,6 +47,13 @@ export const finanzielleAngabenArrayConfig = {
     hiddenFields: ["eigeneEinnahmen", "unterhalt"],
     event: "add-kinder",
   },
+  unterhaltszahlungen: {
+    url: `${prefix}/andere-unterhaltszahlungen/person`,
+    initialInputUrl: "daten",
+    statementUrl: `${prefix}/andere-unterhaltszahlungen/frage`,
+    statementKey: "hasOtherMaintenancePayments",
+    event: "add-unterhaltszahlungen",
+  },
 } satisfies Partial<
   Record<keyof BeratungshilfeFinanzielleAngaben, ArrayConfig>
 >;

@@ -14,7 +14,7 @@
             "SUBMIT": [
               {
                 "guard": "staatlicheLeistungenIsBuergergeld",
-                "target": "#besitz.eigentum-info"
+                "target": "#andere-unterhaltszahlungen.frage"
               },
               {
                 "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",
@@ -182,14 +182,14 @@
                 "guard": "hasKinderYes",
                 "target": "uebersicht"
               },
-              "#besitz.eigentum-info"
+              "#andere-unterhaltszahlungen.frage"
             ]
           }
         },
         "uebersicht": {
           "on": {
             "BACK": "kinder-frage",
-            "SUBMIT": "#besitz",
+            "SUBMIT": "#andere-unterhaltszahlungen",
             "add-kinder": {
               "guard": "isValidKinderArrayIndex",
               "target": "kinder"
@@ -263,6 +263,49 @@
         }
       }
     },
+    "andere-unterhaltszahlungen": {
+      "id": "andere-unterhaltszahlungen",
+      "initial": "frage",
+      "states": {
+        "frage": {
+          "on": {
+            "BACK": [
+              {
+                "guard": "staatlicheLeistungenIsBuergergeld",
+                "target": "#einkommen.staatliche-leistungen"
+              },
+              { "guard": "hasKinderYes", "target": "#kinder.uebersicht" },
+              "#kinder.kinder-frage"
+            ],
+            "SUBMIT": [
+              {
+                "guard": "hasOtherMaintenancePaymentsYes",
+                "target": "uebersicht"
+              },
+              "#besitz.eigentum-info"
+            ]
+          }
+        },
+        "uebersicht": {
+          "on": {
+            "BACK": "frage",
+            "SUBMIT": "#besitz",
+            "add-unterhaltszahlungen": "person"
+          }
+        },
+        "person": {
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "BACK": "#andere-unterhaltszahlungen.uebersicht",
+                "SUBMIT": "#andere-unterhaltszahlungen.uebersicht"
+              }
+            }
+          }
+        }
+      }
+    },
     "besitz": {
       "id": "besitz",
       "initial": "eigentum-info",
@@ -278,11 +321,10 @@
             ],
             "BACK": [
               {
-                "guard": "staatlicheLeistungenIsBuergergeld",
-                "target": "#einkommen.staatliche-leistungen"
+                "guard": "hasOtherMaintenancePaymentsYes",
+                "target": "#andere-unterhaltszahlungen.uebersicht"
               },
-              { "guard": "hasKinderYes", "target": "#kinder.uebersicht" },
-              "#kinder.kinder-frage"
+              "#andere-unterhaltszahlungen.frage"
             ]
           }
         },

@@ -45,6 +45,11 @@ const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
   context.apartmentSizeSqm !== undefined &&
   (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context }));
 
+const andereUnterhaltszahlungenDone: FinanzielleAngabenGuard = ({ context }) =>
+  context.hasOtherMaintenancePayments == "no" ||
+  (context.unterhaltszahlungen !== undefined &&
+    context.unterhaltszahlungen.length > 0);
+
 const subflowDoneConfig: Record<string, FinanzielleAngabenGuard> = {
   einkommen: einkommenDone,
   partner: partnerDone,
@@ -52,6 +57,7 @@ const subflowDoneConfig: Record<string, FinanzielleAngabenGuard> = {
   besitz: besitzDone,
   besitzZusammenfassung: besitzZusammenfassungDone,
   wohnung: wohnungDone,
+  "andere-unterhaltszahlungen": andereUnterhaltszahlungenDone,
 };
 
 export const beratungshilfeFinanzielleAngabenSubflowState = (
@@ -83,7 +89,8 @@ export const beratungshilfeFinanzielleAngabeDone: GenericGuard<
         besitzDone({ context }) &&
         besitzZusammenfassungDone({ context }) &&
         einkommenDone({ context }) &&
-        wohnungDone({ context })
+        wohnungDone({ context }) &&
+        andereUnterhaltszahlungenDone({ context })
       );
   }
   return false;

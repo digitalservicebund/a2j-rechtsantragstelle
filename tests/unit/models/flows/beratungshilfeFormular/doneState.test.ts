@@ -1,5 +1,4 @@
 import { anwaltlicheVertretungDone } from "~/models/flows/beratungshilfeFormular/anwaltlicheVertretung/context";
-import { beratungshilfeFinanzielleAngabeDone } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
 import {
   grundvoraussetzungDone,
   type BeratungshilfeGrundvoraussetzungen,
@@ -92,40 +91,6 @@ describe("rechtsproblemDone", () => {
           bereich: "authorities",
           ziel: "abcd",
           eigeninitiativeBeschreibung: "text",
-        },
-      }),
-    ).toBeTruthy();
-  });
-});
-
-describe("finanzielleAngabenDone", () => {
-  test.skip("passes with only grundsicherung", () => {
-    expect(
-      beratungshilfeFinanzielleAngabeDone({
-        context: { staatlicheLeistungen: "grundsicherung" },
-      }),
-    ).toBeTruthy();
-  });
-
-  test.skip("passes with asylbewerberleistungen", () => {
-    expect(
-      beratungshilfeFinanzielleAngabeDone({
-        context: { staatlicheLeistungen: "asylbewerberleistungen" },
-      }),
-    ).toBeTruthy();
-  });
-
-  test.skip("passes with buergergeld and reduced info", () => {
-    expect(
-      beratungshilfeFinanzielleAngabeDone({
-        context: {
-          staatlicheLeistungen: "buergergeld",
-          hasBankkonto: "no",
-          hasGeldanlage: "no",
-          hasGrundeigentum: "no",
-          hasKraftfahrzeug: "no",
-          hasWertsache: "no",
-          besitzTotalWorth: "unsure",
         },
       }),
     ).toBeTruthy();

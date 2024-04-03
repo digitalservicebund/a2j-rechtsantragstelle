@@ -17,6 +17,9 @@ const Eigentuemer = z.enum(
   customRequiredErrorMessage,
 );
 
+const MINUS_150_YEARS = -150;
+const YEAR_DAYS = 365;
+
 const GrundeigentumArt = z.enum(
   [
     "eigentumswohnung",
@@ -174,6 +177,31 @@ export const beratungshilfeFinanzielleAngaben = {
   apartmentCostOwnShare: buildMoneyValidationSchema(),
   apartmentCostFull: buildMoneyValidationSchema(),
   apartmentCostAlone: buildMoneyValidationSchema(),
+  hasOtherMaintenancePayments: YesNoAnswer,
+  unterhaltszahlungen: z.array(
+    z.object({
+      firstName: inputRequiredSchema,
+      surname: inputRequiredSchema,
+      familyRelationship: z.enum(
+        [
+          "mother",
+          "father",
+          "grandmother",
+          "grandfather",
+          "kid",
+          "grandchild",
+          "ex-spouse-f",
+          "ex-spouse-m",
+        ],
+        customRequiredErrorMessage,
+      ),
+      birthday: createDateSchema({
+        earliest: () => addDays(today(), MINUS_150_YEARS * YEAR_DAYS),
+        latest: () => today(),
+      }),
+      monthlyPayment: buildMoneyValidationSchema(),
+    }),
+  ),
   pageData: pageDataSchema,
 };
 

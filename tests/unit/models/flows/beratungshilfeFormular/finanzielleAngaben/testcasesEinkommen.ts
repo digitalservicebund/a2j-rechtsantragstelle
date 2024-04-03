@@ -12,9 +12,11 @@ const cases = [
       hasGrundeigentum: "no",
       hasKraftfahrzeug: "no",
       besitzTotalWorth: "more10000",
+      hasOtherMaintenancePayments: "no",
     },
     [
       "finanzielleAngaben/einkommen/staatliche-leistungen",
+      "finanzielleAngaben/andere-unterhaltszahlungen/frage",
       "finanzielleAngaben/besitz/eigentum-info",
       "finanzielleAngaben/besitz/bankkonten-frage",
       "finanzielleAngaben/besitz/geldanlagen-frage",

@@ -145,4 +145,6 @@ export const finanzielleAngabeGuards = {
     );
   },
   einkommenDone,
+  hasOtherMaintenancePaymentsYes: ({ context }) =>
+    context.hasOtherMaintenancePayments === "yes",
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;
