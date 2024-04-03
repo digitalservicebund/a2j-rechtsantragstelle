@@ -45,6 +45,10 @@ export const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
   context.apartmentSizeSqm !== undefined &&
   (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context }));
 
+const ausgabenDone: FinanzielleAngabenGuard = ({ context }) => {
+  return context.hasAusgaben === "no" || context.ausgaben !== undefined;
+};
+
 const subflowDoneConfig: Record<string, FinanzielleAngabenGuard> = {
   einkommen: einkommenDone,
   partner: partnerDone,
@@ -52,6 +56,7 @@ const subflowDoneConfig: Record<string, FinanzielleAngabenGuard> = {
   besitz: besitzDone,
   besitzZusammenfassung: besitzZusammenfassungDone,
   wohnung: wohnungDone,
+  ausgaben: ausgabenDone,
 };
 
 export const beratungshilfeFinanzielleAngabenSubflowState = (

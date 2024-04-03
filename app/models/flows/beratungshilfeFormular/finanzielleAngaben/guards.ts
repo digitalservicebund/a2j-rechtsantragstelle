@@ -36,6 +36,12 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("hasGeldanlage"),
   ...yesNoGuards("hasGrundeigentum"),
   ...yesNoGuards("hasWertsache"),
+  ...yesNoGuards("hasAusgaben"),
+  hasZahlungsfristNo: ({ context: { pageData, ausgaben } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    return ausgaben?.[pageData.arrayIndexes[0]]?.hasZahlungsfrist === "no";
+  },
   isPartnerschaftZusammenlebenEinkommenNo: ({ context }) =>
     context.partnerschaft === "yes" &&
     context.zusammenleben === "yes" &&
@@ -73,6 +79,15 @@ export const finanzielleAngabeGuards = {
       return false;
 
     return !(arrayIndex > (kinder?.length ?? 0));
+  },
+  isValidAusgabenArrayIndex: ({ context: { pageData, ausgaben } }) => {
+    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
+      return false;
+    const arrayIndex = pageData.arrayIndexes[0];
+    if ((ausgaben?.length === 0 && arrayIndex > 0) || arrayIndex < 0)
+      return false;
+
+    return !(arrayIndex > (ausgaben?.length ?? 0));
   },
   livesAlone: ({ context }) => context.livingSituation === "alone",
   isGeldanlageBargeld: ({ context: { pageData, geldanlagen } }) => {

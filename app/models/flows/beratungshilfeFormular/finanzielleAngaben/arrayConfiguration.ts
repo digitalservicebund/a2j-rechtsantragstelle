@@ -47,6 +47,13 @@ export const finanzielleAngabenArrayConfig = {
     hiddenFields: ["eigeneEinnahmen", "unterhalt"],
     event: "add-kinder",
   },
+  ausgaben: {
+    url: `${prefix}/ausgaben/ausgaben`,
+    initialInputUrl: "art",
+    statementUrl: `${prefix}/ausgaben/ausgaben-frage`,
+    statementKey: "hasAusgaben",
+    event: "add-ausgaben",
+  },
 } satisfies Partial<
   Record<keyof BeratungshilfeFinanzielleAngaben, ArrayConfig>
 >;

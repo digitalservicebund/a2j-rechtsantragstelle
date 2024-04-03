@@ -11,6 +11,7 @@ import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
 import { startRechtsproblem } from "./rechtsproblem";
 import { startGrundvoraussetzungen } from "./grundvoraussetzungen";
 import { startFinanzielleAngabenWohnung } from "./finanzielleAngabenWohnung";
+import { startFinanzielleAngabenAusgaben } from "./finanzielleAngabenAusgaben";
 
 let beratungshilfeFormular: BeratungshilfeFormular;
 
@@ -88,5 +89,7 @@ async function startFinanzielleAngaben(page: Page) {
   await beratungshilfeFormular.clickNext();
 
   await startFinanzielleAngabenWohnung(page, beratungshilfeFormular);
+  await beratungshilfeFormular.clickNext();
+  await startFinanzielleAngabenAusgaben(page, beratungshilfeFormular);
   await beratungshilfeFormular.clickNext(); // leave finanzielle Angaben
 }

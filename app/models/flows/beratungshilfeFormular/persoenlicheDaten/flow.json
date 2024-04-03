@@ -7,6 +7,14 @@
         "SUBMIT": "name",
         "BACK": [
           {
+            "guard": "hasAusgabenNo",
+            "target": "#ausgaben.ausgaben-frage"
+          },
+          {
+            "guard": "hasAusgabenYes",
+            "target": "#ausgaben.uebersicht"
+          },
+          {
             "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",
             "target": "#finanzielleAngaben.einkommen.staatliche-leistungen"
           },
