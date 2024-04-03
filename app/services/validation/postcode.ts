@@ -10,3 +10,10 @@ export const postcodeSchema = z
   .trim()
   .length(5, { message: "length" })
   .refine((postcode) => isValidPostcode(postcode), { message: "invalid" });
+
+export const postcodeOptionalSchema = z
+  .string()
+  .trim()
+  .length(5, { message: "length" })
+  .refine((postcode) => isValidPostcode(postcode), { message: "invalid" })
+  .or(z.string().trim().length(0));
