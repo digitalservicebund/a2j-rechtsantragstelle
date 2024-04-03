@@ -97,5 +97,3 @@ jobs:
 
       - name: Attest vulnerability scan
         run: cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $IMAGE_DIGEST
-        env:
-          COSIGN_EXPERIMENTAL: "true"
