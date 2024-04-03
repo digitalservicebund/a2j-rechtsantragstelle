@@ -45,18 +45,18 @@ function handleOverflowAusgaben(
 
   attachment.descriptions.push({
     title: "Feld G Zahlungsverpflichtungen und besondere Belastungen",
-    text: handleAusgabenLayout(context, ausgaben),
+    text: createAusgabenText(context, ausgaben),
   });
 }
 
-function handleAusgabenLayout(
+function createAusgabenText(
   context: BeratungshilfeFormularContext,
   ausgaben: AusgabenPdfField[],
 ) {
   let attachmentText = "";
 
-  attachmentText += `Ausgaben:\n\n`;
-  attachmentText += getAusgabenContentInAttachment(ausgaben);
+  attachmentText += `Ausgaben\n\n`;
+  attachmentText += generateAusgabenList(ausgaben);
   attachmentText += "\n\n";
   attachmentText += "Besondere Belastungen\n";
   attachmentText += checkboxListToString(
@@ -67,7 +67,7 @@ function handleAusgabenLayout(
   return attachmentText;
 }
 
-function getAusgabenContentInAttachment(ausgaben: AusgabenPdfField[]) {
+function generateAusgabenList(ausgaben: AusgabenPdfField[]) {
   const description = [];
 
   for (let i = 0; i < ausgaben.length; i++) {
