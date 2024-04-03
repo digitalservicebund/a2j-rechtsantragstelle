@@ -22,7 +22,7 @@ describe("G_ausgaben", () => {
       ],
       ausgabensituation: {
         pregnancy: CheckboxValue.on,
-        singleParent: CheckboxValue.off,
+        singleParent: CheckboxValue.on,
         disability: CheckboxValue.off,
         medicalReasons: CheckboxValue.off,
       },
@@ -36,5 +36,8 @@ describe("G_ausgaben", () => {
     expect(pdfFields.g31.value).toEqual("ausgaben empfänger");
     expect(pdfFields.g5Raten1.value).toEqual("12.12.2099");
     expect(pdfFields.g7Zahlung1.value).toEqual("12,00");
+    expect(pdfFields.g10Belastungen.value).toEqual(
+      "Schwangerschaft, Alleinerziehend",
+    );
   });
 });
