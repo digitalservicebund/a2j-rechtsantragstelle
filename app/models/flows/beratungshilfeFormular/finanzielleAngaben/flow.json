@@ -1,10 +1,16 @@
 {
-  "initial": "einkommen",
+  "initial": "start",
   "id": "finanzielleAngaben",
   "on": {
-    "SUBMIT": "#persoenlicheDaten.start"
+    "SUBMIT": "#persoenlicheDaten.start",
+    "BACK": "#rechtsproblem.situation-beschreibung"
   },
   "states": {
+    "start": {
+      "on": {
+        "SUBMIT": "einkommen"
+      }
+    },
     "einkommen": {
       "id": "einkommen",
       "initial": "staatliche-leistungen",
@@ -22,7 +28,7 @@
               },
               "erwerbstaetig"
             ],
-            "BACK": "#rechtsproblem.situation-beschreibung"
+            "BACK": "#finanzielleAngaben.start"
           }
         },
         "erwerbstaetig": {

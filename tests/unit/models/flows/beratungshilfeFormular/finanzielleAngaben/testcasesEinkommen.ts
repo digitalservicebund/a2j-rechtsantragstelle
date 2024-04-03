@@ -14,6 +14,7 @@ const cases = [
       besitzTotalWorth: "more10000",
     },
     [
+      "finanzielleAngaben/start",
       "finanzielleAngaben/einkommen/staatliche-leistungen",
       "finanzielleAngaben/besitz/eigentum-info",
       "finanzielleAngaben/besitz/bankkonten-frage",
