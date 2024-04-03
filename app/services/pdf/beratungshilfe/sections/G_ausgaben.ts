@@ -27,17 +27,26 @@ export function fillAusgaben(
   const ausgaben = context.ausgaben || [];
 
   if (ausgaben.length > 4) {
-    attachment.shouldCreateAttachment = true;
-    pdfFields.g21.value = newPageHint;
-
-    attachment.descriptions.push({
-      title: "Feld G Zahlungsverpflichtungen und besondere Belastungen",
-      text: handleAusgabenLayout(context, ausgaben),
-    });
+    handleOverflowAusgaben(attachment, pdfFields, context, ausgaben);
   } else {
     fillAusgabenInPDF(ausgaben, pdfFields);
     fillBelastungenInPDF(context, pdfFields);
   }
+}
+
+function handleOverflowAusgaben(
+  attachment: Attachment,
+  pdfFields: BeratungshilfePDF,
+  context: BeratungshilfeFormularContext,
+  ausgaben: AusgabenPdfField[],
+) {
+  attachment.shouldCreateAttachment = true;
+  pdfFields.g21.value = newPageHint;
+
+  attachment.descriptions.push({
+    title: "Feld G Zahlungsverpflichtungen und besondere Belastungen",
+    text: handleAusgabenLayout(context, ausgaben),
+  });
 }
 
 function handleAusgabenLayout(
@@ -99,19 +108,16 @@ function fillAusgabenInPDF(
     const hasFrist = ausgabe?.hasZahlungsfrist === "yes";
 
     if (artKey in pdfFields) {
-      pdfFields[`g2${index}` as keyof BeratungshilfePDF].value = ausgabe.art;
+      pdfFields[artKey].value = ausgabe.art;
     }
     if (zahlungsempfaengerKey in pdfFields) {
-      pdfFields[`g3${index}` as keyof BeratungshilfePDF].value =
-        ausgabe.zahlungsempfaenger;
+      pdfFields[zahlungsempfaengerKey].value = ausgabe.zahlungsempfaenger;
     }
     if (hasFrist && zahlungsfristKey in pdfFields) {
-      pdfFields[`g5Raten${index}` as keyof BeratungshilfePDF].value =
-        ausgabe.zahlungsfrist;
+      pdfFields[zahlungsfristKey].value = ausgabe.zahlungsfrist;
     }
     if (beitragKey in pdfFields) {
-      pdfFields[`g7Zahlung${index}` as keyof BeratungshilfePDF].value =
-        ausgabe.beitrag;
+      pdfFields[beitragKey].value = ausgabe.beitrag;
     }
   }
 }
