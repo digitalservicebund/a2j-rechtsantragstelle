@@ -2,8 +2,13 @@ import {
   beratungshilfeFinanzielleAngabeDone,
   beratungshilfeFinanzielleAngabenSubflowState,
 } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
+import * as navStatesBesitz from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStatesBesitz";
 
 describe("navStates", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   describe("beratungshilfeFinanzielleAngabeDone", () => {
     test("passes with only grundsicherung", () => {
       expect(
@@ -79,6 +84,67 @@ describe("navStates", () => {
           },
         }),
       ).toBeTruthy();
+    });
+
+    it("passes with buergergeld and besitz done and besitzZusammenfassung done", () => {
+      jest.spyOn(navStatesBesitz, "besitzDone").mockReturnValue(true);
+      jest
+        .spyOn(navStatesBesitz, "besitzZusammenfassungDone")
+        .mockReturnValue(true);
+
+      expect(
+        beratungshilfeFinanzielleAngabeDone({
+          context: {
+            staatlicheLeistungen: "buergergeld",
+          },
+        }),
+      ).toBeTruthy();
+    });
+
+    it("fails with buergergeld and besitz done but besitzZusammenfassung not done", () => {
+      jest.spyOn(navStatesBesitz, "besitzDone").mockReturnValue(true);
+      jest
+        .spyOn(navStatesBesitz, "besitzZusammenfassungDone")
+        .mockReturnValue(false);
+
+      expect(
+        beratungshilfeFinanzielleAngabeDone({
+          context: {
+            staatlicheLeistungen: "buergergeld",
+          },
+        }),
+      ).toBeFalsy();
+    });
+
+    it("fails with buergergeld and besitz not done but besitzZusammenfassung done", () => {
+      jest.spyOn(navStatesBesitz, "besitzDone").mockReturnValue(false);
+      jest
+        .spyOn(navStatesBesitz, "besitzZusammenfassungDone")
+        .mockReturnValue(true);
+
+      expect(
+        beratungshilfeFinanzielleAngabeDone({
+          context: {
+            staatlicheLeistungen: "buergergeld",
+          },
+        }),
+      ).toBeFalsy();
+    });
+
+    it("fails with staatlicheLeistungen keine and reduced info", () => {
+      expect(
+        beratungshilfeFinanzielleAngabeDone({
+          context: {
+            staatlicheLeistungen: "keine",
+            hasBankkonto: "no",
+            hasGeldanlage: "no",
+            hasGrundeigentum: "no",
+            hasKraftfahrzeug: "no",
+            hasWertsache: "no",
+            besitzTotalWorth: "unsure",
+          },
+        }),
+      ).toBeFalsy();
     });
   });
 

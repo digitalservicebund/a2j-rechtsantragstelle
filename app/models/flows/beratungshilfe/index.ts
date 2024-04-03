@@ -4,12 +4,19 @@ import { getVerfuegbaresEinkommenFreibetrag } from "./freibetrag";
 import { type AllContexts } from "../common";
 
 export function reasonsToDisplayBeratungshilfe(context: AllContexts) {
+  const shortPathIncomeTooHigh =
+    "genauigkeit" in context &&
+    context.genauigkeit == "no" &&
+    "verfuegbaresEinkommen" in context &&
+    context.verfuegbaresEinkommen === "yes";
+  const longPathIncomeTooHigh =
+    "genauigkeit" in context &&
+    context.genauigkeit == "yes" &&
+    isIncomeTooHigh({ context });
   return {
     eigeninitiativeWarning:
       "eigeninitiative" in context && context.eigeninitiative === "no",
-    incomeTooHigh:
-      "verfuegbaresEinkommen" in context &&
-      (context.verfuegbaresEinkommen === "yes" || isIncomeTooHigh({ context })),
+    incomeTooHigh: shortPathIncomeTooHigh || longPathIncomeTooHigh,
   };
 }
 

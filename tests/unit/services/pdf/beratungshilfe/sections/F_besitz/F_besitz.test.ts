@@ -125,7 +125,7 @@ describe("F_besitz", () => {
       expect(pdfFields.f2InhaberB.value).toBe(false);
       expect(pdfFields.f2InhaberC.value).toBe(false);
       expect(pdfFields.f7Nutzungsart.value).toBe(
-        "Art des Eigentums: Haus für Familie, Eigentümer:in: Ich alleine, Fläche: 100 m², Selbst bewohnt",
+        "Art des Eigentums: Haus für Familie, Eigentümer:in: Ich alleine, Fläche: 100 m², Eigennutzung",
       );
     });
 
@@ -170,7 +170,7 @@ describe("F_besitz", () => {
           "Eigentümer:in: Ich alleine\n" +
           "Fläche: 100 m²\n" +
           "Verkehrswert: 100001 €\n" +
-          "Selbst bewohnt\n" +
+          "Eigennutzung\n" +
           "\n" +
           "Art des Eigentums: Haus für Familie\n" +
           "Eigentümer:in: Ehe-Partner:in\n" +
