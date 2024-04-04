@@ -14,7 +14,7 @@ function isSubflowCurrent(subflows: NavItem[]) {
 export function navItemsFromDoneStates(
   stepId: string,
   doneStates: DoneState[] | undefined,
-  translations: Translations,
+  translations: Translations = {},
 ): NavItem[] | undefined {
   if (!doneStates) return undefined;
 
