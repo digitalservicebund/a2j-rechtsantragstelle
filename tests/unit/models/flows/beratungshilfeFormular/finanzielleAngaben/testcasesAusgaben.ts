@@ -4,7 +4,13 @@ import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungsh
 
 const cases = [
   [
-    { hasAusgaben: "no" },
+    {
+      staatlicheLeistungen: "keine",
+    },
+    ["finanzielleAngaben/ausgaben/ausgaben-frage", "persoenlicheDaten/start"],
+  ],
+  [
+    { hasAusgaben: "no", staatlicheLeistungen: "keine" },
     ["finanzielleAngaben/ausgaben/ausgaben-frage", "persoenlicheDaten/start"],
   ],
   [
@@ -12,25 +18,8 @@ const cases = [
     [
       "finanzielleAngaben/ausgaben/ausgaben-frage",
       "finanzielleAngaben/ausgaben/situation",
-    ],
-  ],
-  [
-    {
-      hasAusgaben: "yes",
-      ausgaben: [
-        {
-          art: "kredit",
-          zahlungsempfaenger: "nachname",
-          beitrag: "",
-          hasZahlungsfrist: "no",
-          zahlungsfrist: "",
-        },
-      ],
-      pageData: { arrayIndexes: [0] },
-    },
-    [
-      "finanzielleAngaben/ausgaben/ausgaben/art",
-      "finanzielleAngaben/ausgaben/ausgaben/zahlungsinformation",
+      "finanzielleAngaben/ausgaben/uebersicht",
+      "persoenlicheDaten/start",
     ],
   ],
   [
@@ -48,8 +37,29 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
+      "finanzielleAngaben/ausgaben/ausgaben/art",
       "finanzielleAngaben/ausgaben/ausgaben/zahlungsinformation",
       "finanzielleAngaben/ausgaben/ausgaben/laufzeit",
+    ],
+  ],
+  [
+    {
+      hasAusgaben: "yes",
+      ausgaben: [
+        {
+          art: "kredit",
+          zahlungsempfaenger: "nachname",
+          beitrag: "10",
+          hasZahlungsfrist: "yes",
+          zahlungsfrist: "",
+        },
+      ],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "finanzielleAngaben/ausgaben/ausgaben/zahlungsinformation",
+      "finanzielleAngaben/ausgaben/ausgaben/laufzeit",
+      "finanzielleAngaben/ausgaben/ausgaben/zahlungsfrist",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

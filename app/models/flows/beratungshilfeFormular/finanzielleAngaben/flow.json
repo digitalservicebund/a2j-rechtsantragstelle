@@ -589,10 +589,10 @@
             ],
             "SUBMIT": [
               {
-                "guard": "hasAusgabenNo",
-                "target": "#persoenlicheDaten.start"
+                "guard": "hasAusgabenYes",
+                "target": "situation"
               },
-              "situation"
+              "#persoenlicheDaten.start"
             ]
           }
         },
