@@ -9,8 +9,4 @@ export async function startFinanzielleAngabenAusgaben(
   // beratungshilfe/antrag/finanzielleAngaben/ausgaben/ausgaben-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasAusgaben", "no");
-
-  // beratungshilfe/antrag/finanzielleAngaben/kinder/uebersicht
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.clickNext();
 }
