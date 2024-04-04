@@ -12,7 +12,8 @@
           {
             "target": "beratungStattgefunden"
           }
-        ]
+        ],
+        "BACK": "#grundvoraussetzungen.eigeninitiativeGrundvorraussetzung"
       }
     },
     "beratungStattgefunden": {
@@ -51,7 +52,7 @@
     },
     "anwaltKontaktdaten": {
       "on": {
-        "SUBMIT": "#rechtsproblem",
+        "SUBMIT": "#rechtsproblem.start",
         "BACK": "frist-hinweis"
       }
     },

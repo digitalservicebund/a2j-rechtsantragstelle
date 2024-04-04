@@ -10,13 +10,12 @@ if (SENTRY_DSN !== undefined) {
     dsn: SENTRY_DSN,
     environment: ENVIRONMENT,
     integrations: [
-      new Sentry.BrowserTracing({
-        routingInstrumentation: Sentry.remixRouterInstrumentation(
-          useEffect,
-          useLocation,
-          useMatches,
-        ),
+      Sentry.browserTracingIntegration({
+        useEffect,
+        useLocation,
+        useMatches,
       }),
+      // Sentry.replayIntegration(),
     ],
   });
 }

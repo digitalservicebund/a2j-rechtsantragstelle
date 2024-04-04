@@ -74,8 +74,6 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   const flowId = flowIDFromPathname(url.pathname);
   const { config, guards } = flows[flowId];
   const showBacklinks = url.searchParams.get("showBacklinks") !== null;
-
-  //@ts-ignore
   const machine = createMachine(config, { guards });
   const base64Graph = getVisualizationString(machine, showBacklinks);
   return json({ url: `https://mermaid.ink/img/${base64Graph}?bgColor=!white` });

@@ -1,7 +1,16 @@
 {
-  "initial": "einkommen",
+  "initial": "start",
   "id": "finanzielleAngaben",
+  "on": {
+    "SUBMIT": "#persoenlicheDaten.start",
+    "BACK": "#rechtsproblem.situation-beschreibung"
+  },
   "states": {
+    "start": {
+      "on": {
+        "SUBMIT": "einkommen"
+      }
+    },
     "einkommen": {
       "id": "einkommen",
       "initial": "staatliche-leistungen",
@@ -14,15 +23,12 @@
                 "target": "#besitz.eigentum-info"
               },
               {
-                "guard": "staatlicheLeistungenIsAsylbewerberleistungen",
-                "target": "#finanzielleAngaben.danke"
-              },
-              {
-                "guard": "staatlicheLeistungenIsGrundsicherung",
-                "target": "#finanzielleAngaben.danke"
+                "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",
+                "target": "#persoenlicheDaten.start"
               },
               "erwerbstaetig"
-            ]
+            ],
+            "BACK": "#finanzielleAngaben.start"
           }
         },
         "erwerbstaetig": {
@@ -330,10 +336,17 @@
         },
         "gesamtwert": {
           "on": {
-            "SUBMIT": {
-              "target": "#besitzZusammenfassung.zusammenfassung",
-              "guard": "besitzDone"
-            },
+            "SUBMIT": [
+              {
+                "target": "#besitzZusammenfassung.zusammenfassung",
+                "guard": "besitzDone"
+              },
+              {
+                "target": "#persoenlicheDaten.start",
+                "guard": "staatlicheLeistungenIsBuergergeld"
+              },
+              "#wohnung.wohnsituation"
+            ],
             "BACK": "kraftfahrzeuge-frage"
           }
         }
@@ -347,7 +360,10 @@
           "on": {
             "BACK": "#besitz.gesamtwert",
             "SUBMIT": [
-              { "guard": "hasStaatlicheLeistungen", "target": "#danke" },
+              {
+                "guard": "hasStaatlicheLeistungen",
+                "target": "#persoenlicheDaten.start"
+              },
               "#wohnung.wohnsituation"
             ],
             "add-bankkonten": "bankkonten",
@@ -516,7 +532,13 @@
       "states": {
         "wohnsituation": {
           "on": {
-            "BACK": "#besitzZusammenfassung.zusammenfassung",
+            "BACK": [
+              {
+                "guard": "besitzDone",
+                "target": "#besitzZusammenfassung.zusammenfassung"
+              },
+              "#besitz.gesamtwert"
+            ],
             "SUBMIT": "groesse"
           }
         },
@@ -524,7 +546,10 @@
           "on": {
             "BACK": "wohnsituation",
             "SUBMIT": [
-              { "target": "wohnkostenAllein", "guard": "livesAlone" },
+              {
+                "target": "wohnkostenAllein",
+                "guard": "livesAlone"
+              },
               "personenAnzahl"
             ]
           }
@@ -532,7 +557,7 @@
         "wohnkostenAllein": {
           "on": {
             "BACK": "groesse",
-            "SUBMIT": "#danke"
+            "SUBMIT": "#persoenlicheDaten.start"
           }
         },
         "personenAnzahl": {
@@ -544,33 +569,9 @@
         "wohnkostenGeteilt": {
           "on": {
             "BACK": "personenAnzahl",
-            "SUBMIT": "#danke"
+            "SUBMIT": "#persoenlicheDaten.start"
           }
         }
-      }
-    },
-    "danke": {
-      "id": "danke",
-      "on": {
-        "BACK": [
-          {
-            "guard": "staatlicheLeistungenIsAsylbewerberleistungen",
-            "target": "#einkommen.staatliche-leistungen"
-          },
-          {
-            "guard": "staatlicheLeistungenIsGrundsicherung",
-            "target": "#einkommen.staatliche-leistungen"
-          },
-          {
-            "guard": "hasStaatlicheLeistungen",
-            "target": "#besitzZusammenfassung.zusammenfassung"
-          },
-          {
-            "guard": "livesAlone",
-            "target": "#wohnung.wohnkostenAllein"
-          },
-          "#wohnung.wohnkostenGeteilt"
-        ]
       }
     }
   }

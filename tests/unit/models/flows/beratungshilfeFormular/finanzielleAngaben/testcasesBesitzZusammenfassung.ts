@@ -103,6 +103,18 @@ const cases = [
     {
       hasGrundeigentum: "yes",
       // @ts-ignore
+      grundeigentum: [{ isBewohnt: "family" }],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/bewohnt-frage",
+      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/daten",
+    ],
+  ],
+  [
+    {
+      hasGrundeigentum: "yes",
+      // @ts-ignore
       grundeigentum: [{ isBewohnt: "yes" }],
       pageData: { arrayIndexes: [0] },
     },

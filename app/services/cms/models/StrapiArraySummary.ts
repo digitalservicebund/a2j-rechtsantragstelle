@@ -14,11 +14,7 @@ export const StrapiArraySummaryComponentSchema =
     __component: z.literal("page.array-summary"),
   });
 
-export type StrapiArraySummaryComponent = z.infer<
-  typeof StrapiArraySummaryComponentSchema
->;
-
 export const isStrapiArraySummary = (
   strapiContent: StrapiContentComponent,
-): strapiContent is StrapiArraySummaryComponent =>
+): strapiContent is z.infer<typeof StrapiArraySummaryComponentSchema> =>
   strapiContent.__component === "page.array-summary";

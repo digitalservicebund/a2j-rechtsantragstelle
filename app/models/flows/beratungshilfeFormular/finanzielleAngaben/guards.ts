@@ -11,10 +11,10 @@ const hasStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] 
 
 export const finanzielleAngabeGuards = {
   besitzDone,
-  staatlicheLeistungenIsGrundsicherung: ({ context }) =>
+
+  staatlicheLeistungenIsAsylOrGrundsicherung: ({ context }) =>
+    context.staatlicheLeistungen === "asylbewerberleistungen" ||
     context.staatlicheLeistungen === "grundsicherung",
-  staatlicheLeistungenIsAsylbewerberleistungen: ({ context }) =>
-    context.staatlicheLeistungen === "asylbewerberleistungen",
   staatlicheLeistungenIsBuergergeld: ({ context }) =>
     context.staatlicheLeistungen === "buergergeld",
   hasStaatlicheLeistungen,
@@ -75,14 +75,6 @@ export const finanzielleAngabeGuards = {
     return !(arrayIndex > (kinder?.length ?? 0));
   },
   livesAlone: ({ context }) => context.livingSituation === "alone",
-  isGrundeigentumBewohntYes: ({ context: { pageData, grundeigentum } }) => {
-    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
-      return false;
-    return (
-      grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "yes" ||
-      grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "family"
-    );
-  },
   isGeldanlageBargeld: ({ context: { pageData, geldanlagen } }) => {
     if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
       return false;
@@ -139,10 +131,7 @@ export const finanzielleAngabeGuards = {
   grundeigentumIsBewohnt: ({ context: { pageData, grundeigentum } }) => {
     if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
       return false;
-    return (
-      grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "yes" ||
-      grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "family"
-    );
+    return grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "yes";
   },
   einkommenDone,
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;

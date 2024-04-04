@@ -14,10 +14,11 @@ import {
   useLoaderData,
   useMatches,
   useRouteLoaderData,
+  useRouteError,
 } from "@remix-run/react";
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
-import { withSentry } from "@sentry/remix";
+import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import { config as configWeb } from "~/services/env/web";
 import {
   fetchMeta,
@@ -158,6 +159,7 @@ function App() {
 
 export function ErrorBoundary() {
   const loaderData = useRouteLoaderData<typeof loader>("root");
+  captureRemixErrorBoundaryError(useRouteError());
   return (
     <html lang="de">
       <head>

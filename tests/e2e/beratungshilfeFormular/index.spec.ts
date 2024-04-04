@@ -88,8 +88,5 @@ async function startFinanzielleAngaben(page: Page) {
   await beratungshilfeFormular.clickNext();
 
   await startFinanzielleAngabenWohnung(page, beratungshilfeFormular);
-  await expectPageToBeAccessible({ page }); // finanzielleAngaben/danke
-  await beratungshilfeFormular.clickNext();
-
   await beratungshilfeFormular.clickNext(); // leave finanzielle Angaben
 }

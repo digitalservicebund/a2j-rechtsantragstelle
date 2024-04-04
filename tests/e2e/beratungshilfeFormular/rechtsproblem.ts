@@ -34,8 +34,4 @@ export async function startRechtsproblem(
   );
 
   await beratungshilfeFormular.clickNext();
-
-  // beratungshilfe/antrag/rechtsproblem/danke
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.clickNext();
 }

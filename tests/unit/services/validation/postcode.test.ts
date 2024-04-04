@@ -21,6 +21,8 @@ describe("postcode validation", () => {
   describe("failing cases", () => {
     const cases = [
       { input: "", errorMessage: "length" },
+      { input: "1", errorMessage: "length" },
+      { input: "123456", errorMessage: "length" },
       { input: "abcde", errorMessage: "invalid" },
       { input: "99999", errorMessage: "invalid" },
       { input: "01066", errorMessage: "invalid" },

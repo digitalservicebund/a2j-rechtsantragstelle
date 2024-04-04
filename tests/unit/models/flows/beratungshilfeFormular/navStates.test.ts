@@ -6,6 +6,8 @@ import {
 } from "~/models/flows/beratungshilfeFormular/grundvoraussetzung/context";
 import { beratungshilfePersoenlicheDatenDone } from "~/models/flows/beratungshilfeFormular/persoenlicheDaten/context";
 import { rechtsproblemDone } from "~/models/flows/beratungshilfeFormular/rechtsproblem/context";
+import * as navStatesBesitz from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStatesBesitz";
+import * as navStates from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
 
 function dropEachProperty(context: object) {
   return Object.values(
@@ -99,7 +101,11 @@ describe("rechtsproblemDone", () => {
 });
 
 describe("finanzielleAngabenDone", () => {
-  test.skip("passes with only grundsicherung", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it("passes with only grundsicherung", () => {
     expect(
       beratungshilfeFinanzielleAngabeDone({
         context: { staatlicheLeistungen: "grundsicherung" },
@@ -107,7 +113,7 @@ describe("finanzielleAngabenDone", () => {
     ).toBeTruthy();
   });
 
-  test.skip("passes with asylbewerberleistungen", () => {
+  it("passes with asylbewerberleistungen", () => {
     expect(
       beratungshilfeFinanzielleAngabeDone({
         context: { staatlicheLeistungen: "asylbewerberleistungen" },
@@ -115,17 +121,89 @@ describe("finanzielleAngabenDone", () => {
     ).toBeTruthy();
   });
 
-  test.skip("passes with buergergeld and reduced info", () => {
+  it("fails with buergergeld and no info", () => {
     expect(
       beratungshilfeFinanzielleAngabeDone({
         context: {
           staatlicheLeistungen: "buergergeld",
+        },
+      }),
+    ).toBeFalsy();
+  });
+
+  it("passes with buergergeld and besitz done and besitzZusammenfassung done", () => {
+    jest.spyOn(navStatesBesitz, "besitzDone").mockReturnValue(true);
+    jest
+      .spyOn(navStatesBesitz, "besitzZusammenfassungDone")
+      .mockReturnValue(true);
+
+    expect(
+      beratungshilfeFinanzielleAngabeDone({
+        context: {
+          staatlicheLeistungen: "buergergeld",
+        },
+      }),
+    ).toBeTruthy();
+  });
+
+  it("fails with buergergeld and besitz done but besitzZusammenfassung not done", () => {
+    jest.spyOn(navStatesBesitz, "besitzDone").mockReturnValue(true);
+    jest
+      .spyOn(navStatesBesitz, "besitzZusammenfassungDone")
+      .mockReturnValue(false);
+
+    expect(
+      beratungshilfeFinanzielleAngabeDone({
+        context: {
+          staatlicheLeistungen: "buergergeld",
+        },
+      }),
+    ).toBeFalsy();
+  });
+
+  it("fails with buergergeld and besitz not done but besitzZusammenfassung done", () => {
+    jest.spyOn(navStatesBesitz, "besitzDone").mockReturnValue(false);
+    jest
+      .spyOn(navStatesBesitz, "besitzZusammenfassungDone")
+      .mockReturnValue(true);
+
+    expect(
+      beratungshilfeFinanzielleAngabeDone({
+        context: {
+          staatlicheLeistungen: "buergergeld",
+        },
+      }),
+    ).toBeFalsy();
+  });
+
+  it("fails with staatlicheLeistungen keine and reduced info", () => {
+    expect(
+      beratungshilfeFinanzielleAngabeDone({
+        context: {
+          staatlicheLeistungen: "keine",
           hasBankkonto: "no",
           hasGeldanlage: "no",
           hasGrundeigentum: "no",
           hasKraftfahrzeug: "no",
           hasWertsache: "no",
           besitzTotalWorth: "unsure",
+        },
+      }),
+    ).toBeFalsy();
+  });
+
+  it("passes with staatlicheLeistungen keine and all subflows done", () => {
+    jest.spyOn(navStates, "partnerDone").mockReturnValue(true);
+    jest.spyOn(navStatesBesitz, "besitzDone").mockReturnValue(true);
+    jest
+      .spyOn(navStatesBesitz, "besitzZusammenfassungDone")
+      .mockReturnValue(true);
+    jest.spyOn(navStates, "einkommenDone").mockReturnValue(true);
+    jest.spyOn(navStates, "wohnungDone").mockReturnValue(true);
+    expect(
+      beratungshilfeFinanzielleAngabeDone({
+        context: {
+          staatlicheLeistungen: "keine",
         },
       }),
     ).toBeTruthy();

@@ -2,11 +2,34 @@
   "id": "persoenlicheDaten",
   "initial": "start",
   "states": {
-    "start": { "on": { "SUBMIT": "name" } },
+    "start": {
+      "on": {
+        "SUBMIT": "name",
+        "BACK": [
+          {
+            "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",
+            "target": "#finanzielleAngaben.einkommen.staatliche-leistungen"
+          },
+          {
+            "guard": "hasStaatlicheLeistungen",
+            "target": "#finanzielleAngaben.besitzZusammenfassung.zusammenfassung"
+          },
+          {
+            "guard": "livesAlone",
+            "target": "#finanzielleAngaben.wohnung.wohnkostenAllein"
+          },
+          "#finanzielleAngaben.wohnung.wohnkostenGeteilt"
+        ]
+      }
+    },
     "name": { "on": { "BACK": "start", "SUBMIT": "geburtsdatum" } },
     "geburtsdatum": { "on": { "BACK": "name", "SUBMIT": "adresse" } },
     "adresse": { "on": { "BACK": "geburtsdatum", "SUBMIT": "telefonnummer" } },
-    "telefonnummer": { "on": { "BACK": "adresse", "SUBMIT": "danke" } },
-    "danke": { "on": { "BACK": "telefonnummer" } }
+    "telefonnummer": {
+      "on": {
+        "BACK": "adresse",
+        "SUBMIT": { "target": "#abgabe", "guard": "readyForAbgabe" }
+      }
+    }
   }
 }
