@@ -87,6 +87,7 @@ export const beratungshilfeFinanzielleAngaben = {
       kontostand: buildMoneyValidationSchema({}),
       iban: z.string(),
       kontoEigentuemer: Eigentuemer,
+      description: z.string().optional(),
     }),
   ),
   hasKraftfahrzeug: YesNoAnswer,
