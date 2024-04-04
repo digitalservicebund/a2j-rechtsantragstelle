@@ -134,6 +134,6 @@ export const finanzielleAngabeGuards = {
     return grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "yes";
   },
   einkommenDone,
-  hasOtherMaintenancePaymentsYes: ({ context }) =>
-    context.hasOtherMaintenancePayments === "yes",
+  hasWeitereUnterhaltszahlungenYes: ({ context }) =>
+    context.hasWeitereUnterhaltszahlungen === "yes",
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;

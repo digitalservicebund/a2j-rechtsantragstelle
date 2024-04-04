@@ -51,7 +51,7 @@ export const finanzielleAngabenArrayConfig = {
     url: `${prefix}/andere-unterhaltszahlungen/person`,
     initialInputUrl: "daten",
     statementUrl: `${prefix}/andere-unterhaltszahlungen/frage`,
-    statementKey: "hasOtherMaintenancePayments",
+    statementKey: "hasWeitereUnterhaltszahlungen",
     event: "add-unterhaltszahlungen",
   },
 } satisfies Partial<

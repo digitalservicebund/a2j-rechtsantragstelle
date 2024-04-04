@@ -9,7 +9,7 @@ export async function startFinanzielleAngabenAndereUnterhaltszahlungen(
   // beratungshilfe/antrag/finanzielleAngaben/andere-unterhaltszahlungen/frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage(
-    "hasOtherMaintenancePayments",
+    "hasWeitereUnterhaltszahlungen",
     "no",
   );
 }

@@ -39,6 +39,7 @@ describe("unterhaltPdfField", () => {
 
     it("in case does have unterhaltszahlungen, it should return the correct data", () => {
       const context: BeratungshilfeFormularContext = {
+        hasWeitereUnterhaltszahlungen: "yes",
         unterhaltszahlungen: [
           {
             firstName: "firstName",

@@ -38,7 +38,11 @@ export function getListPersonUnterhaltPdfField(
     });
   }
 
-  if (context.unterhaltszahlungen && context.unterhaltszahlungen.length > 0) {
+  if (
+    context.hasWeitereUnterhaltszahlungen === "yes" &&
+    context.unterhaltszahlungen &&
+    context.unterhaltszahlungen.length > 0
+  ) {
     const unterhaltszahlungPdfFileds: UnterhaltPdfField[] =
       context.unterhaltszahlungen.map((unterhaltszahlung) => ({
         name: `${unterhaltszahlung.firstName ?? ""} ${unterhaltszahlung.surname ?? ""}`,

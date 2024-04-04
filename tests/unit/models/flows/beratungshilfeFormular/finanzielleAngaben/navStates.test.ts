@@ -57,7 +57,7 @@ describe("navStates", () => {
             livingSituation: "alone",
             apartmentSizeSqm: 100,
             apartmentCostAlone: "100",
-            hasOtherMaintenancePayments: "no",
+            hasWeitereUnterhaltszahlungen: "no",
             partnerschaft: "no",
           },
         }),
@@ -79,7 +79,7 @@ describe("navStates", () => {
             livingSituation: "alone",
             apartmentSizeSqm: 100,
             apartmentCostAlone: "100",
-            hasOtherMaintenancePayments: "no",
+            hasWeitereUnterhaltszahlungen: "no",
             partnerschaft: "no",
           },
         }),
@@ -149,10 +149,10 @@ describe("navStates", () => {
   });
 
   describe("beratungshilfeFinanzielleAngabenSubflowState", () => {
-    it("should return done for the subflow andere-unterhaltszahlungen when hasOtherMaintenancePayments is no", () => {
+    it("should return done for the subflow andere-unterhaltszahlungen when hasWeitereUnterhaltszahlungen is no", () => {
       const actual = beratungshilfeFinanzielleAngabenSubflowState(
         {
-          hasOtherMaintenancePayments: "no",
+          hasWeitereUnterhaltszahlungen: "no",
         },
         "andere-unterhaltszahlungen",
       );
@@ -160,10 +160,10 @@ describe("navStates", () => {
       expect(actual).toEqual("Done");
     });
 
-    it("should return open for the subflow andere-unterhaltszahlungen when hasOtherMaintenancePayments is yes and missing unterhaltszahlungen data", () => {
+    it("should return open for the subflow andere-unterhaltszahlungen when hasWeitereUnterhaltszahlungen is yes and missing unterhaltszahlungen data", () => {
       const actual = beratungshilfeFinanzielleAngabenSubflowState(
         {
-          hasOtherMaintenancePayments: "yes",
+          hasWeitereUnterhaltszahlungen: "yes",
         },
         "andere-unterhaltszahlungen",
       );
@@ -171,10 +171,10 @@ describe("navStates", () => {
       expect(actual).toEqual("Open");
     });
 
-    it("should return done for the subflow andere-unterhaltszahlungen when hasOtherMaintenancePayments is yes and unterhaltszahlungen data", () => {
+    it("should return done for the subflow andere-unterhaltszahlungen when hasWeitereUnterhaltszahlungen is yes and unterhaltszahlungen data", () => {
       const actual = beratungshilfeFinanzielleAngabenSubflowState(
         {
-          hasOtherMaintenancePayments: "yes",
+          hasWeitereUnterhaltszahlungen: "yes",
           unterhaltszahlungen: [
             {
               birthday: "10.10.2020",

@@ -285,7 +285,7 @@
             ],
             "SUBMIT": [
               {
-                "guard": "hasOtherMaintenancePaymentsYes",
+                "guard": "hasWeitereUnterhaltszahlungenYes",
                 "target": "uebersicht"
               },
               "#besitz.eigentum-info"
@@ -331,7 +331,7 @@
                 "target": "#einkommen.staatliche-leistungen"
               },
               {
-                "guard": "hasOtherMaintenancePaymentsYes",
+                "guard": "hasWeitereUnterhaltszahlungenYes",
                 "target": "#andere-unterhaltszahlungen.uebersicht"
               },
               "#andere-unterhaltszahlungen.frage"

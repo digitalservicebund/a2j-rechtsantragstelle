@@ -4,14 +4,14 @@ import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungsh
 
 const cases = [
   [
-    { hasOtherMaintenancePayments: "no" },
+    { hasWeitereUnterhaltszahlungen: "no" },
     [
       "finanzielleAngaben/andere-unterhaltszahlungen/frage",
       "finanzielleAngaben/besitz/eigentum-info",
     ],
   ],
   [
-    { hasOtherMaintenancePayments: "yes" },
+    { hasWeitereUnterhaltszahlungen: "yes" },
     [
       "finanzielleAngaben/andere-unterhaltszahlungen/frage",
       "finanzielleAngaben/andere-unterhaltszahlungen/uebersicht",

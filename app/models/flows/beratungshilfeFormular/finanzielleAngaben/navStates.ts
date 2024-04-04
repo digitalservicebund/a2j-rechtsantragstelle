@@ -48,7 +48,7 @@ const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
 const andereUnterhaltszahlungenDone: FinanzielleAngabenGuard = ({ context }) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen({ context })) ||
-  context.hasOtherMaintenancePayments == "no" ||
+  context.hasWeitereUnterhaltszahlungen == "no" ||
   (context.unterhaltszahlungen !== undefined &&
     context.unterhaltszahlungen.length > 0);
 

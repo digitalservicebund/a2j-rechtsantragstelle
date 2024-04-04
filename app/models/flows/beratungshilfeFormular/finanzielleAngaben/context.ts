@@ -201,7 +201,7 @@ export const beratungshilfeFinanzielleAngaben = {
   apartmentCostOwnShare: buildMoneyValidationSchema(),
   apartmentCostFull: buildMoneyValidationSchema(),
   apartmentCostAlone: buildMoneyValidationSchema(),
-  hasOtherMaintenancePayments: YesNoAnswer,
+  hasWeitereUnterhaltszahlungen: YesNoAnswer,
   unterhaltszahlungen: z.array(unterhaltszahlungSchema),
   pageData: pageDataSchema,
 };
