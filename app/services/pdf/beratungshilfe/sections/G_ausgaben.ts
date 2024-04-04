@@ -3,6 +3,8 @@ import { type Attachment, newPageHint } from "../attachment";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { checkboxListToString } from "../../checkboxListToString";
 
+const AUSGABEN_MAX_FIELDS = 4;
+
 type AusgabenPdfField = {
   art: string;
   zahlungsempfaenger: string;
@@ -26,7 +28,7 @@ export function fillAusgaben(
 ) {
   const ausgaben = context.ausgaben || [];
 
-  if (ausgaben.length > 4) {
+  if (ausgaben.length > AUSGABEN_MAX_FIELDS) {
     handleOverflowAusgaben(attachment, pdfFields, context, ausgaben);
   } else {
     fillAusgabenInPDF(ausgaben, pdfFields);
