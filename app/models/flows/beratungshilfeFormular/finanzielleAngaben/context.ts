@@ -188,7 +188,6 @@ export const beratungshilfeFinanzielleAngaben = {
       hasZahlungsfrist: YesNoAnswer,
       zahlungsfrist: createDateSchema({
         earliest: () => today(),
-        latest: () => addDays(today(), 100 * 365),
       }),
     }),
   ),
