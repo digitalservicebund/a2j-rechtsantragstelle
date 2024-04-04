@@ -12,7 +12,7 @@ import { CSRFKey } from "~/services/security/csrfKey";
 import type { ArrayConfig } from "~/services/array";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
 
-type ArraySummaryProps = {
+export type ArraySummaryProps = {
   readonly category: string;
   readonly arrayData: {
     data: ArrayData;
@@ -79,7 +79,8 @@ const ArraySummary = ({
                 >
                   {Object.entries(element)
                     .filter(
-                      ([elementKey]) =>
+                      ([elementKey, elementValue]) =>
+                        elementValue &&
                         !arrayData.arrayConfiguration.hiddenFields?.includes(
                           elementKey,
                         ),
