@@ -15,7 +15,7 @@ import { buildFlowController } from "~/services/flow/server/buildFlowController"
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
-import { isStrapiSelectComponent } from "~/services/cms/models/StrapiSelect";
+import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
 import { validatedSession } from "~/services/security/csrf.server";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";

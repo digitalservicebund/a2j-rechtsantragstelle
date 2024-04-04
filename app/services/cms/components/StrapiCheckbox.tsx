@@ -1,7 +1,10 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
+import {
+  HasOptionalStrapiIdSchema,
+  HasStrapiIdSchema,
+} from "../models/HasStrapiId";
 import Checkbox from "~/components/inputs/Checkbox";
-import { StrapiErrorCategorySchema } from "./StrapiErrorCategory";
+import { StrapiErrorCategorySchema } from "../models/StrapiErrorCategory";
 
 const StrapiCheckboxSchema = z
   .object({

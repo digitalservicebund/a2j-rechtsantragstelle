@@ -1,13 +1,13 @@
 import { z } from "zod";
-import { StrapiInputComponentSchema } from "./StrapiInput";
-import { StrapiSelectComponentSchema } from "./StrapiSelect";
-import { StrapiDropdownComponentSchema } from "./StrapiDropdown";
-import { StrapiTextareaComponentSchema } from "./StrapiTextarea";
-import { StrapiCheckboxComponentSchema } from "./StrapiCheckbox";
-import { StrapiTileGroupComponentSchema } from "./StrapiTileGroup";
-import { StrapiDateInputComponentSchema } from "~/services/cms/models/StrapiDateInput";
-import { StrapiTimeInputComponentSchema } from "~/services/cms/models/StrapiTimeInput";
-import { StrapiFileInputComponentSchema } from "~/services/cms/models/StrapiFileInput";
+import { StrapiInputComponentSchema } from "../components/StrapiInput";
+import { StrapiSelectComponentSchema } from "../components/StrapiSelect";
+import { StrapiDropdownComponentSchema } from "../components/StrapiDropdown";
+import { StrapiTextareaComponentSchema } from "../components/StrapiTextarea";
+import { StrapiCheckboxComponentSchema } from "../components/StrapiCheckbox";
+import { StrapiTileGroupComponentSchema } from "../components/StrapiTileGroup";
+import { StrapiDateInputComponentSchema } from "../components/StrapiDateInput";
+import { StrapiTimeInputComponentSchema } from "../components/StrapiTimeInput";
+import { StrapiFileInputComponentSchema } from "../components/StrapiFileInput";
 
 export const StrapiFormComponentSchema = z.discriminatedUnion("__component", [
   StrapiInputComponentSchema,
