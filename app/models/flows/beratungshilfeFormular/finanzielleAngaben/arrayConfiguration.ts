@@ -52,6 +52,7 @@ export const finanzielleAngabenArrayConfig = {
     initialInputUrl: "art",
     statementUrl: `${prefix}/ausgaben/ausgaben-frage`,
     statementKey: "hasAusgaben",
+    hiddenFields: ["hasZahlungsfrist"],
     event: "add-ausgaben",
   },
 } satisfies Partial<
