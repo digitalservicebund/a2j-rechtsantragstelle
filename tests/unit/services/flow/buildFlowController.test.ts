@@ -291,4 +291,143 @@ describe("buildFlowController", () => {
       });
     });
   });
+
+  describe(".doneStates()", () => {
+    it("builds nested done states", () => {
+      expect(
+        buildFlowController({
+          config: {
+            id: "/test/",
+            initial: "parent1",
+            states: {
+              parent1: {
+                initial: "child1",
+                states: {
+                  child1: {
+                    initial: "start",
+                    states: {
+                      start: { on: { SUBMIT: "#/test/.parent1.child2" } },
+                    },
+                  },
+                  child2: { initial: "start", states: { start: {} } },
+                },
+              },
+            },
+          },
+        }).doneStates(),
+      ).toEqual([
+        {
+          isDone: false,
+          isReachable: true,
+          isUneditable: false,
+          stepId: "parent1",
+          url: "/test/parent1",
+          subStates: [
+            {
+              isDone: false,
+              isReachable: true,
+              isUneditable: false,
+              stepId: "parent1/child1",
+              url: "/test/parent1/child1/start",
+            },
+            {
+              isDone: false,
+              isReachable: true,
+              isUneditable: false,
+              stepId: "parent1/child2",
+              url: "/test/parent1/child2/start",
+            },
+          ],
+        },
+      ]);
+    });
+  });
+
+  it("all children must be done for parent to be done", () => {
+    const doneStates = buildFlowController({
+      config: {
+        id: "/test/",
+        initial: "parent1",
+        states: {
+          parent1: {
+            initial: "child1",
+            states: {
+              child1: {
+                initial: "start",
+                meta: { done: () => true },
+                states: {
+                  start: { on: { SUBMIT: "#/test/.parent1.child2" } },
+                },
+              },
+              child2: {
+                initial: "start",
+                meta: { done: () => false },
+                states: {
+                  start: { on: { SUBMIT: "#/test/.parent2" } },
+                },
+              },
+            },
+          },
+          parent2: {
+            initial: "child1",
+            states: {
+              child1: {
+                initial: "start",
+                meta: { done: () => true },
+                states: {
+                  start: { on: { SUBMIT: "#/test/.parent2.child2" } },
+                },
+              },
+              child2: {
+                initial: "start",
+                meta: { done: () => true },
+                states: { start: {} },
+              },
+            },
+          },
+        },
+      },
+    }).doneStates();
+    expect(doneStates[0].isDone).toBe(false);
+    expect(doneStates[1].isDone).toBe(true);
+  });
+
+  it("any child must be reachable for parent to be reachable", () => {
+    const doneStates = buildFlowController({
+      config: {
+        id: "/test/",
+        initial: "parent1",
+        states: {
+          parent1: {
+            initial: "child1",
+            states: {
+              child1: {
+                initial: "start",
+                states: {
+                  start: { on: { SUBMIT: "#/test/.parent1.child2" } },
+                },
+              },
+              child2: {
+                initial: "start",
+                states: {
+                  start: {},
+                },
+              },
+            },
+          },
+          parent2: {
+            initial: "child1",
+            states: {
+              child1: {
+                initial: "start",
+                states: { start: {} },
+              },
+            },
+          },
+        },
+      },
+    }).doneStates();
+    expect(doneStates[0].isReachable).toBe(true);
+    expect(doneStates[1].isReachable).toBe(false);
+  });
 });
