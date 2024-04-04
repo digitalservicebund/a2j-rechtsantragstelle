@@ -57,14 +57,19 @@ function createAusgabenText(
 ) {
   let attachmentText = "";
 
-  attachmentText += `Ausgaben\n\n`;
-  attachmentText += generateAusgabenList(ausgaben);
-  attachmentText += "\n\n";
-  attachmentText += "Besondere Belastungen\n";
-  attachmentText += checkboxListToString(
+  const checkboxInput = checkboxListToString(
     ausgabenSituationMapping,
     context.ausgabensituation,
   );
+
+  const ausgabenSituationTitle =
+    checkboxInput !== "" ? "Besondere Belastungen\n" : "";
+
+  attachmentText += `Ausgaben\n\n`;
+  attachmentText += generateAusgabenList(ausgaben);
+  attachmentText += "\n\n";
+  attachmentText += ausgabenSituationTitle;
+  attachmentText += checkboxInput;
 
   return attachmentText;
 }
