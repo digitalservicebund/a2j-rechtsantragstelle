@@ -282,9 +282,6 @@ function getBankkontoBezeichnung(
 
   if (bankkonto?.kontoDescription)
     bezeichnung.push(`Bezeichnung: ${bankkonto?.kontoDescription}`);
-  else if (bankkonto?.description)
-    // TODO: remove after moving to kontoDescription
-    bezeichnung.push(`Bezeichnung: ${bankkonto?.description}`);
 
   return bezeichnung;
 }

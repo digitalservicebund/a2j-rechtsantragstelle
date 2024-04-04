@@ -115,7 +115,6 @@ export const beratungshilfeFinanzielleAngaben = {
       kontostand: buildMoneyValidationSchema({}),
       iban: z.string(),
       kontoEigentuemer: Eigentuemer,
-      description: z.string().optional(), // TODO: remove after moving to kontoDescription
       kontoDescription: z.string().optional(),
     }),
   ),
