@@ -4,6 +4,19 @@ import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungsh
 
 const cases = [
   [
+    {},
+    [
+      "rechtsproblem/situation-beschreibung",
+      "finanzielleAngaben/start",
+      "finanzielleAngaben/einkommen/staatliche-leistungen",
+      "finanzielleAngaben/einkommen/erwerbstaetig",
+      "finanzielleAngaben/einkommen/situation",
+      "finanzielleAngaben/einkommen/weiteres-einkommen",
+      "finanzielleAngaben/einkommen/einkommen",
+      "persoenlicheDaten/start",
+    ],
+  ],
+  [
     {
       staatlicheLeistungen: "buergergeld",
       hasBankkonto: "no",

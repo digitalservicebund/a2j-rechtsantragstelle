@@ -51,6 +51,14 @@ const andereUnterhaltszahlungenDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasWeitereUnterhaltszahlungen == "no" ||
   (context.unterhaltszahlungen !== undefined &&
     context.unterhaltszahlungen.length > 0);
+const ausgabenDone: FinanzielleAngabenGuard = ({ context }) => {
+  return (
+    context.hasAusgaben === "no" ||
+    (context.hasAusgaben === "yes" &&
+      context.ausgaben !== undefined &&
+      context.ausgaben.length > 0)
+  );
+};
 
 const subflowDoneConfig: Record<string, FinanzielleAngabenGuard> = {
   einkommen: einkommenDone,
@@ -60,6 +68,7 @@ const subflowDoneConfig: Record<string, FinanzielleAngabenGuard> = {
   besitzZusammenfassung: besitzZusammenfassungDone,
   wohnung: wohnungDone,
   "andere-unterhaltszahlungen": andereUnterhaltszahlungenDone,
+  ausgaben: ausgabenDone,
 };
 
 export const beratungshilfeFinanzielleAngabenSubflowState = (

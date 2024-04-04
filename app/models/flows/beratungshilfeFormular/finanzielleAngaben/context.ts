@@ -115,6 +115,7 @@ export const beratungshilfeFinanzielleAngaben = {
       kontostand: buildMoneyValidationSchema({}),
       iban: z.string(),
       kontoEigentuemer: Eigentuemer,
+      description: z.string().optional(),
     }),
   ),
   hasKraftfahrzeug: YesNoAnswer,
@@ -203,6 +204,24 @@ export const beratungshilfeFinanzielleAngaben = {
   apartmentCostAlone: buildMoneyValidationSchema(),
   hasWeitereUnterhaltszahlungen: YesNoAnswer,
   unterhaltszahlungen: z.array(unterhaltszahlungSchema),
+  hasAusgaben: YesNoAnswer,
+  ausgabensituation: z.object({
+    pregnancy: checkedOptional,
+    singleParent: checkedOptional,
+    disability: checkedOptional,
+    medicalReasons: checkedOptional,
+  }),
+  ausgaben: z.array(
+    z.object({
+      art: inputRequiredSchema,
+      zahlungsempfaenger: inputRequiredSchema,
+      beitrag: buildMoneyValidationSchema(),
+      hasZahlungsfrist: YesNoAnswer,
+      zahlungsfrist: createDateSchema({
+        earliest: () => today(),
+      }),
+    }),
+  ),
   pageData: pageDataSchema,
 };
 

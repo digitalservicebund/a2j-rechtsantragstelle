@@ -54,6 +54,13 @@ export const finanzielleAngabenArrayConfig = {
     statementKey: "hasWeitereUnterhaltszahlungen",
     event: "add-unterhaltszahlungen",
   },
+  ausgaben: {
+    url: `${prefix}/ausgaben/ausgaben`,
+    initialInputUrl: "art",
+    statementUrl: `${prefix}/ausgaben/ausgaben-frage`,
+    statementKey: "hasAusgaben",
+    event: "add-ausgaben",
+  },
 } satisfies Partial<
   Record<keyof BeratungshilfeFinanzielleAngaben, ArrayConfig>
 >;

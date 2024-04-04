@@ -12,6 +12,7 @@ import { startRechtsproblem } from "./rechtsproblem";
 import { startGrundvoraussetzungen } from "./grundvoraussetzungen";
 import { startFinanzielleAngabenWohnung } from "./finanzielleAngabenWohnung";
 import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "./finanzielleAngabenAndereUnterhaltszahlungen";
+import { startFinanzielleAngabenAusgaben } from "./finanzielleAngabenAusgaben";
 
 let beratungshilfeFormular: BeratungshilfeFormular;
 
@@ -93,5 +94,6 @@ async function startFinanzielleAngaben(page: Page) {
   await beratungshilfeFormular.clickNext();
 
   await startFinanzielleAngabenWohnung(page, beratungshilfeFormular);
-  await beratungshilfeFormular.clickNext(); // leave finanzielle Angaben
+  await beratungshilfeFormular.clickNext();
+  await startFinanzielleAngabenAusgaben(page, beratungshilfeFormular);
 }

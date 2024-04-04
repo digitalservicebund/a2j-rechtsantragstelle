@@ -10,6 +10,7 @@ import { testCasesBeratungshilfeFormularFinanzielleAngabenBesitzZusammenfassung 
 import { testCasesBeratungshilfeRechtsproblem } from "./beratungshilfeFormular/rechtsprobleme/testcases";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "./beratungshilfeFormular/finanzielleAngaben/testcasesWohnung";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen } from "./beratungshilfeFormular/finanzielleAngaben/testcasesUnterhaltszahlungen";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe } from "./beratungshilfeFormular/finanzielleAngaben/testcasesAusgaben";
 
 /*
  * Note on testing xstate
@@ -36,6 +37,7 @@ describe("state machine form flows", () => {
     testCasesBeratungshilfeFormularFinanzielleAngabenBesitzZusammenfassung,
     testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
     testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
+    testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
   ].forEach(({ machine, cases }) => {
     test.each(cases)(
       "SUBMIT (%#) given context: %j, visits steps: %j",

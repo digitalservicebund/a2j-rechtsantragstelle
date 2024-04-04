@@ -1,3 +1,7 @@
+import {
+  firstArrayIndex,
+  isValidArrayIndex,
+} from "~/services/flow/pageDataSchema";
 import { yesNoGuards, type Guards } from "../../guards.server";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
 import { einkommenDone } from "./navStates";
@@ -9,6 +13,14 @@ const hasStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] 
     context.staatlicheLeistungen === "buergergeld" ||
     context.staatlicheLeistungen === "grundsicherung";
 
+const hasNoStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] =
+  ({ context }) => {
+    return (
+      context.staatlicheLeistungen !== undefined &&
+      !hasStaatlicheLeistungen({ context })
+    );
+  };
+
 export const finanzielleAngabeGuards = {
   besitzDone,
 
@@ -18,6 +30,7 @@ export const finanzielleAngabeGuards = {
   staatlicheLeistungenIsBuergergeld: ({ context }) =>
     context.staatlicheLeistungen === "buergergeld",
   hasStaatlicheLeistungen,
+  hasNoStaatlicheLeistungen,
   hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
     context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context }),
   besitzTotalWorthLessThan10000: ({ context }) =>
@@ -36,6 +49,12 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("hasGeldanlage"),
   ...yesNoGuards("hasGrundeigentum"),
   ...yesNoGuards("hasWertsache"),
+  ...yesNoGuards("hasAusgaben"),
+  hasZahlungsfristYes: ({ context: { pageData, ausgaben } }) => {
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return ausgaben?.at(arrayIndex)?.hasZahlungsfrist === "yes";
+  },
   isPartnerschaftZusammenlebenEinkommenNo: ({ context }) =>
     context.partnerschaft === "yes" &&
     context.zusammenleben === "yes" &&
@@ -46,92 +65,79 @@ export const finanzielleAngabeGuards = {
     context.partnerEinkommen === "yes",
   hasKinderYes: ({ context }) => context.hasKinder === "yes",
   kindWohnortBeiAntragstellerYes: ({ context: { pageData, kinder } }) => {
-    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
-      return false;
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
     const kinderWohnortBeiAntragsteller =
-      kinder?.[pageData.arrayIndexes[0]]?.wohnortBeiAntragsteller;
+      kinder?.at(arrayIndex)?.wohnortBeiAntragsteller;
     return (
       kinderWohnortBeiAntragsteller === "yes" ||
       kinderWohnortBeiAntragsteller === "partially"
     );
   },
   kindEigeneEinnahmenYes: ({ context: { pageData, kinder } }) => {
-    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
-      return false;
-    return kinder?.[pageData.arrayIndexes[0]]?.eigeneEinnahmen === "yes";
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return kinder?.at(arrayIndex)?.eigeneEinnahmen === "yes";
   },
   kindUnterhaltYes: ({ context: { pageData, kinder } }) => {
-    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
-      return false;
-    return kinder?.[pageData.arrayIndexes[0]]?.unterhalt === "yes";
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return kinder?.at(arrayIndex)?.unterhalt === "yes";
   },
-  isValidKinderArrayIndex: ({ context: { pageData, kinder } }) => {
-    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
-      return false;
-    const arrayIndex = pageData.arrayIndexes[0];
-    if ((kinder?.length === 0 && arrayIndex > 0) || arrayIndex < 0)
-      return false;
-
-    return !(arrayIndex > (kinder?.length ?? 0));
-  },
+  isValidKinderArrayIndex: ({ context: { pageData, kinder } }) =>
+    isValidArrayIndex(kinder, pageData),
+  isValidAusgabenArrayIndex: ({ context: { pageData, ausgaben } }) =>
+    isValidArrayIndex(ausgaben, pageData),
   livesAlone: ({ context }) => context.livingSituation === "alone",
   isGeldanlageBargeld: ({ context: { pageData, geldanlagen } }) => {
-    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
-      return false;
-
-    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "bargeld";
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return geldanlagen?.at(arrayIndex)?.art === "bargeld";
   },
   isGeldanlageWertpapiere: ({ context: { pageData, geldanlagen } }) => {
-    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
-      return false;
-    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "wertpapiere";
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return geldanlagen?.at(arrayIndex)?.art === "wertpapiere";
   },
   isGeldanlageGuthabenkontoKrypto: ({ context: { pageData, geldanlagen } }) => {
-    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
-      return false;
-    return (
-      geldanlagen?.[pageData.arrayIndexes[0]]?.art === "guthabenkontoKrypto"
-    );
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return geldanlagen?.at(arrayIndex)?.art === "guthabenkontoKrypto";
   },
   isGeldanlageGiroTagesgeldSparkonto: ({
     context: { pageData, geldanlagen },
   }) => {
-    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
-      return false;
-    return (
-      geldanlagen?.[pageData.arrayIndexes[0]]?.art === "giroTagesgeldSparkonto"
-    );
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return geldanlagen?.at(arrayIndex)?.art === "giroTagesgeldSparkonto";
   },
   isGeldanlageBefristet: ({ context: { pageData, geldanlagen } }) => {
-    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
-      return false;
-    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "befristet";
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return geldanlagen?.at(arrayIndex)?.art === "befristet";
   },
   isGeldanlageForderung: ({ context: { pageData, geldanlagen } }) => {
-    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
-      return false;
-    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "forderung";
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return geldanlagen?.at(arrayIndex)?.art === "forderung";
   },
   isGeldanlageSonstiges: ({ context: { pageData, geldanlagen } }) => {
-    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
-      return false;
-    return geldanlagen?.[pageData.arrayIndexes[0]]?.art === "sonstiges";
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return geldanlagen?.at(arrayIndex)?.art === "sonstiges";
   },
   isKraftfahrzeugWertAbove10000OrUnsure: ({
     context: { pageData, kraftfahrzeuge },
   }) => {
-    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
-      return false;
-
-    return (
-      kraftfahrzeuge?.[pageData.arrayIndexes[0]]?.wert === "over10000" ||
-      kraftfahrzeuge?.[pageData.arrayIndexes[0]]?.wert === "unsure"
-    );
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    const wert = kraftfahrzeuge?.at(arrayIndex)?.wert;
+    return wert === "over10000" || wert === "unsure";
   },
   grundeigentumIsBewohnt: ({ context: { pageData, grundeigentum } }) => {
-    if (!pageData?.arrayIndexes || pageData.arrayIndexes.length === 0)
-      return false;
-    return grundeigentum?.[pageData.arrayIndexes[0]]?.isBewohnt === "yes";
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return grundeigentum?.at(arrayIndex)?.isBewohnt === "yes";
   },
   einkommenDone,
   hasWeitereUnterhaltszahlungenYes: ({ context }) =>
