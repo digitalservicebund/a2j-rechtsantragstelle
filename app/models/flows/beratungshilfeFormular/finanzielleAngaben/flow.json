@@ -632,10 +632,10 @@
                 "BACK": "zahlungsinformation",
                 "SUBMIT": [
                   {
-                    "guard": "hasZahlungsfristNo",
-                    "target": "#ausgaben.uebersicht"
+                    "guard": "hasZahlungsfristYes",
+                    "target": "zahlungsfrist"
                   },
-                  "zahlungsfrist"
+                  "#ausgaben.uebersicht"
                 ]
               }
             },

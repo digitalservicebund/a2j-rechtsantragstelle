@@ -41,10 +41,10 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("hasGrundeigentum"),
   ...yesNoGuards("hasWertsache"),
   ...yesNoGuards("hasAusgaben"),
-  hasZahlungsfristNo: ({ context: { pageData, ausgaben } }) => {
+  hasZahlungsfristYes: ({ context: { pageData, ausgaben } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
-    return ausgaben?.at(arrayIndex)?.hasZahlungsfrist === "no";
+    return ausgaben?.at(arrayIndex)?.hasZahlungsfrist === "yes";
   },
   isPartnerschaftZusammenlebenEinkommenNo: ({ context }) =>
     context.partnerschaft === "yes" &&
