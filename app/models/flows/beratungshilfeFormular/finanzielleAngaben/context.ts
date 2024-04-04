@@ -32,6 +32,31 @@ const GrundeigentumArt = z.enum(
   customRequiredErrorMessage,
 );
 
+const unterhaltszahlungSchema = z.object({
+  firstName: inputRequiredSchema,
+  surname: inputRequiredSchema,
+  familyRelationship: z.enum(
+    [
+      "mother",
+      "father",
+      "grandmother",
+      "grandfather",
+      "kid",
+      "grandchild",
+      "ex-spouse-f",
+      "ex-spouse-m",
+    ],
+    customRequiredErrorMessage,
+  ),
+  birthday: createDateSchema({
+    earliest: () => addDays(today(), MINUS_150_YEARS * YEAR_DAYS),
+    latest: () => today(),
+  }),
+  monthlyPayment: buildMoneyValidationSchema(),
+});
+
+export type Unterhaltszahlung = z.infer<typeof unterhaltszahlungSchema>;
+
 export const beratungshilfeFinanzielleAngaben = {
   einkommen: buildMoneyValidationSchema(),
   erwerbstaetig: YesNoAnswer,
@@ -178,30 +203,7 @@ export const beratungshilfeFinanzielleAngaben = {
   apartmentCostFull: buildMoneyValidationSchema(),
   apartmentCostAlone: buildMoneyValidationSchema(),
   hasOtherMaintenancePayments: YesNoAnswer,
-  unterhaltszahlungen: z.array(
-    z.object({
-      firstName: inputRequiredSchema,
-      surname: inputRequiredSchema,
-      familyRelationship: z.enum(
-        [
-          "mother",
-          "father",
-          "grandmother",
-          "grandfather",
-          "kid",
-          "grandchild",
-          "ex-spouse-f",
-          "ex-spouse-m",
-        ],
-        customRequiredErrorMessage,
-      ),
-      birthday: createDateSchema({
-        earliest: () => addDays(today(), MINUS_150_YEARS * YEAR_DAYS),
-        latest: () => today(),
-      }),
-      monthlyPayment: buildMoneyValidationSchema(),
-    }),
-  ),
+  unterhaltszahlungen: z.array(unterhaltszahlungSchema),
   pageData: pageDataSchema,
 };
 

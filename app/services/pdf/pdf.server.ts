@@ -39,6 +39,7 @@ export function changeStringField(stringField: StringField, form: PDFForm) {
   const formField = form.getField(stringField.name);
   if (formField instanceof PDFTextField) {
     formField.setText(stringField.value);
+    console.log(stringField.name);
     const fontSize = getFontSizeFieldValue(stringField.name);
     formField.setFontSize(fontSize);
   }
