@@ -46,7 +46,12 @@ export const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
   (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context }));
 
 const ausgabenDone: FinanzielleAngabenGuard = ({ context }) => {
-  return context.hasAusgaben === "no" || context.ausgaben !== undefined;
+  return (
+    context.hasAusgaben === "no" ||
+    (context.hasAusgaben === "yes" &&
+      context.ausgaben !== undefined &&
+      context.ausgaben.length > 0)
+  );
 };
 
 const subflowDoneConfig: Record<string, FinanzielleAngabenGuard> = {
