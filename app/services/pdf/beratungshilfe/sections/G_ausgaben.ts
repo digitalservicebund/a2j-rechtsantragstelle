@@ -26,7 +26,7 @@ export function fillAusgaben(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const ausgaben = context.ausgaben || [];
+  const ausgaben = context.ausgaben ?? [];
 
   if (ausgaben.length > AUSGABEN_MAX_FIELDS) {
     handleOverflowAusgaben(attachment, pdfFields, context, ausgaben);
