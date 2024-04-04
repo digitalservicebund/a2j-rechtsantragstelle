@@ -15,10 +15,14 @@
             "target": "#finanzielleAngaben.besitzZusammenfassung.zusammenfassung"
           },
           {
-            "guard": "livesAlone",
-            "target": "#finanzielleAngaben.wohnung.wohnkostenAllein"
+            "guard": "hasAusgabenYes",
+            "target": "#ausgaben.uebersicht"
           },
-          "#finanzielleAngaben.wohnung.wohnkostenGeteilt"
+          {
+            "guard": "hasNoStaatlicheLeistungen",
+            "target": "#ausgaben.ausgaben-frage"
+          },
+          "#finanzielleAngaben.einkommen.einkommen"
         ]
       }
     },

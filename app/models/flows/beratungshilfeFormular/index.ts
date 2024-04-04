@@ -21,6 +21,8 @@ import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import abgabeFlow from "./abgabe/flow.json";
 import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import {
+  andereUnterhaltszahlungenDone,
+  ausgabenDone,
   einkommenDone,
   kinderDone,
   partnerDone,
@@ -64,14 +66,16 @@ export const beratungshilfeFormular = {
       }),
       finanzielleAngaben: _.merge(finanzielleAngabenFlow, {
         states: {
+          einkommen: { meta: { done: einkommenDone } },
           partner: { meta: { done: partnerDone } },
-          wohnung: { meta: { done: wohnungDone } },
           kinder: { meta: { done: kinderDone } },
+          "andere-unterhaltszahlungen": {
+            meta: { done: andereUnterhaltszahlungenDone },
+          },
           besitz: { meta: { done: besitzDone } },
           besitzZusammenfassung: { meta: { done: besitzZusammenfassungDone } },
-          einkommen: {
-            meta: { done: einkommenDone },
-          },
+          wohnung: { meta: { done: wohnungDone } },
+          ausgaben: { meta: { done: ausgabenDone } },
         },
       }),
       persoenlicheDaten: _.merge(persoenlicheDatenFlow, {

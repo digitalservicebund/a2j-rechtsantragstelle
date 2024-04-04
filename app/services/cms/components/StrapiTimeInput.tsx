@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import TimeInput from "~/components/inputs/TimeInput";
 import {
   flattenStrapiErrors,

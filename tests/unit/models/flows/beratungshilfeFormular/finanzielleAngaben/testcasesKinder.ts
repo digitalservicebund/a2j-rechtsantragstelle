@@ -14,7 +14,7 @@ const cases = [
     { hasKinder: "no" },
     [
       "finanzielleAngaben/kinder/kinder-frage",
-      "finanzielleAngaben/besitz/eigentum-info",
+      "finanzielleAngaben/andere-unterhaltszahlungen/frage",
     ],
   ],
   [
@@ -63,7 +63,7 @@ const cases = [
     { hasKinder: "yes" },
     [
       "finanzielleAngaben/kinder/uebersicht",
-      "finanzielleAngaben/besitz/eigentum-info",
+      "finanzielleAngaben/andere-unterhaltszahlungen/frage",
     ],
   ],
   [

@@ -23,7 +23,7 @@ export function gerbehIndex(info: GerbehIndex) {
   return `${info.LKZ}_${info.OLG}_${info.LG}_${info.AG}_${typInfo}`;
 }
 interface ConversionInput {
-  [key: string]: any[];
+  [key: string]: unknown[];
 }
 
 export const conversions = {
@@ -46,8 +46,8 @@ export const conversions = {
 
   "JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json": (object: ConversionInput) => {
     const out: PlzOrtkFile = {};
-    const plzOrtkData: Jmtd14VTErwerberPlzortk[] =
-      object.JMTD14_VT_ERWERBER_PLZORTK;
+    const plzOrtkData =
+      object.JMTD14_VT_ERWERBER_PLZORTK as Jmtd14VTErwerberPlzortk[];
 
     plzOrtkData.forEach((entry) => {
       if (entry.ANGELEGENHEIT_INFO === "Prozesskostenhilfe eingehend") {
@@ -63,8 +63,8 @@ export const conversions = {
 
   "JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json": (object: ConversionInput) => {
     const out: PlzStrnFile = {};
-    const plzStrnData: Jmtd14VTErwerberPlzstrn[] =
-      object.JMTD14_VT_ERWERBER_PLZSTRN;
+    const plzStrnData =
+      object.JMTD14_VT_ERWERBER_PLZSTRN as Jmtd14VTErwerberPlzstrn[];
 
     plzStrnData.forEach((entry) => {
       if (entry.ANGELEGENHEIT_INFO === "Prozesskostenhilfe eingehend") {

@@ -43,6 +43,24 @@ export const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
   context.apartmentSizeSqm !== undefined &&
   (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context }));
 
+export const andereUnterhaltszahlungenDone: FinanzielleAngabenGuard = ({
+  context,
+}) =>
+  (context.staatlicheLeistungen != undefined &&
+    hasStaatlicheLeistungen({ context })) ||
+  context.hasWeitereUnterhaltszahlungen == "no" ||
+  (context.unterhaltszahlungen !== undefined &&
+    context.unterhaltszahlungen.length > 0);
+
+export const ausgabenDone: FinanzielleAngabenGuard = ({ context }) => {
+  return (
+    context.hasAusgaben === "no" ||
+    (context.hasAusgaben === "yes" &&
+      context.ausgaben !== undefined &&
+      context.ausgaben.length > 0)
+  );
+};
+
 export const beratungshilfeFinanzielleAngabeDone: GenericGuard<
   BeratungshilfeFinanzielleAngaben
 > = ({ context }) => {
@@ -59,7 +77,8 @@ export const beratungshilfeFinanzielleAngabeDone: GenericGuard<
         besitzDone({ context }) &&
         besitzZusammenfassungDone({ context }) &&
         einkommenDone({ context }) &&
-        wohnungDone({ context })
+        wohnungDone({ context }) &&
+        andereUnterhaltszahlungenDone({ context })
       );
   }
   return false;
