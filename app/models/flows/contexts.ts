@@ -7,6 +7,7 @@ import { context as geldEinklagenContext } from "./geldEinklagen/context";
 import { context as geldEinklagenFormularContext } from "./geldEinklagenFormular/context";
 
 type BasicTypes = string | number | boolean;
+export type ArrayData = Array<Record<string, BasicTypes>>;
 export type ObjectType = Record<
   string,
   | BasicTypes
@@ -15,7 +16,7 @@ export type ObjectType = Record<
 >;
 export type Context = Record<
   string,
-  BasicTypes | ObjectType | ObjectType[] | undefined
+  BasicTypes | ObjectType | ArrayData | undefined
 >;
 
 const contexts = {

@@ -125,7 +125,7 @@ describe("F_besitz", () => {
       expect(pdfFields.f2InhaberB.value).toBe(false);
       expect(pdfFields.f2InhaberC.value).toBe(false);
       expect(pdfFields.f7Nutzungsart.value).toBe(
-        "Art des Eigentums: Haus für Familie, Eigentümer:in: Ich alleine, Fläche: 100 m², Selbst bewohnt",
+        "Art des Eigentums: Haus für Familie, Eigentümer:in: Ich alleine, Fläche: 100 m², Eigennutzung",
       );
     });
 
@@ -170,7 +170,7 @@ describe("F_besitz", () => {
           "Eigentümer:in: Ich alleine\n" +
           "Fläche: 100 m²\n" +
           "Verkehrswert: 100001 €\n" +
-          "Selbst bewohnt\n" +
+          "Eigennutzung\n" +
           "\n" +
           "Art des Eigentums: Haus für Familie\n" +
           "Eigentümer:in: Ehe-Partner:in\n" +
@@ -289,8 +289,8 @@ describe("F_besitz", () => {
         text:
           "\nGeldanlage 1\n" +
           "Art der Geldanlage: Bargeld\n" +
-          "Betrag: 100000 €\n" +
-          "Eigentümer:in: Ehe-Partner:in",
+          "Eigentümer:in: Ehe-Partner:in\n" +
+          "Wert: 100000 €",
       });
     });
 
@@ -321,11 +321,11 @@ describe("F_besitz", () => {
         text:
           "\nGeldanlage 1\n" +
           "Art der Geldanlage: Girokonto / Tagesgeld / Sparkonto\n" +
-          "Betrag: 1000 €\n" +
-          "Eigentümer:in: Ehe-Partner:in\n" +
           "Name der Bank: Bank\n" +
           "IBAN: 12356789\n" +
-          "Bezeichnung: Bezeichnung",
+          "Bezeichnung: Bezeichnung\n" +
+          "Eigentümer:in: Ehe-Partner:in\n" +
+          "Wert: 1000 €",
       });
     });
 
@@ -355,10 +355,10 @@ describe("F_besitz", () => {
         text:
           "\nGeldanlage 1\n" +
           "Art der Geldanlage: Befristete Geldanlage\n" +
-          "Betrag: 1000 €\n" +
-          "Eigentümer:in: Ehe-Partner:in\n" +
           "Verwendungszweck: Verwendung\n" +
-          "Auszahlungstermin: 12.12.1990",
+          "Auszahlungstermin: 12.12.1990\n" +
+          "Eigentümer:in: Ehe-Partner:in\n" +
+          "Wert: 1000 €",
       });
     });
 
@@ -387,9 +387,9 @@ describe("F_besitz", () => {
         text:
           "\nGeldanlage 1\n" +
           "Art der Geldanlage: Sonstiges\n" +
-          "Betrag: 1000 €\n" +
+          "Beschreibung: Beschreibung\n" +
           "Eigentümer:in: Ehe-Partner:in\n" +
-          "Beschreibung: Beschreibung",
+          "Wert: 1000 €",
       });
     });
 

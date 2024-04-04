@@ -176,7 +176,7 @@ export const buildFlowController = ({
       );
       if (nextArray) return nextArray[0];
     },
-    getInitial: () => `${baseUrl}${getInitial(machine)}`,
+    getInitial: () => `${baseUrl}${getInitial(machine) ?? ""}`,
     getProgress: (currentStepId: string) => {
       const max =
         Math.max(

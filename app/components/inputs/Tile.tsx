@@ -1,16 +1,13 @@
-import { z } from "zod";
 import { useField } from "remix-validated-form";
-import Image, { ImagePropsSchema } from "../Image";
+import Image, { type ImageProps } from "../Image";
 import RichText from "../RichText";
 
-export const TilePropsSchema = z.object({
-  description: z.string().nullable().optional(),
-  value: z.string(),
-  title: z.string().optional(),
-  image: ImagePropsSchema.optional(),
-});
-
-type TileProps = z.infer<typeof TilePropsSchema>;
+export type TileProps = Readonly<{
+  value: string;
+  description?: string | null;
+  title?: string;
+  image?: ImageProps;
+}>;
 
 const Tile = ({
   name,
