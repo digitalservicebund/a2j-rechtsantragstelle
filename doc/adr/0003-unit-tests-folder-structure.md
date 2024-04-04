@@ -13,13 +13,14 @@ Our team acknowledges several issues with our current unit test folder structure
 - Difficulty in locating unit tests corresponding to implementation code
 - Lack of clarity regarding test coverage
 - Challenges in writing new unit tests for newly implemented code due to separation from the codebase.
+- Need to independently rearrange test folders when files are moved to another path
 
 To address these concerns, we have identified the following options:
 
-1. Leave as is
+1. Leave as is and accept the drawbacks
 2. Add `__test__` folder within lowest-level app folders
-3. In-source tests
-4. Parallel test files in the same folder as app files
+3. Parallel test files in the same folder as app files
+4. In-source tests
 
 The pros and cons of these options are outlined in the image below:
 
