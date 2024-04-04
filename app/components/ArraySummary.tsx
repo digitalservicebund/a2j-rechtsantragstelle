@@ -12,7 +12,7 @@ import { CSRFKey } from "~/services/security/csrfKey";
 import type { ArrayConfig } from "~/services/array";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
 
-export type ArraySummaryProps = {
+type ArraySummaryProps = {
   readonly category: string;
   readonly arrayData: {
     data: ArrayData;
