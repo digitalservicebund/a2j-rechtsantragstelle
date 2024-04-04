@@ -12,7 +12,7 @@ export const einkommenDone: FinanzielleAngabenGuard = ({ context }) =>
     hasStaatlicheLeistungen({ context })) ||
   context.einkommen != undefined;
 
-export const partnerDone: FinanzielleAngabenGuard = ({ context }) =>
+const partnerDone: FinanzielleAngabenGuard = ({ context }) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen({ context })) ||
   ["no", "widowed"].includes(context.partnerschaft ?? "") ||
@@ -40,12 +40,14 @@ const wohnungWithOthersDone: FinanzielleAngabenGuard = ({ context }) =>
   context.apartmentCostOwnShare !== undefined &&
   context.apartmentCostFull !== undefined;
 
-export const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
+const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
   context.livingSituation !== undefined &&
   context.apartmentSizeSqm !== undefined &&
   (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context }));
 
 const andereUnterhaltszahlungenDone: FinanzielleAngabenGuard = ({ context }) =>
+  (context.staatlicheLeistungen != undefined &&
+    hasStaatlicheLeistungen({ context })) ||
   context.hasOtherMaintenancePayments == "no" ||
   (context.unterhaltszahlungen !== undefined &&
     context.unterhaltszahlungen.length > 0);

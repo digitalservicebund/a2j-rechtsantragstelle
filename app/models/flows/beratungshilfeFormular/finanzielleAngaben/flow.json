@@ -20,7 +20,7 @@
             "SUBMIT": [
               {
                 "guard": "staatlicheLeistungenIsBuergergeld",
-                "target": "#andere-unterhaltszahlungen.frage"
+                "target": "#besitz.eigentum-info"
               },
               {
                 "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",
@@ -326,6 +326,10 @@
               "bankkonten-frage"
             ],
             "BACK": [
+              {
+                "guard": "staatlicheLeistungenIsBuergergeld",
+                "target": "#einkommen.staatliche-leistungen"
+              },
               {
                 "guard": "hasOtherMaintenancePaymentsYes",
                 "target": "#andere-unterhaltszahlungen.uebersicht"
