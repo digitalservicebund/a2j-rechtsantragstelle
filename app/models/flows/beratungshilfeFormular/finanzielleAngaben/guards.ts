@@ -140,4 +140,6 @@ export const finanzielleAngabeGuards = {
     return grundeigentum?.at(arrayIndex)?.isBewohnt === "yes";
   },
   einkommenDone,
+  hasWeitereUnterhaltszahlungenYes: ({ context }) =>
+    context.hasWeitereUnterhaltszahlungen === "yes",
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;

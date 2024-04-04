@@ -188,14 +188,14 @@
                 "guard": "hasKinderYes",
                 "target": "uebersicht"
               },
-              "#besitz.eigentum-info"
+              "#andere-unterhaltszahlungen.frage"
             ]
           }
         },
         "uebersicht": {
           "on": {
             "BACK": "kinder-frage",
-            "SUBMIT": "#besitz",
+            "SUBMIT": "#andere-unterhaltszahlungen",
             "add-kinder": {
               "guard": "isValidKinderArrayIndex",
               "target": "kinder"
@@ -269,6 +269,49 @@
         }
       }
     },
+    "andere-unterhaltszahlungen": {
+      "id": "andere-unterhaltszahlungen",
+      "initial": "frage",
+      "states": {
+        "frage": {
+          "on": {
+            "BACK": [
+              {
+                "guard": "staatlicheLeistungenIsBuergergeld",
+                "target": "#einkommen.staatliche-leistungen"
+              },
+              { "guard": "hasKinderYes", "target": "#kinder.uebersicht" },
+              "#kinder.kinder-frage"
+            ],
+            "SUBMIT": [
+              {
+                "guard": "hasWeitereUnterhaltszahlungenYes",
+                "target": "uebersicht"
+              },
+              "#besitz.eigentum-info"
+            ]
+          }
+        },
+        "uebersicht": {
+          "on": {
+            "BACK": "frage",
+            "SUBMIT": "#besitz",
+            "add-unterhaltszahlungen": "person"
+          }
+        },
+        "person": {
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "BACK": "#andere-unterhaltszahlungen.uebersicht",
+                "SUBMIT": "#andere-unterhaltszahlungen.uebersicht"
+              }
+            }
+          }
+        }
+      }
+    },
     "besitz": {
       "id": "besitz",
       "initial": "eigentum-info",
@@ -287,8 +330,11 @@
                 "guard": "staatlicheLeistungenIsBuergergeld",
                 "target": "#einkommen.staatliche-leistungen"
               },
-              { "guard": "hasKinderYes", "target": "#kinder.uebersicht" },
-              "#kinder.kinder-frage"
+              {
+                "guard": "hasWeitereUnterhaltszahlungenYes",
+                "target": "#andere-unterhaltszahlungen.uebersicht"
+              },
+              "#andere-unterhaltszahlungen.frage"
             ]
           }
         },

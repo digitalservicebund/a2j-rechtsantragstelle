@@ -12,7 +12,7 @@ export const einkommenDone: FinanzielleAngabenGuard = ({ context }) =>
     hasStaatlicheLeistungen({ context })) ||
   context.einkommen != undefined;
 
-export const partnerDone: FinanzielleAngabenGuard = ({ context }) =>
+const partnerDone: FinanzielleAngabenGuard = ({ context }) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen({ context })) ||
   ["no", "widowed"].includes(context.partnerschaft ?? "") ||
@@ -40,11 +40,17 @@ const wohnungWithOthersDone: FinanzielleAngabenGuard = ({ context }) =>
   context.apartmentCostOwnShare !== undefined &&
   context.apartmentCostFull !== undefined;
 
-export const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
+const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
   context.livingSituation !== undefined &&
   context.apartmentSizeSqm !== undefined &&
   (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context }));
 
+const andereUnterhaltszahlungenDone: FinanzielleAngabenGuard = ({ context }) =>
+  (context.staatlicheLeistungen != undefined &&
+    hasStaatlicheLeistungen({ context })) ||
+  context.hasWeitereUnterhaltszahlungen == "no" ||
+  (context.unterhaltszahlungen !== undefined &&
+    context.unterhaltszahlungen.length > 0);
 const ausgabenDone: FinanzielleAngabenGuard = ({ context }) => {
   return (
     context.hasAusgaben === "no" ||
@@ -61,6 +67,7 @@ const subflowDoneConfig: Record<string, FinanzielleAngabenGuard> = {
   besitz: besitzDone,
   besitzZusammenfassung: besitzZusammenfassungDone,
   wohnung: wohnungDone,
+  "andere-unterhaltszahlungen": andereUnterhaltszahlungenDone,
   ausgaben: ausgabenDone,
 };
 
@@ -93,7 +100,8 @@ export const beratungshilfeFinanzielleAngabeDone: GenericGuard<
         besitzDone({ context }) &&
         besitzZusammenfassungDone({ context }) &&
         einkommenDone({ context }) &&
-        wohnungDone({ context })
+        wohnungDone({ context }) &&
+        andereUnterhaltszahlungenDone({ context })
       );
   }
   return false;
