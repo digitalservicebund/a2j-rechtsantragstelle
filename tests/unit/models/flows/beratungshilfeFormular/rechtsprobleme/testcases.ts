@@ -15,7 +15,7 @@ const cases = [
       "rechtsproblem/start",
       "rechtsproblem/bereich",
       "rechtsproblem/situation-beschreibung",
-      "finanzielleAngaben/einkommen/staatliche-leistungen",
+      "finanzielleAngaben/start",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeRechtsproblem>;

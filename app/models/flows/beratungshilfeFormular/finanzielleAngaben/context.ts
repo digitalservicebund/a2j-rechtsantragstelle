@@ -7,7 +7,6 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
-import { postcodeSchema } from "~/services/validation/postcode";
 import { addDays, createDateSchema, today } from "~/services/validation/date";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { integerSchema } from "~/services/validation/integer";
@@ -183,7 +182,7 @@ export const beratungshilfeFinanzielleAngaben = {
       flaeche: inputRequiredSchema,
       verkaufswert: buildMoneyValidationSchema(),
       strassehausnummer: inputRequiredSchema,
-      plz: postcodeSchema,
+      plz: z.string().optional(),
       ort: inputRequiredSchema,
       land: inputRequiredSchema,
     }),

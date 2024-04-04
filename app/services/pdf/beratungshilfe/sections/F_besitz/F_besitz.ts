@@ -286,7 +286,7 @@ function getBankkontoBezeichnung(
 const geldanlageArtMapping = {
   bargeld: "Bargeld",
   wertpapiere: "Wertpapiere",
-  guthabenkontoKrypto: "Paypal oder Crypto",
+  guthabenkontoKrypto: "Guthabenkonto oder Kryptowährung",
   giroTagesgeldSparkonto: "Girokonto / Tagesgeld / Sparkonto",
   befristet: "Befristete Geldanlage",
   forderung: "Forderung",
@@ -297,6 +297,28 @@ type Geldanlage = NonNullable<BeratungshilfeFormularContext["geldanlagen"]>[0];
 function getGeldanlagenBezeichnung(geldanlagen?: Geldanlage[]): string[] {
   const bezeichnung: string[] = [];
 
+  const giroTagesgeldSparkonto = (anlage: Geldanlage) => {
+    bezeichnung.push(`Name der Bank: ${anlage.kontoBankName ?? ""}`);
+    if (anlage.kontoIban && (anlage.kontoIban?.length ?? 0) > 0)
+      bezeichnung.push(`IBAN: ${anlage.kontoIban}`);
+    if (anlage.kontoBezeichnung && (anlage.kontoBezeichnung?.length ?? 0) > 0)
+      bezeichnung.push(`Bezeichnung: ${anlage.kontoBezeichnung}`);
+  };
+
+  const befristet = (anlage: Geldanlage) => {
+    bezeichnung.push(`Verwendungszweck: ${anlage.verwendungszweck ?? ""}`);
+    bezeichnung.push(`Auszahlungstermin: ${anlage.auszahlungdatum ?? ""}`);
+  };
+
+  const sonstiges = (anlage: Geldanlage) => {
+    bezeichnung.push(`Beschreibung: ${anlage.verwendungszweck ?? ""}`);
+  };
+
+  const forderung = (anlage: Geldanlage) => {
+    bezeichnung.push(`Forderung: ${anlage.forderung ?? ""}`);
+    bezeichnung.push(`Wer fordert: ${eigentuemerMapping[anlage.eigentuemer]}`);
+  };
+
   geldanlagen?.forEach((geldanlage, index) => {
     // Create a new line for each entry
     bezeichnung.push("");
@@ -305,34 +327,33 @@ function getGeldanlagenBezeichnung(geldanlagen?: Geldanlage[]): string[] {
     bezeichnung.push(
       `Art der Geldanlage: ${geldanlageArtMapping[geldanlage.art]}`,
     );
-    bezeichnung.push(`Betrag: ${geldanlage.wert} €`);
-    bezeichnung.push(
-      `Eigentümer:in: ${eigentuemerMapping[geldanlage.eigentuemer]}`,
-    );
 
-    if (geldanlage.art === "giroTagesgeldSparkonto") {
-      bezeichnung.push(`Name der Bank: ${geldanlage.kontoBankName ?? ""}`);
-      if (geldanlage.kontoIban && (geldanlage.kontoIban?.length ?? 0) > 0)
-        bezeichnung.push(`IBAN: ${geldanlage.kontoIban}`);
-      if (
-        geldanlage.kontoBezeichnung &&
-        (geldanlage.kontoBezeichnung?.length ?? 0) > 0
-      )
-        bezeichnung.push(`Bezeichnung: ${geldanlage.kontoBezeichnung}`);
+    switch (geldanlage.art) {
+      case "giroTagesgeldSparkonto": {
+        giroTagesgeldSparkonto(geldanlage);
+        break;
+      }
+      case "befristet": {
+        befristet(geldanlage);
+        break;
+      }
+      case "sonstiges": {
+        sonstiges(geldanlage);
+        break;
+      }
+      case "forderung": {
+        forderung(geldanlage);
+        break;
+      }
     }
 
-    if (geldanlage.art === "befristet") {
+    if (geldanlage.art !== "forderung") {
       bezeichnung.push(
-        `Verwendungszweck: ${geldanlage.verwendungszweck ?? ""}`,
-      );
-      bezeichnung.push(
-        `Auszahlungstermin: ${geldanlage.auszahlungdatum ?? ""}`,
+        `Eigentümer:in: ${eigentuemerMapping[geldanlage.eigentuemer]}`,
       );
     }
 
-    if (geldanlage.art === "sonstiges") {
-      bezeichnung.push(`Beschreibung: ${geldanlage.verwendungszweck ?? ""}`);
-    }
+    bezeichnung.push(`Wert: ${geldanlage.wert} €`);
   });
 
   return bezeichnung;

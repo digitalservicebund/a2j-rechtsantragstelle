@@ -15,6 +15,7 @@ const cases = [
       hasOtherMaintenancePayments: "no",
     },
     [
+      "finanzielleAngaben/start",
       "finanzielleAngaben/einkommen/staatliche-leistungen",
       "finanzielleAngaben/andere-unterhaltszahlungen/frage",
       "finanzielleAngaben/besitz/eigentum-info",
