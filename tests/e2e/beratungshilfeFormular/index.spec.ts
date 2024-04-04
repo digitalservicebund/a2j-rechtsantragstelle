@@ -91,5 +91,4 @@ async function startFinanzielleAngaben(page: Page) {
   await startFinanzielleAngabenWohnung(page, beratungshilfeFormular);
   await beratungshilfeFormular.clickNext();
   await startFinanzielleAngabenAusgaben(page, beratungshilfeFormular);
-  await beratungshilfeFormular.clickNext(); // leave finanzielle Angaben
 }
