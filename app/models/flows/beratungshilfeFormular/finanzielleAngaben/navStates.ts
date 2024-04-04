@@ -2,8 +2,6 @@ import type { GenericGuard } from "../../guards.server";
 import { besitzDone, besitzZusammenfassungDone } from "./navStatesBesitz";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
 
-export type SubflowState = "Done" | "Open";
-
 export type FinanzielleAngabenGuard =
   GenericGuard<BeratungshilfeFinanzielleAngaben>;
 
@@ -44,28 +42,6 @@ export const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
   context.livingSituation !== undefined &&
   context.apartmentSizeSqm !== undefined &&
   (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context }));
-
-const subflowDoneConfig: Record<string, FinanzielleAngabenGuard> = {
-  einkommen: einkommenDone,
-  partner: partnerDone,
-  kinder: kinderDone,
-  besitz: besitzDone,
-  besitzZusammenfassung: besitzZusammenfassungDone,
-  wohnung: wohnungDone,
-};
-
-export const beratungshilfeFinanzielleAngabenSubflowState = (
-  context: BeratungshilfeFinanzielleAngaben,
-  subflowId: string,
-): SubflowState => {
-  if (
-    subflowId in subflowDoneConfig &&
-    subflowDoneConfig[subflowId]({ context })
-  ) {
-    return "Done";
-  }
-  return "Open";
-};
 
 export const beratungshilfeFinanzielleAngabeDone: GenericGuard<
   BeratungshilfeFinanzielleAngaben
