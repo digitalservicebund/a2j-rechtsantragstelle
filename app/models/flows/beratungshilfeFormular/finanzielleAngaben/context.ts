@@ -174,6 +174,24 @@ export const beratungshilfeFinanzielleAngaben = {
   apartmentCostOwnShare: buildMoneyValidationSchema(),
   apartmentCostFull: buildMoneyValidationSchema(),
   apartmentCostAlone: buildMoneyValidationSchema(),
+  hasAusgaben: YesNoAnswer,
+  ausgabensituation: z.object({
+    pregnancy: checkedOptional,
+    singleParent: checkedOptional,
+    disability: checkedOptional,
+    medicalReasons: checkedOptional,
+  }),
+  ausgaben: z.array(
+    z.object({
+      art: inputRequiredSchema,
+      zahlungsempfaenger: inputRequiredSchema,
+      beitrag: buildMoneyValidationSchema(),
+      hasZahlungsfrist: YesNoAnswer,
+      zahlungsfrist: createDateSchema({
+        earliest: () => today(),
+      }),
+    }),
+  ),
   pageData: pageDataSchema,
 };
 
