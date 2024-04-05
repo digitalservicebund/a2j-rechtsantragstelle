@@ -46,12 +46,17 @@ export function fillFinancialBankkonto(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const { hasBankkonto, bankkonten } = context;
+  const { hasBankkonto, bankkonten, besitzTotalWorth } = context;
   const hasBankkontoYes = hasBankkonto === "yes";
 
   pdfFields.f1Konten1.value = !hasBankkontoYes;
   pdfFields.f1Konten2.value = hasBankkontoYes;
   if (!hasBankkontoYes || !bankkonten || bankkonten.length === 0) return;
+
+  pdfFields.f3Bank1.value =
+    besitzTotalWorth === "less10000"
+      ? "Übergreifender Hinweis zu allen Vermögenswerten:\nMein gesamtes Vermögen ist insgesamt weniger als 10.000€ wert.\n\n"
+      : "";
 
   if (bankkonten.length == 1) {
     const bankkonto = bankkonten.pop();
@@ -63,7 +68,7 @@ export function fillFinancialBankkonto(
 
     const bezeichnung = getBankkontoBezeichnung(bankkonto);
 
-    pdfFields.f3Bank1.value = bezeichnung.join(", ");
+    pdfFields.f3Bank1.value += bezeichnung.join(", ");
     pdfFields.f4Kontostand.value = `${bankkonto?.kontostand ?? ""} €`;
   } else {
     attachment.shouldCreateAttachment = true;
@@ -73,7 +78,7 @@ export function fillFinancialBankkonto(
       bezeichnung.push(getBankkontoBezeichnung(bankkonto, true).join("\n"));
     });
 
-    pdfFields.f3Bank1.value = newPageHint;
+    pdfFields.f3Bank1.value += newPageHint;
 
     attachment.descriptions.unshift({
       title: "Bankkonten",

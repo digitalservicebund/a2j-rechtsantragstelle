@@ -1,9 +1,12 @@
 const FONT_SIZE_10 = 10;
 const FONT_SIZE_6 = 6;
 const FONT_SIZE_8 = 8;
+const FONT_SIZE_9 = 9;
 
 export function getFontSizeFieldValue(fieldName: string): number {
   switch (fieldName) {
+    case "F3-Bank1":
+      return FONT_SIZE_9;
     case "E2-Geburtsdatum":
     case "E2-Geburtsdatum1":
     case "E2-Geburtsdatum2":
