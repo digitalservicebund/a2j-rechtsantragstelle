@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import { omitNull } from "~/util/omitNull";
 import Select from "~/components/inputs/Select";
 import {

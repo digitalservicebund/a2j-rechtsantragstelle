@@ -280,6 +280,9 @@ function getBankkontoBezeichnung(
     );
   }
 
+  if (bankkonto?.kontoDescription)
+    bezeichnung.push(`Bezeichnung: ${bankkonto?.kontoDescription}`);
+
   return bezeichnung;
 }
 

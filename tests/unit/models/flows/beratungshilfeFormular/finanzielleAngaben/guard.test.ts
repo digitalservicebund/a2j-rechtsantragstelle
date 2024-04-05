@@ -55,6 +55,7 @@ describe("finanzielleAngabeGuards", () => {
   });
 
   describe("isValidKinderArrayIndex", () => {
+    // TODO: remove extensive tests in favor of checking whether isValidArrayIndex was called
     const contextMockData: BeratungshilfeFinanzielleAngaben = {
       kinder: [
         {

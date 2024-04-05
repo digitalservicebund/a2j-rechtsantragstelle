@@ -1,15 +1,24 @@
 import { getFontSizeFieldValue } from "~/services/pdf/getFontSizeFieldValue";
 
 describe("getFontSizeFieldValue", () => {
-  it("should return font size 5 for field name D3-Teilwohnkosten", () => {
-    const actual = getFontSizeFieldValue("D3-Teilwohnkosten");
+  const casesFontSizes = [
+    { input: "D3-Teilwohnkosten", expected: 5 },
+    { input: "E2-Geburtsdatum", expected: 8 },
+    { input: "E2-Geburtsdatum2", expected: 8 },
+    { input: "E2-Geburtsdatum3", expected: 8 },
+    { input: "E2-Geburtsdatum4", expected: 8 },
+    { input: "E3-Familienverhältnis", expected: 6 },
+    { input: "E3-Familienverhältnis2", expected: 6 },
+    { input: "E3-Familienverhältnis3", expected: 6 },
+    { input: "E3-Familienverhältnis4", expected: 6 },
+    { input: "any_other_field", expected: 10 },
+  ];
 
-    expect(actual).toEqual(5);
-  });
-
-  it("should return font size 10 for any another field name", () => {
-    const actual = getFontSizeFieldValue("any_another_field_name");
-
-    expect(actual).toEqual(10);
-  });
+  test.each(casesFontSizes)(
+    "should return font size $expected for field name $input",
+    ({ input, expected }) => {
+      const actual = getFontSizeFieldValue(input);
+      expect(actual).toEqual(expected);
+    },
+  );
 });

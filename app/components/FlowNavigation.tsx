@@ -21,8 +21,9 @@ export type NavItem = {
 };
 
 const StateIcon = ({ isDone }: { readonly isDone: boolean }) => {
-  if (isDone) return <CheckCircleOutlineIcon className="text-green-800" />;
-  return <CircleOutlinedIcon />;
+  if (isDone)
+    return <CheckCircleOutlineIcon className="shrink-0 text-green-800" />;
+  return <CircleOutlinedIcon className="shrink-0" />;
 };
 
 const stateIsDisabled = (state: NavState) =>

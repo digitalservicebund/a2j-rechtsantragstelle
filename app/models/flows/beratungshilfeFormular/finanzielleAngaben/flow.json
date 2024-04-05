@@ -188,14 +188,14 @@
                 "guard": "hasKinderYes",
                 "target": "uebersicht"
               },
-              "#besitz.eigentum-info"
+              "#andere-unterhaltszahlungen.frage"
             ]
           }
         },
         "uebersicht": {
           "on": {
             "BACK": "kinder-frage",
-            "SUBMIT": "#besitz",
+            "SUBMIT": "#andere-unterhaltszahlungen",
             "add-kinder": {
               "guard": "isValidKinderArrayIndex",
               "target": "kinder"
@@ -269,6 +269,49 @@
         }
       }
     },
+    "andere-unterhaltszahlungen": {
+      "id": "andere-unterhaltszahlungen",
+      "initial": "frage",
+      "states": {
+        "frage": {
+          "on": {
+            "BACK": [
+              {
+                "guard": "staatlicheLeistungenIsBuergergeld",
+                "target": "#einkommen.staatliche-leistungen"
+              },
+              { "guard": "hasKinderYes", "target": "#kinder.uebersicht" },
+              "#kinder.kinder-frage"
+            ],
+            "SUBMIT": [
+              {
+                "guard": "hasWeitereUnterhaltszahlungenYes",
+                "target": "uebersicht"
+              },
+              "#besitz.eigentum-info"
+            ]
+          }
+        },
+        "uebersicht": {
+          "on": {
+            "BACK": "frage",
+            "SUBMIT": "#besitz",
+            "add-unterhaltszahlungen": "person"
+          }
+        },
+        "person": {
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "BACK": "#andere-unterhaltszahlungen.uebersicht",
+                "SUBMIT": "#andere-unterhaltszahlungen.uebersicht"
+              }
+            }
+          }
+        }
+      }
+    },
     "besitz": {
       "id": "besitz",
       "initial": "eigentum-info",
@@ -287,8 +330,11 @@
                 "guard": "staatlicheLeistungenIsBuergergeld",
                 "target": "#einkommen.staatliche-leistungen"
               },
-              { "guard": "hasKinderYes", "target": "#kinder.uebersicht" },
-              "#kinder.kinder-frage"
+              {
+                "guard": "hasWeitereUnterhaltszahlungenYes",
+                "target": "#andere-unterhaltszahlungen.uebersicht"
+              },
+              "#andere-unterhaltszahlungen.frage"
             ]
           }
         },
@@ -557,7 +603,7 @@
         "wohnkostenAllein": {
           "on": {
             "BACK": "groesse",
-            "SUBMIT": "#persoenlicheDaten.start"
+            "SUBMIT": "#ausgaben.ausgaben-frage"
           }
         },
         "personenAnzahl": {
@@ -569,7 +615,82 @@
         "wohnkostenGeteilt": {
           "on": {
             "BACK": "personenAnzahl",
-            "SUBMIT": "#persoenlicheDaten.start"
+            "SUBMIT": "#ausgaben.ausgaben-frage"
+          }
+        }
+      }
+    },
+    "ausgaben": {
+      "id": "ausgaben",
+      "initial": "ausgaben-frage",
+      "states": {
+        "ausgaben-frage": {
+          "on": {
+            "BACK": [
+              {
+                "guard": "livesAlone",
+                "target": "#finanzielleAngaben.wohnung.wohnkostenAllein"
+              },
+              "#finanzielleAngaben.wohnung.wohnkostenGeteilt"
+            ],
+            "SUBMIT": [
+              {
+                "guard": "hasAusgabenYes",
+                "target": "situation"
+              },
+              "#persoenlicheDaten.start"
+            ]
+          }
+        },
+        "situation": {
+          "on": {
+            "BACK": "ausgaben-frage",
+            "SUBMIT": "uebersicht"
+          }
+        },
+        "uebersicht": {
+          "on": {
+            "BACK": "situation",
+            "SUBMIT": "#persoenlicheDaten.start",
+            "add-ausgaben": {
+              "guard": "isValidAusgabenArrayIndex",
+              "target": "ausgaben"
+            }
+          }
+        },
+        "ausgaben": {
+          "initial": "art",
+          "states": {
+            "art": {
+              "on": {
+                "BACK": "#ausgaben.uebersicht",
+                "SUBMIT": "zahlungsinformation"
+              }
+            },
+            "zahlungsinformation": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "laufzeit"
+              }
+            },
+            "laufzeit": {
+              "on": {
+                "BACK": "zahlungsinformation",
+                "SUBMIT": [
+                  {
+                    "guard": "hasZahlungsfristYes",
+                    "target": "zahlungsfrist"
+                  },
+                  "#ausgaben.uebersicht"
+                ]
+              }
+            },
+            "zahlungsfrist": {
+              "on": {
+                "BACK": "laufzeit",
+                "SUBMIT": "#ausgaben.uebersicht"
+              }
+            }
           }
         }
       }

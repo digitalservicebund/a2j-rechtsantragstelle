@@ -4,17 +4,17 @@ import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormCompon
 import { wrapperPropsFromCms } from "./CommonWrapperProps";
 import { getBoxProps } from "~/services/cms/models/StrapiBox";
 import { getBoxWithImageProps } from "~/services/cms/models/StrapiBoxWithImage";
-import { StrapiDropdown } from "~/services/cms/models/StrapiDropdown";
+import { StrapiDropdown } from "~/services/cms/components/StrapiDropdown";
 import { getHeaderProps } from "~/services/cms/models/StrapiHeader";
 import { getHeadingProps } from "~/services/cms/models/StrapiHeading";
 import { getInfoBoxProps } from "~/services/cms/models/StrapiInfoBox";
-import { StrapiInput } from "~/services/cms/models/StrapiInput";
+import { StrapiInput } from "~/services/cms/components/StrapiInput";
 import { getLinkListBoxProps } from "~/services/cms/models/StrapiLinkListBox";
-import { StrapiSelect } from "~/services/cms/models/StrapiSelect";
+import { StrapiSelect } from "~/services/cms/components/StrapiSelect";
 import { getRichTextProps } from "~/services/cms/models/StrapiParagraph";
-import { StrapiTextarea } from "~/services/cms/models/StrapiTextarea";
+import { StrapiTextarea } from "~/services/cms/components/StrapiTextarea";
 import { getListProps } from "~/services/cms/models/StrapiList";
-import { StrapiTileGroup } from "~/services/cms/models/StrapiTileGroup";
+import { StrapiTileGroup } from "~/services/cms/components/StrapiTileGroup";
 
 import Background from "./Background";
 import Box from "./Box";
@@ -26,10 +26,10 @@ import InfoBox from "./InfoBox";
 import LinkListBox from "./LinkListBox";
 import RichText from "./RichText";
 import List from "./List";
-import { StrapiCheckbox } from "~/services/cms/models/StrapiCheckbox";
-import { StrapiDateInput } from "~/services/cms/models/StrapiDateInput";
-import { StrapiTimeInput } from "~/services/cms/models/StrapiTimeInput";
-import { StrapiFileInput } from "~/services/cms/models/StrapiFileInput";
+import { StrapiCheckbox } from "~/services/cms/components/StrapiCheckbox";
+import { StrapiDateInput } from "~/services/cms/components/StrapiDateInput";
+import { StrapiTimeInput } from "~/services/cms/components/StrapiTimeInput";
+import { StrapiFileInput } from "~/services/cms/components/StrapiFileInput";
 import { renderAlertFromStrapi } from "~/services/cms/models/StrapiAlert";
 
 export type StrapiContent = StrapiContentComponent | StrapiFormComponent;

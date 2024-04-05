@@ -8,7 +8,6 @@ import {
   wertsachenDone,
 } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStatesBesitz";
 import * as navStatesBesitz from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStatesBesitz";
-import { beratungshilfeFinanzielleAngabeDone } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
 
 describe("besitzDone", () => {
   it("passes with all fields no", () => {

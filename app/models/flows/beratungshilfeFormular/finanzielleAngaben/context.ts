@@ -16,6 +16,9 @@ const Eigentuemer = z.enum(
   customRequiredErrorMessage,
 );
 
+const MINUS_150_YEARS = -150;
+const YEAR_DAYS = 365;
+
 const GrundeigentumArt = z.enum(
   [
     "eigentumswohnung",
@@ -27,6 +30,31 @@ const GrundeigentumArt = z.enum(
   ],
   customRequiredErrorMessage,
 );
+
+const unterhaltszahlungSchema = z.object({
+  firstName: inputRequiredSchema,
+  surname: inputRequiredSchema,
+  familyRelationship: z.enum(
+    [
+      "mother",
+      "father",
+      "grandmother",
+      "grandfather",
+      "kid",
+      "grandchild",
+      "ex-spouse-f",
+      "ex-spouse-m",
+    ],
+    customRequiredErrorMessage,
+  ),
+  birthday: createDateSchema({
+    earliest: () => addDays(today(), MINUS_150_YEARS * YEAR_DAYS),
+    latest: () => today(),
+  }),
+  monthlyPayment: buildMoneyValidationSchema(),
+});
+
+export type Unterhaltszahlung = z.infer<typeof unterhaltszahlungSchema>;
 
 export const beratungshilfeFinanzielleAngaben = {
   einkommen: buildMoneyValidationSchema(),
@@ -87,6 +115,7 @@ export const beratungshilfeFinanzielleAngaben = {
       kontostand: buildMoneyValidationSchema({}),
       iban: z.string(),
       kontoEigentuemer: Eigentuemer,
+      kontoDescription: z.string().optional(),
     }),
   ),
   hasKraftfahrzeug: YesNoAnswer,
@@ -173,6 +202,26 @@ export const beratungshilfeFinanzielleAngaben = {
   apartmentCostOwnShare: buildMoneyValidationSchema(),
   apartmentCostFull: buildMoneyValidationSchema(),
   apartmentCostAlone: buildMoneyValidationSchema(),
+  hasWeitereUnterhaltszahlungen: YesNoAnswer,
+  unterhaltszahlungen: z.array(unterhaltszahlungSchema),
+  hasAusgaben: YesNoAnswer,
+  ausgabensituation: z.object({
+    pregnancy: checkedOptional,
+    singleParent: checkedOptional,
+    disability: checkedOptional,
+    medicalReasons: checkedOptional,
+  }),
+  ausgaben: z.array(
+    z.object({
+      art: inputRequiredSchema,
+      zahlungsempfaenger: inputRequiredSchema,
+      beitrag: buildMoneyValidationSchema(),
+      hasZahlungsfrist: YesNoAnswer,
+      zahlungsfrist: createDateSchema({
+        earliest: () => today(),
+      }),
+    }),
+  ),
   pageData: pageDataSchema,
 };
 
