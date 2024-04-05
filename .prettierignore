@@ -21,4 +21,3 @@ Dockerfile
 *.pdf
 *.generated.ts
 sonar-project.properties
-doc/images/
