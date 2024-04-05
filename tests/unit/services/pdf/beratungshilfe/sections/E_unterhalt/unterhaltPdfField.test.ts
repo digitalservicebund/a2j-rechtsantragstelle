@@ -59,7 +59,7 @@ describe("unterhaltPdfField", () => {
       expect(actual[0].unterhaltSumme).toEqual("100");
       expect(actual[0].hatEinnahmen).toEqual(false);
       expect(actual[0].einnahmenSumme).toEqual("");
-      expect(actual[0].lebenZusammen).toEqual(false);
+      expect(actual[0].lebenZusammen).toEqual(true);
     });
   });
 
