@@ -27,6 +27,11 @@ export function fillUnterhalt(
   pdfFields.e1Person1.value = SEE_IN_ATTACHMENT_DESCRIPTION;
 
   attachment.descriptions.push({
+    title: "",
+    text: "",
+  });
+
+  attachment.descriptions.push({
     title: ATTACHMENT_DESCRIPTION_SECTION_E,
     text: getAttachmentText(
       listKinderUnterhaltPdfField,

@@ -8,6 +8,7 @@ export const GEGNER_TITLE = "Gegner:";
 export const BESCHREIBUNG_ANGELEGENHEIT_TITLE = "Beschreibung Angelegenheit:";
 export const ZIEL_ANGELEGENHEIT_TITLE = "Ziel der Angelegenheit:";
 export const EIGENBEMUEHUNG_TITLE = "Eigenbemühung:";
+export const FIELD_A_RECHTSPROBLEMS_TITLE = "Feld A Rechtsproblems";
 
 export function createAttachment(
   context: BeratungshilfeFormularContext,
@@ -16,6 +17,17 @@ export function createAttachment(
   const descriptions: Attachment["descriptions"] = [];
 
   addMaritalToAttachment({ descriptions, context });
+
+  // Empty line
+  descriptions.push({
+    title: "",
+    text: "",
+  });
+
+  descriptions.push({
+    title: FIELD_A_RECHTSPROBLEMS_TITLE,
+    text: "",
+  });
 
   if (context.bereich) {
     // TODO move to another function and use strapi as a source

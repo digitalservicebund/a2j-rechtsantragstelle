@@ -6,6 +6,7 @@ import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilf
 import {
   BESCHREIBUNG_ANGELEGENHEIT_TITLE,
   EIGENBEMUEHUNG_TITLE,
+  FIELD_A_RECHTSPROBLEMS_TITLE,
   GEGNER_TITLE,
   THEMA_RECHTSPROBLEM_TITLE,
   ZIEL_ANGELEGENHEIT_TITLE,
@@ -34,6 +35,8 @@ describe("A_angelegenheit", () => {
         .value,
     ).toBe(
       [
+        " ",
+        `${FIELD_A_RECHTSPROBLEMS_TITLE} `,
         `${THEMA_RECHTSPROBLEM_TITLE} Behörden`,
         `${GEGNER_TITLE} gegner`,
         `${BESCHREIBUNG_ANGELEGENHEIT_TITLE} beschreibung`,
