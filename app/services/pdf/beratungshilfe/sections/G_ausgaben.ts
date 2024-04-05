@@ -4,6 +4,7 @@ import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.g
 import { checkboxListToString } from "../../checkboxListToString";
 
 const AUSGABEN_MAX_COUNT_FIELDS = 4;
+const AUSGABEN_MAX_CHARS_FIELD = 50;
 export const AUSGABEN_ATTACHMENT_TITLE =
   "Feld G Zahlungsverpflichtungen und besondere Belastungen";
 
@@ -29,8 +30,12 @@ export function fillAusgaben(
   context: BeratungshilfeFormularContext,
 ) {
   const ausgaben = context.ausgaben ?? [];
+  const hasOverflowAusgaben = ausgaben.length > AUSGABEN_MAX_COUNT_FIELDS;
+  const isPdfFieldExceedsMaxChars = context.ausgaben?.every(
+    (ausgabe) => ausgabe.art.length > AUSGABEN_MAX_CHARS_FIELD,
+  );
 
-  if (ausgaben.length > AUSGABEN_MAX_COUNT_FIELDS) {
+  if (isPdfFieldExceedsMaxChars || hasOverflowAusgaben) {
     handleOverflowAusgaben(attachment, pdfFields, context, ausgaben);
   } else {
     fillAusgabenInPDF(ausgaben, pdfFields);
