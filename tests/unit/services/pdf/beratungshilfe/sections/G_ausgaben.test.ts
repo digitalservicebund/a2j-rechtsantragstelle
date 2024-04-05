@@ -103,13 +103,20 @@ describe("G_ausgaben", () => {
 
     expect(attachment.descriptions[1].title).toEqual(AUSGABEN_ATTACHMENT_TITLE);
 
-    const ausgabenAttachmentRegex = /Ausgabe\s[1-5]:/gs;
+    const ausgabenAttachmentRegex = /Ausgabe\s[1-9]/gs;
 
-    const hasMatches = ausgabenAttachmentRegex.test(
-      attachment.descriptions[1].text,
+    const matches = attachment.descriptions[1].text.match(
+      ausgabenAttachmentRegex,
     );
 
-    expect(hasMatches).toBeTruthy();
+    expect(matches).toEqual([
+      "Ausgabe 1",
+      "Ausgabe 2",
+      "Ausgabe 3",
+      "Ausgabe 4",
+      "Ausgabe 5",
+    ]);
+    expect(matches).not.toEqual(["Ausgabe 0", "Ausgabe -1"]);
   });
 
   it("fills attachment when char is greater than max char of the field", async () => {
@@ -118,6 +125,14 @@ describe("G_ausgaben", () => {
         {
           art: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",
           zahlungsempfaenger: "ausgaben empfänger",
+          beitrag: "12,00",
+          hasZahlungsfrist: "yes",
+          zahlungsfrist: "12.12.2099",
+        },
+        {
+          art: "ausgaben empfänger",
+          zahlungsempfaenger:
+            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",
           beitrag: "12,00",
           hasZahlungsfrist: "yes",
           zahlungsfrist: "12.12.2099",
@@ -143,12 +158,13 @@ describe("G_ausgaben", () => {
 
     expect(attachment.descriptions[1].title).toEqual(AUSGABEN_ATTACHMENT_TITLE);
 
-    const ausgabenAttachmentRegex = /Ausgabe 1:/gs;
+    const ausgabenAttachmentRegex = /Ausgabe\s[1-9]/gs;
 
-    const hasMatches = ausgabenAttachmentRegex.test(
-      attachment.descriptions[1].text,
+    const matches = attachment.descriptions[1].text.match(
+      ausgabenAttachmentRegex,
     );
 
-    expect(hasMatches).toBeTruthy();
+    expect(matches).toEqual(["Ausgabe 1", "Ausgabe 2"]);
+    expect(matches).not.toEqual(["Ausgabe 0", "Ausgabe -1"]);
   });
 });

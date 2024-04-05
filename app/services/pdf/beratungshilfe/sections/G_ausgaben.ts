@@ -31,8 +31,11 @@ export function fillAusgaben(
 ) {
   const ausgaben = context.ausgaben ?? [];
   const hasOverflowAusgaben = ausgaben.length > AUSGABEN_MAX_COUNT_FIELDS;
+
   const isPdfFieldExceedsMaxChars = context.ausgaben?.every(
-    (ausgabe) => ausgabe.art.length > AUSGABEN_MAX_CHARS_FIELD,
+    (ausgabe) =>
+      ausgabe.art.length > AUSGABEN_MAX_CHARS_FIELD ||
+      ausgabe.zahlungsempfaenger.length > AUSGABEN_MAX_CHARS_FIELD,
   );
 
   if (isPdfFieldExceedsMaxChars || hasOverflowAusgaben) {

@@ -15,8 +15,13 @@ export function getFontSizeFieldValue(fieldName: string): number {
     case "D3-Teilwohnkosten":
     case "G10-Belastungen":
     case "G2-1":
+    case "G2-2":
+    case "G2-3":
+    case "G2-4":
     case "G3-1":
-    case "G7-Zahlung1":
+    case "G3-2":
+    case "G3-3":
+    case "G3-4":
       return FONT_SIZE_8;
     case "E3-Familienverhältnis":
     case "E3-Familienverhältnis2":
