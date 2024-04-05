@@ -1,7 +1,13 @@
+/**
+ * @jest-environment node
+ */
+
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
+import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import {
   ATTACHMENT_DESCRIPTION_SECTION_E,
+  SEE_IN_ATTACHMENT_DESCRIPTION,
   fillUnterhalt,
 } from "~/services/pdf/beratungshilfe/sections/E_unterhalt/E_unterhalt";
 import {
@@ -29,14 +35,15 @@ beforeEach(() => {
 });
 
 describe("E_unterhalt", () => {
-  it("in case does not have data for section_E, the attachment should be not filled", () => {
+  it("in case does not have data for section_E, the attachment should be not filled", async () => {
     (mockedGetListKidsUnterhaltPdfField as jest.Mock).mockReturnValue([]);
     (mockedGetListPersonUnterhaltPdfField as jest.Mock).mockReturnValue([]);
 
     const context: BeratungshilfeFormularContext = {};
     const attachment = createAttachment(context);
+    const pdfFields = await getBeratungshilfeParameters();
 
-    fillUnterhalt(attachment, context);
+    fillUnterhalt(attachment, pdfFields, context);
 
     expect(attachment.shouldCreateAttachment).toBe(false);
 
@@ -46,7 +53,7 @@ describe("E_unterhalt", () => {
     expect(hasAttachmentDescriptionSectionE).toBeFalsy();
   });
 
-  it("in case does have data for section_E and the attachment should be filled", () => {
+  it("in case does have data for section_E and the attachment should be filled", async () => {
     const mockUnterhaltPdfField: UnterhaltPdfField = {
       name: "name",
       familienverhaeltnis: "Mein Enkelkind",
@@ -66,9 +73,11 @@ describe("E_unterhalt", () => {
     const context: BeratungshilfeFormularContext = {};
 
     const attachment = createAttachment(context);
+    const pdfFields = await getBeratungshilfeParameters();
 
-    fillUnterhalt(attachment, context);
+    fillUnterhalt(attachment, pdfFields, context);
 
+    expect(pdfFields.e1Person1.value).toEqual(SEE_IN_ATTACHMENT_DESCRIPTION);
     expect(attachment.shouldCreateAttachment).toBe(true);
 
     const hasAttachmentDescriptionSectionE = attachment.descriptions.some(
