@@ -52,6 +52,12 @@ function handleOverflowAusgaben(
   attachment.shouldCreateAttachment = true;
   pdfFields.g21.value = newPageHint;
 
+  // Empty line
+  attachment.descriptions.push({
+    title: "",
+    text: "",
+  });
+
   attachment.descriptions.push({
     title: AUSGABEN_ATTACHMENT_TITLE,
     text: createAusgabenText(context, ausgaben),

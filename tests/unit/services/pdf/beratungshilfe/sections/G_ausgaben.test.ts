@@ -101,12 +101,12 @@ describe("G_ausgaben", () => {
     expect(pdfFields.g7Zahlung1.value).toBeUndefined();
     expect(pdfFields.g10Belastungen.value).toBeUndefined();
 
-    expect(attachment.descriptions[0].title).toEqual(AUSGABEN_ATTACHMENT_TITLE);
+    expect(attachment.descriptions[1].title).toEqual(AUSGABEN_ATTACHMENT_TITLE);
 
     const ausgabenAttachmentRegex = /Ausgabe\s[1-5]:/gs;
 
     const hasMatches = ausgabenAttachmentRegex.test(
-      attachment.descriptions[0].text,
+      attachment.descriptions[1].text,
     );
 
     expect(hasMatches).toBeTruthy();
@@ -141,12 +141,12 @@ describe("G_ausgaben", () => {
     expect(pdfFields.g7Zahlung1.value).toBeUndefined();
     expect(pdfFields.g10Belastungen.value).toBeUndefined();
 
-    expect(attachment.descriptions[0].title).toEqual(AUSGABEN_ATTACHMENT_TITLE);
+    expect(attachment.descriptions[1].title).toEqual(AUSGABEN_ATTACHMENT_TITLE);
 
     const ausgabenAttachmentRegex = /Ausgabe 1:/gs;
 
     const hasMatches = ausgabenAttachmentRegex.test(
-      attachment.descriptions[0].text,
+      attachment.descriptions[1].text,
     );
 
     expect(hasMatches).toBeTruthy();

@@ -22,8 +22,7 @@ export function fillBesitz(
 
   if (financialAttachment.shouldCreateAttachment) {
     financialAttachment.descriptions.unshift({
-      title:
-        "Feld F Bankkonten/Grundeigentum/Kraftfahrzeuge/Bargeld/Vermögenswerte",
+      title: "Feld F Eigentum",
       text: "",
     });
 

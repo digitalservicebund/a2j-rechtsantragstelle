@@ -26,6 +26,7 @@ export function fillUnterhalt(
   attachment.shouldCreateAttachment = true;
   pdfFields.e1Person1.value = SEE_IN_ATTACHMENT_DESCRIPTION;
 
+  // Empty line
   attachment.descriptions.push({
     title: "",
     text: "",
