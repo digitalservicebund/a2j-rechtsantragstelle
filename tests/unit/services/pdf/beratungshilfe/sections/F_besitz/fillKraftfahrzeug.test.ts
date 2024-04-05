@@ -13,6 +13,7 @@ import { fillKraftfahrzeug } from "~/services/pdf/beratungshilfe/sections/F_besi
 describe("fillKraftfahrzeug", () => {
   it("should fill kraftfahrzeug pdf field when kraftfahrzeug is given in context", async () => {
     const context: BeratungshilfeFormularContext = {
+      hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
         {
           eigentuemer: "partner",
@@ -48,6 +49,7 @@ describe("fillKraftfahrzeug", () => {
 
   it("should fill multiple kraftfahrzeug pdf field when kraftfahrzeug is given in context", async () => {
     const context: BeratungshilfeFormularContext = {
+      hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
         {
           eigentuemer: "partner",
@@ -114,7 +116,7 @@ describe("fillKraftfahrzeug", () => {
 
   it("should fill kraftfahrzeug1 as no when does not exists kraftfahrzeug in the context", async () => {
     const context: BeratungshilfeFormularContext = {
-      kraftfahrzeuge: [],
+      hasKraftfahrzeug: "no",
     };
 
     const pdfFields = await getBeratungshilfeParameters();
@@ -128,6 +130,7 @@ describe("fillKraftfahrzeug", () => {
 
   it("should fill kraftfahrzeug data only with the hasArbeitsweg and not fill other data even they are filled in the context for wert under10000", async () => {
     const context: BeratungshilfeFormularContext = {
+      hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
         {
           eigentuemer: "partner",
@@ -163,6 +166,7 @@ describe("fillKraftfahrzeug", () => {
 
   it("should fill multiple kraftfahrzeug data only with the hasArbeitsweg and not fill other data even they are filled in the context for wert under10000", async () => {
     const context: BeratungshilfeFormularContext = {
+      hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
         {
           eigentuemer: "partner",

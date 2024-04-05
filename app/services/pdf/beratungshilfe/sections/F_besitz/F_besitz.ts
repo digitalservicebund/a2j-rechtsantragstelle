@@ -46,40 +46,39 @@ export function fillFinancialBankkonto(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const hasBankkonten = context.bankkonten
-    ? context.bankkonten?.length > 0
-    : false;
-  pdfFields.f1Konten1.value = !hasBankkonten;
-  pdfFields.f1Konten2.value = hasBankkonten;
+  const { hasBankkonto, bankkonten } = context;
+  const hasBankkontoYes = hasBankkonto === "yes";
 
-  if (context.bankkonten && context.bankkonten.length > 0) {
-    if (context.bankkonten.length == 1) {
-      const bankkonto = context.bankkonten.pop();
+  pdfFields.f1Konten1.value = !hasBankkontoYes;
+  pdfFields.f1Konten2.value = hasBankkontoYes;
+  if (!hasBankkontoYes || !bankkonten || bankkonten.length === 0) return;
 
-      pdfFields.f1InhaberA.value = bankkonto?.kontoEigentuemer == "myself";
-      pdfFields.f2InhaberB.value = bankkonto?.kontoEigentuemer == "partner";
-      pdfFields.f2InhaberC.value =
-        bankkonto?.kontoEigentuemer == "myselfAndPartner";
+  if (bankkonten.length == 1) {
+    const bankkonto = bankkonten.pop();
 
-      const bezeichnung = getBankkontoBezeichnung(bankkonto);
+    pdfFields.f1InhaberA.value = bankkonto?.kontoEigentuemer == "myself";
+    pdfFields.f2InhaberB.value = bankkonto?.kontoEigentuemer == "partner";
+    pdfFields.f2InhaberC.value =
+      bankkonto?.kontoEigentuemer == "myselfAndPartner";
 
-      pdfFields.f3Bank1.value = bezeichnung.join(", ");
-      pdfFields.f4Kontostand.value = `${bankkonto?.kontostand ?? ""} €`;
-    } else {
-      attachment.shouldCreateAttachment = true;
-      const bezeichnung: string[] = [];
+    const bezeichnung = getBankkontoBezeichnung(bankkonto);
 
-      context.bankkonten.forEach((bankkonto) => {
-        bezeichnung.push(getBankkontoBezeichnung(bankkonto, true).join("\n"));
-      });
+    pdfFields.f3Bank1.value = bezeichnung.join(", ");
+    pdfFields.f4Kontostand.value = `${bankkonto?.kontostand ?? ""} €`;
+  } else {
+    attachment.shouldCreateAttachment = true;
+    const bezeichnung: string[] = [];
 
-      pdfFields.f3Bank1.value = newPageHint;
+    bankkonten.forEach((bankkonto) => {
+      bezeichnung.push(getBankkontoBezeichnung(bankkonto, true).join("\n"));
+    });
 
-      attachment.descriptions.unshift({
-        title: "Bankkonten",
-        text: bezeichnung.join("\n\n"),
-      });
-    }
+    pdfFields.f3Bank1.value = newPageHint;
+
+    attachment.descriptions.unshift({
+      title: "Bankkonten",
+      text: bezeichnung.join("\n\n"),
+    });
   }
 }
 
@@ -89,14 +88,16 @@ export function fillFinancialGrundeigentum(
   context: BeratungshilfeFormularContext,
 ) {
   const { hasGrundeigentum, grundeigentum: grundeigentumArray } = context;
-  const validGrundEigentum =
-    hasGrundeigentum === "yes" &&
-    grundeigentumArray &&
-    grundeigentumArray.length > 0;
+  const hasGrundeigentumYes = hasGrundeigentum === "yes";
+  pdfFields.f5Grundeigentum1.value = !hasGrundeigentumYes;
+  pdfFields.f5Grundeigentum2.value = hasGrundeigentumYes;
 
-  pdfFields.f5Grundeigentum1.value = !validGrundEigentum;
-  pdfFields.f5Grundeigentum2.value = validGrundEigentum;
-  if (!validGrundEigentum) return;
+  if (
+    !hasGrundeigentumYes ||
+    !grundeigentumArray ||
+    grundeigentumArray.length === 0
+  )
+    return;
 
   if (grundeigentumArray.length === 1) {
     const grundeigentum = grundeigentumArray[0];
@@ -130,38 +131,37 @@ export function fillFinancialWertsachen(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const hasWertsachen = context.wertsachen
-    ? context.wertsachen?.length > 0
-    : false;
-  pdfFields.f13Vermoegenswerte1.value = !hasWertsachen;
-  pdfFields.f13Vermoegenswerte2.value = hasWertsachen;
+  const { hasWertsache, wertsachen } = context;
+  const hasWertsacheYes = hasWertsache === "yes";
+  pdfFields.f13Vermoegenswerte1.value = !hasWertsacheYes;
+  pdfFields.f13Vermoegenswerte2.value = hasWertsacheYes;
 
-  if (context.wertsachen) {
-    if (context.wertsachen?.length == 1) {
-      const wertsache = context.wertsachen.pop();
-      pdfFields.f14InhaberA.value = wertsache?.eigentuemer == "myself";
-      pdfFields.f14InhaberB.value = wertsache?.eigentuemer == "partner";
-      pdfFields.f14VermoegenswerteC.value =
-        wertsache?.eigentuemer == "myselfAndPartner";
-      pdfFields.f15Bezeichnung.value =
-        getWertsachenBezeichnung(wertsache).join(", ");
-      pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value =
-        wertsache?.wert ?? "Keine Angaben";
-    } else {
-      pdfFields.f15Bezeichnung.value = newPageHint;
-      attachment.shouldCreateAttachment = true;
+  if (!hasWertsacheYes || !wertsachen || wertsachen.length === 0) return;
 
-      const bezeichnung: string[] = [];
+  if (wertsachen?.length == 1) {
+    const wertsache = wertsachen.pop();
+    pdfFields.f14InhaberA.value = wertsache?.eigentuemer == "myself";
+    pdfFields.f14InhaberB.value = wertsache?.eigentuemer == "partner";
+    pdfFields.f14VermoegenswerteC.value =
+      wertsache?.eigentuemer == "myselfAndPartner";
+    pdfFields.f15Bezeichnung.value =
+      getWertsachenBezeichnung(wertsache).join(", ");
+    pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value =
+      wertsache?.wert ?? "Keine Angaben";
+  } else {
+    pdfFields.f15Bezeichnung.value = newPageHint;
+    attachment.shouldCreateAttachment = true;
 
-      context.wertsachen.forEach((wertsache) => {
-        bezeichnung.push(getWertsachenBezeichnung(wertsache, true).join("\n"));
-      });
+    const bezeichnung: string[] = [];
 
-      attachment.descriptions.unshift({
-        title: "Wertsachen",
-        text: bezeichnung.join("\n\n"),
-      });
-    }
+    wertsachen.forEach((wertsache) => {
+      bezeichnung.push(getWertsachenBezeichnung(wertsache, true).join("\n"));
+    });
+
+    attachment.descriptions.unshift({
+      title: "Wertsachen",
+      text: bezeichnung.join("\n\n"),
+    });
   }
 }
 
