@@ -3,7 +3,10 @@ import { type Attachment, newPageHint } from "../attachment";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { checkboxListToString } from "../../checkboxListToString";
 
-const AUSGABEN_MAX_FIELDS = 4;
+const AUSGABEN_MAX_COUNT_FIELDS = 4;
+const AUSGABEN_MAX_CHARS_FIELD = 50;
+export const AUSGABEN_ATTACHMENT_TITLE =
+  "Feld G Zahlungsverpflichtungen und besondere Belastungen";
 
 type AusgabenPdfField = {
   art: string;
@@ -27,8 +30,12 @@ export function fillAusgaben(
   context: BeratungshilfeFormularContext,
 ) {
   const ausgaben = context.ausgaben ?? [];
+  const hasOverflowAusgaben = ausgaben.length > AUSGABEN_MAX_COUNT_FIELDS;
+  const isPdfFieldExceedsMaxChars = context.ausgaben?.every(
+    (ausgabe) => ausgabe.art.length > AUSGABEN_MAX_CHARS_FIELD,
+  );
 
-  if (ausgaben.length > AUSGABEN_MAX_FIELDS) {
+  if (isPdfFieldExceedsMaxChars || hasOverflowAusgaben) {
     handleOverflowAusgaben(attachment, pdfFields, context, ausgaben);
   } else {
     fillAusgabenInPDF(ausgaben, pdfFields);
@@ -45,8 +52,14 @@ function handleOverflowAusgaben(
   attachment.shouldCreateAttachment = true;
   pdfFields.g21.value = newPageHint;
 
+  // Empty line
   attachment.descriptions.push({
-    title: "Feld G Zahlungsverpflichtungen und besondere Belastungen",
+    title: "",
+    text: "",
+  });
+
+  attachment.descriptions.push({
+    title: AUSGABEN_ATTACHMENT_TITLE,
     text: createAusgabenText(context, ausgaben),
   });
 }

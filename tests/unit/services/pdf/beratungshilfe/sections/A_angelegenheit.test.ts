@@ -4,15 +4,18 @@
 
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import {
+  createAttachment,
+  newPageHint,
+} from "~/services/pdf/beratungshilfe/attachment";
+import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import {
+  fillAngelegenheit,
   BESCHREIBUNG_ANGELEGENHEIT_TITLE,
   EIGENBEMUEHUNG_TITLE,
   GEGNER_TITLE,
   THEMA_RECHTSPROBLEM_TITLE,
   ZIEL_ANGELEGENHEIT_TITLE,
-  createAttachment,
-} from "~/services/pdf/beratungshilfe/attachment";
-import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
-import { fillAngelegenheit } from "~/services/pdf/beratungshilfe/sections/A_angelegenheit";
+} from "~/services/pdf/beratungshilfe/sections/A_angelegenheit";
 
 describe("A_angelegenheit", () => {
   it("should fill angelegenheit pdf field when correct context is given", async () => {
@@ -26,7 +29,7 @@ describe("A_angelegenheit", () => {
     const attachment = createAttachment(context);
     const pdfFields = await getBeratungshilfeParameters();
 
-    fillAngelegenheit(attachment, pdfFields);
+    fillAngelegenheit(attachment, pdfFields, context);
 
     expect(
       pdfFields
@@ -41,5 +44,51 @@ describe("A_angelegenheit", () => {
         `${EIGENBEMUEHUNG_TITLE} eigeninitiativeBeschreibung`,
       ].join("\n"),
     );
+  });
+
+  it("should fill angelegenheit in the attachment when exceeded limit length", async () => {
+    const context: BeratungshilfeFormularContext = {
+      bereich: "authorities",
+      gegenseite: "gegner gegner gegner gegner gegner",
+      beschreibung:
+        "beschreibung beschreibung beschreibung beschreibung beschreibung",
+      ziel: "ziel ziel ziel ziel ziel ziel ziel ziel ziel",
+      eigeninitiativeBeschreibung:
+        "eigeninitiativeBeschreibung eigeninitiativeBeschreibung eigeninitiativeBeschreibung eigeninitiativeBeschreibung",
+    };
+    const attachment = createAttachment(context);
+    const pdfFields = await getBeratungshilfeParameters();
+
+    fillAngelegenheit(attachment, pdfFields, context);
+
+    expect(
+      pdfFields
+        .ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern
+        .value,
+    ).toBe(newPageHint);
+
+    expect(attachment.shouldCreateAttachment).toBe(true);
+
+    const hasBeschreibungAngelegenheit = attachment.descriptions.some(
+      (description) => description.title === BESCHREIBUNG_ANGELEGENHEIT_TITLE,
+    );
+
+    const hasThemeRechtsproblem = attachment.descriptions.some(
+      (description) => description.title === THEMA_RECHTSPROBLEM_TITLE,
+    );
+    const hasGegner = attachment.descriptions.some(
+      (description) => description.title === GEGNER_TITLE,
+    );
+    const hasZielAngelegenheit = attachment.descriptions.some(
+      (description) => description.title === ZIEL_ANGELEGENHEIT_TITLE,
+    );
+    const hasEigeninitiativeBeschreibung = attachment.descriptions.some(
+      (description) => description.title === EIGENBEMUEHUNG_TITLE,
+    );
+    expect(hasBeschreibungAngelegenheit).toBeTruthy();
+    expect(hasThemeRechtsproblem).toBeTruthy();
+    expect(hasGegner).toBeTruthy();
+    expect(hasZielAngelegenheit).toBeTruthy();
+    expect(hasEigeninitiativeBeschreibung).toBeTruthy();
   });
 });

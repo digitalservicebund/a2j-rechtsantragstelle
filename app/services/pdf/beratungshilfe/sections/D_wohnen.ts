@@ -6,7 +6,9 @@ export function fillWohnen(
   context: BeratungshilfeFormularContext,
 ) {
   pdfFields.d1Wohnung.value = context.apartmentSizeSqm?.toString() ?? "";
-  pdfFields.d2Wohnkosten.value = context.apartmentCostFull;
+  pdfFields.d2Wohnkosten.value = isLivingAlone(context)
+    ? context.apartmentCostAlone
+    : context.apartmentCostFull;
   pdfFields.d3Teilwohnkosten.value =
     isLivingAlone(context) ||
     typeof context.apartmentCostOwnShare === "undefined"

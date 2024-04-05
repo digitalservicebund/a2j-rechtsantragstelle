@@ -1,15 +1,14 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { Attachment } from "../../attachment";
 import {
   getListKidsUnterhaltPdfField,
   getListPersonUnterhaltPdfField,
 } from "./unterhaltPdfField";
 import { getAttachmentText } from "./getAttachmentText";
-import { fillPdf } from "./fillPdf";
+import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 
-const MAX_SECTION_E_LIST = 4;
 export const ATTACHMENT_DESCRIPTION_SECTION_E = "Feld E Unterhaltszahlungen";
+export const SEE_IN_ATTACHMENT_DESCRIPTION = "Siehe Anhang";
 
 export function fillUnterhalt(
   attachment: Attachment,
@@ -24,21 +23,20 @@ export function fillUnterhalt(
 
   if (amountOfUnterhaltPdfFields === 0) return;
 
-  if (amountOfUnterhaltPdfFields <= MAX_SECTION_E_LIST) {
-    fillPdf(
-      listPersonUnterhaltPdfField,
-      listKinderUnterhaltPdfField,
-      pdfFields,
-    );
-  } else {
-    attachment.shouldCreateAttachment = true;
+  attachment.shouldCreateAttachment = true;
+  pdfFields.e1Person1.value = SEE_IN_ATTACHMENT_DESCRIPTION;
 
-    attachment.descriptions.push({
-      title: ATTACHMENT_DESCRIPTION_SECTION_E,
-      text: getAttachmentText(
-        listKinderUnterhaltPdfField,
-        listPersonUnterhaltPdfField,
-      ),
-    });
-  }
+  // Empty line
+  attachment.descriptions.push({
+    title: "",
+    text: "",
+  });
+
+  attachment.descriptions.push({
+    title: ATTACHMENT_DESCRIPTION_SECTION_E,
+    text: getAttachmentText(
+      listKinderUnterhaltPdfField,
+      listPersonUnterhaltPdfField,
+    ),
+  });
 }

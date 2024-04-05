@@ -58,6 +58,11 @@ export default function fillHeader(
       title: "Beruf / Erwerbstätigkeit:",
       text: getOccupationDetails(context, false),
     });
+
+    attachment.descriptions.unshift({
+      title: "Persönliche Angaben",
+      text: "",
+    });
     attachment.shouldCreateAttachment = true;
     pdfFields.berufErwerbstaetigkeit.value = newPageHint;
   }

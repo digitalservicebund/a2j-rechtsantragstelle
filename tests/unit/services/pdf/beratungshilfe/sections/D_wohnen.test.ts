@@ -10,7 +10,7 @@ describe("fillWohnen", () => {
   it("should fill wohnen section for living situation alone correct", async () => {
     const context: BeratungshilfeFormularContext = {
       apartmentSizeSqm: 10,
-      apartmentCostFull: "100",
+      apartmentCostAlone: "100",
       livingSituation: "alone",
     };
 
@@ -22,7 +22,7 @@ describe("fillWohnen", () => {
       context.apartmentSizeSqm?.toString(),
     );
     expect(pdfFields.d2Wohnkosten.value).toEqual(
-      context.apartmentCostFull?.toString(),
+      context.apartmentCostAlone?.toString(),
     );
     expect(pdfFields.d3Teilwohnkosten.value).toEqual("");
     expect(pdfFields.d4Wohnungalleine.value).toEqual(true);
