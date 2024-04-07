@@ -1,6 +1,6 @@
 import { type BeratungshilfeFormularContext } from "..";
 import type { Guards } from "../../guards.server";
-import { anwaltlicheVertretungDone } from "../anwaltlicheVertretung/context";
+import { anwaltlicheVertretungDone } from "../anwaltlicheVertretung/guards";
 import { beratungshilfeFinanzielleAngabeDone } from "../finanzielleAngaben/navStates";
 import { grundvoraussetzungDone } from "../grundvoraussetzung/context";
 import { beratungshilfePersoenlicheDatenDone } from "../persoenlicheDaten/context";

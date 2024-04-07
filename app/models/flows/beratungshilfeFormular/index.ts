@@ -1,9 +1,9 @@
 import _ from "lodash";
+import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
 import {
-  type BeratungshilfeAnwaltlicheVertretung,
   beratungshilfeAnwaltlicheVertretungGuards,
   anwaltlicheVertretungDone,
-} from "./anwaltlicheVertretung/context";
+} from "./anwaltlicheVertretung/guards";
 import {
   type BeratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungenGuards,
