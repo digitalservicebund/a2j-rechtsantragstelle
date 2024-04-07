@@ -7,15 +7,15 @@
         "SUBMIT": "bereich",
         "BACK": [
           {
-            "guard": "anwaltskanzleiNo",
-            "target": "#anwaltlicheVertretung.start"
+            "guard": "beratungStattgefundenYes",
+            "target": "#anwaltlicheVertretung.anwaltKontaktdaten"
           },
           {
-            "guard": "beratungStattgefundenNo",
+            "guard": "anwaltskanzleiYes",
             "target": "#anwaltlicheVertretung.beratungStattgefunden"
           },
           {
-            "target": "#anwaltlicheVertretung.anwaltKontaktdaten"
+            "target": "#anwaltlicheVertretung.start"
           }
         ]
       }

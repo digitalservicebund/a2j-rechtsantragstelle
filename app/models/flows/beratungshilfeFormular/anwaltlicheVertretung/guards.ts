@@ -2,10 +2,14 @@ import { dateUTCFromGermanDateString, today } from "~/services/validation/date";
 import type { GenericGuard, Guards } from "~/models/flows/guards.server";
 import type { BeratungshilfeAnwaltlicheVertretung } from "~/models/flows/beratungshilfeFormular/anwaltlicheVertretung/context";
 
+const anwaltskanzleiYes: GenericGuard<BeratungshilfeAnwaltlicheVertretung> = ({
+  context,
+}) => context.anwaltskanzlei === "yes";
+
 export const beratungshilfeAnwaltlicheVertretungGuards = {
-  anwaltskanzleiNo: ({ context }) => context.anwaltskanzlei === "no",
-  beratungStattgefundenNo: ({ context }) =>
-    context.beratungStattgefunden === "no",
+  anwaltskanzleiYes,
+  beratungStattgefundenYes: ({ context }) =>
+    anwaltskanzleiYes({ context }) && context.beratungStattgefunden === "yes",
   beratungStattgefundenDatumLaterThanFourWeeks: ({ context }) => {
     if (typeof context.beratungStattgefundenDatum !== "string") return false;
     const inputDateAsUTC = dateUTCFromGermanDateString(
