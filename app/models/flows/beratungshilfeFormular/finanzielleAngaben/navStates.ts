@@ -1,5 +1,5 @@
 import type { GenericGuard } from "../../guards.server";
-import { besitzDone, besitzZusammenfassungDone } from "./navStatesBesitz";
+import { eigentumDone, eigentumZusammenfassungDone } from "./navStatesEigentum";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
 
 export type SubflowState = "Done" | "Open";
@@ -64,8 +64,8 @@ const subflowDoneConfig: Record<string, FinanzielleAngabenGuard> = {
   einkommen: einkommenDone,
   partner: partnerDone,
   kinder: kinderDone,
-  besitz: besitzDone,
-  besitzZusammenfassung: besitzZusammenfassungDone,
+  eigentum: eigentumDone,
+  "eigentum-zusammenfassung": eigentumZusammenfassungDone,
   wohnung: wohnungDone,
   "andere-unterhaltszahlungen": andereUnterhaltszahlungenDone,
   ausgaben: ausgabenDone,
@@ -92,13 +92,15 @@ export const beratungshilfeFinanzielleAngabeDone: GenericGuard<
     case "grundsicherung":
       return true;
     case "buergergeld":
-      return besitzDone({ context }) && besitzZusammenfassungDone({ context });
+      return (
+        eigentumDone({ context }) && eigentumZusammenfassungDone({ context })
+      );
     case "andereLeistung":
     case "keine":
       return (
         partnerDone({ context }) &&
-        besitzDone({ context }) &&
-        besitzZusammenfassungDone({ context }) &&
+        eigentumDone({ context }) &&
+        eigentumZusammenfassungDone({ context }) &&
         einkommenDone({ context }) &&
         wohnungDone({ context }) &&
         andereUnterhaltszahlungenDone({ context })

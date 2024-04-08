@@ -2,39 +2,39 @@ import type { Page } from "@playwright/test";
 import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";
 import type { BeratungshilfeFormular } from "../pom/BeratungshilfeFormular";
 
-export async function startFinanzielleAngabenBesitz(
+export async function startFinanzielleAngabenEigentum(
   page: Page,
   beratungshilfeFormular: BeratungshilfeFormular,
 ) {
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/eigentum-info
+  // beratungshilfe/antrag/finanzielleAngaben/eigentum/eigentum-info
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.clickNext();
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/heirat-info
+  // beratungshilfe/antrag/finanzielleAngaben/eigentum/heirat-info
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.clickNext();
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/bankkonten-frage
+  // beratungshilfe/antrag/finanzielleAngaben/eigentum/bankkonten-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasBankkonto", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/geldanlagen-frage
+  // beratungshilfe/antrag/finanzielleAngaben/eigentum/geldanlagen-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasGeldanlage", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/wertsachen-frage
+  // beratungshilfe/antrag/finanzielleAngaben/eigentum/wertsachen-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasWertsache", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/grundeigentum-frage
+  // beratungshilfe/antrag/finanzielleAngaben/eigentum/grundeigentum-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasGrundeigentum", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/kraftfahrzeuge-frage
+  // beratungshilfe/antrag/finanzielleAngaben/eigentum/kraftfahrzeuge-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasKraftfahrzeug", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/besitz/gesamtwert
+  // beratungshilfe/antrag/finanzielleAngaben/eigentum/gesamtwert
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("besitzTotalWorth", "more10000");
 }

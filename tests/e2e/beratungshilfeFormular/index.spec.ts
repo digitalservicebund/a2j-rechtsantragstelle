@@ -1,8 +1,8 @@
 import { type Page, expect, test } from "@playwright/test";
 import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";
 import { BeratungshilfeFormular } from "tests/e2e/pom/BeratungshilfeFormular";
-import { startFinanzielleAngabenBesitz } from "./finanzielleAngabenBesitz";
-import { startFinanzielleAngabenZusammenfassung } from "./finanzielleAngabenZusammenfassung";
+import { startFinanzielleAngabenEigentum } from "./finanzielleAngabenEigentum";
+import { startFinanzielleAngabenEigentumZusammenfassung } from "./finanzielleAngabenEigentumZusammenfassung";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
 import { startFinanzielleAngabenPartner } from "./finanzielleAngabenPartner";
 import { startFinanzielleAngabenKinder } from "./finanzielleAngabenKinder";
@@ -89,8 +89,11 @@ async function startFinanzielleAngaben(page: Page) {
     page,
     beratungshilfeFormular,
   );
-  await startFinanzielleAngabenBesitz(page, beratungshilfeFormular);
-  await startFinanzielleAngabenZusammenfassung(page, beratungshilfeFormular);
+  await startFinanzielleAngabenEigentum(page, beratungshilfeFormular);
+  await startFinanzielleAngabenEigentumZusammenfassung(
+    page,
+    beratungshilfeFormular,
+  );
   await beratungshilfeFormular.clickNext();
 
   await startFinanzielleAngabenWohnung(page, beratungshilfeFormular);

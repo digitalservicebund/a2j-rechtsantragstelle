@@ -2,7 +2,7 @@ import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 import {
   getKinderStrings,
   getArrayIndexStrings,
-  besitzZusammenfassungShowWarnings,
+  eigentumZusammenfassungShowWarnings,
 } from "~/models/flows/beratungshilfeFormular/stringReplacements";
 
 describe("stringReplacements", () => {
@@ -78,10 +78,10 @@ describe("stringReplacements", () => {
     });
   });
 
-  describe("besitzZusammenfassungShowWarnings", () => {
+  describe("eigentumZusammenfassungShowWarnings", () => {
     it("return string config to show all warnings", () => {
       expect(
-        besitzZusammenfassungShowWarnings({
+        eigentumZusammenfassungShowWarnings({
           besitzTotalWorth: "less10000",
           partnerschaft: "yes",
         }),
@@ -94,7 +94,7 @@ describe("stringReplacements", () => {
 
     it("return string config to show no warnings", () => {
       expect(
-        besitzZusammenfassungShowWarnings({
+        eigentumZusammenfassungShowWarnings({
           besitzTotalWorth: "more10000",
           partnerschaft: "no",
         }),

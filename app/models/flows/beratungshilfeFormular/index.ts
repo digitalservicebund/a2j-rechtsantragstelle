@@ -38,7 +38,7 @@ import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
   getAnwaltStrings,
-  besitzZusammenfassungShowWarnings,
+  eigentumZusammenfassungShowWarnings,
 } from "./stringReplacements";
 import { finanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
 
@@ -80,7 +80,7 @@ export const beratungshilfeFormular = {
     ...getKinderStrings(context),
     ...getArrayIndexStrings(context),
     ...getAnwaltStrings(context),
-    ...besitzZusammenfassungShowWarnings(context),
+    ...eigentumZusammenfassungShowWarnings(context),
   }),
 } as const;
 

@@ -1,6 +1,6 @@
 import type { FinanzielleAngabenGuard } from "./navStates";
 
-export const besitzDone: FinanzielleAngabenGuard = ({ context }) =>
+export const eigentumDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasBankkonto !== undefined &&
   context.hasKraftfahrzeug !== undefined &&
   context.hasGeldanlage !== undefined &&
@@ -42,7 +42,7 @@ export const wertsachenDone: FinanzielleAngabenGuard = ({ context }) =>
     context.wertsachen !== undefined &&
     context.wertsachen.length > 0);
 
-export const besitzZusammenfassungDone: FinanzielleAngabenGuard = ({
+export const eigentumZusammenfassungDone: FinanzielleAngabenGuard = ({
   context,
 }) =>
   bankKontoDone({ context }) &&

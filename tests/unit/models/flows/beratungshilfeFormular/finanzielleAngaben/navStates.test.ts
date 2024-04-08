@@ -2,7 +2,7 @@ import {
   beratungshilfeFinanzielleAngabeDone,
   beratungshilfeFinanzielleAngabenSubflowState,
 } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
-import * as navStatesBesitz from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStatesBesitz";
+import * as navStatesEigentum from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStatesEigentum";
 
 describe("navStates", () => {
   afterEach(() => {
@@ -86,10 +86,10 @@ describe("navStates", () => {
       ).toBeTruthy();
     });
 
-    it("passes with buergergeld and besitz done and besitzZusammenfassung done", () => {
-      jest.spyOn(navStatesBesitz, "besitzDone").mockReturnValue(true);
+    it("passes with buergergeld and eigentum done and eigentumZusammenfassung done", () => {
+      jest.spyOn(navStatesEigentum, "eigentumDone").mockReturnValue(true);
       jest
-        .spyOn(navStatesBesitz, "besitzZusammenfassungDone")
+        .spyOn(navStatesEigentum, "eigentumZusammenfassungDone")
         .mockReturnValue(true);
 
       expect(
@@ -101,10 +101,10 @@ describe("navStates", () => {
       ).toBeTruthy();
     });
 
-    it("fails with buergergeld and besitz done but besitzZusammenfassung not done", () => {
-      jest.spyOn(navStatesBesitz, "besitzDone").mockReturnValue(true);
+    it("fails with buergergeld and eigentum done but eigentumZusammenfassung not done", () => {
+      jest.spyOn(navStatesEigentum, "eigentumDone").mockReturnValue(true);
       jest
-        .spyOn(navStatesBesitz, "besitzZusammenfassungDone")
+        .spyOn(navStatesEigentum, "eigentumZusammenfassungDone")
         .mockReturnValue(false);
 
       expect(
@@ -116,10 +116,10 @@ describe("navStates", () => {
       ).toBeFalsy();
     });
 
-    it("fails with buergergeld and besitz not done but besitzZusammenfassung done", () => {
-      jest.spyOn(navStatesBesitz, "besitzDone").mockReturnValue(false);
+    it("fails with buergergeld and eigentum not done but eigentumZusammenfassung done", () => {
+      jest.spyOn(navStatesEigentum, "eigentumDone").mockReturnValue(false);
       jest
-        .spyOn(navStatesBesitz, "besitzZusammenfassungDone")
+        .spyOn(navStatesEigentum, "eigentumZusammenfassungDone")
         .mockReturnValue(true);
 
       expect(

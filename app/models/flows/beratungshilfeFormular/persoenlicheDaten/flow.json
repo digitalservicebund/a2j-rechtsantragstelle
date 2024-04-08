@@ -12,7 +12,7 @@
           },
           {
             "guard": "hasStaatlicheLeistungen",
-            "target": "#finanzielleAngaben.besitzZusammenfassung.zusammenfassung"
+            "target": "#finanzielleAngaben.eigentum-zusammenfassung.zusammenfassung"
           },
           {
             "guard": "hasAusgabenYes",
