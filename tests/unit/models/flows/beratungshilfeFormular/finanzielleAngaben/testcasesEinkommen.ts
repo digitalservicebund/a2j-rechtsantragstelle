@@ -24,7 +24,7 @@ const cases = [
       hasGeldanlage: "no",
       hasGrundeigentum: "no",
       hasKraftfahrzeug: "no",
-      besitzTotalWorth: "more10000",
+      eigentumTotalWorth: "more10000",
     },
     [
       "finanzielleAngaben/start",

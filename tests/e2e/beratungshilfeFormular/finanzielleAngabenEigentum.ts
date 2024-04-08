@@ -36,5 +36,5 @@ export async function startFinanzielleAngabenEigentum(
 
   // beratungshilfe/antrag/finanzielleAngaben/eigentum/gesamtwert
   await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.fillRadioPage("besitzTotalWorth", "more10000");
+  await beratungshilfeFormular.fillRadioPage("eigentumTotalWorth", "more10000");
 }

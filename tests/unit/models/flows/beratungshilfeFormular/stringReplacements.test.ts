@@ -82,7 +82,7 @@ describe("stringReplacements", () => {
     it("return string config to show all warnings", () => {
       expect(
         eigentumZusammenfassungShowWarnings({
-          besitzTotalWorth: "less10000",
+          eigentumTotalWorth: "less10000",
           partnerschaft: "yes",
         }),
       ).toStrictEqual({
@@ -95,7 +95,7 @@ describe("stringReplacements", () => {
     it("return string config to show no warnings", () => {
       expect(
         eigentumZusammenfassungShowWarnings({
-          besitzTotalWorth: "more10000",
+          eigentumTotalWorth: "more10000",
           partnerschaft: "no",
         }),
       ).toStrictEqual({

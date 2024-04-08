@@ -34,7 +34,7 @@ export const finanzielleAngabeGuards = {
   hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
     context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context }),
   eigentumTotalWorthLessThan10000: ({ context }) =>
-    context.besitzTotalWorth === "less10000",
+    context.eigentumTotalWorth === "less10000",
   hasPartnerschaftOrSeparated: ({ context }) =>
     context.partnerschaft === "yes" || context.partnerschaft === "separated",
   hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",

@@ -19,7 +19,7 @@ describe("eigentumDone", () => {
           hasGrundeigentum: "no",
           hasKraftfahrzeug: "no",
           hasWertsache: "no",
-          besitzTotalWorth: "unsure",
+          eigentumTotalWorth: "unsure",
         },
       }),
     ).toBeTruthy();
@@ -34,7 +34,7 @@ describe("eigentumDone", () => {
           hasGrundeigentum: "yes",
           hasKraftfahrzeug: "yes",
           hasWertsache: "yes",
-          besitzTotalWorth: "more10000",
+          eigentumTotalWorth: "more10000",
         },
       }),
     ).toBeTruthy();
@@ -159,7 +159,7 @@ describe("geldanlagenDone", () => {
       geldanlagenDone({
         context: {
           hasGeldanlage: "yes",
-          besitzTotalWorth: "less10000",
+          eigentumTotalWorth: "less10000",
         },
       }),
     ).toBeTruthy();
@@ -239,7 +239,7 @@ describe("grundeigentumDone", () => {
       grundeigentumDone({
         context: {
           hasGrundeigentum: "yes",
-          besitzTotalWorth: "less10000",
+          eigentumTotalWorth: "less10000",
         },
       }),
     ).toBeTruthy();
@@ -325,7 +325,7 @@ describe("kraftfahrzeugeDone", () => {
       kraftfahrzeugeDone({
         context: {
           hasKraftfahrzeug: "yes",
-          besitzTotalWorth: "less10000",
+          eigentumTotalWorth: "less10000",
         },
       }),
     ).toBeTruthy();
@@ -412,7 +412,7 @@ describe("wertsachenDone", () => {
       wertsachenDone({
         context: {
           hasWertsache: "yes",
-          besitzTotalWorth: "less10000",
+          eigentumTotalWorth: "less10000",
         },
       }),
     ).toBeTruthy();
