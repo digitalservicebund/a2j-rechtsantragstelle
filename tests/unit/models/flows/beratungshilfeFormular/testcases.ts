@@ -26,7 +26,7 @@ const cases = [
       "rechtsproblem/situation-beschreibung",
       "finanzielleAngaben/start",
       "finanzielleAngaben/einkommen/staatliche-leistungen",
-      //"persoenlicheDaten/start",
+      "persoenlicheDaten/start",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFormularContext>;

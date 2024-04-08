@@ -9,10 +9,23 @@ const cases = [
       "rechtsproblem/situation-beschreibung",
       "finanzielleAngaben/start",
       "finanzielleAngaben/einkommen/staatliche-leistungen",
-      "finanzielleAngaben/einkommen/erwerbstaetig",
-      "finanzielleAngaben/einkommen/situation",
-      "finanzielleAngaben/einkommen/weiteres-einkommen",
-      "finanzielleAngaben/einkommen/einkommen",
+      "persoenlicheDaten/start",
+    ],
+  ],
+  [
+    {
+      staatlicheLeistungen: "buergergeld",
+    },
+    [
+      "finanzielleAngaben/start",
+      "finanzielleAngaben/einkommen/staatliche-leistungen",
+      "finanzielleAngaben/besitz/eigentum-info",
+      "finanzielleAngaben/besitz/bankkonten-frage",
+      "finanzielleAngaben/besitz/geldanlagen-frage",
+      "finanzielleAngaben/besitz/wertgegenstaende-frage",
+      "finanzielleAngaben/besitz/grundeigentum-frage",
+      "finanzielleAngaben/besitz/kraftfahrzeuge-frage",
+      "finanzielleAngaben/besitz/gesamtwert",
       "persoenlicheDaten/start",
     ],
   ],
@@ -60,6 +73,11 @@ const cases = [
       "finanzielleAngaben/einkommen/staatliche-leistungen",
       "finanzielleAngaben/einkommen/erwerbstaetig",
       "finanzielleAngaben/einkommen/art",
+      "finanzielleAngaben/einkommen/situation",
+      "finanzielleAngaben/einkommen/weiteres-einkommen",
+      "finanzielleAngaben/einkommen/einkommen",
+      // TODO why do we only show the partner flow if einkommen is done? The back-flow does not match that requirement.
+      // "persoenlicheDaten/start",
     ],
   ],
   [
@@ -68,6 +86,10 @@ const cases = [
       "finanzielleAngaben/einkommen/staatliche-leistungen",
       "finanzielleAngaben/einkommen/erwerbstaetig",
       "finanzielleAngaben/einkommen/situation",
+      "finanzielleAngaben/einkommen/weiteres-einkommen",
+      "finanzielleAngaben/einkommen/einkommen",
+      // TODO why do we only show the partner flow if einkommen is done? The back-flow does not match that requirement.
+      // "persoenlicheDaten/start",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

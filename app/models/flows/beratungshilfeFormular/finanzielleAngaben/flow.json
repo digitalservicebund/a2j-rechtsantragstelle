@@ -23,10 +23,10 @@
                 "target": "#besitz.eigentum-info"
               },
               {
-                "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",
-                "target": "#persoenlicheDaten.start"
+                "guard": "staatlicheLeistungenIsKeineOrAndere",
+                "target": "erwerbstaetig"
               },
-              "erwerbstaetig"
+              "#persoenlicheDaten.start"
             ],
             "BACK": "#finanzielleAngaben.start"
           }

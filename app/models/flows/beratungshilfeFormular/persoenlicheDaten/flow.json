@@ -7,12 +7,12 @@
         "SUBMIT": "name",
         "BACK": [
           {
-            "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",
-            "target": "#finanzielleAngaben.einkommen.staatliche-leistungen"
+            "guard": "staatlicheLeistungenIsBuergergeldAndBesitzDone",
+            "target": "#finanzielleAngaben.besitzZusammenfassung.zusammenfassung"
           },
           {
-            "guard": "hasStaatlicheLeistungen",
-            "target": "#finanzielleAngaben.besitzZusammenfassung.zusammenfassung"
+            "guard": "staatlicheLeistungenIsBuergergeld",
+            "target": "#finanzielleAngaben.besitz.gesamtwert"
           },
           {
             "guard": "hasAusgabenYes",
@@ -22,7 +22,7 @@
             "guard": "hasNoStaatlicheLeistungen",
             "target": "#ausgaben.ausgaben-frage"
           },
-          "#finanzielleAngaben.einkommen.einkommen"
+          "#finanzielleAngaben.einkommen.staatliche-leistungen"
         ]
       }
     },

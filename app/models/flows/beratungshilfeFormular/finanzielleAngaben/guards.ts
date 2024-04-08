@@ -21,14 +21,17 @@ const hasNoStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string
     );
   };
 
+const staatlicheLeistungenIsBuergergeld: Guards<BeratungshilfeFinanzielleAngaben>[string] =
+  ({ context }) => context.staatlicheLeistungen === "buergergeld";
+
 export const finanzielleAngabeGuards = {
   besitzDone,
-
-  staatlicheLeistungenIsAsylOrGrundsicherung: ({ context }) =>
-    context.staatlicheLeistungen === "asylbewerberleistungen" ||
-    context.staatlicheLeistungen === "grundsicherung",
-  staatlicheLeistungenIsBuergergeld: ({ context }) =>
-    context.staatlicheLeistungen === "buergergeld",
+  staatlicheLeistungenIsKeineOrAndere: ({ context }) =>
+    context.staatlicheLeistungen === "andereLeistung" ||
+    context.staatlicheLeistungen === "keine",
+  staatlicheLeistungenIsBuergergeld,
+  staatlicheLeistungenIsBuergergeldAndBesitzDone: ({ context }) =>
+    staatlicheLeistungenIsBuergergeld({ context }) && besitzDone({ context }),
   hasStaatlicheLeistungen,
   hasNoStaatlicheLeistungen,
   hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
