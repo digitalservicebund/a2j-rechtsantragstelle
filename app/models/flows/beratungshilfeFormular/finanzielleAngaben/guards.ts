@@ -93,6 +93,11 @@ export const finanzielleAngabeGuards = {
       kinderWohnortBeiAntragsteller === "partially"
     );
   },
+  kindWohnortBeiAntragstellerNo: ({ context: { pageData, kinder } }) => {
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return kinder?.at(arrayIndex)?.wohnortBeiAntragsteller === "no";
+  },
   kindEigeneEinnahmenYes: ({ context: { pageData, kinder } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
@@ -102,6 +107,11 @@ export const finanzielleAngabeGuards = {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
     return kinder?.at(arrayIndex)?.unterhalt === "yes";
+  },
+  kindUnterhaltNo: ({ context: { pageData, kinder } }) => {
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return kinder?.at(arrayIndex)?.unterhalt === "no";
   },
   isValidKinderArrayIndex: ({ context: { pageData, kinder } }) =>
     isValidArrayIndex(kinder, pageData),

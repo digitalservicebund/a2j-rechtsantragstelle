@@ -236,7 +236,10 @@
                     "guard": "kindWohnortBeiAntragstellerYes",
                     "target": "kind-eigene-einnahmen-frage"
                   },
-                  "kind-unterhalt-frage"
+                  {
+                    "guard": "kindWohnortBeiAntragstellerNo",
+                    "target": "kind-unterhalt-frage"
+                  }
                 ]
               }
             },
@@ -266,7 +269,10 @@
                     "guard": "kindUnterhaltYes",
                     "target": "kind-unterhalt"
                   },
-                  "kind-unterhalt-ende"
+                  {
+                    "guard": "kindUnterhaltNo",
+                    "target": "kind-unterhalt-ende"
+                  }
                 ]
               }
             },
