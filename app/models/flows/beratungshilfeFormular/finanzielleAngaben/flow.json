@@ -598,6 +598,9 @@
     "wohnung": {
       "id": "wohnung",
       "initial": "wohnsituation",
+      "on": {
+        "SUBMIT": "#ausgaben.ausgaben-frage"
+      },
       "states": {
         "wohnsituation": {
           "on": {
@@ -619,7 +622,10 @@
                 "target": "wohnkostenAllein",
                 "guard": "livesAlone"
               },
-              "personenAnzahl"
+              {
+                "target": "personenAnzahl",
+                "guard": "livesNotAlone"
+              }
             ]
           }
         },
@@ -654,7 +660,11 @@
                 "guard": "livesAlone",
                 "target": "#finanzielleAngaben.wohnung.wohnkostenAllein"
               },
-              "#finanzielleAngaben.wohnung.wohnkostenGeteilt"
+              {
+                "guard": "livesNotAlone",
+                "target": "#finanzielleAngaben.wohnung.wohnkostenGeteilt"
+              },
+              "#finanzielleAngaben.wohnung.groesse"
             ],
             "SUBMIT": [
               {

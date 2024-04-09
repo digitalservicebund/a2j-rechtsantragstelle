@@ -118,6 +118,9 @@ export const finanzielleAngabeGuards = {
   isValidAusgabenArrayIndex: ({ context: { pageData, ausgaben } }) =>
     isValidArrayIndex(ausgaben, pageData),
   livesAlone: ({ context }) => context.livingSituation === "alone",
+  livesNotAlone: ({ context }) =>
+    context.livingSituation === "withRelatives" ||
+    context.livingSituation === "withOthers",
   isGeldanlageBargeld: ({ context: { pageData, geldanlagen } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
