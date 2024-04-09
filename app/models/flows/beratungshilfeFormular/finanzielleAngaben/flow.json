@@ -81,16 +81,18 @@
     "partner": {
       "id": "partner",
       "initial": "partnerschaft",
+      "on": {
+        "SUBMIT": "#kinder.kinder-frage"
+      },
       "states": {
         "partnerschaft": {
           "on": {
             "BACK": "#einkommen.einkommen",
             "SUBMIT": [
               {
-                "guard": "hasPartnerschaftNoOrWidowed",
-                "target": "#kinder.kinder-frage"
-              },
-              "zusammenleben"
+                "guard": "hasPartnerschaftOrSeparated",
+                "target": "zusammenleben"
+              }
             ]
           }
         },
@@ -102,7 +104,10 @@
                 "guard": "zusammenlebenYes",
                 "target": "partner-einkommen"
               },
-              "unterhalt"
+              {
+                "guard": "zusammenlebenNo",
+                "target": "unterhalt"
+              }
             ]
           }
         },
@@ -114,7 +119,10 @@
                 "guard": "unterhaltYes",
                 "target": "unterhalts-summe"
               },
-              "keine-rolle"
+              {
+                "guard": "unterhaltNo",
+                "target": "keine-rolle"
+              }
             ]
           }
         },
@@ -167,21 +175,30 @@
           "on": {
             "BACK": [
               {
-                "guard": "hasPartnerschaftNoOrWidowed",
-                "target": "#partner.partnerschaft"
-              },
-              {
                 "guard": "unterhaltYes",
                 "target": "#partner.partner-name"
               },
               {
-                "guard": "partnerEinkommenNo",
+                "guard": "hasPartnerschaftOrSeparatedAndPartnerEinkommenYes",
+                "target": "#partner.partner-einkommen-summe"
+              },
+              {
+                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenYes",
                 "target": "#partner.partner-einkommen"
               },
               {
+                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenNoAndUnterhaltNo",
+                "target": "#partner.keine-rolle"
+              },
+              {
+                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenNo",
+                "target": "#partner.unterhalt"
+              },
+              {
                 "guard": "hasPartnerschaftOrSeparated",
-                "target": "#partner.partner-einkommen-summe"
-              }
+                "target": "#partner.zusammenleben"
+              },
+              "#partner.partnerschaft"
             ],
             "SUBMIT": [
               {

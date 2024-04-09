@@ -24,6 +24,14 @@ const hasNoStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string
 const staatlicheLeistungenIsBuergergeld: Guards<BeratungshilfeFinanzielleAngaben>[string] =
   ({ context }) => context.staatlicheLeistungen === "buergergeld";
 
+const hasPartnerschaftOrSeparated: Guards<BeratungshilfeFinanzielleAngaben>[string] =
+  ({ context }) =>
+    context.partnerschaft === "yes" || context.partnerschaft === "separated";
+
+const hasPartnerschaftOrSeparatedAndZusammenlebenNo: Guards<BeratungshilfeFinanzielleAngaben>[string] =
+  ({ context }) =>
+    hasPartnerschaftOrSeparated({ context }) && context.zusammenleben == "no";
+
 export const finanzielleAngabeGuards = {
   besitzDone,
   staatlicheLeistungenIsKeineOrAndere: ({ context }) =>
@@ -38,11 +46,19 @@ export const finanzielleAngabeGuards = {
     context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context }),
   besitzTotalWorthLessThan10000: ({ context }) =>
     context.besitzTotalWorth === "less10000",
-  hasPartnerschaftOrSeparated: ({ context }) =>
-    context.partnerschaft === "yes" || context.partnerschaft === "separated",
+  hasPartnerschaftOrSeparated,
   hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",
   hasPartnerschaftNoOrWidowed: ({ context }) =>
     context.partnerschaft === "no" || context.partnerschaft === "widowed",
+  hasPartnerschaftOrSeparatedAndPartnerEinkommenYes: ({ context }) =>
+    hasPartnerschaftOrSeparated({ context }) &&
+    context.partnerEinkommen == "yes",
+  hasPartnerschaftOrSeparatedAndZusammenlebenYes: ({ context }) =>
+    hasPartnerschaftOrSeparated({ context }) && context.zusammenleben == "yes",
+  hasPartnerschaftOrSeparatedAndZusammenlebenNo,
+  hasPartnerschaftOrSeparatedAndZusammenlebenNoAndUnterhaltNo: ({ context }) =>
+    hasPartnerschaftOrSeparatedAndZusammenlebenNo({ context }) &&
+    context.unterhalt == "no",
   ...yesNoGuards("erwerbstaetig"),
   ...yesNoGuards("zusammenleben"),
   ...yesNoGuards("unterhalt"),
