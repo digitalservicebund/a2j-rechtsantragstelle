@@ -170,7 +170,7 @@ export const beratungshilfeFinanzielleAngaben = {
       auszahlungdatum: inputRequiredSchema.optional(),
     }),
   ),
-  besitzTotalWorth: z.enum(
+  eigentumTotalWorth: z.enum(
     ["less10000", "more10000", "unsure"],
     customRequiredErrorMessage,
   ),
