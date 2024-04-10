@@ -1,12 +1,13 @@
 import { z } from "zod";
-import Heading, { HeadingPropsSchema } from "./Heading";
+import Heading from "./Heading";
 import RichText from "./RichText";
 import LightbulbOutlinedIcon from "@digitalservicebund/icons/LightbulbOutlined";
 import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
 
 const InlineNoticePropsSchema = z.object({
   identifier: z.string().optional(),
-  heading: HeadingPropsSchema.nullable(),
+  title: z.string(),
+  tagName: z.enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"]),
   look: z.enum(["warning", "tips"]),
   content: z.string().optional(),
 });
@@ -30,7 +31,8 @@ const lookConfig = {
 
 export const InlineNotice = ({
   identifier,
-  heading,
+  title,
+  tagName,
   look,
   content,
 }: InlineNoticeProps) => {
@@ -38,20 +40,22 @@ export const InlineNotice = ({
 
   return (
     <div
-      className={`ds-stack-16 scroll-my-40 pt-24 pb-32 px-40 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
+      className={`ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
       id={identifier}
     >
-      <div className="ds-stack-4">
-        <div className="flex flex-row gap-[8px] items-center">
-          <IconComponent style={{ width: 24, height: 24 }} />
-          {heading && <Heading {...heading} />}
-        </div>
-        {content && (
-          <div className="tracking-[0.16px] leading-[26px]">
-            {content && <RichText markdown={content} />}
-          </div>
-        )}
+      <div className="flex flex-row gap-[4px] items-center">
+        <IconComponent style={{ width: 24, height: 24 }} />
+        <Heading tagName={tagName} look="ds-label-01-bold">
+          {title}
+        </Heading>
       </div>
+      {content && (
+        <div className="tracking-[0.16px] leading-[26px]">
+          {content && (
+            <RichText className="ds-body-01-reg" markdown={content} />
+          )}
+        </div>
+      )}
     </div>
   );
 };

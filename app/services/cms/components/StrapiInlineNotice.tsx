@@ -1,14 +1,17 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import { StrapiHeadingSchema } from "../models/StrapiHeading";
 import { OptionalStrapiLinkIdentifierSchema } from "../models/HasStrapiLinkIdentifier";
 import { InlineNotice } from "~/components/InlineNotice";
+import { omitNull } from "~/util/omitNull";
+import { StrapiBackgroundSchema } from "../models/StrapiBackground";
 
 const StrapiInlineNoticeSchema = z
   .object({
-    heading: StrapiHeadingSchema.nullable(),
+    title: z.string(),
+    tagName: z.enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"]),
     look: z.enum(["warning", "tips"]),
-    content: z.string().nullable(),
+    content: z.string().optional(),
+    outerBackground: StrapiBackgroundSchema.nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);
@@ -21,12 +24,6 @@ export const StrapiInlineNoticeComponentSchema =
   });
 
 export const StrapiInlineNotice = (strapiInlineNotice: StrapiInlineNotice) => {
-  const { heading, look, content } = strapiInlineNotice;
-  return (
-    <InlineNotice
-      heading={heading}
-      look={look}
-      content={content ?? undefined}
-    />
-  );
+  const props = omitNull(strapiInlineNotice);
+  return <InlineNotice {...props} />;
 };

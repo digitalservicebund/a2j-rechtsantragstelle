@@ -12,25 +12,15 @@ describe("InlineNotice Component", () => {
     const WARNING_ICON_ID = "WarningAmberIcon";
     const mockProps = {
       identifier: "test-identifier",
-      heading: {
-        text: "Achtung!",
-        tagName: "h2",
-        look: "ds-label-01-bold",
-      },
+      title: "Achtung!",
+      tagName: "h2",
       look: "warning",
       content: "Test content",
     } as const;
 
-    component = render(
-      <InlineNotice
-        identifier={mockProps.identifier}
-        heading={mockProps.heading}
-        look={mockProps.look}
-        content={mockProps.content}
-      />,
-    );
+    component = render(<InlineNotice {...mockProps} />);
 
-    expect(screen.getByText(mockProps.heading.text)).toBeInTheDocument();
+    expect(screen.getByText(mockProps.title)).toBeInTheDocument();
     expect(screen.getByText(mockProps.content)).toBeInTheDocument();
     expect(screen.getByTestId(WARNING_ICON_ID)).toBeInTheDocument();
   });
@@ -40,25 +30,15 @@ describe("InlineNotice Component", () => {
 
     const mockProps = {
       identifier: "test-identifier",
-      heading: {
-        text: "Achtung!",
-        tagName: "h2",
-        look: "ds-label-01-bold",
-      },
+      title: "Achtung!",
+      tagName: "h2",
       look: "tips",
       content: "Test content",
     } as const;
 
-    component = render(
-      <InlineNotice
-        identifier={mockProps.identifier}
-        heading={mockProps.heading}
-        look={mockProps.look}
-        content={mockProps.content}
-      />,
-    );
+    component = render(<InlineNotice {...mockProps} />);
 
-    expect(screen.getByText(mockProps.heading.text)).toBeInTheDocument();
+    expect(screen.getByText(mockProps.title)).toBeInTheDocument();
     expect(screen.getByText(mockProps.content)).toBeInTheDocument();
     expect(screen.getByTestId(TIPS_ICON_ID)).toBeInTheDocument();
   });
