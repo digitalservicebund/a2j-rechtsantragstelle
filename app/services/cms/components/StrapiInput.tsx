@@ -27,6 +27,7 @@ const StrapiInputSchema = z
         "characters54",
       ])
       .nullable(),
+    dataList: z.enum(["airports"]).nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
