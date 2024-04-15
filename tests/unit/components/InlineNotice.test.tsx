@@ -33,13 +33,17 @@ describe("InlineNotice Component", () => {
       title: "Achtung!",
       tagName: "h2",
       look: "tips",
-      content: "Test content",
+      content: "Text **strong**\n\n* first list\n* second list",
     } as const;
 
     component = render(<InlineNotice {...mockProps} />);
 
     expect(screen.getByText(mockProps.title)).toBeInTheDocument();
-    expect(screen.getByText(mockProps.content)).toBeInTheDocument();
     expect(screen.getByTestId(TIPS_ICON_ID)).toBeInTheDocument();
+
+    const listDescription = screen.getByRole("list");
+
+    expect(screen.getByRole("list")).toBeInTheDocument();
+    expect(listDescription.querySelectorAll("li")).toHaveLength(2);
   });
 });

@@ -51,9 +51,7 @@ export const InlineNotice = ({
       </div>
       {content && (
         <div className="tracking-[0.16px] leading-[26px]">
-          {content && (
-            <RichText className="ds-body-01-reg" markdown={content} />
-          )}
+          {content && <RichText markdown={content} />}
         </div>
       )}
     </div>
