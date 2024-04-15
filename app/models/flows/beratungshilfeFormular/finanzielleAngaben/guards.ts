@@ -38,7 +38,7 @@ export const finanzielleAngabeGuards = {
     context.staatlicheLeistungen === "andereLeistung" ||
     context.staatlicheLeistungen === "keine",
   staatlicheLeistungenIsBuergergeld,
-  staatlicheLeistungenIsBuergergeldAndBesitzDone: ({ context }) =>
+  staatlicheLeistungenIsBuergergeldAndEigentumDone: ({ context }) =>
     staatlicheLeistungenIsBuergergeld({ context }) && eigentumDone({ context }),
   hasStaatlicheLeistungen,
   hasNoStaatlicheLeistungen,
