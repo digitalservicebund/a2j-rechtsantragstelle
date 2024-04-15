@@ -22,6 +22,7 @@
     "init": "lefthook install",
     "lint:fix": "eslint . --fix",
     "lint": "eslint --cache .",
+    "generate:airports-data": "node ./airports.cjs",
     "start:storybook": "storybook dev -p 6006",
     "start": "NODE_ENV=production node ./server.js",
     "test:coverage": "jest --testPathPattern=/tests/unit/ --maxWorkers=50% --coverage --collectCoverageFrom='./app/**'",
