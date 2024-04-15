@@ -2,29 +2,6 @@ const airportData = require("airport-data-js");
 const fs = require("fs");
 const _ = require("lodash");
 
-function filteredLargeAirports(airports) {
-  return airports
-    .filter(
-      (airport) =>
-        airport.type === "large_airport" &&
-        airport.scheduled_service === "TRUE",
-    )
-    .map((airport) => {
-      return {
-        iata: airport.iata,
-        icao: airport.icao,
-        city_code: airport.city_code,
-        country_code: airport.country_code,
-        airport: airport.airport,
-        latitude: airport.latitude,
-        longitude: airport.longitude,
-        region_name: airport.region_name,
-        city: airport.city,
-        continent: airport.continent || "NR",
-      };
-    });
-}
-
 function filteredLargeMediumAirports(airports) {
   return airports
     .filter(
@@ -52,16 +29,13 @@ function filteredLargeMediumAirports(airports) {
 async function fetchAirportDataByContinent(continent) {
   const airports = await airportData.getAirportByContinent(continent);
 
-  if (continent === "EU") {
-    return filteredLargeMediumAirports(airports);
-  }
-  return filteredLargeAirports(airports);
+  return filteredLargeMediumAirports(airports);
 }
 
 async function fetchAirportDataByCountry(country) {
   const airports = await airportData.getAirportByCountryCode(country);
 
-  return filteredLargeAirports(airports);
+  return filteredLargeMediumAirports(airports);
 }
 
 async function fetchAllAirports() {
