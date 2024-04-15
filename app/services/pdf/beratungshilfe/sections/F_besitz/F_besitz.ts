@@ -45,7 +45,7 @@ export function fillFinancialBankkonto(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const { hasBankkonto, bankkonten, besitzTotalWorth } = context;
+  const { hasBankkonto, bankkonten, eigentumTotalWorth } = context;
   const hasBankkontoYes = hasBankkonto === "yes";
 
   pdfFields.f1Konten1.value = !hasBankkontoYes;
@@ -53,7 +53,7 @@ export function fillFinancialBankkonto(
   if (!hasBankkontoYes || !bankkonten || bankkonten.length === 0) return;
 
   pdfFields.f3Bank1.value =
-    besitzTotalWorth === "less10000"
+    eigentumTotalWorth === "less10000"
       ? "Übergreifender Hinweis zu allen Vermögenswerten:\nMein gesamtes Vermögen ist insgesamt weniger als 10.000€ wert.\n\n"
       : "";
 

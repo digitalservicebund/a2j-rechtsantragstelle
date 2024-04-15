@@ -20,7 +20,7 @@
             "SUBMIT": [
               {
                 "guard": "staatlicheLeistungenIsBuergergeld",
-                "target": "#besitz.eigentum-info"
+                "target": "#eigentum.eigentum-info"
               },
               {
                 "guard": "staatlicheLeistungenIsKeineOrAndere",
@@ -311,14 +311,14 @@
                 "guard": "hasWeitereUnterhaltszahlungenYes",
                 "target": "uebersicht"
               },
-              "#besitz.eigentum-info"
+              "#eigentum.eigentum-info"
             ]
           }
         },
         "uebersicht": {
           "on": {
             "BACK": "frage",
-            "SUBMIT": "#besitz",
+            "SUBMIT": "#eigentum",
             "add-unterhaltszahlungen": "person"
           }
         },
@@ -335,8 +335,8 @@
         }
       }
     },
-    "besitz": {
-      "id": "besitz",
+    "eigentum": {
+      "id": "eigentum",
       "initial": "eigentum-info",
       "states": {
         "eigentum-info": {
@@ -407,8 +407,8 @@
           "on": {
             "SUBMIT": [
               {
-                "target": "#besitzZusammenfassung.zusammenfassung",
-                "guard": "besitzDone"
+                "target": "#eigentum-zusammenfassung.zusammenfassung",
+                "guard": "eigentumDone"
               },
               {
                 "target": "#persoenlicheDaten.start",
@@ -421,13 +421,13 @@
         }
       }
     },
-    "besitzZusammenfassung": {
-      "id": "besitzZusammenfassung",
+    "eigentum-zusammenfassung": {
+      "id": "eigentum-zusammenfassung",
       "initial": "zusammenfassung",
       "states": {
         "zusammenfassung": {
           "on": {
-            "BACK": "#besitz.gesamtwert",
+            "BACK": "#eigentum.gesamtwert",
             "SUBMIT": [
               {
                 "guard": "hasStaatlicheLeistungen",
@@ -447,8 +447,8 @@
           "states": {
             "daten": {
               "on": {
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
-                "BACK": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung",
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung"
               }
             }
           }
@@ -458,7 +458,7 @@
           "states": {
             "arbeitsweg": {
               "on": {
-                "BACK": "#besitzZusammenfassung.zusammenfassung",
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung",
                 "SUBMIT": "wert"
               }
             },
@@ -470,14 +470,14 @@
                     "guard": "isKraftfahrzeugWertAbove10000OrUnsure",
                     "target": "fahrzeuge"
                   },
-                  "#besitzZusammenfassung.zusammenfassung"
+                  "#eigentum-zusammenfassung.zusammenfassung"
                 ]
               }
             },
             "fahrzeuge": {
               "on": {
                 "BACK": "wert",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             }
           }
@@ -506,49 +506,49 @@
                   { "target": "forderung", "guard": "isGeldanlageForderung" },
                   { "target": "sonstiges", "guard": "isGeldanlageSonstiges" }
                 ],
-                "BACK": "#besitzZusammenfassung.zusammenfassung"
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "bargeld": {
               "on": {
                 "BACK": "art",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "wertpapiere": {
               "on": {
                 "BACK": "art",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "guthabenkontoKrypto": {
               "on": {
                 "BACK": "art",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "giroTagesgeldSparkonto": {
               "on": {
                 "BACK": "art",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "befristet": {
               "on": {
                 "BACK": "art",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "forderung": {
               "on": {
                 "BACK": "art",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "sonstiges": {
               "on": {
                 "BACK": "art",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             }
           }
@@ -558,7 +558,7 @@
           "states": {
             "bewohnt-frage": {
               "on": {
-                "BACK": "#besitzZusammenfassung.zusammenfassung",
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung",
                 "SUBMIT": [
                   {
                     "guard": "grundeigentumIsBewohnt",
@@ -571,13 +571,13 @@
             "daten": {
               "on": {
                 "BACK": "bewohnt-frage",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "bewohnt-daten": {
               "on": {
                 "BACK": "bewohnt-frage",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             }
           }
@@ -587,8 +587,8 @@
           "states": {
             "daten": {
               "on": {
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
-                "BACK": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung",
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung"
               }
             }
           }
@@ -606,10 +606,10 @@
           "on": {
             "BACK": [
               {
-                "guard": "besitzDone",
-                "target": "#besitzZusammenfassung.zusammenfassung"
+                "guard": "eigentumDone",
+                "target": "#eigentum-zusammenfassung.zusammenfassung"
               },
-              "#besitz.gesamtwert"
+              "#eigentum.gesamtwert"
             ],
             "SUBMIT": "groesse"
           }

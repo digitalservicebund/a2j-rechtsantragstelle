@@ -8,11 +8,11 @@
         "BACK": [
           {
             "guard": "staatlicheLeistungenIsBuergergeldAndBesitzDone",
-            "target": "#finanzielleAngaben.besitzZusammenfassung.zusammenfassung"
+            "target": "#finanzielleAngaben.eigentum-zusammenfassung.zusammenfassung"
           },
           {
             "guard": "staatlicheLeistungenIsBuergergeld",
-            "target": "#finanzielleAngaben.besitz.gesamtwert"
+            "target": "#finanzielleAngaben.eigentum.gesamtwert"
           },
           {
             "guard": "hasAusgabenYes",

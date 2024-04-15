@@ -5,8 +5,8 @@ import { testCasesFluggastrechteFormular } from "tests/unit/models/flows/fluggas
 import { testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen } from "./beratungshilfeFormular/finanzielleAngaben/testcasesEinkommen";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenPartner } from "./beratungshilfeFormular/finanzielleAngaben/testcasesPartner";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenKinder } from "./beratungshilfeFormular/finanzielleAngaben/testcasesKinder";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenBesitz } from "./beratungshilfeFormular/finanzielleAngaben/testcasesBesitz";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenBesitzZusammenfassung } from "./beratungshilfeFormular/finanzielleAngaben/testcasesBesitzZusammenfassung";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentum } from "./beratungshilfeFormular/finanzielleAngaben/testcasesEigentum";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentumZusammenfassung } from "./beratungshilfeFormular/finanzielleAngaben/testcasesEigentumZusammenfassung";
 import { testCasesBeratungshilfeRechtsproblem } from "./beratungshilfeFormular/rechtsprobleme/testcases";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "./beratungshilfeFormular/finanzielleAngaben/testcasesWohnung";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen } from "./beratungshilfeFormular/finanzielleAngaben/testcasesUnterhaltszahlungen";
@@ -37,8 +37,8 @@ describe("state machine form flows", () => {
     testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen,
     testCasesBeratungshilfeFormularFinanzielleAngabenPartner,
     testCasesBeratungshilfeFormularFinanzielleAngabenKinder,
-    testCasesBeratungshilfeFormularFinanzielleAngabenBesitz,
-    testCasesBeratungshilfeFormularFinanzielleAngabenBesitzZusammenfassung,
+    testCasesBeratungshilfeFormularFinanzielleAngabenEigentum,
+    testCasesBeratungshilfeFormularFinanzielleAngabenEigentumZusammenfassung,
     testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
     testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
     testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
