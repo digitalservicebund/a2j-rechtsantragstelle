@@ -2,11 +2,13 @@ import type { BeratungshilfeVorabcheckContext } from "~/models/flows/beratungshi
 import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/context";
 import type { FluggastrechtContext } from "~/models/flows/fluggastrechteFormular/context";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import type { FluggastrechtVorabcheckContext } from "~/models/flows/fluggastrechte/context";
 
 export type TestCases<
   T extends
     | BeratungshilfeVorabcheckContext
     | BeratungshilfeFormularContext
     | GeldEinklagenVorabcheckContext
+    | FluggastrechtVorabcheckContext
     | FluggastrechtContext,
 > = Readonly<Array<Readonly<[T, Readonly<Array<string>>]>>>;

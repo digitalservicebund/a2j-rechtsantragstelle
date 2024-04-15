@@ -4,9 +4,9 @@ import type { SafeParseError } from "zod";
 describe("airport validation", () => {
   describe("success cases", () => {
     const cases = [
-      { input: " abc ", expected: "ABC" },
+      { input: " BER ", expected: "BER" },
       { input: "Bar", expected: "BAR" },
-      { input: " fOo ", expected: "FOO" },
+      { input: " bEr ", expected: "BER" },
     ];
 
     test.each(cases)(
@@ -25,6 +25,7 @@ describe("airport validation", () => {
       { input: "123", errorMessage: "wrong_airport_format" },
       { input: " :) ", errorMessage: "wrong_airport_format" },
       { input: "foobar ", errorMessage: "wrong_airport_format" },
+      { input: "XXX", errorMessage: "invalid_airport_code" },
     ];
 
     test.each(cases)(

@@ -14,13 +14,10 @@
         "BACK": "start",
         "SUBMIT": [
           {
-            "target": "fluggesellschaft",
-            "guard": "isPartnerAirport"
-          },
-          {
             "target": "ergebnis/flughaefen-abbruch",
-            "guard": "fluggesellschaftFilled"
-          }
+            "guard": "isAirportOutsideEU"
+          },
+          "fluggesellschaft"
         ]
       }
     },
@@ -135,7 +132,7 @@
     "entschaedigung": {
       "meta": { "progressPosition": 9 },
       "on": {
-        "BACK": "gruende",
+        "BACK": "gruende-hinweis",
         "SUBMIT": [
           {
             "target": "gericht",

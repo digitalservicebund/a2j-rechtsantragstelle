@@ -24,3 +24,33 @@ export const isPartnerAirport = (
   airport: Context[string],
 ): airport is PartnerAirport =>
   typeof airport === "string" && airport in partnerCourtAirports;
+
+export const EUCountries = [
+  "AT",
+  "BE",
+  "BG",
+  "HR",
+  "CY",
+  "CZ",
+  "DK",
+  "EE",
+  "FI",
+  "FR",
+  "DE",
+  "GR",
+  "HU",
+  "IE",
+  "IT",
+  "LV",
+  "LT",
+  "LU",
+  "MT",
+  "NL",
+  "PL",
+  "PT",
+  "RO",
+  "SK",
+  "SI",
+  "ES",
+  "SE",
+];
