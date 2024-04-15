@@ -4,6 +4,7 @@ import Input from "~/components/inputs/Input";
 import { render } from "@testing-library/react";
 
 const COMPONENT_NAME = "test-input";
+const COMPONENT_DATA_LIST_INPUT_TEXT = "Mock Data List Input";
 
 jest.mock("remix-validated-form", () => ({
   useField: jest.fn(),
@@ -11,7 +12,7 @@ jest.mock("remix-validated-form", () => ({
 
 // eslint-disable-next-line react/display-name
 jest.mock("~/components/inputs/DataListInput", () => () => (
-  <div>Mock Data List Input</div>
+  <div>{COMPONENT_DATA_LIST_INPUT_TEXT}</div>
 ));
 
 describe("Input", () => {
@@ -43,7 +44,7 @@ describe("Input", () => {
 
     const { queryByText } = render(<RemixStub />);
 
-    expect(queryByText("Mock Data List Input")).not.toBeInTheDocument();
+    expect(queryByText(COMPONENT_DATA_LIST_INPUT_TEXT)).not.toBeInTheDocument();
   });
 
   it("in case has the props dataList, it should render DataListInput component", () => {
@@ -75,6 +76,6 @@ describe("Input", () => {
 
     const { queryByText } = render(<RemixStub />);
 
-    expect(queryByText("Mock Data List Input")).toBeInTheDocument();
+    expect(queryByText(COMPONENT_DATA_LIST_INPUT_TEXT)).toBeInTheDocument();
   });
 });
