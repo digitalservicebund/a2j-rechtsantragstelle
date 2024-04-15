@@ -1,10 +1,6 @@
 import { z } from "zod";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import {
-  createDateSchema,
-  dateUTCFromGermanDateString,
-  today,
-} from "~/services/validation/date";
+import { createDateSchema } from "~/services/validation/date";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { postcodeSchema } from "~/services/validation/postcode";
 
