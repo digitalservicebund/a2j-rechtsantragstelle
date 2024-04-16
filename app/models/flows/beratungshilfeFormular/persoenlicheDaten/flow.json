@@ -32,7 +32,18 @@
     "telefonnummer": {
       "on": {
         "BACK": "adresse",
-        "SUBMIT": { "target": "#abgabe", "guard": "readyForAbgabe" }
+        "SUBMIT": [
+          {
+            "target": "#abgabe",
+            "guard": "readyForAbgabe"
+          },
+          "kontrolle"
+        ]
+      }
+    },
+    "kontrolle": {
+      "on": {
+        "BACK": "telefonnummer"
       }
     }
   }

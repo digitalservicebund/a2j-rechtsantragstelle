@@ -27,6 +27,11 @@ const cases = [
       "finanzielleAngaben/start",
       "finanzielleAngaben/einkommen/staatliche-leistungen",
       "persoenlicheDaten/start",
+      "persoenlicheDaten/name",
+      "persoenlicheDaten/geburtsdatum",
+      "persoenlicheDaten/adresse",
+      "persoenlicheDaten/telefonnummer",
+      "persoenlicheDaten/kontrolle",
     ],
   ],
   [
@@ -71,6 +76,11 @@ const cases = [
       "finanzielleAngaben/wohnung/groesse",
       "finanzielleAngaben/ausgaben/ausgaben-frage",
       "persoenlicheDaten/start",
+      "persoenlicheDaten/name",
+      "persoenlicheDaten/geburtsdatum",
+      "persoenlicheDaten/adresse",
+      "persoenlicheDaten/telefonnummer",
+      "persoenlicheDaten/kontrolle",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFormularContext>;
