@@ -31,7 +31,7 @@ const cases = [
       "persoenlicheDaten/geburtsdatum",
       "persoenlicheDaten/adresse",
       "persoenlicheDaten/telefonnummer",
-      "persoenlicheDaten/kontrolle",
+      "persoenlicheDaten/ueberpruefung",
     ],
   ],
   [
@@ -80,7 +80,7 @@ const cases = [
       "persoenlicheDaten/geburtsdatum",
       "persoenlicheDaten/adresse",
       "persoenlicheDaten/telefonnummer",
-      "persoenlicheDaten/kontrolle",
+      "persoenlicheDaten/ueberpruefung",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFormularContext>;

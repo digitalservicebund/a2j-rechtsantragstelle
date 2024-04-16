@@ -37,11 +37,11 @@
             "target": "#abgabe",
             "guard": "readyForAbgabe"
           },
-          "kontrolle"
+          "ueberpruefung"
         ]
       }
     },
-    "kontrolle": {
+    "ueberpruefung": {
       "on": {
         "BACK": "telefonnummer"
       }
