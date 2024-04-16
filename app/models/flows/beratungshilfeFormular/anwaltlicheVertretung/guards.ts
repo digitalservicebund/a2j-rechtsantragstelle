@@ -17,7 +17,9 @@ export const beratungshilfeAnwaltlicheVertretungGuards = {
     );
     const differenceInDays =
       (today().getTime() - inputDateAsUTC.getTime()) / 1000 / 60 / 60 / 24; // ms to days
-    return differenceInDays > 28;
+
+    const FOUR_WEEKS_IN_DAYS = 28;
+    return differenceInDays > FOUR_WEEKS_IN_DAYS;
   },
 } satisfies Guards<BeratungshilfeAnwaltlicheVertretung>;
 
