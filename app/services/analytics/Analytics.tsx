@@ -101,9 +101,11 @@ export function CookieBanner({ hasTrackingConsent, content }: AnalyticsProps) {
                 text={content.declineButtonLabel}
                 size="large"
               />
-              <a href="/cookie-einstellungen" className="text-link">
-                {content.cookieSettingLinkText}
-              </a>
+              {content.cookieSettingLinkUrl && (
+                <a href={content.cookieSettingLinkUrl} className="text-link">
+                  {content.cookieSettingLinkText}
+                </a>
+              )}
             </div>
           </div>
         </Container>

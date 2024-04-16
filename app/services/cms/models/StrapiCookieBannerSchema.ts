@@ -13,6 +13,7 @@ export const StrapiCookieBannerSchema = z
     acceptButtonLabel: z.string(),
     declineButtonLabel: z.string(),
     cookieSettingLinkText: z.string().nullable(),
+    cookieSettingLinkUrl: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
