@@ -6,11 +6,11 @@
       "on": {
         "SUBMIT": [
           {
-            "guard": "anwaltskanzleiNo",
-            "target": "#rechtsproblem.start"
+            "guard": "anwaltskanzleiYes",
+            "target": "beratungStattgefunden"
           },
           {
-            "target": "beratungStattgefunden"
+            "target": "#rechtsproblem.start"
           }
         ],
         "BACK": "#grundvoraussetzungen.eigeninitiativeGrundvorraussetzung"
@@ -20,11 +20,11 @@
       "on": {
         "SUBMIT": [
           {
-            "guard": "beratungStattgefundenNo",
-            "target": "#rechtsproblem.start"
+            "guard": "beratungStattgefundenYes",
+            "target": "beratungStattgefundenDatum"
           },
           {
-            "target": "beratungStattgefundenDatum"
+            "target": "#rechtsproblem.start"
           }
         ],
         "BACK": "start"

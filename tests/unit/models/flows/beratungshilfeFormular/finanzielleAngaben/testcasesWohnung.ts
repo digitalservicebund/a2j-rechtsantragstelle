@@ -4,6 +4,25 @@ import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungsh
 
 const cases = [
   [
+    {},
+    [
+      "finanzielleAngaben/wohnung/wohnsituation",
+      "finanzielleAngaben/wohnung/groesse",
+      "finanzielleAngaben/ausgaben/ausgaben-frage",
+    ],
+  ],
+  [
+    {
+      livingSituation: "alone",
+    },
+    [
+      "finanzielleAngaben/wohnung/wohnsituation",
+      "finanzielleAngaben/wohnung/groesse",
+      "finanzielleAngaben/wohnung/wohnkostenAllein",
+      "finanzielleAngaben/ausgaben/ausgaben-frage",
+    ],
+  ],
+  [
     {
       livingSituation: "alone",
       apartmentSizeSqm: 42,

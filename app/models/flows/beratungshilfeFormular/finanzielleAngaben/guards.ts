@@ -21,25 +21,44 @@ const hasNoStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string
     );
   };
 
+const staatlicheLeistungenIsBuergergeld: Guards<BeratungshilfeFinanzielleAngaben>[string] =
+  ({ context }) => context.staatlicheLeistungen === "buergergeld";
+
+const hasPartnerschaftOrSeparated: Guards<BeratungshilfeFinanzielleAngaben>[string] =
+  ({ context }) =>
+    context.partnerschaft === "yes" || context.partnerschaft === "separated";
+
+const hasPartnerschaftOrSeparatedAndZusammenlebenNo: Guards<BeratungshilfeFinanzielleAngaben>[string] =
+  ({ context }) =>
+    hasPartnerschaftOrSeparated({ context }) && context.zusammenleben == "no";
+
 export const finanzielleAngabeGuards = {
   eigentumDone,
-
-  staatlicheLeistungenIsAsylOrGrundsicherung: ({ context }) =>
-    context.staatlicheLeistungen === "asylbewerberleistungen" ||
-    context.staatlicheLeistungen === "grundsicherung",
-  staatlicheLeistungenIsBuergergeld: ({ context }) =>
-    context.staatlicheLeistungen === "buergergeld",
+  staatlicheLeistungenIsKeineOrAndere: ({ context }) =>
+    context.staatlicheLeistungen === "andereLeistung" ||
+    context.staatlicheLeistungen === "keine",
+  staatlicheLeistungenIsBuergergeld,
+  staatlicheLeistungenIsBuergergeldAndEigentumDone: ({ context }) =>
+    staatlicheLeistungenIsBuergergeld({ context }) && eigentumDone({ context }),
   hasStaatlicheLeistungen,
   hasNoStaatlicheLeistungen,
   hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
     context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context }),
   eigentumTotalWorthLessThan10000: ({ context }) =>
     context.eigentumTotalWorth === "less10000",
-  hasPartnerschaftOrSeparated: ({ context }) =>
-    context.partnerschaft === "yes" || context.partnerschaft === "separated",
+  hasPartnerschaftOrSeparated,
   hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",
   hasPartnerschaftNoOrWidowed: ({ context }) =>
     context.partnerschaft === "no" || context.partnerschaft === "widowed",
+  hasPartnerschaftOrSeparatedAndPartnerEinkommenYes: ({ context }) =>
+    hasPartnerschaftOrSeparated({ context }) &&
+    context.partnerEinkommen == "yes",
+  hasPartnerschaftOrSeparatedAndZusammenlebenYes: ({ context }) =>
+    hasPartnerschaftOrSeparated({ context }) && context.zusammenleben == "yes",
+  hasPartnerschaftOrSeparatedAndZusammenlebenNo,
+  hasPartnerschaftOrSeparatedAndZusammenlebenNoAndUnterhaltNo: ({ context }) =>
+    hasPartnerschaftOrSeparatedAndZusammenlebenNo({ context }) &&
+    context.unterhalt == "no",
   ...yesNoGuards("erwerbstaetig"),
   ...yesNoGuards("zusammenleben"),
   ...yesNoGuards("unterhalt"),
@@ -74,6 +93,11 @@ export const finanzielleAngabeGuards = {
       kinderWohnortBeiAntragsteller === "partially"
     );
   },
+  kindWohnortBeiAntragstellerNo: ({ context: { pageData, kinder } }) => {
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return kinder?.at(arrayIndex)?.wohnortBeiAntragsteller === "no";
+  },
   kindEigeneEinnahmenYes: ({ context: { pageData, kinder } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
@@ -84,11 +108,19 @@ export const finanzielleAngabeGuards = {
     if (arrayIndex === undefined) return false;
     return kinder?.at(arrayIndex)?.unterhalt === "yes";
   },
+  kindUnterhaltNo: ({ context: { pageData, kinder } }) => {
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return kinder?.at(arrayIndex)?.unterhalt === "no";
+  },
   isValidKinderArrayIndex: ({ context: { pageData, kinder } }) =>
     isValidArrayIndex(kinder, pageData),
   isValidAusgabenArrayIndex: ({ context: { pageData, ausgaben } }) =>
     isValidArrayIndex(ausgaben, pageData),
   livesAlone: ({ context }) => context.livingSituation === "alone",
+  livesNotAlone: ({ context }) =>
+    context.livingSituation === "withRelatives" ||
+    context.livingSituation === "withOthers",
   isGeldanlageBargeld: ({ context: { pageData, geldanlagen } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;

@@ -11,6 +11,8 @@ import { testCasesBeratungshilfeRechtsproblem } from "./beratungshilfeFormular/r
 import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "./beratungshilfeFormular/finanzielleAngaben/testcasesWohnung";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen } from "./beratungshilfeFormular/finanzielleAngaben/testcasesUnterhaltszahlungen";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe } from "./beratungshilfeFormular/finanzielleAngaben/testcasesAusgaben";
+import { testCasesBeratungshilfeFormular } from "tests/unit/models/flows/beratungshilfeFormular/testcases";
+import { testCasesBeratungshilfeFormularAnwaltlicheVertretung } from "tests/unit/models/flows/beratungshilfeFormular/anwaltlicheVertretung/testcases";
 import { testCasesFluggastrechte } from "./fluggastrechte/testcases";
 
 /*
@@ -30,6 +32,8 @@ describe("state machine form flows", () => {
     testCasesBeratungshilfe,
     testCasesGeldEinklagen,
     testCasesFluggastrechteFormular,
+    testCasesBeratungshilfeFormular,
+    testCasesBeratungshilfeFormularAnwaltlicheVertretung,
     testCasesBeratungshilfeRechtsproblem,
     testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen,
     testCasesBeratungshilfeFormularFinanzielleAngabenPartner,

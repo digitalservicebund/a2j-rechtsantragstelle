@@ -9,10 +9,23 @@ const cases = [
       "rechtsproblem/situation-beschreibung",
       "finanzielleAngaben/start",
       "finanzielleAngaben/einkommen/staatliche-leistungen",
-      "finanzielleAngaben/einkommen/erwerbstaetig",
-      "finanzielleAngaben/einkommen/situation",
-      "finanzielleAngaben/einkommen/weiteres-einkommen",
-      "finanzielleAngaben/einkommen/einkommen",
+      "persoenlicheDaten/start",
+    ],
+  ],
+  [
+    {
+      staatlicheLeistungen: "buergergeld",
+    },
+    [
+      "finanzielleAngaben/start",
+      "finanzielleAngaben/einkommen/staatliche-leistungen",
+      "finanzielleAngaben/eigentum/eigentum-info",
+      "finanzielleAngaben/eigentum/bankkonten-frage",
+      "finanzielleAngaben/eigentum/geldanlagen-frage",
+      "finanzielleAngaben/eigentum/wertgegenstaende-frage",
+      "finanzielleAngaben/eigentum/grundeigentum-frage",
+      "finanzielleAngaben/eigentum/kraftfahrzeuge-frage",
+      "finanzielleAngaben/eigentum/gesamtwert",
       "persoenlicheDaten/start",
     ],
   ],
@@ -60,6 +73,11 @@ const cases = [
       "finanzielleAngaben/einkommen/staatliche-leistungen",
       "finanzielleAngaben/einkommen/erwerbstaetig",
       "finanzielleAngaben/einkommen/art",
+      "finanzielleAngaben/einkommen/situation",
+      "finanzielleAngaben/einkommen/weiteres-einkommen",
+      "finanzielleAngaben/einkommen/einkommen",
+      // TODO why do we only show the partner flow if einkommen is done? The back-flow does not match that requirement.
+      // "persoenlicheDaten/start",
     ],
   ],
   [
@@ -68,6 +86,10 @@ const cases = [
       "finanzielleAngaben/einkommen/staatliche-leistungen",
       "finanzielleAngaben/einkommen/erwerbstaetig",
       "finanzielleAngaben/einkommen/situation",
+      "finanzielleAngaben/einkommen/weiteres-einkommen",
+      "finanzielleAngaben/einkommen/einkommen",
+      // TODO why do we only show the partner flow if einkommen is done? The back-flow does not match that requirement.
+      // "persoenlicheDaten/start",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
