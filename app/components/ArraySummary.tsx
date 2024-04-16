@@ -64,9 +64,15 @@ const ArraySummary = ({
   const nextItemIndex = String(arrayData.data.length);
   const { url } = arrayData.arrayConfiguration;
   const statementValue = Boolean(arrayData.arrayConfiguration.statementValue);
+
+  const headingTitleTagNameArraySummaryItems =
+    titleHeading.trim().length > 0 ? "h3" : "h2";
+
   return (
     <div className="ds-stack-8 scroll-my-40 mb-24">
-      <Heading text={titleHeading} tagName="h2" look="ds-heading-03-bold" />
+      {titleHeading.trim().length > 0 && (
+        <Heading text={titleHeading} tagName="h2" look="ds-heading-03-bold" />
+      )}
       {description && <RichText markdown={description} />}
       <div className="space-y-32">
         {statementValue ? (
@@ -96,7 +102,7 @@ const ArraySummary = ({
                               `${category}.${elementKey}`,
                               translations,
                             )}
-                            tagName="h3"
+                            tagName={headingTitleTagNameArraySummaryItems}
                             look="ds-label-02-bold"
                           />
                           {translations[
