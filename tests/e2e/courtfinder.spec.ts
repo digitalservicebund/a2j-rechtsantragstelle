@@ -123,7 +123,7 @@ test.describe("back button", () => {
     const cleanBaseURL = cleanBaseUrl(baseURL);
     await courtfinder.gotoWithReferrer(cleanBaseURL);
     await courtfinder.searchPLZSingleResult();
-    await page.getByRole("link", { name: "Suche wiederholen" }).click();
+    await page.click("#backLink");
     await courtfinder.clickBackButton();
     expect(page.url().endsWith(courtfinder.referrer)).toBeTruthy();
   });
