@@ -13,13 +13,10 @@ function filteredLargeMediumAirports(airports) {
     .map((airport) => {
       return {
         iata: airport.iata,
-        icao: airport.icao,
-        city_code: airport.city_code,
         country_code: airport.country_code,
         airport: airport.airport,
         latitude: airport.latitude,
         longitude: airport.longitude,
-        region_name: airport.region_name,
         city: airport.city,
         continent: airport.continent || "NR",
       };
