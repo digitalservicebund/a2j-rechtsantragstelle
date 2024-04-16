@@ -88,7 +88,7 @@ describe("stringReplacements", () => {
       ).toStrictEqual({
         hasPartnerschaftOrSeparated: true,
         hasPartnerschaftYes: true,
-        besitzTotalWorthLessThan10000: true,
+        eigentumTotalWorthLessThan10000: true,
       });
     });
 
@@ -101,7 +101,7 @@ describe("stringReplacements", () => {
       ).toStrictEqual({
         hasPartnerschaftOrSeparated: false,
         hasPartnerschaftYes: false,
-        besitzTotalWorthLessThan10000: false,
+        eigentumTotalWorthLessThan10000: false,
       });
     });
   });

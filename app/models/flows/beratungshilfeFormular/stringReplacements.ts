@@ -88,7 +88,7 @@ export const eigentumZusammenfassungShowWarnings = (
     hasPartnerschaftYes: finanzielleAngabeGuards.hasPartnerschaftYes({
       context,
     }),
-    besitzTotalWorthLessThan10000:
+    eigentumTotalWorthLessThan10000:
       finanzielleAngabeGuards.eigentumTotalWorthLessThan10000({
         context,
       }),
