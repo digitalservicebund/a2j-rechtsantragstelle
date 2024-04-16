@@ -1,6 +1,7 @@
-import { partnerCourtAirports } from ".";
+import { EUCountries, partnerCourtAirports } from ".";
 import { yesNoGuards, type Guards } from "../guards.server";
 import type { FluggastrechtVorabcheckContext } from "./context";
+import airports from "data/airports/data.json";
 
 export const guards = {
   bereichVerspaetet: ({ context }) => context.bereich === "verspaetet",
@@ -9,6 +10,26 @@ export const guards = {
     return (
       airportAbbreviations.includes(context.startAirport ?? "") ||
       airportAbbreviations.includes(context.endAirport ?? "")
+    );
+  },
+  isAirportOutsideEU: ({ context }) => {
+    const countryStartAirport = airports.find(
+      (aiport) => aiport.iata === context.startAirport,
+    )?.country_code;
+    const countryeEndAirport = airports.find(
+      (aiport) => aiport.iata === context.endAirport,
+    )?.country_code;
+
+    if (
+      typeof countryStartAirport === "undefined" ||
+      typeof countryeEndAirport === "undefined"
+    ) {
+      return true;
+    }
+
+    return (
+      !EUCountries.includes(countryStartAirport) &&
+      !EUCountries.includes(countryeEndAirport)
     );
   },
   fluggesellschaftFilled: ({ context }) =>
