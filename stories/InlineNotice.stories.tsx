@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { InlineNotice } from "../app/components/InlineNotice";
 
 const meta = {
-  title: "Basic/InlineNotice",
+  title: "Page/InlineNotice",
   component: InlineNotice,
   parameters: {
     layout: "fullscreen",
