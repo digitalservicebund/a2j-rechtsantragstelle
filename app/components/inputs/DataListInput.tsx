@@ -13,12 +13,14 @@ interface DataListOptions {
 
 function getDataListOptions(dataListType?: string): DataListOptions[] {
   if (dataListType === "airports") {
-    return airports.map((airport) => ({
-      value: airport.iata,
-      description: airport.airport.includes(airport.city)
-        ? `${airport.airport} (${airport.iata})`
-        : `${airport.city} ${airport.airport} (${airport.iata})`,
-    }));
+    return [...airports]
+      .sort((a, b) => a.iata.localeCompare(b.iata))
+      .map((airport) => ({
+        value: airport.iata,
+        description: airport.airport.includes(airport.city)
+          ? `${airport.airport} (${airport.iata}) ${airport.country}`
+          : `${airport.city} ${airport.airport} (${airport.iata}) ${airport.country}`,
+      }));
   }
   return [];
 }

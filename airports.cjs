@@ -1,6 +1,7 @@
 const airportData = require("airport-data-js");
 const fs = require("fs");
 const _ = require("lodash");
+const countriesTranslation = require("i18n-iso-countries");
 
 function filteredLargeMediumAirports(airports) {
   return airports
@@ -14,6 +15,7 @@ function filteredLargeMediumAirports(airports) {
       return {
         iata: airport.iata,
         country_code: airport.country_code,
+        country: countriesTranslation.getName(airport.country_code, "de") ?? "",
         airport: airport.airport,
         latitude: airport.latitude,
         longitude: airport.longitude,
