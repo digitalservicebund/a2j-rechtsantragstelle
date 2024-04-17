@@ -2,10 +2,10 @@ import airports from "data/airports/data.json";
 import haversine from "haversine-distance";
 import { z } from "zod";
 
-const KILOMENTERS_IN_METERS = 1000;
+const KILOMETERS_IN_METERS = 1000;
 const TWO_FRACTION_DIGITS = 2;
 
-const LatitudeLongitudeSchema = z.object({
+const AirportCoordinateSystemSchema = z.object({
   latitude: z.coerce.number(),
   longitude: z.coerce.number(),
 });
@@ -18,16 +18,16 @@ export function calculateDistanceBetweenAirportsInKilometers(
   startAirportIataCode: string,
   endAirportIataCode: string,
 ): number {
-  const airportStart = LatitudeLongitudeSchema.safeParse(
+  const airportStart = AirportCoordinateSystemSchema.safeParse(
     getAirportByIataCode(startAirportIataCode),
   );
-  const airportEnd = LatitudeLongitudeSchema.safeParse(
+  const airportEnd = AirportCoordinateSystemSchema.safeParse(
     getAirportByIataCode(endAirportIataCode),
   );
 
   if (airportStart.success && airportEnd.success) {
     const haversineDistance = haversine(airportStart.data, airportEnd.data);
-    const roundDistance = (haversineDistance / KILOMENTERS_IN_METERS).toFixed(
+    const roundDistance = (haversineDistance / KILOMETERS_IN_METERS).toFixed(
       TWO_FRACTION_DIGITS,
     );
     return Number(roundDistance);

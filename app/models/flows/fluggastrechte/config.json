@@ -15,7 +15,7 @@
         "SUBMIT": [
           {
             "target": "ergebnis/flughaefen-entfernung-abbruch",
-            "guard": "isNotPossibleCalculatedAirportsDistance"
+            "guard": "isInvalidAirportDistance"
           },
           {
             "target": "ergebnis/flughaefen-abbruch",

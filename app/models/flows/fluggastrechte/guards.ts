@@ -13,7 +13,7 @@ export const guards = {
       airportAbbreviations.includes(context.endAirport ?? "")
     );
   },
-  isNotPossibleCalculatedAirportsDistance: ({ context }) => {
+  isInvalidAirportDistance: ({ context }) => {
     const distance = calculateDistanceBetweenAirportsInKilometers(
       context.startAirport ?? "",
       context.endAirport ?? "",
