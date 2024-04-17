@@ -12,7 +12,6 @@ const StrapiInlineNoticeSchema = z
     tagName: z.enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"]),
     look: z.enum(["warning", "tips"]),
     content: z.string().optional(),
-    container: StrapiContainerSchema.nullable(),
     outerBackground: StrapiBackgroundSchema.nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
@@ -33,6 +32,7 @@ export const StrapiInlineNotice = (strapiInlineNotice: StrapiInlineNotice) => {
 export const StrapiPageInlineNoticeComponentSchema =
   StrapiInlineNoticeSchema.extend({
     __component: z.literal("page.inline-notice"),
+    container: StrapiContainerSchema.nullable(),
   });
 
 export const StrapiPageInlineNotice = (
