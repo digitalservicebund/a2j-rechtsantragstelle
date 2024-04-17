@@ -1,16 +1,13 @@
 import Heading from "./Heading";
 import type { Translations } from "~/services/cms/index.server";
-import ButtonContainer from "./ButtonContainer";
 import Button from "./Button";
-import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import AddButton from "@digitalservicebund/icons/AddCircleOutlined";
 import RichText from "./RichText";
-import { useFetcher, useLocation } from "@remix-run/react";
 import type { ArrayData } from "~/models/flows/contexts";
-import { CSRFKey } from "~/services/security/csrfKey";
 import type { ArrayConfig } from "~/services/array";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
+import ArraySummaryItemButton from "./ArraySummaryItemButton";
 
 type ArraySummaryProps = {
   readonly category: string;
@@ -32,14 +29,6 @@ const ArraySummary = ({
     "arrayAddButtonLabel",
     translations,
   );
-  const editButtonText = getTranslationByKey(
-    "arrayEditButtonLabel",
-    translations,
-  );
-  const deleteButtonText = getTranslationByKey(
-    "arrayDeleteButtonLabel",
-    translations,
-  );
   const changeEntryString = getTranslationByKey(
     "arrayChangeStatementButtonLabel",
     translations,
@@ -59,10 +48,8 @@ const ArraySummary = ({
   );
   const description: string | undefined =
     translations[`${category}.description`];
-  const { pathname } = useLocation();
-  const fetcher = useFetcher();
   const nextItemIndex = String(arrayData.data.length);
-  const { url } = arrayData.arrayConfiguration;
+  const { url, initialInputUrl } = arrayData.arrayConfiguration;
   const statementValue = Boolean(arrayData.arrayConfiguration.statementValue);
 
   const headingTitleTagNameArraySummaryItems =
@@ -71,7 +58,12 @@ const ArraySummary = ({
   return (
     <div className="ds-stack-8 scroll-my-40 mb-24">
       {titleHeading.trim().length > 0 && (
-        <Heading text={titleHeading} tagName="h2" look="ds-heading-03-bold" />
+        <Heading
+          dataTestid="array-summary-title"
+          text={titleHeading}
+          tagName="h2"
+          look="ds-heading-03-bold"
+        />
       )}
       {description && <RichText markdown={description} />}
       <div className="space-y-32">
@@ -98,6 +90,7 @@ const ArraySummary = ({
                           className="first:pt-0 scroll-my-40"
                         >
                           <Heading
+                            dataTestid="array-summary-item"
                             text={getTranslationByKey(
                               `${category}.${elementKey}`,
                               translations,
@@ -111,29 +104,14 @@ const ArraySummary = ({
                         </div>
                       );
                     })}
-                  <ButtonContainer>
-                    <Button
-                      iconLeft={<EditButton />}
-                      look="tertiary"
-                      href={`${url}/${index}/${arrayData.arrayConfiguration.initialInputUrl}`}
-                    >
-                      {editButtonText}
-                    </Button>
-                    {/* form method 'delete' isn't supported without js, see https://github.com/remix-run/remix/discussions/4420 */}
-                    <fetcher.Form method="post" action={pathname}>
-                      <input type="hidden" name={CSRFKey} value={csrf} />
-                      <input type="hidden" name="_action" value="delete" />
-                      <Button
-                        look="tertiary"
-                        iconLeft={<DeleteIcon />}
-                        name={category}
-                        value={index}
-                        type="submit"
-                      >
-                        {deleteButtonText}
-                      </Button>
-                    </fetcher.Form>
-                  </ButtonContainer>
+                  <ArraySummaryItemButton
+                    category={category}
+                    csrf={csrf}
+                    initialInputUrl={initialInputUrl}
+                    itemIndex={index}
+                    url={url}
+                    translations={translations}
+                  />
                 </div>
               );
             })}
@@ -142,7 +120,7 @@ const ArraySummary = ({
               className="hover:shadow-none pl-0 pt-8"
               iconLeft={<AddButton />}
               data-testid={`add-${category}`}
-              href={`${url}/${Number(nextItemIndex)}/${arrayData.arrayConfiguration.initialInputUrl}`}
+              href={`${url}/${Number(nextItemIndex)}/${initialInputUrl}`}
             >{`${subtitle} ${addButtonText}`}</Button>
           </>
         ) : (
