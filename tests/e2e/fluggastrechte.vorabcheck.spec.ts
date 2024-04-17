@@ -58,11 +58,10 @@ test("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
   await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("buchung", "yes");
 
-  await expect(
-    page.getByRole("heading").filter({
-      hasText: "Sie erfüllen die Kriterien",
-    }),
-  ).toHaveCount(1);
+  await expectPageToBeAccessible({ page });
+  await expect(page).toHaveURL(
+    new RegExp(`.+${vorabcheck.url}/ergebnis/erfolg$`),
+  );
 });
 
 test("funnel: invalid step redirects to start", async ({ page }) => {
