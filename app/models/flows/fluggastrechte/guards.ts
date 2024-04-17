@@ -1,3 +1,4 @@
+import { calculateDistanceBetweenAirportsInKilometers } from "~/util/calculateDistanceBetweenAirports";
 import { EUCountries, partnerCourtAirports } from ".";
 import { yesNoGuards, type Guards } from "../guards.server";
 import type { FluggastrechtVorabcheckContext } from "./context";
@@ -11,6 +12,13 @@ export const guards = {
       airportAbbreviations.includes(context.startAirport ?? "") ||
       airportAbbreviations.includes(context.endAirport ?? "")
     );
+  },
+  isInvalidAirportDistance: ({ context }) => {
+    const distance = calculateDistanceBetweenAirportsInKilometers(
+      context.startAirport ?? "",
+      context.endAirport ?? "",
+    );
+    return distance.isErr;
   },
   isAirportOutsideEU: ({ context }) => {
     const countryStartAirport = airports.find(
