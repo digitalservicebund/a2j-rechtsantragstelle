@@ -1,18 +1,14 @@
 import { guards as fluggastrechteVorabcheckGuards } from "~/models/flows/fluggastrechte/guards";
 import fluggastrechteVorabcheckFlow from "~/models/flows/fluggastrechte/config.json";
+import type { FluggastrechtVorabcheckContext } from "./context";
 import type { Context } from "../contexts";
-
-const getCompensantionPaymentString = (context: Context) => {
-  return {
-    compensationPayment: "400",
-  };
-};
+import { getCompensantionPaymentString } from "./stringReplacements";
 
 export const fluggastrechteVorabcheck = {
   cmsSlug: "vorab-check-pages",
   config: fluggastrechteVorabcheckFlow,
   guards: fluggastrechteVorabcheckGuards,
-  stringReplacements: (context: Context) => ({
+  stringReplacements: (context: FluggastrechtVorabcheckContext) => ({
     ...getCompensantionPaymentString(context),
   }),
 } as const;

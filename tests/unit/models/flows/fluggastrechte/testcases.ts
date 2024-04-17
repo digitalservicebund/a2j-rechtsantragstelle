@@ -52,6 +52,13 @@ const cases = [
     },
     ["start", "flughaefen", "ergebnis/flughaefen-abbruch"],
   ],
+  [
+    {
+      startAirport: "XXX",
+      endAirport: "BER",
+    },
+    ["start", "flughaefen", "ergebnis/flughaefen-entfernung-abbruch"],
+  ],
 ] as const satisfies TestCases<FluggastrechtVorabcheckContext>;
 
 export const testCasesFluggastrechte = {
