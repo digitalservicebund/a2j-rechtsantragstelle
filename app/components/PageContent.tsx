@@ -30,7 +30,10 @@ import { StrapiCheckbox } from "~/services/cms/components/StrapiCheckbox";
 import { StrapiDateInput } from "~/services/cms/components/StrapiDateInput";
 import { StrapiTimeInput } from "~/services/cms/components/StrapiTimeInput";
 import { StrapiFileInput } from "~/services/cms/components/StrapiFileInput";
-import { StrapiInlineNotice } from "~/services/cms/components/StrapiInlineNotice";
+import {
+  StrapiInlineNotice,
+  StrapiPageInlineNotice,
+} from "~/services/cms/components/StrapiInlineNotice";
 
 export type StrapiContent = StrapiContentComponent | StrapiFormComponent;
 
@@ -110,6 +113,8 @@ function cmsToReact(strapiContent: StrapiContent) {
       return <BoxWithImage {...getBoxWithImageProps(strapiContent)} />;
     case "page.list":
       return <List {...getListProps(strapiContent)} />;
+    case "page.inline-notice":
+      return <StrapiPageInlineNotice {...strapiContent} />;
     default:
       return <></>;
   }

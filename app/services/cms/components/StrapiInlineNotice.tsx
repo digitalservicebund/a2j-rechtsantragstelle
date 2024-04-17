@@ -4,6 +4,7 @@ import { OptionalStrapiLinkIdentifierSchema } from "../models/HasStrapiLinkIdent
 import { InlineNotice } from "~/components/InlineNotice";
 import { omitNull } from "~/util/omitNull";
 import { StrapiBackgroundSchema } from "../models/StrapiBackground";
+import { StrapiContainerSchema } from "../models/StrapiContainer";
 
 const StrapiInlineNoticeSchema = z
   .object({
@@ -11,6 +12,7 @@ const StrapiInlineNoticeSchema = z
     tagName: z.enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"]),
     look: z.enum(["warning", "tips"]),
     content: z.string().optional(),
+    container: StrapiContainerSchema.nullable(),
     outerBackground: StrapiBackgroundSchema.nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
@@ -24,6 +26,18 @@ export const StrapiInlineNoticeComponentSchema =
   });
 
 export const StrapiInlineNotice = (strapiInlineNotice: StrapiInlineNotice) => {
+  const props = omitNull(strapiInlineNotice);
+  return <InlineNotice {...props} />;
+};
+
+export const StrapiPageInlineNoticeComponentSchema =
+  StrapiInlineNoticeSchema.extend({
+    __component: z.literal("page.inline-notice"),
+  });
+
+export const StrapiPageInlineNotice = (
+  strapiInlineNotice: StrapiInlineNotice,
+) => {
   const props = omitNull(strapiInlineNotice);
   return <InlineNotice {...props} />;
 };
