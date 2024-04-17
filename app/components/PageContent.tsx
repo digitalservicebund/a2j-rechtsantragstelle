@@ -30,10 +30,7 @@ import { StrapiCheckbox } from "~/services/cms/components/StrapiCheckbox";
 import { StrapiDateInput } from "~/services/cms/components/StrapiDateInput";
 import { StrapiTimeInput } from "~/services/cms/components/StrapiTimeInput";
 import { StrapiFileInput } from "~/services/cms/components/StrapiFileInput";
-import {
-  StrapiInlineNotice,
-  StrapiPageInlineNotice,
-} from "~/services/cms/components/StrapiInlineNotice";
+import { StrapiInlineNotice } from "~/services/cms/components/StrapiInlineNotice";
 
 export type StrapiContent = StrapiContentComponent | StrapiFormComponent;
 
@@ -81,8 +78,6 @@ function cmsToReact(strapiContent: StrapiContent) {
       return <Heading {...getHeadingProps(strapiContent)} />;
     case "basic.paragraph":
       return <RichText {...getRichTextProps(strapiContent)} />;
-    case "basic.inline-notice":
-      return <StrapiInlineNotice {...strapiContent} />;
     case "page.header":
       return <Header {...getHeaderProps(strapiContent)} />;
     case "form-elements.input":
@@ -114,7 +109,7 @@ function cmsToReact(strapiContent: StrapiContent) {
     case "page.list":
       return <List {...getListProps(strapiContent)} />;
     case "page.inline-notice":
-      return <StrapiPageInlineNotice {...strapiContent} />;
+      return <StrapiInlineNotice {...strapiContent} />;
     default:
       return <></>;
   }
