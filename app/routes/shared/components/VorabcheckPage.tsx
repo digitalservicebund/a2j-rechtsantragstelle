@@ -31,7 +31,11 @@ export function VorabcheckPage() {
           <div className="ds-stack-16">
             <ProgressBar {...progressProps} />
             <div className="ds-stack-40">
-              <PageContent content={contentElements} className="ds-stack-16" />
+              <PageContent
+                content={contentElements}
+                className="ds-stack-16"
+                fullScreen={false}
+              />
               <ValidatedForm
                 id={`${stepId}_form`}
                 method="post"
