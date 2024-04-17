@@ -5,6 +5,7 @@ import {
   getCompensantionPaymentString,
 } from "~/models/flows/fluggastrechte/stringReplacements";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/util/calculateDistanceBetweenAirports";
+import { Result } from "true-myth";
 
 jest.mock("~/util/calculateDistanceBetweenAirports");
 
@@ -19,7 +20,9 @@ beforeEach(() => {
 
 describe("getCompensantionPaymentString", () => {
   it("if the distance is until 1500, it should return compensation value until 1500", () => {
-    (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(1500);
+    (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(
+      Result.ok(1500),
+    );
 
     const actual = getCompensantionPaymentString({});
 
@@ -29,7 +32,9 @@ describe("getCompensantionPaymentString", () => {
   });
 
   it("if the distance is until 3000, it should return compensation value until 3000", () => {
-    (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(3000);
+    (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(
+      Result.ok(3000),
+    );
 
     const actual = getCompensantionPaymentString({});
 
@@ -39,12 +44,24 @@ describe("getCompensantionPaymentString", () => {
   });
 
   it("if the distance is above 3000, it should return compensation value above 3000", () => {
-    (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(3001);
+    (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(
+      Result.ok(3001),
+    );
 
     const actual = getCompensantionPaymentString({});
 
     expect(actual).toStrictEqual({
       compensationPayment: COMPENSATION_VALUE_ABOVE_3000_KM,
     });
+  });
+
+  it("if the distance calculatesd returns an error, it should return empty object", () => {
+    (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(
+      Result.err(""),
+    );
+
+    const actual = getCompensantionPaymentString({});
+
+    expect(actual).toStrictEqual({});
   });
 });

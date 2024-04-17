@@ -1,6 +1,7 @@
 import airports from "data/airports/data.json";
 import haversine from "haversine-distance";
 import { z } from "zod";
+import { Result } from "true-myth";
 
 const KILOMETERS_IN_METERS = 1000;
 const TWO_FRACTION_DIGITS = 2;
@@ -17,7 +18,7 @@ function getAirportByIataCode(airportIataCode: string): unknown {
 export function calculateDistanceBetweenAirportsInKilometers(
   startAirportIataCode: string,
   endAirportIataCode: string,
-): number {
+): Result<number, string> {
   const airportStart = AirportCoordinateSystemSchema.safeParse(
     getAirportByIataCode(startAirportIataCode),
   );
@@ -30,8 +31,10 @@ export function calculateDistanceBetweenAirportsInKilometers(
     const roundDistance = (haversineDistance / KILOMETERS_IN_METERS).toFixed(
       TWO_FRACTION_DIGITS,
     );
-    return Number(roundDistance);
+    return Result.ok(Number(roundDistance));
   }
 
-  return -1;
+  return Result.err(
+    `It was not possible to calculate the distance between the airports ${startAirportIataCode} and ${endAirportIataCode}`,
+  );
 }

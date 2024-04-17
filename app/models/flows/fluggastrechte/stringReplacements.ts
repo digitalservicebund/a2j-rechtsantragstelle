@@ -9,20 +9,24 @@ export function getCompensantionPaymentString({
   startAirport = "",
   endAirport = "",
 }: FluggastrechtVorabcheckContext) {
-  let compensationValue = COMPENSATION_VALUE_UNTIL_1500_KM;
-
   const distanceKm = calculateDistanceBetweenAirportsInKilometers(
     startAirport,
     endAirport,
   );
 
-  if (distanceKm > 3000) {
-    compensationValue = COMPENSATION_VALUE_ABOVE_3000_KM;
-  } else if (distanceKm > 1500) {
-    compensationValue = COMPENSATION_VALUE_UNTIL_3000_KM;
+  if (distanceKm.isOk) {
+    let compensationValue = COMPENSATION_VALUE_UNTIL_1500_KM;
+
+    if (distanceKm.value > 3000) {
+      compensationValue = COMPENSATION_VALUE_ABOVE_3000_KM;
+    } else if (distanceKm.value > 1500) {
+      compensationValue = COMPENSATION_VALUE_UNTIL_3000_KM;
+    }
+
+    return {
+      compensationPayment: compensationValue,
+    };
   }
 
-  return {
-    compensationPayment: compensationValue,
-  };
+  return {};
 }

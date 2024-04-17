@@ -18,7 +18,7 @@ export const guards = {
       context.startAirport ?? "",
       context.endAirport ?? "",
     );
-    return distance < 0;
+    return distance.isErr;
   },
   isAirportOutsideEU: ({ context }) => {
     const countryStartAirport = airports.find(
