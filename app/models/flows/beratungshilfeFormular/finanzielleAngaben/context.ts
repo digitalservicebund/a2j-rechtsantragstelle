@@ -10,6 +10,7 @@ import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { addDays, createDateSchema, today } from "~/services/validation/date";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { integerSchema } from "~/services/validation/integer";
+import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 
 const Eigentuemer = z.enum(
   ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -124,7 +125,7 @@ export const beratungshilfeFinanzielleAngaben = {
       art: inputRequiredSchema,
       marke: inputRequiredSchema,
       eigentuemer: Eigentuemer,
-      verkaufswert: buildMoneyValidationSchema(),
+      verkaufswert: optionalOrSchema(buildMoneyValidationSchema()),
       kilometerstand: inputRequiredSchema,
       anschaffungsjahr: z.string(),
       baujahr: inputRequiredSchema,
