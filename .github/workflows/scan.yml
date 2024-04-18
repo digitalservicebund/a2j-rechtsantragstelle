@@ -32,6 +32,14 @@ jobs:
   vulnerability-scan-backend:
     runs-on: ubuntu-latest
     needs: reset-trivy-cache
+    strategy:
+      matrix:
+        container-name:
+          [
+            "${{ github.repository }}",
+            "${{ github.repository }}-app",
+            "${{ github.repository }}-content",
+          ]
     permissions:
       contents: read
       id-token: write # for cosign w/ keyless signing
@@ -45,7 +53,7 @@ jobs:
           TRIVY_USERNAME: ${{ github.actor }}
           TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         with:
-          image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
+          image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ matrix.container-name }}:${{ env.CONTAINER_IMAGE_VERSION }}
           format: "sarif"
           output: "trivy-results.sarif"
       - name: Check trivy results
@@ -68,7 +76,7 @@ jobs:
           TRIVY_USERNAME: ${{ github.actor }}
           TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         with:
-          image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
+          image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ matrix.container-name }}:${{ env.CONTAINER_IMAGE_VERSION }}
           format: "cosign-vuln"
           output: "vulnerabilities.json"
       - name: Install cosign
