@@ -19,7 +19,7 @@ function getDataListOptions(dataListType?: string): DataListOptions[] {
         value: airport.iata,
         description: airport.airport.includes(airport.city)
           ? `${airport.airport} (${airport.iata}), ${airport.country}`
-          : `${airport.city}, ${airport.airport} (${airport.iata}), ${airport.country}`,
+          : `${airport.city} ${airport.airport} (${airport.iata}), ${airport.country}`,
       }));
   }
   return [];
