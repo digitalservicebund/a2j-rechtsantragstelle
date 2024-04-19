@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import Input, { type InputProps } from "~/components/inputs/Input";
+//import Input, { type InputProps } from "~/components/inputs/Input";
+import SuggestionInput, {
+  type SuggestionInputProps,
+} from "~/components/inputs/SuggestionInput";
 import { omitNull } from "~/util/omitNull";
 import {
   flattenStrapiErrors,
@@ -38,9 +41,16 @@ export const StrapiInputComponentSchema = StrapiInputSchema.extend({
 });
 
 export const StrapiInput = ({ errors, width, ...props }: StrapiInput) => {
-  const inWidth = width?.replace("characters", "") as InputProps["width"];
+  const inWidth = width?.replace(
+    "characters",
+    "",
+  ) as SuggestionInputProps["width"];
   const errorMessages = flattenStrapiErrors(errors);
   return (
-    <Input {...omitNull(props)} width={inWidth} errorMessages={errorMessages} />
+    <SuggestionInput
+      {...omitNull(props)}
+      width={inWidth}
+      errorMessages={errorMessages}
+    />
   );
 };
