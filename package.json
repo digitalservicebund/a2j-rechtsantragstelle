@@ -11,6 +11,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
+    "build:airports-data": "node ./airports.cjs",
     "build:licenses": "tsx ./app/services/openSourceLicenses/generate.server.ts generateLicenseFile",
     "build:localContent": "tsx ./app/services/cms/dumpCmsToFile.ts dumpCmsToFile",
     "build:pdf": "tsx ./app/services/pdf/pdf.generator.ts",
@@ -22,7 +23,6 @@
     "init": "lefthook install",
     "lint:fix": "eslint . --fix",
     "lint": "eslint --cache .",
-    "generate:airports-data": "node ./airports.cjs",
     "start:storybook": "storybook dev -p 6006",
     "start": "NODE_ENV=production node ./server.js",
     "test:coverage": "jest --testPathPattern=/tests/unit/ --maxWorkers=50% --coverage --collectCoverageFrom='./app/**'",
@@ -112,6 +112,7 @@
     "prettier": "^3.2.5",
     "storybook": "^8.0.8",
     "tailwindcss": "^3.4.3",
+    "translate": "^3.0.0",
     "ts-jest": "^29.1.2",
     "tsx": "^4.7.2",
     "typescript": "^5.4.5",

@@ -3,26 +3,65 @@ const fs = require("fs");
 const _ = require("lodash");
 const countriesTranslation = require("i18n-iso-countries");
 
-function filteredLargeMediumAirports(airports) {
-  return airports
-    .filter(
-      (airport) =>
-        (airport.type === "large_airport" ||
-          airport.type === "medium_airport") &&
-        airport.scheduled_service === "TRUE",
-    )
-    .map((airport) => {
-      return {
+const GERMAN_SPEAKING_COUNTRY = ["DE", "CH", "AT"];
+const germanLocale = "de";
+
+// This is a workaround for loading ESM package into CJS-based code
+async function translator(text, targetLanguage) {
+  const translate = (await import("translate")).default;
+  const translated = await translate(text, targetLanguage);
+  return translated;
+}
+
+function translateAirportName(airportName) {
+  // we cannot use .endWith() since the word airport is not always at the end
+  // e.g  "San Rafael Airport (Argentina)"
+  const airportIndex = airportName.toLowerCase().indexOf("airport");
+
+  if (airportIndex !== -1) {
+    return airportName.slice(0, airportIndex) + "Flughafen";
+  } else {
+    return airportName + " Flughafen";
+  }
+}
+
+async function translateGermanSpeakingCity(airport) {
+  if (GERMAN_SPEAKING_COUNTRY.includes(airport.country_code)) {
+    try {
+      return await translator(airport.city, germanLocale);
+    } catch (error) {
+      console.error("Translation error:", error.message);
+    }
+  } else {
+    return airport.city;
+  }
+}
+
+async function filteredLargeMediumAirports(airports) {
+  const filteredAirports = [];
+
+  for (const airport of airports) {
+    const isLargeOrMediumAirport =
+      airport.type === "large_airport" || airport.type === "medium_airport";
+    const hasScheduledService = airport.scheduled_service === "TRUE";
+
+    if (isLargeOrMediumAirport && hasScheduledService) {
+      filteredAirports.push({
         iata: airport.iata,
         country_code: airport.country_code,
-        country: countriesTranslation.getName(airport.country_code, "de") ?? "",
-        airport: airport.airport,
+        country:
+          countriesTranslation.getName(airport.country_code, germanLocale) ??
+          "",
+        airport: translateAirportName(airport.airport),
         latitude: airport.latitude,
         longitude: airport.longitude,
-        city: airport.city,
+        city: await translateGermanSpeakingCity(airport),
         continent: airport.continent || "NR",
-      };
-    });
+      });
+    }
+  }
+
+  return filteredAirports;
 }
 
 async function fetchAirportDataByContinent(continent) {
@@ -60,7 +99,6 @@ async function fetchAllAirports() {
 
 async function fetchAndSaveAirports() {
   const airports = await fetchAllAirports();
-
   const data = JSON.stringify(_.uniqBy(airports, "iata"));
 
   fs.writeFile("data/airports/data.json", data, (error) => {
