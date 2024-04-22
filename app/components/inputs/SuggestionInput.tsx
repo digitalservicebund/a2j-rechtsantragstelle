@@ -4,7 +4,11 @@ import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import { type ErrorMessageProps } from ".";
 import airports from "data/airports/data.json";
-import type { ControlProps, FormatOptionLabelMeta } from "react-select";
+import type {
+  ControlProps,
+  FormatOptionLabelMeta,
+  StylesConfig,
+} from "react-select";
 import Select, { components } from "react-select";
 import { useEffect, useState } from "react";
 import Input from "./Input";
@@ -94,6 +98,42 @@ const ControlComponent = (props: ControlProps<DataListOptions, false>) => (
   <components.Control className="ds-select" {...props} />
 );
 
+const customStyles: StylesConfig<DataListOptions, false> = {
+  control: (base) => ({
+    ...base,
+    borderRadius: "",
+    backgroundImage: "none",
+    borderColor: "",
+    outline: "none",
+    paddingRight: "0rem",
+    paddingLeft: "0.5rem",
+    borderStyle: "",
+    boxShadow: "",
+    "&:hover": {
+      border: COMPONENT_HOVER_FOCUS_STYLE,
+      backgroundColor: "#F2F6F8",
+    },
+    "&:focus": {
+      border: COMPONENT_HOVER_FOCUS_STYLE,
+    },
+    "&:active": {
+      border: COMPONENT_HOVER_FOCUS_STYLE,
+      backgroundColor: "#DCE8EF",
+    },
+  }),
+  option: (base, { isFocused, isSelected }) => {
+    return {
+      ...base,
+      backgroundColor: isFocused
+        ? "#ECF1F4"
+        : isSelected
+          ? "#DCE8EF"
+          : undefined,
+      color: "inherit",
+    };
+  },
+};
+
 const SuggestionInput = ({
   name,
   label,
@@ -165,28 +205,7 @@ const SuggestionInput = ({
           IndicatorSeparator: () => null,
           DropdownIndicator: () => null,
         }}
-        styles={{
-          control: (base) => ({
-            ...base,
-            borderRadius: "",
-            backgroundImage: "none",
-            borderColor: "",
-            outline: "none",
-            paddingRight: "0rem",
-            paddingLeft: "0.5rem",
-            borderStyle: "",
-            boxShadow: "",
-            "&:hover": {
-              border: COMPONENT_HOVER_FOCUS_STYLE,
-            },
-            "&:focus": {
-              border: COMPONENT_HOVER_FOCUS_STYLE,
-            },
-            "&:active": {
-              border: COMPONENT_HOVER_FOCUS_STYLE,
-            },
-          }),
-        }}
+        styles={customStyles}
       />
 
       <InputError id={errorId}>
