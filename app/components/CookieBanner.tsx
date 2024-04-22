@@ -10,7 +10,7 @@ import RichText, { RichTextPropsSchema } from "~/components/RichText";
 
 export const acceptCookiesFieldName = "accept-cookies";
 
-export const AnalysticsContentPropsSchema = z.object({
+export const CookieBannerContentPropsSchema = z.object({
   heading: HeadingPropsSchema,
   paragraphs: z.array(RichTextPropsSchema),
   acceptButtonLabel: z.string(),
@@ -19,14 +19,17 @@ export const AnalysticsContentPropsSchema = z.object({
   cookieSettingLinkUrl: z.string().nullable(),
 });
 
-const AnalyticsPropsSchema = z.object({
+const CookieBannerPropsSchema = z.object({
   hasTrackingConsent: z.boolean().optional(),
-  content: AnalysticsContentPropsSchema,
+  content: CookieBannerContentPropsSchema,
 });
 
-type AnalyticsProps = z.infer<typeof AnalyticsPropsSchema>;
+type CookieBannerProps = z.infer<typeof CookieBannerPropsSchema>;
 
-export function CookieBanner({ hasTrackingConsent, content }: AnalyticsProps) {
+export function CookieBanner({
+  hasTrackingConsent,
+  content,
+}: CookieBannerProps) {
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
   const [posthogLoaded, setPosthogLoaded] = useState(false);
   const [clientJavaScriptAvailable, setClientJavaScriptAvailable] =

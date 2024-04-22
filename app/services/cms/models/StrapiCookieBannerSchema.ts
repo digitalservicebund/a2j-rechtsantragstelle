@@ -5,7 +5,7 @@ import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { getRichTextProps, StrapiParagraphSchema } from "./StrapiParagraph";
 import { omitNull } from "~/util/omitNull";
-import { AnalysticsContentPropsSchema } from "~/components/CookieBanner";
+import { CookieBannerContentPropsSchema } from "~/components/CookieBanner";
 
 export const StrapiCookieBannerSchema = z
   .object({
@@ -26,7 +26,7 @@ export const getCookieBannerProps = (cmsData: StrapiCookieBanner) => {
   const paragraphs = cmsData.paragraphs.map((paragraph) =>
     getRichTextProps(paragraph),
   );
-  return AnalysticsContentPropsSchema.parse(
+  return CookieBannerContentPropsSchema.parse(
     omitNull({ ...cmsData, paragraphs }),
   );
 };
