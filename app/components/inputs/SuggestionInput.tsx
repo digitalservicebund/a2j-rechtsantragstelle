@@ -3,9 +3,9 @@ import classNames from "classnames";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import { type ErrorMessageProps } from ".";
-import { useState, forwardRef } from "react";
-import { useCombobox } from "downshift";
 import airports from "data/airports/data.json";
+import type { ControlProps } from "react-select";
+import Select, { components } from "react-select";
 
 export type SuggestionInputProps = Readonly<{
   name: string;
@@ -13,8 +13,6 @@ export type SuggestionInputProps = Readonly<{
   type?: string;
   step?: string | number;
   placeholder?: string;
-  prefix?: string;
-  suffix?: string;
   errorMessages?: ErrorMessageProps[];
   helperText?: string;
   width?: "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54";
@@ -37,7 +35,7 @@ const widthClass = (width: string) => {
 
 interface DataListOptions {
   value: string;
-  description: string;
+  label: string;
   subDescription?: string;
 }
 
@@ -47,7 +45,7 @@ function getDataListOptions(dataListType?: string): DataListOptions[] {
       .sort((a, b) => a.iata.localeCompare(b.iata))
       .map((airport) => ({
         value: airport.iata,
-        description: airport.airport.includes(airport.city)
+        label: airport.airport.includes(airport.city)
           ? `${airport.airport} (${airport.iata})`
           : `${airport.city} ${airport.airport} (${airport.iata})`,
         subDescription: `${airport.city}, ${airport.country}`,
@@ -56,170 +54,130 @@ function getDataListOptions(dataListType?: string): DataListOptions[] {
   return [];
 }
 
-function getItemsFilter(inputValue: string) {
-  const lowerCasedInputValue = inputValue.toLowerCase();
+const filterOption = (option: DataListOptions, inputValue: string) => {
+  if (inputValue.length <= 2) {
+    return false;
+  }
+  return option.label.toLowerCase().includes(inputValue.toLocaleLowerCase());
+};
 
-  return function itemsFilter(item: DataListOptions) {
-    if (inputValue.length <= 2) {
-      return true;
-    }
-
-    return item.description.toLowerCase().includes(lowerCasedInputValue);
-  };
+function getDescriptioByValue(
+  dataListOptions: DataListOptions[],
+  value: string,
+): DataListOptions | null {
+  return (
+    dataListOptions.find((dataOption) => dataOption.value === value) ?? null
+  );
 }
 
-const SuggestionInput = forwardRef<HTMLInputElement, SuggestionInputProps>(
-  function SuggestionInputComponent(
-    {
-      name,
-      label,
-      type = "text",
-      step,
-      placeholder,
-      prefix,
-      suffix,
-      errorMessages,
-      helperText,
-      width,
-      formId,
-      dataList,
-    },
-    ref,
-  ) {
-    const [originalItems, setOriginalItems] = useState(
-      getDataListOptions(dataList),
-    );
-    const [items, setItems] = useState(getDataListOptions(dataList));
-    const remixField = useField(name, {
-      formId,
-    });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const [selectChangeItem, setSelectChangeItem] = useState(
-      remixField.getInputProps().defaultValue ?? "",
-    );
-
-    const {
-      isOpen,
-      getToggleButtonProps,
-      getMenuProps,
-      highlightedIndex,
-      getInputProps,
-      getItemProps,
-      selectedItem,
-    } = useCombobox({
-      onInputValueChange({ inputValue }) {
-        if (!inputValue || inputValue.length === 0) {
-          setItems(originalItems);
-        } else {
-          setItems(originalItems.filter(getItemsFilter(inputValue)));
-        }
-      },
-      items,
-      itemToString(item) {
-        return item ? item.description : "";
-      },
-      initialInputValue: originalItems.find(
-        (originalItem) =>
-          originalItem.value === remixField.getInputProps().defaultValue,
-      )?.description,
-      onSelectedItemChange({ selectedItem: newSelectedItem }) {
-        console.log("selected" + newSelectedItem.value);
-        setSelectChangeItem(newSelectedItem.value);
-      },
-      onStateChange({ selectedItem: newSelectedItem }) {
-        if (typeof newSelectedItem === "undefined") {
-          setSelectChangeItem("ERROR");
-        }
-      },
-    });
-    const errorId = `${name}-error`;
-    const helperId = `${name}-helper`;
-
-    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    console.log("selected 2" + selectChangeItem);
-
-    return (
-      <>
-        {label && <InputLabel id={name}>{label}</InputLabel>}
-        <div className="ds-input-group">
-          {prefix && <div className="ds-input-prefix">{prefix}</div>}
-          <input
-            {...getInputProps({
-              type: type === "number" ? "text" : type,
-              step,
-              inputMode: type === "number" ? "decimal" : undefined,
-              placeholder,
-            })}
-            className={classNames(
-              "ds-input",
-              { "has-error": remixField.error },
-              width && widthClass(width),
-            )}
-            aria-invalid={remixField.error !== undefined}
-            aria-describedby={[
-              remixField.error && errorId,
-              helperText && helperId,
-            ].join(" ")}
-            aria-errormessage={remixField.error && errorId}
-          />
-          <input
-            type="hidden"
-            {...remixField.getInputProps({
-              id: name,
-              step,
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              value: selectChangeItem,
-            })}
-            ref={ref}
-          />
-          {suffix && <div className="ds-input-suffix">{suffix}</div>}
-          <button
-            aria-label="toggle menu"
-            className="px-2"
-            type="button"
-            {...getToggleButtonProps()}
-          >
-            {isOpen ? <>&#8593;</> : <>&#8595;</>}
-          </button>
-        </div>
-        <div className="ds-input-group">
-          <ul
-            className={`absolute w-auto bg-white mt-1 shadow-md max-h-96 overflow-scroll p-0 z-10 ${
-              !(isOpen && items.length) && "hidden"
-            }`}
-            {...getMenuProps()}
-          >
-            {isOpen &&
-              items.map((item, index) => (
-                <li
-                  className={classNames(
-                    highlightedIndex === index && "bg-blue-300",
-                    selectedItem === item && "font-bold",
-                    "w-auto py-2 px-3 shadow-sm flex flex-col",
-                  )}
-                  key={item.value}
-                  {...getItemProps({ item, index })}
-                >
-                  <span>{item.description}</span>
-                  {item.subDescription && (
-                    <span className="text-sm text-gray-700">
-                      {item.subDescription}
-                    </span>
-                  )}
-                </li>
-              ))}
-          </ul>
-        </div>
-        <div className="label-text mt-6" id={helperId}>
-          {helperText}
-        </div>
-        <InputError id={errorId}>
-          {errorMessages?.find((err) => err.code === remixField.error)?.text ??
-            remixField.error}
-        </InputError>
-      </>
-    );
-  },
+const formatOptionLabel = ({ label, subDescription }: DataListOptions) => (
+  <div style={{ flex: "10" }}>
+    <h5>{label}</h5>
+    <h6>
+      <span className="primary">{subDescription}</span>
+    </h6>
+  </div>
 );
+
+const ControlComponent = (props: ControlProps<DataListOptions, false>) => (
+  <components.Control className="ds-select" {...props} />
+);
+
+const SuggestionInput = ({
+  name,
+  label,
+  placeholder,
+  errorMessages,
+  helperText,
+  width,
+  formId,
+  dataList,
+}: SuggestionInputProps) => {
+  const items = getDataListOptions(dataList);
+  const { error, getInputProps } = useField(name, { formId });
+  const errorId = `${name}-error`;
+  const helperId = `${name}-helper`;
+
+  const currentItemValue = getDescriptioByValue(
+    items,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    getInputProps().defaultValue,
+  );
+
+  return (
+    <>
+      {label && <InputLabel id={name}>{label}</InputLabel>}
+      <Select
+        className={classNames(
+          "w-full",
+          { "has-error": error },
+          width && widthClass(width),
+        )}
+        isSearchable
+        isClearable
+        options={items}
+        aria-invalid={error !== undefined}
+        aria-describedby={[error && errorId, helperText && helperId].join(" ")}
+        aria-errormessage={error && errorId}
+        id={name}
+        inputId={name}
+        name={name}
+        filterOption={filterOption}
+        defaultValue={currentItemValue}
+        placeholder={placeholder}
+        instanceId={name}
+        formatOptionLabel={formatOptionLabel}
+        noOptionsMessage={({ inputValue }) =>
+          inputValue.length > 2
+            ? "Leider konnten wir kein passenden Flughafen finden. Bitte prüffen Sie ihre Angabe"
+            : null
+        }
+        components={{
+          Control: ControlComponent,
+        }}
+        styles={{
+          control: (base) => ({
+            ...base,
+            border: "2px solid #004B76",
+            borderRadius: "",
+            "&:hover": {
+              outline: "solid 4px #004b76 !important",
+            },
+            "&:focus": {
+              outline: "solid 4px #004b76 !important",
+            },
+            "&:focus-visible": {
+              outline: "solid 4px #004b76 !important",
+            },
+            "&:active": {
+              outline: "solid 4px #004b76 !important",
+            },
+            "&:visited": {
+              outline: "solid 4px #004b76 !important",
+            },
+            "&:target": {
+              outline: "solid 4px #004b76 !important",
+            },
+          }),
+          indicatorSeparator: (base) => ({
+            ...base,
+            display: "none",
+          }),
+          dropdownIndicator: (base) => ({
+            ...base,
+            display: "none",
+          }),
+        }}
+      />
+
+      <div className="label-text mt-6" id={helperId}>
+        {helperText}
+      </div>
+      <InputError id={errorId}>
+        {errorMessages?.find((err) => err.code === error)?.text ?? error}
+      </InputError>
+    </>
+  );
+};
 
 export default SuggestionInput;
