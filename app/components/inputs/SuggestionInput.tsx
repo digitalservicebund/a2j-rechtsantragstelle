@@ -4,7 +4,7 @@ import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import { type ErrorMessageProps } from ".";
 import airports from "data/airports/data.json";
-import type { ControlProps } from "react-select";
+import type { ControlProps, FormatOptionLabelMeta } from "react-select";
 import Select, { components } from "react-select";
 import { useEffect, useState } from "react";
 import Input from "./Input";
@@ -72,14 +72,23 @@ function getDescriptioByValue(
   );
 }
 
-const formatOptionLabel = ({ label, subDescription }: DataListOptions) => (
-  <div style={{ flex: "10" }}>
-    <span>{label}</span>
-    <div>
-      <span className="primary">{subDescription}</span>
-    </div>
-  </div>
-);
+const formatOptionLabel = (
+  { label, subDescription }: DataListOptions,
+  { context }: FormatOptionLabelMeta<DataListOptions>,
+) => {
+  if (context === "menu") {
+    return (
+      <div style={{ flex: "10" }}>
+        <span>{label}</span>
+        <div>
+          <span className="primary">{subDescription}</span>
+        </div>
+      </div>
+    );
+  }
+
+  return <span>{label}</span>;
+};
 
 const ControlComponent = (props: ControlProps<DataListOptions, false>) => (
   <components.Control className="ds-select" {...props} />
@@ -138,13 +147,14 @@ const SuggestionInput = ({
         aria-describedby={error && errorId}
         aria-errormessage={error && errorId}
         id={name}
-        inputId={name}
         name={name}
         filterOption={filterOption}
         defaultValue={currentItemValue}
         placeholder={placeholder}
         instanceId={name}
         formatOptionLabel={formatOptionLabel}
+        onChange={getInputProps().onChange}
+        onBlur={getInputProps().onBlur}
         noOptionsMessage={({ inputValue }) =>
           inputValue.length > 2
             ? "Leider konnten wir kein passenden Flughafen finden. Bitte prüffen Sie ihre Angabe"
