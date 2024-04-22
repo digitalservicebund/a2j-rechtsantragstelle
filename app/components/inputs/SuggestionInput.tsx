@@ -9,7 +9,7 @@ import Select, { components } from "react-select";
 import { useEffect, useState } from "react";
 import Input from "./Input";
 
-const COMPONENT_HOVER_FOCUS_STYLE = "solid 4px #004b76 !important";
+const COMPONENT_HOVER_FOCUS_STYLE = "solid 2px #004b76 !important";
 
 const widthClass = (width: string) => {
   return {
@@ -74,10 +74,10 @@ function getDescriptioByValue(
 
 const formatOptionLabel = ({ label, subDescription }: DataListOptions) => (
   <div style={{ flex: "10" }}>
-    <h5>{label}</h5>
-    <h6>
+    <span>{label}</span>
+    <div>
       <span className="primary">{subDescription}</span>
-    </h6>
+    </div>
   </div>
 );
 
@@ -152,39 +152,29 @@ const SuggestionInput = ({
         }
         components={{
           Control: ControlComponent,
+          IndicatorSeparator: () => null,
+          DropdownIndicator: () => null,
         }}
         styles={{
           control: (base) => ({
             ...base,
-            border: "2px solid #004B76",
             borderRadius: "",
             backgroundImage: "none",
+            borderColor: "",
+            outline: "none",
+            paddingRight: "0rem",
+            paddingLeft: "0.5rem",
+            borderStyle: "",
+            boxShadow: "",
             "&:hover": {
               border: COMPONENT_HOVER_FOCUS_STYLE,
             },
             "&:focus": {
               border: COMPONENT_HOVER_FOCUS_STYLE,
             },
-            "&:focus-visible": {
-              border: COMPONENT_HOVER_FOCUS_STYLE,
-            },
             "&:active": {
               border: COMPONENT_HOVER_FOCUS_STYLE,
             },
-            "&:visited": {
-              border: COMPONENT_HOVER_FOCUS_STYLE,
-            },
-            "&:target": {
-              border: COMPONENT_HOVER_FOCUS_STYLE,
-            },
-          }),
-          indicatorSeparator: (base) => ({
-            ...base,
-            display: "none",
-          }),
-          dropdownIndicator: (base) => ({
-            ...base,
-            display: "none",
           }),
         }}
       />
