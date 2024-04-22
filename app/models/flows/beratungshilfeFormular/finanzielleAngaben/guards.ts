@@ -34,8 +34,7 @@ const hasPartnerschaftOrSeparatedAndZusammenlebenNo: Guards<BeratungshilfeFinanz
 
 export const finanzielleAngabeGuards = {
   eigentumDone,
-  staatlicheLeistungenIsKeineOrAndere: ({ context }) =>
-    context.staatlicheLeistungen === "andereLeistung" ||
+  staatlicheLeistungenIsKeine: ({ context }) =>
     context.staatlicheLeistungen === "keine",
   staatlicheLeistungenIsBuergergeld,
   staatlicheLeistungenIsBuergergeldAndEigentumDone: ({ context }) =>

@@ -22,9 +22,7 @@ export default function fillHeader(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const hasStaatlicheLeistung =
-    context.staatlicheLeistungen != "andereLeistung" &&
-    context.staatlicheLeistungen != "keine";
+  const hasStaatlicheLeistung = context.staatlicheLeistungen != "keine";
 
   pdfFields.antragstellerNameVornameggfGeburtsname.value = [
     context.nachname,
@@ -89,7 +87,6 @@ const staatlicheLeistungMapping = {
   grundsicherung: "Grundsicherung",
   asylbewerberleistungen: "Asylbewerberleistungen",
   buergergeld: "Bürgergeld",
-  andereLeistung: "Andere Leistung",
   keine: "Keine",
 };
 

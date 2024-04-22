@@ -42,28 +42,6 @@ describe("navStates", () => {
       ).toBeTruthy();
     });
 
-    test("passes with andereLeistung and reduced info", () => {
-      expect(
-        beratungshilfeFinanzielleAngabeDone({
-          context: {
-            staatlicheLeistungen: "andereLeistung",
-            hasBankkonto: "no",
-            hasGeldanlage: "no",
-            hasGrundeigentum: "no",
-            hasKraftfahrzeug: "no",
-            hasWertsache: "no",
-            eigentumTotalWorth: "unsure",
-            einkommen: "100",
-            livingSituation: "alone",
-            apartmentSizeSqm: 100,
-            apartmentCostAlone: "100",
-            hasWeitereUnterhaltszahlungen: "no",
-            partnerschaft: "no",
-          },
-        }),
-      ).toBeTruthy();
-    });
-
     test("passes with keine and reduced info", () => {
       expect(
         beratungshilfeFinanzielleAngabeDone({

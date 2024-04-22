@@ -92,9 +92,7 @@ export const guards = {
   ...yesNoGuards("beratungshilfeBeantragt"),
   ...yesNoGuards("eigeninitiative"),
   staatlicheLeistungenNo: ({ context }) =>
-    ["buergergeld", "keine", "andereLeistung"].includes(
-      context.staatlicheLeistungen ?? "",
-    ),
+    ["buergergeld", "keine"].includes(context.staatlicheLeistungen ?? ""),
   staatlicheLeistungenYes: ({ context }) =>
     ["grundsicherung", "asylbewerberleistungen"].includes(
       context.staatlicheLeistungen ?? "",
