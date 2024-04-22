@@ -6,19 +6,10 @@ import { type ErrorMessageProps } from ".";
 import airports from "data/airports/data.json";
 import type { ControlProps } from "react-select";
 import Select, { components } from "react-select";
+import { useEffect, useState } from "react";
+import Input from "./Input";
 
-export type SuggestionInputProps = Readonly<{
-  name: string;
-  label?: string;
-  type?: string;
-  step?: string | number;
-  placeholder?: string;
-  errorMessages?: ErrorMessageProps[];
-  helperText?: string;
-  width?: "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54";
-  formId?: string;
-  dataList?: "airports";
-}>;
+const COMPONENT_HOVER_FOCUS_STYLE = "solid 4px #004b76 !important";
 
 const widthClass = (width: string) => {
   return {
@@ -38,6 +29,17 @@ interface DataListOptions {
   label: string;
   subDescription?: string;
 }
+
+export type SuggestionInputProps = Readonly<{
+  name: string;
+  label?: string;
+  step?: string | number;
+  placeholder?: string;
+  errorMessages?: ErrorMessageProps[];
+  width?: "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54";
+  formId?: string;
+  dataList?: "airports";
+}>;
 
 function getDataListOptions(dataListType?: string): DataListOptions[] {
   if (dataListType === "airports") {
@@ -88,7 +90,6 @@ const SuggestionInput = ({
   label,
   placeholder,
   errorMessages,
-  helperText,
   width,
   formId,
   dataList,
@@ -96,13 +97,30 @@ const SuggestionInput = ({
   const items = getDataListOptions(dataList);
   const { error, getInputProps } = useField(name, { formId });
   const errorId = `${name}-error`;
-  const helperId = `${name}-helper`;
 
   const currentItemValue = getDescriptioByValue(
     items,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     getInputProps().defaultValue,
   );
+
+  const [jsAvailable, setJsAvailable] = useState(false);
+  useEffect(() => setJsAvailable(true), []);
+
+  // In case user does not have Javascript, it should render the Input as suggestion input
+  if (!jsAvailable) {
+    return (
+      <Input
+        name={name}
+        label={label}
+        placeholder={placeholder}
+        formId={formId}
+        dataList={dataList}
+        width={width}
+        errorMessages={errorMessages}
+      />
+    );
+  }
 
   return (
     <>
@@ -117,7 +135,7 @@ const SuggestionInput = ({
         isClearable
         options={items}
         aria-invalid={error !== undefined}
-        aria-describedby={[error && errorId, helperText && helperId].join(" ")}
+        aria-describedby={error && errorId}
         aria-errormessage={error && errorId}
         id={name}
         inputId={name}
@@ -140,23 +158,24 @@ const SuggestionInput = ({
             ...base,
             border: "2px solid #004B76",
             borderRadius: "",
+            backgroundImage: "none",
             "&:hover": {
-              outline: "solid 4px #004b76 !important",
+              border: COMPONENT_HOVER_FOCUS_STYLE,
             },
             "&:focus": {
-              outline: "solid 4px #004b76 !important",
+              border: COMPONENT_HOVER_FOCUS_STYLE,
             },
             "&:focus-visible": {
-              outline: "solid 4px #004b76 !important",
+              border: COMPONENT_HOVER_FOCUS_STYLE,
             },
             "&:active": {
-              outline: "solid 4px #004b76 !important",
+              border: COMPONENT_HOVER_FOCUS_STYLE,
             },
             "&:visited": {
-              outline: "solid 4px #004b76 !important",
+              border: COMPONENT_HOVER_FOCUS_STYLE,
             },
             "&:target": {
-              outline: "solid 4px #004b76 !important",
+              border: COMPONENT_HOVER_FOCUS_STYLE,
             },
           }),
           indicatorSeparator: (base) => ({
@@ -170,9 +189,6 @@ const SuggestionInput = ({
         }}
       />
 
-      <div className="label-text mt-6" id={helperId}>
-        {helperText}
-      </div>
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === error)?.text ?? error}
       </InputError>

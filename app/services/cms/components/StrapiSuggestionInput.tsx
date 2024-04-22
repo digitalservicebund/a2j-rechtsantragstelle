@@ -1,19 +1,18 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import Input, { type InputProps } from "~/components/inputs/Input";
 import { omitNull } from "~/util/omitNull";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
+import SuggestionInput from "~/components/inputs/SuggestionInput";
+import type { SuggestionInputProps } from "~/components/inputs/SuggestionInput";
 
-const StrapiInputSchema = z
+const StrapiSuggestionInputSchema = z
   .object({
     name: z.string(),
     label: z.string().nullable(),
-    type: z.enum(["text", "number"]),
     placeholder: z.string().nullable(),
-    suffix: z.string().nullable(),
     errors: StrapiErrorRelationSchema,
     width: z
       .enum([
@@ -31,16 +30,30 @@ const StrapiInputSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-type StrapiInput = z.infer<typeof StrapiInputSchema>;
+type StrapiSuggestionInput = z.infer<typeof StrapiSuggestionInputSchema>;
 
-export const StrapiInputComponentSchema = StrapiInputSchema.extend({
-  __component: z.literal("form-elements.input"),
-});
+export const StrapiSuggestionInputComponentSchema =
+  StrapiSuggestionInputSchema.extend({
+    __component: z.literal("form-elements.suggestion-input"),
+  });
 
-export const StrapiInput = ({ errors, width, ...props }: StrapiInput) => {
-  const inWidth = width?.replace("characters", "") as InputProps["width"];
+const StrapiSuggestionInput = ({
+  errors,
+  width,
+  ...props
+}: StrapiSuggestionInput) => {
+  const inWidth = width?.replace(
+    "characters",
+    "",
+  ) as SuggestionInputProps["width"];
   const errorMessages = flattenStrapiErrors(errors);
   return (
-    <Input {...omitNull(props)} width={inWidth} errorMessages={errorMessages} />
+    <SuggestionInput
+      {...omitNull(props)}
+      width={inWidth}
+      errorMessages={errorMessages}
+    />
   );
 };
+
+export default StrapiSuggestionInput;
