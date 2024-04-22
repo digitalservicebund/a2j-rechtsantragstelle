@@ -30,7 +30,7 @@ import Footer from "./components/Footer";
 import Breadcrumbs from "./components/Breadcrumbs";
 import Header from "./components/PageHeader";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
-import { CookieBanner } from "./services/analytics/Analytics";
+import { CookieBanner } from "./components/CookieBanner";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { useNonce } from "./services/security/nonce";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
