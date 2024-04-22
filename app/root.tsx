@@ -105,7 +105,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     feedback: getStrapiFeedback(globalVars),
     header: getPageHeaderProps(strapiHeader),
     footer: getFooterProps(strapiFooter),
-    cookieBannerContent: getCookieBannerProps(cookieBannerContent),
+    cookieBannerContent: cookieBannerContent,
     hasTrackingConsent: trackingConsent,
     errorPages,
     meta,
@@ -141,7 +141,7 @@ function App() {
       <body className="flex flex-col min-h-screen">
         <CookieBanner
           hasTrackingConsent={hasTrackingConsent}
-          content={cookieBannerContent}
+          content={getCookieBannerProps(cookieBannerContent)}
         />
         <Header {...header} />
         <Breadcrumbs breadcrumbs={breadcrumbs} />

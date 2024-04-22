@@ -4,15 +4,27 @@ import { useEffect, useState } from "react";
 import { posthog } from "posthog-js";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
-import Heading from "~/components/Heading";
-import type { StrapiCookieBanner } from "~/services/cms/models/StrapiCookieBannerSchema";
+import Heading, { HeadingPropsSchema } from "~/components/Heading";
+import { z } from "zod";
+import RichText, { RichTextPropsSchema } from "~/components/RichText";
 
 export const acceptCookiesFieldName = "accept-cookies";
 
-type AnalyticsProps = {
-  readonly hasTrackingConsent?: boolean;
-  readonly content: StrapiCookieBanner;
-};
+export const AnalysticsContentPropsSchema = z.object({
+  heading: HeadingPropsSchema,
+  paragraphs: z.array(RichTextPropsSchema),
+  acceptButtonLabel: z.string(),
+  declineButtonLabel: z.string(),
+  cookieSettingLinkText: z.string().nullable(),
+  cookieSettingLinkUrl: z.string().nullable(),
+});
+
+const AnalyticsPropsSchema = z.object({
+  hasTrackingConsent: z.boolean().optional(),
+  content: AnalysticsContentPropsSchema,
+});
+
+type AnalyticsProps = z.infer<typeof AnalyticsPropsSchema>;
 
 export function CookieBanner({ hasTrackingConsent, content }: AnalyticsProps) {
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
@@ -80,7 +92,7 @@ export function CookieBanner({ hasTrackingConsent, content }: AnalyticsProps) {
             <div>
               <div className="ds-stack-8">
                 {content.paragraphs.map((paragraph, index) => (
-                  <p key={index}>{paragraph.text}</p>
+                  <RichText key={index} markdown={paragraph.markdown} />
                 ))}
               </div>
             </div>
