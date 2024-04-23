@@ -71,7 +71,6 @@ const cases = [
       "finanzielleAngaben/eigentum/wertgegenstaende-frage",
       "finanzielleAngaben/eigentum/grundeigentum-frage",
       "finanzielleAngaben/eigentum/kraftfahrzeuge-frage",
-      "finanzielleAngaben/eigentum/gesamtwert",
       "finanzielleAngaben/wohnung/wohnsituation",
       "finanzielleAngaben/wohnung/groesse",
       "finanzielleAngaben/ausgaben/ausgaben-frage",

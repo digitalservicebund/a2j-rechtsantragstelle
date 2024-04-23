@@ -11,7 +11,53 @@ const cases = [
       "finanzielleAngaben/eigentum/wertgegenstaende-frage",
       "finanzielleAngaben/eigentum/grundeigentum-frage",
       "finanzielleAngaben/eigentum/kraftfahrzeuge-frage",
+      "finanzielleAngaben/wohnung/wohnsituation",
+    ],
+  ],
+  [
+    {
+      hasBankkonto: "yes",
+    },
+    [
+      "finanzielleAngaben/eigentum/bankkonten-frage",
+      "finanzielleAngaben/eigentum/geldanlagen-frage",
+      "finanzielleAngaben/eigentum/wertgegenstaende-frage",
+      "finanzielleAngaben/eigentum/grundeigentum-frage",
+      "finanzielleAngaben/eigentum/kraftfahrzeuge-frage",
+      "finanzielleAngaben/wohnung/wohnsituation",
+    ],
+  ],
+  [
+    {
+      hasGeldanlage: "yes",
+    },
+    [
+      "finanzielleAngaben/eigentum/bankkonten-frage",
+      "finanzielleAngaben/eigentum/geldanlagen-frage",
+      "finanzielleAngaben/eigentum/wertgegenstaende-frage",
+      "finanzielleAngaben/eigentum/grundeigentum-frage",
+      "finanzielleAngaben/eigentum/kraftfahrzeuge-frage",
       "finanzielleAngaben/eigentum/gesamtwert",
+      "finanzielleAngaben/wohnung/wohnsituation",
+    ],
+  ],
+  [
+    {
+      hasBankkonto: "no",
+      hasGeldanlage: "yes",
+      hasWertsache: "no",
+      hasKraftfahrzeug: "no",
+      hasGrundeigentum: "no",
+      eigentumTotalWorth: "more10000",
+    },
+    [
+      "finanzielleAngaben/eigentum/bankkonten-frage",
+      "finanzielleAngaben/eigentum/geldanlagen-frage",
+      "finanzielleAngaben/eigentum/wertgegenstaende-frage",
+      "finanzielleAngaben/eigentum/grundeigentum-frage",
+      "finanzielleAngaben/eigentum/kraftfahrzeuge-frage",
+      "finanzielleAngaben/eigentum/gesamtwert",
+      "finanzielleAngaben/eigentum-zusammenfassung/zusammenfassung",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

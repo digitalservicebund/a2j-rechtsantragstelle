@@ -399,7 +399,21 @@
         },
         "kraftfahrzeuge-frage": {
           "on": {
-            "SUBMIT": "gesamtwert",
+            "SUBMIT": [
+              {
+                "guard": "hasEigentum",
+                "target": "gesamtwert"
+              },
+              {
+                "target": "#eigentum-zusammenfassung.zusammenfassung",
+                "guard": "eigentumDone"
+              },
+              {
+                "target": "#persoenlicheDaten.start",
+                "guard": "staatlicheLeistungenIsBuergergeld"
+              },
+              "#wohnung.wohnsituation"
+            ],
             "BACK": "grundeigentum-frage"
           }
         },
@@ -427,7 +441,13 @@
       "states": {
         "zusammenfassung": {
           "on": {
-            "BACK": "#eigentum.gesamtwert",
+            "BACK": [
+              {
+                "guard": "hasEigentum",
+                "target": "#eigentum.gesamtwert"
+              },
+              "#eigentum.kraftfahrzeuge-frage"
+            ],
             "SUBMIT": [
               {
                 "guard": "hasStaatlicheLeistungen",
@@ -609,7 +629,11 @@
                 "guard": "eigentumDone",
                 "target": "#eigentum-zusammenfassung.zusammenfassung"
               },
-              "#eigentum.gesamtwert"
+              {
+                "guard": "hasEigentum",
+                "target": "#eigentum.gesamtwert"
+              },
+              "#eigentum.kraftfahrzeuge-frage"
             ],
             "SUBMIT": "groesse"
           }

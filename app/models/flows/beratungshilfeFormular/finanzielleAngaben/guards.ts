@@ -4,8 +4,6 @@ import {
 } from "~/services/flow/pageDataSchema";
 import { yesNoGuards, type Guards } from "../../guards.server";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
-import { einkommenDone } from "./navStates";
-import { eigentumDone } from "./navStatesEigentum";
 
 const hasStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] =
   ({ context }) =>
@@ -32,6 +30,30 @@ const hasPartnerschaftOrSeparatedAndZusammenlebenNo: Guards<BeratungshilfeFinanz
   ({ context }) =>
     hasPartnerschaftOrSeparated({ context }) && context.zusammenleben == "no";
 
+export const hasEigentum: Guards<BeratungshilfeFinanzielleAngaben>[string] = ({
+  context,
+}) =>
+  context.hasGeldanlage == "yes" ||
+  context.hasKraftfahrzeug == "yes" ||
+  context.hasGrundeigentum == "yes" ||
+  context.hasWertsache == "yes";
+
+export const eigentumDone: Guards<BeratungshilfeFinanzielleAngaben>[string] = ({
+  context,
+}) =>
+  context.hasBankkonto !== undefined &&
+  context.hasKraftfahrzeug !== undefined &&
+  context.hasGeldanlage !== undefined &&
+  context.hasGrundeigentum !== undefined &&
+  context.hasWertsache !== undefined &&
+  (!hasEigentum({ context }) || context.eigentumTotalWorth !== undefined);
+
+export const einkommenDone: Guards<BeratungshilfeFinanzielleAngaben>[string] =
+  ({ context }) =>
+    (context.staatlicheLeistungen != undefined &&
+      hasStaatlicheLeistungen({ context })) ||
+    context.einkommen != undefined;
+
 export const finanzielleAngabeGuards = {
   eigentumDone,
   staatlicheLeistungenIsKeine: ({ context }) =>
@@ -39,6 +61,8 @@ export const finanzielleAngabeGuards = {
   staatlicheLeistungenIsBuergergeld,
   staatlicheLeistungenIsBuergergeldAndEigentumDone: ({ context }) =>
     staatlicheLeistungenIsBuergergeld({ context }) && eigentumDone({ context }),
+  staatlicheLeistungenIsBuergergeldAndHasEigentum: ({ context }) =>
+    staatlicheLeistungenIsBuergergeld({ context }) && hasEigentum({ context }),
   hasStaatlicheLeistungen,
   hasNoStaatlicheLeistungen,
   hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
@@ -120,6 +144,7 @@ export const finanzielleAngabeGuards = {
   livesNotAlone: ({ context }) =>
     context.livingSituation === "withRelatives" ||
     context.livingSituation === "withOthers",
+  hasEigentum,
   isGeldanlageBargeld: ({ context: { pageData, geldanlagen } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;

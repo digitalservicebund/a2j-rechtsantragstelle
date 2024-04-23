@@ -1,5 +1,6 @@
 import type { GenericGuard } from "../../guards.server";
 import { eigentumDone, eigentumZusammenfassungDone } from "./navStatesEigentum";
+import { einkommenDone as einkommenDoneGuard } from "./guards";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
 
 export type SubflowState = "Done" | "Open";
@@ -8,9 +9,7 @@ export type FinanzielleAngabenGuard =
   GenericGuard<BeratungshilfeFinanzielleAngaben>;
 
 export const einkommenDone: FinanzielleAngabenGuard = ({ context }) =>
-  (context.staatlicheLeistungen != undefined &&
-    hasStaatlicheLeistungen({ context })) ||
-  context.einkommen != undefined;
+  einkommenDoneGuard({ context });
 
 const partnerDone: FinanzielleAngabenGuard = ({ context }) =>
   (context.staatlicheLeistungen != undefined &&

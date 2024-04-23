@@ -1,12 +1,8 @@
 import type { FinanzielleAngabenGuard } from "./navStates";
+import { eigentumDone as eigentumDoneGuard } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/guards";
 
 export const eigentumDone: FinanzielleAngabenGuard = ({ context }) =>
-  context.hasBankkonto !== undefined &&
-  context.hasKraftfahrzeug !== undefined &&
-  context.hasGeldanlage !== undefined &&
-  context.hasGrundeigentum !== undefined &&
-  context.hasWertsache !== undefined &&
-  context.eigentumTotalWorth !== undefined;
+  eigentumDoneGuard({ context });
 
 export const bankKontoDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasBankkonto === "no" ||

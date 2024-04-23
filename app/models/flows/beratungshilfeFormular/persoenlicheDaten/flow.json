@@ -11,8 +11,12 @@
             "target": "#finanzielleAngaben.eigentum-zusammenfassung.zusammenfassung"
           },
           {
-            "guard": "staatlicheLeistungenIsBuergergeld",
+            "guard": "staatlicheLeistungenIsBuergergeldAndHasEigentum",
             "target": "#finanzielleAngaben.eigentum.gesamtwert"
+          },
+          {
+            "guard": "staatlicheLeistungenIsBuergergeld",
+            "target": "#finanzielleAngaben.eigentum.kraftfahrzeuge-frage"
           },
           {
             "guard": "hasAusgabenYes",
