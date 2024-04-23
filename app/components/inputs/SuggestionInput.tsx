@@ -67,7 +67,7 @@ const filterOption = (option: DataListOptions, inputValue: string) => {
   return option.label.toLowerCase().includes(inputValue.toLocaleLowerCase());
 };
 
-function getDescriptioByValue(
+function getDescriptionByValue(
   dataListOptions: DataListOptions[],
   value: string,
 ): DataListOptions | null {
@@ -147,7 +147,7 @@ const SuggestionInput = ({
   const { error, getInputProps } = useField(name, { formId });
   const errorId = `${name}-error`;
 
-  const currentItemValue = getDescriptioByValue(
+  const currentItemValue = getDescriptionByValue(
     items,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     getInputProps().defaultValue,
