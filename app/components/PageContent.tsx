@@ -31,6 +31,7 @@ import { StrapiDateInput } from "~/services/cms/components/StrapiDateInput";
 import { StrapiTimeInput } from "~/services/cms/components/StrapiTimeInput";
 import { StrapiFileInput } from "~/services/cms/components/StrapiFileInput";
 import { StrapiInlineNotice } from "~/services/cms/components/StrapiInlineNotice";
+import StrapiSuggestionInput from "~/services/cms/components/StrapiSuggestionInput";
 
 export type StrapiContent = StrapiContentComponent | StrapiFormComponent;
 
@@ -80,6 +81,8 @@ function cmsToReact(strapiContent: StrapiContent) {
       return <RichText {...getRichTextProps(strapiContent)} />;
     case "page.header":
       return <Header {...getHeaderProps(strapiContent)} />;
+    case "form-elements.suggestion-input":
+      return <StrapiSuggestionInput {...strapiContent} />;
     case "form-elements.input":
       return <StrapiInput {...strapiContent} />;
     case "form-elements.date-input":
