@@ -8,7 +8,7 @@ const cases = [
     [
       "finanzielleAngaben/wohnung/wohnsituation",
       "finanzielleAngaben/wohnung/groesse",
-      "finanzielleAngaben/ausgaben/ausgaben-frage",
+      "finanzielleAngaben/eigentum/eigentum-info",
     ],
   ],
   [
@@ -19,7 +19,7 @@ const cases = [
       "finanzielleAngaben/wohnung/wohnsituation",
       "finanzielleAngaben/wohnung/groesse",
       "finanzielleAngaben/wohnung/wohnkostenAllein",
-      "finanzielleAngaben/ausgaben/ausgaben-frage",
+      "finanzielleAngaben/eigentum/eigentum-info",
     ],
   ],
   [
@@ -32,7 +32,7 @@ const cases = [
       "finanzielleAngaben/wohnung/wohnsituation",
       "finanzielleAngaben/wohnung/groesse",
       "finanzielleAngaben/wohnung/wohnkostenAllein",
-      "finanzielleAngaben/ausgaben/ausgaben-frage",
+      "finanzielleAngaben/eigentum/eigentum-info",
     ],
   ],
   [
@@ -47,7 +47,7 @@ const cases = [
       "finanzielleAngaben/wohnung/groesse",
       "finanzielleAngaben/wohnung/personenAnzahl",
       "finanzielleAngaben/wohnung/wohnkostenGeteilt",
-      "finanzielleAngaben/ausgaben/ausgaben-frage",
+      "finanzielleAngaben/eigentum/eigentum-info",
     ],
   ],
   [
@@ -62,7 +62,7 @@ const cases = [
       "finanzielleAngaben/wohnung/groesse",
       "finanzielleAngaben/wohnung/personenAnzahl",
       "finanzielleAngaben/wohnung/wohnkostenGeteilt",
-      "finanzielleAngaben/ausgaben/ausgaben-frage",
+      "finanzielleAngaben/eigentum/eigentum-info",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

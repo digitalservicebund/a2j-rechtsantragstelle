@@ -89,14 +89,13 @@ async function startFinanzielleAngaben(page: Page) {
     page,
     beratungshilfeFormular,
   );
+  await startFinanzielleAngabenWohnung(page, beratungshilfeFormular);
+  await beratungshilfeFormular.clickNext();
   await startFinanzielleAngabenEigentum(page, beratungshilfeFormular);
   await startFinanzielleAngabenEigentumZusammenfassung(
     page,
     beratungshilfeFormular,
   );
-  await beratungshilfeFormular.clickNext();
-
-  await startFinanzielleAngabenWohnung(page, beratungshilfeFormular);
   await beratungshilfeFormular.clickNext();
   await startFinanzielleAngabenAusgaben(page, beratungshilfeFormular);
 }

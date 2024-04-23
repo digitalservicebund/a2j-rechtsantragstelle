@@ -11,7 +11,7 @@ const cases = [
       "finanzielleAngaben/eigentum/wertgegenstaende-frage",
       "finanzielleAngaben/eigentum/grundeigentum-frage",
       "finanzielleAngaben/eigentum/kraftfahrzeuge-frage",
-      "finanzielleAngaben/wohnung/wohnsituation",
+      "finanzielleAngaben/ausgaben/ausgaben-frage",
     ],
   ],
   [
@@ -24,7 +24,7 @@ const cases = [
       "finanzielleAngaben/eigentum/wertgegenstaende-frage",
       "finanzielleAngaben/eigentum/grundeigentum-frage",
       "finanzielleAngaben/eigentum/kraftfahrzeuge-frage",
-      "finanzielleAngaben/wohnung/wohnsituation",
+      "finanzielleAngaben/ausgaben/ausgaben-frage",
     ],
   ],
   [
@@ -38,7 +38,7 @@ const cases = [
       "finanzielleAngaben/eigentum/grundeigentum-frage",
       "finanzielleAngaben/eigentum/kraftfahrzeuge-frage",
       "finanzielleAngaben/eigentum/gesamtwert",
-      "finanzielleAngaben/wohnung/wohnsituation",
+      "finanzielleAngaben/ausgaben/ausgaben-frage",
     ],
   ],
   [

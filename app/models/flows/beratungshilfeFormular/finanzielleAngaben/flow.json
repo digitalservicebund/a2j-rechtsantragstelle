@@ -311,14 +311,14 @@
                 "guard": "hasWeitereUnterhaltszahlungenYes",
                 "target": "uebersicht"
               },
-              "#eigentum.eigentum-info"
+              "#wohnung"
             ]
           }
         },
         "uebersicht": {
           "on": {
             "BACK": "frage",
-            "SUBMIT": "#eigentum",
+            "SUBMIT": "#wohnung",
             "add-unterhaltszahlungen": "person"
           }
         },
@@ -331,6 +331,60 @@
                 "SUBMIT": "#andere-unterhaltszahlungen.uebersicht"
               }
             }
+          }
+        }
+      }
+    },
+    "wohnung": {
+      "id": "wohnung",
+      "initial": "wohnsituation",
+      "on": {
+        "SUBMIT": "#eigentum"
+      },
+      "states": {
+        "wohnsituation": {
+          "on": {
+            "BACK": [
+              {
+                "guard": "hasWeitereUnterhaltszahlungenYes",
+                "target": "#andere-unterhaltszahlungen.uebersicht"
+              },
+              "#andere-unterhaltszahlungen.frage"
+            ],
+            "SUBMIT": "groesse"
+          }
+        },
+        "groesse": {
+          "on": {
+            "BACK": "wohnsituation",
+            "SUBMIT": [
+              {
+                "target": "wohnkostenAllein",
+                "guard": "livesAlone"
+              },
+              {
+                "target": "personenAnzahl",
+                "guard": "livesNotAlone"
+              }
+            ]
+          }
+        },
+        "wohnkostenAllein": {
+          "on": {
+            "BACK": "groesse",
+            "SUBMIT": "#eigentum"
+          }
+        },
+        "personenAnzahl": {
+          "on": {
+            "BACK": "groesse",
+            "SUBMIT": "wohnkostenGeteilt"
+          }
+        },
+        "wohnkostenGeteilt": {
+          "on": {
+            "BACK": "personenAnzahl",
+            "SUBMIT": "#eigentum"
           }
         }
       }
@@ -354,10 +408,14 @@
                 "target": "#einkommen.staatliche-leistungen"
               },
               {
-                "guard": "hasWeitereUnterhaltszahlungenYes",
-                "target": "#andere-unterhaltszahlungen.uebersicht"
+                "guard": "livesAlone",
+                "target": "#finanzielleAngaben.wohnung.wohnkostenAllein"
               },
-              "#andere-unterhaltszahlungen.frage"
+              {
+                "guard": "livesNotAlone",
+                "target": "#finanzielleAngaben.wohnung.wohnkostenGeteilt"
+              },
+              "#finanzielleAngaben.wohnung.groesse"
             ]
           }
         },
@@ -412,7 +470,7 @@
                 "target": "#persoenlicheDaten.start",
                 "guard": "staatlicheLeistungenIsBuergergeld"
               },
-              "#wohnung.wohnsituation"
+              "#ausgaben"
             ],
             "BACK": "grundeigentum-frage"
           }
@@ -428,7 +486,7 @@
                 "target": "#persoenlicheDaten.start",
                 "guard": "staatlicheLeistungenIsBuergergeld"
               },
-              "#wohnung.wohnsituation"
+              "#ausgaben"
             ],
             "BACK": "kraftfahrzeuge-frage"
           }
@@ -453,7 +511,7 @@
                 "guard": "hasStaatlicheLeistungen",
                 "target": "#persoenlicheDaten.start"
               },
-              "#wohnung.wohnsituation"
+              "#ausgaben"
             ],
             "add-bankkonten": "bankkonten",
             "add-wertsachen": "wertgegenstaende",
@@ -615,14 +673,11 @@
         }
       }
     },
-    "wohnung": {
-      "id": "wohnung",
-      "initial": "wohnsituation",
-      "on": {
-        "SUBMIT": "#ausgaben.ausgaben-frage"
-      },
+    "ausgaben": {
+      "id": "ausgaben",
+      "initial": "ausgaben-frage",
       "states": {
-        "wohnsituation": {
+        "ausgaben-frage": {
           "on": {
             "BACK": [
               {
@@ -634,61 +689,6 @@
                 "target": "#eigentum.gesamtwert"
               },
               "#eigentum.kraftfahrzeuge-frage"
-            ],
-            "SUBMIT": "groesse"
-          }
-        },
-        "groesse": {
-          "on": {
-            "BACK": "wohnsituation",
-            "SUBMIT": [
-              {
-                "target": "wohnkostenAllein",
-                "guard": "livesAlone"
-              },
-              {
-                "target": "personenAnzahl",
-                "guard": "livesNotAlone"
-              }
-            ]
-          }
-        },
-        "wohnkostenAllein": {
-          "on": {
-            "BACK": "groesse",
-            "SUBMIT": "#ausgaben.ausgaben-frage"
-          }
-        },
-        "personenAnzahl": {
-          "on": {
-            "BACK": "groesse",
-            "SUBMIT": "wohnkostenGeteilt"
-          }
-        },
-        "wohnkostenGeteilt": {
-          "on": {
-            "BACK": "personenAnzahl",
-            "SUBMIT": "#ausgaben.ausgaben-frage"
-          }
-        }
-      }
-    },
-    "ausgaben": {
-      "id": "ausgaben",
-      "initial": "ausgaben-frage",
-      "states": {
-        "ausgaben-frage": {
-          "on": {
-            "BACK": [
-              {
-                "guard": "livesAlone",
-                "target": "#finanzielleAngaben.wohnung.wohnkostenAllein"
-              },
-              {
-                "guard": "livesNotAlone",
-                "target": "#finanzielleAngaben.wohnung.wohnkostenGeteilt"
-              },
-              "#finanzielleAngaben.wohnung.groesse"
             ],
             "SUBMIT": [
               {
