@@ -6,6 +6,17 @@ const countriesTranslation = require("i18n-iso-countries");
 const GERMAN_SPEAKING_COUNTRY = ["DE", "CH", "AT"];
 const germanLocale = "de";
 
+const patchData = {
+  iata: "VII",
+  country_code: "VN",
+  country: "Vietnam",
+  airport: "Vinh International Flughafen",
+  latitude: "18.7376",
+  longitude: "105.671",
+  city: "Vinh",
+  continent: "AS",
+};
+
 // This is a workaround for loading ESM package into CJS-based code
 async function translator(text, targetLanguage) {
   const translate = (await import("translate")).default;
@@ -46,6 +57,9 @@ async function filteredLargeMediumAirports(airports) {
     const hasScheduledService = airport.scheduled_service === "TRUE";
 
     if (isLargeOrMediumAirport && hasScheduledService) {
+      if (airport.iata === "VII") {
+        filteredAirports.push(patchData);
+      }
       filteredAirports.push({
         iata: airport.iata,
         country_code: airport.country_code,
@@ -100,15 +114,15 @@ async function fetchAllAirports() {
 async function fetchAndSaveAirports() {
   const airports = await fetchAllAirports();
   const data = JSON.stringify(_.uniqBy(airports, "iata"));
+  const filePath = "data/airports/data.json";
 
-  fs.writeFile("data/airports/data.json", data, (error) => {
+  fs.writeFile(filePath, data, (error) => {
     if (error) {
       console.error(error);
       throw error;
     }
-
-    console.log("data/airports/data.json written correctly");
   });
+  console.log(`${filePath} written correctly`);
 }
 
 fetchAndSaveAirports();
