@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import Input from "./Input";
 
 const COMPONENT_HOVER_FOCUS_STYLE = "solid 2px #004b76 !important";
+const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 
 const widthClass = (width: string) => {
   return {
@@ -43,6 +44,7 @@ export type SuggestionInputProps = Readonly<{
   width?: "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54";
   formId?: string;
   dataList?: "airports";
+  noSuggestionMessage?: string;
 }>;
 
 function getDataListOptions(dataListType?: string): DataListOptions[] {
@@ -61,7 +63,7 @@ function getDataListOptions(dataListType?: string): DataListOptions[] {
 }
 
 const filterOption = (option: DataListOptions, inputValue: string) => {
-  if (inputValue.length <= 2) {
+  if (inputValue.length < MINIMUM_SEARCH_SUGGESTION_CHARACTERS) {
     return false;
   }
   return option.label.toLowerCase().includes(inputValue.toLocaleLowerCase());
@@ -142,6 +144,7 @@ const SuggestionInput = ({
   width,
   formId,
   dataList,
+  noSuggestionMessage,
 }: SuggestionInputProps) => {
   const items = getDataListOptions(dataList);
   const { error, getInputProps } = useField(name, { formId });
@@ -196,9 +199,7 @@ const SuggestionInput = ({
         onChange={getInputProps().onChange}
         onBlur={getInputProps().onBlur}
         noOptionsMessage={({ inputValue }) =>
-          inputValue.length > 2
-            ? "Leider konnten wir kein passenden Flughafen finden. Bitte prüffen Sie ihre Angabe"
-            : null
+          inputValue.length > 2 ? noSuggestionMessage : null
         }
         components={{
           Control: ControlComponent,

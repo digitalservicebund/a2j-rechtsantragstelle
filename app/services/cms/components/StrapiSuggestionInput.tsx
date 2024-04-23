@@ -27,6 +27,7 @@ const StrapiSuggestionInputSchema = z
       ])
       .nullable(),
     dataList: z.enum(["airports"]).nullable(),
+    noSuggestionMessage: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
