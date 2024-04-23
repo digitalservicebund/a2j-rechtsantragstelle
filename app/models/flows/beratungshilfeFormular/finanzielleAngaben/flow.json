@@ -23,7 +23,7 @@
                 "target": "#eigentum.eigentum-info"
               },
               {
-                "guard": "staatlicheLeistungenIsKeineOrAndere",
+                "guard": "staatlicheLeistungenIsKeine",
                 "target": "erwerbstaetig"
               },
               "#persoenlicheDaten.start"

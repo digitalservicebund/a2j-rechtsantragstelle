@@ -2,7 +2,7 @@ import { Buffer } from "buffer";
 import { test, expect } from "@playwright/test";
 import { testPageToBeAccessible } from "./util/testPageToBeAccessible";
 import { consentCookieName } from "~/services/analytics/gdprCookie.server";
-import { acceptCookiesFieldName } from "~/services/analytics/Analytics";
+import { acceptCookiesFieldName } from "~/components/CookieBanner";
 import { CookieSettings } from "./pom/CookieSettings";
 
 const pageUrl = "/cookie-einstellungen";

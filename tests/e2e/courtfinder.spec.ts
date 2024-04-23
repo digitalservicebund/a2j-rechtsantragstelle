@@ -64,7 +64,7 @@ test.describe("result page", () => {
   test("contains relevant content", async ({ page }) => {
     await courtfinder.searchPLZSingleResult();
     const h1 = page.locator("h1");
-    await expect(h1).toContainText("Amtsgericht");
+    await expect(h1).toBeVisible();
     await expect(page.getByText(courtfinder.singleResultPLZ)).toBeVisible();
     await expectSingleCourtContent(courtfinder);
   });

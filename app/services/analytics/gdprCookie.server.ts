@@ -1,5 +1,5 @@
 import { createCookie } from "@remix-run/node";
-import { acceptCookiesFieldName } from "./Analytics";
+import { acceptCookiesFieldName } from "../../components/CookieBanner";
 import { useSecureCookie } from "~/util/useSecureCookie";
 import { sendCustomAnalyticsEvent } from "./customEvent";
 

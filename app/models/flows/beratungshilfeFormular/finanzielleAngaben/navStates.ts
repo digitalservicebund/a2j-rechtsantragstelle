@@ -95,7 +95,6 @@ export const beratungshilfeFinanzielleAngabeDone: GenericGuard<
       return (
         eigentumDone({ context }) && eigentumZusammenfassungDone({ context })
       );
-    case "andereLeistung":
     case "keine":
       return (
         partnerDone({ context }) &&

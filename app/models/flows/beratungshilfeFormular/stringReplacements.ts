@@ -62,7 +62,6 @@ export const getStaatlicheLeistungenStrings = (
     hasBuergergeld: getTrueOrUndefined("buergergeld"),
     hasGrundsicherung: getTrueOrUndefined("grundsicherung"),
     hasAsylbewerberleistungen: getTrueOrUndefined("asylbewerberleistungen"),
-    hasAndereLeistung: getTrueOrUndefined("andereLeistung"),
     hasNoSozialleistung: getTrueOrUndefined("keine"),
   };
 };

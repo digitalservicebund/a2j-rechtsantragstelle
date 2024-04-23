@@ -41,7 +41,7 @@ const Checkbox = ({
   useEffect(() => setJsAvailable(true), []);
 
   return (
-    <div>
+    <div className="flex flex-nowrap">
       {(!jsAvailable || renderHiddenField) && (
         <input type="hidden" name={name} value={CheckboxValue.off} />
       )}

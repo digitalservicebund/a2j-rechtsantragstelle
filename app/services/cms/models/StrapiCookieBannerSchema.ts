@@ -3,8 +3,9 @@ import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import { StrapiParagraphSchema } from "./StrapiParagraph";
+import { getRichTextProps, StrapiParagraphSchema } from "./StrapiParagraph";
 import { omitNull } from "~/util/omitNull";
+import { CookieBannerContentPropsSchema } from "~/components/CookieBanner";
 
 export const StrapiCookieBannerSchema = z
   .object({
@@ -22,5 +23,10 @@ export const StrapiCookieBannerSchema = z
 export type StrapiCookieBanner = z.infer<typeof StrapiCookieBannerSchema>;
 
 export const getCookieBannerProps = (cmsData: StrapiCookieBanner) => {
-  return StrapiCookieBannerSchema.parse(omitNull(cmsData));
+  const paragraphs = cmsData.paragraphs.map((paragraph) =>
+    getRichTextProps(paragraph),
+  );
+  return CookieBannerContentPropsSchema.parse(
+    omitNull({ ...cmsData, paragraphs }),
+  );
 };
