@@ -195,6 +195,7 @@ const SuggestionInput = ({
         aria-errormessage={error && errorId}
         id={name}
         name={name}
+        inputId={`input-${name}`}
         filterOption={filterOption}
         defaultValue={currentItemValue}
         placeholder={placeholder}
