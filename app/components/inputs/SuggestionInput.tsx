@@ -4,16 +4,11 @@ import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import { type ErrorMessageProps } from ".";
 import airports from "data/airports/data.json";
-import type {
-  ControlProps,
-  FormatOptionLabelMeta,
-  StylesConfig,
-} from "react-select";
+import type { FormatOptionLabelMeta, StylesConfig } from "react-select";
 import Select, { components } from "react-select";
 import { useEffect, useState } from "react";
 import Input from "./Input";
 
-const COMPONENT_HOVER_FOCUS_STYLE = "solid 2px #004b76 !important";
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 
 const widthClass = (width: string) => {
@@ -93,47 +88,55 @@ const formatOptionLabel = (
     );
   }
 
-  return <span>{label}</span>;
+  return <span className="focus:text-blue-100">{label}</span>;
 };
 
-const ControlComponent = (props: ControlProps<DataListOptions, false>) => (
-  <components.Control className="ds-select" {...props} />
-);
-
-const customStyles: StylesConfig<DataListOptions, false> = {
-  control: (base) => ({
-    ...base,
-    borderRadius: "",
-    backgroundImage: "none",
-    borderColor: "",
-    outline: "none",
-    paddingRight: "0rem",
-    paddingLeft: "0.5rem",
-    borderStyle: "",
-    boxShadow: "",
+const customStyles = (
+  hasError: boolean,
+): StylesConfig<DataListOptions, false> => {
+  const hoverActiveStyle = !hasError && {
     "&:hover": {
-      border: COMPONENT_HOVER_FOCUS_STYLE,
       backgroundColor: "#F2F6F8",
     },
     "&:focus": {
-      border: COMPONENT_HOVER_FOCUS_STYLE,
+      backgroundColor: "#F2F6F8",
     },
-    "&:active": {
-      border: COMPONENT_HOVER_FOCUS_STYLE,
-      backgroundColor: "#DCE8EF",
-    },
-  }),
-  option: (base, { isFocused, isSelected }) => {
-    return {
+  };
+
+  return {
+    control: (base, { menuIsOpen }) => ({
       ...base,
-      backgroundColor: isFocused
-        ? "#ECF1F4"
-        : isSelected
-          ? "#DCE8EF"
-          : undefined,
-      color: "inherit",
-    };
-  },
+      borderRadius: "",
+      backgroundImage: "none",
+      borderColor: "",
+      outline: menuIsOpen ? "solid 4px #004b76" : "none",
+      outlineOffset: menuIsOpen ? "-4px" : "",
+      paddingRight: "0rem",
+      paddingLeft: "0.5rem",
+      borderStyle: "",
+      boxShadow: "",
+      backgroundColor: menuIsOpen ? "#F2F6F8" : "",
+      ...hoverActiveStyle,
+    }),
+    option: (base, { isFocused, isSelected }) => {
+      return {
+        ...base,
+        backgroundColor: isFocused
+          ? "#ECF1F4"
+          : isSelected
+            ? "#DCE8EF"
+            : undefined,
+        color: "inherit",
+      };
+    },
+    clearIndicator: (base) => ({
+      ...base,
+      color: "",
+      ":hover": {
+        color: "",
+      },
+    }),
+  };
 };
 
 const SuggestionInput = ({
@@ -149,6 +152,7 @@ const SuggestionInput = ({
   const items = getDataListOptions(dataList);
   const { error, getInputProps } = useField(name, { formId });
   const errorId = `${name}-error`;
+  const hasError = typeof error !== "undefined" && error.length > 0;
 
   const currentItemValue = getDescriptionByValue(
     items,
@@ -202,11 +206,22 @@ const SuggestionInput = ({
           inputValue.length > 2 ? noSuggestionMessage : null
         }
         components={{
-          Control: ControlComponent,
+          Control: (props) => (
+            <components.Control
+              className={classNames("ds-select", { "has-error": error })}
+              {...props}
+            />
+          ),
           IndicatorSeparator: () => null,
           DropdownIndicator: () => null,
+          ClearIndicator: (props) => (
+            <components.ClearIndicator
+              className="text-blue-800 hover:text-blue-300"
+              {...props}
+            />
+          ),
         }}
-        styles={customStyles}
+        styles={customStyles(hasError)}
       />
 
       <InputError id={errorId}>
