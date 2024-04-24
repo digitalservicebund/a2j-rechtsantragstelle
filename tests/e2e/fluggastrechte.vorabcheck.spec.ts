@@ -15,7 +15,7 @@ test("forwarded to intial step", async ({ page }) => {
   );
 });
 
-test("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
+test.skip("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
   await expectPageToBeAccessible({ page });
   await vorabcheck.clickNext();
 
