@@ -80,7 +80,7 @@ const formatOptionLabel = (
   if (context === "menu") {
     return (
       <div style={{ flex: "10" }}>
-        <span>{label}</span>
+        <span data-testid="suggestion-input-menu-item">{label}</span>
         <div>
           <span className="primary">{subDescription}</span>
         </div>
