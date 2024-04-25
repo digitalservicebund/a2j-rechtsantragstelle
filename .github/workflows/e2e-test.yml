@@ -69,6 +69,14 @@ jobs:
           path: blob-report/*.zip
           retention-days: 1
 
+      - name: Upload Failed Test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-test-results-${{ inputs.e2e-target }}-${{ matrix.shard }}
+          path: test-results/*
+          retention-days: 1
+
   merge-reports:
     if: failure()
     needs: [e2e-tests]
