@@ -52,4 +52,17 @@ export class Vorabcheck {
     await this.page.locator(`select[name="${field}"]`).selectOption(value);
     await this.clickNext();
   }
+
+  async fillMultipleSuggestionInputPage(
+    fields: { field: string; value: string }[],
+  ) {
+    for (const { field, value } of fields) {
+      await this.page.locator(`input[id="${field}"]`).fill(value);
+      const locators = await this.page
+        .getByTestId("suggestion-input-menu-item")
+        .all();
+      await locators[0].click();
+    }
+    await this.clickNext();
+  }
 }

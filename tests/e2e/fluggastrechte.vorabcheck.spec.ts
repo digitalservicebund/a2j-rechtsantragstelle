@@ -20,18 +20,12 @@ test("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
   await vorabcheck.clickNext();
 
   await expectPageToBeAccessible({ page });
-  await page.locator(`input[id=input-startAirport]`).fill("Berlin");
-  await page.getByText("Berlin Brandenburg Flughafen (BER)").click();
 
-  await page.locator(`input[id=input-endAirport]`).fill("Frankfurt");
-  await page.getByText("Frankfurt Metropolitan Area Flughafen (FRA)").click();
-
-  await vorabcheck.clickNext();
-  /* await vorabcheck.fillMultipleInputPage([
-    { field: "input-startAirport", value: "BER" },
-    { field: "endAirport", value: "FRA" },
+  await vorabcheck.fillMultipleSuggestionInputPage([
+    { field: "input-startAirport", value: "Berlin" },
+    { field: "input-endAirport", value: "Frankfurt" },
   ]);
- */
+
   await expectPageToBeAccessible({ page });
   await vorabcheck.fillDropdownPage("fluggesellschaft", "lufthansa");
 
