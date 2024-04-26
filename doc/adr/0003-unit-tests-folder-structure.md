@@ -21,7 +21,7 @@ To address these concerns, we have identified the following options:
 3. Parallel test files in the same folder as app files
 4. In-source tests
 
-The pros and cons of these options are outlined in the image below:
+The pros and cons of these options are described below:
 
 | Options                                                | Pro                                                                                                                                                                                                      | Cons                                                                                                                                                                               |
 | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
