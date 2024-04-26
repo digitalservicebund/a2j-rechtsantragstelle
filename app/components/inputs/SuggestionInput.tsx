@@ -33,7 +33,6 @@ interface DataListOptions {
 export type SuggestionInputProps = Readonly<{
   name: string;
   label?: string;
-  step?: string | number;
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
   width?: "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54";
@@ -198,7 +197,7 @@ const SuggestionInput = ({
         inputId={`input-${name}`}
         filterOption={filterOption}
         defaultValue={currentItemValue}
-        placeholder={placeholder}
+        placeholder={placeholder || ""}
         instanceId={name}
         formatOptionLabel={formatOptionLabel}
         onChange={getInputProps().onChange}
