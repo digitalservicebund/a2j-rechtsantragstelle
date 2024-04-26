@@ -4,7 +4,12 @@ import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import { type ErrorMessageProps } from ".";
 import airports from "data/airports/data.json";
-import type { FormatOptionLabelMeta, StylesConfig } from "react-select";
+import type {
+  StylesConfig,
+  ClearIndicatorProps,
+  ControlProps,
+  FormatOptionLabelMeta,
+} from "react-select";
 import Select, { components } from "react-select";
 import { useEffect, useState } from "react";
 import Input from "./Input";
@@ -90,6 +95,21 @@ const formatOptionLabel = (
   return <span className="focus:text-blue-100">{label}</span>;
 };
 
+const getOptionBackgroundColor = (
+  isFocused: boolean,
+  isSelected: boolean,
+): string | undefined => {
+  if (isFocused) {
+    return "#ECF1F4";
+  }
+
+  if (isSelected) {
+    return "#DCE8EF";
+  }
+
+  return undefined;
+};
+
 const customStyles = (
   hasError: boolean,
 ): StylesConfig<DataListOptions, false> => {
@@ -120,11 +140,7 @@ const customStyles = (
     option: (base, { isFocused, isSelected }) => {
       return {
         ...base,
-        backgroundColor: isFocused
-          ? "#ECF1F4"
-          : isSelected
-            ? "#DCE8EF"
-            : undefined,
+        backgroundColor: getOptionBackgroundColor(isFocused, isSelected),
         color: "inherit",
       };
     },
@@ -137,6 +153,25 @@ const customStyles = (
     }),
   };
 };
+
+const CustomClearIndicator = (
+  props: ClearIndicatorProps<DataListOptions, false>,
+) => (
+  <components.ClearIndicator
+    className="text-blue-800 hover:text-blue-300"
+    {...props}
+  />
+);
+
+const CustomControl = (
+  props: ControlProps<DataListOptions, false>,
+  error?: string,
+) => (
+  <components.Control
+    className={classNames("ds-select", { "has-error": error })}
+    {...props}
+  />
+);
 
 const SuggestionInput = ({
   name,
@@ -197,7 +232,7 @@ const SuggestionInput = ({
         inputId={`input-${name}`}
         filterOption={filterOption}
         defaultValue={currentItemValue}
-        placeholder={placeholder || ""}
+        placeholder={placeholder ?? ""}
         instanceId={name}
         formatOptionLabel={formatOptionLabel}
         onChange={getInputProps().onChange}
@@ -206,20 +241,10 @@ const SuggestionInput = ({
           inputValue.length > 2 ? noSuggestionMessage : null
         }
         components={{
-          Control: (props) => (
-            <components.Control
-              className={classNames("ds-select", { "has-error": error })}
-              {...props}
-            />
-          ),
+          Control: (props) => CustomControl(props, error),
           IndicatorSeparator: () => null,
           DropdownIndicator: () => null,
-          ClearIndicator: (props) => (
-            <components.ClearIndicator
-              className="text-blue-800 hover:text-blue-300"
-              {...props}
-            />
-          ),
+          ClearIndicator: CustomClearIndicator,
         }}
         styles={customStyles(hasError)}
       />
