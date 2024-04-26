@@ -46,10 +46,6 @@ test.describe("js enabled", () => {
       { field: "input-endAirport", value: "Frankfurt" },
     ]);
 
-    // fluggastrechte/vorabcheck/fluggesellschaft
-    await expectPageToBeAccessible({ page });
-    await vorabcheck.fillDropdownPage("fluggesellschaft", "lufthansa");
-
     // fluggastrechte/vorabcheck/checkin
     await expectPageToBeAccessible({ page });
     await vorabcheck.fillRadioPage("checkin", "yes");
@@ -110,26 +106,46 @@ test.describe("js disabled", () => {
     await vorabcheck.goto();
     await vorabcheck.clickNext(false);
 
+    // fluggastrechte/vorabcheck/bereich
+    await vorabcheck.fillRadioPageNonJavascript("bereich", "verspaetet");
+
+    // fluggastrechte/vorabcheck/verspaetung
+    await vorabcheck.fillRadioPageNonJavascript("verspaetung", "yes");
+
+    // fluggastrechte/vorabcheck/gruende
+    await vorabcheck.fillRadioPageNonJavascript("gruende", "no");
+
+    // fluggastrechte/vorabcheck/verjaehrung
+    await vorabcheck.fillRadioPageNonJavascript("verjaehrung", "yes");
+
+    // fluggastrechte/vorabcheck/flughaefen
     await vorabcheck.fillMultipleInputPageNonJavascript([
       { field: "startAirport", value: "BER" },
       { field: "endAirport", value: "FRA" },
     ]);
 
-    await vorabcheck.fillDropdownPageNonJavascript(
-      "fluggesellschaft",
-      "lufthansa",
-    );
-    await vorabcheck.fillRadioPageNonJavascript("bereich", "verspaetet");
-    await vorabcheck.fillRadioPageNonJavascript("verspaetung", "yes");
+    // fluggastrechte/vorabcheck/checkin
     await vorabcheck.fillRadioPageNonJavascript("checkin", "yes");
-    await vorabcheck.fillRadioPageNonJavascript("gruende", "no");
-    await vorabcheck.fillRadioPageNonJavascript("entschaedigung", "yes");
-    await vorabcheck.fillRadioPageNonJavascript("gericht", "no");
-    await vorabcheck.fillRadioPageNonJavascript("abtretung", "no");
+
+    // fluggastrechte/vorabcheck/kostenlos
     await vorabcheck.fillRadioPageNonJavascript("kostenlos", "no");
+
+    // fluggastrechte/vorabcheck/rabatt
     await vorabcheck.fillRadioPageNonJavascript("rabatt", "no");
+
+    // fluggastrechte/vorabcheck/buchung
     await vorabcheck.fillRadioPageNonJavascript("buchung", "yes");
 
+    // fluggastrechte/vorabcheck/abtretung
+    await vorabcheck.fillRadioPageNonJavascript("abtretung", "no");
+
+    // fluggastrechte/vorabcheck/entschaedigung
+    await vorabcheck.fillRadioPageNonJavascript("entschaedigung", "yes");
+
+    // fluggastrechte/vorabcheck/gericht
+    await vorabcheck.fillRadioPageNonJavascript("gericht", "no");
+
+    // fluggastrechte/vorabcheck/ergebnis/erfolg
     await expect(page).toHaveURL(
       new RegExp(`.+${vorabcheck.url}/ergebnis/erfolg$`),
     );
