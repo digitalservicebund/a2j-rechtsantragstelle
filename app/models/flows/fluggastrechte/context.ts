@@ -38,6 +38,7 @@ export const fluggastrechteVorabcheckContext = {
   fluggesellschaft: airlineSchema,
   bereich: fluggastBereichSchema,
   verspaetung: YesNoAnswer,
+  verjaehrung: YesNoAnswer,
   checkin: YesNoAnswer,
   gruende: YesNoAnswer,
   entschaedigung: YesNoAnswer,

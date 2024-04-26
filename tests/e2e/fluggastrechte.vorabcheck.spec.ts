@@ -19,49 +19,66 @@ test.describe("js enabled", () => {
   test("fluggastrechte vorabcheck can be traversed and Javascript enabled", async ({
     page,
   }) => {
+    // fluggastrechte/vorabcheck/start
     await expectPageToBeAccessible({ page });
     await vorabcheck.clickNext(true);
 
+    // fluggastrechte/vorabcheck/bereich
     await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("bereich", "verspaetet");
 
+    // fluggastrechte/vorabcheck/verspaetung
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("verspaetung", "yes");
+
+    // fluggastrechte/vorabcheck/gruende
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("gruende", "no");
+
+    // fluggastrechte/vorabcheck/verjaehrung
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("verjaehrung", "yes");
+
+    // fluggastrechte/vorabcheck/flughaefen
+    await expectPageToBeAccessible({ page });
     await vorabcheck.fillMultipleSuggestionInputPage([
       { field: "input-startAirport", value: "Berlin" },
       { field: "input-endAirport", value: "Frankfurt" },
     ]);
 
+    // fluggastrechte/vorabcheck/fluggesellschaft
     await expectPageToBeAccessible({ page });
     await vorabcheck.fillDropdownPage("fluggesellschaft", "lufthansa");
 
-    await expectPageToBeAccessible({ page });
-    await vorabcheck.fillRadioPage("bereich", "verspaetet");
-
-    await expectPageToBeAccessible({ page });
-    await vorabcheck.fillRadioPage("verspaetung", "yes");
-
+    // fluggastrechte/vorabcheck/checkin
     await expectPageToBeAccessible({ page });
     await vorabcheck.fillRadioPage("checkin", "yes");
 
-    await expectPageToBeAccessible({ page });
-    await vorabcheck.fillRadioPage("gruende", "no");
-
-    await expectPageToBeAccessible({ page });
-    await vorabcheck.fillRadioPage("entschaedigung", "yes");
-
-    await expectPageToBeAccessible({ page });
-    await vorabcheck.fillRadioPage("gericht", "no");
-
-    await expectPageToBeAccessible({ page });
-    await vorabcheck.fillRadioPage("abtretung", "no");
-
+    // fluggastrechte/vorabcheck/kostenlos
     await expectPageToBeAccessible({ page });
     await vorabcheck.fillRadioPage("kostenlos", "no");
 
+    // fluggastrechte/vorabcheck/rabatt
     await expectPageToBeAccessible({ page });
     await vorabcheck.fillRadioPage("rabatt", "no");
 
+    // fluggastrechte/vorabcheck/buchung
     await expectPageToBeAccessible({ page });
     await vorabcheck.fillRadioPage("buchung", "yes");
 
+    // fluggastrechte/vorabcheck/abtretung
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("abtretung", "no");
+
+    // fluggastrechte/vorabcheck/entschaedigung
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("entschaedigung", "yes");
+
+    // fluggastrechte/vorabcheck/gericht
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("gericht", "no");
+
+    // fluggastrechte/vorabcheck/ergebnis/erfolg
     await expectPageToBeAccessible({ page });
     await expect(page).toHaveURL(
       new RegExp(`.+${vorabcheck.url}/ergebnis/erfolg$`),

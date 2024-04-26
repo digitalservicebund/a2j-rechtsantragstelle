@@ -4,6 +4,10 @@ import { yesNoGuards, type Guards } from "../guards.server";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import airports from "data/airports/data.json";
 
+function getCountryCodeByIata(airportIata: string | undefined) {
+  return airports.find((airport) => airport.iata === airportIata)?.country_code;
+}
+
 export const guards = {
   bereichVerspaetet: ({ context }) => context.bereich === "verspaetet",
   isPartnerAirport: ({ context }) => {
@@ -20,24 +24,44 @@ export const guards = {
     );
     return distance.isErr;
   },
-  isAirportOutsideEU: ({ context }) => {
-    const countryStartAirport = airports.find(
-      (aiport) => aiport.iata === context.startAirport,
-    )?.country_code;
-    const countryeEndAirport = airports.find(
-      (aiport) => aiport.iata === context.endAirport,
-    )?.country_code;
+  isEUInboundFromNonEU: ({ context }) => {
+    const startAirportByIata = getCountryCodeByIata(context.startAirport);
+    const endAirportByIata = getCountryCodeByIata(context.endAirport);
 
     if (
-      typeof countryStartAirport === "undefined" ||
-      typeof countryeEndAirport === "undefined"
+      typeof startAirportByIata === "undefined" ||
+      typeof endAirportByIata === "undefined"
     ) {
       return true;
     }
 
     return (
-      !EUCountries.includes(countryStartAirport) &&
-      !EUCountries.includes(countryeEndAirport)
+      !EUCountries.includes(startAirportByIata) &&
+      EUCountries.includes(endAirportByIata)
+    );
+  },
+  isEUOutbound: ({ context }) => {
+    const startAirportByIata = getCountryCodeByIata(context.startAirport);
+
+    if (typeof startAirportByIata === "undefined") {
+      return true;
+    }
+    return EUCountries.includes(startAirportByIata);
+  },
+  isAirportOutsideEU: ({ context }) => {
+    const startAirportByIata = getCountryCodeByIata(context.startAirport);
+    const endAirportByIata = getCountryCodeByIata(context.endAirport);
+
+    if (
+      typeof startAirportByIata === "undefined" ||
+      typeof endAirportByIata === "undefined"
+    ) {
+      return true;
+    }
+
+    return (
+      !EUCountries.includes(startAirportByIata) &&
+      !EUCountries.includes(endAirportByIata)
     );
   },
   fluggesellschaftFilled: ({ context }) =>
@@ -53,4 +77,5 @@ export const guards = {
   ...yesNoGuards("kostenlos"),
   ...yesNoGuards("rabatt"),
   ...yesNoGuards("buchung"),
+  ...yesNoGuards("verjaehrung"),
 } satisfies Guards<FluggastrechtVorabcheckContext>;

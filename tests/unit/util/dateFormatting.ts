@@ -19,3 +19,9 @@ export const thirtyDaysAgoDate = () => {
   date.setDate(date.getDate() - 30);
   return toGermanDateFormat(date);
 };
+
+export const fourYearsAgoDate = () => {
+  const date = today();
+  date.setFullYear(date.getFullYear() - 4);
+  return toGermanDateFormat(date);
+};
