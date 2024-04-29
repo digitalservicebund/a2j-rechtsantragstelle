@@ -146,15 +146,16 @@ function stepStates(
   return statesWithDoneFunctionOrSubstates.map((state) => {
     const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
     const meta = state.meta as Meta | undefined;
+    const hasDoneFunction = meta?.done !== undefined;
     const isUneditable = Boolean(meta?.isUneditable);
     const subStepStates = stepStates(state, reachableSteps);
 
     // Ignore subflows if empty or parent state has done function
-    if (meta?.done !== undefined || subStepStates.length === 0) {
+    if (hasDoneFunction || subStepStates.length === 0) {
       const initialStepId = `${stepId}/${state.config.initial as string}`;
       return {
         url: `${state.machine.id}${initialStepId}`,
-        isDone: meta?.done ? meta.done({ context }) : false,
+        isDone: hasDoneFunction ? meta.done({ context }) : false,
         stepId,
         isUneditable,
         isReachable: reachableSteps.includes(initialStepId),
