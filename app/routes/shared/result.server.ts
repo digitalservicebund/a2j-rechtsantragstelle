@@ -7,7 +7,6 @@ import {
 } from "~/services/session.server";
 import {
   fetchCollectionEntry,
-  fetchMeta,
   fetchSingleEntry,
   fetchTranslations,
 } from "~/services/cms/index.server";
@@ -74,12 +73,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   // Slug change to keep Strapi slugs without ergebnis/
   const slug = pathname.replace(/ergebnis\//, "");
-  const [resultPageContent, parentMeta, amtsgerichtCommon, defaultStrings] =
+  const [resultPageContent, amtsgerichtCommon, defaultStrings] =
     await Promise.all([
       fetchCollectionEntry("result-pages", slug),
-      fetchMeta({
-        filterValue: pathname.substring(0, pathname.lastIndexOf("/")),
-      }),
       fetchSingleEntry("amtsgericht-common"),
       fetchTranslations("defaultTranslations"),
     ]);
@@ -113,8 +109,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       flowId,
       common: defaultStrings,
       cmsData: cmsContent,
-      content: cmsContent.freeZone,
-      meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
       reasons: reasonElementsWithID.filter((reason) =>
         Boolean(getReasonsToDisplay(userData)[reason.elementId]),
       ),
@@ -126,7 +120,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
       amtsgerichtCommon,
-      courts: cmsContent.pageType === "success" && courts,
+      courts: cmsContent.pageType === "success" ? courts : [],
     },
     { headers },
   );
