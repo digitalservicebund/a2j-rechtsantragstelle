@@ -1,34 +1,34 @@
 import { NavState, type NavItem } from "~/components/FlowNavigation";
-import { type DoneState } from "./flow/server/buildFlowController";
+import { type StepState } from "./flow/server/buildFlowController";
 import { type Translations } from "./cms/index.server";
 
-function isDoneStateIdCurrent(doneStateId: string, stepId: string) {
-  // subflows might start with the same name, nee to check the following char
-  return stepId.includes(doneStateId) && stepId.at(doneStateId.length) === "/";
+function isStepStateIdCurrent(stepStateId: string, stepId: string) {
+  // subflows might start with the same name, need to check the following char
+  return stepId.includes(stepStateId) && stepId.at(stepStateId.length) === "/";
 }
 
 function isSubflowCurrent(subflows: NavItem[]) {
   return subflows.some((state) => state.state === NavState.Current);
 }
 
-export function navItemsFromDoneStates(
+export function navItemsFromStepStates(
   stepId: string,
-  doneStates: DoneState[] | undefined,
+  stepStates: StepState[] | undefined,
   translations: Translations = {},
 ): NavItem[] | undefined {
-  if (!doneStates) return undefined;
+  if (!stepStates) return undefined;
 
-  return doneStates.map((doneState) => {
-    const { isDone, isReachable, isUneditable, subStates } = doneState;
+  return stepStates.map((stepState) => {
+    const { isDone, isReachable, isUneditable, subStates } = stepState;
 
-    const subNavItems = navItemsFromDoneStates(stepId, subStates, translations);
+    const subNavItems = navItemsFromStepStates(stepId, subStates, translations);
     const isCurrent = subNavItems
       ? isSubflowCurrent(subNavItems)
-      : isDoneStateIdCurrent(doneState.stepId, stepId);
+      : isStepStateIdCurrent(stepState.stepId, stepId);
 
     return {
-      destination: doneState.url,
-      label: translations[doneState.stepId ?? ""] ?? doneState.stepId,
+      destination: stepState.url,
+      label: translations[stepState.stepId ?? ""] ?? stepState.stepId,
       subflows: subNavItems,
       state: navState({ isCurrent, isDone, isReachable, isUneditable }),
     };

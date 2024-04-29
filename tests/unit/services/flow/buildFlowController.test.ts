@@ -292,7 +292,7 @@ describe("buildFlowController", () => {
     });
   });
 
-  describe(".doneStates()", () => {
+  describe(".stepStates()", () => {
     it("builds nested done states", () => {
       expect(
         buildFlowController({
@@ -314,7 +314,7 @@ describe("buildFlowController", () => {
               },
             },
           },
-        }).doneStates(),
+        }).stepStates(),
       ).toEqual([
         {
           isDone: false,
@@ -344,7 +344,7 @@ describe("buildFlowController", () => {
   });
 
   it("all children must be done for parent to be done", () => {
-    const doneStates = buildFlowController({
+    const stepStates = buildFlowController({
       config: {
         id: "/test/",
         initial: "parent1",
@@ -387,13 +387,13 @@ describe("buildFlowController", () => {
           },
         },
       },
-    }).doneStates();
-    expect(doneStates[0].isDone).toBe(false);
-    expect(doneStates[1].isDone).toBe(true);
+    }).stepStates();
+    expect(stepStates[0].isDone).toBe(false);
+    expect(stepStates[1].isDone).toBe(true);
   });
 
   it("any child must be reachable for parent to be reachable", () => {
-    const doneStates = buildFlowController({
+    const stepStates = buildFlowController({
       config: {
         id: "/test/",
         initial: "parent1",
@@ -426,8 +426,8 @@ describe("buildFlowController", () => {
           },
         },
       },
-    }).doneStates();
-    expect(doneStates[0].isReachable).toBe(true);
-    expect(doneStates[1].isReachable).toBe(false);
+    }).stepStates();
+    expect(stepStates[0].isReachable).toBe(true);
+    expect(stepStates[1].isReachable).toBe(false);
   });
 });

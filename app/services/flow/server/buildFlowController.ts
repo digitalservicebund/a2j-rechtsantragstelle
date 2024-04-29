@@ -124,19 +124,19 @@ function getInitial(machine: FlowStateMachine) {
   return stateValueToStepIds(initialSnapshot.value).pop();
 }
 
-export type DoneState = {
+export type StepState = {
   stepId: string;
   isDone: boolean;
   isReachable: boolean;
   isUneditable: boolean;
   url: string;
-  subStates?: DoneState[];
+  subStates?: StepState[];
 };
 
-function doneStates(
+function stepStates(
   stateNode: FlowStateMachine["states"][string],
   reachableSteps: string[],
-): DoneState[] {
+): StepState[] {
   const context = (stateNode.machine.config.context ?? {}) as Context;
 
   const statesWithDoneFunctionOrSubstates = Object.values(
@@ -147,10 +147,10 @@ function doneStates(
     const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
     const meta = state.meta as Meta | undefined;
     const isUneditable = Boolean(meta?.isUneditable);
-    const subDoneStates = doneStates(state, reachableSteps);
+    const subStepStates = stepStates(state, reachableSteps);
 
     // Ignore subflows if empty or parent state has done function
-    if (meta?.done !== undefined || subDoneStates.length === 0) {
+    if (meta?.done !== undefined || subStepStates.length === 0) {
       const initialStepId = `${stepId}/${state.config.initial as string}`;
       return {
         url: `${state.machine.id}${initialStepId}`,
@@ -161,7 +161,7 @@ function doneStates(
       };
     }
 
-    const reachableSubStates = subDoneStates.filter(
+    const reachableSubStates = subStepStates.filter(
       (state) => state.isReachable,
     );
 
@@ -171,7 +171,7 @@ function doneStates(
       stepId,
       isUneditable,
       isReachable: reachableSubStates.length > 0,
-      subStates: subDoneStates,
+      subStates: subStepStates,
     };
   });
 }
@@ -197,7 +197,7 @@ export const buildFlowController = ({
   return {
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
     getRootMeta: () => rootMeta(machine),
-    doneStates: () => doneStates(machine.root, reachableSteps),
+    stepStates: () => stepStates(machine.root, reachableSteps),
     isDone: (currentStepId: string) =>
       Boolean(metaFromStepId(machine, currentStepId)?.done({ context })),
     isUneditable: (currentStepId: string) =>

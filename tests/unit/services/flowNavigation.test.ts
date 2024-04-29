@@ -1,5 +1,5 @@
 import {
-  navItemsFromDoneStates,
+  navItemsFromStepStates,
   navState,
 } from "~/services/flowNavigation.server";
 import { NavState } from "~/components/FlowNavigation";
@@ -27,15 +27,15 @@ describe("flowNavigation", () => {
     });
   });
 
-  describe("navItemsFromDoneStates()", () => {
-    const parentDoneState = {
+  describe("navItemsFromStepStates()", () => {
+    const parentStepState = {
       url: "/step1",
       isDone: false,
       stepId: "step1",
       isUneditable: false,
       isReachable: true,
     };
-    const childDoneState = {
+    const childStepState = {
       url: "/step1/a",
       isDone: false,
       stepId: "step1/a",
@@ -43,17 +43,17 @@ describe("flowNavigation", () => {
       isReachable: true,
     };
 
-    const doneStatesNested = [
-      { ...parentDoneState, subStates: [childDoneState] },
+    const stepStatesNested = [
+      { ...parentStepState, subStates: [childStepState] },
     ];
 
     it("IsCurrent as child", () => {
       expect(
-        navItemsFromDoneStates("step1/start", [parentDoneState]),
+        navItemsFromStepStates("step1/start", [parentStepState]),
       ).toStrictEqual([
         {
-          destination: parentDoneState.url,
-          label: parentDoneState.stepId,
+          destination: parentStepState.url,
+          label: parentStepState.stepId,
           state: NavState.Current,
           subflows: undefined,
         },
@@ -62,16 +62,16 @@ describe("flowNavigation", () => {
 
     it("IsCurrent is set for parent", () => {
       expect(
-        navItemsFromDoneStates("step1/a/start", doneStatesNested),
+        navItemsFromStepStates("step1/a/start", stepStatesNested),
       ).toStrictEqual([
         {
-          destination: parentDoneState.url,
-          label: parentDoneState.stepId,
+          destination: parentStepState.url,
+          label: parentStepState.stepId,
           state: NavState.Current,
           subflows: [
             {
-              label: childDoneState.stepId,
-              destination: childDoneState.url,
+              label: childStepState.stepId,
+              destination: childStepState.url,
               state: NavState.Current,
               subflows: undefined,
             },
@@ -81,9 +81,9 @@ describe("flowNavigation", () => {
     });
 
     it("does label lookup", () => {
-      const navItems = navItemsFromDoneStates(
+      const navItems = navItemsFromStepStates(
         "step1/a/start",
-        doneStatesNested,
+        stepStatesNested,
         {
           step1: "Parent",
           "step1/a": "Child",
