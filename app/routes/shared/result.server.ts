@@ -7,6 +7,7 @@ import {
 } from "~/services/session.server";
 import {
   fetchCollectionEntry,
+  fetchMeta,
   fetchSingleEntry,
   fetchTranslations,
 } from "~/services/cms/index.server";
@@ -73,9 +74,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   // Slug change to keep Strapi slugs without ergebnis/
   const slug = pathname.replace(/ergebnis\//, "");
-  const [resultPageContent, amtsgerichtCommon, defaultStrings] =
+  const [resultPageContent, parentMeta, amtsgerichtCommon, defaultStrings] =
     await Promise.all([
       fetchCollectionEntry("result-pages", slug),
+      fetchMeta({
+        filterValue: pathname.substring(0, pathname.lastIndexOf("/")),
+      }),
       fetchSingleEntry("amtsgericht-common"),
       fetchTranslations("defaultTranslations"),
     ]);
@@ -112,6 +116,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       reasons: reasonElementsWithID.filter((reason) =>
         Boolean(getReasonsToDisplay(userData)[reason.elementId]),
       ),
+      meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
       progress: flowController.getProgress(stepId),
       nextButton: cmsContent.nextLink?.url
         ? { destination: cmsContent.nextLink.url, label: next?.label ?? "" }
