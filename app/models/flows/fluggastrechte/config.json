@@ -5,54 +5,13 @@
     "start": {
       "meta": { "progressPosition": 1 },
       "on": {
-        "SUBMIT": "flughaefen"
-      }
-    },
-    "flughaefen": {
-      "meta": { "progressPosition": 2 },
-      "on": {
-        "BACK": "start",
-        "SUBMIT": [
-          {
-            "target": "fluggesellschaft",
-            "guard": "isPartnerAirport"
-          },
-          {
-            "target": "ergebnis/flughaefen-abbruch",
-            "guard": "fluggesellschaftFilled"
-          }
-        ]
-      }
-    },
-    "ergebnis/flughaefen-abbruch": {
-      "on": {
-        "BACK": "flughaefen"
-      }
-    },
-    "fluggesellschaft": {
-      "meta": { "progressPosition": 3 },
-      "on": {
-        "BACK": "flughaefen",
-        "SUBMIT": [
-          {
-            "target": "bereich",
-            "guard": "isKnownPartnerAirline"
-          },
-          {
-            "target": "ergebnis/fluggesellschaft-abbruch"
-          }
-        ]
-      }
-    },
-    "ergebnis/fluggesellschaft-abbruch": {
-      "on": {
-        "BACK": "fluggesellschaft"
+        "SUBMIT": "bereich"
       }
     },
     "bereich": {
-      "meta": { "progressPosition": 4 },
+      "meta": { "progressPosition": 2 },
       "on": {
-        "BACK": "fluggesellschaft",
+        "BACK": "start",
         "SUBMIT": [
           {
             "target": "verspaetung",
@@ -70,12 +29,12 @@
       }
     },
     "verspaetung": {
-      "meta": { "progressPosition": 5 },
+      "meta": { "progressPosition": 3 },
       "on": {
         "BACK": "bereich",
         "SUBMIT": [
           {
-            "target": "checkin",
+            "target": "gruende",
             "guard": "verspaetungYes"
           },
           {
@@ -84,18 +43,119 @@
         ]
       }
     },
+    "gruende": {
+      "meta": { "progressPosition": 4 },
+      "on": {
+        "BACK": "verspaetung",
+        "SUBMIT": [
+          {
+            "target": "verjaehrung",
+            "guard": "gruendeNo"
+          },
+          {
+            "target": "gruende-hinweis",
+            "guard": "gruendeYes"
+          }
+        ]
+      }
+    },
+    "gruende-hinweis": {
+      "meta": { "progressPosition": 5 },
+      "on": {
+        "BACK": "gruende",
+        "SUBMIT": "verjaehrung"
+      }
+    },
+    "verjaehrung": {
+      "meta": { "progressPosition": 6 },
+      "on": {
+        "BACK": [
+          { "target": "gruende", "guard": "gruendeNo" },
+          { "target": "gruende-hinweis", "guard": "gruendeYes" }
+        ],
+        "SUBMIT": [
+          {
+            "target": "ergebnis/verjaehrung-abbruch",
+            "guard": "verjaehrungNo"
+          },
+          { "target": "flughaefen", "guard": "verjaehrungYes" }
+        ]
+      }
+    },
+    "ergebnis/verjaehrung-abbruch": {
+      "on": {
+        "BACK": "verjaehrung"
+      }
+    },
+    "flughaefen": {
+      "meta": { "progressPosition": 7 },
+      "on": {
+        "BACK": "verjaehrung",
+        "SUBMIT": [
+          {
+            "target": "ergebnis/flughaefen-entfernung-abbruch",
+            "guard": "isInvalidAirportDistance"
+          },
+          {
+            "target": "ergebnis/flughaefen-abbruch",
+            "guard": "isAirportOutsideEU"
+          },
+          {
+            "target": "fluggesellschaft",
+            "guard": "isEUInboundFromNonEU"
+          },
+          "checkin"
+        ]
+      }
+    },
+    "ergebnis/flughaefen-abbruch": {
+      "on": {
+        "BACK": "flughaefen"
+      }
+    },
+    "ergebnis/flughaefen-entfernung-abbruch": {
+      "on": {
+        "BACK": "flughaefen"
+      }
+    },
+    "fluggesellschaft": {
+      "meta": { "progressPosition": 8 },
+      "on": {
+        "BACK": "flughaefen",
+        "SUBMIT": [
+          {
+            "target": "checkin",
+            "guard": "isKnownPartnerAirline"
+          },
+          {
+            "target": "ergebnis/fluggesellschaft-abbruch"
+          }
+        ]
+      }
+    },
+    "ergebnis/fluggesellschaft-abbruch": {
+      "on": {
+        "BACK": "fluggesellschaft"
+      }
+    },
     "ergebnis/verspaetung-abbruch": {
       "on": {
         "BACK": "verspaetung"
       }
     },
     "checkin": {
-      "meta": { "progressPosition": 6 },
+      "meta": { "progressPosition": 9 },
       "on": {
-        "BACK": "verspaetung",
+        "BACK": [
+          {
+            "target": "flughaefen",
+            "guard": "isEUOutbound"
+          },
+          "fluggesellschaft"
+        ],
         "SUBMIT": [
           {
-            "target": "gruende",
+            "target": "kostenlos",
             "guard": "checkinYes"
           },
           {
@@ -109,96 +169,10 @@
         "BACK": "checkin"
       }
     },
-    "gruende": {
-      "meta": { "progressPosition": 7 },
-      "on": {
-        "BACK": "checkin",
-        "SUBMIT": [
-          {
-            "target": "entschaedigung",
-            "guard": "gruendeNo"
-          },
-          {
-            "target": "gruende-hinweis",
-            "guard": "gruendeYes"
-          }
-        ]
-      }
-    },
-    "gruende-hinweis": {
-      "meta": { "progressPosition": 8 },
-      "on": {
-        "BACK": "gruende",
-        "SUBMIT": "entschaedigung"
-      }
-    },
-    "entschaedigung": {
-      "meta": { "progressPosition": 9 },
-      "on": {
-        "BACK": "gruende",
-        "SUBMIT": [
-          {
-            "target": "gericht",
-            "guard": "entschaedigungYes"
-          },
-          {
-            "target": "ergebnis/entschaedigung-abbruch",
-            "guard": "entschaedigungNo"
-          }
-        ]
-      }
-    },
-    "ergebnis/entschaedigung-abbruch": {
-      "on": {
-        "BACK": "entschaedigung"
-      }
-    },
-    "gericht": {
+    "kostenlos": {
       "meta": { "progressPosition": 10 },
       "on": {
-        "BACK": "entschaedigung",
-        "SUBMIT": [
-          {
-            "target": "abtretung",
-            "guard": "gerichtNo"
-          },
-          {
-            "target": "ergebnis/gericht-abbruch",
-            "guard": "gerichtYes"
-          }
-        ]
-      }
-    },
-    "ergebnis/gericht-abbruch": {
-      "on": {
-        "BACK": "gericht"
-      }
-    },
-    "abtretung": {
-      "meta": { "progressPosition": 11 },
-      "on": {
-        "BACK": "gericht",
-        "SUBMIT": [
-          {
-            "target": "kostenlos",
-            "guard": "abtretungNo"
-          },
-          {
-            "target": "ergebnis/abtretung-abbruch",
-            "guard": "abtretungYes"
-          }
-        ]
-      }
-    },
-    "ergebnis/abtretung-abbruch": {
-      "on": {
-        "BACK": "abtretung"
-      }
-    },
-    "kostenlos": {
-      "meta": { "progressPosition": 12 },
-      "on": {
-        "BACK": "abtretung",
+        "BACK": "checkin",
         "SUBMIT": [
           {
             "target": "ergebnis/kostenlos-abbruch",
@@ -216,7 +190,7 @@
       }
     },
     "rabatt": {
-      "meta": { "progressPosition": 13 },
+      "meta": { "progressPosition": 11 },
       "on": {
         "BACK": "kostenlos",
         "SUBMIT": [
@@ -237,12 +211,12 @@
       }
     },
     "buchung": {
-      "meta": { "progressPosition": 14 },
+      "meta": { "progressPosition": 12 },
       "on": {
         "BACK": "rabatt",
         "SUBMIT": [
           {
-            "target": "ergebnis/erfolg",
+            "target": "abtretung",
             "guard": "buchungYes"
           },
           {
@@ -257,9 +231,72 @@
         "BACK": "buchung"
       }
     },
+    "abtretung": {
+      "meta": { "progressPosition": 13 },
+      "on": {
+        "BACK": "buchung",
+        "SUBMIT": [
+          {
+            "target": "entschaedigung",
+            "guard": "abtretungNo"
+          },
+          {
+            "target": "ergebnis/abtretung-abbruch",
+            "guard": "abtretungYes"
+          }
+        ]
+      }
+    },
+    "ergebnis/abtretung-abbruch": {
+      "on": {
+        "BACK": "abtretung"
+      }
+    },
+    "entschaedigung": {
+      "meta": { "progressPosition": 14 },
+      "on": {
+        "BACK": "abtretung",
+        "SUBMIT": [
+          {
+            "target": "gericht",
+            "guard": "entschaedigungYes"
+          },
+          {
+            "target": "ergebnis/erfolg-kontakt",
+            "guard": "entschaedigungNo"
+          }
+        ]
+      }
+    },
+    "ergebnis/erfolg-kontakt": {
+      "on": {
+        "BACK": "entschaedigung"
+      }
+    },
+    "gericht": {
+      "meta": { "progressPosition": 15 },
+      "on": {
+        "BACK": "entschaedigung",
+        "SUBMIT": [
+          {
+            "target": "ergebnis/erfolg",
+            "guard": "gerichtNo"
+          },
+          {
+            "target": "ergebnis/erfolg-gericht",
+            "guard": "gerichtYes"
+          }
+        ]
+      }
+    },
+    "ergebnis/erfolg-gericht": {
+      "on": {
+        "BACK": "gericht"
+      }
+    },
     "ergebnis/erfolg": {
       "on": {
-        "BACK": "buchung"
+        "BACK": "gericht"
       }
     }
   }

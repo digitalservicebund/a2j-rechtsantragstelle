@@ -38,13 +38,7 @@ export const kidsSchema = z
   });
 
 export const staatlicheLeistungen = z.enum(
-  [
-    "grundsicherung",
-    "asylbewerberleistungen",
-    "buergergeld",
-    "andereLeistung",
-    "keine",
-  ],
+  ["grundsicherung", "asylbewerberleistungen", "buergergeld", "keine"],
   customRequiredErrorMessage,
 );
 

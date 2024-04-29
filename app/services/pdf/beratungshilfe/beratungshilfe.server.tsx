@@ -39,7 +39,7 @@ export async function getBeratungshilfePdfFromContext(
   const attachmentContent = createAttachment(context);
 
   fillHeader(attachmentContent, pdfFields, context);
-  fillAngelegenheit(attachmentContent, pdfFields);
+  fillAngelegenheit(attachmentContent, pdfFields, context);
   fillVorraussetzungen(pdfFields, context);
   fillEinkommen(pdfFields, context);
   fillUnterhalt(attachmentContent, pdfFields, context);

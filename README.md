@@ -42,20 +42,16 @@ Open the app in `localhost:3000`
 >
 > Remember to install playwright cli and set the environment variable GERICHTSFINDER_ENCRYPTION_KEY.
 
-#### write tests
+#### Write tests
 
 - [getting started](https://playwright.dev/docs/writing-tests) writing tests
 - use [codegen](https://playwright.dev/docs/codegen-intro) as an aid: `npx playwright codegen localhost:3000/kitchensink`
 
-#### debug tests in CI
+#### Debug tests in CI
 
 1. download `playwright-report.zip` artifact from GitHub action summary page (only present on e2e failure for 30 days)
 2. unzip
 3. `npx playwright show-trace <DOWNLOAD_PATH>/data/<HASH>.zip`
-
-### run license generator
-
-`npm run build:licenses`
 
 ### Git Hooks
 
@@ -124,5 +120,15 @@ flowchart TD
 
 ### Storybook
 
-We have a storybook instance running. On the Staging and preview environments it can ba accessed via `/storybook`.
+We have a storybook instance running. On the Staging and preview environments it can be accessed via `/storybook`.
 In development mode, run the `npm run start:storybook` command.
+
+## Data update
+
+### License
+
+`npm run build:licenses`
+
+### Airport
+
+`npm run build:airports-data`

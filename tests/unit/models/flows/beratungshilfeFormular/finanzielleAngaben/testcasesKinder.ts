@@ -8,6 +8,7 @@ const cases = [
     [
       "finanzielleAngaben/kinder/kinder-frage",
       "finanzielleAngaben/kinder/uebersicht",
+      "finanzielleAngaben/andere-unterhaltszahlungen/frage",
     ],
   ],
   [
@@ -18,22 +19,24 @@ const cases = [
     ],
   ],
   [
+    {},
+    [
+      "finanzielleAngaben/kinder/kinder/name",
+      "finanzielleAngaben/kinder/kinder/wohnort",
+    ],
+  ],
+  [
     {
       kinder: [
+        // @ts-ignore
         {
-          vorname: "vorname",
-          nachname: "nachname",
-          geburtsdatum: "10.10.2020",
-          eigeneEinnahmen: "yes",
-          einnahmen: "",
-          unterhalt: "no",
-          unterhaltsSumme: "0",
           wohnortBeiAntragsteller: "yes",
         },
       ],
       pageData: { arrayIndexes: [0] },
     },
     [
+      "finanzielleAngaben/kinder/kinder/name",
       "finanzielleAngaben/kinder/kinder/wohnort",
       "finanzielleAngaben/kinder/kinder/kind-eigene-einnahmen-frage",
     ],
@@ -41,48 +44,33 @@ const cases = [
   [
     {
       kinder: [
+        // @ts-ignore
         {
-          vorname: "vorname",
-          nachname: "nachname",
-          geburtsdatum: "10.10.2020",
-          eigeneEinnahmen: "yes",
-          einnahmen: "",
-          unterhalt: "no",
-          unterhaltsSumme: "0",
           wohnortBeiAntragsteller: "yes",
+          eigeneEinnahmen: "yes",
         },
       ],
       pageData: { arrayIndexes: [0] },
     },
     [
+      "finanzielleAngaben/kinder/kinder/name",
+      "finanzielleAngaben/kinder/kinder/wohnort",
       "finanzielleAngaben/kinder/kinder/kind-eigene-einnahmen-frage",
       "finanzielleAngaben/kinder/kinder/kind-eigene-einnahmen",
     ],
   ],
   [
-    { hasKinder: "yes" },
-    [
-      "finanzielleAngaben/kinder/uebersicht",
-      "finanzielleAngaben/andere-unterhaltszahlungen/frage",
-    ],
-  ],
-  [
     {
       kinder: [
+        // @ts-ignore
         {
-          vorname: "vorname",
-          nachname: "nachname",
-          geburtsdatum: "10.10.2020",
-          eigeneEinnahmen: "yes",
-          einnahmen: "",
-          unterhalt: "no",
-          unterhaltsSumme: "0",
           wohnortBeiAntragsteller: "no",
         },
       ],
       pageData: { arrayIndexes: [0] },
     },
     [
+      "finanzielleAngaben/kinder/kinder/name",
       "finanzielleAngaben/kinder/kinder/wohnort",
       "finanzielleAngaben/kinder/kinder/kind-unterhalt-frage",
     ],
@@ -90,20 +78,35 @@ const cases = [
   [
     {
       kinder: [
+        // @ts-ignore
         {
-          vorname: "vorname",
-          nachname: "nachname",
-          geburtsdatum: "10.10.2020",
-          eigeneEinnahmen: "yes",
-          einnahmen: "",
-          unterhalt: "yes",
-          unterhaltsSumme: "0",
           wohnortBeiAntragsteller: "no",
+          unterhalt: "no",
         },
       ],
       pageData: { arrayIndexes: [0] },
     },
     [
+      "finanzielleAngaben/kinder/kinder/name",
+      "finanzielleAngaben/kinder/kinder/wohnort",
+      "finanzielleAngaben/kinder/kinder/kind-unterhalt-frage",
+      "finanzielleAngaben/kinder/kinder/kind-unterhalt-ende",
+    ],
+  ],
+  [
+    {
+      kinder: [
+        // @ts-ignore
+        {
+          wohnortBeiAntragsteller: "no",
+          unterhalt: "yes",
+        },
+      ],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "finanzielleAngaben/kinder/kinder/name",
+      "finanzielleAngaben/kinder/kinder/wohnort",
       "finanzielleAngaben/kinder/kinder/kind-unterhalt-frage",
       "finanzielleAngaben/kinder/kinder/kind-unterhalt",
     ],

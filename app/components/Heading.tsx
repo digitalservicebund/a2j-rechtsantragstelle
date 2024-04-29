@@ -11,6 +11,7 @@ export const HeadingPropsSchema = z
     look: z.string().optional(),
     className: z.string().optional(),
     children: z.custom<ReactNode>().optional(),
+    dataTestid: z.string().optional(),
   })
   .readonly();
 
@@ -22,16 +23,22 @@ function Heading({
   className,
   look,
   children,
+  dataTestid,
 }: HeadingProps) {
   const Tag = tagName as keyof React.JSX.IntrinsicElements;
   const cssClasses = classNames(look === "default" ? null : look, className);
 
   if (children) {
-    return <Tag className={cssClasses}>{children}</Tag>;
+    return (
+      <Tag data-testid={dataTestid} className={cssClasses}>
+        {children}
+      </Tag>
+    );
   }
 
   return (
     <Tag
+      data-testid={dataTestid}
       className={cssClasses}
       dangerouslySetInnerHTML={{
         __html: text ?? "",

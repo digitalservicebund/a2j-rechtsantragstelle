@@ -20,13 +20,13 @@
             "SUBMIT": [
               {
                 "guard": "staatlicheLeistungenIsBuergergeld",
-                "target": "#besitz.eigentum-info"
+                "target": "#eigentum.eigentum-info"
               },
               {
-                "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",
-                "target": "#persoenlicheDaten.start"
+                "guard": "staatlicheLeistungenIsKeine",
+                "target": "erwerbstaetig"
               },
-              "erwerbstaetig"
+              "#persoenlicheDaten.start"
             ],
             "BACK": "#finanzielleAngaben.start"
           }
@@ -81,16 +81,18 @@
     "partner": {
       "id": "partner",
       "initial": "partnerschaft",
+      "on": {
+        "SUBMIT": "#kinder.kinder-frage"
+      },
       "states": {
         "partnerschaft": {
           "on": {
             "BACK": "#einkommen.einkommen",
             "SUBMIT": [
               {
-                "guard": "hasPartnerschaftNoOrWidowed",
-                "target": "#kinder.kinder-frage"
-              },
-              "zusammenleben"
+                "guard": "hasPartnerschaftOrSeparated",
+                "target": "zusammenleben"
+              }
             ]
           }
         },
@@ -102,7 +104,10 @@
                 "guard": "zusammenlebenYes",
                 "target": "partner-einkommen"
               },
-              "unterhalt"
+              {
+                "guard": "zusammenlebenNo",
+                "target": "unterhalt"
+              }
             ]
           }
         },
@@ -114,7 +119,10 @@
                 "guard": "unterhaltYes",
                 "target": "unterhalts-summe"
               },
-              "keine-rolle"
+              {
+                "guard": "unterhaltNo",
+                "target": "keine-rolle"
+              }
             ]
           }
         },
@@ -167,21 +175,30 @@
           "on": {
             "BACK": [
               {
-                "guard": "hasPartnerschaftNoOrWidowed",
-                "target": "#partner.partnerschaft"
-              },
-              {
                 "guard": "unterhaltYes",
                 "target": "#partner.partner-name"
               },
               {
-                "guard": "partnerEinkommenNo",
+                "guard": "hasPartnerschaftOrSeparatedAndPartnerEinkommenYes",
+                "target": "#partner.partner-einkommen-summe"
+              },
+              {
+                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenYes",
                 "target": "#partner.partner-einkommen"
               },
               {
+                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenNoAndUnterhaltNo",
+                "target": "#partner.keine-rolle"
+              },
+              {
+                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenNo",
+                "target": "#partner.unterhalt"
+              },
+              {
                 "guard": "hasPartnerschaftOrSeparated",
-                "target": "#partner.partner-einkommen-summe"
-              }
+                "target": "#partner.zusammenleben"
+              },
+              "#partner.partnerschaft"
             ],
             "SUBMIT": [
               {
@@ -219,7 +236,10 @@
                     "guard": "kindWohnortBeiAntragstellerYes",
                     "target": "kind-eigene-einnahmen-frage"
                   },
-                  "kind-unterhalt-frage"
+                  {
+                    "guard": "kindWohnortBeiAntragstellerNo",
+                    "target": "kind-unterhalt-frage"
+                  }
                 ]
               }
             },
@@ -249,7 +269,10 @@
                     "guard": "kindUnterhaltYes",
                     "target": "kind-unterhalt"
                   },
-                  "kind-unterhalt-ende"
+                  {
+                    "guard": "kindUnterhaltNo",
+                    "target": "kind-unterhalt-ende"
+                  }
                 ]
               }
             },
@@ -288,14 +311,14 @@
                 "guard": "hasWeitereUnterhaltszahlungenYes",
                 "target": "uebersicht"
               },
-              "#besitz.eigentum-info"
+              "#wohnung"
             ]
           }
         },
         "uebersicht": {
           "on": {
             "BACK": "frage",
-            "SUBMIT": "#besitz",
+            "SUBMIT": "#wohnung",
             "add-unterhaltszahlungen": "person"
           }
         },
@@ -312,8 +335,62 @@
         }
       }
     },
-    "besitz": {
-      "id": "besitz",
+    "wohnung": {
+      "id": "wohnung",
+      "initial": "wohnsituation",
+      "on": {
+        "SUBMIT": "#eigentum"
+      },
+      "states": {
+        "wohnsituation": {
+          "on": {
+            "BACK": [
+              {
+                "guard": "hasWeitereUnterhaltszahlungenYes",
+                "target": "#andere-unterhaltszahlungen.uebersicht"
+              },
+              "#andere-unterhaltszahlungen.frage"
+            ],
+            "SUBMIT": "groesse"
+          }
+        },
+        "groesse": {
+          "on": {
+            "BACK": "wohnsituation",
+            "SUBMIT": [
+              {
+                "target": "wohnkostenAllein",
+                "guard": "livesAlone"
+              },
+              {
+                "target": "personenAnzahl",
+                "guard": "livesNotAlone"
+              }
+            ]
+          }
+        },
+        "wohnkostenAllein": {
+          "on": {
+            "BACK": "groesse",
+            "SUBMIT": "#eigentum"
+          }
+        },
+        "personenAnzahl": {
+          "on": {
+            "BACK": "groesse",
+            "SUBMIT": "wohnkostenGeteilt"
+          }
+        },
+        "wohnkostenGeteilt": {
+          "on": {
+            "BACK": "personenAnzahl",
+            "SUBMIT": "#eigentum"
+          }
+        }
+      }
+    },
+    "eigentum": {
+      "id": "eigentum",
       "initial": "eigentum-info",
       "states": {
         "eigentum-info": {
@@ -331,10 +408,14 @@
                 "target": "#einkommen.staatliche-leistungen"
               },
               {
-                "guard": "hasWeitereUnterhaltszahlungenYes",
-                "target": "#andere-unterhaltszahlungen.uebersicht"
+                "guard": "livesAlone",
+                "target": "#finanzielleAngaben.wohnung.wohnkostenAllein"
               },
-              "#andere-unterhaltszahlungen.frage"
+              {
+                "guard": "livesNotAlone",
+                "target": "#finanzielleAngaben.wohnung.wohnkostenGeteilt"
+              },
+              "#finanzielleAngaben.wohnung.groesse"
             ]
           }
         },
@@ -376,7 +457,21 @@
         },
         "kraftfahrzeuge-frage": {
           "on": {
-            "SUBMIT": "gesamtwert",
+            "SUBMIT": [
+              {
+                "guard": "hasEigentum",
+                "target": "gesamtwert"
+              },
+              {
+                "target": "#eigentum-zusammenfassung.zusammenfassung",
+                "guard": "eigentumDone"
+              },
+              {
+                "target": "#persoenlicheDaten.start",
+                "guard": "staatlicheLeistungenIsBuergergeld"
+              },
+              "#ausgaben"
+            ],
             "BACK": "grundeigentum-frage"
           }
         },
@@ -384,33 +479,39 @@
           "on": {
             "SUBMIT": [
               {
-                "target": "#besitzZusammenfassung.zusammenfassung",
-                "guard": "besitzDone"
+                "target": "#eigentum-zusammenfassung.zusammenfassung",
+                "guard": "eigentumDone"
               },
               {
                 "target": "#persoenlicheDaten.start",
                 "guard": "staatlicheLeistungenIsBuergergeld"
               },
-              "#wohnung.wohnsituation"
+              "#ausgaben"
             ],
             "BACK": "kraftfahrzeuge-frage"
           }
         }
       }
     },
-    "besitzZusammenfassung": {
-      "id": "besitzZusammenfassung",
+    "eigentum-zusammenfassung": {
+      "id": "eigentum-zusammenfassung",
       "initial": "zusammenfassung",
       "states": {
         "zusammenfassung": {
           "on": {
-            "BACK": "#besitz.gesamtwert",
+            "BACK": [
+              {
+                "guard": "hasEigentum",
+                "target": "#eigentum.gesamtwert"
+              },
+              "#eigentum.kraftfahrzeuge-frage"
+            ],
             "SUBMIT": [
               {
                 "guard": "hasStaatlicheLeistungen",
                 "target": "#persoenlicheDaten.start"
               },
-              "#wohnung.wohnsituation"
+              "#ausgaben"
             ],
             "add-bankkonten": "bankkonten",
             "add-wertsachen": "wertgegenstaende",
@@ -424,8 +525,8 @@
           "states": {
             "daten": {
               "on": {
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
-                "BACK": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung",
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung"
               }
             }
           }
@@ -435,7 +536,7 @@
           "states": {
             "arbeitsweg": {
               "on": {
-                "BACK": "#besitzZusammenfassung.zusammenfassung",
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung",
                 "SUBMIT": "wert"
               }
             },
@@ -447,14 +548,14 @@
                     "guard": "isKraftfahrzeugWertAbove10000OrUnsure",
                     "target": "fahrzeuge"
                   },
-                  "#besitzZusammenfassung.zusammenfassung"
+                  "#eigentum-zusammenfassung.zusammenfassung"
                 ]
               }
             },
             "fahrzeuge": {
               "on": {
                 "BACK": "wert",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             }
           }
@@ -483,49 +584,49 @@
                   { "target": "forderung", "guard": "isGeldanlageForderung" },
                   { "target": "sonstiges", "guard": "isGeldanlageSonstiges" }
                 ],
-                "BACK": "#besitzZusammenfassung.zusammenfassung"
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "bargeld": {
               "on": {
                 "BACK": "art",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "wertpapiere": {
               "on": {
                 "BACK": "art",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "guthabenkontoKrypto": {
               "on": {
                 "BACK": "art",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "giroTagesgeldSparkonto": {
               "on": {
                 "BACK": "art",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "befristet": {
               "on": {
                 "BACK": "art",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "forderung": {
               "on": {
                 "BACK": "art",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "sonstiges": {
               "on": {
                 "BACK": "art",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             }
           }
@@ -535,7 +636,7 @@
           "states": {
             "bewohnt-frage": {
               "on": {
-                "BACK": "#besitzZusammenfassung.zusammenfassung",
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung",
                 "SUBMIT": [
                   {
                     "guard": "grundeigentumIsBewohnt",
@@ -548,13 +649,13 @@
             "daten": {
               "on": {
                 "BACK": "bewohnt-frage",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
             "bewohnt-daten": {
               "on": {
                 "BACK": "bewohnt-frage",
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             }
           }
@@ -564,58 +665,10 @@
           "states": {
             "daten": {
               "on": {
-                "SUBMIT": "#besitzZusammenfassung.zusammenfassung",
-                "BACK": "#besitzZusammenfassung.zusammenfassung"
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung",
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung"
               }
             }
-          }
-        }
-      }
-    },
-    "wohnung": {
-      "id": "wohnung",
-      "initial": "wohnsituation",
-      "states": {
-        "wohnsituation": {
-          "on": {
-            "BACK": [
-              {
-                "guard": "besitzDone",
-                "target": "#besitzZusammenfassung.zusammenfassung"
-              },
-              "#besitz.gesamtwert"
-            ],
-            "SUBMIT": "groesse"
-          }
-        },
-        "groesse": {
-          "on": {
-            "BACK": "wohnsituation",
-            "SUBMIT": [
-              {
-                "target": "wohnkostenAllein",
-                "guard": "livesAlone"
-              },
-              "personenAnzahl"
-            ]
-          }
-        },
-        "wohnkostenAllein": {
-          "on": {
-            "BACK": "groesse",
-            "SUBMIT": "#ausgaben.ausgaben-frage"
-          }
-        },
-        "personenAnzahl": {
-          "on": {
-            "BACK": "groesse",
-            "SUBMIT": "wohnkostenGeteilt"
-          }
-        },
-        "wohnkostenGeteilt": {
-          "on": {
-            "BACK": "personenAnzahl",
-            "SUBMIT": "#ausgaben.ausgaben-frage"
           }
         }
       }
@@ -628,10 +681,14 @@
           "on": {
             "BACK": [
               {
-                "guard": "livesAlone",
-                "target": "#finanzielleAngaben.wohnung.wohnkostenAllein"
+                "guard": "eigentumDone",
+                "target": "#eigentum-zusammenfassung.zusammenfassung"
               },
-              "#finanzielleAngaben.wohnung.wohnkostenGeteilt"
+              {
+                "guard": "hasEigentum",
+                "target": "#eigentum.gesamtwert"
+              },
+              "#eigentum.kraftfahrzeuge-frage"
             ],
             "SUBMIT": [
               {

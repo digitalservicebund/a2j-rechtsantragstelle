@@ -50,4 +50,29 @@ describe("getAttachmentText", () => {
         "Gemeinsame Wohnung: Ja\n",
     );
   });
+
+  it("it should return the correct text for attachment of the person is not partner", () => {
+    const mockedGetListPersonUnterhaltPdfField: UnterhaltPdfField[] = [
+      {
+        name: "Donald Duck",
+        familienverhaeltnis: "Mein Vater",
+        unterhaltSumme: "1000",
+        hatEinnahmen: true,
+        lebenZusammen: true,
+        einnahmenSumme: "100",
+      },
+    ];
+
+    const actual = getAttachmentText([], mockedGetListPersonUnterhaltPdfField);
+
+    expect(actual).toContain(
+      "\n\nUnterhaltszahlungen für andere Angehörige\n\n" +
+        "Person 1:\n" +
+        "Name: Donald Duck\n" +
+        "Geburtsdatum: \n" +
+        "Eigene monatlichen Einnahmen: 100 €\n" +
+        "Familienverhältnis: Mein Vater\n" +
+        "Monatliche Unterhaltszahlungen: 1000 €\n",
+    );
+  });
 });

@@ -51,7 +51,7 @@ export function getListPersonUnterhaltPdfField(
         unterhaltSumme: unterhaltszahlung.monthlyPayment,
         hatEinnahmen: false,
         einnahmenSumme: "",
-        lebenZusammen: false,
+        lebenZusammen: true, // For these Unterhaltszahlungen, it is irrelvant, if the people live together.
         geburtsdatum: unterhaltszahlung.birthday,
       }));
 

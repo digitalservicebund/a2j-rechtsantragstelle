@@ -22,9 +22,7 @@ export default function fillHeader(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const hasStaatlicheLeistung =
-    context.staatlicheLeistungen != "andereLeistung" &&
-    context.staatlicheLeistungen != "keine";
+  const hasStaatlicheLeistung = context.staatlicheLeistungen != "keine";
 
   pdfFields.antragstellerNameVornameggfGeburtsname.value = [
     context.nachname,
@@ -58,6 +56,11 @@ export default function fillHeader(
       title: "Beruf / Erwerbstätigkeit:",
       text: getOccupationDetails(context, false),
     });
+
+    attachment.descriptions.unshift({
+      title: "Persönliche Angaben",
+      text: "",
+    });
     attachment.shouldCreateAttachment = true;
     pdfFields.berufErwerbstaetigkeit.value = newPageHint;
   }
@@ -84,7 +87,6 @@ const staatlicheLeistungMapping = {
   grundsicherung: "Grundsicherung",
   asylbewerberleistungen: "Asylbewerberleistungen",
   buergergeld: "Bürgergeld",
-  andereLeistung: "Andere Leistung",
   keine: "Keine",
 };
 

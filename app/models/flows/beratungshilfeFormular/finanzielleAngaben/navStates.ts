@@ -1,14 +1,13 @@
 import type { GenericGuard } from "../../guards.server";
-import { besitzDone, besitzZusammenfassungDone } from "./navStatesBesitz";
+import { eigentumDone, eigentumZusammenfassungDone } from "./navStatesEigentum";
+import { einkommenDone as einkommenDoneGuard } from "./guards";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
 
 export type FinanzielleAngabenGuard =
   GenericGuard<BeratungshilfeFinanzielleAngaben>;
 
 export const einkommenDone: FinanzielleAngabenGuard = ({ context }) =>
-  (context.staatlicheLeistungen != undefined &&
-    hasStaatlicheLeistungen({ context })) ||
-  context.einkommen != undefined;
+  einkommenDoneGuard({ context });
 
 export const partnerDone: FinanzielleAngabenGuard = ({ context }) =>
   (context.staatlicheLeistungen != undefined &&
@@ -69,13 +68,14 @@ export const beratungshilfeFinanzielleAngabeDone: GenericGuard<
     case "grundsicherung":
       return true;
     case "buergergeld":
-      return besitzDone({ context }) && besitzZusammenfassungDone({ context });
-    case "andereLeistung":
+      return (
+        eigentumDone({ context }) && eigentumZusammenfassungDone({ context })
+      );
     case "keine":
       return (
         partnerDone({ context }) &&
-        besitzDone({ context }) &&
-        besitzZusammenfassungDone({ context }) &&
+        eigentumDone({ context }) &&
+        eigentumZusammenfassungDone({ context }) &&
         einkommenDone({ context }) &&
         wohnungDone({ context }) &&
         andereUnterhaltszahlungenDone({ context })

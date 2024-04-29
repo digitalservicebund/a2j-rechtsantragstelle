@@ -32,7 +32,10 @@ test.describe("homepage", () => {
         const responsePromise = page.waitForResponse(
           (resp) => resp.url().includes(url) && resp.status() === 200,
         );
-        await page.getByRole("link", { name: linkText }).click();
+        await page
+          .getByTestId("footer")
+          .getByRole("link", { name: linkText })
+          .click();
         await responsePromise;
       });
     }

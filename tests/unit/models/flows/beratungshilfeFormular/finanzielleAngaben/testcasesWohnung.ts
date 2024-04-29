@@ -4,6 +4,25 @@ import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungsh
 
 const cases = [
   [
+    {},
+    [
+      "finanzielleAngaben/wohnung/wohnsituation",
+      "finanzielleAngaben/wohnung/groesse",
+      "finanzielleAngaben/eigentum/eigentum-info",
+    ],
+  ],
+  [
+    {
+      livingSituation: "alone",
+    },
+    [
+      "finanzielleAngaben/wohnung/wohnsituation",
+      "finanzielleAngaben/wohnung/groesse",
+      "finanzielleAngaben/wohnung/wohnkostenAllein",
+      "finanzielleAngaben/eigentum/eigentum-info",
+    ],
+  ],
+  [
     {
       livingSituation: "alone",
       apartmentSizeSqm: 42,
@@ -13,7 +32,7 @@ const cases = [
       "finanzielleAngaben/wohnung/wohnsituation",
       "finanzielleAngaben/wohnung/groesse",
       "finanzielleAngaben/wohnung/wohnkostenAllein",
-      "finanzielleAngaben/ausgaben/ausgaben-frage",
+      "finanzielleAngaben/eigentum/eigentum-info",
     ],
   ],
   [
@@ -28,7 +47,7 @@ const cases = [
       "finanzielleAngaben/wohnung/groesse",
       "finanzielleAngaben/wohnung/personenAnzahl",
       "finanzielleAngaben/wohnung/wohnkostenGeteilt",
-      "finanzielleAngaben/ausgaben/ausgaben-frage",
+      "finanzielleAngaben/eigentum/eigentum-info",
     ],
   ],
   [
@@ -43,7 +62,7 @@ const cases = [
       "finanzielleAngaben/wohnung/groesse",
       "finanzielleAngaben/wohnung/personenAnzahl",
       "finanzielleAngaben/wohnung/wohnkostenGeteilt",
-      "finanzielleAngaben/ausgaben/ausgaben-frage",
+      "finanzielleAngaben/eigentum/eigentum-info",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

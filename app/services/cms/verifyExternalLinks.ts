@@ -23,6 +23,7 @@ const allowedWebsites = [
   "https://www.luftlinie.org",
   "https://www.verbraucherzentrale.de",
   "https://www.zugang-zum-recht-projekte.de",
+  "https://www.evz.de",
 ];
 
 const allowedEmails = [

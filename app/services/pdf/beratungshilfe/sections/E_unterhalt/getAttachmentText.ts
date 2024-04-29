@@ -48,7 +48,12 @@ function getUnterhaltDescription({
   description.push(
     `Monatliche Unterhaltszahlungen: ${unterhaltSumme ? unterhaltSumme + " €" : "Keine Angabe"}`,
   );
-  description.push(`Gemeinsame Wohnung: ${lebenZusammen ? "Ja" : "Nein"}`);
+  if (
+    familienverhaeltnis === "Mein Kind" ||
+    familienverhaeltnis === "Partner:in"
+  ) {
+    description.push(`Gemeinsame Wohnung: ${lebenZusammen ? "Ja" : "Nein"}`);
+  }
 
   return description.join("\n");
 }

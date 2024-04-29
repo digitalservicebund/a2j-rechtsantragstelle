@@ -1,9 +1,9 @@
 import _ from "lodash";
+import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
 import {
-  type BeratungshilfeAnwaltlicheVertretung,
   beratungshilfeAnwaltlicheVertretungGuards,
   anwaltlicheVertretungDone,
-} from "./anwaltlicheVertretung/context";
+} from "./anwaltlicheVertretung/guards";
 import {
   type BeratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungenGuards,
@@ -42,13 +42,13 @@ import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
   getAnwaltStrings,
-  besitzZusammenfassungShowWarnings,
+  eigentumZusammenfassungShowWarnings,
 } from "./stringReplacements";
 import { finanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
 import {
-  besitzDone,
-  besitzZusammenfassungDone,
-} from "./finanzielleAngaben/navStatesBesitz";
+  eigentumDone,
+  eigentumZusammenfassungDone,
+} from "./finanzielleAngaben/navStatesEigentum";
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -72,8 +72,10 @@ export const beratungshilfeFormular = {
           "andere-unterhaltszahlungen": {
             meta: { done: andereUnterhaltszahlungenDone },
           },
-          besitz: { meta: { done: besitzDone } },
-          besitzZusammenfassung: { meta: { done: besitzZusammenfassungDone } },
+          eigentum: { meta: { done: eigentumDone } },
+          eigentumZusammenfassung: {
+            meta: { done: eigentumZusammenfassungDone },
+          },
           wohnung: { meta: { done: wohnungDone } },
           ausgaben: { meta: { done: ausgabenDone } },
         },
@@ -98,7 +100,7 @@ export const beratungshilfeFormular = {
     ...getKinderStrings(context),
     ...getArrayIndexStrings(context),
     ...getAnwaltStrings(context),
-    ...besitzZusammenfassungShowWarnings(context),
+    ...eigentumZusammenfassungShowWarnings(context),
   }),
 } as const;
 

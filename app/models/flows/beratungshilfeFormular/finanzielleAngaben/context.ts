@@ -10,6 +10,7 @@ import { inputRequiredSchema } from "~/services/validation/inputRequired";
 import { addDays, createDateSchema, today } from "~/services/validation/date";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { integerSchema } from "~/services/validation/integer";
+import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 
 const Eigentuemer = z.enum(
   ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -115,7 +116,7 @@ export const beratungshilfeFinanzielleAngaben = {
       kontostand: buildMoneyValidationSchema({}),
       iban: z.string(),
       kontoEigentuemer: Eigentuemer,
-      description: z.string().optional(),
+      kontoDescription: z.string().optional(),
     }),
   ),
   hasKraftfahrzeug: YesNoAnswer,
@@ -124,7 +125,7 @@ export const beratungshilfeFinanzielleAngaben = {
       art: inputRequiredSchema,
       marke: inputRequiredSchema,
       eigentuemer: Eigentuemer,
-      verkaufswert: buildMoneyValidationSchema(),
+      verkaufswert: optionalOrSchema(buildMoneyValidationSchema()),
       kilometerstand: inputRequiredSchema,
       anschaffungsjahr: z.string(),
       baujahr: inputRequiredSchema,
@@ -170,7 +171,7 @@ export const beratungshilfeFinanzielleAngaben = {
       auszahlungdatum: inputRequiredSchema.optional(),
     }),
   ),
-  besitzTotalWorth: z.enum(
+  eigentumTotalWorth: z.enum(
     ["less10000", "more10000", "unsure"],
     customRequiredErrorMessage,
   ),

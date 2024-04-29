@@ -7,12 +7,16 @@
         "SUBMIT": "name",
         "BACK": [
           {
-            "guard": "staatlicheLeistungenIsAsylOrGrundsicherung",
-            "target": "#finanzielleAngaben.einkommen.staatliche-leistungen"
+            "guard": "staatlicheLeistungenIsBuergergeldAndEigentumDone",
+            "target": "#finanzielleAngaben.eigentum-zusammenfassung.zusammenfassung"
           },
           {
-            "guard": "hasStaatlicheLeistungen",
-            "target": "#finanzielleAngaben.besitzZusammenfassung.zusammenfassung"
+            "guard": "staatlicheLeistungenIsBuergergeldAndHasEigentum",
+            "target": "#finanzielleAngaben.eigentum.gesamtwert"
+          },
+          {
+            "guard": "staatlicheLeistungenIsBuergergeld",
+            "target": "#finanzielleAngaben.eigentum.kraftfahrzeuge-frage"
           },
           {
             "guard": "hasAusgabenYes",
@@ -22,7 +26,7 @@
             "guard": "hasNoStaatlicheLeistungen",
             "target": "#ausgaben.ausgaben-frage"
           },
-          "#finanzielleAngaben.einkommen.einkommen"
+          "#finanzielleAngaben.einkommen.staatliche-leistungen"
         ]
       }
     },
@@ -32,7 +36,18 @@
     "telefonnummer": {
       "on": {
         "BACK": "adresse",
-        "SUBMIT": { "target": "#abgabe", "guard": "readyForAbgabe" }
+        "SUBMIT": [
+          {
+            "target": "#abgabe",
+            "guard": "readyForAbgabe"
+          },
+          "ueberpruefung"
+        ]
+      }
+    },
+    "ueberpruefung": {
+      "on": {
+        "BACK": "telefonnummer"
       }
     }
   }

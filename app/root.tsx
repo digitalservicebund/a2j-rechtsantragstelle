@@ -30,7 +30,7 @@ import Footer from "./components/Footer";
 import Breadcrumbs from "./components/Breadcrumbs";
 import Header from "./components/PageHeader";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
-import { CookieBanner } from "./services/analytics/Analytics";
+import { CookieBanner } from "./components/CookieBanner";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { useNonce } from "./services/security/nonce";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
@@ -105,7 +105,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     feedback: getStrapiFeedback(globalVars),
     header: getPageHeaderProps(strapiHeader),
     footer: getFooterProps(strapiFooter),
-    cookieBannerContent: getCookieBannerProps(cookieBannerContent),
+    cookieBannerContent: cookieBannerContent,
     hasTrackingConsent: trackingConsent,
     errorPages,
     meta,
@@ -141,7 +141,7 @@ function App() {
       <body className="flex flex-col min-h-screen">
         <CookieBanner
           hasTrackingConsent={hasTrackingConsent}
-          content={cookieBannerContent}
+          content={getCookieBannerProps(cookieBannerContent)}
         />
         <Header {...header} />
         <Breadcrumbs breadcrumbs={breadcrumbs} />

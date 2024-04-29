@@ -19,6 +19,7 @@ describe("F_besitz", () => {
   describe("fillFinancialBankkonto", () => {
     it("should fill one bankkonto when context has one bankkonto is given", async () => {
       const context: BeratungshilfeFormularContext = {
+        hasBankkonto: "yes",
         bankkonten: [
           {
             kontoEigentuemer: "myself",
@@ -46,6 +47,7 @@ describe("F_besitz", () => {
 
     it("should fill multiple bankkonto when context has multiple bankkonto is given", async () => {
       const context: BeratungshilfeFormularContext = {
+        hasBankkonto: "yes",
         bankkonten: [
           {
             kontoEigentuemer: "myself",
@@ -190,6 +192,7 @@ describe("F_besitz", () => {
   describe("fillFinancialWertsachen", () => {
     it("should fill wertsachen pdf field when wertsachen is given in context", async () => {
       const context: BeratungshilfeFormularContext = {
+        hasWertsache: "yes",
         wertsachen: [
           {
             eigentuemer: "partner",
@@ -220,6 +223,7 @@ describe("F_besitz", () => {
 
     it("should fill multiple wertsachen pdf field when wertsachen is given in context", async () => {
       const context: BeratungshilfeFormularContext = {
+        hasWertsache: "yes",
         wertsachen: [
           {
             eigentuemer: "partner",

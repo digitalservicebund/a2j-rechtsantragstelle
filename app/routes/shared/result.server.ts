@@ -30,6 +30,7 @@ import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { getButtonNavigationProps } from "~/util/buttonProps";
+import { interpolateDeep } from "~/util/fillTemplate";
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
@@ -42,10 +43,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { userData, debugId } = await getSessionData(flowId, cookieHeader);
   context.debugId = debugId; // For showing in errors
 
+  const currentFlow = flows[flowId];
+
   const flowController = buildFlowController({
-    config: flows[flowId].config,
+    config: currentFlow.config,
     data: userData,
-    guards: flows[flowId].guards,
+    guards: currentFlow.guards,
   });
 
   if (!flowController.isReachable(stepId))
@@ -71,7 +74,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   // Slug change to keep Strapi slugs without ergebnis/
   const slug = pathname.replace(/ergebnis\//, "");
-  const [cmsData, parentMeta, amtsgerichtCommon, defaultStrings] =
+  const [resultPageContent, parentMeta, amtsgerichtCommon, defaultStrings] =
     await Promise.all([
       fetchCollectionEntry("result-pages", slug),
       fetchMeta({
@@ -81,13 +84,20 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       fetchTranslations("defaultTranslations"),
     ]);
 
+  const cmsContent = interpolateDeep(
+    resultPageContent,
+    "stringReplacements" in currentFlow
+      ? currentFlow.stringReplacements(userData)
+      : {},
+  );
+
   const reasonElementsWithID =
-    cmsData.reasonings.data?.map((el) => el.attributes) ?? [];
+    cmsContent.reasonings.data?.map((el) => el.attributes) ?? [];
 
   const { next, back: backButton } = getButtonNavigationProps({
     backButtonLabel: defaultStrings["backButtonDefaultLabel"],
     nextButtonLabel:
-      cmsData.nextLink?.text ?? defaultStrings["nextButtonDefaultLabel"],
+      cmsContent.nextLink?.text ?? defaultStrings["nextButtonDefaultLabel"],
     backDestination: flowController.getPrevious(stepId),
   });
 
@@ -102,21 +112,21 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     {
       flowId,
       common: defaultStrings,
-      cmsData: cmsData,
-      content: cmsData.freeZone,
-      meta: { ...cmsData.meta, breadcrumb: parentMeta?.breadcrumb },
+      cmsData: cmsContent,
+      content: cmsContent.freeZone,
+      meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
       reasons: reasonElementsWithID.filter((reason) =>
         Boolean(getReasonsToDisplay(userData)[reason.elementId]),
       ),
       progress: flowController.getProgress(stepId),
-      nextButton: cmsData.nextLink?.url
-        ? { destination: cmsData.nextLink.url, label: next?.label ?? "" }
+      nextButton: cmsContent.nextLink?.url
+        ? { destination: cmsContent.nextLink.url, label: next?.label ?? "" }
         : undefined,
       backButton,
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
       amtsgerichtCommon,
-      courts: cmsData.pageType === "success" && courts,
+      courts: cmsContent.pageType === "success" && courts,
     },
     { headers },
   );

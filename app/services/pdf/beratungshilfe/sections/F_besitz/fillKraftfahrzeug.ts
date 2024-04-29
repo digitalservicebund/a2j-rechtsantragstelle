@@ -12,14 +12,14 @@ export function fillKraftfahrzeug(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  if (context.kraftfahrzeuge && context.kraftfahrzeuge.length > 0) {
-    fillKraftfahrzeugData(attachment, pdfFields, context.kraftfahrzeuge);
-    pdfFields.f9Kraftfahrzeug1.value = false;
-    pdfFields.f9Kraftfahrzeuge2.value = true;
-  } else {
-    pdfFields.f9Kraftfahrzeug1.value = true;
-    pdfFields.f9Kraftfahrzeuge2.value = false;
-  }
+  const { hasKraftfahrzeug, kraftfahrzeuge } = context;
+  const hasKraftfahrzeugYes = hasKraftfahrzeug === "yes";
+  pdfFields.f9Kraftfahrzeug1.value = !hasKraftfahrzeugYes;
+  pdfFields.f9Kraftfahrzeuge2.value = hasKraftfahrzeugYes;
+
+  if (!hasKraftfahrzeugYes || !kraftfahrzeuge || kraftfahrzeuge.length === 0)
+    return;
+  fillKraftfahrzeugData(attachment, pdfFields, kraftfahrzeuge);
 }
 
 function fillKraftfahrzeugData(

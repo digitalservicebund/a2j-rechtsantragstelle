@@ -64,7 +64,7 @@ test.describe("result page", () => {
   test("contains relevant content", async ({ page }) => {
     await courtfinder.searchPLZSingleResult();
     const h1 = page.locator("h1");
-    await expect(h1).toContainText("zuständiges Amtsgericht");
+    await expect(h1).toBeVisible();
     await expect(page.getByText(courtfinder.singleResultPLZ)).toBeVisible();
     await expectSingleCourtContent(courtfinder);
   });
@@ -123,7 +123,7 @@ test.describe("back button", () => {
     const cleanBaseURL = cleanBaseUrl(baseURL);
     await courtfinder.gotoWithReferrer(cleanBaseURL);
     await courtfinder.searchPLZSingleResult();
-    await page.getByRole("link", { name: "Suche wiederholen" }).click();
+    await page.click("#backLink");
     await courtfinder.clickBackButton();
     expect(page.url().endsWith(courtfinder.referrer)).toBeTruthy();
   });

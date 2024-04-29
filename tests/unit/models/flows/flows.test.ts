@@ -5,12 +5,15 @@ import { testCasesFluggastrechteFormular } from "tests/unit/models/flows/fluggas
 import { testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen } from "./beratungshilfeFormular/finanzielleAngaben/testcasesEinkommen";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenPartner } from "./beratungshilfeFormular/finanzielleAngaben/testcasesPartner";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenKinder } from "./beratungshilfeFormular/finanzielleAngaben/testcasesKinder";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenBesitz } from "./beratungshilfeFormular/finanzielleAngaben/testcasesBesitz";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenBesitzZusammenfassung } from "./beratungshilfeFormular/finanzielleAngaben/testcasesBesitzZusammenfassung";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentum } from "./beratungshilfeFormular/finanzielleAngaben/testcasesEigentum";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentumZusammenfassung } from "./beratungshilfeFormular/finanzielleAngaben/testcasesEigentumZusammenfassung";
 import { testCasesBeratungshilfeRechtsproblem } from "./beratungshilfeFormular/rechtsprobleme/testcases";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "./beratungshilfeFormular/finanzielleAngaben/testcasesWohnung";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen } from "./beratungshilfeFormular/finanzielleAngaben/testcasesUnterhaltszahlungen";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe } from "./beratungshilfeFormular/finanzielleAngaben/testcasesAusgaben";
+import { testCasesBeratungshilfeFormular } from "tests/unit/models/flows/beratungshilfeFormular/testcases";
+import { testCasesBeratungshilfeFormularAnwaltlicheVertretung } from "tests/unit/models/flows/beratungshilfeFormular/anwaltlicheVertretung/testcases";
+import { testCasesFluggastrechte } from "./fluggastrechte/testcases";
 
 /*
  * Note on testing xstate
@@ -29,15 +32,18 @@ describe("state machine form flows", () => {
     testCasesBeratungshilfe,
     testCasesGeldEinklagen,
     testCasesFluggastrechteFormular,
+    testCasesBeratungshilfeFormular,
+    testCasesBeratungshilfeFormularAnwaltlicheVertretung,
     testCasesBeratungshilfeRechtsproblem,
     testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen,
     testCasesBeratungshilfeFormularFinanzielleAngabenPartner,
     testCasesBeratungshilfeFormularFinanzielleAngabenKinder,
-    testCasesBeratungshilfeFormularFinanzielleAngabenBesitz,
-    testCasesBeratungshilfeFormularFinanzielleAngabenBesitzZusammenfassung,
+    testCasesBeratungshilfeFormularFinanzielleAngabenEigentum,
+    testCasesBeratungshilfeFormularFinanzielleAngabenEigentumZusammenfassung,
     testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
     testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
     testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
+    testCasesFluggastrechte,
   ].forEach(({ machine, cases }) => {
     test.each(cases)(
       "SUBMIT (%#) given context: %j, visits steps: %j",

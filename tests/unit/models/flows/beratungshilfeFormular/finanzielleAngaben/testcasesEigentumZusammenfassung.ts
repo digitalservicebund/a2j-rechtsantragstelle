@@ -24,8 +24,8 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/arbeitsweg",
-      "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/wert",
+      "finanzielleAngaben/eigentum-zusammenfassung/kraftfahrzeuge/arbeitsweg",
+      "finanzielleAngaben/eigentum-zusammenfassung/kraftfahrzeuge/wert",
     ],
   ],
   [
@@ -48,9 +48,9 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/arbeitsweg",
-      "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/wert",
-      "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/fahrzeuge",
+      "finanzielleAngaben/eigentum-zusammenfassung/kraftfahrzeuge/arbeitsweg",
+      "finanzielleAngaben/eigentum-zusammenfassung/kraftfahrzeuge/wert",
+      "finanzielleAngaben/eigentum-zusammenfassung/kraftfahrzeuge/fahrzeuge",
     ],
   ],
   [
@@ -73,9 +73,9 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/arbeitsweg",
-      "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/wert",
-      "finanzielleAngaben/besitzZusammenfassung/kraftfahrzeuge/fahrzeuge",
+      "finanzielleAngaben/eigentum-zusammenfassung/kraftfahrzeuge/arbeitsweg",
+      "finanzielleAngaben/eigentum-zusammenfassung/kraftfahrzeuge/wert",
+      "finanzielleAngaben/eigentum-zusammenfassung/kraftfahrzeuge/fahrzeuge",
     ],
   ],
 
@@ -83,8 +83,8 @@ const cases = [
   [
     { hasGrundeigentum: "yes" },
     [
-      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/bewohnt-frage",
-      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/daten",
+      "finanzielleAngaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage",
+      "finanzielleAngaben/eigentum-zusammenfassung/grundeigentum/daten",
     ],
   ],
   [
@@ -95,8 +95,8 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/bewohnt-frage",
-      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/daten",
+      "finanzielleAngaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage",
+      "finanzielleAngaben/eigentum-zusammenfassung/grundeigentum/daten",
     ],
   ],
   [
@@ -107,8 +107,8 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/bewohnt-frage",
-      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/daten",
+      "finanzielleAngaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage",
+      "finanzielleAngaben/eigentum-zusammenfassung/grundeigentum/daten",
     ],
   ],
   [
@@ -119,8 +119,8 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/bewohnt-frage",
-      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/bewohnt-daten",
+      "finanzielleAngaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage",
+      "finanzielleAngaben/eigentum-zusammenfassung/grundeigentum/bewohnt-daten",
     ],
   ],
   [
@@ -131,13 +131,13 @@ const cases = [
       pageData: { arrayIndexes: [1] },
     },
     [
-      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/bewohnt-frage",
-      "finanzielleAngaben/besitzZusammenfassung/grundeigentum/bewohnt-daten",
+      "finanzielleAngaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage",
+      "finanzielleAngaben/eigentum-zusammenfassung/grundeigentum/bewohnt-daten",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
 
-export const testCasesBeratungshilfeFormularFinanzielleAngabenBesitzZusammenfassung =
+export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentumZusammenfassung =
   {
     machine,
     cases,

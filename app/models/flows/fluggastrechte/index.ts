@@ -1,11 +1,18 @@
 import { guards as fluggastrechteVorabcheckGuards } from "~/models/flows/fluggastrechte/guards";
 import fluggastrechteVorabcheckFlow from "~/models/flows/fluggastrechte/config.json";
+import type { FluggastrechtVorabcheckContext } from "./context";
 import type { Context } from "../contexts";
+import { getCompensantionPaymentString } from "./stringReplacements";
+import { fourYearsAgoDate } from "tests/unit/util/dateFormatting";
 
 export const fluggastrechteVorabcheck = {
   cmsSlug: "vorab-check-pages",
   config: fluggastrechteVorabcheckFlow,
   guards: fluggastrechteVorabcheckGuards,
+  stringReplacements: (context: FluggastrechtVorabcheckContext) => ({
+    ...getCompensantionPaymentString(context),
+    flightDateExpiration: fourYearsAgoDate(),
+  }),
 } as const;
 
 export const partnerCourtAirports = {
@@ -24,3 +31,33 @@ export const isPartnerAirport = (
   airport: Context[string],
 ): airport is PartnerAirport =>
   typeof airport === "string" && airport in partnerCourtAirports;
+
+export const EUCountries = [
+  "AT",
+  "BE",
+  "BG",
+  "HR",
+  "CY",
+  "CZ",
+  "DK",
+  "EE",
+  "FI",
+  "FR",
+  "DE",
+  "GR",
+  "HU",
+  "IE",
+  "IT",
+  "LV",
+  "LT",
+  "LU",
+  "MT",
+  "NL",
+  "PL",
+  "PT",
+  "RO",
+  "SK",
+  "SI",
+  "ES",
+  "SE",
+];

@@ -1,4 +1,4 @@
-import { anwaltlicheVertretungDone } from "~/models/flows/beratungshilfeFormular/anwaltlicheVertretung/context";
+import { anwaltlicheVertretungDone } from "~/models/flows/beratungshilfeFormular/anwaltlicheVertretung/guards";
 import {
   grundvoraussetzungDone,
   type BeratungshilfeGrundvoraussetzungen,
