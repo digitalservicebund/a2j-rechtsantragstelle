@@ -262,13 +262,13 @@
             "guard": "entschaedigungYes"
           },
           {
-            "target": "ergebnis/entschaedigung-kontakt",
+            "target": "ergebnis/erfolg-kontakt",
             "guard": "entschaedigungNo"
           }
         ]
       }
     },
-    "ergebnis/entschaedigung-kontakt": {
+    "ergebnis/erfolg-kontakt": {
       "on": {
         "BACK": "entschaedigung"
       }
