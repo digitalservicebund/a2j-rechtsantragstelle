@@ -26,36 +26,38 @@ export class Vorabcheck {
     await this.page.locator(`label[for="${field}-${option}"]`).click();
   }
 
-  async clickNext(javaScriptEnabled: boolean) {
+  async clickNext() {
     await this.page.locator(`button[name="${this.nextButtonName}"]`).click();
-    if (javaScriptEnabled) {
-      await this.page.waitForNavigation(); // deprecated but URL for waitForURL is unknown
-    }
+    await this.page.waitForNavigation(); // deprecated but URL for waitForURL is unknown
+  }
+
+  async clickNextWithoutJavaScript() {
+    await this.page.locator(`button[name="${this.nextButtonName}"]`).click();
   }
 
   async fillRadioPage(field: string, option: string) {
     await this.select(field, option);
-    await this.clickNext(true);
+    await this.clickNext();
   }
 
   async fillInputPage(field: string, value: string) {
     await this.page.locator(`input[name="${field}"]`).fill(value);
-    await this.clickNext(true);
+    await this.clickNext();
   }
 
   async fillDropdownPage(field: string, value: string) {
     await this.page.locator(`select[name="${field}"]`).selectOption(value);
-    await this.clickNext(true);
+    await this.clickNext();
   }
 
   async fillRadioPageNonJavascript(field: string, option: string) {
     await this.select(field, option);
-    await this.clickNext(false);
+    await this.clickNextWithoutJavaScript();
   }
 
   async fillInputPageNonJavascript(field: string, value: string) {
     await this.page.locator(`input[name="${field}"]`).fill(value);
-    await this.clickNext(false);
+    await this.clickNextWithoutJavaScript();
   }
 
   async fillMultipleInputPageNonJavascript(
@@ -64,12 +66,12 @@ export class Vorabcheck {
     for (const { field, value } of fields) {
       await this.page.locator(`input[name="${field}"]`).fill(value);
     }
-    await this.clickNext(false);
+    await this.clickNextWithoutJavaScript();
   }
 
   async fillDropdownPageNonJavascript(field: string, value: string) {
     await this.page.locator(`select[name="${field}"]`).selectOption(value);
-    await this.clickNext(false);
+    await this.clickNextWithoutJavaScript();
   }
 
   async fillMultipleSuggestionInputPage(
@@ -82,6 +84,6 @@ export class Vorabcheck {
         .all();
       await locators[0].click();
     }
-    await this.clickNext(true);
+    await this.clickNext();
   }
 }
