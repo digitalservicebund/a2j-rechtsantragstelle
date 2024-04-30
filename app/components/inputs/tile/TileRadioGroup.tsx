@@ -24,7 +24,7 @@ const TileRadioGroup = ({
   const id = `${name}-${value}`;
 
   return (
-    <div className="flex flex-row items-center py-24 pl-12 h-full rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#F6F7F8] bg-white break-words">
+    <div className="ds-tile-radio-group flex flex-row items-center py-24 pl-12 h-full rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#F6F7F8] bg-white break-words">
       <input
         {...getInputProps({ type: "radio", id, value })}
         className="ds-radio"
