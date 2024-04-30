@@ -22,25 +22,19 @@ import type { CollectionSchemas, EntrySchemas } from "~/services/cms/schemas";
 import type { z } from "zod";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
+import { BackgroundColor } from "~/components";
 
-const iconCSS = "inline-block mr-8 !h-[36px] !w-[36px]";
+const iconCSS = "inline-block !h-[36px] !w-[36px] !min-h-[36px] !min-w-[36px]";
 const icons: Record<StrapiResultPageType, ReactElement> = {
-  error: <HighlightOff color="error" className={`${iconCSS} !text-red-900`} />,
-  success: (
-    <CheckCircleOutline
-      color="success"
-      className={`${iconCSS} !text-green-900`}
-    />
-  ),
-  warning: (
-    <WarningAmber color="warning" className={`${iconCSS} !text-yellow-900`} />
-  ),
+  error: <HighlightOff color="error" className={iconCSS} />,
+  success: <CheckCircleOutline color="success" className={iconCSS} />,
+  warning: <WarningAmber color="warning" className={iconCSS} />,
 };
 
-const backgrounds: Record<StrapiResultPageType, string> = {
-  error: "bg-red-200",
-  success: "bg-green-200",
-  warning: "bg-yellow-200",
+const backgrounds: Record<StrapiResultPageType, BackgroundColor> = {
+  error: "red",
+  success: "green",
+  warning: "yellow",
 };
 
 type Props = {
@@ -78,51 +72,53 @@ export function ResultPage({
 
   return (
     <>
-      <div className={backgrounds[cmsData.pageType]}>
-        <Container paddingTop="24">
-          <Heading
-            tagName={cmsData.heading.tagName}
-            look={cmsData.heading.look}
-            className="flex items-center mb-0"
-          >
-            {icons[cmsData.pageType]}
-            {cmsData.heading.text}
-          </Heading>
-        </Container>
-
-        {cmsData.hintText && (
+      <Background backgroundColor="blue" paddingTop="40" paddingBottom="48">
+        <div className={backgrounds[cmsData.pageType]}>
           <Container
-            backgroundColor="white"
+            overhangingBackground
+            backgroundColor={backgrounds[cmsData.pageType]}
             paddingTop="32"
             paddingBottom="40"
-            overhangingBackground={true}
           >
-            <div className="ds-stack-8">
-              <p className="ds-label-02-bold">{common.resultHintLabel}</p>
-              <RichText markdown={cmsData.hintText.text} />
+            <div className="flex sm:flex-row flex-col gap-16">
+              {icons[cmsData.pageType]}
+              <div className="flex flex-col gap-16">
+                <Heading
+                  tagName={cmsData.heading.tagName}
+                  look={cmsData.heading.look}
+                  className="flex items-center mb-0"
+                >
+                  {cmsData.heading.text}
+                </Heading>
+
+                {cmsData.hintText && (
+                  <RichText markdown={cmsData.hintText.text} />
+                )}
+              </div>
             </div>
           </Container>
-        )}
-        {(cmsData.linkText || cmsData.backLinkInHeader) && (
-          <Container paddingTop="16" paddingBottom="16">
-            <ButtonContainer>
-              {cmsData.backLinkInHeader && (
-                <a className="text-link" href={backButton.destination}>
-                  {backButton.label}
-                </a>
-              )}
-              {cmsData.linkText && (
-                <a
-                  className="text-link"
-                  href={`/beratungshilfe/vorabcheck?${dataDeletionKey}`}
-                >
-                  {cmsData.linkText}
-                </a>
-              )}
-            </ButtonContainer>
-          </Container>
-        )}
-      </div>
+
+          {(cmsData.linkText || cmsData.backLinkInHeader) && (
+            <Container paddingTop="48" paddingBottom="0">
+              <ButtonContainer>
+                {cmsData.backLinkInHeader && (
+                  <a className="text-link" href={backButton.destination}>
+                    {backButton.label}
+                  </a>
+                )}
+                {cmsData.linkText && (
+                  <a
+                    className="text-link"
+                    href={`/beratungshilfe/vorabcheck?${dataDeletionKey}`}
+                  >
+                    {cmsData.linkText}
+                  </a>
+                )}
+              </ButtonContainer>
+            </Container>
+          )}
+        </div>
+      </Background>
 
       {courts && courts.length > 0 && (
         <>
