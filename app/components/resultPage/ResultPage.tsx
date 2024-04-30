@@ -10,7 +10,6 @@ import RichText from "~/components/RichText";
 import InfoBox from "~/components/InfoBox";
 import UserFeedback from "~/components/UserFeedback";
 import type { BannerState } from "~/components/UserFeedback";
-import { ProgressBar } from "~/components/form/ProgressBar";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import ButtonContainer from "~/components/ButtonContainer";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
@@ -49,10 +48,6 @@ type Props = {
   readonly common: Translations;
   readonly cmsData: z.infer<CollectionSchemas["result-pages"]>;
   readonly reasons: StrapiElementWithId[];
-  readonly progress: {
-    max: number;
-    progress: number;
-  };
   readonly nextButton?: {
     destination: string;
     label: string;
@@ -71,7 +66,6 @@ export function ResultPage({
   common,
   cmsData,
   reasons,
-  progress,
   nextButton,
   backButton,
   bannerState,
@@ -86,7 +80,6 @@ export function ResultPage({
     <>
       <div className={backgrounds[cmsData.pageType]}>
         <Container paddingTop="24">
-          <ProgressBar label={common.progressBarLabel} {...progress} />
           <Heading
             tagName={cmsData.heading.tagName}
             look={cmsData.heading.look}
@@ -110,8 +103,8 @@ export function ResultPage({
             </div>
           </Container>
         )}
-        <Container paddingTop="16" paddingBottom="16">
-          {(cmsData.linkText || cmsData.backLinkInHeader) && (
+        {(cmsData.linkText || cmsData.backLinkInHeader) && (
+          <Container paddingTop="16" paddingBottom="16">
             <ButtonContainer>
               {cmsData.backLinkInHeader && (
                 <a className="text-link" href={backButton.destination}>
@@ -127,8 +120,8 @@ export function ResultPage({
                 </a>
               )}
             </ButtonContainer>
-          )}
-        </Container>
+          </Container>
+        )}
       </div>
 
       {courts && courts.length > 0 && (
