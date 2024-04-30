@@ -98,25 +98,21 @@ export function ResultPage({
             </div>
           </Container>
 
-          {(cmsData.linkText || cmsData.backLinkInHeader) && (
-            <Container paddingTop="48" paddingBottom="0">
-              <ButtonContainer>
-                {cmsData.backLinkInHeader && (
-                  <a className="text-link" href={backButton.destination}>
-                    {backButton.label}
-                  </a>
-                )}
-                {cmsData.linkText && (
-                  <a
-                    className="text-link"
-                    href={`/beratungshilfe/vorabcheck?${dataDeletionKey}`}
-                  >
-                    {cmsData.linkText}
-                  </a>
-                )}
-              </ButtonContainer>
-            </Container>
-          )}
+          <Container paddingTop="48" paddingBottom="0">
+            <ButtonContainer>
+              <a className="text-link" href={backButton.destination}>
+                {backButton.label}
+              </a>
+              {cmsData.linkText && (
+                <a
+                  className="text-link"
+                  href={`/beratungshilfe/vorabcheck?${dataDeletionKey}`}
+                >
+                  {cmsData.linkText}
+                </a>
+              )}
+            </ButtonContainer>
+          </Container>
         </div>
       </Background>
 
@@ -191,10 +187,11 @@ export function ResultPage({
       )}
 
       <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
+        {/* TODO: Check if this is still used anywhere */}
         {!cmsData.backLinkInHeader && (
           <Container>
             <form method="post">
-              <ButtonNavigation back={backButton} next={nextButton} />
+              <ButtonNavigation next={nextButton} />
             </form>
           </Container>
         )}
