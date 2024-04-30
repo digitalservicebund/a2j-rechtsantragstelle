@@ -14,7 +14,7 @@ import { StrapiSelect } from "~/services/cms/components/StrapiSelect";
 import { getRichTextProps } from "~/services/cms/models/StrapiParagraph";
 import { StrapiTextarea } from "~/services/cms/components/StrapiTextarea";
 import { getListProps } from "~/services/cms/models/StrapiList";
-import { StrapiTileGroup } from "~/services/cms/components/StrapiTileGroup";
+import StrapiTileGroup from "~/services/cms/components/StrapiTileGroup";
 
 import Background from "./Background";
 import Box from "./Box";
