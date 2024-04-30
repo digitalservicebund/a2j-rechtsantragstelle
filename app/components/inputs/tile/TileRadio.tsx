@@ -11,7 +11,10 @@ const paragraphRenderer: Partial<Renderer> = {
   },
 };
 
-const TileRadioGroup = ({
+const IMAGE_HEIGHT = 32;
+const IMAGE_WIDTH = 32;
+
+const TileRadio = ({
   name,
   description,
   value,
@@ -35,7 +38,9 @@ const TileRadioGroup = ({
       />
       <label className={`${image ? "pb-32 px-40" : ""}`} htmlFor={id}>
         <div className="flex flex-row space-x-8 items-center justify-between">
-          {image && <Image {...image} width={24} height={24} />}
+          {image && (
+            <Image {...image} width={IMAGE_WIDTH} height={IMAGE_HEIGHT} />
+          )}
           <TileTag tagDescription={tagDescription} />
         </div>
         <span className="ds-label-01-bold">{title}</span>
@@ -51,4 +56,4 @@ const TileRadioGroup = ({
   );
 };
 
-export default TileRadioGroup;
+export default TileRadio;

@@ -4,7 +4,7 @@ import InputError from "../InputError";
 import Tile from "./Tile";
 import { type ErrorMessageProps } from "..";
 import type { ImageProps } from "~/components/Image";
-import TileRadioGroup from "./TileRadioGroup";
+import TileRadio from "./TileRadio";
 
 type TileGroupProps = Readonly<{
   name: string;
@@ -43,7 +43,7 @@ const renderTile = ({
   Pick<TileGroupProps, "showRadioButtonTiles">) => {
   if (showRadioButtonTiles) {
     return (
-      <TileRadioGroup
+      <TileRadio
         key={value}
         name={name}
         onClick={onClick}
