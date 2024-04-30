@@ -2,6 +2,13 @@ import { useField } from "remix-validated-form";
 import Image from "../../Image";
 import RichText from "../../RichText";
 import type { ExtraTileProps, TileProps } from "./TileGroup";
+import type { Renderer } from "marked";
+
+const paragraphRenderer: Partial<Renderer> = {
+  paragraph(text) {
+    return `<p class="ds-subhead">${text}</p>`;
+  },
+};
 
 const TileRadioGroup = ({
   name,
@@ -15,7 +22,7 @@ const TileRadioGroup = ({
   const id = `${name}-${value}`;
 
   return (
-    <div className="flex flex-row items-center py-24 px-32 h-full rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#F6F7F8] bg-white break-words">
+    <div className="flex flex-row items-center py-24 pl-12 h-full rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#F6F7F8] bg-white break-words">
       <input
         {...getInputProps({ type: "radio", id, value })}
         className="ds-radio"
@@ -25,12 +32,16 @@ const TileRadioGroup = ({
         onClick={onClick}
       />
       <label className={`${image ? "pb-32 px-40" : ""}`} htmlFor={id}>
-        <div className="ds-label-01-bold flex flex-row space-x-8 items-center">
+        <div className="flex flex-row space-x-8 items-center">
           {image && <Image {...image} />}
         </div>
-        <span>{title}</span>
+        <span className="ds-label-01-bold">{title}</span>
         {description && (
-          <RichText className="ds-label-03-reg" markdown={description} />
+          <RichText
+            className="ds-subhead"
+            markdown={description}
+            renderer={paragraphRenderer}
+          />
         )}
       </label>
     </div>
