@@ -21,7 +21,7 @@ test.describe("js enabled", () => {
   }) => {
     // fluggastrechte/vorabcheck/start
     await expectPageToBeAccessible({ page });
-    await vorabcheck.clickNext(true);
+    await vorabcheck.clickNext();
 
     // fluggastrechte/vorabcheck/bereich
     await expectPageToBeAccessible({ page });
@@ -104,7 +104,7 @@ test.describe("js disabled", () => {
   }) => {
     await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
     await vorabcheck.goto();
-    await vorabcheck.clickNext(false);
+    await vorabcheck.clickNextWithoutJavaScript();
 
     // fluggastrechte/vorabcheck/bereich
     await vorabcheck.fillRadioPageNonJavascript("bereich", "verspaetet");

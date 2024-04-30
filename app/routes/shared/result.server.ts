@@ -113,11 +113,10 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       flowId,
       common: defaultStrings,
       cmsData: cmsContent,
-      content: cmsContent.freeZone,
-      meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
       reasons: reasonElementsWithID.filter((reason) =>
         Boolean(getReasonsToDisplay(userData)[reason.elementId]),
       ),
+      meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
       progress: flowController.getProgress(stepId),
       nextButton: cmsContent.nextLink?.url
         ? { destination: cmsContent.nextLink.url, label: next?.label ?? "" }
@@ -126,7 +125,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
       amtsgerichtCommon,
-      courts: cmsContent.pageType === "success" && courts,
+      courts: cmsContent.pageType === "success" ? courts : [],
     },
     { headers },
   );

@@ -17,7 +17,7 @@ test("forwarded to intial step", async ({ page }) => {
 
 test("geldeinklagen can be traversed", async ({ page }) => {
   await expectPageToBeAccessible({ page });
-  await geldEinklagen.clickNext(true);
+  await geldEinklagen.clickNext();
 
   await expectPageToBeAccessible({ page });
   await geldEinklagen.fillRadioPage("forderung", "money");
@@ -27,7 +27,7 @@ test("geldeinklagen can be traversed", async ({ page }) => {
 
   // gerichtskostenvorschuss
   await expectPageToBeAccessible({ page });
-  await geldEinklagen.clickNext(true);
+  await geldEinklagen.clickNext();
 
   await expectPageToBeAccessible({ page });
   await geldEinklagen.fillRadioPage("bereich", "travel");

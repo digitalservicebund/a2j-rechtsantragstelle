@@ -3,13 +3,13 @@ import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
 import HighlightOff from "@digitalservicebund/icons/HighlightOff";
 import WarningAmber from "@digitalservicebund/icons/WarningAmber";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
-import { useLoaderData } from "@remix-run/react";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";
 import PageContent, { keyFromElement } from "~/components/PageContent";
 import RichText from "~/components/RichText";
 import InfoBox from "~/components/InfoBox";
 import UserFeedback from "~/components/UserFeedback";
+import type { BannerState } from "~/components/UserFeedback";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import ButtonContainer from "~/components/ButtonContainer";
@@ -17,7 +17,12 @@ import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBox
 import { dataDeletionKey } from "~/services/flow/constants";
 import CourtDetails from "~/components/CourtDetails";
 import Background from "~/components/Background";
-import type { loader } from "../result.server";
+import type { FlowId } from "~/models/flows/contexts";
+import type { Translations } from "~/services/cms/index.server";
+import type { CollectionSchemas, EntrySchemas } from "~/services/cms/schemas";
+import type { z } from "zod";
+import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
 
 const iconCSS = "inline-block mr-8 !h-[36px] !w-[36px]";
 const icons: Record<StrapiResultPageType, ReactElement> = {
@@ -39,23 +44,43 @@ const backgrounds: Record<StrapiResultPageType, string> = {
   warning: "bg-yellow-200",
 };
 
-export function Result() {
-  const {
-    flowId,
-    common,
-    content,
-    cmsData,
-    reasons,
-    progress,
-    nextButton,
-    backButton,
-    bannerState,
-    amtsgerichtCommon,
-    courts,
-  } = useLoaderData<typeof loader>();
+type Props = {
+  readonly flowId: FlowId;
+  readonly common: Translations;
+  readonly cmsData: z.infer<CollectionSchemas["result-pages"]>;
+  readonly reasons: StrapiElementWithId[];
+  readonly progress: {
+    max: number;
+    progress: number;
+  };
+  readonly nextButton?: {
+    destination: string;
+    label: string;
+  };
+  readonly backButton: {
+    label: string;
+    destination?: string;
+  };
+  readonly bannerState: BannerState;
+  readonly amtsgerichtCommon: z.infer<EntrySchemas["amtsgericht-common"]>;
+  readonly courts: Jmtd14VTErwerberGerbeh[];
+};
 
+export function ResultPage({
+  flowId,
+  common,
+  cmsData,
+  reasons,
+  progress,
+  nextButton,
+  backButton,
+  bannerState,
+  amtsgerichtCommon,
+  courts,
+}: Props) {
   const documentsList = cmsData.documents.data?.attributes.element ?? [];
   const nextSteps = cmsData.nextSteps.data?.attributes.element ?? [];
+  const content = cmsData.freeZone;
 
   return (
     <>
