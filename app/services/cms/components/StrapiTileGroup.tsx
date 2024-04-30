@@ -6,7 +6,7 @@ import {
 import { StrapiErrorCategorySchema } from "../models/StrapiErrorCategory";
 import { omitNull } from "~/util/omitNull";
 import { StrapiTileSchema } from "../models/StrapiTile";
-import TileGroup from "~/components/inputs/TileGroup";
+import TileGroup from "~/components/inputs/tile/TileGroup";
 import { getImageProps } from "../models/StrapiImage";
 
 const StrapiTileGroupSchema = z
@@ -23,6 +23,11 @@ const StrapiTileGroupSchema = z
       ),
     }),
     useTwoColumns: z.boolean().nullable(),
+    showRadioButtonTiles: z
+      .boolean()
+      .nullable()
+      .transform((value) => value ?? false)
+      .default(false),
   })
   .merge(HasOptionalStrapiIdSchema);
 
