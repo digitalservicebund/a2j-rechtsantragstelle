@@ -49,6 +49,7 @@ const renderTile = ({
         onClick={onClick}
         value={value}
         description={description}
+        tagDescription={tagDescription}
         image={image}
         title={title}
       />
@@ -62,7 +63,8 @@ const renderTile = ({
       name={name}
       value={value}
       title={title}
-      onClick={() => onClick}
+      onClick={onClick}
+      tagDescription={tagDescription}
       image={image}
     />
   );

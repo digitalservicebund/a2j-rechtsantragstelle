@@ -3,6 +3,7 @@ import Image from "../../Image";
 import RichText from "../../RichText";
 import type { ExtraTileProps, TileProps } from "./TileGroup";
 import type { Renderer } from "marked";
+import TileTag from "./TileTag";
 
 const paragraphRenderer: Partial<Renderer> = {
   paragraph(text) {
@@ -16,6 +17,7 @@ const TileRadioGroup = ({
   value,
   title,
   image,
+  tagDescription,
   onClick,
 }: TileProps & ExtraTileProps) => {
   const { error, getInputProps } = useField(name);
@@ -32,8 +34,9 @@ const TileRadioGroup = ({
         onClick={onClick}
       />
       <label className={`${image ? "pb-32 px-40" : ""}`} htmlFor={id}>
-        <div className="flex flex-row space-x-8 items-center">
-          {image && <Image {...image} />}
+        <div className="flex flex-row space-x-8 items-center justify-between">
+          {image && <Image {...image} width={24} height={24} />}
+          <TileTag tagDescription={tagDescription} />
         </div>
         <span className="ds-label-01-bold">{title}</span>
         {description && (
