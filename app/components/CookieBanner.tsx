@@ -77,6 +77,7 @@ export function CookieBanner({
     <div
       className="md:fixed bottom-16 right-16 left-16 md:border-2 border-b-2 border-blue-800 z-50 bg-blue-300"
       role="region"
+      aria-label="Cookie banner"
       data-testid="cookie-banner"
     >
       <analyticsFetcher.Form
