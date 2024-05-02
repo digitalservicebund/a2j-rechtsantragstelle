@@ -8,7 +8,6 @@ export function DefaultResultPage() {
     common,
     cmsData,
     reasons,
-    nextButton,
     backButton,
     bannerState,
     amtsgerichtCommon,
@@ -21,7 +20,6 @@ export function DefaultResultPage() {
       common={common}
       cmsData={cmsData}
       reasons={reasons}
-      nextButton={nextButton}
       backButton={backButton}
       bannerState={bannerState}
       amtsgerichtCommon={amtsgerichtCommon}

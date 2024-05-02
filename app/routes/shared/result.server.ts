@@ -94,7 +94,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const reasonElementsWithID =
     cmsContent.reasonings.data?.map((el) => el.attributes) ?? [];
 
-  const { next, back: backButton } = getButtonNavigationProps({
+  const { back: backButton } = getButtonNavigationProps({
     backButtonLabel: defaultStrings["backButtonDefaultLabel"],
     nextButtonLabel:
       cmsContent.nextLink?.text ?? defaultStrings["nextButtonDefaultLabel"],
@@ -117,9 +117,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         Boolean(getReasonsToDisplay(userData)[reason.elementId]),
       ),
       meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
-      nextButton: cmsContent.nextLink?.url
-        ? { destination: cmsContent.nextLink.url, label: next?.label ?? "" }
-        : undefined,
       backButton,
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,

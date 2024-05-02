@@ -10,7 +10,6 @@ import RichText from "~/components/RichText";
 import InfoBox from "~/components/InfoBox";
 import UserFeedback from "~/components/UserFeedback";
 import type { BannerState } from "~/components/UserFeedback";
-import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import ButtonContainer from "~/components/ButtonContainer";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
 import { dataDeletionKey } from "~/services/flow/constants";
@@ -42,10 +41,6 @@ type Props = {
   readonly common: Translations;
   readonly cmsData: z.infer<CollectionSchemas["result-pages"]>;
   readonly reasons: StrapiElementWithId[];
-  readonly nextButton?: {
-    destination: string;
-    label: string;
-  };
   readonly backButton: {
     label: string;
     destination?: string;
@@ -60,7 +55,6 @@ export function ResultPage({
   common,
   cmsData,
   reasons,
-  nextButton,
   backButton,
   bannerState,
   amtsgerichtCommon,
@@ -115,6 +109,11 @@ export function ResultPage({
                   href={`/beratungshilfe/vorabcheck?${dataDeletionKey}`}
                 >
                   {cmsData.linkText}
+                </a>
+              )}
+              {cmsData.nextLink?.url && (
+                <a className="text-link" href={cmsData.nextLink.url}>
+                  {cmsData.nextLink.text ?? common["nextButtonDefaultLabel"]}
                 </a>
               )}
             </ButtonContainer>
@@ -180,15 +179,6 @@ export function ResultPage({
       )}
 
       <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
-        {/* TODO: Check if this is still used anywhere */}
-        {!cmsData.backLinkInHeader && (
-          <Container>
-            <form method="post">
-              <ButtonNavigation next={nextButton} />
-            </form>
-          </Container>
-        )}
-
         <UserFeedback
           bannerState={bannerState}
           rating={{

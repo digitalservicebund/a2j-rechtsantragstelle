@@ -8,7 +8,6 @@ export function FluggastrechteResultPage() {
     common,
     cmsData,
     reasons,
-    nextButton,
     backButton,
     bannerState,
     amtsgerichtCommon,
@@ -20,7 +19,6 @@ export function FluggastrechteResultPage() {
       common={common}
       cmsData={cmsData}
       reasons={reasons}
-      nextButton={nextButton}
       backButton={backButton}
       bannerState={bannerState}
       amtsgerichtCommon={amtsgerichtCommon}
