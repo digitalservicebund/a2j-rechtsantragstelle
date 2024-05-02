@@ -20,7 +20,7 @@ export const StrapiCookieBannerSchema = z
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiTimestampsSchema);
 
-export type StrapiCookieBanner = z.infer<typeof StrapiCookieBannerSchema>;
+type StrapiCookieBanner = z.infer<typeof StrapiCookieBannerSchema>;
 
 export const getCookieBannerProps = (cmsData: StrapiCookieBanner) => {
   const paragraphs = cmsData.paragraphs.map((paragraph) =>

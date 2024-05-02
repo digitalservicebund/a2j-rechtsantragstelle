@@ -117,7 +117,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         Boolean(getReasonsToDisplay(userData)[reason.elementId]),
       ),
       meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
-      progress: flowController.getProgress(stepId),
       nextButton: cmsContent.nextLink?.url
         ? { destination: cmsContent.nextLink.url, label: next?.label ?? "" }
         : undefined,

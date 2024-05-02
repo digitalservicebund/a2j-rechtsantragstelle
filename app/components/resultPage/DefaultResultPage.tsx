@@ -8,7 +8,6 @@ export function DefaultResultPage() {
     common,
     cmsData,
     reasons,
-    progress,
     nextButton,
     backButton,
     bannerState,
@@ -22,7 +21,6 @@ export function DefaultResultPage() {
       common={common}
       cmsData={cmsData}
       reasons={reasons}
-      progress={progress}
       nextButton={nextButton}
       backButton={backButton}
       bannerState={bannerState}

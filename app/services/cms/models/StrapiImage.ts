@@ -40,7 +40,7 @@ export const StrapiImageSchema = z.object({
       }),
     })
     .merge(HasOptionalStrapiIdSchema)
-    .nullable(),
+    .nullish(),
 });
 
 export type StrapiImage = z.infer<typeof StrapiImageSchema>;

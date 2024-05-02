@@ -10,7 +10,6 @@ import RichText from "~/components/RichText";
 import InfoBox from "~/components/InfoBox";
 import UserFeedback from "~/components/UserFeedback";
 import type { BannerState } from "~/components/UserFeedback";
-import { ProgressBar } from "~/components/form/ProgressBar";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import ButtonContainer from "~/components/ButtonContainer";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
@@ -23,25 +22,19 @@ import type { CollectionSchemas, EntrySchemas } from "~/services/cms/schemas";
 import type { z } from "zod";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
+import type { BackgroundColor } from "~/components";
 
-const iconCSS = "inline-block mr-8 !h-[36px] !w-[36px]";
+const iconCSS = "inline-block !h-[36px] !w-[36px] !min-h-[36px] !min-w-[36px]";
 const icons: Record<StrapiResultPageType, ReactElement> = {
-  error: <HighlightOff color="error" className={`${iconCSS} !text-red-900`} />,
-  success: (
-    <CheckCircleOutline
-      color="success"
-      className={`${iconCSS} !text-green-900`}
-    />
-  ),
-  warning: (
-    <WarningAmber color="warning" className={`${iconCSS} !text-yellow-900`} />
-  ),
+  error: <HighlightOff color="error" className={iconCSS} />,
+  success: <CheckCircleOutline color="success" className={iconCSS} />,
+  warning: <WarningAmber color="warning" className={iconCSS} />,
 };
 
-const backgrounds: Record<StrapiResultPageType, string> = {
-  error: "bg-red-200",
-  success: "bg-green-200",
-  warning: "bg-yellow-200",
+const backgrounds: Record<StrapiResultPageType, BackgroundColor> = {
+  error: "red",
+  success: "green",
+  warning: "yellow",
 };
 
 type Props = {
@@ -49,10 +42,6 @@ type Props = {
   readonly common: Translations;
   readonly cmsData: z.infer<CollectionSchemas["result-pages"]>;
   readonly reasons: StrapiElementWithId[];
-  readonly progress: {
-    max: number;
-    progress: number;
-  };
   readonly nextButton?: {
     destination: string;
     label: string;
@@ -71,7 +60,6 @@ export function ResultPage({
   common,
   cmsData,
   reasons,
-  progress,
   nextButton,
   backButton,
   bannerState,
@@ -84,40 +72,43 @@ export function ResultPage({
 
   return (
     <>
-      <div className={backgrounds[cmsData.pageType]}>
-        <Container paddingTop="24">
-          <ProgressBar label={common.progressBarLabel} {...progress} />
-          <Heading
-            tagName={cmsData.heading.tagName}
-            look={cmsData.heading.look}
-            className="flex items-center mb-0"
-          >
-            {icons[cmsData.pageType]}
-            {cmsData.heading.text}
-          </Heading>
-        </Container>
-
-        {cmsData.hintText && (
+      <Background backgroundColor="blue" paddingTop="40" paddingBottom="48">
+        <div className={backgrounds[cmsData.pageType]}>
           <Container
-            backgroundColor="white"
+            overhangingBackground
+            backgroundColor={backgrounds[cmsData.pageType]}
             paddingTop="32"
             paddingBottom="40"
-            overhangingBackground={true}
           >
-            <div className="ds-stack-8">
-              <p className="ds-label-02-bold">{common.resultHintLabel}</p>
-              <RichText markdown={cmsData.hintText.text} />
+            <div className="flex sm:flex-row flex-col gap-16">
+              {icons[cmsData.pageType]}
+              <div className="flex flex-col gap-16">
+                <Heading
+                  tagName={cmsData.heading.tagName}
+                  look={cmsData.heading.look}
+                  className="flex items-center mb-0"
+                >
+                  {cmsData.heading.text}
+                </Heading>
+
+                {cmsData.hintText && (
+                  <RichText markdown={cmsData.hintText.text} />
+                )}
+              </div>
             </div>
           </Container>
-        )}
-        <Container paddingTop="16" paddingBottom="16">
-          {(cmsData.linkText || cmsData.backLinkInHeader) && (
+
+          {reasons.length > 0 && (
+            <Container paddingBottom="0">
+              <InfoBox items={infoBoxesFromElementsWithID(reasons)} />
+            </Container>
+          )}
+
+          <Container paddingTop="48" paddingBottom="0">
             <ButtonContainer>
-              {cmsData.backLinkInHeader && (
-                <a className="text-link" href={backButton.destination}>
-                  {backButton.label}
-                </a>
-              )}
+              <a className="text-link" href={backButton.destination}>
+                {backButton.label}
+              </a>
               {cmsData.linkText && (
                 <a
                   className="text-link"
@@ -127,9 +118,9 @@ export function ResultPage({
                 </a>
               )}
             </ButtonContainer>
-          )}
-        </Container>
-      </div>
+          </Container>
+        </div>
+      </Background>
 
       {courts && courts.length > 0 && (
         <>
@@ -174,19 +165,6 @@ export function ResultPage({
       )}
 
       {content.length > 0 && <PageContent content={content} />}
-      {reasons.length > 0 && (
-        <Container>
-          <InfoBox
-            heading={{
-              tagName: "h2",
-              look: "ds-heading-02-reg",
-              text: "Begründung",
-              className: "mb-16",
-            }}
-            items={infoBoxesFromElementsWithID(reasons)}
-          />
-        </Container>
-      )}
 
       {documentsList.length > 0 && (
         <div>
@@ -202,10 +180,11 @@ export function ResultPage({
       )}
 
       <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
+        {/* TODO: Check if this is still used anywhere */}
         {!cmsData.backLinkInHeader && (
           <Container>
             <form method="post">
-              <ButtonNavigation back={backButton} next={nextButton} />
+              <ButtonNavigation next={nextButton} />
             </form>
           </Container>
         )}

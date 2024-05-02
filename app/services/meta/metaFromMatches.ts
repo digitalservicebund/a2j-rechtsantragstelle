@@ -28,7 +28,7 @@ function breadcrumbFromMatch(match: RouteMatchKnown) {
 }
 
 export function metaFromMatches(matches: ReturnType<typeof useMatches>) {
-  if (!isMatchesWithDataObject(matches)) {
+  if (!Array.isArray(matches) || !isMatchesWithDataObject(matches)) {
     return {
       title: undefined,
       breadcrumbs: [],
