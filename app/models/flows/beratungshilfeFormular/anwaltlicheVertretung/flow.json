@@ -1,13 +1,13 @@
 {
   "initial": "start",
-  "id": "anwaltlicheVertretung",
+  "id": "anwaltliche-vertretung",
   "states": {
     "start": {
       "on": {
         "SUBMIT": [
           {
             "guard": "anwaltskanzleiYes",
-            "target": "beratungStattgefunden"
+            "target": "beratung-stattgefunden"
           },
           {
             "target": "#rechtsproblem.start"
@@ -16,12 +16,12 @@
         "BACK": "#grundvoraussetzungen.eigeninitiative-grundvorraussetzung"
       }
     },
-    "beratungStattgefunden": {
+    "beratung-stattgefunden": {
       "on": {
         "SUBMIT": [
           {
             "guard": "beratungStattgefundenYes",
-            "target": "beratungStattgefundenDatum"
+            "target": "beratung-stattgefunden-datum"
           },
           {
             "target": "#rechtsproblem.start"
@@ -30,7 +30,7 @@
         "BACK": "start"
       }
     },
-    "beratungStattgefundenDatum": {
+    "beratung-stattgefunden-datum": {
       "on": {
         "SUBMIT": [
           {
@@ -41,23 +41,23 @@
             "target": "frist-hinweis"
           }
         ],
-        "BACK": "beratungStattgefunden"
+        "BACK": "beratung-stattgefunden"
       }
     },
     "frist-hinweis": {
       "on": {
-        "SUBMIT": "anwaltKontaktdaten",
-        "BACK": "beratungStattgefundenDatum"
+        "SUBMIT": "anwalt-kontaktdaten",
+        "BACK": "beratung-stattgefunden-datum"
       }
     },
-    "anwaltKontaktdaten": {
+    "anwalt-kontaktdaten": {
       "on": {
         "SUBMIT": "#rechtsproblem.start",
         "BACK": "frist-hinweis"
       }
     },
     "anwalt-ende": {
-      "on": { "BACK": "beratungStattgefundenDatum" }
+      "on": { "BACK": "beratung-stattgefunden-datum" }
     }
   }
 }

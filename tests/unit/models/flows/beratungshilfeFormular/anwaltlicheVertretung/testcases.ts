@@ -7,16 +7,16 @@ import {
 } from "tests/unit/util/dateFormatting";
 
 const cases = [
-  [{}, ["anwaltlicheVertretung/start", "rechtsproblem/start"]],
+  [{}, ["anwaltliche-vertretung/start", "rechtsproblem/start"]],
   [
     { anwaltskanzlei: "no" },
-    ["anwaltlicheVertretung/start", "rechtsproblem/start"],
+    ["anwaltliche-vertretung/start", "rechtsproblem/start"],
   ],
   [
     { anwaltskanzlei: "yes" },
     [
-      "anwaltlicheVertretung/start",
-      "anwaltlicheVertretung/beratungStattgefunden",
+      "anwaltliche-vertretung/start",
+      "anwaltliche-vertretung/beratung-stattgefunden",
       "rechtsproblem/start",
     ],
   ],
@@ -26,8 +26,8 @@ const cases = [
       beratungStattgefunden: "no",
     },
     [
-      "anwaltlicheVertretung/start",
-      "anwaltlicheVertretung/beratungStattgefunden",
+      "anwaltliche-vertretung/start",
+      "anwaltliche-vertretung/beratung-stattgefunden",
       "rechtsproblem/start",
     ],
   ],
@@ -37,11 +37,11 @@ const cases = [
       beratungStattgefunden: "yes",
     },
     [
-      "anwaltlicheVertretung/start",
-      "anwaltlicheVertretung/beratungStattgefunden",
-      "anwaltlicheVertretung/beratungStattgefundenDatum",
-      "anwaltlicheVertretung/frist-hinweis",
-      "anwaltlicheVertretung/anwaltKontaktdaten",
+      "anwaltliche-vertretung/start",
+      "anwaltliche-vertretung/beratung-stattgefunden",
+      "anwaltliche-vertretung/beratung-stattgefunden-datum",
+      "anwaltliche-vertretung/frist-hinweis",
+      "anwaltliche-vertretung/anwalt-kontaktdaten",
       "rechtsproblem/start",
     ],
   ],
@@ -52,11 +52,11 @@ const cases = [
       beratungStattgefundenDatum: sevenDaysAgoDate(),
     },
     [
-      "anwaltlicheVertretung/start",
-      "anwaltlicheVertretung/beratungStattgefunden",
-      "anwaltlicheVertretung/beratungStattgefundenDatum",
-      "anwaltlicheVertretung/frist-hinweis",
-      "anwaltlicheVertretung/anwaltKontaktdaten",
+      "anwaltliche-vertretung/start",
+      "anwaltliche-vertretung/beratung-stattgefunden",
+      "anwaltliche-vertretung/beratung-stattgefunden-datum",
+      "anwaltliche-vertretung/frist-hinweis",
+      "anwaltliche-vertretung/anwalt-kontaktdaten",
       "rechtsproblem/start",
     ],
   ],
@@ -67,10 +67,10 @@ const cases = [
       beratungStattgefundenDatum: thirtyDaysAgoDate(),
     },
     [
-      "anwaltlicheVertretung/start",
-      "anwaltlicheVertretung/beratungStattgefunden",
-      "anwaltlicheVertretung/beratungStattgefundenDatum",
-      "anwaltlicheVertretung/anwalt-ende",
+      "anwaltliche-vertretung/start",
+      "anwaltliche-vertretung/beratung-stattgefunden",
+      "anwaltliche-vertretung/beratung-stattgefunden-datum",
+      "anwaltliche-vertretung/anwalt-ende",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeAnwaltlicheVertretung>;

@@ -78,7 +78,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "#anwaltlicheVertretung.start",
+            "target": "#anwaltliche-vertretung.start",
             "guard": "grundvoraussetzungDone"
           },
           {

@@ -8,14 +8,14 @@
         "BACK": [
           {
             "guard": "beratungStattgefundenYes",
-            "target": "#anwaltlicheVertretung.anwaltKontaktdaten"
+            "target": "#anwaltliche-vertretung.anwalt-kontaktdaten"
           },
           {
             "guard": "anwaltskanzleiYes",
-            "target": "#anwaltlicheVertretung.beratungStattgefunden"
+            "target": "#anwaltliche-vertretung.beratung-stattgefunden"
           },
           {
-            "target": "#anwaltlicheVertretung.start"
+            "target": "#anwaltliche-vertretung.start"
           }
         ]
       }

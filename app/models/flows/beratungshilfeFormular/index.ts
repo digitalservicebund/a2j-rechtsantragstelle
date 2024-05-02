@@ -50,9 +50,12 @@ export const beratungshilfeFormular = {
       grundvoraussetzungen: _.merge(beratungshilfeGrundvoraussetzungenFlow, {
         meta: { done: grundvoraussetzungDone },
       }),
-      anwaltlicheVertretung: _.merge(beratungshilfeAnwaltlicheVertretungFlow, {
-        meta: { done: anwaltlicheVertretungDone },
-      }),
+      "anwaltliche-vertretung": _.merge(
+        beratungshilfeAnwaltlicheVertretungFlow,
+        {
+          meta: { done: anwaltlicheVertretungDone },
+        },
+      ),
       rechtsproblem: _.merge(rechtsproblemFlow, {
         meta: { done: rechtsproblemDone },
       }),
