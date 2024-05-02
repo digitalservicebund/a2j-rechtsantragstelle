@@ -59,7 +59,7 @@ export const beratungshilfeFormular = {
       rechtsproblem: _.merge(rechtsproblemFlow, {
         meta: { done: rechtsproblemDone },
       }),
-      finanzielleAngaben: _.merge(finanzielleAngabenFlow, {
+      "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
         meta: {
           done: beratungshilfeFinanzielleAngabeDone,
           subflowState: beratungshilfeFinanzielleAngabenSubflowState,

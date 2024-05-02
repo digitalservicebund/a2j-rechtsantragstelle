@@ -6,35 +6,35 @@ export async function startFinanzielleAngabenEigentum(
   page: Page,
   beratungshilfeFormular: BeratungshilfeFormular,
 ) {
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum/eigentum-info
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum/eigentum-info
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.clickNext();
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum/heirat-info
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum/heirat-info
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.clickNext();
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum/bankkonten-frage
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasBankkonto", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum/geldanlagen-frage
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum/geldanlagen-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasGeldanlage", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum/wertsachen-frage
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum/wertsachen-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasWertsache", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum/grundeigentum-frage
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum/grundeigentum-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasGrundeigentum", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum/kraftfahrzeuge-frage
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum/kraftfahrzeuge-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("hasKraftfahrzeug", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum/gesamtwert
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum/gesamtwert
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("eigentumTotalWorth", "more10000");
 }

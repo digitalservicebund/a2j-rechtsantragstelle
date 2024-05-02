@@ -6,9 +6,9 @@ const cases = [
   [
     {},
     [
-      "finanzielleAngaben/wohnung/wohnsituation",
-      "finanzielleAngaben/wohnung/groesse",
-      "finanzielleAngaben/eigentum/eigentum-info",
+      "finanzielle-angaben/wohnung/wohnsituation",
+      "finanzielle-angaben/wohnung/groesse",
+      "finanzielle-angaben/eigentum/eigentum-info",
     ],
   ],
   [
@@ -16,10 +16,10 @@ const cases = [
       livingSituation: "alone",
     },
     [
-      "finanzielleAngaben/wohnung/wohnsituation",
-      "finanzielleAngaben/wohnung/groesse",
-      "finanzielleAngaben/wohnung/wohnkostenAllein",
-      "finanzielleAngaben/eigentum/eigentum-info",
+      "finanzielle-angaben/wohnung/wohnsituation",
+      "finanzielle-angaben/wohnung/groesse",
+      "finanzielle-angaben/wohnung/wohnkosten-allein",
+      "finanzielle-angaben/eigentum/eigentum-info",
     ],
   ],
   [
@@ -29,10 +29,10 @@ const cases = [
       apartmentCostAlone: "800",
     },
     [
-      "finanzielleAngaben/wohnung/wohnsituation",
-      "finanzielleAngaben/wohnung/groesse",
-      "finanzielleAngaben/wohnung/wohnkostenAllein",
-      "finanzielleAngaben/eigentum/eigentum-info",
+      "finanzielle-angaben/wohnung/wohnsituation",
+      "finanzielle-angaben/wohnung/groesse",
+      "finanzielle-angaben/wohnung/wohnkosten-allein",
+      "finanzielle-angaben/eigentum/eigentum-info",
     ],
   ],
   [
@@ -43,11 +43,11 @@ const cases = [
       apartmentCostFull: "800",
     },
     [
-      "finanzielleAngaben/wohnung/wohnsituation",
-      "finanzielleAngaben/wohnung/groesse",
-      "finanzielleAngaben/wohnung/personenAnzahl",
-      "finanzielleAngaben/wohnung/wohnkostenGeteilt",
-      "finanzielleAngaben/eigentum/eigentum-info",
+      "finanzielle-angaben/wohnung/wohnsituation",
+      "finanzielle-angaben/wohnung/groesse",
+      "finanzielle-angaben/wohnung/personen-anzahl",
+      "finanzielle-angaben/wohnung/wohnkosten-geteilt",
+      "finanzielle-angaben/eigentum/eigentum-info",
     ],
   ],
   [
@@ -58,11 +58,11 @@ const cases = [
       apartmentCostFull: "800",
     },
     [
-      "finanzielleAngaben/wohnung/wohnsituation",
-      "finanzielleAngaben/wohnung/groesse",
-      "finanzielleAngaben/wohnung/personenAnzahl",
-      "finanzielleAngaben/wohnung/wohnkostenGeteilt",
-      "finanzielleAngaben/eigentum/eigentum-info",
+      "finanzielle-angaben/wohnung/wohnsituation",
+      "finanzielle-angaben/wohnung/groesse",
+      "finanzielle-angaben/wohnung/personen-anzahl",
+      "finanzielle-angaben/wohnung/wohnkosten-geteilt",
+      "finanzielle-angaben/eigentum/eigentum-info",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

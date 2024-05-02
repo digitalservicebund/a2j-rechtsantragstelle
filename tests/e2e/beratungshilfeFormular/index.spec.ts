@@ -64,7 +64,7 @@ test("invalid array index redirects to initial step of subflow", async ({
   await startFinanzielleAngabenPartner(page, beratungshilfeFormular);
   await startFinanzielleAngabenKinder(page, beratungshilfeFormular);
   await page.goto(
-    `${beratungshilfeFormular.url}/finanzielleAngaben/kinder/kinder/5/name`,
+    `${beratungshilfeFormular.url}/finanzielle-angaben/kinder/kinder/5/name`,
   );
   await expect(page).toHaveURL(
     new RegExp(`.+${beratungshilfeFormular.url}/start`),

@@ -7,7 +7,7 @@ export async function startFinanzielleAngabenEigentumZusammenfassung(
   page: Page,
   beratungshilfeFormular: BeratungshilfeFormular,
 ) {
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum-zusammenfassung/zusammenfassung
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung
   await expectPageToBeAccessible({ page });
   await addBankkonto(page, beratungshilfeFormular);
   await addKraftfahrzeug(beratungshilfeFormular, page);
@@ -22,7 +22,7 @@ async function addWertsachen(
 ) {
   await page.getByTestId("add-wertsachen").click();
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum-zusammenfassung/wertgegenstaende
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/wertgegenstaende
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillInput("wertsachen#art", "Bargeld");
   await beratungshilfeFormular.fillDropdown("wertsachen#eigentuemer", "myself");
@@ -36,11 +36,11 @@ async function addGrundeigentum(
 ) {
   await page.getByTestId("add-grundeigentum").click();
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum-zusammenfassung/grundeigentum/0/bewohnt-frage
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/0/bewohnt-frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("grundeigentum#isBewohnt", "yes");
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum-zusammenfassung/grundeigentum/0/daten
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/0/daten
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillDropdown(
     "grundeigentum#art",
@@ -61,11 +61,11 @@ async function addGeldanlage(
 ) {
   await page.getByTestId("add-geldanlagen").click();
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum-zusammenfassung/geldanlagen/0/art
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("geldanlagen#art", "bargeld");
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum-zusammenfassung/geldanlagen/0/bargeld
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/bargeld
   expect(page.url()).toContain("bargeld");
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillDropdown(
@@ -82,21 +82,21 @@ async function addKraftfahrzeug(
 ) {
   await page.getByTestId("add-kraftfahrzeuge").click();
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum-zusammenfassung/kraftfahrzeuge/arbeitsweg
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/arbeitsweg
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage(
     "kraftfahrzeuge#hasArbeitsweg",
     "yes",
   );
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum-zusammenfassung/kraftfahrzeuge/wert
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/wert
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage(
     "kraftfahrzeuge#wert",
     "over10000",
   );
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum-zusammenfassung/kraftfahrzeuge/fahrzeuge
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/fahrzeuge
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillDropdown(
     "kraftfahrzeuge#eigentuemer",
@@ -126,7 +126,7 @@ async function addBankkonto(
 ) {
   await page.getByTestId("add-bankkonten").click();
 
-  // beratungshilfe/antrag/finanzielleAngaben/eigentum/bankkonten
+  // beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillDropdown(
     "bankkonten#kontoEigentuemer",

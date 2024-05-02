@@ -1,7 +1,7 @@
 import type { ArrayConfig } from "~/services/array";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
 
-const prefix = "/beratungshilfe/antrag/finanzielleAngaben";
+const prefix = "/beratungshilfe/antrag/finanzielle-angaben";
 
 export const finanzielleAngabenArrayConfig = {
   bankkonten: {

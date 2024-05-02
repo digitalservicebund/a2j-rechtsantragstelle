@@ -11,10 +11,10 @@ describe("getSummaryData", () => {
   it("returns correct configuration when only one category is given", () => {
     const mockArrayConfig = {
       bankkonten: {
-        url: "/beratungshilfe/antrag/finanzielleAngaben/eigentum-zusammenfassung/bankkonten",
+        url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/bankkonten",
         initialInputUrl: "daten",
         statementUrl:
-          "/beratungshilfe/antrag/finanzielleAngaben/eigentum/bankkonten-frage",
+          "/beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten-frage",
         statementKey: "hasBankkonto",
         event: "add-bankkonten",
       },
@@ -43,18 +43,18 @@ describe("getSummaryData", () => {
   it("returns correct configuration when multiple categories are given", () => {
     const mockArrayConfig = {
       bankkonten: {
-        url: "/beratungshilfe/antrag/finanzielleAngaben/eigentum-zusammenfassung/bankkonten",
+        url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/bankkonten",
         initialInputUrl: "daten",
         statementUrl:
-          "/beratungshilfe/antrag/finanzielleAngaben/eigentum/bankkonten-frage",
+          "/beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten-frage",
         statementKey: "hasBankkonto",
         event: "add-bankkonten",
       },
       kraftfahrzeuge: {
-        url: "/beratungshilfe/antrag/finanzielleAngaben/eigentum-zusammenfassung/kraftfahrzeuge",
+        url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge",
         initialInputUrl: "daten",
         statementUrl:
-          "/beratungshilfe/antrag/finanzielleAngaben/eigentum/kraftfahrzeuge-frage",
+          "/beratungshilfe/antrag/finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
         statementKey: "hasKraftfahrzeug",
         event: "add-kraftfahrzeuge",
       },
@@ -90,11 +90,11 @@ describe("getSummaryData", () => {
   it("should not return the config when category is unknown", () => {
     const mockArrayConfig = {
       bankkonten: {
-        url: "/beratungshilfe/antrag/finanzielleAngaben/eigentum-zusammenfassung/bankkonten",
+        url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/bankkonten",
         event: "add-bankkonten",
         initialInputUrl: "daten",
         statementUrl:
-          "/beratungshilfe/antrag/finanzielleAngaben/eigentum/bankkonten-frage",
+          "/beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten-frage",
         statementKey: "hasBankkonto",
       },
     } satisfies Record<string, ArrayConfig>;

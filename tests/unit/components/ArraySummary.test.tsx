@@ -7,9 +7,9 @@ const mockArrayConfiguration: ArrayConfig = {
   initialInputUrl: "daten",
   statementKey: "hasWeitereUnterhaltszahlungen",
   statementUrl:
-    "/beratungshilfe/antrag/finanzielleAngaben/andere-unterhaltszahlungen/frage",
+    "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/frage",
   statementValue: true,
-  url: "/beratungshilfe/antrag/finanzielleAngaben/andere-unterhaltszahlungen/person",
+  url: "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person",
 };
 
 const arrayData = {
