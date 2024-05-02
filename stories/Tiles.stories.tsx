@@ -52,6 +52,51 @@ export const TileWithoutRadioButtonsTwoColumns: Story = {
   decorators: [(Story) => remixContext(Story)],
 };
 
+export const TileWithtoutRadioButtonsTwoColumnAndImageOption: Story = {
+  args: {
+    ...tileGroupProps,
+    useTwoColumns: true,
+    options: [
+      {
+        ...tileGroupOptionOneProps,
+        image: {
+          url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/nichtbefoerderung_622132fec8.svg",
+        },
+      },
+      {
+        ...tileGroupOptionTwoProps,
+        image: {
+          url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/verspaetung_3a4c9932b4.svg",
+        },
+      },
+    ],
+  },
+  decorators: [(Story) => remixContext(Story)],
+};
+
+export const TileWithoutRadioButtonsTwoColumnAndImageOptionAndTag: Story = {
+  args: {
+    ...tileGroupProps,
+    useTwoColumns: true,
+    options: [
+      {
+        ...tileGroupOptionOneProps,
+        image: {
+          url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/nichtbefoerderung_622132fec8.svg",
+        },
+      },
+      {
+        ...tileGroupOptionTwoProps,
+        image: {
+          url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/verspaetung_3a4c9932b4.svg",
+        },
+        tagDescription: "Tag description",
+      },
+    ],
+  },
+  decorators: [(Story) => remixContext(Story)],
+};
+
 export const TileWithtRadioButtonsOneColumn: Story = {
   args: {
     ...tileGroupProps,

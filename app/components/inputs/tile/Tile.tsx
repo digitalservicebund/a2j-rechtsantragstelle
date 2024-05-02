@@ -3,6 +3,7 @@ import Image from "../../Image";
 import RichText from "../../RichText";
 import type { ExtraTileProps, TileProps } from "./TileGroup";
 import TileTag from "./TileTag";
+import classNames from "classnames";
 
 const Tile = ({
   name,
@@ -34,7 +35,10 @@ const Tile = ({
         htmlFor={id}
       >
         <div
-          className={`ds-label-01-bold flex flex-row space-x-8 items-center " ${tagDescription ? "justify-between" : ""}`}
+          className={classNames(
+            "ds-label-01-bold flex flex-row space-x-8 items-center",
+            { "justify-between": tagDescription },
+          )}
         >
           {image && <Image {...image} />}
           <span>{title}</span>

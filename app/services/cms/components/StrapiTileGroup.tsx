@@ -26,8 +26,7 @@ const StrapiTileGroupSchema = z
     showRadioButtonTiles: z
       .boolean()
       .nullable()
-      .transform((value) => value ?? false)
-      .default(false),
+      .transform((value) => value ?? false),
   })
   .merge(HasOptionalStrapiIdSchema);
 
