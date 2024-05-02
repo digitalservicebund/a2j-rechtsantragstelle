@@ -98,6 +98,12 @@ export function ResultPage({
             </div>
           </Container>
 
+          {reasons.length > 0 && (
+            <Container paddingBottom="0">
+              <InfoBox items={infoBoxesFromElementsWithID(reasons)} />
+            </Container>
+          )}
+
           <Container paddingTop="48" paddingBottom="0">
             <ButtonContainer>
               <a className="text-link" href={backButton.destination}>
@@ -159,19 +165,6 @@ export function ResultPage({
       )}
 
       {content.length > 0 && <PageContent content={content} />}
-      {reasons.length > 0 && (
-        <Container>
-          <InfoBox
-            heading={{
-              tagName: "h2",
-              look: "ds-heading-02-reg",
-              text: "Begründung",
-              className: "mb-16",
-            }}
-            items={infoBoxesFromElementsWithID(reasons)}
-          />
-        </Container>
-      )}
 
       {documentsList.length > 0 && (
         <div>
