@@ -19,7 +19,12 @@ import {
   checkedOptional,
   checkedRequired,
 } from "~/services/validation/checkedCheckbox";
-import { createDateSchema, today, addDays } from "~/services/validation/date";
+import {
+  createDateSchema,
+  today,
+  addDays,
+  addYears,
+} from "~/services/validation/date";
 import { timeSchema } from "~/services/validation/time";
 import { integerSchema } from "~/services/validation/integer";
 
@@ -62,7 +67,7 @@ export const fluggastrechtContext = {
   entfernung: integerSchema,
   teilentschaedigung: YesNoAnswer,
   frist: createDateSchema({
-    earliest: () => addDays(today(), -3 * 365),
+    earliest: () => addYears(today(), -3),
     latest: () => addDays(today(), -1),
   }),
   nebenforderungen: z.object({
