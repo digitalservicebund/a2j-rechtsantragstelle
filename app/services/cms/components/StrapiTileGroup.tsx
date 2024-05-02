@@ -6,7 +6,7 @@ import {
 import { StrapiErrorCategorySchema } from "../models/StrapiErrorCategory";
 import { omitNull } from "~/util/omitNull";
 import { StrapiTileSchema } from "../models/StrapiTile";
-import TileGroup from "~/components/inputs/TileGroup";
+import TileGroup from "~/components/inputs/tile/TileGroup";
 import { getImageProps } from "../models/StrapiImage";
 
 const StrapiTileGroupSchema = z
@@ -23,6 +23,10 @@ const StrapiTileGroupSchema = z
       ),
     }),
     useTwoColumns: z.boolean().nullable(),
+    showRadioButtonTiles: z
+      .boolean()
+      .nullable()
+      .transform((value) => value ?? false),
   })
   .merge(HasOptionalStrapiIdSchema);
 
@@ -32,11 +36,7 @@ export const StrapiTileGroupComponentSchema = StrapiTileGroupSchema.extend({
   __component: z.literal("form-elements.tile-group"),
 });
 
-export const StrapiTileGroup = ({
-  errors,
-  options,
-  ...props
-}: StrapiTileGroup) => {
+const StrapiTileGroup = ({ errors, options, ...props }: StrapiTileGroup) => {
   const errorMessages = errors.data?.flatMap(
     (cmsError) => cmsError.attributes.errorCodes,
   );
@@ -53,3 +53,5 @@ export const StrapiTileGroup = ({
     />
   );
 };
+
+export default StrapiTileGroup;
