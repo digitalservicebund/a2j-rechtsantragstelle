@@ -82,10 +82,10 @@ export default function Footer({
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-x-32 gap-y-8">
+          <nav className="flex flex-wrap gap-x-32 gap-y-8" aria-label="Footer">
             {renderLinks(linksFirstColumn)}
             {renderLinks(linksSecondColumn)}
-          </div>
+          </nav>
         </div>
       </Container>
     </footer>

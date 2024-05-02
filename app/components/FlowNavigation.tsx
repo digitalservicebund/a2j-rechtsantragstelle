@@ -53,17 +53,19 @@ export default function FlowNavigation({
   readonly navItems: NavItem[];
 }) {
   return (
-    <ul>
-      {navItems.map(({ destination, label, state, subflows }) => (
-        <NavItem
-          key={destination}
-          destination={destination}
-          state={state}
-          label={label}
-          subflows={subflows ?? []}
-        />
-      ))}
-    </ul>
+    <nav aria-label="Formularnavigation">
+      <ul>
+        {navItems.map(({ destination, label, state, subflows }) => (
+          <NavItem
+            key={destination}
+            destination={destination}
+            state={state}
+            label={label}
+            subflows={subflows ?? []}
+          />
+        ))}
+      </ul>
+    </nav>
   );
 }
 
