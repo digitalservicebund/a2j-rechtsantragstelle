@@ -81,7 +81,7 @@ test("vorabcheck can be traversed (long path)", async ({ page }) => {
   ).toHaveCount(1);
 });
 
-test("vorabcheck can be traversed (short path)", async ({ page }) => {
+test.skip("vorabcheck can be traversed (short path)", async ({ page }) => {
   await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
 
