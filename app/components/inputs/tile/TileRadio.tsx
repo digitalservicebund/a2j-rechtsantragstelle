@@ -22,8 +22,9 @@ const TileRadio = ({
   image,
   tagDescription,
   onClick,
+  formId,
 }: TileProps & ExtraTileProps) => {
-  const { error, getInputProps } = useField(name);
+  const { error, getInputProps } = useField(name, { formId });
   const id = `${name}-${value}`;
 
   return (
@@ -36,7 +37,7 @@ const TileRadio = ({
         aria-describedby={error && `${name}-error`}
         onClick={onClick}
       />
-      <label className={`${image ? "pb-32 px-40" : ""}`} htmlFor={id}>
+      <label className={`${image ? "pb-32 px-40" : "pr-32"}`} htmlFor={id}>
         <div className="flex flex-row space-x-8 items-center justify-between">
           {image && (
             <Image {...image} width={IMAGE_WIDTH} height={IMAGE_HEIGHT} />

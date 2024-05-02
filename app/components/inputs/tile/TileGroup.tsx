@@ -14,6 +14,7 @@ type TileGroupProps = Readonly<{
   errorMessages?: ErrorMessageProps[];
   useTwoColumns?: boolean;
   showRadioButtonTiles: boolean;
+  formId?: string;
 }>;
 
 export type TileProps = Readonly<{
@@ -27,6 +28,7 @@ export type TileProps = Readonly<{
 export type ExtraTileProps = Readonly<{
   name: string;
   onClick: () => void;
+  formId?: string;
 }>;
 
 const renderTile = ({
@@ -38,6 +40,7 @@ const renderTile = ({
   image,
   tagDescription,
   title,
+  formId,
 }: TileProps &
   ExtraTileProps &
   Pick<TileGroupProps, "showRadioButtonTiles">) => {
@@ -52,6 +55,7 @@ const renderTile = ({
         tagDescription={tagDescription}
         image={image}
         title={title}
+        formId={formId}
       />
     );
   }
@@ -66,6 +70,7 @@ const renderTile = ({
       onClick={onClick}
       tagDescription={tagDescription}
       image={image}
+      formId={formId}
     />
   );
 };
@@ -78,8 +83,9 @@ const TileGroup = ({
   errorMessages,
   useTwoColumns,
   showRadioButtonTiles,
+  formId,
 }: TileGroupProps) => {
-  const { error, defaultValue } = useStringField(name);
+  const { error, defaultValue } = useStringField(name, { formId });
   const errorId = `${name}-error`;
   const errorToDisplay =
     errorMessages?.find((err) => err.code === error)?.text ?? error;
@@ -114,6 +120,7 @@ const TileGroup = ({
             image: option.image,
             tagDescription: option.tagDescription,
             title: option.title,
+            formId,
           }),
         )}
       </div>

@@ -12,8 +12,9 @@ const Tile = ({
   image,
   tagDescription,
   onClick,
+  formId,
 }: TileProps & ExtraTileProps) => {
-  const { error, getInputProps } = useField(name);
+  const { error, getInputProps } = useField(name, { formId });
   const id = `${name}-${value}`;
 
   return (
