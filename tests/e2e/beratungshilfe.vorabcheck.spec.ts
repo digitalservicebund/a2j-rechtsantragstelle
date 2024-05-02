@@ -13,7 +13,7 @@ test("forwarded to intial step", async ({ page }) => {
   await vorabcheck.assertInitialStep();
 });
 
-test.skip("vorabcheck can be traversed (long path)", async ({ page }) => {
+test("vorabcheck can be traversed (long path)", async ({ page }) => {
   await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
 
@@ -81,7 +81,7 @@ test.skip("vorabcheck can be traversed (long path)", async ({ page }) => {
   ).toHaveCount(1);
 });
 
-test.skip("vorabcheck can be traversed (short path)", async ({ page }) => {
+test("vorabcheck can be traversed (short path)", async ({ page }) => {
   await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
 
