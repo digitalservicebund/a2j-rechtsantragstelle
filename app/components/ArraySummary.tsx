@@ -116,8 +116,8 @@ const ArraySummary = ({
               );
             })}
             <Button
-              look="ghost"
-              className="hover:shadow-none pl-0 pt-8"
+              look="primary"
+              className="hover:shadow-none py-10"
               iconLeft={<AddButton />}
               data-testid={`add-${category}`}
               href={`${url}/${Number(nextItemIndex)}/${initialInputUrl}`}
