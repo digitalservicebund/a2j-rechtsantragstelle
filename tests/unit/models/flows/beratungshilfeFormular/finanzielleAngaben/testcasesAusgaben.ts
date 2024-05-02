@@ -7,11 +7,11 @@ const cases = [
     {
       staatlicheLeistungen: "keine",
     },
-    ["finanzielle-angaben/ausgaben/ausgaben-frage", "persoenlicheDaten/start"],
+    ["finanzielle-angaben/ausgaben/ausgaben-frage", "persoenliche-daten/start"],
   ],
   [
     { hasAusgaben: "no", staatlicheLeistungen: "keine" },
-    ["finanzielle-angaben/ausgaben/ausgaben-frage", "persoenlicheDaten/start"],
+    ["finanzielle-angaben/ausgaben/ausgaben-frage", "persoenliche-daten/start"],
   ],
   [
     { hasAusgaben: "yes" },
@@ -19,7 +19,7 @@ const cases = [
       "finanzielle-angaben/ausgaben/ausgaben-frage",
       "finanzielle-angaben/ausgaben/situation",
       "finanzielle-angaben/ausgaben/uebersicht",
-      "persoenlicheDaten/start",
+      "persoenliche-daten/start",
     ],
   ],
   [

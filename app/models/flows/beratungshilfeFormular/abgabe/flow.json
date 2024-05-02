@@ -8,7 +8,7 @@
           { "target": "online", "guard": "abgabeOnline" },
           { "target": "ausdrucken", "guard": "abgabeAusdrucken" }
         ],
-        "BACK": "#persoenlicheDaten.telefonnummer"
+        "BACK": "#persoenliche-daten.telefonnummer"
       }
     },
     "ausdrucken": { "on": { "BACK": { "target": "art" } } },

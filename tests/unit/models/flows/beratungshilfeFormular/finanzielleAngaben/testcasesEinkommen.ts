@@ -9,7 +9,7 @@ const cases = [
       "rechtsproblem/situation-beschreibung",
       "finanzielle-angaben/start",
       "finanzielle-angaben/einkommen/staatliche-leistungen",
-      "persoenlicheDaten/start",
+      "persoenliche-daten/start",
     ],
   ],
   [
@@ -25,7 +25,7 @@ const cases = [
       "finanzielle-angaben/eigentum/wertgegenstaende-frage",
       "finanzielle-angaben/eigentum/grundeigentum-frage",
       "finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
-      "persoenlicheDaten/start",
+      "persoenliche-daten/start",
     ],
   ],
   [
@@ -48,21 +48,21 @@ const cases = [
       "finanzielle-angaben/eigentum/grundeigentum-frage",
       "finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
       "finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "persoenlicheDaten/start",
+      "persoenliche-daten/start",
     ],
   ],
   [
     { staatlicheLeistungen: "asylbewerberleistungen" },
     [
       "finanzielle-angaben/einkommen/staatliche-leistungen",
-      "persoenlicheDaten/start",
+      "persoenliche-daten/start",
     ],
   ],
   [
     { staatlicheLeistungen: "grundsicherung" },
     [
       "finanzielle-angaben/einkommen/staatliche-leistungen",
-      "persoenlicheDaten/start",
+      "persoenliche-daten/start",
     ],
   ],
   [
@@ -75,7 +75,7 @@ const cases = [
       "finanzielle-angaben/einkommen/weiteres-einkommen",
       "finanzielle-angaben/einkommen/einkommen",
       // TODO why do we only show the partner flow if einkommen is done? The back-flow does not match that requirement.
-      // "persoenlicheDaten/start",
+      // "persoenliche-daten/start",
     ],
   ],
   [
@@ -87,7 +87,7 @@ const cases = [
       "finanzielle-angaben/einkommen/weiteres-einkommen",
       "finanzielle-angaben/einkommen/einkommen",
       // TODO why do we only show the partner flow if einkommen is done? The back-flow does not match that requirement.
-      // "persoenlicheDaten/start",
+      // "persoenliche-daten/start",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

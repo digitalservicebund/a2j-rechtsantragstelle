@@ -2,7 +2,7 @@
   "initial": "start",
   "id": "finanzielle-angaben",
   "on": {
-    "SUBMIT": "#persoenlicheDaten.start",
+    "SUBMIT": "#persoenliche-daten.start",
     "BACK": "#rechtsproblem.situation-beschreibung"
   },
   "states": {
@@ -26,7 +26,7 @@
                 "guard": "staatlicheLeistungenIsKeine",
                 "target": "erwerbstaetig"
               },
-              "#persoenlicheDaten.start"
+              "#persoenliche-daten.start"
             ],
             "BACK": "#finanzielle-angaben.start"
           }
@@ -467,7 +467,7 @@
                 "guard": "eigentumDone"
               },
               {
-                "target": "#persoenlicheDaten.start",
+                "target": "#persoenliche-daten.start",
                 "guard": "staatlicheLeistungenIsBuergergeld"
               },
               "#ausgaben"
@@ -483,7 +483,7 @@
                 "guard": "eigentumDone"
               },
               {
-                "target": "#persoenlicheDaten.start",
+                "target": "#persoenliche-daten.start",
                 "guard": "staatlicheLeistungenIsBuergergeld"
               },
               "#ausgaben"
@@ -509,7 +509,7 @@
             "SUBMIT": [
               {
                 "guard": "hasStaatlicheLeistungen",
-                "target": "#persoenlicheDaten.start"
+                "target": "#persoenliche-daten.start"
               },
               "#ausgaben"
             ],
@@ -695,7 +695,7 @@
                 "guard": "hasAusgabenYes",
                 "target": "situation"
               },
-              "#persoenlicheDaten.start"
+              "#persoenliche-daten.start"
             ]
           }
         },
@@ -708,7 +708,7 @@
         "uebersicht": {
           "on": {
             "BACK": "situation",
-            "SUBMIT": "#persoenlicheDaten.start",
+            "SUBMIT": "#persoenliche-daten.start",
             "add-ausgaben": {
               "guard": "isValidAusgabenArrayIndex",
               "target": "ausgaben"

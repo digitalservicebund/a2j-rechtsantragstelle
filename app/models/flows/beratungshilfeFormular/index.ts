@@ -65,7 +65,7 @@ export const beratungshilfeFormular = {
           subflowState: beratungshilfeFinanzielleAngabenSubflowState,
         },
       }),
-      persoenlicheDaten: _.merge(persoenlicheDatenFlow, {
+      "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
         meta: { done: beratungshilfePersoenlicheDatenDone },
       }),
       abgabe: abgabeFlow,
