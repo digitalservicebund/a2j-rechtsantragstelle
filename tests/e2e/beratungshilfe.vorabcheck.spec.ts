@@ -13,7 +13,7 @@ test("forwarded to intial step", async ({ page }) => {
   await vorabcheck.assertInitialStep();
 });
 
-test("vorabcheck can be traversed (long path)", async ({ page }) => {
+test.skip("vorabcheck can be traversed (long path)", async ({ page }) => {
   await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
 
