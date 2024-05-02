@@ -22,7 +22,7 @@ import type { CollectionSchemas, EntrySchemas } from "~/services/cms/schemas";
 import type { z } from "zod";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
-import { BackgroundColor } from "~/components";
+import type { BackgroundColor } from "~/components";
 
 const iconCSS = "inline-block !h-[36px] !w-[36px] !min-h-[36px] !min-w-[36px]";
 const icons: Record<StrapiResultPageType, ReactElement> = {

@@ -35,7 +35,6 @@ describe("getImageProps", () => {
   });
 
   it("does not return an empty object", () => {
-    // @ts-ignore
     const result = getImageProps({});
     expect(result).toEqual(undefined);
   });
