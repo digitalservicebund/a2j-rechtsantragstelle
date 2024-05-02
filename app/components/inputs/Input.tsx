@@ -84,7 +84,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             list={dataList && `data-list-${name}`}
           />
           {dataList && <DataListInput inputName={name} dataList={dataList} />}
-          {suffix && <div className="ds-input-suffix">{suffix}</div>}
+          {suffix && (
+            <div className="ds-input-suffix" aria-hidden="true">
+              {suffix}
+            </div>
+          )}
         </div>
         <div className="label-text mt-6" id={helperId}>
           {helperText}
