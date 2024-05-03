@@ -8,5 +8,6 @@ export const StrapiTileSchema = z
     value: z.string(),
     description: z.string().nullable(),
     image: StrapiImageSchema.nullable(),
+    tagDescription: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);

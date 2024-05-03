@@ -6,21 +6,21 @@ export async function startPersoenlicheDaten(
   page: Page,
   beratungshilfeFormular: BeratungshilfeFormular,
 ) {
-  // beratungshilfe/antrag/persoenlicheDaten/start
+  // beratungshilfe/antrag/persoenliche-daten/start
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.clickNext();
 
-  // beratungshilfe/antrag/persoenlicheDaten/name
+  // beratungshilfe/antrag/persoenliche-daten/name
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillInput("vorname", "Donald");
   await beratungshilfeFormular.fillInput("nachname", "Duck");
   await beratungshilfeFormular.clickNext();
 
-  // beratungshilfe/antrag/persoenlicheDaten/geburtsdatum
+  // beratungshilfe/antrag/persoenliche-daten/geburtsdatum
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillInputPage("geburtsdatum", "01.01.1934");
 
-  // beratungshilfe/antrag/persoenlicheDaten/adresse
+  // beratungshilfe/antrag/persoenliche-daten/adresse
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillInput(
     "strasseHausnummer",
@@ -30,7 +30,7 @@ export async function startPersoenlicheDaten(
   await beratungshilfeFormular.fillInput("ort", "Entenhausen");
   await beratungshilfeFormular.clickNext();
 
-  // beratungshilfe/antrag/persoenlicheDaten/telefonnummer
+  // beratungshilfe/antrag/persoenliche-daten/telefonnummer
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillInputPage("telefonnummer", "123456789");
 }

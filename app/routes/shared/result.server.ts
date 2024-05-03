@@ -94,7 +94,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const reasonElementsWithID =
     cmsContent.reasonings.data?.map((el) => el.attributes) ?? [];
 
-  const { next, back: backButton } = getButtonNavigationProps({
+  const { back: backButton } = getButtonNavigationProps({
     backButtonLabel: defaultStrings["backButtonDefaultLabel"],
     nextButtonLabel:
       cmsContent.nextLink?.text ?? defaultStrings["nextButtonDefaultLabel"],
@@ -113,20 +113,15 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       flowId,
       common: defaultStrings,
       cmsData: cmsContent,
-      content: cmsContent.freeZone,
-      meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
       reasons: reasonElementsWithID.filter((reason) =>
         Boolean(getReasonsToDisplay(userData)[reason.elementId]),
       ),
-      progress: flowController.getProgress(stepId),
-      nextButton: cmsContent.nextLink?.url
-        ? { destination: cmsContent.nextLink.url, label: next?.label ?? "" }
-        : undefined,
+      meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
       backButton,
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
       amtsgerichtCommon,
-      courts: cmsContent.pageType === "success" && courts,
+      courts: cmsContent.pageType === "success" ? courts : [],
     },
     { headers },
   );

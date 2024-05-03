@@ -7,7 +7,7 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { inputRequiredSchema } from "~/services/validation/inputRequired";
-import { addDays, createDateSchema, today } from "~/services/validation/date";
+import { addYears, createDateSchema, today } from "~/services/validation/date";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { integerSchema } from "~/services/validation/integer";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
@@ -18,7 +18,6 @@ const Eigentuemer = z.enum(
 );
 
 const MINUS_150_YEARS = -150;
-const YEAR_DAYS = 365;
 
 const GrundeigentumArt = z.enum(
   [
@@ -49,7 +48,7 @@ const unterhaltszahlungSchema = z.object({
     customRequiredErrorMessage,
   ),
   birthday: createDateSchema({
-    earliest: () => addDays(today(), MINUS_150_YEARS * YEAR_DAYS),
+    earliest: () => addYears(today(), MINUS_150_YEARS),
     latest: () => today(),
   }),
   monthlyPayment: buildMoneyValidationSchema(),
@@ -99,7 +98,7 @@ export const beratungshilfeFinanzielleAngaben = {
       vorname: inputRequiredSchema,
       nachname: inputRequiredSchema,
       geburtsdatum: createDateSchema({
-        earliest: () => addDays(today(), -24 * 365),
+        earliest: () => addYears(today(), -24),
         latest: () => today(),
       }),
       wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),

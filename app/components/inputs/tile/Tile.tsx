@@ -1,13 +1,9 @@
 import { useField } from "remix-validated-form";
-import Image, { type ImageProps } from "../Image";
-import RichText from "../RichText";
-
-export type TileProps = Readonly<{
-  value: string;
-  description?: string | null;
-  title?: string;
-  image?: ImageProps;
-}>;
+import Image from "../../Image";
+import RichText from "../../RichText";
+import type { ExtraTileProps, TileProps } from "./TileGroup";
+import TileTag from "./TileTag";
+import classNames from "classnames";
 
 const Tile = ({
   name,
@@ -15,9 +11,11 @@ const Tile = ({
   value,
   title,
   image,
+  tagDescription,
   onClick,
-}: TileProps & { readonly name: string; readonly onClick: () => void }) => {
-  const { error, getInputProps } = useField(name);
+  formId,
+}: TileProps & ExtraTileProps) => {
+  const { error, getInputProps } = useField(name, { formId });
   const id = `${name}-${value}`;
 
   return (
@@ -36,9 +34,15 @@ const Tile = ({
         }`}
         htmlFor={id}
       >
-        <div className="ds-label-01-bold flex flex-row space-x-8 items-center">
+        <div
+          className={classNames(
+            "ds-label-01-bold flex flex-row space-x-8 items-center",
+            { "justify-between": tagDescription },
+          )}
+        >
           {image && <Image {...image} />}
           <span>{title}</span>
+          <TileTag tagDescription={tagDescription} />
         </div>
         {description && (
           <RichText className="ds-label-03-reg" markdown={description} />

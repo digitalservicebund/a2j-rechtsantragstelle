@@ -34,7 +34,7 @@ test("vorabcheck can be traversed (long path)", async ({ page }) => {
 
   // warning step
   await expectPageToBeAccessible({ page });
-  await vorabcheck.clickNext(true);
+  await vorabcheck.clickNext();
 
   await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("bereich", "other");
@@ -102,7 +102,7 @@ test("vorabcheck can be traversed (short path)", async ({ page }) => {
 
   // warning step
   await expectPageToBeAccessible({ page });
-  await vorabcheck.clickNext(true);
+  await vorabcheck.clickNext();
 
   await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("bereich", "other");

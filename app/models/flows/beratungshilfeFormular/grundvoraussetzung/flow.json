@@ -11,7 +11,7 @@
         "SUBMIT": [
           {
             "guard": "rechtsschutzversicherungNo",
-            "target": "wurdeVerklagt"
+            "target": "wurde-verklagt"
           },
           {
             "target": "rechtsschutzversicherung-hinweis"
@@ -23,73 +23,73 @@
     "rechtsschutzversicherung-hinweis": {
       "on": { "BACK": "rechtsschutzversicherung" }
     },
-    "wurdeVerklagt": {
+    "wurde-verklagt": {
       "on": {
         "SUBMIT": [
           {
             "guard": "wurdeVerklagtNo",
-            "target": "klageEingereicht"
+            "target": "klage-eingereicht"
           },
           {
-            "target": "wurdeVerklagt-hinweis"
+            "target": "wurde-verklagt-hinweis"
           }
         ],
         "BACK": "rechtsschutzversicherung"
       }
     },
-    "wurdeVerklagt-hinweis": {
-      "on": { "BACK": "wurdeVerklagt" }
+    "wurde-verklagt-hinweis": {
+      "on": { "BACK": "wurde-verklagt" }
     },
-    "klageEingereicht": {
+    "klage-eingereicht": {
       "on": {
         "SUBMIT": [
           {
             "guard": "klageEingereichtNo",
-            "target": "beratungshilfeBeantragt"
+            "target": "beratungshilfe-beantragt"
           },
           {
-            "target": "klageEingereicht-hinweis"
+            "target": "klage-eingereicht-hinweis"
           }
         ],
-        "BACK": "wurdeVerklagt"
+        "BACK": "wurde-verklagt"
       }
     },
-    "klageEingereicht-hinweis": {
-      "on": { "BACK": "klageEingereicht" }
+    "klage-eingereicht-hinweis": {
+      "on": { "BACK": "klage-eingereicht" }
     },
-    "beratungshilfeBeantragt": {
+    "beratungshilfe-beantragt": {
       "on": {
         "SUBMIT": [
           {
             "guard": "beratungshilfeBeantragtNo",
-            "target": "eigeninitiativeGrundvorraussetzung"
+            "target": "eigeninitiative-grundvorraussetzung"
           },
           {
-            "target": "beratungshilfeBeantragt-hinweis"
+            "target": "beratungshilfe-beantragt-hinweis"
           }
         ],
-        "BACK": "klageEingereicht"
+        "BACK": "klage-eingereicht"
       }
     },
-    "beratungshilfeBeantragt-hinweis": {
-      "on": { "BACK": "beratungshilfeBeantragt" }
+    "beratungshilfe-beantragt-hinweis": {
+      "on": { "BACK": "beratungshilfe-beantragt" }
     },
-    "eigeninitiativeGrundvorraussetzung": {
+    "eigeninitiative-grundvorraussetzung": {
       "on": {
         "SUBMIT": [
           {
-            "target": "#anwaltlicheVertretung.start",
+            "target": "#anwaltliche-vertretung.start",
             "guard": "grundvoraussetzungDone"
           },
           {
-            "target": "eigeninitiativeGrundvorraussetzung-hinweis"
+            "target": "eigeninitiative-grundvorraussetzung-hinweis"
           }
         ],
-        "BACK": "beratungshilfeBeantragt"
+        "BACK": "beratungshilfe-beantragt"
       }
     },
-    "eigeninitiativeGrundvorraussetzung-hinweis": {
-      "on": { "BACK": "eigeninitiativeGrundvorraussetzung" }
+    "eigeninitiative-grundvorraussetzung-hinweis": {
+      "on": { "BACK": "eigeninitiative-grundvorraussetzung" }
     }
   }
 }

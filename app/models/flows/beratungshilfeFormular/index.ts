@@ -58,13 +58,16 @@ export const beratungshilfeFormular = {
       grundvoraussetzungen: _.merge(beratungshilfeGrundvoraussetzungenFlow, {
         meta: { done: grundvoraussetzungDone },
       }),
-      anwaltlicheVertretung: _.merge(beratungshilfeAnwaltlicheVertretungFlow, {
-        meta: { done: anwaltlicheVertretungDone },
-      }),
+      "anwaltliche-vertretung": _.merge(
+        beratungshilfeAnwaltlicheVertretungFlow,
+        {
+          meta: { done: anwaltlicheVertretungDone },
+        },
+      ),
       rechtsproblem: _.merge(rechtsproblemFlow, {
         meta: { done: rechtsproblemDone },
       }),
-      finanzielleAngaben: _.merge(finanzielleAngabenFlow, {
+      "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
         states: {
           einkommen: { meta: { done: einkommenDone } },
           partner: { meta: { done: partnerDone } },
@@ -80,7 +83,7 @@ export const beratungshilfeFormular = {
           ausgaben: { meta: { done: ausgabenDone } },
         },
       }),
-      persoenlicheDaten: _.merge(persoenlicheDatenFlow, {
+      "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
         meta: { done: beratungshilfePersoenlicheDatenDone },
       }),
       abgabe: _.merge(abgabeFlow, {

@@ -1,5 +1,5 @@
 {
-  "id": "persoenlicheDaten",
+  "id": "persoenliche-daten",
   "initial": "start",
   "states": {
     "start": {
@@ -8,15 +8,15 @@
         "BACK": [
           {
             "guard": "staatlicheLeistungenIsBuergergeldAndEigentumDone",
-            "target": "#finanzielleAngaben.eigentum-zusammenfassung.zusammenfassung"
+            "target": "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung"
           },
           {
             "guard": "staatlicheLeistungenIsBuergergeldAndHasEigentum",
-            "target": "#finanzielleAngaben.eigentum.gesamtwert"
+            "target": "#finanzielle-angaben.eigentum.gesamtwert"
           },
           {
             "guard": "staatlicheLeistungenIsBuergergeld",
-            "target": "#finanzielleAngaben.eigentum.kraftfahrzeuge-frage"
+            "target": "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage"
           },
           {
             "guard": "hasAusgabenYes",
@@ -26,7 +26,7 @@
             "guard": "hasNoStaatlicheLeistungen",
             "target": "#ausgaben.ausgaben-frage"
           },
-          "#finanzielleAngaben.einkommen.staatliche-leistungen"
+          "#finanzielle-angaben.einkommen.staatliche-leistungen"
         ]
       }
     },

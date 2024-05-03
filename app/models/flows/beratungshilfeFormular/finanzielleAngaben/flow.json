@@ -1,8 +1,8 @@
 {
   "initial": "start",
-  "id": "finanzielleAngaben",
+  "id": "finanzielle-angaben",
   "on": {
-    "SUBMIT": "#persoenlicheDaten.start",
+    "SUBMIT": "#persoenliche-daten.start",
     "BACK": "#rechtsproblem.situation-beschreibung"
   },
   "states": {
@@ -26,9 +26,9 @@
                 "guard": "staatlicheLeistungenIsKeine",
                 "target": "erwerbstaetig"
               },
-              "#persoenlicheDaten.start"
+              "#persoenliche-daten.start"
             ],
-            "BACK": "#finanzielleAngaben.start"
+            "BACK": "#finanzielle-angaben.start"
           }
         },
         "erwerbstaetig": {
@@ -359,31 +359,31 @@
             "BACK": "wohnsituation",
             "SUBMIT": [
               {
-                "target": "wohnkostenAllein",
+                "target": "wohnkosten-allein",
                 "guard": "livesAlone"
               },
               {
-                "target": "personenAnzahl",
+                "target": "personen-anzahl",
                 "guard": "livesNotAlone"
               }
             ]
           }
         },
-        "wohnkostenAllein": {
+        "wohnkosten-allein": {
           "on": {
             "BACK": "groesse",
             "SUBMIT": "#eigentum"
           }
         },
-        "personenAnzahl": {
+        "personen-anzahl": {
           "on": {
             "BACK": "groesse",
-            "SUBMIT": "wohnkostenGeteilt"
+            "SUBMIT": "wohnkosten-geteilt"
           }
         },
-        "wohnkostenGeteilt": {
+        "wohnkosten-geteilt": {
           "on": {
-            "BACK": "personenAnzahl",
+            "BACK": "personen-anzahl",
             "SUBMIT": "#eigentum"
           }
         }
@@ -409,13 +409,13 @@
               },
               {
                 "guard": "livesAlone",
-                "target": "#finanzielleAngaben.wohnung.wohnkostenAllein"
+                "target": "#finanzielle-angaben.wohnung.wohnkosten-allein"
               },
               {
                 "guard": "livesNotAlone",
-                "target": "#finanzielleAngaben.wohnung.wohnkostenGeteilt"
+                "target": "#finanzielle-angaben.wohnung.wohnkosten-geteilt"
               },
-              "#finanzielleAngaben.wohnung.groesse"
+              "#finanzielle-angaben.wohnung.groesse"
             ]
           }
         },
@@ -467,7 +467,7 @@
                 "guard": "eigentumDone"
               },
               {
-                "target": "#persoenlicheDaten.start",
+                "target": "#persoenliche-daten.start",
                 "guard": "staatlicheLeistungenIsBuergergeld"
               },
               "#ausgaben"
@@ -483,7 +483,7 @@
                 "guard": "eigentumDone"
               },
               {
-                "target": "#persoenlicheDaten.start",
+                "target": "#persoenliche-daten.start",
                 "guard": "staatlicheLeistungenIsBuergergeld"
               },
               "#ausgaben"
@@ -509,7 +509,7 @@
             "SUBMIT": [
               {
                 "guard": "hasStaatlicheLeistungen",
-                "target": "#persoenlicheDaten.start"
+                "target": "#persoenliche-daten.start"
               },
               "#ausgaben"
             ],
@@ -573,11 +573,11 @@
                     "guard": "isGeldanlageWertpapiere"
                   },
                   {
-                    "target": "guthabenkontoKrypto",
+                    "target": "guthabenkonto-krypto",
                     "guard": "isGeldanlageGuthabenkontoKrypto"
                   },
                   {
-                    "target": "giroTagesgeldSparkonto",
+                    "target": "giro-tagesgeld-sparkonto",
                     "guard": "isGeldanlageGiroTagesgeldSparkonto"
                   },
                   { "target": "befristet", "guard": "isGeldanlageBefristet" },
@@ -599,13 +599,13 @@
                 "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
-            "guthabenkontoKrypto": {
+            "guthabenkonto-krypto": {
               "on": {
                 "BACK": "art",
                 "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
               }
             },
-            "giroTagesgeldSparkonto": {
+            "giro-tagesgeld-sparkonto": {
               "on": {
                 "BACK": "art",
                 "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
@@ -695,7 +695,7 @@
                 "guard": "hasAusgabenYes",
                 "target": "situation"
               },
-              "#persoenlicheDaten.start"
+              "#persoenliche-daten.start"
             ]
           }
         },
@@ -708,7 +708,7 @@
         "uebersicht": {
           "on": {
             "BACK": "situation",
-            "SUBMIT": "#persoenlicheDaten.start",
+            "SUBMIT": "#persoenliche-daten.start",
             "add-ausgaben": {
               "guard": "isValidAusgabenArrayIndex",
               "target": "ausgaben"

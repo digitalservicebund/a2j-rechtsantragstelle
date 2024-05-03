@@ -17,7 +17,6 @@ export const StrapiResultPageSchema = z
     heading: StrapiHeadingSchema,
     hintText: StrapiParagraphSchema.nullable(),
     linkText: z.string().nullable(),
-    backLinkInHeader: z.boolean().nullable(),
     reasonings: z.object({
       data: z
         .array(

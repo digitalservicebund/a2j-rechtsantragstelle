@@ -6,7 +6,7 @@ export async function startFinanzielleAngabenAndereUnterhaltszahlungen(
   page: Page,
   beratungshilfeFormular: BeratungshilfeFormular,
 ) {
-  // beratungshilfe/antrag/finanzielleAngaben/andere-unterhaltszahlungen/frage
+  // beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/frage
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage(
     "hasWeitereUnterhaltszahlungen",

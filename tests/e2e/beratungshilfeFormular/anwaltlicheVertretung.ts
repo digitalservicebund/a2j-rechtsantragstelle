@@ -6,15 +6,15 @@ export async function startAnwaltlicheVertretung(
   page: Page,
   beratungshilfeFormular: BeratungshilfeFormular,
 ) {
-  // beratungshilfe/antrag/anwaltlicheVertretung/start
+  // beratungshilfe/antrag/anwaltliche-vertretung/start
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("anwaltskanzlei", "yes");
 
-  // beratungshilfe/antrag/anwaltlicheVertretung/beratungStattgefunden
+  // beratungshilfe/antrag/anwaltliche-vertretung/beratung-stattgefunden
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("beratungStattgefunden", "yes");
 
-  // beratungshilfe/antrag/anwaltlicheVertretung/beratungStattgefundenDatum
+  // beratungshilfe/antrag/anwaltliche-vertretung/beratung-stattgefunden-datum
   await expectPageToBeAccessible({ page });
   const current = new Date(Date.now());
   const dateFormat = current.toLocaleDateString("de-DE", {
@@ -28,11 +28,11 @@ export async function startAnwaltlicheVertretung(
     dateFormat,
   );
 
-  // beratungshilfe/antrag/anwaltlicheVertretung/frist-hinweis
+  // beratungshilfe/antrag/anwaltliche-vertretung/frist-hinweis
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.clickNext();
 
-  // beratungshilfe/antrag/anwaltlicheVertretung/anwaltKontaktdaten
+  // beratungshilfe/antrag/anwaltliche-vertretung/anwalt-kontaktdaten
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillInput(
     "anwaltName",

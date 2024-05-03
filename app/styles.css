@@ -173,3 +173,20 @@ svg {
 .ds-tile input[type="radio"]:checked + label {
   background: var(--background-color-blue-200, #ecf1f4);
 }
+
+.ds-tile-radio-group:has(div > input[type="radio"]:focus),
+.ds-tile-radio-group:has(div > input[type="radio"]:focus-visible),
+.ds-tile-radio-group:has(div > input[type="radio"]:checked) {
+  /* Increasing the border width causes neighbour elements to shift
+    https://stackoverflow.com/questions/19248985/how-to-prevent-shifting-when-changing-border-width
+  */
+  border-color: #004b76;
+}
+.ds-tile-radio-group:has(div > input[type="radio"]:focus),
+.ds-tile-radio-group:has(div > input[type="radio"]:focus-visible) {
+  background: var(--background-color-blue-200, #ecf1f4);
+}
+
+.ds-tile-radio-group:has(div > input[type="radio"]:checked) {
+  background: var(--background-color-blue-200, #ecf1f4);
+}

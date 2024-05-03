@@ -53,17 +53,19 @@ export default function FlowNavigation({
   readonly navItems: NavItem[];
 }) {
   return (
-    <ul>
-      {navItems.map(({ destination, label, state, subflows }) => (
-        <NavItem
-          key={destination}
-          destination={destination}
-          state={state}
-          label={label}
-          subflows={subflows ?? []}
-        />
-      ))}
-    </ul>
+    <nav aria-label="Formularnavigation">
+      <ul>
+        {navItems.map(({ destination, label, state, subflows }) => (
+          <NavItem
+            key={destination}
+            destination={destination}
+            state={state}
+            label={label}
+            subflows={subflows ?? []}
+          />
+        ))}
+      </ul>
+    </nav>
   );
 }
 
@@ -103,6 +105,7 @@ function NavItem({ destination, label, state, subflows }: Readonly<NavItem>) {
         <div
           className={`md:pr-0 min-w-[242px] ${stateClassNames}`}
           aria-disabled={isDisabled}
+          aria-expanded={collapse.isExpanded}
         >
           <button
             className="relative flex items-center w-full cursor-pointer flex gap-x-16 items-center"
@@ -123,6 +126,7 @@ function NavItem({ destination, label, state, subflows }: Readonly<NavItem>) {
           href={destination}
           className={stateClassNames}
           aria-disabled={isDisabled}
+          aria-current={isCurrent}
         >
           <StateIcon isDone={isDone} />
           {label}
@@ -149,6 +153,7 @@ function SubflowNavigation({ subflows }: { readonly subflows: NavItem[] }) {
 
 function navSubflowItem(destination: string, state: NavState, label: string) {
   const isDisabled = stateIsDisabled(state);
+  const isCurrent = state === NavState.Current;
   return (
     <li
       data-collapse={`collapse-${destination}`}
@@ -157,8 +162,9 @@ function navSubflowItem(destination: string, state: NavState, label: string) {
     >
       <a
         href={destination}
-        className={navItemClassnames(state === NavState.Current, isDisabled)}
+        className={navItemClassnames(isCurrent, isDisabled)}
         aria-disabled={isDisabled}
+        aria-current={isCurrent}
       >
         <StateIcon isDone={stateIsDone(state)} />
         {label}

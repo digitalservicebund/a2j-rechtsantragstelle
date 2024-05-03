@@ -7,19 +7,19 @@ const cases = [
     {
       staatlicheLeistungen: "keine",
     },
-    ["finanzielleAngaben/ausgaben/ausgaben-frage", "persoenlicheDaten/start"],
+    ["finanzielle-angaben/ausgaben/ausgaben-frage", "persoenliche-daten/start"],
   ],
   [
     { hasAusgaben: "no", staatlicheLeistungen: "keine" },
-    ["finanzielleAngaben/ausgaben/ausgaben-frage", "persoenlicheDaten/start"],
+    ["finanzielle-angaben/ausgaben/ausgaben-frage", "persoenliche-daten/start"],
   ],
   [
     { hasAusgaben: "yes" },
     [
-      "finanzielleAngaben/ausgaben/ausgaben-frage",
-      "finanzielleAngaben/ausgaben/situation",
-      "finanzielleAngaben/ausgaben/uebersicht",
-      "persoenlicheDaten/start",
+      "finanzielle-angaben/ausgaben/ausgaben-frage",
+      "finanzielle-angaben/ausgaben/situation",
+      "finanzielle-angaben/ausgaben/uebersicht",
+      "persoenliche-daten/start",
     ],
   ],
   [
@@ -37,9 +37,9 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielleAngaben/ausgaben/ausgaben/art",
-      "finanzielleAngaben/ausgaben/ausgaben/zahlungsinformation",
-      "finanzielleAngaben/ausgaben/ausgaben/laufzeit",
+      "finanzielle-angaben/ausgaben/ausgaben/art",
+      "finanzielle-angaben/ausgaben/ausgaben/zahlungsinformation",
+      "finanzielle-angaben/ausgaben/ausgaben/laufzeit",
     ],
   ],
   [
@@ -57,9 +57,9 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielleAngaben/ausgaben/ausgaben/zahlungsinformation",
-      "finanzielleAngaben/ausgaben/ausgaben/laufzeit",
-      "finanzielleAngaben/ausgaben/ausgaben/zahlungsfrist",
+      "finanzielle-angaben/ausgaben/ausgaben/zahlungsinformation",
+      "finanzielle-angaben/ausgaben/ausgaben/laufzeit",
+      "finanzielle-angaben/ausgaben/ausgaben/zahlungsfrist",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

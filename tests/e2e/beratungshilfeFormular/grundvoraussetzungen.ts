@@ -14,19 +14,19 @@ export async function startGrundvoraussetzungen(
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("rechtsschutzversicherung", "no");
 
-  // beratungshilfe/antrag/grundvoraussetzungen/wurdeVerklagt
+  // beratungshilfe/antrag/grundvoraussetzungen/wurde-verklagt
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("wurdeVerklagt", "no");
 
-  // beratungshilfe/antrag/grundvoraussetzungen/klageEingereicht
+  // beratungshilfe/antrag/grundvoraussetzungen/klage-eingereicht
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("klageEingereicht", "no");
 
-  // beratungshilfe/antrag/grundvoraussetzungen/beratungshilfeBeantragt
+  // beratungshilfe/antrag/grundvoraussetzungen/beratungshilfe-beantragt
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("beratungshilfeBeantragt", "no");
 
-  // beratungshilfe/antrag/grundvoraussetzungen/eigeninitiativeGrundvorraussetzung
+  // beratungshilfe/antrag/grundvoraussetzungen/eigeninitiative-grundvorraussetzung
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage(
     "eigeninitiativeGrundvorraussetzung",
