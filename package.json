@@ -74,7 +74,7 @@
     "true-myth": "^7.1.0",
     "validator": "^13.11.0",
     "xstate": "^5.12.0",
-    "zod": "^3.23.5"
+    "zod": "^3.23.6"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.9.0",
