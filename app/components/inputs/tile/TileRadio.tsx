@@ -4,7 +4,6 @@ import RichText from "../../RichText";
 import type { ExtraTileProps, TileProps } from "./TileGroup";
 import type { Renderer } from "marked";
 import TileTag from "./TileTag";
-import classNames from "classnames";
 
 const paragraphRenderer: Partial<Renderer> = {
   paragraph(text) {
@@ -29,41 +28,42 @@ const TileRadio = ({
   const id = `${name}-${value}`;
 
   return (
-    <div className="ds-tile-radio-group flex flex-row items-center rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#F6F7F8] bg-white break-words">
-      <div className="pl-12">
+    <div className="ds-tile-radio-group rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#F6F7F8] bg-white break-words">
+      <label
+        className={`flex flex-row items-center cursor-pointer touch-manipulation px-24 py-24`}
+        htmlFor={id}
+      >
         <input
           {...getInputProps({ type: "radio", id, value })}
-          className="ds-radio pl-12"
+          className="ds-radio"
           name={name}
           type="radio"
           aria-describedby={error && `${name}-error`}
           onClick={onClick}
         />
-      </div>
-
-      <label
-        className={`flex flex-col h-full cursor-pointer touch-manipulation !pt-24 pb-32 ${image ? "px-24" : "pr-32"}`}
-        htmlFor={id}
-      >
-        <div className="flex flex-row items-center justify-between">
-          {image && (
-            <Image
-              className={"brightness-0 invert-0"}
-              {...image}
-              width={IMAGE_WIDTH}
-              height={IMAGE_HEIGHT}
+        <div className="h-full pl-24 space-y-8">
+          <div className="flex flex-col">
+            <div className="inline-flex items-start justify-between">
+              {image && (
+                <Image
+                  className={"brightness-0 invert-0"}
+                  {...image}
+                  width={IMAGE_WIDTH}
+                  height={IMAGE_HEIGHT}
+                />
+              )}
+              <TileTag tagDescription={tagDescription} />
+            </div>
+          </div>
+          <span className="ds-label-01-bold">{title}</span>
+          {description && (
+            <RichText
+              className="ds-subhead"
+              markdown={description}
+              renderer={paragraphRenderer}
             />
           )}
-          <TileTag tagDescription={tagDescription} />
         </div>
-        <span className="ds-label-01-bold">{title}</span>
-        {description && (
-          <RichText
-            className="ds-subhead"
-            markdown={description}
-            renderer={paragraphRenderer}
-          />
-        )}
       </label>
     </div>
   );
