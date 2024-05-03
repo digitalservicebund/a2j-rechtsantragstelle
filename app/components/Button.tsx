@@ -52,6 +52,7 @@ function Button({
       "ds-button-with-icon-only": (iconLeft ?? iconRight) && !children,
       "ds-button-full-width": fullWidth,
     },
+    "contrast-more:border-4 forced-colors:border-4 border-solid contrast-more:border-black", // TODO: move into angie?
     props.className,
   );
 
