@@ -125,6 +125,7 @@ function NavItem({ destination, label, state, subflows }: Readonly<NavItem>) {
           href={destination}
           className={stateClassNames}
           aria-disabled={isDisabled}
+          aria-current={isCurrent}
         >
           <StateIcon isDone={isDone} />
           {label}
@@ -151,6 +152,7 @@ function SubflowNavigation({ subflows }: { readonly subflows: NavItem[] }) {
 
 function navSubflowItem(destination: string, state: NavState, label: string) {
   const isDisabled = stateIsDisabled(state);
+  const isCurrent = state === NavState.Current;
   return (
     <li
       data-collapse={`collapse-${destination}`}
@@ -159,8 +161,9 @@ function navSubflowItem(destination: string, state: NavState, label: string) {
     >
       <a
         href={destination}
-        className={navItemClassnames(state === NavState.Current, isDisabled)}
+        className={navItemClassnames(isCurrent, isDisabled)}
         aria-disabled={isDisabled}
+        aria-current={isCurrent}
       >
         <StateIcon isDone={stateIsDone(state)} />
         {label}
