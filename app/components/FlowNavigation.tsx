@@ -105,6 +105,7 @@ function NavItem({ destination, label, state, subflows }: Readonly<NavItem>) {
         <div
           className={`md:pr-0 min-w-[242px] ${stateClassNames}`}
           aria-disabled={isDisabled}
+          aria-expanded={collapse.isExpanded}
         >
           <button
             className="relative flex items-center w-full cursor-pointer flex gap-x-16 items-center"
