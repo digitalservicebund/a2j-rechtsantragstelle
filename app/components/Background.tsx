@@ -21,6 +21,7 @@ export default function Background({
       paddingBottom === "default" ? DEFAULT_PADDING_BOTTOM : paddingBottom
     }`,
     backgroundColor === "darkBlue" && "text-white",
+    "contrast-more:border-y-2 contrast-more:border-black",
   );
 
   return <div className={cssClasses}>{children}</div>;
