@@ -182,11 +182,14 @@ svg {
   */
   border-color: #004b76;
 }
-.ds-tile-radio-group:has(label > input[type="radio"]:focus),
-.ds-tile-radio-group:has(label > input[type="radio"]:focus-visible) {
+.ds-tile-radio-group:has(label > input[type="radio"]:hover) {
   background: var(--background-color-blue-200, #ecf1f4);
 }
 
-.ds-tile-radio-group:has(label > input[type="radio"]:checked) {
-  background: var(--background-color-blue-200, #ecf1f4);
+.ds-tile-radio-group:has(label > input[type="radio"]:checked):not(:hover) {
+  background: var(--background-color-blue-300, #dce8ef);
+}
+
+.ds-tile-radio-group:has(label > input[type="radio"]:checked):not(:hover) {
+  border-width: 4px;
 }
