@@ -6,6 +6,7 @@ export const ImagePropsSchema = z
     width: z.number().optional(),
     height: z.number().optional(),
     alternativeText: z.string().optional(),
+    className: z.string().optional(),
   })
   .readonly();
 

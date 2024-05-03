@@ -29,22 +29,30 @@ const TileRadio = ({
   const id = `${name}-${value}`;
 
   return (
-    <div className="ds-tile-radio-group flex flex-row items-center pl-12 h-full rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#F6F7F8] bg-white break-words">
-      <input
-        {...getInputProps({ type: "radio", id, value })}
-        className="ds-radio"
-        name={name}
-        type="radio"
-        aria-describedby={error && `${name}-error`}
-        onClick={onClick}
-      />
+    <div className="ds-tile-radio-group flex flex-row items-center rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#F6F7F8] bg-white break-words">
+      <div className="pl-12">
+        <input
+          {...getInputProps({ type: "radio", id, value })}
+          className="ds-radio pl-12"
+          name={name}
+          type="radio"
+          aria-describedby={error && `${name}-error`}
+          onClick={onClick}
+        />
+      </div>
+
       <label
-        className={`!pt-24 pb-32 ${image ? "px-40" : "pr-32"}`}
+        className={`flex flex-col h-full cursor-pointer touch-manipulation !pt-24 pb-32 ${image ? "px-24" : "pr-32"}`}
         htmlFor={id}
       >
-        <div className="flex flex-row space-x-8 items-center justify-between">
+        <div className="flex flex-row items-center justify-between">
           {image && (
-            <Image {...image} width={IMAGE_WIDTH} height={IMAGE_HEIGHT} />
+            <Image
+              className={"brightness-0 invert-0"}
+              {...image}
+              width={IMAGE_WIDTH}
+              height={IMAGE_HEIGHT}
+            />
           )}
           <TileTag tagDescription={tagDescription} />
         </div>
