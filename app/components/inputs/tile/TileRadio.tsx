@@ -4,6 +4,7 @@ import RichText from "../../RichText";
 import type { ExtraTileProps, TileProps } from "./TileGroup";
 import type { Renderer } from "marked";
 import TileTag from "./TileTag";
+import classNames from "classnames";
 
 const paragraphRenderer: Partial<Renderer> = {
   paragraph(text) {
@@ -28,7 +29,7 @@ const TileRadio = ({
   const id = `${name}-${value}`;
 
   return (
-    <div className="ds-tile-radio-group flex flex-row items-center py-24 pl-12 h-full rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#F6F7F8] bg-white break-words">
+    <div className="ds-tile-radio-group flex flex-row items-center pl-12 h-full rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] hover:bg-[#F6F7F8] bg-white break-words">
       <input
         {...getInputProps({ type: "radio", id, value })}
         className="ds-radio"
@@ -37,7 +38,10 @@ const TileRadio = ({
         aria-describedby={error && `${name}-error`}
         onClick={onClick}
       />
-      <label className={`${image ? "pb-32 px-40" : "pr-32"}`} htmlFor={id}>
+      <label
+        className={`!pt-24 pb-32 ${image ? "px-40" : "pr-32"}`}
+        htmlFor={id}
+      >
         <div className="flex flex-row space-x-8 items-center justify-between">
           {image && (
             <Image {...image} width={IMAGE_WIDTH} height={IMAGE_HEIGHT} />
