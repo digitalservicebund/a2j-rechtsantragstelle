@@ -6,7 +6,7 @@ module.exports = {
     "@remix-run/eslint-config/node",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:sonarjs/recommended",
+    "plugin:sonarjs/recommended-legacy",
     "plugin:storybook/recommended",
     "plugin:jsx-a11y/strict",
   ],
@@ -38,7 +38,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["tests/**/*.ts"],
+      files: ["tests/**/*.{ts,tsx}"],
       rules: {
         "sonarjs/no-duplicate-string": "off",
       },
