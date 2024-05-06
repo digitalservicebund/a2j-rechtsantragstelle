@@ -152,7 +152,11 @@ function stepStates(
 
     // Ignore subflows if empty or parent state has done function
     if (hasDoneFunction || subStepStates.length === 0) {
-      const initialStepId = `${stepId}/${state.config.initial as string}`;
+      const parentInitial = state.config.initial as string | undefined;
+      const initialStepId = parentInitial
+        ? `${stepId}/${parentInitial}`
+        : stepId;
+
       return {
         url: `${state.machine.id}${initialStepId}`,
         isDone: hasDoneFunction ? meta.done({ context }) : false,

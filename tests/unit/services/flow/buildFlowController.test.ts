@@ -293,7 +293,41 @@ describe("buildFlowController", () => {
   });
 
   describe(".stepStates()", () => {
-    it("builds nested done states", () => {
+    it("ignores states without substates or done function", () => {
+      expect(
+        buildFlowController({
+          config: {
+            id: "/test/",
+            initial: "start",
+            states: { start: {} },
+          },
+        }).stepStates(),
+      ).toEqual([]);
+    });
+
+    it("builds single step state", () => {
+      expect(
+        buildFlowController({
+          config: {
+            id: "/test/",
+            initial: "start",
+            states: {
+              start: { meta: { done: () => true } },
+            },
+          },
+        }).stepStates(),
+      ).toEqual([
+        {
+          isDone: true,
+          isReachable: true,
+          isUneditable: false,
+          stepId: "start",
+          url: "/test/start",
+        },
+      ]);
+    });
+
+    it("builds nested step states", () => {
       expect(
         buildFlowController({
           config: {
