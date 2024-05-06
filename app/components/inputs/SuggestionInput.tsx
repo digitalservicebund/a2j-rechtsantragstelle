@@ -9,10 +9,12 @@ import type {
   ClearIndicatorProps,
   ControlProps,
   FormatOptionLabelMeta,
+  InputProps,
 } from "react-select";
 import Select, { components } from "react-select";
 import { useEffect, useState } from "react";
 import Input from "./Input";
+import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 
@@ -173,6 +175,10 @@ const CustomControl = (
   />
 );
 
+const CustomInput = (props: InputProps<DataListOptions, false>) => (
+  <components.Input {...props} maxLength={INPUT_CHAR_LIMIT} />
+);
+
 const SuggestionInput = ({
   name,
   label,
@@ -245,6 +251,7 @@ const SuggestionInput = ({
           IndicatorSeparator: () => null,
           DropdownIndicator: () => null,
           ClearIndicator: CustomClearIndicator,
+          Input: (props) => CustomInput(props),
         }}
         styles={customStyles(hasError)}
       />
