@@ -188,8 +188,5 @@ svg {
 
 .ds-tile-radio-group:has(label > input[type="radio"]:checked):not(:hover) {
   background: var(--background-color-blue-300, #dce8ef);
-}
-
-.ds-tile-radio-group:has(label > input[type="radio"]:checked):not(:hover) {
   box-shadow: 0 0 0 4px #004b76;
 }
