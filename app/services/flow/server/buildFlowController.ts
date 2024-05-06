@@ -137,6 +137,8 @@ function stepStates(
   stateNode: FlowStateMachine["states"][string],
   reachableSteps: string[],
 ): StepState[] {
+  // Recurse a statenode until encountering a done function or no more substates are left
+  // For each encountered statenode a StepState object is returned, containing whether the state is reachable, done and its URL
   const context = (stateNode.machine.config.context ?? {}) as Context;
 
   const statesWithDoneFunctionOrSubstates = Object.values(
