@@ -72,7 +72,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             })}
             ref={ref}
             className={classNames(
-              "ds-input",
+              "ds-input forced-color-adjust-none",
               { "has-error": error },
               width && widthClass(width),
             )}
