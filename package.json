@@ -23,12 +23,13 @@
     "init": "lefthook install",
     "lint:fix": "eslint . --fix",
     "lint": "eslint --cache .",
+    "size": "remix vite:build --logLevel error && size-limit",
     "start:storybook": "storybook dev -p 6006",
     "start": "NODE_ENV=production node ./server.js",
     "test:coverage": "jest --testPathPattern=/tests/unit/ --maxWorkers=50% --coverage --collectCoverageFrom='./app/**'",
     "test:e2e:ui": "npx playwright test --ui",
     "test:e2e": "npx playwright test",
-    "test": "jest --testPathPattern=/tests/unit/ --maxWorkers=50%",
+    "test": "jest --testPathPattern=/tests/unit/ --maxWorkers=50% && npm run size",
     "typecheck": "tsc",
     "update:courtData": "tsx ./app/services/gerichtsfinder/encryptedStorage.ts updateZip",
     "update:URLs": "tsx ./app/services/gerichtsfinder/checkURLs.ts checkURLs",
@@ -83,6 +84,7 @@
     "@remix-run/dev": "^2.9.1",
     "@remix-run/eslint-config": "^2.9.1",
     "@remix-run/testing": "^2.9.1",
+    "@size-limit/file": "^11.1.2",
     "@storybook/addon-a11y": "^8.0.10",
     "@storybook/addon-essentials": "^8.0.10",
     "@storybook/react": "^8.0.10",
@@ -111,6 +113,7 @@
     "p-map": "^7.0.2",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
+    "size-limit": "^11.1.2",
     "storybook": "^8.0.10",
     "tailwindcss": "^3.4.3",
     "translate": "^3.0.0",
@@ -129,5 +132,12 @@
   },
   "optionalDependencies": {
     "license-checker-rseidelsohn": "^4.3.0"
-  }
+  },
+  "size-limit": [
+    {
+      "path": "build/client/assets/*.js",
+      "limit": "400 kB",
+      "gzip": true
+    }
+  ]
 }
