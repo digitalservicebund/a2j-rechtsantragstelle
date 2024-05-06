@@ -191,5 +191,5 @@ svg {
 }
 
 .ds-tile-radio-group:has(label > input[type="radio"]:checked):not(:hover) {
-  border-width: 4px;
+  box-shadow: 0 0 0 4px #004b76;
 }
