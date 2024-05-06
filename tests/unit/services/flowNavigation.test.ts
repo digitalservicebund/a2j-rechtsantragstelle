@@ -47,7 +47,7 @@ describe("flowNavigation", () => {
       { ...parentStepState, subStates: [childStepState] },
     ];
 
-    it("IsCurrent as child", () => {
+    it("parents' IsCurrent true if in child state", () => {
       expect(
         navItemsFromStepStates("step1/start", [parentStepState]),
       ).toStrictEqual([
@@ -60,7 +60,7 @@ describe("flowNavigation", () => {
       ]);
     });
 
-    it("IsCurrent is set for parent", () => {
+    it("nested parents IsCurrent true if in nested child state", () => {
       expect(
         navItemsFromStepStates("step1/a/start", stepStatesNested),
       ).toStrictEqual([
@@ -73,6 +73,26 @@ describe("flowNavigation", () => {
               label: childStepState.stepId,
               destination: childStepState.url,
               state: NavState.Current,
+              subflows: undefined,
+            },
+          ],
+        },
+      ]);
+    });
+
+    it("nested parents IsCurrent false if not in nested child state", () => {
+      expect(
+        navItemsFromStepStates("step1/b/start", stepStatesNested),
+      ).toStrictEqual([
+        {
+          destination: parentStepState.url,
+          label: parentStepState.stepId,
+          state: NavState.Open,
+          subflows: [
+            {
+              label: childStepState.stepId,
+              destination: childStepState.url,
+              state: NavState.Open,
               subflows: undefined,
             },
           ],
