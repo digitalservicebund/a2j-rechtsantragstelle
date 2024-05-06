@@ -190,3 +190,7 @@ svg {
   background: var(--background-color-blue-300, #dce8ef);
   box-shadow: 0 0 0 4px #004b76;
 }
+
+.ds-tile-radio-group label .ds-radio:not(:disabled):hover {
+  box-shadow: inset 0 0 0 0.125rem #004b76;
+}
