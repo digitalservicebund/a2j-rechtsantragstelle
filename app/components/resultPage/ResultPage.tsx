@@ -179,6 +179,8 @@ export function ResultPage({
       )}
 
       <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
+        <PageContent content={nextSteps} />
+
         <UserFeedback
           bannerState={bannerState}
           rating={{
@@ -198,8 +200,6 @@ export function ResultPage({
             text: "Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!",
           }}
         />
-
-        <PageContent content={nextSteps} />
       </div>
     </>
   );
