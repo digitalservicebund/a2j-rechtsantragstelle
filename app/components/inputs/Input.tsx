@@ -5,6 +5,7 @@ import InputLabel from "./InputLabel";
 import { type ErrorMessageProps } from ".";
 import React from "react";
 import DataListInput from "./DataListInput";
+import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 
 export type InputProps = Readonly<{
   name: string;
@@ -63,6 +64,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <div className="ds-input-group">
           {prefix && <div className="ds-input-prefix">{prefix}</div>}
           <input
+            maxLength={INPUT_CHAR_LIMIT}
             {...getInputProps({
               type: type === "number" ? "text" : type,
               step,

@@ -5,6 +5,7 @@ import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import { type ErrorMessageProps } from ".";
 import RichText from "../RichText";
+import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 
 type TextareaProps = Readonly<{
   name: string;
@@ -43,6 +44,7 @@ const Textarea = ({
         {...getInputProps({
           id: name,
           placeholder,
+          maxLength: TEXTAREA_CHAR_LIMIT,
         })}
         className={classNames(
           "ds-textarea forced-color-adjust-none placeholder-gray-600",
