@@ -375,6 +375,52 @@ describe("buildFlowController", () => {
         },
       ]);
     });
+
+    it("handles unreachable nested steps", () => {
+      expect(
+        buildFlowController({
+          config: {
+            id: "/test/",
+            initial: "child1",
+            states: {
+              child1: { meta: { done: () => true }, on: { SUBMIT: "child3" } },
+              child2: { meta: { done: () => true } },
+              child3: { initial: "start", states: { start: {} } },
+              child4: { initial: "start", states: { start: {} } },
+            },
+          },
+        }).stepStates(),
+      ).toEqual([
+        {
+          isDone: true,
+          isReachable: true,
+          isUneditable: false,
+          stepId: "child1",
+          url: "/test/child1",
+        },
+        {
+          isDone: true,
+          isReachable: false,
+          isUneditable: false,
+          stepId: "child2",
+          url: "/test/child2",
+        },
+        {
+          isDone: false,
+          isReachable: true,
+          isUneditable: false,
+          stepId: "child3",
+          url: "/test/child3/start",
+        },
+        {
+          isDone: false,
+          isReachable: false,
+          isUneditable: false,
+          stepId: "child4",
+          url: "/test/child4/start",
+        },
+      ]);
+    });
   });
 
   it("all children must be done for parent to be done", () => {

@@ -150,14 +150,14 @@ function stepStates(
     const meta = state.meta as Meta | undefined;
     const hasDoneFunction = meta?.done !== undefined;
     const isUneditable = Boolean(meta?.isUneditable);
-    const subStepStates = stepStates(state, reachableSteps);
+    const reachableSubStates = stepStates(state, reachableSteps).filter(
+      (state) => state.isReachable,
+    );
 
     // Ignore subflows if empty or parent state has done function
-    if (hasDoneFunction || subStepStates.length === 0) {
-      const parentInitial = state.config.initial as string | undefined;
-      const initialStepId = parentInitial
-        ? `${stepId}/${parentInitial}`
-        : stepId;
+    if (hasDoneFunction || reachableSubStates.length === 0) {
+      const initial = state.config.initial as string | undefined;
+      const initialStepId = initial ? `${stepId}/${initial}` : stepId;
 
       return {
         url: `${state.machine.id}${initialStepId}`,
@@ -168,17 +168,13 @@ function stepStates(
       };
     }
 
-    const reachableSubStates = subStepStates.filter(
-      (state) => state.isReachable,
-    );
-
     return {
       url: `${state.machine.id}${stepId}`,
       isDone: reachableSubStates.every((state) => state.isDone),
       stepId,
       isUneditable,
       isReachable: reachableSubStates.length > 0,
-      subStates: subStepStates,
+      subStates: reachableSubStates,
     };
   });
 }
