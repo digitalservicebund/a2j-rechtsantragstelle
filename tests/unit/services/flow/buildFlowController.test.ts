@@ -480,34 +480,20 @@ describe("buildFlowController", () => {
         states: {
           parent1: {
             initial: "child1",
-            states: {
-              child1: {
-                initial: "start",
-                states: {
-                  start: { on: { SUBMIT: "#/test/.parent1.child2" } },
-                },
-              },
-              child2: {
-                initial: "start",
-                states: {
-                  start: {},
-                },
-              },
-            },
+            states: { child1: { on: { SUBMIT: "#/test/.parent2" } } },
           },
           parent2: {
             initial: "child1",
-            states: {
-              child1: {
-                initial: "start",
-                states: { start: {} },
-              },
-            },
+            states: { child1: {} },
+          },
+          parent3: {
+            initial: "child1",
+            states: { child1: {} },
           },
         },
       },
     }).stepStates();
-    expect(stepStates[0].isReachable).toBe(true);
-    expect(stepStates[1].isReachable).toBe(false);
+    expect(stepStates[1].isReachable).toBe(true);
+    expect(stepStates[2].isReachable).toBe(false);
   });
 });
