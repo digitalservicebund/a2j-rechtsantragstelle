@@ -28,7 +28,7 @@ const TileRadio = ({
   const id = `${name}-${value}`;
 
   return (
-    <div className="ds-tile-radio-group rounded-lg border-2 border-[#B3C9D6] hover:border-[#004B76] focus:outline focus:outline-offset-2 focus:outline-4 focus:outline-blue-800 bg-white break-words">
+    <div className="ds-tile-radio-group rounded-lg border-2 border-[#B3C9D6] bg-white break-words">
       <label
         className={`flex flex-row items-center cursor-pointer touch-manipulation px-24 py-24 h-full`}
         htmlFor={id}
