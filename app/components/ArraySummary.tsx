@@ -2,7 +2,7 @@ import Heading from "./Heading";
 import type { Translations } from "~/services/cms/index.server";
 import Button from "./Button";
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
-import AddButton from "@digitalservicebund/icons/AddCircleOutlined";
+import AddButton from "@digitalservicebund/icons/Add";
 import RichText from "./RichText";
 import type { ArrayData } from "~/models/flows/contexts";
 import type { ArrayConfig } from "~/services/array";
@@ -117,7 +117,8 @@ const ArraySummary = ({
             })}
             <Button
               look="primary"
-              className="hover:shadow-none py-10"
+              size="small"
+              className="hover:shadow-none "
               iconLeft={<AddButton />}
               data-testid={`add-${category}`}
               href={`${url}/${Number(nextItemIndex)}/${initialInputUrl}`}
