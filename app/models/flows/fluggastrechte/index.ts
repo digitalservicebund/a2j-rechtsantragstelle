@@ -2,8 +2,10 @@ import { guards as fluggastrechteVorabcheckGuards } from "~/models/flows/fluggas
 import fluggastrechteVorabcheckFlow from "~/models/flows/fluggastrechte/config.json";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import type { Context } from "../contexts";
-import { getCompensantionPaymentString } from "./stringReplacements";
-import { fourYearsAgoDate } from "tests/unit/util/dateFormatting";
+import {
+  getCompensantionPaymentString,
+  getLastDaytFromFourYearsAgoDate,
+} from "./stringReplacements";
 
 export const fluggastrechteVorabcheck = {
   cmsSlug: "vorab-check-pages",
@@ -11,7 +13,7 @@ export const fluggastrechteVorabcheck = {
   guards: fluggastrechteVorabcheckGuards,
   stringReplacements: (context: FluggastrechtVorabcheckContext) => ({
     ...getCompensantionPaymentString(context),
-    flightDateExpiration: fourYearsAgoDate(),
+    flightDateExpiration: getLastDaytFromFourYearsAgoDate(),
   }),
 } as const;
 

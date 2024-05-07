@@ -1,12 +1,4 @@
-import { today } from "~/services/validation/date";
-
-const toGermanDateFormat = (date: Date) => {
-  return date.toLocaleDateString("de", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
-};
+import { toGermanDateFormat, today } from "~/services/validation/date";
 
 export const sevenDaysAgoDate = () => {
   const date = today();
@@ -17,11 +9,5 @@ export const sevenDaysAgoDate = () => {
 export const thirtyDaysAgoDate = () => {
   const date = today();
   date.setDate(date.getDate() - 30);
-  return toGermanDateFormat(date);
-};
-
-export const fourYearsAgoDate = () => {
-  const date = today();
-  date.setFullYear(date.getFullYear() - 4);
   return toGermanDateFormat(date);
 };

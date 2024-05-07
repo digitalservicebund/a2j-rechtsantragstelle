@@ -73,3 +73,11 @@ export const createDateSchema = (args?: {
       return dateString;
     });
 };
+
+export const toGermanDateFormat = (date: Date) => {
+  return date.toLocaleDateString("de", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+};
