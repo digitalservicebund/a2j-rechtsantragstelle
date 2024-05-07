@@ -182,15 +182,26 @@ svg {
   */
   border-color: #004b76;
 }
-.ds-tile-radio-group:has(label > input[type="radio"]:hover) {
-  background: var(--background-color-blue-200, #ecf1f4);
+
+@media (hover: hover) and (pointer: fine) {
+  .ds-tile-radio-group:has(label > input[type="radio"]:hover) {
+    background: var(--background-color-blue-200, #ecf1f4);
+    @apply border-blue-800;
+  }
 }
 
 .ds-tile-radio-group:has(label > input[type="radio"]:checked):not(:hover) {
   background: var(--background-color-blue-300, #dce8ef);
-  box-shadow: 0 0 0 4px #004b76;
+  box-shadow: 0 0 0 0.125rem #004b76;
 }
 
 .ds-tile-radio-group label .ds-radio:not(:disabled):hover {
   box-shadow: inset 0 0 0 0.125rem #004b76;
+}
+
+.ds-tile-radio-group:has(label > input[type="radio"]:focus):hover {
+  @apply outline;
+  @apply outline-offset-4;
+  @apply outline-4;
+  @apply outline-blue-800;
 }
