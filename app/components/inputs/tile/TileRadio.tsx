@@ -42,20 +42,20 @@ const TileRadio = ({
           onClick={onClick}
         />
         <div className="h-full pl-24 space-y-8">
-          <div className="flex flex-col">
-            <div className="inline-flex items-start justify-between">
-              {image && (
-                <Image
-                  className={"brightness-0 invert-0"}
-                  {...image}
-                  width={IMAGE_WIDTH}
-                  height={IMAGE_HEIGHT}
-                />
-              )}
-              <TileTag tagDescription={tagDescription} />
-            </div>
+          <div className="flex flex-row justify-between">
+            {image && (
+              <Image
+                className={"brightness-0 invert-0"}
+                {...image}
+                width={IMAGE_WIDTH}
+                height={IMAGE_HEIGHT}
+              />
+            )}
+            <TileTag tagDescription={tagDescription} />
           </div>
-          <span className="ds-label-01-bold">{title}</span>
+          <div>
+            <span className="ds-label-01-bold">{title}</span>
+          </div>
           {description && (
             <RichText
               className="ds-subhead"
