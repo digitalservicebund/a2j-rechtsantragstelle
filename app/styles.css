@@ -174,8 +174,6 @@ svg {
   background: var(--background-color-blue-200, #ecf1f4);
 }
 
-.ds-tile-radio-group:has(label > input[type="radio"]:focus),
-.ds-tile-radio-group:has(label > input[type="radio"]:focus-visible),
 .ds-tile-radio-group:has(label > input[type="radio"]:checked) {
   /* Increasing the border width causes neighbour elements to shift
     https://stackoverflow.com/questions/19248985/how-to-prevent-shifting-when-changing-border-width
@@ -183,6 +181,7 @@ svg {
   border-color: #004b76;
 }
 
+/* avoid hover on mobile devices */
 @media (hover: hover) and (pointer: fine) {
   .ds-tile-radio-group:has(label > input[type="radio"]:hover) {
     background: var(--background-color-blue-200, #ecf1f4);
@@ -190,18 +189,39 @@ svg {
   }
 }
 
+/* it should have same hover behaviour when press tile */
+.ds-tile-radio-group:has(label > input[type="radio"]:active) {
+  background: var(--background-color-blue-200, #ecf1f4);
+  @apply border-blue-800;
+}
+
+/* when it's checked but not hover */
 .ds-tile-radio-group:has(label > input[type="radio"]:checked):not(:hover) {
   background: var(--background-color-blue-300, #dce8ef);
   box-shadow: 0 0 0 0.125rem #004b76;
+}
+
+/* for mobile or touch screens, it does not need to see if it's hover */
+@media only screen and (max-device-width: 1024px) {
+  .ds-tile-radio-group:has(label > input[type="radio"]:checked) {
+    background: var(--background-color-blue-300, #dce8ef);
+    box-shadow: 0 0 0 0.125rem #004b76;
+  }
 }
 
 .ds-tile-radio-group label .ds-radio:not(:disabled):hover {
   box-shadow: inset 0 0 0 0.125rem #004b76;
 }
 
-.ds-tile-radio-group:has(label > input[type="radio"]:focus):hover {
+/* when focus, add the outline */
+.ds-tile-radio-group:has(label > input[type="radio"]:focus) {
   @apply outline;
   @apply outline-offset-4;
   @apply outline-4;
   @apply outline-blue-800;
+}
+
+/* when focus without the keyboard, remove the outline */
+.ds-tile-radio-group:not(:has(label > input[type="radio"]:focus-visible)) {
+  @apply outline-none;
 }
