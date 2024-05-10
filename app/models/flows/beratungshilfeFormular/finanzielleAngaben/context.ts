@@ -12,6 +12,7 @@ import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { integerSchema } from "~/services/validation/integer";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
+import { createYearSchema } from "~/services/validation/year";
 
 const Eigentuemer = z.enum(
   ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -126,9 +127,12 @@ export const beratungshilfeFinanzielleAngaben = {
       marke: stringRequiredSchema,
       eigentuemer: Eigentuemer,
       verkaufswert: optionalOrSchema(buildMoneyValidationSchema()),
-      kilometerstand: stringRequiredSchema,
-      anschaffungsjahr: stringOptionalSchema,
-      baujahr: stringRequiredSchema,
+      kilometerstand: integerSchema,
+      anschaffungsjahr: createYearSchema({
+        optional: true,
+        latest: () => today().getFullYear(),
+      }),
+      baujahr: createYearSchema({ latest: () => today().getFullYear() }),
       bemerkung: stringRequiredSchema,
       hasArbeitsweg: YesNoAnswer,
       wert: z.enum(

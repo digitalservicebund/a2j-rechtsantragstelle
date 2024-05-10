@@ -364,7 +364,7 @@ describe("kraftfahrzeugeDone", () => {
               marke: "marke",
               eigentuemer: "myself",
               verkaufswert: "2000",
-              kilometerstand: "20000",
+              kilometerstand: 20000,
               anschaffungsjahr: "1990",
               baujahr: "1990",
               bemerkung: "bemerkung",
