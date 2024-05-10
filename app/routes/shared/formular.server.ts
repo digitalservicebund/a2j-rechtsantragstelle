@@ -20,7 +20,7 @@ import { validatedSession } from "~/services/security/csrf.server";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { logError } from "~/services/logging";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
-import { navItemsFromStepStates } from "~/services/flowNavigation.server";
+import { navItemsFromFlowSpecifics } from "~/services/flowNavigation.server";
 import type { z } from "zod";
 import type { CollectionSchemas } from "~/services/cms/schemas";
 import { getButtonNavigationProps } from "~/util/buttonProps";
@@ -161,12 +161,11 @@ export const loader = async ({
     backDestination: backDestinationWithArrayIndexes,
   });
 
-  const navItems =
-    navItemsFromStepStates(
-      stepId,
-      flowController.stepStates(),
-      navigationStrings,
-    ) ?? [];
+  const navItems = navItemsFromFlowSpecifics(
+    stepId,
+    flowController,
+    navigationStrings,
+  );
 
   const migrationData = await getMigrationData(
     stepId,
