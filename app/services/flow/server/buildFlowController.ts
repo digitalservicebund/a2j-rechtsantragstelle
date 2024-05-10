@@ -11,7 +11,6 @@ import {
   stepIdToPath,
 } from "~/services/flow/stepIdConverter";
 import type { Context } from "~/models/flows/contexts";
-import type { SubflowState } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
 import type { GenericGuard, Guards } from "~/models/flows/guards.server";
 import _ from "lodash";
 import type { ArrayConfig } from "~/services/array";
@@ -44,8 +43,6 @@ type Meta = {
   progressPosition: number | undefined;
   isUneditable: boolean | undefined;
   done: GenericGuard<Context>;
-  subflowState: (context: Context, subflowId: string) => SubflowState;
-  subflowDone: (context: Context, subflowId: string) => boolean | undefined;
   arrays?: Record<string, ArrayConfig>;
 };
 
@@ -127,6 +124,63 @@ function getInitial(machine: FlowStateMachine) {
   return stateValueToStepIds(initialSnapshot.value).pop();
 }
 
+export type StepState = {
+  stepId: string;
+  isDone: boolean;
+  isReachable: boolean;
+  isUneditable: boolean;
+  url: string;
+  subStates?: StepState[];
+};
+
+function stepStates(
+  stateNode: FlowStateMachine["states"][string],
+  reachableSteps: string[],
+): StepState[] {
+  // Recurse a statenode until encountering a done function or no more substates are left
+  // For each encountered statenode a StepState object is returned, containing whether the state is reachable, done and its URL
+  const context = (stateNode.machine.config.context ?? {}) as Context;
+
+  const statesWithDoneFunctionOrSubstates = Object.values(
+    stateNode.states ?? {},
+  ).filter((state) => state.meta?.done || Object.keys(state.states).length > 0);
+
+  return statesWithDoneFunctionOrSubstates.map((state) => {
+    const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
+    const meta = state.meta as Meta | undefined;
+    const hasDoneFunction = meta?.done !== undefined;
+    const isUneditable = Boolean(meta?.isUneditable);
+    const reachableSubStates = stepStates(state, reachableSteps).filter(
+      (state) => state.isReachable,
+    );
+
+    // Ignore subflows if empty or parent state has done function
+    if (hasDoneFunction || reachableSubStates.length === 0) {
+      const initial = state.config.initial as string | undefined;
+      const initialStepId = initial ? `${stepId}/${initial}` : stepId;
+
+      return {
+        url: `${state.machine.id}${initialStepId}`,
+        isDone: hasDoneFunction ? meta.done({ context }) : false,
+        stepId,
+        isUneditable,
+        isReachable: reachableSteps.includes(initialStepId),
+      };
+    }
+
+    return {
+      url: `${state.machine.id}${stepId}`,
+      isDone: reachableSubStates.every((state) => state.isDone),
+      stepId,
+      isUneditable,
+      isReachable: reachableSubStates.length > 0,
+      subStates: reachableSubStates,
+    };
+  });
+}
+
+export type FlowController = ReturnType<typeof buildFlowController>;
+
 export const buildFlowController = ({
   config,
   data: context = {},
@@ -141,22 +195,20 @@ export const buildFlowController = ({
     guards,
   }).createMachine({ ...config, context });
   const baseUrl = config.id ?? "";
+  const reachableSteps = getSteps(machine); // depends on context
 
   return {
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
     getRootMeta: () => rootMeta(machine),
+    stepStates: () => stepStates(machine.root, reachableSteps),
     isDone: (currentStepId: string) =>
       Boolean(metaFromStepId(machine, currentStepId)?.done({ context })),
-    getSubflowState: (currentStepId: string, subflowId: string) =>
-      metaFromStepId(machine, currentStepId)?.subflowState(context, subflowId),
     isUneditable: (currentStepId: string) =>
       Boolean(metaFromStepId(machine, currentStepId)?.isUneditable),
     getConfig: () => config,
     isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),
     isReachable: (currentStepId: string) => {
-      // depends on context
-      const steps = getSteps(machine);
-      return steps.includes(currentStepId);
+      return reachableSteps.includes(currentStepId);
     },
     getPrevious: (stepId: string) => {
       const backArray = transitionDestinations(
