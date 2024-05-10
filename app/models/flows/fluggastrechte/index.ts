@@ -4,16 +4,26 @@ import type { FluggastrechtVorabcheckContext } from "./context";
 import type { Context } from "../contexts";
 import {
   getCompensantionPaymentString,
+  getEndAirportName,
   getLastDaytFromFourYearsAgoDate,
+  getRouteCompensationDescription,
+  getStartAirportName,
 } from "./stringReplacements";
+import type { Translations } from "~/services/cms/index.server";
 
 export const fluggastrechteVorabcheck = {
   cmsSlug: "vorab-check-pages",
   config: fluggastrechteVorabcheckFlow,
   guards: fluggastrechteVorabcheckGuards,
-  stringReplacements: (context: FluggastrechtVorabcheckContext) => ({
+  stringReplacements: (
+    context: FluggastrechtVorabcheckContext,
+    translations: Translations,
+  ) => ({
     ...getCompensantionPaymentString(context),
     flightDateExpiration: getLastDaytFromFourYearsAgoDate(),
+    ...getStartAirportName(context),
+    ...getEndAirportName(context),
+    ...getRouteCompensationDescription(context, translations),
   }),
 } as const;
 
