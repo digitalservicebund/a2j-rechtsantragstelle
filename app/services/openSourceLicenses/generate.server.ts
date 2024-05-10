@@ -57,7 +57,7 @@ const stripLocalPath = (path: string) =>
 const dropVersion = (dependency: string) =>
   dependency.substring(0, dependency.lastIndexOf("@"));
 
-export async function allRelevantLicenses(path = "./") {
+export async function allRelevantLicenses() {
   // 1. Get license info for all and direct dependencies
   // 2. Mark direct dependencies with {direct: true}
   // 3. Only keep mentionable licenses (either direct or not in 'notMentionableLicenses')
