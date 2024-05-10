@@ -61,7 +61,7 @@ export const loader = async ({
   const contentElements = interpolateDeep(
     vorabcheckPage.pre_form,
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userData)
+      ? currentFlow.stringReplacements(userData, {})
       : undefined,
   );
 

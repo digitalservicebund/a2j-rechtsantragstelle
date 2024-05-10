@@ -9,13 +9,17 @@ import { type CollectionSchemas } from "~/services/cms/schemas";
 import type { FlowId, Context } from "./contexts";
 import type { Guards } from "./guards.server";
 import type { Replacements } from "~/util/fillTemplate";
+import type { Translations } from "~/services/cms/index.server";
 
 export type Flow = {
   cmsSlug: keyof CollectionSchemas;
   config: Config;
   guards: Guards;
   migrationSource?: FlowId;
-  stringReplacements?: (context: Context) => Replacements;
+  stringReplacements?: (
+    context: Context,
+    translations: Translations,
+  ) => Replacements;
 };
 
 export const flows = {

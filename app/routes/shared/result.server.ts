@@ -74,20 +74,26 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   // Slug change to keep Strapi slugs without ergebnis/
   const slug = pathname.replace(/ergebnis\//, "");
-  const [resultPageContent, parentMeta, amtsgerichtCommon, defaultStrings] =
-    await Promise.all([
-      fetchCollectionEntry("result-pages", slug),
-      fetchMeta({
-        filterValue: pathname.substring(0, pathname.lastIndexOf("/")),
-      }),
-      fetchSingleEntry("amtsgericht-common"),
-      fetchTranslations("defaultTranslations"),
-    ]);
+  const [
+    resultPageContent,
+    parentMeta,
+    amtsgerichtCommon,
+    defaultStrings,
+    translationsFlowId,
+  ] = await Promise.all([
+    fetchCollectionEntry("result-pages", slug),
+    fetchMeta({
+      filterValue: pathname.substring(0, pathname.lastIndexOf("/")),
+    }),
+    fetchSingleEntry("amtsgericht-common"),
+    fetchTranslations("defaultTranslations"),
+    fetchTranslations(flowId),
+  ]);
 
   const cmsContent = interpolateDeep(
     resultPageContent,
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userData)
+      ? currentFlow.stringReplacements(userData, translationsFlowId)
       : {},
   );
 

@@ -2,6 +2,8 @@ import { calculateDistanceBetweenAirportsInKilometers } from "~/util/calculateDi
 import type { FluggastrechtVorabcheckContext } from "./context";
 import { toGermanDateFormat, today } from "~/services/validation/date";
 import airports from "data/airports/data.json";
+import type { Translations } from "~/services/cms/index.server";
+import { getTranslationByKey } from "~/util/getTranslationByKey";
 
 export const COMPENSATION_VALUE_UNTIL_1500_KM = "250";
 export const COMPENSATION_VALUE_UNTIL_3000_KM = "400";
@@ -10,12 +12,12 @@ const FOUR_YEARS_AGO = 4;
 const LAST_DAY_YEAR = 31;
 const LAST_MONTH_YEAR = 11; // Date.setMonth starts from 0 to 11, where 11 is December
 
-export const ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM =
-  "Kurzstrecke (unter 1.500 km)";
-export const ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3000_KM =
-  "Mittelstrecke (zwischen 1.500 und 3.000 km)";
-export const ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3000_KM =
-  "Langstrecke (über 3.000 km)";
+export const TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM =
+  "route-compensation-description-until-1500-km";
+export const TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3000_KM =
+  "route-compensation-description-until-3000-km";
+export const TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3000_KM =
+  "route-compensation-description-above-3000-km";
 
 export function getCompensantionPaymentString({
   startAirport = "",
@@ -65,25 +67,31 @@ export function getEndAirportName({
   return airportName.length > 0 ? { endAirport: airportName } : {};
 }
 
-export function getRouteCompensationDescription({
-  startAirport = "",
-  endAirport = "",
-}: FluggastrechtVorabcheckContext) {
+export function getRouteCompensationDescription(
+  { startAirport = "", endAirport = "" }: FluggastrechtVorabcheckContext,
+  translations: Translations,
+) {
   const distanceKm = calculateDistanceBetweenAirportsInKilometers(
     startAirport,
     endAirport,
   );
 
   if (distanceKm.isOk) {
-    let routeCompensationDescriptionValue =
-      ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM;
+    let routeCompensationDescriptionValue = getTranslationByKey(
+      TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM,
+      translations,
+    );
 
     if (distanceKm.value > 3000) {
-      routeCompensationDescriptionValue =
-        ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3000_KM;
+      routeCompensationDescriptionValue = getTranslationByKey(
+        TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3000_KM,
+        translations,
+      );
     } else if (distanceKm.value > 1500) {
-      routeCompensationDescriptionValue =
-        ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3000_KM;
+      routeCompensationDescriptionValue = getTranslationByKey(
+        TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3000_KM,
+        translations,
+      );
     }
 
     return {

@@ -2,9 +2,9 @@ import {
   COMPENSATION_VALUE_ABOVE_3000_KM,
   COMPENSATION_VALUE_UNTIL_1500_KM,
   COMPENSATION_VALUE_UNTIL_3000_KM,
-  ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3000_KM,
-  ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM,
-  ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3000_KM,
+  TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3000_KM,
+  TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM,
+  TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3000_KM,
   getCompensantionPaymentString,
   getEndAirportName,
   getLastDaytFromFourYearsAgoDate,
@@ -20,6 +20,15 @@ const mockedCalculateDistanceBetweenAirports =
   calculateDistanceBetweenAirportsInKilometers as jest.Mocked<
     typeof calculateDistanceBetweenAirportsInKilometers
   >;
+
+const TRANSLATION_KEY_RECORD = {
+  [TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM]:
+    "Kurzstrecke (unter 1.500 km)",
+  [TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3000_KM]:
+    "Mittelstrecke (zwischen 1.500 und 3.000 km)",
+  [TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3000_KM]:
+    "Langstrecke (über 3.000 km)",
+};
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -133,11 +142,14 @@ describe("getRouteCompensationDescription", () => {
       Result.ok(1500),
     );
 
-    const actual = getRouteCompensationDescription({});
+    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
+    const expectedTranslation =
+      TRANSLATION_KEY_RECORD[
+        TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM
+      ];
 
     expect(actual).toStrictEqual({
-      routeCompensationDescription:
-        ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM,
+      routeCompensationDescription: expectedTranslation,
     });
   });
 
@@ -146,11 +158,14 @@ describe("getRouteCompensationDescription", () => {
       Result.ok(3000),
     );
 
-    const actual = getRouteCompensationDescription({});
+    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
+    const expectedTranslation =
+      TRANSLATION_KEY_RECORD[
+        TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3000_KM
+      ];
 
     expect(actual).toStrictEqual({
-      routeCompensationDescription:
-        ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3000_KM,
+      routeCompensationDescription: expectedTranslation,
     });
   });
 
@@ -159,11 +174,14 @@ describe("getRouteCompensationDescription", () => {
       Result.ok(3001),
     );
 
-    const actual = getRouteCompensationDescription({});
+    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
+    const expectedTranslation =
+      TRANSLATION_KEY_RECORD[
+        TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3000_KM
+      ];
 
     expect(actual).toStrictEqual({
-      routeCompensationDescription:
-        ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3000_KM,
+      routeCompensationDescription: expectedTranslation,
     });
   });
 
@@ -172,7 +190,7 @@ describe("getRouteCompensationDescription", () => {
       Result.err(""),
     );
 
-    const actual = getRouteCompensationDescription({});
+    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
 
     expect(actual).toStrictEqual({});
   });
