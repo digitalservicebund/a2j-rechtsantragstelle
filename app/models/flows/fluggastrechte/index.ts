@@ -4,7 +4,10 @@ import type { FluggastrechtVorabcheckContext } from "./context";
 import type { Context } from "../contexts";
 import {
   getCompensantionPaymentString,
+  getEndAirportName,
   getLastDaytFromFourYearsAgoDate,
+  getRouteCompensationDescription,
+  getStartAirportName,
 } from "./stringReplacements";
 
 export const fluggastrechteVorabcheck = {
@@ -14,6 +17,9 @@ export const fluggastrechteVorabcheck = {
   stringReplacements: (context: FluggastrechtVorabcheckContext) => ({
     ...getCompensantionPaymentString(context),
     flightDateExpiration: getLastDaytFromFourYearsAgoDate(),
+    ...getStartAirportName(context),
+    ...getEndAirportName(context),
+    ...getRouteCompensationDescription(context),
   }),
 } as const;
 
