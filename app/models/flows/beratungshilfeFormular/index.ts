@@ -21,12 +21,8 @@ import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import abgabeFlow from "./abgabe/flow.json";
 import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import {
-  andereUnterhaltszahlungenDone,
-  ausgabenDone,
-  einkommenDone,
-  kinderDone,
-  partnerDone,
-  wohnungDone,
+  beratungshilfeFinanzielleAngabeDone,
+  beratungshilfeFinanzielleAngabenSubflowState,
 } from "./finanzielleAngaben/navStates";
 import {
   type BeratungshilfePersoenlicheDaten,
@@ -45,10 +41,6 @@ import {
   eigentumZusammenfassungShowWarnings,
 } from "./stringReplacements";
 import { finanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
-import {
-  eigentumDone,
-  eigentumZusammenfassungDone,
-} from "./finanzielleAngaben/navStatesEigentum";
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -68,27 +60,15 @@ export const beratungshilfeFormular = {
         meta: { done: rechtsproblemDone },
       }),
       "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
-        states: {
-          einkommen: { meta: { done: einkommenDone } },
-          partner: { meta: { done: partnerDone } },
-          kinder: { meta: { done: kinderDone } },
-          "andere-unterhaltszahlungen": {
-            meta: { done: andereUnterhaltszahlungenDone },
-          },
-          eigentum: { meta: { done: eigentumDone } },
-          eigentumZusammenfassung: {
-            meta: { done: eigentumZusammenfassungDone },
-          },
-          wohnung: { meta: { done: wohnungDone } },
-          ausgaben: { meta: { done: ausgabenDone } },
+        meta: {
+          done: beratungshilfeFinanzielleAngabeDone,
+          subflowState: beratungshilfeFinanzielleAngabenSubflowState,
         },
       }),
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
         meta: { done: beratungshilfePersoenlicheDatenDone },
       }),
-      abgabe: _.merge(abgabeFlow, {
-        meta: { done: () => false },
-      }),
+      abgabe: abgabeFlow,
     },
   }),
   guards: {

@@ -1,4 +1,7 @@
-import { beratungshilfeFinanzielleAngabeDone } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
+import {
+  beratungshilfeFinanzielleAngabeDone,
+  beratungshilfeFinanzielleAngabenSubflowState,
+} from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
 import * as navStatesEigentum from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStatesEigentum";
 
 describe("navStates", () => {
@@ -120,6 +123,50 @@ describe("navStates", () => {
           },
         }),
       ).toBeFalsy();
+    });
+  });
+
+  describe("beratungshilfeFinanzielleAngabenSubflowState", () => {
+    it("should return done for the subflow andere-unterhaltszahlungen when hasWeitereUnterhaltszahlungen is no", () => {
+      const actual = beratungshilfeFinanzielleAngabenSubflowState(
+        {
+          hasWeitereUnterhaltszahlungen: "no",
+        },
+        "andere-unterhaltszahlungen",
+      );
+
+      expect(actual).toEqual("Done");
+    });
+
+    it("should return open for the subflow andere-unterhaltszahlungen when hasWeitereUnterhaltszahlungen is yes and missing unterhaltszahlungen data", () => {
+      const actual = beratungshilfeFinanzielleAngabenSubflowState(
+        {
+          hasWeitereUnterhaltszahlungen: "yes",
+        },
+        "andere-unterhaltszahlungen",
+      );
+
+      expect(actual).toEqual("Open");
+    });
+
+    it("should return done for the subflow andere-unterhaltszahlungen when hasWeitereUnterhaltszahlungen is yes and unterhaltszahlungen data", () => {
+      const actual = beratungshilfeFinanzielleAngabenSubflowState(
+        {
+          hasWeitereUnterhaltszahlungen: "yes",
+          unterhaltszahlungen: [
+            {
+              birthday: "10.10.2020",
+              familyRelationship: "mother",
+              firstName: "firstName",
+              monthlyPayment: "100",
+              surname: "surname",
+            },
+          ],
+        },
+        "andere-unterhaltszahlungen",
+      );
+
+      expect(actual).toEqual("Done");
     });
   });
 });

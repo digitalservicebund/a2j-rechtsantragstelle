@@ -3,13 +3,15 @@ import { eigentumDone, eigentumZusammenfassungDone } from "./navStatesEigentum";
 import { einkommenDone as einkommenDoneGuard } from "./guards";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
 
+export type SubflowState = "Done" | "Open";
+
 export type FinanzielleAngabenGuard =
   GenericGuard<BeratungshilfeFinanzielleAngaben>;
 
 export const einkommenDone: FinanzielleAngabenGuard = ({ context }) =>
   einkommenDoneGuard({ context });
 
-export const partnerDone: FinanzielleAngabenGuard = ({ context }) =>
+const partnerDone: FinanzielleAngabenGuard = ({ context }) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen({ context })) ||
   ["no", "widowed"].includes(context.partnerschaft ?? "") ||
@@ -23,7 +25,7 @@ const hasStaatlicheLeistungen: FinanzielleAngabenGuard = ({ context }) =>
   context.staatlicheLeistungen == "buergergeld" ||
   context.staatlicheLeistungen == "grundsicherung";
 
-export const kinderDone: FinanzielleAngabenGuard = ({ context }) =>
+const kinderDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasKinder == "no" || context.kinder !== undefined;
 
 const wohnungAloneDone: FinanzielleAngabenGuard = ({ context }) =>
@@ -37,27 +39,48 @@ const wohnungWithOthersDone: FinanzielleAngabenGuard = ({ context }) =>
   context.apartmentCostOwnShare !== undefined &&
   context.apartmentCostFull !== undefined;
 
-export const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
+const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
   context.livingSituation !== undefined &&
   context.apartmentSizeSqm !== undefined &&
   (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context }));
 
-export const andereUnterhaltszahlungenDone: FinanzielleAngabenGuard = ({
-  context,
-}) =>
+const andereUnterhaltszahlungenDone: FinanzielleAngabenGuard = ({ context }) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen({ context })) ||
   context.hasWeitereUnterhaltszahlungen == "no" ||
   (context.unterhaltszahlungen !== undefined &&
     context.unterhaltszahlungen.length > 0);
-
-export const ausgabenDone: FinanzielleAngabenGuard = ({ context }) => {
+const ausgabenDone: FinanzielleAngabenGuard = ({ context }) => {
   return (
     context.hasAusgaben === "no" ||
     (context.hasAusgaben === "yes" &&
       context.ausgaben !== undefined &&
       context.ausgaben.length > 0)
   );
+};
+
+const subflowDoneConfig: Record<string, FinanzielleAngabenGuard> = {
+  einkommen: einkommenDone,
+  partner: partnerDone,
+  kinder: kinderDone,
+  eigentum: eigentumDone,
+  "eigentum-zusammenfassung": eigentumZusammenfassungDone,
+  wohnung: wohnungDone,
+  "andere-unterhaltszahlungen": andereUnterhaltszahlungenDone,
+  ausgaben: ausgabenDone,
+};
+
+export const beratungshilfeFinanzielleAngabenSubflowState = (
+  context: BeratungshilfeFinanzielleAngaben,
+  subflowId: string,
+): SubflowState => {
+  if (
+    subflowId in subflowDoneConfig &&
+    subflowDoneConfig[subflowId]({ context })
+  ) {
+    return "Done";
+  }
+  return "Open";
 };
 
 export const beratungshilfeFinanzielleAngabeDone: GenericGuard<
