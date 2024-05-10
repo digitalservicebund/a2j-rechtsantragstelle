@@ -6,7 +6,7 @@ import {
   customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
-import { inputRequiredSchema } from "~/services/validation/inputRequired";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { addYears, createDateSchema, today } from "~/services/validation/date";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { integerSchema } from "~/services/validation/integer";
@@ -32,8 +32,8 @@ const GrundeigentumArt = z.enum(
 );
 
 const unterhaltszahlungSchema = z.object({
-  firstName: inputRequiredSchema,
-  surname: inputRequiredSchema,
+  firstName: stringRequiredSchema,
+  surname: stringRequiredSchema,
   familyRelationship: z.enum(
     [
       "mother",
@@ -90,13 +90,13 @@ export const beratungshilfeFinanzielleAngaben = {
   unterhaltsSumme: buildMoneyValidationSchema(),
   partnerEinkommen: YesNoAnswer,
   partnerEinkommenSumme: buildMoneyValidationSchema(),
-  partnerVorname: inputRequiredSchema,
-  partnerNachname: inputRequiredSchema,
+  partnerVorname: stringRequiredSchema,
+  partnerNachname: stringRequiredSchema,
   hasKinder: YesNoAnswer,
   kinder: z.array(
     z.object({
-      vorname: inputRequiredSchema,
-      nachname: inputRequiredSchema,
+      vorname: stringRequiredSchema,
+      nachname: stringRequiredSchema,
       geburtsdatum: createDateSchema({
         earliest: () => addYears(today(), -24),
         latest: () => today(),
@@ -111,7 +111,7 @@ export const beratungshilfeFinanzielleAngaben = {
   hasBankkonto: YesNoAnswer,
   bankkonten: z.array(
     z.object({
-      bankName: inputRequiredSchema,
+      bankName: stringRequiredSchema,
       kontostand: buildMoneyValidationSchema({}),
       iban: z.string(),
       kontoEigentuemer: Eigentuemer,
@@ -121,14 +121,14 @@ export const beratungshilfeFinanzielleAngaben = {
   hasKraftfahrzeug: YesNoAnswer,
   kraftfahrzeuge: z.array(
     z.object({
-      art: inputRequiredSchema,
-      marke: inputRequiredSchema,
+      art: stringRequiredSchema,
+      marke: stringRequiredSchema,
       eigentuemer: Eigentuemer,
       verkaufswert: optionalOrSchema(buildMoneyValidationSchema()),
-      kilometerstand: inputRequiredSchema,
+      kilometerstand: stringRequiredSchema,
       anschaffungsjahr: z.string(),
-      baujahr: inputRequiredSchema,
-      bemerkung: inputRequiredSchema,
+      baujahr: stringRequiredSchema,
+      bemerkung: stringRequiredSchema,
       hasArbeitsweg: YesNoAnswer,
       wert: z.enum(
         ["under10000", "over10000", "unsure"],
@@ -154,7 +154,7 @@ export const beratungshilfeFinanzielleAngaben = {
       eigentuemer: Eigentuemer,
       wert: buildMoneyValidationSchema(),
 
-      kontoBankName: inputRequiredSchema.optional(),
+      kontoBankName: stringRequiredSchema.optional(),
       kontoIban: z.string().optional(),
       kontoBezeichnung: z.string().optional(),
 
@@ -165,9 +165,9 @@ export const beratungshilfeFinanzielleAngaben = {
         )
         .optional(),
 
-      forderung: inputRequiredSchema.optional(),
-      verwendungszweck: inputRequiredSchema.optional(),
-      auszahlungdatum: inputRequiredSchema.optional(),
+      forderung: stringRequiredSchema.optional(),
+      verwendungszweck: stringRequiredSchema.optional(),
+      auszahlungdatum: stringRequiredSchema.optional(),
     }),
   ),
   eigentumTotalWorth: z.enum(
@@ -180,18 +180,18 @@ export const beratungshilfeFinanzielleAngaben = {
       isBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),
       art: GrundeigentumArt,
       eigentuemer: Eigentuemer,
-      flaeche: inputRequiredSchema,
+      flaeche: stringRequiredSchema,
       verkaufswert: buildMoneyValidationSchema(),
-      strassehausnummer: inputRequiredSchema,
+      strassehausnummer: stringRequiredSchema,
       plz: z.string().optional(),
-      ort: inputRequiredSchema,
-      land: inputRequiredSchema,
+      ort: stringRequiredSchema,
+      land: stringRequiredSchema,
     }),
   ),
   hasWertsache: YesNoAnswer,
   wertsachen: z.array(
     z.object({
-      art: inputRequiredSchema,
+      art: stringRequiredSchema,
       eigentuemer: Eigentuemer,
       wert: buildMoneyValidationSchema(),
     }),
@@ -213,8 +213,8 @@ export const beratungshilfeFinanzielleAngaben = {
   }),
   ausgaben: z.array(
     z.object({
-      art: inputRequiredSchema,
-      zahlungsempfaenger: inputRequiredSchema,
+      art: stringRequiredSchema,
+      zahlungsempfaenger: stringRequiredSchema,
       beitrag: buildMoneyValidationSchema(),
       hasZahlungsfrist: YesNoAnswer,
       zahlungsfrist: createDateSchema({

@@ -9,7 +9,7 @@ import {
   namePrivatPerson,
 } from "../persoenlicheDaten/context";
 import { airportSchema } from "~/services/validation/airport";
-import { inputRequiredSchema } from "~/services/validation/inputRequired";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import {
   airlineSchema,
   fluggastBereichSchema,
@@ -38,17 +38,17 @@ export const fluggastrechtContext = {
   zwischenstopps: YesNoAnswer,
   buchungsbestaetigung: FileUploadDummySchema,
   schriftverkehr: FileUploadDummySchema,
-  singleFlugnummer: inputRequiredSchema,
+  singleFlugnummer: stringRequiredSchema,
   singleAbflugDatum: createDateSchema(),
   singleAbflugZeit: timeSchema,
   singleAnkunftDatum: createDateSchema(),
   singleAnkunftZeit: timeSchema,
-  zwischenstoppFlugnummer: inputRequiredSchema,
+  zwischenstoppFlugnummer: stringRequiredSchema,
   zwischenstoppAbflugDatum: createDateSchema(),
   zwischenstoppAbflugZeit: timeSchema,
   zwischenstoppAnkunftDatum: createDateSchema(),
   zwischenstoppAnkunftZeit: timeSchema,
-  zwischenstoppFlugnummer2: inputRequiredSchema,
+  zwischenstoppFlugnummer2: stringRequiredSchema,
   zwischenstoppAbflugDatum2: createDateSchema(),
   zwischenstoppAbflugZeit2: timeSchema,
   zwischenstoppAnkunftDatum2: createDateSchema(),
@@ -56,7 +56,7 @@ export const fluggastrechtContext = {
   zwischenstoppFlughafen: z.union([airportSchema, z.literal("")]),
   ankunftsDatum: createDateSchema({ latest: () => today() }),
   ankunftsZeit: timeSchema,
-  ankunftsFlugnummer: inputRequiredSchema,
+  ankunftsFlugnummer: stringRequiredSchema,
   ankunftWithSameFlight: YesNoAnswer,
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
   ...persoenlicheDaten,

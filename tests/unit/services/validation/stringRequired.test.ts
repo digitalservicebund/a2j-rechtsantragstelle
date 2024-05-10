@@ -1,4 +1,4 @@
-import { inputRequiredSchema } from "~/services/validation/inputRequired";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import type { SafeParseError } from "zod";
 
 describe("inputRequired validation", () => {
@@ -11,7 +11,7 @@ describe("inputRequired validation", () => {
     test.each(cases)(
       "given $input, returns $expected",
       ({ input, expected }) => {
-        const actual = inputRequiredSchema.safeParse(input);
+        const actual = stringRequiredSchema.safeParse(input);
         expect(actual).toEqual({ data: expected, success: true });
       },
     );
@@ -26,7 +26,7 @@ describe("inputRequired validation", () => {
     test.each(cases)(
       "given $input, returns $errorMessage",
       ({ input, errorMessage }) => {
-        const actual = inputRequiredSchema.safeParse(input);
+        const actual = stringRequiredSchema.safeParse(input);
         expect(actual.success).toBe(false);
         expect(
           (actual as SafeParseError<unknown>).error.issues[0].message,
