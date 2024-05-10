@@ -175,7 +175,7 @@
           "on": {
             "BACK": [
               {
-                "guard": "unterhaltYes",
+                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenNoAndUnterhaltYes",
                 "target": "#partner.partner-name"
               },
               {

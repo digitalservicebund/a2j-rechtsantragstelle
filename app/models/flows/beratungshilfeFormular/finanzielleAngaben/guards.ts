@@ -78,6 +78,10 @@ export const finanzielleAngabeGuards = {
     context.partnerEinkommen == "yes",
   hasPartnerschaftOrSeparatedAndZusammenlebenYes: ({ context }) =>
     hasPartnerschaftOrSeparated({ context }) && context.zusammenleben == "yes",
+  hasPartnerschaftOrSeparatedAndZusammenlebenNoAndUnterhaltYes: ({ context }) =>
+    hasPartnerschaftOrSeparated({ context }) &&
+    context.zusammenleben == "no" &&
+    context.unterhalt === "yes",
   hasPartnerschaftOrSeparatedAndZusammenlebenNo,
   hasPartnerschaftOrSeparatedAndZusammenlebenNoAndUnterhaltNo: ({ context }) =>
     hasPartnerschaftOrSeparatedAndZusammenlebenNo({ context }) &&

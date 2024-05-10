@@ -1,7 +1,7 @@
 import { machine } from "../testMachine";
 import type { TestCases } from "../../TestCases";
 import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
-
+// unterhalt
 const cases = [
   [
     {},
@@ -11,31 +11,22 @@ const cases = [
     ],
   ],
   [
-    { partnerschaft: "no" },
+    { partnerschaft: "no", unterhalt: "yes" },
     [
       "finanzielle-angaben/partner/partnerschaft",
       "finanzielle-angaben/kinder/kinder-frage",
     ],
   ],
   [
-    { partnerschaft: "yes" },
-    [
-      "finanzielle-angaben/partner/partnerschaft",
-      "finanzielle-angaben/partner/zusammenleben",
-      "finanzielle-angaben/kinder/kinder-frage",
-    ],
-  ],
-  [
-    { partnerschaft: "yes", zusammenleben: "yes" },
+    { partnerschaft: "yes", unterhalt: "yes" },
     [
       "finanzielle-angaben/partner/partnerschaft",
       "finanzielle-angaben/partner/zusammenleben",
-      "finanzielle-angaben/partner/partner-einkommen",
       "finanzielle-angaben/kinder/kinder-frage",
     ],
   ],
   [
-    { partnerschaft: "yes", zusammenleben: "yes", partnerEinkommen: "no" },
+    { partnerschaft: "yes", zusammenleben: "yes", unterhalt: "yes" },
     [
       "finanzielle-angaben/partner/partnerschaft",
       "finanzielle-angaben/partner/zusammenleben",
@@ -44,7 +35,26 @@ const cases = [
     ],
   ],
   [
-    { partnerschaft: "yes", zusammenleben: "yes", partnerEinkommen: "yes" },
+    {
+      partnerschaft: "yes",
+      zusammenleben: "yes",
+      partnerEinkommen: "no",
+      unterhalt: "yes",
+    },
+    [
+      "finanzielle-angaben/partner/partnerschaft",
+      "finanzielle-angaben/partner/zusammenleben",
+      "finanzielle-angaben/partner/partner-einkommen",
+      "finanzielle-angaben/kinder/kinder-frage",
+    ],
+  ],
+  [
+    {
+      partnerschaft: "yes",
+      zusammenleben: "yes",
+      partnerEinkommen: "yes",
+      unterhalt: "yes",
+    },
     [
       "finanzielle-angaben/partner/partnerschaft",
       "finanzielle-angaben/partner/zusammenleben",
@@ -84,7 +94,12 @@ const cases = [
     ],
   ],
   [
-    { unterhalt: "yes", partnerschaft: "yes", partnerEinkommen: "yes" },
+    {
+      unterhalt: "yes",
+      partnerschaft: "yes",
+      partnerEinkommen: "yes",
+      zusammenleben: "no",
+    },
     [
       "finanzielle-angaben/partner/partner-name",
       "finanzielle-angaben/kinder/kinder-frage",
