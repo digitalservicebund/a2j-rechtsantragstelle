@@ -27,8 +27,11 @@ import {
 } from "~/services/validation/date";
 import { timeSchema } from "~/services/validation/time";
 import { integerSchema } from "~/services/validation/integer";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
-const FileUploadDummySchema = z.string().or(z.object({})).or(z.array(z.any()));
+const FileUploadDummySchema = stringOptionalSchema
+  .or(z.object({}))
+  .or(z.array(z.any()));
 
 export const fluggastrechtContext = {
   startAirport: airportSchema,
@@ -75,7 +78,7 @@ export const fluggastrechtContext = {
     prozesszinsen: checkedOptional,
   }),
   versaeumnisurteil: YesNoAnswer,
-  anmerkung: z.string(),
+  anmerkung: stringOptionalSchema,
   doMigration: YesNoAnswer,
   aenderungMitteilung: checkedRequired,
   zahlungOptional: checkedOptional,

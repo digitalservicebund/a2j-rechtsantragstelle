@@ -4,6 +4,7 @@ import {
   customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
 import { airportSchema } from "~/services/validation/airport";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 export const airlineSchema = z.enum([
   "alitalia",
@@ -26,9 +27,9 @@ export const fluggastBereichSchema = z.enum(
 
 export const zustaendigesAmtsgerichtSchema = z.array(
   z.object({
-    bezeichnung: z.string(),
-    strasseMitHausnummer: z.string(),
-    plzUndStadt: z.string(),
+    bezeichnung: stringOptionalSchema,
+    strasseMitHausnummer: stringOptionalSchema,
+    plzUndStadt: stringOptionalSchema,
   }),
 );
 
