@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
-import { inputRequiredSchema } from "~/services/validation/inputRequired";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import type { GenericGuard } from "../../guards.server";
 
 export const bereich = z.enum(
@@ -21,10 +21,10 @@ export const bereich = z.enum(
 //TODO: what was the reason of the duplication below
 export const beratungshilfeRechtsproblem = {
   bereich,
-  gegenseite: inputRequiredSchema,
-  beschreibung: inputRequiredSchema,
-  ziel: inputRequiredSchema,
-  eigeninitiativeBeschreibung: inputRequiredSchema,
+  gegenseite: stringRequiredSchema,
+  beschreibung: stringRequiredSchema,
+  ziel: stringRequiredSchema,
+  eigeninitiativeBeschreibung: stringRequiredSchema,
 };
 
 const contextObject = z.object(beratungshilfeRechtsproblem).partial();

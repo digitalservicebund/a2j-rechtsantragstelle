@@ -4,7 +4,7 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 import { emailSchema } from "~/services/validation/email";
-import { inputRequiredSchema } from "~/services/validation/inputRequired";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import {
   adresse,
@@ -35,8 +35,8 @@ export const context = {
         .partial(),
       unternehmen: z
         .object({
-          name: inputRequiredSchema,
-          inhaber: inputRequiredSchema,
+          name: stringRequiredSchema,
+          inhaber: stringRequiredSchema,
           adresszusatz: z.string().trim(),
           ...adresse,
           ...persoenlicheDaten,
@@ -49,9 +49,9 @@ export const context = {
       nebenforderungen: YesNoAnswer,
       forderung1: z
         .object({
-          title: inputRequiredSchema,
+          title: stringRequiredSchema,
           betrag: buildMoneyValidationSchema(),
-          beschreibung: inputRequiredSchema,
+          beschreibung: stringRequiredSchema,
           person: z
             .object({
               ...namePrivatPerson,
@@ -65,9 +65,9 @@ export const context = {
         .partial(),
       forderung2: z
         .object({
-          title: inputRequiredSchema,
+          title: stringRequiredSchema,
           betrag: buildMoneyValidationSchema(),
-          beschreibung: inputRequiredSchema,
+          beschreibung: stringRequiredSchema,
         })
         .partial(),
     })
