@@ -10,7 +10,6 @@ import { StrapiLinkListBoxComponentSchema } from "./StrapiLinkListBox";
 import { StrapiListComponentSchema } from "./StrapiList";
 import { StrapiArraySummaryComponentSchema } from "./StrapiArraySummary";
 import { StrapiInlineNoticeComponentSchema } from "../components/StrapiInlineNotice";
-import { StrapiDetailsSummaryComponentSchema } from "../components/StrapiDetailsSummary";
 
 export const StrapiContentComponentSchema = z.discriminatedUnion(
   "__component",
@@ -26,7 +25,6 @@ export const StrapiContentComponentSchema = z.discriminatedUnion(
     StrapiListComponentSchema,
     StrapiArraySummaryComponentSchema,
     StrapiInlineNoticeComponentSchema,
-    StrapiDetailsSummaryComponentSchema,
   ],
 );
 

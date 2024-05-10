@@ -7,7 +7,6 @@ import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { omitNull } from "~/util/omitNull";
 import { InfoBoxItemPropsSchema } from "~/components/InfoBoxItem";
 import { type StrapiElementWithId } from "./StrapiElementWithId";
-import { StrapiDetailsSummarySchema } from "../components/StrapiDetailsSummary";
 
 export const StrapiInfoBoxItemSchema = z
   .object({
@@ -15,7 +14,6 @@ export const StrapiInfoBoxItemSchema = z
     headline: StrapiHeadingSchema.nullable(),
     image: StrapiImageSchema.nullable(),
     content: z.string().nullable(),
-    detailsSummary: StrapiDetailsSummarySchema.nullable(),
     buttons: z.array(StrapiButtonSchema).nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)

@@ -32,7 +32,6 @@ import { StrapiTimeInput } from "~/services/cms/components/StrapiTimeInput";
 import { StrapiFileInput } from "~/services/cms/components/StrapiFileInput";
 import { StrapiInlineNotice } from "~/services/cms/components/StrapiInlineNotice";
 import StrapiSuggestionInput from "~/services/cms/components/StrapiSuggestionInput";
-import { StrapiDetailsSummary } from "~/services/cms/components/StrapiDetailsSummary";
 
 export type StrapiContent = StrapiContentComponent | StrapiFormComponent;
 
@@ -114,8 +113,6 @@ function cmsToReact(strapiContent: StrapiContent) {
       return <List {...getListProps(strapiContent)} />;
     case "page.inline-notice":
       return <StrapiInlineNotice {...strapiContent} />;
-    case "page.details-summary":
-      return <StrapiDetailsSummary {...strapiContent} />;
     default:
       return <></>;
   }
