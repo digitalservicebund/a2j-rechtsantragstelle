@@ -1,10 +1,9 @@
 import {
-  navItemsFromFlowSpecifics,
+  navItemsFromStepStates,
   navState,
 } from "~/services/flowNavigation.server";
-import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import _ from "lodash";
 import { NavState } from "~/components/FlowNavigation";
+import invariant from "tiny-invariant";
 
 describe("flowNavigation", () => {
   describe("navState", () => {
@@ -28,80 +27,92 @@ describe("flowNavigation", () => {
     });
   });
 
-  describe("flow to NavState", () => {
-    const config = {
-      id: "/test/flow/",
-      initial: "step1",
-      states: {
-        step1: {
-          initial: "step1a",
-          states: { step1a: {} },
-        },
-        step2: {},
-      },
+  describe("navItemsFromStepStates()", () => {
+    const parentStepState = {
+      url: "/step1",
+      isDone: false,
+      stepId: "step1",
+      isUneditable: false,
+      isReachable: true,
+    };
+    const childStepState = {
+      url: "/step1/a",
+      isDone: false,
+      stepId: "step1/a",
+      isUneditable: false,
+      isReachable: true,
     };
 
-    describe("checks open state", () => {
-      const flowController = buildFlowController({ config });
-      expect(
-        navItemsFromFlowSpecifics("step1.step1a", flowController)[0].state,
-      ).toBe(NavState.Current);
+    const stepStatesNested = [
+      { ...parentStepState, subStates: [childStepState] },
+    ];
 
-      expect(navItemsFromFlowSpecifics("step2", flowController)[0].state).toBe(
-        NavState.Open,
-      );
+    it("parents' IsCurrent true if in child state", () => {
+      expect(
+        navItemsFromStepStates("step1/start", [parentStepState]),
+      ).toStrictEqual([
+        {
+          destination: parentStepState.url,
+          label: parentStepState.stepId,
+          state: NavState.Current,
+          subflows: undefined,
+        },
+      ]);
     });
 
-    describe("checks done state", () => {
-      const flowController = buildFlowController({
-        config: _.merge(_.cloneDeep(config), {
-          states: { step1: { meta: { done: () => true } } },
-        }),
-      });
-
+    it("nested parents IsCurrent true if in nested child state", () => {
       expect(
-        navItemsFromFlowSpecifics("step1.step1a", flowController)[0].state,
-      ).toBe(NavState.Current);
-
-      expect(navItemsFromFlowSpecifics("step2", flowController)[0].state).toBe(
-        NavState.Done,
-      );
-    });
-
-    describe("works with isUneditable", () => {
-      const flowController = buildFlowController({
-        config: _.merge(_.cloneDeep(config), {
-          states: { step1: { meta: { isUneditable: true, done: () => true } } },
-        }),
-      });
-
-      expect(
-        navItemsFromFlowSpecifics("step1.step1a", flowController)[0].state,
-      ).toBe(NavState.Current);
-
-      expect(navItemsFromFlowSpecifics("step2", flowController)[0].state).toBe(
-        NavState.DoneDisabled,
-      );
-    });
-
-    describe("checks open state", () => {
-      const flowController = buildFlowController({
-        config: _.merge(_.cloneDeep(config), {
-          states: {
-            step2: {
-              initial: "step2a",
-              states: { step2a: {} },
+        navItemsFromStepStates("step1/a/start", stepStatesNested),
+      ).toStrictEqual([
+        {
+          destination: parentStepState.url,
+          label: parentStepState.stepId,
+          state: NavState.Current,
+          subflows: [
+            {
+              label: childStepState.stepId,
+              destination: childStepState.url,
+              state: NavState.Current,
+              subflows: undefined,
             },
-          },
-        }),
-      });
+          ],
+        },
+      ]);
+    });
 
+    it("nested parents IsCurrent false if not in nested child state", () => {
       expect(
-        navItemsFromFlowSpecifics("step1.step1a", flowController)[0].state,
-      ).toBe(NavState.Current);
-      expect(
-        navItemsFromFlowSpecifics("step1.step1a", flowController)[1].state,
-      ).toBe(NavState.OpenDisabled);
+        navItemsFromStepStates("step1/b/start", stepStatesNested),
+      ).toStrictEqual([
+        {
+          destination: parentStepState.url,
+          label: parentStepState.stepId,
+          state: NavState.Open,
+          subflows: [
+            {
+              label: childStepState.stepId,
+              destination: childStepState.url,
+              state: NavState.Open,
+              subflows: undefined,
+            },
+          ],
+        },
+      ]);
+    });
+
+    it("does label lookup", () => {
+      const navItems = navItemsFromStepStates(
+        "step1/a/start",
+        stepStatesNested,
+        {
+          step1: "Parent",
+          "step1/a": "Child",
+        },
+      );
+      invariant(navItems);
+      invariant(navItems[0].subflows);
+      expect(navItems[0].label).toBe("Parent");
+      expect(navItems[0].subflows[0].label).toBe("Child");
     });
   });
 });
