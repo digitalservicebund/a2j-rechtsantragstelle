@@ -15,6 +15,7 @@ import {
   checkedOptional,
   checkedRequired,
 } from "~/services/validation/checkedCheckbox";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 export const context = {
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
@@ -37,7 +38,7 @@ export const context = {
         .object({
           name: stringRequiredSchema,
           inhaber: stringRequiredSchema,
-          adresszusatz: z.string().trim(),
+          adresszusatz: stringOptionalSchema,
           ...adresse,
           ...persoenlicheDaten,
         })
@@ -73,7 +74,7 @@ export const context = {
     })
     .partial(),
   versaeumnisurteil: YesNoAnswer,
-  anmerkung: z.string(),
+  anmerkung: stringOptionalSchema,
   aenderungMitteilung: checkedRequired,
   zahlungOptional: checkedOptional,
 } as const;

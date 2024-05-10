@@ -11,6 +11,7 @@ import { addYears, createDateSchema, today } from "~/services/validation/date";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { integerSchema } from "~/services/validation/integer";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 const Eigentuemer = z.enum(
   ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -113,9 +114,9 @@ export const beratungshilfeFinanzielleAngaben = {
     z.object({
       bankName: stringRequiredSchema,
       kontostand: buildMoneyValidationSchema({}),
-      iban: z.string(),
+      iban: stringOptionalSchema,
       kontoEigentuemer: Eigentuemer,
-      kontoDescription: z.string().optional(),
+      kontoDescription: stringOptionalSchema,
     }),
   ),
   hasKraftfahrzeug: YesNoAnswer,
@@ -126,7 +127,7 @@ export const beratungshilfeFinanzielleAngaben = {
       eigentuemer: Eigentuemer,
       verkaufswert: optionalOrSchema(buildMoneyValidationSchema()),
       kilometerstand: stringRequiredSchema,
-      anschaffungsjahr: z.string(),
+      anschaffungsjahr: stringOptionalSchema,
       baujahr: stringRequiredSchema,
       bemerkung: stringRequiredSchema,
       hasArbeitsweg: YesNoAnswer,
@@ -154,9 +155,9 @@ export const beratungshilfeFinanzielleAngaben = {
       eigentuemer: Eigentuemer,
       wert: buildMoneyValidationSchema(),
 
-      kontoBankName: stringRequiredSchema.optional(),
-      kontoIban: z.string().optional(),
-      kontoBezeichnung: z.string().optional(),
+      kontoBankName: stringOptionalSchema,
+      kontoIban: stringOptionalSchema,
+      kontoBezeichnung: stringOptionalSchema,
 
       befristetArt: z
         .enum(
@@ -165,9 +166,9 @@ export const beratungshilfeFinanzielleAngaben = {
         )
         .optional(),
 
-      forderung: stringRequiredSchema.optional(),
-      verwendungszweck: stringRequiredSchema.optional(),
-      auszahlungdatum: stringRequiredSchema.optional(),
+      forderung: stringOptionalSchema,
+      verwendungszweck: stringOptionalSchema,
+      auszahlungdatum: stringOptionalSchema,
     }),
   ),
   eigentumTotalWorth: z.enum(
@@ -183,7 +184,7 @@ export const beratungshilfeFinanzielleAngaben = {
       flaeche: stringRequiredSchema,
       verkaufswert: buildMoneyValidationSchema(),
       strassehausnummer: stringRequiredSchema,
-      plz: z.string().optional(),
+      plz: stringOptionalSchema,
       ort: stringRequiredSchema,
       land: stringRequiredSchema,
     }),
