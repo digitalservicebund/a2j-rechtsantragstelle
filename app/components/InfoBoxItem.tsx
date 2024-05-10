@@ -4,7 +4,6 @@ import Heading, { HeadingPropsSchema } from "./Heading";
 import Image, { ImagePropsSchema } from "./Image";
 import RichText from "./RichText";
 import ButtonContainer from "./ButtonContainer";
-import { DetailsSummary, DetailsSummarySchema } from "./DetailsSummary";
 
 export const InfoBoxItemPropsSchema = z.object({
   identifier: z.string().optional(),
@@ -12,7 +11,6 @@ export const InfoBoxItemPropsSchema = z.object({
   headline: HeadingPropsSchema.optional(),
   image: ImagePropsSchema.optional(),
   content: z.string().optional(),
-  detailsSummary: DetailsSummarySchema.optional(),
   buttons: z.array(ButtonPropsSchema).optional(),
 });
 
@@ -24,7 +22,6 @@ const InfoBoxItem = ({
   headline,
   image,
   content,
-  detailsSummary,
   buttons,
 }: InfoBoxItemProps) => {
   return (
@@ -52,7 +49,6 @@ const InfoBoxItem = ({
         {label && <Heading {...label} />}
         {headline && <Heading {...headline} />}
         {content && <RichText markdown={content} />}
-        {detailsSummary && <DetailsSummary {...detailsSummary} />}
         {buttons && buttons.length > 0 && (
           <ButtonContainer>
             {buttons.map((button) => (

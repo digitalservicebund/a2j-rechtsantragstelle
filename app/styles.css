@@ -122,20 +122,6 @@ svg {
   @apply text-black;
 }
 
-/* when focus without the keyboard, remove the outline of the children*/
-.details:not(:has(.summary-content:focus-visible)) {
-  @apply outline-none;
-}
-
-/* Only apply hover effect on devices that support it, see https://stackoverflow.com/a/28058919 */
-@media (hover: hover) {
-  .summary-content:hover {
-    @apply underline;
-    @apply underline-offset-2;
-    @apply decoration-2;
-  }
-}
-
 .increase-tap-area {
   @apply relative;
   @apply inline-block;
