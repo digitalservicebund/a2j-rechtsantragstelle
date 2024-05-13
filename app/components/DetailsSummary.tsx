@@ -15,9 +15,9 @@ export const DetailsSummary = ({ title, content }: DetailsSummaryProps) => {
       <summary className="summary-content focus:outline-none cursor-pointer">
         {title}
       </summary>
-      <p className="block ds-label-01-reg ml-[0.325rem] border-l-2 border-solid border-grey-300 pl-12 pt-8 text-black">
+      <span className="block ds-label-01-reg ml-[0.325rem] border-l-2 border-solid border-grey-300 pl-12 pt-8 text-black">
         {content && <RichText markdown={content} />}
-      </p>
+      </span>
     </details>
   );
 };
