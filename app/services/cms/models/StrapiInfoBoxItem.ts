@@ -15,7 +15,7 @@ export const StrapiInfoBoxItemSchema = z
     headline: StrapiHeadingSchema.nullable(),
     image: StrapiImageSchema.nullable(),
     content: z.string().nullable(),
-    detailsSummary: z.array(StrapiDetailsSummarySchema).nullable(),
+    detailsSummary: StrapiDetailsSummarySchema.nullable(),
     buttons: z.array(StrapiButtonSchema).nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
