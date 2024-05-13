@@ -53,13 +53,6 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@remix-run/react/LICENSE.md",
     "direct": true
   },
-  "@remix-run/serve": {
-    "licenses": "MIT",
-    "repository": "https://github.com/remix-run/remix",
-    "path": "a2j-rechtsantragstelle/node_modules/@remix-run/serve",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@remix-run/serve/LICENSE.md",
-    "direct": true
-  },
   "@remix-validated-form/with-zod": {
     "licenses": "MIT",
     "repository": "https://github.com/airjp73/remix-validated-form",
@@ -73,6 +66,14 @@
     "publisher": "Sentry",
     "path": "a2j-rechtsantragstelle/node_modules/@sentry/remix",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@sentry/remix/LICENSE",
+    "direct": true
+  },
+  "@sentry/vite-plugin": {
+    "licenses": "MIT",
+    "repository": "https://github.com/getsentry/sentry-javascript-bundler-plugins",
+    "publisher": "Sentry",
+    "path": "a2j-rechtsantragstelle/node_modules/@sentry/vite-plugin",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@sentry/vite-plugin/LICENSE",
     "direct": true
   },
   "@xstate/graph": {
@@ -92,12 +93,27 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/axios/LICENSE",
     "direct": true
   },
+  "caniuse-lite": {
+    "licenses": "CC-BY-4.0",
+    "repository": "https://github.com/browserslist/caniuse-lite",
+    "publisher": "Ben Briggs",
+    "email": "beneb.info@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/caniuse-lite",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/caniuse-lite/LICENSE"
+  },
   "classnames": {
     "licenses": "MIT",
     "repository": "https://github.com/JedWatson/classnames",
     "publisher": "Jed Watson",
     "path": "a2j-rechtsantragstelle/node_modules/classnames",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/classnames/LICENSE",
+    "direct": true
+  },
+  "compression": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expressjs/compression",
+    "path": "a2j-rechtsantragstelle/node_modules/compression",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/compression/LICENSE",
     "direct": true
   },
   "dotenv": {
@@ -123,6 +139,14 @@
     "email": "arjunbarrett@gmail.com",
     "path": "a2j-rechtsantragstelle/node_modules/fflate",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/fflate/LICENSE",
+    "direct": true
+  },
+  "haversine-distance": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dcousens/haversine-distance",
+    "publisher": "Daniel Cousens",
+    "path": "a2j-rechtsantragstelle/node_modules/haversine-distance",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/haversine-distance/LICENSE",
     "direct": true
   },
   "ioredis": {
@@ -248,6 +272,14 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/react-imask/LICENSE",
     "direct": true
   },
+  "react-select": {
+    "licenses": "MIT",
+    "repository": "https://github.com/JedWatson/react-select.git#master",
+    "publisher": "Jed Watson",
+    "path": "a2j-rechtsantragstelle/node_modules/react-select",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/react-select/README.md",
+    "direct": true
+  },
   "react": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react",
@@ -285,6 +317,13 @@
     "email": "alexreardon@gmail.com",
     "path": "a2j-rechtsantragstelle/node_modules/tiny-invariant",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/tiny-invariant/LICENSE",
+    "direct": true
+  },
+  "true-myth": {
+    "licenses": "MIT",
+    "repository": "https://github.com/true-myth/true-myth",
+    "path": "a2j-rechtsantragstelle/node_modules/true-myth",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/true-myth/LICENSE",
     "direct": true
   },
   "validator": {
