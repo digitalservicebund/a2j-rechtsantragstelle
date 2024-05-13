@@ -2,24 +2,27 @@ import { machine } from "~/models/flows/beratungshilfeFormular/__test__/testMach
 import type { TestCases } from "~/models/flows/__test__/TestCases";
 import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
 
+const finanzielleAngabenAusgabenAusgabenFrage =
+  "finanzielle-angaben/ausgaben/ausgaben-frage";
+const persoenlicheDatenStart = "persoenliche-daten/start";
 const cases = [
   [
     {
       staatlicheLeistungen: "keine",
     },
-    ["finanzielle-angaben/ausgaben/ausgaben-frage", "persoenliche-daten/start"],
+    [finanzielleAngabenAusgabenAusgabenFrage, persoenlicheDatenStart],
   ],
   [
     { hasAusgaben: "no", staatlicheLeistungen: "keine" },
-    ["finanzielle-angaben/ausgaben/ausgaben-frage", "persoenliche-daten/start"],
+    [finanzielleAngabenAusgabenAusgabenFrage, persoenlicheDatenStart],
   ],
   [
     { hasAusgaben: "yes" },
     [
-      "finanzielle-angaben/ausgaben/ausgaben-frage",
+      finanzielleAngabenAusgabenAusgabenFrage,
       "finanzielle-angaben/ausgaben/situation",
       "finanzielle-angaben/ausgaben/uebersicht",
-      "persoenliche-daten/start",
+      persoenlicheDatenStart,
     ],
   ],
   [

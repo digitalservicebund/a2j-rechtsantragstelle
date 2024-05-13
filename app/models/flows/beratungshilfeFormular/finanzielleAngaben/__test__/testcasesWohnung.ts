@@ -2,13 +2,18 @@ import { machine } from "~/models/flows/beratungshilfeFormular/__test__/testMach
 import type { TestCases } from "~/models/flows/__test__/TestCases";
 import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
 
+const finanzielleAngabenWohnungWohnsituation =
+  "finanzielle-angaben/wohnung/wohnsituation";
+const finanzielleAngabenWohnungGroesse = "finanzielle-angaben/wohnung/groesse";
+const finanzielleAngabenEigentumEigentumInfo =
+  "finanzielle-angaben/eigentum/eigentum-info";
 const cases = [
   [
     {},
     [
-      "finanzielle-angaben/wohnung/wohnsituation",
-      "finanzielle-angaben/wohnung/groesse",
-      "finanzielle-angaben/eigentum/eigentum-info",
+      finanzielleAngabenWohnungWohnsituation,
+      finanzielleAngabenWohnungGroesse,
+      finanzielleAngabenEigentumEigentumInfo,
     ],
   ],
   [
@@ -16,10 +21,10 @@ const cases = [
       livingSituation: "alone",
     },
     [
-      "finanzielle-angaben/wohnung/wohnsituation",
-      "finanzielle-angaben/wohnung/groesse",
+      finanzielleAngabenWohnungWohnsituation,
+      finanzielleAngabenWohnungGroesse,
       "finanzielle-angaben/wohnung/wohnkosten-allein",
-      "finanzielle-angaben/eigentum/eigentum-info",
+      finanzielleAngabenEigentumEigentumInfo,
     ],
   ],
   [
@@ -29,10 +34,10 @@ const cases = [
       apartmentCostAlone: "800",
     },
     [
-      "finanzielle-angaben/wohnung/wohnsituation",
-      "finanzielle-angaben/wohnung/groesse",
+      finanzielleAngabenWohnungWohnsituation,
+      finanzielleAngabenWohnungGroesse,
       "finanzielle-angaben/wohnung/wohnkosten-allein",
-      "finanzielle-angaben/eigentum/eigentum-info",
+      finanzielleAngabenEigentumEigentumInfo,
     ],
   ],
   [
@@ -43,11 +48,11 @@ const cases = [
       apartmentCostFull: "800",
     },
     [
-      "finanzielle-angaben/wohnung/wohnsituation",
-      "finanzielle-angaben/wohnung/groesse",
+      finanzielleAngabenWohnungWohnsituation,
+      finanzielleAngabenWohnungGroesse,
       "finanzielle-angaben/wohnung/personen-anzahl",
       "finanzielle-angaben/wohnung/wohnkosten-geteilt",
-      "finanzielle-angaben/eigentum/eigentum-info",
+      finanzielleAngabenEigentumEigentumInfo,
     ],
   ],
   [
@@ -58,11 +63,11 @@ const cases = [
       apartmentCostFull: "800",
     },
     [
-      "finanzielle-angaben/wohnung/wohnsituation",
-      "finanzielle-angaben/wohnung/groesse",
+      finanzielleAngabenWohnungWohnsituation,
+      finanzielleAngabenWohnungGroesse,
       "finanzielle-angaben/wohnung/personen-anzahl",
       "finanzielle-angaben/wohnung/wohnkosten-geteilt",
-      "finanzielle-angaben/eigentum/eigentum-info",
+      finanzielleAngabenEigentumEigentumInfo,
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

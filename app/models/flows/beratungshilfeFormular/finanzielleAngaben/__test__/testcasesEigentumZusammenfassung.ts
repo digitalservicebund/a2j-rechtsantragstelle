@@ -2,6 +2,14 @@ import { machine } from "~/models/flows/beratungshilfeFormular/__test__/testMach
 import type { TestCases } from "~/models/flows/__test__/TestCases";
 import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
 
+const finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeArbeitsweg =
+  "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/arbeitsweg";
+const finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeWert =
+  "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/wert";
+const finanzielleAngabenEigentumZusammenfassungGrundeigentumBewohntFrage =
+  "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage";
+const finanzielleAngabenEigentumZusammenfassungGrundeigentumDaten =
+  "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/daten";
 const cases = [
   [
     // Kraftfahrzeuge
@@ -24,8 +32,8 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/arbeitsweg",
-      "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/wert",
+      finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeArbeitsweg,
+      finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeWert,
     ],
   ],
   [
@@ -48,8 +56,8 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/arbeitsweg",
-      "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/wert",
+      finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeArbeitsweg,
+      finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeWert,
       "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/fahrzeuge",
     ],
   ],
@@ -73,8 +81,8 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/arbeitsweg",
-      "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/wert",
+      finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeArbeitsweg,
+      finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeWert,
       "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/fahrzeuge",
     ],
   ],
@@ -83,8 +91,8 @@ const cases = [
   [
     { hasGrundeigentum: "yes" },
     [
-      "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage",
-      "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/daten",
+      finanzielleAngabenEigentumZusammenfassungGrundeigentumBewohntFrage,
+      finanzielleAngabenEigentumZusammenfassungGrundeigentumDaten,
     ],
   ],
   [
@@ -95,8 +103,8 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage",
-      "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/daten",
+      finanzielleAngabenEigentumZusammenfassungGrundeigentumBewohntFrage,
+      finanzielleAngabenEigentumZusammenfassungGrundeigentumDaten,
     ],
   ],
   [
@@ -107,8 +115,8 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage",
-      "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/daten",
+      finanzielleAngabenEigentumZusammenfassungGrundeigentumBewohntFrage,
+      finanzielleAngabenEigentumZusammenfassungGrundeigentumDaten,
     ],
   ],
   [
@@ -119,7 +127,7 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage",
+      finanzielleAngabenEigentumZusammenfassungGrundeigentumBewohntFrage,
       "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-daten",
     ],
   ],
@@ -131,7 +139,7 @@ const cases = [
       pageData: { arrayIndexes: [1] },
     },
     [
-      "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage",
+      finanzielleAngabenEigentumZusammenfassungGrundeigentumBewohntFrage,
       "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-daten",
     ],
   ],

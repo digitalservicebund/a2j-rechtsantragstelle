@@ -2,16 +2,28 @@ import { machine } from "~/models/flows/beratungshilfeFormular/__test__/testMach
 import type { TestCases } from "~/models/flows/__test__/TestCases";
 import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
 
+const finanzielleAngabenEigentumBankkontenFrage =
+  "finanzielle-angaben/eigentum/bankkonten-frage";
+const finanzielleAngabenEigentumGeldanlagenFrage =
+  "finanzielle-angaben/eigentum/geldanlagen-frage";
+const finanzielleAngabenEigentumWertgegenstaendeFrage =
+  "finanzielle-angaben/eigentum/wertgegenstaende-frage";
+const finanzielleAngabenEigentumGrundeigentumFrage =
+  "finanzielle-angaben/eigentum/grundeigentum-frage";
+const finanzielleAngabenEigentumKraftfahrzeugeFrage =
+  "finanzielle-angaben/eigentum/kraftfahrzeuge-frage";
+const finanzielleAngabenAusgabenAusgabenFrage =
+  "finanzielle-angaben/ausgaben/ausgaben-frage";
 const cases = [
   [
     {},
     [
-      "finanzielle-angaben/eigentum/bankkonten-frage",
-      "finanzielle-angaben/eigentum/geldanlagen-frage",
-      "finanzielle-angaben/eigentum/wertgegenstaende-frage",
-      "finanzielle-angaben/eigentum/grundeigentum-frage",
-      "finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
-      "finanzielle-angaben/ausgaben/ausgaben-frage",
+      finanzielleAngabenEigentumBankkontenFrage,
+      finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumWertgegenstaendeFrage,
+      finanzielleAngabenEigentumGrundeigentumFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
+      finanzielleAngabenAusgabenAusgabenFrage,
     ],
   ],
   [
@@ -19,12 +31,12 @@ const cases = [
       hasBankkonto: "yes",
     },
     [
-      "finanzielle-angaben/eigentum/bankkonten-frage",
-      "finanzielle-angaben/eigentum/geldanlagen-frage",
-      "finanzielle-angaben/eigentum/wertgegenstaende-frage",
-      "finanzielle-angaben/eigentum/grundeigentum-frage",
-      "finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
-      "finanzielle-angaben/ausgaben/ausgaben-frage",
+      finanzielleAngabenEigentumBankkontenFrage,
+      finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumWertgegenstaendeFrage,
+      finanzielleAngabenEigentumGrundeigentumFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
+      finanzielleAngabenAusgabenAusgabenFrage,
     ],
   ],
   [
@@ -32,13 +44,13 @@ const cases = [
       hasGeldanlage: "yes",
     },
     [
-      "finanzielle-angaben/eigentum/bankkonten-frage",
-      "finanzielle-angaben/eigentum/geldanlagen-frage",
-      "finanzielle-angaben/eigentum/wertgegenstaende-frage",
-      "finanzielle-angaben/eigentum/grundeigentum-frage",
-      "finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
+      finanzielleAngabenEigentumBankkontenFrage,
+      finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumWertgegenstaendeFrage,
+      finanzielleAngabenEigentumGrundeigentumFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       "finanzielle-angaben/eigentum/gesamtwert",
-      "finanzielle-angaben/ausgaben/ausgaben-frage",
+      finanzielleAngabenAusgabenAusgabenFrage,
     ],
   ],
   [
@@ -51,11 +63,11 @@ const cases = [
       eigentumTotalWorth: "more10000",
     },
     [
-      "finanzielle-angaben/eigentum/bankkonten-frage",
-      "finanzielle-angaben/eigentum/geldanlagen-frage",
-      "finanzielle-angaben/eigentum/wertgegenstaende-frage",
-      "finanzielle-angaben/eigentum/grundeigentum-frage",
-      "finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
+      finanzielleAngabenEigentumBankkontenFrage,
+      finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumWertgegenstaendeFrage,
+      finanzielleAngabenEigentumGrundeigentumFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       "finanzielle-angaben/eigentum/gesamtwert",
       "finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
     ],

@@ -11,8 +11,9 @@ jest.mock("node:fs");
 describe("services/cms", () => {
   describe("getStrapiEntryFromFile", () => {
     const footerData = strapiFooterFactory.build();
+    const impressumPath = "/impressum";
     const impressum = {
-      slug: "/impressum",
+      slug: impressumPath,
       createdAt: faker.date.past().toISOString(),
       updatedAt: faker.date.past().toISOString(),
       publishedAt: faker.date.past().toISOString(),
@@ -67,7 +68,7 @@ describe("services/cms", () => {
         expect(
           await getStrapiEntryFromFile({
             apiId: "pages",
-            filterValue: "/impressum",
+            filterValue: impressumPath,
             locale: "de",
           }),
         ).toEqual(impressum);
@@ -90,7 +91,7 @@ describe("services/cms", () => {
           expect(
             await getStrapiEntryFromFile({
               apiId: "pages",
-              filterValue: "/impressum",
+              filterValue: impressumPath,
               locale: "en",
             }),
           ).toEqual(impressum);

@@ -10,6 +10,8 @@ import {
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import { fillKraftfahrzeug } from "~/services/pdf/beratungshilfe/sections/F_besitz/fillKraftfahrzeug";
 
+const fahrzeugWirdFuerDenArbeitswegGenutzt =
+  "Fahrzeug wird für den Arbeitsweg genutzt\n";
 describe("fillKraftfahrzeug", () => {
   it("should fill kraftfahrzeug pdf field when kraftfahrzeug is given in context", async () => {
     const context: BeratungshilfeFormularContext = {
@@ -94,7 +96,7 @@ describe("fillKraftfahrzeug", () => {
     expect(attachment.descriptions[0]).toEqual({
       title: "Kraftfahrzeuge",
       text:
-        "Fahrzeug wird für den Arbeitsweg genutzt\n" +
+        fahrzeugWirdFuerDenArbeitswegGenutzt +
         "Eigentümer:in: Ehe-Partner:in\n" +
         "Art des Fahrzeugs: P 50\n" +
         "Marke: Trabant\n" +
@@ -103,7 +105,7 @@ describe("fillKraftfahrzeug", () => {
         "Kilometerstand (ca.): 999999 km\n" +
         "Verkehrswert: 100000€\n" +
         "\n" +
-        "Fahrzeug wird für den Arbeitsweg genutzt\n" +
+        fahrzeugWirdFuerDenArbeitswegGenutzt +
         "Eigentümer:in: Ich alleine\n" +
         "Art des Fahrzeugs: P 40\n" +
         "Marke: Trabbi\n" +
@@ -211,10 +213,10 @@ describe("fillKraftfahrzeug", () => {
     expect(attachment.descriptions[0]).toEqual({
       title: "Kraftfahrzeuge",
       text:
-        "Fahrzeug wird für den Arbeitsweg genutzt\n" +
+        fahrzeugWirdFuerDenArbeitswegGenutzt +
         "Verkehrswert: unter 10.000€\n" +
         "\n" +
-        "Fahrzeug wird für den Arbeitsweg genutzt\n" +
+        fahrzeugWirdFuerDenArbeitswegGenutzt +
         "Verkehrswert: unter 10.000€",
     });
   });

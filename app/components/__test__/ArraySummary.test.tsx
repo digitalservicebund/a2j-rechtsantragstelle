@@ -2,6 +2,8 @@ import { render } from "@testing-library/react";
 import ArraySummary from "~/components/ArraySummary";
 import type { ArrayConfig } from "~/services/array";
 
+const arraySummaryItem = "array-summary-item";
+
 const mockArrayConfiguration: ArrayConfig = {
   event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
@@ -57,10 +59,10 @@ describe("ArraySummary", () => {
     );
 
     expect(queryByTestId("array-summary-title")).not.toBeInTheDocument();
-    expect(queryAllByTestId("array-summary-item").length).toBeGreaterThan(0);
-    expect(
-      queryAllByTestId("array-summary-item")[0].tagName.toLowerCase(),
-    ).toBe("h2");
+    expect(queryAllByTestId(arraySummaryItem).length).toBeGreaterThan(0);
+    expect(queryAllByTestId(arraySummaryItem)[0].tagName.toLowerCase()).toBe(
+      "h2",
+    );
   });
 
   it("when the title has value, it should render the data-test-id array-summary-title and render array-summary-item as h3", () => {
@@ -85,9 +87,9 @@ describe("ArraySummary", () => {
     );
 
     expect(queryByTestId("array-summary-title")).toBeInTheDocument();
-    expect(queryAllByTestId("array-summary-item").length).toBeGreaterThan(0);
-    expect(
-      queryAllByTestId("array-summary-item")[0].tagName.toLowerCase(),
-    ).toBe("h3");
+    expect(queryAllByTestId(arraySummaryItem).length).toBeGreaterThan(0);
+    expect(queryAllByTestId(arraySummaryItem)[0].tagName.toLowerCase()).toBe(
+      "h3",
+    );
   });
 });

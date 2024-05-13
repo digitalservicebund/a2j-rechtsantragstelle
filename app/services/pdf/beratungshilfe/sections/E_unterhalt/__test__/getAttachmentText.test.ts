@@ -1,6 +1,8 @@
 import { getAttachmentText } from "~/services/pdf/beratungshilfe/sections/E_unterhalt/getAttachmentText";
 import type { UnterhaltPdfField } from "~/services/pdf/beratungshilfe/sections/E_unterhalt/unterhaltPdfField";
 
+const monatlicheUnterhaltszahlungen1000 =
+  "Monatliche Unterhaltszahlungen: 1000 €\n";
 describe("getAttachmentText", () => {
   it("it should return the correct text for attachment of the kid", () => {
     const mockedGetListKidUnterhaltPdfField: UnterhaltPdfField[] = [
@@ -20,7 +22,7 @@ describe("getAttachmentText", () => {
         "Kind 1:\n" +
         "Name: Donald Kid\n" +
         "Geburtsdatum: 10.10.2000\n" +
-        "Monatliche Unterhaltszahlungen: 1000 €\n" +
+        monatlicheUnterhaltszahlungen1000 +
         "Gemeinsame Wohnung: Nein\n",
     );
   });
@@ -46,7 +48,7 @@ describe("getAttachmentText", () => {
         "Geburtsdatum: \n" +
         "Eigene monatlichen Einnahmen: 100 €\n" +
         "Familienverhältnis: Partner:in\n" +
-        "Monatliche Unterhaltszahlungen: 1000 €\n" +
+        monatlicheUnterhaltszahlungen1000 +
         "Gemeinsame Wohnung: Ja\n",
     );
   });
@@ -72,7 +74,7 @@ describe("getAttachmentText", () => {
         "Geburtsdatum: \n" +
         "Eigene monatlichen Einnahmen: 100 €\n" +
         "Familienverhältnis: Mein Vater\n" +
-        "Monatliche Unterhaltszahlungen: 1000 €\n",
+        monatlicheUnterhaltszahlungen1000,
     );
   });
 });

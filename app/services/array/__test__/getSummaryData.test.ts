@@ -8,15 +8,19 @@ describe("getSummaryData", () => {
     expect(summaryData).toBeUndefined();
   });
 
+  const bankkontenUrl =
+    "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/bankkonten";
+  const bankkontenFrage =
+    "/beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten-frage";
+  const addBankkonten = "add-bankkonten";
   it("returns correct configuration when only one category is given", () => {
     const mockArrayConfig = {
       bankkonten: {
-        url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/bankkonten",
+        url: bankkontenUrl,
         initialInputUrl: "daten",
-        statementUrl:
-          "/beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten-frage",
+        statementUrl: bankkontenFrage,
         statementKey: "hasBankkonto",
-        event: "add-bankkonten",
+        event: addBankkonten,
       },
     } satisfies Record<string, ArrayConfig>;
 
@@ -43,12 +47,11 @@ describe("getSummaryData", () => {
   it("returns correct configuration when multiple categories are given", () => {
     const mockArrayConfig = {
       bankkonten: {
-        url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/bankkonten",
+        url: bankkontenUrl,
         initialInputUrl: "daten",
-        statementUrl:
-          "/beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten-frage",
+        statementUrl: bankkontenFrage,
         statementKey: "hasBankkonto",
-        event: "add-bankkonten",
+        event: addBankkonten,
       },
       kraftfahrzeuge: {
         url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge",
@@ -90,11 +93,10 @@ describe("getSummaryData", () => {
   it("should not return the config when category is unknown", () => {
     const mockArrayConfig = {
       bankkonten: {
-        url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/bankkonten",
-        event: "add-bankkonten",
+        url: bankkontenUrl,
+        event: addBankkonten,
         initialInputUrl: "daten",
-        statementUrl:
-          "/beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten-frage",
+        statementUrl: bankkontenFrage,
         statementKey: "hasBankkonto",
       },
     } satisfies Record<string, ArrayConfig>;

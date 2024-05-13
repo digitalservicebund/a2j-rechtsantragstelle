@@ -2,14 +2,18 @@ import { machine } from "~/models/flows/beratungshilfeFormular/__test__/testMach
 import type { TestCases } from "~/models/flows/__test__/TestCases";
 import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
 
+const finanzielleAngabenStart = "finanzielle-angaben/start";
+const finanzielleAngabenEinkommenStaatlicheLeistungen =
+  "finanzielle-angaben/einkommen/staatliche-leistungen";
+const persoenlicheDatenStart = "persoenliche-daten/start";
 const cases = [
   [
     {},
     [
       "rechtsproblem/situation-beschreibung",
-      "finanzielle-angaben/start",
-      "finanzielle-angaben/einkommen/staatliche-leistungen",
-      "persoenliche-daten/start",
+      finanzielleAngabenStart,
+      finanzielleAngabenEinkommenStaatlicheLeistungen,
+      persoenlicheDatenStart,
     ],
   ],
   [
@@ -17,15 +21,15 @@ const cases = [
       staatlicheLeistungen: "buergergeld",
     },
     [
-      "finanzielle-angaben/start",
-      "finanzielle-angaben/einkommen/staatliche-leistungen",
+      finanzielleAngabenStart,
+      finanzielleAngabenEinkommenStaatlicheLeistungen,
       "finanzielle-angaben/eigentum/eigentum-info",
       "finanzielle-angaben/eigentum/bankkonten-frage",
       "finanzielle-angaben/eigentum/geldanlagen-frage",
       "finanzielle-angaben/eigentum/wertgegenstaende-frage",
       "finanzielle-angaben/eigentum/grundeigentum-frage",
       "finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
-      "persoenliche-daten/start",
+      persoenlicheDatenStart,
     ],
   ],
   [
@@ -39,8 +43,8 @@ const cases = [
       eigentumTotalWorth: "more10000",
     },
     [
-      "finanzielle-angaben/start",
-      "finanzielle-angaben/einkommen/staatliche-leistungen",
+      finanzielleAngabenStart,
+      finanzielleAngabenEinkommenStaatlicheLeistungen,
       "finanzielle-angaben/eigentum/eigentum-info",
       "finanzielle-angaben/eigentum/bankkonten-frage",
       "finanzielle-angaben/eigentum/geldanlagen-frage",
@@ -48,27 +52,21 @@ const cases = [
       "finanzielle-angaben/eigentum/grundeigentum-frage",
       "finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
       "finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "persoenliche-daten/start",
+      persoenlicheDatenStart,
     ],
   ],
   [
     { staatlicheLeistungen: "asylbewerberleistungen" },
-    [
-      "finanzielle-angaben/einkommen/staatliche-leistungen",
-      "persoenliche-daten/start",
-    ],
+    [finanzielleAngabenEinkommenStaatlicheLeistungen, persoenlicheDatenStart],
   ],
   [
     { staatlicheLeistungen: "grundsicherung" },
-    [
-      "finanzielle-angaben/einkommen/staatliche-leistungen",
-      "persoenliche-daten/start",
-    ],
+    [finanzielleAngabenEinkommenStaatlicheLeistungen, persoenlicheDatenStart],
   ],
   [
     { staatlicheLeistungen: "keine", erwerbstaetig: "yes" },
     [
-      "finanzielle-angaben/einkommen/staatliche-leistungen",
+      finanzielleAngabenEinkommenStaatlicheLeistungen,
       "finanzielle-angaben/einkommen/erwerbstaetig",
       "finanzielle-angaben/einkommen/art",
       "finanzielle-angaben/einkommen/situation",
@@ -81,7 +79,7 @@ const cases = [
   [
     { staatlicheLeistungen: "keine", erwerbstaetig: "no" },
     [
-      "finanzielle-angaben/einkommen/staatliche-leistungen",
+      finanzielleAngabenEinkommenStaatlicheLeistungen,
       "finanzielle-angaben/einkommen/erwerbstaetig",
       "finanzielle-angaben/einkommen/situation",
       "finanzielle-angaben/einkommen/weiteres-einkommen",

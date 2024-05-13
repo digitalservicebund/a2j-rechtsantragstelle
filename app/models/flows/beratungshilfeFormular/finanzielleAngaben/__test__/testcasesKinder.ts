@@ -2,6 +2,12 @@ import { machine } from "~/models/flows/beratungshilfeFormular/__test__/testMach
 import type { TestCases } from "~/models/flows/__test__/TestCases";
 import type { BeratungshilfeFinanzielleAngaben } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
 
+const finanzielleAngabenKinderKinderName =
+  "finanzielle-angaben/kinder/kinder/name";
+const finanzielleAngabenKinderKinderWohnort =
+  "finanzielle-angaben/kinder/kinder/wohnort";
+const finanzielleAngabenKinderKinderKindUnterhaltFrage =
+  "finanzielle-angaben/kinder/kinder/kind-unterhalt-frage";
 const cases = [
   [
     { hasKinder: "yes" },
@@ -20,10 +26,7 @@ const cases = [
   ],
   [
     {},
-    [
-      "finanzielle-angaben/kinder/kinder/name",
-      "finanzielle-angaben/kinder/kinder/wohnort",
-    ],
+    [finanzielleAngabenKinderKinderName, finanzielleAngabenKinderKinderWohnort],
   ],
   [
     {
@@ -36,8 +39,8 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielle-angaben/kinder/kinder/name",
-      "finanzielle-angaben/kinder/kinder/wohnort",
+      finanzielleAngabenKinderKinderName,
+      finanzielleAngabenKinderKinderWohnort,
       "finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen-frage",
     ],
   ],
@@ -53,8 +56,8 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielle-angaben/kinder/kinder/name",
-      "finanzielle-angaben/kinder/kinder/wohnort",
+      finanzielleAngabenKinderKinderName,
+      finanzielleAngabenKinderKinderWohnort,
       "finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen-frage",
       "finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen",
     ],
@@ -70,9 +73,9 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielle-angaben/kinder/kinder/name",
-      "finanzielle-angaben/kinder/kinder/wohnort",
-      "finanzielle-angaben/kinder/kinder/kind-unterhalt-frage",
+      finanzielleAngabenKinderKinderName,
+      finanzielleAngabenKinderKinderWohnort,
+      finanzielleAngabenKinderKinderKindUnterhaltFrage,
     ],
   ],
   [
@@ -87,9 +90,9 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielle-angaben/kinder/kinder/name",
-      "finanzielle-angaben/kinder/kinder/wohnort",
-      "finanzielle-angaben/kinder/kinder/kind-unterhalt-frage",
+      finanzielleAngabenKinderKinderName,
+      finanzielleAngabenKinderKinderWohnort,
+      finanzielleAngabenKinderKinderKindUnterhaltFrage,
       "finanzielle-angaben/kinder/kinder/kind-unterhalt-ende",
     ],
   ],
@@ -105,9 +108,9 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielle-angaben/kinder/kinder/name",
-      "finanzielle-angaben/kinder/kinder/wohnort",
-      "finanzielle-angaben/kinder/kinder/kind-unterhalt-frage",
+      finanzielleAngabenKinderKinderName,
+      finanzielleAngabenKinderKinderWohnort,
+      finanzielleAngabenKinderKinderKindUnterhaltFrage,
       "finanzielle-angaben/kinder/kinder/kind-unterhalt",
     ],
   ],

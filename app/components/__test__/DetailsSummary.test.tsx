@@ -1,11 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { DetailsSummary } from "~/components/DetailsSummary";
 
+const testContent = "Test Content";
 describe("DetailsSummary", () => {
   it("renders title and content correctly", () => {
     render(<DetailsSummary title="Test Title" content="Test Content" />);
     expect(screen.getByText("Test Title")).toBeInTheDocument();
-    expect(screen.getByText("Test Content")).toBeInTheDocument();
+    expect(screen.getByText(testContent)).toBeInTheDocument();
   });
 
   it("renders RichText with correct markdown", () => {
@@ -17,8 +18,8 @@ describe("DetailsSummary", () => {
     render(<DetailsSummary title="Test Title" content="Test Content" />);
     const summaryElement = screen.getByText("Test Title");
     fireEvent.click(summaryElement);
-    expect(screen.getByText("Test Content")).toBeVisible();
+    expect(screen.getByText(testContent)).toBeVisible();
     fireEvent.click(summaryElement);
-    expect(screen.getByText("Test Content")).not.toBeVisible();
+    expect(screen.getByText(testContent)).not.toBeVisible();
   });
 });

@@ -11,16 +11,18 @@ import {
   fillAusgaben,
 } from "~/services/pdf/beratungshilfe/sections/G_ausgaben";
 
+const expensesRecipients = "ausgaben empfänger";
+const paymentDeadlineDate = "12.12.2099";
 describe("G_ausgaben", () => {
   it("fills ausgaben pdf fields when correct context is given", async () => {
     const mockContext: BeratungshilfeFormularContext = {
       ausgaben: [
         {
           art: "ausgaben art",
-          zahlungsempfaenger: "ausgaben empfänger",
+          zahlungsempfaenger: expensesRecipients,
           beitrag: "12,00",
           hasZahlungsfrist: "yes",
-          zahlungsfrist: "12.12.2099",
+          zahlungsfrist: paymentDeadlineDate,
         },
       ],
       ausgabensituation: {
@@ -36,8 +38,8 @@ describe("G_ausgaben", () => {
     fillAusgaben(attachment, pdfFields, mockContext);
 
     expect(pdfFields.g21.value).toEqual("ausgaben art");
-    expect(pdfFields.g31.value).toEqual("ausgaben empfänger");
-    expect(pdfFields.g5Raten1.value).toEqual("12.12.2099");
+    expect(pdfFields.g31.value).toEqual(expensesRecipients);
+    expect(pdfFields.g5Raten1.value).toEqual(paymentDeadlineDate);
     expect(pdfFields.g7Zahlung1.value).toEqual("12,00");
     expect(pdfFields.g10Belastungen.value).toEqual(
       "Schwangerschaft, Alleinerziehend",
@@ -49,38 +51,38 @@ describe("G_ausgaben", () => {
       ausgaben: [
         {
           art: "ausgaben art 1",
-          zahlungsempfaenger: "ausgaben empfänger",
+          zahlungsempfaenger: expensesRecipients,
           beitrag: "12,00",
           hasZahlungsfrist: "yes",
-          zahlungsfrist: "12.12.2099",
+          zahlungsfrist: paymentDeadlineDate,
         },
         {
           art: "ausgaben art 2",
-          zahlungsempfaenger: "ausgaben empfänger",
+          zahlungsempfaenger: expensesRecipients,
           beitrag: "12,00",
           hasZahlungsfrist: "yes",
-          zahlungsfrist: "12.12.2099",
+          zahlungsfrist: paymentDeadlineDate,
         },
         {
           art: "ausgaben art 3",
-          zahlungsempfaenger: "ausgaben empfänger",
+          zahlungsempfaenger: expensesRecipients,
           beitrag: "12,00",
           hasZahlungsfrist: "yes",
-          zahlungsfrist: "12.12.2099",
+          zahlungsfrist: paymentDeadlineDate,
         },
         {
           art: "ausgaben art 4",
-          zahlungsempfaenger: "ausgaben empfänger",
+          zahlungsempfaenger: expensesRecipients,
           beitrag: "12,00",
           hasZahlungsfrist: "yes",
-          zahlungsfrist: "12.12.2099",
+          zahlungsfrist: paymentDeadlineDate,
         },
         {
           art: "ausgaben art 5",
-          zahlungsempfaenger: "ausgaben empfänger",
+          zahlungsempfaenger: expensesRecipients,
           beitrag: "12,00",
           hasZahlungsfrist: "yes",
-          zahlungsfrist: "12.12.2099",
+          zahlungsfrist: paymentDeadlineDate,
         },
       ],
       ausgabensituation: {
@@ -124,18 +126,18 @@ describe("G_ausgaben", () => {
       ausgaben: [
         {
           art: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",
-          zahlungsempfaenger: "ausgaben empfänger",
+          zahlungsempfaenger: expensesRecipients,
           beitrag: "12,00",
           hasZahlungsfrist: "yes",
-          zahlungsfrist: "12.12.2099",
+          zahlungsfrist: paymentDeadlineDate,
         },
         {
-          art: "ausgaben empfänger",
+          art: expensesRecipients,
           zahlungsempfaenger:
             "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",
           beitrag: "12,00",
           hasZahlungsfrist: "yes",
-          zahlungsfrist: "12.12.2099",
+          zahlungsfrist: paymentDeadlineDate,
         },
       ],
       ausgabensituation: {
