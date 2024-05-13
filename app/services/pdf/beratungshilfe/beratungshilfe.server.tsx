@@ -5,7 +5,7 @@ import type {
   BooleanField,
 } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { Convert } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import fs from "node:fs";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { PDFDocument, PDFTextField, PDFCheckBox } from "pdf-lib";
 import {
@@ -53,7 +53,7 @@ export async function getBeratungshilfePdfFromContext(
 
 export async function getBeratungshilfeParameters() {
   const json: { [key: string]: StringField | BooleanField } = {};
-  await PDFDocument.load(getBeratungshilfePdfBuffer()).then((pdfDoc) => {
+  await getBeratungshilfePdf().then((pdfDoc) => {
     const form = pdfDoc.getForm();
     const fields = form.getFields();
 
@@ -126,7 +126,7 @@ async function fillOutBeratungshilfe(
   values: BeratungshilfePDF,
   attachment: Attachment,
 ) {
-  return await PDFDocument.load(getBeratungshilfePdfBuffer()).then((pdfDoc) => {
+  return getBeratungshilfePdf().then((pdfDoc) => {
     const form = pdfDoc.getForm();
 
     Object.values(values).forEach((value: PdfField) => {
@@ -149,27 +149,25 @@ async function fillOutBeratungshilfe(
 // See https://remix.run/docs/en/1.16.1/tutorials/jokes#connect-to-the-database
 declare global {
   // eslint-disable-next-line no-var
-  var __beratungshilfeBuffer: ArrayBuffer | undefined; // NOSONAR
+  var __beratungshilfePdf: PDFDocument | undefined; // NOSONAR
 }
 
 // Singleton to prevent multiple file reads
-function getBeratungshilfePdfBuffer(): ArrayBuffer {
-  if (!global.__beratungshilfeBuffer) {
+async function getBeratungshilfePdf() {
+  if (!global.__beratungshilfePdf) {
+    const relFilepath =
+      "data/pdf/beratungshilfe/Antrag_auf_Bewilligung_von_Beratungshilfe.pdf";
     try {
-      const file = path.resolve(
-        path.resolve(
-          path.join(
-            process.cwd(),
-            "data/pdf/beratungshilfe/Antrag_auf_Bewilligung_von_Beratungshilfe.pdf",
-          ),
-        ),
-      );
-      global.__beratungshilfeBuffer = fs.readFileSync(file);
+      await readFile(path.resolve(path.join(process.cwd(), relFilepath)))
+        .then((data) => PDFDocument.load(data))
+        .then((pdfDoc) => {
+          global.__beratungshilfePdf = pdfDoc;
+        });
     } catch (error) {
       console.error(error);
-      return ArrayBuffer.prototype;
+      return await PDFDocument.load(ArrayBuffer.prototype);
     }
   }
 
-  return global.__beratungshilfeBuffer ?? ArrayBuffer.prototype;
+  return global.__beratungshilfePdf ?? PDFDocument.load(ArrayBuffer.prototype);
 }
