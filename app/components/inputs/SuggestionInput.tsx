@@ -186,9 +186,9 @@ const CustomControl = (
   />
 );
 
-const CustomInput = (props: InputProps<DataListOptions, false>) => {
-  return <components.Input {...props} maxLength={INPUT_CHAR_LIMIT} />;
-};
+const CustomInput = (props: InputProps<DataListOptions, false>) => (
+  <components.Input {...props} maxLength={INPUT_CHAR_LIMIT} />
+);
 
 const SuggestionInput = ({
   name,
