@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+/* eslint-disable sonarjs/no-duplicate-string */
 
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
