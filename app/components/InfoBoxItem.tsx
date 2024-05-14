@@ -12,7 +12,9 @@ export const InfoBoxItemPropsSchema = z.object({
   headline: HeadingPropsSchema.optional(),
   image: ImagePropsSchema.optional(),
   content: z.string().optional(),
-  detailsSummary: DetailsSummarySchema.optional(),
+  detailsSummary: DetailsSummarySchema.optional().or(
+    z.array(DetailsSummarySchema).optional(),
+  ),
   buttons: z.array(ButtonPropsSchema).optional(),
 });
 
@@ -52,7 +54,15 @@ const InfoBoxItem = ({
         {label && <Heading {...label} />}
         {headline && <Heading {...headline} />}
         {content && <RichText markdown={content} />}
-        {detailsSummary && <DetailsSummary {...detailsSummary} />}
+        {detailsSummary && !Array.isArray(detailsSummary) && (
+          <DetailsSummary {...detailsSummary} />
+        )}
+        {detailsSummary &&
+          Array.isArray(detailsSummary) &&
+          detailsSummary.length > 0 &&
+          detailsSummary.map((details) => (
+            <DetailsSummary key={details.title} {...details} />
+          ))}
         {buttons && buttons.length > 0 && (
           <ButtonContainer>
             {buttons.map((button) => (
