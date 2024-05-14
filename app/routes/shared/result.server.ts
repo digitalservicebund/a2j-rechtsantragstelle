@@ -79,7 +79,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     parentMeta,
     amtsgerichtCommon,
     defaultStrings,
-    translationsFlowId,
+    flowTranslations,
   ] = await Promise.all([
     fetchCollectionEntry("result-pages", slug),
     fetchMeta({
@@ -93,7 +93,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const cmsContent = interpolateDeep(
     resultPageContent,
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userData, translationsFlowId)
+      ? currentFlow.stringReplacements(userData, flowTranslations)
       : {},
   );
 
