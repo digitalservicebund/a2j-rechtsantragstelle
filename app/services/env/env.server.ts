@@ -3,8 +3,6 @@ interface Config {
   STRAPI_HOST: string;
   STRAPI_ACCESS_KEY: string;
   CMS: string;
-  TRUSTED_IMAGE_SOURCES: string;
-  TRUSTED_CSP_CONNECT_SOURCES: string;
   REDIS_ENDPOINT: string;
   REDIS_PASSWORD: string;
   COOKIE_SESSION_SECRET: string;
@@ -24,12 +22,6 @@ export function config(): Config {
       STRAPI_HOST: STRAPI_API?.replace("/api/", "") ?? "",
       STRAPI_ACCESS_KEY: process.env.STRAPI_ACCESS_KEY?.trim() ?? "",
       CMS: process.env.CMS?.trim() ?? "FILE",
-      TRUSTED_IMAGE_SOURCES:
-        "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com https://mermaid.ink data:",
-      TRUSTED_CSP_CONNECT_SOURCES:
-        ENVIRONMENT === "development"
-          ? "*"
-          : "'self' https://*.ingest.sentry.io https://*.posthog.com",
       REDIS_ENDPOINT: process.env.REDIS_ENDPOINT?.trim() ?? "localhost:6380",
       REDIS_PASSWORD: process.env.REDIS_PASSWORD?.trim() ?? "",
       COOKIE_SESSION_SECRET:
