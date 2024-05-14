@@ -6,7 +6,7 @@ import type {
   PlzStrnFile,
 } from "./convertJsonDataTable";
 import { gerbehIndex } from "./convertJsonDataTable";
-import { getEncrypted } from "./encryptedStorage";
+import { getEncrypted } from "./encryptedStorage.server";
 import type { Jmtd14VTErwerberPlzortk, Jmtd14VTErwerberPlzstrn } from "./types";
 import partnerGerichte from "data/courts/partnerGerichte.json";
 import courtURLs from "data/courts/sanitizedURLs.json";
