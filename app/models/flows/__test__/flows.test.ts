@@ -75,10 +75,11 @@ describe("state machine form flows", () => {
     test.each(cases)(
       "SUBMIT (%#) given context: %j, visits steps: %j",
       (context, steps) => {
-        const expectedSteps = steps;
+        const expectedSteps = steps as Array<string>;
+        const contextCase = context as Context;
         const actualSteps = getEnabledSteps({
           machine,
-          context,
+          context: contextCase,
           transitionType: "SUBMIT",
           steps: expectedSteps,
         });
@@ -89,10 +90,11 @@ describe("state machine form flows", () => {
     test.each(cases)(
       "BACK (%#) given context: %j, visits steps: %j",
       (context, steps) => {
-        const expectedSteps = [...steps].reverse();
+        const expectedSteps = [...(steps as Array<string>)].reverse();
+        const contextCase = context as Context;
         const actualSteps = getEnabledSteps({
           machine,
-          context,
+          context: contextCase,
           transitionType: "BACK",
           steps: expectedSteps,
         });
