@@ -132,7 +132,7 @@ const customStyles = (
       borderColor: "",
       outline: menuIsOpen ? "solid 4px #004b76" : "none",
       outlineOffset: menuIsOpen ? "-4px" : "",
-      paddingRight: "0rem",
+      paddingRight: "1rem",
       paddingLeft: "0.5rem",
       borderStyle: "",
       boxShadow: "",
@@ -159,10 +159,21 @@ const customStyles = (
 const CustomClearIndicator = (
   props: ClearIndicatorProps<DataListOptions, false>,
 ) => (
-  <components.ClearIndicator
-    className="text-blue-800 hover:text-blue-300"
-    {...props}
-  />
+  <div
+    className="outline-none focus-visible:ring-blue-800 focus-visible:ring-4"
+    role="button"
+    tabIndex={0}
+    onKeyUp={(event) => {
+      if (event.key === "Enter") {
+        props.clearValue();
+      }
+    }}
+  >
+    <components.ClearIndicator
+      className="text-blue-800 hover:text-blue-300"
+      {...props}
+    />
+  </div>
 );
 
 const CustomControl = (
@@ -175,9 +186,9 @@ const CustomControl = (
   />
 );
 
-const CustomInput = (props: InputProps<DataListOptions, false>) => (
-  <components.Input {...props} maxLength={INPUT_CHAR_LIMIT} />
-);
+const CustomInput = (props: InputProps<DataListOptions, false>) => {
+  return <components.Input {...props} maxLength={INPUT_CHAR_LIMIT} />;
+};
 
 const SuggestionInput = ({
   name,
@@ -251,7 +262,7 @@ const SuggestionInput = ({
           IndicatorSeparator: () => null,
           DropdownIndicator: () => null,
           ClearIndicator: CustomClearIndicator,
-          Input: (props) => CustomInput(props),
+          Input: CustomInput,
         }}
         styles={customStyles(hasError)}
       />
