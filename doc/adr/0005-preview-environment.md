@@ -12,7 +12,7 @@ Initially, we maintained two environments at A2J: staging and production. Our wo
 
 1. Engineers initiated feature development.
 2. Upon completion of the task, changes were pushed to the main branch.
-3. Finally, changes were deployed to both staging and production environments.
+3. Finally, changes were firstly tested with E2E test, then deployed to staging and production environments
 
 ### Issue
 
@@ -25,7 +25,9 @@ To address these challenges, we decided to create a preview environment. This en
 
 - The preview environment operates independently of the Strapi API during runtime, serving content via JSON file.
 - The preview environment has all soon-to-be released features unlocked.
-- Unsuccessful end-to-end (E2E) and other tests conducted in staging prevents deployment in the preview environment.
+- App changes go through thorough testing before moving to staging and then to preview.
+- Content changes are also tested before being deployed to the preview environment.
+- Once the preview is confirmed successful, we conduct further testing before deploying to production.
 - The preview environment is accessible without any authentication mechanism.
 
 ## Consequences
