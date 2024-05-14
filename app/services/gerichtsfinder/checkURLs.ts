@@ -3,7 +3,7 @@ import path from "node:path";
 import { type FollowResponse } from "follow-redirects";
 import followRedirects from "follow-redirects";
 import pMap from "p-map";
-import { getEncrypted } from "./encryptedStorage";
+import { getEncrypted } from "./encryptedStorage.server";
 import type { GerbehFile } from "./convertJsonDataTable";
 import { normalizeURL } from "../../util/strings";
 import { type IncomingMessage } from "node:http";
