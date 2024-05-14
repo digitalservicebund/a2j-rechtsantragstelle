@@ -13,6 +13,7 @@ import { NonceContext } from "./services/security/nonce";
 import { stripTrailingSlashFromURL } from "./util/strings";
 import { logError } from "./services/logging";
 import { cspHeader } from "./services/security/cspHeader.server";
+import { config } from "./services/env/env.server";
 
 const ABORT_DELAY = 5000;
 
@@ -96,7 +97,10 @@ function handleBrowserRequest(
   return new Promise((resolve, reject) => {
     let didError = false;
     const cspNonce = generateNonce();
-    responseHeaders.set("Content-Security-Policy", cspHeader(cspNonce));
+    responseHeaders.set(
+      "Content-Security-Policy",
+      cspHeader({ nonce: cspNonce, environment: config().ENVIRONMENT }),
+    );
 
     const { pipe, abort } = renderToPipeableStream(
       <NonceContext.Provider value={cspNonce}>
