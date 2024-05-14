@@ -1,4 +1,4 @@
-# 1. Remove snapshot tests
+# 2. Remove snapshot tests
 
 Date: 2024-03-12
 

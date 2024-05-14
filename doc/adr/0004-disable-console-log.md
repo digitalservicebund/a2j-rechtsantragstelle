@@ -1,4 +1,4 @@
-# 1. Disable console.log
+# 4. Disable console.log
 
 Date: 2024-04-24
 
