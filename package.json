@@ -29,7 +29,7 @@
     "test:coverage": "jest --testPathPattern=/tests/unit/ --maxWorkers=50% --coverage --collectCoverageFrom='./app/**'",
     "test:e2e:ui": "npx playwright test --ui",
     "test:e2e": "npx playwright test",
-    "test": "jest --testPathPattern=/tests/unit/ --maxWorkers=50% && npm run size",
+    "test": "jest --testPathPattern=/tests/unit/ --maxWorkers=50%",
     "typecheck": "tsc",
     "update:courtData": "tsx ./app/services/gerichtsfinder/encryptedStorage.ts updateZip",
     "update:URLs": "tsx ./app/services/gerichtsfinder/checkURLs.ts checkURLs",
