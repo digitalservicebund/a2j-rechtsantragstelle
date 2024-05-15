@@ -10,6 +10,20 @@ updates:
       # https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#scheduletime
       time: "10:00"
       timezone: "Europe/Berlin"
+    groups:
+      storybook:
+        patterns:
+          - "@storybook/*"
+          - storybook
+      remix:
+        patterns:
+          - "@remix-run/*"
+      jest:
+        patterns:
+          - "jest*"
+      react:
+        patterns:
+          - "react*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
