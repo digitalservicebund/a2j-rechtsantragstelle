@@ -84,7 +84,7 @@
     "@remix-run/eslint-config": "^2.9.2",
     "@remix-run/testing": "^2.9.2",
     "@storybook/addon-a11y": "^8.1.0",
-    "@storybook/addon-essentials": "^8.0.10",
+    "@storybook/addon-essentials": "^8.1.1",
     "@storybook/react": "^8.0.10",
     "@storybook/react-vite": "^8.0.10",
     "@testing-library/jest-dom": "^6.4.5",
