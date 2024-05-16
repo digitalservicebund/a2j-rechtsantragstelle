@@ -132,7 +132,7 @@ const customStyles = (
       borderColor: "",
       outline: menuIsOpen ? "solid 4px #004b76" : "none",
       outlineOffset: menuIsOpen ? "-4px" : "",
-      paddingRight: "0rem",
+      paddingRight: "1rem",
       paddingLeft: "0.5rem",
       borderStyle: "",
       boxShadow: "",
@@ -159,10 +159,19 @@ const customStyles = (
 const CustomClearIndicator = (
   props: ClearIndicatorProps<DataListOptions, false>,
 ) => (
-  <components.ClearIndicator
-    className="text-blue-800 hover:text-blue-300"
-    {...props}
-  />
+  <button
+    data-testid="clear-input-button"
+    className="outline-none focus-visible:ring-blue-800 focus-visible:ring-4"
+    onClick={() => {
+      props.clearValue();
+    }}
+    tabIndex={0}
+  >
+    <components.ClearIndicator
+      className="text-blue-800 hover:text-blue-300"
+      {...props}
+    />
+  </button>
 );
 
 const CustomControl = (
@@ -170,7 +179,7 @@ const CustomControl = (
   error?: string,
 ) => (
   <components.Control
-    className={classNames("ds-select", { "has-error": error })}
+    className={classNames("ds-select suggestion-input", { "has-error": error })}
     {...props}
   />
 );
@@ -178,6 +187,20 @@ const CustomControl = (
 const CustomInput = (props: InputProps<DataListOptions, false>) => (
   <components.Input {...props} maxLength={INPUT_CHAR_LIMIT} />
 );
+
+const focusOnInput = (action: string, inputId: string) => {
+  if (action === "clear" || action === "select-option") {
+    setTimeout(function () {
+      const inputElement = document.querySelector<HTMLInputElement>(
+        `#${inputId}`,
+      );
+
+      if (inputElement) {
+        inputElement.focus();
+      }
+    }, 100);
+  }
+};
 
 const SuggestionInput = ({
   name,
@@ -190,9 +213,10 @@ const SuggestionInput = ({
   noSuggestionMessage,
 }: SuggestionInputProps) => {
   const items = getDataListOptions(dataList);
-  const { error, getInputProps } = useField(name, { formId });
+  const { error, getInputProps, validate } = useField(name, { formId });
   const errorId = `${name}-error`;
   const hasError = typeof error !== "undefined" && error.length > 0;
+  const inputId = `input-${name}`;
 
   const currentItemValue = getDescriptionByValue(
     items,
@@ -235,14 +259,18 @@ const SuggestionInput = ({
         aria-errormessage={error && errorId}
         id={name}
         name={name}
-        inputId={`input-${name}`}
+        inputId={inputId}
         filterOption={filterOption}
         defaultValue={currentItemValue}
         placeholder={placeholder ?? ""}
         instanceId={name}
         formatOptionLabel={formatOptionLabel}
-        onChange={getInputProps().onChange}
-        onBlur={getInputProps().onBlur}
+        onChange={(_newValue, actionMeta) => {
+          validate();
+          // remix remove the focus on the input when clicks with the keyboard to clear the value, so we need to force the focus again
+          focusOnInput(actionMeta.action, inputId);
+        }}
+        onBlur={validate}
         noOptionsMessage={({ inputValue }) =>
           inputValue.length > 2 ? noSuggestionMessage : null
         }
@@ -251,7 +279,7 @@ const SuggestionInput = ({
           IndicatorSeparator: () => null,
           DropdownIndicator: () => null,
           ClearIndicator: CustomClearIndicator,
-          Input: (props) => CustomInput(props),
+          Input: CustomInput,
         }}
         styles={customStyles(hasError)}
       />

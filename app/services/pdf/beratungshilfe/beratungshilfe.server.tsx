@@ -27,6 +27,7 @@ import { fillBesitz } from "./sections/F_besitz/F_besitz";
 import { fillFooter } from "./sections/footer";
 import { fillWohnen } from "./sections/D_wohnen";
 import { fillAusgaben } from "./sections/G_ausgaben";
+import { resizeToA4 } from "./resizeToA4";
 
 export async function getBeratungshilfePdfFromContext(
   context: BeratungshilfeFormularContext,
@@ -162,6 +163,7 @@ async function getBeratungshilfePdf() {
         .then((data) => PDFDocument.load(data))
         .then((pdfDoc) => {
           global.__beratungshilfePdf = pdfDoc;
+          resizeToA4(global.__beratungshilfePdf);
         });
     } catch (error) {
       console.error(error);

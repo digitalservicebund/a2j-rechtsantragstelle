@@ -24,7 +24,7 @@ export default function MigrationDataOverview(props: MigrationDataProps) {
                 if (typeof value === "object" && value !== null) {
                   const objectProperties = Object.entries(value)
                     .map(
-                      ([subKey, subValue]) =>
+                      ([_, subValue]) =>
                         `${lookupOrKey(
                           subValue as string,
                           props.translations,
