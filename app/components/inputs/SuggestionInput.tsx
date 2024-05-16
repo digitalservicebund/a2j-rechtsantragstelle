@@ -160,6 +160,7 @@ const CustomClearIndicator = (
   props: ClearIndicatorProps<DataListOptions, false>,
 ) => (
   <button
+    data-testid="clear-input-button"
     className="outline-none focus-visible:ring-blue-800 focus-visible:ring-4"
     onClick={() => {
       props.clearValue();
@@ -187,6 +188,20 @@ const CustomInput = (props: InputProps<DataListOptions, false>) => (
   <components.Input {...props} maxLength={INPUT_CHAR_LIMIT} />
 );
 
+const focusOnInput = (action: string, inputId: string) => {
+  if (action === "clear" || action === "select-option") {
+    setTimeout(function () {
+      const inputElement = document.querySelector<HTMLInputElement>(
+        `#${inputId}`,
+      );
+
+      if (inputElement) {
+        inputElement.focus();
+      }
+    }, 100);
+  }
+};
+
 const SuggestionInput = ({
   name,
   label,
@@ -198,9 +213,10 @@ const SuggestionInput = ({
   noSuggestionMessage,
 }: SuggestionInputProps) => {
   const items = getDataListOptions(dataList);
-  const { error, getInputProps } = useField(name, { formId });
+  const { error, getInputProps, validate } = useField(name, { formId });
   const errorId = `${name}-error`;
   const hasError = typeof error !== "undefined" && error.length > 0;
+  const inputId = `input-${name}`;
 
   const currentItemValue = getDescriptionByValue(
     items,
@@ -243,14 +259,18 @@ const SuggestionInput = ({
         aria-errormessage={error && errorId}
         id={name}
         name={name}
-        inputId={`input-${name}`}
+        inputId={inputId}
         filterOption={filterOption}
         defaultValue={currentItemValue}
         placeholder={placeholder ?? ""}
         instanceId={name}
         formatOptionLabel={formatOptionLabel}
-        onChange={getInputProps().onChange}
-        onBlur={getInputProps().onBlur}
+        onChange={(_newValue, actionMeta) => {
+          validate();
+          // remix remove the focus on the input when clicks with the keyboard to clear the value, so we need to force the focus again
+          focusOnInput(actionMeta.action, inputId);
+        }}
+        onBlur={validate}
         noOptionsMessage={({ inputValue }) =>
           inputValue.length > 2 ? noSuggestionMessage : null
         }
