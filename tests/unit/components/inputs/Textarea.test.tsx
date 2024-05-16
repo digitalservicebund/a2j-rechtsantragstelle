@@ -76,7 +76,7 @@ describe("Textarea component", () => {
     render(<RemixStub />);
 
     expect(screen.getByText("Test Description")).toBeInTheDocument();
-    expect(screen.getByText("Test Label").className).toBe("ds-heading-03-reg");
+    expect(screen.getByText("Test Label")).toHaveClass("ds-heading-03-reg");
   });
 
   it("renders error message when error is present", () => {

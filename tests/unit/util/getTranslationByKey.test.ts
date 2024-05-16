@@ -13,7 +13,7 @@ describe("getTranslationByKey", () => {
     expect(actual).toEqual(TRANSLATION_KEY_RECORD[mockKeyValue]);
   });
 
-  it("in case the key does not exist in the translation record, it should call sendSentryMessage and return the key ", () => {
+  it("in case the key does not exist in the translation record, it should call sendSentryMessage and return the key", () => {
     const mockKeyValue = "not_existing_key";
     const logSpy = jest.spyOn(logging, "sendSentryMessage");
     const actual = getTranslationByKey(mockKeyValue, TRANSLATION_KEY_RECORD);

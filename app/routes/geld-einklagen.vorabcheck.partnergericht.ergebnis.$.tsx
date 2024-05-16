@@ -62,7 +62,9 @@ export const loader = async ({
             courts.push(court);
           }
         }
-      } catch (err) {}
+      } catch (err) {
+        console.error(err);
+      }
     });
 
   const slug = pathname;

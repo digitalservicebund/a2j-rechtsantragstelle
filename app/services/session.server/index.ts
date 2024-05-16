@@ -24,7 +24,7 @@ function createDatabaseSessionStorage({
 }) {
   return createSessionStorage({
     cookie,
-    async createData(data, expires) {
+    async createData(data) {
       const uuid = crypto.randomUUID();
       await setDataForSession(fullId(context, uuid), data);
       return uuid;
@@ -32,7 +32,7 @@ function createDatabaseSessionStorage({
     async readData(id) {
       return await getDataForSession(fullId(context, id));
     },
-    async updateData(id, data, expires) {
+    async updateData(id, data) {
       await updateDataForSession(fullId(context, id), data);
     },
     async deleteData(id) {

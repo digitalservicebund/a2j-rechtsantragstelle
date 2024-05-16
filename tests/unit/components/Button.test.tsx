@@ -29,7 +29,7 @@ describe("Button Component", () => {
   test("renders button with full width prop", () => {
     render(<Button fullWidth />);
 
-    expect(screen.getByRole("button").className).toContain(
+    expect(screen.getByRole("button")).toHaveClass(
       "ds-button ds-button-full-width",
     );
   });

@@ -8,7 +8,7 @@ const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
           href={infos.repository}
           className="text-link"
           target="_blank"
-          rel="noopener"
+          rel="noreferrer"
         >
           {dependencyString}
         </a>
