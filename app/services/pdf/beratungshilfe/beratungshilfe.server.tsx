@@ -28,6 +28,7 @@ import { fillFooter } from "./sections/footer";
 import { fillWohnen } from "./sections/D_wohnen";
 import { fillAusgaben } from "./sections/G_ausgaben";
 import { resizeToA4 } from "./resizeToA4";
+import { deepClone } from "./deepClone";
 
 export async function getBeratungshilfePdfFromContext(
   context: BeratungshilfeFormularContext,
@@ -127,7 +128,8 @@ async function fillOutBeratungshilfe(
   values: BeratungshilfePDF,
   attachment: Attachment,
 ) {
-  return getBeratungshilfePdf().then((pdfDoc) => {
+  return getBeratungshilfePdf().then(async (pdfDocOrig) => {
+    const pdfDoc = await deepClone(pdfDocOrig);
     const form = pdfDoc.getForm();
 
     Object.values(values).forEach((value: PdfField) => {
