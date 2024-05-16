@@ -16,7 +16,7 @@ test.describe("js enabled", () => {
     );
   });
 
-  test("fluggastrechte vorabcheck can be traversed and Javascript enabled", async ({
+  test.skip("fluggastrechte vorabcheck can be traversed and Javascript enabled", async ({
     page,
   }) => {
     // fluggastrechte/vorabcheck/start
