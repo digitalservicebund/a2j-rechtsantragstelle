@@ -53,17 +53,16 @@ describe("SuggestionInput", () => {
   });
 
   it("it should render select the first (BER) input after enter Berlin", async () => {
-    const mockedOnChange = jest.fn();
+    const mockedValidate = jest.fn();
 
     jest.spyOn(remixValidatedForm, "useField").mockReturnValue({
       error: undefined,
       getInputProps: jest.fn().mockReturnValue({
         id: COMPONENT_NAME,
         placeholder: PLACEHOLDER_MOCK,
-        onChange: mockedOnChange,
       }),
       clearError: jest.fn(),
-      validate: jest.fn(),
+      validate: mockedValidate,
       touched: false,
       setTouched: jest.fn(),
     });
@@ -83,24 +82,23 @@ describe("SuggestionInput", () => {
       },
     ]);
 
-    const { getByText, getByRole } = render(<RemixStub />);
+    const { getByText, getByRole, container } = render(<RemixStub />);
 
     fireEvent.change(getByRole("combobox"), { target: { value: "Berlin" } });
     await waitFor(() => getByText("Berlin Brandenburg Flughafen (BER)"));
     fireEvent.click(getByText("Berlin Brandenburg Flughafen (BER)"));
-    expect(mockedOnChange).toHaveBeenCalledTimes(1);
-    expect(mockedOnChange).toHaveBeenCalledWith(
-      expect.objectContaining({
-        value: "BER",
-      }),
-      expect.objectContaining({
-        name: COMPONENT_NAME,
-      }),
-    );
+    expect(mockedValidate).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(
+        container.querySelector<HTMLInputElement>(
+          `input[name='${COMPONENT_NAME}']`,
+        )?.value,
+      ).toBe("BER");
+    });
   });
 
   it("it should render show an no suggestion message in case enter a not existing input", async () => {
-    const mockedOnChange = jest.fn();
+    const mockedValidate = jest.fn();
     const noSuggestionMessage = "Not possible to find your input";
 
     jest.spyOn(remixValidatedForm, "useField").mockReturnValue({
@@ -108,10 +106,9 @@ describe("SuggestionInput", () => {
       getInputProps: jest.fn().mockReturnValue({
         id: COMPONENT_NAME,
         placeholder: PLACEHOLDER_MOCK,
-        onChange: mockedOnChange,
       }),
       clearError: jest.fn(),
-      validate: jest.fn(),
+      validate: mockedValidate,
       touched: false,
       setTouched: jest.fn(),
     });
@@ -137,6 +134,63 @@ describe("SuggestionInput", () => {
     fireEvent.change(getByRole("combobox"), {
       target: { value: "DATA DONT EXIST" },
     });
-    await waitFor(() => getByText(noSuggestionMessage));
+    await waitFor(() => {
+      expect(getByText(noSuggestionMessage)).toBeInTheDocument();
+    });
+  });
+
+  it("it should remove the value in case click on clear button", async () => {
+    jest.spyOn(remixValidatedForm, "useField").mockReturnValue({
+      error: undefined,
+      getInputProps: jest.fn().mockReturnValue({
+        id: COMPONENT_NAME,
+        placeholder: PLACEHOLDER_MOCK,
+      }),
+      clearError: jest.fn(),
+      validate: jest.fn(),
+      touched: false,
+      setTouched: jest.fn(),
+    });
+
+    const RemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => (
+          <SuggestionInput
+            name={COMPONENT_NAME}
+            placeholder="placeholder"
+            dataList="airports"
+            label="label"
+            formId="formId"
+          />
+        ),
+      },
+    ]);
+
+    const { getByText, getByRole, container, getByTestId } = render(
+      <RemixStub />,
+    );
+
+    fireEvent.change(getByRole("combobox"), { target: { value: "Berlin" } });
+    await waitFor(() => getByText("Berlin Brandenburg Flughafen (BER)"));
+    fireEvent.click(getByText("Berlin Brandenburg Flughafen (BER)"));
+
+    await waitFor(() => {
+      expect(
+        container.querySelector<HTMLInputElement>(
+          `input[name='${COMPONENT_NAME}']`,
+        )?.value,
+      ).toBe("BER");
+    });
+
+    fireEvent.click(getByTestId("clear-input-button"));
+
+    await waitFor(() => {
+      expect(
+        container.querySelector<HTMLInputElement>(
+          `input[name='${COMPONENT_NAME}']`,
+        )?.value,
+      ).toBe("");
+    });
   });
 });
