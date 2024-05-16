@@ -31,19 +31,19 @@ export default function Footer({
   const linksFirstColumn: typeof links = links.slice(0, linksMiddleIndex);
   const linksSecondColumn: typeof links = links.slice(linksMiddleIndex);
 
-  const renderLink = (link: LinkProps) => (
-    <li key={link.url} className="leading-snug">
-      <a
-        href={link.url}
-        className="text-link increase-tap-area"
-        target={link.openInNewTab ? "_blank" : undefined}
-        rel={link.openInNewTab ? "noopener" : undefined}
-      >
-        {link.text}
-      </a>
-    </li>
-  );
+  const renderLink = (link: LinkProps) => {
+    const opts = link.openInNewTab
+      ? { target: "_blank", rel: "noreferer" }
+      : {};
 
+    return (
+      <li key={link.url} className="leading-snug">
+        <a href={link.url} className="text-link increase-tap-area" {...opts}>
+          {link.text}
+        </a>
+      </li>
+    );
+  };
   const renderLinks = (links: LinkProps[]) => (
     <ul className="list-none m-0 p-0 ds-stack-8" key={links[0]?.url}>
       {links.map(renderLink)}

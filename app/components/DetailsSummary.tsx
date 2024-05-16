@@ -11,11 +11,11 @@ type DetailsSummaryProps = z.infer<typeof DetailsSummarySchema>;
 
 export const DetailsSummary = ({ title, content }: DetailsSummaryProps) => {
   return (
-    <details className="details focus-within:outline focus-within:outline-4 focus-within:outline-offset-4 focus-within:outline-blue-800 text-blue-800 ds-label-01-bold">
-      <summary className="summary-content focus:outline-none cursor-pointer">
+    <details className="details focus-within:outline focus-within:outline-4 focus-within:outline-offset-4 focus-within:outline-blue-800 text-blue-800 ds-label-01-bold bg-no-repeat">
+      <summary className="summary-content focus:outline-none cursor-pointer pl-[23px] list-none">
         {title}
       </summary>
-      <span className="block ds-label-01-reg ml-[0.325rem] border-l-2 border-solid border-grey-300 pl-12 pt-8 text-black">
+      <span className="block ds-label-01-reg border-l-2 border-solid border-blue-500 pl-[13px] pt-8 ml-[7px] text-black">
         {content && <RichText markdown={content} />}
       </span>
     </details>

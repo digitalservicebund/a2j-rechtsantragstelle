@@ -122,6 +122,20 @@ svg {
   @apply text-black;
 }
 
+.details {
+  @apply bg-[position:left_0];
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='28' viewBox='0 0 16 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M2 6L2 22L12 14L2 6Z' fill='%23005576'/%3E%3C/svg%3E%0A");
+}
+
+.details[open] {
+  @apply bg-[position:0_8px];
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='10' viewBox='0 0 16 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 0L16 0L8 10L0 0Z' fill='%23005576'/%3E%3C/svg%3E%0A");
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
 /* when focus without the keyboard, remove the outline of the children*/
 .details:not(:has(.summary-content:focus-visible)) {
   @apply outline-none;
@@ -238,4 +252,12 @@ svg {
 /* when focus without the keyboard, remove the outline */
 .ds-tile-radio-group:not(:has(label > input[type="radio"]:focus-visible)) {
   @apply outline-none;
+}
+
+/* when focus with the keyboard, but not focus on the remove item button */
+.suggestion-input:focus-within:not(:has(div > button:focus-visible)) {
+  @apply outline;
+  @apply outline-4;
+  @apply outline-blue-800;
+  outline-offset: -4px;
 }

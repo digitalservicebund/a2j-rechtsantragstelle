@@ -42,7 +42,7 @@ const CourtDetails = ({
             <p>
               <a
                 href={normalizeURL(website)}
-                rel="noopener"
+                rel="noreferrer"
                 target="_blank"
                 className="text-link"
               >

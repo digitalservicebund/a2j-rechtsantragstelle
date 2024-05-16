@@ -18,7 +18,7 @@ describe("extractJsonFilesFromZip", () => {
       "test1.json": { testContent: [{ a: 1 }] },
       "test.json": { testContent: [{ a: 1 }] },
     });
-    expect(consoleLogSpy).toBeCalled();
+    expect(consoleLogSpy).toHaveBeenCalled();
   });
 
   it("Fails on non-existing file", () => {

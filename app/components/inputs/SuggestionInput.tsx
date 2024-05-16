@@ -132,7 +132,7 @@ const customStyles = (
       borderColor: "",
       outline: menuIsOpen ? "solid 4px #004b76" : "none",
       outlineOffset: menuIsOpen ? "-4px" : "",
-      paddingRight: "0rem",
+      paddingRight: "1rem",
       paddingLeft: "0.5rem",
       borderStyle: "",
       boxShadow: "",
@@ -159,10 +159,18 @@ const customStyles = (
 const CustomClearIndicator = (
   props: ClearIndicatorProps<DataListOptions, false>,
 ) => (
-  <components.ClearIndicator
-    className="text-blue-800 hover:text-blue-300"
-    {...props}
-  />
+  <button
+    className="outline-none focus-visible:ring-blue-800 focus-visible:ring-4"
+    onClick={() => {
+      props.clearValue();
+    }}
+    tabIndex={0}
+  >
+    <components.ClearIndicator
+      className="text-blue-800 hover:text-blue-300"
+      {...props}
+    />
+  </button>
 );
 
 const CustomControl = (
@@ -170,7 +178,7 @@ const CustomControl = (
   error?: string,
 ) => (
   <components.Control
-    className={classNames("ds-select", { "has-error": error })}
+    className={classNames("ds-select suggestion-input", { "has-error": error })}
     {...props}
   />
 );
@@ -251,7 +259,7 @@ const SuggestionInput = ({
           IndicatorSeparator: () => null,
           DropdownIndicator: () => null,
           ClearIndicator: CustomClearIndicator,
-          Input: (props) => CustomInput(props),
+          Input: CustomInput,
         }}
         styles={customStyles(hasError)}
       />
