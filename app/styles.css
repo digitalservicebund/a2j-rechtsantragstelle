@@ -132,7 +132,7 @@ svg {
   background-image: url("data:image/svg+xml,%3Csvg width='16' height='10' viewBox='0 0 16 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 0L16 0L8 10L0 0Z' fill='%23005576'/%3E%3C/svg%3E%0A");
 }
 
-.summary::-webkit-details-marker {
+.summary-content::-webkit-details-marker {
   display: none;
 }
 
