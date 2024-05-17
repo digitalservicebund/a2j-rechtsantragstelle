@@ -19,6 +19,8 @@ test.describe("js enabled", () => {
   test("fluggastrechte vorabcheck can be traversed and Javascript enabled", async ({
     page,
   }) => {
+    await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
+
     // fluggastrechte/vorabcheck/start
     await expectPageToBeAccessible({ page });
     await vorabcheck.clickNext();

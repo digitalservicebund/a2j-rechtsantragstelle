@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
   await vorabcheck.goto();
 });
 
-test("forwarded to intial step", async ({ page }) => {
+test("forwarded to intial step", async () => {
   await vorabcheck.assertInitialStep();
 });
 

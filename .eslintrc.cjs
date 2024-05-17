@@ -1,46 +1,110 @@
+// based on https://github.com/remix-run/indie-stack/blob/main/.eslintrc.js
+
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   ignorePatterns: ["/*", "!/app", "!/tests", "*.generated.ts"],
-  extends: [
-    "@remix-run/eslint-config",
-    "@remix-run/eslint-config/node",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:sonarjs/recommended-legacy",
-    "plugin:storybook/recommended",
-    "plugin:jsx-a11y/strict",
-  ],
-  plugins: ["sonarjs", "@typescript-eslint"],
+  root: true,
   parserOptions: {
-    tsconfigRootDir: __dirname,
-    project: ["./tsconfig.json"],
+    ecmaVersion: "latest",
+    sourceType: "module",
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-  rules: {
-    "react/jsx-no-target-blank": "off",
-    "sonarjs/no-duplicate-string": "warn",
-    "sonarjs/no-small-switch": "warn",
-    "@typescript-eslint/ban-ts-comment": "warn",
-    "@typescript-eslint/no-floating-promises": "warn",
-    "@typescript-eslint/no-unsafe-argument": "warn",
-    "@typescript-eslint/no-unsafe-assignment": "warn",
-    "@typescript-eslint/no-unsafe-member-access": "warn",
-    "@typescript-eslint/no-unsafe-return": "warn",
-    "@typescript-eslint/restrict-template-expressions": "warn",
-    "react/prefer-read-only-props": "warn",
-    camelcase: ["error", { properties: "always", allow: ["^v2_", "^V2_"] }],
-    "import/no-unused-modules": [
-      1,
-      {
-        unusedExports: true,
-        ignoreExports: ["app/routes/*", "app/root.tsx", "app/entry.server.tsx"],
-      },
-    ],
+  env: {
+    browser: true,
+    commonjs: true,
+    es6: true,
   },
+
+  // Base config
+  extends: ["eslint:recommended"],
+
   overrides: [
+    // React
     {
-      files: ["tests/**/*.{ts,tsx}"],
+      files: ["**/*.{js,jsx,ts,tsx}"],
+      plugins: ["react", "jsx-a11y"],
+      extends: [
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
+        "plugin:react-hooks/recommended",
+        "plugin:jsx-a11y/recommended",
+      ],
+      settings: {
+        react: {
+          version: "detect",
+        },
+        formComponents: ["Form"],
+        linkComponents: [
+          { name: "Link", linkAttribute: "to" },
+          { name: "NavLink", linkAttribute: "to" },
+        ],
+      },
+      rules: {
+        "react/jsx-no-leaked-render": ["off", { validStrategies: ["ternary"] }], // enable later
+      },
+    },
+
+    // Typescript
+    {
+      files: ["**/*.{ts,tsx}"],
+      plugins: ["@typescript-eslint", "import", "sonarjs"],
+      parser: "@typescript-eslint/parser",
+      settings: {
+        "import/internal-regex": "^~/",
+        "import/resolver": {
+          node: { extensions: [".ts", ".tsx"] },
+          typescript: { alwaysTryTypes: true },
+        },
+      },
+      extends: [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/stylistic",
+        "plugin:import/recommended",
+        "plugin:import/typescript",
+        "plugin:sonarjs/recommended-legacy",
+      ],
       rules: {
         "sonarjs/no-duplicate-string": "off",
+        "@typescript-eslint/ban-ts-comment": "off", // enable later
+        "@typescript-eslint/consistent-type-definitions": "off", // enable later
+        "@typescript-eslint/array-type": "off", // enable later
+        "@typescript-eslint/consistent-indexed-object-style": "off", // enable later
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+        ],
+
+        "import/order": [
+          "off", // enable later
+          {
+            alphabetize: { caseInsensitive: true, order: "asc" },
+            groups: ["builtin", "external", "internal", "parent", "sibling"],
+            "newlines-between": "always",
+          },
+        ],
+      },
+    },
+
+    // Jest/Vitest
+    {
+      files: ["tests/**/*.test.{js,jsx,ts,tsx}"],
+      plugins: ["jest", "jest-dom"],
+      extends: ["plugin:jest/recommended", "plugin:jest-dom/recommended"],
+      env: { "jest/globals": true },
+      rules: {
+        "jest/valid-title": "off", // enable later
+        "jest/no-standalone-expect": "off", // enable later
+      },
+    },
+
+    // Node
+    {
+      files: [".eslintrc.js", "mocks/**/*.js"],
+      env: {
+        node: true,
       },
     },
   ],

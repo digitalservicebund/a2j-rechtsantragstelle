@@ -30,7 +30,7 @@ const hasPartnerschaftOrSeparatedAndZusammenlebenNo: Guards<BeratungshilfeFinanz
   ({ context }) =>
     hasPartnerschaftOrSeparated({ context }) && context.zusammenleben == "no";
 
-export const hasEigentum: Guards<BeratungshilfeFinanzielleAngaben>[string] = ({
+const hasEigentum: Guards<BeratungshilfeFinanzielleAngaben>[string] = ({
   context,
 }) =>
   context.hasGeldanlage == "yes" ||
