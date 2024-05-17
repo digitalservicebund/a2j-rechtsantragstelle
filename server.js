@@ -1,5 +1,6 @@
 import { wrapExpressCreateRequestHandler } from "@sentry/remix";
 import { createRequestHandler } from "@remix-run/express";
+import { rateLimit } from "express-rate-limit";
 import compression from "compression";
 import express from "express";
 
@@ -52,6 +53,16 @@ const mountPathWithoutStorybook = [
 isStagingOrPreviewEnvironment
   ? app.use(staticFileServer)
   : app.use(mountPathWithoutStorybook, staticFileServer);
+
+// limit calls to pdf download
+const limiter = rateLimit({
+  windowMs: 2 * 1000,
+  max: 2, // Limit each IP to 2 requests per 2s
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
+app.use("/*/pdf", limiter);
 
 // handle SSR requests
 app.all("*", remixHandler);
