@@ -91,7 +91,7 @@ export default function Footer({
         <Background backgroundColor="blue" paddingTop="16" paddingBottom="16">
           <div className="text-center">
             <a
-              className="text-base underline hover:font-bold"
+              className="text-base text-link"
               href="/persoenliche-daten-loeschen"
             >
               {deletionLabel ?? "Persönliche Daten löschen"}
