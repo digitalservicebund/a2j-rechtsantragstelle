@@ -261,6 +261,6 @@ svg {
   outline-offset: -4px;
 }
 
-.suggestion-value-container:has(div > input[type="text"]:focus) div {
+.suggestion-value-container:has(div > input[type="text"]:focus) div span {
   @apply text-gray-600;
 }

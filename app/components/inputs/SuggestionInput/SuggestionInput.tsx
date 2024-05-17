@@ -7,12 +7,14 @@ import airports from "data/airports/data.json";
 import Select from "react-select";
 import { useEffect, useState } from "react";
 import Input from "../Input";
-import CustomClearIndicator from "./customComponents/CustomClearIndicator";
-import CustomControl from "./customComponents/CustomControl";
-import CustomValueContainer from "./customComponents/CustomValueContainer";
-import CustomInput from "./customComponents/CustomInput";
-import customStyles from "./customComponents/customStyles";
-import FormatOptionLabel from "./customComponents/FormatOptionLabel";
+import {
+  CustomClearIndicator,
+  CustomControl,
+  CustomValueContainer,
+  CustomInput,
+  customStyles,
+  FormatOptionLabel,
+} from "./customComponents";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 
