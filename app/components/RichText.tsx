@@ -6,9 +6,7 @@ export const RichTextPropsSchema = z.object({
   className: z.string().optional(),
 });
 
-type RichTextProps = z.infer<typeof RichTextPropsSchema> & {
-  readonly renderer?: Partial<Renderer>;
-};
+export type RichTextProps = z.infer<typeof RichTextPropsSchema>;
 
 const defaultRenderer: Partial<Renderer> = {
   link(href: string, title: string, text: string) {
@@ -35,7 +33,9 @@ const RichText = ({
   renderer,
   className,
   ...props
-}: RichTextProps) => {
+}: RichTextProps & {
+  renderer?: Partial<Renderer>;
+}) => {
   const marked = new Marked({ renderer: renderer ?? defaultRenderer });
   const html = marked.parse(markdown);
 

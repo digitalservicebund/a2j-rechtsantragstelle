@@ -1,28 +1,21 @@
-import { z } from "zod";
 import type { Renderer } from "marked";
 import Container from "./Container";
-import Image, { ImagePropsSchema } from "./Image";
-import RichText, { RichTextPropsSchema } from "./RichText";
+import Image, { type ImageProps } from "./Image";
+import RichText, { type RichTextProps } from "./RichText";
 import Background from "./Background";
 
-const LinkPropsSchema = z.object({
-  url: z.string(),
-  text: z.string(),
-  openInNewTab: z.boolean().optional(),
-});
+type LinkProps = {
+  url: string;
+  text?: string;
+  openInNewTab?: boolean;
+};
 
-type LinkProps = z.infer<typeof LinkPropsSchema>;
-
-export const FooterPropsSchema = z
-  .object({
-    image: ImagePropsSchema.optional(),
-    paragraphs: z.array(RichTextPropsSchema),
-    links: z.array(LinkPropsSchema),
-    deletionLabel: z.string().optional(),
-  })
-  .readonly();
-
-type FooterProps = z.infer<typeof FooterPropsSchema>;
+export type FooterProps = Readonly<{
+  links?: LinkProps[];
+  paragraphs?: RichTextProps[];
+  image?: ImageProps;
+  deletionLabel?: string;
+}>;
 
 export default function Footer({
   image,

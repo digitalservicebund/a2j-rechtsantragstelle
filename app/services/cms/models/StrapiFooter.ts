@@ -5,7 +5,7 @@ import { StrapiParagraphSchema, getRichTextProps } from "./StrapiParagraph";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
-import { FooterPropsSchema } from "~/components/Footer";
+import { type FooterProps } from "~/components/Footer";
 import { omitNull } from "~/util/omitNull";
 
 export const StrapiFooterSchema = z
@@ -20,8 +20,8 @@ export const StrapiFooterSchema = z
 
 export type StrapiFooter = z.infer<typeof StrapiFooterSchema>;
 
-export const getFooterProps = (cmsData: StrapiFooter) => {
+export const getFooterProps = (cmsData: StrapiFooter): FooterProps => {
   const paragraphs = cmsData.paragraphs?.map((p) => getRichTextProps(p));
   const image = getImageProps(cmsData.image);
-  return FooterPropsSchema.parse(omitNull({ ...cmsData, paragraphs, image }));
+  return omitNull({ ...cmsData, paragraphs, image });
 };
