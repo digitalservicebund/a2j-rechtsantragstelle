@@ -1,23 +1,16 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { createCookie, redirect } from "@remix-run/node";
 import { consentCookieName } from "~/services/analytics/gdprCookie.server";
-import { getSessionManager } from "~/services/session.server";
+import {
+  allSessionContexts,
+  getSessionManager,
+} from "~/services/session.server";
 
 export const loader = () => redirect("/");
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
-  const contexts = [
-    "beratungshilfe/antrag",
-    "beratungshilfe/vorabcheck",
-    "geld-einklagen/vorabcheck",
-    "geld-einklagen/formular",
-    "fluggastrechte/vorabcheck",
-    "fluggastrechte/formular",
-    "main",
-  ] as const; // TODO: move to contexts.ts
-
-  for (const context of contexts) {
+  for (const context of allSessionContexts) {
     const sessionManager = getSessionManager(context);
     const session = await sessionManager.getSession(cookieHeader);
     await sessionManager.destroySession(session);

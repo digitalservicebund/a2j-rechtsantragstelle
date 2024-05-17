@@ -15,6 +15,7 @@ export type FooterProps = Readonly<{
   paragraphs?: RichTextProps[];
   image?: ImageProps;
   deletionLabel?: string;
+  showDeletionBanner?: boolean;
 }>;
 
 export default function Footer({
@@ -22,6 +23,7 @@ export default function Footer({
   paragraphs = [],
   links = [],
   deletionLabel,
+  showDeletionBanner = false,
 }: FooterProps) {
   const linksMiddleIndex = Math.ceil(links.length / 2);
   const linksFirstColumn: typeof links = links.slice(0, linksMiddleIndex);
@@ -85,16 +87,18 @@ export default function Footer({
           {renderLinks(linksSecondColumn)}
         </nav>
       </div>
-      <Background backgroundColor="blue" paddingTop="16" paddingBottom="16">
-        <div className="text-center">
-          <a
-            className="text-base underline hover:font-bold"
-            href="/persoenliche-daten-loeschen"
-          >
-            {deletionLabel ?? "Persönliche Daten löschen"}
-          </a>
-        </div>
-      </Background>
+      {showDeletionBanner && (
+        <Background backgroundColor="blue" paddingTop="16" paddingBottom="16">
+          <div className="text-center">
+            <a
+              className="text-base underline hover:font-bold"
+              href="/persoenliche-daten-loeschen"
+            >
+              {deletionLabel ?? "Persönliche Daten löschen"}
+            </a>
+          </div>
+        </Background>
+      )}
     </Container>
   );
 }

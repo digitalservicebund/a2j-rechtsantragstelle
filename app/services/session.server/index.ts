@@ -13,6 +13,15 @@ import _ from "lodash";
 import type { Context, FlowId } from "~/models/flows/contexts";
 
 type SessionContext = "main" | FlowId;
+export const allSessionContexts = [
+  "beratungshilfe/antrag",
+  "beratungshilfe/vorabcheck",
+  "geld-einklagen/vorabcheck",
+  "geld-einklagen/formular",
+  "fluggastrechte/vorabcheck",
+  "fluggastrechte/formular",
+  "main",
+] as const;
 const fullId = (context: SessionContext, id: string) => `${context}_${id}`;
 
 function createDatabaseSessionStorage({
