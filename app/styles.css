@@ -122,12 +122,12 @@ svg {
   @apply text-black;
 }
 
-.details {
+.details .summary-content {
   @apply bg-[position:0_8px];
   background-image: url("data:image/svg+xml,%3Csvg width='16' height='10' viewBox='0 0 16 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 0L16 0L8 10L0 0Z' fill='%23005576'/%3E%3C/svg%3E%0A");
 }
 
-.details[open] {
+.details[open] .summary-content {
   background-image: url("data:image/svg+xml,%3Csvg width='16' height='10' viewBox='0 0 16 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 10L16 10L8 0L0 10Z' fill='%23005576'/%3E%3C/svg%3E%0A");
 }
 
