@@ -12,6 +12,7 @@ const sentryActive = Boolean(process.env.SENTRY_AUTH_TOKEN);
 export default defineConfig({
   server: {
     port: 3000,
+    hmr: { protocol: "ws", port: 24678 },
   },
   plugins: [
     !isStorybook && remix(),

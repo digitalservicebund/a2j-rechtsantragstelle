@@ -42,6 +42,7 @@ export default defineConfig({
   reporter: process.env.CI ? "blob" : "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    bypassCSP: true,
     /* Maximum time each action such as `click()` can take. The default of 0 (no limit) will use the global timeout on failure. */
     actionTimeout: 5 * 1000,
     /* Base URL to use in actions like `await page.goto('/')`. */
