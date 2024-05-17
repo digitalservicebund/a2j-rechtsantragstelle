@@ -26,7 +26,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // see https://sergiodxa.com/tutorials/delete-a-cookie-using-remix-cookie-helpers
   const opts = { maxAge: 1 };
 
-  return redirect("/", {
+  return redirect("/persoenliche-daten-geloescht", {
     headers: [
       // see https://github.com/remix-run/remix/issues/231#issuecomment-1926294674
       ["Set-Cookie", await createCookie(consentCookieName).serialize("", opts)],

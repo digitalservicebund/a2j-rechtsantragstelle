@@ -24,6 +24,7 @@ import {
   fetchMeta,
   fetchSingleEntry,
   fetchErrors,
+  fetchTranslations,
 } from "~/services/cms/index.server";
 import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import Footer from "./components/Footer";
@@ -91,6 +92,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     trackingConsent,
     errorPages,
     meta,
+    deleteDataStrings,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
     fetchSingleEntry("global"),
@@ -99,6 +101,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     hasTrackingConsent({ request }),
     fetchErrors(),
     fetchMeta({ filterValue: "/" }),
+    fetchTranslations("delete-data"),
   ]);
 
   return json({
@@ -110,12 +113,19 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     errorPages,
     meta,
     context,
+    deletionLabel: deleteDataStrings["footerLinkLabel"],
   });
 };
 
 function App() {
-  const { header, footer, cookieBannerContent, hasTrackingConsent, feedback } =
-    useLoaderData<typeof loader>();
+  const {
+    header,
+    footer,
+    cookieBannerContent,
+    hasTrackingConsent,
+    feedback,
+    deletionLabel,
+  } = useLoaderData<typeof loader>();
   const { breadcrumbs, title, ogTitle, description } =
     metaFromMatches(useMatches());
   const nonce = useNonce();
@@ -150,7 +160,7 @@ function App() {
         </main>
         <footer>
           <FeedbackBanner {...augmentFeedback(feedback, title)} />
-          <Footer {...footer} />
+          <Footer {...footer} deletionLabel={deletionLabel} />
         </footer>
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />

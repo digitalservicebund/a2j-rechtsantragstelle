@@ -3,6 +3,7 @@ import type { Renderer } from "marked";
 import Container from "./Container";
 import Image, { ImagePropsSchema } from "./Image";
 import RichText, { RichTextPropsSchema } from "./RichText";
+import Background from "./Background";
 
 const LinkPropsSchema = z.object({
   url: z.string(),
@@ -17,6 +18,7 @@ export const FooterPropsSchema = z
     image: ImagePropsSchema.optional(),
     paragraphs: z.array(RichTextPropsSchema),
     links: z.array(LinkPropsSchema),
+    deletionLabel: z.string().optional(),
   })
   .readonly();
 
@@ -26,6 +28,7 @@ export default function Footer({
   image,
   paragraphs = [],
   links = [],
+  deletionLabel,
 }: FooterProps) {
   const linksMiddleIndex = Math.ceil(links.length / 2);
   const linksFirstColumn: typeof links = links.slice(0, linksMiddleIndex);
@@ -60,9 +63,9 @@ export default function Footer({
   };
 
   return (
-    <Container paddingTop="48">
+    <Container paddingTop="48" paddingBottom="0">
       <div
-        className="text-base flex flex-wrap items-start justify-between gap-y-32"
+        className="text-base flex flex-wrap items-start justify-between gap-y-32 mb-32"
         data-testid="footer"
       >
         <div className="flex flex-col flex-col-reverse sm:flex-row gap-y-8 gap-x-16">
@@ -89,6 +92,16 @@ export default function Footer({
           {renderLinks(linksSecondColumn)}
         </nav>
       </div>
+      <Background backgroundColor="blue" paddingTop="16" paddingBottom="16">
+        <div className="text-center">
+          <a
+            className="text-base underline hover:font-bold"
+            href="/persoenliche-daten-loeschen"
+          >
+            {deletionLabel ?? "Persönliche Daten löschen"}
+          </a>
+        </div>
+      </Background>
     </Container>
   );
 }
