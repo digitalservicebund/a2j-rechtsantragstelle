@@ -60,34 +60,35 @@ export default function Footer({
   };
 
   return (
-    <footer className="text-base" data-testid="footer">
-      <Container paddingTop="48">
-        <div className="flex flex-wrap items-start justify-between gap-y-32">
-          <div className="flex flex-col flex-col-reverse sm:flex-row gap-y-8 gap-x-16">
-            {image?.url && (
-              <div>
-                <Image
-                  url={image.url}
-                  width={120}
-                  alternativeText={image.alternativeText}
-                />
-              </div>
-            )}
-            <div className="ds-stack-8">
-              {paragraphs.map((paragraph) => (
-                <div key={paragraph.markdown}>
-                  <RichText {...paragraph} renderer={paragraphRenderer} />
-                </div>
-              ))}
+    <Container paddingTop="48">
+      <div
+        className="text-base flex flex-wrap items-start justify-between gap-y-32"
+        data-testid="footer"
+      >
+        <div className="flex flex-col flex-col-reverse sm:flex-row gap-y-8 gap-x-16">
+          {image?.url && (
+            <div>
+              <Image
+                url={image.url}
+                width={120}
+                alternativeText={image.alternativeText}
+              />
             </div>
+          )}
+          <div className="ds-stack-8">
+            {paragraphs.map((paragraph) => (
+              <div key={paragraph.markdown}>
+                <RichText {...paragraph} renderer={paragraphRenderer} />
+              </div>
+            ))}
           </div>
-
-          <nav className="flex flex-wrap gap-x-32 gap-y-8" aria-label="Footer">
-            {renderLinks(linksFirstColumn)}
-            {renderLinks(linksSecondColumn)}
-          </nav>
         </div>
-      </Container>
-    </footer>
+
+        <nav className="flex flex-wrap gap-x-32 gap-y-8" aria-label="Footer">
+          {renderLinks(linksFirstColumn)}
+          {renderLinks(linksSecondColumn)}
+        </nav>
+      </div>
+    </Container>
   );
 }
