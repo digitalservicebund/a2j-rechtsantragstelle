@@ -82,7 +82,7 @@ export class Vorabcheck {
       const locators = await this.page
         .getByTestId("suggestion-input-menu-item")
         .all();
-      await locators[0].click();
+      await locators[0].click({ force: true });
     }
     await this.clickNext();
   }

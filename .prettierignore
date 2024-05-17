@@ -5,7 +5,7 @@ node_modules/
 playwright-report/
 public/
 *.enc
-tests/**/malformed.json
+app/util/__test__/malformed.json
 *.zip
 *.py
 start.sh
@@ -21,3 +21,4 @@ Dockerfile
 *.pdf
 *.generated.ts
 sonar-project.properties
+.dockerignore
