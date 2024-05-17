@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { remixContext } from "../.storybook/remixContext";
-import SuggestionInput from "~/components/inputs/SuggestionInput";
-import type { SuggestionInputProps } from "~/components/inputs/SuggestionInput";
+import SuggestionInput from "~/components/inputs/SuggestionInput/SuggestionInput";
+import type { SuggestionInputProps } from "~/components/inputs/SuggestionInput/SuggestionInput";
 
 function getDataListValues<T extends { dataList?: any }>(
   props: T,

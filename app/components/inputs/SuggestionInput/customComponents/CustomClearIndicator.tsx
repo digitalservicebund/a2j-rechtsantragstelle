@@ -1,0 +1,22 @@
+import { ClearIndicatorProps, components } from "react-select";
+import { DataListOptions } from "../SuggestionInput";
+
+const CustomClearIndicator = (
+  props: ClearIndicatorProps<DataListOptions, false>,
+) => (
+  <button
+    data-testid="clear-input-button"
+    className="outline-none focus-visible:ring-blue-800 focus-visible:ring-4"
+    onClick={() => {
+      props.clearValue();
+    }}
+    tabIndex={0}
+  >
+    <components.ClearIndicator
+      className="text-blue-800 hover:text-blue-300"
+      {...props}
+    />
+  </button>
+);
+
+export default CustomClearIndicator;
