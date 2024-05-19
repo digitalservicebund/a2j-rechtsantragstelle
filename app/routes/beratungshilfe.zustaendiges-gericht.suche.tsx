@@ -12,7 +12,7 @@ import {
   fetchSingleEntry,
 } from "~/services/cms/index.server";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
-import PageContent from "~/components/PageContent";
+import { FormComponents } from "~/services/cms/components/StrapiFormComponents";
 import { getSessionManager } from "~/services/session.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
@@ -64,7 +64,7 @@ export default function Index() {
 
         <ValidatedForm method="post" validator={validatorClient} noValidate>
           <Container>
-            <PageContent content={form} />
+            <FormComponents content={form} />
           </Container>
           <Container>
             <ButtonNavigation
