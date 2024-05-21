@@ -5,8 +5,8 @@ import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
-import SuggestionInput from "~/components/inputs/suggestionInput/SuggestionInput";
-import type { SuggestionInputProps } from "~/components/inputs/suggestionInput/SuggestionInput";
+import SuggestionInput from "~/components/inputs/SuggestionInput/SuggestionInput";
+import type { SuggestionInputProps } from "~/components/inputs/SuggestionInput/SuggestionInput";
 
 const StrapiSuggestionInputSchema = z
   .object({
