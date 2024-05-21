@@ -5,7 +5,7 @@ export function fillFooter(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const address = [
+  pdfFields.beratungsperson.value = [
     context.anwaltName ?? "",
     context.anwaltStrasseUndHausnummer ?? "",
     context.anwaltPlz ?? "",
@@ -13,7 +13,5 @@ export function fillFooter(
   ]
     .filter((entry) => entry)
     .join(", ");
-
-  pdfFields.beratungsperson.value = address;
   pdfFields.datumBeratung.value = context.beratungStattgefundenDatum ?? "";
 }

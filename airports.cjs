@@ -20,8 +20,7 @@ const patchData = {
 // This is a workaround for loading ESM package into CJS-based code
 async function translator(text, targetLanguage) {
   const translate = (await import("translate")).default;
-  const translated = await translate(text, targetLanguage);
-  return translated;
+  return await translate(text, targetLanguage);
 }
 
 function translateAirportName(airportName) {

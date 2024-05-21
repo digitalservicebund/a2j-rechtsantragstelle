@@ -23,7 +23,7 @@ describe("buildStepValidator", () => {
 
       const validator = buildStepValidator(schemas, fieldNames);
 
-      // Expect an positive validation
+      // Expect a positive validation
       expect(
         await validator.validate({
           step1: {
@@ -40,7 +40,7 @@ describe("buildStepValidator", () => {
           },
         }),
       );
-      // Expect an negative validation after validation because of different fields
+      // Expect a negative validation after validation because of different fields
       expect(
         (
           await validator.validate({
@@ -68,7 +68,7 @@ describe("buildStepValidator", () => {
 
       const validator = buildStepValidator(schemas, fieldNames);
 
-      // Expect an positive validation
+      // Expect a positive validation
       expect(
         await validator.validate({
           field1: "value",
@@ -81,7 +81,7 @@ describe("buildStepValidator", () => {
           },
         }),
       );
-      // Expect an negative validation after validation because of different fields
+      // Expect a negative validation after validation because of different fields
       expect((await validator.validate({})).error).toBeDefined();
     });
   });

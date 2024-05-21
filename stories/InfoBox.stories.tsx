@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Background from "../app/components/Background";
 import Container from "../app/components/Container";
 import InfoBox from "~/components/InfoBox";
 
