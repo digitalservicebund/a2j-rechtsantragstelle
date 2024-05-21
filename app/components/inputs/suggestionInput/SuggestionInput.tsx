@@ -190,8 +190,8 @@ const SuggestionInput = ({
           focusOnInput(actionMeta.action, inputId);
         }}
         onBlur={() => {
-          setOptionWasSelected(false);
           validate();
+          setOptionWasSelected(false);
         }}
         noOptionsMessage={({ inputValue }) =>
           inputValue.length > 2 ? noSuggestionMessage : null
