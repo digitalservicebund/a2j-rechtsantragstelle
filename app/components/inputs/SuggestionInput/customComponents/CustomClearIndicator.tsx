@@ -1,10 +1,13 @@
 import { ClearIndicatorProps, components } from "react-select";
 import { DataListOptions } from "../SuggestionInput";
+import { RefObject } from "react";
 
 const CustomClearIndicator = (
   props: ClearIndicatorProps<DataListOptions, false>,
+  buttonExclusionRef: RefObject<HTMLButtonElement>,
 ) => (
   <button
+    ref={buttonExclusionRef}
     data-testid="clear-input-button"
     className="outline-none focus-visible:ring-blue-800 focus-visible:ring-4"
     onClick={() => {

@@ -5,7 +5,7 @@ import InputLabel from "../InputLabel";
 import { type ErrorMessageProps } from "..";
 import airports from "data/airports/data.json";
 import Select from "react-select";
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import Input from "../Input";
 import {
   CustomClearIndicator,
@@ -93,6 +93,27 @@ const focusOnInput = (action: string, inputId: string) => {
   }
 };
 
+// When leave the input, it should focus on the exclusion button when it uses the tab, due problems for change the className in the component CustomValueContainer
+const keyDownOnInput = (
+  inputId: string,
+  buttonExclusionRef: RefObject<HTMLButtonElement>,
+) => {
+  const inputElement = document.querySelector<HTMLInputElement>(`#${inputId}`);
+
+  if (inputElement) {
+    inputElement.addEventListener("keydown", function (event: KeyboardEvent) {
+      // Only tab without shiftKey
+      if (event.key === "Tab" && !event.shiftKey) {
+        setTimeout(function () {
+          if (buttonExclusionRef.current !== null) {
+            buttonExclusionRef.current.focus();
+          }
+        }, 100);
+      }
+    });
+  }
+};
+
 const SuggestionInput = ({
   name,
   label,
@@ -108,6 +129,7 @@ const SuggestionInput = ({
   const errorId = `${name}-error`;
   const hasError = typeof error !== "undefined" && error.length > 0;
   const inputId = `input-${name}`;
+  const buttonExclusionRef = useRef<HTMLButtonElement>(null);
 
   const currentItemValue = getDescriptionByValue(
     items,
@@ -116,7 +138,12 @@ const SuggestionInput = ({
   );
 
   const [jsAvailable, setJsAvailable] = useState(false);
+  const [optionWasSelected, setOptionWasSelected] = useState(false);
   useEffect(() => setJsAvailable(true), []);
+
+  useEffect(() => {
+    keyDownOnInput(inputId, buttonExclusionRef);
+  });
 
   // In case user does not have Javascript, it should render the Input as suggestion input
   if (!jsAvailable) {
@@ -159,9 +186,13 @@ const SuggestionInput = ({
         onChange={(_newValue, actionMeta) => {
           validate();
           // remix remove the focus on the input when clicks with the keyboard to clear the value, so we need to force the focus again
+          setOptionWasSelected(actionMeta.action === "select-option");
           focusOnInput(actionMeta.action, inputId);
         }}
-        onBlur={validate}
+        onBlur={() => {
+          setOptionWasSelected(false);
+          validate();
+        }}
         noOptionsMessage={({ inputValue }) =>
           inputValue.length > 2 ? noSuggestionMessage : null
         }
@@ -169,9 +200,11 @@ const SuggestionInput = ({
           Control: (props) => CustomControl(props, error),
           IndicatorSeparator: () => null,
           DropdownIndicator: () => null,
-          ClearIndicator: CustomClearIndicator,
+          ClearIndicator: (props) =>
+            CustomClearIndicator(props, buttonExclusionRef),
           Input: CustomInput,
-          ValueContainer: CustomValueContainer,
+          ValueContainer: (props) =>
+            CustomValueContainer(props, optionWasSelected),
         }}
         styles={customStyles(hasError)}
       />
