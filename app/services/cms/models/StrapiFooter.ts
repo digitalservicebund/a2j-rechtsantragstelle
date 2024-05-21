@@ -23,5 +23,5 @@ export type StrapiFooter = z.infer<typeof StrapiFooterSchema>;
 export const getFooterProps = (cmsData: StrapiFooter): FooterProps => {
   const paragraphs = cmsData.paragraphs?.map((p) => getRichTextProps(p));
   const image = getImageProps(cmsData.image);
-  return omitNull({ ...cmsData, paragraphs, image });
+  return omitNull({ links: cmsData.links, paragraphs, image });
 };
