@@ -67,10 +67,9 @@ export const loader = async ({
       }
     });
 
-  const slug = pathname;
   const [common, { heading, freeZone, hintText, meta }] = await Promise.all([
     fetchSingleEntry("amtsgericht-common"),
-    fetchCollectionEntry("result-pages", slug),
+    fetchCollectionEntry("result-pages", pathname),
   ]);
 
   return json({ courts, freeZone, heading, hintText, pageType, meta, common });

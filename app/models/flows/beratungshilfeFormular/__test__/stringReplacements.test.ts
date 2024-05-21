@@ -1,8 +1,8 @@
 import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 import {
-  getKinderStrings,
-  getArrayIndexStrings,
   eigentumZusammenfassungShowWarnings,
+  getArrayIndexStrings,
+  getKinderStrings,
 } from "~/models/flows/beratungshilfeFormular/stringReplacements";
 
 describe("stringReplacements", () => {
@@ -37,9 +37,7 @@ describe("stringReplacements", () => {
     });
 
     it("returns an empty object for given context when arrayIndexes missing", () => {
-      const context = happyPathData;
-
-      const kinderStrings = getKinderStrings(context);
+      const kinderStrings = getKinderStrings(happyPathData);
 
       expect(kinderStrings).toEqual({});
     });
@@ -70,9 +68,7 @@ describe("stringReplacements", () => {
     });
 
     it("returns an empty object for given context when arrayIndexes are not passed", () => {
-      const context = happyPathData;
-
-      const arrayIndexStrings = getArrayIndexStrings(context);
+      const arrayIndexStrings = getArrayIndexStrings(happyPathData);
 
       expect(arrayIndexStrings).toEqual({});
     });
