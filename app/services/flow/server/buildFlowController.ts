@@ -85,7 +85,7 @@ export const transitionDestinations = (
   const destinationState = getNextSnapshot(machine, resolvedState, { type });
   const destinationStepIds = stateValueToStepIds(destinationState.value);
 
-  // If the stepId if the new state matches the previous one: Return undefined. else: return full path
+  // If the stepId in the new state matches the previous one: Return undefined. else: return full path
   if (
     destinationStepIds.length === 0 ||
     (destinationStepIds.length === 1 && destinationStepIds[0] === stepId)

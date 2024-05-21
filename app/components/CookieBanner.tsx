@@ -43,7 +43,7 @@ export function CookieBanner({
         // eslint-disable-next-line camelcase
         api_host: POSTHOG_API_HOST,
         // eslint-disable-next-line camelcase
-        cross_subdomain_cookie: false, // set cookie for sub domain only
+        cross_subdomain_cookie: false, // set cookie for subdomain only
         loaded: () => {
           setPosthogLoaded(true);
         },

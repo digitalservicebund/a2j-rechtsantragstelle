@@ -2,7 +2,7 @@ import validateMoney from "~/services/validation/money/validateMoney";
 
 const cases = [
   // "okay" (true) means: we are sure, what the user's intent is
-  // "not okay" (false) means: we are not sure or it's likely that the user made a mistake
+  // "not okay" (false) means: we are not sure, or it's likely that the user made a mistake
 
   // plain euro values are okay
   { input: "-999999999", expected: true },
