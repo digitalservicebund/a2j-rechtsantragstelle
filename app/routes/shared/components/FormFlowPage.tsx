@@ -84,7 +84,7 @@ export function FormFlowPage() {
             <input type="hidden" name={CSRFKey} value={csrf} />
             <div className="ds-stack-40">
               <div className="ds-stack-40">
-                <FormComponents content={formElements} />
+                <FormComponents components={formElements} />
               </div>
               <PageContent content={postFormContent} fullScreen={false} />
               <ButtonNavigation {...buttonNavigationProps} />

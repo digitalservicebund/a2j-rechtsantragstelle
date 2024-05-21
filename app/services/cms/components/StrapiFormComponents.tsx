@@ -11,43 +11,41 @@ import { StrapiTimeInput } from "../components/StrapiTimeInput";
 import StrapiSuggestionInput from "../components/StrapiSuggestionInput";
 import StrapiTileGroup from "../components/StrapiTileGroup";
 
-function StrapiFormComponent({ content }: { content: StrapiFormComponent }) {
-  switch (content.__component) {
+const StrapiFormComponent = ({
+  component,
+}: Readonly<{ component: StrapiFormComponent }>) => {
+  switch (component.__component) {
     case "form-elements.suggestion-input":
-      return <StrapiSuggestionInput {...content} />;
+      return <StrapiSuggestionInput {...component} />;
     case "form-elements.input":
-      return <StrapiInput {...content} />;
+      return <StrapiInput {...component} />;
     case "form-elements.date-input":
-      return <StrapiDateInput {...content} />;
+      return <StrapiDateInput {...component} />;
     case "form-elements.time-input":
-      return <StrapiTimeInput {...content} />;
+      return <StrapiTimeInput {...component} />;
     case "form-elements.file-input":
-      return <StrapiFileInput {...content} />;
+      return <StrapiFileInput {...component} />;
     case "form-elements.textarea":
-      return <StrapiTextarea {...content} />;
+      return <StrapiTextarea {...component} />;
     case "form-elements.select":
-      return <StrapiSelect {...content} />;
+      return <StrapiSelect {...component} />;
     case "form-elements.dropdown":
-      return <StrapiDropdown {...content} />;
+      return <StrapiDropdown {...component} />;
     case "form-elements.checkbox":
-      return <StrapiCheckbox {...content} />;
+      return <StrapiCheckbox {...component} />;
     case "form-elements.tile-group":
-      return <StrapiTileGroup {...content} />;
+      return <StrapiTileGroup {...component} />;
     default:
       return <></>;
   }
-}
+};
 
-const skipComponents = ["page.array-summary"];
-
-export const FormComponents = (
-  props: Readonly<{ content: Array<StrapiFormComponent> }>,
-) => (
+export const FormComponents = ({
+  components,
+}: Readonly<{ components: Array<StrapiFormComponent> }>) => (
   <>
-    {props.content
-      .filter((el) => !skipComponents.includes(el.__component))
-      .map((el) => (
-        <StrapiFormComponent key={keyFromElement(el)} content={el} />
-      ))}
+    {components.map((el) => (
+      <StrapiFormComponent key={keyFromElement(el)} component={el} />
+    ))}
   </>
 );

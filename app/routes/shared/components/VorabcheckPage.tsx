@@ -48,7 +48,7 @@ export function VorabcheckPage() {
                 <input type="hidden" name={CSRFKey} value={csrf} />
                 <div className="ds-stack-40">
                   <div className="ds-stack-40">
-                    <FormComponents content={formElements} />
+                    <FormComponents components={formElements} />
                   </div>
                   <ButtonNavigation {...buttonNavigationProps} />
                 </div>

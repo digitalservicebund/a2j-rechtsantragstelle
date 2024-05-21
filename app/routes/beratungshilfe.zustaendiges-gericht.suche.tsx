@@ -64,7 +64,7 @@ export default function Index() {
 
         <ValidatedForm method="post" validator={validatorClient} noValidate>
           <Container>
-            <FormComponents content={form} />
+            <FormComponents components={form} />
           </Container>
           <Container>
             <ButtonNavigation
