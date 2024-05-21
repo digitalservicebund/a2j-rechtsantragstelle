@@ -1,5 +1,6 @@
 import { type Renderer, Marked } from "marked";
 import { z } from "zod";
+import sanitizeHtml from "sanitize-html";
 
 export const RichTextPropsSchema = z.object({
   markdown: z.string(),
@@ -36,8 +37,11 @@ const RichText = ({
 }: RichTextProps & {
   renderer?: Partial<Renderer>;
 }) => {
-  const marked = new Marked({ renderer: renderer ?? defaultRenderer });
-  const html = marked.parse(markdown);
+  const marked = new Marked({
+    renderer: renderer ?? defaultRenderer,
+    async: false,
+  });
+  const html = marked.parse(markdown) as string;
 
   if (!html) return null;
 
@@ -45,7 +49,15 @@ const RichText = ({
     <div
       {...props}
       className={`rich-text ds-stack-8 ${className ?? ""}`}
-      dangerouslySetInnerHTML={{ __html: html }}
+      dangerouslySetInnerHTML={{
+        __html: sanitizeHtml(html, {
+          allowedClasses: {
+            p: ["text-lg", "ds-subhead", "leading-snug"],
+            a: ["text-link", "increase-tap-area", "whitespace-nowrap"],
+            h: ["ds-heading-01-reg", "ds-label-01-bold", "ds-heading-02-reg"],
+          },
+        }),
+      }}
     />
   );
 };
