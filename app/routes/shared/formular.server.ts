@@ -174,6 +174,11 @@ export const loader = async ({
     currentFlow,
     cookieHeader,
   );
+  const navigationA11yLabels = {
+    menuLabel: defaultStrings["navigationA11yLabel"],
+    itemFinished: defaultStrings["navigationItemFinishedA11yLabel"],
+    itemOpen: defaultStrings["navigationItemOpenA11yLabel"],
+  };
 
   return json(
     {
@@ -190,6 +195,7 @@ export const loader = async ({
       preHeading: cmsContent.preHeading,
       stepData,
       translations: flowStrings,
+      navigationA11yLabels,
     },
     { headers },
   );

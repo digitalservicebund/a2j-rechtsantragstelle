@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import type { ReactNode } from "react";
 import { z } from "zod";
+import { decode } from "html-entities";
 
 export const HeadingPropsSchema = z
   .object({
@@ -25,25 +26,13 @@ function Heading({
   children,
   dataTestid,
 }: HeadingProps) {
-  const Tag = tagName as keyof React.JSX.IntrinsicElements;
+  const Tag: keyof JSX.IntrinsicElements = tagName;
   const cssClasses = classNames(look === "default" ? null : look, className);
 
-  if (children) {
-    return (
-      <Tag data-testid={dataTestid} className={cssClasses}>
-        {children}
-      </Tag>
-    );
-  }
-
   return (
-    <Tag
-      data-testid={dataTestid}
-      className={cssClasses}
-      dangerouslySetInnerHTML={{
-        __html: text ?? "",
-      }}
-    />
+    <Tag data-testid={dataTestid} className={cssClasses}>
+      {children ?? decode(text)}
+    </Tag>
   );
 }
 

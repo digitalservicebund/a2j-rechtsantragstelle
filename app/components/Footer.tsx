@@ -1,31 +1,29 @@
-import { z } from "zod";
 import type { Renderer } from "marked";
 import Container from "./Container";
-import Image, { ImagePropsSchema } from "./Image";
-import RichText, { RichTextPropsSchema } from "./RichText";
+import Image, { type ImageProps } from "./Image";
+import RichText, { type RichTextProps } from "./RichText";
+import Background from "./Background";
 
-const LinkPropsSchema = z.object({
-  url: z.string(),
-  text: z.string(),
-  openInNewTab: z.boolean().optional(),
-});
+type LinkProps = {
+  url: string;
+  text?: string;
+  openInNewTab?: boolean;
+};
 
-type LinkProps = z.infer<typeof LinkPropsSchema>;
-
-export const FooterPropsSchema = z
-  .object({
-    image: ImagePropsSchema.optional(),
-    paragraphs: z.array(RichTextPropsSchema),
-    links: z.array(LinkPropsSchema),
-  })
-  .readonly();
-
-type FooterProps = z.infer<typeof FooterPropsSchema>;
+export type FooterProps = Readonly<{
+  links?: LinkProps[];
+  paragraphs?: RichTextProps[];
+  image?: ImageProps;
+  deletionLabel?: string;
+  showDeletionBanner?: boolean;
+}>;
 
 export default function Footer({
   image,
   paragraphs = [],
   links = [],
+  deletionLabel,
+  showDeletionBanner = false,
 }: FooterProps) {
   const linksMiddleIndex = Math.ceil(links.length / 2);
   const linksFirstColumn: typeof links = links.slice(0, linksMiddleIndex);
@@ -60,34 +58,47 @@ export default function Footer({
   };
 
   return (
-    <footer className="text-base" data-testid="footer">
-      <Container paddingTop="48">
-        <div className="flex flex-wrap items-start justify-between gap-y-32">
-          <div className="flex flex-col flex-col-reverse sm:flex-row gap-y-8 gap-x-16">
-            {image?.url && (
-              <div>
-                <Image
-                  url={image.url}
-                  width={120}
-                  alternativeText={image.alternativeText}
-                />
-              </div>
-            )}
-            <div className="ds-stack-8">
-              {paragraphs.map((paragraph) => (
-                <div key={paragraph.markdown}>
-                  <RichText {...paragraph} renderer={paragraphRenderer} />
-                </div>
-              ))}
+    <Container paddingTop="48" paddingBottom="0">
+      <div
+        className="text-base flex flex-wrap items-start justify-between gap-y-32 mb-32"
+        data-testid="footer"
+      >
+        <div className="flex flex-col flex-col-reverse sm:flex-row gap-y-8 gap-x-16">
+          {image?.url && (
+            <div>
+              <Image
+                url={image.url}
+                width={120}
+                alternativeText={image.alternativeText}
+              />
             </div>
+          )}
+          <div className="ds-stack-8">
+            {paragraphs.map((paragraph) => (
+              <div key={paragraph.markdown}>
+                <RichText {...paragraph} renderer={paragraphRenderer} />
+              </div>
+            ))}
           </div>
-
-          <nav className="flex flex-wrap gap-x-32 gap-y-8" aria-label="Footer">
-            {renderLinks(linksFirstColumn)}
-            {renderLinks(linksSecondColumn)}
-          </nav>
         </div>
-      </Container>
-    </footer>
+
+        <nav className="flex flex-wrap gap-x-32 gap-y-8" aria-label="Footer">
+          {renderLinks(linksFirstColumn)}
+          {renderLinks(linksSecondColumn)}
+        </nav>
+      </div>
+      {showDeletionBanner && (
+        <Background backgroundColor="blue" paddingTop="16" paddingBottom="16">
+          <div className="text-center">
+            <a
+              className="text-base text-link"
+              href="/persoenliche-daten-loeschen"
+            >
+              {deletionLabel ?? "Persönliche Daten löschen"}
+            </a>
+          </div>
+        </Background>
+      )}
+    </Container>
   );
 }

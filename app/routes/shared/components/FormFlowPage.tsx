@@ -26,6 +26,7 @@ export function FormFlowPage() {
     preHeading,
     stepData,
     translations,
+    navigationA11yLabels,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
@@ -36,7 +37,10 @@ export function FormFlowPage() {
     <Background backgroundColor="blue">
       <div className="pt-32 min-h-screen flex flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start">
         <div className="pb-48 md:pt-[1.4rem] md:shrink-0 md:min-w-[max-content] md:flex md:justify-end">
-          <FlowNavigation navItems={navItems} />
+          <FlowNavigation
+            navItems={navItems}
+            a11yLabels={navigationA11yLabels}
+          />
         </div>
         <div
           className={`ds-stack-40 container md:flex-1 ${navItems && "!ml-0"}`}

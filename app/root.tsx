@@ -24,6 +24,7 @@ import {
   fetchMeta,
   fetchSingleEntry,
   fetchErrors,
+  fetchTranslations,
 } from "~/services/cms/index.server";
 import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import Footer from "./components/Footer";
@@ -38,6 +39,7 @@ import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import FeedbackBanner, { augmentFeedback } from "./components/FeedbackBanner";
 import { getStrapiFeedback } from "./services/cms/models/StrapiGlobal";
+import { anyUserData } from "./services/session.server/anyUserData.server";
 
 export const headers: HeadersFunction = () => ({
   "X-Frame-Options": "SAMEORIGIN",
@@ -91,6 +93,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     trackingConsent,
     errorPages,
     meta,
+    deleteDataStrings,
+    hasAnyUserData,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
     fetchSingleEntry("global"),
@@ -99,6 +103,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     hasTrackingConsent({ request }),
     fetchErrors(),
     fetchMeta({ filterValue: "/" }),
+    fetchTranslations("delete-data"),
+    anyUserData(request),
   ]);
 
   return json({
@@ -110,12 +116,21 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     errorPages,
     meta,
     context,
+    deletionLabel: deleteDataStrings["footerLinkLabel"],
+    hasAnyUserData,
   });
 };
 
 function App() {
-  const { header, footer, cookieBannerContent, hasTrackingConsent, feedback } =
-    useLoaderData<typeof loader>();
+  const {
+    header,
+    footer,
+    cookieBannerContent,
+    hasTrackingConsent,
+    feedback,
+    deletionLabel,
+    hasAnyUserData,
+  } = useLoaderData<typeof loader>();
   const { breadcrumbs, title, ogTitle, description } =
     metaFromMatches(useMatches());
   const nonce = useNonce();
@@ -147,9 +162,15 @@ function App() {
         <Breadcrumbs breadcrumbs={breadcrumbs} />
         <main className="flex-grow">
           <Outlet />
-          <FeedbackBanner {...augmentFeedback(feedback, title)} />
         </main>
-        <Footer {...footer} />
+        <footer>
+          <FeedbackBanner {...augmentFeedback(feedback, title)} />
+          <Footer
+            {...footer}
+            deletionLabel={deletionLabel}
+            showDeletionBanner={hasAnyUserData}
+          />
+        </footer>
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
       </body>
