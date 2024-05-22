@@ -164,7 +164,7 @@ describe("SuggestionInput", () => {
         path: "",
         Component: () => (
           <SuggestionInput
-            name={COMPONENT_NAME}
+            name={`${COMPONENT_NAME}-option-was-selected`} // change this props avoid the react-select calls the onBlur method when click on the airport option
             placeholder="placeholder"
             dataList="airports"
             label="label"
