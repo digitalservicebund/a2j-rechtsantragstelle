@@ -260,3 +260,12 @@ svg {
   @apply outline-blue-800;
   outline-offset: -4px;
 }
+
+/* when focus on the input without select an option */
+.suggestion-value-container:has(div > input[type="text"]:focus):not(
+    .option-was-selected
+  )
+  div
+  span {
+  @apply text-gray-600;
+}

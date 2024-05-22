@@ -1,20 +1,20 @@
 import { useField } from "remix-validated-form";
 import classNames from "classnames";
-import InputError from "./InputError";
-import InputLabel from "./InputLabel";
-import { type ErrorMessageProps } from ".";
+import InputError from "../InputError";
+import InputLabel from "../InputLabel";
+import { type ErrorMessageProps } from "..";
 import airports from "data/airports/data.json";
-import type {
-  StylesConfig,
-  ClearIndicatorProps,
-  ControlProps,
-  FormatOptionLabelMeta,
-  InputProps,
-} from "react-select";
-import Select, { components } from "react-select";
-import { useEffect, useState } from "react";
-import Input from "./Input";
-import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
+import Select from "react-select";
+import { RefObject, useEffect, useRef, useState } from "react";
+import Input from "../Input";
+import {
+  CustomClearIndicator,
+  CustomControl,
+  CustomValueContainer,
+  CustomInput,
+  customStyles,
+  FormatOptionLabel,
+} from "./customComponents";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 
@@ -31,7 +31,7 @@ const widthClass = (width: string) => {
   }[width];
 };
 
-interface DataListOptions {
+export interface DataListOptions {
   value: string;
   label: string;
   subDescription?: string;
@@ -79,115 +79,6 @@ function getDescriptionByValue(
   );
 }
 
-const formatOptionLabel = (
-  { label, subDescription }: DataListOptions,
-  { context }: FormatOptionLabelMeta<DataListOptions>,
-) => {
-  if (context === "menu") {
-    return (
-      <div style={{ flex: "10" }}>
-        <span data-testid="suggestion-input-menu-item">{label}</span>
-        <div>
-          <span className="primary">{subDescription}</span>
-        </div>
-      </div>
-    );
-  }
-
-  return <span className="focus:text-blue-100">{label}</span>;
-};
-
-const getOptionBackgroundColor = (
-  isFocused: boolean,
-  isSelected: boolean,
-): string | undefined => {
-  if (isFocused) {
-    return "#ECF1F4";
-  }
-
-  if (isSelected) {
-    return "#DCE8EF";
-  }
-
-  return undefined;
-};
-
-const customStyles = (
-  hasError: boolean,
-): StylesConfig<DataListOptions, false> => {
-  const hoverActiveStyle = !hasError && {
-    "&:hover": {
-      backgroundColor: "#F2F6F8",
-    },
-    "&:focus": {
-      backgroundColor: "#F2F6F8",
-    },
-  };
-
-  return {
-    control: (base, { menuIsOpen }) => ({
-      ...base,
-      borderRadius: "",
-      backgroundImage: "none",
-      borderColor: "",
-      outline: menuIsOpen ? "solid 4px #004b76" : "none",
-      outlineOffset: menuIsOpen ? "-4px" : "",
-      paddingRight: "1rem",
-      paddingLeft: "0.5rem",
-      borderStyle: "",
-      boxShadow: "",
-      backgroundColor: menuIsOpen ? "#F2F6F8" : "",
-      ...hoverActiveStyle,
-    }),
-    option: (base, { isFocused, isSelected }) => {
-      return {
-        ...base,
-        backgroundColor: getOptionBackgroundColor(isFocused, isSelected),
-        color: "inherit",
-      };
-    },
-    clearIndicator: (base) => ({
-      ...base,
-      color: "",
-      ":hover": {
-        color: "",
-      },
-    }),
-  };
-};
-
-const CustomClearIndicator = (
-  props: ClearIndicatorProps<DataListOptions, false>,
-) => (
-  <button
-    data-testid="clear-input-button"
-    className="outline-none focus-visible:ring-blue-800 focus-visible:ring-4"
-    onClick={() => {
-      props.clearValue();
-    }}
-    tabIndex={0}
-  >
-    <components.ClearIndicator
-      className="text-blue-800 hover:text-blue-300"
-      {...props}
-    />
-  </button>
-);
-
-const CustomControl = (
-  props: ControlProps<DataListOptions, false>,
-  error?: string,
-) => (
-  <components.Control
-    className={classNames("ds-select suggestion-input", { "has-error": error })}
-    {...props}
-  />
-);
-
-const CustomInput = (props: InputProps<DataListOptions, false>) => (
-  <components.Input {...props} maxLength={INPUT_CHAR_LIMIT} />
-);
-
 const focusOnInput = (action: string, inputId: string) => {
   if (action === "clear" || action === "select-option") {
     setTimeout(function () {
@@ -199,6 +90,27 @@ const focusOnInput = (action: string, inputId: string) => {
         inputElement.focus();
       }
     }, 100);
+  }
+};
+
+// When leave the input, it should focus on the exclusion button when it uses the tab, due problems for change the className in the component CustomValueContainer
+const keyDownOnInput = (
+  inputId: string,
+  buttonExclusionRef: RefObject<HTMLButtonElement>,
+) => {
+  const inputElement = document.querySelector<HTMLInputElement>(`#${inputId}`);
+
+  if (inputElement) {
+    inputElement.addEventListener("keydown", function (event: KeyboardEvent) {
+      // Only tab without shiftKey
+      if (event.key === "Tab" && !event.shiftKey) {
+        setTimeout(function () {
+          if (buttonExclusionRef.current !== null) {
+            buttonExclusionRef.current.focus();
+          }
+        }, 100);
+      }
+    });
   }
 };
 
@@ -217,6 +129,7 @@ const SuggestionInput = ({
   const errorId = `${name}-error`;
   const hasError = typeof error !== "undefined" && error.length > 0;
   const inputId = `input-${name}`;
+  const buttonExclusionRef = useRef<HTMLButtonElement>(null);
 
   const currentItemValue = getDescriptionByValue(
     items,
@@ -225,7 +138,12 @@ const SuggestionInput = ({
   );
 
   const [jsAvailable, setJsAvailable] = useState(false);
+  const [optionWasSelected, setOptionWasSelected] = useState(false);
   useEffect(() => setJsAvailable(true), []);
+
+  useEffect(() => {
+    keyDownOnInput(inputId, buttonExclusionRef);
+  });
 
   // In case user does not have Javascript, it should render the Input as suggestion input
   if (!jsAvailable) {
@@ -264,13 +182,17 @@ const SuggestionInput = ({
         defaultValue={currentItemValue}
         placeholder={placeholder ?? ""}
         instanceId={name}
-        formatOptionLabel={formatOptionLabel}
+        formatOptionLabel={FormatOptionLabel}
         onChange={(_newValue, actionMeta) => {
           validate();
           // remix remove the focus on the input when clicks with the keyboard to clear the value, so we need to force the focus again
+          setOptionWasSelected(actionMeta.action === "select-option");
           focusOnInput(actionMeta.action, inputId);
         }}
-        onBlur={validate}
+        onBlur={() => {
+          validate();
+          setOptionWasSelected(false);
+        }}
         noOptionsMessage={({ inputValue }) =>
           inputValue.length > 2 ? noSuggestionMessage : null
         }
@@ -278,8 +200,11 @@ const SuggestionInput = ({
           Control: (props) => CustomControl(props, error),
           IndicatorSeparator: () => null,
           DropdownIndicator: () => null,
-          ClearIndicator: CustomClearIndicator,
+          ClearIndicator: (props) =>
+            CustomClearIndicator(props, buttonExclusionRef),
           Input: CustomInput,
+          ValueContainer: (props) =>
+            CustomValueContainer(props, optionWasSelected),
         }}
         styles={customStyles(hasError)}
       />
