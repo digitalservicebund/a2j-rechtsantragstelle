@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import InfoBox from "~/components/InfoBox";
+import InfoBox, { InfoBoxPropsSchema } from "~/components/InfoBox";
 
 const mockInfoBoxItems = [
   {
@@ -32,7 +32,11 @@ describe("InfoBox", () => {
     expect(container.querySelector(".ds-stack-48")).toBeInTheDocument();
   });
   it("has expected padding when the separator is unset", () => {
-    const { container } = render(<InfoBox items={mockInfoBoxItems} />);
+    const infoBoxProps = InfoBoxPropsSchema.parse({
+      items: mockInfoBoxItems,
+    });
+
+    const { container } = render(<InfoBox {...infoBoxProps} />);
     expect(container.querySelector(".ds-stack-32")).toBeInTheDocument();
   });
 });
