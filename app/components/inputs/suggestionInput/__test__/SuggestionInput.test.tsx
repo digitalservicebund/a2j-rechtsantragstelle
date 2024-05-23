@@ -74,8 +74,8 @@ describe("SuggestionInput", () => {
     const { getByText, getByRole, container } = render(<RemixStub />);
 
     fireEvent.change(getByRole("combobox"), { target: { value: "Berlin" } });
-    await waitFor(() => getByText("Berlin Brandenburg Flughafen (BER)"));
-    fireEvent.click(getByText("Berlin Brandenburg Flughafen (BER)"));
+    await waitFor(() => getByText("Brandenburg Flughafen (BER)"));
+    fireEvent.click(getByText("Brandenburg Flughafen (BER)"));
     expect(mockedValidate).toHaveBeenCalledTimes(1);
     await waitFor(() => {
       expect(
@@ -136,8 +136,8 @@ describe("SuggestionInput", () => {
     );
 
     fireEvent.change(getByRole("combobox"), { target: { value: "Berlin" } });
-    await waitFor(() => getByText("Berlin Brandenburg Flughafen (BER)"));
-    fireEvent.click(getByText("Berlin Brandenburg Flughafen (BER)"));
+    await waitFor(() => getByText("Brandenburg Flughafen (BER)"));
+    fireEvent.click(getByText("Brandenburg Flughafen (BER)"));
 
     await waitFor(() => {
       expect(
@@ -181,8 +181,8 @@ describe("SuggestionInput", () => {
     ).not.toBeInTheDocument();
 
     fireEvent.change(getByRole("combobox"), { target: { value: "Berlin" } });
-    await waitFor(() => getByText("Berlin Brandenburg Flughafen (BER)"));
-    fireEvent.click(getByText("Berlin Brandenburg Flughafen (BER)"));
+    await waitFor(() => getByText("Brandenburg Flughafen (BER)"));
+    fireEvent.click(getByText("Brandenburg Flughafen (BER)"));
 
     await waitFor(() =>
       expect(
