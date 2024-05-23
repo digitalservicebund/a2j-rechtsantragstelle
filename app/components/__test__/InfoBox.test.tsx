@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import InfoBox, { InfoBoxPropsSchema } from "~/components/InfoBox";
 
 const mockInfoBoxItems = [
@@ -20,23 +20,19 @@ const mockInfoBoxItems = [
 
 describe("InfoBox", () => {
   it("has expected padding when the separator is enabled", () => {
-    const { container } = render(
-      <InfoBox separator={true} items={mockInfoBoxItems} />,
-    );
-    expect(container.querySelector(".ds-stack-32")).toBeInTheDocument();
+    render(<InfoBox separator={true} items={mockInfoBoxItems} />);
+    expect(screen.getByRole("list")).toHaveClass("ds-stack-32");
   });
   it("has expected padding when the separator is disabled", () => {
-    const { container } = render(
-      <InfoBox separator={false} items={mockInfoBoxItems} />,
-    );
-    expect(container.querySelector(".ds-stack-48")).toBeInTheDocument();
+    render(<InfoBox separator={false} items={mockInfoBoxItems} />);
+    expect(screen.getByRole("list")).toHaveClass("ds-stack-48");
   });
   it("has expected padding when the separator is unset", () => {
     const infoBoxProps = InfoBoxPropsSchema.parse({
       items: mockInfoBoxItems,
     });
 
-    const { container } = render(<InfoBox {...infoBoxProps} />);
-    expect(container.querySelector(".ds-stack-32")).toBeInTheDocument();
+    render(<InfoBox {...infoBoxProps} />);
+    expect(screen.getByRole("list")).toHaveClass("ds-stack-32");
   });
 });
