@@ -9,7 +9,7 @@ import { validatorForFieldnames } from "~/services/validation/buildStepValidator
 import { CSRFKey } from "~/services/security/csrfKey";
 import { splatFromParams } from "~/services/params";
 import type { loader } from "../vorabcheck.server";
-import { FormComponents } from "~/services/cms/components/StrapiFormComponents";
+import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 
 export function VorabcheckPage() {
   const {
@@ -48,7 +48,7 @@ export function VorabcheckPage() {
                 <input type="hidden" name={CSRFKey} value={csrf} />
                 <div className="ds-stack-40">
                   <div className="ds-stack-40">
-                    <FormComponents components={formElements} />
+                    <StrapiFormComponents components={formElements} />
                   </div>
                   <ButtonNavigation {...buttonNavigationProps} />
                 </div>

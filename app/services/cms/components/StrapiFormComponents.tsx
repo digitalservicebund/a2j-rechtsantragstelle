@@ -11,7 +11,7 @@ import { StrapiTimeInput } from "../components/StrapiTimeInput";
 import StrapiSuggestionInput from "../components/StrapiSuggestionInput";
 import StrapiTileGroup from "../components/StrapiTileGroup";
 
-const StrapiFormComponent = ({
+const FormComponent = ({
   component,
 }: Readonly<{ component: StrapiFormComponent }>) => {
   switch (component.__component) {
@@ -35,17 +35,16 @@ const StrapiFormComponent = ({
       return <StrapiCheckbox {...component} />;
     case "form-elements.tile-group":
       return <StrapiTileGroup {...component} />;
-    default:
-      return <></>;
   }
+  return null;
 };
 
-export const FormComponents = ({
+export const StrapiFormComponents = ({
   components,
-}: Readonly<{ components: Array<StrapiFormComponent> }>) => (
+}: Readonly<{ components: StrapiFormComponent[] }>) => (
   <>
     {components.map((el) => (
-      <StrapiFormComponent key={keyFromElement(el)} component={el} />
+      <FormComponent key={keyFromElement(el)} component={el} />
     ))}
   </>
 );

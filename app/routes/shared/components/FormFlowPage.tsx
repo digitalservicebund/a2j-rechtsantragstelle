@@ -11,7 +11,7 @@ import FlowNavigation from "~/components/FlowNavigation";
 import { splatFromParams } from "~/services/params";
 import type { loader } from "../formular.server";
 import ArraySummary from "~/components/ArraySummary";
-import { FormComponents } from "~/services/cms/components/StrapiFormComponents";
+import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 
 export function FormFlowPage() {
   const {
@@ -84,7 +84,7 @@ export function FormFlowPage() {
             <input type="hidden" name={CSRFKey} value={csrf} />
             <div className="ds-stack-40">
               <div className="ds-stack-40">
-                <FormComponents components={formElements} />
+                <StrapiFormComponents components={formElements} />
               </div>
               <PageContent content={postFormContent} fullScreen={false} />
               <ButtonNavigation {...buttonNavigationProps} />
