@@ -215,6 +215,7 @@ function NavSubflowItem({
         className={navItemClassnames(isCurrent, isDisabled)}
         aria-disabled={isDisabled}
         aria-current={isCurrent}
+        aria-describedby={iconId}
       >
         <StateIcon
           isDone={stateIsDone(state)}
