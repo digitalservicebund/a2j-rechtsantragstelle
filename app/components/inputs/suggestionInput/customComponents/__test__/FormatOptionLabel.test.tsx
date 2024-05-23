@@ -71,4 +71,39 @@ describe("FormatOptionLabel", () => {
       queryByTestId("suggestion-item-subDescription-highlight")?.innerHTML,
     ).toBe(mockInputValue);
   });
+
+  it("it should render the label and the subDescription with highlight if the context is a menu even with empty space", () => {
+    const dataListOption = [
+      {
+        label: "Paris Charles de Gaulle",
+        subDescription: "Paris, France",
+        value: " any value",
+      },
+    ];
+
+    const mockInputValue = "Paris";
+    const emptySpace = " ";
+
+    const { queryByTestId } = render(
+      FormatOptionLabel(dataListOption[0], {
+        context: "menu",
+        inputValue: `${mockInputValue}${emptySpace}`,
+        selectValue: dataListOption,
+      }),
+    );
+
+    expect(
+      queryByTestId("suggestion-item-label-highlight"),
+    ).toBeInTheDocument();
+    expect(queryByTestId("suggestion-item-label-highlight")?.innerHTML).toBe(
+      mockInputValue,
+    );
+
+    expect(
+      queryByTestId("suggestion-item-subDescription-highlight"),
+    ).toBeInTheDocument();
+    expect(
+      queryByTestId("suggestion-item-subDescription-highlight")?.innerHTML,
+    ).toBe(mockInputValue);
+  });
 });

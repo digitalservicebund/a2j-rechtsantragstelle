@@ -36,20 +36,25 @@ const FormatOptionLabel = (
     return <span className="focus:text-blue-100">{label}</span>;
   }
 
-  const labelParts = splitHighlightWord(label, inputValue);
-  const subDescriptionParts = splitHighlightWord(subDescription, inputValue);
+  const inputWithoutSpace = inputValue.trim();
+
+  const labelParts = splitHighlightWord(label, inputWithoutSpace);
+  const subDescriptionParts = splitHighlightWord(
+    subDescription,
+    inputWithoutSpace,
+  );
 
   return (
     <div data-testid="suggestion-input-menu-item" style={{ flex: "10" }}>
       {renderHighlightText(
         labelParts,
-        inputValue,
+        inputWithoutSpace,
         "suggestion-item-label-highlight",
       )}
       <div className="primary">
         {renderHighlightText(
           subDescriptionParts,
-          inputValue,
+          inputWithoutSpace,
           "suggestion-item-subDescription-highlight",
         )}
       </div>
