@@ -12,6 +12,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { searchParams } = new URL(request.url);
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
   const url = searchParams.get("url") ?? "";
+  if (!url.startsWith("/")) {
+    // Abort without redirect on non-relative URLs
+    return json({ success: false }, { status: 400 });
+  }
   const context = searchParams.get("context") ?? "";
   const formData = await request.formData();
 
