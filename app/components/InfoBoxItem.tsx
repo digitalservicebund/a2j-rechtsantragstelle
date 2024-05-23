@@ -5,6 +5,7 @@ import Image, { ImagePropsSchema } from "./Image";
 import RichText from "./RichText";
 import ButtonContainer from "./ButtonContainer";
 import { DetailsSummary, DetailsSummarySchema } from "./DetailsSummary";
+import classNames from "classnames";
 
 export const InfoBoxItemPropsSchema = z.object({
   identifier: z.string().optional(),
@@ -16,6 +17,7 @@ export const InfoBoxItemPropsSchema = z.object({
     z.array(DetailsSummarySchema).optional(),
   ),
   buttons: z.array(ButtonPropsSchema).optional(),
+  separator: z.boolean().optional(),
 });
 
 type InfoBoxItemProps = z.infer<typeof InfoBoxItemPropsSchema>;
@@ -28,13 +30,18 @@ const InfoBoxItem = ({
   content,
   detailsSummary,
   buttons,
+  separator,
 }: InfoBoxItemProps) => {
   return (
     <li
       id={identifier}
-      className={
-        "flex flex-row items-center justify-center max-w-none max-[499px]:flex-col pt-32 first:pt-0 scroll-my-40 border-0 border-solid border-0 border-t-2 border-gray-400 first:border-none"
-      }
+      className={classNames(
+        "flex flex-row items-center justify-center max-w-none max-[499px]:flex-col first:pt-0 scroll-my-40",
+        {
+          "pt-32 border-0 border-solid border-0 border-t-2 border-gray-400 first:border-none":
+            separator,
+        },
+      )}
     >
       {image && (
         <Image

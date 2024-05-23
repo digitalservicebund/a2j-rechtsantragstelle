@@ -16,6 +16,7 @@ const StrapiInfoBoxSchema = z
     heading: StrapiHeadingSchema.nullable(),
     items: z.array(StrapiInfoBoxItemSchema),
     outerBackground: StrapiBackgroundSchema.nullable(),
+    separator: z.boolean().nullable(),
     container: StrapiContainerSchema,
   })
   .merge(HasOptionalStrapiIdSchema)

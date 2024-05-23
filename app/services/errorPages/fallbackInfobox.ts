@@ -5,6 +5,7 @@ const fallbackStrapiInfoBox = {
   identifier: null,
   heading: null,
   outerBackground: null,
+  separator: null,
   items: [
     {
       label: { text: "500", look: "ds-label-01-reg", tagName: "div" },
