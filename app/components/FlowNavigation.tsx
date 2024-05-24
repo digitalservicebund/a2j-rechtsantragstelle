@@ -3,16 +3,8 @@ import CircleOutlinedIcon from "@digitalservicebund/icons/CircleOutlined";
 import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
 import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
 import { useId, type FC } from "react";
-
+import { NavState } from "../services/navigation/navState";
 import { useCollapse } from "react-collapsed";
-
-export enum NavState {
-  DoneDisabled,
-  Done,
-  Current,
-  Open,
-  OpenDisabled,
-}
 
 export type NavItem = {
   destination: string;
