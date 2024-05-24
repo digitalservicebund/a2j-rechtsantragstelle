@@ -131,6 +131,12 @@ function NavItem({
               <ExpandMoreIcon className="ml-auto" />
             )}
           </button>
+          <section className="w-[240px]" {...collapse.getCollapseProps()}>
+            <SubflowNavigation
+              subflows={visibleSubflows}
+              a11yLabels={a11yLabels}
+            />
+          </section>
         </div>
       ) : (
         <a
@@ -143,14 +149,6 @@ function NavItem({
           <StateIcon isDone={isDone} id={iconId} a11yLabels={a11yLabels} />
           {label}
         </a>
-      )}
-      {hasActiveSubflows && (
-        <section className="w-[240px]" {...collapse.getCollapseProps()}>
-          <SubflowNavigation
-            subflows={visibleSubflows}
-            a11yLabels={a11yLabels}
-          />
-        </section>
       )}
     </li>
   );
