@@ -64,13 +64,10 @@ export default function FlowNavigation({
   return (
     <nav aria-label={a11yLabels?.menuLabel}>
       <ul>
-        {navItems.map(({ destination, label, state, subflows }) => (
+        {navItems.map((navItem) => (
           <NavItem
-            key={destination}
-            destination={destination}
-            state={state}
-            label={label}
-            subflows={subflows ?? []}
+            {...navItem}
+            key={navItem.destination}
             a11yLabels={a11yLabels}
           />
         ))}
@@ -114,10 +111,7 @@ function NavItem({
   const iconId = useId();
 
   return (
-    <li
-      key={destination}
-      className={"list-none border-t-2 border-white first:border-t-0"}
-    >
+    <li className="list-none border-t-2 border-white first:border-t-0">
       {hasActiveSubflows ? (
         <div
           className={`md:pr-0 min-w-[242px] ${stateClassNames}`}
@@ -131,7 +125,6 @@ function NavItem({
           >
             <StateIcon isDone={isDone} id={iconId} a11yLabels={a11yLabels} />
             {label}
-            <i className="absolute right-0 pt-1 text-base transition-transform fa fa-chevron-down group-open:rotate-180"></i>
             {collapse.isExpanded ? (
               <ExpandLessIcon className="ml-auto" />
             ) : (
@@ -197,11 +190,7 @@ function NavSubflowItem({
   const isCurrent = state === NavState.Current;
   const iconId = useId();
   return (
-    <li
-      data-collapse={`collapse-${destination}`}
-      key={destination}
-      className="list-none"
-    >
+    <li data-collapse={`collapse-${destination}`} className="list-none">
       <a
         href={destination}
         className={navItemClassnames(isCurrent, isDisabled)}
