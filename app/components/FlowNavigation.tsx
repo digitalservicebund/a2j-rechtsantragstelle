@@ -2,6 +2,7 @@ import CheckCircleOutlineIcon from "@digitalservicebund/icons/CheckCircleOutline
 import CircleOutlinedIcon from "@digitalservicebund/icons/CircleOutlined";
 import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
 import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
+import classNames from "classnames";
 import { useId, type FC } from "react";
 import { NavState } from "../services/navigation/navState";
 import { useCollapse } from "react-collapsed";
@@ -35,18 +36,6 @@ const stateIsDone = (state: NavState) =>
 
 const stateIsActive = (state: NavState) =>
   [NavState.Current, NavState.Open, NavState.Done].includes(state);
-
-const navItemClassnames = (
-  isCurrent: boolean,
-  isDisabled: boolean,
-  isExpanded = false,
-) =>
-  "p-16 flex gap-x-16 items-center " +
-  (isCurrent ? "ds-label-02-bold " : "ds-label-02-reg hover:underline ") +
-  (isDisabled
-    ? "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none "
-    : " ") +
-  (!isDisabled && isExpanded ? "border-b-2 border-white" : "");
 
 type NavigationA11yLabels = {
   menuLabel: string;
@@ -91,7 +80,8 @@ function NavItem({
   state,
   subflows,
   a11yLabels,
-}: Readonly<NavItem>) {
+  isChild = false,
+}: Readonly<NavItem & { isChild?: boolean }>) {
   const visibleSubflows = (subflows ?? []).filter((_, index, navItems) =>
     isSubflowVisible(navItems, index),
   );
@@ -103,15 +93,20 @@ function NavItem({
     stateIsActive(state) &&
     visibleSubflows.some((subflow) => stateIsActive(subflow.state));
   const collapse = useCollapse({ defaultExpanded: isCurrent });
-  const stateClassNames = navItemClassnames(
-    isCurrent,
-    isDisabled,
-    collapse.isExpanded,
+  const stateClassNames = classNames(
+    "p-16 flex gap-x-16 items-center ds-label-02-reg hover:underline",
+    {
+      "ds-label-02-bold hover:no-underline": isCurrent,
+      "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none":
+        isDisabled,
+    },
   );
   const iconId = useId();
 
   return (
-    <li className="list-none border-t-2 border-white first:border-t-0">
+    <li
+      className={`list-none ${isChild ? "" : "border-t-2 border-white first:border-t-0"}`}
+    >
       {hasActiveSubflows ? (
         <>
           <button
@@ -129,7 +124,10 @@ function NavItem({
               <ExpandMoreIcon className="ml-auto" />
             )}
           </button>
-          <section className="w-[240px]" {...collapse.getCollapseProps()}>
+          <section
+            className="w-[240px] border-t-2 border-white"
+            {...collapse.getCollapseProps()}
+          >
             <SubflowNavigation
               subflows={visibleSubflows}
               a11yLabels={a11yLabels}
@@ -159,48 +157,15 @@ function SubflowNavigation({
   return (
     <ul className="pt-8 pl-32 mr-8 pl-0 min-w-fit max-w-fit  md:min-w-[250px] md:max-w-[250px] break-words">
       {subflows.map(({ destination, label, state }) => (
-        <NavSubflowItem
+        <NavItem
           key={destination}
           destination={destination}
           state={state}
           label={label}
           a11yLabels={a11yLabels}
+          isChild={true}
         />
       ))}
     </ul>
-  );
-}
-
-function NavSubflowItem({
-  destination,
-  state,
-  label,
-  a11yLabels,
-}: Readonly<{
-  destination: string;
-  state: NavState;
-  label: string;
-  a11yLabels?: NavigationA11yLabels;
-}>) {
-  const isDisabled = stateIsDisabled(state);
-  const isCurrent = state === NavState.Current;
-  const iconId = useId();
-  return (
-    <li data-collapse={`collapse-${destination}`} className="list-none">
-      <a
-        href={destination}
-        className={navItemClassnames(isCurrent, isDisabled)}
-        aria-disabled={isDisabled}
-        aria-current={isCurrent}
-        aria-describedby={iconId}
-      >
-        <StateIcon
-          isDone={stateIsDone(state)}
-          a11yLabels={a11yLabels}
-          id={iconId}
-        />
-        {label}
-      </a>
-    </li>
   );
 }
