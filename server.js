@@ -54,15 +54,16 @@ isStagingOrPreviewEnvironment
   ? app.use(staticFileServer)
   : app.use(mountPathWithoutStorybook, staticFileServer);
 
-// limit calls to pdf download
-const limiter = rateLimit({
-  windowMs: 2 * 1000,
-  max: 2, // Limit each IP to 2 requests per 2s
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
-
-app.use("/*/pdf", limiter);
+// Limit calls to routes ending in /pdf or /pdf/, as they are expensive
+app.use(
+  /.*\/pdf(\/|$)/,
+  rateLimit({
+    windowMs: 2 * 1000,
+    max: 2, // Limit each IP to 2 requests per 2s
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  }),
+);
 
 // handle SSR requests
 app.all("*", remixHandler);
