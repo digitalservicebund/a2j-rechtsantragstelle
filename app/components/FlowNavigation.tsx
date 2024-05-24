@@ -46,23 +46,11 @@ type FlowNavigationProps = Readonly<{
 
 const NavigationList = ({
   navItems,
-  a11yLabels,
-  isChild = false,
+  ...props
 }: FlowNavigationProps & { isChild?: boolean }) => (
-  <ul
-    className={
-      isChild
-        ? "pl-32 mr-8 min-w-fit max-w-fit md:min-w-[250px] md:max-w-[250px] break-words"
-        : ""
-    }
-  >
+  <ul className="pl-0">
     {navItems.map((navItem) => (
-      <NavItem
-        {...navItem}
-        key={navItem.destination}
-        a11yLabels={a11yLabels}
-        isChild={isChild}
-      />
+      <NavItem {...navItem} key={navItem.destination} {...props} />
     ))}
   </ul>
 );
@@ -103,27 +91,36 @@ function NavItem({
     stateIsActive(state) &&
     visibleSubflows.some((subflow) => stateIsActive(subflow.state));
   const collapse = useCollapse({ defaultExpanded: isCurrent });
-  const stateClassNames = classNames(
-    "p-16 flex gap-x-16 items-center ds-label-02-reg hover:underline",
+
+  const liClassNames = classNames("list-none w-[248px]", {
+    "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none":
+      isDisabled,
+    "border-b-2 border-b-white last:border-b-0": !isChild,
+    "border-l-2 border-l-blue-800": isCurrent,
+  });
+
+  const itemClassNames = classNames(
+    "w-full	ds-label-02-reg p-16 flex gap-x-16 items-center hover:underline hover:bg-blue-300 active:bg-white focus:border-blue-800 focus:border-4",
     {
-      "ds-label-02-bold hover:no-underline": isCurrent,
-      "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none":
-        isDisabled,
+      "ds-label-02-bold bg-blue-500 border-l-4 border-l-blue-800": isCurrent,
+      "pl-40": isChild,
     },
   );
   const iconId = useId();
 
   return (
-    <li
-      className={`list-none ${isChild ? "" : "border-t-2 border-white first:border-t-0"}`}
-    >
+    <li className={liClassNames}>
       {hasActiveSubflows ? (
         <>
           <button
-            className={`${stateClassNames} md:pr-0 min-w-[242px] relative flex items-center w-full cursor-pointer flex gap-x-16 items-center`}
+            className={itemClassNames}
             aria-disabled={isDisabled}
             aria-expanded={collapse.isExpanded}
-            {...collapse.getToggleProps()}
+            {...collapse.getToggleProps({
+              // Manually blur button to remove focus after click
+              onClick: (e) =>
+                e.target instanceof HTMLElement ? e.target.blur() : null,
+            })}
             aria-describedby={iconId}
           >
             {isDone && <StateIcon id={iconId} a11yLabels={a11yLabels} />}
@@ -148,7 +145,7 @@ function NavItem({
       ) : (
         <a
           href={destination}
-          className={stateClassNames}
+          className={itemClassNames}
           aria-disabled={isDisabled}
           aria-current={isCurrent}
           aria-describedby={iconId}
