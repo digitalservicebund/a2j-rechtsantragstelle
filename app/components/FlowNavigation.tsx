@@ -113,12 +113,10 @@ function NavItem({
   return (
     <li className="list-none border-t-2 border-white first:border-t-0">
       {hasActiveSubflows ? (
-        <div
-          className={`md:pr-0 min-w-[242px] ${stateClassNames}`}
-          aria-disabled={isDisabled}
-        >
+        <>
           <button
-            className="relative flex items-center w-full cursor-pointer flex gap-x-16 items-center"
+            className={`${stateClassNames} md:pr-0 min-w-[242px] relative flex items-center w-full cursor-pointer flex gap-x-16 items-center`}
+            aria-disabled={isDisabled}
             aria-expanded={collapse.isExpanded}
             {...collapse.getToggleProps()}
             aria-describedby={iconId}
@@ -137,7 +135,7 @@ function NavItem({
               a11yLabels={a11yLabels}
             />
           </section>
-        </div>
+        </>
       ) : (
         <a
           href={destination}
