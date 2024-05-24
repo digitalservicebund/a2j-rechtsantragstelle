@@ -62,6 +62,8 @@ app.use(
     max: 2, // Limit each IP to 2 requests per 2s
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    message:
+      "<html lang='de'><head><title>Justiz Services - Fehler aufgetreten</title></head><body>Es sind zu viele Anfragen zum Herunterladen des PDFs innerhalb kurzer Zeit gestellt worden. Bitte versuchen Sie es später noch einmal.</body></html>",
   }),
 );
 
