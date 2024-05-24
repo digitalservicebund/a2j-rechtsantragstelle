@@ -29,6 +29,7 @@ import { fillWohnen } from "./sections/D_wohnen";
 import { fillAusgaben } from "./sections/G_ausgaben";
 import { resizeToA4 } from "./resizeToA4";
 import { deepClone } from "./deepClone";
+import { addDruckvermerk } from "./druckvermerk";
 
 export async function getBeratungshilfePdfFromContext(
   context: BeratungshilfeFormularContext,
@@ -103,6 +104,7 @@ async function handleOutOfLimitDescription(
   });
 
   const PDFAttachment = await PDFDocument.load(PDFAttachmentAsBuffer);
+  addDruckvermerk(PDFAttachment);
   const pages = PDFAttachment.getPages();
 
   for (let index = 0; index < pages.length; index++) {
@@ -111,7 +113,6 @@ async function handleOutOfLimitDescription(
     ]);
     pdfDoc.insertPage(3 + index, PDFAttachmentAsCopy);
   }
-  return pdfDoc.save();
 }
 
 type PdfField = BeratungshilfePDF[keyof BeratungshilfePDF];
@@ -141,7 +142,7 @@ async function fillOutBeratungshilfe(
     });
 
     if (attachment.shouldCreateAttachment) {
-      return handleOutOfLimitDescription(attachment.descriptions, pdfDoc);
+      await handleOutOfLimitDescription(attachment.descriptions, pdfDoc);
     }
 
     return pdfDoc.save();
@@ -160,12 +161,14 @@ async function getBeratungshilfePdf() {
   if (!global.__beratungshilfePdf) {
     const relFilepath =
       "data/pdf/beratungshilfe/Antrag_auf_Bewilligung_von_Beratungshilfe.pdf";
+    const yPositionsDruckvermerk = [90, 108, 138];
     try {
       await readFile(path.resolve(path.join(process.cwd(), relFilepath)))
         .then((data) => PDFDocument.load(data))
         .then((pdfDoc) => {
           global.__beratungshilfePdf = pdfDoc;
           resizeToA4(global.__beratungshilfePdf);
+          addDruckvermerk(global.__beratungshilfePdf, yPositionsDruckvermerk);
         });
     } catch (error) {
       console.error(error);
