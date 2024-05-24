@@ -42,25 +42,38 @@ type NavigationA11yLabels = {
   itemFinished: string;
   itemOpen: string;
 };
-
-export default function FlowNavigation({
-  navItems,
-  a11yLabels,
-}: Readonly<{
+type FlowNavigationProps = Readonly<{
   navItems: NavItem[];
   a11yLabels?: NavigationA11yLabels;
-}>) {
+}>;
+
+const NavigationList = ({
+  navItems,
+  a11yLabels,
+  isChild = false,
+}: FlowNavigationProps & { isChild?: boolean }) => (
+  <ul
+    className={
+      isChild
+        ? "pt-8 pl-32 mr-8 min-w-fit max-w-fit md:min-w-[250px] md:max-w-[250px] break-words"
+        : ""
+    }
+  >
+    {navItems.map((navItem) => (
+      <NavItem
+        {...navItem}
+        key={navItem.destination}
+        a11yLabels={a11yLabels}
+        isChild={isChild}
+      />
+    ))}
+  </ul>
+);
+
+export default function FlowNavigation(props: FlowNavigationProps) {
   return (
-    <nav aria-label={a11yLabels?.menuLabel}>
-      <ul>
-        {navItems.map((navItem) => (
-          <NavItem
-            {...navItem}
-            key={navItem.destination}
-            a11yLabels={a11yLabels}
-          />
-        ))}
-      </ul>
+    <nav aria-label={props.a11yLabels?.menuLabel}>
+      <NavigationList {...props} />
     </nav>
   );
 }
@@ -128,9 +141,10 @@ function NavItem({
             className="w-[240px] border-t-2 border-white"
             {...collapse.getCollapseProps()}
           >
-            <SubflowNavigation
-              subflows={visibleSubflows}
+            <NavigationList
+              navItems={visibleSubflows}
               a11yLabels={a11yLabels}
+              isChild={true}
             />
           </section>
         </>
@@ -147,25 +161,5 @@ function NavItem({
         </a>
       )}
     </li>
-  );
-}
-
-function SubflowNavigation({
-  subflows,
-  a11yLabels,
-}: Readonly<{ subflows: NavItem[]; a11yLabels?: NavigationA11yLabels }>) {
-  return (
-    <ul className="pt-8 pl-32 mr-8 pl-0 min-w-fit max-w-fit  md:min-w-[250px] md:max-w-[250px] break-words">
-      {subflows.map(({ destination, label, state }) => (
-        <NavItem
-          key={destination}
-          destination={destination}
-          state={state}
-          label={label}
-          a11yLabels={a11yLabels}
-          isChild={true}
-        />
-      ))}
-    </ul>
   );
 }
