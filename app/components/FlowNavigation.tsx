@@ -1,5 +1,4 @@
-import CheckCircleOutlineIcon from "@digitalservicebund/icons/CheckCircleOutline";
-import CircleOutlinedIcon from "@digitalservicebund/icons/CircleOutlined";
+import CheckIcon from "@digitalservicebund/icons/Check";
 import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
 import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
 import classNames from "classnames";
@@ -16,17 +15,15 @@ export type NavItem = {
 };
 
 const StateIcon: FC<{
-  isDone: boolean;
   id: string;
   a11yLabels?: NavigationA11yLabels;
-}> = ({ isDone, id, a11yLabels }) => {
-  const Icon = isDone ? CheckCircleOutlineIcon : CircleOutlinedIcon;
-  const classNames = isDone ? "text-green-800" : "";
-  const label = isDone ? a11yLabels?.itemFinished : a11yLabels?.itemOpen;
-  return (
-    <Icon id={id} className={`shrink-0 ${classNames}`} aria-label={label} />
-  );
-};
+}> = ({ id, a11yLabels }) => (
+  <CheckIcon
+    id={id}
+    className="shrink-0"
+    aria-label={a11yLabels?.itemFinished}
+  />
+);
 
 const stateIsDisabled = (state: NavState) =>
   state === NavState.DoneDisabled || state === NavState.OpenDisabled;
@@ -129,7 +126,7 @@ function NavItem({
             {...collapse.getToggleProps()}
             aria-describedby={iconId}
           >
-            <StateIcon isDone={isDone} id={iconId} a11yLabels={a11yLabels} />
+            {isDone && <StateIcon id={iconId} a11yLabels={a11yLabels} />}
             {label}
             {collapse.isExpanded ? (
               <ExpandLessIcon className="ml-auto" />
@@ -156,7 +153,7 @@ function NavItem({
           aria-current={isCurrent}
           aria-describedby={iconId}
         >
-          <StateIcon isDone={isDone} id={iconId} a11yLabels={a11yLabels} />
+          {isDone && <StateIcon id={iconId} a11yLabels={a11yLabels} />}
           {label}
         </a>
       )}
