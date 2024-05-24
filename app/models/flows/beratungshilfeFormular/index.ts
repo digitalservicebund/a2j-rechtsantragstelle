@@ -76,7 +76,7 @@ export const beratungshilfeFormular = {
             meta: { done: andereUnterhaltszahlungenDone },
           },
           eigentum: { meta: { done: eigentumDone } },
-          eigentumZusammenfassung: {
+          "eigentum-zusammenfassung": {
             meta: { done: eigentumZusammenfassungDone },
           },
           wohnung: { meta: { done: wohnungDone } },
