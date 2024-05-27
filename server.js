@@ -54,6 +54,9 @@ isStagingOrPreviewEnvironment
   ? app.use(staticFileServer)
   : app.use(mountPathWithoutStorybook, staticFileServer);
 
+app.set("trust proxy", 1);
+app.get("/ip", (request, response) => response.send(request.ip));
+
 // Limit calls to routes ending in /pdf or /pdf/, as they are expensive
 app.use(
   /.*\/pdf(\/|$)/,
