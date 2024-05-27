@@ -161,8 +161,8 @@ const SuggestionInput = ({
   }
 
   return (
-    <>
-      {label && <InputLabel id={name}>{label}</InputLabel>}
+    <div>
+      {label && <InputLabel id={inputId}>{label}</InputLabel>}
       <Select
         className={classNames(
           "w-full",
@@ -212,7 +212,7 @@ const SuggestionInput = ({
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === error)?.text ?? error}
       </InputError>
-    </>
+    </div>
   );
 };
 
