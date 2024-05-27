@@ -9,7 +9,10 @@ function isStepStateIdCurrent(stepStateId: string, stepId: string) {
 }
 
 function isSubflowCurrent(subflows: NavItem[]) {
-  return subflows.some((state) => state.state === NavState.Current);
+  return subflows.some(
+    (state) =>
+      state.state === NavState.Current || state.state === NavState.DoneCurrent,
+  );
 }
 
 export function navItemsFromStepStates(
@@ -47,6 +50,7 @@ export function navState({
   isDone: boolean;
   isUneditable: boolean;
 }) {
+  if (isCurrent && isDone) return NavState.DoneCurrent;
   if (isCurrent) return NavState.Current;
   if (isUneditable && isDone) return NavState.DoneDisabled;
   if (isReachable && isDone) return NavState.Done;

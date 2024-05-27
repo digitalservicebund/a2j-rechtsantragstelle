@@ -29,10 +29,17 @@ const stateIsDisabled = (state: NavState) =>
   state === NavState.DoneDisabled || state === NavState.OpenDisabled;
 
 const stateIsDone = (state: NavState) =>
-  state === NavState.DoneDisabled || state === NavState.Done;
+  state === NavState.DoneDisabled ||
+  state === NavState.Done ||
+  state === NavState.DoneCurrent;
 
 const stateIsActive = (state: NavState) =>
-  [NavState.Current, NavState.Open, NavState.Done].includes(state);
+  [
+    NavState.DoneCurrent,
+    NavState.Current,
+    NavState.Open,
+    NavState.Done,
+  ].includes(state);
 
 type NavigationA11yLabels = {
   menuLabel: string;
@@ -85,7 +92,8 @@ function NavItem({
   );
 
   const isDisabled = stateIsDisabled(state);
-  const isCurrent = state === NavState.Current;
+  const isCurrent =
+    state === NavState.Current || state === NavState.DoneCurrent;
   const isDone = stateIsDone(state);
   const hasActiveSubflows =
     stateIsActive(state) &&
