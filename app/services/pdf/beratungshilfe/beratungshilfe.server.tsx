@@ -1,5 +1,5 @@
 import { renderToBuffer } from "@react-pdf/renderer";
-import { isBooleanField, isStringField } from "../fileTypes";
+import { isBooleanField } from "../fileTypes";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -71,7 +71,7 @@ async function fillOutBeratungshilfe(
   Object.values(values).forEach((value) => {
     if (isBooleanField(value)) {
       changeBooleanField(value, form);
-    } else if (isStringField(value)) {
+    } else {
       changeStringField(value, form);
     }
   });
