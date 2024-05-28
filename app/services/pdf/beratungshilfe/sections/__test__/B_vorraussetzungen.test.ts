@@ -3,7 +3,7 @@
  */
 
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { fillVorraussetzungen } from "~/services/pdf/beratungshilfe/sections/B_vorraussetzungen";
 
 describe("B_vorraussetzungen", () => {
@@ -14,7 +14,7 @@ describe("B_vorraussetzungen", () => {
       eigeninitiativeGrundvorraussetzung: "yes",
       klageEingereicht: "yes",
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillVorraussetzungen(pdfFields, context);
 
@@ -47,7 +47,7 @@ describe("B_vorraussetzungen", () => {
       eigeninitiativeGrundvorraussetzung: "no",
       klageEingereicht: "no",
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillVorraussetzungen(pdfFields, context);
 
@@ -80,7 +80,7 @@ describe("B_vorraussetzungen", () => {
       eigeninitiativeGrundvorraussetzung: "yes",
       klageEingereicht: "no",
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillVorraussetzungen(pdfFields, context);
 

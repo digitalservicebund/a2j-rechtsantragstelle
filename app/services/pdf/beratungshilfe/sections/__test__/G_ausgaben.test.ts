@@ -5,7 +5,7 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
-import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import {
   AUSGABEN_ATTACHMENT_TITLE,
   fillAusgaben,
@@ -33,7 +33,7 @@ describe("G_ausgaben", () => {
       },
     };
     const attachment = createAttachment(mockContext);
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillAusgaben(attachment, pdfFields, mockContext);
 
@@ -93,7 +93,7 @@ describe("G_ausgaben", () => {
       },
     };
     const attachment = createAttachment(mockContext);
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillAusgaben(attachment, pdfFields, mockContext);
 
@@ -148,7 +148,7 @@ describe("G_ausgaben", () => {
       },
     };
     const attachment = createAttachment(mockContext);
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillAusgaben(attachment, pdfFields, mockContext);
 

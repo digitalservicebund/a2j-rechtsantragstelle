@@ -4,7 +4,7 @@
 
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
-import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import {
   ATTACHMENT_DESCRIPTION_SECTION_E,
   SEE_IN_ATTACHMENT_DESCRIPTION,
@@ -41,7 +41,7 @@ describe("E_unterhalt", () => {
 
     const context: BeratungshilfeFormularContext = {};
     const attachment = createAttachment(context);
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillUnterhalt(attachment, pdfFields, context);
 
@@ -73,7 +73,7 @@ describe("E_unterhalt", () => {
     const context: BeratungshilfeFormularContext = {};
 
     const attachment = createAttachment(context);
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillUnterhalt(attachment, pdfFields, context);
 

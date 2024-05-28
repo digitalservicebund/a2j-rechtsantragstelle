@@ -3,7 +3,7 @@
  */
 
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { fillWohnen } from "~/services/pdf/beratungshilfe/sections/D_wohnen";
 
 describe("fillWohnen", () => {
@@ -14,7 +14,7 @@ describe("fillWohnen", () => {
       livingSituation: "alone",
     };
 
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillWohnen(pdfFields, context);
 
@@ -39,7 +39,7 @@ describe("fillWohnen", () => {
       livingSituation: "withOthers",
     };
 
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillWohnen(pdfFields, context);
 
@@ -68,7 +68,7 @@ describe("fillWohnen", () => {
       livingSituation: "withRelatives",
     };
 
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillWohnen(pdfFields, context);
 
@@ -97,7 +97,7 @@ describe("fillWohnen", () => {
       livingSituation: "withRelatives",
     };
 
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillWohnen(pdfFields, context);
 

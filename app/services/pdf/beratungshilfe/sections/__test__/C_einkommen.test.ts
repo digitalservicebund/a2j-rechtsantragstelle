@@ -3,7 +3,7 @@
  */
 
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { fillEinkommen } from "~/services/pdf/beratungshilfe/sections/C_einkommen";
 
 describe("C_einkommen", () => {
@@ -12,12 +12,12 @@ describe("C_einkommen", () => {
       partnerschaft: "no",
       einkommen: "100 €",
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillEinkommen(pdfFields, context);
 
     expect(pdfFields.c2Einkuenftenetto.value).toBe("100 €");
-    expect(pdfFields.c3EinkuenftePartner.value).toBe(false);
+    expect(pdfFields.c3EinkuenftePartner.value).toBe(undefined);
   });
 
   it("should not fill partner einkommen pdf fields when no partner given in context", async () => {
@@ -26,11 +26,11 @@ describe("C_einkommen", () => {
       einkommen: "100 €",
       partnerEinkommenSumme: "500 €",
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillEinkommen(pdfFields, context);
 
-    expect(pdfFields.c3EinkuenftePartner.value).toBe(false);
+    expect(pdfFields.c3EinkuenftePartner.value).toBe(undefined);
     expect(pdfFields.c4EinkuenftePartnernetto.value).toBe(undefined);
   });
 
@@ -42,11 +42,11 @@ describe("C_einkommen", () => {
       einkommen: "100 €",
       partnerEinkommenSumme: "500 €",
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillEinkommen(pdfFields, context);
 
-    expect(pdfFields.c3EinkuenftePartner.value).toBe(false);
+    expect(pdfFields.c3EinkuenftePartner.value).toBe(undefined);
     expect(pdfFields.c4EinkuenftePartnernetto.value).toBe(undefined);
   });
 
@@ -58,11 +58,11 @@ describe("C_einkommen", () => {
       einkommen: "100 €",
       partnerEinkommenSumme: "500 €",
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillEinkommen(pdfFields, context);
 
-    expect(pdfFields.c3EinkuenftePartner.value).toBe(false);
+    expect(pdfFields.c3EinkuenftePartner.value).toBe(undefined);
     expect(pdfFields.c4EinkuenftePartnernetto.value).toBe(undefined);
   });
 
@@ -74,7 +74,7 @@ describe("C_einkommen", () => {
       einkommen: "100 €",
       partnerEinkommenSumme: "200 €",
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillEinkommen(pdfFields, context);
 

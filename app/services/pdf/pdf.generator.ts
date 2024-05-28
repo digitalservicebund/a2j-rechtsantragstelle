@@ -1,145 +1,67 @@
-import { PDFCheckBox, PDFDocument } from "pdf-lib";
-import {
-  quicktype,
-  InputData,
-  JSONSchemaInput,
-  FetchingJSONSchemaStore,
-} from "quicktype-core";
+import { PDFDocument, PDFCheckBox, PDFTextField, type PDFField } from "pdf-lib";
 import fs from "node:fs";
 import path from "node:path";
-import readline from "node:readline";
-
 import { normalizePropertyName } from "./pdf.server";
+
+const pdfs = [
+  {
+    service: "beratungshilfe",
+    pdfFilename: "Antrag_auf_Bewilligung_von_Beratungshilfe.pdf",
+    typeName: "BeratungshilfePDF",
+  },
+] as const;
 
 const dataDirectory = "data/pdf/";
 
-const question = (questionText: string) => {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
+function isCheckBoxOrTextField(field: PDFField) {
+  return field instanceof PDFCheckBox || field instanceof PDFTextField;
+}
 
-  return new Promise<string>((resolve) =>
-    rl.question(questionText, resolve),
-  ).finally(() => rl.close());
+function pdfFieldToEntry(field: PDFField) {
+  return [normalizePropertyName(field.getName()), { name: field.getName() }];
+}
+
+function pdfFieldToType(field: PDFField) {
+  return `${normalizePropertyName(field.getName())}: ${field instanceof PDFCheckBox ? "BooleanField" : "StringField"};`;
+}
+
+async function generatePdfTypes({
+  service,
+  pdfFilename,
+  typeName,
+}: (typeof pdfs)[number]) {
+  const filepath = path.resolve(
+    path.join(process.cwd(), dataDirectory, service, pdfFilename),
+  );
+  const outputFilepath = path.join(
+    process.cwd(),
+    dataDirectory,
+    service,
+    `${service}.generated.ts`,
+  );
+
+  const pdfDoc = await PDFDocument.load(fs.readFileSync(filepath));
+  const pdfFields = pdfDoc.getForm().getFields().filter(isCheckBoxOrTextField);
+  const functionName = `get${service[0].toUpperCase()}${service.slice(1)}Parameters`;
+  const pdfFieldsObject = Object.fromEntries(pdfFields.map(pdfFieldToEntry));
+
+  const fileContent = `import type { BooleanField, StringField } from "~/services/pdf/fileTypes";
+  
+export function ${functionName}(): ${typeName} {
+  return ${JSON.stringify(pdfFieldsObject, null, 2)};
+}
+
+export type ${typeName} = {
+  ${[...new Set(pdfFields.map(pdfFieldToType))].join("\n  ")}
 };
+`;
 
-// This will generate a TypeScript file from a PDF file based on the PDF's form fields.
-// The generated file will contain a TypeScript interface
-// that can be used to validate the PDF's form fields.
-// To map the generated properties to the PDF's form fields,
-// use tools like pdffiller.com to find the form field id names
-const generate = async () => {
-  const pdfFilePath = await question(
-    "Enter the path to the PDF file (example: beratungshilfe/Antrag_auf_Bewilligung_von_Beratungshilfe.pdf): ",
-  );
-  const definitionName = await question(
-    "Enter the name of the definition (example: BeratungshilfePDF): ",
-  );
-  const generatedFile = await question(
-    "Enter the path to the generated output file (example: beratungshilfe/beratungshilfe.generated.ts): ",
-  );
-
-  const pdfDoc = await PDFDocument.load(
-    fs.readFileSync(
-      path.resolve(path.join(process.cwd(), dataDirectory, pdfFilePath)),
-    ),
-  );
-  const form = pdfDoc.getForm();
-  const fields = form.getFields();
-
-  const quickTypeJSONSchema: { [k: string]: any } = {};
-
-  quickTypeJSONSchema["$ref"] = "#/definitions/" + definitionName;
-  quickTypeJSONSchema["definitions"] = {
-    BooleanField: {
-      type: "object",
-      properties: {
-        name: {
-          type: "string",
-        },
-        value: {
-          type: "boolean",
-        },
-      },
-      additionalProperties: false,
-      required: ["name"],
-    },
-    StringField: {
-      type: "object",
-      properties: {
-        name: {
-          type: "string",
-        },
-        value: {
-          type: "string",
-        },
-      },
-      required: ["name"],
-      additionalProperties: false,
-    },
-  };
-
-  quickTypeJSONSchema["definitions"][definitionName] = {
-    type: "object",
-    additionalProperties: false,
-    properties: {},
-  };
-
-  const sortedFields = [...fields].sort((x, y) =>
-    x.getName().localeCompare(y.getName()),
-  );
-
-  const requiredFields = sortedFields.map((field) =>
-    normalizePropertyName(field.getName()),
-  );
-
-  const jsonPDF = {
-    type: "object",
-    additionalProperties: false,
-    properties: {} as { [k: string]: any },
-    required: requiredFields,
-  };
-
-  sortedFields.forEach((field) => {
-    const fieldName = normalizePropertyName(field.getName());
-    let ref = "#/definitions/StringField";
-
-    if (field instanceof PDFCheckBox) {
-      ref = "#/definitions/BooleanField";
-    }
-
-    jsonPDF.properties[fieldName] = {
-      $ref: ref,
-    };
-  });
-  jsonPDF.required = requiredFields;
-
-  quickTypeJSONSchema["definitions"][definitionName] = jsonPDF;
-
-  const schemaInput = new JSONSchemaInput(new FetchingJSONSchemaStore());
-  await schemaInput.addSource({
-    name: definitionName,
-    schema: JSON.stringify(quickTypeJSONSchema),
-  });
-  const inputData = new InputData();
-  inputData.addInput(schemaInput);
-
-  const quickType = await quicktype({
-    inputData,
-    lang: "typescript",
-    rendererOptions: {
-      "nice-property-names": "true",
-      "explicit-unions": "true",
-    },
-  });
-
-  fs.writeFileSync(
-    path.join(process.cwd(), dataDirectory, generatedFile),
-    quickType.lines.join("\n"),
-  );
-
+  fs.writeFileSync(outputFilepath, fileContent);
   console.log("Done");
-};
+}
 
-void generate();
+async function main() {
+  pdfs.forEach((pdfConfig) => generatePdfTypes(pdfConfig));
+}
+
+void main();

@@ -1,438 +1,489 @@
-// To parse this data:
-//
-//   import { Convert, BeratungshilfePDF } from "./file";
-//
-//   const beratungshilfePDF = Convert.toBeratungshilfePDF(json);
-//
-// These functions will throw an error if the JSON doesn't
-// match the expected interface, even if the JSON is valid.
-
-export interface BeratungshilfePDF {
-    anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers:                                                                  StringField;
-    antragstellerNameVornameggfGeburtsname:                                                                                          StringField;
-    b2IndieserAngelegenheitbestehtfurmichnachmeinerKenntniskeineandereMoeglichkeitkostenloseBeratungundVertretunginAnspruchzunehmen: BooleanField;
-    b3IndieserAngelegenheitistmirbisherBeratungshilfewederbewilligtnochversagtworden:                                                BooleanField;
-    b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt:                                               BooleanField;
-    beratungsperson:                                                                                                                 StringField;
-    berufErwerbstaetigkeit:                                                                                                          StringField;
-    bew:                                                                                                                             BooleanField;
-    bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein:                                                            BooleanField;
-    c1Einkuenftebrutto:                                                                                                              StringField;
-    c2Einkuenftenetto:                                                                                                               StringField;
-    c3EinkuenftePartner:                                                                                                             BooleanField;
-    c4EinkuenftePartnernetto:                                                                                                        StringField;
-    d1Wohnung:                                                                                                                       StringField;
-    d2Wohnkosten:                                                                                                                    StringField;
-    d3Teilwohnkosten:                                                                                                                StringField;
-    d4Wohnungalleine:                                                                                                                BooleanField;
-    d5Wohnunggemeinsam:                                                                                                              BooleanField;
-    d6WonungweiterePersonen:                                                                                                         StringField;
-    datumBeratung:                                                                                                                   StringField;
-    e1Person1:                                                                                                                       StringField;
-    e1Person2:                                                                                                                       StringField;
-    e1Person3:                                                                                                                       StringField;
-    e1Person4:                                                                                                                       StringField;
-    e2:                                                                                                                              BooleanField;
-    e2Geburtsdatum:                                                                                                                  StringField;
-    e2Geburtsdatum2:                                                                                                                 StringField;
-    e2Geburtsdatum3:                                                                                                                 StringField;
-    e2Geburtsdatum4:                                                                                                                 StringField;
-    e3Familienverhaeltnis:                                                                                                           StringField;
-    e3Familienverhaeltnis2:                                                                                                          StringField;
-    e3Familienverhaeltnis3:                                                                                                          StringField;
-    e3Familienverhaeltnis4:                                                                                                          StringField;
-    e4Zahlung1:                                                                                                                      StringField;
-    e4Zahlung2:                                                                                                                      StringField;
-    e4Zahlung3:                                                                                                                      StringField;
-    e4Zahlung4:                                                                                                                      StringField;
-    e5Einnahmen1:                                                                                                                    BooleanField;
-    e5Einnahmen2:                                                                                                                    BooleanField;
-    e5Einnahmen3:                                                                                                                    BooleanField;
-    e5Einnahmen4:                                                                                                                    BooleanField;
-    e6Betrag1:                                                                                                                       StringField;
-    e6Betrag2:                                                                                                                       StringField;
-    e6Betrag3:                                                                                                                       StringField;
-    e6Betrag4:                                                                                                                       StringField;
-    f10KraftfahrzeugB:                                                                                                               BooleanField;
-    f10KraftfahrzeugC:                                                                                                               BooleanField;
-    f10KraftfahrzeugeA:                                                                                                              BooleanField;
-    f11Fahrzeugart:                                                                                                                  StringField;
-    f12Verkehrswert:                                                                                                                 StringField;
-    f13Vermoegenswerte1:                                                                                                             BooleanField;
-    f13Vermoegenswerte2:                                                                                                             BooleanField;
-    f14InhaberA:                                                                                                                     BooleanField;
-    f14InhaberB:                                                                                                                     BooleanField;
-    f14VermoegenswerteC:                                                                                                             BooleanField;
-    f15Bezeichnung:                                                                                                                  StringField;
-    f16RueckkaufswertoderVerkehrswertinEUR:                                                                                          StringField;
-    f1InhaberA:                                                                                                                      BooleanField;
-    f1Konten1:                                                                                                                       BooleanField;
-    f1Konten2:                                                                                                                       BooleanField;
-    f2InhaberB:                                                                                                                      BooleanField;
-    f2InhaberC:                                                                                                                      BooleanField;
-    f3Bank1:                                                                                                                         StringField;
-    f4Kontostand:                                                                                                                    StringField;
-    f5Grundeigentum1:                                                                                                                BooleanField;
-    f5Grundeigentum2:                                                                                                                BooleanField;
-    f6EigentuemerA:                                                                                                                  BooleanField;
-    f6EigentuemerB:                                                                                                                  BooleanField;
-    f6EigentuemerC:                                                                                                                  BooleanField;
-    f7Nutzungsart:                                                                                                                   StringField;
-    f8Verkehrswert:                                                                                                                  StringField;
-    f9Kraftfahrzeug1:                                                                                                                BooleanField;
-    f9Kraftfahrzeuge2:                                                                                                               BooleanField;
-    familienstanddesAntragstellers:                                                                                                  StringField;
-    g10Belastungen:                                                                                                                  StringField;
-    g11Zahlung:                                                                                                                      StringField;
-    g12ZahlungP:                                                                                                                     StringField;
-    g1VerpflichtungenJ:                                                                                                              BooleanField;
-    g1VerpflichtungenN:                                                                                                              BooleanField;
-    g21:                                                                                                                             StringField;
-    g22:                                                                                                                             StringField;
-    g23:                                                                                                                             StringField;
-    g24:                                                                                                                             StringField;
-    g31:                                                                                                                             StringField;
-    g32:                                                                                                                             StringField;
-    g33:                                                                                                                             StringField;
-    g34:                                                                                                                             StringField;
-    g4Verwendungszweck1:                                                                                                             StringField;
-    g4Verwendungszweck2:                                                                                                             StringField;
-    g4Verwendungszweck3:                                                                                                             StringField;
-    g4Verwendungszweck4:                                                                                                             StringField;
-    g5Raten1:                                                                                                                        StringField;
-    g5Raten2:                                                                                                                        StringField;
-    g5Raten3:                                                                                                                        StringField;
-    g5Raten4:                                                                                                                        StringField;
-    g6Restschuld1:                                                                                                                   StringField;
-    g6Restschuld2:                                                                                                                   StringField;
-    g6Restschuld3:                                                                                                                   StringField;
-    g6Restschuld4:                                                                                                                   StringField;
-    g7Zahlung1:                                                                                                                      StringField;
-    g7Zahlung2:                                                                                                                      StringField;
-    g7Zahlung3:                                                                                                                      StringField;
-    g7Zahlung4:                                                                                                                      StringField;
-    g8ZahlungP1:                                                                                                                     StringField;
-    g8ZahlungP2:                                                                                                                     StringField;
-    g8ZahlungP3:                                                                                                                     StringField;
-    g8ZahlungP4:                                                                                                                     StringField;
-    g9SonstigeBelastungenJ:                                                                                                          BooleanField;
-    g9SonstigeBelastungenN:                                                                                                          BooleanField;
-    geburtsdatumdesAntragstellers:                                                                                                   StringField;
-    geschaeftsnummerdesAmtsgerichts:                                                                                                 StringField;
-    ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern:                                                StringField;
-    namedesAmtsgerichts:                                                                                                             StringField;
-    ortDatum2:                                                                                                                       StringField;
-    postleitzahlOrt:                                                                                                                 StringField;
-    sonst:                                                                                                                           BooleanField;
-    tagsueberTelefonischerreichbarunterNummer:                                                                                       StringField;
-    unterschrftdesRechtspfegersderRechtspfegern:                                                                                     StringField;
-    unterschriftdesAntragstellersderAntragstellerin:                                                                                 StringField;
-    wohnkosten:                                                                                                                      BooleanField;
+import type { BooleanField, StringField } from "~/services/pdf/fileTypes";
+  
+export function getBeratungshilfeParameters(): BeratungshilfePDF {
+  return {
+  "namedesAmtsgerichts": {
+    "name": "Name des Amtsgerichts"
+  },
+  "postleitzahlOrt": {
+    "name": "Postleitzahl Ort"
+  },
+  "geschaeftsnummerdesAmtsgerichts": {
+    "name": "Geschäftsnummer des Amtsgerichts"
+  },
+  "antragstellerNameVornameggfGeburtsname": {
+    "name": "Antragsteller (Name, Vorname ggf Geburtsname)"
+  },
+  "berufErwerbstaetigkeit": {
+    "name": "Beruf, Erwerbstätigkeit"
+  },
+  "geburtsdatumdesAntragstellers": {
+    "name": "Geburtsdatum des Antragstellers"
+  },
+  "familienstanddesAntragstellers": {
+    "name": "Familienstand des Antragstellers"
+  },
+  "anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers": {
+    "name": "Anschrift Straße,Hausnummer,Postleitzahl,Wohnort des Antragstellers"
+  },
+  "tagsueberTelefonischerreichbarunterNummer": {
+    "name": "Tagsüber Telefonisch erreichbar unter Nummer"
+  },
+  "ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern": {
+    "name": "Ich beantrage Beratungshilfe in folgender Angelegenheit (bitte Sachverhalt kurz erläutern)"
+  },
+  "bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein": {
+    "name": "B-In der vorliegenden Angelegenheit tritt keine Rechtsschutzversicherung ein"
+  },
+  "b2IndieserAngelegenheitbestehtfurmichnachmeinerKenntniskeineandereMoeglichkeitkostenloseBeratungundVertretunginAnspruchzunehmen": {
+    "name": "B2- In dieser Angelegenheit besteht für mich nach meiner Kenntnis keine andere Möglichkeit, kostenlose Beratung und Vertretung in Anspruch zu nehmen"
+  },
+  "b3IndieserAngelegenheitistmirbisherBeratungshilfewederbewilligtnochversagtworden": {
+    "name": "B3-In dieser Angelegenheit ist mir bisher Beratungshilfe weder bewilligt noch versagt worden"
+  },
+  "b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt": {
+    "name": "B4- In dieser Angelegenheit wird oder wurde von mir bisher kein gerichtliches Verfahren geführt"
+  },
+  "c1Einkuenftebrutto": {
+    "name": "C1-Einkünfte, brutto"
+  },
+  "c2Einkuenftenetto": {
+    "name": "C2-Einkünfte, netto"
+  },
+  "c3EinkuenftePartner": {
+    "name": "C3-Einkünfte Partner"
+  },
+  "c4EinkuenftePartnernetto": {
+    "name": "C4-Einkünfte, Partner, netto"
+  },
+  "d1Wohnung": {
+    "name": "D1-Wohnung"
+  },
+  "d2Wohnkosten": {
+    "name": "D2-Wohnkosten"
+  },
+  "d3Teilwohnkosten": {
+    "name": "D3-Teilwohnkosten"
+  },
+  "d4Wohnungalleine": {
+    "name": "D4-Wohnung, alleine"
+  },
+  "d5Wohnunggemeinsam": {
+    "name": "D5-Wohnung, gemeinsam"
+  },
+  "d6WonungweiterePersonen": {
+    "name": "D6-Wonung, weitere Personen"
+  },
+  "e1Person1": {
+    "name": "E1-Person1"
+  },
+  "e2Geburtsdatum": {
+    "name": "E2-Geburtsdatum"
+  },
+  "e3Familienverhaeltnis": {
+    "name": "E3-Familienverhältnis"
+  },
+  "e4Zahlung1": {
+    "name": "E4-Zahlung1"
+  },
+  "e6Betrag1": {
+    "name": "E6-Betrag1"
+  },
+  "e1Person2": {
+    "name": "E1-Person2"
+  },
+  "e2Geburtsdatum2": {
+    "name": "E2-Geburtsdatum2"
+  },
+  "e3Familienverhaeltnis2": {
+    "name": "E3-Familienverhältnis2"
+  },
+  "e4Zahlung2": {
+    "name": "E4-Zahlung2"
+  },
+  "e6Betrag2": {
+    "name": "E6-Betrag2"
+  },
+  "e1Person3": {
+    "name": "E1-Person3"
+  },
+  "e2Geburtsdatum3": {
+    "name": "E2-Geburtsdatum3"
+  },
+  "e3Familienverhaeltnis3": {
+    "name": "E3-Familienverhältnis3"
+  },
+  "e4Zahlung3": {
+    "name": "E4-Zahlung3"
+  },
+  "e6Betrag3": {
+    "name": "E6-Betrag3"
+  },
+  "e1Person4": {
+    "name": "E1-Person4"
+  },
+  "e2Geburtsdatum4": {
+    "name": "E2-Geburtsdatum4"
+  },
+  "e3Familienverhaeltnis4": {
+    "name": "E3-Familienverhältnis4"
+  },
+  "e4Zahlung4": {
+    "name": "E4-Zahlung4"
+  },
+  "e6Betrag4": {
+    "name": "E6-Betrag4"
+  },
+  "e5Einnahmen2": {
+    "name": "E5-Einnahmen2"
+  },
+  "e5Einnahmen3": {
+    "name": "E5-Einnahmen3"
+  },
+  "e5Einnahmen4": {
+    "name": "E5-Einnahmen4"
+  },
+  "e5Einnahmen1": {
+    "name": "E5-Einnahmen1"
+  },
+  "f1Konten1": {
+    "name": "F1-Konten1"
+  },
+  "f1Konten2": {
+    "name": "F1-Konten2"
+  },
+  "f5Grundeigentum2": {
+    "name": "F5-Grundeigentum2"
+  },
+  "f3Bank1": {
+    "name": "F3-Bank1"
+  },
+  "f4Kontostand": {
+    "name": "F4-Kontostand"
+  },
+  "f7Nutzungsart": {
+    "name": "F7-Nutzungsart"
+  },
+  "f8Verkehrswert": {
+    "name": "F8-Verkehrswert"
+  },
+  "f11Fahrzeugart": {
+    "name": "F11-Fahrzeugart"
+  },
+  "f12Verkehrswert": {
+    "name": "F12-Verkehrswert"
+  },
+  "f1InhaberA": {
+    "name": "F1-InhaberA"
+  },
+  "f2InhaberB": {
+    "name": "F2-InhaberB"
+  },
+  "f2InhaberC": {
+    "name": "F2-InhaberC"
+  },
+  "f6EigentuemerA": {
+    "name": "F6-EigentümerA"
+  },
+  "f6EigentuemerB": {
+    "name": "F6-EigentümerB"
+  },
+  "f6EigentuemerC": {
+    "name": "F6-EigentümerC"
+  },
+  "f5Grundeigentum1": {
+    "name": "F5-Grundeigentum1"
+  },
+  "f9Kraftfahrzeug1": {
+    "name": "F9-Kraftfahrzeug1"
+  },
+  "f9Kraftfahrzeuge2": {
+    "name": "F9-Kraftfahrzeuge2"
+  },
+  "f10KraftfahrzeugeA": {
+    "name": "F10-KraftfahrzeugeA"
+  },
+  "f10KraftfahrzeugB": {
+    "name": "F10-KraftfahrzeugB"
+  },
+  "f10KraftfahrzeugC": {
+    "name": "F10-KraftfahrzeugC"
+  },
+  "f13Vermoegenswerte1": {
+    "name": "F13-Vermögenswerte1"
+  },
+  "f13Vermoegenswerte2": {
+    "name": "F13-Vermögenswerte2"
+  },
+  "f14InhaberA": {
+    "name": "F14-InhaberA"
+  },
+  "f14InhaberB": {
+    "name": "F14-InhaberB"
+  },
+  "f14VermoegenswerteC": {
+    "name": "F14-VermögenswerteC"
+  },
+  "f15Bezeichnung": {
+    "name": "F15-Bezeichnung"
+  },
+  "f16RueckkaufswertoderVerkehrswertinEUR": {
+    "name": "F16-Rückkaufswert oder Verkehrswert in EUR"
+  },
+  "g1VerpflichtungenN": {
+    "name": "G1-VerpflichtungenN"
+  },
+  "g1VerpflichtungenJ": {
+    "name": "G1-VerpflichtungenJ"
+  },
+  "g21": {
+    "name": "G2-1"
+  },
+  "g31": {
+    "name": "G3-1"
+  },
+  "g4Verwendungszweck1": {
+    "name": "G4-Verwendungszweck1"
+  },
+  "g5Raten1": {
+    "name": "G5-Raten1"
+  },
+  "g6Restschuld1": {
+    "name": "G6-Restschuld1"
+  },
+  "g7Zahlung1": {
+    "name": "G7-Zahlung1"
+  },
+  "g8ZahlungP1": {
+    "name": "G8-ZahlungP1"
+  },
+  "g22": {
+    "name": "G2-2"
+  },
+  "g32": {
+    "name": "G3-2"
+  },
+  "g4Verwendungszweck2": {
+    "name": "G4-Verwendungszweck2"
+  },
+  "g5Raten2": {
+    "name": "G5-Raten2"
+  },
+  "g6Restschuld2": {
+    "name": "G6-Restschuld2"
+  },
+  "g7Zahlung2": {
+    "name": "G7-Zahlung2"
+  },
+  "g8ZahlungP2": {
+    "name": "G8-ZahlungP2"
+  },
+  "g23": {
+    "name": "G2-3"
+  },
+  "g33": {
+    "name": "G3-3"
+  },
+  "g4Verwendungszweck3": {
+    "name": "G4-Verwendungszweck3"
+  },
+  "g5Raten3": {
+    "name": "G5-Raten3"
+  },
+  "g6Restschuld3": {
+    "name": "G6-Restschuld3"
+  },
+  "g7Zahlung3": {
+    "name": "G7-Zahlung3"
+  },
+  "g8ZahlungP3": {
+    "name": "G8-ZahlungP3"
+  },
+  "g24": {
+    "name": "G2-4"
+  },
+  "g34": {
+    "name": "G3-4"
+  },
+  "g4Verwendungszweck4": {
+    "name": "G4-Verwendungszweck4"
+  },
+  "g5Raten4": {
+    "name": "G5-Raten4"
+  },
+  "g6Restschuld4": {
+    "name": "G6-Restschuld4"
+  },
+  "g7Zahlung4": {
+    "name": "G7-Zahlung4"
+  },
+  "g8ZahlungP4": {
+    "name": "G8-ZahlungP4"
+  },
+  "g9SonstigeBelastungenN": {
+    "name": "G9-Sonstige BelastungenN"
+  },
+  "g9SonstigeBelastungenJ": {
+    "name": "G9-Sonstige BelastungenJ"
+  },
+  "g10Belastungen": {
+    "name": "G10-Belastungen"
+  },
+  "g11Zahlung": {
+    "name": "G11-Zahlung"
+  },
+  "g12ZahlungP": {
+    "name": "G12-ZahlungP"
+  },
+  "datumBeratung": {
+    "name": "Datum, Beratung"
+  },
+  "beratungsperson": {
+    "name": "Beratungsperson"
+  },
+  "ortDatum2": {
+    "name": "Ort Datum_2"
+  },
+  "unterschriftdesAntragstellersderAntragstellerin": {
+    "name": "Unterschrift des Antragstellers der Antragstellerin"
+  },
+  "bew": {
+    "name": "Bew"
+  },
+  "e2": {
+    "name": "E_2"
+  },
+  "wohnkosten": {
+    "name": "Wohnkosten"
+  },
+  "sonst": {
+    "name": "Sonst"
+  },
+  "unterschrftdesRechtspfegersderRechtspfegern": {
+    "name": "Unterschr ft des Rechtspf egersder Rechtspf eger n"
+  }
+};
 }
 
-export interface StringField {
-    name:   string;
-    value?: string;
-}
-
-export interface BooleanField {
-    name:   string;
-    value?: boolean;
-}
-
-// Converts JSON strings to/from your types
-// and asserts the results of JSON.parse at runtime
-export class Convert {
-    public static toBeratungshilfePDF(json: string): BeratungshilfePDF {
-        return cast(JSON.parse(json), r("BeratungshilfePDF"));
-    }
-
-    public static beratungshilfePDFToJson(value: BeratungshilfePDF): string {
-        return JSON.stringify(uncast(value, r("BeratungshilfePDF")), null, 2);
-    }
-}
-
-function invalidValue(typ: any, val: any, key: any, parent: any = ''): never {
-    const prettyTyp = prettyTypeName(typ);
-    const parentText = parent ? ` on ${parent}` : '';
-    const keyText = key ? ` for key "${key}"` : '';
-    throw Error(`Invalid value${keyText}${parentText}. Expected ${prettyTyp} but got ${JSON.stringify(val)}`);
-}
-
-function prettyTypeName(typ: any): string {
-    if (Array.isArray(typ)) {
-        if (typ.length === 2 && typ[0] === undefined) {
-            return `an optional ${prettyTypeName(typ[1])}`;
-        } else {
-            return `one of [${typ.map(a => { return prettyTypeName(a); }).join(", ")}]`;
-        }
-    } else if (typeof typ === "object" && typ.literal !== undefined) {
-        return typ.literal;
-    } else {
-        return typeof typ;
-    }
-}
-
-function jsonToJSProps(typ: any): any {
-    if (typ.jsonToJS === undefined) {
-        const map: any = {};
-        typ.props.forEach((p: any) => map[p.json] = { key: p.js, typ: p.typ });
-        typ.jsonToJS = map;
-    }
-    return typ.jsonToJS;
-}
-
-function jsToJSONProps(typ: any): any {
-    if (typ.jsToJSON === undefined) {
-        const map: any = {};
-        typ.props.forEach((p: any) => map[p.js] = { key: p.json, typ: p.typ });
-        typ.jsToJSON = map;
-    }
-    return typ.jsToJSON;
-}
-
-function transform(val: any, typ: any, getProps: any, key: any = '', parent: any = ''): any {
-    function transformPrimitive(typ: string, val: any): any {
-        if (typeof typ === typeof val) return val;
-        return invalidValue(typ, val, key, parent);
-    }
-
-    function transformUnion(typs: any[], val: any): any {
-        // val must validate against one typ in typs
-        const l = typs.length;
-        for (let i = 0; i < l; i++) {
-            const typ = typs[i];
-            try {
-                return transform(val, typ, getProps);
-            } catch (_) {}
-        }
-        return invalidValue(typs, val, key, parent);
-    }
-
-    function transformEnum(cases: string[], val: any): any {
-        if (cases.indexOf(val) !== -1) return val;
-        return invalidValue(cases.map(a => { return l(a); }), val, key, parent);
-    }
-
-    function transformArray(typ: any, val: any): any {
-        // val must be an array with no invalid elements
-        if (!Array.isArray(val)) return invalidValue(l("array"), val, key, parent);
-        return val.map(el => transform(el, typ, getProps));
-    }
-
-    function transformDate(val: any): any {
-        if (val === null) {
-            return null;
-        }
-        const d = new Date(val);
-        if (isNaN(d.valueOf())) {
-            return invalidValue(l("Date"), val, key, parent);
-        }
-        return d;
-    }
-
-    function transformObject(props: { [k: string]: any }, additional: any, val: any): any {
-        if (val === null || typeof val !== "object" || Array.isArray(val)) {
-            return invalidValue(l(ref || "object"), val, key, parent);
-        }
-        const result: any = {};
-        Object.getOwnPropertyNames(props).forEach(key => {
-            const prop = props[key];
-            const v = Object.prototype.hasOwnProperty.call(val, key) ? val[key] : undefined;
-            result[prop.key] = transform(v, prop.typ, getProps, key, ref);
-        });
-        Object.getOwnPropertyNames(val).forEach(key => {
-            if (!Object.prototype.hasOwnProperty.call(props, key)) {
-                result[key] = transform(val[key], additional, getProps, key, ref);
-            }
-        });
-        return result;
-    }
-
-    if (typ === "any") return val;
-    if (typ === null) {
-        if (val === null) return val;
-        return invalidValue(typ, val, key, parent);
-    }
-    if (typ === false) return invalidValue(typ, val, key, parent);
-    let ref: any = undefined;
-    while (typeof typ === "object" && typ.ref !== undefined) {
-        ref = typ.ref;
-        typ = typeMap[typ.ref];
-    }
-    if (Array.isArray(typ)) return transformEnum(typ, val);
-    if (typeof typ === "object") {
-        return typ.hasOwnProperty("unionMembers") ? transformUnion(typ.unionMembers, val)
-            : typ.hasOwnProperty("arrayItems")    ? transformArray(typ.arrayItems, val)
-            : typ.hasOwnProperty("props")         ? transformObject(getProps(typ), typ.additional, val)
-            : invalidValue(typ, val, key, parent);
-    }
-    // Numbers can be parsed by Date but shouldn't be.
-    if (typ === Date && typeof val !== "number") return transformDate(val);
-    return transformPrimitive(typ, val);
-}
-
-function cast<T>(val: any, typ: any): T {
-    return transform(val, typ, jsonToJSProps);
-}
-
-function uncast<T>(val: T, typ: any): any {
-    return transform(val, typ, jsToJSONProps);
-}
-
-function l(typ: any) {
-    return { literal: typ };
-}
-
-function a(typ: any) {
-    return { arrayItems: typ };
-}
-
-function u(...typs: any[]) {
-    return { unionMembers: typs };
-}
-
-function o(props: any[], additional: any) {
-    return { props, additional };
-}
-
-function m(additional: any) {
-    return { props: [], additional };
-}
-
-function r(name: string) {
-    return { ref: name };
-}
-
-const typeMap: any = {
-    "BeratungshilfePDF": o([
-        { json: "AnschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers", js: "anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers", typ: r("StringField") },
-        { json: "AntragstellerNameVornameggfGeburtsname", js: "antragstellerNameVornameggfGeburtsname", typ: r("StringField") },
-        { json: "B2IndieserAngelegenheitbestehtfurmichnachmeinerKenntniskeineandereMoeglichkeitkostenloseBeratungundVertretunginAnspruchzunehmen", js: "b2IndieserAngelegenheitbestehtfurmichnachmeinerKenntniskeineandereMoeglichkeitkostenloseBeratungundVertretunginAnspruchzunehmen", typ: r("BooleanField") },
-        { json: "B3IndieserAngelegenheitistmirbisherBeratungshilfewederbewilligtnochversagtworden", js: "b3IndieserAngelegenheitistmirbisherBeratungshilfewederbewilligtnochversagtworden", typ: r("BooleanField") },
-        { json: "B4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt", js: "b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt", typ: r("BooleanField") },
-        { json: "Beratungsperson", js: "beratungsperson", typ: r("StringField") },
-        { json: "BerufErwerbstaetigkeit", js: "berufErwerbstaetigkeit", typ: r("StringField") },
-        { json: "Bew", js: "bew", typ: r("BooleanField") },
-        { json: "BIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein", js: "bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein", typ: r("BooleanField") },
-        { json: "C1Einkuenftebrutto", js: "c1Einkuenftebrutto", typ: r("StringField") },
-        { json: "C2Einkuenftenetto", js: "c2Einkuenftenetto", typ: r("StringField") },
-        { json: "C3EinkuenftePartner", js: "c3EinkuenftePartner", typ: r("BooleanField") },
-        { json: "C4EinkuenftePartnernetto", js: "c4EinkuenftePartnernetto", typ: r("StringField") },
-        { json: "D1Wohnung", js: "d1Wohnung", typ: r("StringField") },
-        { json: "D2Wohnkosten", js: "d2Wohnkosten", typ: r("StringField") },
-        { json: "D3Teilwohnkosten", js: "d3Teilwohnkosten", typ: r("StringField") },
-        { json: "D4Wohnungalleine", js: "d4Wohnungalleine", typ: r("BooleanField") },
-        { json: "D5Wohnunggemeinsam", js: "d5Wohnunggemeinsam", typ: r("BooleanField") },
-        { json: "D6WonungweiterePersonen", js: "d6WonungweiterePersonen", typ: r("StringField") },
-        { json: "DatumBeratung", js: "datumBeratung", typ: r("StringField") },
-        { json: "E1Person1", js: "e1Person1", typ: r("StringField") },
-        { json: "E1Person2", js: "e1Person2", typ: r("StringField") },
-        { json: "E1Person3", js: "e1Person3", typ: r("StringField") },
-        { json: "E1Person4", js: "e1Person4", typ: r("StringField") },
-        { json: "E2", js: "e2", typ: r("BooleanField") },
-        { json: "E2Geburtsdatum", js: "e2Geburtsdatum", typ: r("StringField") },
-        { json: "E2Geburtsdatum2", js: "e2Geburtsdatum2", typ: r("StringField") },
-        { json: "E2Geburtsdatum3", js: "e2Geburtsdatum3", typ: r("StringField") },
-        { json: "E2Geburtsdatum4", js: "e2Geburtsdatum4", typ: r("StringField") },
-        { json: "E3Familienverhaeltnis", js: "e3Familienverhaeltnis", typ: r("StringField") },
-        { json: "E3Familienverhaeltnis2", js: "e3Familienverhaeltnis2", typ: r("StringField") },
-        { json: "E3Familienverhaeltnis3", js: "e3Familienverhaeltnis3", typ: r("StringField") },
-        { json: "E3Familienverhaeltnis4", js: "e3Familienverhaeltnis4", typ: r("StringField") },
-        { json: "E4Zahlung1", js: "e4Zahlung1", typ: r("StringField") },
-        { json: "E4Zahlung2", js: "e4Zahlung2", typ: r("StringField") },
-        { json: "E4Zahlung3", js: "e4Zahlung3", typ: r("StringField") },
-        { json: "E4Zahlung4", js: "e4Zahlung4", typ: r("StringField") },
-        { json: "E5Einnahmen1", js: "e5Einnahmen1", typ: r("BooleanField") },
-        { json: "E5Einnahmen2", js: "e5Einnahmen2", typ: r("BooleanField") },
-        { json: "E5Einnahmen3", js: "e5Einnahmen3", typ: r("BooleanField") },
-        { json: "E5Einnahmen4", js: "e5Einnahmen4", typ: r("BooleanField") },
-        { json: "E6Betrag1", js: "e6Betrag1", typ: r("StringField") },
-        { json: "E6Betrag2", js: "e6Betrag2", typ: r("StringField") },
-        { json: "E6Betrag3", js: "e6Betrag3", typ: r("StringField") },
-        { json: "E6Betrag4", js: "e6Betrag4", typ: r("StringField") },
-        { json: "F10KraftfahrzeugB", js: "f10KraftfahrzeugB", typ: r("BooleanField") },
-        { json: "F10KraftfahrzeugC", js: "f10KraftfahrzeugC", typ: r("BooleanField") },
-        { json: "F10KraftfahrzeugeA", js: "f10KraftfahrzeugeA", typ: r("BooleanField") },
-        { json: "F11Fahrzeugart", js: "f11Fahrzeugart", typ: r("StringField") },
-        { json: "F12Verkehrswert", js: "f12Verkehrswert", typ: r("StringField") },
-        { json: "F13Vermoegenswerte1", js: "f13Vermoegenswerte1", typ: r("BooleanField") },
-        { json: "F13Vermoegenswerte2", js: "f13Vermoegenswerte2", typ: r("BooleanField") },
-        { json: "F14InhaberA", js: "f14InhaberA", typ: r("BooleanField") },
-        { json: "F14InhaberB", js: "f14InhaberB", typ: r("BooleanField") },
-        { json: "F14VermoegenswerteC", js: "f14VermoegenswerteC", typ: r("BooleanField") },
-        { json: "F15Bezeichnung", js: "f15Bezeichnung", typ: r("StringField") },
-        { json: "F16RueckkaufswertoderVerkehrswertinEUR", js: "f16RueckkaufswertoderVerkehrswertinEUR", typ: r("StringField") },
-        { json: "F1InhaberA", js: "f1InhaberA", typ: r("BooleanField") },
-        { json: "F1Konten1", js: "f1Konten1", typ: r("BooleanField") },
-        { json: "F1Konten2", js: "f1Konten2", typ: r("BooleanField") },
-        { json: "F2InhaberB", js: "f2InhaberB", typ: r("BooleanField") },
-        { json: "F2InhaberC", js: "f2InhaberC", typ: r("BooleanField") },
-        { json: "F3Bank1", js: "f3Bank1", typ: r("StringField") },
-        { json: "F4Kontostand", js: "f4Kontostand", typ: r("StringField") },
-        { json: "F5Grundeigentum1", js: "f5Grundeigentum1", typ: r("BooleanField") },
-        { json: "F5Grundeigentum2", js: "f5Grundeigentum2", typ: r("BooleanField") },
-        { json: "F6EigentuemerA", js: "f6EigentuemerA", typ: r("BooleanField") },
-        { json: "F6EigentuemerB", js: "f6EigentuemerB", typ: r("BooleanField") },
-        { json: "F6EigentuemerC", js: "f6EigentuemerC", typ: r("BooleanField") },
-        { json: "F7Nutzungsart", js: "f7Nutzungsart", typ: r("StringField") },
-        { json: "F8Verkehrswert", js: "f8Verkehrswert", typ: r("StringField") },
-        { json: "F9Kraftfahrzeug1", js: "f9Kraftfahrzeug1", typ: r("BooleanField") },
-        { json: "F9Kraftfahrzeuge2", js: "f9Kraftfahrzeuge2", typ: r("BooleanField") },
-        { json: "FamilienstanddesAntragstellers", js: "familienstanddesAntragstellers", typ: r("StringField") },
-        { json: "G10Belastungen", js: "g10Belastungen", typ: r("StringField") },
-        { json: "G11Zahlung", js: "g11Zahlung", typ: r("StringField") },
-        { json: "G12ZahlungP", js: "g12ZahlungP", typ: r("StringField") },
-        { json: "G1VerpflichtungenJ", js: "g1VerpflichtungenJ", typ: r("BooleanField") },
-        { json: "G1VerpflichtungenN", js: "g1VerpflichtungenN", typ: r("BooleanField") },
-        { json: "G21", js: "g21", typ: r("StringField") },
-        { json: "G22", js: "g22", typ: r("StringField") },
-        { json: "G23", js: "g23", typ: r("StringField") },
-        { json: "G24", js: "g24", typ: r("StringField") },
-        { json: "G31", js: "g31", typ: r("StringField") },
-        { json: "G32", js: "g32", typ: r("StringField") },
-        { json: "G33", js: "g33", typ: r("StringField") },
-        { json: "G34", js: "g34", typ: r("StringField") },
-        { json: "G4Verwendungszweck1", js: "g4Verwendungszweck1", typ: r("StringField") },
-        { json: "G4Verwendungszweck2", js: "g4Verwendungszweck2", typ: r("StringField") },
-        { json: "G4Verwendungszweck3", js: "g4Verwendungszweck3", typ: r("StringField") },
-        { json: "G4Verwendungszweck4", js: "g4Verwendungszweck4", typ: r("StringField") },
-        { json: "G5Raten1", js: "g5Raten1", typ: r("StringField") },
-        { json: "G5Raten2", js: "g5Raten2", typ: r("StringField") },
-        { json: "G5Raten3", js: "g5Raten3", typ: r("StringField") },
-        { json: "G5Raten4", js: "g5Raten4", typ: r("StringField") },
-        { json: "G6Restschuld1", js: "g6Restschuld1", typ: r("StringField") },
-        { json: "G6Restschuld2", js: "g6Restschuld2", typ: r("StringField") },
-        { json: "G6Restschuld3", js: "g6Restschuld3", typ: r("StringField") },
-        { json: "G6Restschuld4", js: "g6Restschuld4", typ: r("StringField") },
-        { json: "G7Zahlung1", js: "g7Zahlung1", typ: r("StringField") },
-        { json: "G7Zahlung2", js: "g7Zahlung2", typ: r("StringField") },
-        { json: "G7Zahlung3", js: "g7Zahlung3", typ: r("StringField") },
-        { json: "G7Zahlung4", js: "g7Zahlung4", typ: r("StringField") },
-        { json: "G8ZahlungP1", js: "g8ZahlungP1", typ: r("StringField") },
-        { json: "G8ZahlungP2", js: "g8ZahlungP2", typ: r("StringField") },
-        { json: "G8ZahlungP3", js: "g8ZahlungP3", typ: r("StringField") },
-        { json: "G8ZahlungP4", js: "g8ZahlungP4", typ: r("StringField") },
-        { json: "G9SonstigeBelastungenJ", js: "g9SonstigeBelastungenJ", typ: r("BooleanField") },
-        { json: "G9SonstigeBelastungenN", js: "g9SonstigeBelastungenN", typ: r("BooleanField") },
-        { json: "GeburtsdatumdesAntragstellers", js: "geburtsdatumdesAntragstellers", typ: r("StringField") },
-        { json: "GeschaeftsnummerdesAmtsgerichts", js: "geschaeftsnummerdesAmtsgerichts", typ: r("StringField") },
-        { json: "IchbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern", js: "ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern", typ: r("StringField") },
-        { json: "NamedesAmtsgerichts", js: "namedesAmtsgerichts", typ: r("StringField") },
-        { json: "OrtDatum2", js: "ortDatum2", typ: r("StringField") },
-        { json: "PostleitzahlOrt", js: "postleitzahlOrt", typ: r("StringField") },
-        { json: "Sonst", js: "sonst", typ: r("BooleanField") },
-        { json: "TagsueberTelefonischerreichbarunterNummer", js: "tagsueberTelefonischerreichbarunterNummer", typ: r("StringField") },
-        { json: "UnterschrftdesRechtspfegersderRechtspfegern", js: "unterschrftdesRechtspfegersderRechtspfegern", typ: r("StringField") },
-        { json: "UnterschriftdesAntragstellersderAntragstellerin", js: "unterschriftdesAntragstellersderAntragstellerin", typ: r("StringField") },
-        { json: "Wohnkosten", js: "wohnkosten", typ: r("BooleanField") },
-    ], false),
-    "StringField": o([
-        { json: "name", js: "name", typ: "" },
-        { json: "value", js: "value", typ: u(undefined, "") },
-    ], false),
-    "BooleanField": o([
-        { json: "name", js: "name", typ: "" },
-        { json: "value", js: "value", typ: u(undefined, true) },
-    ], false),
+export type BeratungshilfePDF = {
+  namedesAmtsgerichts: StringField;
+  postleitzahlOrt: StringField;
+  geschaeftsnummerdesAmtsgerichts: StringField;
+  antragstellerNameVornameggfGeburtsname: StringField;
+  berufErwerbstaetigkeit: StringField;
+  geburtsdatumdesAntragstellers: StringField;
+  familienstanddesAntragstellers: StringField;
+  anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers: StringField;
+  tagsueberTelefonischerreichbarunterNummer: StringField;
+  ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern: StringField;
+  bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein: BooleanField;
+  b2IndieserAngelegenheitbestehtfurmichnachmeinerKenntniskeineandereMoeglichkeitkostenloseBeratungundVertretunginAnspruchzunehmen: BooleanField;
+  b3IndieserAngelegenheitistmirbisherBeratungshilfewederbewilligtnochversagtworden: BooleanField;
+  b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt: BooleanField;
+  c1Einkuenftebrutto: StringField;
+  c2Einkuenftenetto: StringField;
+  c3EinkuenftePartner: BooleanField;
+  c4EinkuenftePartnernetto: StringField;
+  d1Wohnung: StringField;
+  d2Wohnkosten: StringField;
+  d3Teilwohnkosten: StringField;
+  d4Wohnungalleine: BooleanField;
+  d5Wohnunggemeinsam: BooleanField;
+  d6WonungweiterePersonen: StringField;
+  e1Person1: StringField;
+  e2Geburtsdatum: StringField;
+  e3Familienverhaeltnis: StringField;
+  e4Zahlung1: StringField;
+  e6Betrag1: StringField;
+  e1Person2: StringField;
+  e2Geburtsdatum2: StringField;
+  e3Familienverhaeltnis2: StringField;
+  e4Zahlung2: StringField;
+  e6Betrag2: StringField;
+  e1Person3: StringField;
+  e2Geburtsdatum3: StringField;
+  e3Familienverhaeltnis3: StringField;
+  e4Zahlung3: StringField;
+  e6Betrag3: StringField;
+  e1Person4: StringField;
+  e2Geburtsdatum4: StringField;
+  e3Familienverhaeltnis4: StringField;
+  e4Zahlung4: StringField;
+  e6Betrag4: StringField;
+  e5Einnahmen2: BooleanField;
+  e5Einnahmen3: BooleanField;
+  e5Einnahmen4: BooleanField;
+  e5Einnahmen1: BooleanField;
+  f1Konten1: BooleanField;
+  f1Konten2: BooleanField;
+  f5Grundeigentum2: BooleanField;
+  f3Bank1: StringField;
+  f4Kontostand: StringField;
+  f7Nutzungsart: StringField;
+  f8Verkehrswert: StringField;
+  f11Fahrzeugart: StringField;
+  f12Verkehrswert: StringField;
+  f1InhaberA: BooleanField;
+  f2InhaberB: BooleanField;
+  f2InhaberC: BooleanField;
+  f6EigentuemerA: BooleanField;
+  f6EigentuemerB: BooleanField;
+  f6EigentuemerC: BooleanField;
+  f5Grundeigentum1: BooleanField;
+  f9Kraftfahrzeug1: BooleanField;
+  f9Kraftfahrzeuge2: BooleanField;
+  f10KraftfahrzeugeA: BooleanField;
+  f10KraftfahrzeugB: BooleanField;
+  f10KraftfahrzeugC: BooleanField;
+  f13Vermoegenswerte1: BooleanField;
+  f13Vermoegenswerte2: BooleanField;
+  f14InhaberA: BooleanField;
+  f14InhaberB: BooleanField;
+  f14VermoegenswerteC: BooleanField;
+  f15Bezeichnung: StringField;
+  f16RueckkaufswertoderVerkehrswertinEUR: StringField;
+  g1VerpflichtungenN: BooleanField;
+  g1VerpflichtungenJ: BooleanField;
+  g21: StringField;
+  g31: StringField;
+  g4Verwendungszweck1: StringField;
+  g5Raten1: StringField;
+  g6Restschuld1: StringField;
+  g7Zahlung1: StringField;
+  g8ZahlungP1: StringField;
+  g22: StringField;
+  g32: StringField;
+  g4Verwendungszweck2: StringField;
+  g5Raten2: StringField;
+  g6Restschuld2: StringField;
+  g7Zahlung2: StringField;
+  g8ZahlungP2: StringField;
+  g23: StringField;
+  g33: StringField;
+  g4Verwendungszweck3: StringField;
+  g5Raten3: StringField;
+  g6Restschuld3: StringField;
+  g7Zahlung3: StringField;
+  g8ZahlungP3: StringField;
+  g24: StringField;
+  g34: StringField;
+  g4Verwendungszweck4: StringField;
+  g5Raten4: StringField;
+  g6Restschuld4: StringField;
+  g7Zahlung4: StringField;
+  g8ZahlungP4: StringField;
+  g9SonstigeBelastungenN: BooleanField;
+  g9SonstigeBelastungenJ: BooleanField;
+  g10Belastungen: StringField;
+  g11Zahlung: StringField;
+  g12ZahlungP: StringField;
+  datumBeratung: StringField;
+  beratungsperson: StringField;
+  ortDatum2: StringField;
+  unterschriftdesAntragstellersderAntragstellerin: StringField;
+  bew: BooleanField;
+  e2: BooleanField;
+  wohnkosten: BooleanField;
+  sonst: BooleanField;
+  unterschrftdesRechtspfegersderRechtspfegern: StringField;
 };

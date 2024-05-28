@@ -7,7 +7,7 @@ import {
   createAttachment,
   newPageHint,
 } from "~/services/pdf/beratungshilfe/attachment";
-import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { fillKraftfahrzeug } from "~/services/pdf/beratungshilfe/sections/F_besitz/fillKraftfahrzeug";
 
 const fahrzeugWirdFuerDenArbeitswegGenutzt =
@@ -31,7 +31,7 @@ describe("fillKraftfahrzeug", () => {
         },
       ],
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
     const attachment = createAttachment(context);
 
     fillKraftfahrzeug(attachment, pdfFields, context);
@@ -79,16 +79,16 @@ describe("fillKraftfahrzeug", () => {
         },
       ],
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
     const attachment = createAttachment(context);
 
     fillKraftfahrzeug(attachment, pdfFields, context);
 
     expect(pdfFields.f9Kraftfahrzeug1.value).toBe(false);
     expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(true);
-    expect(pdfFields.f10KraftfahrzeugeA.value).toBe(false);
-    expect(pdfFields.f10KraftfahrzeugB.value).toBe(false);
-    expect(pdfFields.f10KraftfahrzeugC.value).toBe(false);
+    expect(pdfFields.f10KraftfahrzeugeA.value).toBe(undefined);
+    expect(pdfFields.f10KraftfahrzeugB.value).toBe(undefined);
+    expect(pdfFields.f10KraftfahrzeugC.value).toBe(undefined);
     expect(pdfFields.f11Fahrzeugart.value).toBe(newPageHint);
     expect(pdfFields.f12Verkehrswert.value).toBe(undefined);
 
@@ -121,7 +121,7 @@ describe("fillKraftfahrzeug", () => {
       hasKraftfahrzeug: "no",
     };
 
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
     const attachment = createAttachment(context);
 
     fillKraftfahrzeug(attachment, pdfFields, context);
@@ -148,7 +148,7 @@ describe("fillKraftfahrzeug", () => {
         },
       ],
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
     const attachment = createAttachment(context);
 
     fillKraftfahrzeug(attachment, pdfFields, context);
@@ -196,16 +196,16 @@ describe("fillKraftfahrzeug", () => {
         },
       ],
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
     const attachment = createAttachment(context);
 
     fillKraftfahrzeug(attachment, pdfFields, context);
 
     expect(pdfFields.f9Kraftfahrzeug1.value).toBe(false);
     expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(true);
-    expect(pdfFields.f10KraftfahrzeugeA.value).toBe(false);
-    expect(pdfFields.f10KraftfahrzeugB.value).toBe(false);
-    expect(pdfFields.f10KraftfahrzeugC.value).toBe(false);
+    expect(pdfFields.f10KraftfahrzeugeA.value).toBe(undefined);
+    expect(pdfFields.f10KraftfahrzeugB.value).toBe(undefined);
+    expect(pdfFields.f10KraftfahrzeugC.value).toBe(undefined);
     expect(pdfFields.f11Fahrzeugart.value).toBe(newPageHint);
     expect(pdfFields.f12Verkehrswert.value).toBe(undefined);
 

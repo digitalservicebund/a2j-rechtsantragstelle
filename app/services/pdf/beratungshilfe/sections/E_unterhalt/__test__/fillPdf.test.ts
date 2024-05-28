@@ -2,13 +2,13 @@
  * @jest-environment node
  */
 
-import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { fillPdf } from "~/services/pdf/beratungshilfe/sections/E_unterhalt/fillPdf";
 import type { UnterhaltPdfField } from "~/services/pdf/beratungshilfe/sections/E_unterhalt/unterhaltPdfField";
 
 describe("fillPdf", () => {
   it("it should fill the correct data to the pdf", async () => {
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     const mockedGetListPersonUnterhaltPdfField: UnterhaltPdfField[] = [
       {

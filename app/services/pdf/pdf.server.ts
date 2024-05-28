@@ -1,10 +1,7 @@
 import type { PDFForm } from "pdf-lib";
 import { PDFCheckBox, PDFTextField } from "pdf-lib";
 
-import type {
-  BooleanField,
-  StringField,
-} from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import type { BooleanField, StringField } from "./fileTypes";
 import { getFontSizeFieldValue } from "./getFontSizeFieldValue";
 import { lowercaseFirstLetter } from "~/util/strings";
 

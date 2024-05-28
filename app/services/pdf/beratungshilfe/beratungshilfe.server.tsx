@@ -1,18 +1,10 @@
 import { renderToStream } from "@react-pdf/renderer";
-import type {
-  BeratungshilfePDF,
-  StringField,
-  BooleanField,
-} from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import { Convert } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import { isBooleanField, isStringField } from "../fileTypes";
+import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { PDFDocument, PDFTextField, PDFCheckBox } from "pdf-lib";
-import {
-  changeBooleanField,
-  changeStringField,
-  normalizePropertyName,
-} from "../pdf.server";
+import { PDFDocument } from "pdf-lib";
+import { changeBooleanField, changeStringField } from "../pdf.server";
 import FormAttachment from "~/components/FormAttachment";
 
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
@@ -29,11 +21,12 @@ import { fillWohnen } from "./sections/D_wohnen";
 import { fillAusgaben } from "./sections/G_ausgaben";
 import { resizeToA4 } from "./resizeToA4";
 import { addDruckvermerk } from "./druckvermerk";
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 
 export async function getBeratungshilfePdfFromContext(
   context: BeratungshilfeFormularContext,
 ) {
-  const pdfFields = await getBeratungshilfeParameters();
+  const pdfFields = getBeratungshilfeParameters();
   if (!pdfFields) {
     throw new Error("No pdf fields or file found for beratungshilfe!");
   }
@@ -51,23 +44,6 @@ export async function getBeratungshilfePdfFromContext(
   fillFooter(pdfFields, context);
 
   return fillOutBeratungshilfe(pdfFields, attachmentContent);
-}
-
-export async function getBeratungshilfeParameters() {
-  const json: Record<string, StringField | BooleanField> = {};
-  const fields = (await getBeratungshilfePdf()).getForm().getFields();
-  fields.forEach((field) => {
-    const name = field.getName();
-    const fieldName = normalizePropertyName(name);
-    const value =
-      field instanceof PDFTextField
-        ? field.getText()
-        : field instanceof PDFCheckBox
-          ? field.isChecked()
-          : undefined;
-    json[fieldName] = { name, value };
-  });
-  return Convert.toBeratungshilfePDF(JSON.stringify(json));
 }
 
 async function handleOutOfLimitDescription(
@@ -101,28 +77,18 @@ async function handleOutOfLimitDescription(
   }
 }
 
-type PdfField = BeratungshilfePDF[keyof BeratungshilfePDF];
-
-function isBooleanField(field: PdfField): field is BooleanField {
-  return typeof field.value === "boolean";
-}
-
-function isStringField(field: PdfField): field is StringField {
-  return typeof field.value === "string";
-}
-
 async function fillOutBeratungshilfe(
   values: BeratungshilfePDF,
   attachment: Attachment,
 ) {
-  const pdfDoc = await getBeratungshilfePdf();
+  const pdfDoc = await PDFDocument.load(await getBeratungshilfePdfBuffer());
   const yPositionsDruckvermerk = [90, 108, 138];
   resizeToA4(pdfDoc);
   addDruckvermerk(pdfDoc, yPositionsDruckvermerk);
 
   const form = pdfDoc.getForm();
 
-  Object.values(values).forEach((value: PdfField) => {
+  Object.values(values).forEach((value) => {
     if (isBooleanField(value)) {
       changeBooleanField(value, form);
     } else if (isStringField(value)) {
@@ -159,8 +125,4 @@ async function getBeratungshilfePdfBuffer() {
   }
 
   return global.__beratungshilfePdf ?? ArrayBuffer.prototype;
-}
-
-async function getBeratungshilfePdf() {
-  return PDFDocument.load(await getBeratungshilfePdfBuffer());
 }
