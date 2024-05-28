@@ -28,7 +28,6 @@ import { fillFooter } from "./sections/footer";
 import { fillWohnen } from "./sections/D_wohnen";
 import { fillAusgaben } from "./sections/G_ausgaben";
 import { resizeToA4 } from "./resizeToA4";
-import { deepClone } from "./deepClone";
 import { addDruckvermerk } from "./druckvermerk";
 
 export async function getBeratungshilfePdfFromContext(
