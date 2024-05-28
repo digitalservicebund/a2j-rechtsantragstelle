@@ -74,14 +74,14 @@ async function handleOutOfLimitDescription(
   descriptions: { title: string; text: string }[],
   pdfDoc: PDFDocument,
 ) {
-  const attachementPdf = await PDFDocument.load(
+  const attachmentPdf = await PDFDocument.load(
     await renderToBuffer(<FormAttachment descriptions={descriptions} />),
   );
-  addDruckvermerk(attachementPdf);
+  addDruckvermerk(attachmentPdf);
 
-  for (let index = 0; index < attachementPdf.getPageCount(); index++) {
-    const [attachementPage] = await pdfDoc.copyPages(attachementPdf, [index]);
-    pdfDoc.addPage(attachementPage);
+  for (let index = 0; index < attachmentPdf.getPageCount(); index++) {
+    const [attachmentPage] = await pdfDoc.copyPages(attachmentPdf, [index]);
+    pdfDoc.addPage(attachmentPage);
   }
 }
 
