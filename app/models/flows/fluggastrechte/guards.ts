@@ -8,8 +8,29 @@ function getCountryCodeByIata(airportIata: string | undefined) {
   return airports.find((airport) => airport.iata === airportIata)?.country_code;
 }
 
+function isEUInboundFromNonEUAndOutboundEU(
+  context: FluggastrechtVorabcheckContext,
+) {
+  const startAirportByIata = getCountryCodeByIata(context.startAirport);
+  const endAirportByIata = getCountryCodeByIata(context.endAirport);
+
+  if (
+    typeof startAirportByIata === "undefined" ||
+    typeof endAirportByIata === "undefined"
+  ) {
+    return true;
+  }
+
+  return (
+    !EUCountries.includes(startAirportByIata) &&
+    EUCountries.includes(endAirportByIata)
+  );
+}
+
 export const guards = {
   bereichVerspaetet: ({ context }) => context.bereich === "verspaetet",
+  bereichNichtBefoerderung: ({ context }) =>
+    context.bereich === "nichtbefoerderung",
   isPartnerAirport: ({ context }) => {
     const airportAbbreviations = Object.keys(partnerCourtAirports);
     return (
@@ -25,20 +46,7 @@ export const guards = {
     return distance.isErr;
   },
   isEUInboundFromNonEU: ({ context }) => {
-    const startAirportByIata = getCountryCodeByIata(context.startAirport);
-    const endAirportByIata = getCountryCodeByIata(context.endAirport);
-
-    if (
-      typeof startAirportByIata === "undefined" ||
-      typeof endAirportByIata === "undefined"
-    ) {
-      return true;
-    }
-
-    return (
-      !EUCountries.includes(startAirportByIata) &&
-      EUCountries.includes(endAirportByIata)
-    );
+    return isEUInboundFromNonEUAndOutboundEU(context);
   },
   isEUOutbound: ({ context }) => {
     const startAirportByIata = getCountryCodeByIata(context.startAirport);
@@ -64,10 +72,48 @@ export const guards = {
       !EUCountries.includes(endAirportByIata)
     );
   },
+  isCheckingBereichNichtBefoerderungCompensationYes: ({ context }) => {
+    if (context.bereich !== "nichtbefoerderung") {
+      return false;
+    }
+
+    return context?.compensation === "yes";
+  },
+  isCheckingBereichNichtBefoerderungCompensationNo: ({ context }) => {
+    if (context.bereich !== "nichtbefoerderung") {
+      return false;
+    }
+
+    return context?.compensation === "no";
+  },
+  isCheckingYesBereichVerspaetet: ({ context }) => {
+    return context?.bereich === "verspaetet" && context?.checkin === "yes";
+  },
+  isCheckingYesBereichNichtBefoerderung: ({ context }) => {
+    return (
+      context?.bereich === "nichtbefoerderung" && context?.checkin === "yes"
+    );
+  },
+  isJustifiableReasonsIncludeNoBereichNichtBefoerderung: ({ context }) => {
+    return (
+      context?.bereich === "nichtbefoerderung" &&
+      context?.justifiableReasonsInclude === "no"
+    );
+  },
+  isEUInboundFromNonEUBereichNichtBefoerderung: ({ context }) => {
+    return (
+      isEUInboundFromNonEUAndOutboundEU(context) &&
+      context?.bereich === "nichtbefoerderung"
+    );
+  },
   fluggesellschaftFilled: ({ context }) =>
     Boolean(context.startAirport && context.endAirport),
-  isKnownPartnerAirline: ({ context }) =>
-    context.fluggesellschaft !== "sonstiges",
+  isKnownPartnerAirlineBereichVerspaetet: ({ context }) =>
+    context.fluggesellschaft !== "sonstiges" &&
+    context.bereich === "verspaetet",
+  isKnownPartnerAirlineBereichNichtBefoerderung: ({ context }) =>
+    context.fluggesellschaft !== "sonstiges" &&
+    context.bereich === "nichtbefoerderung",
   ...yesNoGuards("verspaetung"),
   ...yesNoGuards("checkin"),
   ...yesNoGuards("gruende"),
@@ -78,4 +124,7 @@ export const guards = {
   ...yesNoGuards("rabatt"),
   ...yesNoGuards("buchung"),
   ...yesNoGuards("verjaehrung"),
+  ...yesNoGuards("compensation"),
+  ...yesNoGuards("compensationAccepted"),
+  ...yesNoGuards("justifiableReasonsInclude"),
 } satisfies Guards<FluggastrechtVorabcheckContext>;

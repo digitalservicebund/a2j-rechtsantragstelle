@@ -18,6 +18,10 @@
             "guard": "bereichVerspaetet"
           },
           {
+            "target": "ausgleich",
+            "guard": "bereichNichtBefoerderung"
+          },
+          {
             "target": "ergebnis/bereich-abbruch"
           }
         ]
@@ -41,6 +45,41 @@
             "target": "ergebnis/verspaetung-abbruch"
           }
         ]
+      }
+    },
+    "ausgleich": {
+      "meta": { "progressPosition": 3 },
+      "on": {
+        "BACK": "bereich",
+        "SUBMIT": [
+          {
+            "target": "ausgleich-angenommen",
+            "guard": "compensationYes"
+          },
+          {
+            "target": "checkin"
+          }
+        ]
+      }
+    },
+    "ausgleich-angenommen": {
+      "meta": { "progressPosition": 4 },
+      "on": {
+        "BACK": "ausgleich",
+        "SUBMIT": [
+          {
+            "target": "ergebnis/ausgleich-angenommen-abbruch",
+            "guard": "compensationAcceptedYes"
+          },
+          {
+            "target": "checkin"
+          }
+        ]
+      }
+    },
+    "ergebnis/ausgleich-angenommen-abbruch": {
+      "on": {
+        "BACK": "ausgleich-angenommen"
       }
     },
     "gruende": {
@@ -70,6 +109,10 @@
       "meta": { "progressPosition": 6 },
       "on": {
         "BACK": [
+          {
+            "target": "vertretbare-gruende",
+            "guard": "isJustifiableReasonsIncludeNoBereichNichtBefoerderung"
+          },
           { "target": "gruende", "guard": "gruendeNo" },
           { "target": "gruende-hinweis", "guard": "gruendeYes" }
         ],
@@ -104,6 +147,10 @@
             "target": "fluggesellschaft",
             "guard": "isEUInboundFromNonEU"
           },
+          {
+            "target": "kostenlos",
+            "guard": "bereichNichtBefoerderung"
+          },
           "checkin"
         ]
       }
@@ -125,7 +172,11 @@
         "SUBMIT": [
           {
             "target": "checkin",
-            "guard": "isKnownPartnerAirline"
+            "guard": "isKnownPartnerAirlineBereichVerspaetet"
+          },
+          {
+            "target": "kostenlos",
+            "guard": "isKnownPartnerAirlineBereichNichtBefoerderung"
           },
           {
             "target": "ergebnis/fluggesellschaft-abbruch"
@@ -148,6 +199,14 @@
       "on": {
         "BACK": [
           {
+            "target": "ausgleich-angenommen",
+            "guard": "isCheckingBereichNichtBefoerderungCompensationYes"
+          },
+          {
+            "target": "ausgleich",
+            "guard": "isCheckingBereichNichtBefoerderungCompensationNo"
+          },
+          {
             "target": "flughaefen",
             "guard": "isEUOutbound"
           },
@@ -156,7 +215,11 @@
         "SUBMIT": [
           {
             "target": "kostenlos",
-            "guard": "checkinYes"
+            "guard": "isCheckingYesBereichVerspaetet"
+          },
+          {
+            "target": "vertretbare-gruende",
+            "guard": "isCheckingYesBereichNichtBefoerderung"
           },
           {
             "target": "ergebnis/checkin-abbruch"
@@ -169,10 +232,40 @@
         "BACK": "checkin"
       }
     },
+    "vertretbare-gruende": {
+      "meta": { "progressPosition": 5 },
+      "on": {
+        "BACK": "checkin",
+        "SUBMIT": [
+          {
+            "target": "verjaehrung",
+            "guard": "justifiableReasonsIncludeNo"
+          },
+          {
+            "target": "ergebnis/vertretbare-gruende-abbruch"
+          }
+        ]
+      }
+    },
+    "ergebnis/vertretbare-gruende-abbruch": {
+      "on": {
+        "BACK": "vertretbare-gruende"
+      }
+    },
     "kostenlos": {
       "meta": { "progressPosition": 10 },
       "on": {
-        "BACK": "checkin",
+        "BACK": [
+          {
+            "target": "fluggesellschaft",
+            "guard": "isEUInboundFromNonEUBereichNichtBefoerderung"
+          },
+          {
+            "target": "flughaefen",
+            "guard": "bereichNichtBefoerderung"
+          },
+          "checkin"
+        ],
         "SUBMIT": [
           {
             "target": "ergebnis/kostenlos-abbruch",
