@@ -116,27 +116,26 @@ async function fillOutBeratungshilfe(
   values: BeratungshilfePDF,
   attachment: Attachment,
 ) {
-  return getBeratungshilfePdf().then(async (pdfDoc) => {
-    const yPositionsDruckvermerk = [90, 108, 138];
-    resizeToA4(pdfDoc);
-    addDruckvermerk(pdfDoc, yPositionsDruckvermerk);
+  const pdfDoc = await getBeratungshilfePdf();
+  const yPositionsDruckvermerk = [90, 108, 138];
+  resizeToA4(pdfDoc);
+  addDruckvermerk(pdfDoc, yPositionsDruckvermerk);
 
-    const form = pdfDoc.getForm();
+  const form = pdfDoc.getForm();
 
-    Object.values(values).forEach((value: PdfField) => {
-      if (isBooleanField(value)) {
-        changeBooleanField(value, form);
-      } else if (isStringField(value)) {
-        changeStringField(value, form);
-      }
-    });
-
-    if (attachment.shouldCreateAttachment) {
-      await handleOutOfLimitDescription(attachment.descriptions, pdfDoc);
+  Object.values(values).forEach((value: PdfField) => {
+    if (isBooleanField(value)) {
+      changeBooleanField(value, form);
+    } else if (isStringField(value)) {
+      changeStringField(value, form);
     }
-
-    return pdfDoc;
   });
+
+  if (attachment.shouldCreateAttachment) {
+    await handleOutOfLimitDescription(attachment.descriptions, pdfDoc);
+  }
+
+  return pdfDoc;
 }
 
 // Caching file read, decryption & parsing to survive server reload
@@ -151,15 +150,12 @@ async function getBeratungshilfePdfBuffer() {
   if (!global.__beratungshilfePdf) {
     const relFilepath =
       "data/pdf/beratungshilfe/Antrag_auf_Bewilligung_von_Beratungshilfe.pdf";
+    const filepath = path.resolve(path.join(process.cwd(), relFilepath));
     try {
-      await readFile(path.resolve(path.join(process.cwd(), relFilepath))).then(
-        (pdfDoc) => {
-          global.__beratungshilfePdf = pdfDoc;
-        },
-      );
+      const fileBuffer = await readFile(filepath);
+      global.__beratungshilfePdf = fileBuffer;
     } catch (error) {
       console.error(error);
-      return await ArrayBuffer.prototype;
     }
   }
 
