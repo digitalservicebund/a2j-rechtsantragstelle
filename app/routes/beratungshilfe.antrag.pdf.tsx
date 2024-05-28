@@ -13,8 +13,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   }
 
   return new Response(await getBeratungshilfePdfFromContext(userData), {
-    headers: {
-      "Content-Type": "application/pdf",
-    },
+    headers: { "Content-Type": "application/pdf" },
   });
 };

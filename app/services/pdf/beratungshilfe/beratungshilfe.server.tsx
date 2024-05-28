@@ -55,32 +55,19 @@ export async function getBeratungshilfePdfFromContext(
 }
 
 export async function getBeratungshilfeParameters() {
-  const json: { [key: string]: StringField | BooleanField } = {};
-  await getBeratungshilfePdf().then((pdfDoc) => {
-    const form = pdfDoc.getForm();
-    const fields = form.getFields();
-
-    fields.forEach((field) => {
-      const fieldName = normalizePropertyName(field.getName());
-
-      const textField = field as PDFTextField;
-      if (field instanceof PDFTextField) {
-        json[fieldName] = {
-          name: field.getName(),
-          value: textField.getText(),
-        } as StringField;
-      }
-
-      const booleanField = field as PDFCheckBox;
-      if (field instanceof PDFCheckBox) {
-        json[fieldName] = {
-          name: field.getName(),
-          value: booleanField.isChecked(),
-        } as BooleanField;
-      }
-    });
+  const json: Record<string, StringField | BooleanField> = {};
+  const fields = (await getBeratungshilfePdf()).getForm().getFields();
+  fields.forEach((field) => {
+    const name = field.getName();
+    const fieldName = normalizePropertyName(name);
+    const value =
+      field instanceof PDFTextField
+        ? field.getText()
+        : field instanceof PDFCheckBox
+          ? field.isChecked()
+          : undefined;
+    json[fieldName] = { name, value };
   });
-
   return Convert.toBeratungshilfePDF(JSON.stringify(json));
 }
 
