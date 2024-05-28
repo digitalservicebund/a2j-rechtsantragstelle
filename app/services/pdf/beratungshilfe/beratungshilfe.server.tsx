@@ -27,10 +27,6 @@ export async function getBeratungshilfePdfFromContext(
   context: BeratungshilfeFormularContext,
 ) {
   const pdfFields = getBeratungshilfeParameters();
-  if (!pdfFields) {
-    throw new Error("No pdf fields or file found for beratungshilfe!");
-  }
-
   const attachmentContent = createAttachment(context);
 
   fillHeader(attachmentContent, pdfFields, context);
