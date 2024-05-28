@@ -116,8 +116,11 @@ async function fillOutBeratungshilfe(
   values: BeratungshilfePDF,
   attachment: Attachment,
 ) {
-  return getBeratungshilfePdf().then(async (pdfDocOrig) => {
-    const pdfDoc = await deepClone(pdfDocOrig);
+  return getBeratungshilfePdf().then(async (pdfDoc) => {
+    const yPositionsDruckvermerk = [90, 108, 138];
+    resizeToA4(pdfDoc);
+    addDruckvermerk(pdfDoc, yPositionsDruckvermerk);
+
     const form = pdfDoc.getForm();
 
     Object.values(values).forEach((value: PdfField) => {
@@ -140,28 +143,29 @@ async function fillOutBeratungshilfe(
 // See https://remix.run/docs/en/1.16.1/tutorials/jokes#connect-to-the-database
 declare global {
   // eslint-disable-next-line no-var
-  var __beratungshilfePdf: PDFDocument | undefined; // NOSONAR
+  var __beratungshilfePdf: Buffer | undefined; // NOSONAR
 }
 
 // Singleton to prevent multiple file reads
-async function getBeratungshilfePdf() {
+async function getBeratungshilfePdfBuffer() {
   if (!global.__beratungshilfePdf) {
     const relFilepath =
       "data/pdf/beratungshilfe/Antrag_auf_Bewilligung_von_Beratungshilfe.pdf";
-    const yPositionsDruckvermerk = [90, 108, 138];
     try {
-      await readFile(path.resolve(path.join(process.cwd(), relFilepath)))
-        .then((data) => PDFDocument.load(data))
-        .then((pdfDoc) => {
+      await readFile(path.resolve(path.join(process.cwd(), relFilepath))).then(
+        (pdfDoc) => {
           global.__beratungshilfePdf = pdfDoc;
-          resizeToA4(global.__beratungshilfePdf);
-          addDruckvermerk(global.__beratungshilfePdf, yPositionsDruckvermerk);
-        });
+        },
+      );
     } catch (error) {
       console.error(error);
-      return await PDFDocument.load(ArrayBuffer.prototype);
+      return await ArrayBuffer.prototype;
     }
   }
 
-  return global.__beratungshilfePdf ?? PDFDocument.load(ArrayBuffer.prototype);
+  return global.__beratungshilfePdf ?? ArrayBuffer.prototype;
+}
+
+async function getBeratungshilfePdf() {
+  return PDFDocument.load(await getBeratungshilfePdfBuffer());
 }

@@ -16,7 +16,7 @@ describe("getBeratungshilfePdfFromContext", () => {
     expect(pdfField.getText()).toEqual("nachname");
   });
 
-  it.failing("regression: pdfs are unique", async () => {
+  it("regression: documents are not changed by later instances", async () => {
     const pdfDoc = await getBeratungshilfePdfFromContext({
       nachname: "nachname",
     });
