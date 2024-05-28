@@ -1,4 +1,4 @@
-import { renderToStream } from "@react-pdf/renderer";
+import { renderToBuffer } from "@react-pdf/renderer";
 import type {
   BeratungshilfePDF,
   StringField,
@@ -74,30 +74,14 @@ async function handleOutOfLimitDescription(
   descriptions: { title: string; text: string }[],
   pdfDoc: PDFDocument,
 ) {
-  const stream = await renderToStream(
-    <FormAttachment descriptions={descriptions} />,
+  const attachmentPdf = await PDFDocument.load(
+    await renderToBuffer(<FormAttachment descriptions={descriptions} />),
   );
+  addDruckvermerk(attachmentPdf);
 
-  const PDFAttachmentAsBuffer: Buffer = await new Promise((resolve, reject) => {
-    const buffers: Uint8Array[] = [];
-    stream.on("data", (data: Uint8Array) => {
-      buffers.push(data);
-    });
-    stream.on("end", () => {
-      resolve(Buffer.concat(buffers));
-    });
-    stream.on("error", reject);
-  });
-
-  const PDFAttachment = await PDFDocument.load(PDFAttachmentAsBuffer);
-  addDruckvermerk(PDFAttachment);
-  const pages = PDFAttachment.getPages();
-
-  for (let index = 0; index < pages.length; index++) {
-    const [PDFAttachmentAsCopy] = await pdfDoc.copyPages(PDFAttachment, [
-      index,
-    ]);
-    pdfDoc.insertPage(3 + index, PDFAttachmentAsCopy);
+  for (let index = 0; index < attachmentPdf.getPageCount(); index++) {
+    const [attachmentPage] = await pdfDoc.copyPages(attachmentPdf, [index]);
+    pdfDoc.addPage(attachmentPage);
   }
 }
 

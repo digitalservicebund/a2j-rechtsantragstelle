@@ -7,6 +7,21 @@ import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/berat
 import { fillWohnen } from "~/services/pdf/beratungshilfe/sections/D_wohnen";
 
 describe("fillWohnen", () => {
+  it("should fill wohnen section for no data correctly", async () => {
+    const context: BeratungshilfeFormularContext = {};
+
+    const pdfFields = await getBeratungshilfeParameters();
+
+    fillWohnen(pdfFields, context);
+
+    expect(pdfFields.d1Wohnung.value).toEqual("");
+    expect(pdfFields.d2Wohnkosten.value).toEqual(undefined);
+    expect(pdfFields.d3Teilwohnkosten.value).toEqual("");
+    expect(pdfFields.d4Wohnungalleine.value).toEqual(undefined);
+    expect(pdfFields.d5Wohnunggemeinsam.value).toEqual(false);
+    expect(pdfFields.d6WonungweiterePersonen.value).toEqual("");
+  });
+
   it("should fill wohnen section for living situation alone correct", async () => {
     const context: BeratungshilfeFormularContext = {
       apartmentSizeSqm: 10,
