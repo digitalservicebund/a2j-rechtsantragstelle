@@ -11,8 +11,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   if (_.isEmpty(userData)) {
     return redirect("/beratungshilfe/antrag");
   }
-
-  return new Response(await getBeratungshilfePdfFromContext(userData), {
+  const pdfDoc = await getBeratungshilfePdfFromContext(userData);
+  return new Response(await pdfDoc.save(), {
     headers: { "Content-Type": "application/pdf" },
   });
 };

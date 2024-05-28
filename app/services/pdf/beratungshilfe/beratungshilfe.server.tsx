@@ -132,7 +132,7 @@ async function fillOutBeratungshilfe(
       await handleOutOfLimitDescription(attachment.descriptions, pdfDoc);
     }
 
-    return pdfDoc.save();
+    return pdfDoc;
   });
 }
 
