@@ -6,6 +6,7 @@ import type {
   StringField,
 } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getFontSizeFieldValue } from "./getFontSizeFieldValue";
+import { lowercaseFirstLetter } from "~/util/strings";
 
 const umlautMap = {
   ä: "ae",
@@ -18,12 +19,13 @@ const umlautMap = {
 } as const;
 
 export function normalizePropertyName(propertyName: string) {
-  return propertyName
+  const normalizedString = propertyName
     .replace(
       /[äöüÄÖÜß]/g,
       (match) => umlautMap[match as keyof typeof umlautMap],
     )
     .replace(/[^a-zA-Z0-9]/g, "");
+  return lowercaseFirstLetter(normalizedString);
 }
 
 export function changeBooleanField(booleanField: BooleanField, form: PDFForm) {

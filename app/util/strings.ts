@@ -2,6 +2,10 @@ export function stripLeadingZeros(s?: string) {
   return s ? s.replace(/^0+/, "") : "";
 }
 
+export function lowercaseFirstLetter(s?: string) {
+  return s && s.length > 0 ? s[0].toLowerCase() + s.slice(1) : "";
+}
+
 export function splitObjectsByFirstLetter<
   T extends Record<string, string>,
   K extends keyof T,
