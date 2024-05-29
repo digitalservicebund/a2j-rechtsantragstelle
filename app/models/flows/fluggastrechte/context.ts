@@ -50,7 +50,7 @@ export const fluggastrechteVorabcheckContext = {
   buchung: YesNoAnswer,
   compensation: YesNoAnswer,
   compensationAccepted: YesNoAnswer,
-  justifiableReasonsInclude: YesNoAnswer,
+  justifiableReasons: YesNoAnswer,
   zustaendigesAmtsgericht: zustaendigesAmtsgerichtSchema.optional(),
 } as const;
 

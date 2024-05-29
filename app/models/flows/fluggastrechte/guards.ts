@@ -72,14 +72,14 @@ export const guards = {
       !EUCountries.includes(endAirportByIata)
     );
   },
-  isCheckingBereichNichtBefoerderungCompensationYes: ({ context }) => {
+  hasBereichNichtBefoerderungAndCompensationYes: ({ context }) => {
     if (context.bereich !== "nichtbefoerderung") {
       return false;
     }
 
     return context?.compensation === "yes";
   },
-  isCheckingBereichNichtBefoerderungCompensationNo: ({ context }) => {
+  hasBereichNichtBefoerderungAndCompensationNo: ({ context }) => {
     if (context.bereich !== "nichtbefoerderung") {
       return false;
     }
@@ -94,10 +94,10 @@ export const guards = {
       context?.bereich === "nichtbefoerderung" && context?.checkin === "yes"
     );
   },
-  isJustifiableReasonsIncludeNoBereichNichtBefoerderung: ({ context }) => {
+  isJustifiableReasonsNoBereichNichtBefoerderung: ({ context }) => {
     return (
       context?.bereich === "nichtbefoerderung" &&
-      context?.justifiableReasonsInclude === "no"
+      context?.justifiableReasons === "no"
     );
   },
   isEUInboundFromNonEUBereichNichtBefoerderung: ({ context }) => {
@@ -126,5 +126,5 @@ export const guards = {
   ...yesNoGuards("verjaehrung"),
   ...yesNoGuards("compensation"),
   ...yesNoGuards("compensationAccepted"),
-  ...yesNoGuards("justifiableReasonsInclude"),
+  ...yesNoGuards("justifiableReasons"),
 } satisfies Guards<FluggastrechtVorabcheckContext>;
