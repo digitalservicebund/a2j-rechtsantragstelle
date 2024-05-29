@@ -142,6 +142,25 @@ test.describe("js enabled", () => {
     );
   });
 
+  test("fluggastrechte vorabcheck: Annullierung can be traversed", async ({
+    page,
+  }) => {
+    await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
+
+    // fluggastrechte/vorabcheck/start
+    await vorabcheck.clickNext();
+
+    // fluggastrechte/vorabcheck/bereich
+    // TODO: rename annulierung to annullierung
+    await vorabcheck.fillRadioPage("bereich", "annulierung");
+
+    // TODO: Below is the current implementation, but we do want to implement the flow :)
+    // fluggastrechte/vorabcheck/ergebnis/bereich-abbruch
+    await expect(page).toHaveURL(
+      new RegExp(`.+${vorabcheck.url}/ergebnis/bereich-abbruch$`),
+    );
+  });
+
   test("funnel: invalid step redirects to start", async ({ page }) => {
     await page.goto(`${vorabcheck.url}/stepDoesNotExist`);
     await expect(page).toHaveURL(
