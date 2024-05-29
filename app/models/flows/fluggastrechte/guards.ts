@@ -8,9 +8,7 @@ function getCountryCodeByIata(airportIata: string | undefined) {
   return airports.find((airport) => airport.iata === airportIata)?.country_code;
 }
 
-function isEUInboundFromNonEUAndOutboundEU(
-  context: FluggastrechtVorabcheckContext,
-) {
+function isNonEUToEUFlight(context: FluggastrechtVorabcheckContext) {
   const startAirportByIata = getCountryCodeByIata(context.startAirport);
   const endAirportByIata = getCountryCodeByIata(context.endAirport);
 
@@ -46,7 +44,7 @@ export const guards = {
     return distance.isErr;
   },
   isEUInboundFromNonEU: ({ context }) => {
-    return isEUInboundFromNonEUAndOutboundEU(context);
+    return isNonEUToEUFlight(context);
   },
   isEUOutbound: ({ context }) => {
     const startAirportByIata = getCountryCodeByIata(context.startAirport);
@@ -102,8 +100,7 @@ export const guards = {
   },
   isEUInboundFromNonEUBereichNichtBefoerderung: ({ context }) => {
     return (
-      isEUInboundFromNonEUAndOutboundEU(context) &&
-      context?.bereich === "nichtbefoerderung"
+      isNonEUToEUFlight(context) && context?.bereich === "nichtbefoerderung"
     );
   },
   fluggesellschaftFilled: ({ context }) =>
