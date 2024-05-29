@@ -61,7 +61,7 @@ app.use(
   /.*\/pdf(\/|$)/,
   rateLimit({
     windowMs: 2 * 1000,
-    max: 4, // Limit each IP to 4 request per 2s
+    max: 2, // Limit each IP to 2 request per 2s
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
     message:
