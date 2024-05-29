@@ -57,6 +57,8 @@ isStagingOrPreviewEnvironment
 app.set("trust proxy", 2);
 
 // Limit calls to routes ending in /pdf or /pdf/, as they are expensive
+// Attention - this only limits to the number of requests *per pod*.
+// The more pods we have, the higher the effective limit goes up.
 app.use(
   /.*\/pdf(\/|$)/,
   rateLimit({
