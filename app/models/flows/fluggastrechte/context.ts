@@ -48,6 +48,9 @@ export const fluggastrechteVorabcheckContext = {
   kostenlos: YesNoAnswer,
   rabatt: YesNoAnswer,
   buchung: YesNoAnswer,
+  ausgleich: YesNoAnswer,
+  ausgleichAngenommen: YesNoAnswer,
+  vertretbareGruende: YesNoAnswer,
   zustaendigesAmtsgericht: zustaendigesAmtsgerichtSchema.optional(),
 } as const;
 
