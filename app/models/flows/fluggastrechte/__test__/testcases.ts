@@ -95,9 +95,9 @@ const cases = [
   [
     {
       bereich: "nichtbefoerderung",
-      compensation: "yes",
-      compensationAccepted: "no",
-      justifiableReasons: "no",
+      ausgleich: "yes",
+      ausgleichAngenommen: "no",
+      vertretbareGruende: "no",
       startAirport: "JFK",
       endAirport: "BER",
       fluggesellschaft: "airfrance",
@@ -132,8 +132,8 @@ const cases = [
   [
     {
       bereich: "nichtbefoerderung",
-      compensation: "no",
-      justifiableReasons: "no",
+      ausgleich: "no",
+      vertretbareGruende: "no",
       startAirport: "JFK",
       endAirport: "BER",
       fluggesellschaft: "airfrance",
@@ -167,8 +167,8 @@ const cases = [
   [
     {
       bereich: "nichtbefoerderung",
-      compensation: "yes",
-      compensationAccepted: "yes",
+      ausgleich: "yes",
+      ausgleichAngenommen: "yes",
     },
     [
       "start",
@@ -181,8 +181,8 @@ const cases = [
   [
     {
       bereich: "nichtbefoerderung",
-      compensation: "no",
-      compensationAccepted: "no",
+      ausgleich: "no",
+      ausgleichAngenommen: "no",
       checkin: "no",
     },
     ["start", "bereich", "ausgleich", "checkin", "ergebnis/checkin-abbruch"],
@@ -190,10 +190,10 @@ const cases = [
   [
     {
       bereich: "nichtbefoerderung",
-      compensation: "no",
-      compensationAccepted: "no",
+      ausgleich: "no",
+      ausgleichAngenommen: "no",
       checkin: "yes",
-      justifiableReasons: "yes",
+      vertretbareGruende: "yes",
     },
     [
       "start",
@@ -207,10 +207,10 @@ const cases = [
   [
     {
       bereich: "nichtbefoerderung",
-      compensation: "yes",
-      compensationAccepted: "no",
+      ausgleich: "yes",
+      ausgleichAngenommen: "no",
       checkin: "yes",
-      justifiableReasons: "no",
+      vertretbareGruende: "no",
       verjaehrung: "yes",
       startAirport: "BER",
       endAirport: "MUN",

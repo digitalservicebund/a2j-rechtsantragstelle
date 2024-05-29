@@ -54,7 +54,7 @@
         "SUBMIT": [
           {
             "target": "ausgleich-angenommen",
-            "guard": "compensationYes"
+            "guard": "ausgleichYes"
           },
           {
             "target": "checkin"
@@ -69,7 +69,7 @@
         "SUBMIT": [
           {
             "target": "ergebnis/ausgleich-angenommen-abbruch",
-            "guard": "compensationAcceptedYes"
+            "guard": "ausgleichAngenommenYes"
           },
           {
             "target": "checkin"
@@ -111,7 +111,7 @@
         "BACK": [
           {
             "target": "vertretbare-gruende",
-            "guard": "isJustifiableReasonsNoBereichNichtBefoerderung"
+            "guard": "isVertretbareGruendeNoBereichNichtBefoerderung"
           },
           { "target": "gruende", "guard": "gruendeNo" },
           { "target": "gruende-hinweis", "guard": "gruendeYes" }
@@ -200,11 +200,11 @@
         "BACK": [
           {
             "target": "ausgleich-angenommen",
-            "guard": "hasBereichNichtBefoerderungAndCompensationYes"
+            "guard": "hasBereichNichtBefoerderungAndAusgleichYes"
           },
           {
             "target": "ausgleich",
-            "guard": "hasBereichNichtBefoerderungAndCompensationNo"
+            "guard": "hasBereichNichtBefoerderungAndAusgleichNo"
           },
           {
             "target": "flughaefen",
@@ -239,7 +239,7 @@
         "SUBMIT": [
           {
             "target": "verjaehrung",
-            "guard": "justifiableReasonsNo"
+            "guard": "vertretbareGruendeNo"
           },
           {
             "target": "ergebnis/vertretbare-gruende-abbruch"
