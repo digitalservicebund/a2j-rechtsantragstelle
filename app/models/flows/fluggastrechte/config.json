@@ -215,11 +215,11 @@
         "SUBMIT": [
           {
             "target": "kostenlos",
-            "guard": "isCheckingYesBereichVerspaetet"
+            "guard": "isCheckInYesBereichVerspaetet"
           },
           {
             "target": "vertretbare-gruende",
-            "guard": "isCheckingYesBereichNichtBefoerderung"
+            "guard": "isCheckInYesBereichNichtBefoerderung"
           },
           {
             "target": "ergebnis/checkin-abbruch"

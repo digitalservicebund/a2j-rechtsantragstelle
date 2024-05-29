@@ -84,10 +84,10 @@ export const guards = {
 
     return context?.ausgleich === "no";
   },
-  isCheckingYesBereichVerspaetet: ({ context }) => {
+  isCheckInYesBereichVerspaetet: ({ context }) => {
     return context?.bereich === "verspaetet" && context?.checkin === "yes";
   },
-  isCheckingYesBereichNichtBefoerderung: ({ context }) => {
+  isCheckInYesBereichNichtBefoerderung: ({ context }) => {
     return (
       context?.bereich === "nichtbefoerderung" && context?.checkin === "yes"
     );
