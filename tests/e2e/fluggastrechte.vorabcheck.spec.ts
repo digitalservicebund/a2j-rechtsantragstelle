@@ -16,7 +16,9 @@ test.describe("js enabled", () => {
     );
   });
 
-  test("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
+  test("fluggastrechte vorabcheck: Verspätete Beförderung can be traversed", async ({
+    page,
+  }) => {
     await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
 
     // fluggastrechte/vorabcheck/start
