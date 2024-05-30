@@ -103,7 +103,11 @@
         "BACK": [
           {
             "target": "ersatzflug",
-            "guard": "isAnkuendigungUntil13Days"
+            "guard": "isAnkuendigungUntil13DaysAndErstazflugNo"
+          },
+          {
+            "target": "ersatzflug-landen-zwei-stunden",
+            "guard": "isAnkuendigungUntil13DaysAndErstazflugYes"
           },
           "ankuendigung"
         ],
@@ -131,16 +135,38 @@
           },
           {
             "target": "ersatzflug-starten-eine-stunde",
-            "guard": "isErsatzFlugYesAndAnkuendigungUntil6Days"
+            "guard": "isErsatzflugYesAndAnkuendigungUntil6Days"
           },
           {
-            "target": "ersatzflug-landen-zwei-studen"
+            "target": "ersatzflug-landen-zwei-stunden"
           }
         ]
       }
     },
-    "ersatzflug-starten-eine-stunde": {},
-    "ersatzflug-landen-zwei-studen": {},
+    "ersatzflug-starten-eine-stunde": {
+      "meta": {
+        "progressPosition": 3
+      },
+      "on": {
+        "BACK": "ersatzflug",
+        "SUBMIT": "ersatzflug-landen-zwei-stunden"
+      }
+    },
+    "ersatzflug-landen-zwei-stunden": {
+      "meta": {
+        "progressPosition": 3
+      },
+      "on": {
+        "BACK": "ersatzflug-starten-eine-stunde",
+        "SUBMIT": [
+          {
+            "guard": "isErsatzflugGelandet2StundenNoAndErstatzflugGestartet1StundeNo",
+            "target": "ergebnis/ersatzflug-starten-eine-landen-zwei-abbruch"
+          },
+          "vertretbare-gruende-annullierung"
+        ]
+      }
+    },
     "ausgleich-angenommen": {
       "meta": {
         "progressPosition": 4
@@ -156,6 +182,11 @@
             "target": "checkin"
           }
         ]
+      }
+    },
+    "ergebnis/ersatzflug-starten-eine-landen-zwei-abbruch": {
+      "on": {
+        "BACK": "ersatzflug-landen-zwei-stunden"
       }
     },
     "ergebnis/ausgleich-angenommen-abbruch": {
