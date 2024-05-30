@@ -110,7 +110,8 @@ function NavItem({
   const itemClassNames = classNames(
     "w-full	ds-label-02-reg p-16 flex gap-x-16 items-center hover:underline hover:bg-blue-300 active:bg-white focus:border-blue-800 focus:border-4",
     {
-      "ds-label-02-bold bg-blue-500 border-l-4 border-l-blue-800": isCurrent,
+      "ds-label-02-bold bg-blue-500 border-l-4 border-l-blue-800":
+        isCurrent && !hasActiveSubflows,
       "pl-40": isChild,
     },
   );
