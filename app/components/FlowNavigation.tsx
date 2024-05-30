@@ -3,7 +3,13 @@ import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
 import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
 import classNames from "classnames";
 import { useId, type FC } from "react";
-import { NavState } from "../services/navigation/navState";
+import {
+  NavState,
+  stateIsCurrent,
+  stateIsActive,
+  stateIsDisabled,
+  stateIsDone,
+} from "../services/navigation/navState";
 import { useCollapse } from "react-collapsed";
 
 export type NavItem = {
@@ -24,22 +30,6 @@ const StateIcon: FC<{
     aria-label={a11yLabels?.itemFinished}
   />
 );
-
-const stateIsDisabled = (state: NavState) =>
-  state === NavState.DoneDisabled || state === NavState.OpenDisabled;
-
-const stateIsDone = (state: NavState) =>
-  state === NavState.DoneDisabled ||
-  state === NavState.Done ||
-  state === NavState.DoneCurrent;
-
-const stateIsActive = (state: NavState) =>
-  [
-    NavState.DoneCurrent,
-    NavState.Current,
-    NavState.Open,
-    NavState.Done,
-  ].includes(state);
 
 type NavigationA11yLabels = {
   menuLabel: string;
@@ -70,15 +60,6 @@ export default function FlowNavigation(props: FlowNavigationProps) {
   );
 }
 
-function isSubflowVisible(navItems: NavItem[], index: number) {
-  return (
-    index === 0 ||
-    [NavState.Open, NavState.Current, NavState.Done].includes(
-      navItems[index].state,
-    )
-  );
-}
-
 function NavItem({
   destination,
   label,
@@ -87,13 +68,12 @@ function NavItem({
   a11yLabels,
   isChild = false,
 }: Readonly<NavItem & { isChild?: boolean }>) {
-  const visibleSubflows = (subflows ?? []).filter((_, index, navItems) =>
-    isSubflowVisible(navItems, index),
+  const visibleSubflows = (subflows ?? []).filter((subItem) =>
+    stateIsActive(subItem.state),
   );
 
   const isDisabled = stateIsDisabled(state);
-  const isCurrent =
-    state === NavState.Current || state === NavState.DoneCurrent;
+  const isCurrent = stateIsCurrent(state);
   const isDone = stateIsDone(state);
   const hasActiveSubflows =
     stateIsActive(state) &&

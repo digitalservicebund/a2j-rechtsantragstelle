@@ -1,5 +1,5 @@
 import { type NavItem } from "~/components/FlowNavigation";
-import { NavState } from "./navigation/navState";
+import { NavState, stateIsCurrent } from "./navigation/navState";
 import { type StepState } from "./flow/server/buildFlowController";
 import { type Translations } from "./cms/index.server";
 
@@ -9,10 +9,7 @@ function isStepStateIdCurrent(stepStateId: string, stepId: string) {
 }
 
 function isSubflowCurrent(subflows: NavItem[]) {
-  return subflows.some(
-    (state) =>
-      state.state === NavState.Current || state.state === NavState.DoneCurrent,
-  );
+  return subflows.some((subflow) => stateIsCurrent(subflow.state));
 }
 
 export function navItemsFromStepStates(
