@@ -15,7 +15,9 @@ import { testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen } 
 import { testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/__test__/testcasesAusgaben";
 import { testCasesBeratungshilfeFormular } from "~/models/flows/beratungshilfeFormular/__test__/testcases";
 import { testCasesBeratungshilfeFormularAnwaltlicheVertretung } from "~/models/flows/beratungshilfeFormular/anwaltlicheVertretung/__test__/testcases";
-import { testCasesFluggastrechte } from "~/models/flows/fluggastrechte/__test__/testcases";
+import { testCasesFluggastrechteVerspaetet } from "~/models/flows/fluggastrechte/__test__/testcasesVerspaetet";
+import { testCasesFluggastrechteAnnullierung } from "~/models/flows/fluggastrechte/__test__/testcasesAnnullierung";
+import { testCasesFluggastrechteNichtBefoerderung } from "~/models/flows/fluggastrechte/__test__/testcasesNichtBefoerderung";
 
 function getEnabledSteps({
   machine,
@@ -70,7 +72,9 @@ describe("state machine form flows", () => {
     testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
     testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
     testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
-    testCasesFluggastrechte,
+    testCasesFluggastrechteVerspaetet,
+    testCasesFluggastrechteAnnullierung,
+    testCasesFluggastrechteNichtBefoerderung,
   ].forEach(({ machine, cases }) => {
     test.each(cases)(
       "SUBMIT (%#) given context: %j, visits steps: %j",

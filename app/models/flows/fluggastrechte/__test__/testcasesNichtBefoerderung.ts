@@ -1,0 +1,166 @@
+import type { TestCases } from "~/models/flows/__test__/TestCases";
+import { guards } from "~/models/flows/fluggastrechte/guards";
+import fluggastrechte from "~/models/flows/fluggastrechte/config.json";
+import type { FluggastrechtVorabcheckContext } from "~/models/flows/fluggastrechte/context";
+import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+import { createMachine } from "xstate";
+
+const machine: FlowStateMachine = createMachine(
+  { ...fluggastrechte, context: {} },
+  { guards },
+);
+
+const cases = [
+  [
+    {
+      bereich: "nichtbefoerderung",
+      ausgleich: "yes",
+      ausgleichAngenommen: "no",
+      vertretbareGruende: "no",
+      startAirport: "JFK",
+      endAirport: "BER",
+      fluggesellschaft: "airfrance",
+      verjaehrung: "yes",
+      checkin: "yes",
+      kostenlos: "no",
+      rabatt: "no",
+      buchung: "yes",
+      abtretung: "no",
+      entschaedigung: "yes",
+      gericht: "no",
+    },
+    [
+      "start",
+      "bereich",
+      "ausgleich",
+      "ausgleich-angenommen",
+      "checkin",
+      "vertretbare-gruende",
+      "verjaehrung",
+      "flughaefen",
+      "fluggesellschaft",
+      "kostenlos",
+      "rabatt",
+      "buchung",
+      "abtretung",
+      "entschaedigung",
+      "gericht",
+      "ergebnis/erfolg",
+    ],
+  ],
+  [
+    {
+      bereich: "nichtbefoerderung",
+      ausgleich: "no",
+      vertretbareGruende: "no",
+      startAirport: "JFK",
+      endAirport: "BER",
+      fluggesellschaft: "airfrance",
+      verjaehrung: "yes",
+      checkin: "yes",
+      kostenlos: "no",
+      rabatt: "no",
+      buchung: "yes",
+      abtretung: "no",
+      entschaedigung: "yes",
+      gericht: "no",
+    },
+    [
+      "start",
+      "bereich",
+      "ausgleich",
+      "checkin",
+      "vertretbare-gruende",
+      "verjaehrung",
+      "flughaefen",
+      "fluggesellschaft",
+      "kostenlos",
+      "rabatt",
+      "buchung",
+      "abtretung",
+      "entschaedigung",
+      "gericht",
+      "ergebnis/erfolg",
+    ],
+  ],
+  [
+    {
+      bereich: "nichtbefoerderung",
+      ausgleich: "yes",
+      ausgleichAngenommen: "yes",
+    },
+    [
+      "start",
+      "bereich",
+      "ausgleich",
+      "ausgleich-angenommen",
+      "ergebnis/ausgleich-angenommen-abbruch",
+    ],
+  ],
+  [
+    {
+      bereich: "nichtbefoerderung",
+      ausgleich: "no",
+      ausgleichAngenommen: "no",
+      checkin: "no",
+    },
+    ["start", "bereich", "ausgleich", "checkin", "ergebnis/checkin-abbruch"],
+  ],
+  [
+    {
+      bereich: "nichtbefoerderung",
+      ausgleich: "no",
+      ausgleichAngenommen: "no",
+      checkin: "yes",
+      vertretbareGruende: "yes",
+    },
+    [
+      "start",
+      "bereich",
+      "ausgleich",
+      "checkin",
+      "vertretbare-gruende",
+      "ergebnis/vertretbare-gruende-abbruch",
+    ],
+  ],
+  [
+    {
+      bereich: "nichtbefoerderung",
+      ausgleich: "yes",
+      ausgleichAngenommen: "no",
+      checkin: "yes",
+      vertretbareGruende: "no",
+      verjaehrung: "yes",
+      startAirport: "BER",
+      endAirport: "MUN",
+      kostenlos: "no",
+      rabatt: "no",
+      buchung: "yes",
+      abtretung: "no",
+      entschaedigung: "yes",
+      gericht: "no",
+    },
+    [
+      "start",
+      "bereich",
+      "ausgleich",
+      "ausgleich-angenommen",
+      "checkin",
+      "vertretbare-gruende",
+      "verjaehrung",
+      "flughaefen",
+      "kostenlos",
+      "rabatt",
+      "buchung",
+      "abtretung",
+      "entschaedigung",
+      "gericht",
+      "ergebnis/erfolg",
+    ],
+  ],
+] as const satisfies TestCases<FluggastrechtVorabcheckContext>;
+
+export const testCasesFluggastrechteNichtBefoerderung = {
+  machine,
+  cases,
+};
