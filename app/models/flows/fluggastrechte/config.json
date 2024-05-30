@@ -87,11 +87,9 @@
           },
           {
             "target": "ersatzflug",
-            "guards": "isAnkuendigungUntil13Days"
+            "guard": "isAnkuendigungUntil13Days"
           },
-          {
-            "target": "ergebnis/ankuendigung-abbruch"
-          }
+          "ergebnis/ankuendigung-abbruch"
         ]
       }
     },

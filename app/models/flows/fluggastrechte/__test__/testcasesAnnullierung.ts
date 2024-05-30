@@ -309,6 +309,13 @@ const cases = [
       "ergebnis/erfolg-gericht",
     ],
   ],
+  [
+    {
+      bereich: "annulierung",
+      ankuendigung: "moreThan13Days",
+    },
+    ["start", "bereich", "ankuendigung", "ergebnis/ankuendigung-abbruch"],
+  ],
 ] as const satisfies TestCases<FluggastrechtVorabcheckContext>;
 
 export const testCasesFluggastrechteAnnullierung = {

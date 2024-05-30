@@ -111,6 +111,12 @@ export const guards = {
   isAnkuendigungNo: ({ context }) => {
     return context.ankuendigung === "no";
   },
+  isAnkuendigungUntil13Days: ({ context }) => {
+    return (
+      context.ankuendigung === "until6Days" ||
+      context.ankuendigung === "between7And13Days"
+    );
+  },
   isAnkuendigungUntil13DaysAndErstazflugNo: ({ context }) => {
     return (
       (context.ankuendigung === "until6Days" ||
