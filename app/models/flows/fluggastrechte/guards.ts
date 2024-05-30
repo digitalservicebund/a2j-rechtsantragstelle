@@ -123,6 +123,11 @@ export const guards = {
       context.vertretbareGruendeAnnullierung === "yes"
     );
   },
+  isErsatzFlugYesAndAnkuendigungUntil6Days: ({ context }) => {
+    return (
+      context?.ersatzflug === "yes" && context?.ankuendigung === "until6Days"
+    );
+  },
   fluggesellschaftFilled: ({ context }) =>
     Boolean(context.startAirport && context.endAirport),
   isKnownPartnerAirlineBereichVerspaetet: ({ context }) =>
@@ -145,4 +150,5 @@ export const guards = {
   ...yesNoGuards("ausgleichAngenommen"),
   ...yesNoGuards("vertretbareGruende"),
   ...yesNoGuards("vertretbareGruendeAnnullierung"),
+  ...yesNoGuards("ersatzflug"),
 } satisfies Guards<FluggastrechtVorabcheckContext>;

@@ -100,7 +100,13 @@
         "progressPosition": 3
       },
       "on": {
-        "BACK": "ankuendigung",
+        "BACK": [
+          {
+            "target": "ersatzflug",
+            "guard": "isAnkuendigungUntil13Days"
+          },
+          "ankuendigung"
+        ],
         "SUBMIT": [
           {
             "target": "gruende-hinweis",
@@ -117,18 +123,24 @@
         "progressPosition": 3
       },
       "on": {
-        "BACK": "bereich",
+        "BACK": "ankuendigung",
         "SUBMIT": [
           {
-            "target": "",
-            "guard": "isAnkuendigungNo"
+            "target": "vertretbare-gruende-annullierung",
+            "guard": "ersatzflugNo"
           },
           {
-            "target": "checkin"
+            "target": "ersatzflug-starten-eine-stunde",
+            "guard": "isErsatzFlugYesAndAnkuendigungUntil6Days"
+          },
+          {
+            "target": "ersatzflug-landen-zwei-studen"
           }
         ]
       }
     },
+    "ersatzflug-starten-eine-stunde": {},
+    "ersatzflug-landen-zwei-studen": {},
     "ausgleich-angenommen": {
       "meta": {
         "progressPosition": 4
