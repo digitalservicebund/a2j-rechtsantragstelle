@@ -25,6 +25,13 @@ export const fluggastBereichSchema = z.enum(
   customRequiredErrorMessage,
 );
 
+const ankuendigungSchema = z.enum([
+  "no",
+  "until6Days",
+  "between7And13Days",
+  "moreThan13Days",
+]);
+
 export const zustaendigesAmtsgerichtSchema = z.array(
   z.object({
     bezeichnung: stringOptionalSchema,
@@ -52,6 +59,13 @@ export const fluggastrechteVorabcheckContext = {
   ausgleichAngenommen: YesNoAnswer,
   vertretbareGruende: YesNoAnswer,
   zustaendigesAmtsgericht: zustaendigesAmtsgerichtSchema.optional(),
+  ankuendigung: ankuendigungSchema,
+  ersatzflug: YesNoAnswer,
+  ersatzflugStartenEinStunde: YesNoAnswer,
+  ersatzflugLandenZweiStuden: YesNoAnswer,
+  vertretbareGruendeAnnullierung: YesNoAnswer,
+  ersatzflugStartenZweiStunden: YesNoAnswer,
+  ersatzflugLandenVierStunden: YesNoAnswer,
 } as const;
 
 const contextObject = z.object(fluggastrechteVorabcheckContext).partial();

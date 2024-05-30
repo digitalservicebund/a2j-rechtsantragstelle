@@ -29,6 +29,7 @@ export const guards = {
   bereichVerspaetet: ({ context }) => context.bereich === "verspaetet",
   bereichNichtBefoerderung: ({ context }) =>
     context.bereich === "nichtbefoerderung",
+  bereichAnnullierung: ({ context }) => context.bereich === "annulierung",
   isPartnerAirport: ({ context }) => {
     const airportAbbreviations = Object.keys(partnerCourtAirports);
     return (
@@ -98,9 +99,28 @@ export const guards = {
       context?.vertretbareGruende === "no"
     );
   },
-  isEUInboundFromNonEUBereichNichtBefoerderung: ({ context }) => {
+  isEUInboundFromNonEUBereichNichtBefoerderungAndAnnullierung: ({
+    context,
+  }) => {
     return (
-      isNonEUToEUFlight(context) && context?.bereich === "nichtbefoerderung"
+      isNonEUToEUFlight(context) &&
+      (context?.bereich === "nichtbefoerderung" ||
+        context?.bereich === "annulierung")
+    );
+  },
+  isAnkuendigungNo: ({ context }) => {
+    return context.ankuendigung === "no";
+  },
+  isAnkuendigungUntil13Days: ({ context }) => {
+    return (
+      context.ankuendigung === "until6Days" ||
+      context.ankuendigung === "between7And13Days"
+    );
+  },
+  isBereichAnnullierungAndVertrebareGruendeAnnullierungYes: ({ context }) => {
+    return (
+      context.bereich === "annulierung" &&
+      context.vertretbareGruendeAnnullierung === "yes"
     );
   },
   fluggesellschaftFilled: ({ context }) =>
@@ -124,4 +144,5 @@ export const guards = {
   ...yesNoGuards("ausgleich"),
   ...yesNoGuards("ausgleichAngenommen"),
   ...yesNoGuards("vertretbareGruende"),
+  ...yesNoGuards("vertretbareGruendeAnnullierung"),
 } satisfies Guards<FluggastrechtVorabcheckContext>;
