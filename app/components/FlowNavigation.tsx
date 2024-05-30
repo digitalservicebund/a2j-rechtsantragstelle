@@ -100,7 +100,7 @@ function NavItem({
     visibleSubflows.some((subflow) => stateIsActive(subflow.state));
   const collapse = useCollapse({ defaultExpanded: isCurrent });
 
-  const liClassNames = classNames("list-none w-[248px]", {
+  const liClassNames = classNames("list-none", {
     "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none":
       isDisabled,
     "border-b-2 border-b-white last:border-b-0": !isChild,
