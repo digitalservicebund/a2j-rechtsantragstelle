@@ -1,5 +1,5 @@
 import { type NavItem } from "~/components/FlowNavigation";
-import { NavState } from "./navigation/navState";
+import { NavState, stateIsCurrent } from "./navigation/navState";
 import { type StepState } from "./flow/server/buildFlowController";
 import { type Translations } from "./cms/index.server";
 
@@ -9,7 +9,7 @@ function isStepStateIdCurrent(stepStateId: string, stepId: string) {
 }
 
 function isSubflowCurrent(subflows: NavItem[]) {
-  return subflows.some((state) => state.state === NavState.Current);
+  return subflows.some((subflow) => stateIsCurrent(subflow.state));
 }
 
 export function navItemsFromStepStates(
@@ -47,6 +47,7 @@ export function navState({
   isDone: boolean;
   isUneditable: boolean;
 }) {
+  if (isCurrent && isDone) return NavState.DoneCurrent;
   if (isCurrent) return NavState.Current;
   if (isUneditable && isDone) return NavState.DoneDisabled;
   if (isReachable && isDone) return NavState.Done;
