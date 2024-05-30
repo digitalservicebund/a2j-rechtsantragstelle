@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import { fillPdf } from "~/services/pdf/beratungshilfe/sections/E_unterhalt/fillPdf";
 import type { UnterhaltPdfField } from "~/services/pdf/beratungshilfe/sections/E_unterhalt/unterhaltPdfField";
 

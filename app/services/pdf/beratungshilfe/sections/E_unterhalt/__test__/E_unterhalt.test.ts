@@ -4,7 +4,7 @@
 
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
-import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import {
   ATTACHMENT_DESCRIPTION_SECTION_E,
   SEE_IN_ATTACHMENT_DESCRIPTION,

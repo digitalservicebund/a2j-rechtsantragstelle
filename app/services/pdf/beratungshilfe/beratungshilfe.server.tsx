@@ -1,6 +1,7 @@
 import { renderToBuffer } from "@react-pdf/renderer";
 import { isBooleanField } from "../fileTypes";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { PDFDocument } from "pdf-lib";
@@ -21,7 +22,7 @@ import { fillWohnen } from "./sections/D_wohnen";
 import { fillAusgaben } from "./sections/G_ausgaben";
 import { resizeToA4 } from "./resizeToA4";
 import { addDruckvermerk } from "./druckvermerk";
-import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+export { getBeratungshilfeParameters };
 
 export async function getBeratungshilfePdfFromContext(
   context: BeratungshilfeFormularContext,

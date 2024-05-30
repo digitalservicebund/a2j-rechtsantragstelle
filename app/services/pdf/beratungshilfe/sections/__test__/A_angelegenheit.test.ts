@@ -7,7 +7,7 @@ import {
   createAttachment,
   newPageHint,
 } from "~/services/pdf/beratungshilfe/attachment";
-import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import {
   fillAngelegenheit,
   BESCHREIBUNG_ANGELEGENHEIT_TITLE,

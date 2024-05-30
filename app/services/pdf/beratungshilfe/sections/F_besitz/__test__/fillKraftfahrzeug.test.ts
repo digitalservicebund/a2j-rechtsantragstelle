@@ -7,7 +7,7 @@ import {
   createAttachment,
   newPageHint,
 } from "~/services/pdf/beratungshilfe/attachment";
-import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import { fillKraftfahrzeug } from "~/services/pdf/beratungshilfe/sections/F_besitz/fillKraftfahrzeug";
 
 const fahrzeugWirdFuerDenArbeitswegGenutzt =

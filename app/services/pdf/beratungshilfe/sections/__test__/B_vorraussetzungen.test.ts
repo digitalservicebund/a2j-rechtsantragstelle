@@ -3,7 +3,7 @@
  */
 
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import { fillVorraussetzungen } from "~/services/pdf/beratungshilfe/sections/B_vorraussetzungen";
 
 describe("B_vorraussetzungen", () => {
