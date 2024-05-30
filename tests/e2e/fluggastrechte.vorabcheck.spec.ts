@@ -154,10 +154,63 @@ test.describe("js enabled", () => {
     // TODO: rename annulierung to annullierung
     await vorabcheck.fillRadioPage("bereich", "annulierung");
 
-    // TODO: Below is the current implementation, but we do want to implement the flow :)
-    // fluggastrechte/vorabcheck/ergebnis/bereich-abbruch
+    //fluggastrechte/vorabcheck/ankuendigung
+    await vorabcheck.fillRadioPage("ankuendigung", "until6Days");
+
+    //fluggastrechte/vorabcheck/ersatzflug
+    await vorabcheck.fillRadioPage("ersatzflug", "yes");
+
+    //fluggastrechte/vorabcheck/ersatzflug-starten-eine-stunde
+    await vorabcheck.fillRadioPage("ersatzflugStartenEinStunde", "yes");
+
+    //fluggastrechte/vorabcheck/ersatzflug-landen-zwei-stunden
+    await vorabcheck.fillRadioPage("ersatzflugLandenZweiStuden", "yes");
+
+    //fluggastrechte/vorabcheck/vertretbare-gruende-annullierung
+    await vorabcheck.fillRadioPage("vertretbareGruendeAnnullierung", "yes");
+
+    //fluggastrechte/vorabcheck/gruende-hinweis
+    await vorabcheck.clickNext();
+
+    // fluggastrechte/vorabcheck/verjaehrung
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("verjaehrung", "yes");
+
+    // fluggastrechte/vorabcheck/flughaefen
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillMultipleSuggestionInputPage([
+      { field: "input-startAirport", value: "Berlin" },
+      { field: "input-endAirport", value: "Frankfurt" },
+    ]);
+
+    // fluggastrechte/vorabcheck/kostenlos
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("kostenlos", "no");
+
+    // fluggastrechte/vorabcheck/rabatt
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("rabatt", "no");
+
+    // fluggastrechte/vorabcheck/buchung
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("buchung", "yes");
+
+    // fluggastrechte/vorabcheck/abtretung
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("abtretung", "no");
+
+    // fluggastrechte/vorabcheck/entschaedigung
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("entschaedigung", "yes");
+
+    // fluggastrechte/vorabcheck/gericht
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("gericht", "no");
+
+    // fluggastrechte/vorabcheck/ergebnis/erfolg
+    await expectPageToBeAccessible({ page });
     await expect(page).toHaveURL(
-      new RegExp(`.+${vorabcheck.url}/ergebnis/bereich-abbruch$`),
+      new RegExp(`.+${vorabcheck.url}/ergebnis/erfolg$`),
     );
   });
 
