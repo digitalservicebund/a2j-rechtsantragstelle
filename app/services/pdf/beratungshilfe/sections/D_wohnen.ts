@@ -19,13 +19,15 @@ export function fillWohnen(
           ),
         ).toString();
   pdfFields.d4Wohnungalleine.value = isLivingAlone(context);
-  pdfFields.d5Wohnunggemeinsam.value = !isLivingAlone(context);
+  pdfFields.d5Wohnunggemeinsam.value = isLivingAlone(context) === false;
   pdfFields.d6WonungweiterePersonen.value = isLivingAlone(context)
     ? ""
     : context.apartmentPersonCount?.toString() ?? "";
 }
 
-function isLivingAlone(context: BeratungshilfeFormularContext): boolean {
+function isLivingAlone(
+  context: BeratungshilfeFormularContext,
+): boolean | undefined {
   switch (context.livingSituation) {
     case "alone":
       return true;
@@ -33,6 +35,6 @@ function isLivingAlone(context: BeratungshilfeFormularContext): boolean {
     case "withRelatives":
       return false;
     default:
-      return false;
+      return undefined;
   }
 }

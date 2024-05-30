@@ -79,11 +79,10 @@ export class Vorabcheck {
   ) {
     for (const { field, value } of fields) {
       await this.page.locator(`input[id="${field}"]`).fill(value);
-      await this.page.isVisible(`#react-select-${field}-listbox`);
-      const locators = await this.page
+      const menuItem = await this.page
         .getByTestId("suggestion-input-menu-item")
-        .all();
-      await locators[0].click({ force: true });
+        .first();
+      await menuItem.dispatchEvent("click");
     }
     await this.clickNext();
   }

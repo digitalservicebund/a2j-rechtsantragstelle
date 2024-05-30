@@ -16,9 +16,7 @@ test.describe("js enabled", () => {
     );
   });
 
-  test("fluggastrechte vorabcheck can be traversed and Javascript enabled", async ({
-    page,
-  }) => {
+  test("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
     await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
 
     // fluggastrechte/vorabcheck/start
@@ -83,6 +81,65 @@ test.describe("js enabled", () => {
     );
   });
 
+  test("fluggastrechte vorabcheck: Nicht-Befoerderung can be traversed", async ({
+    page,
+  }) => {
+    await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
+
+    // fluggastrechte/vorabcheck/start
+    await vorabcheck.clickNext();
+
+    // fluggastrechte/vorabcheck/bereich
+    await vorabcheck.fillRadioPage("bereich", "nichtbefoerderung");
+
+    // fluggastrechte/vorabcheck/ausgleich
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("ausgleich", "yes");
+
+    // fluggastrechte/vorabcheck/ausgleich-angenommen
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("ausgleichAngenommen", "no");
+
+    // fluggastrechte/vorabcheck/checkin
+    await vorabcheck.fillRadioPage("checkin", "yes");
+
+    // fluggastrechte/vorabcheck/vertretbare-gruende
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillRadioPage("vertretbareGruende", "no");
+
+    // fluggastrechte/vorabcheck/verjaehrung
+    await vorabcheck.fillRadioPage("verjaehrung", "yes");
+
+    // fluggastrechte/vorabcheck/flughaefen
+    await vorabcheck.fillMultipleSuggestionInputPage([
+      { field: "input-startAirport", value: "Berlin" },
+      { field: "input-endAirport", value: "Frankfurt" },
+    ]);
+
+    // fluggastrechte/vorabcheck/kostenlos
+    await vorabcheck.fillRadioPage("kostenlos", "no");
+
+    // fluggastrechte/vorabcheck/rabatt
+    await vorabcheck.fillRadioPage("rabatt", "no");
+
+    // fluggastrechte/vorabcheck/buchung
+    await vorabcheck.fillRadioPage("buchung", "yes");
+
+    // fluggastrechte/vorabcheck/abtretung
+    await vorabcheck.fillRadioPage("abtretung", "no");
+
+    // fluggastrechte/vorabcheck/entschaedigung
+    await vorabcheck.fillRadioPage("entschaedigung", "yes");
+
+    // fluggastrechte/vorabcheck/gericht
+    await vorabcheck.fillRadioPage("gericht", "no");
+
+    // fluggastrechte/vorabcheck/ergebnis/erfolg
+    await expect(page).toHaveURL(
+      new RegExp(`.+${vorabcheck.url}/ergebnis/erfolg$`),
+    );
+  });
+
   test("funnel: invalid step redirects to start", async ({ page }) => {
     await page.goto(`${vorabcheck.url}/stepDoesNotExist`);
     await expect(page).toHaveURL(
@@ -101,9 +158,7 @@ test.describe("js enabled", () => {
 test.describe("js disabled", () => {
   test.use({ javaScriptEnabled: false });
 
-  test("fluggastrechte vorabcheck can be traversed and Javascript disabled", async ({
-    page,
-  }) => {
+  test("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
     await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
     await vorabcheck.goto();
     await vorabcheck.clickNextWithoutJavaScript();

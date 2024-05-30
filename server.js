@@ -55,14 +55,15 @@ isStagingOrPreviewEnvironment
   : app.use(mountPathWithoutStorybook, staticFileServer);
 
 app.set("trust proxy", 2);
-app.get("/ip", (request, response) => response.send(request.ip));
 
 // Limit calls to routes ending in /pdf or /pdf/, as they are expensive
+// Attention - this only limits to the number of requests *per pod*.
+// The more pods we have, the higher the effective limit goes up.
 app.use(
   /.*\/pdf(\/|$)/,
   rateLimit({
     windowMs: 2 * 1000,
-    max: 2, // Limit each IP to 2 requests per 2s
+    max: 2, // Limit each IP to 2 request per 2s
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
     message:
