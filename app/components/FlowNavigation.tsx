@@ -64,20 +64,17 @@ function NavItem({
   destination,
   label,
   state,
-  subflows,
+  subflows = [],
   a11yLabels,
   isChild = false,
 }: Readonly<NavItem & { isChild?: boolean }>) {
-  const visibleSubflows = (subflows ?? []).filter((subItem) =>
+  const visibleChildItems = subflows.filter((subItem) =>
     stateIsActive(subItem.state),
   );
-
+  const hasSubflows = visibleChildItems.length > 0;
   const isDisabled = stateIsDisabled(state);
   const isCurrent = stateIsCurrent(state);
   const isDone = stateIsDone(state);
-  const hasActiveSubflows =
-    stateIsActive(state) &&
-    visibleSubflows.some((subflow) => stateIsActive(subflow.state));
   const collapse = useCollapse({ defaultExpanded: isCurrent });
 
   const liClassNames = classNames("list-none", {
@@ -91,7 +88,7 @@ function NavItem({
     "w-full	ds-label-02-reg p-16 flex gap-x-16 items-center hover:underline hover:bg-blue-300 active:bg-white	focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-800",
     {
       "ds-label-02-bold bg-blue-500 border-l-[3px] border-l-blue-800":
-        isCurrent && !hasActiveSubflows,
+        isCurrent && !hasSubflows,
       "pl-40": isChild,
     },
   );
@@ -99,7 +96,7 @@ function NavItem({
 
   return (
     <li className={liClassNames}>
-      {hasActiveSubflows ? (
+      {hasSubflows ? (
         <>
           <button
             className={itemClassNames}
@@ -121,7 +118,7 @@ function NavItem({
             {...collapse.getCollapseProps()}
           >
             <NavigationList
-              navItems={visibleSubflows}
+              navItems={visibleChildItems}
               a11yLabels={a11yLabels}
               isChild={true}
             />
