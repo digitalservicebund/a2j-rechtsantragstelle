@@ -272,6 +272,38 @@ const cases = [
       "ergebnis/erfolg-gericht",
     ],
   ],
+  [
+    {
+      bereich: "annulierung",
+      ankuendigung: "no",
+      vertretbareGruendeAnnullierung: "no",
+      verjaehrung: "yes",
+      startAirport: "BER",
+      endAirport: "MUN",
+      fluggesellschaft: "airfrance",
+      kostenlos: "no",
+      rabatt: "no",
+      buchung: "yes",
+      abtretung: "no",
+      entschaedigung: "yes",
+      gericht: "yes",
+    },
+    [
+      "start",
+      "bereich",
+      "ankuendigung",
+      "vertretbare-gruende-annullierung",
+      "verjaehrung",
+      "flughaefen",
+      "kostenlos",
+      "rabatt",
+      "buchung",
+      "abtretung",
+      "entschaedigung",
+      "gericht",
+      "ergebnis/erfolg-gericht",
+    ],
+  ],
 ] as const satisfies TestCases<FluggastrechtVorabcheckContext>;
 
 export const testCasesFluggastrechte = {
