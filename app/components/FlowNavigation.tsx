@@ -55,7 +55,7 @@ const NavigationList = ({
   <ul
     className={
       isChild
-        ? "pt-8 pl-32 mr-8 min-w-fit max-w-fit md:min-w-[250px] md:max-w-[250px] break-words"
+        ? "pl-32 mr-8 min-w-fit max-w-fit md:min-w-[250px] md:max-w-[250px] break-words"
         : ""
     }
   >
@@ -138,7 +138,7 @@ function NavItem({
             )}
           </button>
           <section
-            className="w-[240px] border-t-2 border-white"
+            className="border-t-2 border-white"
             {...collapse.getCollapseProps()}
           >
             <NavigationList
