@@ -37,7 +37,7 @@ export function FormFlowPage() {
   return (
     <Background backgroundColor="blue">
       <div className="pt-32 min-h-screen flex flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start">
-        <div className="pb-48 mx-32 md:mr-0 md:pt-[1.4rem] md:shrink-0 md:min-w-[max-content] md:flex md:justify-end">
+        <div className="pb-48 mx-32 md:w-[248px] md:mr-0 md:pt-[1.4rem]">
           <FlowNavigation
             navItems={navItems}
             a11yLabels={navigationA11yLabels}
