@@ -125,11 +125,7 @@ function NavItem({
             className={itemClassNames}
             aria-disabled={isDisabled}
             aria-expanded={collapse.isExpanded}
-            {...collapse.getToggleProps({
-              // Manually blur button to remove focus after click
-              onClick: (e) =>
-                e.target instanceof HTMLElement ? e.target.blur() : null,
-            })}
+            {...collapse.getToggleProps()}
             aria-describedby={iconId}
           >
             {isDone && <StateIcon id={iconId} a11yLabels={a11yLabels} />}
