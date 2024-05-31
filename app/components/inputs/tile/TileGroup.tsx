@@ -36,7 +36,6 @@ const TileGroup = ({
 
   return (
     <fieldset
-      className="border-0 p-0 m-0"
       aria-invalid={error !== undefined}
       aria-describedby={error && errorId}
       aria-errormessage={error && errorId}

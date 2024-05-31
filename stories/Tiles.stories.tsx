@@ -1,14 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { remixContext } from "../.storybook/remixContext";
 import TileGroup from "~/components/inputs/tile/TileGroup";
+import Container from "~/components/Container";
 
 const meta = {
   title: "Component/TileGroup",
   component: TileGroup,
   parameters: {
-    layout: "centered",
+    controls: {
+      exclude: ["formId", "title", "name"],
+    },
   },
   tags: ["autodocs"],
+  decorators: [(Story) => <Container>{remixContext(Story)}</Container>],
 } satisfies Meta<typeof TileGroup>;
 
 export default meta;
@@ -36,62 +40,35 @@ const tileGroupProps = {
   formId: "formId",
 };
 
-export const TileButtonsOneColumn: Story = {
-  args: {
-    ...tileGroupProps,
-  },
-  decorators: [(Story) => remixContext(Story)],
+const imgUrl1 =
+  "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/nichtbefoerderung_622132fec8.svg";
+const imgUrl2 =
+  "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/verspaetung_3a4c9932b4.svg";
+
+export const TextOnly: Story = {
+  args: { ...tileGroupProps },
 };
 
-export const TileButtonsTwoColumn: Story = {
+export const WithImageAndTag: Story = {
   args: {
     ...tileGroupProps,
-    useTwoColumns: true,
-  },
-  decorators: [(Story) => remixContext(Story)],
-};
-
-export const TileTwoColumnAndImageOption: Story = {
-  args: {
-    ...tileGroupProps,
-    useTwoColumns: true,
     options: [
       {
         ...tileGroupOptionOneProps,
-        image: {
-          url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/nichtbefoerderung_622132fec8.svg",
-        },
       },
-      {
-        ...tileGroupOptionTwoProps,
-        image: {
-          url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/verspaetung_3a4c9932b4.svg",
-        },
-      },
-    ],
-  },
-  decorators: [(Story) => remixContext(Story)],
-};
-
-export const TileTwoColumnAndImageOptionAndTag: Story = {
-  args: {
-    ...tileGroupProps,
-    useTwoColumns: true,
-    options: [
       {
         ...tileGroupOptionOneProps,
-        image: {
-          url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/nichtbefoerderung_622132fec8.svg",
-        },
+        image: { url: imgUrl1 },
+      },
+      {
+        ...tileGroupOptionOneProps,
+        image: { url: imgUrl1 },
       },
       {
         ...tileGroupOptionTwoProps,
-        image: {
-          url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/verspaetung_3a4c9932b4.svg",
-        },
+        image: { url: imgUrl2 },
         tagDescription: "Tag description",
       },
     ],
   },
-  decorators: [(Story) => remixContext(Story)],
 };

@@ -43,9 +43,9 @@ const TileRadio = ({
   const id = `${name}-${value}`;
 
   return (
-    <div className="ds-tile-radio-group rounded-lg border-2 border-[#B3C9D6] bg-white break-words">
+    <div className="ds-tile-radio-group rounded-lg border-2 border-[#B3C9D6] bg-white">
       <label
-        className={`flex flex-row items-center cursor-pointer touch-manipulation px-24 py-24 h-full`}
+        className="flex flex-row items-center cursor-pointer touch-manipulation p-24 h-full"
         htmlFor={id}
       >
         <input
@@ -68,15 +68,9 @@ const TileRadio = ({
             )}
             <TileTag tagDescription={tagDescription} />
           </div>
-          <div>
-            <span className="ds-label-01-bold">{title}</span>
-          </div>
+          <span className="ds-label-01-bold">{title}</span>
           {description && (
-            <RichText
-              className="ds-subhead"
-              markdown={description}
-              renderer={paragraphRenderer}
-            />
+            <RichText markdown={description} renderer={paragraphRenderer} />
           )}
         </div>
       </label>
