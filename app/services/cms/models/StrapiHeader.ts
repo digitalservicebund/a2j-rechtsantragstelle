@@ -1,12 +1,12 @@
 import { z } from "zod";
-import { StrapiBackgroundSchema } from "./StrapiBackground";
-import { StrapiContainerSchema } from "./StrapiContainer";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import { StrapiHeadingSchema } from "./StrapiHeading";
-import { StrapiParagraphSchema, getRichTextProps } from "./StrapiParagraph";
 import { HeaderPropsSchema } from "~/components/Header";
 import { omitNull } from "~/util/omitNull";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { StrapiBackgroundSchema } from "./StrapiBackground";
+import { StrapiContainerSchema } from "./StrapiContainer";
 import type { StrapiContentComponent } from "./StrapiContentComponent";
+import { StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiParagraphSchema, getRichTextProps } from "./StrapiParagraph";
 
 const StrapiHeaderSchema = z
   .object({

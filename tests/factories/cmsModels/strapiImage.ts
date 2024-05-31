@@ -1,5 +1,5 @@
-import { Factory } from "fishery";
 import { faker } from "@faker-js/faker";
+import { Factory } from "fishery";
 import type { StrapiImage } from "~/services/cms/models/StrapiImage";
 
 const EXTENSIONS = ["png", "jpg", "svg", "gif"] as const;

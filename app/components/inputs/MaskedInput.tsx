@@ -1,5 +1,5 @@
-import Input, { type InputProps } from "./Input";
 import { IMaskMixin } from "react-imask";
+import Input, { type InputProps } from "./Input";
 
 type MaskedInputProps = InputProps & {
   readonly mask: string | RegExp;

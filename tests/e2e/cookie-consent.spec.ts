@@ -1,9 +1,9 @@
 import { Buffer } from "buffer";
 import { test, expect } from "@playwright/test";
-import { testPageToBeAccessible } from "./util/testPageToBeAccessible";
-import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 import { acceptCookiesFieldName } from "~/components/CookieBanner";
+import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 import { CookieSettings } from "./pom/CookieSettings";
+import { testPageToBeAccessible } from "./util/testPageToBeAccessible";
 
 const pageUrl = "/cookie-einstellungen";
 const encode = (str: string): string =>

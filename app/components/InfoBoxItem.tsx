@@ -1,11 +1,11 @@
+import classNames from "classnames";
 import { z } from "zod";
 import Button, { ButtonPropsSchema } from "./Button";
+import ButtonContainer from "./ButtonContainer";
+import { DetailsSummary, DetailsSummarySchema } from "./DetailsSummary";
 import Heading, { HeadingPropsSchema } from "./Heading";
 import Image, { ImagePropsSchema } from "./Image";
 import RichText from "./RichText";
-import ButtonContainer from "./ButtonContainer";
-import { DetailsSummary, DetailsSummarySchema } from "./DetailsSummary";
-import classNames from "classnames";
 
 export const InfoBoxItemPropsSchema = z.object({
   identifier: z.string().optional(),

@@ -1,13 +1,13 @@
 import { z } from "zod";
+import { BoxPropsSchema } from "~/components/Box";
+import { omitNull } from "~/util/omitNull";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiButtonSchema } from "./StrapiButton";
 import { StrapiContainerSchema } from "./StrapiContainer";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiParagraphSchema, getRichTextProps } from "./StrapiParagraph";
-import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
-import { BoxPropsSchema } from "~/components/Box";
-import { omitNull } from "~/util/omitNull";
 
 const StrapiBoxSchema = z
   .object({

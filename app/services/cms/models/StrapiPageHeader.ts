@@ -1,9 +1,9 @@
 import { z } from "zod";
+import { PageHeaderPropsSchema } from "~/components/PageHeader";
+import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
-import { PageHeaderPropsSchema } from "~/components/PageHeader";
-import { omitNull } from "~/util/omitNull";
 
 export const StrapiPageHeaderSchema = z
   .object({

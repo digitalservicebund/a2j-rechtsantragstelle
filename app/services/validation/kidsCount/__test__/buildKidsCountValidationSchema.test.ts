@@ -1,5 +1,5 @@
-import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import type { SafeParseError } from "zod";
+import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 
 describe("money validation", () => {
   describe("success cases", () => {

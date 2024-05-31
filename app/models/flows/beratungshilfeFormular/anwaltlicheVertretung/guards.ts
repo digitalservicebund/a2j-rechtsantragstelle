@@ -1,6 +1,6 @@
-import { dateUTCFromGermanDateString, today } from "~/services/validation/date";
-import type { GenericGuard, Guards } from "~/models/flows/guards.server";
 import type { BeratungshilfeAnwaltlicheVertretung } from "~/models/flows/beratungshilfeFormular/anwaltlicheVertretung/context";
+import type { GenericGuard, Guards } from "~/models/flows/guards.server";
+import { dateUTCFromGermanDateString, today } from "~/services/validation/date";
 
 const anwaltskanzleiYes: GenericGuard<BeratungshilfeAnwaltlicheVertretung> = ({
   context,

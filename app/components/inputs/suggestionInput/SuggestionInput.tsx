@@ -1,12 +1,8 @@
-import { useField } from "remix-validated-form";
 import classNames from "classnames";
-import InputError from "../InputError";
-import InputLabel from "../InputLabel";
-import { type ErrorMessageProps } from "..";
-import airports from "data/airports/data.json";
-import Select from "react-select";
 import { RefObject, useEffect, useRef, useState } from "react";
-import Input from "../Input";
+import Select from "react-select";
+import { useField } from "remix-validated-form";
+import airports from "data/airports/data.json";
 import {
   CustomClearIndicator,
   CustomControl,
@@ -15,6 +11,10 @@ import {
   customStyles,
   FormatOptionLabel,
 } from "./customComponents";
+import { type ErrorMessageProps } from "..";
+import Input from "../Input";
+import InputError from "../InputError";
+import InputLabel from "../InputLabel";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 

@@ -1,17 +1,17 @@
 import { useLoaderData, useLocation, useParams } from "@remix-run/react";
 import { ValidatedForm } from "remix-validated-form";
-import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import PageContent from "~/components/PageContent";
+import ArraySummary from "~/components/ArraySummary";
 import Background from "~/components/Background";
-import { validatorForFieldnames } from "~/services/validation/buildStepValidator";
-import { CSRFKey } from "~/services/security/csrfKey";
+import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
-import { splatFromParams } from "~/services/params";
-import type { loader } from "../formular.server";
-import ArraySummary from "~/components/ArraySummary";
+import PageContent from "~/components/PageContent";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
+import { splatFromParams } from "~/services/params";
+import { CSRFKey } from "~/services/security/csrfKey";
+import { validatorForFieldnames } from "~/services/validation/buildStepValidator";
+import type { loader } from "../formular.server";
 
 export function FormFlowPage() {
   const {

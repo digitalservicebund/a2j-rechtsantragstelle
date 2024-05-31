@@ -1,6 +1,6 @@
-import * as remixValidatedForm from "remix-validated-form";
 import { createRemixStub } from "@remix-run/testing";
 import { render, screen, fireEvent } from "@testing-library/react";
+import * as remixValidatedForm from "remix-validated-form";
 import Textarea from "~/components/inputs/Textarea";
 
 jest.mock("remix-validated-form", () => ({

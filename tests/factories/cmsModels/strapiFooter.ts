@@ -1,10 +1,10 @@
-import { Factory } from "fishery";
 import { faker } from "@faker-js/faker";
+import { Factory } from "fishery";
 import type { StrapiFooter } from "~/services/cms/models/StrapiFooter";
+import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { strapiImageFactory } from "./strapiImage";
 import { strapiLinkFactory } from "./strapiLink";
 import { strapiParagraphFactory } from "./strapiParagraph";
-import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 
 export const strapiFooterFactory = Factory.define<StrapiFooter>(() => {
   return {

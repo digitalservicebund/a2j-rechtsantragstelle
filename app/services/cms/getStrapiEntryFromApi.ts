@@ -1,9 +1,9 @@
 import type { AxiosResponse } from "axios";
 import axios from "axios";
-import { config } from "../env/env.server";
 import type { GetStrapiEntryOpts } from "./index.server";
-import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
 import type { StrapiFileContent } from "./models/StrapiFileContent";
+import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
+import { config } from "../env/env.server";
 
 const buildUrl = ({
   apiId,

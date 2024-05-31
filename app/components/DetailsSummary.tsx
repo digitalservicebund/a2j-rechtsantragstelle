@@ -1,5 +1,5 @@
-import RichText from "./RichText";
 import { z } from "zod";
+import RichText from "./RichText";
 
 export const DetailsSummarySchema = z.object({
   identifier: z.string().optional(),

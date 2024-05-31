@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import UploadZone from "~/components/inputs/UploadZone";
+import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
 const StrapiFileInputSchema = z
   .object({

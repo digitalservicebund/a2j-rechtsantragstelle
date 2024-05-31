@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { BeratungshilfeVorabcheck } from "./pom/BeratungshilfeVorabcheck";
 import { csrfCountMax } from "~/services/security/csrf.server";
+import { BeratungshilfeVorabcheck } from "./pom/BeratungshilfeVorabcheck";
 
 test.describe("CSRF token", () => {
   test("multiple tabs work", async ({ page, context }) => {

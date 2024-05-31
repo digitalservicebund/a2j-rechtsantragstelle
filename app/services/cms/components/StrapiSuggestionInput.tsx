@@ -1,12 +1,12 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import { omitNull } from "~/util/omitNull";
+import SuggestionInput from "~/components/inputs/suggestionInput/SuggestionInput";
+import type { SuggestionInputProps } from "~/components/inputs/suggestionInput/SuggestionInput";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
-import SuggestionInput from "~/components/inputs/suggestionInput/SuggestionInput";
-import type { SuggestionInputProps } from "~/components/inputs/suggestionInput/SuggestionInput";
+import { omitNull } from "~/util/omitNull";
+import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
 const StrapiSuggestionInputSchema = z
   .object({

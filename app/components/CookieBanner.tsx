@@ -1,12 +1,12 @@
 import { useFetcher, useLocation } from "@remix-run/react";
-import { config } from "~/services/env/web";
-import { useEffect, useState } from "react";
 import { posthog } from "posthog-js";
+import { useEffect, useState } from "react";
+import { z } from "zod";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
 import Heading, { HeadingPropsSchema } from "~/components/Heading";
-import { z } from "zod";
 import RichText, { RichTextPropsSchema } from "~/components/RichText";
+import { config } from "~/services/env/web";
 
 export const acceptCookiesFieldName = "accept-cookies";
 

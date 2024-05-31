@@ -1,5 +1,5 @@
-import { airportSchema } from "~/services/validation/airport";
 import type { SafeParseError } from "zod";
+import { airportSchema } from "~/services/validation/airport";
 
 describe("airport validation", () => {
   describe("success cases", () => {

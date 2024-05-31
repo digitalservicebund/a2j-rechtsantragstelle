@@ -1,7 +1,7 @@
+import classNames from "classnames";
 import { z } from "zod";
 import Heading, { HeadingPropsSchema } from "./Heading";
 import InfoBoxItem, { InfoBoxItemPropsSchema } from "./InfoBoxItem";
-import classNames from "classnames";
 
 export const InfoBoxPropsSchema = z.object({
   identifier: z.string().optional(),

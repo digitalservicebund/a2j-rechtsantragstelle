@@ -1,12 +1,12 @@
 import { useLocation } from "@remix-run/react";
-import Background from "../Background";
-import Container from "../Container";
+import { type FeedbackBoxProps, FeedbackFormBox } from "./FeedbackFormBox";
 import {
   type PostSubmissionBoxProps,
   PostSubmissionBox,
 } from "./PostSubmissionBox";
-import { type FeedbackBoxProps, FeedbackFormBox } from "./FeedbackFormBox";
 import { type RatingBoxProps, RatingBox } from "./RatingBox";
+import Background from "../Background";
+import Container from "../Container";
 
 export enum BannerState {
   ShowRating = "showRating",

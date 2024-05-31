@@ -1,6 +1,6 @@
-import type { StrapiPadding } from "~/services/cms/models/StrapiPadding";
-import type { StrapiContainer } from "~/services/cms/models/StrapiContainer";
 import type { StrapiBackground } from "~/services/cms/models/StrapiBackground";
+import type { StrapiContainer } from "~/services/cms/models/StrapiContainer";
+import type { StrapiPadding } from "~/services/cms/models/StrapiPadding";
 import type { BackgroundColor } from ".";
 
 type Padding =

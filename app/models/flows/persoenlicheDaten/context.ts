@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
 const titleSchema = z.enum(["", "dr"]);
 

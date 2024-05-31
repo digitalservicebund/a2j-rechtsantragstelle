@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { StrapiFieldErrorSchema } from "./StrapiFieldError";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
+import { StrapiFieldErrorSchema } from "./StrapiFieldError";
 
 export const StrapiErrorCategorySchema = z
   .object({

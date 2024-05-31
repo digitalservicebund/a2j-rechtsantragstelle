@@ -1,3 +1,4 @@
+import { Result } from "true-myth";
 import {
   COMPENSATION_VALUE_ABOVE_3000_KM,
   COMPENSATION_VALUE_UNTIL_1500_KM,
@@ -12,7 +13,6 @@ import {
   getStartAirportName,
 } from "~/models/flows/fluggastrechte/stringReplacements";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/util/calculateDistanceBetweenAirports";
-import { Result } from "true-myth";
 
 jest.mock("~/util/calculateDistanceBetweenAirports");
 

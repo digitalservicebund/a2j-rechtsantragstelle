@@ -1,10 +1,10 @@
 /* eslint sonarjs/no-duplicate-string: 0 */
 import { createMachine } from "xstate";
 import { happyPathData } from "tests/fixtures/beratungshilfeVorabcheckData";
-import { guards } from "~/models/flows/beratungshilfe/guards";
+import type { TestCases } from "~/models/flows/__test__/TestCases";
 import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
 import type { BeratungshilfeVorabcheckContext } from "~/models/flows/beratungshilfe/context";
-import type { TestCases } from "~/models/flows/__test__/TestCases";
+import { guards } from "~/models/flows/beratungshilfe/guards";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
 const machine: FlowStateMachine = createMachine(

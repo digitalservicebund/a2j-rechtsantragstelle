@@ -1,6 +1,6 @@
-import * as remixValidatedForm from "remix-validated-form";
 import { createRemixStub } from "@remix-run/testing";
 import { fireEvent, render, screen } from "@testing-library/react";
+import * as remixValidatedForm from "remix-validated-form";
 import TileRadio from "~/components/inputs/tile/TileRadio";
 
 const COMPONENT_NAME = "TileRadio";

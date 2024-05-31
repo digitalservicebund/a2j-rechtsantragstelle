@@ -1,10 +1,10 @@
 import { z } from "zod";
+import { airportSchema } from "~/services/validation/airport";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import {
   YesNoAnswer,
   customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
-import { airportSchema } from "~/services/validation/airport";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 export const airlineSchema = z.enum([
   "alitalia",

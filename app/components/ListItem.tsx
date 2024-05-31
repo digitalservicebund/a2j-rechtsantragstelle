@@ -1,9 +1,9 @@
 import { z } from "zod";
 import Button, { ButtonPropsSchema } from "./Button";
+import ButtonContainer from "./ButtonContainer";
 import Heading, { HeadingPropsSchema } from "./Heading";
 import Image, { ImagePropsSchema } from "./Image";
 import RichText from "./RichText";
-import ButtonContainer from "./ButtonContainer";
 
 export const ListItemPropsSchema = z.object({
   identifier: z.string().optional(),

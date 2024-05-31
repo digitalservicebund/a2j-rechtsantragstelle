@@ -1,9 +1,9 @@
+import classNames from "classnames";
 import { useField } from "remix-validated-form";
-import Image from "../../Image";
-import RichText from "../../RichText";
 import type { ExtraTileProps, TileProps } from "./TileGroup";
 import TileTag from "./TileTag";
-import classNames from "classnames";
+import Image from "../../Image";
+import RichText from "../../RichText";
 
 const Tile = ({
   name,

@@ -1,9 +1,9 @@
+import type { Renderer } from "marked";
 import { useField } from "remix-validated-form";
+import type { ExtraTileProps, TileProps } from "./TileGroup";
+import TileTag from "./TileTag";
 import Image from "../../Image";
 import RichText from "../../RichText";
-import type { ExtraTileProps, TileProps } from "./TileGroup";
-import type { Renderer } from "marked";
-import TileTag from "./TileTag";
 
 const paragraphRenderer: Partial<Renderer> = {
   paragraph(text) {

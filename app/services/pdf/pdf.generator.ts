@@ -1,6 +1,6 @@
-import { PDFDocument, PDFCheckBox, PDFTextField, type PDFField } from "pdf-lib";
 import fs from "node:fs";
 import path from "node:path";
+import { PDFDocument, PDFCheckBox, PDFTextField, type PDFField } from "pdf-lib";
 import { normalizePropertyName } from "./pdf.server";
 
 const pdfs = [

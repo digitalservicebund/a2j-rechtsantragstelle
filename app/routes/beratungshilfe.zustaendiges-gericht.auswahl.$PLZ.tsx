@@ -3,14 +3,14 @@ import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Background from "~/components/Background";
 import Button from "~/components/Button";
-import Container from "~/components/Container";
 import ButtonContainer from "~/components/ButtonContainer";
+import Container from "~/components/Container";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
+import Heading from "~/components/Heading";
+import RichText from "~/components/RichText";
 import { fetchMeta, fetchSingleEntry } from "~/services/cms/index.server";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import RichText from "~/components/RichText";
 import { fillTemplate } from "~/util/fillTemplate";
-import Heading from "~/components/Heading";
 import { splitObjectsByFirstLetter } from "~/util/strings";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {

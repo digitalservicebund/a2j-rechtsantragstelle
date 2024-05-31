@@ -1,6 +1,6 @@
 import axios from "axios";
-import type { GetStrapiEntryOpts } from "~/services/cms/index.server";
 import { getStrapiEntryFromApi } from "~/services/cms/getStrapiEntryFromApi";
+import type { GetStrapiEntryOpts } from "~/services/cms/index.server";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 
 jest.mock("axios");

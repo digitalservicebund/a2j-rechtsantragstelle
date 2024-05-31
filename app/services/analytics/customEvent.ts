@@ -1,6 +1,6 @@
-import { config } from "../env/web";
 import { parse } from "cookie";
 import { getPosthogClient } from "./posthogClient.server";
+import { config } from "../env/web";
 
 function idFromCookie(request: Request) {
   // Note: can't use cookie.parse(): https://github.com/remix-run/remix/discussions/5198

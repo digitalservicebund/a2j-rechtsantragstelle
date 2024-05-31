@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 import type { GenericGuard } from "../../guards.server";
 
 export const bereich = z.enum(

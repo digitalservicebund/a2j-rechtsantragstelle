@@ -1,9 +1,9 @@
+import { createMachine } from "xstate";
 import type { TestCases } from "~/models/flows/__test__/TestCases";
-import { guards } from "~/models/flows/fluggastrechte/guards";
 import fluggastrechte from "~/models/flows/fluggastrechte/config.json";
 import type { FluggastrechtVorabcheckContext } from "~/models/flows/fluggastrechte/context";
+import { guards } from "~/models/flows/fluggastrechte/guards";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
-import { createMachine } from "xstate";
 
 const machine: FlowStateMachine = createMachine(
   { ...fluggastrechte, context: {} },

@@ -1,5 +1,5 @@
-import Button from "~/components/Button";
 import Close from "@digitalservicebund/icons/Close";
+import Button from "~/components/Button";
 import { throw404OnProduction } from "../services/errorPages/throw404";
 
 export const loader = () => {

@@ -1,3 +1,5 @@
+import { getShortestPaths } from "@xstate/graph";
+import _ from "lodash";
 import type { MachineConfig } from "xstate";
 import {
   getInitialSnapshot,
@@ -5,15 +7,13 @@ import {
   pathToStateValue,
   setup,
 } from "xstate";
-import { getShortestPaths } from "@xstate/graph";
+import type { Context } from "~/models/flows/contexts";
+import type { GenericGuard, Guards } from "~/models/flows/guards.server";
+import type { ArrayConfig } from "~/services/array";
 import {
   stateValueToStepIds,
   stepIdToPath,
 } from "~/services/flow/stepIdConverter";
-import type { Context } from "~/models/flows/contexts";
-import type { GenericGuard, Guards } from "~/models/flows/guards.server";
-import _ from "lodash";
-import type { ArrayConfig } from "~/services/array";
 
 type Event = "SUBMIT" | "BACK";
 type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };

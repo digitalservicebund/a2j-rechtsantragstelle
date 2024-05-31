@@ -1,27 +1,26 @@
-import { renderToBuffer } from "@react-pdf/renderer";
-import { isBooleanField } from "../fileTypes";
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { renderToBuffer } from "@react-pdf/renderer";
 import { PDFDocument } from "pdf-lib";
-import { changeBooleanField, changeStringField } from "../pdf.server";
+import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import FormAttachment from "~/components/FormAttachment";
-
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import fillHeader from "./sections/header";
-import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
 import type { Attachment } from "./attachment";
 import { createAttachment } from "./attachment";
+import { addDruckvermerk } from "./druckvermerk";
+import { resizeToA4 } from "./resizeToA4";
 import { fillAngelegenheit } from "./sections/A_angelegenheit";
+import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
 import { fillEinkommen } from "./sections/C_einkommen";
+import { fillWohnen } from "./sections/D_wohnen";
 import { fillUnterhalt } from "./sections/E_unterhalt/E_unterhalt";
 import { fillBesitz } from "./sections/F_besitz/F_besitz";
 import { fillFooter } from "./sections/footer";
-import { fillWohnen } from "./sections/D_wohnen";
 import { fillAusgaben } from "./sections/G_ausgaben";
-import { resizeToA4 } from "./resizeToA4";
-import { addDruckvermerk } from "./druckvermerk";
+import fillHeader from "./sections/header";
+import { isBooleanField } from "../fileTypes";
+import { changeBooleanField, changeStringField } from "../pdf.server";
 export { getBeratungshilfeParameters };
 
 export async function getBeratungshilfePdfFromContext(

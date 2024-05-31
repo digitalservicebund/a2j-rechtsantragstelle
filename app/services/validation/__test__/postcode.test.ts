@@ -1,5 +1,5 @@
-import { postcodeSchema } from "~/services/validation/postcode";
 import type { SafeParseError } from "zod";
+import { postcodeSchema } from "~/services/validation/postcode";
 
 describe("postcode validation", () => {
   describe("success cases", () => {

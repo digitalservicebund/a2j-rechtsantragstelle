@@ -1,5 +1,5 @@
-import { config } from "~/services/env/web";
 import * as Sentry from "@sentry/remix";
+import { config } from "~/services/env/web";
 
 const { SENTRY_DSN, ENVIRONMENT } = config();
 let sentryHasBeenInitialized = false;

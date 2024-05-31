@@ -1,5 +1,5 @@
-import invariant from "tiny-invariant";
 import type { Params } from "@remix-run/react";
+import invariant from "tiny-invariant";
 
 export function splatFromParams(params: Params) {
   const splat = params["*"];

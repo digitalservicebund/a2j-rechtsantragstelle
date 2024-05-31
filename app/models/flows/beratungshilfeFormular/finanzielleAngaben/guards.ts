@@ -2,8 +2,8 @@ import {
   firstArrayIndex,
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
-import { yesNoGuards, type Guards } from "../../guards.server";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
+import { yesNoGuards, type Guards } from "../../guards.server";
 
 const hasStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] =
   ({ context }) =>

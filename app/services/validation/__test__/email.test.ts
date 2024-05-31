@@ -1,5 +1,5 @@
-import { emailSchema } from "~/services/validation/email";
 import type { SafeParseError } from "zod";
+import { emailSchema } from "~/services/validation/email";
 
 describe("email validation", () => {
   describe("success cases", () => {

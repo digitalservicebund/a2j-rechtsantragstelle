@@ -3,6 +3,7 @@ import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
 import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
 import classNames from "classnames";
 import { useId, type FC } from "react";
+import { useCollapse } from "react-collapsed";
 import {
   stateIsCurrent,
   stateIsActive,
@@ -10,7 +11,6 @@ import {
   stateIsDone,
   type NavState,
 } from "~/services/navigation/navState";
-import { useCollapse } from "react-collapsed";
 import { NavigationList, type NavigationA11yLabels } from "./NavigationList";
 
 export type NavItem = {

@@ -1,4 +1,3 @@
-import type { StrapiFormComponent } from "../models/StrapiFormComponent";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import { StrapiCheckbox } from "../components/StrapiCheckbox";
 import { StrapiDateInput } from "../components/StrapiDateInput";
@@ -6,10 +5,11 @@ import { StrapiDropdown } from "../components/StrapiDropdown";
 import { StrapiFileInput } from "../components/StrapiFileInput";
 import { StrapiInput } from "../components/StrapiInput";
 import { StrapiSelect } from "../components/StrapiSelect";
-import { StrapiTextarea } from "../components/StrapiTextarea";
-import { StrapiTimeInput } from "../components/StrapiTimeInput";
 import StrapiSuggestionInput from "../components/StrapiSuggestionInput";
+import { StrapiTextarea } from "../components/StrapiTextarea";
 import StrapiTileGroup from "../components/StrapiTileGroup";
+import { StrapiTimeInput } from "../components/StrapiTimeInput";
+import type { StrapiFormComponent } from "../models/StrapiFormComponent";
 
 const FormComponent = ({
   component,

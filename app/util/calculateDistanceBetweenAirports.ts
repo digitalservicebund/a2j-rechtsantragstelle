@@ -1,7 +1,7 @@
-import airports from "data/airports/data.json";
 import haversine from "haversine-distance";
-import { z } from "zod";
 import { Result } from "true-myth";
+import { z } from "zod";
+import airports from "data/airports/data.json";
 
 const KILOMETERS_IN_METERS = 1000;
 const TWO_FRACTION_DIGITS = 2;

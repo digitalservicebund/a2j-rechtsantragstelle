@@ -1,8 +1,8 @@
 import { type ReactNode, useState } from "react";
 import { useStringField } from "~/services/validation/useStringField";
+import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
 import Radio from "./Radio";
-import { type ErrorMessageProps } from ".";
 
 type RadioGroupProps = Readonly<{
   name: string;

@@ -1,7 +1,7 @@
 import { z } from "zod";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiAmtsgerichtCommonSchema = z
   .object({

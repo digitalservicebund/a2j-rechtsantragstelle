@@ -4,11 +4,11 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import {
   createAttachment,
   newPageHint,
 } from "~/services/pdf/beratungshilfe/attachment";
+import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import {
   fillFinancialBankkonto,
   fillFinancialGrundeigentum,

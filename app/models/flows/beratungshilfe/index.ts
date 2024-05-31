@@ -1,6 +1,6 @@
 import config from "./config.json";
-import { guards, isIncomeTooHigh } from "./guards";
 import { getVerfuegbaresEinkommenFreibetrag } from "./freibetrag";
+import { guards, isIncomeTooHigh } from "./guards";
 import { type AllContexts } from "../common";
 
 export function reasonsToDisplayBeratungshilfe(context: AllContexts) {

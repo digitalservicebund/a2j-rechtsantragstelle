@@ -1,16 +1,16 @@
 import { z } from "zod";
-import { StrapiFooterSchema } from "./StrapiFooter";
-import { StrapiPageSchema } from "./StrapiPage";
-import { StrapiResultPageSchema } from "./StrapiResultPage";
-import { StrapiVorabCheckCommonSchema } from "./StrapiVorabCheckCommon";
-import { StrapiVorabCheckPageSchema } from "./StrapiVorabCheckPage";
 import { HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiAmtsgerichtCommonSchema } from "./StrapiAmtsgerichtCommon";
 import { StrapiCookieBannerSchema } from "./StrapiCookieBannerSchema";
-import { StrapiPageHeaderSchema } from "./StrapiPageHeader";
-import { StrapiGlobalSchema } from "./StrapiGlobal";
+import { StrapiFooterSchema } from "./StrapiFooter";
 import { StrapiFormFlowPageSchema } from "./StrapiFormFlowPage";
+import { StrapiGlobalSchema } from "./StrapiGlobal";
+import { StrapiPageSchema } from "./StrapiPage";
+import { StrapiPageHeaderSchema } from "./StrapiPageHeader";
+import { StrapiResultPageSchema } from "./StrapiResultPage";
 import { StrapiTranslationSchema } from "./StrapiTranslations";
+import { StrapiVorabCheckCommonSchema } from "./StrapiVorabCheckCommon";
+import { StrapiVorabCheckPageSchema } from "./StrapiVorabCheckPage";
 
 export const StrapiFileContentSchema = z.object({
   "amtsgericht-common": z.array(

@@ -1,13 +1,13 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import { StrapiSelectOptionSchema } from "../models/StrapiSelectOption";
 import RadioGroup from "~/components/inputs/RadioGroup";
-import { omitNull } from "~/util/omitNull";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
+import { omitNull } from "~/util/omitNull";
+import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import type { StrapiFormComponent } from "../models/StrapiFormComponent";
+import { StrapiSelectOptionSchema } from "../models/StrapiSelectOption";
 
 const StrapiSelectSchema = z
   .object({

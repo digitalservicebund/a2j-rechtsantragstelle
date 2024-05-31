@@ -1,13 +1,13 @@
-import Heading from "./Heading";
-import type { Translations } from "~/services/cms/index.server";
-import Button from "./Button";
-import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import AddButton from "@digitalservicebund/icons/Add";
-import RichText from "./RichText";
+import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import type { ArrayData } from "~/models/flows/contexts";
 import type { ArrayConfig } from "~/services/array";
+import type { Translations } from "~/services/cms/index.server";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
 import ArraySummaryItemButton from "./ArraySummaryItemButton";
+import Button from "./Button";
+import Heading from "./Heading";
+import RichText from "./RichText";
 
 type ArraySummaryProps = {
   readonly category: string;

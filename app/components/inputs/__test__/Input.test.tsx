@@ -1,7 +1,7 @@
-import * as remixValidatedForm from "remix-validated-form";
 import { createRemixStub } from "@remix-run/testing";
-import Input from "~/components/inputs/Input";
 import { render } from "@testing-library/react";
+import * as remixValidatedForm from "remix-validated-form";
+import Input from "~/components/inputs/Input";
 
 const COMPONENT_NAME = "test-input";
 const COMPONENT_DATA_LIST_INPUT_TEXT = "Mock Data List Input";

@@ -1,7 +1,7 @@
-import type { GenericGuard } from "../../guards.server";
-import { eigentumDone, eigentumZusammenfassungDone } from "./navStatesEigentum";
-import { einkommenDone as einkommenDoneGuard } from "./guards";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
+import { einkommenDone as einkommenDoneGuard } from "./guards";
+import { eigentumDone, eigentumZusammenfassungDone } from "./navStatesEigentum";
+import type { GenericGuard } from "../../guards.server";
 
 export type FinanzielleAngabenGuard =
   GenericGuard<BeratungshilfeFinanzielleAngaben>;

@@ -1,7 +1,7 @@
 import classNames from "classnames";
+import { decode } from "html-entities";
 import type { ReactNode } from "react";
 import { z } from "zod";
-import { decode } from "html-entities";
 
 export const HeadingPropsSchema = z
   .object({

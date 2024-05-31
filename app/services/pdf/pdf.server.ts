@@ -1,7 +1,7 @@
 import type { PDFForm } from "pdf-lib";
+import { lowercaseFirstLetter } from "~/util/strings";
 import type { BooleanField, StringField } from "./fileTypes";
 import { getFontSizeFieldValue } from "./getFontSizeFieldValue";
-import { lowercaseFirstLetter } from "~/util/strings";
 
 const umlautMap = {
   ä: "ae",

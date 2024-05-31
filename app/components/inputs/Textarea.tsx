@@ -1,11 +1,11 @@
+import classNames from "classnames";
 import type { ReactNode } from "react";
 import { useField } from "remix-validated-form";
-import classNames from "classnames";
+import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
+import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
-import { type ErrorMessageProps } from ".";
 import RichText from "../RichText";
-import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 
 type TextareaProps = Readonly<{
   name: string;

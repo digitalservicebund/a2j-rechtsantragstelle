@@ -1,7 +1,7 @@
-import { guards as fluggastrechteVorabcheckGuards } from "~/models/flows/fluggastrechte/guards";
 import fluggastrechteVorabcheckFlow from "~/models/flows/fluggastrechte/config.json";
+import { guards as fluggastrechteVorabcheckGuards } from "~/models/flows/fluggastrechte/guards";
+import type { Translations } from "~/services/cms/index.server";
 import type { FluggastrechtVorabcheckContext } from "./context";
-import type { Context } from "../contexts";
 import {
   getCompensantionPaymentString,
   getEndAirportName,
@@ -9,7 +9,7 @@ import {
   getRouteCompensationDescription,
   getStartAirportName,
 } from "./stringReplacements";
-import type { Translations } from "~/services/cms/index.server";
+import type { Context } from "../contexts";
 
 export const fluggastrechteVorabcheck = {
   cmsSlug: "vorab-check-pages",

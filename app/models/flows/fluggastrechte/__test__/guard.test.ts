@@ -1,7 +1,7 @@
+import { Result } from "true-myth";
 import type { FluggastrechtVorabcheckContext } from "~/models/flows/fluggastrechte/context";
 import { guards } from "~/models/flows/fluggastrechte/guards";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/util/calculateDistanceBetweenAirports";
-import { Result } from "true-myth";
 
 jest.mock("~/util/calculateDistanceBetweenAirports");
 

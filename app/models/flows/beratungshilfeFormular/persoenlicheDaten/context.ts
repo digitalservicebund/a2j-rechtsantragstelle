@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { namePrivatPerson, adresse } from "../../persoenlicheDaten/context";
 import { addYears, createDateSchema, today } from "~/services/validation/date";
+import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import type { GenericGuard } from "../../guards.server";
-import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
+import { namePrivatPerson, adresse } from "../../persoenlicheDaten/context";
 
 export const beratungshilfePersoenlicheDaten = {
   ...namePrivatPerson,

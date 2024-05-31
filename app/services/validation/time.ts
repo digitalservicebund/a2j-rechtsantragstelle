@@ -1,5 +1,5 @@
-import { z } from "zod";
 import isTime from "validator/lib/isTime";
+import { z } from "zod";
 
 export const timeSchema = z
   .string()

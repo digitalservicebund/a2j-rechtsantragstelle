@@ -1,7 +1,7 @@
-import * as remixValidatedForm from "remix-validated-form";
 import { createRemixStub } from "@remix-run/testing";
-import SuggestionInput from "~/components/inputs/suggestionInput/SuggestionInput";
 import { fireEvent, render, waitFor } from "@testing-library/react";
+import * as remixValidatedForm from "remix-validated-form";
+import SuggestionInput from "~/components/inputs/suggestionInput/SuggestionInput";
 
 jest.mock("remix-validated-form", () => ({
   useField: jest.fn(),

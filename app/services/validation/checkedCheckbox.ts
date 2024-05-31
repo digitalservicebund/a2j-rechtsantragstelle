@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { customRequiredErrorMessage } from "./YesNoAnswer";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
+import { customRequiredErrorMessage } from "./YesNoAnswer";
 
 export const checkedRequired = z.enum(
   [CheckboxValue.on],

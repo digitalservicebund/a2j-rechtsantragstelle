@@ -2,12 +2,12 @@
 // Update zip file using npm run update:courtData -- /path/to/file.zip
 
 import crypto from "node:crypto";
-import zlib from "node:zlib";
 import fs from "node:fs";
 import path from "node:path";
+import zlib from "node:zlib";
+import dotenv from "dotenv";
 import { applyDataConversions } from "./convertJsonDataTable";
 import { extractJsonFilesFromZip } from "../../util/file/extractJsonFilesFromZip";
-import dotenv from "dotenv";
 
 dotenv.config();
 const GERICHTSFINDER_ENCRYPTION_KEY = process.env.GERICHTSFINDER_ENCRYPTION_KEY;

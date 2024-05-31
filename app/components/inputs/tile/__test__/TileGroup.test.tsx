@@ -1,7 +1,7 @@
-import TileGroup from "~/components/inputs/tile/TileGroup";
-import * as remixValidatedForm from "remix-validated-form";
 import { createRemixStub } from "@remix-run/testing";
 import { render } from "@testing-library/react";
+import * as remixValidatedForm from "remix-validated-form";
+import TileGroup from "~/components/inputs/tile/TileGroup";
 
 jest.mock("remix-validated-form", () => ({
   useField: jest.fn(),

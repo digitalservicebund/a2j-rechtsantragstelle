@@ -1,10 +1,10 @@
 import fs from "node:fs";
-import { type StrapiPage } from "~/services/cms/models/StrapiPage";
-import { type StrapiFileContent } from "~/services/cms/models/StrapiFileContent";
-import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
-import { strapiFooterFactory } from "tests/factories/cmsModels/strapiFooter";
-import { StrapiLocaleSchema } from "~/services/cms/models/StrapiLocale";
 import { faker } from "@faker-js/faker";
+import { strapiFooterFactory } from "tests/factories/cmsModels/strapiFooter";
+import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
+import { type StrapiFileContent } from "~/services/cms/models/StrapiFileContent";
+import { StrapiLocaleSchema } from "~/services/cms/models/StrapiLocale";
+import { type StrapiPage } from "~/services/cms/models/StrapiPage";
 
 jest.mock("node:fs");
 

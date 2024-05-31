@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import TimeInput from "~/components/inputs/TimeInput";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
 import { omitNull } from "~/util/omitNull";
+import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
 const StrapiTimeInputSchema = z
   .object({

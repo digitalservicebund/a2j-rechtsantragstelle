@@ -1,27 +1,26 @@
 import type { ReactElement } from "react";
-import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
-import { wrapperPropsFromCms } from "./CommonWrapperProps";
+import Heading from "~/components/Heading";
+import { StrapiDetailsSummary } from "~/services/cms/components/StrapiDetailsSummary";
+import { StrapiInlineNotice } from "~/services/cms/components/StrapiInlineNotice";
 import { getBoxProps } from "~/services/cms/models/StrapiBox";
 import { getBoxWithImageProps } from "~/services/cms/models/StrapiBoxWithImage";
+import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import { getHeaderProps } from "~/services/cms/models/StrapiHeader";
 import { getHeadingProps } from "~/services/cms/models/StrapiHeading";
 import { getInfoBoxProps } from "~/services/cms/models/StrapiInfoBox";
 import { getLinkListBoxProps } from "~/services/cms/models/StrapiLinkListBox";
-import { getRichTextProps } from "~/services/cms/models/StrapiParagraph";
 import { getListProps } from "~/services/cms/models/StrapiList";
-
+import { getRichTextProps } from "~/services/cms/models/StrapiParagraph";
 import Background from "./Background";
 import Box from "./Box";
 import BoxWithImage from "./BoxWithImage";
+import { wrapperPropsFromCms } from "./CommonWrapperProps";
 import Container from "./Container";
 import Header from "./Header";
-import Heading from "~/components/Heading";
 import InfoBox from "./InfoBox";
 import LinkListBox from "./LinkListBox";
-import RichText from "./RichText";
 import List from "./List";
-import { StrapiInlineNotice } from "~/services/cms/components/StrapiInlineNotice";
-import { StrapiDetailsSummary } from "~/services/cms/components/StrapiDetailsSummary";
+import RichText from "./RichText";
 import { keyFromElement } from "../services/cms/keyFromElement";
 
 function wrapInContainer(

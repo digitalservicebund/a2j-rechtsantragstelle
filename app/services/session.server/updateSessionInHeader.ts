@@ -1,10 +1,10 @@
-import { createSessionWithCsrf } from "~/services/security/csrf.server";
+import type { FlowId } from "~/models/flows/contexts";
 import { lastStepKey } from "~/services/flow/constants";
+import { createSessionWithCsrf } from "~/services/security/csrf.server";
 import {
   type CookieHeader,
   getSessionManager,
 } from "~/services/session.server/index";
-import type { FlowId } from "~/models/flows/contexts";
 
 export const updateMainSession = async ({
   cookieHeader,

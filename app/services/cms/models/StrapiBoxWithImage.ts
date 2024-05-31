@@ -1,12 +1,12 @@
 import { z } from "zod";
+import { BoxWithImagePropsSchema } from "~/components/BoxWithImage";
+import { omitNull } from "~/util/omitNull";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiImageSchema, getImageProps } from "./StrapiImage";
-import { omitNull } from "~/util/omitNull";
-import { BoxWithImagePropsSchema } from "~/components/BoxWithImage";
 
 const StrapiBoxWithImageSchema = z
   .object({

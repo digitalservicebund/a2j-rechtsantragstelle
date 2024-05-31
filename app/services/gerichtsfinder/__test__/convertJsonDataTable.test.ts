@@ -3,14 +3,13 @@ import {
   gerbehIndex,
   applyDataConversions,
 } from "~/services/gerichtsfinder/convertJsonDataTable";
+import type { GerbehIndex } from "~/services/gerichtsfinder/convertJsonDataTable";
 import type {
   Jmtd14VTErwerberGerbeh,
   Jmtd14VTErwerberPlzortk,
   Jmtd14VTErwerberPlzstrn,
   TypInfo,
 } from "~/services/gerichtsfinder/types";
-
-import type { GerbehIndex } from "~/services/gerichtsfinder/convertJsonDataTable";
 
 const validTypInfo: TypInfo = "Zivilgericht - Amtsgericht";
 

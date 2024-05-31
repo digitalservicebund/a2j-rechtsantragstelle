@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
 import { GeldEinklagenFormular } from "./pom/GeldEinklagenFormular";
+import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
 
 let geldEinklagenFormular: GeldEinklagenFormular;
 

@@ -1,9 +1,9 @@
-import { calculateDistanceBetweenAirportsInKilometers } from "~/util/calculateDistanceBetweenAirports";
-import type { FluggastrechtVorabcheckContext } from "./context";
-import { toGermanDateFormat, today } from "~/services/validation/date";
 import airports from "data/airports/data.json";
 import type { Translations } from "~/services/cms/index.server";
+import { toGermanDateFormat, today } from "~/services/validation/date";
+import { calculateDistanceBetweenAirportsInKilometers } from "~/util/calculateDistanceBetweenAirports";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
+import type { FluggastrechtVorabcheckContext } from "./context";
 
 export const COMPENSATION_VALUE_UNTIL_1500_KM = "250";
 export const COMPENSATION_VALUE_UNTIL_3000_KM = "400";

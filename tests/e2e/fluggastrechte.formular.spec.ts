@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
 import { FluggastrechteFormular } from "tests/e2e/pom/FluggastrechteFormular";
+import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
 
 let fluggastrechte: FluggastrechteFormular;
 

@@ -1,9 +1,9 @@
+import invariant from "tiny-invariant";
 import {
   navItemsFromStepStates,
   navState,
 } from "~/services/flowNavigation.server";
 import { NavState } from "~/services/navigation/navState";
-import invariant from "tiny-invariant";
 
 describe("flowNavigation", () => {
   describe("navState", () => {

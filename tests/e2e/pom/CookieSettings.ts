@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
-import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 import { acceptCookiesFieldName } from "~/components/CookieBanner";
+import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 
 const decode = (str: string): string =>
   Buffer.from(str, "base64").toString("utf8");

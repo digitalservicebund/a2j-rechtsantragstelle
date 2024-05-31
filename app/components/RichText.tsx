@@ -1,6 +1,6 @@
 import { type Renderer, Marked } from "marked";
-import { z } from "zod";
 import sanitizeHtml from "sanitize-html";
+import { z } from "zod";
 
 export const RichTextPropsSchema = z.object({
   markdown: z.string(),

@@ -1,9 +1,9 @@
 import fs from "node:fs";
+import { configDotenv } from "dotenv";
 import { getStrapiCollectionFromApi } from "./getStrapiEntryFromApi";
 import type { EntrySchemas, CollectionSchemas } from "./schemas";
 import { entrySchemas, collectionSchemas } from "./schemas";
 import { config } from "../env/env.server";
-import { configDotenv } from "dotenv";
 
 async function dumpCmsToFile() {
   configDotenv();

@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HeadingPropsSchema } from "~/components/Heading";
 import { omitNull } from "~/util/omitNull";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import type { StrapiContentComponent } from "./StrapiContentComponent";
 
 export const StrapiHeadingSchema = z

@@ -19,26 +19,26 @@ import {
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
-import { config as configWeb } from "~/services/env/web";
+import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import {
   fetchMeta,
   fetchSingleEntry,
   fetchErrors,
   fetchTranslations,
 } from "~/services/cms/index.server";
-import { getFooterProps } from "./services/cms/models/StrapiFooter";
-import Footer from "./components/Footer";
+import { config as configWeb } from "~/services/env/web";
 import Breadcrumbs from "./components/Breadcrumbs";
-import Header from "./components/PageHeader";
-import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import { CookieBanner } from "./components/CookieBanner";
-import { ErrorBox } from "./services/errorPages/ErrorBox";
-import { useNonce } from "./services/security/nonce";
-import { metaFromMatches } from "./services/meta/metaFromMatches";
-import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
-import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import FeedbackBanner, { augmentFeedback } from "./components/FeedbackBanner";
+import Footer from "./components/Footer";
+import Header from "./components/PageHeader";
+import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
+import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import { getStrapiFeedback } from "./services/cms/models/StrapiGlobal";
+import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
+import { ErrorBox } from "./services/errorPages/ErrorBox";
+import { metaFromMatches } from "./services/meta/metaFromMatches";
+import { useNonce } from "./services/security/nonce";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 
 export const headers: HeadersFunction = () => ({

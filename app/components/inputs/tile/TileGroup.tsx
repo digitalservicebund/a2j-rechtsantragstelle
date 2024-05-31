@@ -1,10 +1,10 @@
 import { type ReactNode, useState } from "react";
-import { useStringField } from "~/services/validation/useStringField";
-import InputError from "../InputError";
-import Tile from "./Tile";
-import { type ErrorMessageProps } from "..";
 import type { ImageProps } from "~/components/Image";
+import { useStringField } from "~/services/validation/useStringField";
+import Tile from "./Tile";
 import TileRadio from "./TileRadio";
+import { type ErrorMessageProps } from "..";
+import InputError from "../InputError";
 
 type TileGroupProps = Readonly<{
   name: string;

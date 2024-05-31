@@ -1,11 +1,11 @@
 import { z } from "zod";
+import { CookieBannerContentPropsSchema } from "~/components/CookieBanner";
+import { omitNull } from "~/util/omitNull";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { getRichTextProps, StrapiParagraphSchema } from "./StrapiParagraph";
-import { omitNull } from "~/util/omitNull";
-import { CookieBannerContentPropsSchema } from "~/components/CookieBanner";
 
 export const StrapiCookieBannerSchema = z
   .object({

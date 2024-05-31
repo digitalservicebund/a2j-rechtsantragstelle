@@ -1,6 +1,6 @@
+import type { BeratungshilfeVorabcheckContext } from "./context";
 import { freibetrag } from "./freibetrag";
 import moneyToCents from "../../../services/validation/money/moneyToCents";
-import type { BeratungshilfeVorabcheckContext } from "./context";
 import { yesNoGuards, type Guards, type GenericGuard } from "../guards.server";
 
 type Guard = GenericGuard<BeratungshilfeVorabcheckContext>;

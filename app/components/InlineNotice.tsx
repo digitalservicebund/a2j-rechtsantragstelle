@@ -1,8 +1,8 @@
+import LightbulbOutlinedIcon from "@digitalservicebund/icons/LightbulbOutlined";
+import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
 import { z } from "zod";
 import Heading from "./Heading";
 import RichText from "./RichText";
-import LightbulbOutlinedIcon from "@digitalservicebund/icons/LightbulbOutlined";
-import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
 
 const InlineNoticePropsSchema = z.object({
   identifier: z.string().optional(),

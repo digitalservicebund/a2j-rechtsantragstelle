@@ -5,15 +5,15 @@ import {
   useNavigate,
   useNavigation,
 } from "@remix-run/react";
+import { useEffect, useState } from "react";
 import Button from "~/components/Button";
+import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
 import PageContent from "~/components/PageContent";
 import {
   fetchTranslations,
   strapiPageFromRequest,
 } from "~/services/cms/index.server";
-import ButtonContainer from "~/components/ButtonContainer";
-import { useEffect, useState } from "react";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { content, meta } = await strapiPageFromRequest({ request });

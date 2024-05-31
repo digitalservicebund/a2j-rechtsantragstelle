@@ -1,13 +1,13 @@
 import { z } from "zod";
+import TileGroup from "~/components/inputs/tile/TileGroup";
+import { omitNull } from "~/util/omitNull";
 import {
   HasOptionalStrapiIdSchema,
   HasStrapiIdSchema,
 } from "../models/HasStrapiId";
 import { StrapiErrorCategorySchema } from "../models/StrapiErrorCategory";
-import { omitNull } from "~/util/omitNull";
-import { StrapiTileSchema } from "../models/StrapiTile";
-import TileGroup from "~/components/inputs/tile/TileGroup";
 import { getImageProps } from "../models/StrapiImage";
+import { StrapiTileSchema } from "../models/StrapiTile";
 
 const StrapiTileGroupSchema = z
   .object({

@@ -1,11 +1,11 @@
+import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import type { Attachment } from "../../attachment";
+import { getAttachmentText } from "./getAttachmentText";
 import {
   getListKidsUnterhaltPdfField,
   getListPersonUnterhaltPdfField,
 } from "./unterhaltPdfField";
-import { getAttachmentText } from "./getAttachmentText";
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import type { Attachment } from "../../attachment";
 
 export const ATTACHMENT_DESCRIPTION_SECTION_E = "Feld E Unterhaltszahlungen";
 export const SEE_IN_ATTACHMENT_DESCRIPTION = "Siehe Anhang";

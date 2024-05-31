@@ -1,14 +1,14 @@
-import { StrapiFooterSchema } from "./models/StrapiFooter";
-import { StrapiPageSchema } from "./models/StrapiPage";
-import { StrapiResultPageSchema } from "./models/StrapiResultPage";
-import { StrapiVorabCheckCommonSchema } from "./models/StrapiVorabCheckCommon";
-import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
 import { StrapiAmtsgerichtCommonSchema } from "./models/StrapiAmtsgerichtCommon";
 import { StrapiCookieBannerSchema } from "./models/StrapiCookieBannerSchema";
-import { StrapiPageHeaderSchema } from "./models/StrapiPageHeader";
-import { StrapiGlobalSchema } from "./models/StrapiGlobal";
+import { StrapiFooterSchema } from "./models/StrapiFooter";
 import { StrapiFormFlowPageSchema } from "./models/StrapiFormFlowPage";
+import { StrapiGlobalSchema } from "./models/StrapiGlobal";
+import { StrapiPageSchema } from "./models/StrapiPage";
+import { StrapiPageHeaderSchema } from "./models/StrapiPageHeader";
+import { StrapiResultPageSchema } from "./models/StrapiResultPage";
 import { StrapiTranslationSchema } from "./models/StrapiTranslations";
+import { StrapiVorabCheckCommonSchema } from "./models/StrapiVorabCheckCommon";
+import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
 
 export const entrySchemas = {
   "page-header": StrapiPageHeaderSchema,

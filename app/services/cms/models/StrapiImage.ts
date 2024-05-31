@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { ImagePropsSchema } from "~/components/Image";
 import { omitNull } from "~/util/omitNull";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 function appendStrapiUrlOnDev(imageUrl: string) {
   // Without S3 bucket, Strapi returns relative URLs

@@ -2,9 +2,9 @@ import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { BannerState } from "~/components/UserFeedback";
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
-import { getSessionManager } from "~/services/session.server";
-import { bannerStateName } from "~/services/feedback/handleFeedback";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
+import { bannerStateName } from "~/services/feedback/handleFeedback";
+import { getSessionManager } from "~/services/session.server";
 
 export const loader = () => redirect("/");
 

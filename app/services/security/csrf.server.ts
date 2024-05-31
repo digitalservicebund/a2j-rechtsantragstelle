@@ -1,6 +1,6 @@
 //https://sergiodxa.com/articles/adding-csrf-protection-to-remix
-import type { Session } from "@remix-run/node";
 import { randomBytes } from "node:crypto";
+import type { Session } from "@remix-run/node";
 import {
   type CookieHeader,
   mainSessionFromCookieHeader,

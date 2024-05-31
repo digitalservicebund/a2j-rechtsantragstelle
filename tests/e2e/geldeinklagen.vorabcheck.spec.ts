@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
 import { GeldEinklagenVorabcheck } from "./pom/GeldEinklagenVorabcheck";
+import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
 
 let geldEinklagen: GeldEinklagenVorabcheck;
 

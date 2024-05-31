@@ -1,6 +1,6 @@
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "../../routes/shared/result.server";
 import { ResultPage } from "./ResultPage";
+import type { loader } from "../../routes/shared/result.server";
 
 export function FluggastrechteResultPage() {
   const {

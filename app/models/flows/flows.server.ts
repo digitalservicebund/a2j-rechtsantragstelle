@@ -1,15 +1,15 @@
-import { beratungshilfeFormular } from "~/models/flows/beratungshilfeFormular";
 import { beratungshilfeVorabcheck } from "~/models/flows/beratungshilfe";
+import { beratungshilfeFormular } from "~/models/flows/beratungshilfeFormular";
+import { fluggastrechteVorabcheck } from "~/models/flows/fluggastrechte";
+import { fluggastrechtFlow } from "~/models/flows/fluggastrechteFormular";
 import { geldEinklagenVorabcheck } from "~/models/flows/geldEinklagen";
 import { geldEinklagenFormular } from "~/models/flows/geldEinklagenFormular";
-import { fluggastrechtFlow } from "~/models/flows/fluggastrechteFormular";
-import { fluggastrechteVorabcheck } from "~/models/flows/fluggastrechte";
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type { Translations } from "~/services/cms/index.server";
 import { type CollectionSchemas } from "~/services/cms/schemas";
+import type { Config } from "~/services/flow/server/buildFlowController";
+import type { Replacements } from "~/util/fillTemplate";
 import type { FlowId, Context } from "./contexts";
 import type { Guards } from "./guards.server";
-import type { Replacements } from "~/util/fillTemplate";
-import type { Translations } from "~/services/cms/index.server";
 
 export type Flow = {
   cmsSlug: keyof CollectionSchemas;

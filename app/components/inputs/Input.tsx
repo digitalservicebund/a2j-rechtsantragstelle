@@ -1,11 +1,11 @@
-import { useField } from "remix-validated-form";
 import classNames from "classnames";
+import React from "react";
+import { useField } from "remix-validated-form";
+import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
+import { type ErrorMessageProps } from ".";
+import DataListInput from "./DataListInput";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
-import { type ErrorMessageProps } from ".";
-import React from "react";
-import DataListInput from "./DataListInput";
-import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 
 export type InputProps = Readonly<{
   name: string;

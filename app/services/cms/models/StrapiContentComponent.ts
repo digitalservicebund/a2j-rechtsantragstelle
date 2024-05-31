@@ -1,16 +1,16 @@
 import { z } from "zod";
-import { StrapiHeadingComponentSchema } from "./StrapiHeading";
-import { StrapiBoxWithImageComponentSchema } from "./StrapiBoxWithImage";
-import { StrapiParagraphComponentSchema } from "./StrapiParagraph";
-import { StrapiInfoBoxComponentSchema } from "./StrapiInfoBox";
+import { StrapiArraySummaryComponentSchema } from "./StrapiArraySummary";
 import { StrapiBoxComponentSchema } from "./StrapiBox";
+import { StrapiBoxWithImageComponentSchema } from "./StrapiBoxWithImage";
 import { StrapiHeaderComponentSchema } from "./StrapiHeader";
+import { StrapiHeadingComponentSchema } from "./StrapiHeading";
+import { StrapiInfoBoxComponentSchema } from "./StrapiInfoBox";
 import { StrapiInfoBoxItemComponentSchema } from "./StrapiInfoBoxItem";
 import { StrapiLinkListBoxComponentSchema } from "./StrapiLinkListBox";
 import { StrapiListComponentSchema } from "./StrapiList";
-import { StrapiArraySummaryComponentSchema } from "./StrapiArraySummary";
-import { StrapiInlineNoticeComponentSchema } from "../components/StrapiInlineNotice";
+import { StrapiParagraphComponentSchema } from "./StrapiParagraph";
 import { StrapiDetailsSummaryComponentSchema } from "../components/StrapiDetailsSummary";
+import { StrapiInlineNoticeComponentSchema } from "../components/StrapiInlineNotice";
 
 export const StrapiContentComponentSchema = z.discriminatedUnion(
   "__component",

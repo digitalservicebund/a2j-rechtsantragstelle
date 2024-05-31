@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { StrapiButtonSchema } from "./StrapiButton";
+import { ListItemPropsSchema } from "~/components/ListItem";
+import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
+import { StrapiButtonSchema } from "./StrapiButton";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiImageSchema, getImageProps } from "./StrapiImage";
-import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
-import { omitNull } from "~/util/omitNull";
-import { ListItemPropsSchema } from "~/components/ListItem";
 
 export const StrapiListItemSchema = z
   .object({

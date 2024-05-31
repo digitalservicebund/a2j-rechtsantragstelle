@@ -1,45 +1,45 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
+import type { z } from "zod";
+import { parsePathname } from "~/models/flows/contexts";
+import { flows } from "~/models/flows/flows.server";
+import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
+import { getSummaryData } from "~/services/array/getSummaryData";
+import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
+import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
+import {
+  fetchCollectionEntry,
+  fetchMeta,
+  fetchTranslations,
+} from "~/services/cms/index.server";
+import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
+import type { CollectionSchemas } from "~/services/cms/schemas";
+import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
+import { addPageDataToUserData } from "~/services/flow/pageData";
+import { buildFlowController } from "~/services/flow/server/buildFlowController";
+import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
+import { navItemsFromStepStates } from "~/services/flowNavigation.server";
+import { logError } from "~/services/logging";
+import { stepMeta } from "~/services/meta/formStepMeta";
+import { parentFromParams } from "~/services/params";
+import { validatedSession } from "~/services/security/csrf.server";
 import {
   getSessionData,
   getSessionManager,
   updateSession,
 } from "~/services/session.server";
 import {
-  fetchCollectionEntry,
-  fetchMeta,
-  fetchTranslations,
-} from "~/services/cms/index.server";
-import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { validateFormData } from "~/services/validation/validateFormData.server";
-import { parsePathname } from "~/models/flows/contexts";
-import { flows } from "~/models/flows/flows.server";
-import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
-import { validatedSession } from "~/services/security/csrf.server";
-import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
-import { logError } from "~/services/logging";
-import { getMigrationData } from "~/services/session.server/crossFlowMigration";
-import { navItemsFromStepStates } from "~/services/flowNavigation.server";
-import type { z } from "zod";
-import type { CollectionSchemas } from "~/services/cms/schemas";
-import { getButtonNavigationProps } from "~/util/buttonProps";
-import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { parentFromParams } from "~/services/params";
-import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
-import {
   arrayFromSession,
   arrayIndexFromFormData,
   deleteFromArrayInplace,
 } from "~/services/session.server/arrayDeletion";
-import { interpolateDeep } from "~/util/fillTemplate";
-import { stepMeta } from "~/services/meta/formStepMeta";
-import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
-import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
+import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
-import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
-import { addPageDataToUserData } from "~/services/flow/pageData";
-import { getSummaryData } from "~/services/array/getSummaryData";
+import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import { validateFormData } from "~/services/validation/validateFormData.server";
+import { getButtonNavigationProps } from "~/util/buttonProps";
+import { interpolateDeep } from "~/util/fillTemplate";
 
 const structureCmsContent = (
   formPageContent: z.infer<CollectionSchemas["form-flow-pages"]>,

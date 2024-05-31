@@ -1,10 +1,10 @@
 import { z } from "zod";
+import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
+import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
-import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
-import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { bereich } from "../beratungshilfeFormular/rechtsproblem/context";
 
 export const kidsSchema = z

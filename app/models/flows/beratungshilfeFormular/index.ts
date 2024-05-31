@@ -1,25 +1,17 @@
 import _ from "lodash";
+import type { BeratungshilfeAbgabe } from "~/models/flows/beratungshilfeFormular/abgabe/context";
+import abgabeFlow from "./abgabe/flow.json";
+import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
+import beratungshilfeAnwaltlicheVertretungFlow from "./anwaltlicheVertretung/flow.json";
 import {
   beratungshilfeAnwaltlicheVertretungGuards,
   anwaltlicheVertretungDone,
 } from "./anwaltlicheVertretung/guards";
-import {
-  type BeratungshilfeGrundvoraussetzungen,
-  beratungshilfeGrundvoraussetzungenGuards,
-  grundvoraussetzungDone,
-} from "./grundvoraussetzung/context";
-import beratungshilfeAnwaltlicheVertretungFlow from "./anwaltlicheVertretung/flow.json";
-import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.json";
-import beratungshilfeFormularFlow from "./flow.json";
-import rechtsproblemFlow from "./rechtsproblem/flow.json";
-import {
-  type BeratungshilfeRechtsproblem,
-  rechtsproblemDone,
-} from "./rechtsproblem/context";
-import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
-import abgabeFlow from "./abgabe/flow.json";
+import { finanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
 import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
+import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
+import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
@@ -29,13 +21,26 @@ import {
   wohnungDone,
 } from "./finanzielleAngaben/navStates";
 import {
+  eigentumDone,
+  eigentumZusammenfassungDone,
+} from "./finanzielleAngaben/navStatesEigentum";
+import beratungshilfeFormularFlow from "./flow.json";
+import {
+  type BeratungshilfeGrundvoraussetzungen,
+  beratungshilfeGrundvoraussetzungenGuards,
+  grundvoraussetzungDone,
+} from "./grundvoraussetzung/context";
+import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.json";
+import {
   type BeratungshilfePersoenlicheDaten,
   beratungshilfePersoenlicheDatenDone,
 } from "./persoenlicheDaten/context";
-import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
-import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
-import type { BeratungshilfeAbgabe } from "~/models/flows/beratungshilfeFormular/abgabe/context";
+import {
+  type BeratungshilfeRechtsproblem,
+  rechtsproblemDone,
+} from "./rechtsproblem/context";
+import rechtsproblemFlow from "./rechtsproblem/flow.json";
 import {
   getKinderStrings,
   getArrayIndexStrings,
@@ -44,11 +49,6 @@ import {
   getAnwaltStrings,
   eigentumZusammenfassungShowWarnings,
 } from "./stringReplacements";
-import { finanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
-import {
-  eigentumDone,
-  eigentumZusammenfassungDone,
-} from "./finanzielleAngaben/navStatesEigentum";
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",

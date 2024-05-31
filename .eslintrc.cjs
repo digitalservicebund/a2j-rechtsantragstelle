@@ -78,11 +78,11 @@ module.exports = {
         ],
 
         "import/order": [
-          "off", // enable later
+          "warn",
           {
             alphabetize: { caseInsensitive: true, order: "asc" },
-            groups: ["builtin", "external", "internal", "parent", "sibling"],
-            "newlines-between": "always",
+            groups: ["builtin", "external", "internal"],
+            "newlines-between": "never",
           },
         ],
       },

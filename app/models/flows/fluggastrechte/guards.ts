@@ -1,8 +1,8 @@
+import airports from "data/airports/data.json";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/util/calculateDistanceBetweenAirports";
 import { EUCountries, partnerCourtAirports } from ".";
-import { yesNoGuards, type Guards } from "../guards.server";
 import type { FluggastrechtVorabcheckContext } from "./context";
-import airports from "data/airports/data.json";
+import { yesNoGuards, type Guards } from "../guards.server";
 
 function getCountryCodeByIata(airportIata: string | undefined) {
   return airports.find((airport) => airport.iata === airportIata)?.country_code;

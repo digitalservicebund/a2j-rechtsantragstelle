@@ -1,6 +1,6 @@
 import { type Page } from "@playwright/test";
-import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";
 import type { BeratungshilfeFormular } from "../pom/BeratungshilfeFormular";
+import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";
 
 export async function startGrundvoraussetzungen(
   page: Page,

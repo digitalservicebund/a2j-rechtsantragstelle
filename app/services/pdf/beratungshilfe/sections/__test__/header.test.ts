@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 
+import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
@@ -9,7 +10,6 @@ import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/berat
 import fillHeader, {
   getMaritalDescriptionByContext,
 } from "~/services/pdf/beratungshilfe/sections/header";
-import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 
 describe("fillHeader", () => {
   it("should add weiteres einkommen into attachment", async () => {

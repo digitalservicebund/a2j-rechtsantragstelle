@@ -1,18 +1,18 @@
 import { type Page, expect, test } from "@playwright/test";
-import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";
 import { BeratungshilfeFormular } from "tests/e2e/pom/BeratungshilfeFormular";
+import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
+import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "./finanzielleAngabenAndereUnterhaltszahlungen";
+import { startFinanzielleAngabenAusgaben } from "./finanzielleAngabenAusgaben";
 import { startFinanzielleAngabenEigentum } from "./finanzielleAngabenEigentum";
 import { startFinanzielleAngabenEigentumZusammenfassung } from "./finanzielleAngabenEigentumZusammenfassung";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
-import { startFinanzielleAngabenPartner } from "./finanzielleAngabenPartner";
 import { startFinanzielleAngabenKinder } from "./finanzielleAngabenKinder";
-import { startPersoenlicheDaten } from "./persoenlicheDaten";
-import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
-import { startRechtsproblem } from "./rechtsproblem";
-import { startGrundvoraussetzungen } from "./grundvoraussetzungen";
+import { startFinanzielleAngabenPartner } from "./finanzielleAngabenPartner";
 import { startFinanzielleAngabenWohnung } from "./finanzielleAngabenWohnung";
-import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "./finanzielleAngabenAndereUnterhaltszahlungen";
-import { startFinanzielleAngabenAusgaben } from "./finanzielleAngabenAusgaben";
+import { startGrundvoraussetzungen } from "./grundvoraussetzungen";
+import { startPersoenlicheDaten } from "./persoenlicheDaten";
+import { startRechtsproblem } from "./rechtsproblem";
+import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";
 
 let beratungshilfeFormular: BeratungshilfeFormular;
 

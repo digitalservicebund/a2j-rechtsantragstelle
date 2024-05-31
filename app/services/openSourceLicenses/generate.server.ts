@@ -1,6 +1,5 @@
 import fs from "node:fs";
 import path from "node:path";
-
 import { init } from "license-checker-rseidelsohn";
 import type { ModuleInfos, InitOpts } from "license-checker-rseidelsohn";
 

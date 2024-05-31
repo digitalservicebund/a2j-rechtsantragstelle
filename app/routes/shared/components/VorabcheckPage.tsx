@@ -1,15 +1,15 @@
 import { useLoaderData, useLocation, useParams } from "@remix-run/react";
 import { ValidatedForm } from "remix-validated-form";
-import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import PageContent from "~/components/PageContent";
-import Container from "~/components/Container";
 import Background from "~/components/Background";
+import Container from "~/components/Container";
+import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { ProgressBar } from "~/components/form/ProgressBar";
-import { validatorForFieldnames } from "~/services/validation/buildStepValidator";
-import { CSRFKey } from "~/services/security/csrfKey";
-import { splatFromParams } from "~/services/params";
-import type { loader } from "../vorabcheck.server";
+import PageContent from "~/components/PageContent";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
+import { splatFromParams } from "~/services/params";
+import { CSRFKey } from "~/services/security/csrfKey";
+import { validatorForFieldnames } from "~/services/validation/buildStepValidator";
+import type { loader } from "../vorabcheck.server";
 
 export function VorabcheckPage() {
   const {

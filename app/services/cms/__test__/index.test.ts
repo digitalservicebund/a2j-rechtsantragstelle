@@ -1,6 +1,6 @@
-import { fetchSingleEntry } from "~/services/cms/index.server";
-import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
 import { strapiFooterFactory } from "~/../tests/factories/cmsModels/strapiFooter";
+import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
+import { fetchSingleEntry } from "~/services/cms/index.server";
 
 jest.mock("~/services/cms/getStrapiEntryFromFile", () => {
   return {

@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { RichTextPropsSchema } from "~/components/RichText";
 import { omitNull } from "~/util/omitNull";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiParagraphSchema = z
   .object({ text: z.string() })

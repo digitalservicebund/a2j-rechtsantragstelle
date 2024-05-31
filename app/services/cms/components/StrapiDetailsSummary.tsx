@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import { OptionalStrapiLinkIdentifierSchema } from "../models/HasStrapiLinkIdentifier";
 import { DetailsSummary } from "~/components/DetailsSummary";
 import { omitNull } from "~/util/omitNull";
+import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { OptionalStrapiLinkIdentifierSchema } from "../models/HasStrapiLinkIdentifier";
 
 export const StrapiDetailsSummarySchema = z
   .object({

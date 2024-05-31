@@ -1,21 +1,21 @@
 import { z } from "zod";
 import {
+  checkedOptional,
+  checkedRequired,
+} from "~/services/validation/checkedCheckbox";
+import { emailSchema } from "~/services/validation/email";
+import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
-import { emailSchema } from "~/services/validation/email";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import {
   adresse,
   namePrivatPerson,
   persoenlicheDaten,
 } from "../persoenlicheDaten/context";
-import {
-  checkedOptional,
-  checkedRequired,
-} from "~/services/validation/checkedCheckbox";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 export const context = {
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),

@@ -1,12 +1,12 @@
 import { z } from "zod";
-import { StrapiImageSchema, getImageProps } from "./StrapiImage";
-import { StrapiLinkSchema } from "./StrapiLink";
-import { StrapiParagraphSchema, getRichTextProps } from "./StrapiParagraph";
+import { type FooterProps } from "~/components/Footer";
+import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
-import { type FooterProps } from "~/components/Footer";
-import { omitNull } from "~/util/omitNull";
+import { StrapiImageSchema, getImageProps } from "./StrapiImage";
+import { StrapiLinkSchema } from "./StrapiLink";
+import { StrapiParagraphSchema, getRichTextProps } from "./StrapiParagraph";
 
 export const StrapiFooterSchema = z
   .object({

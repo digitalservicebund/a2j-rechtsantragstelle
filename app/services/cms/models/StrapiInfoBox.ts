@@ -1,15 +1,15 @@
 import { z } from "zod";
+import { InfoBoxPropsSchema } from "~/components/InfoBox";
+import { omitNull } from "~/util/omitNull";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import {
   StrapiInfoBoxItemSchema,
   getInfoBoxItemProps,
 } from "./StrapiInfoBoxItem";
-import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
-import { omitNull } from "~/util/omitNull";
-import { InfoBoxPropsSchema } from "~/components/InfoBox";
 
 const StrapiInfoBoxSchema = z
   .object({

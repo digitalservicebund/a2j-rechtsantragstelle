@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { StrapiElementWithIdSchema } from "./StrapiElementWithId";
-import { StrapiContentComponentSchema } from "./StrapiContentComponent";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { HasStrapiSlugSchema } from "./HasStrapiSlug";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
+import { StrapiContentComponentSchema } from "./StrapiContentComponent";
+import { StrapiElementWithIdSchema } from "./StrapiElementWithId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiLinkSchema } from "./StrapiLink";
 import { StrapiParagraphSchema } from "./StrapiParagraph";

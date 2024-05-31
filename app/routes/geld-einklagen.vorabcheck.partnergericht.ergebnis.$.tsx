@@ -1,13 +1,18 @@
+import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
+import HighlightOff from "@digitalservicebund/icons/HighlightOff";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import type { ReactElement } from "react";
 import invariant from "tiny-invariant";
 import Background from "~/components/Background";
 import Container from "~/components/Container";
 import CourtDetails from "~/components/CourtDetails";
+import Heading from "~/components/Heading";
 import PageContent from "~/components/PageContent";
-import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
-import HighlightOff from "@digitalservicebund/icons/HighlightOff";
+import RichText from "~/components/RichText";
+import { flowIDFromPathname } from "~/models/flows/contexts";
+import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/context";
 import {
   fetchCollectionEntry,
   fetchSingleEntry,
@@ -16,14 +21,9 @@ import {
   findCourt,
   isPartnerCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { flowIDFromPathname } from "~/models/flows/contexts";
+import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import { splatFromParams } from "~/services/params";
 import { getSessionManager } from "~/services/session.server";
-import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/context";
-import Heading from "~/components/Heading";
-import type { ReactElement } from "react";
-import RichText from "~/components/RichText";
-import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 
 export const loader = async ({
   params,

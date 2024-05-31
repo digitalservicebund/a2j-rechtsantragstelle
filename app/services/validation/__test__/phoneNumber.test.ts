@@ -1,5 +1,5 @@
-import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import type { SafeParseError } from "zod";
+import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 
 describe("phoneNumber validation", () => {
   describe("success cases", () => {

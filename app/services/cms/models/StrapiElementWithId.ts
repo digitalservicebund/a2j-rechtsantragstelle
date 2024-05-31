@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { StrapiContentComponentSchema } from "./StrapiContentComponent";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
+import { StrapiContentComponentSchema } from "./StrapiContentComponent";
 
 export const StrapiElementWithIdSchema = z
   .object({

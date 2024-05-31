@@ -1,13 +1,13 @@
-import { getSessionManager } from "../session.server";
+import { type Session, redirect } from "@remix-run/node";
+import { validationError } from "remix-validated-form";
 import { BannerState } from "~/components/UserFeedback";
 import {
   feedbackFormName,
   feedbackValidator,
 } from "~/components/UserFeedback/FeedbackFormBox";
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
-import { validationError } from "remix-validated-form";
-import { type Session, redirect } from "@remix-run/node";
 import { sendCustomAnalyticsEvent } from "../analytics/customEvent";
+import { getSessionManager } from "../session.server";
 
 export const bannerStateName = "bannerState";
 

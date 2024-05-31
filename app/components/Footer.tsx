@@ -1,8 +1,8 @@
 import type { Renderer } from "marked";
+import Background from "./Background";
 import Container from "./Container";
 import Image, { type ImageProps } from "./Image";
 import RichText, { type RichTextProps } from "./RichText";
-import Background from "./Background";
 
 type LinkProps = {
   url: string;
