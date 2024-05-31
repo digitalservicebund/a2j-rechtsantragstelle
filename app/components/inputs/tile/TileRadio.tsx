@@ -1,8 +1,7 @@
 import type { Renderer } from "marked";
 import { useField } from "remix-validated-form";
-import type { ExtraTileProps, TileProps } from "./TileGroup";
-import TileTag from "./TileTag";
-import Image from "../../Image";
+import TileTag, { type TileDescriptionProps } from "./TileTag";
+import Image, { type ImageProps } from "../../Image";
 import RichText from "../../RichText";
 
 const paragraphRenderer: Partial<Renderer> = {
@@ -14,6 +13,22 @@ const paragraphRenderer: Partial<Renderer> = {
 const IMAGE_HEIGHT = 32;
 const IMAGE_WIDTH = 32;
 
+export type TileOptions = Readonly<
+  {
+    value: string;
+    description?: string | null;
+    title?: string;
+    image?: ImageProps;
+  } & TileDescriptionProps
+>;
+
+type TileProps = TileOptions &
+  Readonly<{
+    name: string;
+    onClick: () => void;
+    formId?: string;
+  }>;
+
 const TileRadio = ({
   name,
   description,
@@ -23,7 +38,7 @@ const TileRadio = ({
   tagDescription,
   onClick,
   formId,
-}: TileProps & ExtraTileProps) => {
+}: TileProps) => {
   const { error, getInputProps } = useField(name, { formId });
   const id = `${name}-${value}`;
 

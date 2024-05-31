@@ -1,8 +1,8 @@
-import type { TileProps } from "./TileGroup";
+export type TileDescriptionProps = {
+  readonly tagDescription?: string | undefined;
+};
 
-type Props = Readonly<Pick<TileProps, "tagDescription">>;
-
-const TileTag = ({ tagDescription }: Props) => {
+const TileTag = ({ tagDescription }: TileDescriptionProps) => {
   if (tagDescription) {
     return (
       <span className="max-h-24 bg-blue-300 px-8 py-4 text-blue-800 ds-label-03-bold rounded">

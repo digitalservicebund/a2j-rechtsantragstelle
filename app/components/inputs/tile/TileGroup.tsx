@@ -1,58 +1,18 @@
 import { type ReactNode, useState } from "react";
-import type { ImageProps } from "~/components/Image";
 import { useStringField } from "~/services/validation/useStringField";
-import TileRadio from "./TileRadio";
+import TileRadio, { type TileOptions } from "./TileRadio";
 import { type ErrorMessageProps } from "..";
 import InputError from "../InputError";
 
 type TileGroupProps = Readonly<{
   name: string;
-  options: TileProps[];
+  options: TileOptions[];
   label?: ReactNode;
   altLabel?: string;
   errorMessages?: ErrorMessageProps[];
   useTwoColumns?: boolean;
   formId?: string;
 }>;
-
-export type TileProps = Readonly<{
-  value: string;
-  description?: string | null;
-  title?: string;
-  image?: ImageProps;
-  tagDescription?: string;
-}>;
-
-export type ExtraTileProps = Readonly<{
-  name: string;
-  onClick: () => void;
-  formId?: string;
-}>;
-
-const renderTile = ({
-  name,
-  onClick,
-  value,
-  description,
-  image,
-  tagDescription,
-  title,
-  formId,
-}: TileProps & ExtraTileProps) => {
-  return (
-    <TileRadio
-      key={value}
-      name={name}
-      onClick={onClick}
-      value={value}
-      description={description}
-      tagDescription={tagDescription}
-      image={image}
-      title={title}
-      formId={formId}
-    />
-  );
-};
 
 const TileGroup = ({
   name,
@@ -88,18 +48,19 @@ const TileGroup = ({
         }`}
       >
         {label && <legend>{label}</legend>}
-        {options.map((option) =>
-          renderTile({
-            name,
-            onClick: () => setRenderHiddenField(false),
-            value: option.value,
-            description: option.description,
-            image: option.image,
-            tagDescription: option.tagDescription,
-            title: option.title,
-            formId,
-          }),
-        )}
+        {options.map(({ value, description, tagDescription, image, title }) => (
+          <TileRadio
+            key={value}
+            name={name}
+            onClick={() => setRenderHiddenField(false)}
+            value={value}
+            description={description}
+            tagDescription={tagDescription}
+            image={image}
+            title={title}
+            formId={formId}
+          />
+        ))}
       </div>
       <div className="pt-16">
         {errorToDisplay && (
