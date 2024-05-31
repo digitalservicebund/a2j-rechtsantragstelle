@@ -4,7 +4,7 @@ import {
   screen,
   type RenderResult,
 } from "@testing-library/react";
-import FlowNavigation from "~/components/FlowNavigation";
+import FlowNavigation from "~/components/navigation/FlowNavigation";
 import { NavState } from "~/services/navigation/navState";
 
 describe("FlowNavigation", () => {

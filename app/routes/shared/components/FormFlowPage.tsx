@@ -7,7 +7,7 @@ import { validatorForFieldnames } from "~/services/validation/buildStepValidator
 import { CSRFKey } from "~/services/security/csrfKey";
 import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
-import FlowNavigation from "~/components/FlowNavigation";
+import FlowNavigation from "~/components/navigation/FlowNavigation";
 import { splatFromParams } from "~/services/params";
 import type { loader } from "../formular.server";
 import ArraySummary from "~/components/ArraySummary";

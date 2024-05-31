@@ -4,13 +4,14 @@ import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
 import classNames from "classnames";
 import { useId, type FC } from "react";
 import {
-  NavState,
   stateIsCurrent,
   stateIsActive,
   stateIsDisabled,
   stateIsDone,
-} from "../services/navigation/navState";
+  type NavState,
+} from "~/services/navigation/navState";
 import { useCollapse } from "react-collapsed";
+import { NavigationList, type NavigationA11yLabels } from "./NavigationList";
 
 export type NavItem = {
   destination: string;
@@ -20,7 +21,7 @@ export type NavItem = {
   a11yLabels?: NavigationA11yLabels;
 };
 
-const StateIcon: FC<{
+export const StateIcon: FC<{
   id: string;
   a11yLabels?: NavigationA11yLabels;
 }> = ({ id, a11yLabels }) => (
@@ -31,36 +32,7 @@ const StateIcon: FC<{
   />
 );
 
-type NavigationA11yLabels = {
-  menuLabel: string;
-  itemFinished: string;
-  itemOpen: string;
-};
-type FlowNavigationProps = Readonly<{
-  navItems: NavItem[];
-  a11yLabels?: NavigationA11yLabels;
-}>;
-
-const NavigationList = ({
-  navItems,
-  ...props
-}: FlowNavigationProps & { isChild?: boolean }) => (
-  <ul className="pl-0">
-    {navItems.map((navItem) => (
-      <NavItem {...navItem} key={navItem.destination} {...props} />
-    ))}
-  </ul>
-);
-
-export default function FlowNavigation(props: FlowNavigationProps) {
-  return (
-    <nav aria-label={props.a11yLabels?.menuLabel}>
-      <NavigationList {...props} />
-    </nav>
-  );
-}
-
-function NavItem({
+export function NavItem({
   destination,
   label,
   state,

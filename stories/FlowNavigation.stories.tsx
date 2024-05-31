@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import FlowNavigation from "~/components/FlowNavigation";
+import FlowNavigation from "~/components/navigation/FlowNavigation";
 import { NavState } from "~/services/navigation/navState";
 
 const meta = {
