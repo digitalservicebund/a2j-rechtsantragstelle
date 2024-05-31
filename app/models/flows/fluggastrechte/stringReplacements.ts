@@ -1,7 +1,7 @@
 import airports from "data/airports/data.json";
+import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
 import type { Translations } from "~/services/cms/index.server";
 import { toGermanDateFormat, today } from "~/services/validation/date";
-import { calculateDistanceBetweenAirportsInKilometers } from "~/util/calculateDistanceBetweenAirports";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
 import type { FluggastrechtVorabcheckContext } from "./context";
 

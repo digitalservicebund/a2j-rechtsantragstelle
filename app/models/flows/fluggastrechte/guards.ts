@@ -1,5 +1,5 @@
 import airports from "data/airports/data.json";
-import { calculateDistanceBetweenAirportsInKilometers } from "~/util/calculateDistanceBetweenAirports";
+import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
 import { EUCountries, partnerCourtAirports } from ".";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import { yesNoGuards, type Guards } from "../guards.server";

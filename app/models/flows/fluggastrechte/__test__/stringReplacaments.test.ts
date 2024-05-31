@@ -12,9 +12,9 @@ import {
   getRouteCompensationDescription,
   getStartAirportName,
 } from "~/models/flows/fluggastrechte/stringReplacements";
-import { calculateDistanceBetweenAirportsInKilometers } from "~/util/calculateDistanceBetweenAirports";
+import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
 
-jest.mock("~/util/calculateDistanceBetweenAirports");
+jest.mock("~/services/airports/calculateDistanceBetweenAirports");
 
 const mockedCalculateDistanceBetweenAirports =
   calculateDistanceBetweenAirportsInKilometers as jest.Mocked<
