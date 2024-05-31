@@ -23,7 +23,7 @@ describe("fillHeader", () => {
       weitereseinkommen: happyPathData.weitereseinkommen,
     };
 
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
     const attachment = createAttachment(context);
 
     fillHeader(attachment, pdfFields, context);
@@ -45,7 +45,7 @@ describe("fillHeader", () => {
       weitereseinkommen: happyPathData.weitereseinkommen,
     };
 
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
     const attachment = createAttachment(context);
 
     fillHeader(attachment, pdfFields, context);

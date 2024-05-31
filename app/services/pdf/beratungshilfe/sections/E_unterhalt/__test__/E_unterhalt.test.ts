@@ -41,7 +41,7 @@ describe("E_unterhalt", () => {
 
     const context: BeratungshilfeFormularContext = {};
     const attachment = createAttachment(context);
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillUnterhalt(attachment, pdfFields, context);
 
@@ -73,7 +73,7 @@ describe("E_unterhalt", () => {
     const context: BeratungshilfeFormularContext = {};
 
     const attachment = createAttachment(context);
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillUnterhalt(attachment, pdfFields, context);
 

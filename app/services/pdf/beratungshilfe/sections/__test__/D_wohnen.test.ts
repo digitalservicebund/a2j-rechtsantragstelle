@@ -29,7 +29,7 @@ describe("fillWohnen", () => {
       livingSituation: "alone",
     };
 
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillWohnen(pdfFields, context);
 
@@ -54,7 +54,7 @@ describe("fillWohnen", () => {
       livingSituation: "withOthers",
     };
 
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillWohnen(pdfFields, context);
 
@@ -83,7 +83,7 @@ describe("fillWohnen", () => {
       livingSituation: "withRelatives",
     };
 
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillWohnen(pdfFields, context);
 
@@ -112,7 +112,7 @@ describe("fillWohnen", () => {
       livingSituation: "withRelatives",
     };
 
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillWohnen(pdfFields, context);
 

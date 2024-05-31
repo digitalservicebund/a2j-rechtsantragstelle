@@ -8,7 +8,7 @@ import type { UnterhaltPdfField } from "~/services/pdf/beratungshilfe/sections/E
 
 describe("fillPdf", () => {
   it("it should fill the correct data to the pdf", async () => {
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     const mockedGetListPersonUnterhaltPdfField: UnterhaltPdfField[] = [
       {

@@ -2,9 +2,9 @@ import { normalizePropertyName } from "~/services/pdf/pdf.server";
 
 describe("normalizePropertyName", () => {
   it("normalizes property names correctly", () => {
-    expect(normalizePropertyName("Äpfel")).toBe("Aepfel");
+    expect(normalizePropertyName("Äpfel")).toBe("aepfel");
     expect(normalizePropertyName("österreich")).toBe("oesterreich");
-    expect(normalizePropertyName("Müller-Straße")).toBe("MuellerStrasse");
+    expect(normalizePropertyName("Müller-Straße")).toBe("muellerStrasse");
     expect(normalizePropertyName("süß")).toBe("suess");
   });
 
@@ -15,7 +15,7 @@ describe("normalizePropertyName", () => {
   it("handles strings with no special characters", () => {
     expect(normalizePropertyName("apple")).toBe("apple");
     expect(normalizePropertyName("1234")).toBe("1234");
-    expect(normalizePropertyName("CamelCase")).toBe("CamelCase");
+    expect(normalizePropertyName("CamelCase")).toBe("camelCase");
   });
 
   it("handles strings with only special characters", () => {

@@ -14,7 +14,7 @@ describe("B_vorraussetzungen", () => {
       eigeninitiativeGrundvorraussetzung: "yes",
       klageEingereicht: "yes",
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillVorraussetzungen(pdfFields, context);
 
@@ -47,7 +47,7 @@ describe("B_vorraussetzungen", () => {
       eigeninitiativeGrundvorraussetzung: "no",
       klageEingereicht: "no",
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillVorraussetzungen(pdfFields, context);
 
@@ -80,7 +80,7 @@ describe("B_vorraussetzungen", () => {
       eigeninitiativeGrundvorraussetzung: "yes",
       klageEingereicht: "no",
     };
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillVorraussetzungen(pdfFields, context);
 

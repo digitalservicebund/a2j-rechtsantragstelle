@@ -27,7 +27,7 @@ describe("A_angelegenheit", () => {
       eigeninitiativeBeschreibung: "eigeninitiativeBeschreibung",
     };
     const attachment = createAttachment(context);
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillAngelegenheit(attachment, pdfFields, context);
 
@@ -57,7 +57,7 @@ describe("A_angelegenheit", () => {
         "eigeninitiativeBeschreibung eigeninitiativeBeschreibung eigeninitiativeBeschreibung eigeninitiativeBeschreibung",
     };
     const attachment = createAttachment(context);
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillAngelegenheit(attachment, pdfFields, context);
 

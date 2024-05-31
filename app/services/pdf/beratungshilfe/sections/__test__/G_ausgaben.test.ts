@@ -33,7 +33,7 @@ describe("G_ausgaben", () => {
       },
     };
     const attachment = createAttachment(mockContext);
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillAusgaben(attachment, pdfFields, mockContext);
 
@@ -93,7 +93,7 @@ describe("G_ausgaben", () => {
       },
     };
     const attachment = createAttachment(mockContext);
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillAusgaben(attachment, pdfFields, mockContext);
 
@@ -148,7 +148,7 @@ describe("G_ausgaben", () => {
       },
     };
     const attachment = createAttachment(mockContext);
-    const pdfFields = await getBeratungshilfeParameters();
+    const pdfFields = getBeratungshilfeParameters();
 
     fillAusgaben(attachment, pdfFields, mockContext);
 

@@ -65,7 +65,6 @@
     "pdf-lib": "^1.17.1",
     "posthog-js": "^1.136.1",
     "posthog-node": "^4.0.1",
-    "quicktype-core": "^23.0.168",
     "react": "^18.3.1",
     "react-collapsed": "^4.1.2",
     "react-dom": "^18.3.1",
