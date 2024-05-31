@@ -22,7 +22,7 @@ const StrapiTileGroupSchema = z
         }),
       ),
     }),
-    useTwoColumns: z.boolean().nullable(),
+    useTwoColumns: z.boolean(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
