@@ -17,8 +17,6 @@ test.describe("js enabled", () => {
   });
 
   test("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
-    await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
-
     // fluggastrechte/vorabcheck/start
     await expectPageToBeAccessible({ page });
     await vorabcheck.clickNext();
@@ -84,8 +82,6 @@ test.describe("js enabled", () => {
   test("fluggastrechte vorabcheck: Nicht-Befoerderung can be traversed", async ({
     page,
   }) => {
-    await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
-
     // fluggastrechte/vorabcheck/start
     await vorabcheck.clickNext();
 
