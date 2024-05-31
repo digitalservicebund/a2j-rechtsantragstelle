@@ -139,8 +139,6 @@ test.describe("js enabled", () => {
   test("fluggastrechte vorabcheck: Annullierung can be traversed", async ({
     page,
   }) => {
-    await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
-
     // fluggastrechte/vorabcheck/start
     await vorabcheck.clickNext();
 
