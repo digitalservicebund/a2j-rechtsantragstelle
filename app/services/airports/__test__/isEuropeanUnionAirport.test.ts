@@ -1,21 +1,23 @@
 import { isEuropeanUnionAirport } from "../isEuropeanUnionAirport";
 
 describe("isEuropeanUnionAirport", () => {
-  it("should return true if the airport is BER", () => {
+  it("should return ok and value true if the airport is BER", () => {
     const actual = isEuropeanUnionAirport("BER");
 
-    expect(actual).toBe(true);
+    expect(actual.isOk).toBe(true);
+    expect(actual.isOk ? actual.value : false).toBe(true);
   });
 
-  it("should return false if the airport is JFK", () => {
+  it("should return ok and value false if the airport is JFK", () => {
     const actual = isEuropeanUnionAirport("JFK");
 
-    expect(actual).toBe(false);
+    expect(actual.isOk).toBe(true);
+    expect(actual.isOk ? actual.value : true).toBe(false);
   });
 
-  it("should return true if the airport does not exist", () => {
+  it("should return error if the airport does not exist", () => {
     const actual = isEuropeanUnionAirport("XXXX");
 
-    expect(actual).toBe(true);
+    expect(actual.isErr).toBe(true);
   });
 });
