@@ -175,7 +175,6 @@ test.describe("js enabled", () => {
     await vorabcheck.fillRadioPage("vertretbareGruendeAnnullierung", "yes");
 
     //fluggastrechte/vorabcheck/gruende-hinweis
-    //fluggastrechte/vorabcheck/vertretbare-gruende-annullierung
     await vorabcheck.clickNext();
 
     // fluggastrechte/vorabcheck/verjaehrung
