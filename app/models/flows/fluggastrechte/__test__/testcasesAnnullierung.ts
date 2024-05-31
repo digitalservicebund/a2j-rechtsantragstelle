@@ -13,7 +13,7 @@ const machine: FlowStateMachine = createMachine(
 const cases = [
   [
     {
-      bereich: "annulierung",
+      bereich: "annullierung",
       ankuendigung: "no",
       vertretbareGruendeAnnullierung: "yes",
       verjaehrung: "yes",
@@ -46,7 +46,7 @@ const cases = [
   ],
   [
     {
-      bereich: "annulierung",
+      bereich: "annullierung",
       ankuendigung: "no",
       vertretbareGruendeAnnullierung: "no",
       verjaehrung: "yes",
@@ -78,7 +78,7 @@ const cases = [
   ],
   [
     {
-      bereich: "annulierung",
+      bereich: "annullierung",
       ankuendigung: "until6Days",
       ersatzflug: "no",
       vertretbareGruendeAnnullierung: "no",
@@ -112,7 +112,7 @@ const cases = [
   ],
   [
     {
-      bereich: "annulierung",
+      bereich: "annullierung",
       ankuendigung: "until6Days",
       ersatzflug: "yes",
       ersatzflugStartenEinStunde: "yes",
@@ -150,7 +150,7 @@ const cases = [
   ],
   [
     {
-      bereich: "annulierung",
+      bereich: "annullierung",
       ankuendigung: "until6Days",
       ersatzflug: "yes",
       ersatzflugStartenEinStunde: "no",
@@ -168,7 +168,7 @@ const cases = [
   ],
   [
     {
-      bereich: "annulierung",
+      bereich: "annullierung",
       ankuendigung: "until6Days",
       ersatzflug: "yes",
       ersatzflugStartenEinStunde: "yes",
@@ -206,7 +206,7 @@ const cases = [
   ],
   [
     {
-      bereich: "annulierung",
+      bereich: "annullierung",
       ankuendigung: "between7And13Days",
       ersatzflug: "yes",
       ersatzflugStartenZweiStunden: "yes",
@@ -244,7 +244,7 @@ const cases = [
   ],
   [
     {
-      bereich: "annulierung",
+      bereich: "annullierung",
       ankuendigung: "between7And13Days",
       ersatzflug: "yes",
       ersatzflugStartenZweiStunden: "no",
@@ -273,7 +273,7 @@ const cases = [
   ],
   [
     {
-      bereich: "annulierung",
+      bereich: "annullierung",
       ankuendigung: "between7And13Days",
       ersatzflug: "yes",
       ersatzflugStartenZweiStunden: "no",
@@ -311,7 +311,7 @@ const cases = [
   ],
   [
     {
-      bereich: "annulierung",
+      bereich: "annullierung",
       ankuendigung: "moreThan13Days",
     },
     ["start", "bereich", "ankuendigung", "ergebnis/ankuendigung-abbruch"],

@@ -143,8 +143,7 @@ test.describe("js enabled", () => {
     await vorabcheck.clickNext();
 
     // fluggastrechte/vorabcheck/bereich
-    // TODO: rename annulierung to annullierung
-    await vorabcheck.fillRadioPage("bereich", "annulierung");
+    await vorabcheck.fillRadioPage("bereich", "annullierung");
 
     //fluggastrechte/vorabcheck/ankuendigung
     await expectPageToBeAccessible({ page });

@@ -21,7 +21,7 @@ export const airlineSchema = z.enum([
 ]);
 
 export const fluggastBereichSchema = z.enum(
-  ["nichtbefoerderung", "verspaetet", "annulierung", "anderes"],
+  ["nichtbefoerderung", "verspaetet", "annullierung", "anderes"],
   customRequiredErrorMessage,
 );
 
