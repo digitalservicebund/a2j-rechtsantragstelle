@@ -3,13 +3,17 @@
   "initial": "start",
   "states": {
     "start": {
-      "meta": { "progressPosition": 1 },
+      "meta": {
+        "progressPosition": 1
+      },
       "on": {
         "SUBMIT": "bereich"
       }
     },
     "bereich": {
-      "meta": { "progressPosition": 2 },
+      "meta": {
+        "progressPosition": 2
+      },
       "on": {
         "BACK": "start",
         "SUBMIT": [
@@ -20,6 +24,10 @@
           {
             "target": "ausgleich",
             "guard": "bereichNichtBefoerderung"
+          },
+          {
+            "target": "ankuendigung",
+            "guard": "bereichAnnullierung"
           },
           {
             "target": "ergebnis/bereich-abbruch"
@@ -33,7 +41,9 @@
       }
     },
     "verspaetung": {
-      "meta": { "progressPosition": 3 },
+      "meta": {
+        "progressPosition": 3
+      },
       "on": {
         "BACK": "bereich",
         "SUBMIT": [
@@ -48,7 +58,9 @@
       }
     },
     "ausgleich": {
-      "meta": { "progressPosition": 3 },
+      "meta": {
+        "progressPosition": 3
+      },
       "on": {
         "BACK": "bereich",
         "SUBMIT": [
@@ -62,8 +74,129 @@
         ]
       }
     },
+    "ankuendigung": {
+      "meta": {
+        "progressPosition": 3
+      },
+      "on": {
+        "BACK": "bereich",
+        "SUBMIT": [
+          {
+            "target": "vertretbare-gruende-annullierung",
+            "guard": "isAnkuendigungNo"
+          },
+          {
+            "target": "ersatzflug",
+            "guard": "isAnkuendigungUntil13Days"
+          },
+          "ergebnis/ankuendigung-abbruch"
+        ]
+      }
+    },
+    "vertretbare-gruende-annullierung": {
+      "meta": {
+        "progressPosition": 3
+      },
+      "on": {
+        "BACK": [
+          {
+            "target": "ersatzflug",
+            "guard": "isAnkuendigungUntil13DaysAndErstazflugNo"
+          },
+          {
+            "target": "ersatzflug-landen-zwei-stunden",
+            "guard": "isAnkuendigungUntil6DaysAndErstazflugYes"
+          },
+          {
+            "target": "ersatzflug-landen-vier-stunden",
+            "guard": "isAnkuendigungBetween7And13DaysAndErstazflugYes"
+          },
+          "ankuendigung"
+        ],
+        "SUBMIT": [
+          {
+            "target": "gruende-hinweis",
+            "guard": "vertretbareGruendeAnnullierungYes"
+          },
+          {
+            "target": "verjaehrung"
+          }
+        ]
+      }
+    },
+    "ersatzflug": {
+      "meta": {
+        "progressPosition": 3
+      },
+      "on": {
+        "BACK": "ankuendigung",
+        "SUBMIT": [
+          {
+            "target": "vertretbare-gruende-annullierung",
+            "guard": "ersatzflugNo"
+          },
+          {
+            "target": "ersatzflug-starten-eine-stunde",
+            "guard": "isErsatzflugYesAndAnkuendigungUntil6Days"
+          },
+          {
+            "target": "ersatzflug-starten-zwei-stunden"
+          }
+        ]
+      }
+    },
+    "ersatzflug-starten-eine-stunde": {
+      "meta": {
+        "progressPosition": 3
+      },
+      "on": {
+        "BACK": "ersatzflug",
+        "SUBMIT": "ersatzflug-landen-zwei-stunden"
+      }
+    },
+    "ersatzflug-landen-zwei-stunden": {
+      "meta": {
+        "progressPosition": 3
+      },
+      "on": {
+        "BACK": "ersatzflug-starten-eine-stunde",
+        "SUBMIT": [
+          {
+            "guard": "isErsatzflugGelandet2StundenNoAndErstatzflugGestartet1StundeNo",
+            "target": "ergebnis/ersatzflug-starten-eine-landen-zwei-abbruch"
+          },
+          "vertretbare-gruende-annullierung"
+        ]
+      }
+    },
+    "ersatzflug-starten-zwei-stunden": {
+      "meta": {
+        "progressPosition": 3
+      },
+      "on": {
+        "BACK": "ersatzflug",
+        "SUBMIT": "ersatzflug-landen-vier-stunden"
+      }
+    },
+    "ersatzflug-landen-vier-stunden": {
+      "meta": {
+        "progressPosition": 3
+      },
+      "on": {
+        "BACK": "ersatzflug-starten-zwei-stunden",
+        "SUBMIT": [
+          {
+            "guard": "isErsatzflugGelandet4StundenNoAndErstatzflugGestartet2StundenNo",
+            "target": "ergebnis/ersatzflug-starten-zwei-landen-vier-abbruch"
+          },
+          "vertretbare-gruende-annullierung"
+        ]
+      }
+    },
     "ausgleich-angenommen": {
-      "meta": { "progressPosition": 4 },
+      "meta": {
+        "progressPosition": 4
+      },
       "on": {
         "BACK": "ausgleich",
         "SUBMIT": [
@@ -77,13 +210,25 @@
         ]
       }
     },
+    "ergebnis/ersatzflug-starten-eine-landen-zwei-abbruch": {
+      "on": {
+        "BACK": "ersatzflug-landen-zwei-stunden"
+      }
+    },
+    "ergebnis/ersatzflug-starten-zwei-landen-vier-abbruch": {
+      "on": {
+        "BACK": "ersatzflug-landen-vier-stunden"
+      }
+    },
     "ergebnis/ausgleich-angenommen-abbruch": {
       "on": {
         "BACK": "ausgleich-angenommen"
       }
     },
     "gruende": {
-      "meta": { "progressPosition": 4 },
+      "meta": {
+        "progressPosition": 4
+      },
       "on": {
         "BACK": "verspaetung",
         "SUBMIT": [
@@ -99,29 +244,58 @@
       }
     },
     "gruende-hinweis": {
-      "meta": { "progressPosition": 5 },
+      "meta": {
+        "progressPosition": 5
+      },
       "on": {
-        "BACK": "gruende",
+        "BACK": [
+          {
+            "target": "vertretbare-gruende-annullierung",
+            "guard": "bereichAnnullierung"
+          },
+          {
+            "target": "gruende"
+          }
+        ],
         "SUBMIT": "verjaehrung"
       }
     },
     "verjaehrung": {
-      "meta": { "progressPosition": 6 },
+      "meta": {
+        "progressPosition": 6
+      },
       "on": {
         "BACK": [
+          {
+            "target": "gruende-hinweis",
+            "guard": "isBereichAnnullierungAndVertrebareGruendeAnnullierungYes"
+          },
+          {
+            "target": "vertretbare-gruende-annullierung",
+            "guard": "bereichAnnullierung"
+          },
           {
             "target": "vertretbare-gruende",
             "guard": "isVertretbareGruendeNoBereichNichtBefoerderung"
           },
-          { "target": "gruende", "guard": "gruendeNo" },
-          { "target": "gruende-hinweis", "guard": "gruendeYes" }
+          {
+            "target": "gruende",
+            "guard": "gruendeNo"
+          },
+          {
+            "target": "gruende-hinweis",
+            "guard": "gruendeYes"
+          }
         ],
         "SUBMIT": [
           {
             "target": "ergebnis/verjaehrung-abbruch",
             "guard": "verjaehrungNo"
           },
-          { "target": "flughaefen", "guard": "verjaehrungYes" }
+          {
+            "target": "flughaefen",
+            "guard": "verjaehrungYes"
+          }
         ]
       }
     },
@@ -130,8 +304,15 @@
         "BACK": "verjaehrung"
       }
     },
+    "ergebnis/ankuendigung-abbruch": {
+      "on": {
+        "BACK": "ankuendigung"
+      }
+    },
     "flughaefen": {
-      "meta": { "progressPosition": 7 },
+      "meta": {
+        "progressPosition": 7
+      },
       "on": {
         "BACK": "verjaehrung",
         "SUBMIT": [
@@ -151,6 +332,10 @@
             "target": "kostenlos",
             "guard": "bereichNichtBefoerderung"
           },
+          {
+            "target": "kostenlos",
+            "guard": "bereichAnnullierung"
+          },
           "checkin"
         ]
       }
@@ -166,7 +351,9 @@
       }
     },
     "fluggesellschaft": {
-      "meta": { "progressPosition": 8 },
+      "meta": {
+        "progressPosition": 8
+      },
       "on": {
         "BACK": "flughaefen",
         "SUBMIT": [
@@ -195,7 +382,9 @@
       }
     },
     "checkin": {
-      "meta": { "progressPosition": 9 },
+      "meta": {
+        "progressPosition": 9
+      },
       "on": {
         "BACK": [
           {
@@ -233,7 +422,9 @@
       }
     },
     "vertretbare-gruende": {
-      "meta": { "progressPosition": 5 },
+      "meta": {
+        "progressPosition": 5
+      },
       "on": {
         "BACK": "checkin",
         "SUBMIT": [
@@ -253,16 +444,22 @@
       }
     },
     "kostenlos": {
-      "meta": { "progressPosition": 10 },
+      "meta": {
+        "progressPosition": 10
+      },
       "on": {
         "BACK": [
           {
             "target": "fluggesellschaft",
-            "guard": "isEUInboundFromNonEUBereichNichtBefoerderung"
+            "guard": "isEUInboundFromNonEUBereichNichtBefoerderungAndAnnullierung"
           },
           {
             "target": "flughaefen",
             "guard": "bereichNichtBefoerderung"
+          },
+          {
+            "target": "flughaefen",
+            "guard": "bereichAnnullierung"
           },
           "checkin"
         ],
@@ -283,7 +480,9 @@
       }
     },
     "rabatt": {
-      "meta": { "progressPosition": 11 },
+      "meta": {
+        "progressPosition": 11
+      },
       "on": {
         "BACK": "kostenlos",
         "SUBMIT": [
@@ -304,7 +503,9 @@
       }
     },
     "buchung": {
-      "meta": { "progressPosition": 12 },
+      "meta": {
+        "progressPosition": 12
+      },
       "on": {
         "BACK": "rabatt",
         "SUBMIT": [
@@ -325,7 +526,9 @@
       }
     },
     "abtretung": {
-      "meta": { "progressPosition": 13 },
+      "meta": {
+        "progressPosition": 13
+      },
       "on": {
         "BACK": "buchung",
         "SUBMIT": [
@@ -346,7 +549,9 @@
       }
     },
     "entschaedigung": {
-      "meta": { "progressPosition": 14 },
+      "meta": {
+        "progressPosition": 14
+      },
       "on": {
         "BACK": "abtretung",
         "SUBMIT": [
@@ -367,7 +572,9 @@
       }
     },
     "gericht": {
-      "meta": { "progressPosition": 15 },
+      "meta": {
+        "progressPosition": 15
+      },
       "on": {
         "BACK": "entschaedigung",
         "SUBMIT": [
