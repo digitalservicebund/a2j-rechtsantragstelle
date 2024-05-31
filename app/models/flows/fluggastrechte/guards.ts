@@ -29,7 +29,7 @@ export const guards = {
   bereichVerspaetet: ({ context }) => context.bereich === "verspaetet",
   bereichNichtBefoerderung: ({ context }) =>
     context.bereich === "nichtbefoerderung",
-  bereichAnnullierung: ({ context }) => context.bereich === "annulierung",
+  bereichAnnullierung: ({ context }) => context.bereich === "annullierung",
   isPartnerAirport: ({ context }) => {
     const airportAbbreviations = Object.keys(partnerCourtAirports);
     return (
@@ -105,7 +105,7 @@ export const guards = {
     return (
       isNonEUToEUFlight(context) &&
       (context?.bereich === "nichtbefoerderung" ||
-        context?.bereich === "annulierung")
+        context?.bereich === "annullierung")
     );
   },
   isAnkuendigungNo: ({ context }) => {
@@ -137,7 +137,7 @@ export const guards = {
   },
   isBereichAnnullierungAndVertrebareGruendeAnnullierungYes: ({ context }) => {
     return (
-      context.bereich === "annulierung" &&
+      context.bereich === "annullierung" &&
       context.vertretbareGruendeAnnullierung === "yes"
     );
   },
