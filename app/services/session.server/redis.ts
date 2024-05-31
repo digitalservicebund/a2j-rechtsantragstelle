@@ -46,7 +46,7 @@ async function getRedisInstance() {
 
 const timeToLiveSeconds = 60 * 60 * 24;
 
-type RedisData = Record<string, any>;
+type RedisData = Record<string, unknown>;
 
 export async function setDataForSession(uuid: string, data: RedisData) {
   return (await getRedisInstance()).set(

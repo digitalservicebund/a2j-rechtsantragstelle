@@ -22,9 +22,7 @@ export function gerbehIndex(info: GerbehIndex) {
   const typInfo = info.typInfo.replace(/ /g, "").toLowerCase();
   return `${info.LKZ}_${info.OLG}_${info.LG}_${info.AG}_${typInfo}`;
 }
-interface ConversionInput {
-  [key: string]: unknown[];
-}
+type ConversionInput = Record<string, unknown[]>;
 
 export const conversions = {
   "JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json": (object: ConversionInput) => {
@@ -79,9 +77,7 @@ export const conversions = {
   },
 } as const;
 
-type JsonCollection = Record<string, Record<string, any>>;
-
-export function applyDataConversions(data: JsonCollection) {
+export function applyDataConversions(data: Record<string, ConversionInput>) {
   return objectMap(data, (entry, key) =>
     isKeyOfObject(key, conversions) ? conversions[key](entry) : {},
   );
