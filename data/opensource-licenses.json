@@ -249,13 +249,6 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/posthog-node/README.md",
     "direct": true
   },
-  "quicktype-core": {
-    "licenses": "Apache-2.0",
-    "repository": "https://github.com/quicktype/quicktype",
-    "path": "a2j-rechtsantragstelle/node_modules/quicktype-core",
-    "direct": true,
-    "licenseFile": ""
-  },
   "react-collapsed": {
     "licenses": "MIT",
     "repository": "https://github.com/roginfarrer/collapsed",
