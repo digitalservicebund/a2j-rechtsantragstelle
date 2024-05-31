@@ -49,16 +49,17 @@ export function NavItem({
   const isDone = stateIsDone(state);
   const collapse = useCollapse({ defaultExpanded: isCurrent });
 
-  const liClassNames = classNames("list-none", {
+  // Transparent left borders to avoid layout shifts
+  const liClassNames = classNames("list-none border-l-[1px]", {
     "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none":
       isDisabled,
-    "border-b-[1px] border-b-white last:border-b-0": !isChild,
-    "border-l-[1px] border-l-blue-800": isCurrent,
+    "mb-1": !isChild, // margin instead of bottom border to avoid diagonal corners colors
+    "border-l-blue-800": isCurrent,
+    "border-l-blue-100": !isCurrent,
   });
 
-  // Transparent left border on all to not move content on isCurrent
   const itemClassNames = classNames(
-    "w-full ds-label-02-reg p-16 border-l-[3px] border-transparent flex gap-x-4 items-center hover:underline hover:bg-blue-300 active:bg-white focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-800",
+    "bg-blue-100 w-full ds-label-02-reg p-16 border-l-[3px] border-transparent flex gap-x-4 items-center hover:underline hover:bg-blue-300 active:bg-white focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-800",
     {
       "ds-label-02-bold bg-blue-500 border-l-blue-800":
         isCurrent && !hasSubflows,
@@ -87,7 +88,7 @@ export function NavItem({
             )}
           </button>
           <section
-            className="border-t-2 border-white"
+            className="border-t-[1px] border-white"
             {...collapse.getCollapseProps()}
           >
             <NavigationList
