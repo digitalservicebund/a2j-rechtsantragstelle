@@ -23,10 +23,6 @@ const StrapiTileGroupSchema = z
       ),
     }),
     useTwoColumns: z.boolean().nullable(),
-    showRadioButtonTiles: z
-      .boolean()
-      .nullable()
-      .transform((value) => value ?? false),
   })
   .merge(HasOptionalStrapiIdSchema);
 

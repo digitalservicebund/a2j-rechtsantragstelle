@@ -1,7 +1,6 @@
 import { type ReactNode, useState } from "react";
 import type { ImageProps } from "~/components/Image";
 import { useStringField } from "~/services/validation/useStringField";
-import Tile from "./Tile";
 import TileRadio from "./TileRadio";
 import { type ErrorMessageProps } from "..";
 import InputError from "../InputError";
@@ -13,7 +12,6 @@ type TileGroupProps = Readonly<{
   altLabel?: string;
   errorMessages?: ErrorMessageProps[];
   useTwoColumns?: boolean;
-  showRadioButtonTiles: boolean;
   formId?: string;
 }>;
 
@@ -34,42 +32,23 @@ export type ExtraTileProps = Readonly<{
 const renderTile = ({
   name,
   onClick,
-  showRadioButtonTiles,
   value,
   description,
   image,
   tagDescription,
   title,
   formId,
-}: TileProps &
-  ExtraTileProps &
-  Pick<TileGroupProps, "showRadioButtonTiles">) => {
-  if (showRadioButtonTiles) {
-    return (
-      <TileRadio
-        key={value}
-        name={name}
-        onClick={onClick}
-        value={value}
-        description={description}
-        tagDescription={tagDescription}
-        image={image}
-        title={title}
-        formId={formId}
-      />
-    );
-  }
-
+}: TileProps & ExtraTileProps) => {
   return (
-    <Tile
+    <TileRadio
       key={value}
-      description={description}
       name={name}
-      value={value}
-      title={title}
       onClick={onClick}
+      value={value}
+      description={description}
       tagDescription={tagDescription}
       image={image}
+      title={title}
       formId={formId}
     />
   );
@@ -82,7 +61,6 @@ const TileGroup = ({
   altLabel,
   errorMessages,
   useTwoColumns,
-  showRadioButtonTiles,
   formId,
 }: TileGroupProps) => {
   const { error, defaultValue } = useStringField(name, { formId });
@@ -114,7 +92,6 @@ const TileGroup = ({
           renderTile({
             name,
             onClick: () => setRenderHiddenField(false),
-            showRadioButtonTiles,
             value: option.value,
             description: option.description,
             image: option.image,

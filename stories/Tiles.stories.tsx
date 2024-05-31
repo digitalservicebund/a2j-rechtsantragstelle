@@ -33,18 +33,17 @@ const tileGroupProps = {
   errorMessages: undefined,
   options: [tileGroupOptionOneProps, tileGroupOptionTwoProps],
   useTwoColumns: false,
-  showRadioButtonTiles: false,
   formId: "formId",
 };
 
-export const TileWithoutRadioButtonsOneColumn: Story = {
+export const TileButtonsOneColumn: Story = {
   args: {
     ...tileGroupProps,
   },
   decorators: [(Story) => remixContext(Story)],
 };
 
-export const TileWithoutRadioButtonsTwoColumns: Story = {
+export const TileButtonsTwoColumn: Story = {
   args: {
     ...tileGroupProps,
     useTwoColumns: true,
@@ -52,7 +51,7 @@ export const TileWithoutRadioButtonsTwoColumns: Story = {
   decorators: [(Story) => remixContext(Story)],
 };
 
-export const TileWithtoutRadioButtonsTwoColumnAndImageOption: Story = {
+export const TileTwoColumnAndImageOption: Story = {
   args: {
     ...tileGroupProps,
     useTwoColumns: true,
@@ -74,74 +73,10 @@ export const TileWithtoutRadioButtonsTwoColumnAndImageOption: Story = {
   decorators: [(Story) => remixContext(Story)],
 };
 
-export const TileWithoutRadioButtonsTwoColumnAndImageOptionAndTag: Story = {
+export const TileTwoColumnAndImageOptionAndTag: Story = {
   args: {
     ...tileGroupProps,
     useTwoColumns: true,
-    options: [
-      {
-        ...tileGroupOptionOneProps,
-        image: {
-          url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/nichtbefoerderung_622132fec8.svg",
-        },
-      },
-      {
-        ...tileGroupOptionTwoProps,
-        image: {
-          url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/verspaetung_3a4c9932b4.svg",
-        },
-        tagDescription: "Tag description",
-      },
-    ],
-  },
-  decorators: [(Story) => remixContext(Story)],
-};
-
-export const TileWithtRadioButtonsOneColumn: Story = {
-  args: {
-    ...tileGroupProps,
-    showRadioButtonTiles: true,
-  },
-  decorators: [(Story) => remixContext(Story)],
-};
-
-export const TileWithtRadioButtonsTwoColumn: Story = {
-  args: {
-    ...tileGroupProps,
-    useTwoColumns: true,
-    showRadioButtonTiles: true,
-  },
-  decorators: [(Story) => remixContext(Story)],
-};
-
-export const TileWithtRadioButtonsTwoColumnAndImageOption: Story = {
-  args: {
-    ...tileGroupProps,
-    useTwoColumns: true,
-    showRadioButtonTiles: true,
-    options: [
-      {
-        ...tileGroupOptionOneProps,
-        image: {
-          url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/nichtbefoerderung_622132fec8.svg",
-        },
-      },
-      {
-        ...tileGroupOptionTwoProps,
-        image: {
-          url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/verspaetung_3a4c9932b4.svg",
-        },
-      },
-    ],
-  },
-  decorators: [(Story) => remixContext(Story)],
-};
-
-export const TileWithtRadioButtonsTwoColumnAndImageOptionAndTag: Story = {
-  args: {
-    ...tileGroupProps,
-    useTwoColumns: true,
-    showRadioButtonTiles: true,
     options: [
       {
         ...tileGroupOptionOneProps,

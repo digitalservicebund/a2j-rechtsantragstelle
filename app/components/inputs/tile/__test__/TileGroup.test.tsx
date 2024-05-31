@@ -16,11 +16,6 @@ jest.mock("~/components/inputs/tile/TileRadio", () => () => (
   <div>{COMPONENT_TILE_RADIO_TEXT}</div>
 ));
 
-// eslint-disable-next-line react/display-name
-jest.mock("~/components/inputs/tile/Tile", () => () => (
-  <div>{COMPONENT_TILE_TEXT}</div>
-));
-
 describe("TileGroup", () => {
   beforeEach(() => {
     jest.spyOn(remixValidatedForm, "useField").mockReturnValue({
@@ -39,16 +34,12 @@ describe("TileGroup", () => {
     jest.restoreAllMocks();
   });
 
-  it("in case the TileGroups props showRadioButtonTiles is true, it should render the component TileRadio", () => {
+  it("should render the component TileRadio", () => {
     const RemixStub = createRemixStub([
       {
         path: "",
         Component: () => (
-          <TileGroup
-            name={COMPONENT_NAME}
-            showRadioButtonTiles
-            options={[{ value: "value" }]}
-          />
+          <TileGroup name={COMPONENT_NAME} options={[{ value: "value" }]} />
         ),
       },
     ]);
@@ -57,25 +48,5 @@ describe("TileGroup", () => {
 
     expect(queryByText(COMPONENT_TILE_RADIO_TEXT)).toBeInTheDocument();
     expect(queryByText(COMPONENT_TILE_TEXT)).not.toBeInTheDocument();
-  });
-
-  it("in case the TileGroups props showRadioButtonTiles is false, it should render the component TileGroup", () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <TileGroup
-            name={COMPONENT_NAME}
-            showRadioButtonTiles={false}
-            options={[{ value: "value" }]}
-          />
-        ),
-      },
-    ]);
-
-    const { queryByText } = render(<RemixStub />);
-
-    expect(queryByText(COMPONENT_TILE_RADIO_TEXT)).not.toBeInTheDocument();
-    expect(queryByText(COMPONENT_TILE_TEXT)).toBeInTheDocument();
   });
 });
