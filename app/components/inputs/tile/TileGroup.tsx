@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { type ReactNode, useState } from "react";
 import { useStringField } from "~/services/validation/useStringField";
 import TileRadio, { type TileOptions } from "./TileRadio";
@@ -43,9 +44,9 @@ const TileGroup = ({
       {altLabel && <legend className="sr-only">{altLabel}</legend>}
       {renderHiddenField && <input type="hidden" name={name} />}
       <div
-        className={`grid sm:grid-cols-1 gap-24 ${
-          useTwoColumns ? "md:grid-cols-2" : "md:max-w-[630px]"
-        }`}
+        className={classNames("grid gap-24", {
+          "grid-cols-[repeat(auto-fit,minmax(290px,1fr))]": useTwoColumns,
+        })}
       >
         {label && <legend>{label}</legend>}
         {options.map(({ value, description, tagDescription, image, title }) => (
