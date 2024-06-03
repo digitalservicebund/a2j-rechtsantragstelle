@@ -1,48 +1,56 @@
 import airports from "data/airports/data.json";
+import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 import type { Translations } from "~/services/cms/index.server";
 import { toGermanDateFormat, today } from "~/services/validation/date";
-import { calculateDistanceBetweenAirportsInKilometers } from "~/util/calculateDistanceBetweenAirports";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
 import type { FluggastrechtVorabcheckContext } from "./context";
 
-export const COMPENSATION_VALUE_UNTIL_1500_KM = "250";
-export const COMPENSATION_VALUE_UNTIL_3000_KM = "400";
-export const COMPENSATION_VALUE_ABOVE_3000_KM = "600";
+export const COMPENSATION_VALUE_250 = "250";
+export const COMPENSATION_VALUE_400 = "400";
+export const COMPENSATION_VALUE_600 = "600";
 const FOUR_YEARS_AGO = 4;
 const LAST_DAY_YEAR = 31;
 const LAST_MONTH_YEAR = 11; // Date.setMonth starts from 0 to 11, where 11 is December
 
 export const TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM =
   "route-compensation-description-until-1500-km";
-export const TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3000_KM =
-  "route-compensation-description-until-3000-km";
-export const TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3000_KM =
-  "route-compensation-description-above-3000-km";
+export const TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3500_KM =
+  "route-compensation-description-until-3500-km";
+export const TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3500_KM_INSIDE_EU =
+  "route-compensation-description-above-3500-km-inside-eu";
+export const TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3500_KM_OUTSIDE_EU =
+  "route-compensation-description-above-3500-km-outside-eu";
 
 export function getCompensantionPaymentString({
   startAirport = "",
   endAirport = "",
 }: FluggastrechtVorabcheckContext) {
-  const distanceKm = calculateDistanceBetweenAirportsInKilometers(
+  const routeCompensation = getRouteCompensationBetweenAirports(
     startAirport,
     endAirport,
   );
-
-  if (distanceKm.isOk) {
-    let compensationValue = COMPENSATION_VALUE_UNTIL_1500_KM;
-
-    if (distanceKm.value > 3000) {
-      compensationValue = COMPENSATION_VALUE_ABOVE_3000_KM;
-    } else if (distanceKm.value > 1500) {
-      compensationValue = COMPENSATION_VALUE_UNTIL_3000_KM;
+  switch (routeCompensation) {
+    case "longDistanceOutsideEU": {
+      return {
+        compensationPayment: COMPENSATION_VALUE_600,
+      };
+    }
+    case "longDistanceInsideEU":
+    case "middleDistance": {
+      return {
+        compensationPayment: COMPENSATION_VALUE_400,
+      };
     }
 
-    return {
-      compensationPayment: compensationValue,
-    };
+    case "shortDistance": {
+      return {
+        compensationPayment: COMPENSATION_VALUE_250,
+      };
+    }
+    default: {
+      return {};
+    }
   }
-
-  return {};
 }
 
 export function getLastDaytFromFourYearsAgoDate(): string {
@@ -71,35 +79,39 @@ export function getRouteCompensationDescription(
   { startAirport = "", endAirport = "" }: FluggastrechtVorabcheckContext,
   translations: Translations,
 ) {
-  const distanceKm = calculateDistanceBetweenAirportsInKilometers(
+  const routeCompensation = getRouteCompensationBetweenAirports(
     startAirport,
     endAirport,
   );
 
-  if (distanceKm.isOk) {
-    let routeCompensationDescriptionValue = getTranslationByKey(
-      TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM,
-      translations,
-    );
+  let translationKey = "";
 
-    if (distanceKm.value > 3000) {
-      routeCompensationDescriptionValue = getTranslationByKey(
-        TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3000_KM,
-        translations,
-      );
-    } else if (distanceKm.value > 1500) {
-      routeCompensationDescriptionValue = getTranslationByKey(
-        TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3000_KM,
-        translations,
-      );
+  switch (routeCompensation) {
+    case "longDistanceInsideEU":
+      translationKey =
+        TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3500_KM_INSIDE_EU;
+      break;
+    case "longDistanceOutsideEU":
+      translationKey =
+        TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3500_KM_OUTSIDE_EU;
+      break;
+    case "middleDistance":
+      translationKey = TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3500_KM;
+      break;
+    case "shortDistance":
+      translationKey = TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM;
+      break;
+    default: {
+      return {};
     }
-
-    return {
-      routeCompensationDescription: routeCompensationDescriptionValue,
-    };
   }
 
-  return {};
+  return {
+    routeCompensationDescription: getTranslationByKey(
+      translationKey,
+      translations,
+    ),
+  };
 }
 
 function getAirportName(airportIataCode: string): string {

@@ -1,4 +1,4 @@
-import { calculateDistanceBetweenAirportsInKilometers } from "~/util/calculateDistanceBetweenAirports";
+import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
 
 describe("calculateDistanceBetweenAirportsInKilometers", () => {
   it("in case set a non existing start airport, it should return a result error", () => {

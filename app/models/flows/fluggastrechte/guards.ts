@@ -1,28 +1,18 @@
-import airports from "data/airports/data.json";
-import { calculateDistanceBetweenAirportsInKilometers } from "~/util/calculateDistanceBetweenAirports";
-import { EUCountries, partnerCourtAirports } from ".";
+import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
+import { isEuropeanUnionAirport } from "~/services/airports/isEuropeanUnionAirport";
+import { partnerCourtAirports } from ".";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import { yesNoGuards, type Guards } from "../guards.server";
 
-function getCountryCodeByIata(airportIata: string | undefined) {
-  return airports.find((airport) => airport.iata === airportIata)?.country_code;
-}
-
 function isNonEUToEUFlight(context: FluggastrechtVorabcheckContext) {
-  const startAirportByIata = getCountryCodeByIata(context.startAirport);
-  const endAirportByIata = getCountryCodeByIata(context.endAirport);
+  const isStartAirportEU = isEuropeanUnionAirport(context.startAirport);
+  const isEndAirportEU = isEuropeanUnionAirport(context.endAirport);
 
-  if (
-    typeof startAirportByIata === "undefined" ||
-    typeof endAirportByIata === "undefined"
-  ) {
-    return true;
+  if (isStartAirportEU.isOk && isEndAirportEU.isOk) {
+    return !isStartAirportEU.value && isEndAirportEU.value;
   }
 
-  return (
-    !EUCountries.includes(startAirportByIata) &&
-    EUCountries.includes(endAirportByIata)
-  );
+  return true;
 }
 
 export const guards = {
@@ -48,28 +38,23 @@ export const guards = {
     return isNonEUToEUFlight(context);
   },
   isEUOutbound: ({ context }) => {
-    const startAirportByIata = getCountryCodeByIata(context.startAirport);
+    const isStartAirportEU = isEuropeanUnionAirport(context.startAirport);
 
-    if (typeof startAirportByIata === "undefined") {
-      return true;
+    if (isStartAirportEU.isOk) {
+      return isStartAirportEU.value;
     }
-    return EUCountries.includes(startAirportByIata);
+
+    return true;
   },
   isAirportOutsideEU: ({ context }) => {
-    const startAirportByIata = getCountryCodeByIata(context.startAirport);
-    const endAirportByIata = getCountryCodeByIata(context.endAirport);
+    const isStartAirportEU = isEuropeanUnionAirport(context.startAirport);
+    const isEndAirportEU = isEuropeanUnionAirport(context.endAirport);
 
-    if (
-      typeof startAirportByIata === "undefined" ||
-      typeof endAirportByIata === "undefined"
-    ) {
-      return true;
+    if (isStartAirportEU.isOk && isEndAirportEU.isOk) {
+      return !isStartAirportEU.value && !isEndAirportEU.value;
     }
 
-    return (
-      !EUCountries.includes(startAirportByIata) &&
-      !EUCountries.includes(endAirportByIata)
-    );
+    return true;
   },
   hasBereichNichtBefoerderungAndAusgleichYes: ({ context }) => {
     if (context.bereich !== "nichtbefoerderung") {
