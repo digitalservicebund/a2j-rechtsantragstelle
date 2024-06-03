@@ -21,7 +21,7 @@ const mockedGetRouteCompensationBetweenAirports =
     typeof getRouteCompensationBetweenAirports
   >;
 
-const TRANSLATION_KEY_RECORD = {
+const EXPECTED_TRANSLATION_KEY_RECORDS = {
   [TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM]:
     "Kurzstrecke (unter 1.500 km)",
   [TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3500_KM]:
@@ -157,11 +157,14 @@ describe("getRouteCompensationDescription", () => {
     );
 
     const expectedTranslation =
-      TRANSLATION_KEY_RECORD[
+      EXPECTED_TRANSLATION_KEY_RECORDS[
         TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM
       ];
 
-    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
+    const actual = getRouteCompensationDescription(
+      {},
+      EXPECTED_TRANSLATION_KEY_RECORDS,
+    );
 
     expect(actual).toStrictEqual({
       routeCompensationDescription: expectedTranslation,
@@ -174,11 +177,14 @@ describe("getRouteCompensationDescription", () => {
     );
 
     const expectedTranslation =
-      TRANSLATION_KEY_RECORD[
+      EXPECTED_TRANSLATION_KEY_RECORDS[
         TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3500_KM
       ];
 
-    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
+    const actual = getRouteCompensationDescription(
+      {},
+      EXPECTED_TRANSLATION_KEY_RECORDS,
+    );
 
     expect(actual).toStrictEqual({
       routeCompensationDescription: expectedTranslation,
@@ -191,11 +197,14 @@ describe("getRouteCompensationDescription", () => {
     );
 
     const expectedTranslation =
-      TRANSLATION_KEY_RECORD[
+      EXPECTED_TRANSLATION_KEY_RECORDS[
         TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3500_KM_INSIDE_EU
       ];
 
-    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
+    const actual = getRouteCompensationDescription(
+      {},
+      EXPECTED_TRANSLATION_KEY_RECORDS,
+    );
 
     expect(actual).toStrictEqual({
       routeCompensationDescription: expectedTranslation,
@@ -208,11 +217,14 @@ describe("getRouteCompensationDescription", () => {
     );
 
     const expectedTranslation =
-      TRANSLATION_KEY_RECORD[
+      EXPECTED_TRANSLATION_KEY_RECORDS[
         TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3500_KM_OUTSIDE_EU
       ];
 
-    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
+    const actual = getRouteCompensationDescription(
+      {},
+      EXPECTED_TRANSLATION_KEY_RECORDS,
+    );
 
     expect(actual).toStrictEqual({
       routeCompensationDescription: expectedTranslation,
@@ -224,7 +236,10 @@ describe("getRouteCompensationDescription", () => {
       "notPossibleCalculateDistance",
     );
 
-    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
+    const actual = getRouteCompensationDescription(
+      {},
+      EXPECTED_TRANSLATION_KEY_RECORDS,
+    );
 
     expect(actual).toStrictEqual({});
   });
