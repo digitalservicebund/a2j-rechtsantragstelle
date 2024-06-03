@@ -37,7 +37,7 @@ beforeEach(() => {
 });
 
 describe("getCompensantionPaymentString", () => {
-  it("if the distance is until 1500, it should return compensation value 200", () => {
+  it("should return compensation value 200, if the distance is until 1500", () => {
     (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
       "shortDistance",
     );
@@ -49,7 +49,7 @@ describe("getCompensantionPaymentString", () => {
     });
   });
 
-  it("if the distance is until 3500, it should return compensation value 400", () => {
+  it("should return compensation value 400, if the distance is until 3500", () => {
     (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
       "middleDistance",
     );
@@ -61,7 +61,7 @@ describe("getCompensantionPaymentString", () => {
     });
   });
 
-  it("if the distance is above 3500 inside EU, it should return compensation value 400", () => {
+  it("should return compensation value 400, if the distance is above 3500 inside EU", () => {
     (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
       "longDistanceInsideEU",
     );
@@ -73,7 +73,7 @@ describe("getCompensantionPaymentString", () => {
     });
   });
 
-  it("if the distance is above 3500 outside EU, it should return compensation value 600", () => {
+  it("should return compensation value 600, if the distance is above 3500 outside EU", () => {
     (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
       "longDistanceOutsideEU",
     );
@@ -85,7 +85,7 @@ describe("getCompensantionPaymentString", () => {
     });
   });
 
-  it("if the distance calculatesd returns an error, it should return empty object", () => {
+  it("should return empty object, if the distance calculatesd returns notPossibleCalculateDistance", () => {
     (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
       "notPossibleCalculateDistance",
     );
@@ -97,14 +97,14 @@ describe("getCompensantionPaymentString", () => {
 });
 
 describe("getLastDaytFromFourYearsAgoDate", () => {
-  it("it should return the last of the year from 4 years ago from 2026.01.01", () => {
+  it("should return the last of the year from 4 years ago from 2026.01.01", () => {
     jest.useFakeTimers().setSystemTime(new Date("2026-01-01"));
 
     const actual = getLastDaytFromFourYearsAgoDate();
     expect(actual).toBe("31.12.2022");
   });
 
-  it("it should return the last of the year from 4 years ago from 2024.01.01", () => {
+  it("should return the last of the year from 4 years ago from 2024.01.01", () => {
     jest.useFakeTimers().setSystemTime(new Date("2024-01-01"));
 
     const actual = getLastDaytFromFourYearsAgoDate();
@@ -113,109 +113,113 @@ describe("getLastDaytFromFourYearsAgoDate", () => {
 });
 
 describe("getStartAirportName", () => {
-  it("it should return the correct name of the airport", () => {
+  it("should return the correct name of the airport", () => {
     const actual = getStartAirportName({ startAirport: "BER" });
     expect(actual).toStrictEqual({
       startAirport: "Berlin Brandenburg Flughafen (BER)",
     });
   });
 
-  it("it should return empty when it does not have airport as parameter", () => {
+  it("should return empty when it does not have airport as parameter", () => {
     const actual = getStartAirportName({});
     expect(actual).toStrictEqual({});
   });
 
-  it("it should return empty when the airport does not exist in the json file", () => {
+  it("should return empty when the airport does not exist in the json file", () => {
     const actual = getStartAirportName({ startAirport: "XXXXX" });
     expect(actual).toStrictEqual({});
   });
 });
 
 describe("getEndAirportName", () => {
-  it("it should return the correct name of the airport", () => {
+  it("should return the correct name of the airport", () => {
     const actual = getEndAirportName({ endAirport: "BER" });
     expect(actual).toStrictEqual({
       endAirport: "Berlin Brandenburg Flughafen (BER)",
     });
   });
 
-  it("it should return empty when it does not have airport as parameter", () => {
+  it("should return empty when it does not have airport as parameter", () => {
     const actual = getEndAirportName({});
     expect(actual).toStrictEqual({});
   });
 
-  it("it should return empty when the airport does not exist in the json file", () => {
+  it("should return empty when the airport does not exist in the json file", () => {
     const actual = getEndAirportName({ endAirport: "XXXXX" });
     expect(actual).toStrictEqual({});
   });
 });
 
 describe("getRouteCompensationDescription", () => {
-  it("if the distance is short, it should return route compensation description until 1500", () => {
+  it("should return route compensation description until 1500, if the distance is short", () => {
     (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
       "shortDistance",
     );
 
-    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
     const expectedTranslation =
       TRANSLATION_KEY_RECORD[
         TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM
       ];
 
+    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
+
     expect(actual).toStrictEqual({
       routeCompensationDescription: expectedTranslation,
     });
   });
 
-  it("if the distance is middle, it should return route compensation description until 3500", () => {
+  it("should return route compensation description until 3500, if the distance is middle", () => {
     (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
       "middleDistance",
     );
 
-    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
     const expectedTranslation =
       TRANSLATION_KEY_RECORD[
         TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3500_KM
       ];
 
+    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
+
     expect(actual).toStrictEqual({
       routeCompensationDescription: expectedTranslation,
     });
   });
 
-  it("if the distance is above 3500 inside EU, it should return return route compensation description above 3500 inside EU", () => {
+  it("should return return route compensation description above 3500 inside EU, if the distance is above 3500 inside EU", () => {
     (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
       "longDistanceInsideEU",
     );
 
-    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
     const expectedTranslation =
       TRANSLATION_KEY_RECORD[
         TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3500_KM_INSIDE_EU
       ];
 
+    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
+
     expect(actual).toStrictEqual({
       routeCompensationDescription: expectedTranslation,
     });
   });
 
-  it("if the distance is above 3500 outside EU, it should return return route compensation description above 3500 inside EU", () => {
+  it("should return return route compensation description above 3500 outside EU, if the distance is above 3500 outside EU", () => {
     (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
       "longDistanceOutsideEU",
     );
 
-    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
     const expectedTranslation =
       TRANSLATION_KEY_RECORD[
         TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3500_KM_OUTSIDE_EU
       ];
 
+    const actual = getRouteCompensationDescription({}, TRANSLATION_KEY_RECORD);
+
     expect(actual).toStrictEqual({
       routeCompensationDescription: expectedTranslation,
     });
   });
 
-  it("if the distance can not be calculated, it should return empty object", () => {
+  it("should return empty object, if the distance can not be calculated", () => {
     (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
       "notPossibleCalculateDistance",
     );

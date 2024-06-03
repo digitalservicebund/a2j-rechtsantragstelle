@@ -84,43 +84,34 @@ export function getRouteCompensationDescription(
     endAirport,
   );
 
+  let translationKey = "";
+
   switch (routeCompensation) {
-    case "longDistanceInsideEU": {
-      return {
-        routeCompensationDescription: getTranslationByKey(
-          TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3500_KM_INSIDE_EU,
-          translations,
-        ),
-      };
-    }
-    case "longDistanceOutsideEU": {
-      return {
-        routeCompensationDescription: getTranslationByKey(
-          TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3500_KM_OUTSIDE_EU,
-          translations,
-        ),
-      };
-    }
-    case "middleDistance": {
-      return {
-        routeCompensationDescription: getTranslationByKey(
-          TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3500_KM,
-          translations,
-        ),
-      };
-    }
-    case "shortDistance": {
-      return {
-        routeCompensationDescription: getTranslationByKey(
-          TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM,
-          translations,
-        ),
-      };
-    }
+    case "longDistanceInsideEU":
+      translationKey =
+        TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3500_KM_INSIDE_EU;
+      break;
+    case "longDistanceOutsideEU":
+      translationKey =
+        TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_ABOVE_3500_KM_OUTSIDE_EU;
+      break;
+    case "middleDistance":
+      translationKey = TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_3500_KM;
+      break;
+    case "shortDistance":
+      translationKey = TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM;
+      break;
     default: {
       return {};
     }
   }
+
+  return {
+    routeCompensationDescription: getTranslationByKey(
+      translationKey,
+      translations,
+    ),
+  };
 }
 
 function getAirportName(airportIataCode: string): string {
