@@ -20,24 +20,24 @@ export function getRouteCompensationBetweenAirports(
     endAirport,
   );
 
-  if (distanceKm.isOk) {
-    if (distanceKm.value > LONG_DISTANCE_KILOMETERS) {
-      const isStartAirportEU = isEuropeanUnionAirport(startAirport);
-      const isEndAirportEU = isEuropeanUnionAirport(endAirport);
-
-      if (isStartAirportEU.isOk && isEndAirportEU.isOk) {
-        return isStartAirportEU.value && isEndAirportEU.value
-          ? "longDistanceInsideEU"
-          : "longDistanceOutsideEU";
-      }
-    }
-
-    if (distanceKm.value > MIDDLE_DISTANCE_KILOMETERS) {
-      return "middleDistance";
-    }
-
-    return "shortDistance";
+  if (distanceKm.isErr) {
+    return "notPossibleCalculateDistance";
   }
 
-  return "notPossibleCalculateDistance";
+  if (distanceKm.value > LONG_DISTANCE_KILOMETERS) {
+    const isStartAirportEU = isEuropeanUnionAirport(startAirport);
+    const isEndAirportEU = isEuropeanUnionAirport(endAirport);
+
+    if (isStartAirportEU.isOk && isEndAirportEU.isOk) {
+      return isStartAirportEU.value && isEndAirportEU.value
+        ? "longDistanceInsideEU"
+        : "longDistanceOutsideEU";
+    }
+  }
+
+  if (distanceKm.value > MIDDLE_DISTANCE_KILOMETERS) {
+    return "middleDistance";
+  }
+
+  return "shortDistance";
 }
