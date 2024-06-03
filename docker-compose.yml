@@ -6,3 +6,14 @@ services:
     container_name: local-redis
     ports:
       - "6380:6379"
+    volumes:
+      - ./certs/redis-server.crt:/usr/local/etc/redis/redis-server.crt
+      - ./certs/redis-server.key:/usr/local/etc/redis/redis-server.key
+
+    command: >
+      redis-server
+      --tls-port 6379
+      --port 0
+      --tls-cert-file /usr/local/etc/redis/redis-server.crt
+      --tls-key-file /usr/local/etc/redis/redis-server.key
+      --tls-auth-clients no

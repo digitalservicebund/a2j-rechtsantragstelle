@@ -1,6 +1,5 @@
-import { Redis, type RedisOptions } from "ioredis";
+import { Redis } from "ioredis";
 import { config } from "../env/env.server";
-import { config as configWeb } from "../env/web";
 import { logError } from "../logging";
 
 declare global {
@@ -8,32 +7,18 @@ declare global {
   var ioredis: Redis;
 }
 
-const useTls = ["staging", "production", "preview"].includes(
-  configWeb().ENVIRONMENT,
-);
-
 const redisUrl = () =>
-  `${useTls ? "rediss" : "redis"}://default:${config().REDIS_PASSWORD}@${
-    config().REDIS_ENDPOINT
-  }`;
+  `rediss://default:${config().REDIS_PASSWORD}@${config().REDIS_ENDPOINT}`;
 
 async function getRedisInstance() {
   if (!global.ioredis) {
     try {
-      const options = {
+      global.ioredis = new Redis(redisUrl(), {
         lazyConnect: true,
-      } satisfies RedisOptions;
-      global.ioredis = new Redis(
-        redisUrl(),
-        useTls
-          ? {
-              ...options,
-              tls: {
-                rejectUnauthorized: false,
-              },
-            }
-          : options,
-      );
+        tls: {
+          rejectUnauthorized: false,
+        },
+      });
       console.log("Awaiting redis connection...");
       await global.ioredis.connect();
       console.log(`global.ioredis.status: ${global.ioredis.status}`);
