@@ -61,13 +61,7 @@ const getSteps = (machine: FlowStateMachine) => {
     events: [{ type: "SUBMIT" }, ...arrayEvents],
   });
 
-  return [
-    ...new Set(
-      Object.values(possiblePaths)
-        .map(({ state }) => stateValueToStepIds(state.value))
-        .flat(),
-    ),
-  ];
+  return possiblePaths.flatMap(({ state }) => stateValueToStepIds(state.value));
 };
 
 export const transitionDestinations = (
