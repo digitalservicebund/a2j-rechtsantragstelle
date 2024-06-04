@@ -15,9 +15,22 @@ First draft of implementing a platform to create requests to the Rechtsantragste
 
 ### Run Server in Development Mode
 
+#### Start a Redis instance with TLS setup
+
+1. Create TLS certificate + key: [Here](https://serverfault.com/questions/224122/what-is-crt-and-key-files-and-how-to-generate-them) is how.
+   You can pass dummy information into the certificate.
+
+2. Name the files redis-server.crt and put them in a /cert folder.
+3. Start the redis:
+
+```
+docker compose up -d
+```
+
+#### Start the development server
+
 ```sh
 npm install
-docker compose up -d
 npm run dev
 ```
 
