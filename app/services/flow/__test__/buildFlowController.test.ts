@@ -377,6 +377,43 @@ describe("buildFlowController", () => {
       ]);
     });
 
+    it("deals with eventless initial state", () => {
+      expect(
+        buildFlowController({
+          config: {
+            id: "/test/",
+            initial: "parent1",
+            states: {
+              parent1: {
+                initial: "child1",
+                states: {
+                  child1: { always: { target: "child2" } },
+                  child2: { initial: "start", states: { start: {} } },
+                },
+              },
+            },
+          },
+        }).stepStates(),
+      ).toEqual([
+        {
+          isDone: false,
+          isReachable: true,
+          isUneditable: false,
+          stepId: "parent1",
+          url: "/test/parent1",
+          subStates: [
+            {
+              isDone: false,
+              isReachable: true,
+              isUneditable: false,
+              stepId: "parent1/child2",
+              url: "/test/parent1/child2/start",
+            },
+          ],
+        },
+      ]);
+    });
+
     it("handles unreachable nested steps", () => {
       expect(
         buildFlowController({
