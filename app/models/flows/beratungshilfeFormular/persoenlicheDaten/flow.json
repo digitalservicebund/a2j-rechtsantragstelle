@@ -33,22 +33,6 @@
     "name": { "on": { "BACK": "start", "SUBMIT": "geburtsdatum" } },
     "geburtsdatum": { "on": { "BACK": "name", "SUBMIT": "adresse" } },
     "adresse": { "on": { "BACK": "geburtsdatum", "SUBMIT": "telefonnummer" } },
-    "telefonnummer": {
-      "on": {
-        "BACK": "adresse",
-        "SUBMIT": [
-          {
-            "target": "#abgabe",
-            "guard": "readyForAbgabe"
-          },
-          "ueberpruefung"
-        ]
-      }
-    },
-    "ueberpruefung": {
-      "on": {
-        "BACK": "telefonnummer"
-      }
-    }
+    "telefonnummer": { "on": { "BACK": "adresse", "SUBMIT": "#abgabe" } }
   }
 }
