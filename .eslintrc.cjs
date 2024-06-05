@@ -66,6 +66,7 @@ module.exports = {
         "plugin:sonarjs/recommended-legacy",
       ],
       rules: {
+        "no-console": "warn",
         "sonarjs/no-duplicate-string": "off",
         "@typescript-eslint/ban-ts-comment": "off", // enable later
         "@typescript-eslint/consistent-type-definitions": "off", // enable later
