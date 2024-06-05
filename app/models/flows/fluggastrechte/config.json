@@ -68,9 +68,7 @@
             "target": "ausgleich-angenommen",
             "guard": "ausgleichYes"
           },
-          {
-            "target": "checkin"
-          }
+          "checkin-nicht-befoerderung"
         ]
       }
     },
@@ -205,7 +203,7 @@
             "guard": "ausgleichAngenommenYes"
           },
           {
-            "target": "checkin"
+            "target": "checkin-nicht-befoerderung"
           }
         ]
       }
@@ -388,14 +386,6 @@
       "on": {
         "BACK": [
           {
-            "target": "ausgleich-angenommen",
-            "guard": "hasBereichNichtBefoerderungAndAusgleichYes"
-          },
-          {
-            "target": "ausgleich",
-            "guard": "hasBereichNichtBefoerderungAndAusgleichNo"
-          },
-          {
             "target": "flughaefen",
             "guard": "isEUOutbound"
           },
@@ -404,21 +394,42 @@
         "SUBMIT": [
           {
             "target": "kostenlos",
-            "guard": "isCheckInYesBereichVerspaetet"
+            "guard": "checkinYes"
           },
+          "ergebnis/checkin-abbruch"
+        ]
+      }
+    },
+    "checkin-nicht-befoerderung": {
+      "meta": {
+        "progressPosition": 4
+      },
+      "on": {
+        "BACK": [
+          {
+            "target": "ausgleich-angenommen",
+            "guard": "ausgleichYes"
+          },
+          "ausgleich"
+        ],
+        "SUBMIT": [
           {
             "target": "vertretbare-gruende",
-            "guard": "isCheckInYesBereichNichtBefoerderung"
+            "guard": "checkinYes"
           },
-          {
-            "target": "ergebnis/checkin-abbruch"
-          }
+          "ergebnis/checkin-abbruch"
         ]
       }
     },
     "ergebnis/checkin-abbruch": {
       "on": {
-        "BACK": "checkin"
+        "BACK": [
+          {
+            "target": "checkin-nicht-befoerderung",
+            "guard": "bereichNichtBefoerderung"
+          },
+          "checkin"
+        ]
       }
     },
     "vertretbare-gruende": {
@@ -426,7 +437,7 @@
         "progressPosition": 5
       },
       "on": {
-        "BACK": "checkin",
+        "BACK": "checkin-nicht-befoerderung",
         "SUBMIT": [
           {
             "target": "verjaehrung",
