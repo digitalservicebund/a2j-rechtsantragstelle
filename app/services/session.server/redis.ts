@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Redis, type RedisOptions } from "ioredis";
 import { config } from "../env/env.server";
 import { config as configWeb } from "../env/web";

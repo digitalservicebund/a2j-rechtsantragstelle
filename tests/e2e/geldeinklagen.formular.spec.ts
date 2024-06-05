@@ -10,9 +10,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("forwarded to intial step", async ({ page }) => {
-  console.log(
-    `.+${geldEinklagenFormular.url}/formular/${geldEinklagenFormular.initialStep}$`,
-  );
   await expect(page).toHaveURL(
     new RegExp(
       `.+${geldEinklagenFormular.url}/${geldEinklagenFormular.initialStep}$`,

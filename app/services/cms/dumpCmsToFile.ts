@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import fs from "node:fs";
 import { configDotenv } from "dotenv";
 import { getStrapiCollectionFromApi } from "./getStrapiEntryFromApi";

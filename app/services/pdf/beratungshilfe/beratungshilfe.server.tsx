@@ -6,6 +6,7 @@ import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.g
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import FormAttachment from "~/components/FormAttachment";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import { logError } from "~/services/logging";
 import type { Attachment } from "./attachment";
 import { createAttachment } from "./attachment";
 import { addDruckvermerk } from "./druckvermerk";
@@ -100,7 +101,7 @@ async function getBeratungshilfePdfBuffer() {
       const fileBuffer = await readFile(filepath);
       global.__beratungshilfePdf = fileBuffer;
     } catch (error) {
-      console.error(error);
+      logError({ error });
     }
   }
 

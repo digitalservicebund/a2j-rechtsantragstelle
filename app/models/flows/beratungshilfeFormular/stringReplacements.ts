@@ -41,6 +41,7 @@ export const getAmtsgerichtStrings = (
         courtTelephone: courtData?.TEL,
       };
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(`Did not find court for plz: ${context.plz}`, e);
     }
   }

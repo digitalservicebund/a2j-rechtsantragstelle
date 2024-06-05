@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import CloseIcon from "@digitalservicebund/icons/CloseOutlined";
 import FileCopyOutlinedIcon from "@digitalservicebund/icons/FileCopyOutlined";
 import UploadIcon from "@digitalservicebund/icons/FileUploadOutlined";
