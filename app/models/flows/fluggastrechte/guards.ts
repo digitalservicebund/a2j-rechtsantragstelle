@@ -56,28 +56,6 @@ export const guards = {
 
     return true;
   },
-  hasBereichNichtBefoerderungAndAusgleichYes: ({ context }) => {
-    if (context.bereich !== "nichtbefoerderung") {
-      return false;
-    }
-
-    return context?.ausgleich === "yes";
-  },
-  hasBereichNichtBefoerderungAndAusgleichNo: ({ context }) => {
-    if (context.bereich !== "nichtbefoerderung") {
-      return false;
-    }
-
-    return context?.ausgleich === "no";
-  },
-  isCheckInYesBereichVerspaetet: ({ context }) => {
-    return context?.bereich === "verspaetet" && context?.checkin === "yes";
-  },
-  isCheckInYesBereichNichtBefoerderung: ({ context }) => {
-    return (
-      context?.bereich === "nichtbefoerderung" && context?.checkin === "yes"
-    );
-  },
   isVertretbareGruendeNoBereichNichtBefoerderung: ({ context }) => {
     return (
       context?.bereich === "nichtbefoerderung" &&
