@@ -135,6 +135,7 @@ function App() {
     metaFromMatches(useMatches());
   const nonce = useNonce();
 
+  // eslint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
 
   return (

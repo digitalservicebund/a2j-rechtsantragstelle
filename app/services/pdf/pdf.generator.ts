@@ -57,6 +57,7 @@ export type ${typeName} = {
 `;
 
   fs.writeFileSync(outputFilepath, fileContent);
+  // eslint-disable-next-line no-console
   console.log("Done");
 }
 

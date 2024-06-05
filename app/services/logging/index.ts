@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as Sentry from "@sentry/remix";
 import { config } from "~/services/env/web";
 
