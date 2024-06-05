@@ -1,4 +1,5 @@
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { logError } from "~/services/logging";
 import type { BeratungshilfeFormularContext } from ".";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 
@@ -41,8 +42,10 @@ export const getAmtsgerichtStrings = (
         courtTelephone: courtData?.TEL,
       };
     } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(`Did not find court for plz: ${context.plz}`, e);
+      logError({
+        message: `Did not find court for plz: ${context.plz}`,
+        error: e,
+      });
     }
   }
   return {};

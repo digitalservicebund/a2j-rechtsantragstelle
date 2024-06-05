@@ -22,6 +22,7 @@ import {
   isPartnerCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+import { logError } from "~/services/logging";
 import { splatFromParams } from "~/services/params";
 import { getSessionManager } from "~/services/session.server";
 
@@ -63,8 +64,7 @@ export const loader = async ({
           }
         }
       } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err);
+        logError({ error: err });
       }
     });
 
