@@ -69,6 +69,9 @@ export default defineConfig({
       ? []
       : [
           {
+            command: "./create-redis-dummy-certificate.sh",
+          },
+          {
             command: "docker compose up",
             port: 6380,
             reuseExistingServer: !process.env.CI,

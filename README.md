@@ -17,13 +17,10 @@ First draft of implementing a platform to create requests to the Rechtsantragste
 
 #### Start a Redis instance with TLS setup
 
-1. Create TLS certificate + key: [Here](https://serverfault.com/questions/224122/what-is-crt-and-key-files-and-how-to-generate-them) is how.
-   You can pass dummy information into the certificate.
-
-2. Name the files redis-server.crt and put them in a /cert folder.
-3. Start the redis:
+Generate certificate and start the redis:
 
 ```
+./create-redis-dummy-certificate.sh
 docker compose up -d
 ```
 
