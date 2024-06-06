@@ -39,7 +39,7 @@ test.describe("js enabled", () => {
 
     // fluggastrechte/vorabcheck/flughaefen
     await expectPageToBeAccessible({ page });
-    await vorabcheck.fillMultipleSuggestionInputPage([
+    await vorabcheck.fillMultipleAutoSuggestInputPage([
       { field: "input-startAirport", value: "Berlin" },
       { field: "input-endAirport", value: "Frankfurt" },
     ]);
@@ -108,7 +108,7 @@ test.describe("js enabled", () => {
     await vorabcheck.fillRadioPage("verjaehrung", "yes");
 
     // fluggastrechte/vorabcheck/flughaefen
-    await vorabcheck.fillMultipleSuggestionInputPage([
+    await vorabcheck.fillMultipleAutoSuggestInputPage([
       { field: "input-startAirport", value: "Berlin" },
       { field: "input-endAirport", value: "Frankfurt" },
     ]);
@@ -174,7 +174,7 @@ test.describe("js enabled", () => {
     await vorabcheck.fillRadioPage("verjaehrung", "yes");
 
     // fluggastrechte/vorabcheck/flughaefen
-    await vorabcheck.fillMultipleSuggestionInputPage([
+    await vorabcheck.fillMultipleAutoSuggestInputPage([
       { field: "input-startAirport", value: "Berlin" },
       { field: "input-endAirport", value: "Frankfurt" },
     ]);

@@ -74,7 +74,7 @@ export class Vorabcheck {
     await this.clickNextWithoutJavaScript();
   }
 
-  async fillMultipleSuggestionInputPage(
+  async fillMultipleAutoSuggestInputPage(
     fields: { field: string; value: string }[],
   ) {
     for (const { field, value } of fields) {
