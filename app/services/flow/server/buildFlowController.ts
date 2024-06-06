@@ -61,13 +61,7 @@ const getSteps = (machine: FlowStateMachine) => {
     events: [{ type: "SUBMIT" }, ...arrayEvents],
   });
 
-  return [
-    ...new Set(
-      Object.values(possiblePaths)
-        .map(({ state }) => stateValueToStepIds(state.value))
-        .flat(),
-    ),
-  ];
+  return possiblePaths.flatMap(({ state }) => stateValueToStepIds(state.value));
 };
 
 export const transitionDestinations = (
@@ -159,12 +153,27 @@ function stepStates(
       const initial = state.config.initial as string | undefined;
       const initialStepId = initial ? `${stepId}/${initial}` : stepId;
 
+      // If there is an eventless transition and the target is reachable, use it instead of the initial state
+      const eventlessTargetPath = state.initial.target
+        .at(0)
+        ?.always?.at(0)
+        ?.target?.at(0)?.path;
+
+      const eventlessStepId = eventlessTargetPath
+        ? stateValueToStepIds(pathToStateValue(eventlessTargetPath))[0]
+        : undefined;
+
+      const targetStepId =
+        eventlessStepId && reachableSteps.includes(eventlessStepId)
+          ? eventlessStepId
+          : initialStepId;
+
       return {
-        url: `${state.machine.id}${initialStepId}`,
+        url: `${state.machine.id}${targetStepId}`,
         isDone: hasDoneFunction ? meta.done({ context }) : false,
         stepId,
         isUneditable,
-        isReachable: reachableSteps.includes(initialStepId),
+        isReachable: reachableSteps.includes(targetStepId),
       };
     }
 

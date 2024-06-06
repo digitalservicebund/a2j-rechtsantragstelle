@@ -1,7 +1,11 @@
 {
-  "initial": "art",
+  "initial": "ueberpruefung",
   "id": "abgabe",
   "states": {
+    "ueberpruefung": {
+      "on": { "BACK": "#persoenliche-daten.telefonnummer" },
+      "always": { "guard": "readyForAbgabe", "target": "art" }
+    },
     "art": {
       "on": {
         "SUBMIT": [

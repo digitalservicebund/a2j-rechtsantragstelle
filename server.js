@@ -56,6 +56,8 @@ isStagingOrPreviewEnvironment
   ? app.use(staticFileServer)
   : app.use(mountPathWithoutStorybook, staticFileServer);
 
+// For the rate limiting to work, we have to set how many load balancers aka proxy hubs
+// we have in front of our express, which is 2 - experimentally found out.
 app.set("trust proxy", 2);
 
 const redisUrl = () =>
