@@ -37,7 +37,7 @@ export interface DataListOptions {
   subDescription?: string;
 }
 
-export type SuggestionInputProps = Readonly<{
+export type AutoSuggestInputProps = Readonly<{
   name: string;
   label?: string;
   placeholder?: string;
@@ -114,7 +114,7 @@ const keyDownOnInput = (
   }
 };
 
-const SuggestionInput = ({
+const AutoSuggestInput = ({
   name,
   label,
   placeholder,
@@ -123,7 +123,7 @@ const SuggestionInput = ({
   formId,
   dataList,
   noSuggestionMessage,
-}: SuggestionInputProps) => {
+}: AutoSuggestInputProps) => {
   const items = getDataListOptions(dataList);
   const { error, getInputProps, validate } = useField(name, { formId });
   const errorId = `${name}-error`;
@@ -216,4 +216,4 @@ const SuggestionInput = ({
   );
 };
 
-export default SuggestionInput;
+export default AutoSuggestInput;

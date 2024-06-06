@@ -1,13 +1,15 @@
 import classNames from "classnames";
 import { ControlProps, components } from "react-select";
-import { DataListOptions } from "../SuggestionInput";
+import { DataListOptions } from "../AutoSuggestInput";
 
 const CustomControl = (
   props: ControlProps<DataListOptions, false>,
   error?: string,
 ) => (
   <components.Control
-    className={classNames("ds-select suggestion-input", { "has-error": error })}
+    className={classNames("ds-select auto-suggest-input", {
+      "has-error": error,
+    })}
     {...props}
   />
 );

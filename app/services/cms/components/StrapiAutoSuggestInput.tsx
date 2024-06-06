@@ -1,6 +1,6 @@
 import { z } from "zod";
-import SuggestionInput from "~/components/inputs/suggestionInput/SuggestionInput";
-import type { SuggestionInputProps } from "~/components/inputs/suggestionInput/SuggestionInput";
+import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
+import type { AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
@@ -8,7 +8,7 @@ import {
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
-const StrapiSuggestionInputSchema = z
+const StrapiAutoSuggestInputSchema = z
   .object({
     name: z.string(),
     label: z.string().nullable(),
@@ -31,25 +31,25 @@ const StrapiSuggestionInputSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-type StrapiSuggestionInput = z.infer<typeof StrapiSuggestionInputSchema>;
+type StrapiAutoSuggestInput = z.infer<typeof StrapiAutoSuggestInputSchema>;
 
-export const StrapiSuggestionInputComponentSchema =
-  StrapiSuggestionInputSchema.extend({
-    __component: z.literal("form-elements.suggestion-input"),
+export const StrapiAutoSuggestInputComponentSchema =
+  StrapiAutoSuggestInputSchema.extend({
+    __component: z.literal("form-elements.auto-suggest-input"),
   });
 
-const StrapiSuggestionInput = ({
+const StrapiAutoSuggestInput = ({
   errors,
   width,
   ...props
-}: StrapiSuggestionInput) => {
+}: StrapiAutoSuggestInput) => {
   const inWidth = width?.replace(
     "characters",
     "",
-  ) as SuggestionInputProps["width"];
+  ) as AutoSuggestInputProps["width"];
   const errorMessages = flattenStrapiErrors(errors);
   return (
-    <SuggestionInput
+    <AutoSuggestInput
       {...omitNull(props)}
       width={inWidth}
       errorMessages={errorMessages}
@@ -57,4 +57,4 @@ const StrapiSuggestionInput = ({
   );
 };
 
-export default StrapiSuggestionInput;
+export default StrapiAutoSuggestInput;

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { remixContext } from "../.storybook/remixContext";
-import SuggestionInput from "~/components/inputs/suggestionInput/SuggestionInput";
-import type { SuggestionInputProps } from "~/components/inputs/suggestionInput/SuggestionInput";
+import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
+import type { AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
 
 function getDataListValues<T extends { dataList?: any }>(
   props: T,
@@ -19,7 +19,7 @@ function getDataListValues<T extends { dataList?: any }>(
   );
 }
 
-const defaulType: SuggestionInputProps = {
+const defaulType: AutoSuggestInputProps = {
   name: "suggestionInput",
   formId: "formId",
   label: "Airports",
@@ -31,18 +31,18 @@ const defaulType: SuggestionInputProps = {
 
 const meta = {
   title: "Component/SuggestionInput",
-  component: SuggestionInput,
+  component: AutoSuggestInput,
   parameters: {
     layout: "padded",
   },
   tags: ["autodocs"],
   argTypes: {
     dataList: {
-      options: getDataListValues<SuggestionInputProps>(defaulType),
+      options: getDataListValues<AutoSuggestInputProps>(defaulType),
       control: { type: "select" },
     },
   },
-} satisfies Meta<typeof SuggestionInput>;
+} satisfies Meta<typeof AutoSuggestInput>;
 
 export default meta;
 
