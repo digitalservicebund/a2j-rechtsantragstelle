@@ -3,30 +3,30 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import * as remixValidatedForm from "remix-validated-form";
 import SuggestionInput from "~/components/inputs/suggestionInput/SuggestionInput";
 
-jest.mock("remix-validated-form", () => ({
-  useField: jest.fn(),
+vi.mock("remix-validated-form", () => ({
+  useField: vi.fn(),
 }));
 
-const mockedValidate = jest.fn();
+const mockedValidate = vi.fn();
 const COMPONENT_NAME = "test-suggestionInput";
 const PLACEHOLDER_MOCK = "Test Placeholder";
 
 beforeEach(() => {
-  jest.spyOn(remixValidatedForm, "useField").mockReturnValue({
+  vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
     error: undefined,
-    getInputProps: jest.fn().mockReturnValue({
+    getInputProps: vi.fn().mockReturnValue({
       id: COMPONENT_NAME,
       placeholder: PLACEHOLDER_MOCK,
     }),
-    clearError: jest.fn(),
+    clearError: vi.fn(),
     validate: mockedValidate,
     touched: false,
-    setTouched: jest.fn(),
+    setTouched: vi.fn(),
   });
 });
 
 afterEach(() => {
-  jest.restoreAllMocks(); // This clears all mocks after each test
+  vi.restoreAllMocks(); // This clears all mocks after each test
 });
 
 describe("SuggestionInput", () => {

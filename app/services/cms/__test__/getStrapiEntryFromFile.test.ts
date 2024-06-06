@@ -6,7 +6,7 @@ import { type StrapiFileContent } from "~/services/cms/models/StrapiFileContent"
 import { StrapiLocaleSchema } from "~/services/cms/models/StrapiLocale";
 import { type StrapiPage } from "~/services/cms/models/StrapiPage";
 
-jest.mock("node:fs");
+vi.mock("node:fs");
 
 describe("services/cms", () => {
   describe("getStrapiEntryFromFile", () => {

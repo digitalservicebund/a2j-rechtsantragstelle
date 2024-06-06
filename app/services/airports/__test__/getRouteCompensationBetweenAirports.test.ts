@@ -3,8 +3,8 @@ import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airport
 import { isEuropeanUnionAirport } from "~/services/airports/isEuropeanUnionAirport";
 import { getRouteCompensationBetweenAirports } from "../getRouteCompensationBetweenAirports";
 
-jest.mock("~/services/airports/calculateDistanceBetweenAirports");
-jest.mock("~/services/airports/isEuropeanUnionAirport");
+vi.mock("~/services/airports/calculateDistanceBetweenAirports");
+vi.mock("~/services/airports/isEuropeanUnionAirport");
 
 const mockedCalculateDistanceBetweenAirports =
   calculateDistanceBetweenAirportsInKilometers as jest.Mocked<
@@ -16,7 +16,7 @@ const mockedIsEuropeanUnionAirport = isEuropeanUnionAirport as jest.Mocked<
 >;
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 describe("getRouteCompensationBetweenAirports", () => {

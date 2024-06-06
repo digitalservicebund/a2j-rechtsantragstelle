@@ -3,7 +3,7 @@ import Button from "~/components/Button";
 
 describe("Button Component", () => {
   test("works for button click event", () => {
-    const handleClick = jest.fn();
+    const handleClick = vi.fn();
     render(<Button onClick={handleClick}>Click Me</Button>);
     fireEvent.click(screen.getByRole("button"));
 
@@ -11,7 +11,7 @@ describe("Button Component", () => {
   });
 
   test("works for button space keydown event", () => {
-    const handleKeydown = jest.fn();
+    const handleKeydown = vi.fn();
     render(<Button onKeyDown={handleKeydown} />);
     fireEvent.keyDown(screen.getByRole("button"), {
       key: "Space",

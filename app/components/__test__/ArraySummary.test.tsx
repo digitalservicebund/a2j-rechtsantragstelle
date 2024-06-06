@@ -28,13 +28,13 @@ const arrayData = {
 };
 
 // eslint-disable-next-line react/display-name
-jest.mock("~/components/ArraySummaryItemButton", () => () => (
-  <div>Mock ArraySummaryItemButton</div>
-));
+vi.mock("~/components/ArraySummaryItemButton", () => ({
+  default: () => <div>Mock ArraySummaryItemButton</div>,
+}));
 
 describe("ArraySummary", () => {
   afterEach(() => {
-    jest.restoreAllMocks(); // This clears all mocks after each test
+    vi.restoreAllMocks(); // This clears all mocks after each test
   });
 
   it("when the title is an empty space, it should not render the data-test-id array-summary-title and render array-summary-item as h2", () => {

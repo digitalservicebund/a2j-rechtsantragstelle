@@ -1,9 +1,10 @@
 import { beratungshilfeFinanzielleAngabeDone } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
 import * as navStatesEigentum from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStatesEigentum";
+import * as eigentumZusammenfassungDone from "../eigentumZusammenfassungDone";
 
 describe("navStates", () => {
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   describe("beratungshilfeFinanzielleAngabeDone", () => {
@@ -62,10 +63,11 @@ describe("navStates", () => {
     });
 
     it("passes with buergergeld and eigentum done and eigentumZusammenfassung done", () => {
-      jest.spyOn(navStatesEigentum, "eigentumDone").mockReturnValue(true);
-      jest
-        .spyOn(navStatesEigentum, "eigentumZusammenfassungDone")
-        .mockReturnValue(true);
+      vi.spyOn(navStatesEigentum, "eigentumDone").mockReturnValue(true);
+      vi.spyOn(
+        eigentumZusammenfassungDone,
+        "eigentumZusammenfassungDone",
+      ).mockReturnValue(true);
 
       expect(
         beratungshilfeFinanzielleAngabeDone({
@@ -77,10 +79,11 @@ describe("navStates", () => {
     });
 
     it("fails with buergergeld and eigentum done but eigentumZusammenfassung not done", () => {
-      jest.spyOn(navStatesEigentum, "eigentumDone").mockReturnValue(true);
-      jest
-        .spyOn(navStatesEigentum, "eigentumZusammenfassungDone")
-        .mockReturnValue(false);
+      vi.spyOn(navStatesEigentum, "eigentumDone").mockReturnValue(true);
+      vi.spyOn(
+        eigentumZusammenfassungDone,
+        "eigentumZusammenfassungDone",
+      ).mockReturnValue(false);
 
       expect(
         beratungshilfeFinanzielleAngabeDone({
@@ -92,10 +95,11 @@ describe("navStates", () => {
     });
 
     it("fails with buergergeld and eigentum not done but eigentumZusammenfassung done", () => {
-      jest.spyOn(navStatesEigentum, "eigentumDone").mockReturnValue(false);
-      jest
-        .spyOn(navStatesEigentum, "eigentumZusammenfassungDone")
-        .mockReturnValue(true);
+      vi.spyOn(navStatesEigentum, "eigentumDone").mockReturnValue(false);
+      vi.spyOn(
+        eigentumZusammenfassungDone,
+        "eigentumZusammenfassungDone",
+      ).mockReturnValue(true);
 
       expect(
         beratungshilfeFinanzielleAngabeDone({

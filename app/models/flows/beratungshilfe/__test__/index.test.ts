@@ -43,7 +43,7 @@ describe("reasonsToDisplayBeratungshilfe", () => {
   });
 
   it("returns incomeTooHigh true if long path and isIncomeTooHigh true", () => {
-    jest.spyOn(guards, "isIncomeTooHigh").mockReturnValue(true);
+    vi.spyOn(guards, "isIncomeTooHigh").mockReturnValue(true);
     const result = reasonsToDisplayBeratungshilfe({
       genauigkeit: "yes",
     });
@@ -54,7 +54,7 @@ describe("reasonsToDisplayBeratungshilfe", () => {
   });
 
   it("returns incomeTooHigh false if long path and isIncomeTooHigh false", () => {
-    jest.spyOn(guards, "isIncomeTooHigh").mockReturnValue(false);
+    vi.spyOn(guards, "isIncomeTooHigh").mockReturnValue(false);
     const result = reasonsToDisplayBeratungshilfe({
       genauigkeit: "yes",
     });

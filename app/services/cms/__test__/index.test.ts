@@ -2,10 +2,10 @@ import { strapiFooterFactory } from "~/../tests/factories/cmsModels/strapiFooter
 import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
 import { fetchSingleEntry } from "~/services/cms/index.server";
 
-jest.mock("~/services/cms/getStrapiEntryFromFile", () => {
+vi.mock("~/services/cms/getStrapiEntryFromFile", () => {
   return {
     __esModule: true,
-    getStrapiEntryFromFile: jest.fn(),
+    getStrapiEntryFromFile: vi.fn(),
   };
 });
 

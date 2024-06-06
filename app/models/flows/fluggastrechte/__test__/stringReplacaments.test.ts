@@ -14,7 +14,7 @@ import {
 } from "~/models/flows/fluggastrechte/stringReplacements";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 
-jest.mock("~/services/airports/getRouteCompensationBetweenAirports");
+vi.mock("~/services/airports/getRouteCompensationBetweenAirports");
 
 const mockedGetRouteCompensationBetweenAirports =
   getRouteCompensationBetweenAirports as jest.Mocked<
@@ -33,7 +33,7 @@ const EXPECTED_TRANSLATION_KEY_RECORDS = {
 };
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 describe("getCompensantionPaymentString", () => {
@@ -98,14 +98,14 @@ describe("getCompensantionPaymentString", () => {
 
 describe("getLastDaytFromFourYearsAgoDate", () => {
   it("should return the last of the year from 4 years ago from 2026.01.01", () => {
-    jest.useFakeTimers().setSystemTime(new Date("2026-01-01"));
+    vi.useFakeTimers().setSystemTime(new Date("2026-01-01"));
 
     const actual = getLastDaytFromFourYearsAgoDate();
     expect(actual).toBe("31.12.2022");
   });
 
   it("should return the last of the year from 4 years ago from 2024.01.01", () => {
-    jest.useFakeTimers().setSystemTime(new Date("2024-01-01"));
+    vi.useFakeTimers().setSystemTime(new Date("2024-01-01"));
 
     const actual = getLastDaytFromFourYearsAgoDate();
     expect(actual).toBe("31.12.2020");

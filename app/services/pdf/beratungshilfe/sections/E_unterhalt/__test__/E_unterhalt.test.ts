@@ -16,9 +16,7 @@ import {
 } from "~/services/pdf/beratungshilfe/sections/E_unterhalt/unterhaltPdfField";
 import type { UnterhaltPdfField } from "~/services/pdf/beratungshilfe/sections/E_unterhalt/unterhaltPdfField";
 
-jest.mock(
-  "~/services/pdf/beratungshilfe/sections/E_unterhalt/unterhaltPdfField",
-);
+vi.mock("~/services/pdf/beratungshilfe/sections/E_unterhalt/unterhaltPdfField");
 
 const mockedGetListKidsUnterhaltPdfField =
   getListKidsUnterhaltPdfField as jest.Mocked<
@@ -31,7 +29,7 @@ const mockedGetListPersonUnterhaltPdfField =
   >;
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 describe("E_unterhalt", () => {

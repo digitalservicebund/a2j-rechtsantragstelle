@@ -1,6 +1,7 @@
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
+import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
 import { einkommenDone as einkommenDoneGuard } from "./guards";
-import { eigentumDone, eigentumZusammenfassungDone } from "./navStatesEigentum";
+import { eigentumDone } from "./navStatesEigentum";
 import type { GenericGuard } from "../../guards.server";
 
 export type FinanzielleAngabenGuard =

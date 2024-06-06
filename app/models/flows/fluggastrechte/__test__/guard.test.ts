@@ -3,7 +3,7 @@ import type { FluggastrechtVorabcheckContext } from "~/models/flows/fluggastrech
 import { guards } from "~/models/flows/fluggastrechte/guards";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
 
-jest.mock("~/services/airports/calculateDistanceBetweenAirports");
+vi.mock("~/services/airports/calculateDistanceBetweenAirports");
 
 const mockedCalculateDistanceBetweenAirports =
   calculateDistanceBetweenAirportsInKilometers as jest.Mocked<
@@ -90,7 +90,7 @@ describe("fluggastrechteGuard", () => {
 
   describe("isInvalidAirportDistance", () => {
     beforeEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it("in case is not possible to calculate the airports, it should return true", () => {

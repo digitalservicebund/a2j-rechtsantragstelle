@@ -65,6 +65,7 @@ describe("util/omitNull", () => {
               g: 3,
               h: undefined,
             },
+            undefined,
           ],
           i: undefined,
           j: [],

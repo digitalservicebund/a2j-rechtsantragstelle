@@ -5,26 +5,26 @@ import TileRadio from "~/components/inputs/tile/TileRadio";
 
 const COMPONENT_NAME = "TileRadio";
 
-jest.mock("remix-validated-form", () => ({
-  useField: jest.fn(),
+vi.mock("remix-validated-form", () => ({
+  useField: vi.fn(),
 }));
 
 describe("TileRadio", () => {
   beforeEach(() => {
-    jest.spyOn(remixValidatedForm, "useField").mockReturnValue({
-      getInputProps: jest.fn().mockReturnValue({
+    vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
+      getInputProps: vi.fn().mockReturnValue({
         id: COMPONENT_NAME,
         placeholder: "Test Placeholder",
       }),
-      clearError: jest.fn(),
-      validate: jest.fn(),
+      clearError: vi.fn(),
+      validate: vi.fn(),
       touched: false,
-      setTouched: jest.fn(),
+      setTouched: vi.fn(),
     });
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   it("check if the componenet renders correct", () => {
@@ -35,7 +35,7 @@ describe("TileRadio", () => {
           <TileRadio
             name={COMPONENT_NAME}
             value="any value"
-            onClick={jest.fn()}
+            onClick={vi.fn()}
           />
         ),
       },
@@ -50,7 +50,7 @@ describe("TileRadio", () => {
   });
 
   it("check if the click works", () => {
-    const handleClick = jest.fn();
+    const handleClick = vi.fn();
     const RemixStub = createRemixStub([
       {
         path: "",
