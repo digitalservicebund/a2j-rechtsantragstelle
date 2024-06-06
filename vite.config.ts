@@ -4,6 +4,7 @@ import { installGlobals } from "@remix-run/node";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { cjsInterop } from "vite-plugin-cjs-interop";
+import { envOnlyMacros } from "vite-env-only";
 
 installGlobals();
 const isStorybook = process.argv[1]?.includes("storybook");
@@ -15,6 +16,7 @@ export default defineConfig({
     hmr: { protocol: "ws", port: 24678 },
   },
   plugins: [
+    envOnlyMacros(),
     !isStorybook && remix(),
     !isStorybook &&
       sentryActive &&
