@@ -20,7 +20,7 @@ function getDataListValues<T extends { dataList?: any }>(
 }
 
 const defaulType: AutoSuggestInputProps = {
-  name: "suggestionInput",
+  name: "autoSuggestInput",
   formId: "formId",
   label: "Airports",
   noSuggestionMessage: "No data selected",
@@ -30,7 +30,7 @@ const defaulType: AutoSuggestInputProps = {
 };
 
 const meta = {
-  title: "Component/SuggestionInput",
+  title: "Component/AutoSuggestInput",
   component: AutoSuggestInput,
   parameters: {
     layout: "padded",
