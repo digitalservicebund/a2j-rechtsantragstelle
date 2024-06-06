@@ -116,6 +116,7 @@
     "fishery": "^2.2.2",
     "follow-redirects": "^1.15.6",
     "i18n-iso-countries": "^7.11.2",
+    "jsdom": "^24.1.0",
     "lefthook": "^1.6.15",
     "p-map": "^7.0.2",
     "postcss": "^8.4.38",
