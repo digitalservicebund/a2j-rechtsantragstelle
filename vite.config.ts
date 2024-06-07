@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { vitePlugin as remix } from "@remix-run/dev";
 import { installGlobals } from "@remix-run/node";
@@ -8,6 +9,7 @@ import { envOnlyMacros } from "vite-env-only";
 
 installGlobals();
 const isStorybook = process.argv[1]?.includes("storybook");
+const isVitest = process.env.VITEST !== undefined;
 const sentryActive = Boolean(process.env.SENTRY_AUTH_TOKEN);
 
 export default defineConfig({
@@ -17,7 +19,7 @@ export default defineConfig({
   },
   plugins: [
     envOnlyMacros(),
-    !isStorybook && remix(),
+    !isStorybook && !isVitest && remix(),
     !isStorybook &&
       sentryActive &&
       sentryVitePlugin({
@@ -31,4 +33,15 @@ export default defineConfig({
     }),
   ],
   build: { sourcemap: sentryActive },
+  test: {
+    dir: "./app",
+    include: ["**/__test__/*.test.{ts,tsx}"],
+    globals: true,
+    environment: "jsdom",
+    setupFiles: ["./tests/unit/vitest.setup.ts"],
+    coverage: {
+      include: ["app/**"],
+      exclude: ["app/**/__test__/**", "app/routes/**"],
+    },
+  },
 });
