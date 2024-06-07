@@ -1,6 +1,6 @@
 import { z } from "zod";
-import SuggestionInput from "~/components/inputs/suggestionInput/SuggestionInput";
-import type { SuggestionInputProps } from "~/components/inputs/suggestionInput/SuggestionInput";
+import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
+import type { AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
@@ -46,10 +46,10 @@ const StrapiAutoSuggestInput = ({
   const inWidth = width?.replace(
     "characters",
     "",
-  ) as SuggestionInputProps["width"];
+  ) as AutoSuggestInputProps["width"];
   const errorMessages = flattenStrapiErrors(errors);
   return (
-    <SuggestionInput
+    <AutoSuggestInput
       {...omitNull(props)}
       width={inWidth}
       errorMessages={errorMessages}

@@ -1,5 +1,5 @@
 import { FormatOptionLabelMeta } from "react-select";
-import { DataListOptions } from "../SuggestionInput";
+import { DataListOptions } from "../AutoSuggestInput";
 
 function splitHighlightWord(
   text: string | undefined,
@@ -45,7 +45,7 @@ const FormatOptionLabel = (
   );
 
   return (
-    <div data-testid="suggestion-input-menu-item" style={{ flex: "10" }}>
+    <div data-testid="auto-suggest-input-menu-item" style={{ flex: "10" }}>
       {renderHighlightText(
         labelParts,
         inputWithoutSpace,

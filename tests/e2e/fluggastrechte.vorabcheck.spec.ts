@@ -16,7 +16,7 @@ test.describe("js enabled", () => {
     );
   });
 
-  test.skip("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
+  test("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
     // fluggastrechte/vorabcheck/start
     await expectPageToBeAccessible({ page });
     await vorabcheck.clickNext();
@@ -39,7 +39,7 @@ test.describe("js enabled", () => {
 
     // fluggastrechte/vorabcheck/flughaefen
     await expectPageToBeAccessible({ page });
-    await vorabcheck.fillMultipleSuggestionInputPage([
+    await vorabcheck.fillMultipleAutoSuggestInputPage([
       { field: "input-startAirport", value: "Berlin" },
       { field: "input-endAirport", value: "Frankfurt" },
     ]);
@@ -79,7 +79,7 @@ test.describe("js enabled", () => {
     );
   });
 
-  test.skip("fluggastrechte vorabcheck: Nicht-Befoerderung can be traversed", async ({
+  test("fluggastrechte vorabcheck: Nicht-Befoerderung can be traversed", async ({
     page,
   }) => {
     // fluggastrechte/vorabcheck/start
@@ -108,7 +108,7 @@ test.describe("js enabled", () => {
     await vorabcheck.fillRadioPage("verjaehrung", "yes");
 
     // fluggastrechte/vorabcheck/flughaefen
-    await vorabcheck.fillMultipleSuggestionInputPage([
+    await vorabcheck.fillMultipleAutoSuggestInputPage([
       { field: "input-startAirport", value: "Berlin" },
       { field: "input-endAirport", value: "Frankfurt" },
     ]);
@@ -137,7 +137,7 @@ test.describe("js enabled", () => {
     );
   });
 
-  test.skip("fluggastrechte vorabcheck: Annullierung can be traversed", async ({
+  test("fluggastrechte vorabcheck: Annullierung can be traversed", async ({
     page,
   }) => {
     // fluggastrechte/vorabcheck/start
@@ -174,7 +174,7 @@ test.describe("js enabled", () => {
     await vorabcheck.fillRadioPage("verjaehrung", "yes");
 
     // fluggastrechte/vorabcheck/flughaefen
-    await vorabcheck.fillMultipleSuggestionInputPage([
+    await vorabcheck.fillMultipleAutoSuggestInputPage([
       { field: "input-startAirport", value: "Berlin" },
       { field: "input-endAirport", value: "Frankfurt" },
     ]);
@@ -221,7 +221,7 @@ test.describe("js enabled", () => {
 test.describe("js disabled", () => {
   test.use({ javaScriptEnabled: false });
 
-  test.skip("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
+  test("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
     await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
     await vorabcheck.goto();
     await vorabcheck.clickNextWithoutJavaScript();
