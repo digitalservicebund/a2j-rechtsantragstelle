@@ -6,12 +6,13 @@ const rootPath = path.resolve(__dirname);
 export default defineConfig({
   test: {
     dir: "./app",
+    include: ["**/__test__/*.test.{ts,tsx}"],
     globals: true,
     environment: "jsdom",
     setupFiles: ["./tests/unit/vitest.setup.ts"],
     coverage: {
       include: ["app/**"],
-      exclude: ["app/**/*.test.{ts,tsx}", "app/routes/**"],
+      exclude: ["app/**/__test__/**", "app/routes/**"],
     },
   },
   resolve: {
