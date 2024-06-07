@@ -35,7 +35,7 @@ type StrapiSuggestionInput = z.infer<typeof StrapiSuggestionInputSchema>;
 
 export const StrapiSuggestionInputComponentSchema =
   StrapiSuggestionInputSchema.extend({
-    __component: z.literal("form-elements.suggestion-input"),
+    __component: z.literal("form-elements.auto-suggest-input"),
   });
 
 const StrapiSuggestionInput = ({
