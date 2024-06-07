@@ -1,14 +1,14 @@
 import { serverOnly$ } from "vite-env-only/macros";
 import { z } from "zod";
-import { courtForPlz } from "../gerichtsfinder/amtsgerichtData.server";
+import { validPostcodes } from "data/validPostcodes.server";
 
 function isValidPostcode(postcode: string) {
   const postcodeNum = parseInt(postcode, 10);
   return postcodeNum >= 1067 && postcodeNum <= 99998 && /\d{5}/.test(postcode);
 }
 
-const serverValidation = serverOnly$(
-  (postcode: string) => courtForPlz(postcode) !== undefined,
+const serverValidation = serverOnly$((postcode: string) =>
+  validPostcodes.has(postcode),
 );
 
 export const postcodeSchema = z
