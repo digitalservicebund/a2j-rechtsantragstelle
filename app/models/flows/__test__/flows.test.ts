@@ -76,29 +76,26 @@ describe("state machine form flows", () => {
     testCasesFluggastrechteAnnullierung,
     testCasesFluggastrechteNichtBefoerderung,
   ].forEach(({ machine, cases }) => {
-    test.each(cases)(
+    test.each([...cases])(
       "SUBMIT (%#) given context: %j, visits steps: %j",
       (context, steps) => {
-        const expectedSteps = steps as Array<string>;
-        const contextCase = context as Context;
         const actualSteps = getEnabledSteps({
           machine,
-          context: contextCase,
+          context,
           transitionType: "SUBMIT",
-          steps: expectedSteps,
+          steps,
         });
-        expect(actualSteps).toEqual(expectedSteps);
+        expect(actualSteps).toEqual(steps);
       },
     );
 
-    test.each(cases)(
+    test.each([...cases])(
       "BACK (%#) given context: %j, visits steps: %j",
       (context, steps) => {
-        const expectedSteps = [...(steps as Array<string>)].reverse();
-        const contextCase = context as Context;
+        const expectedSteps = [...steps].reverse();
         const actualSteps = getEnabledSteps({
           machine,
-          context: contextCase,
+          context,
           transitionType: "BACK",
           steps: expectedSteps,
         });
