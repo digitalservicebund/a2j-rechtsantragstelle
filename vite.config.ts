@@ -40,8 +40,10 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: ["./tests/unit/vitest.setup.ts"],
     coverage: {
+      provider: "istanbul",
       include: ["app/**"],
       exclude: ["app/**/__test__/**", "app/routes/**"],
+      reporter: ["text", "lcov"],
     },
   },
 });
