@@ -1,6 +1,5 @@
-/**
- * @jest-environment node
- */
+// @vitest-environment node
+// see https://github.com/Hopding/pdf-lib/issues/1186
 import { getBeratungshilfePdfFromContext } from "../beratungshilfe.server";
 
 describe("getBeratungshilfePdfFromContext", () => {

@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 /* eslint-disable sonarjs/no-duplicate-string */
 
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
