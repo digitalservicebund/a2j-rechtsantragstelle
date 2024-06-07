@@ -42,7 +42,7 @@ export async function startAnwaltlicheVertretung(
     "anwaltStrasseUndHausnummer",
     "Berlinadestraße 123",
   );
-  await beratungshilfeFormular.fillInput("anwaltPlz", "12345");
+  await beratungshilfeFormular.fillInput("anwaltPlz", "10115");
   await beratungshilfeFormular.fillInput("anwaltOrt", "Chemnitz");
   await beratungshilfeFormular.clickNext();
 }

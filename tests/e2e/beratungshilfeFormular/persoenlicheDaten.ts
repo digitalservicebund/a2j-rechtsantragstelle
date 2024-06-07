@@ -26,7 +26,7 @@ export async function startPersoenlicheDaten(
     "strasseHausnummer",
     "Entenhausenstraße 123",
   );
-  await beratungshilfeFormular.fillInput("plz", "12345");
+  await beratungshilfeFormular.fillInput("plz", "10115");
   await beratungshilfeFormular.fillInput("ort", "Entenhausen");
   await beratungshilfeFormular.clickNext();
 
