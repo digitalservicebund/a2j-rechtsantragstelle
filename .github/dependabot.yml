@@ -18,9 +18,9 @@ updates:
       remix:
         patterns:
           - "@remix-run/*"
-      jest:
+      vitest:
         patterns:
-          - "jest*"
+          - "vitest*"
       react:
         patterns:
           - "react*"
