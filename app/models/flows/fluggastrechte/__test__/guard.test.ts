@@ -4,11 +4,9 @@ import { guards } from "~/models/flows/fluggastrechte/guards";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
 
 vi.mock("~/services/airports/calculateDistanceBetweenAirports");
-
-const mockedCalculateDistanceBetweenAirports =
-  calculateDistanceBetweenAirportsInKilometers as jest.Mocked<
-    typeof calculateDistanceBetweenAirportsInKilometers
-  >;
+const mockedCalculateDistanceBetweenAirportsInKilometers = vi.mocked(
+  calculateDistanceBetweenAirportsInKilometers,
+);
 
 describe("fluggastrechteGuard", () => {
   describe("isAirportOutsideEU", () => {
@@ -98,7 +96,7 @@ describe("fluggastrechteGuard", () => {
         startAirport: "BER",
       };
 
-      (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(
+      mockedCalculateDistanceBetweenAirportsInKilometers.mockReturnValue(
         Result.err(""),
       );
 
@@ -112,7 +110,7 @@ describe("fluggastrechteGuard", () => {
         startAirport: "BER",
       };
 
-      (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(
+      mockedCalculateDistanceBetweenAirportsInKilometers.mockReturnValue(
         Result.ok(100),
       );
 

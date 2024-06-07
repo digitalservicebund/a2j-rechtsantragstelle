@@ -40,8 +40,7 @@ describe("services/cms", () => {
       "form-flow-pages": [],
       translations: [],
     } satisfies StrapiFileContent;
-
-    (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(fileContent));
+    vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify(fileContent));
 
     test("returns an entry", async () => {
       expect(

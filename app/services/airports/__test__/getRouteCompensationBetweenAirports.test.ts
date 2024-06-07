@@ -6,14 +6,11 @@ import { getRouteCompensationBetweenAirports } from "../getRouteCompensationBetw
 vi.mock("~/services/airports/calculateDistanceBetweenAirports");
 vi.mock("~/services/airports/isEuropeanUnionAirport");
 
-const mockedCalculateDistanceBetweenAirports =
-  calculateDistanceBetweenAirportsInKilometers as jest.Mocked<
-    typeof calculateDistanceBetweenAirportsInKilometers
-  >;
+const mockedCalculateDistanceBetweenAirports = vi.mocked(
+  calculateDistanceBetweenAirportsInKilometers,
+);
 
-const mockedIsEuropeanUnionAirport = isEuropeanUnionAirport as jest.Mocked<
-  typeof isEuropeanUnionAirport
->;
+const mockedIsEuropeanUnionAirport = vi.mocked(isEuropeanUnionAirport);
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -21,13 +18,8 @@ beforeEach(() => {
 
 describe("getRouteCompensationBetweenAirports", () => {
   it("should return longDistanceInsideEU if the distance is more than 3500km and the start and end aiports are in EU", () => {
-    (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(
-      Result.ok(3600),
-    );
-
-    (mockedIsEuropeanUnionAirport as jest.Mock).mockReturnValue(
-      Result.ok(true),
-    );
+    mockedCalculateDistanceBetweenAirports.mockReturnValue(Result.ok(3600));
+    mockedIsEuropeanUnionAirport.mockReturnValue(Result.ok(true));
 
     const actual = getRouteCompensationBetweenAirports("BER", "MUN");
 
@@ -35,13 +27,8 @@ describe("getRouteCompensationBetweenAirports", () => {
   });
 
   it("should return longDistanceOutsideEU if the distance is more than 3500km and the start and end aiports are not in EU", () => {
-    (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(
-      Result.ok(3600),
-    );
-
-    (mockedIsEuropeanUnionAirport as jest.Mock).mockReturnValue(
-      Result.ok(false),
-    );
+    mockedCalculateDistanceBetweenAirports.mockReturnValue(Result.ok(3600));
+    mockedIsEuropeanUnionAirport.mockReturnValue(Result.ok(false));
 
     const actual = getRouteCompensationBetweenAirports("BER", "MUN");
 
@@ -49,9 +36,7 @@ describe("getRouteCompensationBetweenAirports", () => {
   });
 
   it("should return middleDistance if the distance is more than 1500km", () => {
-    (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(
-      Result.ok(1501),
-    );
+    mockedCalculateDistanceBetweenAirports.mockReturnValue(Result.ok(1501));
 
     const actual = getRouteCompensationBetweenAirports("BER", "MUN");
 
@@ -59,9 +44,7 @@ describe("getRouteCompensationBetweenAirports", () => {
   });
 
   it("should return middleDistance if the distance is less than 3500km", () => {
-    (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(
-      Result.ok(3499),
-    );
+    mockedCalculateDistanceBetweenAirports.mockReturnValue(Result.ok(3499));
 
     const actual = getRouteCompensationBetweenAirports("BER", "MUN");
 
@@ -69,9 +52,7 @@ describe("getRouteCompensationBetweenAirports", () => {
   });
 
   it("should return shortDistance if the distance is less than 1500km", () => {
-    (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(
-      Result.ok(1499),
-    );
+    mockedCalculateDistanceBetweenAirports.mockReturnValue(Result.ok(1499));
 
     const actual = getRouteCompensationBetweenAirports("BER", "MUN");
 
@@ -79,7 +60,7 @@ describe("getRouteCompensationBetweenAirports", () => {
   });
 
   it("should return notPossibleCalculateDistance if the distance can not be calculated", () => {
-    (mockedCalculateDistanceBetweenAirports as jest.Mock).mockReturnValue(
+    mockedCalculateDistanceBetweenAirports.mockReturnValue(
       Result.err("anything"),
     );
 
