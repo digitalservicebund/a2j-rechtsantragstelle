@@ -15,7 +15,7 @@ const FormComponent = ({
   component,
 }: Readonly<{ component: StrapiFormComponent }>) => {
   switch (component.__component) {
-    case "form-elements.auto-suggest-input":
+    case "form-elements.suggestion-input":
       return <StrapiSuggestionInput {...component} />;
     case "form-elements.input":
       return <StrapiInput {...component} />;

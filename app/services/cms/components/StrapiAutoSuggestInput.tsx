@@ -8,7 +8,7 @@ import {
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
-const StrapiSuggestionInputSchema = z
+const StrapiAutoSuggestInputSchema = z
   .object({
     name: z.string(),
     label: z.string().nullable(),
@@ -31,18 +31,18 @@ const StrapiSuggestionInputSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-type StrapiSuggestionInput = z.infer<typeof StrapiSuggestionInputSchema>;
+type StrapiAutoSuggestInput = z.infer<typeof StrapiAutoSuggestInputSchema>;
 
-export const StrapiSuggestionInputComponentSchema =
-  StrapiSuggestionInputSchema.extend({
-    __component: z.literal("form-elements.suggestion-input"),
+export const StrapiAutoSuggestInputComponentSchema =
+  StrapiAutoSuggestInputSchema.extend({
+    __component: z.literal("form-elements.auto-suggest-input"),
   });
 
-const StrapiSuggestionInput = ({
+const StrapiAutoSuggestInput = ({
   errors,
   width,
   ...props
-}: StrapiSuggestionInput) => {
+}: StrapiAutoSuggestInput) => {
   const inWidth = width?.replace(
     "characters",
     "",
@@ -57,4 +57,4 @@ const StrapiSuggestionInput = ({
   );
 };
 
-export default StrapiSuggestionInput;
+export default StrapiAutoSuggestInput;
