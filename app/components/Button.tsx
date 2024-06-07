@@ -77,7 +77,7 @@ function Button({
         {...(props as ButtonLinkProps)}
         href={href}
         className={buttonClasses}
-        role="button"
+        role="button" // TODO - We need to check this role
         onKeyDown={onKeyDown}
         {...(openInNewTab
           ? { target: "_blank", rel: "noopener noreferrer" }
