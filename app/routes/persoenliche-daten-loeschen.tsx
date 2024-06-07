@@ -1,10 +1,5 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import {
-  Form,
-  useLoaderData,
-  useNavigate,
-  useNavigation,
-} from "@remix-run/react";
+import { Form, useLoaderData, useNavigation } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
@@ -23,12 +18,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Index() {
   const { content, translations } = useLoaderData<typeof loader>();
-  const navigate = useNavigate();
   const isSubmitting = useNavigation().state === "submitting";
-  const [clientJavaScriptAvailable, setClientJavaScriptAvailable] =
-    useState(false);
+  const [previousPage, setPreviousPage] = useState("");
+
   useEffect(() => {
-    setClientJavaScriptAvailable(true);
+    setPreviousPage(document.referrer);
   }, []);
 
   return (
@@ -43,10 +37,9 @@ export default function Index() {
           <ButtonContainer>
             <Button
               type="button"
-              href={clientJavaScriptAvailable ? undefined : "/"}
+              href={previousPage.length > 0 ? previousPage : "/"}
               look="tertiary"
               size="large"
-              onClick={() => navigate(-1)}
               text={translations["back"] ?? "Zurück ohne zu löschen"}
             />
             <Button
