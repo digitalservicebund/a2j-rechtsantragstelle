@@ -1,6 +1,6 @@
 import { RefObject } from "react";
 import { ClearIndicatorProps, components } from "react-select";
-import { DataListOptions } from "../SuggestionInput";
+import { DataListOptions } from "../AutoSuggestInput";
 
 const CustomClearIndicator = (
   props: ClearIndicatorProps<DataListOptions, false>,

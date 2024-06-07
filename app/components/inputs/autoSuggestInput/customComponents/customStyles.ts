@@ -1,5 +1,5 @@
 import { StylesConfig } from "react-select";
-import { DataListOptions } from "../SuggestionInput";
+import { DataListOptions } from "../AutoSuggestInput";
 
 const getOptionBackgroundColor = (
   isFocused: boolean,

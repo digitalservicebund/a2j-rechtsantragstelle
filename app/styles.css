@@ -254,7 +254,7 @@ svg {
 }
 
 /* when focus with the keyboard, but not focus on the remove item button */
-.suggestion-input:focus-within:not(:has(div > button:focus-visible)) {
+.auto-suggest-input:focus-within:not(:has(div > button:focus-visible)) {
   @apply outline;
   @apply outline-4;
   @apply outline-blue-800;

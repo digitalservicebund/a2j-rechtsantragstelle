@@ -74,13 +74,13 @@ export class Vorabcheck {
     await this.clickNextWithoutJavaScript();
   }
 
-  async fillMultipleSuggestionInputPage(
+  async fillMultipleAutoSuggestInputPage(
     fields: { field: string; value: string }[],
   ) {
     for (const { field, value } of fields) {
       await this.page.locator(`input[id="${field}"]`).fill(value);
       const menuItem = await this.page
-        .getByTestId("suggestion-input-menu-item")
+        .getByTestId("auto-suggest-input-menu-item")
         .first();
       await menuItem.dispatchEvent("click");
     }

@@ -1,14 +1,14 @@
 import { createRemixStub } from "@remix-run/testing";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import * as remixValidatedForm from "remix-validated-form";
-import SuggestionInput from "~/components/inputs/suggestionInput/SuggestionInput";
+import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
 
 jest.mock("remix-validated-form", () => ({
   useField: jest.fn(),
 }));
 
 const mockedValidate = jest.fn();
-const COMPONENT_NAME = "test-suggestionInput";
+const COMPONENT_NAME = "test-autoSuggestInput";
 const PLACEHOLDER_MOCK = "Test Placeholder";
 
 beforeEach(() => {
@@ -29,13 +29,13 @@ afterEach(() => {
   jest.restoreAllMocks(); // This clears all mocks after each test
 });
 
-describe("SuggestionInput", () => {
+describe("AutoSuggestInput", () => {
   it("it should render the component with the placeholder, label and the input name", () => {
     const RemixStub = createRemixStub([
       {
         path: "",
         Component: () => (
-          <SuggestionInput
+          <AutoSuggestInput
             name={COMPONENT_NAME}
             placeholder="placeholder"
             dataList="airports"
@@ -60,7 +60,7 @@ describe("SuggestionInput", () => {
       {
         path: "",
         Component: () => (
-          <SuggestionInput
+          <AutoSuggestInput
             name={COMPONENT_NAME}
             placeholder="placeholder"
             dataList="airports"
@@ -93,7 +93,7 @@ describe("SuggestionInput", () => {
       {
         path: "",
         Component: () => (
-          <SuggestionInput
+          <AutoSuggestInput
             name={COMPONENT_NAME}
             placeholder="placeholder"
             dataList="airports"
@@ -120,7 +120,7 @@ describe("SuggestionInput", () => {
       {
         path: "",
         Component: () => (
-          <SuggestionInput
+          <AutoSuggestInput
             name={COMPONENT_NAME}
             placeholder="placeholder"
             dataList="airports"
@@ -163,7 +163,7 @@ describe("SuggestionInput", () => {
       {
         path: "",
         Component: () => (
-          <SuggestionInput
+          <AutoSuggestInput
             name={`${COMPONENT_NAME}-option-was-selected`} // change this props avoid the react-select calls the onBlur method when click on the airport option
             placeholder="placeholder"
             dataList="airports"
