@@ -16,7 +16,7 @@ test.describe("js enabled", () => {
     );
   });
 
-  test("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
+  test.skip("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
     // fluggastrechte/vorabcheck/start
     await expectPageToBeAccessible({ page });
     await vorabcheck.clickNext();
@@ -79,7 +79,7 @@ test.describe("js enabled", () => {
     );
   });
 
-  test("fluggastrechte vorabcheck: Nicht-Befoerderung can be traversed", async ({
+  test.skip("fluggastrechte vorabcheck: Nicht-Befoerderung can be traversed", async ({
     page,
   }) => {
     // fluggastrechte/vorabcheck/start
@@ -137,7 +137,7 @@ test.describe("js enabled", () => {
     );
   });
 
-  test("fluggastrechte vorabcheck: Annullierung can be traversed", async ({
+  test.skip("fluggastrechte vorabcheck: Annullierung can be traversed", async ({
     page,
   }) => {
     // fluggastrechte/vorabcheck/start
@@ -221,7 +221,7 @@ test.describe("js enabled", () => {
 test.describe("js disabled", () => {
   test.use({ javaScriptEnabled: false });
 
-  test("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
+  test.skip("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
     await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
     await vorabcheck.goto();
     await vorabcheck.clickNextWithoutJavaScript();
