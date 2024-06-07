@@ -34,9 +34,6 @@ jobs:
       - name: Create certificates
         run: ./create-redis-dummy-certificate.sh
 
-      - name: Run docker compose
-        run: docker compose up
-
       - name: Get Playwright version
         run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages[''].devDependencies['@playwright/test'])")" >> $GITHUB_ENV
 
