@@ -3,28 +3,28 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import * as remixValidatedForm from "remix-validated-form";
 import Textarea from "~/components/inputs/Textarea";
 
-jest.mock("remix-validated-form", () => ({
-  useField: jest.fn(),
+vi.mock("remix-validated-form", () => ({
+  useField: vi.fn(),
 }));
 
 describe("Textarea component", () => {
   afterEach(() => {
-    jest.restoreAllMocks(); // This clears all mocks after each test
+    vi.restoreAllMocks(); // This clears all mocks after each test
   });
 
   it("renders without errors", () => {
     const componentName = "test-textarea";
 
-    jest.spyOn(remixValidatedForm, "useField").mockReturnValue({
+    vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
       error: undefined,
-      getInputProps: jest.fn().mockReturnValue({
+      getInputProps: vi.fn().mockReturnValue({
         id: componentName,
         placeholder: "Test Placeholder",
       }),
-      clearError: jest.fn(),
-      validate: jest.fn(),
+      clearError: vi.fn(),
+      validate: vi.fn(),
       touched: false,
-      setTouched: jest.fn(),
+      setTouched: vi.fn(),
     });
 
     const RemixStub = createRemixStub([
@@ -50,13 +50,13 @@ describe("Textarea component", () => {
   });
 
   it("renders without errors when description is provided", () => {
-    jest.spyOn(remixValidatedForm, "useField").mockReturnValue({
+    vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
       error: undefined,
-      getInputProps: jest.fn(),
-      clearError: jest.fn(),
-      validate: jest.fn(),
+      getInputProps: vi.fn(),
+      clearError: vi.fn(),
+      validate: vi.fn(),
       touched: false,
-      setTouched: jest.fn(),
+      setTouched: vi.fn(),
     });
 
     const RemixStub = createRemixStub([
@@ -80,13 +80,13 @@ describe("Textarea component", () => {
   });
 
   it("renders error message when error is present", () => {
-    jest.spyOn(remixValidatedForm, "useField").mockReturnValue({
+    vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
       error: "error",
-      getInputProps: jest.fn(),
-      clearError: jest.fn(),
-      validate: jest.fn(),
+      getInputProps: vi.fn(),
+      clearError: vi.fn(),
+      validate: vi.fn(),
       touched: false,
-      setTouched: jest.fn(),
+      setTouched: vi.fn(),
     });
 
     const RemixStub = createRemixStub([
@@ -112,13 +112,13 @@ describe("Textarea component", () => {
   });
 
   it("allows users to type in the textarea", () => {
-    jest.spyOn(remixValidatedForm, "useField").mockReturnValue({
+    vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
       error: undefined,
-      getInputProps: jest.fn(),
-      clearError: jest.fn(),
-      validate: jest.fn(),
+      getInputProps: vi.fn(),
+      clearError: vi.fn(),
+      validate: vi.fn(),
       touched: false,
-      setTouched: jest.fn(),
+      setTouched: vi.fn(),
     });
 
     const RemixStub = createRemixStub([

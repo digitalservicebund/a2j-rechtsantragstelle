@@ -10,6 +10,7 @@ import {
 } from "./anwaltlicheVertretung/guards";
 import { finanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
 import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
+import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import {
@@ -20,10 +21,7 @@ import {
   partnerDone,
   wohnungDone,
 } from "./finanzielleAngaben/navStates";
-import {
-  eigentumDone,
-  eigentumZusammenfassungDone,
-} from "./finanzielleAngaben/navStatesEigentum";
+import { eigentumDone } from "./finanzielleAngaben/navStatesEigentum";
 import beratungshilfeFormularFlow from "./flow.json";
 import {
   type BeratungshilfeGrundvoraussetzungen,

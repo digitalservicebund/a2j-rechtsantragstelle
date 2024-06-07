@@ -3,16 +3,18 @@ import { getStrapiEntryFromApi } from "~/services/cms/getStrapiEntryFromApi";
 import type { GetStrapiEntryOpts } from "~/services/cms/index.server";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 
-jest.mock("axios");
-
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+const API_URL = "test://cms/api/";
 
 describe("services/cms", () => {
-  describe("getStrapiEntryFromApi", () => {
-    afterEach(() => {
-      axiosGetSpy.mockClear();
-    });
+  beforeAll(() => {
+    vi.stubEnv("STRAPI_API", API_URL);
+  });
 
+  afterAll(() => {
+    vi.unstubAllEnvs();
+  });
+
+  describe("getStrapiEntryFromApi", () => {
     const expectedData = "data";
     const dataResponse = { attributes: expectedData };
     const defaultOptions: GetStrapiEntryOpts = {
@@ -21,13 +23,17 @@ describe("services/cms", () => {
     };
     const defaultResponseData = { data: { data: dataResponse } };
     const emptyResponseData = { data: [] };
-    const expectedRequestUrl = "test://cms/api/pages?populate=deep&locale=de";
-    const expectedStagingRequestUrl =
-      "test://cms/api/pages?populate=deep&locale=sg";
-    const axiosGetSpy = jest.spyOn(mockedAxios, "get");
+    const expectedRequestUrl = `${API_URL}pages?populate=deep&locale=de`;
+    const expectedStagingRequestUrl = `${API_URL}pages?populate=deep&locale=sg`;
+
+    const axiosGetSpy = vi.spyOn(axios, "get");
+
+    afterEach(() => {
+      axiosGetSpy.mockClear();
+    });
 
     test("request url", async () => {
-      mockedAxios.get
+      axiosGetSpy
         .mockResolvedValue(defaultResponseData)
         .mockResolvedValueOnce(emptyResponseData);
       await getStrapiEntryFromApi(defaultOptions);
@@ -44,7 +50,7 @@ describe("services/cms", () => {
     });
 
     test("request url with optional slug given", async () => {
-      mockedAxios.get
+      axiosGetSpy
         .mockResolvedValue(defaultResponseData)
         .mockResolvedValueOnce(emptyResponseData);
       await getStrapiEntryFromApi({ ...defaultOptions, filterValue: "foobar" });
@@ -61,7 +67,7 @@ describe("services/cms", () => {
     });
 
     test("response handling with api returning array", async () => {
-      mockedAxios.get.mockResolvedValue({ data: { data: [dataResponse] } });
+      axiosGetSpy.mockResolvedValue({ data: { data: [dataResponse] } });
       expect(await getStrapiEntryFromApi(defaultOptions)).toEqual(expectedData);
     });
   });

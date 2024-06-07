@@ -19,7 +19,7 @@
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "target": "ES2022",
-    "types": ["@testing-library/jest-dom", "node"],
+    "types": ["@testing-library/jest-dom", "node", "vitest/globals"],
     "strict": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,

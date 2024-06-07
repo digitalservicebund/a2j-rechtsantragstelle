@@ -1,7 +1,3 @@
-/**
- * @jest-environment node
- */
-
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
@@ -16,28 +12,23 @@ import {
 } from "~/services/pdf/beratungshilfe/sections/E_unterhalt/unterhaltPdfField";
 import type { UnterhaltPdfField } from "~/services/pdf/beratungshilfe/sections/E_unterhalt/unterhaltPdfField";
 
-jest.mock(
-  "~/services/pdf/beratungshilfe/sections/E_unterhalt/unterhaltPdfField",
+vi.mock("~/services/pdf/beratungshilfe/sections/E_unterhalt/unterhaltPdfField");
+
+const mockedGetListKidsUnterhaltPdfField = vi.mocked(
+  getListKidsUnterhaltPdfField,
+);
+const mockedGetListPersonUnterhaltPdfField = vi.mocked(
+  getListPersonUnterhaltPdfField,
 );
 
-const mockedGetListKidsUnterhaltPdfField =
-  getListKidsUnterhaltPdfField as jest.Mocked<
-    typeof getListKidsUnterhaltPdfField
-  >;
-
-const mockedGetListPersonUnterhaltPdfField =
-  getListPersonUnterhaltPdfField as jest.Mocked<
-    typeof getListPersonUnterhaltPdfField
-  >;
-
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 describe("E_unterhalt", () => {
   it("in case does not have data for section_E, the attachment should be not filled", async () => {
-    (mockedGetListKidsUnterhaltPdfField as jest.Mock).mockReturnValue([]);
-    (mockedGetListPersonUnterhaltPdfField as jest.Mock).mockReturnValue([]);
+    mockedGetListKidsUnterhaltPdfField.mockReturnValue([]);
+    mockedGetListPersonUnterhaltPdfField.mockReturnValue([]);
 
     const context: BeratungshilfeFormularContext = {};
     const attachment = createAttachment(context);
@@ -60,11 +51,11 @@ describe("E_unterhalt", () => {
       hatEinnahmen: true,
     };
 
-    (mockedGetListKidsUnterhaltPdfField as jest.Mock).mockReturnValue([
+    mockedGetListKidsUnterhaltPdfField.mockReturnValue([
       mockUnterhaltPdfField,
       mockUnterhaltPdfField,
     ]);
-    (mockedGetListPersonUnterhaltPdfField as jest.Mock).mockReturnValue([
+    mockedGetListPersonUnterhaltPdfField.mockReturnValue([
       mockUnterhaltPdfField,
       mockUnterhaltPdfField,
       mockUnterhaltPdfField,

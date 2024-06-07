@@ -91,13 +91,11 @@ module.exports = {
 
     // Jest/Vitest
     {
-      files: ["tests/**/*.test.{js,jsx,ts,tsx}"],
-      plugins: ["jest", "jest-dom"],
-      extends: ["plugin:jest/recommended", "plugin:jest-dom/recommended"],
-      env: { "jest/globals": true },
+      files: ["app/**/*.test.{js,jsx,ts,tsx}"],
+      plugins: ["vitest"],
+      extends: ["plugin:vitest/legacy-recommended"],
       rules: {
-        "jest/valid-title": "off", // enable later
-        "jest/no-standalone-expect": "off", // enable later
+        "vitest/valid-title": "off", // enable later
       },
     },
 

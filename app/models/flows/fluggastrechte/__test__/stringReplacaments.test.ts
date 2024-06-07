@@ -14,12 +14,11 @@ import {
 } from "~/models/flows/fluggastrechte/stringReplacements";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 
-jest.mock("~/services/airports/getRouteCompensationBetweenAirports");
+vi.mock("~/services/airports/getRouteCompensationBetweenAirports");
 
-const mockedGetRouteCompensationBetweenAirports =
-  getRouteCompensationBetweenAirports as jest.Mocked<
-    typeof getRouteCompensationBetweenAirports
-  >;
+const mockedGetRouteCompensationBetweenAirports = vi.mocked(
+  getRouteCompensationBetweenAirports,
+);
 
 const EXPECTED_TRANSLATION_KEY_RECORDS = {
   [TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM]:
@@ -33,14 +32,12 @@ const EXPECTED_TRANSLATION_KEY_RECORDS = {
 };
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 describe("getCompensantionPaymentString", () => {
   it("should return compensation value 200, if the distance is until 1500", () => {
-    (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
-      "shortDistance",
-    );
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue("shortDistance");
 
     const actual = getCompensantionPaymentString({});
 
@@ -50,9 +47,7 @@ describe("getCompensantionPaymentString", () => {
   });
 
   it("should return compensation value 400, if the distance is until 3500", () => {
-    (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
-      "middleDistance",
-    );
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue("middleDistance");
 
     const actual = getCompensantionPaymentString({});
 
@@ -62,7 +57,7 @@ describe("getCompensantionPaymentString", () => {
   });
 
   it("should return compensation value 400, if the distance is above 3500 inside EU", () => {
-    (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue(
       "longDistanceInsideEU",
     );
 
@@ -74,7 +69,7 @@ describe("getCompensantionPaymentString", () => {
   });
 
   it("should return compensation value 600, if the distance is above 3500 outside EU", () => {
-    (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue(
       "longDistanceOutsideEU",
     );
 
@@ -86,7 +81,7 @@ describe("getCompensantionPaymentString", () => {
   });
 
   it("should return empty object, if the distance calculatesd returns notPossibleCalculateDistance", () => {
-    (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue(
       "notPossibleCalculateDistance",
     );
 
@@ -98,14 +93,14 @@ describe("getCompensantionPaymentString", () => {
 
 describe("getLastDaytFromFourYearsAgoDate", () => {
   it("should return the last of the year from 4 years ago from 2026.01.01", () => {
-    jest.useFakeTimers().setSystemTime(new Date("2026-01-01"));
+    vi.useFakeTimers().setSystemTime(new Date("2026-01-01"));
 
     const actual = getLastDaytFromFourYearsAgoDate();
     expect(actual).toBe("31.12.2022");
   });
 
   it("should return the last of the year from 4 years ago from 2024.01.01", () => {
-    jest.useFakeTimers().setSystemTime(new Date("2024-01-01"));
+    vi.useFakeTimers().setSystemTime(new Date("2024-01-01"));
 
     const actual = getLastDaytFromFourYearsAgoDate();
     expect(actual).toBe("31.12.2020");
@@ -152,9 +147,7 @@ describe("getEndAirportName", () => {
 
 describe("getRouteCompensationDescription", () => {
   it("should return route compensation description until 1500, if the distance is short", () => {
-    (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
-      "shortDistance",
-    );
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue("shortDistance");
 
     const expectedTranslation =
       EXPECTED_TRANSLATION_KEY_RECORDS[
@@ -172,9 +165,7 @@ describe("getRouteCompensationDescription", () => {
   });
 
   it("should return route compensation description until 3500, if the distance is middle", () => {
-    (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
-      "middleDistance",
-    );
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue("middleDistance");
 
     const expectedTranslation =
       EXPECTED_TRANSLATION_KEY_RECORDS[
@@ -192,7 +183,7 @@ describe("getRouteCompensationDescription", () => {
   });
 
   it("should return return route compensation description above 3500 inside EU, if the distance is above 3500 inside EU", () => {
-    (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue(
       "longDistanceInsideEU",
     );
 
@@ -212,7 +203,7 @@ describe("getRouteCompensationDescription", () => {
   });
 
   it("should return return route compensation description above 3500 outside EU, if the distance is above 3500 outside EU", () => {
-    (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue(
       "longDistanceOutsideEU",
     );
 
@@ -232,7 +223,7 @@ describe("getRouteCompensationDescription", () => {
   });
 
   it("should return empty object, if the distance can not be calculated", () => {
-    (mockedGetRouteCompensationBetweenAirports as jest.Mock).mockReturnValue(
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue(
       "notPossibleCalculateDistance",
     );
 

@@ -2,13 +2,11 @@
 import {
   bankKontoDone,
   eigentumDone,
-  eigentumZusammenfassungDone,
   geldanlagenDone,
   grundeigentumDone,
   kraftfahrzeugeDone,
   wertsachenDone,
 } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStatesEigentum";
-import * as navStatesEigentum from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/navStatesEigentum";
 
 describe("eigentumDone", () => {
   it("passes with all fields no", () => {
@@ -464,67 +462,5 @@ describe("wertsachenDone", () => {
         context: {},
       }),
     ).toBeFalsy();
-  });
-});
-
-describe("eigentumZusammenfassungDone", () => {
-  it("passes with all sub-flows done", () => {
-    jest.spyOn(navStatesEigentum, "bankKontoDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "geldanlagenDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "grundeigentumDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "kraftfahrzeugeDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "wertsachenDone").mockReturnValue(true);
-
-    expect(eigentumZusammenfassungDone({ context: {} })).toBeTruthy();
-  });
-
-  it("fails with bankkonto not done", () => {
-    jest.spyOn(navStatesEigentum, "bankKontoDone").mockReturnValue(false);
-    jest.spyOn(navStatesEigentum, "geldanlagenDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "grundeigentumDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "kraftfahrzeugeDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "wertsachenDone").mockReturnValue(true);
-
-    expect(eigentumZusammenfassungDone({ context: {} })).toBeFalsy();
-  });
-
-  it("fails with geldanlagen not done", () => {
-    jest.spyOn(navStatesEigentum, "bankKontoDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "geldanlagenDone").mockReturnValue(false);
-    jest.spyOn(navStatesEigentum, "grundeigentumDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "kraftfahrzeugeDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "wertsachenDone").mockReturnValue(true);
-
-    expect(eigentumZusammenfassungDone({ context: {} })).toBeFalsy();
-  });
-
-  it("fails with grundeigentum not done", () => {
-    jest.spyOn(navStatesEigentum, "bankKontoDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "geldanlagenDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "grundeigentumDone").mockReturnValue(false);
-    jest.spyOn(navStatesEigentum, "kraftfahrzeugeDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "wertsachenDone").mockReturnValue(true);
-
-    expect(eigentumZusammenfassungDone({ context: {} })).toBeFalsy();
-  });
-
-  it("fails with kraftfahrzeug not done", () => {
-    jest.spyOn(navStatesEigentum, "bankKontoDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "geldanlagenDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "grundeigentumDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "kraftfahrzeugeDone").mockReturnValue(false);
-    jest.spyOn(navStatesEigentum, "wertsachenDone").mockReturnValue(true);
-
-    expect(eigentumZusammenfassungDone({ context: {} })).toBeFalsy();
-  });
-
-  it("fails with wertsachen not done", () => {
-    jest.spyOn(navStatesEigentum, "bankKontoDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "geldanlagenDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "grundeigentumDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "kraftfahrzeugeDone").mockReturnValue(true);
-    jest.spyOn(navStatesEigentum, "wertsachenDone").mockReturnValue(false);
-
-    expect(eigentumZusammenfassungDone({ context: {} })).toBeFalsy();
   });
 });

@@ -1,7 +1,3 @@
-/**
- * @jest-environment node
- */
-
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";

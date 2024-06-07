@@ -1,13 +1,13 @@
 import { extractJsonFilesFromZip } from "~/util/file/extractJsonFilesFromZip";
 
 afterEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 describe("extractJsonFilesFromZip", () => {
-  const consoleLogSpy = jest
+  const consoleLogSpy = vi
     .spyOn(global.console, "log")
-    .mockImplementation(() => jest.fn());
+    .mockImplementation(() => vi.fn());
 
   it("extracts all json from .zip file", () => {
     const zipContent = extractJsonFilesFromZip(

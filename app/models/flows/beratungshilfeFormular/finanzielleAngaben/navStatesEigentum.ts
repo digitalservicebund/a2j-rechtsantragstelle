@@ -37,12 +37,3 @@ export const wertsachenDone: FinanzielleAngabenGuard = ({ context }) =>
   (context.hasWertsache === "yes" &&
     context.wertsachen !== undefined &&
     context.wertsachen.length > 0);
-
-export const eigentumZusammenfassungDone: FinanzielleAngabenGuard = ({
-  context,
-}) =>
-  bankKontoDone({ context }) &&
-  geldanlagenDone({ context }) &&
-  grundeigentumDone({ context }) &&
-  wertsachenDone({ context }) &&
-  kraftfahrzeugeDone({ context });
