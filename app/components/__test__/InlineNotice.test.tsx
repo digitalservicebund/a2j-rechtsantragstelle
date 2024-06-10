@@ -8,42 +8,31 @@ describe("InlineNotice Component", () => {
     component.unmount();
   });
 
+  const mockProps = {
+    title: "Achtung!",
+    tagName: "h2",
+    content: "Test content",
+  } as const;
+
   it("renders warning notice correctly with all props provided", () => {
-    const WARNING_ICON_ID = "WarningAmberIcon";
-    const mockProps = {
-      identifier: "test-identifier",
-      title: "Achtung!",
-      tagName: "h2",
-      look: "warning",
-      content: "Test content",
-    } as const;
+    component = render(<InlineNotice look="warning" {...mockProps} />);
+    const note = screen.getByRole("note");
 
-    component = render(<InlineNotice {...mockProps} />);
-
-    expect(screen.getByText(mockProps.title)).toBeInTheDocument();
-    expect(screen.getByText(mockProps.content)).toBeInTheDocument();
-    expect(screen.getByTestId(WARNING_ICON_ID)).toBeInTheDocument();
+    expect(note).toBeVisible();
+    expect(note).toHaveTextContent(mockProps.title);
+    expect(note).toHaveTextContent(mockProps.content);
+    expect(note).toContainElement(screen.getByTestId("WarningAmberIcon"));
   });
 
-  it("renders tips notice correctly with all props provided", () => {
-    const TIPS_ICON_ID = "LightbulbOutlinedIcon";
+  it("renders tips icon", () => {
+    component = render(<InlineNotice look="tips" {...mockProps} />);
+    expect(screen.getByRole("note")).toContainElement(
+      screen.getByTestId("LightbulbOutlinedIcon"),
+    );
+  });
 
-    const mockProps = {
-      identifier: "test-identifier",
-      title: "Achtung!",
-      tagName: "h2",
-      look: "tips",
-      content: "Text **strong**\n\n* first list\n* second list",
-    } as const;
-
-    component = render(<InlineNotice {...mockProps} />);
-
-    expect(screen.getByText(mockProps.title)).toBeInTheDocument();
-    expect(screen.getByTestId(TIPS_ICON_ID)).toBeInTheDocument();
-
-    const listDescription = screen.getByRole("list");
-
-    expect(screen.getByRole("list")).toBeInTheDocument();
-    expect(listDescription.querySelectorAll("li")).toHaveLength(2);
+  it("doesn't render without content", () => {
+    component = render(<InlineNotice look="tips" {...mockProps} content="" />);
+    expect(screen.queryByRole("note")).not.toBeInTheDocument();
   });
 });

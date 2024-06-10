@@ -43,6 +43,7 @@ export const InlineNotice = ({
       <div
         className={`ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
         id={identifier}
+        role="note"
       >
         <div className="flex flex-row gap-[4px] items-center">
           <IconComponent style={{ width: 24, height: 24 }} />
