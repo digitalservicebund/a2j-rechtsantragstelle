@@ -1,3 +1,4 @@
+import { deflateSync } from "node:zlib";
 import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { toDirectedGraph } from "@xstate/graph";
 import { createMachine, type AnyStateMachine } from "xstate";
@@ -55,6 +56,16 @@ flowchart TD
 ${statesToGraph(digraph.children, showBacklinks)}`;
 };
 
+// https://github.com/dankogai/js-base64/blob/main/base64.ts
+const safeUri = (src: string) =>
+  src.replace(/=/g, "").replace(/[+/]/g, (m0) => (m0 == "+" ? "-" : "_"));
+
+function compressBase64(flowChartString: string) {
+  const graphObjString = JSON.stringify({ code: flowChartString });
+  const compressed = deflateSync(graphObjString, { level: 9 });
+  return safeUri(Buffer.from(compressed).toString("base64"));
+}
+
 const getVisualizationString = (
   stateMachine: AnyStateMachine,
   showBacklinks = false,
@@ -64,8 +75,7 @@ const getVisualizationString = (
   const digraph = toDirectedGraph(stateMachine.root);
 
   // Mermaid generates a picture when given a base64 encoded chart description
-  const flowChart = mermaidFlowchart(digraph, showBacklinks);
-  return Buffer.from(flowChart).toString("base64");
+  return mermaidFlowchart(digraph, showBacklinks);
 };
 
 export const loader = ({ request }: LoaderFunctionArgs) => {
@@ -75,6 +85,7 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   const { config, guards } = flows[flowId];
   const showBacklinks = url.searchParams.get("showBacklinks") !== null;
   const machine = createMachine(config, { guards });
-  const base64Graph = getVisualizationString(machine, showBacklinks);
-  return json({ url: `https://mermaid.ink/img/${base64Graph}?bgColor=!white` });
+  const graph = getVisualizationString(machine, showBacklinks);
+  const mermaidUrl = `https://mermaid.ink/img/pako:${compressBase64(graph)}?bgColor=!white`;
+  return json({ url: mermaidUrl });
 };
