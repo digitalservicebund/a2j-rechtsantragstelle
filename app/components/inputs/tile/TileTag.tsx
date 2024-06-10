@@ -1,5 +1,5 @@
 export type TileDescriptionProps = {
-  readonly tagDescription?: string | undefined;
+  readonly tagDescription?: string;
 };
 
 const TileTag = ({ tagDescription }: TileDescriptionProps) => {
