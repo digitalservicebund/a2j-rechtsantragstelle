@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { arrayIsNonEmpty } from "~/services/validation/array";
 import Button, { ButtonPropsSchema } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 import Heading, { HeadingPropsSchema } from "./Heading";
@@ -26,7 +27,7 @@ const Box = ({ identifier, label, heading, content, buttons }: BoxProps) => {
           </div>
         )}
       </div>
-      {buttons && buttons.length > 0 && (
+      {arrayIsNonEmpty(buttons) && (
         <ButtonContainer>
           {buttons.map((button) => (
             <Button key={button.text ?? button.href} {...button} />

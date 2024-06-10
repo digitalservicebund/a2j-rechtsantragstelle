@@ -1,5 +1,6 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import { arrayIsNonEmpty } from "~/services/validation/array";
 import { eigentuemerMapping } from "./F_besitz";
 import { newPageHint, type Attachment } from "../../attachment";
 
@@ -17,9 +18,8 @@ export function fillKraftfahrzeug(
   pdfFields.f9Kraftfahrzeug1.value = !hasKraftfahrzeugYes;
   pdfFields.f9Kraftfahrzeuge2.value = hasKraftfahrzeugYes;
 
-  if (!hasKraftfahrzeugYes || !kraftfahrzeuge || kraftfahrzeuge.length === 0)
-    return;
-  fillKraftfahrzeugData(attachment, pdfFields, kraftfahrzeuge);
+  if (hasKraftfahrzeugYes && arrayIsNonEmpty(kraftfahrzeuge))
+    fillKraftfahrzeugData(attachment, pdfFields, kraftfahrzeuge);
 }
 
 function fillKraftfahrzeugData(

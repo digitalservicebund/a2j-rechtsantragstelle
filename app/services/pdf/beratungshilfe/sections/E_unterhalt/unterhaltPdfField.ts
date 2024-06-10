@@ -1,5 +1,6 @@
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import type { Unterhaltszahlung } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
+import { arrayIsNonEmpty } from "~/services/validation/array";
 
 type FamilienverhaeltnisUnterhaltPdfField =
   | "Mein Kind"
@@ -40,8 +41,7 @@ export function getListPersonUnterhaltPdfField(
 
   if (
     context.hasWeitereUnterhaltszahlungen === "yes" &&
-    context.unterhaltszahlungen &&
-    context.unterhaltszahlungen.length > 0
+    arrayIsNonEmpty(context.unterhaltszahlungen)
   ) {
     const unterhaltszahlungPdfFileds: UnterhaltPdfField[] =
       context.unterhaltszahlungen.map((unterhaltszahlung) => ({

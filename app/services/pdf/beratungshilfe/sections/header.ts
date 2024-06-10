@@ -1,11 +1,11 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { checkboxListToString } from "../../checkboxListToString";
-import { newPageHint, type Attachment } from "../attachment";
 import {
   courtForPlz,
   edgeCasesForPlz,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { checkboxListToString } from "../../checkboxListToString";
+import { newPageHint, type Attachment } from "../attachment";
 
 const weiteresEinkommenMapping = {
   unterhaltszahlungen: "Unterhaltszahlungen",

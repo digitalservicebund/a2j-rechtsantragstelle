@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { arrayIsNonEmpty } from "~/services/validation/array";
 import Button, { ButtonPropsSchema } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 import Heading, { HeadingPropsSchema } from "./Heading";
@@ -53,7 +54,7 @@ const ListItem = ({
           {headline && <Heading {...headline} />}
         </div>
         {content && <RichText markdown={content} className="ml-[56px]" />}
-        {buttons && buttons.length > 0 && (
+        {arrayIsNonEmpty(buttons) && (
           <ButtonContainer className="ml-[56px] mt-16">
             {buttons.map((button) => (
               <Button key={button.text ?? button.href} {...button} />

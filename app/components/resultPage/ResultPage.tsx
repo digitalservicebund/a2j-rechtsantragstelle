@@ -22,6 +22,7 @@ import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPag
 import type { CollectionSchemas, EntrySchemas } from "~/services/cms/schemas";
 import { dataDeletionKey } from "~/services/flow/constants";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+import { arrayIsNonEmpty } from "~/services/validation/array";
 import { keyFromElement } from "../../services/cms/keyFromElement";
 
 const iconCSS = "inline-block !h-[36px] !w-[36px] !min-h-[36px] !min-w-[36px]";
@@ -122,7 +123,7 @@ export function ResultPage({
         </div>
       </Background>
 
-      {courts && courts.length > 0 && (
+      {arrayIsNonEmpty(courts) && (
         <>
           {courts.length > 1 && (
             <Background backgroundColor="blue">

@@ -1,3 +1,4 @@
+import { arrayIsNonEmpty } from "~/services/validation/array";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
 import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
 import { einkommenDone as einkommenDoneGuard } from "./guards";
@@ -25,8 +26,7 @@ const hasStaatlicheLeistungen: FinanzielleAngabenGuard = ({ context }) =>
   context.staatlicheLeistungen == "grundsicherung";
 
 export const kinderDone: FinanzielleAngabenGuard = ({ context }) =>
-  context.hasKinder == "no" ||
-  (context.kinder !== undefined && context.kinder.length > 0);
+  context.hasKinder == "no" || arrayIsNonEmpty(context.kinder);
 
 const wohnungAloneDone: FinanzielleAngabenGuard = ({ context }) =>
   context.livingSituation === "alone" &&
@@ -50,15 +50,12 @@ export const andereUnterhaltszahlungenDone: FinanzielleAngabenGuard = ({
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen({ context })) ||
   context.hasWeitereUnterhaltszahlungen == "no" ||
-  (context.unterhaltszahlungen !== undefined &&
-    context.unterhaltszahlungen.length > 0);
+  arrayIsNonEmpty(context.unterhaltszahlungen);
 
 export const ausgabenDone: FinanzielleAngabenGuard = ({ context }) => {
   return (
     context.hasAusgaben === "no" ||
-    (context.hasAusgaben === "yes" &&
-      context.ausgaben !== undefined &&
-      context.ausgaben.length > 0)
+    (context.hasAusgaben === "yes" && arrayIsNonEmpty(context.ausgaben))
   );
 };
 

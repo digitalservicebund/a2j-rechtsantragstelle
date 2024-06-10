@@ -1,5 +1,6 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import { arrayIsNonEmpty } from "~/services/validation/array";
 import { fillKraftfahrzeug } from "./fillKraftfahrzeug";
 import type { Attachment } from "../../attachment";
 import { newPageHint } from "../../attachment";
@@ -50,7 +51,7 @@ export function fillFinancialBankkonto(
 
   pdfFields.f1Konten1.value = !hasBankkontoYes;
   pdfFields.f1Konten2.value = hasBankkontoYes;
-  if (!hasBankkontoYes || !bankkonten || bankkonten.length === 0) return;
+  if (!hasBankkontoYes || !arrayIsNonEmpty(bankkonten)) return;
 
   pdfFields.f3Bank1.value =
     eigentumTotalWorth === "less10000"
@@ -96,12 +97,7 @@ export function fillFinancialGrundeigentum(
   pdfFields.f5Grundeigentum1.value = !hasGrundeigentumYes;
   pdfFields.f5Grundeigentum2.value = hasGrundeigentumYes;
 
-  if (
-    !hasGrundeigentumYes ||
-    !grundeigentumArray ||
-    grundeigentumArray.length === 0
-  )
-    return;
+  if (!hasGrundeigentumYes || !arrayIsNonEmpty(grundeigentumArray)) return;
 
   if (grundeigentumArray.length === 1) {
     const grundeigentum = grundeigentumArray[0];
@@ -140,7 +136,7 @@ export function fillFinancialWertsachen(
   pdfFields.f13Vermoegenswerte1.value = !hasWertsacheYes;
   pdfFields.f13Vermoegenswerte2.value = hasWertsacheYes;
 
-  if (!hasWertsacheYes || !wertsachen || wertsachen.length === 0) return;
+  if (!hasWertsacheYes || !arrayIsNonEmpty(wertsachen)) return;
 
   if (wertsachen?.length == 1) {
     const wertsache = wertsachen.pop();
@@ -174,7 +170,7 @@ export function fillGeldanlagen(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  if (context.geldanlagen && context.geldanlagen.length > 0) {
+  if (arrayIsNonEmpty(context.geldanlagen)) {
     pdfFields.f13Vermoegenswerte1.value = false;
     pdfFields.f13Vermoegenswerte2.value = true;
     pdfFields.f15Bezeichnung.value = newPageHint;

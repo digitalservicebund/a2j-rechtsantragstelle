@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { z } from "zod";
+import { arrayIsNonEmpty } from "~/services/validation/array";
 import Button, { ButtonPropsSchema } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 import { DetailsSummary, DetailsSummarySchema } from "./DetailsSummary";
@@ -64,13 +65,11 @@ const InfoBoxItem = ({
         {detailsSummary && !Array.isArray(detailsSummary) && (
           <DetailsSummary {...detailsSummary} />
         )}
-        {detailsSummary &&
-          Array.isArray(detailsSummary) &&
-          detailsSummary.length > 0 &&
+        {Array.isArray(detailsSummary) &&
           detailsSummary.map((details) => (
             <DetailsSummary key={details.title} {...details} />
           ))}
-        {buttons && buttons.length > 0 && (
+        {arrayIsNonEmpty(buttons) && (
           <ButtonContainer>
             {buttons.map((button) => (
               <Button key={button.text ?? button.href} {...button} />

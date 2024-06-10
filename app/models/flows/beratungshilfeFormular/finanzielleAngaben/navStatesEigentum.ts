@@ -1,4 +1,5 @@
 import { eigentumDone as eigentumDoneGuard } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/guards";
+import { arrayIsNonEmpty } from "~/services/validation/array";
 import type { FinanzielleAngabenGuard } from "./navStates";
 
 export const eigentumDone: FinanzielleAngabenGuard = ({ context }) =>
@@ -6,34 +7,26 @@ export const eigentumDone: FinanzielleAngabenGuard = ({ context }) =>
 
 export const bankKontoDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasBankkonto === "no" ||
-  (context.hasBankkonto === "yes" &&
-    context.bankkonten !== undefined &&
-    context.bankkonten.length > 0);
+  (context.hasBankkonto === "yes" && arrayIsNonEmpty(context.bankkonten));
 
 export const geldanlagenDone: FinanzielleAngabenGuard = ({ context }) =>
   context.eigentumTotalWorth === "less10000" ||
   context.hasGeldanlage === "no" ||
-  (context.hasGeldanlage === "yes" &&
-    context.geldanlagen !== undefined &&
-    context.geldanlagen.length > 0);
+  (context.hasGeldanlage === "yes" && arrayIsNonEmpty(context.geldanlagen));
 
 export const grundeigentumDone: FinanzielleAngabenGuard = ({ context }) =>
   context.eigentumTotalWorth === "less10000" ||
   context.hasGrundeigentum === "no" ||
   (context.hasGrundeigentum === "yes" &&
-    context.grundeigentum !== undefined &&
-    context.grundeigentum.length > 0);
+    arrayIsNonEmpty(context.grundeigentum));
 
 export const kraftfahrzeugeDone: FinanzielleAngabenGuard = ({ context }) =>
   context.eigentumTotalWorth === "less10000" ||
   context.hasKraftfahrzeug === "no" ||
   (context.hasKraftfahrzeug === "yes" &&
-    context.kraftfahrzeuge !== undefined &&
-    context.kraftfahrzeuge.length > 0);
+    arrayIsNonEmpty(context.kraftfahrzeuge));
 
 export const wertsachenDone: FinanzielleAngabenGuard = ({ context }) =>
   context.eigentumTotalWorth === "less10000" ||
   context.hasWertsache === "no" ||
-  (context.hasWertsache === "yes" &&
-    context.wertsachen !== undefined &&
-    context.wertsachen.length > 0);
+  (context.hasWertsache === "yes" && arrayIsNonEmpty(context.wertsachen));
