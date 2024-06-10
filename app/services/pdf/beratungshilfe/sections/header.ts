@@ -22,29 +22,27 @@ export default function fillHeader(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const hasStaatlicheLeistung = context.staatlicheLeistungen != "keine";
-
-  pdfFields.antragstellerNameVornameggfGeburtsname.value = [
-    context.nachname,
-    context.vorname,
-  ]
-    .filter((entry) => entry)
-    .join(", ");
+  const { nachname, vorname } = context;
+  const name = [nachname, vorname].filter((s): s is string => !!s);
+  pdfFields.antragstellerNameVornameggfGeburtsname.value = name.join(", ");
   pdfFields.geburtsdatumdesAntragstellers.value = context.geburtsdatum ?? "";
   pdfFields.familienstanddesAntragstellers.value =
     getMaritalDescriptionByContext(context);
-  pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value =
-    [context.strasseHausnummer, context.plz, context.ort]
-      .filter((entry) => entry)
-      .join(", ");
+
+  pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${context.strasseHausnummer ?? ""}, ${context.plz ?? ""} ${context.ort ?? ""}`;
+
   pdfFields.tagsueberTelefonischerreichbarunterNummer.value =
     context.telefonnummer ?? "";
-  const occupationDetails = hasStaatlicheLeistung
-    ? staatlicheLeistungMapping[context.staatlicheLeistungen ?? "keine"]
-    : getOccupationDetails(context);
+
+  const { staatlicheLeistungen } = context;
+  const occupationDetails =
+    staatlicheLeistungen && staatlicheLeistungen !== "keine"
+      ? staatlicheLeistungMapping[staatlicheLeistungen]
+      : getOccupationDetails(context);
+
   pdfFields.berufErwerbstaetigkeit.value = occupationDetails;
 
-  if (!hasStaatlicheLeistung && occupationDetails.length > 30) {
+  if (occupationDetails.length > 30) {
     attachment.descriptions.unshift({
       title: "Weiteres Einkommen:",
       text: checkboxListToString(
@@ -68,13 +66,8 @@ export default function fillHeader(
 
 export const getMaritalDescriptionByContext = ({
   partnerschaft,
-}: BeratungshilfeFormularContext): string => {
-  if (typeof partnerschaft === "undefined") {
-    return "";
-  }
-
-  return maritalDescriptionMapping[partnerschaft];
-};
+}: BeratungshilfeFormularContext): string =>
+  partnerschaft ? maritalDescriptionMapping[partnerschaft] : "";
 
 const maritalDescriptionMapping = {
   yes: "verheiratet/ in eingetragener Lebenspartnerschaft",
@@ -87,7 +80,6 @@ const staatlicheLeistungMapping = {
   grundsicherung: "Grundsicherung",
   asylbewerberleistungen: "Asylbewerberleistungen",
   buergergeld: "Bürgergeld",
-  keine: "Keine",
 };
 
 const getOccupationDetails = (
