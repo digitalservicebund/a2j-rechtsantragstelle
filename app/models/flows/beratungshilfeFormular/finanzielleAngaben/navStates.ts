@@ -25,7 +25,8 @@ const hasStaatlicheLeistungen: FinanzielleAngabenGuard = ({ context }) =>
   context.staatlicheLeistungen == "grundsicherung";
 
 export const kinderDone: FinanzielleAngabenGuard = ({ context }) =>
-  context.hasKinder == "no" || context.kinder !== undefined;
+  context.hasKinder == "no" ||
+  (context.kinder !== undefined && context.kinder.length > 0);
 
 const wohnungAloneDone: FinanzielleAngabenGuard = ({ context }) =>
   context.livingSituation === "alone" &&
