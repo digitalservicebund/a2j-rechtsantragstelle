@@ -2,6 +2,10 @@ import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.g
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { checkboxListToString } from "../../checkboxListToString";
 import { newPageHint, type Attachment } from "../attachment";
+import {
+  courtForPlz,
+  edgeCasesForPlz,
+} from "~/services/gerichtsfinder/amtsgerichtData.server";
 
 const weiteresEinkommenMapping = {
   unterhaltszahlungen: "Unterhaltszahlungen",
@@ -30,6 +34,12 @@ export default function fillHeader(
     getMaritalDescriptionByContext(context);
 
   pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${context.strasseHausnummer ?? ""}, ${context.plz ?? ""} ${context.ort ?? ""}`;
+
+  const court = courtForPlz(context.plz);
+  if (court && edgeCasesForPlz(context.plz).length == 0) {
+    pdfFields.namedesAmtsgerichts.value = court.ORT;
+    pdfFields.postleitzahlOrt.value = `${court.PLZ} ${court.ORT}`;
+  }
 
   pdfFields.tagsueberTelefonischerreichbarunterNummer.value =
     context.telefonnummer ?? "";

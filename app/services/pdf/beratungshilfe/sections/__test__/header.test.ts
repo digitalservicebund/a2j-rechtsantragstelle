@@ -30,6 +30,13 @@ describe("fillHeader", () => {
 
     expect(hasWeiteresEinkommen).toEqual(true);
   });
+
+  it("should add amtsgericht is available", () => {
+    const pdfFields = getBeratungshilfeParameters();
+    fillHeader(createAttachment({}), pdfFields, { plz: "06844" });
+    expect(pdfFields.namedesAmtsgerichts.value).toEqual("Dessau-Roßlau");
+  });
+
   it("should not add weiteres einkommen into attachment", async () => {
     const context: BeratungshilfeFormularContext = {
       staatlicheLeistungen: "buergergeld",
