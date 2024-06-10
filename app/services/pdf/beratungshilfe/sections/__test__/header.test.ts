@@ -31,7 +31,8 @@ describe("fillHeader", () => {
     expect(hasWeiteresEinkommen).toEqual(true);
   });
 
-  it("should add amtsgericht is available", () => {
+  it("should add amtsgericht is available", ({ skip }) => {
+    if (process.env.CI) skip(); // skipped on CI as it requires GERICHTSFINDER_ENCRYPTION_KEY
     const pdfFields = getBeratungshilfeParameters();
     fillHeader(createAttachment({}), pdfFields, { plz: "06844" });
     expect(pdfFields.namedesAmtsgerichts.value).toEqual("Dessau-Roßlau");
