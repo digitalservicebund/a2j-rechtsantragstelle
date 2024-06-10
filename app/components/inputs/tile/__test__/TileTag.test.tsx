@@ -2,19 +2,23 @@ import { render } from "@testing-library/react";
 import TileTag from "~/components/inputs/tile/TileTag";
 
 describe("TileTag", () => {
-  it("it should render the component, in case enter a value in the props", () => {
-    const mockTagDescription = "value";
+  describe("when props are passed", () => {
+    it("should render properly", () => {
+      const mockTagDescription = "value";
 
-    const { queryByText } = render(
-      <TileTag tagDescription={mockTagDescription} />,
-    );
+      const { queryByText } = render(
+        <TileTag tagDescription={mockTagDescription} />,
+      );
 
-    expect(queryByText(mockTagDescription)).toBeInTheDocument();
+      expect(queryByText(mockTagDescription)).toBeInTheDocument();
+    });
   });
 
-  it("it should not render the component, in case it does not enter a value in the props", () => {
-    const { container } = render(<TileTag />);
+  describe("when no props are passed", () => {
+    it("should render properly", () => {
+      const { container } = render(<TileTag />);
 
-    expect(container).toBeEmptyDOMElement();
+      expect(container).toBeEmptyDOMElement();
+    });
   });
 });
