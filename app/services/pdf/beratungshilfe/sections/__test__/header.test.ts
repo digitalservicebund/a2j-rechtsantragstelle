@@ -1,6 +1,11 @@
 import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import { plzOrtkEntry } from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";
+import {
+  courtForPlz,
+  edgeCasesForPlz,
+} from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import fillHeader, {
@@ -31,8 +36,14 @@ describe("fillHeader", () => {
     expect(hasWeiteresEinkommen).toEqual(true);
   });
 
-  it("should add amtsgericht is available", ({ skip }) => {
-    if (process.env.CI) skip(); // skipped on CI as it requires GERICHTSFINDER_ENCRYPTION_KEY
+  it("should add amtsgericht is available", () => {
+    vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
+    vi.mocked(edgeCasesForPlz).mockReturnValue([]);
+    vi.mocked(courtForPlz).mockReturnValue({
+      ...plzOrtkEntry,
+      ORT: "Dessau-Roßlau",
+    });
+
     const pdfFields = getBeratungshilfeParameters();
     fillHeader(createAttachment({}), pdfFields, { plz: "06844" });
     expect(pdfFields.namedesAmtsgerichts.value).toEqual("Dessau-Roßlau");

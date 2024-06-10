@@ -13,6 +13,20 @@ import type {
 
 const validTypInfo: TypInfo = "Zivilgericht - Amtsgericht";
 
+export const plzOrtkEntry: Jmtd14VTErwerberPlzortk = {
+  ANGELEGENHEIT_INFO: "Prozesskostenhilfe eingehend",
+  GERBEH_AG: "string",
+  GERBEH_LG: "string",
+  GERBEH_LKZ: "string",
+  GERBEH_OLG: "string",
+  GERBEH_STAMM: "string",
+  GERBEH_TYP_INFO: validTypInfo,
+  ORT: "string",
+  ORTK: "string",
+  PLZ: "string",
+  PLZM_INFO: "Zustellbezirk",
+} as const;
+
 describe("gerbehIndex", () => {
   const index: GerbehIndex = {
     LKZ: "a",
@@ -89,20 +103,6 @@ describe("gerbeh data conversions", () => {
 });
 
 describe("PlzOrtk data conversions", () => {
-  const plzOrtkEntry: Jmtd14VTErwerberPlzortk = {
-    ANGELEGENHEIT_INFO: "Prozesskostenhilfe eingehend",
-    GERBEH_AG: "string",
-    GERBEH_LG: "string",
-    GERBEH_LKZ: "string",
-    GERBEH_OLG: "string",
-    GERBEH_STAMM: "string",
-    GERBEH_TYP_INFO: validTypInfo,
-    ORT: "string",
-    ORTK: "string",
-    PLZ: "string",
-    PLZM_INFO: "Zustellbezirk",
-  };
-
   it("handles valid PlzOrtk data", () => {
     const input = { JMTD14_VT_ERWERBER_PLZORTK: [plzOrtkEntry] };
     expect(
