@@ -50,7 +50,7 @@ export function NavItem({
   const collapse = useCollapse({ defaultExpanded: isCurrent });
 
   // Transparent left borders to avoid layout shifts
-  const liClassNames = classNames("list-none border-l-[1px]", {
+  const liClassNames = classNames("list-none border-l-[1px] min-w-full", {
     "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none":
       isDisabled,
     "mb-1": !isChild, // margin instead of bottom border to avoid diagonal corners colors
