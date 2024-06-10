@@ -15,6 +15,28 @@ const cases = [
     [
       "finanzielle-angaben/kinder/kinder-frage",
       "finanzielle-angaben/kinder/uebersicht",
+      "finanzielle-angaben/kinder/warnung",
+    ],
+  ],
+  [
+    {
+      hasKinder: "yes",
+      kinder: [
+        {
+          vorname: "a",
+          nachname: "b",
+          wohnortBeiAntragsteller: "yes",
+          eigeneEinnahmen: "no",
+          unterhalt: "no",
+          geburtsdatum: "01.01.1990",
+          unterhaltsSumme: "0",
+          einnahmen: "0",
+        },
+      ],
+    },
+    [
+      "finanzielle-angaben/kinder/kinder-frage",
+      "finanzielle-angaben/kinder/uebersicht",
       "finanzielle-angaben/andere-unterhaltszahlungen/frage",
     ],
   ],

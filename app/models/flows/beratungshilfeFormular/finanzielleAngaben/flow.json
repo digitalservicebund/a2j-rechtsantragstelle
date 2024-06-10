@@ -212,13 +212,20 @@
         "uebersicht": {
           "on": {
             "BACK": "kinder-frage",
-            "SUBMIT": "#andere-unterhaltszahlungen",
+            "SUBMIT": [
+              {
+                "guard": "hasKinderYesAndEmptyArray",
+                "target": "warnung"
+              },
+              "#andere-unterhaltszahlungen"
+            ],
             "add-kinder": {
               "guard": "isValidKinderArrayIndex",
               "target": "kinder"
             }
           }
         },
+        "warnung": { "on": { "BACK": "uebersicht" } },
         "kinder": {
           "initial": "name",
           "states": {
@@ -318,10 +325,17 @@
         "uebersicht": {
           "on": {
             "BACK": "frage",
-            "SUBMIT": "#wohnung",
+            "SUBMIT": [
+              {
+                "guard": "hasWeitereUnterhaltszahlungenYesAndEmptyArray",
+                "target": "warnung"
+              },
+              "#wohnung"
+            ],
             "add-unterhaltszahlungen": "person"
           }
         },
+        "warnung": { "on": { "BACK": "uebersicht" } },
         "person": {
           "initial": "daten",
           "states": {
@@ -507,11 +521,12 @@
               "#eigentum.kraftfahrzeuge-frage"
             ],
             "SUBMIT": [
+              { "guard": "eigentumYesAndEmptyArray", "target": "warnung" },
               {
                 "guard": "hasStaatlicheLeistungen",
                 "target": "#persoenliche-daten.start"
               },
-              "#ausgaben"
+              "#ausgaben.ausgaben-frage"
             ],
             "add-bankkonten": "bankkonten",
             "add-wertsachen": "wertgegenstaende",
@@ -520,6 +535,7 @@
             "add-grundeigentum": "grundeigentum"
           }
         },
+        "warnung": { "on": { "BACK": "zusammenfassung" } },
         "bankkonten": {
           "initial": "daten",
           "states": {
@@ -708,13 +724,17 @@
         "uebersicht": {
           "on": {
             "BACK": "situation",
-            "SUBMIT": "#persoenliche-daten.start",
+            "SUBMIT": [
+              { "guard": "hasAusgabenYesAndEmptyArray", "target": "warnung" },
+              "#persoenliche-daten.start"
+            ],
             "add-ausgaben": {
               "guard": "isValidAusgabenArrayIndex",
               "target": "ausgaben"
             }
           }
         },
+        "warnung": { "on": { "BACK": "uebersicht" } },
         "ausgaben": {
           "initial": "art",
           "states": {

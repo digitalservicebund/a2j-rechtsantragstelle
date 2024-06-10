@@ -2,6 +2,7 @@ import {
   firstArrayIndex,
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
+import { arrayIsNonEmpty } from "~/services/validation/array";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
 import { yesNoGuards, type Guards } from "../../guards.server";
 
@@ -54,6 +55,17 @@ export const einkommenDone: Guards<BeratungshilfeFinanzielleAngaben>[string] =
       hasStaatlicheLeistungen({ context })) ||
     context.einkommen != undefined;
 
+const { hasKinderYes } = yesNoGuards("hasKinder");
+const { hasWeitereUnterhaltszahlungenYes } = yesNoGuards(
+  "hasWeitereUnterhaltszahlungen",
+);
+const { hasAusgabenYes } = yesNoGuards("hasAusgaben");
+const { hasBankkontoYes } = yesNoGuards("hasBankkonto");
+const { hasKraftfahrzeugYes } = yesNoGuards("hasKraftfahrzeug");
+const { hasGeldanlageYes } = yesNoGuards("hasGeldanlage");
+const { hasGrundeigentumYes } = yesNoGuards("hasGrundeigentum");
+const { hasWertsacheYes } = yesNoGuards("hasWertsache");
+
 export const finanzielleAngabeGuards = {
   eigentumDone,
   staatlicheLeistungenIsKeine: ({ context }) =>
@@ -90,12 +102,14 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("zusammenleben"),
   ...yesNoGuards("unterhalt"),
   ...yesNoGuards("partnerEinkommen"),
-  ...yesNoGuards("hasBankkonto"),
-  ...yesNoGuards("hasKraftfahrzeug"),
-  ...yesNoGuards("hasGeldanlage"),
-  ...yesNoGuards("hasGrundeigentum"),
-  ...yesNoGuards("hasWertsache"),
-  ...yesNoGuards("hasAusgaben"),
+  hasAusgabenYes,
+  hasBankkontoYes,
+  hasKraftfahrzeugYes,
+  hasGeldanlageYes,
+  hasGrundeigentumYes,
+  hasWertsacheYes,
+  hasKinderYes,
+  hasWeitereUnterhaltszahlungenYes,
   hasZahlungsfristYes: ({ context: { pageData, ausgaben } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
@@ -109,7 +123,6 @@ export const finanzielleAngabeGuards = {
     context.partnerschaft === "yes" &&
     context.zusammenleben === "yes" &&
     context.partnerEinkommen === "yes",
-  hasKinderYes: ({ context }) => context.hasKinder === "yes",
   kindWohnortBeiAntragstellerYes: ({ context: { pageData, kinder } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
@@ -200,6 +213,19 @@ export const finanzielleAngabeGuards = {
     return grundeigentum?.at(arrayIndex)?.isBewohnt === "yes";
   },
   einkommenDone,
-  hasWeitereUnterhaltszahlungenYes: ({ context }) =>
-    context.hasWeitereUnterhaltszahlungen === "yes",
+  hasAusgabenYesAndEmptyArray: ({ context }) =>
+    hasAusgabenYes({ context }) && !arrayIsNonEmpty(context.ausgaben),
+  eigentumYesAndEmptyArray: ({ context }) =>
+    (hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten)) ||
+    (hasGeldanlageYes({ context }) && !arrayIsNonEmpty(context.geldanlagen)) ||
+    (hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen)) ||
+    (hasKraftfahrzeugYes({ context }) &&
+      !arrayIsNonEmpty(context.kraftfahrzeuge)) ||
+    (hasGrundeigentumYes({ context }) &&
+      !arrayIsNonEmpty(context.grundeigentum)),
+  hasKinderYesAndEmptyArray: ({ context }) =>
+    hasKinderYes({ context }) && !arrayIsNonEmpty(context.kinder),
+  hasWeitereUnterhaltszahlungenYesAndEmptyArray: ({ context }) =>
+    hasWeitereUnterhaltszahlungenYes({ context }) &&
+    !arrayIsNonEmpty(context.unterhaltszahlungen),
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;

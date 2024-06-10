@@ -22,6 +22,26 @@ const cases = [
       finanzielleAngabenAusgabenAusgabenFrage,
       "finanzielle-angaben/ausgaben/situation",
       "finanzielle-angaben/ausgaben/uebersicht",
+      "finanzielle-angaben/ausgaben/warnung",
+    ],
+  ],
+  [
+    {
+      hasAusgaben: "yes",
+      ausgaben: [
+        {
+          art: "test",
+          beitrag: "10",
+          hasZahlungsfrist: "no",
+          zahlungsempfaenger: "test",
+          zahlungsfrist: "123",
+        },
+      ],
+    },
+    [
+      finanzielleAngabenAusgabenAusgabenFrage,
+      "finanzielle-angaben/ausgaben/situation",
+      "finanzielle-angaben/ausgaben/uebersicht",
       persoenlicheDatenStart,
     ],
   ],
