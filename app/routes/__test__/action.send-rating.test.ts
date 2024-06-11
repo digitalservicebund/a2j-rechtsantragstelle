@@ -1,5 +1,7 @@
+import { getSessionManager } from "~/services/session.server";
 import { action } from "../action.send-rating";
 
+vi.mock("~/services/session.server");
 vi.stubEnv("POSTHOG_API_KEY", "-");
 
 describe("/action/send-rating route", () => {
@@ -7,6 +9,13 @@ describe("/action/send-rating route", () => {
     method: "POST",
     body: new URLSearchParams(),
   };
+
+  vi.mocked(getSessionManager).mockReturnValue({
+    getSession: vi.fn().mockReturnValue({ get: () => ({}), set: vi.fn() }),
+    commitSession: vi.fn(),
+    destroySession: vi.fn(),
+    getDebugId: vi.fn(),
+  });
 
   it("returns ok", async () => {
     const request = new Request(
