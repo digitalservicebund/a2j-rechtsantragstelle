@@ -5,7 +5,7 @@
 
 export const cspHeader = (args?: { nonce?: string; environment?: string }) =>
   [
-    `default-src 'self'`,
+    `default-src 'self' ${args?.environment === "preview" ? "https://*.maze.co/" : ""}`, // todo: remove after evaluating maze
     `script-src 'self' ${args?.nonce ? "'nonce-" + args.nonce + "' 'strict-dynamic'" : ""} https://*.posthog.com https: 'unsafe-inline'`,
     `style-src 'self' 'unsafe-inline'`,
     `connect-src 'self' https://*.ingest.sentry.io https://*.posthog.com ${args?.environment === "development" ? "ws://localhost:24678" : ""}`, // ws://localhost:24678 is vite's HMR server
