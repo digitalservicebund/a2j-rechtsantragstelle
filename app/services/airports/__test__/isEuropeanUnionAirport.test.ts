@@ -20,4 +20,25 @@ describe("isEuropeanUnionAirport", () => {
 
     expect(actual.isErr).toBe(true);
   });
+
+  it("should return ok and value true if the airport is ZRH", () => {
+    const actual = isEuropeanUnionAirport("ZRH");
+
+    expect(actual.isOk).toBe(true);
+    expect(actual.isOk ? actual.value : false).toBe(true);
+  });
+
+  it("should return ok and value true if the airport is CAY", () => {
+    const actual = isEuropeanUnionAirport("CAY");
+
+    expect(actual.isOk).toBe(true);
+    expect(actual.isOk ? actual.value : false).toBe(true);
+  });
+
+  it("should return ok and value true if the airport is RUN", () => {
+    const actual = isEuropeanUnionAirport("RUN");
+
+    expect(actual.isOk).toBe(true);
+    expect(actual.isOk ? actual.value : false).toBe(true);
+  });
 });
