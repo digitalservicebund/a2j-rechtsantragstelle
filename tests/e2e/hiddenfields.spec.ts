@@ -1,6 +1,8 @@
 import { test } from "@playwright/test";
 import { BeratungshilfeVorabcheck } from "./pom/BeratungshilfeVorabcheck";
 
+const nextButtonName = "_action";
+
 test.describe("Hidden fields", () => {
   test.describe("when js is disabled", () => {
     test.use({ javaScriptEnabled: false });
@@ -14,9 +16,9 @@ test.describe("Hidden fields", () => {
         await vorabcheck.goto();
 
         // Try to submit without selecting an option
-        const nextButton = page.getByRole("button", {
-          name: "Übernehmen & weiter",
-        });
+        const nextButton = await page.locator(
+          `button[name="${nextButtonName}"]`,
+        );
         await nextButton.click();
 
         // Check if validation message is visible
