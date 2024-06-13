@@ -160,3 +160,9 @@ In development mode, run the `npm run start:storybook` command.
 ### Airport
 
 `npm run build:airports-data`
+
+### Airline
+
+`npm run build:airlines-data "AIRLINE_FILE_PATH"`
+
+For the AIRLINE_FILE_PATH, please ask someone from the ZOV team about it!
