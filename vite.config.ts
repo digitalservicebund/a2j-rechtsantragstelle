@@ -34,8 +34,8 @@ export default defineConfig({
   ],
   build: { sourcemap: sentryActive },
   test: {
-    dir: "./app",
-    include: ["**/__test__/*.test.{ts,tsx}"],
+    dir: "./",
+    include: ["**/__test__/*.test.{ts,tsx}", "**/unit/**/*.test.ts"],
     globals: true,
     environment: "jsdom",
     setupFiles: ["./tests/unit/vitest.setup.ts"],
