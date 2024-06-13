@@ -59,7 +59,7 @@ export const cspHeader = (args?: { nonce?: string; environment?: string }) => {
       "https://api.maze.co",
       "https://prompts.maze.co",
     );
-    directives["font-src"] = ["https://snippet.maze.co"];
+    directives["font-src"] = ["'self'", "https://snippet.maze.co"];
   }
 
   return Object.entries(directives)
