@@ -4,8 +4,6 @@ import _ from "lodash";
 interface Airline {
   name: string;
   iata: string;
-  country: string;
-  legalName: string;
 }
 
 function processAirlineRow(row: string): Airline {
@@ -13,8 +11,6 @@ function processAirlineRow(row: string): Airline {
   return {
     name: columns[0],
     iata: columns[2],
-    country: columns[4],
-    legalName: columns[5].replace("\r", ""),
   };
 }
 
@@ -45,8 +41,6 @@ async function generateAirlinesData(filePath: string) {
   airlines.push({
     name: "Sonstiges",
     iata: "sonstiges",
-    country: "",
-    legalName: "Sonstiges",
   });
 
   saveAirlinesInFile(airlines);
