@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { airlineSchema } from "~/services/validation/airline";
 import { airportSchema } from "~/services/validation/airport";
 import {
   checkedOptional,
@@ -19,7 +20,6 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 import {
-  airlineSchema,
   fluggastBereichSchema,
   zustaendigesAmtsgerichtSchema,
 } from "../fluggastrechte/context";

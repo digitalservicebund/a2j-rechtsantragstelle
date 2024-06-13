@@ -26,12 +26,16 @@ const StrapiAutoSuggestInputSchema = z
         "characters54",
       ])
       .nullable(),
-    dataList: z.enum(["airports"]).nullable(),
+    dataList: z.enum(["airports", "airlines"]),
     noSuggestionMessage: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
-type StrapiAutoSuggestInput = z.infer<typeof StrapiAutoSuggestInputSchema>;
+export type StrapiAutoSuggestInput = z.infer<
+  typeof StrapiAutoSuggestInputSchema
+>;
+
+export type DataListType = Pick<StrapiAutoSuggestInput, "dataList">;
 
 export const StrapiAutoSuggestInputComponentSchema =
   StrapiAutoSuggestInputSchema.extend({

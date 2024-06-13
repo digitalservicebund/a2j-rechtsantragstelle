@@ -160,3 +160,9 @@ In development mode, run the `npm run start:storybook` command.
 ### Airport
 
 `npm run build:airports-data`
+
+### Airline
+
+`npm run build:airlines-data "AIRLINE_FILE_PATH"`
+
+The `AIRLINE_FILE_PATH` corresponds to the file that contains airlines data that will be transformed into `json` via the `build:airlines-data ` task. For more information, please contact the maintainers of this repository.

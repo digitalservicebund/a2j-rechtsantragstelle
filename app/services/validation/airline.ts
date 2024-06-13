@@ -1,0 +1,12 @@
+import { z } from "zod";
+import airlines from "data/airlines/data.json";
+
+export const airlineSchema = z
+  .string()
+  .trim()
+  .refine(
+    (airlineCode) => airlines.some((airline) => airline.iata === airlineCode),
+    {
+      message: "invalid_airline_code",
+    },
+  );

@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { RefObject, useEffect, useRef, useState } from "react";
 import Select from "react-select";
 import { useField } from "remix-validated-form";
-import airports from "data/airports/data.json";
+import { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import {
   CustomClearIndicator,
   CustomControl,
@@ -11,6 +11,7 @@ import {
   customStyles,
   FormatOptionLabel,
 } from "./customComponents";
+import { DataListOptions, getDataListOptions } from "./getDataListOptions";
 import { type ErrorMessageProps } from "..";
 import Input from "../Input";
 import InputError from "../InputError";
@@ -31,12 +32,6 @@ const widthClass = (width: string) => {
   }[width];
 };
 
-export interface DataListOptions {
-  value: string;
-  label: string;
-  subDescription?: string;
-}
-
 export type AutoSuggestInputProps = Readonly<{
   name: string;
   label?: string;
@@ -44,24 +39,9 @@ export type AutoSuggestInputProps = Readonly<{
   errorMessages?: ErrorMessageProps[];
   width?: "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54";
   formId?: string;
-  dataList?: "airports";
   noSuggestionMessage?: string;
-}>;
-
-function getDataListOptions(dataListType?: string): DataListOptions[] {
-  if (dataListType === "airports") {
-    return [...airports]
-      .sort((a, b) => a.iata.localeCompare(b.iata))
-      .map((airport) => ({
-        value: airport.iata,
-        label: airport.airport.includes(airport.city)
-          ? `${airport.airport} (${airport.iata})`
-          : `${airport.city} ${airport.airport} (${airport.iata})`,
-        subDescription: `${airport.city}, ${airport.country}`,
-      }));
-  }
-  return [];
-}
+}> &
+  DataListType;
 
 const filterOption = (option: DataListOptions, inputValue: string) => {
   if (inputValue.length < MINIMUM_SEARCH_SUGGESTION_CHARACTERS) {
