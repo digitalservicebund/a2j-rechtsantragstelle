@@ -29,7 +29,7 @@ function Heading({
   const Tag: keyof JSX.IntrinsicElements = tagName;
   const cssClasses = classNames(look === "default" ? null : look, className);
 
-  if (typeof text === "undefined" || text?.trim() === "") {
+  if ((typeof text === "undefined" || text?.trim() === "") && !children) {
     return null;
   }
 
