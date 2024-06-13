@@ -1,17 +1,19 @@
 import airports from "data/airports/data.json";
-import type { InputProps } from "./Input";
+import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 
 type Props = Readonly<{
   inputName: string;
 }> &
-  Pick<InputProps, "dataList">;
+  Partial<DataListType>;
 
 interface DataListOptions {
   value: string;
   description: string;
 }
 
-function getDataListOptions(dataListType?: string): DataListOptions[] {
+function getDataListOptions(
+  dataListType?: DataListType["dataList"],
+): DataListOptions[] {
   if (dataListType === "airports") {
     return [...airports]
       .sort((a, b) => a.iata.localeCompare(b.iata))

@@ -3,6 +3,7 @@ import { RefObject, useEffect, useRef, useState } from "react";
 import Select from "react-select";
 import { useField } from "remix-validated-form";
 import airports from "data/airports/data.json";
+import { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import {
   CustomClearIndicator,
   CustomControl,
@@ -44,11 +45,13 @@ export type AutoSuggestInputProps = Readonly<{
   errorMessages?: ErrorMessageProps[];
   width?: "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54";
   formId?: string;
-  dataList?: "airports";
   noSuggestionMessage?: string;
-}>;
+}> &
+  DataListType;
 
-function getDataListOptions(dataListType?: string): DataListOptions[] {
+function getDataListOptions(
+  dataListType: DataListType["dataList"],
+): DataListOptions[] {
   if (dataListType === "airports") {
     return [...airports]
       .sort((a, b) => a.iata.localeCompare(b.iata))

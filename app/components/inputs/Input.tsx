@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import { useField } from "remix-validated-form";
+import { type DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from ".";
 import DataListInput from "./DataListInput";
@@ -19,8 +20,8 @@ export type InputProps = Readonly<{
   helperText?: string;
   width?: "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54";
   formId?: string;
-  dataList?: "airports";
-}>;
+}> &
+  Partial<DataListType>;
 
 const widthClass = (width: string) => {
   return {
