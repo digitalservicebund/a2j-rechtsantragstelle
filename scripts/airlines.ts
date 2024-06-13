@@ -37,7 +37,7 @@ async function generateAirlinesData(filePath: string) {
     airlines.push(airline);
   });
 
-  // We need this extra airline due the flow process when the airline is not in the list
+  // For the use case that an airline is not part of the given airlines data, a `Sonstiges` (`Other`) airline is added to the list.
   airlines.push({
     name: "Sonstiges",
     iata: "sonstiges",
