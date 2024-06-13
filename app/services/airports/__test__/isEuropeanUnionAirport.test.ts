@@ -4,20 +4,56 @@ describe("isEuropeanUnionAirport", () => {
   it("should return ok and value true if the airport is BER", () => {
     const actual = isEuropeanUnionAirport("BER");
 
-    expect(actual.isOk).toBe(true);
-    expect(actual.isOk ? actual.value : false).toBe(true);
+    if (actual.isOk) {
+      expect(actual.value).toEqual(true);
+    } else {
+      expect.fail("Not an Ok");
+    }
   });
 
   it("should return ok and value false if the airport is JFK", () => {
     const actual = isEuropeanUnionAirport("JFK");
 
-    expect(actual.isOk).toBe(true);
-    expect(actual.isOk ? actual.value : true).toBe(false);
+    if (actual.isOk) {
+      expect(actual.value).toEqual(false);
+    } else {
+      expect.fail("Not an Ok");
+    }
   });
 
   it("should return error if the airport does not exist", () => {
     const actual = isEuropeanUnionAirport("XXXX");
 
     expect(actual.isErr).toBe(true);
+  });
+
+  it("should return ok and value true if the airport is ZRH", () => {
+    const actual = isEuropeanUnionAirport("ZRH");
+
+    if (actual.isOk) {
+      expect(actual.value).toEqual(true);
+    } else {
+      expect.fail("Not an Ok");
+    }
+  });
+
+  it("should return ok and value true if the airport is CAY", () => {
+    const actual = isEuropeanUnionAirport("CAY");
+
+    if (actual.isOk) {
+      expect(actual.value).toEqual(true);
+    } else {
+      expect.fail("Not an Ok");
+    }
+  });
+
+  it("should return ok and value true if the airport is RUN", () => {
+    const actual = isEuropeanUnionAirport("RUN");
+
+    if (actual.isOk) {
+      expect(actual.value).toEqual(true);
+    } else {
+      expect.fail("Not an Ok");
+    }
   });
 });

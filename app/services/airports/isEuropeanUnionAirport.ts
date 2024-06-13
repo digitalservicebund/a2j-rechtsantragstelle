@@ -1,6 +1,41 @@
 import { Result } from "true-myth";
 import airports from "data/airports/data.json";
-import { EUCountries } from "~/models/flows/fluggastrechte";
+
+const EU_COUNTRIES = [
+  "AT",
+  "BE",
+  "BG",
+  "HR",
+  "CY",
+  "CZ",
+  "DK",
+  "EE",
+  "FI",
+  "FR",
+  "DE",
+  "GR",
+  "HU",
+  "IE",
+  "IT",
+  "LV",
+  "LT",
+  "LU",
+  "MT",
+  "NL",
+  "PL",
+  "PT",
+  "RO",
+  "SK",
+  "SI",
+  "ES",
+  "SE",
+  "CH",
+  "GF",
+  "GP",
+  "MQ",
+  "RE",
+  "AX",
+];
 
 function getCountryCodeByIata(airportIata: string | undefined) {
   return airports.find((airport) => airport.iata === airportIata)?.country_code;
@@ -15,5 +50,5 @@ export function isEuropeanUnionAirport(
     return Result.err("Airport not found");
   }
 
-  return Result.ok(EUCountries.includes(airportCountry));
+  return Result.ok(EU_COUNTRIES.includes(airportCountry));
 }
