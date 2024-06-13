@@ -7,6 +7,6 @@ export const airlineSchema = z
   .refine(
     (airlineCode) => airlines.some((airline) => airline.iata === airlineCode),
     {
-      message: "invalid_airport_code",
+      message: "invalid_airline_code",
     },
   );
