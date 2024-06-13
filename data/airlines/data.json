@@ -1,23 +1,1216 @@
 [
   {
+    "name": "Aegean Airlines",
+    "iata": "A3",
+    "country": "Greece",
+    "legalName": "Aegean Airlines S.A. - Aviation Limited Company"
+  },
+  {
+    "name": "Aer Lingus Group Plc.",
+    "iata": "El",
+    "country": "Ireland",
+    "legalName": "Aer Lingus Limited"
+  },
+  {
+    "name": "Aeroflot Russian Airlines",
+    "iata": "SU",
+    "country": "Russia",
+    "legalName": "PJSC “Aeroflot”"
+  },
+  {
+    "name": "Aeromexico",
+    "iata": "AM",
+    "country": "Mexico",
+    "legalName": "Aerovias De Mexico, S.A. De C.V."
+  },
+  {
+    "name": "Air Arabia Egypt SAE",
+    "iata": "E5",
+    "country": "Egypt",
+    "legalName": "Air Arabia Egypt SAE"
+  },
+  {
+    "name": "Air Arabia Maroc",
+    "iata": "3O",
+    "country": "Marokko",
+    "legalName": "Air Arabia Maroc"
+  },
+  {
+    "name": "Air Astana",
+    "iata": "KC",
+    "country": "Kazakhstan",
+    "legalName": "JSC AIR ASTANA"
+  },
+  {
+    "name": "Air Austral",
+    "iata": "UU",
+    "country": "France",
+    "legalName": "Air Austral"
+  },
+  {
+    "name": "Air Baltic Corporation",
+    "iata": "BT",
+    "country": "Latvia",
+    "legalName": "Air Baltic Corporation(A/S)"
+  },
+  {
+    "name": "Air Bucharest",
+    "iata": "B1",
+    "country": "Bucharest",
+    "legalName": "Air Bucharest"
+  },
+  {
+    "name": "Air Cairo Company",
+    "iata": "SM",
+    "country": "Egypt",
+    "legalName": "Air Cairo"
+  },
+  {
+    "name": "Air Canada",
+    "iata": "AC",
+    "country": "Canada",
+    "legalName": "Air Canada"
+  },
+  {
+    "name": "Air China Ltd.",
+    "iata": "CA",
+    "country": "China",
+    "legalName": "Air China Limited"
+  },
+  {
+    "name": "Air Dolomiti",
+    "iata": "EN",
+    "country": "Italy",
+    "legalName": "Air Dolomiti SPA Linee Aeree Regionali Europee"
+  },
+  {
+    "name": "Air Europa Lineas Aereas S.A.",
+    "iata": "UX",
+    "country": "Spain",
+    "legalName": "Air Europa Líneas Aéreas, S.A."
+  },
+  {
+    "name": "Air Explore",
+    "iata": "ED",
+    "country": "Slovakia",
+    "legalName": ""
+  },
+  {
+    "name": "Air India Ltd.",
+    "iata": "AI",
+    "country": "India",
+    "legalName": "Air India Limited dba Air India"
+  },
+  {
+    "name": "Air Madagascar",
+    "iata": "MD",
+    "country": "Madagascar",
+    "legalName": "Madagascar Airlines"
+  },
+  {
+    "name": "Air Malta plc.",
+    "iata": "KM",
+    "country": "Malta",
+    "legalName": "KM Malta Airlines Ltd"
+  },
+  {
+    "name": "Air Mauritius Ltd.",
+    "iata": "MK",
+    "country": "Mauritius",
+    "legalName": "Air Mauritius Limited"
+  },
+  {
+    "name": "Air Moldova",
+    "iata": "9U",
+    "country": "Moldova, Republic of",
+    "legalName": "Air Moldova IS CA"
+  },
+  {
+    "name": "Air Namibia",
+    "iata": "SW",
+    "country": "Namibia",
+    "legalName": ""
+  },
+  {
+    "name": "Air Nostrum",
+    "iata": "YW",
+    "country": "Spain",
+    "legalName": "Air Nostrum, Líneas Aéreas del Mediterráneo S.A."
+  },
+  {
+    "name": "Air Serbia",
+    "iata": "JU",
+    "country": "Serbia",
+    "legalName": "Joint Stock Company for Air Traffic - Air SERBIA Belgrade"
+  },
+  {
+    "name": "Air Seychelles Ltd.",
+    "iata": "HM",
+    "country": "Seychelles",
+    "legalName": ""
+  },
+  {
+    "name": "Air Tahiti Nui",
+    "iata": "TN",
+    "country": "French Polynesia",
+    "legalName": "Air Tahiti Nui"
+  },
+  {
+    "name": "AIS Airlines",
+    "iata": "IS",
+    "country": "Netherlands",
+    "legalName": ""
+  },
+  {
+    "name": "Albastar S.A.",
+    "iata": "AP",
+    "country": "Spain",
+    "legalName": ""
+  },
+  {
+    "name": "Alitalia",
+    "iata": "AZ",
+    "country": "Italy",
+    "legalName": "Alitalia - Società Aerea Italiana S.p.A."
+  },
+  {
+    "name": "AlMasria Universal Airlines",
+    "iata": "UJ",
+    "country": "Egypt",
+    "legalName": "AlMasria Universal Airlines"
+  },
+  {
+    "name": "Asiana Airlines",
+    "iata": "OZ",
+    "country": "Korea",
+    "legalName": "Asiana Airlines Inc."
+  },
+  {
+    "name": "ASL Airlines France",
+    "iata": "5O",
+    "country": "France",
+    "legalName": "ASL Airlines France S.A."
+  },
+  { "name": "AtlasGlobal", "iata": "KK", "country": "Turkey", "legalName": "" },
+  {
+    "name": "Avianca (AV)",
+    "iata": "AV",
+    "country": "Columbia",
+    "legalName": "Aerovías del Continente Americano, S.A. AVIANCA"
+  },
+  { "name": "Aviro Air", "iata": "-", "country": "Rumania", "legalName": "" },
+  {
+    "name": "Azores Airlines (vorm. SATA Internacional)",
+    "iata": "S4",
+    "country": "Portugal",
+    "legalName": "SATA Internacional - Azores Airlines, S.A."
+  },
+  {
+    "name": "BH Air Ltd.",
+    "iata": "8H",
+    "country": "Bulgaria",
+    "legalName": ""
+  },
+  { "name": "Blue Air", "iata": "0B", "country": "Rumania", "legalName": "" },
+  {
+    "name": "Borajet Airlines",
+    "iata": "YB",
+    "country": "Turkey",
+    "legalName": ""
+  },
+  {
+    "name": "British Airways",
+    "iata": "BA",
+    "country": "United Kingdom",
+    "legalName": "British Airways Plc"
+  },
+  {
+    "name": "Bulgaria Air",
+    "iata": "FB",
+    "country": "Bulgaria",
+    "legalName": "Bulgaria Air JSC"
+  },
+  {
+    "name": "European Air Charter",
+    "iata": "H6",
+    "country": "Bulgaria",
+    "legalName": "European Air Charter Jsc"
+  },
+  {
+    "name": "Cambodia Angkor Air",
+    "iata": "K6",
+    "country": "Cambodia",
+    "legalName": "Cambodia Angkor Air Co., Ltd."
+  },
+  {
+    "name": "Cathay Pacific Airways Limited",
+    "iata": "CX",
+    "country": "Hong Kong SAR, China",
+    "legalName": "Cathay Pacific Airways Limited"
+  },
+  {
+    "name": "China Airlines",
+    "iata": "CI",
+    "country": "China",
+    "legalName": "China Airlines Ltd."
+  },
+  {
+    "name": "China Eastern Airlines Ltd.",
+    "iata": "MU",
+    "country": "China",
+    "legalName": "China Eastern Airlines Co Ltd"
+  },
+  {
+    "name": "CityJet Limited",
+    "iata": "WX",
+    "country": "Ireland",
+    "legalName": "Business City Express Limited d/b/a CityJet"
+  },
+  {
+    "name": "Comair Limited",
+    "iata": "MN",
+    "country": "South Africa",
+    "legalName": ""
+  },
+  {
     "name": "Condor Flugdienst GmbH",
-    "country": "Germany",
     "iata": "DE",
-    "region": "EU",
+    "country": "Germany",
     "legalName": "Condor Flugdienst GmbH"
   },
   {
+    "name": "Corendon Airlines (Turkei)",
+    "iata": "XC",
+    "country": "Turkey",
+    "legalName": "Turistik Hava Taşimacilik A.Ş"
+  },
+  {
+    "name": "Corendon Airlines Europe (Malta)",
+    "iata": "CGN",
+    "country": "Malta",
+    "legalName": ""
+  },
+  {
     "name": "Corendon Dutch Airlines (NL)",
+    "iata": "CD",
     "country": "Netherlands",
-    "iata": "DX",
-    "region": "EU",
     "legalName": "Corendon Dutch Airlines B.V."
   },
   {
+    "name": "DELTA Air Lines Inc.",
+    "iata": "DL",
+    "country": "USA",
+    "legalName": "Delta Air Lines, Inc."
+  },
+  {
     "name": "Deutsche Lufthansa AG",
-    "country": "Germany",
     "iata": "LH",
-    "region": "EU",
-    "legalName": "Deutsche Lufthansa AG"
+    "country": "Germany",
+    "legalName": ""
+  },
+  {
+    "name": "easyJet Airline Company Ltd.",
+    "iata": "U2",
+    "country": "United Kingdom",
+    "legalName": "EASYJET UK LIMITED"
+  },
+  {
+    "name": "easyJet Europe Airline GmbH",
+    "iata": "EC",
+    "country": "Austria",
+    "legalName": "easyJet Europe Airline GmbH"
+  },
+  {
+    "name": "Easyjet Switzerland S.A",
+    "iata": "DS",
+    "country": "Switzerland",
+    "legalName": "Easyjet Switzerland S.A"
+  },
+  {
+    "name": "Edelweiss Air AG",
+    "iata": "WK",
+    "country": "Switzerland",
+    "legalName": "Edelweiss Air AG"
+  },
+  {
+    "name": "Egypt Air",
+    "iata": "MS",
+    "country": "Egypt",
+    "legalName": "Egyptair"
+  },
+  {
+    "name": "EL AL Israel Airlines Ltd.",
+    "iata": "LY",
+    "country": "Israel",
+    "legalName": "EL AL Israel Airlines Limited"
+  },
+  { "name": "Ellinair", "iata": "EL", "country": "Greece", "legalName": "" },
+  {
+    "name": "Etihad Airways PJSC",
+    "iata": "EY",
+    "country": "United Arab Emirates",
+    "legalName": "Etihad Airways"
+  },
+  {
+    "name": "Eurowings GmbH",
+    "iata": "EW",
+    "country": "Germany",
+    "legalName": "Eurowings GmbH"
+  },
+  {
+    "name": "Finnair PLC",
+    "iata": "AY",
+    "country": "Finland",
+    "legalName": "Finnair Oyj"
+  },
+  { "name": "Fly2sky", "iata": "F6", "country": "Bulgaria", "legalName": "" },
+  {
+    "name": "Flybe",
+    "iata": "BE",
+    "country": "United Kingdom",
+    "legalName": ""
+  },
+  { "name": "FlyEgypt", "iata": "FT", "country": "Egypt", "legalName": "" },
+  {
+    "name": "Freebird Airlines",
+    "iata": "FH",
+    "country": "Turkey",
+    "legalName": "Hürküş Havayolu Taşimacilik ve Ticaret A.Ş."
+  },
+  {
+    "name": "Freebird Airlines Europe",
+    "iata": "MI",
+    "country": "Malta",
+    "legalName": "Freebird Airlines Europe Ltd."
+  },
+  {
+    "name": "Germanwings GmbH",
+    "iata": "4U",
+    "country": "Germany",
+    "legalName": "Germanwings GmbH"
+  },
+  {
+    "name": "Gulf Air",
+    "iata": "GF",
+    "country": "Bahrain",
+    "legalName": "Gulf Air"
+  },
+  {
+    "name": "Hainan Airlines",
+    "iata": "HU",
+    "country": "China",
+    "legalName": "Hainan Airlines Holding Company Limited"
+  },
+  {
+    "name": "Hi Fly",
+    "iata": "3L",
+    "country": "Malta",
+    "legalName": "Hi Fly Ltd"
+  },
+  {
+    "name": "Holiday Europe",
+    "iata": "HL",
+    "country": "Bulgaria",
+    "legalName": "Holiday Europe Limited"
+  },
+  { "name": "Hop!", "iata": "A5", "country": "France", "legalName": "HOP!" },
+  {
+    "name": "Iberia Express",
+    "iata": "I2",
+    "country": "Spain",
+    "legalName": "Iberia Express"
+  },
+  {
+    "name": "Iberia LAE S.A.",
+    "iata": "IB",
+    "country": "Spain",
+    "legalName": "Iberia Lineas Aereas de Espana S.A. Operadora"
+  },
+  {
+    "name": "Icelandair",
+    "iata": "FI",
+    "country": "Iceland",
+    "legalName": "Icelandair ehf."
+  },
+  {
+    "name": "IranAir",
+    "iata": "IR",
+    "country": "Iran, Islamic Republic of",
+    "legalName": "Iran Air, The Airline of the Islamic Republic of Iran"
+  },
+  {
+    "name": "Iraqi Airways Germany",
+    "iata": "IA",
+    "country": "Iraq",
+    "legalName": "Iraqi Airways dba I A W"
+  },
+  {
+    "name": "Japan Airlines Co.",
+    "iata": "JL",
+    "country": "Japan",
+    "legalName": "Japan Airlines Co., Ltd."
+  },
+  {
+    "name": "Jet2.com",
+    "iata": "LS",
+    "country": "United Kingdom",
+    "legalName": "jet2.com"
+  },
+  {
+    "name": "Kenya Airways",
+    "iata": "KQ",
+    "country": "Kenya",
+    "legalName": "Kenya Airways PLC"
+  },
+  {
+    "name": "Korean Air",
+    "iata": "KE",
+    "country": "Korea",
+    "legalName": "Korean Air Lines Co. Ltd."
+  },
+  {
+    "name": "Kosova Airways SH P.K.",
+    "iata": ".",
+    "country": "Kosovo",
+    "legalName": ""
+  },
+  {
+    "name": "LATAM Airlines",
+    "iata": "LA",
+    "country": "Chile",
+    "legalName": "LATAM Airlines Group S.A."
+  },
+  {
+    "name": "Loganair Limited",
+    "iata": "LM",
+    "country": "United Kingdom",
+    "legalName": "Loganair Limited"
+  },
+  {
+    "name": "Malaysia Airlines",
+    "iata": "MH",
+    "country": "Malaysia",
+    "legalName": "Malaysia Airlines Berhad dba Malaysia Airlines"
+  },
+  {
+    "name": "Middle East Airlines Airliban",
+    "iata": "ME",
+    "country": "Lebanon",
+    "legalName": "Middle East Airlines AirLiban"
+  },
+  {
+    "name": "Montenegro Airlines",
+    "iata": "4O",
+    "country": "Montenegro",
+    "legalName": "ToMontenegro DOO"
+  },
+  {
+    "name": "Neos S.p.A.",
+    "iata": "NO",
+    "country": "Italy",
+    "legalName": "Neos S.p.A."
+  },
+  {
+    "name": "Nesma Airlines",
+    "iata": "NE",
+    "country": "Egypt",
+    "legalName": "Nesma Airlines S.A.E."
+  },
+  {
+    "name": "Nordic Regional Airlines",
+    "iata": "N7",
+    "country": "Finland",
+    "legalName": "Nordic Regional Airlines Oy"
+  },
+  {
+    "name": "Norwegian Air International",
+    "iata": "D8",
+    "country": "Ireland",
+    "legalName": ""
+  },
+  {
+    "name": "Norwegian Air Shuttle",
+    "iata": "DY",
+    "country": "Norway",
+    "legalName": "Norwegian Air Shuttle AOC AS"
+  },
+  {
+    "name": "Nouvelair Tunisie",
+    "iata": "BJ",
+    "country": "Tunisia",
+    "legalName": "Nouvelair Tunisie"
+  },
+  {
+    "name": "Oman Air",
+    "iata": "WY",
+    "country": "Oman",
+    "legalName": "Oman Air (S.A.O.C)"
+  },
+  { "name": "Onur Air", "iata": "8Q", "country": "Turkey", "legalName": "-" },
+  {
+    "name": "Orange 2 Fly",
+    "iata": "Q4",
+    "country": "Greece",
+    "legalName": ""
+  },
+  {
+    "name": "Pegasus Airlines",
+    "iata": "PC",
+    "country": "Turkey",
+    "legalName": "Pegasus Hava Tasimaciligi AS"
+  },
+  {
+    "name": "Plus Ultra Lineas Aereas S.A.",
+    "iata": "PU",
+    "country": "Spain",
+    "legalName": "Plus Ultra Lineas Aereas S.A."
+  },
+  {
+    "name": "Pobeda Airlines LLC",
+    "iata": "DP",
+    "country": "Russia",
+    "legalName": "Aviakompaniya Pobeda, OOO"
+  },
+  {
+    "name": "Polskie Linie Lotnicze LOT S.A.",
+    "iata": "LO",
+    "country": "Poland",
+    "legalName": "LOT Polish Airlines"
+  },
+  {
+    "name": "Qantas Airways Ltd.",
+    "iata": "QF",
+    "country": "Australia",
+    "legalName": "Qantas Airways Ltd."
+  },
+  {
+    "name": "QATAR Airways",
+    "iata": "QR",
+    "country": "Quatar",
+    "legalName": "Qatar Airways (Q.C.S.C.)"
+  },
+  {
+    "name": "Rossiya Airlines JSC",
+    "iata": "FV",
+    "country": "Russia",
+    "legalName": "Rossiya Airlines JSC"
+  },
+  {
+    "name": "Royal Air Maroc",
+    "iata": "AT",
+    "country": "Marokko",
+    "legalName": "Royal Air Maroc"
+  },
+  {
+    "name": "Royal Jordanian Airline",
+    "iata": "RJ",
+    "country": "Jordan",
+    "legalName": "Alia - The Royal Jordanian Airlines dba Royal Jordanian"
+  },
+  {
+    "name": "Ryanair Ltd.",
+    "iata": "FR",
+    "country": "Ireland",
+    "legalName": "Ryanair Ltd."
+  },
+  {
+    "name": "S7 Airlines",
+    "iata": "S7",
+    "country": "Russia",
+    "legalName": "JSC Siberia Airlines dba S7 airlines"
+  },
+  {
+    "name": "SAA South African Airways",
+    "iata": "SA",
+    "country": "South Africa",
+    "legalName": "South African Airways SOC LTD dba South African Airways"
+  },
+  {
+    "name": "SAUDIA",
+    "iata": "SV",
+    "country": "Saudi Arabia",
+    "legalName": "Saudi Arabian Airlines Corporation t/a Saudi Arabian Airlines"
+  },
+  {
+    "name": "SmartLynx Airlines SIA",
+    "iata": "6Y",
+    "country": "Latvia",
+    "legalName": "SmartLynx Airlines SIA"
+  },
+  {
+    "name": "Smartlynx Airlines Malta Ltd",
+    "iata": "2N",
+    "country": "Malta",
+    "legalName": "Smartlynx Airlines Malta Ltd"
+  },
+  {
+    "name": "Smartwings",
+    "iata": "QS",
+    "country": "Czech-Republic",
+    "legalName": "Smartwings, a.s."
+  },
+  {
+    "name": "Smartwings Hungary Kft. dba Smartwings Hungary Kft.",
+    "iata": "7O",
+    "country": "Hungry",
+    "legalName": "Smartwings Hungary Kft. dba Smartwings Hungary Kft."
+  },
+  {
+    "name": "SriLankan Airlines Ltd.",
+    "iata": "UL",
+    "country": "Sri-Lanka",
+    "legalName": "SriLankan Airlines Limited"
+  },
+  {
+    "name": "Stobart Air",
+    "iata": "RE",
+    "country": "Malta",
+    "legalName": "Airhub Airlines Limited"
+  },
+  {
+    "name": "Sundair GmbH",
+    "iata": "SR",
+    "country": "Germany",
+    "legalName": "Sundair GmbH"
+  },
+  {
+    "name": "SunExpress Deutschland GmbH",
+    "iata": "XG",
+    "country": "Germany",
+    "legalName": "Sunexpress Deutschland GmbH"
+  },
+  {
+    "name": "SunExpress Günes Ekspres Havacilik A.S.",
+    "iata": "XQ",
+    "country": "Germany",
+    "legalName": "Güneş Ekspress Havacılık A.Ş"
+  },
+  {
+    "name": "Swiss International Air Lines AG",
+    "iata": "LX",
+    "country": "Switzerland",
+    "legalName": "SWISS International Air Lines Ltd dba SWISS"
+  },
+  {
+    "name": "Tailwind Havayollari A.S.",
+    "iata": "TI*",
+    "country": "Turkey",
+    "legalName": "Tailwind Hava Yollari A.S."
+  },
+  {
+    "name": "TAM Airlines",
+    "iata": "JJ",
+    "country": "Brazil",
+    "legalName": "TAM Linhas Aereas S.A. dba LATAM Airlines Brasil"
+  },
+  {
+    "name": "TAROM",
+    "iata": "RO",
+    "country": "Romania",
+    "legalName": "COMPANIA NATIONALA DE TRANSPORTURI AERIENE ROMANE TAROM S.A."
+  },
+  {
+    "name": "Thai Airways International",
+    "iata": "TG",
+    "country": "Thailand",
+    "legalName": "Thai Airways International Public Company Ltd. dba Thai"
+  },
+  {
+    "name": "Transavia Airlines C.V. (NL)",
+    "iata": "HV",
+    "country": "Netherlands",
+    "legalName": "Transavia Airlines"
+  },
+  {
+    "name": "Transavia France S.A.S.",
+    "iata": "TO",
+    "country": "France",
+    "legalName": "Transavia France"
+  },
+  {
+    "name": "Travel Service a.s.",
+    "iata": "QS*",
+    "country": "Czech-Republic",
+    "legalName": ""
+  },
+  {
+    "name": "TUI Nederland",
+    "iata": "OR",
+    "country": "Netherlands",
+    "legalName": "TUI Airlines Nederland B.V. dba TUIfly"
+  },
+  {
+    "name": "TUIfly GmbH",
+    "iata": "X3*",
+    "country": "Germany",
+    "legalName": "TUIfly GmbH"
+  },
+  {
+    "name": "TUNISAIR",
+    "iata": "TU",
+    "country": "Tunisia",
+    "legalName": "Tunisair"
+  },
+  {
+    "name": "Turkmenistan Airlines",
+    "iata": "T5",
+    "country": "Turkmenistan",
+    "legalName": "Turkmenistan Airlines dba Turkmenistan Airlines"
+  },
+  {
+    "name": "Ukraine International Airlines",
+    "iata": "PS",
+    "country": "Ukraine",
+    "legalName": "Private Stock Company Ukraine International Airlines dba UIA"
+  },
+  {
+    "name": "United Airlines Inc.",
+    "iata": "UA",
+    "country": "USA",
+    "legalName": "United Airlines, Inc."
+  },
+  {
+    "name": "Utair Aviation",
+    "iata": "UT",
+    "country": "Russia",
+    "legalName": "UTair Aviation"
+  },
+  {
+    "name": "Vietnam Airlines",
+    "iata": "VN",
+    "country": "Vietnam",
+    "legalName": "Vietnam Airlines JSC dba Vietnam Airlines JSC"
+  },
+  {
+    "name": "VIM Airlines",
+    "iata": "NN*",
+    "country": "Russia",
+    "legalName": ""
+  },
+  {
+    "name": "Virgin Atlantic Airways Limited",
+    "iata": "VS",
+    "country": "United Kingdom",
+    "legalName": "Virgin Atlantic Airways Limited"
+  },
+  {
+    "name": "Volotea S.L.",
+    "iata": "V7",
+    "country": "Spain",
+    "legalName": "Volotea, S.L."
+  },
+  {
+    "name": "Yemenia - Yemen Airways",
+    "iata": "IY",
+    "country": "Yemen, Republic of",
+    "legalName": "Yemenia - Yemen Airways"
+  },
+  {
+    "name": "Air Europa Express",
+    "iata": "X5",
+    "country": "Spain",
+    "legalName": "Aeronova S.L. dba Air Europa Express"
+  },
+  {
+    "name": "Air Mediterranean",
+    "iata": "MV",
+    "country": "Greece",
+    "legalName": "Air Mediterranean S.A."
+  },
+  {
+    "name": "Air Transat A.T.",
+    "iata": "TS",
+    "country": "Canada",
+    "legalName": "Air Transat"
+  },
+  {
+    "name": "Albawings",
+    "iata": "2B",
+    "country": "Albania",
+    "legalName": "Albawings"
+  },
+  {
+    "name": "Cabo Verde Airlines",
+    "iata": "VR",
+    "country": "Cape Verde",
+    "legalName": "Transportes Aereos de Cabo Verde dba TACV Cabo Verde Airlines"
+  },
+  {
+    "name": "EuroAtlantic Airways",
+    "iata": "YU",
+    "country": "Portugal",
+    "legalName": "EuroAtlantic Airways"
+  },
+  {
+    "name": "Georgian Airways",
+    "iata": "A9",
+    "country": "Georgien",
+    "legalName": "Georgian Airways"
+  },
+  {
+    "name": "Level",
+    "iata": "IB*",
+    "country": "Spain",
+    "legalName": "Fly Level SL"
+  },
+  {
+    "name": "Olympic Air",
+    "iata": "OA",
+    "country": "Greece",
+    "legalName": "Olympic Air"
+  },
+  {
+    "name": "Scoot",
+    "iata": "TR",
+    "country": "Singapore",
+    "legalName": "Scoot Pte. Ltd dba Scoot"
+  },
+  {
+    "name": "Sun Air of Scandinavia",
+    "iata": "EZ*",
+    "country": "Denmark",
+    "legalName": "Sun Air of Scandinavia A.S."
+  },
+  {
+    "name": "TAAG Angola Airlines",
+    "iata": "DT",
+    "country": "Angola",
+    "legalName": "TAAG - Linhas Aereas de Angola, SA dba TAAG-Angola Airlines"
+  },
+  {
+    "name": "TUI Airlines Belgium",
+    "iata": "TB*",
+    "country": "Belgium",
+    "legalName": "TUI Airlines Belgium N.V dba TUI fly"
+  },
+  {
+    "name": "Ural Airlines",
+    "iata": "U6",
+    "country": "Russia",
+    "legalName": "Joint Stock Company Ural Airlines"
+  },
+  {
+    "name": "Voyage Air",
+    "iata": "VO*",
+    "country": "Bulgaria",
+    "legalName": ""
+  },
+  {
+    "name": "Westjet Airlines Ltd.",
+    "iata": "WS",
+    "country": "Canada",
+    "legalName": "WestJet"
+  },
+  {
+    "name": "Widerøe´s Flyveselskap",
+    "iata": "WF",
+    "country": "Norway",
+    "legalName": "Wideroe's Flyveselskap A.S."
+  },
+  {
+    "name": "Hahn Air Lines GmbH",
+    "iata": "HR",
+    "country": "Germany",
+    "legalName": "Hahn Air Lines GmbH"
+  },
+  {
+    "name": "Belavia Belarusian Airlines",
+    "iata": "B2",
+    "country": "Belarus",
+    "legalName": "Belavia - Belarusian Airlines dba Belavia"
+  },
+  {
+    "name": "Uzbekistan Airways",
+    "iata": "HY",
+    "country": "Uzbekistan",
+    "legalName": "Uzbekistan Airways Joint Stock Company"
+  },
+  {
+    "name": "Azerbaijan Airlines",
+    "iata": "J2",
+    "country": "Azerbaijan",
+    "legalName": "Azerbaijan Airlines CJSC"
+  },
+  {
+    "name": "Lauda Europe",
+    "iata": "LW",
+    "country": "Malta",
+    "legalName": "Lauda Europe Ltd"
+  },
+  {
+    "name": "EW Discover GmbH",
+    "iata": "4Y",
+    "country": "Germany",
+    "legalName": "EW Discover GmbH"
+  },
+  {
+    "name": "Air Algérie",
+    "iata": "AH",
+    "country": "Algeria",
+    "legalName": "Air Algerie"
+  },
+  {
+    "name": "Evelop Airlines",
+    "iata": "E9",
+    "country": "Spain",
+    "legalName": "Evelop Airlines S.L. dba Iberojet Airlines"
+  },
+  {
+    "name": "GP Aviation Ltd.",
+    "iata": "IV",
+    "country": "Bulgaria",
+    "legalName": "GP Aviation Ltd"
+  },
+  {
+    "name": "Danish Air Transport",
+    "iata": "DX",
+    "country": "Denmark",
+    "legalName": "DAT A/S,"
+  },
+  {
+    "name": "Play",
+    "iata": "OG",
+    "country": "Iceland",
+    "legalName": "Fly Play hf."
+  },
+  {
+    "name": "Aeroitalia",
+    "iata": "XZ",
+    "country": "Italy",
+    "legalName": "AEROITALIA SRL dba AEROITALIA SRL"
+  },
+  {
+    "name": "Air Albania",
+    "iata": "ZB",
+    "country": "Albania",
+    "legalName": "AIR ALBANIA SHPK"
+  },
+  {
+    "name": "AirAsia",
+    "iata": "AK",
+    "country": "Malaysia",
+    "legalName": "AirAsia Berhad dba AirAsia"
+  },
+  {
+    "name": "AirAsia Cambodia",
+    "iata": "KT",
+    "country": "Cambodia",
+    "legalName": "AirAsia Cambodia"
+  },
+  {
+    "name": "Air Caraibes",
+    "iata": "TX",
+    "country": "Guadeloupe",
+    "legalName": "Air Caraibes"
+  },
+  {
+    "name": "Alaska Airlines",
+    "iata": "AS",
+    "country": "USA",
+    "legalName": "Alaska Airlines Inc."
+  },
+  {
+    "name": "APG Airlines",
+    "iata": "GP",
+    "country": "France",
+    "legalName": "APG Airlines"
+  },
+  {
+    "name": "Azimuth Airlines",
+    "iata": "A4",
+    "country": "Russia",
+    "legalName": "JSC Azimuth Airlines"
+  },
+  {
+    "name": "BA CityFlyer",
+    "iata": "CJ*",
+    "country": "United Kingdom",
+    "legalName": "BA Cityflyer Limited"
+  },
+  {
+    "name": "Binter Canarias",
+    "iata": "NT",
+    "country": "Spain",
+    "legalName": "Binter Canarias"
+  },
+  {
+    "name": "Flexflight",
+    "iata": "W2",
+    "country": "Denmark",
+    "legalName": "Flexflight"
+  },
+  {
+    "name": "Frenchbee",
+    "iata": "BF",
+    "country": "France",
+    "legalName": "French Bee dba French Bee"
+  },
+  {
+    "name": "MIAT Mongolian Airlines",
+    "iata": "OM",
+    "country": "Mongolia",
+    "legalName": "MIAT Mongolian Airlines"
+  },
+  {
+    "name": "Nordwind Airlines",
+    "iata": "N4",
+    "country": "Russia",
+    "legalName": "LLC Nord Wind"
+  },
+  {
+    "name": "SKY express",
+    "iata": "GQ",
+    "country": "Greece",
+    "legalName": "Sky Express S.A."
+  },
+  {
+    "name": "Trade Air",
+    "iata": "C3",
+    "country": "Croatia",
+    "legalName": "Trade Air Ltd."
+  },
+  {
+    "name": "Xfly",
+    "iata": "EE",
+    "country": "Estonia",
+    "legalName": "Regional Jet Ou dba Xfly"
+  },
+  {
+    "name": "Aeronova S.L.",
+    "iata": "X5*",
+    "country": "Spain",
+    "legalName": "Aeronova S.L. dba Air Europa Express"
+  },
+  {
+    "name": "ETF Airways",
+    "iata": "2F",
+    "country": "Croatia",
+    "legalName": "ETF Airways d.o.o."
+  },
+  {
+    "name": "Mavi Gök Airlines",
+    "iata": "4M",
+    "country": "Turkey",
+    "legalName": "Mavi Gok Havacilik AS"
+  },
+  {
+    "name": "Norse Atlantic Airways",
+    "iata": "N0",
+    "country": "Norway",
+    "legalName": "Norse Atlantic Airways AS"
+  },
+  {
+    "name": "Air Senegal",
+    "iata": "HC",
+    "country": "Senegal",
+    "legalName": "Air Senegal S.A."
+  },
+  {
+    "name": "Somon Air",
+    "iata": "SZ",
+    "country": "Tajikistan",
+    "legalName": "Aircompany Somon Air LLC dba Somon Air"
+  },
+  {
+    "name": "Bamboo Airways",
+    "iata": "QH",
+    "country": "Vietnam",
+    "legalName": "Bamboo Airways Joint Stock Company"
+  },
+  {
+    "name": "Marabu Airlines",
+    "iata": "DI",
+    "country": "Estonia",
+    "legalName": "Marabu Airlines OÜ"
+  },
+  {
+    "name": "Enter Air",
+    "iata": "E4*",
+    "country": "Poland",
+    "legalName": "Enter Air Spolka z.o.o."
+  },
+  {
+    "name": "TUS Airways",
+    "iata": "U8",
+    "country": "Cyprus",
+    "legalName": "Tus Airways Ltd dba Tus Airways"
+  },
+  {
+    "name": "Nordica",
+    "iata": "ND",
+    "country": "Estonia",
+    "legalName": "Nordic Aviation Group AS dba Nordica"
+  },
+  {
+    "name": "Arkia Israeli Airlines",
+    "iata": "IZ",
+    "country": "Israel",
+    "legalName": "Arkia Israeli Airlines Ltd"
+  },
+  {
+    "name": "Southwind Airlines",
+    "iata": "2S",
+    "country": "Turkey",
+    "legalName": "Cortex Havacilik Ve Turizm Ticaret A.S dba Southwind Airlines"
+  },
+  {
+    "name": "Star East Airlines",
+    "iata": "4R*",
+    "country": "Romania",
+    "legalName": "Star East Airline S.R.L."
+  },
+  {
+    "name": "Air Antilles",
+    "iata": "4I",
+    "country": "Saint Martin",
+    "legalName": "AIR ANTILLES dba Air Antilles"
+  },
+  {
+    "name": "GetJet Airlines",
+    "iata": "GW*",
+    "country": "Lithuania",
+    "legalName": "GetJet Airlines Dba GetJet Airlines"
+  },
+  {
+    "name": "Bluebird Airways",
+    "iata": "BZ",
+    "country": "Greece",
+    "legalName": "Blue Bird Airways"
+  },
+  {
+    "name": "Hibernian Airlines",
+    "iata": "HG*",
+    "country": "Ireland",
+    "legalName": "Hibernian Airlines"
+  },
+  {
+    "name": "FlyOne Armenia",
+    "iata": "3F",
+    "country": "Armenien",
+    "legalName": "FLYONE ARMENIA LLC"
+  },
+  {
+    "name": "Dan Air",
+    "iata": "DN",
+    "country": "Romania",
+    "legalName": "DAN AIR (AOC) S.R.L."
+  },
+  {
+    "name": "Atlantic Airways",
+    "iata": "RC",
+    "country": "Faroe Islands",
+    "legalName": "Atlantic Airways, Faroe Islands, P/F"
+  },
+  {
+    "name": "SalamAir",
+    "iata": "OV",
+    "country": "Oman",
+    "legalName": "Salam Air (S.A.O.C)"
+  },
+  {
+    "name": "Sonstiges",
+    "iata": "sonstiges",
+    "country": "",
+    "legalName": "Sonstiges"
   }
 ]
