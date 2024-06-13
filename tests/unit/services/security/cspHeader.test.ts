@@ -24,4 +24,14 @@ describe("cspHeader", () => {
     expect(defaultHeader).not.toContain("localhost");
     expect(cspHeader({ environment: "development" })).toContain("localhost");
   });
+
+  it("adds maze header on preview", () => {
+    expect(defaultHeader).not.toContain("https://snippet.maze.co");
+    expect(defaultHeader).not.toContain("https://api.maze.co");
+    expect(defaultHeader).not.toContain("https://prompts.maze.co");
+
+    expect(cspHeader({ environment: "preview" })).toContain(
+      "https://snippet.maze.co",
+    );
+  });
 });
