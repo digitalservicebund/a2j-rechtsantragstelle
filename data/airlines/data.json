@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Condor Flugdienst GmbH",
+    "country": "Germany",
+    "iata": "DE",
+    "region": "EU",
+    "legalName": "Condor Flugdienst GmbH"
+  },
+  {
+    "name": "Corendon Dutch Airlines (NL)",
+    "country": "Netherlands",
+    "iata": "DX",
+    "region": "EU",
+    "legalName": "Corendon Dutch Airlines B.V."
+  },
+  {
+    "name": "Deutsche Lufthansa AG",
+    "country": "Germany",
+    "iata": "LH",
+    "region": "EU",
+    "legalName": "Deutsche Lufthansa AG"
+  }
+]
