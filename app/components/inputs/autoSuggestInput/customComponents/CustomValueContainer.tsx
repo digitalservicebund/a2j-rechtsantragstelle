@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { ValueContainerProps, components } from "react-select";
-import { DataListOptions } from "../AutoSuggestInput";
+import { DataListOptions } from "../getDataListOptions";
 
 const CustomValueContainer = (
   props: ValueContainerProps<DataListOptions, false>,
