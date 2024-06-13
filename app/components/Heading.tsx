@@ -29,6 +29,10 @@ function Heading({
   const Tag: keyof JSX.IntrinsicElements = tagName;
   const cssClasses = classNames(look === "default" ? null : look, className);
 
+  if (typeof text === "undefined" || text?.trim() === "") {
+    return null;
+  }
+
   return (
     <Tag data-testid={dataTestid} className={cssClasses}>
       {children ?? decode(text)}
