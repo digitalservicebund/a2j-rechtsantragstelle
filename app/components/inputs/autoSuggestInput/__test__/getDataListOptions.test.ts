@@ -15,7 +15,7 @@ describe("getDataListOptions", () => {
     expect(actual.find((airline) => airline.value === "LH")).toBeTruthy();
   });
 
-  it("it should return no data options in case parameter is not defined", () => {
+  it("it should return no data options when the given argument is undefined", () => {
     const actual = getDataListOptions();
 
     expect(actual.length).toBe(0);
