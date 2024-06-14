@@ -40,6 +40,7 @@ function translateAirportCity(airport) {
     const columns = row.split(",");
     if (airport.iata === columns[0]) {
       city = columns[2];
+      return;
     }
   });
 
@@ -85,15 +86,21 @@ async function fetchAirportDataByCountry(country) {
   return filteredLargeMediumAirports(airports);
 }
 
-async function fetchAllAirports() {
-  const southAmericaAirports = await fetchAirportDataByContinent("SA");
-  const europaAirports = await fetchAirportDataByContinent("EU");
-  const asiaAirports = await fetchAirportDataByContinent("AS");
-  const africaAirports = await fetchAirportDataByContinent("AF");
-  const oceaniaAirports = await fetchAirportDataByContinent("OC");
+async function fetchNorthAmericaAirports() {
   const usAirports = await fetchAirportDataByCountry("US");
   const canadaAirports = await fetchAirportDataByCountry("CA");
-  const mexicanAirports = await fetchAirportDataByCountry("MX");
+  const mexicoAirports = await fetchAirportDataByCountry("MX");
+
+  return [...usAirports, ...canadaAirports, ...mexicoAirports];
+}
+
+async function fetchAllAirports() {
+  const africaAirports = await fetchAirportDataByContinent("AF");
+  const asiaAirports = await fetchAirportDataByContinent("AS");
+  const europaAirports = await fetchAirportDataByContinent("EU");
+  const northAmericanAirports = await fetchNorthAmericaAirports();
+  const oceaniaAirports = await fetchAirportDataByContinent("OC");
+  const southAmericaAirports = await fetchAirportDataByContinent("SA");
 
   const airports = [];
   airports.push(...southAmericaAirports);
@@ -101,9 +108,7 @@ async function fetchAllAirports() {
   airports.push(...asiaAirports);
   airports.push(...africaAirports);
   airports.push(...oceaniaAirports);
-  airports.push(...usAirports);
-  airports.push(...canadaAirports);
-  airports.push(...mexicanAirports);
+  airports.push(...northAmericanAirports);
 
   return airports;
 }
