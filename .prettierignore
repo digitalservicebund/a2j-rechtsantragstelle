@@ -22,3 +22,4 @@ Dockerfile
 *.generated.ts
 sonar-project.properties
 .dockerignore
+scripts/cities_airports_de.csv
