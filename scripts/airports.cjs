@@ -14,7 +14,6 @@ const patchData = {
   latitude: "18.7376",
   longitude: "105.671",
   city: "Vinh",
-  continent: "AS",
 };
 
 const airportsGermanCitiesContent = fs.readFileSync(CITIES_AIRPORTS_DE, {
@@ -70,7 +69,6 @@ function filteredLargeMediumAirports(airports) {
         latitude: airport.latitude,
         longitude: airport.longitude,
         city: translateAirportCity(airport),
-        continent: airport.continent || "NR",
       };
     });
 }
