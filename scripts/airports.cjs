@@ -37,10 +37,9 @@ function translateAirportCity(airport) {
   let city = airport.city;
 
   rows.forEach((row) => {
-    const columns = row.split(",");
-    if (airport.iata === columns[0]) {
-      city = columns[2];
-      return;
+    const [iata, , cityTranslation] = row.split(",");
+    if (airport.iata === iata) {
+      city = cityTranslation;
     }
   });
 
