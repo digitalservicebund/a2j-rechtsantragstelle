@@ -166,7 +166,7 @@
     "airport": "El Eden Intl Flughafen",
     "latitude": "4.45278",
     "longitude": "-75.7664",
-    "city": "Armenia",
+    "city": "Armenien",
     "continent": "SA"
   },
   {
@@ -1006,7 +1006,7 @@
     "airport": "Mataveri Intl Flughafen",
     "latitude": "-27.1648",
     "longitude": "-109.422",
-    "city": "Easter Island",
+    "city": "Osterinsel",
     "continent": "SA"
   },
   {
@@ -2746,7 +2746,7 @@
     "airport": "Sochi International Flughafen",
     "latitude": "43.4499",
     "longitude": "39.9566",
-    "city": "Sochi",
+    "city": "Sotschi",
     "continent": "EU"
   },
   {
@@ -2876,7 +2876,7 @@
     "airport": "Antwerp Intl. Flughafen",
     "latitude": "51.1894",
     "longitude": "4.46028",
-    "city": "Antwerp",
+    "city": "Antwerpen",
     "continent": "EU"
   },
   {
@@ -2916,7 +2916,7 @@
     "airport": "Talagi Flughafen",
     "latitude": "64.6003",
     "longitude": "40.7167",
-    "city": "Arkhangelsk",
+    "city": "Archangelsk",
     "continent": "EU"
   },
   {
@@ -2946,7 +2946,7 @@
     "airport": "Eleftherios Venizelos Flughafen",
     "latitude": "37.9364",
     "longitude": "23.9445",
-    "city": "Athens",
+    "city": "Athen",
     "continent": "EU"
   },
   {
@@ -3046,7 +3046,7 @@
     "airport": "Belgrade Nikola Tesla Flughafen",
     "latitude": "44.8184",
     "longitude": "20.3091",
-    "city": "Belgrade",
+    "city": "Belgrad",
     "continent": "EU"
   },
   {
@@ -3106,7 +3106,7 @@
     "airport": "Bergamo/Orio al Serio Flughafen",
     "latitude": "45.67095925",
     "longitude": "9.698763471",
-    "city": "Milan",
+    "city": "Mailand",
     "continent": "EU"
   },
   {
@@ -3336,7 +3336,7 @@
     "airport": "Turany Flughafen",
     "latitude": "49.1513",
     "longitude": "16.6944",
-    "city": "Brno",
+    "city": "Brünn",
     "continent": "EU"
   },
   {
@@ -3366,7 +3366,7 @@
     "airport": "Brussels Flughafen",
     "latitude": "50.9014",
     "longitude": "4.48444",
-    "city": "Brussels",
+    "city": "Brüssel",
     "continent": "EU"
   },
   {
@@ -3456,7 +3456,7 @@
     "airport": "Bryansk International Flughafen",
     "latitude": "53.2142",
     "longitude": "34.1764",
-    "city": "Bryansk",
+    "city": "Brjansk",
     "continent": "EU"
   },
   {
@@ -3466,7 +3466,7 @@
     "airport": "Dolomiti Flughafen",
     "latitude": "46.4602",
     "longitude": "11.3264",
-    "city": "Bolzano/Bozen",
+    "city": "Bozen/Bolzano",
     "continent": "EU"
   },
   {
@@ -3546,7 +3546,7 @@
     "airport": "Cherepovets Flughafen",
     "latitude": "59.2736",
     "longitude": "38.0158",
-    "city": "Cherepovets",
+    "city": "Tscherepowez",
     "continent": "EU"
   },
   {
@@ -3556,7 +3556,7 @@
     "airport": "Chelyabinsk Flughafen",
     "latitude": "55.3058",
     "longitude": "61.5033",
-    "city": "Chelyabinsk",
+    "city": "Tscheljabinsk",
     "continent": "EU"
   },
   {
@@ -3646,7 +3646,7 @@
     "airport": "Ciampino-G. B. Pastine International Flughafen",
     "latitude": "41.799065",
     "longitude": "12.590987",
-    "city": "Rome",
+    "city": "Rom",
     "continent": "EU"
   },
   {
@@ -3716,7 +3716,7 @@
     "airport": "Kastrup Flughafen",
     "latitude": "55.6179",
     "longitude": "12.656",
-    "city": "Copenhagen",
+    "city": "Kopenhagen",
     "continent": "EU"
   },
   {
@@ -3736,7 +3736,7 @@
     "airport": "Brussels South Charleroi Flughafen",
     "latitude": "50.4592",
     "longitude": "4.45382",
-    "city": "Brussels",
+    "city": "Brüssel",
     "continent": "EU"
   },
   {
@@ -3756,7 +3756,7 @@
     "airport": "Cheboksary Flughafen",
     "latitude": "56.0903",
     "longitude": "47.3473",
-    "city": "Cheboksary",
+    "city": "Tscheboksary",
     "continent": "EU"
   },
   {
@@ -3786,7 +3786,7 @@
     "airport": "Chernivtsi Intl. Flughafen",
     "latitude": "48.2593",
     "longitude": "25.9808",
-    "city": "Chernivtsi",
+    "city": "Czernowitz",
     "continent": "EU"
   },
   {
@@ -3856,7 +3856,7 @@
     "airport": "Domodedovo Flughafen",
     "latitude": "55.40912105",
     "longitude": "37.90416621",
-    "city": "Moscow",
+    "city": "Moskau",
     "continent": "EU"
   },
   {
@@ -3956,7 +3956,7 @@
     "airport": "Marina di Campo Flughafen",
     "latitude": "42.7603",
     "longitude": "10.2394",
-    "city": "Elba Island",
+    "city": "Insel Elba",
     "continent": "EU"
   },
   {
@@ -4166,7 +4166,7 @@
     "airport": "Vagar Flughafen",
     "latitude": "62.0636",
     "longitude": "-7.27722",
-    "city": "Faroe Islands",
+    "city": "Färöer Inseln",
     "continent": "EU"
   },
   {
@@ -4186,7 +4186,7 @@
     "airport": "Fiumicino Flughafen",
     "latitude": "41.8003",
     "longitude": "12.2389",
-    "city": "Rome",
+    "city": "Rom",
     "continent": "EU"
   },
   {
@@ -4216,7 +4216,7 @@
     "airport": "Peretola Flughafen",
     "latitude": "43.81",
     "longitude": "11.2051",
-    "city": "Florence",
+    "city": "Florenz",
     "continent": "EU"
   },
   {
@@ -4226,7 +4226,7 @@
     "airport": "Flores Island Flughafen",
     "latitude": "39.4553",
     "longitude": "-31.1314",
-    "city": "Flores Island",
+    "city": "Insel Flores",
     "continent": "EU"
   },
   {
@@ -4296,7 +4296,7 @@
     "airport": "Luigi Ridolfi Flughafen",
     "latitude": "44.1948",
     "longitude": "12.0701",
-    "city": "Forli",
+    "city": "Forlì",
     "continent": "EU"
   },
   {
@@ -4336,7 +4336,7 @@
     "airport": "Lech Walesa Flughafen",
     "latitude": "54.3776",
     "longitude": "18.4662",
-    "city": "Gdansk",
+    "city": "Danzig",
     "continent": "EU"
   },
   {
@@ -4426,7 +4426,7 @@
     "airport": "Strigino Flughafen",
     "latitude": "56.2301",
     "longitude": "43.784",
-    "city": "Nizhny Novgorod",
+    "city": "Nishnij Nowgorod",
     "continent": "EU"
   },
   {
@@ -4436,7 +4436,7 @@
     "airport": "Landvetter Flughafen",
     "latitude": "57.6628",
     "longitude": "12.2798",
-    "city": "Goteborg",
+    "city": "Göteborg",
     "continent": "EU"
   },
   {
@@ -4476,7 +4476,7 @@
     "airport": "Grozny Flughafen",
     "latitude": "43.3883",
     "longitude": "45.6986",
-    "city": "Grozny",
+    "city": "Grosny",
     "continent": "EU"
   },
   {
@@ -4486,7 +4486,7 @@
     "airport": "Graciosa Island Flughafen",
     "latitude": "39.0922",
     "longitude": "-28.0298",
-    "city": "Graciosa Island",
+    "city": "Insel Graciosa",
     "continent": "EU"
   },
   {
@@ -4696,7 +4696,7 @@
     "airport": "Osnova Intl Flughafen",
     "latitude": "49.9248",
     "longitude": "36.29",
-    "city": "Kharkiv",
+    "city": "Charkiw",
     "continent": "EU"
   },
   {
@@ -4706,7 +4706,7 @@
     "airport": "Kadala Flughafen",
     "latitude": "52.0263",
     "longitude": "113.306",
-    "city": "Chita",
+    "city": "Tschita",
     "continent": "EU"
   },
   {
@@ -4786,7 +4786,7 @@
     "airport": "Zhuliany Intl Flughafen",
     "latitude": "50.4019",
     "longitude": "30.4519",
-    "city": "Kyiv",
+    "city": "Kiew",
     "continent": "EU"
   },
   {
@@ -4806,7 +4806,7 @@
     "airport": "Ivano-Frankivsk Intl. Flughafen",
     "latitude": "48.8842",
     "longitude": "24.6861",
-    "city": "Ivano-Frankivsk",
+    "city": "Iwano-Frankiwsk",
     "continent": "EU"
   },
   {
@@ -4936,7 +4936,7 @@
     "airport": "Yuzhny Flughafen",
     "latitude": "56.9394",
     "longitude": "40.9408",
-    "city": "Ivanovo",
+    "city": "Iwanowo",
     "continent": "EU"
   },
   {
@@ -5066,7 +5066,7 @@
     "airport": "Boryspil Intl Flughafen",
     "latitude": "50.345",
     "longitude": "30.8947",
-    "city": "Kyiv",
+    "city": "Kiew",
     "continent": "EU"
   },
   {
@@ -5166,7 +5166,7 @@
     "airport": "Krasnoyarsk Flughafen",
     "latitude": "56.1729",
     "longitude": "92.4933",
-    "city": "Krasnoyarsk",
+    "city": "Krasnojarsk",
     "continent": "EU"
   },
   {
@@ -5266,7 +5266,7 @@
     "airport": "John Paul II - Balice Flughafen",
     "latitude": "50.0777",
     "longitude": "19.7848",
-    "city": "Krakow",
+    "city": "Krakau",
     "continent": "EU"
   },
   {
@@ -5376,7 +5376,7 @@
     "airport": "Pyrzowice Flughafen",
     "latitude": "50.4743",
     "longitude": "19.08",
-    "city": "Katowice",
+    "city": "Kattowitz",
     "continent": "EU"
   },
   {
@@ -5466,7 +5466,7 @@
     "airport": "Kazan Intl. Flughafen",
     "latitude": "55.6062",
     "longitude": "49.2787",
-    "city": "Kazan",
+    "city": "Kasan",
     "continent": "EU"
   },
   {
@@ -5546,7 +5546,7 @@
     "airport": "Pulkovo Flughafen",
     "latitude": "59.8003",
     "longitude": "30.2625",
-    "city": "St Petersburg",
+    "city": "St. Petersburg",
     "continent": "EU"
   },
   {
@@ -5606,7 +5606,7 @@
     "airport": "Liege Flughafen",
     "latitude": "50.6374",
     "longitude": "5.44322",
-    "city": "Liege",
+    "city": "Lüttich",
     "continent": "EU"
   },
   {
@@ -5656,7 +5656,7 @@
     "airport": "Linate Flughafen",
     "latitude": "45.44420495",
     "longitude": "9.277832922",
-    "city": "Milan",
+    "city": "Mailand",
     "continent": "EU"
   },
   {
@@ -5666,7 +5666,7 @@
     "airport": "Lisbon Flughafen",
     "latitude": "38.7813",
     "longitude": "-9.13592",
-    "city": "Lisbon",
+    "city": "Lissabon",
     "continent": "EU"
   },
   {
@@ -5816,7 +5816,7 @@
     "airport": "Sumburgh Flughafen",
     "latitude": "59.8814",
     "longitude": "-1.29389",
-    "city": "Shetland Islands",
+    "city": "Shetlandinseln",
     "continent": "EU"
   },
   {
@@ -5846,7 +5846,7 @@
     "airport": "Luxembourg Flughafen",
     "latitude": "49.6233",
     "longitude": "6.20444",
-    "city": "Luxembourg",
+    "city": "Luxemburg",
     "continent": "EU"
   },
   {
@@ -5936,7 +5936,7 @@
     "airport": "Uytash Flughafen",
     "latitude": "42.8168",
     "longitude": "47.6523",
-    "city": "Makhachkala",
+    "city": "Machatschkala",
     "continent": "EU"
   },
   {
@@ -6026,7 +6026,7 @@
     "airport": "Malmo Intl. Flughafen",
     "latitude": "55.5361868",
     "longitude": "13.36971568",
-    "city": "Malmo",
+    "city": "Malmö",
     "continent": "EU"
   },
   {
@@ -6156,7 +6156,7 @@
     "airport": "Malpensa Flughafen",
     "latitude": "45.6306",
     "longitude": "8.72811",
-    "city": "Milan",
+    "city": "Mailand",
     "continent": "EU"
   },
   {
@@ -6176,7 +6176,7 @@
     "airport": "Nalchik Flughafen",
     "latitude": "43.5129",
     "longitude": "43.6366",
-    "city": "Nalchik",
+    "city": "Naltschik",
     "continent": "EU"
   },
   {
@@ -6186,7 +6186,7 @@
     "airport": "Capodichino Flughafen",
     "latitude": "40.886",
     "longitude": "14.2908",
-    "city": "Naples",
+    "city": "Neapel",
     "continent": "EU"
   },
   {
@@ -6206,7 +6206,7 @@
     "airport": "Cote d'Azur Flughafen",
     "latitude": "43.6584",
     "longitude": "7.21587",
-    "city": "Nice",
+    "city": "Nizza",
     "continent": "EU"
   },
   {
@@ -6256,7 +6256,7 @@
     "airport": "Novokuznetsk Flughafen",
     "latitude": "53.8114",
     "longitude": "86.8772",
-    "city": "Novokuznetsk",
+    "city": "Nowokuznetsk",
     "continent": "EU"
   },
   {
@@ -6386,7 +6386,7 @@
     "airport": "Beslan Flughafen",
     "latitude": "43.2051",
     "longitude": "44.6066",
-    "city": "Vladikavkaz",
+    "city": "Wladikawkas",
     "continent": "EU"
   },
   {
@@ -6536,7 +6536,7 @@
     "airport": "Oostende/Brugge Flughafen",
     "latitude": "51.1989",
     "longitude": "2.86222",
-    "city": "Oostende/Brugge",
+    "city": "Oostende/Brügge",
     "continent": "EU"
   },
   {
@@ -6546,7 +6546,7 @@
     "airport": "Henri Coanda Flughafen",
     "latitude": "44.5711",
     "longitude": "26.085",
-    "city": "Bucharest",
+    "city": "Bukarest",
     "continent": "EU"
   },
   {
@@ -6566,7 +6566,7 @@
     "airport": "Tolmachevo Flughafen",
     "latitude": "55.0126",
     "longitude": "82.6507",
-    "city": "Novosibirsk",
+    "city": "Nowosibirsk",
     "continent": "EU"
   },
   {
@@ -6576,7 +6576,7 @@
     "airport": "Asturias Flughafen",
     "latitude": "43.5636",
     "longitude": "-6.03462",
-    "city": "Asturias",
+    "city": "Asturien",
     "continent": "EU"
   },
   {
@@ -6706,7 +6706,7 @@
     "airport": "Pico Island Flughafen",
     "latitude": "38.5543",
     "longitude": "-28.4413",
-    "city": "Pico Island",
+    "city": "Pico Insel",
     "continent": "EU"
   },
   {
@@ -6716,7 +6716,7 @@
     "airport": "Pskov Flughafen",
     "latitude": "57.7839",
     "longitude": "28.3956",
-    "city": "Pskov",
+    "city": "Pskow",
     "continent": "EU"
   },
   {
@@ -6736,7 +6736,7 @@
     "airport": "Parma Flughafen",
     "latitude": "44.82609055",
     "longitude": "10.29681477",
-    "city": "Milan",
+    "city": "Mailand",
     "continent": "EU"
   },
   {
@@ -6806,7 +6806,7 @@
     "airport": "Vaclav Havel Flughafen",
     "latitude": "50.1008",
     "longitude": "14.26",
-    "city": "Prague",
+    "city": "Prag",
     "continent": "EU"
   },
   {
@@ -6896,7 +6896,7 @@
     "airport": "WARSAW Flughafen",
     "latitude": "51.3892",
     "longitude": "21.2133",
-    "city": "Warsaw",
+    "city": "Warschau",
     "continent": "EU"
   },
   {
@@ -6956,7 +6956,7 @@
     "airport": "Diagoras Flughafen",
     "latitude": "36.4054",
     "longitude": "28.0862",
-    "city": "Rhodes",
+    "city": "Rhodos",
     "continent": "EU"
   },
   {
@@ -7056,7 +7056,7 @@
     "airport": "Platov Flughafen",
     "latitude": "47.4939",
     "longitude": "39.9247",
-    "city": "Rostov",
+    "city": "Rostow",
     "continent": "EU"
   },
   {
@@ -7266,7 +7266,7 @@
     "airport": "Sarajevo Intl. Flughafen",
     "latitude": "43.8246",
     "longitude": "18.3315",
-    "city": "Sarajevo",
+    "city": "Sarajewo",
     "continent": "EU"
   },
   {
@@ -7286,7 +7286,7 @@
     "airport": "Sao Jorge Island Flughafen",
     "latitude": "38.6655",
     "longitude": "-28.1758",
-    "city": "Sao Jorge Island",
+    "city": "Insel Sao Jorge",
     "continent": "EU"
   },
   {
@@ -7356,7 +7356,7 @@
     "airport": "Santa Maria Island Flughafen",
     "latitude": "36.9714",
     "longitude": "-25.1706",
-    "city": "Santa Maria Island",
+    "city": "Insel Santa Maria",
     "continent": "EU"
   },
   {
@@ -7546,7 +7546,7 @@
     "airport": "Sheremetyevo Flughafen",
     "latitude": "55.9728",
     "longitude": "37.4147",
-    "city": "Moscow",
+    "city": "Moskau",
     "continent": "EU"
   },
   {
@@ -7566,7 +7566,7 @@
     "airport": "Strasbourg Flughafen",
     "latitude": "48.5383",
     "longitude": "7.62823",
-    "city": "Strasbourg",
+    "city": "Straßburg",
     "continent": "EU"
   },
   {
@@ -7656,7 +7656,7 @@
     "airport": "Lajes Flughafen",
     "latitude": "38.7618",
     "longitude": "-27.0908",
-    "city": "Terceira Island",
+    "city": "Insel Terceira",
     "continent": "EU"
   },
   {
@@ -7776,7 +7776,7 @@
     "airport": "Langnes Flughafen",
     "latitude": "69.6833",
     "longitude": "18.9189",
-    "city": "Tromso",
+    "city": "Tromsö",
     "continent": "EU"
   },
   {
@@ -7836,7 +7836,7 @@
     "airport": "Ronchi dei Legionari Flughafen",
     "latitude": "45.8275",
     "longitude": "13.4722",
-    "city": "Trieste",
+    "city": "Triest",
     "continent": "EU"
   },
   {
@@ -7846,7 +7846,7 @@
     "airport": "Treviso/Sant'Angelo Flughafen",
     "latitude": "45.6484",
     "longitude": "12.1944",
-    "city": "Venice",
+    "city": "Venedig",
     "continent": "EU"
   },
   {
@@ -7926,7 +7926,7 @@
     "airport": "Baratayevka Flughafen",
     "latitude": "54.2683",
     "longitude": "48.2267",
-    "city": "Ulyanovsk",
+    "city": "Uljanowsk",
     "continent": "EU"
   },
   {
@@ -7936,7 +7936,7 @@
     "airport": "Vostochny Flughafen",
     "latitude": "54.401",
     "longitude": "48.8027",
-    "city": "Ulyanovsk",
+    "city": "Uljanowsk",
     "continent": "EU"
   },
   {
@@ -8006,7 +8006,7 @@
     "airport": "Khomutovo Flughafen",
     "latitude": "46.8887",
     "longitude": "142.718",
-    "city": "Yuzhno-Sakhalinsk",
+    "city": "Juschno-Sachalinsk",
     "continent": "EU"
   },
   {
@@ -8066,7 +8066,7 @@
     "airport": "Marco Polo Flughafen",
     "latitude": "45.5053",
     "longitude": "12.3519",
-    "city": "Venice",
+    "city": "Venedig",
     "continent": "EU"
   },
   {
@@ -8126,7 +8126,7 @@
     "airport": "Vnukovo Flughafen",
     "latitude": "55.5995278",
     "longitude": "37.27357517",
-    "city": "Moscow",
+    "city": "Moskau",
     "continent": "EU"
   },
   {
@@ -8186,7 +8186,7 @@
     "airport": "Gumrak Flughafen",
     "latitude": "48.7825",
     "longitude": "44.3455",
-    "city": "Volgograd",
+    "city": "Wolgograd",
     "continent": "EU"
   },
   {
@@ -8206,7 +8206,7 @@
     "airport": "Chertovitskoye Flughafen",
     "latitude": "51.8142",
     "longitude": "39.2296",
-    "city": "Voronezh",
+    "city": "Woronesch",
     "continent": "EU"
   },
   {
@@ -8266,7 +8266,7 @@
     "airport": "Vladivostok International Flughafen",
     "latitude": "43.399",
     "longitude": "132.148",
-    "city": "Vladivostok",
+    "city": "Wladiwostok",
     "continent": "EU"
   },
   {
@@ -8296,7 +8296,7 @@
     "airport": "Warsaw Chopin Flughafen",
     "latitude": "52.1657",
     "longitude": "20.9671",
-    "city": "Warsaw",
+    "city": "Warschau",
     "continent": "EU"
   },
   {
@@ -8326,7 +8326,7 @@
     "airport": "Nicolaus Copernicus Flughafen",
     "latitude": "51.1027",
     "longitude": "16.8858",
-    "city": "Wroclaw",
+    "city": "Breslau",
     "continent": "EU"
   },
   {
@@ -8406,7 +8406,7 @@
     "airport": "Dionysios SolomosFlughafen",
     "latitude": "37.7509",
     "longitude": "20.8843",
-    "city": "Zakynthos Island",
+    "city": "Insel Zakynthos",
     "continent": "EU"
   },
   {
@@ -8576,7 +8576,7 @@
     "airport": "Abu Musa Island Flughafen",
     "latitude": "25.8757",
     "longitude": "55.033",
-    "city": "Abu Musa Island",
+    "city": "Abu Musa Insel",
     "continent": "AS"
   },
   {
@@ -8606,7 +8606,7 @@
     "airport": "Agatti Island Flughafen",
     "latitude": "10.8237",
     "longitude": "72.176",
-    "city": "Agatti Island",
+    "city": "Insel Agatti",
     "continent": "AS"
   },
   {
@@ -8916,7 +8916,7 @@
     "airport": "Alxa Left Banner Flughafen",
     "latitude": "38.7476971",
     "longitude": "105.586124",
-    "city": "Alxa Left Banner",
+    "city": "Alxa Linkes Banner",
     "continent": "AS"
   },
   {
@@ -9146,7 +9146,7 @@
     "airport": "Baghdad Intl. Flughafen",
     "latitude": "33.2625",
     "longitude": "44.2346",
-    "city": "Baghdad",
+    "city": "Bagdad",
     "continent": "AS"
   },
   {
@@ -9366,7 +9366,7 @@
     "airport": "Dr. Juan C. Angara Flughafen",
     "latitude": "15.7293",
     "longitude": "121.5",
-    "city": "Baler",
+    "city": "Ballenpresse",
     "continent": "AS"
   },
   {
@@ -9376,7 +9376,7 @@
     "airport": "Ignatyevo Flughafen",
     "latitude": "50.4254",
     "longitude": "127.412",
-    "city": "Blagoveshchensk",
+    "city": "Blagoweschtschensk",
     "continent": "AS"
   },
   {
@@ -9516,7 +9516,7 @@
     "airport": "Balakovo Flughafen",
     "latitude": "51.8583",
     "longitude": "47.7456",
-    "city": "Balakovo",
+    "city": "Balakowo",
     "continent": "AS"
   },
   {
@@ -9616,7 +9616,7 @@
     "airport": "Cocos (Keeling) Islands Flughafen",
     "latitude": "-12.1886",
     "longitude": "96.8306",
-    "city": "Cocos Islands",
+    "city": "Cocosinseln",
     "continent": "AS"
   },
   {
@@ -9696,7 +9696,7 @@
     "airport": "Camiguin Flughafen",
     "latitude": "9.25352",
     "longitude": "124.707",
-    "city": "Camiguin Island",
+    "city": "Insel Camiguin",
     "continent": "AS"
   },
   {
@@ -10086,7 +10086,7 @@
     "airport": "Damascus Intl. Flughafen",
     "latitude": "33.4115",
     "longitude": "36.5156",
-    "city": "Damascus",
+    "city": "Damaskus",
     "continent": "AS"
   },
   {
@@ -10506,7 +10506,7 @@
     "airport": "Dushanbe Intl. Flughafen",
     "latitude": "38.5433",
     "longitude": "68.825",
-    "city": "Dushanbe",
+    "city": "Duschanbe",
     "continent": "AS"
   },
   {
@@ -10576,7 +10576,7 @@
     "airport": "Yeniseysk Flughafen",
     "latitude": "58.4742",
     "longitude": "92.1125",
-    "city": "Yeniseysk",
+    "city": "Jenissejsk",
     "continent": "AS"
   },
   {
@@ -10676,7 +10676,7 @@
     "airport": "Zvartnots Intl Flughafen",
     "latitude": "40.1473",
     "longitude": "44.3959",
-    "city": "Yerevan",
+    "city": "Eriwan",
     "continent": "AS"
   },
   {
@@ -10746,7 +10746,7 @@
     "airport": "Sunan Intl Flughafen",
     "latitude": "39.2241",
     "longitude": "125.67",
-    "city": "Pyongyang",
+    "city": "Pjöngjang",
     "continent": "AS"
   },
   {
@@ -10856,7 +10856,7 @@
     "airport": "Gan Island Intl. Flughafen",
     "latitude": "-0.693342",
     "longitude": "73.1556",
-    "city": "Gan Island",
+    "city": "Insel Gan",
     "continent": "AS"
   },
   {
@@ -11156,7 +11156,7 @@
     "airport": "Hanimaadhoo Island Flughafen",
     "latitude": "6.74423",
     "longitude": "73.1705",
-    "city": "Hanimaadhoo Island",
+    "city": "Insel Hanimaadhoo",
     "continent": "AS"
   },
   {
@@ -11166,7 +11166,7 @@
     "airport": "Hail Flughafen",
     "latitude": "27.4379",
     "longitude": "41.6863",
-    "city": "Hail",
+    "city": "Hagel",
     "continent": "AS"
   },
   {
@@ -11426,7 +11426,7 @@
     "airport": "Khanty-Mansiysk Flughafen",
     "latitude": "61.0285",
     "longitude": "69.0861",
-    "city": "Khanty-Mansiysk",
+    "city": "Chanty-Mansijsk",
     "continent": "AS"
   },
   {
@@ -11456,7 +11456,7 @@
     "airport": "Tokyo Intl (Haneda) Flughafen",
     "latitude": "35.5533",
     "longitude": "139.781",
-    "city": "Tokyo",
+    "city": "Tokio",
     "continent": "AS"
   },
   {
@@ -11716,7 +11716,7 @@
     "airport": "Shahid Beheshti Intl Flughafen",
     "latitude": "32.7508",
     "longitude": "51.8613",
-    "city": "Esfahan",
+    "city": "Isfahan",
     "continent": "AS"
   },
   {
@@ -11746,7 +11746,7 @@
     "airport": "Imam Khomeini Intl Flughafen",
     "latitude": "35.4161",
     "longitude": "51.1522",
-    "city": "Tehran",
+    "city": "Teheran",
     "continent": "AS"
   },
   {
@@ -12456,7 +12456,7 @@
     "airport": "Kaadedhdhoo Island Flughafen",
     "latitude": "0.488131",
     "longitude": "72.9969",
-    "city": "Kaadedhdhoo Island",
+    "city": "Kaadedhdhoo Insel",
     "continent": "AS"
   },
   {
@@ -12466,7 +12466,7 @@
     "airport": "Kadhdhoo Island Flughafen",
     "latitude": "1.85917",
     "longitude": "73.5219",
-    "city": "Kadhdhoo Island",
+    "city": "Kadhdhoo Insel",
     "continent": "AS"
   },
   {
@@ -12486,7 +12486,7 @@
     "airport": "Kemerovo Flughafen",
     "latitude": "55.2701",
     "longitude": "86.1072",
-    "city": "Kemerovo",
+    "city": "Kemerowo",
     "continent": "AS"
   },
   {
@@ -12616,7 +12616,7 @@
     "airport": "Novy Flughafen",
     "latitude": "48.528",
     "longitude": "135.188",
-    "city": "Khabarovsk",
+    "city": "Chabarowsk",
     "continent": "AS"
   },
   {
@@ -12626,7 +12626,7 @@
     "airport": "Kish Island Flughafen",
     "latitude": "26.5262",
     "longitude": "53.9802",
-    "city": "Kish Island",
+    "city": "Insel Kish",
     "continent": "AS"
   },
   {
@@ -12746,7 +12746,7 @@
     "airport": "King Khalid Mil. City Flughafen",
     "latitude": "27.9009",
     "longitude": "45.5282",
-    "city": "King Khalid Mil. City",
+    "city": "King Khalid Mil. Stadt",
     "continent": "AS"
   },
   {
@@ -13136,7 +13136,7 @@
     "airport": "Lanyu (Orchid Island) Flughafen",
     "latitude": "22.027",
     "longitude": "121.535",
-    "city": "Lanyu (Orchid Island)",
+    "city": "Lanyu (Orchideeninsel)",
     "continent": "AS"
   },
   {
@@ -13496,7 +13496,7 @@
     "airport": "Shirak Flughafen",
     "latitude": "40.7504",
     "longitude": "43.8593",
-    "city": "Gyumri",
+    "city": "Gjumri",
     "continent": "AS"
   },
   {
@@ -13796,7 +13796,7 @@
     "airport": "Velana International Flughafen",
     "latitude": "4.19183",
     "longitude": "73.5291",
-    "city": "Male",
+    "city": "Männlich",
     "continent": "AS"
   },
   {
@@ -14156,7 +14156,7 @@
     "airport": "Nefteyugansk Flughafen",
     "latitude": "61.1083",
     "longitude": "72.65",
-    "city": "Nefteyugansk",
+    "city": "Neftejugansk",
     "continent": "AS"
   },
   {
@@ -14206,7 +14206,7 @@
     "airport": "Nizhnevartovsk Flughafen",
     "latitude": "60.9493",
     "longitude": "76.4836",
-    "city": "Nizhnevartovsk",
+    "city": "Nishnewartowsk",
     "continent": "AS"
   },
   {
@@ -14216,7 +14216,7 @@
     "airport": "Al-Ashraf Intl Flughafen",
     "latitude": "31.9899",
     "longitude": "44.4043",
-    "city": "Al Najaf",
+    "city": "Al Nadschaf",
     "continent": "AS"
   },
   {
@@ -14266,7 +14266,7 @@
     "airport": "Nikolayevsk-na-Amure Flughafen",
     "latitude": "53.155",
     "longitude": "140.65",
-    "city": "Nikolayevsk-na-Amure",
+    "city": "Nikolajewsk-na-Amure",
     "continent": "AS"
   },
   {
@@ -14326,7 +14326,7 @@
     "airport": "Noyabrsk Flughafen",
     "latitude": "63.1833",
     "longitude": "75.27",
-    "city": "Noyabrsk",
+    "city": "Nojabrsk",
     "continent": "AS"
   },
   {
@@ -14366,7 +14366,7 @@
     "airport": "Narita Intl Flughafen",
     "latitude": "35.7653",
     "longitude": "140.386",
-    "city": "Tokyo",
+    "city": "Tokio",
     "continent": "AS"
   },
   {
@@ -14376,7 +14376,7 @@
     "airport": "Now Shahr Flughafen",
     "latitude": "36.6633",
     "longitude": "51.4647",
-    "city": "Now Shahr",
+    "city": "Jetzt Shahr",
     "continent": "AS"
   },
   {
@@ -14446,7 +14446,7 @@
     "airport": "Novy Urengoy Flughafen",
     "latitude": "66.0694",
     "longitude": "76.5203",
-    "city": "Novy Urengoy",
+    "city": "Nowy Urengoi",
     "continent": "AS"
   },
   {
@@ -14546,7 +14546,7 @@
     "airport": "Okhotsk Flughafen",
     "latitude": "59.4101",
     "longitude": "143.057",
-    "city": "Okhotsk",
+    "city": "Ochotsk",
     "continent": "AS"
   },
   {
@@ -14806,7 +14806,7 @@
     "airport": "Capital Intl Flughafen",
     "latitude": "40.0725",
     "longitude": "116.598",
-    "city": "Beijing",
+    "city": "Peking",
     "continent": "AS"
   },
   {
@@ -14836,7 +14836,7 @@
     "airport": "Pechora Flughafen",
     "latitude": "65.1211",
     "longitude": "57.1308",
-    "city": "Pechora",
+    "city": "Petschora",
     "continent": "AS"
   },
   {
@@ -14946,7 +14946,7 @@
     "airport": "Daxing Intl. Flughafen",
     "latitude": "39.49734235",
     "longitude": "116.4123149",
-    "city": "Beijing",
+    "city": "Peking",
     "continent": "AS"
   },
   {
@@ -15066,7 +15066,7 @@
     "airport": "Phu Quoc Island Intl. Flughafen",
     "latitude": "10.1698",
     "longitude": "103.993",
-    "city": "Phu Quoc Island",
+    "city": "Phu Quoc Insel",
     "continent": "AS"
   },
   {
@@ -15116,7 +15116,7 @@
     "airport": "Pavlodar Flughafen",
     "latitude": "52.195",
     "longitude": "77.0739",
-    "city": "Pavlodar",
+    "city": "Pawlodar",
     "continent": "AS"
   },
   {
@@ -15156,7 +15156,7 @@
     "airport": "Payam Flughafen",
     "latitude": "35.7761",
     "longitude": "50.8267",
-    "city": "Karaj",
+    "city": "Karadsch",
     "continent": "AS"
   },
   {
@@ -15546,7 +15546,7 @@
     "airport": "Socotra Flughafen",
     "latitude": "12.6307",
     "longitude": "53.9058",
-    "city": "Socotra",
+    "city": "Sokotra",
     "continent": "AS"
   },
   {
@@ -15646,7 +15646,7 @@
     "airport": "Tan Son Nhat Intl Flughafen",
     "latitude": "10.8188",
     "longitude": "106.652",
-    "city": "Ho Chi Minh City",
+    "city": "Ho Chi Minh Stadt",
     "continent": "AS"
   },
   {
@@ -15736,7 +15736,7 @@
     "airport": "Changi Flughafen",
     "latitude": "1.35019",
     "longitude": "103.994",
-    "city": "Singapore",
+    "city": "Singapur",
     "continent": "AS"
   },
   {
@@ -15806,7 +15806,7 @@
     "airport": "Salekhard Flughafen",
     "latitude": "66.5908",
     "longitude": "66.611",
-    "city": "Salekhard",
+    "city": "Salechard",
     "continent": "AS"
   },
   {
@@ -15956,7 +15956,7 @@
     "airport": "Koltsovo Flughafen",
     "latitude": "56.7431",
     "longitude": "60.8027",
-    "city": "Yekaterinburg",
+    "city": "Jekaterinburg",
     "continent": "AS"
   },
   {
@@ -16116,7 +16116,7 @@
     "airport": "Tashkent Intl. Flughafen",
     "latitude": "41.2579",
     "longitude": "69.2812",
-    "city": "Tashkent",
+    "city": "Taschkent",
     "continent": "AS"
   },
   {
@@ -16146,7 +16146,7 @@
     "airport": "Tugdan Flughafen",
     "latitude": "12.311",
     "longitude": "122.085",
-    "city": "Tablas Island",
+    "city": "Insel Tablas",
     "continent": "AS"
   },
   {
@@ -16156,7 +16156,7 @@
     "airport": "Tbilisi Intl. Flughafen",
     "latitude": "41.6692",
     "longitude": "44.9547",
-    "city": "Tbilisi",
+    "city": "Tiflis",
     "continent": "AS"
   },
   {
@@ -16166,7 +16166,7 @@
     "airport": "Tabriz Intl. Flughafen",
     "latitude": "38.1339",
     "longitude": "46.235",
-    "city": "Tabriz",
+    "city": "Täbris",
     "continent": "AS"
   },
   {
@@ -16286,7 +16286,7 @@
     "airport": "Mehrabad Intl Flughafen",
     "latitude": "35.6892",
     "longitude": "51.3134",
-    "city": "Tehran",
+    "city": "Teheran",
     "continent": "AS"
   },
   {
@@ -16346,7 +16346,7 @@
     "airport": "Roshchino Flughafen",
     "latitude": "57.1896",
     "longitude": "65.3243",
-    "city": "Tyumen",
+    "city": "Tjumen",
     "continent": "AS"
   },
   {
@@ -16476,7 +16476,7 @@
     "airport": "Tioman Island Flughafen",
     "latitude": "2.81818",
     "longitude": "104.16",
-    "city": "Tioman Island",
+    "city": "Tioman Insel",
     "continent": "AS"
   },
   {
@@ -16506,7 +16506,7 @@
     "airport": "Taiwan Taoyuan Int'l Flughafen",
     "latitude": "25.0777",
     "longitude": "121.233",
-    "city": "Taipei",
+    "city": "Taipeh",
     "continent": "AS"
   },
   {
@@ -16576,7 +16576,7 @@
     "airport": "Songshan Flughafen",
     "latitude": "25.0694",
     "longitude": "121.552",
-    "city": "Taipei",
+    "city": "Taipeh",
     "continent": "AS"
   },
   {
@@ -16696,7 +16696,7 @@
     "airport": "Sanga-Sanga Flughafen",
     "latitude": "5.04699",
     "longitude": "119.743",
-    "city": "Tawi Tawi Island",
+    "city": "Tawi Tawi Insel",
     "continent": "AS"
   },
   {
@@ -17066,7 +17066,7 @@
     "airport": "Maamigili Island Flughafen",
     "latitude": "3.47056",
     "longitude": "72.8358",
-    "city": "Maamigili Island",
+    "city": "Maamigili-Insel",
     "continent": "AS"
   },
   {
@@ -17096,7 +17096,7 @@
     "airport": "Co Ong Flughafen",
     "latitude": "8.73183",
     "longitude": "106.633",
-    "city": "Con Dao Island",
+    "city": "Insel Con Dao",
     "continent": "AS"
   },
   {
@@ -17206,7 +17206,7 @@
     "airport": "Vilyuysk Flughafen",
     "latitude": "63.7567",
     "longitude": "121.693",
-    "city": "Vilyuysk",
+    "city": "Wilyuysk",
     "continent": "AS"
   },
   {
@@ -17316,7 +17316,7 @@
     "airport": "Matahora Flughafen",
     "latitude": "-5.2908854",
     "longitude": "123.6367655",
-    "city": "Wangiwangi Island",
+    "city": "Wangiwangi-Insel",
     "continent": "AS"
   },
   {
@@ -17426,7 +17426,7 @@
     "airport": "Christmas Island Flughafen",
     "latitude": "-10.4506",
     "longitude": "105.69",
-    "city": "Christmas Island",
+    "city": "Weihnachtsinsel",
     "continent": "AS"
   },
   {
@@ -17496,7 +17496,7 @@
     "airport": "Seletar Flughafen",
     "latitude": "1.41695",
     "longitude": "103.868",
-    "city": "Singapore",
+    "city": "Singapur",
     "continent": "AS"
   },
   {
@@ -17616,7 +17616,7 @@
     "airport": "Yakutsk Flughafen",
     "latitude": "62.0933",
     "longitude": "129.771",
-    "city": "Yakutsk",
+    "city": "Jakutsk",
     "continent": "AS"
   },
   {
@@ -17906,7 +17906,7 @@
     "airport": "Addis Ababa Bole International Flughafen",
     "latitude": "8.97778",
     "longitude": "38.7994",
-    "city": "Addis Ababa",
+    "city": "Addis Abeba",
     "continent": "AF"
   },
   {
@@ -17986,7 +17986,7 @@
     "airport": "Houari Boumediene Flughafen",
     "latitude": "36.691",
     "longitude": "3.21541",
-    "city": "Algiers",
+    "city": "Algier",
     "continent": "AF"
   },
   {
@@ -18046,7 +18046,7 @@
     "airport": "RAF Station Flughafen",
     "latitude": "-7.9696",
     "longitude": "-14.3937",
-    "city": "Ascension Island",
+    "city": "Ascension Insel",
     "continent": "AF"
   },
   {
@@ -18086,7 +18086,7 @@
     "airport": "Aswan Intl. Flughafen",
     "latitude": "23.9644",
     "longitude": "32.82",
-    "city": "Aswan",
+    "city": "Assuan",
     "continent": "AF"
   },
   {
@@ -18166,7 +18166,7 @@
     "airport": "Gbadolite Flughafen",
     "latitude": "4.25321",
     "longitude": "20.9753",
-    "city": "Gbadolite",
+    "city": "Gbadolith",
     "continent": "AF"
   },
   {
@@ -18356,7 +18356,7 @@
     "airport": "Rabil Flughafen",
     "latitude": "16.1365",
     "longitude": "-22.8889",
-    "city": "Boa Vista Island",
+    "city": "Boa Vista Insel",
     "continent": "AF"
   },
   {
@@ -18476,7 +18476,7 @@
     "airport": "Cape Town Intl. Flughafen",
     "latitude": "-33.9648",
     "longitude": "18.6017",
-    "city": "Cape Town",
+    "city": "Kapstadt",
     "continent": "AF"
   },
   {
@@ -18486,7 +18486,7 @@
     "airport": "Cap Skirring Flughafen",
     "latitude": "12.3953",
     "longitude": "-16.748",
-    "city": "Cap Skiring",
+    "city": "Kappe Skiring",
     "continent": "AF"
   },
   {
@@ -18496,7 +18496,7 @@
     "airport": "Mohamed Boudiaf International Flughafen",
     "latitude": "36.276",
     "longitude": "6.62039",
-    "city": "Constantine",
+    "city": "Konstantin",
     "continent": "AF"
   },
   {
@@ -18696,7 +18696,7 @@
     "airport": "East London Flughafen",
     "latitude": "-33.0356",
     "longitude": "27.8259",
-    "city": "East London",
+    "city": "Ost-London",
     "continent": "AF"
   },
   {
@@ -18726,7 +18726,7 @@
     "airport": "Moulay Ali Cherif Flughafen",
     "latitude": "31.9475",
     "longitude": "-4.39833",
-    "city": "Errachidia",
+    "city": "Errachidien",
     "continent": "AF"
   },
   {
@@ -19186,7 +19186,7 @@
     "airport": "Ambouli Intl Flughafen",
     "latitude": "11.5473",
     "longitude": "43.1595",
-    "city": "Djibouti",
+    "city": "Dschibuti",
     "continent": "AF"
   },
   {
@@ -19236,7 +19236,7 @@
     "airport": "Kilimanjaro Intl. Flughafen",
     "latitude": "-3.42941",
     "longitude": "37.0745",
-    "city": "Kilimanjaro",
+    "city": "Kilimandscharo",
     "continent": "AF"
   },
   {
@@ -19676,7 +19676,7 @@
     "airport": "Aden Adde Intl Flughafen",
     "latitude": "2.01444",
     "longitude": "45.3047",
-    "city": "Mogadishu",
+    "city": "Mogadischu",
     "continent": "AF"
   },
   {
@@ -19706,7 +19706,7 @@
     "airport": "Mitiga Flughafen",
     "latitude": "32.8941",
     "longitude": "13.276",
-    "city": "Tripoli",
+    "city": "Tripolis",
     "continent": "AF"
   },
   {
@@ -19776,7 +19776,7 @@
     "airport": "Maio Island Flughafen",
     "latitude": "15.1559",
     "longitude": "-23.2137",
-    "city": "Maio Island",
+    "city": "Insel Maio",
     "continent": "AF"
   },
   {
@@ -20246,7 +20246,7 @@
     "airport": "Principe Island Flughafen",
     "latitude": "1.66294",
     "longitude": "7.41174",
-    "city": "Principe Island",
+    "city": "Principe Insel",
     "continent": "AF"
   },
   {
@@ -20326,7 +20326,7 @@
     "airport": "Praslin Island Flughafen",
     "latitude": "-4.31929",
     "longitude": "55.6914",
-    "city": "Praslin Island",
+    "city": "Insel Praslin",
     "continent": "AF"
   },
   {
@@ -20356,7 +20356,7 @@
     "airport": "New International Flughafen",
     "latitude": "19.4336",
     "longitude": "37.2341",
-    "city": "Port Sudan",
+    "city": "Hafen Sudan",
     "continent": "AF"
   },
   {
@@ -20466,7 +20466,7 @@
     "airport": "Plaine Corail Flughafen",
     "latitude": "-19.7577",
     "longitude": "63.361",
-    "city": "Rodrigues Island",
+    "city": "Insel Rodrigues",
     "continent": "AF"
   },
   {
@@ -20516,7 +20516,7 @@
     "airport": "Seychelles Intl Flughafen",
     "latitude": "-4.67434",
     "longitude": "55.5218",
-    "city": "Mahe Island",
+    "city": "Insel Mahe",
     "continent": "AF"
   },
   {
@@ -20546,7 +20546,7 @@
     "airport": "Amilcar Cabral Intl Flughafen",
     "latitude": "16.7414",
     "longitude": "-22.9494",
-    "city": "Sal Island",
+    "city": "Insel Sal",
     "continent": "AF"
   },
   {
@@ -20586,7 +20586,7 @@
     "airport": "Preguica Flughafen",
     "latitude": "16.5884",
     "longitude": "-24.2847",
-    "city": "Sao Nicolau Island",
+    "city": "Insel Sao Nicolau",
     "continent": "AF"
   },
   {
@@ -20666,7 +20666,7 @@
     "airport": "M'banza Congo Flughafen",
     "latitude": "-6.2699",
     "longitude": "14.247",
-    "city": "M'banza Congo",
+    "city": "M'banza Kongo",
     "continent": "AF"
   },
   {
@@ -20726,7 +20726,7 @@
     "airport": "Tenerife-Norte Flughafen",
     "latitude": "28.48275745",
     "longitude": "-16.34122475",
-    "city": "Tenerife",
+    "city": "Teneriffa",
     "continent": "AF"
   },
   {
@@ -20736,7 +20736,7 @@
     "airport": "Tenerife-Sur Flughafen",
     "latitude": "28.04605465",
     "longitude": "-16.5727153",
-    "city": "Tenerife",
+    "city": "Teneriffa",
     "continent": "AF"
   },
   {
@@ -20856,7 +20856,7 @@
     "airport": "Ibn Batouta Flughafen",
     "latitude": "35.7269",
     "longitude": "-5.91689",
-    "city": "Tangier",
+    "city": "Tanger",
     "continent": "AF"
   },
   {
@@ -20996,7 +20996,7 @@
     "airport": "Victoria Falls Intl. Flughafen",
     "latitude": "-18.0959",
     "longitude": "25.839",
-    "city": "Victoria Falls",
+    "city": "Victoriafälle",
     "continent": "AF"
   },
   {
@@ -21076,7 +21076,7 @@
     "airport": "Cesaria Evora Flughafen",
     "latitude": "16.8332",
     "longitude": "-25.0553",
-    "city": "Sao Vicente Island",
+    "city": "Insel Sao Vicente",
     "continent": "AF"
   },
   {
@@ -21246,7 +21246,7 @@
     "airport": "Abeid Amani Karume International Flughafen",
     "latitude": "-6.22202",
     "longitude": "39.2249",
-    "city": "Zanzibar",
+    "city": "Sansibar",
     "continent": "AF"
   },
   {
@@ -21496,7 +21496,7 @@
     "airport": "Blackwater Flughafen",
     "latitude": "-23.6031",
     "longitude": "148.807",
-    "city": "Blackwater",
+    "city": "Schwarzwasser",
     "continent": "OC"
   },
   {
@@ -21656,7 +21656,7 @@
     "airport": "Chatham Islands / Tuuta Flughafen",
     "latitude": "-43.81",
     "longitude": "-176.457",
-    "city": "Chatham Island",
+    "city": "Chatham-Insel",
     "continent": "OC"
   },
   {
@@ -21826,7 +21826,7 @@
     "airport": "Elcho Island Flughafen",
     "latitude": "-12.0194",
     "longitude": "135.571",
-    "city": "Elcho Island",
+    "city": "Insel Elcho",
     "continent": "OC"
   },
   {
@@ -21836,7 +21836,7 @@
     "airport": "Emerald Flughafen",
     "latitude": "-23.5675",
     "longitude": "148.179",
-    "city": "Emerald",
+    "city": "Smaragd",
     "continent": "OC"
   },
   {
@@ -21886,7 +21886,7 @@
     "airport": "Pointe Vele Flughafen",
     "latitude": "-14.3114",
     "longitude": "-178.066",
-    "city": "Futuna Island",
+    "city": "Futuna-Insel",
     "continent": "OC"
   },
   {
@@ -22016,7 +22016,7 @@
     "airport": "Kagamuga Flughafen",
     "latitude": "-5.82679",
     "longitude": "144.296",
-    "city": "Mount Hagen",
+    "city": "Berg Hagen",
     "continent": "OC"
   },
   {
@@ -22026,7 +22026,7 @@
     "airport": "Horn Island Flughafen",
     "latitude": "-10.5864",
     "longitude": "142.29",
-    "city": "Horn Island",
+    "city": "Horninsel",
     "continent": "OC"
   },
   {
@@ -22156,7 +22156,7 @@
     "airport": "Nauru Island Intl. Flughafen",
     "latitude": "-0.547458",
     "longitude": "166.919",
-    "city": "Nauru Island",
+    "city": "Insel Nauru",
     "continent": "OC"
   },
   {
@@ -22196,7 +22196,7 @@
     "airport": "Niue Island Intl. Flughafen",
     "latitude": "-19.079",
     "longitude": "-169.926",
-    "city": "Niue Island",
+    "city": "Niue Insel",
     "continent": "OC"
   },
   {
@@ -22296,7 +22296,7 @@
     "airport": "King Island Flughafen",
     "latitude": "-39.8775",
     "longitude": "143.878",
-    "city": "King Island",
+    "city": "Königsinsel",
     "continent": "OC"
   },
   {
@@ -22366,7 +22366,7 @@
     "airport": "Bucholz AAF Flughafen",
     "latitude": "8.72012",
     "longitude": "167.732",
-    "city": "Kwajalein Island",
+    "city": "Insel Kwajalein",
     "continent": "OC"
   },
   {
@@ -22526,7 +22526,7 @@
     "airport": "Momote Flughafen",
     "latitude": "-2.06189",
     "longitude": "147.424",
-    "city": "Manus Island",
+    "city": "Manus Insel",
     "continent": "OC"
   },
   {
@@ -22556,7 +22556,7 @@
     "airport": "Maroochydore Flughafen",
     "latitude": "-26.6033",
     "longitude": "153.091",
-    "city": "Sunshine Coast",
+    "city": "Sonnenscheinküste",
     "continent": "OC"
   },
   {
@@ -22586,7 +22586,7 @@
     "airport": "La Roche Flughafen",
     "latitude": "-21.4817",
     "longitude": "168.038",
-    "city": "Mare",
+    "city": "Stute",
     "continent": "OC"
   },
   {
@@ -22686,7 +22686,7 @@
     "airport": "Mount Magnet Flughafen",
     "latitude": "-28.1161",
     "longitude": "117.842",
-    "city": "Mount Magnet",
+    "city": "Magnet montieren",
     "continent": "OC"
   },
   {
@@ -22816,7 +22816,7 @@
     "airport": "Norfolk Island Flughafen",
     "latitude": "-29.0416",
     "longitude": "167.939",
-    "city": "Norfolk Island",
+    "city": "Norfolkinsel",
     "continent": "OC"
   },
   {
@@ -23106,7 +23106,7 @@
     "airport": "Rarotonga Island Flughafen",
     "latitude": "-21.2027",
     "longitude": "-159.806",
-    "city": "Rarotonga Island",
+    "city": "Insel Rarotonga",
     "continent": "OC"
   },
   {
@@ -23246,7 +23246,7 @@
     "airport": "Whitegrass Flughafen",
     "latitude": "-19.4551",
     "longitude": "169.224",
-    "city": "Tanna Island",
+    "city": "Insel Tanna",
     "continent": "OC"
   },
   {
@@ -23566,7 +23566,7 @@
     "airport": "Hihifo Flughafen",
     "latitude": "-13.2383",
     "longitude": "-176.199",
-    "city": "Wallis Island",
+    "city": "Wallis Insel",
     "continent": "OC"
   },
   {
@@ -23686,7 +23686,7 @@
     "airport": "Gaua Island Flughafen",
     "latitude": "-14.2181",
     "longitude": "167.587",
-    "city": "Gaua Island",
+    "city": "Insel Gaua",
     "continent": "OC"
   },
   {
@@ -23806,7 +23806,7 @@
     "airport": "Adak Island Flughafen",
     "latitude": "51.878",
     "longitude": "-176.646",
-    "city": "Adak Island",
+    "city": "Adak Insel",
     "continent": "NR"
   },
   {
@@ -23846,7 +23846,7 @@
     "airport": "Ben Epps Flughafen",
     "latitude": "33.9486",
     "longitude": "-83.3263",
-    "city": "Athens",
+    "city": "Athen",
     "continent": "NR"
   },
   {
@@ -23866,7 +23866,7 @@
     "airport": "King Salmon Flughafen",
     "latitude": "58.6768",
     "longitude": "-156.649",
-    "city": "King Salmon",
+    "city": "Königslachs",
     "continent": "NR"
   },
   {
@@ -24466,7 +24466,7 @@
     "airport": "Columbia Metropolitan Flughafen",
     "latitude": "33.9388",
     "longitude": "-81.1195",
-    "city": "Columbia",
+    "city": "Kolumbien",
     "continent": "NR"
   },
   {
@@ -24476,7 +24476,7 @@
     "airport": "Akron/Canton Reg. Flughafen",
     "latitude": "40.9161",
     "longitude": "-81.4422",
-    "city": "Akron/Canton",
+    "city": "Akron/Kanton",
     "continent": "NR"
   },
   {
@@ -24686,7 +24686,7 @@
     "airport": "Columbia Regional Flughafen",
     "latitude": "38.8181",
     "longitude": "-92.2196",
-    "city": "Columbia",
+    "city": "Kolumbien",
     "continent": "NR"
   },
   {
@@ -24936,7 +24936,7 @@
     "airport": "NW Florida Beaches Int Flughafen",
     "latitude": "30.3571",
     "longitude": "-85.7954",
-    "city": "Panama City",
+    "city": "Panama-Stadt",
     "continent": "NR"
   },
   {
@@ -25156,7 +25156,7 @@
     "airport": "Florence Reg. Flughafen",
     "latitude": "34.1854",
     "longitude": "-79.7239",
-    "city": "Florence",
+    "city": "Florenz",
     "continent": "NR"
   },
   {
@@ -25216,7 +25216,7 @@
     "airport": "Garden City Reg. Flughafen",
     "latitude": "37.9275",
     "longitude": "-100.724",
-    "city": "Garden City",
+    "city": "Gartenstadt",
     "continent": "NR"
   },
   {
@@ -25406,7 +25406,7 @@
     "airport": "Holy Cross Flughafen",
     "latitude": "62.1883",
     "longitude": "-159.775",
-    "city": "Holy Cross",
+    "city": "Heiliges Kreuz",
     "continent": "NR"
   },
   {
@@ -25576,7 +25576,7 @@
     "airport": "Niagara Falls Intl. Flughafen",
     "latitude": "43.1073",
     "longitude": "-78.9462",
-    "city": "Niagara Falls",
+    "city": "Niagarafälle",
     "continent": "NR"
   },
   {
@@ -25856,7 +25856,7 @@
     "airport": "Mid-America Regional Flughafen",
     "latitude": "37.0442",
     "longitude": "-100.96",
-    "city": "Liberal",
+    "city": "Liberale",
     "continent": "NR"
   },
   {
@@ -25886,7 +25886,7 @@
     "airport": "Municipal Flughafen",
     "latitude": "43.6261",
     "longitude": "-72.3042",
-    "city": "Lebanon",
+    "city": "Libanon",
     "continent": "NR"
   },
   {
@@ -26296,7 +26296,7 @@
     "airport": "Mobile Reg. Flughafen",
     "latitude": "30.6912",
     "longitude": "-88.2428",
-    "city": "Mobile",
+    "city": "Mobil",
     "continent": "NR"
   },
   {
@@ -26836,7 +26836,7 @@
     "airport": "Pullman WA/Moscow ID Reg. Airp Flughafen",
     "latitude": "46.7439",
     "longitude": "-117.11",
-    "city": "Pullman WA/Moscow ID",
+    "city": "Pullman WA/Moskau ID",
     "continent": "NR"
   },
   {
@@ -26846,7 +26846,7 @@
     "airport": "T.F. Green State Apt Flughafen",
     "latitude": "41.7326",
     "longitude": "-71.4204",
-    "city": "Providence",
+    "city": "Vorsehung",
     "continent": "NR"
   },
   {
@@ -26896,7 +26896,7 @@
     "airport": "Reading Reg. Flughafen",
     "latitude": "40.3785",
     "longitude": "-75.9652",
-    "city": "Reading",
+    "city": "Lesen",
     "continent": "NR"
   },
   {
@@ -27196,7 +27196,7 @@
     "airport": "Municipal Flughafen",
     "latitude": "37.0364",
     "longitude": "-113.51",
-    "city": "St George",
+    "city": "St. George",
     "continent": "NR"
   },
   {
@@ -27326,7 +27326,7 @@
     "airport": "St Paul Island Flughafen",
     "latitude": "57.1673",
     "longitude": "-170.22",
-    "city": "St Paul Island",
+    "city": "Insel St. Paul",
     "continent": "NR"
   },
   {
@@ -27376,7 +27376,7 @@
     "airport": "St George Island Flughafen",
     "latitude": "56.5783",
     "longitude": "-169.662",
-    "city": "St George Island",
+    "city": "St.-George-Insel",
     "continent": "NR"
   },
   {
@@ -27386,7 +27386,7 @@
     "airport": "Lambert-St Louis Intl Flughafen",
     "latitude": "38.7487",
     "longitude": "-90.37",
-    "city": "St Louis",
+    "city": "St. Louis",
     "continent": "NR"
   },
   {
@@ -27606,7 +27606,7 @@
     "airport": "Northeast Florida Rgnl Flughafen",
     "latitude": "29.9592",
     "longitude": "-81.3398",
-    "city": "St Augustine",
+    "city": "St. Augustine",
     "continent": "NR"
   },
   {
@@ -27796,7 +27796,7 @@
     "airport": "Tadoule Lake Flughafen",
     "latitude": "58.7061",
     "longitude": "-98.5122",
-    "city": "Tadoule Lake",
+    "city": "Tadoule See",
     "continent": "NR"
   },
   {
@@ -27806,7 +27806,7 @@
     "airport": "Anahim Lake Flughafen",
     "latitude": "52.4512198",
     "longitude": "-125.3034658",
-    "city": "Anahim Lake",
+    "city": "Anahim See",
     "continent": "NR"
   },
   {
@@ -27866,7 +27866,7 @@
     "airport": "St. Anthony Flughafen",
     "latitude": "51.3919",
     "longitude": "-56.0831",
-    "city": "St Anthony",
+    "city": " St. Antonius",
     "continent": "NR"
   },
   {
@@ -28436,7 +28436,7 @@
     "airport": "Pond Inlet Flughafen",
     "latitude": "72.6833",
     "longitude": "-77.9667",
-    "city": "Pond Inlet",
+    "city": "Teicheinlauf",
     "continent": "NR"
   },
   {
@@ -28506,7 +28506,7 @@
     "airport": "Waskaganish Flughafen",
     "latitude": "51.4733",
     "longitude": "-78.7583",
-    "city": "Waskaganish",
+    "city": "Waskaganisch",
     "continent": "NR"
   },
   {
@@ -28636,7 +28636,7 @@
     "airport": "Norway House Flughafen",
     "latitude": "53.9583",
     "longitude": "-97.8442",
-    "city": "Norway House",
+    "city": "Norwegen-Haus",
     "continent": "NR"
   },
   {
@@ -28686,7 +28686,7 @@
     "airport": "High Level Flughafen",
     "latitude": "58.6214",
     "longitude": "-117.165",
-    "city": "High Level",
+    "city": "Hochrangig",
     "continent": "NR"
   },
   {
@@ -28696,7 +28696,7 @@
     "airport": "Rainbow Lake Flughafen",
     "latitude": "58.4914",
     "longitude": "-119.408",
-    "city": "Rainbow Lake",
+    "city": "Regenbogensee",
     "continent": "NR"
   },
   {
@@ -29106,7 +29106,7 @@
     "airport": "St. Theresa Point Flughafen",
     "latitude": "53.8456",
     "longitude": "-94.8519",
-    "city": "St Theresa Point",
+    "city": "St. Theresia Point",
     "continent": "NR"
   },
   {
@@ -29436,7 +29436,7 @@
     "airport": "Whale Cove Flughafen",
     "latitude": "62.24",
     "longitude": "-92.5981",
-    "city": "Whale Cove",
+    "city": "Walfischbucht",
     "continent": "NR"
   },
   {
@@ -29466,7 +29466,7 @@
     "airport": "Northwest Regional Flughafen",
     "latitude": "54.4685",
     "longitude": "-128.576",
-    "city": "Terrace",
+    "city": "Terrasse",
     "continent": "NR"
   },
   {
@@ -29616,7 +29616,7 @@
     "airport": "St John's International Flughafen",
     "latitude": "47.6186",
     "longitude": "-52.7519",
-    "city": "St John's",
+    "city": "St. John's",
     "continent": "NR"
   },
   {
@@ -29686,7 +29686,7 @@
     "airport": "Sandspit Flughafen",
     "latitude": "53.2543",
     "longitude": "-131.814",
-    "city": "Sandspit",
+    "city": "Sandgrube",
     "continent": "NR"
   },
   {
@@ -29836,7 +29836,7 @@
     "airport": "Sachigo Lake Flughafen",
     "latitude": "53.8911",
     "longitude": "-92.1964",
-    "city": "Sachigo Lake",
+    "city": "Sachigo See",
     "continent": "NR"
   },
   {
@@ -29846,7 +29846,7 @@
     "airport": "Weagamow Lake Flughafen",
     "latitude": "52.9436",
     "longitude": "-91.3128",
-    "city": "Round Lake",
+    "city": "Runder See",
     "continent": "NR"
   },
   {
@@ -29866,7 +29866,7 @@
     "airport": "Shamattawa Flughafen",
     "latitude": "55.8656",
     "longitude": "-92.0814",
-    "city": "Shamattawa",
+    "city": "Schamattawa",
     "continent": "NR"
   },
   {
@@ -29876,7 +29876,637 @@
     "airport": "Wollaston Lake Flughafen",
     "latitude": "58.1069",
     "longitude": "-103.172",
-    "city": "Wollaston Lake",
+    "city": "Wollaston See",
+    "continent": "NR"
+  },
+  {
+    "iata": "ACA",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Juan N. Alvarez International Flughafen",
+    "latitude": "16.7571",
+    "longitude": "-99.754",
+    "city": "Acapulco",
+    "continent": "NR"
+  },
+  {
+    "iata": "AGU",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Jesus Teran Peredo Int Flughafen",
+    "latitude": "21.7056",
+    "longitude": "-102.318",
+    "city": "Aguascalientes",
+    "continent": "NR"
+  },
+  {
+    "iata": "BJX",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Del Bajio International Flughafen",
+    "latitude": "20.9935",
+    "longitude": "-101.481",
+    "city": "Leon/Guanajuato",
+    "continent": "NR"
+  },
+  {
+    "iata": "CEN",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Ciudad Obregon Intl. Flughafen",
+    "latitude": "27.3926",
+    "longitude": "-109.833",
+    "city": "Ciudad Obregon",
+    "continent": "NR"
+  },
+  {
+    "iata": "CJS",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Abraham Gonzalez International Flughafen",
+    "latitude": "31.6361",
+    "longitude": "-106.429",
+    "city": "Ciudad Juarez",
+    "continent": "NR"
+  },
+  {
+    "iata": "CLQ",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Licenciado Miguel de la Madrid Flughafen",
+    "latitude": "19.277",
+    "longitude": "-103.577",
+    "city": "Colima",
+    "continent": "NR"
+  },
+  {
+    "iata": "CME",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Ciudad del Carmen Intl. Flughafen",
+    "latitude": "18.6537",
+    "longitude": "-91.799",
+    "city": "Ciudad del Carmen",
+    "continent": "NR"
+  },
+  {
+    "iata": "CPE",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Ing. Alberto Acuna Ongay International Flughafen",
+    "latitude": "19.8168",
+    "longitude": "-90.5003",
+    "city": "Campeche",
+    "continent": "NR"
+  },
+  {
+    "iata": "CTM",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Chetumal Intl. Flughafen",
+    "latitude": "18.5047",
+    "longitude": "-88.3268",
+    "city": "Chetumal",
+    "continent": "NR"
+  },
+  {
+    "iata": "CUA",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Ciudad Constituci√≥n Flughafen",
+    "latitude": "25.036943",
+    "longitude": "-111.664444",
+    "city": "Ciudad Constitucion",
+    "continent": "NR"
+  },
+  {
+    "iata": "CUL",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Bachigualato Federal International Flughafen",
+    "latitude": "24.7645",
+    "longitude": "-107.475",
+    "city": "Culiacan",
+    "continent": "NR"
+  },
+  {
+    "iata": "CUN",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Cancun Intl. Flughafen",
+    "latitude": "21.0365",
+    "longitude": "-86.8771",
+    "city": "Cancun",
+    "continent": "NR"
+  },
+  {
+    "iata": "CUU",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "General Roberto Fierro Villalobos International Flughafen",
+    "latitude": "28.7029",
+    "longitude": "-105.965",
+    "city": "Chihuahua",
+    "continent": "NR"
+  },
+  {
+    "iata": "CVJ",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "General Mariano Matamoros Flughafen",
+    "latitude": "18.8348",
+    "longitude": "-99.2613",
+    "city": "Cuernavaca",
+    "continent": "NR"
+  },
+  {
+    "iata": "CVM",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "General Pedro J. Mendez International Flughafen",
+    "latitude": "23.7033",
+    "longitude": "-98.9565",
+    "city": "Ciudad Victoria",
+    "continent": "NR"
+  },
+  {
+    "iata": "CYW",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Captain Rogelio Castillo National Flughafen",
+    "latitude": "20.546",
+    "longitude": "-100.887",
+    "city": "Celaya",
+    "continent": "NR"
+  },
+  {
+    "iata": "CZM",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Cozumel Intl. Flughafen",
+    "latitude": "20.5224",
+    "longitude": "-86.9256",
+    "city": "Cozumel",
+    "continent": "NR"
+  },
+  {
+    "iata": "DGO",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Guadalupe Victoria Int Flughafen",
+    "latitude": "24.1242",
+    "longitude": "-104.528",
+    "city": "Durango",
+    "continent": "NR"
+  },
+  {
+    "iata": "GDL",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Miguel Hidalgo Intl Flughafen",
+    "latitude": "20.5218",
+    "longitude": "-103.311",
+    "city": "Guadalajara",
+    "continent": "NR"
+  },
+  {
+    "iata": "GYM",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Jose Maria Yanez Intl Flughafen",
+    "latitude": "27.969",
+    "longitude": "-110.925",
+    "city": "Guaymas",
+    "continent": "NR"
+  },
+  {
+    "iata": "HMO",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "I.Pesqueira Garcia Flughafen",
+    "latitude": "29.0959",
+    "longitude": "-111.048",
+    "city": "Hermosillo",
+    "continent": "NR"
+  },
+  {
+    "iata": "HUX",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Bahias de Huatulco Int Flughafen",
+    "latitude": "15.7753",
+    "longitude": "-96.2626",
+    "city": "Huatulco",
+    "continent": "NR"
+  },
+  {
+    "iata": "IZT",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Ixtepec Flughafen",
+    "latitude": "16.4493",
+    "longitude": "-95.0937",
+    "city": "Ixtepec",
+    "continent": "NR"
+  },
+  {
+    "iata": "JAL",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "El Lencero Flughafen",
+    "latitude": "19.4751",
+    "longitude": "-96.7975",
+    "city": "Jalapa",
+    "continent": "NR"
+  },
+  {
+    "iata": "LAP",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Manuel Marquez de Leon Flughafen",
+    "latitude": "24.0727",
+    "longitude": "-110.362",
+    "city": "La Paz",
+    "continent": "NR"
+  },
+  {
+    "iata": "LMM",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Fed. Valle del Fuerte Flughafen",
+    "latitude": "25.6852",
+    "longitude": "-109.081",
+    "city": "Los Mochis",
+    "continent": "NR"
+  },
+  {
+    "iata": "LOV",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "V.Carranza Intl Flughafen",
+    "latitude": "26.9557",
+    "longitude": "-101.47",
+    "city": "Monclova",
+    "continent": "NR"
+  },
+  {
+    "iata": "LTO",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Loreto Intl. Flughafen",
+    "latitude": "25.9892",
+    "longitude": "-111.348",
+    "city": "Loreto",
+    "continent": "NR"
+  },
+  {
+    "iata": "LZC",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Lazaro Cardenas Flughafen",
+    "latitude": "18.0017",
+    "longitude": "-102.221",
+    "city": "Lazaro Cardenas",
+    "continent": "NR"
+  },
+  {
+    "iata": "MAM",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Servando Canales Intl Flughafen",
+    "latitude": "25.7699",
+    "longitude": "-97.5253",
+    "city": "Matamoros",
+    "continent": "NR"
+  },
+  {
+    "iata": "MEX",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Benito Juarez Intl Flughafen",
+    "latitude": "19.4363",
+    "longitude": "-99.0721",
+    "city": "Mexico City",
+    "continent": "NR"
+  },
+  {
+    "iata": "MID",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "M. Crescencio Rejon Flughafen",
+    "latitude": "20.937",
+    "longitude": "-89.6577",
+    "city": "Merida",
+    "continent": "NR"
+  },
+  {
+    "iata": "MLM",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "F.J. Mujica Intl Flughafen",
+    "latitude": "19.8499",
+    "longitude": "-101.025",
+    "city": "Morelia",
+    "continent": "NR"
+  },
+  {
+    "iata": "MTT",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Coatzacoalcos Flughafen",
+    "latitude": "18.1034",
+    "longitude": "-94.5807",
+    "city": "Minatitlan",
+    "continent": "NR"
+  },
+  {
+    "iata": "MTY",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Mariano Escobedo Intl Flughafen",
+    "latitude": "25.7785",
+    "longitude": "-100.107",
+    "city": "Monterrey",
+    "continent": "NR"
+  },
+  {
+    "iata": "MXL",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "R.Sanchez Taboada Int Flughafen",
+    "latitude": "32.6306",
+    "longitude": "-115.242",
+    "city": "Mexicali",
+    "continent": "NR"
+  },
+  {
+    "iata": "MZT",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Rafael Buelna Intl Flughafen",
+    "latitude": "23.1614",
+    "longitude": "-106.266",
+    "city": "Mazatlan",
+    "continent": "NR"
+  },
+  {
+    "iata": "NLD",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Quetzalcoatl Intl Flughafen",
+    "latitude": "27.4439",
+    "longitude": "-99.5705",
+    "city": "Nuevo Laredo",
+    "continent": "NR"
+  },
+  {
+    "iata": "NLU",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Felipe Angeles Intl. Flughafen",
+    "latitude": "19.7553",
+    "longitude": "-99.0164",
+    "city": "Mexico City",
+    "continent": "NR"
+  },
+  {
+    "iata": "OAX",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Xoxocotlan Intl Flughafen",
+    "latitude": "16.9999",
+    "longitude": "-96.7266",
+    "city": "Oaxaca",
+    "continent": "NR"
+  },
+  {
+    "iata": "PAZ",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "El Tajin Flughafen",
+    "latitude": "20.6027",
+    "longitude": "-97.4608",
+    "city": "Poza Rica",
+    "continent": "NR"
+  },
+  {
+    "iata": "PBC",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Hermanos Serdan Intl Flughafen",
+    "latitude": "19.1581",
+    "longitude": "-98.3714",
+    "city": "Puebla",
+    "continent": "NR"
+  },
+  {
+    "iata": "PDS",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Piedras Negras Intl. Flughafen",
+    "latitude": "28.6274",
+    "longitude": "-100.535",
+    "city": "Piedras Negras",
+    "continent": "NR"
+  },
+  {
+    "iata": "PVR",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "G.Diaz Ordaz Intl Flughafen",
+    "latitude": "20.6801",
+    "longitude": "-105.254",
+    "city": "Puerto Vallarta",
+    "continent": "NR"
+  },
+  {
+    "iata": "PXM",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Puerto Escondido Intl. Flughafen",
+    "latitude": "15.8769",
+    "longitude": "-97.0891",
+    "city": "Puerto Escondido",
+    "continent": "NR"
+  },
+  {
+    "iata": "QRO",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Intercontinental Flughafen",
+    "latitude": "20.6173",
+    "longitude": "-100.186",
+    "city": "Queretaro",
+    "continent": "NR"
+  },
+  {
+    "iata": "REX",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Lucio Blanco Intl Flughafen",
+    "latitude": "26.0089",
+    "longitude": "-98.2285",
+    "city": "Reynosa",
+    "continent": "NR"
+  },
+  {
+    "iata": "SJD",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Los Cabos Intl Flughafen",
+    "latitude": "23.1518",
+    "longitude": "-109.721",
+    "city": "San Jose del Cabo",
+    "continent": "NR"
+  },
+  {
+    "iata": "SLP",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Ponciano Arriaga Intl Flughafen",
+    "latitude": "22.2543",
+    "longitude": "-100.931",
+    "city": "San Luis Potosi",
+    "continent": "NR"
+  },
+  {
+    "iata": "SLW",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Plan de Guadalupe Intl Flughafen",
+    "latitude": "25.5495",
+    "longitude": "-100.929",
+    "city": "Saltillo",
+    "continent": "NR"
+  },
+  {
+    "iata": "TAM",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "General Francisco Javier Mina International Flughafen",
+    "latitude": "22.2964",
+    "longitude": "-97.8659",
+    "city": "Tampico",
+    "continent": "NR"
+  },
+  {
+    "iata": "TAP",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Tapachula Intl. Flughafen",
+    "latitude": "14.7943",
+    "longitude": "-92.37",
+    "city": "Tapachula",
+    "continent": "NR"
+  },
+  {
+    "iata": "TGZ",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Angel Albino Corzo Int Flughafen",
+    "latitude": "16.5636",
+    "longitude": "-93.0225",
+    "city": "Tuxtla Gutierrez",
+    "continent": "NR"
+  },
+  {
+    "iata": "TIJ",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "A.L. Rodriguez Intl Flughafen",
+    "latitude": "32.5411",
+    "longitude": "-116.97",
+    "city": "Tijuana",
+    "continent": "NR"
+  },
+  {
+    "iata": "TLC",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Toluca-A.Lopez Mateos Flughafen",
+    "latitude": "19.3371",
+    "longitude": "-99.566",
+    "city": "Mexico City",
+    "continent": "NR"
+  },
+  {
+    "iata": "TPQ",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Amado Nervo Flughafen",
+    "latitude": "21.4195",
+    "longitude": "-104.843",
+    "city": "Tepic",
+    "continent": "NR"
+  },
+  {
+    "iata": "TRC",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Francisco Sarabia Intl Flughafen",
+    "latitude": "25.5683",
+    "longitude": "-103.411",
+    "city": "Torreon",
+    "continent": "NR"
+  },
+  {
+    "iata": "UPN",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Ignacio Lopez Rayon Flughafen",
+    "latitude": "19.3967",
+    "longitude": "-102.039",
+    "city": "Uruapan",
+    "continent": "NR"
+  },
+  {
+    "iata": "VER",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Heriberto Jara Intl Flughafen",
+    "latitude": "19.1459",
+    "longitude": "-96.1873",
+    "city": "Veracruz",
+    "continent": "NR"
+  },
+  {
+    "iata": "VSA",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Carlos Rovirosa Perez International Flughafen",
+    "latitude": "17.997",
+    "longitude": "-92.8174",
+    "city": "Villahermosa",
+    "continent": "NR"
+  },
+  {
+    "iata": "ZCL",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Leobardo C. Ruiz International Flughafen",
+    "latitude": "22.8971",
+    "longitude": "-102.687",
+    "city": "Zacatecas",
+    "continent": "NR"
+  },
+  {
+    "iata": "ZIH",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Ixtapa-Zihuatanejo International Flughafen",
+    "latitude": "17.6016",
+    "longitude": "-101.461",
+    "city": "Ixtapa/Zihuatanejo",
+    "continent": "NR"
+  },
+  {
+    "iata": "ZLO",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Playa de Oro International Flughafen",
+    "latitude": "19.1448",
+    "longitude": "-104.559",
+    "city": "Manzanillo",
     "continent": "NR"
   }
 ]

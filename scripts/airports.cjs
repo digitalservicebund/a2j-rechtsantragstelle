@@ -3,8 +3,8 @@ const fs = require("fs");
 const _ = require("lodash");
 const countriesTranslation = require("i18n-iso-countries");
 
-const GERMAN_SPEAKING_COUNTRY = ["DE", "CH", "AT"];
 const germanLocale = "de";
+const CITIES_AIRPORTS_DE = "scripts/cities_airports_de.csv";
 
 const patchData = {
   iata: "VII",
@@ -17,11 +17,9 @@ const patchData = {
   continent: "AS",
 };
 
-// This is a workaround for loading ESM package into CJS-based code
-async function translator(text, targetLanguage) {
-  const translate = (await import("translate")).default;
-  return await translate(text, targetLanguage);
-}
+const airportsGermanCitiesContent = fs.readFileSync(CITIES_AIRPORTS_DE, {
+  encoding: "utf-8",
+});
 
 function translateAirportName(airportName) {
   // we cannot use .endWith() since the word airport is not always at the end
@@ -30,36 +28,39 @@ function translateAirportName(airportName) {
 
   if (airportIndex !== -1) {
     return airportName.slice(0, airportIndex) + "Flughafen";
-  } else {
-    return airportName + " Flughafen";
   }
+
+  return airportName + " Flughafen";
 }
 
-async function translateGermanSpeakingCity(airport) {
-  if (GERMAN_SPEAKING_COUNTRY.includes(airport.country_code)) {
-    try {
-      return await translator(airport.city, germanLocale);
-    } catch (error) {
-      console.error("Translation error:", error.message);
+function translateAirportCity(airport) {
+  const rows = airportsGermanCitiesContent.split("\n");
+  let city = airport.city;
+
+  rows.forEach((row) => {
+    const columns = row.split(",");
+    if (airport.iata === columns[0]) {
+      city = columns[2];
     }
-  } else {
-    return airport.city;
-  }
+  });
+
+  return city;
 }
 
-async function filteredLargeMediumAirports(airports) {
-  const filteredAirports = [];
-
-  for (const airport of airports) {
-    const isLargeOrMediumAirport =
-      airport.type === "large_airport" || airport.type === "medium_airport";
-    const hasScheduledService = airport.scheduled_service === "TRUE";
-
-    if (isLargeOrMediumAirport && hasScheduledService) {
+function filteredLargeMediumAirports(airports) {
+  return airports
+    .filter(
+      (airport) =>
+        (airport.type === "large_airport" ||
+          airport.type === "medium_airport") &&
+        airport.scheduled_service === "TRUE",
+    )
+    .map((airport) => {
       if (airport.iata === "VII") {
-        filteredAirports.push(patchData);
+        return patchData;
       }
-      filteredAirports.push({
+
+      return {
         iata: airport.iata,
         country_code: airport.country_code,
         country:
@@ -68,13 +69,10 @@ async function filteredLargeMediumAirports(airports) {
         airport: translateAirportName(airport.airport),
         latitude: airport.latitude,
         longitude: airport.longitude,
-        city: await translateGermanSpeakingCity(airport),
+        city: translateAirportCity(airport),
         continent: airport.continent || "NR",
-      });
-    }
-  }
-
-  return filteredAirports;
+      };
+    });
 }
 
 async function fetchAirportDataByContinent(continent) {
@@ -97,6 +95,7 @@ async function fetchAllAirports() {
   const oceaniaAirports = await fetchAirportDataByContinent("OC");
   const usAirports = await fetchAirportDataByCountry("US");
   const canadaAirports = await fetchAirportDataByCountry("CA");
+  const mexicanAirports = await fetchAirportDataByCountry("MX");
 
   const airports = [];
   airports.push(...southAmericaAirports);
@@ -106,6 +105,7 @@ async function fetchAllAirports() {
   airports.push(...oceaniaAirports);
   airports.push(...usAirports);
   airports.push(...canadaAirports);
+  airports.push(...mexicanAirports);
 
   return airports;
 }
