@@ -228,5 +228,5 @@
   { "name": "Vueling Airlines", "iata": "VY", "isEU": true },
   { "name": "KLM Cityhopper", "iata": "WA", "isEU": true },
   { "name": "TAP Portugal", "iata": "TP", "isEU": true },
-  { "name": "Sonstiges", "iata": "sonstiges", "isEU": false }
+  { "name": "Sonstiges", "iata": "sonstiges", "isEU": true }
 ]

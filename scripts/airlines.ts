@@ -43,7 +43,7 @@ async function generateAirlinesData(filePath: string) {
   airlines.push({
     name: "Sonstiges",
     iata: "sonstiges",
-    isEU: false,
+    isEU: true, // set as true, so it goes to a different error page
   });
 
   saveAirlinesInFile(airlines);
