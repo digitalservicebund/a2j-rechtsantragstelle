@@ -357,7 +357,7 @@
         "SUBMIT": [
           {
             "target": "ergebnis/fluggesellschaft-nicht-eu-abbruch",
-            "guard": "isFluggesellschaftNoEU"
+            "guard": "isFluggesellschaftNotInEU"
           },
           {
             "target": "checkin",
