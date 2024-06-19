@@ -80,14 +80,10 @@
         "BACK": "bereich",
         "SUBMIT": [
           {
-            "target": "vertretbare-gruende-annullierung",
-            "guard": "isAnkuendigungNo"
+            "target": "ergebnis/ankuendigung-abbruch",
+            "guard": "isAnkuendigungMoreThan13Days"
           },
-          {
-            "target": "ersatzflug",
-            "guard": "isAnkuendigungUntil13Days"
-          },
-          "ergebnis/ankuendigung-abbruch"
+          "ersatzflug"
         ]
       }
     },
@@ -99,11 +95,11 @@
         "BACK": [
           {
             "target": "ersatzflug",
-            "guard": "isAnkuendigungUntil13DaysAndErstazflugNo"
+            "guard": "isErstazflugNoAndNotAnkuendigungMoreThan13Days"
           },
           {
             "target": "ersatzflug-landen-zwei-stunden",
-            "guard": "isAnkuendigungUntil6DaysAndErstazflugYes"
+            "guard": "isErsatzflugYesAndAnkuendigungUntil6DaysOrNo"
           },
           {
             "target": "ersatzflug-landen-vier-stunden",
@@ -135,7 +131,7 @@
           },
           {
             "target": "ersatzflug-starten-eine-stunde",
-            "guard": "isErsatzflugYesAndAnkuendigungUntil6Days"
+            "guard": "isErsatzflugYesAndAnkuendigungUntil6DaysOrNo"
           },
           {
             "target": "ersatzflug-starten-zwei-stunden"
