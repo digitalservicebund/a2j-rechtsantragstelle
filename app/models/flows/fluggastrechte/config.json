@@ -95,7 +95,7 @@
         "BACK": [
           {
             "target": "ersatzflug",
-            "guard": "isErstazflugNoAndNotAnkuendigungMoreThan13Days"
+            "guard": "isErsatzflugNoAndNotAnkuendigungMoreThan13Days"
           },
           {
             "target": "ersatzflug-landen-zwei-stunden",

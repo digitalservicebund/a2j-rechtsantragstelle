@@ -75,7 +75,7 @@ export const guards = {
   isAnkuendigungMoreThan13Days: ({ context }) => {
     return context.ankuendigung === "moreThan13Days";
   },
-  isErstazflugNoAndNotAnkuendigungMoreThan13Days: ({ context }) => {
+  isErsatzflugNoAndNotAnkuendigungMoreThan13Days: ({ context }) => {
     return (
       context.ankuendigung !== "moreThan13Days" && context.ersatzflug === "no"
     );
