@@ -1,3 +1,4 @@
+import airlines from "data/airlines/data.json";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
 import { isEuropeanUnionAirport } from "~/services/airports/isEuropeanUnionAirport";
 import { partnerCourtAirports } from ".";
@@ -125,14 +126,20 @@ export const guards = {
       context.ersatzflugStartenZweiStunden === "no"
     );
   },
-  fluggesellschaftFilled: ({ context }) =>
-    Boolean(context.startAirport && context.endAirport),
   isKnownPartnerAirlineBereichVerspaetet: ({ context }) =>
     context.fluggesellschaft !== "sonstiges" &&
     context.bereich === "verspaetet",
-  isKnownPartnerAirlineBereichNichtBefoerderung: ({ context }) =>
+  isKnownPartnerAirlineBereichNichtBefoerderungOrAnnullierung: ({ context }) =>
     context.fluggesellschaft !== "sonstiges" &&
-    context.bereich === "nichtbefoerderung",
+    (context.bereich === "nichtbefoerderung" ||
+      context.bereich === "annullierung"),
+  isFluggesellschaftNotInEU: ({ context }) => {
+    const isAirlineInEU =
+      airlines.find((airline) => airline.iata === context.fluggesellschaft)
+        ?.isInEU ?? false;
+
+    return !isAirlineInEU;
+  },
   ...yesNoGuards("verspaetung"),
   ...yesNoGuards("checkin"),
   ...yesNoGuards("gruende"),
