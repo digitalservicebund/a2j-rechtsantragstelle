@@ -134,11 +134,11 @@ export const guards = {
     (context.bereich === "nichtbefoerderung" ||
       context.bereich === "annullierung"),
   isFluggesellschaftNotInEU: ({ context }) => {
-    const isAirlineEU =
+    const isAirlineInEU =
       airlines.find((airline) => airline.iata === context.fluggesellschaft)
         ?.isEU ?? false;
 
-    return !isAirlineEU;
+    return !isAirlineInEU;
   },
   ...yesNoGuards("verspaetung"),
   ...yesNoGuards("checkin"),
