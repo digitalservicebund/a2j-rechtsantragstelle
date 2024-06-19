@@ -154,12 +154,7 @@ async function fetchAndSaveAirports() {
   const data = JSON.stringify(_.uniqBy(airports, "iata"));
   const filePath = "data/airports/data.json";
 
-  fs.writeFile(filePath, data, (error) => {
-    if (error) {
-      console.error(error);
-      throw error;
-    }
-  });
+  fs.writeFileSync(filePath, data);
   console.log(`${filePath} written correctly`);
 }
 
