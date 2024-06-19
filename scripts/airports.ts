@@ -146,8 +146,7 @@ async function fetchAllAirports(): Promise<Airport[]> {
     return filteredLargeMediumAirports(airportsDataSource);
   }
 
-  console.log(`Error code ${res.status}. Status text: ${res.statusText}`);
-  return [];
+  throw new Error(`Error code ${res.status}. Status text: ${res.statusText}`);
 }
 
 async function fetchAndSaveAirports() {
