@@ -133,12 +133,12 @@ export const guards = {
     context.fluggesellschaft !== "sonstiges" &&
     (context.bereich === "nichtbefoerderung" ||
       context.bereich === "annullierung"),
-  isFluggesellschaftNoEU: ({ context }) => {
-    const isAirlineEU =
+  isFluggesellschaftNotInEU: ({ context }) => {
+    const isAirlineInEU =
       airlines.find((airline) => airline.iata === context.fluggesellschaft)
-        ?.isEU ?? false;
+        ?.isInEU ?? false;
 
-    return !isAirlineEU;
+    return !isAirlineInEU;
   },
   ...yesNoGuards("verspaetung"),
   ...yesNoGuards("checkin"),

@@ -4,7 +4,7 @@ import _ from "lodash";
 interface Airline {
   name: string;
   iata: string;
-  isEU: boolean;
+  isInEU: boolean;
 }
 
 function processAirlineRow(row: string): Airline {
@@ -12,7 +12,7 @@ function processAirlineRow(row: string): Airline {
   return {
     name: airlineName,
     iata: iataCode,
-    isEU: region === "EU",
+    isInEU: region === "EU",
   };
 }
 
@@ -43,7 +43,7 @@ async function generateAirlinesData(filePath: string) {
   airlines.push({
     name: "Sonstiges",
     iata: "sonstiges",
-    isEU: true, // set as true, so it goes to a different error page
+    isInEU: true, // set as true, so it goes to a different error page
   });
 
   saveAirlinesInFile(airlines);
