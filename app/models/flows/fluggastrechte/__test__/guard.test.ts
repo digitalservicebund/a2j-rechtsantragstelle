@@ -119,4 +119,36 @@ describe("fluggastrechteGuard", () => {
       expect(actual).toBe(false);
     });
   });
+
+  describe("isFluggesellschaftNoEU", () => {
+    it("should return true in case is an airline outside of EU", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        fluggesellschaft: "DL",
+      };
+
+      const actual = guards.isFluggesellschaftNoEU({ context });
+
+      expect(actual).toBe(true);
+    });
+
+    it("should return false in case is an airline inside of EU", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        fluggesellschaft: "LH",
+      };
+
+      const actual = guards.isFluggesellschaftNoEU({ context });
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return true in case is the airline is undefined", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        fluggesellschaft: undefined,
+      };
+
+      const actual = guards.isFluggesellschaftNoEU({ context });
+
+      expect(actual).toBe(true);
+    });
+  });
 });
