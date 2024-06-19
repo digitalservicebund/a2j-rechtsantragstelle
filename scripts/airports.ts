@@ -1,6 +1,7 @@
+/* eslint-disable no-console */
 import fs from "fs";
-import _ from "lodash";
 import countriesTranslation from "i18n-iso-countries";
+import _ from "lodash";
 import { z } from "zod";
 
 const germanLocale = "de";
@@ -138,7 +139,7 @@ async function fetchAllAirports(): Promise<Aiport[]> {
     },
   });
 
-  if (res.status === 200) {
+  if (res.ok) {
     const content = await res.text();
     const airportsDataSource = parseAiportDataSource(content);
     return filteredLargeMediumAirports(airportsDataSource);

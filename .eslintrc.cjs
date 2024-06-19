@@ -2,7 +2,7 @@
 
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
-  ignorePatterns: ["/*", "!/app", "!/tests", "*.generated.ts"],
+  ignorePatterns: ["/*", "!/app", "!/tests", "*.generated.ts", "!/scripts"],
   root: true,
   parserOptions: {
     ecmaVersion: "latest",
