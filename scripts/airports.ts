@@ -4,6 +4,7 @@ import countriesTranslation from "i18n-iso-countries";
 import _ from "lodash";
 import { z } from "zod";
 
+const FILE_PATH_AIRPORTS_DATA = "data/airports/data.json";
 const GERMAN_LOCALE = "de";
 const CITIES_AIRPORTS_DE = "scripts/cities_airports_de.csv";
 const AIRPORTS_URL_DATA_SOURCE =
@@ -152,10 +153,9 @@ async function fetchAllAirports(): Promise<Airport[]> {
 async function fetchAndSaveAirports() {
   const airports = await fetchAllAirports();
   const data = JSON.stringify(_.uniqBy(airports, "iata"));
-  const filePath = "data/airports/data.json";
 
-  fs.writeFileSync(filePath, data);
-  console.log(`${filePath} written correctly`);
+  fs.writeFileSync(FILE_PATH_AIRPORTS_DATA, data);
+  console.log(`${FILE_PATH_AIRPORTS_DATA} written correctly`);
 }
 
 fetchAndSaveAirports();
