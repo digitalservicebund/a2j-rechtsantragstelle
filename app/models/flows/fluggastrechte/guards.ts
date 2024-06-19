@@ -136,7 +136,7 @@ export const guards = {
   isFluggesellschaftNotInEU: ({ context }) => {
     const isAirlineInEU =
       airlines.find((airline) => airline.iata === context.fluggesellschaft)
-        ?.isEU ?? false;
+        ?.isInEU ?? false;
 
     return !isAirlineInEU;
   },
