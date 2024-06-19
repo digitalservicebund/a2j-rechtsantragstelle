@@ -4,7 +4,7 @@ import countriesTranslation from "i18n-iso-countries";
 import _ from "lodash";
 import { z } from "zod";
 
-const germanLocale = "de";
+const GERMAN_LOCALE = "de";
 const CITIES_AIRPORTS_DE = "scripts/cities_airports_de.csv";
 const AIRPORTS_URL_DATA_SOURCE =
   "https://davidmegginson.github.io/ourairports-data/airports.csv";
@@ -80,7 +80,7 @@ function filteredLargeMediumAirports(airports: AirportDataSource[]): Airport[] {
         iata: airport.iata,
         country_code: airport.country_code,
         country:
-          countriesTranslation.getName(airport.country_code, germanLocale) ??
+          countriesTranslation.getName(airport.country_code, GERMAN_LOCALE) ??
           "",
         airport: translateAirportName(airport.airport),
         latitude: airport.latitude,
