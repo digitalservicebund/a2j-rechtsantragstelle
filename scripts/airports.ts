@@ -1,6 +1,7 @@
 import fs from "fs";
 import _ from "lodash";
 import countriesTranslation from "i18n-iso-countries";
+import { z } from "zod";
 
 const germanLocale = "de";
 const CITIES_AIRPORTS_DE = "scripts/cities_airports_de.csv";
@@ -11,16 +12,29 @@ const airportsGermanCitiesContent = fs.readFileSync(CITIES_AIRPORTS_DE, {
   encoding: "utf-8",
 });
 
-type AiportDataSource = {
-  iata: string;
-  country_code: string;
-  airport: string;
-  latitude: string;
-  longitude: string;
-  city: string;
-  type: string;
-  scheduled_service: string;
-};
+function removeDoubleQuotes(value: unknown): string {
+  if (typeof value === "string") {
+    return value.replace(/["']/g, "");
+  }
+
+  return "";
+}
+
+const AirportDataSourceSchema = z.object({
+  iata: z.string().trim().min(1).transform(removeDoubleQuotes),
+  country_code: z.string().transform(removeDoubleQuotes),
+  airport: z.string().transform(removeDoubleQuotes),
+  latitude: z.coerce.number(),
+  longitude: z.coerce.number(),
+  city: z.string().transform(removeDoubleQuotes),
+  type: z.string().transform(removeDoubleQuotes),
+  scheduled_service: z.preprocess(
+    (val) => removeDoubleQuotes(val),
+    z.enum(["yes", "no"]),
+  ),
+});
+
+type AiportDataSource = z.infer<typeof AirportDataSourceSchema>;
 
 type Aiport = Omit<AiportDataSource, "type" | "scheduled_service"> & {
   country: string;
@@ -96,17 +110,21 @@ function parseAiportDataSource(content: string): AiportDataSource[] {
       iataData,
     ] = row.split(",");
 
-    if (typeof iataData !== "undefined" && iataData.length > 0) {
-      airports.push({
-        iata: iataData.replace(/["']/g, ""),
-        country_code: country_codeData.replace(/["']/g, ""),
-        airport: name.replace(/["']/g, ""),
-        latitude: latitude,
-        longitude: longitude,
-        city: city.replace(/["']/g, ""),
-        type: type.replace(/["']/g, ""),
-        scheduled_service: scheduled_service.replace(/["']/g, ""),
-      });
+    const airportData = {
+      iata: iataData,
+      country_code: country_codeData,
+      airport: name,
+      latitude: latitude,
+      longitude: longitude,
+      city: city,
+      type: type,
+      scheduled_service: scheduled_service,
+    };
+
+    const airportResult = AirportDataSourceSchema.safeParse(airportData);
+
+    if (airportResult.success) {
+      airports.push(airportResult.data);
     }
   });
 
@@ -126,7 +144,7 @@ async function fetchAllAirports(): Promise<Aiport[]> {
     return filteredLargeMediumAirports(airportsDataSource);
   }
 
-  console.log(`Error code ${res.status}`);
+  console.log(`Error code ${res.status}. Status text: ${res.statusText}`);
   return [];
 }
 
