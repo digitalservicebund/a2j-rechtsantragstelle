@@ -6,7 +6,7 @@ import { z } from "zod";
 
 const germanLocale = "de";
 const CITIES_AIRPORTS_DE = "scripts/cities_airports_de.csv";
-const AIPORTS_URL_DATA_SOURCE =
+const AIRPORTS_URL_DATA_SOURCE =
   "https://davidmegginson.github.io/ourairports-data/airports.csv";
 
 const airportsGermanCitiesContent = fs.readFileSync(CITIES_AIRPORTS_DE, {
@@ -35,9 +35,9 @@ const AirportDataSourceSchema = z.object({
   ),
 });
 
-type AiportDataSource = z.infer<typeof AirportDataSourceSchema>;
+type AirportDataSource = z.infer<typeof AirportDataSourceSchema>;
 
-type Aiport = Omit<AiportDataSource, "type" | "scheduled_service"> & {
+type Airport = Omit<AirportDataSource, "type" | "scheduled_service"> & {
   country: string;
 };
 
@@ -53,7 +53,7 @@ function translateAirportName(airportName: string): string {
   return airportName + " Flughafen";
 }
 
-function translateAirportCity(airport: AiportDataSource): string {
+function translateAirportCity(airport: AirportDataSource): string {
   const rows = airportsGermanCitiesContent.split("\n");
   let city = airport.city;
 
@@ -67,7 +67,7 @@ function translateAirportCity(airport: AiportDataSource): string {
   return city;
 }
 
-function filteredLargeMediumAirports(airports: AiportDataSource[]): Aiport[] {
+function filteredLargeMediumAirports(airports: AirportDataSource[]): Airport[] {
   return airports
     .filter(
       (airport) =>
@@ -90,9 +90,9 @@ function filteredLargeMediumAirports(airports: AiportDataSource[]): Aiport[] {
     });
 }
 
-function parseAiportDataSource(content: string): AiportDataSource[] {
+function parseAirportDataSource(content: string): AirportDataSource[] {
   const rows = content.split("\n");
-  const airports: AiportDataSource[] = [];
+  const airports: AirportDataSource[] = [];
   rows.slice(1).forEach((row) => {
     const [
       ,
@@ -132,8 +132,8 @@ function parseAiportDataSource(content: string): AiportDataSource[] {
   return airports;
 }
 
-async function fetchAllAirports(): Promise<Aiport[]> {
-  const res = await fetch(AIPORTS_URL_DATA_SOURCE, {
+async function fetchAllAirports(): Promise<Airport[]> {
+  const res = await fetch(AIRPORTS_URL_DATA_SOURCE, {
     headers: {
       "content-type": "text/csv;charset=UTF-8",
     },
@@ -141,7 +141,7 @@ async function fetchAllAirports(): Promise<Aiport[]> {
 
   if (res.ok) {
     const content = await res.text();
-    const airportsDataSource = parseAiportDataSource(content);
+    const airportsDataSource = parseAirportDataSource(content);
     return filteredLargeMediumAirports(airportsDataSource);
   }
 
