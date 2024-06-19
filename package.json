@@ -103,7 +103,6 @@
     "@types/validator": "^13.12.0",
     "@vitest/coverage-istanbul": "^1.6.0",
     "@vitest/expect": "^1.6.0",
-    "airport-data-js": "^1.0.6",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-import-resolver-typescript": "^3.6.1",
