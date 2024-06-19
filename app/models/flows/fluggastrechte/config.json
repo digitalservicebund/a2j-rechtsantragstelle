@@ -80,14 +80,10 @@
         "BACK": "bereich",
         "SUBMIT": [
           {
-            "target": "vertretbare-gruende-annullierung",
-            "guard": "isAnkuendigungNo"
+            "target": "ergebnis/ankuendigung-abbruch",
+            "guard": "isAnkuendigungMoreThan13Days"
           },
-          {
-            "target": "ersatzflug",
-            "guard": "isAnkuendigungUntil13Days"
-          },
-          "ergebnis/ankuendigung-abbruch"
+          "ersatzflug"
         ]
       }
     },
@@ -99,11 +95,11 @@
         "BACK": [
           {
             "target": "ersatzflug",
-            "guard": "isAnkuendigungUntil13DaysAndErstazflugNo"
+            "guard": "isErsatzflugNoAndNotAnkuendigungMoreThan13Days"
           },
           {
             "target": "ersatzflug-landen-zwei-stunden",
-            "guard": "isAnkuendigungUntil6DaysAndErstazflugYes"
+            "guard": "isErsatzflugYesAndAnkuendigungUntil6DaysOrNo"
           },
           {
             "target": "ersatzflug-landen-vier-stunden",
@@ -135,7 +131,7 @@
           },
           {
             "target": "ersatzflug-starten-eine-stunde",
-            "guard": "isErsatzflugYesAndAnkuendigungUntil6Days"
+            "guard": "isErsatzflugYesAndAnkuendigungUntil6DaysOrNo"
           },
           {
             "target": "ersatzflug-starten-zwei-stunden"
@@ -356,12 +352,16 @@
         "BACK": "flughaefen",
         "SUBMIT": [
           {
+            "target": "ergebnis/fluggesellschaft-nicht-eu-abbruch",
+            "guard": "isFluggesellschaftNotInEU"
+          },
+          {
             "target": "checkin",
             "guard": "isKnownPartnerAirlineBereichVerspaetet"
           },
           {
             "target": "kostenlos",
-            "guard": "isKnownPartnerAirlineBereichNichtBefoerderung"
+            "guard": "isKnownPartnerAirlineBereichNichtBefoerderungOrAnnullierung"
           },
           {
             "target": "ergebnis/fluggesellschaft-abbruch"
@@ -370,6 +370,11 @@
       }
     },
     "ergebnis/fluggesellschaft-abbruch": {
+      "on": {
+        "BACK": "fluggesellschaft"
+      }
+    },
+    "ergebnis/fluggesellschaft-nicht-eu-abbruch": {
       "on": {
         "BACK": "fluggesellschaft"
       }

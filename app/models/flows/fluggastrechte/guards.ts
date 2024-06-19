@@ -1,3 +1,4 @@
+import airlines from "data/airlines/data.json";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
 import { isEuropeanUnionAirport } from "~/services/airports/isEuropeanUnionAirport";
 import { partnerCourtAirports } from ".";
@@ -71,25 +72,12 @@ export const guards = {
         context?.bereich === "annullierung")
     );
   },
-  isAnkuendigungNo: ({ context }) => {
-    return context.ankuendigung === "no";
+  isAnkuendigungMoreThan13Days: ({ context }) => {
+    return context.ankuendigung === "moreThan13Days";
   },
-  isAnkuendigungUntil13Days: ({ context }) => {
+  isErsatzflugNoAndNotAnkuendigungMoreThan13Days: ({ context }) => {
     return (
-      context.ankuendigung === "until6Days" ||
-      context.ankuendigung === "between7And13Days"
-    );
-  },
-  isAnkuendigungUntil13DaysAndErstazflugNo: ({ context }) => {
-    return (
-      (context.ankuendigung === "until6Days" ||
-        context.ankuendigung === "between7And13Days") &&
-      context.ersatzflug === "no"
-    );
-  },
-  isAnkuendigungUntil6DaysAndErstazflugYes: ({ context }) => {
-    return (
-      context.ankuendigung === "until6Days" && context.ersatzflug === "yes"
+      context.ankuendigung !== "moreThan13Days" && context.ersatzflug === "no"
     );
   },
   isAnkuendigungBetween7And13DaysAndErstazflugYes: ({ context }) => {
@@ -104,9 +92,10 @@ export const guards = {
       context.vertretbareGruendeAnnullierung === "yes"
     );
   },
-  isErsatzflugYesAndAnkuendigungUntil6Days: ({ context }) => {
+  isErsatzflugYesAndAnkuendigungUntil6DaysOrNo: ({ context }) => {
     return (
-      context?.ersatzflug === "yes" && context?.ankuendigung === "until6Days"
+      context?.ersatzflug === "yes" &&
+      (context?.ankuendigung === "until6Days" || context?.ankuendigung === "no")
     );
   },
   isErsatzflugGelandet2StundenNoAndErstatzflugGestartet1StundeNo: ({
@@ -125,14 +114,20 @@ export const guards = {
       context.ersatzflugStartenZweiStunden === "no"
     );
   },
-  fluggesellschaftFilled: ({ context }) =>
-    Boolean(context.startAirport && context.endAirport),
   isKnownPartnerAirlineBereichVerspaetet: ({ context }) =>
     context.fluggesellschaft !== "sonstiges" &&
     context.bereich === "verspaetet",
-  isKnownPartnerAirlineBereichNichtBefoerderung: ({ context }) =>
+  isKnownPartnerAirlineBereichNichtBefoerderungOrAnnullierung: ({ context }) =>
     context.fluggesellschaft !== "sonstiges" &&
-    context.bereich === "nichtbefoerderung",
+    (context.bereich === "nichtbefoerderung" ||
+      context.bereich === "annullierung"),
+  isFluggesellschaftNotInEU: ({ context }) => {
+    const isAirlineInEU =
+      airlines.find((airline) => airline.iata === context.fluggesellschaft)
+        ?.isInEU ?? false;
+
+    return !isAirlineInEU;
+  },
   ...yesNoGuards("verspaetung"),
   ...yesNoGuards("checkin"),
   ...yesNoGuards("gruende"),
