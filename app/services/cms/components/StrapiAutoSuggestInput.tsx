@@ -31,9 +31,7 @@ const StrapiAutoSuggestInputSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-export type StrapiAutoSuggestInput = z.infer<
-  typeof StrapiAutoSuggestInputSchema
->;
+type StrapiAutoSuggestInput = z.infer<typeof StrapiAutoSuggestInputSchema>;
 
 export type DataListType = Pick<StrapiAutoSuggestInput, "dataList">;
 
