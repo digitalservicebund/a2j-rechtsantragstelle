@@ -157,7 +157,7 @@ function App() {
           <script
             nonce={nonce}
             dangerouslySetInnerHTML={{
-              __html: `(function (m, a, z, e, n) {
+              __html: `(function (m, a, z, e) {
             var s, t;
             try {
               t = m.sessionStorage.getItem('maze-us');
@@ -171,12 +171,11 @@ function App() {
             }
 
             s = a.createElement('script');
-            s.setAttribute('nonce', n);
             s.src = z + '?apiKey=' + e;
             s.async = true;
             a.getElementsByTagName('head')[0].appendChild(s);
             m.mazeUniversalSnippetApiKey = e;
-          })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '69beb286-48a3-46df-b5a4-d7d5014a9ace', '${nonce}');`,
+          })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '69beb286-48a3-46df-b5a4-d7d5014a9ace');`,
             }}
           ></script>
         )}
