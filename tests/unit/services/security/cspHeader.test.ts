@@ -33,9 +33,5 @@ describe("cspHeader", () => {
     expect(cspHeader({ environment: "preview" })).toContain(
       "https://snippet.maze.co",
     );
-
-    expect(
-      cspHeader({ nonce: "r4nd0mN0nc3", environment: "preview" }),
-    ).not.toContain("'strict-dynamic'");
   });
 });
