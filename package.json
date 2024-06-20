@@ -11,7 +11,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build:airports-data": "node ./scripts/airports.cjs",
+    "build:airports-data": "tsx ./scripts/airports.ts",
     "build:airlines-data": "tsx ./scripts/airlines.ts",
     "build:licenses": "tsx ./app/services/openSourceLicenses/generate.server.ts generateLicenseFile",
     "build:localContent": "tsx ./app/services/cms/dumpCmsToFile.ts dumpCmsToFile",
@@ -103,7 +103,6 @@
     "@types/validator": "^13.12.0",
     "@vitest/coverage-istanbul": "^1.6.0",
     "@vitest/expect": "^1.6.0",
-    "airport-data-js": "^1.0.6",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-import-resolver-typescript": "^3.6.1",
