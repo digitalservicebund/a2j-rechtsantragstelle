@@ -15,19 +15,9 @@ First draft of implementing a platform to create requests to the Rechtsantragste
 
 ### Run Server in Development Mode
 
-#### Start a Redis instance with TLS setup
-
-Generate certificate and start the redis:
-
-```
-./create-redis-dummy-certificate.sh
-docker compose up -d
-```
-
-#### Start the development server
-
 ```sh
 npm install
+docker compose up -d
 npm run dev
 ```
 
