@@ -19,7 +19,7 @@ The following options were explored:
 1. handling it on an infrastructure level by employing rate limiting in a WAF.
    - downside: This was excluded due to previous problems with IP addresses in other projects.
 2. [Express rate limiting](https://express-rate-limit.mintlify.app/overview) with in-memory store.
-   - upside: Handling rate limiting before reaching the application.
+   - upside: Rate limiting is handled before reaching the core application logic, reducing load and potential abuse early in the request lifecycle.
    - downside: Only possible to track limits _per pod_.
 3. Storing the number of requests per user in redis on every loader + action call.
    - upside: Having one place across all replicas where the number of requests are stored.
