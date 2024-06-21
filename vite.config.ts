@@ -4,7 +4,6 @@ import { vitePlugin as remix } from "@remix-run/dev";
 import { installGlobals } from "@remix-run/node";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-import { cjsInterop } from "vite-plugin-cjs-interop";
 import { envOnlyMacros } from "vite-env-only";
 
 installGlobals();
@@ -28,9 +27,6 @@ export default defineConfig({
         telemetry: false,
       }),
     tsconfigPaths(),
-    cjsInterop({
-      dependencies: ["@digitalservicebund/icons/*"],
-    }),
   ],
   build: { sourcemap: sentryActive },
   test: {
