@@ -1,13 +1,9 @@
-import { wrapExpressCreateRequestHandler } from "@sentry/remix";
 import { createRequestHandler } from "@remix-run/express";
 import { rateLimit } from "express-rate-limit";
 import { RedisStore } from "rate-limit-redis";
 import compression from "compression";
 import express from "express";
 import RedisClient from "ioredis";
-
-const sentryCreateRequestHandler =
-  wrapExpressCreateRequestHandler(createRequestHandler);
 
 const shouldStartDevServer = process.env.NODE_ENV !== "production";
 const isStagingOrPreviewEnvironment = process.env.ENVIRONMENT !== "production";
@@ -20,7 +16,7 @@ const viteDevServer = shouldStartDevServer
     )
   : undefined;
 
-const remixHandler = sentryCreateRequestHandler({
+const remixHandler = createRequestHandler({
   build: viteDevServer
     ? () => viteDevServer.ssrLoadModule("virtual:remix/server-build")
     : await import("./build/server/index.js"),
