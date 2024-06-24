@@ -1,8 +1,38 @@
 version: "3.9"
 services:
+  cert-generator:
+    image: alpine:3.20
+    container_name: cert-generator
+    volumes:
+      - ./certs:/certs
+    command: >
+      /bin/sh -c "
+      if [ -f '/certs/redis-server.key' ] && [ -f '/certs/redis-server.crt' ]; then
+        echo 'Using existing certificates';
+      else
+        apk add --no-cache openssl &&
+        mkdir -p /certs &&
+        openssl genrsa -out /certs/redis-server.key 2048 &&
+        chmod 444 /certs/redis-server.key &&
+        openssl req -new -x509 -nodes -sha256 -days 365 -subj '/C=DE/ST=Test/L=Test/O=Test/CN=Test' -key /certs/redis-server.key -out /certs/redis-server.crt &&
+        echo 'Created new certificates';
+      fi"
+
   redis:
     image: redis:7
     restart: always
+    depends_on:
+      - cert-generator
     container_name: local-redis
     ports:
       - "6380:6379"
+    volumes:
+      - ./certs:/usr/local/etc/redis
+
+    command: >
+      redis-server
+      --tls-port 6379
+      --port 0
+      --tls-cert-file /usr/local/etc/redis/redis-server.crt
+      --tls-key-file /usr/local/etc/redis/redis-server.key
+      --tls-auth-clients no
