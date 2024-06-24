@@ -44,7 +44,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     },
   });
 
-  const userFeedbackPath = url + `#${USER_FEEDBACK_ID}`;
+  const userFeedbackPath = `${url}#${USER_FEEDBACK_ID}`;
   return clientJavaScriptAvailable
     ? json({ success: true }, { headers })
     : redirect(userFeedbackPath, { headers });

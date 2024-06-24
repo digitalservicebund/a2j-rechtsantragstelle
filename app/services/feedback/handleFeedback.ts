@@ -41,7 +41,7 @@ export const handleFeedback = async (formData: FormData, request: Request) => {
   session.set(bannerStateName, bannerState);
 
   const headers = { "Set-Cookie": await commitSession(session) };
-  const userFeedbackPath = pathname + `#${USER_FEEDBACK_ID}`;
+  const userFeedbackPath = `${pathname}#${USER_FEEDBACK_ID}`;
   return redirect(userFeedbackPath, { headers });
 };
 
