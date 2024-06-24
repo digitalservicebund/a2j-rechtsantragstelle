@@ -20,7 +20,6 @@ import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWit
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
 import type { CollectionSchemas, EntrySchemas } from "~/services/cms/schemas";
-import { dataDeletionKey } from "~/services/flow/constants";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import { arrayIsNonEmpty } from "~/services/validation/array";
 import { keyFromElement } from "../../services/cms/keyFromElement";
@@ -105,14 +104,6 @@ export function ResultPage({
               <a className="text-link" href={backButton.destination}>
                 {backButton.label}
               </a>
-              {cmsData.linkText && (
-                <a
-                  className="text-link"
-                  href={`/beratungshilfe/vorabcheck?${dataDeletionKey}`}
-                >
-                  {cmsData.linkText}
-                </a>
-              )}
               {cmsData.nextLink?.url && (
                 <a className="text-link" href={cmsData.nextLink.url}>
                   {cmsData.nextLink.text ?? common["nextButtonDefaultLabel"]}
