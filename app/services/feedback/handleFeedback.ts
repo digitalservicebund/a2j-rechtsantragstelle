@@ -1,6 +1,6 @@
 import { type Session, redirect } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
-import { BannerState } from "~/components/UserFeedback";
+import { BannerState, USER_FEEDBACK_ID } from "~/components/UserFeedback";
 import {
   feedbackFormName,
   feedbackValidator,
@@ -39,8 +39,10 @@ export const handleFeedback = async (formData: FormData, request: Request) => {
     },
   });
   session.set(bannerStateName, bannerState);
+
   const headers = { "Set-Cookie": await commitSession(session) };
-  return redirect(pathname, { headers });
+  const userFeedbackPath = pathname + `#${USER_FEEDBACK_ID}`;
+  return redirect(userFeedbackPath, { headers });
 };
 
 export const isFeedbackForm = (formData: FormData) => {

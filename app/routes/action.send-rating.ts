@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { BannerState } from "~/components/UserFeedback";
+import { BannerState, USER_FEEDBACK_ID } from "~/components/UserFeedback";
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { bannerStateName } from "~/services/feedback/handleFeedback";
@@ -44,7 +44,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     },
   });
 
+  const userFeedbackPath = url + `#${USER_FEEDBACK_ID}`;
   return clientJavaScriptAvailable
     ? json({ success: true }, { headers })
-    : redirect(url, { headers });
+    : redirect(userFeedbackPath, { headers });
 };
