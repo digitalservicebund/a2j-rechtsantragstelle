@@ -10,7 +10,7 @@ export const RichTextPropsSchema = z.object({
 export type RichTextProps = z.infer<typeof RichTextPropsSchema>;
 
 const defaultRenderer: Partial<Renderer> = {
-  link(href: string, title: string, text: string) {
+  link({ href, text }) {
     const cssClass = "text-link";
     if (href.includes("ext:")) {
       const newHref = href.replace("ext:", "");
@@ -18,14 +18,14 @@ const defaultRenderer: Partial<Renderer> = {
     }
     return `<a href="${href}" class="${cssClass}">${text}</a>`;
   },
-  heading(text: string, level: number) {
+  heading({ depth, text }) {
     const cssClass =
-      ["ds-heading-01-reg", "ds-heading-02-reg"].at(level - 1) ??
+      ["ds-heading-01-reg", "ds-heading-02-reg"].at(depth - 1) ??
       "ds-label-01-bold";
-    return `<h${level} class="${cssClass}">${text}</h${level}>`;
+    return `<h${depth} class="${cssClass}">${text}</h${depth}>`;
   },
-  paragraph(text: string) {
-    return `<p class="text-lg">${text}</p>`;
+  paragraph({ tokens }) {
+    return `<p class="text-lg">${this.parser?.parseInline(tokens)}</p>`;
   },
 } as const;
 
@@ -38,6 +38,7 @@ const RichText = ({
   renderer?: Partial<Renderer>;
 }) => {
   const marked = new Marked({
+    useNewRenderer: true,
     renderer: renderer ?? defaultRenderer,
     async: false,
   });
