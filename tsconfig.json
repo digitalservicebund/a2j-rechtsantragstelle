@@ -28,7 +28,10 @@
     "paths": {
       "~/*": ["./app/*"],
       "data/*": ["./data/*"],
-      "tests/*": ["./tests/*"]
+      "tests/*": ["./tests/*"],
+      "@digitalservicebund/icons/*": [
+        "node_modules/@digitalservicebund/icons/*"
+      ]
     },
     // Vite takes care of building everything
     "noEmit": true
