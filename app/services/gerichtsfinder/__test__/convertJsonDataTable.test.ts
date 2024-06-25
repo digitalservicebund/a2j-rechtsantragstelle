@@ -41,6 +41,21 @@ export const gerbehAmtsgericht: Jmtd14VTErwerberGerbeh = {
   XML_SUPPORT: "JA",
 } as const;
 
+export const plzStrnEntry: Jmtd14VTErwerberPlzstrn = {
+  AG: "string",
+  ANGELEGENHEIT_INFO: "Prozesskostenhilfe eingehend",
+  HNR_BIS: "string",
+  HNR_MERKMAL_INFO: "fortlaufende Hausnummern",
+  HNR_VON: "string",
+  LG: "string",
+  LKZ: "string",
+  OLG: "string",
+  ORTK: "string",
+  PLZ: "string",
+  STRN: "string",
+  TYP_INFO: validTypInfo,
+} as const;
+
 describe("gerbehIndex", () => {
   const index: GerbehIndex = {
     LKZ: "a",
@@ -122,21 +137,6 @@ describe("PlzOrtk data conversions", () => {
 });
 
 describe("PlzStrn data conversions", () => {
-  const plzStrnEntry: Jmtd14VTErwerberPlzstrn = {
-    AG: "string",
-    ANGELEGENHEIT_INFO: "Prozesskostenhilfe eingehend",
-    HNR_BIS: "string",
-    HNR_MERKMAL_INFO: "fortlaufende Hausnummern",
-    HNR_VON: "string",
-    LG: "string",
-    LKZ: "string",
-    OLG: "string",
-    ORTK: "string",
-    PLZ: "string",
-    STRN: "string",
-    TYP_INFO: validTypInfo,
-  };
-
   it("handles valid PlzStrn data", () => {
     const input = { JMTD14_VT_ERWERBER_PLZSTRN: [plzStrnEntry] };
     expect(
