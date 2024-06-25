@@ -1,9 +1,10 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import {
-  courtForPlz,
+  findCourt,
   edgeCasesForPlz,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { logError } from "~/services/logging";
 import { checkboxListToString } from "../../checkboxListToString";
 import { newPageHint, type Attachment } from "../attachment";
 
@@ -35,10 +36,14 @@ export default function fillHeader(
 
   pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${context.strasseHausnummer ?? ""}, ${context.plz ?? ""} ${context.ort ?? ""}`;
 
-  const court = courtForPlz(context.plz);
-  if (court && edgeCasesForPlz(context.plz).length == 0) {
-    pdfFields.namedesAmtsgerichts.value = court.ORT;
-    pdfFields.postleitzahlOrt.value = `${court.PLZ} ${court.ORT}`;
+  try {
+    const court = findCourt({ zipCode: context.plz ?? "" });
+    if (court && edgeCasesForPlz(context.plz).length == 0) {
+      pdfFields.namedesAmtsgerichts.value = court.ORT;
+      pdfFields.postleitzahlOrt.value = `${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`;
+    }
+  } catch (error) {
+    context.plz !== undefined && logError({ error });
   }
 
   pdfFields.tagsueberTelefonischerreichbarunterNummer.value =

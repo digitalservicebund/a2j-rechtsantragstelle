@@ -1,9 +1,9 @@
 import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { plzOrtkEntry } from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";
+import { gerbehAmtsgericht } from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";
 import {
-  courtForPlz,
+  findCourt,
   edgeCasesForPlz,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
@@ -39,8 +39,8 @@ describe("fillHeader", () => {
   it("should add amtsgericht is available", () => {
     vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
     vi.mocked(edgeCasesForPlz).mockReturnValue([]);
-    vi.mocked(courtForPlz).mockReturnValue({
-      ...plzOrtkEntry,
+    vi.mocked(findCourt).mockReturnValue({
+      ...gerbehAmtsgericht,
       ORT: "Dessau-Roßlau",
     });
 

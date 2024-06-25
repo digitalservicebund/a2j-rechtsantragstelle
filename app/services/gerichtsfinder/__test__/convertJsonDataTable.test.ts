@@ -27,6 +27,20 @@ export const plzOrtkEntry: Jmtd14VTErwerberPlzortk = {
   PLZM_INFO: "Zustellbezirk",
 } as const;
 
+export const gerbehAmtsgericht: Jmtd14VTErwerberGerbeh = {
+  AG: "string",
+  BEZEICHNUNG: "string",
+  LG: "string",
+  LKZ: "string",
+  OLG: "string",
+  ORT: "string",
+  ORTK: "string",
+  PLZ_ZUSTELLBEZIRK: "string",
+  STR_HNR: "string",
+  TYP_INFO: validTypInfo,
+  XML_SUPPORT: "JA",
+} as const;
+
 describe("gerbehIndex", () => {
   const index: GerbehIndex = {
     LKZ: "a",
@@ -60,20 +74,6 @@ describe("applyDataConversions", () => {
 });
 
 describe("gerbeh data conversions", () => {
-  const gerbehAmtsgericht: Jmtd14VTErwerberGerbeh = {
-    AG: "string",
-    BEZEICHNUNG: "string",
-    LG: "string",
-    LKZ: "string",
-    OLG: "string",
-    ORT: "string",
-    ORTK: "string",
-    PLZ_ZUSTELLBEZIRK: "string",
-    STR_HNR: "string",
-    TYP_INFO: validTypInfo,
-    XML_SUPPORT: "JA",
-  };
-
   const gerbehAmtsgerichtKey = gerbehIndex({
     LKZ: gerbehAmtsgericht.LKZ,
     OLG: gerbehAmtsgericht.OLG,
