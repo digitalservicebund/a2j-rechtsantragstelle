@@ -14,7 +14,7 @@ export enum BannerState {
   FeedbackGiven = "feedbackGiven",
 }
 
-export type UserFeedbackProps = {
+type UserFeedbackProps = {
   bannerState: BannerState;
   rating: Omit<RatingBoxProps, "url">;
   feedback: Omit<FeedbackBoxProps, "destination">;
