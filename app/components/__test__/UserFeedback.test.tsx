@@ -1,6 +1,9 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render, screen } from "@testing-library/react";
-import UserFeedback, { BannerState } from "~/components/UserFeedback";
+import UserFeedback, {
+  BannerState,
+  USER_FEEDBACK_ID,
+} from "~/components/UserFeedback";
 
 describe("UserFeedback", () => {
   const mockedProps = {
@@ -32,8 +35,8 @@ describe("UserFeedback", () => {
       },
     ]);
     render(<UserFeedbackWithRemixStub />);
-    const { id } = screen.getByTestId("user-feedback-banner");
-    expect(id).toBe("user-feedback-banner");
+    const { id } = screen.getByTestId(USER_FEEDBACK_ID);
+    expect(id).toBe(USER_FEEDBACK_ID);
   });
 
   it("renders RatingBox when bannerState is ShowRating", () => {
