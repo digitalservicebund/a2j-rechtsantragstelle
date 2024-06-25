@@ -28,7 +28,7 @@ describe("/action/send-rating route", () => {
   });
 
   it("returns redirect without JS", async () => {
-    const ratingPath = "/relative/path";
+    const ratingPath = "/relative/path#user-feedback-banner";
     const request = new Request(
       `http://localhost:3000/action/send-rating?url=${ratingPath}&js=false`,
       options,

@@ -3,14 +3,16 @@ import { BeratungshilfeVorabcheck } from "tests/e2e/pom/BeratungshilfeVorabcheck
 
 let vorabcheck: BeratungshilfeVorabcheck;
 
-const submissionBoxId = "user-feedback-submission";
+const POST_SUBMISSION_BOX = "user-feedback-submission";
+const TOP_BREADCRUMB_ICON = "HomeOutlinedIcon";
+const USER_FEEDBACK_BANNER = "user-feedback-banner";
 
 test.beforeEach(async ({ page }) => {
   vorabcheck = new BeratungshilfeVorabcheck(page);
   // Move the user to the nearest page with feedback component
   await vorabcheck.goto();
   await vorabcheck.fillRadioPage("rechtsschutzversicherung", "yes");
-  await expect(page.getByTestId("user-feedback-banner")).toBeVisible();
+  await expect(page.getByTestId(USER_FEEDBACK_BANNER)).toBeInViewport();
 });
 
 test.describe("User Feedback", () => {
@@ -19,7 +21,10 @@ test.describe("User Feedback", () => {
     await page.getByTestId("ThumbUpOutlinedIcon").click();
     await page.getByRole("textbox").fill("### e2e test submission positive");
     await page.getByTestId("SendOutlinedIcon").click();
-    await expect(page.getByTestId(submissionBoxId)).toBeVisible();
+
+    await expect(page.getByTestId(TOP_BREADCRUMB_ICON)).not.toBeInViewport();
+    await expect(page.getByTestId(USER_FEEDBACK_BANNER)).toBeInViewport();
+    await expect(page.getByTestId(POST_SUBMISSION_BOX)).toBeInViewport();
   });
 
   test("negative feedback submission", async ({ page }) => {
@@ -27,7 +32,10 @@ test.describe("User Feedback", () => {
     await page.getByTestId("ThumbDownOutlinedIcon").click();
     await page.getByRole("textbox").fill("### e2e test submission negative");
     await page.getByTestId("SendOutlinedIcon").click();
-    await expect(page.getByTestId(submissionBoxId)).toBeVisible();
+
+    await expect(page.getByTestId(TOP_BREADCRUMB_ICON)).not.toBeInViewport();
+    await expect(page.getByTestId(USER_FEEDBACK_BANNER)).toBeInViewport();
+    await expect(page.getByTestId(POST_SUBMISSION_BOX)).toBeInViewport();
   });
 
   test("feedback submission abort", async ({ page }) => {
@@ -35,6 +43,9 @@ test.describe("User Feedback", () => {
     await page.getByTestId("ThumbDownOutlinedIcon").click();
     await page.getByRole("textbox").fill("### e2e test submission negative");
     await page.getByTestId("CloseOutlinedIcon").click();
-    await expect(page.getByTestId(submissionBoxId)).toBeVisible();
+
+    await expect(page.getByTestId(TOP_BREADCRUMB_ICON)).not.toBeInViewport();
+    await expect(page.getByTestId(USER_FEEDBACK_BANNER)).toBeInViewport();
+    await expect(page.getByTestId(POST_SUBMISSION_BOX)).toBeInViewport();
   });
 });
