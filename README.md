@@ -175,7 +175,7 @@ Everyone is welcome to contribute to the development of _Zugang zu Recht - Acces
 🇩🇪
 Jede:r ist herzlich eingeladen, die Entwicklung von _Zugang zu Recht - Access to Justice - A2J_ mitzugestalten. Du kannst einen Beitrag leisten, indem du Pull-Requests eröffnest, die Dokumentation erweiterst, Fragen beantwortest oder Feedback gibst. Bitte befolge die Richtlinien und unseren [Verhaltenskodex](CODE_OF_CONDUCT.md).
 
-## Code Contributions
+### Code Contributions
 
 🇬🇧
 Open a pull request with your changes, and it will be reviewed by someone from the team. When you submit a pull request, you declare that you have the right to license your contribution to DigitalService and the community. By submitting the patch, you agree that your contributions are licensed under the [MIT License](./LICENSE).
