@@ -1,4 +1,4 @@
-# 6. Using vitest as test runner
+# 7. Using vitest as test runner
 
 Date: 2024-06-07
 
