@@ -310,6 +310,16 @@ function getGeldanlagenBezeichnung(geldanlagen?: Geldanlage[]): string[] {
   };
 
   const befristet = (anlage: Geldanlage) => {
+    const befristungTypeLookup = {
+      lifeInsurance: "Lebensversicherung",
+      buildingSavingsContract: "Bauspartvertrag",
+      fixedDepositAccount: "Festgeldkonto",
+    };
+    const befristungType =
+      anlage.befristetArt && anlage.befristetArt in befristungTypeLookup
+        ? `Art der Befristung: ${befristungTypeLookup[anlage.befristetArt]}`
+        : "";
+    bezeichnung.push(befristungType);
     bezeichnung.push(`Verwendungszweck: ${anlage.verwendungszweck ?? ""}`);
     bezeichnung.push(`Auszahlungstermin: ${anlage.auszahlungdatum ?? ""}`);
   };

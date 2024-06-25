@@ -337,6 +337,7 @@ describe("F_besitz", () => {
           {
             eigentuemer: "partner",
             art: "befristet",
+            befristetArt: "lifeInsurance",
             wert: "1000",
             verwendungszweck: "Verwendung",
             auszahlungdatum: "12.12.1990",
@@ -357,6 +358,7 @@ describe("F_besitz", () => {
         text:
           "\nGeldanlage 1\n" +
           "Art der Geldanlage: Befristete Geldanlage\n" +
+          "Art der Befristung: Lebensversicherung\n" +
           "Verwendungszweck: Verwendung\n" +
           "Auszahlungstermin: 12.12.1990\n" +
           "Eigentümer:in: Ehe-Partner:in\n" +
