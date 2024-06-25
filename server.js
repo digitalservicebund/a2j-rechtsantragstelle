@@ -1,11 +1,9 @@
-import { wrapExpressCreateRequestHandler } from "@sentry/remix";
 import { createRequestHandler } from "@remix-run/express";
 import { rateLimit } from "express-rate-limit";
+import { RedisStore } from "rate-limit-redis";
 import compression from "compression";
 import express from "express";
-
-const sentryCreateRequestHandler =
-  wrapExpressCreateRequestHandler(createRequestHandler);
+import RedisClient from "ioredis";
 
 const shouldStartDevServer = process.env.NODE_ENV !== "production";
 const isStagingOrPreviewEnvironment = process.env.ENVIRONMENT !== "production";
@@ -18,7 +16,7 @@ const viteDevServer = shouldStartDevServer
     )
   : undefined;
 
-const remixHandler = sentryCreateRequestHandler({
+const remixHandler = createRequestHandler({
   build: viteDevServer
     ? () => viteDevServer.ssrLoadModule("virtual:remix/server-build")
     : await import("./build/server/index.js"),
@@ -58,9 +56,15 @@ isStagingOrPreviewEnvironment
 // we have in front of our express, which is 2 - experimentally found out.
 app.set("trust proxy", 2);
 
+const redisUrl = () =>
+  `rediss://default:${process.env.REDIS_PASSWORD?.trim()}@${process.env.REDIS_ENDPOINT ?? "localhost:6380"}`;
+const client = new RedisClient(redisUrl(), {
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
+
 // Limit calls to routes ending in /pdf or /pdf/, as they are expensive
-// Attention - this only limits to the number of requests *per pod*.
-// The more pods we have, the higher the effective limit goes up.
 app.use(
   /.*\/pdf(\/|$)/,
   rateLimit({
@@ -70,6 +74,9 @@ app.use(
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
     message:
       '<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"><title>Justiz Services - Fehler aufgetreten</title><style>html{font-family:BundesSansWeb,Calibri,Verdana,Arial,Helvetica,sans-serif;font-size:1.125rem;line-height:1.75rem}body{max-width:59rem;margin:6rem auto;padding:0 2rem}h1{font-size:1.875rem;padding-bottom:1.5rem}</style></head><body><h1>Justiz Service ist vorübergehend nicht erreichbar</h1><p>Es sind zu viele Anfragen zum Herunterladen des PDFs innerhalb kurzer Zeit gestellt worden. Bitte versuchen Sie es später noch einmal.</p></body></html>',
+    store: new RedisStore({
+      sendCommand: (...args) => client.call(...args),
+    }),
   }),
 );
 

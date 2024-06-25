@@ -21,5 +21,8 @@ lefthook-local.yml
 # Gerichtsfinder data
 **/gerichtsfinder/_data/
 
+# local Redis TLS certs
+/certs
+
 /.vscode/
 .eslintcache

@@ -5,7 +5,7 @@ import Image, { type ImageProps } from "../../Image";
 import RichText from "../../RichText";
 
 const paragraphRenderer: Partial<Renderer> = {
-  paragraph(text) {
+  paragraph({ text }) {
     return `<p class="ds-subhead">${text}</p>`;
   },
 };

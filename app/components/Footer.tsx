@@ -49,11 +49,11 @@ export default function Footer({
   );
 
   const paragraphRenderer: Partial<Renderer> = {
-    link(href, _, text) {
+    link({ href, text }) {
       return `<a class="text-link increase-tap-area whitespace-nowrap" href=${href} target="_blank" rel="noopener">${text}</a>`;
     },
-    paragraph(text) {
-      return `<p class="leading-snug">${text}</p>`;
+    paragraph({ tokens }) {
+      return `<p class="leading-snug">${this.parser?.parseInline(tokens)}</p>`;
     },
   };
 

@@ -21,6 +21,8 @@ type UserFeedbackProps = {
   postSubmission: PostSubmissionBoxProps;
 };
 
+export const USER_FEEDBACK_ID = "user-feedback-banner";
+
 export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const { pathname } = useLocation();
 
@@ -32,7 +34,11 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
         overhangingBackground
         backgroundColor="midBlue"
       >
-        <div className="ds-stack-16" data-testid="user-feedback-banner">
+        <div
+          className="ds-stack-16"
+          data-testid={USER_FEEDBACK_ID}
+          id={USER_FEEDBACK_ID}
+        >
           {
             {
               [BannerState.ShowRating]: (

@@ -60,6 +60,11 @@ export const cspHeader = (args?: { nonce?: string; environment?: string }) => {
       "https://prompts.maze.co",
     );
     directives["font-src"] = ["'self'", "https://snippet.maze.co"];
+
+    directives["script-src"].splice(
+      directives["script-src"].indexOf("'strict-dynamic'"),
+      1,
+    );
   }
 
   return Object.entries(directives)

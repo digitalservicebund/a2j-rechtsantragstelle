@@ -5,10 +5,9 @@ import { buildFlowController } from "./buildFlowController";
 import { throw404IfFeatureFlagEnabled } from "../../errorPages/throw404";
 import {
   type CookieHeader,
-  getSessionManager,
   mainSessionFromCookieHeader,
 } from "../../session.server";
-import { dataDeletionKey, lastStepKey } from "../constants";
+import { lastStepKey } from "../constants";
 
 type LastStep = Record<FlowId, string>;
 
@@ -19,21 +18,15 @@ async function lastStepFromRequest(cookieHeader: CookieHeader) {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   await throw404IfFeatureFlagEnabled(request);
-  const { pathname, searchParams } = new URL(request.url);
+  const { pathname } = new URL(request.url);
   const flowId = flowIDFromPathname(pathname);
   const { config, guards } = flows[flowId];
   const cookieHeader = request.headers.get("Cookie");
 
-  let headers = {};
-  if (searchParams.get(dataDeletionKey) !== null) {
-    const sessionManager = getSessionManager(flowId);
-    const session = await sessionManager.getSession(cookieHeader);
-    headers = { "Set-Cookie": await sessionManager.destroySession(session) };
-  }
   const lastStep = await lastStepFromRequest(cookieHeader);
   const destination =
     lastStep && flowId in lastStep
       ? lastStep[flowId]
       : buildFlowController({ config, guards }).getInitial();
-  return redirect(destination, { headers });
+  return redirect(destination);
 }
