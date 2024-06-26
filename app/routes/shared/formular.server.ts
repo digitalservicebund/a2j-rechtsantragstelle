@@ -2,6 +2,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
 import type { z } from "zod";
+import { BannerState } from "~/components/UserFeedback";
 import { parsePathname } from "~/models/flows/contexts";
 import { flows } from "~/models/flows/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -16,6 +17,7 @@ import {
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
 import type { CollectionSchemas } from "~/services/cms/schemas";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
+import { getFeedbackBannerState } from "~/services/feedback/handleFeedback";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
@@ -27,6 +29,7 @@ import { validatedSession } from "~/services/security/csrf.server";
 import {
   getSessionData,
   getSessionManager,
+  mainSessionFromCookieHeader,
   updateSession,
 } from "~/services/session.server";
 import {
@@ -140,6 +143,7 @@ export const loader = async ({
     userData,
   );
 
+  const mainSession = await mainSessionFromCookieHeader(cookieHeader);
   const { headers, csrf } = await updateMainSession({
     cookieHeader,
     flowId,
@@ -196,6 +200,9 @@ export const loader = async ({
       stepData,
       translations: flowStrings,
       navigationA11yLabels,
+      flowId,
+      bannerState:
+        getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
     },
     { headers },
   );
