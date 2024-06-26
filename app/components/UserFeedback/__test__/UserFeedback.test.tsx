@@ -9,19 +9,7 @@ describe("UserFeedback", () => {
   const mockedProps = {
     rating: {
       heading: "heading",
-      yesButtonLabel: "Ja",
-      noButtonLabel: "Nein",
       context: "flowId",
-    },
-    feedback: {
-      heading: "heading",
-      placeholder: "placeholder",
-      abortButtonLabel: "cancel",
-      submitButtonLabel: "submit",
-    },
-    postSubmission: {
-      heading: "heading",
-      text: "text",
     },
   };
 
