@@ -32,6 +32,7 @@ import { CookieBanner } from "./components/CookieBanner";
 import FeedbackBanner, { augmentFeedback } from "./components/FeedbackBanner";
 import Footer from "./components/Footer";
 import Header from "./components/PageHeader";
+import { FeedbackTranslationContext } from "./components/UserFeedback/FeedbackTranslationContext";
 import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import { getStrapiFeedback } from "./services/cms/models/StrapiGlobal";
@@ -95,6 +96,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     meta,
     deleteDataStrings,
     hasAnyUserData,
+    feedbackTranslations,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
     fetchSingleEntry("global"),
@@ -105,6 +107,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchMeta({ filterValue: "/" }),
     fetchTranslations("delete-data"),
     anyUserData(request),
+    fetchTranslations("feedback"),
   ]);
 
   return json({
@@ -118,6 +121,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     context,
     deletionLabel: deleteDataStrings["footerLinkLabel"],
     hasAnyUserData,
+    feedbackTranslations,
   });
 };
 
@@ -130,6 +134,7 @@ function App() {
     feedback,
     deletionLabel,
     hasAnyUserData,
+    feedbackTranslations,
   } = useLoaderData<typeof loader>();
   const { breadcrumbs, title, ogTitle, description } =
     metaFromMatches(useMatches());
@@ -187,9 +192,13 @@ function App() {
         />
         <Header {...header} />
         <Breadcrumbs breadcrumbs={breadcrumbs} />
-        <main className="flex-grow">
-          <Outlet />
-        </main>
+        <FeedbackTranslationContext.Provider
+          value={{ translations: feedbackTranslations }}
+        >
+          <main className="flex-grow">
+            <Outlet />
+          </main>
+        </FeedbackTranslationContext.Provider>
         <footer>
           <FeedbackBanner {...augmentFeedback(feedback, title)} />
           <Footer
