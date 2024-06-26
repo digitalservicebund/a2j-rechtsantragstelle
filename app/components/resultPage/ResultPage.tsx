@@ -178,19 +178,7 @@ export function ResultPage({
           bannerState={bannerState}
           rating={{
             heading: "Hat Ihnen der Vorab-Check geholfen?",
-            yesButtonLabel: "Ja",
-            noButtonLabel: "Nein",
             context: flowId,
-          }}
-          feedback={{
-            heading: "Was können wir verbessern?",
-            placeholder: "Bitte tragen Sie keine persönlichen Daten ein!",
-            abortButtonLabel: "Abbrechen",
-            submitButtonLabel: "Abschicken",
-          }}
-          postSubmission={{
-            heading: "Vielen Dank!",
-            text: "Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!",
           }}
         />
       </div>
