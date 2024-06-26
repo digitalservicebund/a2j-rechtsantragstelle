@@ -1,3 +1,4 @@
+// @vitest-environment node
 import type { SafeParseError } from "zod";
 import { airportSchema } from "~/services/validation/airport";
 
