@@ -1,4 +1,5 @@
 import { useLoaderData } from "@remix-run/react";
+import { useMemo } from "react";
 import { ResultPage } from "./ResultPage";
 import type { loader } from "../../routes/shared/result.server";
 import { UserFeedbackContext } from "../UserFeedback/UserFeedbackContext";
@@ -14,17 +15,18 @@ export function FluggastrechteResultPage() {
     amtsgerichtCommon,
   } = useLoaderData<typeof loader>();
 
+  const userFeedbackContextValue = useMemo(
+    () => ({ bannerState: bannerState, flowId: flowId }),
+    [bannerState, flowId],
+  );
+
   return (
-    <UserFeedbackContext.Provider
-      value={{ bannerState: bannerState, flowId: flowId }}
-    >
+    <UserFeedbackContext.Provider value={userFeedbackContextValue}>
       <ResultPage
-        flowId={flowId}
         common={common}
         cmsData={cmsData}
         reasons={reasons}
         backButton={backButton}
-        bannerState={bannerState}
         amtsgerichtCommon={amtsgerichtCommon}
         courts={[]}
       />

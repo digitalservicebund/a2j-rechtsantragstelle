@@ -12,8 +12,6 @@ import Heading from "~/components/Heading";
 import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
-import type { BannerState } from "~/components/UserFeedback";
-import type { FlowId } from "~/models/flows/contexts";
 import type { Translations } from "~/services/cms/index.server";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
@@ -37,7 +35,6 @@ const backgrounds: Record<StrapiResultPageType, BackgroundColor> = {
 };
 
 type Props = {
-  readonly flowId: FlowId;
   readonly common: Translations;
   readonly cmsData: z.infer<CollectionSchemas["result-pages"]>;
   readonly reasons: StrapiElementWithId[];
@@ -45,7 +42,6 @@ type Props = {
     label: string;
     destination?: string;
   };
-  readonly bannerState: BannerState;
   readonly amtsgerichtCommon: z.infer<EntrySchemas["amtsgericht-common"]>;
   readonly courts: Jmtd14VTErwerberGerbeh[];
 };
