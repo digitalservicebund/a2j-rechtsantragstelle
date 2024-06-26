@@ -12,7 +12,6 @@ import Heading from "~/components/Heading";
 import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
-import UserFeedback from "~/components/UserFeedback";
 import type { BannerState } from "~/components/UserFeedback";
 import type { FlowId } from "~/models/flows/contexts";
 import type { Translations } from "~/services/cms/index.server";
@@ -52,12 +51,10 @@ type Props = {
 };
 
 export function ResultPage({
-  flowId,
   common,
   cmsData,
   reasons,
   backButton,
-  bannerState,
   amtsgerichtCommon,
   courts,
 }: Props) {
@@ -173,26 +170,6 @@ export function ResultPage({
 
       <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
         <PageContent content={nextSteps} />
-
-        <UserFeedback
-          bannerState={bannerState}
-          rating={{
-            heading: "Hat Ihnen der Vorab-Check geholfen?",
-            yesButtonLabel: "Ja",
-            noButtonLabel: "Nein",
-            context: flowId,
-          }}
-          feedback={{
-            heading: "Was können wir verbessern?",
-            placeholder: "Bitte tragen Sie keine persönlichen Daten ein!",
-            abortButtonLabel: "Abbrechen",
-            submitButtonLabel: "Abschicken",
-          }}
-          postSubmission={{
-            heading: "Vielen Dank!",
-            text: "Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!",
-          }}
-        />
       </div>
     </>
   );

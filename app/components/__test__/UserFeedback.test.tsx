@@ -1,9 +1,31 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render, screen } from "@testing-library/react";
+import { useMemo, type ReactNode } from "react";
 import UserFeedback, {
   BannerState,
   USER_FEEDBACK_ID,
 } from "~/components/UserFeedback";
+import { UserFeedbackContext } from "../UserFeedback/UserFeedbackContext";
+
+interface RenderUserFeedBackWithContextProps {
+  bannerState: BannerState;
+  children: ReactNode;
+}
+
+const RenderUserFeedBackWithContext = ({
+  bannerState,
+  children,
+}: RenderUserFeedBackWithContextProps) => {
+  const bannerStateValue = useMemo(
+    () => ({ bannerState: bannerState }),
+    [bannerState],
+  );
+  return (
+    <UserFeedbackContext.Provider value={bannerStateValue}>
+      {children}
+    </UserFeedbackContext.Provider>
+  );
+};
 
 describe("UserFeedback", () => {
   const mockedProps = {
@@ -30,7 +52,9 @@ describe("UserFeedback", () => {
       {
         path: "",
         Component: () => (
-          <UserFeedback bannerState={BannerState.ShowRating} {...mockedProps} />
+          <RenderUserFeedBackWithContext bannerState={BannerState.ShowRating}>
+            <UserFeedback {...mockedProps} />
+          </RenderUserFeedBackWithContext>
         ),
       },
     ]);
@@ -44,7 +68,9 @@ describe("UserFeedback", () => {
       {
         path: "",
         Component: () => (
-          <UserFeedback bannerState={BannerState.ShowRating} {...mockedProps} />
+          <RenderUserFeedBackWithContext bannerState={BannerState.ShowRating}>
+            <UserFeedback {...mockedProps} />
+          </RenderUserFeedBackWithContext>
         ),
       },
     ]);
@@ -58,10 +84,9 @@ describe("UserFeedback", () => {
       {
         path: "",
         Component: () => (
-          <UserFeedback
-            bannerState={BannerState.ShowFeedback}
-            {...mockedProps}
-          />
+          <RenderUserFeedBackWithContext bannerState={BannerState.ShowFeedback}>
+            <UserFeedback {...mockedProps} />
+          </RenderUserFeedBackWithContext>
         ),
       },
     ]);
@@ -74,10 +99,11 @@ describe("UserFeedback", () => {
       {
         path: "",
         Component: () => (
-          <UserFeedback
+          <RenderUserFeedBackWithContext
             bannerState={BannerState.FeedbackGiven}
-            {...mockedProps}
-          />
+          >
+            <UserFeedback {...mockedProps} />
+          </RenderUserFeedBackWithContext>
         ),
       },
     ]);

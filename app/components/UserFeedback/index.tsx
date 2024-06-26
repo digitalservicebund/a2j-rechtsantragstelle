@@ -5,6 +5,7 @@ import {
   PostSubmissionBox,
 } from "./PostSubmissionBox";
 import { type RatingBoxProps, RatingBox } from "./RatingBox";
+import { useUserFeedback } from "./UserFeedbackContext";
 import Background from "../Background";
 import Container from "../Container";
 
@@ -15,8 +16,7 @@ export enum BannerState {
 }
 
 type UserFeedbackProps = {
-  bannerState: BannerState;
-  rating: Omit<RatingBoxProps, "url">;
+  rating: Omit<RatingBoxProps, "url" | "context">;
   feedback: Omit<FeedbackBoxProps, "destination">;
   postSubmission: PostSubmissionBoxProps;
 };
@@ -25,6 +25,8 @@ export const USER_FEEDBACK_ID = "user-feedback-banner";
 
 export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const { pathname } = useLocation();
+
+  const { bannerState = BannerState.ShowRating, flowId } = useUserFeedback();
 
   return (
     <Background paddingTop="32" paddingBottom="40" backgroundColor="white">
@@ -42,7 +44,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
           {
             {
               [BannerState.ShowRating]: (
-                <RatingBox url={pathname} {...props.rating} />
+                <RatingBox url={pathname} context={flowId} {...props.rating} />
               ),
               [BannerState.ShowFeedback]: (
                 <FeedbackFormBox destination={pathname} {...props.feedback} />
@@ -50,7 +52,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
               [BannerState.FeedbackGiven]: (
                 <PostSubmissionBox {...props.postSubmission} />
               ),
-            }[props.bannerState]
+            }[bannerState]
           }
         </div>
       </Container>

@@ -15,7 +15,6 @@ export default meta;
 
 export const Example: StoryObj<typeof meta> = {
   args: {
-    bannerState: BannerState.ShowRating,
     rating: {
       heading: "Hat Ihnen der Vorab-Check geholfen?",
       yesButtonLabel: "Ja",
