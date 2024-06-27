@@ -29,7 +29,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const { bannerState = BannerState.ShowRating, flowId } = useUserFeedback();
 
   return (
-    <Background paddingTop="32" paddingBottom="40" backgroundColor="white">
+    <Background paddingTop="32" paddingBottom="40">
       <Container
         paddingTop="32"
         paddingBottom="32"
