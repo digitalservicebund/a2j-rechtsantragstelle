@@ -3,8 +3,9 @@ import { useFeedbackTranslations } from "./FeedbackTranslationContext";
 import Heading from "../Heading";
 import RichText from "../RichText";
 
-const HEADING_POST_SUBMISSION_TRANSLATION_KEY = "heading-post-submission";
-const TEXT_POST_SUBMISSION_TRANSLATION_KEY = "text-post-submission";
+export const HEADING_POST_SUBMISSION_TRANSLATION_KEY =
+  "heading-post-submission";
+export const TEXT_POST_SUBMISSION_TRANSLATION_KEY = "text-post-submission";
 
 export const PostSubmissionBox = () => {
   const { translations } = useFeedbackTranslations();

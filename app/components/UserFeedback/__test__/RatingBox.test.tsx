@@ -1,14 +1,18 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render } from "@testing-library/react";
 import { FeedbackTranslationContext } from "../FeedbackTranslationContext";
-import { RatingBox } from "../RatingBox";
+import {
+  NO_RATING_BUTTON_LABEL_TRANSLATION_KEY,
+  RatingBox,
+  YES_RATING_BUTTON_LABEL_TRANSLATION_KEY,
+} from "../RatingBox";
 
 const YES_RATING = "yes";
 const NO_RATING = "no";
 
 const TRANSLATION_KEY_RECORD = {
-  "yes-rating": YES_RATING,
-  "no-rating": NO_RATING,
+  [YES_RATING_BUTTON_LABEL_TRANSLATION_KEY]: YES_RATING,
+  [NO_RATING_BUTTON_LABEL_TRANSLATION_KEY]: NO_RATING,
 };
 
 describe("RatingBox", () => {

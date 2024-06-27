@@ -1,6 +1,11 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render } from "@testing-library/react";
-import { FeedbackFormBox } from "../FeedbackFormBox";
+import {
+  ABORT_BUTTON_FEEDBACK_TRANSLATION_KEY,
+  FeedbackFormBox,
+  HEADING_FEEDBACK_TRANSLATION_KEY,
+  SUBMIT_BUTTON_FEEDBACK_TRANSLATION_KEY,
+} from "../FeedbackFormBox";
 import { FeedbackTranslationContext } from "../FeedbackTranslationContext";
 
 const HEADING_FEEDBACK = "Heading";
@@ -8,9 +13,9 @@ const ABORT_BUTTON_FEEDBACK = "Abort button";
 const SUBMIT_BUTTON_FEEDBACK = "Submit button";
 
 const TRANSLATION_KEY_RECORD = {
-  "heading-feedback": HEADING_FEEDBACK,
-  "abort-button-feedback": ABORT_BUTTON_FEEDBACK,
-  "submit-button-feedback": SUBMIT_BUTTON_FEEDBACK,
+  [HEADING_FEEDBACK_TRANSLATION_KEY]: HEADING_FEEDBACK,
+  [ABORT_BUTTON_FEEDBACK_TRANSLATION_KEY]: ABORT_BUTTON_FEEDBACK,
+  [SUBMIT_BUTTON_FEEDBACK_TRANSLATION_KEY]: SUBMIT_BUTTON_FEEDBACK,
 };
 
 describe("FeedbackFormBox", () => {

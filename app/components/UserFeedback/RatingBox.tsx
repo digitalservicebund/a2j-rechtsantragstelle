@@ -9,8 +9,8 @@ import ButtonContainer from "../ButtonContainer";
 import Heading from "../Heading";
 
 export const userRatingFieldname = "wasHelpful";
-const YES_RATING_BUTTON_LABEL_TRANSLATION_KEY = "yes-rating";
-const NO_RATING_BUTTON_LABEL_TRANSLATION_KEY = "no-rating";
+export const YES_RATING_BUTTON_LABEL_TRANSLATION_KEY = "yes-rating";
+export const NO_RATING_BUTTON_LABEL_TRANSLATION_KEY = "no-rating";
 
 export interface RatingBoxProps {
   readonly heading: string;

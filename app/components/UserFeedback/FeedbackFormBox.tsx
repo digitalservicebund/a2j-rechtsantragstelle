@@ -14,10 +14,10 @@ export const feedbackFormName = "feedbackForm";
 const feedbackFieldname = "feedback";
 const feedbackButtonFieldname = "feedbackButton";
 
-const HEADING_FEEDBACK_TRANSLATION_KEY = "heading-feedback";
-const PLACEHOLDER_FEEDBACK_TRANSLATION_KEY = "placeholder-feedback";
-const ABORT_BUTTON_FEEDBACK_TRANSLATION_KEY = "abort-button-feedback";
-const SUBMIT_BUTTON_FEEDBACK_TRANSLATION_KEY = "submit-button-feedback";
+export const HEADING_FEEDBACK_TRANSLATION_KEY = "heading-feedback";
+export const PLACEHOLDER_FEEDBACK_TRANSLATION_KEY = "placeholder-feedback";
+export const ABORT_BUTTON_FEEDBACK_TRANSLATION_KEY = "abort-button-feedback";
+export const SUBMIT_BUTTON_FEEDBACK_TRANSLATION_KEY = "submit-button-feedback";
 
 enum FeedbackButtons {
   Abort = "abort",
