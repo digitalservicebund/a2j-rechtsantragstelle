@@ -60,7 +60,7 @@
     "haversine-distance": "1.2.3",
     "html-entities": "^2.5.2",
     "ioredis": "^5.4.1",
-    "isbot": "^5.1.10",
+    "isbot": "^5.1.11",
     "lodash": "^4.17.21",
     "marked": "^13.0.1",
     "mustache": "^4.2.0",
