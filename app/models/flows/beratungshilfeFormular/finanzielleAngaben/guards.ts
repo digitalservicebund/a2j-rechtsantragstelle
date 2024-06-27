@@ -49,12 +49,6 @@ export const eigentumDone: Guards<BeratungshilfeFinanzielleAngaben>[string] = ({
   (!hasAnyEigentumExceptBankaccount({ context }) ||
     context.eigentumTotalWorth !== undefined);
 
-export const einkommenDone: Guards<BeratungshilfeFinanzielleAngaben>[string] =
-  ({ context }) =>
-    (context.staatlicheLeistungen != undefined &&
-      hasStaatlicheLeistungen({ context })) ||
-    context.einkommen != undefined;
-
 const { hasKinderYes } = yesNoGuards("hasKinder");
 const { hasWeitereUnterhaltszahlungenYes } = yesNoGuards(
   "hasWeitereUnterhaltszahlungen",
