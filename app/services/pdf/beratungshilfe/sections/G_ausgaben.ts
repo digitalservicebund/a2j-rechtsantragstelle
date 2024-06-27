@@ -38,6 +38,24 @@ export function fillAusgaben(
       ausgabe.zahlungsempfaenger.length > AUSGABEN_MAX_CHARS_FIELD,
   );
 
+  const hasAusgaben =
+    context.hasAusgaben === "yes" &&
+    context.ausgaben &&
+    context.ausgaben.length > 0;
+
+  pdfFields.g1VerpflichtungenJ.value = hasAusgaben;
+  pdfFields.g1VerpflichtungenN.value = !hasAusgaben;
+
+  const { ausgabensituation } = context;
+  const hasBesondereBelastung =
+    ausgabensituation?.disability === "on" ||
+    ausgabensituation?.medicalReasons === "on" ||
+    ausgabensituation?.pregnancy === "on" ||
+    ausgabensituation?.singleParent === "on";
+
+  pdfFields.g9SonstigeBelastungenJ.value = hasBesondereBelastung;
+  pdfFields.g9SonstigeBelastungenN.value = !hasBesondereBelastung;
+
   if (isPdfFieldExceedsMaxChars || hasOverflowAusgaben) {
     handleOverflowAusgaben(attachment, pdfFields, context, ausgaben);
   } else {
