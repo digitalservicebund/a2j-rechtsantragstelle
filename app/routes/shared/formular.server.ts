@@ -213,7 +213,7 @@ export const loader = async ({
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.formData();
+  const formData = await request.clone().formData();
   if (isFeedbackForm(formData)) return handleFeedback(formData, request);
 
   try {
