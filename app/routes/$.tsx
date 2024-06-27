@@ -1,4 +1,4 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useMemo } from "react";
@@ -7,12 +7,9 @@ import { BannerState } from "~/components/UserFeedback";
 import { UserFeedbackContext } from "~/components/UserFeedback/UserFeedbackContext";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
-import {
-  getFeedbackBannerState,
-  handleFeedback,
-  isFeedbackForm,
-} from "~/services/feedback/handleFeedback";
+import { getFeedbackBannerState } from "~/services/feedback/handleFeedback";
 import { mainSessionFromCookieHeader } from "~/services/session.server";
+export { action } from "~/routes/shared/feedback.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
@@ -33,11 +30,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     }
     throw error;
   }
-};
-
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.formData();
-  if (isFeedbackForm(formData)) return handleFeedback(formData, request);
 };
 
 export default function Index() {
