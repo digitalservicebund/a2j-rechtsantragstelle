@@ -213,7 +213,6 @@ export const finanzielleAngabeGuards = {
     if (arrayIndex === undefined) return false;
     return grundeigentum?.at(arrayIndex)?.isBewohnt === "yes";
   },
-  einkommenDone,
   hasAusgabenYesAndEmptyArray: ({ context }) =>
     hasAusgabenYes({ context }) && !arrayIsNonEmpty(context.ausgaben),
   eigentumYesAndEmptyArray: ({ context }) =>
