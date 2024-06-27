@@ -2,30 +2,37 @@ import ThumbDownIcon from "@digitalservicebund/icons/ThumbDownOutlined";
 import ThumbUpIcon from "@digitalservicebund/icons/ThumbUpOutlined";
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useState } from "react";
+import { getTranslationByKey } from "~/util/getTranslationByKey";
+import { useFeedbackTranslations } from "./FeedbackTranslationContext";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 import Heading from "../Heading";
 
 export const userRatingFieldname = "wasHelpful";
+export const YES_RATING_BUTTON_LABEL_TRANSLATION_KEY = "yes-rating";
+export const NO_RATING_BUTTON_LABEL_TRANSLATION_KEY = "no-rating";
 
 export interface RatingBoxProps {
   readonly heading: string;
   readonly url: string;
   readonly context?: string;
-  readonly yesButtonLabel: string;
-  readonly noButtonLabel: string;
 }
 
-export const RatingBox = ({
-  heading,
-  url,
-  context,
-  yesButtonLabel,
-  noButtonLabel,
-}: RatingBoxProps) => {
+export const RatingBox = ({ heading, url, context }: RatingBoxProps) => {
   const ratingFetcher = useFetcher();
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
+
+  const { translations } = useFeedbackTranslations();
+
+  const yesButtonLabel = getTranslationByKey(
+    YES_RATING_BUTTON_LABEL_TRANSLATION_KEY,
+    translations,
+  );
+  const noButtonLabel = getTranslationByKey(
+    NO_RATING_BUTTON_LABEL_TRANSLATION_KEY,
+    translations,
+  );
 
   return (
     <>
