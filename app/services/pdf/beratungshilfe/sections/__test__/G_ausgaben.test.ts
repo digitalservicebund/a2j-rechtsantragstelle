@@ -12,6 +12,7 @@ const paymentDeadlineDate = "12.12.2099";
 describe("G_ausgaben", () => {
   it("fills ausgaben pdf fields when correct context is given", async () => {
     const mockContext: BeratungshilfeFormularContext = {
+      hasAusgaben: "yes",
       ausgaben: [
         {
           art: "ausgaben art",
@@ -33,6 +34,8 @@ describe("G_ausgaben", () => {
 
     fillAusgaben(attachment, pdfFields, mockContext);
 
+    expect(pdfFields.g1VerpflichtungenJ.value).toBe(true);
+    expect(pdfFields.g9SonstigeBelastungenJ.value).toBe(true);
     expect(pdfFields.g21.value).toEqual("ausgaben art");
     expect(pdfFields.g31.value).toEqual(expensesRecipients);
     expect(pdfFields.g5Raten1.value).toEqual(paymentDeadlineDate);

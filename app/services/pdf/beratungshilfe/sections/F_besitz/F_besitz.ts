@@ -312,7 +312,7 @@ function getGeldanlagenBezeichnung(geldanlagen?: Geldanlage[]): string[] {
   const befristet = (anlage: Geldanlage) => {
     const befristungTypeLookup = {
       lifeInsurance: "Lebensversicherung",
-      buildingSavingsContract: "Bauspartvertrag",
+      buildingSavingsContract: "Bausparvertrag",
       fixedDepositAccount: "Festgeldkonto",
     };
     const befristungType =

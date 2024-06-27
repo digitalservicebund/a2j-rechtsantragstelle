@@ -31,13 +31,12 @@ const hasPartnerschaftOrSeparatedAndZusammenlebenNo: Guards<BeratungshilfeFinanz
   ({ context }) =>
     hasPartnerschaftOrSeparated({ context }) && context.zusammenleben == "no";
 
-const hasEigentum: Guards<BeratungshilfeFinanzielleAngaben>[string] = ({
-  context,
-}) =>
-  context.hasGeldanlage == "yes" ||
-  context.hasKraftfahrzeug == "yes" ||
-  context.hasGrundeigentum == "yes" ||
-  context.hasWertsache == "yes";
+const hasAnyEigentumExceptBankaccount: Guards<BeratungshilfeFinanzielleAngaben>[string] =
+  ({ context }) =>
+    context.hasGeldanlage == "yes" ||
+    context.hasWertsache == "yes" ||
+    context.hasGrundeigentum == "yes" ||
+    context.hasKraftfahrzeug == "yes";
 
 export const eigentumDone: Guards<BeratungshilfeFinanzielleAngaben>[string] = ({
   context,
@@ -47,7 +46,8 @@ export const eigentumDone: Guards<BeratungshilfeFinanzielleAngaben>[string] = ({
   context.hasGeldanlage !== undefined &&
   context.hasGrundeigentum !== undefined &&
   context.hasWertsache !== undefined &&
-  (!hasEigentum({ context }) || context.eigentumTotalWorth !== undefined);
+  (!hasAnyEigentumExceptBankaccount({ context }) ||
+    context.eigentumTotalWorth !== undefined);
 
 export const einkommenDone: Guards<BeratungshilfeFinanzielleAngaben>[string] =
   ({ context }) =>
@@ -74,7 +74,8 @@ export const finanzielleAngabeGuards = {
   staatlicheLeistungenIsBuergergeldAndEigentumDone: ({ context }) =>
     staatlicheLeistungenIsBuergergeld({ context }) && eigentumDone({ context }),
   staatlicheLeistungenIsBuergergeldAndHasEigentum: ({ context }) =>
-    staatlicheLeistungenIsBuergergeld({ context }) && hasEigentum({ context }),
+    staatlicheLeistungenIsBuergergeld({ context }) &&
+    hasAnyEigentumExceptBankaccount({ context }),
   hasStaatlicheLeistungen,
   hasNoStaatlicheLeistungen,
   hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
@@ -161,7 +162,7 @@ export const finanzielleAngabeGuards = {
   livesNotAlone: ({ context }) =>
     context.livingSituation === "withRelatives" ||
     context.livingSituation === "withOthers",
-  hasEigentum,
+  hasAnyEigentumExceptBankaccount,
   isGeldanlageBargeld: ({ context: { pageData, geldanlagen } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
