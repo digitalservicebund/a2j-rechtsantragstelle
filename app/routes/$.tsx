@@ -1,4 +1,4 @@
-import type { ActionFunction, LoaderFunctionArgs } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useMemo } from "react";
@@ -35,7 +35,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   }
 };
 
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   if (isFeedbackForm(formData)) return handleFeedback(formData, request);
 };
