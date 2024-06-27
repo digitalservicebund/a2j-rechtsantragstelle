@@ -30,6 +30,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
         paddingBottom="32"
         overhangingBackground
         backgroundColor="midBlue"
+        fullScreen={false}
       >
         <div
           className="ds-stack-16"
