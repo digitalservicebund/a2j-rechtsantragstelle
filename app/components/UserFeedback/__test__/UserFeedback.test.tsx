@@ -5,7 +5,7 @@ import UserFeedback, {
   BannerState,
   USER_FEEDBACK_ID,
 } from "~/components/UserFeedback";
-import { UserFeedbackContext } from "../UserFeedback/UserFeedbackContext";
+import { UserFeedbackContext } from "../UserFeedbackContext";
 
 interface RenderUserFeedBackWithContextProps {
   bannerState: BannerState;
@@ -31,19 +31,6 @@ describe("UserFeedback", () => {
   const mockedProps = {
     rating: {
       heading: "heading",
-      yesButtonLabel: "Ja",
-      noButtonLabel: "Nein",
-      context: "flowId",
-    },
-    feedback: {
-      heading: "heading",
-      placeholder: "placeholder",
-      abortButtonLabel: "cancel",
-      submitButtonLabel: "submit",
-    },
-    postSubmission: {
-      heading: "heading",
-      text: "text",
     },
   };
 

@@ -1,7 +1,6 @@
 import { arrayIsNonEmpty } from "~/services/validation/array";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
 import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
-import { einkommenDone as einkommenDoneGuard } from "./guards";
 import { eigentumDone } from "./navStatesEigentum";
 import type { GenericGuard } from "../../guards.server";
 
@@ -9,7 +8,9 @@ export type FinanzielleAngabenGuard =
   GenericGuard<BeratungshilfeFinanzielleAngaben>;
 
 export const einkommenDone: FinanzielleAngabenGuard = ({ context }) =>
-  einkommenDoneGuard({ context });
+  (context.staatlicheLeistungen != undefined &&
+    hasStaatlicheLeistungen({ context })) ||
+  context.einkommen != undefined;
 
 export const partnerDone: FinanzielleAngabenGuard = ({ context }) =>
   (context.staatlicheLeistungen != undefined &&

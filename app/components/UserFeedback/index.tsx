@@ -1,9 +1,6 @@
 import { useLocation } from "@remix-run/react";
-import { type FeedbackBoxProps, FeedbackFormBox } from "./FeedbackFormBox";
-import {
-  type PostSubmissionBoxProps,
-  PostSubmissionBox,
-} from "./PostSubmissionBox";
+import { FeedbackFormBox } from "./FeedbackFormBox";
+import { PostSubmissionBox } from "./PostSubmissionBox";
 import { type RatingBoxProps, RatingBox } from "./RatingBox";
 import { useUserFeedback } from "./UserFeedbackContext";
 import Background from "../Background";
@@ -16,9 +13,7 @@ export enum BannerState {
 }
 
 type UserFeedbackProps = {
-  rating: Omit<RatingBoxProps, "url" | "context">;
-  feedback: Omit<FeedbackBoxProps, "destination">;
-  postSubmission: PostSubmissionBoxProps;
+  rating: Pick<RatingBoxProps, "heading">;
 };
 
 export const USER_FEEDBACK_ID = "user-feedback-banner";
@@ -47,11 +42,9 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
                 <RatingBox url={pathname} context={flowId} {...props.rating} />
               ),
               [BannerState.ShowFeedback]: (
-                <FeedbackFormBox destination={pathname} {...props.feedback} />
+                <FeedbackFormBox destination={pathname} />
               ),
-              [BannerState.FeedbackGiven]: (
-                <PostSubmissionBox {...props.postSubmission} />
-              ),
+              [BannerState.FeedbackGiven]: <PostSubmissionBox />,
             }[bannerState]
           }
         </div>

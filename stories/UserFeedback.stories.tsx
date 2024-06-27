@@ -17,18 +17,6 @@ export const Example: StoryObj<typeof meta> = {
   args: {
     rating: {
       heading: "Hat Ihnen der Vorab-Check geholfen?",
-      yesButtonLabel: "Ja",
-      noButtonLabel: "Nein",
-    },
-    feedback: {
-      heading: "Haben sie Verbesserungsvorschläge",
-      placeholder: "Bitte tragen Sie keine persönlichen Daten ein!",
-      abortButtonLabel: "Abbrechen",
-      submitButtonLabel: "Abschicken",
-    },
-    postSubmission: {
-      heading: "Vielen Dank!",
-      text: "Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern!",
     },
   },
   decorators: [(Story) => remixContext(Story)],

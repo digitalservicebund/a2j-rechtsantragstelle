@@ -70,10 +70,7 @@
         "einkommen": {
           "on": {
             "BACK": "weiteres-einkommen",
-            "SUBMIT": {
-              "target": "#partner.partnerschaft",
-              "guard": "einkommenDone"
-            }
+            "SUBMIT": "#partner.partnerschaft"
           }
         }
       }
