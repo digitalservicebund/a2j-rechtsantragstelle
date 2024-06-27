@@ -473,7 +473,7 @@
           "on": {
             "SUBMIT": [
               {
-                "guard": "hasEigentum",
+                "guard": "hasAnyEigentumExceptBankaccount",
                 "target": "gesamtwert"
               },
               {
@@ -515,7 +515,7 @@
           "on": {
             "BACK": [
               {
-                "guard": "hasEigentum",
+                "guard": "hasAnyEigentumExceptBankaccount",
                 "target": "#eigentum.gesamtwert"
               },
               "#eigentum.kraftfahrzeuge-frage"
@@ -701,7 +701,7 @@
                 "target": "#eigentum-zusammenfassung.zusammenfassung"
               },
               {
-                "guard": "hasEigentum",
+                "guard": "hasAnyEigentumExceptBankaccount",
                 "target": "#eigentum.gesamtwert"
               },
               "#eigentum.kraftfahrzeuge-frage"
