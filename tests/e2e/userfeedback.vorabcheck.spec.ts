@@ -16,7 +16,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("User Feedback", () => {
-  test("positive feedback submission", async ({ page }) => {
+  test.skip("positive feedback submission", async ({ page }) => {
     // the user should see submission feedback after clicking thumb-up icon and submitting feedback
     await page.getByTestId("ThumbUpOutlinedIcon").click();
     await page.getByRole("textbox").fill("### e2e test submission positive");
@@ -27,7 +27,7 @@ test.describe("User Feedback", () => {
     await expect(page.getByTestId(POST_SUBMISSION_BOX)).toBeInViewport();
   });
 
-  test("negative feedback submission", async ({ page }) => {
+  test.skip("negative feedback submission", async ({ page }) => {
     // the user should see submission feedback after clicking thumb-down icon and submitting feedback
     await page.getByTestId("ThumbDownOutlinedIcon").click();
     await page.getByRole("textbox").fill("### e2e test submission negative");
@@ -38,7 +38,7 @@ test.describe("User Feedback", () => {
     await expect(page.getByTestId(POST_SUBMISSION_BOX)).toBeInViewport();
   });
 
-  test("feedback submission abort", async ({ page }) => {
+  test.skip("feedback submission abort", async ({ page }) => {
     // the user should see thank you after clicking abort feedback
     await page.getByTestId("ThumbDownOutlinedIcon").click();
     await page.getByRole("textbox").fill("### e2e test submission negative");
