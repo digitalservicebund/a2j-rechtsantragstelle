@@ -72,6 +72,7 @@ export const FeedbackFormBox = ({ destination }: FeedbackBoxProps) => {
         subaction={feedbackFormName}
         method="post"
         action={destination}
+        preventScrollReset={true}
       >
         <div className="ds-stack-16">
           <Textarea name={feedbackFieldname} placeholder={placeholder} />
