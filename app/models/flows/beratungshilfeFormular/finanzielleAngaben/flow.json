@@ -222,7 +222,12 @@
             }
           }
         },
-        "warnung": { "on": { "BACK": "uebersicht" } },
+        "warnung": {
+          "on": {
+            "BACK": "uebersicht",
+            "SUBMIT": "#andere-unterhaltszahlungen"
+          }
+        },
         "kinder": {
           "initial": "name",
           "states": {
@@ -332,7 +337,7 @@
             "add-unterhaltszahlungen": "person"
           }
         },
-        "warnung": { "on": { "BACK": "uebersicht" } },
+        "warnung": { "on": { "BACK": "uebersicht", "SUBMIT": "#wohnung" } },
         "person": {
           "initial": "daten",
           "states": {
@@ -532,7 +537,12 @@
             "add-grundeigentum": "grundeigentum"
           }
         },
-        "warnung": { "on": { "BACK": "zusammenfassung" } },
+        "warnung": {
+          "on": {
+            "BACK": "zusammenfassung",
+            "SUBMIT": "#ausgaben"
+          }
+        },
         "bankkonten": {
           "initial": "daten",
           "states": {
@@ -731,7 +741,9 @@
             }
           }
         },
-        "warnung": { "on": { "BACK": "uebersicht" } },
+        "warnung": {
+          "on": { "BACK": "uebersicht", "SUBMIT": "#persoenliche-daten" }
+        },
         "ausgaben": {
           "initial": "art",
           "states": {
