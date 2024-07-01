@@ -1,9 +1,11 @@
 import CloseIcon from "@digitalservicebund/icons/CloseOutlined";
 import SendIcon from "@digitalservicebund/icons/SendOutlined";
 import { withZod } from "@remix-validated-form/with-zod";
+import { useEffect, useState } from "react";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
+import { USER_FEEDBACK_ID } from ".";
 import { useFeedbackTranslations } from "./FeedbackTranslationContext";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
@@ -45,6 +47,8 @@ export interface FeedbackBoxProps {
 
 export const FeedbackFormBox = ({ destination }: FeedbackBoxProps) => {
   const { translations } = useFeedbackTranslations();
+  const [jsAvailable, setJsAvailable] = useState(false);
+  useEffect(() => setJsAvailable(true), []);
 
   const heading = getTranslationByKey(
     HEADING_FEEDBACK_TRANSLATION_KEY,
@@ -64,6 +68,10 @@ export const FeedbackFormBox = ({ destination }: FeedbackBoxProps) => {
     translations,
   );
 
+  const nextDestination = jsAvailable
+    ? destination
+    : `${destination}#${USER_FEEDBACK_ID}`;
+
   return (
     <>
       <Heading look="ds-label-01-bold" tagName="h2" text={heading} />
@@ -71,7 +79,7 @@ export const FeedbackFormBox = ({ destination }: FeedbackBoxProps) => {
         validator={feedbackValidator}
         subaction={feedbackFormName}
         method="post"
-        action={destination}
+        action={nextDestination}
         preventScrollReset={true}
       >
         <div className="ds-stack-16">
