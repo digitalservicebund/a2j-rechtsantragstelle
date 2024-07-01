@@ -249,6 +249,14 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/posthog-node/README.md",
     "direct": true
   },
+  "rate-limit-redis": {
+    "licenses": "MIT",
+    "repository": "https://github.com/express-rate-limit/rate-limit-redis",
+    "publisher": "Wyatt Johnson",
+    "path": "a2j-rechtsantragstelle/node_modules/rate-limit-redis",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/rate-limit-redis/license.md",
+    "direct": true
+  },
   "react-collapsed": {
     "licenses": "MIT",
     "repository": "https://github.com/roginfarrer/collapsed",
