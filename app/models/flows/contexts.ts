@@ -19,6 +19,17 @@ export type Context = Record<
   BasicTypes | ObjectType | ArrayData | undefined
 >;
 
+export const flowIds = [
+  "beratungshilfe/antrag",
+  "beratungshilfe/vorabcheck",
+  "geld-einklagen/vorabcheck",
+  "geld-einklagen/formular",
+  "fluggastrechte/vorabcheck",
+  "fluggastrechte/formular",
+] as const;
+
+export type FlowId = (typeof flowIds)[number];
+
 const contexts = {
   "beratungshilfe/antrag": beratungshilfeFormularContext,
   "beratungshilfe/vorabcheck": beratungshilfeContext,
@@ -26,9 +37,7 @@ const contexts = {
   "geld-einklagen/formular": geldEinklagenFormularContext,
   "fluggastrechte/vorabcheck": fluggastrechteVorabcheckContext,
   "fluggastrechte/formular": fluggastrechtContext,
-} as const satisfies Record<string, Record<string, ZodTypeAny>>;
-
-export type FlowId = keyof typeof contexts;
+} as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;
 
 export const getContext = (flowId: FlowId) => contexts[flowId];
 
