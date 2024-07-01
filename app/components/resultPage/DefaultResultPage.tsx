@@ -17,7 +17,7 @@ export function DefaultResultPage() {
   } = useLoaderData<typeof loader>();
 
   const userFeedbackContextValue = useMemo(
-    () => ({ bannerState: bannerState, flowId: flowId }),
+    () => ({ bannerState, flowId: flowId }),
     [bannerState, flowId],
   );
 

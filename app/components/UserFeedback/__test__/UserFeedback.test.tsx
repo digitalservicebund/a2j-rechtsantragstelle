@@ -16,10 +16,7 @@ const RenderUserFeedBackWithContext = ({
   bannerState,
   children,
 }: RenderUserFeedBackWithContextProps) => {
-  const bannerStateValue = useMemo(
-    () => ({ bannerState: bannerState }),
-    [bannerState],
-  );
+  const bannerStateValue = useMemo(() => ({ bannerState }), [bannerState]);
   return (
     <UserFeedbackContext.Provider value={bannerStateValue}>
       {children}
