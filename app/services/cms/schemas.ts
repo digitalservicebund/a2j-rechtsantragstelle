@@ -2,7 +2,6 @@ import { StrapiAmtsgerichtCommonSchema } from "./models/StrapiAmtsgerichtCommon"
 import { StrapiCookieBannerSchema } from "./models/StrapiCookieBannerSchema";
 import { StrapiFooterSchema } from "./models/StrapiFooter";
 import { StrapiFormFlowPageSchema } from "./models/StrapiFormFlowPage";
-import { StrapiGlobalSchema } from "./models/StrapiGlobal";
 import { StrapiPageSchema } from "./models/StrapiPage";
 import { StrapiPageHeaderSchema } from "./models/StrapiPageHeader";
 import { StrapiResultPageSchema } from "./models/StrapiResultPage";
@@ -12,7 +11,6 @@ import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
 
 export const entrySchemas = {
   "page-header": StrapiPageHeaderSchema,
-  global: StrapiGlobalSchema,
   footer: StrapiFooterSchema,
   "vorab-check-common": StrapiVorabCheckCommonSchema,
   "amtsgericht-common": StrapiAmtsgerichtCommonSchema,
