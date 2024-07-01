@@ -14,9 +14,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Fluggastrechte Formular", () => {
-  // force to use javascript
-  test.use({ javaScriptEnabled: true });
-
   test("forwarded to initial step", async ({ page }) => {
     await expect(page).toHaveURL(
       new RegExp(`.+${fluggastrechte.url}/${fluggastrechte.initialStep}$`),

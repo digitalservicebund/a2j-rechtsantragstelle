@@ -5,6 +5,9 @@ import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 const decode = (str: string): string =>
   Buffer.from(str, "base64").toString("utf8");
 
+const encode = (str: string): string =>
+  Buffer.from(str, "binary").toString("base64");
+
 export class CookieSettings {
   readonly page: Page;
   readonly url = "/cookie-einstellungen";
@@ -39,6 +42,18 @@ export class CookieSettings {
   }
 
   async acceptCookieBanner() {
+    // Force the creation of the cookie in case the click banner does not working
+    await this.page.context().addCookies([
+      {
+        name: consentCookieName,
+        value: encode(`{"${acceptCookiesFieldName}": "true"}`),
+        domain: "localhost",
+        path: "/",
+        expires: -1,
+        httpOnly: true,
+        secure: false,
+      },
+    ]);
     await this.page.getByTestId("accept-cookie").click();
   }
 

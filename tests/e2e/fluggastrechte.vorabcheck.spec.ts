@@ -11,9 +11,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("js enabled", () => {
-  // force to use javascript
-  test.use({ javaScriptEnabled: true });
-
   test.beforeEach(async ({ page }) => {
     const cookieSettings = new CookieSettings(page);
     await cookieSettings.acceptCookieBanner();

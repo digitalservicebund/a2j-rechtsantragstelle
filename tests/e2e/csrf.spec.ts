@@ -14,9 +14,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("CSRF token", () => {
-  // force to use javascript
-  test.use({ javaScriptEnabled: true });
-
   test("multiple tabs work", async ({ context }) => {
     const vorabcheck2 = new BeratungshilfeVorabcheck(await context.newPage());
     await vorabcheck2.goto();
