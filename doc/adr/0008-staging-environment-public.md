@@ -8,7 +8,7 @@ Agreed
 
 ## Context
 
-Previously, accessing the staging environment required user and password authentication. However, this posed issues for external users who needed access, leading to the decision to remove authentication and make the staging environment public.
+Previously, accessing the staging environment required HTTP basic authentication. However, this posed issues for external users who needed access due problems with their devices or browsers to enter the credetials with HTTP basic authentication, leading to the decision to remove authentication and make the staging environment public.
 
 ### Issue
 
