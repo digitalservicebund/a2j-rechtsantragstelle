@@ -55,6 +55,8 @@ export class CookieSettings {
       },
     ]);
     await this.page.getByTestId("accept-cookie").click();
+    // wait 3 seconds after accept cookie banner
+    await this.page.waitForTimeout(3000);
   }
 
   async goBackToSettings() {
