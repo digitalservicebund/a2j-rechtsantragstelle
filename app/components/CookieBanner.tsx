@@ -110,6 +110,7 @@ export function CookieBanner({
                 look="primary"
                 text={content.acceptButtonLabel}
                 size="large"
+                data-testid="accept-cookie"
               />
               <Button
                 name={acceptCookiesFieldName}
@@ -118,6 +119,7 @@ export function CookieBanner({
                 look="primary"
                 text={content.declineButtonLabel}
                 size="large"
+                data-testid="decline-cookie"
               />
               {content.cookieSettingLinkUrl && (
                 <a href={content.cookieSettingLinkUrl} className="text-link">

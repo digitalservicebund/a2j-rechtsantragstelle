@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { FluggastrechteFormular } from "tests/e2e/pom/FluggastrechteFormular";
+import { CookieSettings } from "./pom/CookieSettings";
 import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
 
 let fluggastrechte: FluggastrechteFormular;
@@ -7,6 +8,9 @@ let fluggastrechte: FluggastrechteFormular;
 test.beforeEach(async ({ page }) => {
   fluggastrechte = new FluggastrechteFormular(page);
   await fluggastrechte.goto();
+
+  const cookieSettings = new CookieSettings(page);
+  await cookieSettings.acceptCookieBanner();
 });
 
 test("forwarded to initial step", async ({ page }) => {

@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { CookieSettings } from "./pom/CookieSettings";
 import { GeldEinklagenVorabcheck } from "./pom/GeldEinklagenVorabcheck";
 import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
 
@@ -7,6 +8,9 @@ let geldEinklagen: GeldEinklagenVorabcheck;
 test.beforeEach(async ({ page }) => {
   geldEinklagen = new GeldEinklagenVorabcheck(page);
   await geldEinklagen.goto();
+
+  const cookieSettings = new CookieSettings(page);
+  await cookieSettings.acceptCookieBanner();
 });
 
 test("forwarded to intial step", async ({ page }) => {

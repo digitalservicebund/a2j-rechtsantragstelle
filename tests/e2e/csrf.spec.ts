@@ -1,11 +1,20 @@
 import { test, expect } from "@playwright/test";
 import { csrfCountMax } from "~/services/security/csrf.server";
 import { BeratungshilfeVorabcheck } from "./pom/BeratungshilfeVorabcheck";
+import { CookieSettings } from "./pom/CookieSettings";
+
+let vorabcheck: BeratungshilfeVorabcheck;
+
+test.beforeEach(async ({ page }) => {
+  vorabcheck = new BeratungshilfeVorabcheck(page);
+  await vorabcheck.goto();
+
+  const cookieSettings = new CookieSettings(page);
+  await cookieSettings.acceptCookieBanner();
+});
 
 test.describe("CSRF token", () => {
-  test("multiple tabs work", async ({ page, context }) => {
-    const vorabcheck = new BeratungshilfeVorabcheck(page);
-    await vorabcheck.goto();
+  test("multiple tabs work", async ({ context }) => {
     const vorabcheck2 = new BeratungshilfeVorabcheck(await context.newPage());
     await vorabcheck2.goto();
     await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
@@ -16,10 +25,7 @@ test.describe("CSRF token", () => {
     ).toHaveCount(1);
   });
 
-  test("N+1 form tabs return 403", async ({ page, context }) => {
-    const vorabcheck = new BeratungshilfeVorabcheck(page);
-    await vorabcheck.goto();
-
+  test("N+1 form tabs return 403", async ({ context }) => {
     for (let idx = 0; idx < csrfCountMax; idx++) {
       const newPage = new BeratungshilfeVorabcheck(await context.newPage());
       await newPage.goto();
@@ -28,10 +34,7 @@ test.describe("CSRF token", () => {
     await expect(vorabcheck.page.getByText("403")).toHaveCount(1);
   });
 
-  test("N+1 non-form tabs still work", async ({ page, context }) => {
-    const vorabcheck = new BeratungshilfeVorabcheck(page);
-    await vorabcheck.goto();
-
+  test("N+1 non-form tabs still work", async ({ context }) => {
     for (let idx = 0; idx < csrfCountMax; idx++) {
       await (await context.newPage()).goto("/");
     }

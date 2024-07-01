@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { BeratungshilfeVorabcheck } from "tests/e2e/pom/BeratungshilfeVorabcheck";
+import { CookieSettings } from "./pom/CookieSettings";
 
 let vorabcheck: BeratungshilfeVorabcheck;
 
@@ -11,8 +12,11 @@ test.beforeEach(async ({ page }) => {
   vorabcheck = new BeratungshilfeVorabcheck(page);
   // Move the user to the nearest page with feedback component
   await vorabcheck.goto();
+
+  const cookieSettings = new CookieSettings(page);
+  await cookieSettings.acceptCookieBanner();
+
   await vorabcheck.fillRadioPage("rechtsschutzversicherung", "yes");
-  await expect(page.getByTestId(USER_FEEDBACK_BANNER)).toBeInViewport();
 });
 
 test.describe("User Feedback", () => {

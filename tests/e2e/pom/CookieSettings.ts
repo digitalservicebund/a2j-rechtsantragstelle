@@ -38,6 +38,10 @@ export class CookieSettings {
     await this.submitForm();
   }
 
+  async acceptCookieBanner() {
+    await this.page.getByTestId("accept-cookie").click();
+  }
+
   async goBackToSettings() {
     await this.page
       .getByRole("button", { name: "Zurück zu den Einstellungen" })

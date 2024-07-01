@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { CookieSettings } from "./pom/CookieSettings";
 import { CourtFinder } from "./pom/CourtFinder";
 import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
 
@@ -7,6 +8,9 @@ let courtfinder: CourtFinder;
 test.beforeEach(async ({ page }) => {
   courtfinder = new CourtFinder(page);
   await courtfinder.goto();
+
+  const cookieSettings = new CookieSettings(page);
+  await cookieSettings.acceptCookieBanner();
 });
 
 async function expectSingleCourtContent(courtfinder: CourtFinder) {
