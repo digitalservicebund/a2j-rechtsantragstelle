@@ -11,7 +11,7 @@ import CourtDetails from "~/components/CourtDetails";
 import Heading from "~/components/Heading";
 import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
-import { flowIDFromPathname } from "~/models/flows/contexts";
+import { flowIDFromPathname } from "~/models/flows/flowIds";
 import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/context";
 import {
   fetchCollectionEntry,

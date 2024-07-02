@@ -14,7 +14,7 @@ import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
 import UserFeedback from "~/components/UserFeedback";
 import type { BannerState } from "~/components/UserFeedback";
-import type { FlowId } from "~/models/flows/contexts";
+import type { FlowId } from "~/models/flows/flowIds";
 import type { Translations } from "~/services/cms/index.server";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";

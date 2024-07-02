@@ -1,4 +1,4 @@
-import type { FlowId } from "~/models/flows/contexts";
+import type { FlowId } from "~/models/flows/flowIds";
 import { lastStepKey } from "~/services/flow/constants";
 import { createSessionWithCsrf } from "~/services/security/csrf.server";
 import {
