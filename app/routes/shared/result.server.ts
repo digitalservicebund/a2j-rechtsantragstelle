@@ -1,4 +1,4 @@
-import type { ActionFunction, LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { getReasonsToDisplay } from "~/models/flows/common";
 import { parsePathname } from "~/models/flows/flowIds";
@@ -14,10 +14,6 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
-import {
-  handleFeedback,
-  isFeedbackForm,
-} from "~/services/feedback/handleFeedback";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
@@ -122,9 +118,4 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     },
     { headers },
   );
-};
-
-export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  if (isFeedbackForm(formData)) return handleFeedback(formData, request);
 };

@@ -16,10 +16,6 @@ import {
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
 import type { CollectionSchemas } from "~/services/cms/schemas";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
-import {
-  handleFeedback,
-  isFeedbackForm,
-} from "~/services/feedback/handleFeedback";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
@@ -206,9 +202,6 @@ export const loader = async ({
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.clone().formData();
-  if (isFeedbackForm(formData)) return handleFeedback(formData, request);
-
   try {
     await validatedSession(request);
   } catch (csrfError) {
@@ -220,6 +213,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
+  const formData = await request.formData();
 
   // Note: This also reduces same-named fields to the last entry
   const relevantFormData = Object.fromEntries(

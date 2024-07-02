@@ -41,7 +41,7 @@ import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import { getStrapiFeedback } from "./services/cms/models/StrapiGlobal";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
-import { getFeedbackBannerState } from "./services/feedback/handleFeedback";
+import { getFeedbackBannerState } from "./services/feedback/getFeedbackBannerState";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
