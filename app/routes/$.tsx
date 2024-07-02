@@ -9,7 +9,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagEnabled(request);
   try {
     const { content, meta } = await strapiPageFromRequest({ request });
-    return json({ content, meta });
+    return json({
+      content,
+      meta,
+    });
   } catch (error) {
     if ((error as Error).name === "StrapiPageNotFound") {
       throw new Response(null, { status: 404 });
@@ -19,5 +22,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export default function Index() {
-  return <PageContent content={useLoaderData<typeof loader>().content} />;
+  const { content } = useLoaderData<typeof loader>();
+
+  return <PageContent content={content} />;
 }

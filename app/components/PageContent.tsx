@@ -2,6 +2,7 @@ import type { ReactElement } from "react";
 import Heading from "~/components/Heading";
 import { StrapiDetailsSummary } from "~/services/cms/components/StrapiDetailsSummary";
 import { StrapiInlineNotice } from "~/services/cms/components/StrapiInlineNotice";
+import { StrapiUserFeedback } from "~/services/cms/components/StrapiUserFeedback";
 import { getBoxProps } from "~/services/cms/models/StrapiBox";
 import { getBoxWithImageProps } from "~/services/cms/models/StrapiBoxWithImage";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
@@ -77,6 +78,8 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
       return <StrapiInlineNotice {...strapiContent} />;
     case "page.details-summary":
       return <StrapiDetailsSummary {...strapiContent} />;
+    case "page.user-feedback":
+      return <StrapiUserFeedback {...strapiContent} />;
     default:
       return <></>;
   }

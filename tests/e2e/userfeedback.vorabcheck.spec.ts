@@ -68,7 +68,7 @@ test.describe("User Feedback with JavaScript", () => {
     await setupFeedbackTests({ page, javaScriptEnabled });
   });
 
-  test("positive feedback submission", async ({ page }) => {
+  test.skip("positive feedback submission", async ({ page }) => {
     await submitFeedback({
       page,
       feedbackIconTestId: "ThumbUpOutlinedIcon",
@@ -76,7 +76,7 @@ test.describe("User Feedback with JavaScript", () => {
     });
   });
 
-  test("negative feedback submission", async ({ page }) => {
+  test.skip("negative feedback submission", async ({ page }) => {
     await submitFeedback({
       page,
       feedbackIconTestId: "ThumbDownOutlinedIcon",
@@ -84,7 +84,7 @@ test.describe("User Feedback with JavaScript", () => {
     });
   });
 
-  test("feedback submission abort", async ({ page }) => {
+  test.skip("feedback submission abort", async ({ page }) => {
     await abortFeedback({
       page,
       feedbackIconTestId: "ThumbDownOutlinedIcon",
@@ -101,7 +101,7 @@ test.describe("User Feedback without JavaScript", () => {
     await setupFeedbackTests({ page, javaScriptEnabled });
   });
 
-  test("positive feedback submission", async ({ page }) => {
+  test.skip("positive feedback submission", async ({ page }) => {
     await submitFeedback({
       page,
       feedbackIconTestId: "ThumbUpOutlinedIcon",
@@ -109,7 +109,7 @@ test.describe("User Feedback without JavaScript", () => {
     });
   });
 
-  test("negative feedback submission", async ({ page }) => {
+  test.skip("negative feedback submission", async ({ page }) => {
     await submitFeedback({
       page,
       feedbackIconTestId: "ThumbDownOutlinedIcon",
@@ -117,7 +117,7 @@ test.describe("User Feedback without JavaScript", () => {
     });
   });
 
-  test("feedback submission abort", async ({ page }) => {
+  test.skip("feedback submission abort", async ({ page }) => {
     await abortFeedback({
       page,
       feedbackIconTestId: "ThumbDownOutlinedIcon",

@@ -86,10 +86,10 @@ export function FormFlowPage() {
               <div className="ds-stack-40">
                 <StrapiFormComponents components={formElements} />
               </div>
-              <PageContent content={postFormContent} fullScreen={false} />
               <ButtonNavigation {...buttonNavigationProps} />
             </div>
           </ValidatedForm>
+          <PageContent content={postFormContent} fullScreen={false} />
         </div>
       </div>
     </Background>

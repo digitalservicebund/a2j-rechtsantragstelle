@@ -12,9 +12,6 @@ import Heading from "~/components/Heading";
 import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
-import UserFeedback from "~/components/UserFeedback";
-import type { BannerState } from "~/components/UserFeedback";
-import type { FlowId } from "~/models/flows/flowIds";
 import type { Translations } from "~/services/cms/index.server";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
@@ -38,7 +35,6 @@ const backgrounds: Record<StrapiResultPageType, BackgroundColor> = {
 };
 
 type Props = {
-  readonly flowId: FlowId;
   readonly common: Translations;
   readonly cmsData: z.infer<CollectionSchemas["result-pages"]>;
   readonly reasons: StrapiElementWithId[];
@@ -46,18 +42,15 @@ type Props = {
     label: string;
     destination?: string;
   };
-  readonly bannerState: BannerState;
   readonly amtsgerichtCommon: z.infer<EntrySchemas["amtsgericht-common"]>;
   readonly courts: Jmtd14VTErwerberGerbeh[];
 };
 
 export function ResultPage({
-  flowId,
   common,
   cmsData,
   reasons,
   backButton,
-  bannerState,
   amtsgerichtCommon,
   courts,
 }: Props) {
@@ -173,14 +166,6 @@ export function ResultPage({
 
       <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
         <PageContent content={nextSteps} />
-
-        <UserFeedback
-          bannerState={bannerState}
-          rating={{
-            heading: "Hat Ihnen der Vorab-Check geholfen?",
-            context: flowId,
-          }}
-        />
       </div>
     </>
   );
