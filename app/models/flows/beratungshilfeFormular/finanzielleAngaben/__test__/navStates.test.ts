@@ -45,6 +45,7 @@ describe("navStates", () => {
         beratungshilfeFinanzielleAngabeDone({
           context: {
             staatlicheLeistungen: "keine",
+            hasKinder: "no",
             hasBankkonto: "no",
             hasGeldanlage: "no",
             hasGrundeigentum: "no",
