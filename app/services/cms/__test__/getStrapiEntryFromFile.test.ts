@@ -29,7 +29,6 @@ describe("services/cms", () => {
 
     const fileContent = {
       "page-header": [],
-      global: [],
       footer: [{ id: 0, attributes: footerData }],
       pages: [{ id: 0, attributes: impressum }],
       "cookie-banner": [],

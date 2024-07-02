@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { CookieSettings } from "./pom/CookieSettings";
 import { FluggastrechteVorabcheck } from "./pom/FluggastrechteVorabcheck";
 import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
 
@@ -10,6 +11,11 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("js enabled", () => {
+  test.beforeEach(async ({ page }) => {
+    const cookieSettings = new CookieSettings(page);
+    await cookieSettings.acceptCookieBanner();
+  });
+
   test("forwarded to intial step", async ({ page }) => {
     await expect(page).toHaveURL(
       new RegExp(`.+${vorabcheck.url}/${vorabcheck.initialStep}$`),

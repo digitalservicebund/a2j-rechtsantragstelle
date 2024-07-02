@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { BeratungshilfeVorabcheck } from "tests/e2e/pom/BeratungshilfeVorabcheck";
+import { CookieSettings } from "./pom/CookieSettings";
 import { expectPageToBeAccessible } from "./util/expectPageToBeAccessible";
 
 let vorabcheck: BeratungshilfeVorabcheck;
@@ -7,6 +8,9 @@ let vorabcheck: BeratungshilfeVorabcheck;
 test.beforeEach(async ({ page }) => {
   vorabcheck = new BeratungshilfeVorabcheck(page);
   await vorabcheck.goto();
+
+  const cookieSettings = new CookieSettings(page);
+  await cookieSettings.acceptCookieBanner();
 });
 
 test("forwarded to intial step", async () => {

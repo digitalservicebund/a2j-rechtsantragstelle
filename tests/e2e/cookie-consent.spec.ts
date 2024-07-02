@@ -23,7 +23,7 @@ test.describe(pageUrl, () => {
 
   test("accept and decline cookies", async ({ page }) => {
     const cookieSettings = new CookieSettings(page);
-
+    await cookieSettings.acceptCookieBanner();
     await cookieSettings.acceptCookies();
 
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
