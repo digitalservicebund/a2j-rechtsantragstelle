@@ -8,7 +8,8 @@ import type { Translations } from "~/services/cms/index.server";
 import { type CollectionSchemas } from "~/services/cms/schemas";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { Replacements } from "~/util/fillTemplate";
-import type { FlowId, Context } from "./contexts";
+import type { Context } from "./contexts";
+import type { FlowId } from "./flowIds";
 import type { Guards } from "./guards.server";
 
 export type Flow = {

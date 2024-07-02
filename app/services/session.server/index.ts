@@ -2,7 +2,8 @@ import crypto from "crypto";
 import type { Cookie, Session } from "@remix-run/node";
 import { createSessionStorage, createCookie } from "@remix-run/node";
 import _ from "lodash";
-import type { Context, FlowId } from "~/models/flows/contexts";
+import { type Context } from "~/models/flows/contexts";
+import { flowIds, type FlowId } from "~/models/flows/flowIds";
 import { config } from "~/services/env/env.server";
 import { useSecureCookie } from "~/util/useSecureCookie";
 import {
@@ -12,17 +13,9 @@ import {
   updateDataForSession,
 } from "./redis";
 
-type SessionContext = "main" | FlowId;
-export const allSessionContexts = [
-  "beratungshilfe/antrag",
-  "beratungshilfe/vorabcheck",
-  "geld-einklagen/vorabcheck",
-  "geld-einklagen/formular",
-  "fluggastrechte/vorabcheck",
-  "fluggastrechte/formular",
-  "main",
-] as const;
-const fullId = (context: SessionContext, id: string) => `${context}_${id}`;
+export const allSessionContexts = [...flowIds, "main"] as const;
+type SessionContext = (typeof allSessionContexts)[number];
+const fullId = (context: string, id: string) => `${context}_${id}`;
 
 function createDatabaseSessionStorage({
   cookie,
@@ -67,7 +60,7 @@ export function getSessionManager(context: SessionContext) {
 }
 
 export const getSessionData = async (
-  flowId: SessionContext,
+  flowId: FlowId,
   cookieHeader: CookieHeader,
 ) => {
   const contextSession = getSessionManager(flowId);

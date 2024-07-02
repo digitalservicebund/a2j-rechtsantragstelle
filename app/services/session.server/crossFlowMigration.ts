@@ -1,4 +1,5 @@
-import { type FlowId, getContext } from "~/models/flows/contexts";
+import { getContext } from "~/models/flows/contexts";
+import type { FlowId } from "~/models/flows/flowIds";
 import { type Flow } from "~/models/flows/flows.server";
 import { type CookieHeader, getSessionData } from ".";
 

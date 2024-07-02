@@ -36,7 +36,7 @@ const cases = [
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
       finanzielleAngabenEigentumKraftfahrzeugeFrage,
-      finanzielleAngabenAusgabenAusgabenFrage,
+      "finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
     ],
   ],
   [

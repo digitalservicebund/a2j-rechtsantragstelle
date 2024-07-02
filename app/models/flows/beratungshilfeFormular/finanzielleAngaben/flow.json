@@ -222,7 +222,12 @@
             }
           }
         },
-        "warnung": { "on": { "BACK": "uebersicht" } },
+        "warnung": {
+          "on": {
+            "BACK": "uebersicht",
+            "SUBMIT": "#andere-unterhaltszahlungen"
+          }
+        },
         "kinder": {
           "initial": "name",
           "states": {
@@ -332,7 +337,7 @@
             "add-unterhaltszahlungen": "person"
           }
         },
-        "warnung": { "on": { "BACK": "uebersicht" } },
+        "warnung": { "on": { "BACK": "uebersicht", "SUBMIT": "#wohnung" } },
         "person": {
           "initial": "daten",
           "states": {
@@ -474,12 +479,12 @@
                 "target": "gesamtwert"
               },
               {
-                "target": "#eigentum-zusammenfassung.zusammenfassung",
-                "guard": "eigentumDone"
+                "guard": "hasAnyEigentum",
+                "target": "#eigentum-zusammenfassung.zusammenfassung"
               },
               {
-                "target": "#persoenliche-daten.start",
-                "guard": "staatlicheLeistungenIsBuergergeld"
+                "guard": "staatlicheLeistungenIsBuergergeld",
+                "target": "#persoenliche-daten.start"
               },
               "#ausgaben"
             ],
@@ -532,7 +537,18 @@
             "add-grundeigentum": "grundeigentum"
           }
         },
-        "warnung": { "on": { "BACK": "zusammenfassung" } },
+        "warnung": {
+          "on": {
+            "BACK": "zusammenfassung",
+            "SUBMIT": [
+              {
+                "guard": "hasStaatlicheLeistungen",
+                "target": "#persoenliche-daten.start"
+              },
+              "#ausgaben"
+            ]
+          }
+        },
         "bankkonten": {
           "initial": "daten",
           "states": {
@@ -731,7 +747,9 @@
             }
           }
         },
-        "warnung": { "on": { "BACK": "uebersicht" } },
+        "warnung": {
+          "on": { "BACK": "uebersicht", "SUBMIT": "#persoenliche-daten" }
+        },
         "ausgaben": {
           "initial": "art",
           "states": {

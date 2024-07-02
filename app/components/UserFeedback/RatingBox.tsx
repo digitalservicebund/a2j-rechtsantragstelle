@@ -42,6 +42,7 @@ export const RatingBox = ({ heading, url, context }: RatingBoxProps) => {
         action={`/action/send-rating?url=${url}&context=${
           context ?? ""
         }&js=${String(jsAvailable)}`}
+        preventScrollReset={true}
       >
         <ButtonContainer>
           <Button

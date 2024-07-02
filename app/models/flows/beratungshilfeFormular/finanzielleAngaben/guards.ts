@@ -38,6 +38,12 @@ const hasAnyEigentumExceptBankaccount: Guards<BeratungshilfeFinanzielleAngaben>[
     context.hasGrundeigentum == "yes" ||
     context.hasKraftfahrzeug == "yes";
 
+const hasAnyEigentum: Guards<BeratungshilfeFinanzielleAngaben>[string] = ({
+  context,
+}) =>
+  hasAnyEigentumExceptBankaccount({ context }) ||
+  context.hasBankkonto === "yes";
+
 export const eigentumDone: Guards<BeratungshilfeFinanzielleAngaben>[string] = ({
   context,
 }) =>
@@ -65,8 +71,10 @@ export const finanzielleAngabeGuards = {
   staatlicheLeistungenIsKeine: ({ context }) =>
     context.staatlicheLeistungen === "keine",
   staatlicheLeistungenIsBuergergeld,
-  staatlicheLeistungenIsBuergergeldAndEigentumDone: ({ context }) =>
-    staatlicheLeistungenIsBuergergeld({ context }) && eigentumDone({ context }),
+  staatlicheLeistungenIsBuergergeldAndHasAnyEigentum: ({ context }) =>
+    staatlicheLeistungenIsBuergergeld({ context }) &&
+    hasAnyEigentum({ context }),
+  hasAnyEigentum,
   staatlicheLeistungenIsBuergergeldAndHasEigentum: ({ context }) =>
     staatlicheLeistungenIsBuergergeld({ context }) &&
     hasAnyEigentumExceptBankaccount({ context }),

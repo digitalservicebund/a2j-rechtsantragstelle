@@ -75,6 +75,7 @@ export const beratungshilfeFinanzielleAngabeDone: GenericGuard<
       return (
         partnerDone({ context }) &&
         eigentumDone({ context }) &&
+        kinderDone({ context }) &&
         eigentumZusammenfassungDone({ context }) &&
         einkommenDone({ context }) &&
         wohnungDone({ context }) &&

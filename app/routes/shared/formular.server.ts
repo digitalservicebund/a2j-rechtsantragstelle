@@ -2,7 +2,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
 import type { z } from "zod";
-import { parsePathname } from "~/models/flows/contexts";
+import { parsePathname } from "~/models/flows/flowIds";
 import { flows } from "~/models/flows/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getSummaryData } from "~/services/array/getSummaryData";

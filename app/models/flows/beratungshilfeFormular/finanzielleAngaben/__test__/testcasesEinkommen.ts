@@ -51,7 +51,6 @@ const cases = [
       "finanzielle-angaben/eigentum/wertgegenstaende-frage",
       "finanzielle-angaben/eigentum/grundeigentum-frage",
       "finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
-      "finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
       persoenlicheDatenStart,
     ],
   ],

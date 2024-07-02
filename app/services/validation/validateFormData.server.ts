@@ -1,4 +1,5 @@
-import { type FlowId, getContext } from "~/models/flows/contexts";
+import { getContext } from "~/models/flows/contexts";
+import type { FlowId } from "~/models/flows/flowIds";
 import { buildStepValidator } from "./buildStepValidator";
 
 export async function validateFormData(
