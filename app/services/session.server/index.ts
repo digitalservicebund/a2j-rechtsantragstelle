@@ -2,7 +2,8 @@ import crypto from "crypto";
 import type { Cookie, Session } from "@remix-run/node";
 import { createSessionStorage, createCookie } from "@remix-run/node";
 import _ from "lodash";
-import { flowIds, type Context, type FlowId } from "~/models/flows/contexts";
+import { type Context } from "~/models/flows/contexts";
+import { flowIds, type FlowId } from "~/models/flows/flowIds";
 import { config } from "~/services/env/env.server";
 import { useSecureCookie } from "~/util/useSecureCookie";
 import {

@@ -1,5 +1,5 @@
 import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
-import { type FlowId, flowIDFromPathname } from "~/models/flows/contexts";
+import { type FlowId, flowIDFromPathname } from "~/models/flows/flowIds";
 import { flows } from "~/models/flows/flows.server";
 import { buildFlowController } from "./buildFlowController";
 import { throw404IfFeatureFlagEnabled } from "../../errorPages/throw404";

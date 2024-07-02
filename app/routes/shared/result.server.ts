@@ -2,7 +2,7 @@ import type { ActionFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { BannerState } from "~/components/UserFeedback";
 import { getReasonsToDisplay } from "~/models/flows/common";
-import { parsePathname } from "~/models/flows/contexts";
+import { parsePathname } from "~/models/flows/flowIds";
 import { flows } from "~/models/flows/flows.server";
 import {
   isPartnerAirport,
