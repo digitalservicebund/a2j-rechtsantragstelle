@@ -10,6 +10,7 @@ export class CookieSettings {
   readonly url = "/cookie-einstellungen";
   readonly radioLabelAccept = "Analyse-Cookies einverstanden";
   readonly radioLabelDecline = "Analyse-Cookies nicht einverstanden";
+  readonly buttonAcceptCookieWithJSTestId = "accept-cookie_with_js";
 
   constructor(page: Page) {
     this.page = page;
@@ -38,10 +39,16 @@ export class CookieSettings {
     await this.submitForm();
   }
 
+  // Only use this function for javascript tests
   async acceptCookieBanner() {
-    // wait 4 seconds before accept cookie banner
-    await this.page.waitForTimeout(4000);
-    await this.page.getByTestId("accept-cookie").click();
+    /**
+     * wait until we have the privacy banner setup for javascript users to click on it
+     * and avoid to go on the cookie setup page
+     * */
+    const cookieAcceptButton = await this.page.waitForSelector(
+      `[data-testid='${this.buttonAcceptCookieWithJSTestId}']`,
+    );
+    await cookieAcceptButton.click();
   }
 
   async goBackToSettings() {

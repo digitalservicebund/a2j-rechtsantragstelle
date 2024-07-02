@@ -63,6 +63,10 @@ export function CookieBanner({
     POSTHOG_API_HOST,
   ]);
 
+  const buttonAcceptCookieTestId = clientJavaScriptAvailable
+    ? "accept-cookie_with_js"
+    : "accept-cookie_without_js";
+
   useEffect(() => {
     if (posthogLoaded) posthog.capture("$pageview");
   }, [posthogLoaded, location.pathname]);
@@ -110,7 +114,7 @@ export function CookieBanner({
                 look="primary"
                 text={content.acceptButtonLabel}
                 size="large"
-                data-testid="accept-cookie"
+                data-testid={buttonAcceptCookieTestId}
               />
               <Button
                 name={acceptCookiesFieldName}
