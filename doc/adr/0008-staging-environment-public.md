@@ -12,7 +12,10 @@ Previously, accessing the staging environment required HTTP basic authentication
 
 ### Issue
 
-With ADR 0005, we created the preview environment, eliminating the need to share the staging environment with external users. However, the staging environment remains public, making it accessible to everyone. This public access could result in interruptions due to issues with the Strapi API, potentially disrupting our development workflow.
+With ADR 0005, we created the preview environment, eliminating the need to share the staging environment with external users. However, the staging environment remains public, making it accessible to everyone. This public access could result in the following issues:
+
+- DDOS against staging will impact our ability to continue working (mitigated by OTC load balancer & DDOS protection)
+- Leaking of non-public information (mitigated by generally working publicly and knowledge about staging being open)
 
 ## Decision
 
