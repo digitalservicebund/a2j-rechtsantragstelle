@@ -1,4 +1,4 @@
-import isTime from "validator/lib/isTime";
+import validator from "validator";
 import { z } from "zod";
 
 export const timeSchema = z
@@ -8,7 +8,7 @@ export const timeSchema = z
   .refine((time) => /^\d\d:\d\d$/.test(time), { message: "format" })
   .refine(
     (time) =>
-      isTime(time, {
+      validator.isTime(time, {
         hourFormat: "hour24",
       }),
     { message: "invalid" },

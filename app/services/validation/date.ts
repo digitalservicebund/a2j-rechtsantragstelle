@@ -1,4 +1,4 @@
-import isDate from "validator/lib/isDate";
+import validator from "validator";
 import { z } from "zod";
 
 export function dateUTCFromGermanDateString(date: string) {
@@ -26,7 +26,7 @@ export function today() {
 }
 
 const isValidDate = (date: string) =>
-  isDate(date, {
+  validator.isDate(date, {
     format: "DD.MM.YYYY",
     strictMode: true,
     delimiters: ["."],
