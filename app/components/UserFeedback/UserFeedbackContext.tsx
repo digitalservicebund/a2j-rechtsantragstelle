@@ -3,7 +3,6 @@ import { BannerState } from ".";
 
 type UserFeedbackContext = {
   bannerState?: BannerState;
-  flowId?: string;
 };
 
 export const UserFeedbackContext = createContext<UserFeedbackContext>({});

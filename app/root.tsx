@@ -19,6 +19,7 @@ import {
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
+import { useMemo } from "react";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import {
   fetchMeta,
@@ -32,14 +33,18 @@ import { CookieBanner } from "./components/CookieBanner";
 import FeedbackBanner, { augmentFeedback } from "./components/FeedbackBanner";
 import Footer from "./components/Footer";
 import Header from "./components/PageHeader";
+import { BannerState } from "./components/UserFeedback";
 import { FeedbackTranslationContext } from "./components/UserFeedback/FeedbackTranslationContext";
+import { UserFeedbackContext } from "./components/UserFeedback/UserFeedbackContext";
 import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import { getStrapiFeedback } from "./services/cms/models/StrapiGlobal";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
+import { getFeedbackBannerState } from "./services/feedback/handleFeedback";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
+import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 
 export const headers: HeadersFunction = () => ({
@@ -86,6 +91,9 @@ export const meta: MetaFunction<typeof loader> = () => {
 };
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
+  const { pathname } = new URL(request.url);
+  const cookieHeader = request.headers.get("Cookie");
+
   const [
     strapiHeader,
     globalVars,
@@ -97,6 +105,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     deleteDataStrings,
     hasAnyUserData,
     feedbackTranslations,
+    mainSession,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
     fetchSingleEntry("global"),
@@ -108,6 +117,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("delete-data"),
     anyUserData(request),
     fetchTranslations("feedback"),
+    mainSessionFromCookieHeader(cookieHeader),
   ]);
 
   return json({
@@ -122,6 +132,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     deletionLabel: deleteDataStrings["footerLinkLabel"],
     hasAnyUserData,
     feedbackTranslations,
+    bannerState:
+      getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
   });
 };
 
@@ -135,10 +147,16 @@ function App() {
     deletionLabel,
     hasAnyUserData,
     feedbackTranslations,
+    bannerState,
   } = useLoaderData<typeof loader>();
   const { breadcrumbs, title, ogTitle, description } =
     metaFromMatches(useMatches());
   const nonce = useNonce();
+
+  const userFeedbackContextValue = useMemo(
+    () => ({ bannerState }),
+    [bannerState],
+  );
 
   // eslint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
@@ -192,13 +210,15 @@ function App() {
         />
         <Header {...header} />
         <Breadcrumbs breadcrumbs={breadcrumbs} />
-        <FeedbackTranslationContext.Provider
-          value={{ translations: feedbackTranslations }}
-        >
-          <main className="flex-grow">
-            <Outlet />
-          </main>
-        </FeedbackTranslationContext.Provider>
+        <UserFeedbackContext.Provider value={userFeedbackContextValue}>
+          <FeedbackTranslationContext.Provider
+            value={{ translations: feedbackTranslations }}
+          >
+            <main className="flex-grow">
+              <Outlet />
+            </main>
+          </FeedbackTranslationContext.Provider>
+        </UserFeedbackContext.Provider>
         <footer>
           <FeedbackBanner {...augmentFeedback(feedback, title)} />
           <Footer

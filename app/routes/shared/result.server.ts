@@ -1,6 +1,5 @@
 import type { ActionFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { BannerState } from "~/components/UserFeedback";
 import { getReasonsToDisplay } from "~/models/flows/common";
 import { parsePathname } from "~/models/flows/flowIds";
 import { flows } from "~/models/flows/flows.server";
@@ -16,18 +15,13 @@ import {
 } from "~/services/cms/index.server";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import {
-  getFeedbackBannerState,
   handleFeedback,
   isFeedbackForm,
 } from "~/services/feedback/handleFeedback";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
-import {
-  getSessionData,
-  getSessionManager,
-  mainSessionFromCookieHeader,
-} from "~/services/session.server";
+import { getSessionData, getSessionManager } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { interpolateDeep } from "~/util/fillTemplate";
@@ -107,7 +101,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     backDestination: flowController.getPrevious(stepId),
   });
 
-  const mainSession = await mainSessionFromCookieHeader(cookieHeader);
   const { headers } = await updateMainSession({
     cookieHeader,
     flowId,
@@ -124,8 +117,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       ),
       meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
       backButton,
-      bannerState:
-        getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
       amtsgerichtCommon,
       courts: cmsContent.pageType === "success" ? courts : [],
     },

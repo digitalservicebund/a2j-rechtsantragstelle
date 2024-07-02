@@ -15,10 +15,9 @@ export const NO_RATING_BUTTON_LABEL_TRANSLATION_KEY = "no-rating";
 export interface RatingBoxProps {
   readonly heading: string;
   readonly url: string;
-  readonly context?: string;
 }
 
-export const RatingBox = ({ heading, url, context }: RatingBoxProps) => {
+export const RatingBox = ({ heading, url }: RatingBoxProps) => {
   const ratingFetcher = useFetcher();
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
@@ -39,9 +38,7 @@ export const RatingBox = ({ heading, url, context }: RatingBoxProps) => {
       <Heading look="ds-label-01-bold" tagName="h2" text={heading} />
       <ratingFetcher.Form
         method="post"
-        action={`/action/send-rating?url=${url}&context=${
-          context ?? ""
-        }&js=${String(jsAvailable)}`}
+        action={`/action/send-rating?url=${url}&js=${String(jsAvailable)}`}
         preventScrollReset={true}
       >
         <ButtonContainer>

@@ -21,7 +21,7 @@ export const USER_FEEDBACK_ID = "user-feedback-banner";
 export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const { pathname } = useLocation();
 
-  const { bannerState = BannerState.ShowRating, flowId } = useUserFeedback();
+  const { bannerState = BannerState.ShowRating } = useUserFeedback();
 
   return (
     <Background paddingTop="32" paddingBottom="40">
@@ -40,7 +40,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
           {
             {
               [BannerState.ShowRating]: (
-                <RatingBox url={pathname} context={flowId} {...props.rating} />
+                <RatingBox url={pathname} {...props.rating} />
               ),
               [BannerState.ShowFeedback]: (
                 <FeedbackFormBox destination={pathname} />
