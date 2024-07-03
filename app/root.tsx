@@ -30,7 +30,6 @@ import {
 import { config as configWeb } from "~/services/env/web";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/CookieBanner";
-import FeedbackBanner, { augmentFeedback } from "./components/FeedbackBanner";
 import Footer from "./components/Footer";
 import Header from "./components/PageHeader";
 import { BannerState } from "./components/UserFeedback";
@@ -38,7 +37,6 @@ import { FeedbackTranslationContext } from "./components/UserFeedback/FeedbackTr
 import { UserFeedbackContext } from "./components/UserFeedback/UserFeedbackContext";
 import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import { getFooterProps } from "./services/cms/models/StrapiFooter";
-import { getStrapiFeedback } from "./services/cms/models/StrapiGlobal";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackBannerState } from "./services/feedback/getFeedbackBannerState";
@@ -96,7 +94,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   const [
     strapiHeader,
-    globalVars,
     strapiFooter,
     cookieBannerContent,
     trackingConsent,
@@ -108,7 +105,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     mainSession,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
-    fetchSingleEntry("global"),
     fetchSingleEntry("footer"),
     fetchSingleEntry("cookie-banner"),
     hasTrackingConsent({ request }),
@@ -121,7 +117,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   ]);
 
   return json({
-    feedback: getStrapiFeedback(globalVars),
     header: getPageHeaderProps(strapiHeader),
     footer: getFooterProps(strapiFooter),
     cookieBannerContent: cookieBannerContent,
@@ -143,7 +138,6 @@ function App() {
     footer,
     cookieBannerContent,
     hasTrackingConsent,
-    feedback,
     deletionLabel,
     hasAnyUserData,
     feedbackTranslations,
@@ -220,7 +214,6 @@ function App() {
           </FeedbackTranslationContext.Provider>
         </UserFeedbackContext.Provider>
         <footer>
-          <FeedbackBanner {...augmentFeedback(feedback, title)} />
           <Footer
             {...footer}
             deletionLabel={deletionLabel}

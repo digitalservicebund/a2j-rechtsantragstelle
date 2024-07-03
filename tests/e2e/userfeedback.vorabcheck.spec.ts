@@ -1,5 +1,6 @@
 import { test, expect, type Page } from "@playwright/test";
 import { BeratungshilfeVorabcheck } from "tests/e2e/pom/BeratungshilfeVorabcheck";
+import { CookieSettings } from "./pom/CookieSettings";
 
 let vorabcheck: BeratungshilfeVorabcheck;
 
@@ -33,6 +34,8 @@ async function setupFeedbackTests({
       "yes",
     );
   } else {
+    const cookieSettings = new CookieSettings(page);
+    await cookieSettings.acceptCookieBanner();
     await vorabcheck.fillRadioPage("rechtsschutzversicherung", "yes");
   }
 }

@@ -12,6 +12,7 @@ import { startFinanzielleAngabenWohnung } from "./finanzielleAngabenWohnung";
 import { startGrundvoraussetzungen } from "./grundvoraussetzungen";
 import { startPersoenlicheDaten } from "./persoenlicheDaten";
 import { startRechtsproblem } from "./rechtsproblem";
+import { CookieSettings } from "../pom/CookieSettings";
 import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";
 
 let beratungshilfeFormular: BeratungshilfeFormular;
@@ -19,6 +20,9 @@ let beratungshilfeFormular: BeratungshilfeFormular;
 test.beforeEach(async ({ page }) => {
   beratungshilfeFormular = new BeratungshilfeFormular(page);
   await beratungshilfeFormular.goto();
+
+  const cookieSettings = new CookieSettings(page);
+  await cookieSettings.acceptCookieBanner();
 });
 
 test("funnel: invalid step redirects to start", async ({ page }) => {
