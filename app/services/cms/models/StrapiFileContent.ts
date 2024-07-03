@@ -4,7 +4,6 @@ import { StrapiAmtsgerichtCommonSchema } from "./StrapiAmtsgerichtCommon";
 import { StrapiCookieBannerSchema } from "./StrapiCookieBannerSchema";
 import { StrapiFooterSchema } from "./StrapiFooter";
 import { StrapiFormFlowPageSchema } from "./StrapiFormFlowPage";
-import { StrapiGlobalSchema } from "./StrapiGlobal";
 import { StrapiPageSchema } from "./StrapiPage";
 import { StrapiPageHeaderSchema } from "./StrapiPageHeader";
 import { StrapiResultPageSchema } from "./StrapiResultPage";
@@ -21,11 +20,6 @@ export const StrapiFileContentSchema = z.object({
   "page-header": z.array(
     HasStrapiIdSchema.extend({
       attributes: StrapiPageHeaderSchema,
-    }),
-  ),
-  global: z.array(
-    HasStrapiIdSchema.extend({
-      attributes: StrapiGlobalSchema,
     }),
   ),
   footer: z.array(
