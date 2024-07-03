@@ -1,8 +1,8 @@
-import { useLocation } from "@remix-run/react";
+import { useLocation, useRouteLoaderData } from "@remix-run/react";
+import { loader as rootLoader } from "~/root";
 import { FeedbackFormBox } from "./FeedbackFormBox";
 import { PostSubmissionBox } from "./PostSubmissionBox";
 import { type RatingBoxProps, RatingBox } from "./RatingBox";
-import { useUserFeedback } from "./UserFeedbackContext";
 import Background from "../Background";
 import Container from "../Container";
 
@@ -21,7 +21,8 @@ export const USER_FEEDBACK_ID = "user-feedback-banner";
 export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const { pathname } = useLocation();
 
-  const { bannerState = BannerState.ShowRating } = useUserFeedback();
+  const rootLoaderData = useRouteLoaderData<typeof rootLoader>("root");
+  const bannerState = rootLoaderData?.bannerState ?? BannerState.ShowRating;
 
   return (
     <Background paddingTop="32" paddingBottom="40">

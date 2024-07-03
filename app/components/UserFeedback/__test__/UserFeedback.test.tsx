@@ -1,28 +1,9 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render, screen } from "@testing-library/react";
-import { useMemo, type ReactNode } from "react";
 import UserFeedback, {
   BannerState,
   USER_FEEDBACK_ID,
 } from "~/components/UserFeedback";
-import { UserFeedbackContext } from "../UserFeedbackContext";
-
-interface RenderUserFeedBackWithContextProps {
-  bannerState: BannerState;
-  children: ReactNode;
-}
-
-const RenderUserFeedBackWithContext = ({
-  bannerState,
-  children,
-}: RenderUserFeedBackWithContextProps) => {
-  const bannerStateValue = useMemo(() => ({ bannerState }), [bannerState]);
-  return (
-    <UserFeedbackContext.Provider value={bannerStateValue}>
-      {children}
-    </UserFeedbackContext.Provider>
-  );
-};
 
 describe("UserFeedback", () => {
   const mockedProps = {
@@ -35,14 +16,16 @@ describe("UserFeedback", () => {
     const UserFeedbackWithRemixStub = createRemixStub([
       {
         path: "",
-        Component: () => (
-          <RenderUserFeedBackWithContext bannerState={BannerState.ShowRating}>
-            <UserFeedback {...mockedProps} />
-          </RenderUserFeedBackWithContext>
-        ),
+        Component: () => <UserFeedback {...mockedProps} />,
       },
     ]);
-    render(<UserFeedbackWithRemixStub />);
+    render(
+      <UserFeedbackWithRemixStub
+        hydrationData={{
+          loaderData: { root: { bannerState: BannerState.ShowFeedback } },
+        }}
+      />,
+    );
     const { id } = screen.getByTestId(USER_FEEDBACK_ID);
     expect(id).toBe(USER_FEEDBACK_ID);
   });
@@ -51,14 +34,16 @@ describe("UserFeedback", () => {
     const UserFeedbackWithRemixStub = createRemixStub([
       {
         path: "",
-        Component: () => (
-          <RenderUserFeedBackWithContext bannerState={BannerState.ShowRating}>
-            <UserFeedback {...mockedProps} />
-          </RenderUserFeedBackWithContext>
-        ),
+        Component: () => <UserFeedback {...mockedProps} />,
       },
     ]);
-    render(<UserFeedbackWithRemixStub />);
+    render(
+      <UserFeedbackWithRemixStub
+        hydrationData={{
+          loaderData: { root: { bannerState: BannerState.ShowRating } },
+        }}
+      />,
+    );
     expect(screen.getByTestId("ThumbUpOutlinedIcon")).toBeInTheDocument();
     expect(screen.getByTestId("ThumbDownOutlinedIcon")).toBeInTheDocument();
   });
@@ -67,14 +52,16 @@ describe("UserFeedback", () => {
     const UserFeedbackWithRemixStub = createRemixStub([
       {
         path: "",
-        Component: () => (
-          <RenderUserFeedBackWithContext bannerState={BannerState.ShowFeedback}>
-            <UserFeedback {...mockedProps} />
-          </RenderUserFeedBackWithContext>
-        ),
+        Component: () => <UserFeedback {...mockedProps} />,
       },
     ]);
-    render(<UserFeedbackWithRemixStub />);
+    render(
+      <UserFeedbackWithRemixStub
+        hydrationData={{
+          loaderData: { root: { bannerState: BannerState.ShowFeedback } },
+        }}
+      />,
+    );
     expect(screen.getByTestId("SendOutlinedIcon")).toBeInTheDocument();
   });
 
@@ -82,16 +69,16 @@ describe("UserFeedback", () => {
     const UserFeedbackWithRemixStub = createRemixStub([
       {
         path: "",
-        Component: () => (
-          <RenderUserFeedBackWithContext
-            bannerState={BannerState.FeedbackGiven}
-          >
-            <UserFeedback {...mockedProps} />
-          </RenderUserFeedBackWithContext>
-        ),
+        Component: () => <UserFeedback {...mockedProps} />,
       },
     ]);
-    render(<UserFeedbackWithRemixStub />);
+    render(
+      <UserFeedbackWithRemixStub
+        hydrationData={{
+          loaderData: { root: { bannerState: BannerState.FeedbackGiven } },
+        }}
+      />,
+    );
     expect(screen.getByTestId("user-feedback-submission")).toBeInTheDocument();
   });
 });

@@ -19,7 +19,6 @@ import {
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
-import { useMemo } from "react";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import {
   fetchMeta,
@@ -34,7 +33,6 @@ import Footer from "./components/Footer";
 import Header from "./components/PageHeader";
 import { BannerState } from "./components/UserFeedback";
 import { FeedbackTranslationContext } from "./components/UserFeedback/FeedbackTranslationContext";
-import { UserFeedbackContext } from "./components/UserFeedback/UserFeedbackContext";
 import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
@@ -141,16 +139,10 @@ function App() {
     deletionLabel,
     hasAnyUserData,
     feedbackTranslations,
-    bannerState,
   } = useLoaderData<typeof loader>();
   const { breadcrumbs, title, ogTitle, description } =
     metaFromMatches(useMatches());
   const nonce = useNonce();
-
-  const userFeedbackContextValue = useMemo(
-    () => ({ bannerState }),
-    [bannerState],
-  );
 
   // eslint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
@@ -204,15 +196,13 @@ function App() {
         />
         <Header {...header} />
         <Breadcrumbs breadcrumbs={breadcrumbs} />
-        <UserFeedbackContext.Provider value={userFeedbackContextValue}>
-          <FeedbackTranslationContext.Provider
-            value={{ translations: feedbackTranslations }}
-          >
-            <main className="flex-grow">
-              <Outlet />
-            </main>
-          </FeedbackTranslationContext.Provider>
-        </UserFeedbackContext.Provider>
+        <FeedbackTranslationContext.Provider
+          value={{ translations: feedbackTranslations }}
+        >
+          <main className="flex-grow">
+            <Outlet />
+          </main>
+        </FeedbackTranslationContext.Provider>
         <footer>
           <Footer
             {...footer}
