@@ -35,6 +35,10 @@ export default defineConfig({
         telemetry: false,
       }),
     tsconfigPaths(),
+    sentryVitePlugin({
+      org: "digitalservice",
+      project: "a2j-rast",
+    }),
   ],
   build: { sourcemap: sentryActive },
   test: {
