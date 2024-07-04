@@ -10,7 +10,7 @@ import { getSessionManager } from "~/services/session.server";
 
 export const bannerStateName = "bannerState";
 
-const getContextByUrl = (url: string): string => {
+const parseFlowIdFromUrl = (url: string): string => {
   try {
     const { flowId } = parsePathname(url);
     return flowId;
@@ -22,7 +22,7 @@ const getContextByUrl = (url: string): string => {
 export const loader = () => redirect("/");
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.clone().formData();
+  const formData = await request.formData();
   const { searchParams } = new URL(request.url);
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
   const url = searchParams.get("url") ?? "";
@@ -32,7 +32,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json({ success: false }, { status: 400 });
   }
 
-  const context = getContextByUrl(url);
+  const context = parseFlowIdFromUrl(url);
 
   const cookie = request.headers.get("Cookie");
   const { getSession, commitSession } = getSessionManager("main");

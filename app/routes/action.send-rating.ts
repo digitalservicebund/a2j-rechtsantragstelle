@@ -7,7 +7,7 @@ import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { bannerStateName } from "~/services/feedback/getFeedbackBannerState";
 import { getSessionManager } from "~/services/session.server";
 
-const getContextByUrl = (url: string): string => {
+const parseFlowIdFromUrl = (url: string): string => {
   try {
     const { flowId } = parsePathname(url);
     return flowId;
@@ -26,13 +26,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     // Abort without redirect on non-relative URLs
     return json({ success: false }, { status: 400 });
   }
-  const context = getContextByUrl(url);
+  const context = parseFlowIdFromUrl(url);
   const formData = await request.formData();
 
   const cookie = request.headers.get("Cookie");
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(cookie);
 
+  // TODO - Improve this block to share same code with action.send-feedback.ts
   const userRatings =
     (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
   userRatings[url] = formData.get(userRatingFieldname) === "yes";
