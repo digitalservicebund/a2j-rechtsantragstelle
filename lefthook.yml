@@ -8,4 +8,4 @@ pre-commit:
     typecheck:
       run: npm run typecheck
     "unit tests":
-      run: npm test -- --no-coverage
+      run: npm test
