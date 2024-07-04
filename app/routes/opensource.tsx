@@ -1,12 +1,12 @@
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import * as Sentry from "@sentry/remix";
 import Container from "~/components/Container";
 import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { sendSentryMessage } from "~/services/logging";
 import { dependencies } from "~/services/openSourceLicenses/dependencies.server";
 import LicenseList from "~/services/openSourceLicenses/LicenseList";
-import * as Sentry from "@sentry/remix";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   console.log("Sending test message from open source page to sentry");
