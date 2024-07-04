@@ -9,7 +9,7 @@ import { envOnlyMacros } from "vite-env-only";
 installGlobals();
 const isStorybook = process.argv[1]?.includes("storybook");
 const isVitest = process.env.VITEST !== undefined;
-const sentryActive = Boolean(process.env.SENTRY_AUTH_TOKEN);
+const buildSentrySourceMaps = Boolean(process.env.SENTRY_AUTH_TOKEN);
 
 export default defineConfig({
   server: {
@@ -28,19 +28,16 @@ export default defineConfig({
         },
       }),
     !isStorybook &&
-      sentryActive &&
+      buildSentrySourceMaps &&
       sentryVitePlugin({
         org: "digitalservice",
         project: "a2j-rast",
+        authToken: process.env.SENTRY_AUTH_TOKEN,
         telemetry: false,
       }),
     tsconfigPaths(),
-    sentryVitePlugin({
-      org: "digitalservice",
-      project: "a2j-rast",
-    }),
   ],
-  build: { sourcemap: sentryActive },
+  build: { sourcemap: buildSentrySourceMaps },
   test: {
     dir: "./",
     include: ["**/__test__/*.test.{ts,tsx}", "**/unit/**/*.test.ts"],
