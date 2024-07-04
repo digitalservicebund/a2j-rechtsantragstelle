@@ -9,7 +9,6 @@ describe("UserFeedback", () => {
   const mockedProps = {
     rating: {
       heading: "heading",
-      context: "flowId",
     },
   };
 
@@ -17,12 +16,16 @@ describe("UserFeedback", () => {
     const UserFeedbackWithRemixStub = createRemixStub([
       {
         path: "",
-        Component: () => (
-          <UserFeedback bannerState={BannerState.ShowRating} {...mockedProps} />
-        ),
+        Component: () => <UserFeedback {...mockedProps} />,
       },
     ]);
-    render(<UserFeedbackWithRemixStub />);
+    render(
+      <UserFeedbackWithRemixStub
+        hydrationData={{
+          loaderData: { root: { bannerState: BannerState.ShowFeedback } },
+        }}
+      />,
+    );
     const { id } = screen.getByTestId(USER_FEEDBACK_ID);
     expect(id).toBe(USER_FEEDBACK_ID);
   });
@@ -31,12 +34,16 @@ describe("UserFeedback", () => {
     const UserFeedbackWithRemixStub = createRemixStub([
       {
         path: "",
-        Component: () => (
-          <UserFeedback bannerState={BannerState.ShowRating} {...mockedProps} />
-        ),
+        Component: () => <UserFeedback {...mockedProps} />,
       },
     ]);
-    render(<UserFeedbackWithRemixStub />);
+    render(
+      <UserFeedbackWithRemixStub
+        hydrationData={{
+          loaderData: { root: { bannerState: BannerState.ShowRating } },
+        }}
+      />,
+    );
     expect(screen.getByTestId("ThumbUpOutlinedIcon")).toBeInTheDocument();
     expect(screen.getByTestId("ThumbDownOutlinedIcon")).toBeInTheDocument();
   });
@@ -45,15 +52,16 @@ describe("UserFeedback", () => {
     const UserFeedbackWithRemixStub = createRemixStub([
       {
         path: "",
-        Component: () => (
-          <UserFeedback
-            bannerState={BannerState.ShowFeedback}
-            {...mockedProps}
-          />
-        ),
+        Component: () => <UserFeedback {...mockedProps} />,
       },
     ]);
-    render(<UserFeedbackWithRemixStub />);
+    render(
+      <UserFeedbackWithRemixStub
+        hydrationData={{
+          loaderData: { root: { bannerState: BannerState.ShowFeedback } },
+        }}
+      />,
+    );
     expect(screen.getByTestId("SendOutlinedIcon")).toBeInTheDocument();
   });
 
@@ -61,15 +69,16 @@ describe("UserFeedback", () => {
     const UserFeedbackWithRemixStub = createRemixStub([
       {
         path: "",
-        Component: () => (
-          <UserFeedback
-            bannerState={BannerState.FeedbackGiven}
-            {...mockedProps}
-          />
-        ),
+        Component: () => <UserFeedback {...mockedProps} />,
       },
     ]);
-    render(<UserFeedbackWithRemixStub />);
+    render(
+      <UserFeedbackWithRemixStub
+        hydrationData={{
+          loaderData: { root: { bannerState: BannerState.FeedbackGiven } },
+        }}
+      />,
+    );
     expect(screen.getByTestId("user-feedback-submission")).toBeInTheDocument();
   });
 });

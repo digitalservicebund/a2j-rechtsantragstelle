@@ -1,11 +1,14 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
+import { validationError } from "remix-validated-form";
 import { BannerState, USER_FEEDBACK_ID } from "~/components/UserFeedback";
+import { feedbackValidator } from "~/components/UserFeedback/FeedbackFormBox";
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
 import { parsePathname } from "~/models/flows/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { bannerStateName } from "~/services/feedback/getFeedbackBannerState";
 import { getSessionManager } from "~/services/session.server";
+
+export const bannerStateName = "bannerState";
 
 const parseFlowIdFromUrl = (url: string): string => {
   try {
@@ -19,44 +22,46 @@ const parseFlowIdFromUrl = (url: string): string => {
 export const loader = () => redirect("/");
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
   const { searchParams } = new URL(request.url);
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
   const url = searchParams.get("url") ?? "";
+
   if (!url.startsWith("/")) {
     // Abort without redirect on non-relative URLs
     return json({ success: false }, { status: 400 });
   }
+
   const context = parseFlowIdFromUrl(url);
-  const formData = await request.formData();
 
   const cookie = request.headers.get("Cookie");
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(cookie);
 
-  // TODO - Improve this block to share same code with action.send-feedback.ts
-  const userRatings =
+  const userRating =
     (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
-  userRatings[url] = formData.get(userRatingFieldname) === "yes";
-  session.set(userRatingFieldname, userRatings);
-
   const bannerState =
     (session.get(bannerStateName) as Record<string, BannerState>) ?? {};
-  bannerState[url] = BannerState.ShowFeedback;
-  session.set(bannerStateName, bannerState);
 
-  const headers = { "Set-Cookie": await commitSession(session) };
-
+  const result = await feedbackValidator.validate(formData);
+  if (result.error) {
+    return validationError(result.error, result.submittedData);
+  }
+  bannerState[url] = BannerState.FeedbackGiven;
   sendCustomAnalyticsEvent({
-    eventName: "rating given",
+    eventName: "feedback given",
     request,
     properties: {
-      wasHelpful: userRatings[url],
+      wasHelpful: userRating[url],
+      feedback: result.data?.feedback ?? "",
       context,
     },
   });
+  session.set(bannerStateName, bannerState);
 
-  const userFeedbackPath = `${url}#${USER_FEEDBACK_ID}`;
-  return clientJavaScriptAvailable
-    ? json({ success: true }, { headers })
-    : redirect(userFeedbackPath, { headers });
+  const headers = { "Set-Cookie": await commitSession(session) };
+  const userFeedbackPath = clientJavaScriptAvailable
+    ? url
+    : `${url}#${USER_FEEDBACK_ID}`;
+  return redirect(userFeedbackPath, { headers });
 };

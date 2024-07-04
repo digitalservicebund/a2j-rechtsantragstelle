@@ -31,13 +31,16 @@ import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/CookieBanner";
 import Footer from "./components/Footer";
 import Header from "./components/PageHeader";
+import { BannerState } from "./components/UserFeedback";
 import { FeedbackTranslationContext } from "./components/UserFeedback/FeedbackTranslationContext";
 import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
+import { getFeedbackBannerState } from "./services/feedback/getFeedbackBannerState";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
+import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 
 export const headers: HeadersFunction = () => ({
@@ -84,6 +87,9 @@ export const meta: MetaFunction<typeof loader> = () => {
 };
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
+  const { pathname } = new URL(request.url);
+  const cookieHeader = request.headers.get("Cookie");
+
   const [
     strapiHeader,
     strapiFooter,
@@ -94,6 +100,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     deleteDataStrings,
     hasAnyUserData,
     feedbackTranslations,
+    mainSession,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
     fetchSingleEntry("footer"),
@@ -104,6 +111,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("delete-data"),
     anyUserData(request),
     fetchTranslations("feedback"),
+    mainSessionFromCookieHeader(cookieHeader),
   ]);
 
   return json({
@@ -117,6 +125,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     deletionLabel: deleteDataStrings["footerLinkLabel"],
     hasAnyUserData,
     feedbackTranslations,
+    bannerState:
+      getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
   });
 };
 

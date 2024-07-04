@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
-import { USER_FEEDBACK_ID } from ".";
 import { useFeedbackTranslations } from "./FeedbackTranslationContext";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
@@ -68,10 +67,6 @@ export const FeedbackFormBox = ({ destination }: FeedbackBoxProps) => {
     translations,
   );
 
-  const nextDestination = jsAvailable
-    ? destination
-    : `${destination}#${USER_FEEDBACK_ID}`;
-
   return (
     <>
       <Heading look="ds-label-01-bold" tagName="h2" text={heading} />
@@ -79,7 +74,7 @@ export const FeedbackFormBox = ({ destination }: FeedbackBoxProps) => {
         validator={feedbackValidator}
         subaction={feedbackFormName}
         method="post"
-        action={nextDestination}
+        action={`/action/send-feedback?url=${destination}&js=${String(jsAvailable)}`}
         preventScrollReset={true}
       >
         <div className="ds-stack-16">
