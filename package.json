@@ -62,7 +62,7 @@
     "ioredis": "^5.4.1",
     "isbot": "^5.1.11",
     "lodash": "^4.17.21",
-    "marked": "^13.0.1",
+    "marked": "^13.0.2",
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
     "posthog-js": "^1.143.0",
