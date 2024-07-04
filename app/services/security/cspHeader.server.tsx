@@ -28,6 +28,7 @@ export const cspHeader = (args?: { nonce?: string; environment?: string }) => {
     "connect-src": [
       "'self'",
       "https://*.ingest.sentry.io",
+      "https://*.ingest.us.sentry.io",
       "https://*.posthog.com",
     ],
     "img-src": [
