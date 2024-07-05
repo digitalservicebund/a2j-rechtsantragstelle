@@ -43,7 +43,7 @@ export async function getBeratungshilfePdfFromContext(
   return fillOutBeratungshilfe(pdfFields, attachmentContent);
 }
 
-async function handleOutOfLimitDescription(
+async function renderAnhang(
   descriptions: { title: string; text: string }[],
   pdfDoc: PDFDocument,
 ) {
@@ -78,7 +78,7 @@ async function fillOutBeratungshilfe(
   });
 
   if (attachment.shouldCreateAttachment) {
-    await handleOutOfLimitDescription(attachment.descriptions, pdfDoc);
+    await renderAnhang(attachment.descriptions, pdfDoc);
   }
 
   return pdfDoc;
