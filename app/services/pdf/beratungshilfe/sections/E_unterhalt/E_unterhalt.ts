@@ -5,7 +5,7 @@ import {
   getListKidsUnterhaltPdfField,
   getListPersonUnterhaltPdfField,
 } from "./unterhaltPdfField";
-import type { Attachment } from "../../attachment";
+import type { Attachment } from "../../../attachment";
 
 export const ATTACHMENT_DESCRIPTION_SECTION_E = "Feld E Unterhaltszahlungen";
 export const SEE_IN_ATTACHMENT_DESCRIPTION = "Siehe Anhang";

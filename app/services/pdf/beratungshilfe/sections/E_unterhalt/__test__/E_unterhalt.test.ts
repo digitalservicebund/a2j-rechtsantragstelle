@@ -1,5 +1,5 @@
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
+import { createAttachment } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import {
   ATTACHMENT_DESCRIPTION_SECTION_E,

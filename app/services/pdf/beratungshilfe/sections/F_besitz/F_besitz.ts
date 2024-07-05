@@ -2,8 +2,8 @@ import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.g
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { arrayIsNonEmpty } from "~/services/validation/array";
 import { fillKraftfahrzeug } from "./fillKraftfahrzeug";
-import type { Attachment } from "../../attachment";
-import { newPageHint } from "../../attachment";
+import type { Attachment } from "../../../attachment";
+import { newPageHint } from "../../../attachment";
 
 export function fillBesitz(
   attachment: Attachment,

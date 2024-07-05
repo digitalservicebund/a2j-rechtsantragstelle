@@ -9,7 +9,7 @@ import {
   findCourt,
   edgeCasesForPlz,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
+import { createAttachment } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import fillHeader, {
   getMaritalDescriptionByContext,
