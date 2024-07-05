@@ -10,7 +10,6 @@ import { logError } from "~/services/logging";
 import type { Attachment } from "./attachment";
 import { createAttachment } from "./attachment";
 import { addDruckvermerk } from "./druckvermerk";
-import { resizeToA4 } from "./resizeToA4";
 import { fillAngelegenheit } from "./sections/A_angelegenheit";
 import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
 import { fillEinkommen } from "./sections/C_einkommen";
@@ -22,6 +21,7 @@ import { fillAusgaben } from "./sections/G_ausgaben";
 import fillHeader from "./sections/header";
 import { isBooleanField } from "../fileTypes";
 import { changeBooleanField, changeStringField } from "../pdf.server";
+import { resizeToA4 } from "../resizeToA4";
 export { getBeratungshilfeParameters };
 
 export async function getBeratungshilfePdfFromContext(
