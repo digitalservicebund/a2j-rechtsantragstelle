@@ -19,6 +19,7 @@ import { fillBesitz } from "./sections/F_besitz/F_besitz";
 import { fillFooter } from "./sections/footer";
 import { fillAusgaben } from "./sections/G_ausgaben";
 import fillHeader from "./sections/header";
+import { appendAttachment } from "../appendAttachment";
 import { isBooleanField } from "../fileTypes";
 import { changeBooleanField, changeStringField } from "../pdf.server";
 import { resizeToA4 } from "../resizeToA4";
@@ -43,19 +44,12 @@ export async function getBeratungshilfePdfFromContext(
   return fillOutBeratungshilfe(pdfFields, attachmentData);
 }
 
-async function renderAnhang(
-  descriptions: { title: string; text: string }[],
-  pdfDoc: PDFDocument,
-) {
+async function renderAnhang(descriptions: Attachment) {
   const attachmentPdf = await PDFDocument.load(
     await renderToBuffer(<FormAttachment descriptions={descriptions} />),
   );
   addDruckvermerk(attachmentPdf);
-
-  for (let index = 0; index < attachmentPdf.getPageCount(); index++) {
-    const [attachmentPage] = await pdfDoc.copyPages(attachmentPdf, [index]);
-    pdfDoc.addPage(attachmentPage);
-  }
+  return attachmentPdf;
 }
 
 async function fillOutBeratungshilfe(
@@ -78,7 +72,7 @@ async function fillOutBeratungshilfe(
   });
 
   if (attachment.length > 0) {
-    await renderAnhang(attachment, pdfDoc);
+    await appendAttachment(pdfDoc, await renderAnhang(attachment));
   }
 
   return pdfDoc;
