@@ -5,6 +5,7 @@ describe("normalizePropertyName", () => {
     expect(normalizePropertyName("Äpfel")).toBe("aepfel");
     expect(normalizePropertyName("österreich")).toBe("oesterreich");
     expect(normalizePropertyName("Müller-Straße")).toBe("muellerStrasse");
+    expect(normalizePropertyName("Müller_Straße")).toBe("mueller_Strasse");
     expect(normalizePropertyName("süß")).toBe("suess");
   });
 
