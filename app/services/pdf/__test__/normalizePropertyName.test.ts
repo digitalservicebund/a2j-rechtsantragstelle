@@ -1,4 +1,4 @@
-import { normalizePropertyName } from "~/services/pdf/pdf.server";
+import { normalizePropertyName } from "../normalizePropertyName";
 
 describe("normalizePropertyName", () => {
   it("normalizes property names correctly", () => {

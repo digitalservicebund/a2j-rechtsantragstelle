@@ -1,7 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { PDFDocument, PDFCheckBox, PDFTextField, type PDFField } from "pdf-lib";
-import { normalizePropertyName } from "./pdf.server";
+import { uppercaseFirstLetter } from "~/util/strings";
+import { normalizePropertyName } from "./normalizePropertyName";
 
 const pdfs = [
   {
@@ -42,7 +43,7 @@ async function generatePdfTypes({
 
   const pdfDoc = await PDFDocument.load(fs.readFileSync(filepath));
   const pdfFields = pdfDoc.getForm().getFields().filter(isCheckBoxOrTextField);
-  const functionName = `get${service[0].toUpperCase()}${service.slice(1)}Parameters`;
+  const functionName = `get${uppercaseFirstLetter(service)}Parameters`;
   const pdfFieldsObject = Object.fromEntries(pdfFields.map(pdfFieldToEntry));
 
   const fileContent = `import type { BooleanField, StringField } from "~/services/pdf/fileTypes";
