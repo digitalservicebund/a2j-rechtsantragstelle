@@ -28,19 +28,19 @@ export async function getBeratungshilfePdfFromContext(
   context: BeratungshilfeFormularContext,
 ) {
   const pdfFields = getBeratungshilfeParameters();
-  const attachmentContent = createAttachment(context);
+  const attachmentData = createAttachment();
 
-  fillHeader(attachmentContent, pdfFields, context);
-  fillAngelegenheit(attachmentContent, pdfFields, context);
+  fillHeader(attachmentData, pdfFields, context);
+  fillAngelegenheit(attachmentData, pdfFields, context);
   fillVorraussetzungen(pdfFields, context);
   fillEinkommen(pdfFields, context);
-  fillUnterhalt(attachmentContent, pdfFields, context);
-  fillBesitz(attachmentContent, pdfFields, context);
-  fillAusgaben(attachmentContent, pdfFields, context);
+  fillUnterhalt(attachmentData, pdfFields, context);
+  fillBesitz(attachmentData, pdfFields, context);
+  fillAusgaben(attachmentData, pdfFields, context);
   fillWohnen(pdfFields, context);
   fillFooter(pdfFields, context);
 
-  return fillOutBeratungshilfe(pdfFields, attachmentContent);
+  return fillOutBeratungshilfe(pdfFields, attachmentData);
 }
 
 async function renderAnhang(
@@ -77,8 +77,8 @@ async function fillOutBeratungshilfe(
     }
   });
 
-  if (attachment.shouldCreateAttachment) {
-    await renderAnhang(attachment.descriptions, pdfDoc);
+  if (attachment.length > 0) {
+    await renderAnhang(attachment, pdfDoc);
   }
 
   return pdfDoc;

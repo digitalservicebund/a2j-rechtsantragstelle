@@ -23,16 +23,15 @@ export function fillUnterhalt(
 
   if (amountOfUnterhaltPdfFields === 0) return;
 
-  attachment.shouldCreateAttachment = true;
   pdfFields.e1Person1.value = SEE_IN_ATTACHMENT_DESCRIPTION;
 
   // Empty line
-  attachment.descriptions.push({
+  attachment.push({
     title: "",
     text: "",
   });
 
-  attachment.descriptions.push({
+  attachment.push({
     title: ATTACHMENT_DESCRIPTION_SECTION_E,
     text: getAttachmentText(
       listKinderUnterhaltPdfField,

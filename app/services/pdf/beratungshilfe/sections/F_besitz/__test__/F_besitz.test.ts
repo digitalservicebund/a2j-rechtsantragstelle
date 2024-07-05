@@ -28,7 +28,7 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment(context);
+      const attachment = createAttachment();
 
       fillFinancialBankkonto(attachment, pdfFields, context);
 
@@ -68,7 +68,7 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment(context);
+      const attachment = createAttachment();
 
       fillFinancialBankkonto(attachment, pdfFields, context);
 
@@ -80,7 +80,7 @@ describe("F_besitz", () => {
       expect(pdfFields.f3Bank1.value).toBe("Bitte im Anhang prüfen");
       expect(pdfFields.f4Kontostand.value).toBe(undefined);
 
-      const bankkontenattachment = attachment.descriptions.find(
+      const bankkontenattachment = attachment.find(
         (d) => d.title === "Bankkonten",
       )?.text;
 
@@ -115,7 +115,7 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment(context);
+      const attachment = createAttachment();
 
       fillFinancialGrundeigentum(attachment, pdfFields, context);
 
@@ -158,12 +158,11 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment(context);
+      const attachment = createAttachment();
 
       fillFinancialGrundeigentum(attachment, pdfFields, context);
 
-      expect(attachment.shouldCreateAttachment).toBe(true);
-      expect(attachment.descriptions[0]).toEqual({
+      expect(attachment[0]).toEqual({
         title: "Grundeigentum",
         text:
           "Art des Eigentums: Wohnung\n" +
@@ -200,7 +199,7 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment(context);
+      const attachment = createAttachment();
 
       fillFinancialWertsachen(attachment, pdfFields, context);
 
@@ -215,8 +214,6 @@ describe("F_besitz", () => {
       expect(pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
         "100000",
       );
-
-      expect(attachment.shouldCreateAttachment).toBe(false);
     });
 
     it("should fill multiple wertsachen pdf field when wertsachen is given in context", async () => {
@@ -236,7 +233,7 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment(context);
+      const attachment = createAttachment();
 
       fillFinancialWertsachen(attachment, pdfFields, context);
 
@@ -250,9 +247,7 @@ describe("F_besitz", () => {
         undefined,
       );
 
-      expect(attachment.shouldCreateAttachment).toBe(true);
-
-      expect(attachment.descriptions[0]).toEqual({
+      expect(attachment[0]).toEqual({
         title: "Wertsachen",
         text:
           "Teure Sache\n" +
@@ -278,15 +273,14 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment(context);
+      const attachment = createAttachment();
 
       fillGeldanlagen(attachment, pdfFields, context);
 
       expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
       expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
       expect(pdfFields.f15Bezeichnung.value).toBe(newPageHint);
-      expect(attachment.shouldCreateAttachment).toBe(true);
-      expect(attachment.descriptions[0]).toEqual({
+      expect(attachment[0]).toEqual({
         title: "Geldanlagen",
         text:
           "\nGeldanlage 1\n" +
@@ -310,15 +304,14 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment(context);
+      const attachment = createAttachment();
 
       fillGeldanlagen(attachment, pdfFields, context);
 
       expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
       expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
       expect(pdfFields.f15Bezeichnung.value).toBe(newPageHint);
-      expect(attachment.shouldCreateAttachment).toBe(true);
-      expect(attachment.descriptions[0]).toEqual({
+      expect(attachment[0]).toEqual({
         title: "Geldanlagen",
         text:
           "\nGeldanlage 1\n" +
@@ -345,15 +338,14 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment(context);
+      const attachment = createAttachment();
 
       fillGeldanlagen(attachment, pdfFields, context);
 
       expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
       expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
       expect(pdfFields.f15Bezeichnung.value).toBe(newPageHint);
-      expect(attachment.shouldCreateAttachment).toBe(true);
-      expect(attachment.descriptions[0]).toEqual({
+      expect(attachment[0]).toEqual({
         title: "Geldanlagen",
         text:
           "\nGeldanlage 1\n" +
@@ -378,15 +370,14 @@ describe("F_besitz", () => {
         ],
       };
       const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment(context);
+      const attachment = createAttachment();
 
       fillGeldanlagen(attachment, pdfFields, context);
 
       expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
       expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
       expect(pdfFields.f15Bezeichnung.value).toBe(newPageHint);
-      expect(attachment.shouldCreateAttachment).toBe(true);
-      expect(attachment.descriptions[0]).toEqual({
+      expect(attachment[0]).toEqual({
         title: "Geldanlagen",
         text:
           "\nGeldanlage 1\n" +
@@ -402,15 +393,14 @@ describe("F_besitz", () => {
         geldanlagen: [],
       };
       const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment(context);
+      const attachment = createAttachment();
 
       fillGeldanlagen(attachment, pdfFields, context);
 
       expect(pdfFields.f13Vermoegenswerte1.value).toBe(undefined);
       expect(pdfFields.f13Vermoegenswerte2.value).toBe(undefined);
       expect(pdfFields.f15Bezeichnung.value).toBe(undefined);
-      expect(attachment.shouldCreateAttachment).toBe(false);
-      expect(attachment.descriptions.length).toBe(0);
+      expect(attachment.length).toBe(0);
     });
   });
 });

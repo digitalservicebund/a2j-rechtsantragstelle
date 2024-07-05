@@ -28,7 +28,7 @@ describe("fillKraftfahrzeug", () => {
       ],
     };
     const pdfFields = getBeratungshilfeParameters();
-    const attachment = createAttachment(context);
+    const attachment = createAttachment();
 
     fillKraftfahrzeug(attachment, pdfFields, context);
 
@@ -41,8 +41,6 @@ describe("fillKraftfahrzeug", () => {
       "P 50, Trabant, Baujahr: 1990, km-Stand: 999999, Wird nicht für einen Arbeitsweg gebraucht",
     );
     expect(pdfFields.f12Verkehrswert.value).toBe("100000€");
-
-    expect(attachment.shouldCreateAttachment).toBe(false);
   });
 
   it("should fill multiple kraftfahrzeug pdf field when kraftfahrzeug is given in context", async () => {
@@ -76,7 +74,7 @@ describe("fillKraftfahrzeug", () => {
       ],
     };
     const pdfFields = getBeratungshilfeParameters();
-    const attachment = createAttachment(context);
+    const attachment = createAttachment();
 
     fillKraftfahrzeug(attachment, pdfFields, context);
 
@@ -88,8 +86,7 @@ describe("fillKraftfahrzeug", () => {
     expect(pdfFields.f11Fahrzeugart.value).toBe(newPageHint);
     expect(pdfFields.f12Verkehrswert.value).toBe(undefined);
 
-    expect(attachment.shouldCreateAttachment).toBe(true);
-    expect(attachment.descriptions[0]).toEqual({
+    expect(attachment[0]).toEqual({
       title: "Kraftfahrzeuge",
       text:
         fahrzeugWirdFuerDenArbeitswegGenutzt +
@@ -118,7 +115,7 @@ describe("fillKraftfahrzeug", () => {
     };
 
     const pdfFields = getBeratungshilfeParameters();
-    const attachment = createAttachment(context);
+    const attachment = createAttachment();
 
     fillKraftfahrzeug(attachment, pdfFields, context);
 
@@ -145,7 +142,7 @@ describe("fillKraftfahrzeug", () => {
       ],
     };
     const pdfFields = getBeratungshilfeParameters();
-    const attachment = createAttachment(context);
+    const attachment = createAttachment();
 
     fillKraftfahrzeug(attachment, pdfFields, context);
 
@@ -158,8 +155,6 @@ describe("fillKraftfahrzeug", () => {
       "Wird nicht für einen Arbeitsweg gebraucht",
     );
     expect(pdfFields.f12Verkehrswert.value).toBe("unter 10.000€");
-
-    expect(attachment.shouldCreateAttachment).toBe(false);
   });
 
   it("should fill multiple kraftfahrzeug data only with the hasArbeitsweg and not fill other data even they are filled in the context for wert under10000", async () => {
@@ -193,7 +188,7 @@ describe("fillKraftfahrzeug", () => {
       ],
     };
     const pdfFields = getBeratungshilfeParameters();
-    const attachment = createAttachment(context);
+    const attachment = createAttachment();
 
     fillKraftfahrzeug(attachment, pdfFields, context);
 
@@ -205,8 +200,7 @@ describe("fillKraftfahrzeug", () => {
     expect(pdfFields.f11Fahrzeugart.value).toBe(newPageHint);
     expect(pdfFields.f12Verkehrswert.value).toBe(undefined);
 
-    expect(attachment.shouldCreateAttachment).toBe(true);
-    expect(attachment.descriptions[0]).toEqual({
+    expect(attachment[0]).toEqual({
       title: "Kraftfahrzeuge",
       text:
         fahrzeugWirdFuerDenArbeitswegGenutzt +

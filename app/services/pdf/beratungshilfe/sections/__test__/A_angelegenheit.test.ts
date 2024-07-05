@@ -22,7 +22,7 @@ describe("A_angelegenheit", () => {
       ziel: "ziel",
       eigeninitiativeBeschreibung: "eigeninitiativeBeschreibung",
     };
-    const attachment = createAttachment(context);
+    const attachment = createAttachment();
     const pdfFields = getBeratungshilfeParameters();
 
     fillAngelegenheit(attachment, pdfFields, context);
@@ -52,7 +52,7 @@ describe("A_angelegenheit", () => {
       eigeninitiativeBeschreibung:
         "eigeninitiativeBeschreibung eigeninitiativeBeschreibung eigeninitiativeBeschreibung eigeninitiativeBeschreibung",
     };
-    const attachment = createAttachment(context);
+    const attachment = createAttachment();
     const pdfFields = getBeratungshilfeParameters();
 
     fillAngelegenheit(attachment, pdfFields, context);
@@ -63,22 +63,20 @@ describe("A_angelegenheit", () => {
         .value,
     ).toBe(newPageHint);
 
-    expect(attachment.shouldCreateAttachment).toBe(true);
-
-    const hasBeschreibungAngelegenheit = attachment.descriptions.some(
+    const hasBeschreibungAngelegenheit = attachment.some(
       (description) => description.title === BESCHREIBUNG_ANGELEGENHEIT_TITLE,
     );
 
-    const hasThemeRechtsproblem = attachment.descriptions.some(
+    const hasThemeRechtsproblem = attachment.some(
       (description) => description.title === THEMA_RECHTSPROBLEM_TITLE,
     );
-    const hasGegner = attachment.descriptions.some(
+    const hasGegner = attachment.some(
       (description) => description.title === GEGNER_TITLE,
     );
-    const hasZielAngelegenheit = attachment.descriptions.some(
+    const hasZielAngelegenheit = attachment.some(
       (description) => description.title === ZIEL_ANGELEGENHEIT_TITLE,
     );
-    const hasEigeninitiativeBeschreibung = attachment.descriptions.some(
+    const hasEigeninitiativeBeschreibung = attachment.some(
       (description) => description.title === EIGENBEMUEHUNG_TITLE,
     );
     expect(hasBeschreibungAngelegenheit).toBeTruthy();

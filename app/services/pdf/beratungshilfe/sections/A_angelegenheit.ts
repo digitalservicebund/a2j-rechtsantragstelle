@@ -30,68 +30,66 @@ export function fillAngelegenheit(
   const angelegenheitDescriptions =
     getAngelegenheitAttachmentDescriptions(context);
 
-  const shouldCreateAttachment =
-    angelegenheitDescriptions.map((x) => x.title + x.text).join(" ").length >
-    MAX_LENGTH_ANGELEGENHEIT;
+  const sachverhaltString = angelegenheitDescriptions
+    .map((x) => `${x.title} ${x.text}`)
+    .join("\n");
 
-  if (shouldCreateAttachment) {
+  if (sachverhaltString.length > MAX_LENGTH_ANGELEGENHEIT) {
     pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
       newPageHint;
 
-    attachment.shouldCreateAttachment = true;
-
-    attachment.descriptions.push({ title: "", text: "" });
-    attachment.descriptions.push({
+    attachment.push({ title: "", text: "" });
+    attachment.push({
       title: FIELD_A_RECHTSPROBLEMS_TITLE,
       text: "",
     });
 
-    attachment.descriptions.push(...angelegenheitDescriptions);
+    attachment.push(...angelegenheitDescriptions);
   } else {
     pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
-      angelegenheitDescriptions.map((x) => `${x.title} ${x.text}`).join("\n");
+      sachverhaltString;
   }
 }
 
 function getAngelegenheitAttachmentDescriptions(
   context: BeratungshilfeFormularContext,
-): Attachment["descriptions"] {
-  const descriptions: Attachment["descriptions"] = [];
+): Attachment {
+  const attachment: Attachment = [];
 
   if (context.bereich) {
-    descriptions.push({
+    attachment.push({
       title: THEMA_RECHTSPROBLEM_TITLE,
       text: bereichMapping[context.bereich],
     });
   }
 
   if (context.gegenseite) {
-    descriptions.push({
+    attachment.push({
       title: GEGNER_TITLE,
       text: context.gegenseite,
     });
   }
 
   if (context.beschreibung) {
-    descriptions.push({
+    attachment.push({
       title: BESCHREIBUNG_ANGELEGENHEIT_TITLE,
       text: context.beschreibung,
     });
   }
 
   if (context.ziel) {
-    descriptions.push({
+    attachment.push({
       title: ZIEL_ANGELEGENHEIT_TITLE,
       text: context.ziel,
     });
   }
 
   if (context.eigeninitiativeBeschreibung) {
-    descriptions.push({
+    attachment.push({
       title: EIGENBEMUEHUNG_TITLE,
       text: context.eigeninitiativeBeschreibung,
     });
   }
 
-  return descriptions;
+  return attachment;
 }
