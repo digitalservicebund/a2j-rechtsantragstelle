@@ -11,6 +11,7 @@ import { StrapiListItemSchema, getListItemProps } from "./StrapiListItem";
 const StrapiListSchema = z
   .object({
     heading: StrapiHeadingSchema.nullable(),
+    subheading: z.string().nullable(),
     items: z.array(StrapiListItemSchema),
     isNumeric: z.boolean(),
     outerBackground: StrapiBackgroundSchema.nullable(),
