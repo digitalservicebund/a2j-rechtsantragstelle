@@ -1,5 +1,6 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import { uppercaseFirstLetter } from "~/util/strings";
 
 export function fillFooter(
   pdfFields: BeratungshilfePDF,
@@ -14,4 +15,5 @@ export function fillFooter(
     .filter((entry) => entry)
     .join(", ");
   pdfFields.datumBeratung.value = context.beratungStattgefundenDatum ?? "";
+  pdfFields.ortDatum2.value = `${uppercaseFirstLetter(context.ort)}, ${new Date().toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" })}`;
 }
