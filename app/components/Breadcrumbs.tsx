@@ -30,19 +30,17 @@ export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
         </a>
         {validBreadcrumbs.map((breadcrumb, idx, arr) => (
           <div key={breadcrumb.title}>
-            <span className="mx-8">/</span>
-            <span>
-              {idx === arr.length - 1 ? (
-                <span>{breadcrumb.title}</span>
-              ) : (
-                <a
-                  href={breadcrumb.url}
-                  className="text-link increase-tap-area"
-                >
-                  {breadcrumb.title}
-                </a>
-              )}
-            </span>
+            <span className="mx-8 ds-body-02-reg">/</span>
+            {idx === arr.length - 1 ? (
+              <span className="ds-body-02-reg">{breadcrumb.title}</span>
+            ) : (
+              <a
+                href={breadcrumb.url}
+                className="text-link increase-tap-area ds-label-03-reg"
+              >
+                {breadcrumb.title}
+              </a>
+            )}
           </div>
         ))}
       </nav>
