@@ -20,7 +20,7 @@ export function navItemsFromStepStates(
   if (!stepStates) return undefined;
 
   return stepStates.map((stepState) => {
-    const { isDone, isReachable, isUneditable, subStates } = stepState;
+    const { isDone, isReachable, subStates } = stepState;
 
     const subNavItems = navItemsFromStepStates(stepId, subStates, translations);
     const isCurrent = subNavItems
@@ -31,7 +31,7 @@ export function navItemsFromStepStates(
       destination: stepState.url,
       label: translations[stepState.stepId ?? ""] ?? stepState.stepId,
       subflows: subNavItems,
-      state: navState({ isCurrent, isDone, isReachable, isUneditable }),
+      state: navState({ isCurrent, isDone, isReachable }),
     };
   });
 }
@@ -40,18 +40,15 @@ export function navState({
   isCurrent,
   isReachable,
   isDone,
-  isUneditable,
 }: {
   isCurrent: boolean;
   isReachable: boolean;
   isDone: boolean;
-  isUneditable: boolean;
 }) {
   if (isCurrent && isDone) return NavState.DoneCurrent;
   if (isCurrent) return NavState.Current;
-  if (isUneditable && isDone) return NavState.DoneDisabled;
   if (isReachable && isDone) return NavState.Done;
   if (isReachable) return NavState.Open;
 
-  return NavState.OpenDisabled;
+  return NavState.Disabled;
 }

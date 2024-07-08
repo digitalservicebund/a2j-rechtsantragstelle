@@ -1,10 +1,9 @@
 export enum NavState {
-  DoneDisabled,
   Done,
   DoneCurrent,
   Current,
   Open,
-  OpenDisabled,
+  Disabled,
 }
 
 export const stateIsCurrent = (state: NavState) =>
@@ -19,9 +18,6 @@ export const stateIsActive = (state: NavState) =>
   ].includes(state);
 
 export const stateIsDone = (state: NavState) =>
-  state === NavState.DoneDisabled ||
-  state === NavState.Done ||
-  state === NavState.DoneCurrent;
+  state === NavState.Done || state === NavState.DoneCurrent;
 
-export const stateIsDisabled = (state: NavState) =>
-  state === NavState.DoneDisabled || state === NavState.OpenDisabled;
+export const stateIsDisabled = (state: NavState) => state === NavState.Disabled;

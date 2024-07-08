@@ -33,10 +33,7 @@ describe("FlowNavigation", () => {
     const label = "navLabel";
     component = render(
       <FlowNavigation
-        navItems={[
-          { destination: "/a", label, state: NavState.OpenDisabled },
-          { destination: "/b", label, state: NavState.DoneDisabled },
-        ]}
+        navItems={[{ destination: "/a", label, state: NavState.Disabled }]}
       />,
     );
     screen
