@@ -2,7 +2,7 @@ import { getFontSizeFieldValue } from "~/services/pdf/getFontSizeFieldValue";
 
 describe("getFontSizeFieldValue", () => {
   const casesFontSizes = [
-    { input: "D3-Teilwohnkosten", expected: 8 },
+    { input: "D3-Teilwohnkosten", expected: 6 },
     { input: "E2-Geburtsdatum", expected: 8 },
     { input: "E2-Geburtsdatum2", expected: 8 },
     { input: "E2-Geburtsdatum3", expected: 8 },
