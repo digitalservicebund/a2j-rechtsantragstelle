@@ -342,7 +342,7 @@ export function getBeratungshilfeParameters(): BeratungshilfePDF {
     "name": "Beratungsperson"
   },
   "ortDatum2": {
-    "name": "Ort Datum_2"
+    "name": "Ort Datum 2"
   },
   "unterschriftdesAntragstellersderAntragstellerin": {
     "name": "Unterschrift des Antragstellers der Antragstellerin"
@@ -350,7 +350,7 @@ export function getBeratungshilfeParameters(): BeratungshilfePDF {
   "bew": {
     "name": "Bew"
   },
-  "e2": {
+  "e_2": {
     "name": "E_2"
   },
   "wohnkosten": {
@@ -358,6 +358,9 @@ export function getBeratungshilfeParameters(): BeratungshilfePDF {
   },
   "sonst": {
     "name": "Sonst"
+  },
+  "ortDatum_2": {
+    "name": "Ort Datum_2"
   },
   "unterschrftdesRechtspfegersderRechtspfegern": {
     "name": "Unterschr ft des Rechtspf egersder Rechtspf eger n"
@@ -482,8 +485,9 @@ export type BeratungshilfePDF = {
   ortDatum2: StringField;
   unterschriftdesAntragstellersderAntragstellerin: StringField;
   bew: BooleanField;
-  e2: BooleanField;
+  e_2: BooleanField;
   wohnkosten: BooleanField;
   sonst: BooleanField;
+  ortDatum_2: StringField;
   unterschrftdesRechtspfegersderRechtspfegern: StringField;
 };

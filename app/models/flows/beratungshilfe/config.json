@@ -3,9 +3,6 @@
   "initial": "rechtsschutzversicherung",
   "states": {
     "rechtsschutzversicherung": {
-      "meta": {
-        "progressPosition": 1
-      },
       "on": {
         "SUBMIT": [
           {
@@ -27,9 +24,6 @@
       }
     },
     "wurde-verklagt": {
-      "meta": {
-        "progressPosition": 2
-      },
       "on": {
         "SUBMIT": [
           {
@@ -54,9 +48,6 @@
       }
     },
     "klage-eingereicht": {
-      "meta": {
-        "progressPosition": 3
-      },
       "on": {
         "SUBMIT": [
           {
@@ -81,9 +72,6 @@
       }
     },
     "hamburg-oder-bremen": {
-      "meta": {
-        "progressPosition": 4
-      },
       "on": {
         "SUBMIT": [
           {
@@ -108,9 +96,6 @@
       }
     },
     "beratungshilfe-beantragt": {
-      "meta": {
-        "progressPosition": 5
-      },
       "on": {
         "SUBMIT": [
           {
@@ -135,9 +120,6 @@
       }
     },
     "eigeninitiative": {
-      "meta": {
-        "progressPosition": 6
-      },
       "on": {
         "SUBMIT": [
           {
@@ -155,9 +137,6 @@
       }
     },
     "eigeninitiative-warnung": {
-      "meta": {
-        "progressPosition": 7
-      },
       "on": {
         "SUBMIT": {
           "target": "bereich"
@@ -169,8 +148,7 @@
     },
     "bereich": {
       "meta": {
-        "customAnalyticsEventName": "beratungshilfe vorabcheck bereich submitted",
-        "progressPosition": 8
+        "customAnalyticsEventName": "beratungshilfe vorabcheck bereich submitted"
       },
       "on": {
         "SUBMIT": "staatliche-leistungen",
@@ -184,9 +162,6 @@
       }
     },
     "staatliche-leistungen": {
-      "meta": {
-        "progressPosition": 9
-      },
       "on": {
         "SUBMIT": [
           {
@@ -220,9 +195,6 @@
       }
     },
     "vermoegen": {
-      "meta": {
-        "progressPosition": 10
-      },
       "on": {
         "SUBMIT": [
           {
@@ -269,9 +241,6 @@
       }
     },
     "erwerbstaetigkeit": {
-      "meta": {
-        "progressPosition": 11
-      },
       "on": {
         "SUBMIT": {
           "target": "partnerschaft",
@@ -283,9 +252,6 @@
       }
     },
     "partnerschaft": {
-      "meta": {
-        "progressPosition": 12
-      },
       "on": {
         "SUBMIT": {
           "target": "genauigkeit",
@@ -297,9 +263,6 @@
       }
     },
     "genauigkeit": {
-      "meta": {
-        "progressPosition": 13
-      },
       "on": {
         "SUBMIT": [
           {
@@ -317,9 +280,6 @@
       }
     },
     "kinder-kurz": {
-      "meta": {
-        "progressPosition": 14
-      },
       "on": {
         "SUBMIT": [
           {
@@ -337,9 +297,6 @@
       }
     },
     "kinder-anzahl-kurz": {
-      "meta": {
-        "progressPosition": 15
-      },
       "on": {
         "SUBMIT": {
           "target": "verfuegbares-einkommen",
@@ -351,9 +308,6 @@
       }
     },
     "verfuegbares-einkommen": {
-      "meta": {
-        "progressPosition": 16
-      },
       "on": {
         "SUBMIT": [
           {
@@ -402,9 +356,6 @@
       }
     },
     "einkommen": {
-      "meta": {
-        "progressPosition": 14
-      },
       "on": {
         "SUBMIT": [
           {
@@ -422,9 +373,6 @@
       }
     },
     "einkommen-partner": {
-      "meta": {
-        "progressPosition": 15
-      },
       "on": {
         "SUBMIT": {
           "target": "kinder"
@@ -435,9 +383,6 @@
       }
     },
     "kinder": {
-      "meta": {
-        "progressPosition": 16
-      },
       "on": {
         "SUBMIT": [
           {
@@ -462,9 +407,6 @@
       }
     },
     "kinder-anzahl": {
-      "meta": {
-        "progressPosition": 17
-      },
       "on": {
         "SUBMIT": {
           "target": "einkommen-kinder",
@@ -476,9 +418,6 @@
       }
     },
     "einkommen-kinder": {
-      "meta": {
-        "progressPosition": 18
-      },
       "on": {
         "SUBMIT": {
           "target": "unterhalt",
@@ -490,9 +429,6 @@
       }
     },
     "unterhalt": {
-      "meta": {
-        "progressPosition": 19
-      },
       "on": {
         "SUBMIT": [
           {
@@ -517,9 +453,6 @@
       }
     },
     "unterhalt-summe": {
-      "meta": {
-        "progressPosition": 20
-      },
       "on": {
         "SUBMIT": {
           "target": "miete",
@@ -531,9 +464,6 @@
       }
     },
     "miete": {
-      "meta": {
-        "progressPosition": 21
-      },
       "on": {
         "SUBMIT": {
           "target": "weitere-zahlungen-summe",
@@ -552,9 +482,6 @@
       }
     },
     "weitere-zahlungen-summe": {
-      "meta": {
-        "progressPosition": 22
-      },
       "on": {
         "SUBMIT": [
           {

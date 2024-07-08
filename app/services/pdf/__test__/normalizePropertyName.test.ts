@@ -1,10 +1,11 @@
-import { normalizePropertyName } from "~/services/pdf/pdf.server";
+import { normalizePropertyName } from "../normalizePropertyName";
 
 describe("normalizePropertyName", () => {
   it("normalizes property names correctly", () => {
     expect(normalizePropertyName("Äpfel")).toBe("aepfel");
     expect(normalizePropertyName("österreich")).toBe("oesterreich");
     expect(normalizePropertyName("Müller-Straße")).toBe("muellerStrasse");
+    expect(normalizePropertyName("Müller_Straße")).toBe("mueller_Strasse");
     expect(normalizePropertyName("süß")).toBe("suess");
   });
 

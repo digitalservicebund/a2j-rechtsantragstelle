@@ -18,12 +18,12 @@ if (SENTRY_DSN !== undefined) {
       // eslint disabled because of https://github.com/import-js/eslint-plugin-import/issues/2969
       // TODO: use TS import resolver
       // eslint-disable-next-line import/namespace
-      Sentry.replayIntegration(),
+      // Sentry.replayIntegration(),
     ],
-    tracesSampleRate: 1.0,
+    // tracesSampleRate: 1.0,
     // TODO: reduce replaysSessionSampleRate (e.g. to 0.1) when replays appear reliably in Sentry
-    replaysSessionSampleRate: 1.0,
-    replaysOnErrorSampleRate: 1.0,
+    // replaysSessionSampleRate: 1.0,
+    // replaysOnErrorSampleRate: 1.0,
   });
 }
 

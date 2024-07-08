@@ -1,5 +1,5 @@
 import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
+import { createAttachment } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import {
   ATTACHMENT_DESCRIPTION_SECTION_E,
@@ -31,14 +31,12 @@ describe("E_unterhalt", () => {
     mockedGetListPersonUnterhaltPdfField.mockReturnValue([]);
 
     const context: BeratungshilfeFormularContext = {};
-    const attachment = createAttachment(context);
+    const attachment = createAttachment();
     const pdfFields = getBeratungshilfeParameters();
 
     fillUnterhalt(attachment, pdfFields, context);
 
-    expect(attachment.shouldCreateAttachment).toBe(false);
-
-    const hasAttachmentDescriptionSectionE = attachment.descriptions.some(
+    const hasAttachmentDescriptionSectionE = attachment.some(
       (description) => description.title === ATTACHMENT_DESCRIPTION_SECTION_E,
     );
     expect(hasAttachmentDescriptionSectionE).toBeFalsy();
@@ -63,15 +61,14 @@ describe("E_unterhalt", () => {
 
     const context: BeratungshilfeFormularContext = {};
 
-    const attachment = createAttachment(context);
+    const attachment = createAttachment();
     const pdfFields = getBeratungshilfeParameters();
 
     fillUnterhalt(attachment, pdfFields, context);
 
     expect(pdfFields.e1Person1.value).toEqual(SEE_IN_ATTACHMENT_DESCRIPTION);
-    expect(attachment.shouldCreateAttachment).toBe(true);
 
-    const hasAttachmentDescriptionSectionE = attachment.descriptions.some(
+    const hasAttachmentDescriptionSectionE = attachment.some(
       (description) => description.title === ATTACHMENT_DESCRIPTION_SECTION_E,
     );
     expect(hasAttachmentDescriptionSectionE).toBeTruthy();

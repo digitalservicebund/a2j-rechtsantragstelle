@@ -9,7 +9,7 @@ import {
   findCourt,
   edgeCasesForPlz,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { createAttachment } from "~/services/pdf/beratungshilfe/attachment";
+import { createAttachment } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import fillHeader, {
   getMaritalDescriptionByContext,
@@ -28,11 +28,11 @@ describe("fillHeader", () => {
     };
 
     const pdfFields = getBeratungshilfeParameters();
-    const attachment = createAttachment(context);
+    const attachment = createAttachment();
 
     fillHeader(attachment, pdfFields, context);
 
-    const hasWeiteresEinkommen = attachment.descriptions.some(
+    const hasWeiteresEinkommen = attachment.some(
       (description) => description.title === "Weiteres Einkommen:",
     );
 
@@ -48,7 +48,7 @@ describe("fillHeader", () => {
     });
 
     const pdfFields = getBeratungshilfeParameters();
-    fillHeader(createAttachment({}), pdfFields, { plz: "06844" });
+    fillHeader(createAttachment(), pdfFields, { plz: "06844" });
     expect(pdfFields.namedesAmtsgerichts.value).toEqual("Dessau-Roßlau");
   });
 
@@ -61,7 +61,7 @@ describe("fillHeader", () => {
     });
 
     const pdfFields = getBeratungshilfeParameters();
-    fillHeader(createAttachment({}), pdfFields, { plz: "10965" });
+    fillHeader(createAttachment(), pdfFields, { plz: "10965" });
     expect(pdfFields.namedesAmtsgerichts.value).toBeUndefined();
   });
 
@@ -77,26 +77,34 @@ describe("fillHeader", () => {
     };
 
     const pdfFields = getBeratungshilfeParameters();
-    const attachment = createAttachment(context);
+    const attachment = createAttachment();
 
     fillHeader(attachment, pdfFields, context);
 
-    const hasWeiteresEinkommen = attachment.descriptions.some(
+    const hasWeiteresEinkommen = attachment.some(
       (description) => description.title === "Weiteres Einkommen:",
     );
 
     expect(hasWeiteresEinkommen).toEqual(false);
   });
+
+  it("should add marital description in the attachment is bigger than 10 characters", () => {
+    const attachment = createAttachment();
+    fillHeader(attachment, getBeratungshilfeParameters(), {
+      partnerschaft: "yes",
+    });
+    expect(attachment.length).toBeGreaterThan(0);
+  });
 });
 
 describe("getMaritalDescriptionByContext", () => {
-  it("should return `verheiratet/ in eingetragener Lebenspartnerschaft` when partnerschaft is `yes`", () => {
+  it("should return `verheiratet / in eingetragener Lebenspartnerschaft` when partnerschaft is `yes`", () => {
     const context: BeratungshilfeFormularContext = {
       partnerschaft: "yes",
     };
 
     const actual = getMaritalDescriptionByContext(context);
-    const expected = "verheiratet/ in eingetragener Lebenspartnerschaft";
+    const expected = "verheiratet / in eingetragener Lebenspartnerschaft";
 
     expect(expected).toBe(actual);
   });

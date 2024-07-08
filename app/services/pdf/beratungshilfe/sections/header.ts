@@ -6,7 +6,7 @@ import {
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { logError } from "~/services/logging";
 import { checkboxListToString } from "../../checkboxListToString";
-import { newPageHint, type Attachment } from "../attachment";
+import { newPageHint, type Attachment } from "../../attachment";
 
 const weiteresEinkommenMapping = {
   unterhaltszahlungen: "Unterhaltszahlungen",
@@ -31,8 +31,15 @@ export default function fillHeader(
   const name = [nachname, vorname].filter((s): s is string => !!s);
   pdfFields.antragstellerNameVornameggfGeburtsname.value = name.join(", ");
   pdfFields.geburtsdatumdesAntragstellers.value = context.geburtsdatum ?? "";
-  pdfFields.familienstanddesAntragstellers.value =
-    getMaritalDescriptionByContext(context);
+  const maritalDescription = getMaritalDescriptionByContext(context);
+  pdfFields.familienstanddesAntragstellers.value = maritalDescription;
+
+  if (maritalDescription.length > 10) {
+    attachment.push({
+      title: "Familienstand:",
+      text: maritalDescription,
+    });
+  }
 
   pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${context.strasseHausnummer ?? ""}, ${context.plz ?? ""} ${context.ort ?? ""}`;
 
@@ -58,23 +65,22 @@ export default function fillHeader(
   pdfFields.berufErwerbstaetigkeit.value = occupationDetails;
 
   if (occupationDetails.length > 30) {
-    attachment.descriptions.unshift({
+    attachment.unshift({
       title: "Weiteres Einkommen:",
       text: checkboxListToString(
         weiteresEinkommenMapping,
         context.weitereseinkommen,
       ),
     });
-    attachment.descriptions.unshift({
+    attachment.unshift({
       title: "Beruf / Erwerbstätigkeit:",
       text: getOccupationDetails(context, false),
     });
 
-    attachment.descriptions.unshift({
+    attachment.unshift({
       title: "Persönliche Angaben",
       text: "",
     });
-    attachment.shouldCreateAttachment = true;
     pdfFields.berufErwerbstaetigkeit.value = newPageHint;
   }
 }
@@ -85,7 +91,7 @@ export const getMaritalDescriptionByContext = ({
   partnerschaft ? maritalDescriptionMapping[partnerschaft] : "";
 
 const maritalDescriptionMapping = {
-  yes: "verheiratet/ in eingetragener Lebenspartnerschaft",
+  yes: "verheiratet / in eingetragener Lebenspartnerschaft",
   no: "ledig",
   separated: "getrennt",
   widowed: "verwitwet",

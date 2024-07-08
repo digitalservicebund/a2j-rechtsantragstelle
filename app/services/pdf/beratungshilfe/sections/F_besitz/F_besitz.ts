@@ -2,18 +2,15 @@ import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.g
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { arrayIsNonEmpty } from "~/services/validation/array";
 import { fillKraftfahrzeug } from "./fillKraftfahrzeug";
-import type { Attachment } from "../../attachment";
-import { newPageHint } from "../../attachment";
+import type { Attachment } from "../../../attachment";
+import { newPageHint } from "../../../attachment";
 
 export function fillBesitz(
   attachment: Attachment,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const financialAttachment: Attachment = {
-    descriptions: [],
-    shouldCreateAttachment: false,
-  };
+  const financialAttachment: Attachment = [];
 
   fillFinancialBankkonto(financialAttachment, pdfFields, context);
   fillFinancialGrundeigentum(financialAttachment, pdfFields, context);
@@ -21,16 +18,13 @@ export function fillBesitz(
   fillFinancialWertsachen(financialAttachment, pdfFields, context);
   fillGeldanlagen(financialAttachment, pdfFields, context);
 
-  if (financialAttachment.shouldCreateAttachment) {
-    financialAttachment.descriptions.unshift({
+  if (financialAttachment.length > 0) {
+    financialAttachment.unshift({
       title: "Feld F Eigentum",
       text: "",
     });
 
-    attachment.shouldCreateAttachment = true;
-    attachment.descriptions = attachment.descriptions.concat(
-      financialAttachment.descriptions,
-    );
+    attachment = attachment.concat(financialAttachment);
   }
 }
 
@@ -71,7 +65,6 @@ export function fillFinancialBankkonto(
     pdfFields.f3Bank1.value += bezeichnung.join(", ");
     pdfFields.f4Kontostand.value = `${bankkonto?.kontostand ?? ""} €`;
   } else {
-    attachment.shouldCreateAttachment = true;
     const bezeichnung: string[] = [];
 
     bankkonten.forEach((bankkonto) => {
@@ -80,7 +73,7 @@ export function fillFinancialBankkonto(
 
     pdfFields.f3Bank1.value += newPageHint;
 
-    attachment.descriptions.unshift({
+    attachment.unshift({
       title: "Bankkonten",
       text: bezeichnung.join("\n\n"),
     });
@@ -114,8 +107,7 @@ export function fillFinancialGrundeigentum(
       getGrundeigentumBezeichnung(grundeigentum).join(", ");
   } else {
     pdfFields.f7Nutzungsart.value = newPageHint;
-    attachment.shouldCreateAttachment = true;
-    attachment.descriptions.unshift({
+    attachment.unshift({
       title: "Grundeigentum",
       text: grundeigentumArray
         .map((grundeigentum) =>
@@ -150,15 +142,13 @@ export function fillFinancialWertsachen(
       wertsache?.wert ?? "Keine Angaben";
   } else {
     pdfFields.f15Bezeichnung.value = newPageHint;
-    attachment.shouldCreateAttachment = true;
-
     const bezeichnung: string[] = [];
 
     wertsachen.forEach((wertsache) => {
       bezeichnung.push(getWertsachenBezeichnung(wertsache, true).join("\n"));
     });
 
-    attachment.descriptions.unshift({
+    attachment.unshift({
       title: "Wertsachen",
       text: bezeichnung.join("\n\n"),
     });
@@ -178,11 +168,10 @@ export function fillGeldanlagen(
     const attachmentDescription = getGeldanlagenBezeichnung(
       context.geldanlagen,
     ).join("\n");
-    attachment.descriptions.unshift({
+    attachment.unshift({
       title: "Geldanlagen",
       text: attachmentDescription,
     });
-    attachment.shouldCreateAttachment = true;
   }
 }
 
