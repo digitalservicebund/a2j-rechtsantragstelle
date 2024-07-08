@@ -58,10 +58,11 @@ const FormAttachment = ({ entries, header }: AttachmentProps) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <View>
-          <Text style={styles.pageHeader} fixed>
-            <Text style={styles.bold}>Anhang:</Text> Antrag auf Bewilligung von
-            Beratungshilfe
-          </Text>
+          {header && (
+            <Text style={styles.pageHeader} fixed>
+              {header}
+            </Text>
+          )}
           <Text style={styles.h1}>Anhang</Text>
           {entries.map((entry) => (
             <View key={entry.title} style={styles.section}>
