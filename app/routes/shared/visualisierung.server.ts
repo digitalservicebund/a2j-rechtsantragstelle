@@ -2,7 +2,7 @@ import { deflateSync } from "node:zlib";
 import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { toDirectedGraph } from "@xstate/graph";
 import { createMachine, type AnyStateMachine } from "xstate";
-import { flowIDFromPathname } from "~/models/flows/flowIds";
+import { parsePathname } from "~/models/flows/flowIds";
 import { flows } from "~/models/flows/flows.server";
 import { throw404OnProduction } from "../../services/errorPages/throw404";
 
@@ -81,7 +81,7 @@ const getVisualizationString = (
 export const loader = ({ request }: LoaderFunctionArgs) => {
   throw404OnProduction();
   const url = new URL(request.url);
-  const flowId = flowIDFromPathname(url.pathname);
+  const { flowId } = parsePathname(url.pathname);
   const { config, guards } = flows[flowId];
   const showBacklinks = url.searchParams.get("showBacklinks") !== null;
   const machine = createMachine(config, { guards });

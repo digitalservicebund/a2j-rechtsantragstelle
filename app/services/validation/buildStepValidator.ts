@@ -1,7 +1,7 @@
 import { withZod } from "@remix-validated-form/with-zod";
 import { z } from "zod";
 import { getContext } from "~/models/flows/contexts";
-import { flowIDFromPathname } from "~/models/flows/flowIds";
+import { parsePathname } from "~/models/flows/flowIds";
 import { isKeyOfObject } from "~/util/objects";
 import { fieldIsArray, splitArrayName } from "../array";
 
@@ -31,6 +31,6 @@ export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
 }
 
 export function validatorForFieldnames(fieldNames: string[], pathname: string) {
-  const context = getContext(flowIDFromPathname(pathname));
+  const context = getContext(parsePathname(pathname).flowId);
   return buildStepValidator(context, fieldNames);
 }

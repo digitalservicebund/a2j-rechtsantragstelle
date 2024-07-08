@@ -1,5 +1,5 @@
 import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
-import { type FlowId, flowIDFromPathname } from "~/models/flows/flowIds";
+import { type FlowId, parsePathname } from "~/models/flows/flowIds";
 import { flows } from "~/models/flows/flows.server";
 import { buildFlowController } from "./buildFlowController";
 import { throw404IfFeatureFlagEnabled } from "../../errorPages/throw404";
@@ -19,7 +19,7 @@ async function lastStepFromRequest(cookieHeader: CookieHeader) {
 export async function loader({ request }: LoaderFunctionArgs) {
   await throw404IfFeatureFlagEnabled(request);
   const { pathname } = new URL(request.url);
-  const flowId = flowIDFromPathname(pathname);
+  const { flowId } = parsePathname(pathname);
   const { config, guards } = flows[flowId];
   const cookieHeader = request.headers.get("Cookie");
 

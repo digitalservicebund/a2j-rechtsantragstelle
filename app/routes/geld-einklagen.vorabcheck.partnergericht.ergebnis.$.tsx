@@ -11,7 +11,7 @@ import CourtDetails from "~/components/CourtDetails";
 import Heading from "~/components/Heading";
 import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
-import { flowIDFromPathname } from "~/models/flows/flowIds";
+import { parsePathname } from "~/models/flows/flowIds";
 import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/context";
 import {
   fetchCollectionEntry,
@@ -32,7 +32,7 @@ export const loader = async ({
   context,
 }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
-  const flowId = flowIDFromPathname(pathname);
+  const { flowId } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
   const sessionManager = getSessionManager(flowId);
   const { data, id } = await sessionManager.getSession(cookieHeader);
