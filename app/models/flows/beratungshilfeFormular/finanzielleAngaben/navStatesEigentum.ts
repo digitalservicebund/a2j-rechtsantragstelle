@@ -1,5 +1,5 @@
 import { eigentumDone as eigentumDoneGuard } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/guards";
-import { arrayIsNonEmpty } from "~/services/validation/array";
+import { arrayIsNonEmpty } from "~/util/array";
 import type { FinanzielleAngabenGuard } from "./navStates";
 
 export const eigentumDone: FinanzielleAngabenGuard = ({ context }) =>

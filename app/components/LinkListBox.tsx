@@ -1,7 +1,7 @@
 import ArrowDownward from "@digitalservicebund/icons/ArrowDownward";
 import { Link } from "@remix-run/react";
 import { z } from "zod";
-import { arrayIsNonEmpty } from "~/services/validation/array";
+import { arrayIsNonEmpty } from "~/util/array";
 import Button, { ButtonPropsSchema } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 import Heading, { HeadingPropsSchema } from "./Heading";

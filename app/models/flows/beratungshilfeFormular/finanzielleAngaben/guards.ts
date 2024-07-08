@@ -2,7 +2,7 @@ import {
   firstArrayIndex,
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
-import { arrayIsNonEmpty } from "~/services/validation/array";
+import { arrayIsNonEmpty } from "~/util/array";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
 import { yesNoGuards, type Guards } from "../../guards.server";
 

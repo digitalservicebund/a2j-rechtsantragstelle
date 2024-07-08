@@ -1,6 +1,6 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { arrayIsNonEmpty } from "~/services/validation/array";
+import { arrayIsNonEmpty } from "~/util/array";
 import { eigentuemerMapping } from "./F_besitz";
 import { newPageHint, type Attachment } from "../../../attachment";
 

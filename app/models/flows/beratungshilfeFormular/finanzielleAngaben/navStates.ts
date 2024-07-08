@@ -1,4 +1,4 @@
-import { arrayIsNonEmpty } from "~/services/validation/array";
+import { arrayIsNonEmpty } from "~/util/array";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
 import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
 import { eigentumDone } from "./navStatesEigentum";
