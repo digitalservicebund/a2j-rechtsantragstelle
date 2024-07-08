@@ -6,24 +6,45 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     padding: "48px 72px",
     fontFamily: "Helvetica",
+    fontSize: 10,
+    lineHeight: 1.4,
   },
   pageHeader: {
-    paddingBottom: 20,
+    fontSize: 8,
+    paddingBottom: 8,
+  },
+  h1: {
+    fontSize: 31,
+    fontWeight: "bold",
+    paddingTop: 8,
+    paddingBottom: 16,
+  },
+  h2: {
     fontSize: 16,
-    textAlign: "left",
+    fontWeight: "bold",
+    paddingTop: 16,
+    paddingBottom: 8,
+  },
+  h3: {
+    fontSize: 14,
+    fontWeight: "bold",
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  h4: {
+    fontSize: 12,
+    fontWeight: "bold",
+    paddingTop: 8,
+    paddingBottom: 8,
   },
   section: {
-    padding: "5px 0",
     flexGrow: 1,
+    paddingHorizontal: 0,
+    paddingBottom: 8,
+    paddingTop: 0,
   },
-  title: {
-    fontSize: 12,
-    fontFamily: "Helvetica-Bold",
-    paddingBottom: "2px",
-  },
-  text: {
-    fontSize: 12,
-    lineHeight: 1.4,
+  bold: {
+    fontWeight: "bold",
   },
 });
 
@@ -36,13 +57,15 @@ const FormAttachment = ({ descriptions }: DescriptionsProps) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <View>
-          <Text style={styles.pageHeader}>
-            Anhang zum Antrag auf Beratungshilfe
+          <Text style={styles.pageHeader} fixed>
+            <Text style={styles.bold}>Anhang:</Text> Antrag auf Bewilligung von
+            Beratungshilfe
           </Text>
+          <Text style={styles.h1}>Anhang</Text>
           {descriptions.map((description) => (
             <View key={description.title} style={styles.section}>
-              <Text style={styles.title}>{description.title}</Text>
-              <Text style={styles.text}>{description.text}</Text>
+              <Text style={styles.h4}>{description.title}</Text>
+              <Text>{description.text}</Text>
             </View>
           ))}
         </View>
