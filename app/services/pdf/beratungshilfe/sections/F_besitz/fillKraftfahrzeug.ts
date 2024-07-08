@@ -2,7 +2,7 @@ import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.g
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { arrayIsNonEmpty } from "~/services/validation/array";
 import { eigentuemerMapping } from "./F_besitz";
-import { newPageHint, type Attachment } from "../../attachment";
+import { newPageHint, type Attachment } from "../../../attachment";
 
 type Kraftfahrzeug = NonNullable<
   BeratungshilfeFormularContext["kraftfahrzeuge"]
@@ -41,14 +41,13 @@ function fillKraftfahrzeugData(
       getVerkauftMappingDescription(kraftfahrzeug);
   } else {
     pdfFields.f11Fahrzeugart.value = newPageHint;
-    attachment.shouldCreateAttachment = true;
     const bezeichnung: string[] = [];
 
     kraftfahrzeugen.forEach((kraftfahrzeug) => {
       bezeichnung.push(getKraftfahrzeugBezeichnung(kraftfahrzeug).join("\n"));
     });
 
-    attachment.descriptions.unshift({
+    attachment.unshift({
       title: "Kraftfahrzeuge",
       text: bezeichnung.join("\n\n"),
     });

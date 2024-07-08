@@ -3,17 +3,11 @@
   "initial": "start",
   "states": {
     "start": {
-      "meta": {
-        "progressPosition": 1
-      },
       "on": {
         "SUBMIT": "bereich"
       }
     },
     "bereich": {
-      "meta": {
-        "progressPosition": 2
-      },
       "on": {
         "BACK": "start",
         "SUBMIT": [
@@ -41,9 +35,6 @@
       }
     },
     "verspaetung": {
-      "meta": {
-        "progressPosition": 3
-      },
       "on": {
         "BACK": "bereich",
         "SUBMIT": [
@@ -58,9 +49,6 @@
       }
     },
     "ausgleich": {
-      "meta": {
-        "progressPosition": 3
-      },
       "on": {
         "BACK": "bereich",
         "SUBMIT": [
@@ -73,9 +61,6 @@
       }
     },
     "ankuendigung": {
-      "meta": {
-        "progressPosition": 3
-      },
       "on": {
         "BACK": "bereich",
         "SUBMIT": [
@@ -88,9 +73,6 @@
       }
     },
     "vertretbare-gruende-annullierung": {
-      "meta": {
-        "progressPosition": 3
-      },
       "on": {
         "BACK": [
           {
@@ -119,9 +101,6 @@
       }
     },
     "ersatzflug": {
-      "meta": {
-        "progressPosition": 3
-      },
       "on": {
         "BACK": "ankuendigung",
         "SUBMIT": [
@@ -140,18 +119,12 @@
       }
     },
     "ersatzflug-starten-eine-stunde": {
-      "meta": {
-        "progressPosition": 3
-      },
       "on": {
         "BACK": "ersatzflug",
         "SUBMIT": "ersatzflug-landen-zwei-stunden"
       }
     },
     "ersatzflug-landen-zwei-stunden": {
-      "meta": {
-        "progressPosition": 3
-      },
       "on": {
         "BACK": "ersatzflug-starten-eine-stunde",
         "SUBMIT": [
@@ -164,18 +137,12 @@
       }
     },
     "ersatzflug-starten-zwei-stunden": {
-      "meta": {
-        "progressPosition": 3
-      },
       "on": {
         "BACK": "ersatzflug",
         "SUBMIT": "ersatzflug-landen-vier-stunden"
       }
     },
     "ersatzflug-landen-vier-stunden": {
-      "meta": {
-        "progressPosition": 3
-      },
       "on": {
         "BACK": "ersatzflug-starten-zwei-stunden",
         "SUBMIT": [
@@ -188,9 +155,6 @@
       }
     },
     "ausgleich-angenommen": {
-      "meta": {
-        "progressPosition": 4
-      },
       "on": {
         "BACK": "ausgleich",
         "SUBMIT": [
@@ -220,9 +184,6 @@
       }
     },
     "gruende": {
-      "meta": {
-        "progressPosition": 4
-      },
       "on": {
         "BACK": "verspaetung",
         "SUBMIT": [
@@ -238,9 +199,6 @@
       }
     },
     "gruende-hinweis": {
-      "meta": {
-        "progressPosition": 5
-      },
       "on": {
         "BACK": [
           {
@@ -255,9 +213,6 @@
       }
     },
     "verjaehrung": {
-      "meta": {
-        "progressPosition": 6
-      },
       "on": {
         "BACK": [
           {
@@ -304,9 +259,6 @@
       }
     },
     "flughaefen": {
-      "meta": {
-        "progressPosition": 7
-      },
       "on": {
         "BACK": "verjaehrung",
         "SUBMIT": [
@@ -345,9 +297,6 @@
       }
     },
     "fluggesellschaft": {
-      "meta": {
-        "progressPosition": 8
-      },
       "on": {
         "BACK": "flughaefen",
         "SUBMIT": [
@@ -385,9 +334,6 @@
       }
     },
     "checkin": {
-      "meta": {
-        "progressPosition": 9
-      },
       "on": {
         "BACK": [
           {
@@ -406,9 +352,6 @@
       }
     },
     "checkin-nicht-befoerderung": {
-      "meta": {
-        "progressPosition": 4
-      },
       "on": {
         "BACK": [
           {
@@ -438,9 +381,6 @@
       }
     },
     "vertretbare-gruende": {
-      "meta": {
-        "progressPosition": 5
-      },
       "on": {
         "BACK": "checkin-nicht-befoerderung",
         "SUBMIT": [
@@ -460,9 +400,6 @@
       }
     },
     "kostenlos": {
-      "meta": {
-        "progressPosition": 10
-      },
       "on": {
         "BACK": [
           {
@@ -496,9 +433,6 @@
       }
     },
     "rabatt": {
-      "meta": {
-        "progressPosition": 11
-      },
       "on": {
         "BACK": "kostenlos",
         "SUBMIT": [
@@ -519,9 +453,6 @@
       }
     },
     "buchung": {
-      "meta": {
-        "progressPosition": 12
-      },
       "on": {
         "BACK": "rabatt",
         "SUBMIT": [
@@ -542,9 +473,6 @@
       }
     },
     "abtretung": {
-      "meta": {
-        "progressPosition": 13
-      },
       "on": {
         "BACK": "buchung",
         "SUBMIT": [
@@ -565,9 +493,6 @@
       }
     },
     "entschaedigung": {
-      "meta": {
-        "progressPosition": 14
-      },
       "on": {
         "BACK": "abtretung",
         "SUBMIT": [
@@ -588,9 +513,6 @@
       }
     },
     "gericht": {
-      "meta": {
-        "progressPosition": 15
-      },
       "on": {
         "BACK": "entschaedigung",
         "SUBMIT": [

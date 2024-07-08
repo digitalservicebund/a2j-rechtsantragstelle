@@ -4,13 +4,9 @@ import { renderToBuffer } from "@react-pdf/renderer";
 import { PDFDocument } from "pdf-lib";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import FormAttachment from "~/components/FormAttachment";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { logError } from "~/services/logging";
-import type { Attachment } from "./attachment";
-import { createAttachment } from "./attachment";
 import { addDruckvermerk } from "./druckvermerk";
-import { resizeToA4 } from "./resizeToA4";
 import { fillAngelegenheit } from "./sections/A_angelegenheit";
 import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
 import { fillEinkommen } from "./sections/C_einkommen";
@@ -20,42 +16,40 @@ import { fillBesitz } from "./sections/F_besitz/F_besitz";
 import { fillFooter } from "./sections/footer";
 import { fillAusgaben } from "./sections/G_ausgaben";
 import fillHeader from "./sections/header";
+import { appendAttachment } from "../appendAttachment";
+import type { Attachment } from "../attachment";
+import { createAttachment } from "../attachment";
+import FormAttachment from "../attachment/FormAttachment";
 import { isBooleanField } from "../fileTypes";
 import { changeBooleanField, changeStringField } from "../pdf.server";
+import { resizeToA4 } from "../resizeToA4";
 export { getBeratungshilfeParameters };
 
 export async function getBeratungshilfePdfFromContext(
   context: BeratungshilfeFormularContext,
 ) {
   const pdfFields = getBeratungshilfeParameters();
-  const attachmentContent = createAttachment(context);
+  const attachmentData = createAttachment();
 
-  fillHeader(attachmentContent, pdfFields, context);
-  fillAngelegenheit(attachmentContent, pdfFields, context);
+  fillHeader(attachmentData, pdfFields, context);
+  fillAngelegenheit(attachmentData, pdfFields, context);
   fillVorraussetzungen(pdfFields, context);
   fillEinkommen(pdfFields, context);
-  fillUnterhalt(attachmentContent, pdfFields, context);
-  fillBesitz(attachmentContent, pdfFields, context);
-  fillAusgaben(attachmentContent, pdfFields, context);
+  fillUnterhalt(attachmentData, pdfFields, context);
+  fillBesitz(attachmentData, pdfFields, context);
+  fillAusgaben(attachmentData, pdfFields, context);
   fillWohnen(pdfFields, context);
   fillFooter(pdfFields, context);
 
-  return fillOutBeratungshilfe(pdfFields, attachmentContent);
+  return fillOutBeratungshilfe(pdfFields, attachmentData);
 }
 
-async function handleOutOfLimitDescription(
-  descriptions: { title: string; text: string }[],
-  pdfDoc: PDFDocument,
-) {
+async function renderAnhang(descriptions: Attachment) {
   const attachmentPdf = await PDFDocument.load(
     await renderToBuffer(<FormAttachment descriptions={descriptions} />),
   );
   addDruckvermerk(attachmentPdf);
-
-  for (let index = 0; index < attachmentPdf.getPageCount(); index++) {
-    const [attachmentPage] = await pdfDoc.copyPages(attachmentPdf, [index]);
-    pdfDoc.addPage(attachmentPage);
-  }
+  return attachmentPdf;
 }
 
 async function fillOutBeratungshilfe(
@@ -77,8 +71,8 @@ async function fillOutBeratungshilfe(
     }
   });
 
-  if (attachment.shouldCreateAttachment) {
-    await handleOutOfLimitDescription(attachment.descriptions, pdfDoc);
+  if (attachment.length > 0) {
+    await appendAttachment(pdfDoc, await renderAnhang(attachment));
   }
 
   return pdfDoc;

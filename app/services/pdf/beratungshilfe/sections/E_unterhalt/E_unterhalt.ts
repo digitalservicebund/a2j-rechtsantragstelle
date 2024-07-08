@@ -5,7 +5,7 @@ import {
   getListKidsUnterhaltPdfField,
   getListPersonUnterhaltPdfField,
 } from "./unterhaltPdfField";
-import type { Attachment } from "../../attachment";
+import type { Attachment } from "../../../attachment";
 
 export const ATTACHMENT_DESCRIPTION_SECTION_E = "Feld E Unterhaltszahlungen";
 export const SEE_IN_ATTACHMENT_DESCRIPTION = "Siehe Anhang";
@@ -23,16 +23,15 @@ export function fillUnterhalt(
 
   if (amountOfUnterhaltPdfFields === 0) return;
 
-  attachment.shouldCreateAttachment = true;
   pdfFields.e1Person1.value = SEE_IN_ATTACHMENT_DESCRIPTION;
 
   // Empty line
-  attachment.descriptions.push({
+  attachment.push({
     title: "",
     text: "",
   });
 
-  attachment.descriptions.push({
+  attachment.push({
     title: ATTACHMENT_DESCRIPTION_SECTION_E,
     text: getAttachmentText(
       listKinderUnterhaltPdfField,

@@ -1,7 +1,7 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { checkboxListToString } from "../../checkboxListToString";
-import { type Attachment, newPageHint } from "../attachment";
+import { type Attachment, newPageHint } from "../../attachment";
 
 const AUSGABEN_MAX_COUNT_FIELDS = 4;
 const AUSGABEN_MAX_CHARS_FIELD = 50;
@@ -70,16 +70,15 @@ function handleOverflowAusgaben(
   context: BeratungshilfeFormularContext,
   ausgaben: AusgabenPdfField[],
 ) {
-  attachment.shouldCreateAttachment = true;
   pdfFields.g21.value = newPageHint;
 
   // Empty line
-  attachment.descriptions.push({
+  attachment.push({
     title: "",
     text: "",
   });
 
-  attachment.descriptions.push({
+  attachment.push({
     title: AUSGABEN_ATTACHMENT_TITLE,
     text: createAusgabenText(context, ausgaben),
   });

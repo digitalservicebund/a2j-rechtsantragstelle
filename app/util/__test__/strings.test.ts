@@ -3,6 +3,8 @@ import {
   splitObjectsByFirstLetter,
   stripLeadingZeros,
   stripTrailingSlashFromURL,
+  uppercaseFirstLetter,
+  lowercaseFirstLetter,
 } from "~/util/strings";
 
 describe("stripLeadingZeros", () => {
@@ -12,6 +14,28 @@ describe("stripLeadingZeros", () => {
 
   it("can handle undefined input", () => {
     expect(stripLeadingZeros()).toBe("");
+  });
+});
+
+describe("uppercaseFirstLetter", () => {
+  it("uppercases the first letter", () => {
+    expect(uppercaseFirstLetter("asd")).toBe("Asd");
+    expect(uppercaseFirstLetter("ASD")).toBe("ASD");
+  });
+
+  it("can handle undefined input", () => {
+    expect(uppercaseFirstLetter()).toBe("");
+  });
+});
+
+describe("lowercaseFirstLetter", () => {
+  it("lowercases the first letter", () => {
+    expect(lowercaseFirstLetter("ASD")).toBe("aSD");
+    expect(lowercaseFirstLetter("asd")).toBe("asd");
+  });
+
+  it("can handle undefined input", () => {
+    expect(lowercaseFirstLetter()).toBe("");
   });
 });
 

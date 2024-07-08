@@ -1,4 +1,5 @@
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import type { Attachment } from ".";
 
 const styles = StyleSheet.create({
   page: {
@@ -27,10 +28,7 @@ const styles = StyleSheet.create({
 });
 
 type DescriptionsProps = {
-  readonly descriptions: {
-    title: string;
-    text: string;
-  }[];
+  readonly descriptions: Attachment;
 };
 
 const FormAttachment = ({ descriptions }: DescriptionsProps) => {

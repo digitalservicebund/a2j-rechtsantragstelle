@@ -14,6 +14,7 @@ import {
   stateValueToStepIds,
   stepIdToPath,
 } from "~/services/flow/stepIdConverter";
+import { progressLookupForMachine, vorabcheckProgresses } from "./progress";
 
 type Event = "SUBMIT" | "BACK";
 type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
@@ -40,7 +41,6 @@ export type Config = MachineConfig<
 >;
 type Meta = {
   customAnalyticsEventName?: string;
-  progressPosition: number | undefined;
   isUneditable: boolean | undefined;
   done: GenericGuard<Context>;
   arrays?: Record<string, ArrayConfig>;
@@ -239,14 +239,16 @@ export const buildFlowController = ({
     },
     getInitial: () => `${baseUrl}${getInitial(machine) ?? ""}`,
     getProgress: (currentStepId: string) => {
-      const max =
-        Math.max(
-          ...Object.values(machine.states)
-            .map((n) => (n.meta as Meta)?.progressPosition ?? 0)
-            .filter((p) => p),
-        ) + 1;
-      const meta = metaFromStepId(machine, currentStepId);
-      return { max, progress: meta?.progressPosition ?? max };
+      // TODO: align config.id and flowid
+      const flowId = config.id?.slice(1, -1);
+
+      const { total, progressLookup } =
+        flowId && flowId in vorabcheckProgresses
+          ? vorabcheckProgresses[flowId]
+          : progressLookupForMachine(machine);
+
+      const progress = progressLookup[`${config.id}.${currentStepId}`];
+      return { max: total, progress };
     },
   };
 };

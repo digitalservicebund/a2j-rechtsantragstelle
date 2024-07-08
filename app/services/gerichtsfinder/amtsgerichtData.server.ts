@@ -1,6 +1,6 @@
 import partnerGerichte from "data/courts/partnerGerichte.json";
 import courtURLs from "data/courts/sanitizedURLs.json";
-import { stripLeadingZeros } from "~/util/strings";
+import { stripLeadingZeros, uppercaseFirstLetter } from "~/util/strings";
 import type {
   GerbehFile,
   GerbehIndex,
@@ -90,10 +90,8 @@ const buildStreetSlug = (streetData: StreetData) => {
 };
 
 const capitalizeStreet = (street: string) => {
-  const capitalizeSimpleWord = (word: string) =>
-    word.charAt(0).toUpperCase() + word.slice(1);
   const capitalizeWord = (word: string) =>
-    word.split("-").map(capitalizeSimpleWord).join("-");
+    word.split("-").map(uppercaseFirstLetter).join("-");
   return street.toLowerCase().split(/\s/).map(capitalizeWord).join(" ");
 };
 
