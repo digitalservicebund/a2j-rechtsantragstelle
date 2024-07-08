@@ -65,7 +65,7 @@
     "marked": "^13.0.2",
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
-    "posthog-js": "^1.144.1",
+    "posthog-js": "^1.144.2",
     "posthog-node": "^4.0.1",
     "rate-limit-redis": "^4.2.0",
     "react": "^18.3.1",
