@@ -17,9 +17,11 @@ import { fillFooter } from "./sections/footer";
 import { fillAusgaben } from "./sections/G_ausgaben";
 import fillHeader from "./sections/header";
 import { appendAttachment } from "../appendAttachment";
-import type { Attachment } from "../attachment";
+import type { AttachmentEntries } from "../attachment";
 import { createAttachment } from "../attachment";
-import FormAttachment from "../attachment/FormAttachment";
+import FormAttachment, {
+  type AttachmentProps,
+} from "../attachment/FormAttachment";
 import { isBooleanField } from "../fileTypes";
 import { changeBooleanField, changeStringField } from "../pdf.server";
 import { resizeToA4 } from "../resizeToA4";
@@ -41,20 +43,31 @@ export async function getBeratungshilfePdfFromContext(
   fillWohnen(pdfFields, context);
   fillFooter(pdfFields, context);
 
-  return fillOutBeratungshilfe(pdfFields, attachmentData);
+  const filledPdf = generatePdf(pdfFields);
+
+  if (attachmentData.length > 0) {
+    await appendAttachment(
+      await filledPdf,
+      await renderAnhang({
+        entries: attachmentData,
+        header: `Anhang: Antrag auf Bewilligung von Beratungshilfe zum Antrag von ${context.vorname} ${context.nachname}`,
+      }),
+    );
+  }
+  return filledPdf;
 }
 
-async function renderAnhang(descriptions: Attachment) {
+async function renderAnhang(attachmentProps: AttachmentProps) {
   const attachmentPdf = await PDFDocument.load(
-    await renderToBuffer(<FormAttachment descriptions={descriptions} />),
+    await renderToBuffer(<FormAttachment {...attachmentProps} />),
   );
   addDruckvermerk(attachmentPdf);
   return attachmentPdf;
 }
 
-async function fillOutBeratungshilfe(
+async function generatePdf(
   values: BeratungshilfePDF,
-  attachment: Attachment,
+  // attachmentEntries: AttachmentEntries,
 ) {
   const pdfDoc = await PDFDocument.load(await getBeratungshilfePdfBuffer());
   const yPositionsDruckvermerk = [90, 108, 138];
@@ -70,10 +83,6 @@ async function fillOutBeratungshilfe(
       changeStringField(value, form);
     }
   });
-
-  if (attachment.length > 0) {
-    await appendAttachment(pdfDoc, await renderAnhang(attachment));
-  }
 
   return pdfDoc;
 }

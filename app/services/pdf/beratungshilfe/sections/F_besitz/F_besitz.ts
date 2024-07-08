@@ -2,15 +2,15 @@ import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.g
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
 import { arrayIsNonEmpty } from "~/util/array";
 import { fillKraftfahrzeug } from "./fillKraftfahrzeug";
-import type { Attachment } from "../../../attachment";
+import type { AttachmentEntries } from "../../../attachment";
 import { newPageHint } from "../../../attachment";
 
 export function fillBesitz(
-  attachment: Attachment,
+  attachment: AttachmentEntries,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const financialAttachment: Attachment = [];
+  const financialAttachment: AttachmentEntries = [];
 
   fillFinancialBankkonto(financialAttachment, pdfFields, context);
   fillFinancialGrundeigentum(financialAttachment, pdfFields, context);
@@ -36,7 +36,7 @@ export const eigentuemerMapping = {
 } as const;
 
 export function fillFinancialBankkonto(
-  attachment: Attachment,
+  attachment: AttachmentEntries,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
@@ -81,7 +81,7 @@ export function fillFinancialBankkonto(
 }
 
 export function fillFinancialGrundeigentum(
-  attachment: Attachment,
+  attachment: AttachmentEntries,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
@@ -119,7 +119,7 @@ export function fillFinancialGrundeigentum(
 }
 
 export function fillFinancialWertsachen(
-  attachment: Attachment,
+  attachment: AttachmentEntries,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
@@ -156,7 +156,7 @@ export function fillFinancialWertsachen(
 }
 
 export function fillGeldanlagen(
-  attachment: Attachment,
+  attachment: AttachmentEntries,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
