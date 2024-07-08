@@ -2,7 +2,7 @@ import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { BannerState, USER_FEEDBACK_ID } from "~/components/UserFeedback";
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
-import { flowIDFromPathname } from "~/models/flows/flowIds";
+import { flowIdFromPathname } from "~/models/flows/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { bannerStateName } from "~/services/feedback/getFeedbackBannerState";
 import { getSessionManager } from "~/services/session.server";
@@ -17,7 +17,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     // Abort without redirect on non-relative URLs
     return json({ success: false }, { status: 400 });
   }
-  const flowId = flowIDFromPathname(url);
+
   const formData = await request.formData();
 
   const cookie = request.headers.get("Cookie");
@@ -42,7 +42,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     request,
     properties: {
       wasHelpful: userRatings[url],
-      context: flowId,
+      url,
+      flowId: flowIdFromPathname(url) ?? "",
     },
   });
 

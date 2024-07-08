@@ -11,15 +11,19 @@ export type FlowId = (typeof flowIds)[number];
 
 const isFlowId = (s: string): s is FlowId => flowIds.includes(s as FlowId);
 
-export function flowIDFromPathname(pathname: string) {
+function firstTwoPathSegments(pathname: string) {
   const pathSegments = pathname.split("/");
-  if (pathSegments.length < 3) return "";
   return [pathSegments[1], pathSegments[2]].join("/");
 }
 
+export function flowIdFromPathname(pathname: string) {
+  const flowIdMaybe = firstTwoPathSegments(pathname);
+  return isFlowId(flowIdMaybe) ? flowIdMaybe : undefined;
+}
+
 export function parsePathname(pathname: string) {
-  const flowId = flowIDFromPathname(pathname);
-  if (!isFlowId(flowId)) throw Error("Unknown flow ID");
+  const flowId = flowIdFromPathname(pathname);
+  if (!flowId) throw Error("Unknown flow ID");
   const arrayIndexes =
     pathname
       .match(/(\/\d+)/g)

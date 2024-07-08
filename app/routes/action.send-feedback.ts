@@ -4,7 +4,7 @@ import { validationError } from "remix-validated-form";
 import { BannerState, USER_FEEDBACK_ID } from "~/components/UserFeedback";
 import { feedbackValidator } from "~/components/UserFeedback/FeedbackFormBox";
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
-import { flowIDFromPathname } from "~/models/flows/flowIds";
+import { flowIdFromPathname } from "~/models/flows/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getSessionManager } from "~/services/session.server";
 
@@ -22,8 +22,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     // Abort without redirect on non-relative URLs
     return json({ success: false }, { status: 400 });
   }
-
-  const flowId = flowIDFromPathname(url);
 
   const cookie = request.headers.get("Cookie");
   const { getSession, commitSession } = getSessionManager("main");
@@ -45,7 +43,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     properties: {
       wasHelpful: userRating[url],
       feedback: result.data?.feedback ?? "",
-      context: flowId,
+      url,
+      flowId: flowIdFromPathname(url) ?? "",
     },
   });
   session.set(bannerStateName, bannerState);

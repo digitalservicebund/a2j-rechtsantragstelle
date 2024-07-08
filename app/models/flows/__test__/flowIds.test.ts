@@ -1,4 +1,4 @@
-import { flowIDFromPathname, parsePathname } from "../flowIds";
+import { flowIdFromPathname, parsePathname } from "../flowIds";
 
 describe("parsePathname", () => {
   it("works for valid flow IDs", () => {
@@ -22,15 +22,17 @@ describe("parsePathname", () => {
   });
 });
 
-describe("parseFlowIdFromPathname", () => {
+describe("flowIdFromPathname", () => {
   it("extracts the first two path segments", () => {
-    expect(flowIDFromPathname("/asd/asd")).toEqual("asd/asd");
+    expect(flowIdFromPathname("/beratungshilfe/antrag")).toEqual(
+      "beratungshilfe/antrag",
+    );
   });
 
-  it("returns root with ", () => {
-    expect(flowIDFromPathname("")).toEqual("");
-    expect(flowIDFromPathname("asd")).toEqual("");
-    expect(flowIDFromPathname("asd/")).toEqual("");
-    expect(flowIDFromPathname("asd/asd")).toEqual("");
+  it("returns undefined if no valid flow Id", () => {
+    expect(flowIdFromPathname("")).toBeUndefined();
+    expect(flowIdFromPathname("asd")).toBeUndefined();
+    expect(flowIdFromPathname("asd/")).toBeUndefined();
+    expect(flowIdFromPathname("asd/asd")).toBeUndefined();
   });
 });
