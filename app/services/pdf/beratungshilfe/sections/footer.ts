@@ -16,4 +16,8 @@ export function fillFooter(
     .join(", ");
   pdfFields.datumBeratung.value = context.beratungStattgefundenDatum ?? "";
   pdfFields.ortDatum2.value = `${uppercaseFirstLetter(context.ort)}, ${new Date().toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" })}`;
+
+  if (context.abgabeArt === "online") {
+    pdfFields.unterschriftdesAntragstellersderAntragstellerin.value = `${context.vorname ?? ""} ${context.nachname ?? ""}`;
+  }
 }
