@@ -4,20 +4,11 @@ import { validationError } from "remix-validated-form";
 import { BannerState, USER_FEEDBACK_ID } from "~/components/UserFeedback";
 import { feedbackValidator } from "~/components/UserFeedback/FeedbackFormBox";
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
-import { parsePathname } from "~/models/flows/flowIds";
+import { flowIDFromPathname } from "~/models/flows/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getSessionManager } from "~/services/session.server";
 
 export const bannerStateName = "bannerState";
-
-const parseFlowIdFromUrl = (url: string): string => {
-  try {
-    const { flowId } = parsePathname(url);
-    return flowId;
-  } catch (error: unknown) {
-    return "";
-  }
-};
 
 export const loader = () => redirect("/");
 
@@ -32,7 +23,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json({ success: false }, { status: 400 });
   }
 
-  const context = parseFlowIdFromUrl(url);
+  const flowId = flowIDFromPathname(url);
 
   const cookie = request.headers.get("Cookie");
   const { getSession, commitSession } = getSessionManager("main");
@@ -54,7 +45,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     properties: {
       wasHelpful: userRating[url],
       feedback: result.data?.feedback ?? "",
-      context,
+      context: flowId,
     },
   });
   session.set(bannerStateName, bannerState);
