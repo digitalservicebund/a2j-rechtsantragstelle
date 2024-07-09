@@ -1,20 +1,42 @@
+import type { Renderer } from "marked";
 import { z } from "zod";
 import Heading, { HeadingPropsSchema } from "./Heading";
 import ListItem, { ListItemPropsSchema } from "./ListItem";
+import RichText from "./RichText";
 
 export const ListPropsSchema = z.object({
   identifier: z.string().optional(),
   heading: HeadingPropsSchema.optional(),
+  subheading: z.string().optional(),
   items: z.array(ListItemPropsSchema),
   isNumeric: z.boolean().optional(),
 });
 
 type ListProps = z.infer<typeof ListPropsSchema>;
 
-const List = ({ identifier, items, heading, isNumeric }: ListProps) => {
+const paragraphRenderer: Partial<Renderer> = {
+  paragraph({ tokens }) {
+    return `<p class="ds-subhead max-w-full">${this.parser?.parseInline(tokens)}</p>`;
+  },
+};
+
+const List = ({
+  identifier,
+  items,
+  heading,
+  subheading,
+  isNumeric,
+}: ListProps) => {
   return (
     <div className="ds-stack-8 scroll-my-40" id={identifier}>
       {heading && <Heading {...heading} />}
+      {subheading && (
+        <RichText
+          markdown={subheading}
+          renderer={paragraphRenderer}
+          className="pt-16"
+        />
+      )}
       <ol className="list-none ds-stack-32 ps-0">
         {items.map((item, index) => (
           <li

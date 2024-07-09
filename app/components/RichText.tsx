@@ -53,7 +53,7 @@ const RichText = ({
       dangerouslySetInnerHTML={{
         __html: sanitizeHtml(html, {
           allowedClasses: {
-            p: ["text-lg", "ds-subhead", "leading-snug"],
+            p: ["text-lg", "ds-subhead", "leading-snug", "max-w-full"],
             a: ["text-link", "increase-tap-area", "whitespace-nowrap"],
             h: ["ds-heading-01-reg", "ds-label-01-bold", "ds-heading-02-reg"],
           },
