@@ -12,7 +12,9 @@ export type RichTextProps = z.infer<typeof RichTextPropsSchema>;
 const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {
     const cssClass = "text-link";
-    if (href.includes("ext:")) {
+    // TODO: remove ext: from content, then remove this here
+    const isExternalLink = href.includes("ext:") || href.startsWith("https");
+    if (isExternalLink) {
       const newHref = href.replace("ext:", "");
       return `<a href="${newHref}" class="${cssClass}" target="_blank" rel="noopener">${text}</a>`;
     }

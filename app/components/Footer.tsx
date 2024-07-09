@@ -30,7 +30,7 @@ export default function Footer({
   const linksSecondColumn: typeof links = links.slice(linksMiddleIndex);
 
   const renderLink = (link: LinkProps) => {
-    const opts = link.openInNewTab
+    const opts = link.url.startsWith("https")
       ? { target: "_blank", rel: "noreferer" }
       : {};
 
