@@ -51,7 +51,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const headers = { "Set-Cookie": await commitSession(session) };
 
-  return clientJavaScriptAvailable
-    ? json({ success: true }, { headers })
-    : redirect(`${url}#${USER_FEEDBACK_ID}`, { headers });
+  const userFeedbackPath = clientJavaScriptAvailable
+    ? url
+    : `${url}#${USER_FEEDBACK_ID}`;
+  return redirect(userFeedbackPath, { headers });
 };
