@@ -27,7 +27,9 @@ const hasStaatlicheLeistungen: FinanzielleAngabenGuard = ({ context }) =>
   context.staatlicheLeistungen == "grundsicherung";
 
 export const kinderDone: FinanzielleAngabenGuard = ({ context }) =>
-  context.hasKinder == "no" || arrayIsNonEmpty(context.kinder);
+  hasStaatlicheLeistungen({ context }) ||
+  context.hasKinder == "no" ||
+  arrayIsNonEmpty(context.kinder);
 
 const wohnungAloneDone: FinanzielleAngabenGuard = ({ context }) =>
   context.livingSituation === "alone" &&
@@ -41,9 +43,10 @@ const wohnungWithOthersDone: FinanzielleAngabenGuard = ({ context }) =>
   context.apartmentCostFull !== undefined;
 
 export const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
-  context.livingSituation !== undefined &&
-  context.apartmentSizeSqm !== undefined &&
-  (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context }));
+  hasStaatlicheLeistungen({ context }) ||
+  (context.livingSituation !== undefined &&
+    context.apartmentSizeSqm !== undefined &&
+    (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context })));
 
 export const andereUnterhaltszahlungenDone: FinanzielleAngabenGuard = ({
   context,
@@ -55,6 +58,7 @@ export const andereUnterhaltszahlungenDone: FinanzielleAngabenGuard = ({
 
 export const ausgabenDone: FinanzielleAngabenGuard = ({ context }) => {
   return (
+    hasStaatlicheLeistungen({ context }) ||
     context.hasAusgaben === "no" ||
     (context.hasAusgaben === "yes" && arrayIsNonEmpty(context.ausgaben))
   );
