@@ -6,8 +6,8 @@ import { ValidatedForm, validationError } from "remix-validated-form";
 import { z } from "zod";
 import Background from "~/components/Background";
 import Container from "~/components/Container";
-import CourtFinderHeader from "~/components/CourtFinderHeader";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
+import PageContent from "~/components/PageContent";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import {
   fetchCollectionEntry,
@@ -32,16 +32,21 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const slug = new URL(request.url).pathname;
   const sessionManager = getSessionManager("beratungshilfe/vorabcheck");
 
-  const [common, { form, meta }] = await Promise.all([
-    fetchSingleEntry("amtsgericht-common"),
-    fetchCollectionEntry("vorab-check-pages", slug),
-  ]);
+  const [common, { pre_form, form, meta, nextButtonLabel }] = await Promise.all(
+    [
+      fetchSingleEntry("amtsgericht-common"),
+      fetchCollectionEntry("vorab-check-pages", slug),
+    ],
+  );
   const { url: backURL, session } = getReturnToURL({
     request,
     session: await sessionManager.getSession(request.headers.get("Cookie")),
   });
   const headers = { "Set-Cookie": await sessionManager.commitSession(session) };
-  return json({ form, common, meta, backURL }, { headers });
+  return json(
+    { common, pre_form, form, meta, backURL, nextButtonLabel },
+    { headers },
+  );
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -53,15 +58,15 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function Index() {
-  const { common, form, backURL } = useLoaderData<typeof loader>();
+  const { common, pre_form, form, backURL, nextButtonLabel } =
+    useLoaderData<typeof loader>();
 
   return (
     <Background backgroundColor="blue">
       <div className="min-h-screen">
-        <CourtFinderHeader label={common.featureName}>
-          {common.searchHeading}
-        </CourtFinderHeader>
-
+        <Container>
+          <PageContent className="ds-stack-32" content={pre_form} />
+        </Container>
         <ValidatedForm method="post" validator={validatorClient} noValidate>
           <Container>
             <StrapiFormComponents components={form} />
@@ -72,9 +77,7 @@ export default function Index() {
                 destination: backURL,
                 label: common.backButton,
               }}
-              next={{
-                label: String(common.submitButton),
-              }}
+              next={{ label: nextButtonLabel ?? "" }}
             />
           </Container>
         </ValidatedForm>
