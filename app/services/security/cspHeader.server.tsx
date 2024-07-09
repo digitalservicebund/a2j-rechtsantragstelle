@@ -52,22 +52,6 @@ export const cspHeader = (args?: { nonce?: string; environment?: string }) => {
     directives["img-src"].push("localhost:*");
   }
 
-  if (args?.environment === "preview") {
-    directives["script-src"].push("https://snippet.maze.co");
-    directives["style-src"].push("https://snippet.maze.co");
-    directives["img-src"].push("https://snippet.maze.co");
-    directives["connect-src"].push(
-      "https://api.maze.co",
-      "https://prompts.maze.co",
-    );
-    directives["font-src"] = ["'self'", "https://snippet.maze.co"];
-
-    directives["script-src"].splice(
-      directives["script-src"].indexOf("'strict-dynamic'"),
-      1,
-    );
-  }
-
   return Object.entries(directives)
     .map(([key, values]) => `${key} ${values.join(" ")}`)
     .join("; ");
