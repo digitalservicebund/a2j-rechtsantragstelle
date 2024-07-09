@@ -157,10 +157,10 @@ svg {
 .increase-tap-area::before {
   content: "";
   @apply absolute;
-  top: -0.75rem;
-  bottom: -0.75rem;
-  left: -0.75rem;
-  right: -0.75rem;
+  top: -0.5rem;
+  bottom: -0.5rem;
+  left: -0.5rem;
+  right: -0.5rem;
 }
 
 @media (max-width: 499px) {
