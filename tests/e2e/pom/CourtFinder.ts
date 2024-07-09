@@ -58,8 +58,6 @@ export class CourtFinder {
   }
 
   async submitSearchForm() {
-    await this.page
-      .getByRole("button", { name: "Übernehmen & Weiter" })
-      .click();
+    await this.page.getByRole("button", { name: "Weiter" }).click();
   }
 }
