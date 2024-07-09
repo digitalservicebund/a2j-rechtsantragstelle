@@ -122,7 +122,6 @@ export const getMissingInformationStrings = (
     }),
     rechtsproblemMissingInformation: !rechtsproblemDone({ context }),
     einkommenMissingInformation: !einkommenDone({ context }),
-    partnerMissingInformation: !partnerDone({ context }),
     persoenlicheDatenMissingInformation: !beratungshilfePersoenlicheDatenDone({
       context,
     }),
@@ -131,6 +130,7 @@ export const getMissingInformationStrings = (
   const requiresEinkommenDone =
     einkommenDone({ context }) || context.staatlicheLeistungen == "keine"
       ? {
+          partnerMissingInformation: !partnerDone({ context }),
           kinderMissingInformation: !kinderDone({ context }),
           andereUnterhaltszahlungenMissingInformation:
             !andereUnterhaltszahlungenDone({ context }),
