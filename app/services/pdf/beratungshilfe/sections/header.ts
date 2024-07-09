@@ -5,8 +5,8 @@ import {
   edgeCasesForPlz,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { logError } from "~/services/logging";
-import { checkboxListToString } from "../../checkboxListToString";
 import { newPageHint, type AttachmentEntries } from "../../attachment";
+import { checkboxListToString } from "../../checkboxListToString";
 
 const weiteresEinkommenMapping = {
   unterhaltszahlungen: "Unterhaltszahlungen",

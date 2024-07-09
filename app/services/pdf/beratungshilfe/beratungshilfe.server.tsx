@@ -17,7 +17,6 @@ import { fillFooter } from "./sections/footer";
 import { fillAusgaben } from "./sections/G_ausgaben";
 import fillHeader from "./sections/header";
 import { appendAttachment } from "../appendAttachment";
-import type { AttachmentEntries } from "../attachment";
 import { createAttachment } from "../attachment";
 import FormAttachment, {
   type AttachmentProps,

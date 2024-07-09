@@ -1,7 +1,7 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { checkboxListToString } from "../../checkboxListToString";
 import { type AttachmentEntries, newPageHint } from "../../attachment";
+import { checkboxListToString } from "../../checkboxListToString";
 
 const AUSGABEN_MAX_COUNT_FIELDS = 4;
 const AUSGABEN_MAX_CHARS_FIELD = 50;
