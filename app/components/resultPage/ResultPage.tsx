@@ -19,7 +19,7 @@ import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBox
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
 import type { CollectionSchemas, EntrySchemas } from "~/services/cms/schemas";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
-import { arrayIsNonEmpty } from "~/services/validation/array";
+import { arrayIsNonEmpty } from "~/util/array";
 
 const iconCSS = "inline-block !h-[36px] !w-[36px] !min-h-[36px] !min-w-[36px]";
 const icons: Record<StrapiResultPageType, ReactElement> = {

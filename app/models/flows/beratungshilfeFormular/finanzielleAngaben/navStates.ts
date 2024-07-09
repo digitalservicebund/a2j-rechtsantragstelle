@@ -1,4 +1,4 @@
-import { arrayIsNonEmpty } from "~/services/validation/array";
+import { arrayIsNonEmpty } from "~/util/array";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
 import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
 import { eigentumDone } from "./navStatesEigentum";
@@ -27,7 +27,9 @@ const hasStaatlicheLeistungen: FinanzielleAngabenGuard = ({ context }) =>
   context.staatlicheLeistungen == "grundsicherung";
 
 export const kinderDone: FinanzielleAngabenGuard = ({ context }) =>
-  context.hasKinder == "no" || arrayIsNonEmpty(context.kinder);
+  hasStaatlicheLeistungen({ context }) ||
+  context.hasKinder == "no" ||
+  arrayIsNonEmpty(context.kinder);
 
 const wohnungAloneDone: FinanzielleAngabenGuard = ({ context }) =>
   context.livingSituation === "alone" &&
@@ -41,9 +43,10 @@ const wohnungWithOthersDone: FinanzielleAngabenGuard = ({ context }) =>
   context.apartmentCostFull !== undefined;
 
 export const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
-  context.livingSituation !== undefined &&
-  context.apartmentSizeSqm !== undefined &&
-  (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context }));
+  hasStaatlicheLeistungen({ context }) ||
+  (context.livingSituation !== undefined &&
+    context.apartmentSizeSqm !== undefined &&
+    (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context })));
 
 export const andereUnterhaltszahlungenDone: FinanzielleAngabenGuard = ({
   context,
@@ -55,6 +58,7 @@ export const andereUnterhaltszahlungenDone: FinanzielleAngabenGuard = ({
 
 export const ausgabenDone: FinanzielleAngabenGuard = ({ context }) => {
   return (
+    hasStaatlicheLeistungen({ context }) ||
     context.hasAusgaben === "no" ||
     (context.hasAusgaben === "yes" && arrayIsNonEmpty(context.ausgaben))
   );

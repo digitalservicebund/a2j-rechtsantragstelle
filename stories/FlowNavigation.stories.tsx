@@ -20,11 +20,6 @@ export const Example: Story = {
     navItems: [
       {
         destination: ".",
-        label: "Grundvoraussetzungen",
-        state: NavState.DoneDisabled,
-      },
-      {
-        destination: ".",
         label: "Das Rechtsproblem",
         state: NavState.Done,
       },
@@ -41,7 +36,7 @@ export const Example: Story = {
       {
         destination: ".",
         label: "Abgabe",
-        state: NavState.OpenDisabled,
+        state: NavState.Disabled,
       },
     ],
   },

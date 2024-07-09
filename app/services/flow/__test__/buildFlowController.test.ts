@@ -305,7 +305,6 @@ describe("buildFlowController", () => {
         {
           isDone: true,
           isReachable: true,
-          isUneditable: false,
           stepId: "start",
           url: "/test/start",
         },
@@ -338,21 +337,18 @@ describe("buildFlowController", () => {
         {
           isDone: false,
           isReachable: true,
-          isUneditable: false,
           stepId: "parent1",
           url: "/test/parent1",
           subStates: [
             {
               isDone: false,
               isReachable: true,
-              isUneditable: false,
               stepId: "parent1/child1",
               url: "/test/parent1/child1/start",
             },
             {
               isDone: false,
               isReachable: true,
-              isUneditable: false,
               stepId: "parent1/child2",
               url: "/test/parent1/child2/start",
             },
@@ -382,14 +378,12 @@ describe("buildFlowController", () => {
         {
           isDone: false,
           isReachable: true,
-          isUneditable: false,
           stepId: "parent1",
           url: "/test/parent1",
           subStates: [
             {
               isDone: false,
               isReachable: true,
-              isUneditable: false,
               stepId: "parent1/child2",
               url: "/test/parent1/child2/start",
             },
@@ -416,28 +410,24 @@ describe("buildFlowController", () => {
         {
           isDone: true,
           isReachable: true,
-          isUneditable: false,
           stepId: "child1",
           url: "/test/child1",
         },
         {
           isDone: true,
           isReachable: false,
-          isUneditable: false,
           stepId: "child2",
           url: "/test/child2",
         },
         {
           isDone: false,
           isReachable: true,
-          isUneditable: false,
           stepId: "child3",
           url: "/test/child3/start",
         },
         {
           isDone: false,
           isReachable: false,
-          isUneditable: false,
           stepId: "child4",
           url: "/test/child4/start",
         },

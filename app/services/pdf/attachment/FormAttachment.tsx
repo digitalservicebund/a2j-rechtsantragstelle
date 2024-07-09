@@ -1,5 +1,5 @@
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
-import type { Attachment } from ".";
+import type { AttachmentEntries } from ".";
 
 const styles = StyleSheet.create({
   page: {
@@ -48,24 +48,26 @@ const styles = StyleSheet.create({
   },
 });
 
-type DescriptionsProps = {
-  readonly descriptions: Attachment;
-};
+export type AttachmentProps = Readonly<{
+  entries: AttachmentEntries;
+  header?: string;
+}>;
 
-const FormAttachment = ({ descriptions }: DescriptionsProps) => {
+const FormAttachment = ({ entries, header }: AttachmentProps) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <View>
-          <Text style={styles.pageHeader} fixed>
-            <Text style={styles.bold}>Anhang:</Text> Antrag auf Bewilligung von
-            Beratungshilfe
-          </Text>
+          {header && (
+            <Text style={styles.pageHeader} fixed>
+              {header}
+            </Text>
+          )}
           <Text style={styles.h1}>Anhang</Text>
-          {descriptions.map((description) => (
-            <View key={description.title} style={styles.section}>
-              <Text style={styles.h4}>{description.title}</Text>
-              <Text>{description.text}</Text>
+          {entries.map((entry) => (
+            <View key={entry.title} style={styles.section}>
+              <Text style={styles.h4}>{entry.title}</Text>
+              <Text>{entry.text}</Text>
             </View>
           ))}
         </View>

@@ -6,7 +6,7 @@ import {
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { logError } from "~/services/logging";
 import { checkboxListToString } from "../../checkboxListToString";
-import { newPageHint, type Attachment } from "../../attachment";
+import { newPageHint, type AttachmentEntries } from "../../attachment";
 
 const weiteresEinkommenMapping = {
   unterhaltszahlungen: "Unterhaltszahlungen",
@@ -23,7 +23,7 @@ const weiteresEinkommenMapping = {
 };
 
 export default function fillHeader(
-  attachment: Attachment,
+  attachment: AttachmentEntries,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {

@@ -1,7 +1,6 @@
 {
   "initial": "start",
   "id": "grundvoraussetzungen",
-  "meta": { "isUneditable": true },
   "states": {
     "start": {
       "on": { "SUBMIT": "rechtsschutzversicherung", "BACK": "#antragStart" }

@@ -1,15 +1,15 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { arrayIsNonEmpty } from "~/services/validation/array";
+import { arrayIsNonEmpty } from "~/util/array";
 import { eigentuemerMapping } from "./F_besitz";
-import { newPageHint, type Attachment } from "../../../attachment";
+import { newPageHint, type AttachmentEntries } from "../../../attachment";
 
 type Kraftfahrzeug = NonNullable<
   BeratungshilfeFormularContext["kraftfahrzeuge"]
 >[0];
 
 export function fillKraftfahrzeug(
-  attachment: Attachment,
+  attachment: AttachmentEntries,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
@@ -23,7 +23,7 @@ export function fillKraftfahrzeug(
 }
 
 function fillKraftfahrzeugData(
-  attachment: Attachment,
+  attachment: AttachmentEntries,
   pdfFields: BeratungshilfePDF,
   kraftfahrzeugen: Kraftfahrzeug[],
 ) {

@@ -41,7 +41,6 @@ export type Config = MachineConfig<
 >;
 type Meta = {
   customAnalyticsEventName?: string;
-  isUneditable: boolean | undefined;
   done: GenericGuard<Context>;
   arrays?: Record<string, ArrayConfig>;
 };
@@ -122,7 +121,6 @@ export type StepState = {
   stepId: string;
   isDone: boolean;
   isReachable: boolean;
-  isUneditable: boolean;
   url: string;
   subStates?: StepState[];
 };
@@ -143,7 +141,6 @@ function stepStates(
     const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
     const meta = state.meta as Meta | undefined;
     const hasDoneFunction = meta?.done !== undefined;
-    const isUneditable = Boolean(meta?.isUneditable);
     const reachableSubStates = stepStates(state, reachableSteps).filter(
       (state) => state.isReachable,
     );
@@ -172,7 +169,6 @@ function stepStates(
         url: `${state.machine.id}${targetStepId}`,
         isDone: hasDoneFunction ? meta.done({ context }) : false,
         stepId,
-        isUneditable,
         isReachable: reachableSteps.includes(targetStepId),
       };
     }
@@ -181,7 +177,6 @@ function stepStates(
       url: `${state.machine.id}${stepId}`,
       isDone: reachableSubStates.every((state) => state.isDone),
       stepId,
-      isUneditable,
       isReachable: reachableSubStates.length > 0,
       subStates: reachableSubStates,
     };
@@ -212,8 +207,6 @@ export const buildFlowController = ({
     stepStates: () => stepStates(machine.root, reachableSteps),
     isDone: (currentStepId: string) =>
       Boolean(metaFromStepId(machine, currentStepId)?.done({ context })),
-    isUneditable: (currentStepId: string) =>
-      Boolean(metaFromStepId(machine, currentStepId)?.isUneditable),
     getConfig: () => config,
     isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),
     isReachable: (currentStepId: string) => {

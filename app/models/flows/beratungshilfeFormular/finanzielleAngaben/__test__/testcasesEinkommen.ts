@@ -71,8 +71,7 @@ const cases = [
       "finanzielle-angaben/einkommen/situation",
       "finanzielle-angaben/einkommen/weiteres-einkommen",
       "finanzielle-angaben/einkommen/einkommen",
-      // TODO why do we only show the partner flow if einkommen is done? The back-flow does not match that requirement.
-      // "persoenliche-daten/start",
+      "finanzielle-angaben/partner/partnerschaft",
     ],
   ],
   [
@@ -83,8 +82,7 @@ const cases = [
       "finanzielle-angaben/einkommen/situation",
       "finanzielle-angaben/einkommen/weiteres-einkommen",
       "finanzielle-angaben/einkommen/einkommen",
-      // TODO why do we only show the partner flow if einkommen is done? The back-flow does not match that requirement.
-      // "persoenliche-daten/start",
+      "finanzielle-angaben/partner/partnerschaft",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

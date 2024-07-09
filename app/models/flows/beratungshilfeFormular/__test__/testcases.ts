@@ -13,7 +13,7 @@ const cases = [
       eigeninitiativeGrundvorraussetzung: "no",
     },
     [
-      "start",
+      "start/start",
       "grundvoraussetzungen/start",
       "grundvoraussetzungen/rechtsschutzversicherung",
       "grundvoraussetzungen/wurde-verklagt",
@@ -45,7 +45,7 @@ const cases = [
       einkommen: "100",
     },
     [
-      "start",
+      "start/start",
       "grundvoraussetzungen/start",
       "grundvoraussetzungen/rechtsschutzversicherung",
       "grundvoraussetzungen/wurde-verklagt",

@@ -4,6 +4,7 @@ import { flows } from "~/models/flows/flows.server";
 import { type FlowStateMachine } from "./buildFlowController";
 
 export function progressLookupForMachine(machine: FlowStateMachine) {
+  // TODO: add unit tests & reduce tests for .getProgress()
   // Initially, we only need to check the initial node, with a known progress of 1
   const initialState = machine.root.initial.target[0];
   const stateIdsToCheck = [initialState.id];

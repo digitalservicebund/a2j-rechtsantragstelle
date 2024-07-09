@@ -2,7 +2,7 @@ import {
   firstArrayIndex,
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
-import { arrayIsNonEmpty } from "~/services/validation/array";
+import { arrayIsNonEmpty } from "~/util/array";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
 import { yesNoGuards, type Guards } from "../../guards.server";
 
@@ -47,13 +47,15 @@ const hasAnyEigentum: Guards<BeratungshilfeFinanzielleAngaben>[string] = ({
 export const eigentumDone: Guards<BeratungshilfeFinanzielleAngaben>[string] = ({
   context,
 }) =>
-  context.hasBankkonto !== undefined &&
-  context.hasKraftfahrzeug !== undefined &&
-  context.hasGeldanlage !== undefined &&
-  context.hasGrundeigentum !== undefined &&
-  context.hasWertsache !== undefined &&
-  (!hasAnyEigentumExceptBankaccount({ context }) ||
-    context.eigentumTotalWorth !== undefined);
+  context.staatlicheLeistungen == "grundsicherung" ||
+  context.staatlicheLeistungen == "asylbewerberleistungen" ||
+  (context.hasBankkonto !== undefined &&
+    context.hasKraftfahrzeug !== undefined &&
+    context.hasGeldanlage !== undefined &&
+    context.hasGrundeigentum !== undefined &&
+    context.hasWertsache !== undefined &&
+    (!hasAnyEigentumExceptBankaccount({ context }) ||
+      context.eigentumTotalWorth !== undefined));
 
 const { hasKinderYes } = yesNoGuards("hasKinder");
 const { hasWeitereUnterhaltszahlungenYes } = yesNoGuards(

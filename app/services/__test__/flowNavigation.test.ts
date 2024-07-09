@@ -11,15 +11,13 @@ describe("flowNavigation", () => {
       isCurrent: false,
       isReachable: false,
       isDone: false,
-      isUneditable: false,
     };
 
     const validStates = [
-      [{}, NavState.OpenDisabled],
+      [{}, NavState.Disabled],
       [{ isCurrent: true }, NavState.Current],
       [{ isReachable: true }, NavState.Open],
       [{ isDone: true, isReachable: true }, NavState.Done],
-      [{ isDone: true, isUneditable: true }, NavState.DoneDisabled],
     ] as const;
 
     test.each(validStates)("navState(%o) => %i", (testValues, expected) => {
@@ -32,14 +30,12 @@ describe("flowNavigation", () => {
       url: "/step1",
       isDone: false,
       stepId: "step1",
-      isUneditable: false,
       isReachable: true,
     };
     const childStepState = {
       url: "/step1/a",
       isDone: false,
       stepId: "step1/a",
-      isUneditable: false,
       isReachable: true,
     };
 

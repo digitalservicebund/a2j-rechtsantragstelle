@@ -1,6 +1,6 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import { newPageHint, type Attachment } from "../../attachment";
+import { newPageHint, type AttachmentEntries } from "../../attachment";
 
 const FIELD_A_RECHTSPROBLEMS_TITLE = "Feld A Rechtsproblems";
 export const THEMA_RECHTSPROBLEM_TITLE = "Thema des Rechtsproblems:";
@@ -23,7 +23,7 @@ const bereichMapping = {
 };
 
 export function fillAngelegenheit(
-  attachment: Attachment,
+  attachment: AttachmentEntries,
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
@@ -53,8 +53,8 @@ export function fillAngelegenheit(
 
 function getAngelegenheitAttachmentDescriptions(
   context: BeratungshilfeFormularContext,
-): Attachment {
-  const attachment: Attachment = [];
+): AttachmentEntries {
+  const attachment: AttachmentEntries = [];
 
   if (context.bereich) {
     attachment.push({

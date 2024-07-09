@@ -1,7 +1,22 @@
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { logError } from "~/services/logging";
 import type { BeratungshilfeFormularContext } from ".";
-import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
+import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
+import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
+import {
+  eigentumDone,
+  finanzielleAngabeGuards,
+} from "./finanzielleAngaben/guards";
+import {
+  andereUnterhaltszahlungenDone,
+  ausgabenDone,
+  einkommenDone,
+  kinderDone,
+  partnerDone,
+  wohnungDone,
+} from "./finanzielleAngaben/navStates";
+import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/context";
+import { rechtsproblemDone } from "./rechtsproblem/context";
 
 export const getKinderStrings = (context: BeratungshilfeFormularContext) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
@@ -95,5 +110,41 @@ export const eigentumZusammenfassungShowWarnings = (
       finanzielleAngabeGuards.eigentumTotalWorthLessThan10000({
         context,
       }),
+  };
+};
+
+export const getMissingInformationStrings = (
+  context: BeratungshilfeFormularContext,
+) => {
+  const alwaysChecked = {
+    anwaltlicheVertretungMissingInformation: !anwaltlicheVertretungDone({
+      context,
+    }),
+    rechtsproblemMissingInformation: !rechtsproblemDone({ context }),
+    einkommenMissingInformation: !einkommenDone({ context }),
+    partnerMissingInformation: !partnerDone({ context }),
+    persoenlicheDatenMissingInformation: !beratungshilfePersoenlicheDatenDone({
+      context,
+    }),
+  };
+
+  const requiresEinkommenDone =
+    einkommenDone({ context }) || context.staatlicheLeistungen == "keine"
+      ? {
+          kinderMissingInformation: !kinderDone({ context }),
+          andereUnterhaltszahlungenMissingInformation:
+            !andereUnterhaltszahlungenDone({ context }),
+          wohnungMissingInformation: !wohnungDone({ context }),
+          eigentumMissingInformation: !eigentumDone({ context }),
+          eigentumZusammenfassungMissingInformation:
+            !eigentumZusammenfassungDone({ context }) &&
+            eigentumDone({ context }),
+          ausgabenMissingInformation: !ausgabenDone({ context }),
+        }
+      : {};
+
+  return {
+    ...alwaysChecked,
+    ...requiresEinkommenDone,
   };
 };

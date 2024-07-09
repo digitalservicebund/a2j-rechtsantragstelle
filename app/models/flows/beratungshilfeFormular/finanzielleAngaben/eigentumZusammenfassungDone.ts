@@ -10,8 +10,10 @@ import {
 export const eigentumZusammenfassungDone: FinanzielleAngabenGuard = ({
   context,
 }) =>
-  bankKontoDone({ context }) &&
-  geldanlagenDone({ context }) &&
-  grundeigentumDone({ context }) &&
-  wertsachenDone({ context }) &&
-  kraftfahrzeugeDone({ context });
+  context.staatlicheLeistungen == "grundsicherung" ||
+  context.staatlicheLeistungen == "asylbewerberleistungen" ||
+  (bankKontoDone({ context }) &&
+    geldanlagenDone({ context }) &&
+    grundeigentumDone({ context }) &&
+    wertsachenDone({ context }) &&
+    kraftfahrzeugeDone({ context }));

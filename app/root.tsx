@@ -77,7 +77,7 @@ export const links: LinksFunction = () => [
   { rel: "manifest", href: "/site.webmanifest" },
 ];
 
-export const meta: MetaFunction<typeof loader> = () => {
+export const meta: MetaFunction<RootLoader> = () => {
   return [
     { charSet: "utf-8" },
     { name: "viewport", content: "width=device-width,initial-scale=1" },
@@ -85,6 +85,8 @@ export const meta: MetaFunction<typeof loader> = () => {
     { property: "og:image", content: "https://service.justiz.de/og-image.png" },
   ];
 };
+
+export type RootLoader = typeof loader;
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
@@ -139,7 +141,7 @@ function App() {
     deletionLabel,
     hasAnyUserData,
     feedbackTranslations,
-  } = useLoaderData<typeof loader>();
+  } = useLoaderData<RootLoader>();
   const { breadcrumbs, title, ogTitle, description } =
     metaFromMatches(useMatches());
   const nonce = useNonce();
@@ -218,7 +220,7 @@ function App() {
 }
 
 export function ErrorBoundary() {
-  const loaderData = useRouteLoaderData<typeof loader>("root");
+  const loaderData = useRouteLoaderData<RootLoader>("root");
   captureRemixErrorBoundaryError(useRouteError());
   return (
     <html lang="de">
