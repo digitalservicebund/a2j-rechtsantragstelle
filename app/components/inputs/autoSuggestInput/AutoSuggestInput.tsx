@@ -1,6 +1,7 @@
 import classNames from "classnames";
+import { matchSorter } from "match-sorter";
 import { RefObject, useEffect, useRef, useState } from "react";
-import Select from "react-select";
+import Select, { InputActionMeta } from "react-select";
 import { useField } from "remix-validated-form";
 import { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import {
@@ -120,6 +121,36 @@ const AutoSuggestInput = ({
   const [jsAvailable, setJsAvailable] = useState(false);
   const [optionWasSelected, setOptionWasSelected] = useState(false);
   useEffect(() => setJsAvailable(true), []);
+  const [options, setOptions] = useState<DataListOptions[]>([]);
+
+  const onInputChange = (value: string, { action }: InputActionMeta) => {
+    if (action === "input-change") {
+      setTimeout(function () {
+        const inputElement = document.querySelector<HTMLInputElement>(
+          `#${inputId}`,
+        );
+
+        if (inputElement) {
+          inputElement.focus();
+        }
+      }, 10);
+
+      if (value.length < MINIMUM_SEARCH_SUGGESTION_CHARACTERS) {
+        setOptions([]);
+        return;
+      }
+      let filteredOptions = items.filter((item) => filterOption(item, value));
+
+      if (value.length === 3 && dataList === "airlines") {
+        filteredOptions = matchSorter(filteredOptions, value, {
+          keys: ["value"],
+          threshold: matchSorter.rankings.NO_MATCH,
+        });
+      }
+
+      setOptions(filteredOptions);
+    }
+  };
 
   useEffect(() => {
     keyDownOnInput(inputId, buttonExclusionRef);
@@ -151,14 +182,15 @@ const AutoSuggestInput = ({
         )}
         isSearchable
         isClearable
-        options={items}
+        options={options}
         aria-invalid={error !== undefined}
         aria-describedby={error && errorId}
         aria-errormessage={error && errorId}
         id={name}
         name={name}
+        onInputChange={onInputChange}
         inputId={inputId}
-        filterOption={filterOption}
+        filterOption={() => true}
         defaultValue={currentItemValue}
         placeholder={placeholder ?? ""}
         instanceId={name}
