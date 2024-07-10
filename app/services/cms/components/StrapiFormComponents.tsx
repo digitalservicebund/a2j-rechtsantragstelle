@@ -3,6 +3,11 @@ import { keyFromElement } from "~/services/cms/keyFromElement";
 import StrapiSelect from "./StrapiSelect";
 import type { StrapiFormComponent } from "../models/StrapiFormComponent";
 
+/**
+ * Load the form components using lazy loading to avoid including unnecessary data in the bundle.
+ * The only exception is the StrapiSelect component,
+ * which should not use lazy loading due to issues encountered during E2E tests.
+ */
 const StrapiAutoSuggestInput = lazy(() => import("./StrapiAutoSuggestInput"));
 const StrapiInput = lazy(() => import("../components/StrapiInput"));
 const StrapiDateInput = lazy(() => import("../components/StrapiDateInput"));
