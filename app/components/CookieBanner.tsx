@@ -1,6 +1,6 @@
 import { useFetcher, useLocation } from "@remix-run/react";
 import { posthog } from "posthog-js";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { z } from "zod";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
@@ -71,7 +71,7 @@ export function CookieBanner({
     if (posthogLoaded) posthog.capture("$pageview");
   }, [posthogLoaded, location.pathname]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setClientJavaScriptAvailable(true);
   }, []);
 
