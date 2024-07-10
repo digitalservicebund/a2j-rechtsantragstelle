@@ -141,9 +141,9 @@ const AutoSuggestInput = ({
       }
       let filteredOptions = items.filter((item) => filterOption(item, value));
 
-      if (value.length === 3 && dataList === "airlines") {
+      if (value.length === 3 && dataList === "airports") {
         filteredOptions = matchSorter(filteredOptions, value, {
-          keys: ["value"],
+          keys: ["value", "subDescription"],
           threshold: matchSorter.rankings.NO_MATCH,
         });
       }
