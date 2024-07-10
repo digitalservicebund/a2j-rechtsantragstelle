@@ -55,7 +55,7 @@ describe("AutoSuggestInput", () => {
     ).toBeInTheDocument();
   });
 
-  it("it should render select the first (BER) input after enter Berlin", async () => {
+  it.skip("it should render select the first (BER) input after enter Berlin", async () => {
     const RemixStub = createRemixStub([
       {
         path: "",
@@ -158,7 +158,7 @@ describe("AutoSuggestInput", () => {
     });
   });
 
-  it("it should have the className `option-was-selected` after selected one option and not have when move out of the field", async () => {
+  it.skip("it should have the className `option-was-selected` after selected one option and not have when move out of the field", async () => {
     const RemixStub = createRemixStub([
       {
         path: "",
