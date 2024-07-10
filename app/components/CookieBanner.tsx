@@ -1,6 +1,6 @@
 import { useFetcher, useLocation } from "@remix-run/react";
 import { posthog } from "posthog-js";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
@@ -32,8 +32,11 @@ export function CookieBanner({
 }: CookieBannerProps) {
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
   const [posthogLoaded, setPosthogLoaded] = useState(false);
-  const [clientJavaScriptAvailable, setClientJavaScriptAvailable] =
-    useState(false);
+  const [analysticsApiQueryParameter, setAnalysticsApiQueryParameter] =
+    useState("");
+  const [buttonAcceptCookieTestId, setButtonAcceptCookieTestId] = useState(
+    "accept-cookie_without_js",
+  );
   const analyticsFetcher = useFetcher();
   const location = useLocation();
 
@@ -63,16 +66,13 @@ export function CookieBanner({
     POSTHOG_API_HOST,
   ]);
 
-  const buttonAcceptCookieTestId = clientJavaScriptAvailable
-    ? "accept-cookie_with_js"
-    : "accept-cookie_without_js";
-
   useEffect(() => {
     if (posthogLoaded) posthog.capture("$pageview");
   }, [posthogLoaded, location.pathname]);
 
-  useLayoutEffect(() => {
-    setClientJavaScriptAvailable(true);
+  useEffect(() => {
+    setButtonAcceptCookieTestId("accept-cookie_with_js");
+    setAnalysticsApiQueryParameter("?js=1");
   }, []);
 
   if (hasTrackingConsent !== undefined) {
@@ -88,9 +88,7 @@ export function CookieBanner({
     >
       <analyticsFetcher.Form
         method="post"
-        action={`/action/set-analytics${
-          clientJavaScriptAvailable ? "?js=1" : ""
-        }`}
+        action={`/action/set-analytics${analysticsApiQueryParameter}`}
       >
         <Container paddingTop="32" paddingBottom="40">
           <div className="ds-stack-16">
