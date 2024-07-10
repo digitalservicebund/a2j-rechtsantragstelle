@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { keyFromElement } from "~/services/cms/keyFromElement";
+import StrapiSelect from "./StrapiSelect";
 import type { StrapiFormComponent } from "../models/StrapiFormComponent";
 
 const StrapiAutoSuggestInput = lazy(() => import("./StrapiAutoSuggestInput"));
@@ -9,7 +10,6 @@ const StrapiTimeInput = lazy(() => import("../components/StrapiTimeInput"));
 const StrapiFileInput = lazy(() => import("../components/StrapiFileInput"));
 const StrapiCheckbox = lazy(() => import("../components/StrapiCheckbox"));
 const StrapiDropdown = lazy(() => import("../components/StrapiDropdown"));
-const StrapiSelect = lazy(() => import("../components/StrapiSelect"));
 const StrapiTextarea = lazy(() => import("../components/StrapiTextarea"));
 const StrapiTileGroup = lazy(() => import("../components/StrapiTileGroup"));
 
