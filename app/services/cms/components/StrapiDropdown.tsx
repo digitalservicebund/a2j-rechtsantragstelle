@@ -24,6 +24,8 @@ export const StrapiDropdownComponentSchema = StrapiDropdownSchema.extend({
   __component: z.literal("form-elements.dropdown"),
 });
 
-export const StrapiDropdown = ({ errors, ...props }: StrapiDropdown) => (
+const StrapiDropdown = ({ errors, ...props }: StrapiDropdown) => (
   <Select errorMessages={flattenStrapiErrors(errors)} {...omitNull(props)} />
 );
+
+export default StrapiDropdown;

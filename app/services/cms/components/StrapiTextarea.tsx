@@ -23,6 +23,8 @@ export const StrapiTextareaComponentSchema = StrapiTextareaSchema.extend({
   __component: z.literal("form-elements.textarea"),
 });
 
-export const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => (
+const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => (
   <Textarea {...omitNull(props)} errorMessages={flattenStrapiErrors(errors)} />
 );
+
+export default StrapiTextarea;
