@@ -2,9 +2,9 @@
 import { createMachine } from "xstate";
 import { happyPathData } from "tests/fixtures/beratungshilfeVorabcheckData";
 import type { TestCases } from "~/models/flows/__test__/TestCases";
-import beratungshilfeFlow from "~/models/flows/beratungshilfe/config.json";
-import type { BeratungshilfeVorabcheckContext } from "~/models/flows/beratungshilfe/context";
-import { guards } from "~/models/flows/beratungshilfe/guards";
+import beratungshilfeFlow from "~/models/flows/beratungshilfeVorabcheck/config.json";
+import type { BeratungshilfeVorabcheckContext } from "~/models/flows/beratungshilfeVorabcheck/context";
+import { guards } from "~/models/flows/beratungshilfeVorabcheck/guards";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
 const machine: FlowStateMachine = createMachine(

@@ -6,7 +6,7 @@ import { flows } from "~/models/flows/flows.server";
 import {
   isPartnerAirport,
   partnerCourtAirports,
-} from "~/models/flows/fluggastrechte";
+} from "app/models/flows/fluggastrechteVorabcheck";
 import {
   fetchCollectionEntry,
   fetchMeta,

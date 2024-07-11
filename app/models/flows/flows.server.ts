@@ -1,8 +1,8 @@
-import { beratungshilfeVorabcheck } from "~/models/flows/beratungshilfe";
+import { beratungshilfeVorabcheck } from "app/models/flows/beratungshilfeVorabcheck";
 import { beratungshilfeFormular } from "~/models/flows/beratungshilfeFormular";
-import { fluggastrechteVorabcheck } from "~/models/flows/fluggastrechte";
+import { fluggastrechteVorabcheck } from "app/models/flows/fluggastrechteVorabcheck";
 import { fluggastrechtFlow } from "~/models/flows/fluggastrechteFormular";
-import { geldEinklagenVorabcheck } from "~/models/flows/geldEinklagen";
+import { geldEinklagenVorabcheck } from "app/models/flows/geldEinklagenVorabcheck";
 import { geldEinklagenFormular } from "~/models/flows/geldEinklagenFormular";
 import type { Translations } from "~/services/cms/index.server";
 import { type CollectionSchemas } from "~/services/cms/schemas";

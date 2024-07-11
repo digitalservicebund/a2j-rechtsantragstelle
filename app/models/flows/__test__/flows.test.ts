@@ -1,4 +1,4 @@
-import { testCasesBeratungshilfe } from "~/models/flows/beratungshilfe/__test__/testcases";
+import { testCasesBeratungshilfe } from "~/models/flows/beratungshilfeVorabcheck/__test__/testcases";
 import { testCasesBeratungshilfeFormular } from "~/models/flows/beratungshilfeFormular/__test__/testcases";
 import { testCasesBeratungshilfeFormularAnwaltlicheVertretung } from "~/models/flows/beratungshilfeFormular/anwaltlicheVertretung/__test__/testcases";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/__test__/testcasesAusgaben";
@@ -11,11 +11,11 @@ import { testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen } 
 import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/__test__/testcasesWohnung";
 import { testCasesBeratungshilfeRechtsproblem } from "~/models/flows/beratungshilfeFormular/rechtsproblem/__test__/testcases";
 import { type Context } from "~/models/flows/contexts";
-import { testCasesFluggastrechteAnnullierung } from "~/models/flows/fluggastrechte/__test__/testcasesAnnullierung";
-import { testCasesFluggastrechteNichtBefoerderung } from "~/models/flows/fluggastrechte/__test__/testcasesNichtBefoerderung";
-import { testCasesFluggastrechteVerspaetet } from "~/models/flows/fluggastrechte/__test__/testcasesVerspaetet";
+import { testCasesFluggastrechteAnnullierung } from "~/models/flows/fluggastrechteVorabcheck/__test__/testcasesAnnullierung";
+import { testCasesFluggastrechteNichtBefoerderung } from "~/models/flows/fluggastrechteVorabcheck/__test__/testcasesNichtBefoerderung";
+import { testCasesFluggastrechteVerspaetet } from "~/models/flows/fluggastrechteVorabcheck/__test__/testcasesVerspaetet";
 import { testCasesFluggastrechteFormular } from "~/models/flows/fluggastrechteFormular/__test__/testcases";
-import { testCasesGeldEinklagen } from "~/models/flows/geldEinklagen/__test__/testcases";
+import { testCasesGeldEinklagen } from "~/models/flows/geldEinklagenVorabcheck/__test__/testcases";
 import { transitionDestinations } from "~/services/flow/server/buildFlowController";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { parsePathname } from "../flowIds";

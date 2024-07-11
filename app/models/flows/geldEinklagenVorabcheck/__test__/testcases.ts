@@ -2,9 +2,9 @@
 import { createMachine } from "xstate";
 import { happyPathData } from "tests/fixtures/geldEinklagenVorabcheckData";
 import type { TestCases } from "~/models/flows/__test__/TestCases";
-import geldEinklagenFlow from "~/models/flows/geldEinklagen/config.json";
-import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/context";
-import { guards } from "~/models/flows/geldEinklagen/guards";
+import geldEinklagenFlow from "~/models/flows/geldEinklagenVorabcheck/config.json";
+import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagenVorabcheck/context";
+import { guards } from "~/models/flows/geldEinklagenVorabcheck/guards";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
 const machine: FlowStateMachine = createMachine(

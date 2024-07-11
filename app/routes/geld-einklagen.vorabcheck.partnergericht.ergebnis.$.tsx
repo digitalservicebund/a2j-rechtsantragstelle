@@ -12,7 +12,7 @@ import Heading from "~/components/Heading";
 import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
 import { parsePathname } from "~/models/flows/flowIds";
-import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/context";
+import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagenVorabcheck/context";
 import {
   fetchCollectionEntry,
   fetchSingleEntry,

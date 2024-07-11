@@ -1,6 +1,6 @@
 import { Result } from "true-myth";
-import type { FluggastrechtVorabcheckContext } from "~/models/flows/fluggastrechte/context";
-import { guards } from "~/models/flows/fluggastrechte/guards";
+import type { FluggastrechtVorabcheckContext } from "~/models/flows/fluggastrechteVorabcheck/context";
+import { guards } from "~/models/flows/fluggastrechteVorabcheck/guards";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
 
 vi.mock("~/services/airports/calculateDistanceBetweenAirports");

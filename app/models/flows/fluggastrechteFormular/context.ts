@@ -22,7 +22,7 @@ import {
 import {
   fluggastBereichSchema,
   zustaendigesAmtsgerichtSchema,
-} from "../fluggastrechte/context";
+} from "~/models/flows/fluggastrechteVorabcheck/context";
 import {
   adresse,
   persoenlicheDaten,

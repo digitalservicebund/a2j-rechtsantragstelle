@@ -1,5 +1,5 @@
-import fluggastrechteVorabcheckFlow from "~/models/flows/fluggastrechte/config.json";
-import { guards as fluggastrechteVorabcheckGuards } from "~/models/flows/fluggastrechte/guards";
+import fluggastrechteVorabcheckFlow from "~/models/flows/fluggastrechteVorabcheck/config.json";
+import { guards as fluggastrechteVorabcheckGuards } from "~/models/flows/fluggastrechteVorabcheck/guards";
 import type { Translations } from "~/services/cms/index.server";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import {

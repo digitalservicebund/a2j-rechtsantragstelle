@@ -1,10 +1,10 @@
 import type { ZodTypeAny } from "zod";
-import { context as beratungshilfeContext } from "./beratungshilfe/context";
+import { context as beratungshilfeContext } from "~/models/flows/beratungshilfeVorabcheck/context";
 import { beratungshilfeFormularContext } from "./beratungshilfeFormular/context";
 import type { FlowId } from "./flowIds";
-import { fluggastrechteVorabcheckContext } from "./fluggastrechte/context";
+import { fluggastrechteVorabcheckContext } from "~/models/flows/fluggastrechteVorabcheck/context";
 import { fluggastrechtContext } from "./fluggastrechteFormular/context";
-import { context as geldEinklagenContext } from "./geldEinklagen/context";
+import { context as geldEinklagenContext } from "~/models/flows/geldEinklagenVorabcheck/context";
 import { context as geldEinklagenFormularContext } from "./geldEinklagenFormular/context";
 
 type BasicTypes = string | number | boolean;

@@ -11,7 +11,7 @@ import {
   getLastDaytFromFourYearsAgoDate,
   getRouteCompensationDescription,
   getStartAirportName,
-} from "~/models/flows/fluggastrechte/stringReplacements";
+} from "~/models/flows/fluggastrechteVorabcheck/stringReplacements";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 
 vi.mock("~/services/airports/getRouteCompensationBetweenAirports");

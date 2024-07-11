@@ -12,7 +12,7 @@ import {
   YesNoAnswer,
   customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
-import { staatlicheLeistungen } from "../../beratungshilfe/context";
+import { staatlicheLeistungen } from "~/models/flows/beratungshilfeVorabcheck/context";
 
 const Eigentuemer = z.enum(
   ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
