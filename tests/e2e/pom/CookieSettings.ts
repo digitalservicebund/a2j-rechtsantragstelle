@@ -52,9 +52,11 @@ export class CookieSettings {
   }
 
   async goBackToSettings() {
-    await this.page
-      .getByRole("button", { name: "Zurück zu den Einstellungen" })
-      .click();
+    const backButtonSettings = await this.page.waitForSelector(
+      "[data-testid='custom-button']",
+    );
+
+    await backButtonSettings.click();
   }
 
   async cookies() {
