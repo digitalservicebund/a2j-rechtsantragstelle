@@ -1,4 +1,4 @@
-import config from "./config.json";
+import config from "./flow.json";
 import { guards } from "./guards";
 import { type AllContexts } from "../common";
 import { getGerichtskostenvorschuss } from "../gerichtskosten";

@@ -1,10 +1,10 @@
 import _ from "lodash";
-import geldEinklagenFormularFlow from "./config.json";
 import type { GeldEinklagenFormularContext } from "./context";
+import geldEinklagenFormularFlow from "./flow.json";
 import { guards } from "./guards";
 import { type AllContexts } from "../common";
 import { gerichtskostenFromBetrag, gesamtKosten } from "../gerichtskosten";
-import persoenlicheDatenFlow from "../persoenlicheDaten/config.json";
+import persoenlicheDatenFlow from "../persoenlicheDaten/flow.json";
 
 export const geldEinklagenFormular = {
   cmsSlug: "form-flow-pages",

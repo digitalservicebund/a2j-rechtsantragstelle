@@ -1,4 +1,4 @@
-import fluggastrechteVorabcheckFlow from "~/flows/fluggastrechteVorabcheck/config.json";
+import fluggastrechteVorabcheckFlow from "~/flows/fluggastrechteVorabcheck/flow.json";
 import { guards as fluggastrechteVorabcheckGuards } from "~/flows/fluggastrechteVorabcheck/guards";
 import type { Translations } from "~/services/cms/index.server";
 import type { FluggastrechtVorabcheckContext } from "./context";

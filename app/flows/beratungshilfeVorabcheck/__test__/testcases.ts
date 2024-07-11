@@ -2,8 +2,8 @@
 import { createMachine } from "xstate";
 import { happyPathData } from "tests/fixtures/beratungshilfeVorabcheckData";
 import type { TestCases } from "~/flows/__test__/TestCases";
-import beratungshilfeFlow from "~/flows/beratungshilfeVorabcheck/config.json";
 import type { BeratungshilfeVorabcheckContext } from "~/flows/beratungshilfeVorabcheck/context";
+import beratungshilfeFlow from "~/flows/beratungshilfeVorabcheck/flow.json";
 import { guards } from "~/flows/beratungshilfeVorabcheck/guards";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 

@@ -1,9 +1,9 @@
 import _ from "lodash";
-import fluggastrechteFlow from "./config.json";
+import fluggastrechteFlow from "./flow.json";
 import { fluggastrechteGuards } from "./guards";
 import { type AllContexts } from "../common";
 import { gerichtskostenFromBetrag } from "../gerichtskosten";
-import persoenlicheDatenFlow from "../persoenlicheDaten/config.json";
+import persoenlicheDatenFlow from "../persoenlicheDaten/flow.json";
 
 function forderungFromEntfernung(entfernung: number) {
   // TODO: handle negative distance?

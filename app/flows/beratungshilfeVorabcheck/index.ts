@@ -1,4 +1,4 @@
-import config from "./config.json";
+import config from "./flow.json";
 import { getVerfuegbaresEinkommenFreibetrag } from "./freibetrag";
 import { guards, isIncomeTooHigh } from "./guards";
 import { type AllContexts } from "../common";
