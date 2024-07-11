@@ -18,7 +18,6 @@ export const bereich = z.enum(
   customRequiredErrorMessage,
 );
 
-//TODO: what was the reason of the duplication below
 export const beratungshilfeRechtsproblem = {
   bereich,
   gegenseite: stringRequiredSchema,
