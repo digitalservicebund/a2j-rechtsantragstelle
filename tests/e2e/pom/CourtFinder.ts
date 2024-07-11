@@ -48,9 +48,11 @@ export class CourtFinder {
   }
 
   async clickBackButton() {
-    await this.page
-      .getByRole("button", { name: "Zurück", exact: true })
-      .click();
+    const backButtonSettings = await this.page.waitForSelector(
+      "[data-testid='custom-button']",
+    );
+
+    await backButtonSettings.click();
   }
 
   async fillSearchField(value: string) {
