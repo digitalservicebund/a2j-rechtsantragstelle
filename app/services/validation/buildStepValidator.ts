@@ -1,7 +1,7 @@
 import { withZod } from "@remix-validated-form/with-zod";
 import { z } from "zod";
-import { getContext } from "~/models/flows/contexts";
-import { parsePathname } from "~/models/flows/flowIds";
+import { getContext } from "~/flows/contexts";
+import { parsePathname } from "~/flows/flowIds";
 import { isKeyOfObject } from "~/util/objects";
 import { fieldIsArray, splitArrayName } from "../array";
 

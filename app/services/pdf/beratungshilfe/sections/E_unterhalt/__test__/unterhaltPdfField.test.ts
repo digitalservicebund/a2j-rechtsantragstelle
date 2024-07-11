@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import {
   getListKidsUnterhaltPdfField,
   getListPersonUnterhaltPdfField,

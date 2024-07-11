@@ -12,7 +12,9 @@ export type RichTextProps = z.infer<typeof RichTextPropsSchema>;
 const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {
     const cssClass = "text-link";
-    if (href.includes("ext:")) {
+    // TODO: remove ext: from content, then remove this here
+    const isExternalLink = href.includes("ext:") || href.startsWith("https");
+    if (isExternalLink) {
       const newHref = href.replace("ext:", "");
       return `<a href="${newHref}" class="${cssClass}" target="_blank" rel="noopener">${text}</a>`;
     }
@@ -25,6 +27,7 @@ const defaultRenderer: Partial<Renderer> = {
     return `<h${depth} class="${cssClass}">${text}</h${depth}>`;
   },
   paragraph({ tokens }) {
+    //TODO: design specifies ds-body-01-reg, which would descrease font-size to 16px
     return `<p class="text-lg">${this.parser?.parseInline(tokens)}</p>`;
   },
 } as const;

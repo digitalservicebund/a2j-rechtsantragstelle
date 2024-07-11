@@ -2,7 +2,7 @@ import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { BannerState, USER_FEEDBACK_ID } from "~/components/UserFeedback";
 import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
-import { flowIdFromPathname } from "~/models/flows/flowIds";
+import { flowIdFromPathname } from "~/flows/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { bannerStateName } from "~/services/feedback/getFeedbackBannerState";
 import { getSessionManager } from "~/services/session.server";

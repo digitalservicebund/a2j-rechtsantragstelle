@@ -11,8 +11,8 @@ import CourtDetails from "~/components/CourtDetails";
 import Heading from "~/components/Heading";
 import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
-import { parsePathname } from "~/models/flows/flowIds";
-import type { GeldEinklagenVorabcheckContext } from "~/models/flows/geldEinklagen/context";
+import { parsePathname } from "~/flows/flowIds";
+import type { GeldEinklagenVorabcheckContext } from "~/flows/geldEinklagenVorabcheck/context";
 import {
   fetchCollectionEntry,
   fetchSingleEntry,

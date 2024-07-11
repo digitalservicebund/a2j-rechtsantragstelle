@@ -31,7 +31,7 @@ const FormComponent = ({
     case "form-elements.time-input":
       return <StrapiTimeInput {...component} />;
     case "form-elements.file-input":
-      return <StrapiFileInput {...component} />;
+      return <StrapiFileInput />;
     case "form-elements.textarea":
       return <StrapiTextarea {...component} />;
     case "form-elements.select":

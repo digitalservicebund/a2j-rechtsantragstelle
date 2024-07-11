@@ -74,10 +74,10 @@ function Button({
   if (href) {
     return (
       <a
+        data-testid="custom-button"
         {...(props as ButtonLinkProps)}
         href={href}
         className={buttonClasses}
-        role="button" // TODO - We need to check this role
         onKeyDown={onKeyDown}
         {...(openInNewTab
           ? { target: "_blank", rel: "noopener noreferrer" }
