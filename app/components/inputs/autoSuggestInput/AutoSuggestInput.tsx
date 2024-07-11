@@ -19,6 +19,8 @@ import InputError from "../InputError";
 import InputLabel from "../InputLabel";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
+const AIRPORT_CODE_LENGTH = 3;
+const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 10;
 
 const widthClass = (width: string) => {
   return {
@@ -60,18 +62,16 @@ function getDescriptionByValue(
   );
 }
 
-const focusOnInput = (action: string, inputId: string) => {
-  if (action === "clear" || action === "select-option") {
-    setTimeout(function () {
-      const inputElement = document.querySelector<HTMLInputElement>(
-        `#${inputId}`,
-      );
+const focusOnInput = (inputId: string) => {
+  setTimeout(function () {
+    const inputElement = document.querySelector<HTMLInputElement>(
+      `#${inputId}`,
+    );
 
-      if (inputElement) {
-        inputElement.focus();
-      }
-    }, 100);
-  }
+    if (inputElement) {
+      inputElement.focus();
+    }
+  }, MILLISECONDS_TIME_OUT_FOCUS_INPUT);
 };
 
 // When leave the input, it should focus on the exclusion button when it uses the tab, due problems for change the className in the component CustomValueContainer
@@ -93,6 +93,20 @@ const keyDownOnInput = (
       }
     });
   }
+};
+
+const getSortingAirportsByCode = (
+  filteredOptions: DataListOptions[],
+  inputCode: string,
+): DataListOptions[] => {
+  if (inputCode.length === AIRPORT_CODE_LENGTH) {
+    return matchSorter(filteredOptions, inputCode, {
+      keys: ["value", "subDescription"],
+      threshold: matchSorter.rankings.NO_MATCH,
+    });
+  }
+
+  return filteredOptions;
 };
 
 const AutoSuggestInput = ({
@@ -125,15 +139,7 @@ const AutoSuggestInput = ({
 
   const onInputChange = (value: string, { action }: InputActionMeta) => {
     if (action === "input-change") {
-      setTimeout(function () {
-        const inputElement = document.querySelector<HTMLInputElement>(
-          `#${inputId}`,
-        );
-
-        if (inputElement) {
-          inputElement.focus();
-        }
-      }, 10);
+      focusOnInput(inputId);
 
       if (value.length < MINIMUM_SEARCH_SUGGESTION_CHARACTERS) {
         setOptions([]);
@@ -141,11 +147,9 @@ const AutoSuggestInput = ({
       }
       let filteredOptions = items.filter((item) => filterOption(item, value));
 
-      if (value.length === 3 && dataList === "airports") {
-        filteredOptions = matchSorter(filteredOptions, value, {
-          keys: ["value", "subDescription"],
-          threshold: matchSorter.rankings.NO_MATCH,
-        });
+      // In case is the airports list, sorting by the code
+      if (dataList === "airports") {
+        filteredOptions = getSortingAirportsByCode(filteredOptions, value);
       }
 
       setOptions(filteredOptions);
@@ -195,11 +199,13 @@ const AutoSuggestInput = ({
         placeholder={placeholder ?? ""}
         instanceId={name}
         formatOptionLabel={FormatOptionLabel}
-        onChange={(_newValue, actionMeta) => {
+        onChange={(_newValue, { action }) => {
           validate();
           // remix remove the focus on the input when clicks with the keyboard to clear the value, so we need to force the focus again
-          setOptionWasSelected(actionMeta.action === "select-option");
-          focusOnInput(actionMeta.action, inputId);
+          setOptionWasSelected(action === "select-option");
+          if (action === "clear" || action === "select-option") {
+            focusOnInput(inputId);
+          }
         }}
         onBlur={() => {
           // call the validation only if an option was selected

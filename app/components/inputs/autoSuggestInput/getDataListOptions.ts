@@ -20,7 +20,7 @@ export function getDataListOptions(
     }
     case "airports": {
       return [...airports]
-        .sort((a, b) => a.iata.localeCompare(b.iata))
+        .sort((a, b) => a.city.localeCompare(b.city))
         .map((airport) => ({
           value: airport.iata,
           label: airport.airport.includes(airport.city)
