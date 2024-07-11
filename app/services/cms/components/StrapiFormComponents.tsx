@@ -1,22 +1,22 @@
 import { lazy } from "react";
 import { keyFromElement } from "~/services/cms/keyFromElement";
+import StrapiCheckbox from "./StrapiCheckbox";
+import StrapiDateInput from "./StrapiDateInput";
+import StrapiDropdown from "./StrapiDropdown";
+import StrapiFileInput from "./StrapiFileInput";
+import StrapiInput from "./StrapiInput";
 import StrapiSelect from "./StrapiSelect";
+import StrapiTextarea from "./StrapiTextarea";
+import StrapiTileGroup from "./StrapiTileGroup";
+import StrapiTimeInput from "./StrapiTimeInput";
 import type { StrapiFormComponent } from "../models/StrapiFormComponent";
 
 /**
- * Load the form components using lazy loading to avoid including unnecessary data in the bundle.
- * The only exception is the StrapiSelect component,
- * which should not use lazy loading due to issues encountered during E2E tests.
+ * Load the StrapiAutoSuggestInput using lazy loading to avoid
+ * including unnecessary data in the bundle.
+ *
  */
 const StrapiAutoSuggestInput = lazy(() => import("./StrapiAutoSuggestInput"));
-const StrapiInput = lazy(() => import("../components/StrapiInput"));
-const StrapiDateInput = lazy(() => import("../components/StrapiDateInput"));
-const StrapiTimeInput = lazy(() => import("../components/StrapiTimeInput"));
-const StrapiFileInput = lazy(() => import("../components/StrapiFileInput"));
-const StrapiCheckbox = lazy(() => import("../components/StrapiCheckbox"));
-const StrapiDropdown = lazy(() => import("../components/StrapiDropdown"));
-const StrapiTextarea = lazy(() => import("../components/StrapiTextarea"));
-const StrapiTileGroup = lazy(() => import("../components/StrapiTileGroup"));
 
 const FormComponent = ({
   component,

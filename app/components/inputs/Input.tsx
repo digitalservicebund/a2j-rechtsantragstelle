@@ -1,10 +1,8 @@
 import classNames from "classnames";
 import React from "react";
 import { useField } from "remix-validated-form";
-import { type DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from ".";
-import DataListInput from "./DataListInput";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 
@@ -20,8 +18,7 @@ export type InputProps = Readonly<{
   helperText?: string;
   width?: "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54";
   formId?: string;
-}> &
-  Partial<DataListType>;
+}>;
 
 const widthClass = (width: string) => {
   return {
@@ -50,7 +47,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       helperText,
       width,
       formId,
-      dataList,
     },
     ref,
   ) {
@@ -83,9 +79,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               " ",
             )}
             aria-errormessage={error && errorId}
-            list={dataList && `data-list-${name}`}
           />
-          {dataList && <DataListInput inputName={name} dataList={dataList} />}
           {suffix && (
             <div className="ds-input-suffix" aria-hidden="true">
               {suffix}
