@@ -202,8 +202,11 @@ const AutoSuggestInput = ({
           focusOnInput(actionMeta.action, inputId);
         }}
         onBlur={() => {
-          validate();
-          setOptionWasSelected(false);
+          // call the validation only if an option was selected
+          if (optionWasSelected) {
+            validate();
+            setOptionWasSelected(false);
+          }
         }}
         noOptionsMessage={({ inputValue }) =>
           inputValue.length > 2 ? noSuggestionMessage : null
