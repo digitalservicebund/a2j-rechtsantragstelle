@@ -1,6 +1,6 @@
 import { createMachine } from "xstate";
-import type { FlowId } from "~/models/flows/flowIds";
-import { flows } from "~/models/flows/flows.server";
+import type { FlowId } from "~/flows/flowIds";
+import { flows } from "~/flows/flows.server";
 import { type FlowStateMachine } from "./buildFlowController";
 
 export function progressLookupForMachine(machine: FlowStateMachine) {

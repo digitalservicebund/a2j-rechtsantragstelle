@@ -1,6 +1,6 @@
 import AddButton from "@digitalservicebund/icons/Add";
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
-import type { ArrayData } from "~/models/flows/contexts";
+import type { ArrayData } from "~/flows/contexts";
 import type { ArrayConfig } from "~/services/array";
 import type { Translations } from "~/services/cms/index.server";
 import { getTranslationByKey } from "~/util/getTranslationByKey";

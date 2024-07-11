@@ -1,8 +1,8 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
-import { parsePathname } from "~/models/flows/flowIds";
-import { flows } from "~/models/flows/flows.server";
+import { parsePathname } from "~/flows/flowIds";
+import { flows } from "~/flows/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
 import {

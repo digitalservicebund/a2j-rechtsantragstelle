@@ -1,5 +1,5 @@
-import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
-import type { Unterhaltszahlung } from "~/models/flows/beratungshilfeFormular/finanzielleAngaben/context";
+import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { Unterhaltszahlung } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
 import { arrayIsNonEmpty } from "~/util/array";
 
 type FamilienverhaeltnisUnterhaltPdfField =

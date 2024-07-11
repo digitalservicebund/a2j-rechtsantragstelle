@@ -1,4 +1,4 @@
-import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import { type BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import { fillEinkommen } from "~/services/pdf/beratungshilfe/sections/C_einkommen";
 
