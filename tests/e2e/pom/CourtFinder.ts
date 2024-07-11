@@ -48,10 +48,7 @@ export class CourtFinder {
   }
 
   async clickBackButton() {
-    const backButtonSettings =
-      await this.page.waitForSelector("[id='backLink']");
-
-    await backButtonSettings.click();
+    await this.page.getByText("Zurück").click();
   }
 
   async fillSearchField(value: string) {
