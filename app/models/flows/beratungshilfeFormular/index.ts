@@ -54,6 +54,7 @@ export const beratungshilfeFormular = {
   config: _.merge(beratungshilfeFormularFlow, {
     meta: { arrays: finanzielleAngabenArrayConfig },
     states: {
+      start: { meta: { done: () => true } },
       grundvoraussetzungen: _.merge(beratungshilfeGrundvoraussetzungenFlow, {
         meta: { done: grundvoraussetzungDone },
       }),
