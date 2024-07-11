@@ -1,14 +1,14 @@
 import { lazy } from "react";
 import { keyFromElement } from "~/services/cms/keyFromElement";
-import StrapiCheckbox from "./StrapiCheckbox";
-import StrapiDateInput from "./StrapiDateInput";
-import StrapiDropdown from "./StrapiDropdown";
-import StrapiFileInput from "./StrapiFileInput";
-import StrapiInput from "./StrapiInput";
-import StrapiSelect from "./StrapiSelect";
-import StrapiTextarea from "./StrapiTextarea";
-import StrapiTileGroup from "./StrapiTileGroup";
-import StrapiTimeInput from "./StrapiTimeInput";
+import { StrapiCheckbox } from "./StrapiCheckbox";
+import { StrapiDateInput } from "./StrapiDateInput";
+import { StrapiDropdown } from "./StrapiDropdown";
+import { StrapiFileInput } from "./StrapiFileInput";
+import { StrapiInput } from "./StrapiInput";
+import { StrapiSelect } from "./StrapiSelect";
+import { StrapiTextarea } from "./StrapiTextarea";
+import { StrapiTileGroup } from "./StrapiTileGroup";
+import { StrapiTimeInput } from "./StrapiTimeInput";
 import type { StrapiFormComponent } from "../models/StrapiFormComponent";
 
 /**

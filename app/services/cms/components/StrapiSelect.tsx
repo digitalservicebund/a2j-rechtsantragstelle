@@ -30,7 +30,7 @@ export const isStrapiSelectComponent = (
 ): strapiContent is z.infer<typeof StrapiSelectComponentSchema> =>
   strapiContent.__component === "form-elements.select";
 
-const StrapiSelect = ({ errors, ...props }: StrapiSelect) => {
+export const StrapiSelect = ({ errors, ...props }: StrapiSelect) => {
   return (
     <RadioGroup
       errorMessages={flattenStrapiErrors(errors)}
@@ -38,5 +38,3 @@ const StrapiSelect = ({ errors, ...props }: StrapiSelect) => {
     />
   );
 };
-
-export default StrapiSelect;

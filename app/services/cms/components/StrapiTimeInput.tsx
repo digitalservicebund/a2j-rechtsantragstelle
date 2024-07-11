@@ -22,8 +22,6 @@ export const StrapiTimeInputComponentSchema = StrapiTimeInputSchema.extend({
 
 type StrapiTimeInput = z.infer<typeof StrapiTimeInputSchema>;
 
-const StrapiTimeInput = ({ errors, ...props }: StrapiTimeInput) => (
+export const StrapiTimeInput = ({ errors, ...props }: StrapiTimeInput) => (
   <TimeInput errorMessages={flattenStrapiErrors(errors)} {...omitNull(props)} />
 );
-
-export default StrapiTimeInput;

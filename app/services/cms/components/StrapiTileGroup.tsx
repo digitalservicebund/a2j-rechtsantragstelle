@@ -32,7 +32,11 @@ export const StrapiTileGroupComponentSchema = StrapiTileGroupSchema.extend({
   __component: z.literal("form-elements.tile-group"),
 });
 
-const StrapiTileGroup = ({ errors, options, ...props }: StrapiTileGroup) => {
+export const StrapiTileGroup = ({
+  errors,
+  options,
+  ...props
+}: StrapiTileGroup) => {
   const errorMessages = errors.data?.flatMap(
     (cmsError) => cmsError.attributes.errorCodes,
   );
@@ -49,5 +53,3 @@ const StrapiTileGroup = ({ errors, options, ...props }: StrapiTileGroup) => {
     />
   );
 };
-
-export default StrapiTileGroup;

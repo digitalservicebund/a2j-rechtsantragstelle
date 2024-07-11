@@ -12,6 +12,4 @@ export const StrapiFileInputComponentSchema = StrapiFileInputSchema.extend({
   __component: z.literal("form-elements.file-input"),
 });
 
-const StrapiFileInput = () => null;
-
-export default StrapiFileInput;
+export const StrapiFileInput = () => null;

@@ -22,7 +22,7 @@ export const StrapiCheckboxComponentSchema = StrapiCheckboxSchema.extend({
   __component: z.literal("form-elements.checkbox"),
 });
 
-const StrapiCheckbox = ({
+export const StrapiCheckbox = ({
   isRequiredError,
   ...props
 }: z.infer<typeof StrapiCheckboxSchema>) => (
@@ -32,5 +32,3 @@ const StrapiCheckbox = ({
     {...props}
   />
 );
-
-export default StrapiCheckbox;
