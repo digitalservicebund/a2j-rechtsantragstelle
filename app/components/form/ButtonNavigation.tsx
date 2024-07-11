@@ -20,6 +20,7 @@ export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
           look="tertiary"
           size="large"
           className="w-fit"
+          id="backLink"
         >
           {back.label}
         </Button>

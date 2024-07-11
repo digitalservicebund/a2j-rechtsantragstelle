@@ -48,9 +48,8 @@ export class CourtFinder {
   }
 
   async clickBackButton() {
-    const backButtonSettings = await this.page.waitForSelector(
-      "[data-testid='custom-button']",
-    );
+    const backButtonSettings =
+      await this.page.waitForSelector("[id='backLink']");
 
     await backButtonSettings.click();
   }
