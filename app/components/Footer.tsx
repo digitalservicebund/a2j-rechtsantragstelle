@@ -60,7 +60,8 @@ export default function Footer({
   return (
     <Container paddingTop="48" paddingBottom="0">
       <div
-        className="text-base flex flex-wrap items-start justify-between gap-y-32 mb-32"
+        // TODO: design specifies ds-label-03-reg
+        className="ds-label-02-reg flex flex-wrap items-start justify-between gap-y-32 mb-32"
         data-testid="footer"
       >
         <div className="flex flex-col flex-col-reverse sm:flex-row gap-y-8 gap-x-16">
@@ -91,7 +92,7 @@ export default function Footer({
         <Background backgroundColor="blue" paddingTop="16" paddingBottom="16">
           <div className="text-center">
             <a
-              className="text-base text-link"
+              className="ds-label-02-reg text-link"
               href="/persoenliche-daten-loeschen"
             >
               {deletionLabel ?? "Persönliche Daten löschen"}

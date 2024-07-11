@@ -17,7 +17,7 @@ export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
   return (
     validBreadcrumbs.length > 0 && (
       <nav
-        className="py-8 px-16 bg-blue-100 flex flex-wrap items-center text-base"
+        className="py-8 px-16 bg-blue-100 flex flex-wrap items-center"
         aria-label="Breadcrumbs"
       >
         {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
