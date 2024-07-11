@@ -1,4 +1,4 @@
-import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import { type BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { createAttachment, newPageHint } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import {

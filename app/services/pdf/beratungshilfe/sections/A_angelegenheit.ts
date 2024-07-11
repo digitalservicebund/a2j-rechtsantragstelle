@@ -1,5 +1,5 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { newPageHint, type AttachmentEntries } from "../../attachment";
 
 const FIELD_A_RECHTSPROBLEMS_TITLE = "Feld A Rechtsproblems";

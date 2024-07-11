@@ -1,6 +1,6 @@
-import { getContext } from "~/models/flows/contexts";
-import type { FlowId } from "~/models/flows/flowIds";
-import { type Flow } from "~/models/flows/flows.server";
+import { getContext } from "~/flows/contexts";
+import type { FlowId } from "~/flows/flowIds";
+import { type Flow } from "~/flows/flows.server";
 import { type CookieHeader, getSessionData } from ".";
 
 const migrationKey = "daten-uebernahme";

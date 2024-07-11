@@ -4,7 +4,7 @@ import { renderToBuffer } from "@react-pdf/renderer";
 import { PDFDocument } from "pdf-lib";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { logError } from "~/services/logging";
 import { addDruckvermerk } from "./druckvermerk";
 import { fillAngelegenheit } from "./sections/A_angelegenheit";

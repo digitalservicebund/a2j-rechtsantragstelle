@@ -1,5 +1,5 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { type BeratungshilfeFormularContext } from "~/models/flows/beratungshilfeFormular";
+import { type BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { createAttachment } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import {

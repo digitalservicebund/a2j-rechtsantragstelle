@@ -1,5 +1,4 @@
 import { z } from "zod";
-import UploadZone from "~/components/inputs/UploadZone";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
 const StrapiFileInputSchema = z
@@ -13,6 +12,4 @@ export const StrapiFileInputComponentSchema = StrapiFileInputSchema.extend({
   __component: z.literal("form-elements.file-input"),
 });
 
-export const StrapiFileInput = ({
-  ...props
-}: z.infer<typeof StrapiFileInputSchema>) => <UploadZone {...props} />;
+export const StrapiFileInput = () => null;

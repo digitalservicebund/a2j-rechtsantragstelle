@@ -74,7 +74,10 @@ describe("Button Component", () => {
       </Button>,
     );
 
-    expect(screen.getByRole("button")).toHaveAttribute("download", "file.pdf");
+    expect(screen.getByTestId("custom-button")).toHaveAttribute(
+      "download",
+      "file.pdf",
+    );
     expect(screen.getByText("Download").closest("a")).not.toHaveAttribute(
       "target",
       "_blank",
@@ -99,5 +102,19 @@ describe("Button Component", () => {
       "rel",
       "noopener noreferrer",
     );
+  });
+
+  test("renders button with data-testid as custom-button", () => {
+    render(<Button href="mockHref">Download</Button>);
+    expect(screen.getByTestId("custom-button")).toBeInTheDocument();
+  });
+
+  test("renders button with data-testid from props", () => {
+    render(
+      <Button data-testid="anyTestId" href="mockHref">
+        Download
+      </Button>,
+    );
+    expect(screen.getByTestId("anyTestId")).toBeInTheDocument();
   });
 });

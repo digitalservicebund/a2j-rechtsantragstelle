@@ -59,8 +59,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const helperId = `${name}-helper`;
 
     return (
-      // TODO: This is a one-time hack for /geld-einklagen/formular/forderung/gegenseite. We should move to input groups asap
-      <div className={`${name == "forderung.forderung1.title" ? "pb-40" : ""}`}>
+      <div>
         {label && <InputLabel id={name}>{label}</InputLabel>}
         <div className="ds-input-group">
           {prefix && <div className="ds-input-prefix">{prefix}</div>}

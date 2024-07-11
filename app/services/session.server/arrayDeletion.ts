@@ -1,5 +1,5 @@
 import type { Session } from "@remix-run/node";
-import type { Context, ObjectType } from "~/models/flows/contexts";
+import type { Context, ObjectType } from "~/flows/contexts";
 
 export function arrayIndexFromFormData(
   relevantFormData: Record<string, FormDataEntryValue>,
