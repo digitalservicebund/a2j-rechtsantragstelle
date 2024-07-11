@@ -50,6 +50,10 @@ describe("isValidArrayIndex()", () => {
     expect(isValidArrayIndex([])).toBeFalsy();
   });
 
+  it("return false for undefined pagedata", () => {
+    expect(isValidArrayIndex([], undefined)).toBeFalsy();
+  });
+
   it("return false for empty arrayIndexes", () => {
     expect(isValidArrayIndex([], { arrayIndexes: [] })).toBeFalsy();
   });
