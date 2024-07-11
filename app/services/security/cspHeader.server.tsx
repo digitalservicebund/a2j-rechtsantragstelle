@@ -27,6 +27,7 @@ export const cspHeader = (args?: { nonce?: string; environment?: string }) => {
     "style-src": ["'self'", "'unsafe-inline'"],
     "connect-src": [
       "'self'",
+      // TODO: remove us domain once our data residency is moved
       "https://*.ingest.sentry.io",
       "https://*.ingest.us.sentry.io",
       "https://*.posthog.com",
