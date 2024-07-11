@@ -153,13 +153,8 @@ export function ResultPage({
 
       {documentsList.length > 0 && (
         <div>
-          {documentsList.map((element, idx) => (
-            <div key={keyFromElement(element)}>
-              <PageContent content={[element]} />
-              {idx != 0 && idx != documentsList.length - 1 && (
-                <hr className="my-24" />
-              )}
-            </div>
+          {documentsList.map((element) => (
+            <PageContent key={keyFromElement(element)} content={[element]} />
           ))}
         </div>
       )}
