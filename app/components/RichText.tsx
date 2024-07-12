@@ -24,10 +24,6 @@ const defaultRenderer: Partial<Renderer> = {
       "ds-label-01-bold";
     return `<h${depth} class="${cssClass}">${text}</h${depth}>`;
   },
-  paragraph({ tokens }) {
-    //TODO: design specifies ds-body-01-reg, which would descrease font-size to 16px
-    return `<p class="text-lg">${this.parser?.parseInline(tokens)}</p>`;
-  },
 } as const;
 
 const RichText = ({
