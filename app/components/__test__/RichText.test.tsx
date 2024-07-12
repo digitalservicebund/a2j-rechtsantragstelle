@@ -17,14 +17,6 @@ describe("RichText component", () => {
     expect(linkElem).toHaveAttribute("target", "_blank");
   });
 
-  it("should handle ext: links for now", () => {
-    const markdown = "[Link](ext:https://test.com)";
-    render(<RichText markdown={markdown} />);
-    const linkElem = screen.getByText("Link");
-    expect(linkElem).toHaveAttribute("href", "https://test.com");
-    expect(linkElem).toHaveAttribute("target", "_blank");
-  });
-
   it("renders markdown style correctly", () => {
     const markdown = "# Heading\n\n**Bold** and *italic*";
     const { getByText } = render(<RichText markdown={markdown} />);

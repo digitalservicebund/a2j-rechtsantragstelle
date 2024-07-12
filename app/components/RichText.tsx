@@ -12,10 +12,7 @@ export type RichTextProps = z.infer<typeof RichTextPropsSchema>;
 
 const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {
-    const cssClass = "text-link";
-    const hrefClean = href.replace("ext:", "");
-    const isExternalLink = isExternalUrl(hrefClean);
-    return `<a href="${hrefClean}" class="${cssClass}" ${isExternalLink ? 'target="_blank" rel="noopener noreferrer"' : ""}>${text}</a>`;
+    return `<a href="${href}" class="text-link" ${isExternalUrl(href) ? 'target="_blank" rel="noopener noreferrer"' : ""}>${text}</a>`;
   },
   heading({ depth, text }) {
     const cssClass =
