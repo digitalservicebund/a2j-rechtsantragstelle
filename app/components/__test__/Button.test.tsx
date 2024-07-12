@@ -67,34 +67,11 @@ describe("Button Component", () => {
     expect(container.querySelector(".icon-right")).toBeInTheDocument();
   });
 
-  test("renders button with downloadFile prop", () => {
-    render(
-      <Button href="mockHref" downloadFile="file.pdf">
-        Download
-      </Button>,
-    );
-
-    expect(screen.getByTestId("custom-button")).toHaveAttribute(
-      "download",
-      "file.pdf",
-    );
-    expect(screen.getByText("Download").closest("a")).not.toHaveAttribute(
-      "target",
-      "_blank",
-    );
-    expect(screen.getByText("Download").closest("a")).not.toHaveAttribute(
-      "rel",
-      "noopener noreferrer",
-    );
-  });
-
   test("Full URL renders link with blank target", () => {
     render(<Button href="https://www.test.com">Download</Button>);
-    expect(screen.getByText("Download").closest("a")).toHaveAttribute(
-      "target",
-      "_blank",
-    );
-    expect(screen.getByText("Download").closest("a")).toHaveAttribute(
+    const buttonElem = screen.getByText("Download");
+    expect(buttonElem.closest("a")).toHaveAttribute("target", "_blank");
+    expect(buttonElem.closest("a")).toHaveAttribute(
       "rel",
       "noopener noreferrer",
     );
