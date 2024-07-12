@@ -26,7 +26,6 @@ export const Example: Story = {
     links: [
       {
         url: "https://digitalservice.bund.de",
-        openInNewTab: true,
         text: "DigitalService",
       },
       { url: "/url1", text: "Lorem ipsum 1" },

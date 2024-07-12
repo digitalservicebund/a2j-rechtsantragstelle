@@ -11,11 +11,11 @@ describe("RichText component", () => {
   });
 
   it("should render external link", () => {
-    const markdown = "[Link](ext:/link)";
+    const markdown = "[Link](https://test.com)";
     render(<RichText markdown={markdown} />);
-    expect(screen.getByText("Link")).toBeInTheDocument();
-    expect(screen.getByText("Link")).toHaveAttribute("href", "/link");
-    expect(screen.getByText("Link")).toHaveAttribute("target", "_blank");
+    const linkElem = screen.getByText("Link");
+    expect(linkElem).toHaveAttribute("target", "_blank");
+    expect(linkElem).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   it("renders markdown style correctly", () => {
