@@ -109,6 +109,7 @@ const AutoSuggestInput = ({
   const errorId = `${name}-error`;
   const hasError = typeof error !== "undefined" && error.length > 0;
   const inputId = `input-${name}`;
+  const datalistId = `datalist-${name}`;
   const buttonExclusionRef = useRef<HTMLButtonElement>(null);
 
   const currentItemValue = getDescriptionByValue(
@@ -125,68 +126,70 @@ const AutoSuggestInput = ({
     keyDownOnInput(inputId, buttonExclusionRef);
   });
 
-  // In case user does not have Javascript, it should render the Input as suggestion input
-  if (!jsAvailable) {
-    return (
-      <Input
-        name={name}
-        label={label}
-        placeholder={placeholder}
-        formId={formId}
-        width={width}
-        errorMessages={errorMessages}
-      />
-    );
-  }
-
   return (
     <div>
       {label && <InputLabel id={inputId}>{label}</InputLabel>}
-      <Select
-        className={classNames(
-          "w-full",
-          { "has-error": error },
-          width && widthClass(width),
-        )}
-        isSearchable
-        isClearable
-        options={items}
-        aria-invalid={error !== undefined}
-        aria-describedby={error && errorId}
-        aria-errormessage={error && errorId}
-        id={name}
-        name={name}
-        inputId={inputId}
-        filterOption={filterOption}
-        defaultValue={currentItemValue}
-        placeholder={placeholder ?? ""}
-        instanceId={name}
-        formatOptionLabel={FormatOptionLabel}
-        onChange={(_newValue, actionMeta) => {
-          validate();
-          // remix remove the focus on the input when clicks with the keyboard to clear the value, so we need to force the focus again
-          setOptionWasSelected(actionMeta.action === "select-option");
-          focusOnInput(actionMeta.action, inputId);
-        }}
-        onBlur={() => {
-          validate();
-          setOptionWasSelected(false);
-        }}
-        noOptionsMessage={({ inputValue }) =>
-          inputValue.length > 2 ? noSuggestionMessage : null
-        }
-        components={{
-          Control: (props) => CustomControl(props, error),
-          IndicatorSeparator: () => null,
-          DropdownIndicator: () => null,
-          ClearIndicator: (props) =>
-            CustomClearIndicator(props, buttonExclusionRef),
-          Input: CustomInput,
-          ValueContainer: (props) =>
-            CustomValueContainer(props, optionWasSelected),
-        }}
-        styles={customStyles(hasError)}
-      />
+      {jsAvailable ? (
+        <Select
+          className={classNames(
+            "w-full",
+            { "has-error": error },
+            width && widthClass(width),
+          )}
+          isSearchable
+          isClearable
+          options={items}
+          aria-invalid={error !== undefined}
+          aria-describedby={error && errorId}
+          aria-errormessage={error && errorId}
+          id={name}
+          name={name}
+          inputId={inputId}
+          filterOption={filterOption}
+          defaultValue={currentItemValue}
+          placeholder={placeholder ?? ""}
+          instanceId={name}
+          formatOptionLabel={FormatOptionLabel}
+          onChange={(_newValue, actionMeta) => {
+            validate();
+            // remix removes focus on the input when clicks with the keyboard to clear the value, so we need to force the focus again
+            setOptionWasSelected(actionMeta.action === "select-option");
+            focusOnInput(actionMeta.action, inputId);
+          }}
+          onBlur={() => {
+            validate();
+            setOptionWasSelected(false);
+          }}
+          noOptionsMessage={({ inputValue }) =>
+            inputValue.length > 2 ? noSuggestionMessage : null
+          }
+          components={{
+            Control: (props) => CustomControl(props, error),
+            IndicatorSeparator: () => null,
+            DropdownIndicator: () => null,
+            ClearIndicator: (props) =>
+              CustomClearIndicator(props, buttonExclusionRef),
+            Input: CustomInput,
+            ValueContainer: (props) =>
+              CustomValueContainer(props, optionWasSelected),
+          }}
+          styles={customStyles(hasError)}
+        />
+      ) : (
+        <>
+          <Input name={name} list={datalistId} />
+          <datalist
+            id={datalistId}
+            aria-invalid={error !== undefined}
+            aria-describedby={error && errorId}
+            aria-errormessage={error && errorId}
+          >
+            {items.map(({ value, label }) => (
+              <option key={value} value={value} label={label} />
+            ))}
+          </datalist>
+        </>
+      )}
 
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === error)?.text ?? error}

@@ -13,6 +13,7 @@ export type InputProps = Readonly<{
   step?: string | number;
   placeholder?: string;
   prefix?: string;
+  list?: string;
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
   helperText?: string;
@@ -47,6 +48,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       helperText,
       width,
       formId,
+      list,
     },
     ref,
   ) {
@@ -79,6 +81,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               " ",
             )}
             aria-errormessage={error && errorId}
+            list={list}
           />
           {suffix && (
             <div className="ds-input-suffix" aria-hidden="true">
