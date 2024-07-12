@@ -191,4 +191,4 @@ jobs:
     needs: [deploy-production]
     runs-on: ubuntu-latest
     steps:
-      - run: curl -s "https://service.justiz.de" | grep -q "Justiz-Services"
+      - run: curl -s -v "https://service.justiz.de" | grep -q "Justiz-Services"
