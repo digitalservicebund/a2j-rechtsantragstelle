@@ -1,5 +1,5 @@
-import { lazy } from "react";
 import { keyFromElement } from "~/services/cms/keyFromElement";
+import StrapiAutoSuggestInput from "./StrapiAutoSuggestInput";
 import { StrapiCheckbox } from "./StrapiCheckbox";
 import { StrapiDateInput } from "./StrapiDateInput";
 import { StrapiDropdown } from "./StrapiDropdown";
@@ -10,13 +10,6 @@ import { StrapiTextarea } from "./StrapiTextarea";
 import { StrapiTileGroup } from "./StrapiTileGroup";
 import { StrapiTimeInput } from "./StrapiTimeInput";
 import type { StrapiFormComponent } from "../models/StrapiFormComponent";
-
-/**
- * Load the StrapiAutoSuggestInput using lazy loading to avoid
- * including unnecessary data in the bundle.
- *
- */
-const StrapiAutoSuggestInput = lazy(() => import("./StrapiAutoSuggestInput"));
 
 const FormComponent = ({
   component,
