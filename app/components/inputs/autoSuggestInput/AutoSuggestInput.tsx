@@ -133,7 +133,6 @@ const AutoSuggestInput = ({
         label={label}
         placeholder={placeholder}
         formId={formId}
-        dataList={dataList}
         width={width}
         errorMessages={errorMessages}
       />
