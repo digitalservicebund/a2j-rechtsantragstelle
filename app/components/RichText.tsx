@@ -1,6 +1,7 @@
 import { type Renderer, Marked } from "marked";
 import sanitizeHtml from "sanitize-html";
 import { z } from "zod";
+import { isExternalUrl } from "~/util/isExternalUrl";
 
 export const RichTextPropsSchema = z.object({
   markdown: z.string(),
@@ -12,13 +13,9 @@ export type RichTextProps = z.infer<typeof RichTextPropsSchema>;
 const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {
     const cssClass = "text-link";
-    // TODO: remove ext: from content, then remove this here
-    const isExternalLink = href.includes("ext:") || href.startsWith("https");
-    if (isExternalLink) {
-      const newHref = href.replace("ext:", "");
-      return `<a href="${newHref}" class="${cssClass}" target="_blank" rel="noopener">${text}</a>`;
-    }
-    return `<a href="${href}" class="${cssClass}">${text}</a>`;
+    const hrefClean = href.replace("ext:", "");
+    const isExternalLink = isExternalUrl(hrefClean);
+    return `<a href="${hrefClean}" class="${cssClass}" ${isExternalLink ? 'target="_blank" rel="noopener noreferrer"' : ""}>${text}</a>`;
   },
   heading({ depth, text }) {
     const cssClass =

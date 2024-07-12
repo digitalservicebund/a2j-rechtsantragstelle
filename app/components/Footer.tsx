@@ -3,11 +3,11 @@ import Background from "./Background";
 import Container from "./Container";
 import Image, { type ImageProps } from "./Image";
 import RichText, { type RichTextProps } from "./RichText";
+import { isExternalUrl } from "~/util/isExternalUrl";
 
 type LinkProps = {
   url: string;
   text?: string;
-  openInNewTab?: boolean;
 };
 
 export type FooterProps = Readonly<{
@@ -30,7 +30,7 @@ export default function Footer({
   const linksSecondColumn: typeof links = links.slice(linksMiddleIndex);
 
   const renderLink = (link: LinkProps) => {
-    const opts = link.url.startsWith("https")
+    const opts = isExternalUrl(link.url)
       ? { target: "_blank", rel: "noreferer" }
       : {};
 

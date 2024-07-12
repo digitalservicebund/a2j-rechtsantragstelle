@@ -88,12 +88,8 @@ describe("Button Component", () => {
     );
   });
 
-  test("renders button with openInNewTab prop", () => {
-    render(
-      <Button href="mockHref" openInNewTab>
-        Download
-      </Button>,
-    );
+  test("Full URL renders link with blank target", () => {
+    render(<Button href="https://www.test.com">Download</Button>);
     expect(screen.getByText("Download").closest("a")).toHaveAttribute(
       "target",
       "_blank",
