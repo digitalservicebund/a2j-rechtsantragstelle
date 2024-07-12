@@ -1,9 +1,8 @@
-import type { Renderer } from "marked";
+import { isExternalUrl } from "~/util/isExternalUrl";
 import Background from "./Background";
 import Container from "./Container";
 import Image, { type ImageProps } from "./Image";
 import RichText, { type RichTextProps } from "./RichText";
-import { isExternalUrl } from "~/util/isExternalUrl";
 
 type LinkProps = {
   url: string;
@@ -18,6 +17,25 @@ export type FooterProps = Readonly<{
   showDeletionBanner?: boolean;
 }>;
 
+const renderLink = (link: LinkProps) => {
+  const opts = isExternalUrl(link.url)
+    ? { target: "_blank", rel: "noreferer" }
+    : {};
+
+  return (
+    <li key={link.url} className="leading-snug">
+      <a href={link.url} className="text-link" {...opts}>
+        {link.text}
+      </a>
+    </li>
+  );
+};
+const renderLinks = (links: LinkProps[]) => (
+  <ul className="list-none m-0 p-0 ds-stack-8" key={links[0]?.url}>
+    {links.map(renderLink)}
+  </ul>
+);
+
 export default function Footer({
   image,
   paragraphs = [],
@@ -29,39 +47,10 @@ export default function Footer({
   const linksFirstColumn: typeof links = links.slice(0, linksMiddleIndex);
   const linksSecondColumn: typeof links = links.slice(linksMiddleIndex);
 
-  const renderLink = (link: LinkProps) => {
-    const opts = isExternalUrl(link.url)
-      ? { target: "_blank", rel: "noreferer" }
-      : {};
-
-    return (
-      <li key={link.url} className="leading-snug">
-        <a href={link.url} className="text-link increase-tap-area" {...opts}>
-          {link.text}
-        </a>
-      </li>
-    );
-  };
-  const renderLinks = (links: LinkProps[]) => (
-    <ul className="list-none m-0 p-0 ds-stack-8" key={links[0]?.url}>
-      {links.map(renderLink)}
-    </ul>
-  );
-
-  const paragraphRenderer: Partial<Renderer> = {
-    link({ href, text }) {
-      return `<a class="text-link increase-tap-area whitespace-nowrap" href=${href} target="_blank" rel="noopener">${text}</a>`;
-    },
-    paragraph({ tokens }) {
-      return `<p class="leading-snug">${this.parser?.parseInline(tokens)}</p>`;
-    },
-  };
-
   return (
     <Container paddingTop="48" paddingBottom="0">
       <div
-        // TODO: design specifies ds-label-03-reg
-        className="ds-label-02-reg flex flex-wrap items-start justify-between gap-y-32 mb-32"
+        className="ds-label-03-reg flex flex-wrap items-start justify-between gap-y-32 mb-32"
         data-testid="footer"
       >
         <div className="flex flex-col flex-col-reverse sm:flex-row gap-y-8 gap-x-16">
@@ -77,7 +66,7 @@ export default function Footer({
           <div className="ds-stack-8">
             {paragraphs.map((paragraph) => (
               <div key={paragraph.markdown}>
-                <RichText {...paragraph} renderer={paragraphRenderer} />
+                <RichText {...paragraph} />
               </div>
             ))}
           </div>
@@ -90,11 +79,8 @@ export default function Footer({
       </div>
       {showDeletionBanner && (
         <Background backgroundColor="blue" paddingTop="16" paddingBottom="16">
-          <div className="text-center">
-            <a
-              className="ds-label-02-reg text-link"
-              href="/persoenliche-daten-loeschen"
-            >
+          <div className="ds-label-03-reg text-center">
+            <a className="text-link" href="/persoenliche-daten-loeschen">
               {deletionLabel ?? "Persönliche Daten löschen"}
             </a>
           </div>

@@ -16,9 +16,10 @@ export default function Header({ heading, content }: HeaderProps) {
     <div className="ds-stack-16">
       <Heading {...heading} />
       {content && (
-        <div className="ds-heading-03-reg">
-          <RichText {...content} />
-        </div>
+        <RichText
+          className={`ds-heading-03-reg ${content.className ?? ""}`}
+          markdown={content.markdown}
+        />
       )}
     </div>
   );
