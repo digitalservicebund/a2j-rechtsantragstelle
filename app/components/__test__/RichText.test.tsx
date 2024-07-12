@@ -15,6 +15,7 @@ describe("RichText component", () => {
     render(<RichText markdown={markdown} />);
     const linkElem = screen.getByText("Link");
     expect(linkElem).toHaveAttribute("target", "_blank");
+    expect(linkElem).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   it("renders markdown style correctly", () => {

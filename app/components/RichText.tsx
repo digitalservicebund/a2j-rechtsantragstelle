@@ -10,6 +10,10 @@ export const RichTextPropsSchema = z.object({
 
 export type RichTextProps = z.infer<typeof RichTextPropsSchema>;
 
+const allowedAttributes = {
+  a: sanitizeHtml.defaults.allowedAttributes["a"].concat(["rel"]),
+};
+
 const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {
     return `<a href="${href}" class="text-link" ${isExternalUrl(href) ? 'target="_blank" rel="noopener noreferrer"' : ""}>${text}</a>`;
@@ -54,6 +58,7 @@ const RichText = ({
             a: ["text-link", "increase-tap-area", "whitespace-nowrap"],
             h: ["ds-heading-01-reg", "ds-label-01-bold", "ds-heading-02-reg"],
           },
+          allowedAttributes,
         }),
       }}
     />
