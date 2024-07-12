@@ -11,7 +11,8 @@ import {
   customStyles,
   FormatOptionLabel,
 } from "./customComponents";
-import { DataListOptions, getDataListOptions } from "./getDataListOptions";
+import { DataListOptions } from "./getDataListOptions";
+import useListOptions from "./useListOptions";
 import { type ErrorMessageProps } from "..";
 import Input from "../Input";
 import InputError from "../InputError";
@@ -104,18 +105,15 @@ const AutoSuggestInput = ({
   dataList,
   noSuggestionMessage,
 }: AutoSuggestInputProps) => {
-  const items = getDataListOptions(dataList);
+  const items = useListOptions(dataList);
+  const [currentItemValue, setCurrentItemValue] =
+    useState<DataListOptions | null>();
   const { error, getInputProps, validate } = useField(name, { formId });
+  const { defaultValue } = getInputProps();
   const errorId = `${name}-error`;
   const hasError = typeof error !== "undefined" && error.length > 0;
   const inputId = `input-${name}`;
   const buttonExclusionRef = useRef<HTMLButtonElement>(null);
-
-  const currentItemValue = getDescriptionByValue(
-    items,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    getInputProps().defaultValue,
-  );
 
   const [jsAvailable, setJsAvailable] = useState(false);
   const [optionWasSelected, setOptionWasSelected] = useState(false);
@@ -124,6 +122,16 @@ const AutoSuggestInput = ({
   useEffect(() => {
     keyDownOnInput(inputId, buttonExclusionRef);
   });
+
+  useEffect(() => {
+    const value = getDescriptionByValue(
+      items,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      defaultValue,
+    );
+
+    setCurrentItemValue(value);
+  }, [defaultValue, items]);
 
   // In case user does not have Javascript, it should render the Input as suggestion input
   if (!jsAvailable) {
@@ -158,15 +166,16 @@ const AutoSuggestInput = ({
         name={name}
         inputId={inputId}
         filterOption={filterOption}
-        defaultValue={currentItemValue}
+        value={currentItemValue}
         placeholder={placeholder ?? ""}
         instanceId={name}
         formatOptionLabel={FormatOptionLabel}
-        onChange={(_newValue, actionMeta) => {
+        onChange={(newValue, actionMeta) => {
           validate();
           // remix remove the focus on the input when clicks with the keyboard to clear the value, so we need to force the focus again
           setOptionWasSelected(actionMeta.action === "select-option");
           focusOnInput(actionMeta.action, inputId);
+          setCurrentItemValue(newValue);
         }}
         onBlur={() => {
           validate();
