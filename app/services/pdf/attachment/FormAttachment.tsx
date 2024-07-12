@@ -1,11 +1,34 @@
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
 import type { AttachmentEntries } from ".";
+
+Font.register({
+  family: "BundesSans",
+  fonts: [
+    {
+      src: "public/fonts/BundesSansWeb-Bold.woff",
+      fontWeight: "bold",
+      fontStyle: "normal",
+    },
+    {
+      src: "public/fonts/BundesSansWeb-Regular.woff",
+      fontWeight: "normal",
+      fontStyle: "normal",
+    },
+  ],
+});
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
     padding: "48px 72px",
-    fontFamily: "Helvetica",
+    fontFamily: "BundesSans",
     fontSize: 10,
     lineHeight: 1.4,
   },
@@ -66,7 +89,7 @@ const FormAttachment = ({ entries, header }: AttachmentProps) => {
           <Text style={styles.h1}>Anhang</Text>
           {entries.map((entry) => (
             <View key={entry.title} style={styles.section}>
-              <Text style={styles.h4}>{entry.title}</Text>
+              <Text style={styles[entry.level ?? "h4"]}>{entry.title}</Text>
               <Text>{entry.text}</Text>
             </View>
           ))}

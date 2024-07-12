@@ -106,7 +106,8 @@ describe("G_ausgaben", () => {
 
     const ausgabenAttachmentRegex = /Ausgabe\s[1-9]/gs;
 
-    const matches = attachment[1].text.match(ausgabenAttachmentRegex);
+    expect(attachment[1].text).toBeDefined();
+    const matches = attachment[1].text!.match(ausgabenAttachmentRegex);
 
     expect(matches).toEqual([
       "Ausgabe 1",
@@ -159,7 +160,8 @@ describe("G_ausgaben", () => {
 
     const ausgabenAttachmentRegex = /Ausgabe\s[1-9]/gs;
 
-    const matches = attachment[1].text.match(ausgabenAttachmentRegex);
+    expect(attachment[1].text).toBeDefined();
+    const matches = attachment[1].text!.match(ausgabenAttachmentRegex);
 
     expect(matches).toEqual(["Ausgabe 1", "Ausgabe 2"]);
     expect(matches).not.toEqual(["Ausgabe 0", "Ausgabe -1"]);
