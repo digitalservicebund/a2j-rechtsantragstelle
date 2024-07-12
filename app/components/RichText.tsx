@@ -2,6 +2,11 @@ import { type Renderer, Marked } from "marked";
 import sanitizeHtml from "sanitize-html";
 import { z } from "zod";
 import { isExternalUrl } from "~/util/isExternalUrl";
+import {
+  openInNewAllowedAttributes,
+  openInNewAllowedTags,
+  openInNewIconText,
+} from "./openInNewTabIcon";
 
 export const RichTextPropsSchema = z.object({
   markdown: z.string(),
@@ -10,13 +15,17 @@ export const RichTextPropsSchema = z.object({
 
 export type RichTextProps = z.infer<typeof RichTextPropsSchema>;
 
+const allowedTags =
+  sanitizeHtml.defaults.allowedTags.concat(openInNewAllowedTags);
 const allowedAttributes = {
   a: sanitizeHtml.defaults.allowedAttributes["a"].concat(["rel"]),
+  ...openInNewAllowedAttributes,
 };
 
 const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {
-    return `<a href="${href}" class="text-link" ${isExternalUrl(href) ? 'target="_blank" rel="noopener noreferrer"' : ""}>${text}</a>`;
+    const isExternal = isExternalUrl(href);
+    return `<a href="${href}" class="text-link" ${isExternal ? 'target="_blank" rel="noopener noreferrer"' : ""}>${text}${isExternal ? openInNewIconText : ""}</a>`;
   },
   heading({ depth, text }) {
     const cssClass =
@@ -49,6 +58,7 @@ const RichText = ({
       className={`rich-text ds-stack-8 ${className ?? ""}`}
       dangerouslySetInnerHTML={{
         __html: sanitizeHtml(html, {
+          allowedTags,
           allowedClasses: {
             p: ["ds-subhead", "max-w-full"],
             a: ["text-link"],
