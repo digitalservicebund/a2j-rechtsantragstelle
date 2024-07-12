@@ -27,34 +27,24 @@ export default function fillHeader(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const { nachname, vorname } = context;
-  const name = [nachname, vorname].filter((s): s is string => !!s);
-  pdfFields.antragstellerNameVornameggfGeburtsname.value = name.join(", ");
-  pdfFields.geburtsdatumdesAntragstellers.value = context.geburtsdatum ?? "";
-  const maritalDescription = getMaritalDescriptionByContext(context);
-  pdfFields.familienstanddesAntragstellers.value = maritalDescription;
+  pdfFields.antragstellerNameVornameggfGeburtsname.value = `${context.nachname}, ${context.vorname}`;
+  pdfFields.geburtsdatumdesAntragstellers.value = context.geburtsdatum;
+  pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${context.strasseHausnummer}, ${context.plz} ${context.ort}`;
 
-  if (maritalDescription.length > 10) {
-    attachment.push({
-      title: "Familienstand:",
-      text: maritalDescription,
-    });
-  }
-
-  pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${context.strasseHausnummer ?? ""}, ${context.plz ?? ""} ${context.ort ?? ""}`;
-
-  try {
-    const court = findCourt({ zipCode: context.plz ?? "" });
-    if (court && edgeCasesForPlz(context.plz).length == 0) {
-      pdfFields.namedesAmtsgerichts.value = court.ORT;
-      pdfFields.postleitzahlOrt.value = `${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`;
+  if (context.plz) {
+    try {
+      const court = findCourt({ zipCode: context.plz });
+      if (court && edgeCasesForPlz(context.plz).length == 0) {
+        pdfFields.namedesAmtsgerichts.value = court.ORT;
+        pdfFields.postleitzahlOrt.value = `${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`;
+      }
+    } catch (error) {
+      logError({ error });
     }
-  } catch (error) {
-    context.plz !== undefined && logError({ error });
   }
 
   pdfFields.tagsueberTelefonischerreichbarunterNummer.value =
-    context.telefonnummer ?? "";
+    context.telefonnummer;
 
   const { staatlicheLeistungen } = context;
   const occupationDetails =
@@ -64,44 +54,57 @@ export default function fillHeader(
 
   pdfFields.berufErwerbstaetigkeit.value = occupationDetails;
 
+  const maritalDescription =
+    maritalDescriptionMapping[context.partnerschaft ?? ""];
+  pdfFields.familienstanddesAntragstellers.value = maritalDescription;
+
+  if (occupationDetails.length > 30 || maritalDescription.length > 10) {
+    attachment.push({
+      title: "Persönliche Angaben",
+      level: "h2",
+    });
+  }
+
+  if (maritalDescription.length > 10) {
+    attachment.push({
+      title: "Familienstand:",
+      text: maritalDescription,
+    });
+    pdfFields.familienstanddesAntragstellers.value = "Anhang";
+  }
+
   if (occupationDetails.length > 30) {
-    attachment.unshift({
-      title: "Weiteres Einkommen:",
+    attachment.push({
+      title: "Beruf / Erwerbstätigkeit",
+      text: getOccupationDetails(context, false),
+    });
+
+    attachment.push({
+      title: "Weiteres Einkommen",
       text: checkboxListToString(
         weiteresEinkommenMapping,
         context.weitereseinkommen,
       ),
     });
-    attachment.unshift({
-      title: "Beruf / Erwerbstätigkeit:",
-      text: getOccupationDetails(context, false),
-    });
 
-    attachment.unshift({
-      title: "Persönliche Angaben",
-      text: "",
-    });
     pdfFields.berufErwerbstaetigkeit.value = newPageHint;
   }
 }
-
-export const getMaritalDescriptionByContext = ({
-  partnerschaft,
-}: BeratungshilfeFormularContext): string =>
-  partnerschaft ? maritalDescriptionMapping[partnerschaft] : "";
 
 const maritalDescriptionMapping = {
   yes: "verheiratet / in eingetragener Lebenspartnerschaft",
   no: "ledig",
   separated: "getrennt",
   widowed: "verwitwet",
-};
+  "": "",
+} as const;
 
 const staatlicheLeistungMapping = {
   grundsicherung: "Grundsicherung",
   asylbewerberleistungen: "Asylbewerberleistungen",
   buergergeld: "Bürgergeld",
-};
+  "": "",
+} as const;
 
 const getOccupationDetails = (
   context: BeratungshilfeFormularContext,

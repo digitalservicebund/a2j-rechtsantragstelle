@@ -52,18 +52,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     paddingTop: 8,
-    paddingBottom: 8,
+    paddingBottom: 4,
   },
   h4: {
     fontSize: 12,
     fontWeight: "bold",
     paddingTop: 8,
-    paddingBottom: 8,
+    paddingBottom: 0,
+  },
+  h5: {
+    fontSize: 10,
+    fontWeight: "bold",
+    paddingTop: 2,
+    paddingBottom: 0,
   },
   section: {
     flexGrow: 1,
     paddingHorizontal: 0,
-    paddingBottom: 8,
+    paddingBottom: 2,
     paddingTop: 0,
   },
   bold: {
@@ -89,7 +95,7 @@ const FormAttachment = ({ entries, header }: AttachmentProps) => {
           <Text style={styles.h1}>Anhang</Text>
           {entries.map((entry) => (
             <View key={entry.title} style={styles.section}>
-              <Text style={styles[entry.level ?? "h4"]}>{entry.title}</Text>
+              <Text style={styles[entry.level ?? "h5"]}>{entry.title}</Text>
               <Text>{entry.text}</Text>
             </View>
           ))}
