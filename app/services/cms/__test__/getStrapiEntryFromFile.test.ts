@@ -34,7 +34,6 @@ describe("services/cms", () => {
       "cookie-banner": [],
       "amtsgericht-common": [],
       "result-pages": [],
-      "vorab-check-common": [],
       "vorab-check-pages": [],
       "form-flow-pages": [],
       translations: [],

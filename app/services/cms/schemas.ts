@@ -6,13 +6,11 @@ import { StrapiPageSchema } from "./models/StrapiPage";
 import { StrapiPageHeaderSchema } from "./models/StrapiPageHeader";
 import { StrapiResultPageSchema } from "./models/StrapiResultPage";
 import { StrapiTranslationSchema } from "./models/StrapiTranslations";
-import { StrapiVorabCheckCommonSchema } from "./models/StrapiVorabCheckCommon";
 import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
 
 export const entrySchemas = {
   "page-header": StrapiPageHeaderSchema,
   footer: StrapiFooterSchema,
-  "vorab-check-common": StrapiVorabCheckCommonSchema,
   "amtsgericht-common": StrapiAmtsgerichtCommonSchema,
   "cookie-banner": StrapiCookieBannerSchema,
 } as const;
