@@ -1,5 +1,5 @@
 import { FormatOptionLabelMeta } from "react-select";
-import { DataListOptions } from "../getDataListOptions";
+import { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 function splitHighlightWord(
   text: string | undefined,

@@ -3,6 +3,7 @@ import { RefObject, useEffect, useRef, useState } from "react";
 import Select from "react-select";
 import { useField } from "remix-validated-form";
 import { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
+import { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import {
   CustomClearIndicator,
   CustomControl,
@@ -11,8 +12,7 @@ import {
   customStyles,
   FormatOptionLabel,
 } from "./customComponents";
-import { DataListOptions } from "./getDataListOptions";
-import useListOptions from "./useListOptions";
+import useListOptions from "./useDataListOptions";
 import { type ErrorMessageProps } from "..";
 import Input from "../Input";
 import InputError from "../InputError";
