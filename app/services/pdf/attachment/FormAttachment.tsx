@@ -1,22 +1,22 @@
 import { Page, Text, View, Document } from "@react-pdf/renderer";
 import type { AttachmentEntries } from ".";
+import { PdfFooter } from "./PdfFooter";
 import { styles } from "./styles";
 
 export type AttachmentProps = Readonly<{
   entries: AttachmentEntries;
-  header?: string;
+  header: string;
+  footer: string;
 }>;
 
-const FormAttachment = ({ entries, header }: AttachmentProps) => {
+const FormAttachment = ({ entries, header, footer }: AttachmentProps) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <View>
-          {header && (
-            <Text style={styles.pageHeader} fixed>
-              {header}
-            </Text>
-          )}
+          <Text style={styles.pageHeader} fixed>
+            {header}
+          </Text>
           <Text style={styles.h1}>Anhang</Text>
           {entries.map((entry) => (
             <View key={entry.title} style={styles.section} wrap={false}>
@@ -25,6 +25,7 @@ const FormAttachment = ({ entries, header }: AttachmentProps) => {
             </View>
           ))}
         </View>
+        <PdfFooter footer={footer} />
       </Page>
     </Document>
   );

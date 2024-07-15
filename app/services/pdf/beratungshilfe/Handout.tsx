@@ -1,8 +1,9 @@
 import { Page, Text, View, Document } from "@react-pdf/renderer";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import { PdfFooter } from "../attachment/PdfFooter";
 import { styles } from "../attachment/styles";
 
-const Handout = (userdata: BeratungshilfeFormularContext) => {
+const Handout = (userdata: BeratungshilfeFormularContext, footer: string) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -36,6 +37,7 @@ const Handout = (userdata: BeratungshilfeFormularContext) => {
             https://service.justiz.de/beratungshilfe.
           </Text>
         </View>
+        <PdfFooter footer={footer} />
       </Page>
     </Document>
   );

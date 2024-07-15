@@ -50,12 +50,16 @@ export async function getBeratungshilfePdfFromContext(
         FormAttachment({
           entries: attachmentData,
           header: `Anhang: Antrag auf Bewilligung von Beratungshilfe zum Antrag von ${context.vorname} ${context.nachname}`,
+          footer: "Anhang",
         }),
       ),
     );
   }
 
-  await appendAttachment(filledPdf, await pdfFromReact(Handout(context)));
+  await appendAttachment(
+    filledPdf,
+    await pdfFromReact(Handout(context, "Merkblatt")),
+  );
   return filledPdf;
 }
 

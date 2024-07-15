@@ -19,7 +19,7 @@ Font.register({
 export const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
-    padding: "48px 72px",
+    padding: "48px 72px 66px 72px",
     fontFamily: "BundesSans",
     fontSize: 10,
     lineHeight: 1.4,
