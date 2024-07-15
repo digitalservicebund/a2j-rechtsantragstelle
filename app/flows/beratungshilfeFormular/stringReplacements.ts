@@ -78,6 +78,69 @@ export const getStaatlicheLeistungenStrings = (
   };
 };
 
+export const weiteresEinkommenStrings = (
+  context: BeratungshilfeFormularContext,
+) => {
+  const { weitereseinkommen } = context;
+  return {
+    arbeitslosenGeld: weitereseinkommen?.arbeitlosengeld === "on",
+    wohngeld: weitereseinkommen?.wohngeld === "on",
+    bafoeg: weitereseinkommen?.bafoeg === "on",
+    rente: weitereseinkommen?.rente === "on",
+    krankengeld: weitereseinkommen?.krankengeld === "on",
+    elterngeld: weitereseinkommen?.elterngeld === "on",
+  };
+};
+
+export const geldAnlagenStrings = (context: BeratungshilfeFormularContext) => {
+  return {
+    hasLebensversicherung:
+      context.hasGeldanlage === "yes" &&
+      context.geldanlagen?.some(
+        (geldanlage) => geldanlage.befristetArt === "lifeInsurance",
+      ),
+    hasBausparvertrag:
+      context.hasGeldanlage === "yes" &&
+      context.geldanlagen?.some(
+        (geldanlage) => geldanlage.befristetArt === "buildingSavingsContract",
+      ),
+    hasWertpapiere:
+      context.hasGeldanlage === "yes" &&
+      context.geldanlagen?.some(
+        (geldanlage) => geldanlage.art === "wertpapiere",
+      ),
+    hasGutenhabenKrypto:
+      context.hasGeldanlage === "yes" &&
+      context.geldanlagen?.some(
+        (geldanlage) => geldanlage.art === "guthabenkontoKrypto",
+      ),
+    hasGiroTagesSparkonteo:
+      context.hasGeldanlage === "yes" &&
+      context.geldanlagen?.some(
+        (geldanlage) => geldanlage.art === "giroTagesgeldSparkonto",
+      ),
+    hasGrundeigentum: context.hasGrundeigentum === "yes",
+  };
+};
+
+export const ausgabenStrings = (context: BeratungshilfeFormularContext) => {
+  return {
+    hasSchwangerschaft:
+      context.hasAusgaben === "yes" &&
+      context.ausgabensituation?.pregnancy === "on",
+    hasSchwerbehinderung:
+      context.hasAusgaben === "yes" &&
+      context.ausgabensituation?.disability === "on",
+    hasMedicalReasons:
+      context.hasAusgaben === "yes" &&
+      context.ausgabensituation?.medicalReasons === "on",
+    hasWeitereAusgaben:
+      context.hasAusgaben === "yes" &&
+      context.ausgaben &&
+      context.ausgaben.length > 0,
+  };
+};
+
 export const getAnwaltStrings = (context: BeratungshilfeFormularContext) => {
   return { hasNoAnwalt: context.anwaltskanzlei !== "yes" };
 };
