@@ -8,7 +8,7 @@ const spacePerCharacter = 3.7;
 
 export function addDruckvermerk(pdfDoc: PDFDocument, yPositions?: number[]) {
   pdfDoc.getPages().forEach((page, index) => {
-    const yPosition = yPositions ? (yPositions[index] ?? defaultY) : defaultY;
+    const yPosition = yPositions ? yPositions[index] ?? defaultY : defaultY;
 
     page.drawRectangle({
       x: defaultX,
