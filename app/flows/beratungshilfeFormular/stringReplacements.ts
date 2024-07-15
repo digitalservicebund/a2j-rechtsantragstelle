@@ -69,24 +69,17 @@ export const getAmtsgerichtStrings = (
 export const getStaatlicheLeistungenStrings = (
   context: BeratungshilfeFormularContext,
 ) => {
-  const { staatlicheLeistungen } = context;
   return {
-    hasBuergergeld: staatlicheLeistungen === "buergergeld" ? "true" : undefined,
-    hasGrundsicherung:
-      staatlicheLeistungen === "grundsicherung" ? "true" : undefined,
+    hasBuergergeld: context.staatlicheLeistungen === "buergergeld",
+    hasGrundsicherung: context.staatlicheLeistungen === "grundsicherung",
     hasAsylbewerberleistungen:
-      staatlicheLeistungen === "asylbewerberleistungen" ? "true" : undefined,
-    hasNoSozialleistung: staatlicheLeistungen === "keine" ? "true" : undefined,
+      context.staatlicheLeistungen === "asylbewerberleistungen",
+    hasNoSozialleistung: context.staatlicheLeistungen === "keine",
   };
 };
 
 export const getAnwaltStrings = (context: BeratungshilfeFormularContext) => {
-  return {
-    hasNoAnwalt:
-      !("anwaltskanzlei" in context) || context.anwaltskanzlei == "no"
-        ? "true"
-        : undefined,
-  };
+  return { hasNoAnwalt: context.anwaltskanzlei !== "yes" };
 };
 
 export const eigentumZusammenfassungShowWarnings = (
