@@ -94,7 +94,7 @@ const FormAttachment = ({ entries, header }: AttachmentProps) => {
           )}
           <Text style={styles.h1}>Anhang</Text>
           {entries.map((entry) => (
-            <View key={entry.title} style={styles.section}>
+            <View key={entry.title} style={styles.section} wrap={false}>
               <Text style={styles[entry.level ?? "h5"]}>{entry.title}</Text>
               <Text>{entry.text}</Text>
             </View>
