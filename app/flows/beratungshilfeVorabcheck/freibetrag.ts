@@ -30,10 +30,10 @@ export function freibetrag({
   }
 
   const childrenFreibetrag =
-    (Number.isNaN(childrenBelow6) ? 0 : childrenBelow6 ?? 0) * 35000 +
-    (Number.isNaN(children7To14) ? 0 : children7To14 ?? 0) * 38300 +
-    (Number.isNaN(children15To18) ? 0 : children15To18 ?? 0) * 46200 +
-    (Number.isNaN(childrenAbove18) ? 0 : childrenAbove18 ?? 0) * 44200;
+    (Number.isNaN(childrenBelow6) ? 0 : (childrenBelow6 ?? 0)) * 35000 +
+    (Number.isNaN(children7To14) ? 0 : (children7To14 ?? 0)) * 38300 +
+    (Number.isNaN(children15To18) ? 0 : (children15To18 ?? 0)) * 46200 +
+    (Number.isNaN(childrenAbove18) ? 0 : (childrenAbove18 ?? 0)) * 44200;
 
   betrag += Math.max(childrenFreibetrag - (childrenIncome ?? 0), 0);
 

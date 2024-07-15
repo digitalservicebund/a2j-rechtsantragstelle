@@ -22,7 +22,7 @@ export function fillWohnen(
   pdfFields.d5Wohnunggemeinsam.value = isLivingAlone(context) === false;
   pdfFields.d6WonungweiterePersonen.value = isLivingAlone(context)
     ? ""
-    : context.apartmentPersonCount?.toString() ?? "";
+    : (context.apartmentPersonCount?.toString() ?? "");
 }
 
 function isLivingAlone(
