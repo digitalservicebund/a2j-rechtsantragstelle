@@ -64,6 +64,9 @@ export const getStaatlicheLeistungenStrings = (
     hasAsylbewerberleistungen:
       context.staatlicheLeistungen === "asylbewerberleistungen",
     hasNoSozialleistung: context.staatlicheLeistungen === "keine",
+    hasBuergergeldOrNoSozialleistung:
+      context.staatlicheLeistungen === "buergergeld" ||
+      context.staatlicheLeistungen === "keine",
   };
 };
 
@@ -103,7 +106,7 @@ export const geldAnlagenStrings = (context: BeratungshilfeFormularContext) => {
       context.geldanlagen?.some(
         (geldanlage) => geldanlage.art === "guthabenkontoKrypto",
       ),
-    hasGiroTagesSparkonteo:
+    hasGiroTagesSparkonto:
       context.hasGeldanlage === "yes" &&
       context.geldanlagen?.some(
         (geldanlage) => geldanlage.art === "giroTagesgeldSparkonto",
