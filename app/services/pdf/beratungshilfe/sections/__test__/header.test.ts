@@ -1,19 +1,11 @@
 import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import {
-  gerbehAmtsgericht,
-  plzStrnEntry,
-} from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";
-import {
-  findCourt,
-  edgeCasesForPlz,
-} from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { gerbehAmtsgericht } from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";
+import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { createAttachment } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
-import fillHeader, {
-  getMaritalDescriptionByContext,
-} from "~/services/pdf/beratungshilfe/sections/header";
+import fillHeader from "~/services/pdf/beratungshilfe/sections/header";
 
 describe("fillHeader", () => {
   it("should add weiteres einkommen into attachment", async () => {
@@ -33,7 +25,7 @@ describe("fillHeader", () => {
     fillHeader(attachment, pdfFields, context);
 
     const hasWeiteresEinkommen = attachment.some(
-      (description) => description.title === "Weiteres Einkommen:",
+      (description) => description.title === "Weiteres Einkommen",
     );
 
     expect(hasWeiteresEinkommen).toEqual(true);
@@ -41,8 +33,7 @@ describe("fillHeader", () => {
 
   it("should add amtsgericht if available", () => {
     vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
-    vi.mocked(edgeCasesForPlz).mockReturnValue([]);
-    vi.mocked(findCourt).mockReturnValue({
+    vi.mocked(findCourtIfUnique).mockReturnValue({
       ...gerbehAmtsgericht,
       ORT: "Dessau-Roßlau",
     });
@@ -54,11 +45,7 @@ describe("fillHeader", () => {
 
   it("shouldn't add amtsgericht if edge case PLZ", () => {
     vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
-    vi.mocked(edgeCasesForPlz).mockReturnValue([plzStrnEntry, plzStrnEntry]);
-    vi.mocked(findCourt).mockReturnValue({
-      ...gerbehAmtsgericht,
-      ORT: "Dessau-Roßlau",
-    });
+    vi.mocked(findCourtIfUnique).mockReturnValue(undefined);
 
     const pdfFields = getBeratungshilfeParameters();
     fillHeader(createAttachment(), pdfFields, { plz: "10965" });
@@ -94,61 +81,5 @@ describe("fillHeader", () => {
       partnerschaft: "yes",
     });
     expect(attachment.length).toBeGreaterThan(0);
-  });
-});
-
-describe("getMaritalDescriptionByContext", () => {
-  it("should return `verheiratet / in eingetragener Lebenspartnerschaft` when partnerschaft is `yes`", () => {
-    const context: BeratungshilfeFormularContext = {
-      partnerschaft: "yes",
-    };
-
-    const actual = getMaritalDescriptionByContext(context);
-    const expected = "verheiratet / in eingetragener Lebenspartnerschaft";
-
-    expect(expected).toBe(actual);
-  });
-  it("should return `ledig` when partnerschaft is `no`", () => {
-    const context: BeratungshilfeFormularContext = {
-      partnerschaft: "no",
-    };
-
-    const actual = getMaritalDescriptionByContext(context);
-    const expected = "ledig";
-
-    expect(expected).toBe(actual);
-  });
-
-  it("should return `verwitwet` when partnerschaft is `widowed`", () => {
-    const context: BeratungshilfeFormularContext = {
-      partnerschaft: "widowed",
-    };
-
-    const actual = getMaritalDescriptionByContext(context);
-    const expected = "verwitwet";
-
-    expect(expected).toBe(actual);
-  });
-
-  it("should return `getrennt` when partnerschaft is `separated`", () => {
-    const context: BeratungshilfeFormularContext = {
-      partnerschaft: "separated",
-    };
-
-    const actual = getMaritalDescriptionByContext(context);
-    const expected = "getrennt";
-
-    expect(expected).toBe(actual);
-  });
-
-  it("should return `` when partnerschaft is `undefined`", () => {
-    const context: BeratungshilfeFormularContext = {
-      partnerschaft: undefined,
-    };
-
-    const actual = getMaritalDescriptionByContext(context);
-    const expected = "";
-
-    expect(expected).toBe(actual);
   });
 });

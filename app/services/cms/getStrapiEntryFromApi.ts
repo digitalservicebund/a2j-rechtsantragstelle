@@ -31,7 +31,6 @@ type SingleStrapiEntry =
   | StrapiFileContent["footer"][0]
   | StrapiFileContent["pages"][0]
   | StrapiFileContent["result-pages"][0]
-  | StrapiFileContent["vorab-check-common"][0]
   | undefined;
 
 const unpackResponse = (response: AxiosResponse) => {
