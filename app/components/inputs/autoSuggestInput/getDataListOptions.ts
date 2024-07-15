@@ -9,7 +9,7 @@ export interface DataListOptions {
 }
 
 export function getDataListOptions(
-  dataListType?: DataListType["dataList"],
+  dataListType?: DataListType,
 ): DataListOptions[] {
   switch (dataListType) {
     case "airlines": {

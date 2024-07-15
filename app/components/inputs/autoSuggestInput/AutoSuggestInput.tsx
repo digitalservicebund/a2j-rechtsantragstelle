@@ -41,8 +41,8 @@ export type AutoSuggestInputProps = Readonly<{
   width?: "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54";
   formId?: string;
   noSuggestionMessage?: string;
-}> &
-  DataListType;
+  dataList: DataListType;
+}>;
 
 const filterOption = (option: DataListOptions, inputValue: string) => {
   if (inputValue.length < MINIMUM_SEARCH_SUGGESTION_CHARACTERS) {
