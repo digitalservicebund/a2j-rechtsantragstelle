@@ -5,6 +5,7 @@ import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.g
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { logError } from "~/services/logging";
+import Handout from "./Handout";
 import { fillAngelegenheit } from "./sections/A_angelegenheit";
 import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
 import { fillEinkommen } from "./sections/C_einkommen";
@@ -54,6 +55,7 @@ export async function getBeratungshilfePdfFromContext(
     );
   }
 
+  await appendAttachment(filledPdf, await pdfFromReact(Handout(context)));
   return filledPdf;
 }
 
