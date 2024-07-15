@@ -69,19 +69,14 @@ export const getAmtsgerichtStrings = (
 export const getStaatlicheLeistungenStrings = (
   context: BeratungshilfeFormularContext,
 ) => {
-  const getTrueOrUndefined = (keyWord: string) => {
-    return (
-      ("staatlicheLeistungen" in context &&
-        context.staatlicheLeistungen == keyWord &&
-        "true") ||
-      undefined
-    );
-  };
+  const { staatlicheLeistungen } = context;
   return {
-    hasBuergergeld: getTrueOrUndefined("buergergeld"),
-    hasGrundsicherung: getTrueOrUndefined("grundsicherung"),
-    hasAsylbewerberleistungen: getTrueOrUndefined("asylbewerberleistungen"),
-    hasNoSozialleistung: getTrueOrUndefined("keine"),
+    hasBuergergeld: staatlicheLeistungen === "buergergeld" ? "true" : undefined,
+    hasGrundsicherung:
+      staatlicheLeistungen === "grundsicherung" ? "true" : undefined,
+    hasAsylbewerberleistungen:
+      staatlicheLeistungen === "asylbewerberleistungen" ? "true" : undefined,
+    hasNoSozialleistung: staatlicheLeistungen === "keine" ? "true" : undefined,
   };
 };
 
