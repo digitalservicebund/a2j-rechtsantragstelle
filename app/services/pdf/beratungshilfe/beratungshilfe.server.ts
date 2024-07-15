@@ -16,7 +16,8 @@ import { fillAusgaben } from "./sections/G_ausgaben";
 import fillHeader from "./sections/header";
 import { appendAttachment } from "../appendAttachment";
 import { createAttachment } from "../attachment";
-import { renderAnhang } from "../attachment/render";
+import FormAttachment from "../attachment/FormAttachment";
+import { pdfFromReact } from "../attachment/pdfFromReact";
 import { addDruckvermerk } from "../druckvermerk";
 import { isBooleanField } from "../fileTypes";
 import { changeBooleanField, changeStringField } from "../pdf.server";
@@ -39,15 +40,17 @@ export async function getBeratungshilfePdfFromContext(
   fillWohnen(pdfFields, context);
   fillFooter(pdfFields, context);
 
-  const filledPdf = generatePdf(pdfFields);
+  const filledPdf = await generatePdf(pdfFields);
 
   if (attachmentData.length > 0) {
     await appendAttachment(
-      await filledPdf,
-      await renderAnhang({
-        entries: attachmentData,
-        header: `Anhang: Antrag auf Bewilligung von Beratungshilfe zum Antrag von ${context.vorname} ${context.nachname}`,
-      }),
+      filledPdf,
+      await pdfFromReact(
+        FormAttachment({
+          entries: attachmentData,
+          header: `Anhang: Antrag auf Bewilligung von Beratungshilfe zum Antrag von ${context.vorname} ${context.nachname}`,
+        }),
+      ),
     );
   }
 
