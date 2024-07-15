@@ -1,14 +1,8 @@
 import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import {
-  gerbehAmtsgericht,
-  plzStrnEntry,
-} from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";
-import {
-  findCourt,
-  edgeCasesForPlz,
-} from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { gerbehAmtsgericht } from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";
+import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { createAttachment } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
 import fillHeader from "~/services/pdf/beratungshilfe/sections/header";
@@ -39,8 +33,7 @@ describe("fillHeader", () => {
 
   it("should add amtsgericht if available", () => {
     vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
-    vi.mocked(edgeCasesForPlz).mockReturnValue([]);
-    vi.mocked(findCourt).mockReturnValue({
+    vi.mocked(findCourtIfUnique).mockReturnValue({
       ...gerbehAmtsgericht,
       ORT: "Dessau-Roßlau",
     });
@@ -52,11 +45,7 @@ describe("fillHeader", () => {
 
   it("shouldn't add amtsgericht if edge case PLZ", () => {
     vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
-    vi.mocked(edgeCasesForPlz).mockReturnValue([plzStrnEntry, plzStrnEntry]);
-    vi.mocked(findCourt).mockReturnValue({
-      ...gerbehAmtsgericht,
-      ORT: "Dessau-Roßlau",
-    });
+    vi.mocked(findCourtIfUnique).mockReturnValue(undefined);
 
     const pdfFields = getBeratungshilfeParameters();
     fillHeader(createAttachment(), pdfFields, { plz: "10965" });

@@ -134,6 +134,19 @@ export const findCourt = ({
   return courtAddress(court);
 };
 
+export function findCourtIfUnique(zipCode?: string) {
+  if (!zipCode) return undefined;
+  try {
+    const court = findCourt({ zipCode });
+    if (court && edgeCasesForPlz(zipCode).length == 0) {
+      return court;
+    }
+  } catch (error) {
+    /* eslint-disable-next-line no-console */
+    console.error(error);
+  }
+}
+
 export function isPartnerCourt(zipCode?: string) {
   if (!zipCode) return false;
   try {

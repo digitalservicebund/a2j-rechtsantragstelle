@@ -1,10 +1,6 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import {
-  findCourt,
-  edgeCasesForPlz,
-} from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { logError } from "~/services/logging";
+import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { newPageHint, type AttachmentEntries } from "../../attachment";
 import { checkboxListToString } from "../../checkboxListToString";
 
@@ -30,17 +26,10 @@ export default function fillHeader(
   pdfFields.antragstellerNameVornameggfGeburtsname.value = `${context.nachname}, ${context.vorname}`;
   pdfFields.geburtsdatumdesAntragstellers.value = context.geburtsdatum;
   pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${context.strasseHausnummer}, ${context.plz} ${context.ort}`;
-
-  if (context.plz) {
-    try {
-      const court = findCourt({ zipCode: context.plz });
-      if (court && edgeCasesForPlz(context.plz).length == 0) {
-        pdfFields.namedesAmtsgerichts.value = court.ORT;
-        pdfFields.postleitzahlOrt.value = `${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`;
-      }
-    } catch (error) {
-      logError({ error });
-    }
+  const court = findCourtIfUnique(context.plz);
+  if (court) {
+    pdfFields.namedesAmtsgerichts.value = court.ORT;
+    pdfFields.postleitzahlOrt.value = `${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`;
   }
 
   pdfFields.tagsueberTelefonischerreichbarunterNummer.value =
