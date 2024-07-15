@@ -12,7 +12,7 @@ import {
   customStyles,
   FormatOptionLabel,
 } from "./customComponents";
-import useListOptions from "./useDataListOptions";
+import useDataListOptions from "./useDataListOptions";
 import { type ErrorMessageProps } from "..";
 import Input from "../Input";
 import InputError from "../InputError";
@@ -105,7 +105,7 @@ const AutoSuggestInput = ({
   dataList,
   noSuggestionMessage,
 }: AutoSuggestInputProps) => {
-  const items = useListOptions(dataList);
+  const items = useDataListOptions(dataList);
   const [currentItemValue, setCurrentItemValue] =
     useState<DataListOptions | null>();
   const { error, getInputProps, validate } = useField(name, { formId });

@@ -4,7 +4,7 @@ import { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 const DATA_LIST_API_PATH = "/data-list-options";
 
-const useListOptions = (dataListType: DataListType) => {
+const useDataListOptions = (dataListType: DataListType) => {
   const [dataListOptions, setDataListOptions] = useState<DataListOptions[]>([]);
 
   useEffect(() => {
@@ -27,4 +27,4 @@ const useListOptions = (dataListType: DataListType) => {
   return dataListOptions;
 };
 
-export default useListOptions;
+export default useDataListOptions;
