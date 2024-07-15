@@ -1,9 +1,11 @@
 import { Page, Text, View, Document } from "@react-pdf/renderer";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { PdfFooter } from "../attachment/PdfFooter";
 import { styles } from "../attachment/styles";
 
 const Handout = (userdata: BeratungshilfeFormularContext, footer: string) => {
+  const hasUniqueCourt = findCourtIfUnique(userdata.plz) !== undefined;
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -31,10 +33,10 @@ const Handout = (userdata: BeratungshilfeFormularContext, footer: string) => {
           <Text style={styles.h3}>4. Antrag abgeben</Text>
           <Text style={styles.section}>
             Sie können den Antrag direkt im Amtsgericht abgeben oder per Post
-            schicken. Die Adresse des zuständigen Amtsgericht finden Sie auf der
-            ersten Seite des Antrags im Adressfeld. / Ihr zuständiges
-            Amtsgericht finden Sie über den Service “Amtsgericht finden” auf
-            https://service.justiz.de/beratungshilfe.
+            schicken.{" "}
+            {hasUniqueCourt
+              ? "Die Adresse des zuständigen Amtsgericht finden Sie auf der ersten Seite des Antrags im Adressfeld."
+              : "Ihr zuständiges Amtsgericht finden Sie über den Service 'Amtsgericht finden' auf https://service.justiz.de/beratungshilfe."}
           </Text>
         </View>
         <PdfFooter footer={footer} />
