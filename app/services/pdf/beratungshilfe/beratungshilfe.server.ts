@@ -1,12 +1,10 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { renderToBuffer } from "@react-pdf/renderer";
 import { PDFDocument } from "pdf-lib";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { logError } from "~/services/logging";
-import { addDruckvermerk } from "./druckvermerk";
 import { fillAngelegenheit } from "./sections/A_angelegenheit";
 import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
 import { fillEinkommen } from "./sections/C_einkommen";
@@ -18,9 +16,8 @@ import { fillAusgaben } from "./sections/G_ausgaben";
 import fillHeader from "./sections/header";
 import { appendAttachment } from "../appendAttachment";
 import { createAttachment } from "../attachment";
-import FormAttachment, {
-  type AttachmentProps,
-} from "../attachment/FormAttachment";
+import { renderAnhang } from "../attachment/render";
+import { addDruckvermerk } from "../druckvermerk";
 import { isBooleanField } from "../fileTypes";
 import { changeBooleanField, changeStringField } from "../pdf.server";
 import { resizeToA4 } from "../resizeToA4";
@@ -53,21 +50,11 @@ export async function getBeratungshilfePdfFromContext(
       }),
     );
   }
+
   return filledPdf;
 }
 
-async function renderAnhang(attachmentProps: AttachmentProps) {
-  const attachmentPdf = await PDFDocument.load(
-    await renderToBuffer(<FormAttachment {...attachmentProps} />),
-  );
-  addDruckvermerk(attachmentPdf);
-  return attachmentPdf;
-}
-
-async function generatePdf(
-  values: BeratungshilfePDF,
-  // attachmentEntries: AttachmentEntries,
-) {
+async function generatePdf(values: BeratungshilfePDF) {
   const pdfDoc = await PDFDocument.load(await getBeratungshilfePdfBuffer());
   const yPositionsDruckvermerk = [90, 108, 138];
   resizeToA4(pdfDoc);
