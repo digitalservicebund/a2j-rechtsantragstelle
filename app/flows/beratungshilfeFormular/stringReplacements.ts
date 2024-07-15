@@ -1,5 +1,4 @@
-import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { logError } from "~/services/logging";
+import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { BeratungshilfeFormularContext } from ".";
 import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
@@ -45,25 +44,15 @@ export const getArrayIndexStrings = (
 export const getAmtsgerichtStrings = (
   context: BeratungshilfeFormularContext,
 ) => {
-  if ("plz" in context && context.plz) {
-    try {
-      const courtData = findCourt({ zipCode: context.plz });
-      return {
-        courtName: courtData?.BEZEICHNUNG,
-        courtStreetNumber: courtData?.STR_HNR,
-        courtPlz: courtData?.PLZ_ZUSTELLBEZIRK,
-        courtOrt: courtData?.ORT,
-        courtWebsite: courtData?.URL1,
-        courtTelephone: courtData?.TEL,
-      };
-    } catch (e) {
-      logError({
-        message: `Did not find court for plz: ${context.plz}`,
-        error: e,
-      });
-    }
-  }
-  return {};
+  const court = findCourtIfUnique(context.plz);
+  return {
+    courtName: court?.BEZEICHNUNG,
+    courtStreetNumber: court?.STR_HNR,
+    courtPlz: court?.PLZ_ZUSTELLBEZIRK,
+    courtOrt: court?.ORT,
+    courtWebsite: court?.URL1,
+    courtTelephone: court?.TEL,
+  };
 };
 
 export const getStaatlicheLeistungenStrings = (
