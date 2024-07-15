@@ -71,18 +71,18 @@ const Handout = (userdata: BeratungshilfeFormularContext, footer: string) => {
           </Text>
           <Text style={styles.h3}>1. Antrag ausdrucken</Text>
           <Text style={styles.h3}>2. Antrag unterschreiben</Text>
-          <Text style={styles.section}>
+          <Text style={styles.sectionIndented}>
             Unterschreiben Sie den fertigen Antrag auf der letzten Seite im Feld
             “Unterschrift des Antragstellers/der Antragstellerin”
           </Text>
           <Text style={styles.h3}>3. Benötigte Dokumente kopieren</Text>
-          <Text style={styles.section}>
+          <Text style={styles.sectionIndented}>
             Diese Dokumente müssen Sie zusammen mit Ihrem Antrag abgeben:
           </Text>
           <View
             style={{
               border: "1px solid black",
-              marginHorizontal: "5px",
+              marginHorizontal: "13px",
               marginVertical: "5px",
               paddingHorizontal: "16px",
               paddingVertical: "8px",
@@ -94,7 +94,7 @@ const Handout = (userdata: BeratungshilfeFormularContext, footer: string) => {
             ))}
           </View>
           <Text style={styles.h3}>4. Antrag abgeben</Text>
-          <Text style={styles.section}>
+          <Text style={styles.sectionIndented}>
             Sie können den Antrag direkt im Amtsgericht abgeben oder per Post
             schicken.{" "}
             {conditions.courtName

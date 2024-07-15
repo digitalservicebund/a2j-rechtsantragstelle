@@ -59,10 +59,11 @@ export const styles = StyleSheet.create({
     paddingBottom: 0,
   },
   section: {
-    flexGrow: 1,
-    paddingHorizontal: 0,
     paddingBottom: 2,
-    paddingTop: 0,
+  },
+  sectionIndented: {
+    paddingBottom: 2,
+    paddingLeft: 13,
   },
   bold: {
     fontWeight: "bold",
