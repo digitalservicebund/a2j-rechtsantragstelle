@@ -1,5 +1,4 @@
-import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { logError } from "~/services/logging";
+import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { BeratungshilfeFormularContext } from ".";
 import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
@@ -45,53 +44,97 @@ export const getArrayIndexStrings = (
 export const getAmtsgerichtStrings = (
   context: BeratungshilfeFormularContext,
 ) => {
-  if ("plz" in context && context.plz) {
-    try {
-      const courtData = findCourt({ zipCode: context.plz });
-      return {
-        courtName: courtData?.BEZEICHNUNG,
-        courtStreetNumber: courtData?.STR_HNR,
-        courtPlz: courtData?.PLZ_ZUSTELLBEZIRK,
-        courtOrt: courtData?.ORT,
-        courtWebsite: courtData?.URL1,
-        courtTelephone: courtData?.TEL,
-      };
-    } catch (e) {
-      logError({
-        message: `Did not find court for plz: ${context.plz}`,
-        error: e,
-      });
-    }
-  }
-  return {};
+  const court = findCourtIfUnique(context.plz);
+  return {
+    courtName: court?.BEZEICHNUNG,
+    courtStreetNumber: court?.STR_HNR,
+    courtPlz: court?.PLZ_ZUSTELLBEZIRK,
+    courtOrt: court?.ORT,
+    courtWebsite: court?.URL1,
+    courtTelephone: court?.TEL,
+  };
 };
 
 export const getStaatlicheLeistungenStrings = (
   context: BeratungshilfeFormularContext,
 ) => {
-  const getTrueOrUndefined = (keyWord: string) => {
-    return (
-      ("staatlicheLeistungen" in context &&
-        context.staatlicheLeistungen == keyWord &&
-        "true") ||
-      undefined
-    );
-  };
   return {
-    hasBuergergeld: getTrueOrUndefined("buergergeld"),
-    hasGrundsicherung: getTrueOrUndefined("grundsicherung"),
-    hasAsylbewerberleistungen: getTrueOrUndefined("asylbewerberleistungen"),
-    hasNoSozialleistung: getTrueOrUndefined("keine"),
+    hasBuergergeld: context.staatlicheLeistungen === "buergergeld",
+    hasGrundsicherung: context.staatlicheLeistungen === "grundsicherung",
+    hasAsylbewerberleistungen:
+      context.staatlicheLeistungen === "asylbewerberleistungen",
+    hasNoSozialleistung: context.staatlicheLeistungen === "keine",
+    hasBuergergeldOrNoSozialleistung:
+      context.staatlicheLeistungen === "buergergeld" ||
+      context.staatlicheLeistungen === "keine",
+  };
+};
+
+export const weiteresEinkommenStrings = (
+  context: BeratungshilfeFormularContext,
+) => {
+  const { weitereseinkommen } = context;
+  return {
+    arbeitslosenGeld: weitereseinkommen?.arbeitlosengeld === "on",
+    wohngeld: weitereseinkommen?.wohngeld === "on",
+    bafoeg: weitereseinkommen?.bafoeg === "on",
+    rente: weitereseinkommen?.rente === "on",
+    krankengeld: weitereseinkommen?.krankengeld === "on",
+    elterngeld: weitereseinkommen?.elterngeld === "on",
+  };
+};
+
+export const geldAnlagenStrings = (context: BeratungshilfeFormularContext) => {
+  return {
+    hasLebensversicherung:
+      context.hasGeldanlage === "yes" &&
+      context.geldanlagen?.some(
+        (geldanlage) => geldanlage.befristetArt === "lifeInsurance",
+      ),
+    hasBausparvertrag:
+      context.hasGeldanlage === "yes" &&
+      context.geldanlagen?.some(
+        (geldanlage) => geldanlage.befristetArt === "buildingSavingsContract",
+      ),
+    hasWertpapiere:
+      context.hasGeldanlage === "yes" &&
+      context.geldanlagen?.some(
+        (geldanlage) => geldanlage.art === "wertpapiere",
+      ),
+    hasGutenhabenKrypto:
+      context.hasGeldanlage === "yes" &&
+      context.geldanlagen?.some(
+        (geldanlage) => geldanlage.art === "guthabenkontoKrypto",
+      ),
+    hasGiroTagesSparkonto:
+      context.hasGeldanlage === "yes" &&
+      context.geldanlagen?.some(
+        (geldanlage) => geldanlage.art === "giroTagesgeldSparkonto",
+      ),
+    hasGrundeigentum: context.hasGrundeigentum === "yes",
+  };
+};
+
+export const ausgabenStrings = (context: BeratungshilfeFormularContext) => {
+  return {
+    hasSchwangerschaft:
+      context.hasAusgaben === "yes" &&
+      context.ausgabensituation?.pregnancy === "on",
+    hasSchwerbehinderung:
+      context.hasAusgaben === "yes" &&
+      context.ausgabensituation?.disability === "on",
+    hasMedicalReasons:
+      context.hasAusgaben === "yes" &&
+      context.ausgabensituation?.medicalReasons === "on",
+    hasWeitereAusgaben:
+      context.hasAusgaben === "yes" &&
+      context.ausgaben &&
+      context.ausgaben.length > 0,
   };
 };
 
 export const getAnwaltStrings = (context: BeratungshilfeFormularContext) => {
-  return {
-    hasNoAnwalt:
-      !("anwaltskanzlei" in context) || context.anwaltskanzlei == "no"
-        ? "true"
-        : undefined,
-  };
+  return { hasNoAnwalt: context.anwaltskanzlei !== "yes" };
 };
 
 export const eigentumZusammenfassungShowWarnings = (

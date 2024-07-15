@@ -47,6 +47,9 @@ import {
   getAnwaltStrings,
   eigentumZusammenfassungShowWarnings,
   getMissingInformationStrings,
+  ausgabenStrings,
+  geldAnlagenStrings,
+  weiteresEinkommenStrings,
 } from "./stringReplacements";
 
 export const beratungshilfeFormular = {
@@ -105,6 +108,9 @@ export const beratungshilfeFormular = {
     ...getAnwaltStrings(context),
     ...eigentumZusammenfassungShowWarnings(context),
     ...getMissingInformationStrings(context),
+    ...ausgabenStrings(context),
+    ...geldAnlagenStrings(context),
+    ...weiteresEinkommenStrings(context),
   }),
 } as const;
 
