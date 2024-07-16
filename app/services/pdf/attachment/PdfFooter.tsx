@@ -9,7 +9,7 @@ export function PdfFooter({ footer }: { readonly footer: string }) {
         right: 72,
       }}
       render={({ pageNumber, totalPages }) =>
-        `${footer} | ${pageNumber} / ${totalPages}`
+        `${footer} ${pageNumber} / ${totalPages}`
       }
       fixed
     />
