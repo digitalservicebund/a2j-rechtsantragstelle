@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { ControlProps, components } from "react-select";
-import { DataListOptions } from "../getDataListOptions";
+import { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 const CustomControl = (
   props: ControlProps<DataListOptions, false>,

@@ -8,6 +8,8 @@ import {
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
+const DataListSchema = z.enum(["airports", "airlines"]);
+
 const StrapiAutoSuggestInputSchema = z
   .object({
     name: z.string(),
@@ -26,14 +28,14 @@ const StrapiAutoSuggestInputSchema = z
         "characters54",
       ])
       .nullable(),
-    dataList: z.enum(["airports", "airlines"]),
+    dataList: DataListSchema,
     noSuggestionMessage: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
 type StrapiAutoSuggestInput = z.infer<typeof StrapiAutoSuggestInputSchema>;
 
-export type DataListType = Pick<StrapiAutoSuggestInput, "dataList">;
+export type DataListType = z.infer<typeof DataListSchema>;
 
 export const StrapiAutoSuggestInputComponentSchema =
   StrapiAutoSuggestInputSchema.extend({

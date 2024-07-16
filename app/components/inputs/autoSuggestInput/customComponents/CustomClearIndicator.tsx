@@ -1,6 +1,6 @@
 import { RefObject } from "react";
 import { ClearIndicatorProps, components } from "react-select";
-import { DataListOptions } from "../getDataListOptions";
+import { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 const CustomClearIndicator = (
   props: ClearIndicatorProps<DataListOptions, false>,
