@@ -7,6 +7,7 @@ export function HandoutRow({ text }: { readonly text: string }) {
     <View
       style={{
         flexDirection: "row",
+        alignItems: "center",
         gap: "8px",
       }}
     >
