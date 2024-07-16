@@ -11,7 +11,21 @@ First draft of implementing a platform to create requests to the Rechtsantragste
 - Node.js >= 20.0.0
 - Docker (Redis dependency)
 - npm 7 or greater
-- A [strapi instance](https://github.com/digitalservicebund/a2j-rechtsantragstelle-strapi) and a configured .env file (see .env.example)
+- strapi ([see below](#strapi))
+
+#### Strapi
+
+Three options:
+
+1. A local strapi instance:
+   - [Start strapi locally](https://github.com/digitalservicebund/a2j-rechtsantragstelle-strapi),
+   - configure `.env` with `CMS=STRAPI` and `STRAPI_API` pointing to your local strapi instance (`cp .env.example .env` should do the trick)
+2. Using the the deployed staging strapi instance:
+   - Set `STRAPI_API=<STRAPI_STAGING_URL>/api` and set `STRAPI_ACCESS_KEY` to your token (create a new one in the strapi GUI at "Settings" > "API Tokens" > "Create new API Token")
+3. Use a local content file:
+   - Set `STRAPI_API` and `STRAPI_ACCESS_KEY` to point to staging like in option 2.
+   - Set `CMS=FILE`
+   - Run `npm run build:localContent` (should have generated a `content.json` file)
 
 ### Run Server in Development Mode
 
@@ -29,6 +43,7 @@ Open the app in `localhost:3000`
 #### Unit tests
 
 - run: `npm run test`
+- run in [watch mode](https://vitest.dev/guide/features.html#watch-mode): `npm run test:watch`
 - run with coverage: `npm run test:coverage`
 - run subset: `npm run test -- -t "STRING_TO_MATCH"`
 
@@ -42,12 +57,12 @@ Open the app in `localhost:3000`
 >
 > Remember to install playwright cli and set the environment variable GERICHTSFINDER_ENCRYPTION_KEY.
 
-#### Write tests
+#### Write E2E tests
 
 - [getting started](https://playwright.dev/docs/writing-tests) writing tests
 - use [codegen](https://playwright.dev/docs/codegen-intro) as an aid: `npx playwright codegen localhost:3000/kitchensink`
 
-#### Debug tests in CI
+#### Debug E2E tests in CI
 
 1. download `playwright-report.zip` artifact from GitHub action summary page (only present on e2e failure for 30 days)
 2. unzip
