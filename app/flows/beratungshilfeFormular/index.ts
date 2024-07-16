@@ -51,6 +51,7 @@ import {
   geldAnlagenStrings,
   weiteresEinkommenStrings,
 } from "./stringReplacements";
+import { reduce } from "./reduce";
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -112,6 +113,7 @@ export const beratungshilfeFormular = {
     ...geldAnlagenStrings(context),
     ...weiteresEinkommenStrings(context),
   }),
+  reduce,
 } as const;
 
 export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &

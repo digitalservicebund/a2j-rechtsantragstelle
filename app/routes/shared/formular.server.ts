@@ -134,10 +134,13 @@ export const loader = async ({
     .filter(isStrapiArraySummary)
     .map((strapiSummary) => strapiSummary.category);
 
+  const relevantUserdata =
+    "reduce" in currentFlow ? currentFlow.reduce(userData) : userData;
+
   const arraySummaryData = getSummaryData(
     categories,
     flowController.getRootMeta()?.arrays,
-    userData,
+    relevantUserdata,
   );
 
   const { headers, csrf } = await updateMainSession({

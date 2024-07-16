@@ -13,13 +13,8 @@ import {
   YesNoAnswer,
   customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
-
-const Eigentuemer = z.enum(
-  ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
-  customRequiredErrorMessage,
-);
-
-const MINUS_150_YEARS = -150;
+import { eigentuemer } from "./models/eigentuemer";
+import { geldanlage } from "./models/geldanlage";
 
 const GrundeigentumArt = z.enum(
   [
@@ -50,7 +45,7 @@ const unterhaltszahlungSchema = z.object({
     customRequiredErrorMessage,
   ),
   birthday: createDateSchema({
-    earliest: () => addYears(today(), MINUS_150_YEARS),
+    earliest: () => addYears(today(), -150),
     latest: () => today(),
   }),
   monthlyPayment: buildMoneyValidationSchema(),
@@ -116,7 +111,7 @@ export const beratungshilfeFinanzielleAngaben = {
       bankName: stringRequiredSchema,
       kontostand: buildMoneyValidationSchema({}),
       iban: stringOptionalSchema,
-      kontoEigentuemer: Eigentuemer,
+      kontoEigentuemer: eigentuemer,
       kontoDescription: stringOptionalSchema,
     }),
   ),
@@ -125,7 +120,7 @@ export const beratungshilfeFinanzielleAngaben = {
     z.object({
       art: stringRequiredSchema,
       marke: stringRequiredSchema,
-      eigentuemer: Eigentuemer,
+      eigentuemer,
       verkaufswert: optionalOrSchema(buildMoneyValidationSchema()),
       kilometerstand: integerSchema,
       anschaffungsjahr: createYearSchema({
@@ -142,39 +137,7 @@ export const beratungshilfeFinanzielleAngaben = {
     }),
   ),
   hasGeldanlage: YesNoAnswer,
-  geldanlagen: z.array(
-    z.object({
-      art: z.enum(
-        [
-          "bargeld",
-          "wertpapiere",
-          "guthabenkontoKrypto",
-          "giroTagesgeldSparkonto",
-          "befristet",
-          "forderung",
-          "sonstiges",
-        ],
-        customRequiredErrorMessage,
-      ),
-      eigentuemer: Eigentuemer,
-      wert: buildMoneyValidationSchema(),
-
-      kontoBankName: stringOptionalSchema,
-      kontoIban: stringOptionalSchema,
-      kontoBezeichnung: stringOptionalSchema,
-
-      befristetArt: z
-        .enum(
-          ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
-          customRequiredErrorMessage,
-        )
-        .optional(),
-
-      forderung: stringOptionalSchema,
-      verwendungszweck: stringOptionalSchema,
-      auszahlungdatum: stringOptionalSchema,
-    }),
-  ),
+  geldanlagen: z.array(geldanlage),
   eigentumTotalWorth: z.enum(
     ["less10000", "more10000", "unsure"],
     customRequiredErrorMessage,
@@ -184,7 +147,7 @@ export const beratungshilfeFinanzielleAngaben = {
     z.object({
       isBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),
       art: GrundeigentumArt,
-      eigentuemer: Eigentuemer,
+      eigentuemer,
       flaeche: stringRequiredSchema,
       verkaufswert: buildMoneyValidationSchema(),
       strassehausnummer: stringRequiredSchema,
@@ -197,7 +160,7 @@ export const beratungshilfeFinanzielleAngaben = {
   wertsachen: z.array(
     z.object({
       art: stringRequiredSchema,
-      eigentuemer: Eigentuemer,
+      eigentuemer,
       wert: buildMoneyValidationSchema(),
     }),
   ),

@@ -17,6 +17,7 @@ export type Flow = {
   config: Config;
   guards: Guards;
   migrationSource?: FlowId;
+  reduce?: (context: Context) => Context;
   stringReplacements?: (
     context: Context,
     translations: Translations,
