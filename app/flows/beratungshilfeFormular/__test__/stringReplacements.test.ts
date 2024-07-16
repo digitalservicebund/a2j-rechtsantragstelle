@@ -82,7 +82,6 @@ describe("stringReplacements", () => {
           partnerschaft: "yes",
         }),
       ).toStrictEqual({
-        hasPartnerschaftOrSeparated: true,
         hasPartnerschaftYes: true,
         eigentumTotalWorthLessThan10000: true,
       });
@@ -95,7 +94,6 @@ describe("stringReplacements", () => {
           partnerschaft: "no",
         }),
       ).toStrictEqual({
-        hasPartnerschaftOrSeparated: false,
         hasPartnerschaftYes: false,
         eigentumTotalWorthLessThan10000: false,
       });

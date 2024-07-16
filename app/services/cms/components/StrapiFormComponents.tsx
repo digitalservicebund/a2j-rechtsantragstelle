@@ -1,14 +1,14 @@
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import StrapiAutoSuggestInput from "./StrapiAutoSuggestInput";
-import { StrapiCheckbox } from "../components/StrapiCheckbox";
-import { StrapiDateInput } from "../components/StrapiDateInput";
-import { StrapiDropdown } from "../components/StrapiDropdown";
-import { StrapiFileInput } from "../components/StrapiFileInput";
-import { StrapiInput } from "../components/StrapiInput";
-import { StrapiSelect } from "../components/StrapiSelect";
-import { StrapiTextarea } from "../components/StrapiTextarea";
-import StrapiTileGroup from "../components/StrapiTileGroup";
-import { StrapiTimeInput } from "../components/StrapiTimeInput";
+import { StrapiCheckbox } from "./StrapiCheckbox";
+import { StrapiDateInput } from "./StrapiDateInput";
+import { StrapiDropdown } from "./StrapiDropdown";
+import { StrapiFileInput } from "./StrapiFileInput";
+import { StrapiInput } from "./StrapiInput";
+import { StrapiSelect } from "./StrapiSelect";
+import { StrapiTextarea } from "./StrapiTextarea";
+import { StrapiTileGroup } from "./StrapiTileGroup";
+import { StrapiTimeInput } from "./StrapiTimeInput";
 import type { StrapiFormComponent } from "../models/StrapiFormComponent";
 
 const FormComponent = ({

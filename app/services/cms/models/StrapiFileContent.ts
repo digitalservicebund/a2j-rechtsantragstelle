@@ -8,7 +8,6 @@ import { StrapiPageSchema } from "./StrapiPage";
 import { StrapiPageHeaderSchema } from "./StrapiPageHeader";
 import { StrapiResultPageSchema } from "./StrapiResultPage";
 import { StrapiTranslationSchema } from "./StrapiTranslations";
-import { StrapiVorabCheckCommonSchema } from "./StrapiVorabCheckCommon";
 import { StrapiVorabCheckPageSchema } from "./StrapiVorabCheckPage";
 
 export const StrapiFileContentSchema = z.object({
@@ -40,11 +39,6 @@ export const StrapiFileContentSchema = z.object({
   "result-pages": z.array(
     HasStrapiIdSchema.extend({
       attributes: StrapiResultPageSchema,
-    }),
-  ),
-  "vorab-check-common": z.array(
-    HasStrapiIdSchema.extend({
-      attributes: StrapiVorabCheckCommonSchema,
     }),
   ),
   "vorab-check-pages": z.array(

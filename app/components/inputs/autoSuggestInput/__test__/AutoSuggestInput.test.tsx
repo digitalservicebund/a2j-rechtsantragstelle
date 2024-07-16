@@ -2,6 +2,8 @@ import { createRemixStub } from "@remix-run/testing";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import * as remixValidatedForm from "remix-validated-form";
 import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
+import * as useDataListOptions from "~/components/inputs/autoSuggestInput/useDataListOptions";
+import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 vi.mock("remix-validated-form", () => ({
   useField: vi.fn(),
@@ -23,6 +25,10 @@ beforeEach(() => {
     touched: false,
     setTouched: vi.fn(),
   });
+
+  vi.spyOn(useDataListOptions, "default").mockReturnValue(
+    getDataListOptions("airports"),
+  );
 });
 
 afterEach(() => {

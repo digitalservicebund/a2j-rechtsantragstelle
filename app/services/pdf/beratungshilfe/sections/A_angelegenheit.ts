@@ -2,13 +2,11 @@ import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.g
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { newPageHint, type AttachmentEntries } from "../../attachment";
 
-const FIELD_A_RECHTSPROBLEMS_TITLE = "Feld A Rechtsproblems";
-export const THEMA_RECHTSPROBLEM_TITLE = "Thema des Rechtsproblems:";
-export const GEGNER_TITLE = "Gegner:";
-export const BESCHREIBUNG_ANGELEGENHEIT_TITLE = "Beschreibung Angelegenheit:";
-export const ZIEL_ANGELEGENHEIT_TITLE = "Ziel der Angelegenheit:";
-export const EIGENBEMUEHUNG_TITLE = "Eigenbemühung:";
-const MAX_LENGTH_ANGELEGENHEIT = 255;
+export const THEMA_RECHTSPROBLEM_TITLE = "Thema des Rechtsproblems";
+export const GEGNER_TITLE = "Gegner";
+export const BESCHREIBUNG_ANGELEGENHEIT_TITLE = "Beschreibung Angelegenheit";
+export const ZIEL_ANGELEGENHEIT_TITLE = "Ziel der Angelegenheit";
+export const EIGENBEMUEHUNG_TITLE = "Eigenbemühung";
 
 const bereichMapping = {
   authorities: "Behörden",
@@ -34,14 +32,13 @@ export function fillAngelegenheit(
     .map((x) => `${x.title} ${x.text}`)
     .join("\n");
 
-  if (sachverhaltString.length > MAX_LENGTH_ANGELEGENHEIT) {
+  if (sachverhaltString.length > 255) {
     pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
       newPageHint;
 
-    attachment.push({ title: "", text: "" });
     attachment.push({
-      title: FIELD_A_RECHTSPROBLEMS_TITLE,
-      text: "",
+      title: "Feld A: Das Rechtsproblem",
+      level: "h2",
     });
 
     attachment.push(...angelegenheitDescriptions);

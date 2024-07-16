@@ -6,6 +6,5 @@ export const strapiLinkFactory = Factory.define<StrapiLink>(() => {
   return {
     url: faker.internet.url(),
     text: faker.lorem.words(),
-    openInNewTab: faker.datatype.boolean(),
   };
 });

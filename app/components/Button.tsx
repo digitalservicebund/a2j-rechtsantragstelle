@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { cloneElement, type ReactElement } from "react";
 import { z } from "zod";
+import { isExternalUrl } from "~/util/isExternalUrl";
 
 const iconSchema = z.custom<ReactElement<{ className: string }>>().optional();
 
@@ -12,8 +13,6 @@ export const ButtonPropsSchema = z.object({
   iconLeft: iconSchema,
   iconRight: iconSchema,
   fullWidth: z.boolean().optional(),
-  downloadFile: z.string().optional(),
-  openInNewTab: z.boolean().optional(),
 });
 
 type Props = z.infer<typeof ButtonPropsSchema>;
@@ -36,8 +35,6 @@ function Button({
   look,
   size,
   href,
-  downloadFile,
-  openInNewTab,
   ...props
 }: ButtonProps | ButtonLinkProps) {
   const buttonClasses = classNames(
@@ -72,6 +69,7 @@ function Button({
   };
 
   if (href) {
+    const isExternal = isExternalUrl(href);
     return (
       <a
         data-testid="custom-button"
@@ -79,12 +77,8 @@ function Button({
         href={href}
         className={buttonClasses}
         onKeyDown={onKeyDown}
-        {...(openInNewTab
-          ? { target: "_blank", rel: "noopener noreferrer" }
-          : {})}
-        {...(downloadFile && downloadFile !== ""
-          ? { download: downloadFile }
-          : {})}
+        target={isExternal ? "_blank" : undefined}
+        rel={isExternal ? "noopener noreferrer" : undefined}
       >
         {iconLeft} {children ? childrenSpan : textSpan} {iconRight}
       </a>

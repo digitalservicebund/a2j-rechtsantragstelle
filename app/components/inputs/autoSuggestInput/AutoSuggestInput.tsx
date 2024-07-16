@@ -4,6 +4,7 @@ import { RefObject, useEffect, useRef, useState } from "react";
 import Select, { InputActionMeta } from "react-select";
 import { useField } from "remix-validated-form";
 import { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
+import { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import {
   CustomClearIndicator,
   CustomControl,
@@ -12,7 +13,7 @@ import {
   customStyles,
   FormatOptionLabel,
 } from "./customComponents";
-import { DataListOptions, getDataListOptions } from "./getDataListOptions";
+import useDataListOptions from "./useDataListOptions";
 import { type ErrorMessageProps } from "..";
 import Input from "../Input";
 import InputError from "../InputError";
@@ -43,8 +44,8 @@ export type AutoSuggestInputProps = Readonly<{
   width?: "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54";
   formId?: string;
   noSuggestionMessage?: string;
-}> &
-  DataListType;
+  dataList: DataListType;
+}>;
 
 const filterOption = (option: DataListOptions, inputValue: string) => {
   if (inputValue.length < MINIMUM_SEARCH_SUGGESTION_CHARACTERS) {
@@ -119,18 +120,15 @@ const AutoSuggestInput = ({
   dataList,
   noSuggestionMessage,
 }: AutoSuggestInputProps) => {
-  const items = getDataListOptions(dataList);
+  const items = useDataListOptions(dataList);
+  const [currentItemValue, setCurrentItemValue] =
+    useState<DataListOptions | null>();
   const { error, getInputProps, validate } = useField(name, { formId });
+  const { defaultValue } = getInputProps();
   const errorId = `${name}-error`;
   const hasError = typeof error !== "undefined" && error.length > 0;
   const inputId = `input-${name}`;
   const buttonExclusionRef = useRef<HTMLButtonElement>(null);
-
-  const currentItemValue = getDescriptionByValue(
-    items,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    getInputProps().defaultValue,
-  );
 
   const [jsAvailable, setJsAvailable] = useState(false);
   const [optionWasSelected, setOptionWasSelected] = useState(false);
@@ -160,6 +158,16 @@ const AutoSuggestInput = ({
     keyDownOnInput(inputId, buttonExclusionRef);
   });
 
+  useEffect(() => {
+    const value = getDescriptionByValue(
+      items,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      defaultValue,
+    );
+
+    setCurrentItemValue(value);
+  }, [defaultValue, items]);
+
   // In case user does not have Javascript, it should render the Input as suggestion input
   if (!jsAvailable) {
     return (
@@ -168,7 +176,6 @@ const AutoSuggestInput = ({
         label={label}
         placeholder={placeholder}
         formId={formId}
-        dataList={dataList}
         width={width}
         errorMessages={errorMessages}
       />
@@ -195,17 +202,18 @@ const AutoSuggestInput = ({
         onInputChange={onInputChange}
         inputId={inputId}
         filterOption={() => true}
-        defaultValue={currentItemValue}
+        value={currentItemValue}
         placeholder={placeholder ?? ""}
         instanceId={name}
         formatOptionLabel={FormatOptionLabel}
-        onChange={(_newValue, { action }) => {
+        onChange={(newValue, { action }) => {
           validate();
           // remix remove the focus on the input when clicks with the keyboard to clear the value, so we need to force the focus again
           setOptionWasSelected(action === "select-option");
           if (action === "clear" || action === "select-option") {
             focusOnInput(inputId);
           }
+          setCurrentItemValue(newValue);
         }}
         onBlur={() => {
           // call the validation only if an option was selected
