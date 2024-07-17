@@ -137,8 +137,6 @@ const AutoSuggestInput = ({
 
   const onInputChange = (value: string, { action }: InputActionMeta) => {
     if (action === "input-change") {
-      focusOnInput(inputId);
-
       if (value.length < MINIMUM_SEARCH_SUGGESTION_CHARACTERS) {
         setOptions([]);
         return;
@@ -189,6 +187,7 @@ const AutoSuggestInput = ({
         className={classNames(
           "w-full",
           { "has-error": error },
+          { "option-was-selected": optionWasSelected },
           width && widthClass(width),
         )}
         isSearchable
@@ -226,14 +225,13 @@ const AutoSuggestInput = ({
           inputValue.length > 2 ? noSuggestionMessage : null
         }
         components={{
-          Control: (props) => CustomControl(props, error),
+          Control: CustomControl,
           IndicatorSeparator: () => null,
           DropdownIndicator: () => null,
           ClearIndicator: (props) =>
             CustomClearIndicator(props, buttonExclusionRef),
           Input: CustomInput,
-          ValueContainer: (props) =>
-            CustomValueContainer(props, optionWasSelected),
+          ValueContainer: CustomValueContainer,
         }}
         styles={customStyles(hasError)}
       />
