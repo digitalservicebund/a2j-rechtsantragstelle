@@ -43,7 +43,7 @@ test("forwarded to initial step", async ({ page }) => {
 });
 
 test("beratungshilfe formular can be traversed", async ({ page }) => {
-  // beratunshilfe/antrag/start
+  // beratungshilfe/antrag/start/start
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.clickNext();
 
@@ -53,6 +53,7 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startFinanzielleAngaben(page);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
   await startAbgabe(page);
+  await beratungshilfeFormular.pressAntragDownloadButton();
 });
 
 test("invalid array index redirects to initial step of subflow", async ({

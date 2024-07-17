@@ -1,4 +1,4 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { BeratungshilfeVorabcheck } from "./pom/BeratungshilfeVorabcheck";
 
 const nextButtonName = "_action";
@@ -16,13 +16,13 @@ test.describe("Hidden fields", () => {
         await vorabcheck.goto();
 
         // Try to submit without selecting an option
-        const nextButton = await page.locator(
-          `button[name="${nextButtonName}"]`,
-        );
+        const nextButton = page.locator(`button[name="${nextButtonName}"]`);
         await nextButton.click();
 
         // Check if validation message is visible
-        await page.locator("#rechtsschutzversicherung-error").isVisible();
+        await expect(
+          page.locator("#rechtsschutzversicherung-error"),
+        ).toBeVisible();
       });
     });
   });
