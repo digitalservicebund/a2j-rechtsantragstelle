@@ -204,4 +204,25 @@ describe("AutoSuggestInput", () => {
       ).not.toBeInTheDocument(),
     );
   });
+
+  it("should have the testid input-COMPONENT_NAME-loaded", () => {
+    const RemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => (
+          <AutoSuggestInput
+            name={COMPONENT_NAME}
+            placeholder="placeholder"
+            dataList="airports"
+            label="label"
+            formId="formId"
+          />
+        ),
+      },
+    ]);
+
+    const { getByTestId } = render(<RemixStub />);
+
+    expect(getByTestId(`input-${COMPONENT_NAME}-loaded`)).toBeInTheDocument();
+  });
 });

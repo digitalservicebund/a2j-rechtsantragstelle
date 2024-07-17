@@ -183,7 +183,7 @@ const AutoSuggestInput = ({
   }
 
   return (
-    <div>
+    <div data-testid={items.length > 0 ? `${inputId}-loaded` : ""}>
       {label && <InputLabel id={inputId}>{label}</InputLabel>}
       <Select
         className={classNames(
