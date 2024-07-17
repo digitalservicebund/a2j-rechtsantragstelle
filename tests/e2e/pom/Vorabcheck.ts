@@ -78,6 +78,7 @@ export class Vorabcheck {
     fields: { field: string; value: string }[],
   ) {
     for (const { field, value } of fields) {
+      await this.page.waitForSelector(`[data-testid=${field}-loaded]`);
       await this.page.locator(`input[id="${field}"]`).fill(value);
       const menuItem = await this.page
         .getByTestId("auto-suggest-input-menu-item")
