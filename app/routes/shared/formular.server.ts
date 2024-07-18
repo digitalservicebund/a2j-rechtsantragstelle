@@ -40,6 +40,7 @@ import { updateMainSession } from "~/services/session.server/updateSessionInHead
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { interpolateDeep } from "~/util/fillTemplate";
+import { filterFormData } from "~/util/filterFormData";
 
 const structureCmsContent = (
   formPageContent: z.infer<CollectionSchemas["form-flow-pages"]>,
@@ -214,11 +215,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
   const formData = await request.formData();
-
-  // Note: This also reduces same-named fields to the last entry
-  const relevantFormData = Object.fromEntries(
-    Array.from(formData.entries()).filter(([key]) => !key.startsWith("_")),
-  );
+  const relevantFormData = filterFormData(formData);
 
   if (formData.get("_action") === "delete") {
     try {

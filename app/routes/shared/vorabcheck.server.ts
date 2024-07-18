@@ -27,6 +27,7 @@ import { updateMainSession } from "~/services/session.server/updateSessionInHead
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { interpolateDeep } from "~/util/fillTemplate";
+import { filterFormData } from "~/util/filterFormData";
 
 export const loader = async ({
   params,
@@ -135,11 +136,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const flowSession = await sessionManager.getSession(cookieHeader);
   const formData = await request.formData();
 
-  // Note: This also reduces same-named fields to the last entry
-  const relevantFormData = Object.fromEntries(
-    Array.from(formData.entries()).filter(([key]) => !key.startsWith("_")),
-  );
-
+  const relevantFormData = filterFormData(formData);
   const validationResult = await validateFormData(flowId, relevantFormData);
   if (validationResult.error)
     return validationError(
