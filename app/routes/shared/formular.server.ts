@@ -2,6 +2,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
 import type { z } from "zod";
+import { pruneContext } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
 import { parsePathname } from "~/flows/flowIds";
 import { flows } from "~/flows/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -137,7 +138,7 @@ export const loader = async ({
   const arraySummaryData = getSummaryData(
     categories,
     flowController.getRootMeta()?.arrays,
-    userData,
+    pruneContext(userData),
   );
 
   const { headers, csrf } = await updateMainSession({

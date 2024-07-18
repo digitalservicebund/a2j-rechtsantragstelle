@@ -9,7 +9,10 @@ import {
   anwaltlicheVertretungDone,
 } from "./anwaltlicheVertretung/guards";
 import { finanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
-import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
+import {
+  pruneContext,
+  type BeratungshilfeFinanzielleAngaben,
+} from "./finanzielleAngaben/context";
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
@@ -100,18 +103,21 @@ export const beratungshilfeFormular = {
     ...beratungshilfeAbgabeGuards,
     ...finanzielleAngabeGuards,
   },
-  stringReplacements: (context: BeratungshilfeFormularContext) => ({
-    ...getAmtsgerichtStrings(context),
-    ...getStaatlicheLeistungenStrings(context),
-    ...getKinderStrings(context),
-    ...getArrayIndexStrings(context),
-    ...getAnwaltStrings(context),
-    ...eigentumZusammenfassungShowWarnings(context),
-    ...getMissingInformationStrings(context),
-    ...ausgabenStrings(context),
-    ...geldAnlagenStrings(context),
-    ...weiteresEinkommenStrings(context),
-  }),
+  stringReplacements: (userData: BeratungshilfeFormularContext) => {
+    const context = pruneContext(userData);
+    return {
+      ...getAmtsgerichtStrings(context),
+      ...getStaatlicheLeistungenStrings(context),
+      ...getKinderStrings(context),
+      ...getArrayIndexStrings(context),
+      ...getAnwaltStrings(context),
+      ...eigentumZusammenfassungShowWarnings(context),
+      ...getMissingInformationStrings(context),
+      ...ausgabenStrings(context),
+      ...geldAnlagenStrings(context),
+      ...weiteresEinkommenStrings(context),
+    };
+  },
 } as const;
 
 export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &
