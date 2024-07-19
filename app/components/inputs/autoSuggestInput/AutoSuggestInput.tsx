@@ -209,6 +209,7 @@ const AutoSuggestInput = ({
         instanceId={name}
         isClearable
         isSearchable
+        menuShouldScrollIntoView
         name={name}
         noOptionsMessage={({ inputValue }) =>
           inputValue.length > 2 ? noSuggestionMessage : null
