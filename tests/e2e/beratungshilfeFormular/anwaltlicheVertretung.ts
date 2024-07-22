@@ -1,5 +1,5 @@
 import { type Page } from "@playwright/test";
-import { today, toGermanDateFormat } from "~/services/validation/date";
+import { today, toGermanDateFormat } from "~/util/date";
 import type { BeratungshilfeFormular } from "../pom/BeratungshilfeFormular";
 import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";
 

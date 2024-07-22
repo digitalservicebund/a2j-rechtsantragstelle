@@ -2,7 +2,7 @@ import { z } from "zod";
 import { staatlicheLeistungen } from "~/flows/beratungshilfeVorabcheck/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
-import { addYears, createDateSchema, today } from "~/services/validation/date";
+import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
@@ -13,6 +13,7 @@ import {
   YesNoAnswer,
   customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
+import { addYears, today } from "~/util/date";
 
 const Eigentuemer = z.enum(
   ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],

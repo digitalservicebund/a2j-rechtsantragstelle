@@ -1,5 +1,5 @@
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
-import { today, toGermanDateFormat } from "~/services/validation/date";
+import { today, toGermanDateFormat } from "~/util/date";
 import { fillFooter } from "../footer";
 
 describe("fillFooter", () => {

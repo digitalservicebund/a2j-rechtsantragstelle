@@ -1,6 +1,6 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import { today, toGermanDateFormat } from "~/services/validation/date";
+import { today, toGermanDateFormat } from "~/util/date";
 import { uppercaseFirstLetter } from "~/util/strings";
 
 export function fillFooter(

@@ -1,7 +1,7 @@
 import airports from "data/airports/data.json";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 import type { Translations } from "~/services/cms/index.server";
-import { toGermanDateFormat, today } from "~/services/validation/date";
+import { toGermanDateFormat, today } from "~/util/date";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
 import type { FluggastrechtVorabcheckContext } from "./context";
 
