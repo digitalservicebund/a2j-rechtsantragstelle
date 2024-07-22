@@ -15,11 +15,8 @@ export function fillFooter(
       pdfFields.beratungsperson.value = [
         context.anwaltName,
         context.anwaltStrasseUndHausnummer,
-        context.anwaltPlz,
-        context.anwaltOrt,
-      ]
-        .filter((entry) => entry)
-        .join(", ");
+        `${context.anwaltPlz} ${context.anwaltOrt}`,
+      ].join(", ");
       pdfFields.datumBeratung.value = context.beratungStattgefundenDatum ?? "";
     }
   }
