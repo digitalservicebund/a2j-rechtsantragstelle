@@ -184,27 +184,43 @@ const AutoSuggestInput = ({
     <div data-testid={items.length > 0 ? `${inputId}-loaded` : ""}>
       {label && <InputLabel id={inputId}>{label}</InputLabel>}
       <Select
+        aria-describedby={error && errorId}
+        aria-errormessage={error && errorId}
+        aria-invalid={error !== undefined}
         className={classNames(
           "w-full",
           { "has-error": error },
           { "option-was-selected": optionWasSelected },
           width && widthClass(width),
         )}
-        isSearchable
-        isClearable
-        options={options}
-        aria-invalid={error !== undefined}
-        aria-describedby={error && errorId}
-        aria-errormessage={error && errorId}
-        id={name}
-        name={name}
-        onInputChange={onInputChange}
-        inputId={inputId}
+        components={{
+          ClearIndicator: (props) =>
+            CustomClearIndicator(props, buttonExclusionRef),
+          Control: CustomControl,
+          DropdownIndicator: () => null,
+          IndicatorSeparator: () => null,
+          Input: CustomInput,
+          ValueContainer: CustomValueContainer,
+        }}
         filterOption={() => true}
-        value={currentItemValue}
-        placeholder={placeholder ?? ""}
-        instanceId={name}
         formatOptionLabel={FormatOptionLabel}
+        id={name}
+        inputId={inputId}
+        instanceId={name}
+        isClearable
+        isSearchable
+        menuShouldScrollIntoView
+        name={name}
+        noOptionsMessage={({ inputValue }) =>
+          inputValue.length > 2 ? noSuggestionMessage : null
+        }
+        onBlur={() => {
+          // call the validation only if an option was selected
+          if (optionWasSelected) {
+            validate();
+            setOptionWasSelected(false);
+          }
+        }}
         onChange={(newValue, { action }) => {
           validate();
           // remix remove the focus on the input when clicks with the keyboard to clear the value, so we need to force the focus again
@@ -214,26 +230,11 @@ const AutoSuggestInput = ({
           }
           setCurrentItemValue(newValue);
         }}
-        onBlur={() => {
-          // call the validation only if an option was selected
-          if (optionWasSelected) {
-            validate();
-            setOptionWasSelected(false);
-          }
-        }}
-        noOptionsMessage={({ inputValue }) =>
-          inputValue.length > 2 ? noSuggestionMessage : null
-        }
-        components={{
-          Control: CustomControl,
-          IndicatorSeparator: () => null,
-          DropdownIndicator: () => null,
-          ClearIndicator: (props) =>
-            CustomClearIndicator(props, buttonExclusionRef),
-          Input: CustomInput,
-          ValueContainer: CustomValueContainer,
-        }}
+        onInputChange={onInputChange}
+        options={options}
+        placeholder={placeholder ?? ""}
         styles={customStyles(hasError)}
+        value={currentItemValue}
       />
 
       <InputError id={errorId}>
