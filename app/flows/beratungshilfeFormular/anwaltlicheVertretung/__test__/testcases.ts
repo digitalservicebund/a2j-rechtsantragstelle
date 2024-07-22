@@ -1,10 +1,7 @@
 import type { TestCases } from "~/flows/__test__/TestCases";
 import { machine } from "~/flows/beratungshilfeFormular/__test__/testMachine";
 import type { BeratungshilfeAnwaltlicheVertretung } from "~/flows/beratungshilfeFormular/anwaltlicheVertretung/context";
-import {
-  sevenDaysAgoDate,
-  thirtyDaysAgoDate,
-} from "~/util/__test__/dateFormatting";
+import { addDays, today, toGermanDateFormat } from "~/util/date";
 
 const rechtsproblemStart = "rechtsproblem/start";
 const anwaltlicheVertretungStart = "anwaltliche-vertretung/start";
@@ -52,7 +49,7 @@ const cases = [
     {
       anwaltskanzlei: "yes",
       beratungStattgefunden: "yes",
-      beratungStattgefundenDatum: sevenDaysAgoDate(),
+      beratungStattgefundenDatum: toGermanDateFormat(addDays(today(), -7)),
     },
     [
       anwaltlicheVertretungStart,
@@ -67,7 +64,7 @@ const cases = [
     {
       anwaltskanzlei: "yes",
       beratungStattgefunden: "yes",
-      beratungStattgefundenDatum: thirtyDaysAgoDate(),
+      beratungStattgefundenDatum: toGermanDateFormat(addDays(today(), -30)),
     },
     [
       anwaltlicheVertretungStart,

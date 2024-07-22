@@ -9,12 +9,7 @@ import {
   checkedOptional,
   checkedRequired,
 } from "~/services/validation/checkedCheckbox";
-import {
-  createDateSchema,
-  today,
-  addDays,
-  addYears,
-} from "~/services/validation/date";
+import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -23,6 +18,7 @@ import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
+import { addDays, addYears, today } from "~/util/date";
 import {
   adresse,
   persoenlicheDaten,

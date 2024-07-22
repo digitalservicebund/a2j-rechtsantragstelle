@@ -1,4 +1,5 @@
 import { type Page } from "@playwright/test";
+import { today, toGermanDateFormat } from "~/util/date";
 import type { BeratungshilfeFormular } from "../pom/BeratungshilfeFormular";
 import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";
 
@@ -16,16 +17,10 @@ export async function startAnwaltlicheVertretung(
 
   // beratungshilfe/antrag/anwaltliche-vertretung/beratung-stattgefunden-datum
   await expectPageToBeAccessible({ page });
-  const current = new Date(Date.now());
-  const dateFormat = current.toLocaleDateString("de-DE", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
 
   await beratungshilfeFormular.fillInputPage(
     "beratungStattgefundenDatum",
-    dateFormat,
+    toGermanDateFormat(today()),
   );
 
   // beratungshilfe/antrag/anwaltliche-vertretung/frist-hinweis
