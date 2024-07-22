@@ -10,12 +10,24 @@ describe("RichText component", () => {
     expect(screen.getByText("Link")).not.toHaveAttribute("target");
   });
 
-  it("should render external link", () => {
+  it("should open external link in new tab", () => {
     const markdown = "[Link](https://test.com)";
     render(<RichText markdown={markdown} />);
     const linkElem = screen.getByText("Link");
     expect(linkElem).toHaveAttribute("target", "_blank");
     expect(linkElem).toHaveAttribute("rel", "noopener noreferrer");
+  });
+
+  it("should add icon to external links", () => {
+    const markdown = "[Link](https://test.com)";
+    render(<RichText markdown={markdown} />);
+    const linkElem = screen.getByText("Link");
+    const icon = linkElem.querySelector("svg");
+    expect(linkElem).toContainElement(icon);
+    expect(icon).not.toBe(null);
+    expect(icon).toHaveAttribute("focusable", "false");
+    expect(icon).toHaveAttribute("aria-hidden", "true");
+    expect(icon).toContainElement(icon!.querySelector("path"));
   });
 
   it("renders markdown style correctly", () => {
