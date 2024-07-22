@@ -34,11 +34,13 @@ export async function getBeratungshilfePdfFromContext(
   fillHeader(attachmentData, pdfFields, context);
   fillAngelegenheit(attachmentData, pdfFields, context);
   fillVorraussetzungen(pdfFields, context);
+
   fillEinkommen(pdfFields, context);
   fillUnterhalt(attachmentData, pdfFields, context);
   fillBesitz(attachmentData, pdfFields, context);
   fillAusgaben(attachmentData, pdfFields, context);
   fillWohnen(pdfFields, context);
+
   fillFooter(pdfFields, context);
 
   const filledPdf = await generatePdf(pdfFields);

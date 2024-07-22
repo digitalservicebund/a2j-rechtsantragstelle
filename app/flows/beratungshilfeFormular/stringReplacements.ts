@@ -86,31 +86,21 @@ export const weiteresEinkommenStrings = (
 
 export const geldAnlagenStrings = (context: BeratungshilfeFormularContext) => {
   return {
-    hasLebensversicherung:
-      context.hasGeldanlage === "yes" &&
-      context.geldanlagen?.some(
-        (geldanlage) => geldanlage.befristetArt === "lifeInsurance",
-      ),
-    hasBausparvertrag:
-      context.hasGeldanlage === "yes" &&
-      context.geldanlagen?.some(
-        (geldanlage) => geldanlage.befristetArt === "buildingSavingsContract",
-      ),
-    hasWertpapiere:
-      context.hasGeldanlage === "yes" &&
-      context.geldanlagen?.some(
-        (geldanlage) => geldanlage.art === "wertpapiere",
-      ),
-    hasGutenhabenKrypto:
-      context.hasGeldanlage === "yes" &&
-      context.geldanlagen?.some(
-        (geldanlage) => geldanlage.art === "guthabenkontoKrypto",
-      ),
-    hasGiroTagesSparkonto:
-      context.hasGeldanlage === "yes" &&
-      context.geldanlagen?.some(
-        (geldanlage) => geldanlage.art === "giroTagesgeldSparkonto",
-      ),
+    hasLebensversicherung: context.geldanlagen?.some(
+      (geldanlage) => geldanlage.befristetArt === "lifeInsurance",
+    ),
+    hasBausparvertrag: context.geldanlagen?.some(
+      (geldanlage) => geldanlage.befristetArt === "buildingSavingsContract",
+    ),
+    hasWertpapiere: context.geldanlagen?.some(
+      (geldanlage) => geldanlage.art === "wertpapiere",
+    ),
+    hasGutenhabenKrypto: context.geldanlagen?.some(
+      (geldanlage) => geldanlage.art === "guthabenkontoKrypto",
+    ),
+    hasGiroTagesSparkonto: context.geldanlagen?.some(
+      (geldanlage) => geldanlage.art === "giroTagesgeldSparkonto",
+    ),
     hasGrundeigentum: context.hasGrundeigentum === "yes",
   };
 };

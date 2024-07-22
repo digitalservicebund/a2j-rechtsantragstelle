@@ -13,6 +13,7 @@ import {
   YesNoAnswer,
   customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
+import { BeratungshilfeFormularContext } from "..";
 
 const Eigentuemer = z.enum(
   ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -32,6 +33,99 @@ const GrundeigentumArt = z.enum(
   ],
   customRequiredErrorMessage,
 );
+
+export function pruneContext(
+  context: BeratungshilfeFormularContext,
+): Partial<BeratungshilfeFormularContext> {
+  const prunedContext: BeratungshilfeFormularContext = {};
+  // guard for asyl? (frede found bug!)
+
+  // einkommen
+  prunedContext.einkommen = context.einkommen;
+
+  // partnerschaft
+  prunedContext.partnerschaft = context.partnerschaft;
+  if (context.partnerschaft === "yes") {
+    prunedContext.zusammenleben = context.zusammenleben;
+    if (context.zusammenleben === "yes") {
+      prunedContext.partnerEinkommen = context.partnerEinkommen;
+      if (context.partnerEinkommen === "yes") {
+        prunedContext.partnerEinkommenSumme = context.partnerEinkommenSumme;
+      }
+    }
+  }
+
+  // bankkonto
+  prunedContext.hasBankkonto = context.hasBankkonto;
+  if (context.hasBankkonto === "yes") {
+    prunedContext.bankkonten = context.bankkonten;
+  }
+
+  // geldanlagen
+  prunedContext.hasGeldanlage = context.hasGeldanlage;
+  if (context.hasGeldanlage === "yes") {
+    prunedContext.geldanlagen = [];
+    context.geldanlagen?.forEach((geldanlage) => {
+      switch (geldanlage.art) {
+        case "wertpapiere":
+        case "guthabenkontoKrypto":
+        case "bargeld": {
+          prunedContext.geldanlagen!.push({
+            art: geldanlage.art,
+            eigentuemer: geldanlage.eigentuemer,
+            wert: geldanlage.wert,
+          });
+          break;
+        }
+        case "giroTagesgeldSparkonto": {
+          prunedContext.geldanlagen!.push({
+            art: geldanlage.art,
+            eigentuemer: geldanlage.eigentuemer,
+            wert: geldanlage.wert,
+            kontoBankName: geldanlage.kontoBankName,
+            kontoIban: geldanlage.kontoIban,
+            kontoBezeichnung: geldanlage.kontoBezeichnung,
+          });
+          break;
+        }
+        case "befristet": {
+          prunedContext.geldanlagen!.push({
+            art: geldanlage.art,
+            eigentuemer: geldanlage.eigentuemer,
+            befristetArt: geldanlage.befristetArt,
+            verwendungszweck: geldanlage.verwendungszweck,
+            wert: geldanlage.wert,
+            auszahlungdatum: geldanlage.auszahlungdatum,
+            kontoBankName: geldanlage.kontoBankName,
+            kontoIban: geldanlage.kontoIban,
+            kontoBezeichnung: geldanlage.kontoBezeichnung,
+          });
+          break;
+        }
+        case "forderung": {
+          prunedContext.geldanlagen!.push({
+            art: geldanlage.art,
+            forderung: geldanlage.forderung,
+            eigentuemer: geldanlage.eigentuemer,
+            wert: geldanlage.wert,
+          });
+          break;
+        }
+        case "sonstiges": {
+          prunedContext.geldanlagen!.push({
+            art: geldanlage.art,
+            eigentuemer: geldanlage.eigentuemer,
+            verwendungszweck: geldanlage.verwendungszweck,
+            wert: geldanlage.wert,
+          });
+          break;
+        }
+      }
+    });
+  }
+
+  return prunedContext;
+}
 
 const unterhaltszahlungSchema = z.object({
   firstName: stringRequiredSchema,

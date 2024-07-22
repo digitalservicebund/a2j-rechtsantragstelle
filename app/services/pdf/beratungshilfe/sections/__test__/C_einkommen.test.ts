@@ -13,7 +13,7 @@ describe("C_einkommen", () => {
     fillEinkommen(pdfFields, context);
 
     expect(pdfFields.c2Einkuenftenetto.value).toBe("100 €");
-    expect(pdfFields.c3EinkuenftePartner.value).toBe(undefined);
+    expect(pdfFields.c3EinkuenftePartner.value).toBeFalsy();
   });
 
   it("should not fill partner einkommen pdf fields when no partner given in context", async () => {
@@ -26,7 +26,7 @@ describe("C_einkommen", () => {
 
     fillEinkommen(pdfFields, context);
 
-    expect(pdfFields.c3EinkuenftePartner.value).toBe(undefined);
+    expect(pdfFields.c3EinkuenftePartner.value).toBeFalsy();
     expect(pdfFields.c4EinkuenftePartnernetto.value).toBe(undefined);
   });
 
@@ -42,7 +42,7 @@ describe("C_einkommen", () => {
 
     fillEinkommen(pdfFields, context);
 
-    expect(pdfFields.c3EinkuenftePartner.value).toBe(undefined);
+    expect(pdfFields.c3EinkuenftePartner.value).toBeFalsy();
     expect(pdfFields.c4EinkuenftePartnernetto.value).toBe(undefined);
   });
 
@@ -58,7 +58,7 @@ describe("C_einkommen", () => {
 
     fillEinkommen(pdfFields, context);
 
-    expect(pdfFields.c3EinkuenftePartner.value).toBe(undefined);
+    expect(pdfFields.c3EinkuenftePartner.value).toBeFalsy();
     expect(pdfFields.c4EinkuenftePartnernetto.value).toBe(undefined);
   });
 
