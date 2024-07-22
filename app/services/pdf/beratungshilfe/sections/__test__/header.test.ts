@@ -8,7 +8,7 @@ import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/berat
 import fillHeader from "~/services/pdf/beratungshilfe/sections/header";
 
 describe("fillHeader", () => {
-  it("should add weiteres einkommen into attachment", async () => {
+  describe("Adds weiteres einkommen", () => {
     const context: BeratungshilfeFormularContext = {
       staatlicheLeistungen: "keine",
       erwerbstaetig: "yes",
@@ -19,16 +19,25 @@ describe("fillHeader", () => {
       weitereseinkommen: happyPathData.weitereseinkommen,
     };
 
-    const pdfFields = getBeratungshilfeParameters();
-    const attachment = createAttachment();
+    const weiteresEinkommenHeading = {
+      title: "Weiteres Einkommen",
+      text: "Sonstiges",
+    };
 
-    fillHeader(attachment, pdfFields, context);
+    it("adds attachment entry", async () => {
+      const attachment = createAttachment();
+      fillHeader(attachment, getBeratungshilfeParameters(), context);
+      expect(attachment).toContainEqual(weiteresEinkommenHeading);
+    });
 
-    const hasWeiteresEinkommen = attachment.some(
-      (description) => description.title === "Weiteres Einkommen",
-    );
-
-    expect(hasWeiteresEinkommen).toEqual(true);
+    it("skips attachment entry if not relevant (eg grundsicherung)", async () => {
+      const attachment = createAttachment();
+      fillHeader(attachment, getBeratungshilfeParameters(), {
+        ...context,
+        staatlicheLeistungen: "grundsicherung",
+      });
+      expect(attachment).not.toContainEqual(weiteresEinkommenHeading);
+    });
   });
 
   it("should add amtsgericht if available", () => {
@@ -50,29 +59,6 @@ describe("fillHeader", () => {
     const pdfFields = getBeratungshilfeParameters();
     fillHeader(createAttachment(), pdfFields, { plz: "10965" });
     expect(pdfFields.namedesAmtsgerichts.value).toBeUndefined();
-  });
-
-  it("should not add weiteres einkommen into attachment", async () => {
-    const context: BeratungshilfeFormularContext = {
-      staatlicheLeistungen: "buergergeld",
-      erwerbstaetig: "yes",
-      berufart: {
-        selbststaendig: CheckboxValue.on,
-        festangestellt: CheckboxValue.off,
-      },
-      weitereseinkommen: happyPathData.weitereseinkommen,
-    };
-
-    const pdfFields = getBeratungshilfeParameters();
-    const attachment = createAttachment();
-
-    fillHeader(attachment, pdfFields, context);
-
-    const hasWeiteresEinkommen = attachment.some(
-      (description) => description.title === "Weiteres Einkommen:",
-    );
-
-    expect(hasWeiteresEinkommen).toEqual(false);
   });
 
   it("should add marital description in the attachment is bigger than 10 characters", () => {
