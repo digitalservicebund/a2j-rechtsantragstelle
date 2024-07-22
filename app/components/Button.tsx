@@ -58,9 +58,9 @@ function Button({
   iconLeft = formatIcon(iconLeft);
   iconRight = formatIcon(iconRight);
 
-  // for links that have role="button" we need to add an event handler so that it can
+  // for links that look like buttons, we want to add an event handler so that it can
   // be activated with the space bar
-  // see: https://github.com/alphagov/govuk_elements/pull/272#issuecomment-233028270
+  // see: https://github.com/digitalservicebund/a2j-rechtsantragstelle/commit/43710c9e7d59e06f304830cc7e6b92893e7c7aa1#commitcomment-144257987
   const onKeyDown = (event: React.KeyboardEvent<HTMLAnchorElement>) => {
     if (event.code === "Space") {
       event.currentTarget.click();
