@@ -2,6 +2,8 @@
   "@digitalservice4germany/angie": {
     "licenses": "MIT",
     "repository": "https://github.com/digitalservicebund/angie",
+    "publisher": "Joschka de Cuveland",
+    "email": "joschka.decuveland@digitalservice.bund.de",
     "path": "a2j-rechtsantragstelle/node_modules/@digitalservice4germany/angie",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@digitalservice4germany/angie/LICENSE",
     "direct": true
@@ -206,6 +208,15 @@
     "publisher": "Christopher Jeffrey",
     "path": "a2j-rechtsantragstelle/node_modules/marked",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/marked/LICENSE.md",
+    "direct": true
+  },
+  "match-sorter": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kentcdodds/match-sorter",
+    "publisher": "Kent C. Dodds",
+    "email": "me@kentcdodds.com",
+    "path": "a2j-rechtsantragstelle/node_modules/match-sorter",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/match-sorter/LICENSE",
     "direct": true
   },
   "mustache": {
