@@ -72,7 +72,6 @@ function Button({
     const isExternal = isExternalUrl(href);
     return (
       <a
-        data-testid="custom-button"
         {...(props as ButtonLinkProps)}
         href={href}
         className={buttonClasses}
