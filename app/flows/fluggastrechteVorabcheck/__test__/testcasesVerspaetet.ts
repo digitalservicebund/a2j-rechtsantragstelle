@@ -36,6 +36,7 @@ const cases = [
       "gruende-hinweis",
       "verjaehrung",
       "flughaefen",
+      "fluggesellschaft",
       "checkin",
       "kostenlos",
       "rabatt",
