@@ -1,7 +1,7 @@
 import { type Renderer, Marked } from "marked";
 import sanitizeHtml from "sanitize-html";
 import { z } from "zod";
-import { isExternalUrl } from "~/util/isExternalUrl";
+import { isExternalUrl, isFileDowloadUrl } from "~/util/url";
 import {
   openInNewAllowedAttributes,
   openInNewAllowedTags,
@@ -25,7 +25,8 @@ const allowedAttributes = {
 const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {
     const isExternal = isExternalUrl(href);
-    return `<a href="${href}" class="text-link" ${isExternal ? 'target="_blank" rel="noopener noreferrer"' : ""}>${text}${isExternal ? openInNewIconText : ""}</a>`;
+    const isDownload = isFileDowloadUrl(href);
+    return `<a href="${href}" class="text-link" ${isExternal ? 'target="_blank" rel="noopener noreferrer"' : ""}>${text}${isExternal || isDownload ? openInNewIconText : ""}</a>`;
   },
   heading({ depth, text }) {
     const cssClass =
