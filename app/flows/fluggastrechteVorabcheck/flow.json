@@ -385,14 +385,10 @@
       "on": {
         "BACK": [
           {
-            "target": "fluggesellschaft",
-            "guard": "bereichNichtBefoerderung"
+            "target": "checkin",
+            "guard": "bereichVerspaetet"
           },
-          {
-            "target": "fluggesellschaft",
-            "guard": "bereichAnnullierung"
-          },
-          "checkin"
+          "fluggesellschaft"
         ],
         "SUBMIT": [
           {
