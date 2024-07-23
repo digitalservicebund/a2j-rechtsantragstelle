@@ -29,3 +29,12 @@ export const toGermanDateFormat = (date: Date) => {
     year: "numeric",
   });
 };
+
+export const pdfDateFormat = (date: Date) =>
+  date
+    .toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+    })
+    .replaceAll(".", "");
