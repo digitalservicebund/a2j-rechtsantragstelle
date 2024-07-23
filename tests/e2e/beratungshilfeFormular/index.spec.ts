@@ -1,4 +1,4 @@
-import { type Page, expect, test } from "@playwright/test";
+import { type Page, type Response, expect, test } from "@playwright/test";
 import { BeratungshilfeFormular } from "tests/e2e/pom/BeratungshilfeFormular";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
 import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "./finanzielleAngabenAndereUnterhaltszahlungen";
@@ -83,9 +83,24 @@ async function startAbgabe(page: Page) {
   // beratungshilfe/antrag/abgabe/ausdrucken
   await expectPageToBeAccessible({ page });
 
-  // const responsePromise = page.waitForResponse((resp) => resp.status() === 200);
-  page.getByRole("link").getByText("pdf").click();
-  // await responsePromise;
+  // Observe context for requests to /download/pdf
+  let newTabResponse: Response | undefined;
+  page.context().on("request", async (request) => {
+    const response = await request.response();
+    if (request.url().endsWith("/download/pdf") && response !== null) {
+      newTabResponse = response;
+    }
+  });
+
+  const popupPromise = page.waitForEvent("popup");
+  await page.getByRole("link").getByText("pdf").click();
+  await popupPromise;
+
+  expect(newTabResponse).not.toBeUndefined();
+  expect(newTabResponse?.status()).toBe(200);
+  expect(await newTabResponse?.headerValue("content-type")).toBe(
+    "application/pdf",
+  );
 }
 
 async function startFinanzielleAngaben(page: Page) {
