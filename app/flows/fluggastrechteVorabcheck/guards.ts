@@ -5,17 +5,6 @@ import { partnerCourtAirports } from ".";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import { yesNoGuards, type Guards } from "../guards.server";
 
-function isNonEUToEUFlight(context: FluggastrechtVorabcheckContext) {
-  const isStartAirportEU = isEuropeanUnionAirport(context.startAirport);
-  const isEndAirportEU = isEuropeanUnionAirport(context.endAirport);
-
-  if (isStartAirportEU.isOk && isEndAirportEU.isOk) {
-    return !isStartAirportEU.value && isEndAirportEU.value;
-  }
-
-  return true;
-}
-
 export const guards = {
   bereichVerspaetet: ({ context }) => context.bereich === "verspaetet",
   bereichNichtBefoerderung: ({ context }) =>
@@ -35,18 +24,6 @@ export const guards = {
     );
     return distance.isErr;
   },
-  isEUInboundFromNonEU: ({ context }) => {
-    return isNonEUToEUFlight(context);
-  },
-  isEUOutbound: ({ context }) => {
-    const isStartAirportEU = isEuropeanUnionAirport(context.startAirport);
-
-    if (isStartAirportEU.isOk) {
-      return isStartAirportEU.value;
-    }
-
-    return true;
-  },
   isAirportOutsideEU: ({ context }) => {
     const isStartAirportEU = isEuropeanUnionAirport(context.startAirport);
     const isEndAirportEU = isEuropeanUnionAirport(context.endAirport);
@@ -61,15 +38,6 @@ export const guards = {
     return (
       context?.bereich === "nichtbefoerderung" &&
       context?.vertretbareGruende === "no"
-    );
-  },
-  isEUInboundFromNonEUBereichNichtBefoerderungAndAnnullierung: ({
-    context,
-  }) => {
-    return (
-      isNonEUToEUFlight(context) &&
-      (context?.bereich === "nichtbefoerderung" ||
-        context?.bereich === "annullierung")
     );
   },
   isAnkuendigungMoreThan13Days: ({ context }) => {
