@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { normalizeURL } from "~/util/strings";
+import { OpenInNewTabIcon } from "./openInNewTabIcon";
 
 const CourtDetailsPropsSchema = z.object({
   name: z.string(),
@@ -46,7 +47,7 @@ const CourtDetails = ({
                 target="_blank"
                 className="text-link"
               >
-                {websiteLabel} {name}
+                {websiteLabel} {name} <OpenInNewTabIcon />
               </a>
             </p>
           </li>

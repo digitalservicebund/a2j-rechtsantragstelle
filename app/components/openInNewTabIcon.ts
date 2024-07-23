@@ -1,7 +1,7 @@
 import OpenInNewIcon from "@digitalservicebund/icons/OpenInNew";
 import ReactDOMServer from "react-dom/server";
 
-export const openInNewIconText = ReactDOMServer.renderToString(
+export const OpenInNewTabIcon = () =>
   OpenInNewIcon({
     height: "1.2em",
     width: "1.2em",
@@ -10,8 +10,10 @@ export const openInNewIconText = ReactDOMServer.renderToString(
       marginLeft: "0.2em",
       marginBottom: "4px",
     },
-  }),
-);
+  });
+
+export const openInNewIconText =
+  ReactDOMServer.renderToString(OpenInNewTabIcon());
 export const openInNewAllowedTags = ["svg", "path"] as const;
 export const openInNewAllowedAttributes = {
   svg: [

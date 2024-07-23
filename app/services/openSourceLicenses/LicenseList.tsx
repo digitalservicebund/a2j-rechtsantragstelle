@@ -1,3 +1,4 @@
+import { OpenInNewTabIcon } from "~/components/openInNewTabIcon";
 import type { Dependency } from "./generate.server";
 
 const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
@@ -11,6 +12,7 @@ const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
           rel="noreferrer"
         >
           {dependencyString}
+          <OpenInNewTabIcon />
         </a>
       ) : (
         dependencyString
