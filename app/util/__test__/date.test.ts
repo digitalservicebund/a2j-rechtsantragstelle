@@ -2,6 +2,7 @@ import {
   addDays,
   addYears,
   dateUTCFromGermanDateString,
+  pdfDateFormat,
   toGermanDateFormat,
   today,
 } from "../date";
@@ -48,6 +49,12 @@ describe("date", () => {
       expect(addYears(new Date("2000-01-01"), -1)).toEqual(
         new Date("1999-01-01"),
       );
+    });
+  });
+
+  describe("pdfDateFormat()", () => {
+    it("formats correctly", () => {
+      expect(pdfDateFormat(new Date("2000-01-01"))).toEqual("010100");
     });
   });
 });

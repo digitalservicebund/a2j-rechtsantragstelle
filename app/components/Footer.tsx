@@ -1,4 +1,4 @@
-import { isExternalUrl } from "~/util/isExternalUrl";
+import { isExternalUrl } from "~/util/url";
 import Background from "./Background";
 import Container from "./Container";
 import Image, { type ImageProps } from "./Image";

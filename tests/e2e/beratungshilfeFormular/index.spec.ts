@@ -53,7 +53,6 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startFinanzielleAngaben(page);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
   await startAbgabe(page);
-  await beratungshilfeFormular.pressAntragDownloadButton();
 });
 
 test("invalid array index redirects to initial step of subflow", async ({
@@ -83,7 +82,10 @@ async function startAbgabe(page: Page) {
   await beratungshilfeFormular.fillRadioPage("abgabeArt", "ausdrucken");
   // beratungshilfe/antrag/abgabe/ausdrucken
   await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.hasAntragDownloadButton();
+
+  const responsePromise = page.waitForResponse((resp) => resp.status() === 200);
+  page.getByRole("link").getByText("pdf").click();
+  await responsePromise;
 }
 
 async function startFinanzielleAngaben(page: Page) {
