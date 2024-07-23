@@ -11,7 +11,7 @@ import {
 } from "~/services/pdf/beratungshilfe/sections/A_angelegenheit";
 
 describe("A_angelegenheit", () => {
-  it("should fill angelegenheit pdf field when correct context is given", async () => {
+  it("should fill angelegenheit pdf field when correct context is given", () => {
     const context: BeratungshilfeFormularContext = {
       bereich: "authorities",
       gegenseite: "gegner",
@@ -39,7 +39,7 @@ describe("A_angelegenheit", () => {
     );
   });
 
-  it("should fill angelegenheit in the attachment when exceeded limit length", async () => {
+  it("should fill angelegenheit in the attachment when exceeded limit length", () => {
     const context: BeratungshilfeFormularContext = {
       bereich: "authorities",
       gegenseite: "gegner gegner gegner gegner gegner",

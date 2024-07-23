@@ -24,13 +24,13 @@ describe("fillHeader", () => {
       text: "Sonstiges",
     };
 
-    it("adds attachment entry", async () => {
+    it("adds attachment entry", () => {
       const attachment = createAttachment();
       fillHeader(attachment, getBeratungshilfeParameters(), context);
       expect(attachment).toContainEqual(weiteresEinkommenHeading);
     });
 
-    it("skips attachment entry if not relevant (eg grundsicherung)", async () => {
+    it("skips attachment entry if not relevant (eg grundsicherung)", () => {
       const attachment = createAttachment();
       fillHeader(attachment, getBeratungshilfeParameters(), {
         ...context,

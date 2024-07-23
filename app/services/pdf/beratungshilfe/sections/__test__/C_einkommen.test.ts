@@ -3,7 +3,7 @@ import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/berat
 import { fillEinkommen } from "~/services/pdf/beratungshilfe/sections/C_einkommen";
 
 describe("C_einkommen", () => {
-  it("should fill einkommen pdf fields when partnerschaft is not in context", async () => {
+  it("should fill einkommen pdf fields when partnerschaft is not in context", () => {
     const context: BeratungshilfeFormularContext = {
       partnerschaft: "no",
       einkommen: "100 €",
@@ -16,7 +16,7 @@ describe("C_einkommen", () => {
     expect(pdfFields.c3EinkuenftePartner.value).toBe(undefined);
   });
 
-  it("should not fill partner einkommen pdf fields when no partner given in context", async () => {
+  it("should not fill partner einkommen pdf fields when no partner given in context", () => {
     const context: BeratungshilfeFormularContext = {
       partnerschaft: "no",
       einkommen: "100 €",
@@ -30,7 +30,7 @@ describe("C_einkommen", () => {
     expect(pdfFields.c4EinkuenftePartnernetto.value).toBe(undefined);
   });
 
-  it("should not fill partner einkommen pdf fields when partnerschaft yes but zusammenleben no in context", async () => {
+  it("should not fill partner einkommen pdf fields when partnerschaft yes but zusammenleben no in context", () => {
     const context: BeratungshilfeFormularContext = {
       partnerschaft: "yes",
       zusammenleben: "no",
@@ -46,7 +46,7 @@ describe("C_einkommen", () => {
     expect(pdfFields.c4EinkuenftePartnernetto.value).toBe(undefined);
   });
 
-  it("should not fill partner einkommen pdf fields when partnerschaft yes but partnerEinkommen no in context", async () => {
+  it("should not fill partner einkommen pdf fields when partnerschaft yes but partnerEinkommen no in context", () => {
     const context: BeratungshilfeFormularContext = {
       partnerschaft: "yes",
       zusammenleben: "yes",
@@ -62,7 +62,7 @@ describe("C_einkommen", () => {
     expect(pdfFields.c4EinkuenftePartnernetto.value).toBe(undefined);
   });
 
-  it("should fill partner einkommen pdf fields when context is partner", async () => {
+  it("should fill partner einkommen pdf fields when context is partner", () => {
     const context: BeratungshilfeFormularContext = {
       partnerschaft: "yes",
       zusammenleben: "yes",

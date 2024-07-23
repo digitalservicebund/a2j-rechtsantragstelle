@@ -96,6 +96,7 @@ module.exports = {
       extends: ["plugin:vitest/legacy-recommended"],
       rules: {
         "vitest/valid-title": "off", // enable later
+        "require-await": "error",
       },
     },
 

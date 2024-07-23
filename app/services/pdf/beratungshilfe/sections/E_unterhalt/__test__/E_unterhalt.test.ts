@@ -26,7 +26,7 @@ beforeEach(() => {
 });
 
 describe("E_unterhalt", () => {
-  it("in case does not have data for section_E, the attachment should be not filled", async () => {
+  it("in case does not have data for section_E, the attachment should be not filled", () => {
     mockedGetListKidsUnterhaltPdfField.mockReturnValue([]);
     mockedGetListPersonUnterhaltPdfField.mockReturnValue([]);
 
@@ -42,7 +42,7 @@ describe("E_unterhalt", () => {
     expect(hasAttachmentDescriptionSectionE).toBeFalsy();
   });
 
-  it("in case does have data for section_E and the attachment should be filled", async () => {
+  it("in case does have data for section_E and the attachment should be filled", () => {
     const mockUnterhaltPdfField: UnterhaltPdfField = {
       name: "name",
       familienverhaeltnis: "Mein Enkelkind",

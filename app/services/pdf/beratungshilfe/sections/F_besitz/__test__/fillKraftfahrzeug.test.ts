@@ -6,7 +6,7 @@ import { fillKraftfahrzeug } from "~/services/pdf/beratungshilfe/sections/F_besi
 const fahrzeugWirdFuerDenArbeitswegGenutzt =
   "Fahrzeug wird für den Arbeitsweg genutzt\n";
 describe("fillKraftfahrzeug", () => {
-  it("should fill kraftfahrzeug pdf field when kraftfahrzeug is given in context", async () => {
+  it("should fill kraftfahrzeug pdf field when kraftfahrzeug is given in context", () => {
     const context: BeratungshilfeFormularContext = {
       hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
@@ -40,7 +40,7 @@ describe("fillKraftfahrzeug", () => {
     expect(pdfFields.f12Verkehrswert.value).toBe("100000€");
   });
 
-  it("should fill multiple kraftfahrzeug pdf field when kraftfahrzeug is given in context", async () => {
+  it("should fill multiple kraftfahrzeug pdf field when kraftfahrzeug is given in context", () => {
     const context: BeratungshilfeFormularContext = {
       hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
@@ -106,7 +106,7 @@ describe("fillKraftfahrzeug", () => {
     });
   });
 
-  it("should fill kraftfahrzeug1 as no when does not exists kraftfahrzeug in the context", async () => {
+  it("should fill kraftfahrzeug1 as no when does not exists kraftfahrzeug in the context", () => {
     const context: BeratungshilfeFormularContext = {
       hasKraftfahrzeug: "no",
     };
@@ -120,7 +120,7 @@ describe("fillKraftfahrzeug", () => {
     expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(false);
   });
 
-  it("should fill kraftfahrzeug data only with the hasArbeitsweg and not fill other data even they are filled in the context for wert under10000", async () => {
+  it("should fill kraftfahrzeug data only with the hasArbeitsweg and not fill other data even they are filled in the context for wert under10000", () => {
     const context: BeratungshilfeFormularContext = {
       hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
@@ -154,7 +154,7 @@ describe("fillKraftfahrzeug", () => {
     expect(pdfFields.f12Verkehrswert.value).toBe("unter 10.000€");
   });
 
-  it("should fill multiple kraftfahrzeug data only with the hasArbeitsweg and not fill other data even they are filled in the context for wert under10000", async () => {
+  it("should fill multiple kraftfahrzeug data only with the hasArbeitsweg and not fill other data even they are filled in the context for wert under10000", () => {
     const context: BeratungshilfeFormularContext = {
       hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [

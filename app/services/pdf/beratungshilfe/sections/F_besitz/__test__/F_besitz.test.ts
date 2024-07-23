@@ -12,7 +12,7 @@ import {
 
 describe("F_besitz", () => {
   describe("fillFinancialBankkonto", () => {
-    it("should fill one bankkonto when context has one bankkonto is given", async () => {
+    it("should fill one bankkonto when context has one bankkonto is given", () => {
       const context: BeratungshilfeFormularContext = {
         hasBankkonto: "yes",
         bankkonten: [
@@ -40,7 +40,7 @@ describe("F_besitz", () => {
       expect(pdfFields.f4Kontostand.value).toBe("1000 €");
     });
 
-    it("should fill multiple bankkonto when context has multiple bankkonto is given", async () => {
+    it("should fill multiple bankkonto when context has multiple bankkonto is given", () => {
       const context: BeratungshilfeFormularContext = {
         hasBankkonto: "yes",
         bankkonten: [
@@ -94,7 +94,7 @@ describe("F_besitz", () => {
   });
 
   describe("fillFinancialGrundeigentum", () => {
-    it("should fill grundeigentum pdf field when grundeigentum is given in context", async () => {
+    it("should fill grundeigentum pdf field when grundeigentum is given in context", () => {
       const context: BeratungshilfeFormularContext = {
         hasGrundeigentum: "yes",
         grundeigentum: [
@@ -126,7 +126,7 @@ describe("F_besitz", () => {
       );
     });
 
-    it("should create attachment when multiple grundeigentum is given in context", async () => {
+    it("should create attachment when multiple grundeigentum is given in context", () => {
       const context: BeratungshilfeFormularContext = {
         hasGrundeigentum: "yes",
         grundeigentum: [
@@ -184,7 +184,7 @@ describe("F_besitz", () => {
   });
 
   describe("fillFinancialWertsachen", () => {
-    it("should fill wertsachen pdf field when wertsachen is given in context", async () => {
+    it("should fill wertsachen pdf field when wertsachen is given in context", () => {
       const context: BeratungshilfeFormularContext = {
         hasWertsache: "yes",
         wertsachen: [
@@ -213,7 +213,7 @@ describe("F_besitz", () => {
       );
     });
 
-    it("should fill multiple wertsachen pdf field when wertsachen is given in context", async () => {
+    it("should fill multiple wertsachen pdf field when wertsachen is given in context", () => {
       const context: BeratungshilfeFormularContext = {
         hasWertsache: "yes",
         wertsachen: [
@@ -259,7 +259,7 @@ describe("F_besitz", () => {
   });
 
   describe("fillGeldanlagen", () => {
-    it("should create a attachment when at least one geldanlage is given in context", async () => {
+    it("should create a attachment when at least one geldanlage is given in context", () => {
       const context: BeratungshilfeFormularContext = {
         geldanlagen: [
           {
@@ -287,7 +287,7 @@ describe("F_besitz", () => {
       });
     });
 
-    it("should create a valid attachment when a girokonto geldanlage is given in context", async () => {
+    it("should create a valid attachment when a girokonto geldanlage is given in context", () => {
       const context: BeratungshilfeFormularContext = {
         geldanlagen: [
           {
@@ -321,7 +321,7 @@ describe("F_besitz", () => {
       });
     });
 
-    it("should create a valid attachment when a befristete geldanlage is given in context", async () => {
+    it("should create a valid attachment when a befristete geldanlage is given in context", () => {
       const context: BeratungshilfeFormularContext = {
         geldanlagen: [
           {
@@ -355,7 +355,7 @@ describe("F_besitz", () => {
       });
     });
 
-    it("should create a valid attachment when a sonstiges geldanlage is given in context", async () => {
+    it("should create a valid attachment when a sonstiges geldanlage is given in context", () => {
       const context: BeratungshilfeFormularContext = {
         geldanlagen: [
           {
@@ -385,7 +385,7 @@ describe("F_besitz", () => {
       });
     });
 
-    it("should not create a attachment when no geldanlage is given in context", async () => {
+    it("should not create a attachment when no geldanlage is given in context", () => {
       const context: BeratungshilfeFormularContext = {
         geldanlagen: [],
       };

@@ -3,12 +3,10 @@ import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/berat
 import { fillWohnen } from "~/services/pdf/beratungshilfe/sections/D_wohnen";
 
 describe("fillWohnen", () => {
-  it("should fill wohnen section for no data correctly", async () => {
-    const context: BeratungshilfeFormularContext = {};
+  it("should fill wohnen section for no data correctly", () => {
+    const pdfFields = getBeratungshilfeParameters();
 
-    const pdfFields = await getBeratungshilfeParameters();
-
-    fillWohnen(pdfFields, context);
+    fillWohnen(pdfFields, {});
 
     expect(pdfFields.d1Wohnung.value).toEqual("");
     expect(pdfFields.d2Wohnkosten.value).toEqual(undefined);
@@ -18,7 +16,7 @@ describe("fillWohnen", () => {
     expect(pdfFields.d6WonungweiterePersonen.value).toEqual("");
   });
 
-  it("should fill wohnen section for living situation alone correct", async () => {
+  it("should fill wohnen section for living situation alone correct", () => {
     const context: BeratungshilfeFormularContext = {
       apartmentSizeSqm: 10,
       apartmentCostAlone: "100",
@@ -41,7 +39,7 @@ describe("fillWohnen", () => {
     expect(pdfFields.d6WonungweiterePersonen.value).toEqual("");
   });
 
-  it("should fill wohnen section for living situation withOthers correct", async () => {
+  it("should fill wohnen section for living situation withOthers correct", () => {
     const context: BeratungshilfeFormularContext = {
       apartmentSizeSqm: 10,
       apartmentCostFull: "100",
@@ -70,7 +68,7 @@ describe("fillWohnen", () => {
     );
   });
 
-  it("should fill wohnen section for living situation withRelatives correct", async () => {
+  it("should fill wohnen section for living situation withRelatives correct", () => {
     const context: BeratungshilfeFormularContext = {
       apartmentSizeSqm: 10,
       apartmentCostFull: "100",
@@ -99,7 +97,7 @@ describe("fillWohnen", () => {
     );
   });
 
-  it("should should round cost own share", async () => {
+  it("should should round cost own share", () => {
     const context: BeratungshilfeFormularContext = {
       apartmentSizeSqm: 10,
       apartmentCostFull: "100",

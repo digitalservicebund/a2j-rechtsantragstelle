@@ -3,7 +3,7 @@ import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/berat
 import { fillVorraussetzungen } from "~/services/pdf/beratungshilfe/sections/B_vorraussetzungen";
 
 describe("B_vorraussetzungen", () => {
-  it("should not check vorraussetzung checkbox pdf fields when context vorraussetzung is yes", async () => {
+  it("should not check vorraussetzung checkbox pdf fields when context vorraussetzung is yes", () => {
     const context: BeratungshilfeFormularContext = {
       rechtsschutzversicherung: "yes",
       beratungshilfeBeantragt: "yes",
@@ -36,7 +36,7 @@ describe("B_vorraussetzungen", () => {
     ).toBe(false);
   });
 
-  it("should not check vorraussetzung checkbox pdf fields when context vorraussetzung is no", async () => {
+  it("should not check vorraussetzung checkbox pdf fields when context vorraussetzung is no", () => {
     const context: BeratungshilfeFormularContext = {
       rechtsschutzversicherung: "no",
       beratungshilfeBeantragt: "no",
@@ -69,7 +69,7 @@ describe("B_vorraussetzungen", () => {
     ).toBe(true);
   });
 
-  it("should check and uncheck vorraussetzung checkbox pdf fields when context vorraussetzung is with yes or no", async () => {
+  it("should check and uncheck vorraussetzung checkbox pdf fields when context vorraussetzung is with yes or no", () => {
     const context: BeratungshilfeFormularContext = {
       rechtsschutzversicherung: "no",
       beratungshilfeBeantragt: "yes",

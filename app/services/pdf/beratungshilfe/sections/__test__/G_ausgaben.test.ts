@@ -10,7 +10,7 @@ import {
 const expensesRecipients = "ausgaben empfänger";
 const paymentDeadlineDate = "12.12.2099";
 describe("G_ausgaben", () => {
-  it("fills ausgaben pdf fields when correct context is given", async () => {
+  it("fills ausgaben pdf fields when correct context is given", () => {
     const mockContext: BeratungshilfeFormularContext = {
       hasAusgaben: "yes",
       ausgaben: [
@@ -45,7 +45,7 @@ describe("G_ausgaben", () => {
     );
   });
 
-  it("fills attachment when context count is greater than the available field", async () => {
+  it("fills attachment when context count is greater than the available field", () => {
     const mockContext: BeratungshilfeFormularContext = {
       ausgaben: [
         {
@@ -119,7 +119,7 @@ describe("G_ausgaben", () => {
     expect(matches).not.toEqual(["Ausgabe 0", "Ausgabe -1"]);
   });
 
-  it("fills attachment when char is greater than max char of the field", async () => {
+  it("fills attachment when char is greater than max char of the field", () => {
     const mockContext: BeratungshilfeFormularContext = {
       ausgaben: [
         {

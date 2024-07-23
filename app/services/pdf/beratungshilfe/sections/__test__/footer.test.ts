@@ -3,7 +3,7 @@ import { today, toGermanDateFormat } from "~/util/date";
 import { fillFooter } from "../footer";
 
 describe("fillFooter", () => {
-  it("Adds lawyer if available", async () => {
+  it("Adds lawyer if available", () => {
     const pdfFields = getBeratungshilfeParameters();
     fillFooter(pdfFields, {
       anwaltskanzlei: "yes",
@@ -18,7 +18,7 @@ describe("fillFooter", () => {
     );
   });
 
-  it("Adds note if lawyer has been contacted", async () => {
+  it("Adds note if lawyer has been contacted", () => {
     const pdfFields = getBeratungshilfeParameters();
     fillFooter(pdfFields, {
       anwaltskanzlei: "yes",
@@ -29,7 +29,7 @@ describe("fillFooter", () => {
     );
   });
 
-  it("Adds capitalized location and date", async () => {
+  it("Adds capitalized location and date", () => {
     const pdfFields = getBeratungshilfeParameters();
     fillFooter(pdfFields, { ort: "test" });
     expect(pdfFields.ortDatum2.value).toEqual(
@@ -37,7 +37,7 @@ describe("fillFooter", () => {
     );
   });
 
-  it("Adds name when handing in online", async () => {
+  it("Adds name when handing in online", () => {
     const pdfFields = getBeratungshilfeParameters();
     fillFooter(pdfFields, { abgabeArt: "online", vorname: "a", nachname: "b" });
     expect(
