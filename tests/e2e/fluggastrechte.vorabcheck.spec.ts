@@ -22,7 +22,9 @@ test.describe("js enabled", () => {
     );
   });
 
-  test("fluggastrechte vorabcheck can be traversed", async ({ page }) => {
+  test("fluggastrechte vorabcheck: Verspaetung can be traversed", async ({
+    page,
+  }) => {
     // fluggastrechte/vorabcheck/start
     await expectPageToBeAccessible({ page });
     await vorabcheck.clickNext();
@@ -49,6 +51,14 @@ test.describe("js enabled", () => {
       { field: "input-startAirport", value: "Berlin" },
       { field: "input-endAirport", value: "Frankfurt" },
     ]);
+
+    // fluggastrechte/vorabcheck/fluggesellschaft
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillAugtoSuggestInputPage(
+      "input-fluggesellschaft",
+      "Lufthansa",
+    );
+    await vorabcheck.clickNext();
 
     // fluggastrechte/vorabcheck/checkin
     await expectPageToBeAccessible({ page });
@@ -119,6 +129,14 @@ test.describe("js enabled", () => {
       { field: "input-endAirport", value: "Frankfurt" },
     ]);
 
+    // fluggastrechte/vorabcheck/fluggesellschaft
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillAugtoSuggestInputPage(
+      "input-fluggesellschaft",
+      "Lufthansa",
+    );
+    await vorabcheck.clickNext();
+
     // fluggastrechte/vorabcheck/kostenlos
     await vorabcheck.fillRadioPage("kostenlos", "no");
 
@@ -185,6 +203,14 @@ test.describe("js enabled", () => {
       { field: "input-endAirport", value: "Frankfurt" },
     ]);
 
+    // fluggastrechte/vorabcheck/fluggesellschaft
+    await expectPageToBeAccessible({ page });
+    await vorabcheck.fillAugtoSuggestInputPage(
+      "input-fluggesellschaft",
+      "Lufthansa",
+    );
+    await vorabcheck.clickNext();
+
     // fluggastrechte/vorabcheck/kostenlos
     await vorabcheck.fillRadioPage("kostenlos", "no");
 
@@ -249,6 +275,9 @@ test.describe("js disabled", () => {
       { field: "startAirport", value: "BER" },
       { field: "endAirport", value: "FRA" },
     ]);
+
+    // fluggastrechte/vorabcheck/fluggesellschaft
+    await vorabcheck.fillInputPageNonJavascript("fluggesellschaft", "LH");
 
     // fluggastrechte/vorabcheck/checkin
     await vorabcheck.fillRadioPageNonJavascript("checkin", "yes");
