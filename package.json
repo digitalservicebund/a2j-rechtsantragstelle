@@ -132,7 +132,7 @@
     "vite": "^5.3.4",
     "vite-env-only": "^3.0.3",
     "vite-tsconfig-paths": "^4.3.2",
-    "vitest": "^2.0.3"
+    "vitest": "^2.0.4"
   },
   "engines": {
     "node": ">=20"
