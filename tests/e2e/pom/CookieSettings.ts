@@ -52,8 +52,9 @@ export class CookieSettings {
   }
 
   async goBackToSettings() {
+    // This button comes from Strapi, so we can only identify it by the href attribute
     const backButtonSettings = await this.page.waitForSelector(
-      "[data-testid='custom-button']",
+      `[href='${this.url}']`,
     );
 
     await backButtonSettings.click();

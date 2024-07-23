@@ -77,11 +77,6 @@ describe("Button Component", () => {
     );
   });
 
-  test("renders button with data-testid as custom-button", () => {
-    render(<Button href="mockHref">Download</Button>);
-    expect(screen.getByTestId("custom-button")).toBeInTheDocument();
-  });
-
   test("renders button with data-testid from props", () => {
     render(
       <Button data-testid="anyTestId" href="mockHref">
