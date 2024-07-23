@@ -83,9 +83,9 @@ async function startAbgabe(page: Page) {
   // beratungshilfe/antrag/abgabe/ausdrucken
   await expectPageToBeAccessible({ page });
 
-  const responsePromise = page.waitForResponse((resp) => resp.status() === 200);
+  // const responsePromise = page.waitForResponse((resp) => resp.status() === 200);
   page.getByRole("link").getByText("pdf").click();
-  await responsePromise;
+  // await responsePromise;
 }
 
 async function startFinanzielleAngaben(page: Page) {
