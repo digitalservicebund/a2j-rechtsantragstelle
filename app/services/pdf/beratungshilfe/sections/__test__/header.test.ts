@@ -44,7 +44,7 @@ describe("fillHeader", () => {
     vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
     vi.mocked(findCourtIfUnique).mockReturnValue({
       ...gerbehAmtsgericht,
-      ORT: "Dessau-Roßlau",
+      BEZEICHNUNG: "Amtsgericht Dessau-Roßlau",
     });
 
     const pdfFields = getBeratungshilfeParameters();

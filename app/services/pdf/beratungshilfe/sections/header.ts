@@ -28,8 +28,9 @@ export default function fillHeader(
   pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${context.strasseHausnummer}, ${context.plz} ${context.ort}`;
   const court = findCourtIfUnique(context.plz);
   if (court) {
-    pdfFields.namedesAmtsgerichts.value = court.ORT;
-    pdfFields.postleitzahlOrt.value = `${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`;
+    const courtName = court.BEZEICHNUNG.replace("Amtsgericht", "").trim();
+    pdfFields.namedesAmtsgerichts.value = courtName;
+    pdfFields.postleitzahlOrt.value = `${court.STR_HNR}, ${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`;
   }
 
   pdfFields.tagsueberTelefonischerreichbarunterNummer.value =
