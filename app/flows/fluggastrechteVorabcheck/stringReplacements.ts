@@ -1,4 +1,5 @@
-import airports from "data/airports/data.json";
+import airlines from "data/airlines/data.json";
+import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 import type { Translations } from "~/services/cms/index.server";
 import { toGermanDateFormat, today } from "~/util/date";
@@ -11,6 +12,8 @@ export const COMPENSATION_VALUE_600 = "600";
 const FOUR_YEARS_AGO = 4;
 const LAST_DAY_YEAR = 31;
 const LAST_MONTH_YEAR = 11; // Date.setMonth starts from 0 to 11, where 11 is December
+const ARBITRATION_BOARD_BFJ = "BfJ";
+const ARBITRATION_BOARD_SOEP = "söp";
 
 export const TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM =
   "route-compensation-description-until-1500-km";
@@ -64,14 +67,14 @@ export function getLastDaytFromFourYearsAgoDate(): string {
 export function getStartAirportName({
   startAirport = "",
 }: FluggastrechtVorabcheckContext) {
-  const airportName = getAirportName(startAirport);
+  const airportName = getAirportNameByIataCode(startAirport);
   return airportName.length > 0 ? { startAirport: airportName } : {};
 }
 
 export function getEndAirportName({
   endAirport = "",
 }: FluggastrechtVorabcheckContext) {
-  const airportName = getAirportName(endAirport);
+  const airportName = getAirportNameByIataCode(endAirport);
   return airportName.length > 0 ? { endAirport: airportName } : {};
 }
 
@@ -114,16 +117,36 @@ export function getRouteCompensationDescription(
   };
 }
 
-function getAirportName(airportIataCode: string): string {
-  if (airportIataCode.length > 0) {
-    const airport = airports.find((aiport) => aiport.iata === airportIataCode);
-
-    if (airport) {
-      return airport.airport.includes(airport.city)
-        ? `${airport.airport} (${airport.iata})`
-        : `${airport.city} ${airport.airport} (${airport.iata})`;
-    }
+function getAirlineByIataCode(iataCode?: string) {
+  if (typeof iataCode === "undefined" || iataCode.length === 0) {
+    return undefined;
   }
 
-  return "";
+  return airlines.find((airline) => airline.iata === iataCode);
+}
+
+export function hasArbitrationBoardBfJ({
+  fluggesellschaft,
+}: FluggastrechtVorabcheckContext) {
+  const airline = getAirlineByIataCode(fluggesellschaft);
+
+  return {
+    hasArbitrationBoardBfJ:
+      typeof airline === "undefined" ||
+      airline?.arbitrationBoard === ARBITRATION_BOARD_BFJ ||
+      airline?.arbitrationBoard === null, // a few airlines has not specified the arbitrationBoard
+  };
+}
+
+export function hasArbitrationBoardSoeP({
+  fluggesellschaft,
+}: FluggastrechtVorabcheckContext) {
+  const airline = getAirlineByIataCode(fluggesellschaft);
+
+  return {
+    hasArbitrationBoardSoeP:
+      typeof airline === "undefined" ||
+      airline?.arbitrationBoard === ARBITRATION_BOARD_SOEP ||
+      airline?.arbitrationBoard === null, // a few airlines has not specified the arbitrationBoard
+  };
 }

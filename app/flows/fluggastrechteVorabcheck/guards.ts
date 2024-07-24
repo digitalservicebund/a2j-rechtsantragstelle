@@ -1,7 +1,6 @@
 import airlines from "data/airlines/data.json";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
 import { isEuropeanUnionAirport } from "~/services/airports/isEuropeanUnionAirport";
-import { partnerCourtAirports } from ".";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import { yesNoGuards, type Guards } from "../guards.server";
 
@@ -10,13 +9,6 @@ export const guards = {
   bereichNichtBefoerderung: ({ context }) =>
     context.bereich === "nichtbefoerderung",
   bereichAnnullierung: ({ context }) => context.bereich === "annullierung",
-  isPartnerAirport: ({ context }) => {
-    const airportAbbreviations = Object.keys(partnerCourtAirports);
-    return (
-      airportAbbreviations.includes(context.startAirport ?? "") ||
-      airportAbbreviations.includes(context.endAirport ?? "")
-    );
-  },
   isInvalidAirportDistance: ({ context }) => {
     const distance = calculateDistanceBetweenAirportsInKilometers(
       context.startAirport ?? "",
