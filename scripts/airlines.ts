@@ -6,16 +6,24 @@ interface Airline {
   name: string;
   iata: string;
   isInEU: boolean;
-  arbitrationBoard: string;
+  arbitrationBoard: string | null;
 }
 
 function processAirlineRow(row: string): Airline {
   const [airlineName, arbitrationBoardCode, iataCode, region] = row.split(";");
+  const arbitrationBoardValueWithoutDash = arbitrationBoardCode.replace(
+    "-",
+    "",
+  );
+  const arbitrationBoardValue =
+    arbitrationBoardValueWithoutDash.length === 0
+      ? null
+      : arbitrationBoardValueWithoutDash;
   return {
     name: airlineName,
     iata: iataCode,
     isInEU: region === "EU",
-    arbitrationBoard: arbitrationBoardCode.replace("-", ""),
+    arbitrationBoard: arbitrationBoardValue,
   };
 }
 
@@ -47,7 +55,7 @@ async function generateAirlinesData(filePath: string) {
     name: "Sonstiges",
     iata: "sonstiges",
     isInEU: true, // set as true, so it goes to a different error page
-    arbitrationBoard: "",
+    arbitrationBoard: null,
   });
 
   saveAirlinesInFile(airlines);

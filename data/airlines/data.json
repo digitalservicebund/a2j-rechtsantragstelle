@@ -333,13 +333,13 @@
     "name": "easyJet Europe Airline GmbH",
     "iata": "EC",
     "isInEU": true,
-    "arbitrationBoard": ""
+    "arbitrationBoard": null
   },
   {
     "name": "Easyjet Switzerland S.A",
     "iata": "DS",
     "isInEU": false,
-    "arbitrationBoard": ""
+    "arbitrationBoard": null
   },
   {
     "name": "Edelweiss Air AG",
@@ -671,7 +671,7 @@
     "name": "Smartlynx Airlines Malta Ltd",
     "iata": "2N",
     "isInEU": true,
-    "arbitrationBoard": ""
+    "arbitrationBoard": null
   },
   {
     "name": "Smartwings",
@@ -683,7 +683,7 @@
     "name": "Smartwings Hungary Kft. dba Smartwings Hungary Kft.",
     "iata": "7O",
     "isInEU": false,
-    "arbitrationBoard": ""
+    "arbitrationBoard": null
   },
   {
     "name": "SriLankan Airlines Ltd.",
@@ -1005,7 +1005,7 @@
     "name": "AirAsia Cambodia",
     "iata": "KT",
     "isInEU": false,
-    "arbitrationBoard": ""
+    "arbitrationBoard": null
   },
   {
     "name": "Air Caraibes",
@@ -1216,55 +1216,55 @@
     "name": "Air France",
     "iata": "AF",
     "isInEU": true,
-    "arbitrationBoard": ""
+    "arbitrationBoard": null
   },
-  { "name": "KLM", "iata": "KL", "isInEU": true, "arbitrationBoard": "" },
+  { "name": "KLM", "iata": "KL", "isInEU": true, "arbitrationBoard": null },
   {
     "name": "Lufthansa Cityline",
     "iata": "CL",
     "isInEU": true,
-    "arbitrationBoard": ""
+    "arbitrationBoard": null
   },
   {
     "name": "Wizz Air malta",
     "iata": "W4",
     "isInEU": true,
-    "arbitrationBoard": ""
+    "arbitrationBoard": null
   },
   {
     "name": "Scandinavian Airlines (SAS)",
     "iata": "SK",
     "isInEU": true,
-    "arbitrationBoard": ""
+    "arbitrationBoard": null
   },
   {
     "name": "Austrian Airlines",
     "iata": "OS",
     "isInEU": true,
-    "arbitrationBoard": ""
+    "arbitrationBoard": null
   },
   {
     "name": "Vueling Airlines",
     "iata": "VY",
     "isInEU": true,
-    "arbitrationBoard": ""
+    "arbitrationBoard": null
   },
   {
     "name": "KLM Cityhopper",
     "iata": "WA",
     "isInEU": true,
-    "arbitrationBoard": ""
+    "arbitrationBoard": null
   },
   {
     "name": "TAP Portugal",
     "iata": "TP",
     "isInEU": true,
-    "arbitrationBoard": ""
+    "arbitrationBoard": null
   },
   {
     "name": "Sonstiges",
     "iata": "sonstiges",
     "isInEU": true,
-    "arbitrationBoard": ""
+    "arbitrationBoard": null
   }
 ]
