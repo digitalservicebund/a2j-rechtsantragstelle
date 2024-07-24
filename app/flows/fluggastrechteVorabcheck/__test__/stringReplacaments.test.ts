@@ -11,6 +11,8 @@ import {
   getLastDaytFromFourYearsAgoDate,
   getRouteCompensationDescription,
   getStartAirportName,
+  hasSchlichtungsstelleBfJ,
+  hasSchlichtungsstelleSoeP,
 } from "~/flows/fluggastrechteVorabcheck/stringReplacements";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 
@@ -233,5 +235,69 @@ describe("getRouteCompensationDescription", () => {
     );
 
     expect(actual).toStrictEqual({});
+  });
+});
+
+describe("hasSchlichtungsstelleBfJ", () => {
+  it("should return hasSchlichtungsstelleBfJ object as true, in case does not exist fluggesellschaft", () => {
+    const actual = hasSchlichtungsstelleBfJ({});
+    expect(actual).toStrictEqual({ hasSchlichtungsstelleBfJ: true });
+  });
+
+  it("should return hasSchlichtungsstelleBfJ object as true, in case does fluggesellschaft is empty", () => {
+    const actual = hasSchlichtungsstelleBfJ({ fluggesellschaft: "" });
+    expect(actual).toStrictEqual({ hasSchlichtungsstelleBfJ: true });
+  });
+
+  it("should return hasSchlichtungsstelleBfJ object as true, in case does fluggesellschaft does not exit", () => {
+    const actual = hasSchlichtungsstelleBfJ({ fluggesellschaft: "XXXXX" });
+    expect(actual).toStrictEqual({ hasSchlichtungsstelleBfJ: true });
+  });
+
+  it("should return hasSchlichtungsstelleBfJ object as true, in case does fluggesellschaft belongs to BfJ", () => {
+    const actual = hasSchlichtungsstelleBfJ({ fluggesellschaft: "IB" });
+    expect(actual).toStrictEqual({ hasSchlichtungsstelleBfJ: true });
+  });
+
+  it("should return hasSchlichtungsstelleBfJ object as true, in case does arbitrationBoard of fluggesellschaft is empty", () => {
+    const actual = hasSchlichtungsstelleBfJ({ fluggesellschaft: "sonstiges" });
+    expect(actual).toStrictEqual({ hasSchlichtungsstelleBfJ: true });
+  });
+
+  it("should return hasSchlichtungsstelleBfJ object as false, in case does fluggesellschaft belongs to söp", () => {
+    const actual = hasSchlichtungsstelleBfJ({ fluggesellschaft: "LH" });
+    expect(actual).toStrictEqual({ hasSchlichtungsstelleBfJ: false });
+  });
+});
+
+describe("hasSchlichtungsstelleSoeP", () => {
+  it("should return hasSchlichtungsstelleSoeP object as true, in case does not exist fluggesellschaft", () => {
+    const actual = hasSchlichtungsstelleSoeP({});
+    expect(actual).toStrictEqual({ hasSchlichtungsstelleSoeP: true });
+  });
+
+  it("should return hasSchlichtungsstelleSoP object as true, in case does fluggesellschaft is empty", () => {
+    const actual = hasSchlichtungsstelleSoeP({ fluggesellschaft: "" });
+    expect(actual).toStrictEqual({ hasSchlichtungsstelleSoeP: true });
+  });
+
+  it("should return hasSchlichtungsstelleSoeP object as true, in case does fluggesellschaft does not exit", () => {
+    const actual = hasSchlichtungsstelleSoeP({ fluggesellschaft: "XXXXX" });
+    expect(actual).toStrictEqual({ hasSchlichtungsstelleSoeP: true });
+  });
+
+  it("should return hasSchlichtungsstelleSoeP object as true, in case does fluggesellschaft belongs to söp", () => {
+    const actual = hasSchlichtungsstelleSoeP({ fluggesellschaft: "LH" });
+    expect(actual).toStrictEqual({ hasSchlichtungsstelleSoeP: true });
+  });
+
+  it("should return hasSchlichtungsstelleSoeP object as true, in case does arbitrationBoard of fluggesellschaft is empty", () => {
+    const actual = hasSchlichtungsstelleSoeP({ fluggesellschaft: "sonstiges" });
+    expect(actual).toStrictEqual({ hasSchlichtungsstelleSoeP: true });
+  });
+
+  it("should return hasSchlichtungsstelleSoeP object as false, in case does fluggesellschaft belongs to BfJ", () => {
+    const actual = hasSchlichtungsstelleSoeP({ fluggesellschaft: "IB" });
+    expect(actual).toStrictEqual({ hasSchlichtungsstelleSoeP: false });
   });
 });
