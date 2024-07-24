@@ -10,12 +10,12 @@ interface Airline {
 }
 
 function processAirlineRow(row: string): Airline {
-  const [airlineName, arbitrationBoard, iataCode, region] = row.split(";");
+  const [airlineName, arbitrationBoardCode, iataCode, region] = row.split(";");
   return {
     name: airlineName,
     iata: iataCode,
     isInEU: region === "EU",
-    arbitrationBoard,
+    arbitrationBoard: arbitrationBoardCode.replace("-", ""),
   };
 }
 

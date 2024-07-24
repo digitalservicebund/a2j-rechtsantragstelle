@@ -333,13 +333,13 @@
     "name": "easyJet Europe Airline GmbH",
     "iata": "EC",
     "isInEU": true,
-    "arbitrationBoard": "-"
+    "arbitrationBoard": ""
   },
   {
     "name": "Easyjet Switzerland S.A",
     "iata": "DS",
     "isInEU": false,
-    "arbitrationBoard": "-"
+    "arbitrationBoard": ""
   },
   {
     "name": "Edelweiss Air AG",
