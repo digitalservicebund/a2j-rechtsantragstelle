@@ -10,7 +10,6 @@ import {
   checkedRequired,
 } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
-import { integerSchema } from "~/services/validation/integer";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
@@ -25,18 +24,12 @@ import {
   namePrivatPerson,
 } from "../persoenlicheDaten/context";
 
-const FileUploadDummySchema = stringOptionalSchema
-  .or(z.object({}))
-  .or(z.array(z.any()));
-
 export const fluggastrechtContext = {
   startAirport: airportSchema,
   endAirport: airportSchema,
   fluggesellschaft: airlineSchema,
   bereich: fluggastBereichSchema,
   zwischenstopps: YesNoAnswer,
-  buchungsbestaetigung: FileUploadDummySchema,
-  schriftverkehr: FileUploadDummySchema,
   singleFlugnummer: stringRequiredSchema,
   singleAbflugDatum: createDateSchema(),
   singleAbflugZeit: timeSchema,
@@ -63,7 +56,6 @@ export const fluggastrechtContext = {
   ...namePrivatPerson,
   volljaehrig: YesNoAnswer,
   gesetzlicheVertretung: YesNoAnswer,
-  entfernung: integerSchema,
   teilentschaedigung: YesNoAnswer,
   frist: createDateSchema({
     earliest: () => addYears(today(), -3),
