@@ -270,19 +270,7 @@
             "target": "ergebnis/flughaefen-abbruch",
             "guard": "isAirportOutsideEU"
           },
-          {
-            "target": "fluggesellschaft",
-            "guard": "isEUInboundFromNonEU"
-          },
-          {
-            "target": "kostenlos",
-            "guard": "bereichNichtBefoerderung"
-          },
-          {
-            "target": "kostenlos",
-            "guard": "bereichAnnullierung"
-          },
-          "checkin"
+          "fluggesellschaft"
         ]
       }
     },
@@ -335,13 +323,7 @@
     },
     "checkin": {
       "on": {
-        "BACK": [
-          {
-            "target": "flughaefen",
-            "guard": "isEUOutbound"
-          },
-          "fluggesellschaft"
-        ],
+        "BACK": ["fluggesellschaft"],
         "SUBMIT": [
           {
             "target": "kostenlos",
@@ -403,18 +385,10 @@
       "on": {
         "BACK": [
           {
-            "target": "fluggesellschaft",
-            "guard": "isEUInboundFromNonEUBereichNichtBefoerderungAndAnnullierung"
+            "target": "checkin",
+            "guard": "bereichVerspaetet"
           },
-          {
-            "target": "flughaefen",
-            "guard": "bereichNichtBefoerderung"
-          },
-          {
-            "target": "flughaefen",
-            "guard": "bereichAnnullierung"
-          },
-          "checkin"
+          "fluggesellschaft"
         ],
         "SUBMIT": [
           {
