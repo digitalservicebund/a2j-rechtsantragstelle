@@ -54,7 +54,7 @@ test.describe("js enabled", () => {
 
     // fluggastrechte/vorabcheck/fluggesellschaft
     await expectPageToBeAccessible({ page });
-    await vorabcheck.fillAugtoSuggestInputPage(
+    await vorabcheck.fillAutoSuggestInputPage(
       "input-fluggesellschaft",
       "Lufthansa",
     );
@@ -130,8 +130,7 @@ test.describe("js enabled", () => {
     ]);
 
     // fluggastrechte/vorabcheck/fluggesellschaft
-    await expectPageToBeAccessible({ page });
-    await vorabcheck.fillAugtoSuggestInputPage(
+    await vorabcheck.fillAutoSuggestInputPage(
       "input-fluggesellschaft",
       "Lufthansa",
     );
@@ -204,8 +203,7 @@ test.describe("js enabled", () => {
     ]);
 
     // fluggastrechte/vorabcheck/fluggesellschaft
-    await expectPageToBeAccessible({ page });
-    await vorabcheck.fillAugtoSuggestInputPage(
+    await vorabcheck.fillAutoSuggestInputPage(
       "input-fluggesellschaft",
       "Lufthansa",
     );

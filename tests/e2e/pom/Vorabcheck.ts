@@ -74,7 +74,7 @@ export class Vorabcheck {
     await this.clickNextWithoutJavaScript();
   }
 
-  async fillAugtoSuggestInputPage(field: string, value: string) {
+  async fillAutoSuggestInputPage(field: string, value: string) {
     await this.page.waitForSelector(`[data-testid=${field}-loaded]`);
     await this.page.locator(`input[id="${field}"]`).fill(value);
     const menuItem = await this.page
@@ -87,7 +87,7 @@ export class Vorabcheck {
     fields: { field: string; value: string }[],
   ) {
     for (const { field, value } of fields) {
-      await this.fillAugtoSuggestInputPage(field, value);
+      await this.fillAutoSuggestInputPage(field, value);
     }
     await this.clickNext();
   }
