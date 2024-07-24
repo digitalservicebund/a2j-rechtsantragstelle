@@ -8,8 +8,8 @@ import {
   getLastDaytFromFourYearsAgoDate,
   getRouteCompensationDescription,
   getStartAirportName,
-  hasSchlichtungsstelleBfJ,
-  hasSchlichtungsstelleSoeP,
+  hasArbitrationBoardBfJ,
+  hasArbitrationBoardSoeP,
 } from "./stringReplacements";
 import type { Context } from "../contexts";
 
@@ -26,8 +26,8 @@ export const fluggastrechteVorabcheck = {
     ...getStartAirportName(context),
     ...getEndAirportName(context),
     ...getRouteCompensationDescription(context, translations),
-    ...hasSchlichtungsstelleBfJ(context),
-    ...hasSchlichtungsstelleSoeP(context),
+    ...hasArbitrationBoardBfJ(context),
+    ...hasArbitrationBoardSoeP(context),
   }),
 } as const;
 

@@ -12,8 +12,8 @@ export const COMPENSATION_VALUE_600 = "600";
 const FOUR_YEARS_AGO = 4;
 const LAST_DAY_YEAR = 31;
 const LAST_MONTH_YEAR = 11; // Date.setMonth starts from 0 to 11, where 11 is December
-const SCHLICHTUNGSSTELLE_LUFTVERKEHR_CODE = "BfJ";
-const SCHLICHTUNGSSTELLE_REISE_VERKEHR_CODE = "söp";
+const ARBITRATION_BOARD_BFJ = "BfJ";
+const ARBITRATION_BOARD_SOEP = "söp";
 
 export const TRANSLATION_ROUTE_COMPENSATION_DESCRIPTION_UNTIL_1500_KM =
   "route-compensation-description-until-1500-km";
@@ -125,28 +125,28 @@ function getAirlineByIataCode(iataCode?: string) {
   return airlines.find((airline) => airline.iata === iataCode);
 }
 
-export function hasSchlichtungsstelleBfJ({
+export function hasArbitrationBoardBfJ({
   fluggesellschaft,
 }: FluggastrechtVorabcheckContext) {
   const airline = getAirlineByIataCode(fluggesellschaft);
 
   return {
-    hasSchlichtungsstelleBfJ:
+    hasArbitrationBoardBfJ:
       typeof airline === "undefined" ||
-      airline?.arbitrationBoard === SCHLICHTUNGSSTELLE_LUFTVERKEHR_CODE ||
-      airline?.arbitrationBoard === "", // a few airlines has not specified the arbitrationBoard
+      airline?.arbitrationBoard === ARBITRATION_BOARD_BFJ ||
+      airline?.arbitrationBoard === null, // a few airlines has not specified the arbitrationBoard
   };
 }
 
-export function hasSchlichtungsstelleSoeP({
+export function hasArbitrationBoardSoeP({
   fluggesellschaft,
 }: FluggastrechtVorabcheckContext) {
   const airline = getAirlineByIataCode(fluggesellschaft);
 
   return {
-    hasSchlichtungsstelleSoeP:
+    hasArbitrationBoardSoeP:
       typeof airline === "undefined" ||
-      airline?.arbitrationBoard === SCHLICHTUNGSSTELLE_REISE_VERKEHR_CODE ||
-      airline?.arbitrationBoard === "", // a few airlines has not specified the arbitrationBoard
+      airline?.arbitrationBoard === ARBITRATION_BOARD_SOEP ||
+      airline?.arbitrationBoard === null, // a few airlines has not specified the arbitrationBoard
   };
 }
