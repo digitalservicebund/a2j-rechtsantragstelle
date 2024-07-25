@@ -70,7 +70,7 @@
         "privatperson-bevollmaechtigte-person": {
           "on": {
             "BACK": "privatperson-kontakt",
-            "SUBMIT": "#/geld-einklagen/formular/.forderung"
+            "SUBMIT": "#forderung"
           }
         },
         "unternehmen-name": {
@@ -94,7 +94,7 @@
         "unternehmen-bevollmaechtigte-person": {
           "on": {
             "BACK": "unternehmen-telefonnummer",
-            "SUBMIT": "#/geld-einklagen/formular/.forderung"
+            "SUBMIT": "#forderung"
           }
         }
       }
@@ -172,7 +172,7 @@
         "kosten": {
           "on": {
             "BACK": "nebenforderungen",
-            "SUBMIT": "#/geld-einklagen/formular/.versaeumnisurteil"
+            "SUBMIT": "#/geld-einklagen/formular.versaeumnisurteil"
           }
         }
       }
@@ -180,7 +180,7 @@
     "versaeumnisurteil": {
       "on": {
         "SUBMIT": "anmerkung",
-        "BACK": "#/geld-einklagen/formular/.forderung.kosten"
+        "BACK": "#forderung.kosten"
       }
     },
     "anmerkung": {
