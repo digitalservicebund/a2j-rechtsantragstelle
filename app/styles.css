@@ -37,17 +37,6 @@ svg {
   fill: currentColor;
 }
 
-/* TODO: needs to be fixed in Angie - PR opened: https://github.com/digitalservicebund/angie/pull/206 */
-.ds-textarea.has-error {
-  box-shadow: inset 0 0 0 2px #b0243f;
-  background-color: #f9e5ec;
-}
-
-/* TODO: needs to be fixed in Angie - PR opened: https://github.com/digitalservicebund/angie/pull/205 */
-.ds-radio {
-  background: transparent; /* for old Safari */
-}
-
 /* Tailwind's container core plugin is disabled,
  * because its breakpoint-based nature does not fit our needs */
 .container {
