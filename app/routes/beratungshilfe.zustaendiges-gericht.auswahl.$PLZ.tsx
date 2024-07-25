@@ -8,7 +8,7 @@ import Container from "~/components/Container";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import Heading from "~/components/Heading";
 import RichText from "~/components/RichText";
-import { fetchMeta, fetchSingleEntry } from "~/services/cms/index.server";
+import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { fillTemplate } from "~/util/fillTemplate";
 import { splitObjectsByFirstLetter } from "~/util/strings";
@@ -26,7 +26,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const filterValue = pathname.substring(0, pathname.lastIndexOf("/"));
   const [common, meta] = await Promise.all([
-    fetchSingleEntry("amtsgericht-common"),
+    fetchTranslations("amtsgericht"),
     fetchMeta({ filterValue }),
   ]);
 

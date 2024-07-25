@@ -11,7 +11,7 @@ import PageContent from "~/components/PageContent";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import {
   fetchCollectionEntry,
-  fetchSingleEntry,
+  fetchTranslations,
 } from "~/services/cms/index.server";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
@@ -34,7 +34,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const [common, { pre_form, form, meta, nextButtonLabel }] = await Promise.all(
     [
-      fetchSingleEntry("amtsgericht-common"),
+      fetchTranslations("amtsgericht"),
       fetchCollectionEntry("vorab-check-pages", slug),
     ],
   );

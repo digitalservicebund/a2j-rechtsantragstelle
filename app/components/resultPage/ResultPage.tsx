@@ -17,7 +17,7 @@ import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
-import type { CollectionSchemas, EntrySchemas } from "~/services/cms/schemas";
+import type { CollectionSchemas } from "~/services/cms/schemas";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import { arrayIsNonEmpty } from "~/util/array";
 
@@ -42,7 +42,7 @@ type Props = {
     label: string;
     destination?: string;
   };
-  readonly amtsgerichtCommon: z.infer<EntrySchemas["amtsgericht-common"]>;
+  readonly amtsgerichtCommon: Translations;
   readonly courts: Jmtd14VTErwerberGerbeh[];
 };
 

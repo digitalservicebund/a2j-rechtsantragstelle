@@ -32,7 +32,6 @@ describe("services/cms", () => {
       footer: [{ id: 0, attributes: footerData }],
       pages: [{ id: 0, attributes: impressum }],
       "cookie-banner": [],
-      "amtsgericht-common": [],
       "result-pages": [],
       "vorab-check-pages": [],
       "form-flow-pages": [],

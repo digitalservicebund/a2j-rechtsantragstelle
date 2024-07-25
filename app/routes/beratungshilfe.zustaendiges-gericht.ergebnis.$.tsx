@@ -10,6 +10,7 @@ import PageContent from "~/components/PageContent";
 import {
   fetchCollectionEntry,
   fetchSingleEntry,
+  fetchTranslations,
 } from "~/services/cms/index.server";
 import {
   edgeCasesForPlz,
@@ -38,7 +39,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
   const slug = "/beratungshilfe/zustaendiges-gericht/ergebnis";
   const [common, { content, meta }] = await Promise.all([
-    fetchSingleEntry("amtsgericht-common"),
+    fetchTranslations("amtsgericht"),
     fetchCollectionEntry("pages", slug),
   ]);
 

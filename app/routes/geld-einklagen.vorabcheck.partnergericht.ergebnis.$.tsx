@@ -15,7 +15,7 @@ import { parsePathname } from "~/flows/flowIds";
 import type { GeldEinklagenVorabcheckContext } from "~/flows/geldEinklagenVorabcheck/context";
 import {
   fetchCollectionEntry,
-  fetchSingleEntry,
+  fetchTranslations,
 } from "~/services/cms/index.server";
 import {
   findCourt,
@@ -69,7 +69,7 @@ export const loader = async ({
     });
 
   const [common, { heading, freeZone, hintText, meta }] = await Promise.all([
-    fetchSingleEntry("amtsgericht-common"),
+    fetchTranslations("amtsgericht"),
     fetchCollectionEntry("result-pages", pathname),
   ]);
 

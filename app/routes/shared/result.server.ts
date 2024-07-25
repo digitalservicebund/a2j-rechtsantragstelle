@@ -10,7 +10,6 @@ import { flows } from "~/flows/flows.server";
 import {
   fetchCollectionEntry,
   fetchMeta,
-  fetchSingleEntry,
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
@@ -75,7 +74,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchMeta({
       filterValue: pathname.substring(0, pathname.lastIndexOf("/")),
     }),
-    fetchSingleEntry("amtsgericht-common"),
+    fetchTranslations("amtsgericht"),
     fetchTranslations("defaultTranslations"),
     fetchTranslations(flowId),
   ]);
