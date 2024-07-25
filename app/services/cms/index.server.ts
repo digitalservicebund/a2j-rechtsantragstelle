@@ -47,7 +47,6 @@ export async function fetchCollectionEntry<
   filterField = "slug",
   locale?: StrapiLocale,
 ): Promise<z.infer<CollectionSchemas[ApiId]>> {
-  // We are stripping single trailing slash e.g. .../beratungshilfe/
   const strapiEntry = await getStrapiEntry({
     apiId,
     locale,
