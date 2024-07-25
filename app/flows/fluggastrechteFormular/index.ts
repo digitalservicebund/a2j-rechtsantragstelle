@@ -1,15 +1,32 @@
 import _ from "lodash";
+import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 import fluggastrechteFlow from "./flow.json";
 import { fluggastrechteGuards } from "./guards";
 import { type AllContexts } from "../common";
 import { gerichtskostenFromBetrag } from "../gerichtskosten";
 import persoenlicheDatenFlow from "../persoenlicheDaten/flow.json";
 
-function forderungFromEntfernung(entfernung: number) {
-  // TODO: handle negative distance?
-  if (entfernung < 1500) return 250;
-  if (entfernung < 3500) return 400;
-  return 600;
+function forderungFromAirports(startAirport: string, endAirport: string) {
+  const routeCompensation = getRouteCompensationBetweenAirports(
+    startAirport,
+    endAirport,
+  );
+
+  switch (routeCompensation) {
+    case "notPossibleCalculateDistance": {
+      return 0;
+    }
+    case "shortDistance": {
+      return 250;
+    }
+    case "longDistanceInsideEU":
+    case "middleDistance": {
+      return 400;
+    }
+    case "longDistanceOutsideEU": {
+      return 600;
+    }
+  }
 }
 
 export const fluggastrechtFlow = {
@@ -17,13 +34,18 @@ export const fluggastrechtFlow = {
   stringReplacements: (context: AllContexts) => {
     if (!("zwischenstopps" in context)) return {};
     return {
-      entfernung: context.entfernung?.toLocaleString("de"),
       startAirport: context.startAirport,
       endAirport: context.endAirport,
       zwischenstoppAirport: context.zwischenstoppFlughafen,
-      forderung: forderungFromEntfernung(context.entfernung ?? 0).toString(),
+      forderung: forderungFromAirports(
+        context.startAirport ?? "",
+        context.endAirport ?? "",
+      ).toString(),
       kosten: gerichtskostenFromBetrag(
-        forderungFromEntfernung(context.entfernung ?? 0),
+        forderungFromAirports(
+          context.startAirport ?? "",
+          context.endAirport ?? "",
+        ),
       ).toString(),
     };
   },
@@ -35,7 +57,7 @@ export const fluggastrechtFlow = {
         states: {
           name: { on: { BACK: "#flugdaten.anzahl" } },
           "bevollmaechtigte-person": {
-            on: { SUBMIT: "#forderung.entfernung" },
+            on: { SUBMIT: "#forderung.forderung" },
           },
         },
       }),

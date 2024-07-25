@@ -101,10 +101,6 @@ test.describe("Fluggastrechte Formular", () => {
     await expectPageToBeAccessible({ page });
     await fluggastrechte.fillRadioPage("bevollmaechtigtePerson", "no");
 
-    // /fluggastrechte/formular/entfernung
-    await expectPageToBeAccessible({ page });
-    await fluggastrechte.fillInputPage("entfernung", "300");
-
     // /fluggastrechte/formular/forderung
     await expectPageToBeAccessible({ page });
     await fluggastrechte.clickNext();
@@ -114,14 +110,6 @@ test.describe("Fluggastrechte Formular", () => {
     await fluggastrechte.fillRadioPage("teilentschaedigung", "no");
 
     // /fluggastrechte/formular/nebenforderungen
-    await expectPageToBeAccessible({ page });
-    await fluggastrechte.clickNext();
-
-    // /fluggastrechte/formular/buchungsbestaetigung
-    await expectPageToBeAccessible({ page });
-    await fluggastrechte.clickNext();
-
-    // /fluggastrechte/formular/schriftverkehr
     await expectPageToBeAccessible({ page });
     await fluggastrechte.clickNext();
 

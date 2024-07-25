@@ -160,40 +160,22 @@
     "persoenliche-daten": {},
     "forderung": {
       "id": "forderung",
-      "initial": "entfernung",
+      "initial": "forderung",
       "states": {
-        "entfernung": {
+        "forderung": {
           "on": {
-            "SUBMIT": "forderung",
+            "SUBMIT": "teilentschaedigung",
             "BACK": "#persoenliche-daten.bevollmaechtigte-person"
           }
-        },
-        "forderung": {
-          "on": { "SUBMIT": "teilentschaedigung", "BACK": "entfernung" }
         },
         "teilentschaedigung": {
           "on": { "SUBMIT": "nebenforderungen", "BACK": "forderung" }
         },
         "nebenforderungen": {
           "on": {
-            "SUBMIT": "#daten-upload.buchungsbestaetigung",
+            "SUBMIT": "#versand.frist",
             "BACK": "teilentschaedigung"
           }
-        }
-      }
-    },
-    "daten-upload": {
-      "id": "daten-upload",
-      "initial": "buchungsbestaetigung",
-      "states": {
-        "buchungsbestaetigung": {
-          "on": {
-            "SUBMIT": "schriftverkehr",
-            "BACK": "#forderung.nebenforderungen"
-          }
-        },
-        "schriftverkehr": {
-          "on": { "SUBMIT": "#versand.frist", "BACK": "buchungsbestaetigung" }
         }
       }
     },
@@ -204,7 +186,7 @@
         "frist": {
           "on": {
             "SUBMIT": "versaeumnisurteil",
-            "BACK": "#daten-upload.schriftverkehr"
+            "BACK": "#forderung.nebenforderungen"
           }
         },
         "versaeumnisurteil": {
