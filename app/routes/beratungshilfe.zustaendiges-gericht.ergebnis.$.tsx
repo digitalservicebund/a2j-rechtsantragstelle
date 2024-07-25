@@ -7,11 +7,7 @@ import Container from "~/components/Container";
 import CourtDetails from "~/components/CourtDetails";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
-import {
-  fetchCollectionEntry,
-  fetchSingleEntry,
-  fetchTranslations,
-} from "~/services/cms/index.server";
+import { fetchPage, fetchTranslations } from "~/services/cms/index.server";
 import {
   edgeCasesForPlz,
   findCourt,
@@ -40,7 +36,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const slug = "/beratungshilfe/zustaendiges-gericht/ergebnis";
   const [common, { content, meta }] = await Promise.all([
     fetchTranslations("amtsgericht"),
-    fetchCollectionEntry("pages", slug),
+    fetchPage(slug),
   ]);
 
   return json({ court, content, meta, common });

@@ -78,6 +78,9 @@ export const fetchTranslations = async (
   }
 };
 
+export const fetchPage = async (slug: string) =>
+  await fetchCollectionEntry("pages", slug);
+
 export const strapiPageFromRequest = async ({
   request,
   locale,
