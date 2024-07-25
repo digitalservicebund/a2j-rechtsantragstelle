@@ -88,7 +88,7 @@ export const loader = async ({
     return redirectDocument(flowController.getInitial());
 
   // get all relevant strapi data
-  const pathNameWithoutArrayIndex = `/${flowId}/${stepId}`;
+  const pathNameWithoutArrayIndex = `${flowId}/${stepId}`;
   const lookupPath = pathNameWithoutArrayIndex.includes("persoenliche-daten")
     ? pathNameWithoutArrayIndex.replace("fluggastrechte", "geld-einklagen")
     : pathNameWithoutArrayIndex;

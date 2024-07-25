@@ -30,7 +30,7 @@ function forderungFromAirports(startAirport: string, endAirport: string) {
 }
 
 export const fluggastrechtFlow = {
-  migrationSource: "fluggastrechte/vorabcheck",
+  migrationSource: "/fluggastrechte/vorabcheck",
   stringReplacements: (context: AllContexts) => {
     if (!("zwischenstopps" in context)) return {};
     return {

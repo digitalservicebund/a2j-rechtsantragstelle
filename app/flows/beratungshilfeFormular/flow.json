@@ -1,5 +1,5 @@
 {
-  "id": "/beratungshilfe/antrag/",
+  "id": "/beratungshilfe/antrag",
   "initial": "start",
   "states": {
     "start": {

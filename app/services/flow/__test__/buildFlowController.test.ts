@@ -5,7 +5,7 @@ import {
 } from "~/services/flow/server/buildFlowController";
 
 const config: Config = {
-  id: "/test/flow/",
+  id: "/test/flow",
   initial: "step1",
   states: {
     step1: {
@@ -32,7 +32,7 @@ const config: Config = {
         step1: {
           on: {
             SUBMIT: [{ target: "step2" }],
-            BACK: { target: "#/test/flow/.step3" },
+            BACK: { target: "#/test/flow.step3" },
           },
         },
         step2: {
@@ -47,11 +47,10 @@ const config: Config = {
 };
 
 const nestedInitialStateConfig: Config = {
-  id: "/test/nested/",
+  id: "/test/nested",
   initial: "parent1",
   states: {
     parent1: {
-      id: "/test/nested/",
       initial: "step1",
       states: {
         step1: {
@@ -282,7 +281,7 @@ describe("buildFlowController", () => {
       expect(
         buildFlowController({
           config: {
-            id: "/test/",
+            id: "/test",
             initial: "start",
             states: { start: {} },
           },
@@ -294,7 +293,7 @@ describe("buildFlowController", () => {
       expect(
         buildFlowController({
           config: {
-            id: "/test/",
+            id: "/test",
             initial: "start",
             states: {
               start: { meta: { done: () => true } },
@@ -315,7 +314,7 @@ describe("buildFlowController", () => {
       expect(
         buildFlowController({
           config: {
-            id: "/test/",
+            id: "/test",
             initial: "parent1",
             states: {
               parent1: {
@@ -324,7 +323,7 @@ describe("buildFlowController", () => {
                   child1: {
                     initial: "start",
                     states: {
-                      start: { on: { SUBMIT: "#/test/.parent1.child2" } },
+                      start: { on: { SUBMIT: "#/test.parent1.child2" } },
                     },
                   },
                   child2: { initial: "start", states: { start: {} } },
@@ -361,7 +360,7 @@ describe("buildFlowController", () => {
       expect(
         buildFlowController({
           config: {
-            id: "/test/",
+            id: "/test",
             initial: "parent1",
             states: {
               parent1: {
@@ -396,7 +395,7 @@ describe("buildFlowController", () => {
       expect(
         buildFlowController({
           config: {
-            id: "/test/",
+            id: "/test",
             initial: "child1",
             states: {
               child1: { meta: { done: () => true }, on: { SUBMIT: "child3" } },
@@ -438,7 +437,7 @@ describe("buildFlowController", () => {
   it("all children must be done for parent to be done", () => {
     const stepStates = buildFlowController({
       config: {
-        id: "/test/",
+        id: "/test",
         initial: "parent1",
         states: {
           parent1: {
@@ -448,14 +447,14 @@ describe("buildFlowController", () => {
                 initial: "start",
                 meta: { done: () => true },
                 states: {
-                  start: { on: { SUBMIT: "#/test/.parent1.child2" } },
+                  start: { on: { SUBMIT: "#/test.parent1.child2" } },
                 },
               },
               child2: {
                 initial: "start",
                 meta: { done: () => false },
                 states: {
-                  start: { on: { SUBMIT: "#/test/.parent2" } },
+                  start: { on: { SUBMIT: "#/test.parent2" } },
                 },
               },
             },
@@ -467,7 +466,7 @@ describe("buildFlowController", () => {
                 initial: "start",
                 meta: { done: () => true },
                 states: {
-                  start: { on: { SUBMIT: "#/test/.parent2.child2" } },
+                  start: { on: { SUBMIT: "#/test.parent2.child2" } },
                 },
               },
               child2: {
@@ -487,12 +486,12 @@ describe("buildFlowController", () => {
   it("any child must be reachable for parent to be reachable", () => {
     const stepStates = buildFlowController({
       config: {
-        id: "/test/",
+        id: "/test",
         initial: "parent1",
         states: {
           parent1: {
             initial: "child1",
-            states: { child1: { on: { SUBMIT: "#/test/.parent2" } } },
+            states: { child1: { on: { SUBMIT: "#/test.parent2" } } },
           },
           parent2: {
             initial: "child1",

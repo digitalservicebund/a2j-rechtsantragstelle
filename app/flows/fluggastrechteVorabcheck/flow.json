@@ -1,5 +1,5 @@
 {
-  "id": "/fluggastrechte/vorabcheck/",
+  "id": "/fluggastrechte/vorabcheck",
   "initial": "start",
   "states": {
     "start": {

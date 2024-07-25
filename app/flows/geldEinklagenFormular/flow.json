@@ -1,5 +1,5 @@
 {
-  "id": "/geld-einklagen/formular/",
+  "id": "/geld-einklagen/formular",
   "initial": "start",
   "states": {
     "start": {

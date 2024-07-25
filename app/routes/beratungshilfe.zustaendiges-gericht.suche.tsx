@@ -30,7 +30,7 @@ const validatorServer = withZod(serverSchema);
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const slug = new URL(request.url).pathname;
-  const sessionManager = getSessionManager("beratungshilfe/vorabcheck");
+  const sessionManager = getSessionManager("/beratungshilfe/vorabcheck");
 
   const [common, { pre_form, form, meta, nextButtonLabel }] = await Promise.all(
     [

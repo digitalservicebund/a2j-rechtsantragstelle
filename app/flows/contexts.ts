@@ -21,12 +21,12 @@ export type Context = Record<
 >;
 
 const contexts = {
-  "beratungshilfe/antrag": beratungshilfeFormularContext,
-  "beratungshilfe/vorabcheck": beratungshilfeContext,
-  "geld-einklagen/vorabcheck": geldEinklagenContext,
-  "geld-einklagen/formular": geldEinklagenFormularContext,
-  "fluggastrechte/vorabcheck": fluggastrechteVorabcheckContext,
-  "fluggastrechte/formular": fluggastrechtContext,
+  "/beratungshilfe/antrag": beratungshilfeFormularContext,
+  "/beratungshilfe/vorabcheck": beratungshilfeContext,
+  "/geld-einklagen/vorabcheck": geldEinklagenContext,
+  "/geld-einklagen/formular": geldEinklagenFormularContext,
+  "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckContext,
+  "/fluggastrechte/formular": fluggastrechtContext,
 } as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;
 
 export const getContext = (flowId: FlowId) => contexts[flowId];

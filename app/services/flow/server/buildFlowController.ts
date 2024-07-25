@@ -85,7 +85,7 @@ export const transitionDestinations = (
   )
     return undefined;
   return destinationStepIds.map(
-    (transitionId) => `${machine.id}${transitionId}`,
+    (transitionId) => `${machine.id}/${transitionId}`,
   );
 };
 
@@ -100,7 +100,7 @@ const findNode = (machine: FlowStateMachine, stepId: string) => {
 
 const isFinalStep = (machine: FlowStateMachine, stepId: string) => {
   const transitions = findNode(machine, stepId)?.transitions;
-  return !transitions || !transitions.has("SUBMIT");
+  return transitions === undefined || !transitions.has("SUBMIT");
 };
 
 const rootMeta = (machine: FlowStateMachine) => {
@@ -166,7 +166,7 @@ function stepStates(
           : initialStepId;
 
       return {
-        url: `${state.machine.id}${targetStepId}`,
+        url: `${state.machine.id}/${targetStepId}`,
         isDone: hasDoneFunction ? meta.done({ context }) : false,
         stepId,
         isReachable: reachableSteps.includes(targetStepId),
@@ -174,7 +174,7 @@ function stepStates(
     }
 
     return {
-      url: `${state.machine.id}${stepId}`,
+      url: `${state.machine.id}/${stepId}`,
       isDone: reachableSubStates.every((state) => state.isDone),
       stepId,
       isReachable: reachableSubStates.length > 0,
@@ -198,7 +198,7 @@ export const buildFlowController = ({
     types: {} as StateMachineTypes,
     guards,
   }).createMachine({ ...config, context });
-  const baseUrl = config.id ?? "";
+  const flowId = config.id ?? "";
   const reachableSteps = getSteps(machine); // depends on context
 
   return {
@@ -230,17 +230,14 @@ export const buildFlowController = ({
       );
       if (nextArray) return nextArray[0];
     },
-    getInitial: () => `${baseUrl}${getInitial(machine) ?? ""}`,
+    getInitial: () => `${flowId}/${getInitial(machine) ?? ""}`,
     getProgress: (currentStepId: string) => {
-      // TODO: align config.id and flowid
-      const flowId = config.id?.slice(1, -1);
-
       const { total, progressLookup } =
         flowId && flowId in vorabcheckProgresses
           ? vorabcheckProgresses[flowId]
           : progressLookupForMachine(machine);
 
-      const progress = progressLookup[`${config.id}.${currentStepId}`];
+      const progress = progressLookup[`${flowId}.${currentStepId}`];
       return { max: total, progress };
     },
   };

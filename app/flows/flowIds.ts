@@ -1,23 +1,20 @@
 export const flowIds = [
-  "beratungshilfe/antrag",
-  "beratungshilfe/vorabcheck",
-  "geld-einklagen/vorabcheck",
-  "geld-einklagen/formular",
-  "fluggastrechte/vorabcheck",
-  "fluggastrechte/formular",
+  "/beratungshilfe/antrag",
+  "/beratungshilfe/vorabcheck",
+  "/geld-einklagen/vorabcheck",
+  "/geld-einklagen/formular",
+  "/fluggastrechte/vorabcheck",
+  "/fluggastrechte/formular",
 ] as const;
 
 export type FlowId = (typeof flowIds)[number];
 
 const isFlowId = (s: string): s is FlowId => flowIds.includes(s as FlowId);
 
-function firstTwoPathSegments(pathname: string) {
-  const pathSegments = pathname.split("/");
-  return [pathSegments[1], pathSegments[2]].join("/");
-}
-
 export function flowIdFromPathname(pathname: string) {
-  const flowIdMaybe = firstTwoPathSegments(pathname);
+  const pathSegments = pathname.split("/");
+  if (pathSegments.length < 3) return undefined;
+  const flowIdMaybe = `/${pathSegments[1]}/${pathSegments[2]}`;
   return isFlowId(flowIdMaybe) ? flowIdMaybe : undefined;
 }
 

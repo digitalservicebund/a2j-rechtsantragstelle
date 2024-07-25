@@ -3,7 +3,7 @@ import { flowIdFromPathname, parsePathname } from "../flowIds";
 describe("parsePathname", () => {
   it("works for valid flow IDs", () => {
     expect(parsePathname("/beratungshilfe/antrag/test123")).toEqual({
-      flowId: "beratungshilfe/antrag",
+      flowId: "/beratungshilfe/antrag",
       stepId: "test123",
       arrayIndexes: [],
     });
@@ -11,7 +11,7 @@ describe("parsePathname", () => {
 
   it("returns multiple array indexes", () => {
     expect(parsePathname("/beratungshilfe/antrag/test123/0/asd/1")).toEqual({
-      flowId: "beratungshilfe/antrag",
+      flowId: "/beratungshilfe/antrag",
       stepId: "test123/asd",
       arrayIndexes: [0, 1],
     });
@@ -25,7 +25,7 @@ describe("parsePathname", () => {
 describe("flowIdFromPathname", () => {
   it("extracts the first two path segments", () => {
     expect(flowIdFromPathname("/beratungshilfe/antrag")).toEqual(
-      "beratungshilfe/antrag",
+      "/beratungshilfe/antrag",
     );
   });
 

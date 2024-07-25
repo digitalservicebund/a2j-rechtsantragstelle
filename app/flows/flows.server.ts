@@ -24,10 +24,10 @@ export type Flow = {
 };
 
 export const flows = {
-  "beratungshilfe/antrag": beratungshilfeFormular,
-  "beratungshilfe/vorabcheck": beratungshilfeVorabcheck,
-  "geld-einklagen/vorabcheck": geldEinklagenVorabcheck,
-  "geld-einklagen/formular": geldEinklagenFormular,
-  "fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
-  "fluggastrechte/formular": fluggastrechtFlow,
+  "/beratungshilfe/antrag": beratungshilfeFormular,
+  "/beratungshilfe/vorabcheck": beratungshilfeVorabcheck,
+  "/geld-einklagen/vorabcheck": geldEinklagenVorabcheck,
+  "/geld-einklagen/formular": geldEinklagenFormular,
+  "/fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
+  "/fluggastrechte/formular": fluggastrechtFlow,
 } as const satisfies Record<FlowId, Flow>;

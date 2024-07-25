@@ -6,7 +6,7 @@ import { pdfDateFormat, today } from "~/util/date";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
-  const flowId = "beratungshilfe/antrag";
+  const flowId = "/beratungshilfe/antrag";
   const { userData } = await getSessionData(flowId, cookieHeader);
 
   if (_.isEmpty(userData)) {

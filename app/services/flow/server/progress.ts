@@ -55,10 +55,10 @@ function progressForFlowId(flowId: FlowId) {
 
 function computeVorabcheckProgress() {
   const vorabchecks = [
-    "fluggastrechte/vorabcheck",
-    "geld-einklagen/vorabcheck",
-    "beratungshilfe/vorabcheck",
-  ] as const;
+    "/fluggastrechte/vorabcheck",
+    "/geld-einklagen/vorabcheck",
+    "/beratungshilfe/vorabcheck",
+  ] as const satisfies FlowId[];
   return Object.fromEntries(
     vorabchecks.map((id) => [id, progressForFlowId(id)]),
   );

@@ -1,5 +1,5 @@
 {
-  "id": "/fluggastrechte/formular/",
+  "id": "/fluggastrechte/formular",
   "initial": "intro",
   "states": {
     "intro": {
