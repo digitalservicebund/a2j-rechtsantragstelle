@@ -51,10 +51,7 @@ export async function fetchCollectionEntry<
   const strapiEntry = await getStrapiEntry({
     apiId,
     locale,
-    filterValue:
-      filterField === "slug" && filterValue !== "/" && filterValue.endsWith("/")
-        ? filterValue.slice(0, -1)
-        : filterValue,
+    filterValue,
     filterField,
   });
 
