@@ -8,8 +8,7 @@ import { config } from "../env/env.server";
 const buildUrl = ({
   apiId,
   pageSize,
-  filterField = "slug",
-  filterValue,
+  filters,
   locale = defaultLocale,
   populate = "deep",
 }: GetStrapiEntryOpts) =>
@@ -19,8 +18,8 @@ const buildUrl = ({
     `?populate=${populate}`,
     `&locale=${locale}`,
     pageSize ? `&pagination[pageSize]=${pageSize}` : "",
-    filterField && filterValue
-      ? `&filters[${filterField}][$eq]=${filterValue}`
+    filters && filters.length > 0
+      ? `&filters[${filters[0].field}][$eq]=${filters[0].value}`
       : "",
   ].join("");
 

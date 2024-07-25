@@ -64,7 +64,7 @@ describe("services/cms", () => {
         expect(
           await getStrapiEntryFromFile({
             apiId: "pages",
-            filterValue: impressumPath,
+            filters: [{ field: "slug", value: impressumPath }],
             locale: "de",
           }),
         ).toEqual(impressum);
@@ -75,7 +75,7 @@ describe("services/cms", () => {
           expect(
             await getStrapiEntryFromFile({
               apiId: "pages",
-              filterValue: "/NOTAVAILABLE",
+              filters: [{ field: "slug", value: "/NOTAVAILABLE" }],
               locale: "de",
             }),
           ).toBeUndefined();
@@ -87,7 +87,7 @@ describe("services/cms", () => {
           expect(
             await getStrapiEntryFromFile({
               apiId: "pages",
-              filterValue: impressumPath,
+              filters: [{ field: "slug", value: impressumPath }],
               locale: "en",
             }),
           ).toEqual(impressum);

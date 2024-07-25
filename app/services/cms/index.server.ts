@@ -12,8 +12,7 @@ import { httpErrorCodes } from "../errorPages/ErrorBox";
 
 export type GetStrapiEntryOpts = {
   apiId: keyof StrapiFileContent;
-  filterField?: string;
-  filterValue?: string;
+  filters?: { field: string; value: string }[];
   locale?: StrapiLocale;
   populate?: string;
   pageSize?: string;
@@ -24,9 +23,13 @@ export type Translations = Record<string, string>;
 const getStrapiEntry =
   config().CMS === "FILE" ? getStrapiEntryFromFile : getStrapiEntryFromApi;
 
-export async function fetchMeta(opts: Omit<GetStrapiEntryOpts, "apiId">) {
+export async function fetchMeta(
+  opts: Omit<GetStrapiEntryOpts, "apiId" | "filter"> & { filterValue: string },
+) {
   const populate = "meta";
-  const pageEntry = await getStrapiEntry({ ...opts, apiId: "pages", populate });
+  const filters = [{ value: opts.filterValue, field: "slug" }];
+  const apiId = "pages";
+  const pageEntry = await getStrapiEntry({ ...opts, filters, apiId, populate });
   const parsedEntry = HasStrapiMetaSchema.safeParse(pageEntry);
   return parsedEntry.success ? parsedEntry.data.meta : null;
 }
@@ -48,8 +51,7 @@ async function fetchCollectionEntry<ApiId extends keyof CollectionSchemas>(
   const strapiEntry = await getStrapiEntry({
     apiId,
     locale,
-    filterValue,
-    filterField,
+    filters: [{ field: filterField, value: filterValue }],
   });
 
   if (!strapiEntry) {

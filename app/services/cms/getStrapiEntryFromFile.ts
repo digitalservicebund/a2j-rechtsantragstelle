@@ -27,15 +27,14 @@ export const getStrapiEntryFromFile = async ({
     }
   }
 
-  const filterField = opts.filterField ?? "slug";
-
   const contentItems = [...content[opts.apiId]].filter(
     (item) =>
-      !(
-        opts.filterValue &&
-        filterField in item.attributes &&
-        item.attributes[filterField as keyof typeof item.attributes] !==
-          opts.filterValue
+      !opts.filters ||
+      opts.filters.length === 0 ||
+      opts.filters.every(
+        ({ field, value }) =>
+          field in item.attributes &&
+          item.attributes[field as keyof typeof item.attributes] === value,
       ),
   );
 

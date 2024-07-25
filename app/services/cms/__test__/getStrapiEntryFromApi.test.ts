@@ -53,7 +53,10 @@ describe("services/cms", () => {
       axiosGetSpy
         .mockResolvedValue(defaultResponseData)
         .mockResolvedValueOnce(emptyResponseData);
-      await getStrapiEntryFromApi({ ...defaultOptions, filterValue: "foobar" });
+      await getStrapiEntryFromApi({
+        ...defaultOptions,
+        filters: [{ value: "foobar", field: "slug" }],
+      });
       expect(axiosGetSpy).toHaveBeenNthCalledWith(
         1,
         `${expectedStagingRequestUrl}&filters[slug][$eq]=foobar`,
