@@ -157,15 +157,7 @@
     "ausgleich-angenommen": {
       "on": {
         "BACK": "ausgleich",
-        "SUBMIT": [
-          {
-            "target": "ergebnis/ausgleich-angenommen-abbruch",
-            "guard": "ausgleichAngenommenYes"
-          },
-          {
-            "target": "checkin-nicht-befoerderung"
-          }
-        ]
+        "SUBMIT": "checkin-nicht-befoerderung"
       }
     },
     "ergebnis/ersatzflug-starten-eine-landen-zwei-abbruch": {
@@ -176,11 +168,6 @@
     "ergebnis/ersatzflug-starten-zwei-landen-vier-abbruch": {
       "on": {
         "BACK": "ersatzflug-landen-vier-stunden"
-      }
-    },
-    "ergebnis/ausgleich-angenommen-abbruch": {
-      "on": {
-        "BACK": "ausgleich-angenommen"
       }
     },
     "gruende": {
