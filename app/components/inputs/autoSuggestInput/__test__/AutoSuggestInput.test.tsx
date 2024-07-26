@@ -47,6 +47,7 @@ describe("AutoSuggestInput", () => {
             dataList="airports"
             label="label"
             formId="formId"
+            isDisabled={false}
           />
         ),
       },
@@ -72,6 +73,7 @@ describe("AutoSuggestInput", () => {
             dataList="airports"
             label="label"
             formId="formId"
+            isDisabled={false}
           />
         ),
       },
@@ -106,6 +108,7 @@ describe("AutoSuggestInput", () => {
             label="label"
             formId="formId"
             noSuggestionMessage={noSuggestionMessage}
+            isDisabled={false}
           />
         ),
       },
@@ -132,6 +135,7 @@ describe("AutoSuggestInput", () => {
             dataList="airports"
             label="label"
             formId="formId"
+            isDisabled={false}
           />
         ),
       },
@@ -175,6 +179,7 @@ describe("AutoSuggestInput", () => {
             dataList="airports"
             label="label"
             formId="formId"
+            isDisabled={false}
           />
         ),
       },
@@ -216,6 +221,7 @@ describe("AutoSuggestInput", () => {
             dataList="airports"
             label="label"
             formId="formId"
+            isDisabled={false}
           />
         ),
       },
@@ -224,5 +230,29 @@ describe("AutoSuggestInput", () => {
     const { getByTestId } = render(<RemixStub />);
 
     expect(getByTestId(`input-${COMPONENT_NAME}-loaded`)).toBeInTheDocument();
+  });
+
+  it("should have className auto-suggest-input-disabled is the component is disabled", () => {
+    const RemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => (
+          <AutoSuggestInput
+            name={COMPONENT_NAME}
+            placeholder="placeholder"
+            dataList="airports"
+            label="label"
+            formId="formId"
+            isDisabled
+          />
+        ),
+      },
+    ]);
+
+    const { container } = render(<RemixStub />);
+
+    expect(
+      container.querySelector(`.auto-suggest-input-disabled`),
+    ).toBeInTheDocument();
   });
 });
