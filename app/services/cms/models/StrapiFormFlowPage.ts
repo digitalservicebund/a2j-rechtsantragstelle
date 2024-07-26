@@ -5,11 +5,16 @@ import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { HasStrapiSlugSchema } from "./HasStrapiSlug";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 import { StrapiContentComponentSchema } from "./StrapiContentComponent";
+import { StrapiFlowIdSchema } from "./StrapiFlowId";
 import { StrapiFormComponentSchema } from "./StrapiFormComponent";
 
 export const StrapiFormFlowPageSchema = z
   .object({
     heading: z.string(),
+    stepId: z.string().nullable(),
+    flow_ids: z.object({
+      data: z.array(z.object({ attributes: StrapiFlowIdSchema })),
+    }),
     preHeading: z.string().nullable(),
     nextButtonLabel: z.string().nullable(),
     // eslint-disable-next-line camelcase
