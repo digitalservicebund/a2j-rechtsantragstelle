@@ -86,20 +86,6 @@ const cases = [
   [
     {
       bereich: "nichtbefoerderung",
-      ausgleich: "yes",
-      ausgleichAngenommen: "yes",
-    },
-    [
-      "start",
-      "bereich",
-      "ausgleich",
-      "ausgleich-angenommen",
-      "ergebnis/ausgleich-angenommen-abbruch",
-    ],
-  ],
-  [
-    {
-      bereich: "nichtbefoerderung",
       ausgleich: "no",
       ausgleichAngenommen: "no",
       checkin: "no",
