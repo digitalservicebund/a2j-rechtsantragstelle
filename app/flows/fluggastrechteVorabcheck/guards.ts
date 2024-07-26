@@ -98,8 +98,6 @@ export const guards = {
   ...yesNoGuards("rabatt"),
   ...yesNoGuards("buchung"),
   ...yesNoGuards("verjaehrung"),
-  ...yesNoGuards("ausgleich"),
-  ...yesNoGuards("ausgleichAngenommen"),
   ...yesNoGuards("vertretbareGruende"),
   ...yesNoGuards("vertretbareGruendeAnnullierung"),
   ...yesNoGuards("ersatzflug"),

@@ -51,13 +51,7 @@
     "ausgleich": {
       "on": {
         "BACK": "bereich",
-        "SUBMIT": [
-          {
-            "target": "ausgleich-angenommen",
-            "guard": "ausgleichYes"
-          },
-          "checkin-nicht-befoerderung"
-        ]
+        "SUBMIT": "checkin-nicht-befoerderung"
       }
     },
     "ankuendigung": {
@@ -154,20 +148,6 @@
         ]
       }
     },
-    "ausgleich-angenommen": {
-      "on": {
-        "BACK": "ausgleich",
-        "SUBMIT": [
-          {
-            "target": "ergebnis/ausgleich-angenommen-abbruch",
-            "guard": "ausgleichAngenommenYes"
-          },
-          {
-            "target": "checkin-nicht-befoerderung"
-          }
-        ]
-      }
-    },
     "ergebnis/ersatzflug-starten-eine-landen-zwei-abbruch": {
       "on": {
         "BACK": "ersatzflug-landen-zwei-stunden"
@@ -176,11 +156,6 @@
     "ergebnis/ersatzflug-starten-zwei-landen-vier-abbruch": {
       "on": {
         "BACK": "ersatzflug-landen-vier-stunden"
-      }
-    },
-    "ergebnis/ausgleich-angenommen-abbruch": {
-      "on": {
-        "BACK": "ausgleich-angenommen"
       }
     },
     "gruende": {
@@ -335,13 +310,7 @@
     },
     "checkin-nicht-befoerderung": {
       "on": {
-        "BACK": [
-          {
-            "target": "ausgleich-angenommen",
-            "guard": "ausgleichYes"
-          },
-          "ausgleich"
-        ],
+        "BACK": "ausgleich",
         "SUBMIT": [
           {
             "target": "vertretbare-gruende",
