@@ -108,10 +108,6 @@ test.describe("js enabled", () => {
     await expectPageToBeAccessible({ page });
     await vorabcheck.fillRadioPage("ausgleich", "yes");
 
-    // fluggastrechte/vorabcheck/ausgleich-angenommen
-    await expectPageToBeAccessible({ page });
-    await vorabcheck.fillRadioPage("ausgleichAngenommen", "no");
-
     // fluggastrechte/vorabcheck/checkin-nicht-befoerderung
     await expectPageToBeAccessible({ page });
     await vorabcheck.fillRadioPage("checkin", "yes");
