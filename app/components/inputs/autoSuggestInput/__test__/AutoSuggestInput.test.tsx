@@ -232,7 +232,7 @@ describe("AutoSuggestInput", () => {
     expect(getByTestId(`input-${COMPONENT_NAME}-loaded`)).toBeInTheDocument();
   });
 
-  it("should have className auto-suggest-input-disabled is the component is disabled", () => {
+  it("should have className auto-suggest-input-disabled if the component is disabled", () => {
     const RemixStub = createRemixStub([
       {
         path: "",
