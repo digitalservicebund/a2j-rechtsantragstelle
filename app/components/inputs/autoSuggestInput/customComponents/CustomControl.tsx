@@ -6,6 +6,9 @@ const CustomControl = (props: ControlProps<DataListOptions, false>) => (
   <components.Control
     className={classNames("ds-select auto-suggest-input", {
       "has-error": props.selectProps.className?.includes("has-error"),
+      "auto-suggest-input-disabled": props.selectProps.className?.includes(
+        "auto-suggest-input-disabled",
+      ),
     })}
     {...props}
   />

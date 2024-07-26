@@ -30,6 +30,16 @@ const StrapiAutoSuggestInputSchema = z
       .nullable(),
     dataList: DataListSchema,
     noSuggestionMessage: z.string().nullable(),
+    isDisabled: z
+      .boolean()
+      .nullable()
+      .transform((value) => {
+        if (value === null) {
+          return false;
+        }
+
+        return value;
+      }),
   })
   .merge(HasOptionalStrapiIdSchema);
 
