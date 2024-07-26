@@ -14,11 +14,16 @@ export const entrySchemas = {
 } as const;
 export type EntrySchemas = typeof entrySchemas;
 
-export const collectionSchemas = {
-  pages: StrapiPageSchema,
+export const flowPageSchemas = {
   "result-pages": StrapiResultPageSchema,
   "vorab-check-pages": StrapiVorabCheckPageSchema,
   "form-flow-pages": StrapiFormFlowPageSchema,
+} as const;
+export type FlowPage = keyof typeof flowPageSchemas;
+
+export const collectionSchemas = {
+  pages: StrapiPageSchema,
   translations: StrapiTranslationSchema,
+  ...flowPageSchemas,
 } as const;
 export type CollectionSchemas = typeof collectionSchemas;

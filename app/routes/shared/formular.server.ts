@@ -9,7 +9,7 @@ import { getSummaryData } from "~/services/array/getSummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
 import {
-  fetchCollectionEntry,
+  fetchFlowPage,
   fetchMeta,
   fetchTranslations,
 } from "~/services/cms/index.server";
@@ -99,7 +99,7 @@ export const loader = async ({
     navigationStrings,
     defaultStrings,
   ] = await Promise.all([
-    fetchCollectionEntry("form-flow-pages", lookupPath),
+    fetchFlowPage("form-flow-pages", lookupPath),
     fetchMeta({ filterValue: parentFromParams(pathname, params) }),
     fetchTranslations(flowId),
     fetchTranslations(`${flowId}/menu`),

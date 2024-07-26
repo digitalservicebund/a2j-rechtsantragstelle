@@ -6,7 +6,7 @@ import { flows } from "~/flows/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
 import {
-  fetchCollectionEntry,
+  fetchFlowPage,
   fetchMeta,
   fetchTranslations,
 } from "~/services/cms/index.server";
@@ -54,7 +54,7 @@ export const loader = async ({
 
   const [vorabcheckPage, parentMeta, translations, flowTranslations] =
     await Promise.all([
-      fetchCollectionEntry("vorab-check-pages", pathname),
+      fetchFlowPage("vorab-check-pages", pathname),
       fetchMeta({ filterValue: parentFromParams(pathname, params) }),
       fetchTranslations("defaultTranslations"),
       fetchTranslations(flowId),

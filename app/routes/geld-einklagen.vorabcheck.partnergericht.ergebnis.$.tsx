@@ -13,10 +13,7 @@ import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
 import { parsePathname } from "~/flows/flowIds";
 import type { GeldEinklagenVorabcheckContext } from "~/flows/geldEinklagenVorabcheck/context";
-import {
-  fetchCollectionEntry,
-  fetchTranslations,
-} from "~/services/cms/index.server";
+import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
 import {
   findCourt,
   isPartnerCourt,
@@ -70,7 +67,7 @@ export const loader = async ({
 
   const [common, { heading, freeZone, hintText, meta }] = await Promise.all([
     fetchTranslations("amtsgericht"),
-    fetchCollectionEntry("result-pages", pathname),
+    fetchFlowPage("result-pages", pathname),
   ]);
 
   return json({ courts, freeZone, heading, hintText, pageType, meta, common });

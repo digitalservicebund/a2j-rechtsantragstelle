@@ -9,10 +9,7 @@ import Container from "~/components/Container";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import PageContent from "~/components/PageContent";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
-import {
-  fetchCollectionEntry,
-  fetchTranslations,
-} from "~/services/cms/index.server";
+import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { getSessionManager } from "~/services/session.server";
@@ -35,7 +32,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const [common, { pre_form, form, meta, nextButtonLabel }] = await Promise.all(
     [
       fetchTranslations("amtsgericht"),
-      fetchCollectionEntry("vorab-check-pages", slug),
+      fetchFlowPage("vorab-check-pages", slug),
     ],
   );
   const { url: backURL, session } = getReturnToURL({

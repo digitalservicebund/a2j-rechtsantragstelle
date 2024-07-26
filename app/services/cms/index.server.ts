@@ -5,7 +5,7 @@ import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
 import type { StrapiFileContent } from "./models/StrapiFileContent";
 import type { StrapiLocale } from "./models/StrapiLocale";
 import type { StrapiPage } from "./models/StrapiPage";
-import type { CollectionSchemas, EntrySchemas } from "./schemas";
+import type { CollectionSchemas, EntrySchemas, FlowPage } from "./schemas";
 import { collectionSchemas, entrySchemas } from "./schemas";
 import { config } from "../env/env.server";
 import { httpErrorCodes } from "../errorPages/ErrorBox";
@@ -39,9 +39,7 @@ export async function fetchSingleEntry<ApiId extends keyof EntrySchemas>(
   return entrySchemas[apiId].parse(strapiEntry);
 }
 
-export async function fetchCollectionEntry<
-  ApiId extends keyof CollectionSchemas,
->(
+async function fetchCollectionEntry<ApiId extends keyof CollectionSchemas>(
   apiId: ApiId,
   filterValue: string,
   filterField = "slug",
@@ -78,17 +76,19 @@ export const fetchTranslations = async (
   }
 };
 
-export const fetchPage = async (slug: string) =>
-  await fetchCollectionEntry("pages", slug);
+export const fetchPage = (slug: string) => fetchCollectionEntry("pages", slug);
 
-export const strapiPageFromRequest = async ({
+export const fetchFlowPage = <ApiId extends FlowPage>(
+  collection: ApiId,
+  slug: string,
+) => fetchCollectionEntry(collection, slug);
+
+export const strapiPageFromRequest = ({
   request,
-  locale,
 }: {
   request: Request;
   locale?: StrapiLocale;
-}) =>
-  await fetchCollectionEntry("pages", new URL(request.url).pathname, locale);
+}) => fetchPage(new URL(request.url).pathname);
 
 export async function fetchErrors() {
   const cmsErrorSlug = "/error/";

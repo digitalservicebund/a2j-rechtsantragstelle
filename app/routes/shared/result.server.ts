@@ -8,7 +8,7 @@ import { getReasonsToDisplay } from "~/flows/common";
 import { parsePathname } from "~/flows/flowIds";
 import { flows } from "~/flows/flows.server";
 import {
-  fetchCollectionEntry,
+  fetchFlowPage,
   fetchMeta,
   fetchTranslations,
 } from "~/services/cms/index.server";
@@ -70,7 +70,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     defaultStrings,
     flowTranslations,
   ] = await Promise.all([
-    fetchCollectionEntry("result-pages", slug),
+    fetchFlowPage("result-pages", slug),
     fetchMeta({
       filterValue: pathname.substring(0, pathname.lastIndexOf("/")),
     }),
