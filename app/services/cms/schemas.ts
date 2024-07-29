@@ -19,7 +19,7 @@ export const flowPageSchemas = {
   "vorab-check-pages": StrapiVorabCheckPageSchema,
   "form-flow-pages": StrapiFormFlowPageSchema,
 } as const;
-export type FlowPage = keyof typeof flowPageSchemas;
+export type FlowPage = typeof flowPageSchemas;
 
 export const collectionSchemas = {
   pages: StrapiPageSchema,

@@ -8,6 +8,7 @@ import Background from "~/components/Background";
 import Container from "~/components/Container";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import PageContent from "~/components/PageContent";
+import type { FlowId } from "~/flows/flowIds";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
@@ -26,13 +27,16 @@ const validatorClient = withZod(clientSchema);
 const validatorServer = withZod(serverSchema);
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const slug = new URL(request.url).pathname;
   const sessionManager = getSessionManager("/beratungshilfe/vorabcheck");
 
   const [common, { pre_form, form, meta, nextButtonLabel }] = await Promise.all(
     [
       fetchTranslations("amtsgericht"),
-      fetchFlowPage("vorab-check-pages", slug),
+      fetchFlowPage(
+        "vorab-check-pages",
+        "/beratungshilfe/zustaendiges-gericht" as FlowId,
+        "suche",
+      ),
     ],
   );
   const { url: backURL, session } = getReturnToURL({

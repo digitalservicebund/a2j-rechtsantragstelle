@@ -1,4 +1,5 @@
 import type { z } from "zod";
+import type { FlowId } from "~/flows/flowIds";
 import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";
 import { getStrapiEntryFromFile } from "./getStrapiEntryFromFile";
 import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
@@ -10,9 +11,14 @@ import { collectionSchemas, entrySchemas } from "./schemas";
 import { config } from "../env/env.server";
 import { httpErrorCodes } from "../errorPages/ErrorBox";
 
+type Filter = {
+  field: string;
+  value: string;
+};
+
 export type GetStrapiEntryOpts = {
   apiId: keyof StrapiFileContent;
-  filters?: { field: string; value: string }[];
+  filters?: Filter[];
   locale?: StrapiLocale;
   populate?: string;
   pageSize?: string;
@@ -44,19 +50,18 @@ export async function fetchSingleEntry<ApiId extends keyof EntrySchemas>(
 
 async function fetchCollectionEntry<ApiId extends keyof CollectionSchemas>(
   apiId: ApiId,
-  filterValue: string,
-  filterField = "slug",
+  filters?: Filter[],
   locale?: StrapiLocale,
 ): Promise<z.infer<CollectionSchemas[ApiId]>> {
   const strapiEntry = await getStrapiEntry({
     apiId,
     locale,
-    filters: [{ field: filterField, value: filterValue }],
+    filters,
   });
 
   if (!strapiEntry) {
     const error = new Error(
-      `page missing in cms: ${filterField}:${filterValue}`,
+      `CMS lookup for ${apiId} failed (filters: ${JSON.stringify(filters)})`,
     );
     error.name = "StrapiPageNotFound";
     throw error;
@@ -68,8 +73,9 @@ export const fetchTranslations = async (
   name: string,
   locale?: StrapiLocale,
 ): Promise<Translations> => {
+  const filters = [{ field: "scope", value: name }];
   try {
-    const entry = fetchCollectionEntry("translations", name, "scope", locale);
+    const entry = fetchCollectionEntry("translations", filters, locale);
     return Object.fromEntries(
       (await entry).field.map(({ name, value }) => [name, value]),
     );
@@ -78,12 +84,18 @@ export const fetchTranslations = async (
   }
 };
 
-export const fetchPage = (slug: string) => fetchCollectionEntry("pages", slug);
+export const fetchPage = (slug: string) =>
+  fetchCollectionEntry("pages", [{ field: "slug", value: slug }]);
 
-export const fetchFlowPage = <ApiId extends FlowPage>(
-  collection: ApiId,
-  slug: string,
-) => fetchCollectionEntry(collection, slug);
+export const fetchFlowPage = <Collection extends keyof FlowPage>(
+  collection: Collection,
+  flowId: FlowId,
+  stepId: string,
+): Promise<z.infer<FlowPage[Collection]>> =>
+  fetchCollectionEntry(collection, [
+    { field: "stepId", value: "/" + stepId }, // TODO: align stepid between app & cms
+    { field: "flow_ids", value: flowId },
+  ]);
 
 export const strapiPageFromRequest = ({
   request,
@@ -96,7 +108,9 @@ export async function fetchErrors() {
   const cmsErrorSlug = "/error/";
 
   const errorPagePromises = httpErrorCodes.map((errorCode) =>
-    fetchCollectionEntry("pages", `${cmsErrorSlug}${errorCode}`),
+    fetchCollectionEntry("pages", [
+      { field: "slug", value: `${cmsErrorSlug}${errorCode}` },
+    ]),
   );
 
   const errorPageEntries = (await Promise.allSettled(errorPagePromises))

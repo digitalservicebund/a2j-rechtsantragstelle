@@ -5,6 +5,20 @@ import type { StrapiFileContent } from "./models/StrapiFileContent";
 import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
 import { config } from "../env/env.server";
 
+const filterVerbMap: Record<string, string> = {
+  flow_ids: "[flowId][$eq]",
+};
+
+function buildFilters(filters: GetStrapiEntryOpts["filters"]) {
+  if (!filters) return "";
+  return filters
+    .map(
+      ({ field, value }) =>
+        `&filters[${field}]${filterVerbMap[field] ?? "[$eq]"}=${value}`,
+    )
+    .join("");
+}
+
 const buildUrl = ({
   apiId,
   pageSize,
@@ -18,9 +32,7 @@ const buildUrl = ({
     `?populate=${populate}`,
     `&locale=${locale}`,
     pageSize ? `&pagination[pageSize]=${pageSize}` : "",
-    filters && filters.length > 0
-      ? `&filters[${filters[0].field}][$eq]=${filters[0].value}`
-      : "",
+    buildFilters(filters),
   ].join("");
 
 type SingleStrapiEntry =

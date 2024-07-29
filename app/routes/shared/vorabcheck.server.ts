@@ -54,7 +54,7 @@ export const loader = async ({
 
   const [vorabcheckPage, parentMeta, translations, flowTranslations] =
     await Promise.all([
-      fetchFlowPage("vorab-check-pages", pathname),
+      fetchFlowPage("vorab-check-pages", flowId, stepId),
       fetchMeta({ filterValue: parentFromParams(pathname, params) }),
       fetchTranslations("defaultTranslations"),
       fetchTranslations(flowId),
