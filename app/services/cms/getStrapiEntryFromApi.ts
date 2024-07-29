@@ -1,20 +1,18 @@
 import type { AxiosResponse } from "axios";
 import axios from "axios";
-import type { GetStrapiEntryOpts } from "./index.server";
+import type { Filter, GetStrapiEntryOpts } from "./filters";
 import type { StrapiFileContent } from "./models/StrapiFileContent";
 import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
 import { config } from "../env/env.server";
 
-const filterVerbMap: Record<string, string> = {
-  flow_ids: "[flowId][$eq]",
-};
-
-function buildFilters(filters: GetStrapiEntryOpts["filters"]) {
+function buildFilters(filters?: Filter[]) {
   if (!filters) return "";
   return filters
     .map(
       ({ field, value }) =>
-        `&filters[${field}]${filterVerbMap[field] ?? "[$eq]"}=${value}`,
+        "&filters" +
+        field.split(".").map((s: string) => `[${s}]`) +
+        `[$eq]=${value}`,
     )
     .join("");
 }

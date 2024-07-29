@@ -1,28 +1,15 @@
 import type { z } from "zod";
 import type { FlowId } from "~/flows/flowIds";
+import type { Filter, GetStrapiEntryOpts } from "./filters";
 import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";
 import { getStrapiEntryFromFile } from "./getStrapiEntryFromFile";
 import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
-import type { StrapiFileContent } from "./models/StrapiFileContent";
 import type { StrapiLocale } from "./models/StrapiLocale";
 import type { StrapiPage } from "./models/StrapiPage";
 import type { CollectionSchemas, EntrySchemas, FlowPage } from "./schemas";
 import { collectionSchemas, entrySchemas } from "./schemas";
 import { config } from "../env/env.server";
 import { httpErrorCodes } from "../errorPages/ErrorBox";
-
-type Filter = {
-  field: string;
-  value: string;
-};
-
-export type GetStrapiEntryOpts = {
-  apiId: keyof StrapiFileContent;
-  filters?: Filter[];
-  locale?: StrapiLocale;
-  populate?: string;
-  pageSize?: string;
-};
 
 export type Translations = Record<string, string>;
 
@@ -94,7 +81,7 @@ export const fetchFlowPage = <Collection extends keyof FlowPage>(
 ): Promise<z.infer<FlowPage[Collection]>> =>
   fetchCollectionEntry(collection, [
     { field: "stepId", value: "/" + stepId }, // TODO: align stepid between app & cms
-    { field: "flow_ids", value: flowId },
+    { field: "flow_ids.flowId", value: flowId },
   ]);
 
 export const strapiPageFromRequest = ({

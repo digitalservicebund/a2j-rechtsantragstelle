@@ -18,66 +18,34 @@ test("forwarded to intial step", async () => {
 });
 
 test("vorabcheck can be traversed (long path)", async ({ page }) => {
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
+  const { fillInputPage, fillRadioPage, clickNext } = vorabcheck;
+  const instructions = [
+    () => fillRadioPage("rechtsschutzversicherung", "no"),
+    () => fillRadioPage("wurdeVerklagt", "no"),
+    () => fillRadioPage("klageEingereicht", "no"),
+    () => fillRadioPage("hamburgOderBremen", "no"),
+    () => fillRadioPage("beratungshilfeBeantragt", "no"),
+    () => fillRadioPage("eigeninitiative", "no"),
+    () => clickNext(),
+    () => fillRadioPage("bereich", "other"),
+    () => fillRadioPage("staatlicheLeistungen", "keine"),
+    () => fillRadioPage("vermoegen", "below_10k"),
+    () => fillRadioPage("erwerbstaetigkeit", "no"),
+    () => fillRadioPage("partnerschaft", "no"),
+    () => fillRadioPage("genauigkeit", "yes"),
+    () => fillInputPage("einkommen", "1550"),
+    () => fillRadioPage("kinder", "yes"),
+    () => fillInputPage("kids.kids15To18", "1"),
+    () => fillInputPage("einkommenKinder", "0"),
+    () => fillRadioPage("unterhalt", "no"),
+    () => fillInputPage("miete", "600"),
+    () => fillInputPage("weitereZahlungenSumme", "200"),
+  ] as const;
 
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("wurdeVerklagt", "no");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("klageEingereicht", "no");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("hamburgOderBremen", "no");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("beratungshilfeBeantragt", "no");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("eigeninitiative", "no");
-
-  // warning step
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.clickNext();
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("bereich", "other");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("staatlicheLeistungen", "keine");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("vermoegen", "below_10k");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("erwerbstaetigkeit", "no");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("partnerschaft", "no");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("genauigkeit", "yes");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillInputPage("einkommen", "1550");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("kinder", "yes");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillInputPage("kids.kids15To18", "1");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillInputPage("einkommenKinder", "0");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("unterhalt", "no");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillInputPage("miete", "600");
-
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillInputPage("weitereZahlungenSumme", "200");
+  for (const instruction of instructions) {
+    await expectPageToBeAccessible({ page });
+    await instruction();
+  }
 
   await expectPageToBeAccessible({ page });
   await expect(
