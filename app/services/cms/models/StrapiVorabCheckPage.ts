@@ -5,10 +5,15 @@ import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { HasStrapiSlugSchema } from "./HasStrapiSlug";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 import { StrapiContentComponentSchema } from "./StrapiContentComponent";
+import { StrapiFlowIdSchema } from "./StrapiFlowId";
 import { StrapiFormComponentSchema } from "./StrapiFormComponent";
 
 export const StrapiVorabCheckPageSchema = z
   .object({
+    stepId: z.string().nullable(),
+    flow_ids: z.object({
+      data: z.array(z.object({ attributes: StrapiFlowIdSchema })),
+    }),
     // eslint-disable-next-line camelcase
     pre_form: z.array(StrapiContentComponentSchema),
     form: z.array(StrapiFormComponentSchema),
