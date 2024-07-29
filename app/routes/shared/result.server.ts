@@ -68,7 +68,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     defaultStrings,
     flowTranslations,
   ] = await Promise.all([
-    fetchFlowPage("result-pages", flowId, stepId.replace("ergebnis", "")),
+    fetchFlowPage("result-pages", flowId, stepId.replace("ergebnis/", "")),
     fetchMeta({
       filterValue: pathname.substring(0, pathname.lastIndexOf("/")),
     }),
