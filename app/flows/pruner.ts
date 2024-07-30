@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { flows } from "~/flows/flows.server";
 import { ArrayConfig } from "~/services/array";
-import { fetchCollectionEntry } from "~/services/cms/index.server";
+import { fetchFlowPage } from "~/services/cms/index.server";
 import {
   StrapiArraySummaryComponentSchema,
   isStrapiArraySummary,
@@ -172,7 +172,7 @@ async function getComponents(
   (StrapiFormComponent | Zod.infer<typeof StrapiArraySummaryComponentSchema>)[]
 > {
   const flowPage: Zod.infer<typeof StrapiFormFlowPageSchema> =
-    await fetchCollectionEntry("form-flow-pages", step);
+    await fetchFlowPage("form-flow-pages", step);
 
   return [
     ...flowPage.pre_form.filter(isStrapiArraySummary),
