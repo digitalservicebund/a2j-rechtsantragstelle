@@ -4,6 +4,7 @@ import { validationError } from "remix-validated-form";
 import type { z } from "zod";
 import { parsePathname } from "~/flows/flowIds";
 import { flows } from "~/flows/flows.server";
+import { getPrunedUserData } from "~/flows/pruner";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getSummaryData } from "~/services/array/getSummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
@@ -71,7 +72,11 @@ export const loader = async ({
   const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
 
-  const { userData, debugId } = await getSessionData(flowId, cookieHeader);
+  const { userData: sessionData, debugId } = await getSessionData(
+    flowId,
+    cookieHeader,
+  );
+  const userData = await getPrunedUserData(sessionData, flowId);
   context.debugId = debugId; // For showing in errors
 
   const currentFlow = flows[flowId];
