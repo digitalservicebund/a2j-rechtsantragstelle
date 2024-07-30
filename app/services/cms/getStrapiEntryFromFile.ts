@@ -31,17 +31,24 @@ export const getStrapiEntryFromFile = async ({
     (item) =>
       !opts.filters ||
       opts.filters.every(({ field, value }) => {
-        const { attributes } = item;
-        let containsValue =
-          attributes[field as keyof typeof attributes] === value;
+        const [toplevelFieldname, ...nestedFields] = field.split(".");
+        const nestedFielname = nestedFields.at(0);
 
-        if (field.includes(".")) {
-          const [arrayName, fieldName] = field.split(".");
-          containsValue = attributes[arrayName].data.some(
-            (arrayItem) => arrayItem.attributes[fieldName] === value,
-          );
+        const relevantField = item.attributes[
+          toplevelFieldname as keyof typeof item.attributes
+        ] as string | Record<string, unknown>;
+
+        if (nestedFielname === undefined) {
+          return relevantField === value;
         }
-        return containsValue;
+
+        return (
+          typeof relevantField === "object" &&
+          Array.isArray(relevantField.data) &&
+          relevantField.data.some(
+            (nestedItem) => nestedItem.attributes[nestedFielname] === value,
+          )
+        );
       }),
   );
 
