@@ -21,6 +21,10 @@ export async function validateFlowTransition(
     return false;
   }
 
+  if (eligibleSourcePages.length === 0) {
+    throw Error("This property should not be empty");
+  }
+
   const { userData } = await getSessionData(sourceFlowId, cookieHeader);
 
   const fluggastrechteVorabcheckController = buildFlowController({

@@ -105,4 +105,16 @@ describe("validateFlowTransition", () => {
 
     expect(result).toBe(false);
   });
+
+  it("should throw an error if eligibleSourcePages is an empty array", async () => {
+    const config: FlowTransitionConfig = {
+      targetFlowId: mockFlowId,
+      sourceFlowId: mockFlowId,
+      eligibleSourcePages: [],
+    };
+
+    await expect(
+      validateFlowTransition(mockFlows, mockFlowId, mockCookieHeader, config),
+    ).rejects.toThrow("This property should not be empty");
+  });
 });
