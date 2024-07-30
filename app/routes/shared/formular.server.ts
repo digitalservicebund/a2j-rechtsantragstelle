@@ -36,6 +36,10 @@ import {
 } from "~/services/session.server/arrayDeletion";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
+import {
+  validateFlowTransition,
+  FlowTransitionConfig,
+} from "~/services/session.server/flowTransitionValidation.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
@@ -175,6 +179,28 @@ export const loader = async ({
     currentFlow,
     cookieHeader,
   );
+
+  const flowTransitionConfig: FlowTransitionConfig = {
+    targetFlowId: "/fluggastrechte/formular",
+    sourceFlowId: "/fluggastrechte/vorabcheck",
+    eligibleSourcePages: [
+      "ergebnis/erfolg",
+      "ergebnis/erfolg-kontakt",
+      "ergebnis/erfolg-gericht",
+    ],
+  };
+
+  const isEligibleForTransition = await validateFlowTransition(
+    flows,
+    flowId,
+    cookieHeader,
+    flowTransitionConfig,
+  );
+
+  if (!isEligibleForTransition) {
+    return redirectDocument(flowTransitionConfig.sourceFlowId);
+  }
+
   const navigationA11yLabels = {
     menuLabel: defaultStrings["navigationA11yLabel"],
     itemFinished: defaultStrings["navigationItemFinishedA11yLabel"],
