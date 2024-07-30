@@ -142,6 +142,8 @@ describe("pruner", () => {
 
       expect(Object.keys(prunedData)).toContain("bankkonten");
       expect((prunedData.bankkonten as ArrayData).length).toBe(2);
+      expect((prunedData.bankkonten as ArrayData)[0].bankName).toBe("FooBank");
+      expect((prunedData.bankkonten as ArrayData)[1].bankName).toBe("BarBank");
     });
 
     it("prunes array according to art", async () => {

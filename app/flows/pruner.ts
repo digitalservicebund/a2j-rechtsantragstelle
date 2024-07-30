@@ -13,7 +13,7 @@ import {
   FlowController,
   buildFlowController,
 } from "~/services/flow/server/buildFlowController";
-import { ArrayData, BasicTypes, Context, ObjectType } from "./contexts";
+import { ArrayData, Context } from "./contexts";
 import { FlowId } from "./flowIds";
 
 export async function getPrunedUserData(userData: Context, flowId: FlowId) {
@@ -85,12 +85,7 @@ export async function getPrunedUserData(userData: Context, flowId: FlowId) {
           {} as Context,
         );
 
-        acc[array.category] = acc[array.category] || [];
-        (acc[array.category] as ArrayData)[index] = subFlowData[
-          array.category
-        ] as {
-          [key: string]: BasicTypes;
-        };
+        _.merge(acc, subFlowData);
       }),
     );
 
@@ -100,56 +95,19 @@ export async function getPrunedUserData(userData: Context, flowId: FlowId) {
   return _.merge(baseData, arrayData);
 }
 
-// use lodash
 function extractPrunedData(
   strapiFormComponent: StrapiFormComponent,
   userData: Context,
   index?: number,
 ): Context {
-  const prunedContext = {} as Context;
-
-  // arrayData
-  if (
-    index !== undefined &&
-    index >= 0 &&
-    strapiFormComponent.name.includes("#")
-  ) {
-    const nameParts = strapiFormComponent.name.split("#");
-    if (nameParts.length !== 2) return {}; //throw error?
-    const [category, key] = nameParts;
-    const value = (userData[category] as ArrayData)?.[index][key];
-
-    if (value === undefined) return {};
-    prunedContext[category] = {};
-    (prunedContext[category] as ObjectType)[key] = value;
-
-    return prunedContext;
-  }
-
-  // nestedData
-  const nameParts = strapiFormComponent.name.split(".");
-  if (nameParts.length === 2) {
-    const [category, key] = nameParts;
-    const value = (userData[category] as ObjectType)?.[key];
-
-    if (value === undefined) return {};
-    prunedContext[category] = {};
-    (prunedContext[category] as ObjectType)[key] = value;
-
-    // basic data
-  } else {
-    const key = strapiFormComponent.name as keyof Context;
-    const value = _.get(userData, key);
-    // const value = userData[key];
-
-    if (value === undefined) return {};
-    prunedContext[key] = value;
-  }
-
-  return prunedContext;
+  const path = strapiFormComponent.name.replace(
+    "#",
+    index !== undefined ? `[${index}].` : ".", // handle deep nesting?
+  );
+  const value = _.get(userData, path);
+  return _.isUndefined(value) ? {} : _.set({}, path, value);
 }
 
-// to do gibts schon
 function getSteps(
   flowController: FlowController,
   subFlowsInitialStep?: string,
