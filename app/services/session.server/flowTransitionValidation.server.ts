@@ -14,7 +14,7 @@ export async function validateFlowTransition(
   flowId: FlowId,
   cookieHeader: CookieHeader,
   config: FlowTransitionConfig,
-): Promise<boolean> {
+) {
   const { targetFlowId, sourceFlowId, eligibleSourcePages } = config;
 
   if (flowId !== targetFlowId) {

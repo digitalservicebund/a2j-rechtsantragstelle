@@ -197,7 +197,10 @@ export const loader = async ({
     flowTransitionConfig,
   );
 
-  if (!isEligibleForTransition) {
+  if (
+    flowId === flowTransitionConfig.targetFlowId &&
+    !isEligibleForTransition
+  ) {
     return redirectDocument(flowTransitionConfig.sourceFlowId);
   }
 
