@@ -21,7 +21,7 @@ export async function getPrunedUserData(userData: Context, flowId: FlowId) {
 
   const baseFlowComponents = (
     await Promise.all(
-      getSteps(flowController).flatMap(
+      getSteps(flowController, flowId).flatMap(
         async (step) => await getComponents(step),
       ),
     )
@@ -76,6 +76,7 @@ function copyFromUserData(
 
 function getSteps(
   flowController: FlowController,
+  flowId: string,
   subFlowsInitialStep?: string,
 ) {
   const paths: string[] = [];
@@ -84,7 +85,7 @@ function getSteps(
 
   while (path) {
     paths.push(path);
-    path = flowController.getNext(splitStepId(path).stepId);
+    path = flowController.getNext(getStepId(path, flowId));
   }
 
   return paths;
@@ -110,6 +111,7 @@ function getSubflowSteps(
             }),
             guards: flowController.getGuards(),
           }),
+          flowId,
           getSubFlowInitialStep(array.config),
         ).filter((step) => step.startsWith(array.config.url)),
       })),
@@ -124,11 +126,10 @@ async function getComponents(step: string): Promise<StrapiFormComponent[]> {
   return flowPage.form;
 }
 
-function splitStepId(path: string): { stepId: string; flowId?: string } {
-  const flowId = "/beratungshilfe/antrag/";
-  return path.startsWith(flowId)
-    ? { stepId: path.slice(flowId.length), flowId }
-    : { stepId: path };
+function getStepId(path: string, flowId: string) {
+  flowId = flowId.startsWith("/") ? flowId : "/" + flowId;
+  flowId = flowId.endsWith("/") ? flowId : flowId + "/";
+  return path.startsWith(flowId) ? path.slice(flowId.length) : path;
 }
 
 function getSubFlowInitialStep(arrayConfig: ArrayConfig): string {
