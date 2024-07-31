@@ -45,6 +45,7 @@ export type AutoSuggestInputProps = Readonly<{
   formId?: string;
   noSuggestionMessage?: string;
   dataList: DataListType;
+  isDisabled: boolean;
 }>;
 
 const filterOption = (option: DataListOptions, inputValue: string) => {
@@ -119,6 +120,7 @@ const AutoSuggestInput = ({
   formId,
   dataList,
   noSuggestionMessage,
+  isDisabled,
 }: AutoSuggestInputProps) => {
   const items = useDataListOptions(dataList);
   const [currentItemValue, setCurrentItemValue] =
@@ -191,6 +193,7 @@ const AutoSuggestInput = ({
           "w-full",
           { "has-error": error },
           { "option-was-selected": optionWasSelected },
+          { "auto-suggest-input-disabled": isDisabled },
           width && widthClass(width),
         )}
         components={{
@@ -207,8 +210,8 @@ const AutoSuggestInput = ({
         id={name}
         inputId={inputId}
         instanceId={name}
-        isClearable
-        isSearchable
+        isClearable={!isDisabled}
+        isSearchable={!isDisabled}
         menuShouldScrollIntoView
         name={name}
         noOptionsMessage={({ inputValue }) =>
@@ -234,6 +237,7 @@ const AutoSuggestInput = ({
         options={options}
         placeholder={placeholder ?? ""}
         styles={customStyles(hasError)}
+        tabIndex={isDisabled ? -1 : 0}
         value={currentItemValue}
       />
 

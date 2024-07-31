@@ -250,6 +250,14 @@ svg {
   outline-offset: -4px;
 }
 
+.auto-suggest-input-disabled:hover,
+.auto-suggest-input-disabled:focus,
+.auto-suggest-input-disabled:focus-within {
+  outline-offset: 0 !important;
+  outline: none !important;
+  @apply bg-white !important;
+}
+
 /* when focus on the input without select an option */
 .suggestion-value-container:has(div > input[type="text"]:focus):not(
     .option-was-selected
@@ -257,4 +265,8 @@ svg {
   div
   span {
   @apply text-gray-600;
+}
+
+.auto-suggest-input-disabled {
+  box-shadow: none;
 }

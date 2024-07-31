@@ -27,6 +27,7 @@ const defaulType: AutoSuggestInputProps = {
   errorMessages: undefined,
   dataList: "airports",
   width: "54",
+  isDisabled: false,
 };
 
 const meta = {
