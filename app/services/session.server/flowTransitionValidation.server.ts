@@ -9,16 +9,22 @@ export type FlowTransitionConfig = {
   eligibleSourcePages: string[];
 };
 
+type FlowTransitionResult = {
+  isEligible: boolean;
+  redirectTo?: string;
+};
+
 export async function validateFlowTransition(
   flows: Record<FlowId, Flow>,
   flowId: FlowId,
   cookieHeader: CookieHeader,
   config: FlowTransitionConfig,
-) {
+): Promise<FlowTransitionResult> {
   const { targetFlowId, sourceFlowId, eligibleSourcePages } = config;
 
+  // Ignore validation and skip redirection if the user is not in the target flow.
   if (flowId !== targetFlowId) {
-    return false;
+    return { isEligible: false };
   }
 
   if (eligibleSourcePages.length === 0) {
@@ -33,7 +39,11 @@ export async function validateFlowTransition(
     guards: flows[sourceFlowId].guards,
   });
 
-  return eligibleSourcePages.some((page) =>
+  const isEligibleForTransition = eligibleSourcePages.some((page) =>
     fluggastrechteVorabcheckController.isReachable(page),
   );
+
+  return isEligibleForTransition
+    ? { isEligible: true }
+    : { isEligible: false, redirectTo: sourceFlowId };
 }

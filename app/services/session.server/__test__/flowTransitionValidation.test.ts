@@ -58,7 +58,7 @@ describe("validateFlowTransition", () => {
     getInitial: vi.fn().mockReturnValue("mock"),
   };
 
-  it("should return true if at least one eligible source page is reachable", async () => {
+  it("should return eligibility as true if at least one eligible source page is reachable", async () => {
     const config: FlowTransitionConfig = {
       targetFlowId: mockFlowId,
       sourceFlowId: mockFlowId,
@@ -79,10 +79,12 @@ describe("validateFlowTransition", () => {
       config,
     );
 
-    expect(result).toBe(true);
+    expect(result).toStrictEqual({
+      isEligible: true,
+    });
   });
 
-  it("should return false if none of the eligible source pages are reachable", async () => {
+  it("should return eligibility as false if none of the eligible source pages are reachable", async () => {
     const config: FlowTransitionConfig = {
       targetFlowId: mockFlowId,
       sourceFlowId: mockFlowId,
@@ -103,7 +105,10 @@ describe("validateFlowTransition", () => {
       config,
     );
 
-    expect(result).toBe(false);
+    expect(result).toStrictEqual({
+      isEligible: false,
+      redirectTo: "/fluggastrechte/vorabcheck",
+    });
   });
 
   it("should throw an error if eligibleSourcePages is an empty array", async () => {

@@ -190,18 +190,15 @@ export const loader = async ({
     ],
   };
 
-  const isEligibleForTransition = await validateFlowTransition(
+  const eligibilityResult = await validateFlowTransition(
     flows,
     flowId,
     cookieHeader,
     flowTransitionConfig,
   );
 
-  if (
-    flowId === flowTransitionConfig.targetFlowId &&
-    !isEligibleForTransition
-  ) {
-    return redirectDocument(flowTransitionConfig.sourceFlowId);
+  if (!eligibilityResult.isEligible && eligibilityResult.redirectTo) {
+    return redirectDocument(eligibilityResult.redirectTo);
   }
 
   const navigationA11yLabels = {
