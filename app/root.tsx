@@ -156,6 +156,7 @@ function App() {
         {description && <meta name="description" content={description} />}
         <meta property="og:title" content={ogTitle ?? title} />
         <meta property="og:description" content={description} />
+        <meta name="darkreader-lock" />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
@@ -202,6 +203,7 @@ export function ErrorBoundary() {
         <title>Justiz Services - Fehler aufgetreten</title>
         <Meta />
         <Links />
+        <meta name="darkreader-lock" />
       </head>
       <body className="flex flex-col min-h-screen">
         {loaderData && <Header {...loaderData.header} />}
