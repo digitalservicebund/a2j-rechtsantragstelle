@@ -2,10 +2,6 @@ import _ from "lodash";
 import { flows } from "~/flows/flows.server";
 import { ArrayConfig } from "~/services/array";
 import { fetchFlowPage } from "~/services/cms/index.server";
-import {
-  StrapiArraySummaryComponentSchema,
-  isStrapiArraySummary,
-} from "~/services/cms/models/StrapiArraySummary";
 import { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { StrapiFormFlowPageSchema } from "~/services/cms/models/StrapiFormFlowPage";
 import { addPageDataToUserData } from "~/services/flow/pageData";
@@ -23,7 +19,7 @@ export async function getPrunedUserData(userData: Context, flowId: FlowId) {
     guards: flows[flowId].guards,
   });
 
-  const strapiComponents = (
+  const baseFlowComponents = (
     await Promise.all(
       getSteps(flowController).flatMap(
         async (step) => await getComponents(step),
@@ -33,69 +29,39 @@ export async function getPrunedUserData(userData: Context, flowId: FlowId) {
     .filter((step) => step.length > 0)
     .flat();
 
-  const formComponents = strapiComponents.filter(isFormComponent);
-  const arrayComponents = strapiComponents.filter(isArrayComponent);
-
-  const baseData = formComponents.reduce(
-    (acc, component) => _.merge(acc, extractPrunedData(component, userData)),
+  const baseData = baseFlowComponents.reduce(
+    (acc, component) => _.merge(acc, copyFromUserData(component, userData)),
     {} as Context,
   );
 
-  // arrays
-  const arrayData = await arrayComponents.reduce(async (accPromise, array) => {
-    const acc = await accPromise;
-    const arrayConfiguration =
-      flowController.getRootMeta()?.arrays?.[array.category];
-
-    if (
-      !arrayConfiguration ||
-      userData[arrayConfiguration?.statementKey] !== "yes" ||
-      !userData[array.category]
-    )
-      return acc;
-
-    await Promise.all(
-      (userData[array.category] as ArrayData).map(async (_arrayData, index) => {
-        const subFlowController = buildFlowController({
-          config: flows[flowId].config,
-          data: addPageDataToUserData(userData, {
-            arrayIndexes: [index],
-          }),
-          guards: flows[flowId].guards,
-        });
-
-        const subflowComponents = (
-          await Promise.all(
-            getSteps(
-              subFlowController,
-              getSubFlowInitialStep(arrayConfiguration),
-            )
-              .filter((step) => step.startsWith(arrayConfiguration.url))
-              .flatMap(async (step) => await getComponents(step)),
-          )
-        )
-          .flat()
-          .filter(isFormComponent);
-
-        const subFlowData = subflowComponents.reduce(
-          (acc, subFlowComponent) => {
-            _.merge(acc, extractPrunedData(subFlowComponent, userData, index));
-            return acc;
-          },
-          {} as Context,
-        );
-
-        _.merge(acc, subFlowData);
+  const subFlowComponents = await Promise.all(
+    getSubflowSteps(flowId, flowController, userData).map(
+      async ({ steps, index }) => ({
+        index,
+        components: (
+          await Promise.all(steps.map((step) => getComponents(step)))
+        ).flat(),
       }),
-    );
+    ),
+  );
 
-    return acc;
-  }, {} as Promise<Context>);
+  const subFlowData = subFlowComponents.reduce(
+    (acc, { components, index }) =>
+      _.merge(
+        acc,
+        components.reduce(
+          (acc, component) =>
+            _.merge(acc, copyFromUserData(component, userData, index)),
+          {} as Context,
+        ),
+      ),
+    {} as Context,
+  );
 
-  return _.merge(baseData, arrayData);
+  return _.merge(baseData, subFlowData);
 }
 
-function extractPrunedData(
+function copyFromUserData(
   strapiFormComponent: StrapiFormComponent,
   userData: Context,
   index?: number,
@@ -124,43 +90,45 @@ function getSteps(
   return paths;
 }
 
-async function getComponents(
-  step: string,
-): Promise<
-  (StrapiFormComponent | Zod.infer<typeof StrapiArraySummaryComponentSchema>)[]
-> {
+function getSubflowSteps(
+  flowId: string,
+  flowController: FlowController,
+  userData: Context,
+): { index: number; steps: string[] }[] {
+  return Object.entries(flowController.getRootMeta()?.arrays ?? {})
+    .filter(([key]) => !_.isUndefined(userData[key]))
+    .filter(([_key, config]) => userData[config.statementKey] === "yes")
+    .map(([key, config]) => ({ key, config, data: userData[key] as ArrayData }))
+    .map((array) =>
+      array.data.map((_data, index) => ({
+        index,
+        steps: getSteps(
+          buildFlowController({
+            config: flowController.getConfig(),
+            data: addPageDataToUserData(userData, {
+              arrayIndexes: [index],
+            }),
+            guards: flowController.getGuards(),
+          }),
+          getSubFlowInitialStep(array.config),
+        ).filter((step) => step.startsWith(array.config.url)),
+      })),
+    )
+    .flat();
+}
+
+async function getComponents(step: string): Promise<StrapiFormComponent[]> {
   const flowPage: Zod.infer<typeof StrapiFormFlowPageSchema> =
     await fetchFlowPage("form-flow-pages", step);
 
-  return [
-    ...flowPage.pre_form.filter(isStrapiArraySummary),
-    ...flowPage.post_form.filter(isStrapiArraySummary),
-    ...flowPage.form,
-  ];
+  return flowPage.form;
 }
 
-// do we even need this separation?
 function splitStepId(path: string): { stepId: string; flowId?: string } {
   const flowId = "/beratungshilfe/antrag/";
   return path.startsWith(flowId)
     ? { stepId: path.slice(flowId.length), flowId }
     : { stepId: path };
-}
-
-function isFormComponent(
-  component:
-    | StrapiFormComponent
-    | Zod.infer<typeof StrapiArraySummaryComponentSchema>,
-): component is StrapiFormComponent {
-  return component.__component !== "page.array-summary";
-}
-
-function isArrayComponent(
-  component:
-    | StrapiFormComponent
-    | Zod.infer<typeof StrapiArraySummaryComponentSchema>,
-): component is Zod.infer<typeof StrapiArraySummaryComponentSchema> {
-  return !isFormComponent(component);
 }
 
 function getSubFlowInitialStep(arrayConfig: ArrayConfig): string {
