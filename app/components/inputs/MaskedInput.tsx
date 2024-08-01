@@ -7,7 +7,7 @@ type MaskedInputProps = InputProps & {
 };
 
 const MaskedStyledInput = IMaskMixin<HTMLInputElement, InputProps>(
-  ({ inputRef, ...props }) => <Input {...props} ref={inputRef} />,
+  ({ inputRef, ...props }) => <Input {...props} innerRef={inputRef} />,
 );
 
 const MaskedInput = (props: MaskedInputProps) => {
