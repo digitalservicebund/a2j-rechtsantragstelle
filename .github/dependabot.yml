@@ -21,6 +21,7 @@ updates:
       vitest:
         patterns:
           - "vitest*"
+          - "@vitest*"
       react:
         patterns:
           - "react*"
