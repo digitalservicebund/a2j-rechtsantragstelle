@@ -1,3 +1,4 @@
+import _ from "lodash";
 import type { FlowId } from "~/flows/flowIds";
 import type { Flow } from "~/flows/flows.server";
 import { type CookieHeader, getSessionData } from ".";
@@ -27,7 +28,7 @@ export async function validateFlowTransition(
     return { isEligible: false };
   }
 
-  if (eligibleSourcePages.length === 0) {
+  if (_.isEmpty(eligibleSourcePages)) {
     throw Error("This property should not be empty");
   }
 
