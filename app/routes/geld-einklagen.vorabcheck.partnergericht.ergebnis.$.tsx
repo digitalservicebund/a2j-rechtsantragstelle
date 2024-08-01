@@ -18,7 +18,6 @@ import {
   isPartnerCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
-import { logError } from "~/services/logging";
 import { splatFromParams } from "~/services/params";
 import { getSessionManager } from "~/services/session.server";
 
