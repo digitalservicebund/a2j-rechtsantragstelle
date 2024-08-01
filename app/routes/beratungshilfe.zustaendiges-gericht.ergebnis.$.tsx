@@ -22,16 +22,13 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     return redirect(`/beratungshilfe/zustaendiges-gericht/auswahl/${zipCode}`);
   }
 
-  let court = undefined;
-  try {
-    court = findCourt({ zipCode, streetSlug });
-  } catch (err) {
+  const court = findCourt({ zipCode, streetSlug });
+  if (!court) {
     throw new Response(null, {
       status: 404,
       statusText: "Not Found",
     });
   }
-  invariant(court);
 
   const slug = "/beratungshilfe/zustaendiges-gericht/ergebnis";
   const [common, { content, meta }] = await Promise.all([

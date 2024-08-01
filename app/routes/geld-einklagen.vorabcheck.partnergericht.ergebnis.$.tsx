@@ -4,7 +4,6 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { ReactElement } from "react";
-import invariant from "tiny-invariant";
 import Background from "~/components/Background";
 import Container from "~/components/Container";
 import CourtDetails from "~/components/CourtDetails";
@@ -49,19 +48,14 @@ export const loader = async ({
   zipCodes
     .filter((value, index, array) => array.indexOf(value) === index)
     .forEach((zipCode) => {
-      try {
-        if (zipCode) {
-          const court = findCourt({ zipCode });
-          invariant(court);
-          if (
-            isPartnerCourt(court.PLZ_ZUSTELLBEZIRK) ||
-            pageType == "negativ"
-          ) {
-            courts.push(court);
-          }
+      if (zipCode) {
+        const court = findCourt({ zipCode });
+        if (
+          court &&
+          (isPartnerCourt(court.PLZ_ZUSTELLBEZIRK) || pageType == "negativ")
+        ) {
+          courts.push(court);
         }
-      } catch (err) {
-        logError({ error: err });
       }
     });
 
