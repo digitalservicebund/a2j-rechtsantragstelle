@@ -1,18 +1,15 @@
 import LightbulbOutlinedIcon from "@digitalservicebund/icons/LightbulbOutlined";
 import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
-import { z } from "zod";
 import Heading from "./Heading";
 import RichText from "./RichText";
 
-const InlineNoticePropsSchema = z.object({
-  identifier: z.string().optional(),
-  title: z.string(),
-  tagName: z.enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"]),
-  look: z.enum(["warning", "tips"]),
-  content: z.string().optional(),
-});
-
-type InlineNoticeProps = z.infer<typeof InlineNoticePropsSchema>;
+type InlineNoticeProps = {
+  identifier?: string;
+  title: string;
+  tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
+  look: "warning" | "tips";
+  content?: string;
+};
 
 // We can't set border-[${borderColor}] in the template because it causes inconsistent behavior in Storybook.
 // Therefore, it's set in the config.
