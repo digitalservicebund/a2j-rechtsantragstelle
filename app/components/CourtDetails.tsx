@@ -1,19 +1,16 @@
-import { z } from "zod";
 import { normalizeURL } from "~/util/strings";
 import { OpenInNewTabIcon } from "./openInNewTabIcon";
 
-const CourtDetailsPropsSchema = z.object({
-  name: z.string(),
-  addressLabel: z.string(),
-  street: z.string(),
-  city: z.string(),
-  websiteLabel: z.string(),
-  website: z.string().url().optional(),
-  phoneLabel: z.string(),
-  phone: z.string().optional(),
-});
-
-type CourtDetailsProps = z.infer<typeof CourtDetailsPropsSchema>;
+type CourtDetailsProps = {
+  name: string;
+  addressLabel: string;
+  street: string;
+  city: string;
+  websiteLabel: string;
+  phoneLabel: string;
+  website?: string;
+  phone?: string;
+};
 
 const CourtDetails = ({
   name,

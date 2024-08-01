@@ -1,30 +1,27 @@
 import { useFetcher, useLocation } from "@remix-run/react";
 import { posthog } from "posthog-js";
 import { useEffect, useState } from "react";
-import { z } from "zod";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
-import Heading, { HeadingPropsSchema } from "~/components/Heading";
-import RichText, { RichTextPropsSchema } from "~/components/RichText";
+import Heading, { type HeadingProps } from "~/components/Heading";
+import RichText, { type RichTextProps } from "~/components/RichText";
 import { config } from "~/services/env/web";
 
 export const acceptCookiesFieldName = "accept-cookies";
 
-export const CookieBannerContentPropsSchema = z.object({
-  heading: HeadingPropsSchema,
-  paragraphs: z.array(RichTextPropsSchema),
-  acceptButtonLabel: z.string(),
-  declineButtonLabel: z.string(),
-  cookieSettingLinkText: z.string().nullable(),
-  cookieSettingLinkUrl: z.string().nullable(),
-});
+export type CookieBannerContentProps = {
+  heading: HeadingProps;
+  paragraphs: RichTextProps[];
+  acceptButtonLabel: string;
+  declineButtonLabel: string;
+  cookieSettingLinkText: string;
+  cookieSettingLinkUrl: string;
+};
 
-const CookieBannerPropsSchema = z.object({
-  hasTrackingConsent: z.boolean().optional(),
-  content: CookieBannerContentPropsSchema,
-});
-
-type CookieBannerProps = z.infer<typeof CookieBannerPropsSchema>;
+type CookieBannerProps = Readonly<{
+  hasTrackingConsent?: boolean;
+  content: CookieBannerContentProps;
+}>;
 
 export function CookieBanner({
   hasTrackingConsent,
@@ -80,9 +77,8 @@ export function CookieBanner({
   }
 
   return (
-    <div
+    <section
       className="md:fixed bottom-16 right-16 left-16 md:border-2 border-b-2 border-blue-800 z-50 bg-blue-300"
-      role="region"
       aria-label="Cookie banner"
       data-testid="cookie-banner"
     >
@@ -134,6 +130,6 @@ export function CookieBanner({
           </div>
         </Container>
       </analyticsFetcher.Form>
-    </div>
+    </section>
   );
 }
