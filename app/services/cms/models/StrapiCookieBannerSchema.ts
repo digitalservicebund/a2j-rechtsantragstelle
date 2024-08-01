@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { CookieBannerContentPropsSchema } from "~/components/CookieBanner";
-import { omitNull } from "~/util/omitNull";
+import { type CookieBannerContentProps } from "~/components/CookieBanner";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
@@ -22,11 +21,16 @@ export const StrapiCookieBannerSchema = z
 
 type StrapiCookieBanner = z.infer<typeof StrapiCookieBannerSchema>;
 
-export const getCookieBannerProps = (cmsData: StrapiCookieBanner) => {
-  const paragraphs = cmsData.paragraphs.map((paragraph) =>
-    getRichTextProps(paragraph),
-  );
-  return CookieBannerContentPropsSchema.parse(
-    omitNull({ ...cmsData, paragraphs }),
-  );
+export const getCookieBannerProps = (
+  cmsData: StrapiCookieBanner,
+): CookieBannerContentProps => {
+  return {
+    heading: getRichTextProps(cmsData.heading),
+    paragraphs: cmsData.paragraphs.map((p) => getRichTextProps(p)),
+    acceptButtonLabel: cmsData.acceptButtonLabel,
+    declineButtonLabel: cmsData.declineButtonLabel,
+    // TODO: mark both fields as required in strapi
+    cookieSettingLinkText: cmsData.cookieSettingLinkText ?? "",
+    cookieSettingLinkUrl: cmsData.cookieSettingLinkUrl ?? "",
+  };
 };

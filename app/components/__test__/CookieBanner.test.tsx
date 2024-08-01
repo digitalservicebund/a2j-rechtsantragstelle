@@ -12,8 +12,8 @@ describe("CookieBanner", () => {
     paragraphs: [{ markdown: "paragraph" }],
     acceptButtonLabel: "accept",
     declineButtonLabel: "decline",
-    cookieSettingLinkText: null,
-    cookieSettingLinkUrl: null,
+    cookieSettingLinkText: "",
+    cookieSettingLinkUrl: "",
   };
 
   it("renders content without link when no link props given", () => {

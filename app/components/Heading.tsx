@@ -16,7 +16,7 @@ export const HeadingPropsSchema = z
   })
   .readonly();
 
-type HeadingProps = z.infer<typeof HeadingPropsSchema>;
+export type HeadingProps = z.infer<typeof HeadingPropsSchema>;
 
 function Heading({
   tagName = "h1",
