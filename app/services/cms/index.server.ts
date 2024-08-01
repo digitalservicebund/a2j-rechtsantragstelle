@@ -81,7 +81,7 @@ export const fetchFlowPage = <Collection extends keyof FlowPage>(
 ): Promise<z.infer<FlowPage[Collection]>> =>
   fetchCollectionEntry(collection, [
     { field: "stepId", value: "/" + stepId }, // TODO: align stepid between app & cms
-    { field: "flow_ids.flowId", value: flowId },
+    { field: "flow_ids", nestedField: "flowId", value: flowId },
   ]);
 
 export const strapiPageFromRequest = ({

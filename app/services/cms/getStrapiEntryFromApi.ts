@@ -9,9 +9,9 @@ function buildFilters(filters?: Filter[]) {
   if (!filters) return "";
   return filters
     .map(
-      ({ field, value }) =>
-        "&filters" +
-        field.split(".").map((s: string) => `[${s}]`) +
+      ({ field, nestedField, value }) =>
+        `&filters[${field}]` +
+        (nestedField ? `[${nestedField}]` : ``) +
         `[$eq]=${value}`,
     )
     .join("");

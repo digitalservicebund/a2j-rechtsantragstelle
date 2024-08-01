@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/require-await: 0 */
 import fs from "node:fs";
-import type { GetStrapiEntryOpts } from "./filters";
+import type { Filter, GetStrapiEntryOpts } from "./filters";
 import {
   type StrapiFileContent,
   StrapiFileContentSchema,
@@ -28,25 +28,19 @@ export const getStrapiEntryFromFile = async ({
   }
 
   const contentItems = [...content[opts.apiId]].filter(
-    (item) =>
+    ({ attributes }) =>
       !opts.filters ||
-      opts.filters.every(({ field, value }) => {
-        const [toplevelFieldname, ...nestedFields] = field.split(".");
-        const nestedFielname = nestedFields.at(0);
-
-        const relevantField = item.attributes[
-          toplevelFieldname as keyof typeof item.attributes
-        ] as string | Record<string, unknown>;
-
-        if (nestedFielname === undefined) {
-          return relevantField === value;
-        }
+      opts.filters.every(({ field, value, nestedField }) => {
+        const relevantField = (attributes as Record<string, unknown>)[field];
+        if (!nestedField) return relevantField === value;
 
         return (
           typeof relevantField === "object" &&
+          relevantField !== null &&
+          "data" in relevantField &&
           Array.isArray(relevantField.data) &&
           relevantField.data.some(
-            (nestedItem) => nestedItem.attributes[nestedFielname] === value,
+            (nestedItem) => nestedItem.attributes[nestedField] === value,
           )
         );
       }),

@@ -4,6 +4,7 @@ import type { StrapiLocale } from "./models/StrapiLocale";
 export type Filter = {
   field: string;
   value: string;
+  nestedField?: string;
 };
 
 export type GetStrapiEntryOpts = {
