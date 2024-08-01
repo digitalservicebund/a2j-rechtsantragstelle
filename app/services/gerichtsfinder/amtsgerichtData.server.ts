@@ -111,8 +111,7 @@ export const edgeCaseStreets = ({ zipCode }: { zipCode?: string }) => {
 
 const gerbehIndexForPlz = (zipCode: string) => {
   const court = courtForPlz(zipCode);
-  if (!court) throw Error(`Not court with postcode ${zipCode}`);
-  return gerbehIndex(buildGerbehIndex(court));
+  return court ? gerbehIndex(buildGerbehIndex(court)) : undefined;
 };
 
 export const findCourt = ({
@@ -125,33 +124,26 @@ export const findCourt = ({
   if (streetSlug && streetSlug !== "default") {
     const edgeCases = edgeCasesForPlz(zipCode);
     const edgeCase = edgeCases.find((e) => buildStreetSlug(e) === streetSlug);
-    if (!edgeCase) throw new Error("streetSlug unknown");
+    if (!edgeCase) return undefined;
     return courtAddress(edgeCase);
   }
 
   const court = courtForPlz(zipCode);
-  if (!court) throw new Error("zipCode unknown");
+  if (!court) return undefined;
   return courtAddress(court);
 };
 
 export function findCourtIfUnique(zipCode?: string) {
   if (!zipCode) return undefined;
-  try {
-    const court = findCourt({ zipCode });
-    if (court && edgeCasesForPlz(zipCode).length == 0) {
-      return court;
-    }
-  } catch (error) {
-    /* eslint-disable-next-line no-console */
-    console.error(error);
+  const court = findCourt({ zipCode });
+  if (court && edgeCasesForPlz(zipCode).length == 0) {
+    return court;
   }
 }
 
 export function isPartnerCourt(zipCode?: string) {
-  if (!zipCode) return false;
-  try {
-    return gerbehIndexForPlz(zipCode) in getPartnerCourtsGerbehIndex();
-  } catch {
-    return false;
-  }
+  const partnerCourtGerbehIndices = getPartnerCourtsGerbehIndex();
+  if (!zipCode || !partnerCourtGerbehIndices) return false;
+  const gerbehIndex = gerbehIndexForPlz(zipCode);
+  return gerbehIndex !== undefined && gerbehIndex in partnerCourtGerbehIndices;
 }
