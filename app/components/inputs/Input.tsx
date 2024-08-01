@@ -45,12 +45,11 @@ const Input = function InputComponent({
   helperText,
   width,
   formId,
-  ref,
-}: InputProps & { ref?: React.Ref<HTMLInputElement> }) {
+  innerRef,
+}: InputProps & { innerRef?: React.Ref<HTMLInputElement> }) {
   const { error, getInputProps } = useField(name, { formId });
   const errorId = `${name}-error`;
   const helperId = `${name}-helper`;
-
   return (
     <div>
       {label && <InputLabel id={name}>{label}</InputLabel>}
@@ -65,7 +64,7 @@ const Input = function InputComponent({
             inputMode: type === "number" ? "decimal" : undefined,
             placeholder,
           })}
-          ref={ref}
+          ref={innerRef}
           className={classNames(
             "ds-input forced-color-adjust-none",
             { "has-error": error },
