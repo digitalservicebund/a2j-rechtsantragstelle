@@ -1,8 +1,9 @@
 import type { z } from "zod";
+import type { FlowId } from "~/flows/flowIds";
+import type { Filter, GetStrapiEntryOpts } from "./filters";
 import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";
 import { getStrapiEntryFromFile } from "./getStrapiEntryFromFile";
 import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
-import type { StrapiFileContent } from "./models/StrapiFileContent";
 import type { StrapiLocale } from "./models/StrapiLocale";
 import type { StrapiPage } from "./models/StrapiPage";
 import type { CollectionSchemas, EntrySchemas, FlowPage } from "./schemas";
@@ -10,23 +11,18 @@ import { collectionSchemas, entrySchemas } from "./schemas";
 import { config } from "../env/env.server";
 import { httpErrorCodes } from "../errorPages/ErrorBox";
 
-export type GetStrapiEntryOpts = {
-  apiId: keyof StrapiFileContent;
-  filterField?: string;
-  filterValue?: string;
-  locale?: StrapiLocale;
-  populate?: string;
-  pageSize?: string;
-};
-
 export type Translations = Record<string, string>;
 
 const getStrapiEntry =
   config().CMS === "FILE" ? getStrapiEntryFromFile : getStrapiEntryFromApi;
 
-export async function fetchMeta(opts: Omit<GetStrapiEntryOpts, "apiId">) {
+export async function fetchMeta(
+  opts: Omit<GetStrapiEntryOpts, "apiId" | "filter"> & { filterValue: string },
+) {
   const populate = "meta";
-  const pageEntry = await getStrapiEntry({ ...opts, apiId: "pages", populate });
+  const filters = [{ value: opts.filterValue, field: "slug" }];
+  const apiId = "pages";
+  const pageEntry = await getStrapiEntry({ ...opts, filters, apiId, populate });
   const parsedEntry = HasStrapiMetaSchema.safeParse(pageEntry);
   return parsedEntry.success ? parsedEntry.data.meta : null;
 }
@@ -41,20 +37,18 @@ export async function fetchSingleEntry<ApiId extends keyof EntrySchemas>(
 
 async function fetchCollectionEntry<ApiId extends keyof CollectionSchemas>(
   apiId: ApiId,
-  filterValue: string,
-  filterField = "slug",
+  filters?: Filter[],
   locale?: StrapiLocale,
 ): Promise<z.infer<CollectionSchemas[ApiId]>> {
   const strapiEntry = await getStrapiEntry({
     apiId,
     locale,
-    filterValue,
-    filterField,
+    filters,
   });
 
   if (!strapiEntry) {
     const error = new Error(
-      `page missing in cms: ${filterField}:${filterValue}`,
+      `CMS lookup for ${apiId} failed (filters: ${JSON.stringify(filters)})`,
     );
     error.name = "StrapiPageNotFound";
     throw error;
@@ -66,8 +60,9 @@ export const fetchTranslations = async (
   name: string,
   locale?: StrapiLocale,
 ): Promise<Translations> => {
+  const filters = [{ field: "scope", value: name }];
   try {
-    const entry = fetchCollectionEntry("translations", name, "scope", locale);
+    const entry = fetchCollectionEntry("translations", filters, locale);
     return Object.fromEntries(
       (await entry).field.map(({ name, value }) => [name, value]),
     );
@@ -76,12 +71,18 @@ export const fetchTranslations = async (
   }
 };
 
-export const fetchPage = (slug: string) => fetchCollectionEntry("pages", slug);
+export const fetchPage = (slug: string) =>
+  fetchCollectionEntry("pages", [{ field: "slug", value: slug }]);
 
-export const fetchFlowPage = <ApiId extends FlowPage>(
-  collection: ApiId,
-  slug: string,
-) => fetchCollectionEntry(collection, slug);
+export const fetchFlowPage = <Collection extends keyof FlowPage>(
+  collection: Collection,
+  flowId: FlowId,
+  stepId: string,
+): Promise<z.infer<FlowPage[Collection]>> =>
+  fetchCollectionEntry(collection, [
+    { field: "stepId", value: "/" + stepId }, // TODO: align stepid between app & cms
+    { field: "flow_ids", nestedField: "flowId", value: flowId },
+  ]);
 
 export const strapiPageFromRequest = ({
   request,
@@ -94,7 +95,9 @@ export async function fetchErrors() {
   const cmsErrorSlug = "/error/";
 
   const errorPagePromises = httpErrorCodes.map((errorCode) =>
-    fetchCollectionEntry("pages", `${cmsErrorSlug}${errorCode}`),
+    fetchCollectionEntry("pages", [
+      { field: "slug", value: `${cmsErrorSlug}${errorCode}` },
+    ]),
   );
 
   const errorPageEntries = (await Promise.allSettled(errorPagePromises))

@@ -1,15 +1,26 @@
 import type { AxiosResponse } from "axios";
 import axios from "axios";
-import type { GetStrapiEntryOpts } from "./index.server";
+import type { Filter, GetStrapiEntryOpts } from "./filters";
 import type { StrapiFileContent } from "./models/StrapiFileContent";
 import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
 import { config } from "../env/env.server";
 
+function buildFilters(filters?: Filter[]) {
+  if (!filters) return "";
+  return filters
+    .map(
+      ({ field, nestedField, value }) =>
+        `&filters[${field}]` +
+        (nestedField ? `[${nestedField}]` : ``) +
+        `[$eq]=${value}`,
+    )
+    .join("");
+}
+
 const buildUrl = ({
   apiId,
   pageSize,
-  filterField = "slug",
-  filterValue,
+  filters,
   locale = defaultLocale,
   populate = "deep",
 }: GetStrapiEntryOpts) =>
@@ -19,9 +30,7 @@ const buildUrl = ({
     `?populate=${populate}`,
     `&locale=${locale}`,
     pageSize ? `&pagination[pageSize]=${pageSize}` : "",
-    filterField && filterValue
-      ? `&filters[${filterField}][$eq]=${filterValue}`
-      : "",
+    buildFilters(filters),
   ].join("");
 
 type SingleStrapiEntry =

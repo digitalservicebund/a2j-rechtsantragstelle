@@ -34,7 +34,37 @@ describe("services/cms", () => {
       "cookie-banner": [],
       "result-pages": [],
       "vorab-check-pages": [],
-      "form-flow-pages": [],
+      "form-flow-pages": [
+        {
+          id: 0,
+          attributes: {
+            slug: "/geld-einklagen/formular/stepId",
+            createdAt: faker.date.past().toISOString(),
+            updatedAt: faker.date.past().toISOString(),
+            publishedAt: faker.date.past().toISOString(),
+            heading: "",
+            locale: StrapiLocaleSchema.Values.de,
+            preHeading: null,
+            nextButtonLabel: null,
+            stepId: "/stepId",
+            meta: {
+              title: "",
+              description: null,
+              ogTitle: null,
+              breadcrumb: "",
+            },
+            pre_form: [],
+            post_form: [],
+            form: [],
+            flow_ids: {
+              data: [
+                { attributes: { flowId: "/geld-einklagen/formular" } },
+                { attributes: { flowId: "/fluggastrechte/formular" } },
+              ],
+            },
+          },
+        },
+      ],
       translations: [],
     } satisfies StrapiFileContent;
     vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify(fileContent));
@@ -59,40 +89,67 @@ describe("services/cms", () => {
       });
     });
 
-    describe("with a slug given", () => {
-      it("returns an entry", async () => {
+    it("can filter by property", async () => {
+      expect(
+        await getStrapiEntryFromFile({
+          apiId: "pages",
+          filters: [{ field: "slug", value: impressumPath }],
+          locale: "de",
+        }),
+      ).toEqual(impressum);
+    });
+
+    it("can filter by nested property", async () => {
+      expect(
+        await getStrapiEntryFromFile({
+          apiId: "form-flow-pages",
+          filters: [
+            {
+              field: "flow_ids",
+              nestedField: "flowId",
+              value: "/geld-einklagen/formular",
+            },
+          ],
+        }),
+      ).not.toBeUndefined();
+    });
+
+    it("can filter by multiple properties", async () => {
+      expect(
+        await getStrapiEntryFromFile({
+          apiId: "form-flow-pages",
+          filters: [
+            {
+              field: "flow_ids",
+              nestedField: "flowId",
+              value: "/geld-einklagen/formular",
+            },
+            { field: "stepId", value: "/stepId" },
+          ],
+        }),
+      ).not.toBeUndefined();
+    });
+
+    describe("returns undefined when no entry matches", () => {
+      it("returns undefined", async () => {
         expect(
           await getStrapiEntryFromFile({
             apiId: "pages",
-            filterValue: impressumPath,
+            filters: [{ field: "slug", value: "/NOTAVAILABLE" }],
             locale: "de",
           }),
-        ).toEqual(impressum);
+        ).toBeUndefined();
       });
+    });
 
-      describe("when no entry exists for the given slug", () => {
-        it("returns undefined", async () => {
-          expect(
-            await getStrapiEntryFromFile({
-              apiId: "pages",
-              filterValue: "/NOTAVAILABLE",
-              locale: "de",
-            }),
-          ).toBeUndefined();
-        });
-      });
-
-      describe("with an existing slug in the wrong locale", () => {
-        it("returns the default impressum", async () => {
-          expect(
-            await getStrapiEntryFromFile({
-              apiId: "pages",
-              filterValue: impressumPath,
-              locale: "en",
-            }),
-          ).toEqual(impressum);
-        });
-      });
+    it("falls back to default locale", async () => {
+      expect(
+        await getStrapiEntryFromFile({
+          apiId: "pages",
+          filters: [{ field: "slug", value: impressumPath }],
+          locale: "en",
+        }),
+      ).toEqual(impressum);
     });
   });
 });
