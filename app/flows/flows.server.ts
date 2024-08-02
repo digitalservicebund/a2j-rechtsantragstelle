@@ -7,6 +7,7 @@ import { geldEinklagenFormular } from "~/flows/geldEinklagenFormular";
 import type { Translations } from "~/services/cms/index.server";
 import { type CollectionSchemas } from "~/services/cms/schemas";
 import type { Config } from "~/services/flow/server/buildFlowController";
+import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
 import type { Replacements } from "~/util/fillTemplate";
 import type { Context } from "./contexts";
 import type { FlowId } from "./flowIds";
@@ -17,6 +18,7 @@ export type Flow = {
   config: Config;
   guards: Guards;
   migrationSource?: FlowId;
+  flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (
     context: Context,
     translations: Translations,

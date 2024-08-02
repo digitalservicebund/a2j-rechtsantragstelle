@@ -38,7 +38,7 @@ import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import {
   validateFlowTransition,
-  FlowTransitionConfig,
+  getFlowTransitionConfig,
 } from "~/services/session.server/flowTransitionValidation.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { validateFormData } from "~/services/validation/validateFormData.server";
@@ -183,25 +183,19 @@ export const loader = async ({
     cookieHeader,
   );
 
-  const flowTransitionConfig: FlowTransitionConfig = {
-    targetFlowId: "/fluggastrechte/formular",
-    sourceFlowId: "/fluggastrechte/vorabcheck",
-    eligibleSourcePages: [
-      "ergebnis/erfolg",
-      "ergebnis/erfolg-kontakt",
-      "ergebnis/erfolg-gericht",
-    ],
-  };
+  const flowTransitionConfig = getFlowTransitionConfig(currentFlow);
 
-  const eligibilityResult = await validateFlowTransition(
-    flows,
-    flowId,
-    cookieHeader,
-    flowTransitionConfig,
-  );
+  if (flowTransitionConfig) {
+    const eligibilityResult = await validateFlowTransition(
+      flows,
+      flowId,
+      cookieHeader,
+      flowTransitionConfig,
+    );
 
-  if (!eligibilityResult.isEligible && eligibilityResult.redirectTo) {
-    return redirectDocument(eligibilityResult.redirectTo);
+    if (!eligibilityResult.isEligible && eligibilityResult.redirectTo) {
+      return redirectDocument(eligibilityResult.redirectTo);
+    }
   }
 
   const navigationA11yLabels = {
