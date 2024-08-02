@@ -6,6 +6,7 @@ import { HasStrapiSlugSchema } from "./HasStrapiSlug";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 import { StrapiContentComponentSchema } from "./StrapiContentComponent";
 import { StrapiElementWithIdSchema } from "./StrapiElementWithId";
+import { StrapiFlowIdSchema } from "./StrapiFlowId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiLinkSchema } from "./StrapiLink";
 import { StrapiParagraphSchema } from "./StrapiParagraph";
@@ -13,6 +14,10 @@ import { StrapiResultPageTypeSchema } from "./StrapiResultPageType";
 
 export const StrapiResultPageSchema = z
   .object({
+    stepId: z.string().nullable(),
+    flow_ids: z.object({
+      data: z.array(z.object({ attributes: StrapiFlowIdSchema })),
+    }),
     pageType: StrapiResultPageTypeSchema,
     heading: StrapiHeadingSchema,
     hintText: StrapiParagraphSchema.nullable(),

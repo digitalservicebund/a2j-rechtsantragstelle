@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/require-await: 0 */
 import fs from "node:fs";
-import type { GetStrapiEntryOpts } from "./index.server";
+import type { Filter, GetStrapiEntryOpts } from "./filters";
 import {
   type StrapiFileContent,
   StrapiFileContentSchema,
@@ -27,16 +27,23 @@ export const getStrapiEntryFromFile = async ({
     }
   }
 
-  const filterField = opts.filterField ?? "slug";
-
   const contentItems = [...content[opts.apiId]].filter(
-    (item) =>
-      !(
-        opts.filterValue &&
-        filterField in item.attributes &&
-        item.attributes[filterField as keyof typeof item.attributes] !==
-          opts.filterValue
-      ),
+    ({ attributes }) =>
+      !opts.filters ||
+      opts.filters.every(({ field, value, nestedField }) => {
+        const relevantField = (attributes as Record<string, unknown>)[field];
+        if (!nestedField) return relevantField === value;
+
+        return (
+          typeof relevantField === "object" &&
+          relevantField !== null &&
+          "data" in relevantField &&
+          Array.isArray(relevantField.data) &&
+          relevantField.data.some(
+            (nestedItem) => nestedItem.attributes[nestedField] === value,
+          )
+        );
+      }),
   );
 
   // search for the locale

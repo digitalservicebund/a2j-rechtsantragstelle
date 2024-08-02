@@ -1,7 +1,10 @@
 import axios from "axios";
 import { getStrapiEntryFromApi } from "~/services/cms/getStrapiEntryFromApi";
-import type { GetStrapiEntryOpts } from "~/services/cms/index.server";
-import { defaultLocale } from "~/services/cms/models/StrapiLocale";
+import {
+  defaultLocale,
+  stagingLocale,
+} from "~/services/cms/models/StrapiLocale";
+import type { GetStrapiEntryOpts } from "../filters";
 
 const API_URL = "test://cms/api/";
 
@@ -19,7 +22,7 @@ describe("services/cms", () => {
     const dataResponse = { attributes: expectedData };
     const defaultOptions: GetStrapiEntryOpts = {
       apiId: "pages",
-      locale: defaultLocale,
+      locale: stagingLocale,
     };
     const defaultResponseData = { data: { data: dataResponse } };
     const emptyResponseData = { data: [] };
@@ -28,15 +31,21 @@ describe("services/cms", () => {
 
     const axiosGetSpy = vi.spyOn(axios, "get");
 
+    beforeEach(() => {
+      axiosGetSpy
+        .mockResolvedValue(defaultResponseData)
+        .mockResolvedValueOnce(emptyResponseData);
+    });
+
     afterEach(() => {
       axiosGetSpy.mockClear();
     });
 
-    test("request url", async () => {
-      axiosGetSpy
-        .mockResolvedValue(defaultResponseData)
-        .mockResolvedValueOnce(emptyResponseData);
-      await getStrapiEntryFromApi(defaultOptions);
+    test("first requests staging locale before", async () => {
+      await getStrapiEntryFromApi({
+        ...defaultOptions,
+        locale: defaultLocale,
+      });
       expect(axiosGetSpy).toHaveBeenNthCalledWith(
         1,
         expectedStagingRequestUrl,
@@ -49,19 +58,43 @@ describe("services/cms", () => {
       );
     });
 
-    test("request url with optional slug given", async () => {
-      axiosGetSpy
-        .mockResolvedValue(defaultResponseData)
-        .mockResolvedValueOnce(emptyResponseData);
-      await getStrapiEntryFromApi({ ...defaultOptions, filterValue: "foobar" });
+    test("request url with property filter", async () => {
+      await getStrapiEntryFromApi({
+        ...defaultOptions,
+        filters: [{ value: "foobar", field: "slug" }],
+      });
       expect(axiosGetSpy).toHaveBeenNthCalledWith(
         1,
         `${expectedStagingRequestUrl}&filters[slug][$eq]=foobar`,
         expect.anything(),
       );
+    });
+
+    test("request url with nested property filter", async () => {
+      await getStrapiEntryFromApi({
+        ...defaultOptions,
+        filters: [
+          { value: "foobar", field: "flow_ids", nestedField: "flowId" },
+        ],
+      });
       expect(axiosGetSpy).toHaveBeenNthCalledWith(
-        2,
-        `${expectedRequestUrl}&filters[slug][$eq]=foobar`,
+        1,
+        `${expectedStagingRequestUrl}&filters[flow_ids][flowId][$eq]=foobar`,
+        expect.anything(),
+      );
+    });
+
+    test("request url with multiple property filter", async () => {
+      await getStrapiEntryFromApi({
+        ...defaultOptions,
+        filters: [
+          { value: "foobar", field: "flow_ids", nestedField: "flowId" },
+          { value: "foobar", field: "stepId" },
+        ],
+      });
+      expect(axiosGetSpy).toHaveBeenNthCalledWith(
+        1,
+        `${expectedStagingRequestUrl}&filters[flow_ids][flowId][$eq]=foobar&filters[stepId][$eq]=foobar`,
         expect.anything(),
       );
     });

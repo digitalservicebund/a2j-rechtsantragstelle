@@ -94,11 +94,6 @@ export const loader = async ({
   if (!flowController.isReachable(stepId))
     return redirectDocument(flowController.getInitial());
 
-  // get all relevant strapi data
-  const pathNameWithoutArrayIndex = `${flowId}/${stepId}`;
-  const lookupPath = pathNameWithoutArrayIndex.includes("persoenliche-daten")
-    ? pathNameWithoutArrayIndex.replace("fluggastrechte", "geld-einklagen")
-    : pathNameWithoutArrayIndex;
   const [
     formPageContent,
     parentMeta,
@@ -106,7 +101,7 @@ export const loader = async ({
     navigationStrings,
     defaultStrings,
   ] = await Promise.all([
-    fetchFlowPage("form-flow-pages", lookupPath),
+    fetchFlowPage("form-flow-pages", flowId, stepId),
     fetchMeta({ filterValue: parentFromParams(pathname, params) }),
     fetchTranslations(flowId),
     fetchTranslations(`${flowId}/menu`),

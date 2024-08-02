@@ -27,7 +27,7 @@ export const loader = async ({
   context,
 }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
-  const { flowId } = parsePathname(pathname);
+  const { flowId, stepId } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
   const sessionManager = getSessionManager(flowId);
   const { data, id } = await sessionManager.getSession(cookieHeader);
@@ -60,7 +60,7 @@ export const loader = async ({
 
   const [common, { heading, freeZone, hintText, meta }] = await Promise.all([
     fetchTranslations("amtsgericht"),
-    fetchFlowPage("result-pages", pathname),
+    fetchFlowPage("result-pages", flowId, stepId),
   ]);
 
   return json({ courts, freeZone, heading, hintText, pageType, meta, common });
