@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/require-await: 0 */
 import fs from "node:fs";
-import type { Filter, GetStrapiEntryOpts } from "./filters";
+import type { GetStrapiEntryOpts } from "./filters";
 import {
   type StrapiFileContent,
   StrapiFileContentSchema,
