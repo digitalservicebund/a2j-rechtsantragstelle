@@ -32,7 +32,7 @@ export const getBoxWithImageProps = ({
 }: z.infer<typeof StrapiBoxWithImageSchema>): BoxWithImageProps => {
   const { content, identifier, imageLabel } = omitNull(props);
   return {
-    image: getImageProps(image),
+    image: getImageProps(image) ?? {},
     identifier,
     heading: heading ? getHeadingProps(heading) : undefined,
     imageLabel,
