@@ -1,17 +1,14 @@
-import { z } from "zod";
-import Heading, { HeadingPropsSchema } from "./Heading";
-import Image, { ImagePropsSchema } from "./Image";
+import Heading, { type HeadingProps } from "./Heading";
+import Image, { type ImageProps } from "./Image";
 import RichText from "./RichText";
 
-export const BoxWithImagePropsSchema = z.object({
-  identifier: z.string().optional(),
-  heading: HeadingPropsSchema.optional(),
-  image: ImagePropsSchema.optional(),
-  imageLabel: z.string().optional(),
-  content: z.string().optional(),
-});
-
-type BoxWithImageProps = z.infer<typeof BoxWithImagePropsSchema>;
+export type BoxWithImageProps = {
+  image: ImageProps;
+  identifier?: string;
+  heading?: HeadingProps;
+  imageLabel?: string;
+  content?: string;
+};
 
 const BoxWithImage = ({
   identifier,
@@ -29,14 +26,12 @@ const BoxWithImage = ({
         {imageLabel && (
           <p className="ds-label-section pt-4 text-gray-800">{imageLabel}</p>
         )}
-        {image && (
-          <Image
-            {...image}
-            {...{
-              className: content ? "w-[160px]" : "max-w-none",
-            }}
-          />
-        )}
+        <Image
+          {...image}
+          {...{
+            className: content ? "w-[160px]" : "max-w-none",
+          }}
+        />
       </div>
       <div className={"ds-stack-8 break-words w-full"}>
         {heading && <Heading {...heading} />}
