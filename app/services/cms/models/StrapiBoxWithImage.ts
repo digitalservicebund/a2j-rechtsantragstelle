@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { BoxWithImagePropsSchema } from "~/components/BoxWithImage";
+import { type BoxWithImageProps } from "~/components/BoxWithImage";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
-import { StrapiHeadingSchema } from "./StrapiHeading";
+import { getHeadingProps, StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiImageSchema, getImageProps } from "./StrapiImage";
 
 const StrapiBoxWithImageSchema = z
@@ -25,9 +25,17 @@ export const StrapiBoxWithImageComponentSchema =
     __component: z.literal("page.box-with-image"),
   });
 
-type StrapiBoxWithImage = z.infer<typeof StrapiBoxWithImageSchema>;
-
-export const getBoxWithImageProps = (cmsData: StrapiBoxWithImage) => {
-  const props = { ...cmsData, image: getImageProps(cmsData.image) };
-  return BoxWithImagePropsSchema.parse(omitNull(props));
+export const getBoxWithImageProps = ({
+  heading,
+  image,
+  ...props
+}: z.infer<typeof StrapiBoxWithImageSchema>): BoxWithImageProps => {
+  const { content, identifier, imageLabel } = omitNull(props);
+  return {
+    image: getImageProps(image),
+    identifier,
+    heading: heading ? getHeadingProps(heading) : undefined,
+    imageLabel,
+    content,
+  };
 };
