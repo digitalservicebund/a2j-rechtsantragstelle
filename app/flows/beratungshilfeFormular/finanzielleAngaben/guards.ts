@@ -221,12 +221,16 @@ export const finanzielleAngabeGuards = {
     hasAusgabenYes({ context }) && !arrayIsNonEmpty(context.ausgaben),
   eigentumYesAndEmptyArray: ({ context }) =>
     (hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten)) ||
-    (hasGeldanlageYes({ context }) && !arrayIsNonEmpty(context.geldanlagen)) ||
-    (hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen)) ||
-    (hasKraftfahrzeugYes({ context }) &&
-      !arrayIsNonEmpty(context.kraftfahrzeuge)) ||
-    (hasGrundeigentumYes({ context }) &&
-      !arrayIsNonEmpty(context.grundeigentum)),
+    // entries other than bank accounts are only revelant above 10k
+    (context.eigentumTotalWorth === "more10000" &&
+      ((hasGeldanlageYes({ context }) &&
+        !arrayIsNonEmpty(context.geldanlagen)) ||
+        (hasWertsacheYes({ context }) &&
+          !arrayIsNonEmpty(context.wertsachen)) ||
+        (hasKraftfahrzeugYes({ context }) &&
+          !arrayIsNonEmpty(context.kraftfahrzeuge)) ||
+        (hasGrundeigentumYes({ context }) &&
+          !arrayIsNonEmpty(context.grundeigentum)))),
   hasKinderYesAndEmptyArray: ({ context }) =>
     hasKinderYes({ context }) && !arrayIsNonEmpty(context.kinder),
   hasWeitereUnterhaltszahlungenYesAndEmptyArray: ({ context }) =>

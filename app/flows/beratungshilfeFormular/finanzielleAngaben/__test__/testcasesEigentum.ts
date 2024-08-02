@@ -29,6 +29,10 @@ const cases = [
   [
     {
       hasBankkonto: "yes",
+      hasGeldanlage: "no",
+      hasWertsache: "no",
+      hasKraftfahrzeug: "no",
+      hasGrundeigentum: "no",
     },
     [
       finanzielleAngabenEigentumBankkontenFrage,
@@ -37,20 +41,7 @@ const cases = [
       finanzielleAngabenEigentumGrundeigentumFrage,
       finanzielleAngabenEigentumKraftfahrzeugeFrage,
       "finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-    ],
-  ],
-  [
-    {
-      hasGeldanlage: "yes",
-    },
-    [
-      finanzielleAngabenEigentumBankkontenFrage,
-      finanzielleAngabenEigentumGeldanlagenFrage,
-      finanzielleAngabenEigentumWertgegenstaendeFrage,
-      finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
-      "finanzielle-angaben/eigentum/gesamtwert",
-      finanzielleAngabenAusgabenAusgabenFrage,
+      "finanzielle-angaben/eigentum-zusammenfassung/warnung",
     ],
   ],
   [
@@ -70,6 +61,27 @@ const cases = [
       finanzielleAngabenEigentumKraftfahrzeugeFrage,
       "finanzielle-angaben/eigentum/gesamtwert",
       "finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      "finanzielle-angaben/eigentum-zusammenfassung/warnung",
+    ],
+  ],
+  [
+    {
+      hasBankkonto: "no",
+      hasGeldanlage: "yes",
+      hasWertsache: "no",
+      hasKraftfahrzeug: "no",
+      hasGrundeigentum: "no",
+      eigentumTotalWorth: "less10000",
+    },
+    [
+      finanzielleAngabenEigentumBankkontenFrage,
+      finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumWertgegenstaendeFrage,
+      finanzielleAngabenEigentumGrundeigentumFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
+      "finanzielle-angaben/eigentum/gesamtwert",
+      "finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      "finanzielle-angaben/ausgaben/ausgaben-frage",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
