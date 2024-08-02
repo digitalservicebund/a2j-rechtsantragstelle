@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
+import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
 import fluggastrechteFlow from "./flow.json";
 import { fluggastrechteGuards } from "./guards";
 import { type AllContexts } from "../common";
@@ -28,6 +29,16 @@ function forderungFromAirports(startAirport: string, endAirport: string) {
     }
   }
 }
+
+const flowTransitionConfig: FlowTransitionConfig = {
+  targetFlowId: "/fluggastrechte/formular",
+  sourceFlowId: "/fluggastrechte/vorabcheck",
+  eligibleSourcePages: [
+    "ergebnis/erfolg",
+    "ergebnis/erfolg-kontakt",
+    "ergebnis/erfolg-gericht",
+  ],
+};
 
 export const fluggastrechtFlow = {
   migrationSource: "/fluggastrechte/vorabcheck",
@@ -64,4 +75,5 @@ export const fluggastrechtFlow = {
     },
   }),
   guards: fluggastrechteGuards,
+  flowTransitionConfig,
 } as const;
