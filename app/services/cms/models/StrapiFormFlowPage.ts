@@ -2,7 +2,6 @@ import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
-import { HasStrapiSlugSchema } from "./HasStrapiSlug";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 import { StrapiContentComponentSchema } from "./StrapiContentComponent";
 import { StrapiFlowIdSchema } from "./StrapiFlowId";
@@ -26,5 +25,4 @@ export const StrapiFormFlowPageSchema = z
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiMetaSchema)
-  .merge(HasStrapiSlugSchema)
   .merge(HasStrapiTimestampsSchema);
