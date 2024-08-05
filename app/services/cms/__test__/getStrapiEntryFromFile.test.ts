@@ -38,7 +38,6 @@ describe("services/cms", () => {
         {
           id: 0,
           attributes: {
-            slug: "/geld-einklagen/formular/stepId",
             createdAt: faker.date.past().toISOString(),
             updatedAt: faker.date.past().toISOString(),
             publishedAt: faker.date.past().toISOString(),
