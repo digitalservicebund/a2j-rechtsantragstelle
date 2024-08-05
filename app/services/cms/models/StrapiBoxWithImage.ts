@@ -12,7 +12,6 @@ const StrapiBoxWithImageSchema = z
   .object({
     heading: StrapiHeadingSchema.nullable(),
     image: StrapiImageSchema,
-    imageLabel: z.string().nullable(),
     content: z.string().nullable(),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
@@ -30,12 +29,11 @@ export const getBoxWithImageProps = ({
   image,
   ...props
 }: z.infer<typeof StrapiBoxWithImageSchema>): BoxWithImageProps => {
-  const { content, identifier, imageLabel } = omitNull(props);
+  const { content, identifier } = omitNull(props);
   return {
     image: getImageProps(image) ?? {},
     identifier,
     heading: heading ? getHeadingProps(heading) : undefined,
-    imageLabel,
     content,
   };
 };
