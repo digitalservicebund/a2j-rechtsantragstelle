@@ -4,23 +4,22 @@ import RichText from "./RichText";
 
 export type BoxWithImageProps = {
   image: ImageProps;
-  variant?: "default" | "easyLanguage";
+  variant?: "default" | "ImgMTextL";
   identifier?: string;
   heading?: HeadingProps;
-  imageLabel?: string;
   content?: string;
 };
 
 const variantStyles = {
   default: {
     textSize: "1rem",
-    headingSize: "1.625rem",
-    imageWidth: "w-[160px]",
+    imageContainer: "basis-1/6",
+    columnBreakpoint: "md",
   },
-  easyLanguage: {
-    textSize: "20px",
-    headingSize: "30px",
-    imageWidth: "w-[320px]",
+  ImgMTextL: {
+    textSize: "1.25rem",
+    imageContainer: "basis-1/3",
+    columnBreakpoint: "lg",
   },
 } as const;
 
@@ -29,33 +28,22 @@ const BoxWithImage = ({
   identifier,
   heading,
   image,
-  imageLabel,
   content,
 }: BoxWithImageProps) => {
   return (
     <div
       id={identifier}
-      className="flex flex-row items-start gap-24 max-[499px]:flex-col"
+      className={`flex flex-col items-start gap-24 ${variantStyles[variant].columnBreakpoint}:flex-row`}
+      style={{ fontSize: variantStyles[variant].textSize }}
     >
       <div
-        className={`ds-stack-16 ${content ? variantStyles[variant].imageWidth : "max-w-none"}`}
+        className={`shrink-0 overflow-hidden max-w-[70ch] ${content ? variantStyles[variant].imageContainer : "basis-full"}`}
       >
-        {imageLabel && (
-          <p className="ds-label-section pt-4 text-gray-800">{imageLabel}</p>
-        )}
         <Image {...image} />
       </div>
-      <div className={"ds-stack-8 break-words w-full"}>
-        {heading && (
-          <div style={{ fontSize: variantStyles[variant].headingSize }}>
-            <Heading {...heading} />
-          </div>
-        )}
-        {content && (
-          <div style={{ fontSize: variantStyles[variant].textSize }}>
-            <RichText markdown={content} />
-          </div>
-        )}
+      <div className={"ds-stack-8 break-words basis-auto"}>
+        {heading && <Heading {...heading} />}
+        {content && <RichText markdown={content} />}
       </div>
     </div>
   );
