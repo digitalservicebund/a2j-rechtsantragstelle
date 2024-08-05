@@ -1,0 +1,280 @@
+{
+  "initial": "start",
+  "id": "finanzielle-angaben",
+  "states": {
+    "start": {
+      "on": {
+        "SUBMIT": "eigentum"
+      }
+    },
+    "eigentum": {
+      "id": "eigentum",
+      "initial": "eigentum-info",
+      "states": {
+        "eigentum-info": {
+          "on": {
+            "BACK": "#antragStart",
+            "SUBMIT": [
+              {
+                "guard": "hasPartnerschaftYesAndNoStaatlicheLeistungen",
+                "target": "heirat-info"
+              },
+              "bankkonten-frage"
+            ]
+          }
+        },
+        "heirat-info": {
+          "on": {
+            "BACK": "eigentum-info",
+            "SUBMIT": "bankkonten-frage"
+          }
+        },
+        "bankkonten-frage": {
+          "on": {
+            "BACK": [
+              {
+                "guard": "hasPartnerschaftYesAndNoStaatlicheLeistungen",
+                "target": "heirat-info"
+              },
+              "eigentum-info"
+            ],
+            "SUBMIT": "geldanlagen-frage"
+          }
+        },
+        "geldanlagen-frage": {
+          "on": {
+            "SUBMIT": "wertgegenstaende-frage",
+            "BACK": "bankkonten-frage"
+          }
+        },
+        "wertgegenstaende-frage": {
+          "on": {
+            "SUBMIT": "grundeigentum-frage",
+            "BACK": "geldanlagen-frage"
+          }
+        },
+        "grundeigentum-frage": {
+          "on": {
+            "SUBMIT": "kraftfahrzeuge-frage",
+            "BACK": "wertgegenstaende-frage"
+          }
+        },
+        "kraftfahrzeuge-frage": {
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "hasAnyEigentumExceptBankaccount",
+                "target": "gesamtwert"
+              },
+              {
+                "guard": "hasAnyEigentum",
+                "target": "#eigentum-zusammenfassung.zusammenfassung"
+              },
+              {
+                "guard": "staatlicheLeistungenIsBuergergeld",
+                "target": "#antragStart"
+              },
+              "#antragStart"
+            ],
+            "BACK": "grundeigentum-frage"
+          }
+        },
+        "gesamtwert": {
+          "on": {
+            "SUBMIT": "#antragStart",
+            "BACK": "kraftfahrzeuge-frage"
+          }
+        }
+      }
+    },
+    "eigentum-zusammenfassung": {
+      "id": "eigentum-zusammenfassung",
+      "initial": "zusammenfassung",
+      "states": {
+        "zusammenfassung": {
+          "on": {
+            "BACK": [
+              {
+                "guard": "hasAnyEigentumExceptBankaccount",
+                "target": "#eigentum.gesamtwert"
+              },
+              "#eigentum.kraftfahrzeuge-frage"
+            ],
+            "SUBMIT": "#antragStart",
+            "add-bankkonten": "bankkonten",
+            "add-wertsachen": "wertgegenstaende",
+            "add-geldanlagen": "geldanlagen",
+            "add-kraftfahrzeuge": "kraftfahrzeuge",
+            "add-grundeigentum": "grundeigentum"
+          }
+        },
+        "warnung": {
+          "on": {
+            "BACK": "zusammenfassung",
+            "SUBMIT": "#antragStart"
+          }
+        },
+        "bankkonten": {
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung",
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung"
+              }
+            }
+          }
+        },
+        "kraftfahrzeuge": {
+          "initial": "arbeitsweg",
+          "states": {
+            "arbeitsweg": {
+              "on": {
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung",
+                "SUBMIT": "wert"
+              }
+            },
+            "wert": {
+              "on": {
+                "BACK": "arbeitsweg",
+                "SUBMIT": [
+                  {
+                    "guard": "isKraftfahrzeugWertAbove10000OrUnsure",
+                    "target": "fahrzeuge"
+                  },
+                  "#eigentum-zusammenfassung.zusammenfassung"
+                ]
+              }
+            },
+            "fahrzeuge": {
+              "on": {
+                "BACK": "wert",
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
+              }
+            }
+          }
+        },
+        "geldanlagen": {
+          "id": "geldanlagen",
+          "initial": "art",
+          "states": {
+            "art": {
+              "on": {
+                "SUBMIT": [
+                  { "target": "bargeld", "guard": "isGeldanlageBargeld" },
+                  {
+                    "target": "wertpapiere",
+                    "guard": "isGeldanlageWertpapiere"
+                  },
+                  {
+                    "target": "guthabenkonto-krypto",
+                    "guard": "isGeldanlageGuthabenkontoKrypto"
+                  },
+                  {
+                    "target": "giro-tagesgeld-sparkonto",
+                    "guard": "isGeldanlageGiroTagesgeldSparkonto"
+                  },
+                  {
+                    "target": "befristet",
+                    "guard": "isGeldanlageBefristet"
+                  },
+                  {
+                    "target": "forderung",
+                    "guard": "isGeldanlageForderung"
+                  },
+                  {
+                    "target": "sonstiges",
+                    "guard": "isGeldanlageSonstiges"
+                  }
+                ],
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung"
+              }
+            },
+            "bargeld": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
+              }
+            },
+            "wertpapiere": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
+              }
+            },
+            "guthabenkonto-krypto": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
+              }
+            },
+            "giro-tagesgeld-sparkonto": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
+              }
+            },
+            "befristet": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
+              }
+            },
+            "forderung": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
+              }
+            },
+            "sonstiges": {
+              "on": {
+                "BACK": "art",
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
+              }
+            }
+          }
+        },
+        "grundeigentum": {
+          "initial": "bewohnt-frage",
+          "states": {
+            "bewohnt-frage": {
+              "on": {
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung",
+                "SUBMIT": [
+                  {
+                    "guard": "grundeigentumIsBewohnt",
+                    "target": "bewohnt-daten"
+                  },
+                  "daten"
+                ]
+              }
+            },
+            "daten": {
+              "on": {
+                "BACK": "bewohnt-frage",
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
+              }
+            },
+            "bewohnt-daten": {
+              "on": {
+                "BACK": "bewohnt-frage",
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung"
+              }
+            }
+          }
+        },
+        "wertgegenstaende": {
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung",
+                "BACK": "#eigentum-zusammenfassung.zusammenfassung"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
