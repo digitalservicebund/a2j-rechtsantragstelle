@@ -1,0 +1,13 @@
+{
+  "id": "/prozesskostenhilfe/antrag",
+  "initial": "start",
+  "states": {
+    "start": {
+      "id": "antragStart",
+      "initial": "start",
+      "states": {
+        "start": { "on": { "SUBMIT": "#finanzielle-angaben" } }
+      }
+    }
+  }
+}

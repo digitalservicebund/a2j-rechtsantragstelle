@@ -12,6 +12,7 @@ import type { Replacements } from "~/util/fillTemplate";
 import type { Context } from "./contexts";
 import type { FlowId } from "./flowIds";
 import type { Guards } from "./guards.server";
+import { prozesskostenhilfeFormular } from "./prozesskostenhilfeFormular";
 
 export type Flow = {
   cmsSlug: keyof CollectionSchemas;
@@ -32,4 +33,5 @@ export const flows = {
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
   "/fluggastrechte/formular": fluggastrechtFlow,
+  "/prozesskostenhilfe/antrag": prozesskostenhilfeFormular,
 } as const satisfies Record<FlowId, Flow>;

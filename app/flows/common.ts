@@ -5,6 +5,7 @@ import type { BeratungshilfeFormularContext } from "./beratungshilfeFormular";
 import { reasonsToDisplayBeratungshilfe } from "./beratungshilfeVorabcheck";
 import type { FluggastrechtContext } from "./fluggastrechteFormular/context";
 import type { GeldEinklagenFormularContext } from "./geldEinklagenFormular/context";
+import type { ProzesskostenhilfeFormularContext } from "./prozesskostenhilfeFormular";
 
 export type AllContexts =
   | GeldEinklagenFormularContext
@@ -12,7 +13,8 @@ export type AllContexts =
   | BeratungshilfeVorabcheckContext
   | BeratungshilfeFormularContext
   | FluggastrechtVorabcheckContext
-  | FluggastrechtContext;
+  | FluggastrechtContext
+  | ProzesskostenhilfeFormularContext;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type AllContextKeys = KeysOfUnion<AllContexts>;

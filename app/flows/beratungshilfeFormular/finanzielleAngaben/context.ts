@@ -15,14 +15,14 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
-const Eigentuemer = z.enum(
+export const Eigentuemer = z.enum(
   ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
   customRequiredErrorMessage,
 );
 
 const MINUS_150_YEARS = -150;
 
-const GrundeigentumArt = z.enum(
+export const GrundeigentumArt = z.enum(
   [
     "eigentumswohnung",
     "einfamilienhaus",
@@ -56,6 +56,98 @@ const unterhaltszahlungSchema = z.object({
   }),
   monthlyPayment: buildMoneyValidationSchema(),
 });
+
+export const bankkontenArraySchema = z.array(
+  z.object({
+    bankName: stringRequiredSchema,
+    kontostand: buildMoneyValidationSchema({}),
+    iban: stringOptionalSchema,
+    kontoEigentuemer: Eigentuemer,
+    kontoDescription: stringOptionalSchema,
+  }),
+);
+
+export const kraftfahrzeugeArraySchema = z.array(
+  z.object({
+    art: stringRequiredSchema,
+    marke: stringRequiredSchema,
+    eigentuemer: Eigentuemer,
+    verkaufswert: optionalOrSchema(buildMoneyValidationSchema()),
+    kilometerstand: integerSchema,
+    anschaffungsjahr: createYearSchema({
+      optional: true,
+      latest: () => today().getFullYear(),
+    }),
+    baujahr: createYearSchema({ latest: () => today().getFullYear() }),
+    bemerkung: stringRequiredSchema,
+    hasArbeitsweg: YesNoAnswer,
+    wert: z.enum(
+      ["under10000", "over10000", "unsure"],
+      customRequiredErrorMessage,
+    ),
+  }),
+);
+
+export const gelanlagenArraySchema = z.array(
+  z.object({
+    art: z.enum(
+      [
+        "bargeld",
+        "wertpapiere",
+        "guthabenkontoKrypto",
+        "giroTagesgeldSparkonto",
+        "befristet",
+        "forderung",
+        "sonstiges",
+      ],
+      customRequiredErrorMessage,
+    ),
+    eigentuemer: Eigentuemer,
+    wert: buildMoneyValidationSchema(),
+
+    kontoBankName: stringOptionalSchema,
+    kontoIban: stringOptionalSchema,
+    kontoBezeichnung: stringOptionalSchema,
+
+    befristetArt: z
+      .enum(
+        ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
+        customRequiredErrorMessage,
+      )
+      .optional(),
+
+    forderung: stringOptionalSchema,
+    verwendungszweck: stringOptionalSchema,
+    auszahlungdatum: stringOptionalSchema,
+  }),
+);
+
+export const eigentumTotalWorthSchema = z.enum(
+  ["less10000", "more10000", "unsure"],
+  customRequiredErrorMessage,
+);
+
+export const grundeigentumArraySchema = z.array(
+  z.object({
+    isBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),
+    art: GrundeigentumArt,
+    eigentuemer: Eigentuemer,
+    flaeche: stringRequiredSchema,
+    verkaufswert: buildMoneyValidationSchema(),
+    strassehausnummer: stringRequiredSchema,
+    plz: stringOptionalSchema,
+    ort: stringRequiredSchema,
+    land: stringRequiredSchema,
+  }),
+);
+
+export const wertsachenArraySchema = z.array(
+  z.object({
+    art: stringRequiredSchema,
+    eigentuemer: Eigentuemer,
+    wert: buildMoneyValidationSchema(),
+  }),
+);
 
 export type Unterhaltszahlung = z.infer<typeof unterhaltszahlungSchema>;
 
@@ -112,96 +204,16 @@ export const beratungshilfeFinanzielleAngaben = {
     }),
   ),
   hasBankkonto: YesNoAnswer,
-  bankkonten: z.array(
-    z.object({
-      bankName: stringRequiredSchema,
-      kontostand: buildMoneyValidationSchema({}),
-      iban: stringOptionalSchema,
-      kontoEigentuemer: Eigentuemer,
-      kontoDescription: stringOptionalSchema,
-    }),
-  ),
+  bankkonten: bankkontenArraySchema,
   hasKraftfahrzeug: YesNoAnswer,
-  kraftfahrzeuge: z.array(
-    z.object({
-      art: stringRequiredSchema,
-      marke: stringRequiredSchema,
-      eigentuemer: Eigentuemer,
-      verkaufswert: optionalOrSchema(buildMoneyValidationSchema()),
-      kilometerstand: integerSchema,
-      anschaffungsjahr: createYearSchema({
-        optional: true,
-        latest: () => today().getFullYear(),
-      }),
-      baujahr: createYearSchema({ latest: () => today().getFullYear() }),
-      bemerkung: stringRequiredSchema,
-      hasArbeitsweg: YesNoAnswer,
-      wert: z.enum(
-        ["under10000", "over10000", "unsure"],
-        customRequiredErrorMessage,
-      ),
-    }),
-  ),
+  kraftfahrzeuge: kraftfahrzeugeArraySchema,
   hasGeldanlage: YesNoAnswer,
-  geldanlagen: z.array(
-    z.object({
-      art: z.enum(
-        [
-          "bargeld",
-          "wertpapiere",
-          "guthabenkontoKrypto",
-          "giroTagesgeldSparkonto",
-          "befristet",
-          "forderung",
-          "sonstiges",
-        ],
-        customRequiredErrorMessage,
-      ),
-      eigentuemer: Eigentuemer,
-      wert: buildMoneyValidationSchema(),
-
-      kontoBankName: stringOptionalSchema,
-      kontoIban: stringOptionalSchema,
-      kontoBezeichnung: stringOptionalSchema,
-
-      befristetArt: z
-        .enum(
-          ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
-          customRequiredErrorMessage,
-        )
-        .optional(),
-
-      forderung: stringOptionalSchema,
-      verwendungszweck: stringOptionalSchema,
-      auszahlungdatum: stringOptionalSchema,
-    }),
-  ),
-  eigentumTotalWorth: z.enum(
-    ["less10000", "more10000", "unsure"],
-    customRequiredErrorMessage,
-  ),
+  geldanlagen: gelanlagenArraySchema,
+  eigentumTotalWorth: eigentumTotalWorthSchema,
   hasGrundeigentum: YesNoAnswer,
-  grundeigentum: z.array(
-    z.object({
-      isBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),
-      art: GrundeigentumArt,
-      eigentuemer: Eigentuemer,
-      flaeche: stringRequiredSchema,
-      verkaufswert: buildMoneyValidationSchema(),
-      strassehausnummer: stringRequiredSchema,
-      plz: stringOptionalSchema,
-      ort: stringRequiredSchema,
-      land: stringRequiredSchema,
-    }),
-  ),
+  grundeigentum: grundeigentumArraySchema,
   hasWertsache: YesNoAnswer,
-  wertsachen: z.array(
-    z.object({
-      art: stringRequiredSchema,
-      eigentuemer: Eigentuemer,
-      wert: buildMoneyValidationSchema(),
-    }),
-  ),
+  wertsachen: wertsachenArraySchema,
   livingSituation: z.enum(["alone", "withRelatives", "withOthers"]),
   apartmentSizeSqm: integerSchema,
   apartmentPersonCount: integerSchema,
