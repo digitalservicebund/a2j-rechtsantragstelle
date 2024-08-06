@@ -28,7 +28,7 @@ export const throw404IfFeatureFlagEnabled = async (request: Request) => {
     }
 
     if (
-      url.includes("/prozesskostenhilfe") &&
+      url.includes("/prozesskostenhilfe/antrag") &&
       !(await client.isFeatureEnabled("showProzesskostenhilfeFlow", phCallerId))
     ) {
       throw new Response(null, { status: 404 });
