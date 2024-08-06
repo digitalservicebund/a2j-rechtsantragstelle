@@ -14,12 +14,12 @@ const variantStyles = {
   default: {
     textSize: "1rem",
     imageContainer: "basis-1/6",
-    columnBreakpoint: "md",
+    columnBreakpoint: "md:flex-row",
   },
   ImgMTextL: {
     textSize: "1.25rem",
     imageContainer: "basis-1/3",
-    columnBreakpoint: "lg",
+    columnBreakpoint: "lg:flex-row",
   },
 } as const;
 
@@ -33,7 +33,7 @@ const BoxWithImage = ({
   return (
     <div
       id={identifier}
-      className={`flex flex-col items-start gap-24 ${variantStyles[variant].columnBreakpoint}:flex-row`}
+      className={`flex flex-col items-start gap-24 ${variantStyles[variant].columnBreakpoint}`}
       style={{ fontSize: variantStyles[variant].textSize }}
     >
       <div
