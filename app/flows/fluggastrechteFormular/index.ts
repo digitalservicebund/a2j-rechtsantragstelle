@@ -3,9 +3,9 @@ import { getRouteCompensationBetweenAirports } from "~/services/airports/getRout
 import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
 import fluggastrechteFlow from "./flow.json";
 import { fluggastrechteGuards } from "./guards";
+import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import { type AllContexts } from "../common";
 import { gerichtskostenFromBetrag } from "../gerichtskosten";
-import persoenlicheDatenFlow from "../persoenlicheDaten/flow.json";
 
 function forderungFromAirports(startAirport: string, endAirport: string) {
   const routeCompensation = getRouteCompensationBetweenAirports(
@@ -63,15 +63,7 @@ export const fluggastrechtFlow = {
   cmsSlug: "form-flow-pages",
   config: _.merge(fluggastrechteFlow, {
     states: {
-      "persoenliche-daten": _.merge(_.cloneDeep(persoenlicheDatenFlow), {
-        initial: "name",
-        states: {
-          name: { on: { BACK: "#flugdaten.anzahl" } },
-          "bevollmaechtigte-person": {
-            on: { SUBMIT: "#forderung.forderung" },
-          },
-        },
-      }),
+      "persoenliche-daten": _.merge(persoenlicheDatenFlow, {}),
     },
   }),
   guards: fluggastrechteGuards,

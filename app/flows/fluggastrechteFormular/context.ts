@@ -18,11 +18,7 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 import { addDays, addYears, today } from "~/util/date";
-import {
-  adresse,
-  persoenlicheDaten,
-  namePrivatPerson,
-} from "../persoenlicheDaten/context";
+import { fluggastrechtePersoenlichDaten } from "./persoenlicheDaten/context";
 
 export const fluggastrechtContext = {
   startAirport: airportSchema,
@@ -51,9 +47,6 @@ export const fluggastrechtContext = {
   ankunftsFlugnummer: stringRequiredSchema,
   ankunftWithSameFlight: YesNoAnswer,
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
-  ...persoenlicheDaten,
-  ...adresse,
-  ...namePrivatPerson,
   volljaehrig: YesNoAnswer,
   gesetzlicheVertretung: YesNoAnswer,
   teilentschaedigung: YesNoAnswer,
@@ -71,6 +64,7 @@ export const fluggastrechtContext = {
   aenderungMitteilung: checkedRequired,
   zahlungOptional: checkedOptional,
   zustaendigesAmtsgericht: zustaendigesAmtsgerichtSchema.optional(),
+  ...fluggastrechtePersoenlichDaten,
 } as const;
 
 const contextObject = z.object(fluggastrechtContext).partial();

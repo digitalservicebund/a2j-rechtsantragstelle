@@ -1,0 +1,42 @@
+{
+  "id": "persoenliche-daten",
+  "initial": "forderung-mehrere-personen",
+  "states": {
+    "forderung-mehrere-personen": {
+      "on": {
+        "SUBMIT": "person",
+        "BACK": "#flugdaten.anzahl"
+      }
+    },
+    "person": {
+      "id": "person",
+      "initial": "daten",
+      "states": {
+        "daten": {
+          "on": {
+            "SUBMIT": "vertretung-minderjaehrige",
+            "BACK": "#persoenliche-daten.forderung-mehrere-personen"
+          }
+        },
+        "vertretung-minderjaehrige": {
+          "on": {
+            "SUBMIT": "prozessbevollmaechtigte-angeben",
+            "BACK": "daten"
+          }
+        },
+        "prozessbevollmaechtigte-angeben": {
+          "on": {
+            "SUBMIT": "prozessbevollmaechtigte-daten",
+            "BACK": "vertretung-minderjaehrige"
+          }
+        },
+        "prozessbevollmaechtigte-daten": {
+          "on": {
+            "SUBMIT": "#forderung",
+            "BACK": "prozessbevollmaechtigte-angeben"
+          }
+        }
+      }
+    }
+  }
+}

@@ -153,11 +153,13 @@
           }
         },
         "anzahl": {
-          "on": { "SUBMIT": "#persoenliche-daten.name", "BACK": "ankunftszeit" }
+          "on": {
+            "SUBMIT": "#persoenliche-daten.forderung-mehrere-personen",
+            "BACK": "ankunftszeit"
+          }
         }
       }
     },
-    "persoenliche-daten": {},
     "forderung": {
       "id": "forderung",
       "initial": "forderung",
@@ -165,7 +167,7 @@
         "forderung": {
           "on": {
             "SUBMIT": "teilentschaedigung",
-            "BACK": "#persoenliche-daten.bevollmaechtigte-person"
+            "BACK": "#persoenliche-daten.person.prozessbevollmaechtigte-daten"
           }
         },
         "teilentschaedigung": {
