@@ -1,11 +1,13 @@
-const getNodeOrWebEnv = () =>
+const envFromBrowser = () =>
   typeof window === "object" && "ENV" in window
     ? (window?.ENV as Record<string, string | undefined>)
-    : process.env;
+    : undefined;
+
+const envFromNode = () =>
+  typeof process === "object" && "env" in process ? process?.env : undefined;
 
 export function config() {
-  const env = getNodeOrWebEnv();
-
+  const env = envFromBrowser() ?? envFromNode() ?? {};
   return {
     POSTHOG_API_HOST:
       env.POSTHOG_API_HOST?.trim() ?? "https://eu.i.posthog.com",
