@@ -16,6 +16,11 @@ ul {
   padding-left: 1.5rem;
 }
 
+ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+}
+
 html {
   /* keep 16px, don't change! (e.g. angie library depends on it) */
   font-size: 16px;
