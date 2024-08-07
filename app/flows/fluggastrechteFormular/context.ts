@@ -5,20 +5,18 @@ import {
 } from "~/flows/fluggastrechteVorabcheck/context";
 import { airlineSchema } from "~/services/validation/airline";
 import { airportSchema } from "~/services/validation/airport";
-import {
-  checkedOptional,
-  checkedRequired,
-} from "~/services/validation/checkedCheckbox";
+import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
 import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
-import { addDays, addYears, today } from "~/util/date";
+import { today } from "~/util/date";
+import { fluggastrechtForderungDaten } from "./forderung/context";
 import { fluggastrechtePersoenlichDaten } from "./persoenlicheDaten/context";
+import { fluggastrechtVersandDaten } from "./versand/context";
 
 export const fluggastrechtContext = {
   startAirport: airportSchema,
@@ -49,22 +47,12 @@ export const fluggastrechtContext = {
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
   volljaehrig: YesNoAnswer,
   gesetzlicheVertretung: YesNoAnswer,
-  teilentschaedigung: YesNoAnswer,
-  frist: createDateSchema({
-    earliest: () => addYears(today(), -3),
-    latest: () => addDays(today(), -1),
-  }),
-  nebenforderungen: z.object({
-    verzugszinsen: checkedOptional,
-    prozesszinsen: checkedOptional,
-  }),
-  versaeumnisurteil: YesNoAnswer,
-  anmerkung: stringOptionalSchema,
   doMigration: YesNoAnswer,
-  aenderungMitteilung: checkedRequired,
   zahlungOptional: checkedOptional,
   zustaendigesAmtsgericht: zustaendigesAmtsgerichtSchema.optional(),
   ...fluggastrechtePersoenlichDaten,
+  ...fluggastrechtForderungDaten,
+  ...fluggastrechtVersandDaten,
 } as const;
 
 const _contextObject = z.object(fluggastrechtContext).partial();

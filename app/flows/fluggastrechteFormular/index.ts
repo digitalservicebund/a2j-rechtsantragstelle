@@ -2,9 +2,11 @@ import _ from "lodash";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
 import fluggastrechteFlow from "./flow.json";
+import forderungDatenFlow from "./forderung/flow.json";
 import { fluggastrechteGuards } from "./guards";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import { persoenlichDatenGuards } from "./persoenlicheDaten/guards";
+import versandFlow from "./versand/flow.json";
 import { type AllContexts } from "../common";
 import { gerichtskostenFromBetrag } from "../gerichtskosten";
 
@@ -64,11 +66,9 @@ export const fluggastrechtFlow = {
   cmsSlug: "form-flow-pages",
   config: _.merge(fluggastrechteFlow, {
     states: {
-      "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
-        states: {
-          daten: {},
-        },
-      }),
+      "persoenliche-daten": _.merge(persoenlicheDatenFlow, {}),
+      forderung: _.merge(forderungDatenFlow, {}),
+      versand: _.merge(versandFlow, {}),
     },
   }),
   guards: {

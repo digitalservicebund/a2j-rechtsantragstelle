@@ -159,63 +159,6 @@
           }
         }
       }
-    },
-    "forderung": {
-      "id": "forderung",
-      "initial": "forderung",
-      "states": {
-        "forderung": {
-          "on": {
-            "SUBMIT": "teilentschaedigung",
-            "BACK": [
-              {
-                "guard": "isProzessbevollmaechtigteNo",
-                "target": "#persoenliche-daten.person.prozessbevollmaechtigte-angeben"
-              },
-              "#persoenliche-daten.person.prozessbevollmaechtigte-daten"
-            ]
-          }
-        },
-        "teilentschaedigung": {
-          "on": { "SUBMIT": "nebenforderungen", "BACK": "forderung" }
-        },
-        "nebenforderungen": {
-          "on": {
-            "SUBMIT": "#versand.frist",
-            "BACK": "teilentschaedigung"
-          }
-        }
-      }
-    },
-    "versand": {
-      "id": "versand",
-      "initial": "frist",
-      "states": {
-        "frist": {
-          "on": {
-            "SUBMIT": "versaeumnisurteil",
-            "BACK": "#forderung.nebenforderungen"
-          }
-        },
-        "versaeumnisurteil": {
-          "on": { "SUBMIT": "anmerkung", "BACK": "frist" }
-        },
-        "anmerkung": {
-          "on": { "SUBMIT": "ueberpruefung", "BACK": "versaeumnisurteil" }
-        },
-        "ueberpruefung": {
-          "on": { "SUBMIT": "aenderungMitteilung", "BACK": "anmerkung" }
-        },
-        "aenderungMitteilung": {
-          "on": { "SUBMIT": "einverstaendnis", "BACK": "ueberpruefung" }
-        },
-        "einverstaendnis": {
-          "on": { "SUBMIT": "klageVersenden", "BACK": "aenderungMitteilung" }
-        },
-        "klageVersenden": {
-          "on": { "BACK": "einverstaendnis" }
-        }
-      }
     }
   }
 }
