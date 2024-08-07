@@ -57,39 +57,29 @@ export async function startFluggastrechteFormular(
   await formular.fillInput("ankunftsZeit", "13:20");
   await formular.clickNext();
 
-  // /fluggastrechte/formular/persoenliche-daten/anzahl
+  // /fluggastrechte/formular/flugdaten/anzahl
   await expectPageToBeAccessible({ page });
   await formular.fillDropdownPage("anzahl", "1");
 
-  // /fluggastrechte/formular/persoenliche-daten/name
+  // /fluggastrechte/formular/persoenliche-daten/person/forderung-mehrere-personen
   await expectPageToBeAccessible({ page });
-  await formular.fillDropdown("title", "");
+  await formular.fillRadioPage("forderungMehrerePersonen", "no");
+
+  // /fluggastrechte/formular/persoenliche-daten/person/daten
+  await expectPageToBeAccessible({ page });
+  await formular.fillDropdown("anrede", "mr");
+  await formular.fillDropdown("title", " ");
   await formular.fillInput("nachname", "Donatello");
   await formular.fillInput("vorname", "Cowabunga");
-  await formular.clickNext();
-
-  // /fluggastrechte/formular/persoenliche-daten/volljaehrig
-  await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("volljaehrig", "yes");
-
-  // /fluggastrechte/formular/persoenliche-daten/adresse
-  await expectPageToBeAccessible({ page });
   await formular.fillInput("strasseHausnummer", "Schildkrötenstraße 5");
   await formular.fillInput("plz", "10119");
   await formular.fillInput("ort", "Mutant Mayhem");
+  await formular.fillInput("telefonnummer", "015111225588");
   await formular.clickNext();
 
-  // /fluggastrechte/formular/persoenliche-daten/telefonnummer
+  // /fluggastrechte/formular/persoenliche-daten/person/antragsteller-angeben
   await expectPageToBeAccessible({ page });
-  await formular.fillInputPage("telefonnummer", "015111225588");
-
-  // /fluggastrechte/formular/persoenliche-daten/gesetzliche-vertretung
-  await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("gesetzlicheVertretung", "no");
-
-  // /fluggastrechte/formular/persoenliche-daten/bevollmaechtigte-person
-  await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("bevollmaechtigtePerson", "no");
+  await formular.fillRadioPage("isProzessbevollmaechtigte", "no");
 
   // /fluggastrechte/formular/forderung
   await expectPageToBeAccessible({ page });
