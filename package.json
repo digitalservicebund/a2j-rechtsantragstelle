@@ -106,7 +106,7 @@
     "@vitest/coverage-istanbul": "^2.0.5",
     "@vitest/expect": "^2.0.5",
     "autoprefixer": "^10.4.20",
-    "eslint": "^8.57.0",
+    "eslint": "^9.8.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsx-a11y": "^6.9.0",
