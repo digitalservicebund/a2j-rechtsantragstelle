@@ -8,9 +8,9 @@
         "BACK": [
           {
             "guard": "isProzessbevollmaechtigteNo",
-            "target": "#persoenliche-daten.person.prozessbevollmaechtigte-angeben"
+            "target": "#persoenliche-daten.person.antragsteller-angeben"
           },
-          "#persoenliche-daten.person.prozessbevollmaechtigte-daten"
+          "#persoenliche-daten.person.antragsteller-daten"
         ]
       }
     },

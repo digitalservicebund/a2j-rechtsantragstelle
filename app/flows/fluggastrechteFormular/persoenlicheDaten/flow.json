@@ -24,23 +24,23 @@
                 "guard": "isUnter18JahreAlt",
                 "target": "vertretung-minderjaehrige"
               },
-              "prozessbevollmaechtigte-angeben"
+              "antragsteller-angeben"
             ],
             "BACK": "forderung-mehrere-personen"
           }
         },
         "vertretung-minderjaehrige": {
           "on": {
-            "SUBMIT": "prozessbevollmaechtigte-angeben",
+            "SUBMIT": "antragsteller-angeben",
             "BACK": "daten"
           }
         },
-        "prozessbevollmaechtigte-angeben": {
+        "antragsteller-angeben": {
           "on": {
             "SUBMIT": [
               {
                 "guard": "isProzessbevollmaechtigteYes",
-                "target": "prozessbevollmaechtigte-daten"
+                "target": "antragsteller-daten"
               },
               "#forderung"
             ],
@@ -53,10 +53,10 @@
             ]
           }
         },
-        "prozessbevollmaechtigte-daten": {
+        "antragsteller-daten": {
           "on": {
             "SUBMIT": "#forderung",
-            "BACK": "prozessbevollmaechtigte-angeben"
+            "BACK": "antragsteller-angeben"
           }
         }
       }
