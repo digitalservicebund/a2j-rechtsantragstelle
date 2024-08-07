@@ -12,15 +12,8 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "zwischenstopps-eingabe",
-            "guard": "zwischenstoppsYes"
-          },
-          {
             "target": "tatsaechlicher-flug",
             "guard": "zwischenstoppsNo"
-          },
-          {
-            "target": "ankunft"
           }
         ],
         "BACK": "geplanter-flug"
@@ -73,98 +66,6 @@
       "on": {
         "SUBMIT": "#persoenliche-daten.anzahl",
         "BACK": "ersatzverbindung-art"
-      }
-    },
-    "zwischenstopps-eingabe": {
-      "on": {
-        "SUBMIT": "flug-details-zwischenstopp-flugnummer",
-        "BACK": "zwischenstopps"
-      }
-    },
-    "flug-details-zwischenstopp-flugnummer": {
-      "on": {
-        "SUBMIT": "flug-details-zwischenstopp-abflug",
-        "BACK": "zwischenstopps-eingabe"
-      }
-    },
-    "flug-details-zwischenstopp-abflug": {
-      "on": {
-        "SUBMIT": "flug-details-zwischenstopp-ankunft",
-        "BACK": "flug-details-zwischenstopp-flugnummer"
-      }
-    },
-    "flug-details-zwischenstopp-ankunft": {
-      "on": {
-        "SUBMIT": "flug-details-zwischenstopp-2-flugnummer",
-        "BACK": "flug-details-zwischenstopp-abflug"
-      }
-    },
-    "flug-details-zwischenstopp-2-flugnummer": {
-      "on": {
-        "SUBMIT": "flug-details-zwischenstopp-2-abflug",
-        "BACK": "flug-details-zwischenstopp-ankunft"
-      }
-    },
-    "flug-details-zwischenstopp-2-abflug": {
-      "on": {
-        "SUBMIT": "flug-details-zwischenstopp-2-ankunft",
-        "BACK": "flug-details-zwischenstopp-2-flugnummer"
-      }
-    },
-    "flug-details-zwischenstopp-2-ankunft": {
-      "on": {
-        "SUBMIT": "ankunft",
-        "BACK": "flug-details-zwischenstopp-2-abflug"
-      }
-    },
-    "ankunft": {
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "ankunft-flugnummer",
-            "guard": "ankunftWithSameFlightNo"
-          },
-          {
-            "target": "ankunftszeit"
-          }
-        ],
-        "BACK": [
-          {
-            "guard": "zwischenstoppsNo",
-            "target": "geplanter-flug"
-          },
-          {
-            "guard": "zwischenstoppsYes",
-            "target": "flug-details-zwischenstopp-2-ankunft"
-          },
-          { "target": "zwischenstopps" }
-        ]
-      }
-    },
-    "ankunft-flugnummer": {
-      "on": {
-        "SUBMIT": "ankunftszeit",
-        "BACK": "ankunft"
-      }
-    },
-    "ankunftszeit": {
-      "on": {
-        "SUBMIT": "anzahl",
-        "BACK": [
-          {
-            "target": "ankunft-flugnummer",
-            "guard": "ankunftWithSameFlightNo"
-          },
-          {
-            "target": "ankunft"
-          }
-        ]
-      }
-    },
-    "anzahl": {
-      "on": {
-        "SUBMIT": "#persoenliche-daten.anzahl",
-        "BACK": "ankunftszeit"
       }
     }
   }

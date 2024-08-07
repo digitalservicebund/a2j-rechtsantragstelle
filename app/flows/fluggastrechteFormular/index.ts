@@ -48,7 +48,6 @@ export const fluggastrechtFlow = {
     return {
       startAirport: context.startAirport,
       endAirport: context.endAirport,
-      zwischenstoppAirport: context.zwischenstoppFlughafen,
       forderung: forderungFromAirports(
         context.startAirport ?? "",
         context.endAirport ?? "",
