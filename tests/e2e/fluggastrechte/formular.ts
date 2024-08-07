@@ -23,38 +23,27 @@ export async function startFluggastrechteFormular(
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("doMigration", "yes");
 
+  // /fluggastrechte/formular/flugdaten/geplanter-flug
+  await expectPageToBeAccessible({ page });
+  await formular.fillInput("direktFlugnummer", "AB1234");
+  await formular.fillInput("direktAbflugsDatum", "11.10.2024");
+  await formular.fillInput("direktAbflugsZeit", "08:10");
+  await formular.fillInput("direktAnkunftsDatum", "12.10.2024");
+  await formular.fillInput("direktAnkunftsZeit", "10:10");
+  await formular.clickNext();
+
   // /fluggastrechte/formular/zwischenstopps
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("zwischenstopps", "no");
 
-  // /fluggastrechte/formular/flugdaten/flug-details-single-flugnummer
+  // /fluggastrechte/formular/flugdaten/tatsaechlicher-flug
   await expectPageToBeAccessible({ page });
-  await formular.fillInputPage("singleFlugnummer", "EJ 1234");
+  await formular.fillRadioPage("tatsaechlicherFlug", "yes");
 
-  // /fluggastrechte/formular/flugdaten/flug-details-single-abflug
+  // /fluggastrechte/formular/flugdaten/tatsaechlicher-flug-ankunft
   await expectPageToBeAccessible({ page });
-  await formular.fillInput("singleAbflugDatum", "12.12.2022");
-  await formular.fillInput("singleAbflugZeit", "10:00");
-  await formular.clickNext();
-
-  // /fluggastrechte/formular/flugdaten/flug-details-single-ankunft
-  await expectPageToBeAccessible({ page });
-  await formular.fillInput("singleAnkunftDatum", "12.12.2022");
-  await formular.fillInput("singleAnkunftZeit", "10:00");
-  await formular.clickNext();
-
-  // /fluggastrechte/formular/ankunft
-  await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("ankunftWithSameFlight", "no");
-
-  // /fluggastrechte/formular/ankunft-flugnummer
-  await expectPageToBeAccessible({ page });
-  await formular.fillInputPage("ankunftsFlugnummer", "BE5678");
-
-  // /fluggastrechte/formular/ankunftszeit
-  await expectPageToBeAccessible({ page });
-  await formular.fillInput("ankunftsDatum", "01.01.2022");
-  await formular.fillInput("ankunftsZeit", "13:20");
+  await formular.fillInput("tatsaechlicherAnkunftsDatum", "12.10.2024");
+  await formular.fillInput("tatsaechlicherAnkunftsZeit", "10:10");
   await formular.clickNext();
 
   // /fluggastrechte/formular/persoenliche-daten/anzahl
