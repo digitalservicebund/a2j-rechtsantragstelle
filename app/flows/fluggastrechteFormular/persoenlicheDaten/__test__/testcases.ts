@@ -1,4 +1,3 @@
-/* eslint sonarjs/no-duplicate-string: 0 */
 import { createMachine } from "xstate";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { TestCases } from "~/flows/__test__/TestCases";
