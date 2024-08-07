@@ -20,5 +20,5 @@ export const fluggastrechtePersoenlichDaten = {
   vollmaechtigteNachname: stringRequiredSchema,
 };
 
-const contextObject = z.object(fluggastrechtePersoenlichDaten).partial();
-export type FluggastrechtePersoenlichDaten = z.infer<typeof contextObject>;
+const _contextObject = z.object(fluggastrechtePersoenlichDaten).partial();
+export type FluggastrechtePersoenlichDaten = z.infer<typeof _contextObject>;

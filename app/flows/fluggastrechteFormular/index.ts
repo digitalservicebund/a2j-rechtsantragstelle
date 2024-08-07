@@ -64,7 +64,11 @@ export const fluggastrechtFlow = {
   cmsSlug: "form-flow-pages",
   config: _.merge(fluggastrechteFlow, {
     states: {
-      "persoenliche-daten": _.merge(persoenlicheDatenFlow, {}),
+      "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
+        states: {
+          daten: {},
+        },
+      }),
     },
   }),
   guards: {

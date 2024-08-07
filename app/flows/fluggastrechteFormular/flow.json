@@ -154,7 +154,7 @@
         },
         "anzahl": {
           "on": {
-            "SUBMIT": "#persoenliche-daten.forderung-mehrere-personen",
+            "SUBMIT": "#persoenliche-daten.person.forderung-mehrere-personen",
             "BACK": "ankunftszeit"
           }
         }

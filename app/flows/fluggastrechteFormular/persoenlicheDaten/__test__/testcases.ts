@@ -17,7 +17,8 @@ const cases = [
   [
     {
       forderungMehrerePersonen: "yes",
-      title: "",
+      anrede: "mr",
+      title: " ",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -27,7 +28,7 @@ const cases = [
       isProzessbevollmaechtigte: "no",
     },
     [
-      "persoenliche-daten/forderung-mehrere-personen",
+      "persoenliche-daten/person/forderung-mehrere-personen",
       "persoenliche-daten/person/daten",
       "persoenliche-daten/person/prozessbevollmaechtigte-angeben",
       "forderung/forderung",
@@ -36,7 +37,8 @@ const cases = [
   [
     {
       forderungMehrerePersonen: "yes",
-      title: "",
+      anrede: "mr",
+      title: " ",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -48,7 +50,7 @@ const cases = [
       isProzessbevollmaechtigte: "no",
     },
     [
-      "persoenliche-daten/forderung-mehrere-personen",
+      "persoenliche-daten/person/forderung-mehrere-personen",
       "persoenliche-daten/person/daten",
       "persoenliche-daten/person/vertretung-minderjaehrige",
       "persoenliche-daten/person/prozessbevollmaechtigte-angeben",
@@ -58,7 +60,8 @@ const cases = [
   [
     {
       forderungMehrerePersonen: "yes",
-      title: "",
+      anrede: "mr",
+      title: " ",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -72,7 +75,7 @@ const cases = [
       vollmaechtigteNachname: "test",
     },
     [
-      "persoenliche-daten/forderung-mehrere-personen",
+      "persoenliche-daten/person/forderung-mehrere-personen",
       "persoenliche-daten/person/daten",
       "persoenliche-daten/person/vertretung-minderjaehrige",
       "persoenliche-daten/person/prozessbevollmaechtigte-angeben",
@@ -83,7 +86,8 @@ const cases = [
   [
     {
       forderungMehrerePersonen: "yes",
-      title: "",
+      anrede: "mr",
+      title: " ",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -95,7 +99,7 @@ const cases = [
       vollmaechtigteNachname: "test",
     },
     [
-      "persoenliche-daten/forderung-mehrere-personen",
+      "persoenliche-daten/person/forderung-mehrere-personen",
       "persoenliche-daten/person/daten",
       "persoenliche-daten/person/prozessbevollmaechtigte-angeben",
       "persoenliche-daten/person/prozessbevollmaechtigte-daten",

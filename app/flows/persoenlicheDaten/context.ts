@@ -4,7 +4,8 @@ import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
-const titleSchema = z.enum(["", "dr"]);
+const titleSchema = z.enum([" ", "dr"]);
+const anredeSchema = z.enum(["mr", "mrs", "not-defined"]);
 
 export const adresse = {
   strasseHausnummer: stringRequiredSchema,
@@ -13,6 +14,7 @@ export const adresse = {
 };
 
 export const namePrivatPerson = {
+  anrede: anredeSchema,
   title: titleSchema,
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
