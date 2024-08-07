@@ -1,37 +1,21 @@
 import _ from "lodash";
-import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
+import { FluggastrechtContext } from "./context";
 import fluggastrechteFlow from "./flow.json";
 import forderungDatenFlow from "./forderung/flow.json";
 import { fluggastrechteGuards } from "./guards";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import { persoenlichDatenGuards } from "./persoenlicheDaten/guards";
+import {
+  getEndAirportName,
+  getForderung,
+  getGerichtskostenFromBetrag,
+  getPersonNachname,
+  getPersonVorname,
+  getStartAirportName,
+  getZwischenstoppAirport,
+} from "./stringReplacements";
 import versandFlow from "./versand/flow.json";
-import { type AllContexts } from "../common";
-import { gerichtskostenFromBetrag } from "../gerichtskosten";
-
-function forderungFromAirports(startAirport: string, endAirport: string) {
-  const routeCompensation = getRouteCompensationBetweenAirports(
-    startAirport,
-    endAirport,
-  );
-
-  switch (routeCompensation) {
-    case "notPossibleCalculateDistance": {
-      return 0;
-    }
-    case "shortDistance": {
-      return 250;
-    }
-    case "longDistanceInsideEU":
-    case "middleDistance": {
-      return 400;
-    }
-    case "longDistanceOutsideEU": {
-      return 600;
-    }
-  }
-}
 
 const flowTransitionConfig: FlowTransitionConfig = {
   targetFlowId: "/fluggastrechte/formular",
@@ -44,26 +28,17 @@ const flowTransitionConfig: FlowTransitionConfig = {
 };
 
 export const fluggastrechtFlow = {
-  migrationSource: "/fluggastrechte/vorabcheck",
-  stringReplacements: (context: AllContexts) => {
-    if (!("zwischenstopps" in context)) return {};
-    return {
-      startAirport: context.startAirport,
-      endAirport: context.endAirport,
-      zwischenstoppAirport: context.zwischenstoppFlughafen,
-      forderung: forderungFromAirports(
-        context.startAirport ?? "",
-        context.endAirport ?? "",
-      ).toString(),
-      kosten: gerichtskostenFromBetrag(
-        forderungFromAirports(
-          context.startAirport ?? "",
-          context.endAirport ?? "",
-        ),
-      ).toString(),
-    };
-  },
   cmsSlug: "form-flow-pages",
+  migrationSource: "/fluggastrechte/vorabcheck",
+  stringReplacements: (context: FluggastrechtContext) => ({
+    ...getStartAirportName(context),
+    ...getEndAirportName(context),
+    ...getForderung(context),
+    ...getGerichtskostenFromBetrag(context),
+    ...getZwischenstoppAirport(context),
+    ...getPersonVorname(context),
+    ...getPersonNachname(context),
+  }),
   config: _.merge(fluggastrechteFlow, {
     states: {
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {}),
