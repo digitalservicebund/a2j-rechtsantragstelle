@@ -7,28 +7,34 @@ import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
+import { addYears, today } from "~/util/date";
+
+const fourYearsAgoSchema = createDateSchema({
+  earliest: () => addYears(today(), -4),
+  latest: () => today(),
+});
 
 export const fluggastrechteFlugDaten = {
   zwischenstopps: YesNoAnswer,
   direktFlugnummer: flightNumberSchema,
-  direktAbflugsDatum: createDateSchema(),
+  direktAbflugsDatum: fourYearsAgoSchema,
   direktAbflugsZeit: timeSchema,
-  direktAnkunftsDatum: createDateSchema(),
+  direktAnkunftsDatum: fourYearsAgoSchema,
   direktAnkunftsZeit: timeSchema,
   tatsaechlicherFlug: YesNoAnswer,
-  tatsaechlicherAnkunftsDatum: createDateSchema(),
+  tatsaechlicherAnkunftsDatum: fourYearsAgoSchema,
   tatsaechlicherAnkunftsZeit: timeSchema,
   ersatzverbindungArt: z.enum(
     ["flug", "etwasAnderes", "keineAnkunft"],
     customRequiredErrorMessage,
   ),
   andereErsatzverbindungBeschreibung: stringRequiredSchema,
-  andereErsatzverbindungStartDatum: createDateSchema(),
+  andereErsatzverbindungStartDatum: fourYearsAgoSchema,
   andereErsatzverbindungStartZeit: timeSchema,
-  andereErsatzverbindungAnkunftsDatum: createDateSchema(),
+  andereErsatzverbindungAnkunftsDatum: fourYearsAgoSchema,
   andereErsatzverbindungAnkunftsZeit: timeSchema,
   ersatzFlugnummer: flightNumberSchema,
-  ersatzFlugAnkunftsDatum: createDateSchema(),
+  ersatzFlugAnkunftsDatum: fourYearsAgoSchema,
   ersatzFlugAnkunftsZeit: timeSchema,
 };
 
