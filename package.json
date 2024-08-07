@@ -63,7 +63,7 @@
     "ioredis": "^5.4.1",
     "isbot": "^5.1.14",
     "lodash": "^4.17.21",
-    "marked": "^13.0.3",
+    "marked": "^14.0.0",
     "match-sorter": "^6.3.4",
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",

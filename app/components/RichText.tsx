@@ -45,7 +45,6 @@ const RichText = ({
   renderer?: Partial<Renderer>;
 }) => {
   const marked = new Marked({
-    useNewRenderer: true,
     renderer: renderer ?? defaultRenderer,
     async: false,
   });
