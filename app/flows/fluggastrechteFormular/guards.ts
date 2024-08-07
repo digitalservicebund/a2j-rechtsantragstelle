@@ -1,9 +1,8 @@
 import type { FluggastrechtContext } from "./context";
-import { fluggastrechteDirekterFlugGuards } from "./flugdaten/guards";
+import { fluggastrechteFlugDatenGuards } from "./flugdaten/guards";
 import { Guards, yesNoGuards } from "../guards.server";
 
 export const fluggastrechteGuards = {
-  ...fluggastrechteDirekterFlugGuards,
+  ...fluggastrechteFlugDatenGuards,
   ...yesNoGuards("zwischenstopps"),
-  ...yesNoGuards("ankunftWithSameFlight"),
 } satisfies Guards<FluggastrechtContext>;
