@@ -3,7 +3,9 @@ import { cloneElement, type ReactElement } from "react";
 import { z } from "zod";
 import { isExternalUrl, isFileDowloadUrl } from "~/util/url";
 
-const iconSchema = z.custom<ReactElement<{ className: string }>>().optional();
+export const iconSchema = z
+  .custom<ReactElement<{ className: string }>>()
+  .optional();
 
 export const ButtonPropsSchema = z.object({
   text: z.string().optional(),
