@@ -14,7 +14,13 @@
       "states": {
         "daten": {
           "on": {
-            "SUBMIT": "vertretung-minderjaehrige",
+            "SUBMIT": [
+              {
+                "guard": "isUnter18JahreAlt",
+                "target": "vertretung-minderjaehrige"
+              },
+              "prozessbevollmaechtigte-angeben"
+            ],
             "BACK": "#persoenliche-daten.forderung-mehrere-personen"
           }
         },
@@ -26,8 +32,20 @@
         },
         "prozessbevollmaechtigte-angeben": {
           "on": {
-            "SUBMIT": "prozessbevollmaechtigte-daten",
-            "BACK": "vertretung-minderjaehrige"
+            "SUBMIT": [
+              {
+                "guard": "isProzessbevollmaechtigteYes",
+                "target": "prozessbevollmaechtigte-daten"
+              },
+              "#forderung"
+            ],
+            "BACK": [
+              {
+                "guard": "isUnter18JahreAlt",
+                "target": "vertretung-minderjaehrige"
+              },
+              "daten"
+            ]
           }
         },
         "prozessbevollmaechtigte-daten": {

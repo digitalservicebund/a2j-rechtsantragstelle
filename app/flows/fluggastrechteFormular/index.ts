@@ -4,6 +4,7 @@ import type { FlowTransitionConfig } from "~/services/session.server/flowTransit
 import fluggastrechteFlow from "./flow.json";
 import { fluggastrechteGuards } from "./guards";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
+import { persoenlichDatenGuards } from "./persoenlicheDaten/guards";
 import { type AllContexts } from "../common";
 import { gerichtskostenFromBetrag } from "../gerichtskosten";
 
@@ -66,6 +67,9 @@ export const fluggastrechtFlow = {
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {}),
     },
   }),
-  guards: fluggastrechteGuards,
+  guards: {
+    ...fluggastrechteGuards,
+    ...persoenlichDatenGuards,
+  },
   flowTransitionConfig,
 } as const;

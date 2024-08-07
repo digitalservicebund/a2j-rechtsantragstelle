@@ -167,7 +167,13 @@
         "forderung": {
           "on": {
             "SUBMIT": "teilentschaedigung",
-            "BACK": "#persoenliche-daten.person.prozessbevollmaechtigte-daten"
+            "BACK": [
+              {
+                "guard": "isProzessbevollmaechtigteNo",
+                "target": "#persoenliche-daten.person.prozessbevollmaechtigte-angeben"
+              },
+              "#persoenliche-daten.person.prozessbevollmaechtigte-daten"
+            ]
           }
         },
         "teilentschaedigung": {

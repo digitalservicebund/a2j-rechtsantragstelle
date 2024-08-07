@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { checkedRequired } from "~/services/validation/checkedCheckbox";
+import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -11,7 +11,7 @@ export const fluggastrechtePersoenlichDaten = {
   ...namePrivatPerson,
   ...adresse,
   telefonnummer: optionalOrSchema(phoneNumberSchema),
-  unter18JahreAlt: checkedRequired,
+  unter18JahreAlt: checkedOptional,
   vornameVertretung: stringRequiredSchema,
   nachnameVertretung: stringRequiredSchema,
   beschreibenVertretung: stringRequiredSchema,
