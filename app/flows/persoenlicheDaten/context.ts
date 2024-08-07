@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
-const titleSchema = z.enum([" ", "dr"]);
-const anredeSchema = z.enum(["mr", "mrs", "not-defined"]);
+const titleSchema = z.enum(["", "dr"]);
 
 export const adresse = {
   strasseHausnummer: stringRequiredSchema,
@@ -14,7 +14,7 @@ export const adresse = {
 };
 
 export const namePrivatPerson = {
-  anrede: anredeSchema,
+  anrede: stringOptionalSchema,
   title: titleSchema,
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,

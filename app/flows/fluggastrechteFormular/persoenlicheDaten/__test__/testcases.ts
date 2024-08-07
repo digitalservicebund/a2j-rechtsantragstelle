@@ -17,7 +17,7 @@ const cases = [
     {
       forderungMehrerePersonen: "yes",
       anrede: "mr",
-      title: " ",
+      title: "",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -37,7 +37,7 @@ const cases = [
     {
       forderungMehrerePersonen: "yes",
       anrede: "mr",
-      title: " ",
+      title: "",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -60,7 +60,7 @@ const cases = [
     {
       forderungMehrerePersonen: "yes",
       anrede: "mr",
-      title: " ",
+      title: "",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -86,7 +86,7 @@ const cases = [
     {
       forderungMehrerePersonen: "yes",
       anrede: "mr",
-      title: " ",
+      title: "",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
