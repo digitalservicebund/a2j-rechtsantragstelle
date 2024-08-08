@@ -1,0 +1,17 @@
+{
+  "initial": "art",
+  "id": "abgabe",
+  "states": {
+    "art": {
+      "on": {
+        "SUBMIT": [
+          { "target": "online", "guard": "abgabeOnline" },
+          { "target": "ausdrucken", "guard": "abgabeAusdrucken" }
+        ],
+        "BACK": "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung"
+      }
+    },
+    "ausdrucken": { "on": { "BACK": { "target": "art" } } },
+    "online": { "on": { "BACK": { "target": "art" } } }
+  }
+}

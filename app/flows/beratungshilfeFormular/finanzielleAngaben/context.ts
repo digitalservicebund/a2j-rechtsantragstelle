@@ -34,7 +34,7 @@ export const GrundeigentumArt = z.enum(
   customRequiredErrorMessage,
 );
 
-const unterhaltszahlungSchema = z.object({
+export const unterhaltszahlungSchema = z.object({
   firstName: stringRequiredSchema,
   surname: stringRequiredSchema,
   familyRelationship: z.enum(
@@ -149,6 +149,27 @@ export const wertsachenArraySchema = z.array(
   }),
 );
 
+export const partnerschaftSchema = z.enum(
+  ["yes", "no", "separated", "widowed"],
+  customRequiredErrorMessage,
+);
+
+export const kinderArraySchema = z.array(
+  z.object({
+    vorname: stringRequiredSchema,
+    nachname: stringRequiredSchema,
+    geburtsdatum: createDateSchema({
+      earliest: () => addYears(today(), -24),
+      latest: () => today(),
+    }),
+    wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
+    eigeneEinnahmen: YesNoAnswer,
+    einnahmen: buildMoneyValidationSchema(),
+    unterhalt: YesNoAnswer,
+    unterhaltsSumme: buildMoneyValidationSchema(),
+  }),
+);
+
 export type Unterhaltszahlung = z.infer<typeof unterhaltszahlungSchema>;
 
 export const beratungshilfeFinanzielleAngaben = {
@@ -176,10 +197,7 @@ export const beratungshilfeFinanzielleAngaben = {
     ["pupil", "student", "retiree", "no"],
     customRequiredErrorMessage,
   ),
-  partnerschaft: z.enum(
-    ["yes", "no", "separated", "widowed"],
-    customRequiredErrorMessage,
-  ),
+  partnerschaft: partnerschaftSchema,
   zusammenleben: YesNoAnswer,
   unterhalt: YesNoAnswer,
   unterhaltsSumme: buildMoneyValidationSchema(),
@@ -188,21 +206,7 @@ export const beratungshilfeFinanzielleAngaben = {
   partnerVorname: stringRequiredSchema,
   partnerNachname: stringRequiredSchema,
   hasKinder: YesNoAnswer,
-  kinder: z.array(
-    z.object({
-      vorname: stringRequiredSchema,
-      nachname: stringRequiredSchema,
-      geburtsdatum: createDateSchema({
-        earliest: () => addYears(today(), -24),
-        latest: () => today(),
-      }),
-      wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
-      eigeneEinnahmen: YesNoAnswer,
-      einnahmen: buildMoneyValidationSchema(),
-      unterhalt: YesNoAnswer,
-      unterhaltsSumme: buildMoneyValidationSchema(),
-    }),
-  ),
+  kinder: kinderArraySchema,
   hasBankkonto: YesNoAnswer,
   bankkonten: bankkontenArraySchema,
   hasKraftfahrzeug: YesNoAnswer,
