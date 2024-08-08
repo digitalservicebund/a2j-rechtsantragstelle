@@ -24,6 +24,16 @@ const allowedWebsites = [
   "https://www.verbraucherzentrale.de",
   "https://www.zugang-zum-recht-projekte.de",
   "https://www.evz.de",
+  "https://www.justiz.nrw.de",
+  "https://www.justiz.nrw",
+  "https://rechtohnestreit.de",
+  "https://e-justice.europa.eu",
+  "https://www.ausweisapp.bund.de",
+  "https://id.bund.de",
+  "https://ebo.bund.de",
+  "https://ec.europa.eu",
+  "https://sentry.io",
+  "https://www.verbraucherzentrale.nrw",
 ];
 
 const allowedEmails = [
@@ -47,23 +57,24 @@ function verifyExternalLinks(allowedList: Array<string>, regexPattern: RegExp) {
   const filePath = process.env.CONTENT_FILE_PATH ?? "./content.json";
   const content = fs.readFileSync(filePath, "utf-8");
 
-  const linksFromContent = regexPattern.exec(content);
+  const foundLinks = extractLinks(content, regexPattern);
 
-  if (linksFromContent) {
-    for (const link of linksFromContent) {
-      // skip this for now
-      if (link == "https") continue;
-
-      const rejectedUrl = !allowedList.some((allowedLinks) =>
-        link.includes(allowedLinks),
+  foundLinks
+    .filter((link) => isLinkRejected(link, allowedList))
+    .forEach((link) => {
+      throw new Error(
+        `${link} is not allowed. Please verify the link and add it to the allowed list`,
       );
+    });
+}
 
-      if (rejectedUrl)
-        throw Error(
-          `${link} is not allowed. Please verify the link and add to the allowed list`,
-        );
-    }
-  }
+function extractLinks(content: string, regexPattern: RegExp) {
+  const matches = Array.from(content.matchAll(regexPattern));
+  return matches.map((match) => match[0]);
+}
+
+function isLinkRejected(link: string, allowedList: Array<string>) {
+  return !allowedList.some((allowedLink) => link.includes(allowedLink));
 }
 
 if (process.argv[2] === "verifyWebsites")
