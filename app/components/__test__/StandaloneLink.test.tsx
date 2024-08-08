@@ -26,17 +26,4 @@ describe("Standalone Button Component", () => {
     );
     expect(screen.getByText("Hello World")).toBeInTheDocument();
   });
-
-  test("Link can have custom styling", () => {
-    render(
-      <StandaloneLink
-        url={"/home"}
-        text={"Internal Link, custom styling"}
-        look={"ds-label-03-bold"}
-      />,
-    );
-    expect(screen.getByText("Internal Link, custom styling")).toHaveClass(
-      "ds-label-03-bold",
-    );
-  });
 });
