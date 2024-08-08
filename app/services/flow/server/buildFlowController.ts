@@ -24,12 +24,12 @@ type StateMachineTypes = {
   events: FlowStateMachineEvents;
 };
 
-const genericMachine = setup({
+const _genericMachine = setup({
   types: {} as StateMachineTypes,
   guards: {} as Guards,
 });
 
-export type FlowStateMachine = ReturnType<typeof genericMachine.createMachine>;
+export type FlowStateMachine = ReturnType<typeof _genericMachine.createMachine>;
 
 export type Config = MachineConfig<
   Context,

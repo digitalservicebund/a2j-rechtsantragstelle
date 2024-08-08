@@ -243,5 +243,5 @@ export const beratungshilfeFinanzielleAngaben = {
   pageData: pageDataSchema,
 };
 
-const contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();
-export type BeratungshilfeFinanzielleAngaben = z.infer<typeof contextObject>;
+const _contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();
+export type BeratungshilfeFinanzielleAngaben = z.infer<typeof _contextObject>;

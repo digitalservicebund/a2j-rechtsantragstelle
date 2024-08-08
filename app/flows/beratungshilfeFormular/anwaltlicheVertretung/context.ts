@@ -14,5 +14,7 @@ export const beratungshilfeAnwaltlicheVertretung = {
   anwaltOrt: stringRequiredSchema,
 };
 
-const contextObject = z.object(beratungshilfeAnwaltlicheVertretung).partial();
-export type BeratungshilfeAnwaltlicheVertretung = z.infer<typeof contextObject>;
+const _contextObject = z.object(beratungshilfeAnwaltlicheVertretung).partial();
+export type BeratungshilfeAnwaltlicheVertretung = z.infer<
+  typeof _contextObject
+>;
