@@ -36,8 +36,8 @@
     "typecheck:watch": "tsc -w",
     "update:courtData": "tsx ./app/services/gerichtsfinder/encryptedStorage.ts updateZip",
     "update:URLs": "tsx ./app/services/gerichtsfinder/checkURLs.ts checkURLs",
-    "verify:emails": "tsx ./app/services/cms/verifyExternalLinks.ts verifyEmails",
-    "verify:websites": "tsx ./app/services/cms/verifyExternalLinks.ts verifyWebsites"
+    "verify:emails": "tsx ./scripts/verifyExternalLinks.ts verifyEmails",
+    "verify:websites": "tsx ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
     "@digitalservice4germany/angie": "^1.1.2",
