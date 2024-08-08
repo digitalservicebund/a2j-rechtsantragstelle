@@ -1,6 +1,8 @@
+import { fakerDE as faker } from "@faker-js/faker";
 import { Page, expect } from "@playwright/test";
 import type { FluggastrechteFormular } from "../pom/FluggastrechteFormular";
 import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";
+import { today, toGermanDateFormat } from "~/util/date";
 
 export async function startFluggastrechteFormular(
   page: Page,
@@ -26,9 +28,9 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/flugdaten/geplanter-flug
   await expectPageToBeAccessible({ page });
   await formular.fillInput("direktFlugnummer", "AB1234");
-  await formular.fillInput("direktAbflugsDatum", "11.10.2024");
+  await formular.fillInput("direktAbflugsDatum", toGermanDateFormat(today()));
   await formular.fillInput("direktAbflugsZeit", "08:10");
-  await formular.fillInput("direktAnkunftsDatum", "12.10.2024");
+  await formular.fillInput("direktAnkunftsDatum", toGermanDateFormat(today()));
   await formular.fillInput("direktAnkunftsZeit", "10:10");
   await formular.clickNext();
 
@@ -42,7 +44,10 @@ export async function startFluggastrechteFormular(
 
   // /fluggastrechte/formular/flugdaten/tatsaechlicher-flug-ankunft
   await expectPageToBeAccessible({ page });
-  await formular.fillInput("tatsaechlicherAnkunftsDatum", "12.10.2024");
+  await formular.fillInput(
+    "tatsaechlicherAnkunftsDatum",
+    toGermanDateFormat(today()),
+  );
   await formular.fillInput("tatsaechlicherAnkunftsZeit", "10:10");
   await formular.clickNext();
 
