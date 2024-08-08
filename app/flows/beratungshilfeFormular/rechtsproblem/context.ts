@@ -26,8 +26,8 @@ export const beratungshilfeRechtsproblem = {
   eigeninitiativeBeschreibung: stringRequiredSchema,
 };
 
-const contextObject = z.object(beratungshilfeRechtsproblem).partial();
-export type BeratungshilfeRechtsproblem = z.infer<typeof contextObject>;
+const _contextObject = z.object(beratungshilfeRechtsproblem).partial();
+export type BeratungshilfeRechtsproblem = z.infer<typeof _contextObject>;
 
 export const rechtsproblemDone: GenericGuard<BeratungshilfeRechtsproblem> = ({
   context,

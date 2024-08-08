@@ -10,8 +10,8 @@ export const beratungshilfeGrundvoraussetzungen = {
   eigeninitiativeGrundvorraussetzung: YesNoAnswer,
 };
 
-const contextObject = z.object(beratungshilfeGrundvoraussetzungen).partial();
-export type BeratungshilfeGrundvoraussetzungen = z.infer<typeof contextObject>;
+const _contextObject = z.object(beratungshilfeGrundvoraussetzungen).partial();
+export type BeratungshilfeGrundvoraussetzungen = z.infer<typeof _contextObject>;
 
 export const grundvoraussetzungDone: GenericGuard<
   BeratungshilfeGrundvoraussetzungen
