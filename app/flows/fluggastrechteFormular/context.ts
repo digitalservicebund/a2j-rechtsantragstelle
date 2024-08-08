@@ -73,5 +73,5 @@ export const fluggastrechtContext = {
   zustaendigesAmtsgericht: zustaendigesAmtsgerichtSchema.optional(),
 } as const;
 
-const contextObject = z.object(fluggastrechtContext).partial();
-export type FluggastrechtContext = z.infer<typeof contextObject>;
+const _contextObject = z.object(fluggastrechtContext).partial();
+export type FluggastrechtContext = z.infer<typeof _contextObject>;
