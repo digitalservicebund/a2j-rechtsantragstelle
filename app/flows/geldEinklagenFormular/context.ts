@@ -79,5 +79,5 @@ export const context = {
   zahlungOptional: checkedOptional,
 } as const;
 
-const contextObject = z.object(context).partial();
-export type GeldEinklagenFormularContext = z.infer<typeof contextObject>;
+const _contextObject = z.object(context).partial();
+export type GeldEinklagenFormularContext = z.infer<typeof _contextObject>;

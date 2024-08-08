@@ -55,5 +55,5 @@ export const fluggastrechteVorabcheckContext = {
   ersatzflugLandenVierStunden: YesNoAnswer,
 } as const;
 
-const contextObject = z.object(fluggastrechteVorabcheckContext).partial();
-export type FluggastrechtVorabcheckContext = z.infer<typeof contextObject>;
+const _contextObject = z.object(fluggastrechteVorabcheckContext).partial();
+export type FluggastrechtVorabcheckContext = z.infer<typeof _contextObject>;

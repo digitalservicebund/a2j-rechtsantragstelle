@@ -16,8 +16,8 @@ export const beratungshilfePersoenlicheDaten = {
   telefonnummer: optionalOrSchema(phoneNumberSchema),
 };
 
-const contextObject = z.object(beratungshilfePersoenlicheDaten).partial();
-export type BeratungshilfePersoenlicheDaten = z.infer<typeof contextObject>;
+const _contextObject = z.object(beratungshilfePersoenlicheDaten).partial();
+export type BeratungshilfePersoenlicheDaten = z.infer<typeof _contextObject>;
 
 export const beratungshilfePersoenlicheDatenDone: GenericGuard<
   BeratungshilfePersoenlicheDaten
