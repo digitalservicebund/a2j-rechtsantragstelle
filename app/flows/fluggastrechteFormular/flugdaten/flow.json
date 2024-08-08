@@ -10,12 +10,7 @@
     },
     "zwischenstopps": {
       "on": {
-        "SUBMIT": [
-          {
-            "target": "tatsaechlicher-flug",
-            "guard": "zwischenstoppsNo"
-          }
-        ],
+        "SUBMIT": "tatsaechlicher-flug",
         "BACK": "geplanter-flug"
       }
     },
@@ -26,10 +21,7 @@
             "target": "tatsaechlicher-flug-ankunft",
             "guard": "tatsaechlicherFlugYes"
           },
-          {
-            "target": "ersatzverbindung-art",
-            "guard": "tatsaechlicherFlugNo"
-          }
+          "ersatzverbindung-art"
         ],
         "BACK": "zwischenstopps"
       }

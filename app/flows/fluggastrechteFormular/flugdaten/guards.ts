@@ -1,7 +1,7 @@
 import { Guards, yesNoGuards } from "~/flows/guards.server";
-import { FluggastrechteFlugDatenContext } from "./context";
+import { FluggastrechteFlugdatenContext } from "./context";
 
-export const fluggastrechteFlugDatenGuards = {
+export const fluggastrechteFlugdatenGuards = {
   hasErsatzVerbindungFlug: ({ context }) =>
     context.ersatzverbindungArt === "flug",
   hasDetailedErsatzVerbindungFlug: ({ context }) =>
@@ -24,4 +24,4 @@ export const fluggastrechteFlugDatenGuards = {
     context.tatsaechlicherFlug === "no" &&
     context.ersatzverbindungArt === "keineAnkunft",
   ...yesNoGuards("tatsaechlicherFlug"),
-} satisfies Guards<FluggastrechteFlugDatenContext>;
+} satisfies Guards<FluggastrechteFlugdatenContext>;

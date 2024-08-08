@@ -16,7 +16,7 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 import { addDays, addYears, today } from "~/util/date";
-import { fluggastrechteFlugDaten } from "./flugdaten/context";
+import { fluggastrechteFlugdaten } from "./flugdaten/context";
 import {
   adresse,
   persoenlicheDaten,
@@ -28,7 +28,7 @@ export const fluggastrechtContext = {
   endAirport: airportSchema,
   fluggesellschaft: airlineSchema,
   bereich: fluggastBereichSchema,
-  ...fluggastrechteFlugDaten,
+  ...fluggastrechteFlugdaten,
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
   ...persoenlicheDaten,
   ...adresse,

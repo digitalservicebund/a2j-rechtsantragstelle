@@ -123,4 +123,4 @@ const cases = [
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;
 
-export const testCasesFluggastrechteFormular = { machine, cases };
+export const testCasesFluggastrechteFormularFlugdaten = { machine, cases };
