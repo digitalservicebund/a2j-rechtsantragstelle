@@ -20,8 +20,8 @@ import { testCasesGeldEinklagen } from "~/flows/geldEinklagenVorabcheck/__test__
 import { transitionDestinations } from "~/services/flow/server/buildFlowController";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { parsePathname } from "../flowIds";
-import { testCasesFluggastrechteFormularForderung } from "../fluggastrechteFormular/forderung/__test__/testcases";
-import { testCasesFluggastrechteFormularVersand } from "../fluggastrechteFormular/versand/__test__/testcases";
+import { testCasesFluggastrechteFormularForderung } from "~/flows/fluggastrechteFormular/forderung/__test__/testcases";
+import { testCasesFluggastrechteFormularVersand } from "~/flows/fluggastrechteFormular/versand/__test__/testcases";
 
 function getEnabledSteps({
   machine,
