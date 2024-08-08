@@ -47,6 +47,7 @@ const customStyles = (
       return {
         ...base,
         backgroundColor: getOptionBackgroundColor(isFocused, isSelected),
+        borderLeft: isFocused ? "4px solid #004B76" : "",
         color: "inherit",
       };
     },
