@@ -4,7 +4,8 @@
     "app/**/*",
     "stories/**/*",
     "tests/**/*",
-    "data/**/*.ts"
+    "data/**/*.ts",
+    "scripts/*.ts"
   ],
   "compilerOptions": {
     "preserveSymlinks": true,
