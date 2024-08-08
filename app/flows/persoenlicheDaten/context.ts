@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
@@ -13,6 +14,7 @@ export const adresse = {
 };
 
 export const namePrivatPerson = {
+  anrede: stringOptionalSchema,
   title: titleSchema,
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,

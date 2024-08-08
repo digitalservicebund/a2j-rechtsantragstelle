@@ -1,0 +1,30 @@
+{
+  "id": "versand",
+  "initial": "frist",
+  "states": {
+    "frist": {
+      "on": {
+        "SUBMIT": "versaeumnisurteil",
+        "BACK": "#forderung.nebenforderungen"
+      }
+    },
+    "versaeumnisurteil": {
+      "on": { "SUBMIT": "anmerkung", "BACK": "frist" }
+    },
+    "anmerkung": {
+      "on": { "SUBMIT": "ueberpruefung", "BACK": "versaeumnisurteil" }
+    },
+    "ueberpruefung": {
+      "on": { "SUBMIT": "aenderungMitteilung", "BACK": "anmerkung" }
+    },
+    "aenderungMitteilung": {
+      "on": { "SUBMIT": "einverstaendnis", "BACK": "ueberpruefung" }
+    },
+    "einverstaendnis": {
+      "on": { "SUBMIT": "klageVersenden", "BACK": "aenderungMitteilung" }
+    },
+    "klageVersenden": {
+      "on": { "BACK": "einverstaendnis" }
+    }
+  }
+}

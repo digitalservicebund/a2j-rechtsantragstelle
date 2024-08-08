@@ -12,6 +12,9 @@ import { testCasesBeratungshilfeRechtsproblem } from "~/flows/beratungshilfeForm
 import { testCasesBeratungshilfe } from "~/flows/beratungshilfeVorabcheck/__test__/testcases";
 import { type Context } from "~/flows/contexts";
 import { testCasesFluggastrechteFormularFlugdaten } from "~/flows/fluggastrechteFormular/flugdaten/__test__/testcases";
+import { testCasesFluggastrechteFormularForderung } from "~/flows/fluggastrechteFormular/forderung/__test__/testcases";
+import { testCasesFluggastrechteFormularPersoenlicheDaten } from "~/flows/fluggastrechteFormular/persoenlicheDaten/__test__/testcases";
+import { testCasesFluggastrechteFormularVersand } from "~/flows/fluggastrechteFormular/versand/__test__/testcases";
 import { testCasesFluggastrechteAnnullierung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesAnnullierung";
 import { testCasesFluggastrechteNichtBefoerderung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesNichtBefoerderung";
 import { testCasesFluggastrechteVerspaetet } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesVerspaetet";
@@ -76,6 +79,9 @@ describe("state machine form flows", () => {
     testCasesFluggastrechteVerspaetet,
     testCasesFluggastrechteAnnullierung,
     testCasesFluggastrechteNichtBefoerderung,
+    testCasesFluggastrechteFormularPersoenlicheDaten,
+    testCasesFluggastrechteFormularForderung,
+    testCasesFluggastrechteFormularVersand,
   ].forEach(({ machine, cases }) => {
     test.each([...cases])(
       "SUBMIT (%#) given context: %j, visits steps: %j",

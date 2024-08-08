@@ -1,0 +1,27 @@
+{
+  "id": "forderung",
+  "initial": "forderung",
+  "states": {
+    "forderung": {
+      "on": {
+        "SUBMIT": "teilentschaedigung",
+        "BACK": [
+          {
+            "guard": "isProzessbevollmaechtigteNo",
+            "target": "#persoenliche-daten.person.antragsteller-angeben"
+          },
+          "#persoenliche-daten.person.antragsteller-daten"
+        ]
+      }
+    },
+    "teilentschaedigung": {
+      "on": { "SUBMIT": "nebenforderungen", "BACK": "forderung" }
+    },
+    "nebenforderungen": {
+      "on": {
+        "SUBMIT": "#versand.frist",
+        "BACK": "teilentschaedigung"
+      }
+    }
+  }
+}
