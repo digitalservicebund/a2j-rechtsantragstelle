@@ -25,7 +25,7 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   pageData: pageDataSchema,
 };
 
-const contextObject = z
+const _contextObject = z
   .object(prozesskostenhilfeFinanzielleAngabenContext)
   .partial();
-export type ProzesskostenhilfeEigentumContext = z.infer<typeof contextObject>;
+export type ProzesskostenhilfeEigentumContext = z.infer<typeof _contextObject>;

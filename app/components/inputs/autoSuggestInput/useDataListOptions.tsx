@@ -16,7 +16,7 @@ const useDataListOptions = (dataListType: DataListType) => {
           const json = await response.json();
           setDataListOptions(json);
         }
-      } catch (error) {
+      } catch {
         setDataListOptions([]);
       }
     };
