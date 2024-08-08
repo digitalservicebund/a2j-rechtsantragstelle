@@ -6,7 +6,6 @@ import flugdatenFlow from "./flugdaten/flow.json";
 import forderungDatenFlow from "./forderung/flow.json";
 import { fluggastrechteGuards } from "./guards";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
-import { persoenlichDatenGuards } from "./persoenlicheDaten/guards";
 import {
   getEndAirportName,
   getForderung,
@@ -40,15 +39,12 @@ export const fluggastrechtFlow = {
   }),
   config: _.merge(fluggastrechteFlow, {
     states: {
-      flugdaten: _.merge(_.cloneDeep(flugdatenFlow), {}),
+      flugdaten: _.merge(flugdatenFlow, {}),
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {}),
       forderung: _.merge(forderungDatenFlow, {}),
       versand: _.merge(versandFlow, {}),
     },
   }),
-  guards: {
-    ...fluggastrechteGuards,
-    ...persoenlichDatenGuards,
-  },
+  guards: fluggastrechteGuards,
   flowTransitionConfig,
 } as const;

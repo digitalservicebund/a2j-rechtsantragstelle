@@ -5,11 +5,10 @@ import { fluggastrechtFlow } from "~/flows/fluggastrechteFormular";
 import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
 import { fluggastrechteGuards } from "~/flows/fluggastrechteFormular/guards";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
-import { persoenlichDatenGuards } from "../guards";
 
 const machine: FlowStateMachine = createMachine(
   { ...fluggastrechtFlow.config, context: {} },
-  { guards: { ...fluggastrechteGuards, ...persoenlichDatenGuards } },
+  { guards: fluggastrechteGuards },
 );
 
 const cases = [

@@ -5,11 +5,7 @@ import {
 } from "~/flows/fluggastrechteVorabcheck/context";
 import { airlineSchema } from "~/services/validation/airline";
 import { airportSchema } from "~/services/validation/airport";
-import { checkedOptional } from "~/services/validation/checkedCheckbox";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { fluggastrechteFlugdaten } from "./flugdaten/context";
 import { fluggastrechtForderungDaten } from "./forderung/context";
 import { fluggastrechtePersoenlichDaten } from "./persoenlicheDaten/context";
@@ -20,13 +16,9 @@ export const fluggastrechtContext = {
   endAirport: airportSchema,
   fluggesellschaft: airlineSchema,
   bereich: fluggastBereichSchema,
-  ...fluggastrechteFlugdaten,
-  anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
-  volljaehrig: YesNoAnswer,
-  gesetzlicheVertretung: YesNoAnswer,
   doMigration: YesNoAnswer,
-  zahlungOptional: checkedOptional,
   zustaendigesAmtsgericht: zustaendigesAmtsgerichtSchema.optional(),
+  ...fluggastrechteFlugdaten,
   ...fluggastrechtePersoenlichDaten,
   ...fluggastrechtForderungDaten,
   ...fluggastrechtVersandDaten,
