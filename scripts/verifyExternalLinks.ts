@@ -32,7 +32,7 @@ const allowedWebsites = [
   "https://id.bund.de",
   "https://ebo.bund.de",
   "https://ec.europa.eu",
-  "https://sentry.io/privacy",
+  "https://sentry.io",
   "https://www.verbraucherzentrale.nrw",
 ];
 
