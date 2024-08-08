@@ -4,7 +4,279 @@
   "states": {
     "start": {
       "on": {
-        "SUBMIT": "eigentum"
+        "SUBMIT": "partner"
+      }
+    },
+    "partner": {
+      "id": "partner",
+      "initial": "partnerschaft",
+      "on": {
+        "SUBMIT": "#kinder.kinder-frage"
+      },
+      "states": {
+        "partnerschaft": {
+          "on": {
+            "BACK": "#antragStart",
+            "SUBMIT": [
+              {
+                "guard": "hasPartnerschaftOrSeparated",
+                "target": "zusammenleben"
+              }
+            ]
+          }
+        },
+        "zusammenleben": {
+          "on": {
+            "BACK": "partnerschaft",
+            "SUBMIT": [
+              {
+                "guard": "zusammenlebenYes",
+                "target": "partner-einkommen"
+              },
+              {
+                "guard": "zusammenlebenNo",
+                "target": "unterhalt"
+              }
+            ]
+          }
+        },
+        "unterhalt": {
+          "on": {
+            "BACK": "zusammenleben",
+            "SUBMIT": [
+              {
+                "guard": "unterhaltYes",
+                "target": "unterhalts-summe"
+              },
+              {
+                "guard": "unterhaltNo",
+                "target": "keine-rolle"
+              }
+            ]
+          }
+        },
+        "keine-rolle": {
+          "on": {
+            "BACK": "unterhalt",
+            "SUBMIT": "#kinder.kinder-frage"
+          }
+        },
+        "unterhalts-summe": {
+          "on": {
+            "BACK": "unterhalt",
+            "SUBMIT": "partner-name"
+          }
+        },
+        "partner-name": {
+          "on": {
+            "BACK": "unterhalts-summe",
+            "SUBMIT": "#kinder.kinder-frage"
+          }
+        },
+        "partner-einkommen": {
+          "on": {
+            "BACK": "zusammenleben",
+            "SUBMIT": [
+              {
+                "guard": "partnerEinkommenYes",
+                "target": "partner-einkommen-summe"
+              },
+              {
+                "guard": "partnerEinkommenNo",
+                "target": "#kinder.kinder-frage"
+              }
+            ]
+          }
+        },
+        "partner-einkommen-summe": {
+          "on": {
+            "BACK": "partner-einkommen",
+            "SUBMIT": "#kinder.kinder-frage"
+          }
+        }
+      }
+    },
+    "kinder": {
+      "id": "kinder",
+      "initial": "kinder-frage",
+      "states": {
+        "kinder-frage": {
+          "on": {
+            "BACK": [
+              {
+                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenNoAndUnterhaltYes",
+                "target": "#partner.partner-name"
+              },
+              {
+                "guard": "hasPartnerschaftOrSeparatedAndPartnerEinkommenYes",
+                "target": "#partner.partner-einkommen-summe"
+              },
+              {
+                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenYes",
+                "target": "#partner.partner-einkommen"
+              },
+              {
+                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenNoAndUnterhaltNo",
+                "target": "#partner.keine-rolle"
+              },
+              {
+                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenNo",
+                "target": "#partner.unterhalt"
+              },
+              {
+                "guard": "hasPartnerschaftOrSeparated",
+                "target": "#partner.zusammenleben"
+              },
+              "#partner.partnerschaft"
+            ],
+            "SUBMIT": [
+              {
+                "guard": "hasKinderYes",
+                "target": "uebersicht"
+              },
+              "#andere-unterhaltszahlungen.frage"
+            ]
+          }
+        },
+        "uebersicht": {
+          "on": {
+            "BACK": "kinder-frage",
+            "SUBMIT": [
+              {
+                "guard": "hasKinderYesAndEmptyArray",
+                "target": "warnung"
+              },
+              "#andere-unterhaltszahlungen"
+            ],
+            "add-kinder": {
+              "guard": "isValidKinderArrayIndex",
+              "target": "kinder"
+            }
+          }
+        },
+        "warnung": {
+          "on": {
+            "BACK": "uebersicht",
+            "SUBMIT": "#andere-unterhaltszahlungen"
+          }
+        },
+        "kinder": {
+          "initial": "name",
+          "states": {
+            "name": {
+              "on": {
+                "BACK": "#kinder.uebersicht",
+                "SUBMIT": "wohnort"
+              }
+            },
+            "wohnort": {
+              "on": {
+                "BACK": "name",
+                "SUBMIT": [
+                  {
+                    "guard": "kindWohnortBeiAntragstellerYes",
+                    "target": "kind-eigene-einnahmen-frage"
+                  },
+                  {
+                    "guard": "kindWohnortBeiAntragstellerNo",
+                    "target": "kind-unterhalt-frage"
+                  }
+                ]
+              }
+            },
+            "kind-eigene-einnahmen-frage": {
+              "on": {
+                "BACK": "wohnort",
+                "SUBMIT": [
+                  {
+                    "guard": "kindEigeneEinnahmenYes",
+                    "target": "kind-eigene-einnahmen"
+                  },
+                  "#kinder.uebersicht"
+                ]
+              }
+            },
+            "kind-eigene-einnahmen": {
+              "on": {
+                "BACK": "kind-eigene-einnahmen-frage",
+                "SUBMIT": "#kinder.uebersicht"
+              }
+            },
+            "kind-unterhalt-frage": {
+              "on": {
+                "BACK": "wohnort",
+                "SUBMIT": [
+                  {
+                    "guard": "kindUnterhaltYes",
+                    "target": "kind-unterhalt"
+                  },
+                  {
+                    "guard": "kindUnterhaltNo",
+                    "target": "kind-unterhalt-ende"
+                  }
+                ]
+              }
+            },
+            "kind-unterhalt": {
+              "on": {
+                "BACK": "kind-unterhalt-frage",
+                "SUBMIT": "#kinder.uebersicht"
+              }
+            },
+            "kind-unterhalt-ende": {
+              "on": {
+                "BACK": "kind-unterhalt-frage",
+                "SUBMIT": "#kinder.uebersicht"
+              }
+            }
+          }
+        }
+      }
+    },
+    "andere-unterhaltszahlungen": {
+      "id": "andere-unterhaltszahlungen",
+      "initial": "frage",
+      "states": {
+        "frage": {
+          "on": {
+            "BACK": [
+              { "guard": "hasKinderYes", "target": "#kinder.uebersicht" },
+              "#kinder.kinder-frage"
+            ],
+            "SUBMIT": [
+              {
+                "guard": "hasWeitereUnterhaltszahlungenYes",
+                "target": "uebersicht"
+              },
+              "#eigentum"
+            ]
+          }
+        },
+        "uebersicht": {
+          "on": {
+            "BACK": "frage",
+            "SUBMIT": [
+              {
+                "guard": "hasWeitereUnterhaltszahlungenYesAndEmptyArray",
+                "target": "warnung"
+              },
+              "#eigentum"
+            ],
+            "add-unterhaltszahlungen": "person"
+          }
+        },
+        "warnung": { "on": { "BACK": "uebersicht", "SUBMIT": "#eigentum" } },
+        "person": {
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "BACK": "#andere-unterhaltszahlungen.uebersicht",
+                "SUBMIT": "#andere-unterhaltszahlungen.uebersicht"
+              }
+            }
+          }
+        }
       }
     },
     "eigentum": {
@@ -13,13 +285,19 @@
       "states": {
         "eigentum-info": {
           "on": {
-            "BACK": "#antragStart",
             "SUBMIT": [
               {
                 "guard": "hasPartnerschaftYesAndNoStaatlicheLeistungen",
                 "target": "heirat-info"
               },
               "bankkonten-frage"
+            ],
+            "BACK": [
+              {
+                "guard": "hasWeitereUnterhaltszahlungenYes",
+                "target": "#finanzielle-angaben.andere-unterhaltszahlungen.uebersicht"
+              },
+              "#finanzielle-angaben.andere-unterhaltszahlungen.frage"
             ]
           }
         },
@@ -70,18 +348,20 @@
                 "guard": "hasAnyEigentum",
                 "target": "#eigentum-zusammenfassung.zusammenfassung"
               },
-              {
-                "guard": "staatlicheLeistungenIsBuergergeld",
-                "target": "#antragStart"
-              },
-              "#antragStart"
+              "#abgabe"
             ],
             "BACK": "grundeigentum-frage"
           }
         },
         "gesamtwert": {
           "on": {
-            "SUBMIT": "#antragStart",
+            "SUBMIT": [
+              {
+                "target": "#eigentum-zusammenfassung.zusammenfassung",
+                "guard": "eigentumDone"
+              },
+              "#abgabe"
+            ],
             "BACK": "kraftfahrzeuge-frage"
           }
         }
@@ -100,7 +380,10 @@
               },
               "#eigentum.kraftfahrzeuge-frage"
             ],
-            "SUBMIT": "#antragStart",
+            "SUBMIT": [
+              { "guard": "eigentumYesAndEmptyArray", "target": "warnung" },
+              "#abgabe"
+            ],
             "add-bankkonten": "bankkonten",
             "add-wertsachen": "wertgegenstaende",
             "add-geldanlagen": "geldanlagen",
@@ -111,7 +394,7 @@
         "warnung": {
           "on": {
             "BACK": "zusammenfassung",
-            "SUBMIT": "#antragStart"
+            "SUBMIT": ["#abgabe"]
           }
         },
         "bankkonten": {
@@ -174,18 +457,9 @@
                     "target": "giro-tagesgeld-sparkonto",
                     "guard": "isGeldanlageGiroTagesgeldSparkonto"
                   },
-                  {
-                    "target": "befristet",
-                    "guard": "isGeldanlageBefristet"
-                  },
-                  {
-                    "target": "forderung",
-                    "guard": "isGeldanlageForderung"
-                  },
-                  {
-                    "target": "sonstiges",
-                    "guard": "isGeldanlageSonstiges"
-                  }
+                  { "target": "befristet", "guard": "isGeldanlageBefristet" },
+                  { "target": "forderung", "guard": "isGeldanlageForderung" },
+                  { "target": "sonstiges", "guard": "isGeldanlageSonstiges" }
                 ],
                 "BACK": "#eigentum-zusammenfassung.zusammenfassung"
               }
