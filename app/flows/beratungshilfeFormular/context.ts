@@ -1,4 +1,4 @@
-import { beratungshilfeAbgeabe } from "~/flows/beratungshilfeFormular/abgabe/context";
+import { beratungshilfeAbgabe } from "~/flows/beratungshilfeFormular/abgabe/context";
 import { beratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
 import { beratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import { beratungshilfeGrundvoraussetzungen } from "./grundvoraussetzung/context";
@@ -11,5 +11,5 @@ export const beratungshilfeFormularContext = {
   ...beratungshilfeRechtsproblem,
   ...beratungshilfeFinanzielleAngaben,
   ...beratungshilfePersoenlicheDaten,
-  ...beratungshilfeAbgeabe,
+  ...beratungshilfeAbgabe,
 } as const;
