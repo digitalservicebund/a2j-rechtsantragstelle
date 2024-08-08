@@ -55,7 +55,11 @@ import {
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
   config: _.merge(beratungshilfeFormularFlow, {
-    meta: { arrays: finanzielleAngabenArrayConfig },
+    meta: {
+      arrays: finanzielleAngabenArrayConfig(
+        "/beratungshilfe/antrag/finanzielle-angaben",
+      ),
+    },
     states: {
       start: { meta: { done: () => true } },
       grundvoraussetzungen: _.merge(beratungshilfeGrundvoraussetzungenFlow, {
