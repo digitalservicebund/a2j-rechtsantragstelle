@@ -11,13 +11,12 @@ import {
 } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import { timeSchema } from "~/services/validation/time";
 import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 import { addDays, addYears, today } from "~/util/date";
+import { fluggastrechteFlugdaten } from "./flugdaten/context";
 import {
   adresse,
   persoenlicheDaten,
@@ -29,27 +28,7 @@ export const fluggastrechtContext = {
   endAirport: airportSchema,
   fluggesellschaft: airlineSchema,
   bereich: fluggastBereichSchema,
-  zwischenstopps: YesNoAnswer,
-  singleFlugnummer: stringRequiredSchema,
-  singleAbflugDatum: createDateSchema(),
-  singleAbflugZeit: timeSchema,
-  singleAnkunftDatum: createDateSchema(),
-  singleAnkunftZeit: timeSchema,
-  zwischenstoppFlugnummer: stringRequiredSchema,
-  zwischenstoppAbflugDatum: createDateSchema(),
-  zwischenstoppAbflugZeit: timeSchema,
-  zwischenstoppAnkunftDatum: createDateSchema(),
-  zwischenstoppAnkunftZeit: timeSchema,
-  zwischenstoppFlugnummer2: stringRequiredSchema,
-  zwischenstoppAbflugDatum2: createDateSchema(),
-  zwischenstoppAbflugZeit2: timeSchema,
-  zwischenstoppAnkunftDatum2: createDateSchema(),
-  zwischenstoppAnkunftZeit2: timeSchema,
-  zwischenstoppFlughafen: z.union([airportSchema, z.literal("")]),
-  ankunftsDatum: createDateSchema({ latest: () => today() }),
-  ankunftsZeit: timeSchema,
-  ankunftsFlugnummer: stringRequiredSchema,
-  ankunftWithSameFlight: YesNoAnswer,
+  ...fluggastrechteFlugdaten,
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
   ...persoenlicheDaten,
   ...adresse,

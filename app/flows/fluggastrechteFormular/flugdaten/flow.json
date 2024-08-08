@@ -1,0 +1,64 @@
+{
+  "id": "flugdaten",
+  "initial": "geplanter-flug",
+  "states": {
+    "geplanter-flug": {
+      "on": {
+        "SUBMIT": "zwischenstopps",
+        "BACK": "#intro.daten-uebernahme"
+      }
+    },
+    "zwischenstopps": {
+      "on": {
+        "SUBMIT": "tatsaechlicher-flug",
+        "BACK": "geplanter-flug"
+      }
+    },
+    "tatsaechlicher-flug": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "tatsaechlicher-flug-ankunft",
+            "guard": "tatsaechlicherFlugYes"
+          },
+          "ersatzverbindung-art"
+        ],
+        "BACK": "zwischenstopps"
+      }
+    },
+    "tatsaechlicher-flug-ankunft": {
+      "on": {
+        "SUBMIT": "#persoenliche-daten.anzahl",
+        "BACK": "tatsaechlicher-flug"
+      }
+    },
+    "ersatzverbindung-art": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "anderer-flug-ankunft",
+            "guard": "hasErsatzVerbindungFlug"
+          },
+          {
+            "target": "ersatzverbindung-beschreibung",
+            "guard": "hasAndereErsatzVerbindung"
+          },
+          "#persoenliche-daten.anzahl"
+        ],
+        "BACK": "tatsaechlicher-flug"
+      }
+    },
+    "anderer-flug-ankunft": {
+      "on": {
+        "SUBMIT": "#persoenliche-daten.anzahl",
+        "BACK": "ersatzverbindung-art"
+      }
+    },
+    "ersatzverbindung-beschreibung": {
+      "on": {
+        "SUBMIT": "#persoenliche-daten.anzahl",
+        "BACK": "ersatzverbindung-art"
+      }
+    }
+  }
+}

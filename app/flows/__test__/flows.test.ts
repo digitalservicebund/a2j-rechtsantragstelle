@@ -11,7 +11,7 @@ import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "~/flow
 import { testCasesBeratungshilfeRechtsproblem } from "~/flows/beratungshilfeFormular/rechtsproblem/__test__/testcases";
 import { testCasesBeratungshilfe } from "~/flows/beratungshilfeVorabcheck/__test__/testcases";
 import { type Context } from "~/flows/contexts";
-import { testCasesFluggastrechteFormular } from "~/flows/fluggastrechteFormular/__test__/testcases";
+import { testCasesFluggastrechteFormularFlugdaten } from "~/flows/fluggastrechteFormular/flugdaten/__test__/testcases";
 import { testCasesFluggastrechteAnnullierung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesAnnullierung";
 import { testCasesFluggastrechteNichtBefoerderung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesNichtBefoerderung";
 import { testCasesFluggastrechteVerspaetet } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesVerspaetet";
@@ -61,7 +61,7 @@ describe("state machine form flows", () => {
   [
     testCasesBeratungshilfe,
     testCasesGeldEinklagen,
-    testCasesFluggastrechteFormular,
+    testCasesFluggastrechteFormularFlugdaten,
     testCasesBeratungshilfeFormular,
     testCasesBeratungshilfeFormularAnwaltlicheVertretung,
     testCasesBeratungshilfeRechtsproblem,

@@ -2,6 +2,7 @@ import _ from "lodash";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
 import fluggastrechteFlow from "./flow.json";
+import flugdatenFlow from "./flugdaten/flow.json";
 import { fluggastrechteGuards } from "./guards";
 import { type AllContexts } from "../common";
 import { gerichtskostenFromBetrag } from "../gerichtskosten";
@@ -47,7 +48,6 @@ export const fluggastrechtFlow = {
     return {
       startAirport: context.startAirport,
       endAirport: context.endAirport,
-      zwischenstoppAirport: context.zwischenstoppFlughafen,
       forderung: forderungFromAirports(
         context.startAirport ?? "",
         context.endAirport ?? "",
@@ -63,10 +63,32 @@ export const fluggastrechtFlow = {
   cmsSlug: "form-flow-pages",
   config: _.merge(fluggastrechteFlow, {
     states: {
+      flugdaten: _.merge(_.cloneDeep(flugdatenFlow), {}),
       "persoenliche-daten": _.merge(_.cloneDeep(persoenlicheDatenFlow), {
-        initial: "name",
+        initial: "anzahl",
         states: {
-          name: { on: { BACK: "#flugdaten.anzahl" } },
+          anzahl: {
+            on: {
+              BACK: [
+                {
+                  target: "#flugdaten.tatsaechlicher-flug-ankunft",
+                  guard: "hasDetailedTatsaechlicherFlugAnkunft",
+                },
+                {
+                  target: "#flugdaten.anderer-flug-ankunft",
+                  guard: "hasDetailedErsatzVerbindungFlug",
+                },
+                {
+                  target: "#flugdaten.ersatzverbindung-beschreibung",
+                  guard: "hasAndereErsatzVerbindung",
+                },
+                {
+                  target: "#flugdaten.ersatzverbindung-art",
+                  guard: "hasKeineErsatzVerbindung",
+                },
+              ],
+            },
+          },
           "bevollmaechtigte-person": {
             on: { SUBMIT: "#forderung.forderung" },
           },
