@@ -1,5 +1,5 @@
 import { normalizeURL } from "~/util/strings";
-import { OpenInNewTabIcon } from "./openInNewTabIcon";
+import { StandaloneLink } from "./StandaloneLink";
 
 type CourtDetailsProps = {
   name: string;
@@ -38,14 +38,10 @@ const CourtDetails = ({
           <li>
             <h3 className="sr-only">{websiteLabel}</h3>
             <p>
-              <a
-                href={normalizeURL(website)}
-                rel="noreferrer"
-                target="_blank"
-                className="text-link"
-              >
-                {websiteLabel} {name} <OpenInNewTabIcon />
-              </a>
+              <StandaloneLink
+                url={normalizeURL(website)}
+                text={`${websiteLabel} ${name}`}
+              />
             </p>
           </li>
         )}

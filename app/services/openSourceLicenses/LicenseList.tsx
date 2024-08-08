@@ -1,19 +1,11 @@
-import { OpenInNewTabIcon } from "~/components/openInNewTabIcon";
 import type { Dependency } from "./generate.server";
+import { StandaloneLink } from "../../components/StandaloneLink";
 
 const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
   return (
     <li key={dependencyString}>
       {infos.repository ? (
-        <a
-          href={infos.repository}
-          className="text-link"
-          target="_blank"
-          rel="noreferrer"
-        >
-          {dependencyString}
-          <OpenInNewTabIcon />
-        </a>
+        <StandaloneLink url={infos.repository} text={dependencyString} />
       ) : (
         dependencyString
       )}
