@@ -2,6 +2,7 @@ import _ from "lodash";
 import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
 import { FluggastrechtContext } from "./context";
 import fluggastrechteFlow from "./flow.json";
+import flugdatenFlow from "./flugdaten/flow.json";
 import forderungDatenFlow from "./forderung/flow.json";
 import { fluggastrechteGuards } from "./guards";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
@@ -13,7 +14,6 @@ import {
   getPersonNachname,
   getPersonVorname,
   getStartAirportName,
-  getZwischenstoppAirport,
 } from "./stringReplacements";
 import versandFlow from "./versand/flow.json";
 
@@ -35,12 +35,12 @@ export const fluggastrechtFlow = {
     ...getEndAirportName(context),
     ...getForderung(context),
     ...getGerichtskostenFromBetrag(context),
-    ...getZwischenstoppAirport(context),
     ...getPersonVorname(context),
     ...getPersonNachname(context),
   }),
   config: _.merge(fluggastrechteFlow, {
     states: {
+      flugdaten: _.merge(_.cloneDeep(flugdatenFlow), {}),
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {}),
       forderung: _.merge(forderungDatenFlow, {}),
       versand: _.merge(versandFlow, {}),

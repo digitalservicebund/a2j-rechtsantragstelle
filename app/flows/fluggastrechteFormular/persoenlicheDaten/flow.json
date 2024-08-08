@@ -14,7 +14,24 @@
         "forderung-mehrere-personen": {
           "on": {
             "SUBMIT": "daten",
-            "BACK": "#flugdaten.anzahl"
+            "BACK": [
+              {
+                "target": "#flugdaten.tatsaechlicher-flug-ankunft",
+                "guard": "hasDetailedTatsaechlicherFlugAnkunft"
+              },
+              {
+                "target": "#flugdaten.anderer-flug-ankunft",
+                "guard": "hasDetailedErsatzVerbindungFlug"
+              },
+              {
+                "target": "#flugdaten.ersatzverbindung-beschreibung",
+                "guard": "hasAndereErsatzVerbindung"
+              },
+              {
+                "target": "#flugdaten.ersatzverbindung-art",
+                "guard": "hasKeineErsatzVerbindung"
+              }
+            ]
           }
         },
         "daten": {

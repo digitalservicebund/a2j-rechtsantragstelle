@@ -58,12 +58,6 @@ export function getGerichtskostenFromBetrag({
   };
 }
 
-export function getZwischenstoppAirport({
-  zwischenstoppFlughafen,
-}: FluggastrechtContext) {
-  return { zwischenstoppAirport: zwischenstoppFlughafen };
-}
-
 export function getPersonVorname({ vorname }: FluggastrechtContext) {
   return { personVorname: vorname };
 }
