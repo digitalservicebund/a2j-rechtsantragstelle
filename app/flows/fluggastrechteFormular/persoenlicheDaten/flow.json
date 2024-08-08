@@ -1,0 +1,82 @@
+{
+  "id": "persoenliche-daten",
+  "initial": "start",
+  "states": {
+    "start": {
+      "on": {
+        "SUBMIT": "person"
+      }
+    },
+    "person": {
+      "id": "person",
+      "initial": "forderung-mehrere-personen",
+      "states": {
+        "forderung-mehrere-personen": {
+          "on": {
+            "SUBMIT": "daten",
+            "BACK": [
+              {
+                "target": "#flugdaten.tatsaechlicher-flug-ankunft",
+                "guard": "hasDetailedTatsaechlicherFlugAnkunft"
+              },
+              {
+                "target": "#flugdaten.anderer-flug-ankunft",
+                "guard": "hasDetailedErsatzVerbindungFlug"
+              },
+              {
+                "target": "#flugdaten.ersatzverbindung-beschreibung",
+                "guard": "hasAndereErsatzVerbindung"
+              },
+              {
+                "target": "#flugdaten.ersatzverbindung-art",
+                "guard": "hasKeineErsatzVerbindung"
+              }
+            ]
+          }
+        },
+        "daten": {
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "isUnter18JahreAlt",
+                "target": "vertretung-minderjaehrige"
+              },
+              "antragsteller-angeben"
+            ],
+            "BACK": "forderung-mehrere-personen"
+          }
+        },
+        "vertretung-minderjaehrige": {
+          "on": {
+            "SUBMIT": "antragsteller-angeben",
+            "BACK": "daten"
+          }
+        },
+        "antragsteller-angeben": {
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "isProzessbevollmaechtigteYes",
+                "target": "antragsteller-daten"
+              },
+              "#forderung"
+            ],
+            "BACK": [
+              {
+                "guard": "isUnter18JahreAlt",
+                "target": "vertretung-minderjaehrige"
+              },
+              "daten"
+            ]
+          }
+        },
+        "antragsteller-daten": {
+          "on": {
+            "SUBMIT": "#forderung",
+            "BACK": "antragsteller-angeben"
+          }
+        }
+      }
+    }
+  }
+}

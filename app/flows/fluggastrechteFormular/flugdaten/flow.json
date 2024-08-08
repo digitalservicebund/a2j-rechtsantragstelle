@@ -28,7 +28,7 @@
     },
     "tatsaechlicher-flug-ankunft": {
       "on": {
-        "SUBMIT": "#persoenliche-daten.anzahl",
+        "SUBMIT": "#persoenliche-daten.person.forderung-mehrere-personen",
         "BACK": "tatsaechlicher-flug"
       }
     },
@@ -43,20 +43,20 @@
             "target": "ersatzverbindung-beschreibung",
             "guard": "hasAndereErsatzVerbindung"
           },
-          "#persoenliche-daten.anzahl"
+          "#persoenliche-daten.person.forderung-mehrere-personen"
         ],
         "BACK": "tatsaechlicher-flug"
       }
     },
     "anderer-flug-ankunft": {
       "on": {
-        "SUBMIT": "#persoenliche-daten.anzahl",
+        "SUBMIT": "#persoenliche-daten.person.forderung-mehrere-personen",
         "BACK": "ersatzverbindung-art"
       }
     },
     "ersatzverbindung-beschreibung": {
       "on": {
-        "SUBMIT": "#persoenliche-daten.anzahl",
+        "SUBMIT": "#persoenliche-daten.person.forderung-mehrere-personen",
         "BACK": "ersatzverbindung-art"
       }
     }
