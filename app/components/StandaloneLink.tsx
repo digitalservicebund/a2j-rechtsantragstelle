@@ -1,19 +1,32 @@
-import { isExternalUrl } from "~/util/url";
-import { OpenInNewTabIcon } from "./openInNewTabIcon";
+import classNames from "classnames";
+import { isExternalUrl, isFileDowloadUrl } from "~/util/url";
+import { OpenInNewTabIcon } from "./OpenInNewTabIcon";
 
 type StandaloneLinkProps = Readonly<{
   url: string;
   text: string;
   icon?: React.ReactNode;
+  className?: string;
 }>;
 
-export const StandaloneLink = ({ url, text, icon }: StandaloneLinkProps) => {
+export const StandaloneLink = ({
+  url,
+  text,
+  icon,
+  className,
+}: StandaloneLinkProps) => {
   const isExternal = isExternalUrl(url);
+  const isDownload = isFileDowloadUrl(url);
+  const shouldOpenNewTab = isExternal || isDownload;
   const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
     href: url,
-    className: "text-link",
-    ...(isExternal
-      ? { target: "_blank", rel: "noreferrer", title: "öffnet neues Fenster" }
+    className: classNames("text-link", className),
+    ...(shouldOpenNewTab
+      ? {
+          target: "_blank",
+          rel: "noopener noreferrer",
+          title: "öffnet neues Fenster",
+        }
       : {}),
   };
 
@@ -21,7 +34,7 @@ export const StandaloneLink = ({ url, text, icon }: StandaloneLinkProps) => {
     <a {...anchorProps}>
       {icon}
       {text}
-      {isExternal && <OpenInNewTabIcon />}
+      {shouldOpenNewTab && <OpenInNewTabIcon />}
     </a>
   );
 };

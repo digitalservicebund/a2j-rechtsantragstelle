@@ -48,9 +48,7 @@ const CourtDetails = ({
         {phone && (
           <li>
             <h3 className="ds-label-02-bold">{phoneLabel}</h3>
-            <a className="text-link" href={`tel:${phone}`}>
-              {phone}
-            </a>
+            <StandaloneLink text={phone} url={`tel:${phone}`} />
           </li>
         )}
       </ul>
