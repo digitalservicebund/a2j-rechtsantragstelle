@@ -1,8 +1,8 @@
-import { isExternalUrl } from "~/util/url";
 import Background from "./Background";
 import Container from "./Container";
 import Image, { type ImageProps } from "./Image";
 import RichText, { type RichTextProps } from "./RichText";
+import { StandaloneLink } from "./StandaloneLink";
 
 type LinkProps = {
   url: string;
@@ -18,15 +18,9 @@ export type FooterProps = Readonly<{
 }>;
 
 const renderLink = (link: LinkProps) => {
-  const opts = isExternalUrl(link.url)
-    ? { target: "_blank", rel: "noreferer" }
-    : {};
-
   return (
     <li key={link.url} className="leading-snug">
-      <a href={link.url} className="text-link" {...opts}>
-        {link.text}
-      </a>
+      <StandaloneLink text={link.text ?? ""} url={link.url} />
     </li>
   );
 };
@@ -80,9 +74,10 @@ export default function Footer({
       {showDeletionBanner && (
         <Background backgroundColor="blue" paddingTop="16" paddingBottom="16">
           <div className="ds-label-03-reg text-center">
-            <a className="text-link" href="/persoenliche-daten-loeschen">
-              {deletionLabel ?? "Persönliche Daten löschen"}
-            </a>
+            <StandaloneLink
+              text={deletionLabel ?? "Persönliche Daten löschen"}
+              url="/persoenliche-daten-loeschen"
+            />
           </div>
         </Background>
       )}

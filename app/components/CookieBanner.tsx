@@ -6,6 +6,7 @@ import Container from "~/components/Container";
 import Heading, { type HeadingProps } from "~/components/Heading";
 import RichText, { type RichTextProps } from "~/components/RichText";
 import { config } from "~/services/env/web";
+import { StandaloneLink } from "./StandaloneLink";
 
 export const acceptCookiesFieldName = "accept-cookies";
 
@@ -98,7 +99,10 @@ export function CookieBanner({
             <div>
               <div className="ds-stack-8">
                 {content.paragraphs.map((paragraph, index) => (
-                  <RichText key={index} markdown={paragraph.markdown} />
+                  <RichText
+                    key={`${index} ${paragraph}`}
+                    markdown={paragraph.markdown}
+                  />
                 ))}
               </div>
             </div>
@@ -122,9 +126,10 @@ export function CookieBanner({
                 data-testid="decline-cookie"
               />
               {content.cookieSettingLinkUrl && (
-                <a href={content.cookieSettingLinkUrl} className="text-link">
-                  {content.cookieSettingLinkText}
-                </a>
+                <StandaloneLink
+                  text={content.cookieSettingLinkText}
+                  url={content.cookieSettingLinkUrl}
+                />
               )}
             </div>
           </div>

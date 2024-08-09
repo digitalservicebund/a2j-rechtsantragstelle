@@ -1,12 +1,12 @@
 import { type Renderer, Marked } from "marked";
+import ReactDOMServer from "react-dom/server";
 import sanitizeHtml from "sanitize-html";
 import { z } from "zod";
-import { isExternalUrl, isFileDowloadUrl } from "~/util/url";
 import {
   openInNewAllowedAttributes,
   openInNewAllowedTags,
-  openInNewIconText,
-} from "./openInNewTabIcon";
+} from "./OpenInNewTabIcon";
+import { StandaloneLink } from "./StandaloneLink";
 
 export const RichTextPropsSchema = z.object({
   markdown: z.string(),
@@ -24,9 +24,11 @@ const allowedAttributes = {
 
 const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {
-    const isExternal = isExternalUrl(href);
-    const isDownload = isFileDowloadUrl(href);
-    return `<a href="${href}" class="text-link" ${isExternal ? 'target="_blank" rel="noopener noreferrer"' : ""}>${text}${isExternal || isDownload ? openInNewIconText : ""}</a>`;
+    /* Either renders a Standalone link or Inline link, 
+      but we use the StandaloneLink component, because both has the same structure and style */
+    return ReactDOMServer.renderToString(
+      <StandaloneLink text={text} url={href} />,
+    );
   },
   heading({ depth, text }) {
     const cssClass =

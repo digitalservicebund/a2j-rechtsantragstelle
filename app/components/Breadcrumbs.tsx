@@ -1,4 +1,5 @@
 import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
+import { StandaloneLink } from "./StandaloneLink";
 
 export type Breadcrumb = {
   url: string;
@@ -34,9 +35,11 @@ export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
             {idx === arr.length - 1 ? (
               <span>{breadcrumb.title}</span>
             ) : (
-              <a href={breadcrumb.url} className="text-link increase-tap-area">
-                {breadcrumb.title}
-              </a>
+              <StandaloneLink
+                text={breadcrumb.title ?? ""}
+                url={breadcrumb.url ?? ""}
+                className="increase-tap-area"
+              />
             )}
           </div>
         ))}
