@@ -5,7 +5,7 @@ import { z } from "zod";
 import {
   openInNewAllowedAttributes,
   openInNewAllowedTags,
-} from "./openInNewTabIcon";
+} from "./OpenInNewTabIcon";
 import { StandaloneLink } from "./StandaloneLink";
 
 export const RichTextPropsSchema = z.object({
@@ -24,6 +24,8 @@ const allowedAttributes = {
 
 const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {
+    /* Either renders a Standalone link or Inline link, 
+      but we use the StandaloneLink component, because both has the same structure and style */
     return ReactDOMServer.renderToString(
       <StandaloneLink text={text} url={href} />,
     );

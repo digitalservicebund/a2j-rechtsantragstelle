@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { isExternalUrl, isFileDowloadUrl } from "~/util/url";
-import { OpenInNewTabIcon } from "./openInNewTabIcon";
+import { OpenInNewTabIcon } from "./OpenInNewTabIcon";
 
 type StandaloneLinkProps = Readonly<{
   url: string;
