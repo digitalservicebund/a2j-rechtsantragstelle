@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { decode } from "html-entities";
-import type { ReactNode } from "react";
+import { AriaRole, type ReactNode } from "react";
 import { z } from "zod";
 
 export const HeadingPropsSchema = z
@@ -13,6 +13,7 @@ export const HeadingPropsSchema = z
     className: z.string().optional(),
     children: z.custom<ReactNode>().optional(),
     dataTestid: z.string().optional(),
+    role: z.custom<AriaRole>().optional(),
   })
   .readonly();
 
@@ -25,6 +26,7 @@ function Heading({
   look,
   children,
   dataTestid,
+  role,
 }: HeadingProps) {
   const Tag: keyof JSX.IntrinsicElements = tagName;
   const cssClasses = classNames(look === "default" ? null : look, className);
@@ -34,7 +36,7 @@ function Heading({
   }
 
   return (
-    <Tag data-testid={dataTestid} className={cssClasses}>
+    <Tag role={role} data-testid={dataTestid} className={cssClasses}>
       {children ?? decode(text)}
     </Tag>
   );

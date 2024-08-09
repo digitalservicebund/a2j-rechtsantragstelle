@@ -21,7 +21,12 @@ export const PostSubmissionBox = () => {
 
   return (
     <div data-testid="user-feedback-submission">
-      <Heading look="ds-label-01-bold" tagName="h2" text={heading} />
+      <Heading
+        look="ds-label-01-bold"
+        tagName="h2"
+        text={heading}
+        role="status"
+      />
       <RichText markdown={text} />
     </div>
   );

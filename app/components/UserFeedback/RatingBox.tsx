@@ -48,6 +48,7 @@ export const RatingBox = ({ heading, url }: RatingBoxProps) => {
             name={userRatingFieldname}
             value="yes"
             type="submit"
+            aria-label={yesButtonLabel}
           >
             {yesButtonLabel}
           </Button>
@@ -57,6 +58,7 @@ export const RatingBox = ({ heading, url }: RatingBoxProps) => {
             name={userRatingFieldname}
             value="no"
             type="submit"
+            aria-label={noButtonLabel}
           >
             {noButtonLabel}
           </Button>

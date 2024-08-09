@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import type { ReactNode } from "react";
+import type { AriaRole, ReactNode } from "react";
 import { useField } from "remix-validated-form";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from ".";
@@ -14,6 +14,8 @@ type TextareaProps = Readonly<{
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
   formId?: string;
+  classNameLabel?: string;
+  role?: AriaRole;
 }>;
 
 const Textarea = ({
@@ -23,6 +25,8 @@ const Textarea = ({
   label,
   placeholder,
   errorMessages,
+  classNameLabel,
+  role,
 }: TextareaProps) => {
   const { error, getInputProps } = useField(name, { formId });
   const errorId = `${name}-error`;
@@ -31,8 +35,9 @@ const Textarea = ({
     <div className="ds-stack-8">
       {label && (
         <InputLabel
-          classname={description ? "ds-heading-03-reg" : ""}
+          classname={description ? "ds-heading-03-reg" : classNameLabel}
           id={name}
+          role={role}
         >
           {label}
         </InputLabel>
