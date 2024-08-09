@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { ProzesskostenhilfeAbgabe } from "./abgabe/context";
 import abgabeFlow from "./abgabe/flow.json";
 import { ProzesskostenhilfeEigentumContext } from "./finanzielleAngaben/context";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
@@ -63,4 +64,4 @@ export const prozesskostenhilfeFormular = {
 } as const;
 
 export type ProzesskostenhilfeFormularContext =
-  ProzesskostenhilfeEigentumContext;
+  ProzesskostenhilfeEigentumContext & ProzesskostenhilfeAbgabe;
