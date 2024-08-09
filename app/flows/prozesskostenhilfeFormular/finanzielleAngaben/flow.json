@@ -4,7 +4,8 @@
   "states": {
     "start": {
       "on": {
-        "SUBMIT": "partner"
+        "SUBMIT": "partner",
+        "BACK": "#antragStart"
       }
     },
     "partner": {
@@ -16,7 +17,7 @@
       "states": {
         "partnerschaft": {
           "on": {
-            "BACK": "#antragStart",
+            "BACK": "#finanzielle-angaben",
             "SUBMIT": [
               {
                 "guard": "hasPartnerschaftOrSeparated",
