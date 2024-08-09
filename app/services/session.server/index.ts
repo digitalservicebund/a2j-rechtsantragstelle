@@ -4,6 +4,7 @@ import { createSessionStorage, createCookie } from "@remix-run/node";
 import _ from "lodash";
 import { type Context } from "~/flows/contexts";
 import { flowIds, type FlowId } from "~/flows/flowIds";
+import { getPrunedUserData } from "~/flows/pruner";
 import { config } from "~/services/env/env.server";
 import { useSecureCookie } from "~/util/useSecureCookie";
 import {
@@ -67,6 +68,17 @@ export const getSessionData = async (
   const { data, id } = await contextSession.getSession(cookieHeader);
   const userData: Context = data; // Recast for now to get type safety
   return { userData, debugId: contextSession.getDebugId(id) };
+};
+
+export const getPrunedSessionData = async (
+  flowId: FlowId,
+  cookieHeader: CookieHeader,
+) => {
+  const sessionData = await getSessionData(flowId, cookieHeader);
+  return {
+    userData: await getPrunedUserData(sessionData.userData, flowId),
+    debugId: sessionData.debugId,
+  };
 };
 
 export const updateSession = (session: Session, validatedData: Context) => {
