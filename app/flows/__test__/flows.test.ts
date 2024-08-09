@@ -22,6 +22,7 @@ import { testCasesGeldEinklagen } from "~/flows/geldEinklagenVorabcheck/__test__
 import { transitionDestinations } from "~/services/flow/server/buildFlowController";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { parsePathname } from "../flowIds";
+import { testCasesProzesskostenhilfeFormular } from "../prozesskostenhilfeFormular/__test__/testcases";
 
 function getEnabledSteps({
   machine,
@@ -82,6 +83,7 @@ describe("state machine form flows", () => {
     testCasesFluggastrechteFormularPersoenlicheDaten,
     testCasesFluggastrechteFormularForderung,
     testCasesFluggastrechteFormularVersand,
+    testCasesProzesskostenhilfeFormular,
   ].forEach(({ machine, cases }) => {
     test.each([...cases])(
       "SUBMIT (%#) given context: %j, visits steps: %j",
