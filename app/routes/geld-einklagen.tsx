@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { loader as stepLoader } from "~/routes/$";
 import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
+import { loader as stepLoader } from "./beratungshilfe";
 
 export { default } from "./beratungshilfe";
 
