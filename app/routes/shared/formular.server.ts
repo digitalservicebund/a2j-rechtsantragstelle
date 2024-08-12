@@ -15,7 +15,6 @@ import {
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
 import type { CollectionSchemas } from "~/services/cms/schemas";
-import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
@@ -69,8 +68,6 @@ export const loader = async ({
   request,
   context,
 }: LoaderFunctionArgs) => {
-  await throw404IfFeatureFlagEnabled(request);
-
   const { pathname } = new URL(request.url);
   const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");

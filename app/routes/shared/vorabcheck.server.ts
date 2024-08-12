@@ -11,7 +11,6 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiHeading";
-import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { logError } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";
@@ -34,7 +33,6 @@ export const loader = async ({
   request,
   context,
 }: LoaderFunctionArgs) => {
-  await throw404IfFeatureFlagEnabled(request);
   const { pathname } = new URL(request.url);
   const { flowId, stepId } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
