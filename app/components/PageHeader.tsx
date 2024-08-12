@@ -2,8 +2,6 @@ import { z } from "zod";
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 import { StandaloneLink } from "~/components/StandaloneLink";
-import { useMatches } from "@remix-run/react";
-import { flowIdFromPathname } from "~/flows/flowIds";
 
 export const PageHeaderPropsSchema = z
   .object({
@@ -11,16 +9,19 @@ export const PageHeaderPropsSchema = z
     linkLabel: z.string(),
   })
   .readonly();
-type PageHeaderProps = z.infer<typeof PageHeaderPropsSchema>;
-
-export default function Header({ title, linkLabel }: PageHeaderProps) {
-  const matches = useMatches();
+type PageHeaderProps = z.infer<typeof PageHeaderPropsSchema> & {
   /**
-   * Only display the header links if we're not viewing a flow page
+   * Boolean flag whether or not to display header links, z.B. if we're
+   * in a flow, don't display
    */
-  const shouldDisplayHeaderLinks = !matches.some(
-    (match) => !!flowIdFromPathname(match.pathname),
-  );
+  displayHeaderLinks?: boolean;
+};
+
+export default function Header({
+  title,
+  linkLabel,
+  displayHeaderLinks,
+}: PageHeaderProps) {
   return (
     <header>
       <nav
@@ -34,7 +35,7 @@ export default function Header({ title, linkLabel }: PageHeaderProps) {
         >
           {title}
         </a>
-        {shouldDisplayHeaderLinks && (
+        {displayHeaderLinks && (
           <div className="flex gap-20 max-sm:pt-16">
             <StandaloneLink
               url={"/leichtesprache"}

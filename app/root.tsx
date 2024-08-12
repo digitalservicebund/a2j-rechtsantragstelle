@@ -42,6 +42,7 @@ import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
+import { flowIdFromPathname } from "~/flows/flowIds";
 
 export const headers: HeadersFunction = () => ({
   "X-Frame-Options": "SAMEORIGIN",
@@ -142,9 +143,16 @@ function App() {
     hasAnyUserData,
     feedbackTranslations,
   } = useLoaderData<RootLoader>();
-  const { breadcrumbs, title, ogTitle, description } =
-    metaFromMatches(useMatches());
+  const matches = useMatches();
+  const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
+
+  /**
+   * Only display the header links if we're not viewing a flow page
+   */
+  const shouldDisplayHeaderLinks = !matches.some(
+    (match) => !!flowIdFromPathname(match.pathname),
+  );
 
   // eslint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
@@ -171,7 +179,7 @@ function App() {
           hasTrackingConsent={hasTrackingConsent}
           content={getCookieBannerProps(cookieBannerContent)}
         />
-        <Header {...header} />
+        <Header {...header} displayHeaderLinks={shouldDisplayHeaderLinks} />
         <Breadcrumbs breadcrumbs={breadcrumbs} />
         <FeedbackTranslationContext.Provider
           value={{ translations: feedbackTranslations }}
