@@ -1,18 +1,18 @@
 import { type Page, type Response, expect, test } from "@playwright/test";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
-import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "./finanzielleAngabenAndereUnterhaltszahlungen";
 import { startFinanzielleAngabenAusgaben } from "./finanzielleAngabenAusgaben";
-import { startFinanzielleAngabenEigentum } from "./finanzielleAngabenEigentum";
-import { startFinanzielleAngabenEigentumZusammenfassung } from "./finanzielleAngabenEigentumZusammenfassung";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
-import { startFinanzielleAngabenKinder } from "./finanzielleAngabenKinder";
-import { startFinanzielleAngabenPartner } from "./finanzielleAngabenPartner";
 import { startFinanzielleAngabenWohnung } from "./finanzielleAngabenWohnung";
 import { startGrundvoraussetzungen } from "./grundvoraussetzungen";
 import { startPersoenlicheDaten } from "./persoenlicheDaten";
 import { startRechtsproblem } from "./rechtsproblem";
 import { BeratungshilfeFormular } from "../../../pom/BeratungshilfeFormular";
 import { CookieSettings } from "../../../pom/CookieSettings";
+import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "../../../shared/finanzielleAngaben/finanzielleAngabenAndereUnterhaltszahlungen";
+import { startFinanzielleAngabenEigentum } from "../../../shared/finanzielleAngaben/finanzielleAngabenEigentum";
+import { startFinanzielleAngabenEigentumZusammenfassung } from "../../../shared/finanzielleAngaben/finanzielleAngabenEigentumZusammenfassung";
+import { startFinanzielleAngabenKinder } from "../../../shared/finanzielleAngaben/finanzielleAngabenKinder";
+import { startFinanzielleAngabenPartner } from "../../../shared/finanzielleAngaben/finanzielleAngabenPartner";
 import { expectPageToBeAccessible } from "../../../util/expectPageToBeAccessible";
 
 let beratungshilfeFormular: BeratungshilfeFormular;

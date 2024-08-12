@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
-import type { FluggastrechteVorabcheck } from "../../../pom/FluggastrechteVorabcheck";
 import { CookieSettings } from "../../../pom/CookieSettings";
+import type { FluggastrechteVorabcheck } from "../../../pom/FluggastrechteVorabcheck";
 import { expectPageToBeAccessible } from "../../../util/expectPageToBeAccessible";
 
 export async function startFluggastrechteVorabcheckVerspaetung(
