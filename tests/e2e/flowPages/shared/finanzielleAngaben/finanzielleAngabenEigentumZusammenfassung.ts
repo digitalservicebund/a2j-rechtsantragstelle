@@ -1,7 +1,7 @@
 import type { Page } from "@playwright/test";
 import { expect } from "@playwright/test";
-import type { Formular } from "../../pom/Formular";
-import { expectPageToBeAccessible } from "../../util/expectPageToBeAccessible";
+import type { Formular } from "tests/e2e/pom/Formular";
+import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 
 export async function startFinanzielleAngabenEigentumZusammenfassung(
   page: Page,

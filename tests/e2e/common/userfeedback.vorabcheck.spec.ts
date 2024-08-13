@@ -1,6 +1,6 @@
 import { test, expect, type Page } from "@playwright/test";
-import { BeratungshilfeVorabcheck } from "../../../pom/BeratungshilfeVorabcheck";
-import { CookieSettings } from "../../../pom/CookieSettings";
+import { BeratungshilfeVorabcheck } from "tests/e2e/pom/BeratungshilfeVorabcheck";
+import { CookieSettings } from "tests/e2e/pom/CookieSettings";
 
 let vorabcheck: BeratungshilfeVorabcheck;
 

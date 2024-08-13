@@ -1,5 +1,5 @@
 import { expect, Page } from "@playwright/test";
-import { FluggastrechteFormular } from "../../../pom/FluggastrechteFormular";
+import { FluggastrechteFormular } from "tests/e2e/pom/FluggastrechteFormular";
 
 export async function startFluggastrechteFormularFunnelCheck(
   page: Page,

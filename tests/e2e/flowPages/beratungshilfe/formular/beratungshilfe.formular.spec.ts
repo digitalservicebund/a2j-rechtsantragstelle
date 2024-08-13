@@ -1,4 +1,7 @@
 import { type Page, type Response, expect, test } from "@playwright/test";
+import { BeratungshilfeFormular } from "tests/e2e/pom/BeratungshilfeFormular";
+import { CookieSettings } from "tests/e2e/pom/CookieSettings";
+import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
 import { startFinanzielleAngabenAusgaben } from "./finanzielleAngabenAusgaben";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
@@ -6,14 +9,11 @@ import { startFinanzielleAngabenWohnung } from "./finanzielleAngabenWohnung";
 import { startGrundvoraussetzungen } from "./grundvoraussetzungen";
 import { startPersoenlicheDaten } from "./persoenlicheDaten";
 import { startRechtsproblem } from "./rechtsproblem";
-import { BeratungshilfeFormular } from "../../../pom/BeratungshilfeFormular";
-import { CookieSettings } from "../../../pom/CookieSettings";
-import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "../../../shared/finanzielleAngaben/finanzielleAngabenAndereUnterhaltszahlungen";
-import { startFinanzielleAngabenEigentum } from "../../../shared/finanzielleAngaben/finanzielleAngabenEigentum";
-import { startFinanzielleAngabenEigentumZusammenfassung } from "../../../shared/finanzielleAngaben/finanzielleAngabenEigentumZusammenfassung";
-import { startFinanzielleAngabenKinder } from "../../../shared/finanzielleAngaben/finanzielleAngabenKinder";
-import { startFinanzielleAngabenPartner } from "../../../shared/finanzielleAngaben/finanzielleAngabenPartner";
-import { expectPageToBeAccessible } from "../../../util/expectPageToBeAccessible";
+import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "../../shared/finanzielleAngaben/finanzielleAngabenAndereUnterhaltszahlungen";
+import { startFinanzielleAngabenEigentum } from "../../shared/finanzielleAngaben/finanzielleAngabenEigentum";
+import { startFinanzielleAngabenEigentumZusammenfassung } from "../../shared/finanzielleAngaben/finanzielleAngabenEigentumZusammenfassung";
+import { startFinanzielleAngabenKinder } from "../../shared/finanzielleAngaben/finanzielleAngabenKinder";
+import { startFinanzielleAngabenPartner } from "../../shared/finanzielleAngaben/finanzielleAngabenPartner";
 
 let beratungshilfeFormular: BeratungshilfeFormular;
 

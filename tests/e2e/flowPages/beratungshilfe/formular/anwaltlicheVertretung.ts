@@ -1,7 +1,7 @@
 import { type Page } from "@playwright/test";
+import type { BeratungshilfeFormular } from "tests/e2e/pom/BeratungshilfeFormular";
+import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { today, toGermanDateFormat } from "~/util/date";
-import type { BeratungshilfeFormular } from "../../../pom/BeratungshilfeFormular";
-import { expectPageToBeAccessible } from "../../../util/expectPageToBeAccessible";
 
 export async function startAnwaltlicheVertretung(
   page: Page,

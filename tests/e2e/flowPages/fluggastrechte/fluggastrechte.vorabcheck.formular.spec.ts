@@ -1,9 +1,9 @@
 import { test } from "@playwright/test";
+import { FluggastrechteFormular } from "tests/e2e/pom/FluggastrechteFormular";
+import { FluggastrechteVorabcheck } from "tests/e2e/pom/FluggastrechteVorabcheck";
 import { startFluggastrechteFormular } from "./formular/startFluggastrechteFormular";
 import { startFluggastrechteFormularFunnelCheck } from "./formular/startFluggastrechteFormularFunnelCheck";
 import { startFluggastrechteVorabcheckVerspaetung } from "./vorabcheck/vorabcheckVerspaetung";
-import { FluggastrechteFormular } from "../../pom/FluggastrechteFormular";
-import { FluggastrechteVorabcheck } from "../../pom/FluggastrechteVorabcheck";
 
 let vorabcheck: FluggastrechteVorabcheck;
 let formular: FluggastrechteFormular;

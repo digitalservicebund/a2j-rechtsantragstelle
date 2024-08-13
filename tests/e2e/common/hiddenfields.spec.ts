@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { BeratungshilfeVorabcheck } from "../../../pom/BeratungshilfeVorabcheck";
+import { BeratungshilfeVorabcheck } from "tests/e2e/pom/BeratungshilfeVorabcheck";
 
 const nextButtonName = "_action";
 

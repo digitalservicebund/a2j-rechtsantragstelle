@@ -1,12 +1,12 @@
 import { expect, test } from "@playwright/test";
+import { CookieSettings } from "tests/e2e/pom/CookieSettings";
 import { ProzesskostenhilfeFormular } from "tests/e2e/pom/ProzesskostenhilfeFormular";
-import { CookieSettings } from "../../../pom/CookieSettings";
-import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "../../../shared/finanzielleAngaben/finanzielleAngabenAndereUnterhaltszahlungen";
-import { startFinanzielleAngabenEigentum } from "../../../shared/finanzielleAngaben/finanzielleAngabenEigentum";
-import { startFinanzielleAngabenEigentumZusammenfassung } from "../../../shared/finanzielleAngaben/finanzielleAngabenEigentumZusammenfassung";
-import { startFinanzielleAngabenKinder } from "../../../shared/finanzielleAngaben/finanzielleAngabenKinder";
-import { startFinanzielleAngabenPartner } from "../../../shared/finanzielleAngaben/finanzielleAngabenPartner";
-import { expectPageToBeAccessible } from "../../../util/expectPageToBeAccessible";
+import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
+import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "../../shared/finanzielleAngaben/finanzielleAngabenAndereUnterhaltszahlungen";
+import { startFinanzielleAngabenEigentum } from "../../shared/finanzielleAngaben/finanzielleAngabenEigentum";
+import { startFinanzielleAngabenEigentumZusammenfassung } from "../../shared/finanzielleAngaben/finanzielleAngabenEigentumZusammenfassung";
+import { startFinanzielleAngabenKinder } from "../../shared/finanzielleAngaben/finanzielleAngabenKinder";
+import { startFinanzielleAngabenPartner } from "../../shared/finanzielleAngaben/finanzielleAngabenPartner";
 
 let prozesskostenhilfeFormular: ProzesskostenhilfeFormular;
 
@@ -35,22 +35,22 @@ test("forwarded to initial step", async ({ page }) => {
   );
 });
 
-test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
+test.skip("prozesskostenhilfe formular can be traversed", async ({ page }) => {
   // beratungshilfe/antrag/start/start
   // TODO: fix formular.server.fetchMeta to function with flow_ids
-  // await expectPageToBeAccessible({ page });
-  // await prozesskostenhilfeFormular.clickNext();
-  // await prozesskostenhilfeFormular.clickNext();
-  // await startFinanzielleAngabenPartner(page, prozesskostenhilfeFormular);
-  // await startFinanzielleAngabenKinder(page, prozesskostenhilfeFormular);
-  // await startFinanzielleAngabenAndereUnterhaltszahlungen(
-  //   page,
-  //   prozesskostenhilfeFormular,
-  // );
-  // await prozesskostenhilfeFormular.clickNext();
-  // await startFinanzielleAngabenEigentum(page, prozesskostenhilfeFormular);
-  // await startFinanzielleAngabenEigentumZusammenfassung(
-  //   page,
-  //   prozesskostenhilfeFormular,
-  // );
+  await expectPageToBeAccessible({ page });
+  await prozesskostenhilfeFormular.clickNext();
+  await prozesskostenhilfeFormular.clickNext();
+  await startFinanzielleAngabenPartner(page, prozesskostenhilfeFormular);
+  await startFinanzielleAngabenKinder(page, prozesskostenhilfeFormular);
+  await startFinanzielleAngabenAndereUnterhaltszahlungen(
+    page,
+    prozesskostenhilfeFormular,
+  );
+  await prozesskostenhilfeFormular.clickNext();
+  await startFinanzielleAngabenEigentum(page, prozesskostenhilfeFormular);
+  await startFinanzielleAngabenEigentumZusammenfassung(
+    page,
+    prozesskostenhilfeFormular,
+  );
 });

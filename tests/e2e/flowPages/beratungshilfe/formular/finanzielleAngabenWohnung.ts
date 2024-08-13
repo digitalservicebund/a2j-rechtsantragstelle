@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
-import type { BeratungshilfeFormular } from "../../../pom/BeratungshilfeFormular";
-import { expectPageToBeAccessible } from "../../../util/expectPageToBeAccessible";
+import type { BeratungshilfeFormular } from "tests/e2e/pom/BeratungshilfeFormular";
+import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 
 export async function startFinanzielleAngabenWohnung(
   page: Page,

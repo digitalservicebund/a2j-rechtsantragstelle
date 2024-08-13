@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
-import { CookieSettings } from "../../../pom/CookieSettings";
-import { GeldEinklagenFormular } from "../../../pom/GeldEinklagenFormular";
-import { expectPageToBeAccessible } from "../../../util/expectPageToBeAccessible";
+import { CookieSettings } from "tests/e2e/pom/CookieSettings";
+import { GeldEinklagenFormular } from "tests/e2e/pom/GeldEinklagenFormular";
+import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 
 let geldEinklagenFormular: GeldEinklagenFormular;
 
