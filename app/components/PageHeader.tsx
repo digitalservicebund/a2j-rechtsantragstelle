@@ -1,26 +1,21 @@
-import { z } from "zod";
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 import { StandaloneLink } from "~/components/StandaloneLink";
 
-export const PageHeaderPropsSchema = z
-  .object({
-    title: z.string(),
-    linkLabel: z.string(),
-  })
-  .readonly();
-type PageHeaderProps = z.infer<typeof PageHeaderPropsSchema> & {
+type PageHeaderProps = {
+  title: string;
+  linkLabel: string;
   /**
-   * Boolean flag whether or not to display header links, z.B. if we're
+   * Boolean flag whether or not to hide header links, z.B. if we're
    * in a flow, don't display
    */
-  displayHeaderLinks?: boolean;
+  hideHeaderLinks?: boolean;
 };
 
 export default function Header({
   title,
   linkLabel,
-  displayHeaderLinks,
+  hideHeaderLinks,
 }: PageHeaderProps) {
   return (
     <header>
@@ -35,7 +30,7 @@ export default function Header({
         >
           {title}
         </a>
-        {displayHeaderLinks && (
+        {!hideHeaderLinks && (
           <div className="flex gap-20 max-sm:pt-16">
             <StandaloneLink
               url={"/leichtesprache"}

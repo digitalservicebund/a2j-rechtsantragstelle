@@ -118,7 +118,13 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   ]);
 
   return json({
-    header: getPageHeaderProps(strapiHeader),
+    header: {
+      ...getPageHeaderProps(strapiHeader),
+      /**
+       * Only hide the header links if we're viewing a flow page
+       */
+      hideHeaderLinks: !!flowIdFromPathname(pathname),
+    },
     footer: getFooterProps(strapiFooter),
     cookieBannerContent: cookieBannerContent,
     hasTrackingConsent: trackingConsent,
@@ -147,13 +153,6 @@ function App() {
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
 
-  /**
-   * Only display the header links if we're not viewing a flow page
-   */
-  const shouldDisplayHeaderLinks = !matches.some(
-    (match) => !!flowIdFromPathname(match.pathname),
-  );
-
   // eslint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
 
@@ -179,7 +178,7 @@ function App() {
           hasTrackingConsent={hasTrackingConsent}
           content={getCookieBannerProps(cookieBannerContent)}
         />
-        <Header {...header} displayHeaderLinks={shouldDisplayHeaderLinks} />
+        <Header {...header} />
         <Breadcrumbs breadcrumbs={breadcrumbs} />
         <FeedbackTranslationContext.Provider
           value={{ translations: feedbackTranslations }}

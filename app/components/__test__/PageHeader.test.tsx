@@ -4,11 +4,7 @@ import PageHeader from "~/components/PageHeader";
 describe("PageHeader", () => {
   it("should render the page header with correct title and header links", () => {
     render(
-      <PageHeader
-        title={"Justiz-Services"}
-        linkLabel={"Justiz-Services"}
-        displayHeaderLinks
-      />,
+      <PageHeader title={"Justiz-Services"} linkLabel={"Justiz-Services"} />,
     );
     const title = screen.getByText("Justiz-Services");
     expect(title).toBeInTheDocument();
@@ -18,7 +14,13 @@ describe("PageHeader", () => {
   });
 
   it("should be able to hide the header links", () => {
-    render(<PageHeader title={"Test Page"} linkLabel={"Test Page"} />);
+    render(
+      <PageHeader
+        title={"Test Page"}
+        linkLabel={"Test Page"}
+        hideHeaderLinks
+      />,
+    );
     expect(screen.queryByText("Leichte Sprache")).not.toBeInTheDocument();
     expect(screen.queryByText("Gebärdensprache")).not.toBeInTheDocument();
   });
