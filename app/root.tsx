@@ -19,6 +19,7 @@ import {
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
+import { flowIdFromPathname } from "~/flows/flowIds";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import {
   fetchMeta,
@@ -42,7 +43,6 @@ import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
-import { flowIdFromPathname } from "~/flows/flowIds";
 
 export const headers: HeadersFunction = () => ({
   "X-Frame-Options": "SAMEORIGIN",

@@ -4,7 +4,11 @@ import PageHeader from "~/components/PageHeader";
 describe("PageHeader", () => {
   it("should render the page header with correct title and header links", () => {
     render(
-      <PageHeader title={"Justiz-Services"} linkLabel={"Justiz-Services"} />,
+      <PageHeader
+        title={"Justiz-Services"}
+        linkLabel={"Justiz-Services"}
+        hideHeaderLinks={false}
+      />,
     );
     const title = screen.getByText("Justiz-Services");
     expect(title).toBeInTheDocument();

@@ -5,11 +5,7 @@ import { StandaloneLink } from "~/components/StandaloneLink";
 type PageHeaderProps = {
   title: string;
   linkLabel: string;
-  /**
-   * Boolean flag whether or not to hide header links, z.B. if we're
-   * in a flow, don't display
-   */
-  hideHeaderLinks?: boolean;
+  hideHeaderLinks: boolean;
 };
 
 export default function Header({
@@ -32,12 +28,14 @@ export default function Header({
         </a>
         {!hideHeaderLinks && (
           <div className="flex gap-20 max-sm:pt-16">
+            {/* TODO: Add strapi translations */}
             <StandaloneLink
               url={"/leichtesprache"}
               text={"Leichte Sprache"}
               className="flex basis-1/2"
               icon={<LocalLibrary className="inline mr-10" />}
             />
+            {/* TODO: Add strapi translations */}
             <StandaloneLink
               url={"/gebaerdensprache"}
               text={"Gebärdensprache"}

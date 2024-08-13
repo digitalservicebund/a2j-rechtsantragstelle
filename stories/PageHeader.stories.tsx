@@ -14,6 +14,7 @@ export const Default = {
   args: {
     title: "Justiz-Services",
     linkLabel: "Justiz-Services",
+    hideHeaderLinks: false,
   },
 } satisfies StoryObj<typeof meta>;
 
