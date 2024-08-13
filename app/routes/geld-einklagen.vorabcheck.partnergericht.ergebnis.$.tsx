@@ -13,6 +13,7 @@ import RichText from "~/components/RichText";
 import { parsePathname } from "~/flows/flowIds";
 import type { GeldEinklagenVorabcheckContext } from "~/flows/geldEinklagenVorabcheck/context";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
+import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 import {
   findCourt,
   isPartnerCourt,
@@ -26,6 +27,7 @@ export const loader = async ({
   request,
   context,
 }: LoaderFunctionArgs) => {
+  await throw404IfFeatureFlagDisabled("showGeldEinklagenFlow");
   const { pathname } = new URL(request.url);
   const { flowId, stepId } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
