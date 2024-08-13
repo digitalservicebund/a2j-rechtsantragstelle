@@ -53,6 +53,7 @@ describe("validateFlowTransition", () => {
       .fn()
       .mockImplementation((page: string) => page === "ergebnis/erfolg"),
     getConfig: vi.fn().mockReturnValue({}),
+    getGuards: vi.fn().mockReturnValue({}),
     isFinal: vi.fn().mockReturnValue(false),
     getPrevious: vi.fn().mockReturnValue(undefined),
     getNext: vi.fn().mockReturnValue(undefined),
