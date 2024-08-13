@@ -8,10 +8,10 @@ export type FeatureFlag =
 
 export const isFeatureFlagEnabled = async (featureFlag: FeatureFlag) => {
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
-  const phCallerId = "backend";
+  const posthogDistinctId = "backend";
   if (config().ENVIRONMENT !== "production") return true;
   if (POSTHOG_API_KEY) {
     const client = new PostHog(POSTHOG_API_KEY, { host: POSTHOG_API_HOST });
-    return await client.isFeatureEnabled(featureFlag, phCallerId);
+    return await client.isFeatureEnabled(featureFlag, posthogDistinctId);
   }
 };
