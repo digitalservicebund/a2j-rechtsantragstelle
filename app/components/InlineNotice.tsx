@@ -43,7 +43,7 @@ export const InlineNotice = ({
         role="note"
       >
         <div className="flex flex-row gap-[4px] items-center">
-          <IconComponent style={{ width: 24, height: 24 }} />
+          <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
           <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
         </div>
         <RichText
