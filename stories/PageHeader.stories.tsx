@@ -14,7 +14,7 @@ export const Default = {
   args: {
     title: "Justiz-Services",
     linkLabel: "Justiz-Services",
-    hideHeaderLinks: false,
+    hideLinks: false,
   },
 } satisfies StoryObj<typeof meta>;
 
@@ -22,7 +22,7 @@ export const FlowPage = {
   args: {
     title: "Justiz-Services",
     linkLabel: "Justiz-Services",
-    hideHeaderLinks: true,
+    hideLinks: true,
   },
 } satisfies StoryObj<typeof meta>;
 

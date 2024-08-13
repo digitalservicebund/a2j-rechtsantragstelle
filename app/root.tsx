@@ -19,7 +19,6 @@ import {
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
-import { flowIdFromPathname } from "~/flows/flowIds";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import {
   fetchMeta,
@@ -122,8 +121,11 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       ...getPageHeaderProps(strapiHeader),
       /**
        * Only hide the header links if we're viewing a flow page
+       * TODO: implement when feature flags land
+       *
+       * https://github.com/digitalservicebund/a2j-rechtsantragstelle/pull/1071
        */
-      hideHeaderLinks: !!flowIdFromPathname(pathname),
+      hideLinks: true, // !!flowIdFromPathname(pathname)
     },
     footer: getFooterProps(strapiFooter),
     cookieBannerContent: cookieBannerContent,

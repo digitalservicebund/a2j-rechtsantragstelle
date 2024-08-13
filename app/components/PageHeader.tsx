@@ -5,13 +5,13 @@ import { StandaloneLink } from "~/components/StandaloneLink";
 type PageHeaderProps = {
   title: string;
   linkLabel: string;
-  hideHeaderLinks: boolean;
+  hideLinks: boolean;
 };
 
 export default function Header({
   title,
   linkLabel,
-  hideHeaderLinks,
+  hideLinks,
 }: PageHeaderProps) {
   return (
     <header>
@@ -26,7 +26,7 @@ export default function Header({
         >
           {title}
         </a>
-        {!hideHeaderLinks && (
+        {!hideLinks && (
           <div className="flex gap-20 max-sm:pt-16">
             {/* TODO: Add strapi translations */}
             <StandaloneLink
