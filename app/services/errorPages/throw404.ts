@@ -9,7 +9,8 @@ export const throw404OnProduction = () => {
 export const throw404IfFeatureFlagDisabled = async (
   featureFlag: FeatureFlag,
 ) => {
-  if (!(await isFeatureFlagEnabled(featureFlag))) {
+  const isPageEnabled = await isFeatureFlagEnabled(featureFlag);
+  if (!isPageEnabled) {
     throw new Response(null, { status: 404 });
   }
 };
