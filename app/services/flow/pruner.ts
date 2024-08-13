@@ -10,29 +10,20 @@ import {
 import { ArrayConfig } from "../array";
 import { fetchFlowPage } from "../cms/index.server";
 
-type Step = string;
-type FormField = string;
-type StepPath = { steps: Step[]; arrayIndex?: number };
-
-//const FormFields = { formField: string, arrayKey: string, arrayIndex: number}[]
-
-type FormFieldPath = { formFields: FormField[]; arrayIndex?: number };
-// export type Path = StepPath | FormFieldPath;
+type Path = { steps: string[]; arrayIndex?: number };
+type FormField = { name: string; arrayIndex?: number };
 
 export async function prune(
   userData: Context,
   flowId: FlowId,
 ): Promise<Context> {
-  console.time();
-  const result = _.pick(
+  return _.pick(
     userData,
-    getPropsToKeep(await addFormFields(getPaths(userData, flowId), flowId)),
+    getPropsToKeep(await getFormFields(getPaths(userData, flowId), flowId)),
   );
-  console.timeEnd();
-  return result;
 }
 
-export function getPaths(userData: Context, flowId: FlowId): StepPath[] {
+export function getPaths(userData: Context, flowId: FlowId): Path[] {
   const flowController = buildFlowController({
     ...flows[flowId],
     data: userData,
@@ -44,14 +35,14 @@ export function getPaths(userData: Context, flowId: FlowId): StepPath[] {
   ];
 }
 
-export async function addFormFields(
-  paths: StepPath[],
+export async function getFormFields(
+  paths: Path[],
   flowId: FlowId,
-): Promise<FormFieldPath[]> {
+): Promise<FormField[]> {
   const steps = paths.map((path) => path.steps).flat();
 
   // to be replaced with new fetching
-  const formFields = Object.fromEntries(
+  const formFields: { [stepId: string]: string[] } = Object.fromEntries(
     await Promise.all(
       steps.map(async (step) => [
         step,
@@ -62,20 +53,17 @@ export async function addFormFields(
     ),
   );
 
-  return paths.map(({ steps, ...array }) => ({
-    formFields: steps.flatMap((step) => formFields[step]),
-    ...array,
-  }));
+  return paths.flatMap(({ steps, arrayIndex }) =>
+    steps.flatMap((step) =>
+      formFields[step].map((name) => ({ name, arrayIndex })),
+    ),
+  );
 }
 
-export function getPropsToKeep(paths: FormFieldPath[]): string[] {
-  return paths.flatMap((path) => {
-    if (path.arrayIndex === undefined) return path.formFields;
-
-    return path.formFields.flatMap((formField) =>
-      formField.replace("#", `[${path.arrayIndex}].`),
-    );
-  });
+export function getPropsToKeep(formFields: FormField[]): string[] {
+  return formFields.map((formField) =>
+    formField.name.replace("#", `[${formField.arrayIndex}].`),
+  );
 }
 
 function getSteps(
@@ -84,7 +72,7 @@ function getSteps(
 ) {
   const stepIds: string[] = [];
   let stepId: string | undefined = parsePathname(
-    subFlowsInitialStep || flowController.getInitial(),
+    subFlowsInitialStep ?? flowController.getInitial(),
   ).stepId;
 
   while (stepId) {
@@ -96,7 +84,7 @@ function getSteps(
   return stepIds;
 }
 
-function getMainFlowPath(flowController: FlowController): StepPath {
+function getMainFlowPath(flowController: FlowController): Path {
   return {
     steps: getSteps(flowController),
   };
@@ -105,7 +93,7 @@ function getMainFlowPath(flowController: FlowController): StepPath {
 function getSubflowPaths(
   flowController: FlowController,
   userData: Context,
-): StepPath[] {
+): Path[] {
   return Object.entries(flowController.getRootMeta()?.arrays ?? {})
     .filter(([key]) => !_.isUndefined(userData[key]))
     .filter(([_key, config]) => userData[config.statementKey] === "yes")

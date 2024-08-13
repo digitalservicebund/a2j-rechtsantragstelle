@@ -2,7 +2,7 @@ import _ from "lodash";
 import { Mocked } from "vitest";
 import { strapiFlowPageFactory } from "tests/factories/cmsModels/strapiFlowPage";
 import { fetchFlowPage } from "~/services/cms/index.server";
-import { getPaths, addFormFields, getPropsToKeep } from "../pruner";
+import { getPaths, getFormFields, getPropsToKeep } from "../pruner";
 
 vi.mock("~/services/cms/index.server");
 
@@ -186,7 +186,7 @@ describe("pruner", () => {
     });
   });
 
-  describe("addFormFields", () => {
+  describe("getFormFields", () => {
     let fetchFlowPageMock: Mocked<typeof fetchFlowPage>;
 
     beforeEach(() => {
@@ -198,7 +198,7 @@ describe("pruner", () => {
     });
 
     it("calls cms service with correct params", async () => {
-      await addFormFields(
+      await getFormFields(
         [{ steps: ["step1", "step2"] }],
         "/beratungshilfe/antrag",
       );
@@ -215,21 +215,26 @@ describe("pruner", () => {
       );
     });
 
-    it("returns FormFieldPaths", async () => {
-      const result = await addFormFields(
+    it("returns FornamePaths", async () => {
+      const result = await getFormFields(
         [{ steps: ["step1", "step2"] }],
         "/beratungshilfe/antrag",
       );
 
       expect(result).toStrictEqual([
         {
-          formFields: [expect.any(String), expect.any(String)],
+          name: expect.any(String),
+          arrayIndex: undefined,
+        },
+        {
+          name: expect.any(String),
+          arrayIndex: undefined,
         },
       ]);
     });
 
     it("keeps array index", async () => {
-      const result = await addFormFields(
+      const result = await getFormFields(
         [
           { steps: ["step1", "step2"], arrayIndex: undefined },
           { steps: ["step1a", "step2a"], arrayIndex: 0 },
@@ -243,19 +248,31 @@ describe("pruner", () => {
 
       expect(result).toStrictEqual([
         {
-          formFields: [expect.any(String), expect.any(String)],
+          name: expect.any(String),
           arrayIndex: undefined,
         },
         {
-          formFields: [expect.any(String), expect.any(String)],
+          name: expect.any(String),
+          arrayIndex: undefined,
+        },
+        {
+          name: expect.any(String),
           arrayIndex: 0,
         },
         {
-          formFields: [
-            expect.any(String),
-            expect.any(String),
-            expect.any(String),
-          ],
+          name: expect.any(String),
+          arrayIndex: 0,
+        },
+        {
+          name: expect.any(String),
+          arrayIndex: 1,
+        },
+        {
+          name: expect.any(String),
+          arrayIndex: 1,
+        },
+        {
+          name: expect.any(String),
           arrayIndex: 1,
         },
       ]);
@@ -265,10 +282,8 @@ describe("pruner", () => {
   describe("getPropsToKeep", () => {
     it("extracts props for base paths", () => {
       const props = getPropsToKeep([
-        {
-          formFields: ["rechtsschutzversicherung", "wurdeVerklagt"],
-          arrayIndex: undefined,
-        },
+        { name: "rechtsschutzversicherung", arrayIndex: undefined },
+        { name: "wurdeVerklagt", arrayIndex: undefined },
       ]);
 
       expect(props).toStrictEqual([
@@ -279,31 +294,28 @@ describe("pruner", () => {
 
     it("extracts props for nested data", () => {
       const props = getPropsToKeep([
-        {
-          formFields: [
-            "weitereseinkommen.fooField",
-            "weitereseinkommen.barField",
-          ],
-        },
+        { name: "weitereseinkommen.foname", arrayIndex: undefined },
+        { name: "weitereseinkommen.baname", arrayIndex: undefined },
       ]);
 
       expect(props).toStrictEqual([
-        "weitereseinkommen.fooField",
-        "weitereseinkommen.barField",
+        "weitereseinkommen.foname",
+        "weitereseinkommen.baname",
       ]);
     });
 
     it("extracts props for sub paths", () => {
       const props = getPropsToKeep([
         {
-          formFields: ["geldanlagen#fooField", "geldanlagen#barField"],
+          name: "geldanlagen#foname",
           arrayIndex: 0,
         },
+        { name: "geldanlagen#baname", arrayIndex: 0 },
       ]);
 
       expect(props).toStrictEqual([
-        "geldanlagen[0].fooField",
-        "geldanlagen[0].barField",
+        "geldanlagen[0].foname",
+        "geldanlagen[0].baname",
       ]);
     });
   });
