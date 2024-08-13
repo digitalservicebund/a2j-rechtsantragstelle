@@ -194,7 +194,15 @@ describe("pruner", () => {
 
       fetchFlowPageMock = vi
         .mocked(fetchFlowPage)
-        .mockResolvedValue(strapiFlowPageFactory.build());
+        .mockImplementation(
+          async (collection, flowId, stepId) =>
+            await Promise.resolve(
+              strapiFlowPageFactory.build(
+                {},
+                { transient: { formName: `formFor-${stepId}` } },
+              ),
+            ),
+        );
     });
 
     it("calls cms service with correct params", async () => {
@@ -223,11 +231,11 @@ describe("pruner", () => {
 
       expect(result).toStrictEqual([
         {
-          name: expect.any(String),
+          name: "formFor-step1",
           arrayIndex: undefined,
         },
         {
-          name: expect.any(String),
+          name: "formFor-step2",
           arrayIndex: undefined,
         },
       ]);
@@ -248,31 +256,31 @@ describe("pruner", () => {
 
       expect(result).toStrictEqual([
         {
-          name: expect.any(String),
+          name: "formFor-step1",
           arrayIndex: undefined,
         },
         {
-          name: expect.any(String),
+          name: "formFor-step2",
           arrayIndex: undefined,
         },
         {
-          name: expect.any(String),
+          name: "formFor-step1a",
           arrayIndex: 0,
         },
         {
-          name: expect.any(String),
+          name: "formFor-step2a",
           arrayIndex: 0,
         },
         {
-          name: expect.any(String),
+          name: "formFor-step1b",
           arrayIndex: 1,
         },
         {
-          name: expect.any(String),
+          name: "formFor-step2b",
           arrayIndex: 1,
         },
         {
-          name: expect.any(String),
+          name: "formFor-step3b",
           arrayIndex: 1,
         },
       ]);

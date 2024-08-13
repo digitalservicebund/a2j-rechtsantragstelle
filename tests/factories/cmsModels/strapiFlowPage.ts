@@ -3,8 +3,9 @@ import { Factory } from "fishery";
 import { StrapiFormFlowPageSchema } from "~/services/cms/models/StrapiFormFlowPage";
 
 export const strapiFlowPageFactory = Factory.define<
-  Zod.infer<typeof StrapiFormFlowPageSchema>
->(() => ({
+  Zod.infer<typeof StrapiFormFlowPageSchema>,
+  { formName: string }
+>(({ transientParams }) => ({
   heading: faker.lorem.words(5),
   preHeading: faker.lorem.words(5),
   nextButtonLabel: null,
@@ -13,7 +14,7 @@ export const strapiFlowPageFactory = Factory.define<
       type: faker.helpers.arrayElement(["number", "text"]),
       __component: "form-elements.input",
       label: faker.lorem.word(),
-      name: faker.lorem.word(),
+      name: transientParams.formName ?? faker.lorem.word(),
       id: faker.number.int(100),
       width: "characters3",
       errors: {},
