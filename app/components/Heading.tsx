@@ -14,6 +14,7 @@ export const HeadingPropsSchema = z
     children: z.custom<ReactNode>().optional(),
     dataTestid: z.string().optional(),
     role: z.custom<AriaRole>().optional(),
+    tagId: z.string().optional(),
   })
   .readonly();
 
@@ -27,6 +28,7 @@ function Heading({
   children,
   dataTestid,
   role,
+  tagId,
 }: HeadingProps) {
   const Tag: keyof JSX.IntrinsicElements = tagName;
   const cssClasses = classNames(look === "default" ? null : look, className);
@@ -36,7 +38,7 @@ function Heading({
   }
 
   return (
-    <Tag role={role} data-testid={dataTestid} className={cssClasses}>
+    <Tag id={tagId} role={role} data-testid={dataTestid} className={cssClasses}>
       {children ?? decode(text)}
     </Tag>
   );
