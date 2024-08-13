@@ -208,6 +208,7 @@ export const buildFlowController = ({
     isDone: (currentStepId: string) =>
       Boolean(metaFromStepId(machine, currentStepId)?.done({ context })),
     getConfig: () => config,
+    getGuards: () => guards,
     isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),
     isReachable: (currentStepId: string) => {
       return reachableSteps.includes(currentStepId);
