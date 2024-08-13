@@ -28,6 +28,7 @@ export class Vorabcheck {
 
   async clickNext() {
     await this.page.locator(`button[name="${this.nextButtonName}"]`).click();
+    await this.page.waitForLoadState("load");
     await this.page.waitForNavigation(); // deprecated but URL for waitForURL is unknown
   }
 
