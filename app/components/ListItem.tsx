@@ -2,14 +2,14 @@ import { z } from "zod";
 import { arrayIsNonEmpty } from "~/util/array";
 import Button, { ButtonPropsSchema } from "./Button";
 import ButtonContainer from "./ButtonContainer";
-import Heading, { HeadingPropsSchema } from "./Heading";
+import Heading, { type HeadingProps } from "./Heading";
 import Image, { ImagePropsSchema } from "./Image";
 import RichText from "./RichText";
 
 export const ListItemPropsSchema = z.object({
   identifier: z.string().optional(),
-  label: HeadingPropsSchema.optional(),
-  headline: HeadingPropsSchema.optional(),
+  label: z.custom<HeadingProps>().optional(),
+  headline: z.custom<HeadingProps>().optional(),
   image: ImagePropsSchema.optional(),
   content: z.string().optional(),
   buttons: z.array(ButtonPropsSchema).optional(),
