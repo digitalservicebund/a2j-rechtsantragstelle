@@ -1,4 +1,4 @@
-import { Vorabcheck } from "tests/e2e/pom/Vorabcheck";
+import { Vorabcheck } from "./Vorabcheck";
 
 export class FluggastrechteVorabcheck extends Vorabcheck {
   readonly url = "/fluggastrechte/vorabcheck";
