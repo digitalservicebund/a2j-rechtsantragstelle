@@ -42,6 +42,7 @@ const allowedEmails = [
   "info@schlichtungsstelle-bgg.de",
   "datenschutz@bmj.bund.de",
   "datenschutz@digitalservice.bund.de",
+  "datenschutzbeauftragter@mi.niedersachsen.de",
   "poststelle@bmj.bund.de",
   "poststelle@bfdi.bund.de",
   "poststelle@bfdi.de-mail.de",
