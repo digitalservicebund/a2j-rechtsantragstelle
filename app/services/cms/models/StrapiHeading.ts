@@ -1,8 +1,20 @@
 import { z } from "zod";
-import { HeadingPropsSchema } from "~/components/Heading";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import type { StrapiContentComponent } from "./StrapiContentComponent";
+
+export const HeadingPropsSchema = z
+  .object({
+    tagName: z
+      .enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"])
+      .optional(),
+    text: z.string().optional(),
+    look: z.string().optional(),
+    className: z.string().optional(),
+    dataTestid: z.string().optional(),
+    tagId: z.string().optional(),
+  })
+  .readonly();
 
 export const StrapiHeadingSchema = z
   .object({

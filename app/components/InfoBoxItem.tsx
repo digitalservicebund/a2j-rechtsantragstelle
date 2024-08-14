@@ -4,14 +4,14 @@ import { arrayIsNonEmpty } from "~/util/array";
 import Button, { ButtonPropsSchema } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 import { DetailsSummary, DetailsSummarySchema } from "./DetailsSummary";
-import Heading, { HeadingPropsSchema } from "./Heading";
+import Heading, { type HeadingProps } from "./Heading";
 import Image, { ImagePropsSchema } from "./Image";
 import RichText from "./RichText";
 
 export const InfoBoxItemPropsSchema = z.object({
   identifier: z.string().optional(),
-  label: HeadingPropsSchema.optional(),
-  headline: HeadingPropsSchema.optional(),
+  label: z.custom<HeadingProps>().optional(),
+  headline: z.custom<HeadingProps>().optional(),
   image: ImagePropsSchema.optional(),
   content: z.string().optional(),
   detailsSummary: DetailsSummarySchema.optional().or(
