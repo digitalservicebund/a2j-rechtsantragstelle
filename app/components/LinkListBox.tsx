@@ -4,12 +4,12 @@ import { z } from "zod";
 import { arrayIsNonEmpty } from "~/util/array";
 import Button, { ButtonPropsSchema } from "./Button";
 import ButtonContainer from "./ButtonContainer";
-import Heading, { HeadingPropsSchema } from "./Heading";
+import Heading, { type HeadingProps } from "./Heading";
 
 export const LinkListBoxPropsSchema = z.object({
   identifier: z.string().optional(),
-  label: HeadingPropsSchema.optional(),
-  heading: HeadingPropsSchema.optional(),
+  label: z.custom<HeadingProps>().optional(),
+  heading: z.custom<HeadingProps>().optional(),
   links: z.array(
     z.object({
       text: z.string().optional(),

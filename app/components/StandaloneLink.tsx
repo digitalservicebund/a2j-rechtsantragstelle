@@ -20,7 +20,7 @@ export const StandaloneLink = ({
   const shouldOpenNewTab = isExternal || isDownload;
   const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
     href: url,
-    className: classNames("text-link", className),
+    className: classNames("text-link min-h-[24px] inline-block", className),
     ...(shouldOpenNewTab
       ? {
           target: "_blank",

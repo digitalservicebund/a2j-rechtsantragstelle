@@ -1,10 +1,10 @@
 import { z } from "zod";
-import Heading, { HeadingPropsSchema } from "./Heading";
+import Heading, { type HeadingProps } from "./Heading";
 import RichText, { RichTextPropsSchema } from "./RichText";
 
 export const HeaderPropsSchema = z
   .object({
-    heading: HeadingPropsSchema,
+    heading: z.custom<HeadingProps>(),
     content: RichTextPropsSchema.optional(),
   })
   .readonly();

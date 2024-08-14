@@ -11,6 +11,7 @@ import Heading from "../Heading";
 export const userRatingFieldname = "wasHelpful";
 export const YES_RATING_BUTTON_LABEL_TRANSLATION_KEY = "yes-rating";
 export const NO_RATING_BUTTON_LABEL_TRANSLATION_KEY = "no-rating";
+const USER_FEEDBACK_RATING_BOX_ID = "user-feedback-rating-box";
 
 export interface RatingBoxProps {
   readonly heading: string;
@@ -35,7 +36,12 @@ export const RatingBox = ({ heading, url }: RatingBoxProps) => {
 
   return (
     <>
-      <Heading look="ds-label-01-bold" tagName="h2" text={heading} />
+      <Heading
+        tagId={USER_FEEDBACK_RATING_BOX_ID}
+        look="ds-label-01-bold"
+        tagName="h2"
+        text={heading}
+      />
       <ratingFetcher.Form
         method="post"
         action={`/action/send-rating?url=${url}&js=${String(jsAvailable)}`}
@@ -48,6 +54,7 @@ export const RatingBox = ({ heading, url }: RatingBoxProps) => {
             name={userRatingFieldname}
             value="yes"
             type="submit"
+            aria-labelledby={USER_FEEDBACK_RATING_BOX_ID}
           >
             {yesButtonLabel}
           </Button>
@@ -57,6 +64,7 @@ export const RatingBox = ({ heading, url }: RatingBoxProps) => {
             name={userRatingFieldname}
             value="no"
             type="submit"
+            aria-labelledby={USER_FEEDBACK_RATING_BOX_ID}
           >
             {noButtonLabel}
           </Button>
