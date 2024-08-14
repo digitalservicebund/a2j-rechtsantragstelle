@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import Button from "~/components/Button";
 import Heading from "~/components/Heading";
 import RichText, { RichTextProps } from "~/components/RichText";
-import { useFeedbackTranslations } from "~/components/UserFeedback/FeedbackTranslationContext";
-import { getTranslationByKey } from "~/util/getTranslationByKey";
 
 type VideoProps = {
   title: string;
@@ -62,20 +60,19 @@ const DatenschutzBanner = ({
   onCookiesAccepted: () => void;
   datenschutz: RichTextProps;
 }) => {
-  const { translations } = useFeedbackTranslations();
   return (
     <section
       className="border-2 border-blue-800 z-50 bg-blue-300 relative -mt-24"
       aria-label="Datenschutz banner"
       data-testid="datenschutz-banner"
     >
-      <div className="p-16 gap-y-28 flex flex-wrap">
+      <div className="p-16 gap-y-28 flex flex-col flex-wrap">
         <Heading text="Hinweis zum Datenschutz" look="ds-heading-03-reg" />
         <RichText {...datenschutz} />
         <Button
           onClick={onCookiesAccepted}
-          text={getTranslationByKey("video-aktivieren", translations)}
-          className="min-w-max"
+          text={"Video Aktivieren"}
+          className="max-w-fit"
           size="large"
         />
       </div>
