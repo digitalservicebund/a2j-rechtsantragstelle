@@ -12,7 +12,6 @@ import {
   fetchMeta,
   fetchTranslations,
 } from "~/services/cms/index.server";
-import { throw404IfFeatureFlagEnabled } from "~/services/errorPages/throw404";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
@@ -22,8 +21,6 @@ import { getButtonNavigationProps } from "~/util/buttonProps";
 import { interpolateDeep } from "~/util/fillTemplate";
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
-  await throw404IfFeatureFlagEnabled(request);
-
   const { pathname } = new URL(request.url);
   const { flowId, stepId } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
