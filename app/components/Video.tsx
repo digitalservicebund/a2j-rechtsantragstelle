@@ -19,7 +19,7 @@ const Video = ({ title, url, datenschutz }: VideoProps) => {
       ref={thumbnailRef}
       alt={`${title} Miniaturbild`}
       className="w-full opacity-60"
-      src={`http://img.youtube.com/vi/${ytVideoId}/hqdefault.jpg`}
+      src={`https://img.youtube.com/vi/${ytVideoId}/hqdefault.jpg`}
     ></img>
   );
   const video = (

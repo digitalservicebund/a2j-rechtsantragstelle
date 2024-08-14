@@ -9,7 +9,7 @@ describe("Video Component", () => {
     const { getByRole, getByText } = render(
       <Video
         title={"Test Video"}
-        url={"http://www.youtube.com/embed/asdfasdf234?args"}
+        url={"https://www.youtube.com/embed/asdfasdf234?args"}
         datenschutz={{ markdown: DATA_POLICY }}
       />,
     );
@@ -28,7 +28,7 @@ describe("Video Component", () => {
     const { getByRole, queryByTitle } = render(
       <Video
         title={"Test Video"}
-        url={"http://www.youtube.com/embed/asdfasdf234?args"}
+        url={"https://www.youtube.com/embed/asdfasdf234?args"}
         datenschutz={{ markdown: DATA_POLICY }}
       />,
     );
@@ -41,7 +41,7 @@ describe("Video Component", () => {
     const { getByRole, queryByTitle, queryByRole } = render(
       <Video
         title={"Test Video"}
-        url={"http://www.youtube.com/embed/asdfasdf234?args"}
+        url={"https://www.youtube.com/embed/asdfasdf234?args"}
         datenschutz={{ markdown: DATA_POLICY }}
       />,
     );

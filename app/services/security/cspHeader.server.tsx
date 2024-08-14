@@ -38,7 +38,7 @@ export const cspHeader = (args?: { nonce?: string; environment?: string }) => {
       "'self'",
       "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
       "https://mermaid.ink",
-      "http://img.youtube.com",
+      "https://img.youtube.com",
       "data:",
     ],
     "object-src": ["'none'"],
