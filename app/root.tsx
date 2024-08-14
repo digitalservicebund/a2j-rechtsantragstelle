@@ -117,7 +117,16 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   ]);
 
   return json({
-    header: getPageHeaderProps(strapiHeader),
+    header: {
+      ...getPageHeaderProps(strapiHeader),
+      /**
+       * Only hide the header links if we're viewing a flow page
+       * TODO: implement when feature flags land
+       *
+       * https://github.com/digitalservicebund/a2j-rechtsantragstelle/pull/1071
+       */
+      hideLinks: true, // !!flowIdFromPathname(pathname)
+    },
     footer: getFooterProps(strapiFooter),
     cookieBannerContent: cookieBannerContent,
     hasTrackingConsent: trackingConsent,
@@ -142,8 +151,8 @@ function App() {
     hasAnyUserData,
     feedbackTranslations,
   } = useLoaderData<RootLoader>();
-  const { breadcrumbs, title, ogTitle, description } =
-    metaFromMatches(useMatches());
+  const matches = useMatches();
+  const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
 
   // eslint-disable-next-line no-console
