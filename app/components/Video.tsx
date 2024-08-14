@@ -1,14 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import Button from "~/components/Button";
 import Heading from "~/components/Heading";
-import RichText from "~/components/RichText";
+import RichText, { RichTextProps } from "~/components/RichText";
+import { useFeedbackTranslations } from "~/components/UserFeedback/FeedbackTranslationContext";
+import { getTranslationByKey } from "~/util/getTranslationByKey";
 
 type VideoProps = {
   title: string;
   url: string;
+  datenschutz: RichTextProps;
 };
 
-const Video = ({ title, url }: VideoProps) => {
+const Video = ({ title, url, datenschutz }: VideoProps) => {
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
   const [thumbnailDimensions, setThumbnailDimensions] = useState<DOMRect>();
   const thumbnailRef = useRef<HTMLImageElement | null>(null);
@@ -43,18 +46,23 @@ const Video = ({ title, url }: VideoProps) => {
     <>
       {cookiesAccepted ? video : thumbnail}
       {!cookiesAccepted && (
-        <DatenschutzBanner onCookiesAccepted={() => setCookiesAccepted(true)} />
+        <DatenschutzBanner
+          onCookiesAccepted={() => setCookiesAccepted(true)}
+          {...{ datenschutz }}
+        />
       )}
     </>
   );
 };
 
-/* TODO: add translations */
 const DatenschutzBanner = ({
   onCookiesAccepted,
+  datenschutz,
 }: {
   onCookiesAccepted: () => void;
+  datenschutz: RichTextProps;
 }) => {
+  const { translations } = useFeedbackTranslations();
   return (
     <section
       className="border-2 border-blue-800 z-50 bg-blue-300 relative -mt-24"
@@ -63,10 +71,10 @@ const DatenschutzBanner = ({
     >
       <div className="p-16 gap-y-28 flex flex-wrap">
         <Heading text="Hinweis zum Datenschutz" look="ds-heading-03-reg" />
-        <RichText markdown="Durch Anklicken aktivieren Sie das YouTube-Video. Dadurch können evtl. personenbezogene Daten an Google weitergeleitet werden. Außerdem werden Cookies gespeichert. Weitere Informationen finden Sie in unseren Datenschutzbedingungen" />
+        <RichText {...datenschutz} />
         <Button
           onClick={onCookiesAccepted}
-          text="Video Aktivieren"
+          text={getTranslationByKey("video-aktivieren", translations)}
           className="min-w-max"
           size="large"
         />
