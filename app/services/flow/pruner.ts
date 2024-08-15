@@ -47,7 +47,7 @@ export async function getFormFields(
       steps.map(async (step) => [
         step,
         (await fetchFlowPage("form-flow-pages", flowId, step)).form.flatMap(
-          (formItem) => formItem.name,
+          (formComponent) => formComponent.name,
         ),
       ]),
     ),

@@ -165,7 +165,7 @@ describe("pruner", () => {
       ]);
     });
 
-    it("excludes path for subflow if no user data", () => {
+    it("excludes path for subflow if no user data but statement key 'yes'", () => {
       expect(
         getPaths(
           {
@@ -195,11 +195,11 @@ describe("pruner", () => {
       fetchFlowPageMock = vi
         .mocked(fetchFlowPage)
         .mockImplementation(
-          async (collection, flowId, stepId) =>
+          async (_collection, _flowId, stepId) =>
             await Promise.resolve(
               strapiFlowPageFactory.build(
                 {},
-                { transient: { formName: `formFor-${stepId}` } },
+                { transient: { formFieldName: `formFieldFor-${stepId}` } },
               ),
             ),
         );
@@ -223,7 +223,7 @@ describe("pruner", () => {
       );
     });
 
-    it("returns FornamePaths", async () => {
+    it("returns form field names", async () => {
       const result = await getFormFields(
         [{ steps: ["step1", "step2"] }],
         "/beratungshilfe/antrag",
@@ -231,11 +231,11 @@ describe("pruner", () => {
 
       expect(result).toStrictEqual([
         {
-          name: "formFor-step1",
+          name: "formFieldFor-step1",
           arrayIndex: undefined,
         },
         {
-          name: "formFor-step2",
+          name: "formFieldFor-step2",
           arrayIndex: undefined,
         },
       ]);
@@ -256,31 +256,31 @@ describe("pruner", () => {
 
       expect(result).toStrictEqual([
         {
-          name: "formFor-step1",
+          name: "formFieldFor-step1",
           arrayIndex: undefined,
         },
         {
-          name: "formFor-step2",
+          name: "formFieldFor-step2",
           arrayIndex: undefined,
         },
         {
-          name: "formFor-step1a",
+          name: "formFieldFor-step1a",
           arrayIndex: 0,
         },
         {
-          name: "formFor-step2a",
+          name: "formFieldFor-step2a",
           arrayIndex: 0,
         },
         {
-          name: "formFor-step1b",
+          name: "formFieldFor-step1b",
           arrayIndex: 1,
         },
         {
-          name: "formFor-step2b",
+          name: "formFieldFor-step2b",
           arrayIndex: 1,
         },
         {
-          name: "formFor-step3b",
+          name: "formFieldFor-step3b",
           arrayIndex: 1,
         },
       ]);
@@ -302,28 +302,28 @@ describe("pruner", () => {
 
     it("extracts props for nested data", () => {
       const props = getPropsToKeep([
-        { name: "weitereseinkommen.foname", arrayIndex: undefined },
-        { name: "weitereseinkommen.baname", arrayIndex: undefined },
+        { name: "weitereseinkommen.fooName", arrayIndex: undefined },
+        { name: "weitereseinkommen.barName", arrayIndex: undefined },
       ]);
 
       expect(props).toStrictEqual([
-        "weitereseinkommen.foname",
-        "weitereseinkommen.baname",
+        "weitereseinkommen.fooName",
+        "weitereseinkommen.barName",
       ]);
     });
 
     it("extracts props for sub paths", () => {
       const props = getPropsToKeep([
         {
-          name: "geldanlagen#foname",
+          name: "geldanlagen#fooName",
           arrayIndex: 0,
         },
-        { name: "geldanlagen#baname", arrayIndex: 0 },
+        { name: "geldanlagen#barName", arrayIndex: 0 },
       ]);
 
       expect(props).toStrictEqual([
-        "geldanlagen[0].foname",
-        "geldanlagen[0].baname",
+        "geldanlagen[0].fooName",
+        "geldanlagen[0].barName",
       ]);
     });
   });
