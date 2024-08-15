@@ -5,7 +5,7 @@ import type { z } from "zod";
 import { parsePathname } from "~/flows/flowIds";
 import { flows } from "~/flows/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { getArrayCategoryTranslations } from "~/services/array/getArrayCategoryTranslations";
+import { getArraySummaryPageTranslations } from "~/services/array/getArraySummaryPageTranslations";
 import { getSummaryData } from "~/services/array/getSummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
@@ -89,19 +89,13 @@ export const loader = async ({
   if (!flowController.isReachable(stepId))
     return redirectDocument(flowController.getInitial());
 
-  const [
-    formPageContent,
-    parentMeta,
-    // flowStrings,
-    navigationStrings,
-    defaultStrings,
-  ] = await Promise.all([
-    fetchFlowPage("form-flow-pages", flowId, stepId),
-    fetchMeta({ filterValue: parentFromParams(pathname, params) }),
-    // fetchTranslations(flowId),
-    fetchTranslations(`${flowId}/menu`),
-    fetchTranslations("defaultTranslations"),
-  ]);
+  const [formPageContent, parentMeta, navigationStrings, defaultStrings] =
+    await Promise.all([
+      fetchFlowPage("form-flow-pages", flowId, stepId),
+      fetchMeta({ filterValue: parentFromParams(pathname, params) }),
+      fetchTranslations(`${flowId}/menu`),
+      fetchTranslations("defaultTranslations"),
+    ]);
 
   const arrayConfigurations = flowController.getRootMeta()?.arrays;
 
@@ -115,15 +109,15 @@ export const loader = async ({
     userData,
   );
 
-  const flowStrings = arrayConfigurations
-    ? await getArrayCategoryTranslations(arrayCategories)
+  const stringTranslations = arrayConfigurations
+    ? await getArraySummaryPageTranslations(arrayCategories)
     : await fetchTranslations(flowId);
 
   // structure cms content -> merge with getting data?
   const cmsContent = interpolateDeep(
     structureCmsContent(formPageContent),
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userDataWithPageData, flowStrings)
+      ? currentFlow.stringReplacements(userDataWithPageData, stringTranslations)
       : {},
   );
 
@@ -215,7 +209,7 @@ export const loader = async ({
       postFormContent: cmsContent.postFormContent,
       preHeading: cmsContent.preHeading,
       stepData,
-      translations: flowStrings,
+      translations: stringTranslations,
       navigationA11yLabels,
     },
     { headers },
