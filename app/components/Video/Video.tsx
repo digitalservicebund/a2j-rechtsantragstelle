@@ -1,19 +1,32 @@
 import { useEffect, useRef, useState } from "react";
-import { RichTextProps } from "~/components/RichText";
+import Container from "~/components/Container";
+import { useCookieConsent } from "~/components/CookieBanner/CookieConsentContext";
 import { DataProtectionBanner } from "~/components/Video/DataProtectionBanner";
+import { getYoutubeVideoId } from "~/util/url";
 
 type VideoProps = {
   title: string;
   url: string;
-  dataProtection: RichTextProps;
 };
 
-const Video = ({ title, url, dataProtection }: VideoProps) => {
-  const [cookiesAccepted, setCookiesAccepted] = useState(false);
-  const [thumbnailDimensions, setThumbnailDimensions] = useState<DOMRect>();
+/**
+ * Default size the video should be, in the case the user has already accepted cookies
+ * (size will not get set by video thumbnail)
+ */
+const DEFAULT_SIZE: Partial<DOMRect> = {
+  width: 480,
+  height: 360,
+};
+
+const Video = ({ title, url }: VideoProps) => {
+  const { hasTrackingConsent } = useCookieConsent();
+  const [cookiesAccepted, setCookiesAccepted] = useState(hasTrackingConsent);
+  const [thumbnailDimensions, setThumbnailDimensions] =
+    useState<Partial<DOMRect>>(DEFAULT_SIZE);
   const thumbnailRef = useRef<HTMLImageElement | null>(null);
-  const ytVideoId = url.match(/(?<=(v=)|(be\/))\w+/g)?.at(0);
-  const thumbnail = (
+  const ytVideoId = getYoutubeVideoId(url);
+
+  const Thumbnail = () => (
     <img
       ref={thumbnailRef}
       alt={`${title} Miniaturbild`}
@@ -21,11 +34,13 @@ const Video = ({ title, url, dataProtection }: VideoProps) => {
       src={`https://img.youtube.com/vi/${ytVideoId}/hqdefault.jpg`}
     ></img>
   );
-  const video = (
+
+  const Video = () => (
     <iframe
       src={`https://www.youtube-nocookie.com/embed/${ytVideoId}?cc_load_policy=1&cc_lang_pref=de`}
       className="w-full"
-      height={thumbnailDimensions?.height}
+      width={thumbnailDimensions.width}
+      height={thumbnailDimensions.height}
       title={title}
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share"
       referrerPolicy="strict-origin-when-cross-origin"
@@ -40,19 +55,20 @@ const Video = ({ title, url, dataProtection }: VideoProps) => {
   }, []);
 
   return (
-    <div className="flex flex-col">
-      {cookiesAccepted ? (
-        video
-      ) : (
-        <>
-          {thumbnail}
-          <DataProtectionBanner
-            onCookiesAccepted={() => setCookiesAccepted(true)}
-            dataProtection={dataProtection}
-          />
-        </>
-      )}
-    </div>
+    <Container>
+      <div className="flex flex-col">
+        {cookiesAccepted ? (
+          <Video />
+        ) : (
+          <>
+            <Thumbnail />
+            <DataProtectionBanner
+              onCookiesAccepted={() => setCookiesAccepted(true)}
+            />
+          </>
+        )}
+      </div>
+    </Container>
   );
 };
 

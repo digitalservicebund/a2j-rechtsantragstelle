@@ -5,9 +5,6 @@ const component = Video;
 
 const DIGITAL_SERVICE_GEBAERDENSPRACHE_VIDEO_LINK =
   "https://www.youtube.com/watch?v=ZZ0o6NFCJeI";
-const MOCK_DATA_PROTECTION = {
-  markdown: "Pretty please accept our Data Protection :)",
-};
 
 const meta = {
   title: "Component/Video",
@@ -20,7 +17,6 @@ export const Default = {
   args: {
     title: "Wilkommen Video",
     url: DIGITAL_SERVICE_GEBAERDENSPRACHE_VIDEO_LINK,
-    dataProtection: MOCK_DATA_PROTECTION,
   },
 } satisfies StoryObj<typeof meta>;
 
