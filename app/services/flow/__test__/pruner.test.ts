@@ -1,6 +1,8 @@
 import _ from "lodash";
-import { Mocked } from "vitest";
-import { strapiFlowPageFactory } from "tests/factories/cmsModels/strapiFlowPage";
+import {
+  strapiFlowPageFactory,
+  strapiFormComponentFactory,
+} from "tests/factories/cmsModels/strapiFlowPage";
 import { fetchFlowPage } from "~/services/cms/index.server";
 import { getPaths, getFormFields, getPropsToKeep } from "../pruner";
 
@@ -187,25 +189,36 @@ describe("pruner", () => {
   });
 
   describe("getFormFields", () => {
-    let fetchFlowPageMock: Mocked<typeof fetchFlowPage>;
+    const mockFetchFlowPage = (
+      formFieldNameFaker?: (step: string) => string[],
+    ) =>
+      vi.mocked(fetchFlowPage).mockImplementation(
+        async (_collection, _flowId, stepId) =>
+          await Promise.resolve(
+            strapiFlowPageFactory.build(
+              formFieldNameFaker
+                ? {
+                    form: formFieldNameFaker(stepId).map((formFieldName) =>
+                      strapiFormComponentFactory.build({ name: formFieldName }),
+                    ),
+                  }
+                : {
+                    form: [
+                      strapiFormComponentFactory.build({
+                        name: `formFieldFor-${stepId}`,
+                      }),
+                    ],
+                  },
+            ),
+          ),
+      );
 
     beforeEach(() => {
       vi.resetAllMocks();
-
-      fetchFlowPageMock = vi
-        .mocked(fetchFlowPage)
-        .mockImplementation(
-          async (_collection, _flowId, stepId) =>
-            await Promise.resolve(
-              strapiFlowPageFactory.build(
-                {},
-                { transient: { formFieldName: `formFieldFor-${stepId}` } },
-              ),
-            ),
-        );
     });
 
     it("calls cms service with correct params", async () => {
+      const fetchFlowPageMock = mockFetchFlowPage();
       await getFormFields(
         [{ steps: ["step1", "step2"] }],
         "/beratungshilfe/antrag",
@@ -224,6 +237,7 @@ describe("pruner", () => {
     });
 
     it("returns form field names", async () => {
+      mockFetchFlowPage();
       const result = await getFormFields(
         [{ steps: ["step1", "step2"] }],
         "/beratungshilfe/antrag",
@@ -241,7 +255,36 @@ describe("pruner", () => {
       ]);
     });
 
+    it("returns form field names for multiple forms within one flowPage", async () => {
+      mockFetchFlowPage((step: string) => [
+        `formField1For-${step}`,
+        `formField2For-${step}`,
+        `formField3For-${step}`,
+      ]);
+
+      const result = await getFormFields(
+        [{ steps: ["step1"] }],
+        "/beratungshilfe/antrag",
+      );
+
+      expect(result).toStrictEqual([
+        {
+          name: "formField1For-step1",
+          arrayIndex: undefined,
+        },
+        {
+          name: "formField2For-step1",
+          arrayIndex: undefined,
+        },
+        {
+          name: "formField3For-step1",
+          arrayIndex: undefined,
+        },
+      ]);
+    });
+
     it("keeps array index", async () => {
+      mockFetchFlowPage();
       const result = await getFormFields(
         [
           { steps: ["step1", "step2"], arrayIndex: undefined },
