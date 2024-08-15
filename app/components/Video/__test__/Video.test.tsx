@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@testing-library/react";
-import Video from "~/components/Video";
+import Video from "~/components/Video/Video";
 
 const VIDEO_AKTIVIEREN = "Video Aktivieren";
 const DATA_POLICY = "Please agree to our lovely data policy :)";
@@ -10,7 +10,7 @@ describe("Video Component", () => {
       <Video
         title={"Test Video"}
         url={"https://www.youtube.com/embed/asdfasdf234?args"}
-        datenschutz={{ markdown: DATA_POLICY }}
+        dataProtection={{ markdown: DATA_POLICY }}
       />,
     );
     const cookieConsentHeader = getByRole("heading", { level: 1 });
@@ -29,7 +29,7 @@ describe("Video Component", () => {
       <Video
         title={"Test Video"}
         url={"https://www.youtube.com/embed/asdfasdf234?args"}
-        datenschutz={{ markdown: DATA_POLICY }}
+        dataProtection={{ markdown: DATA_POLICY }}
       />,
     );
 
@@ -42,7 +42,7 @@ describe("Video Component", () => {
       <Video
         title={"Test Video"}
         url={"https://www.youtube.com/embed/asdfasdf234?args"}
-        datenschutz={{ markdown: DATA_POLICY }}
+        dataProtection={{ markdown: DATA_POLICY }}
       />,
     );
     expect(getByRole("img")).toBeInTheDocument();

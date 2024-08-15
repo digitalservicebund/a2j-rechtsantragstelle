@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import Heading from "~/components/Heading";
-import Video from "~/components/Video";
+import Video from "~/components/Video/Video";
 import { StrapiDetailsSummary } from "~/services/cms/components/StrapiDetailsSummary";
 import { StrapiInlineNotice } from "~/services/cms/components/StrapiInlineNotice";
 import { StrapiUserFeedback } from "~/services/cms/components/StrapiUserFeedback";
