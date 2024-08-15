@@ -20,7 +20,7 @@ describe("PostSubmissionBox", () => {
       <FeedbackTranslationContext.Provider
         value={{ translations: TRANSLATION_KEY_RECORD }}
       >
-        <PostSubmissionBox />
+        <PostSubmissionBox shouldFocus={false} />
       </FeedbackTranslationContext.Provider>,
     );
 

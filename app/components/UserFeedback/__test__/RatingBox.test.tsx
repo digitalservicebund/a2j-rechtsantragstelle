@@ -24,7 +24,7 @@ describe("RatingBox", () => {
           <FeedbackTranslationContext.Provider
             value={{ translations: TRANSLATION_KEY_RECORD }}
           >
-            <RatingBox heading="heading" url="url" />
+            <RatingBox heading="heading" url="url" onSubmit={vitest.fn} />
           </FeedbackTranslationContext.Provider>
         ),
       },

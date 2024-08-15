@@ -27,7 +27,11 @@ describe("FeedbackFormBox", () => {
           <FeedbackTranslationContext.Provider
             value={{ translations: TRANSLATION_KEY_RECORD }}
           >
-            <FeedbackFormBox destination="destination" />
+            <FeedbackFormBox
+              destination="destination"
+              shouldFocus={false}
+              onSubmit={vitest.fn}
+            />
           </FeedbackTranslationContext.Provider>
         ),
       },

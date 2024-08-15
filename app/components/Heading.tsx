@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { decode } from "html-entities";
-import { AriaRole, type ReactNode } from "react";
+import { AriaRole, LegacyRef, type ReactNode } from "react";
 
 export type HeadingProps = Readonly<{
   tagName?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
@@ -10,7 +10,8 @@ export type HeadingProps = Readonly<{
   children?: ReactNode;
   dataTestid?: string;
   role?: AriaRole;
-  tagId?: string;
+  tabIndex?: number;
+  innerRef?: LegacyRef<HTMLHeadingElement>;
 }>;
 
 function Heading({
@@ -21,7 +22,8 @@ function Heading({
   children,
   dataTestid,
   role,
-  tagId,
+  tabIndex,
+  innerRef,
 }: HeadingProps) {
   const Tag: keyof JSX.IntrinsicElements = tagName;
   const cssClasses = classNames(look === "default" ? null : look, className);
@@ -31,7 +33,13 @@ function Heading({
   }
 
   return (
-    <Tag id={tagId} role={role} data-testid={dataTestid} className={cssClasses}>
+    <Tag
+      ref={innerRef}
+      tabIndex={tabIndex}
+      role={role}
+      data-testid={dataTestid}
+      className={cssClasses}
+    >
       {children ?? decode(text)}
     </Tag>
   );
