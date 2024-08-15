@@ -1,4 +1,4 @@
-import { Formular } from "tests/e2e/pom/Formular";
+import { Formular } from "./Formular";
 
 export class FluggastrechteFormular extends Formular {
   readonly url = "/fluggastrechte/formular";

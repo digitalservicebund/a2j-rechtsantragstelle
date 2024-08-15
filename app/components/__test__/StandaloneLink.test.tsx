@@ -47,4 +47,10 @@ describe("Standalone Button Component", () => {
     expect(screen.getByText("Internal Link")).toHaveClass("oneClassName");
     expect(screen.getByText("Internal Link")).toHaveClass("twoClassName");
   });
+
+  test("Render className with iniline-block and min-height", () => {
+    render(<StandaloneLink url={"/home"} text={"Internal Link"} />);
+    expect(screen.getByText("Internal Link")).toHaveClass("inline-block");
+    expect(screen.getByText("Internal Link")).toHaveClass("min-h-[24px]");
+  });
 });

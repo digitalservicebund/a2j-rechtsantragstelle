@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { z } from "zod";
-import Heading, { HeadingPropsSchema } from "./Heading";
+import Heading, { type HeadingProps } from "./Heading";
 import InfoBoxItem, { InfoBoxItemPropsSchema } from "./InfoBoxItem";
 
 export const InfoBoxPropsSchema = z.object({
   identifier: z.string().optional(),
-  heading: HeadingPropsSchema.optional(),
+  heading: z.custom<HeadingProps>().optional(),
   separator: z.boolean().optional().default(true),
   items: z.array(InfoBoxItemPropsSchema),
 });

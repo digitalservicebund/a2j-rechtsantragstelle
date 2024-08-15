@@ -63,7 +63,7 @@ const RichText = ({
           allowedTags,
           allowedClasses: {
             p: ["ds-subhead", "max-w-full"],
-            a: ["text-link"],
+            a: ["text-link", "min-h-[24px]", "inline-block"],
             h: ["ds-heading-01-reg", "ds-label-01-bold", "ds-heading-02-reg"],
           },
           allowedAttributes,

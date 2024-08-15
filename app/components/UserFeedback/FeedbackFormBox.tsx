@@ -8,7 +8,6 @@ import { getTranslationByKey } from "~/util/getTranslationByKey";
 import { useFeedbackTranslations } from "./FeedbackTranslationContext";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
-import Heading from "../Heading";
 import Textarea from "../inputs/Textarea";
 
 export const feedbackFormName = "feedbackForm";
@@ -69,7 +68,6 @@ export const FeedbackFormBox = ({ destination }: FeedbackBoxProps) => {
 
   return (
     <>
-      <Heading look="ds-label-01-bold" tagName="h2" text={heading} />
       <ValidatedForm
         validator={feedbackValidator}
         subaction={feedbackFormName}
@@ -77,8 +75,14 @@ export const FeedbackFormBox = ({ destination }: FeedbackBoxProps) => {
         action={`/action/send-feedback?url=${destination}&js=${String(jsAvailable)}`}
         preventScrollReset={true}
       >
-        <div className="ds-stack-16">
-          <Textarea name={feedbackFieldname} placeholder={placeholder} />
+        <div role="status" className="ds-stack-16">
+          <Textarea
+            name={feedbackFieldname}
+            label={heading}
+            classNameLabel="ds-label-01-bold"
+            placeholder={placeholder}
+            role="status"
+          />
           <ButtonContainer>
             <Button
               iconLeft={<CloseIcon />}
