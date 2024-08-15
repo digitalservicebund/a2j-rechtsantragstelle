@@ -5,6 +5,7 @@ import type { z } from "zod";
 import { parsePathname } from "~/flows/flowIds";
 import { flows } from "~/flows/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
+import { getArrayCategoryTranslations } from "~/services/array/getArrayCategoryTranslations";
 import { getSummaryData } from "~/services/array/getSummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
@@ -91,16 +92,33 @@ export const loader = async ({
   const [
     formPageContent,
     parentMeta,
-    flowStrings,
+    // flowStrings,
     navigationStrings,
     defaultStrings,
   ] = await Promise.all([
     fetchFlowPage("form-flow-pages", flowId, stepId),
     fetchMeta({ filterValue: parentFromParams(pathname, params) }),
-    fetchTranslations(flowId),
+    // fetchTranslations(flowId),
     fetchTranslations(`${flowId}/menu`),
     fetchTranslations("defaultTranslations"),
   ]);
+
+  const arrayConfigurations = flowController.getRootMeta()?.arrays;
+
+  const arrayCategories = formPageContent.pre_form
+    .filter(isStrapiArraySummary)
+    .map((strapiSummary) => strapiSummary.category);
+
+  const arraySummaryData = getSummaryData(
+    arrayCategories,
+    arrayConfigurations,
+    userData,
+  );
+
+  const flowStrings = arrayConfigurations
+    ? await getArrayCategoryTranslations(arrayCategories)
+    : await fetchTranslations(flowId);
+
   // structure cms content -> merge with getting data?
   const cmsContent = interpolateDeep(
     structureCmsContent(formPageContent),
@@ -126,16 +144,6 @@ export const loader = async ({
   // Retrieve user data for current step
   const fieldNames = formPageContent.form.map((entry) => entry.name);
   const stepData = fieldsFromContext(userDataWithPageData, fieldNames);
-
-  const categories = formPageContent.pre_form
-    .filter(isStrapiArraySummary)
-    .map((strapiSummary) => strapiSummary.category);
-
-  const arraySummaryData = getSummaryData(
-    categories,
-    flowController.getRootMeta()?.arrays,
-    userData,
-  );
 
   const { headers, csrf } = await updateMainSession({
     cookieHeader,
