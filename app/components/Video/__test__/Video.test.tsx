@@ -3,13 +3,14 @@ import Video from "~/components/Video/Video";
 
 const VIDEO_AKTIVIEREN = "Video Aktivieren";
 const DATA_POLICY = "Please agree to our lovely data policy :)";
+const VIDEO_URL = "https://www.youtube.com/watch?v=ZZ0o6NFCJeI";
 
 describe("Video Component", () => {
   it("should render the cookie consent banner", () => {
     const { getByRole, getByText } = render(
       <Video
         title={"Test Video"}
-        url={"https://www.youtube.com/embed/asdfasdf234?args"}
+        url={VIDEO_URL}
         dataProtection={{ markdown: DATA_POLICY }}
       />,
     );
@@ -28,7 +29,7 @@ describe("Video Component", () => {
     const { getByRole, queryByTitle } = render(
       <Video
         title={"Test Video"}
-        url={"https://www.youtube.com/embed/asdfasdf234?args"}
+        url={VIDEO_URL}
         dataProtection={{ markdown: DATA_POLICY }}
       />,
     );
@@ -41,7 +42,7 @@ describe("Video Component", () => {
     const { getByRole, queryByTitle, queryByRole } = render(
       <Video
         title={"Test Video"}
-        url={"https://www.youtube.com/embed/asdfasdf234?args"}
+        url={VIDEO_URL}
         dataProtection={{ markdown: DATA_POLICY }}
       />,
     );

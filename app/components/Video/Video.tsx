@@ -12,7 +12,7 @@ const Video = ({ title, url, dataProtection }: VideoProps) => {
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
   const [thumbnailDimensions, setThumbnailDimensions] = useState<DOMRect>();
   const thumbnailRef = useRef<HTMLImageElement | null>(null);
-  const ytVideoId = url.match(/(?<=\/embed\/)\w+/g)?.at(0);
+  const ytVideoId = url.match(/(?<=(v=)|(be\/))\w+/g)?.at(0);
   const thumbnail = (
     <img
       ref={thumbnailRef}

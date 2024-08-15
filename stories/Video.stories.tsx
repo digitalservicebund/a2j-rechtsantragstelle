@@ -4,7 +4,7 @@ import Video from "~/components/Video/Video";
 const component = Video;
 
 const DIGITAL_SERVICE_GEBAERDENSPRACHE_VIDEO_LINK =
-  "https://www.youtube.com/embed/ZZ0o6NFCJeI?si=0LcA1Rmf-RwuauID";
+  "https://www.youtube.com/watch?v=ZZ0o6NFCJeI";
 const MOCK_DATA_PROTECTION = {
   markdown: "Pretty please accept our Data Protection :)",
 };
