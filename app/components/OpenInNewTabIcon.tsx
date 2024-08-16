@@ -1,6 +1,6 @@
 import OpenInNewIcon from "@digitalservicebund/icons/OpenInNew";
 
-type OpenInNewTabIcon = {
+type OpenInNewTabIconProps = {
   ariaLabelledBy: string;
 };
 
@@ -20,7 +20,7 @@ export const openInNewAllowedAttributes = {
   path: ["d", "fill"],
 };
 
-export const OpenInNewTabIcon = ({ ariaLabelledBy }: OpenInNewTabIcon) =>
+export const OpenInNewTabIcon = ({ ariaLabelledBy }: OpenInNewTabIconProps) =>
   OpenInNewIcon({
     height: "1.2em",
     width: "1.2em",
