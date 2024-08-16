@@ -1,13 +1,8 @@
 import OpenInNewIcon from "@digitalservicebund/icons/OpenInNew";
 
-type OpenInNewTabIconProps = {
-  ariaLabelledBy: string;
-};
-
 export const openInNewAllowedTags = ["svg", "path"] as const;
 export const openInNewAllowedAttributes = {
   svg: [
-    "aria-labelledby",
     "xmlns",
     "height",
     "viewbox",
@@ -20,11 +15,10 @@ export const openInNewAllowedAttributes = {
   path: ["d", "fill"],
 };
 
-export const OpenInNewTabIcon = ({ ariaLabelledBy }: OpenInNewTabIconProps) =>
+export const OpenInNewTabIcon = () =>
   OpenInNewIcon({
     height: "1.2em",
     width: "1.2em",
-    "aria-labelledby": ariaLabelledBy,
     style: {
       display: "inline-block",
       marginLeft: "0.2em",

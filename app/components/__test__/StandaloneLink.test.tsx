@@ -36,6 +36,30 @@ describe("Standalone Button Component", () => {
     expect(screen.getByText("Hello World")).toBeInTheDocument();
   });
 
+  test("should have aria label for external link", () => {
+    const { getByText } = render(
+      <StandaloneLink url={"https://external.url.de"} text={"external link"} />,
+    );
+    const linkElement = getByText("external link");
+
+    expect(linkElement).toHaveAttribute(
+      "aria-label",
+      "external link, öffnet neues Fenster",
+    );
+  });
+
+  test("should not have aria label for internal link", () => {
+    const { getByText } = render(
+      <StandaloneLink url={"/standalone"} text={"internal link"} />,
+    );
+    const linkElement = getByText("internal link");
+
+    expect(linkElement).not.toHaveAttribute(
+      "aria-label",
+      "internal link, öffnet neues Fenster",
+    );
+  });
+
   test("Render className coming from the props", () => {
     render(
       <StandaloneLink

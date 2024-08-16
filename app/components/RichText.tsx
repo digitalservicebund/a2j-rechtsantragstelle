@@ -18,7 +18,7 @@ export type RichTextProps = z.infer<typeof RichTextPropsSchema>;
 const allowedTags =
   sanitizeHtml.defaults.allowedTags.concat(openInNewAllowedTags);
 const allowedAttributes = {
-  a: sanitizeHtml.defaults.allowedAttributes["a"].concat(["rel"]),
+  a: sanitizeHtml.defaults.allowedAttributes["a"].concat(["rel", "aria-label"]),
   ...openInNewAllowedAttributes,
 };
 

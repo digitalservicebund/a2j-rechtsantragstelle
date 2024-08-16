@@ -9,6 +9,8 @@ type StandaloneLinkProps = Readonly<{
   className?: string;
 }>;
 
+const OPEN_NEW_TAB = "öffnet neues Fenster";
+
 export const StandaloneLink = ({
   url,
   text,
@@ -23,9 +25,10 @@ export const StandaloneLink = ({
     className: classNames("text-link min-h-[24px] inline-block", className),
     ...(shouldOpenNewTab
       ? {
+          "aria-label": `${text}, ${OPEN_NEW_TAB}`,
           target: "_blank",
           rel: "noopener noreferrer",
-          title: "öffnet neues Fenster",
+          title: OPEN_NEW_TAB,
         }
       : {}),
   };
@@ -34,9 +37,7 @@ export const StandaloneLink = ({
     <a {...anchorProps}>
       {icon}
       {text}
-      {shouldOpenNewTab && (
-        <OpenInNewTabIcon ariaLabelledBy={"In neuem tab öffnen"} />
-      )}
+      {shouldOpenNewTab && <OpenInNewTabIcon />}
     </a>
   );
 };
