@@ -1,5 +1,6 @@
+import { json } from "@remix-run/node";
 import { createRemixStub } from "@remix-run/testing";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { FeedbackTranslationContext } from "../FeedbackTranslationContext";
 import {
   NO_RATING_BUTTON_LABEL_TRANSLATION_KEY,
@@ -24,7 +25,7 @@ describe("RatingBox", () => {
           <FeedbackTranslationContext.Provider
             value={{ translations: TRANSLATION_KEY_RECORD }}
           >
-            <RatingBox heading="heading" url="url" />
+            <RatingBox heading="heading" url="url" onSubmit={vitest.fn} />
           </FeedbackTranslationContext.Provider>
         ),
       },
@@ -33,5 +34,60 @@ describe("RatingBox", () => {
 
     expect(getByText(YES_RATING)).toBeInTheDocument();
     expect(getByText(NO_RATING)).toBeInTheDocument();
+  });
+
+  it("should call onSubmit method when clicks on the Yes button", () => {
+    const onSubmitMock = vitest.fn();
+
+    const RatingBoxWithRemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => (
+          <FeedbackTranslationContext.Provider
+            value={{ translations: TRANSLATION_KEY_RECORD }}
+          >
+            <RatingBox heading="heading" url="url" onSubmit={onSubmitMock} />
+          </FeedbackTranslationContext.Provider>
+        ),
+      },
+      {
+        path: "/action/send-rating",
+        action() {
+          return json({});
+        },
+      },
+    ]);
+    const { getByText } = render(<RatingBoxWithRemixStub />);
+    fireEvent.click(getByText(YES_RATING));
+
+    expect(onSubmitMock).toBeCalled();
+  });
+
+  it("should call obSubmit method when clicks on the No button", () => {
+    const onSubmitMock = vitest.fn();
+
+    const RatingBoxWithRemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => (
+          <FeedbackTranslationContext.Provider
+            value={{ translations: TRANSLATION_KEY_RECORD }}
+          >
+            <RatingBox heading="heading" url="url" onSubmit={onSubmitMock} />
+          </FeedbackTranslationContext.Provider>
+        ),
+      },
+      {
+        path: "/action/send-rating",
+        action() {
+          return json({});
+        },
+      },
+    ]);
+    const { getByText } = render(<RatingBoxWithRemixStub />);
+
+    fireEvent.click(getByText(NO_RATING));
+
+    expect(onSubmitMock).toBeCalled();
   });
 });
