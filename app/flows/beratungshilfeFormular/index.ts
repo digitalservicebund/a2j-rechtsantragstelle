@@ -8,7 +8,6 @@ import {
   beratungshilfeAnwaltlicheVertretungGuards,
   anwaltlicheVertretungDone,
 } from "./anwaltlicheVertretung/guards";
-import { finanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
 import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
@@ -51,6 +50,7 @@ import {
   geldAnlagenStrings,
   weiteresEinkommenStrings,
 } from "./stringReplacements";
+import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",

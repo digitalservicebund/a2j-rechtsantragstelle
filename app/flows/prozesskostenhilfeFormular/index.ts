@@ -5,7 +5,6 @@ import { ProzesskostenhilfeEigentumContext } from "./finanzielleAngaben/context"
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import prozesskostenhilfeFormularFlow from "./flow.json";
 import { beratungshilfeAbgabeGuards } from "../beratungshilfeFormular/abgabe/guards";
-import { finanzielleAngabenArrayConfig } from "../beratungshilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { eigentumZusammenfassungDone } from "../beratungshilfeFormular/finanzielleAngaben/eigentumZusammenfassungDone";
 import {
   eigentumDone,
@@ -22,6 +21,7 @@ import {
   getArrayIndexStrings,
   getKinderStrings,
 } from "../beratungshilfeFormular/stringReplacements";
+import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
