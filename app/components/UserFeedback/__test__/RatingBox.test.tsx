@@ -36,7 +36,7 @@ describe("RatingBox", () => {
     expect(getByText(NO_RATING)).toBeInTheDocument();
   });
 
-  it("should call obSubmit method when clicks on the Yes button", () => {
+  it("should call onSubmit method when clicks on the Yes button", () => {
     const obSubmitMock = vitest.fn();
 
     const RatingBoxWithRemixStub = createRemixStub([
