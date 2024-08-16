@@ -8,6 +8,7 @@ type Directives = {
     | "default-src"
     | "script-src"
     | "style-src"
+    | "frame-src"
     | "connect-src"
     | "img-src"
     | "object-src"
@@ -24,6 +25,7 @@ export const cspHeader = (args?: { nonce?: string; environment?: string }) => {
       "https:",
       "'unsafe-inline'",
     ],
+    "frame-src": ["www.youtube-nocookie.com"],
     "style-src": ["'self'", "'unsafe-inline'"],
     "connect-src": [
       "'self'",
@@ -36,6 +38,7 @@ export const cspHeader = (args?: { nonce?: string; environment?: string }) => {
       "'self'",
       "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
       "https://mermaid.ink",
+      "https://img.youtube.com",
       "data:",
     ],
     "object-src": ["'none'"],

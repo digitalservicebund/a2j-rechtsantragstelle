@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { StrapiVideoComponentSchema } from "~/services/cms/models/StrapiVideo";
 import { StrapiArraySummaryComponentSchema } from "./StrapiArraySummary";
 import { StrapiBoxComponentSchema } from "./StrapiBox";
 import { StrapiBoxWithImageComponentSchema } from "./StrapiBoxWithImage";
@@ -23,6 +24,7 @@ export const StrapiContentComponentSchema = z.discriminatedUnion(
     StrapiInfoBoxComponentSchema,
     StrapiInfoBoxItemComponentSchema,
     StrapiParagraphComponentSchema,
+    StrapiVideoComponentSchema,
     StrapiLinkListBoxComponentSchema,
     StrapiListComponentSchema,
     StrapiArraySummaryComponentSchema,

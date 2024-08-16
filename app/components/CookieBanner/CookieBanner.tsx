@@ -3,10 +3,11 @@ import { posthog } from "posthog-js";
 import { useEffect, useState } from "react";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
+import { useCookieConsent } from "~/components/CookieBanner/CookieConsentContext";
 import Heading, { type HeadingProps } from "~/components/Heading";
 import RichText, { type RichTextProps } from "~/components/RichText";
 import { config } from "~/services/env/web";
-import { StandaloneLink } from "./StandaloneLink";
+import { StandaloneLink } from "../StandaloneLink";
 
 export const acceptCookiesFieldName = "accept-cookies";
 
@@ -19,15 +20,12 @@ export type CookieBannerContentProps = {
   cookieSettingLinkUrl: string;
 };
 
-type CookieBannerProps = Readonly<{
-  hasTrackingConsent?: boolean;
-  content: CookieBannerContentProps;
-}>;
-
 export function CookieBanner({
-  hasTrackingConsent,
   content,
-}: CookieBannerProps) {
+}: {
+  content: CookieBannerContentProps;
+}) {
+  const { hasTrackingConsent } = useCookieConsent();
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
   const [posthogLoaded, setPosthogLoaded] = useState(false);
   const [clientJavaScriptAvailable, setClientJavaScriptAvailable] =

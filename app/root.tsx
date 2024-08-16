@@ -19,6 +19,8 @@ import {
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
+import { CookieConsentContext } from "~/components/CookieBanner/CookieConsentContext";
+import { VideoTranslationContext } from "~/components/Video/VideoTranslationContext";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import {
   fetchMeta,
@@ -28,7 +30,7 @@ import {
 } from "~/services/cms/index.server";
 import { config as configWeb } from "~/services/env/web";
 import Breadcrumbs from "./components/Breadcrumbs";
-import { CookieBanner } from "./components/CookieBanner";
+import { CookieBanner } from "./components/CookieBanner/CookieBanner";
 import Footer from "./components/Footer";
 import Header from "./components/PageHeader";
 import { BannerState } from "./components/UserFeedback";
@@ -102,6 +104,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     deleteDataStrings,
     hasAnyUserData,
     feedbackTranslations,
+    videoTranslations,
     mainSession,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
@@ -113,6 +116,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("delete-data"),
     anyUserData(request),
     fetchTranslations("feedback"),
+    fetchTranslations("video"),
     mainSessionFromCookieHeader(cookieHeader),
   ]);
 
@@ -136,6 +140,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     deletionLabel: deleteDataStrings["footerLinkLabel"],
     hasAnyUserData,
     feedbackTranslations,
+    videoTranslations,
     bannerState:
       getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
   });
@@ -150,6 +155,7 @@ function App() {
     deletionLabel,
     hasAnyUserData,
     feedbackTranslations,
+    videoTranslations,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
@@ -176,28 +182,31 @@ function App() {
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
-        <CookieBanner
-          hasTrackingConsent={hasTrackingConsent}
-          content={getCookieBannerProps(cookieBannerContent)}
-        />
-        <Header {...header} />
-        <Breadcrumbs breadcrumbs={breadcrumbs} />
-        <FeedbackTranslationContext.Provider
-          value={{ translations: feedbackTranslations }}
-        >
-          <main className="flex-grow">
-            <Outlet />
-          </main>
-        </FeedbackTranslationContext.Provider>
-        <footer>
-          <Footer
-            {...footer}
-            deletionLabel={deletionLabel}
-            showDeletionBanner={hasAnyUserData}
-          />
-        </footer>
-        <ScrollRestoration nonce={nonce} />
-        <Scripts nonce={nonce} />
+        <CookieConsentContext.Provider value={{ hasTrackingConsent }}>
+          <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
+          <Header {...header} />
+          <Breadcrumbs breadcrumbs={breadcrumbs} />
+          <FeedbackTranslationContext.Provider
+            value={{ translations: feedbackTranslations }}
+          >
+            <VideoTranslationContext.Provider
+              value={{ translations: videoTranslations }}
+            >
+              <main className="flex-grow">
+                <Outlet />
+              </main>
+            </VideoTranslationContext.Provider>
+          </FeedbackTranslationContext.Provider>
+          <footer>
+            <Footer
+              {...footer}
+              deletionLabel={deletionLabel}
+              showDeletionBanner={hasAnyUserData}
+            />
+          </footer>
+          <ScrollRestoration nonce={nonce} />
+          <Scripts nonce={nonce} />
+        </CookieConsentContext.Provider>
       </body>
     </html>
   );
