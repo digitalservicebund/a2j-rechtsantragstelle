@@ -37,7 +37,7 @@ describe("RatingBox", () => {
   });
 
   it("should call onSubmit method when clicks on the Yes button", () => {
-    const obSubmitMock = vitest.fn();
+    const onSubmitMock = vitest.fn();
 
     const RatingBoxWithRemixStub = createRemixStub([
       {
@@ -46,7 +46,7 @@ describe("RatingBox", () => {
           <FeedbackTranslationContext.Provider
             value={{ translations: TRANSLATION_KEY_RECORD }}
           >
-            <RatingBox heading="heading" url="url" onSubmit={obSubmitMock} />
+            <RatingBox heading="heading" url="url" onSubmit={onSubmitMock} />
           </FeedbackTranslationContext.Provider>
         ),
       },
@@ -60,11 +60,11 @@ describe("RatingBox", () => {
     const { getByText } = render(<RatingBoxWithRemixStub />);
     fireEvent.click(getByText(YES_RATING));
 
-    expect(obSubmitMock).toBeCalled();
+    expect(onSubmitMock).toBeCalled();
   });
 
   it("should call obSubmit method when clicks on the No button", () => {
-    const obSubmitMock = vitest.fn();
+    const onSubmitMock = vitest.fn();
 
     const RatingBoxWithRemixStub = createRemixStub([
       {
@@ -73,7 +73,7 @@ describe("RatingBox", () => {
           <FeedbackTranslationContext.Provider
             value={{ translations: TRANSLATION_KEY_RECORD }}
           >
-            <RatingBox heading="heading" url="url" onSubmit={obSubmitMock} />
+            <RatingBox heading="heading" url="url" onSubmit={onSubmitMock} />
           </FeedbackTranslationContext.Provider>
         ),
       },
@@ -88,6 +88,6 @@ describe("RatingBox", () => {
 
     fireEvent.click(getByText(NO_RATING));
 
-    expect(obSubmitMock).toBeCalled();
+    expect(onSubmitMock).toBeCalled();
   });
 });
