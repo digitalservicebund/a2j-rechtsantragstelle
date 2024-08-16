@@ -34,7 +34,7 @@ export const StandaloneLink = ({
     <a {...anchorProps}>
       {icon}
       {text}
-      {shouldOpenNewTab && <OpenInNewTabIcon />}
+      {shouldOpenNewTab && <OpenInNewTabIcon ariaLabelledBy={text} />}
     </a>
   );
 };
