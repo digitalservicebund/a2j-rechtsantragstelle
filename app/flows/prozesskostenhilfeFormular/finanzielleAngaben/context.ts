@@ -45,4 +45,6 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
 const _contextObject = z
   .object(prozesskostenhilfeFinanzielleAngabenContext)
   .partial();
-export type ProzesskostenhilfeEigentumContext = z.infer<typeof _contextObject>;
+export type ProzesskostenhilfeFinanzielleAngabenContext = z.infer<
+  typeof _contextObject
+>;

@@ -1,14 +1,14 @@
 import _ from "lodash";
 import abgabeFlow from "./abgabe/flow.json";
-import { ProzesskostenhilfeEigentumContext } from "./finanzielleAngaben/context";
+import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
+import { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
-import prozesskostenhilfeFormularFlow from "./flow.json";
-import { beratungshilfeAbgabeGuards } from "../beratungshilfeFormular/abgabe/guards";
-import { eigentumZusammenfassungDone } from "../beratungshilfeFormular/finanzielleAngaben/eigentumZusammenfassungDone";
 import {
   eigentumDone,
   finanzielleAngabeGuards,
-} from "../beratungshilfeFormular/finanzielleAngaben/guards";
+} from "./finanzielleAngaben/guards";
+import prozesskostenhilfeFormularFlow from "./flow.json";
+import { eigentumZusammenfassungDone } from "../beratungshilfeFormular/finanzielleAngaben/eigentumZusammenfassungDone";
 import {
   andereUnterhaltszahlungenDone,
   kinderDone,
@@ -53,7 +53,7 @@ export const prozesskostenhilfeFormular = {
   }),
   guards: {
     ...finanzielleAngabeGuards,
-    ...beratungshilfeAbgabeGuards,
+    ...prozesskostenhilfeAbgabeGuards,
   },
   stringReplacements: (context: ProzesskostenhilfeFormularContext) => ({
     ...getKinderStrings(context),
@@ -64,4 +64,4 @@ export const prozesskostenhilfeFormular = {
 } as const;
 
 export type ProzesskostenhilfeFormularContext =
-  ProzesskostenhilfeEigentumContext & AbgabeContext;
+  ProzesskostenhilfeFinanzielleAngabenContext & AbgabeContext;
