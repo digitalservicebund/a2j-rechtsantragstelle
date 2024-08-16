@@ -35,22 +35,34 @@ test("forwarded to initial step", async ({ page }) => {
   );
 });
 
-test.skip("prozesskostenhilfe formular can be traversed", async ({ page }) => {
-  // beratungshilfe/antrag/start/start
-  // TODO: fix formular.server.fetchMeta to function with flow_ids
+test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
+  // /prozesskostenhilfe/antrag/start/start
   await expectPageToBeAccessible({ page });
   await prozesskostenhilfeFormular.clickNext();
+
+  // /prozesskostenhilfe/antrag/finanzielle-angaben/start
+  await expectPageToBeAccessible({ page });
   await prozesskostenhilfeFormular.clickNext();
+
+  // /prozesskostenhilfe/antrag/finanzielle-angaben/partner/partnerschaft
   await startFinanzielleAngabenPartner(page, prozesskostenhilfeFormular);
   await startFinanzielleAngabenKinder(page, prozesskostenhilfeFormular);
   await startFinanzielleAngabenAndereUnterhaltszahlungen(
     page,
     prozesskostenhilfeFormular,
   );
-  await prozesskostenhilfeFormular.clickNext();
   await startFinanzielleAngabenEigentum(page, prozesskostenhilfeFormular);
   await startFinanzielleAngabenEigentumZusammenfassung(
     page,
     prozesskostenhilfeFormular,
   );
+  await prozesskostenhilfeFormular.clickNext();
+
+  // beratungshilfe/antrag/abgabe/art
+  // FIXME: This step is not accessible
+  // await expectPageToBeAccessible({ page });
+  await prozesskostenhilfeFormular.fillRadioPage("abgabeArt", "ausdrucken");
+
+  // beratungshilfe/antrag/abgabe/ausdrucken
+  await expectPageToBeAccessible({ page });
 });

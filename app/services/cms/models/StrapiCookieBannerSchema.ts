@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { type CookieBannerContentProps } from "~/components/CookieBanner";
+import { type CookieBannerContentProps } from "~/components/CookieBanner/CookieBanner";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";

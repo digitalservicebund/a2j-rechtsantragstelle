@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 import Heading from "~/components/Heading";
+import Video from "~/components/Video/Video";
 import { StrapiDetailsSummary } from "~/services/cms/components/StrapiDetailsSummary";
 import { StrapiInlineNotice } from "~/services/cms/components/StrapiInlineNotice";
 import { StrapiUserFeedback } from "~/services/cms/components/StrapiUserFeedback";
@@ -12,6 +13,7 @@ import { getInfoBoxProps } from "~/services/cms/models/StrapiInfoBox";
 import { getLinkListBoxProps } from "~/services/cms/models/StrapiLinkListBox";
 import { getListProps } from "~/services/cms/models/StrapiList";
 import { getRichTextProps } from "~/services/cms/models/StrapiParagraph";
+import { getVideoProps } from "~/services/cms/models/StrapiVideo";
 import Background from "./Background";
 import Box from "./Box";
 import BoxWithImage from "./BoxWithImage";
@@ -74,6 +76,8 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
       return <BoxWithImage {...getBoxWithImageProps(strapiContent)} />;
     case "page.list":
       return <List {...getListProps(strapiContent)} />;
+    case "page.video":
+      return <Video {...getVideoProps(strapiContent)} />;
     case "page.inline-notice":
       return <StrapiInlineNotice {...strapiContent} />;
     case "page.details-summary":

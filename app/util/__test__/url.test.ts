@@ -1,4 +1,4 @@
-import { isExternalUrl, isFileDowloadUrl } from "../url";
+import { getYoutubeVideoId, isExternalUrl, isFileDowloadUrl } from "../url";
 
 describe("isExternal", () => {
   it("returns true for external urls", () => {
@@ -11,5 +11,23 @@ describe("isExternal", () => {
 describe("isFileDowload", () => {
   it("returns true for internal links to downloads", () => {
     expect(isFileDowloadUrl("/download/pdf")).toBeTruthy();
+  });
+});
+
+describe("getYoutubeVideoId", () => {
+  it('should grab the youtube video id from a "shared" url', () => {
+    expect(
+      getYoutubeVideoId("https://youtu.be/ZZ0o6NFCJeI?feature=shared"),
+    ).toBe("ZZ0o6NFCJeI");
+  });
+
+  it("should grab the youtube video id from a regular browser url", () => {
+    expect(
+      getYoutubeVideoId("https://www.youtube.com/watch?v=ZZ0o6NFCJeI"),
+    ).toBe("ZZ0o6NFCJeI");
+  });
+
+  it("should return undefined if an invalid youtube video url is given", () => {
+    expect(getYoutubeVideoId("www.blah.com")).toBeUndefined();
   });
 });
