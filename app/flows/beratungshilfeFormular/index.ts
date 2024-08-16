@@ -1,5 +1,4 @@
 import _ from "lodash";
-import type { BeratungshilfeAbgabe } from "~/flows/beratungshilfeFormular/abgabe/context";
 import abgabeFlow from "./abgabe/flow.json";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
@@ -39,18 +38,21 @@ import {
 } from "./rechtsproblem/context";
 import rechtsproblemFlow from "./rechtsproblem/flow.json";
 import {
-  getKinderStrings,
-  getArrayIndexStrings,
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
   getAnwaltStrings,
-  eigentumZusammenfassungShowWarnings,
   getMissingInformationStrings,
   ausgabenStrings,
-  geldAnlagenStrings,
   weiteresEinkommenStrings,
 } from "./stringReplacements";
+import { AbgabeContext } from "../shared/abgabe/context";
 import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
+import {
+  eigentumZusammenfassungShowWarnings,
+  geldAnlagenStrings,
+  getArrayIndexStrings,
+  getKinderStrings,
+} from "../shared/stringReplacements";
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -123,4 +125,4 @@ export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &
   BeratungshilfeRechtsproblem &
   BeratungshilfeFinanzielleAngaben &
   BeratungshilfePersoenlicheDaten &
-  BeratungshilfeAbgabe;
+  AbgabeContext;

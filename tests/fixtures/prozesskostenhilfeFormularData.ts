@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
-import { beratungshilfeAbgabe } from "~/flows/beratungshilfeFormular/abgabe/context";
 import { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,
   eigentumTotalWorthSchema,
@@ -96,5 +96,5 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
       monthlyPayment: faker.finance.amount(),
     },
   ],
-  abgabeArt: beratungshilfeAbgabe.abgabeArt.Enum.ausdrucken,
+  abgabeArt: abgabeContext.abgabeArt.Enum.ausdrucken,
 };

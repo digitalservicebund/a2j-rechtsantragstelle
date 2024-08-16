@@ -1,5 +1,4 @@
 import _ from "lodash";
-import { ProzesskostenhilfeAbgabe } from "./abgabe/context";
 import abgabeFlow from "./abgabe/flow.json";
 import { ProzesskostenhilfeEigentumContext } from "./finanzielleAngaben/context";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
@@ -15,13 +14,14 @@ import {
   kinderDone,
   partnerDone,
 } from "../beratungshilfeFormular/finanzielleAngaben/navStates";
+import { AbgabeContext } from "../shared/abgabe/context";
+import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
 import {
   eigentumZusammenfassungShowWarnings,
   geldAnlagenStrings,
   getArrayIndexStrings,
   getKinderStrings,
-} from "../beratungshilfeFormular/stringReplacements";
-import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
+} from "../shared/stringReplacements";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -64,4 +64,4 @@ export const prozesskostenhilfeFormular = {
 } as const;
 
 export type ProzesskostenhilfeFormularContext =
-  ProzesskostenhilfeEigentumContext & ProzesskostenhilfeAbgabe;
+  ProzesskostenhilfeEigentumContext & AbgabeContext;
