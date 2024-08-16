@@ -1,6 +1,6 @@
-import { beratungshilfeFinanzielleAngabeDone } from "~/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
 import * as navStatesEigentum from "~/flows/beratungshilfeFormular/finanzielleAngaben/navStatesEigentum";
-import * as eigentumZusammenfassungDone from "../eigentumZusammenfassungDone";
+import { beratungshilfeFinanzielleAngabeDone } from "../navStates";
+import * as eigentumZusammenfassungDone from "../navStatesEigentumZusammenfassungDone";
 
 describe("navStates", () => {
   afterEach(() => {

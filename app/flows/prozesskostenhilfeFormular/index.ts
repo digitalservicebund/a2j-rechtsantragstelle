@@ -7,13 +7,13 @@ import {
   eigentumDone,
   finanzielleAngabeGuards,
 } from "./finanzielleAngaben/guards";
-import prozesskostenhilfeFormularFlow from "./flow.json";
-import { eigentumZusammenfassungDone } from "../beratungshilfeFormular/finanzielleAngaben/eigentumZusammenfassungDone";
 import {
   andereUnterhaltszahlungenDone,
+  eigentumZusammenfassungDone,
   kinderDone,
   partnerDone,
-} from "../beratungshilfeFormular/finanzielleAngaben/navStates";
+} from "./finanzielleAngaben/navStates";
+import prozesskostenhilfeFormularFlow from "./flow.json";
 import { AbgabeContext } from "../shared/abgabe/context";
 import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
 import {

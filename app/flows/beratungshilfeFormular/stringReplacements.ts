@@ -1,7 +1,6 @@
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { BeratungshilfeFormularContext } from ".";
 import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
-import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import { eigentumDone } from "./finanzielleAngaben/guards";
 import {
   andereUnterhaltszahlungenDone,
@@ -11,6 +10,7 @@ import {
   partnerDone,
   wohnungDone,
 } from "./finanzielleAngaben/navStates";
+import { eigentumZusammenfassungDone } from "./finanzielleAngaben/navStatesEigentumZusammenfassungDone";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/context";
 import { rechtsproblemDone } from "./rechtsproblem/context";
 

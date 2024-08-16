@@ -8,9 +8,11 @@ import {
   anwaltlicheVertretungDone,
 } from "./anwaltlicheVertretung/guards";
 import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
-import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
-import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
+import {
+  eigentumDone,
+  finanzielleAngabeGuards,
+} from "./finanzielleAngaben/guards";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
@@ -19,7 +21,7 @@ import {
   partnerDone,
   wohnungDone,
 } from "./finanzielleAngaben/navStates";
-import { eigentumDone } from "./finanzielleAngaben/navStatesEigentum";
+import { eigentumZusammenfassungDone } from "./finanzielleAngaben/navStatesEigentumZusammenfassungDone";
 import beratungshilfeFormularFlow from "./flow.json";
 import {
   type BeratungshilfeGrundvoraussetzungen,
