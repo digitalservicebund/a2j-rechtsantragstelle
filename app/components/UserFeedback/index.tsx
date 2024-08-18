@@ -1,4 +1,5 @@
 import { useLocation, useRouteLoaderData } from "@remix-run/react";
+import { useCallback, useState } from "react";
 import type { RootLoader } from "~/root";
 import { FeedbackFormBox } from "./FeedbackFormBox";
 import { PostSubmissionBox } from "./PostSubmissionBox";
@@ -20,9 +21,14 @@ export const USER_FEEDBACK_ID = "user-feedback-banner";
 
 export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const { pathname } = useLocation();
+  const [shouldFocus, setShouldFocus] = useState(false);
 
   const rootLoaderData = useRouteLoaderData<RootLoader>("root");
   const bannerState = rootLoaderData?.bannerState ?? BannerState.ShowRating;
+
+  const applyFocus = useCallback(() => {
+    setShouldFocus(true);
+  }, []);
 
   return (
     <Background paddingTop="32" paddingBottom="40">
@@ -41,12 +47,22 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
           {
             {
               [BannerState.ShowRating]: (
-                <RatingBox url={pathname} {...props.rating} />
+                <RatingBox
+                  url={pathname}
+                  heading={props.rating.heading}
+                  onSubmit={applyFocus}
+                />
               ),
               [BannerState.ShowFeedback]: (
-                <FeedbackFormBox destination={pathname} />
+                <FeedbackFormBox
+                  destination={pathname}
+                  shouldFocus={shouldFocus}
+                  onSubmit={applyFocus}
+                />
               ),
-              [BannerState.FeedbackGiven]: <PostSubmissionBox />,
+              [BannerState.FeedbackGiven]: (
+                <PostSubmissionBox shouldFocus={shouldFocus} />
+              ),
             }[bannerState]
           }
         </div>

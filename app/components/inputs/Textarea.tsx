@@ -16,6 +16,7 @@ type TextareaProps = Readonly<{
   formId?: string;
   classNameLabel?: string;
   role?: AriaRole;
+  innerRef?: React.Ref<HTMLTextAreaElement>;
 }>;
 
 const Textarea = ({
@@ -27,6 +28,7 @@ const Textarea = ({
   errorMessages,
   classNameLabel,
   role,
+  innerRef,
 }: TextareaProps) => {
   const { error, getInputProps } = useField(name, { formId });
   const errorId = `${name}-error`;
@@ -57,6 +59,7 @@ const Textarea = ({
             "has-error": error,
           },
         )}
+        ref={innerRef}
         aria-invalid={error !== undefined}
         aria-describedby={error && errorId}
         aria-errormessage={error && errorId}
