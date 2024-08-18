@@ -29,14 +29,13 @@ describe("services/cms", () => {
 
     const fileContent = {
       "page-header": [],
-      footer: [{ id: 0, attributes: footerData }],
-      pages: [{ id: 0, attributes: impressum }],
+      footer: [{ attributes: footerData }],
+      pages: [{ attributes: impressum }],
       "cookie-banner": [],
       "result-pages": [],
       "vorab-check-pages": [],
       "form-flow-pages": [
         {
-          id: 0,
           attributes: {
             createdAt: faker.date.past().toISOString(),
             updatedAt: faker.date.past().toISOString(),
@@ -74,7 +73,7 @@ describe("services/cms", () => {
           apiId: "footer",
           locale: "de",
         }),
-      ).toEqual(footerData);
+      ).toEqual([{ attributes: footerData }]);
     });
 
     describe("when no entry exists for the given locale", () => {
@@ -84,7 +83,7 @@ describe("services/cms", () => {
             apiId: "footer",
             locale: "en",
           }),
-        ).toEqual(footerData);
+        ).toEqual([{ attributes: footerData }]);
       });
     });
 
@@ -95,7 +94,7 @@ describe("services/cms", () => {
           filters: [{ field: "slug", value: impressumPath }],
           locale: "de",
         }),
-      ).toEqual(impressum);
+      ).toEqual([{ attributes: impressum }]);
     });
 
     it("can filter by nested property", async () => {
@@ -129,16 +128,14 @@ describe("services/cms", () => {
       ).not.toBeUndefined();
     });
 
-    describe("returns undefined when no entry matches", () => {
-      it("returns undefined", async () => {
-        expect(
-          await getStrapiEntryFromFile({
-            apiId: "pages",
-            filters: [{ field: "slug", value: "/NOTAVAILABLE" }],
-            locale: "de",
-          }),
-        ).toBeUndefined();
-      });
+    it("returns empty list when no entry matches", async () => {
+      expect(
+        await getStrapiEntryFromFile({
+          apiId: "pages",
+          filters: [{ field: "slug", value: "/NOTAVAILABLE" }],
+          locale: "de",
+        }),
+      ).toStrictEqual([]);
     });
 
     it("falls back to default locale", async () => {
@@ -148,7 +145,7 @@ describe("services/cms", () => {
           filters: [{ field: "slug", value: impressumPath }],
           locale: "en",
         }),
-      ).toEqual(impressum);
+      ).toEqual([{ attributes: impressum }]);
     });
   });
 });

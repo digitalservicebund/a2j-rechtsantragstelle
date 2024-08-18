@@ -1,6 +1,7 @@
 /* eslint @typescript-eslint/require-await: 0 */
 import fs from "node:fs";
 import type { GetStrapiEntryOpts } from "./filters";
+import { GetStrapiEntry } from "./getStrapiEntry";
 import {
   type StrapiFileContent,
   StrapiFileContentSchema,
@@ -10,7 +11,9 @@ import { config } from "../env/env.server";
 
 let content: StrapiFileContent | undefined;
 
-export const getStrapiEntryFromFile = async ({
+export const getStrapiEntryFromFile: GetStrapiEntry = async <
+  T extends keyof StrapiFileContent,
+>({
   locale = config().ENVIRONMENT != "production" ? stagingLocale : defaultLocale,
   ...opts
 }: GetStrapiEntryOpts) => {
@@ -27,7 +30,7 @@ export const getStrapiEntryFromFile = async ({
     }
   }
 
-  const contentItems = [...content[opts.apiId]].filter(
+  const contentItems = [...content[opts.apiId as T]].filter(
     ({ attributes }) =>
       !opts.filters ||
       opts.filters.every(({ field, value, nestedField }) => {
@@ -47,17 +50,17 @@ export const getStrapiEntryFromFile = async ({
   );
 
   // search for the locale
-  let contentItem = contentItems.find(
+  let itemsMatchingLocale = contentItems.filter(
     (item) => "locale" in item.attributes && item.attributes.locale == locale,
   );
 
-  if (!contentItem) {
+  if (itemsMatchingLocale.length === 0) {
     // if the locale is not found, search for the default locale
-    contentItem = contentItems.find(
+    itemsMatchingLocale = contentItems.filter(
       (item) =>
         "locale" in item.attributes && item.attributes.locale == defaultLocale,
     );
   }
 
-  return contentItem?.attributes;
+  return itemsMatchingLocale as StrapiFileContent[T];
 };

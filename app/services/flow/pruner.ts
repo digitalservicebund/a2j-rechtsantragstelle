@@ -8,9 +8,9 @@ import {
   buildFlowController,
 } from "./server/buildFlowController";
 import { ArrayConfig } from "../array";
-import { fetchFlowPage } from "../cms/index.server";
+import { fetchAllFormFields } from "../cms/index.server";
 
-type Path = { steps: string[]; arrayIndex?: number };
+type Path = { stepIds: string[]; arrayIndex?: number };
 type FormField = { name: string; arrayIndex?: number };
 
 export async function prune(
@@ -39,23 +39,17 @@ export async function getFormFields(
   paths: Path[],
   flowId: FlowId,
 ): Promise<FormField[]> {
-  const steps = paths.map((path) => path.steps).flat();
-
-  // to be replaced with new fetching
-  const formFields: { [stepId: string]: string[] } = Object.fromEntries(
-    await Promise.all(
-      steps.map(async (step) => [
-        step,
-        (await fetchFlowPage("form-flow-pages", flowId, step)).form.flatMap(
-          (formComponent) => formComponent.name,
-        ),
-      ]),
-    ),
+  const formFieldsMap = (await fetchAllFormFields(flowId)).reduce(
+    (acc, { stepId, formFields }) => {
+      acc[stepId] = formFields;
+      return acc;
+    },
+    {} as { [stepId: string]: string[] },
   );
 
-  return paths.flatMap(({ steps, arrayIndex }) =>
+  return paths.flatMap(({ stepIds: steps, arrayIndex }) =>
     steps.flatMap((step) =>
-      formFields[step].map((name) => ({ name, arrayIndex })),
+      formFieldsMap[step].map((name) => ({ name, arrayIndex })),
     ),
   );
 }
@@ -86,7 +80,7 @@ function getSteps(
 
 function getMainFlowPath(flowController: FlowController): Path {
   return {
-    steps: getSteps(flowController),
+    stepIds: getSteps(flowController),
   };
 }
 
@@ -100,7 +94,7 @@ function getSubflowPaths(
     .map(([key, config]) => ({ key, config, data: userData[key] as ArrayData }))
     .map((array) =>
       array.data.map((_data, index) => ({
-        steps: getSteps(
+        stepIds: getSteps(
           buildFlowController({
             config: flowController.getConfig(),
             data: addPageDataToUserData(userData, {

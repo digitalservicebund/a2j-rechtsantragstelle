@@ -1,20 +1,15 @@
 import type { z } from "zod";
 import type { FlowId } from "~/flows/flowIds";
 import type { Filter, GetStrapiEntryOpts } from "./filters";
-import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";
-import { getStrapiEntryFromFile } from "./getStrapiEntryFromFile";
+import { getStrapiEntry } from "./getStrapiEntry";
 import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
 import type { StrapiLocale } from "./models/StrapiLocale";
 import type { StrapiPage } from "./models/StrapiPage";
 import type { CollectionSchemas, EntrySchemas, FlowPage } from "./schemas";
 import { collectionSchemas, entrySchemas } from "./schemas";
-import { config } from "../env/env.server";
 import { httpErrorCodes } from "../errorPages/ErrorBox";
 
 export type Translations = Record<string, string>;
-
-const getStrapiEntry =
-  config().CMS === "FILE" ? getStrapiEntryFromFile : getStrapiEntryFromApi;
 
 export async function fetchMeta(
   opts: Omit<GetStrapiEntryOpts, "apiId" | "filter"> & { filterValue: string },
@@ -31,7 +26,9 @@ export async function fetchSingleEntry<ApiId extends keyof EntrySchemas>(
   apiId: ApiId,
   locale?: StrapiLocale,
 ): Promise<z.infer<EntrySchemas[ApiId]>> {
-  const strapiEntry = await getStrapiEntry({ apiId, locale });
+  const strapiEntry = (await getStrapiEntry({ apiId, locale })).at(
+    0,
+  )?.attributes;
   return entrySchemas[apiId].parse(strapiEntry);
 }
 
@@ -40,11 +37,13 @@ async function fetchCollectionEntry<ApiId extends keyof CollectionSchemas>(
   filters?: Filter[],
   locale?: StrapiLocale,
 ): Promise<z.infer<CollectionSchemas[ApiId]>> {
-  const strapiEntry = await getStrapiEntry({
-    apiId,
-    locale,
-    filters,
-  });
+  const strapiEntry = (
+    await getStrapiEntry({
+      apiId,
+      locale,
+      filters,
+    })
+  ).at(0)?.attributes;
 
   if (!strapiEntry) {
     const error = new Error(
@@ -83,6 +82,23 @@ export const fetchFlowPage = <Collection extends keyof FlowPage>(
     { field: "stepId", value: "/" + stepId }, // TODO: align stepid between app & cms
     { field: "flow_ids", nestedField: "flowId", value: flowId },
   ]);
+
+export const fetchAllFormFields = async (
+  flowId: FlowId,
+): Promise<{ stepId: string; formFields: string[] }[]> =>
+  (
+    await getStrapiEntry({
+      apiId: "form-flow-pages",
+      filters: [{ field: "flow_ids", nestedField: "flowId", value: flowId }],
+      populate: "form",
+    })
+  )
+    .map((formFlowPage) => formFlowPage.attributes)
+    .filter(({ stepId, form }) => form.length > 0 && stepId)
+    .map(({ stepId, form }) => ({
+      stepId: stepId!,
+      formFields: form.map((formField) => formField.name),
+    }));
 
 export const strapiPageFromRequest = ({
   request,

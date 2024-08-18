@@ -17,7 +17,7 @@ export const strapiFlowPageFactory = Factory.define<
         : {},
     ),
   ],
-  stepId: null,
+  stepId: faker.lorem.word(),
   flow_ids: {
     data: [
       {

@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiCookieBannerSchema } from "./StrapiCookieBannerSchema";
 import { StrapiFooterSchema } from "./StrapiFooter";
 import { StrapiFormFlowPageSchema } from "./StrapiFormFlowPage";
@@ -10,46 +9,18 @@ import { StrapiTranslationSchema } from "./StrapiTranslations";
 import { StrapiVorabCheckPageSchema } from "./StrapiVorabCheckPage";
 
 export const StrapiFileContentSchema = z.object({
-  "page-header": z.array(
-    HasStrapiIdSchema.extend({
-      attributes: StrapiPageHeaderSchema,
-    }),
-  ),
-  footer: z.array(
-    HasStrapiIdSchema.extend({
-      attributes: StrapiFooterSchema,
-    }),
-  ),
-  "cookie-banner": z.array(
-    HasStrapiIdSchema.extend({
-      attributes: StrapiCookieBannerSchema,
-    }),
-  ),
-  pages: z.array(
-    HasStrapiIdSchema.extend({
-      attributes: StrapiPageSchema,
-    }),
-  ),
-  "result-pages": z.array(
-    HasStrapiIdSchema.extend({
-      attributes: StrapiResultPageSchema,
-    }),
-  ),
+  "page-header": z.array(z.object({ attributes: StrapiPageHeaderSchema })),
+  footer: z.array(z.object({ attributes: StrapiFooterSchema })),
+  "cookie-banner": z.array(z.object({ attributes: StrapiCookieBannerSchema })),
+  pages: z.array(z.object({ attributes: StrapiPageSchema })),
+  "result-pages": z.array(z.object({ attributes: StrapiResultPageSchema })),
   "vorab-check-pages": z.array(
-    HasStrapiIdSchema.extend({
-      attributes: StrapiVorabCheckPageSchema,
-    }),
+    z.object({ attributes: StrapiVorabCheckPageSchema }),
   ),
   "form-flow-pages": z.array(
-    HasStrapiIdSchema.extend({
-      attributes: StrapiFormFlowPageSchema,
-    }),
+    z.object({ attributes: StrapiFormFlowPageSchema }),
   ),
-  translations: z.array(
-    HasStrapiIdSchema.extend({
-      attributes: StrapiTranslationSchema,
-    }),
-  ),
+  translations: z.array(z.object({ attributes: StrapiTranslationSchema })),
 });
 
 export type StrapiFileContent = z.infer<typeof StrapiFileContentSchema>;

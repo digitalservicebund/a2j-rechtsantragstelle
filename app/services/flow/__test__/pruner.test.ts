@@ -1,9 +1,5 @@
 import _ from "lodash";
-import {
-  strapiFlowPageFactory,
-  strapiFormComponentFactory,
-} from "tests/factories/cmsModels/strapiFlowPage";
-import { fetchFlowPage } from "~/services/cms/index.server";
+import { fetchAllFormFields } from "~/services/cms/index.server";
 import { getPaths, getFormFields, getPropsToKeep } from "../pruner";
 
 vi.mock("~/services/cms/index.server");
@@ -18,7 +14,7 @@ describe("pruner", () => {
         ),
       ).toStrictEqual([
         {
-          steps: [
+          stepIds: [
             "start/start",
             "grundvoraussetzungen/start",
             "grundvoraussetzungen/rechtsschutzversicherung",
@@ -42,7 +38,7 @@ describe("pruner", () => {
         ),
       ).toStrictEqual([
         {
-          steps: [
+          stepIds: [
             "start/start",
             "grundvoraussetzungen/start",
             "grundvoraussetzungen/rechtsschutzversicherung",
@@ -73,7 +69,7 @@ describe("pruner", () => {
         ),
       ).toStrictEqual([
         {
-          steps: [
+          stepIds: [
             "start/start",
             "grundvoraussetzungen/start",
             "grundvoraussetzungen/rechtsschutzversicherung",
@@ -81,7 +77,7 @@ describe("pruner", () => {
           ],
         },
         {
-          steps: [
+          stepIds: [
             "finanzielle-angaben/eigentum-zusammenfassung/bankkonten/daten",
           ],
           arrayIndex: 0,
@@ -89,7 +85,6 @@ describe("pruner", () => {
       ]);
     });
 
-    // todo check for arrays in place
     it("includes multiple paths for subflows", () => {
       expect(
         getPaths(
@@ -116,7 +111,7 @@ describe("pruner", () => {
         ),
       ).toStrictEqual([
         {
-          steps: [
+          stepIds: [
             "start/start",
             "grundvoraussetzungen/start",
             "grundvoraussetzungen/rechtsschutzversicherung",
@@ -124,13 +119,13 @@ describe("pruner", () => {
           ],
         },
         {
-          steps: [
+          stepIds: [
             "finanzielle-angaben/eigentum-zusammenfassung/bankkonten/daten",
           ],
           arrayIndex: 0,
         },
         {
-          steps: [
+          stepIds: [
             "finanzielle-angaben/eigentum-zusammenfassung/bankkonten/daten",
           ],
           arrayIndex: 1,
@@ -157,7 +152,7 @@ describe("pruner", () => {
         ),
       ).toStrictEqual([
         {
-          steps: [
+          stepIds: [
             "start/start",
             "grundvoraussetzungen/start",
             "grundvoraussetzungen/rechtsschutzversicherung",
@@ -177,7 +172,7 @@ describe("pruner", () => {
         ),
       ).toStrictEqual([
         {
-          steps: [
+          stepIds: [
             "start/start",
             "grundvoraussetzungen/start",
             "grundvoraussetzungen/rechtsschutzversicherung",
@@ -189,27 +184,20 @@ describe("pruner", () => {
   });
 
   describe("getFormFields", () => {
-    const mockFetchFlowPage = (
-      formFieldNameFaker?: (step: string) => string[],
-    ) =>
-      vi.mocked(fetchFlowPage).mockImplementation(
-        async (_collection, _flowId, stepId) =>
+    const mockFetchAllFormFields = ({
+      stepIds = ["step1"],
+      formFieldNameGenerator = (stepId: string) => [`formFieldFor-${stepId}`],
+    }: {
+      stepIds?: string[];
+      formFieldNameGenerator?: (stepId: string) => string[];
+    } = {}) =>
+      vi.mocked(fetchAllFormFields).mockImplementation(
+        async (_flowId) =>
           await Promise.resolve(
-            strapiFlowPageFactory.build(
-              formFieldNameFaker
-                ? {
-                    form: formFieldNameFaker(stepId).map((formFieldName) =>
-                      strapiFormComponentFactory.build({ name: formFieldName }),
-                    ),
-                  }
-                : {
-                    form: [
-                      strapiFormComponentFactory.build({
-                        name: `formFieldFor-${stepId}`,
-                      }),
-                    ],
-                  },
-            ),
+            stepIds.map((stepId) => ({
+              stepId,
+              formFields: formFieldNameGenerator(stepId),
+            })),
           ),
       );
 
@@ -217,29 +205,12 @@ describe("pruner", () => {
       vi.resetAllMocks();
     });
 
-    it("calls cms service with correct params", async () => {
-      const fetchFlowPageMock = mockFetchFlowPage();
-      await getFormFields(
-        [{ steps: ["step1", "step2"] }],
-        "/beratungshilfe/antrag",
-      );
-
-      expect(fetchFlowPageMock).toHaveBeenCalledWith(
-        "form-flow-pages",
-        "/beratungshilfe/antrag",
-        "step1",
-      );
-      expect(fetchFlowPageMock).toHaveBeenCalledWith(
-        "form-flow-pages",
-        "/beratungshilfe/antrag",
-        "step2",
-      );
-    });
-
     it("returns form field names", async () => {
-      mockFetchFlowPage();
+      const stepIds = ["step1", "step2"];
+
+      mockFetchAllFormFields({ stepIds });
       const result = await getFormFields(
-        [{ steps: ["step1", "step2"] }],
+        [{ stepIds }],
         "/beratungshilfe/antrag",
       );
 
@@ -256,14 +227,17 @@ describe("pruner", () => {
     });
 
     it("returns form field names for multiple forms within one flowPage", async () => {
-      mockFetchFlowPage((step: string) => [
-        `formField1For-${step}`,
-        `formField2For-${step}`,
-        `formField3For-${step}`,
-      ]);
+      mockFetchAllFormFields({
+        stepIds: ["step1"],
+        formFieldNameGenerator: (stepId: string) => [
+          `formField1For-${stepId}`,
+          `formField2For-${stepId}`,
+          `formField3For-${stepId}`,
+        ],
+      });
 
       const result = await getFormFields(
-        [{ steps: ["step1"] }],
+        [{ stepIds: ["step1"] }],
         "/beratungshilfe/antrag",
       );
 
@@ -284,13 +258,19 @@ describe("pruner", () => {
     });
 
     it("keeps array index", async () => {
-      mockFetchFlowPage();
+      const path1StepIds = ["step1", "step2"];
+      const path2StepIds = ["step1a", "step2a"];
+      const path3StepIds = ["step1b", "step2b", "step3b"];
+
+      mockFetchAllFormFields({
+        stepIds: [...path1StepIds, ...path2StepIds, ...path3StepIds],
+      });
       const result = await getFormFields(
         [
-          { steps: ["step1", "step2"], arrayIndex: undefined },
-          { steps: ["step1a", "step2a"], arrayIndex: 0 },
+          { stepIds: path1StepIds, arrayIndex: undefined },
+          { stepIds: path2StepIds, arrayIndex: 0 },
           {
-            steps: ["step1b", "step2b", "step3b"],
+            stepIds: path3StepIds,
             arrayIndex: 1,
           },
         ],
