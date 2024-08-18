@@ -195,7 +195,7 @@ describe("pruner", () => {
         async (_flowId) =>
           await Promise.resolve(
             stepIds.map((stepId) => ({
-              stepId,
+              stepId: `/${stepId}`,
               formFields: formFieldNameGenerator(stepId),
             })),
           ),

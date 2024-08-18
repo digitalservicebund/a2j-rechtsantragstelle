@@ -13,7 +13,7 @@ import { fetchAllFormFields } from "../cms/index.server";
 type Path = { stepIds: string[]; arrayIndex?: number };
 type FormField = { name: string; arrayIndex?: number };
 
-export async function prune(
+export async function pruneIrrelevantData(
   userData: Context,
   flowId: FlowId,
 ): Promise<Context> {
@@ -47,9 +47,9 @@ export async function getFormFields(
     {} as { [stepId: string]: string[] },
   );
 
-  return paths.flatMap(({ stepIds: steps, arrayIndex }) =>
-    steps.flatMap((step) =>
-      formFieldsMap[step].map((name) => ({ name, arrayIndex })),
+  return paths.flatMap(({ stepIds: stepIds, arrayIndex }) =>
+    stepIds.flatMap((stepId) =>
+      (formFieldsMap[`/${stepId}`] ?? []).map((name) => ({ name, arrayIndex })),
     ),
   );
 }

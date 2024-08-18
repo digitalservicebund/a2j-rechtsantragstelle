@@ -12,6 +12,7 @@ import {
   setDataForSession,
   updateDataForSession,
 } from "./redis";
+import { pruneIrrelevantData } from "../flow/pruner";
 
 export const allSessionContexts = [...flowIds, "main"] as const;
 type SessionContext = (typeof allSessionContexts)[number];
@@ -67,6 +68,17 @@ export const getSessionData = async (
   const { data, id } = await contextSession.getSession(cookieHeader);
   const userData: Context = data; // Recast for now to get type safety
   return { userData, debugId: contextSession.getDebugId(id) };
+};
+
+export const getPrunedSessionData = async (
+  flowId: FlowId,
+  cookieHeader: CookieHeader,
+) => {
+  const sessionData = await getSessionData(flowId, cookieHeader);
+  return {
+    userData: await pruneIrrelevantData(sessionData.userData, flowId),
+    debugId: sessionData.debugId,
+  };
 };
 
 export const updateSession = (session: Session, validatedData: Context) => {
