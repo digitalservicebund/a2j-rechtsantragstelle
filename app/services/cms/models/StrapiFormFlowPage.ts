@@ -26,3 +26,5 @@ export const StrapiFormFlowPageSchema = z
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiMetaSchema)
   .merge(HasStrapiTimestampsSchema);
+
+export type StrapiFormFlowPage = z.infer<typeof StrapiFormFlowPageSchema>;

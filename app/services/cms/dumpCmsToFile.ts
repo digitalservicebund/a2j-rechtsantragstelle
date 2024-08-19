@@ -1,9 +1,8 @@
 /* eslint-disable no-console */
 import fs from "node:fs";
 import { configDotenv } from "dotenv";
-import { getStrapiCollectionFromApi } from "./getStrapiEntryFromApi";
-import type { EntrySchemas, CollectionSchemas } from "./schemas";
-import { entrySchemas, collectionSchemas } from "./schemas";
+import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";
+import { strapiSchemas, type ApiId } from "./schemas";
 import { config } from "../env/env.server";
 
 async function dumpCmsToFile() {
@@ -12,14 +11,11 @@ async function dumpCmsToFile() {
   console.log(`Fetching CMS data from ${STRAPI_API}`);
 
   const locale = "all";
-  const apiIds = Object.keys(entrySchemas).concat(
-    Object.keys(collectionSchemas),
-  ) as (keyof EntrySchemas | keyof CollectionSchemas)[];
-
   const content: Record<string, unknown> = {};
-  for (const apiId of apiIds) {
+
+  for (const apiId of Object.keys(strapiSchemas) as ApiId[]) {
     console.log(`Fetching ${apiId}`);
-    content[apiId] = await getStrapiCollectionFromApi({
+    content[apiId] = await getStrapiEntryFromApi({
       apiId,
       locale,
       pageSize: "500",

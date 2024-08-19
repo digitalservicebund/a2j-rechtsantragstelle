@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { StrapiCookieBannerSchema } from "./models/StrapiCookieBannerSchema";
 import { StrapiFooterSchema } from "./models/StrapiFooter";
 import { StrapiFormFlowPageSchema } from "./models/StrapiFormFlowPage";
@@ -8,22 +9,44 @@ import { StrapiTranslationSchema } from "./models/StrapiTranslations";
 import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
 
 export const entrySchemas = {
-  "page-header": StrapiPageHeaderSchema,
-  footer: StrapiFooterSchema,
-  "cookie-banner": StrapiCookieBannerSchema,
-} as const;
-export type EntrySchemas = typeof entrySchemas;
+  "page-header": z.array(z.object({ attributes: StrapiPageHeaderSchema })),
+  footer: z.array(z.object({ attributes: StrapiFooterSchema })),
+  "cookie-banner": z.array(z.object({ attributes: StrapiCookieBannerSchema })),
+};
+export type SingleEntryId = keyof typeof entrySchemas;
+const _entrySchemas = z.object(entrySchemas);
+export type EntrySchemas = z.infer<typeof _entrySchemas>;
 
 export const flowPageSchemas = {
-  "result-pages": StrapiResultPageSchema,
-  "vorab-check-pages": StrapiVorabCheckPageSchema,
-  "form-flow-pages": StrapiFormFlowPageSchema,
-} as const;
-export type FlowPage = typeof flowPageSchemas;
+  "result-pages": z.array(z.object({ attributes: StrapiResultPageSchema })),
+  "vorab-check-pages": z.array(
+    z.object({ attributes: StrapiVorabCheckPageSchema }),
+  ),
+  "form-flow-pages": z.array(
+    z.object({ attributes: StrapiFormFlowPageSchema }),
+  ),
+};
+
+export type FlowPageId = keyof typeof flowPageSchemas;
+const _flowPageSchemas = z.object(flowPageSchemas);
+export type FlowPageSchemas = z.infer<typeof _flowPageSchemas>;
 
 export const collectionSchemas = {
-  pages: StrapiPageSchema,
-  translations: StrapiTranslationSchema,
+  pages: z.array(z.object({ attributes: StrapiPageSchema })),
+  translations: z.array(z.object({ attributes: StrapiTranslationSchema })),
   ...flowPageSchemas,
+};
+
+export type CollectionId = keyof typeof collectionSchemas;
+
+const _collectionSchemas = z.object(collectionSchemas);
+export type CollectionSchemas = z.infer<typeof _collectionSchemas>;
+
+export const strapiSchemas = {
+  ...entrySchemas,
+  ...collectionSchemas,
 } as const;
-export type CollectionSchemas = typeof collectionSchemas;
+
+export type ApiId = keyof typeof strapiSchemas;
+export const strapiFileSchema = z.object(strapiSchemas);
+export type StrapiSchemas = z.infer<typeof strapiFileSchema>;
