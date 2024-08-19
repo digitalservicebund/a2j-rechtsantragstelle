@@ -91,9 +91,8 @@ export const fetchAllFormFields = async (
     })
   )
     .filter((formFlowPage) => formFlowPage !== null)
-    .map((formFlowPage) => formFlowPage.attributes)
-    .filter(({ stepId, form }) => form.length > 0 && stepId)
-    .map(({ stepId, form }) => ({
+    .filter(({ attributes: { stepId, form } }) => form.length > 0 && stepId)
+    .map(({ attributes: { stepId, form } }) => ({
       stepId: stepId!,
       formFields: form.map((formField) => formField.name),
     }));

@@ -79,9 +79,7 @@ function getSteps(
 }
 
 function getMainFlowPath(flowController: FlowController): Path {
-  return {
-    stepIds: getSteps(flowController),
-  };
+  return { stepIds: getSteps(flowController) };
 }
 
 function getSubflowPaths(
@@ -91,19 +89,18 @@ function getSubflowPaths(
   return Object.entries(flowController.getRootMeta()?.arrays ?? {})
     .filter(([key]) => !_.isUndefined(userData[key]))
     .filter(([_key, config]) => userData[config.statementKey] === "yes")
-    .map(([key, config]) => ({ key, config, data: userData[key] as ArrayData }))
-    .map((array) =>
-      array.data.map((_data, index) => ({
+    .map(([key, arrayConfig]) =>
+      (userData[key] as ArrayData).map((_data, index) => ({
         stepIds: getSteps(
           buildFlowController({
             config: flowController.getConfig(),
+            guards: flowController.getGuards(),
             data: addPageDataToUserData(userData, {
               arrayIndexes: [index],
             }),
-            guards: flowController.getGuards(),
           }),
-          getSubFlowInitialStep(array.config),
-        ).filter(stepBelongsToArray(array.config)),
+          getSubFlowInitialStep(arrayConfig),
+        ).filter(stepBelongsToArray(arrayConfig)),
         arrayIndex: index,
       })),
     )

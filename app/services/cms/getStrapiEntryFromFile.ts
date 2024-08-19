@@ -25,7 +25,7 @@ export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>({
     }
   }
 
-  const contentItems = [...content[opts.apiId as T]].filter(
+  const contentItems = [...content[opts.apiId]].filter(
     ({ attributes }) =>
       !opts.filters ||
       opts.filters.every(({ field, value, nestedField }) => {
