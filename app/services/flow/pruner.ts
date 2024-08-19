@@ -8,6 +8,7 @@ import {
   buildFlowController,
 } from "./server/buildFlowController";
 import { ArrayConfig } from "../array";
+import { resolveArrayCharacter } from "../array/resolveArrayCharacter";
 import { fetchAllFormFields } from "../cms/index.server";
 
 type Path = { stepIds: string[]; arrayIndex?: number };
@@ -17,10 +18,11 @@ export async function pruneIrrelevantData(
   userData: Context,
   flowId: FlowId,
 ): Promise<Context> {
-  return _.pick(
-    userData,
-    getPropsToKeep(await getFormFields(getPaths(userData, flowId), flowId)),
+  const formFields = await getFormFields(getPaths(userData, flowId), flowId);
+  const propsToKeep = formFields.map(({ name, arrayIndex }) =>
+    resolveArrayCharacter(name, arrayIndex !== undefined ? [arrayIndex] : []),
   );
+  return _.pick(userData, propsToKeep);
 }
 
 export function getPaths(userData: Context, flowId: FlowId): Path[] {
@@ -51,12 +53,6 @@ export async function getFormFields(
     stepIds.flatMap((stepId) =>
       (formFieldsMap[`/${stepId}`] ?? []).map((name) => ({ name, arrayIndex })),
     ),
-  );
-}
-
-export function getPropsToKeep(formFields: FormField[]): string[] {
-  return formFields.map((formField) =>
-    formField.name.replace("#", `[${formField.arrayIndex}].`),
   );
 }
 

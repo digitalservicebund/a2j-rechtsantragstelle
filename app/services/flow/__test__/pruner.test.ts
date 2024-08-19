@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { fetchAllFormFields } from "~/services/cms/index.server";
-import { getPaths, getFormFields, getPropsToKeep } from "../pruner";
+import { getPaths, getFormFields } from "../pruner";
 
 vi.mock("~/services/cms/index.server");
 
@@ -306,47 +306,6 @@ describe("pruner", () => {
           name: "formFieldFor-step3b",
           arrayIndex: 1,
         },
-      ]);
-    });
-  });
-
-  describe("getPropsToKeep", () => {
-    it("extracts props for base paths", () => {
-      const props = getPropsToKeep([
-        { name: "rechtsschutzversicherung", arrayIndex: undefined },
-        { name: "wurdeVerklagt", arrayIndex: undefined },
-      ]);
-
-      expect(props).toStrictEqual([
-        "rechtsschutzversicherung",
-        "wurdeVerklagt",
-      ]);
-    });
-
-    it("extracts props for nested data", () => {
-      const props = getPropsToKeep([
-        { name: "weitereseinkommen.fooName", arrayIndex: undefined },
-        { name: "weitereseinkommen.barName", arrayIndex: undefined },
-      ]);
-
-      expect(props).toStrictEqual([
-        "weitereseinkommen.fooName",
-        "weitereseinkommen.barName",
-      ]);
-    });
-
-    it("extracts props for sub paths", () => {
-      const props = getPropsToKeep([
-        {
-          name: "geldanlagen#fooName",
-          arrayIndex: 0,
-        },
-        { name: "geldanlagen#barName", arrayIndex: 0 },
-      ]);
-
-      expect(props).toStrictEqual([
-        "geldanlagen[0].fooName",
-        "geldanlagen[0].barName",
       ]);
     });
   });
