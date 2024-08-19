@@ -20,11 +20,23 @@ describe("PostSubmissionBox", () => {
       <FeedbackTranslationContext.Provider
         value={{ translations: TRANSLATION_KEY_RECORD }}
       >
-        <PostSubmissionBox />
+        <PostSubmissionBox shouldFocus={false} />
       </FeedbackTranslationContext.Provider>,
     );
 
     expect(getByText(HEADING_POST_SUBMISSION)).toBeInTheDocument();
     expect(getByText(TEXT_POST_SUBMISSION)).toBeInTheDocument();
+  });
+
+  it("should render the component with the focus on the heading ", () => {
+    const { getByText } = render(
+      <FeedbackTranslationContext.Provider
+        value={{ translations: TRANSLATION_KEY_RECORD }}
+      >
+        <PostSubmissionBox shouldFocus />
+      </FeedbackTranslationContext.Provider>,
+    );
+
+    expect(getByText(HEADING_POST_SUBMISSION)).toHaveFocus();
   });
 });

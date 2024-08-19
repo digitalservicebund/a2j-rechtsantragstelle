@@ -2,6 +2,7 @@ import { createRemixStub } from "@remix-run/testing";
 import { render } from "@testing-library/react";
 import {
   ABORT_BUTTON_FEEDBACK_TRANSLATION_KEY,
+  FEEDBACK_FIELD_NAME,
   FeedbackFormBox,
   HEADING_FEEDBACK_TRANSLATION_KEY,
   SUBMIT_BUTTON_FEEDBACK_TRANSLATION_KEY,
@@ -27,7 +28,11 @@ describe("FeedbackFormBox", () => {
           <FeedbackTranslationContext.Provider
             value={{ translations: TRANSLATION_KEY_RECORD }}
           >
-            <FeedbackFormBox destination="destination" />
+            <FeedbackFormBox
+              destination="destination"
+              shouldFocus={false}
+              onSubmit={vitest.fn}
+            />
           </FeedbackTranslationContext.Provider>
         ),
       },
@@ -37,5 +42,27 @@ describe("FeedbackFormBox", () => {
     expect(getByText(HEADING_FEEDBACK)).toBeInTheDocument();
     expect(getByText(ABORT_BUTTON_FEEDBACK)).toBeInTheDocument();
     expect(getByText(SUBMIT_BUTTON_FEEDBACK)).toBeInTheDocument();
+  });
+
+  it("should render the component with the focus on the text area ", () => {
+    const FeedbackFormBoxWithRemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => (
+          <FeedbackTranslationContext.Provider
+            value={{ translations: TRANSLATION_KEY_RECORD }}
+          >
+            <FeedbackFormBox
+              destination="destination"
+              shouldFocus
+              onSubmit={vitest.fn}
+            />
+          </FeedbackTranslationContext.Provider>
+        ),
+      },
+    ]);
+    const { container } = render(<FeedbackFormBoxWithRemixStub />);
+
+    expect(container.querySelector(`#${FEEDBACK_FIELD_NAME}`)).toHaveFocus();
   });
 });
