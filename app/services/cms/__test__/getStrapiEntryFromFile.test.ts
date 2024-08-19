@@ -2,9 +2,9 @@ import fs from "node:fs";
 import { faker } from "@faker-js/faker";
 import { strapiFooterFactory } from "tests/factories/cmsModels/strapiFooter";
 import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
-import { type StrapiFileContent } from "~/services/cms/models/StrapiFileContent";
 import { StrapiLocaleSchema } from "~/services/cms/models/StrapiLocale";
 import { type StrapiPage } from "~/services/cms/models/StrapiPage";
+import type { StrapiSchemas } from "../schemas";
 
 vi.mock("node:fs");
 
@@ -64,7 +64,7 @@ describe("services/cms", () => {
         },
       ],
       translations: [],
-    } satisfies StrapiFileContent;
+    } satisfies StrapiSchemas;
     vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify(fileContent));
 
     test("returns an entry", async () => {
@@ -128,7 +128,7 @@ describe("services/cms", () => {
       ).not.toBeUndefined();
     });
 
-    it("returns empty list when no entry matches", async () => {
+    it("returns empty array without matches", async () => {
       expect(
         await getStrapiEntryFromFile({
           apiId: "pages",

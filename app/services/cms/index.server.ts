@@ -1,12 +1,18 @@
-import type { z } from "zod";
 import type { FlowId } from "~/flows/flowIds";
 import type { Filter, GetStrapiEntryOpts } from "./filters";
 import { getStrapiEntry } from "./getStrapiEntry";
 import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
-import type { StrapiLocale } from "./models/StrapiLocale";
 import type { StrapiPage } from "./models/StrapiPage";
-import type { CollectionSchemas, EntrySchemas, FlowPage } from "./schemas";
-import { collectionSchemas, entrySchemas } from "./schemas";
+import {
+  collectionSchemas,
+  entrySchemas,
+  type CollectionId,
+  type CollectionSchemas,
+  type EntrySchemas,
+  type FlowPageId,
+  type FlowPageSchemas,
+  type SingleEntryId,
+} from "./schemas";
 import { httpErrorCodes } from "../errorPages/ErrorBox";
 
 export type Translations = Record<string, string>;
@@ -18,52 +24,43 @@ export async function fetchMeta(
   const filters = [{ value: opts.filterValue, field: "slug" }];
   const apiId = "pages";
   const pageEntry = await getStrapiEntry({ ...opts, filters, apiId, populate });
-  const parsedEntry = HasStrapiMetaSchema.safeParse(pageEntry);
+  const parsedEntry = HasStrapiMetaSchema.safeParse(pageEntry[0]?.attributes);
   return parsedEntry.success ? parsedEntry.data.meta : null;
 }
 
-export async function fetchSingleEntry<ApiId extends keyof EntrySchemas>(
-  apiId: ApiId,
-  locale?: StrapiLocale,
-): Promise<z.infer<EntrySchemas[ApiId]>> {
-  const strapiEntry = (await getStrapiEntry({ apiId, locale })).at(
-    0,
-  )?.attributes;
-  return entrySchemas[apiId].parse(strapiEntry);
+export async function fetchSingleEntry<T extends SingleEntryId>(
+  apiId: T,
+): Promise<EntrySchemas[T][number]["attributes"]> {
+  const strapiEntry = await getStrapiEntry({ apiId });
+  return entrySchemas[apiId].parse(strapiEntry)[0].attributes;
 }
 
-async function fetchCollectionEntry<ApiId extends keyof CollectionSchemas>(
-  apiId: ApiId,
+async function fetchCollectionEntry<T extends CollectionId>(
+  apiId: T,
   filters?: Filter[],
-  locale?: StrapiLocale,
-): Promise<z.infer<CollectionSchemas[ApiId]>> {
-  const strapiEntry = (
-    await getStrapiEntry({
-      apiId,
-      locale,
-      filters,
-    })
-  ).at(0)?.attributes;
+): Promise<CollectionSchemas[T][number]["attributes"]> {
+  const strapiEntry = await getStrapiEntry({ apiId, filters });
+  const strapiEntryParsed = collectionSchemas[apiId].safeParse(strapiEntry);
 
-  if (!strapiEntry) {
+  if (!strapiEntryParsed.success || strapiEntryParsed.data.length === 0) {
     const error = new Error(
       `CMS lookup for ${apiId} failed (filters: ${JSON.stringify(filters)})`,
     );
     error.name = "StrapiPageNotFound";
     throw error;
   }
-  return collectionSchemas[apiId].parse(strapiEntry);
+  return strapiEntryParsed.data[0].attributes;
 }
 
 export const fetchTranslations = async (
   name: string,
-  locale?: StrapiLocale,
 ): Promise<Translations> => {
   const filters = [{ field: "scope", value: name }];
   try {
-    const entry = fetchCollectionEntry("translations", filters, locale);
+    const entry = await fetchCollectionEntry("translations", filters);
+    if (!entry) return {};
     return Object.fromEntries(
-      (await entry).field.map(({ name, value }) => [name, value]),
+      entry.field.map(({ name, value }) => [name, value]),
     );
   } catch {
     return {};
@@ -73,11 +70,11 @@ export const fetchTranslations = async (
 export const fetchPage = (slug: string) =>
   fetchCollectionEntry("pages", [{ field: "slug", value: slug }]);
 
-export const fetchFlowPage = <Collection extends keyof FlowPage>(
-  collection: Collection,
+export const fetchFlowPage = <T extends FlowPageId>(
+  collection: T,
   flowId: FlowId,
   stepId: string,
-): Promise<z.infer<FlowPage[Collection]>> =>
+): Promise<FlowPageSchemas[T][number]["attributes"]> =>
   fetchCollectionEntry(collection, [
     { field: "stepId", value: "/" + stepId }, // TODO: align stepid between app & cms
     { field: "flow_ids", nestedField: "flowId", value: flowId },
@@ -93,6 +90,7 @@ export const fetchAllFormFields = async (
       populate: "form",
     })
   )
+    .filter((formFlowPage) => formFlowPage !== null)
     .map((formFlowPage) => formFlowPage.attributes)
     .filter(({ stepId, form }) => form.length > 0 && stepId)
     .map(({ stepId, form }) => ({
@@ -100,12 +98,8 @@ export const fetchAllFormFields = async (
       formFields: form.map((formField) => formField.name),
     }));
 
-export const strapiPageFromRequest = ({
-  request,
-}: {
-  request: Request;
-  locale?: StrapiLocale;
-}) => fetchPage(new URL(request.url).pathname);
+export const strapiPageFromRequest = ({ request }: { request: Request }) =>
+  fetchPage(new URL(request.url).pathname);
 
 export async function fetchErrors() {
   const cmsErrorSlug = "/error/";

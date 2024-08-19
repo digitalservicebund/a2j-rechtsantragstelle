@@ -46,3 +46,5 @@ export const StrapiResultPageSchema = z
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiMetaSchema)
   .merge(HasStrapiTimestampsSchema);
+
+export type StrapiResultPage = z.infer<typeof StrapiResultPageSchema>;

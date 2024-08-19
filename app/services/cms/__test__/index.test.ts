@@ -3,11 +3,11 @@ import {
   strapiFormComponentFactory,
 } from "tests/factories/cmsModels/strapiFlowPage";
 import { strapiFooterFactory } from "~/../tests/factories/cmsModels/strapiFooter";
-import { getStrapiEntry } from "~/services/cms/getStrapiEntry";
 import {
   fetchAllFormFields,
   fetchSingleEntry,
 } from "~/services/cms/index.server";
+import { getStrapiEntry } from "../getStrapiEntry";
 
 vi.mock("~/services/cms/getStrapiEntry");
 

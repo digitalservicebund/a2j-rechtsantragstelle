@@ -1,5 +1,6 @@
 import type { FlowId } from "~/flows/flowIds";
 import type { Flow } from "~/flows/flows.server";
+import type { FlowPageId } from "~/services/cms/schemas";
 import {
   buildFlowController,
   FlowController,
@@ -18,14 +19,7 @@ vi.mock("app/services/flow/server/buildFlowController", () => ({
   buildFlowController: vi.fn(),
 }));
 
-type CmsSlug =
-  | "result-pages"
-  | "vorab-check-pages"
-  | "form-flow-pages"
-  | "pages"
-  | "translations";
-
-const createMockFlow = (cmsSlug: CmsSlug): Flow => ({
+const createMockFlow = (cmsSlug: FlowPageId): Flow => ({
   config: {},
   guards: {},
   cmsSlug,

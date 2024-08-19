@@ -1,5 +1,5 @@
-import type { StrapiFileContent } from "./models/StrapiFileContent";
 import type { StrapiLocale } from "./models/StrapiLocale";
+import type { ApiId } from "./schemas";
 
 export type Filter = {
   field: string;
@@ -8,7 +8,7 @@ export type Filter = {
 };
 
 export type GetStrapiEntryOpts = {
-  apiId: keyof StrapiFileContent;
+  apiId: ApiId;
   filters?: Filter[];
   locale?: StrapiLocale;
   populate?: string;

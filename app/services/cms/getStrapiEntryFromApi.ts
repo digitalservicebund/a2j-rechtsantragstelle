@@ -1,8 +1,8 @@
 import axios from "axios";
 import type { Filter, GetStrapiEntryOpts } from "./filters";
 import { GetStrapiEntry } from "./getStrapiEntry";
-import type { StrapiFileContent } from "./models/StrapiFileContent";
 import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
+import type { ApiId, StrapiSchemas } from "./schemas";
 import { config } from "../env/env.server";
 
 function buildFilters(filters?: Filter[]) {
@@ -33,27 +33,29 @@ const buildUrl = ({
     buildFilters(filters),
   ].join("");
 
-const makeStrapiRequest = async <T extends keyof StrapiFileContent>(
-  url: string,
-) =>
-  axios.get<{ data: StrapiFileContent[T] }>(url, {
+const makeStrapiRequest = async <T extends ApiId>(url: string) =>
+  axios.get<{ data: StrapiSchemas[T] | null }>(url, {
     validateStatus: (status) => status < 500,
     headers: {
       Authorization: "Bearer " + config().STRAPI_ACCESS_KEY,
     },
   });
 
-export const getStrapiCollectionFromApi = async (opts: GetStrapiEntryOpts) =>
-  ((await makeStrapiRequest(buildUrl(opts))).data as { data: object }).data;
-
-export const getStrapiEntryFromApi: GetStrapiEntry = async <
-  T extends keyof StrapiFileContent,
->(
+export const getStrapiEntryFromApi: GetStrapiEntry = async <T extends ApiId>(
   opts: GetStrapiEntryOpts,
 ) => {
   const stagingUrl = buildUrl({ ...opts, locale: stagingLocale });
-  const stagingResponse = await makeStrapiRequest<T>(stagingUrl);
-  if (stagingResponse.data.data?.length > 0) return stagingResponse.data.data;
+  const stagingData =
+    opts.locale !== "all"
+      ? (await makeStrapiRequest<T>(stagingUrl)).data.data
+      : null;
 
-  return (await makeStrapiRequest<T>(buildUrl(opts))).data.data;
+  const invalidStagingData =
+    !stagingData || (Array.isArray(stagingData) && stagingData.length === 0);
+
+  const returnData = invalidStagingData
+    ? (await makeStrapiRequest<T>(buildUrl(opts))).data.data
+    : stagingData;
+
+  return Array.isArray(returnData) ? returnData : [returnData];
 };
