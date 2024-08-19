@@ -1,5 +1,5 @@
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
-import { type AllContexts } from "../common";
+import { type AllContexts } from "./common";
 
 /* eslint-disable camelcase */
 const gerichtskostenvorschuss = {
