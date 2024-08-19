@@ -2,7 +2,6 @@ import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
 import HighlightOff from "@digitalservicebund/icons/HighlightOff";
 import WarningAmber from "@digitalservicebund/icons/WarningAmber";
 import { type ReactElement } from "react";
-import type { z } from "zod";
 import type { BackgroundColor } from "~/components";
 import Background from "~/components/Background";
 import ButtonContainer from "~/components/ButtonContainer";
@@ -16,8 +15,8 @@ import type { Translations } from "~/services/cms/index.server";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
+import type { StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
-import type { CollectionSchemas } from "~/services/cms/schemas";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import { arrayIsNonEmpty } from "~/util/array";
 
@@ -36,7 +35,7 @@ const backgrounds: Record<StrapiResultPageType, BackgroundColor> = {
 
 type Props = {
   readonly common: Translations;
-  readonly cmsData: z.infer<CollectionSchemas["result-pages"]>;
+  readonly cmsData: StrapiResultPage;
   readonly reasons: StrapiElementWithId[];
   readonly backButton: {
     label: string;

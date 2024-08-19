@@ -5,7 +5,7 @@ import { beratungshilfeFormular } from "~/flows/beratungshilfeFormular";
 import { fluggastrechtFlow } from "~/flows/fluggastrechteFormular";
 import { geldEinklagenFormular } from "~/flows/geldEinklagenFormular";
 import type { Translations } from "~/services/cms/index.server";
-import { type CollectionSchemas } from "~/services/cms/schemas";
+import type { FlowPageId } from "~/services/cms/schemas";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
 import type { Replacements } from "~/util/fillTemplate";
@@ -15,7 +15,7 @@ import type { Guards } from "./guards.server";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfeFormular";
 
 export type Flow = {
-  cmsSlug: keyof CollectionSchemas;
+  cmsSlug: FlowPageId;
   config: Config;
   guards: Guards;
   migrationSource?: FlowId;

@@ -1,16 +1,16 @@
 import { strapiFooterFactory } from "~/../tests/factories/cmsModels/strapiFooter";
-import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
 import { fetchSingleEntry } from "~/services/cms/index.server";
+import { getStrapiEntry } from "../getStrapiEntry";
 
-vi.mock("~/services/cms/getStrapiEntryFromFile");
+vi.mock("~/services/cms/getStrapiEntry");
 
 describe("services/cms", () => {
   describe("fetchSingleEntry", () => {
     test("returns a footer entry", async () => {
       const footerData = strapiFooterFactory.build();
-      vi.mocked(getStrapiEntryFromFile).mockReturnValue(
+      vi.mocked(getStrapiEntry).mockReturnValue(
         new Promise((resolve) => {
-          resolve(footerData);
+          resolve([{ attributes: footerData }]);
         }),
       );
       expect(await fetchSingleEntry("footer")).toEqual(footerData);

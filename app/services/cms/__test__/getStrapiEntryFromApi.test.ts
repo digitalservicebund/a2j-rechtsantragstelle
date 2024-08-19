@@ -18,8 +18,7 @@ describe("services/cms", () => {
   });
 
   describe("getStrapiEntryFromApi", () => {
-    const expectedData = "data";
-    const dataResponse = { attributes: expectedData };
+    const dataResponse = [{ attributes: "data" }];
     const defaultOptions: GetStrapiEntryOpts = {
       apiId: "pages",
       locale: stagingLocale,
@@ -100,8 +99,8 @@ describe("services/cms", () => {
     });
 
     test("response handling with api returning array", async () => {
-      axiosGetSpy.mockResolvedValue({ data: { data: [dataResponse] } });
-      expect(await getStrapiEntryFromApi(defaultOptions)).toEqual(expectedData);
+      axiosGetSpy.mockResolvedValue({ data: { data: dataResponse } });
+      expect(await getStrapiEntryFromApi(defaultOptions)).toEqual(dataResponse);
     });
   });
 });
