@@ -1,7 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
-import type { z } from "zod";
 import { parsePathname } from "~/flows/flowIds";
 import { flows } from "~/flows/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -15,7 +14,7 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
-import type { CollectionSchemas } from "~/services/cms/schemas";
+import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
@@ -46,9 +45,7 @@ import { getButtonNavigationProps } from "~/util/buttonProps";
 import { interpolateDeep } from "~/util/fillTemplate";
 import { filterFormData } from "~/util/filterFormData";
 
-const structureCmsContent = (
-  formPageContent: z.infer<CollectionSchemas["form-flow-pages"]>,
-) => {
+const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
   return {
     heading: "heading" in formPageContent ? formPageContent.heading : undefined,
     preHeading:
