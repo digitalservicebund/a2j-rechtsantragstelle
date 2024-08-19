@@ -70,7 +70,7 @@ jobs:
           retention-days: 1
 
       - name: Upload Failed Test results
-        if: failure()
+        if: ${{ hashFiles('test-results/') != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: video-test-results-${{ inputs.e2e-target }}-${{ matrix.shard }}
