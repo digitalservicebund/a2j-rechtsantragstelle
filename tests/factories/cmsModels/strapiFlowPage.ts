@@ -1,10 +1,10 @@
 import { faker } from "@faker-js/faker";
 import { Factory } from "fishery";
-import { StrapiFormComponentSchema } from "~/services/cms/models/StrapiFormComponent";
-import { StrapiFormFlowPageSchema } from "~/services/cms/models/StrapiFormFlowPage";
+import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import { type StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 
 export const strapiFlowPageFactory = Factory.define<
-  Zod.infer<typeof StrapiFormFlowPageSchema>,
+  StrapiFormFlowPage,
   { formFieldName: string }
 >(({ transientParams }) => ({
   heading: faker.lorem.words(5),
@@ -18,13 +18,7 @@ export const strapiFlowPageFactory = Factory.define<
     ),
   ],
   stepId: faker.lorem.word(),
-  flow_ids: {
-    data: [
-      {
-        attributes: { flowId: "/beratungshilfe/antrag" },
-      },
-    ],
-  },
+  flow_ids: { data: [{ attributes: { flowId: "/beratungshilfe/antrag" } }] },
   pre_form: [],
   post_form: [],
   locale: "de",
@@ -39,16 +33,15 @@ export const strapiFlowPageFactory = Factory.define<
   },
 }));
 
-export const strapiFormComponentFactory = Factory.define<
-  Zod.infer<typeof StrapiFormComponentSchema>
->(() => ({
-  type: faker.helpers.arrayElement(["number", "text"]),
-  __component: "form-elements.input",
-  label: faker.lorem.word(),
-  name: faker.lorem.word(),
-  id: faker.number.int(100),
-  width: "characters3",
-  errors: {},
-  placeholder: null,
-  suffix: null,
-}));
+export const strapiFormComponentFactory = Factory.define<StrapiFormComponent>(
+  () => ({
+    type: faker.helpers.arrayElement(["number", "text"]),
+    __component: "form-elements.input",
+    label: faker.lorem.word(),
+    name: faker.lorem.word(),
+    width: "characters3",
+    errors: {},
+    placeholder: null,
+    suffix: null,
+  }),
+);
