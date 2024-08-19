@@ -102,7 +102,7 @@ function handleBrowserRequest(
       cspHeader({ nonce: cspNonce, environment: config().ENVIRONMENT }),
     );
 
-    // Obverse for 1-2 weeks if the no cache at all would affect our application
+    // Observe for 1-2 weeks if the no cache at all would affect our application
     if (config().ENVIRONMENT !== "production") {
       responseHeaders.set("Cache-Control", "no-store");
     }
