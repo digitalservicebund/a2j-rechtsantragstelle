@@ -1,11 +1,5 @@
-import { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
-import { GenericGuard } from "~/flows/guards.server";
-import { ProzesskostenhilfeFinanzielleAngabenContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
 import { arrayIsNonEmpty } from "~/util/array";
-
-export type FinanzielleAngabenGuard = GenericGuard<
-  ProzesskostenhilfeFinanzielleAngabenContext | BeratungshilfeFinanzielleAngaben
->;
+import { FinanzielleAngabenGuard } from "./guards";
 
 export const bankKontoDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasBankkonto === "no" ||
