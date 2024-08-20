@@ -49,7 +49,7 @@ export async function getFormFields(
     {} as { [stepId: string]: string[] },
   );
 
-  return paths.flatMap(({ stepIds: stepIds, arrayIndex }) =>
+  return paths.flatMap(({ stepIds, arrayIndex }) =>
     stepIds.flatMap((stepId) =>
       (formFieldsMap[`/${stepId}`] ?? []).map((name) => ({ name, arrayIndex })),
     ),
