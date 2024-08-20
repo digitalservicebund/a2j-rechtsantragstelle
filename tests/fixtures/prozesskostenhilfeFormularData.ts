@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
-import { beratungshilfeAbgabe } from "~/flows/beratungshilfeFormular/abgabe/context";
+import { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,
   eigentumTotalWorthSchema,
@@ -7,8 +8,7 @@ import {
   grundeigentumArraySchema,
   kraftfahrzeugeArraySchema,
   unterhaltszahlungSchema,
-} from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
-import { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+} from "~/flows/shared/finanzielleAngaben/context";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const happyPathData: ProzesskostenhilfeFormularContext = {
@@ -96,5 +96,5 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
       monthlyPayment: faker.finance.amount(),
     },
   ],
-  abgabeArt: beratungshilfeAbgabe.abgabeArt.Enum.ausdrucken,
+  abgabeArt: abgabeContext.abgabeArt.Enum.ausdrucken,
 };

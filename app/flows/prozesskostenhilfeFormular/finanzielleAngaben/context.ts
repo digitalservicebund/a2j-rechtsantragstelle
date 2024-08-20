@@ -9,7 +9,7 @@ import {
   partnerschaftSchema,
   unterhaltszahlungSchema,
   wertsachenArraySchema,
-} from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
+} from "~/flows/shared/finanzielleAngaben/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -45,4 +45,6 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
 const _contextObject = z
   .object(prozesskostenhilfeFinanzielleAngabenContext)
   .partial();
-export type ProzesskostenhilfeEigentumContext = z.infer<typeof _contextObject>;
+export type ProzesskostenhilfeFinanzielleAngabenContext = z.infer<
+  typeof _contextObject
+>;

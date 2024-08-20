@@ -1,18 +1,22 @@
 import { arrayIsNonEmpty } from "~/util/array";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
-import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
 import { eigentumDone } from "./navStatesEigentum";
+import { eigentumZusammenfassungDone } from "./navStatesEigentumZusammenfassungDone";
 import type { GenericGuard } from "../../guards.server";
 
-export type FinanzielleAngabenGuard =
+export type BeratungshilfeFinanzielleAngabenGuard =
   GenericGuard<BeratungshilfeFinanzielleAngaben>;
 
-export const einkommenDone: FinanzielleAngabenGuard = ({ context }) =>
+export const einkommenDone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen({ context })) ||
   context.einkommen != undefined;
 
-export const partnerDone: FinanzielleAngabenGuard = ({ context }) =>
+export const partnerDone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
   (context.staatlicheLeistungen != undefined &&
     hasStaatlicheLeistungen({ context })) ||
   ["no", "widowed"].includes(context.partnerschaft ?? "") ||
@@ -21,42 +25,51 @@ export const partnerDone: FinanzielleAngabenGuard = ({ context }) =>
   context.partnerEinkommenSumme != undefined ||
   (context.partnerNachname != undefined && context.partnerVorname != undefined);
 
-const hasStaatlicheLeistungen: FinanzielleAngabenGuard = ({ context }) =>
+const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
   context.staatlicheLeistungen == "asylbewerberleistungen" ||
   context.staatlicheLeistungen == "buergergeld" ||
   context.staatlicheLeistungen == "grundsicherung";
 
-export const kinderDone: FinanzielleAngabenGuard = ({ context }) =>
+export const kinderDone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
   hasStaatlicheLeistungen({ context }) ||
   context.hasKinder == "no" ||
   arrayIsNonEmpty(context.kinder);
 
-const wohnungAloneDone: FinanzielleAngabenGuard = ({ context }) =>
+const wohnungAloneDone: BeratungshilfeFinanzielleAngabenGuard = ({ context }) =>
   context.livingSituation === "alone" &&
   context.apartmentCostAlone !== undefined;
 
-const wohnungWithOthersDone: FinanzielleAngabenGuard = ({ context }) =>
+const wohnungWithOthersDone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
   (context.livingSituation === "withOthers" ||
     context.livingSituation === "withRelatives") &&
   context.apartmentPersonCount !== undefined &&
   context.apartmentCostOwnShare !== undefined &&
   context.apartmentCostFull !== undefined;
 
-export const wohnungDone: FinanzielleAngabenGuard = ({ context }) =>
+export const wohnungDone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
   hasStaatlicheLeistungen({ context }) ||
   (context.livingSituation !== undefined &&
     context.apartmentSizeSqm !== undefined &&
     (wohnungAloneDone({ context }) || wohnungWithOthersDone({ context })));
 
-export const andereUnterhaltszahlungenDone: FinanzielleAngabenGuard = ({
-  context,
-}) =>
-  (context.staatlicheLeistungen != undefined &&
-    hasStaatlicheLeistungen({ context })) ||
-  context.hasWeitereUnterhaltszahlungen == "no" ||
-  arrayIsNonEmpty(context.unterhaltszahlungen);
+export const andereUnterhaltszahlungenDone: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    (context.staatlicheLeistungen != undefined &&
+      hasStaatlicheLeistungen({ context })) ||
+    context.hasWeitereUnterhaltszahlungen == "no" ||
+    arrayIsNonEmpty(context.unterhaltszahlungen);
 
-export const ausgabenDone: FinanzielleAngabenGuard = ({ context }) => {
+export const ausgabenDone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) => {
   return (
     hasStaatlicheLeistungen({ context }) ||
     context.hasAusgaben === "no" ||
@@ -64,27 +77,26 @@ export const ausgabenDone: FinanzielleAngabenGuard = ({ context }) => {
   );
 };
 
-export const beratungshilfeFinanzielleAngabeDone: GenericGuard<
-  BeratungshilfeFinanzielleAngaben
-> = ({ context }) => {
-  switch (context.staatlicheLeistungen) {
-    case "asylbewerberleistungen":
-    case "grundsicherung":
-      return true;
-    case "buergergeld":
-      return (
-        eigentumDone({ context }) && eigentumZusammenfassungDone({ context })
-      );
-    case "keine":
-      return (
-        partnerDone({ context }) &&
-        eigentumDone({ context }) &&
-        kinderDone({ context }) &&
-        eigentumZusammenfassungDone({ context }) &&
-        einkommenDone({ context }) &&
-        wohnungDone({ context }) &&
-        andereUnterhaltszahlungenDone({ context })
-      );
-  }
-  return false;
-};
+export const beratungshilfeFinanzielleAngabeDone: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) => {
+    switch (context.staatlicheLeistungen) {
+      case "asylbewerberleistungen":
+      case "grundsicherung":
+        return true;
+      case "buergergeld":
+        return (
+          eigentumDone({ context }) && eigentumZusammenfassungDone({ context })
+        );
+      case "keine":
+        return (
+          partnerDone({ context }) &&
+          eigentumDone({ context }) &&
+          kinderDone({ context }) &&
+          eigentumZusammenfassungDone({ context }) &&
+          einkommenDone({ context }) &&
+          wohnungDone({ context }) &&
+          andereUnterhaltszahlungenDone({ context })
+        );
+    }
+    return false;
+  };
