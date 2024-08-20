@@ -1,27 +1,27 @@
 import _ from "lodash";
-import { ProzesskostenhilfeAbgabe } from "./abgabe/context";
 import abgabeFlow from "./abgabe/flow.json";
-import { ProzesskostenhilfeEigentumContext } from "./finanzielleAngaben/context";
+import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
+import { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
-import prozesskostenhilfeFormularFlow from "./flow.json";
-import { beratungshilfeAbgabeGuards } from "../beratungshilfeFormular/abgabe/guards";
-import { finanzielleAngabenArrayConfig } from "../beratungshilfeFormular/finanzielleAngaben/arrayConfiguration";
-import { eigentumZusammenfassungDone } from "../beratungshilfeFormular/finanzielleAngaben/eigentumZusammenfassungDone";
 import {
   eigentumDone,
   finanzielleAngabeGuards,
-} from "../beratungshilfeFormular/finanzielleAngaben/guards";
+} from "./finanzielleAngaben/guards";
 import {
   andereUnterhaltszahlungenDone,
+  eigentumZusammenfassungDone,
   kinderDone,
   partnerDone,
-} from "../beratungshilfeFormular/finanzielleAngaben/navStates";
+} from "./finanzielleAngaben/navStates";
+import prozesskostenhilfeFormularFlow from "./flow.json";
+import { AbgabeContext } from "../shared/abgabe/context";
+import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
 import {
   eigentumZusammenfassungShowWarnings,
   geldAnlagenStrings,
   getArrayIndexStrings,
   getKinderStrings,
-} from "../beratungshilfeFormular/stringReplacements";
+} from "../shared/stringReplacements";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -53,7 +53,7 @@ export const prozesskostenhilfeFormular = {
   }),
   guards: {
     ...finanzielleAngabeGuards,
-    ...beratungshilfeAbgabeGuards,
+    ...prozesskostenhilfeAbgabeGuards,
   },
   stringReplacements: (context: ProzesskostenhilfeFormularContext) => ({
     ...getKinderStrings(context),
@@ -64,4 +64,4 @@ export const prozesskostenhilfeFormular = {
 } as const;
 
 export type ProzesskostenhilfeFormularContext =
-  ProzesskostenhilfeEigentumContext & ProzesskostenhilfeAbgabe;
+  ProzesskostenhilfeFinanzielleAngabenContext & AbgabeContext;

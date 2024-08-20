@@ -286,13 +286,7 @@
       "states": {
         "eigentum-info": {
           "on": {
-            "SUBMIT": [
-              {
-                "guard": "hasPartnerschaftYesAndNoStaatlicheLeistungen",
-                "target": "heirat-info"
-              },
-              "bankkonten-frage"
-            ],
+            "SUBMIT": "heirat-info",
             "BACK": [
               {
                 "guard": "hasWeitereUnterhaltszahlungenYes",
@@ -310,13 +304,7 @@
         },
         "bankkonten-frage": {
           "on": {
-            "BACK": [
-              {
-                "guard": "hasPartnerschaftYesAndNoStaatlicheLeistungen",
-                "target": "heirat-info"
-              },
-              "eigentum-info"
-            ],
+            "BACK": "heirat-info",
             "SUBMIT": "geldanlagen-frage"
           }
         },

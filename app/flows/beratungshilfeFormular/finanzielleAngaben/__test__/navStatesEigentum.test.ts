@@ -1,12 +1,12 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import {
   bankKontoDone,
-  eigentumDone,
   geldanlagenDone,
   grundeigentumDone,
   kraftfahrzeugeDone,
   wertsachenDone,
-} from "~/flows/beratungshilfeFormular/finanzielleAngaben/navStatesEigentum";
+} from "~/flows/shared/finanzielleAngaben/navStates";
+import { eigentumDone } from "../guards";
 
 describe("eigentumDone", () => {
   it("passes with all fields no", () => {
