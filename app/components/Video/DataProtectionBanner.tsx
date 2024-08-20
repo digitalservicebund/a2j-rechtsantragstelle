@@ -16,7 +16,7 @@ export const DataProtectionBanner = ({
   const { translations } = useVideoTranslations();
   return (
     <section
-      className="border-2 border-blue-800 z-50 bg-blue-300 relative -mt-24"
+      className="border-2 border-blue-800 z-10 bg-blue-300 absolute bottom-0 left-0 right-0"
       aria-label="Datenschutz banner"
     >
       <div className="p-16 gap-y-28 flex flex-col flex-wrap">

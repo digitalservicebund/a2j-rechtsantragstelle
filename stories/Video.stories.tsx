@@ -9,7 +9,7 @@ const DIGITAL_SERVICE_GEBAERDENSPRACHE_VIDEO_LINK =
 const meta = {
   title: "Component/Video",
   component: component,
-  parameters: { layout: "centered" },
+  parameters: { layout: "fullscreen" },
   tags: ["autodocs"],
 } satisfies Meta<typeof component>;
 
