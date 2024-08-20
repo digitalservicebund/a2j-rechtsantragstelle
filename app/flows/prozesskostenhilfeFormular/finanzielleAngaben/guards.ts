@@ -16,57 +16,22 @@ import {
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-import { type BeratungshilfeFinanzielleAngaben } from "./context";
+import { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
 import { yesNoGuards, type Guards } from "../../guards.server";
 
-const hasStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] =
+export const eigentumDone: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
   ({ context }) =>
-    context.staatlicheLeistungen === "asylbewerberleistungen" ||
-    context.staatlicheLeistungen === "buergergeld" ||
-    context.staatlicheLeistungen === "grundsicherung";
-
-const hasNoStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] =
-  ({ context }) => {
-    return (
-      context.staatlicheLeistungen !== undefined &&
-      !hasStaatlicheLeistungen({ context })
-    );
-  };
-
-const staatlicheLeistungenIsBuergergeld: Guards<BeratungshilfeFinanzielleAngaben>[string] =
-  ({ context }) => context.staatlicheLeistungen === "buergergeld";
-
-export const eigentumDone: Guards<BeratungshilfeFinanzielleAngaben>[string] = ({
-  context,
-}) =>
-  context.staatlicheLeistungen == "grundsicherung" ||
-  context.staatlicheLeistungen == "asylbewerberleistungen" ||
-  (context.hasBankkonto !== undefined &&
+    context.hasBankkonto !== undefined &&
     context.hasKraftfahrzeug !== undefined &&
     context.hasGeldanlage !== undefined &&
     context.hasGrundeigentum !== undefined &&
     context.hasWertsache !== undefined &&
     (!hasAnyEigentumExceptBankaccount({ context }) ||
-      context.eigentumTotalWorth !== undefined));
-
-const { hasAusgabenYes } = yesNoGuards("hasAusgaben");
+      context.eigentumTotalWorth !== undefined);
 
 export const finanzielleAngabeGuards = {
   eigentumDone,
-  staatlicheLeistungenIsKeine: ({ context }) =>
-    context.staatlicheLeistungen === "keine",
-  staatlicheLeistungenIsBuergergeld,
-  staatlicheLeistungenIsBuergergeldAndHasAnyEigentum: ({ context }) =>
-    staatlicheLeistungenIsBuergergeld({ context }) &&
-    hasAnyEigentum({ context }),
   hasAnyEigentum,
-  staatlicheLeistungenIsBuergergeldAndHasEigentum: ({ context }) =>
-    staatlicheLeistungenIsBuergergeld({ context }) &&
-    hasAnyEigentumExceptBankaccount({ context }),
-  hasStaatlicheLeistungen,
-  hasNoStaatlicheLeistungen,
-  hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
-    context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context }),
   eigentumTotalWorthLessThan10000: ({ context }) =>
     context.eigentumTotalWorth === "less10000",
   hasPartnerschaftOrSeparated,
@@ -90,7 +55,6 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("zusammenleben"),
   ...yesNoGuards("unterhalt"),
   ...yesNoGuards("partnerEinkommen"),
-  hasAusgabenYes,
   hasBankkontoYes,
   hasKraftfahrzeugYes,
   hasGeldanlageYes,
@@ -98,11 +62,6 @@ export const finanzielleAngabeGuards = {
   hasWertsacheYes,
   hasKinderYes,
   hasWeitereUnterhaltszahlungenYes,
-  hasZahlungsfristYes: ({ context: { pageData, ausgaben } }) => {
-    const arrayIndex = firstArrayIndex(pageData);
-    if (arrayIndex === undefined) return false;
-    return ausgaben?.at(arrayIndex)?.hasZahlungsfrist === "yes";
-  },
   isPartnerschaftZusammenlebenEinkommenNo: ({ context }) =>
     context.partnerschaft === "yes" &&
     context.zusammenleben === "yes" &&
@@ -143,12 +102,6 @@ export const finanzielleAngabeGuards = {
   },
   isValidKinderArrayIndex: ({ context: { pageData, kinder } }) =>
     isValidArrayIndex(kinder, pageData),
-  isValidAusgabenArrayIndex: ({ context: { pageData, ausgaben } }) =>
-    isValidArrayIndex(ausgaben, pageData),
-  livesAlone: ({ context }) => context.livingSituation === "alone",
-  livesNotAlone: ({ context }) =>
-    context.livingSituation === "withRelatives" ||
-    context.livingSituation === "withOthers",
   hasAnyEigentumExceptBankaccount,
   isGeldanlageBargeld: ({ context: { pageData, geldanlagen } }) => {
     const arrayIndex = firstArrayIndex(pageData);
@@ -200,8 +153,6 @@ export const finanzielleAngabeGuards = {
     if (arrayIndex === undefined) return false;
     return grundeigentum?.at(arrayIndex)?.isBewohnt === "yes";
   },
-  hasAusgabenYesAndEmptyArray: ({ context }) =>
-    hasAusgabenYes({ context }) && !arrayIsNonEmpty(context.ausgaben),
   eigentumYesAndEmptyArray: ({ context }) =>
     (hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten)) ||
     // entries other than bank accounts are only revelant above 10k
@@ -219,4 +170,4 @@ export const finanzielleAngabeGuards = {
   hasWeitereUnterhaltszahlungenYesAndEmptyArray: ({ context }) =>
     hasWeitereUnterhaltszahlungenYes({ context }) &&
     !arrayIsNonEmpty(context.unterhaltszahlungen),
-} satisfies Guards<BeratungshilfeFinanzielleAngaben>;
+} satisfies Guards<ProzesskostenhilfeFinanzielleAngabenContext>;

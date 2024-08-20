@@ -3,7 +3,7 @@ import {
   eigentumZusammenfassungShowWarnings,
   getArrayIndexStrings,
   getKinderStrings,
-} from "~/flows/beratungshilfeFormular/stringReplacements";
+} from "~/flows/shared/stringReplacements";
 
 describe("stringReplacements", () => {
   describe("getKinderStrings", () => {

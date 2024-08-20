@@ -1,7 +1,7 @@
 import { prozesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
-import { beratungshilfeAbgabe } from "../beratungshilfeFormular/abgabe/context";
+import { abgabeContext } from "../shared/abgabe/context";
 
 export const prozesskostenhilfeFormularContext = {
   ...prozesskostenhilfeFinanzielleAngabenContext,
-  ...beratungshilfeAbgabe,
+  ...abgabeContext,
 } as const;
