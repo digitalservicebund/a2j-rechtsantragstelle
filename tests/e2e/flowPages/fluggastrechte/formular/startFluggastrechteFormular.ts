@@ -50,10 +50,6 @@ export async function startFluggastrechteFormular(
   await formular.fillInput("tatsaechlicherAnkunftsZeit", "10:10");
   await formular.clickNext();
 
-  // /fluggastrechte/formular/persoenliche-daten/person/forderung-mehrere-personen
-  await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("forderungMehrerePersonen", "no");
-
   // /fluggastrechte/formular/persoenliche-daten/person/daten
   await expectPageToBeAccessible({ page });
   await formular.fillInput("anrede", "Herr");

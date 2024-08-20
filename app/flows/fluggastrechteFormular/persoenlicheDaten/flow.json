@@ -9,11 +9,17 @@
     },
     "person": {
       "id": "person",
-      "initial": "forderung-mehrere-personen",
+      "initial": "daten",
       "states": {
-        "forderung-mehrere-personen": {
+        "daten": {
           "on": {
-            "SUBMIT": "daten",
+            "SUBMIT": [
+              {
+                "guard": "isUnter18JahreAlt",
+                "target": "vertretung-minderjaehrige"
+              },
+              "antragsteller-angeben"
+            ],
             "BACK": [
               {
                 "target": "#flugdaten.tatsaechlicher-flug-ankunft",
@@ -34,18 +40,6 @@
             ]
           }
         },
-        "daten": {
-          "on": {
-            "SUBMIT": [
-              {
-                "guard": "isUnter18JahreAlt",
-                "target": "vertretung-minderjaehrige"
-              },
-              "antragsteller-angeben"
-            ],
-            "BACK": "forderung-mehrere-personen"
-          }
-        },
         "vertretung-minderjaehrige": {
           "on": {
             "SUBMIT": "antragsteller-angeben",
@@ -59,7 +53,7 @@
                 "guard": "isProzessbevollmaechtigteYes",
                 "target": "antragsteller-daten"
               },
-              "#forderung"
+              "#weitere-personen.uebersicht"
             ],
             "BACK": [
               {
@@ -72,8 +66,41 @@
         },
         "antragsteller-daten": {
           "on": {
-            "SUBMIT": "#forderung",
+            "SUBMIT": "#weitere-personen.uebersicht",
             "BACK": "antragsteller-angeben"
+          }
+        }
+      }
+    },
+    "weitere-personen": {
+      "id": "weitere-personen",
+      "initial": "uebersicht",
+      "states": {
+        "uebersicht": {
+          "on": {
+            "SUBMIT": "#forderung",
+            "BACK": [
+              {
+                "guard": "isProzessbevollmaechtigteYes",
+                "target": "#person.antragsteller-daten"
+              },
+              "#person.antragsteller-angeben"
+            ],
+            "add-weitere-personen": {
+              "guard": "isValidWeiterePersonenArrayIndex",
+              "target": "person"
+            }
+          }
+        },
+        "person": {
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "BACK": "#weitere-personen.uebersicht",
+                "SUBMIT": "#weitere-personen.uebersicht"
+              }
+            }
           }
         }
       }

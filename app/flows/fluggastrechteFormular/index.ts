@@ -38,6 +38,18 @@ export const fluggastrechtFlow = {
     ...getPersonNachname(context),
   }),
   config: _.merge(fluggastrechteFlow, {
+    meta: {
+      arrays: {
+        weiterePersonen: {
+          url: "/fluggastrechte/formular/persoenliche-daten/weitere-personen/person",
+          initialInputUrl: "daten",
+          statementUrl:
+            "/fluggastrechte/formular/persoenliche-daten/weitere-personen/uebersicht",
+          statementKey: "showAlways",
+          event: "add-weitere-personen",
+        },
+      },
+    },
     states: {
       flugdaten: _.merge(flugdatenFlow, {}),
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {}),

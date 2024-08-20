@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
@@ -22,6 +23,18 @@ export const fluggastrechtePersoenlichDaten = {
   isProzessbevollmaechtigte: YesNoAnswer,
   vornameVollmaechtigte: stringRequiredSchema,
   vollmaechtigteNachname: stringRequiredSchema,
+  weiterePersonen: z.array(
+    z.object({
+      ...namePrivatPerson,
+      ...adresse,
+      telefonnummer: optionalOrSchema(phoneNumberSchema),
+      unter18JahreAlt: checkedOptional,
+      vornameVertretung: stringRequiredSchema,
+      nachnameVertretung: stringRequiredSchema,
+      beschreibenVertretung: stringRequiredSchema,
+    }),
+  ),
+  pageData: pageDataSchema,
 };
 
 const _contextObject = z.object(fluggastrechtePersoenlichDaten).partial();
