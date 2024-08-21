@@ -3,7 +3,7 @@ import {
   beratungshilfeFormular,
   type BeratungshilfeFormularContext,
 } from "~/flows/beratungshilfeFormular";
-import { beratungshilfeAbgabe } from "~/flows/beratungshilfeFormular/abgabe/context";
+import { abgabeContext } from "~/flows/shared/abgabe/context";
 import { HandoutRow } from "../attachment/HandoutRow";
 import { PdfFooter } from "../attachment/PdfFooter";
 import { styles } from "../attachment/styles";
@@ -51,7 +51,7 @@ type Step = {
 };
 
 export const dynamicSteps: { [key: string]: Step[] } = {
-  [beratungshilfeAbgabe.abgabeArt.Enum.ausdrucken]: [
+  [abgabeContext.abgabeArt.Enum.ausdrucken]: [
     { title: "Antrag ausdrucken" },
     {
       title: "Antrag unterschreiben",
@@ -68,7 +68,7 @@ export const dynamicSteps: { [key: string]: Step[] } = {
         `Sie können den Antrag direkt im Amtsgericht abgeben oder per Post schicken. ${validAmtsgericht ? "Die Adresse des zuständigen Amtsgericht finden Sie auf der ersten Seite des Antrags im Adressfeld." : "Ihr zuständiges Amtsgericht finden Sie über den Service “Amtsgericht finden” auf https://service.justiz.de/beratungshilfe."}`,
     },
   ],
-  [beratungshilfeAbgabe.abgabeArt.Enum.online]: [
+  [abgabeContext.abgabeArt.Enum.online]: [
     {
       title: "Antrag prüfen und speichern",
       value:
