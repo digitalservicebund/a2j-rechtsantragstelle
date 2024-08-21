@@ -130,7 +130,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       /**
        * Only hide the header links if we're viewing a flow page
        */
-      hideLinks: !!headerLinksEnabled && !!flowIdFromPathname(pathname),
+      hideLinks: !headerLinksEnabled || !!flowIdFromPathname(pathname),
     },
     footer: getFooterProps(strapiFooter),
     cookieBannerContent: cookieBannerContent,
