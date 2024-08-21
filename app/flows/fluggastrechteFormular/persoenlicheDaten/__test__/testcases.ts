@@ -14,7 +14,6 @@ const machine: FlowStateMachine = createMachine(
 const cases = [
   [
     {
-      forderungMehrerePersonen: "yes",
       anrede: "mr",
       title: "",
       vorname: "test",
@@ -34,7 +33,6 @@ const cases = [
   ],
   [
     {
-      forderungMehrerePersonen: "yes",
       anrede: "mr",
       title: "",
       vorname: "test",
@@ -57,7 +55,6 @@ const cases = [
   ],
   [
     {
-      forderungMehrerePersonen: "yes",
       anrede: "mr",
       title: "",
       vorname: "test",
@@ -83,7 +80,6 @@ const cases = [
   ],
   [
     {
-      forderungMehrerePersonen: "yes",
       anrede: "mr",
       title: "",
       vorname: "test",

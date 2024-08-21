@@ -9,6 +9,5 @@ export const persoenlichDatenGuards = {
   isValidWeiterePersonenArrayIndex: ({
     context: { pageData, weiterePersonen },
   }) => isValidArrayIndex(weiterePersonen, pageData),
-  ...yesNoGuards("forderungMehrerePersonen"),
   ...yesNoGuards("isProzessbevollmaechtigte"),
 } satisfies Guards<FluggastrechtePersoenlichDaten>;

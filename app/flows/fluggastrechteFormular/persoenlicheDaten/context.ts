@@ -18,15 +18,14 @@ const fluggastrechtePersoenlichVertretungDaten = {
 };
 
 export const fluggastrechtePersoenlichDaten = {
-  forderungMehrerePersonen: YesNoAnswer,
   ...namePrivatPerson,
   ...adresse,
   telefonnummer: optionalOrSchema(phoneNumberSchema),
   unter18JahreAlt: checkedOptional,
   ...fluggastrechtePersoenlichVertretungDaten,
   isProzessbevollmaechtigte: YesNoAnswer,
-  vornameVollmaechtigte: stringRequiredSchema,
-  vollmaechtigteNachname: stringRequiredSchema,
+  vornameVollmaechtigte: optionalOrSchema(stringRequiredSchema),
+  vollmaechtigteNachname: optionalOrSchema(stringRequiredSchema),
   weiterePersonen: z.array(
     z.object({
       ...namePrivatPerson,
