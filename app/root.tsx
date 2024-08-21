@@ -21,6 +21,7 @@ import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import { CookieConsentContext } from "~/components/CookieBanner/CookieConsentContext";
 import { VideoTranslationContext } from "~/components/Video/VideoTranslationContext";
+import { flowIdFromPathname } from "~/flows/flowIds";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import {
   fetchMeta,
@@ -29,6 +30,7 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { config as configWeb } from "~/services/env/web";
+import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/CookieBanner/CookieBanner";
 import Footer from "./components/Footer";
@@ -106,6 +108,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     feedbackTranslations,
     videoTranslations,
     mainSession,
+    headerLinksEnabled,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
     fetchSingleEntry("footer"),
@@ -118,6 +121,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("feedback"),
     fetchTranslations("video"),
     mainSessionFromCookieHeader(cookieHeader),
+    isFeatureFlagEnabled("showHeaderLinks"),
   ]);
 
   return json({
@@ -125,11 +129,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       ...getPageHeaderProps(strapiHeader),
       /**
        * Only hide the header links if we're viewing a flow page
-       * TODO: implement when feature flags land
-       *
-       * https://github.com/digitalservicebund/a2j-rechtsantragstelle/pull/1071
        */
-      hideLinks: true, // !!flowIdFromPathname(pathname)
+      hideLinks: !!headerLinksEnabled && !!flowIdFromPathname(pathname),
     },
     footer: getFooterProps(strapiFooter),
     cookieBannerContent: cookieBannerContent,
