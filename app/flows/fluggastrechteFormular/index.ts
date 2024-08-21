@@ -6,6 +6,7 @@ import flugdatenFlow from "./flugdaten/flow.json";
 import forderungDatenFlow from "./forderung/flow.json";
 import { fluggastrechteGuards } from "./guards";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
+import { weiterePersonenDone } from "./persoenlicheDaten/navStates";
 import {
   getEndAirportName,
   getForderung,
@@ -52,7 +53,12 @@ export const fluggastrechtFlow = {
     },
     states: {
       flugdaten: _.merge(flugdatenFlow, {}),
-      "persoenliche-daten": _.merge(persoenlicheDatenFlow, {}),
+      "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
+        states: {
+          person: { meta: { done: () => true } },
+          "weitere-personen": { meta: { done: weiterePersonenDone } },
+        },
+      }),
       forderung: _.merge(forderungDatenFlow, {}),
       versand: _.merge(versandFlow, {}),
     },

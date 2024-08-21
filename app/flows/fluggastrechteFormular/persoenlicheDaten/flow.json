@@ -98,6 +98,12 @@
             "daten": {
               "on": {
                 "BACK": "#weitere-personen.uebersicht",
+                "SUBMIT": "vertretung-minderjaehrige"
+              }
+            },
+            "vertretung-minderjaehrige": {
+              "on": {
+                "BACK": "daten",
                 "SUBMIT": "#weitere-personen.uebersicht"
               }
             }
