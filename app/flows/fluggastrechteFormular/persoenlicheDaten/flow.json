@@ -98,7 +98,13 @@
             "daten": {
               "on": {
                 "BACK": "#weitere-personen.uebersicht",
-                "SUBMIT": "vertretung-minderjaehrige"
+                "SUBMIT": [
+                  {
+                    "guard": "isWeiterePersonensUnter18JahreAlt",
+                    "target": "vertretung-minderjaehrige"
+                  },
+                  "#weitere-personen.uebersicht"
+                ]
               }
             },
             "vertretung-minderjaehrige": {

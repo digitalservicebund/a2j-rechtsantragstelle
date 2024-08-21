@@ -100,6 +100,40 @@ const cases = [
       "forderung/forderung",
     ],
   ],
+  [
+    {
+      anrede: "mr",
+      title: "",
+      vorname: "test",
+      nachname: "test",
+      strasseHausnummer: "test",
+      ort: "test",
+      plz: "13055",
+      unter18JahreAlt: CheckboxValue.off,
+      isProzessbevollmaechtigte: "no",
+      weiterePersonen: [
+        {
+          title: "",
+          vorname: "test",
+          nachname: "test",
+          strasseHausnummer: "test",
+          ort: "test",
+          plz: "13055",
+          unter18JahreAlt: CheckboxValue.on,
+          vornameVertretung: "test",
+          nachnameVertretung: "test",
+          strasseHausnummerVertretung: "strasseHausnummerVertretung",
+          ortVertretung: "ortVertretung",
+          plzVertretung: "plzVertretung",
+        },
+      ],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "persoenliche-daten/weitere-personen/person/daten",
+      "persoenliche-daten/weitere-personen/person/vertretung-minderjaehrige",
+    ],
+  ],
 ] as const satisfies TestCases<FluggastrechtContext>;
 
 export const testCasesFluggastrechteFormularPersoenlicheDaten = {

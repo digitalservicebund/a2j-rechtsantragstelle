@@ -1,5 +1,8 @@
 import { Guards, yesNoGuards } from "~/flows/guards.server";
-import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
+import {
+  firstArrayIndex,
+  isValidArrayIndex,
+} from "~/services/flow/pageDataSchema";
 import { FluggastrechtePersoenlichDaten } from "./context";
 
 export const persoenlichDatenGuards = {
@@ -9,5 +12,12 @@ export const persoenlichDatenGuards = {
   isValidWeiterePersonenArrayIndex: ({
     context: { pageData, weiterePersonen },
   }) => isValidArrayIndex(weiterePersonen, pageData),
+  isWeiterePersonensUnter18JahreAlt: ({
+    context: { pageData, weiterePersonen },
+  }) => {
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return weiterePersonen?.at(arrayIndex)?.unter18JahreAlt === "on";
+  },
   ...yesNoGuards("isProzessbevollmaechtigte"),
 } satisfies Guards<FluggastrechtePersoenlichDaten>;
