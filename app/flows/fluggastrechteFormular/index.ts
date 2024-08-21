@@ -8,12 +8,14 @@ import { fluggastrechteGuards } from "./guards";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import { personDone, weiterePersonenDone } from "./persoenlicheDaten/navStates";
 import {
+  getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
   getForderung,
   getGerichtskostenFromBetrag,
   getPersonNachname,
   getPersonVorname,
   getStartAirportName,
+  getWeiterePersonenNameStrings,
 } from "./stringReplacements";
 import versandFlow from "./versand/flow.json";
 
@@ -37,6 +39,8 @@ export const fluggastrechtFlow = {
     ...getGerichtskostenFromBetrag(context),
     ...getPersonVorname(context),
     ...getPersonNachname(context),
+    ...getArrayWeiterePersonenIndexStrings(context),
+    ...getWeiterePersonenNameStrings(context),
   }),
   config: _.merge(fluggastrechteFlow, {
     meta: {
