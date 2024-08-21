@@ -1,6 +1,7 @@
 import { render } from "@testing-library/react";
 import { ReactNode } from "react";
 import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
+import * as stringReplacements from "~/flows/beratungshilfeFormular/stringReplacements";
 import Handout, { dynamicSteps } from "~/services/pdf/beratungshilfe/Handout";
 
 vi.mock("@react-pdf/renderer", async () => {
@@ -19,12 +20,21 @@ vi.mock("@react-pdf/renderer", async () => {
 
 describe("Handout", () => {
   describe("Print Submission", () => {
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
     it("should render the correct copy for a valid Amtsgericht", () => {
+      vi.spyOn(stringReplacements, "getAmtsgerichtStrings").mockReturnValue({
+        courtName: "courtName",
+        courtStreetNumber: undefined,
+        courtPlz: undefined,
+        courtOrt: undefined,
+        courtWebsite: undefined,
+        courtTelephone: undefined,
+      });
       const { getByText } = render(
-        Handout(
-          { ...happyPathData, abgabeArt: "ausdrucken", plz: "10629" },
-          "",
-        ),
+        Handout({ ...happyPathData, abgabeArt: "ausdrucken" }, ""),
       );
       expect(
         getByText("So schicken Sie den Antrag ins Amtsgericht"),
