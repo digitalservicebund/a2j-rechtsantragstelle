@@ -50,7 +50,7 @@ type Step = {
   value?: string | ((validAmtsgericht: boolean) => string);
 };
 
-const dynamicSteps: { [key: string]: Step[] } = {
+export const dynamicSteps: { [key: string]: Step[] } = {
   [beratungshilfeAbgabe.abgabeArt.Enum.ausdrucken]: [
     { title: "Antrag ausdrucken" },
     {
