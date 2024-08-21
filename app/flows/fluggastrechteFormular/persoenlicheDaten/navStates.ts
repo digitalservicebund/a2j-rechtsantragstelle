@@ -5,6 +5,57 @@ import { FluggastrechtePersoenlichDaten } from "./context";
 export type FluggastrechtePersoenlichDatenGuard =
   GenericGuard<FluggastrechtePersoenlichDaten>;
 
+const hasPersonVollmaechtigteData: FluggastrechtePersoenlichDatenGuard = ({
+  context,
+}) => {
+  const { isProzessbevollmaechtigte } = context;
+  if (isProzessbevollmaechtigte === "no") {
+    return true;
+  }
+
+  return objectKeysNonEmpty(context, [
+    "vornameVollmaechtigte",
+    "vollmaechtigteNachname",
+  ]);
+};
+
+const hasPersonVertretungData: FluggastrechtePersoenlichDatenGuard = ({
+  context,
+}) => {
+  const { unter18JahreAlt } = context;
+
+  if (unter18JahreAlt === "off") {
+    return true;
+  }
+
+  return objectKeysNonEmpty(context, [
+    "vornameVertretung",
+    "nachnameVertretung",
+    "strasseHausnummer",
+    "strasseHausnummerVertretung",
+    "plzVertretung",
+    "ortVertretung",
+    "beschreibenVertretung",
+  ]);
+};
+
+export const personDone: FluggastrechtePersoenlichDatenGuard = ({
+  context,
+}) => {
+  const hasPersonData = objectKeysNonEmpty(context, [
+    "vorname",
+    "nachname",
+    "strasseHausnummer",
+    "plz",
+    "ort",
+  ]);
+
+  const hasPersonVertretung = hasPersonVertretungData({ context });
+  const hasVollmaechtigte = hasPersonVollmaechtigteData({ context });
+
+  return hasPersonData && hasPersonVertretung && hasVollmaechtigte;
+};
+
 export const weiterePersonenDone: FluggastrechtePersoenlichDatenGuard = ({
   context: { weiterePersonen },
 }) => {

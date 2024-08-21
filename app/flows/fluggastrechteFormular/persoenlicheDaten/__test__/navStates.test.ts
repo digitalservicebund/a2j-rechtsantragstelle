@@ -1,5 +1,5 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { weiterePersonenDone } from "../navStates";
+import { personDone, weiterePersonenDone } from "../navStates";
 
 const DEFAULT_WEITERE_PERSONEN_DATA = {
   vorname: "vorname",
@@ -7,6 +7,14 @@ const DEFAULT_WEITERE_PERSONEN_DATA = {
   strasseHausnummer: "strasseHausnummer",
   ort: "ort",
   plz: "plz",
+};
+
+const PERSONEN_DATA = {
+  vorname: "vorname",
+  nachname: "nachname",
+  strasseHausnummer: "strasseHausnummer",
+  plz: "plz",
+  ort: "ort",
 };
 
 describe("navStates", () => {
@@ -97,6 +105,97 @@ describe("navStates", () => {
       });
 
       expect(actual).toBe(false);
+    });
+  });
+
+  describe("personDone", () => {
+    it("should return false if it is missing person data", () => {
+      const actual = personDone({
+        context: {},
+      });
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return false if it is missing vorname in the person data", () => {
+      const actual = personDone({
+        context: {
+          ...PERSONEN_DATA,
+          vorname: undefined,
+          unter18JahreAlt: CheckboxValue.off,
+          isProzessbevollmaechtigte: "no",
+        },
+      });
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return false if it has person data, but is missing vertretung data when unter18JahreAlt is on", () => {
+      const actual = personDone({
+        context: {
+          ...PERSONEN_DATA,
+          unter18JahreAlt: CheckboxValue.on,
+          isProzessbevollmaechtigte: "no",
+        },
+      });
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return false if it has person data, but is missing prozessbevollmaechtigte data when isProzessbevollmaechtigte is yes", () => {
+      const actual = personDone({
+        context: {
+          ...PERSONEN_DATA,
+          unter18JahreAlt: CheckboxValue.off,
+          isProzessbevollmaechtigte: "yes",
+        },
+      });
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return true if has person data, but off unter18JahreAlt and no isProzessbevollmaechtigte", () => {
+      const actual = personDone({
+        context: {
+          ...PERSONEN_DATA,
+          unter18JahreAlt: CheckboxValue.off,
+          isProzessbevollmaechtigte: "no",
+        },
+      });
+
+      expect(actual).toBe(true);
+    });
+
+    it("should return true if has person data, on unter18JahreAlt with vertretung data and no isProzessbevollmaechtigte", () => {
+      const actual = personDone({
+        context: {
+          ...PERSONEN_DATA,
+          unter18JahreAlt: CheckboxValue.on,
+          vornameVertretung: "vornameVertretung",
+          nachnameVertretung: "nachnameVertretung",
+          strasseHausnummerVertretung: "strasseHausnummerVertretung",
+          ortVertretung: "ortVertretung",
+          plzVertretung: "plzVertretung",
+          beschreibenVertretung: "beschreibenVertretung",
+          isProzessbevollmaechtigte: "no",
+        },
+      });
+
+      expect(actual).toBe(true);
+    });
+
+    it("should return true if has person data, yes isProzessbevollmaechtigte with Prozessbevollmaechtigte data and off unter18JahreAlt", () => {
+      const actual = personDone({
+        context: {
+          ...PERSONEN_DATA,
+          unter18JahreAlt: CheckboxValue.off,
+          vornameVollmaechtigte: "vornameVollmaechtigte",
+          vollmaechtigteNachname: "vollmaechtigteNachname",
+          isProzessbevollmaechtigte: "yes",
+        },
+      });
+
+      expect(actual).toBe(true);
     });
   });
 });
