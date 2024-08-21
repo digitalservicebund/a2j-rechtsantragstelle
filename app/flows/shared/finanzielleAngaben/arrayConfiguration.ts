@@ -1,5 +1,5 @@
+import { AllContexts } from "~/flows/common";
 import type { ArrayConfig } from "~/services/array";
-import type { BeratungshilfeFinanzielleAngaben } from "./context";
 
 export function finanzielleAngabenArrayConfig(prefix: string) {
   return {
@@ -61,7 +61,5 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       hiddenFields: ["hasZahlungsfrist"],
       event: "add-ausgaben",
     },
-  } satisfies Partial<
-    Record<keyof BeratungshilfeFinanzielleAngaben, ArrayConfig>
-  >;
+  } satisfies Partial<Record<keyof AllContexts, ArrayConfig>>;
 }
