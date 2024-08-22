@@ -3,10 +3,8 @@ import {
   strapiFormComponentFactory,
 } from "tests/factories/cmsModels/strapiFlowPage";
 import { strapiFooterFactory } from "~/../tests/factories/cmsModels/strapiFooter";
-import {
-  fetchAllFormFields,
-  fetchSingleEntry,
-} from "~/services/cms/index.server";
+import { fetchSingleEntry } from "~/services/cms/index.server";
+import { fetchAllFormFields } from "../fetchAllFormFields";
 import { getStrapiEntry } from "../getStrapiEntry";
 
 vi.mock("~/services/cms/getStrapiEntry");
@@ -47,10 +45,10 @@ describe("services/cms", () => {
         },
       ]);
 
-      expect(await fetchAllFormFields("/beratungshilfe/antrag")).toStrictEqual([
-        { stepId: "step1", formFields: ["formFieldForStep1"] },
-        { stepId: "step2", formFields: ["formFieldForStep2"] },
-      ]);
+      expect(await fetchAllFormFields("/beratungshilfe/antrag")).toStrictEqual({
+        step1: ["formFieldForStep1"],
+        step2: ["formFieldForStep2"],
+      });
     });
 
     test("returns steps with multiple form field names", async () => {
@@ -67,16 +65,13 @@ describe("services/cms", () => {
         },
       ]);
 
-      expect(await fetchAllFormFields("/beratungshilfe/antrag")).toStrictEqual([
-        {
-          stepId: "step1",
-          formFields: [
-            "formField1ForStep1",
-            "formField2ForStep1",
-            "formField3ForStep1",
-          ],
-        },
-      ]);
+      expect(await fetchAllFormFields("/beratungshilfe/antrag")).toStrictEqual({
+        step1: [
+          "formField1ForStep1",
+          "formField2ForStep1",
+          "formField3ForStep1",
+        ],
+      });
     });
 
     test("filters out steps without forms", async () => {
@@ -90,7 +85,7 @@ describe("services/cms", () => {
       ]);
 
       expect(await fetchAllFormFields("/beratungshilfe/antrag")).toStrictEqual(
-        [],
+        {},
       );
     });
   });

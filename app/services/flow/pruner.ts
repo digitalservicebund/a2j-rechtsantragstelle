@@ -9,7 +9,10 @@ import {
 } from "./server/buildFlowController";
 import { ArrayConfig } from "../array";
 import { resolveArrayCharacter } from "../array/resolveArrayCharacter";
-import { fetchAllFormFields } from "../cms/index.server";
+import {
+  fetchAllFormFields,
+  type FormFieldsMap,
+} from "../cms/fetchAllFormFields";
 
 type Path = { stepIds: string[]; arrayIndex?: number };
 type FormField = { name: string; arrayIndex?: number };
@@ -18,7 +21,9 @@ export async function pruneIrrelevantData(
   userData: Context,
   flowId: FlowId,
 ): Promise<Context> {
-  const formFields = await getFormFields(getPaths(userData, flowId), flowId);
+  const allFormFields = await fetchAllFormFields(flowId);
+  const paths = getPaths(userData, flowId);
+  const formFields = await getFormFields(paths, allFormFields);
   const propsToKeep = formFields.map(({ name, arrayIndex }) =>
     resolveArrayCharacter(name, arrayIndex !== undefined ? [arrayIndex] : []),
   );
@@ -39,16 +44,8 @@ export function getPaths(userData: Context, flowId: FlowId): Path[] {
 
 export async function getFormFields(
   paths: Path[],
-  flowId: FlowId,
+  formFieldsMap: FormFieldsMap,
 ): Promise<FormField[]> {
-  const formFieldsMap = (await fetchAllFormFields(flowId)).reduce(
-    (acc, { stepId, formFields }) => {
-      acc[stepId] = formFields;
-      return acc;
-    },
-    {} as { [stepId: string]: string[] },
-  );
-
   return paths.flatMap(({ stepIds, arrayIndex }) =>
     stepIds.flatMap((stepId) =>
       (formFieldsMap[`/${stepId}`] ?? []).map((name) => ({ name, arrayIndex })),

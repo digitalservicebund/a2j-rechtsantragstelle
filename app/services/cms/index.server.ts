@@ -80,23 +80,6 @@ export const fetchFlowPage = <T extends FlowPageId>(
     { field: "flow_ids", nestedField: "flowId", value: flowId },
   ]);
 
-export const fetchAllFormFields = async (
-  flowId: FlowId,
-): Promise<{ stepId: string; formFields: string[] }[]> =>
-  (
-    await getStrapiEntry({
-      apiId: "form-flow-pages",
-      filters: [{ field: "flow_ids", nestedField: "flowId", value: flowId }],
-      populate: "form",
-    })
-  )
-    .filter((formFlowPage) => formFlowPage !== null)
-    .filter(({ attributes: { stepId, form } }) => form.length > 0 && stepId)
-    .map(({ attributes: { stepId, form } }) => ({
-      stepId: stepId!,
-      formFields: form.map((formField) => formField.name),
-    }));
-
 export const strapiPageFromRequest = ({ request }: { request: Request }) =>
   fetchPage(new URL(request.url).pathname);
 

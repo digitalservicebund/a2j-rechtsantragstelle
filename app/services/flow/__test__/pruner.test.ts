@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { fetchAllFormFields } from "~/services/cms/index.server";
+import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
 import { getPaths, getFormFields } from "../pruner";
 
 vi.mock("~/services/cms/index.server");
@@ -184,23 +184,6 @@ describe("pruner", () => {
   });
 
   describe("getFormFields", () => {
-    const mockFetchAllFormFields = ({
-      stepIds = ["step1"],
-      formFieldNameGenerator = (stepId: string) => [`formFieldFor-${stepId}`],
-    }: {
-      stepIds?: string[];
-      formFieldNameGenerator?: (stepId: string) => string[];
-    } = {}) =>
-      vi.mocked(fetchAllFormFields).mockImplementation(
-        async (_flowId) =>
-          await Promise.resolve(
-            stepIds.map((stepId) => ({
-              stepId: `/${stepId}`,
-              formFields: formFieldNameGenerator(stepId),
-            })),
-          ),
-      );
-
     beforeEach(() => {
       vi.resetAllMocks();
     });
@@ -208,102 +191,57 @@ describe("pruner", () => {
     it("returns form field names", async () => {
       const stepIds = ["step1", "step2"];
 
-      mockFetchAllFormFields({ stepIds });
-      const result = await getFormFields(
-        [{ stepIds }],
-        "/beratungshilfe/antrag",
-      );
+      const result = await getFormFields([{ stepIds }], {
+        "/step1": ["field1"],
+        "/step2": ["field2"],
+      });
 
-      expect(result).toStrictEqual([
-        {
-          name: "formFieldFor-step1",
-          arrayIndex: undefined,
-        },
-        {
-          name: "formFieldFor-step2",
-          arrayIndex: undefined,
-        },
-      ]);
+      expect(result).toEqual([{ name: "field1" }, { name: "field2" }]);
     });
 
     it("returns form field names for multiple forms within one flowPage", async () => {
-      mockFetchAllFormFields({
-        stepIds: ["step1"],
-        formFieldNameGenerator: (stepId: string) => [
-          `formField1For-${stepId}`,
-          `formField2For-${stepId}`,
-          `formField3For-${stepId}`,
-        ],
+      const result = await getFormFields([{ stepIds: ["step1"] }], {
+        "/step1": ["field1", "field2", "field3"],
       });
 
-      const result = await getFormFields(
-        [{ stepIds: ["step1"] }],
-        "/beratungshilfe/antrag",
-      );
-
-      expect(result).toStrictEqual([
-        {
-          name: "formField1For-step1",
-          arrayIndex: undefined,
-        },
-        {
-          name: "formField2For-step1",
-          arrayIndex: undefined,
-        },
-        {
-          name: "formField3For-step1",
-          arrayIndex: undefined,
-        },
+      expect(result).toEqual([
+        { name: "field1" },
+        { name: "field2" },
+        { name: "field3" },
       ]);
     });
 
     it("keeps array index", async () => {
-      const path1StepIds = ["step1", "step2"];
-      const path2StepIds = ["step1a", "step2a"];
-      const path3StepIds = ["step1b", "step2b", "step3b"];
-
-      mockFetchAllFormFields({
-        stepIds: [...path1StepIds, ...path2StepIds, ...path3StepIds],
-      });
       const result = await getFormFields(
         [
-          { stepIds: path1StepIds, arrayIndex: undefined },
-          { stepIds: path2StepIds, arrayIndex: 0 },
-          {
-            stepIds: path3StepIds,
-            arrayIndex: 1,
-          },
+          { stepIds: ["step1"] },
+          { stepIds: ["step1a", "step2a"], arrayIndex: 0 },
+          { stepIds: ["step1b"], arrayIndex: 1 },
         ],
-        "/beratungshilfe/antrag",
+        {
+          "/step1": ["field1"],
+          "/step1a": ["field1a"],
+          "/step2a": ["field2a"],
+          "/step1b": ["field1b", "field1b_1"],
+        },
       );
 
-      expect(result).toStrictEqual([
+      expect(result).toEqual([
+        { name: "field1" },
         {
-          name: "formFieldFor-step1",
-          arrayIndex: undefined,
-        },
-        {
-          name: "formFieldFor-step2",
-          arrayIndex: undefined,
-        },
-        {
-          name: "formFieldFor-step1a",
+          name: "field1a",
           arrayIndex: 0,
         },
         {
-          name: "formFieldFor-step2a",
+          name: "field2a",
           arrayIndex: 0,
         },
         {
-          name: "formFieldFor-step1b",
+          name: "field1b",
           arrayIndex: 1,
         },
         {
-          name: "formFieldFor-step2b",
-          arrayIndex: 1,
-        },
-        {
-          name: "formFieldFor-step3b",
+          name: "field1b_1",
           arrayIndex: 1,
         },
       ]);
