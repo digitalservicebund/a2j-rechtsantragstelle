@@ -20,24 +20,7 @@
               },
               "antragsteller-angeben"
             ],
-            "BACK": [
-              {
-                "target": "#flugdaten.tatsaechlicher-flug-ankunft",
-                "guard": "hasDetailedTatsaechlicherFlugAnkunft"
-              },
-              {
-                "target": "#flugdaten.anderer-flug-ankunft",
-                "guard": "hasDetailedErsatzVerbindungFlug"
-              },
-              {
-                "target": "#flugdaten.ersatzverbindung-beschreibung",
-                "guard": "hasAndereErsatzVerbindung"
-              },
-              {
-                "target": "#flugdaten.ersatzverbindung-art",
-                "guard": "hasKeineErsatzVerbindung"
-              }
-            ]
+            "BACK": "#flugdaten.zusaetzliche-angaben"
           }
         },
         "vertretung-minderjaehrige": {
