@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
-import ArraySummary from "~/components/ArraySummary";
 import type { ArrayConfig } from "~/services/array";
+import ArraySummary from "../ArraySummary";
 
 const arraySummaryItem = "array-summary-item";
 
@@ -28,7 +28,7 @@ const arrayData = {
 };
 
 // eslint-disable-next-line react/display-name
-vi.mock("~/components/ArraySummaryItemButton", () => ({
+vi.mock("~/components/arraySummary/ArraySummaryItemButton", () => ({
   default: () => <div>Mock ArraySummaryItemButton</div>,
 }));
 

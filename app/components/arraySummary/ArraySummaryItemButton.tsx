@@ -4,8 +4,8 @@ import { useFetcher, useLocation } from "@remix-run/react";
 import type { Translations } from "~/services/cms/index.server";
 import { CSRFKey } from "~/services/security/csrfKey";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
-import Button from "./Button";
-import ButtonContainer from "./ButtonContainer";
+import Button from "../Button";
+import ButtonContainer from "../ButtonContainer";
 
 type Props = {
   readonly itemIndex: number;
