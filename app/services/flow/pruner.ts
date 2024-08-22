@@ -1,13 +1,13 @@
 import _ from "lodash";
-import { ArrayData, Context } from "~/flows/contexts";
-import { FlowId, parsePathname } from "~/flows/flowIds";
+import type { ArrayData, Context } from "~/flows/contexts";
+import { type FlowId, parsePathname } from "~/flows/flowIds";
 import { flows } from "~/flows/flows.server";
 import { addPageDataToUserData } from "./pageData";
 import {
-  FlowController,
+  type FlowController,
   buildFlowController,
 } from "./server/buildFlowController";
-import { ArrayConfig } from "../array";
+import { type ArrayConfig } from "../array";
 import { resolveArrayCharacter } from "../array/resolveArrayCharacter";
 import {
   fetchAllFormFields,
