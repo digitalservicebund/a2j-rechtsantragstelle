@@ -1,5 +1,5 @@
-import { StylesConfig } from "react-select";
-import { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import type { StylesConfig } from "react-select";
+import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 const getOptionBackgroundColor = (
   isFocused: boolean,

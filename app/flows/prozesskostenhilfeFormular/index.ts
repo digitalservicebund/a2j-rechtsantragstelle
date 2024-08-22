@@ -1,7 +1,7 @@
 import _ from "lodash";
 import abgabeFlow from "./abgabe/flow.json";
 import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
-import { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
+import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import {
   eigentumDone,
@@ -14,7 +14,7 @@ import {
   partnerDone,
 } from "./finanzielleAngaben/navStates";
 import prozesskostenhilfeFormularFlow from "./flow.json";
-import { AbgabeContext } from "../shared/abgabe/context";
+import type { AbgabeContext } from "../shared/abgabe/context";
 import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
 import {
   eigentumZusammenfassungShowWarnings,

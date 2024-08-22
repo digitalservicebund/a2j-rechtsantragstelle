@@ -1,6 +1,6 @@
-import { GenericGuard } from "~/flows/guards.server";
+import type { GenericGuard } from "~/flows/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import { FluggastrechtePersoenlichDaten } from "./context";
+import type { FluggastrechtePersoenlichDaten } from "./context";
 
 export type FluggastrechtePersoenlichDatenGuard =
   GenericGuard<FluggastrechtePersoenlichDaten>;

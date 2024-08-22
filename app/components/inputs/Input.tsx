@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import type React from "react";
 import { useField } from "remix-validated-form";
 import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from ".";

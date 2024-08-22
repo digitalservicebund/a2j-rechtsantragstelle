@@ -47,7 +47,7 @@ import {
   ausgabenStrings,
   weiteresEinkommenStrings,
 } from "./stringReplacements";
-import { AbgabeContext } from "../shared/abgabe/context";
+import type { AbgabeContext } from "../shared/abgabe/context";
 import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
 import {
   eigentumZusammenfassungShowWarnings,

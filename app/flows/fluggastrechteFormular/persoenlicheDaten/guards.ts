@@ -1,9 +1,9 @@
-import { Guards, yesNoGuards } from "~/flows/guards.server";
+import { type Guards, yesNoGuards } from "~/flows/guards.server";
 import {
   firstArrayIndex,
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
-import { FluggastrechtePersoenlichDaten } from "./context";
+import type { FluggastrechtePersoenlichDaten } from "./context";
 
 export const persoenlichDatenGuards = {
   isUnter18JahreAlt: ({ context: { unter18JahreAlt } }) => {

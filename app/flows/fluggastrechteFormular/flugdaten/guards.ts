@@ -1,5 +1,5 @@
-import { Guards, yesNoGuards } from "~/flows/guards.server";
-import { FluggastrechteFlugdatenContext } from "./context";
+import { type Guards, yesNoGuards } from "~/flows/guards.server";
+import type { FluggastrechteFlugdatenContext } from "./context";
 
 export const fluggastrechteFlugdatenGuards = {
   hasErsatzVerbindungFlug: ({ context }) =>

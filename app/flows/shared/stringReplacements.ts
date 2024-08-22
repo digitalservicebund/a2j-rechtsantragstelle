@@ -1,6 +1,6 @@
-import { BeratungshilfeFormularContext } from "../beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "../beratungshilfeFormular";
 import { finanzielleAngabeGuards } from "../beratungshilfeFormular/finanzielleAngaben/guards";
-import { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfeFormular";
+import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfeFormular";
 
 export const getKinderStrings = (
   context: BeratungshilfeFormularContext | ProzesskostenhilfeFormularContext,

@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { decode } from "html-entities";
-import { AriaRole, LegacyRef, type ReactNode } from "react";
+import type { AriaRole, LegacyRef, ReactNode } from "react";
 
 export type HeadingProps = Readonly<{
   tagName?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";

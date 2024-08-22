@@ -1,5 +1,5 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { FluggastrechtContext } from "../context";
+import type { FluggastrechtContext } from "../context";
 import {
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,

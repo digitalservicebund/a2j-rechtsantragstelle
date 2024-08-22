@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
-import { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
+import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 const DATA_LIST_API_PATH = "/data-list-options";
 
