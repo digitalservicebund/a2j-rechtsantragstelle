@@ -1,5 +1,4 @@
 import _ from "lodash";
-import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
 import { getPaths, getFormFields } from "../pruner";
 
 vi.mock("~/services/cms/index.server");
