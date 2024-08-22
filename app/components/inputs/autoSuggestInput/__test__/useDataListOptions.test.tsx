@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from "@testing-library/react";
-import { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import useDataListOptions from "../useDataListOptions";
 
 function createFetchResponse(data: DataListOptions[], isOk: boolean) {

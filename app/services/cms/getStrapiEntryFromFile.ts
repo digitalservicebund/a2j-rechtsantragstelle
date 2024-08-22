@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/require-await: 0 */
 import fs from "node:fs";
 import type { GetStrapiEntryOpts } from "./filters";
-import { GetStrapiEntry } from "./getStrapiEntry";
+import type { GetStrapiEntry } from "./getStrapiEntry";
 import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
 import { strapiFileSchema, type ApiId, type StrapiSchemas } from "./schemas";
 import { config } from "../env/env.server";

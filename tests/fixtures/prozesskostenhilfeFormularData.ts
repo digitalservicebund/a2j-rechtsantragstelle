@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,

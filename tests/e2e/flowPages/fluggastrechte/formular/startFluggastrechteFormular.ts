@@ -1,4 +1,4 @@
-import { Page, expect } from "@playwright/test";
+import { type Page, expect } from "@playwright/test";
 import type { FluggastrechteFormular } from "tests/e2e/pom/FluggastrechteFormular";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { today, toGermanDateFormat } from "~/util/date";

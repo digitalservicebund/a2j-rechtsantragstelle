@@ -1,6 +1,6 @@
 import classNames from "classnames";
-import { ValueContainerProps, components } from "react-select";
-import { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import { components, type ValueContainerProps } from "react-select";
+import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 const CustomValueContainer = (
   props: ValueContainerProps<DataListOptions, false>,

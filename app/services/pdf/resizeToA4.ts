@@ -1,4 +1,4 @@
-import { PDFDocument, type PDFPage } from "pdf-lib";
+import type { PDFDocument, PDFPage } from "pdf-lib";
 
 // DinA4 in pixel at 72 ppi
 const dinA4Width = 595;

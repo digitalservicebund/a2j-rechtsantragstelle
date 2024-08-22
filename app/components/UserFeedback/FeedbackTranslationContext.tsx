@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { Translations } from "~/services/cms/index.server";
+import type { Translations } from "~/services/cms/index.server";
 
 type FeedbackTranslationsContext = {
   translations: Translations;
