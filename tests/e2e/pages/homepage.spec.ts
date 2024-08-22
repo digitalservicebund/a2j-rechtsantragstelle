@@ -14,6 +14,29 @@ test.describe("homepage", () => {
     await expect(allImages[0]).toBeVisible();
   });
 
+  test.describe("Header links", () => {
+    test("Accessibility links are visible from the homepage", ({ page }) => {
+      expect(page.getByLabel("Leichte Sprache")).toBeVisible();
+      expect(page.getByLabel("Gebärdensprache")).toBeVisible();
+    });
+
+    Object.entries({
+      "Leichte Sprache": "/leichtesprache",
+      Gebärdensprache: "/gebaerdensprache",
+    }).forEach((entry) => {
+      const [pageName, url] = entry;
+      test(`${pageName} accessibility link correctly navigates to ${url}`, async ({
+        page,
+      }) => {
+        const responsePromise = page.waitForResponse(
+          (resp) => resp.url().includes(url) && resp.status() === 200,
+        );
+        await page.getByLabel(pageName).click();
+        await responsePromise;
+      });
+    });
+  });
+
   test.describe("Footer links", () => {
     const expectedLinks = {
       Impressum: "/impressum",

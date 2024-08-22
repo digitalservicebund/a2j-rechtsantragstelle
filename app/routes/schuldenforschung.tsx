@@ -1,4 +1,4 @@
 import { LoaderFunction, redirect } from "@remix-run/node";
 
 export const loader: LoaderFunction = async () =>
-  redirect("https://ec.europa.eu/eusurvey/runner/schuldenforschung");
+  redirect("https://app.formbricks.com/s/cm02c31ka0000102tqa05xr32");

@@ -1,5 +1,4 @@
 import _ from "lodash";
-import type { BeratungshilfeAbgabe } from "~/flows/beratungshilfeFormular/abgabe/context";
 import abgabeFlow from "./abgabe/flow.json";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
@@ -8,11 +7,12 @@ import {
   beratungshilfeAnwaltlicheVertretungGuards,
   anwaltlicheVertretungDone,
 } from "./anwaltlicheVertretung/guards";
-import { finanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
 import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
-import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
-import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
+import {
+  eigentumDone,
+  finanzielleAngabeGuards,
+} from "./finanzielleAngaben/guards";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
@@ -21,7 +21,7 @@ import {
   partnerDone,
   wohnungDone,
 } from "./finanzielleAngaben/navStates";
-import { eigentumDone } from "./finanzielleAngaben/navStatesEigentum";
+import { eigentumZusammenfassungDone } from "./finanzielleAngaben/navStatesEigentumZusammenfassungDone";
 import beratungshilfeFormularFlow from "./flow.json";
 import {
   type BeratungshilfeGrundvoraussetzungen,
@@ -40,17 +40,21 @@ import {
 } from "./rechtsproblem/context";
 import rechtsproblemFlow from "./rechtsproblem/flow.json";
 import {
-  getKinderStrings,
-  getArrayIndexStrings,
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
   getAnwaltStrings,
-  eigentumZusammenfassungShowWarnings,
   getMissingInformationStrings,
   ausgabenStrings,
-  geldAnlagenStrings,
   weiteresEinkommenStrings,
 } from "./stringReplacements";
+import { AbgabeContext } from "../shared/abgabe/context";
+import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
+import {
+  eigentumZusammenfassungShowWarnings,
+  geldAnlagenStrings,
+  getArrayIndexStrings,
+  getKinderStrings,
+} from "../shared/stringReplacements";
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -123,4 +127,4 @@ export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &
   BeratungshilfeRechtsproblem &
   BeratungshilfeFinanzielleAngaben &
   BeratungshilfePersoenlicheDaten &
-  BeratungshilfeAbgabe;
+  AbgabeContext;

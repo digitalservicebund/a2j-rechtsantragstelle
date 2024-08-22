@@ -1,32 +1,6 @@
 import { eigentumDone as eigentumDoneGuard } from "~/flows/beratungshilfeFormular/finanzielleAngaben/guards";
-import { arrayIsNonEmpty } from "~/util/array";
-import type { FinanzielleAngabenGuard } from "./navStates";
+import type { BeratungshilfeFinanzielleAngabenGuard } from "./navStates";
 
-export const eigentumDone: FinanzielleAngabenGuard = ({ context }) =>
-  eigentumDoneGuard({ context });
-
-export const bankKontoDone: FinanzielleAngabenGuard = ({ context }) =>
-  context.hasBankkonto === "no" ||
-  (context.hasBankkonto === "yes" && arrayIsNonEmpty(context.bankkonten));
-
-export const geldanlagenDone: FinanzielleAngabenGuard = ({ context }) =>
-  context.eigentumTotalWorth === "less10000" ||
-  context.hasGeldanlage === "no" ||
-  (context.hasGeldanlage === "yes" && arrayIsNonEmpty(context.geldanlagen));
-
-export const grundeigentumDone: FinanzielleAngabenGuard = ({ context }) =>
-  context.eigentumTotalWorth === "less10000" ||
-  context.hasGrundeigentum === "no" ||
-  (context.hasGrundeigentum === "yes" &&
-    arrayIsNonEmpty(context.grundeigentum));
-
-export const kraftfahrzeugeDone: FinanzielleAngabenGuard = ({ context }) =>
-  context.eigentumTotalWorth === "less10000" ||
-  context.hasKraftfahrzeug === "no" ||
-  (context.hasKraftfahrzeug === "yes" &&
-    arrayIsNonEmpty(context.kraftfahrzeuge));
-
-export const wertsachenDone: FinanzielleAngabenGuard = ({ context }) =>
-  context.eigentumTotalWorth === "less10000" ||
-  context.hasWertsache === "no" ||
-  (context.hasWertsache === "yes" && arrayIsNonEmpty(context.wertsachen));
+export const eigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) => eigentumDoneGuard({ context });

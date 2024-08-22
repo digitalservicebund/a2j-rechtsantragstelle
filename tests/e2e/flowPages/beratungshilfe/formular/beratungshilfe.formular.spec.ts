@@ -16,6 +16,7 @@ import { startFinanzielleAngabenKinder } from "../../shared/finanzielleAngaben/f
 import { startFinanzielleAngabenPartner } from "../../shared/finanzielleAngaben/finanzielleAngabenPartner";
 
 let beratungshilfeFormular: BeratungshilfeFormular;
+const TEN_SECONDS_TIMEOUT_POPUP = 10 * 1000;
 
 test.beforeEach(async ({ page }) => {
   beratungshilfeFormular = new BeratungshilfeFormular(page);
@@ -92,7 +93,9 @@ async function startAbgabe(page: Page) {
     }
   });
 
-  const popupPromise = page.waitForEvent("popup");
+  const popupPromise = page.waitForEvent("popup", {
+    timeout: TEN_SECONDS_TIMEOUT_POPUP,
+  });
   await page.getByRole("link").getByText("pdf").click();
   await popupPromise;
 

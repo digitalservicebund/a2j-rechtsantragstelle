@@ -4,7 +4,8 @@ import { config } from "~/services/env/web";
 export type FeatureFlag =
   | "showFluggastrechteFormular"
   | "showGeldEinklagenFlow"
-  | "showProzesskostenhilfeFlow";
+  | "showProzesskostenhilfeFlow"
+  | "showHeaderLinks";
 
 export const isFeatureFlagEnabled = async (featureFlag: FeatureFlag) => {
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
