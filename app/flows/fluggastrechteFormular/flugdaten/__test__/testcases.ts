@@ -81,7 +81,7 @@ const cases = [
     [
       "flugdaten/tatsaechlicher-flug",
       "flugdaten/tatsaechlicher-flug-ankunft",
-      "persoenliche-daten/person/forderung-mehrere-personen",
+      "persoenliche-daten/person/daten",
     ],
   ],
   [
@@ -118,7 +118,7 @@ const cases = [
       "flugdaten/tatsaechlicher-flug",
       "flugdaten/ersatzverbindung-art",
       "flugdaten/anderer-flug-ankunft",
-      "persoenliche-daten/person/forderung-mehrere-personen",
+      "persoenliche-daten/person/daten",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;
