@@ -5,7 +5,8 @@ export type FeatureFlag =
   | "showFluggastrechteFormular"
   | "showGeldEinklagenFlow"
   | "showProzesskostenhilfeFlow"
-  | "showHeaderLinks";
+  | "showHeaderLinks"
+  | "pruneUserData";
 
 export const isFeatureFlagEnabled = async (featureFlag: FeatureFlag) => {
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();

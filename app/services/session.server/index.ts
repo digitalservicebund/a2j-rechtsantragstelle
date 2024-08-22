@@ -63,22 +63,14 @@ export function getSessionManager(context: SessionContext) {
 export const getSessionData = async (
   flowId: FlowId,
   cookieHeader: CookieHeader,
+  prune = false, //TODO: move to options object
 ) => {
   const contextSession = getSessionManager(flowId);
   const { data, id } = await contextSession.getSession(cookieHeader);
-  const userData: Context = data; // Recast for now to get type safety
+  const userData: Context = prune // Recast for now to get type safety
+    ? await pruneIrrelevantData(data, flowId)
+    : data;
   return { userData, debugId: contextSession.getDebugId(id) };
-};
-
-export const getPrunedSessionData = async (
-  flowId: FlowId,
-  cookieHeader: CookieHeader,
-) => {
-  const sessionData = await getSessionData(flowId, cookieHeader);
-  return {
-    userData: await pruneIrrelevantData(sessionData.userData, flowId),
-    debugId: sessionData.debugId,
-  };
 };
 
 export const updateSession = (session: Session, validatedData: Context) => {

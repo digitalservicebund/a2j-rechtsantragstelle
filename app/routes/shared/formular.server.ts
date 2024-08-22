@@ -15,6 +15,7 @@ import {
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
+import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
@@ -24,7 +25,7 @@ import { stepMeta } from "~/services/meta/formStepMeta";
 import { parentFromParams } from "~/services/params";
 import { validatedSession } from "~/services/security/csrf.server";
 import {
-  getPrunedSessionData,
+  getSessionData,
   getSessionManager,
   updateSession,
 } from "~/services/session.server";
@@ -69,10 +70,11 @@ export const loader = async ({
   const { pathname } = new URL(request.url);
   const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
-
-  const { userData, debugId } = await getPrunedSessionData(
+  const pruneUserData = await isFeatureFlagEnabled("pruneUserData");
+  const { userData, debugId } = await getSessionData(
     flowId,
     cookieHeader,
+    pruneUserData,
   );
   context.debugId = debugId; // For showing in errors
 
