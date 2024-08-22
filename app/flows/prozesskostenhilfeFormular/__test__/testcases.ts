@@ -3,9 +3,9 @@ import { happyPathData } from "tests/fixtures/prozesskostenhilfeFormularData";
 import type { TestCases } from "~/flows/__test__/TestCases";
 import {
   prozesskostenhilfeFormular,
-  ProzesskostenhilfeFormularContext,
+  type ProzesskostenhilfeFormularContext,
 } from "~/flows/prozesskostenhilfeFormular";
-import { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
 const machine: FlowStateMachine = createMachine(
   { ...prozesskostenhilfeFormular.config, context: {} },

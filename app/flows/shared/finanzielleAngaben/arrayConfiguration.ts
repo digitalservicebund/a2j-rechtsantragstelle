@@ -1,4 +1,4 @@
-import { AllContexts } from "~/flows/common";
+import type { AllContexts } from "~/flows/common";
 import type { ArrayConfig } from "~/services/array";
 
 export function finanzielleAngabenArrayConfig(prefix: string) {

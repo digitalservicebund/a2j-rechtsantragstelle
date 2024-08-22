@@ -70,6 +70,7 @@ module.exports = {
         "sonarjs/no-duplicate-string": "off",
         "@typescript-eslint/ban-ts-comment": "off", // enable later
         "@typescript-eslint/consistent-type-definitions": "off", // enable later
+        "@typescript-eslint/consistent-type-imports": "warn",
         "@typescript-eslint/array-type": "off", // enable later
         "@typescript-eslint/consistent-indexed-object-style": "off", // enable later
         "@typescript-eslint/no-explicit-any": "warn",

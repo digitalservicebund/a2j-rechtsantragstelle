@@ -3,11 +3,11 @@ import type { Flow } from "~/flows/flows.server";
 import type { FlowPageId } from "~/services/cms/schemas";
 import {
   buildFlowController,
-  FlowController,
+  type FlowController,
 } from "~/services/flow/server/buildFlowController";
 import { getSessionData } from "..";
 import {
-  FlowTransitionConfig,
+  type FlowTransitionConfig,
   validateFlowTransition,
 } from "../flowTransitionValidation.server";
 

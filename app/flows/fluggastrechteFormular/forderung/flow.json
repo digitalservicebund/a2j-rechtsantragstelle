@@ -5,13 +5,7 @@
     "forderung": {
       "on": {
         "SUBMIT": "teilentschaedigung",
-        "BACK": [
-          {
-            "guard": "isProzessbevollmaechtigteNo",
-            "target": "#persoenliche-daten.person.antragsteller-angeben"
-          },
-          "#persoenliche-daten.person.antragsteller-daten"
-        ]
+        "BACK": "#persoenliche-daten.weitere-personen.uebersicht"
       }
     },
     "teilentschaedigung": {

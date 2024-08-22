@@ -1,5 +1,5 @@
 import { arrayIsNonEmpty } from "~/util/array";
-import { FinanzielleAngabenGuard } from "./guards";
+import type { FinanzielleAngabenGuard } from "./guards";
 
 export const bankKontoDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasBankkonto === "no" ||

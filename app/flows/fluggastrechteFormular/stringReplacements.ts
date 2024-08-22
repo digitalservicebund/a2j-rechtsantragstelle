@@ -1,6 +1,6 @@
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
-import { FluggastrechtContext } from "./context";
+import type { FluggastrechtContext } from "./context";
 import { gerichtskostenFromBetrag } from "../gerichtskosten";
 
 function forderungFromAirports(startAirport: string, endAirport: string) {
@@ -65,3 +65,30 @@ export function getPersonVorname({ vorname }: FluggastrechtContext) {
 export function getPersonNachname({ nachname }: FluggastrechtContext) {
   return { personNachname: nachname };
 }
+
+export const getArrayWeiterePersonenIndexStrings = (
+  context: FluggastrechtContext,
+) => {
+  const arrayIndex = context.pageData?.arrayIndexes.at(0);
+  return typeof arrayIndex !== "undefined"
+    ? { "arrayWeiterePersonen#index": String(arrayIndex + 2) }
+    : {};
+};
+
+export const getWeiterePersonenNameStrings = (
+  context: FluggastrechtContext,
+) => {
+  const arrayIndex = context.pageData?.arrayIndexes.at(0);
+  if (
+    typeof arrayIndex === "undefined" ||
+    !context.weiterePersonen ||
+    arrayIndex > context.weiterePersonen.length + 1
+  )
+    return {};
+  if (arrayIndex < context.weiterePersonen.length)
+    return {
+      "weiterePersonen#vorname": context.weiterePersonen?.[arrayIndex].vorname,
+      "weiterePersonen#nachname":
+        context.weiterePersonen?.[arrayIndex].nachname,
+    };
+};

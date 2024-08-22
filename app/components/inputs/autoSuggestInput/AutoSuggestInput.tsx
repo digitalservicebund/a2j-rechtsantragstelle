@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import { matchSorter } from "match-sorter";
-import { RefObject, useEffect, useRef, useState } from "react";
-import Select, { InputActionMeta } from "react-select";
+import { type RefObject, useEffect, useRef, useState } from "react";
+import Select, { type InputActionMeta } from "react-select";
 import { useField } from "remix-validated-form";
-import { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
-import { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
+import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import {
   CustomClearIndicator,
   CustomControl,
