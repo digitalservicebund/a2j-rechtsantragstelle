@@ -28,8 +28,6 @@ export const flowPageSchemas = {
 };
 
 export type FlowPageId = keyof typeof flowPageSchemas;
-const _flowPageSchemas = z.object(flowPageSchemas);
-export type FlowPageSchemas = z.infer<typeof _flowPageSchemas>;
 
 export const collectionSchemas = {
   pages: z.array(z.object({ attributes: StrapiPageSchema })),
@@ -38,9 +36,6 @@ export const collectionSchemas = {
 };
 
 export type CollectionId = keyof typeof collectionSchemas;
-
-const _collectionSchemas = z.object(collectionSchemas);
-export type CollectionSchemas = z.infer<typeof _collectionSchemas>;
 
 export const strapiSchemas = {
   ...entrySchemas,
