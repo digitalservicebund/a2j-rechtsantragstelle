@@ -10,7 +10,7 @@ export type ArrayConfig = {
   url: string;
   initialInputUrl: string;
   statementUrl: string;
-  statementKey: AllContextKeys;
+  statementKey: AllContextKeys | "showAlways";
   statementValue?: boolean;
   hiddenFields?: string[];
 };
