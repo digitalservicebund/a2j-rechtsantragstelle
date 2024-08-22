@@ -9,7 +9,7 @@ type StandaloneLinkProps = Readonly<{
   className?: string;
 }>;
 
-const OPEN_NEW_TAB = "öffnet neues Fenster";
+export const OPEN_NEW_TAB = "öffnet neues Fenster";
 
 export const StandaloneLink = ({
   url,
@@ -22,6 +22,7 @@ export const StandaloneLink = ({
   const shouldOpenNewTab = isExternal || isDownload;
   const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
     href: url,
+    "aria-label": text,
     className: classNames("text-link min-h-[24px] inline-block", className),
     ...(shouldOpenNewTab
       ? {
