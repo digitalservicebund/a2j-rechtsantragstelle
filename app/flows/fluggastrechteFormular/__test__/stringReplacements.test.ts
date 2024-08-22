@@ -3,13 +3,15 @@ import { FluggastrechtContext } from "../context";
 import {
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
+  getPersonNachname,
+  getPersonVorname,
   getStartAirportName,
   getWeiterePersonenNameStrings,
 } from "../stringReplacements";
 
 describe("stringReplacements", () => {
   describe("getArrayWeiterePersonenIndexStrings", () => {
-    it("returns an array weitere personen index for given context", () => {
+    it("should return an array weitere personen index for given context", () => {
       const context = {
         pageData: {
           arrayIndexes: [3],
@@ -21,7 +23,7 @@ describe("stringReplacements", () => {
       expect(arrayIndexStrings).toEqual({ "arrayWeiterePersonen#index": "5" });
     });
 
-    it("returns an empty object for given context when arrayWeiterePersonen are not passed", () => {
+    it("should return an empty object for given context when arrayWeiterePersonen are not passed", () => {
       const arrayIndexStrings = getArrayWeiterePersonenIndexStrings({});
 
       expect(arrayIndexStrings).toEqual({});
@@ -29,7 +31,7 @@ describe("stringReplacements", () => {
   });
 
   describe("getWeiterePersonenNameStrings", () => {
-    it("returns vorname and nachname for given context", () => {
+    it("should return vorname and nachname for given context", () => {
       const context: FluggastrechtContext = {
         weiterePersonen: [
           {
@@ -55,7 +57,7 @@ describe("stringReplacements", () => {
       });
     });
 
-    it("returns an empty object when arrayIndex is too high", () => {
+    it("should return an empty object when arrayIndex is too high", () => {
       const context: FluggastrechtContext = {
         weiterePersonen: [
           {
@@ -78,13 +80,13 @@ describe("stringReplacements", () => {
       expect(weiterePersonenNameStrings).toEqual({});
     });
 
-    it("returns an empty object for given context when arrayIndexes missing", () => {
+    it("should return an empty object for given context when arrayIndexes missing", () => {
       const weiterePersonenNameStrings = getWeiterePersonenNameStrings({});
 
       expect(weiterePersonenNameStrings).toEqual({});
     });
 
-    it("returns an empty object for given context when kinder is undefined", () => {
+    it("should return an empty object for given context when kinder is undefined", () => {
       const context = {
         weiterePersonen: undefined,
         pageData: {
@@ -133,6 +135,30 @@ describe("stringReplacements", () => {
     it("should return empty when the airport does not exist in the json file", () => {
       const actual = getEndAirportName({ endAirport: "XXXXX" });
       expect(actual).toStrictEqual({});
+    });
+  });
+
+  describe("getPersonVorname", () => {
+    it("should return the person vorname for a given context", () => {
+      const context = {
+        vorname: "vorname",
+      };
+
+      const actual = getPersonVorname(context);
+
+      expect(actual).toEqual({ personVorname: context.vorname });
+    });
+  });
+
+  describe("getPersonNachname", () => {
+    it("should return the person nachname for a given context", () => {
+      const context = {
+        nachname: "nachname",
+      };
+
+      const actual = getPersonNachname(context);
+
+      expect(actual).toEqual({ personNachname: context.nachname });
     });
   });
 });
