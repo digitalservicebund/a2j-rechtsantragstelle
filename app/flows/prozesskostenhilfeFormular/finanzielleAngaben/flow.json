@@ -4,8 +4,20 @@
   "states": {
     "start": {
       "on": {
-        "SUBMIT": "partner",
+        "SUBMIT": "einkuenfte",
         "BACK": "#antragStart"
+      }
+    },
+    "einkuenfte": {
+      "id": "einkuenfte",
+      "initial": "staatliche-leistungen",
+      "states": {
+        "staatliche-leistungen": {
+          "on": {
+            "SUBMIT": "#partner",
+            "BACK": "#finanzielle-angaben.start"
+          }
+        }
       }
     },
     "partner": {
@@ -17,7 +29,7 @@
       "states": {
         "partnerschaft": {
           "on": {
-            "BACK": "#finanzielle-angaben",
+            "BACK": "#einkuenfte",
             "SUBMIT": [
               {
                 "guard": "hasPartnerschaftOrSeparated",

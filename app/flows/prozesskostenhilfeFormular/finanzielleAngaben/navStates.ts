@@ -13,6 +13,13 @@ import {
 export type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenContext>;
 
+export const einkuenfteDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  ["asylbewerberleistungen", "arbeitslosengeld"].includes(
+    context.staatlicheLeistungenPKH ?? "",
+  );
+
 export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>

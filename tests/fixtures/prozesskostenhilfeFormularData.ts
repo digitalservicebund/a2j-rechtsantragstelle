@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import { staatlicheLeistungenPKHSchema } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
 import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,
@@ -18,6 +19,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   hasGrundeigentum: YesNoAnswer.Enum.yes,
   hasKraftfahrzeug: YesNoAnswer.Enum.yes,
   eigentumTotalWorth: eigentumTotalWorthSchema.Enum.unsure,
+  staatlicheLeistungenPKH: staatlicheLeistungenPKHSchema.Enum.buergergeld,
   partnerschaft: YesNoAnswer.Enum.yes,
   zusammenleben: YesNoAnswer.Enum.yes,
   partnerEinkommen: YesNoAnswer.Enum.yes,

@@ -7,13 +7,22 @@ import {
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
   partnerschaftSchema,
+  staatlicheLeistungen,
   unterhaltszahlungSchema,
   wertsachenArraySchema,
 } from "~/flows/shared/finanzielleAngaben/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import {
+  customRequiredErrorMessage,
+  YesNoAnswer,
+} from "~/services/validation/YesNoAnswer";
+
+export const staatlicheLeistungenPKHSchema = z.enum(
+  [...staatlicheLeistungen.options, "arbeitslosengeld"],
+  customRequiredErrorMessage,
+);
 
 export const prozesskostenhilfeFinanzielleAngabenContext = {
   partnerschaft: partnerschaftSchema,
@@ -39,6 +48,7 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   wertsachen: wertsachenArraySchema,
   hasWeitereUnterhaltszahlungen: YesNoAnswer,
   unterhaltszahlungen: z.array(unterhaltszahlungSchema),
+  staatlicheLeistungenPKH: staatlicheLeistungenPKHSchema,
   pageData: pageDataSchema,
 };
 

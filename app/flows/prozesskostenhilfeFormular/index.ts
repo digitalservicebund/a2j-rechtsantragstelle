@@ -10,6 +10,7 @@ import {
 import {
   andereUnterhaltszahlungenDone,
   eigentumZusammenfassungDone,
+  einkuenfteDone,
   kinderDone,
   partnerDone,
 } from "./finanzielleAngaben/navStates";
@@ -35,6 +36,7 @@ export const prozesskostenhilfeFormular = {
       start: { meta: { done: () => true } },
       "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
         states: {
+          einkuenfte: { meta: { done: einkuenfteDone } },
           partner: { meta: { done: partnerDone } },
           kinder: { meta: { done: kinderDone } },
           "andere-unterhaltszahlungen": {
