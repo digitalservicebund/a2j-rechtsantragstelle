@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 import * as stringReplacements from "~/flows/beratungshilfeFormular/stringReplacements";
 import Handout, { dynamicSteps } from "~/services/pdf/beratungshilfe/Handout";
