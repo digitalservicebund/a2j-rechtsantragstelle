@@ -36,8 +36,6 @@ describe("validateFlowTransition", () => {
     "/fluggastrechte/vorabcheck": createMockFlow("vorab-check-pages"),
     "/fluggastrechte/formular": createMockFlow("form-flow-pages"),
     "/prozesskostenhilfe/formular": createMockFlow("form-flow-pages"),
-    // TODO: remove /prozesskostenhilfe/antrag
-    "/prozesskostenhilfe/antrag": createMockFlow("form-flow-pages"),
   };
   const mockController: FlowController = {
     getMeta: vi.fn().mockReturnValue(undefined),

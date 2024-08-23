@@ -34,6 +34,4 @@ export const flows = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
   "/fluggastrechte/formular": fluggastrechtFlow,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
-  // TODO: remove /prozesskostenhilfe/antrag
-  "/prozesskostenhilfe/antrag": prozesskostenhilfeFormular,
 } as const satisfies Record<FlowId, Flow>;
