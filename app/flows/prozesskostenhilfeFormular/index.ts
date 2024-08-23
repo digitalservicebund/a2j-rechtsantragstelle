@@ -28,7 +28,7 @@ export const prozesskostenhilfeFormular = {
   config: _.merge(prozesskostenhilfeFormularFlow, {
     meta: {
       arrays: finanzielleAngabenArrayConfig(
-        "/prozesskostenhilfe/antrag/finanzielle-angaben",
+        "/prozesskostenhilfe/formular/finanzielle-angaben",
       ),
     },
     states: {
