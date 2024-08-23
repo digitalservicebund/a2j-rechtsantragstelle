@@ -16,6 +16,10 @@ const fourYearsAgoSchema = createDateSchema({
 
 export const fluggastrechteFlugdaten = {
   zwischenstopps: YesNoAnswer,
+  zwischenstoppAnzahl: z.enum(
+    ["no", "oneStop", "twoStop", "threeStop", "fourStop", "fiveStop"],
+    customRequiredErrorMessage,
+  ),
   direktFlugnummer: flightNumberSchema,
   direktAbflugsDatum: fourYearsAgoSchema,
   direktAbflugsZeit: timeSchema,

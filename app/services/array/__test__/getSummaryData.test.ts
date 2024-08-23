@@ -120,4 +120,36 @@ describe("getSummaryData", () => {
 
     expect(actual).toEqual(expected);
   });
+
+  it("should return statementValue true when statementKey value is showAlways ", () => {
+    const mockArrayConfig = {
+      kraftfahrzeuge: {
+        url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge",
+        initialInputUrl: "daten",
+        statementUrl:
+          "/beratungshilfe/antrag/finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
+        statementKey: "showAlways",
+        event: "add-kraftfahrzeuge",
+      },
+    } satisfies Record<string, ArrayConfig>;
+
+    const mockUserData = { ...happyPathData, showAlways: "whatEverValue" };
+
+    const actual = getSummaryData(
+      ["kraftfahrzeuge"],
+      mockArrayConfig,
+      mockUserData,
+    );
+    const expected = {
+      kraftfahrzeuge: {
+        data: [],
+        arrayConfiguration: {
+          ...mockArrayConfig["kraftfahrzeuge"],
+          statementValue: true,
+        },
+      },
+    };
+
+    expect(actual).toEqual(expected);
+  });
 });

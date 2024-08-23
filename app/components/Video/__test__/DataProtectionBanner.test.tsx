@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@testing-library/react";
-import React from "react";
+import type React from "react";
 import {
   ACTIVATE_VIDEO_TRANSLATION_KEY,
   HEADER_TRANSLATION_KEY,

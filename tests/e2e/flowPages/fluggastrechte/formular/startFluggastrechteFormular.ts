@@ -1,4 +1,4 @@
-import { Page, expect } from "@playwright/test";
+import { type Page, expect } from "@playwright/test";
 import type { FluggastrechteFormular } from "tests/e2e/pom/FluggastrechteFormular";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { today, toGermanDateFormat } from "~/util/date";
@@ -50,10 +50,6 @@ export async function startFluggastrechteFormular(
   await formular.fillInput("tatsaechlicherAnkunftsZeit", "10:10");
   await formular.clickNext();
 
-  // /fluggastrechte/formular/persoenliche-daten/person/forderung-mehrere-personen
-  await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("forderungMehrerePersonen", "no");
-
   // /fluggastrechte/formular/persoenliche-daten/person/daten
   await expectPageToBeAccessible({ page });
   await formular.fillInput("anrede", "Herr");
@@ -69,6 +65,10 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/persoenliche-daten/person/antragsteller-angeben
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("isProzessbevollmaechtigte", "no");
+
+  // /fluggastrechte/formular/persoenliche-daten/weitere-personen/uebersicht
+  await expectPageToBeAccessible({ page });
+  await formular.clickNext();
 
   // /fluggastrechte/formular/forderung
   await expectPageToBeAccessible({ page });

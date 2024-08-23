@@ -1,5 +1,5 @@
 import { beratungshilfeFinanzielleAngabeDone } from "~/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
-import { ProzesskostenhilfeFormularContext } from "..";
+import type { ProzesskostenhilfeFormularContext } from "..";
 import type { Guards } from "../../guards.server";
 
 export const prozesskostenhilfeAbgabeGuards = {

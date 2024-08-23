@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { Filter, GetStrapiEntryOpts } from "./filters";
-import { GetStrapiEntry } from "./getStrapiEntry";
+import type { GetStrapiEntry } from "./getStrapiEntry";
 import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
 import type { ApiId, StrapiSchemas } from "./schemas";
 import { config } from "../env/env.server";

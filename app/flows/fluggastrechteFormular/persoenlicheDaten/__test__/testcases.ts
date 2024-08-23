@@ -14,7 +14,6 @@ const machine: FlowStateMachine = createMachine(
 const cases = [
   [
     {
-      forderungMehrerePersonen: "yes",
       anrede: "mr",
       title: "",
       vorname: "test",
@@ -26,15 +25,14 @@ const cases = [
       isProzessbevollmaechtigte: "no",
     },
     [
-      "persoenliche-daten/person/forderung-mehrere-personen",
       "persoenliche-daten/person/daten",
       "persoenliche-daten/person/antragsteller-angeben",
+      "persoenliche-daten/weitere-personen/uebersicht",
       "forderung/forderung",
     ],
   ],
   [
     {
-      forderungMehrerePersonen: "yes",
       anrede: "mr",
       title: "",
       vorname: "test",
@@ -48,16 +46,15 @@ const cases = [
       isProzessbevollmaechtigte: "no",
     },
     [
-      "persoenliche-daten/person/forderung-mehrere-personen",
       "persoenliche-daten/person/daten",
       "persoenliche-daten/person/vertretung-minderjaehrige",
       "persoenliche-daten/person/antragsteller-angeben",
+      "persoenliche-daten/weitere-personen/uebersicht",
       "forderung/forderung",
     ],
   ],
   [
     {
-      forderungMehrerePersonen: "yes",
       anrede: "mr",
       title: "",
       vorname: "test",
@@ -73,17 +70,16 @@ const cases = [
       vollmaechtigteNachname: "test",
     },
     [
-      "persoenliche-daten/person/forderung-mehrere-personen",
       "persoenliche-daten/person/daten",
       "persoenliche-daten/person/vertretung-minderjaehrige",
       "persoenliche-daten/person/antragsteller-angeben",
       "persoenliche-daten/person/antragsteller-daten",
+      "persoenliche-daten/weitere-personen/uebersicht",
       "forderung/forderung",
     ],
   ],
   [
     {
-      forderungMehrerePersonen: "yes",
       anrede: "mr",
       title: "",
       vorname: "test",
@@ -97,11 +93,45 @@ const cases = [
       vollmaechtigteNachname: "test",
     },
     [
-      "persoenliche-daten/person/forderung-mehrere-personen",
       "persoenliche-daten/person/daten",
       "persoenliche-daten/person/antragsteller-angeben",
       "persoenliche-daten/person/antragsteller-daten",
+      "persoenliche-daten/weitere-personen/uebersicht",
       "forderung/forderung",
+    ],
+  ],
+  [
+    {
+      anrede: "mr",
+      title: "",
+      vorname: "test",
+      nachname: "test",
+      strasseHausnummer: "test",
+      ort: "test",
+      plz: "13055",
+      unter18JahreAlt: CheckboxValue.off,
+      isProzessbevollmaechtigte: "no",
+      weiterePersonen: [
+        {
+          title: "",
+          vorname: "test",
+          nachname: "test",
+          strasseHausnummer: "test",
+          ort: "test",
+          plz: "13055",
+          unter18JahreAlt: CheckboxValue.on,
+          vornameVertretung: "test",
+          nachnameVertretung: "test",
+          strasseHausnummerVertretung: "strasseHausnummerVertretung",
+          ortVertretung: "ortVertretung",
+          plzVertretung: "plzVertretung",
+        },
+      ],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "persoenliche-daten/weitere-personen/person/daten",
+      "persoenliche-daten/weitere-personen/person/vertretung-minderjaehrige",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;
