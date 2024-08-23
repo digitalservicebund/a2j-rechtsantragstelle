@@ -27,7 +27,7 @@ const ArraySummaryItem = ({
   const { url, initialInputUrl, hiddenFields } = configuration;
 
   return (
-    <div className="space-y-8 bg-white p-16">
+    <div className="space-y-16 bg-white p-16">
       {Object.entries(items)
         .filter(
           ([itemKey, itemValue]) =>
