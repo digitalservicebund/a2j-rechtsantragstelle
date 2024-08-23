@@ -1,6 +1,9 @@
 import { arrayIsNonEmpty } from "~/util/array";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
-import { eigentumDone as eigentumDoneGuard } from "./guards";
+import {
+  eigentumDone as eigentumDoneGuard,
+  hasGrundsicherungOrAsylberberleistungen,
+} from "./guards";
 import type { GenericGuard } from "../../guards.server";
 import {
   bankKontoDone,
@@ -15,14 +18,14 @@ export type ProzesskostenhilfeFinanzielleAngabenGuard =
 
 export const einkuenfteDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
-}) =>
-  ["asylbewerberleistungen", "arbeitslosengeld"].includes(
-    context.staatlicheLeistungenPKH ?? "",
-  );
+}) => hasGrundsicherungOrAsylberberleistungen({ context });
 
 export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
+  hasGrundsicherungOrAsylberberleistungen({
+    context,
+  }) ||
   ["no", "widowed"].includes(context.partnerschaft ?? "") ||
   context.unterhalt == "no" ||
   context.partnerEinkommen == "no" ||
@@ -31,16 +34,25 @@ export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 
 export const kinderDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
-}) => context.hasKinder == "no" || arrayIsNonEmpty(context.kinder);
+}) =>
+  hasGrundsicherungOrAsylberberleistungen({
+    context,
+  }) ||
+  context.hasKinder == "no" ||
+  arrayIsNonEmpty(context.kinder);
 
 export const andereUnterhaltszahlungenDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
+    hasGrundsicherungOrAsylberberleistungen({
+      context,
+    }) ||
     context.hasWeitereUnterhaltszahlungen == "no" ||
     arrayIsNonEmpty(context.unterhaltszahlungen);
 
 export const prozesskostenhilfeFinanzielleAngabeDone: GenericGuard<
   ProzesskostenhilfeFinanzielleAngabenContext
 > = ({ context }) =>
+  einkuenfteDone({ context }) &&
   partnerDone({ context }) &&
   eigentumDone({ context }) &&
   kinderDone({ context }) &&
@@ -49,12 +61,18 @@ export const prozesskostenhilfeFinanzielleAngabeDone: GenericGuard<
 
 export const eigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
-}) => eigentumDoneGuard({ context });
+}) =>
+  hasGrundsicherungOrAsylberberleistungen({
+    context,
+  }) || eigentumDoneGuard({ context });
 
 export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
-    bankKontoDone({ context }) &&
-    geldanlagenDone({ context }) &&
-    grundeigentumDone({ context }) &&
-    wertsachenDone({ context }) &&
-    kraftfahrzeugeDone({ context });
+    hasGrundsicherungOrAsylberberleistungen({
+      context,
+    }) ||
+    (bankKontoDone({ context }) &&
+      geldanlagenDone({ context }) &&
+      grundeigentumDone({ context }) &&
+      wertsachenDone({ context }) &&
+      kraftfahrzeugeDone({ context }));

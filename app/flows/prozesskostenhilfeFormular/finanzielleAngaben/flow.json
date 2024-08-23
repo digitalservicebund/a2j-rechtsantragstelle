@@ -14,8 +14,56 @@
       "states": {
         "staatliche-leistungen": {
           "on": {
-            "SUBMIT": "#partner",
+            "SUBMIT": [
+              {
+                "guard": "hasGrundsicherungOrAsylberberleistungen",
+                "target": "#abgabe"
+              },
+              { "guard": "hasBuergergeld", "target": "buergergeld" },
+
+              {
+                "guard": "hasArbeitslosengeld",
+                "target": "arbeitslosengeld"
+              },
+              "einkommen"
+            ],
             "BACK": "#finanzielle-angaben.start"
+          }
+        },
+        "buergergeld": {
+          "id": "buergergeld",
+          "on": {
+            "SUBMIT": "einkommen",
+            "BACK": "staatliche-leistungen"
+          }
+        },
+        "arbeitslosengeld": {
+          "id": "arbeitslosengeld",
+          "on": {
+            "SUBMIT": "einkommen",
+            "BACK": "staatliche-leistungen"
+          }
+        },
+        "einkommen": {
+          "id": "einkommen",
+          "initial": "erwerbstaetig",
+          "states": {
+            "erwerbstaetig": {},
+            "art": {}
+          },
+          "on": {
+            "SUBMIT": "#partner",
+            "BACK": [
+              {
+                "guard": "hasBuergergeld",
+                "target": "buergergeld"
+              },
+              {
+                "guard": "hasArbeitslosengeld",
+                "target": "arbeitslosengeld"
+              },
+              "staatliche-leistungen"
+            ]
           }
         }
       }
@@ -29,7 +77,7 @@
       "states": {
         "partnerschaft": {
           "on": {
-            "BACK": "#einkuenfte",
+            "BACK": "#einkommen",
             "SUBMIT": [
               {
                 "guard": "hasPartnerschaftOrSeparated",

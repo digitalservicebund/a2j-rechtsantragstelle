@@ -8,7 +8,13 @@
           { "target": "online", "guard": "abgabeOnline" },
           { "target": "ausdrucken", "guard": "abgabeAusdrucken" }
         ],
-        "BACK": "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung"
+        "BACK": [
+          {
+            "guard": "hasGrundsicherungOrAsylberberleistungen",
+            "target": "#finanzielle-angaben.einkuenfte"
+          },
+          "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung"
+        ]
       }
     },
     "ausdrucken": { "on": { "BACK": { "target": "art" } } },

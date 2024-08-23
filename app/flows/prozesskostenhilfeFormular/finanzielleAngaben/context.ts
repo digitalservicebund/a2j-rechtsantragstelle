@@ -25,6 +25,9 @@ export const staatlicheLeistungenPKHSchema = z.enum(
 );
 
 export const prozesskostenhilfeFinanzielleAngabenContext = {
+  staatlicheLeistungenPKH: staatlicheLeistungenPKHSchema,
+  buergergeld: buildMoneyValidationSchema(),
+  arbeitslosengeld: buildMoneyValidationSchema(),
   partnerschaft: partnerschaftSchema,
   zusammenleben: YesNoAnswer,
   unterhalt: YesNoAnswer,
@@ -48,7 +51,6 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   wertsachen: wertsachenArraySchema,
   hasWeitereUnterhaltszahlungen: YesNoAnswer,
   unterhaltszahlungen: z.array(unterhaltszahlungSchema),
-  staatlicheLeistungenPKH: staatlicheLeistungenPKHSchema,
   pageData: pageDataSchema,
 };
 

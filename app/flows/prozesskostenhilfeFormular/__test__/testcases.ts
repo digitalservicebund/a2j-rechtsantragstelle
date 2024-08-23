@@ -19,6 +19,8 @@ const cases = [
       "start/start",
       "finanzielle-angaben/start",
       "finanzielle-angaben/einkuenfte/staatliche-leistungen",
+      "finanzielle-angaben/einkuenfte/buergergeld",
+      "finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
       "finanzielle-angaben/partner/partnerschaft",
       "finanzielle-angaben/partner/zusammenleben",
       "finanzielle-angaben/partner/partner-einkommen",

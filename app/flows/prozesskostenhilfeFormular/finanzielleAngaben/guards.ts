@@ -29,11 +29,21 @@ export const eigentumDone: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[s
     (!hasAnyEigentumExceptBankaccount({ context }) ||
       context.eigentumTotalWorth !== undefined);
 
+export const hasGrundsicherungOrAsylberberleistungen: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
+  ({ context }) =>
+    context.staatlicheLeistungenPKH === "asylbewerberleistungen" ||
+    context.staatlicheLeistungenPKH === "grundsicherung";
+
 export const finanzielleAngabeGuards = {
   eigentumDone,
   hasAnyEigentum,
   eigentumTotalWorthLessThan10000: ({ context }) =>
     context.eigentumTotalWorth === "less10000",
+  hasGrundsicherungOrAsylberberleistungen,
+  hasBuergergeld: ({ context }) =>
+    context.staatlicheLeistungenPKH === "buergergeld",
+  hasArbeitslosengeld: ({ context }) =>
+    context.staatlicheLeistungenPKH === "arbeitslosengeld",
   hasPartnerschaftOrSeparated,
   hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",
   hasPartnerschaftNoOrWidowed: ({ context }) =>
