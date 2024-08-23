@@ -112,7 +112,7 @@
     "eslint-plugin-jsx-a11y": "^6.9.0",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-sonarjs": "^1.0.4",
+    "eslint-plugin-sonarjs": "^2.0.0",
     "eslint-plugin-storybook": "^0.8.0",
     "eslint-plugin-vitest": "^0.5.4",
     "fishery": "^2.2.2",
