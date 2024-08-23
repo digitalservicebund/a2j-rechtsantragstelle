@@ -6,6 +6,8 @@ export const flowIds = [
   "/fluggastrechte/vorabcheck",
   "/fluggastrechte/formular",
   "/prozesskostenhilfe/formular",
+  // TODO: remove /prozesskostenhilfe/antrag
+  "/prozesskostenhilfe/antrag",
 ] as const;
 
 export type FlowId = (typeof flowIds)[number];
