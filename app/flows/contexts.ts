@@ -8,7 +8,7 @@ import { fluggastrechtContext } from "./fluggastrechteFormular/context";
 import { context as geldEinklagenFormularContext } from "./geldEinklagenFormular/context";
 import { prozesskostenhilfeFormularContext } from "./prozesskostenhilfeFormular/context";
 
-type BasicTypes = string | number | boolean;
+export type BasicTypes = string | number | boolean;
 export type ArrayData = Array<Record<string, BasicTypes>>;
 export type ObjectType = Record<
   string,

@@ -4,7 +4,7 @@ import type { ArrayData } from "~/flows/contexts";
 import type { ArrayConfig } from "~/services/array";
 import type { Translations } from "~/services/cms/index.server";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
-import ArraySummaryItemButton from "./ArraySummaryItemButton";
+import ArraySummaryDataItems from "./ArraySummaryDataItems";
 import Button from "../Button";
 import Heading from "../Heading";
 import RichText from "../RichText";
@@ -52,8 +52,7 @@ const ArraySummary = ({
   const { url, initialInputUrl } = arrayData.arrayConfiguration;
   const statementValue = Boolean(arrayData.arrayConfiguration.statementValue);
 
-  const headingTitleTagNameArraySummaryItems =
-    titleHeading.trim().length > 0 ? "h3" : "h2";
+  const headingTitleTagNameItem = titleHeading.trim().length > 0 ? "h3" : "h2";
 
   return (
     <div className="ds-stack-8 scroll-my-40 mb-24">
@@ -69,52 +68,18 @@ const ArraySummary = ({
       <div className="space-y-32">
         {statementValue ? (
           <>
-            {arrayData.data.map((element, index) => {
-              return (
-                <div
-                  key={`${subtitle}_${index}`}
-                  className="space-y-8 bg-white p-16"
-                >
-                  {Object.entries(element)
-                    .filter(
-                      ([elementKey, elementValue]) =>
-                        elementValue &&
-                        !arrayData.arrayConfiguration.hiddenFields?.includes(
-                          elementKey,
-                        ),
-                    )
-                    .map(([elementKey, elementValue]) => {
-                      return (
-                        <div
-                          key={elementKey}
-                          className="first:pt-0 scroll-my-40"
-                        >
-                          <Heading
-                            dataTestid="array-summary-item"
-                            text={getTranslationByKey(
-                              `${category}.${elementKey}`,
-                              translations,
-                            )}
-                            tagName={headingTitleTagNameArraySummaryItems}
-                            look="ds-label-02-bold"
-                          />
-                          {translations[
-                            `${category}.${elementKey}.${String(elementValue)}`
-                          ] ?? elementValue}
-                        </div>
-                      );
-                    })}
-                  <ArraySummaryItemButton
-                    category={category}
-                    csrf={csrf}
-                    initialInputUrl={initialInputUrl}
-                    itemIndex={index}
-                    url={url}
-                    translations={translations}
-                  />
-                </div>
-              );
-            })}
+            {arrayData.data.map((items, index) => (
+              <ArraySummaryDataItems
+                key={`${subtitle}_${index}`}
+                configuration={arrayData.arrayConfiguration}
+                itemIndex={index}
+                items={items}
+                category={category}
+                csrf={csrf}
+                headingTitleTagNameItem={headingTitleTagNameItem}
+                translations={translations}
+              />
+            ))}
             <Button
               look="primary"
               size="small"
