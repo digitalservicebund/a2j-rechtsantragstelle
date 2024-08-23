@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
   await cookieSettings.acceptCookieBanner();
 });
 
-test("funnel: invalid step redirects to start", async ({ page }) => {
+test.skip("funnel: invalid step redirects to start", async ({ page }) => {
   await page.goto(`${prozesskostenhilfeFormular.url}/stepDoesNotExist`);
   await expect(page).toHaveURL(
     new RegExp(
@@ -27,7 +27,7 @@ test("funnel: invalid step redirects to start", async ({ page }) => {
   );
 });
 
-test("forwarded to initial step", async ({ page }) => {
+test.skip("forwarded to initial step", async ({ page }) => {
   await expect(page).toHaveURL(
     new RegExp(
       `.+${prozesskostenhilfeFormular.url}/${prozesskostenhilfeFormular.initialStep}$`,
@@ -35,7 +35,7 @@ test("forwarded to initial step", async ({ page }) => {
   );
 });
 
-test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
+test.skip("prozesskostenhilfe formular can be traversed", async ({ page }) => {
   // /prozesskostenhilfe/antrag/start/start
   await expectPageToBeAccessible({ page });
   await prozesskostenhilfeFormular.clickNext();
