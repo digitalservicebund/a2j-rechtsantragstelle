@@ -14,6 +14,7 @@ type Props = {
   readonly initialInputUrl: string;
   readonly csrf: string;
   readonly translations?: Translations;
+  readonly className?: string;
 };
 
 const ArraySummaryItemButton = ({
@@ -23,6 +24,7 @@ const ArraySummaryItemButton = ({
   initialInputUrl,
   csrf,
   translations = {},
+  className,
 }: Props) => {
   const editButtonText = getTranslationByKey(
     "arrayEditButtonLabel",
@@ -37,7 +39,7 @@ const ArraySummaryItemButton = ({
   const fetcher = useFetcher();
 
   return (
-    <ButtonContainer>
+    <ButtonContainer className={className}>
       <Button
         iconLeft={<EditButton />}
         look="tertiary"
