@@ -28,6 +28,8 @@ const contexts = {
   "/geld-einklagen/formular": geldEinklagenFormularContext,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckContext,
   "/fluggastrechte/formular": fluggastrechtContext,
+  "/prozesskostenhilfe/formular": prozesskostenhilfeFormularContext,
+  // TODO: remove /prozesskostenhilfe/antrag
   "/prozesskostenhilfe/antrag": prozesskostenhilfeFormularContext,
 } as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;
 

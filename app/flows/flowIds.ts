@@ -5,6 +5,8 @@ export const flowIds = [
   "/geld-einklagen/formular",
   "/fluggastrechte/vorabcheck",
   "/fluggastrechte/formular",
+  "/prozesskostenhilfe/formular",
+  // TODO: remove /prozesskostenhilfe/antrag
   "/prozesskostenhilfe/antrag",
 ] as const;
 
