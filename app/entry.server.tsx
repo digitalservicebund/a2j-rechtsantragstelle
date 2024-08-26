@@ -102,6 +102,11 @@ function handleBrowserRequest(
       cspHeader({ nonce: cspNonce, environment: config().ENVIRONMENT }),
     );
 
+    // Observe for 1-2 weeks if the no cache at all would affect our application
+    if (config().ENVIRONMENT !== "production") {
+      responseHeaders.set("Cache-Control", "no-store");
+    }
+
     const { pipe, abort } = renderToPipeableStream(
       <NonceContext.Provider value={cspNonce}>
         <RemixServer context={remixContext} url={request.url} />
