@@ -10,6 +10,12 @@ const pdfs = [
     pdfFilename: "Antrag_auf_Bewilligung_von_Beratungshilfe.pdf",
     typeName: "BeratungshilfePDF",
   },
+  {
+    service: "prozesskostenhilfe",
+    pdfFilename:
+      "Erklaerung_Verhaeltnisse_Prozess_oder_Verfahrenskostenhilfe.pdf",
+    typeName: "ProzesskostenhilfePDF",
+  },
 ] as const;
 
 const dataDirectory = "data/pdf/";
@@ -47,7 +53,7 @@ async function generatePdfTypes({
   const pdfFieldsObject = Object.fromEntries(pdfFields.map(pdfFieldToEntry));
 
   const fileContent = `import type { BooleanField, StringField } from "~/services/pdf/fileTypes";
-  
+
 export function ${functionName}(): ${typeName} {
   return ${JSON.stringify(pdfFieldsObject, null, 2)};
 }
