@@ -48,6 +48,7 @@ function getSubflowPaths(
   flowController: FlowController,
   userData: Context,
 ): Path[] {
+  // TODO: check if first step is reachable
   return Object.entries(flowController.getRootMeta()?.arrays ?? {})
     .filter(([key]) => !_.isUndefined(userData[key]))
     .filter(([_key, config]) => userData[config.statementKey] === "yes")
