@@ -43,6 +43,9 @@ function getEnabledSteps({
       transitionType,
       context,
     );
+    if (!transDest?.at(0)) {
+      console.log(`step: ${step}, transitionType: ${transitionType}`);
+    }
     const { stepId } = parsePathname(transDest?.at(0) ?? "");
     return stepId;
   });

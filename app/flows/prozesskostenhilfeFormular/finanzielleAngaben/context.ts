@@ -24,10 +24,25 @@ export const staatlicheLeistungenPKHSchema = z.enum(
   customRequiredErrorMessage,
 );
 
+export const arbeitsArtSchema = z.enum(
+  ["employed", "selfEmployed", "employedAndSelfEmployed"],
+  customRequiredErrorMessage,
+);
+export const bruttoNettoSchema = z.enum(
+  ["brutto", "netto"],
+  customRequiredErrorMessage,
+);
+
 export const prozesskostenhilfeFinanzielleAngabenContext = {
   staatlicheLeistungenPKH: staatlicheLeistungenPKHSchema,
   buergergeld: buildMoneyValidationSchema(),
   arbeitslosengeld: buildMoneyValidationSchema(),
+  currentlyEmployed: YesNoAnswer,
+  employmentType: arbeitsArtSchema,
+  nettoEinkuenfte: buildMoneyValidationSchema(),
+  monatsEinkommen: buildMoneyValidationSchema(),
+  bruttoNetto: bruttoNettoSchema,
+  receivesPension: YesNoAnswer,
   partnerschaft: partnerschaftSchema,
   zusammenleben: YesNoAnswer,
   unterhalt: YesNoAnswer,

@@ -48,11 +48,70 @@
           "id": "einkommen",
           "initial": "erwerbstaetig",
           "states": {
-            "erwerbstaetig": {},
-            "art": {}
+            "erwerbstaetig": {
+              "id": "erwerbstaetig",
+              "on": {
+                "SUBMIT": [
+                  { "guard": "notEmployed", "target": "#rente" },
+                  "art"
+                ],
+                "BACK": [
+                  {
+                    "guard": "hasBuergergeld",
+                    "target": "#einkuenfte.buergergeld"
+                  },
+
+                  {
+                    "guard": "hasArbeitslosengeld",
+                    "target": "#einkuenfte.arbeitslosengeld"
+                  }
+                ]
+              }
+            },
+            "art": {
+              "id": "art",
+              "on": {
+                "SUBMIT": [
+                  {
+                    "guard": "isEmployee",
+                    "target": "netto-einkommen"
+                  },
+                  "selbststaendiges"
+                ],
+                "BACK": "erwerbstaetig"
+              }
+            },
+            "netto-einkommen": {
+              "id": "netto-einkommen",
+              "on": {
+                "SUBMIT": [
+                  { "guard": "isSelfEmployed", "target": "selbststaendiges" },
+                  "#einkuenfte.abzuege"
+                ],
+                "BACK": "art"
+              }
+            },
+            "selbststaendiges": {
+              "id": "selbststaendiges",
+              "on": {
+                "SUBMIT": "selbststaendiges-abzuege",
+                "BACK": [
+                  {
+                    "guard": "isEmployee",
+                    "target": "netto-einkommen"
+                  },
+                  "#einkommen.art"
+                ]
+              }
+            },
+            "selbststaendiges-abzuege": {
+              "id": "selbststaendiges-abzuege",
+              "on": {
+                "SUBMIT": {}
+              }
+            }
           },
           "on": {
-            "SUBMIT": "#partner",
             "BACK": [
               {
                 "guard": "hasBuergergeld",
@@ -64,6 +123,34 @@
               },
               "staatliche-leistungen"
             ]
+          }
+        },
+        "abzuege": {
+          "id": "abzuege",
+          "initial": "arbeitsweg",
+          "states": {
+            "arbeitsweg": {
+              "id": "arbeitsweg",
+              "on": {
+                "BACK": [
+                  {
+                    "guard": "isEmployee",
+                    "target": "#einkommen.netto-einkommen"
+                  }
+                ]
+              }
+            }
+          },
+          "on": {
+            "SUBMIT": "#partner",
+            "BACK": "#einkommen"
+          }
+        },
+        "rente": {
+          "id": "rente",
+          "on": {
+            "SUBMIT": "#partner",
+            "BACK": "#einkommen"
           }
         }
       }
@@ -77,7 +164,7 @@
       "states": {
         "partnerschaft": {
           "on": {
-            "BACK": "#einkommen",
+            "BACK": "#abzuege",
             "SUBMIT": [
               {
                 "guard": "hasPartnerschaftOrSeparated",

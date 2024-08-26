@@ -3,6 +3,7 @@ import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
 import {
   eigentumDone as eigentumDoneGuard,
   hasGrundsicherungOrAsylberberleistungen,
+  notEmployed,
 } from "./guards";
 import type { GenericGuard } from "../../guards.server";
 import {
@@ -18,7 +19,9 @@ export type ProzesskostenhilfeFinanzielleAngabenGuard =
 
 export const einkuenfteDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
-}) => hasGrundsicherungOrAsylberberleistungen({ context });
+}) =>
+  hasGrundsicherungOrAsylberberleistungen({ context }) ||
+  !notEmployed({ context }); // TODO: remove after einkuenfte complete
 
 export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,

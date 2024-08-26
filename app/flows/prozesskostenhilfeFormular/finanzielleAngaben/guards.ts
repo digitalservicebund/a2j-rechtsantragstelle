@@ -34,6 +34,9 @@ export const hasGrundsicherungOrAsylberberleistungen: Guards<ProzesskostenhilfeF
     context.staatlicheLeistungenPKH === "asylbewerberleistungen" ||
     context.staatlicheLeistungenPKH === "grundsicherung";
 
+export const notEmployed: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
+  ({ context }) => context.currentlyEmployed === "no";
+
 export const finanzielleAngabeGuards = {
   eigentumDone,
   hasAnyEigentum,
@@ -44,6 +47,13 @@ export const finanzielleAngabeGuards = {
     context.staatlicheLeistungenPKH === "buergergeld",
   hasArbeitslosengeld: ({ context }) =>
     context.staatlicheLeistungenPKH === "arbeitslosengeld",
+  notEmployed,
+  isEmployee: ({ context }) =>
+    context.employmentType === "employed" ||
+    context.employmentType === "employedAndSelfEmployed",
+  isSelfEmployed: ({ context }) =>
+    context.employmentType === "selfEmployed" ||
+    context.employmentType === "employedAndSelfEmployed",
   hasPartnerschaftOrSeparated,
   hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",
   hasPartnerschaftNoOrWidowed: ({ context }) =>
