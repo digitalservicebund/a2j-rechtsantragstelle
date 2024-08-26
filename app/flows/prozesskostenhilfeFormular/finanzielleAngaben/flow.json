@@ -60,11 +60,11 @@
                     "guard": "hasBuergergeld",
                     "target": "#einkuenfte.buergergeld"
                   },
-
                   {
                     "guard": "hasArbeitslosengeld",
                     "target": "#einkuenfte.arbeitslosengeld"
-                  }
+                  },
+                  "#einkuenfte.staatliche-leistungen"
                 ]
               }
             },
@@ -111,19 +111,6 @@
                 "SUBMIT": "#einkuenfte.abzuege"
               }
             }
-          },
-          "on": {
-            "BACK": [
-              {
-                "guard": "hasBuergergeld",
-                "target": "buergergeld"
-              },
-              {
-                "guard": "hasArbeitslosengeld",
-                "target": "arbeitslosengeld"
-              },
-              "staatliche-leistungen"
-            ]
           }
         },
         "abzuege": {
@@ -133,12 +120,74 @@
             "arbeitsweg": {
               "id": "arbeitsweg",
               "on": {
+                "SUBMIT": [
+                  {
+                    "guard": "usesPublicTransit",
+                    "target": "opnv-kosten"
+                  },
+                  {
+                    "guard": "usesPrivateVehicle",
+                    "target": "arbeitsplatz-entfernung"
+                  },
+                  {
+                    "guard": "commuteMethodPlaysNoRole",
+                    "target": "keine-rolle"
+                  },
+                  "zusammenhang"
+                ],
                 "BACK": [
                   {
                     "guard": "isSelfEmployed",
                     "target": "#einkommen.selbststaendiges-abzuege"
                   },
                   "#einkommen.netto-einkommen"
+                ]
+              }
+            },
+            "opnv-kosten": {
+              "id": "opnv-kosten",
+              "on": {
+                "SUBMIT": "arbeitsplatz-entfernung",
+                "BACK": "arbeitsweg"
+              }
+            },
+            "arbeitsplatz-entfernung": {
+              "id": "arbeitsplatz-entfernung",
+              "on": {
+                "SUBMIT": "zusammenhang",
+                "BACK": [
+                  {
+                    "guard": "usesPublicTransit",
+                    "target": "opnv-kosten"
+                  },
+                  "arbeitsweg"
+                ]
+              }
+            },
+            "keine-rolle": {
+              "on": {
+                "SUBMIT": "zusammenhang",
+                "BACK": "arbeitsweg"
+              }
+            },
+            "zusammenhang": {
+              "id": "zusammenhang",
+              "on": {
+                "SUBMIT": "#partner",
+                "BACK": [
+                  {
+                    "guard": "usesPublicTransit",
+                    "target": "arbeitsplatz-entfernung"
+                  },
+                  {
+                    "guard": "usesPrivateVehicle",
+                    "target": "arbeitsplatz-entfernung"
+                  },
+                  {
+                    "guard": "commuteMethodPlaysNoRole",
+                    "target": "keine-rolle"
+                  },
+                  "arbeitsweg"
                 ]
               }
             }
@@ -166,7 +215,7 @@
       "states": {
         "partnerschaft": {
           "on": {
-            "BACK": "#abzuege",
+            "BACK": "#abzuege.zusammenhang",
             "SUBMIT": [
               {
                 "guard": "hasPartnerschaftOrSeparated",

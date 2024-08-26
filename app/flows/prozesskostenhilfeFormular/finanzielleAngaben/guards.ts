@@ -54,6 +54,10 @@ export const finanzielleAngabeGuards = {
   isSelfEmployed: ({ context }) =>
     context.employmentType === "selfEmployed" ||
     context.employmentType === "employedAndSelfEmployed",
+  usesPublicTransit: ({ context }) => context.arbeitsWeg === "publicTransport",
+  usesPrivateVehicle: ({ context }) => context.arbeitsWeg === "privateVehicle",
+  commuteMethodPlaysNoRole: ({ context }) =>
+    context.arbeitsWeg === "bike" || context.arbeitsWeg === "walking",
   hasPartnerschaftOrSeparated,
   hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",
   hasPartnerschaftNoOrWidowed: ({ context }) =>

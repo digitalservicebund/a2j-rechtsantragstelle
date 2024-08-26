@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { adresseSchema } from "~/flows/shared/persoenlicheDaten/context";
 import {
   checkedOptional,
   checkedRequired,
@@ -12,7 +13,6 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 import {
-  adresse,
   namePrivatPerson,
   persoenlicheDaten,
 } from "../persoenlicheDaten/context";
@@ -21,7 +21,7 @@ export const context = {
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
   ...namePrivatPerson,
   ...persoenlicheDaten,
-  ...adresse,
+  ...adresseSchema,
   volljaehrig: YesNoAnswer,
   gesetzlicheVertretung: YesNoAnswer,
   gegenseite: z
@@ -31,7 +31,7 @@ export const context = {
         .object({
           ...namePrivatPerson,
           ...persoenlicheDaten,
-          ...adresse,
+          ...adresseSchema,
         })
         .partial(),
       unternehmen: z
@@ -39,7 +39,7 @@ export const context = {
           name: stringRequiredSchema,
           inhaber: stringRequiredSchema,
           adresszusatz: stringOptionalSchema,
-          ...adresse,
+          ...adresseSchema,
           ...persoenlicheDaten,
         })
         .partial(),
@@ -56,7 +56,7 @@ export const context = {
           person: z
             .object({
               ...namePrivatPerson,
-              ...adresse,
+              ...adresseSchema,
               ...persoenlicheDaten,
               email: z.union([emailSchema, z.literal("")]),
             })

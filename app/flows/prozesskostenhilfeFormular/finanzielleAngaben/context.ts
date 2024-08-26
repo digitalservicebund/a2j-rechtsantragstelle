@@ -11,7 +11,9 @@ import {
   unterhaltszahlungSchema,
   wertsachenArraySchema,
 } from "~/flows/shared/finanzielleAngaben/context";
+import { adresseSchema } from "~/flows/shared/persoenlicheDaten/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
+import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import {
@@ -49,6 +51,11 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   selbststaendigeBruttoNetto: selbststaendigeBruttoNettoSchema,
   selbststaendigeAbzuege: buildMoneyValidationSchema(),
   arbeitsWeg: arbeitsWegSchema,
+  monatlicheOPNVKosten: buildMoneyValidationSchema(),
+  arbeitsplatz: z.object({ ...adresseSchema }).partial(),
+  arbeitsplatzEntfernung: integerSchema.refine((distance) => distance > 0, {
+    message: "invalidInteger",
+  }),
   receivesPension: YesNoAnswer,
   partnerschaft: partnerschaftSchema,
   zusammenleben: YesNoAnswer,

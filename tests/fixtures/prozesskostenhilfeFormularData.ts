@@ -2,6 +2,7 @@ import { faker } from "@faker-js/faker";
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import {
   arbeitsArtSchema,
+  arbeitsWegSchema,
   staatlicheLeistungenPKHSchema,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
 import { abgabeContext } from "~/flows/shared/abgabe/context";
@@ -26,6 +27,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   currentlyEmployed: YesNoAnswer.Enum.yes,
   employmentType: arbeitsArtSchema.Enum.employed,
   nettoEinkuenfteAlsArbeitnehmer: faker.finance.amount(),
+  arbeitsWeg: arbeitsWegSchema.Enum.none,
   partnerschaft: YesNoAnswer.Enum.yes,
   zusammenleben: YesNoAnswer.Enum.yes,
   partnerEinkommen: YesNoAnswer.Enum.yes,
