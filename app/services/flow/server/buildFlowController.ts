@@ -205,6 +205,8 @@ export const buildFlowController = ({
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
     getRootMeta: () => rootMeta(machine),
     stepStates: () => stepStates(machine.root, reachableSteps),
+    getReachableSteps: () => reachableSteps,
+    getUserdata: () => context,
     isDone: (currentStepId: string) =>
       Boolean(metaFromStepId(machine, currentStepId)?.done({ context })),
     getConfig: () => config,

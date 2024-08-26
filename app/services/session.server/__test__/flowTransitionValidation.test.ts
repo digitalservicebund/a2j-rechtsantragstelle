@@ -43,6 +43,8 @@ describe("validateFlowTransition", () => {
     stepStates: vi.fn().mockReturnValue([]),
     isDone: vi.fn().mockReturnValue(false),
     getProgress: vi.fn().mockReturnValue({}),
+    getReachableSteps: vi.fn().mockReturnValue([]),
+    getUserdata: vi.fn().mockReturnValue({}),
     isReachable: vi
       .fn()
       .mockImplementation((page: string) => page === "ergebnis/erfolg"),
