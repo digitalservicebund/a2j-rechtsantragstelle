@@ -50,6 +50,10 @@ export async function startFluggastrechteFormular(
   await formular.fillInput("tatsaechlicherAnkunftsZeit", "10:10");
   await formular.clickNext();
 
+  // /fluggastrechte/formular/flugdaten/zusaetzliche-angaben
+  await expectPageToBeAccessible({ page });
+  await formular.clickNext();
+
   // /fluggastrechte/formular/persoenliche-daten/person/daten
   await expectPageToBeAccessible({ page });
   await formular.fillInput("anrede", "Herr");

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createDateSchema } from "~/services/validation/date";
 import { flightNumberSchema } from "~/services/validation/flightNumber";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
 import {
@@ -40,6 +41,7 @@ export const fluggastrechteFlugdaten = {
   ersatzFlugnummer: flightNumberSchema,
   ersatzFlugAnkunftsDatum: fourYearsAgoSchema,
   ersatzFlugAnkunftsZeit: timeSchema,
+  zusaetzlicheAngaben: stringOptionalSchema,
 };
 
 const _contextObject = z.object(fluggastrechteFlugdaten).partial();

@@ -32,14 +32,14 @@ export default function Header({
             <StandaloneLink
               url={"/leichtesprache"}
               text={"Leichte Sprache"}
-              className="flex basis-1/2"
+              className="flex basis-1/2 ds-label-03-reg items-center"
               icon={<LocalLibrary className="inline mr-10" />}
             />
             {/* TODO: Add strapi translations */}
             <StandaloneLink
               url={"/gebaerdensprache"}
               text={"Gebärdensprache"}
-              className="flex basis-1/2"
+              className="flex basis-1/2 ds-label-03-reg items-center"
               icon={<SignLanguage className="inline mr-10" />}
             />
           </div>
