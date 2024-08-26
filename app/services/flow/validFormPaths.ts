@@ -10,7 +10,7 @@ import {
 
 export type Path = { stepIds: string[]; arrayIndex?: number };
 
-export function getPaths(userData: Context, flowId: FlowId): Path[] {
+export function validFormPaths(userData: Context, flowId: FlowId): Path[] {
   const flowController = buildFlowController({
     ...flows[flowId],
     data: userData,

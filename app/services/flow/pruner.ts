@@ -1,7 +1,7 @@
 import _ from "lodash";
 import type { Context } from "~/flows/contexts";
 import type { FlowId } from "~/flows/flowIds";
-import { getPaths, type Path } from "./getPaths";
+import { validFormPaths, type Path } from "./validFormPaths";
 import { resolveArrayCharacter } from "../array/resolveArrayCharacter";
 import {
   fetchAllFormFields,
@@ -15,8 +15,8 @@ export async function pruneIrrelevantData(
   flowId: FlowId,
 ): Promise<Context> {
   const allFormFields = await fetchAllFormFields(flowId);
-  const paths = getPaths(userData, flowId);
-  const formFields = await getFormFields(paths, allFormFields);
+  const formPaths = validFormPaths(userData, flowId);
+  const formFields = await getFormFields(formPaths, allFormFields);
   const propsToKeep = formFields.map(({ name, arrayIndex }) =>
     resolveArrayCharacter(name, arrayIndex !== undefined ? [arrayIndex] : []),
   );

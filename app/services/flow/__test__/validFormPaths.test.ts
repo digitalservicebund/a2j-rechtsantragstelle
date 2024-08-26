@@ -1,9 +1,9 @@
-import { getPaths } from "../getPaths";
+import { validFormPaths } from "../validFormPaths";
 
-describe("getPaths", () => {
+describe("validFormPaths", () => {
   it("returns base path with steps", () => {
     expect(
-      getPaths(
+      validFormPaths(
         { rechtsschutzversicherung: "no", wurdeVerklagt: "no" },
         "/beratungshilfe/antrag",
       ),
@@ -23,7 +23,7 @@ describe("getPaths", () => {
 
   it("omits steps the user has not seen in base path", () => {
     expect(
-      getPaths(
+      validFormPaths(
         {
           rechtsschutzversicherung: "no",
           wurdeVerklagt: "no",
@@ -47,7 +47,7 @@ describe("getPaths", () => {
 
   it("includes path for subflow", () => {
     expect(
-      getPaths(
+      validFormPaths(
         {
           hasBankkonto: "yes",
           bankkonten: [
@@ -82,7 +82,7 @@ describe("getPaths", () => {
 
   it("includes multiple paths for subflows", () => {
     expect(
-      getPaths(
+      validFormPaths(
         {
           hasBankkonto: "yes",
           bankkonten: [
@@ -130,7 +130,7 @@ describe("getPaths", () => {
 
   it("excludes path for subflow if statement key not 'yes'", () => {
     expect(
-      getPaths(
+      validFormPaths(
         {
           hasBankkonto: "no",
           bankkonten: [
@@ -159,7 +159,7 @@ describe("getPaths", () => {
 
   it("excludes path for subflow if no user data but statement key 'yes'", () => {
     expect(
-      getPaths(
+      validFormPaths(
         {
           hasBankkonto: "yes",
         },
