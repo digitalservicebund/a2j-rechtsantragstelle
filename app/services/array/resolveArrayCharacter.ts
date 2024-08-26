@@ -6,9 +6,10 @@ import { arrayChar } from ".";
 
 export const resolveArrayCharacter = (
   fieldname: string,
-  arrayIndexes: number[],
+  indices: number | number[],
 ) => {
   const hashCount = (fieldname.match(/#/g) ?? []).length;
+  const arrayIndexes = Array.isArray(indices) ? indices : [indices];
   const indexCount = arrayIndexes.length ?? 0;
   invariant(
     indexCount === hashCount,
