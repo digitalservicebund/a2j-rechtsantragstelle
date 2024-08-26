@@ -1,5 +1,5 @@
-import { InputProps, components } from "react-select";
-import { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import { components, type InputProps } from "react-select";
+import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 
 const CustomInput = (props: InputProps<DataListOptions, false>) => (

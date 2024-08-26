@@ -1,6 +1,6 @@
-import { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
-import { ProzesskostenhilfeFinanzielleAngabenContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
-import { GenericGuard, yesNoGuards } from "../../guards.server";
+import type { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
+import type { ProzesskostenhilfeFinanzielleAngabenContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
+import { type GenericGuard, yesNoGuards } from "../../guards.server";
 
 export type FinanzielleAngabenGuard = GenericGuard<
   ProzesskostenhilfeFinanzielleAngabenContext | BeratungshilfeFinanzielleAngaben

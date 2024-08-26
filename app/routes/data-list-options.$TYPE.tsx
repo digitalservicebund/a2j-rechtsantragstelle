@@ -1,6 +1,6 @@
-import { LoaderFunctionArgs, json } from "@remix-run/node";
+import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { z } from "zod";
-import { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
+import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 const DataListTypeSchema = z.custom<DataListType>();

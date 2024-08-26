@@ -1,6 +1,6 @@
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
-import { FluggastrechtContext } from "./context";
+import type { FluggastrechtContext } from "./context";
 import { gerichtskostenFromBetrag } from "../gerichtskosten";
 
 function forderungFromAirports(startAirport: string, endAirport: string) {

@@ -1,7 +1,7 @@
 import _ from "lodash";
 import abgabeFlow from "./abgabe/flow.json";
 import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
-import { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
+import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import {
   eigentumDone,
@@ -14,7 +14,8 @@ import {
   partnerDone,
 } from "./finanzielleAngaben/navStates";
 import prozesskostenhilfeFormularFlow from "./flow.json";
-import { AbgabeContext } from "../shared/abgabe/context";
+import { getMissingInformationStrings } from "./stringReplacements";
+import type { AbgabeContext } from "../shared/abgabe/context";
 import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
 import {
   eigentumZusammenfassungShowWarnings,
@@ -28,7 +29,7 @@ export const prozesskostenhilfeFormular = {
   config: _.merge(prozesskostenhilfeFormularFlow, {
     meta: {
       arrays: finanzielleAngabenArrayConfig(
-        "/prozesskostenhilfe/antrag/finanzielle-angaben",
+        "/prozesskostenhilfe/formular/finanzielle-angaben",
       ),
     },
     states: {
@@ -60,6 +61,7 @@ export const prozesskostenhilfeFormular = {
     ...getArrayIndexStrings(context),
     ...eigentumZusammenfassungShowWarnings(context),
     ...geldAnlagenStrings(context),
+    ...getMissingInformationStrings(context),
   }),
 } as const;
 

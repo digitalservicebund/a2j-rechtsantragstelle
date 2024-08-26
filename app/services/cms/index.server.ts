@@ -7,11 +7,9 @@ import {
   collectionSchemas,
   entrySchemas,
   type CollectionId,
-  type CollectionSchemas,
-  type EntrySchemas,
   type FlowPageId,
-  type FlowPageSchemas,
   type SingleEntryId,
+  type StrapiSchemas,
 } from "./schemas";
 import { httpErrorCodes } from "../errorPages/ErrorBox";
 
@@ -30,7 +28,7 @@ export async function fetchMeta(
 
 export async function fetchSingleEntry<T extends SingleEntryId>(
   apiId: T,
-): Promise<EntrySchemas[T][number]["attributes"]> {
+): Promise<StrapiSchemas[T][number]["attributes"]> {
   const strapiEntry = await getStrapiEntry({ apiId });
   return entrySchemas[apiId].parse(strapiEntry)[0].attributes;
 }
@@ -38,7 +36,7 @@ export async function fetchSingleEntry<T extends SingleEntryId>(
 async function fetchCollectionEntry<T extends CollectionId>(
   apiId: T,
   filters?: Filter[],
-): Promise<CollectionSchemas[T][number]["attributes"]> {
+): Promise<StrapiSchemas[T][number]["attributes"]> {
   const strapiEntry = await getStrapiEntry({ apiId, filters });
   const strapiEntryParsed = collectionSchemas[apiId].safeParse(strapiEntry);
 
@@ -74,7 +72,7 @@ export const fetchFlowPage = <T extends FlowPageId>(
   collection: T,
   flowId: FlowId,
   stepId: string,
-): Promise<FlowPageSchemas[T][number]["attributes"]> =>
+): Promise<StrapiSchemas[T][number]["attributes"]> =>
   fetchCollectionEntry(collection, [
     { field: "stepId", value: "/" + stepId }, // TODO: align stepid between app & cms
     { field: "flow_ids", nestedField: "flowId", value: flowId },

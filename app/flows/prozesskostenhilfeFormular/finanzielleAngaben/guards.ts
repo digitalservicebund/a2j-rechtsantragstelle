@@ -16,7 +16,7 @@ import {
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-import { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
+import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
 import { yesNoGuards, type Guards } from "../../guards.server";
 
 export const eigentumDone: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =

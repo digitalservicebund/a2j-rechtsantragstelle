@@ -1,10 +1,10 @@
-import { beratungshilfeFinanzielleAngabeDone } from "~/flows/beratungshilfeFormular/finanzielleAngaben/navStates";
-import { ProzesskostenhilfeFormularContext } from "..";
+import type { ProzesskostenhilfeFormularContext } from "..";
 import type { Guards } from "../../guards.server";
+import { prozesskostenhilfeFinanzielleAngabeDone } from "../finanzielleAngaben/navStates";
 
 export const prozesskostenhilfeAbgabeGuards = {
   readyForAbgabe: ({ context }) =>
-    beratungshilfeFinanzielleAngabeDone({ context }),
+    prozesskostenhilfeFinanzielleAngabeDone({ context }),
   abgabeOnline: ({ context }) => context.abgabeArt == "online",
   abgabeAusdrucken: ({ context }) => context.abgabeArt == "ausdrucken",
 } satisfies Guards<ProzesskostenhilfeFormularContext>;
