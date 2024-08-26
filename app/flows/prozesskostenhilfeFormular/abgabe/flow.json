@@ -1,7 +1,13 @@
 {
-  "initial": "art",
+  "initial": "ueberpruefung",
   "id": "abgabe",
   "states": {
+    "ueberpruefung": {
+      "on": {
+        "BACK": "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung"
+      },
+      "always": { "guard": "readyForAbgabe", "target": "art" }
+    },
     "art": {
       "on": {
         "SUBMIT": [

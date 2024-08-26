@@ -15,9 +15,11 @@ test.describe("homepage", () => {
   });
 
   test.describe("Header links", () => {
-    test("Accessibility links are visible from the homepage", ({ page }) => {
-      expect(page.getByLabel("Leichte Sprache")).toBeVisible();
-      expect(page.getByLabel("Gebärdensprache")).toBeVisible();
+    test("Accessibility links are visible from the homepage", async ({
+      page,
+    }) => {
+      await expect(page.getByLabel("Leichte Sprache")).toBeVisible();
+      await expect(page.getByLabel("Gebärdensprache")).toBeVisible();
     });
 
     Object.entries({
