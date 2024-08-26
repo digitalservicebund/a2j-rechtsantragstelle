@@ -14,6 +14,7 @@ import {
   partnerDone,
 } from "./finanzielleAngaben/navStates";
 import prozesskostenhilfeFormularFlow from "./flow.json";
+import { getMissingInformationStrings } from "./stringReplacements";
 import type { AbgabeContext } from "../shared/abgabe/context";
 import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
 import {
@@ -60,6 +61,7 @@ export const prozesskostenhilfeFormular = {
     ...getArrayIndexStrings(context),
     ...eigentumZusammenfassungShowWarnings(context),
     ...geldAnlagenStrings(context),
+    ...getMissingInformationStrings(context),
   }),
 } as const;
 
