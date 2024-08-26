@@ -17,7 +17,7 @@ type ArraySummaryItemProps = {
   readonly translations?: Translations;
 };
 
-const ArraySummaryItem = ({
+const ArraySummaryDataItems = ({
   itemIndex,
   items,
   category,
@@ -74,4 +74,4 @@ const ArraySummaryItem = ({
   );
 };
 
-export default ArraySummaryItem;
+export default ArraySummaryDataItems;
