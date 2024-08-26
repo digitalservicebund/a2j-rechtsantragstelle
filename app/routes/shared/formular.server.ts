@@ -107,7 +107,7 @@ export const loader = async ({
   const arraySummaryData = getSummaryData(
     arrayCategories,
     arrayConfigurations,
-    userData,
+    userDataWithPageData,
   );
 
   const stringTranslations = arrayConfigurations
