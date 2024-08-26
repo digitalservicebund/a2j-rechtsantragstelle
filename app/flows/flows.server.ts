@@ -33,5 +33,5 @@ export const flows = {
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
   "/fluggastrechte/formular": fluggastrechtFlow,
-  "/prozesskostenhilfe/antrag": prozesskostenhilfeFormular,
+  "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
 } as const satisfies Record<FlowId, Flow>;
