@@ -5,14 +5,24 @@ import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 
-type SelectProps = {
+export type SelectProps = {
   name: string;
   options: { value: string; text: string }[];
   label?: ReactNode;
   altLabel?: string;
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
+  width?: "16" | "24" | "36" | "54";
   formId?: string;
+};
+
+const widthClass = (width: string) => {
+  return {
+    "16": "w-[22ch]",
+    "24": "w-[30ch]",
+    "36": "w-[42ch]",
+    "54": "w-[60ch]",
+  }[width];
 };
 
 const Select = ({
@@ -22,12 +32,17 @@ const Select = ({
   placeholder,
   errorMessages,
   formId,
+  width,
 }: SelectProps) => {
   const { error, getInputProps } = useField(name, { formId });
 
-  const selectClassName = classNames("ds-select", {
-    "has-error": error,
-  });
+  const selectClassName = classNames(
+    "ds-select",
+    {
+      "has-error": error,
+    },
+    width && widthClass(width),
+  );
   const errorId = `${name}-error`;
 
   return (
