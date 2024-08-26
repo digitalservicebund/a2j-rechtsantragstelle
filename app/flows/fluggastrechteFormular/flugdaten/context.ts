@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { fluggastBereichSchema } from "~/flows/fluggastrechteVorabcheck/context";
+import { airportSchema } from "~/services/validation/airport";
 import { createDateSchema } from "~/services/validation/date";
 import { flightNumberSchema } from "~/services/validation/flightNumber";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -17,10 +19,6 @@ const fourYearsAgoSchema = createDateSchema({
 
 export const fluggastrechteFlugdaten = {
   zwischenstopps: YesNoAnswer,
-  zwischenstoppAnzahl: z.enum(
-    ["no", "oneStop", "twoStop", "threeStop", "fourStop", "fiveStop"],
-    customRequiredErrorMessage,
-  ),
   direktFlugnummer: flightNumberSchema,
   direktAbflugsDatum: fourYearsAgoSchema,
   direktAbflugsZeit: timeSchema,
@@ -33,6 +31,16 @@ export const fluggastrechteFlugdaten = {
     ["flug", "etwasAnderes", "keineAnkunft"],
     customRequiredErrorMessage,
   ),
+  zwischenstoppAnzahl: z.enum(
+    ["no", "oneStop", "twoStop", "threeStop", "fourStop", "fiveStop"],
+    customRequiredErrorMessage,
+  ),
+  ersterZwischenstopp: airportSchema,
+  zweiterZwischenstopp: airportSchema,
+  dritterZwischenstopp: airportSchema,
+  vierterZwischenstopp: airportSchema,
+  fuenfterZwischenstopp: airportSchema,
+  bereich: fluggastBereichSchema,
   andereErsatzverbindungBeschreibung: stringRequiredSchema,
   andereErsatzverbindungStartDatum: fourYearsAgoSchema,
   andereErsatzverbindungStartZeit: timeSchema,

@@ -1,8 +1,5 @@
 import { z } from "zod";
-import {
-  fluggastBereichSchema,
-  zustaendigesAmtsgerichtSchema,
-} from "~/flows/fluggastrechteVorabcheck/context";
+import { zustaendigesAmtsgerichtSchema } from "~/flows/fluggastrechteVorabcheck/context";
 import { airlineSchema } from "~/services/validation/airline";
 import { airportSchema } from "~/services/validation/airport";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -15,7 +12,6 @@ export const fluggastrechtContext = {
   startAirport: airportSchema,
   endAirport: airportSchema,
   fluggesellschaft: airlineSchema,
-  bereich: fluggastBereichSchema,
   doMigration: YesNoAnswer,
   zustaendigesAmtsgericht: zustaendigesAmtsgerichtSchema.optional(),
   ...fluggastrechteFlugdaten,
