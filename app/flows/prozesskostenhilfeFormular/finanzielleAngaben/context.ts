@@ -28,8 +28,13 @@ export const arbeitsArtSchema = z.enum(
   ["employed", "selfEmployed", "employedAndSelfEmployed"],
   customRequiredErrorMessage,
 );
-export const bruttoNettoSchema = z.enum(
+export const selbststaendigeBruttoNettoSchema = z.enum(
   ["brutto", "netto"],
+  customRequiredErrorMessage,
+);
+
+export const arbeitsWegSchema = z.enum(
+  ["publicTransport", "privateVehicle", "bike", "walking", "none"],
   customRequiredErrorMessage,
 );
 
@@ -39,9 +44,11 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   arbeitslosengeld: buildMoneyValidationSchema(),
   currentlyEmployed: YesNoAnswer,
   employmentType: arbeitsArtSchema,
-  nettoEinkuenfte: buildMoneyValidationSchema(),
-  monatsEinkommen: buildMoneyValidationSchema(),
-  bruttoNetto: bruttoNettoSchema,
+  nettoEinkuenfteAlsArbeitnehmer: buildMoneyValidationSchema(),
+  selbststaendigesMonatlicheEinkommen: buildMoneyValidationSchema(),
+  selbststaendigeBruttoNetto: selbststaendigeBruttoNettoSchema,
+  selbststaendigeAbzuege: buildMoneyValidationSchema(),
+  arbeitsWeg: arbeitsWegSchema,
   receivesPension: YesNoAnswer,
   partnerschaft: partnerschaftSchema,
   zusammenleben: YesNoAnswer,

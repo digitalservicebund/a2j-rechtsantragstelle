@@ -107,7 +107,8 @@
             "selbststaendiges-abzuege": {
               "id": "selbststaendiges-abzuege",
               "on": {
-                "SUBMIT": {}
+                "BACK": "selbststaendiges",
+                "SUBMIT": "#einkuenfte.abzuege"
               }
             }
           },
@@ -134,9 +135,10 @@
               "on": {
                 "BACK": [
                   {
-                    "guard": "isEmployee",
-                    "target": "#einkommen.netto-einkommen"
-                  }
+                    "guard": "isSelfEmployed",
+                    "target": "#einkommen.selbststaendiges-abzuege"
+                  },
+                  "#einkommen.netto-einkommen"
                 ]
               }
             }

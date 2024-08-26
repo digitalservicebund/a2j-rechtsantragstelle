@@ -25,7 +25,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   staatlicheLeistungenPKH: staatlicheLeistungenPKHSchema.Enum.keine,
   currentlyEmployed: YesNoAnswer.Enum.yes,
   employmentType: arbeitsArtSchema.Enum.employed,
-  nettoEinkuenfte: faker.finance.amount(),
+  nettoEinkuenfteAlsArbeitnehmer: faker.finance.amount(),
   partnerschaft: YesNoAnswer.Enum.yes,
   zusammenleben: YesNoAnswer.Enum.yes,
   partnerEinkommen: YesNoAnswer.Enum.yes,
