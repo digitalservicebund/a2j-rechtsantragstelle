@@ -79,7 +79,7 @@ function stepIdBeforeArray(
     config: flowController.getConfig(),
     guards: flowController.getGuards(),
     data: addPageDataToUserData(flowController.getUserdata(), {
-      arrayIndexes: [0],
+      arrayIndexes: [0], // guards expect an array index to be available in order to reach the initial array step
     }),
   });
   const initialStep = getSubFlowInitialStep(arrayConfig);
