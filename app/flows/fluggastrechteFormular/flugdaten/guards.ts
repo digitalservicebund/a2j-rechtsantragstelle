@@ -37,8 +37,7 @@ export const fluggastrechteFlugdatenGuards = {
     hasFourStop({ context }) && hasAnnullierungOrNichtBefoerderung({ context }),
   hasFiveStopWithAnnullierungOrNichtBefoerderung: ({ context }) =>
     hasFiveStop({ context }) && hasAnnullierungOrNichtBefoerderung({ context }),
-  hasZwischenstoppAndVerspaetung: ({ context }) =>
-    context.zwischenstoppAnzahl !== "no" && context.bereich === "verspaetet",
+  hasVerspaetung: ({ context }) => context.bereich === "verspaetet",
   hasNoZwischenstoppNoAnnullierungOrNoNichtBefoerderung: ({ context }) =>
     context.zwischenstoppAnzahl === "no" &&
     hasAnnullierungOrNichtBefoerderung({ context }),

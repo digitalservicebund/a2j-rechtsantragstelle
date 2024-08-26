@@ -39,7 +39,7 @@
         "SUBMIT": [
           {
             "target": "tatsaechlicher-flug",
-            "guard": "hasZwischenstoppAndVerspaetung"
+            "guard": "hasVerspaetung"
           },
           "ersatzverbindung-art"
         ],
@@ -51,7 +51,7 @@
         "SUBMIT": [
           {
             "target": "tatsaechlicher-flug",
-            "guard": "hasZwischenstoppAndVerspaetung"
+            "guard": "hasVerspaetung"
           },
           "ersatzverbindung-art"
         ],
@@ -63,7 +63,7 @@
         "SUBMIT": [
           {
             "target": "tatsaechlicher-flug",
-            "guard": "hasZwischenstoppAndVerspaetung"
+            "guard": "hasVerspaetung"
           },
           "ersatzverbindung-art"
         ],
@@ -75,7 +75,7 @@
         "SUBMIT": [
           {
             "target": "tatsaechlicher-flug",
-            "guard": "hasZwischenstoppAndVerspaetung"
+            "guard": "hasVerspaetung"
           },
           "ersatzverbindung-art"
         ],
@@ -87,7 +87,7 @@
         "SUBMIT": [
           {
             "target": "tatsaechlicher-flug",
-            "guard": "hasZwischenstoppAndVerspaetung"
+            "guard": "hasVerspaetung"
           },
           "ersatzverbindung-art"
         ],
