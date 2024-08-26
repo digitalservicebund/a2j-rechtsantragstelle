@@ -49,7 +49,7 @@ const ArraySummary = ({
   const description: string | undefined =
     translations[`${category}.description`];
   const nextItemIndex = String(arrayData.data.length);
-  const { url, initialInputUrl } = arrayData.arrayConfiguration;
+  const { url, initialInputUrl, statementUrl } = arrayData.arrayConfiguration;
   const statementValue = Boolean(arrayData.arrayConfiguration.statementValue);
 
   const headingTitleTagNameItem = titleHeading.trim().length > 0 ? "h3" : "h2";
@@ -103,7 +103,7 @@ const ArraySummary = ({
               look="ghost"
               className="hover:shadow-none pl-0 pt-8"
               iconLeft={<EditButton />}
-              href={arrayData.arrayConfiguration.statementUrl}
+              href={statementUrl}
             >
               {changeEntryString}
             </Button>

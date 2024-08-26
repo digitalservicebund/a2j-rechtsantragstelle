@@ -92,4 +92,33 @@ describe("ArraySummary", () => {
       expect.anything(),
     );
   });
+
+  it("should not call <ArraySummaryDataItems> if statement value is false", () => {
+    const mocktArrayDataWithoutStatementValue = {
+      ...arrayData,
+      arrayConfiguration: { ...mockArrayConfiguration, statementValue: false },
+    };
+
+    const translations = {
+      "unterhaltszahlungen.label.title": "Any title",
+      "unterhaltszahlungen.label.subtitle": "Person ",
+      "unterhaltszahlungen.familyRelationship": "Familienverhältnis",
+      "unterhaltszahlungen.familyRelationship.mother": "Mutter",
+      "unterhaltszahlungen.firstName": "Vorname",
+      "unterhaltszahlungen.surname": "Nachname",
+      "unterhaltszahlungen.birthday": "Geburtsdatum",
+      "unterhaltszahlungen.monthlyPayment": "Monatliche Unterhaltszahlungen",
+    };
+
+    render(
+      <ArraySummary
+        arrayData={mocktArrayDataWithoutStatementValue}
+        translations={translations}
+        category="unterhaltszahlungen"
+        csrf="csrf"
+      />,
+    );
+
+    expect(ArraySummaryDataItems).not.toBeCalled();
+  });
 });
