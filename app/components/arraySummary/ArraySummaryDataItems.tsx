@@ -1,10 +1,10 @@
+import ArraySummaryItemButton from "~/components/arraySummary/ArraySummaryItemButton";
 import type { BasicTypes } from "~/flows/contexts";
 import { WEITERE_PERSONEN_START_INDEX } from "~/flows/fluggastrechteFormular/stringReplacements";
 import type { ArrayConfig } from "~/services/array";
 import type { Translations } from "~/services/cms/index.server";
 import { interpolateDeep } from "~/util/fillTemplate";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
-import ArraySummaryItemButton from "./ArraySummaryItemButton";
 import Heading from "../Heading";
 
 type ArraySummaryItemProps = {
@@ -27,7 +27,6 @@ const ArraySummaryDataItems = ({
   translations = {},
 }: ArraySummaryItemProps) => {
   const { url, initialInputUrl, hiddenFields } = configuration;
-
   const itemsWithoutHiddenFields = Object.entries(items).filter(
     ([itemKey, itemValue]) => itemValue && !hiddenFields?.includes(itemKey),
   );
@@ -40,6 +39,7 @@ const ArraySummaryDataItems = ({
     translations[`${category}.label.heading`] ?? "",
     {
       indexPerson: (itemIndex + WEITERE_PERSONEN_START_INDEX).toString(),
+      indexArbeitsausgabe: (itemIndex + 1).toString(),
     },
   );
 

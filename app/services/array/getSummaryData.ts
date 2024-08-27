@@ -16,8 +16,13 @@ export function getSummaryData(
       .filter((category) => category in arrayConfigurations)
       .map((category) => {
         const arrayConfiguration = arrayConfigurations[category];
+        const { arrayDataModifier: dataModifier } = arrayConfiguration;
         const possibleArray = userData[category];
-        const data = Array.isArray(possibleArray) ? possibleArray : [];
+        const data = Array.isArray(possibleArray)
+          ? dataModifier
+            ? dataModifier(possibleArray)
+            : possibleArray
+          : [];
         return [
           category,
           {
