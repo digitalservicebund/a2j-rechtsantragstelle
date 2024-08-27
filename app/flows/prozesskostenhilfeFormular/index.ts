@@ -29,9 +29,19 @@ export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
   config: _.merge(prozesskostenhilfeFormularFlow, {
     meta: {
-      arrays: finanzielleAngabenArrayConfig(
-        "/prozesskostenhilfe/formular/finanzielle-angaben",
-      ),
+      arrays: {
+        ...finanzielleAngabenArrayConfig(
+          "/prozesskostenhilfe/formular/finanzielle-angaben",
+        ),
+        arbeitsausgaben: {
+          url: "/prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgabe",
+          initialInputUrl: "daten",
+          statementUrl:
+            "/prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht",
+          statementKey: "showAlways",
+          event: "add-arbeitsausgaben",
+        },
+      },
     },
     states: {
       start: { meta: { done: () => true } },

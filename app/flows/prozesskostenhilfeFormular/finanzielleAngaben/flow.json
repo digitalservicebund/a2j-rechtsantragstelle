@@ -133,7 +133,7 @@
                     "guard": "commuteMethodPlaysNoRole",
                     "target": "keine-rolle"
                   },
-                  "zusammenhang"
+                  "arbeitsausgaben"
                 ],
                 "BACK": [
                   {
@@ -154,7 +154,7 @@
             "arbeitsplatz-entfernung": {
               "id": "arbeitsplatz-entfernung",
               "on": {
-                "SUBMIT": "zusammenhang",
+                "SUBMIT": "arbeitsausgaben",
                 "BACK": [
                   {
                     "guard": "usesPublicTransit",
@@ -166,42 +166,78 @@
             },
             "keine-rolle": {
               "on": {
-                "SUBMIT": "zusammenhang",
+                "SUBMIT": "arbeitsausgaben",
                 "BACK": "arbeitsweg"
               }
             },
-            "zusammenhang": {
-              "id": "zusammenhang",
-              "on": {
-                "SUBMIT": "#partner",
-                "BACK": [
-                  {
-                    "guard": "usesPublicTransit",
-                    "target": "arbeitsplatz-entfernung"
-                  },
-                  {
-                    "guard": "usesPrivateVehicle",
-                    "target": "arbeitsplatz-entfernung"
-                  },
-                  {
-                    "guard": "commuteMethodPlaysNoRole",
-                    "target": "keine-rolle"
-                  },
-                  "arbeitsweg"
-                ]
+            "arbeitsausgaben": {
+              "id": "arbeitsausgaben",
+              "initial": "arbeitsausgaben-frage",
+              "states": {
+                "arbeitsausgaben-frage": {
+                  "id": "arbeitsausgaben-frage",
+                  "on": {
+                    "SUBMIT": [
+                      {
+                        "guard": "hasAndereArbeitsausgaben",
+                        "target": "uebersicht"
+                      },
+                      "#einkuenfte.rente"
+                    ],
+                    "BACK": [
+                      {
+                        "guard": "usesPublicTransit",
+                        "target": "#abzuege.arbeitsplatz-entfernung"
+                      },
+                      {
+                        "guard": "usesPrivateVehicle",
+                        "target": "#abzuege.arbeitsplatz-entfernung"
+                      },
+                      {
+                        "guard": "commuteMethodPlaysNoRole",
+                        "target": "#abzuege.keine-rolle"
+                      },
+                      "#abzuege.arbeitsweg"
+                    ]
+                  }
+                },
+                "uebersicht": {
+                  "id": "uebersicht",
+                  "on": {
+                    "SUBMIT": "#einkuenfte.rente",
+                    "BACK": "arbeitsausgaben-frage",
+                    "add-arbeitsausgaben": {
+                      "guard": "isValidArbeitsausgabenArrayIndex",
+                      "target": "arbeitsausgabe"
+                    }
+                  }
+                },
+                "arbeitsausgabe": {
+                  "initial": "daten",
+                  "states": {
+                    "daten": {
+                      "on": {
+                        "BACK": "#arbeitsausgaben.uebersicht",
+                        "SUBMIT": "#arbeitsausgaben.uebersicht"
+                      }
+                    }
+                  }
+                }
               }
             }
-          },
-          "on": {
-            "SUBMIT": "#partner",
-            "BACK": "#einkommen"
           }
         },
         "rente": {
           "id": "rente",
           "on": {
             "SUBMIT": "#partner",
-            "BACK": "#einkommen"
+            "BACK": [
+              {
+                "guard": "hasAndereArbeitsausgaben",
+                "target": "#abzuege.arbeitsausgaben.uebersicht"
+              },
+              "#abzuege.arbeitsausgaben"
+            ]
           }
         }
       }
@@ -215,7 +251,7 @@
       "states": {
         "partnerschaft": {
           "on": {
-            "BACK": "#abzuege.zusammenhang",
+            "BACK": "#einkuenfte.rente",
             "SUBMIT": [
               {
                 "guard": "hasPartnerschaftOrSeparated",

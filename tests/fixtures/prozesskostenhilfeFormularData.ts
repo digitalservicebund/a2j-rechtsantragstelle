@@ -28,6 +28,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   employmentType: arbeitsArtSchema.Enum.employed,
   nettoEinkuenfteAlsArbeitnehmer: faker.finance.amount(),
   arbeitsWeg: arbeitsWegSchema.Enum.none,
+  hasArbeitsausgaben: YesNoAnswer.Enum.no,
   partnerschaft: YesNoAnswer.Enum.yes,
   zusammenleben: YesNoAnswer.Enum.yes,
   partnerEinkommen: YesNoAnswer.Enum.yes,

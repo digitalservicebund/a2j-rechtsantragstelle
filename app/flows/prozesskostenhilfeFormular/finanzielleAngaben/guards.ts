@@ -58,6 +58,11 @@ export const finanzielleAngabeGuards = {
   usesPrivateVehicle: ({ context }) => context.arbeitsWeg === "privateVehicle",
   commuteMethodPlaysNoRole: ({ context }) =>
     context.arbeitsWeg === "bike" || context.arbeitsWeg === "walking",
+  hasAndereArbeitsausgaben: ({ context }) =>
+    context.hasArbeitsausgaben === "yes",
+  isValidArbeitsausgabenArrayIndex: ({
+    context: { pageData, arbeitsausgaben },
+  }) => isValidArrayIndex(arbeitsausgaben, pageData),
   hasPartnerschaftOrSeparated,
   hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",
   hasPartnerschaftNoOrWidowed: ({ context }) =>

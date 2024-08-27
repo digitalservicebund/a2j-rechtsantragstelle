@@ -40,6 +40,12 @@ export const arbeitsWegSchema = z.enum(
   customRequiredErrorMessage,
 );
 
+export const arbeitsausgabeSchema = z.object({
+  beschreibung: stringRequiredSchema,
+  betrag: buildMoneyValidationSchema(),
+  zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
+});
+
 export const prozesskostenhilfeFinanzielleAngabenContext = {
   staatlicheLeistungenPKH: staatlicheLeistungenPKHSchema,
   buergergeld: buildMoneyValidationSchema(),
@@ -56,6 +62,8 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   arbeitsplatzEntfernung: integerSchema.refine((distance) => distance > 0, {
     message: "invalidInteger",
   }),
+  hasArbeitsausgaben: YesNoAnswer,
+  arbeitsausgaben: z.array(arbeitsausgabeSchema),
   receivesPension: YesNoAnswer,
   partnerschaft: partnerschaftSchema,
   zusammenleben: YesNoAnswer,
