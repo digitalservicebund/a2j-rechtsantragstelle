@@ -1,7 +1,7 @@
 import { type BeratungshilfeFormularContext } from "..";
 import type { Guards } from "../../guards.server";
 import { anwaltlicheVertretungDone } from "../anwaltlicheVertretung/guards";
-import { beratungshilfeFinanzielleAngabeDone } from "../finanzielleAngaben/navStates";
+import { beratungshilfeFinanzielleAngabeDone } from "../finanzielleAngaben/beratungshilfeFinanzielleAngabeDone";
 import { grundvoraussetzungDone } from "../grundvoraussetzung/context";
 import { beratungshilfePersoenlicheDatenDone } from "../persoenlicheDaten/context";
 import { rechtsproblemDone } from "../rechtsproblem/context";

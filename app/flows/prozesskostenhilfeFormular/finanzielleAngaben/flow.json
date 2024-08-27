@@ -244,14 +244,20 @@
     },
     "partner": {
       "id": "partner",
-      "initial": "partnerschaft",
+      "initial": "start",
       "on": {
         "SUBMIT": "#kinder.kinder-frage"
       },
       "states": {
+        "start": {
+          "on": {
+            "SUBMIT": "partnerschaft",
+            "BACK": "#rente"
+          }
+        },
         "partnerschaft": {
           "on": {
-            "BACK": "#einkuenfte.rente",
+            "BACK": "start",
             "SUBMIT": [
               {
                 "guard": "hasPartnerschaftOrSeparated",
@@ -362,7 +368,7 @@
                 "guard": "hasPartnerschaftOrSeparated",
                 "target": "#partner.zusammenleben"
               },
-              "#partner.partnerschaft"
+              "#partner.start"
             ],
             "SUBMIT": [
               {

@@ -5,8 +5,11 @@ import fluggastrechteFlow from "./flow.json";
 import flugdatenFlow from "./flugdaten/flow.json";
 import forderungDatenFlow from "./forderung/flow.json";
 import { fluggastrechteGuards } from "./guards";
+import {
+  personDone,
+  weiterePersonenDone,
+} from "./persoenlicheDaten/doneFunctions";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
-import { personDone, weiterePersonenDone } from "./persoenlicheDaten/navStates";
 import {
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,

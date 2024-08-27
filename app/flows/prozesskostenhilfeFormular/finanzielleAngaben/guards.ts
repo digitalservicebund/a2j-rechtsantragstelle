@@ -17,17 +17,8 @@ import {
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
+import { eigentumDone as eD } from "./doneFunctions";
 import { yesNoGuards, type Guards } from "../../guards.server";
-
-export const eigentumDone: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
-  ({ context }) =>
-    context.hasBankkonto !== undefined &&
-    context.hasKraftfahrzeug !== undefined &&
-    context.hasGeldanlage !== undefined &&
-    context.hasGrundeigentum !== undefined &&
-    context.hasWertsache !== undefined &&
-    (!hasAnyEigentumExceptBankaccount({ context }) ||
-      context.eigentumTotalWorth !== undefined);
 
 export const hasGrundsicherungOrAsylberberleistungen: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
   ({ context }) =>
@@ -36,6 +27,12 @@ export const hasGrundsicherungOrAsylberberleistungen: Guards<ProzesskostenhilfeF
 
 export const notEmployed: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
   ({ context }) => context.currentlyEmployed === "no";
+
+const eigentumDone: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
+  ({ context }) =>
+    hasGrundsicherungOrAsylberberleistungen({
+      context,
+    }) || eD({ context });
 
 export const finanzielleAngabeGuards = {
   eigentumDone,

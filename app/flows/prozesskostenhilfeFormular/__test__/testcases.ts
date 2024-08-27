@@ -25,6 +25,7 @@ const cases = [
       "finanzielle-angaben/einkuenfte/abzuege/arbeitsweg",
       "finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
       "finanzielle-angaben/einkuenfte/rente",
+      "finanzielle-angaben/partner/start",
       "finanzielle-angaben/partner/partnerschaft",
       "finanzielle-angaben/partner/zusammenleben",
       "finanzielle-angaben/partner/partner-einkommen",
