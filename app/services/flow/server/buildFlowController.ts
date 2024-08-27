@@ -205,9 +205,12 @@ export const buildFlowController = ({
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
     getRootMeta: () => rootMeta(machine),
     stepStates: () => stepStates(machine.root, reachableSteps),
+    getReachableSteps: () => reachableSteps,
+    getUserdata: () => context,
     isDone: (currentStepId: string) =>
       Boolean(metaFromStepId(machine, currentStepId)?.done({ context })),
     getConfig: () => config,
+    getGuards: () => guards,
     isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),
     isReachable: (currentStepId: string) => {
       return reachableSteps.includes(currentStepId);
