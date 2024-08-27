@@ -1,6 +1,6 @@
-import * as navStatesEigentum from "~/flows/beratungshilfeFormular/finanzielleAngaben/navStatesEigentum";
-import { beratungshilfeFinanzielleAngabeDone } from "../navStates";
-import * as eigentumZusammenfassungDone from "../navStatesEigentumZusammenfassungDone";
+import { beratungshilfeFinanzielleAngabeDone } from "../beratungshilfeFinanzielleAngabeDone";
+import * as eigentumDone from "../doneFunctions";
+import * as eigentumZusammenfassungDone from "../eigentumZusammenfassungDone";
 
 describe("navStates", () => {
   afterEach(() => {
@@ -64,7 +64,7 @@ describe("navStates", () => {
     });
 
     it("passes with buergergeld and eigentum done and eigentumZusammenfassung done", () => {
-      vi.spyOn(navStatesEigentum, "eigentumDone").mockReturnValue(true);
+      vi.spyOn(eigentumDone, "eigentumDone").mockReturnValue(true);
       vi.spyOn(
         eigentumZusammenfassungDone,
         "eigentumZusammenfassungDone",
@@ -80,7 +80,7 @@ describe("navStates", () => {
     });
 
     it("fails with buergergeld and eigentum done but eigentumZusammenfassung not done", () => {
-      vi.spyOn(navStatesEigentum, "eigentumDone").mockReturnValue(true);
+      vi.spyOn(eigentumDone, "eigentumDone").mockReturnValue(true);
       vi.spyOn(
         eigentumZusammenfassungDone,
         "eigentumZusammenfassungDone",
@@ -96,7 +96,7 @@ describe("navStates", () => {
     });
 
     it("fails with buergergeld and eigentum not done but eigentumZusammenfassung done", () => {
-      vi.spyOn(navStatesEigentum, "eigentumDone").mockReturnValue(false);
+      vi.spyOn(eigentumDone, "eigentumDone").mockReturnValue(false);
       vi.spyOn(
         eigentumZusammenfassungDone,
         "eigentumZusammenfassungDone",

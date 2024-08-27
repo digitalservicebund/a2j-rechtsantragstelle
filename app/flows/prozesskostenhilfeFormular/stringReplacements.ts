@@ -5,7 +5,7 @@ import {
   eigentumZusammenfassungDone,
   kinderDone,
   partnerDone,
-} from "./finanzielleAngaben/navStates";
+} from "./finanzielleAngaben/doneFunctions";
 
 export const getMissingInformationStrings = (
   context: ProzesskostenhilfeFormularContext,

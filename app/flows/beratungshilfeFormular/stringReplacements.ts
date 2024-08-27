@@ -1,16 +1,16 @@
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { BeratungshilfeFormularContext } from ".";
 import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
-import { eigentumDone } from "./finanzielleAngaben/guards";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
+  eigentumDone,
   einkommenDone,
   kinderDone,
   partnerDone,
   wohnungDone,
-} from "./finanzielleAngaben/navStates";
-import { eigentumZusammenfassungDone } from "./finanzielleAngaben/navStatesEigentumZusammenfassungDone";
+} from "./finanzielleAngaben/doneFunctions";
+import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/context";
 import { rechtsproblemDone } from "./rechtsproblem/context";
 

@@ -4,8 +4,8 @@ import {
   grundeigentumDone,
   kraftfahrzeugeDone,
   wertsachenDone,
-} from "~/flows/shared/finanzielleAngaben/navStates";
-import type { BeratungshilfeFinanzielleAngabenGuard } from "./navStates";
+} from "~/flows/shared/finanzielleAngaben/doneFunctions";
+import type { BeratungshilfeFinanzielleAngabenGuard } from "./guards";
 
 export const eigentumZusammenfassungDone: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) =>
