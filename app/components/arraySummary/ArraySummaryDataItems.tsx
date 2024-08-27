@@ -37,7 +37,7 @@ const ArraySummaryDataItems = ({
   }
 
   const heading = interpolateDeep(
-    getTranslationByKey(`${category}.label.heading`, translations),
+    translations[`${category}.label.heading`] ?? "",
     {
       indexPerson: (itemIndex + WEITERE_PERSONEN_START_INDEX).toString(),
     },
