@@ -1,8 +1,7 @@
 import { render } from "@testing-library/react";
-import ArraySummary from "~/components/ArraySummary";
 import type { ArrayConfig } from "~/services/array";
-
-const arraySummaryItem = "array-summary-item";
+import ArraySummary from "../ArraySummary";
+import ArraySummaryDataItems from "../ArraySummaryDataItems";
 
 const mockArrayConfiguration: ArrayConfig = {
   event: "add-unterhaltszahlungen",
@@ -27,9 +26,8 @@ const arrayData = {
   ],
 };
 
-// eslint-disable-next-line react/display-name
-vi.mock("~/components/ArraySummaryItemButton", () => ({
-  default: () => <div>Mock ArraySummaryItemButton</div>,
+vi.mock("../ArraySummaryDataItems", () => ({
+  default: vi.fn(),
 }));
 
 describe("ArraySummary", () => {
@@ -37,7 +35,7 @@ describe("ArraySummary", () => {
     vi.restoreAllMocks(); // This clears all mocks after each test
   });
 
-  it("when the title is an empty space, it should not render the data-test-id array-summary-title and render array-summary-item as h2", () => {
+  it("should call <ArraySummaryDataItems> with headingTitleTagNameItem as h2 when the title is an empty space", () => {
     const translations = {
       "unterhaltszahlungen.label.title": " ",
       "unterhaltszahlungen.label.subtitle": "Person ",
@@ -49,7 +47,7 @@ describe("ArraySummary", () => {
       "unterhaltszahlungen.monthlyPayment": "Monatliche Unterhaltszahlungen",
     };
 
-    const { queryByTestId, queryAllByTestId } = render(
+    render(
       <ArraySummary
         arrayData={arrayData}
         translations={translations}
@@ -58,14 +56,15 @@ describe("ArraySummary", () => {
       />,
     );
 
-    expect(queryByTestId("array-summary-title")).not.toBeInTheDocument();
-    expect(queryAllByTestId(arraySummaryItem).length).toBeGreaterThan(0);
-    expect(queryAllByTestId(arraySummaryItem)[0].tagName.toLowerCase()).toBe(
-      "h2",
+    expect(ArraySummaryDataItems).toHaveBeenCalledWith(
+      expect.objectContaining({
+        headingTitleTagNameItem: "h2",
+      }),
+      expect.anything(),
     );
   });
 
-  it("when the title has value, it should render the data-test-id array-summary-title and render array-summary-item as h3", () => {
+  it("should call <ArraySummaryDataItems> with headingTitleTagNameItem as h3 when the title has value", () => {
     const translations = {
       "unterhaltszahlungen.label.title": "Any title",
       "unterhaltszahlungen.label.subtitle": "Person ",
@@ -77,7 +76,7 @@ describe("ArraySummary", () => {
       "unterhaltszahlungen.monthlyPayment": "Monatliche Unterhaltszahlungen",
     };
 
-    const { queryByTestId, queryAllByTestId } = render(
+    render(
       <ArraySummary
         arrayData={arrayData}
         translations={translations}
@@ -86,10 +85,40 @@ describe("ArraySummary", () => {
       />,
     );
 
-    expect(queryByTestId("array-summary-title")).toBeInTheDocument();
-    expect(queryAllByTestId(arraySummaryItem).length).toBeGreaterThan(0);
-    expect(queryAllByTestId(arraySummaryItem)[0].tagName.toLowerCase()).toBe(
-      "h3",
+    expect(ArraySummaryDataItems).toHaveBeenCalledWith(
+      expect.objectContaining({
+        headingTitleTagNameItem: "h3",
+      }),
+      expect.anything(),
     );
+  });
+
+  it("should not call <ArraySummaryDataItems> if statement value is false", () => {
+    const mocktArrayDataWithoutStatementValue = {
+      ...arrayData,
+      arrayConfiguration: { ...mockArrayConfiguration, statementValue: false },
+    };
+
+    const translations = {
+      "unterhaltszahlungen.label.title": "Any title",
+      "unterhaltszahlungen.label.subtitle": "Person ",
+      "unterhaltszahlungen.familyRelationship": "Familienverhältnis",
+      "unterhaltszahlungen.familyRelationship.mother": "Mutter",
+      "unterhaltszahlungen.firstName": "Vorname",
+      "unterhaltszahlungen.surname": "Nachname",
+      "unterhaltszahlungen.birthday": "Geburtsdatum",
+      "unterhaltszahlungen.monthlyPayment": "Monatliche Unterhaltszahlungen",
+    };
+
+    render(
+      <ArraySummary
+        arrayData={mocktArrayDataWithoutStatementValue}
+        translations={translations}
+        category="unterhaltszahlungen"
+        csrf="csrf"
+      />,
+    );
+
+    expect(ArraySummaryDataItems).not.toBeCalled();
   });
 });

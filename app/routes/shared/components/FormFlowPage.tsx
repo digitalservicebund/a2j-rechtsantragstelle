@@ -1,6 +1,6 @@
 import { useLoaderData, useLocation, useParams } from "@remix-run/react";
 import { ValidatedForm } from "remix-validated-form";
-import ArraySummary from "~/components/ArraySummary";
+import ArraySummary from "~/components/arraySummary/ArraySummary";
 import Background from "~/components/Background";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import Heading from "~/components/Heading";

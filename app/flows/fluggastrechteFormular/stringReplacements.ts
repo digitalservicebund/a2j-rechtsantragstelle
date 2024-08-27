@@ -3,6 +3,8 @@ import { getRouteCompensationBetweenAirports } from "~/services/airports/getRout
 import type { FluggastrechtContext } from "./context";
 import { gerichtskostenFromBetrag } from "../gerichtskosten";
 
+export const WEITERE_PERSONEN_START_INDEX = 2;
+
 function forderungFromAirports(startAirport: string, endAirport: string) {
   const routeCompensation = getRouteCompensationBetweenAirports(
     startAirport,
@@ -71,7 +73,11 @@ export const getArrayWeiterePersonenIndexStrings = (
 ) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
   return typeof arrayIndex !== "undefined"
-    ? { "arrayWeiterePersonen#index": String(arrayIndex + 2) }
+    ? {
+        "arrayWeiterePersonen#index": String(
+          arrayIndex + WEITERE_PERSONEN_START_INDEX,
+        ),
+      }
     : {};
 };
 
