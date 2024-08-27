@@ -4,15 +4,13 @@ import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import {
   andereUnterhaltszahlungenDone,
+  eigentumDone,
   eigentumZusammenfassungDone,
   kinderDone,
   partnerDone,
 } from "./finanzielleAngaben/doneFunctions";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
-import {
-  eigentumDone,
-  finanzielleAngabeGuards,
-} from "./finanzielleAngaben/guards";
+import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import prozesskostenhilfeFormularFlow from "./flow.json";
 import { getMissingInformationStrings } from "./stringReplacements";
 import type { AbgabeContext } from "../shared/abgabe/context";

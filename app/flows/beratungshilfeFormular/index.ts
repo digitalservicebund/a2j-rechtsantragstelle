@@ -11,6 +11,7 @@ import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/cont
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
+  eigentumDone,
   einkommenDone,
   kinderDone,
   partnerDone,
@@ -18,10 +19,7 @@ import {
 } from "./finanzielleAngaben/doneFunctions";
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
-import {
-  eigentumDone,
-  finanzielleAngabeGuards,
-} from "./finanzielleAngaben/guards";
+import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import beratungshilfeFormularFlow from "./flow.json";
 import {
   type BeratungshilfeGrundvoraussetzungen,

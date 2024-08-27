@@ -1,6 +1,5 @@
+import { hasAnyEigentumExceptBankaccount } from "~/flows/shared/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
-import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
-import { eigentumDone } from "./guards";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "./guards";
 
 export const einkommenDone: BeratungshilfeFinanzielleAngabenGuard = ({
@@ -73,26 +72,15 @@ export const ausgabenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   );
 };
 
-export const beratungshilfeFinanzielleAngabeDone: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) => {
-    switch (context.staatlicheLeistungen) {
-      case "asylbewerberleistungen":
-      case "grundsicherung":
-        return true;
-      case "buergergeld":
-        return (
-          eigentumDone({ context }) && eigentumZusammenfassungDone({ context })
-        );
-      case "keine":
-        return (
-          partnerDone({ context }) &&
-          eigentumDone({ context }) &&
-          kinderDone({ context }) &&
-          eigentumZusammenfassungDone({ context }) &&
-          einkommenDone({ context }) &&
-          wohnungDone({ context }) &&
-          andereUnterhaltszahlungenDone({ context })
-        );
-    }
-    return false;
-  };
+export const eigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.staatlicheLeistungen == "grundsicherung" ||
+  context.staatlicheLeistungen == "asylbewerberleistungen" ||
+  (context.hasBankkonto !== undefined &&
+    context.hasKraftfahrzeug !== undefined &&
+    context.hasGeldanlage !== undefined &&
+    context.hasGrundeigentum !== undefined &&
+    context.hasWertsache !== undefined &&
+    (!hasAnyEigentumExceptBankaccount({ context }) ||
+      context.eigentumTotalWorth !== undefined));

@@ -1,6 +1,6 @@
+import { hasAnyEigentumExceptBankaccount } from "~/flows/shared/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
-import { eigentumDone } from "./guards";
 import type { GenericGuard } from "../../guards.server";
 import {
   bankKontoDone,
@@ -47,3 +47,14 @@ export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGu
     grundeigentumDone({ context }) &&
     wertsachenDone({ context }) &&
     kraftfahrzeugeDone({ context });
+
+export const eigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.hasBankkonto !== undefined &&
+  context.hasKraftfahrzeug !== undefined &&
+  context.hasGeldanlage !== undefined &&
+  context.hasGrundeigentum !== undefined &&
+  context.hasWertsache !== undefined &&
+  (!hasAnyEigentumExceptBankaccount({ context }) ||
+    context.eigentumTotalWorth !== undefined);

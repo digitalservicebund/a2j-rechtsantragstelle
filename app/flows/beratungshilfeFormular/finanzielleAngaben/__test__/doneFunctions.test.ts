@@ -1,5 +1,5 @@
-import * as eigentumDone from "~/flows/beratungshilfeFormular/finanzielleAngaben/guards";
-import { beratungshilfeFinanzielleAngabeDone } from "../doneFunctions";
+import { beratungshilfeFinanzielleAngabeDone } from "../beratungshilfeFinanzielleAngabeDone";
+import * as eigentumDone from "../doneFunctions";
 import * as eigentumZusammenfassungDone from "../eigentumZusammenfassungDone";
 
 describe("navStates", () => {

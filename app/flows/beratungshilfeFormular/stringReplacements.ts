@@ -4,13 +4,13 @@ import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
+  eigentumDone,
   einkommenDone,
   kinderDone,
   partnerDone,
   wohnungDone,
 } from "./finanzielleAngaben/doneFunctions";
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
-import { eigentumDone } from "./finanzielleAngaben/guards";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/context";
 import { rechtsproblemDone } from "./rechtsproblem/context";
 

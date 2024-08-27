@@ -6,7 +6,7 @@ import {
   kraftfahrzeugeDone,
   wertsachenDone,
 } from "~/flows/shared/finanzielleAngaben/doneFunctions";
-import { eigentumDone } from "../guards";
+import { eigentumDone } from "../doneFunctions";
 
 describe("eigentumDone", () => {
   it("passes with all fields no", () => {

@@ -17,6 +17,7 @@ import {
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
+import { eigentumDone } from "./doneFunctions";
 import { yesNoGuards } from "../../guards.server";
 import type { GenericGuard, Guards } from "../../guards.server";
 
@@ -41,19 +42,6 @@ const hasNoStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
 
 const staatlicheLeistungenIsBuergergeld: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) => context.staatlicheLeistungen === "buergergeld";
-
-export const eigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
-  context,
-}) =>
-  context.staatlicheLeistungen == "grundsicherung" ||
-  context.staatlicheLeistungen == "asylbewerberleistungen" ||
-  (context.hasBankkonto !== undefined &&
-    context.hasKraftfahrzeug !== undefined &&
-    context.hasGeldanlage !== undefined &&
-    context.hasGrundeigentum !== undefined &&
-    context.hasWertsache !== undefined &&
-    (!hasAnyEigentumExceptBankaccount({ context }) ||
-      context.eigentumTotalWorth !== undefined));
 
 const { hasAusgabenYes } = yesNoGuards("hasAusgaben");
 
