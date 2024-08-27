@@ -1,6 +1,6 @@
 import type { ProzesskostenhilfeFormularContext } from "..";
 import type { Guards } from "../../guards.server";
-import { prozesskostenhilfeFinanzielleAngabeDone } from "../finanzielleAngaben/navStates";
+import { prozesskostenhilfeFinanzielleAngabeDone } from "../finanzielleAngaben/doneFunctions";
 
 export const prozesskostenhilfeAbgabeGuards = {
   readyForAbgabe: ({ context }) =>

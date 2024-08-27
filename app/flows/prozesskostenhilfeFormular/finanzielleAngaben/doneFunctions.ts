@@ -1,6 +1,6 @@
 import { arrayIsNonEmpty } from "~/util/array";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
-import { eigentumDone as eigentumDoneGuard } from "./guards";
+import { eigentumDone } from "./guards";
 import type { GenericGuard } from "../../guards.server";
 import {
   bankKontoDone,
@@ -8,7 +8,7 @@ import {
   grundeigentumDone,
   kraftfahrzeugeDone,
   wertsachenDone,
-} from "../../shared/finanzielleAngaben/navStates";
+} from "../../shared/finanzielleAngaben/doneFunctions";
 
 export type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenContext>;
@@ -39,10 +39,6 @@ export const prozesskostenhilfeFinanzielleAngabeDone: GenericGuard<
   kinderDone({ context }) &&
   eigentumZusammenfassungDone({ context }) &&
   andereUnterhaltszahlungenDone({ context });
-
-export const eigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
-  context,
-}) => eigentumDoneGuard({ context });
 
 export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>

@@ -5,7 +5,7 @@ import {
   grundeigentumDone,
   kraftfahrzeugeDone,
   wertsachenDone,
-} from "~/flows/shared/finanzielleAngaben/navStates";
+} from "~/flows/shared/finanzielleAngaben/doneFunctions";
 import { eigentumDone } from "../guards";
 
 describe("eigentumDone", () => {

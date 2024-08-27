@@ -1,11 +1,7 @@
 import { arrayIsNonEmpty } from "~/util/array";
-import type { BeratungshilfeFinanzielleAngaben } from "./context";
-import { eigentumDone } from "./navStatesEigentum";
-import { eigentumZusammenfassungDone } from "./navStatesEigentumZusammenfassungDone";
-import type { GenericGuard } from "../../guards.server";
-
-export type BeratungshilfeFinanzielleAngabenGuard =
-  GenericGuard<BeratungshilfeFinanzielleAngaben>;
+import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
+import { eigentumDone } from "./guards";
+import { type BeratungshilfeFinanzielleAngabenGuard } from "./guards";
 
 export const einkommenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,

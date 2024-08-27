@@ -1,11 +1,11 @@
 import type { ProzesskostenhilfeFormularContext } from ".";
 import {
   andereUnterhaltszahlungenDone,
-  eigentumDone,
   eigentumZusammenfassungDone,
   kinderDone,
   partnerDone,
-} from "./finanzielleAngaben/navStates";
+} from "./finanzielleAngaben/doneFunctions";
+import { eigentumDone } from "./finanzielleAngaben/guards";
 
 export const getMissingInformationStrings = (
   context: ProzesskostenhilfeFormularContext,

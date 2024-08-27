@@ -1,5 +1,5 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { personDone, weiterePersonenDone } from "../navStates";
+import { personDone, weiterePersonenDone } from "../doneFunctions";
 
 const DEFAULT_WEITERE_PERSONEN_DATA = {
   vorname: "vorname",

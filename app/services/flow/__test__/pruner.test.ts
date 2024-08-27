@@ -1,7 +1,7 @@
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { getStrapiEntry } from "~/services/cms/getStrapiEntry";
-import { filterFormFields, pruneIrrelevantData } from "../pruner";
 import type { StrapiSchemas } from "~/services/cms/schemas";
+import { filterFormFields, pruneIrrelevantData } from "../pruner";
 
 vi.mock("~/services/cms/getStrapiEntry");
 
