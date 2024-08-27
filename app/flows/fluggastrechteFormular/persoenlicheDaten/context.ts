@@ -10,12 +10,12 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { namePrivatPerson } from "../../persoenlicheDaten/context";
 
 const fluggastrechtePersoenlichVertretungDaten = {
-  vornameVertretung: optionalOrSchema(stringRequiredSchema),
-  nachnameVertretung: optionalOrSchema(stringRequiredSchema),
-  strasseHausnummerVertretung: optionalOrSchema(stringRequiredSchema),
+  vornameVertretung: stringRequiredSchema,
+  nachnameVertretung: stringRequiredSchema,
+  strasseHausnummerVertretung: stringRequiredSchema,
   plzVertretung: stringRequiredSchema.pipe(postcodeSchema).optional(),
-  ortVertretung: optionalOrSchema(stringRequiredSchema),
-  beschreibenVertretung: optionalOrSchema(stringRequiredSchema),
+  ortVertretung: stringRequiredSchema,
+  beschreibenVertretung: stringRequiredSchema,
 };
 
 export const fluggastrechtePersoenlichDaten = {
@@ -25,16 +25,18 @@ export const fluggastrechtePersoenlichDaten = {
   unter18JahreAlt: checkedOptional,
   ...fluggastrechtePersoenlichVertretungDaten,
   isProzessbevollmaechtigte: YesNoAnswer,
-  vornameVollmaechtigte: optionalOrSchema(stringRequiredSchema),
-  vollmaechtigteNachname: optionalOrSchema(stringRequiredSchema),
+  vornameVollmaechtigte: stringRequiredSchema,
+  vollmaechtigteNachname: stringRequiredSchema,
   weiterePersonen: z.array(
-    z.object({
-      ...namePrivatPerson,
-      ...adresseSchema,
-      telefonnummer: optionalOrSchema(phoneNumberSchema),
-      unter18JahreAlt: checkedOptional,
-      ...fluggastrechtePersoenlichVertretungDaten,
-    }),
+    z
+      .object({
+        ...namePrivatPerson,
+        ...adresseSchema,
+        telefonnummer: optionalOrSchema(phoneNumberSchema),
+        unter18JahreAlt: checkedOptional,
+        ...fluggastrechtePersoenlichVertretungDaten,
+      })
+      .partial(),
   ),
   pageData: pageDataSchema,
 };
