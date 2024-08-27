@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -166,5 +167,12 @@ export const kinderArraySchema = z.array(
     unterhaltsSumme: buildMoneyValidationSchema(),
   }),
 );
+
+export const besondereBelastungenSchema = z.object({
+  pregnancy: checkedOptional,
+  singleParent: checkedOptional,
+  disability: checkedOptional,
+  medicalReasons: checkedOptional,
+});
 
 export type Unterhaltszahlung = z.infer<typeof unterhaltszahlungSchema>;

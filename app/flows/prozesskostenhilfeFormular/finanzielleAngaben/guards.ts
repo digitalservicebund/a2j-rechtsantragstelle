@@ -16,8 +16,11 @@ import {
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
-import { eigentumDone } from "./doneFunctions";
+import {
+  prozesskostenhilfeFinanzielleAngabenContext,
+  type ProzesskostenhilfeFinanzielleAngabenContext,
+} from "./context";
+import { ausgabenDone, eigentumDone } from "./doneFunctions";
 import { yesNoGuards, type Guards } from "../../guards.server";
 
 export const finanzielleAngabeGuards = {
@@ -161,4 +164,33 @@ export const finanzielleAngabeGuards = {
   hasWeitereUnterhaltszahlungenYesAndEmptyArray: ({ context }) =>
     hasWeitereUnterhaltszahlungenYes({ context }) &&
     !arrayIsNonEmpty(context.unterhaltszahlungen),
+  isSonstigeVersicherung: ({ context: { pageData, versicherungen } }) => {
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return (
+      versicherungen?.at(arrayIndex)?.art ===
+      prozesskostenhilfeFinanzielleAngabenContext.versicherungen.element.shape
+        .art.Enum.sonstige
+    );
+  },
+  hasAusgabenYes: ({ context }) => context.hasAusgaben === "yes",
+  sonstigeAusgabeAnteiligYes: ({ context: { pageData, sonstigeAusgaben } }) => {
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return (
+      sonstigeAusgaben?.at(arrayIndex)?.zahlungspflichtiger !==
+      prozesskostenhilfeFinanzielleAngabenContext.sonstigeAusgaben.element.shape
+        .zahlungspflichtiger.Enum.myself
+    );
+  },
+  ratenzahlungAnteiligYes: ({ context: { pageData, ratenzahlungen } }) => {
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    return (
+      ratenzahlungen?.at(arrayIndex)?.zahlungspflichtiger !==
+      prozesskostenhilfeFinanzielleAngabenContext.ratenzahlungen.element.shape
+        .zahlungspflichtiger.Enum.myself
+    );
+  },
+  ausgabenDone,
 } satisfies Guards<ProzesskostenhilfeFinanzielleAngabenContext>;
