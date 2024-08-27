@@ -206,7 +206,8 @@
           {
             "target": "ersatzverbindung-beschreibung",
             "guard": "hasAndereErsatzVerbindung"
-          }
+          },
+          "ersatzverbindung-art"
         ]
       }
     }

@@ -72,8 +72,15 @@ const cases = [
       direktAnkunftsDatum: "02.05.2023",
       direktAnkunftsZeit: "10:00",
       zwischenstoppAnzahl: "twoStop",
+      tatsaechlicherFlug: "no",
+      ersatzverbindungArt: "flug",
     },
-    ["flugdaten/geplanter-flug", "flugdaten/zwischenstopp-uebersicht-2"],
+    [
+      "flugdaten/geplanter-flug",
+      "flugdaten/zwischenstopp-uebersicht-2",
+      "flugdaten/tatsaechlicher-flug",
+      "flugdaten/ersatzverbindung-art",
+    ],
   ],
   [
     {
@@ -84,8 +91,15 @@ const cases = [
       direktAnkunftsDatum: "02.05.2023",
       direktAnkunftsZeit: "10:00",
       zwischenstoppAnzahl: "threeStop",
+      tatsaechlicherFlug: "no",
+      ersatzverbindungArt: "flug",
     },
-    ["flugdaten/geplanter-flug", "flugdaten/zwischenstopp-uebersicht-3"],
+    [
+      "flugdaten/geplanter-flug",
+      "flugdaten/zwischenstopp-uebersicht-3",
+      "flugdaten/tatsaechlicher-flug",
+      "flugdaten/ersatzverbindung-art",
+    ],
   ],
   [
     {
@@ -96,8 +110,15 @@ const cases = [
       direktAnkunftsDatum: "02.05.2023",
       direktAnkunftsZeit: "10:00",
       zwischenstoppAnzahl: "fourStop",
+      tatsaechlicherFlug: "no",
+      ersatzverbindungArt: "flug",
     },
-    ["flugdaten/geplanter-flug", "flugdaten/zwischenstopp-uebersicht-4"],
+    [
+      "flugdaten/geplanter-flug",
+      "flugdaten/zwischenstopp-uebersicht-4",
+      "flugdaten/tatsaechlicher-flug",
+      "flugdaten/ersatzverbindung-art",
+    ],
   ],
   [
     {
@@ -108,8 +129,15 @@ const cases = [
       direktAnkunftsDatum: "02.05.2023",
       direktAnkunftsZeit: "10:00",
       zwischenstoppAnzahl: "fiveStop",
+      tatsaechlicherFlug: "no",
+      ersatzverbindungArt: "flug",
     },
-    ["flugdaten/geplanter-flug", "flugdaten/zwischenstopp-uebersicht-5"],
+    [
+      "flugdaten/geplanter-flug",
+      "flugdaten/zwischenstopp-uebersicht-5",
+      "flugdaten/tatsaechlicher-flug",
+      "flugdaten/ersatzverbindung-art",
+    ],
   ],
   [
     {
@@ -156,6 +184,25 @@ const cases = [
       "flugdaten/geplanter-flug",
       "flugdaten/ersatzverbindung-art",
       "flugdaten/ersatzverbindung-beschreibung",
+      "flugdaten/zusaetzliche-angaben",
+      "persoenliche-daten/person/daten",
+    ],
+  ],
+  [
+    {
+      bereich: "annullierung",
+      direktFlugnummer: "AB1234",
+      direktAbflugsDatum: "01.05.2023",
+      direktAbflugsZeit: "10:00",
+      zwischenstoppAnzahl: "no",
+      direktAnkunftsDatum: "02.05.2023",
+      direktAnkunftsZeit: "10:00",
+      tatsaechlicherFlug: "no",
+      ersatzverbindungArt: "keineAnkunft",
+    },
+    [
+      "flugdaten/geplanter-flug",
+      "flugdaten/ersatzverbindung-art",
       "flugdaten/zusaetzliche-angaben",
       "persoenliche-daten/person/daten",
     ],
