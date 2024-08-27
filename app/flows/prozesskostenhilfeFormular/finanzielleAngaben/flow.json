@@ -1,20 +1,20 @@
 {
-  "initial": "start",
+  "initial": "partner",
   "id": "finanzielle-angaben",
   "states": {
-    "start": {
-      "on": {
-        "SUBMIT": "partner",
-        "BACK": "#antragStart"
-      }
-    },
     "partner": {
       "id": "partner",
-      "initial": "partnerschaft",
+      "initial": "start",
       "on": {
         "SUBMIT": "#kinder.kinder-frage"
       },
       "states": {
+        "start": {
+          "on": {
+            "SUBMIT": "partnerschaft",
+            "BACK": "#antragStart"
+          }
+        },
         "partnerschaft": {
           "on": {
             "BACK": "#finanzielle-angaben",
@@ -128,7 +128,7 @@
                 "guard": "hasPartnerschaftOrSeparated",
                 "target": "#partner.zusammenleben"
               },
-              "#partner.partnerschaft"
+              "#partner.start"
             ],
             "SUBMIT": [
               {
