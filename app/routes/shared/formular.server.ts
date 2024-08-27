@@ -15,7 +15,9 @@ import {
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
+import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { addPageDataToUserData } from "~/services/flow/pageData";
+import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
@@ -69,12 +71,14 @@ export const loader = async ({
   const { pathname } = new URL(request.url);
   const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
-
   const { userData, debugId } = await getSessionData(flowId, cookieHeader);
   context.debugId = debugId; // For showing in errors
 
   const currentFlow = flows[flowId];
-  const userDataWithPageData = addPageDataToUserData(userData, {
+  const prunedUserData = (await isFeatureFlagEnabled("pruneUserData"))
+    ? await pruneIrrelevantData(userData, flowId)
+    : userData;
+  const userDataWithPageData = addPageDataToUserData(prunedUserData, {
     arrayIndexes,
   });
   const flowController = buildFlowController({
@@ -103,7 +107,7 @@ export const loader = async ({
   const arraySummaryData = getSummaryData(
     arrayCategories,
     arrayConfigurations,
-    userData,
+    userDataWithPageData,
   );
 
   const stringTranslations = arrayConfigurations
