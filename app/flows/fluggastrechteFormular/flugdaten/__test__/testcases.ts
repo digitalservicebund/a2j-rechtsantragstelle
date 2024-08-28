@@ -166,6 +166,23 @@ const cases = [
   ],
   [
     {
+      bereich: "verspaetet",
+      direktFlugnummer: "AB1234",
+      direktAbflugsDatum: "01.05.2023",
+      direktAbflugsZeit: "10:00",
+      direktAnkunftsDatum: "02.05.2023",
+      direktAnkunftsZeit: "10:00",
+      zwischenstoppAnzahl: "no",
+      tatsaechlicherFlug: "no",
+    },
+    [
+      "flugdaten/geplanter-flug",
+      "flugdaten/tatsaechlicher-flug",
+      "flugdaten/ersatzverbindung-art",
+    ],
+  ],
+  [
+    {
       bereich: "annullierung",
       direktFlugnummer: "AB1234",
       direktAbflugsDatum: "01.05.2023",
