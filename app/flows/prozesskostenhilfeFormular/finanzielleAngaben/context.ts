@@ -42,7 +42,7 @@ export const arbeitsWegSchema = z.enum(
   customRequiredErrorMessage,
 );
 
-export const arbeitsausgabeSchema = z.object({
+export const financialEntrySchema = z.object({
   beschreibung: stringRequiredSchema,
   betrag: buildMoneyValidationSchema(),
   zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
@@ -66,7 +66,7 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
     message: "invalidInteger",
   }),
   hasArbeitsausgaben: YesNoAnswer,
-  arbeitsausgaben: z.array(arbeitsausgabeSchema),
+  arbeitsausgaben: z.array(financialEntrySchema),
   receivesPension: YesNoAnswer,
   pensionAmount: buildMoneyValidationSchema(),
   receivesSupport: YesNoAnswer,
@@ -80,6 +80,7 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   elterngeldAmount: buildMoneyValidationSchema(),
   kindergeldAmount: buildMoneyValidationSchema(),
   hasFurtherIncome: YesNoAnswer,
+  weitereEinkuenfte: z.array(financialEntrySchema),
   partnerschaft: partnerschaftSchema,
   zusammenleben: YesNoAnswer,
   unterhalt: YesNoAnswer,

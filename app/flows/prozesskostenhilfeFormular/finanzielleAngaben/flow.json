@@ -204,12 +204,24 @@
                 "uebersicht": {
                   "id": "uebersicht",
                   "on": {
-                    "SUBMIT": "#einkuenfte.rente-frage",
+                    "SUBMIT": [
+                      {
+                        "guard": "hasAndereArbeitsausgaben",
+                        "target": "warnung"
+                      },
+                      "#einkuenfte.rente-frage"
+                    ],
                     "BACK": "arbeitsausgaben-frage",
                     "add-arbeitsausgaben": {
                       "guard": "isValidArbeitsausgabenArrayIndex",
                       "target": "arbeitsausgabe"
                     }
+                  }
+                },
+                "warnung": {
+                  "on": {
+                    "BACK": "uebersicht",
+                    "SUBMIT": "#einkuenfte.rente-frage"
                   }
                 },
                 "arbeitsausgabe": {
@@ -408,7 +420,13 @@
           "states": {
             "frage": {
               "on": {
-                "SUBMIT": "#partner",
+                "SUBMIT": [
+                  {
+                    "guard": "hasFurtherIncome",
+                    "target": "uebersicht"
+                  },
+                  "#partner"
+                ],
                 "BACK": [
                   {
                     "guard": "hasKindergeld",
@@ -429,6 +447,39 @@
                   "#einkuenfte.leistungen"
                 ]
               }
+            },
+            "uebersicht": {
+              "on": {
+                "SUBMIT": [
+                  {
+                    "guard": "hasFurtherIncomeAndEmptyArray",
+                    "target": "warnung"
+                  },
+                  "#partner"
+                ],
+                "BACK": "frage",
+                "add-einkunft": {
+                  "guard": "isValidEinkuenfteArrayIndex",
+                  "target": "einkunft"
+                }
+              }
+            },
+            "warnung": {
+              "on": {
+                "BACK": "uebersicht",
+                "SUBMIT": "#partner"
+              }
+            },
+            "einkunft": {
+              "initial": "daten",
+              "states": {
+                "daten": {
+                  "on": {
+                    "BACK": "#weitere-einkuenfte.uebersicht",
+                    "SUBMIT": "#weitere-einkuenfte.uebersicht"
+                  }
+                }
+              }
             }
           }
         }
@@ -444,7 +495,13 @@
         "start": {
           "on": {
             "SUBMIT": "partnerschaft",
-            "BACK": "#einkuenfte.weitere-einkuenfte.frage"
+            "BACK": [
+              {
+                "guard": "hasFurtherIncome",
+                "target": "#einkuenfte.weitere-einkuenfte.uebersicht"
+              },
+              "#einkuenfte.weitere-einkuenfte.frage"
+            ]
           }
         },
         "partnerschaft": {
@@ -779,7 +836,7 @@
             "SUBMIT": [
               {
                 "target": "#eigentum-zusammenfassung.zusammenfassung",
-                "guard": "eigentumDone"
+                "guard": "eigentumDoneGuard"
               },
               "#abgabe"
             ],

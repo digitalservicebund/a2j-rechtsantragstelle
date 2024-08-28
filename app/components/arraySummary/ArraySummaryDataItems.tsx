@@ -40,6 +40,7 @@ const ArraySummaryDataItems = ({
     {
       indexPerson: (itemIndex + WEITERE_PERSONEN_START_INDEX).toString(),
       indexArbeitsausgabe: (itemIndex + 1).toString(),
+      indexEinkunft: (itemIndex + 1).toString(),
     },
   );
 

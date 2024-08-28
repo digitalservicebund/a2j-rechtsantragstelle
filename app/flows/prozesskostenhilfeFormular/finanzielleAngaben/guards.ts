@@ -17,10 +17,10 @@ import {
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
-import { eigentumDone as eD } from "./doneFunctions";
+import { eigentumDone } from "./doneFunctions";
 import { yesNoGuards, type Guards } from "../../guards.server";
 
-export const hasGrundsicherungOrAsylberberleistungen: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
+export const hasStaatlicheLeistungen: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
   ({ context }) =>
     context.staatlicheLeistungenPKH === "asylbewerberleistungen" ||
     context.staatlicheLeistungenPKH === "grundsicherung";
@@ -28,18 +28,24 @@ export const hasGrundsicherungOrAsylberberleistungen: Guards<ProzesskostenhilfeF
 export const notEmployed: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
   ({ context }) => context.currentlyEmployed === "no";
 
-const eigentumDone: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
+const eigentumDoneGuard: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
   ({ context }) =>
-    hasGrundsicherungOrAsylberberleistungen({
+    hasStaatlicheLeistungen({
       context,
-    }) || eD({ context });
+    }) || eigentumDone({ context });
+
+const hasAndereArbeitsausgaben: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
+  ({ context }) => context.hasArbeitsausgaben === "yes";
+
+const hasFurtherIncome: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
+  ({ context: { hasFurtherIncome } }) => hasFurtherIncome === "yes";
 
 export const finanzielleAngabeGuards = {
-  eigentumDone,
+  eigentumDoneGuard,
   hasAnyEigentum,
   eigentumTotalWorthLessThan10000: ({ context }) =>
     context.eigentumTotalWorth === "less10000",
-  hasGrundsicherungOrAsylberberleistungen,
+  hasGrundsicherungOrAsylberberleistungen: hasStaatlicheLeistungen,
   hasBuergergeld: ({ context }) =>
     context.staatlicheLeistungenPKH === "buergergeld",
   hasArbeitslosengeld: ({ context }) =>
@@ -55,8 +61,10 @@ export const finanzielleAngabeGuards = {
   usesPrivateVehicle: ({ context }) => context.arbeitsWeg === "privateVehicle",
   commuteMethodPlaysNoRole: ({ context }) =>
     context.arbeitsWeg === "bike" || context.arbeitsWeg === "walking",
-  hasAndereArbeitsausgaben: ({ context }) =>
-    context.hasArbeitsausgaben === "yes",
+  hasAndereArbeitsausgaben,
+  hasAndereArbeitsausgabenAndEmptyArray: ({ context }) =>
+    hasAndereArbeitsausgaben({ context }) &&
+    !arrayIsNonEmpty(context.arbeitsausgaben),
   isValidArbeitsausgabenArrayIndex: ({
     context: { pageData, arbeitsausgaben },
   }) => isValidArrayIndex(arbeitsausgaben, pageData),
@@ -66,8 +74,13 @@ export const finanzielleAngabeGuards = {
   hasKrankengeld: ({ context: { hasKrankengeld } }) => hasKrankengeld === "on",
   hasElterngeld: ({ context: { hasElterngeld } }) => hasElterngeld === "on",
   hasKindergeld: ({ context: { hasKindergeld } }) => hasKindergeld === "on",
-  hasFurtherIncome: ({ context: { hasFurtherIncome } }) =>
-    hasFurtherIncome === "yes",
+  hasFurtherIncome,
+  hasFurtherIncomeAndEmptyArray: ({ context }) =>
+    hasFurtherIncome({ context }) &&
+    !arrayIsNonEmpty(context.weitereEinkuenfte),
+  isValidEinkuenfteArrayIndex: ({
+    context: { pageData, weitereEinkuenfte: furtherIncome },
+  }) => isValidArrayIndex(furtherIncome, pageData),
   hasPartnerschaftOrSeparated,
   hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",
   hasPartnerschaftNoOrWidowed: ({ context }) =>
