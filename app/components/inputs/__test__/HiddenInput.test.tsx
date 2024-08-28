@@ -1,4 +1,3 @@
-import { createRemixStub } from "@remix-run/testing";
 import { render } from "@testing-library/react";
 import * as remixValidatedForm from "remix-validated-form";
 import HiddenInput from "../HiddenInput";
@@ -21,14 +20,9 @@ beforeEach(() => {
 
 describe("HiddenInput", () => {
   it("should render an input hidden", () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => <HiddenInput name="hiddenInput" formId="formId" />,
-      },
-    ]);
-
-    const { getByRole } = render(<RemixStub />);
+    const { getByRole } = render(
+      <HiddenInput name="hiddenInput" formId="formId" />,
+    );
 
     expect(getByRole("textbox", { hidden: true })).toBeInTheDocument();
   });
