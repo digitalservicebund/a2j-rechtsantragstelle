@@ -4,7 +4,7 @@ import { validationError } from "remix-validated-form";
 import { parsePathname } from "~/flows/flowIds";
 import { flows } from "~/flows/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { getArraySummaryPageTranslations } from "~/services/array/getArraySummaryPageTranslations";
+import { getPageTranslations } from "~/services/array/getPageTranslations";
 import { getSummaryData } from "~/services/array/getSummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
@@ -110,9 +110,7 @@ export const loader = async ({
     userDataWithPageData,
   );
 
-  const stringTranslations = arrayConfigurations
-    ? await getArraySummaryPageTranslations(arrayCategories)
-    : await fetchTranslations(flowId);
+  const stringTranslations = await getPageTranslations(arrayCategories, flowId);
 
   // structure cms content -> merge with getting data?
   const cmsContent = interpolateDeep(
