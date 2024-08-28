@@ -8,20 +8,7 @@
       "states": {
         "start": {
           "on": {
-            "SUBMIT": "dokumente"
-          }
-        },
-        "dokumente": {
-          "on": {
-            "SUBMIT": "daten-uebernahme",
-            "BACK": "start"
-          }
-        },
-        "daten-uebernahme": {
-          "id": "daten-uebernahme",
-          "on": {
-            "SUBMIT": "#flugdaten.geplanter-flug",
-            "BACK": "dokumente"
+            "SUBMIT": "#grundvorraussetzungen.prozessfaehig"
           }
         }
       }

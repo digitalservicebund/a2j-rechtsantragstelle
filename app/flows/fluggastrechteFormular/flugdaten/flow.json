@@ -5,7 +5,7 @@
     "geplanter-flug": {
       "on": {
         "SUBMIT": "zwischenstopps",
-        "BACK": "#intro.daten-uebernahme"
+        "BACK": "#grundvorraussetzungen.daten-uebernahme"
       }
     },
     "zwischenstopps": {

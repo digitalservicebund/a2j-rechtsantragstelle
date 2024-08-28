@@ -1,0 +1,24 @@
+{
+  "id": "grundvorraussetzungen",
+  "initial": "prozessfaehig",
+  "states": {
+    "prozessfaehig": {
+      "on": {
+        "SUBMIT": "ausgleichszahlung",
+        "BACK": "#intro.start"
+      }
+    },
+    "ausgleichszahlung": {
+      "on": {
+        "SUBMIT": "daten-uebernahme",
+        "BACK": "prozessfaehig"
+      }
+    },
+    "daten-uebernahme": {
+      "on": {
+        "SUBMIT": "#flugdaten.geplanter-flug",
+        "BACK": "ausgleichszahlung"
+      }
+    }
+  }
+}

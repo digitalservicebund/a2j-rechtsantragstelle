@@ -4,6 +4,8 @@ import type { FluggastrechtContext } from "./context";
 import fluggastrechteFlow from "./flow.json";
 import flugdatenFlow from "./flugdaten/flow.json";
 import forderungDatenFlow from "./forderung/flow.json";
+import { grundvorraussetzungenDone } from "./grundvorraussetzungen/doneFunctions";
+import grundvorraussetzungenFlow from "./grundvorraussetzungen/flow.json";
 import { fluggastrechteGuards } from "./guards";
 import {
   personDone,
@@ -60,6 +62,9 @@ export const fluggastrechtFlow = {
       },
     },
     states: {
+      grundvorraussetzungen: _.merge(grundvorraussetzungenFlow, {
+        meta: { done: grundvorraussetzungenDone },
+      }),
       flugdaten: _.merge(flugdatenFlow, {}),
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
         states: {

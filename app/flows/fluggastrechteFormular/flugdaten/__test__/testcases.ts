@@ -11,16 +11,7 @@ const machine: FlowStateMachine = createMachine(
   { guards: fluggastrechteGuards },
 );
 
-const happyPathSteps = [
-  "intro/start",
-  "intro/dokumente",
-  "intro/daten-uebernahme",
-  "flugdaten/geplanter-flug",
-  "flugdaten/zwischenstopps",
-];
-
 const cases = [
-  [{}, happyPathSteps],
   [
     {
       direktFlugnummer: "AB6303",
@@ -30,7 +21,7 @@ const cases = [
       direktAnkunftsZeit: "09:08",
     },
     [
-      "intro/daten-uebernahme",
+      "grundvorraussetzungen/daten-uebernahme",
       "flugdaten/geplanter-flug",
       "flugdaten/zwischenstopps",
     ],
