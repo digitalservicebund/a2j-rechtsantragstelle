@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { fluggastBereichSchema } from "~/flows/fluggastrechteVorabcheck/context";
 import { airportSchema } from "~/services/validation/airport";
 import { createDateSchema } from "~/services/validation/date";
 import { flightNumberSchema } from "~/services/validation/flightNumber";
@@ -40,7 +39,7 @@ export const fluggastrechteFlugdaten = {
   dritterZwischenstopp: airportSchema,
   vierterZwischenstopp: airportSchema,
   fuenfterZwischenstopp: airportSchema,
-  bereich: fluggastBereichSchema,
+  bereich: stringOptionalSchema,
   andereErsatzverbindungBeschreibung: stringRequiredSchema,
   andereErsatzverbindungStartDatum: fourYearsAgoSchema,
   andereErsatzverbindungStartZeit: timeSchema,
