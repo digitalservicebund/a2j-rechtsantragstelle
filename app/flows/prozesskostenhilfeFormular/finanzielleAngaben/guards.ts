@@ -66,6 +66,8 @@ export const finanzielleAngabeGuards = {
   hasKrankengeld: ({ context: { hasKrankengeld } }) => hasKrankengeld === "on",
   hasElterngeld: ({ context: { hasElterngeld } }) => hasElterngeld === "on",
   hasKindergeld: ({ context: { hasKindergeld } }) => hasKindergeld === "on",
+  hasFurtherIncome: ({ context: { hasFurtherIncome } }) =>
+    hasFurtherIncome === "yes",
   hasPartnerschaftOrSeparated,
   hasPartnerschaftYes: ({ context }) => context.partnerschaft === "yes",
   hasPartnerschaftNoOrWidowed: ({ context }) =>
