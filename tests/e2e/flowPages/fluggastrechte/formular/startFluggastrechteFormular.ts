@@ -12,15 +12,19 @@ export async function startFluggastrechteFormular(
     new RegExp(`.+${formular.url}/${formular.initialStep}$`),
   );
 
-  // /fluggastrechte/formular/start
+  // /fluggastrechte/formular/intro/start
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
-  // /fluggastrechte/formular/dokumente
+  // /fluggastrechte/formular/grundvorraussetzungen/prozessfaehig
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
-  // /fluggastrechte/formular/daten-uebernahme
+  // /fluggastrechte/formular/grundvorraussetzungen/ausgleichszahlung
+  await expectPageToBeAccessible({ page });
+  await formular.clickNext();
+
+  // /fluggastrechte/formular/grundvorraussetzungen/daten-uebernahme
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("doMigration", "yes");
 
