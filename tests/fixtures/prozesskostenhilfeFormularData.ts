@@ -4,7 +4,7 @@ import {
   arbeitsArtSchema,
   arbeitsWegSchema,
   staatlicheLeistungenPKHSchema,
-} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
+} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,

@@ -1,7 +1,8 @@
+import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
+import { hasStaatlicheLeistungen } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import { hasAnyEigentumExceptBankaccount } from "~/flows/shared/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
-import { hasStaatlicheLeistungen, notEmployed } from "./guards";
 import type { GenericGuard } from "../../guards.server";
 import {
   bankKontoDone,
@@ -13,12 +14,6 @@ import {
 
 export type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenContext>;
-
-export const einkuenfteDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
-  context,
-}) => hasStaatlicheLeistungen({ context }) || !notEmployed({ context }); /* ||
-  arrayIsNonEmpty(context.arbeitsausgaben) ||
-  arrayIsNonEmpty(context.weitereEinkuenfte); */
 
 export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
