@@ -19,6 +19,8 @@ type TextareaProps = Readonly<{
   innerRef?: React.Ref<HTMLTextAreaElement>;
 }>;
 
+export const TEXT_AREA_ROWS = 3;
+
 const Textarea = ({
   name,
   description,
@@ -53,6 +55,7 @@ const Textarea = ({
           placeholder,
           maxLength: TEXTAREA_CHAR_LIMIT,
         })}
+        rows={TEXT_AREA_ROWS}
         className={classNames(
           "ds-textarea forced-color-adjust-none placeholder-gray-600",
           {

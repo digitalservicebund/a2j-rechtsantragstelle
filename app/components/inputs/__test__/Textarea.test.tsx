@@ -1,17 +1,17 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render, screen, fireEvent } from "@testing-library/react";
 import * as remixValidatedForm from "remix-validated-form";
-import Textarea from "~/components/inputs/Textarea";
+import Textarea, { TEXT_AREA_ROWS } from "~/components/inputs/Textarea";
 
 vi.mock("remix-validated-form", () => ({
   useField: vi.fn(),
 }));
 
-describe("Textarea component", () => {
-  afterEach(() => {
-    vi.restoreAllMocks(); // This clears all mocks after each test
-  });
+afterEach(() => {
+  vi.restoreAllMocks(); // This clears all mocks after each test
+});
 
+describe("Textarea component", () => {
   it("renders without errors", () => {
     const componentName = "test-textarea";
 
@@ -134,5 +134,29 @@ describe("Textarea component", () => {
     fireEvent.change(textarea, { target: { value: "Test input" } });
 
     expect(textarea).toHaveValue("Test input");
+  });
+
+  it("should render the textarea with the define rows from the variable TEXT_AREA_ROWS", () => {
+    vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
+      error: undefined,
+      getInputProps: vi.fn(),
+      clearError: vi.fn(),
+      validate: vi.fn(),
+      touched: false,
+      setTouched: vi.fn(),
+    });
+
+    const RemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => <Textarea name="componentName" label="Test Label" />,
+      },
+    ]);
+
+    render(<RemixStub />);
+
+    const textarea = screen.getByRole("textbox");
+
+    expect(textarea.getAttribute("rows")).toEqual(TEXT_AREA_ROWS.toString());
   });
 });

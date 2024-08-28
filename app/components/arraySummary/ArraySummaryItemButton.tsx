@@ -4,8 +4,8 @@ import { useFetcher, useLocation } from "@remix-run/react";
 import type { Translations } from "~/services/cms/index.server";
 import { CSRFKey } from "~/services/security/csrfKey";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
-import Button from "./Button";
-import ButtonContainer from "./ButtonContainer";
+import Button from "../Button";
+import ButtonContainer from "../ButtonContainer";
 
 type Props = {
   readonly itemIndex: number;
@@ -14,6 +14,7 @@ type Props = {
   readonly initialInputUrl: string;
   readonly csrf: string;
   readonly translations?: Translations;
+  readonly className?: string;
 };
 
 const ArraySummaryItemButton = ({
@@ -23,6 +24,7 @@ const ArraySummaryItemButton = ({
   initialInputUrl,
   csrf,
   translations = {},
+  className,
 }: Props) => {
   const editButtonText = getTranslationByKey(
     "arrayEditButtonLabel",
@@ -37,7 +39,7 @@ const ArraySummaryItemButton = ({
   const fetcher = useFetcher();
 
   return (
-    <ButtonContainer>
+    <ButtonContainer className={className}>
       <Button
         iconLeft={<EditButton />}
         look="tertiary"

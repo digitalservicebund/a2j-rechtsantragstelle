@@ -17,37 +17,31 @@ import {
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
-import { yesNoGuards, type Guards } from "../../guards.server";
+import { eigentumDone } from "./doneFunctions";
+import { yesNoGuards } from "../../guards.server";
+import type { GenericGuard, Guards } from "../../guards.server";
 
-const hasStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] =
-  ({ context }) =>
-    context.staatlicheLeistungen === "asylbewerberleistungen" ||
-    context.staatlicheLeistungen === "buergergeld" ||
-    context.staatlicheLeistungen === "grundsicherung";
+export type BeratungshilfeFinanzielleAngabenGuard =
+  GenericGuard<BeratungshilfeFinanzielleAngaben>;
 
-const hasNoStaatlicheLeistungen: Guards<BeratungshilfeFinanzielleAngaben>[string] =
-  ({ context }) => {
-    return (
-      context.staatlicheLeistungen !== undefined &&
-      !hasStaatlicheLeistungen({ context })
-    );
-  };
-
-const staatlicheLeistungenIsBuergergeld: Guards<BeratungshilfeFinanzielleAngaben>[string] =
-  ({ context }) => context.staatlicheLeistungen === "buergergeld";
-
-export const eigentumDone: Guards<BeratungshilfeFinanzielleAngaben>[string] = ({
+const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  context.staatlicheLeistungen == "grundsicherung" ||
-  context.staatlicheLeistungen == "asylbewerberleistungen" ||
-  (context.hasBankkonto !== undefined &&
-    context.hasKraftfahrzeug !== undefined &&
-    context.hasGeldanlage !== undefined &&
-    context.hasGrundeigentum !== undefined &&
-    context.hasWertsache !== undefined &&
-    (!hasAnyEigentumExceptBankaccount({ context }) ||
-      context.eigentumTotalWorth !== undefined));
+  context.staatlicheLeistungen === "asylbewerberleistungen" ||
+  context.staatlicheLeistungen === "buergergeld" ||
+  context.staatlicheLeistungen === "grundsicherung";
+
+const hasNoStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) => {
+  return (
+    context.staatlicheLeistungen !== undefined &&
+    !hasStaatlicheLeistungen({ context })
+  );
+};
+
+const staatlicheLeistungenIsBuergergeld: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) => context.staatlicheLeistungen === "buergergeld";
 
 const { hasAusgabenYes } = yesNoGuards("hasAusgaben");
 

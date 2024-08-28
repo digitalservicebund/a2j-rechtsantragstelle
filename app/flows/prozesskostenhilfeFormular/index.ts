@@ -2,18 +2,17 @@ import _ from "lodash";
 import abgabeFlow from "./abgabe/flow.json";
 import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
-import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
-import {
-  eigentumDone,
-  finanzielleAngabeGuards,
-} from "./finanzielleAngaben/guards";
 import {
   andereUnterhaltszahlungenDone,
+  eigentumDone,
   eigentumZusammenfassungDone,
   kinderDone,
   partnerDone,
-} from "./finanzielleAngaben/navStates";
+} from "./finanzielleAngaben/doneFunctions";
+import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
+import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import prozesskostenhilfeFormularFlow from "./flow.json";
+import { getMissingInformationStrings } from "./stringReplacements";
 import type { AbgabeContext } from "../shared/abgabe/context";
 import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
 import {
@@ -60,6 +59,7 @@ export const prozesskostenhilfeFormular = {
     ...getArrayIndexStrings(context),
     ...eigentumZusammenfassungShowWarnings(context),
     ...geldAnlagenStrings(context),
+    ...getMissingInformationStrings(context),
   }),
 } as const;
 

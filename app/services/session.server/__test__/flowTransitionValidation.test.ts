@@ -36,8 +36,6 @@ describe("validateFlowTransition", () => {
     "/fluggastrechte/vorabcheck": createMockFlow("vorab-check-pages"),
     "/fluggastrechte/formular": createMockFlow("form-flow-pages"),
     "/prozesskostenhilfe/formular": createMockFlow("form-flow-pages"),
-    // TODO: remove /prozesskostenhilfe/antrag
-    "/prozesskostenhilfe/antrag": createMockFlow("form-flow-pages"),
   };
   const mockController: FlowController = {
     getMeta: vi.fn().mockReturnValue(undefined),
@@ -45,10 +43,13 @@ describe("validateFlowTransition", () => {
     stepStates: vi.fn().mockReturnValue([]),
     isDone: vi.fn().mockReturnValue(false),
     getProgress: vi.fn().mockReturnValue({}),
+    getReachableSteps: vi.fn().mockReturnValue([]),
+    getUserdata: vi.fn().mockReturnValue({}),
     isReachable: vi
       .fn()
       .mockImplementation((page: string) => page === "ergebnis/erfolg"),
     getConfig: vi.fn().mockReturnValue({}),
+    getGuards: vi.fn().mockReturnValue({}),
     isFinal: vi.fn().mockReturnValue(false),
     getPrevious: vi.fn().mockReturnValue(undefined),
     getNext: vi.fn().mockReturnValue(undefined),

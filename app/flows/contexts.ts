@@ -8,7 +8,7 @@ import { fluggastrechtContext } from "./fluggastrechteFormular/context";
 import { context as geldEinklagenFormularContext } from "./geldEinklagenFormular/context";
 import { prozesskostenhilfeFormularContext } from "./prozesskostenhilfeFormular/context";
 
-type BasicTypes = string | number | boolean;
+export type BasicTypes = string | number | boolean;
 export type ArrayData = Array<Record<string, BasicTypes>>;
 export type ObjectType = Record<
   string,
@@ -29,8 +29,6 @@ const contexts = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckContext,
   "/fluggastrechte/formular": fluggastrechtContext,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularContext,
-  // TODO: remove /prozesskostenhilfe/antrag
-  "/prozesskostenhilfe/antrag": prozesskostenhilfeFormularContext,
 } as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;
 
 export const getContext = (flowId: FlowId) => contexts[flowId];

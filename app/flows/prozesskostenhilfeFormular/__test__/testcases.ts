@@ -17,7 +17,7 @@ const cases = [
     happyPathData,
     [
       "start/start",
-      "finanzielle-angaben/start",
+      "finanzielle-angaben/partner/start",
       "finanzielle-angaben/partner/partnerschaft",
       "finanzielle-angaben/partner/zusammenleben",
       "finanzielle-angaben/partner/partner-einkommen",
