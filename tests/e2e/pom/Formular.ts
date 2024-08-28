@@ -87,4 +87,13 @@ export class Formular {
     await this.fillDropdown(field, value);
     await this.clickNext();
   }
+
+  async fillAutoSuggestInputPage(field: string, value: string) {
+    await this.page.waitForSelector(`[data-testid=${field}-loaded]`);
+    await this.page.locator(`input[id="${field}"]`).fill(value);
+    const menuItem = this.page
+      .getByTestId("auto-suggest-input-menu-item")
+      .first();
+    await menuItem.dispatchEvent("click");
+  }
 }
