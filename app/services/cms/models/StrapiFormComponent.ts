@@ -4,6 +4,7 @@ import { StrapiCheckboxComponentSchema } from "../components/StrapiCheckbox";
 import { StrapiDateInputComponentSchema } from "../components/StrapiDateInput";
 import { StrapiDropdownComponentSchema } from "../components/StrapiDropdown";
 import { StrapiFileInputComponentSchema } from "../components/StrapiFileInput";
+import { StrapiHiddenInputComponentSchema } from "../components/StrapiHiddenInput";
 import { StrapiInputComponentSchema } from "../components/StrapiInput";
 import { StrapiSelectComponentSchema } from "../components/StrapiSelect";
 import { StrapiTextareaComponentSchema } from "../components/StrapiTextarea";
@@ -21,6 +22,7 @@ export const StrapiFormComponentSchema = z.discriminatedUnion("__component", [
   StrapiCheckboxComponentSchema,
   StrapiTileGroupComponentSchema,
   StrapiAutoSuggestInputComponentSchema,
+  StrapiHiddenInputComponentSchema,
 ]);
 
 export type StrapiFormComponent = z.infer<typeof StrapiFormComponentSchema>;
