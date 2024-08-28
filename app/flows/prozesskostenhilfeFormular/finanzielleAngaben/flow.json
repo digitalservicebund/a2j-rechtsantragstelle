@@ -52,7 +52,7 @@
               "id": "erwerbstaetig",
               "on": {
                 "SUBMIT": [
-                  { "guard": "notEmployed", "target": "#rente" },
+                  { "guard": "notEmployed", "target": "#rente-frage" },
                   "art"
                 ],
                 "BACK": [
@@ -182,7 +182,7 @@
                         "guard": "hasAndereArbeitsausgaben",
                         "target": "uebersicht"
                       },
-                      "#einkuenfte.rente"
+                      "#einkuenfte.rente-frage"
                     ],
                     "BACK": [
                       {
@@ -204,7 +204,7 @@
                 "uebersicht": {
                   "id": "uebersicht",
                   "on": {
-                    "SUBMIT": "#einkuenfte.rente",
+                    "SUBMIT": "#einkuenfte.rente-frage",
                     "BACK": "arbeitsausgaben-frage",
                     "add-arbeitsausgaben": {
                       "guard": "isValidArbeitsausgabenArrayIndex",
@@ -227,16 +227,68 @@
             }
           }
         },
-        "rente": {
-          "id": "rente",
+        "rente-frage": {
+          "id": "rente-frage",
           "on": {
-            "SUBMIT": "#partner",
+            "SUBMIT": [
+              {
+                "guard": "receivesPension",
+                "target": "rente"
+              },
+              "unterhalt-frage"
+            ],
             "BACK": [
+              {
+                "guard": "notEmployed",
+                "target": "einkommen"
+              },
               {
                 "guard": "hasAndereArbeitsausgaben",
                 "target": "#abzuege.arbeitsausgaben.uebersicht"
               },
               "#abzuege.arbeitsausgaben"
+            ]
+          }
+        },
+        "rente": {
+          "on": {
+            "SUBMIT": "unterhalt-frage",
+            "BACK": "rente-frage"
+          }
+        },
+        "unterhalt-frage": {
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "receivesSupport",
+                "target": "unterhalt"
+              },
+              "leistungen"
+            ],
+            "BACK": [
+              {
+                "guard": "receivesPension",
+                "target": "rente"
+              },
+              "rente-frage"
+            ]
+          }
+        },
+        "unterhalt": {
+          "on": {
+            "SUBMIT": "leistungen",
+            "BACK": "unterhalt-frage"
+          }
+        },
+        "leistungen": {
+          "on": {
+            "SUBMIT": "#partner",
+            "BACK": [
+              {
+                "guard": "receivesSupport",
+                "target": "unterhalt"
+              },
+              "unterhalt-frage"
             ]
           }
         }
@@ -252,7 +304,7 @@
         "start": {
           "on": {
             "SUBMIT": "partnerschaft",
-            "BACK": "#rente"
+            "BACK": "#einkuenfte.leistungen"
           }
         },
         "partnerschaft": {

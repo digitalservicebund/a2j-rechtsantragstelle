@@ -13,6 +13,7 @@ import {
 } from "~/flows/shared/finanzielleAngaben/context";
 import { adresseSchema } from "~/flows/shared/persoenlicheDaten/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
+import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -67,6 +68,13 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   hasArbeitsausgaben: YesNoAnswer,
   arbeitsausgaben: z.array(arbeitsausgabeSchema),
   receivesPension: YesNoAnswer,
+  pensionAmount: buildMoneyValidationSchema(),
+  receivesSupport: YesNoAnswer,
+  supportAmount: buildMoneyValidationSchema(),
+  hasWohngeld: checkedOptional,
+  hasKrankengeld: checkedOptional,
+  hasElterngeld: checkedOptional,
+  hasKindergeld: checkedOptional,
   partnerschaft: partnerschaftSchema,
   zusammenleben: YesNoAnswer,
   unterhalt: YesNoAnswer,
