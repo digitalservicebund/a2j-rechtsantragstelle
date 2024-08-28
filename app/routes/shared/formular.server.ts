@@ -110,7 +110,14 @@ export const loader = async ({
     userDataWithPageData,
   );
 
-  const stringTranslations = await getPageTranslations(arrayCategories, flowId);
+  const pageTranslations = await getPageTranslations(arrayCategories, flowId);
+
+  const stringTranslations = interpolateDeep(
+    pageTranslations,
+    "stringReplacements" in currentFlow
+      ? currentFlow.stringReplacements(userDataWithPageData, pageTranslations)
+      : {},
+  );
 
   // structure cms content -> merge with getting data?
   const cmsContent = interpolateDeep(

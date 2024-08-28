@@ -9,32 +9,45 @@ type MigrationDataProps = {
   readonly translations: Translations;
 };
 
-export default function MigrationDataOverview(props: MigrationDataProps) {
-  if (!props.migrationData || Object.keys(props.migrationData).length === 0)
-    return null;
+const getMigrationValueTranslation = (
+  translations: Translations,
+  value: string,
+  key: string,
+) => {
+  const translation = translations[value];
+
+  if (typeof translation === "undefined") {
+    return translations[`${key}.value`];
+  }
+
+  return translation;
+};
+
+export default function MigrationDataOverview({
+  translations,
+  migrationData,
+}: MigrationDataProps) {
+  if (!migrationData || Object.keys(migrationData).length === 0) return null;
   return (
     <Background backgroundColor="white">
       <Container>
         <Box
           content={{
-            markdown: Object.entries(props.migrationData)
+            markdown: Object.entries(migrationData)
               .map(([key, value]) => {
-                const formattedKey = `**${lookupOrKey(key, props.translations)}:**\n\n`;
+                const formattedKey = `**${lookupOrKey(key, translations)}:**\n\n`;
 
                 if (typeof value === "object" && value !== null) {
                   const objectProperties = Object.entries(value)
                     .map(
                       ([_, subValue]) =>
-                        `${lookupOrKey(
-                          subValue as string,
-                          props.translations,
-                        )}`,
+                        `${lookupOrKey(subValue as string, translations)}`,
                     )
                     .join("\n\n");
 
                   return `${formattedKey}\n\n${objectProperties}\n\n`;
                 } else {
-                  return `${formattedKey}${lookupOrKey(value as string, props.translations)}\n\n`;
+                  return `${formattedKey}${getMigrationValueTranslation(translations, value as string, key)}\n\n`;
                 }
               })
               .join(""),

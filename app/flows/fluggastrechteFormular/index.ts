@@ -13,6 +13,7 @@ import {
 } from "./persoenlicheDaten/doneFunctions";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import {
+  getAirlineName,
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
   getForderung,
@@ -46,6 +47,7 @@ export const fluggastrechtFlow = {
     ...getPersonNachname(context),
     ...getArrayWeiterePersonenIndexStrings(context),
     ...getWeiterePersonenNameStrings(context),
+    ...getAirlineName(context),
   }),
   config: _.merge(fluggastrechteFlow, {
     meta: {
