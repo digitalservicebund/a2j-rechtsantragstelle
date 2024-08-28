@@ -4,13 +4,93 @@
   "states": {
     "geplanter-flug": {
       "on": {
-        "SUBMIT": "zwischenstopps",
+        "SUBMIT": [
+          {
+            "target": "zwischenstopp-uebersicht-1",
+            "guard": "hasOneStop"
+          },
+          {
+            "target": "zwischenstopp-uebersicht-2",
+            "guard": "hasTwoStop"
+          },
+          {
+            "target": "zwischenstopp-uebersicht-3",
+            "guard": "hasThreeStop"
+          },
+          {
+            "target": "zwischenstopp-uebersicht-4",
+            "guard": "hasFourStop"
+          },
+          {
+            "target": "zwischenstopp-uebersicht-5",
+            "guard": "hasFiveStop"
+          },
+          {
+            "target": "tatsaechlicher-flug",
+            "guard": "hasNoZwischenstoppAndVerspaetung"
+          },
+          "ersatzverbindung-art"
+        ],
         "BACK": "#grundvorraussetzungen.daten-uebernahme"
       }
     },
-    "zwischenstopps": {
+    "zwischenstopp-uebersicht-1": {
       "on": {
-        "SUBMIT": "tatsaechlicher-flug",
+        "SUBMIT": [
+          {
+            "target": "tatsaechlicher-flug",
+            "guard": "hasVerspaetung"
+          },
+          "ersatzverbindung-art"
+        ],
+        "BACK": "geplanter-flug"
+      }
+    },
+    "zwischenstopp-uebersicht-2": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "tatsaechlicher-flug",
+            "guard": "hasVerspaetung"
+          },
+          "ersatzverbindung-art"
+        ],
+        "BACK": "geplanter-flug"
+      }
+    },
+    "zwischenstopp-uebersicht-3": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "tatsaechlicher-flug",
+            "guard": "hasVerspaetung"
+          },
+          "ersatzverbindung-art"
+        ],
+        "BACK": "geplanter-flug"
+      }
+    },
+    "zwischenstopp-uebersicht-4": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "tatsaechlicher-flug",
+            "guard": "hasVerspaetung"
+          },
+          "ersatzverbindung-art"
+        ],
+        "BACK": "geplanter-flug"
+      }
+    },
+    "zwischenstopp-uebersicht-5": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "tatsaechlicher-flug",
+            "guard": "hasVerspaetung"
+          },
+          "ersatzverbindung-art"
+        ],
         "BACK": "geplanter-flug"
       }
     },
@@ -21,9 +101,34 @@
             "target": "tatsaechlicher-flug-ankunft",
             "guard": "tatsaechlicherFlugYes"
           },
-          "ersatzverbindung-art"
+          {
+            "target": "ersatzverbindung-art",
+            "guard": "tatsaechlicherFlugNo"
+          }
         ],
-        "BACK": "zwischenstopps"
+        "BACK": [
+          {
+            "target": "zwischenstopp-uebersicht-1",
+            "guard": "hasOneStop"
+          },
+          {
+            "target": "zwischenstopp-uebersicht-2",
+            "guard": "hasTwoStop"
+          },
+          {
+            "target": "zwischenstopp-uebersicht-3",
+            "guard": "hasThreeStop"
+          },
+          {
+            "target": "zwischenstopp-uebersicht-4",
+            "guard": "hasFourStop"
+          },
+          {
+            "target": "zwischenstopp-uebersicht-5",
+            "guard": "hasFiveStop"
+          },
+          "geplanter-flug"
+        ]
       }
     },
     "tatsaechlicher-flug-ankunft": {
@@ -45,7 +150,33 @@
           },
           "zusaetzliche-angaben"
         ],
-        "BACK": "tatsaechlicher-flug"
+        "BACK": [
+          {
+            "target": "zwischenstopp-uebersicht-1",
+            "guard": "hasOneStopWithAnnullierungOrNichtBefoerderung"
+          },
+          {
+            "target": "zwischenstopp-uebersicht-2",
+            "guard": "hasTwoStopWithAnnullierungOrNichtBefoerderung"
+          },
+          {
+            "target": "zwischenstopp-uebersicht-3",
+            "guard": "hasThreeStopWithAnnullierungOrNichtBefoerderung"
+          },
+          {
+            "target": "zwischenstopp-uebersicht-4",
+            "guard": "hasFourStopWithAnnullierungOrNichtBefoerderung"
+          },
+          {
+            "target": "zwischenstopp-uebersicht-5",
+            "guard": "hasFiveStopWithAnnullierungOrNichtBefoerderung"
+          },
+          {
+            "target": "geplanter-flug",
+            "guard": "hasNoZwischenstoppNoAnnullierungOrNoNichtBefoerderung"
+          },
+          "tatsaechlicher-flug"
+        ]
       }
     },
     "anderer-flug-ankunft": {
@@ -76,10 +207,7 @@
             "target": "ersatzverbindung-beschreibung",
             "guard": "hasAndereErsatzVerbindung"
           },
-          {
-            "target": "ersatzverbindung-art",
-            "guard": "hasKeineErsatzVerbindung"
-          }
+          "ersatzverbindung-art"
         ]
       }
     }
