@@ -6,7 +6,7 @@
       "on": {
         "SUBMIT": [
           {
-            "guard": "hasStaatlicheLeistungen",
+            "guard": "hasGrundsicherungOrAsylbewerberleistungen",
             "target": "#abgabe"
           },
           { "guard": "hasBuergergeld", "target": "buergergeld" },
@@ -196,7 +196,7 @@
               "on": {
                 "SUBMIT": [
                   {
-                    "guard": "hasAndereArbeitsausgaben",
+                    "guard": "hasAndereArbeitsausgabenAndEmptyArray",
                     "target": "warnung"
                   },
                   "#einkuenfte.rente-frage"

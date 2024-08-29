@@ -3,7 +3,7 @@ import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/fl
 import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 
-export const hasStaatlicheLeistungen: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
+export const hasGrundsicherungOrAsylbewerberleistungen: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
   ({ context }) =>
     context.staatlicheLeistungenPKH === "asylbewerberleistungen" ||
     context.staatlicheLeistungenPKH === "grundsicherung";
@@ -18,7 +18,7 @@ const hasFurtherIncome: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteCon
   ({ context: { hasFurtherIncome } }) => hasFurtherIncome === "yes";
 
 export const finanzielleAngabeEinkuenfteGuards = {
-  hasStaatlicheLeistungen,
+  hasGrundsicherungOrAsylbewerberleistungen,
   hasBuergergeld: ({ context }) =>
     context.staatlicheLeistungenPKH === "buergergeld",
   hasArbeitslosengeld: ({ context }) =>

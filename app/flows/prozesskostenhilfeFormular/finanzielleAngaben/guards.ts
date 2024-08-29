@@ -1,4 +1,4 @@
-import { hasStaatlicheLeistungen } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { hasGrundsicherungOrAsylbewerberleistungen } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import {
   hasAnyEigentum,
   hasAnyEigentumExceptBankaccount,
@@ -23,7 +23,7 @@ import { yesNoGuards, type Guards } from "../../guards.server";
 
 const eigentumDoneGuard: Guards<ProzesskostenhilfeFinanzielleAngabenContext>[string] =
   ({ context }) =>
-    hasStaatlicheLeistungen({
+    hasGrundsicherungOrAsylbewerberleistungen({
       context,
     }) || eigentumDone({ context });
 

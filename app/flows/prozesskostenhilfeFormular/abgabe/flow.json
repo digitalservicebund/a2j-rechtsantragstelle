@@ -16,7 +16,7 @@
         ],
         "BACK": [
           {
-            "guard": "hasStaatlicheLeistungen",
+            "guard": "hasGrundsicherungOrAsylbewerberleistungen",
             "target": "#finanzielle-angaben.einkuenfte"
           },
           "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung"

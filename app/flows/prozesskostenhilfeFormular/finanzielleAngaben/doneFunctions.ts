@@ -1,5 +1,5 @@
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
-import { hasStaatlicheLeistungen } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { hasGrundsicherungOrAsylbewerberleistungen } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import { hasAnyEigentumExceptBankaccount } from "~/flows/shared/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
@@ -12,13 +12,13 @@ import {
   wertsachenDone,
 } from "../../shared/finanzielleAngaben/doneFunctions";
 
-export type ProzesskostenhilfeFinanzielleAngabenGuard =
+type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenContext>;
 
 export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  hasStaatlicheLeistungen({
+  hasGrundsicherungOrAsylbewerberleistungen({
     context,
   }) ||
   ["no", "widowed"].includes(context.partnerschaft ?? "") ||
@@ -30,7 +30,7 @@ export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 export const kinderDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  hasStaatlicheLeistungen({
+  hasGrundsicherungOrAsylbewerberleistungen({
     context,
   }) ||
   context.hasKinder == "no" ||
@@ -38,7 +38,7 @@ export const kinderDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 
 export const andereUnterhaltszahlungenDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
-    hasStaatlicheLeistungen({
+    hasGrundsicherungOrAsylbewerberleistungen({
       context,
     }) ||
     context.hasWeitereUnterhaltszahlungen == "no" ||
@@ -56,7 +56,7 @@ export const prozesskostenhilfeFinanzielleAngabeDone: GenericGuard<
 
 export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
-    hasStaatlicheLeistungen({
+    hasGrundsicherungOrAsylbewerberleistungen({
       context,
     }) ||
     (bankKontoDone({ context }) &&
@@ -68,7 +68,7 @@ export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGu
 export const eigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  hasStaatlicheLeistungen({
+  hasGrundsicherungOrAsylbewerberleistungen({
     context,
   }) ||
   (context.hasBankkonto !== undefined &&
