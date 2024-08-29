@@ -1,8 +1,9 @@
 import { type Translations } from "~/services/cms/index.server";
+import { getTranslationByKey } from "~/util/getTranslationByKey";
+import { lookupOrKey } from "~/util/lookupOrKey";
 import Background from "./Background";
 import Box from "./Box";
 import Container from "./Container";
-import { lookupOrKey } from "../util/lookupOrKey";
 
 type MigrationDataProps = {
   readonly migrationData?: Record<string, unknown>;
@@ -35,7 +36,7 @@ export default function MigrationDataOverview({
           content={{
             markdown: Object.entries(migrationData)
               .map(([key, value]) => {
-                const formattedKey = `**${lookupOrKey(key, translations)}:**\n\n`;
+                const formattedKey = `**${getTranslationByKey(key, translations)}**\n\n`;
 
                 if (typeof value === "object" && value !== null) {
                   const objectProperties = Object.entries(value)
@@ -46,9 +47,8 @@ export default function MigrationDataOverview({
                     .join("\n\n");
 
                   return `${formattedKey}\n\n${objectProperties}\n\n`;
-                } else {
-                  return `${formattedKey}${getMigrationValueTranslation(translations, value as string, key)}\n\n`;
                 }
+                return `${formattedKey}${getMigrationValueTranslation(translations, value as string, key)}\n\n`;
               })
               .join(""),
           }}
