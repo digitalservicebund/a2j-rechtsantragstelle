@@ -41,7 +41,6 @@ const cases = [
       "finanzielle-angaben/einkuenfte/leistungen/kindergeld",
       "finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
       "finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht",
-      "finanzielle-angaben/partner/start",
       "finanzielle-angaben/partner/partnerschaft",
       "finanzielle-angaben/partner/zusammenleben",
       "finanzielle-angaben/partner/partner-einkommen",

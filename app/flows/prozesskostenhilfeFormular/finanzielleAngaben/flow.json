@@ -8,28 +8,23 @@
         "BACK": "#antragStart"
       }
     },
+    "einkuenfte": {},
     "partner": {
       "id": "partner",
-      "initial": "start",
+      "initial": "partnerschaft",
       "on": {
-        "SUBMIT": "#kinder.kinder-frage"
+        "SUBMIT": "#kinder"
       },
       "states": {
-        "start": {
+        "partnerschaft": {
           "on": {
-            "SUBMIT": "partnerschaft",
             "BACK": [
               {
                 "guard": "hasFurtherIncome",
                 "target": "#einkuenfte.weitere-einkuenfte.uebersicht"
               },
               "#einkuenfte.weitere-einkuenfte.frage"
-            ]
-          }
-        },
-        "partnerschaft": {
-          "on": {
-            "BACK": "start",
+            ],
             "SUBMIT": [
               {
                 "guard": "hasPartnerschaftOrSeparated",
@@ -140,7 +135,7 @@
                 "guard": "hasPartnerschaftOrSeparated",
                 "target": "#partner.zusammenleben"
               },
-              "#partner.start"
+              "#partner"
             ],
             "SUBMIT": [
               {

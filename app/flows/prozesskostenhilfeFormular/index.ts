@@ -44,7 +44,7 @@ const addMonthlyAmounts = (financialEntries: Record<string, BasicTypes>[]) => {
         });
       case "quarterly":
         return _.merge(financialEntry, {
-          proMonat: `${Math.ceil(amount / 3)}€`,
+          proMonat: `${Math.ceil(amount / 4)}€`,
         });
       default:
         return financialEntry;
