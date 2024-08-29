@@ -28,8 +28,8 @@ const widthClass = (width: string) => {
     "10": "w-[16ch]",
     "16": "w-[22ch]",
     "24": "w-[30ch]",
-    "36": "w-[42ch]",
-    "54": "w-[60ch] ds-input-select-width-54",
+    "36": "w-[42ch] ds-input-select-width-54-36",
+    "54": "w-[60ch] ds-input-select-width-54-36",
   }[width];
 };
 
