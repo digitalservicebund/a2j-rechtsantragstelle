@@ -86,11 +86,12 @@ export const arbeitDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
 
 export const einkuenfteDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) =>
-    staatlicheLeistungenDone({ context }) &&
-    arbeitDone({ context }) &&
-    (!guards.receivesPension({ context }) ||
-      context.pensionAmount !== undefined) &&
-    (!guards.receivesSupport({ context }) ||
-      context.supportAmount !== undefined) &&
-    leistungenDone({ context }) &&
-    !guards.hasFurtherIncomeAndEmptyArray({ context });
+    hasGrundsicherungOrAsylbewerberleistungen({ context }) ||
+    (staatlicheLeistungenDone({ context }) &&
+      arbeitDone({ context }) &&
+      (!guards.receivesPension({ context }) ||
+        context.pensionAmount !== undefined) &&
+      (!guards.receivesSupport({ context }) ||
+        context.supportAmount !== undefined) &&
+      leistungenDone({ context }) &&
+      !guards.hasFurtherIncomeAndEmptyArray({ context }));
