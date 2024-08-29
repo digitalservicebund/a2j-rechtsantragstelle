@@ -7,9 +7,9 @@ describe("flugdatenDone", () => {
     endAirport: "FRA",
     fluggesellschaft: "LH",
     zustaendigesAmtsgericht: {
-      bezeichnung: "Amtsgericht Königs Wusterhausen",
-      strasseMitHausnummer: "Schlossplatz 4",
-      plzUndStadt: "15711 Königs Wusterhausen",
+      bezeichnung: "Amtsgericht",
+      strasseMitHausnummer: "Amtsgericht",
+      plzUndStadt: "Amtsgericht",
     },
     direktFlugnummer: "AB6303",
     direktAbflugsDatum: "10.03.2024",
