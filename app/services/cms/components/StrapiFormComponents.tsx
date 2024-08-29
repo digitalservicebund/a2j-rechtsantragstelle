@@ -4,6 +4,7 @@ import { StrapiCheckbox } from "./StrapiCheckbox";
 import { StrapiDateInput } from "./StrapiDateInput";
 import { StrapiDropdown } from "./StrapiDropdown";
 import { StrapiFileInput } from "./StrapiFileInput";
+import { StrapiHiddenInput } from "./StrapiHiddenInput";
 import { StrapiInput } from "./StrapiInput";
 import { StrapiSelect } from "./StrapiSelect";
 import { StrapiTextarea } from "./StrapiTextarea";
@@ -35,6 +36,8 @@ const FormComponent = ({
       return <StrapiCheckbox {...component} />;
     case "form-elements.tile-group":
       return <StrapiTileGroup {...component} />;
+    case "form-elements.hidden-input":
+      return <StrapiHiddenInput {...component} />;
   }
   return null;
 };

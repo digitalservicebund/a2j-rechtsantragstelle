@@ -40,7 +40,7 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
   await expectPageToBeAccessible({ page });
   await prozesskostenhilfeFormular.clickNext();
 
-  // /prozesskostenhilfe/formular/finanzielle-angaben/start
+  // /prozesskostenhilfe/formular/finanzielle-angaben/einkommen/start
   await expectPageToBeAccessible({ page });
   await prozesskostenhilfeFormular.clickNext();
 
