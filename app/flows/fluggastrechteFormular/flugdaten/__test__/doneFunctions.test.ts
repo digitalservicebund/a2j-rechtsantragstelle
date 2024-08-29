@@ -83,7 +83,7 @@ describe("flugdatenDone", () => {
           ...mockData,
           zwischenstoppAnzahl: "no",
           bereich: "annullierung",
-          andereErsatzverbindungBeschreibung: "Taxi", // Missing required fields for Andere Ersatzverbindung
+          andereErsatzverbindungBeschreibung: "Taxi",
         },
       }),
     ).toBe(false);
