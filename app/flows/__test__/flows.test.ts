@@ -44,7 +44,9 @@ function getEnabledSteps({
       context,
     );
     if (!transDest?.at(0)) {
-      console.log(`step: ${step}, transitionType: ${transitionType}`);
+      throw Error(
+        `transition destination missing for step: ${step}, transitionType: ${transitionType}`,
+      );
     }
     const { stepId } = parsePathname(transDest?.at(0) ?? "");
     return stepId;

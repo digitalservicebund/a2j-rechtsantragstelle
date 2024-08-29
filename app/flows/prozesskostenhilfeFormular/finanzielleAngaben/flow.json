@@ -359,7 +359,7 @@
             "SUBMIT": [
               {
                 "target": "#eigentum-zusammenfassung.zusammenfassung",
-                "guard": "eigentumDoneGuard"
+                "guard": "eigentumDone"
               },
               "#abgabe"
             ],
