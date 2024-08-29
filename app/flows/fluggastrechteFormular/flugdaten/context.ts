@@ -17,7 +17,6 @@ const fourYearsAgoSchema = createDateSchema({
 });
 
 export const fluggastrechteFlugdaten = {
-  zwischenstopps: YesNoAnswer,
   direktFlugnummer: flightNumberSchema,
   direktAbflugsDatum: fourYearsAgoSchema,
   direktAbflugsZeit: timeSchema,
