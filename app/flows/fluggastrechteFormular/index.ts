@@ -2,6 +2,7 @@ import _ from "lodash";
 import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
 import type { FluggastrechtContext } from "./context";
 import fluggastrechteFlow from "./flow.json";
+import { flugdatenDone } from "./flugdaten/doneFunctions";
 import flugdatenFlow from "./flugdaten/flow.json";
 import forderungDatenFlow from "./forderung/flow.json";
 import { grundvorraussetzungenDone } from "./grundvorraussetzungen/doneFunctions";
@@ -67,7 +68,7 @@ export const fluggastrechtFlow = {
       grundvorraussetzungen: _.merge(grundvorraussetzungenFlow, {
         meta: { done: grundvorraussetzungenDone },
       }),
-      flugdaten: _.merge(flugdatenFlow, {}),
+      flugdaten: _.merge(flugdatenFlow, { meta: { done: flugdatenDone } }),
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
         states: {
           person: { meta: { done: personDone } },
