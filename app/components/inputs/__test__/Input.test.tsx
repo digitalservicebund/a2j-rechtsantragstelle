@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import * as remixValidatedForm from "remix-validated-form";
-import type { SelectProps } from "../Select";
-import Select from "../Select";
+import type { InputProps } from "../Input";
+import Input from "../Input";
 
 vi.mock("remix-validated-form", () => ({
   useField: vi.fn(),
@@ -11,7 +11,7 @@ beforeEach(() => {
   vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
     error: undefined,
     getInputProps: vi.fn().mockReturnValue({
-      id: "selectId",
+      id: "inputId",
       placeholder: "Any placeholder",
     }),
     clearError: vi.fn(),
@@ -25,8 +25,12 @@ afterEach(() => {
   vi.restoreAllMocks(); // This clears all mocks after each test
 });
 
-describe("Select", () => {
+describe("Input", () => {
   const cases = [
+    { widthProps: "3", expectedClassWidth: "w-[9ch]" },
+    { widthProps: "5", expectedClassWidth: "w-[11ch]" },
+    { widthProps: "7", expectedClassWidth: "w-[13ch]" },
+    { widthProps: "10", expectedClassWidth: "w-[16ch]" },
     { widthProps: "16", expectedClassWidth: "w-[22ch]" },
     { widthProps: "24", expectedClassWidth: "w-[30ch]" },
     {
@@ -40,19 +44,18 @@ describe("Select", () => {
   ];
 
   test.each(cases)(
-    "should render Select component with width $expectedClassWidth given props width with the value $widthProps",
+    "should render Input component with width $expectedClassWidth given props width with the value $widthProps",
     ({ widthProps, expectedClassWidth }) => {
       const { container } = render(
-        <Select
-          name="select"
-          options={[]}
-          width={widthProps as SelectProps["width"]}
+        <Input
+          name="input"
+          width={widthProps as InputProps["width"]}
           label="Test Label"
           formId="formId"
         />,
       );
 
-      expect(container.querySelector("#selectId")).toHaveClass(
+      expect(container.querySelector("#inputId")).toHaveClass(
         expectedClassWidth,
       );
     },
