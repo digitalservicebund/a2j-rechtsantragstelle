@@ -2,7 +2,7 @@ import type { TestCases } from "~/flows/__test__/TestCases";
 import { machine } from "~/flows/beratungshilfeFormular/__test__/testMachine";
 import type { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
 
-const finanzielleAngabenStart = "finanzielle-angaben/start";
+const finanzielleAngabenStart = "finanzielle-angaben/einkommen/start";
 const finanzielleAngabenEinkommenStaatlicheLeistungen =
   "finanzielle-angaben/einkommen/staatliche-leistungen";
 const persoenlicheDatenStart = "persoenliche-daten/start";
