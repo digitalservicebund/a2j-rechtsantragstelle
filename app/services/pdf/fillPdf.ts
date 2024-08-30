@@ -1,7 +1,16 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { PDFDocument } from "pdf-lib";
 import type { FlowId } from "~/flows/flowIds";
+import { addDruckvermerk } from "./druckvermerk";
+import {
+  isBooleanField,
+  type BooleanField,
+  type StringField,
+} from "./fileTypes";
+import { changeBooleanField, changeStringField } from "./pdf.server";
 import { pdfs } from "./pdfs";
+import { resizeToA4 } from "./resizeToA4";
 import { logError } from "../logging";
 
 // Caching file read to survive server reload
@@ -30,8 +39,27 @@ async function readRelativeFileToBuffer(relativeFilepath: string) {
   }
 }
 
-export async function getPdfFileBuffer(flowId: FlowId) {
-  return flowId in global.__pdfFileBuffers
-    ? (global.__pdfFileBuffers[flowId] ?? ArrayBuffer.prototype)
-    : ArrayBuffer.prototype;
+export async function fillPdf(
+  flowId: FlowId,
+  values: Record<string, BooleanField | StringField>,
+) {
+  if (!(flowId in global.__pdfFileBuffers))
+    throw Error("No pdf file found for " + flowId);
+
+  const pdfDoc = await PDFDocument.load(global.__pdfFileBuffers[flowId]!);
+  const yPositionsDruckvermerk = [90, 108, 138];
+  resizeToA4(pdfDoc);
+  addDruckvermerk(pdfDoc, yPositionsDruckvermerk);
+
+  const form = pdfDoc.getForm();
+
+  Object.values(values).forEach((value) => {
+    if (isBooleanField(value)) {
+      changeBooleanField(value, form);
+    } else {
+      changeStringField(value, form);
+    }
+  });
+
+  return pdfDoc;
 }

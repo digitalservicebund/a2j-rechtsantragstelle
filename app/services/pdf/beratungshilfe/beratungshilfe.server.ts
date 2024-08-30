@@ -1,5 +1,3 @@
-import { PDFDocument } from "pdf-lib";
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import Handout from "./Handout";
@@ -16,11 +14,7 @@ import { appendAttachment } from "../appendAttachment";
 import { createAttachment } from "../attachment";
 import FormAttachment from "../attachment/FormAttachment";
 import { pdfFromReact } from "../attachment/pdfFromReact";
-import { addDruckvermerk } from "../druckvermerk";
-import { isBooleanField } from "../fileTypes";
-import { getPdfFileBuffer } from "../getPdfFileBuffer";
-import { changeBooleanField, changeStringField } from "../pdf.server";
-import { resizeToA4 } from "../resizeToA4";
+import { fillPdf } from "../fillPdf";
 export { getBeratungshilfeParameters };
 
 export async function getBeratungshilfePdfFromContext(
@@ -39,7 +33,7 @@ export async function getBeratungshilfePdfFromContext(
   fillWohnen(pdfFields, context);
   fillFooter(pdfFields, context);
 
-  const filledPdf = await generatePdf(pdfFields);
+  const filledPdf = await fillPdf("/beratungshilfe/antrag", pdfFields);
 
   if (attachmentData.length > 0) {
     await appendAttachment(
@@ -59,25 +53,4 @@ export async function getBeratungshilfePdfFromContext(
     await pdfFromReact(Handout(context, "Merkblatt")),
   );
   return filledPdf;
-}
-
-async function generatePdf(values: BeratungshilfePDF) {
-  const pdfDoc = await PDFDocument.load(
-    await getPdfFileBuffer("/beratungshilfe/antrag"),
-  );
-  const yPositionsDruckvermerk = [90, 108, 138];
-  resizeToA4(pdfDoc);
-  addDruckvermerk(pdfDoc, yPositionsDruckvermerk);
-
-  const form = pdfDoc.getForm();
-
-  Object.values(values).forEach((value) => {
-    if (isBooleanField(value)) {
-      changeBooleanField(value, form);
-    } else {
-      changeStringField(value, form);
-    }
-  });
-
-  return pdfDoc;
 }
