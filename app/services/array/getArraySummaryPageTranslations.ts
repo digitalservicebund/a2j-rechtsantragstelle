@@ -1,10 +1,9 @@
 import { type Translations, fetchTranslations } from "../cms/index.server";
 
-export async function getPageTranslations(
+export async function getArraySummaryPageTranslations(
   arrayCategories: string[],
-  flowId: string,
 ): Promise<Translations> {
-  const translationsToFetch = [...arrayCategories, "arrayLabels", flowId];
+  const translationsToFetch = [...arrayCategories, "arrayLabels"];
 
   const categoryTranslationsArray = await Promise.all(
     translationsToFetch.map((category) => fetchTranslations(category)),
