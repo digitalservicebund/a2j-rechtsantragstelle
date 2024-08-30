@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@testing-library/react";
-import Video from "~/components/Video/Video";
+import Video from "~/components/video/Video";
 
 const VIDEO_URL = "https://www.youtube.com/watch?v=ZZ0o6NFCJeI";
 

@@ -5,6 +5,8 @@ import fluggastrechteFlow from "./flow.json";
 import { flugdatenDone } from "./flugdaten/doneFunctions";
 import flugdatenFlow from "./flugdaten/flow.json";
 import forderungDatenFlow from "./forderung/flow.json";
+import { grundvorraussetzungenDone } from "./grundvorraussetzungen/doneFunctions";
+import grundvorraussetzungenFlow from "./grundvorraussetzungen/flow.json";
 import { fluggastrechteGuards } from "./guards";
 import {
   personDone,
@@ -12,6 +14,7 @@ import {
 } from "./persoenlicheDaten/doneFunctions";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import {
+  getAirlineName,
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
   getForderung,
@@ -45,6 +48,7 @@ export const fluggastrechtFlow = {
     ...getPersonNachname(context),
     ...getArrayWeiterePersonenIndexStrings(context),
     ...getWeiterePersonenNameStrings(context),
+    ...getAirlineName(context),
   }),
   config: _.merge(fluggastrechteFlow, {
     meta: {
@@ -61,6 +65,9 @@ export const fluggastrechtFlow = {
       },
     },
     states: {
+      grundvorraussetzungen: _.merge(grundvorraussetzungenFlow, {
+        meta: { done: grundvorraussetzungenDone },
+      }),
       flugdaten: _.merge(flugdatenFlow, { meta: { done: flugdatenDone } }),
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
         states: {

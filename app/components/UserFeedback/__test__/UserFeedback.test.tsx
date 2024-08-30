@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import UserFeedback, {
   BannerState,
   USER_FEEDBACK_ID,
-} from "~/components/UserFeedback";
+} from "~/components/userFeedback";
 
 describe("UserFeedback", () => {
   const mockedProps = {

@@ -1,5 +1,5 @@
 import { type Session } from "@remix-run/node";
-import type { BannerState } from "~/components/UserFeedback";
+import type { BannerState } from "~/components/userFeedback";
 
 export const bannerStateName = "bannerState";
 

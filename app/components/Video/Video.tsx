@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import Container from "~/components/Container";
-import { useCookieConsent } from "~/components/CookieBanner/CookieConsentContext";
-import { DataProtectionBanner } from "~/components/Video/DataProtectionBanner";
-import { useVideoTranslations } from "~/components/Video/VideoTranslationContext";
+import { DataProtectionBanner } from "~/components/video/DataProtectionBanner";
+import { useVideoTranslations } from "~/components/video/VideoTranslationContext";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
 import { getYoutubeVideoId } from "~/util/url";
 
@@ -14,8 +13,7 @@ type VideoProps = {
 const THUMBNAIL_TRANSLATION_KEY = "video-thumbnail";
 
 const Video = ({ title, url }: VideoProps) => {
-  const { hasTrackingConsent } = useCookieConsent();
-  const [cookiesAccepted, setCookiesAccepted] = useState(hasTrackingConsent);
+  const [cookiesAccepted, setCookiesAccepted] = useState<boolean>();
   const { translations } = useVideoTranslations();
   const ytVideoId = getYoutubeVideoId(url);
 
@@ -37,13 +35,6 @@ const Video = ({ title, url }: VideoProps) => {
       allowFullScreen
     ></iframe>
   );
-
-  /**
-   * Event needs to fire in the case that user accepts cookies while on a page with video
-   */
-  useEffect(() => {
-    setCookiesAccepted(hasTrackingConsent);
-  }, [hasTrackingConsent]);
 
   const acceptCookies = useCallback(() => {
     setCookiesAccepted(true);

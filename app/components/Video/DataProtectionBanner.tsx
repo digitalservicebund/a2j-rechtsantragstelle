@@ -1,7 +1,7 @@
 import Button from "~/components/Button";
 import Heading from "~/components/Heading";
 import RichText from "~/components/RichText";
-import { useVideoTranslations } from "~/components/Video/VideoTranslationContext";
+import { useVideoTranslations } from "~/components/video/VideoTranslationContext";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
 
 export const HEADER_TRANSLATION_KEY = "datenschutz-header";

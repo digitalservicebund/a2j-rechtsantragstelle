@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
-import { CookieBanner } from "~/components/CookieBanner/CookieBanner";
+import { CookieBanner } from "~/components/cookieBanner/CookieBanner";
 
 describe("CookieBanner", () => {
   const standardContent = {

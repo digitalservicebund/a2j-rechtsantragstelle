@@ -5,8 +5,8 @@ import {
   HEADER_TRANSLATION_KEY,
   DATA_PROTECTION_TRANSLATION_KEY,
   DataProtectionBanner,
-} from "~/components/Video/DataProtectionBanner";
-import { VideoTranslationContext } from "~/components/Video/VideoTranslationContext";
+} from "~/components/video/DataProtectionBanner";
+import { VideoTranslationContext } from "~/components/video/VideoTranslationContext";
 
 const TRANSLATION_KEY_RECORD = {
   [HEADER_TRANSLATION_KEY]: "Hinweis zum Datenschutz",

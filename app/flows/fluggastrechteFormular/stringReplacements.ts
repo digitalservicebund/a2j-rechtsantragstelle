@@ -1,3 +1,4 @@
+import airlines from "data/airlines/data.json";
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 import type { FluggastrechtContext } from "./context";
@@ -38,6 +39,27 @@ export function getStartAirportName({
 export function getEndAirportName({ endAirport = "" }: FluggastrechtContext) {
   const airportName = getAirportNameByIataCode(endAirport);
   return airportName.length > 0 ? { endAirport: airportName } : {};
+}
+
+function getAirlinenNameByIataCode(iataCode?: string) {
+  if (typeof iataCode === "undefined" || iataCode.length === 0) {
+    return "";
+  }
+  const airline = airlines.find((airline) => airline.iata === iataCode);
+
+  return airline?.name ?? "";
+}
+
+export function getAirlineName({
+  fluggesellschaft = "",
+}: FluggastrechtContext) {
+  if (fluggesellschaft.length === 0) {
+    return {};
+  }
+
+  const airlineName = getAirlinenNameByIataCode(fluggesellschaft);
+
+  return airlineName.length > 0 ? { airlineName: airlineName } : {};
 }
 
 export function getForderung({
