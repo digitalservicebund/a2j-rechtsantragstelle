@@ -17,7 +17,7 @@ import { logError } from "../logging";
 // See https://remix.run/docs/en/1.16.1/tutorials/jokes#connect-to-the-database
 declare global {
   // eslint-disable-next-line no-var, sonarjs/no-var
-  var __pdfFileBuffers: Partial<Record<FlowId, Buffer>>;
+  var __pdfFileBuffers: Partial<Record<FlowId, Buffer>>; // NOSONAR
 }
 
 global.__pdfFileBuffers = Object.fromEntries(
