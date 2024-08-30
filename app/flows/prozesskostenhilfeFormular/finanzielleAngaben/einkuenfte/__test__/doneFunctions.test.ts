@@ -45,7 +45,7 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
   });
 
   describe("arbeitsabzeugeDone", () => {
-    it("should return false if the user hasn't entered an arbeitsWeg", () => {
+    it("should return false if the user hasn't entered an arbeitsweg", () => {
       const done = arbeitsabzuegeDone({ context: {} });
       expect(done).toBe(false);
     });

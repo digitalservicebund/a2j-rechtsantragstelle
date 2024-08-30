@@ -32,22 +32,22 @@ export async function startFinanzielleAngabenEinkuenfte(
   );
   await formular.clickNext();
 
-  // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/einkommen/selbststaendiges
+  // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/einkommen/selbststaendig
   await expectPageToBeAccessible({ page });
   await formular.fillInput(
-    "selbststaendigesMonatlicheEinkommen",
+    "selbststaendigMonatlichesEinkommen",
     faker.finance.amount(),
   );
-  await formular.fillRadioPage("selbststaendigeBruttoNetto", "brutto");
+  await formular.fillRadioPage("selbststaendigBruttoNetto", "brutto");
 
-  // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/einkommen/selbststaendiges-abzuege
+  // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/einkommen/selbststaendig-abzuege
   await expectPageToBeAccessible({ page });
-  await formular.fillInput("selbststaendigeAbzuege", faker.finance.amount());
+  await formular.fillInput("selbststaendigAbzuege", faker.finance.amount());
   await formular.clickNext();
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsweg
   await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("arbeitsWeg", "publicTransport");
+  await formular.fillRadioPage("arbeitsweg", "publicTransport");
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/opnv-kosten
   await expectPageToBeAccessible({ page });

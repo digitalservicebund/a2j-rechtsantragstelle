@@ -66,7 +66,7 @@
                 "guard": "isEmployee",
                 "target": "netto-einkommen"
               },
-              "selbststaendiges"
+              "selbststaendig"
             ],
             "BACK": "erwerbstaetig"
           }
@@ -75,16 +75,16 @@
           "id": "netto-einkommen",
           "on": {
             "SUBMIT": [
-              { "guard": "isSelfEmployed", "target": "selbststaendiges" },
+              { "guard": "isSelfEmployed", "target": "selbststaendig" },
               "#einkuenfte.abzuege"
             ],
             "BACK": "art"
           }
         },
-        "selbststaendiges": {
-          "id": "selbststaendiges",
+        "selbststaendig": {
+          "id": "selbststaendig",
           "on": {
-            "SUBMIT": "selbststaendiges-abzuege",
+            "SUBMIT": "selbststaendig-abzuege",
             "BACK": [
               {
                 "guard": "isEmployee",
@@ -94,10 +94,10 @@
             ]
           }
         },
-        "selbststaendiges-abzuege": {
-          "id": "selbststaendiges-abzuege",
+        "selbststaendig-abzuege": {
+          "id": "selbststaendig-abzuege",
           "on": {
-            "BACK": "selbststaendiges",
+            "BACK": "selbststaendig",
             "SUBMIT": "#einkuenfte.abzuege"
           }
         }
@@ -128,7 +128,7 @@
             "BACK": [
               {
                 "guard": "isSelfEmployed",
-                "target": "#einkommen.selbststaendiges-abzuege"
+                "target": "#einkommen.selbststaendig-abzuege"
               },
               "#einkommen.netto-einkommen"
             ]
