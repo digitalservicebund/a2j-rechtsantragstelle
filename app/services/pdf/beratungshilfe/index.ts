@@ -17,21 +17,21 @@ import { pdfFromReact } from "../attachment/pdfFromReact";
 import { fillPdf } from "../fillPdf";
 export { getBeratungshilfeParameters };
 
-export async function getBeratungshilfePdfFromContext(
-  context: BeratungshilfeFormularContext,
+export async function beratungshilfePdfFromUserdata(
+  userdata: BeratungshilfeFormularContext,
 ) {
   const pdfFields = getBeratungshilfeParameters();
   const attachmentData = createAttachment();
 
-  fillHeader(attachmentData, pdfFields, context);
-  fillAngelegenheit(attachmentData, pdfFields, context);
-  fillVorraussetzungen(pdfFields, context);
-  fillEinkommen(pdfFields, context);
-  fillUnterhalt(attachmentData, pdfFields, context);
-  fillBesitz(attachmentData, pdfFields, context);
-  fillAusgaben(attachmentData, pdfFields, context);
-  fillWohnen(pdfFields, context);
-  fillFooter(pdfFields, context);
+  fillHeader(attachmentData, pdfFields, userdata);
+  fillAngelegenheit(attachmentData, pdfFields, userdata);
+  fillVorraussetzungen(pdfFields, userdata);
+  fillEinkommen(pdfFields, userdata);
+  fillUnterhalt(attachmentData, pdfFields, userdata);
+  fillBesitz(attachmentData, pdfFields, userdata);
+  fillAusgaben(attachmentData, pdfFields, userdata);
+  fillWohnen(pdfFields, userdata);
+  fillFooter(pdfFields, userdata);
 
   const filledPdf = await fillPdf("/beratungshilfe/antrag", pdfFields);
 
@@ -41,7 +41,7 @@ export async function getBeratungshilfePdfFromContext(
       await pdfFromReact(
         FormAttachment({
           entries: attachmentData,
-          header: `Anhang: Antrag auf Bewilligung von Beratungshilfe zum Antrag von ${context.vorname} ${context.nachname}`,
+          header: `Anhang: Antrag auf Bewilligung von Beratungshilfe zum Antrag von ${userdata.vorname} ${userdata.nachname}`,
           footer: "Anhang",
         }),
       ),
@@ -50,7 +50,7 @@ export async function getBeratungshilfePdfFromContext(
 
   await appendAttachment(
     filledPdf,
-    await pdfFromReact(Handout(context, "Merkblatt")),
+    await pdfFromReact(Handout(userdata, "Merkblatt")),
   );
   return filledPdf;
 }

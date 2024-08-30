@@ -1,6 +1,6 @@
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { createAttachment, newPageHint } from "~/services/pdf/attachment";
-import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import { fillKraftfahrzeug } from "~/services/pdf/beratungshilfe/sections/F_besitz/fillKraftfahrzeug";
 
 const fahrzeugWirdFuerDenArbeitswegGenutzt =

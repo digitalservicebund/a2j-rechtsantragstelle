@@ -1,10 +1,10 @@
 // @vitest-environment node
 // see https://github.com/Hopding/pdf-lib/issues/1186
-import { getBeratungshilfePdfFromContext } from "../beratungshilfe.server";
+import { beratungshilfePdfFromUserdata } from "..";
 
-describe("getBeratungshilfePdfFromContext", () => {
+describe("beratungshilfePdfFromUserdata", () => {
   it("values are set from context", async () => {
-    const pdfDoc = await getBeratungshilfePdfFromContext({
+    const pdfDoc = await beratungshilfePdfFromUserdata({
       vorname: "vorname",
       nachname: "nachname",
     });
@@ -17,7 +17,7 @@ describe("getBeratungshilfePdfFromContext", () => {
   });
 
   it("regression: documents are not changed by later instances", async () => {
-    const pdfDoc = await getBeratungshilfePdfFromContext({
+    const pdfDoc = await beratungshilfePdfFromUserdata({
       vorname: "vorname",
       nachname: "nachname",
     });
@@ -26,7 +26,7 @@ describe("getBeratungshilfePdfFromContext", () => {
       .getForm()
       .getTextField("Antragsteller (Name, Vorname ggf Geburtsname)");
 
-    await getBeratungshilfePdfFromContext({
+    await beratungshilfePdfFromUserdata({
       nachname: "nachname2",
       vorname: "vorname2",
     });

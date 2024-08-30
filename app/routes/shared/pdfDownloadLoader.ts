@@ -2,18 +2,18 @@ import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
 import type { Context } from "~/flows/contexts";
 import { parsePathname, type FlowId } from "~/flows/flowIds";
-import { getBeratungshilfePdfFromContext } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import { beratungshilfePdfFromUserdata } from "~/services/pdf/beratungshilfe";
 import { getSessionData } from "~/services/session.server";
 import { pdfDateFormat, today } from "~/util/date";
 
 const pdfConfigs = {
   "/beratungshilfe/antrag": {
-    pdfFunction: getBeratungshilfePdfFromContext,
+    pdfFunction: beratungshilfePdfFromUserdata,
     filenameFunction: (userData: Context) =>
       `Antrag_Beratungshilfe_${userData.nachname}_${pdfDateFormat(today())}.pdf`,
   },
   "/prozesskostenhilfe/formular": {
-    pdfFunction: getBeratungshilfePdfFromContext,
+    pdfFunction: beratungshilfePdfFromUserdata,
     filenameFunction: (userData: Context) =>
       `Antrag_Prozesskostenhilfe_${userData.nachname}_${pdfDateFormat(today())}.pdf`,
   },
