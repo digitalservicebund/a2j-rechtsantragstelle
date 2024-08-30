@@ -81,9 +81,9 @@ export async function startFluggastrechteFormular(
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("isProzessbevollmaechtigte", "no");
 
-  // /fluggastrechte/formular/persoenliche-daten/weitere-personen/uebersicht
+  // /fluggastrechte/formular/persoenliche-daten/weitere-personen/frage
   await expectPageToBeAccessible({ page });
-  await formular.clickNext();
+  await formular.fillRadioPage("isWeiterePersonen", "no");
 
   // /fluggastrechte/formular/forderung
   await expectPageToBeAccessible({ page });

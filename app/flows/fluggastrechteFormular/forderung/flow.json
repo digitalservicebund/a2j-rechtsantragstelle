@@ -5,7 +5,13 @@
     "forderung": {
       "on": {
         "SUBMIT": "teilentschaedigung",
-        "BACK": "#persoenliche-daten.weitere-personen.uebersicht"
+        "BACK": [
+          {
+            "guard": "isWeiterePersonenYes",
+            "target": "#persoenliche-daten.weitere-personen.uebersicht"
+          },
+          "#persoenliche-daten.weitere-personen.frage"
+        ]
       }
     },
     "teilentschaedigung": {
