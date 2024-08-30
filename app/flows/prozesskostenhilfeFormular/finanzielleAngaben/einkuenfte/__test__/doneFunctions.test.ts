@@ -49,21 +49,21 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
 
     it("should return false if the user uses public transport and hasn't entered their monthly costs, or their place of work", () => {
       const done = arbeitsabzuegeDone({
-        context: { arbeitsWeg: "publicTransport" },
+        context: { arbeitsweg: "publicTransport" },
       });
       expect(done).toBe(false);
     });
 
     it("should return false if the user uses a private vehicle and hasn't entered their place of work", () => {
       const done = arbeitsabzuegeDone({
-        context: { arbeitsWeg: "privateVehicle" },
+        context: { arbeitsweg: "privateVehicle" },
       });
       expect(done).toBe(false);
     });
 
     it("should return false if the user has additional work-related costs and hasn't entered them", () => {
       const done = arbeitsabzuegeDone({
-        context: { arbeitsWeg: "none", hasArbeitsausgaben: "yes" },
+        context: { arbeitsweg: "none", hasArbeitsausgaben: "yes" },
       });
       expect(done).toBe(false);
     });

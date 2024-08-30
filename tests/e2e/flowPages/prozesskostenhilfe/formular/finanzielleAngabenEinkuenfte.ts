@@ -13,10 +13,7 @@ export async function startFinanzielleAngabenEinkuenfte(
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/buergergeld
   await expectPageToBeAccessible({ page });
-  await formular.fillInput(
-    "buergergeld",
-    faker.finance.amount({ min: 1, max: 1000 }),
-  );
+  await formular.fillInput("buergergeld", faker.finance.amount());
   await formular.clickNext();
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig
@@ -31,7 +28,7 @@ export async function startFinanzielleAngabenEinkuenfte(
   await expectPageToBeAccessible({ page });
   await formular.fillInput(
     "nettoEinkuenfteAlsArbeitnehmer",
-    faker.finance.amount({ min: 1, max: 1000 }),
+    faker.finance.amount(),
   );
   await formular.clickNext();
 
@@ -39,16 +36,13 @@ export async function startFinanzielleAngabenEinkuenfte(
   await expectPageToBeAccessible({ page });
   await formular.fillInput(
     "selbststaendigesMonatlicheEinkommen",
-    faker.finance.amount({ min: 1, max: 1000 }),
+    faker.finance.amount(),
   );
   await formular.fillRadioPage("selbststaendigeBruttoNetto", "brutto");
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/einkommen/selbststaendiges-abzuege
   await expectPageToBeAccessible({ page });
-  await formular.fillInput(
-    "selbststaendigeAbzuege",
-    faker.finance.amount({ min: 1, max: 1000 }),
-  );
+  await formular.fillInput("selbststaendigeAbzuege", faker.finance.amount());
   await formular.clickNext();
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsweg
@@ -57,10 +51,7 @@ export async function startFinanzielleAngabenEinkuenfte(
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/opnv-kosten
   await expectPageToBeAccessible({ page });
-  await formular.fillInput(
-    "monatlicheOPNVKosten",
-    faker.finance.amount({ min: 1, max: 1000 }),
-  );
+  await formular.fillInput("monatlicheOPNVKosten", faker.finance.amount());
   await formular.clickNext();
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsplatz-entfernung
@@ -88,10 +79,7 @@ export async function startFinanzielleAngabenEinkuenfte(
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgabe/0/daten
   await expectPageToBeAccessible({ page });
   await formular.fillInput("arbeitsausgaben#beschreibung", faker.word.sample());
-  await formular.fillInput(
-    "arbeitsausgaben#betrag",
-    faker.finance.amount({ min: 1 }),
-  );
+  await formular.fillInput("arbeitsausgaben#betrag", faker.finance.amount());
   await formular.fillDropdown("arbeitsausgaben#zahlungsfrequenz", "quarterly");
   await formular.clickNext();
 
@@ -105,10 +93,7 @@ export async function startFinanzielleAngabenEinkuenfte(
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/rente
   await expectPageToBeAccessible({ page });
-  await formular.fillInputPage(
-    "pensionAmount",
-    faker.finance.amount({ min: 1 }),
-  );
+  await formular.fillInputPage("pensionAmount", faker.finance.amount());
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/unterhalt-frage
   await expectPageToBeAccessible({ page });
@@ -116,10 +101,7 @@ export async function startFinanzielleAngabenEinkuenfte(
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/unterhalt
   await expectPageToBeAccessible({ page });
-  await formular.fillInputPage(
-    "supportAmount",
-    faker.finance.amount({ min: 1 }),
-  );
+  await formular.fillInputPage("supportAmount", faker.finance.amount());
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/leistungen/frage
   await expectPageToBeAccessible({ page });
@@ -132,31 +114,19 @@ export async function startFinanzielleAngabenEinkuenfte(
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/leistungen/wohngeld
   await expectPageToBeAccessible({ page });
-  await formular.fillInputPage(
-    "wohngeldAmount",
-    faker.finance.amount({ min: 1 }),
-  );
+  await formular.fillInputPage("wohngeldAmount", faker.finance.amount());
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/leistungen/krankengeld
   await expectPageToBeAccessible({ page });
-  await formular.fillInputPage(
-    "krankengeldAmount",
-    faker.finance.amount({ min: 1 }),
-  );
+  await formular.fillInputPage("krankengeldAmount", faker.finance.amount());
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/leistungen/elterngeld
   await expectPageToBeAccessible({ page });
-  await formular.fillInputPage(
-    "elterngeldAmount",
-    faker.finance.amount({ min: 1 }),
-  );
+  await formular.fillInputPage("elterngeldAmount", faker.finance.amount());
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/leistungen/kindergeld
   await expectPageToBeAccessible({ page });
-  await formular.fillInputPage(
-    "kindergeldAmount",
-    faker.finance.amount({ min: 1 }),
-  );
+  await formular.fillInputPage("kindergeldAmount", faker.finance.amount());
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage
   await expectPageToBeAccessible({ page });
@@ -172,10 +142,7 @@ export async function startFinanzielleAngabenEinkuenfte(
     "weitereEinkuenfte#beschreibung",
     faker.word.sample(),
   );
-  await formular.fillInput(
-    "weitereEinkuenfte#betrag",
-    faker.finance.amount({ min: 1 }),
-  );
+  await formular.fillInput("weitereEinkuenfte#betrag", faker.finance.amount());
   await formular.fillDropdown("weitereEinkuenfte#zahlungsfrequenz", "monthly");
   await formular.clickNext();
 

@@ -19,9 +19,9 @@ export const staatlicheLeistungenDone: ProzesskostenhilfeFinanzielleAngabenEinku
 
 export const arbeitsabzuegeDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) => {
-    if (context.arbeitsWeg === undefined) return false;
+    if (context.arbeitsweg === undefined) return false;
 
-    const arbeitsPlatzDone =
+    const arbeitsplatzDone =
       objectKeysNonEmpty(context.arbeitsplatz, [
         "strasseHausnummer",
         "plz",
@@ -29,10 +29,10 @@ export const arbeitsabzuegeDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteG
       ]) && context.arbeitsplatzEntfernung !== undefined;
     if (
       guards.usesPublicTransit({ context }) &&
-      (context.monatlicheOPNVKosten === undefined || !arbeitsPlatzDone)
+      (context.monatlicheOPNVKosten === undefined || !arbeitsplatzDone)
     )
       return false;
-    if (guards.usesPrivateVehicle({ context }) && !arbeitsPlatzDone)
+    if (guards.usesPrivateVehicle({ context }) && !arbeitsplatzDone)
       return false;
     return !guards.hasAndereArbeitsausgabenAndEmptyArray({ context });
   };
@@ -42,9 +42,9 @@ export const einkommenDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard 
     const employeeIncomeComplete =
       context.nettoEinkuenfteAlsArbeitnehmer !== undefined;
     const selfEmploymentIncomeComplete = objectKeysNonEmpty(context, [
-      "selbststaendigesMonatlicheEinkommen",
-      "selbststaendigeBruttoNetto",
-      "selbststaendigeAbzuege",
+      "selbststaendigMonatlichesEinkommen",
+      "selbststaendigBruttoNetto",
+      "selbststaendigAbzuege",
     ]);
     switch (context.employmentType) {
       case "employedAndSelfEmployed":

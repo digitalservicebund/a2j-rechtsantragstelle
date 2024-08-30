@@ -1,8 +1,8 @@
 import { isKeyOfObject } from "./objects";
 
 export function objectKeysNonEmpty<T>(
-  object: T,
-  objectKeys: string[],
+  object: T | undefined,
+  objectKeys: Array<keyof T>,
 ): boolean {
   if (object === null || object === undefined) {
     return false;

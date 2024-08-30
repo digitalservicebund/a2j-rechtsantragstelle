@@ -30,10 +30,10 @@ export const finanzielleAngabeEinkuenfteGuards = {
   isSelfEmployed: ({ context }) =>
     context.employmentType === "selfEmployed" ||
     context.employmentType === "employedAndSelfEmployed",
-  usesPublicTransit: ({ context }) => context.arbeitsWeg === "publicTransport",
-  usesPrivateVehicle: ({ context }) => context.arbeitsWeg === "privateVehicle",
+  usesPublicTransit: ({ context }) => context.arbeitsweg === "publicTransport",
+  usesPrivateVehicle: ({ context }) => context.arbeitsweg === "privateVehicle",
   commuteMethodPlaysNoRole: ({ context }) =>
-    context.arbeitsWeg === "bike" || context.arbeitsWeg === "walking",
+    context.arbeitsweg === "bike" || context.arbeitsweg === "walking",
   hasAndereArbeitsausgaben,
   hasAndereArbeitsausgabenAndEmptyArray: ({ context }) =>
     hasAndereArbeitsausgaben({ context }) &&

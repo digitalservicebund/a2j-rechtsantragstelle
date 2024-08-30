@@ -28,12 +28,12 @@ export const arbeitsArtSchema = z.enum(
   ["employed", "selfEmployed", "employedAndSelfEmployed"],
   customRequiredErrorMessage,
 );
-export const selbststaendigeBruttoNettoSchema = z.enum(
+export const selbststaendigBruttoNettoSchema = z.enum(
   ["brutto", "netto"],
   customRequiredErrorMessage,
 );
 
-export const arbeitsWegSchema = z.enum(
+export const arbeitswegSchema = z.enum(
   ["publicTransport", "privateVehicle", "bike", "walking", "none"],
   customRequiredErrorMessage,
 );
@@ -45,10 +45,10 @@ export const prozesskostenhilfeFinanzielleAngabenEinkuenfteContext = {
   currentlyEmployed: YesNoAnswer,
   employmentType: arbeitsArtSchema,
   nettoEinkuenfteAlsArbeitnehmer: buildMoneyValidationSchema(),
-  selbststaendigesMonatlicheEinkommen: buildMoneyValidationSchema(),
-  selbststaendigeBruttoNetto: selbststaendigeBruttoNettoSchema,
-  selbststaendigeAbzuege: buildMoneyValidationSchema(),
-  arbeitsWeg: arbeitsWegSchema,
+  selbststaendigMonatlichesEinkommen: buildMoneyValidationSchema(),
+  selbststaendigBruttoNetto: selbststaendigBruttoNettoSchema,
+  selbststaendigAbzuege: buildMoneyValidationSchema(),
+  arbeitsweg: arbeitswegSchema,
   monatlicheOPNVKosten: buildMoneyValidationSchema(),
   arbeitsplatz: z.object({ ...adresseSchema }).partial(),
   arbeitsplatzEntfernung: integerSchema.refine((distance) => distance > 0, {
