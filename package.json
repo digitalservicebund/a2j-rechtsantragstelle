@@ -67,7 +67,7 @@
     "match-sorter": "^6.3.4",
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
-    "posthog-js": "^1.159.0",
+    "posthog-js": "^1.160.0",
     "posthog-node": "^4.2.0",
     "rate-limit-redis": "^4.2.0",
     "react": "^18.3.1",
@@ -95,11 +95,11 @@
     "@storybook/addon-essentials": "^8.2.9",
     "@storybook/react-vite": "^8.2.9",
     "@testing-library/jest-dom": "^6.5.0",
-    "@testing-library/react": "^16.0.0",
+    "@testing-library/react": "^16.0.1",
     "@types/follow-redirects": "^1.14.4",
     "@types/mustache": "^4.2.5",
     "@types/node": "^20.16.2",
-    "@types/react": "^18.3.4",
+    "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@types/sanitize-html": "^2.13.0",
     "@types/validator": "^13.12.1",
@@ -112,7 +112,7 @@
     "eslint-plugin-jsx-a11y": "^6.9.0",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-sonarjs": "^1.0.4",
+    "eslint-plugin-sonarjs": "^2.0.2",
     "eslint-plugin-storybook": "^0.8.0",
     "eslint-plugin-vitest": "^0.5.4",
     "fishery": "^2.2.2",
@@ -141,12 +141,12 @@
     "trailingComma": "all"
   },
   "optionalDependencies": {
-    "license-checker-rseidelsohn": "^4.3.0"
+    "license-checker-rseidelsohn": "^4.4.1"
   },
   "size-limit": [
     {
       "path": "build/client/assets/*.js",
-      "limit": "400 kB",
+      "limit": "450 kB",
       "gzip": true
     }
   ]

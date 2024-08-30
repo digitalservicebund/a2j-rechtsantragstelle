@@ -50,7 +50,7 @@ const allowedEmails = [
 ];
 
 const regexValidator = {
-  email: /(\w+@[\w.-]+\w)/g,
+  email: /(^[\w.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)/g,
   url: /((https?):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi,
 };
 

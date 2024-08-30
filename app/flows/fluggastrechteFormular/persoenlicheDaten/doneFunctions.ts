@@ -57,10 +57,14 @@ export const personDone: FluggastrechtePersoenlichDatenGuard = ({
 };
 
 export const weiterePersonenDone: FluggastrechtePersoenlichDatenGuard = ({
-  context: { weiterePersonen },
+  context: { weiterePersonen, isWeiterePersonen },
 }) => {
-  if (weiterePersonen === undefined || weiterePersonen.length === 0) {
+  if (isWeiterePersonen === "no") {
     return true;
+  }
+
+  if (typeof weiterePersonen === "undefined" || weiterePersonen.length === 0) {
+    return false;
   }
 
   const personenUnter18JahreAlt = weiterePersonen.filter((weiterePerson) => {

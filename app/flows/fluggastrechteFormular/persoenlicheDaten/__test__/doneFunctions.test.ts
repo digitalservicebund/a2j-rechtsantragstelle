@@ -19,21 +19,32 @@ const PERSONEN_DATA = {
 
 describe("navStates", () => {
   describe("weiterePersonenDone", () => {
-    it("should return true if it does not have any weiterePersonen", () => {
+    it("should return false if it does not have any weiterePersonen", () => {
       const actual = weiterePersonenDone({ context: {} });
 
+      expect(actual).toBe(false);
+    });
+
+    it("should return true given isWeiterePersonen as no", () => {
+      const actual = weiterePersonenDone({
+        context: { isWeiterePersonen: "no" },
+      });
+
       expect(actual).toBe(true);
     });
 
-    it("should return true if it has an empty array list for weiterePersonen", () => {
-      const actual = weiterePersonenDone({ context: { weiterePersonen: [] } });
+    it("should return false given isWeiterePersonen as yes and an empty array list for weiterePersonen", () => {
+      const actual = weiterePersonenDone({
+        context: { weiterePersonen: [], isWeiterePersonen: "yes" },
+      });
 
-      expect(actual).toBe(true);
+      expect(actual).toBe(false);
     });
 
-    it("should return true if it has weiterePersonen but no unter18JahreAlt", () => {
+    it("should return true given isWeiterePersonen yes and weiterePersonen but no unter18JahreAlt", () => {
       const actual = weiterePersonenDone({
         context: {
+          isWeiterePersonen: "yes",
           weiterePersonen: [
             {
               title: "",
@@ -47,9 +58,10 @@ describe("navStates", () => {
       expect(actual).toBe(true);
     });
 
-    it("should return true if it has weiterePersonen and unter18JahreAlt on with all data for the vertretung included", () => {
+    it("should return true given isWeiterePersonen as yes, weiterePersonen and unter18JahreAlt on with all data for the vertretung included", () => {
       const actual = weiterePersonenDone({
         context: {
+          isWeiterePersonen: "yes",
           weiterePersonen: [
             {
               title: "",
@@ -70,9 +82,10 @@ describe("navStates", () => {
       expect(actual).toBe(true);
     });
 
-    it("should return false if it has weiterePersonen and unter18JahreAlt on but missing all vertretung data", () => {
+    it("should return false given isWeiterePersonen as yes, weiterePersonen and unter18JahreAlt on but missing all vertretung data", () => {
       const actual = weiterePersonenDone({
         context: {
+          isWeiterePersonen: "yes",
           weiterePersonen: [
             {
               title: "",
@@ -86,9 +99,10 @@ describe("navStates", () => {
       expect(actual).toBe(false);
     });
 
-    it("should return false if it has weiterePersonen and unter18JahreAlt on but missing nachnameVertretung data", () => {
+    it("should return false given isWeiterePersonen as yes, weiterePersonen and unter18JahreAlt on but missing nachnameVertretung data", () => {
       const actual = weiterePersonenDone({
         context: {
+          isWeiterePersonen: "yes",
           weiterePersonen: [
             {
               title: "",

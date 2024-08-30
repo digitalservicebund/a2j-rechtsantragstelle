@@ -7,14 +7,14 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       url: `${prefix}/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgabe`,
       initialInputUrl: "daten",
       statementUrl: `/${prefix}/einkuenfte/abzuege/arbeitsausgaben/uebersicht`,
-      statementKey: "showAlways",
+      statementKey: "hasArbeitsausgaben",
       event: "add-arbeitsausgaben",
     },
     weitereEinkuenfte: {
       url: `${prefix}/einkuenfte/weitere-einkuenfte/einkunft`,
       initialInputUrl: "daten",
       statementUrl: `/${prefix}/einkuenfte/weitere-einkuenfte/uebersicht`,
-      statementKey: "showAlways",
+      statementKey: "hasFurtherIncome",
       event: "add-einkunft",
     },
   } satisfies Partial<Record<keyof AllContexts, ArrayConfig>>;

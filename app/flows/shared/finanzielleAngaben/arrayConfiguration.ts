@@ -1,6 +1,7 @@
 import type { AllContexts } from "~/flows/common";
 import type { ArrayConfig } from "~/services/array";
 
+// TODO: split this up into shared / BerH / PKH
 export function finanzielleAngabenArrayConfig(prefix: string) {
   return {
     bankkonten: {
@@ -60,6 +61,26 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       statementKey: "hasAusgaben",
       hiddenFields: ["hasZahlungsfrist"],
       event: "add-ausgaben",
+    },
+    versicherungen: {
+      url: `${prefix}/ausgaben-zusammenfassung/versicherungen`,
+      statementKey: "hasAusgaben",
+      initialInputUrl: "daten",
+      event: "add-versicherungen",
+    },
+    ratenzahlungen: {
+      url: `${prefix}/ausgaben-zusammenfassung/ratenzahlungen`,
+      statementKey: "hasAusgaben",
+      initialInputUrl: "daten",
+      hiddenFields: ["zahlungspflichtiger", "betragGemeinsamerAnteil"],
+      event: "add-ratenzahlungen",
+    },
+    sonstigeAusgaben: {
+      url: `${prefix}/ausgaben-zusammenfassung/sonstigeAusgaben`,
+      initialInputUrl: "daten",
+      statementKey: "hasAusgaben",
+      hiddenFields: ["zahlungspflichtiger", "betragGemeinsamerAnteil"],
+      event: "add-sonstigeAusgaben",
     },
   } satisfies Partial<Record<keyof AllContexts, ArrayConfig>>;
 }

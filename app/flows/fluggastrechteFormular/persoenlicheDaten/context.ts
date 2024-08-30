@@ -27,6 +27,7 @@ export const fluggastrechtePersoenlichDaten = {
   isProzessbevollmaechtigte: YesNoAnswer,
   vornameVollmaechtigte: stringRequiredSchema,
   vollmaechtigteNachname: stringRequiredSchema,
+  isWeiterePersonen: YesNoAnswer,
   weiterePersonen: z.array(
     z
       .object({

@@ -68,6 +68,18 @@ module.exports = {
       rules: {
         "no-console": "warn",
         "sonarjs/no-duplicate-string": "off",
+        "sonarjs/prefer-enum-initializers": "off", // currently breaks at runtime with TypeError: Cannot read properties of undefined (reading 'members')
+        "sonarjs/todo-tag": "warn",
+        "sonarjs/fixme-tag": "warn",
+        "sonarjs/no-commented-code": "warn",
+        "sonarjs/jsx-no-constructed-context-values": "warn",
+        "sonarjs/new-cap": "off",
+        "sonarjs/no-array-index-key": "warn",
+        "sonarjs/no-empty-test-file": "off",
+        "sonarjs/no-redeclare": "off",
+        "sonarjs/no-nested-functions": "warn",
+        "sonarjs/sonar-no-unused-vars": "off",
+        "sonarjs/no-unstable-nested-components": "warn", //enable later
         "@typescript-eslint/ban-ts-comment": "off", // enable later
         "@typescript-eslint/consistent-type-definitions": "off", // enable later
         "@typescript-eslint/consistent-type-imports": "warn",

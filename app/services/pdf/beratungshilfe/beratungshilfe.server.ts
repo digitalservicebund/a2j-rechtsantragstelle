@@ -85,7 +85,7 @@ async function generatePdf(values: BeratungshilfePDF) {
 // Caching file read, decryption & parsing to survive server reload
 // See https://remix.run/docs/en/1.16.1/tutorials/jokes#connect-to-the-database
 declare global {
-  // eslint-disable-next-line no-var
+  // eslint-disable-next-line no-var, sonarjs/no-var
   var __beratungshilfePdf: Buffer | undefined; // NOSONAR
 }
 

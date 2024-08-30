@@ -8,6 +8,8 @@ import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import {
   andereUnterhaltszahlungenDone,
+  ausgabenDone,
+  ausgabenZusammenfassungDone,
   eigentumDone,
   eigentumZusammenfassungDone,
   kinderDone,
@@ -55,6 +57,10 @@ export const prozesskostenhilfeFormular = {
           eigentum: { meta: { done: eigentumDone } },
           "eigentum-zusammenfassung": {
             meta: { done: eigentumZusammenfassungDone },
+          },
+          ausgaben: { meta: { done: ausgabenDone } },
+          "ausgaben-zusammenfassung": {
+            meta: { done: ausgabenZusammenfassungDone },
           },
         },
       }),

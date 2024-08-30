@@ -3,7 +3,7 @@ import type { DataListOptions } from "~/services/dataListOptions/getDataListOpti
 import useDataListOptions from "../useDataListOptions";
 
 function createFetchResponse(data: DataListOptions[], isOk: boolean) {
-  return { json: () => new Promise((resolve) => resolve(data)), ok: isOk };
+  return { json: () => Promise.resolve(data), ok: isOk };
 }
 
 afterEach(() => {

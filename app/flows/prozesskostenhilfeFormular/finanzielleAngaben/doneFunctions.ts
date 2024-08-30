@@ -2,7 +2,10 @@ import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAn
 import { hasGrundsicherungOrAsylbewerberleistungen } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import { hasAnyEigentumExceptBankaccount } from "~/flows/shared/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
-import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
+import {
+  prozesskostenhilfeFinanzielleAngabenContext,
+  type ProzesskostenhilfeFinanzielleAngabenContext,
+} from "./context";
 import type { GenericGuard } from "../../guards.server";
 import {
   bankKontoDone,
@@ -52,7 +55,9 @@ export const prozesskostenhilfeFinanzielleAngabeDone: GenericGuard<
   eigentumDone({ context }) &&
   kinderDone({ context }) &&
   eigentumZusammenfassungDone({ context }) &&
-  andereUnterhaltszahlungenDone({ context });
+  andereUnterhaltszahlungenDone({ context }) &&
+  ausgabenDone({ context }) &&
+  ausgabenZusammenfassungDone({ context });
 
 export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
@@ -78,3 +83,30 @@ export const eigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
     context.hasWertsache !== undefined &&
     (!hasAnyEigentumExceptBankaccount({ context }) ||
       context.eigentumTotalWorth !== undefined));
+
+export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  (context.hasAusgaben !== undefined &&
+    context.besondereBelastungen !== undefined) ||
+  context.hasAusgaben ==
+    prozesskostenhilfeFinanzielleAngabenContext.hasAusgaben.Enum.no;
+
+export const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    context.hasAusgaben ==
+      prozesskostenhilfeFinanzielleAngabenContext.hasAusgaben.Enum.no ||
+    hasVersicherungDone({ context }) ||
+    hasRatenzahlungDone({ context }) ||
+    hasSonstigeAusgabeDone({ context });
+
+export const hasVersicherungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) => arrayIsNonEmpty(context.versicherungen);
+
+export const hasRatenzahlungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) => arrayIsNonEmpty(context.ratenzahlungen);
+
+export const hasSonstigeAusgabeDone: ProzesskostenhilfeFinanzielleAngabenGuard =
+  ({ context }) => arrayIsNonEmpty(context.sonstigeAusgaben);
