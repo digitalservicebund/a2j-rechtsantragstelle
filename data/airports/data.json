@@ -468,6 +468,15 @@
     "city": "Qualicum Beach"
   },
   {
+    "iata": "YZA",
+    "country_code": "CA",
+    "country": "Kanada",
+    "airport": "Cache Creek-Ashcroft Regional Flughafen",
+    "latitude": 50.775258,
+    "longitude": -121.321314,
+    "city": "Cache Creek/Ashcroft"
+  },
+  {
     "iata": "ZEL",
     "country_code": "CA",
     "country": "Kanada",
@@ -601,6 +610,15 @@
     "latitude": 34.559399,
     "longitude": 105.860001,
     "city": "Tianshui"
+  },
+  {
+    "iata": "DDG",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Dandong Langtou Flughafen",
+    "latitude": 40.0247,
+    "longitude": 124.286003,
+    "city": "Dandong"
   },
   {
     "iata": "DDR",
@@ -1021,8 +1039,8 @@
     "country_code": "CA",
     "country": "Kanada",
     "airport": "Lloydminster Flughafen",
-    "latitude": 53.309200286865234,
-    "longitude": -110.072998046875,
+    "latitude": 53.3092,
+    "longitude": -110.072998,
     "city": "Lloydminster"
   },
   {
@@ -1075,8 +1093,8 @@
     "country_code": "CA",
     "country": "Kanada",
     "airport": "Natashquan Flughafen",
-    "latitude": 50.189998626708984,
-    "longitude": -61.78919982910156,
+    "latitude": 50.190114,
+    "longitude": -61.78898,
     "city": "Natashquan"
   },
   {
@@ -1201,9 +1219,9 @@
     "country_code": "CA",
     "country": "Kanada",
     "airport": "Muskoka Flughafen",
-    "latitude": 44.974757,
-    "longitude": -79.306526,
-    "city": "Muskoka"
+    "latitude": 44.975376,
+    "longitude": -79.306546,
+    "city": "Gravenhurst"
   },
   {
     "iata": "YQB",
@@ -1354,8 +1372,8 @@
     "country_code": "CA",
     "country": "Kanada",
     "airport": "Roberval Flughafen",
-    "latitude": 48.52000045776367,
-    "longitude": -72.2656021118164,
+    "latitude": 48.519665,
+    "longitude": -72.265735,
     "city": "Roberval"
   },
   {
@@ -2830,8 +2848,8 @@
     "country_code": "EE",
     "country": "Estland",
     "airport": "Lennart Meri Tallinn Flughafen",
-    "latitude": 59.41443,
-    "longitude": 24.832706,
+    "latitude": 59.413246,
+    "longitude": 24.83264,
     "city": "Tallinn"
   },
   {
@@ -3114,6 +3132,15 @@
     "city": "Liverpool"
   },
   {
+    "iata": "LTN",
+    "country_code": "GB",
+    "country": "Vereinigtes Königreich",
+    "airport": "London Luton Flughafen",
+    "latitude": 51.874699,
+    "longitude": -0.368333,
+    "city": "London"
+  },
+  {
     "iata": "BOH",
     "country_code": "GB",
     "country": "Vereinigtes Königreich",
@@ -3168,6 +3195,15 @@
     "city": "Jersey"
   },
   {
+    "iata": "LGW",
+    "country_code": "GB",
+    "country": "Vereinigtes Königreich",
+    "airport": "London Gatwick Flughafen",
+    "latitude": 51.148771,
+    "longitude": -0.192089,
+    "city": "London"
+  },
+  {
     "iata": "LCY",
     "country_code": "GB",
     "country": "Vereinigtes Königreich",
@@ -3183,6 +3219,15 @@
     "airport": "London Heathrow Flughafen",
     "latitude": 51.4706,
     "longitude": -0.461941,
+    "city": "London"
+  },
+  {
+    "iata": "SEN",
+    "country_code": "GB",
+    "country": "Vereinigtes Königreich",
+    "airport": "London Southend Flughafen",
+    "latitude": 51.570562,
+    "longitude": 0.693627,
     "city": "London"
   },
   {
@@ -3229,6 +3274,15 @@
     "latitude": 55.037958,
     "longitude": -1.689577,
     "city": "Newcastle"
+  },
+  {
+    "iata": "MME",
+    "country_code": "GB",
+    "country": "Vereinigtes Königreich",
+    "airport": "Teesside International Flughafen",
+    "latitude": 54.509201,
+    "longitude": -1.42941,
+    "city": "Teesside"
   },
   {
     "iata": "EMA",
@@ -3294,6 +3348,15 @@
     "city": "Inverness"
   },
   {
+    "iata": "GLA",
+    "country_code": "GB",
+    "country": "Vereinigtes Königreich",
+    "airport": "Glasgow International Flughafen",
+    "latitude": 55.871899,
+    "longitude": -4.43306,
+    "city": "Glasgow"
+  },
+  {
     "iata": "EDI",
     "country_code": "GB",
     "country": "Vereinigtes Königreich",
@@ -3307,9 +3370,18 @@
     "country_code": "GB",
     "country": "Vereinigtes Königreich",
     "airport": "Islay Flughafen",
-    "latitude": 55.68190002441406,
-    "longitude": -6.256669998168945,
+    "latitude": 55.682708,
+    "longitude": -6.257525,
     "city": "Islay"
+  },
+  {
+    "iata": "PIK",
+    "country_code": "GB",
+    "country": "Vereinigtes Königreich",
+    "airport": "Glasgow Prestwick Flughafen",
+    "latitude": 55.502003,
+    "longitude": -4.587019,
+    "city": "Glasgow"
   },
   {
     "iata": "BEB",
@@ -3330,6 +3402,15 @@
     "city": "Dundee"
   },
   {
+    "iata": "SYY",
+    "country_code": "GB",
+    "country": "Vereinigtes Königreich",
+    "airport": "Stornoway Flughafen",
+    "latitude": 58.215599,
+    "longitude": -6.33111,
+    "city": "Stornoway"
+  },
+  {
     "iata": "BRR",
     "country_code": "GB",
     "country": "Vereinigtes Königreich",
@@ -3348,6 +3429,15 @@
     "city": "Tiree"
   },
   {
+    "iata": "NWI",
+    "country_code": "GB",
+    "country": "Vereinigtes Königreich",
+    "airport": "Norwich Flughafen",
+    "latitude": 52.6758,
+    "longitude": 1.28278,
+    "city": "Norwich"
+  },
+  {
     "iata": "STN",
     "country_code": "GB",
     "country": "Vereinigtes Königreich",
@@ -3361,8 +3451,8 @@
     "country_code": "GB",
     "country": "Vereinigtes Königreich",
     "airport": "Exeter International Flughafen",
-    "latitude": 50.734402,
-    "longitude": -3.41389,
+    "latitude": 50.734261,
+    "longitude": -3.413984,
     "city": "Exeter"
   },
   {
@@ -3505,8 +3595,8 @@
     "country_code": "DK",
     "country": "Dänemark",
     "airport": "Billund Flughafen",
-    "latitude": 55.740496,
-    "longitude": 9.160452,
+    "latitude": 55.740335,
+    "longitude": 9.157019,
     "city": "Billund"
   },
   {
@@ -3540,9 +3630,9 @@
     "iata": "ODE",
     "country_code": "DK",
     "country": "Dänemark",
-    "airport": "Odense Flughafen",
-    "latitude": 55.47669982910156,
-    "longitude": 10.330900192260742,
+    "airport": "Odense Hans Christian Andersen Flughafen",
+    "latitude": 55.475307,
+    "longitude": 10.327206,
     "city": "Odense"
   },
   {
@@ -3552,7 +3642,7 @@
     "airport": "Copenhagen Roskilde Flughafen",
     "latitude": 55.585602,
     "longitude": 12.1314,
-    "city": "Copenhagen"
+    "city": "Roskilde"
   },
   {
     "iata": "RNN",
@@ -3609,6 +3699,24 @@
     "city": "Luxemburg"
   },
   {
+    "iata": "AES",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Ålesund Flughafen",
+    "latitude": 62.5625,
+    "longitude": 6.1197,
+    "city": "Alesund"
+  },
+  {
+    "iata": "ANX",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Andøya Flughafen",
+    "latitude": 69.292503,
+    "longitude": 16.144199,
+    "city": "Andenes"
+  },
+  {
     "iata": "ALF",
     "country_code": "NO",
     "country": "Norwegen",
@@ -3618,6 +3726,15 @@
     "city": "Alta"
   },
   {
+    "iata": "BNN",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Brønnøysund Flughafen",
+    "latitude": 65.461098,
+    "longitude": 12.2175,
+    "city": "Bronnoysund"
+  },
+  {
     "iata": "BOO",
     "country_code": "NO",
     "country": "Norwegen",
@@ -3625,6 +3742,15 @@
     "latitude": 67.269203,
     "longitude": 14.3653,
     "city": "Bodo"
+  },
+  {
+    "iata": "BGO",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Bergen Flughafen",
+    "latitude": 60.2934,
+    "longitude": 5.21814,
+    "city": "Bergen"
   },
   {
     "iata": "BJF",
@@ -3645,6 +3771,15 @@
     "city": "Berlevag"
   },
   {
+    "iata": "KRS",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Kristiansand Flughafen",
+    "latitude": 58.204201,
+    "longitude": 8.08537,
+    "city": "Kristiansand"
+  },
+  {
     "iata": "BDU",
     "country_code": "NO",
     "country": "Norwegen",
@@ -3652,6 +3787,15 @@
     "latitude": 69.055801391602,
     "longitude": 18.540399551392,
     "city": "Bardufoss"
+  },
+  {
+    "iata": "EVE",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Harstad/Narvik Flughafen",
+    "latitude": 68.491302490234,
+    "longitude": 16.678100585938,
+    "city": "Harstad/Narvik"
   },
   {
     "iata": "FRO",
@@ -3663,6 +3807,24 @@
     "city": "Floro"
   },
   {
+    "iata": "OSL",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Oslo Flughafen",
+    "latitude": 60.193901,
+    "longitude": 11.1004,
+    "city": "Oslo"
+  },
+  {
+    "iata": "HAU",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Haugesund Flughafen",
+    "latitude": 59.345299,
+    "longitude": 5.20836,
+    "city": "Haugesund"
+  },
+  {
     "iata": "HFT",
     "country_code": "NO",
     "country": "Norwegen",
@@ -3670,6 +3832,33 @@
     "latitude": 70.679702758789,
     "longitude": 23.668600082397,
     "city": "Hammerfest"
+  },
+  {
+    "iata": "HVG",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Honningsvåg Flughafen",
+    "latitude": 71.009697,
+    "longitude": 25.983601,
+    "city": "Honningsvag"
+  },
+  {
+    "iata": "KSU",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Kristiansund Flughafen",
+    "latitude": 63.111801,
+    "longitude": 7.82452,
+    "city": "Kristiansund"
+  },
+  {
+    "iata": "KKN",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Kirkenes Flughafen",
+    "latitude": 69.7258,
+    "longitude": 29.8913,
+    "city": "Kirkenes"
   },
   {
     "iata": "LKN",
@@ -3690,6 +3879,33 @@
     "city": "Mehamn"
   },
   {
+    "iata": "MOL",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Molde Flughafen",
+    "latitude": 62.744701,
+    "longitude": 7.2625,
+    "city": "Molde"
+  },
+  {
+    "iata": "MJF",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Mosjøen Flughafen",
+    "latitude": 65.783997,
+    "longitude": 13.2149,
+    "city": "Mosjoen"
+  },
+  {
+    "iata": "LKL",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Lakselv Flughafen",
+    "latitude": 70.068802,
+    "longitude": 24.973499,
+    "city": "Lakselv"
+  },
+  {
     "iata": "OLA",
     "country_code": "NO",
     "country": "Norwegen",
@@ -3697,6 +3913,33 @@
     "latitude": 63.69889831542969,
     "longitude": 9.604000091552734,
     "city": "Orland"
+  },
+  {
+    "iata": "HOV",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Ørsta-Volda Flughafen",
+    "latitude": 62.180000305176,
+    "longitude": 6.0741000175476,
+    "city": "Orsta/Volda"
+  },
+  {
+    "iata": "MQN",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Mo i Rana Flughafen",
+    "latitude": 66.363899230957,
+    "longitude": 14.301400184631,
+    "city": "Mo i Rana"
+  },
+  {
+    "iata": "RVK",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Rørvik Flughafen",
+    "latitude": 64.838302612305,
+    "longitude": 11.14610004425,
+    "city": "Rorvik"
   },
   {
     "iata": "RRS",
@@ -3708,6 +3951,42 @@
     "city": "Roros"
   },
   {
+    "iata": "LYR",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Svalbard Flughafen",
+    "latitude": 78.246101379395,
+    "longitude": 15.465600013733,
+    "city": "Longyearbyen"
+  },
+  {
+    "iata": "SVJ",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Svolvær Flughafen",
+    "latitude": 68.243301,
+    "longitude": 14.6692,
+    "city": "Svolvaer"
+  },
+  {
+    "iata": "SKN",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Stokmarknes Flughafen",
+    "latitude": 68.578827,
+    "longitude": 15.033417,
+    "city": "Stokmarknes"
+  },
+  {
+    "iata": "SRP",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Stord Flughafen",
+    "latitude": 59.791901,
+    "longitude": 5.34085,
+    "city": ""
+  },
+  {
     "iata": "SOJ",
     "country_code": "NO",
     "country": "Norwegen",
@@ -3715,6 +3994,51 @@
     "latitude": 69.786796569824,
     "longitude": 20.959400177002,
     "city": "Sorkjosen"
+  },
+  {
+    "iata": "VAW",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Vardø Flughafen",
+    "latitude": 70.355400085449,
+    "longitude": 31.044900894165,
+    "city": "Vardo"
+  },
+  {
+    "iata": "SSJ",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Sandnessjøen Flughafen",
+    "latitude": 65.956802,
+    "longitude": 12.4689,
+    "city": "Sandnessjoen"
+  },
+  {
+    "iata": "TOS",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Tromsø Flughafen",
+    "latitude": 69.683296,
+    "longitude": 18.9189,
+    "city": "Tromsö"
+  },
+  {
+    "iata": "TRF",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Sandefjord Flughafen",
+    "latitude": 59.186699,
+    "longitude": 10.2586,
+    "city": "Oslo"
+  },
+  {
+    "iata": "TRD",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Trondheim Flughafen",
+    "latitude": 63.457802,
+    "longitude": 10.924,
+    "city": "Trondheim"
   },
   {
     "iata": "VDS",
@@ -3733,6 +4057,15 @@
     "latitude": 36.479413,
     "longitude": 109.464083,
     "city": "Yan'an"
+  },
+  {
+    "iata": "SVG",
+    "country_code": "NO",
+    "country": "Norwegen",
+    "airport": "Stavanger Flughafen",
+    "latitude": 58.876701,
+    "longitude": 5.63778,
+    "city": "Stavanger"
   },
   {
     "iata": "BZG",
@@ -3802,17 +4135,17 @@
     "country_code": "PL",
     "country": "Polen",
     "airport": "Poznań-Ławica Flughafen",
-    "latitude": 52.421001,
-    "longitude": 16.8263,
+    "latitude": 52.421598,
+    "longitude": 16.823359,
     "city": "Poznan"
   },
   {
     "iata": "RDO",
     "country_code": "PL",
     "country": "Polen",
-    "airport": "Radom Flughafen",
-    "latitude": 51.389198,
-    "longitude": 21.213301,
+    "airport": "Warsaw Radom Flughafen",
+    "latitude": 51.38937,
+    "longitude": 21.214742,
     "city": "Warschau"
   },
   {
@@ -3847,8 +4180,8 @@
     "country_code": "PL",
     "country": "Polen",
     "airport": "Warsaw Chopin Flughafen",
-    "latitude": 52.1656990051,
-    "longitude": 20.967100143399996,
+    "latitude": 52.165699,
+    "longitude": 20.9671,
     "city": "Warschau"
   },
   {
@@ -3882,9 +4215,9 @@
     "iata": "GOT",
     "country_code": "SE",
     "country": "Schweden",
-    "airport": "Gothenburg-Landvetter Flughafen",
-    "latitude": 57.662799835205,
-    "longitude": 12.279800415039,
+    "airport": "Göteborg Landvetter Flughafen",
+    "latitude": 57.6628,
+    "longitude": 12.2798,
     "city": "Göteborg"
   },
   {
@@ -3955,8 +4288,8 @@
     "country_code": "SE",
     "country": "Schweden",
     "airport": "Malmö Sturup Flughafen",
-    "latitude": 55.54833,
-    "longitude": 13.35333,
+    "latitude": 55.535564,
+    "longitude": 13.376327,
     "city": "Malmö"
   },
   {
@@ -4341,7 +4674,7 @@
     "iata": "JNB",
     "country_code": "ZA",
     "country": "Südafrika",
-    "airport": "OR Tambo International Flughafen",
+    "airport": "O.R. Tambo International Flughafen",
     "latitude": -26.1392,
     "longitude": 28.246,
     "city": "Johannesburg"
@@ -5578,6 +5911,15 @@
     "latitude": 27.8148,
     "longitude": -17.8871,
     "city": "Valverde"
+  },
+  {
+    "iata": "SPC",
+    "country_code": "ES",
+    "country": "Spanien",
+    "airport": "La Palma Flughafen",
+    "latitude": 28.626499,
+    "longitude": -17.7556,
+    "city": "Santa Cruz de la Palma"
   },
   {
     "iata": "LPA",
@@ -6822,6 +7164,15 @@
     "city": "Cruz"
   },
   {
+    "iata": "JNZ",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Jinzhou Bay Flughafen",
+    "latitude": 40.936032,
+    "longitude": 121.277114,
+    "city": "Jinzhou"
+  },
+  {
     "iata": "BLD",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
@@ -7303,8 +7654,8 @@
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
     "airport": "Brunswick Golden Isles Flughafen",
-    "latitude": 31.258800506591797,
-    "longitude": -81.46649932861328,
+    "latitude": 31.258801,
+    "longitude": -81.466499,
     "city": "Brunswick"
   },
   {
@@ -7374,7 +7725,7 @@
     "iata": "BUR",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
-    "airport": "Bob Hope Flughafen",
+    "airport": "Hollywood Burbank Flughafen",
     "latitude": 34.197703,
     "longitude": -118.356378,
     "city": "Burbank"
@@ -7510,8 +7861,8 @@
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
     "airport": "Chippewa County International Flughafen",
-    "latitude": 46.25080108642578,
-    "longitude": -84.47239685058594,
+    "latitude": 46.247707,
+    "longitude": -84.471379,
     "city": "Sault Ste Marie"
   },
   {
@@ -8095,8 +8446,8 @@
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
     "airport": "Fort Dodge Regional Flughafen",
-    "latitude": 42.55149841,
-    "longitude": -94.19259644,
+    "latitude": 42.552624,
+    "longitude": -94.191237,
     "city": "Fort Dodge"
   },
   {
@@ -8193,7 +8544,7 @@
     "iata": "GGW",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
-    "airport": "Wokal Field/Glasgow-Valley County Flughafen",
+    "airport": "Glasgow Valley County Flughafen",
     "latitude": 48.212502,
     "longitude": -106.614998,
     "city": "Glasgow"
@@ -8265,7 +8616,7 @@
     "iata": "GRK",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
-    "airport": "Killeen-Fort Hood Regional Flughafen",
+    "airport": "Killeen Regional Flughafen",
     "latitude": 31.0672,
     "longitude": -97.828903,
     "city": "Killeen/Fort Hood"
@@ -8365,8 +8716,8 @@
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
     "airport": "Range Regional Flughafen",
-    "latitude": 47.3866,
-    "longitude": -92.838997,
+    "latitude": 47.384831,
+    "longitude": -92.836905,
     "city": "Hibbing/Chisholm"
   },
   {
@@ -8544,9 +8895,9 @@
     "iata": "ILG",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
-    "airport": "New Castle Flughafen",
-    "latitude": 39.67869949,
-    "longitude": -75.60649872,
+    "airport": "Wilmington Flughafen",
+    "latitude": 39.678699,
+    "longitude": -75.606499,
     "city": "Wilmington"
   },
   {
@@ -8565,7 +8916,7 @@
     "airport": "Ford Flughafen",
     "latitude": 45.81911,
     "longitude": -88.114557,
-    "city": "Iron Mountain / Kingsford"
+    "city": "Kingsford"
   },
   {
     "iata": "IND",
@@ -8868,7 +9219,7 @@
     "iata": "LGA",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
-    "airport": "La Guardia Flughafen",
+    "airport": "LaGuardia Flughafen",
     "latitude": 40.777199,
     "longitude": -73.872597,
     "city": "New York"
@@ -9229,8 +9580,8 @@
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
     "airport": "Northwest Alabama Regional Flughafen",
-    "latitude": 34.74530029,
-    "longitude": -87.61019897,
+    "latitude": 34.745123,
+    "longitude": -87.612981,
     "city": "Muscle Shoals/Florence"
   },
   {
@@ -9336,7 +9687,7 @@
     "iata": "OAK",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
-    "airport": "Metropolitan Oakland International Flughafen",
+    "airport": "San Francisco Bay Oakland International Flughafen",
     "latitude": 37.720085,
     "longitude": -122.221184,
     "city": "Oakland"
@@ -9552,7 +9903,7 @@
     "iata": "PGD",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
-    "airport": "Charlotte County Flughafen",
+    "airport": "Punta Gorda Flughafen",
     "latitude": 26.9202,
     "longitude": -81.990501,
     "city": "Punta Gorda"
@@ -9561,7 +9912,7 @@
     "iata": "PGV",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
-    "airport": "Pitt Greenville Flughafen",
+    "airport": "Pitt-Greenville Flughafen",
     "latitude": 35.635535,
     "longitude": -77.384262,
     "city": "Greenville"
@@ -9732,9 +10083,9 @@
     "iata": "PUW",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
-    "airport": "Pullman Moscow Regional Flughafen",
-    "latitude": 46.7439,
-    "longitude": -117.110001,
+    "airport": "Pullman-Moscow Regional Flughafen",
+    "latitude": 46.741601,
+    "longitude": -117.11163,
     "city": "Pullman WA/Moskau ID"
   },
   {
@@ -9787,8 +10138,8 @@
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
     "airport": "Roberts Field Flughafen",
-    "latitude": 44.2541008,
-    "longitude": -121.1500015,
+    "latitude": 44.254101,
+    "longitude": -121.150002,
     "city": "Redmond/Bend"
   },
   {
@@ -10155,7 +10506,7 @@
     "iata": "SLE",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
-    "airport": "Salem Municipal Flughafen",
+    "airport": "Salem-Willamette Valley Flughafen",
     "latitude": 44.9095,
     "longitude": -123.002998,
     "city": "Salem"
@@ -10426,8 +10777,8 @@
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
     "airport": "Trenton Mercer Flughafen",
-    "latitude": 40.27669906616211,
-    "longitude": -74.8134994506836,
+    "latitude": 40.276699,
+    "longitude": -74.813499,
     "city": "Philadelphia"
   },
   {
@@ -10515,16 +10866,16 @@
     "iata": "UIN",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
-    "airport": "Quincy Regional Baldwin Field Flughafen",
-    "latitude": 39.94269943,
-    "longitude": -91.19460297,
+    "airport": "Quincy Regional Flughafen",
+    "latitude": 39.942699,
+    "longitude": -91.194603,
     "city": "Quincy"
   },
   {
     "iata": "SCE",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
-    "airport": "University Park Flughafen",
+    "airport": "State College Regional Flughafen",
     "latitude": 40.849374,
     "longitude": -77.84852,
     "city": "State College"
@@ -10543,8 +10894,8 @@
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
     "airport": "Vernal Regional Flughafen",
-    "latitude": 40.440899,
-    "longitude": -109.510002,
+    "latitude": 40.436214,
+    "longitude": -109.511661,
     "city": "Vernal"
   },
   {
@@ -10642,8 +10993,8 @@
     "country_code": "BG",
     "country": "Bulgarien",
     "airport": "Burgas Flughafen",
-    "latitude": 42.56959915161133,
-    "longitude": 27.515199661254883,
+    "latitude": 42.569917,
+    "longitude": 27.515173,
     "city": "Burgas"
   },
   {
@@ -10714,8 +11065,8 @@
     "country_code": "HR",
     "country": "Kroatien",
     "airport": "Osijek Flughafen",
-    "latitude": 45.4627,
-    "longitude": 18.8102,
+    "latitude": 45.462355,
+    "longitude": 18.811278,
     "city": "Osijek"
   },
   {
@@ -10741,8 +11092,8 @@
     "country_code": "HR",
     "country": "Kroatien",
     "airport": "Brač Flughafen",
-    "latitude": 43.285702,
-    "longitude": 16.679701,
+    "latitude": 43.284454,
+    "longitude": 16.678362,
     "city": "Brac"
   },
   {
@@ -10750,15 +11101,15 @@
     "country_code": "HR",
     "country": "Kroatien",
     "airport": "Split Flughafen",
-    "latitude": 43.53889846801758,
-    "longitude": 16.29800033569336,
+    "latitude": 43.538898,
+    "longitude": 16.298,
     "city": "Split"
   },
   {
     "iata": "ZAG",
     "country_code": "HR",
     "country": "Kroatien",
-    "airport": "Zagreb Flughafen",
+    "airport": "Zagreb Franjo Tuđman International Flughafen",
     "latitude": 45.742901,
     "longitude": 16.0688,
     "city": "Zagreb"
@@ -11245,8 +11596,8 @@
     "country_code": "FR",
     "country": "Frankreich",
     "airport": "Lyon Saint-Exupéry Flughafen",
-    "latitude": 45.725556,
-    "longitude": 5.081111,
+    "latitude": 45.725996,
+    "longitude": 5.090139,
     "city": "Lyon"
   },
   {
@@ -11361,9 +11712,9 @@
     "iata": "TUF",
     "country_code": "FR",
     "country": "Frankreich",
-    "airport": "Tours-Val-de-Loire Flughafen",
-    "latitude": 47.4322013855,
-    "longitude": 0.727605998516,
+    "airport": "Tours Val de Loire Flughafen",
+    "latitude": 47.432201,
+    "longitude": 0.727606,
     "city": "Tours"
   },
   {
@@ -11415,9 +11766,9 @@
     "iata": "DOL",
     "country_code": "FR",
     "country": "Frankreich",
-    "airport": "Deauville-Saint-Gatien Flughafen",
-    "latitude": 49.365299,
-    "longitude": 0.154306,
+    "airport": "Deauville-Normandie Flughafen",
+    "latitude": 49.365237,
+    "longitude": 0.154481,
     "city": "Deauville"
   },
   {
@@ -11434,9 +11785,18 @@
     "country_code": "FR",
     "country": "Frankreich",
     "airport": "Caen-Carpiquet Flughafen",
-    "latitude": 49.173302,
-    "longitude": -0.45,
+    "latitude": 49.17678,
+    "longitude": -0.454883,
     "city": "Caen"
+  },
+  {
+    "iata": "LME",
+    "country_code": "FR",
+    "country": "Frankreich",
+    "airport": "Le Mans-Arnage Flughafen",
+    "latitude": 47.948604,
+    "longitude": 0.201702,
+    "city": "Le Mans, Sarthe"
   },
   {
     "iata": "RNS",
@@ -11799,6 +12159,15 @@
     "city": "Debrecen"
   },
   {
+    "iata": "PEV",
+    "country_code": "HU",
+    "country": "Ungarn",
+    "airport": "Pécs-Pogány Flughafen",
+    "latitude": 45.988891,
+    "longitude": 18.242044,
+    "city": "Pogány"
+  },
+  {
     "iata": "SOB",
     "country_code": "HU",
     "country": "Ungarn",
@@ -12153,9 +12522,9 @@
     "iata": "FLR",
     "country_code": "IT",
     "country": "Italien",
-    "airport": "Peretola Flughafen",
-    "latitude": 43.810001,
-    "longitude": 11.2051,
+    "airport": "Florence Flughafen",
+    "latitude": 43.808558,
+    "longitude": 11.202822,
     "city": "Florenz"
   },
   {
@@ -12514,17 +12883,17 @@
     "country_code": "RO",
     "country": "Rumänien",
     "airport": "Arad International Flughafen",
-    "latitude": 46.17660140991211,
-    "longitude": 21.261999130249023,
+    "latitude": 46.176601,
+    "longitude": 21.261999,
     "city": "Arad"
   },
   {
     "iata": "BCM",
     "country_code": "RO",
     "country": "Rumänien",
-    "airport": "Bacău Flughafen",
-    "latitude": 46.52190017700195,
-    "longitude": 26.91029930114746,
+    "airport": "Bacău George Enescu International  Flughafen",
+    "latitude": 46.5219,
+    "longitude": 26.910299,
     "city": "Bacau"
   },
   {
@@ -12532,8 +12901,8 @@
     "country_code": "RO",
     "country": "Rumänien",
     "airport": "Maramureș International Flughafen",
-    "latitude": 47.660598,
-    "longitude": 23.467252,
+    "latitude": 47.658444,
+    "longitude": 23.464445,
     "city": "Baia Mare"
   },
   {
@@ -12550,8 +12919,8 @@
     "country_code": "RO",
     "country": "Rumänien",
     "airport": "Mihail Kogălniceanu International Flughafen",
-    "latitude": 44.36220169067383,
-    "longitude": 28.488300323486328,
+    "latitude": 44.362202,
+    "longitude": 28.4883,
     "city": "Constanta"
   },
   {
@@ -12621,9 +12990,9 @@
     "iata": "SUJ",
     "country_code": "RO",
     "country": "Rumänien",
-    "airport": "Satu Mare Flughafen",
-    "latitude": 47.70330047607422,
-    "longitude": 22.885700225830078,
+    "airport": "Satu Mare International Flughafen",
+    "latitude": 47.7033,
+    "longitude": 22.8857,
     "city": "Satu Mare"
   },
   {
@@ -12639,7 +13008,7 @@
     "iata": "TGM",
     "country_code": "RO",
     "country": "Rumänien",
-    "airport": "Transilvania Târgu Mureş International Flughafen",
+    "airport": "Târgu Mureş Transilvania International Flughafen",
     "latitude": 46.467701,
     "longitude": 24.4125,
     "city": "Targu-Mures"
@@ -12789,12 +13158,21 @@
     "city": "Denizli"
   },
   {
+    "iata": "ISL",
+    "country_code": "TR",
+    "country": "Türkei",
+    "airport": "İstanbul Atatürk AFlughafen",
+    "latitude": 40.971913,
+    "longitude": 28.823714,
+    "city": "Istanbul"
+  },
+  {
     "iata": "BZI",
     "country_code": "TR",
     "country": "Türkei",
-    "airport": "Balıkesir Merkez Flughafen",
-    "latitude": 39.619300842285156,
-    "longitude": 27.926000595092773,
+    "airport": "Balıkesir Flughafen",
+    "latitude": 39.619301,
+    "longitude": 27.926001,
     "city": "Balikesir"
   },
   {
@@ -12820,8 +13198,8 @@
     "country_code": "TR",
     "country": "Türkei",
     "airport": "Bursa Yenişehir Flughafen",
-    "latitude": 40.2551994324,
-    "longitude": 29.5625991821,
+    "latitude": 40.255199,
+    "longitude": 29.562599,
     "city": "Bursa"
   },
   {
@@ -13077,6 +13455,24 @@
     "city": "Samsun"
   },
   {
+    "iata": "SAW",
+    "country_code": "TR",
+    "country": "Türkei",
+    "airport": "Istanbul Sabiha Gökçen International Flughafen",
+    "latitude": 40.898602,
+    "longitude": 29.3092,
+    "city": "Istanbul"
+  },
+  {
+    "iata": "IST",
+    "country_code": "TR",
+    "country": "Türkei",
+    "airport": "İstanbul AFlughafen",
+    "latitude": 41.261297,
+    "longitude": 28.741951,
+    "city": ""
+  },
+  {
     "iata": "RMO",
     "country_code": "MD",
     "country": "Moldawien",
@@ -13179,9 +13575,9 @@
     "iata": "KSC",
     "country_code": "SK",
     "country": "Slowakei",
-    "airport": "Košice Flughafen",
-    "latitude": 48.66310119628906,
-    "longitude": 21.241100311279297,
+    "airport": "Košice International Flughafen",
+    "latitude": 48.663101,
+    "longitude": 21.2411,
     "city": "Kosice"
   },
   {
@@ -13270,8 +13666,8 @@
     "country_code": "DO",
     "country": "Dominikanische Republik",
     "airport": "Casa De Campo International Flughafen",
-    "latitude": 18.450700759887695,
-    "longitude": -68.91179656982422,
+    "latitude": 18.452222,
+    "longitude": -68.911111,
     "city": "La Romana"
   },
   {
@@ -13545,6 +13941,15 @@
     "city": "Ciudad de Cozumel"
   },
   {
+    "iata": "DGO",
+    "country_code": "MX",
+    "country": "Mexiko",
+    "airport": "Aeropuerto Internacional Gral, Guadalupe Victoria Flughafen",
+    "latitude": 24.125908,
+    "longitude": -104.533904,
+    "city": "Ciudad de Durango"
+  },
+  {
     "iata": "TPQ",
     "country_code": "MX",
     "country": "Mexiko",
@@ -13557,7 +13962,7 @@
     "iata": "GDL",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional Miguel Hidalgo Flughafen",
+    "airport": "Guadalajara International Flughafen",
     "latitude": 20.523342,
     "longitude": -103.310108,
     "city": "Guadalajara"
@@ -14178,10 +14583,10 @@
     "iata": "AVI",
     "country_code": "CU",
     "country": "Kuba",
-    "airport": "Maximo Gomez Flughafen",
-    "latitude": 22.027099609375,
-    "longitude": -78.78959655761719,
-    "city": "Ciego de Avila"
+    "airport": "Máximo Gómez Flughafen",
+    "latitude": 22.0271,
+    "longitude": -78.789597,
+    "city": "Ciro Redondo"
   },
   {
     "iata": "CCC",
@@ -14296,8 +14701,8 @@
     "country_code": "CU",
     "country": "Kuba",
     "airport": "Hermanos Ameijeiras Flughafen",
-    "latitude": 20.987600326538086,
-    "longitude": -76.93579864501953,
+    "latitude": 20.9876,
+    "longitude": -76.935799,
     "city": "Las Tunas"
   },
   {
@@ -15960,7 +16365,7 @@
     "iata": "AUH",
     "country_code": "AE",
     "country": "Vereinigte Arabische Emirate",
-    "airport": "Abu Dhabi International Flughafen",
+    "airport": "Zayed International Flughafen",
     "latitude": 24.443764,
     "longitude": 54.651718,
     "city": "Abu Dhabi"
@@ -16636,8 +17041,8 @@
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
     "airport": "Haines Flughafen",
-    "latitude": 59.24380111694336,
-    "longitude": -135.5240020751953,
+    "latitude": 59.243921,
+    "longitude": -135.523925,
     "city": "Haines"
   },
   {
@@ -17017,6 +17422,15 @@
     "latitude": 14.1743,
     "longitude": 145.242996,
     "city": "Rota"
+  },
+  {
+    "iata": "SPN",
+    "country_code": "MP",
+    "country": "Nördliche Marianen",
+    "airport": "Saipan International Flughafen",
+    "latitude": 15.119,
+    "longitude": 145.729004,
+    "city": "Saipan"
   },
   {
     "iata": "GUM",
@@ -17590,8 +18004,8 @@
     "country_code": "JP",
     "country": "Japan",
     "airport": "Fukue Flughafen",
-    "latitude": 32.66630172729492,
-    "longitude": 128.83299255371094,
+    "latitude": 32.666302,
+    "longitude": 128.832993,
     "city": "Fukue"
   },
   {
@@ -21105,6 +21519,15 @@
     "city": "Lethem"
   },
   {
+    "iata": "TAO",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Qingdao Jiaodong International Flughafen",
+    "latitude": 36.361953,
+    "longitude": 120.088171,
+    "city": "Qingdao"
+  },
+  {
     "iata": "ANU",
     "country_code": "AG",
     "country": "Antigua und Barbuda",
@@ -21217,8 +21640,8 @@
     "country_code": "VI",
     "country": "Amerikanische Jungferninseln",
     "airport": "Henry E Rohlsen Flughafen",
-    "latitude": 17.701900482177734,
-    "longitude": -64.79859924316406,
+    "latitude": 17.701567,
+    "longitude": -64.801634,
     "city": "Christiansted"
   },
   {
@@ -21337,6 +21760,15 @@
     "latitude": 12.5014,
     "longitude": -70.015198,
     "city": "Oranjestad"
+  },
+  {
+    "iata": "BON",
+    "country_code": "BQ",
+    "country": "Bonaire",
+    "airport": "Flamingo International Flughafen",
+    "latitude": 12.131,
+    "longitude": -68.268501,
+    "city": "Kralendijk, Bonaire"
   },
   {
     "iata": "CUR",
@@ -22144,8 +22576,8 @@
     "country_code": "UA",
     "country": "Ukraine",
     "airport": "Uzhhorod International Flughafen",
-    "latitude": 48.634300231933594,
-    "longitude": 22.263399124145508,
+    "latitude": 48.6343,
+    "longitude": 22.263399,
     "city": "Uzhhorod"
   },
   {
@@ -22495,8 +22927,8 @@
     "country_code": "RU",
     "country": "Russische Föderation",
     "airport": "Krasnodar Pashkovsky International Flughafen",
-    "latitude": 45.034698486328,
-    "longitude": 39.170501708984,
+    "latitude": 45.034698,
+    "longitude": 39.170502,
     "city": "Krasnodar"
   },
   {
@@ -23299,6 +23731,15 @@
     "latitude": 53.504902,
     "longitude": 50.164299,
     "city": "Samara"
+  },
+  {
+    "iata": "REW",
+    "country_code": "IN",
+    "country": "Indien",
+    "airport": "Rewa Flughafen",
+    "latitude": 24.503401,
+    "longitude": 81.220299,
+    "city": "Rewa"
   },
   {
     "iata": "GDB",
@@ -25680,7 +26121,7 @@
     "iata": "NTX",
     "country_code": "ID",
     "country": "Indonesien",
-    "airport": "Ranai-Natuna Flughafen",
+    "airport": "Ranai Flughafen",
     "latitude": 3.90871,
     "longitude": 108.388,
     "city": "Natuna"
@@ -27058,8 +27499,8 @@
     "country_code": "CN",
     "country": "China",
     "airport": "Ordos Ejin Horo Flughafen",
-    "latitude": 39.493389,
-    "longitude": 109.860172,
+    "latitude": 39.491666,
+    "longitude": 109.863888,
     "city": "Ordos"
   },
   {
@@ -27801,6 +28242,15 @@
     "city": "Nanchang"
   },
   {
+    "iata": "FUG",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Fuyang Xiguan Flughafen",
+    "latitude": 32.882157,
+    "longitude": 115.734364,
+    "city": "Fuyang"
+  },
+  {
     "iata": "FOC",
     "country_code": "CN",
     "country": "China",
@@ -28440,6 +28890,24 @@
     "city": "Changchun"
   },
   {
+    "iata": "CNI",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Changhai Flughafen",
+    "latitude": 39.266667,
+    "longitude": 122.666944,
+    "city": "Changhai"
+  },
+  {
+    "iata": "CHG",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Chaoyang Flughafen",
+    "latitude": 41.538101,
+    "longitude": 120.434998,
+    "city": "Chaoyang (Liaoning)"
+  },
+  {
     "iata": "DTU",
     "country_code": "CN",
     "country": "China",
@@ -28557,6 +29025,15 @@
     "city": "Songyuan"
   },
   {
+    "iata": "DLC",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Dalian Zhoushuizi International Flughafen",
+    "latitude": 38.965698,
+    "longitude": 121.539001,
+    "city": "Dalian"
+  },
+  {
     "iata": "TNH",
     "country_code": "CN",
     "country": "China",
@@ -28566,6 +29043,15 @@
     "city": "Tonghua"
   },
   {
+    "iata": "SHE",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Shenyang Taoxian International Flughafen",
+    "latitude": 41.639801,
+    "longitude": 123.483002,
+    "city": "Shenyang"
+  },
+  {
     "iata": "YNJ",
     "country_code": "CN",
     "country": "China",
@@ -28573,5 +29059,14 @@
     "latitude": 42.8828010559,
     "longitude": 129.451004028,
     "city": "Yanji"
+  },
+  {
+    "iata": "YKH",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Yingkou Lanqi Flughafen",
+    "latitude": 40.542524,
+    "longitude": 122.3586,
+    "city": "Yingkou"
   }
 ]
