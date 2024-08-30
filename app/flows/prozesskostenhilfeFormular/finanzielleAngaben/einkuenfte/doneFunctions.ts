@@ -84,14 +84,36 @@ export const arbeitDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
     guards.notEmployed({ context }) ||
     (einkommenDone({ context }) && arbeitsabzuegeDone({ context }));
 
+export const pensionDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
+  ({ context }) => {
+    if (context.receivesPension === undefined) return false;
+    return guards.receivesPension({ context })
+      ? context.pensionAmount !== undefined
+      : true;
+  };
+
+export const supportDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
+  ({ context }) => {
+    if (context.receivesSupport === undefined) return false;
+    return guards.receivesSupport({ context })
+      ? context.supportAmount !== undefined
+      : true;
+  };
+
+export const furtherIncomeDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
+  ({ context }) => {
+    return (
+      context.hasFurtherIncome !== undefined &&
+      !guards.hasFurtherIncomeAndEmptyArray({ context })
+    );
+  };
+
 export const einkuenfteDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) =>
     hasGrundsicherungOrAsylbewerberleistungen({ context }) ||
     (staatlicheLeistungenDone({ context }) &&
       arbeitDone({ context }) &&
-      (!guards.receivesPension({ context }) ||
-        context.pensionAmount !== undefined) &&
-      (!guards.receivesSupport({ context }) ||
-        context.supportAmount !== undefined) &&
+      pensionDone({ context }) &&
+      supportDone({ context }) &&
       leistungenDone({ context }) &&
-      !guards.hasFurtherIncomeAndEmptyArray({ context }));
+      furtherIncomeDone({ context }));

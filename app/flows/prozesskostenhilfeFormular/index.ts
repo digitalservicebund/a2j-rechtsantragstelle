@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfigurations";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
@@ -34,22 +35,9 @@ export const prozesskostenhilfeFormular = {
         ...finanzielleAngabenArrayConfig(
           "/prozesskostenhilfe/formular/finanzielle-angaben",
         ),
-        arbeitsausgaben: {
-          url: "/prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgabe",
-          initialInputUrl: "daten",
-          statementUrl:
-            "/prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht",
-          statementKey: "showAlways",
-          event: "add-arbeitsausgaben",
-        },
-        weitereEinkuenfte: {
-          url: "/prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft",
-          initialInputUrl: "daten",
-          statementUrl:
-            "/prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht",
-          statementKey: "showAlways",
-          event: "add-einkunft",
-        },
+        ...pkhFormularFinanzielleAngabenArrayConfig(
+          "/prozesskostenhilfe/formular/finanzielle-angaben",
+        ),
       },
     },
     states: {

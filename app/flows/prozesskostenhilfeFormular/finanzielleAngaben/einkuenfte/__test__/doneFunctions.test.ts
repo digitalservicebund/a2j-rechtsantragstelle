@@ -4,8 +4,11 @@ import {
   arbeitsabzuegeDone,
   einkommenDone,
   einkuenfteDone,
+  furtherIncomeDone,
   leistungenDone,
+  pensionDone,
   staatlicheLeistungenDone,
+  supportDone,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 
 describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () => {
@@ -41,7 +44,7 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
     });
   });
 
-  describe.skip("arbeitsabzeugeDone", () => {
+  describe("arbeitsabzeugeDone", () => {
     it("should return false if the user hasn't entered an arbeitsWeg", () => {
       const done = arbeitsabzuegeDone({ context: {} });
       expect(done).toBe(false);
@@ -146,6 +149,56 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
 
     it('should return false if the user has further income but hasn"t entered the income', () => {
       const done = einkuenfteDone({ context: { hasFurtherIncome: "yes" } });
+      expect(done).toBe(false);
+    });
+  });
+
+  describe("pensionDone", () => {
+    it("should return false if the user hasn't stated yes or no", () => {
+      const done = pensionDone({ context: { receivesPension: undefined } });
+      expect(done).toBe(false);
+    });
+
+    it("should return false if the user stated yes but hasn't entered the amount", () => {
+      const done = pensionDone({ context: { receivesPension: "yes" } });
+      expect(done).toBe(false);
+    });
+
+    it("should return true if the user doesn't receive a pension", () => {
+      const done = pensionDone({ context: { receivesPension: "no" } });
+      expect(done).toBe(true);
+    });
+  });
+
+  describe("supportDone", () => {
+    it("should return false if the user hasn't stated yes or no", () => {
+      const done = supportDone({ context: { receivesSupport: undefined } });
+      expect(done).toBe(false);
+    });
+
+    it("should return false if the user stated yes but hasn't entered the amount", () => {
+      const done = supportDone({ context: { receivesSupport: "yes" } });
+      expect(done).toBe(false);
+    });
+
+    it("should return true if the user doesn't receive a pension", () => {
+      const done = supportDone({ context: { receivesSupport: "no" } });
+      expect(done).toBe(true);
+    });
+  });
+
+  describe("furtherIncomeDone", () => {
+    it("should return false if the user hasn't stated yes or no", () => {
+      const done = furtherIncomeDone({
+        context: { hasFurtherIncome: undefined },
+      });
+      expect(done).toBe(false);
+    });
+
+    it("should return false if the user stated yes but hasn't entered the income", () => {
+      const done = furtherIncomeDone({
+        context: { hasFurtherIncome: "yes" },
+      });
       expect(done).toBe(false);
     });
   });
