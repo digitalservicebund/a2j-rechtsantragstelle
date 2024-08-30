@@ -55,6 +55,11 @@ export const unterhaltszahlungSchema = z.object({
   monthlyPayment: buildMoneyValidationSchema(),
 });
 
+export const staatlicheLeistungen = z.enum(
+  ["grundsicherung", "asylbewerberleistungen", "buergergeld", "keine"],
+  customRequiredErrorMessage,
+);
+
 export const bankkontenArraySchema = z.array(
   z.object({
     bankName: stringRequiredSchema,

@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { staatlicheLeistungen } from "~/flows/beratungshilfeVorabcheck/context";
 import {
   besondereBelastungenSchema,
   bankkontenArraySchema,
@@ -9,6 +8,7 @@ import {
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
   partnerschaftSchema,
+  staatlicheLeistungen,
   unterhaltszahlungSchema,
   wertsachenArraySchema,
 } from "~/flows/shared/finanzielleAngaben/context";

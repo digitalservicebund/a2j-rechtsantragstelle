@@ -1,0 +1,483 @@
+{
+  "id": "einkuenfte",
+  "initial": "start",
+  "states": {
+    "start": {
+      "on": {
+        "SUBMIT": "staatliche-leistungen",
+        "BACK": "#antragStart"
+      }
+    },
+    "staatliche-leistungen": {
+      "on": {
+        "SUBMIT": [
+          {
+            "guard": "hasGrundsicherungOrAsylbewerberleistungen",
+            "target": "#abgabe"
+          },
+          { "guard": "hasBuergergeld", "target": "buergergeld" },
+
+          {
+            "guard": "hasArbeitslosengeld",
+            "target": "arbeitslosengeld"
+          },
+          "einkommen"
+        ],
+        "BACK": "start"
+      }
+    },
+    "buergergeld": {
+      "id": "buergergeld",
+      "on": {
+        "SUBMIT": "einkommen",
+        "BACK": "staatliche-leistungen"
+      }
+    },
+    "arbeitslosengeld": {
+      "id": "arbeitslosengeld",
+      "on": {
+        "SUBMIT": "einkommen",
+        "BACK": "staatliche-leistungen"
+      }
+    },
+    "einkommen": {
+      "id": "einkommen",
+      "initial": "erwerbstaetig",
+      "states": {
+        "erwerbstaetig": {
+          "id": "erwerbstaetig",
+          "on": {
+            "SUBMIT": [
+              { "guard": "notEmployed", "target": "#rente-frage" },
+              "art"
+            ],
+            "BACK": [
+              {
+                "guard": "hasBuergergeld",
+                "target": "#einkuenfte.buergergeld"
+              },
+              {
+                "guard": "hasArbeitslosengeld",
+                "target": "#einkuenfte.arbeitslosengeld"
+              },
+              "#einkuenfte.staatliche-leistungen"
+            ]
+          }
+        },
+        "art": {
+          "id": "art",
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "isEmployee",
+                "target": "netto-einkommen"
+              },
+              "selbststaendig"
+            ],
+            "BACK": "erwerbstaetig"
+          }
+        },
+        "netto-einkommen": {
+          "id": "netto-einkommen",
+          "on": {
+            "SUBMIT": [
+              { "guard": "isSelfEmployed", "target": "selbststaendig" },
+              "#einkuenfte.abzuege"
+            ],
+            "BACK": "art"
+          }
+        },
+        "selbststaendig": {
+          "id": "selbststaendig",
+          "on": {
+            "SUBMIT": "selbststaendig-abzuege",
+            "BACK": [
+              {
+                "guard": "isEmployee",
+                "target": "netto-einkommen"
+              },
+              "#einkommen.art"
+            ]
+          }
+        },
+        "selbststaendig-abzuege": {
+          "id": "selbststaendig-abzuege",
+          "on": {
+            "BACK": "selbststaendig",
+            "SUBMIT": "#einkuenfte.abzuege"
+          }
+        }
+      }
+    },
+    "abzuege": {
+      "id": "abzuege",
+      "initial": "arbeitsweg",
+      "states": {
+        "arbeitsweg": {
+          "id": "arbeitsweg",
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "usesPublicTransit",
+                "target": "opnv-kosten"
+              },
+              {
+                "guard": "usesPrivateVehicle",
+                "target": "arbeitsplatz-entfernung"
+              },
+              {
+                "guard": "commuteMethodPlaysNoRole",
+                "target": "keine-rolle"
+              },
+              "arbeitsausgaben"
+            ],
+            "BACK": [
+              {
+                "guard": "isSelfEmployed",
+                "target": "#einkommen.selbststaendig-abzuege"
+              },
+              "#einkommen.netto-einkommen"
+            ]
+          }
+        },
+        "opnv-kosten": {
+          "id": "opnv-kosten",
+          "on": {
+            "SUBMIT": "arbeitsplatz-entfernung",
+            "BACK": "arbeitsweg"
+          }
+        },
+        "arbeitsplatz-entfernung": {
+          "id": "arbeitsplatz-entfernung",
+          "on": {
+            "SUBMIT": "arbeitsausgaben",
+            "BACK": [
+              {
+                "guard": "usesPublicTransit",
+                "target": "opnv-kosten"
+              },
+              "arbeitsweg"
+            ]
+          }
+        },
+        "keine-rolle": {
+          "on": {
+            "SUBMIT": "arbeitsausgaben",
+            "BACK": "arbeitsweg"
+          }
+        },
+        "arbeitsausgaben": {
+          "id": "arbeitsausgaben",
+          "initial": "arbeitsausgaben-frage",
+          "states": {
+            "arbeitsausgaben-frage": {
+              "id": "arbeitsausgaben-frage",
+              "on": {
+                "SUBMIT": [
+                  {
+                    "guard": "hasAndereArbeitsausgaben",
+                    "target": "uebersicht"
+                  },
+                  "#einkuenfte.rente-frage"
+                ],
+                "BACK": [
+                  {
+                    "guard": "usesPublicTransit",
+                    "target": "#abzuege.arbeitsplatz-entfernung"
+                  },
+                  {
+                    "guard": "usesPrivateVehicle",
+                    "target": "#abzuege.arbeitsplatz-entfernung"
+                  },
+                  {
+                    "guard": "commuteMethodPlaysNoRole",
+                    "target": "#abzuege.keine-rolle"
+                  },
+                  "#abzuege.arbeitsweg"
+                ]
+              }
+            },
+            "uebersicht": {
+              "id": "uebersicht",
+              "on": {
+                "SUBMIT": [
+                  {
+                    "guard": "hasAndereArbeitsausgabenAndEmptyArray",
+                    "target": "warnung"
+                  },
+                  "#einkuenfte.rente-frage"
+                ],
+                "BACK": "arbeitsausgaben-frage",
+                "add-arbeitsausgaben": {
+                  "guard": "isValidArbeitsausgabenArrayIndex",
+                  "target": "arbeitsausgabe"
+                }
+              }
+            },
+            "warnung": {
+              "on": {
+                "BACK": "uebersicht",
+                "SUBMIT": "#einkuenfte.rente-frage"
+              }
+            },
+            "arbeitsausgabe": {
+              "initial": "daten",
+              "states": {
+                "daten": {
+                  "on": {
+                    "BACK": "#arbeitsausgaben.uebersicht",
+                    "SUBMIT": "#arbeitsausgaben.uebersicht"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "rente-frage": {
+      "id": "rente-frage",
+      "on": {
+        "SUBMIT": [
+          {
+            "guard": "receivesPension",
+            "target": "rente"
+          },
+          "unterhalt-frage"
+        ],
+        "BACK": [
+          {
+            "guard": "notEmployed",
+            "target": "einkommen"
+          },
+          {
+            "guard": "hasAndereArbeitsausgaben",
+            "target": "#abzuege.arbeitsausgaben.uebersicht"
+          },
+          "#abzuege.arbeitsausgaben"
+        ]
+      }
+    },
+    "rente": {
+      "on": {
+        "SUBMIT": "unterhalt-frage",
+        "BACK": "rente-frage"
+      }
+    },
+    "unterhalt-frage": {
+      "id": "unterhalt-frage",
+      "on": {
+        "SUBMIT": [
+          {
+            "guard": "receivesSupport",
+            "target": "unterhalt"
+          },
+          "leistungen"
+        ],
+        "BACK": [
+          {
+            "guard": "receivesPension",
+            "target": "rente"
+          },
+          "rente-frage"
+        ]
+      }
+    },
+    "unterhalt": {
+      "id": "unterhalt",
+      "on": {
+        "SUBMIT": "leistungen",
+        "BACK": "unterhalt-frage"
+      }
+    },
+    "leistungen": {
+      "id": "leistungen",
+      "initial": "frage",
+      "states": {
+        "frage": {
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "hasWohngeld",
+                "target": "wohngeld"
+              },
+              {
+                "guard": "hasKrankengeld",
+                "target": "krankengeld"
+              },
+              {
+                "guard": "hasElterngeld",
+                "target": "elterngeld"
+              },
+              {
+                "guard": "hasKindergeld",
+                "target": "kindergeld"
+              },
+              "#weitere-einkuenfte"
+            ],
+            "BACK": [
+              {
+                "guard": "receivesSupport",
+                "target": "#unterhalt"
+              },
+              "#unterhalt-frage"
+            ]
+          }
+        },
+        "wohngeld": {
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "hasKrankengeld",
+                "target": "krankengeld"
+              },
+              {
+                "guard": "hasElterngeld",
+                "target": "elterngeld"
+              },
+              {
+                "guard": "hasKindergeld",
+                "target": "#leistungen.kindergeld"
+              },
+              "#weitere-einkuenfte"
+            ],
+            "BACK": "frage"
+          }
+        },
+        "krankengeld": {
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "hasElterngeld",
+                "target": "elterngeld"
+              },
+              {
+                "guard": "hasKindergeld",
+                "target": "#leistungen.kindergeld"
+              },
+              "#weitere-einkuenfte"
+            ],
+            "BACK": [
+              {
+                "guard": "hasWohngeld",
+                "target": "wohngeld"
+              },
+              "frage"
+            ]
+          }
+        },
+        "elterngeld": {
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "hasKindergeld",
+                "target": "#leistungen.kindergeld"
+              },
+              "#weitere-einkuenfte"
+            ],
+            "BACK": [
+              {
+                "guard": "hasKrankengeld",
+                "target": "krankengeld"
+              },
+              {
+                "guard": "hasWohngeld",
+                "target": "wohngeld"
+              },
+              "frage"
+            ]
+          }
+        },
+        "kindergeld": {
+          "on": {
+            "SUBMIT": "#weitere-einkuenfte",
+            "BACK": [
+              {
+                "guard": "hasElterngeld",
+                "target": "elterngeld"
+              },
+              {
+                "guard": "hasKrankengeld",
+                "target": "krankengeld"
+              },
+              {
+                "guard": "hasWohngeld",
+                "target": "wohngeld"
+              },
+              "frage"
+            ]
+          }
+        }
+      }
+    },
+    "weitere-einkuenfte": {
+      "id": "weitere-einkuenfte",
+      "initial": "frage",
+      "states": {
+        "frage": {
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "hasFurtherIncome",
+                "target": "uebersicht"
+              },
+              "#partner"
+            ],
+            "BACK": [
+              {
+                "guard": "hasKindergeld",
+                "target": "#einkuenfte.leistungen.kindergeld"
+              },
+              {
+                "guard": "hasElterngeld",
+                "target": "#einkuenfte.leistungen.elterngeld"
+              },
+              {
+                "guard": "hasKrankengeld",
+                "target": "#einkuenfte.leistungen.krankengeld"
+              },
+              {
+                "guard": "hasWohngeld",
+                "target": "#einkuenfte.leistungen.wohngeld"
+              },
+              "#einkuenfte.leistungen"
+            ]
+          }
+        },
+        "uebersicht": {
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "hasFurtherIncomeAndEmptyArray",
+                "target": "warnung"
+              },
+              "#partner"
+            ],
+            "BACK": "frage",
+            "add-einkunft": {
+              "guard": "isValidEinkuenfteArrayIndex",
+              "target": "einkunft"
+            }
+          }
+        },
+        "warnung": {
+          "on": {
+            "BACK": "uebersicht",
+            "SUBMIT": "#partner"
+          }
+        },
+        "einkunft": {
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "BACK": "#weitere-einkuenfte.uebersicht",
+                "SUBMIT": "#weitere-einkuenfte.uebersicht"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
