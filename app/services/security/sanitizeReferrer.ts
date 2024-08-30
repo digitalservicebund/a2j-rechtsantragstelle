@@ -1,9 +1,15 @@
-export function sanitizeReferrer(referrer: string, origin: string) {
-  const rootPath = "/";
+const ROOT_PATH = "/";
 
-  if (referrer === "") return rootPath;
+export function sanitizeReferrer({
+  referrer,
+  origin,
+}: {
+  referrer: string;
+  origin: string;
+}) {
+  if (referrer === "") return ROOT_PATH;
 
   const parsedReferral = new URL(referrer);
   const referralOrigin = parsedReferral.origin;
-  return referralOrigin === origin ? referrer : rootPath;
+  return referralOrigin === origin ? referrer : ROOT_PATH;
 }
