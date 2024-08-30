@@ -4,6 +4,7 @@ import { useField } from "remix-validated-form";
 import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
+import { widthClassname } from "./width";
 
 export type SelectProps = {
   name: string;
@@ -14,15 +15,6 @@ export type SelectProps = {
   errorMessages?: ErrorMessageProps[];
   width?: "16" | "24" | "36" | "54";
   formId?: string;
-};
-
-const widthClass = (width: string) => {
-  return {
-    "16": "w-[22ch]",
-    "24": "w-[30ch]",
-    "36": "w-[42ch] ds-input-select-width-54-36",
-    "54": "w-[60ch] ds-input-select-width-54-36",
-  }[width];
 };
 
 const Select = ({
@@ -40,8 +32,9 @@ const Select = ({
     "ds-select",
     {
       "has-error": error,
+      "ds-input-select-width-54-36": width === "36" || width === "54",
     },
-    width && widthClass(width),
+    widthClassname(width),
   );
   const errorId = `${name}-error`;
 
