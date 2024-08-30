@@ -38,9 +38,7 @@ function getSubflowPaths(flowController: FlowController): Path[] {
   return Object.entries(flowController.getRootMeta()?.arrays ?? {})
     .filter(
       ([key, arrayConfig]) =>
-        userData[key] &&
-        (userData[arrayConfig.statementKey] === "yes" ||
-          arrayConfig.statementKey.valueOf() === "showAlways"), //TODO - Remove this condition later
+        userData[key] && userData[arrayConfig.statementKey] === "yes",
     )
     .filter(([_key, arrayConfig]) => {
       // Filter arrays who's first step is not reachable from the main flow
