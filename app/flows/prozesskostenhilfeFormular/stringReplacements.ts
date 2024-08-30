@@ -1,6 +1,8 @@
 import type { ProzesskostenhilfeFormularContext } from ".";
 import {
   andereUnterhaltszahlungenDone,
+  ausgabenDone,
+  ausgabenZusammenfassungDone,
   eigentumDone,
   eigentumZusammenfassungDone,
   kinderDone,
@@ -19,5 +21,9 @@ export const getMissingInformationStrings = (
     eigentumMissingInformation: !eigentumDone({ context }),
     eigentumZusammenfassungMissingInformation:
       !eigentumZusammenfassungDone({ context }) && eigentumDone({ context }),
+    ausgabenMissingInformation: !ausgabenDone({ context }),
+    ausgabenZusammenfassungMissingInformation: !ausgabenZusammenfassungDone({
+      context,
+    }),
   };
 };
