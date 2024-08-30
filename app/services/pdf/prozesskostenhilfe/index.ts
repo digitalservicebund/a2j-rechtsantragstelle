@@ -4,7 +4,7 @@ import { appendAttachment } from "../appendAttachment";
 import { createAttachment } from "../attachment";
 import FormAttachment from "../attachment/FormAttachment";
 import { pdfFromReact } from "../attachment/pdfFromReact";
-import { fillPdf } from "../fillPdf";
+import { fillPdf } from "../fillPdf.server";
 export { getProzesskostenhilfeParameters };
 
 export async function prozesskostenhilfePdfFromUserdata(
