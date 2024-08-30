@@ -19,8 +19,8 @@ import {
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
-import { CookieConsentContext } from "~/components/CookieBanner/CookieConsentContext";
-import { VideoTranslationContext } from "~/components/Video/VideoTranslationContext";
+import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
+import { VideoTranslationContext } from "~/components/video/VideoTranslationContext";
 import { flowIdFromPathname } from "~/flows/flowIds";
 import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
 import {
@@ -32,11 +32,11 @@ import {
 import { config as configWeb } from "~/services/env/web";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import Breadcrumbs from "./components/Breadcrumbs";
-import { CookieBanner } from "./components/CookieBanner/CookieBanner";
+import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
 import Header from "./components/PageHeader";
-import { BannerState } from "./components/UserFeedback";
-import { FeedbackTranslationContext } from "./components/UserFeedback/FeedbackTranslationContext";
+import { BannerState } from "./components/userFeedback";
+import { FeedbackTranslationContext } from "./components/userFeedback/FeedbackTranslationContext";
 import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";

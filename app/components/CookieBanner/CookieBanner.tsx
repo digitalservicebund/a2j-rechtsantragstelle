@@ -3,7 +3,7 @@ import { posthog } from "posthog-js";
 import { useEffect, useState } from "react";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
-import { useCookieConsent } from "~/components/CookieBanner/CookieConsentContext";
+import { useCookieConsent } from "~/components/cookieBanner/CookieConsentContext";
 import Heading, { type HeadingProps } from "~/components/Heading";
 import RichText, { type RichTextProps } from "~/components/RichText";
 import { config } from "~/services/env/web";

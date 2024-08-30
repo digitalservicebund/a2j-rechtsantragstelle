@@ -1,7 +1,7 @@
 import { createCookie } from "@remix-run/node";
 import { useSecureCookie } from "~/util/useSecureCookie";
 import { sendCustomAnalyticsEvent } from "./customEvent";
-import { acceptCookiesFieldName } from "../../components/CookieBanner/CookieBanner";
+import { acceptCookiesFieldName } from "../../components/cookieBanner/CookieBanner";
 
 export const consentCookieName = "gdpr-consent";
 

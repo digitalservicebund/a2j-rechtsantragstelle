@@ -1,6 +1,6 @@
 import { Buffer } from "buffer";
 import { test, expect } from "@playwright/test";
-import { acceptCookiesFieldName } from "~/components/CookieBanner/CookieBanner";
+import { acceptCookiesFieldName } from "~/components/cookieBanner/CookieBanner";
 import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 import { CookieSettings } from "../pom/CookieSettings";
 import { testPageToBeAccessible } from "../util/testPageToBeAccessible";

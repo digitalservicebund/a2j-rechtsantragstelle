@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import UserFeedback, { BannerState } from "../app/components/UserFeedback";
+import UserFeedback, { BannerState } from "../app/components/userFeedback";
 import { createRemixStub } from "@remix-run/testing";
 import { redirect, redirectDocument } from "@remix-run/node";
 

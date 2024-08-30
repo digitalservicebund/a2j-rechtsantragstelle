@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import Container from "~/components/Container";
-import { useCookieConsent } from "~/components/CookieBanner/CookieConsentContext";
-import { DataProtectionBanner } from "~/components/Video/DataProtectionBanner";
-import { useVideoTranslations } from "~/components/Video/VideoTranslationContext";
+import { useCookieConsent } from "~/components/cookieBanner/CookieConsentContext";
+import { DataProtectionBanner } from "~/components/video/DataProtectionBanner";
+import { useVideoTranslations } from "~/components/video/VideoTranslationContext";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
 import { getYoutubeVideoId } from "~/util/url";
 
