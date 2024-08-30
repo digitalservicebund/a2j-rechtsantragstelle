@@ -1,4 +1,4 @@
-import type { Context } from "~/flows/contexts";
+import type { ArrayData, Context } from "~/flows/contexts";
 import type { ArrayConfig } from ".";
 
 export function getSummaryData(
@@ -16,12 +16,10 @@ export function getSummaryData(
       .filter((category) => category in arrayConfigurations)
       .map((category) => {
         const arrayConfiguration = arrayConfigurations[category];
-        const { arrayDataModifier: dataModifier } = arrayConfiguration;
+        const { arrayDataMapper } = arrayConfiguration;
         const possibleArray = userData[category];
-        const data = Array.isArray(possibleArray)
-          ? dataModifier
-            ? dataModifier(possibleArray)
-            : possibleArray
+        const data: ArrayData = Array.isArray(possibleArray)
+          ? possibleArray.map(arrayDataMapper ?? ((data) => data))
           : [];
         return [
           category,

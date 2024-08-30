@@ -1,6 +1,8 @@
 import _ from "lodash";
-import type { BasicTypes } from "~/flows/contexts";
-import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import type {
+  FinancialEntrySchema,
+  ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext,
+} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import abgabeFlow from "./abgabe/flow.json";
@@ -29,27 +31,25 @@ import {
 
 /**
  * If an entered sum is paid or received quarterly, yearly or one-time, the amount is divided appropriately and displayed per month
- * @param financialEntries
+ * @param financialEntry
  * @returns
  */
-const addMonthlyAmounts = (financialEntries: Record<string, BasicTypes>[]) => {
-  return financialEntries.map((financialEntry) => {
-    const paymentFrequency = financialEntry["zahlungsfrequenz"];
-    const amount = parseInt(financialEntry["betrag"] as string);
-    switch (paymentFrequency) {
-      case "yearly":
-      case "one-time":
-        return _.merge(financialEntry, {
-          proMonat: `${Math.ceil(amount / 12)}€`,
-        });
-      case "quarterly":
-        return _.merge(financialEntry, {
-          proMonat: `${Math.ceil(amount / 4)}€`,
-        });
-      default:
-        return financialEntry;
-    }
-  });
+export const addMonthlyAmount = (financialEntry: FinancialEntrySchema) => {
+  const paymentFrequency = financialEntry.zahlungsfrequenz;
+  const amount = parseInt(financialEntry.betrag);
+  switch (paymentFrequency) {
+    case "yearly":
+    case "one-time":
+      return _.merge(financialEntry, {
+        proMonat: `${Math.ceil(amount / 12)}€`,
+      });
+    case "quarterly":
+      return _.merge(financialEntry, {
+        proMonat: `${Math.ceil(amount / 4)}€`,
+      });
+    default:
+      return financialEntry;
+  }
 };
 
 export const prozesskostenhilfeFormular = {
@@ -67,7 +67,7 @@ export const prozesskostenhilfeFormular = {
             "/prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht",
           statementKey: "showAlways",
           event: "add-arbeitsausgaben",
-          arrayDataModifier: addMonthlyAmounts,
+          arrayDataMapper: addMonthlyAmount,
         },
         weitereEinkuenfte: {
           url: "/prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft",
@@ -76,7 +76,7 @@ export const prozesskostenhilfeFormular = {
             "/prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht",
           statementKey: "showAlways",
           event: "add-einkunft",
-          arrayDataModifier: addMonthlyAmounts,
+          arrayDataMapper: addMonthlyAmount,
         },
       },
     },

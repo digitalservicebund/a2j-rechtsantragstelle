@@ -15,11 +15,11 @@ export type ArrayConfig = {
   statementValue?: boolean;
   hiddenFields?: string[];
   /**
-   * Optional mutation function to add display-only fields to the array
-   * @param items items in the ArraySummary
-   * @returns Modified ArraySummary items
+   * Optional mapper function to modify the display of the ArraySummary
+   * @param data ArraySummary record
+   * @returns new, modified record
    */
-  arrayDataModifier?: (
-    items: Record<string, BasicTypes>[],
-  ) => Record<string, BasicTypes>[];
+  arrayDataMapper?: (
+    data: Record<string, BasicTypes>,
+  ) => Record<string, BasicTypes>;
 };

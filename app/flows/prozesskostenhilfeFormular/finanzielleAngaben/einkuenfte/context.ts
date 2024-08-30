@@ -17,12 +17,14 @@ export const staatlicheLeistungenPKHSchema = z.enum(
   customRequiredErrorMessage,
 );
 
-const financialEntrySchema = z.object({
+export const financialEntrySchema = z.object({
   beschreibung: stringRequiredSchema,
   betrag: buildMoneyValidationSchema(),
   zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
   proMonat: stringOptionalSchema,
 });
+
+export type FinancialEntrySchema = z.infer<typeof financialEntrySchema>;
 
 export const arbeitsArtSchema = z.enum(
   ["employed", "selfEmployed", "employedAndSelfEmployed"],
