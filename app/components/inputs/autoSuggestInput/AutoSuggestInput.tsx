@@ -18,30 +18,18 @@ import { type ErrorMessageProps } from "..";
 import Input from "../Input";
 import InputError from "../InputError";
 import InputLabel from "../InputLabel";
+import { widthClassname, type FieldWidth } from "../width";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
 const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 10;
-
-const widthClass = (width: string) => {
-  return {
-    "3": "w-[9ch]",
-    "5": "w-[11ch]",
-    "7": "w-[13ch]",
-    "10": "w-[16ch]",
-    "16": "w-[22ch]",
-    "24": "w-[30ch]",
-    "36": "w-[42ch]",
-    "54": "w-[60ch]",
-  }[width];
-};
 
 export type AutoSuggestInputProps = Readonly<{
   name: string;
   label?: string;
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
-  width?: "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54";
+  width?: FieldWidth;
   formId?: string;
   noSuggestionMessage?: string;
   dataList: DataListType;
@@ -194,7 +182,7 @@ const AutoSuggestInput = ({
           { "has-error": error },
           { "option-was-selected": optionWasSelected },
           { "auto-suggest-input-disabled": isDisabled },
-          width && widthClass(width),
+          widthClassname(width),
         )}
         components={{
           ClearIndicator: (props) =>

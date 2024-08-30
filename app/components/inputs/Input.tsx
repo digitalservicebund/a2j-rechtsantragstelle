@@ -5,6 +5,7 @@ import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
+import { widthClassname, type FieldWidth } from "./width";
 
 export type InputProps = Readonly<{
   name: string;
@@ -16,22 +17,9 @@ export type InputProps = Readonly<{
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
   helperText?: string;
-  width?: "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54";
+  width?: FieldWidth;
   formId?: string;
 }>;
-
-const widthClass = (width: string) => {
-  return {
-    "3": "w-[9ch]",
-    "5": "w-[11ch]",
-    "7": "w-[13ch]",
-    "10": "w-[16ch]",
-    "16": "w-[22ch]",
-    "24": "w-[30ch]",
-    "36": "w-[42ch] ds-input-select-width-54-36",
-    "54": "w-[60ch] ds-input-select-width-54-36",
-  }[width];
-};
 
 const Input = function InputComponent({
   name,
@@ -67,8 +55,11 @@ const Input = function InputComponent({
           ref={innerRef}
           className={classNames(
             "ds-input forced-color-adjust-none",
-            { "has-error": error },
-            width && widthClass(width),
+            {
+              "has-error": error,
+              "ds-input-select-width-54-36": width === "36" || width === "54",
+            },
+            widthClassname(width),
           )}
           aria-invalid={error !== undefined}
           aria-describedby={[error && errorId, helperText && helperId].join(
