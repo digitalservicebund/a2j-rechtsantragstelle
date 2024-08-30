@@ -1,5 +1,10 @@
 import { faker } from "@faker-js/faker";
+import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import {
+  prozesskostenhilfeFinanzielleAngabenContext,
+  zahlungspflichtigerSchema,
+} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
 import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,
@@ -94,6 +99,41 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
       surname: faker.person.lastName(),
       birthday: faker.date.past().toString(),
       monthlyPayment: faker.finance.amount(),
+    },
+  ],
+  hasAusgaben: YesNoAnswer.Enum.yes,
+  besondereBelastungen: {
+    pregnancy: CheckboxValue.on,
+    singleParent: CheckboxValue.on,
+    disability: CheckboxValue.on,
+    medicalReasons: CheckboxValue.on,
+  },
+  versicherungen: [
+    {
+      art: prozesskostenhilfeFinanzielleAngabenContext.versicherungen.element
+        .shape.art.Enum.sonstige,
+      beitrag: faker.finance.amount(),
+      sonstigeArt: faker.commerce.productName(),
+    },
+  ],
+  ratenzahlungen: [
+    {
+      art: faker.commerce.productName(),
+      zahlungsempfaenger: faker.company.name(),
+      zahlungspflichtiger: zahlungspflichtigerSchema.Enum.myself,
+      betragEigenerAnteil: faker.finance.amount(),
+      betragGesamt: faker.finance.amount(),
+      restschuld: faker.finance.amount(),
+      laufzeitende: faker.date.future().toString(),
+    },
+  ],
+  sonstigeAusgaben: [
+    {
+      art: faker.commerce.productName(),
+      zahlungsempfaenger: faker.company.name(),
+      zahlungspflichtiger: zahlungspflichtigerSchema.Enum.myself,
+      betragEigenerAnteil: faker.finance.amount(),
+      betragGesamt: faker.finance.amount(),
     },
   ],
   abgabeArt: abgabeContext.abgabeArt.Enum.ausdrucken,
