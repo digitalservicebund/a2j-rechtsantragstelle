@@ -43,7 +43,7 @@ export default defineConfig({
     include: ["**/__test__/*.test.{ts,tsx}", "**/unit/**/*.test.ts"],
     globals: true,
     environment: "jsdom",
-    setupFiles: ["./tests/unit/vitest.setup.ts"],
+    setupFiles: ["vitest.setup.ts"],
     coverage: {
       provider: "istanbul",
       include: ["app/**"],
