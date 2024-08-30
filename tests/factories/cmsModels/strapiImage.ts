@@ -1,14 +1,12 @@
+/* eslint-disable sonarjs/pseudo-random */
 import { faker } from "@faker-js/faker";
 import { Factory } from "fishery";
 import type { StrapiImage } from "~/services/cms/models/StrapiImage";
 
-const EXTENSIONS = ["png", "jpg", "svg", "gif"] as const;
-
 export const strapiImageFactory = Factory.define<StrapiImage>(() => {
   const name = faker.string.alphanumeric({ length: 5 });
   const hash = faker.string.alphanumeric({ length: 10 });
-  const ext =
-    EXTENSIONS.at(Math.floor(Math.random() * EXTENSIONS.length)) ?? "gif";
+  const ext = faker.helpers.arrayElement(["png", "jpg", "svg", "gif"]);
 
   return {
     data: {

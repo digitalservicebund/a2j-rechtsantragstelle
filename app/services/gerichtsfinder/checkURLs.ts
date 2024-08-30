@@ -95,4 +95,4 @@ async function writeURLMap() {
   });
 }
 
-if (process.argv[2] === "checkURLs") void writeURLMap();
+if (process.argv[2] === "checkURLs") writeURLMap();

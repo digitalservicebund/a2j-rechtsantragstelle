@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-clear-text-protocols */
 import {
   normalizeURL,
   splitObjectsByFirstLetter,

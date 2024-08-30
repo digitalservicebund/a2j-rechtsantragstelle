@@ -24,6 +24,7 @@ export function fillBesitz(
       text: "",
     });
 
+    // eslint-disable-next-line sonarjs/no-dead-store
     attachment = attachment.concat(financialAttachment);
   }
 }
