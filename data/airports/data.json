@@ -366,7 +366,7 @@
     "airport": "Glauber de Andrade Rocha Flughafen",
     "latitude": -14.907885,
     "longitude": -40.914804,
-    "city": ""
+    "city": "Glauber Rocha"
   },
   {
     "iata": "CUK",
@@ -699,7 +699,7 @@
     "airport": "St. Anthony Flughafen",
     "latitude": 51.391909,
     "longitude": -56.08321,
-    "city": " St. Antonius"
+    "city": "St. Antonius"
   },
   {
     "iata": "YAZ",
@@ -3984,7 +3984,7 @@
     "airport": "Stord Flughafen",
     "latitude": 59.791901,
     "longitude": 5.34085,
-    "city": ""
+    "city": "Sorstokken"
   },
   {
     "iata": "SOJ",
@@ -4983,7 +4983,7 @@
     "airport": "Simon Mwansa Kapwepwe International Flughafen",
     "latitude": -12.961667,
     "longitude": 28.516667,
-    "city": ""
+    "city": "Simon M. Kapwepwe Intl"
   },
   {
     "iata": "HAH",
@@ -5577,7 +5577,7 @@
     "airport": "Joshua Mqabuko Nkomo International Flughafen",
     "latitude": -20.017401,
     "longitude": 28.617901,
-    "city": ""
+    "city": "Internationaler Flughafen Joshua Mqabuko Nkomo"
   },
   {
     "iata": "VFA",
@@ -5595,7 +5595,7 @@
     "airport": "Robert Gabriel Mugabe International Flughafen",
     "latitude": -17.931801,
     "longitude": 31.0928,
-    "city": ""
+    "city": "R.G. Mugabe Intl"
   },
   {
     "iata": "BLZ",
@@ -13470,7 +13470,7 @@
     "airport": "İstanbul AFlughafen",
     "latitude": 41.261297,
     "longitude": 28.741951,
-    "city": ""
+    "city": "Istanbul Flughafen"
   },
   {
     "iata": "RMO",
@@ -17763,7 +17763,7 @@
     "airport": "Pingtung North Flughafen",
     "latitude": 22.700199127197266,
     "longitude": 120.48200225830078,
-    "city": ""
+    "city": "Pingtung Süd"
   },
   {
     "iata": "TSA",
@@ -19293,7 +19293,7 @@
     "airport": "El Calafate - Commander Armando Tola International Flughafen",
     "latitude": -50.2803,
     "longitude": -72.053101,
-    "city": ""
+    "city": "Comandante A. Tola"
   },
   {
     "iata": "PUD",
@@ -20040,7 +20040,7 @@
     "airport": "São Gonçalo do Amarante - Governador Aluízio Alves International Flughafen",
     "latitude": -5.769804,
     "longitude": -35.366578,
-    "city": ""
+    "city": "Natal Intl."
   },
   {
     "iata": "SJK",
@@ -21048,7 +21048,7 @@
     "airport": "Jorge Chávez International Flughafen",
     "latitude": -12.0219,
     "longitude": -77.114305,
-    "city": ""
+    "city": "Jorge Chavez Intl"
   },
   {
     "iata": "JAE",
@@ -21966,7 +21966,7 @@
     "airport": "Manas International Flughafen",
     "latitude": 43.0612983704,
     "longitude": 74.4776000977,
-    "city": ""
+    "city": "Manas Intl"
   },
   {
     "iata": "OSS",
@@ -21975,7 +21975,7 @@
     "airport": "Osh Flughafen",
     "latitude": 40.6090011597,
     "longitude": 72.793296814,
-    "city": ""
+    "city": "Osh Flughafen"
   },
   {
     "iata": "CIT",
@@ -22515,7 +22515,7 @@
     "airport": "Simferopol International Flughafen",
     "latitude": 45.0522,
     "longitude": 33.975101,
-    "city": ""
+    "city": "Simferopol Intl"
   },
   {
     "iata": "HRK",
@@ -23802,7 +23802,7 @@
     "airport": "Belagavi Flughafen",
     "latitude": 15.8593,
     "longitude": 74.618301,
-    "city": ""
+    "city": "Sambre"
   },
   {
     "iata": "BDQ",
@@ -23847,7 +23847,7 @@
     "airport": "Hubli Flughafen",
     "latitude": 15.361700058,
     "longitude": 75.08489990230001,
-    "city": ""
+    "city": "Hubli Flughafen"
   },
   {
     "iata": "IDR",
@@ -24009,7 +24009,7 @@
     "airport": "Bandaranaike International Colombo Flughafen",
     "latitude": 7.180759906768799,
     "longitude": 79.88410186767578,
-    "city": ""
+    "city": "Bandaranaike Intl"
   },
   {
     "iata": "BTC",
@@ -24279,7 +24279,7 @@
     "airport": "Visakhapatnam Flughafen",
     "latitude": 17.723506,
     "longitude": 83.227729,
-    "city": ""
+    "city": "Visakhapatnam Flughafen"
   },
   {
     "iata": "BZL",
@@ -24360,7 +24360,7 @@
     "airport": "Hong Kong International Flughafen",
     "latitude": 22.308901,
     "longitude": 113.915001,
-    "city": ""
+    "city": "Hongkong Intl"
   },
   {
     "iata": "AGR",
@@ -25548,7 +25548,7 @@
     "airport": "Mozes Kilangin Flughafen",
     "latitude": -4.52978,
     "longitude": 136.887388,
-    "city": ""
+    "city": "Moses Kilangin"
   },
   {
     "iata": "DPS",
@@ -25584,7 +25584,7 @@
     "airport": "Mutiara - SIS Al-Jufrie Flughafen",
     "latitude": -0.916462,
     "longitude": 119.908647,
-    "city": ""
+    "city": "Mutiara"
   },
   {
     "iata": "PKY",
@@ -25593,7 +25593,7 @@
     "airport": "Tjilik Riwut Flughafen",
     "latitude": -2.22513,
     "longitude": 113.943001,
-    "city": ""
+    "city": "Tjilik Riwut"
   },
   {
     "iata": "YIA",
@@ -25674,7 +25674,7 @@
     "airport": "Juwata International Flughafen",
     "latitude": 3.325145,
     "longitude": 117.564169,
-    "city": ""
+    "city": "Juwata"
   },
   {
     "iata": "AAP",
@@ -25818,7 +25818,7 @@
     "airport": "Rendani Flughafen",
     "latitude": -0.891833,
     "longitude": 134.048996,
-    "city": ""
+    "city": "Rendani"
   },
   {
     "iata": "WMX",
