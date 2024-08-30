@@ -1,13 +1,7 @@
 {
-  "initial": "start",
+  "initial": "einkuenfte",
   "id": "finanzielle-angaben",
   "states": {
-    "start": {
-      "on": {
-        "SUBMIT": "#einkuenfte",
-        "BACK": "#antragStart"
-      }
-    },
     "einkuenfte": {},
     "partner": {
       "id": "partner",

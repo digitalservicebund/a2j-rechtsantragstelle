@@ -1,7 +1,13 @@
 {
   "id": "einkuenfte",
-  "initial": "staatliche-leistungen",
+  "initial": "start",
   "states": {
+    "start": {
+      "on": {
+        "SUBMIT": "staatliche-leistungen",
+        "BACK": "#antragStart"
+      }
+    },
     "staatliche-leistungen": {
       "on": {
         "SUBMIT": [
@@ -17,7 +23,7 @@
           },
           "einkommen"
         ],
-        "BACK": "#finanzielle-angaben.start"
+        "BACK": "start"
       }
     },
     "buergergeld": {

@@ -17,7 +17,7 @@ const cases = [
     happyPathData,
     [
       "start/start",
-      "finanzielle-angaben/start",
+      "finanzielle-angaben/einkuenfte/start",
       "finanzielle-angaben/einkuenfte/staatliche-leistungen",
       "finanzielle-angaben/einkuenfte/buergergeld",
       "finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
