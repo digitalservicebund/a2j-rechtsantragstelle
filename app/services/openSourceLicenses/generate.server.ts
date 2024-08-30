@@ -97,4 +97,4 @@ async function updateLicenseList() {
   fs.writeFileSync(filepath, JSON.stringify(licenses));
 }
 
-if (process.argv[2] === "generateLicenseFile") void updateLicenseList();
+if (process.argv[2] === "generateLicenseFile") updateLicenseList();

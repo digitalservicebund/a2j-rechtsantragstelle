@@ -1,28 +1,27 @@
 import { vi } from "vitest";
 import { fetchTranslations } from "~/services/cms/index.server";
-import { getPageTranslations } from "../getPageTranslations";
+import { getArraySummaryPageTranslations } from "../getArraySummaryPageTranslations";
 
 vi.mock("~/services/cms/index.server", () => ({
   fetchTranslations: vi.fn(),
 }));
 
-describe("getPageTranslations", () => {
+describe("getArraySummaryPageTranslations", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("should call fetchTranslations for each category in arrayCategories, 'arrayLabels' and the flowId", async () => {
+  it("should call fetchTranslations for each category in arrayCategories and 'arrayLabels'", async () => {
     const arrayCategories = ["ausgaben", "wertsachen"];
     const mockTranslations = { key: "value" };
     vi.mocked(fetchTranslations).mockResolvedValue(mockTranslations);
 
-    await getPageTranslations(arrayCategories, "anyFlow");
+    await getArraySummaryPageTranslations(arrayCategories);
 
-    expect(fetchTranslations).toHaveBeenCalledTimes(4); // 2 categories + "arrayLabels"
+    expect(fetchTranslations).toHaveBeenCalledTimes(3); // 2 categories + "arrayLabels"
     expect(fetchTranslations).toHaveBeenCalledWith("ausgaben");
     expect(fetchTranslations).toHaveBeenCalledWith("wertsachen");
     expect(fetchTranslations).toHaveBeenCalledWith("arrayLabels");
-    expect(fetchTranslations).toHaveBeenCalledWith("anyFlow");
   });
 
   it("should return merged translations", async () => {
@@ -30,20 +29,17 @@ describe("getPageTranslations", () => {
     const ausgabenTranslations = { ausgabenKey: "ausgabenValue" };
     const wertsachenTranslations = { wertsachenKey: "wertsachenValue" };
     const arrayLabelsTranslations = { arrayLabelsKey: "arrayLabelsValue" };
-    const anyFlowTranslations = { anyFlowKey: "anyFlowValue" };
     vi.mocked(fetchTranslations)
       .mockResolvedValueOnce(ausgabenTranslations)
       .mockResolvedValueOnce(wertsachenTranslations)
-      .mockResolvedValueOnce(arrayLabelsTranslations)
-      .mockResolvedValueOnce(anyFlowTranslations);
+      .mockResolvedValueOnce(arrayLabelsTranslations);
 
-    const result = await getPageTranslations(arrayCategories, "anyFlow");
+    const result = await getArraySummaryPageTranslations(arrayCategories);
 
     expect(result).toEqual({
       ausgabenKey: "ausgabenValue",
       wertsachenKey: "wertsachenValue",
       arrayLabelsKey: "arrayLabelsValue",
-      anyFlowKey: "anyFlowValue",
     });
   });
 
@@ -55,14 +51,12 @@ describe("getPageTranslations", () => {
       .mockResolvedValueOnce(arrayLabelsTranslations)
       .mockResolvedValueOnce(anyFlowTranslations);
 
-    const result = await getPageTranslations(arrayCategories, "anyFlow");
+    const result = await getArraySummaryPageTranslations(arrayCategories);
 
-    expect(fetchTranslations).toHaveBeenCalledTimes(2);
+    expect(fetchTranslations).toHaveBeenCalledTimes(1);
     expect(fetchTranslations).toHaveBeenCalledWith("arrayLabels");
-    expect(fetchTranslations).toHaveBeenCalledWith("anyFlow");
     expect(result).toEqual({
       arrayLabelsKey: "arrayLabelsValue",
-      anyFlowKey: "anyFlowValue",
     });
   });
 });

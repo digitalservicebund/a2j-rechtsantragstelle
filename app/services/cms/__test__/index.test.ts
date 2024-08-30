@@ -10,15 +10,14 @@ import { getStrapiEntry } from "../getStrapiEntry";
 vi.mock("~/services/cms/getStrapiEntry");
 
 describe("services/cms", () => {
+  // eslint-disable-next-line sonarjs/void-use
   beforeEach(() => void vi.clearAllMocks());
 
   describe("fetchSingleEntry", () => {
     test("returns a footer entry", async () => {
       const footerData = strapiFooterFactory.build();
       vi.mocked(getStrapiEntry).mockReturnValue(
-        new Promise((resolve) => {
-          resolve([{ attributes: footerData }]);
-        }),
+        Promise.resolve([{ attributes: footerData }]),
       );
       expect(await fetchSingleEntry("footer")).toEqual(footerData);
     });

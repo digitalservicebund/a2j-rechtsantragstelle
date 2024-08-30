@@ -4,7 +4,7 @@ import { validationError } from "remix-validated-form";
 import { parsePathname } from "~/flows/flowIds";
 import { flows } from "~/flows/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { getPageTranslations } from "~/services/array/getPageTranslations";
+import { getArraySummaryPageTranslations } from "~/services/array/getArraySummaryPageTranslations";
 import { getSummaryData } from "~/services/array/getSummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
@@ -90,13 +90,19 @@ export const loader = async ({
   if (!flowController.isReachable(stepId))
     return redirectDocument(flowController.getInitial());
 
-  const [formPageContent, parentMeta, navigationStrings, defaultStrings] =
-    await Promise.all([
-      fetchFlowPage("form-flow-pages", flowId, stepId),
-      fetchMeta({ filterValue: parentFromParams(pathname, params) }),
-      fetchTranslations(`${flowId}/menu`),
-      fetchTranslations("defaultTranslations"),
-    ]);
+  const [
+    formPageContent,
+    parentMeta,
+    navigationStrings,
+    defaultStrings,
+    flowTranslations,
+  ] = await Promise.all([
+    fetchFlowPage("form-flow-pages", flowId, stepId),
+    fetchMeta({ filterValue: parentFromParams(pathname, params) }),
+    fetchTranslations(`${flowId}/menu`),
+    fetchTranslations("defaultTranslations"),
+    fetchTranslations(flowId),
+  ]);
 
   const arrayConfigurations = flowController.getRootMeta()?.arrays;
 
@@ -110,14 +116,23 @@ export const loader = async ({
     userDataWithPageData,
   );
 
-  const pageTranslations = await getPageTranslations(arrayCategories, flowId);
+  const arrayTranslations =
+    await getArraySummaryPageTranslations(arrayCategories);
 
-  const stringTranslations = interpolateDeep(
-    pageTranslations,
+  /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports 
+    can not be translated, so it's required to be interpolated 
+  */
+  const flowTranslationsAfterInterpolation = interpolateDeep(
+    flowTranslations,
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userDataWithPageData, pageTranslations)
+      ? currentFlow.stringReplacements(userDataWithPageData, flowTranslations)
       : {},
   );
+
+  const stringTranslations = {
+    ...arrayTranslations,
+    ...flowTranslationsAfterInterpolation,
+  };
 
   // structure cms content -> merge with getting data?
   const cmsContent = interpolateDeep(

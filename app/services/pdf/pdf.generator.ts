@@ -72,4 +72,4 @@ async function main() {
   pdfs.forEach((pdfConfig) => generatePdfTypes(pdfConfig));
 }
 
-void main();
+main();
