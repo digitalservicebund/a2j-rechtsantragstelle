@@ -1,8 +1,7 @@
 import type { FlowId } from "~/flows/flowIds";
 import { getStrapiEntry } from "./getStrapiEntry";
 
-type StepId = string;
-export type FormFieldsMap = Record<StepId, string[]>;
+export type FormFieldsMap = Record<string, string[]>;
 
 export async function fetchAllFormFields(
   flowId: FlowId,

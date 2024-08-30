@@ -6,7 +6,7 @@ export async function startFinanzielleAngabenEinkommen(
   page: Page,
   beratungshilfeFormular: BeratungshilfeFormular,
 ) {
-  // beratungshilfe/antrag/finanzielle-angaben/start
+  // beratungshilfe/antrag/finanzielle-angaben/einkommen/start
   await beratungshilfeFormular.clickNext();
 
   // beratungshilfe/antrag/finanzielle-angaben/einkommen/staatliche-leistungen

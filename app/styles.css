@@ -275,3 +275,10 @@ svg {
 .auto-suggest-input-disabled {
   box-shadow: none;
 }
+
+/* on mobile, input and select should have 100% width when in strapi is selected characters54 or characters36 */
+@media (max-width: 499px) {
+  .ds-input-select-width-54-36 {
+    width: 100%;
+  }
+}

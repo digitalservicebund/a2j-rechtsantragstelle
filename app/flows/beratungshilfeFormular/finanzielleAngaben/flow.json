@@ -1,20 +1,20 @@
 {
-  "initial": "start",
+  "initial": "einkommen",
   "id": "finanzielle-angaben",
   "on": {
     "SUBMIT": "#persoenliche-daten.start",
     "BACK": "#rechtsproblem.situation-beschreibung"
   },
   "states": {
-    "start": {
-      "on": {
-        "SUBMIT": "einkommen"
-      }
-    },
     "einkommen": {
       "id": "einkommen",
-      "initial": "staatliche-leistungen",
+      "initial": "start",
       "states": {
+        "start": {
+          "on": {
+            "SUBMIT": "staatliche-leistungen"
+          }
+        },
         "staatliche-leistungen": {
           "on": {
             "SUBMIT": [
@@ -28,7 +28,7 @@
               },
               "#persoenliche-daten.start"
             ],
-            "BACK": "#finanzielle-angaben.start"
+            "BACK": "start"
           }
         },
         "erwerbstaetig": {

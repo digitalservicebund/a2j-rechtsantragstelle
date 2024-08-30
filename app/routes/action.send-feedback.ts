@@ -1,9 +1,9 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
-import { BannerState, USER_FEEDBACK_ID } from "~/components/UserFeedback";
-import { feedbackValidator } from "~/components/UserFeedback/FeedbackFormBox";
-import { userRatingFieldname } from "~/components/UserFeedback/RatingBox";
+import { BannerState, USER_FEEDBACK_ID } from "~/components/userFeedback";
+import { feedbackValidator } from "~/components/userFeedback/FeedbackFormBox";
+import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
 import { flowIdFromPathname } from "~/flows/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getSessionManager } from "~/services/session.server";

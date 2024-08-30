@@ -35,6 +35,7 @@ const allowedWebsites = [
   "https://sentry.io",
   "https://www.verbraucherzentrale.nrw",
   "https://www.youtube.com",
+  "https://policies.google.com",
 ];
 
 const allowedEmails = [
@@ -50,7 +51,7 @@ const allowedEmails = [
 ];
 
 const regexValidator = {
-  email: /(\w+@[\w.-]+\w)/g,
+  email: /(^[\w.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)/g,
   url: /((https?):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi,
 };
 

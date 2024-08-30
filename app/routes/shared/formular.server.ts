@@ -90,13 +90,19 @@ export const loader = async ({
   if (!flowController.isReachable(stepId))
     return redirectDocument(flowController.getInitial());
 
-  const [formPageContent, parentMeta, navigationStrings, defaultStrings] =
-    await Promise.all([
-      fetchFlowPage("form-flow-pages", flowId, stepId),
-      fetchMeta({ filterValue: parentFromParams(pathname, params) }),
-      fetchTranslations(`${flowId}/menu`),
-      fetchTranslations("defaultTranslations"),
-    ]);
+  const [
+    formPageContent,
+    parentMeta,
+    navigationStrings,
+    defaultStrings,
+    flowTranslations,
+  ] = await Promise.all([
+    fetchFlowPage("form-flow-pages", flowId, stepId),
+    fetchMeta({ filterValue: parentFromParams(pathname, params) }),
+    fetchTranslations(`${flowId}/menu`),
+    fetchTranslations("defaultTranslations"),
+    fetchTranslations(flowId),
+  ]);
 
   const arrayConfigurations = flowController.getRootMeta()?.arrays;
 
@@ -110,9 +116,23 @@ export const loader = async ({
     userDataWithPageData,
   );
 
-  const stringTranslations = arrayConfigurations
-    ? await getArraySummaryPageTranslations(arrayCategories)
-    : await fetchTranslations(flowId);
+  const arrayTranslations =
+    await getArraySummaryPageTranslations(arrayCategories);
+
+  /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports 
+    can not be translated, so it's required to be interpolated 
+  */
+  const flowTranslationsAfterInterpolation = interpolateDeep(
+    flowTranslations,
+    "stringReplacements" in currentFlow
+      ? currentFlow.stringReplacements(userDataWithPageData, flowTranslations)
+      : {},
+  );
+
+  const stringTranslations = {
+    ...arrayTranslations,
+    ...flowTranslationsAfterInterpolation,
+  };
 
   // structure cms content -> merge with getting data?
   const cmsContent = interpolateDeep(

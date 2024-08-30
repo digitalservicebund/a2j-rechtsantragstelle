@@ -36,7 +36,7 @@
                 "guard": "isProzessbevollmaechtigteYes",
                 "target": "antragsteller-daten"
               },
-              "#weitere-personen.uebersicht"
+              "#weitere-personen.frage"
             ],
             "BACK": [
               {
@@ -49,7 +49,7 @@
         },
         "antragsteller-daten": {
           "on": {
-            "SUBMIT": "#weitere-personen.uebersicht",
+            "SUBMIT": "#weitere-personen.frage",
             "BACK": "antragsteller-angeben"
           }
         }
@@ -57,18 +57,30 @@
     },
     "weitere-personen": {
       "id": "weitere-personen",
-      "initial": "uebersicht",
+      "initial": "frage",
       "states": {
-        "uebersicht": {
+        "frage": {
           "on": {
-            "SUBMIT": "#forderung",
+            "SUBMIT": [
+              {
+                "guard": "isWeiterePersonenYes",
+                "target": "uebersicht"
+              },
+              "#forderung"
+            ],
             "BACK": [
               {
                 "guard": "isProzessbevollmaechtigteYes",
                 "target": "#person.antragsteller-daten"
               },
               "#person.antragsteller-angeben"
-            ],
+            ]
+          }
+        },
+        "uebersicht": {
+          "on": {
+            "SUBMIT": "#forderung",
+            "BACK": "frage",
             "add-weitere-personen": {
               "guard": "isValidWeiterePersonenArrayIndex",
               "target": "person"

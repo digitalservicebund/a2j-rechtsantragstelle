@@ -46,12 +46,17 @@ describe("getArraySummaryPageTranslations", () => {
   it("should handle empty arrayCategories", async () => {
     const arrayCategories: string[] = [];
     const arrayLabelsTranslations = { arrayLabelsKey: "arrayLabelsValue" };
-    vi.mocked(fetchTranslations).mockResolvedValueOnce(arrayLabelsTranslations);
+    const anyFlowTranslations = { anyFlowKey: "anyFlowValue" };
+    vi.mocked(fetchTranslations)
+      .mockResolvedValueOnce(arrayLabelsTranslations)
+      .mockResolvedValueOnce(anyFlowTranslations);
 
     const result = await getArraySummaryPageTranslations(arrayCategories);
 
     expect(fetchTranslations).toHaveBeenCalledTimes(1);
     expect(fetchTranslations).toHaveBeenCalledWith("arrayLabels");
-    expect(result).toEqual({ arrayLabelsKey: "arrayLabelsValue" });
+    expect(result).toEqual({
+      arrayLabelsKey: "arrayLabelsValue",
+    });
   });
 });

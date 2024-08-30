@@ -25,8 +25,7 @@ export function getSummaryData(
             arrayConfiguration: {
               ...arrayConfiguration,
               statementValue:
-                userData[arrayConfiguration.statementKey] === "yes" ||
-                arrayConfiguration.statementKey.valueOf() === "showAlways",
+                userData[arrayConfiguration.statementKey] === "yes",
             },
           },
         ];

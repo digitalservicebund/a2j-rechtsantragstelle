@@ -4,7 +4,13 @@
   "states": {
     "ueberpruefung": {
       "on": {
-        "BACK": "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung"
+        "BACK": [
+          {
+            "guard": "hasAusgabenYes",
+            "target": "#ausgaben-zusammenfassung"
+          },
+          "#ausgaben"
+        ]
       },
       "always": { "guard": "readyForAbgabe", "target": "art" }
     },
@@ -14,7 +20,17 @@
           { "target": "online", "guard": "abgabeOnline" },
           { "target": "ausdrucken", "guard": "abgabeAusdrucken" }
         ],
-        "BACK": "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung"
+        "BACK": [
+          {
+            "guard": "hasGrundsicherungOrAsylbewerberleistungen",
+            "target": "#finanzielle-angaben.einkuenfte"
+          },
+          {
+            "guard": "hasAusgabenYes",
+            "target": "#ausgaben-zusammenfassung"
+          },
+          "#ausgaben"
+        ]
       }
     },
     "ausdrucken": { "on": { "BACK": { "target": "art" } } },

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import UserFeedback from "~/components/UserFeedback";
+import UserFeedback from "~/components/userFeedback";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
 export const StrapiUserFeedbackSchema = z

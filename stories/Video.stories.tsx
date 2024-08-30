@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Video from "~/components/Video/Video";
+import Video from "~/components/video/Video";
 
 const component = Video;
 

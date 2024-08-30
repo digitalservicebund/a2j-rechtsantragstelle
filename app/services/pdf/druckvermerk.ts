@@ -6,13 +6,20 @@ const defaultY = 60;
 const defaultText = "Dieser Antrag wurde erstellt durch service.justiz.de";
 const spacePerCharacter = 3.7;
 
-export function addDruckvermerk(pdfDoc: PDFDocument, yPositions?: number[]) {
+export function addDruckvermerk(
+  pdfDoc: PDFDocument,
+  yPosition?: number | number[],
+  xPosition?: number,
+) {
   pdfDoc.getPages().forEach((page, index) => {
-    const yPosition = yPositions ? (yPositions[index] ?? defaultY) : defaultY;
+    const yPos =
+      (Array.isArray(yPosition) ? yPosition[index] : yPosition) ?? defaultY;
+    const xPos =
+      (Array.isArray(xPosition) ? xPosition[index] : xPosition) ?? defaultX;
 
     page.drawRectangle({
-      x: defaultX,
-      y: yPosition,
+      x: xPos,
+      y: yPos,
       width: 20,
       height: defaultText.length * spacePerCharacter,
       opacity: 0,
@@ -20,8 +27,8 @@ export function addDruckvermerk(pdfDoc: PDFDocument, yPositions?: number[]) {
     });
 
     page.drawText(defaultText, {
-      x: defaultX + 12,
-      y: yPosition + 6,
+      x: xPos + 12,
+      y: yPos + 6,
       rotate: { type: RotationTypes.Degrees, angle: 90 },
       size: fontSize,
     });

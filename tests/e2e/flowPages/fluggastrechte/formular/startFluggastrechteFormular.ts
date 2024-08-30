@@ -12,15 +12,19 @@ export async function startFluggastrechteFormular(
     new RegExp(`.+${formular.url}/${formular.initialStep}$`),
   );
 
-  // /fluggastrechte/formular/start
+  // /fluggastrechte/formular/intro/start
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
-  // /fluggastrechte/formular/dokumente
+  // /fluggastrechte/formular/grundvorraussetzungen/prozessfaehig
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
-  // /fluggastrechte/formular/daten-uebernahme
+  // /fluggastrechte/formular/grundvorraussetzungen/ausgleichszahlung
+  await expectPageToBeAccessible({ page });
+  await formular.clickNext();
+
+  // /fluggastrechte/formular/grundvorraussetzungen/daten-uebernahme
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("doMigration", "yes");
 
@@ -29,25 +33,32 @@ export async function startFluggastrechteFormular(
   await formular.fillInput("direktFlugnummer", "AB1234");
   await formular.fillInput("direktAbflugsDatum", toGermanDateFormat(today()));
   await formular.fillInput("direktAbflugsZeit", "08:10");
+  await formular.fillDropdown("zwischenstoppAnzahl", "oneStop");
   await formular.fillInput("direktAnkunftsDatum", toGermanDateFormat(today()));
   await formular.fillInput("direktAnkunftsZeit", "10:10");
   await formular.clickNext();
 
-  // /fluggastrechte/formular/zwischenstopps
+  // /fluggastrechte/formular/flugdaten/zwischenstopp-uebersicht-1
   await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("zwischenstopps", "no");
+  await formular.fillAutoSuggestInputPage(
+    "input-ersterZwischenstopp",
+    "München",
+  );
+  await formular.clickNext();
 
   // /fluggastrechte/formular/flugdaten/tatsaechlicher-flug
   await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("tatsaechlicherFlug", "yes");
+  await formular.fillRadioPage("tatsaechlicherFlug", "no");
 
-  // /fluggastrechte/formular/flugdaten/tatsaechlicher-flug-ankunft
+  // /fluggastrechte/formular/flugdaten/ersatzverbindung-art
   await expectPageToBeAccessible({ page });
-  await formular.fillInput(
-    "tatsaechlicherAnkunftsDatum",
-    toGermanDateFormat(today()),
-  );
-  await formular.fillInput("tatsaechlicherAnkunftsZeit", "10:10");
+  await formular.fillRadioPage("ersatzverbindungArt", "flug");
+
+  // /fluggastrechte/formular/flugdaten/anderer-flug-ankunft
+  await expectPageToBeAccessible({ page });
+  await formular.fillInput("ersatzFlugnummer", "BCA4321");
+  await formular.fillInput("ersatzFlugAnkunftsDatum", "10.01.2023");
+  await formular.fillInput("ersatzFlugAnkunftsZeit", "10:10");
   await formular.clickNext();
 
   // /fluggastrechte/formular/flugdaten/zusaetzliche-angaben
@@ -70,9 +81,9 @@ export async function startFluggastrechteFormular(
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("isProzessbevollmaechtigte", "no");
 
-  // /fluggastrechte/formular/persoenliche-daten/weitere-personen/uebersicht
+  // /fluggastrechte/formular/persoenliche-daten/weitere-personen/frage
   await expectPageToBeAccessible({ page });
-  await formular.clickNext();
+  await formular.fillRadioPage("isWeiterePersonen", "no");
 
   // /fluggastrechte/formular/forderung
   await expectPageToBeAccessible({ page });

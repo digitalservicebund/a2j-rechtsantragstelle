@@ -1,23 +1,24 @@
 {
-  "initial": "partner",
+  "initial": "einkuenfte",
   "id": "finanzielle-angaben",
   "states": {
+    "einkuenfte": {},
     "partner": {
       "id": "partner",
-      "initial": "start",
+      "initial": "partnerschaft",
       "on": {
-        "SUBMIT": "#kinder.kinder-frage"
+        "SUBMIT": "#kinder"
       },
       "states": {
-        "start": {
-          "on": {
-            "SUBMIT": "partnerschaft",
-            "BACK": "#antragStart"
-          }
-        },
         "partnerschaft": {
           "on": {
-            "BACK": "#finanzielle-angaben",
+            "BACK": [
+              {
+                "guard": "hasFurtherIncome",
+                "target": "#einkuenfte.weitere-einkuenfte.uebersicht"
+              },
+              "#einkuenfte.weitere-einkuenfte.frage"
+            ],
             "SUBMIT": [
               {
                 "guard": "hasPartnerschaftOrSeparated",
@@ -128,7 +129,7 @@
                 "guard": "hasPartnerschaftOrSeparated",
                 "target": "#partner.zusammenleben"
               },
-              "#partner.start"
+              "#partner"
             ],
             "SUBMIT": [
               {
@@ -337,7 +338,7 @@
                 "guard": "hasAnyEigentum",
                 "target": "#eigentum-zusammenfassung.zusammenfassung"
               },
-              "#abgabe"
+              "#ausgaben"
             ],
             "BACK": "grundeigentum-frage"
           }
@@ -346,8 +347,8 @@
           "on": {
             "SUBMIT": [
               {
-                "target": "#eigentum-zusammenfassung.zusammenfassung",
-                "guard": "eigentumDone"
+                "guard": "eigentumDone",
+                "target": "#eigentum-zusammenfassung.zusammenfassung"
               },
               "#abgabe"
             ],
@@ -371,7 +372,7 @@
             ],
             "SUBMIT": [
               { "guard": "eigentumYesAndEmptyArray", "target": "warnung" },
-              "#abgabe"
+              "#ausgaben"
             ],
             "add-bankkonten": "bankkonten",
             "add-wertsachen": "wertgegenstaende",
@@ -382,8 +383,8 @@
         },
         "warnung": {
           "on": {
-            "BACK": "zusammenfassung",
-            "SUBMIT": ["#abgabe"]
+            "BACK": "#eigentum-zusammenfassung.zusammenfassung",
+            "SUBMIT": "#ausgaben"
           }
         },
         "bankkonten": {
@@ -533,6 +534,177 @@
               "on": {
                 "SUBMIT": "#eigentum-zusammenfassung.zusammenfassung",
                 "BACK": "#eigentum-zusammenfassung.zusammenfassung"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ausgaben": {
+      "id": "ausgaben",
+      "initial": "ausgaben-frage",
+      "states": {
+        "ausgaben-frage": {
+          "on": {
+            "BACK": [
+              {
+                "guard": "eigentumDone",
+                "target": "#eigentum-zusammenfassung.zusammenfassung"
+              },
+              "#eigentum.kraftfahrzeuge-frage"
+            ],
+            "SUBMIT": [
+              { "guard": "hasAusgabenYes", "target": "besondere-belastungen" },
+              "#abgabe"
+            ]
+          }
+        },
+        "besondere-belastungen": {
+          "on": {
+            "BACK": "ausgaben-frage",
+            "SUBMIT": [
+              {
+                "guard": "ausgabenDone",
+                "target": "#ausgaben-zusammenfassung"
+              },
+              "#abgabe"
+            ]
+          }
+        }
+      }
+    },
+    "ausgaben-zusammenfassung": {
+      "id": "ausgaben-zusammenfassung",
+      "initial": "zusammenfassung",
+      "states": {
+        "zusammenfassung": {
+          "on": {
+            "BACK": "#ausgaben.besondere-belastungen",
+            "SUBMIT": "#abgabe",
+            "add-versicherungen": "versicherungen",
+            "add-ratenzahlungen": "ratenzahlungen",
+            "add-sonstigeAusgaben": "sonstigeAusgaben"
+          }
+        },
+        "versicherungen": {
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "BACK": "#ausgaben-zusammenfassung",
+                "SUBMIT": [
+                  {
+                    "guard": "isSonstigeVersicherung",
+                    "target": "sonstige-art"
+                  },
+                  "#ausgaben-zusammenfassung"
+                ]
+              }
+            },
+            "sonstige-art": {
+              "on": {
+                "BACK": "#ausgaben-zusammenfassung",
+                "SUBMIT": "#ausgaben-zusammenfassung"
+              }
+            }
+          }
+        },
+        "ratenzahlungen": {
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "BACK": "#ausgaben-zusammenfassung",
+                "SUBMIT": "zahlungspflichtiger"
+              }
+            },
+            "zahlungspflichtiger": {
+              "on": {
+                "BACK": "daten",
+                "SUBMIT": [
+                  {
+                    "guard": "ratenzahlungAnteiligYes",
+                    "target": "betragGemeinsamerAnteil"
+                  },
+                  "betragGesamt"
+                ]
+              }
+            },
+            "betragGemeinsamerAnteil": {
+              "on": {
+                "BACK": "zahlungspflichtiger",
+                "SUBMIT": "betragEigenerAnteil"
+              }
+            },
+            "betragEigenerAnteil": {
+              "on": {
+                "BACK": "betragGemeinsamerAnteil",
+                "SUBMIT": "restschuld"
+              }
+            },
+            "betragGesamt": {
+              "on": {
+                "BACK": "zahlungspflichtiger",
+                "SUBMIT": "betragEigenerAnteil"
+              }
+            },
+            "restschuld": {
+              "on": {
+                "BACK": [
+                  {
+                    "guard": "ratenzahlungAnteiligYes",
+                    "target": "betragEigenerAnteil"
+                  },
+                  "betragGesamt"
+                ],
+                "SUBMIT": "laufzeitende"
+              }
+            },
+            "laufzeitende": {
+              "on": {
+                "BACK": "restschuld",
+                "SUBMIT": "#ausgaben-zusammenfassung"
+              }
+            }
+          }
+        },
+        "sonstigeAusgaben": {
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "BACK": "#ausgaben-zusammenfassung",
+                "SUBMIT": "zahlungspflichtiger"
+              }
+            },
+            "zahlungspflichtiger": {
+              "on": {
+                "BACK": "daten",
+                "SUBMIT": [
+                  {
+                    "guard": "sonstigeAusgabeAnteiligYes",
+                    "target": "betragGemeinsamerAnteil"
+                  },
+                  "betragGesamt"
+                ]
+              }
+            },
+            "betragGemeinsamerAnteil": {
+              "on": {
+                "BACK": "zahlungspflichtiger",
+                "SUBMIT": "betragEigenerAnteil"
+              }
+            },
+            "betragEigenerAnteil": {
+              "on": {
+                "BACK": "betragGemeinsamerAnteil",
+                "SUBMIT": "#ausgaben-zusammenfassung"
+              }
+            },
+            "betragGesamt": {
+              "on": {
+                "BACK": "zahlungspflichtiger",
+                "SUBMIT": "#ausgaben-zusammenfassung"
               }
             }
           }

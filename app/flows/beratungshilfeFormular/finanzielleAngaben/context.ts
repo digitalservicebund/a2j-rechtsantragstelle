@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { staatlicheLeistungen } from "~/flows/beratungshilfeVorabcheck/context";
 import {
+  besondereBelastungenSchema,
   bankkontenArraySchema,
   eigentumTotalWorthSchema,
   gelanlagenArraySchema,
@@ -8,6 +8,7 @@ import {
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
   partnerschaftSchema,
+  staatlicheLeistungen,
   unterhaltszahlungSchema,
   wertsachenArraySchema,
 } from "~/flows/shared/finanzielleAngaben/context";
@@ -78,12 +79,7 @@ export const beratungshilfeFinanzielleAngaben = {
   hasWeitereUnterhaltszahlungen: YesNoAnswer,
   unterhaltszahlungen: z.array(unterhaltszahlungSchema),
   hasAusgaben: YesNoAnswer,
-  ausgabensituation: z.object({
-    pregnancy: checkedOptional,
-    singleParent: checkedOptional,
-    disability: checkedOptional,
-    medicalReasons: checkedOptional,
-  }),
+  ausgabensituation: besondereBelastungenSchema,
   ausgaben: z.array(
     z.object({
       art: stringRequiredSchema,

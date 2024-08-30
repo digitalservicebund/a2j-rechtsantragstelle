@@ -4,7 +4,7 @@ import { config } from "../env/env.server";
 import { logError } from "../logging";
 
 declare global {
-  /* eslint-disable-next-line no-var*/
+  /* eslint-disable-next-line no-var, sonarjs/no-var*/
   var ioredis: Redis;
 }
 

@@ -2,8 +2,11 @@ import _ from "lodash";
 import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
 import type { FluggastrechtContext } from "./context";
 import fluggastrechteFlow from "./flow.json";
+import { flugdatenDone } from "./flugdaten/doneFunctions";
 import flugdatenFlow from "./flugdaten/flow.json";
 import forderungDatenFlow from "./forderung/flow.json";
+import { grundvorraussetzungenDone } from "./grundvorraussetzungen/doneFunctions";
+import grundvorraussetzungenFlow from "./grundvorraussetzungen/flow.json";
 import { fluggastrechteGuards } from "./guards";
 import {
   personDone,
@@ -11,6 +14,7 @@ import {
 } from "./persoenlicheDaten/doneFunctions";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import {
+  getAirlineName,
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
   getForderung,
@@ -44,6 +48,7 @@ export const fluggastrechtFlow = {
     ...getPersonNachname(context),
     ...getArrayWeiterePersonenIndexStrings(context),
     ...getWeiterePersonenNameStrings(context),
+    ...getAirlineName(context),
   }),
   config: _.merge(fluggastrechteFlow, {
     meta: {
@@ -53,14 +58,17 @@ export const fluggastrechtFlow = {
           initialInputUrl: "daten",
           statementUrl:
             "/fluggastrechte/formular/persoenliche-daten/weitere-personen/uebersicht",
-          statementKey: "showAlways",
+          statementKey: "isWeiterePersonen",
           hiddenFields: ["anrede", "title"],
           event: "add-weitere-personen",
         },
       },
     },
     states: {
-      flugdaten: _.merge(flugdatenFlow, {}),
+      grundvorraussetzungen: _.merge(grundvorraussetzungenFlow, {
+        meta: { done: grundvorraussetzungenDone },
+      }),
+      flugdaten: _.merge(flugdatenFlow, { meta: { done: flugdatenDone } }),
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
         states: {
           person: { meta: { done: personDone } },

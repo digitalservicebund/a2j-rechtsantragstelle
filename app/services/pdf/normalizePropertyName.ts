@@ -16,6 +16,6 @@ export function normalizePropertyName(propertyName: string) {
       /[äöüÄÖÜß]/g,
       (match) => umlautMap[match as keyof typeof umlautMap],
     )
-    .replace(/[^a-zA-Z0-9_]/g, "");
+    .replace(/[^\w]/g, "");
   return lowercaseFirstLetter(normalizedString);
 }
