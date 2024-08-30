@@ -9,6 +9,7 @@ import {
   fetchTranslations,
   strapiPageFromRequest,
 } from "~/services/cms/index.server";
+import { sanitizeReferrer } from "~/services/security/sanitizeReferrer";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { content, meta } = await strapiPageFromRequest({ request });
@@ -19,10 +20,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function Index() {
   const { content, translations } = useLoaderData<typeof loader>();
   const isSubmitting = useNavigation().state === "submitting";
-  const [previousPage, setPreviousPage] = useState("");
+  const [previousPage, setPreviousPage] = useState<string | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
-    setPreviousPage(document.referrer);
+    setPreviousPage(
+      sanitizeReferrer(document.referrer, window.location.origin),
+    );
   }, []);
 
   return (
@@ -37,7 +42,7 @@ export default function Index() {
           <ButtonContainer>
             <Button
               type="button"
-              href={previousPage.length > 0 ? previousPage : "/"}
+              href={previousPage}
               look="tertiary"
               size="large"
               text={translations["back"] ?? "Zurück ohne zu löschen"}
