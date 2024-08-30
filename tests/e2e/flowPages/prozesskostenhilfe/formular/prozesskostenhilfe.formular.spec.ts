@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import { CookieSettings } from "tests/e2e/pom/CookieSettings";
 import { ProzesskostenhilfeFormular } from "tests/e2e/pom/ProzesskostenhilfeFormular";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
+import { startFinanzielleAngabenAusgaben } from "./finanzielleAngabenAusgaben";
 import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "../../shared/finanzielleAngaben/finanzielleAngabenAndereUnterhaltszahlungen";
 import { startFinanzielleAngabenEigentum } from "../../shared/finanzielleAngaben/finanzielleAngabenEigentum";
 import { startFinanzielleAngabenEigentumZusammenfassung } from "../../shared/finanzielleAngaben/finanzielleAngabenEigentumZusammenfassung";
@@ -57,6 +58,7 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
     prozesskostenhilfeFormular,
   );
   await prozesskostenhilfeFormular.clickNext();
+  await startFinanzielleAngabenAusgaben(page, prozesskostenhilfeFormular);
 
   // /prozesskostenhilfe/formular/abgabe/art
   // FIXME: This step is not accessible
