@@ -20,20 +20,25 @@ export { getBeratungshilfeParameters };
 export async function beratungshilfePdfFromUserdata(
   userdata: BeratungshilfeFormularContext,
 ) {
-  const pdfFields = getBeratungshilfeParameters();
+  const pdfValues = getBeratungshilfeParameters();
   const attachmentData = createAttachment();
 
-  fillHeader(attachmentData, pdfFields, userdata);
-  fillAngelegenheit(attachmentData, pdfFields, userdata);
-  fillVorraussetzungen(pdfFields, userdata);
-  fillEinkommen(pdfFields, userdata);
-  fillUnterhalt(attachmentData, pdfFields, userdata);
-  fillBesitz(attachmentData, pdfFields, userdata);
-  fillAusgaben(attachmentData, pdfFields, userdata);
-  fillWohnen(pdfFields, userdata);
-  fillFooter(pdfFields, userdata);
+  fillHeader(attachmentData, pdfValues, userdata);
+  fillAngelegenheit(attachmentData, pdfValues, userdata);
+  fillVorraussetzungen(pdfValues, userdata);
+  fillEinkommen(pdfValues, userdata);
+  fillUnterhalt(attachmentData, pdfValues, userdata);
+  fillBesitz(attachmentData, pdfValues, userdata);
+  fillAusgaben(attachmentData, pdfValues, userdata);
+  fillWohnen(pdfValues, userdata);
+  fillFooter(pdfValues, userdata);
 
-  const filledPdf = await fillPdf("/beratungshilfe/antrag", pdfFields);
+  const filledPdf = await fillPdf({
+    flowId: "/beratungshilfe/antrag",
+    pdfValues,
+    yPositionsDruckvermerk: [90, 108, 138],
+    xPositionsDruckvermerk: 28,
+  });
 
   if (attachmentData.length > 0) {
     await appendAttachment(

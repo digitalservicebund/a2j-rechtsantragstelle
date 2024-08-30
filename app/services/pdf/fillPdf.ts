@@ -39,21 +39,29 @@ async function readRelativeFileToBuffer(relativeFilepath: string) {
   }
 }
 
-export async function fillPdf(
-  flowId: FlowId,
-  values: Record<string, BooleanField | StringField>,
-) {
+type FillPdfProps = {
+  flowId: FlowId;
+  pdfValues: Record<string, BooleanField | StringField>;
+  yPositionsDruckvermerk?: number | number[];
+  xPositionsDruckvermerk?: number;
+};
+
+export async function fillPdf({
+  flowId,
+  pdfValues,
+  yPositionsDruckvermerk,
+  xPositionsDruckvermerk,
+}: FillPdfProps) {
   if (!(flowId in global.__pdfFileBuffers))
     throw Error("No pdf file found for " + flowId);
 
   const pdfDoc = await PDFDocument.load(global.__pdfFileBuffers[flowId]!);
-  const yPositionsDruckvermerk = [90, 108, 138];
   resizeToA4(pdfDoc);
-  addDruckvermerk(pdfDoc, yPositionsDruckvermerk);
+  addDruckvermerk(pdfDoc, yPositionsDruckvermerk, xPositionsDruckvermerk);
 
   const form = pdfDoc.getForm();
 
-  Object.values(values).forEach((value) => {
+  Object.values(pdfValues).forEach((value) => {
     if (isBooleanField(value)) {
       changeBooleanField(value, form);
     } else {

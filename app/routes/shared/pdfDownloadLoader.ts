@@ -3,6 +3,7 @@ import _ from "lodash";
 import type { Context } from "~/flows/contexts";
 import { parsePathname, type FlowId } from "~/flows/flowIds";
 import { beratungshilfePdfFromUserdata } from "~/services/pdf/beratungshilfe";
+import { prozesskostenhilfePdfFromUserdata } from "~/services/pdf/prozesskostenhilfe";
 import { getSessionData } from "~/services/session.server";
 import { pdfDateFormat, today } from "~/util/date";
 
@@ -13,7 +14,7 @@ const pdfConfigs = {
       `Antrag_Beratungshilfe_${userData.nachname}_${pdfDateFormat(today())}.pdf`,
   },
   "/prozesskostenhilfe/formular": {
-    pdfFunction: beratungshilfePdfFromUserdata,
+    pdfFunction: prozesskostenhilfePdfFromUserdata,
     filenameFunction: (userData: Context) =>
       `Antrag_Prozesskostenhilfe_${userData.nachname}_${pdfDateFormat(today())}.pdf`,
   },
