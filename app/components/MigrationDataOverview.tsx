@@ -43,7 +43,7 @@ export default function MigrationDataOverview({
             tagName="p"
             look="ds-label-01-bold"
           />
-          {renderMigrationValue(translations, itemValue as string, itemKey)}
+          {renderMigrationValue(translations, itemValue, itemKey)}
         </div>
       ))}
     </div>
