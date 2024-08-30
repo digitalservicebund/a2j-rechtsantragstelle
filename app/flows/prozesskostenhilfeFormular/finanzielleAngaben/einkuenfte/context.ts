@@ -5,7 +5,6 @@ import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import {
   customRequiredErrorMessage,
@@ -21,7 +20,6 @@ export const financialEntrySchema = z.object({
   beschreibung: stringRequiredSchema,
   betrag: buildMoneyValidationSchema(),
   zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
-  proMonat: stringOptionalSchema,
 });
 
 export type FinancialEntrySchema = z.infer<typeof financialEntrySchema>;
