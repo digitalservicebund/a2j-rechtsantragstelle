@@ -35,6 +35,7 @@ const allowedWebsites = [
   "https://sentry.io",
   "https://www.verbraucherzentrale.nrw",
   "https://www.youtube.com",
+  "https://policies.google.com",
 ];
 
 const allowedEmails = [
