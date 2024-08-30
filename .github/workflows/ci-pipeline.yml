@@ -167,7 +167,7 @@ jobs:
 
   deploy-production:
     #    needs: [verify-preview-e2e, build-push-app-image]
-    needs: [build-push-app-image]
+    needs: [build-push-app-image, deploy-staging]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
