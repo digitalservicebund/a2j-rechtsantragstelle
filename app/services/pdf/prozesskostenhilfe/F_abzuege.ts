@@ -1,18 +1,33 @@
-import type { PdfFillFunction } from "./fillOutFunction";
+import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
+import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import type { PdfFillFunction, PdfFillFunctionProps } from "./fillOutFunction";
 
-export const fillAbzuege: PdfFillFunction = ({
-  userdata,
+export const fillAbzuege: PdfFillFunction<
+  ProzesskostenhilfeFormularContext,
+  ProzesskostenhilfePDF
+> = ({
+  userData,
   pdfValues,
   attachment,
-}) => {
-  if (userdata.hasAusgaben !== "yes") return { pdfValues }; // TODO: remove after pruning
+}: PdfFillFunctionProps<
+  ProzesskostenhilfeFormularContext,
+  ProzesskostenhilfePDF
+>) => {
+  if (userData.hasAusgaben !== "yes") return { pdfValues }; // TODO: remove after pruning
 
-  pdfValues.sonstigeVersicherungen.value = userdata.versicherungen
-    ?.map(
-      (versicherung) =>
-        `${versicherung.art !== "sonstige" ? versicherung.art : versicherung.sonstigeArt}: ${versicherung.beitrag} €`,
-    )
-    .join("\n");
-
-  return { pdfValues, attachment };
+  return {
+    pdfValues: {
+      ...pdfValues,
+      sonstigeVersicherungen: {
+        ...pdfValues.sonstigeVersicherungen,
+        value: userData.versicherungen
+          ?.map(
+            (versicherung) =>
+              `${versicherung.art !== "sonstige" ? versicherung.art : versicherung.sonstigeArt}: ${versicherung.beitrag} €`,
+          )
+          .join("\n"),
+      },
+    },
+    attachment,
+  };
 };
