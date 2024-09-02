@@ -5,7 +5,7 @@ export const fillAbzuege: PdfFillFunction = ({
   pdfValues,
   attachment,
 }) => {
-  if (userdata.hasAusgaben !== "yes") return { pdfValues }; // TODO: remove after pruning
+  if (userdata.hasAusgaben !== "yes") return { pdfValues, attachment }; // TODO: remove after pruning
 
   pdfValues.sonstigeVersicherungen.value = userdata.versicherungen
     ?.map(

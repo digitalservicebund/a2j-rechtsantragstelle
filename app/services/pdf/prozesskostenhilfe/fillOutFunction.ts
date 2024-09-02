@@ -7,7 +7,8 @@ type PdfFillFunctionProps = {
   pdfValues: ProzesskostenhilfePDF;
   attachment?: AttachmentEntries;
 };
-type PdfFillFunctionReturnProps = {
+
+export type PdfFillFunctionReturnProps = {
   pdfValues: ProzesskostenhilfePDF;
   attachment?: AttachmentEntries;
 };
