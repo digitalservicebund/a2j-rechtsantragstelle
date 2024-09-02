@@ -51,7 +51,7 @@
     "@sentry/remix": "^8.27.0",
     "@sentry/vite-plugin": "^2.22.3",
     "@xstate/graph": "^2.0.0",
-    "axios": "^1.7.5",
+    "axios": "^1.7.7",
     "classnames": "^2.5.1",
     "compression": "^1.7.4",
     "dotenv": "^16.4.5",
