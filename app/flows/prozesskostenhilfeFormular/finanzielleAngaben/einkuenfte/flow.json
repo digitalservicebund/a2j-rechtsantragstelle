@@ -454,7 +454,7 @@
               "#partner"
             ],
             "BACK": "frage",
-            "add-einkunft": {
+            "add-weitereEinkuenfte": {
               "guard": "isValidEinkuenfteArrayIndex",
               "target": "einkunft"
             }

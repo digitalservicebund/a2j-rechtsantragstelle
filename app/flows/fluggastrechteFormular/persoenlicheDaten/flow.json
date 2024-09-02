@@ -81,7 +81,7 @@
           "on": {
             "SUBMIT": "#forderung",
             "BACK": "frage",
-            "add-weitere-personen": {
+            "add-weiterePersonen": {
               "guard": "isValidWeiterePersonenArrayIndex",
               "target": "person"
             }

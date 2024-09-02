@@ -37,11 +37,17 @@ export type Config = MachineConfig<
   never,
   never,
   { type: string; params: unknown },
-  never
+  never,
+  never,
+  never,
+  never,
+  never,
+  Meta
 >;
-type Meta = {
+
+export type Meta = {
   customAnalyticsEventName?: string;
-  done: GenericGuard<Context>;
+  done?: GenericGuard<Context>;
   arrays?: Record<string, ArrayConfig>;
 };
 
@@ -167,7 +173,7 @@ function stepStates(
 
       return {
         url: `${state.machine.id}/${targetStepId}`,
-        isDone: hasDoneFunction ? meta.done({ context }) : false,
+        isDone: hasDoneFunction ? meta.done!({ context }) : false,
         stepId,
         isReachable: reachableSteps.includes(targetStepId),
       };
@@ -200,6 +206,8 @@ export const buildFlowController = ({
   }).createMachine({ ...config, context });
   const flowId = config.id ?? "";
   const reachableSteps = getSteps(machine); // depends on context
+  const hasDoneFunction =
+    metaFromStepId(machine, reachableSteps[0])?.done !== undefined;
 
   return {
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
@@ -208,7 +216,11 @@ export const buildFlowController = ({
     getReachableSteps: () => reachableSteps,
     getUserdata: () => context,
     isDone: (currentStepId: string) =>
-      Boolean(metaFromStepId(machine, currentStepId)?.done({ context })),
+      Boolean(
+        hasDoneFunction
+          ? metaFromStepId(machine, currentStepId)?.done!({ context })
+          : false,
+      ),
     getConfig: () => config,
     getGuards: () => guards,
     isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),

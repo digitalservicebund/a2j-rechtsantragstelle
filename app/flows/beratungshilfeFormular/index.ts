@@ -1,4 +1,5 @@
 import _ from "lodash";
+import type { Flow } from "~/flows/flows.server";
 import abgabeFlow from "./abgabe/flow.json";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
@@ -118,7 +119,7 @@ export const beratungshilfeFormular = {
     ...geldAnlagenStrings(context),
     ...weiteresEinkommenStrings(context),
   }),
-} as const;
+} satisfies Flow;
 
 export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &
   BeratungshilfeAnwaltlicheVertretung &
