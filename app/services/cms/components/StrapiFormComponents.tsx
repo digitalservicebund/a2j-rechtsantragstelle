@@ -3,6 +3,7 @@ import StrapiAutoSuggestInput from "./StrapiAutoSuggestInput";
 import { StrapiCheckbox } from "./StrapiCheckbox";
 import { StrapiDateInput } from "./StrapiDateInput";
 import { StrapiDropdown } from "./StrapiDropdown";
+import { StrapiFieldset } from "./StrapiFieldset";
 import { StrapiFileInput } from "./StrapiFileInput";
 import { StrapiHiddenInput } from "./StrapiHiddenInput";
 import { StrapiInput } from "./StrapiInput";
@@ -38,6 +39,8 @@ const FormComponent = ({
       return <StrapiTileGroup {...component} />;
     case "form-elements.hidden-input":
       return <StrapiHiddenInput {...component} />;
+    case "form-elements.fieldset":
+      return <StrapiFieldset {...component} />;
   }
   return null;
 };
