@@ -11,6 +11,8 @@ updates:
       time: "10:00"
       timezone: "Europe/Berlin"
     groups:
+      patch-updates:
+        update-types: ["patch"]
       storybook:
         patterns:
           - "@storybook/*"
