@@ -1,13 +1,16 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
+import type { Context } from "~/flows/contexts";
 import { parsePathname } from "~/flows/flowIds";
+import type { Flow } from "~/flows/flows.server";
 import { flows } from "~/flows/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getArraySummaryPageTranslations } from "~/services/array/getArraySummaryPageTranslations";
 import { getSummaryData } from "~/services/array/getSummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
+import type { Translations } from "~/services/cms/index.server";
 import {
   fetchFlowPage,
   fetchMeta,
@@ -63,6 +66,27 @@ const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
   };
 };
 
+function getInterpolateFlowTranslations(
+  currentFlow: Flow,
+  flowTranslations: Translations,
+  migrationData: Context | undefined,
+): Translations {
+  if (
+    typeof migrationData === "undefined" ||
+    typeof currentFlow.stringReplacements === "undefined"
+  ) {
+    return flowTranslations;
+  }
+
+  /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports 
+    can not be translated, so it's required to be interpolated 
+  */
+  return interpolateDeep(
+    flowTranslations,
+    currentFlow.stringReplacements(migrationData, flowTranslations),
+  );
+}
+
 export const loader = async ({
   params,
   request,
@@ -116,18 +140,21 @@ export const loader = async ({
     userDataWithPageData,
   );
 
+  const migrationData = await getMigrationData(
+    stepId,
+    flowId,
+    currentFlow,
+    cookieHeader,
+  );
+
+  const flowTranslationsAfterInterpolation = getInterpolateFlowTranslations(
+    currentFlow,
+    flowTranslations,
+    migrationData,
+  );
+
   const arrayTranslations =
     await getArraySummaryPageTranslations(arrayCategories);
-
-  /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports 
-    can not be translated, so it's required to be interpolated 
-  */
-  const flowTranslationsAfterInterpolation = interpolateDeep(
-    flowTranslations,
-    "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userDataWithPageData, flowTranslations)
-      : {},
-  );
 
   const stringTranslations = {
     ...arrayTranslations,
@@ -187,13 +214,6 @@ export const loader = async ({
       flowController.stepStates(),
       navigationStrings,
     ) ?? [];
-
-  const migrationData = await getMigrationData(
-    stepId,
-    flowId,
-    currentFlow,
-    cookieHeader,
-  );
 
   const flowTransitionConfig = getFlowTransitionConfig(currentFlow);
 
