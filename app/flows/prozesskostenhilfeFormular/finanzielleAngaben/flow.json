@@ -645,7 +645,7 @@
             "betragGesamt": {
               "on": {
                 "BACK": "zahlungspflichtiger",
-                "SUBMIT": "betragEigenerAnteil"
+                "SUBMIT": "restschuld"
               }
             },
             "restschuld": {

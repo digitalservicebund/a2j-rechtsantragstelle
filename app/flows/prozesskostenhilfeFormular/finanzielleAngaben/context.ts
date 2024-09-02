@@ -20,6 +20,7 @@ import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
+import { today } from "~/util/date";
 
 export const zahlungspflichtigerSchema = z.enum(
   ["myself", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -77,7 +78,9 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
       betragEigenerAnteil: buildMoneyValidationSchema(),
       betragGesamt: buildMoneyValidationSchema(),
       restschuld: buildMoneyValidationSchema(),
-      laufzeitende: createDateSchema(),
+      laufzeitende: createDateSchema({
+        earliest: () => today(),
+      }),
     }),
   ),
   sonstigeAusgaben: z.array(

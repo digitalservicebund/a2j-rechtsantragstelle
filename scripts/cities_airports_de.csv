@@ -85,7 +85,7 @@ FLA,CO,Florencia
 FLN,BR,Florianopolis
 FMA,AR,Formosa
 FOR,BR,Fortaleza
-FTE, Comandante A. Tola,
+FTE,AR,Comandante A. Tola,
 GEL,BR,Santo Angelo
 GEO,GY,Georgetown
 GIG,BR,Rio de Janeiro
@@ -120,7 +120,7 @@ LAJ,BR,Lages
 LDB,BR,Londrina
 LET,CO,Leticia
 LHS,AR,Las Heras
-LIM,Jorge Chavez Intl,
+LIM,PE,Jorge Chavez Intl,
 LPB,BO,La Paz
 LSC,CL,La Serena
 LSP,VE,Las Piedras
@@ -151,7 +151,7 @@ MVF,BR,Mossoro
 MVP,CO,Mitu
 MYC,VE,Maracay
 MZL,CO,Manizales
-NAT,Natal Intl.,
+NAT,BR,Natal Intl.,
 NEC,AR,Necochea
 NQN,AR,Neuquen
 NVA,CO,Neiva
@@ -251,7 +251,7 @@ ULA,AR,San Julian
 URG,BR,Uruguaiana
 USH,AR,Ushuaia
 VCP,BR,Sao Paulo
-VDC, Glauber Rocha,
+VDC,BR,Glauber Rocha,
 VDM,AR,Viedma
 VIG,VE,El Vigia
 VIX,BR,Vitoria
@@ -490,7 +490,7 @@ INV,GB,Inverness
 IOA,GR,Ioannina
 IOM,GB,Isle of Man
 ISL,TR,Istanbul
-IST, Istanbul Flughafen,
+IST,TR,Istanbul Flughafen,
 IVL,FI,Ivalo
 IWA,RU,Iwanowo
 JER,JE,Jersey
@@ -724,7 +724,7 @@ SEK,RU,Srednekolymsk
 SEN,GB,London
 SFT,SE,Skelleftea
 SGD,DK,Sonderborg
-SIP, Simferopol Intl,
+SIP,UA,Simferopol Intl,
 SJJ,BA,Sarajewo
 SJY,FI,Seinajoki
 SJZ,PT,Insel Sao Jorge
@@ -743,7 +743,7 @@ SOJ,NO,Sorkjosen
 SOU,GB,Southampton
 SPU,HR,Split
 SQO,SE,Storuman
-SRP, Sorstokken,
+SRP,NO,Sorstokken,
 SSJ,NO,Sandnessjoen
 STN,GB,London
 STR,DE,Stuttgart
@@ -842,7 +842,7 @@ ZRH,CH,Zürich
 ZTH,GR,Insel Zakynthos
 AAC,EG,El Arish
 AAN,AE,Al Ain
-AAP, "ID",Samarinda
+AAP,ID,Samarinda
 AAT,CN,Altay
 AAY,YE,Al Ghaydah
 ABD,IR,Abadan
@@ -855,7 +855,7 @@ ADF,TR,Adiyaman
 ADJ,JO,Amman
 ADU,IR,Ardabil
 AEB,CN,Baise
-AEG, "ID",Padangsidempuan
+AEG,ID,Padangsidempuan
 AEU,IR,Abu Musa Insel
 AFZ,IR,Sabzevar
 AGR,IN,Agra
@@ -872,7 +872,7 @@ ALA,KZ,Almaty
 ALP,SY,Aleppo
 AMD,IN,Ahmedabad
 AMM,JO,Amman
-AMQ, "ID",Ambon
+AMQ,ID,Ambon
 AMV,RU,Amderma
 AOE,TR,Eskisehir
 AOG,CN,Anshan
@@ -906,10 +906,10 @@ BBM,KH,Battambang
 BBN,MY,Bario
 BCD,PH,Bacolod
 BDH,IR,Bandar Lengeh
-BDJ, "ID",Banjarmasin
-BDO, "ID",Bandung
+BDJ,ID,Banjarmasin
+BDO,ID,Bandung
 BDQ,IN,Vadodara
-BEJ, "ID",Tanjung Redeb
+BEJ,ID,Tanjung Redeb
 BEY,LB,Beirut
 BFJ,CN,Bijie
 BFV,TH,Buriram
@@ -920,20 +920,20 @@ BHK,UZ,Bukhara
 BHO,IN,Bhopal
 BHU,IN,Bhavnagar
 BHV,PK,Bahawalpur
-BIK, "ID",Biak
+BIK,ID,Biak
 BIR,NP,Biratnagar
 BJB,IR,Bojnurd
 BJV,TR,Bodrum
 BKI,MY,Kota Kinabalu
 BKK,TH,Bangkok
-BKS, "ID",Bengkulu
+BKS,ID,Bengkulu
 BLR,IN,Bengaluru
 BMV,VN,Buon Ma Thuot
 BND,IR,Bandar Abbas
 BOM,IN,Mumbai
 BPE,CN,Qinhuangdao
 BPL,CN,Bole
-BPN, "ID",Balikpapan
+BPN,ID,Balikpapan
 BPX,CN,Qamdo/Changdu
 BQA,PH,Ballenpresse
 BQS,RU,Blagoweschtschensk
@@ -941,8 +941,8 @@ BSD,CN,Baoshan
 BSO,PH,Basco
 BSR,IQ,Basrah
 BTC,LK,Batticaloa
-BTH, "ID",Batam
-BTJ, "ID",Banda Aceh
+BTH,ID,Batam
+BTJ,ID,Banda Aceh
 BTK,RU,Bratsk
 BTU,MY,Bintulu
 BUS,GE,Batumi
@@ -967,7 +967,7 @@ CDP,IN,Cuddapah
 CEB,PH,Cebu
 CEI,TH,Chiang Rai
 CGD,CN,Changde
-CGK, "ID",Jakarta
+CGK,ID,Jakarta
 CGM,PH,Insel Camiguin
 CGO,CN,Zhengzhou
 CGP,BD,Chittagong
@@ -984,7 +984,7 @@ CJU,KR,Jeju
 CKG,CN,Chongqing
 CKH,RU,Chokurdakh
 CKZ,TR,Canakkale
-CMB, Bandaranaike Intl,
+CMB,LK,Bandaranaike Intl,
 CNI,CN,Changhai
 CNN,IN,Kannur
 CNX,TH,Chiang Mai
@@ -998,7 +998,7 @@ CTS,JP,Sapporo
 CTU,CN,Chengdu
 CWJ,CN,Cangyuan
 CXB,BD,Cox's Bazar
-CXP, "ID",Cilacap
+CXP,ID,Cilacap
 CXR,VN,Nha Trang
 CYI,TW,Chiayi
 CYP,PH,Calbayog
@@ -1023,7 +1023,7 @@ DIG,CN,Deqen
 DIL,TL,Dili
 DIN,VN,Dien Bien Phu
 DIY,TR,Diyarbakir
-DJJ, "ID",Jayapura
+DJJ,ID,Jayapura
 DLC,CN,Dalian
 DLI,VN,Da Lat
 DLM,TR,Dalaman
@@ -1037,13 +1037,13 @@ DNH,CN,Dunhuang
 DNZ,TR,Denizli
 DOH,QA,Doha
 DPL,PH,Dipolog
-DPS, "ID",Denpasar-Bali
+DPS,ID,Denpasar-Bali
 DQM,OM,Duqm
 DSK,PK,Dera Ismail Khan
 DSN,CN,Ordos
 DSO,KP,Sondok
 DTU,CN,Wudalianchi
-DUM, "ID",Dumai
+DUM,ID,Dumai
 DVO,PH,Davao
 DWC,AE,Dubai
 DWD,SA,Dawadmi
@@ -1070,12 +1070,12 @@ EVN,AM,Eriwan
 EZS,TR,Elazig
 FEG,UZ,Fergana
 FJR,AE,Fujairah
-FKQ, "ID",Fak Fak
+FKQ,ID,Fak Fak
 FKS,JP,Fukushima
-FLZ, "ID",Sibolga
+FLZ,ID,Sibolga
 FNJ,KP,Pjöngjang
 FOC,CN,Fuzhou
-FRU,Manas Intl,
+FRU,KG,Manas Intl,
 FSZ,JP,Shizuoka
 FUG,CN,Fuyang
 FUJ,JP,Fukue
@@ -1097,7 +1097,7 @@ GIL,PK,Gilgit
 GIZ,SA,Gizan
 GMP,KR,Seoul
 GMQ,CN,Golog
-GNS, "ID",Gunung Sitoli
+GNS,ID,Gunung Sitoli
 GNY,TR,Sanliurfa
 GOI,IN,Tura
 GOP,IN,Gorakhpur
@@ -1116,7 +1116,7 @@ HAK,CN,Haikou
 HAN,VN,Hanoi
 HAQ,MV,Insel Hanimaadhoo
 HAS,SA,Hagel
-HBX, Hubli Flughafen,
+HBX,IN,Hubli Flughafen,
 HCJ,CN,Hechi
 HCN,TW,Hengchun
 HCZ,CN,Chenzhou
@@ -1137,10 +1137,10 @@ HIN,KR,Jinju
 HJJ,CN,Huaihua
 HJR,IN,Khajuraho
 HKD,JP,Hakodate
-HKG, Hongkong Intl,
+HKG,HK,Hongkong Intl,
 HKT,TH,Phuket
 HLD,CN,Hailar
-HLP, "ID",Jakarta
+HLP,ID,Jakarta
 HMA,RU,Chanty-Mansijsk
 HMI,CN,Hami
 HNA,JP,Hanamaki
@@ -1196,7 +1196,7 @@ IXB,IN,Bagdogra
 IXC,IN,Chandigarh
 IXD,IN,Allahabad
 IXE,IN,Mangalore
-IXG, Sambre,
+IXG,IN,Sambre,
 IXI,IN,Lilabari
 IXJ,IN,Jammu
 IXL,IN,Leh
@@ -1226,7 +1226,7 @@ JMJ,CN,Lancang
 JMU,CN,Jiamusi
 JNG,CN,Jining
 JNZ,CN,Jinzhou
-JOG, "ID",Yogyakarta
+JOG,ID,Yogyakarta
 JOL,PH,Jolo
 JRH,IN,Jorhat
 JSJ,CN,Jiansanjiang
@@ -1278,9 +1278,9 @@ KMG,CN,Kunming
 KMI,JP,Miyazaki
 KMJ,JP,Kumamoto
 KMQ,JP,Komatsu
-KNG, "ID",Utarom
+KNG,ID,Utarom
 KNH,TW,Kinmen
-KNO, "ID",Medan
+KNO,ID,Medan
 KNU,IN,Kanpur
 KOJ,JP,Kagoshima
 KOP,TH,Nakhon Phanom
@@ -1296,7 +1296,7 @@ KSH,IR,Kermanshah
 KSN,KZ,Kostanay
 KSY,TR,Kars
 KTD,JP,Kitadaito
-KTG, "ID",Ketapang
+KTG,ID,Ketapang
 KTM,NP,Kathmandu
 KUA,MY,Kuantan
 KUH,JP,Kushiro
@@ -1309,7 +1309,7 @@ KWE,CN,Guiyang
 KWI,KW,Kuwait
 KWJ,KR,Gwangju
 KWL,CN,Guilin
-KXB, "ID",Kolaka
+KXB,ID,Kolaka
 KXK,RU,Komsomolsk-na-Amure
 KYA,TR,Konya
 KYD,TW,Lanyu (Orchideeninsel)
@@ -1337,7 +1337,7 @@ LMN,MY,Limbang
 LNJ,CN,Lincang
 LNL,CN,Longnan
 LOE,TH,Loei
-LOP, "ID",Praya
+LOP,ID,Praya
 LPF,CN,Liupanshui
 LPQ,LA,Luang Prabang
 LPT,TH,Lampang
@@ -1347,7 +1347,7 @@ LTI,MN,Altai
 LTK,SY,Latakia
 LTU,IN,Latur
 LUM,CN,Mangshi
-LUV, "ID",Langgur
+LUV,ID,Langgur
 LWN,AM,Gjumri
 LXA,CN,Lhasa/Lasa
 LYA,CN,Luoyang
@@ -1376,10 +1376,10 @@ MIG,CN,Mianyang
 MJD,PK,Moenjodaro
 MJZ,RU,Mirny
 MKM,MY,Mukah
-MKQ, "ID",Merauke
-MKW, Rendani,
+MKQ,ID,Merauke
+MKW,ID,Rendani,
 MLE,MV,Männlich
-MLG, "ID",Malang
+MLG,ID,Malang
 MLX,TR,Malatya
 MMB,JP,Memanbetsu
 MMD,JP,Minamidaito
@@ -1405,11 +1405,11 @@ MZG,TW,Penghu
 MZR,AF,Mazar-e Sharif
 MZV,MY,Mulu
 NAG,IN,Nagpur
-NAH, "ID",Tahuna
+NAH,ID,Tahuna
 NAJ,AZ,Nakchivan
 NAW,TH,Narathiwat
 NBS,CN,Baishan
-NBX, "ID",Nabire
+NBX,ID,Nabire
 NCU,UZ,Nukus
 NDC,IN,Nanded
 NDG,CN,Qiqihar
@@ -1433,7 +1433,7 @@ NNM,RU,Naryan-Mar
 NNT,TH,Nan
 NOJ,RU,Nojabrsk
 NOP,TR,Sinop
-NPO, "ID",Nangapinoh
+NPO,ID,Nangapinoh
 NQZ,KZ,Astana
 NRT,JP,Tokio
 NSH,IR,Jetzt Shahr
@@ -1441,7 +1441,7 @@ NSK,RU,Norilsk
 NST,TH,Nakhon Si Thammarat
 NTG,CN,Nantong
 NTQ,JP,Wajima
-NTX, "ID",Natuna
+NTX,ID,Natuna
 NUM,SA,Neom Bay
 NUX,RU,Nowy Urengoi
 NVI,UZ,Navoi
@@ -1462,12 +1462,12 @@ OKD,JP,Sapporo
 OKE,JP,Okierabu
 OKI,JP,Oki
 OKJ,JP,Okayama
-OKL, "ID",Oksibil
+OKL,ID,Oksibil
 OMH,IR,Urumiyeh
 OMS,RU,Omsk
 ONJ,JP,Odate/Noshiro
 ONQ,TR,Zonguldak
-OSS, Osh Flughafen,
+OSS,KG,Osh Flughafen,
 OSW,RU,Orsk
 OVS,RU,Sovetsky
 OZC,PH,Ozamiz
@@ -1477,8 +1477,8 @@ PAT,IN,Patna
 PBD,IN,Porbandar
 PBH,BT,Paro
 PBU,MM,Putao
-PDG, "ID",Padang
-PDO, "ID",Pendopo
+PDG,ID,Padang
+PDO,ID,Pendopo
 PEK,CN,Peking
 PEN,MY,Penang
 PEW,PK,Peshawar
@@ -1488,26 +1488,26 @@ PGH,IN,Pantnagar
 PGU,IR,Asaloyeh
 PHS,TH,Phitsanulok
 PHY,TH,Phetchabun
-PIF, Pingtung Süd,
+PIF,TW,Pingtung Süd,
 PJG,PK,Panjgur
 PKC,RU,Petropavlovsk
 PKR,NP,Pokhara
-PKU, "ID",Pekanbaru
+PKU,ID,Pekanbaru
 PKX,CN,Peking
-PKY, Tjilik Riwut,
+PKY,ID,Tjilik Riwut,
 PKZ,LA,Pakse
-PLM, "ID",Palembang
-PLW, Mutiara,
+PLM,ID,Palembang
+PLW,ID,Mutiara,
 PLX,KZ,Semey
 PNH,KH,Phnom Penh
-PNK, "ID",Pontianak
+PNK,ID,Pontianak
 PNQ,IN,Pune
 PNY,IN,Pondicherry
 PPK,KZ,Petropavlovsk
 PPS,PH,Puerto Princesa
 PQC,VN,Phu Quoc Insel
 PSI,PK,Pasni
-PSU, "ID",Putussibau
+PSU,ID,Putussibau
 PUS,KR,Busan
 PVG,CN,Shanghai
 PWQ,KZ,Pawlodar
@@ -1582,16 +1582,16 @@ SLL,OM,Salalah
 SLY,RU,Salechard
 SNO,TH,Sakon Nakhon
 SNW,MM,Thandwe
-SOC, "ID",Surakarta (Solo)
-SOQ, "ID",Sorong
+SOC,ID,Surakarta (Solo)
+SOQ,ID,Sorong
 SPD,BD,Saidpur
 SQD,CN,Shangrao
-SQG, "ID",Sintang
+SQG,ID,Sintang
 SQJ,CN,Sanming
-SRG, "ID",Semarang
+SRG,ID,Semarang
 SRY,IR,Sari
 STV,IN,Surat
-SUB, "ID",Surabaya
+SUB,ID,Surabaya
 SUG,PH,Surigao
 SUI,GE,Sui
 SVX,RU,Jekaterinburg
@@ -1630,17 +1630,17 @@ THQ,CN,Tianshui
 THR,IR,Teheran
 THS,TH,Sukhothai
 TIF,SA,Taif
-TIM, Moses Kilangin,
-TJG, "ID",Tanjung Warukin
+TIM,ID,Moses Kilangin,
+TJG,ID,Tanjung Warukin
 TJK,TR,Tokat
 TJM,RU,Tjumen
 TJU,TJ,Kulob
-TKG, "ID",Bandar Lampung
+TKG,ID,Bandar Lampung
 TKN,JP,Tokunoshima
 TKS,JP,Tokushima
 TLQ,CN,Turpan
 TLV,IL,Tel Aviv-Yafo
-TMH, "ID",Tanahmerah
+TMH,ID,Tanahmerah
 TMJ,UZ,Termez
 TNA,CN,Jinan
 TNE,JP,Tanegashima
@@ -1652,7 +1652,7 @@ TOY,JP,Toyama
 TPE,TW,Taipeh
 TPJ,NP,Taplejung
 TRA,JP,Tarama
-TRK, Juwata,
+TRK,ID,Juwata,
 TRR,LK,Trincomalee
 TRV,IN,Thiruvananthapuram
 TRZ,IN,Tiruchchirappalli
@@ -1660,7 +1660,7 @@ TSA,TW,Taipeh
 TSJ,JP,Tsushima
 TSN,CN,Tianjin
 TST,TH,Trang
-TTE, "ID",Ternate
+TTE,ID,Ternate
 TTJ,JP,Tottori
 TTT,TW,Taitung
 TUG,PH,Tuguegarao
@@ -1670,7 +1670,7 @@ TUU,SA,Tabuk
 TVY,MM,Dawei
 TWT,PH,Tawi Tawi Insel
 TWU,MY,Tawau
-TXE, "ID",Takengon
+TXE,ID,Takengon
 TXN,CN,Huangshan
 TYN,CN,Taiyuan
 TZX,TR,Trabzon
@@ -1684,7 +1684,7 @@ UEO,JP,Kumejima
 UET,PK,Quetta
 UGA,MN,Bulgan
 UGC,UZ,Urgench
-UGU, "ID",Bilogai
+UGU,ID,Bilogai
 UIH,VN,Qui Nhon
 UKB,JP,Osaka
 UKK,KZ,Ust-Kamenogorsk
@@ -1692,7 +1692,7 @@ UKX,RU,Ust-Kut
 ULH,SA,AlUla
 ULK,RU,Lensk
 UNN,TH,Ranong
-UPG, "ID",Makassar
+UPG,ID,Makassar
 URA,KZ,Uralsk
 URC,CN,Urumqi
 URJ,RU,Uray
@@ -1719,7 +1719,7 @@ VKT,RU,Vorkuta
 VNS,IN,Varanasi
 VRC,PH,Virac
 VTE,LA,Vientiane
-VTZ,Visakhapatnam Flughafen,
+VTZ,IN,Visakhapatnam Flughafen,
 VYI,RU,Wilyuysk
 WAE,SA,Wadi al Dawaser
 WDS,CN,Shiyan
@@ -1730,8 +1730,8 @@ WHA,CN,Wuhu
 WJU,KR,Wonju
 WKJ,JP,Wakkanai
 WMT,CN,Zunyi
-WMX, "ID",Wamena
-WNI, "ID",Wangiwangi-Insel
+WMX,ID,Wamena
+WNI,ID,Wangiwangi-Insel
 WNP,PH,Naga
 WNS,PK,Nawabshah
 WNZ,CN,Wenzhou
@@ -1754,7 +1754,7 @@ XUZ,CN,Xuzhou
 YBP,CN,Yibin
 YEI,TR,Bursa
 YGJ,JP,Yonago
-YIA, "ID",Yogyakarta
+YIA,ID,Yogyakarta
 YIC,CN,Yichun (Jiangxi)
 YIE,CN,Aershan
 YIH,CN,Yichang
@@ -1833,7 +1833,7 @@ BOY,BF,Bobo Dioulasso
 BPY,MG,Besalampy
 BSG,GQ,Bata
 BSK,DZ,Biskra
-BUQ, Internationaler Flughafen Joshua Mqabuko Nkomo,
+BUQ,ZW,Internationaler Flughafen Joshua Mqabuko Nkomo,
 BUX,CD,Bunia
 BVC,CV,Boa Vista Insel
 BYK,CI,Bouake
@@ -1873,7 +1873,7 @@ ELS,ZA,Ost-London
 ELU,DZ,El Oued
 ENU,NG,Enugu
 ERH,MA,Errachidien
-ERS,,Windhoek
+ERS,NA,Windhoek
 ESU,MA,Essaouira
 EUN,MA,Laayoune
 FBM,CD,Lubumbashi
@@ -1908,7 +1908,7 @@ HGA,SO,Hargeisa
 HLA,ZA,Johannesburg
 HMB,EG,Sohag
 HME,DZ,Hassi Messaoud
-HRE,R.G. Mugabe Intl,
+HRE,ZW,R.G. Mugabe Intl,
 HRG,EG,Hurghada
 HRM,DZ,Hassi R'mel
 HVA,MG,Analalava
@@ -1953,7 +1953,7 @@ LLW,MW,Lilongwe
 LOS,NG,Lagos
 LPA,ES,Gran Canaria
 LTD,LY,Ghadames
-LUD,,Luderitz
+LUD,NA,Luderitz
 LUN,ZM,Lusaka
 LVI,ZM,Livingstone
 LXR,EG,Luxor
@@ -2006,7 +2006,7 @@ NDU,,Rundu
 NGE,CM,Ngaoundere
 NIM,NE,Niamey
 NKC,MR,Nouakchott
-NLA, Simon M. Kapwepwe Intl,
+NLA,ZM,Simon M. Kapwepwe Intl,
 NOS,IR,Nosy-Be
 NOV,AO,Huambo
 NSI,CM,Yaounde
@@ -2014,8 +2014,8 @@ NWA,KM,Moheli
 NYI,GH,Sunyani
 NYK,KE,Nanyuki
 OGX,DZ,Ouargla
-OMD,,Oranjemund
-OND,,Ondangwa
+OMD,NA,Oranjemund
+OND,NA,Ondangwa
 ORN,DZ,Oran
 OUA,BF,Ouagadougou
 OUD,MA,Oujda
@@ -2116,7 +2116,7 @@ WJR,KE,Wajir
 WMN,MG,Maroantsetra
 WMR,MG,Mananara Avaratra
 WUU,SS,Wau
-WVB,,Walvis Bay
+WVB,NA,Walvis Bay
 WVK,MG,Manakara
 WYE,SL,Yengema
 XLS,SN,St-Louis
@@ -2798,7 +2798,7 @@ YAG,CA,Fort Frances
 YAL,CA,Alert Bay
 YAM,CA,Sault Ste Marie
 YAT,CA,Attawapiskat
-YAY, CA, St. Antonius
+YAY,CA,St. Antonius
 YAZ,CA,Tofino
 YBB,CA,Kugaaruk
 YBC,CA,Baie-Comeau
