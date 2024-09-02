@@ -15,7 +15,7 @@ const renderMigrationValue = (
 ) => {
   if (typeof value === "object" && value !== null) {
     return Object.entries(value).map(([_, subValue]) => (
-      <p key={subValue}>{lookupOrKey(subValue as string, translations)} </p>
+      <p key={subValue}>{lookupOrKey(subValue as string, translations)}</p>
     ));
   }
 
