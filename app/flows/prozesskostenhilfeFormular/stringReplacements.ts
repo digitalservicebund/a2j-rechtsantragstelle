@@ -1,3 +1,4 @@
+import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import type { ProzesskostenhilfeFormularContext } from ".";
 import {
   andereUnterhaltszahlungenDone,
@@ -13,6 +14,7 @@ export const getMissingInformationStrings = (
   context: ProzesskostenhilfeFormularContext,
 ) => {
   return {
+    einkuenfteMissingInformation: !einkuenfteDone({ context }),
     partnerMissingInformation: !partnerDone({ context }),
     kinderMissingInformation: !kinderDone({ context }),
     andereUnterhaltszahlungenMissingInformation: !andereUnterhaltszahlungenDone(

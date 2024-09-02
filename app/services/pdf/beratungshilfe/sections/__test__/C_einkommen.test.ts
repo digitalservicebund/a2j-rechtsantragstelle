@@ -1,5 +1,5 @@
 import { type BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import { fillEinkommen } from "~/services/pdf/beratungshilfe/sections/C_einkommen";
 
 describe("C_einkommen", () => {

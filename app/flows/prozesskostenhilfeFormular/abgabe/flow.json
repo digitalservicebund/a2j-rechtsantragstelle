@@ -22,6 +22,10 @@
         ],
         "BACK": [
           {
+            "guard": "hasGrundsicherungOrAsylbewerberleistungen",
+            "target": "#finanzielle-angaben.einkuenfte"
+          },
+          {
             "guard": "hasAusgabenYes",
             "target": "#ausgaben-zusammenfassung"
           },

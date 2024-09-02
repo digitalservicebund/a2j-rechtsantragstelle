@@ -1,4 +1,8 @@
 import _ from "lodash";
+import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfigurations";
+import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
+import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import abgabeFlow from "./abgabe/flow.json";
 import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
@@ -11,6 +15,7 @@ import {
   kinderDone,
   partnerDone,
 } from "./finanzielleAngaben/doneFunctions";
+import einkuenfteFlow from "./finanzielleAngaben/einkuenfte/flow.json";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import prozesskostenhilfeFormularFlow from "./flow.json";
@@ -28,14 +33,22 @@ export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
   config: _.merge(prozesskostenhilfeFormularFlow, {
     meta: {
-      arrays: finanzielleAngabenArrayConfig(
-        "/prozesskostenhilfe/formular/finanzielle-angaben",
-      ),
+      arrays: {
+        ...finanzielleAngabenArrayConfig(
+          "/prozesskostenhilfe/formular/finanzielle-angaben",
+        ),
+        ...pkhFormularFinanzielleAngabenArrayConfig(
+          "/prozesskostenhilfe/formular/finanzielle-angaben",
+        ),
+      },
     },
     states: {
       start: { meta: { done: () => true } },
       "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
         states: {
+          einkuenfte: _.merge(einkuenfteFlow, {
+            meta: { done: einkuenfteDone },
+          }),
           partner: { meta: { done: partnerDone } },
           kinder: { meta: { done: kinderDone } },
           "andere-unterhaltszahlungen": {
@@ -58,6 +71,7 @@ export const prozesskostenhilfeFormular = {
   }),
   guards: {
     ...finanzielleAngabeGuards,
+    ...finanzielleAngabeEinkuenfteGuards,
     ...prozesskostenhilfeAbgabeGuards,
   },
   stringReplacements: (context: ProzesskostenhilfeFormularContext) => ({
@@ -70,4 +84,6 @@ export const prozesskostenhilfeFormular = {
 } as const;
 
 export type ProzesskostenhilfeFormularContext =
-  ProzesskostenhilfeFinanzielleAngabenContext & AbgabeContext;
+  ProzesskostenhilfeFinanzielleAngabenContext &
+    ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext &
+    AbgabeContext;

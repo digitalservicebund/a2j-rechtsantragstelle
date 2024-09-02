@@ -1,4 +1,4 @@
-import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import { today, toGermanDateFormat } from "~/util/date";
 import { fillFooter } from "../footer";
 

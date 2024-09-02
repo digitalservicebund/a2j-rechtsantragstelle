@@ -1,7 +1,7 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { type BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { createAttachment } from "~/services/pdf/attachment";
-import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe/beratungshilfe.server";
+import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import {
   AUSGABEN_ATTACHMENT_TITLE,
   fillAusgaben,

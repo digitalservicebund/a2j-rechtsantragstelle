@@ -1,21 +1,31 @@
+import type { ArrayData, BasicTypes, ObjectType } from "~/flows/contexts";
 import { type Translations } from "~/services/cms/index.server";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
 import { lookupOrKey } from "~/util/lookupOrKey";
-import Background from "./Background";
-import Box from "./Box";
-import Container from "./Container";
+import Heading from "./Heading";
 
 type MigrationDataProps = {
-  readonly migrationData?: Record<string, unknown>;
+  readonly migrationData?: Record<
+    string,
+    BasicTypes | ObjectType | ArrayData | undefined
+  >;
   readonly translations: Translations;
 };
 
-const getMigrationValueTranslation = (
+const renderMigrationValue = (
   translations: Translations,
-  value: string,
+  value: BasicTypes | ObjectType | ArrayData | undefined,
   key: string,
 ) => {
-  const translation = translations[value];
+  if (typeof value === "object" && value !== null) {
+    return Object.entries(value).map(([_, subValue]) => (
+      <p key={subValue as string}>
+        {lookupOrKey(subValue as string, translations)}
+      </p>
+    ));
+  }
+
+  const translation = translations[value as string];
 
   if (typeof translation === "undefined") {
     return translations[`${key}.value`];
@@ -29,31 +39,19 @@ export default function MigrationDataOverview({
   migrationData,
 }: MigrationDataProps) {
   if (!migrationData || Object.keys(migrationData).length === 0) return null;
+
   return (
-    <Background backgroundColor="white">
-      <Container>
-        <Box
-          content={{
-            markdown: Object.entries(migrationData)
-              .map(([key, value]) => {
-                const formattedKey = `**${getTranslationByKey(key, translations)}**\n\n`;
-
-                if (typeof value === "object" && value !== null) {
-                  const objectProperties = Object.entries(value)
-                    .map(
-                      ([_, subValue]) =>
-                        `${lookupOrKey(subValue as string, translations)}`,
-                    )
-                    .join("\n\n");
-
-                  return `${formattedKey}\n\n${objectProperties}\n\n`;
-                }
-                return `${formattedKey}${getMigrationValueTranslation(translations, value as string, key)}\n\n`;
-              })
-              .join(""),
-          }}
-        />
-      </Container>
-    </Background>
+    <div className="space-y-16 bg-white pt-32 pb-44 px-32">
+      {Object.entries(migrationData).map(([itemKey, itemValue]) => (
+        <div key={itemKey} className="first:pt-0 scroll-my-40">
+          <Heading
+            text={getTranslationByKey(itemKey, translations)}
+            tagName="p"
+            look="ds-label-01-bold"
+          />
+          {renderMigrationValue(translations, itemValue, itemKey)}
+        </div>
+      ))}
+    </div>
   );
 }

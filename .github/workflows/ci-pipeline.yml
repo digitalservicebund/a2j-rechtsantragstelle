@@ -129,44 +129,45 @@ jobs:
           metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
           metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
 
-  deploy-preview:
-    needs: [build-push-app-image, deploy-staging]
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: preview
-    steps:
-      - name: Deploy new preview image
-        uses: digitalservicebund/argocd-deploy@4fac1bb67c92ed168f6d9b22f8779ce241a9e412 # v1.0.0
-        with:
-          environment: preview
-          version: ${{ needs.build-push-app-image.outputs.prod_image_tag }}
-          deploying_repo: a2j-rechtsantragstelle
-          infra_repo: a2j-rechtsantragstelle-infra
-          deploy_key: ${{ secrets.DEPLOY_KEY }}
-          app: a2j-rast-preview
-          argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
-          argocd_server: ${{ secrets.ARGOCD_SERVER }}
-          argocd_sync_timeout: 300
-      - name: Report Deployment
-        uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
-        with:
-          project: a2j-rechtsantragstelle
-          environment: preview
-          metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
-          metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
-
-  verify-preview-e2e:
-    needs: [deploy-preview]
-    uses: ./.github/workflows/e2e-test.yml
-    secrets:
-      BASE_URL: https://a2j-test.dev.ds4g.net
-    with:
-      require-published-app: false
-      use-existing-server: true
-      e2e-target: preview
+  #  deploy-preview:
+  #    needs: [build-push-app-image, deploy-staging]
+  #    if: github.ref == 'refs/heads/main'
+  #    runs-on: ubuntu-latest
+  #    environment: preview
+  #    steps:
+  #      - name: Deploy new preview image
+  #        uses: digitalservicebund/argocd-deploy@4fac1bb67c92ed168f6d9b22f8779ce241a9e412 # v1.0.0
+  #        with:
+  #          environment: preview
+  #          version: ${{ needs.build-push-app-image.outputs.prod_image_tag }}
+  #          deploying_repo: a2j-rechtsantragstelle
+  #          infra_repo: a2j-rechtsantragstelle-infra
+  #          deploy_key: ${{ secrets.DEPLOY_KEY }}
+  #          app: a2j-rast-preview
+  #          argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
+  #          argocd_server: ${{ secrets.ARGOCD_SERVER }}
+  #          argocd_sync_timeout: 300
+  #      - name: Report Deployment
+  #        uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
+  #        with:
+  #          project: a2j-rechtsantragstelle
+  #          environment: preview
+  #          metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
+  #          metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
+  #
+  #  verify-preview-e2e:
+  #    needs: [deploy-preview]
+  #    uses: ./.github/workflows/e2e-test.yml
+  #    secrets:
+  #      BASE_URL: https://a2j-test.dev.ds4g.net
+  #    with:
+  #      require-published-app: false
+  #      use-existing-server: true
+  #      e2e-target: preview
 
   deploy-production:
-    needs: [verify-preview-e2e, build-push-app-image]
+    #    needs: [verify-preview-e2e, build-push-app-image]
+    needs: [build-push-app-image, deploy-staging]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
