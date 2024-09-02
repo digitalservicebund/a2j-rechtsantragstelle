@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { staatlicheLeistungen } from "~/flows/shared/finanzielleAngaben/context";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import {
@@ -36,11 +37,6 @@ export const kidsSchema = z
       });
     }
   });
-
-export const staatlicheLeistungen = z.enum(
-  ["grundsicherung", "asylbewerberleistungen", "buergergeld", "keine"],
-  customRequiredErrorMessage,
-);
 
 export const context = {
   rechtsschutzversicherung: YesNoAnswer,

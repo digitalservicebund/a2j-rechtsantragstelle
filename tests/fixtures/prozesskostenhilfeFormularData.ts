@@ -5,6 +5,12 @@ import {
   prozesskostenhilfeFinanzielleAngabenContext,
   zahlungspflichtigerSchema,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
+import {
+  arbeitsArtSchema,
+  arbeitswegSchema,
+  selbststaendigBruttoNettoSchema,
+  staatlicheLeistungenPKHSchema,
+} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,
@@ -14,6 +20,7 @@ import {
   kraftfahrzeugeArraySchema,
   unterhaltszahlungSchema,
 } from "~/flows/shared/finanzielleAngaben/context";
+import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const happyPathData: ProzesskostenhilfeFormularContext = {
@@ -23,6 +30,50 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   hasGrundeigentum: YesNoAnswer.Enum.yes,
   hasKraftfahrzeug: YesNoAnswer.Enum.yes,
   eigentumTotalWorth: eigentumTotalWorthSchema.Enum.unsure,
+  staatlicheLeistungenPKH: staatlicheLeistungenPKHSchema.Enum.buergergeld,
+  buergergeld: faker.finance.amount(),
+  currentlyEmployed: YesNoAnswer.Enum.yes,
+  employmentType: arbeitsArtSchema.Enum.employedAndSelfEmployed,
+  nettoEinkuenfteAlsArbeitnehmer: faker.finance.amount(),
+  selbststaendigMonatlichesEinkommen: faker.finance.amount(),
+  selbststaendigBruttoNetto: selbststaendigBruttoNettoSchema.Enum.brutto,
+  selbststaendigAbzuege: faker.finance.amount(),
+  arbeitsweg: arbeitswegSchema.Enum.publicTransport,
+  monatlicheOPNVKosten: faker.finance.amount(),
+  arbeitsplatz: {
+    strasseHausnummer: faker.location.streetAddress(),
+    ort: faker.location.city(),
+    plz: faker.location.zipCode("#####"),
+  },
+  arbeitsplatzEntfernung: faker.number.int({ min: 1, max: 100 }),
+  hasArbeitsausgaben: YesNoAnswer.Enum.yes,
+  arbeitsausgaben: [
+    {
+      beschreibung: faker.word.sample(),
+      betrag: faker.finance.amount(),
+      zahlungsfrequenz: "monthly",
+    },
+  ],
+  receivesPension: YesNoAnswer.Enum.yes,
+  pensionAmount: faker.finance.amount(),
+  receivesSupport: YesNoAnswer.Enum.yes,
+  supportAmount: faker.finance.amount(),
+  hasWohngeld: checkedOptional.enum.on,
+  hasKrankengeld: checkedOptional.enum.on,
+  hasElterngeld: checkedOptional.enum.on,
+  hasKindergeld: checkedOptional.enum.on,
+  wohngeldAmount: faker.finance.amount(),
+  krankengeldAmount: faker.finance.amount(),
+  elterngeldAmount: faker.finance.amount(),
+  kindergeldAmount: faker.finance.amount(),
+  hasFurtherIncome: YesNoAnswer.Enum.yes,
+  weitereEinkuenfte: [
+    {
+      beschreibung: faker.word.sample(),
+      betrag: faker.finance.amount(),
+      zahlungsfrequenz: "monthly",
+    },
+  ],
   partnerschaft: YesNoAnswer.Enum.yes,
   zusammenleben: YesNoAnswer.Enum.yes,
   partnerEinkommen: YesNoAnswer.Enum.yes,

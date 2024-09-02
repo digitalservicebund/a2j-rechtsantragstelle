@@ -44,6 +44,11 @@ function getEnabledSteps({
       transitionType,
       context,
     );
+    if (!transDest?.at(0)) {
+      throw Error(
+        `transition destination missing for step: ${step}, transitionType: ${transitionType}`,
+      );
+    }
     const { stepId } = parsePathname(transDest?.at(0) ?? "");
     return stepId;
   });

@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { startFinanzielleAngabenEinkuenfte } from "tests/e2e/flowPages/prozesskostenhilfe/formular/finanzielleAngabenEinkuenfte";
 import { CookieSettings } from "tests/e2e/pom/CookieSettings";
 import { ProzesskostenhilfeFormular } from "tests/e2e/pom/ProzesskostenhilfeFormular";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
@@ -44,6 +45,9 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkommen/start
   await expectPageToBeAccessible({ page });
   await prozesskostenhilfeFormular.clickNext();
+
+  // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/staatliche-leistungen
+  await startFinanzielleAngabenEinkuenfte(page, prozesskostenhilfeFormular);
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/partner/partnerschaft
   await startFinanzielleAngabenPartner(page, prozesskostenhilfeFormular);

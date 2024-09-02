@@ -3,20 +3,7 @@ import path from "node:path";
 import { PDFDocument, PDFCheckBox, PDFTextField, type PDFField } from "pdf-lib";
 import { uppercaseFirstLetter } from "~/util/strings";
 import { normalizePropertyName } from "./normalizePropertyName";
-
-const pdfs = [
-  {
-    service: "beratungshilfe",
-    pdfFilename: "Antrag_auf_Bewilligung_von_Beratungshilfe.pdf",
-    typeName: "BeratungshilfePDF",
-  },
-  {
-    service: "prozesskostenhilfe",
-    pdfFilename:
-      "Erklaerung_Verhaeltnisse_Prozess_oder_Verfahrenskostenhilfe.pdf",
-    typeName: "ProzesskostenhilfePDF",
-  },
-] as const;
+import { pdfs } from "./pdfs";
 
 const dataDirectory = "data/pdf/";
 

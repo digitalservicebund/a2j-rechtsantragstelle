@@ -11,7 +11,7 @@ const isStorybook = process.argv[1]?.includes("storybook");
 const isVitest = process.env.VITEST !== undefined;
 const buildSentrySourceMaps = Boolean(process.env.SENTRY_AUTH_TOKEN);
 
-export default defineConfig({
+export default defineConfig(({ isSsrBuild }) => ({
   server: {
     port: 3000,
     hmr: { protocol: "ws", port: 24678 },
@@ -37,7 +37,10 @@ export default defineConfig({
       }),
     tsconfigPaths(),
   ],
-  build: { sourcemap: buildSentrySourceMaps },
+  build: {
+    sourcemap: buildSentrySourceMaps,
+    target: isSsrBuild ? "esnext" : undefined, // Allows top-level await in server-only files
+  },
   test: {
     dir: "./",
     include: ["**/__test__/*.test.{ts,tsx}", "**/unit/**/*.test.ts"],
@@ -51,4 +54,4 @@ export default defineConfig({
       reporter: ["text", "lcov"],
     },
   },
-});
+}));

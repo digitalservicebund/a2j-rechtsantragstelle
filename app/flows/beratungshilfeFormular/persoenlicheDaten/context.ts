@@ -1,10 +1,11 @@
 import { z } from "zod";
+import { adresseSchema } from "~/flows/shared/persoenlicheDaten/context";
 import { createDateSchema } from "~/services/validation/date";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { addYears, today } from "~/util/date";
 import type { GenericGuard } from "../../guards.server";
-import { namePrivatPerson, adresse } from "../../persoenlicheDaten/context";
+import { namePrivatPerson } from "../../persoenlicheDaten/context";
 
 export const beratungshilfePersoenlicheDaten = {
   ...namePrivatPerson,
@@ -12,7 +13,7 @@ export const beratungshilfePersoenlicheDaten = {
     earliest: () => addYears(today(), -150),
     latest: () => today(),
   }),
-  ...adresse,
+  ...adresseSchema,
   telefonnummer: optionalOrSchema(phoneNumberSchema),
 };
 
