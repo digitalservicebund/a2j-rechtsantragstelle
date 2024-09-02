@@ -57,7 +57,6 @@ const Input = function InputComponent({
             "ds-input forced-color-adjust-none",
             {
               "has-error": error,
-              "ds-input-select-width-54-36": width === "36" || width === "54",
             },
             widthClassname(width),
           )}

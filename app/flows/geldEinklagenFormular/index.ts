@@ -1,4 +1,5 @@
 import _ from "lodash";
+import type { Flow } from "~/flows/flows.server";
 import type { GeldEinklagenFormularContext } from "./context";
 import geldEinklagenFormularFlow from "./flow.json";
 import { guards } from "./guards";
@@ -27,7 +28,7 @@ export const geldEinklagenFormular = {
     states: {
       "persoenliche-daten": _.merge(_.cloneDeep(persoenlicheDatenFlow), {
         meta: {
-          done: (context: GeldEinklagenFormularContext) =>
+          done: ({ context }: { context: GeldEinklagenFormularContext }) =>
             Boolean(
               context.anzahl &&
                 context.vorname &&
@@ -48,7 +49,7 @@ export const geldEinklagenFormular = {
       }),
       gegenseite: {
         meta: {
-          done: (context: GeldEinklagenFormularContext) =>
+          done: ({ context }: { context: GeldEinklagenFormularContext }) =>
             Boolean(
               (context.gegenseite?.typ === "privatperson" &&
                 context.gegenseite.privatperson?.vorname &&
@@ -73,4 +74,4 @@ export const geldEinklagenFormular = {
     },
   }),
   guards,
-} as const;
+} satisfies Flow;

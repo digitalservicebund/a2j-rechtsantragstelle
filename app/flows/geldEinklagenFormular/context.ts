@@ -1,4 +1,8 @@
 import { z } from "zod";
+import {
+  namePrivatPerson,
+  persoenlicheDaten,
+} from "~/flows/persoenlicheDaten/context";
 import { adresseSchema } from "~/flows/shared/persoenlicheDaten/context";
 import {
   checkedOptional,
@@ -12,10 +16,6 @@ import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
-import {
-  namePrivatPerson,
-  persoenlicheDaten,
-} from "../persoenlicheDaten/context";
 
 export const context = {
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),

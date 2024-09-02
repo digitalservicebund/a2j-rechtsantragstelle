@@ -9,8 +9,8 @@ export type ArrayConfig = {
   event: `add-${AllContextKeys}`;
   url: string;
   initialInputUrl: string;
-  statementUrl: string;
   statementKey: AllContextKeys;
+  statementUrl?: string;
   statementValue?: boolean;
   hiddenFields?: string[];
 };
