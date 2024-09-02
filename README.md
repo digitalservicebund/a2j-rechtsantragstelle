@@ -85,8 +85,9 @@ The git hooks check formatting, linting, unit tests, typecheck (see `lefthook.ya
 
 After running the command, a new file named `prozesskostenhilfe.generated.ts` will be generated in the specified directory. You can use this file to fill out the PDF based on the input fields defined within it.
 
-### How to add a new Array page to a form flow
+### How to add a new Array page to a form flow (UNDER CONSTRUCTION)
 
+(This section is still under construction, as there are still open questions about what the generic array case is [or should be] and how to document it)
 Form flow arrays should, generally speaking, be defined like the following inside of `flow.json`:
 
 ```
