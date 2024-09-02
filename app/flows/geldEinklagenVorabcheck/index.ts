@@ -1,3 +1,4 @@
+import type { Flow } from "~/flows/flows.server";
 import config from "./flow.json";
 import { guards } from "./guards";
 import { type AllContexts } from "../common";
@@ -10,4 +11,4 @@ export const geldEinklagenVorabcheck = {
   }),
   config,
   guards,
-} as const;
+} satisfies Flow;

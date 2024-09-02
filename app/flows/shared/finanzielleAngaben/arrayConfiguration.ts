@@ -1,4 +1,4 @@
-import type { AllContexts } from "~/flows/common";
+import type { AllContextKeys } from "~/flows/common";
 import type { ArrayConfig } from "~/services/array";
 
 // TODO: split this up into shared / BerH / PKH
@@ -82,5 +82,5 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       hiddenFields: ["zahlungspflichtiger", "betragGemeinsamerAnteil"],
       event: "add-sonstigeAusgaben",
     },
-  } satisfies Partial<Record<keyof AllContexts, ArrayConfig>>;
+  } satisfies Partial<Record<AllContextKeys, ArrayConfig>>;
 }
