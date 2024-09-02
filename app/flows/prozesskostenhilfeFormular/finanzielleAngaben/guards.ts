@@ -1,9 +1,5 @@
 import {
-  eigentumTotalWorthLessThan10000,
-  eigentumYesAndEmptyArray,
   grundeigentumIsBewohnt,
-  hasAnyEigentum,
-  hasAnyEigentumExceptBankaccount,
   hasAusgabenYes,
   hasBankkontoYes,
   hasGeldanlageYes,
@@ -40,6 +36,7 @@ import {
   kindWohnortBeiAntragstellerYes,
 } from "~/flows/shared/finanzielleAngaben/guards";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
+import { arrayIsNonEmpty } from "~/util/array";
 import {
   prozesskostenhilfeFinanzielleAngabenContext,
   type ProzesskostenhilfeFinanzielleAngabenContext,
@@ -49,8 +46,12 @@ import { yesNoGuards, type Guards } from "../../guards.server";
 
 export const finanzielleAngabeGuards = {
   eigentumDone,
-  hasAnyEigentum,
-  eigentumTotalWorthLessThan10000,
+  hasAnyEigentum: ({ context }) =>
+    context.hasGeldanlage == "yes" ||
+    context.hasWertsache == "yes" ||
+    context.hasGrundeigentum == "yes" ||
+    context.hasKraftfahrzeug == "yes" ||
+    context.hasBankkonto === "yes",
   hasPartnerschaftOrSeparated,
   hasPartnerschaftYes,
   hasPartnerschaftNoOrWidowed,
@@ -78,7 +79,6 @@ export const finanzielleAngabeGuards = {
   kindUnterhaltYes,
   kindUnterhaltNo,
   isValidKinderArrayIndex,
-  hasAnyEigentumExceptBankaccount,
   isGeldanlageBargeld,
   isGeldanlageWertpapiere,
   isGeldanlageGuthabenkontoKrypto,
@@ -88,7 +88,16 @@ export const finanzielleAngabeGuards = {
   isGeldanlageSonstiges,
   isKraftfahrzeugWertAbove10000OrUnsure,
   grundeigentumIsBewohnt,
-  eigentumYesAndEmptyArray,
+
+  eigentumYesAndEmptyArray: ({ context }) =>
+    (hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten)) ||
+    (hasGeldanlageYes({ context }) && !arrayIsNonEmpty(context.geldanlagen)) ||
+    (hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen)) ||
+    (hasKraftfahrzeugYes({ context }) &&
+      !arrayIsNonEmpty(context.kraftfahrzeuge)) ||
+    (hasGrundeigentumYes({ context }) &&
+      !arrayIsNonEmpty(context.grundeigentum)),
+
   hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
   hasAusgabenYes,

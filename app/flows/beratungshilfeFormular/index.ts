@@ -12,12 +12,12 @@ import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/cont
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
-  eigentumDone,
   einkommenDone,
   kinderDone,
   partnerDone,
   wohnungDone,
 } from "./finanzielleAngaben/doneFunctions";
+import { eigentumDone } from "./finanzielleAngaben/eigentumDone";
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
@@ -45,11 +45,12 @@ import {
   getMissingInformationStrings,
   ausgabenStrings,
   weiteresEinkommenStrings,
+  eigentumZusammenfassungShowTotalWorthWarnings,
 } from "./stringReplacements";
 import type { AbgabeContext } from "../shared/abgabe/context";
 import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
 import {
-  eigentumZusammenfassungShowWarnings,
+  eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
   getArrayIndexStrings,
   getKinderStrings,
@@ -113,7 +114,8 @@ export const beratungshilfeFormular = {
     ...getKinderStrings(context),
     ...getArrayIndexStrings(context),
     ...getAnwaltStrings(context),
-    ...eigentumZusammenfassungShowWarnings(context),
+    ...eigentumZusammenfassungShowPartnerschaftWarnings(context),
+    ...eigentumZusammenfassungShowTotalWorthWarnings(context),
     ...getMissingInformationStrings(context),
     ...ausgabenStrings(context),
     ...geldAnlagenStrings(context),

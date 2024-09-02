@@ -1,11 +1,11 @@
 import {
-  eigentumDone,
   partnerDone,
   kinderDone,
   einkommenDone,
   wohnungDone,
   andereUnterhaltszahlungenDone,
 } from "./doneFunctions";
+import { eigentumDone } from "./eigentumDone";
 import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
 import type { BeratungshilfeFinanzielleAngabenGuard } from "./guards";
 

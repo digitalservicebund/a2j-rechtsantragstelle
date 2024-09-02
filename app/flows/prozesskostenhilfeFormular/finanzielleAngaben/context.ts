@@ -2,7 +2,6 @@ import { z } from "zod";
 import {
   besondereBelastungenSchema,
   bankkontenArraySchema,
-  eigentumTotalWorthSchema,
   gelanlagenArraySchema,
   grundeigentumArraySchema,
   kinderArraySchema,
@@ -44,7 +43,6 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   kraftfahrzeuge: kraftfahrzeugeArraySchema,
   hasGeldanlage: YesNoAnswer,
   geldanlagen: gelanlagenArraySchema,
-  eigentumTotalWorth: eigentumTotalWorthSchema,
   hasGrundeigentum: YesNoAnswer,
   grundeigentum: grundeigentumArraySchema,
   hasWertsache: YesNoAnswer,

@@ -1,4 +1,3 @@
-import { hasAnyEigentumExceptBankaccount } from "~/flows/shared/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "./guards";
 
@@ -72,15 +71,32 @@ export const ausgabenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   );
 };
 
-export const eigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
+export const geldanlagenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  context.staatlicheLeistungen == "grundsicherung" ||
-  context.staatlicheLeistungen == "asylbewerberleistungen" ||
-  (context.hasBankkonto !== undefined &&
-    context.hasKraftfahrzeug !== undefined &&
-    context.hasGeldanlage !== undefined &&
-    context.hasGrundeigentum !== undefined &&
-    context.hasWertsache !== undefined &&
-    (!hasAnyEigentumExceptBankaccount({ context }) ||
-      context.eigentumTotalWorth !== undefined));
+  context.eigentumTotalWorth === "less10000" ||
+  context.hasGeldanlage === "no" ||
+  (context.hasGeldanlage === "yes" && arrayIsNonEmpty(context.geldanlagen));
+
+export const grundeigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.eigentumTotalWorth === "less10000" ||
+  context.hasGrundeigentum === "no" ||
+  (context.hasGrundeigentum === "yes" &&
+    arrayIsNonEmpty(context.grundeigentum));
+
+export const kraftfahrzeugeDone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.eigentumTotalWorth === "less10000" ||
+  context.hasKraftfahrzeug === "no" ||
+  (context.hasKraftfahrzeug === "yes" &&
+    arrayIsNonEmpty(context.kraftfahrzeuge));
+
+export const wertsachenDone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.eigentumTotalWorth === "less10000" ||
+  context.hasWertsache === "no" ||
+  (context.hasWertsache === "yes" && arrayIsNonEmpty(context.wertsachen));
