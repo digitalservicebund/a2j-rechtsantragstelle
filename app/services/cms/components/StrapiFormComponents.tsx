@@ -13,7 +13,7 @@ import { StrapiTileGroup } from "./StrapiTileGroup";
 import { StrapiTimeInput } from "./StrapiTimeInput";
 import type { StrapiFormComponent } from "../models/StrapiFormComponent";
 
-const FormComponent = ({
+export const FormComponent = ({
   component,
 }: Readonly<{ component: StrapiFormComponent }>) => {
   switch (component.__component) {

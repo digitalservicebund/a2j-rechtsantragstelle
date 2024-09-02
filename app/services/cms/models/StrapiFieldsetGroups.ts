@@ -6,15 +6,20 @@ import { StrapiDropdownComponentSchema } from "../components/StrapiDropdown";
 import { StrapiInputComponentSchema } from "../components/StrapiInput";
 import { StrapiTimeInputComponentSchema } from "../components/StrapiTimeInput";
 
+const StrapiFieldsetGroupsFormComponentsSchema = z.discriminatedUnion(
+  "__component",
+  [
+    StrapiInputComponentSchema,
+    StrapiTimeInputComponentSchema,
+    StrapiDropdownComponentSchema,
+    StrapiDateInputComponentSchema,
+  ],
+);
+
 export const StrapiFieldsetGroupsSchema = z
   .object({
     name: z.string(),
-    formComponents: z.array(
-      StrapiInputComponentSchema ||
-        StrapiTimeInputComponentSchema ||
-        StrapiDateInputComponentSchema ||
-        StrapiDropdownComponentSchema,
-    ),
+    formComponents: z.array(StrapiFieldsetGroupsFormComponentsSchema),
   })
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiTimestampsSchema);

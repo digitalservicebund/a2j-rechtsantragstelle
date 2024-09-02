@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Fieldset } from "~/components/inputs/Filedset";
 import {
   HasOptionalStrapiIdSchema,
   HasStrapiIdSchema,
@@ -12,17 +13,24 @@ const StrapiFieldsetSchema = z
     fieldsetGroup: z.object({
       data: HasStrapiIdSchema.extend({
         attributes: StrapiFieldsetGroupsSchema,
-      }).nullable(),
+      }),
     }),
   })
   .merge(HasOptionalStrapiIdSchema);
 
-type StrapiFieldset = z.infer<typeof StrapiFieldsetSchema>;
+export type StrapiFieldset = z.infer<typeof StrapiFieldsetSchema>;
 
 export const StrapiFieldsetComponentSchema = StrapiFieldsetSchema.extend({
   __component: z.literal("form-elements.fieldset"),
 });
 
-export const StrapiFieldset = ({ ...props }: StrapiFieldset) => {
-  return <div />;
+export const StrapiFieldset = ({
+  heading,
+  fieldsetGroup: {
+    data: {
+      attributes: { formComponents },
+    },
+  },
+}: StrapiFieldset) => {
+  return <Fieldset heading={heading} formComponents={formComponents} />;
 };
