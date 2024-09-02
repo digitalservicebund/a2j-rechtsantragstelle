@@ -32,7 +32,6 @@ const Select = ({
     "ds-select",
     {
       "has-error": error,
-      "ds-input-select-width-54-36": width === "36" || width === "54",
     },
     widthClassname(width),
   );

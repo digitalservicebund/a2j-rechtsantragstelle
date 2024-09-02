@@ -1,5 +1,6 @@
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import { fillAbzuege } from "./F_abzuege";
 import { appendAttachment } from "../appendAttachment";
 import { createAttachment } from "../attachment";
 import FormAttachment from "../attachment/FormAttachment";
@@ -8,10 +9,11 @@ import { fillPdf } from "../fillPdf.server";
 export { getProzesskostenhilfeParameters };
 
 export async function prozesskostenhilfePdfFromUserdata(
-  _userdata: ProzesskostenhilfeFormularContext,
+  userdata: ProzesskostenhilfeFormularContext,
 ) {
   const pdfValues = getProzesskostenhilfeParameters();
   const attachmentData = createAttachment();
+  fillAbzuege({ pdfValues, userdata });
 
   const filledPdf = await fillPdf({
     flowId: "/prozesskostenhilfe/formular",
