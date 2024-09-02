@@ -16,7 +16,7 @@ function pdfFieldToEntry(field: PDFField) {
 }
 
 function pdfFieldToType(field: PDFField) {
-  return `${normalizePropertyName(field.getName())}: ${field instanceof PDFCheckBox ? "BooleanField" : "StringField"};`;
+  return `"${normalizePropertyName(field.getName())}": ${field instanceof PDFCheckBox ? "BooleanField" : "StringField"};`;
 }
 
 async function generatePdfTypes({
