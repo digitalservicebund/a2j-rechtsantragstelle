@@ -1,21 +1,27 @@
+import type { ArrayData, BasicTypes, ObjectType } from "~/flows/contexts";
 import { type Translations } from "~/services/cms/index.server";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
 import { lookupOrKey } from "~/util/lookupOrKey";
 import Heading from "./Heading";
 
 type MigrationDataProps = {
-  readonly migrationData?: Record<string, unknown>;
+  readonly migrationData?: Record<
+    string,
+    BasicTypes | ObjectType | ArrayData | undefined
+  >;
   readonly translations: Translations;
 };
 
 const renderMigrationValue = (
   translations: Translations,
-  value: unknown,
+  value: BasicTypes | ObjectType | ArrayData | undefined,
   key: string,
 ) => {
   if (typeof value === "object" && value !== null) {
     return Object.entries(value).map(([_, subValue]) => (
-      <p key={subValue}>{lookupOrKey(subValue as string, translations)}</p>
+      <p key={subValue as string}>
+        {lookupOrKey(subValue as string, translations)}
+      </p>
     ));
   }
 
