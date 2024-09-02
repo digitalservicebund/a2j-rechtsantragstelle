@@ -1,3 +1,4 @@
+import type { Flow } from "~/flows/flows.server";
 import fluggastrechteVorabcheckFlow from "~/flows/fluggastrechteVorabcheck/flow.json";
 import { guards as fluggastrechteVorabcheckGuards } from "~/flows/fluggastrechteVorabcheck/guards";
 import type { Translations } from "~/services/cms/index.server";
@@ -29,7 +30,7 @@ export const fluggastrechteVorabcheck = {
     ...hasArbitrationBoardBfJ(context),
     ...hasArbitrationBoardSoeP(context),
   }),
-} as const;
+} satisfies Flow;
 
 export const partnerCourtAirports = {
   BRE: "28199",

@@ -1,4 +1,7 @@
 import _ from "lodash";
+import type { AllContextKeys } from "~/flows/common";
+import type { Flow } from "~/flows/flows.server";
+import type { ArrayConfig } from "~/services/array";
 import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
 import type { FluggastrechtContext } from "./context";
 import fluggastrechteFlow from "./flow.json";
@@ -60,9 +63,9 @@ export const fluggastrechtFlow = {
             "/fluggastrechte/formular/persoenliche-daten/weitere-personen/uebersicht",
           statementKey: "isWeiterePersonen",
           hiddenFields: ["anrede", "title"],
-          event: "add-weitere-personen",
+          event: "add-weiterePersonen",
         },
-      },
+      } satisfies Partial<Record<AllContextKeys, ArrayConfig>>,
     },
     states: {
       grundvorraussetzungen: _.merge(grundvorraussetzungenFlow, {
@@ -81,4 +84,4 @@ export const fluggastrechtFlow = {
   }),
   guards: fluggastrechteGuards,
   flowTransitionConfig,
-} as const;
+} satisfies Flow;

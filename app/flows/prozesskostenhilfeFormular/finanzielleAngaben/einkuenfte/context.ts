@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { staatlicheLeistungen } from "~/flows/shared/finanzielleAngaben/context";
-import { adresseSchema } from "~/flows/shared/persoenlicheDaten/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
@@ -10,6 +9,7 @@ import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
+import { adresseSchema } from "~/flows/shared/persoenlicheDaten/context";
 
 export const staatlicheLeistungenPKHSchema = z.enum(
   [...staatlicheLeistungen.options, "arbeitslosengeld"],

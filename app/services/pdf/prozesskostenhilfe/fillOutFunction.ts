@@ -1,24 +1,30 @@
+import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
+import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import type { AttachmentEntries } from "../attachment";
 
 export type PdfFillFunctionProps<ContextType, PDFType> = {
   userData: ContextType;
   pdfValues: PDFType;
+};
+type PdfFillFunctionReturnProps<PDFType> = {
+  pdfValues: PDFType;
   attachment?: AttachmentEntries;
 };
-export type PdfFillFunctionReturnProps<ContextType, PDFType> = Pick<
-  PdfFillFunctionProps<ContextType, PDFType>,
-  "pdfValues" | "attachment"
->;
 
 export type PdfFillFunction<ContextType, PDFType> = (
   props: PdfFillFunctionProps<ContextType, PDFType>,
-) => PdfFillFunctionReturnProps<ContextType, PDFType>;
+) => PdfFillFunctionReturnProps<PDFType>;
 
 type PdfFillReducerProps<ContextType, PDFType> = {
   userData: ContextType;
   pdfParams: PDFType;
   fillFunctions: PdfFillFunction<ContextType, PDFType>[];
 };
+
+export type PkhPdfFillFunction = PdfFillFunction<
+  ProzesskostenhilfeFormularContext,
+  ProzesskostenhilfePDF
+>;
 
 /**
  * One function to fill them all.
@@ -38,11 +44,10 @@ export function pdfFillReducer<ContextType, PDFType>({
       const { pdfValues: newValues, attachment: newAttachment } = fillFunction({
         pdfValues,
         userData,
-        attachment,
       });
       return {
         pdfValues: { ...pdfValues, ...newValues },
-        attachment: [...attachment, ...(newAttachment ?? [])],
+        attachment: attachment.concat(newAttachment ?? []),
       };
     },
     { pdfValues: pdfParams, attachment: [] as AttachmentEntries },

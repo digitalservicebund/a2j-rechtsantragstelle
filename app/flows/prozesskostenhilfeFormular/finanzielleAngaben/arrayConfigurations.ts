@@ -1,4 +1,4 @@
-import type { AllContexts } from "~/flows/common";
+import type { AllContextKeys } from "~/flows/common";
 import type { ArrayConfig } from "~/services/array";
 
 export function finanzielleAngabenArrayConfig(prefix: string) {
@@ -15,7 +15,7 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       initialInputUrl: "daten",
       statementUrl: `/${prefix}/einkuenfte/weitere-einkuenfte/uebersicht`,
       statementKey: "hasFurtherIncome",
-      event: "add-einkunft",
+      event: "add-weitereEinkuenfte",
     },
-  } satisfies Partial<Record<keyof AllContexts, ArrayConfig>>;
+  } satisfies Partial<Record<AllContextKeys, ArrayConfig>>;
 }

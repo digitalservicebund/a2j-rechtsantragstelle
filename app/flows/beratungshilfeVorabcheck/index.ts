@@ -1,3 +1,4 @@
+import type { Flow } from "~/flows/flows.server";
 import config from "./flow.json";
 import { getVerfuegbaresEinkommenFreibetrag } from "./freibetrag";
 import { guards, isIncomeTooHigh } from "./guards";
@@ -28,4 +29,4 @@ export const beratungshilfeVorabcheck = {
   }),
   config,
   guards,
-} as const;
+} satisfies Flow;

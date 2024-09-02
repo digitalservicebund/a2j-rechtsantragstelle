@@ -1,4 +1,5 @@
 import _ from "lodash";
+import type { Flow } from "~/flows/flows.server";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfigurations";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
@@ -81,7 +82,7 @@ export const prozesskostenhilfeFormular = {
     ...geldAnlagenStrings(context),
     ...getMissingInformationStrings(context),
   }),
-} as const;
+} satisfies Flow;
 
 export type ProzesskostenhilfeFormularContext =
   ProzesskostenhilfeFinanzielleAngabenContext &

@@ -1,10 +1,14 @@
 import _ from "lodash";
+import type { Flow } from "~/flows/flows.server";
 import type { GeldEinklagenFormularContext } from "./context";
 import geldEinklagenFormularFlow from "./flow.json";
 import { guards } from "./guards";
 import { type AllContexts } from "../common";
-import { gerichtskostenFromBetrag, gesamtKosten } from "../gerichtskosten";
-import persoenlicheDatenFlow from "../persoenlicheDaten/flow.json";
+import {
+  gerichtskostenFromBetrag,
+  gesamtKosten,
+} from "../shared/gerichtskosten";
+import persoenlicheDatenFlow from "~/flows/shared/persoenlicheDaten/flow.json";
 
 export const geldEinklagenFormular = {
   cmsSlug: "form-flow-pages",
@@ -27,7 +31,7 @@ export const geldEinklagenFormular = {
     states: {
       "persoenliche-daten": _.merge(_.cloneDeep(persoenlicheDatenFlow), {
         meta: {
-          done: (context: GeldEinklagenFormularContext) =>
+          done: ({ context }: { context: GeldEinklagenFormularContext }) =>
             Boolean(
               context.anzahl &&
                 context.vorname &&
@@ -48,7 +52,7 @@ export const geldEinklagenFormular = {
       }),
       gegenseite: {
         meta: {
-          done: (context: GeldEinklagenFormularContext) =>
+          done: ({ context }: { context: GeldEinklagenFormularContext }) =>
             Boolean(
               (context.gegenseite?.typ === "privatperson" &&
                 context.gegenseite.privatperson?.vorname &&
@@ -73,4 +77,4 @@ export const geldEinklagenFormular = {
     },
   }),
   guards,
-} as const;
+} satisfies Flow;

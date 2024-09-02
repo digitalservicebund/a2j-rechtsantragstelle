@@ -1,18 +1,6 @@
-import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
-import type { PdfFillFunction, PdfFillFunctionProps } from "./fillOutFunction";
+import type { PkhPdfFillFunction } from "./fillOutFunction";
 
-export const fillAbzuege: PdfFillFunction<
-  ProzesskostenhilfeFormularContext,
-  ProzesskostenhilfePDF
-> = ({
-  userData,
-  pdfValues,
-  attachment,
-}: PdfFillFunctionProps<
-  ProzesskostenhilfeFormularContext,
-  ProzesskostenhilfePDF
->) => {
+export const fillAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   if (userData.hasAusgaben !== "yes") return { pdfValues }; // TODO: remove after pruning
 
   return {
@@ -28,6 +16,5 @@ export const fillAbzuege: PdfFillFunction<
           .join("\n"),
       },
     },
-    attachment,
   };
 };
