@@ -119,7 +119,7 @@
     "follow-redirects": "^1.15.6",
     "i18n-iso-countries": "^7.11.3",
     "jsdom": "^25.0.0",
-    "lefthook": "^1.7.14",
+    "lefthook": "^1.7.15",
     "p-map": "^7.0.2",
     "postcss": "^8.4.43",
     "prettier": "^3.3.3",
