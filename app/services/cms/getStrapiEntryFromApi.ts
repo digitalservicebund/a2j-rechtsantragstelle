@@ -22,7 +22,7 @@ const buildUrl = ({
   pageSize,
   filters,
   locale = defaultLocale,
-  populate = "deep",
+  populate = "deep,10",
 }: GetStrapiEntryOpts) =>
   [
     config().STRAPI_API,
