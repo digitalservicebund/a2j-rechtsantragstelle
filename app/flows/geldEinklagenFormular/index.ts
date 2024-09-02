@@ -4,8 +4,11 @@ import type { GeldEinklagenFormularContext } from "./context";
 import geldEinklagenFormularFlow from "./flow.json";
 import { guards } from "./guards";
 import { type AllContexts } from "../common";
-import { gerichtskostenFromBetrag, gesamtKosten } from "../gerichtskosten";
-import persoenlicheDatenFlow from "../persoenlicheDaten/flow.json";
+import {
+  gerichtskostenFromBetrag,
+  gesamtKosten,
+} from "../shared/gerichtskosten";
+import persoenlicheDatenFlow from "~/flows/shared/persoenlicheDaten/flow.json";
 
 export const geldEinklagenFormular = {
   cmsSlug: "form-flow-pages",

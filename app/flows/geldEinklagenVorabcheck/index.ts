@@ -2,7 +2,7 @@ import type { Flow } from "~/flows/flows.server";
 import config from "./flow.json";
 import { guards } from "./guards";
 import { type AllContexts } from "../common";
-import { getGerichtskostenvorschuss } from "../gerichtskosten";
+import { getGerichtskostenvorschuss } from "../shared/gerichtskosten";
 
 export const geldEinklagenVorabcheck = {
   cmsSlug: "vorab-check-pages",
