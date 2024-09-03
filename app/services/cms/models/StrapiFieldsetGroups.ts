@@ -6,7 +6,7 @@ import { StrapiDropdownComponentSchema } from "../components/StrapiDropdown";
 import { StrapiInputComponentSchema } from "../components/StrapiInput";
 import { StrapiTimeInputComponentSchema } from "../components/StrapiTimeInput";
 
-const StrapiFieldsetGroupsFormComponentsSchema = z.discriminatedUnion(
+export const StrapiFieldsetGroupsFormComponentsSchema = z.discriminatedUnion(
   "__component",
   [
     StrapiInputComponentSchema,
