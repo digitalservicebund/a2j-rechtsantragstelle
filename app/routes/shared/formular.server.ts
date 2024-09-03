@@ -10,6 +10,7 @@ import { getArraySummaryPageTranslations } from "~/services/array/getArraySummar
 import { getSummaryData } from "~/services/array/getSummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
+import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
 import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import type { Translations } from "~/services/cms/index.server";
 import {
@@ -96,12 +97,19 @@ export const loader = async ({
   const { pathname } = new URL(request.url);
   const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
-  const { userData, debugId } = await getSessionData(flowId, cookieHeader);
+
+  const [isEnabledPruneUserData, { userData, debugId }, formFields] =
+    await Promise.all([
+      isFeatureFlagEnabled("pruneUserData"),
+      getSessionData(flowId, cookieHeader),
+      fetchAllFormFields(flowId),
+    ]);
+
   context.debugId = debugId; // For showing in errors
 
   const currentFlow = flows[flowId];
-  const prunedUserData = (await isFeatureFlagEnabled("pruneUserData"))
-    ? await pruneIrrelevantData(userData, flowId)
+  const prunedUserData = isEnabledPruneUserData
+    ? pruneIrrelevantData(userData, flowId, formFields)
     : userData;
   const userDataWithPageData = addPageDataToUserData(prunedUserData, {
     arrayIndexes,
