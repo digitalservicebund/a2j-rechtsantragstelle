@@ -8,7 +8,6 @@ import { StrapiFieldsetGroupsSchema } from "../models/StrapiFieldsetGroups";
 
 const StrapiFieldsetSchema = z
   .object({
-    name: z.string(),
     heading: z.string(),
     fieldsetGroup: z.object({
       data: HasStrapiIdSchema.extend({

@@ -5,6 +5,7 @@ import { parsePathname } from "~/flows/flowIds";
 import { flows } from "~/flows/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
+import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import {
   fetchFlowPage,
   fetchMeta,
@@ -83,7 +84,7 @@ export const loader = async ({
   const meta = stepMeta(vorabcheckPage.meta, parentMeta);
 
   // filter user data for current step
-  const fieldNames = formElements.map((entry) => entry.name);
+  const fieldNames = getFieldsByFormElements(formElements);
   const stepData = fieldsFromContext(userData, fieldNames);
 
   const { headers, csrf } = await updateMainSession({
