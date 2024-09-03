@@ -66,6 +66,7 @@ module.exports = {
         "plugin:sonarjs/recommended-legacy",
       ],
       rules: {
+        "import/no-cycle": "warn",
         "no-console": "warn",
         "sonarjs/no-duplicate-string": "off",
         "sonarjs/prefer-enum-initializers": "off", // currently breaks at runtime with TypeError: Cannot read properties of undefined (reading 'members')
