@@ -11,6 +11,10 @@ import {
   getStartAirportName,
   hasArbitrationBoardBfJ,
   hasArbitrationBoardSoeP,
+  hasCompensationLongDistanceInsideEU,
+  hasCompensationLongDistanceOutsideEU,
+  hasCompensationMiddleDistance,
+  hasCompensationShortDistance,
 } from "./stringReplacements";
 import type { Context } from "../contexts";
 
@@ -29,6 +33,10 @@ export const fluggastrechteVorabcheck = {
     ...getRouteCompensationDescription(context, translations),
     ...hasArbitrationBoardBfJ(context),
     ...hasArbitrationBoardSoeP(context),
+    ...hasCompensationLongDistanceInsideEU(context),
+    ...hasCompensationLongDistanceOutsideEU(context),
+    ...hasCompensationMiddleDistance(context),
+    ...hasCompensationShortDistance(context),
   }),
 } satisfies Flow;
 

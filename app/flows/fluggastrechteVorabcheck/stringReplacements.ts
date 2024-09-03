@@ -78,6 +78,58 @@ export function getEndAirportName({
   return airportName.length > 0 ? { endAirport: airportName } : {};
 }
 
+export function hasCompensationLongDistanceInsideEU({
+  startAirport = "",
+  endAirport = "",
+}: FluggastrechtVorabcheckContext) {
+  const routeCompensation = getRouteCompensationBetweenAirports(
+    startAirport,
+    endAirport,
+  );
+
+  return {
+    hasLongDistanceInsideEU: routeCompensation === "longDistanceInsideEU",
+  };
+}
+
+export function hasCompensationLongDistanceOutsideEU({
+  startAirport = "",
+  endAirport = "",
+}: FluggastrechtVorabcheckContext) {
+  const routeCompensation = getRouteCompensationBetweenAirports(
+    startAirport,
+    endAirport,
+  );
+
+  return {
+    hasLongDistanceOutsideEU: routeCompensation === "longDistanceOutsideEU",
+  };
+}
+
+export function hasCompensationMiddleDistance({
+  startAirport = "",
+  endAirport = "",
+}: FluggastrechtVorabcheckContext) {
+  const routeCompensation = getRouteCompensationBetweenAirports(
+    startAirport,
+    endAirport,
+  );
+
+  return { hasMiddleDistance: routeCompensation === "middleDistance" };
+}
+
+export function hasCompensationShortDistance({
+  startAirport = "",
+  endAirport = "",
+}: FluggastrechtVorabcheckContext) {
+  const routeCompensation = getRouteCompensationBetweenAirports(
+    startAirport,
+    endAirport,
+  );
+
+  return { hasShortDistance: routeCompensation === "shortDistance" };
+}
+
 export function getRouteCompensationDescription(
   { startAirport = "", endAirport = "" }: FluggastrechtVorabcheckContext,
   translations: Translations,

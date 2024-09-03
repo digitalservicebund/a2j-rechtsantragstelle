@@ -13,6 +13,10 @@ import {
   getStartAirportName,
   hasArbitrationBoardBfJ,
   hasArbitrationBoardSoeP,
+  hasCompensationLongDistanceInsideEU,
+  hasCompensationLongDistanceOutsideEU,
+  hasCompensationMiddleDistance,
+  hasCompensationShortDistance,
 } from "~/flows/fluggastrechteVorabcheck/stringReplacements";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 
@@ -299,5 +303,83 @@ describe("hasArbitrationBoardSoeP", () => {
   it("should return hasArbitrationBoardSoeP object as false, in case fluggesellschaft belongs to BfJ", () => {
     const actual = hasArbitrationBoardSoeP({ fluggesellschaft: "IB" });
     expect(actual).toStrictEqual({ hasArbitrationBoardSoeP: false });
+  });
+});
+
+describe("hasCompensationLongDistanceInsideEU", () => {
+  it("should return hasLongDistanceInsideEU as true if compensation is long distance inside EU", () => {
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue(
+      "longDistanceInsideEU",
+    );
+
+    const actual = hasCompensationLongDistanceInsideEU({});
+
+    expect(actual).toStrictEqual({ hasLongDistanceInsideEU: true });
+  });
+
+  it("should return hasLongDistanceInsideEU as false if compensation is not long distance inside EU", () => {
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue("middleDistance");
+
+    const actual = hasCompensationLongDistanceInsideEU({});
+
+    expect(actual).toStrictEqual({ hasLongDistanceInsideEU: false });
+  });
+});
+
+describe("hasCompensationLongDistanceOutsideEU", () => {
+  it("should return hasLongDistanceOutsideEU as true if compensation is long distance outside EU", () => {
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue(
+      "longDistanceOutsideEU",
+    );
+
+    const actual = hasCompensationLongDistanceOutsideEU({});
+
+    expect(actual).toStrictEqual({ hasLongDistanceOutsideEU: true });
+  });
+
+  it("should return hasLongDistanceOutsideEU as false if compensation is not long distance outside EU", () => {
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue("middleDistance");
+
+    const actual = hasCompensationLongDistanceOutsideEU({});
+
+    expect(actual).toStrictEqual({ hasLongDistanceOutsideEU: false });
+  });
+});
+
+describe("hasCompensationMiddleDistance", () => {
+  it("should return hasMiddleDistance as true if compensation is middle distance", () => {
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue("middleDistance");
+
+    const actual = hasCompensationMiddleDistance({});
+
+    expect(actual).toStrictEqual({ hasMiddleDistance: true });
+  });
+
+  it("should return hasMiddleDistance as false if compensation is not middle", () => {
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue(
+      "longDistanceInsideEU",
+    );
+
+    const actual = hasCompensationMiddleDistance({});
+
+    expect(actual).toStrictEqual({ hasMiddleDistance: false });
+  });
+});
+
+describe("hasCompensationShortDistance", () => {
+  it("should return hasShortDistance as true if compensation is short distance", () => {
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue("shortDistance");
+
+    const actual = hasCompensationShortDistance({});
+
+    expect(actual).toStrictEqual({ hasShortDistance: true });
+  });
+
+  it("should return hasShortDistance as false if compensation is not short distance", () => {
+    mockedGetRouteCompensationBetweenAirports.mockReturnValue("middleDistance");
+
+    const actual = hasCompensationShortDistance({});
+
+    expect(actual).toStrictEqual({ hasShortDistance: false });
   });
 });
