@@ -40,13 +40,12 @@ import {
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
+import type { BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
-import { eigentumDone } from "./eigentumDone";
+import { hasAnyEigentumExceptBankaccount } from "./hasAnyEigentumExceptBankaccountGuard";
 import { yesNoGuards } from "../../guards.server";
-import type { GenericGuard, Guards } from "../../guards.server";
-
-export type BeratungshilfeFinanzielleAngabenGuard =
-  GenericGuard<BeratungshilfeFinanzielleAngaben>;
+import type { Guards } from "../../guards.server";
+import { eigentumDone } from "./doneFunctions";
 
 const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
@@ -66,13 +65,6 @@ const hasNoStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
 
 const staatlicheLeistungenIsBuergergeld: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) => context.staatlicheLeistungen === "buergergeld";
-
-export const hasAnyEigentumExceptBankaccount: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    context.hasGeldanlage == "yes" ||
-    context.hasWertsache == "yes" ||
-    context.hasGrundeigentum == "yes" ||
-    context.hasKraftfahrzeug == "yes";
 
 export const hasAnyEigentum: BeratungshilfeFinanzielleAngabenGuard = ({
   context,

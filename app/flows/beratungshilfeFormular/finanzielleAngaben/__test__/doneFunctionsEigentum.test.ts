@@ -5,8 +5,8 @@ import {
   grundeigentumDone,
   kraftfahrzeugeDone,
   wertsachenDone,
+  eigentumDone,
 } from "../doneFunctions";
-import { eigentumDone } from "../eigentumDone";
 
 describe("eigentumDone", () => {
   it("passes with all fields no", () => {

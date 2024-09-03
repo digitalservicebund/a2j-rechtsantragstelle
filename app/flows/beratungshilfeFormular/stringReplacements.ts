@@ -8,8 +8,8 @@ import {
   kinderDone,
   partnerDone,
   wohnungDone,
+  eigentumDone,
 } from "./finanzielleAngaben/doneFunctions";
-import { eigentumDone } from "./finanzielleAngaben/eigentumDone";
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import { eigentumTotalWorthLessThan10000 } from "./finanzielleAngaben/guards";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/context";

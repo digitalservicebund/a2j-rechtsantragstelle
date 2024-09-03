@@ -1,5 +1,6 @@
 import { arrayIsNonEmpty } from "~/util/array";
-import { type BeratungshilfeFinanzielleAngabenGuard } from "./guards";
+import { type BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
+import { hasAnyEigentumExceptBankaccount } from "./hasAnyEigentumExceptBankaccountGuard";
 
 export const einkommenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
@@ -100,3 +101,16 @@ export const wertsachenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context.eigentumTotalWorth === "less10000" ||
   context.hasWertsache === "no" ||
   (context.hasWertsache === "yes" && arrayIsNonEmpty(context.wertsachen));
+
+export const eigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.staatlicheLeistungen == "grundsicherung" ||
+  context.staatlicheLeistungen == "asylbewerberleistungen" ||
+  (context.hasBankkonto !== undefined &&
+    context.hasKraftfahrzeug !== undefined &&
+    context.hasGeldanlage !== undefined &&
+    context.hasGrundeigentum !== undefined &&
+    context.hasWertsache !== undefined &&
+    (!hasAnyEigentumExceptBankaccount({ context }) ||
+      context.eigentumTotalWorth !== undefined));

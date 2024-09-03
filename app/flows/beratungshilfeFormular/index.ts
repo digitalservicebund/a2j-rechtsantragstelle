@@ -16,8 +16,8 @@ import {
   kinderDone,
   partnerDone,
   wohnungDone,
+  eigentumDone,
 } from "./finanzielleAngaben/doneFunctions";
-import { eigentumDone } from "./finanzielleAngaben/eigentumDone";
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
