@@ -1,19 +1,23 @@
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import { pdfFillReducer } from "~/services/pdf/prozesskostenhilfe/fillOutFunction";
 import { fillAbzuege } from "./F_abzuege";
+import { fillZahlungsverpflichtungen } from "./I_zahlungsverpflichtungen";
+import { fillBelastungen } from "./J_belastungen";
 import { appendAttachment } from "../appendAttachment";
-import { createAttachment } from "../attachment";
 import FormAttachment from "../attachment/FormAttachment";
 import { pdfFromReact } from "../attachment/pdfFromReact";
 import { fillPdf } from "../fillPdf.server";
 export { getProzesskostenhilfeParameters };
 
 export async function prozesskostenhilfePdfFromUserdata(
-  userdata: ProzesskostenhilfeFormularContext,
+  userData: ProzesskostenhilfeFormularContext,
 ) {
-  const pdfValues = getProzesskostenhilfeParameters();
-  const attachmentData = createAttachment();
-  fillAbzuege({ pdfValues, userdata });
+  const { pdfValues, attachment } = pdfFillReducer({
+    userData,
+    pdfParams: getProzesskostenhilfeParameters(),
+    fillFunctions: [fillAbzuege, fillBelastungen, fillZahlungsverpflichtungen],
+  });
 
   const filledPdf = await fillPdf({
     flowId: "/prozesskostenhilfe/formular",
@@ -22,12 +26,12 @@ export async function prozesskostenhilfePdfFromUserdata(
     xPositionsDruckvermerk: 9,
   });
 
-  if (attachmentData.length > 0) {
+  if (attachment.length > 0) {
     await appendAttachment(
       filledPdf,
       await pdfFromReact(
         FormAttachment({
-          entries: attachmentData,
+          entries: attachment,
           header: `Anhang: Antrag auf Bewilligung von Prozesskostenhilfe`,
           footer: "Anhang",
         }),

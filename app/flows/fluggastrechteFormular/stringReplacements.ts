@@ -2,7 +2,7 @@ import airlines from "data/airlines/data.json";
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 import type { FluggastrechtContext } from "./context";
-import { gerichtskostenFromBetrag } from "../gerichtskosten";
+import { gerichtskostenFromBetrag } from "../shared/gerichtskosten";
 
 export const WEITERE_PERSONEN_START_INDEX = 2;
 

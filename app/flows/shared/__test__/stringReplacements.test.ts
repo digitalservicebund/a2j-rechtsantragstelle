@@ -1,6 +1,6 @@
 import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 import {
-  eigentumZusammenfassungShowWarnings,
+  eigentumZusammenfassungShowPartnerschaftWarnings,
   getArrayIndexStrings,
   getKinderStrings,
 } from "~/flows/shared/stringReplacements";
@@ -74,28 +74,24 @@ describe("stringReplacements", () => {
     });
   });
 
-  describe("eigentumZusammenfassungShowWarnings", () => {
-    it("return string config to show all warnings", () => {
+  describe("eigentumZusammenfassungShowPartnerschaftWarnings", () => {
+    it("return string config to show warning", () => {
       expect(
-        eigentumZusammenfassungShowWarnings({
-          eigentumTotalWorth: "less10000",
+        eigentumZusammenfassungShowPartnerschaftWarnings({
           partnerschaft: "yes",
         }),
       ).toStrictEqual({
         hasPartnerschaftYes: true,
-        eigentumTotalWorthLessThan10000: true,
       });
     });
 
-    it("return string config to show no warnings", () => {
+    it("return string config to show no warning", () => {
       expect(
-        eigentumZusammenfassungShowWarnings({
-          eigentumTotalWorth: "more10000",
+        eigentumZusammenfassungShowPartnerschaftWarnings({
           partnerschaft: "no",
         }),
       ).toStrictEqual({
         hasPartnerschaftYes: false,
-        eigentumTotalWorthLessThan10000: false,
       });
     });
   });

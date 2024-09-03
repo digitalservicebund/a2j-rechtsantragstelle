@@ -4,13 +4,14 @@ import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
-  eigentumDone,
   einkommenDone,
   kinderDone,
   partnerDone,
   wohnungDone,
+  eigentumDone,
 } from "./finanzielleAngaben/doneFunctions";
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
+import { eigentumTotalWorthLessThan10000 } from "./finanzielleAngaben/guards";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/context";
 import { rechtsproblemDone } from "./rechtsproblem/context";
 
@@ -77,6 +78,16 @@ export const ausgabenStrings = (context: BeratungshilfeFormularContext) => {
 
 export const getAnwaltStrings = (context: BeratungshilfeFormularContext) => {
   return { hasNoAnwalt: context.anwaltskanzlei !== "yes" };
+};
+
+export const eigentumZusammenfassungShowTotalWorthWarnings = (
+  context: BeratungshilfeFormularContext,
+) => {
+  return {
+    eigentumTotalWorthLessThan10000: eigentumTotalWorthLessThan10000({
+      context,
+    }),
+  };
 };
 
 export const getMissingInformationStrings = (

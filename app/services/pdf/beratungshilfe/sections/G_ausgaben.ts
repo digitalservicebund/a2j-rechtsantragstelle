@@ -1,5 +1,6 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { besondereBelastungenSchema } from "~/flows/shared/finanzielleAngaben/context";
 import { type AttachmentEntries, newPageHint } from "../../attachment";
 import { checkboxListToString } from "../../checkboxListToString";
 
@@ -16,13 +17,13 @@ type AusgabenPdfField = {
   zahlungsfrist: string;
 };
 
-const ausgabenSituationMapping = {
+export const ausgabenSituationMapping = {
   pregnancy: "Schwangerschaft",
   singleParent: "Alleinerziehend",
   disability: "Schwerbehinderung",
   medicalReasons:
     "Kostenaufwändige Ernährung notwendig durch medizinische Gründe",
-};
+} satisfies Record<keyof typeof besondereBelastungenSchema.shape, string>;
 
 export function fillAusgaben(
   attachment: AttachmentEntries,

@@ -1,9 +1,9 @@
 import { z } from "zod";
 import {
+  adresseSchema,
   namePrivatPerson,
   persoenlicheDaten,
-} from "~/flows/persoenlicheDaten/context";
-import { adresseSchema } from "~/flows/shared/persoenlicheDaten/context";
+} from "~/flows/shared/persoenlicheDaten/context";
 import {
   checkedOptional,
   checkedRequired,

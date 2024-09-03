@@ -1,12 +1,12 @@
 /* eslint-disable sonarjs/no-duplicate-string */
+import { bankKontoDone } from "~/flows/shared/finanzielleAngaben/doneFunctions";
 import {
-  bankKontoDone,
   geldanlagenDone,
   grundeigentumDone,
   kraftfahrzeugeDone,
   wertsachenDone,
-} from "~/flows/shared/finanzielleAngaben/doneFunctions";
-import { eigentumDone } from "../doneFunctions";
+  eigentumDone,
+} from "../doneFunctions";
 
 describe("eigentumDone", () => {
   it("passes with all fields no", () => {
