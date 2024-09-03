@@ -1,10 +1,10 @@
 import type { Page } from "@playwright/test";
-import type { Formular } from "tests/e2e/pom/Formular";
+import type { ProzesskostenhilfeFormular } from "tests/e2e/pom/ProzesskostenhilfeFormular";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 
 export async function startFinanzielleAngabenEigentum(
   page: Page,
-  formular: Formular,
+  formular: ProzesskostenhilfeFormular,
 ) {
   // /finanzielle-angaben/eigentum/eigentum-info
   await expectPageToBeAccessible({ page });
@@ -33,8 +33,4 @@ export async function startFinanzielleAngabenEigentum(
   // /finanzielle-angaben/eigentum/kraftfahrzeuge-frage
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("hasKraftfahrzeug", "yes");
-
-  // /finanzielle-angaben/eigentum/gesamtwert
-  await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("eigentumTotalWorth", "more10000");
 }

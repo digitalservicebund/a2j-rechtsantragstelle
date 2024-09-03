@@ -1,9 +1,5 @@
 import {
-  eigentumTotalWorthLessThan10000,
-  eigentumYesAndEmptyArray,
   grundeigentumIsBewohnt,
-  hasAnyEigentum,
-  hasAnyEigentumExceptBankaccount,
   hasAusgabenYes,
   hasBankkontoYes,
   hasGeldanlageYes,
@@ -44,13 +40,12 @@ import {
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
+import type { BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
-import { eigentumDone } from "./doneFunctions";
+import { hasAnyEigentumExceptBankaccount } from "./hasAnyEigentumExceptBankaccountGuard";
 import { yesNoGuards } from "../../guards.server";
-import type { GenericGuard, Guards } from "../../guards.server";
-
-export type BeratungshilfeFinanzielleAngabenGuard =
-  GenericGuard<BeratungshilfeFinanzielleAngaben>;
+import type { Guards } from "../../guards.server";
+import { eigentumDone } from "./doneFunctions";
 
 const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
@@ -70,6 +65,15 @@ const hasNoStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
 
 const staatlicheLeistungenIsBuergergeld: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) => context.staatlicheLeistungen === "buergergeld";
+
+export const hasAnyEigentum: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  hasAnyEigentumExceptBankaccount({ context }) ||
+  context.hasBankkonto === "yes";
+
+export const eigentumTotalWorthLessThan10000: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) => context.eigentumTotalWorth === "less10000";
 
 export const finanzielleAngabeGuards = {
   eigentumDone,
@@ -139,7 +143,20 @@ export const finanzielleAngabeGuards = {
   grundeigentumIsBewohnt,
   hasAusgabenYesAndEmptyArray: ({ context }) =>
     hasAusgabenYes({ context }) && !arrayIsNonEmpty(context.ausgaben),
-  eigentumYesAndEmptyArray,
+
+  eigentumYesAndEmptyArray: ({ context }) =>
+    (hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten)) ||
+    // entries other than bank accounts are only revelant above 10k
+    (context.eigentumTotalWorth === "more10000" &&
+      ((hasGeldanlageYes({ context }) &&
+        !arrayIsNonEmpty(context.geldanlagen)) ||
+        (hasWertsacheYes({ context }) &&
+          !arrayIsNonEmpty(context.wertsachen)) ||
+        (hasKraftfahrzeugYes({ context }) &&
+          !arrayIsNonEmpty(context.kraftfahrzeuge)) ||
+        (hasGrundeigentumYes({ context }) &&
+          !arrayIsNonEmpty(context.grundeigentum)))),
+
   hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;
