@@ -50,19 +50,17 @@ export const loader = async ({
   if (!flowController.isReachable(stepId))
     return redirectDocument(flowController.getInitial());
 
-  const [vorabcheckPage, parentMeta, translations, flowTranslations] =
-    await Promise.all([
-      fetchFlowPage("vorab-check-pages", flowId, stepId),
-      fetchMeta({ filterValue: parentFromParams(pathname, params) }),
-      fetchTranslations("defaultTranslations"),
-      fetchTranslations(flowId),
-    ]);
+  const [vorabcheckPage, parentMeta, translations] = await Promise.all([
+    fetchFlowPage("vorab-check-pages", flowId, stepId),
+    fetchMeta({ filterValue: parentFromParams(pathname, params) }),
+    fetchTranslations("defaultTranslations"),
+  ]);
 
   // Do string replacement in content if necessary
   const contentElements = interpolateDeep(
     vorabcheckPage.pre_form,
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userData, flowTranslations)
+      ? currentFlow.stringReplacements(userData)
       : undefined,
   );
 

@@ -4,7 +4,6 @@ import { geldEinklagenVorabcheck } from "app/flows/geldEinklagenVorabcheck";
 import { beratungshilfeFormular } from "~/flows/beratungshilfeFormular";
 import { fluggastrechtFlow } from "~/flows/fluggastrechteFormular";
 import { geldEinklagenFormular } from "~/flows/geldEinklagenFormular";
-import type { Translations } from "~/services/cms/index.server";
 import type { FlowPageId } from "~/services/cms/schemas";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
@@ -20,10 +19,7 @@ export type Flow = {
   guards: Guards;
   migrationSource?: FlowId;
   flowTransitionConfig?: FlowTransitionConfig;
-  stringReplacements?: (
-    context: Context,
-    translations: Translations,
-  ) => Replacements;
+  stringReplacements?: (context: Context) => Replacements;
 };
 
 export const flows = {
