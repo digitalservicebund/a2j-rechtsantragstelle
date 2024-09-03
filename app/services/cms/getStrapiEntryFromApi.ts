@@ -45,7 +45,6 @@ export const getStrapiEntryFromApi: GetStrapiEntry = async <T extends ApiId>(
   opts: GetStrapiEntryOpts,
 ) => {
   const stagingUrl = buildUrl({ ...opts, locale: stagingLocale });
-  console.log(stagingUrl);
   const stagingData =
     opts.locale !== "all"
       ? (await makeStrapiRequest<T>(stagingUrl)).data.data
