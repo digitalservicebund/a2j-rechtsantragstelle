@@ -1,10 +1,10 @@
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
-import { hasGrundsicherungOrAsylbewerberleistungen } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import { arrayIsNonEmpty } from "~/util/array";
 import {
   prozesskostenhilfeFinanzielleAngabenContext,
   type ProzesskostenhilfeFinanzielleAngabenContext,
 } from "./context";
+import { hasGrundsicherungOrAsylbewerberleistungen } from "./einkuenfte/guards";
 import type { GenericGuard } from "../../guards.server";
 import { bankKontoDone } from "../../shared/finanzielleAngaben/doneFunctions";
 
@@ -14,9 +14,10 @@ type ProzesskostenhilfeFinanzielleAngabenGuard =
 export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  hasGrundsicherungOrAsylbewerberleistungen({
-    context,
-  }) ||
+  (context.staatlicheLeistungen != undefined &&
+    hasGrundsicherungOrAsylbewerberleistungen({
+      context,
+    })) ||
   ["no", "widowed"].includes(context.partnerschaft ?? "") ||
   context.unterhalt == "no" ||
   context.partnerEinkommen == "no" ||
@@ -26,17 +27,19 @@ export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 export const kinderDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  hasGrundsicherungOrAsylbewerberleistungen({
-    context,
-  }) ||
+  (context.staatlicheLeistungen != undefined &&
+    hasGrundsicherungOrAsylbewerberleistungen({
+      context,
+    })) ||
   context.hasKinder == "no" ||
   arrayIsNonEmpty(context.kinder);
 
 export const andereUnterhaltszahlungenDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
-    hasGrundsicherungOrAsylbewerberleistungen({
-      context,
-    }) ||
+    (context.staatlicheLeistungen != undefined &&
+      hasGrundsicherungOrAsylbewerberleistungen({
+        context,
+      })) ||
     context.hasWeitereUnterhaltszahlungen == "no" ||
     arrayIsNonEmpty(context.unterhaltszahlungen);
 
@@ -66,23 +69,25 @@ export const wertsachenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context.hasWertsache === "no" ||
   (context.hasWertsache === "yes" && arrayIsNonEmpty(context.wertsachen));
 
-export const prozesskostenhilfeFinanzielleAngabeDone: GenericGuard<
-  ProzesskostenhilfeFinanzielleAngabenContext
-> = ({ context }) =>
-  einkuenfteDone({ context }) &&
-  partnerDone({ context }) &&
-  eigentumDone({ context }) &&
-  kinderDone({ context }) &&
-  eigentumZusammenfassungDone({ context }) &&
-  andereUnterhaltszahlungenDone({ context }) &&
-  ausgabenDone({ context }) &&
-  ausgabenZusammenfassungDone({ context });
+export const prozesskostenhilfeFinanzielleAngabeDone: ProzesskostenhilfeFinanzielleAngabenGuard =
+  ({ context }) => {
+    return context.staatlicheLeistungen === "asylbewerberleistungen" ||
+      context.staatlicheLeistungen === "grundsicherung"
+      ? true
+      : einkuenfteDone({ context }) &&
+          partnerDone({ context }) &&
+          eigentumDone({ context }) &&
+          kinderDone({ context }) &&
+          eigentumZusammenfassungDone({ context }) &&
+          andereUnterhaltszahlungenDone({ context }) &&
+          ausgabenDone({ context }) &&
+          ausgabenZusammenfassungDone({ context });
+  };
 
 export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
-    hasGrundsicherungOrAsylbewerberleistungen({
-      context,
-    }) ||
+    context.staatlicheLeistungen == "grundsicherung" ||
+    context.staatlicheLeistungen == "asylbewerberleistungen" ||
     (bankKontoDone({ context }) &&
       geldanlagenDone({ context }) &&
       grundeigentumDone({ context }) &&
@@ -92,9 +97,8 @@ export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGu
 export const eigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  hasGrundsicherungOrAsylbewerberleistungen({
-    context,
-  }) ||
+  context.staatlicheLeistungen == "grundsicherung" ||
+  context.staatlicheLeistungen == "asylbewerberleistungen" ||
   (context.hasBankkonto !== undefined &&
     context.hasKraftfahrzeug !== undefined &&
     context.hasGeldanlage !== undefined &&
