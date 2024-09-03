@@ -1,13 +1,11 @@
 import type { Flow } from "~/flows/flows.server";
 import fluggastrechteVorabcheckFlow from "~/flows/fluggastrechteVorabcheck/flow.json";
 import { guards as fluggastrechteVorabcheckGuards } from "~/flows/fluggastrechteVorabcheck/guards";
-import type { Translations } from "~/services/cms/index.server";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import {
   getCompensantionPaymentString,
   getEndAirportName,
   getLastDaytFromFourYearsAgoDate,
-  getRouteCompensationDescription,
   getStartAirportName,
   hasArbitrationBoardBfJ,
   hasArbitrationBoardSoeP,
@@ -22,15 +20,11 @@ export const fluggastrechteVorabcheck = {
   cmsSlug: "vorab-check-pages",
   config: fluggastrechteVorabcheckFlow,
   guards: fluggastrechteVorabcheckGuards,
-  stringReplacements: (
-    context: FluggastrechtVorabcheckContext,
-    translations: Translations,
-  ) => ({
+  stringReplacements: (context: FluggastrechtVorabcheckContext) => ({
     ...getCompensantionPaymentString(context),
     flightDateExpiration: getLastDaytFromFourYearsAgoDate(),
     ...getStartAirportName(context),
     ...getEndAirportName(context),
-    ...getRouteCompensationDescription(context, translations),
     ...hasArbitrationBoardBfJ(context),
     ...hasArbitrationBoardSoeP(context),
     ...hasCompensationLongDistanceInsideEU(context),
