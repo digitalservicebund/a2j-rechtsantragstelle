@@ -1,11 +1,11 @@
+import { bankKontoDone } from "~/flows/shared/finanzielleAngaben/doneFunctions";
+import type { BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
 import {
-  bankKontoDone,
   geldanlagenDone,
   grundeigentumDone,
   kraftfahrzeugeDone,
   wertsachenDone,
-} from "~/flows/shared/finanzielleAngaben/doneFunctions";
-import type { BeratungshilfeFinanzielleAngabenGuard } from "./guards";
+} from "./doneFunctions";
 
 export const eigentumZusammenfassungDone: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) =>

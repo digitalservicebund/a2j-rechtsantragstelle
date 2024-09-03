@@ -2,7 +2,6 @@ import { z } from "zod";
 import {
   besondereBelastungenSchema,
   bankkontenArraySchema,
-  eigentumTotalWorthSchema,
   gelanlagenArraySchema,
   grundeigentumArraySchema,
   kinderArraySchema,
@@ -65,7 +64,10 @@ export const beratungshilfeFinanzielleAngaben = {
   kraftfahrzeuge: kraftfahrzeugeArraySchema,
   hasGeldanlage: YesNoAnswer,
   geldanlagen: gelanlagenArraySchema,
-  eigentumTotalWorth: eigentumTotalWorthSchema,
+  eigentumTotalWorth: z.enum(
+    ["less10000", "more10000", "unsure"],
+    customRequiredErrorMessage,
+  ),
   hasGrundeigentum: YesNoAnswer,
   grundeigentum: grundeigentumArraySchema,
   hasWertsache: YesNoAnswer,

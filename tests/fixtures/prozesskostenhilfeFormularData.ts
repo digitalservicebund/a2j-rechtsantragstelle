@@ -14,7 +14,6 @@ import {
 import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,
-  eigentumTotalWorthSchema,
   gelanlagenArraySchema,
   grundeigentumArraySchema,
   kraftfahrzeugeArraySchema,
@@ -29,7 +28,6 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   hasWertsache: YesNoAnswer.Enum.yes,
   hasGrundeigentum: YesNoAnswer.Enum.yes,
   hasKraftfahrzeug: YesNoAnswer.Enum.yes,
-  eigentumTotalWorth: eigentumTotalWorthSchema.Enum.unsure,
   staatlicheLeistungenPKH: staatlicheLeistungenPKHSchema.Enum.buergergeld,
   buergergeld: faker.finance.amount(),
   currentlyEmployed: YesNoAnswer.Enum.yes,
