@@ -10,6 +10,7 @@ import { getArraySummaryPageTranslations } from "~/services/array/getArraySummar
 import { getSummaryData } from "~/services/array/getSummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
+import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import type { Translations } from "~/services/cms/index.server";
 import {
   fetchFlowPage,
@@ -184,7 +185,7 @@ export const loader = async ({
   const meta = stepMeta(formPageContent.meta, parentMeta);
 
   // Retrieve user data for current step
-  const fieldNames = formPageContent.form.map((entry) => entry.name);
+  const fieldNames = getFieldsByFormElements(formElements);
   const stepData = fieldsFromContext(userDataWithPageData, fieldNames);
 
   const { headers, csrf } = await updateMainSession({

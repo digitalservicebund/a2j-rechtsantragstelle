@@ -22,12 +22,12 @@ const buildUrl = ({
   pageSize,
   filters,
   locale = defaultLocale,
-  populate = "deep,10",
+  populate = "populate=deep,10",
 }: GetStrapiEntryOpts) =>
   [
     config().STRAPI_API,
     apiId,
-    `?populate=${populate}`,
+    `?${populate}`,
     `&locale=${locale}`,
     pageSize ? `&pagination[pageSize]=${pageSize}` : "",
     buildFilters(filters),
@@ -45,6 +45,7 @@ export const getStrapiEntryFromApi: GetStrapiEntry = async <T extends ApiId>(
   opts: GetStrapiEntryOpts,
 ) => {
   const stagingUrl = buildUrl({ ...opts, locale: stagingLocale });
+  console.log(stagingUrl);
   const stagingData =
     opts.locale !== "all"
       ? (await makeStrapiRequest<T>(stagingUrl)).data.data

@@ -9,6 +9,7 @@ export const getFieldsByFormElements = (
 
   const fieldNamesFieldset = formElements
     .filter((element) => element.__component === "form-elements.fieldset")
+    .filter((element) => typeof element.fieldsetGroup !== "undefined")
     .flatMap((element) => element.fieldsetGroup.data.attributes.formComponents)
     .map((element) => element.name);
 

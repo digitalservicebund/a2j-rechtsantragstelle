@@ -1,4 +1,5 @@
 import type { FlowId } from "~/flows/flowIds";
+import { getFieldsByFormElements } from "./getFieldsByFormElements";
 import { getStrapiEntry } from "./getStrapiEntry";
 
 export type FormFieldsMap = Record<string, string[]>;
@@ -8,7 +9,7 @@ export async function fetchAllFormFields(
 ): Promise<FormFieldsMap> {
   const apiId = "form-flow-pages";
   const filters = [{ field: "flow_ids", nestedField: "flowId", value: flowId }];
-  const populate = "form";
+  const populate = "populate[form][populate][fieldsetGroup][populate]=*";
   const strapiEntries = await getStrapiEntry({ apiId, filters, populate });
 
   return Object.fromEntries(
@@ -17,7 +18,7 @@ export async function fetchAllFormFields(
       .filter(({ attributes: { stepId, form } }) => form.length > 0 && stepId)
       .map(({ attributes: { stepId, form } }) => [
         stepId,
-        form.map((formField) => formField.name),
+        getFieldsByFormElements(form),
       ]),
   );
 }
