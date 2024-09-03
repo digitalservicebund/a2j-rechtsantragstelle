@@ -5,11 +5,20 @@ import { arrayIsNonEmpty } from "~/util/array";
 
 export const hasGrundsicherungOrAsylbewerberleistungen: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
   ({ context }) =>
-    context.staatlicheLeistungenPKH === "asylbewerberleistungen" ||
-    context.staatlicheLeistungenPKH === "grundsicherung";
+    context.staatlicheLeistungen === "asylbewerberleistungen" ||
+    context.staatlicheLeistungen === "grundsicherung";
 
 export const notEmployed: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
   ({ context }) => context.currentlyEmployed === "no";
+
+export const isEmployee: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
+  ({ context }) =>
+    context.employmentType === "employed" ||
+    context.employmentType === "employedAndSelfEmployed";
+export const isSelfEmployed: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
+  ({ context }) =>
+    context.employmentType === "selfEmployed" ||
+    context.employmentType === "employedAndSelfEmployed";
 
 const hasAndereArbeitsausgaben: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
   ({ context }) => context.hasArbeitsausgaben === "yes";
@@ -20,16 +29,12 @@ const hasFurtherIncome: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteCon
 export const finanzielleAngabeEinkuenfteGuards = {
   hasGrundsicherungOrAsylbewerberleistungen,
   hasBuergergeld: ({ context }) =>
-    context.staatlicheLeistungenPKH === "buergergeld",
+    context.staatlicheLeistungen === "buergergeld",
   hasArbeitslosengeld: ({ context }) =>
-    context.staatlicheLeistungenPKH === "arbeitslosengeld",
+    context.staatlicheLeistungen === "arbeitslosengeld",
   notEmployed,
-  isEmployee: ({ context }) =>
-    context.employmentType === "employed" ||
-    context.employmentType === "employedAndSelfEmployed",
-  isSelfEmployed: ({ context }) =>
-    context.employmentType === "selfEmployed" ||
-    context.employmentType === "employedAndSelfEmployed",
+  isEmployee,
+  isSelfEmployed,
   usesPublicTransit: ({ context }) => context.arbeitsweg === "publicTransport",
   usesPrivateVehicle: ({ context }) => context.arbeitsweg === "privateVehicle",
   commuteMethodPlaysNoRole: ({ context }) =>

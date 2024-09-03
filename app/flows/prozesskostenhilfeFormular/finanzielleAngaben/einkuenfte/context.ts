@@ -39,7 +39,7 @@ export const arbeitswegSchema = z.enum(
 );
 
 export const prozesskostenhilfeFinanzielleAngabenEinkuenfteContext = {
-  staatlicheLeistungenPKH: staatlicheLeistungenPKHSchema,
+  staatlicheLeistungen: staatlicheLeistungenPKHSchema,
   buergergeld: buildMoneyValidationSchema(),
   arbeitslosengeld: buildMoneyValidationSchema(),
   currentlyEmployed: YesNoAnswer,

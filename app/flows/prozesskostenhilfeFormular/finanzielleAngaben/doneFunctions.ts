@@ -87,6 +87,9 @@ export const eigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
+  hasGrundsicherungOrAsylbewerberleistungen({
+    context,
+  }) ||
   (context.hasAusgaben !== undefined &&
     context.besondereBelastungen !== undefined) ||
   context.hasAusgaben ==
@@ -94,6 +97,9 @@ export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 
 export const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
+    hasGrundsicherungOrAsylbewerberleistungen({
+      context,
+    }) ||
     context.hasAusgaben ==
       prozesskostenhilfeFinanzielleAngabenContext.hasAusgaben.Enum.no ||
     hasVersicherungDone({ context }) ||
