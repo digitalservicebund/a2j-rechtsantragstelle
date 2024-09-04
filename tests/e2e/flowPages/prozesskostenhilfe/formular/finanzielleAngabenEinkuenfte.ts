@@ -74,7 +74,7 @@ export async function startFinanzielleAngabenEinkuenfte(
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht
   await expectPageToBeAccessible({ page });
-  await formular.clickAnchorByText("Arbeitsausgabe hinzufügen");
+  await formular.clickAnchorByText("Ausgabe hinzufügen");
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgabe/0/daten
   await expectPageToBeAccessible({ page });
