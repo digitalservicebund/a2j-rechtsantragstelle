@@ -5,12 +5,7 @@ import {
   prozesskostenhilfeFinanzielleAngabenContext,
   zahlungspflichtigerSchema,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
-import {
-  arbeitsArtSchema,
-  arbeitswegSchema,
-  selbststaendigBruttoNettoSchema,
-  staatlicheLeistungenPKHSchema,
-} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,
@@ -28,15 +23,17 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   hasWertsache: YesNoAnswer.Enum.yes,
   hasGrundeigentum: YesNoAnswer.Enum.yes,
   hasKraftfahrzeug: YesNoAnswer.Enum.yes,
-  staatlicheLeistungenPKH: staatlicheLeistungenPKHSchema.Enum.buergergeld,
+  staatlicheLeistungenPKH:
+    einkuenfteSchema.staatlicheLeistungenPKH.Enum.buergergeld,
   buergergeld: faker.finance.amount(),
   currentlyEmployed: YesNoAnswer.Enum.yes,
-  employmentType: arbeitsArtSchema.Enum.employedAndSelfEmployed,
+  employmentType: einkuenfteSchema.employmentType.Enum.employedAndSelfEmployed,
   nettoEinkuenfteAlsArbeitnehmer: faker.finance.amount(),
   selbststaendigMonatlichesEinkommen: faker.finance.amount(),
-  selbststaendigBruttoNetto: selbststaendigBruttoNettoSchema.Enum.brutto,
+  selbststaendigBruttoNetto:
+    einkuenfteSchema.selbststaendigBruttoNetto.Enum.brutto,
   selbststaendigAbzuege: faker.finance.amount(),
-  arbeitsweg: arbeitswegSchema.Enum.publicTransport,
+  arbeitsweg: einkuenfteSchema.arbeitsweg.Enum.publicTransport,
   monatlicheOPNVKosten: faker.finance.amount(),
   arbeitsplatz: {
     strasseHausnummer: faker.location.streetAddress(),

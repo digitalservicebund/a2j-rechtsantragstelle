@@ -11,41 +11,34 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
-export const staatlicheLeistungenPKHSchema = z.enum(
-  [...staatlicheLeistungen.options, "arbeitslosengeld"],
-  customRequiredErrorMessage,
-);
-
 const financialEntrySchema = z.object({
   beschreibung: stringRequiredSchema,
   betrag: buildMoneyValidationSchema(),
 });
 
-export const arbeitsArtSchema = z.enum(
-  ["employed", "selfEmployed", "employedAndSelfEmployed"],
-  customRequiredErrorMessage,
-);
-export const selbststaendigBruttoNettoSchema = z.enum(
-  ["brutto", "netto"],
-  customRequiredErrorMessage,
-);
-
-export const arbeitswegSchema = z.enum(
-  ["publicTransport", "privateVehicle", "bike", "walking", "none"],
-  customRequiredErrorMessage,
-);
-
 export const prozesskostenhilfeFinanzielleAngabenEinkuenfteContext = {
-  staatlicheLeistungenPKH: staatlicheLeistungenPKHSchema,
+  staatlicheLeistungenPKH: z.enum(
+    [...staatlicheLeistungen.options, "arbeitslosengeld"],
+    customRequiredErrorMessage,
+  ),
   buergergeld: buildMoneyValidationSchema(),
   arbeitslosengeld: buildMoneyValidationSchema(),
   currentlyEmployed: YesNoAnswer,
-  employmentType: arbeitsArtSchema,
+  employmentType: z.enum(
+    ["employed", "selfEmployed", "employedAndSelfEmployed"],
+    customRequiredErrorMessage,
+  ),
   nettoEinkuenfteAlsArbeitnehmer: buildMoneyValidationSchema(),
   selbststaendigMonatlichesEinkommen: buildMoneyValidationSchema(),
-  selbststaendigBruttoNetto: selbststaendigBruttoNettoSchema,
+  selbststaendigBruttoNetto: z.enum(
+    ["brutto", "netto"],
+    customRequiredErrorMessage,
+  ),
   selbststaendigAbzuege: buildMoneyValidationSchema(),
-  arbeitsweg: arbeitswegSchema,
+  arbeitsweg: z.enum(
+    ["publicTransport", "privateVehicle", "bike", "walking", "none"],
+    customRequiredErrorMessage,
+  ),
   monatlicheOPNVKosten: buildMoneyValidationSchema(),
   arbeitsplatz: z.object({ ...adresseSchema }).partial(),
   arbeitsplatzEntfernung: integerSchema.refine((distance) => distance > 0, {
