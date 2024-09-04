@@ -9,14 +9,14 @@ const mockedCalculateDistanceBetweenAirportsInKilometers = vi.mocked(
 );
 
 describe("fluggastrechteGuard", () => {
-  describe("isAirportOutsideEU", () => {
+  describe("areAirportsOutsideEU", () => {
     it("if the start airport is in EU country, it should return false", () => {
       const context: FluggastrechtVorabcheckContext = {
         startAirport: "BER",
         endAirport: "GRU",
       };
 
-      const actual = guards.isAirportOutsideEU({ context });
+      const actual = guards.areAirportsOutsideEU({ context });
 
       expect(actual).toBe(false);
     });
@@ -27,7 +27,7 @@ describe("fluggastrechteGuard", () => {
         endAirport: "BER",
       };
 
-      const actual = guards.isAirportOutsideEU({ context });
+      const actual = guards.areAirportsOutsideEU({ context });
 
       expect(actual).toBe(false);
     });
@@ -38,7 +38,7 @@ describe("fluggastrechteGuard", () => {
         endAirport: "GRU",
       };
 
-      const actual = guards.isAirportOutsideEU({ context });
+      const actual = guards.areAirportsOutsideEU({ context });
 
       expect(actual).toBe(true);
     });
@@ -49,7 +49,7 @@ describe("fluggastrechteGuard", () => {
         endAirport: "BER",
       };
 
-      const actual = guards.isAirportOutsideEU({ context });
+      const actual = guards.areAirportsOutsideEU({ context });
 
       expect(actual).toBe(true);
     });
@@ -60,7 +60,7 @@ describe("fluggastrechteGuard", () => {
         endAirport: "BLABLA",
       };
 
-      const actual = guards.isAirportOutsideEU({ context });
+      const actual = guards.areAirportsOutsideEU({ context });
 
       expect(actual).toBe(true);
     });
@@ -70,7 +70,7 @@ describe("fluggastrechteGuard", () => {
         endAirport: "BER",
       };
 
-      const actual = guards.isAirportOutsideEU({ context });
+      const actual = guards.areAirportsOutsideEU({ context });
 
       expect(actual).toBe(true);
     });
@@ -80,7 +80,7 @@ describe("fluggastrechteGuard", () => {
         startAirport: "BER",
       };
 
-      const actual = guards.isAirportOutsideEU({ context });
+      const actual = guards.areAirportsOutsideEU({ context });
 
       expect(actual).toBe(true);
     });
@@ -120,35 +120,133 @@ describe("fluggastrechteGuard", () => {
     });
   });
 
-  describe("isFluggesellschaftNotInEU", () => {
-    it("should return true in case the airline is outside of EU", () => {
+  describe("isNotEligibleFluggesellschaftInEU", () => {
+    it("should return false when start airport is not in the EU, end airport is in EU and airline has office in EU", () => {
       const context: FluggastrechtVorabcheckContext = {
-        fluggesellschaft: "DL",
-      };
-
-      const actual = guards.isFluggesellschaftNotInEU({ context });
-
-      expect(actual).toBe(true);
-    });
-
-    it("should return false in case the airline is inside of EU", () => {
-      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "JFK",
+        endAirport: "BER",
         fluggesellschaft: "LH",
       };
 
-      const actual = guards.isFluggesellschaftNotInEU({ context });
+      const actual = guards.isNotEligibleFluggesellschaftInEU({ context });
 
       expect(actual).toBe(false);
     });
 
-    it("should return true in case the airline is undefined", () => {
+    it("should return true when start airport is not in the EU, end airport is in EU and airline has office outside EU", () => {
       const context: FluggastrechtVorabcheckContext = {
-        fluggesellschaft: undefined,
+        startAirport: "JFK",
+        endAirport: "BER",
+        fluggesellschaft: "U2",
       };
 
-      const actual = guards.isFluggesellschaftNotInEU({ context });
+      const actual = guards.isNotEligibleFluggesellschaftInEU({ context });
 
       expect(actual).toBe(true);
+    });
+
+    it("should return true when start, end airport and airline office are outside EU", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "JFK",
+        endAirport: "GRU",
+        fluggesellschaft: "U2",
+      };
+
+      const actual = guards.isNotEligibleFluggesellschaftInEU({ context });
+
+      expect(actual).toBe(true);
+    });
+
+    it("should return false when start, end airport and airline office are in EU", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "BER",
+        endAirport: "FRA",
+        fluggesellschaft: "LH",
+      };
+
+      const actual = guards.isNotEligibleFluggesellschaftInEU({ context });
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return false when start airport is EU, end airport is not EU and airline office are outside EU", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "BER",
+        endAirport: "GRU",
+        fluggesellschaft: "U2",
+      };
+
+      const actual = guards.isNotEligibleFluggesellschaftInEU({ context });
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return false when start airport is EU, end airport is not EU and airline office is in EU", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "BER",
+        endAirport: "GRU",
+        fluggesellschaft: "LH",
+      };
+
+      const actual = guards.isNotEligibleFluggesellschaftInEU({ context });
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return false when start airport is EU, end airport is EU and airline office is outside EU", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "BER",
+        endAirport: "FRA",
+        fluggesellschaft: "U2",
+      };
+
+      const actual = guards.isNotEligibleFluggesellschaftInEU({ context });
+
+      expect(actual).toBe(false);
+    });
+  });
+
+  describe("isStartAirportNotEUAndFluggesellschaftSonstiges", () => {
+    it("returns true when start airport is outside EU and airline is 'sonstiges'", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "JFK",
+        endAirport: "BER",
+        fluggesellschaft: "sonstiges",
+      };
+
+      const actual = guards.isStartAirportNotEUAndFluggesellschaftSonstiges({
+        context,
+      });
+
+      expect(actual).toBe(true);
+    });
+
+    it("returns false when start airport is in EU and airline is 'sonstiges'", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "BER",
+        endAirport: "JFK",
+        fluggesellschaft: "sonstiges",
+      };
+
+      const actual = guards.isStartAirportNotEUAndFluggesellschaftSonstiges({
+        context,
+      });
+
+      expect(actual).toBe(false);
+    });
+
+    it("returns false when start airport is in EU and airline is known", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "BER",
+        endAirport: "JFK",
+        fluggesellschaft: "LH",
+      };
+
+      const actual = guards.isStartAirportNotEUAndFluggesellschaftSonstiges({
+        context,
+      });
+
+      expect(actual).toBe(false);
     });
   });
 });
