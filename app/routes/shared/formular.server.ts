@@ -83,7 +83,7 @@ function getInterpolateFlowTranslations(
   */
   return interpolateDeep(
     flowTranslations,
-    currentFlow.stringReplacements(migrationData, flowTranslations),
+    currentFlow.stringReplacements(migrationData),
   );
 }
 
@@ -165,7 +165,7 @@ export const loader = async ({
   const cmsContent = interpolateDeep(
     structureCmsContent(formPageContent),
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userDataWithPageData, stringTranslations)
+      ? currentFlow.stringReplacements(userDataWithPageData)
       : {},
   );
 

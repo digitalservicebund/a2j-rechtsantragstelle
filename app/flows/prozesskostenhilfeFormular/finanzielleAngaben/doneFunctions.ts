@@ -1,19 +1,12 @@
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { hasGrundsicherungOrAsylbewerberleistungen } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
-import { hasAnyEigentumExceptBankaccount } from "~/flows/shared/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
 import {
   prozesskostenhilfeFinanzielleAngabenContext,
   type ProzesskostenhilfeFinanzielleAngabenContext,
 } from "./context";
 import type { GenericGuard } from "../../guards.server";
-import {
-  bankKontoDone,
-  geldanlagenDone,
-  grundeigentumDone,
-  kraftfahrzeugeDone,
-  wertsachenDone,
-} from "../../shared/finanzielleAngaben/doneFunctions";
+import { bankKontoDone } from "../../shared/finanzielleAngaben/doneFunctions";
 
 type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenContext>;
@@ -46,6 +39,32 @@ export const andereUnterhaltszahlungenDone: ProzesskostenhilfeFinanzielleAngaben
     }) ||
     context.hasWeitereUnterhaltszahlungen == "no" ||
     arrayIsNonEmpty(context.unterhaltszahlungen);
+
+export const geldanlagenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.hasGeldanlage === "no" ||
+  (context.hasGeldanlage === "yes" && arrayIsNonEmpty(context.geldanlagen));
+
+export const grundeigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.hasGrundeigentum === "no" ||
+  (context.hasGrundeigentum === "yes" &&
+    arrayIsNonEmpty(context.grundeigentum));
+
+export const kraftfahrzeugeDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.hasKraftfahrzeug === "no" ||
+  (context.hasKraftfahrzeug === "yes" &&
+    arrayIsNonEmpty(context.kraftfahrzeuge));
+
+export const wertsachenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.hasWertsache === "no" ||
+  (context.hasWertsache === "yes" && arrayIsNonEmpty(context.wertsachen));
 
 export const prozesskostenhilfeFinanzielleAngabeDone: GenericGuard<
   ProzesskostenhilfeFinanzielleAngabenContext
@@ -80,9 +99,7 @@ export const eigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
     context.hasKraftfahrzeug !== undefined &&
     context.hasGeldanlage !== undefined &&
     context.hasGrundeigentum !== undefined &&
-    context.hasWertsache !== undefined &&
-    (!hasAnyEigentumExceptBankaccount({ context }) ||
-      context.eigentumTotalWorth !== undefined));
+    context.hasWertsache !== undefined);
 
 export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
