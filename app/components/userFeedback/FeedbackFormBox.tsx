@@ -74,7 +74,11 @@ export const FeedbackFormBox = ({
   );
 
   useEffect(() => {
-    if (shouldFocus && textAreaReference.current) {
+    if (
+      shouldFocus &&
+      textAreaReference !== null &&
+      textAreaReference.current
+    ) {
       textAreaReference.current.focus();
     }
   }, [shouldFocus]);

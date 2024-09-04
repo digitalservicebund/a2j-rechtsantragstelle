@@ -76,7 +76,10 @@ const keyDownOnInput = (
       // Only tab without shiftKey
       if (event.key === "Tab" && !event.shiftKey) {
         setTimeout(function () {
-          if (buttonExclusionRef.current !== null) {
+          if (
+            buttonExclusionRef !== null &&
+            buttonExclusionRef.current !== null
+          ) {
             buttonExclusionRef.current.focus();
           }
         }, 100);

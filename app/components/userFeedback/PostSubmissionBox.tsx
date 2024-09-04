@@ -26,7 +26,7 @@ export const PostSubmissionBox = ({ shouldFocus }: Props) => {
   );
 
   useEffect(() => {
-    if (shouldFocus && headingReference.current) {
+    if (shouldFocus && headingReference !== null && headingReference.current) {
       headingReference.current.focus();
     }
   }, [shouldFocus]);
