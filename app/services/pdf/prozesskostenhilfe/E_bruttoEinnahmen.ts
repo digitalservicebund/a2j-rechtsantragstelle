@@ -13,7 +13,6 @@ export const fillStaatlicheLeistungen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  // TODO: clarify copy and amount
   if (
     userData.staatlicheLeistungenPKH === "asylbewerberleistungen" ||
     userData.staatlicheLeistungenPKH === "grundsicherung"
@@ -22,13 +21,12 @@ export const fillStaatlicheLeistungen: PkhPdfFillFunction = ({
     if (userData.staatlicheLeistungenPKH === "asylbewerberleistungen") {
       pdfValues[
         "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
-      ].value = "Receives Asylbewerberleistungen";
+      ].value = "Asylbewerberleistungen";
     }
-    // TODO: clarify copy and amount
     if (userData.staatlicheLeistungenPKH === "grundsicherung") {
       pdfValues[
         "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
-      ].value = "Receives Grundsicherung";
+      ].value = "Grundsicherung oder Sozialhilfe";
     }
   } else {
     pdfValues.nein_22.value = true;
@@ -63,15 +61,14 @@ export const fillEinkommenType: PkhPdfFillFunction = ({
   } else {
     if (isEmployee({ context: userData })) {
       pdfValues.ja_9.value = true;
-      // TODO: fix netto
       pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro.value = `${userData.nettoEinkuenfteAlsArbeitnehmer}€`;
     } else {
       pdfValues.nein_10.value = true;
     }
     if (isSelfEmployed({ context: userData })) {
       pdfValues.ja_11.value = true;
-      // TODO: fix netto/brutto
-      pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3.value = `${userData.selbststaendigMonatlichesEinkommen}€`;
+      // TODO: shrink field font size
+      pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3.value = `${userData.selbststaendigMonatlichesEinkommen}€ ${userData.selbststaendigBruttoNetto}`;
     } else {
       pdfValues.nein_12.value = true;
     }
