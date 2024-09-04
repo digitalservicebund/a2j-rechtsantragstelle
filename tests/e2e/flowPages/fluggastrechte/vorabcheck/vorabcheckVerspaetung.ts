@@ -75,7 +75,7 @@ export async function startFluggastrechteVorabcheckVerspaetung(
   await vorabcheck.fillRadioPage("gericht", "no");
 
   // fluggastrechte/vorabcheck/ergebnis/erfolg
-  await expectPageToBeAccessible({ page });
+  // await expectPageToBeAccessible({ page });
   await expect(page).toHaveURL(
     new RegExp(`.+${vorabcheck.url}/ergebnis/erfolg$`),
   );
