@@ -49,7 +49,6 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
     {
       beschreibung: faker.word.sample(),
       betrag: faker.finance.amount(),
-      zahlungsfrequenz: "monthly",
     },
   ],
   receivesPension: YesNoAnswer.Enum.yes,
@@ -69,7 +68,6 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
     {
       beschreibung: faker.word.sample(),
       betrag: faker.finance.amount(),
-      zahlungsfrequenz: "monthly",
     },
   ],
   partnerschaft: YesNoAnswer.Enum.yes,
