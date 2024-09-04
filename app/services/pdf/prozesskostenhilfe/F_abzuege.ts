@@ -32,37 +32,16 @@ export type Arbeitsausgabe = NonNullable<
   ProzesskostenhilfeFormularContext["arbeitsausgaben"]
 >[number];
 
-export const mapArbeitsausgabe = (
-  arbeitsausgabe: Arbeitsausgabe,
-): [string, number] => {
-  let amount: number;
-  switch (arbeitsausgabe.zahlungsfrequenz) {
-    case "yearly":
-    case "one-time":
-      amount = Math.ceil(parseInt(arbeitsausgabe.betrag) / 12);
-      break;
-    case "quarterly":
-      amount = Math.ceil(parseInt(arbeitsausgabe.betrag) / 3);
-      break;
-    default:
-      amount = parseInt(arbeitsausgabe.betrag);
-  }
-
-  return [arbeitsausgabe.beschreibung, amount];
-};
-
 export const getTotalMonthlyArbeitsausgaben = (
   arbeitsausgaben: Arbeitsausgabe[],
 ) => {
-  const [, totalMonthly] = arbeitsausgaben!
-    .map(mapArbeitsausgabe)
-    .reduce((previous, current) => {
-      const [, prevAmount] = previous;
-      const [, currAmount] = current;
-      const total = prevAmount + currAmount;
-      return ["", total];
-    });
-  return totalMonthly;
+  const monthlyTotal = arbeitsausgaben!.reduce(
+    (acc, { betrag: currentAmount }) => {
+      return acc + parseInt(currentAmount);
+    },
+    0,
+  );
+  return monthlyTotal;
 };
 
 export const fillAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
@@ -115,17 +94,16 @@ export const fillAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
         title: "Ausgaben im Zusammenhang mit Ihrer Arbeit",
         level: "h3",
       });
-      userData
-        .arbeitsausgaben!.map(mapArbeitsausgabe)
-        .forEach(([description, amount]) => {
-          attachment.push({ title: description, text: `${amount}€/Monat` });
+      userData.arbeitsausgaben!.forEach((arbeitsausgabe) => {
+        attachment.push({
+          title: arbeitsausgabe.beschreibung,
+          text: `${arbeitsausgabe.betrag}€/Monat`,
         });
+      });
     } else {
-      const [description, monthlyAmount] = mapArbeitsausgabe(
-        userData.arbeitsausgaben![0],
-      );
-      pdfValues.sozialversicherungsbeitraege_2.value = description;
-      pdfValues.monatlicheAbzuegeinEuro5.value = `${monthlyAmount}€`;
+      const { beschreibung, betrag } = userData.arbeitsausgaben![0];
+      pdfValues.sozialversicherungsbeitraege_2.value = beschreibung;
+      pdfValues.monatlicheAbzuegeinEuro5.value = `${betrag}€`;
     }
   }
 
