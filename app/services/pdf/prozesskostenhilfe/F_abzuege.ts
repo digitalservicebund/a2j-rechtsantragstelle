@@ -1,10 +1,5 @@
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
-import {
-  hasAndereArbeitsausgaben,
-  isSelfEmployed,
-  usesPrivateVehicle,
-  usesPublicTransit,
-} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { finanzielleAngabeEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import type { PkhPdfFillFunction } from "./fillOutFunction";
 import type { AttachmentEntries } from "../attachment";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt/E_unterhalt";
@@ -49,15 +44,15 @@ export const fillAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
     return { pdfValues };
   const attachment: AttachmentEntries = [];
 
-  if (isSelfEmployed({ context: userData })) {
+  if (guards.isSelfEmployed({ context: userData })) {
     pdfValues.monatlicheAbzuegeinEuro1.value = `${userData.selbststaendigAbzuege}€`;
     pdfValues.steuernSolidaritaetszuschlag1.value = "Abzüge zusammengerechnet";
   }
 
-  if (usesPublicTransit({ context: userData })) {
+  if (guards.usesPublicTransit({ context: userData })) {
     pdfValues.steuernSolidaritaetszuschlag_2.value = "ÖPNV";
     pdfValues.monatlicheAbzuegeinEuro4.value = `${userData.monatlicheOPNVKosten}€`;
-  } else if (usesPrivateVehicle({ context: userData })) {
+  } else if (guards.usesPrivateVehicle({ context: userData })) {
     pdfValues.steuernSolidaritaetszuschlag_2.value = "KFZ";
     pdfValues.monatlicheAbzuegeinEuro4.value = `${userData.arbeitsplatzEntfernung}km`;
   }
@@ -86,7 +81,7 @@ export const fillAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
       userData.versicherungen[0].beitrag;
   }
 
-  if (hasAndereArbeitsausgaben({ context: userData })) {
+  if (guards.hasAndereArbeitsausgaben({ context: userData })) {
     if (userData.arbeitsausgaben!.length > 1) {
       pdfValues.sozialversicherungsbeitraege_2.value = "Siehe Anhang";
       pdfValues.monatlicheAbzuegeinEuro5.value = `${getTotalMonthlyArbeitsausgaben(userData.arbeitsausgaben!)}€`;

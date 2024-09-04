@@ -1,19 +1,12 @@
 import { happyPathData } from "tests/fixtures/prozesskostenhilfeFormularData";
-import {
-  hasAndereArbeitsausgaben,
-  hasGrundsicherungOrAsylbewerberleistungen,
-  isEmployee,
-  isSelfEmployed,
-  notEmployed,
-  usesPrivateVehicle,
-  usesPublicTransit,
-} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { CheckboxValue } from "~/components/inputs/Checkbox";
+import { finanzielleAngabeEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 
 describe("Einkünfte guards", () => {
   describe("hasGrundsicherungOrAsylbewerberleistungen", () => {
     it("should return true if the user receives grundsicherung or asylbewerberleistungen", () => {
       expect(
-        hasGrundsicherungOrAsylbewerberleistungen({
+        guards.hasGrundsicherungOrAsylbewerberleistungen({
           context: {
             ...happyPathData,
             staatlicheLeistungenPKH: "grundsicherung",
@@ -26,7 +19,7 @@ describe("Einkünfte guards", () => {
   describe("notEmployed", () => {
     it("should return true if the user doesn't receive income for work", () => {
       expect(
-        notEmployed({
+        guards.notEmployed({
           context: { ...happyPathData, currentlyEmployed: "no" },
         }),
       ).toBe(true);
@@ -36,7 +29,7 @@ describe("Einkünfte guards", () => {
   describe("isEmployee", () => {
     it("should return true if the user receives employment income", () => {
       expect(
-        isEmployee({
+        guards.isEmployee({
           context: { ...happyPathData, employmentType: "employed" },
         }),
       ).toBe(true);
@@ -44,7 +37,7 @@ describe("Einkünfte guards", () => {
 
     it("should return true if the user receives employment income AND is self-employed", () => {
       expect(
-        isEmployee({
+        guards.isEmployee({
           context: {
             ...happyPathData,
             employmentType: "employedAndSelfEmployed",
@@ -55,7 +48,7 @@ describe("Einkünfte guards", () => {
 
     it("should return false if the user is ONLY self-employed", () => {
       expect(
-        isEmployee({
+        guards.isEmployee({
           context: {
             ...happyPathData,
             employmentType: "selfEmployed",
@@ -68,7 +61,7 @@ describe("Einkünfte guards", () => {
   describe("isSelfEmployed", () => {
     it("should return true if the user is self-employed", () => {
       expect(
-        isSelfEmployed({
+        guards.isSelfEmployed({
           context: { ...happyPathData, employmentType: "selfEmployed" },
         }),
       ).toBe(true);
@@ -76,7 +69,7 @@ describe("Einkünfte guards", () => {
 
     it("should return true if the user receives employment income AND is self-employed", () => {
       expect(
-        isSelfEmployed({
+        guards.isSelfEmployed({
           context: {
             ...happyPathData,
             employmentType: "employedAndSelfEmployed",
@@ -87,7 +80,7 @@ describe("Einkünfte guards", () => {
 
     it("should return false if the user is ONLY self-employed", () => {
       expect(
-        isSelfEmployed({
+        guards.isSelfEmployed({
           context: {
             ...happyPathData,
             employmentType: "employed",
@@ -100,7 +93,7 @@ describe("Einkünfte guards", () => {
   describe("usesPublicTransit", () => {
     it("should return true if the user uses public transit for work", () => {
       expect(
-        usesPublicTransit({
+        guards.usesPublicTransit({
           context: { ...happyPathData, arbeitsweg: "publicTransport" },
         }),
       ).toBe(true);
@@ -110,7 +103,7 @@ describe("Einkünfte guards", () => {
   describe("usesPrivateVehicle", () => {
     it("should return true if the user uses a private vehicle for work", () => {
       expect(
-        usesPrivateVehicle({
+        guards.usesPrivateVehicle({
           context: { ...happyPathData, arbeitsweg: "privateVehicle" },
         }),
       ).toBe(true);
@@ -120,7 +113,7 @@ describe("Einkünfte guards", () => {
   describe("hasAndereArbeitsausgaben", () => {
     it("should return true if the user has additional work-related expenses", () => {
       expect(
-        hasAndereArbeitsausgaben({
+        guards.hasAndereArbeitsausgaben({
           context: { ...happyPathData, hasArbeitsausgaben: "yes" },
         }),
       ).toBe(true);
@@ -130,8 +123,65 @@ describe("Einkünfte guards", () => {
   describe("hasFurtherIncome", () => {
     it("should return true if the user has additional income", () => {
       expect(
-        hasAndereArbeitsausgaben({
+        guards.hasAndereArbeitsausgaben({
           context: { ...happyPathData, hasFurtherIncome: "yes" },
+        }),
+      ).toBe(true);
+    });
+  });
+
+  describe("receivesPension", () => {
+    it("should return true if the user receives a pension", () => {
+      expect(
+        guards.receivesPension({
+          context: { ...happyPathData, receivesPension: "yes" },
+        }),
+      ).toBe(true);
+    });
+  });
+
+  describe("receivesSupport", () => {
+    it("should return true if the user receives support", () => {
+      expect(
+        guards.receivesSupport({
+          context: { ...happyPathData, receivesSupport: "yes" },
+        }),
+      ).toBe(true);
+    });
+  });
+
+  describe("hasWohngeld", () => {
+    it("should return true if the user receives wohngeld", () => {
+      expect(
+        guards.hasWohngeld({
+          context: { ...happyPathData, hasWohngeld: CheckboxValue.on },
+        }),
+      ).toBe(true);
+    });
+  });
+  describe("hasKrankengeld", () => {
+    it("should return true if the user receives krankengeld", () => {
+      expect(
+        guards.hasKrankengeld({
+          context: { ...happyPathData, hasKrankengeld: CheckboxValue.on },
+        }),
+      ).toBe(true);
+    });
+  });
+  describe("hasElterngeld", () => {
+    it("should return true if the user receives elterngeld", () => {
+      expect(
+        guards.hasElterngeld({
+          context: { ...happyPathData, hasElterngeld: CheckboxValue.on },
+        }),
+      ).toBe(true);
+    });
+  });
+  describe("hasKindergeld", () => {
+    it("should return true if the user receives kindergeld", () => {
+      expect(
+        guards.hasKindergeld({
+          context: { ...happyPathData, hasKindergeld: CheckboxValue.on },
         }),
       ).toBe(true);
     });

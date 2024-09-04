@@ -1,9 +1,4 @@
-import {
-  hasGrundsicherungOrAsylbewerberleistungen,
-  isEmployee,
-  isSelfEmployed,
-  notEmployed,
-} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { finanzielleAngabeEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import {
   pdfFillReducer,
   type PkhPdfFillFunction,
@@ -53,19 +48,19 @@ export const fillEinkommenType: PkhPdfFillFunction = ({
   pdfValues,
 }) => {
   if (
-    notEmployed({ context: userData }) ||
-    hasGrundsicherungOrAsylbewerberleistungen({ context: userData })
+    guards.notEmployed({ context: userData }) ||
+    guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData })
   ) {
     pdfValues.nein_10.value = true;
     pdfValues.nein_12.value = true;
   } else {
-    if (isEmployee({ context: userData })) {
+    if (guards.isEmployee({ context: userData })) {
       pdfValues.ja_9.value = true;
       pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro.value = `${userData.nettoEinkuenfteAlsArbeitnehmer}€`;
     } else {
       pdfValues.nein_10.value = true;
     }
-    if (isSelfEmployed({ context: userData })) {
+    if (guards.isSelfEmployed({ context: userData })) {
       pdfValues.ja_11.value = true;
       // TODO: shrink field font size
       pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3.value = `${userData.selbststaendigMonatlichesEinkommen}€ ${userData.selbststaendigBruttoNetto}`;
@@ -76,6 +71,32 @@ export const fillEinkommenType: PkhPdfFillFunction = ({
   return { pdfValues };
 };
 
+export const fillRente: PkhPdfFillFunction = ({ userData, pdfValues }) => {
+  if (guards.receivesPension({ context: userData })) {
+    pdfValues.ja_12.value = true;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8.value = `${userData.pensionAmount}€`;
+  } else {
+    pdfValues.nein_13.value = true;
+  }
+  return { pdfValues };
+};
+
+export const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
+  if (guards.receivesSupport({ context: userData })) {
+    pdfValues.ja_10.value = true;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9.value = `${userData.supportAmount}€`;
+  } else {
+    pdfValues.nein_11.value = true;
+  }
+  return { pdfValues };
+};
+
+// export const fillAndereLeistungen: PkhPdfFillFunction = ({
+//   userData,
+//   pdfValues,}) => {
+//     if ()
+//   }
+
 export const fillBruttoEinnahmen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
@@ -83,6 +104,12 @@ export const fillBruttoEinnahmen: PkhPdfFillFunction = ({
   return pdfFillReducer({
     userData,
     pdfParams: pdfValues,
-    fillFunctions: [fillStaatlicheLeistungen, fillEinkommenType],
+    fillFunctions: [
+      fillStaatlicheLeistungen,
+      fillEinkommenType,
+      fillRente,
+      fillSupport,
+      // fillAndereLeistungen
+    ],
   });
 };

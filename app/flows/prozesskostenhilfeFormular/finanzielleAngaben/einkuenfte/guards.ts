@@ -3,45 +3,29 @@ import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/fl
 import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 
-export const hasGrundsicherungOrAsylbewerberleistungen: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
-  ({ context }) =>
-    context.staatlicheLeistungenPKH === "asylbewerberleistungen" ||
-    context.staatlicheLeistungenPKH === "grundsicherung";
-
-export const notEmployed: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
-  ({ context }) => context.currentlyEmployed === "no";
-
-export const isEmployee: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
-  ({ context }) =>
-    context.employmentType === "employed" ||
-    context.employmentType === "employedAndSelfEmployed";
-export const isSelfEmployed: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
-  ({ context }) =>
-    context.employmentType === "selfEmployed" ||
-    context.employmentType === "employedAndSelfEmployed";
-
-export const usesPublicTransit: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
-  ({ context }) => context.arbeitsweg === "publicTransport";
-export const usesPrivateVehicle: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
-  ({ context }) => context.arbeitsweg === "privateVehicle";
-
-export const hasAndereArbeitsausgaben: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
+const hasAndereArbeitsausgaben: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
   ({ context }) => context.hasArbeitsausgaben === "yes";
 
-export const hasFurtherIncome: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
+const hasFurtherIncome: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
   ({ context: { hasFurtherIncome } }) => hasFurtherIncome === "yes";
 
 export const finanzielleAngabeEinkuenfteGuards = {
-  hasGrundsicherungOrAsylbewerberleistungen,
+  hasGrundsicherungOrAsylbewerberleistungen: ({ context }) =>
+    context.staatlicheLeistungenPKH === "asylbewerberleistungen" ||
+    context.staatlicheLeistungenPKH === "grundsicherung",
   hasBuergergeld: ({ context }) =>
     context.staatlicheLeistungenPKH === "buergergeld",
   hasArbeitslosengeld: ({ context }) =>
     context.staatlicheLeistungenPKH === "arbeitslosengeld",
-  notEmployed,
-  isEmployee,
-  isSelfEmployed,
-  usesPublicTransit,
-  usesPrivateVehicle,
+  notEmployed: ({ context }) => context.currentlyEmployed === "no",
+  isEmployee: ({ context }) =>
+    context.employmentType === "employed" ||
+    context.employmentType === "employedAndSelfEmployed",
+  isSelfEmployed: ({ context }) =>
+    context.employmentType === "selfEmployed" ||
+    context.employmentType === "employedAndSelfEmployed",
+  usesPublicTransit: ({ context }) => context.arbeitsweg === "publicTransport",
+  usesPrivateVehicle: ({ context }) => context.arbeitsweg === "privateVehicle",
   commuteMethodPlaysNoRole: ({ context }) =>
     context.arbeitsweg === "bike" || context.arbeitsweg === "walking",
   hasAndereArbeitsausgaben,

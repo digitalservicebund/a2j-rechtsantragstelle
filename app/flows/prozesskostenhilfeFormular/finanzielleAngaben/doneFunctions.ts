@@ -1,5 +1,5 @@
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
-import { hasGrundsicherungOrAsylbewerberleistungen } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import { arrayIsNonEmpty } from "~/util/array";
 import {
   prozesskostenhilfeFinanzielleAngabenContext,
@@ -14,7 +14,7 @@ type ProzesskostenhilfeFinanzielleAngabenGuard =
 export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  hasGrundsicherungOrAsylbewerberleistungen({
+  einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
     context,
   }) ||
   ["no", "widowed"].includes(context.partnerschaft ?? "") ||
@@ -26,7 +26,7 @@ export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 export const kinderDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  hasGrundsicherungOrAsylbewerberleistungen({
+  einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
     context,
   }) ||
   context.hasKinder == "no" ||
@@ -34,7 +34,7 @@ export const kinderDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 
 export const andereUnterhaltszahlungenDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
-    hasGrundsicherungOrAsylbewerberleistungen({
+    einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
       context,
     }) ||
     context.hasWeitereUnterhaltszahlungen == "no" ||
@@ -80,7 +80,7 @@ export const prozesskostenhilfeFinanzielleAngabeDone: GenericGuard<
 
 export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
-    hasGrundsicherungOrAsylbewerberleistungen({
+    einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
       context,
     }) ||
     (bankKontoDone({ context }) &&
@@ -92,7 +92,7 @@ export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGu
 export const eigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  hasGrundsicherungOrAsylbewerberleistungen({
+  einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
     context,
   }) ||
   (context.hasBankkonto !== undefined &&
@@ -104,7 +104,7 @@ export const eigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  hasGrundsicherungOrAsylbewerberleistungen({
+  einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
     context,
   }) ||
   (context.hasAusgaben !== undefined &&
@@ -114,7 +114,7 @@ export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 
 export const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
-    hasGrundsicherungOrAsylbewerberleistungen({
+    einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
       context,
     }) ||
     context.hasAusgaben ==

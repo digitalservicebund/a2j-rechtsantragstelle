@@ -1,9 +1,6 @@
 import type { GenericGuard } from "~/flows/guards.server";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
-import {
-  hasGrundsicherungOrAsylbewerberleistungen,
-  finanzielleAngabeEinkuenfteGuards as guards,
-} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { finanzielleAngabeEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 export type ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
@@ -11,7 +8,7 @@ export type ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
 
 export const staatlicheLeistungenDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) =>
-    hasGrundsicherungOrAsylbewerberleistungen({ context }) ||
+    guards.hasGrundsicherungOrAsylbewerberleistungen({ context }) ||
     context.staatlicheLeistungenPKH === "keine" ||
     (guards.hasBuergergeld({ context }) && context.buergergeld !== undefined) ||
     (guards.hasArbeitslosengeld({ context }) &&
@@ -110,7 +107,7 @@ export const furtherIncomeDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGu
 
 export const einkuenfteDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) =>
-    hasGrundsicherungOrAsylbewerberleistungen({ context }) ||
+    guards.hasGrundsicherungOrAsylbewerberleistungen({ context }) ||
     (staatlicheLeistungenDone({ context }) &&
       arbeitDone({ context }) &&
       pensionDone({ context }) &&
