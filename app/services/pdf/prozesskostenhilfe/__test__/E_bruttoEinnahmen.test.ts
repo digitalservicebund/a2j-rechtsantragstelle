@@ -1,6 +1,8 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
+import { CheckboxValue } from "~/components/inputs/Checkbox";
 import {
+  fillAndereLeistungen,
   fillEinkommenType,
   fillStaatlicheLeistungen,
 } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen";
@@ -203,6 +205,71 @@ describe("E_bruttoEinnahmen", () => {
         pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3
           .value,
       ).toBe("1000€ brutto");
+    });
+  });
+
+  describe("fillAndereLeistungen", () => {
+    it('check "no" for all other leistungen fields if none are selected', () => {
+      const { pdfValues } = fillAndereLeistungen({
+        userData: {},
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.nein_18.value).toBe(true);
+      expect(pdfValues.nein_19.value).toBe(true);
+      expect(pdfValues.nein_20.value).toBe(true);
+      expect(pdfValues.nein_21.value).toBe(true);
+    });
+
+    it("should indicate if a user receives Wohngeld", () => {
+      const { pdfValues } = fillAndereLeistungen({
+        userData: { hasWohngeld: CheckboxValue.on, wohngeldAmount: "100" },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_19.value).toBe(true);
+      expect(
+        pdfValues.monatlicheBruttoeinnahmendurchWohngeldinEuro7.value,
+      ).toBe("100€");
+    });
+    it("should indicate if a user receives Krankengeld", () => {
+      const { pdfValues } = fillAndereLeistungen({
+        userData: {
+          hasKrankengeld: CheckboxValue.on,
+          krankengeldAmount: "250",
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_18.value).toBe(true);
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro12
+          .value,
+      ).toBe("250€");
+    });
+    it("should indicate if a user receives Elterngeld", () => {
+      const { pdfValues } = fillAndereLeistungen({
+        userData: { hasElterngeld: CheckboxValue.on, elterngeldAmount: "50" },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_20.value).toBe(true);
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro13
+          .value,
+      ).toBe("50€");
+    });
+    it("should indicate if a user receives Kindergeld", () => {
+      const { pdfValues } = fillAndereLeistungen({
+        userData: {
+          hasKindergeld: CheckboxValue.on,
+          kindergeldAmount: "10000",
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_17.value).toBe(true);
+      expect(
+        pdfValues.monatlicheBruttoeinnahmendurchKindergeldIKinderzuschlaginEuro6
+          .value,
+      ).toBe("10000€");
     });
   });
 });

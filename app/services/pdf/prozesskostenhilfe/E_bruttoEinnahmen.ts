@@ -91,11 +91,36 @@ export const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   return { pdfValues };
 };
 
-// export const fillAndereLeistungen: PkhPdfFillFunction = ({
-//   userData,
-//   pdfValues,}) => {
-//     if ()
-//   }
+export const fillAndereLeistungen: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  if (guards.hasWohngeld({ context: userData })) {
+    pdfValues.ja_19.value = true;
+    pdfValues.monatlicheBruttoeinnahmendurchWohngeldinEuro7.value = `${userData.wohngeldAmount}€`;
+  } else {
+    pdfValues.nein_20.value = true;
+  }
+  if (guards.hasKrankengeld({ context: userData })) {
+    pdfValues.ja_18.value = true;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro12.value = `${userData.krankengeldAmount}€`;
+  } else {
+    pdfValues.nein_19.value = true;
+  }
+  if (guards.hasElterngeld({ context: userData })) {
+    pdfValues.ja_20.value = true;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro13.value = `${userData.elterngeldAmount}€`;
+  } else {
+    pdfValues.nein_21.value = true;
+  }
+  if (guards.hasKindergeld({ context: userData })) {
+    pdfValues.ja_17.value = true;
+    pdfValues.monatlicheBruttoeinnahmendurchKindergeldIKinderzuschlaginEuro6.value = `${userData.kindergeldAmount}€`;
+  } else {
+    pdfValues.nein_18.value = true;
+  }
+  return { pdfValues };
+};
 
 export const fillBruttoEinnahmen: PkhPdfFillFunction = ({
   userData,
@@ -109,7 +134,7 @@ export const fillBruttoEinnahmen: PkhPdfFillFunction = ({
       fillEinkommenType,
       fillRente,
       fillSupport,
-      // fillAndereLeistungen
+      fillAndereLeistungen,
     ],
   });
 };
