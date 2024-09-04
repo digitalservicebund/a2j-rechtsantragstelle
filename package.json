@@ -75,6 +75,7 @@
     "react-dom": "^18.3.1",
     "react-dropzone-esm": "^15.0.1",
     "react-imask": "^7.6.1",
+    "react-router-dom": "^6.26.1",
     "react-select": "^5.8.0",
     "remix-validated-form": "^5.1.5",
     "sanitize-html": "^2.13.0",
