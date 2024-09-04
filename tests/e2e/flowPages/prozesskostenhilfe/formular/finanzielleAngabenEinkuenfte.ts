@@ -80,7 +80,6 @@ export async function startFinanzielleAngabenEinkuenfte(
   await expectPageToBeAccessible({ page });
   await formular.fillInput("arbeitsausgaben#beschreibung", faker.word.sample());
   await formular.fillInput("arbeitsausgaben#betrag", faker.finance.amount());
-  await formular.fillDropdown("arbeitsausgaben#zahlungsfrequenz", "quarterly");
   await formular.clickNext();
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht
@@ -143,7 +142,6 @@ export async function startFinanzielleAngabenEinkuenfte(
     faker.word.sample(),
   );
   await formular.fillInput("weitereEinkuenfte#betrag", faker.finance.amount());
-  await formular.fillDropdown("weitereEinkuenfte#zahlungsfrequenz", "monthly");
   await formular.clickNext();
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht
