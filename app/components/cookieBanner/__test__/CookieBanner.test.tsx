@@ -1,5 +1,5 @@
+import { createRemixStub } from "@remix-run/testing";
 import { render, screen } from "@testing-library/react";
-import { RouterProvider, createMemoryRouter } from "react-router-dom";
 import { CookieBanner } from "~/components/cookieBanner/CookieBanner";
 
 describe("CookieBanner", () => {
@@ -17,13 +17,13 @@ describe("CookieBanner", () => {
   };
 
   it("renders content without link when no link props given", () => {
-    const router = createMemoryRouter([
+    const CookieBannerWithRemixStub = createRemixStub([
       {
         path: "/",
-        element: <CookieBanner content={standardContent} />,
+        Component: () => <CookieBanner content={standardContent} />,
       },
     ]);
-    render(<RouterProvider router={router} />);
+    render(<CookieBannerWithRemixStub />);
 
     expect(screen.getByText("Heading")).toBeInTheDocument();
     expect(screen.getByText("paragraph")).toBeInTheDocument();
@@ -33,10 +33,10 @@ describe("CookieBanner", () => {
   });
 
   it("renders with link when link props given", () => {
-    const router = createMemoryRouter([
+    const CookieBannerWithRemixStub = createRemixStub([
       {
         path: "/",
-        element: (
+        Component: () => (
           <CookieBanner
             content={{
               ...standardContent,
@@ -47,7 +47,7 @@ describe("CookieBanner", () => {
         ),
       },
     ]);
-    render(<RouterProvider router={router} />);
+    render(<CookieBannerWithRemixStub />);
 
     expect(screen.getByRole("link", { name: "link text" })).toBeInTheDocument();
     expect(screen.getByRole("link")).toHaveAttribute("href", "/url");
