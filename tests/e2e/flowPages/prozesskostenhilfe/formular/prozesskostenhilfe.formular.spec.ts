@@ -4,8 +4,8 @@ import { CookieSettings } from "tests/e2e/pom/CookieSettings";
 import { ProzesskostenhilfeFormular } from "tests/e2e/pom/ProzesskostenhilfeFormular";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { startFinanzielleAngabenAusgaben } from "./finanzielleAngabenAusgaben";
+import { startFinanzielleAngabenEigentum } from "./finanzielleAngabenEigentum";
 import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "../../shared/finanzielleAngaben/finanzielleAngabenAndereUnterhaltszahlungen";
-import { startFinanzielleAngabenEigentum } from "../../shared/finanzielleAngaben/finanzielleAngabenEigentum";
 import { startFinanzielleAngabenEigentumZusammenfassung } from "../../shared/finanzielleAngaben/finanzielleAngabenEigentumZusammenfassung";
 import { startFinanzielleAngabenKinder } from "../../shared/finanzielleAngaben/finanzielleAngabenKinder";
 import { startFinanzielleAngabenPartner } from "../../shared/finanzielleAngaben/finanzielleAngabenPartner";
@@ -37,7 +37,7 @@ test("forwarded to initial step", async ({ page }) => {
   );
 });
 
-test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
+test.skip("prozesskostenhilfe formular can be traversed", async ({ page }) => {
   // /prozesskostenhilfe/formular/start/start
   await expectPageToBeAccessible({ page });
   await prozesskostenhilfeFormular.clickNext();

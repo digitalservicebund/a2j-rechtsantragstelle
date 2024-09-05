@@ -125,11 +125,6 @@ export const gelanlagenArraySchema = z.array(
   }),
 );
 
-export const eigentumTotalWorthSchema = z.enum(
-  ["less10000", "more10000", "unsure"],
-  customRequiredErrorMessage,
-);
-
 export const grundeigentumArraySchema = z.array(
   z.object({
     isBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),

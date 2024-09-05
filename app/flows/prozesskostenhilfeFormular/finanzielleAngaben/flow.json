@@ -331,28 +331,12 @@
           "on": {
             "SUBMIT": [
               {
-                "guard": "hasAnyEigentumExceptBankaccount",
-                "target": "gesamtwert"
-              },
-              {
                 "guard": "hasAnyEigentum",
                 "target": "#eigentum-zusammenfassung.zusammenfassung"
               },
               "#ausgaben"
             ],
             "BACK": "grundeigentum-frage"
-          }
-        },
-        "gesamtwert": {
-          "on": {
-            "SUBMIT": [
-              {
-                "guard": "eigentumDone",
-                "target": "#eigentum-zusammenfassung.zusammenfassung"
-              },
-              "#abgabe"
-            ],
-            "BACK": "kraftfahrzeuge-frage"
           }
         }
       }
@@ -363,13 +347,7 @@
       "states": {
         "zusammenfassung": {
           "on": {
-            "BACK": [
-              {
-                "guard": "hasAnyEigentumExceptBankaccount",
-                "target": "#eigentum.gesamtwert"
-              },
-              "#eigentum.kraftfahrzeuge-frage"
-            ],
+            "BACK": "#eigentum.kraftfahrzeuge-frage",
             "SUBMIT": [
               { "guard": "eigentumYesAndEmptyArray", "target": "warnung" },
               "#ausgaben"

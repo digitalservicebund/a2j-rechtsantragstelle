@@ -1,5 +1,5 @@
+import { hasPartnerschaftYes } from "./finanzielleAngaben/guards";
 import type { BeratungshilfeFormularContext } from "../beratungshilfeFormular";
-import { finanzielleAngabeGuards } from "../beratungshilfeFormular/finanzielleAngaben/guards";
 import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfeFormular";
 
 export const getKinderStrings = (
@@ -61,16 +61,12 @@ export const geldAnlagenStrings = (
   };
 };
 
-export const eigentumZusammenfassungShowWarnings = (
+export const eigentumZusammenfassungShowPartnerschaftWarnings = (
   context: BeratungshilfeFormularContext | ProzesskostenhilfeFormularContext,
 ) => {
   return {
-    hasPartnerschaftYes: finanzielleAngabeGuards.hasPartnerschaftYes({
+    hasPartnerschaftYes: hasPartnerschaftYes({
       context,
     }),
-    eigentumTotalWorthLessThan10000:
-      finanzielleAngabeGuards.eigentumTotalWorthLessThan10000({
-        context,
-      }),
   };
 };

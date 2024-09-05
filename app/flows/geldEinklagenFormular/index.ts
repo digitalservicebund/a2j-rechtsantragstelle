@@ -1,5 +1,6 @@
 import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
+import persoenlicheDatenFlow from "~/flows/shared/persoenlicheDaten/flow.json";
 import type { GeldEinklagenFormularContext } from "./context";
 import geldEinklagenFormularFlow from "./flow.json";
 import { guards } from "./guards";
@@ -8,7 +9,6 @@ import {
   gerichtskostenFromBetrag,
   gesamtKosten,
 } from "../shared/gerichtskosten";
-import persoenlicheDatenFlow from "~/flows/shared/persoenlicheDaten/flow.json";
 
 export const geldEinklagenFormular = {
   cmsSlug: "form-flow-pages",

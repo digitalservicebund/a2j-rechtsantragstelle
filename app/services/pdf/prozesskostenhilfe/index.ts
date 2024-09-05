@@ -2,6 +2,7 @@ import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/pro
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import { pdfFillReducer } from "~/services/pdf/prozesskostenhilfe/fillOutFunction";
 import { fillAbzuege } from "./F_abzuege";
+import { fillZahlungsverpflichtungen } from "./I_zahlungsverpflichtungen";
 import { fillBelastungen } from "./J_belastungen";
 import { appendAttachment } from "../appendAttachment";
 import FormAttachment from "../attachment/FormAttachment";
@@ -15,7 +16,7 @@ export async function prozesskostenhilfePdfFromUserdata(
   const { pdfValues, attachment } = pdfFillReducer({
     userData,
     pdfParams: getProzesskostenhilfeParameters(),
-    fillFunctions: [fillAbzuege, fillBelastungen],
+    fillFunctions: [fillAbzuege, fillBelastungen, fillZahlungsverpflichtungen],
   });
 
   const filledPdf = await fillPdf({

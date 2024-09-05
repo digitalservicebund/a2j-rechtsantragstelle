@@ -24,7 +24,7 @@ import { getMissingInformationStrings } from "./stringReplacements";
 import type { AbgabeContext } from "../shared/abgabe/context";
 import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
 import {
-  eigentumZusammenfassungShowWarnings,
+  eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
   getArrayIndexStrings,
   getKinderStrings,
@@ -78,7 +78,7 @@ export const prozesskostenhilfeFormular = {
   stringReplacements: (context: ProzesskostenhilfeFormularContext) => ({
     ...getKinderStrings(context),
     ...getArrayIndexStrings(context),
-    ...eigentumZusammenfassungShowWarnings(context),
+    ...eigentumZusammenfassungShowPartnerschaftWarnings(context),
     ...geldAnlagenStrings(context),
     ...getMissingInformationStrings(context),
   }),

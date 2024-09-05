@@ -58,26 +58,20 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     await sessionManager.commitSession(session);
   }
 
-  const [
-    resultPageContent,
-    parentMeta,
-    amtsgerichtCommon,
-    defaultStrings,
-    flowTranslations,
-  ] = await Promise.all([
-    fetchFlowPage("result-pages", flowId, stepId.replace("ergebnis/", "")),
-    fetchMeta({
-      filterValue: pathname.substring(0, pathname.lastIndexOf("/")),
-    }),
-    fetchTranslations("amtsgericht"),
-    fetchTranslations("defaultTranslations"),
-    fetchTranslations(flowId),
-  ]);
+  const [resultPageContent, parentMeta, amtsgerichtCommon, defaultStrings] =
+    await Promise.all([
+      fetchFlowPage("result-pages", flowId, stepId.replace("ergebnis/", "")),
+      fetchMeta({
+        filterValue: pathname.substring(0, pathname.lastIndexOf("/")),
+      }),
+      fetchTranslations("amtsgericht"),
+      fetchTranslations("defaultTranslations"),
+    ]);
 
   const cmsContent = interpolateDeep(
     resultPageContent,
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userData, flowTranslations)
+      ? currentFlow.stringReplacements(userData)
       : {},
   );
 
