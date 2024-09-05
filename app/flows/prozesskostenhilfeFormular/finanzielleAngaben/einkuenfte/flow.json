@@ -12,16 +12,18 @@
       "on": {
         "SUBMIT": [
           {
-            "guard": "hasGrundsicherungOrAsylbewerberleistungen",
-            "target": "#abgabe"
+            "guard": "staatlicheLeistungenIsBuergergeld",
+            "target": "buergergeld"
           },
-          { "guard": "hasBuergergeld", "target": "buergergeld" },
-
           {
-            "guard": "hasArbeitslosengeld",
+            "guard": "staatlicheLeistungenIsArbeitslosengeld",
             "target": "arbeitslosengeld"
           },
-          "einkommen"
+          {
+            "guard": "staatlicheLeistungenIsKeine",
+            "target": "einkommen"
+          },
+          "#abgabe"
         ],
         "BACK": "start"
       }
@@ -53,11 +55,11 @@
             ],
             "BACK": [
               {
-                "guard": "hasBuergergeld",
+                "guard": "staatlicheLeistungenIsBuergergeld",
                 "target": "#einkuenfte.buergergeld"
               },
               {
-                "guard": "hasArbeitslosengeld",
+                "guard": "staatlicheLeistungenIsArbeitslosengeld",
                 "target": "#einkuenfte.arbeitslosengeld"
               },
               "#einkuenfte.staatliche-leistungen"

@@ -19,7 +19,7 @@ const financialEntrySchema = z.object({
 export type FinancialEntry = z.infer<typeof financialEntrySchema>;
 
 export const prozesskostenhilfeFinanzielleAngabenEinkuenfteContext = {
-  staatlicheLeistungenPKH: z.enum(
+  staatlicheLeistungen: z.enum(
     [...staatlicheLeistungen.options, "arbeitslosengeld"],
     customRequiredErrorMessage,
   ),

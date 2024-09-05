@@ -1,5 +1,10 @@
 import type { Guards } from "~/flows/guards.server";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import {
+  staatlicheLeistungenIsBuergergeld,
+  staatlicheLeistungenIsBuergergeldAndHasAnyEigentum,
+  staatlicheLeistungenIsKeine,
+} from "~/flows/shared/finanzielleAngaben/guards";
 import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 
@@ -11,12 +16,13 @@ const hasFurtherIncome: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteCon
 
 export const finanzielleAngabeEinkuenfteGuards = {
   hasGrundsicherungOrAsylbewerberleistungen: ({ context }) =>
-    context.staatlicheLeistungenPKH === "asylbewerberleistungen" ||
-    context.staatlicheLeistungenPKH === "grundsicherung",
-  hasBuergergeld: ({ context }) =>
-    context.staatlicheLeistungenPKH === "buergergeld",
-  hasArbeitslosengeld: ({ context }) =>
-    context.staatlicheLeistungenPKH === "arbeitslosengeld",
+    context.staatlicheLeistungen === "asylbewerberleistungen" ||
+    context.staatlicheLeistungen === "grundsicherung",
+  staatlicheLeistungenIsBuergergeld,
+  staatlicheLeistungenIsKeine,
+  staatlicheLeistungenIsBuergergeldAndHasAnyEigentum,
+  staatlicheLeistungenIsArbeitslosengeld: ({ context }) =>
+    context.staatlicheLeistungen === "arbeitslosengeld",
   notEmployed: ({ context }) => context.currentlyEmployed === "no",
   isEmployee: ({ context }) =>
     context.employmentType === "employed" ||
