@@ -64,7 +64,6 @@ export const fillEinkommenType: PkhPdfFillFunction = ({
     }
     if (guards.isSelfEmployed({ context: userData })) {
       pdfValues.ja_11.value = true;
-      // TODO: shrink field font size
       pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3.value = `${userData.selbststaendigMonatlichesEinkommen}€ ${userData.selbststaendigBruttoNetto}`;
     } else {
       pdfValues.nein_12.value = true;
