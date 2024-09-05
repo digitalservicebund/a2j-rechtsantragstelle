@@ -9,7 +9,7 @@ export async function startFinanzielleAngabenEinkuenfte(
 ) {
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/staatliche-leistungen
   await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("staatlicheLeistungenPKH", "buergergeld");
+  await formular.fillRadioPage("staatlicheLeistungen", "buergergeld");
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/buergergeld
   await expectPageToBeAccessible({ page });
@@ -74,13 +74,12 @@ export async function startFinanzielleAngabenEinkuenfte(
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht
   await expectPageToBeAccessible({ page });
-  await formular.clickAnchorByText("Arbeitsausgabe hinzufügen");
+  await formular.clickAnchorByText("Ausgabe hinzufügen");
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgabe/0/daten
   await expectPageToBeAccessible({ page });
   await formular.fillInput("arbeitsausgaben#beschreibung", faker.word.sample());
   await formular.fillInput("arbeitsausgaben#betrag", faker.finance.amount());
-  await formular.fillDropdown("arbeitsausgaben#zahlungsfrequenz", "quarterly");
   await formular.clickNext();
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht
@@ -143,7 +142,6 @@ export async function startFinanzielleAngabenEinkuenfte(
     faker.word.sample(),
   );
   await formular.fillInput("weitereEinkuenfte#betrag", faker.finance.amount());
-  await formular.fillDropdown("weitereEinkuenfte#zahlungsfrequenz", "monthly");
   await formular.clickNext();
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht

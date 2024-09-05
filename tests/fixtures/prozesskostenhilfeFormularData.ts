@@ -9,7 +9,7 @@ import {
   arbeitsArtSchema,
   arbeitswegSchema,
   selbststaendigBruttoNettoSchema,
-  staatlicheLeistungenPKHSchema,
+  staatlicheLeistungenSchema,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
@@ -28,7 +28,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   hasWertsache: YesNoAnswer.Enum.yes,
   hasGrundeigentum: YesNoAnswer.Enum.yes,
   hasKraftfahrzeug: YesNoAnswer.Enum.yes,
-  staatlicheLeistungenPKH: staatlicheLeistungenPKHSchema.Enum.buergergeld,
+  staatlicheLeistungen: staatlicheLeistungenSchema.Enum.buergergeld,
   buergergeld: faker.finance.amount(),
   currentlyEmployed: YesNoAnswer.Enum.yes,
   employmentType: arbeitsArtSchema.Enum.employedAndSelfEmployed,
@@ -49,7 +49,6 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
     {
       beschreibung: faker.word.sample(),
       betrag: faker.finance.amount(),
-      zahlungsfrequenz: "monthly",
     },
   ],
   receivesPension: YesNoAnswer.Enum.yes,
@@ -69,7 +68,6 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
     {
       beschreibung: faker.word.sample(),
       betrag: faker.finance.amount(),
-      zahlungsfrequenz: "monthly",
     },
   ],
   partnerschaft: YesNoAnswer.Enum.yes,

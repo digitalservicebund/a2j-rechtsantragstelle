@@ -11,18 +11,15 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
-export const staatlicheLeistungenPKHSchema = z.enum(
+export const staatlicheLeistungenSchema = z.enum(
   [...staatlicheLeistungen.options, "arbeitslosengeld"],
   customRequiredErrorMessage,
 );
 
-export const financialEntrySchema = z.object({
+const financialEntrySchema = z.object({
   beschreibung: stringRequiredSchema,
   betrag: buildMoneyValidationSchema(),
-  zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
 });
-
-export type FinancialEntrySchema = z.infer<typeof financialEntrySchema>;
 
 export const arbeitsArtSchema = z.enum(
   ["employed", "selfEmployed", "employedAndSelfEmployed"],
@@ -39,7 +36,7 @@ export const arbeitswegSchema = z.enum(
 );
 
 export const prozesskostenhilfeFinanzielleAngabenEinkuenfteContext = {
-  staatlicheLeistungenPKH: staatlicheLeistungenPKHSchema,
+  staatlicheLeistungen: staatlicheLeistungenSchema,
   buergergeld: buildMoneyValidationSchema(),
   arbeitslosengeld: buildMoneyValidationSchema(),
   currentlyEmployed: YesNoAnswer,

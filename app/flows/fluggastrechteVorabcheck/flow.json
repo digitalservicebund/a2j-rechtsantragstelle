@@ -255,7 +255,7 @@
           },
           {
             "target": "ergebnis/flughaefen-abbruch",
-            "guard": "isAirportOutsideEU"
+            "guard": "areAirportsOutsideEU"
           },
           "fluggesellschaft"
         ]
@@ -277,19 +277,17 @@
         "SUBMIT": [
           {
             "target": "ergebnis/fluggesellschaft-nicht-eu-abbruch",
-            "guard": "isFluggesellschaftNotInEU"
+            "guard": "isNotEligibleFluggesellschaftInEU"
+          },
+          {
+            "target": "ergebnis/fluggesellschaft-abbruch",
+            "guard": "isStartAirportNotEUAndFluggesellschaftSonstiges"
           },
           {
             "target": "checkin",
-            "guard": "isKnownPartnerAirlineBereichVerspaetet"
+            "guard": "bereichVerspaetet"
           },
-          {
-            "target": "kostenlos",
-            "guard": "isKnownPartnerAirlineBereichNichtBefoerderungOrAnnullierung"
-          },
-          {
-            "target": "ergebnis/fluggesellschaft-abbruch"
-          }
+          "kostenlos"
         ]
       }
     },
