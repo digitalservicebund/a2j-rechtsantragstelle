@@ -1,10 +1,11 @@
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import { finanzielleAngabeEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { getTotalMonthlyFinancialEntries } from "~/services/pdf/util";
 import type { PkhPdfFillFunction } from "./fillOutFunction";
 import type { AttachmentEntries } from "../attachment";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt/E_unterhalt";
 
-const versicherungMapping = {
+export const versicherungMapping = {
   haftpflichtversicherung: "Haftpflichtversicherung",
   hausratsversicherung: "Hausratsversicherung",
   kfzVersicherung: "KFZ-Versicherung",
@@ -13,34 +14,22 @@ const versicherungMapping = {
   sonstige: "Sonstige",
 } as const;
 
-type Versicherung = NonNullable<
+export type Versicherung = NonNullable<
   ProzesskostenhilfeFormularContext["versicherungen"]
 >[number];
 
-function mapVersicherungsArt(versicherung: Versicherung) {
+export function mapVersicherungsArt(versicherung: Versicherung) {
   return versicherung.art === "sonstige" && versicherung.sonstigeArt
     ? versicherung.sonstigeArt
     : versicherungMapping[versicherung.art];
 }
 
-export type Arbeitsausgabe = NonNullable<
-  ProzesskostenhilfeFormularContext["arbeitsausgaben"]
->[number];
-
-export const getTotalMonthlyArbeitsausgaben = (
-  arbeitsausgaben: Arbeitsausgabe[],
-) => {
-  const monthlyTotal = arbeitsausgaben!.reduce(
-    (acc, { betrag: currentAmount }) => {
-      return acc + parseInt(currentAmount);
-    },
-    0,
-  );
-  return monthlyTotal;
-};
-
 export const fillAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
-  if (userData.hasAusgaben !== "yes" || !userData.versicherungen)
+  if (
+    userData.hasAusgaben !== "yes" ||
+    !userData.versicherungen ||
+    guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData })
+  )
     return { pdfValues };
   const attachment: AttachmentEntries = [];
 
@@ -84,7 +73,7 @@ export const fillAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   if (guards.hasAndereArbeitsausgaben({ context: userData })) {
     if (userData.arbeitsausgaben!.length > 1) {
       pdfValues.sozialversicherungsbeitraege_2.value = "Siehe Anhang";
-      pdfValues.monatlicheAbzuegeinEuro5.value = `${getTotalMonthlyArbeitsausgaben(userData.arbeitsausgaben!)}€`;
+      pdfValues.monatlicheAbzuegeinEuro5.value = `${getTotalMonthlyFinancialEntries(userData.arbeitsausgaben!)}€`;
       attachment.push({
         title: "Ausgaben im Zusammenhang mit Ihrer Arbeit",
         level: "h3",
