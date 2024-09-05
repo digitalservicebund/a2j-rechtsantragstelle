@@ -8,7 +8,6 @@ import { createReadableStreamFromReadable, redirect } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
-import { trackingCookieValue } from "./services/analytics/gdprCookie.server";
 import { config } from "./services/env/env.server";
 import { logError } from "./services/logging";
 import { cspHeader } from "./services/security/cspHeader.server";
@@ -89,14 +88,12 @@ function handleBotRequest(
   });
 }
 
-async function handleBrowserRequest(
+function handleBrowserRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
 ) {
-  const hasTrackingCookie = await trackingCookieValue({ request });
-
   return new Promise((resolve, reject) => {
     let didError = false;
     const cspNonce = generateNonce();
@@ -104,10 +101,6 @@ async function handleBrowserRequest(
       "Content-Security-Policy",
       cspHeader({ nonce: cspNonce, environment: config().ENVIRONMENT }),
     );
-
-    if (hasTrackingCookie === undefined) {
-      responseHeaders.set("Cache-Control", "no-store");
-    }
 
     const { pipe, abort } = renderToPipeableStream(
       <NonceContext.Provider value={cspNonce}>

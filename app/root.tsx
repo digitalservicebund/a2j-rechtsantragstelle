@@ -22,7 +22,10 @@ import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import { VideoTranslationContext } from "~/components/video/VideoTranslationContext";
 import { flowIdFromPathname } from "~/flows/flowIds";
-import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
+import {
+  hasTrackingConsent,
+  trackingCookieValue,
+} from "~/services/analytics/gdprCookie.server";
 import {
   fetchMeta,
   fetchSingleEntry,
@@ -47,13 +50,21 @@ import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 
-export const headers: HeadersFunction = () => ({
-  "X-Frame-Options": "SAMEORIGIN",
-  "X-Content-Type-Options": "nosniff",
-  "Referrer-Policy": "strict-origin-when-cross-origin",
-  "Permissions-Policy":
-    "accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()",
-});
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+  const responseHeaders: Record<string, string> = {
+    "X-Frame-Options": "SAMEORIGIN",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy":
+      "accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()",
+  };
+
+  if (loaderHeaders.get("Cache-Control") === "no-store") {
+    responseHeaders["Cache-Control"] = "no-store";
+  }
+
+  return responseHeaders;
+};
 
 const consoleMessage = `Note: Your browser console might be reporting several errors with the Permission-Policy header.
 We are actively disabling all permissions as recommended by https://owasp.org/www-project-secure-headers/#div-bestpractices
@@ -95,6 +106,7 @@ export type RootLoader = typeof loader;
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
+  const hasTrackingCookie = await trackingCookieValue({ request });
 
   const [
     strapiHeader,
@@ -124,27 +136,35 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     isFeatureFlagEnabled("showHeaderLinks"),
   ]);
 
-  return json({
-    header: {
-      ...getPageHeaderProps(strapiHeader),
-      /**
-       * Only hide the header links if we're viewing a flow page
-       */
-      hideLinks: !headerLinksEnabled || !!flowIdFromPathname(pathname),
+  const cacheControlHeader =
+    hasTrackingCookie === undefined
+      ? { "Cache-Control": "no-store" }
+      : undefined;
+
+  return json(
+    {
+      header: {
+        ...getPageHeaderProps(strapiHeader),
+        /**
+         * Only hide the header links if we're viewing a flow page
+         */
+        hideLinks: !headerLinksEnabled || !!flowIdFromPathname(pathname),
+      },
+      footer: getFooterProps(strapiFooter),
+      cookieBannerContent: cookieBannerContent,
+      hasTrackingConsent: trackingConsent,
+      errorPages,
+      meta,
+      context,
+      deletionLabel: deleteDataStrings["footerLinkLabel"],
+      hasAnyUserData,
+      feedbackTranslations,
+      videoTranslations,
+      bannerState:
+        getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
     },
-    footer: getFooterProps(strapiFooter),
-    cookieBannerContent: cookieBannerContent,
-    hasTrackingConsent: trackingConsent,
-    errorPages,
-    meta,
-    context,
-    deletionLabel: deleteDataStrings["footerLinkLabel"],
-    hasAnyUserData,
-    feedbackTranslations,
-    videoTranslations,
-    bannerState:
-      getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
-  });
+    { headers: cacheControlHeader },
+  );
 };
 
 function App() {
