@@ -71,8 +71,7 @@ export const wertsachenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 
 export const prozesskostenhilfeFinanzielleAngabeDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) => {
-    return context.staatlicheLeistungen === "asylbewerberleistungen" ||
-      context.staatlicheLeistungen === "grundsicherung"
+    return hasGrundsicherungOrAsylbewerberleistungen({ context })
       ? true
       : einkuenfteDone({ context }) &&
           partnerDone({ context }) &&
