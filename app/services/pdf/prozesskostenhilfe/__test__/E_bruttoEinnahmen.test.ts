@@ -20,9 +20,9 @@ describe("E_bruttoEinnahmen", () => {
     pdfParams = getProzesskostenhilfeParameters();
   });
   describe("fillStaatlicheLeistungen", () => {
-    it("should indicate Grundsicherung in field E2 if Grundsicherung is selected, setting all other staatlicheLeistungen fields to false", () => {
+    it("should indicate Grundsicherung in field E2 if Grundsicherung is selected, setting all other staatlicheLeistungenPKH fields to false", () => {
       const { pdfValues } = fillStaatlicheLeistungen({
-        userData: { staatlicheLeistungen: "grundsicherung" },
+        userData: { staatlicheLeistungenPKH: "grundsicherung" },
         pdfValues: pdfParams,
       });
       expect(pdfValues.undefined_8.value).toBe(true);
@@ -35,9 +35,9 @@ describe("E_bruttoEinnahmen", () => {
       expect(pdfValues.nein_15.value).toBe(true);
     });
 
-    it("should indicate Asylbewerberleistungen in field E2 if Asylbewerberleistungen is selected, setting all other staatlicheLeistungen fields to false", () => {
+    it("should indicate Asylbewerberleistungen in field E2 if Asylbewerberleistungen is selected, setting all other staatlicheLeistungenPKH fields to false", () => {
       const { pdfValues } = fillStaatlicheLeistungen({
-        userData: { staatlicheLeistungen: "asylbewerberleistungen" },
+        userData: { staatlicheLeistungenPKH: "asylbewerberleistungen" },
         pdfValues: pdfParams,
       });
       expect(pdfValues.undefined_8.value).toBe(true);
@@ -53,7 +53,7 @@ describe("E_bruttoEinnahmen", () => {
     it("should indicate if a user receives Buergergeld, and if so, the amount", () => {
       const { pdfValues } = fillStaatlicheLeistungen({
         userData: {
-          staatlicheLeistungen: "buergergeld",
+          staatlicheLeistungenPKH: "buergergeld",
           buergergeld: "100",
         },
         pdfValues: pdfParams,
@@ -76,7 +76,7 @@ describe("E_bruttoEinnahmen", () => {
     it("should indicate if a user receives Arbeitslostengeld, and if so, the amount", () => {
       const { pdfValues } = fillStaatlicheLeistungen({
         userData: {
-          staatlicheLeistungen: "arbeitslosengeld",
+          staatlicheLeistungenPKH: "arbeitslosengeld",
           arbeitslosengeld: "250",
         },
         pdfValues: pdfParams,
@@ -117,7 +117,7 @@ describe("E_bruttoEinnahmen", () => {
 
     it("should report no income if the user receives Grundsicherung", () => {
       const { pdfValues } = fillEinkommenType({
-        userData: { staatlicheLeistungen: "grundsicherung" },
+        userData: { staatlicheLeistungenPKH: "grundsicherung" },
         pdfValues: pdfParams,
       });
       expect(pdfValues.nein_10.value).toBe(true);
@@ -134,7 +134,7 @@ describe("E_bruttoEinnahmen", () => {
 
     it("should report no income if the user receives Asylbewerberleistungen", () => {
       const { pdfValues } = fillEinkommenType({
-        userData: { staatlicheLeistungen: "asylbewerberleistungen" },
+        userData: { staatlicheLeistungenPKH: "asylbewerberleistungen" },
         pdfValues: pdfParams,
       });
       expect(pdfValues.nein_10.value).toBe(true);

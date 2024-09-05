@@ -15,25 +15,25 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
   describe("staatlicheLeistungenDone", () => {
     it("should return true if the user receives Grundsicherung", () => {
       const done = staatlicheLeistungenDone({
-        context: { staatlicheLeistungen: "grundsicherung" },
+        context: { staatlicheLeistungenPKH: "grundsicherung" },
       });
       expect(done).toBe(true);
     });
 
     it("should return true if the user receives Asylbewerberleistungen", () => {
       const done = staatlicheLeistungenDone({
-        context: { staatlicheLeistungen: "asylbewerberleistungen" },
+        context: { staatlicheLeistungenPKH: "asylbewerberleistungen" },
       });
       expect(done).toBe(true);
     });
 
     it("should return false if the user receives Buergergeld or Arbeitslosengeld and hasn't entered a value", () => {
       let done = staatlicheLeistungenDone({
-        context: { staatlicheLeistungen: "buergergeld" },
+        context: { staatlicheLeistungenPKH: "buergergeld" },
       });
       expect(done).toBe(false);
       done = staatlicheLeistungenDone({
-        context: { staatlicheLeistungen: "arbeitslosengeld" },
+        context: { staatlicheLeistungenPKH: "arbeitslosengeld" },
       });
       expect(done).toBe(false);
     });

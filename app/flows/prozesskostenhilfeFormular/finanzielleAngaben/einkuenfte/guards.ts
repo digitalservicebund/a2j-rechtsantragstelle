@@ -11,12 +11,12 @@ const hasFurtherIncome: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteCon
 
 export const finanzielleAngabeEinkuenfteGuards = {
   hasGrundsicherungOrAsylbewerberleistungen: ({ context }) =>
-    context.staatlicheLeistungen === "asylbewerberleistungen" ||
-    context.staatlicheLeistungen === "grundsicherung",
+    context.staatlicheLeistungenPKH === "asylbewerberleistungen" ||
+    context.staatlicheLeistungenPKH === "grundsicherung",
   hasBuergergeld: ({ context }) =>
-    context.staatlicheLeistungen === "buergergeld",
+    context.staatlicheLeistungenPKH === "buergergeld",
   hasArbeitslosengeld: ({ context }) =>
-    context.staatlicheLeistungen === "arbeitslosengeld",
+    context.staatlicheLeistungenPKH === "arbeitslosengeld",
   notEmployed: ({ context }) => context.currentlyEmployed === "no",
   isEmployee: ({ context }) =>
     context.employmentType === "employed" ||

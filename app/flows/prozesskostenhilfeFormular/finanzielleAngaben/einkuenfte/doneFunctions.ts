@@ -9,7 +9,7 @@ export type ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
 export const staatlicheLeistungenDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) =>
     guards.hasGrundsicherungOrAsylbewerberleistungen({ context }) ||
-    context.staatlicheLeistungen === "keine" ||
+    context.staatlicheLeistungenPKH === "keine" ||
     (guards.hasBuergergeld({ context }) && context.buergergeld !== undefined) ||
     (guards.hasArbeitslosengeld({ context }) &&
       context.arbeitslosengeld !== undefined);

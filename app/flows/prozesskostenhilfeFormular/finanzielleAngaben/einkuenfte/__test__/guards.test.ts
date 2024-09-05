@@ -9,7 +9,7 @@ describe("Einkünfte guards", () => {
         guards.hasGrundsicherungOrAsylbewerberleistungen({
           context: {
             ...happyPathData,
-            staatlicheLeistungen: "grundsicherung",
+            staatlicheLeistungenPKH: "grundsicherung",
           },
         }),
       ).toBe(true);

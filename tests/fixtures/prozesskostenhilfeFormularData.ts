@@ -23,7 +23,8 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   hasWertsache: YesNoAnswer.Enum.yes,
   hasGrundeigentum: YesNoAnswer.Enum.yes,
   hasKraftfahrzeug: YesNoAnswer.Enum.yes,
-  staatlicheLeistungen: einkuenfteSchema.staatlicheLeistungen.Enum.buergergeld,
+  staatlicheLeistungenPKH:
+    einkuenfteSchema.staatlicheLeistungenPKH.Enum.buergergeld,
   buergergeld: faker.finance.amount(),
   currentlyEmployed: YesNoAnswer.Enum.yes,
   employmentType: einkuenfteSchema.employmentType.Enum.employedAndSelfEmployed,

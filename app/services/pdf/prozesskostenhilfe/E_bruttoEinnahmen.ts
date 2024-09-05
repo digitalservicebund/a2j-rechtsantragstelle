@@ -11,16 +11,16 @@ export const fillStaatlicheLeistungen: PkhPdfFillFunction = ({
   pdfValues,
 }) => {
   if (
-    userData.staatlicheLeistungen === "asylbewerberleistungen" ||
-    userData.staatlicheLeistungen === "grundsicherung"
+    userData.staatlicheLeistungenPKH === "asylbewerberleistungen" ||
+    userData.staatlicheLeistungenPKH === "grundsicherung"
   ) {
     pdfValues.undefined_8.value = true;
-    if (userData.staatlicheLeistungen === "asylbewerberleistungen") {
+    if (userData.staatlicheLeistungenPKH === "asylbewerberleistungen") {
       pdfValues[
         "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
       ].value = "Asylbewerberleistungen";
     }
-    if (userData.staatlicheLeistungen === "grundsicherung") {
+    if (userData.staatlicheLeistungenPKH === "grundsicherung") {
       pdfValues[
         "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
       ].value = "Grundsicherung oder Sozialhilfe";
@@ -29,14 +29,14 @@ export const fillStaatlicheLeistungen: PkhPdfFillFunction = ({
     pdfValues.nein_22.value = true;
   }
 
-  if (userData.staatlicheLeistungen === "buergergeld") {
+  if (userData.staatlicheLeistungenPKH === "buergergeld") {
     pdfValues.ja_16.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro11.value = `${userData.buergergeld}€`;
   } else {
     pdfValues.nein_17.value = true;
   }
 
-  if (userData.staatlicheLeistungen === "arbeitslosengeld") {
+  if (userData.staatlicheLeistungenPKH === "arbeitslosengeld") {
     pdfValues.ja_14.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro10.value = `${userData.arbeitslosengeld}€`;
   } else {

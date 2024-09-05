@@ -9,7 +9,7 @@ export async function startFinanzielleAngabenEinkuenfte(
 ) {
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/staatliche-leistungen
   await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("staatlicheLeistungen", "buergergeld");
+  await formular.fillRadioPage("staatlicheLeistungenPKH", "buergergeld");
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/buergergeld
   await expectPageToBeAccessible({ page });
