@@ -8,7 +8,7 @@ import { createReadableStreamFromReadable, redirect } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
-import { isCookieConsentExist } from "./services/analytics/gdprCookie.server";
+import { trackingCookieValue } from "./services/analytics/gdprCookie.server";
 import { config } from "./services/env/env.server";
 import { logError } from "./services/logging";
 import { cspHeader } from "./services/security/cspHeader.server";
@@ -89,12 +89,14 @@ function handleBotRequest(
   });
 }
 
-function handleBrowserRequest(
+async function handleBrowserRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
 ) {
+  const hasTrackingCookie = await trackingCookieValue({ request });
+
   return new Promise((resolve, reject) => {
     let didError = false;
     const cspNonce = generateNonce();
@@ -103,8 +105,7 @@ function handleBrowserRequest(
       cspHeader({ nonce: cspNonce, environment: config().ENVIRONMENT }),
     );
 
-    // Observe for 1-2 weeks if the no cache at all would affect our application
-    if (!isCookieConsentExist(request.headers.get("Cookie"))) {
+    if (hasTrackingCookie === undefined) {
       responseHeaders.set("Cache-Control", "no-store");
     }
 

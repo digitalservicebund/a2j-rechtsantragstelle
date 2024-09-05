@@ -18,16 +18,6 @@ type GdprCookie = {
 
 type CookieArgs = { request: Request };
 
-export function isCookieConsentExist(cookieHeaders: string | null): boolean {
-  const cookies = cookieHeaders?.split(";");
-
-  if (typeof cookies === "undefined") {
-    return false;
-  }
-
-  return cookies.some((cookie) => cookie.includes(consentCookieName));
-}
-
 async function parseTrackingCookie({ request }: CookieArgs) {
   const cookieHeader = request.headers.get("Cookie");
   return ((await gdprCookie.parse(cookieHeader)) as GdprCookie) || {};
