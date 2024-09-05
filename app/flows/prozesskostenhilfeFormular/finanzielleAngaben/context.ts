@@ -20,6 +20,7 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
+import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "./einkuenfte/context";
 
 export const zahlungspflichtigerSchema = z.enum(
   ["myself", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -98,4 +99,5 @@ const _contextObject = z
   .partial();
 export type ProzesskostenhilfeFinanzielleAngabenContext = z.infer<
   typeof _contextObject
->;
+> &
+  ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext;

@@ -1,5 +1,7 @@
 import {
   grundeigentumIsBewohnt,
+  hasAnyEigentum,
+  hasAnyEigentumExceptBankaccount,
   hasAusgabenYes,
   hasBankkontoYes,
   hasGeldanlageYes,
@@ -34,6 +36,9 @@ import {
   kindUnterhaltYes,
   kindWohnortBeiAntragstellerNo,
   kindWohnortBeiAntragstellerYes,
+  staatlicheLeistungenIsBuergergeld,
+  staatlicheLeistungenIsBuergergeldAndHasAnyEigentum,
+  staatlicheLeistungenIsKeine,
 } from "~/flows/shared/finanzielleAngaben/guards";
 import {
   firstArrayIndex,
@@ -42,47 +47,22 @@ import {
 import { arrayIsNonEmpty } from "~/util/array";
 import type { BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
 import { type BeratungshilfeFinanzielleAngaben } from "./context";
-import { hasAnyEigentumExceptBankaccount } from "./hasAnyEigentumExceptBankaccountGuard";
+import {
+  eigentumDone,
+  hasNoStaatlicheLeistungen,
+  hasStaatlicheLeistungen,
+} from "./doneFunctions";
 import { yesNoGuards } from "../../guards.server";
 import type { Guards } from "../../guards.server";
-import { eigentumDone } from "./doneFunctions";
-
-const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
-  context,
-}) =>
-  context.staatlicheLeistungen === "asylbewerberleistungen" ||
-  context.staatlicheLeistungen === "buergergeld" ||
-  context.staatlicheLeistungen === "grundsicherung";
-
-const hasNoStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
-  context,
-}) => {
-  return (
-    context.staatlicheLeistungen !== undefined &&
-    !hasStaatlicheLeistungen({ context })
-  );
-};
-
-const staatlicheLeistungenIsBuergergeld: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) => context.staatlicheLeistungen === "buergergeld";
-
-export const hasAnyEigentum: BeratungshilfeFinanzielleAngabenGuard = ({
-  context,
-}) =>
-  hasAnyEigentumExceptBankaccount({ context }) ||
-  context.hasBankkonto === "yes";
 
 export const eigentumTotalWorthLessThan10000: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) => context.eigentumTotalWorth === "less10000";
 
 export const finanzielleAngabeGuards = {
   eigentumDone,
-  staatlicheLeistungenIsKeine: ({ context }) =>
-    context.staatlicheLeistungen === "keine",
+  staatlicheLeistungenIsKeine,
   staatlicheLeistungenIsBuergergeld,
-  staatlicheLeistungenIsBuergergeldAndHasAnyEigentum: ({ context }) =>
-    staatlicheLeistungenIsBuergergeld({ context }) &&
-    hasAnyEigentum({ context }),
+  staatlicheLeistungenIsBuergergeldAndHasAnyEigentum,
   hasAnyEigentum,
   staatlicheLeistungenIsBuergergeldAndHasEigentum: ({ context }) =>
     staatlicheLeistungenIsBuergergeld({ context }) &&
