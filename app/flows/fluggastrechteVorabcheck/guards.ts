@@ -2,7 +2,17 @@ import airlines from "data/airlines/data.json";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
 import { isEuropeanUnionAirport } from "~/services/airports/isEuropeanUnionAirport";
 import type { FluggastrechtVorabcheckContext } from "./context";
-import { yesNoGuards, type Guards } from "../guards.server";
+import { type GenericGuard, yesNoGuards, type Guards } from "../guards.server";
+
+const isFluggesellschaftInEU: GenericGuard<FluggastrechtVorabcheckContext> = ({
+  context,
+}) => {
+  const isAirlineInEU =
+    airlines.find((airline) => airline.iata === context.fluggesellschaft)
+      ?.isInEU ?? false;
+
+  return isAirlineInEU;
+};
 
 export const guards = {
   bereichVerspaetet: ({ context }) => context.bereich === "verspaetet",
@@ -16,7 +26,21 @@ export const guards = {
     );
     return distance.isErr;
   },
-  isAirportOutsideEU: ({ context }) => {
+  isNotEligibleFluggesellschaftInEU: ({ context }) => {
+    const isStartAirportEU = isEuropeanUnionAirport(context.startAirport);
+
+    if (isStartAirportEU.isErr) return false;
+
+    return !isStartAirportEU.value && !isFluggesellschaftInEU({ context });
+  },
+  isStartAirportNotEUAndFluggesellschaftSonstiges: ({ context }) => {
+    const isStartAirportEU = isEuropeanUnionAirport(context.startAirport);
+
+    if (isStartAirportEU.isErr) return false;
+
+    return !isStartAirportEU.value && context.fluggesellschaft === "sonstiges";
+  },
+  areAirportsOutsideEU: ({ context }) => {
     const isStartAirportEU = isEuropeanUnionAirport(context.startAirport);
     const isEndAirportEU = isEuropeanUnionAirport(context.endAirport);
 
@@ -73,20 +97,6 @@ export const guards = {
       context.ersatzflugLandenVierStunden === "no" &&
       context.ersatzflugStartenZweiStunden === "no"
     );
-  },
-  isKnownPartnerAirlineBereichVerspaetet: ({ context }) =>
-    context.fluggesellschaft !== "sonstiges" &&
-    context.bereich === "verspaetet",
-  isKnownPartnerAirlineBereichNichtBefoerderungOrAnnullierung: ({ context }) =>
-    context.fluggesellschaft !== "sonstiges" &&
-    (context.bereich === "nichtbefoerderung" ||
-      context.bereich === "annullierung"),
-  isFluggesellschaftNotInEU: ({ context }) => {
-    const isAirlineInEU =
-      airlines.find((airline) => airline.iata === context.fluggesellschaft)
-        ?.isInEU ?? false;
-
-    return !isAirlineInEU;
   },
   ...yesNoGuards("verspaetung"),
   ...yesNoGuards("checkin"),
