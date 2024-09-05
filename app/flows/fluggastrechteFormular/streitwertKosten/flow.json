@@ -1,0 +1,36 @@
+{
+  "id": "streitwert-kosten",
+  "initial": "gerichtskosten",
+  "states": {
+    "gerichtskosten": {
+      "on": {
+        "SUBMIT": "andere-kosten",
+        "BACK": "#grundvorraussetzungen.daten-uebernahme"
+      }
+    },
+    "andere-kosten": {
+      "on": {
+        "SUBMIT": "zahlung-nach-klageeinreichung",
+        "BACK": "gerichtskosten"
+      }
+    },
+    "zahlung-nach-klageeinreichung": {
+      "on": {
+        "SUBMIT": "prozesszinsen",
+        "BACK": "andere-kosten"
+      }
+    },
+    "prozesszinsen": {
+      "on": {
+        "SUBMIT": "versaeumnisurteil",
+        "BACK": "zahlung-nach-klageeinreichung"
+      }
+    },
+    "versaeumnisurteil": {
+      "on": {
+        "SUBMIT": "#flugdaten.geplanter-flug",
+        "BACK": "prozesszinsen"
+      }
+    }
+  }
+}

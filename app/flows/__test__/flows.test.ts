@@ -12,10 +12,8 @@ import { testCasesBeratungshilfeRechtsproblem } from "~/flows/beratungshilfeForm
 import { testCasesBeratungshilfe } from "~/flows/beratungshilfeVorabcheck/__test__/testcases";
 import { type Context } from "~/flows/contexts";
 import { testCasesFluggastrechteFormularFlugdaten } from "~/flows/fluggastrechteFormular/flugdaten/__test__/testcases";
-import { testCasesFluggastrechteFormularForderung } from "~/flows/fluggastrechteFormular/forderung/__test__/testcases";
 import { testCasesFluggastrechteFormularGrundvorraussetzungen } from "~/flows/fluggastrechteFormular/grundvorraussetzungen/__test__/testcases";
 import { testCasesFluggastrechteFormularPersoenlicheDaten } from "~/flows/fluggastrechteFormular/persoenlicheDaten/__test__/testcases";
-import { testCasesFluggastrechteFormularVersand } from "~/flows/fluggastrechteFormular/versand/__test__/testcases";
 import { testCasesFluggastrechteAnnullierung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesAnnullierung";
 import { testCasesFluggastrechteNichtBefoerderung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesNichtBefoerderung";
 import { testCasesFluggastrechteVerspaetet } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesVerspaetet";
@@ -23,6 +21,7 @@ import { testCasesGeldEinklagen } from "~/flows/geldEinklagenVorabcheck/__test__
 import { transitionDestinations } from "~/services/flow/server/buildFlowController";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { parsePathname } from "../flowIds";
+import { testCasesFluggastrechteFormularStreitwertKosten } from "../fluggastrechteFormular/streitwertKosten/__test__/testscases";
 import { testCasesProzesskostenhilfeFormular } from "../prozesskostenhilfeFormular/__test__/testcases";
 
 function getEnabledSteps({
@@ -87,10 +86,9 @@ describe("state machine form flows", () => {
     testCasesFluggastrechteAnnullierung,
     testCasesFluggastrechteNichtBefoerderung,
     testCasesFluggastrechteFormularPersoenlicheDaten,
-    testCasesFluggastrechteFormularForderung,
-    testCasesFluggastrechteFormularVersand,
     testCasesProzesskostenhilfeFormular,
     testCasesFluggastrechteFormularGrundvorraussetzungen,
+    testCasesFluggastrechteFormularStreitwertKosten,
   ].forEach(({ machine, cases }) => {
     test.each([...cases])(
       "SUBMIT (%#) given context: %j, visits steps: %j",

@@ -7,7 +7,6 @@ import type { FluggastrechtContext } from "./context";
 import fluggastrechteFlow from "./flow.json";
 import { flugdatenDone } from "./flugdaten/doneFunctions";
 import flugdatenFlow from "./flugdaten/flow.json";
-import forderungDatenFlow from "./forderung/flow.json";
 import { grundvorraussetzungenDone } from "./grundvorraussetzungen/doneFunctions";
 import grundvorraussetzungenFlow from "./grundvorraussetzungen/flow.json";
 import { fluggastrechteGuards } from "./guards";
@@ -16,6 +15,8 @@ import {
   weiterePersonenDone,
 } from "./persoenlicheDaten/doneFunctions";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
+import { streitwertKostenDone } from "./streitwertKosten/doneFunctions";
+import streitwertKostenFlow from "./streitwertKosten/flow.json";
 import {
   getAirlineName,
   getArrayWeiterePersonenIndexStrings,
@@ -27,7 +28,6 @@ import {
   getStartAirportName,
   getWeiterePersonenNameStrings,
 } from "./stringReplacements";
-import versandFlow from "./versand/flow.json";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   targetFlowId: "/fluggastrechte/formular",
@@ -71,6 +71,9 @@ export const fluggastrechtFlow = {
       grundvorraussetzungen: _.merge(grundvorraussetzungenFlow, {
         meta: { done: grundvorraussetzungenDone },
       }),
+      "streitwert-kosten": _.merge(streitwertKostenFlow, {
+        meta: { done: streitwertKostenDone },
+      }),
       flugdaten: _.merge(flugdatenFlow, { meta: { done: flugdatenDone } }),
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
         states: {
@@ -78,8 +81,6 @@ export const fluggastrechtFlow = {
           "weitere-personen": { meta: { done: weiterePersonenDone } },
         },
       }),
-      forderung: _.merge(forderungDatenFlow, {}),
-      versand: _.merge(versandFlow, {}),
     },
   }),
   guards: fluggastrechteGuards,

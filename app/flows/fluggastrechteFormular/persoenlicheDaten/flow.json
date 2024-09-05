@@ -65,8 +65,7 @@
               {
                 "guard": "isWeiterePersonenYes",
                 "target": "uebersicht"
-              },
-              "#forderung"
+              }
             ],
             "BACK": [
               {
@@ -79,7 +78,6 @@
         },
         "uebersicht": {
           "on": {
-            "SUBMIT": "#forderung",
             "BACK": "frage",
             "add-weiterePersonen": {
               "guard": "isValidWeiterePersonenArrayIndex",
