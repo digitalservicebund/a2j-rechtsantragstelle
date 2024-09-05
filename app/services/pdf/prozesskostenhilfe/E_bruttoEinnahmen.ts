@@ -170,7 +170,7 @@ export const fillWeitereEinkuenfte: PkhPdfFillFunction = ({
         },
         ...userData.weitereEinkuenfte.map((einkunft) => ({
           title: einkunft.beschreibung,
-          text: `${einkunft.betrag}€`,
+          text: `${einkunft.betrag}€/Monat`,
         })),
       );
     } else {
