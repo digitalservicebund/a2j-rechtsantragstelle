@@ -1,6 +1,21 @@
+import { hasAnyEigentumExceptBankaccount } from "~/flows/shared/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
-import { hasAnyEigentumExceptBankaccount } from "./hasAnyEigentumExceptBankaccountGuard";
+
+export const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.staatlicheLeistungen === "asylbewerberleistungen" ||
+  context.staatlicheLeistungen === "buergergeld" ||
+  context.staatlicheLeistungen === "grundsicherung";
+
+export const hasNoStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) => {
+    return (
+      context.staatlicheLeistungen !== undefined &&
+      !hasStaatlicheLeistungen({ context })
+    );
+  };
 
 export const einkommenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
@@ -19,13 +34,6 @@ export const partnerDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context.partnerEinkommen == "no" ||
   context.partnerEinkommenSumme != undefined ||
   (context.partnerNachname != undefined && context.partnerVorname != undefined);
-
-const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
-  context,
-}) =>
-  context.staatlicheLeistungen == "asylbewerberleistungen" ||
-  context.staatlicheLeistungen == "buergergeld" ||
-  context.staatlicheLeistungen == "grundsicherung";
 
 export const kinderDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,

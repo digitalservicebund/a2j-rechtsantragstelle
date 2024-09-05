@@ -5,9 +5,8 @@ import { airportSchema } from "~/services/validation/airport";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { fluggastrechteFlugdaten } from "./flugdaten/context";
-import { fluggastrechtForderungDaten } from "./forderung/context";
 import { fluggastrechtePersoenlichDaten } from "./persoenlicheDaten/context";
-import { fluggastrechtVersandDaten } from "./versand/context";
+import { fluggastrechtStreitKostenDaten } from "./streitwertKosten/context";
 
 export const fluggastrechtContext = {
   startAirport: optionalOrSchema(airportSchema),
@@ -17,8 +16,7 @@ export const fluggastrechtContext = {
   zustaendigesAmtsgericht: zustaendigesAmtsgerichtSchema.optional(),
   ...fluggastrechteFlugdaten,
   ...fluggastrechtePersoenlichDaten,
-  ...fluggastrechtForderungDaten,
-  ...fluggastrechtVersandDaten,
+  ...fluggastrechtStreitKostenDaten,
 } as const;
 
 const _contextObject = z.object(fluggastrechtContext).partial();
