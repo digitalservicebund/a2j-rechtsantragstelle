@@ -8,6 +8,7 @@ import { createReadableStreamFromReadable, redirect } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
+import { isCookieConsentExist } from "./services/analytics/gdprCookie.server";
 import { config } from "./services/env/env.server";
 import { logError } from "./services/logging";
 import { cspHeader } from "./services/security/cspHeader.server";
@@ -103,7 +104,7 @@ function handleBrowserRequest(
     );
 
     // Observe for 1-2 weeks if the no cache at all would affect our application
-    if (config().ENVIRONMENT !== "production") {
+    if (!isCookieConsentExist(request.headers.get("Cookie"))) {
       responseHeaders.set("Cache-Control", "no-store");
     }
 
