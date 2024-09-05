@@ -86,7 +86,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.0",
-    "@faker-js/faker": "^8.4.1",
+    "@faker-js/faker": "^9.0.0",
     "@playwright/test": "^1.46.1",
     "@remix-run/dev": "^2.11.2",
     "@remix-run/testing": "^2.11.2",
