@@ -2,11 +2,11 @@ import type { Guards } from "~/flows/guards.server";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import {
   staatlicheLeistungenIsBuergergeld,
-  staatlicheLeistungenIsBuergergeldAndHasAnyEigentum,
   staatlicheLeistungenIsKeine,
 } from "~/flows/shared/finanzielleAngaben/guards";
 import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
+import { eigentumDone } from "../eigentumDone";
 
 const hasAndereArbeitsausgaben: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
   ({ context }) => context.hasArbeitsausgaben === "yes";
@@ -20,7 +20,8 @@ export const finanzielleAngabeEinkuenfteGuards = {
     context.staatlicheLeistungen === "grundsicherung",
   staatlicheLeistungenIsBuergergeld,
   staatlicheLeistungenIsKeine,
-  staatlicheLeistungenIsBuergergeldAndHasAnyEigentum,
+  staatlicheLeistungenIsBuergergeldAndEigentumDone: ({ context }) =>
+    staatlicheLeistungenIsBuergergeld({ context }) && eigentumDone({ context }),
   staatlicheLeistungenIsArbeitslosengeld: ({ context }) =>
     context.staatlicheLeistungen === "arbeitslosengeld",
   notEmployed: ({ context }) => context.currentlyEmployed === "no",

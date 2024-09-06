@@ -479,7 +479,7 @@
                 "target": "gesamtwert"
               },
               {
-                "guard": "hasAnyEigentum",
+                "guard": "eigentumDone",
                 "target": "#eigentum-zusammenfassung.zusammenfassung"
               },
               {

@@ -40,7 +40,6 @@ const cases = [
       hasGeldanlage: "no",
       hasGrundeigentum: "no",
       hasKraftfahrzeug: "no",
-      eigentumTotalWorth: "more10000",
     },
     [
       finanzielleAngabenStart,
@@ -51,6 +50,7 @@ const cases = [
       "finanzielle-angaben/eigentum/wertgegenstaende-frage",
       "finanzielle-angaben/eigentum/grundeigentum-frage",
       "finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
+      "finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
       persoenlicheDatenStart,
     ],
   ],

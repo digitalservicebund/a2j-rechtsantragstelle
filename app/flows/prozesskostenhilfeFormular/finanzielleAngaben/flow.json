@@ -343,7 +343,7 @@
           "on": {
             "SUBMIT": [
               {
-                "guard": "hasAnyEigentum",
+                "guard": "eigentumDone",
                 "target": "#eigentum-zusammenfassung.zusammenfassung"
               },
               "#ausgaben"
