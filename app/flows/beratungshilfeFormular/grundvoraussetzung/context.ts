@@ -1,11 +1,12 @@
 import { z } from "zod";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import type { GenericGuard, Guards } from "../../guards.server";
+import { type GenericGuard, type Guards } from "../../guards.server";
 
 export const beratungshilfeGrundvoraussetzungen = {
   rechtsschutzversicherung: YesNoAnswer,
   wurdeVerklagt: YesNoAnswer,
   klageEingereicht: YesNoAnswer,
+  hamburgOderBremen: YesNoAnswer,
   beratungshilfeBeantragt: YesNoAnswer,
   eigeninitiativeGrundvorraussetzung: YesNoAnswer,
 };
@@ -29,6 +30,7 @@ export const beratungshilfeGrundvoraussetzungenGuards = {
     context.rechtsschutzversicherung === "no",
   wurdeVerklagtNo: ({ context }) => context.wurdeVerklagt === "no",
   klageEingereichtNo: ({ context }) => context.klageEingereicht === "no",
+  hamburgOderBremenYes: ({ context }) => context.hamburgOderBremen === "yes",
   beratungshilfeBeantragtNo: ({ context }) =>
     context.beratungshilfeBeantragt === "no",
   grundvoraussetzungDone,
