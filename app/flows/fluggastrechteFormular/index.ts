@@ -21,8 +21,6 @@ import {
   getAirlineName,
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
-  getForderung,
-  getGerichtskostenFromBetrag,
   getPersonNachname,
   getPersonVorname,
   getStartAirportName,
@@ -45,8 +43,6 @@ export const fluggastrechtFlow = {
   stringReplacements: (context: FluggastrechtContext) => ({
     ...getStartAirportName(context),
     ...getEndAirportName(context),
-    ...getForderung(context),
-    ...getGerichtskostenFromBetrag(context),
     ...getPersonVorname(context),
     ...getPersonNachname(context),
     ...getArrayWeiterePersonenIndexStrings(context),
