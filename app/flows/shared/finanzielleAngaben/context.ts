@@ -160,7 +160,10 @@ export const kinderArraySchema = z.array(
       earliest: () => addYears(today(), -24),
       latest: () => today(),
     }),
-    wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
+    wohnortBeiAntragsteller: z.enum(
+      ["yes", "no", "partially"],
+      customRequiredErrorMessage,
+    ),
     eigeneEinnahmen: YesNoAnswer,
     einnahmen: buildMoneyValidationSchema(),
     unterhalt: YesNoAnswer,

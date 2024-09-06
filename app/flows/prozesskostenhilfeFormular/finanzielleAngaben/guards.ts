@@ -43,21 +43,15 @@ import {
 } from "./context";
 import {
   ausgabenDone,
-  eigentumDone,
   hasRatenzahlungDone,
   hasSonstigeAusgabeDone,
   hasVersicherungDone,
 } from "./doneFunctions";
+import { eigentumDone } from "./eigentumDone";
 import { yesNoGuards, type Guards } from "../../guards.server";
 
 export const finanzielleAngabeGuards = {
   eigentumDone,
-  hasAnyEigentum: ({ context }) =>
-    context.hasGeldanlage == "yes" ||
-    context.hasWertsache == "yes" ||
-    context.hasGrundeigentum == "yes" ||
-    context.hasKraftfahrzeug == "yes" ||
-    context.hasBankkonto === "yes",
   hasPartnerschaftOrSeparated,
   hasPartnerschaftYes,
   hasPartnerschaftNoOrWidowed,
