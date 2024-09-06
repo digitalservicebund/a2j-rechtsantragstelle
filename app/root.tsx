@@ -138,7 +138,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       },
       footer: getFooterProps(strapiFooter),
       cookieBannerContent: cookieBannerContent,
-      hasTrackingConsent: trackingConsent === "true",
+      hasTrackingConsent: trackingConsent
+        ? trackingConsent === "true"
+        : undefined,
       errorPages,
       meta,
       context,
