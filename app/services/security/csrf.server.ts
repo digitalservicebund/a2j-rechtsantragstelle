@@ -5,9 +5,7 @@ import {
   type CookieHeader,
   mainSessionFromCookieHeader,
 } from "~/services/session.server";
-import { CSRFKey } from "./csrfKey";
-
-export const csrfCountMax = 10;
+import { csrfCountMax, CSRFKey } from "./csrfKey";
 
 function createCSRFToken() {
   // random base64 string of length 32
