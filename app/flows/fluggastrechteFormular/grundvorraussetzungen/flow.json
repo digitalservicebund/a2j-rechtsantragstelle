@@ -16,7 +16,7 @@
     },
     "daten-uebernahme": {
       "on": {
-        "SUBMIT": "#flugdaten.geplanter-flug",
+        "SUBMIT": "#streitwert-kosten.gerichtskosten",
         "BACK": "ausgleichszahlung"
       }
     }
