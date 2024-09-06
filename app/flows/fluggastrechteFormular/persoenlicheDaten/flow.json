@@ -65,7 +65,8 @@
               {
                 "guard": "isWeiterePersonenYes",
                 "target": "uebersicht"
-              }
+              },
+              "#zusammenfassung.start"
             ],
             "BACK": [
               {
@@ -79,6 +80,7 @@
         "uebersicht": {
           "on": {
             "BACK": "frage",
+            "SUBMIT": "#zusammenfassung.start",
             "add-weiterePersonen": {
               "guard": "isValidWeiterePersonenArrayIndex",
               "target": "person"
