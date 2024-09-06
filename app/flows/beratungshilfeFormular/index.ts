@@ -8,6 +8,7 @@ import {
   beratungshilfeAnwaltlicheVertretungGuards,
   anwaltlicheVertretungDone,
 } from "./anwaltlicheVertretung/guards";
+import { finanzielleAngabenArrayConfig as beratungshilfeFormularFinanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
 import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import {
   andereUnterhaltszahlungenDone,
@@ -60,9 +61,14 @@ export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
   config: _.merge(beratungshilfeFormularFlow, {
     meta: {
-      arrays: finanzielleAngabenArrayConfig(
-        "/beratungshilfe/antrag/finanzielle-angaben",
-      ),
+      arrays: {
+        ...finanzielleAngabenArrayConfig(
+          "/beratungshilfe/antrag/finanzielle-angaben",
+        ),
+        ...beratungshilfeFormularFinanzielleAngabenArrayConfig(
+          "/beratungshilfe/antrag/finanzielle-angaben",
+        ),
+      },
     },
     states: {
       start: { meta: { done: () => true } },
