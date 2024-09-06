@@ -21,13 +21,12 @@ import {
   getAirlineName,
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
-  getForderung,
-  getGerichtskostenFromBetrag,
   getPersonNachname,
   getPersonVorname,
   getStartAirportName,
   getWeiterePersonenNameStrings,
 } from "./stringReplacements";
+import zusammenfassungFlow from "./zusammenfassung/flow.json";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   targetFlowId: "/fluggastrechte/formular",
@@ -45,8 +44,6 @@ export const fluggastrechtFlow = {
   stringReplacements: (context: FluggastrechtContext) => ({
     ...getStartAirportName(context),
     ...getEndAirportName(context),
-    ...getForderung(context),
-    ...getGerichtskostenFromBetrag(context),
     ...getPersonVorname(context),
     ...getPersonNachname(context),
     ...getArrayWeiterePersonenIndexStrings(context),
@@ -80,6 +77,9 @@ export const fluggastrechtFlow = {
           person: { meta: { done: personDone } },
           "weitere-personen": { meta: { done: weiterePersonenDone } },
         },
+      }),
+      zusammenfassung: _.merge(zusammenfassungFlow, {
+        meta: { done: () => false },
       }),
     },
   }),

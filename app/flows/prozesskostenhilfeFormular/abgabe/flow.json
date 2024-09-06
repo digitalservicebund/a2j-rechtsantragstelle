@@ -10,7 +10,7 @@
             "target": "#ausgaben-zusammenfassung"
           },
           {
-            "guard": "staatlicheLeistungenIsBuergergeldAndHasAnyEigentum",
+            "guard": "staatlicheLeistungenIsBuergergeldAndEigentumDone",
             "target": "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung"
           },
           {
@@ -38,7 +38,7 @@
             "target": "#ausgaben-zusammenfassung"
           },
           {
-            "guard": "staatlicheLeistungenIsBuergergeldAndHasAnyEigentum",
+            "guard": "staatlicheLeistungenIsBuergergeldAndEigentumDone",
             "target": "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung"
           },
           {

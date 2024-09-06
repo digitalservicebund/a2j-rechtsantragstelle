@@ -1,4 +1,5 @@
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import type { PkhPdfFillFunction } from "./fillOutFunction";
 import type { AttachmentEntries } from "../attachment";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt/E_unterhalt";
@@ -16,10 +17,18 @@ const alleinZahlung = (ratenzahlung: Ratenzahlung) =>
     : ratenzahlung.betragEigenerAnteil;
 
 export const fillZahlungsverpflichtungen: PkhPdfFillFunction = ({
-  userData: { hasAusgaben, ratenzahlungen },
+  userData,
   pdfValues,
 }) => {
-  if (hasAusgaben !== "yes" || !ratenzahlungen) return { pdfValues };
+  const { hasAusgaben, ratenzahlungen } = userData;
+  if (
+    hasAusgaben !== "yes" ||
+    !ratenzahlungen ||
+    einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
+      context: userData,
+    })
+  )
+    return { pdfValues };
   const attachment: AttachmentEntries = [];
 
   const ratenzahlungenNeedsAttachment =

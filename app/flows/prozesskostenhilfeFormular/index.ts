@@ -1,6 +1,6 @@
 import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
-import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfigurations";
+import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import abgabeFlow from "./abgabe/flow.json";
@@ -10,11 +10,11 @@ import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
   ausgabenZusammenfassungDone,
-  eigentumDone,
   eigentumZusammenfassungDone,
   kinderDone,
   partnerDone,
 } from "./finanzielleAngaben/doneFunctions";
+import { eigentumDone } from "./finanzielleAngaben/eigentumDone";
 import einkuenfteFlow from "./finanzielleAngaben/einkuenfte/flow.json";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";

@@ -1,6 +1,5 @@
 import {
   grundeigentumIsBewohnt,
-  hasAnyEigentum,
   hasAnyEigentumExceptBankaccount,
   hasAusgabenYes,
   hasBankkontoYes,
@@ -37,7 +36,6 @@ import {
   kindWohnortBeiAntragstellerNo,
   kindWohnortBeiAntragstellerYes,
   staatlicheLeistungenIsBuergergeld,
-  staatlicheLeistungenIsBuergergeldAndHasAnyEigentum,
   staatlicheLeistungenIsKeine,
 } from "~/flows/shared/finanzielleAngaben/guards";
 import {
@@ -62,8 +60,8 @@ export const finanzielleAngabeGuards = {
   eigentumDone,
   staatlicheLeistungenIsKeine,
   staatlicheLeistungenIsBuergergeld,
-  staatlicheLeistungenIsBuergergeldAndHasAnyEigentum,
-  hasAnyEigentum,
+  staatlicheLeistungenIsBuergergeldAndEigentumDone: ({ context }) =>
+    staatlicheLeistungenIsBuergergeld({ context }) && eigentumDone({ context }),
   staatlicheLeistungenIsBuergergeldAndHasEigentum: ({ context }) =>
     staatlicheLeistungenIsBuergergeld({ context }) &&
     hasAnyEigentumExceptBankaccount({ context }),

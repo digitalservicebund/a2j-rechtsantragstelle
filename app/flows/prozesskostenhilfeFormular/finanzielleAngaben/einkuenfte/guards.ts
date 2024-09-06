@@ -2,19 +2,11 @@ import type { Guards } from "~/flows/guards.server";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import {
   staatlicheLeistungenIsBuergergeld,
-  staatlicheLeistungenIsBuergergeldAndHasAnyEigentum,
   staatlicheLeistungenIsKeine,
 } from "~/flows/shared/finanzielleAngaben/guards";
 import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-
-export const hasGrundsicherungOrAsylbewerberleistungen: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
-  ({ context }) =>
-    context.staatlicheLeistungen === "asylbewerberleistungen" ||
-    context.staatlicheLeistungen === "grundsicherung";
-
-export const notEmployed: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
-  ({ context }) => context.currentlyEmployed === "no";
+import { eigentumDone } from "../eigentumDone";
 
 const hasAndereArbeitsausgaben: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
   ({ context }) => context.hasArbeitsausgaben === "yes";
@@ -23,13 +15,16 @@ const hasFurtherIncome: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteCon
   ({ context: { hasFurtherIncome } }) => hasFurtherIncome === "yes";
 
 export const finanzielleAngabeEinkuenfteGuards = {
-  hasGrundsicherungOrAsylbewerberleistungen,
+  hasGrundsicherungOrAsylbewerberleistungen: ({ context }) =>
+    context.staatlicheLeistungen === "asylbewerberleistungen" ||
+    context.staatlicheLeistungen === "grundsicherung",
   staatlicheLeistungenIsBuergergeld,
   staatlicheLeistungenIsKeine,
-  staatlicheLeistungenIsBuergergeldAndHasAnyEigentum,
+  staatlicheLeistungenIsBuergergeldAndEigentumDone: ({ context }) =>
+    staatlicheLeistungenIsBuergergeld({ context }) && eigentumDone({ context }),
   staatlicheLeistungenIsArbeitslosengeld: ({ context }) =>
     context.staatlicheLeistungen === "arbeitslosengeld",
-  notEmployed,
+  notEmployed: ({ context }) => context.currentlyEmployed === "no",
   isEmployee: ({ context }) =>
     context.employmentType === "employed" ||
     context.employmentType === "employedAndSelfEmployed",

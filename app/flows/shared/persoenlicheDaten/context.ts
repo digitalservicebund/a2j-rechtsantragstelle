@@ -5,7 +5,7 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
-const titleSchema = z.enum(["", "dr"]);
+const titleSchema = z.enum(["", "dr"], customRequiredErrorMessage);
 
 export const namePrivatPerson = {
   anrede: stringOptionalSchema,
