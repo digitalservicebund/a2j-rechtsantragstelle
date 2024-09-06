@@ -1,34 +1,26 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { CookieSettings } from "tests/e2e/pom/CookieSettings";
-import { verifyHeader } from "../util/verifyHeader";
 
 test.describe("Cache-Control", () => {
-  test("should correctly send response header", async ({ page }) => {
-    await verifyHeader({
-      page,
-      navigate: () => page.goto("/"),
-      url: "/",
-      header: "cache-control",
-      expectedValue: "no-store",
-    });
-
-    await verifyHeader({
-      page,
-      navigate: () => page.goto("/fluggastrechte"),
-      url: "/fluggastrechte",
-      header: "cache-control",
-      expectedValue: "no-store",
-    });
-
+  test("should dismiss cookie banner when cookie is accepted/rejected", async ({
+    page,
+  }) => {
+    await page.goto("/");
     const cookieSettings = new CookieSettings(page);
     await cookieSettings.acceptCookieBanner();
 
-    await verifyHeader({
-      page,
-      navigate: () => page.goBack(),
-      url: "/",
-      header: "cache-control",
-      expectedValue: null,
-    });
+    await page.goto("/fluggastrechte");
+    await page.goBack();
+    const cookieBanner = page.getByTestId("cookie-banner");
+    await expect(cookieBanner).not.toBeVisible();
+  });
+  test("should keep banner when cookie is not accepted/rejected", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.goto("/fluggastrechte");
+    await page.goBack();
+    const cookieBanner = page.getByTestId("cookie-banner");
+    await expect(cookieBanner).toBeVisible();
   });
 });
