@@ -22,6 +22,10 @@ export async function startGrundvoraussetzungen(
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("klageEingereicht", "no");
 
+  // beratungshilfe/antrag/grundvoraussetzungen/hamburg-oder-bremen
+  await expectPageToBeAccessible({ page });
+  await beratungshilfeFormular.fillRadioPage("hamburgOderBremen", "no");
+
   // beratungshilfe/antrag/grundvoraussetzungen/beratungshilfe-beantragt
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("beratungshilfeBeantragt", "no");
