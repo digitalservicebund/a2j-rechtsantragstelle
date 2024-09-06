@@ -47,6 +47,28 @@ test.describe(pageUrl, () => {
     expect(await cookieSettings.posthogCookieExists()).toBe(false);
   });
 
+  test("dismisses cookie banner when cookie is accepted/rejected", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const cookieSettings = new CookieSettings(page);
+    await cookieSettings.acceptCookieBanner();
+
+    await page.goto("/fluggastrechte");
+    await page.goBack();
+    const cookieBanner = page.getByTestId("cookie-banner");
+    await expect(cookieBanner).not.toBeVisible();
+  });
+  test("keeps banner when cookie is not accepted/rejected", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.goto("/fluggastrechte");
+    await page.goBack();
+    const cookieBanner = page.getByTestId("cookie-banner");
+    await expect(cookieBanner).toBeVisible();
+  });
+
   test.describe("js disabled", () => {
     test.use({ javaScriptEnabled: false });
 
