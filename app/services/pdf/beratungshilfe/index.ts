@@ -1,6 +1,8 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import Handout from "./Handout";
+import { appendAttachment } from "../appendAttachment";
+import { createAttachment } from "../attachment";
 import { fillAngelegenheit } from "./sections/A_angelegenheit";
 import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
 import { fillEinkommen } from "./sections/C_einkommen";
@@ -10,8 +12,6 @@ import { fillBesitz } from "./sections/F_besitz/F_besitz";
 import { fillFooter } from "./sections/footer";
 import { fillAusgaben } from "./sections/G_ausgaben";
 import fillHeader from "./sections/header";
-import { appendAttachment } from "../appendAttachment";
-import { createAttachment } from "../attachment";
 import FormAttachment from "../attachment/FormAttachment";
 import { pdfFromReact } from "../attachment/pdfFromReact";
 import { fillPdf } from "../fillPdf.server";

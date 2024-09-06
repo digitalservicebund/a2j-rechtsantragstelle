@@ -4,6 +4,7 @@ import { arrayIsNonEmpty } from "~/util/array";
 import { fillKraftfahrzeug } from "./fillKraftfahrzeug";
 import type { AttachmentEntries } from "../../../attachment";
 import { newPageHint } from "../../../attachment";
+import { eigentuemerMapping } from "../../eigentuemerMapping";
 
 export function fillBesitz(
   attachment: AttachmentEntries,
@@ -28,13 +29,6 @@ export function fillBesitz(
     attachment = attachment.concat(financialAttachment);
   }
 }
-
-export const eigentuemerMapping = {
-  myself: "Ich alleine",
-  partner: "Ehe-Partner:in",
-  myselfAndPartner: "Mein:e Ehe-Partner:in und ich gemeinsam",
-  myselfAndSomeoneElse: "Ich gemeinsam mit jemand anderem",
-} as const;
 
 export function fillFinancialBankkonto(
   attachment: AttachmentEntries,
