@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { PDFDocument, PDFCheckBox, PDFTextField, type PDFField } from "pdf-lib";
+import { pdfs } from "~/services/pdf/pdfs";
 import { uppercaseFirstLetter } from "~/util/strings";
 import { normalizePropertyName } from "./normalizePropertyName";
-import { pdfs } from "./pdfs";
 
 const dataDirectory = "data/pdf/";
 
