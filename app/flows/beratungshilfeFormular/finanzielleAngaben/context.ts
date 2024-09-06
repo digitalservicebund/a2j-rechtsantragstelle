@@ -72,7 +72,10 @@ export const beratungshilfeFinanzielleAngaben = {
   grundeigentum: grundeigentumArraySchema,
   hasWertsache: YesNoAnswer,
   wertsachen: wertsachenArraySchema,
-  livingSituation: z.enum(["alone", "withRelatives", "withOthers"]),
+  livingSituation: z.enum(
+    ["alone", "withRelatives", "withOthers"],
+    customRequiredErrorMessage,
+  ),
   apartmentSizeSqm: integerSchema,
   apartmentPersonCount: integerSchema,
   apartmentCostOwnShare: buildMoneyValidationSchema(),

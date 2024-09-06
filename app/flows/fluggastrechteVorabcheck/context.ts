@@ -12,12 +12,10 @@ export const fluggastBereichSchema = z.enum(
   customRequiredErrorMessage,
 );
 
-const ankuendigungSchema = z.enum([
-  "no",
-  "until6Days",
-  "between7And13Days",
-  "moreThan13Days",
-]);
+const ankuendigungSchema = z.enum(
+  ["no", "until6Days", "between7And13Days", "moreThan13Days"],
+  customRequiredErrorMessage,
+);
 
 export const zustaendigesAmtsgerichtSchema = z.array(
   z.object({

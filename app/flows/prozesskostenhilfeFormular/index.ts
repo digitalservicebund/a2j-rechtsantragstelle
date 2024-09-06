@@ -10,11 +10,11 @@ import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
   ausgabenZusammenfassungDone,
-  eigentumDone,
   eigentumZusammenfassungDone,
   kinderDone,
   partnerDone,
 } from "./finanzielleAngaben/doneFunctions";
+import { eigentumDone } from "./finanzielleAngaben/eigentumDone";
 import einkuenfteFlow from "./finanzielleAngaben/einkuenfte/flow.json";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";

@@ -181,9 +181,6 @@ export const hasWeitereUnterhaltszahlungenYesAndEmptyArray: FinanzielleAngabenGu
   ({ context }) =>
     hasWeitereUnterhaltszahlungenYes({ context }) &&
     !arrayIsNonEmpty(context.unterhaltszahlungen);
-export const hasAnyEigentum: FinanzielleAngabenGuard = ({ context }) =>
-  hasAnyEigentumExceptBankaccount({ context }) ||
-  context.hasBankkonto === "yes";
 export const hasAnyEigentumExceptBankaccount: FinanzielleAngabenGuard = ({
   context,
 }) =>
@@ -191,7 +188,3 @@ export const hasAnyEigentumExceptBankaccount: FinanzielleAngabenGuard = ({
   context.hasWertsache == "yes" ||
   context.hasGrundeigentum == "yes" ||
   context.hasKraftfahrzeug == "yes";
-export const staatlicheLeistungenIsBuergergeldAndHasAnyEigentum: FinanzielleAngabenGuard =
-  ({ context }) =>
-    staatlicheLeistungenIsBuergergeld({ context }) &&
-    hasAnyEigentum({ context });

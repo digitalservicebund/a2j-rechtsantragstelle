@@ -7,7 +7,7 @@
         "SUBMIT": "name",
         "BACK": [
           {
-            "guard": "staatlicheLeistungenIsBuergergeldAndHasAnyEigentum",
+            "guard": "staatlicheLeistungenIsBuergergeldAndEigentumDone",
             "target": "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung"
           },
           {
