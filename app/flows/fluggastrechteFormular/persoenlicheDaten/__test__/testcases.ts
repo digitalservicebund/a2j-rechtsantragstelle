@@ -29,6 +29,7 @@ const cases = [
       "persoenliche-daten/person/daten",
       "persoenliche-daten/person/antragsteller-angeben",
       "persoenliche-daten/weitere-personen/frage",
+      "zusammenfassung/start",
     ],
   ],
   [
@@ -51,6 +52,7 @@ const cases = [
       "persoenliche-daten/person/vertretung-minderjaehrige",
       "persoenliche-daten/person/antragsteller-angeben",
       "persoenliche-daten/weitere-personen/frage",
+      "zusammenfassung/start",
     ],
   ],
   [
@@ -77,6 +79,7 @@ const cases = [
       "persoenliche-daten/person/antragsteller-daten",
       "persoenliche-daten/weitere-personen/frage",
       "persoenliche-daten/weitere-personen/uebersicht",
+      "zusammenfassung/start",
     ],
   ],
   [
@@ -100,6 +103,7 @@ const cases = [
       "persoenliche-daten/person/antragsteller-daten",
       "persoenliche-daten/weitere-personen/frage",
       "persoenliche-daten/weitere-personen/uebersicht",
+      "zusammenfassung/start",
     ],
   ],
   [
