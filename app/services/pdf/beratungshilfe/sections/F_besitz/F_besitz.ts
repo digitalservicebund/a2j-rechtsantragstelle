@@ -2,9 +2,9 @@ import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.g
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { arrayIsNonEmpty } from "~/util/array";
 import { fillKraftfahrzeug } from "./fillKraftfahrzeug";
+import { eigentuemerMapping } from "./util";
 import type { AttachmentEntries } from "../../../attachment";
 import { newPageHint } from "../../../attachment";
-import { eigentuemerMapping } from "../../eigentuemerMapping";
 
 export function fillBesitz(
   attachment: AttachmentEntries,

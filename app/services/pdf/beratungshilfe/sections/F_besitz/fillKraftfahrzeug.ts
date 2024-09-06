@@ -1,8 +1,8 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { arrayIsNonEmpty } from "~/util/array";
+import { eigentuemerMapping } from "./util";
 import { newPageHint, type AttachmentEntries } from "../../../attachment";
-import { eigentuemerMapping } from "../../eigentuemerMapping";
 
 type Kraftfahrzeug = NonNullable<
   BeratungshilfeFormularContext["kraftfahrzeuge"]
