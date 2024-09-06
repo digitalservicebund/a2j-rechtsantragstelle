@@ -79,7 +79,7 @@ export const fluggastrechtFlow = {
         },
       }),
       zusammenfassung: _.merge(zusammenfassungFlow, {
-        meta: { done: () => true },
+        meta: { done: () => false },
       }),
     },
   }),
