@@ -1,6 +1,6 @@
 import { type Page, type Response, expect } from "@playwright/test";
 
-interface CacheControlOptions {
+interface HeaderOptions {
   page: Page;
   navigate: () => Promise<Response | null>;
   url: string;
@@ -14,7 +14,7 @@ export const verifyHeader = async ({
   url,
   header,
   expectedValue,
-}: CacheControlOptions) => {
+}: HeaderOptions) => {
   const promiseResponse = page.waitForResponse((response) =>
     response.url().includes(url),
   );
