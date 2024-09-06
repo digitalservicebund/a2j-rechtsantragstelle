@@ -26,6 +26,7 @@ import {
   getStartAirportName,
   getWeiterePersonenNameStrings,
 } from "./stringReplacements";
+import zusammenfassungFlow from "./zusammenfassung/flow.json";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   targetFlowId: "/fluggastrechte/formular",
@@ -76,6 +77,9 @@ export const fluggastrechtFlow = {
           person: { meta: { done: personDone } },
           "weitere-personen": { meta: { done: weiterePersonenDone } },
         },
+      }),
+      zusammenfassung: _.merge(zusammenfassungFlow, {
+        meta: { done: () => false },
       }),
     },
   }),

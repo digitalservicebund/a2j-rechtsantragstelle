@@ -105,4 +105,10 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/persoenliche-daten/weitere-personen/frage
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("isWeiterePersonen", "no");
+
+  // fluggastrechte/formular/zusammenfassung/start
+  await expectPageToBeAccessible({ page });
+  await expect(page).toHaveURL(
+    new RegExp(`.+${formular.url}/zusammenfassung/start$`),
+  );
 }
