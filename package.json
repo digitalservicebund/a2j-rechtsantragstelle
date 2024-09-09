@@ -63,7 +63,7 @@
     "ioredis": "^5.4.1",
     "isbot": "^5.1.17",
     "lodash": "^4.17.21",
-    "marked": "^14.1.1",
+    "marked": "^14.1.2",
     "match-sorter": "^6.3.4",
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
@@ -116,7 +116,7 @@
     "eslint-plugin-storybook": "^0.8.0",
     "eslint-plugin-vitest": "^0.5.4",
     "fishery": "^2.2.2",
-    "follow-redirects": "^1.15.8",
+    "follow-redirects": "^1.15.9",
     "i18n-iso-countries": "^7.11.3",
     "jsdom": "^25.0.0",
     "lefthook": "^1.7.15",
@@ -141,7 +141,7 @@
     "trailingComma": "all"
   },
   "optionalDependencies": {
-    "license-checker-rseidelsohn": "^4.4.1"
+    "license-checker-rseidelsohn": "^4.4.2"
   },
   "size-limit": [
     {
