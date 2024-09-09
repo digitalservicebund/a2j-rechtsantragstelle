@@ -1,6 +1,7 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import type { besondereBelastungenSchema } from "~/flows/shared/finanzielleAngaben/context";
+import { arrayIsNonEmpty } from "~/util/array";
 import { type AttachmentEntries, newPageHint } from "../../attachment";
 import { checkboxListToString } from "../../checkboxListToString";
 
@@ -39,10 +40,7 @@ export function fillAusgaben(
       ausgabe.zahlungsempfaenger.length > AUSGABEN_MAX_CHARS_FIELD,
   );
 
-  const hasAusgaben =
-    context.hasAusgaben === "yes" &&
-    context.ausgaben &&
-    context.ausgaben.length > 0;
+  const hasAusgaben = arrayIsNonEmpty(ausgaben);
 
   pdfFields.g1VerpflichtungenJ.value = hasAusgaben;
   pdfFields.g1VerpflichtungenN.value = !hasAusgaben;

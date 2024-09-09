@@ -35,12 +35,12 @@ export function fillFinancialBankkonto(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const { hasBankkonto, bankkonten, eigentumTotalWorth } = context;
-  const hasBankkontoYes = hasBankkonto === "yes";
+  const { bankkonten, eigentumTotalWorth } = context;
+  const hasBankkontoYes = arrayIsNonEmpty(bankkonten);
 
   pdfFields.f1Konten1.value = !hasBankkontoYes;
   pdfFields.f1Konten2.value = hasBankkontoYes;
-  if (!hasBankkontoYes || !arrayIsNonEmpty(bankkonten)) return;
+  if (!hasBankkontoYes) return;
 
   pdfFields.f3Bank1.value =
     eigentumTotalWorth === "less10000"
@@ -80,12 +80,12 @@ export function fillFinancialGrundeigentum(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const { hasGrundeigentum, grundeigentum: grundeigentumArray } = context;
-  const hasGrundeigentumYes = hasGrundeigentum === "yes";
+  const { grundeigentum: grundeigentumArray } = context;
+  const hasGrundeigentumYes = arrayIsNonEmpty(grundeigentumArray);
   pdfFields.f5Grundeigentum1.value = !hasGrundeigentumYes;
   pdfFields.f5Grundeigentum2.value = hasGrundeigentumYes;
 
-  if (!hasGrundeigentumYes || !arrayIsNonEmpty(grundeigentumArray)) return;
+  if (!hasGrundeigentumYes) return;
 
   if (grundeigentumArray.length === 1) {
     const grundeigentum = grundeigentumArray[0];
@@ -118,12 +118,12 @@ export function fillFinancialWertsachen(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  const { hasWertsache, wertsachen } = context;
-  const hasWertsacheYes = hasWertsache === "yes";
+  const { wertsachen } = context;
+  const hasWertsacheYes = arrayIsNonEmpty(wertsachen);
   pdfFields.f13Vermoegenswerte1.value = !hasWertsacheYes;
   pdfFields.f13Vermoegenswerte2.value = hasWertsacheYes;
 
-  if (!hasWertsacheYes || !arrayIsNonEmpty(wertsachen)) return;
+  if (!hasWertsacheYes) return;
 
   if (wertsachen?.length == 1) {
     const wertsache = wertsachen.pop();
