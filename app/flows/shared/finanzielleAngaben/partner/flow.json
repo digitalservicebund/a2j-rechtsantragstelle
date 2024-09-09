@@ -1,0 +1,77 @@
+{
+  "id": "partner",
+  "initial": "partnerschaft",
+  "on": {
+    "SUBMIT": "{{nextStep}}"
+  },
+  "states": {
+    "partnerschaft": {
+      "on": {
+        "BACK": "{{backStep}}",
+        "SUBMIT": [
+          {
+            "guard": "hasPartnerschaftOrSeparated",
+            "target": "zusammenleben"
+          }
+        ]
+      }
+    },
+    "zusammenleben": {
+      "on": {
+        "BACK": "partnerschaft",
+        "SUBMIT": [
+          {
+            "guard": "zusammenlebenYes",
+            "target": "partner-einkommen"
+          },
+          { "guard": "zusammenlebenNo", "target": "unterhalt" }
+        ]
+      }
+    },
+    "unterhalt": {
+      "on": {
+        "BACK": "zusammenleben",
+        "SUBMIT": [
+          {
+            "guard": "unterhaltYes",
+            "target": "unterhalts-summe"
+          },
+          {
+            "guard": "unterhaltNo",
+            "target": "keine-rolle"
+          }
+        ]
+      }
+    },
+    "keine-rolle": {
+      "on": {
+        "BACK": "unterhalt",
+        "SUBMIT": "{{playsNoRoleTarget}}"
+      }
+    },
+    "unterhalts-summe": {
+      "on": {
+        "BACK": "unterhalt",
+        "SUBMIT": "partner-name"
+      }
+    },
+    "partner-name": {
+      "on": {
+        "BACK": "unterhalts-summe",
+        "SUBMIT": "{{partnerNameTarget}}"
+      }
+    },
+    "partner-einkommen": {
+      "on": {
+        "BACK": "zusammenleben",
+        "SUBMIT": [
+          {
+            "guard": "partnerEinkommenYes",
+            "target": "{{partnerIncomeTarget}}"
+          },
+          { "guard": "partnerEinkommenNo", "target": "{{nextStep}}" }
+        ]
+      }
+    }
+  }
+}
