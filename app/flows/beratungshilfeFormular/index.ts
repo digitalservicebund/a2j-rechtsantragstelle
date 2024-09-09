@@ -1,7 +1,7 @@
 import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
-import type { TargetReplacements } from "~/flows/shared/finanzielleAngaben/partner/util";
-import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner/util";
+import type { TargetReplacements } from "~/flows/shared/finanzielleAngaben/partner";
+import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 import abgabeFlow from "./abgabe/flow.json";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";

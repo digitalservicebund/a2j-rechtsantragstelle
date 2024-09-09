@@ -1,5 +1,5 @@
 import { finanzielleAngabenPartnerTargetReplacements as beratungsHilfeTargetReplacements } from "~/flows/beratungshilfeFormular";
-import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner/util";
+import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 
 describe("getFinanzielleAngabenPartnerSubflow", () => {
   describe("beratungshilfeFormular target replacements", () => {
