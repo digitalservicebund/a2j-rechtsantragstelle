@@ -44,13 +44,30 @@
         "SUBMIT": [
           {
             "guard": "klageEingereichtNo",
-            "target": "beratungshilfe-beantragt"
+            "target": "hamburg-oder-bremen"
           },
           {
             "target": "klage-eingereicht-hinweis"
           }
         ],
         "BACK": "wurde-verklagt"
+      }
+    },
+    "hamburg-oder-bremen": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "hamburg-oder-bremen-hinweis",
+            "guard": "hamburgOderBremenYes"
+          },
+          "beratungshilfe-beantragt"
+        ],
+        "BACK": "klage-eingereicht"
+      }
+    },
+    "hamburg-oder-bremen-hinweis": {
+      "on": {
+        "BACK": "hamburg-oder-bremen"
       }
     },
     "klage-eingereicht-hinweis": {
@@ -67,7 +84,7 @@
             "target": "beratungshilfe-beantragt-hinweis"
           }
         ],
-        "BACK": "klage-eingereicht"
+        "BACK": "hamburg-oder-bremen"
       }
     },
     "beratungshilfe-beantragt-hinweis": {

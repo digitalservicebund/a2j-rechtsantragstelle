@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import { type ReactNode, useState } from "react";
 import { useStringField } from "~/services/validation/useStringField";
-import TileRadio, { type TileOptions } from "./TileRadio";
 import { type ErrorMessageProps } from "..";
+import TileRadio, { type TileOptions } from "./TileRadio";
 import InputError from "../InputError";
 
 type TileGroupProps = Readonly<{

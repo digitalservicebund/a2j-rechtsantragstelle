@@ -28,6 +28,27 @@ export async function startFluggastrechteFormular(
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("doMigration", "yes");
 
+  // /fluggastrechte/formular/streitwert-kosten/gerichtskosten
+  await expectPageToBeAccessible({ page });
+  await formular.clickNext();
+
+  // /fluggastrechte/formular/streitwert-kosten/andere-kosten
+  await expectPageToBeAccessible({ page });
+  await formular.clickNext();
+
+  // /fluggastrechte/formular/streitwert-kosten/zahlung-nach-klageeinreichung
+  await expectPageToBeAccessible({ page });
+  await formular.clickLabelFor("aenderungMitteilung");
+  await formular.clickNext();
+
+  // /fluggastrechte/formular/streitwert-kosten/prozesszinsen
+  await expectPageToBeAccessible({ page });
+  await formular.fillRadioPage("prozesszinsen", "yes");
+
+  // /fluggastrechte/formular/streitwert-kosten/versaeumnisurteil
+  await expectPageToBeAccessible({ page });
+  await formular.fillRadioPage("versaeumnisurteil", "yes");
+
   // /fluggastrechte/formular/flugdaten/geplanter-flug
   await expectPageToBeAccessible({ page });
   await formular.fillInput("direktFlugnummer", "AB1234");
@@ -85,44 +106,9 @@ export async function startFluggastrechteFormular(
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("isWeiterePersonen", "no");
 
-  // /fluggastrechte/formular/forderung
+  // fluggastrechte/formular/zusammenfassung/start
   await expectPageToBeAccessible({ page });
-  await formular.clickNext();
-
-  // /fluggastrechte/formular/teilentschaedigung
-  await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("teilentschaedigung", "no");
-
-  // /fluggastrechte/formular/nebenforderungen
-  await expectPageToBeAccessible({ page });
-  await formular.clickNext();
-
-  // /fluggastrechte/formular/frist
-  await expectPageToBeAccessible({ page });
-  await formular.fillInputPage("frist", "11.02.2022");
-
-  // /fluggastrechte/formular/versaeumnisurteil
-  await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("versaeumnisurteil", "no");
-
-  // /fluggastrechte/formular/anmerkung
-  await expectPageToBeAccessible({ page });
-  await formular.fillTextareaPage("anmerkung", "Get some pizza!");
-
-  // /fluggastrechte/formular/ueberpruefung
-  await expectPageToBeAccessible({ page });
-  await formular.clickNext();
-
-  // /fluggastrechte/formular/aenderungMitteilung
-  await expectPageToBeAccessible({ page });
-  await formular.clickLabelFor("aenderungMitteilung");
-  await formular.clickNext();
-
-  // /fluggastrechte/formular/einverstaendnis
-  await expectPageToBeAccessible({ page });
-  await expect(
-    page.getByRole("heading").filter({
-      hasText: "Prüfen Sie Ihre Angaben",
-    }),
-  ).toHaveCount(1);
+  await expect(page).toHaveURL(
+    new RegExp(`.+${formular.url}/zusammenfassung/start$`),
+  );
 }

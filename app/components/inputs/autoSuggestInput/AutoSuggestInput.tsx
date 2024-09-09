@@ -5,6 +5,7 @@ import Select, { type InputActionMeta } from "react-select";
 import { useField } from "remix-validated-form";
 import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import { type ErrorMessageProps } from "..";
 import {
   CustomClearIndicator,
   CustomControl,
@@ -14,7 +15,6 @@ import {
   FormatOptionLabel,
 } from "./customComponents";
 import useDataListOptions from "./useDataListOptions";
-import { type ErrorMessageProps } from "..";
 import Input from "../Input";
 import InputError from "../InputError";
 import InputLabel from "../InputLabel";

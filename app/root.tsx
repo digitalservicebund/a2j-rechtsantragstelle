@@ -22,7 +22,7 @@ import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import { VideoTranslationContext } from "~/components/video/VideoTranslationContext";
 import { flowIdFromPathname } from "~/flows/flowIds";
-import { hasTrackingConsent } from "~/services/analytics/gdprCookie.server";
+import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import {
   fetchMeta,
   fetchSingleEntry,
@@ -47,12 +47,15 @@ import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 
-export const headers: HeadersFunction = () => ({
+export const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "X-Frame-Options": "SAMEORIGIN",
   "X-Content-Type-Options": "nosniff",
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy":
     "accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()",
+  ...(loaderHeaders.get("trackingConsentSet") === "true" && {
+    "Cache-Control": "no-store",
+  }),
 });
 
 const consoleMessage = `Note: Your browser console might be reporting several errors with the Permission-Policy header.
@@ -113,7 +116,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchSingleEntry("page-header"),
     fetchSingleEntry("footer"),
     fetchSingleEntry("cookie-banner"),
-    hasTrackingConsent({ request }),
+    trackingCookieValue({ request }),
     fetchErrors(),
     fetchMeta({ filterValue: "/" }),
     fetchTranslations("delete-data"),
@@ -124,27 +127,32 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     isFeatureFlagEnabled("showHeaderLinks"),
   ]);
 
-  return json({
-    header: {
-      ...getPageHeaderProps(strapiHeader),
-      /**
-       * Only hide the header links if we're viewing a flow page
-       */
-      hideLinks: !headerLinksEnabled || !!flowIdFromPathname(pathname),
+  return json(
+    {
+      header: {
+        ...getPageHeaderProps(strapiHeader),
+        /**
+         * Only hide the header links if we're viewing a flow page
+         */
+        hideLinks: !headerLinksEnabled || !!flowIdFromPathname(pathname),
+      },
+      footer: getFooterProps(strapiFooter),
+      cookieBannerContent: cookieBannerContent,
+      hasTrackingConsent: trackingConsent
+        ? trackingConsent === "true"
+        : undefined,
+      errorPages,
+      meta,
+      context,
+      deletionLabel: deleteDataStrings["footerLinkLabel"],
+      hasAnyUserData,
+      feedbackTranslations,
+      videoTranslations,
+      bannerState:
+        getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
     },
-    footer: getFooterProps(strapiFooter),
-    cookieBannerContent: cookieBannerContent,
-    hasTrackingConsent: trackingConsent,
-    errorPages,
-    meta,
-    context,
-    deletionLabel: deleteDataStrings["footerLinkLabel"],
-    hasAnyUserData,
-    feedbackTranslations,
-    videoTranslations,
-    bannerState:
-      getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
-  });
+    { headers: { trackingConsentSet: String(trackingConsent === undefined) } },
+  );
 };
 
 function App() {

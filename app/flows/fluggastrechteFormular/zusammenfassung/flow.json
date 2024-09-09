@@ -1,0 +1,17 @@
+{
+  "id": "zusammenfassung",
+  "initial": "start",
+  "states": {
+    "start": {
+      "on": {
+        "BACK": [
+          {
+            "guard": "isWeiterePersonenYes",
+            "target": "#persoenliche-daten.weitere-personen.uebersicht"
+          },
+          "#persoenliche-daten.weitere-personen.frage"
+        ]
+      }
+    }
+  }
+}

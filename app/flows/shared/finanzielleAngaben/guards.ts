@@ -10,6 +10,13 @@ import { type GenericGuard, yesNoGuards } from "../../guards.server";
 export type FinanzielleAngabenGuard = GenericGuard<
   ProzesskostenhilfeFinanzielleAngabenContext | BeratungshilfeFinanzielleAngaben
 >;
+export const staatlicheLeistungenIsBuergergeld: FinanzielleAngabenGuard = ({
+  context,
+}) => context.staatlicheLeistungen === "buergergeld";
+
+export const staatlicheLeistungenIsKeine: FinanzielleAngabenGuard = ({
+  context,
+}) => context.staatlicheLeistungen === "keine";
 
 export const hasPartnerschaftOrSeparated: FinanzielleAngabenGuard = ({
   context,
@@ -174,3 +181,10 @@ export const hasWeitereUnterhaltszahlungenYesAndEmptyArray: FinanzielleAngabenGu
   ({ context }) =>
     hasWeitereUnterhaltszahlungenYes({ context }) &&
     !arrayIsNonEmpty(context.unterhaltszahlungen);
+export const hasAnyEigentumExceptBankaccount: FinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.hasGeldanlage == "yes" ||
+  context.hasWertsache == "yes" ||
+  context.hasGrundeigentum == "yes" ||
+  context.hasKraftfahrzeug == "yes";

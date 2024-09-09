@@ -1,9 +1,7 @@
 import type { GenericGuard } from "~/flows/guards.server";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
-import {
-  hasGrundsicherungOrAsylbewerberleistungen,
-  finanzielleAngabeEinkuenfteGuards as guards,
-} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { finanzielleAngabeEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { staatlicheLeistungenIsBuergergeld } from "~/flows/shared/finanzielleAngaben/guards";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 export type ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
@@ -11,10 +9,12 @@ export type ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
 
 export const staatlicheLeistungenDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) =>
-    hasGrundsicherungOrAsylbewerberleistungen({ context }) ||
-    context.staatlicheLeistungenPKH === "keine" ||
-    (guards.hasBuergergeld({ context }) && context.buergergeld !== undefined) ||
-    (guards.hasArbeitslosengeld({ context }) &&
+    context.staatlicheLeistungen === "asylbewerberleistungen" ||
+    context.staatlicheLeistungen === "grundsicherung" ||
+    context.staatlicheLeistungen === "keine" ||
+    (staatlicheLeistungenIsBuergergeld({ context }) &&
+      context.buergergeld !== undefined) ||
+    (guards.staatlicheLeistungenIsArbeitslosengeld({ context }) &&
       context.arbeitslosengeld !== undefined);
 
 export const arbeitsabzuegeDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
@@ -110,7 +110,10 @@ export const furtherIncomeDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGu
 
 export const einkuenfteDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) =>
-    hasGrundsicherungOrAsylbewerberleistungen({ context }) ||
+    (context.staatlicheLeistungen != undefined &&
+      guards.hasGrundsicherungOrAsylbewerberleistungen({
+        context,
+      })) ||
     (staatlicheLeistungenDone({ context }) &&
       arbeitDone({ context }) &&
       pensionDone({ context }) &&

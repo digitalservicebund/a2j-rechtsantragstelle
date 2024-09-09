@@ -41,17 +41,17 @@ import {
   prozesskostenhilfeFinanzielleAngabenContext,
   type ProzesskostenhilfeFinanzielleAngabenContext,
 } from "./context";
-import { ausgabenDone, eigentumDone } from "./doneFunctions";
+import {
+  ausgabenDone,
+  hasRatenzahlungDone,
+  hasSonstigeAusgabeDone,
+  hasVersicherungDone,
+} from "./doneFunctions";
+import { eigentumDone } from "./eigentumDone";
 import { yesNoGuards, type Guards } from "../../guards.server";
 
 export const finanzielleAngabeGuards = {
   eigentumDone,
-  hasAnyEigentum: ({ context }) =>
-    context.hasGeldanlage == "yes" ||
-    context.hasWertsache == "yes" ||
-    context.hasGrundeigentum == "yes" ||
-    context.hasKraftfahrzeug == "yes" ||
-    context.hasBankkonto === "yes",
   hasPartnerschaftOrSeparated,
   hasPartnerschaftYes,
   hasPartnerschaftNoOrWidowed,
@@ -101,6 +101,10 @@ export const finanzielleAngabeGuards = {
   hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
   hasAusgabenYes,
+  hasAusgabenEntriesYes: ({ context }) =>
+    hasVersicherungDone({ context }) ||
+    hasRatenzahlungDone({ context }) ||
+    hasSonstigeAusgabeDone({ context }),
 
   isSonstigeVersicherung: ({ context: { pageData, versicherungen } }) => {
     const arrayIndex = firstArrayIndex(pageData);
