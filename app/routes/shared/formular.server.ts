@@ -18,7 +18,6 @@ import {
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
@@ -78,8 +77,8 @@ function getInterpolateFlowTranslations(
     return flowTranslations;
   }
 
-  /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports 
-    can not be translated, so it's required to be interpolated 
+  /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports
+    can not be translated, so it's required to be interpolated
   */
   return interpolateDeep(
     flowTranslations,
@@ -99,9 +98,7 @@ export const loader = async ({
   context.debugId = debugId; // For showing in errors
 
   const currentFlow = flows[flowId];
-  const prunedUserData = (await isFeatureFlagEnabled("pruneUserData"))
-    ? await pruneIrrelevantData(userData, flowId)
-    : userData;
+  const prunedUserData = await pruneIrrelevantData(userData, flowId);
   const userDataWithPageData = addPageDataToUserData(prunedUserData, {
     arrayIndexes,
   });
