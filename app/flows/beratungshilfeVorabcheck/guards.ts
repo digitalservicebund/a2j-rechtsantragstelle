@@ -85,10 +85,6 @@ const anyKinderAnzahlFilled: Guard = ({ context }) =>
 
 export const guards = {
   anyKinderAnzahlFilled,
-  ...yesNoGuards("rechtsschutzversicherung"),
-  ...yesNoGuards("wurdeVerklagt"),
-  ...yesNoGuards("klageEingereicht"),
-  ...yesNoGuards("hamburgOderBremen"),
   ...yesNoGuards("beratungshilfeBeantragt"),
   ...yesNoGuards("eigeninitiative"),
   staatlicheLeistungenNo: ({ context }) =>
