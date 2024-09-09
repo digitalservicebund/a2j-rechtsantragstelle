@@ -1,4 +1,4 @@
-# 10. Cache-Control: No Store
+# 10. No Caching while cookie banner visible
 
 Date: 2024-09-09
 
@@ -14,7 +14,7 @@ When the user after interacting with the banner navigates to another page and th
 
 ## Decision
 
-We decided to disable caching while the cookie banner is visible by setting the `Cache-Control: no-store` header while the cookie state is `undefined`.
+We decided to ask the browser to not cache pages while the cookie banner is visible by setting the `Cache-Control: no-store` header while the cookie state is `undefined`.
 
 This ensure that user interactions with the cookie banner are accurately reflected across pages, as no page WITH cookie banner can be saved into cache.
 
