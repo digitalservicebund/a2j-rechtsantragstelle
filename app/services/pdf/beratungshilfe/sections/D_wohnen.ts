@@ -5,36 +5,17 @@ export function fillWohnen(
   pdfFields: BeratungshilfePDF,
   context: BeratungshilfeFormularContext,
 ) {
-  pdfFields.d1Wohnung.value = context.apartmentSizeSqm?.toString() ?? "";
-  pdfFields.d2Wohnkosten.value = isLivingAlone(context)
-    ? context.apartmentCostAlone
-    : context.apartmentCostFull;
-  pdfFields.d3Teilwohnkosten.value =
-    isLivingAlone(context) ||
-    typeof context.apartmentCostOwnShare === "undefined"
-      ? ""
-      : Math.round(
-          Number(
-            context.apartmentCostOwnShare.replace(/\./g, "").replace(",", "."),
-          ),
-        ).toString();
-  pdfFields.d4Wohnungalleine.value = isLivingAlone(context);
-  pdfFields.d5Wohnunggemeinsam.value = isLivingAlone(context) === false;
-  pdfFields.d6WonungweiterePersonen.value = isLivingAlone(context)
-    ? ""
-    : (context.apartmentPersonCount?.toString() ?? "");
-}
+  pdfFields.d1Wohnung.value = context.apartmentSizeSqm?.toString();
+  pdfFields.d2Wohnkosten.value =
+    context.apartmentCostAlone ?? context.apartmentCostFull;
 
-function isLivingAlone(
-  context: BeratungshilfeFormularContext,
-): boolean | undefined {
-  switch (context.livingSituation) {
-    case "alone":
-      return true;
-    case "withOthers":
-    case "withRelatives":
-      return false;
-    default:
-      return undefined;
-  }
+  // TODO: move to anhang
+  pdfFields.d3Teilwohnkosten.value =
+    context.apartmentCostOwnShare?.split(",")[0];
+
+  const livesAlone = context.livingSituation === "alone";
+  pdfFields.d4Wohnungalleine.value = livesAlone;
+  pdfFields.d5Wohnunggemeinsam.value = !livesAlone;
+  pdfFields.d6WonungweiterePersonen.value =
+    context.apartmentPersonCount?.toString();
 }
