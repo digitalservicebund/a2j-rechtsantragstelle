@@ -8,9 +8,9 @@ Accepted
 
 ## Context
 
-Normally, any interaction with the cookie banner (accepting or declining) should hide it until cookies expire or data is actively deleted. However, we encountered a problem where the cookie banner on would reappear under certain circumstances:
+Normally, any interaction with the cookie banner (accepting or declining) should hide it until cookies expire or data is actively deleted. However, we encountered a problem where the cookie banner would reappear under certain circumstances:
 
-When the user after interacting with the banner navigates to another page and then clicks the browser's back button, the browser cache will serve the previously cached page version with the banner still visible. Because the visibility state of the banner is checked on `GET` request, the cached page would still contained the visible cookie banner.
+When the user after interacting with the banner navigates to another page and then clicks the browser's back button, the browser cache will serve the previously cached page version with the banner still visible. Because the visibility state of the banner is checked on `GET` request, the cached page would still contain the visible cookie banner.
 
 ## Decision
 
