@@ -6,11 +6,11 @@ import {
   grundeigentumArraySchema,
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
-  partnerschaftSchema,
   staatlicheLeistungen,
   unterhaltszahlungSchema,
   wertsachenArraySchema,
 } from "~/flows/shared/finanzielleAngaben/context";
+import type { FinanzielleAngabenPartnerContext } from "~/flows/shared/finanzielleAngaben/partner/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
@@ -48,14 +48,7 @@ export const beratungshilfeFinanzielleAngaben = {
     ["pupil", "student", "retiree", "no"],
     customRequiredErrorMessage,
   ),
-  partnerschaft: partnerschaftSchema,
-  zusammenleben: YesNoAnswer,
-  unterhalt: YesNoAnswer,
-  unterhaltsSumme: buildMoneyValidationSchema(),
-  partnerEinkommen: YesNoAnswer,
   partnerEinkommenSumme: buildMoneyValidationSchema(),
-  partnerVorname: stringRequiredSchema,
-  partnerNachname: stringRequiredSchema,
   hasKinder: YesNoAnswer,
   kinder: kinderArraySchema,
   hasBankkonto: YesNoAnswer,
@@ -100,4 +93,5 @@ export const beratungshilfeFinanzielleAngaben = {
 };
 
 const _contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();
-export type BeratungshilfeFinanzielleAngaben = z.infer<typeof _contextObject>;
+export type BeratungshilfeFinanzielleAngaben = z.infer<typeof _contextObject> &
+  FinanzielleAngabenPartnerContext;

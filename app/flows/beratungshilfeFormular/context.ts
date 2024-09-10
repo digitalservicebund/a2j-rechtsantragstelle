@@ -1,3 +1,4 @@
+import { finanzielleAngabenPartnerContext } from "~/flows/shared/finanzielleAngaben/partner/context";
 import { beratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
 import { beratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import { beratungshilfeGrundvoraussetzungen } from "./grundvoraussetzung/context";
@@ -10,6 +11,7 @@ export const beratungshilfeFormularContext = {
   ...beratungshilfeGrundvoraussetzungen,
   ...beratungshilfeRechtsproblem,
   ...beratungshilfeFinanzielleAngaben,
+  ...finanzielleAngabenPartnerContext,
   ...beratungshilfePersoenlicheDaten,
   ...abgabeContext,
 } as const;
