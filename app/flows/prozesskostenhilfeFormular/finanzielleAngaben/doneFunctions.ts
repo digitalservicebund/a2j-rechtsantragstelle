@@ -22,8 +22,7 @@ export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   ["no", "widowed"].includes(context.partnerschaft ?? "") ||
   context.unterhalt == "no" ||
   context.partnerEinkommen == "no" ||
-  context.partnerEinkommenSumme != undefined ||
-  (context.partnerNachname != undefined && context.partnerVorname != undefined);
+  context.partnerEinkommenSumme != undefined;
 
 export const kinderDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
