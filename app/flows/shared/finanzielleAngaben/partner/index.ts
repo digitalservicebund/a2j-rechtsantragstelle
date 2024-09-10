@@ -16,10 +16,8 @@ export function getFinanzielleAngabenPartnerSubflow<T extends Context>(
   doneFunction: GenericGuard<T>,
   targetReplacements: TargetReplacements,
 ) {
-  return interpolateDeep(
-    _.merge(_.cloneDeep(finanzielleAngabenPartnerFlow), {
-      meta: { done: doneFunction },
-    }),
-    targetReplacements,
+  return _.merge(
+    interpolateDeep(finanzielleAngabenPartnerFlow, targetReplacements),
+    { meta: { done: doneFunction } },
   );
 }
