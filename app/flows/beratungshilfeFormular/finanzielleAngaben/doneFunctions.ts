@@ -32,7 +32,8 @@ export const partnerDone: BeratungshilfeFinanzielleAngabenGuard = ({
   ["no", "widowed"].includes(context.partnerschaft ?? "") ||
   context.unterhalt == "no" ||
   context.partnerEinkommen == "no" ||
-  context.partnerEinkommenSumme != undefined;
+  context.partnerEinkommenSumme != undefined ||
+  (context.partnerNachname != undefined && context.partnerVorname != undefined);
 
 export const kinderDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
