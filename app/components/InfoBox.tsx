@@ -16,26 +16,28 @@ const InfoBox = ({ identifier, items, heading, separator }: InfoBoxProps) => {
   return (
     <div className="ds-stack-8 scroll-my-40" id={identifier}>
       {heading && <Heading {...heading} />}
-      <ul
-        className={classNames("list-none ps-0 info-box", {
-          "ds-stack-48": !separator,
-          "ds-stack-32": separator,
-        })}
-      >
-        {items.map((item) => (
-          <InfoBoxItem
-            separator={separator}
-            {...item}
-            key={
-              item.identifier ??
-              item.headline?.text ??
-              item.content ??
-              item.label?.text ??
-              ""
-            }
-          />
-        ))}
-      </ul>
+      {items.length > 0 && (
+        <ul
+          className={classNames("list-none ps-0 info-box", {
+            "ds-stack-48": !separator,
+            "ds-stack-32": separator,
+          })}
+        >
+          {items.map((item) => (
+            <InfoBoxItem
+              separator={separator}
+              {...item}
+              key={
+                item.identifier ??
+                item.headline?.text ??
+                item.content ??
+                item.label?.text ??
+                ""
+              }
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
