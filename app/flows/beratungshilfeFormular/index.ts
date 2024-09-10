@@ -1,6 +1,6 @@
 import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
-import type { TargetReplacements } from "~/flows/shared/finanzielleAngaben/partner";
+import type { FinanzielleAngabenPartnerTargetReplacements } from "~/flows/shared/finanzielleAngaben/partner";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 import abgabeFlow from "./abgabe/flow.json";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
@@ -59,13 +59,14 @@ import {
   getKinderStrings,
 } from "../shared/stringReplacements";
 
-export const finanzielleAngabenPartnerTargetReplacements: TargetReplacements = {
-  backStep: "#einkommen.einkommen",
-  playsNoRoleTarget: "#kinder.kinder-frage",
-  partnerNameTarget: "#kinder.kinder-frage",
-  partnerIncomeTarget: "partner-einkommen-summe",
-  nextStep: "#kinder.kinder-frage",
-};
+export const beratungshilfeFinanzielleAngabenPartnerTargetReplacements: FinanzielleAngabenPartnerTargetReplacements =
+  {
+    backStep: "#einkommen.einkommen",
+    playsNoRoleTarget: "#kinder.kinder-frage",
+    partnerNameTarget: "#kinder.kinder-frage",
+    partnerIncomeTarget: "partner-einkommen-summe",
+    nextStep: "#kinder.kinder-frage",
+  };
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -99,7 +100,7 @@ export const beratungshilfeFormular = {
           einkommen: { meta: { done: einkommenDone } },
           partner: getFinanzielleAngabenPartnerSubflow(
             partnerDone,
-            finanzielleAngabenPartnerTargetReplacements,
+            beratungshilfeFinanzielleAngabenPartnerTargetReplacements,
           ),
           kinder: { meta: { done: kinderDone } },
           "andere-unterhaltszahlungen": {

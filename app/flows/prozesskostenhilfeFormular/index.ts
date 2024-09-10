@@ -3,6 +3,8 @@ import type { Flow } from "~/flows/flows.server";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import type { FinanzielleAngabenPartnerTargetReplacements } from "~/flows/shared/finanzielleAngaben/partner";
+import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 import abgabeFlow from "./abgabe/flow.json";
 import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
@@ -16,6 +18,7 @@ import {
 } from "./finanzielleAngaben/doneFunctions";
 import { eigentumDone } from "./finanzielleAngaben/eigentumDone";
 import einkuenfteFlow from "./finanzielleAngaben/einkuenfte/flow.json";
+import partnerEinkuenfteFlow from "./finanzielleAngaben/einkuenfte/partnerFlow.json";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import prozesskostenhilfeFormularFlow from "./flow.json";
@@ -28,6 +31,15 @@ import {
   getArrayIndexStrings,
   getKinderStrings,
 } from "../shared/stringReplacements";
+
+export const prozesskostenhilfeFinanzielleAngabenPartnerTargetReplacements: FinanzielleAngabenPartnerTargetReplacements =
+  {
+    backStep: "", // blank as we're overrriding later
+    playsNoRoleTarget: "#partner-einkuenfte",
+    partnerNameTarget: "#partner-einkuenfte",
+    partnerIncomeTarget: "#kinder", // TODO: fix this after flow fully exists
+    nextStep: "#andere-unterhaltszahlungen",
+  };
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -49,7 +61,31 @@ export const prozesskostenhilfeFormular = {
           einkuenfte: _.merge(einkuenfteFlow, {
             meta: { done: einkuenfteDone },
           }),
-          partner: { meta: { done: partnerDone } },
+          partner: _.merge(
+            getFinanzielleAngabenPartnerSubflow(
+              partnerDone,
+              prozesskostenhilfeFinanzielleAngabenPartnerTargetReplacements,
+            ),
+            // Need to override the default back step, as there's no way to interpolate a series of guards
+            {
+              states: {
+                partnerschaft: {
+                  on: {
+                    BACK: [
+                      {
+                        guard: "hasFurtherIncome",
+                        target: "#einkuenfte.weitere-einkuenfte.uebersicht",
+                      },
+                      "#einkuenfte.weitere-einkuenfte.frage",
+                    ],
+                  },
+                },
+              },
+            },
+          ),
+          "partner-einkuenfte": _.merge(partnerEinkuenfteFlow, {
+            meta: { done: einkuenfteDone }, // TODO: add proper partner einkuenfte done function
+          }),
           kinder: { meta: { done: kinderDone } },
           "andere-unterhaltszahlungen": {
             meta: { done: andereUnterhaltszahlungenDone },
