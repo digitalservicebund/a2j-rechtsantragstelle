@@ -1,7 +1,4 @@
-import {
-  guards,
-  isIncomeTooHigh,
-} from "~/flows/beratungshilfeVorabcheck/guards";
+import { guards } from "~/flows/beratungshilfeVorabcheck/guards";
 
 describe("isIncomeTooHigh", () => {
   it("returns false for random example case", () => {
@@ -16,7 +13,7 @@ describe("isIncomeTooHigh", () => {
       },
       einkommenKinder: "100",
     };
-    expect(isIncomeTooHigh({ context })).toEqual(false);
+    expect(guards.isIncomeTooHigh({ context })).toEqual(false);
   });
 });
 

@@ -1,5 +1,7 @@
+import { and, not } from "xstate";
 import type { Config } from "~/services/flow/server/buildFlowController";
-import type { BeratungshilfeVorabcheckContext } from "./context";
+import { type BeratungshilfeVorabcheckContext } from "./context";
+import { guards } from "./guards";
 
 export const beratungshilfeVorabcheckXstateConfig = {
   id: "/beratungshilfe/vorabcheck",
@@ -83,40 +85,32 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "eigeninitiative",
-            guard: "beratungshilfeBeantragtNo",
+            guard: ({ context }) => context.beratungshilfeBeantragt === "no",
           },
           {
             target: "ergebnis/beratungshilfe-beantragt-abbruch",
-            guard: "beratungshilfeBeantragtYes",
+            guard: ({ context }) => context.beratungshilfeBeantragt === "yes",
           },
         ],
-        BACK: {
-          target: "hamburg-oder-bremen",
-        },
+        BACK: "hamburg-oder-bremen",
       },
     },
     "ergebnis/beratungshilfe-beantragt-abbruch": {
-      on: {
-        BACK: {
-          target: "beratungshilfe-beantragt",
-        },
-      },
+      on: { BACK: "beratungshilfe-beantragt" },
     },
     eigeninitiative: {
       on: {
         SUBMIT: [
           {
             target: "bereich",
-            guard: "eigeninitiativeYes",
+            guard: ({ context }) => context.eigeninitiative === "yes",
           },
           {
             target: "eigeninitiative-warnung",
-            guard: "eigeninitiativeNo",
+            guard: ({ context }) => context.eigeninitiative === "no",
           },
         ],
-        BACK: {
-          target: "beratungshilfe-beantragt",
-        },
+        BACK: "beratungshilfe-beantragt",
       },
     },
     "eigeninitiative-warnung": {
@@ -124,9 +118,7 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: {
           target: "bereich",
         },
-        BACK: {
-          target: "eigeninitiative",
-        },
+        BACK: "eigeninitiative",
       },
     },
     bereich: {
@@ -138,7 +130,7 @@ export const beratungshilfeVorabcheckXstateConfig = {
         BACK: [
           {
             target: "eigeninitiative-warnung",
-            guard: "eigeninitiativeNo",
+            guard: ({ context }) => context.eigeninitiative === "no",
           },
           "eigeninitiative",
         ],
@@ -149,15 +141,18 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "ergebnis/staatliche-leistungen-abschluss-vielleicht",
-            guard: "staatlicheLeistungenYesButNoEigeninitiative",
+            guard: and([
+              guards.staatlicheLeistungenYes,
+              ({ context }) => context.eigeninitiative === "no",
+            ]),
           },
           {
             target: "ergebnis/staatliche-leistungen-abschluss-ja",
-            guard: "staatlicheLeistungenYes",
+            guard: guards.staatlicheLeistungenYes,
           },
           {
             target: "vermoegen",
-            guard: "staatlicheLeistungenNo",
+            guard: guards.staatlicheLeistungenNo,
           },
         ],
         BACK: "bereich",
@@ -165,16 +160,12 @@ export const beratungshilfeVorabcheckXstateConfig = {
     },
     "ergebnis/staatliche-leistungen-abschluss-ja": {
       on: {
-        BACK: {
-          target: "staatliche-leistungen",
-        },
+        BACK: "staatliche-leistungen",
       },
     },
     "ergebnis/staatliche-leistungen-abschluss-vielleicht": {
       on: {
-        BACK: {
-          target: "staatliche-leistungen",
-        },
+        BACK: "staatliche-leistungen",
       },
     },
     vermoegen: {
@@ -182,52 +173,48 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "ergebnis/vermoegen-abschluss-vielleicht",
-            guard: "vermoegenBelow10kAndBuergergeldButNoEigeninitiative",
+            guard: ({ context }) =>
+              context.vermoegen === "below_10k" &&
+              context.staatlicheLeistungen === "buergergeld" &&
+              context.eigeninitiative === "no",
           },
           {
             target: "ergebnis/vermoegen-abschluss-ja",
-            guard: "vermoegenBelow10kAndBuergergeld",
+            guard: ({ context }) =>
+              context.vermoegen === "below_10k" &&
+              context.staatlicheLeistungen === "buergergeld",
           },
           {
             target: "erwerbstaetigkeit",
-            guard: "vermoegenBelow10k",
+            guard: ({ context }) => context.vermoegen === "below_10k",
           },
           {
             target: "ergebnis/vermoegen-abbruch",
-            guard: "vermoegenAbove10k",
+            guard: ({ context }) => context.vermoegen === "above_10k",
           },
         ],
-        BACK: {
-          target: "staatliche-leistungen",
-        },
+        BACK: "staatliche-leistungen",
       },
     },
     "ergebnis/vermoegen-abschluss-ja": {
       on: {
-        BACK: {
-          target: "vermoegen",
-        },
+        BACK: "vermoegen",
       },
     },
     "ergebnis/vermoegen-abschluss-vielleicht": {
       on: {
-        BACK: {
-          target: "vermoegen",
-        },
+        BACK: "vermoegen",
       },
     },
     "ergebnis/vermoegen-abbruch": {
       on: {
-        BACK: {
-          target: "vermoegen",
-        },
+        BACK: "vermoegen",
       },
     },
     erwerbstaetigkeit: {
       on: {
         SUBMIT: {
           target: "partnerschaft",
-          guard: "erwerbstaetigkeitYesOrNo",
         },
         BACK: {
           target: "vermoegen",
@@ -238,7 +225,6 @@ export const beratungshilfeVorabcheckXstateConfig = {
       on: {
         SUBMIT: {
           target: "genauigkeit",
-          guard: "partnerschaftYesOrNo",
         },
         BACK: {
           target: "erwerbstaetigkeit",
@@ -250,16 +236,14 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "kinder-kurz",
-            guard: "genauigkeitNo",
+            guard: ({ context }) => context.genauigkeit === "no",
           },
           {
             target: "einkommen",
-            guard: "genauigkeitYes",
+            guard: ({ context }) => context.genauigkeit === "yes",
           },
         ],
-        BACK: {
-          target: "partnerschaft",
-        },
+        BACK: "partnerschaft",
       },
     },
     "kinder-kurz": {
@@ -267,11 +251,11 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "kinder-anzahl-kurz",
-            guard: "kinderKurzYes",
+            guard: ({ context }) => context.kinderKurz === "yes",
           },
           {
             target: "verfuegbares-einkommen",
-            guard: "kinderKurzNo",
+            guard: ({ context }) => context.kinderKurz === "no",
           },
         ],
         BACK: {
@@ -283,7 +267,7 @@ export const beratungshilfeVorabcheckXstateConfig = {
       on: {
         SUBMIT: {
           target: "verfuegbares-einkommen",
-          guard: "kinderAnzahlKurzFilled",
+          guard: ({ context }) => context.kinderAnzahlKurz != null,
         },
         BACK: {
           target: "kinder-kurz",
@@ -295,21 +279,23 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "ergebnis/verfuegbares-einkommen-abschluss-ja",
-            guard: "verfuegbaresEinkommenNoAndTriedFreeActions",
+            guard: ({ context }) =>
+              context.verfuegbaresEinkommen === "no" &&
+              context.eigeninitiative === "yes",
           },
           {
             target: "ergebnis/verfuegbares-einkommen-abschluss-vielleicht",
-            guard: "verfuegbaresEinkommenNo",
+            guard: ({ context }) => context.verfuegbaresEinkommen === "no",
           },
           {
             target: "ergebnis/verfuegbares-einkommen-abschluss-nein",
-            guard: "verfuegbaresEinkommenYes",
+            guard: ({ context }) => context.verfuegbaresEinkommen === "yes",
           },
         ],
         BACK: [
           {
             target: "kinder-anzahl-kurz",
-            guard: "kinderKurzYes",
+            guard: ({ context }) => context.kinderKurz === "yes",
           },
           {
             target: "kinder-kurz",
@@ -319,23 +305,17 @@ export const beratungshilfeVorabcheckXstateConfig = {
     },
     "ergebnis/verfuegbares-einkommen-abschluss-ja": {
       on: {
-        BACK: {
-          target: "verfuegbares-einkommen",
-        },
+        BACK: "verfuegbares-einkommen",
       },
     },
     "ergebnis/verfuegbares-einkommen-abschluss-vielleicht": {
       on: {
-        BACK: {
-          target: "verfuegbares-einkommen",
-        },
+        BACK: "verfuegbares-einkommen",
       },
     },
     "ergebnis/verfuegbares-einkommen-abschluss-nein": {
       on: {
-        BACK: {
-          target: "verfuegbares-einkommen",
-        },
+        BACK: "verfuegbares-einkommen",
       },
     },
     einkommen: {
@@ -343,16 +323,14 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "einkommen-partner",
-            guard: "partnerschaftYes",
+            guard: ({ context }) => context.partnerschaft === "yes",
           },
           {
             target: "kinder",
-            guard: "partnerschaftNo",
+            guard: ({ context }) => context.partnerschaft === "no",
           },
         ],
-        BACK: {
-          target: "genauigkeit",
-        },
+        BACK: "genauigkeit",
       },
     },
     "einkommen-partner": {
@@ -360,9 +338,7 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: {
           target: "kinder",
         },
-        BACK: {
-          target: "einkommen",
-        },
+        BACK: "einkommen",
       },
     },
     kinder: {
@@ -370,21 +346,21 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "kinder-anzahl",
-            guard: "kinderYes",
+            guard: ({ context }) => context.kinder === "yes",
           },
           {
             target: "unterhalt",
-            guard: "kinderNo",
+            guard: ({ context }) => context.kinder === "no",
           },
         ],
         BACK: [
           {
             target: "einkommen-partner",
-            guard: "partnerschaftYes",
+            guard: ({ context }) => context.partnerschaft === "yes",
           },
           {
             target: "einkommen",
-            guard: "partnerschaftNo",
+            guard: ({ context }) => context.partnerschaft === "no",
           },
         ],
       },
@@ -393,22 +369,18 @@ export const beratungshilfeVorabcheckXstateConfig = {
       on: {
         SUBMIT: {
           target: "einkommen-kinder",
-          guard: "anyKinderAnzahlFilled",
+          guard: guards.anyKinderAnzahlFilled,
         },
-        BACK: {
-          target: "kinder",
-        },
+        BACK: "kinder",
       },
     },
     "einkommen-kinder": {
       on: {
         SUBMIT: {
           target: "unterhalt",
-          guard: "einkommenKinderFilled",
+          guard: ({ context }) => context.einkommenKinder != undefined,
         },
-        BACK: {
-          target: "kinder-anzahl",
-        },
+        BACK: "kinder-anzahl",
       },
     },
     unterhalt: {
@@ -416,21 +388,21 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "unterhalt-summe",
-            guard: "unterhaltYes",
+            guard: ({ context }) => context.unterhalt === "yes",
           },
           {
             target: "miete",
-            guard: "unterhaltNo",
+            guard: ({ context }) => context.unterhalt === "no",
           },
         ],
         BACK: [
           {
             target: "einkommen-kinder",
-            guard: "kinderYes",
+            guard: ({ context }) => context.kinder === "yes",
           },
           {
             target: "kinder",
-            guard: "kinderNo",
+            guard: ({ context }) => context.kinder === "no",
           },
         ],
       },
@@ -439,27 +411,25 @@ export const beratungshilfeVorabcheckXstateConfig = {
       on: {
         SUBMIT: {
           target: "miete",
-          guard: "unterhaltSummeFilled",
+          guard: ({ context }) => context.unterhaltSumme != undefined,
         },
-        BACK: {
-          target: "unterhalt",
-        },
+        BACK: "unterhalt",
       },
     },
     miete: {
       on: {
         SUBMIT: {
           target: "weitere-zahlungen-summe",
-          guard: "mieteFilled",
+          guard: ({ context }) => context.miete != undefined,
         },
         BACK: [
           {
             target: "unterhalt-summe",
-            guard: "unterhaltYes",
+            guard: ({ context }) => context.unterhalt === "yes",
           },
           {
             target: "unterhalt",
-            guard: "unterhaltNo",
+            guard: ({ context }) => context.unterhalt === "no",
           },
         ],
       },
@@ -469,41 +439,36 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "ergebnis/weitere-zahlungen-summe-abschluss-vielleicht",
-            guard: "weitereZahlungenSummeWithWarnings",
+            guard: and([
+              not(guards.isIncomeTooHigh),
+              guards.anyNonCriticalWarning,
+            ]),
           },
           {
             target: "ergebnis/weitere-zahlungen-summe-abschluss-nein",
-            guard: "weitereZahlungenSummeIncomeTooHigh",
+            guard: guards.isIncomeTooHigh,
           },
           {
             target: "ergebnis/weitere-zahlungen-summe-abschluss-ja",
-            guard: "weitereZahlungenSummeFilled",
+            guard: ({ context }) => context.weitereZahlungenSumme != undefined,
           },
         ],
-        BACK: {
-          target: "miete",
-        },
+        BACK: "miete",
       },
     },
     "ergebnis/weitere-zahlungen-summe-abschluss-vielleicht": {
       on: {
-        BACK: {
-          target: "weitere-zahlungen-summe",
-        },
+        BACK: "weitere-zahlungen-summe",
       },
     },
     "ergebnis/weitere-zahlungen-summe-abschluss-nein": {
       on: {
-        BACK: {
-          target: "weitere-zahlungen-summe",
-        },
+        BACK: "weitere-zahlungen-summe",
       },
     },
     "ergebnis/weitere-zahlungen-summe-abschluss-ja": {
       on: {
-        BACK: {
-          target: "weitere-zahlungen-summe",
-        },
+        BACK: "weitere-zahlungen-summe",
       },
     },
   },
