@@ -21,7 +21,7 @@
             ],
             "SUBMIT": [
               {
-                "guard": "hasPartnerschaftOrSeparated",
+                "guard": "hasPartnerschaftYes",
                 "target": "zusammenleben"
               }
             ]
@@ -126,7 +126,7 @@
                 "target": "#partner.unterhalt"
               },
               {
-                "guard": "hasPartnerschaftOrSeparated",
+                "guard": "hasPartnerschaftYes",
                 "target": "#partner.zusammenleben"
               },
               "#partner"

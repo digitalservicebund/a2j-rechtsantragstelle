@@ -19,7 +19,7 @@ export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
     einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
       context,
     })) ||
-  ["no", "widowed"].includes(context.partnerschaft ?? "") ||
+  ["no", "widowed", "separated"].includes(context.partnerschaft ?? "") ||
   context.unterhalt == "no" ||
   context.partnerEinkommen == "no" ||
   context.partnerEinkommenSumme != undefined ||
