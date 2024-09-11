@@ -26,9 +26,6 @@ export const fluggastrechtePersoenlichDaten = {
   telefonnummer: optionalOrSchema(phoneNumberSchema),
   unter18JahreAlt: checkedOptional,
   ...fluggastrechtePersoenlichVertretungDaten,
-  isProzessbevollmaechtigte: YesNoAnswer,
-  vornameVollmaechtigte: stringRequiredSchema,
-  vollmaechtigteNachname: stringRequiredSchema,
   isWeiterePersonen: YesNoAnswer,
   weiterePersonen: z.array(
     z

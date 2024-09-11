@@ -98,10 +98,6 @@ export async function startFluggastrechteFormular(
   await formular.fillInput("telefonnummer", "015111225588");
   await formular.clickNext();
 
-  // /fluggastrechte/formular/persoenliche-daten/person/antragsteller-angeben
-  await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("isProzessbevollmaechtigte", "no");
-
   // /fluggastrechte/formular/persoenliche-daten/weitere-personen/frage
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("isWeiterePersonen", "no");
