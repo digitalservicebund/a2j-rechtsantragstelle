@@ -38,6 +38,21 @@ describe("template utilities", () => {
       ).toEqual("New String!");
     });
 
+    it("should interpolate deeply into nested objects", () => {
+      const inputObj = {
+        prop1: "bar",
+        prop2: {
+          prop3: {
+            prop4: "{{replaceMe}}",
+          },
+        },
+      };
+      const interpolatedObj = interpolateSerializableObject(inputObj, {
+        replaceMe: "New String!",
+      });
+      expect(interpolatedObj.prop2.prop3.prop4).toBe("New String!");
+    });
+
     it("should replace the template strings in an object with the given replacements", () => {
       const inputObj = {
         prop1: "bar",
