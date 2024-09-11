@@ -67,7 +67,7 @@
     "match-sorter": "^6.3.4",
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
-    "posthog-js": "^1.161.2",
+    "posthog-js": "^1.161.3",
     "posthog-node": "^4.2.0",
     "rate-limit-redis": "^4.2.0",
     "react-collapsed": "^4.1.2",
@@ -132,7 +132,7 @@
     "typescript": "^5.6.2",
     "vite-env-only": "^3.0.3",
     "vite-tsconfig-paths": "^5.0.1",
-    "vite": "^5.4.3",
+    "vite": "^5.4.4",
     "vitest": "^2.0.5"
   },
   "engines": {
