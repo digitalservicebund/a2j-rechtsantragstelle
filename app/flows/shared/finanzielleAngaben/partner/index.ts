@@ -2,7 +2,7 @@ import _ from "lodash";
 import type { Context } from "~/flows/contexts";
 import type { GenericGuard } from "~/flows/guards.server";
 import finanzielleAngabenPartnerFlow from "~/flows/shared/finanzielleAngaben/partner/flow.json";
-import { interpolateDeep } from "~/util/fillTemplate";
+import { interpolateSerializableObject } from "~/util/fillTemplate";
 
 export type FinanzielleAngabenPartnerTargetReplacements = {
   backStep: string;
@@ -17,7 +17,10 @@ export function getFinanzielleAngabenPartnerSubflow<T extends Context>(
   targetReplacements: FinanzielleAngabenPartnerTargetReplacements,
 ) {
   return _.merge(
-    interpolateDeep(finanzielleAngabenPartnerFlow, targetReplacements),
+    interpolateSerializableObject(
+      finanzielleAngabenPartnerFlow,
+      targetReplacements,
+    ),
     { meta: { done: doneFunction } },
   );
 }

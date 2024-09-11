@@ -10,8 +10,12 @@ type FillTemplateOpts = {
 export const fillTemplate = ({ template, replacements }: FillTemplateOpts) =>
   replacements ? mustache.render(template, replacements) : template;
 
-export function interpolateDeep<T>(input: T, replacements?: Replacements) {
+export function interpolateSerializableObject<T>(
+  input: T,
+  replacements?: Replacements,
+) {
   if (!replacements) return input;
+  // Note: JSON.stringiy will remove any non-serializable properties such as functions
   return JSON.parse(
     fillTemplate({
       template: JSON.stringify(input),
