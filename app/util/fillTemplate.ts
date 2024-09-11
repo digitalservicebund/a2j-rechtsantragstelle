@@ -21,5 +21,12 @@ export function interpolateSerializableObject<T>(
       template: JSON.stringify(input),
       replacements,
     }),
+    throwIfFunction,
   ) as T;
 }
+
+export const throwIfFunction = (key: string, val: unknown) => {
+  if (typeof val === "function")
+    throw Error(`key ${key} is a function and can't be serialized`);
+  return val;
+};
