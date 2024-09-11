@@ -15,6 +15,7 @@ export function interpolateSerializableObject<T>(
   replacements?: Replacements,
 ) {
   if (!replacements) return input;
+  // Note: JSON.stringiy will remove any non-serializable properties such as functions
   return JSON.parse(
     fillTemplate({
       template: JSON.stringify(input),
