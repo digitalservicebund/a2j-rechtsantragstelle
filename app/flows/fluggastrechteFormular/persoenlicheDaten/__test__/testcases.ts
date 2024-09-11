@@ -46,7 +46,6 @@ const cases = [
     },
     [
       "persoenliche-daten/person/daten",
-      "persoenliche-daten/person/vertretung-minderjaehrige",
       "persoenliche-daten/weitere-personen/frage",
       "zusammenfassung/start",
     ],
@@ -67,7 +66,6 @@ const cases = [
     },
     [
       "persoenliche-daten/person/daten",
-      "persoenliche-daten/person/vertretung-minderjaehrige",
       "persoenliche-daten/weitere-personen/frage",
       "persoenliche-daten/weitere-personen/uebersicht",
       "zusammenfassung/start",
