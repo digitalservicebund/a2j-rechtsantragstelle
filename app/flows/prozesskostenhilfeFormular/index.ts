@@ -1,7 +1,8 @@
 import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
-import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
+import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
+import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/flow";
 import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import type { FinanzielleAngabenPartnerTargetReplacements } from "~/flows/shared/finanzielleAngaben/partner";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
@@ -16,9 +17,6 @@ import {
   kinderDone,
   partnerDone,
 } from "./finanzielleAngaben/doneFunctions";
-import { eigentumDone } from "./finanzielleAngaben/eigentumDone";
-import einkuenfteFlow from "./finanzielleAngaben/einkuenfte/flow.json";
-import partnerEinkuenfteFlow from "./finanzielleAngaben/einkuenfte/partnerFlow.json";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import prozesskostenhilfeFormularFlow from "./flow.json";
@@ -58,9 +56,7 @@ export const prozesskostenhilfeFormular = {
       start: { meta: { done: () => true } },
       "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
         states: {
-          einkuenfte: _.merge(einkuenfteFlow, {
-            meta: { done: einkuenfteDone },
-          }),
+          einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(),
           partner: _.merge(
             getFinanzielleAngabenPartnerSubflow(
               partnerDone,
@@ -83,9 +79,10 @@ export const prozesskostenhilfeFormular = {
               },
             },
           ),
-          "partner-einkuenfte": _.merge(partnerEinkuenfteFlow, {
-            meta: { done: einkuenfteDone }, // TODO: add proper partner einkuenfte done function
-          }),
+          "partner-einkuenfte": getProzesskostenhilfeEinkuenfteSubflow(
+            "partner",
+            () => false, // TODO: replace with actual doneFunction
+          ),
           kinder: { meta: { done: kinderDone } },
           "andere-unterhaltszahlungen": {
             meta: { done: andereUnterhaltszahlungenDone },
