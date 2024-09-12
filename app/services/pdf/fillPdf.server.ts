@@ -41,6 +41,10 @@ async function readRelativeFileToBuffer(relativeFilepath: string) {
   }
 }
 
+const customFontBytes = fs.readFileSync(
+  path.join(process.cwd(), "/public/fonts/", "BundesSansWeb-Regular.woff"),
+);
+
 type FillPdfProps = {
   flowId: FlowId;
   pdfValues: Record<string, BooleanField | StringField>;
@@ -64,12 +68,6 @@ export async function fillPdf({
   const form = pdfDoc.getForm();
 
   pdfDoc.registerFontkit(fontkit);
-  const fontFilePath = path.join(
-    process.cwd(),
-    "/public/fonts/",
-    "BundesSansWeb-Regular.woff",
-  );
-  const customFontBytes = fs.readFileSync(fontFilePath);
   const customFont = await pdfDoc.embedFont(customFontBytes);
   const rawUpdateFieldAppearances = form.updateFieldAppearances.bind(form);
   form.updateFieldAppearances = () => rawUpdateFieldAppearances(customFont);
