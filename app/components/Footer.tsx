@@ -17,19 +17,6 @@ export type FooterProps = Readonly<{
   showDeletionBanner?: boolean;
 }>;
 
-const renderLink = (link: LinkProps) => {
-  return (
-    <li key={link.url} className="leading-snug">
-      <StandaloneLink text={link.text ?? ""} url={link.url} />
-    </li>
-  );
-};
-const renderLinks = (links: LinkProps[]) => (
-  <ul className="list-none m-0 p-0 ds-stack-8" key={links[0]?.url}>
-    {links.map(renderLink)}
-  </ul>
-);
-
 export default function Footer({
   image,
   paragraphs = [],
@@ -37,10 +24,6 @@ export default function Footer({
   deletionLabel,
   showDeletionBanner = false,
 }: FooterProps) {
-  const linksMiddleIndex = Math.ceil(links.length / 2);
-  const linksFirstColumn: typeof links = links.slice(0, linksMiddleIndex);
-  const linksSecondColumn: typeof links = links.slice(linksMiddleIndex);
-
   return (
     <Container paddingTop="48" paddingBottom="0">
       <div
@@ -67,8 +50,13 @@ export default function Footer({
         </div>
 
         <nav className="flex flex-wrap gap-x-32 gap-y-8" aria-label="Footer">
-          {renderLinks(linksFirstColumn)}
-          {renderLinks(linksSecondColumn)}
+          <ul className="list-none m-0 p-0 space-y-8 columns-2">
+            {links.map((link) => (
+              <li key={link.url} className="leading-snug">
+                <StandaloneLink text={link.text ?? ""} url={link.url} />
+              </li>
+            ))}
+          </ul>
         </nav>
       </div>
       {showDeletionBanner && (

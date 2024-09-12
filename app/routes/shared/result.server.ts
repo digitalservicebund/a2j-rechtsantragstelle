@@ -18,7 +18,7 @@ import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import { getSessionData, getSessionManager } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { interpolateDeep } from "~/util/fillTemplate";
+import { interpolateSerializableObject } from "~/util/fillTemplate";
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
@@ -68,7 +68,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       fetchTranslations("defaultTranslations"),
     ]);
 
-  const cmsContent = interpolateDeep(
+  const cmsContent = interpolateSerializableObject(
     resultPageContent,
     "stringReplacements" in currentFlow
       ? currentFlow.stringReplacements(userData)
