@@ -49,30 +49,41 @@ export function fillFinancialBankkonto(
       : "";
 
   if (bankkonten.length == 1) {
-    const bankkonto = bankkonten.pop();
-
-    pdfFields.f1InhaberA.value = bankkonto?.kontoEigentuemer == "myself";
-    pdfFields.f2InhaberB.value = bankkonto?.kontoEigentuemer == "partner";
+    const bankkonto = bankkonten[0];
+    pdfFields.f1InhaberA.value = bankkonto.kontoEigentuemer == "myself";
+    pdfFields.f2InhaberB.value = bankkonto.kontoEigentuemer == "partner";
     pdfFields.f2InhaberC.value =
-      bankkonto?.kontoEigentuemer == "myselfAndPartner";
+      bankkonto.kontoEigentuemer == "myselfAndPartner";
 
-    const bezeichnung = getBankkontoBezeichnung(bankkonto);
-
-    pdfFields.f3Bank1.value += bezeichnung.join(", ");
-    pdfFields.f4Kontostand.value = `${bankkonto?.kontostand ?? ""} €`;
+    pdfFields.f3Bank1.value += `Bank: ${bankkonto.bankName}`;
+    if (bankkonto.kontoDescription)
+      pdfFields.f3Bank1.value += `Bezeichnung: ${bankkonto.kontoDescription}`;
+    pdfFields.f4Kontostand.value = bankkonto.kontostand + " €";
   } else {
-    const bezeichnung: string[] = [];
-
-    bankkonten.forEach((bankkonto) => {
-      bezeichnung.push(getBankkontoBezeichnung(bankkonto, true).join("\n"));
+    attachment.push({
+      title: "Bankkonten",
+      level: "h3",
     });
+
+    bankkonten.forEach(
+      (
+        { bankName, kontoEigentuemer, kontostand, kontoDescription, iban },
+        index,
+      ) => {
+        attachment.push(
+          { title: `Bankkonto ${index + 1}`, level: "h4" },
+          { title: "Bank", text: bankName },
+          { title: "Eigentümer", text: eigentuemerMapping[kontoEigentuemer] },
+          { title: "Kontostand", text: kontostand + " €" },
+        );
+
+        if (kontoDescription)
+          attachment.push({ title: "Beschreibung", text: kontoDescription });
+        if (iban) attachment.push({ title: "Iban", text: iban });
+      },
+    );
 
     pdfFields.f3Bank1.value += newPageHint;
-
-    attachment.unshift({
-      title: "Bankkonten",
-      text: bezeichnung.join("\n\n"),
-    });
   }
 }
 
@@ -235,39 +246,6 @@ function getGrundeigentumBezeichnung(
     bezeichnung.push(`Verkehrswert: ${grundeigentum.verkaufswert} €`);
   }
   if (grundeigentum.isBewohnt === "yes") bezeichnung.push("Eigennutzung");
-
-  return bezeichnung;
-}
-
-type Bankkonto = NonNullable<BeratungshilfeFormularContext["bankkonten"]>[0];
-
-function getBankkontoBezeichnung(
-  bankkonto?: Bankkonto,
-  hasMultipleBankkonto = false,
-) {
-  const bezeichnung = [];
-
-  if (bankkonto?.bankName) {
-    bezeichnung.push(`Bank: ${bankkonto.bankName}`);
-  }
-
-  if (
-    bankkonto?.kontoEigentuemer &&
-    eigentuemerMapping[bankkonto?.kontoEigentuemer]
-  ) {
-    bezeichnung.push(
-      `Eigentümer:in: ${eigentuemerMapping[bankkonto?.kontoEigentuemer]}`,
-    );
-  }
-
-  if (hasMultipleBankkonto) {
-    bezeichnung.push(
-      `Kontostand: ${bankkonto?.kontostand ? bankkonto?.kontostand + " €" : "Keine Angabe"}`,
-    );
-  }
-
-  if (bankkonto?.kontoDescription)
-    bezeichnung.push(`Bezeichnung: ${bankkonto?.kontoDescription}`);
 
   return bezeichnung;
 }

@@ -34,9 +34,7 @@ describe("F_besitz", () => {
       expect(pdfFields.f1InhaberA.value).toBe(true);
       expect(pdfFields.f2InhaberB.value).toBe(false);
       expect(pdfFields.f2InhaberC.value).toBe(false);
-      expect(pdfFields.f3Bank1.value).toBe(
-        "Bank: Bank1, Eigentümer:in: Ich alleine",
-      );
+      expect(pdfFields.f3Bank1.value).toBe("Bank: Bank1");
       expect(pdfFields.f4Kontostand.value).toBe("1000 €");
     });
 
@@ -77,19 +75,20 @@ describe("F_besitz", () => {
       expect(pdfFields.f3Bank1.value).toBe("Bitte im Anhang prüfen");
       expect(pdfFields.f4Kontostand.value).toBe(undefined);
 
-      const bankkontenattachment = attachment.find(
-        (d) => d.title === "Bankkonten",
-      )?.text;
-
-      expect(bankkontenattachment).toContain(
-        "Bank: Bank1\nEigentümer:in: Ich alleine\nKontostand: 2222 €\n",
-      );
-      expect(bankkontenattachment).toContain(
-        "Bank: Bank2\nEigentümer:in: Ehe-Partner:in\nKontostand: 3333 €\n",
-      );
-      expect(bankkontenattachment).toContain(
-        "Bank: Bank3\nEigentümer:in: Mein:e Ehe-Partner:in und ich gemeinsam\nKontostand: 4444 €",
-      );
+      expect(attachment).toContainEqual({ title: "Bankkonten", level: "h3" });
+      expect(attachment).toContainEqual({ title: "Bankkonto 3", level: "h4" });
+      expect(attachment).toContainEqual({
+        title: "Eigentümer",
+        text: "Ehe-Partner:in",
+      });
+      expect(attachment).toContainEqual({
+        title: "Kontostand",
+        text: "4444 €",
+      });
+      expect(attachment).toContainEqual({
+        title: "Iban",
+        text: "DE13425678",
+      });
     });
   });
 
