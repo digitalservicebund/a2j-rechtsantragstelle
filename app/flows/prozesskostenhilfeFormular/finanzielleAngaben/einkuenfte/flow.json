@@ -29,24 +29,28 @@
       }
     },
     "buergergeld": {
+      "id": "buergergeld",
       "on": {
         "SUBMIT": "einkommen",
         "BACK": "staatliche-leistungen"
       }
     },
     "arbeitslosengeld": {
+      "id": "arbeitslosengeld",
       "on": {
         "SUBMIT": "einkommen",
         "BACK": "staatliche-leistungen"
       }
     },
     "einkommen": {
+      "id": "einkommen",
       "initial": "erwerbstaetig",
       "states": {
         "erwerbstaetig": {
+          "id": "erwerbstaetig",
           "on": {
             "SUBMIT": [
-              { "guard": "notEmployed", "target": "#einkuenfte.rente-frage" },
+              { "guard": "notEmployed", "target": "#rente-frage" },
               "art"
             ],
             "BACK": [
@@ -63,6 +67,7 @@
           }
         },
         "art": {
+          "id": "art",
           "on": {
             "SUBMIT": [
               {
@@ -85,6 +90,7 @@
           }
         },
         "selbststaendig": {
+          "id": "selbststaendig",
           "on": {
             "SUBMIT": "selbststaendig-abzuege",
             "BACK": [
@@ -92,7 +98,7 @@
                 "guard": "isEmployee",
                 "target": "netto-einkommen"
               },
-              "#einkuenfte.einkommen.art"
+              "#einkommen.art"
             ]
           }
         },
@@ -106,9 +112,11 @@
       }
     },
     "abzuege": {
+      "id": "abzuege",
       "initial": "arbeitsweg",
       "states": {
         "arbeitsweg": {
+          "id": "arbeitsweg",
           "on": {
             "SUBMIT": [
               {
@@ -123,14 +131,14 @@
                 "guard": "commuteMethodPlaysNoRole",
                 "target": "keine-rolle"
               },
-              "#einkuenfte.abzuege.arbeitsausgaben"
+              "arbeitsausgaben"
             ],
             "BACK": [
               {
                 "guard": "isSelfEmployed",
-                "target": "#einkuenfte.einkommen.selbststaendig-abzuege"
+                "target": "#einkommen.selbststaendig-abzuege"
               },
-              "#einkuenfte.einkommen.netto-einkommen"
+              "#einkommen.netto-einkommen"
             ]
           }
         },
@@ -144,7 +152,7 @@
         "arbeitsplatz-entfernung": {
           "id": "arbeitsplatz-entfernung",
           "on": {
-            "SUBMIT": "#einkuenfte.abzuege.arbeitsausgaben",
+            "SUBMIT": "arbeitsausgaben",
             "BACK": [
               {
                 "guard": "usesPublicTransit",
@@ -156,11 +164,12 @@
         },
         "keine-rolle": {
           "on": {
-            "SUBMIT": "#einkuenfte.abzuege.arbeitsausgaben",
+            "SUBMIT": "arbeitsausgaben",
             "BACK": "arbeitsweg"
           }
         },
         "arbeitsausgaben": {
+          "id": "arbeitsausgaben",
           "initial": "arbeitsausgaben-frage",
           "states": {
             "arbeitsausgaben-frage": {
@@ -176,21 +185,22 @@
                 "BACK": [
                   {
                     "guard": "usesPublicTransit",
-                    "target": "#einkuenfte.abzuege.arbeitsplatz-entfernung"
+                    "target": "#abzuege.arbeitsplatz-entfernung"
                   },
                   {
                     "guard": "usesPrivateVehicle",
-                    "target": "#einkuenfte.abzuege.arbeitsplatz-entfernung"
+                    "target": "#abzuege.arbeitsplatz-entfernung"
                   },
                   {
                     "guard": "commuteMethodPlaysNoRole",
-                    "target": "#einkuenfte.abzuege.keine-rolle"
+                    "target": "#abzuege.keine-rolle"
                   },
-                  "#einkuenfte.abzuege.arbeitsweg"
+                  "#abzuege.arbeitsweg"
                 ]
               }
             },
             "uebersicht": {
+              "id": "uebersicht",
               "on": {
                 "SUBMIT": [
                   {
@@ -217,8 +227,8 @@
               "states": {
                 "daten": {
                   "on": {
-                    "BACK": "#einkuenfte.abzuege.arbeitsausgaben.uebersicht",
-                    "SUBMIT": "#einkuenfte.abzuege.arbeitsausgaben.uebersicht"
+                    "BACK": "#arbeitsausgaben.uebersicht",
+                    "SUBMIT": "#arbeitsausgaben.uebersicht"
                   }
                 }
               }
@@ -244,9 +254,9 @@
           },
           {
             "guard": "hasAndereArbeitsausgaben",
-            "target": "#einkuenfte.abzuege.arbeitsausgaben.uebersicht"
+            "target": "#abzuege.arbeitsausgaben.uebersicht"
           },
-          "#einkuenfte.abzuege.arbeitsausgaben"
+          "#abzuege.arbeitsausgaben"
         ]
       }
     },
@@ -276,12 +286,14 @@
       }
     },
     "unterhalt": {
+      "id": "unterhalt",
       "on": {
         "SUBMIT": "leistungen",
         "BACK": "unterhalt-frage"
       }
     },
     "leistungen": {
+      "id": "leistungen",
       "initial": "frage",
       "states": {
         "frage": {
@@ -303,14 +315,14 @@
                 "guard": "hasKindergeld",
                 "target": "kindergeld"
               },
-              "#einkuenfte.weitere-einkuenfte"
+              "#weitere-einkuenfte"
             ],
             "BACK": [
               {
                 "guard": "receivesSupport",
-                "target": "#einkuenfte.unterhalt"
+                "target": "#unterhalt"
               },
-              "#einkuenfte.unterhalt-frage"
+              "#unterhalt-frage"
             ]
           }
         },
@@ -327,9 +339,9 @@
               },
               {
                 "guard": "hasKindergeld",
-                "target": "#einkuenfte.leistungen.kindergeld"
+                "target": "#leistungen.kindergeld"
               },
-              "#einkuenfte.weitere-einkuenfte"
+              "#weitere-einkuenfte"
             ],
             "BACK": "frage"
           }
@@ -343,9 +355,9 @@
               },
               {
                 "guard": "hasKindergeld",
-                "target": "#einkuenfte.leistungen.kindergeld"
+                "target": "#leistungen.kindergeld"
               },
-              "#einkuenfte.weitere-einkuenfte"
+              "#weitere-einkuenfte"
             ],
             "BACK": [
               {
@@ -361,9 +373,9 @@
             "SUBMIT": [
               {
                 "guard": "hasKindergeld",
-                "target": "#einkuenfte.leistungen.kindergeld"
+                "target": "#leistungen.kindergeld"
               },
-              "#einkuenfte.weitere-einkuenfte"
+              "#weitere-einkuenfte"
             ],
             "BACK": [
               {
@@ -380,7 +392,7 @@
         },
         "kindergeld": {
           "on": {
-            "SUBMIT": "#einkuenfte.weitere-einkuenfte",
+            "SUBMIT": "#weitere-einkuenfte",
             "BACK": [
               {
                 "guard": "hasElterngeld",
@@ -461,8 +473,8 @@
           "states": {
             "daten": {
               "on": {
-                "BACK": "#einkuenfte.weitere-einkuenfte.uebersicht",
-                "SUBMIT": "#einkuenfte.weitere-einkuenfte.uebersicht"
+                "BACK": "#weitere-einkuenfte.uebersicht",
+                "SUBMIT": "#weitere-einkuenfte.uebersicht"
               }
             }
           }

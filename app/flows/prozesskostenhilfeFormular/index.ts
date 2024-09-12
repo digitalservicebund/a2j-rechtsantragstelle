@@ -1,8 +1,7 @@
 import _ from "lodash";
-import type { Flow } from "~/flows/flows.server";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
-import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/flow";
+import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import {
   getFinanzielleAngabenPartnerSubflow,
@@ -31,6 +30,8 @@ import {
   getArrayIndexStrings,
   getKinderStrings,
 } from "../shared/stringReplacements";
+import { Flow } from "~/flows/flows.server";
+import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte";
 
 export const prozesskostenhilfeFinanzielleAngabenPartnerTargetReplacements: FinanzielleAngabenPartnerTargetReplacements =
   {
@@ -58,7 +59,9 @@ export const prozesskostenhilfeFormular = {
       start: { meta: { done: () => true } },
       "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
         states: {
-          einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(),
+          einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone, {
+            prefix: "",
+          }),
           partner: _.merge(
             getFinanzielleAngabenPartnerSubflow(
               partnerDone,
@@ -81,10 +84,9 @@ export const prozesskostenhilfeFormular = {
               },
             },
           ),
-          "partner-einkuenfte": getProzesskostenhilfeEinkuenfteSubflow(
-            "partner",
-            () => false, // TODO: replace with actual doneFunction
-          ),
+          "partner-einkuenfte": {
+            id: "partner-einkuenfte",
+          },
           kinder: { meta: { done: kinderDone } },
           "andere-unterhaltszahlungen": {
             meta: { done: andereUnterhaltszahlungenDone },
