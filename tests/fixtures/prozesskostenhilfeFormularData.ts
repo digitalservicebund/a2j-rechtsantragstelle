@@ -69,7 +69,6 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   partnerschaft: YesNoAnswer.Enum.yes,
   zusammenleben: YesNoAnswer.Enum.yes,
   partnerEinkommen: YesNoAnswer.Enum.yes,
-  partnerEinkommenSumme: faker.finance.amount(),
   hasKinder: YesNoAnswer.Enum.yes,
   hasWeitereUnterhaltszahlungen: YesNoAnswer.Enum.yes,
   bankkonten: [

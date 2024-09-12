@@ -1,12 +1,15 @@
 import _ from "lodash";
+import type { Flow } from "~/flows/flows.server";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
+import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import {
   getFinanzielleAngabenPartnerSubflow,
   type FinanzielleAngabenPartnerTargetReplacements,
 } from "~/flows/shared/finanzielleAngaben/partner";
+import type { FinanzielleAngabenPartnerContext } from "~/flows/shared/finanzielleAngaben/partner/context";
 import abgabeFlow from "./abgabe/flow.json";
 import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
@@ -30,8 +33,6 @@ import {
   getArrayIndexStrings,
   getKinderStrings,
 } from "../shared/stringReplacements";
-import { Flow } from "~/flows/flows.server";
-import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte";
 
 export const prozesskostenhilfeFinanzielleAngabenPartnerTargetReplacements: FinanzielleAngabenPartnerTargetReplacements =
   {
@@ -84,9 +85,12 @@ export const prozesskostenhilfeFormular = {
               },
             },
           ),
-          "partner-einkuenfte": {
-            id: "partner-einkuenfte",
-          },
+          "partner-einkuenfte": getProzesskostenhilfeEinkuenfteSubflow(
+            () => false, // TODO: replace me with an actual doneFunction
+            {
+              prefix: "partner-",
+            },
+          ),
           kinder: { meta: { done: kinderDone } },
           "andere-unterhaltszahlungen": {
             meta: { done: andereUnterhaltszahlungenDone },
@@ -121,4 +125,6 @@ export const prozesskostenhilfeFormular = {
 } satisfies Flow;
 
 export type ProzesskostenhilfeFormularContext =
-  ProzesskostenhilfeFinanzielleAngabenContext & AbgabeContext;
+  ProzesskostenhilfeFinanzielleAngabenContext &
+    FinanzielleAngabenPartnerContext &
+    AbgabeContext;

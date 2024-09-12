@@ -6,10 +6,10 @@ import {
   grundeigentumArraySchema,
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
-  partnerschaftSchema,
   unterhaltszahlungSchema,
   wertsachenArraySchema,
 } from "~/flows/shared/finanzielleAngaben/context";
+import type { FinanzielleAngabenPartnerContext } from "~/flows/shared/finanzielleAngaben/partner/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { createDateSchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -28,14 +28,6 @@ export const zahlungspflichtigerSchema = z.enum(
 );
 
 export const prozesskostenhilfeFinanzielleAngabenContext = {
-  partnerschaft: partnerschaftSchema,
-  zusammenleben: YesNoAnswer,
-  unterhalt: YesNoAnswer,
-  unterhaltsSumme: buildMoneyValidationSchema(),
-  partnerEinkommen: YesNoAnswer,
-  partnerEinkommenSumme: buildMoneyValidationSchema(),
-  partnerVorname: stringRequiredSchema,
-  partnerNachname: stringRequiredSchema,
   hasKinder: YesNoAnswer,
   kinder: kinderArraySchema,
   hasBankkonto: YesNoAnswer,
@@ -100,4 +92,5 @@ const _contextObject = z
 export type ProzesskostenhilfeFinanzielleAngabenContext = z.infer<
   typeof _contextObject
 > &
+  FinanzielleAngabenPartnerContext &
   ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext;
