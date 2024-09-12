@@ -20,13 +20,14 @@ export function fillBesitz(
   fillGeldanlagen(financialAttachment, pdfFields, context);
 
   if (financialAttachment.length > 0) {
-    financialAttachment.unshift({
-      title: "Feld F Eigentum",
-      text: "",
+    attachment.push({
+      title: "Feld F: Eigentum",
+      level: "h2",
     });
 
-    // eslint-disable-next-line sonarjs/no-dead-store
-    attachment = attachment.concat(financialAttachment);
+    financialAttachment.forEach((entry) => {
+      attachment.push(entry);
+    });
   }
 }
 
