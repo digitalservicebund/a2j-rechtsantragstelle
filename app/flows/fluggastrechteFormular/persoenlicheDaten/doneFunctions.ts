@@ -36,9 +36,7 @@ export const personDone: FluggastrechtePersoenlichDatenGuard = ({
     "ort",
   ]);
 
-  //const hasPersonVertretung = hasPersonVertretungData({ context });
-
-  return hasPersonData; //&& hasPersonVertretung;
+  return hasPersonData;
 };
 
 export const weiterePersonenDone: FluggastrechtePersoenlichDatenGuard = ({
