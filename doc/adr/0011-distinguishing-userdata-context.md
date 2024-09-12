@@ -1,6 +1,6 @@
-# 11. Distinguishing UserInputSchema, Userdata, and XState Context
+# 11. Distinguishing userInputSchema, UserDataType, userdata, and Context
 
-Date: 2024-09-10
+Date: 2024-09-12
 
 ## Status
 
@@ -45,7 +45,7 @@ const _partialSchema = z.object(userInputSchema).partial();
 export type BeratungshilfeVorabcheckUserData = z.infer<typeof _partialSchema>;
 ```
 
-### 3. userData
+### 3. userdata
 
 A specific instance of data collected via form submissions in a flow. It should always satisfy the previously inferred `UserDataType`:
 
@@ -61,7 +61,7 @@ const userdata = {
 ### 4. Context
 
 Any runtime data in the domain of xstate, used for example during [setup](https://stately.ai/docs/setup), [typing](https://stately.ai/docs/typescript#specifying-types) and inside [guards](https://stately.ai/docs/guards#guard-object).
-This is usually a combination of userData and some additional data:
+This is usually a combination of userdata and some additional data:
 
 ```typescript
 import type { BeratungshilfeVorabcheckUserData } from "./userInputSchema"; // See above
