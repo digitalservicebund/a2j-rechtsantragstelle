@@ -32,10 +32,13 @@ export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
   const { pdfFunction, filenameFunction } =
     pdfConfigs[flowId as keyof typeof pdfConfigs];
 
+  const filename = filenameFunction(userData);
+  const encodedFilename = encodeURIComponent(filename);
+
   return new Response(await (await pdfFunction(userData)).save(), {
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `inline; filename=${filenameFunction(userData)}`,
+      "Content-Disposition": `inline; filename*=UTF-8''${encodedFilename}`,
     },
   });
 }
