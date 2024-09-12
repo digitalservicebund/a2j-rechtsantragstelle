@@ -14,6 +14,8 @@ export type ObjectType = Record<
   string,
   | BasicTypes
   | BasicTypes[]
+  | Record<string, BasicTypes[]>
+  | Record<string, BasicTypes>[]
   | Record<string, BasicTypes | Record<string, BasicTypes>> // TODO: check whether GeldEinklagenFormularContext should be triple nested
 >;
 export type Context = Record<

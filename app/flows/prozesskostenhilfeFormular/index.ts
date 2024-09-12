@@ -39,8 +39,8 @@ export const prozesskostenhilfeFinanzielleAngabenPartnerTargetReplacements: Fina
     backStep: "", // blank as we're overrriding later
     playsNoRoleTarget: "#partner-einkuenfte",
     partnerNameTarget: "#partner-einkuenfte",
-    partnerIncomeTarget: "#kinder", // TODO: fix this after flow fully exists
-    nextStep: "#andere-unterhaltszahlungen",
+    partnerIncomeTarget: "#partner-einkuenfte",
+    nextStep: "#kinder",
   };
 
 export const prozesskostenhilfeFormular = {
@@ -87,7 +87,7 @@ export const prozesskostenhilfeFormular = {
             },
           ),
           "partner-einkuenfte": getProzesskostenhilfeEinkuenfteSubflow(
-            () => false, // TODO: replace me with an actual doneFunction
+            einkuenfteDone,
             {
               prefix: "partner-",
               nextStep: "partner-besonders-ausgaben",

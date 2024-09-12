@@ -20,7 +20,10 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
-import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "./einkuenfte/context";
+import {
+  prozesskostenhilfeFinanzielleAngabenEinkuenfteContext,
+  type ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext,
+} from "./einkuenfte/context";
 
 export const zahlungspflichtigerSchema = z.enum(
   ["myself", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -28,6 +31,9 @@ export const zahlungspflichtigerSchema = z.enum(
 );
 
 export const prozesskostenhilfeFinanzielleAngabenContext = {
+  parterEinkuenfte: z.object(
+    prozesskostenhilfeFinanzielleAngabenEinkuenfteContext,
+  ),
   hasKinder: YesNoAnswer,
   kinder: kinderArraySchema,
   hasBankkonto: YesNoAnswer,
