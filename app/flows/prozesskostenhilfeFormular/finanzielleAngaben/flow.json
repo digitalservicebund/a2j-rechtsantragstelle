@@ -4,7 +4,17 @@
   "states": {
     "einkuenfte": {},
     "partner": {},
-    "partner-einkuenfte": {},
+    "partner-einkuenfte": {
+      "states": {
+        "partner-besonders-ausgaben": {
+          "id": "partner-besonders-ausgaben",
+          "on": {}
+        },
+        "add-partner-besonders-ausgaben": {
+          "on": {}
+        }
+      }
+    },
     "kinder": {
       "id": "kinder",
       "initial": "kinder-frage",

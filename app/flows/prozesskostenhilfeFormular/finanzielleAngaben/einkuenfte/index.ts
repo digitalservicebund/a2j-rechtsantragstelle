@@ -5,6 +5,7 @@ import einkuenfteFlow from "./flow.json";
 
 export type ProzesskostenhilfeEinkuenfteTargetReplacements = {
   prefix: string;
+  nextStep: string;
 };
 
 export function getProzesskostenhilfeEinkuenfteSubflow(

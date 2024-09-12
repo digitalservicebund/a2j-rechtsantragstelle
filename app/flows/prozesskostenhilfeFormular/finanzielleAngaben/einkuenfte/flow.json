@@ -1,234 +1,240 @@
 {
-  "id": "einkuenfte",
+  "id": "{{prefix}}einkuenfte",
   "initial": "start",
   "states": {
     "start": {
       "on": {
-        "SUBMIT": "staatliche-leistungen",
+        "SUBMIT": "{{prefix}}staatliche-leistungen",
         "BACK": "#antragStart"
       }
     },
-    "staatliche-leistungen": {
+    "{{prefix}}staatliche-leistungen": {
       "on": {
         "SUBMIT": [
           {
-            "guard": "staatlicheLeistungenIsBuergergeld",
-            "target": "buergergeld"
+            "guard": "{{prefix}}staatlicheLeistungenIsBuergergeld",
+            "target": "{{prefix}}buergergeld"
           },
           {
-            "guard": "staatlicheLeistungenIsArbeitslosengeld",
-            "target": "arbeitslosengeld"
+            "guard": "{{prefix}}staatlicheLeistungenIsArbeitslosengeld",
+            "target": "{{prefix}}arbeitslosengeld"
           },
           {
-            "guard": "staatlicheLeistungenIsKeine",
-            "target": "einkommen"
+            "guard": "{{prefix}}staatlicheLeistungenIsKeine",
+            "target": "{{prefix}}einkommen"
           },
           "#abgabe"
         ],
         "BACK": "start"
       }
     },
-    "buergergeld": {
-      "id": "buergergeld",
+    "{{prefix}}buergergeld": {
+      "id": "{{prefix}}buergergeld",
       "on": {
-        "SUBMIT": "einkommen",
-        "BACK": "staatliche-leistungen"
+        "SUBMIT": "{{prefix}}einkommen",
+        "BACK": "{{prefix}}staatliche-leistungen"
       }
     },
-    "arbeitslosengeld": {
-      "id": "arbeitslosengeld",
+    "{{prefix}}arbeitslosengeld": {
+      "id": "{{prefix}}arbeitslosengeld",
       "on": {
-        "SUBMIT": "einkommen",
-        "BACK": "staatliche-leistungen"
+        "SUBMIT": "{{prefix}}einkommen",
+        "BACK": "{{prefix}}staatliche-leistungen"
       }
     },
-    "einkommen": {
-      "id": "einkommen",
-      "initial": "erwerbstaetig",
+    "{{prefix}}einkommen": {
+      "id": "{{prefix}}einkommen",
+      "initial": "{{prefix}}erwerbstaetig",
       "states": {
-        "erwerbstaetig": {
-          "id": "erwerbstaetig",
+        "{{prefix}}erwerbstaetig": {
+          "id": "{{prefix}}erwerbstaetig",
           "on": {
             "SUBMIT": [
-              { "guard": "notEmployed", "target": "#rente-frage" },
-              "art"
+              {
+                "guard": "{{prefix}}notEmployed",
+                "target": "#{{prefix}}rente-frage"
+              },
+              "{{prefix}}art"
             ],
             "BACK": [
               {
-                "guard": "staatlicheLeistungenIsBuergergeld",
-                "target": "#einkuenfte.buergergeld"
+                "guard": "{{prefix}}staatlicheLeistungenIsBuergergeld",
+                "target": "#{{prefix}}einkuenfte.{{prefix}}buergergeld"
               },
               {
-                "guard": "staatlicheLeistungenIsArbeitslosengeld",
-                "target": "#einkuenfte.arbeitslosengeld"
+                "guard": "{{prefix}}staatlicheLeistungenIsArbeitslosengeld",
+                "target": "#{{prefix}}einkuenfte.{{prefix}}arbeitslosengeld"
               },
-              "#einkuenfte.staatliche-leistungen"
+              "#{{prefix}}einkuenfte.{{prefix}}staatliche-leistungen"
             ]
           }
         },
-        "art": {
-          "id": "art",
+        "{{prefix}}art": {
+          "id": "{{prefix}}art",
           "on": {
             "SUBMIT": [
               {
-                "guard": "isEmployee",
-                "target": "netto-einkommen"
+                "guard": "{{prefix}}isEmployee",
+                "target": "{{prefix}}netto-einkommen"
               },
-              "selbststaendig"
+              "{{prefix}}selbststaendig"
             ],
-            "BACK": "erwerbstaetig"
+            "BACK": "{{prefix}}erwerbstaetig"
           }
         },
-        "netto-einkommen": {
-          "id": "netto-einkommen",
+        "{{prefix}}netto-einkommen": {
+          "id": "{{prefix}}netto-einkommen",
           "on": {
             "SUBMIT": [
-              { "guard": "isSelfEmployed", "target": "selbststaendig" },
-              "#einkuenfte.abzuege"
+              {
+                "guard": "{{prefix}}isSelfEmployed",
+                "target": "{{prefix}}selbststaendig"
+              },
+              "#{{prefix}}einkuenfte.{{prefix}}abzuege"
             ],
-            "BACK": "art"
+            "BACK": "{{prefix}}art"
           }
         },
-        "selbststaendig": {
-          "id": "selbststaendig",
+        "{{prefix}}selbststaendig": {
+          "id": "{{prefix}}selbststaendig",
           "on": {
-            "SUBMIT": "selbststaendig-abzuege",
+            "SUBMIT": "{{prefix}}selbststaendig-abzuege",
             "BACK": [
               {
-                "guard": "isEmployee",
-                "target": "netto-einkommen"
+                "guard": "{{prefix}}isEmployee",
+                "target": "{{prefix}}netto-einkommen"
               },
-              "#einkommen.art"
+              "#{{prefix}}einkommen.{{prefix}}art"
             ]
           }
         },
-        "selbststaendig-abzuege": {
-          "id": "selbststaendig-abzuege",
+        "{{prefix}}selbststaendig-abzuege": {
+          "id": "{{prefix}}selbststaendig-abzuege",
           "on": {
-            "BACK": "selbststaendig",
-            "SUBMIT": "#einkuenfte.abzuege"
+            "BACK": "{{prefix}}selbststaendig",
+            "SUBMIT": "#{{prefix}}einkuenfte.{{prefix}}abzuege"
           }
         }
       }
     },
-    "abzuege": {
-      "id": "abzuege",
-      "initial": "arbeitsweg",
+    "{{prefix}}abzuege": {
+      "id": "{{prefix}}abzuege",
+      "initial": "{{prefix}}arbeitsweg",
       "states": {
-        "arbeitsweg": {
-          "id": "arbeitsweg",
+        "{{prefix}}arbeitsweg": {
+          "id": "{{prefix}}arbeitsweg",
           "on": {
             "SUBMIT": [
               {
-                "guard": "usesPublicTransit",
-                "target": "opnv-kosten"
+                "guard": "{{prefix}}usesPublicTransit",
+                "target": "{{prefix}}opnv-kosten"
               },
               {
-                "guard": "usesPrivateVehicle",
-                "target": "arbeitsplatz-entfernung"
+                "guard": "{{prefix}}usesPrivateVehicle",
+                "target": "{{prefix}}arbeitsplatz-entfernung"
               },
               {
-                "guard": "commuteMethodPlaysNoRole",
-                "target": "keine-rolle"
+                "guard": "{{prefix}}commuteMethodPlaysNoRole",
+                "target": "{{prefix}}keine-rolle"
               },
-              "arbeitsausgaben"
+              "{{prefix}}arbeitsausgaben"
             ],
             "BACK": [
               {
-                "guard": "isSelfEmployed",
-                "target": "#einkommen.selbststaendig-abzuege"
+                "guard": "{{prefix}}isSelfEmployed",
+                "target": "#{{prefix}}einkommen.{{prefix}}selbststaendig-abzuege"
               },
-              "#einkommen.netto-einkommen"
+              "#{{prefix}}einkommen.{{prefix}}netto-einkommen"
             ]
           }
         },
-        "opnv-kosten": {
-          "id": "opnv-kosten",
+        "{{prefix}}opnv-kosten": {
+          "id": "{{prefix}}opnv-kosten",
           "on": {
-            "SUBMIT": "arbeitsplatz-entfernung",
-            "BACK": "arbeitsweg"
+            "SUBMIT": "{{prefix}}arbeitsplatz-entfernung",
+            "BACK": "{{prefix}}arbeitsweg"
           }
         },
-        "arbeitsplatz-entfernung": {
-          "id": "arbeitsplatz-entfernung",
+        "{{prefix}}arbeitsplatz-entfernung": {
+          "id": "{{prefix}}arbeitsplatz-entfernung",
           "on": {
-            "SUBMIT": "arbeitsausgaben",
+            "SUBMIT": "{{prefix}}arbeitsausgaben",
             "BACK": [
               {
-                "guard": "usesPublicTransit",
-                "target": "opnv-kosten"
+                "guard": "{{prefix}}usesPublicTransit",
+                "target": "{{prefix}}opnv-kosten"
               },
-              "arbeitsweg"
+              "{{prefix}}arbeitsweg"
             ]
           }
         },
-        "keine-rolle": {
+        "{{prefix}}keine-rolle": {
           "on": {
-            "SUBMIT": "arbeitsausgaben",
-            "BACK": "arbeitsweg"
+            "SUBMIT": "{{prefix}}arbeitsausgaben",
+            "BACK": "{{prefix}}arbeitsweg"
           }
         },
-        "arbeitsausgaben": {
-          "id": "arbeitsausgaben",
-          "initial": "arbeitsausgaben-frage",
+        "{{prefix}}arbeitsausgaben": {
+          "id": "{{prefix}}arbeitsausgaben",
+          "initial": "{{prefix}}arbeitsausgaben-frage",
           "states": {
-            "arbeitsausgaben-frage": {
-              "id": "arbeitsausgaben-frage",
+            "{{prefix}}arbeitsausgaben-frage": {
+              "id": "{{prefix}}arbeitsausgaben-frage",
               "on": {
                 "SUBMIT": [
                   {
-                    "guard": "hasAndereArbeitsausgaben",
-                    "target": "uebersicht"
+                    "guard": "{{prefix}}hasAndereArbeitsausgaben",
+                    "target": "{{prefix}}uebersicht"
                   },
-                  "#einkuenfte.rente-frage"
+                  "#{{prefix}}einkuenfte.{{prefix}}rente-frage"
                 ],
                 "BACK": [
                   {
-                    "guard": "usesPublicTransit",
-                    "target": "#abzuege.arbeitsplatz-entfernung"
+                    "guard": "{{prefix}}usesPublicTransit",
+                    "target": "#{{prefix}}abzuege.{{prefix}}arbeitsplatz-entfernung"
                   },
                   {
-                    "guard": "usesPrivateVehicle",
-                    "target": "#abzuege.arbeitsplatz-entfernung"
+                    "guard": "{{prefix}}usesPrivateVehicle",
+                    "target": "#{{prefix}}abzuege.{{prefix}}arbeitsplatz-entfernung"
                   },
                   {
-                    "guard": "commuteMethodPlaysNoRole",
-                    "target": "#abzuege.keine-rolle"
+                    "guard": "{{prefix}}commuteMethodPlaysNoRole",
+                    "target": "#{{prefix}}abzuege.{{prefix}}keine-rolle"
                   },
-                  "#abzuege.arbeitsweg"
+                  "#{{prefix}}abzuege.{{prefix}}arbeitsweg"
                 ]
               }
             },
-            "uebersicht": {
-              "id": "uebersicht",
+            "{{prefix}}uebersicht": {
+              "id": "{{prefix}}uebersicht",
               "on": {
                 "SUBMIT": [
                   {
-                    "guard": "hasAndereArbeitsausgabenAndEmptyArray",
-                    "target": "warnung"
+                    "guard": "{{prefix}}hasAndereArbeitsausgabenAndEmptyArray",
+                    "target": "{{prefix}}warnung"
                   },
-                  "#einkuenfte.rente-frage"
+                  "#{{prefix}}einkuenfte.{{prefix}}rente-frage"
                 ],
-                "BACK": "arbeitsausgaben-frage",
-                "add-arbeitsausgaben": {
-                  "guard": "isValidArbeitsausgabenArrayIndex",
-                  "target": "arbeitsausgabe"
+                "BACK": "{{prefix}}arbeitsausgaben-frage",
+                "{{prefix}}add-arbeitsausgaben": {
+                  "guard": "{{prefix}}isValidArbeitsausgabenArrayIndex",
+                  "target": "{{prefix}}arbeitsausgabe"
                 }
               }
             },
-            "warnung": {
+            "{{prefix}}warnung": {
               "on": {
-                "BACK": "uebersicht",
-                "SUBMIT": "#einkuenfte.rente-frage"
+                "BACK": "{{prefix}}uebersicht",
+                "SUBMIT": "#{{prefix}}einkuenfte.{{prefix}}rente-frage"
               }
             },
-            "arbeitsausgabe": {
-              "initial": "daten",
+            "{{prefix}}arbeitsausgabe": {
+              "initial": "{{prefix}}daten",
               "states": {
-                "daten": {
+                "{{prefix}}daten": {
                   "on": {
-                    "BACK": "#arbeitsausgaben.uebersicht",
-                    "SUBMIT": "#arbeitsausgaben.uebersicht"
+                    "BACK": "#{{prefix}}arbeitsausgaben.{{prefix}}uebersicht",
+                    "SUBMIT": "#{{prefix}}arbeitsausgaben.{{prefix}}uebersicht"
                   }
                 }
               }
@@ -237,244 +243,244 @@
         }
       }
     },
-    "rente-frage": {
-      "id": "rente-frage",
+    "{{prefix}}rente-frage": {
+      "id": "{{prefix}}rente-frage",
       "on": {
         "SUBMIT": [
           {
-            "guard": "receivesPension",
-            "target": "rente"
+            "guard": "{{prefix}}receivesPension",
+            "target": "{{prefix}}rente"
           },
-          "unterhalt-frage"
+          "{{prefix}}unterhalt-frage"
         ],
         "BACK": [
           {
-            "guard": "notEmployed",
-            "target": "einkommen"
+            "guard": "{{prefix}}notEmployed",
+            "target": "{{prefix}}einkommen"
           },
           {
-            "guard": "hasAndereArbeitsausgaben",
-            "target": "#abzuege.arbeitsausgaben.uebersicht"
+            "guard": "{{prefix}}hasAndereArbeitsausgaben",
+            "target": "#{{prefix}}abzuege.{{prefix}}arbeitsausgaben.{{prefix}}uebersicht"
           },
-          "#abzuege.arbeitsausgaben"
+          "#{{prefix}}abzuege.{{prefix}}arbeitsausgaben"
         ]
       }
     },
-    "rente": {
+    "{{prefix}}rente": {
       "on": {
-        "SUBMIT": "unterhalt-frage",
-        "BACK": "rente-frage"
+        "SUBMIT": "{{prefix}}unterhalt-frage",
+        "BACK": "{{prefix}}rente-frage"
       }
     },
-    "unterhalt-frage": {
-      "id": "unterhalt-frage",
+    "{{prefix}}unterhalt-frage": {
+      "id": "{{prefix}}unterhalt-frage",
       "on": {
         "SUBMIT": [
           {
-            "guard": "receivesSupport",
-            "target": "unterhalt"
+            "guard": "{{prefix}}receivesSupport",
+            "target": "{{prefix}}unterhalt"
           },
-          "leistungen"
+          "{{prefix}}leistungen"
         ],
         "BACK": [
           {
-            "guard": "receivesPension",
-            "target": "rente"
+            "guard": "{{prefix}}receivesPension",
+            "target": "{{prefix}}rente"
           },
-          "rente-frage"
+          "{{prefix}}rente-frage"
         ]
       }
     },
-    "unterhalt": {
-      "id": "unterhalt",
+    "{{prefix}}unterhalt": {
+      "id": "{{prefix}}unterhalt",
       "on": {
-        "SUBMIT": "leistungen",
-        "BACK": "unterhalt-frage"
+        "SUBMIT": "{{prefix}}leistungen",
+        "BACK": "{{prefix}}unterhalt-frage"
       }
     },
-    "leistungen": {
-      "id": "leistungen",
-      "initial": "frage",
+    "{{prefix}}leistungen": {
+      "id": "{{prefix}}leistungen",
+      "initial": "{{prefix}}frage",
       "states": {
-        "frage": {
+        "{{prefix}}frage": {
           "on": {
             "SUBMIT": [
               {
-                "guard": "hasWohngeld",
-                "target": "wohngeld"
+                "guard": "{{prefix}}hasWohngeld",
+                "target": "{{prefix}}wohngeld"
               },
               {
-                "guard": "hasKrankengeld",
-                "target": "krankengeld"
+                "guard": "{{prefix}}hasKrankengeld",
+                "target": "{{prefix}}krankengeld"
               },
               {
-                "guard": "hasElterngeld",
-                "target": "elterngeld"
+                "guard": "{{prefix}}hasElterngeld",
+                "target": "{{prefix}}elterngeld"
               },
               {
-                "guard": "hasKindergeld",
-                "target": "kindergeld"
+                "guard": "{{prefix}}hasKindergeld",
+                "target": "{{prefix}}kindergeld"
               },
-              "#weitere-einkuenfte"
+              "#{{prefix}}weitere-einkuenfte"
             ],
             "BACK": [
               {
-                "guard": "receivesSupport",
-                "target": "#unterhalt"
+                "guard": "{{prefix}}receivesSupport",
+                "target": "#{{prefix}}unterhalt"
               },
-              "#unterhalt-frage"
+              "#{{prefix}}unterhalt-frage"
             ]
           }
         },
-        "wohngeld": {
+        "{{prefix}}wohngeld": {
           "on": {
             "SUBMIT": [
               {
-                "guard": "hasKrankengeld",
-                "target": "krankengeld"
+                "guard": "{{prefix}}hasKrankengeld",
+                "target": "{{prefix}}krankengeld"
               },
               {
-                "guard": "hasElterngeld",
-                "target": "elterngeld"
+                "guard": "{{prefix}}hasElterngeld",
+                "target": "{{prefix}}elterngeld"
               },
               {
-                "guard": "hasKindergeld",
-                "target": "#leistungen.kindergeld"
+                "guard": "{{prefix}}hasKindergeld",
+                "target": "#{{prefix}}leistungen.{{prefix}}kindergeld"
               },
-              "#weitere-einkuenfte"
+              "#{{prefix}}weitere-einkuenfte"
             ],
-            "BACK": "frage"
+            "BACK": "{{prefix}}frage"
           }
         },
-        "krankengeld": {
+        "{{prefix}}krankengeld": {
           "on": {
             "SUBMIT": [
               {
-                "guard": "hasElterngeld",
-                "target": "elterngeld"
+                "guard": "{{prefix}}hasElterngeld",
+                "target": "{{prefix}}elterngeld"
               },
               {
-                "guard": "hasKindergeld",
-                "target": "#leistungen.kindergeld"
+                "guard": "{{prefix}}hasKindergeld",
+                "target": "#{{prefix}}leistungen.{{prefix}}kindergeld"
               },
-              "#weitere-einkuenfte"
+              "#{{prefix}}weitere-einkuenfte"
             ],
             "BACK": [
               {
-                "guard": "hasWohngeld",
-                "target": "wohngeld"
+                "guard": "{{prefix}}hasWohngeld",
+                "target": "{{prefix}}wohngeld"
               },
-              "frage"
+              "{{prefix}}frage"
             ]
           }
         },
-        "elterngeld": {
+        "{{prefix}}elterngeld": {
           "on": {
             "SUBMIT": [
               {
-                "guard": "hasKindergeld",
-                "target": "#leistungen.kindergeld"
+                "guard": "{{prefix}}hasKindergeld",
+                "target": "#{{prefix}}leistungen.{{prefix}}kindergeld"
               },
-              "#weitere-einkuenfte"
+              "#{{prefix}}weitere-einkuenfte"
             ],
             "BACK": [
               {
-                "guard": "hasKrankengeld",
-                "target": "krankengeld"
+                "guard": "{{prefix}}hasKrankengeld",
+                "target": "{{prefix}}krankengeld"
               },
               {
-                "guard": "hasWohngeld",
-                "target": "wohngeld"
+                "guard": "{{prefix}}hasWohngeld",
+                "target": "{{prefix}}wohngeld"
               },
-              "frage"
+              "{{prefix}}frage"
             ]
           }
         },
-        "kindergeld": {
+        "{{prefix}}kindergeld": {
           "on": {
-            "SUBMIT": "#weitere-einkuenfte",
+            "SUBMIT": "#{{prefix}}weitere-einkuenfte",
             "BACK": [
               {
-                "guard": "hasElterngeld",
-                "target": "elterngeld"
+                "guard": "{{prefix}}hasElterngeld",
+                "target": "{{prefix}}elterngeld"
               },
               {
-                "guard": "hasKrankengeld",
-                "target": "krankengeld"
+                "guard": "{{prefix}}hasKrankengeld",
+                "target": "{{prefix}}krankengeld"
               },
               {
-                "guard": "hasWohngeld",
-                "target": "wohngeld"
+                "guard": "{{prefix}}hasWohngeld",
+                "target": "{{prefix}}wohngeld"
               },
-              "frage"
+              "{{prefix}}frage"
             ]
           }
         }
       }
     },
-    "weitere-einkuenfte": {
-      "id": "weitere-einkuenfte",
-      "initial": "frage",
+    "{{prefix}}weitere-einkuenfte": {
+      "id": "{{prefix}}weitere-einkuenfte",
+      "initial": "{{prefix}}frage",
       "states": {
-        "frage": {
+        "{{prefix}}frage": {
           "on": {
             "SUBMIT": [
               {
-                "guard": "hasFurtherIncome",
-                "target": "uebersicht"
+                "guard": "{{prefix}}hasFurtherIncome",
+                "target": "{{prefix}}uebersicht"
               },
-              "#partner"
+              "#{{nextStep}}"
             ],
             "BACK": [
               {
-                "guard": "hasKindergeld",
-                "target": "#einkuenfte.leistungen.kindergeld"
+                "guard": "{{prefix}}hasKindergeld",
+                "target": "#{{prefix}}einkuenfte.{{prefix}}leistungen.{{prefix}}kindergeld"
               },
               {
-                "guard": "hasElterngeld",
-                "target": "#einkuenfte.leistungen.elterngeld"
+                "guard": "{{prefix}}hasElterngeld",
+                "target": "#{{prefix}}einkuenfte.{{prefix}}leistungen.{{prefix}}elterngeld"
               },
               {
-                "guard": "hasKrankengeld",
-                "target": "#einkuenfte.leistungen.krankengeld"
+                "guard": "{{prefix}}hasKrankengeld",
+                "target": "#{{prefix}}einkuenfte.{{prefix}}leistungen.{{prefix}}krankengeld"
               },
               {
-                "guard": "hasWohngeld",
-                "target": "#einkuenfte.leistungen.wohngeld"
+                "guard": "{{prefix}}hasWohngeld",
+                "target": "#{{prefix}}einkuenfte.{{prefix}}leistungen.{{prefix}}wohngeld"
               },
-              "#einkuenfte.leistungen"
+              "#{{prefix}}einkuenfte.{{prefix}}leistungen"
             ]
           }
         },
-        "uebersicht": {
+        "{{prefix}}uebersicht": {
           "on": {
             "SUBMIT": [
               {
-                "guard": "hasFurtherIncomeAndEmptyArray",
-                "target": "warnung"
+                "guard": "{{prefix}}hasFurtherIncomeAndEmptyArray",
+                "target": "{{prefix}}warnung"
               },
-              "#partner"
+              "#{{nextStep}}"
             ],
-            "BACK": "frage",
+            "BACK": "{{prefix}}frage",
             "add-weitereEinkuenfte": {
-              "guard": "isValidEinkuenfteArrayIndex",
-              "target": "einkunft"
+              "guard": "{{prefix}}isValidEinkuenfteArrayIndex",
+              "target": "{{prefix}}einkunft"
             }
           }
         },
-        "warnung": {
+        "{{prefix}}warnung": {
           "on": {
-            "BACK": "uebersicht",
-            "SUBMIT": "#partner"
+            "BACK": "{{prefix}}uebersicht",
+            "SUBMIT": "#{{nextStep}}"
           }
         },
-        "einkunft": {
-          "initial": "daten",
+        "{{prefix}}einkunft": {
+          "initial": "{{prefix}}daten",
           "states": {
-            "daten": {
+            "{{prefix}}daten": {
               "on": {
-                "BACK": "#weitere-einkuenfte.uebersicht",
-                "SUBMIT": "#weitere-einkuenfte.uebersicht"
+                "BACK": "#{{prefix}}weitere-einkuenfte.{{prefix}}uebersicht",
+                "SUBMIT": "#{{prefix}}weitere-einkuenfte.{{prefix}}uebersicht"
               }
             }
           }

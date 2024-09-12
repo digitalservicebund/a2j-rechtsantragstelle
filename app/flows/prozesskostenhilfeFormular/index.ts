@@ -62,6 +62,7 @@ export const prozesskostenhilfeFormular = {
         states: {
           einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone, {
             prefix: "",
+            nextStep: "partner",
           }),
           partner: _.merge(
             getFinanzielleAngabenPartnerSubflow(
@@ -89,6 +90,7 @@ export const prozesskostenhilfeFormular = {
             () => false, // TODO: replace me with an actual doneFunction
             {
               prefix: "partner-",
+              nextStep: "partner-besonders-ausgaben",
             },
           ),
           kinder: { meta: { done: kinderDone } },
@@ -114,6 +116,12 @@ export const prozesskostenhilfeFormular = {
     ...finanzielleAngabeGuards,
     ...finanzielleAngabeEinkuenfteGuards,
     ...prozesskostenhilfeAbgabeGuards,
+    ...Object.fromEntries(
+      Object.entries(finanzielleAngabeEinkuenfteGuards).map(([key, value]) => [
+        `partner-${key}`,
+        value,
+      ]),
+    ),
   },
   stringReplacements: (context: ProzesskostenhilfeFormularContext) => ({
     ...getKinderStrings(context),
