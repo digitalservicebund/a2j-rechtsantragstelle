@@ -203,7 +203,7 @@ export const loader = async ({
 
   const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel:
-      cmsContent.nextButtonLabel ?? defaultStrings["backButtonDefaultLabel"],
+      cmsContent.backButtonLabel ?? defaultStrings["backButtonDefaultLabel"],
     nextButtonLabel:
       cmsContent.nextButtonLabel ?? defaultStrings["nextButtonDefaultLabel"],
     isFinal: flowController.isFinal(stepId),
