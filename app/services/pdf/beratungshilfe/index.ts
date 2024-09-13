@@ -27,10 +27,10 @@ export async function beratungshilfePdfFromUserdata(
   fillAngelegenheit(attachmentData, pdfValues, userdata);
   fillVorraussetzungen(pdfValues, userdata);
   fillEinkommen(pdfValues, userdata);
+  fillWohnen(attachmentData, pdfValues, userdata);
   fillUnterhalt(attachmentData, pdfValues, userdata);
   fillBesitz(attachmentData, pdfValues, userdata);
   fillAusgaben(attachmentData, pdfValues, userdata);
-  fillWohnen(pdfValues, userdata);
   fillFooter(pdfValues, userdata);
 
   const filledPdf = await fillPdf({
