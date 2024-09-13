@@ -1,17 +1,17 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { type BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import { createAttachment } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import {
   AUSGABEN_ATTACHMENT_TITLE,
   fillAusgaben,
 } from "~/services/pdf/beratungshilfe/sections/G_ausgaben";
+import { pdfFillReducer } from "~/services/pdf/prozesskostenhilfe/fillOutFunction";
 
 const expensesRecipients = "ausgaben empfänger";
 const paymentDeadlineDate = "12.12.2099";
 describe("G_ausgaben", () => {
   it("fills ausgaben pdf fields when correct context is given", () => {
-    const mockContext: BeratungshilfeFormularContext = {
+    const mockuserData: BeratungshilfeFormularContext = {
       hasAusgaben: "yes",
       ausgaben: [
         {
@@ -29,24 +29,25 @@ describe("G_ausgaben", () => {
         medicalReasons: CheckboxValue.off,
       },
     };
-    const attachment = createAttachment();
-    const pdfFields = getBeratungshilfeParameters();
+    const { pdfValues } = pdfFillReducer({
+      userData: mockuserData,
+      pdfParams: getBeratungshilfeParameters(),
+      fillFunctions: [fillAusgaben],
+    });
 
-    fillAusgaben(attachment, pdfFields, mockContext);
-
-    expect(pdfFields.g1VerpflichtungenJ.value).toBe(true);
-    expect(pdfFields.g9SonstigeBelastungenJ.value).toBe(true);
-    expect(pdfFields.g21.value).toEqual("ausgaben art");
-    expect(pdfFields.g31.value).toEqual(expensesRecipients);
-    expect(pdfFields.g5Raten1.value).toEqual(paymentDeadlineDate);
-    expect(pdfFields.g7Zahlung1.value).toEqual("12,00");
-    expect(pdfFields.g10Belastungen.value).toEqual(
+    expect(pdfValues.g1VerpflichtungenJ.value).toBe(true);
+    expect(pdfValues.g9SonstigeBelastungenJ.value).toBe(true);
+    expect(pdfValues.g21.value).toEqual("ausgaben art");
+    expect(pdfValues.g31.value).toEqual(expensesRecipients);
+    expect(pdfValues.g5Raten1.value).toEqual(paymentDeadlineDate);
+    expect(pdfValues.g7Zahlung1.value).toEqual("12,00");
+    expect(pdfValues.g10Belastungen.value).toEqual(
       "Schwangerschaft, Alleinerziehend",
     );
   });
 
   it("fills attachment when context count is greater than the available field", () => {
-    const mockContext: BeratungshilfeFormularContext = {
+    const mockuserData: BeratungshilfeFormularContext = {
       ausgaben: [
         {
           art: "ausgaben art 1",
@@ -91,21 +92,22 @@ describe("G_ausgaben", () => {
         medicalReasons: CheckboxValue.off,
       },
     };
-    const attachment = createAttachment();
-    const pdfFields = getBeratungshilfeParameters();
+    const { pdfValues, attachment } = pdfFillReducer({
+      userData: mockuserData,
+      pdfParams: getBeratungshilfeParameters(),
+      fillFunctions: [fillAusgaben],
+    });
 
-    fillAusgaben(attachment, pdfFields, mockContext);
-
-    expect(pdfFields.g21.value).toEqual("Bitte im Anhang prüfen");
-    expect(pdfFields.g31.value).toBeUndefined();
-    expect(pdfFields.g5Raten1.value).toBeUndefined();
-    expect(pdfFields.g7Zahlung1.value).toBeUndefined();
+    expect(pdfValues.g21.value).toEqual("Bitte im Anhang prüfen");
+    expect(pdfValues.g31.value).toBeUndefined();
+    expect(pdfValues.g5Raten1.value).toBeUndefined();
+    expect(pdfValues.g7Zahlung1.value).toBeUndefined();
     expect(attachment[0].title).toEqual(AUSGABEN_ATTACHMENT_TITLE);
     expect(attachment[1].title).toBeDefined();
   });
 
   it("fills attachment when char is greater than max char of the field", () => {
-    const mockContext: BeratungshilfeFormularContext = {
+    const mockuserData: BeratungshilfeFormularContext = {
       ausgaben: [
         {
           art: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",
@@ -130,15 +132,16 @@ describe("G_ausgaben", () => {
         medicalReasons: CheckboxValue.off,
       },
     };
-    const attachment = createAttachment();
-    const pdfFields = getBeratungshilfeParameters();
+    const { pdfValues, attachment } = pdfFillReducer({
+      userData: mockuserData,
+      pdfParams: getBeratungshilfeParameters(),
+      fillFunctions: [fillAusgaben],
+    });
 
-    fillAusgaben(attachment, pdfFields, mockContext);
-
-    expect(pdfFields.g21.value).toEqual("Bitte im Anhang prüfen");
-    expect(pdfFields.g31.value).toBeUndefined();
-    expect(pdfFields.g5Raten1.value).toBeUndefined();
-    expect(pdfFields.g7Zahlung1.value).toBeUndefined();
+    expect(pdfValues.g21.value).toEqual("Bitte im Anhang prüfen");
+    expect(pdfValues.g31.value).toBeUndefined();
+    expect(pdfValues.g5Raten1.value).toBeUndefined();
+    expect(pdfValues.g7Zahlung1.value).toBeUndefined();
 
     expect(attachment[0].title).toEqual(AUSGABEN_ATTACHMENT_TITLE);
 

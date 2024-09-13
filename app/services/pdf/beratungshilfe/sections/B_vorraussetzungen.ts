@@ -1,16 +1,16 @@
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { BerHPdfFillFunction } from "..";
 
-export function fillVorraussetzungen(
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  pdfFields.bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein.value =
-    context.rechtsschutzversicherung === "no";
-  pdfFields.b3IndieserAngelegenheitistmirbisherBeratungshilfewederbewilligtnochversagtworden.value =
-    context.beratungshilfeBeantragt === "no";
-  pdfFields.b2IndieserAngelegenheitbestehtfurmichnachmeinerKenntniskeineandereMoeglichkeitkostenloseBeratungundVertretunginAnspruchzunehmen.value =
-    context.eigeninitiativeGrundvorraussetzung === "no";
-  pdfFields.b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt.value =
-    context.klageEingereicht === "no";
-}
+export const fillVorraussetzungen: BerHPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  pdfValues.bIndervorliegendenAngelegenheittrittkeineRechtsschutzversicherungein.value =
+    userData.rechtsschutzversicherung === "no";
+  pdfValues.b3IndieserAngelegenheitistmirbisherBeratungshilfewederbewilligtnochversagtworden.value =
+    userData.beratungshilfeBeantragt === "no";
+  pdfValues.b2IndieserAngelegenheitbestehtfurmichnachmeinerKenntniskeineandereMoeglichkeitkostenloseBeratungundVertretunginAnspruchzunehmen.value =
+    userData.eigeninitiativeGrundvorraussetzung === "no";
+  pdfValues.b4IndieserAngelegenheitwirdoderwurdevonmirbisherkeingerichtlichesVerfahrengefuhrt.value =
+    userData.klageEingereicht === "no";
+  return { pdfValues };
+};
