@@ -83,14 +83,14 @@ export const prozesskostenhilfeFormular = {
                     ],
                   },
                 },
+                "partner-einkuenfte": getProzesskostenhilfeEinkuenfteSubflow(
+                  einkuenfteDone,
+                  {
+                    prefix: "partner-",
+                    nextStep: "partner-besonders-ausgaben",
+                  },
+                ),
               },
-            },
-          ),
-          "partner-einkuenfte": getProzesskostenhilfeEinkuenfteSubflow(
-            einkuenfteDone,
-            {
-              prefix: "partner-",
-              nextStep: "partner-besonders-ausgaben",
             },
           ),
           kinder: { meta: { done: kinderDone } },

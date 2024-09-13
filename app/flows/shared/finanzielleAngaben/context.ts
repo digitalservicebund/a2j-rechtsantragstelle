@@ -70,6 +70,13 @@ export const bankkontenArraySchema = z.array(
   }),
 );
 
+export const financialEntrySchema = z.object({
+  beschreibung: stringRequiredSchema,
+  betrag: buildMoneyValidationSchema(),
+});
+
+export type FinancialEntry = z.infer<typeof financialEntrySchema>;
+
 export const kraftfahrzeugeArraySchema = z.array(
   z.object({
     art: stringRequiredSchema,

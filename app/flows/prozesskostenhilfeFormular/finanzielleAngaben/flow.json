@@ -3,15 +3,36 @@
   "id": "finanzielle-angaben",
   "states": {
     "einkuenfte": {},
-    "partner": {},
-    "partner-einkuenfte": {
+    "partner": {
       "states": {
-        "partner-besonders-ausgaben": {
-          "id": "partner-besonders-ausgaben",
-          "on": {}
-        },
-        "add-partner-besonders-ausgaben": {
-          "on": {}
+        "partner-einkuenfte": {
+          "states": {
+            "partner-besonders-ausgaben": {
+              "id": "partner-besonders-ausgaben",
+              "on": {
+                "BACK": [
+                  {
+                    "guard": "partner-hasFurtherIncome",
+                    "target": "#partner-weitere-einkuenfte.partner-uebersicht"
+                  },
+                  "#partner-weitere-einkuenfte"
+                ],
+                "SUBMIT": [
+                  {
+                    "guard": "partnerHasBesondersAusgabeYes",
+                    "target": "add-partner-besonders-ausgaben"
+                  },
+                  "#kinder"
+                ]
+              }
+            },
+            "add-partner-besonders-ausgaben": {
+              "on": {
+                "SUBMIT": "#kinder",
+                "BACK": "partner-besonders-ausgaben"
+              }
+            }
+          }
         }
       }
     },

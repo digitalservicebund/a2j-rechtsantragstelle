@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import type { FinancialEntry } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import type { FinancialEntry } from "~/flows/shared/finanzielleAngaben/context";
 import { getTotalMonthlyFinancialEntries } from "~/services/pdf/util";
 
 describe("utility functions", () => {

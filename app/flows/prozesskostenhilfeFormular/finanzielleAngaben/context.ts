@@ -8,6 +8,7 @@ import {
   kraftfahrzeugeArraySchema,
   unterhaltszahlungSchema,
   wertsachenArraySchema,
+  financialEntrySchema,
 } from "~/flows/shared/finanzielleAngaben/context";
 import type { FinanzielleAngabenPartnerContext } from "~/flows/shared/finanzielleAngaben/partner/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
@@ -34,6 +35,8 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   parterEinkuenfte: z.object(
     prozesskostenhilfeFinanzielleAngabenEinkuenfteContext,
   ),
+  partnerHasBesondersAusgabe: YesNoAnswer,
+  partnerBesondersAusgabe: financialEntrySchema,
   hasKinder: YesNoAnswer,
   kinder: kinderArraySchema,
   hasBankkonto: YesNoAnswer,

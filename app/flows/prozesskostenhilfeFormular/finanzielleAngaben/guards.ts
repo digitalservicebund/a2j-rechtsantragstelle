@@ -64,6 +64,7 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("zusammenleben"),
   ...yesNoGuards("unterhalt"),
   ...yesNoGuards("partnerEinkommen"),
+  ...yesNoGuards("partnerHasBesondersAusgabe"),
   hasBankkontoYes,
   hasKraftfahrzeugYes,
   hasGeldanlageYes,

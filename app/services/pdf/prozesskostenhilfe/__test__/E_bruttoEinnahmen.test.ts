@@ -3,7 +3,7 @@ import _ from "lodash";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import type { FinancialEntry } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import type { FinancialEntry } from "~/flows/shared/finanzielleAngaben/context";
 import {
   fillAndereLeistungen,
   fillEinkommenType,
