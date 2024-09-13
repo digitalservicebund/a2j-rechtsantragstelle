@@ -6,9 +6,8 @@ import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import {
   fillFinancialBankkonto,
   fillFinancialGrundeigentum,
-  fillFinancialWertsachen,
-  fillGeldanlagen,
 } from "~/services/pdf/beratungshilfe/sections/F_besitz/F_besitz";
+import { fillVermoegenswerte } from "../fillVermoegenswerte";
 
 describe("F_besitz", () => {
   describe("fillFinancialBankkonto", () => {
@@ -189,10 +188,12 @@ describe("F_besitz", () => {
     });
   });
 
-  describe("fillFinancialWertsachen", () => {
-    it("should fill wertsachen pdf field when wertsachen is given in context", () => {
-      const context: BeratungshilfeFormularContext = {
-        hasWertsache: "yes",
+  describe("fillVermoegenswerte", () => {
+    it("should fill pdf field when wertsachen is given in context", () => {
+      const pdfFields = getBeratungshilfeParameters();
+      const attachment = createAttachment();
+
+      fillVermoegenswerte(attachment, pdfFields, {
         wertsachen: [
           {
             eigentuemer: "partner",
@@ -200,11 +201,7 @@ describe("F_besitz", () => {
             wert: "100000",
           },
         ],
-      };
-      const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment();
-
-      fillFinancialWertsachen(attachment, pdfFields, context);
+      });
 
       expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
       expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
@@ -215,28 +212,62 @@ describe("F_besitz", () => {
       expect(pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
         "100000",
       );
+      expect(attachment.length).toBe(0);
     });
+    it("should fill pdf field when geldanlage is given in context", () => {
+      const pdfFields = getBeratungshilfeParameters();
+      const attachment = createAttachment();
 
-    it("should fill multiple wertsachen pdf field when wertsachen is given in context", () => {
-      const context: BeratungshilfeFormularContext = {
-        hasWertsache: "yes",
-        wertsachen: [
+      fillVermoegenswerte(attachment, pdfFields, {
+        geldanlagen: [
           {
             eigentuemer: "partner",
-            art: "Teure Sache",
+            art: "bargeld",
             wert: "100000",
           },
+        ],
+      });
+
+      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
+      expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
+      expect(pdfFields.f14InhaberA.value).toBe(false);
+      expect(pdfFields.f14InhaberB.value).toBe(true);
+      expect(pdfFields.f14VermoegenswerteC.value).toBe(false);
+      expect(pdfFields.f15Bezeichnung.value).toBe("Art: Bargeld");
+      expect(pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
+        "100000",
+      );
+      expect(attachment.length).toBe(0);
+    });
+
+    it("should add attachment when multiple vermoegen is present", () => {
+      const context: BeratungshilfeFormularContext = {
+        wertsachen: [
           {
             eigentuemer: "myself",
             art: "Bargeld",
             wert: "10000",
           },
         ],
+        geldanlagen: [
+          {
+            art: "befristet",
+            eigentuemer: "myselfAndSomeoneElse",
+            wert: "10000",
+            auszahlungdatum: "01.01.2000",
+            befristetArt: "fixedDepositAccount",
+            forderung: "asd",
+            kontoBankName: "bank",
+            kontoBezeichnung: "bezeichnung",
+            kontoIban: "13",
+            verwendungszweck: "zweck",
+          },
+        ],
       };
       const pdfFields = getBeratungshilfeParameters();
       const attachment = createAttachment();
 
-      fillFinancialWertsachen(attachment, pdfFields, context);
+      fillVermoegenswerte(attachment, pdfFields, context);
 
       expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
       expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
@@ -249,159 +280,42 @@ describe("F_besitz", () => {
       );
 
       expect(attachment[0]).toEqual({
-        title: "Wertsachen",
-        text:
-          "Teure Sache\n" +
-          "Eigentümer:in: Ehe-Partner:in\n" +
-          "Verkehrswert: 100000 €\n" +
-          "\n" +
-          "Bargeld\n" +
-          "Eigentümer:in: Ich alleine\n" +
-          "Verkehrswert: 10000 €",
+        title: "Sonstige Vermögenswerte",
+        level: "h3",
       });
-    });
-  });
 
-  describe("fillGeldanlagen", () => {
-    it("should create a attachment when at least one geldanlage is given in context", () => {
-      const context: BeratungshilfeFormularContext = {
-        geldanlagen: [
-          {
-            eigentuemer: "partner",
-            art: "bargeld",
-            wert: "100000",
-          },
-        ],
-      };
-      const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment();
-
-      fillGeldanlagen(attachment, pdfFields, context);
-
-      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
-      expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
-      expect(pdfFields.f15Bezeichnung.value).toBe(newPageHint);
-      expect(attachment[0]).toEqual({
-        title: "Geldanlagen",
-        text:
-          "\nGeldanlage 1\n" +
-          "Art der Geldanlage: Bargeld\n" +
-          "Eigentümer:in: Ehe-Partner:in\n" +
-          "Wert: 100000 €",
+      expect(attachment).toContainEqual({ level: "h4", title: "Geldanlage 1" });
+      expect(attachment).toContainEqual({
+        text: "Befristete Geldanlage",
+        title: "Art",
       });
-    });
-
-    it("should create a valid attachment when a girokonto geldanlage is given in context", () => {
-      const context: BeratungshilfeFormularContext = {
-        geldanlagen: [
-          {
-            eigentuemer: "partner",
-            art: "giroTagesgeldSparkonto",
-            wert: "1000",
-            kontoBankName: "Bank",
-            kontoIban: "12356789",
-            kontoBezeichnung: "Bezeichnung",
-          },
-        ],
-      };
-      const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment();
-
-      fillGeldanlagen(attachment, pdfFields, context);
-
-      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
-      expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
-      expect(pdfFields.f15Bezeichnung.value).toBe(newPageHint);
-      expect(attachment[0]).toEqual({
-        title: "Geldanlagen",
-        text:
-          "\nGeldanlage 1\n" +
-          "Art der Geldanlage: Girokonto / Tagesgeld / Sparkonto\n" +
-          "Name der Bank: Bank\n" +
-          "IBAN: 12356789\n" +
-          "Bezeichnung: Bezeichnung\n" +
-          "Eigentümer:in: Ehe-Partner:in\n" +
-          "Wert: 1000 €",
+      expect(attachment).toContainEqual({ text: "10000", title: "Wert" });
+      expect(attachment).toContainEqual({
+        text: "Ich gemeinsam mit jemand anderem",
+        title: "Eigentümer:in",
       });
-    });
-
-    it("should create a valid attachment when a befristete geldanlage is given in context", () => {
-      const context: BeratungshilfeFormularContext = {
-        geldanlagen: [
-          {
-            eigentuemer: "partner",
-            art: "befristet",
-            befristetArt: "lifeInsurance",
-            wert: "1000",
-            verwendungszweck: "Verwendung",
-            auszahlungdatum: "12.12.1990",
-          },
-        ],
-      };
-      const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment();
-
-      fillGeldanlagen(attachment, pdfFields, context);
-
-      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
-      expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
-      expect(pdfFields.f15Bezeichnung.value).toBe(newPageHint);
-      expect(attachment[0]).toEqual({
-        title: "Geldanlagen",
-        text:
-          "\nGeldanlage 1\n" +
-          "Art der Geldanlage: Befristete Geldanlage\n" +
-          "Art der Befristung: Lebensversicherung\n" +
-          "Verwendungszweck: Verwendung\n" +
-          "Auszahlungstermin: 12.12.1990\n" +
-          "Eigentümer:in: Ehe-Partner:in\n" +
-          "Wert: 1000 €",
+      expect(attachment).toContainEqual({
+        text: "01.01.2000",
+        title: "Auszahlungsdatum",
       });
-    });
-
-    it("should create a valid attachment when a sonstiges geldanlage is given in context", () => {
-      const context: BeratungshilfeFormularContext = {
-        geldanlagen: [
-          {
-            eigentuemer: "partner",
-            art: "sonstiges",
-            wert: "1000",
-            verwendungszweck: "Beschreibung",
-          },
-        ],
-      };
-      const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment();
-
-      fillGeldanlagen(attachment, pdfFields, context);
-
-      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
-      expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
-      expect(pdfFields.f15Bezeichnung.value).toBe(newPageHint);
-      expect(attachment[0]).toEqual({
-        title: "Geldanlagen",
-        text:
-          "\nGeldanlage 1\n" +
-          "Art der Geldanlage: Sonstiges\n" +
-          "Beschreibung: Beschreibung\n" +
-          "Eigentümer:in: Ehe-Partner:in\n" +
-          "Wert: 1000 €",
+      expect(attachment).toContainEqual({
+        text: "Festgeldkonto",
+        title: "Art der Befristung",
       });
-    });
-
-    it("should not create a attachment when no geldanlage is given in context", () => {
-      const context: BeratungshilfeFormularContext = {
-        geldanlagen: [],
-      };
-      const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment();
-
-      fillGeldanlagen(attachment, pdfFields, context);
-
-      expect(pdfFields.f13Vermoegenswerte1.value).toBe(undefined);
-      expect(pdfFields.f13Vermoegenswerte2.value).toBe(undefined);
-      expect(pdfFields.f15Bezeichnung.value).toBe(undefined);
-      expect(attachment.length).toBe(0);
+      expect(attachment).toContainEqual({ text: "asd", title: "Forderung" });
+      expect(attachment).toContainEqual({
+        text: "zweck",
+        title: "Verwendungszweck",
+      });
+      expect(attachment).toContainEqual({
+        text: "bank",
+        title: "Name der Bank",
+      });
+      expect(attachment).toContainEqual({
+        text: "bezeichnung",
+        title: "Bezeichnung",
+      });
+      expect(attachment).toContainEqual({ text: "13", title: "IBAN" });
     });
   });
 });
