@@ -1,7 +1,7 @@
-import { persoenlicheDatenDone } from "~/flows/shared/persoenlicheDaten/doneFunctions";
+import { beratungshilfePersoenlicheDatenDone } from "~/flows/beratungshilfeFormular/persoenlicheDaten/doneFunctions";
 import { dropEachProperty } from "~/util/objects";
 
-describe("persoenlicheDatenDone", () => {
+describe("beratungshilfePersoenlicheDatenDone", () => {
   const validContext = {
     vorname: "A",
     nachname: "B",
@@ -12,12 +12,14 @@ describe("persoenlicheDatenDone", () => {
   };
 
   it("should return true when all required fields are present", () => {
-    expect(persoenlicheDatenDone({ context: validContext })).toBeTruthy();
+    expect(
+      beratungshilfePersoenlicheDatenDone({ context: validContext }),
+    ).toBeTruthy();
   });
 
   it("should return false when any required field is missing", () => {
     dropEachProperty(validContext).forEach((context) => {
-      expect(persoenlicheDatenDone({ context })).toBeFalsy();
+      expect(beratungshilfePersoenlicheDatenDone({ context })).toBeFalsy();
     });
   });
 });

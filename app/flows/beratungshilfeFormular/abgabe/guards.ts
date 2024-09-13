@@ -1,5 +1,5 @@
-import { persoenlicheDatenDone } from "~/flows/shared/persoenlicheDaten/doneFunctions";
-import { type BeratungshilfeFormularContext } from "..";
+import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import { beratungshilfePersoenlicheDatenDone } from "~/flows/beratungshilfeFormular/persoenlicheDaten/doneFunctions";
 import type { Guards } from "../../guards.server";
 import { anwaltlicheVertretungDone } from "../anwaltlicheVertretung/guards";
 import { beratungshilfeFinanzielleAngabeDone } from "../finanzielleAngaben/beratungshilfeFinanzielleAngabeDone";
@@ -12,7 +12,7 @@ export const beratungshilfeAbgabeGuards = {
     anwaltlicheVertretungDone({ context }) &&
     rechtsproblemDone({ context }) &&
     beratungshilfeFinanzielleAngabeDone({ context }) &&
-    persoenlicheDatenDone({ context }),
+    beratungshilfePersoenlicheDatenDone({ context }),
   abgabeOnline: ({ context }) => context.abgabeArt == "online",
   abgabeAusdrucken: ({ context }) => context.abgabeArt == "ausdrucken",
 } satisfies Guards<BeratungshilfeFormularContext>;

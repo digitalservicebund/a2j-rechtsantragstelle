@@ -1,4 +1,4 @@
-import { persoenlicheDatenDone } from "~/flows/shared/persoenlicheDaten/doneFunctions";
+import { beratungshilfePersoenlicheDatenDone } from "~/flows/beratungshilfeFormular/persoenlicheDaten/doneFunctions";
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { BeratungshilfeFormularContext } from ".";
 import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
@@ -100,7 +100,7 @@ export const getMissingInformationStrings = (
     }),
     rechtsproblemMissingInformation: !rechtsproblemDone({ context }),
     einkommenMissingInformation: !einkommenDone({ context }),
-    persoenlicheDatenMissingInformation: !persoenlicheDatenDone({
+    persoenlicheDatenMissingInformation: !beratungshilfePersoenlicheDatenDone({
       context,
     }),
   };

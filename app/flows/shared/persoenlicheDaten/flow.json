@@ -2,15 +2,10 @@
   "id": "persoenliche-daten",
   "initial": "start",
   "states": {
-    "start": {
-      "on": {
-        "SUBMIT": "name",
-        "BACK": ""
-      }
-    },
+    "start": { "on": { "SUBMIT": "name" } },
     "name": { "on": { "BACK": "start", "SUBMIT": "geburtsdatum" } },
     "geburtsdatum": { "on": { "BACK": "name", "SUBMIT": "adresse" } },
     "adresse": { "on": { "BACK": "geburtsdatum", "SUBMIT": "telefonnummer" } },
-    "telefonnummer": { "on": { "BACK": "adresse", "SUBMIT": "{{nextStep}}" } }
+    "telefonnummer": { "on": { "BACK": "adresse" } }
   }
 }

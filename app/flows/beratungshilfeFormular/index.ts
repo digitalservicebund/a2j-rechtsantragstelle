@@ -1,10 +1,9 @@
 import _ from "lodash";
+import type { BeratungshilfePersoenlicheDaten } from "~/flows/beratungshilfeFormular/persoenlicheDaten/context";
 import type { Flow } from "~/flows/flows.server";
 import type { TargetReplacements } from "~/flows/shared/finanzielleAngaben/partner";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
-import type { PersoenlicheDatenTargetReplacements } from "~/flows/shared/persoenlicheDaten";
-import { getPersoenlicheDatenSubflow } from "~/flows/shared/persoenlicheDaten";
-import type { PersoenlicheDaten } from "~/flows/shared/persoenlicheDaten/context";
+import persoenlicheDatenFlow from "~/flows/shared/persoenlicheDaten/flow.json";
 import abgabeFlow from "./abgabe/flow.json";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
@@ -65,11 +64,6 @@ export const finanzielleAngabenPartnerTargetReplacements: TargetReplacements = {
   nextStep: "#kinder.kinder-frage",
 };
 
-export const persoenlicheDatenTargetReplacements: PersoenlicheDatenTargetReplacements =
-  {
-    nextStep: "#abgabe",
-  };
-
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
   config: _.merge(beratungshilfeFormularFlow, {
@@ -116,43 +110,43 @@ export const beratungshilfeFormular = {
           ausgaben: { meta: { done: ausgabenDone } },
         },
       }),
-      "persoenliche-daten": _.merge(
-        getPersoenlicheDatenSubflow(persoenlicheDatenTargetReplacements),
-        // Need to override back step to account for guards
-        {
-          states: {
-            start: {
-              on: {
-                BACK: [
-                  {
-                    guard: "staatlicheLeistungenIsBuergergeldAndEigentumDone",
-                    target:
-                      "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung",
-                  },
-                  {
-                    guard: "staatlicheLeistungenIsBuergergeldAndHasEigentum",
-                    target: "#finanzielle-angaben.eigentum.gesamtwert",
-                  },
-                  {
-                    guard: "staatlicheLeistungenIsBuergergeld",
-                    target:
-                      "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
-                  },
-                  {
-                    guard: "hasAusgabenYes",
-                    target: "#ausgaben.uebersicht",
-                  },
-                  {
-                    guard: "hasNoStaatlicheLeistungen",
-                    target: "#ausgaben.ausgaben-frage",
-                  },
-                  "#finanzielle-angaben.einkommen.staatliche-leistungen",
-                ],
-              },
+      "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
+        states: {
+          start: {
+            on: {
+              BACK: [
+                {
+                  guard: "staatlicheLeistungenIsBuergergeldAndEigentumDone",
+                  target:
+                    "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung",
+                },
+                {
+                  guard: "staatlicheLeistungenIsBuergergeldAndHasEigentum",
+                  target: "#finanzielle-angaben.eigentum.gesamtwert",
+                },
+                {
+                  guard: "staatlicheLeistungenIsBuergergeld",
+                  target: "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
+                },
+                {
+                  guard: "hasAusgabenYes",
+                  target: "#ausgaben.uebersicht",
+                },
+                {
+                  guard: "hasNoStaatlicheLeistungen",
+                  target: "#ausgaben.ausgaben-frage",
+                },
+                "#finanzielle-angaben.einkommen.staatliche-leistungen",
+              ],
+            },
+          },
+          telefonnummer: {
+            on: {
+              SUBMIT: "#abgabe",
             },
           },
         },
-      ),
+      }),
       abgabe: _.merge(abgabeFlow, {
         meta: { done: () => false },
       }),
@@ -183,5 +177,5 @@ export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &
   BeratungshilfeAnwaltlicheVertretung &
   BeratungshilfeRechtsproblem &
   BeratungshilfeFinanzielleAngaben &
-  PersoenlicheDaten &
+  BeratungshilfePersoenlicheDaten &
   AbgabeContext;

@@ -1,6 +1,5 @@
-import _ from "lodash";
 import { z } from "zod";
-import { persoenlicheDaten as sharedPersoenlicheDaten } from "~/flows/shared/persoenlicheDaten/context";
+import { persoenlicheDaten } from "~/flows/shared/persoenlicheDaten/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { postcodeSchema } from "~/services/validation/postcode";
@@ -15,8 +14,6 @@ const fluggastrechtePersoenlichVertretungDaten = {
   ortVertretung: stringRequiredSchema,
   beschreibenVertretung: stringRequiredSchema,
 };
-
-const persoenlicheDaten = _.omit(sharedPersoenlicheDaten, ["geburtsdatum"]);
 
 export const fluggastrechtePersoenlichDaten = {
   ...persoenlicheDaten,

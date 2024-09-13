@@ -1,6 +1,6 @@
-import _ from "lodash";
 import { z } from "zod";
 import {
+  adresseSchema,
   namePrivatPerson,
   persoenlicheDaten as sharedPersoenlicheDaten,
 } from "~/flows/shared/persoenlicheDaten/context";
@@ -10,6 +10,8 @@ import {
 } from "~/services/validation/checkedCheckbox";
 import { emailSchema } from "~/services/validation/email";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
+import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import {
@@ -18,7 +20,7 @@ import {
 } from "~/services/validation/YesNoAnswer";
 
 const persoenlicheDaten = {
-  ..._.omit(sharedPersoenlicheDaten, ["geburtsdatum"]),
+  ...sharedPersoenlicheDaten,
   bevollmaechtigtePerson: z.enum(
     ["lawyer", "yes", "no"],
     customRequiredErrorMessage,
@@ -39,12 +41,12 @@ export const context = {
           name: stringRequiredSchema,
           inhaber: stringRequiredSchema,
           adresszusatz: stringOptionalSchema,
-          ..._.omit(persoenlicheDaten, [
-            "anrede",
-            "vorname",
-            "nachname",
-            "title",
-          ]),
+          ...adresseSchema,
+          bevollmaechtigtePerson: z.enum(
+            ["lawyer", "yes", "no"],
+            customRequiredErrorMessage,
+          ),
+          telefonnummer: optionalOrSchema(phoneNumberSchema),
         })
         .partial(),
     })
