@@ -46,7 +46,7 @@ import {
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { interpolateDeep } from "~/util/fillTemplate";
+import { interpolateSerializableObject } from "~/util/fillTemplate";
 import { filterFormData } from "~/util/filterFormData";
 
 const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
@@ -80,7 +80,7 @@ function getInterpolateFlowTranslations(
   /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports
     can not be translated, so it's required to be interpolated
   */
-  return interpolateDeep(
+  return interpolateSerializableObject(
     flowTranslations,
     currentFlow.stringReplacements(migrationData),
   );
@@ -159,7 +159,7 @@ export const loader = async ({
   };
 
   // structure cms content -> merge with getting data?
-  const cmsContent = interpolateDeep(
+  const cmsContent = interpolateSerializableObject(
     structureCmsContent(formPageContent),
     "stringReplacements" in currentFlow
       ? currentFlow.stringReplacements(userDataWithPageData)

@@ -18,39 +18,15 @@
                 "guard": "isUnter18JahreAlt",
                 "target": "vertretung-minderjaehrige"
               },
-              "antragsteller-angeben"
+              "#weitere-personen.frage"
             ],
             "BACK": "#flugdaten.zusaetzliche-angaben"
           }
         },
         "vertretung-minderjaehrige": {
           "on": {
-            "SUBMIT": "antragsteller-angeben",
-            "BACK": "daten"
-          }
-        },
-        "antragsteller-angeben": {
-          "on": {
-            "SUBMIT": [
-              {
-                "guard": "isProzessbevollmaechtigteYes",
-                "target": "antragsteller-daten"
-              },
-              "#weitere-personen.frage"
-            ],
-            "BACK": [
-              {
-                "guard": "isUnter18JahreAlt",
-                "target": "vertretung-minderjaehrige"
-              },
-              "daten"
-            ]
-          }
-        },
-        "antragsteller-daten": {
-          "on": {
             "SUBMIT": "#weitere-personen.frage",
-            "BACK": "antragsteller-angeben"
+            "BACK": "daten"
           }
         }
       }
@@ -70,10 +46,10 @@
             ],
             "BACK": [
               {
-                "guard": "isProzessbevollmaechtigteYes",
-                "target": "#person.antragsteller-daten"
+                "guard": "isUnter18JahreAlt",
+                "target": "#person.vertretung-minderjaehrige"
               },
-              "#person.antragsteller-angeben"
+              "#person.daten"
             ]
           }
         },

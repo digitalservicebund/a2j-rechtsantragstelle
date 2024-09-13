@@ -19,6 +19,5 @@ export const persoenlichDatenGuards = {
     if (arrayIndex === undefined) return false;
     return weiterePersonen?.at(arrayIndex)?.unter18JahreAlt === "on";
   },
-  ...yesNoGuards("isProzessbevollmaechtigte"),
   ...yesNoGuards("isWeiterePersonen"),
 } satisfies Guards<FluggastrechtePersoenlichDaten>;

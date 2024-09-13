@@ -32,9 +32,7 @@ module.exports = {
         "plugin:jsx-a11y/recommended",
       ],
       settings: {
-        react: {
-          version: "detect",
-        },
+        react: { version: "detect" },
         formComponents: ["Form"],
         linkComponents: [
           { name: "Link", linkAttribute: "to" },
@@ -43,6 +41,7 @@ module.exports = {
       },
       rules: {
         "react/jsx-no-leaked-render": ["off", { validStrategies: ["ternary"] }], // enable later
+        "react/no-is-mounted": "off", // Re-enable once bug is fixed: https://github.com/jsx-eslint/eslint-plugin-react/issues/3819
       },
     },
 

@@ -21,10 +21,15 @@ const allowedAttributes = {
   a: sanitizeHtml.defaults.allowedAttributes["a"].concat(["rel", "aria-label"]),
   ...openInNewAllowedAttributes,
 };
+const allowedHeadingClasses = [
+  "ds-heading-01-reg",
+  "ds-label-01-bold",
+  "ds-heading-02-reg",
+];
 
 const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {
-    /* Either renders a Standalone link or Inline link, 
+    /* Either renders a Standalone link or Inline link,
       but we use the StandaloneLink component, because both has the same structure and style */
     return ReactDOMServer.renderToString(
       <StandaloneLink text={text} url={href} />,
@@ -64,7 +69,12 @@ const RichText = ({
           allowedClasses: {
             p: ["ds-subhead", "max-w-full"],
             a: ["text-link", "min-h-[24px]", "inline-block"],
-            h: ["ds-heading-01-reg", "ds-label-01-bold", "ds-heading-02-reg"],
+            h1: allowedHeadingClasses,
+            h2: allowedHeadingClasses,
+            h3: allowedHeadingClasses,
+            h4: allowedHeadingClasses,
+            h5: allowedHeadingClasses,
+            h6: allowedHeadingClasses,
           },
           allowedAttributes,
         }),

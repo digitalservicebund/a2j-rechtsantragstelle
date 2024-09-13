@@ -10,7 +10,7 @@
         "BACK": "{{backStep}}",
         "SUBMIT": [
           {
-            "guard": "hasPartnerschaftOrSeparated",
+            "guard": "hasPartnerschaftYes",
             "target": "zusammenleben"
           }
         ]
