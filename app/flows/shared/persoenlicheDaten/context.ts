@@ -26,6 +26,3 @@ export const persoenlicheDaten = {
   ...adresseSchema,
   telefonnummer: optionalOrSchema(phoneNumberSchema),
 };
-
-const _contextObject = z.object(persoenlicheDaten).partial();
-export type PersoenlicheDaten = z.infer<typeof _contextObject>;

@@ -1,5 +1,6 @@
 import _ from "lodash";
 import type { BeratungshilfePersoenlicheDaten } from "~/flows/beratungshilfeFormular/persoenlicheDaten/context";
+import { beratungshilfePersoenlicheDatenDone } from "~/flows/beratungshilfeFormular/persoenlicheDaten/doneFunctions";
 import type { Flow } from "~/flows/flows.server";
 import type { TargetReplacements } from "~/flows/shared/finanzielleAngaben/partner";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
@@ -111,6 +112,7 @@ export const beratungshilfeFormular = {
         },
       }),
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
+        meta: { done: beratungshilfePersoenlicheDatenDone },
         states: {
           start: {
             on: {
