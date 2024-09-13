@@ -117,9 +117,9 @@ describe("F_besitz", () => {
 
       expect(pdfFields.f5Grundeigentum1.value).toBe(false);
       expect(pdfFields.f5Grundeigentum2.value).toBe(true);
-      expect(pdfFields.f1InhaberA.value).toBe(true);
-      expect(pdfFields.f2InhaberB.value).toBe(false);
-      expect(pdfFields.f2InhaberC.value).toBe(false);
+      expect(pdfFields.f6EigentuemerA.value).toBe(true);
+      expect(pdfFields.f6EigentuemerB.value).toBe(false);
+      expect(pdfFields.f6EigentuemerC.value).toBe(false);
       expect(pdfFields.f7Nutzungsart.value).toBe(
         "Art des Eigentums: Haus für Familie, Eigentümer:in: Ich alleine, Fläche: 100 m², Eigennutzung",
       );
