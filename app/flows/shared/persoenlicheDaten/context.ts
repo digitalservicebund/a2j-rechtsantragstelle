@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -14,16 +15,14 @@ export const namePrivatPerson = {
   nachname: stringRequiredSchema,
 };
 
-export const persoenlicheDaten = {
-  telefonnummer: z.union([phoneNumberSchema, z.literal("")]),
-  bevollmaechtigtePerson: z.enum(
-    ["lawyer", "yes", "no"],
-    customRequiredErrorMessage,
-  ),
-};
-
 export const adresseSchema = {
   strasseHausnummer: stringRequiredSchema,
   plz: stringRequiredSchema.pipe(postcodeSchema),
   ort: stringRequiredSchema,
+};
+
+export const persoenlicheDaten = {
+  ...namePrivatPerson,
+  ...adresseSchema,
+  telefonnummer: optionalOrSchema(phoneNumberSchema),
 };

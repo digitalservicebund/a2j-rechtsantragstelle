@@ -10,3 +10,15 @@ export function isKeyOfObject<T extends object>(
 ): key is keyof T {
   return key in obj;
 }
+
+/**
+ * Creates an array of all possible permutations of an input object, each missing a key
+ */
+export function dropEachProperty(obj: object) {
+  return Object.values(
+    Object.keys(obj).map((key) => {
+      const { [key as keyof typeof obj]: _, ...rest } = obj;
+      return rest;
+    }),
+  );
+}

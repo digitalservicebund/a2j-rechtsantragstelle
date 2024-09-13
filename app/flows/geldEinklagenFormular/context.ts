@@ -2,7 +2,7 @@ import { z } from "zod";
 import {
   adresseSchema,
   namePrivatPerson,
-  persoenlicheDaten,
+  persoenlicheDaten as sharedPersoenlicheDaten,
 } from "~/flows/shared/persoenlicheDaten/context";
 import {
   checkedOptional,
@@ -10,6 +10,8 @@ import {
 } from "~/services/validation/checkedCheckbox";
 import { emailSchema } from "~/services/validation/email";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
+import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import {
@@ -17,30 +19,34 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
+const persoenlicheDaten = {
+  ...sharedPersoenlicheDaten,
+  bevollmaechtigtePerson: z.enum(
+    ["lawyer", "yes", "no"],
+    customRequiredErrorMessage,
+  ),
+};
+
 export const context = {
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
-  ...namePrivatPerson,
   ...persoenlicheDaten,
-  ...adresseSchema,
   volljaehrig: YesNoAnswer,
   gesetzlicheVertretung: YesNoAnswer,
   gegenseite: z
     .object({
       typ: z.enum(["privatperson", "unternehmen"], customRequiredErrorMessage),
-      privatperson: z
-        .object({
-          ...namePrivatPerson,
-          ...persoenlicheDaten,
-          ...adresseSchema,
-        })
-        .partial(),
+      privatperson: z.object(persoenlicheDaten).partial(),
       unternehmen: z
         .object({
           name: stringRequiredSchema,
           inhaber: stringRequiredSchema,
           adresszusatz: stringOptionalSchema,
           ...adresseSchema,
-          ...persoenlicheDaten,
+          bevollmaechtigtePerson: z.enum(
+            ["lawyer", "yes", "no"],
+            customRequiredErrorMessage,
+          ),
+          telefonnummer: optionalOrSchema(phoneNumberSchema),
         })
         .partial(),
     })
@@ -55,8 +61,6 @@ export const context = {
           beschreibung: stringRequiredSchema,
           person: z
             .object({
-              ...namePrivatPerson,
-              ...adresseSchema,
               ...persoenlicheDaten,
               email: z.union([emailSchema, z.literal("")]),
             })

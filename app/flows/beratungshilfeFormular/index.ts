@@ -1,7 +1,10 @@
 import _ from "lodash";
+import type { BeratungshilfePersoenlicheDaten } from "~/flows/beratungshilfeFormular/persoenlicheDaten/context";
+import { beratungshilfePersoenlicheDatenDone } from "~/flows/beratungshilfeFormular/persoenlicheDaten/doneFunctions";
 import type { Flow } from "~/flows/flows.server";
 import type { FinanzielleAngabenPartnerTargetReplacements } from "~/flows/shared/finanzielleAngaben/partner";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
+import persoenlicheDatenFlow from "~/flows/shared/persoenlicheDaten/flow.json";
 import abgabeFlow from "./abgabe/flow.json";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
@@ -31,11 +34,6 @@ import {
   grundvoraussetzungDone,
 } from "./grundvoraussetzung/context";
 import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.json";
-import {
-  type BeratungshilfePersoenlicheDaten,
-  beratungshilfePersoenlicheDatenDone,
-} from "./persoenlicheDaten/context";
-import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import {
   type BeratungshilfeRechtsproblem,
   rechtsproblemDone,
@@ -116,6 +114,41 @@ export const beratungshilfeFormular = {
       }),
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
         meta: { done: beratungshilfePersoenlicheDatenDone },
+        states: {
+          start: {
+            on: {
+              BACK: [
+                {
+                  guard: "staatlicheLeistungenIsBuergergeldAndEigentumDone",
+                  target:
+                    "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung",
+                },
+                {
+                  guard: "staatlicheLeistungenIsBuergergeldAndHasEigentum",
+                  target: "#finanzielle-angaben.eigentum.gesamtwert",
+                },
+                {
+                  guard: "staatlicheLeistungenIsBuergergeld",
+                  target: "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
+                },
+                {
+                  guard: "hasAusgabenYes",
+                  target: "#ausgaben.uebersicht",
+                },
+                {
+                  guard: "hasNoStaatlicheLeistungen",
+                  target: "#ausgaben.ausgaben-frage",
+                },
+                "#finanzielle-angaben.einkommen.staatliche-leistungen",
+              ],
+            },
+          },
+          telefonnummer: {
+            on: {
+              SUBMIT: "#abgabe",
+            },
+          },
+        },
       }),
       abgabe: _.merge(abgabeFlow, {
         meta: { done: () => false },

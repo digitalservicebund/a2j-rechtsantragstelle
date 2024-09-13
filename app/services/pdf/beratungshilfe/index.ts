@@ -7,7 +7,7 @@ import { fillAngelegenheit } from "./sections/A_angelegenheit";
 import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
 import { fillEinkommen } from "./sections/C_einkommen";
 import { fillWohnen } from "./sections/D_wohnen";
-import { fillUnterhalt } from "./sections/E_unterhalt/E_unterhalt";
+import { fillUnterhalt } from "./sections/E_unterhalt";
 import { fillBesitz } from "./sections/F_besitz/F_besitz";
 import { fillFooter } from "./sections/footer";
 import { fillAusgaben } from "./sections/G_ausgaben";
@@ -27,10 +27,10 @@ export async function beratungshilfePdfFromUserdata(
   fillAngelegenheit(attachmentData, pdfValues, userdata);
   fillVorraussetzungen(pdfValues, userdata);
   fillEinkommen(pdfValues, userdata);
+  fillWohnen(attachmentData, pdfValues, userdata);
   fillUnterhalt(attachmentData, pdfValues, userdata);
   fillBesitz(attachmentData, pdfValues, userdata);
   fillAusgaben(attachmentData, pdfValues, userdata);
-  fillWohnen(pdfValues, userdata);
   fillFooter(pdfValues, userdata);
 
   const filledPdf = await fillPdf({

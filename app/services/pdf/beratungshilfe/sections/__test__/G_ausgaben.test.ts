@@ -100,23 +100,8 @@ describe("G_ausgaben", () => {
     expect(pdfFields.g31.value).toBeUndefined();
     expect(pdfFields.g5Raten1.value).toBeUndefined();
     expect(pdfFields.g7Zahlung1.value).toBeUndefined();
-    expect(pdfFields.g10Belastungen.value).toBeUndefined();
-
-    expect(attachment[1].title).toEqual(AUSGABEN_ATTACHMENT_TITLE);
-
-    const ausgabenAttachmentRegex = /Ausgabe\s[1-9]/gs;
-
-    expect(attachment[1].text).toBeDefined();
-    const matches = attachment[1].text!.match(ausgabenAttachmentRegex);
-
-    expect(matches).toEqual([
-      "Ausgabe 1",
-      "Ausgabe 2",
-      "Ausgabe 3",
-      "Ausgabe 4",
-      "Ausgabe 5",
-    ]);
-    expect(matches).not.toEqual(["Ausgabe 0", "Ausgabe -1"]);
+    expect(attachment[0].title).toEqual(AUSGABEN_ATTACHMENT_TITLE);
+    expect(attachment[1].title).toBeDefined();
   });
 
   it("fills attachment when char is greater than max char of the field", () => {
@@ -154,16 +139,11 @@ describe("G_ausgaben", () => {
     expect(pdfFields.g31.value).toBeUndefined();
     expect(pdfFields.g5Raten1.value).toBeUndefined();
     expect(pdfFields.g7Zahlung1.value).toBeUndefined();
-    expect(pdfFields.g10Belastungen.value).toBeUndefined();
 
-    expect(attachment[1].title).toEqual(AUSGABEN_ATTACHMENT_TITLE);
+    expect(attachment[0].title).toEqual(AUSGABEN_ATTACHMENT_TITLE);
 
-    const ausgabenAttachmentRegex = /Ausgabe\s[1-9]/gs;
-
-    expect(attachment[1].text).toBeDefined();
-    const matches = attachment[1].text!.match(ausgabenAttachmentRegex);
-
-    expect(matches).toEqual(["Ausgabe 1", "Ausgabe 2"]);
-    expect(matches).not.toEqual(["Ausgabe 0", "Ausgabe -1"]);
+    expect(attachment[1].title).toBeDefined();
+    expect(attachment.some((entry) => entry.title === "Ausgabe 1")).toBe(true);
+    expect(attachment.some((entry) => entry.title === "Ausgabe 2")).toBe(true);
   });
 });

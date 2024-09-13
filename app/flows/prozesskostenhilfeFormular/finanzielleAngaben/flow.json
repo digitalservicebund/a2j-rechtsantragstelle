@@ -33,6 +33,23 @@
               }
             }
           }
+        },
+        "partnerschaft": {
+          "on": {
+            "BACK": [
+              {
+                "guard": "hasFurtherIncome",
+                "target": "#einkuenfte.weitere-einkuenfte.uebersicht"
+              },
+              "#einkuenfte.weitere-einkuenfte.frage"
+            ],
+            "SUBMIT": [
+              {
+                "guard": "hasPartnerschaftYes",
+                "target": "zusammenleben"
+              }
+            ]
+          }
         }
       }
     },
@@ -44,23 +61,27 @@
           "on": {
             "BACK": [
               {
-                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenNoAndUnterhaltYes",
+                "guard": "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes",
                 "target": "#partner.partner-name"
               },
               {
-                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenYes",
+                "guard": "hasPartnerschaftYesAndPartnerEinkommenYes",
+                "target": "#partner.partner-einkuenfte"
+              },
+              {
+                "guard": "hasPartnerschaftYesAndZusammenlebenYes",
                 "target": "#partner.partner-einkommen"
               },
               {
-                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenNoAndUnterhaltNo",
+                "guard": "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo",
                 "target": "#partner.keine-rolle"
               },
               {
-                "guard": "hasPartnerschaftOrSeparatedAndZusammenlebenNo",
+                "guard": "hasPartnerschaftYesAndZusammenlebenNo",
                 "target": "#partner.unterhalt"
               },
               {
-                "guard": "hasPartnerschaftOrSeparated",
+                "guard": "hasPartnerschaftYes",
                 "target": "#partner.zusammenleben"
               },
               "#partner"

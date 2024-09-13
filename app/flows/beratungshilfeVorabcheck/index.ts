@@ -1,7 +1,7 @@
 import type { Flow } from "~/flows/flows.server";
-import config from "./flow.json";
 import { getVerfuegbaresEinkommenFreibetrag } from "./freibetrag";
-import { guards, isIncomeTooHigh } from "./guards";
+import { guards } from "./guards";
+import { beratungshilfeVorabcheckXstateConfig } from "./xstateConfig";
 import { type AllContexts } from "../common";
 
 export function reasonsToDisplayBeratungshilfe(context: AllContexts) {
@@ -13,7 +13,7 @@ export function reasonsToDisplayBeratungshilfe(context: AllContexts) {
   const longPathIncomeTooHigh =
     "genauigkeit" in context &&
     context.genauigkeit == "yes" &&
-    isIncomeTooHigh({ context });
+    guards.isIncomeTooHigh({ context });
   return {
     eigeninitiativeWarning:
       "eigeninitiative" in context && context.eigeninitiative === "no",
@@ -27,6 +27,6 @@ export const beratungshilfeVorabcheck = {
     verfuegbaresEinkommenFreibetrag:
       getVerfuegbaresEinkommenFreibetrag(context).toString(),
   }),
-  config,
+  config: beratungshilfeVorabcheckXstateConfig,
   guards,
 } satisfies Flow;
