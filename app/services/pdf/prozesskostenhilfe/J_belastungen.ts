@@ -1,6 +1,6 @@
 import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import type { PkhPdfFillFunction } from "./fillOutFunction";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt/E_unterhalt";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt";
 import { ausgabenSituationMapping } from "../beratungshilfe/sections/G_ausgaben";
 
 export const fillBelastungen: PkhPdfFillFunction = ({

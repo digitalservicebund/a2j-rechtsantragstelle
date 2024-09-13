@@ -3,7 +3,7 @@ import { finanzielleAngabeEinkuenfteGuards as guards } from "~/flows/prozesskost
 import { getTotalMonthlyFinancialEntries } from "~/services/pdf/util";
 import type { PkhPdfFillFunction } from "./fillOutFunction";
 import type { AttachmentEntries } from "../attachment";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt/E_unterhalt";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt";
 
 export const versicherungMapping = {
   haftpflichtversicherung: "Haftpflichtversicherung",

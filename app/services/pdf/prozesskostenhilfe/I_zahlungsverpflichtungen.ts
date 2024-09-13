@@ -4,7 +4,7 @@ import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/flows/p
 import type { PkhPdfFillFunction } from "./fillOutFunction";
 import type { AttachmentEntries } from "../attachment";
 import { eigentuemerMapping } from "../beratungshilfe/eigentuemerMapping";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt/E_unterhalt";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt";
 
 type Zahlung = NonNullable<
   | ProzesskostenhilfeFormularContext["ratenzahlungen"]
