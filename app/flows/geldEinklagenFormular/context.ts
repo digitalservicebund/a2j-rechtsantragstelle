@@ -1,8 +1,8 @@
+import _ from "lodash";
 import { z } from "zod";
 import {
-  adresseSchema,
   namePrivatPerson,
-  persoenlicheDaten,
+  persoenlicheDaten as sharedPersoenlicheDaten,
 } from "~/flows/shared/persoenlicheDaten/context";
 import {
   checkedOptional,
@@ -17,30 +17,34 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
+const persoenlicheDaten = {
+  ..._.omit(sharedPersoenlicheDaten, ["geburtsdatum"]),
+  bevollmaechtigtePerson: z.enum(
+    ["lawyer", "yes", "no"],
+    customRequiredErrorMessage,
+  ),
+};
+
 export const context = {
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
-  ...namePrivatPerson,
   ...persoenlicheDaten,
-  ...adresseSchema,
   volljaehrig: YesNoAnswer,
   gesetzlicheVertretung: YesNoAnswer,
   gegenseite: z
     .object({
       typ: z.enum(["privatperson", "unternehmen"], customRequiredErrorMessage),
-      privatperson: z
-        .object({
-          ...namePrivatPerson,
-          ...persoenlicheDaten,
-          ...adresseSchema,
-        })
-        .partial(),
+      privatperson: z.object(persoenlicheDaten).partial(),
       unternehmen: z
         .object({
           name: stringRequiredSchema,
           inhaber: stringRequiredSchema,
           adresszusatz: stringOptionalSchema,
-          ...adresseSchema,
-          ...persoenlicheDaten,
+          ..._.omit(persoenlicheDaten, [
+            "anrede",
+            "vorname",
+            "nachname",
+            "title",
+          ]),
         })
         .partial(),
     })
@@ -55,8 +59,6 @@ export const context = {
           beschreibung: stringRequiredSchema,
           person: z
             .object({
-              ...namePrivatPerson,
-              ...adresseSchema,
               ...persoenlicheDaten,
               email: z.union([emailSchema, z.literal("")]),
             })

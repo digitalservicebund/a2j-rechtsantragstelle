@@ -2,6 +2,8 @@ import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
 import type { TargetReplacements } from "~/flows/shared/finanzielleAngaben/partner";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
+import type { PersoenlicheDaten } from "~/flows/shared/persoenlicheDaten/context";
+import { persoenlicheDatenDone } from "~/flows/shared/persoenlicheDaten/doneFunctions";
 import abgabeFlow from "./abgabe/flow.json";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
@@ -31,10 +33,6 @@ import {
   grundvoraussetzungDone,
 } from "./grundvoraussetzung/context";
 import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.json";
-import {
-  type BeratungshilfePersoenlicheDaten,
-  beratungshilfePersoenlicheDatenDone,
-} from "./persoenlicheDaten/context";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import {
   type BeratungshilfeRechtsproblem,
@@ -114,7 +112,7 @@ export const beratungshilfeFormular = {
         },
       }),
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
-        meta: { done: beratungshilfePersoenlicheDatenDone },
+        meta: { done: persoenlicheDatenDone },
       }),
       abgabe: _.merge(abgabeFlow, {
         meta: { done: () => false },
@@ -146,5 +144,5 @@ export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &
   BeratungshilfeAnwaltlicheVertretung &
   BeratungshilfeRechtsproblem &
   BeratungshilfeFinanzielleAngaben &
-  BeratungshilfePersoenlicheDaten &
+  PersoenlicheDaten &
   AbgabeContext;

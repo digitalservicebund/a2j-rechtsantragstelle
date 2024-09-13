@@ -1,3 +1,4 @@
+import { persoenlicheDatenDone } from "~/flows/shared/persoenlicheDaten/doneFunctions";
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { BeratungshilfeFormularContext } from ".";
 import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
@@ -12,7 +13,6 @@ import {
 } from "./finanzielleAngaben/doneFunctions";
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import { eigentumTotalWorthLessThan10000 } from "./finanzielleAngaben/guards";
-import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/context";
 import { rechtsproblemDone } from "./rechtsproblem/context";
 
 export const getAmtsgerichtStrings = (
@@ -100,7 +100,7 @@ export const getMissingInformationStrings = (
     }),
     rechtsproblemMissingInformation: !rechtsproblemDone({ context }),
     einkommenMissingInformation: !einkommenDone({ context }),
-    persoenlicheDatenMissingInformation: !beratungshilfePersoenlicheDatenDone({
+    persoenlicheDatenMissingInformation: !persoenlicheDatenDone({
       context,
     }),
   };
