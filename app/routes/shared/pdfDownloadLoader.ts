@@ -20,19 +20,6 @@ const pdfConfigs = {
   },
 } as const satisfies Partial<Record<FlowId, unknown>>;
 
-export function createHeaders(filename: string) {
-  // The default character set for HTTP headers is ISO-8859-1.
-  // There is however RFC 6266, describing how you can encode the file name
-  // in a Content-Disposition header:
-  // https://datatracker.ietf.org/doc/html/rfc6266#section-5
-
-  const encodedFilename = encodeURIComponent(filename);
-  return {
-    "Content-Type": "application/pdf",
-    "Content-Disposition": `inline; filename*=UTF-8''${encodeURIComponent(encodedFilename)}`,
-  };
-}
-
 export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
   const { pathname } = new URL(request.url);
   const { flowId } = parsePathname(pathname);
@@ -45,9 +32,10 @@ export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
   const { pdfFunction, filenameFunction } =
     pdfConfigs[flowId as keyof typeof pdfConfigs];
 
-  const filename = filenameFunction(userData);
-
   return new Response(await (await pdfFunction(userData)).save(), {
-    headers: createHeaders(filename),
+    headers: {
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `inline; filename=${filenameFunction(userData)}`,
+    },
   });
 }
