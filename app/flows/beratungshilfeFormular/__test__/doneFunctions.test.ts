@@ -3,17 +3,8 @@ import {
   grundvoraussetzungDone,
   type BeratungshilfeGrundvoraussetzungen,
 } from "~/flows/beratungshilfeFormular/grundvoraussetzung/context";
-import { beratungshilfePersoenlicheDatenDone } from "~/flows/beratungshilfeFormular/persoenlicheDaten/context";
 import { rechtsproblemDone } from "~/flows/beratungshilfeFormular/rechtsproblem/context";
-
-function dropEachProperty(context: object) {
-  return Object.values(
-    Object.keys(context).map((key) => {
-      const { [key as keyof typeof context]: _, ...rest } = context;
-      return rest;
-    }),
-  );
-}
+import { dropEachProperty } from "~/util/objects";
 
 describe("grundvoraussetzungDone", () => {
   it("tests all revelant fields", () => {
@@ -94,28 +85,5 @@ describe("rechtsproblemDone", () => {
         },
       }),
     ).toBeTruthy();
-  });
-});
-
-describe("beratungshilfePersoenlicheDatenDone", () => {
-  const validContext = {
-    vorname: "A",
-    nachname: "B",
-    geburtsdatum: "1234",
-    strasseHausnummer: "abc",
-    plz: "12345",
-    ort: "ABC",
-  };
-
-  it("should return true when all required fields are present", () => {
-    expect(
-      beratungshilfePersoenlicheDatenDone({ context: validContext }),
-    ).toBeTruthy();
-  });
-
-  it("should return false when any required field is missing", () => {
-    dropEachProperty(validContext).forEach((context) => {
-      expect(beratungshilfePersoenlicheDatenDone({ context })).toBeFalsy();
-    });
   });
 });
