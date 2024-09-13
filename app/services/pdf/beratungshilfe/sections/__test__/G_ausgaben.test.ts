@@ -5,7 +5,7 @@ import {
   AUSGABEN_ATTACHMENT_TITLE,
   fillAusgaben,
 } from "~/services/pdf/beratungshilfe/sections/G_ausgaben";
-import { pdfFillReducer } from "~/services/pdf/prozesskostenhilfe/fillOutFunction";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 
 const expensesRecipients = "ausgaben empfänger";
 const paymentDeadlineDate = "12.12.2099";

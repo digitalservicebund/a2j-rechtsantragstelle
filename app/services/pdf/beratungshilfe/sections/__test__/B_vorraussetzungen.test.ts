@@ -1,7 +1,7 @@
 import { type BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import { fillVorraussetzungen } from "~/services/pdf/beratungshilfe/sections/B_vorraussetzungen";
-import { pdfFillReducer } from "~/services/pdf/prozesskostenhilfe/fillOutFunction";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 
 describe("B_vorraussetzungen", () => {
   it("should not check vorraussetzung checkbox pdf fields when context vorraussetzung is yes", () => {

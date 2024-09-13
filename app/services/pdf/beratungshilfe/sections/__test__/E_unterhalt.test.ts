@@ -5,7 +5,7 @@ import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
   fillUnterhalt,
 } from "~/services/pdf/beratungshilfe/sections/E_unterhalt";
-import { pdfFillReducer } from "~/services/pdf/prozesskostenhilfe/fillOutFunction";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 
 describe("E_unterhalt", () => {
   it("No section E title in attachment without data", () => {

@@ -4,7 +4,7 @@ import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormul
 import { gerbehAmtsgericht } from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
-import { pdfFillReducer } from "~/services/pdf/prozesskostenhilfe/fillOutFunction";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillHeader } from "../header";
 
 describe("fillHeader", () => {

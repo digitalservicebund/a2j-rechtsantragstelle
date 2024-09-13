@@ -1,5 +1,5 @@
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
-import { pdfFillReducer } from "~/services/pdf/prozesskostenhilfe/fillOutFunction";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { today, toGermanDateFormat } from "~/util/date";
 import { fillFooter } from "../footer";
 

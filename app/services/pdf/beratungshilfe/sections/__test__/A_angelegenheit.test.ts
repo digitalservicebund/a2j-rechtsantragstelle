@@ -9,7 +9,7 @@ import {
   THEMA_RECHTSPROBLEM_TITLE,
   ZIEL_ANGELEGENHEIT_TITLE,
 } from "~/services/pdf/beratungshilfe/sections/A_angelegenheit";
-import { pdfFillReducer } from "~/services/pdf/prozesskostenhilfe/fillOutFunction";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 
 describe("A_angelegenheit", () => {
   it("should fill angelegenheit pdf field when correct context is given", () => {

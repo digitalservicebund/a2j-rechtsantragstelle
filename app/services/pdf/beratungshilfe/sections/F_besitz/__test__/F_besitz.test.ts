@@ -7,7 +7,7 @@ import {
   fillFinancialBankkonto,
   fillFinancialGrundeigentum,
 } from "~/services/pdf/beratungshilfe/sections/F_besitz/F_besitz";
-import { pdfFillReducer } from "~/services/pdf/prozesskostenhilfe/fillOutFunction";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillVermoegenswerte } from "../fillVermoegenswerte";
 
 describe("F_besitz", () => {

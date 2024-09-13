@@ -1,7 +1,7 @@
 import _ from "lodash";
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
-import type { PkhPdfFillFunction } from "./fillOutFunction";
+import type { PkhPdfFillFunction } from ".";
 import type { AttachmentEntries } from "../attachment";
 import { eigentuemerMapping } from "../beratungshilfe/eigentuemerMapping";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt";

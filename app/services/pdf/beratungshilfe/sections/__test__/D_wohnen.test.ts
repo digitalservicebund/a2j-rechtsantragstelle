@@ -1,6 +1,6 @@
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import { fillWohnen } from "~/services/pdf/beratungshilfe/sections/D_wohnen";
-import { pdfFillReducer } from "~/services/pdf/prozesskostenhilfe/fillOutFunction";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 
 describe("fillWohnen", () => {
   it("should fill wohnen section for living situation alone correct", () => {

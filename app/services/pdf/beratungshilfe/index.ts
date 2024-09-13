@@ -3,6 +3,8 @@ import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshi
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import Handout from "./Handout";
 import { appendAttachment } from "../appendAttachment";
+import type { PdfFillFunction } from "../fillOutFunction";
+import { pdfFillReducer } from "../fillOutFunction";
 import { fillAngelegenheit } from "./sections/A_angelegenheit";
 import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
 import { fillEinkommen } from "./sections/C_einkommen";
@@ -14,8 +16,6 @@ import { fillAusgaben } from "./sections/G_ausgaben";
 import FormAttachment from "../attachment/FormAttachment";
 import { pdfFromReact } from "../attachment/pdfFromReact";
 import { fillPdf } from "../fillPdf.server";
-import type { PdfFillFunction } from "../prozesskostenhilfe/fillOutFunction";
-import { pdfFillReducer } from "../prozesskostenhilfe/fillOutFunction";
 import { fillHeader } from "./sections/header";
 export { getBeratungshilfeParameters };
 
