@@ -2,8 +2,9 @@ import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
 import type { TargetReplacements } from "~/flows/shared/finanzielleAngaben/partner";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
+import type { PersoenlicheDatenTargetReplacements } from "~/flows/shared/persoenlicheDaten";
+import { getPersoenlicheDatenSubflow } from "~/flows/shared/persoenlicheDaten";
 import type { PersoenlicheDaten } from "~/flows/shared/persoenlicheDaten/context";
-import { persoenlicheDatenDone } from "~/flows/shared/persoenlicheDaten/doneFunctions";
 import abgabeFlow from "./abgabe/flow.json";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
@@ -33,7 +34,6 @@ import {
   grundvoraussetzungDone,
 } from "./grundvoraussetzung/context";
 import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.json";
-import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import {
   type BeratungshilfeRechtsproblem,
   rechtsproblemDone,
@@ -64,6 +64,11 @@ export const finanzielleAngabenPartnerTargetReplacements: TargetReplacements = {
   partnerIncomeTarget: "partner-einkommen-summe",
   nextStep: "#kinder.kinder-frage",
 };
+
+export const persoenlicheDatenTargetReplacements: PersoenlicheDatenTargetReplacements =
+  {
+    nextStep: "#abgabe",
+  };
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -111,9 +116,43 @@ export const beratungshilfeFormular = {
           ausgaben: { meta: { done: ausgabenDone } },
         },
       }),
-      "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
-        meta: { done: persoenlicheDatenDone },
-      }),
+      "persoenliche-daten": _.merge(
+        getPersoenlicheDatenSubflow(persoenlicheDatenTargetReplacements),
+        // Need to override back step to account for guards
+        {
+          states: {
+            start: {
+              on: {
+                BACK: [
+                  {
+                    guard: "staatlicheLeistungenIsBuergergeldAndEigentumDone",
+                    target:
+                      "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung",
+                  },
+                  {
+                    guard: "staatlicheLeistungenIsBuergergeldAndHasEigentum",
+                    target: "#finanzielle-angaben.eigentum.gesamtwert",
+                  },
+                  {
+                    guard: "staatlicheLeistungenIsBuergergeld",
+                    target:
+                      "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
+                  },
+                  {
+                    guard: "hasAusgabenYes",
+                    target: "#ausgaben.uebersicht",
+                  },
+                  {
+                    guard: "hasNoStaatlicheLeistungen",
+                    target: "#ausgaben.ausgaben-frage",
+                  },
+                  "#finanzielle-angaben.einkommen.staatliche-leistungen",
+                ],
+              },
+            },
+          },
+        },
+      ),
       abgabe: _.merge(abgabeFlow, {
         meta: { done: () => false },
       }),

@@ -1,0 +1,16 @@
+{
+  "id": "persoenliche-daten",
+  "initial": "start",
+  "states": {
+    "start": {
+      "on": {
+        "SUBMIT": "name",
+        "BACK": ""
+      }
+    },
+    "name": { "on": { "BACK": "start", "SUBMIT": "geburtsdatum" } },
+    "geburtsdatum": { "on": { "BACK": "name", "SUBMIT": "adresse" } },
+    "adresse": { "on": { "BACK": "geburtsdatum", "SUBMIT": "telefonnummer" } },
+    "telefonnummer": { "on": { "BACK": "adresse", "SUBMIT": "{{nextStep}}" } }
+  }
+}
