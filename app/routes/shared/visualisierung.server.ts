@@ -4,6 +4,7 @@ import { toDirectedGraph } from "@xstate/graph";
 import { createMachine, type AnyStateMachine } from "xstate";
 import { parsePathname } from "~/flows/flowIds";
 import { flows } from "~/flows/flows.server";
+import type { Config } from "~/services/flow/server/buildFlowController";
 import { throw404OnProduction } from "../../services/errorPages/throw404";
 
 function statesToGraph(
@@ -84,7 +85,7 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   const { flowId } = parsePathname(url.pathname);
   const { config, guards } = flows[flowId];
   const showBacklinks = url.searchParams.get("showBacklinks") !== null;
-  const machine = createMachine(config, { guards });
+  const machine = createMachine(config as Config, { guards });
   const graph = getVisualizationString(machine, showBacklinks);
   const mermaidUrl = `https://mermaid.ink/img/pako:${compressBase64(graph)}?bgColor=!white`;
   return json({ url: mermaidUrl });
