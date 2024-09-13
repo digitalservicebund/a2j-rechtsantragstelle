@@ -78,7 +78,7 @@ describe("F_besitz", () => {
       expect(attachment).toContainEqual({ title: "Bankkonten", level: "h3" });
       expect(attachment).toContainEqual({ title: "Bankkonto 3", level: "h4" });
       expect(attachment).toContainEqual({
-        title: "Eigentümer",
+        title: "Inhaber",
         text: "Ehe-Partner:in",
       });
       expect(attachment).toContainEqual({

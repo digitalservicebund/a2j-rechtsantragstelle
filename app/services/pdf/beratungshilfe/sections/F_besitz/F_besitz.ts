@@ -57,7 +57,10 @@ export function fillFinancialBankkonto(
 
     pdfFields.f3Bank1.value += `Bank: ${bankkonto.bankName}`;
     if (bankkonto.kontoDescription)
-      pdfFields.f3Bank1.value += `Bezeichnung: ${bankkonto.kontoDescription}`;
+      pdfFields.f3Bank1.value += `\nBezeichnung: ${bankkonto.kontoDescription}`;
+    if (bankkonto.kontoEigentuemer === "myselfAndSomeoneElse")
+      pdfFields.f3Bank1.value += `\nInhaber: ${eigentuemerMapping[bankkonto.kontoEigentuemer]}`;
+
     pdfFields.f4Kontostand.value = bankkonto.kontostand + " €";
   } else {
     attachment.push({
@@ -73,7 +76,7 @@ export function fillFinancialBankkonto(
         attachment.push(
           { title: `Bankkonto ${index + 1}`, level: "h4" },
           { title: "Bank", text: bankName },
-          { title: "Eigentümer", text: eigentuemerMapping[kontoEigentuemer] },
+          { title: "Inhaber", text: eigentuemerMapping[kontoEigentuemer] },
           { title: "Kontostand", text: kontostand + " €" },
         );
 
