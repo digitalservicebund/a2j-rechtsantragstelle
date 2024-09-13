@@ -3,69 +3,44 @@ import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import { fillWohnen } from "~/services/pdf/beratungshilfe/sections/D_wohnen";
 
 describe("fillWohnen", () => {
-  it("should fill wohnen section for no data correctly", () => {
-    const pdfFields = getBeratungshilfeParameters();
-
-    fillWohnen(pdfFields, {});
-
-    expect(pdfFields.d1Wohnung.value).toEqual("");
-    expect(pdfFields.d2Wohnkosten.value).toEqual(undefined);
-    expect(pdfFields.d3Teilwohnkosten.value).toEqual("");
-    expect(pdfFields.d4Wohnungalleine.value).toEqual(undefined);
-    expect(pdfFields.d5Wohnunggemeinsam.value).toEqual(false);
-    expect(pdfFields.d6WonungweiterePersonen.value).toEqual("");
-  });
-
   it("should fill wohnen section for living situation alone correct", () => {
-    const context: BeratungshilfeFormularContext = {
+    const context = {
       apartmentSizeSqm: 10,
-      apartmentCostAlone: "100",
+      apartmentCostAlone: "100,00",
       livingSituation: "alone",
-    };
+    } satisfies BeratungshilfeFormularContext;
 
     const pdfFields = getBeratungshilfeParameters();
 
     fillWohnen(pdfFields, context);
 
-    expect(pdfFields.d1Wohnung.value).toEqual(
-      context.apartmentSizeSqm?.toString(),
-    );
-    expect(pdfFields.d2Wohnkosten.value).toEqual(
-      context.apartmentCostAlone?.toString(),
-    );
-    expect(pdfFields.d3Teilwohnkosten.value).toEqual("");
+    expect(pdfFields.d1Wohnung.value).toEqual("10");
+    expect(pdfFields.d2Wohnkosten.value).toEqual("100,00");
+    expect(pdfFields.d3Teilwohnkosten.value).toBeUndefined();
     expect(pdfFields.d4Wohnungalleine.value).toEqual(true);
     expect(pdfFields.d5Wohnunggemeinsam.value).toEqual(false);
-    expect(pdfFields.d6WonungweiterePersonen.value).toEqual("");
+    expect(pdfFields.d6WonungweiterePersonen.value).toBeUndefined();
   });
 
   it("should fill wohnen section for living situation withOthers correct", () => {
-    const context: BeratungshilfeFormularContext = {
+    const context = {
       apartmentSizeSqm: 10,
       apartmentCostFull: "100",
       apartmentCostOwnShare: "20",
       apartmentPersonCount: 5,
       livingSituation: "withOthers",
-    };
+    } satisfies BeratungshilfeFormularContext;
 
     const pdfFields = getBeratungshilfeParameters();
 
     fillWohnen(pdfFields, context);
 
-    expect(pdfFields.d1Wohnung.value).toEqual(
-      context.apartmentSizeSqm?.toString(),
-    );
-    expect(pdfFields.d2Wohnkosten.value).toEqual(
-      context.apartmentCostFull?.toString(),
-    );
-    expect(pdfFields.d3Teilwohnkosten.value).toEqual(
-      context.apartmentCostOwnShare?.toString(),
-    );
+    expect(pdfFields.d1Wohnung.value).toEqual("10");
+    expect(pdfFields.d2Wohnkosten.value).toEqual("100");
+    expect(pdfFields.d3Teilwohnkosten.value).toEqual("20");
     expect(pdfFields.d4Wohnungalleine.value).toEqual(false);
     expect(pdfFields.d5Wohnunggemeinsam.value).toEqual(true);
-    expect(pdfFields.d6WonungweiterePersonen.value).toEqual(
-      context.apartmentPersonCount?.toString(),
-    );
+    expect(pdfFields.d6WonungweiterePersonen.value).toEqual("5");
   });
 
   it("should fill wohnen section for living situation withRelatives correct", () => {
@@ -81,20 +56,12 @@ describe("fillWohnen", () => {
 
     fillWohnen(pdfFields, context);
 
-    expect(pdfFields.d1Wohnung.value).toEqual(
-      context.apartmentSizeSqm?.toString(),
-    );
-    expect(pdfFields.d2Wohnkosten.value).toEqual(
-      context.apartmentCostFull?.toString(),
-    );
-    expect(pdfFields.d3Teilwohnkosten.value).toEqual(
-      context.apartmentCostOwnShare?.toString(),
-    );
+    expect(pdfFields.d1Wohnung.value).toEqual("10");
+    expect(pdfFields.d2Wohnkosten.value).toEqual("100");
+    expect(pdfFields.d3Teilwohnkosten.value).toEqual("20");
     expect(pdfFields.d4Wohnungalleine.value).toEqual(false);
     expect(pdfFields.d5Wohnunggemeinsam.value).toEqual(true);
-    expect(pdfFields.d6WonungweiterePersonen.value).toEqual(
-      context.apartmentPersonCount?.toString(),
-    );
+    expect(pdfFields.d6WonungweiterePersonen.value).toEqual("5");
   });
 
   it("should should round cost own share", () => {

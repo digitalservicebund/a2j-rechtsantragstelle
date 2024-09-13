@@ -3,17 +3,9 @@ import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormul
 
 export function fillEinkommen(
   pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
+  { einkommen, partnerEinkommenSumme }: BeratungshilfeFormularContext,
 ) {
-  pdfFields.c2Einkuenftenetto.value = context.einkommen ?? "";
-
-  if (
-    context.partnerschaft === "yes" &&
-    context.zusammenleben === "yes" &&
-    context.partnerEinkommen === "yes"
-  ) {
-    pdfFields.c3EinkuenftePartner.value = true;
-    pdfFields.c4EinkuenftePartnernetto.value =
-      context.partnerEinkommenSumme ?? "";
-  }
+  pdfFields.c2Einkuenftenetto.value = einkommen ?? "";
+  pdfFields.c3EinkuenftePartner.value = partnerEinkommenSumme !== undefined;
+  pdfFields.c4EinkuenftePartnernetto.value = partnerEinkommenSumme ?? "";
 }
