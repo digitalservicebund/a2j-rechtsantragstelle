@@ -3,12 +3,12 @@ import { createMachine } from "xstate";
 import { happyPathData } from "tests/fixtures/beratungshilfeVorabcheckData";
 import type { TestCases } from "~/flows/__test__/TestCases";
 import type { BeratungshilfeVorabcheckContext } from "~/flows/beratungshilfeVorabcheck/context";
-import beratungshilfeFlow from "~/flows/beratungshilfeVorabcheck/flow.json";
 import { guards } from "~/flows/beratungshilfeVorabcheck/guards";
+import { beratungshilfeVorabcheckXstateConfig } from "~/flows/beratungshilfeVorabcheck/xstateConfig";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
 const machine: FlowStateMachine = createMachine(
-  { ...beratungshilfeFlow, context: {} },
+  { ...beratungshilfeVorabcheckXstateConfig, context: {} },
   { guards },
 );
 

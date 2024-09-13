@@ -1,5 +1,5 @@
 import { reasonsToDisplayBeratungshilfe } from "app/flows/beratungshilfeVorabcheck";
-import * as guards from "~/flows/beratungshilfeVorabcheck/guards";
+import { guards } from "~/flows/beratungshilfeVorabcheck/guards";
 
 describe("reasonsToDisplayBeratungshilfe", () => {
   it("returns false if no data given", () => {

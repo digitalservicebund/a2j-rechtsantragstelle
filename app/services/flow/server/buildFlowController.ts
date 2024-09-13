@@ -1,6 +1,6 @@
 import { getShortestPaths } from "@xstate/graph";
 import _ from "lodash";
-import type { MachineConfig } from "xstate";
+import type { MachineConfig, MachineContext } from "xstate";
 import {
   getInitialSnapshot,
   getNextSnapshot,
@@ -31,8 +31,8 @@ const _genericMachine = setup({
 
 export type FlowStateMachine = ReturnType<typeof _genericMachine.createMachine>;
 
-export type Config = MachineConfig<
-  Context,
+export type Config<TContext extends MachineContext = Context> = MachineConfig<
+  TContext,
   FlowStateMachineEvents,
   never,
   never,
