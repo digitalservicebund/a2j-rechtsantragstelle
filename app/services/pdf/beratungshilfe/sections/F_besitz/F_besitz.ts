@@ -91,9 +91,9 @@ export function fillFinancialGrundeigentum(
   if (grundeigentumArray.length === 1) {
     const grundeigentum = grundeigentumArray[0];
 
-    pdfFields.f1InhaberA.value = grundeigentum.eigentuemer == "myself";
-    pdfFields.f2InhaberB.value = grundeigentum.eigentuemer == "partner";
-    pdfFields.f2InhaberC.value =
+    pdfFields.f6EigentuemerA.value = grundeigentum.eigentuemer == "myself";
+    pdfFields.f6EigentuemerB.value = grundeigentum.eigentuemer == "partner";
+    pdfFields.f6EigentuemerC.value =
       grundeigentum.eigentuemer == "myselfAndPartner";
     pdfFields.f8Verkehrswert.value = grundeigentum.verkaufswert
       ? `${grundeigentum.verkaufswert} €`
