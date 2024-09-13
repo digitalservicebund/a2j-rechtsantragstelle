@@ -31,7 +31,7 @@ export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   const ausgaben = userData.ausgaben ?? [];
   const hasOverflowAusgaben = ausgaben.length > AUSGABEN_MAX_COUNT_FIELDS;
 
-  const isPdfFieldExceedsMaxChars = userData.ausgaben?.some(
+  const isPdfFieldExceedsMaxChars = ausgaben.some(
     (ausgabe) =>
       ausgabe.art.length > AUSGABEN_MAX_CHARS_FIELD ||
       ausgabe.zahlungsempfaenger.length > AUSGABEN_MAX_CHARS_FIELD,
