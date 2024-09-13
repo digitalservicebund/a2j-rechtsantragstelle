@@ -102,6 +102,15 @@ export function fillFinancialGrundeigentum(
 
   if (!hasGrundeigentumYes) return;
 
+  const grundeigentumArtMapping = {
+    eigentumswohnung: "Wohnung",
+    einfamilienhaus: "Haus für Familie",
+    mehrereWohnungen: "Haus mit mehreren Wohnungen",
+    unbebaut: "Grundstück",
+    erbbaurecht: "Erbbaurecht",
+    garage: "Garagen(-hof)",
+  } as const;
+
   if (grundeigentumArray.length === 1) {
     const grundeigentum = grundeigentumArray[0];
 
@@ -109,21 +118,44 @@ export function fillFinancialGrundeigentum(
     pdfFields.f6EigentuemerB.value = grundeigentum.eigentuemer == "partner";
     pdfFields.f6EigentuemerC.value =
       grundeigentum.eigentuemer == "myselfAndPartner";
-    pdfFields.f8Verkehrswert.value = grundeigentum.verkaufswert
-      ? `${grundeigentum.verkaufswert} €`
-      : "Keine Angaben";
 
-    pdfFields.f7Nutzungsart.value =
-      getGrundeigentumBezeichnung(grundeigentum).join(", ");
+    pdfFields.f7Nutzungsart.value = `Art: ${grundeigentumArtMapping[grundeigentum.art]}`;
+    if (grundeigentum.isBewohnt === "yes")
+      pdfFields.f7Nutzungsart.value += ", Eigennutzung";
+    else if (grundeigentum.isBewohnt === "family")
+      pdfFields.f7Nutzungsart.value += ", Bewohnt von Familie";
+
+    pdfFields.f7Nutzungsart.value += `, Fläche: ${grundeigentum.flaeche} m²`;
+
+    if (grundeigentum.eigentuemer === "myselfAndSomeoneElse")
+      pdfFields.f7Nutzungsart.value += `, Eigentümer: ${eigentuemerMapping[grundeigentum.eigentuemer]}`;
+
+    pdfFields.f8Verkehrswert.value = grundeigentum.verkaufswert + " €";
   } else {
     pdfFields.f7Nutzungsart.value = newPageHint;
-    attachment.unshift({
+    attachment.push({
       title: "Grundeigentum",
-      text: grundeigentumArray
-        .map((grundeigentum) =>
-          getGrundeigentumBezeichnung(grundeigentum, true).join("\n"),
-        )
-        .join("\n\n"),
+      level: "h3",
+    });
+
+    grundeigentumArray.forEach((grundeigentum, index) => {
+      attachment.push(
+        { title: `Grundeigentum ${index + 1}`, level: "h4" },
+        {
+          title: "Art",
+          text: grundeigentumArtMapping[grundeigentum.art],
+        },
+        {
+          title: "Eigentümer:in",
+          text: eigentuemerMapping[grundeigentum.eigentuemer],
+        },
+        { title: "Fläche", text: grundeigentum.flaeche + " m²" },
+        { title: "Verkehrswert", text: grundeigentum.verkaufswert + " €" },
+      );
+      if (grundeigentum.isBewohnt === "yes")
+        attachment.push({ title: "Eigennutzung", text: "Ja" });
+      else if (grundeigentum.isBewohnt === "family")
+        attachment.push({ title: "Eigennutzung", text: "Von Familie" });
     });
   }
 }
@@ -141,15 +173,17 @@ export function fillFinancialWertsachen(
   if (!hasWertsacheYes) return;
 
   if (wertsachen?.length == 1) {
-    const wertsache = wertsachen.pop();
-    pdfFields.f14InhaberA.value = wertsache?.eigentuemer == "myself";
-    pdfFields.f14InhaberB.value = wertsache?.eigentuemer == "partner";
+    const wertsache = wertsachen[0];
+    pdfFields.f14InhaberA.value = wertsache.eigentuemer == "myself";
+    pdfFields.f14InhaberB.value = wertsache.eigentuemer == "partner";
     pdfFields.f14VermoegenswerteC.value =
-      wertsache?.eigentuemer == "myselfAndPartner";
-    pdfFields.f15Bezeichnung.value =
-      getWertsachenBezeichnung(wertsache).join(", ");
-    pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value =
-      wertsache?.wert ?? "Keine Angaben";
+      wertsache.eigentuemer == "myselfAndPartner";
+
+    pdfFields.f15Bezeichnung.value = wertsache.art;
+    if (wertsache.eigentuemer === "myselfAndSomeoneElse")
+      pdfFields.f15Bezeichnung.value += `\nEigentümer:in: ${eigentuemerMapping[wertsache.eigentuemer]}`;
+
+    pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value = wertsache.wert;
   } else {
     pdfFields.f15Bezeichnung.value = newPageHint;
     const bezeichnung: string[] = [];
@@ -206,49 +240,6 @@ function getWertsachenBezeichnung(
   if (hasMultipleWertsachen && wertsache?.wert) {
     bezeichnung.push(`Verkehrswert: ${wertsache?.wert} €`);
   }
-
-  return bezeichnung;
-}
-
-type Grundeigentum = NonNullable<
-  BeratungshilfeFormularContext["grundeigentum"]
->[0];
-
-function getGrundeigentumBezeichnung(
-  grundeigentum: Grundeigentum,
-  hasMultipleGrundeigentum = false,
-) {
-  const bezeichnung = [];
-  const artMapping = {
-    eigentumswohnung: "Wohnung",
-    einfamilienhaus: "Haus für Familie",
-    mehrereWohnungen: "Haus mit mehreren Wohnungen",
-    unbebaut: "Grundstück",
-    erbbaurecht: "Erbbaurecht",
-    garage: "Garagen(-hof)",
-  };
-
-  if (grundeigentum.art) {
-    bezeichnung.push(`Art des Eigentums: ${artMapping[grundeigentum.art]}`);
-  }
-
-  if (
-    grundeigentum.eigentuemer &&
-    eigentuemerMapping[grundeigentum.eigentuemer]
-  ) {
-    bezeichnung.push(
-      `Eigentümer:in: ${eigentuemerMapping[grundeigentum.eigentuemer]}`,
-    );
-  }
-
-  if (grundeigentum.flaeche) {
-    bezeichnung.push(`Fläche: ${grundeigentum.flaeche} m²`);
-  }
-
-  if (hasMultipleGrundeigentum && grundeigentum.verkaufswert) {
-    bezeichnung.push(`Verkehrswert: ${grundeigentum.verkaufswert} €`);
-  }
-  if (grundeigentum.isBewohnt === "yes") bezeichnung.push("Eigennutzung");
 
   return bezeichnung;
 }

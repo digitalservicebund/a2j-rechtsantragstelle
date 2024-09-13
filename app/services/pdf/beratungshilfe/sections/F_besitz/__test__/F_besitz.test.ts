@@ -121,7 +121,7 @@ describe("F_besitz", () => {
       expect(pdfFields.f6EigentuemerB.value).toBe(false);
       expect(pdfFields.f6EigentuemerC.value).toBe(false);
       expect(pdfFields.f7Nutzungsart.value).toBe(
-        "Art des Eigentums: Haus für Familie, Eigentümer:in: Ich alleine, Fläche: 100 m², Eigennutzung",
+        "Art: Haus für Familie, Eigennutzung, Fläche: 100 m²",
       );
     });
 
@@ -158,19 +158,26 @@ describe("F_besitz", () => {
 
       fillFinancialGrundeigentum(attachment, pdfFields, context);
 
-      expect(attachment[0]).toEqual({
-        title: "Grundeigentum",
-        text:
-          "Art des Eigentums: Wohnung\n" +
-          "Eigentümer:in: Ich alleine\n" +
-          "Fläche: 100 m²\n" +
-          "Verkehrswert: 100001 €\n" +
-          "Eigennutzung\n" +
-          "\n" +
-          "Art des Eigentums: Haus für Familie\n" +
-          "Eigentümer:in: Ehe-Partner:in\n" +
-          "Fläche: 100 m²\n" +
-          "Verkehrswert: 100002 €",
+      expect(attachment[0]).toEqual({ title: "Grundeigentum", level: "h3" });
+      expect(attachment).toContainEqual({
+        level: "h4",
+        title: "Grundeigentum 1",
+      });
+      expect(attachment).toContainEqual({
+        title: "Art",
+        text: "Wohnung",
+      });
+      expect(attachment).toContainEqual({
+        title: "Eigentümer:in",
+        text: "Ich alleine",
+      });
+      expect(attachment).toContainEqual({
+        title: "Fläche",
+        text: "100 m²",
+      });
+      expect(attachment).toContainEqual({
+        title: "Verkehrswert",
+        text: "100001 €",
       });
 
       expect(pdfFields.f5Grundeigentum1.value).toBe(false);
@@ -204,9 +211,7 @@ describe("F_besitz", () => {
       expect(pdfFields.f14InhaberA.value).toBe(false);
       expect(pdfFields.f14InhaberB.value).toBe(true);
       expect(pdfFields.f14VermoegenswerteC.value).toBe(false);
-      expect(pdfFields.f15Bezeichnung.value).toBe(
-        "Teure Sache, Eigentümer:in: Ehe-Partner:in",
-      );
+      expect(pdfFields.f15Bezeichnung.value).toBe("Teure Sache");
       expect(pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
         "100000",
       );
