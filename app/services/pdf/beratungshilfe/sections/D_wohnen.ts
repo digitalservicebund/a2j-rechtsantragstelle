@@ -8,7 +8,7 @@ export const fillWohnen: BerHPdfFillFunction = ({ userData, pdfValues }) => {
     userData.apartmentCostAlone ?? userData.apartmentCostFull;
 
   if (userData.apartmentCostOwnShare) {
-    pdfValues.d3Teilwohnkosten.value = "su";
+    pdfValues.d2Wohnkosten.value = "s. Anhang";
     attachment.push(
       { title: "Feld D: Wohnen", level: "h2" },
       {

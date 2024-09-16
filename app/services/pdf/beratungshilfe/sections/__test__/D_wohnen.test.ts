@@ -39,8 +39,7 @@ describe("fillWohnen", () => {
       });
 
       expect(pdfValues.d1Wohnung.value).toEqual("10");
-      expect(pdfValues.d2Wohnkosten.value).toEqual("100");
-      expect(pdfValues.d3Teilwohnkosten.value).toEqual("su");
+      expect(pdfValues.d2Wohnkosten.value).toEqual("s. Anhang");
       expect(pdfValues.d4Wohnungalleine.value).toEqual(false);
       expect(pdfValues.d5Wohnunggemeinsam.value).toEqual(true);
       expect(pdfValues.d6WonungweiterePersonen.value).toEqual("5");
