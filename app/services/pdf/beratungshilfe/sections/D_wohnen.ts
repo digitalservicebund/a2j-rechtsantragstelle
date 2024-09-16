@@ -12,7 +12,7 @@ export function fillWohnen(
     context.apartmentCostAlone ?? context.apartmentCostFull;
 
   if (context.apartmentCostOwnShare) {
-    pdfFields.d3Teilwohnkosten.value = "su";
+    pdfFields.d2Wohnkosten.value = "s. Anhang";
     attachment.push(
       { title: "Feld D: Wohnen", level: "h2" },
       {
