@@ -24,6 +24,10 @@ export async function startFluggastrechteFormular(
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
+  // /fluggastrechte/formular/grundvorraussetzungen/daten-uebernahme
+  await expectPageToBeAccessible({ page });
+  await formular.clickNext();
+
   // /fluggastrechte/formular/streitwert-kosten/gerichtskosten
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
