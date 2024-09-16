@@ -8,11 +8,7 @@ import persoenlicheDatenFlow from "~/flows/shared/persoenlicheDaten/flow.json";
 import abgabeFlow from "./abgabe/flow.json";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
-import beratungshilfeAnwaltlicheVertretungFlow from "./anwaltlicheVertretung/flow.json";
-import {
-  beratungshilfeAnwaltlicheVertretungGuards,
-  anwaltlicheVertretungDone,
-} from "./anwaltlicheVertretung/guards";
+import { beratungshilfeAnwaltlicheVertretungGuards } from "./anwaltlicheVertretung/guards";
 import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import {
   andereUnterhaltszahlungenDone,
@@ -53,6 +49,7 @@ import {
   getArrayIndexStrings,
   getKinderStrings,
 } from "../shared/stringReplacements";
+import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
 
 export const finanzielleAngabenPartnerTargetReplacements: TargetReplacements = {
   backStep: "#einkommen.einkommen",
@@ -67,12 +64,7 @@ export const beratungshilfeFormular = {
   config: _.merge(beratungshilfeXstateConfig, {
     states: {
       grundvoraussetzungen: grundvorraussetzungXstateConfig,
-      "anwaltliche-vertretung": _.merge(
-        beratungshilfeAnwaltlicheVertretungFlow,
-        {
-          meta: { done: anwaltlicheVertretungDone },
-        },
-      ),
+      "anwaltliche-vertretung": anwaltlicheVertretungXstateConfig,
       rechtsproblem: _.merge(rechtsproblemFlow, {
         meta: { done: rechtsproblemDone },
       }),
