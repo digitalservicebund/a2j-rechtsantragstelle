@@ -104,7 +104,7 @@
     "@types/sanitize-html": "^2.13.0",
     "@types/validator": "^13.12.1",
     "@vitest/coverage-istanbul": "^2.1.1",
-    "@vitest/expect": "^2.0.5",
+    "@vitest/expect": "^2.1.1",
     "autoprefixer": "^10.4.20",
     "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-import": "^2.30.0",
@@ -133,7 +133,7 @@
     "vite-env-only": "^3.0.3",
     "vite-tsconfig-paths": "^5.0.1",
     "vite": "^5.4.5",
-    "vitest": "^2.0.5"
+    "vitest": "^2.1.1"
   },
   "engines": {
     "node": ">=20"
