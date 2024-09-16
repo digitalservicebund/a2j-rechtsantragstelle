@@ -1,7 +1,10 @@
 import { reasonsToDisplayBeratungshilfe } from "app/flows/beratungshilfeVorabcheck";
-import { guards } from "~/flows/beratungshilfeVorabcheck/guards";
+import { isIncomeTooHigh } from "~/flows/beratungshilfeVorabcheck/isIncomeTooHigh";
 
 describe("reasonsToDisplayBeratungshilfe", () => {
+  vi.mock("~/flows/beratungshilfeVorabcheck/isIncomeTooHigh");
+  const isIncomeTooHighMock = vi.mocked(isIncomeTooHigh);
+
   it("returns false if no data given", () => {
     const result = reasonsToDisplayBeratungshilfe({});
     expect(result).toEqual({
@@ -43,10 +46,8 @@ describe("reasonsToDisplayBeratungshilfe", () => {
   });
 
   it("returns incomeTooHigh true if long path and isIncomeTooHigh true", () => {
-    vi.spyOn(guards, "isIncomeTooHigh").mockReturnValue(true);
-    const result = reasonsToDisplayBeratungshilfe({
-      genauigkeit: "yes",
-    });
+    isIncomeTooHighMock.mockReturnValue(true);
+    const result = reasonsToDisplayBeratungshilfe({ genauigkeit: "yes" });
     expect(result).toEqual({
       eigeninitiativeWarning: false,
       incomeTooHigh: true,
@@ -54,10 +55,8 @@ describe("reasonsToDisplayBeratungshilfe", () => {
   });
 
   it("returns incomeTooHigh false if long path and isIncomeTooHigh false", () => {
-    vi.spyOn(guards, "isIncomeTooHigh").mockReturnValue(false);
-    const result = reasonsToDisplayBeratungshilfe({
-      genauigkeit: "yes",
-    });
+    isIncomeTooHighMock.mockReturnValue(false);
+    const result = reasonsToDisplayBeratungshilfe({ genauigkeit: "yes" });
     expect(result).toEqual({
       eigeninitiativeWarning: false,
       incomeTooHigh: false,

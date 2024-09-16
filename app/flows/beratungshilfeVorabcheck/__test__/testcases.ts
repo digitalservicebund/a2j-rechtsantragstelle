@@ -3,14 +3,8 @@ import { createMachine } from "xstate";
 import { happyPathData } from "tests/fixtures/beratungshilfeVorabcheckData";
 import type { TestCases } from "~/flows/__test__/TestCases";
 import type { BeratungshilfeVorabcheckContext } from "~/flows/beratungshilfeVorabcheck/context";
-import { guards } from "~/flows/beratungshilfeVorabcheck/guards";
 import { beratungshilfeVorabcheckXstateConfig } from "~/flows/beratungshilfeVorabcheck/xstateConfig";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
-
-const machine: FlowStateMachine = createMachine(
-  { ...beratungshilfeVorabcheckXstateConfig, context: {} },
-  { guards },
-);
 
 const happyPathSteps = [
   "rechtsschutzversicherung",
@@ -149,4 +143,7 @@ const cases = [
   ],
 ] as const satisfies TestCases<BeratungshilfeVorabcheckContext>;
 
+const machine: FlowStateMachine = createMachine(
+  beratungshilfeVorabcheckXstateConfig,
+);
 export const testCasesBeratungshilfe = { machine, cases };
