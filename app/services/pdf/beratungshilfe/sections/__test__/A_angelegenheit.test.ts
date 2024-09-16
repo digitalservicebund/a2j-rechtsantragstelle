@@ -1,5 +1,5 @@
 import { type BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import { createAttachment, newPageHint } from "~/services/pdf/attachment";
+import { newPageHint } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import {
   fillAngelegenheit,
@@ -9,23 +9,25 @@ import {
   THEMA_RECHTSPROBLEM_TITLE,
   ZIEL_ANGELEGENHEIT_TITLE,
 } from "~/services/pdf/beratungshilfe/sections/A_angelegenheit";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 
 describe("A_angelegenheit", () => {
   it("should fill angelegenheit pdf field when correct context is given", () => {
-    const context: BeratungshilfeFormularContext = {
+    const userData: BeratungshilfeFormularContext = {
       bereich: "authorities",
       gegenseite: "gegner",
       beschreibung: "beschreibung",
       ziel: "ziel",
       eigeninitiativeBeschreibung: "eigeninitiativeBeschreibung",
     };
-    const attachment = createAttachment();
-    const pdfFields = getBeratungshilfeParameters();
-
-    fillAngelegenheit(attachment, pdfFields, context);
+    const { pdfValues } = pdfFillReducer({
+      userData,
+      pdfParams: getBeratungshilfeParameters(),
+      fillFunctions: [fillAngelegenheit],
+    });
 
     expect(
-      pdfFields
+      pdfValues
         .ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern
         .value,
     ).toBe(
@@ -40,7 +42,7 @@ describe("A_angelegenheit", () => {
   });
 
   it("should fill angelegenheit in the attachment when exceeded limit length", () => {
-    const context: BeratungshilfeFormularContext = {
+    const userData: BeratungshilfeFormularContext = {
       bereich: "authorities",
       gegenseite: "gegner gegner gegner gegner gegner",
       beschreibung:
@@ -49,13 +51,14 @@ describe("A_angelegenheit", () => {
       eigeninitiativeBeschreibung:
         "eigeninitiativeBeschreibung eigeninitiativeBeschreibung eigeninitiativeBeschreibung eigeninitiativeBeschreibung",
     };
-    const attachment = createAttachment();
-    const pdfFields = getBeratungshilfeParameters();
-
-    fillAngelegenheit(attachment, pdfFields, context);
+    const { pdfValues, attachment } = pdfFillReducer({
+      userData,
+      pdfParams: getBeratungshilfeParameters(),
+      fillFunctions: [fillAngelegenheit],
+    });
 
     expect(
-      pdfFields
+      pdfValues
         .ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern
         .value,
     ).toBe(newPageHint);

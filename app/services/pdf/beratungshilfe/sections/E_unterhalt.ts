@@ -1,5 +1,4 @@
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { BerHPdfFillFunction } from "..";
 import type { AttachmentEntries } from "../../attachment";
 
 export const ATTACHMENT_DESCRIPTION_SECTION_E = "Feld E: Unterhaltszahlungen";
@@ -16,21 +15,19 @@ const familyRelationshipMap = {
   grandchild: "Mein Enkelkind",
 } as const;
 
-export function fillUnterhalt(
-  attachment: AttachmentEntries,
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  const zahltPartnerUnterhalt = context.unterhaltsSumme !== undefined;
-  const kinder = context.kinder ?? [];
+export const fillUnterhalt: BerHPdfFillFunction = ({ userData, pdfValues }) => {
+  const attachment: AttachmentEntries = [];
+  const zahltPartnerUnterhalt = userData.unterhaltsSumme !== undefined;
+  const kinder = userData.kinder ?? [];
   const hasKinder = kinder.length > 0;
 
-  const unterhaltszahlungen = context.unterhaltszahlungen ?? [];
+  const unterhaltszahlungen = userData.unterhaltszahlungen ?? [];
   const hasUnterhaltszahlungen = unterhaltszahlungen.length > 0;
 
-  if (!zahltPartnerUnterhalt && !hasUnterhaltszahlungen && !hasKinder) return;
+  if (!zahltPartnerUnterhalt && !hasUnterhaltszahlungen && !hasKinder)
+    return { pdfValues };
 
-  pdfFields.e1Person1.value = SEE_IN_ATTACHMENT_DESCRIPTION;
+  pdfValues.e1Person1.value = SEE_IN_ATTACHMENT_DESCRIPTION;
 
   attachment.push({ title: ATTACHMENT_DESCRIPTION_SECTION_E, level: "h2" });
 
@@ -38,20 +35,20 @@ export function fillUnterhalt(
     attachment.push({ title: "Partner", level: "h3" });
     attachment.push({
       title: "Name",
-      text: `${context.partnerVorname} ${context.partnerNachname}`,
+      text: `${userData.partnerVorname} ${userData.partnerNachname}`,
     });
     attachment.push({
       title: "Monatliche Unterhaltszahlungen",
-      text: context.unterhaltsSumme + " €",
+      text: userData.unterhaltsSumme + " €",
     });
     attachment.push({
       title: "Gemeinsame Wohnung",
-      text: context.zusammenleben === "yes" ? "Ja" : "Nein",
+      text: userData.zusammenleben === "yes" ? "Ja" : "Nein",
     });
-    if (context.partnerEinkommenSumme)
+    if (userData.partnerEinkommenSumme)
       attachment.push({
         title: "Eigene monatlichen Einnahmen",
-        text: context.partnerEinkommenSumme + " €",
+        text: userData.partnerEinkommenSumme + " €",
       });
   }
 
@@ -106,4 +103,5 @@ export function fillUnterhalt(
       });
     });
   }
-}
+  return { pdfValues, attachment };
+};

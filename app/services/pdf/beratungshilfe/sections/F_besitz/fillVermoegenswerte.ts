@@ -1,6 +1,6 @@
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { type AttachmentEntries, newPageHint } from "~/services/pdf/attachment";
+import type { BerHPdfFillFunction } from "../..";
 import { eigentuemerMapping } from "../../eigentuemerMapping";
 
 const geldanlageArtMapping: Record<string, string> = {
@@ -45,34 +45,34 @@ function fillSingleVermoegenswert(
   return description;
 }
 
-export function fillVermoegenswerte(
-  attachment: AttachmentEntries,
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  const wertsachen = context.wertsachen ?? [];
-  const geldanlagen = context.geldanlagen ?? [];
+export const fillVermoegenswerte: BerHPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  const attachment: AttachmentEntries = [];
+  const wertsachen = userData.wertsachen ?? [];
+  const geldanlagen = userData.geldanlagen ?? [];
   const totalVermoegenswerteCount = wertsachen.length + geldanlagen.length;
 
   const hasVermoegenswerte = totalVermoegenswerteCount > 0;
-  pdfFields.f13Vermoegenswerte1.value = !hasVermoegenswerte;
-  pdfFields.f13Vermoegenswerte2.value = hasVermoegenswerte;
+  pdfValues.f13Vermoegenswerte1.value = !hasVermoegenswerte;
+  pdfValues.f13Vermoegenswerte2.value = hasVermoegenswerte;
 
-  if (!hasVermoegenswerte) return;
+  if (!hasVermoegenswerte) return { pdfValues };
 
   if (totalVermoegenswerteCount == 1) {
     const vermoegenswert = geldanlagen[0] ?? wertsachen[0];
 
-    pdfFields.f14InhaberA.value = vermoegenswert.eigentuemer == "myself";
-    pdfFields.f14InhaberB.value = vermoegenswert.eigentuemer == "partner";
-    pdfFields.f14VermoegenswerteC.value =
+    pdfValues.f14InhaberA.value = vermoegenswert.eigentuemer == "myself";
+    pdfValues.f14InhaberB.value = vermoegenswert.eigentuemer == "partner";
+    pdfValues.f14VermoegenswerteC.value =
       vermoegenswert.eigentuemer == "myselfAndPartner";
 
-    pdfFields.f15Bezeichnung.value = fillSingleVermoegenswert(vermoegenswert);
-    pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value =
+    pdfValues.f15Bezeichnung.value = fillSingleVermoegenswert(vermoegenswert);
+    pdfValues.f16RueckkaufswertoderVerkehrswertinEUR.value =
       vermoegenswert.wert;
   } else {
-    pdfFields.f15Bezeichnung.value = newPageHint;
+    pdfValues.f15Bezeichnung.value = newPageHint;
     attachment.push({
       title: "Sonstige Vermögenswerte",
       level: "h3",
@@ -132,4 +132,5 @@ export function fillVermoegenswerte(
       );
     });
   }
-}
+  return { pdfValues, attachment };
+};

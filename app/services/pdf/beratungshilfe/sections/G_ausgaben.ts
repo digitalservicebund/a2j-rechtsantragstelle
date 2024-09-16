@@ -1,7 +1,7 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import type { besondereBelastungenSchema } from "~/flows/shared/finanzielleAngaben/context";
 import { arrayIsNonEmpty } from "~/util/array";
+import type { BerHPdfFillFunction } from "..";
 import { type AttachmentEntries, newPageHint } from "../../attachment";
 import { checkboxListToString } from "../../checkboxListToString";
 
@@ -26,15 +26,12 @@ export const ausgabenSituationMapping = {
     "Kostenaufwändige Ernährung notwendig durch medizinische Gründe",
 } satisfies Record<keyof typeof besondereBelastungenSchema.shape, string>;
 
-export function fillAusgaben(
-  attachment: AttachmentEntries,
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  const ausgaben = context.ausgaben ?? [];
+export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
+  const attachment: AttachmentEntries = [];
+  const ausgaben = userData.ausgaben ?? [];
   const hasOverflowAusgaben = ausgaben.length > AUSGABEN_MAX_COUNT_FIELDS;
 
-  const isPdfFieldExceedsMaxChars = context.ausgaben?.some(
+  const isPdfFieldExceedsMaxChars = ausgaben.some(
     (ausgabe) =>
       ausgabe.art.length > AUSGABEN_MAX_CHARS_FIELD ||
       ausgabe.zahlungsempfaenger.length > AUSGABEN_MAX_CHARS_FIELD,
@@ -42,27 +39,27 @@ export function fillAusgaben(
 
   const hasAusgaben = arrayIsNonEmpty(ausgaben);
 
-  pdfFields.g1VerpflichtungenJ.value = hasAusgaben;
-  pdfFields.g1VerpflichtungenN.value = !hasAusgaben;
+  pdfValues.g1VerpflichtungenJ.value = hasAusgaben;
+  pdfValues.g1VerpflichtungenN.value = !hasAusgaben;
 
-  const { ausgabensituation } = context;
+  const { ausgabensituation } = userData;
   const hasBesondereBelastung =
     ausgabensituation?.disability === "on" ||
     ausgabensituation?.medicalReasons === "on" ||
     ausgabensituation?.pregnancy === "on" ||
     ausgabensituation?.singleParent === "on";
 
-  pdfFields.g9SonstigeBelastungenJ.value = hasBesondereBelastung;
-  pdfFields.g9SonstigeBelastungenN.value = !hasBesondereBelastung;
+  pdfValues.g9SonstigeBelastungenJ.value = hasBesondereBelastung;
+  pdfValues.g9SonstigeBelastungenN.value = !hasBesondereBelastung;
   if (hasBesondereBelastung) {
-    pdfFields.g10Belastungen.value = checkboxListToString(
+    pdfValues.g10Belastungen.value = checkboxListToString(
       ausgabenSituationMapping,
-      context.ausgabensituation,
+      userData.ausgabensituation,
     );
   }
 
   if (isPdfFieldExceedsMaxChars || hasOverflowAusgaben) {
-    pdfFields.g21.value = newPageHint;
+    pdfValues.g21.value = newPageHint;
     attachment.push({ title: AUSGABEN_ATTACHMENT_TITLE, level: "h2" });
     ausgaben.forEach((ausgabe, index) => {
       attachment.push({
@@ -86,13 +83,14 @@ export function fillAusgaben(
       }
     });
   } else {
-    fillAusgabenInPDF(ausgaben, pdfFields);
+    fillAusgabenInPDF(ausgaben, pdfValues);
   }
-}
+  return { pdfValues, attachment };
+};
 
 function fillAusgabenInPDF(
   ausgaben: AusgabenPdfField[],
-  pdfFields: BeratungshilfePDF,
+  pdfValues: BeratungshilfePDF,
 ) {
   for (let i = 0; i < ausgaben.length; i++) {
     const ausgabe = ausgaben[i];
@@ -104,17 +102,17 @@ function fillAusgabenInPDF(
     const beitragKey = `g7Zahlung${index}` as keyof BeratungshilfePDF;
     const hasFrist = ausgabe?.hasZahlungsfrist === "yes";
 
-    if (artKey in pdfFields) {
-      pdfFields[artKey].value = ausgabe.art;
+    if (artKey in pdfValues) {
+      pdfValues[artKey].value = ausgabe.art;
     }
-    if (zahlungsempfaengerKey in pdfFields) {
-      pdfFields[zahlungsempfaengerKey].value = ausgabe.zahlungsempfaenger;
+    if (zahlungsempfaengerKey in pdfValues) {
+      pdfValues[zahlungsempfaengerKey].value = ausgabe.zahlungsempfaenger;
     }
-    if (hasFrist && zahlungsfristKey in pdfFields) {
-      pdfFields[zahlungsfristKey].value = ausgabe.zahlungsfrist;
+    if (hasFrist && zahlungsfristKey in pdfValues) {
+      pdfValues[zahlungsfristKey].value = ausgabe.zahlungsfrist;
     }
-    if (beitragKey in pdfFields) {
-      pdfFields[beitragKey].value = ausgabe.beitrag;
+    if (beitragKey in pdfValues) {
+      pdfValues[beitragKey].value = ausgabe.beitrag;
     }
   }
 }

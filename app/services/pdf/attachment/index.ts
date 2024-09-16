@@ -5,7 +5,3 @@ export type AttachmentEntries = {
   text?: string;
   level?: "h2" | "h3" | "h4";
 }[];
-
-export function createAttachment(): AttachmentEntries {
-  return [];
-}

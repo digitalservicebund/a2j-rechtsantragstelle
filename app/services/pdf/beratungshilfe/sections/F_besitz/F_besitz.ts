@@ -1,67 +1,71 @@
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { arrayIsNonEmpty } from "~/util/array";
 import { fillKraftfahrzeug } from "./fillKraftfahrzeug";
+import type { BerHPdfFillFunction } from "../..";
 import { fillVermoegenswerte } from "./fillVermoegenswerte";
 import type { AttachmentEntries } from "../../../attachment";
 import { newPageHint } from "../../../attachment";
 import { eigentuemerMapping } from "../../eigentuemerMapping";
 
-export function fillBesitz(
-  attachment: AttachmentEntries,
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  const financialAttachment: AttachmentEntries = [];
+export const fillBesitz: BerHPdfFillFunction = ({ userData, pdfValues }) => {
+  const attachment: AttachmentEntries = [];
 
-  fillFinancialBankkonto(financialAttachment, pdfFields, context);
-  fillFinancialGrundeigentum(financialAttachment, pdfFields, context);
-  fillKraftfahrzeug(financialAttachment, pdfFields, context);
-  fillVermoegenswerte(financialAttachment, pdfFields, context);
+  const { pdfValues: besitzPdfValues, attachment: besitzAttachment } =
+    pdfFillReducer({
+      userData,
+      pdfParams: pdfValues,
+      fillFunctions: [
+        fillFinancialBankkonto,
+        fillFinancialGrundeigentum,
+        fillKraftfahrzeug,
+        fillVermoegenswerte,
+      ],
+    });
 
-  if (financialAttachment.length > 0) {
+  if (besitzAttachment.length > 0) {
     attachment.push({
       title: "Feld F: Eigentum",
       level: "h2",
     });
 
-    financialAttachment.forEach((entry) => {
+    besitzAttachment.forEach((entry) => {
       attachment.push(entry);
     });
   }
-}
+  return { pdfValues: besitzPdfValues, attachment };
+};
 
-export function fillFinancialBankkonto(
-  attachment: AttachmentEntries,
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  const { bankkonten, eigentumTotalWorth } = context;
+export const fillFinancialBankkonto: BerHPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  const attachment: AttachmentEntries = [];
+  const { bankkonten, eigentumTotalWorth } = userData;
   const hasBankkontoYes = arrayIsNonEmpty(bankkonten);
 
-  pdfFields.f1Konten1.value = !hasBankkontoYes;
-  pdfFields.f1Konten2.value = hasBankkontoYes;
-  if (!hasBankkontoYes) return;
+  pdfValues.f1Konten1.value = !hasBankkontoYes;
+  pdfValues.f1Konten2.value = hasBankkontoYes;
+  if (!hasBankkontoYes) return { pdfValues };
 
-  pdfFields.f3Bank1.value =
+  pdfValues.f3Bank1.value =
     eigentumTotalWorth === "less10000"
       ? "Übergreifender Hinweis zu allen Vermögenswerten:\nMein gesamtes Vermögen ist insgesamt weniger als 10.000€ wert.\n\n"
       : "";
 
   if (bankkonten.length == 1) {
     const bankkonto = bankkonten[0];
-    pdfFields.f1InhaberA.value = bankkonto.kontoEigentuemer == "myself";
-    pdfFields.f2InhaberB.value = bankkonto.kontoEigentuemer == "partner";
-    pdfFields.f2InhaberC.value =
+    pdfValues.f1InhaberA.value = bankkonto.kontoEigentuemer == "myself";
+    pdfValues.f2InhaberB.value = bankkonto.kontoEigentuemer == "partner";
+    pdfValues.f2InhaberC.value =
       bankkonto.kontoEigentuemer == "myselfAndPartner";
 
-    pdfFields.f3Bank1.value += `Bank: ${bankkonto.bankName}`;
+    pdfValues.f3Bank1.value += `Bank: ${bankkonto.bankName}`;
     if (bankkonto.kontoDescription)
-      pdfFields.f3Bank1.value += `\nBezeichnung: ${bankkonto.kontoDescription}`;
+      pdfValues.f3Bank1.value += `\nBezeichnung: ${bankkonto.kontoDescription}`;
     if (bankkonto.kontoEigentuemer === "myselfAndSomeoneElse")
-      pdfFields.f3Bank1.value += `\nInhaber: ${eigentuemerMapping[bankkonto.kontoEigentuemer]}`;
+      pdfValues.f3Bank1.value += `\nInhaber: ${eigentuemerMapping[bankkonto.kontoEigentuemer]}`;
 
-    pdfFields.f4Kontostand.value = bankkonto.kontostand + " €";
+    pdfValues.f4Kontostand.value = bankkonto.kontostand + " €";
   } else {
     attachment.push({
       title: "Bankkonten",
@@ -86,21 +90,22 @@ export function fillFinancialBankkonto(
       },
     );
 
-    pdfFields.f3Bank1.value += newPageHint;
+    pdfValues.f3Bank1.value += newPageHint;
   }
-}
+  return { pdfValues, attachment };
+};
 
-export function fillFinancialGrundeigentum(
-  attachment: AttachmentEntries,
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  const { grundeigentum: grundeigentumArray } = context;
+export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  const attachment: AttachmentEntries = [];
+  const { grundeigentum: grundeigentumArray } = userData;
   const hasGrundeigentumYes = arrayIsNonEmpty(grundeigentumArray);
-  pdfFields.f5Grundeigentum1.value = !hasGrundeigentumYes;
-  pdfFields.f5Grundeigentum2.value = hasGrundeigentumYes;
+  pdfValues.f5Grundeigentum1.value = !hasGrundeigentumYes;
+  pdfValues.f5Grundeigentum2.value = hasGrundeigentumYes;
 
-  if (!hasGrundeigentumYes) return;
+  if (!hasGrundeigentumYes) return { pdfValues };
 
   const grundeigentumArtMapping = {
     eigentumswohnung: "Wohnung",
@@ -114,25 +119,25 @@ export function fillFinancialGrundeigentum(
   if (grundeigentumArray.length === 1) {
     const grundeigentum = grundeigentumArray[0];
 
-    pdfFields.f6EigentuemerA.value = grundeigentum.eigentuemer == "myself";
-    pdfFields.f6EigentuemerB.value = grundeigentum.eigentuemer == "partner";
-    pdfFields.f6EigentuemerC.value =
+    pdfValues.f6EigentuemerA.value = grundeigentum.eigentuemer == "myself";
+    pdfValues.f6EigentuemerB.value = grundeigentum.eigentuemer == "partner";
+    pdfValues.f6EigentuemerC.value =
       grundeigentum.eigentuemer == "myselfAndPartner";
 
-    pdfFields.f7Nutzungsart.value = `Art: ${grundeigentumArtMapping[grundeigentum.art]}`;
+    pdfValues.f7Nutzungsart.value = `Art: ${grundeigentumArtMapping[grundeigentum.art]}`;
     if (grundeigentum.isBewohnt === "yes")
-      pdfFields.f7Nutzungsart.value += ", Eigennutzung";
+      pdfValues.f7Nutzungsart.value += ", Eigennutzung";
     else if (grundeigentum.isBewohnt === "family")
-      pdfFields.f7Nutzungsart.value += ", Bewohnt von Familie";
+      pdfValues.f7Nutzungsart.value += ", Bewohnt von Familie";
 
-    pdfFields.f7Nutzungsart.value += `, Fläche: ${grundeigentum.flaeche} m²`;
+    pdfValues.f7Nutzungsart.value += `, Fläche: ${grundeigentum.flaeche} m²`;
 
     if (grundeigentum.eigentuemer === "myselfAndSomeoneElse")
-      pdfFields.f7Nutzungsart.value += `, Eigentümer: ${eigentuemerMapping[grundeigentum.eigentuemer]}`;
+      pdfValues.f7Nutzungsart.value += `, Eigentümer: ${eigentuemerMapping[grundeigentum.eigentuemer]}`;
 
-    pdfFields.f8Verkehrswert.value = grundeigentum.verkaufswert + " €";
+    pdfValues.f8Verkehrswert.value = grundeigentum.verkaufswert + " €";
   } else {
-    pdfFields.f7Nutzungsart.value = newPageHint;
+    pdfValues.f7Nutzungsart.value = newPageHint;
     attachment.push({
       title: "Grundeigentum",
       level: "h3",
@@ -158,4 +163,5 @@ export function fillFinancialGrundeigentum(
         attachment.push({ title: "Eigennutzung", text: "Von Familie" });
     });
   }
-}
+  return { pdfValues, attachment };
+};
