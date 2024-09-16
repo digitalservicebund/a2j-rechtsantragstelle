@@ -21,7 +21,6 @@ const cases = [
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
-      unter18JahreAlt: CheckboxValue.off,
       isWeiterePersonen: "no",
     },
     [
@@ -39,7 +38,6 @@ const cases = [
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
-      unter18JahreAlt: CheckboxValue.on,
       vornameVertretung: "test",
       nachnameVertretung: "test",
       isWeiterePersonen: "no",
@@ -59,7 +57,6 @@ const cases = [
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
-      unter18JahreAlt: CheckboxValue.on,
       vornameVertretung: "test",
       nachnameVertretung: "test",
       isWeiterePersonen: "yes",
@@ -80,7 +77,6 @@ const cases = [
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
-      unter18JahreAlt: CheckboxValue.off,
       isWeiterePersonen: "yes",
     },
     [
@@ -99,7 +95,6 @@ const cases = [
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
-      unter18JahreAlt: CheckboxValue.off,
       isWeiterePersonen: "yes",
       weiterePersonen: [
         {

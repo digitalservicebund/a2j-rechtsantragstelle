@@ -135,7 +135,6 @@ describe("navStates", () => {
         context: {
           ...PERSONEN_DATA,
           vorname: undefined,
-          unter18JahreAlt: CheckboxValue.off,
         },
       });
 
