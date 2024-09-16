@@ -1,15 +1,11 @@
 import type { BeratungshilfeVorabcheckContext } from "./context";
 import { freibetrag } from "./freibetrag";
 import moneyToCents from "../../services/validation/money/moneyToCents";
-import { type Guards, type GenericGuard } from "../guards.server";
+import { type GenericGuard } from "../guards.server";
 
-type Guard = GenericGuard<BeratungshilfeVorabcheckContext>;
-
-const anyNonCriticalWarning: Guard = ({ context }) => {
-  return context.eigeninitiative == "no";
-};
-
-const isIncomeTooHigh: Guard = ({ context }) => {
+export const isIncomeTooHigh: GenericGuard<BeratungshilfeVorabcheckContext> = ({
+  context,
+}) => {
   const einkommen = moneyToCents(context.einkommen) ?? 0;
   const miete = moneyToCents(context.miete) ?? 0;
   const zahlungen = moneyToCents(context.weitereZahlungenSumme) ?? 0;
@@ -31,24 +27,3 @@ const isIncomeTooHigh: Guard = ({ context }) => {
 
   return einkommen - miete - zahlungen - unterhalt > calculatedFreibetrag;
 };
-
-const anyKinderAnzahlFilled: Guard = ({ context }) =>
-  context.kids?.kids6Below != undefined ||
-  context.kids?.kids7To14 != undefined ||
-  context.kids?.kids15To18 != undefined ||
-  context.kids?.kids18Above != undefined;
-
-const staatlicheLeistungenNo: Guard = ({ context }) =>
-  ["buergergeld", "keine"].includes(context.staatlicheLeistungen ?? "");
-
-const staatlicheLeistungenYes: Guard = ({ context }) =>
-  ["grundsicherung", "asylbewerberleistungen"].includes(
-    context.staatlicheLeistungen ?? "",
-  );
-export const guards = {
-  anyNonCriticalWarning,
-  isIncomeTooHigh,
-  anyKinderAnzahlFilled,
-  staatlicheLeistungenNo,
-  staatlicheLeistungenYes,
-} satisfies Guards<BeratungshilfeVorabcheckContext>;

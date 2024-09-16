@@ -1,7 +1,14 @@
 import { and, not } from "xstate";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { type BeratungshilfeVorabcheckContext } from "./context";
-import { guards } from "./guards";
+import { isIncomeTooHigh } from "./isIncomeTooHigh";
+import type { GenericGuard } from "../guards.server";
+
+const staatlicheLeistungenYes: GenericGuard<
+  BeratungshilfeVorabcheckContext
+> = ({ context }) =>
+  context.staatlicheLeistungen === "grundsicherung" ||
+  context.staatlicheLeistungen === "asylbewerberleistungen";
 
 export const beratungshilfeVorabcheckXstateConfig = {
   id: "/beratungshilfe/vorabcheck",
@@ -142,17 +149,19 @@ export const beratungshilfeVorabcheckXstateConfig = {
           {
             target: "ergebnis/staatliche-leistungen-abschluss-vielleicht",
             guard: and([
-              guards.staatlicheLeistungenYes,
+              staatlicheLeistungenYes,
               ({ context }) => context.eigeninitiative === "no",
             ]),
           },
           {
             target: "ergebnis/staatliche-leistungen-abschluss-ja",
-            guard: guards.staatlicheLeistungenYes,
+            guard: staatlicheLeistungenYes,
           },
           {
             target: "vermoegen",
-            guard: guards.staatlicheLeistungenNo,
+            guard: ({ context }) =>
+              context.staatlicheLeistungen === "buergergeld" ||
+              context.staatlicheLeistungen === "keine",
           },
         ],
         BACK: "bereich",
@@ -369,7 +378,11 @@ export const beratungshilfeVorabcheckXstateConfig = {
       on: {
         SUBMIT: {
           target: "einkommen-kinder",
-          guard: guards.anyKinderAnzahlFilled,
+          guard: ({ context }) =>
+            context.kids?.kids6Below != undefined ||
+            context.kids?.kids7To14 != undefined ||
+            context.kids?.kids15To18 != undefined ||
+            context.kids?.kids18Above != undefined,
         },
         BACK: "kinder",
       },
@@ -440,13 +453,13 @@ export const beratungshilfeVorabcheckXstateConfig = {
           {
             target: "ergebnis/weitere-zahlungen-summe-abschluss-vielleicht",
             guard: and([
-              not(guards.isIncomeTooHigh),
-              guards.anyNonCriticalWarning,
+              not(isIncomeTooHigh),
+              ({ context }) => context.eigeninitiative == "no",
             ]),
           },
           {
             target: "ergebnis/weitere-zahlungen-summe-abschluss-nein",
-            guard: guards.isIncomeTooHigh,
+            guard: isIncomeTooHigh,
           },
           {
             target: "ergebnis/weitere-zahlungen-summe-abschluss-ja",
