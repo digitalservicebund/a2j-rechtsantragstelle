@@ -12,9 +12,22 @@ test.beforeEach(async ({ page }) => {
   formular = new FluggastrechteFormular(page);
 });
 
-test.describe("happy path", () => {
+test.describe("Fluggastrechte Formular", () => {
   test("fluggastrechte from Vorabcheck to Klage Formular", async ({ page }) => {
     await startFluggastrechteVorabcheckVerspaetung(page, vorabcheck);
     await startFluggastrechteFormular(page, formular);
+  });
+
+  test("redirect to vorabcheck when goes to /fluggastrechte/formular/grundvorraussetzungen/redirect-vorabcheck", async ({
+    page,
+  }) => {
+    const redirectPromise = page.waitForResponse(
+      (resp) => resp.url().includes("/fluggastrechte") && resp.status() === 200,
+    );
+
+    await page.goto(
+      `${formular.url}/grundvorraussetzungen/redirect-vorabcheck`,
+    );
+    await redirectPromise;
   });
 });
