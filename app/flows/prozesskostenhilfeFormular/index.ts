@@ -2,9 +2,8 @@ import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
-import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
-import { getProzesskostenhilfeEinkuenfteSubflow as tsEinkuenfteFlow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/flow";
+import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/flow";
 import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import {
   getFinanzielleAngabenPartnerSubflow,
@@ -61,10 +60,7 @@ export const prozesskostenhilfeFormular = {
       start: { meta: { done: () => true } },
       "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
         states: {
-          einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone, {
-            prefix: "",
-            nextStep: "partner",
-          }),
+          einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
           partner: _.merge(
             getFinanzielleAngabenPartnerSubflow(
               partnerDone,
@@ -84,9 +80,9 @@ export const prozesskostenhilfeFormular = {
                     ],
                   },
                 },
-                "partner-einkuenfte": tsEinkuenfteFlow(
-                  "partner",
+                "partner-einkuenfte": getProzesskostenhilfeEinkuenfteSubflow(
                   einkuenfteDone,
+                  "partner",
                 ),
               },
             },

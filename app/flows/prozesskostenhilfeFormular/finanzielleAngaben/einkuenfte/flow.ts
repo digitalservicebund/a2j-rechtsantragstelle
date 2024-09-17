@@ -53,11 +53,11 @@ const einkuenfteGuards: {
 } = Object.fromEntries(mappedGuardKeys);
 
 export const getProzesskostenhilfeEinkuenfteSubflow = (
-  subflowPrefix?: PKHEinkuenfteSubflowTypes,
   _doneFunction: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard = einkuenfteDone,
+  subflowPrefix?: PKHEinkuenfteSubflowTypes,
 ) => {
   const stepIds = _.mapValues(einkuenfteStepIds, (step) =>
-    subflowPrefix ? `${subflowPrefix}-${step}` : `${step}`,
+    subflowPrefix ? `${subflowPrefix}-${step}` : step,
   );
   const guards = _.mapValues(einkuenfteGuards, (guard) =>
     subflowPrefix ? `${subflowPrefix}-${guard}` : guard,
@@ -65,7 +65,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
 
   return {
     id: stepIds.id,
-    initial: "partner-start",
+    initial: stepIds.start,
     meta: { done: einkuenfteDone },
     states: {
       [stepIds.start]: {
