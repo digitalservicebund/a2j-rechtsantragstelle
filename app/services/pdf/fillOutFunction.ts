@@ -1,6 +1,4 @@
-import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
-import type { AttachmentEntries } from "../attachment";
+import type { AttachmentEntries } from "./attachment";
 
 export type PdfFillFunctionProps<ContextType, PDFType> = {
   userData: ContextType;
@@ -20,11 +18,6 @@ type PdfFillReducerProps<ContextType, PDFType> = {
   pdfParams: PDFType;
   fillFunctions: PdfFillFunction<ContextType, PDFType>[];
 };
-
-export type PkhPdfFillFunction = PdfFillFunction<
-  ProzesskostenhilfeFormularContext,
-  ProzesskostenhilfePDF
->;
 
 /**
  * One function to fill them all.

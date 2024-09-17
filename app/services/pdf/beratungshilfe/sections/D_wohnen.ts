@@ -1,42 +1,40 @@
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { BerHPdfFillFunction } from "..";
 import type { AttachmentEntries } from "../../attachment";
 
-export function fillWohnen(
-  attachment: AttachmentEntries,
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  pdfFields.d1Wohnung.value = context.apartmentSizeSqm?.toString();
-  pdfFields.d2Wohnkosten.value =
-    context.apartmentCostAlone ?? context.apartmentCostFull;
+export const fillWohnen: BerHPdfFillFunction = ({ userData, pdfValues }) => {
+  const attachment: AttachmentEntries = [];
+  pdfValues.d1Wohnung.value = userData.apartmentSizeSqm?.toString();
+  pdfValues.d2Wohnkosten.value =
+    userData.apartmentCostAlone ?? userData.apartmentCostFull;
 
-  if (context.apartmentCostOwnShare) {
-    pdfFields.d3Teilwohnkosten.value = "su";
+  if (userData.apartmentCostOwnShare) {
+    pdfValues.d2Wohnkosten.value = "s. Anhang";
     attachment.push(
       { title: "Feld D: Wohnen", level: "h2" },
       {
         title: "Wohnungsgröße",
-        text: context.apartmentSizeSqm?.toString() + " m²",
+        text: userData.apartmentSizeSqm?.toString() + " m²",
       },
       {
         title: "Wohnungskosten gesamt (monatlich)",
-        text: context.apartmentCostFull + " €",
+        text: userData.apartmentCostFull + " €",
       },
       {
         title: "Eigene Wohnungskosten (monatlich)",
-        text: context.apartmentCostOwnShare + " €",
+        text: userData.apartmentCostOwnShare + " €",
       },
       {
         title: "Anzahl weiterer Personen in Wohnung",
-        text: context.apartmentPersonCount?.toString(),
+        text: userData.apartmentPersonCount?.toString(),
       },
     );
   }
 
-  const livesAlone = context.livingSituation === "alone";
-  pdfFields.d4Wohnungalleine.value = livesAlone;
-  pdfFields.d5Wohnunggemeinsam.value = !livesAlone;
-  pdfFields.d6WonungweiterePersonen.value =
-    context.apartmentPersonCount?.toString();
-}
+  const livesAlone = userData.livingSituation === "alone";
+  pdfValues.d4Wohnungalleine.value = livesAlone;
+  pdfValues.d5Wohnunggemeinsam.value = !livesAlone;
+  pdfValues.d6WonungweiterePersonen.value =
+    userData.apartmentPersonCount?.toString();
+
+  return { pdfValues, attachment };
+};

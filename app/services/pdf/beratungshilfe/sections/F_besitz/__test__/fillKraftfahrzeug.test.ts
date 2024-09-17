@@ -1,11 +1,12 @@
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import { createAttachment, newPageHint } from "~/services/pdf/attachment";
+import { newPageHint } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import { fillKraftfahrzeug } from "~/services/pdf/beratungshilfe/sections/F_besitz/fillKraftfahrzeug";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 
 describe("fillKraftfahrzeug", () => {
   it("should fill kraftfahrzeug pdf field when kraftfahrzeug is given in context", () => {
-    const context: BeratungshilfeFormularContext = {
+    const userData: BeratungshilfeFormularContext = {
       hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
         {
@@ -22,24 +23,25 @@ describe("fillKraftfahrzeug", () => {
         },
       ],
     };
-    const pdfFields = getBeratungshilfeParameters();
-    const attachment = createAttachment();
+    const { pdfValues } = pdfFillReducer({
+      userData,
+      pdfParams: getBeratungshilfeParameters(),
+      fillFunctions: [fillKraftfahrzeug],
+    });
 
-    fillKraftfahrzeug(attachment, pdfFields, context);
-
-    expect(pdfFields.f9Kraftfahrzeug1.value).toBe(false);
-    expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(true);
-    expect(pdfFields.f10KraftfahrzeugeA.value).toBe(false);
-    expect(pdfFields.f10KraftfahrzeugB.value).toBe(true);
-    expect(pdfFields.f10KraftfahrzeugC.value).toBe(false);
-    expect(pdfFields.f11Fahrzeugart.value).toBe(
+    expect(pdfValues.f9Kraftfahrzeug1.value).toBe(false);
+    expect(pdfValues.f9Kraftfahrzeuge2.value).toBe(true);
+    expect(pdfValues.f10KraftfahrzeugeA.value).toBe(false);
+    expect(pdfValues.f10KraftfahrzeugB.value).toBe(true);
+    expect(pdfValues.f10KraftfahrzeugC.value).toBe(false);
+    expect(pdfValues.f11Fahrzeugart.value).toBe(
       "Wird nicht für Arbeitsweg gebraucht, Art: P 50, Marke: Trabant, Baujahr: 1990, Anschaffungsjahr: 1985, Kilometerstand: 999999",
     );
-    expect(pdfFields.f12Verkehrswert.value).toBe("100000 €");
+    expect(pdfValues.f12Verkehrswert.value).toBe("100000 €");
   });
 
   it("should fill multiple kraftfahrzeug pdf field when kraftfahrzeug is given in context", () => {
-    const context: BeratungshilfeFormularContext = {
+    const userData: BeratungshilfeFormularContext = {
       hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
         {
@@ -68,18 +70,19 @@ describe("fillKraftfahrzeug", () => {
         },
       ],
     };
-    const pdfFields = getBeratungshilfeParameters();
-    const attachment = createAttachment();
+    const { pdfValues, attachment } = pdfFillReducer({
+      userData,
+      pdfParams: getBeratungshilfeParameters(),
+      fillFunctions: [fillKraftfahrzeug],
+    });
 
-    fillKraftfahrzeug(attachment, pdfFields, context);
-
-    expect(pdfFields.f9Kraftfahrzeug1.value).toBe(false);
-    expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(true);
-    expect(pdfFields.f10KraftfahrzeugeA.value).toBe(undefined);
-    expect(pdfFields.f10KraftfahrzeugB.value).toBe(undefined);
-    expect(pdfFields.f10KraftfahrzeugC.value).toBe(undefined);
-    expect(pdfFields.f11Fahrzeugart.value).toBe(newPageHint);
-    expect(pdfFields.f12Verkehrswert.value).toBe(undefined);
+    expect(pdfValues.f9Kraftfahrzeug1.value).toBe(false);
+    expect(pdfValues.f9Kraftfahrzeuge2.value).toBe(true);
+    expect(pdfValues.f10KraftfahrzeugeA.value).toBe(undefined);
+    expect(pdfValues.f10KraftfahrzeugB.value).toBe(undefined);
+    expect(pdfValues.f10KraftfahrzeugC.value).toBe(undefined);
+    expect(pdfValues.f11Fahrzeugart.value).toBe(newPageHint);
+    expect(pdfValues.f12Verkehrswert.value).toBe(undefined);
 
     expect(attachment[0]).toEqual({ title: "Kraftfahrzeuge", level: "h3" });
     expect(attachment).toContainEqual({ title: "Art", text: "P 40" });
@@ -104,7 +107,7 @@ describe("fillKraftfahrzeug", () => {
   });
 
   it("should fill multiple kraftfahrzeug data only with the hasArbeitsweg and not fill other data even they are filled in the context for wert under10000", () => {
-    const context: BeratungshilfeFormularContext = {
+    const userData: BeratungshilfeFormularContext = {
       hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
         {
@@ -133,18 +136,19 @@ describe("fillKraftfahrzeug", () => {
         },
       ],
     };
-    const pdfFields = getBeratungshilfeParameters();
-    const attachment = createAttachment();
+    const { pdfValues, attachment } = pdfFillReducer({
+      userData,
+      pdfParams: getBeratungshilfeParameters(),
+      fillFunctions: [fillKraftfahrzeug],
+    });
 
-    fillKraftfahrzeug(attachment, pdfFields, context);
-
-    expect(pdfFields.f9Kraftfahrzeug1.value).toBe(false);
-    expect(pdfFields.f9Kraftfahrzeuge2.value).toBe(true);
-    expect(pdfFields.f10KraftfahrzeugeA.value).toBe(undefined);
-    expect(pdfFields.f10KraftfahrzeugB.value).toBe(undefined);
-    expect(pdfFields.f10KraftfahrzeugC.value).toBe(undefined);
-    expect(pdfFields.f11Fahrzeugart.value).toBe(newPageHint);
-    expect(pdfFields.f12Verkehrswert.value).toBe(undefined);
+    expect(pdfValues.f9Kraftfahrzeug1.value).toBe(false);
+    expect(pdfValues.f9Kraftfahrzeuge2.value).toBe(true);
+    expect(pdfValues.f10KraftfahrzeugeA.value).toBe(undefined);
+    expect(pdfValues.f10KraftfahrzeugB.value).toBe(undefined);
+    expect(pdfValues.f10KraftfahrzeugC.value).toBe(undefined);
+    expect(pdfValues.f11Fahrzeugart.value).toBe(newPageHint);
+    expect(pdfValues.f12Verkehrswert.value).toBe(undefined);
 
     expect(attachment[0]).toEqual({ title: "Kraftfahrzeuge", level: "h3" });
   });

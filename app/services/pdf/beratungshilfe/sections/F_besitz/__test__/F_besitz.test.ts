@@ -1,18 +1,19 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
 import { type BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import { createAttachment, newPageHint } from "~/services/pdf/attachment";
+import { newPageHint } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import {
   fillFinancialBankkonto,
   fillFinancialGrundeigentum,
 } from "~/services/pdf/beratungshilfe/sections/F_besitz/F_besitz";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillVermoegenswerte } from "../fillVermoegenswerte";
 
 describe("F_besitz", () => {
   describe("fillFinancialBankkonto", () => {
     it("should fill one bankkonto when context has one bankkonto is given", () => {
-      const context: BeratungshilfeFormularContext = {
+      const userData: BeratungshilfeFormularContext = {
         hasBankkonto: "yes",
         bankkonten: [
           {
@@ -23,22 +24,23 @@ describe("F_besitz", () => {
           },
         ],
       };
-      const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment();
+      const { pdfValues } = pdfFillReducer({
+        userData,
+        pdfParams: getBeratungshilfeParameters(),
+        fillFunctions: [fillFinancialBankkonto],
+      });
 
-      fillFinancialBankkonto(attachment, pdfFields, context);
-
-      expect(pdfFields.f1Konten1.value).toBe(false);
-      expect(pdfFields.f1Konten2.value).toBe(true);
-      expect(pdfFields.f1InhaberA.value).toBe(true);
-      expect(pdfFields.f2InhaberB.value).toBe(false);
-      expect(pdfFields.f2InhaberC.value).toBe(false);
-      expect(pdfFields.f3Bank1.value).toBe("Bank: Bank1");
-      expect(pdfFields.f4Kontostand.value).toBe("1000 €");
+      expect(pdfValues.f1Konten1.value).toBe(false);
+      expect(pdfValues.f1Konten2.value).toBe(true);
+      expect(pdfValues.f1InhaberA.value).toBe(true);
+      expect(pdfValues.f2InhaberB.value).toBe(false);
+      expect(pdfValues.f2InhaberC.value).toBe(false);
+      expect(pdfValues.f3Bank1.value).toBe("Bank: Bank1");
+      expect(pdfValues.f4Kontostand.value).toBe("1000 €");
     });
 
     it("should fill multiple bankkonto when context has multiple bankkonto is given", () => {
-      const context: BeratungshilfeFormularContext = {
+      const userData: BeratungshilfeFormularContext = {
         hasBankkonto: "yes",
         bankkonten: [
           {
@@ -61,18 +63,19 @@ describe("F_besitz", () => {
           },
         ],
       };
-      const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment();
+      const { pdfValues, attachment } = pdfFillReducer({
+        userData,
+        pdfParams: getBeratungshilfeParameters(),
+        fillFunctions: [fillFinancialBankkonto],
+      });
 
-      fillFinancialBankkonto(attachment, pdfFields, context);
-
-      expect(pdfFields.f1Konten1.value).toBe(false);
-      expect(pdfFields.f1Konten2.value).toBe(true);
-      expect(pdfFields.f1InhaberA.value).toBe(undefined);
-      expect(pdfFields.f2InhaberB.value).toBe(undefined);
-      expect(pdfFields.f2InhaberC.value).toBe(undefined);
-      expect(pdfFields.f3Bank1.value).toBe("Bitte im Anhang prüfen");
-      expect(pdfFields.f4Kontostand.value).toBe(undefined);
+      expect(pdfValues.f1Konten1.value).toBe(false);
+      expect(pdfValues.f1Konten2.value).toBe(true);
+      expect(pdfValues.f1InhaberA.value).toBe(undefined);
+      expect(pdfValues.f2InhaberB.value).toBe(undefined);
+      expect(pdfValues.f2InhaberC.value).toBe(undefined);
+      expect(pdfValues.f3Bank1.value).toBe("Bitte im Anhang prüfen");
+      expect(pdfValues.f4Kontostand.value).toBe(undefined);
 
       expect(attachment).toContainEqual({ title: "Bankkonten", level: "h3" });
       expect(attachment).toContainEqual({ title: "Bankkonto 3", level: "h4" });
@@ -93,7 +96,7 @@ describe("F_besitz", () => {
 
   describe("fillFinancialGrundeigentum", () => {
     it("should fill grundeigentum pdf field when grundeigentum is given in context", () => {
-      const context: BeratungshilfeFormularContext = {
+      const userData: BeratungshilfeFormularContext = {
         hasGrundeigentum: "yes",
         grundeigentum: [
           {
@@ -109,23 +112,24 @@ describe("F_besitz", () => {
           },
         ],
       };
-      const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment();
+      const { pdfValues } = pdfFillReducer({
+        userData,
+        pdfParams: getBeratungshilfeParameters(),
+        fillFunctions: [fillFinancialGrundeigentum],
+      });
 
-      fillFinancialGrundeigentum(attachment, pdfFields, context);
-
-      expect(pdfFields.f5Grundeigentum1.value).toBe(false);
-      expect(pdfFields.f5Grundeigentum2.value).toBe(true);
-      expect(pdfFields.f6EigentuemerA.value).toBe(true);
-      expect(pdfFields.f6EigentuemerB.value).toBe(false);
-      expect(pdfFields.f6EigentuemerC.value).toBe(false);
-      expect(pdfFields.f7Nutzungsart.value).toBe(
+      expect(pdfValues.f5Grundeigentum1.value).toBe(false);
+      expect(pdfValues.f5Grundeigentum2.value).toBe(true);
+      expect(pdfValues.f6EigentuemerA.value).toBe(true);
+      expect(pdfValues.f6EigentuemerB.value).toBe(false);
+      expect(pdfValues.f6EigentuemerC.value).toBe(false);
+      expect(pdfValues.f7Nutzungsart.value).toBe(
         "Art: Haus für Familie, Eigennutzung, Fläche: 100 m²",
       );
     });
 
     it("should create attachment when multiple grundeigentum is given in context", () => {
-      const context: BeratungshilfeFormularContext = {
+      const userData: BeratungshilfeFormularContext = {
         hasGrundeigentum: "yes",
         grundeigentum: [
           {
@@ -152,10 +156,11 @@ describe("F_besitz", () => {
           },
         ],
       };
-      const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment();
-
-      fillFinancialGrundeigentum(attachment, pdfFields, context);
+      const { pdfValues, attachment } = pdfFillReducer({
+        userData,
+        pdfParams: getBeratungshilfeParameters(),
+        fillFunctions: [fillFinancialGrundeigentum],
+      });
 
       expect(attachment[0]).toEqual({ title: "Grundeigentum", level: "h3" });
       expect(attachment).toContainEqual({
@@ -179,69 +184,71 @@ describe("F_besitz", () => {
         text: "100001 €",
       });
 
-      expect(pdfFields.f5Grundeigentum1.value).toBe(false);
-      expect(pdfFields.f5Grundeigentum2.value).toBe(true);
-      expect(pdfFields.f1InhaberA.value).toBe(undefined);
-      expect(pdfFields.f2InhaberB.value).toBe(undefined);
-      expect(pdfFields.f2InhaberC.value).toBe(undefined);
-      expect(pdfFields.f7Nutzungsart.value).toBe(newPageHint);
+      expect(pdfValues.f5Grundeigentum1.value).toBe(false);
+      expect(pdfValues.f5Grundeigentum2.value).toBe(true);
+      expect(pdfValues.f1InhaberA.value).toBe(undefined);
+      expect(pdfValues.f2InhaberB.value).toBe(undefined);
+      expect(pdfValues.f2InhaberC.value).toBe(undefined);
+      expect(pdfValues.f7Nutzungsart.value).toBe(newPageHint);
     });
   });
 
   describe("fillVermoegenswerte", () => {
     it("should fill pdf field when wertsachen is given in context", () => {
-      const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment();
-
-      fillVermoegenswerte(attachment, pdfFields, {
-        wertsachen: [
-          {
-            eigentuemer: "partner",
-            art: "Teure Sache",
-            wert: "100000",
-          },
-        ],
+      const { pdfValues, attachment } = pdfFillReducer({
+        userData: {
+          wertsachen: [
+            {
+              eigentuemer: "partner",
+              art: "Teure Sache",
+              wert: "100000",
+            },
+          ],
+        },
+        pdfParams: getBeratungshilfeParameters(),
+        fillFunctions: [fillVermoegenswerte],
       });
 
-      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
-      expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
-      expect(pdfFields.f14InhaberA.value).toBe(false);
-      expect(pdfFields.f14InhaberB.value).toBe(true);
-      expect(pdfFields.f14VermoegenswerteC.value).toBe(false);
-      expect(pdfFields.f15Bezeichnung.value).toBe("Teure Sache");
-      expect(pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
+      expect(pdfValues.f13Vermoegenswerte1.value).toBe(false);
+      expect(pdfValues.f13Vermoegenswerte2.value).toBe(true);
+      expect(pdfValues.f14InhaberA.value).toBe(false);
+      expect(pdfValues.f14InhaberB.value).toBe(true);
+      expect(pdfValues.f14VermoegenswerteC.value).toBe(false);
+      expect(pdfValues.f15Bezeichnung.value).toBe("Teure Sache");
+      expect(pdfValues.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
         "100000",
       );
       expect(attachment.length).toBe(0);
     });
     it("should fill pdf field when geldanlage is given in context", () => {
-      const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment();
-
-      fillVermoegenswerte(attachment, pdfFields, {
-        geldanlagen: [
-          {
-            eigentuemer: "partner",
-            art: "bargeld",
-            wert: "100000",
-          },
-        ],
+      const { pdfValues, attachment } = pdfFillReducer({
+        userData: {
+          geldanlagen: [
+            {
+              eigentuemer: "partner",
+              art: "bargeld",
+              wert: "100000",
+            },
+          ],
+        },
+        pdfParams: getBeratungshilfeParameters(),
+        fillFunctions: [fillVermoegenswerte],
       });
 
-      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
-      expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
-      expect(pdfFields.f14InhaberA.value).toBe(false);
-      expect(pdfFields.f14InhaberB.value).toBe(true);
-      expect(pdfFields.f14VermoegenswerteC.value).toBe(false);
-      expect(pdfFields.f15Bezeichnung.value).toBe("Art: Bargeld");
-      expect(pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
+      expect(pdfValues.f13Vermoegenswerte1.value).toBe(false);
+      expect(pdfValues.f13Vermoegenswerte2.value).toBe(true);
+      expect(pdfValues.f14InhaberA.value).toBe(false);
+      expect(pdfValues.f14InhaberB.value).toBe(true);
+      expect(pdfValues.f14VermoegenswerteC.value).toBe(false);
+      expect(pdfValues.f15Bezeichnung.value).toBe("Art: Bargeld");
+      expect(pdfValues.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
         "100000",
       );
       expect(attachment.length).toBe(0);
     });
 
     it("should add attachment when multiple vermoegen is present", () => {
-      const context: BeratungshilfeFormularContext = {
+      const userData: BeratungshilfeFormularContext = {
         wertsachen: [
           {
             eigentuemer: "myself",
@@ -264,18 +271,19 @@ describe("F_besitz", () => {
           },
         ],
       };
-      const pdfFields = getBeratungshilfeParameters();
-      const attachment = createAttachment();
+      const { pdfValues, attachment } = pdfFillReducer({
+        userData,
+        pdfParams: getBeratungshilfeParameters(),
+        fillFunctions: [fillVermoegenswerte],
+      });
 
-      fillVermoegenswerte(attachment, pdfFields, context);
-
-      expect(pdfFields.f13Vermoegenswerte1.value).toBe(false);
-      expect(pdfFields.f13Vermoegenswerte2.value).toBe(true);
-      expect(pdfFields.f14InhaberA.value).toBe(undefined);
-      expect(pdfFields.f14InhaberB.value).toBe(undefined);
-      expect(pdfFields.f14VermoegenswerteC.value).toBe(undefined);
-      expect(pdfFields.f15Bezeichnung.value).toBe(newPageHint);
-      expect(pdfFields.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
+      expect(pdfValues.f13Vermoegenswerte1.value).toBe(false);
+      expect(pdfValues.f13Vermoegenswerte2.value).toBe(true);
+      expect(pdfValues.f14InhaberA.value).toBe(undefined);
+      expect(pdfValues.f14InhaberB.value).toBe(undefined);
+      expect(pdfValues.f14VermoegenswerteC.value).toBe(undefined);
+      expect(pdfValues.f15Bezeichnung.value).toBe(newPageHint);
+      expect(pdfValues.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
         undefined,
       );
 

@@ -1,5 +1,5 @@
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { BerHPdfFillFunction } from "..";
 import { newPageHint, type AttachmentEntries } from "../../attachment";
 
 export const THEMA_RECHTSPROBLEM_TITLE = "Thema des Rechtsproblems";
@@ -20,20 +20,20 @@ const bereichMapping = {
   other: "Sonstiges",
 };
 
-export function fillAngelegenheit(
-  attachment: AttachmentEntries,
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
+export const fillAngelegenheit: BerHPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  const attachment: AttachmentEntries = [];
   const angelegenheitDescriptions =
-    getAngelegenheitAttachmentDescriptions(context);
+    getAngelegenheitAttachmentDescriptions(userData);
 
   const sachverhaltString = angelegenheitDescriptions
     .map((x) => `${x.title} ${x.text}`)
     .join("\n");
 
   if (sachverhaltString.length > 255) {
-    pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
+    pdfValues.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
       newPageHint;
 
     attachment.push({
@@ -43,48 +43,49 @@ export function fillAngelegenheit(
 
     attachment.push(...angelegenheitDescriptions);
   } else {
-    pdfFields.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
+    pdfValues.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
       sachverhaltString;
   }
-}
+  return { pdfValues, attachment };
+};
 
 function getAngelegenheitAttachmentDescriptions(
-  context: BeratungshilfeFormularContext,
+  userData: BeratungshilfeFormularContext,
 ): AttachmentEntries {
   const attachment: AttachmentEntries = [];
 
-  if (context.bereich) {
+  if (userData.bereich) {
     attachment.push({
       title: THEMA_RECHTSPROBLEM_TITLE,
-      text: bereichMapping[context.bereich],
+      text: bereichMapping[userData.bereich],
     });
   }
 
-  if (context.gegenseite) {
+  if (userData.gegenseite) {
     attachment.push({
       title: GEGNER_TITLE,
-      text: context.gegenseite,
+      text: userData.gegenseite,
     });
   }
 
-  if (context.beschreibung) {
+  if (userData.beschreibung) {
     attachment.push({
       title: BESCHREIBUNG_ANGELEGENHEIT_TITLE,
-      text: context.beschreibung,
+      text: userData.beschreibung,
     });
   }
 
-  if (context.ziel) {
+  if (userData.ziel) {
     attachment.push({
       title: ZIEL_ANGELEGENHEIT_TITLE,
-      text: context.ziel,
+      text: userData.ziel,
     });
   }
 
-  if (context.eigeninitiativeBeschreibung) {
+  if (userData.eigeninitiativeBeschreibung) {
     attachment.push({
       title: EIGENBEMUEHUNG_TITLE,
-      text: context.eigeninitiativeBeschreibung,
+      text: userData.eigeninitiativeBeschreibung,
     });
   }
 

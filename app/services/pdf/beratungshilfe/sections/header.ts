@@ -1,6 +1,6 @@
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import type { BerHPdfFillFunction } from "..";
 import { newPageHint, type AttachmentEntries } from "../../attachment";
 import { checkboxListToString } from "../../checkboxListToString";
 
@@ -18,35 +18,32 @@ const weiteresEinkommenMapping = {
   others: "Sonstiges",
 };
 
-export default function fillHeader(
-  attachment: AttachmentEntries,
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  pdfFields.antragstellerNameVornameggfGeburtsname.value = `${context.nachname}, ${context.vorname}`;
-  pdfFields.geburtsdatumdesAntragstellers.value = context.geburtsdatum;
-  pdfFields.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${context.strasseHausnummer}, ${context.plz} ${context.ort}`;
-  const court = findCourtIfUnique(context.plz);
+export const fillHeader: BerHPdfFillFunction = ({ userData, pdfValues }) => {
+  const attachment: AttachmentEntries = [];
+  pdfValues.antragstellerNameVornameggfGeburtsname.value = `${userData.nachname}, ${userData.vorname}`;
+  pdfValues.geburtsdatumdesAntragstellers.value = userData.geburtsdatum;
+  pdfValues.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${userData.strasseHausnummer}, ${userData.plz} ${userData.ort}`;
+  const court = findCourtIfUnique(userData.plz);
   if (court) {
     const courtName = court.BEZEICHNUNG.replace("Amtsgericht", "").trim();
-    pdfFields.namedesAmtsgerichts.value = courtName;
-    pdfFields.postleitzahlOrt.value = `${court.STR_HNR}, ${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`;
+    pdfValues.namedesAmtsgerichts.value = courtName;
+    pdfValues.postleitzahlOrt.value = `${court.STR_HNR}, ${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`;
   }
 
-  pdfFields.tagsueberTelefonischerreichbarunterNummer.value =
-    context.telefonnummer;
+  pdfValues.tagsueberTelefonischerreichbarunterNummer.value =
+    userData.telefonnummer;
 
-  const { staatlicheLeistungen } = context;
+  const { staatlicheLeistungen } = userData;
   const occupationDetails =
     staatlicheLeistungen && staatlicheLeistungen !== "keine"
       ? staatlicheLeistungMapping[staatlicheLeistungen]
-      : getOccupationDetails(context);
+      : getOccupationDetails(userData);
 
-  pdfFields.berufErwerbstaetigkeit.value = occupationDetails;
+  pdfValues.berufErwerbstaetigkeit.value = occupationDetails;
 
   const maritalDescription =
-    maritalDescriptionMapping[context.partnerschaft ?? ""];
-  pdfFields.familienstanddesAntragstellers.value = maritalDescription;
+    maritalDescriptionMapping[userData.partnerschaft ?? ""];
+  pdfValues.familienstanddesAntragstellers.value = maritalDescription;
 
   if (occupationDetails.length > 30 || maritalDescription.length > 10) {
     attachment.push({
@@ -60,26 +57,27 @@ export default function fillHeader(
       title: "Familienstand:",
       text: maritalDescription,
     });
-    pdfFields.familienstanddesAntragstellers.value = "Anhang";
+    pdfValues.familienstanddesAntragstellers.value = "Anhang";
   }
 
   if (occupationDetails.length > 30) {
     attachment.push({
       title: "Beruf / Erwerbstätigkeit",
-      text: getOccupationDetails(context, false),
+      text: getOccupationDetails(userData, false),
     });
 
     attachment.push({
       title: "Weiteres Einkommen",
       text: checkboxListToString(
         weiteresEinkommenMapping,
-        context.weitereseinkommen,
+        userData.weitereseinkommen,
       ),
     });
 
-    pdfFields.berufErwerbstaetigkeit.value = newPageHint;
+    pdfValues.berufErwerbstaetigkeit.value = newPageHint;
   }
-}
+  return { pdfValues, attachment };
+};
 
 const maritalDescriptionMapping = {
   yes: "verheiratet / in eingetragener Lebenspartnerschaft",
@@ -97,21 +95,21 @@ const staatlicheLeistungMapping = {
 } as const;
 
 const getOccupationDetails = (
-  context: BeratungshilfeFormularContext,
+  userData: BeratungshilfeFormularContext,
   withAdditionalIncome = true,
 ) => {
   const description: string[] = [];
 
-  if (context.erwerbstaetig === "no") {
+  if (userData.erwerbstaetig === "no") {
     description.push("nicht erwerbstätig");
-  } else if (context.berufart) {
+  } else if (userData.berufart) {
     const occupation = "Erwerbstätig";
     const occupationTypeSelected = checkboxListToString(
       {
         selbststaendig: "selbstständig",
         festangestellt: "festangestellt",
       },
-      context.berufart,
+      userData.berufart,
     );
 
     description.push(
@@ -128,12 +126,12 @@ const getOccupationDetails = (
     retiree: "Rentner:in",
   };
 
-  description.push(berufsituationMapping[context.berufsituation ?? "no"]);
+  description.push(berufsituationMapping[userData.berufsituation ?? "no"]);
 
-  if (context.weitereseinkommen && withAdditionalIncome) {
+  if (userData.weitereseinkommen && withAdditionalIncome) {
     const otherIncomes = checkboxListToString(
       weiteresEinkommenMapping,
-      context.weitereseinkommen,
+      userData.weitereseinkommen,
     );
 
     description.push(otherIncomes);

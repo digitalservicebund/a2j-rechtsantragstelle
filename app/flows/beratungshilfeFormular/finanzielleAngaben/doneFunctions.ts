@@ -1,3 +1,5 @@
+import type { z } from "zod";
+import type { kraftfahrzeugeArraySchema } from "~/flows/shared/finanzielleAngaben/context";
 import { hasAnyEigentumExceptBankaccount } from "~/flows/shared/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
@@ -95,13 +97,27 @@ export const grundeigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
   (context.hasGrundeigentum === "yes" &&
     arrayIsNonEmpty(context.grundeigentum));
 
+const kraftfahrzeugDone = (
+  kraftfahrzeug: Partial<z.infer<typeof kraftfahrzeugeArraySchema>[0]>,
+) =>
+  kraftfahrzeug.hasArbeitsweg !== undefined &&
+  kraftfahrzeug.wert !== undefined &&
+  kraftfahrzeug.wert &&
+  (kraftfahrzeug.wert === "under10000" ||
+    (kraftfahrzeug.art !== undefined &&
+      kraftfahrzeug.marke !== undefined &&
+      kraftfahrzeug.kilometerstand !== undefined &&
+      kraftfahrzeug.baujahr &&
+      kraftfahrzeug.eigentuemer !== undefined));
+
 export const kraftfahrzeugeDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.eigentumTotalWorth === "less10000" ||
   context.hasKraftfahrzeug === "no" ||
   (context.hasKraftfahrzeug === "yes" &&
-    arrayIsNonEmpty(context.kraftfahrzeuge));
+    arrayIsNonEmpty(context.kraftfahrzeuge) &&
+    context.kraftfahrzeuge.every(kraftfahrzeugDone));
 
 export const wertsachenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
