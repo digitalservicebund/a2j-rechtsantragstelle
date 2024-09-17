@@ -542,7 +542,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
           [stepIds.einkunft]: {
             initial: stepIds.daten,
             states: {
-              daten: {
+              [stepIds.daten]: {
                 on: {
                   BACK: `#${stepIds.id}.${stepIds.weitereEinkuenfte}.${stepIds.uebersicht}`,
                   SUBMIT: `#${stepIds.id}.${stepIds.weitereEinkuenfte}.${stepIds.uebersicht}`,
