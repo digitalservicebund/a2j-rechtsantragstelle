@@ -17,7 +17,10 @@ import {
 import { progressLookupForMachine, vorabcheckProgresses } from "./progress";
 
 type Event = "SUBMIT" | "BACK";
-type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
+type FlowStateMachineEvents =
+  | { type: "SUBMIT" }
+  | { type: "BACK" }
+  | { type: ArrayConfig["event"] };
 
 type StateMachineTypes = {
   context: Context;
