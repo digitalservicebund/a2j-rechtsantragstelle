@@ -3,14 +3,12 @@ import { arrayIsNonEmpty } from "~/util/array";
 import Button, { ButtonPropsSchema } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 import Heading, { type HeadingProps } from "./Heading";
-import Image, { ImagePropsSchema } from "./Image";
 import RichText from "./RichText";
 
 export const ListItemPropsSchema = z.object({
   identifier: z.string().optional(),
   label: z.custom<HeadingProps>().optional(),
   headline: z.custom<HeadingProps>().optional(),
-  image: ImagePropsSchema.optional(),
   content: z.string().optional(),
   buttons: z.array(ButtonPropsSchema).optional(),
 });
@@ -21,7 +19,6 @@ const ListItem = ({
   identifier,
   label,
   headline,
-  image,
   content,
   buttons,
   numeric,
@@ -31,17 +28,7 @@ const ListItem = ({
       id={identifier}
       className={"flex flex-row items-center justify-center"}
     >
-      {image && (
-        <Image
-          {...image}
-          {...{
-            className:
-              "max-[499px]:mb-16 max-[499px]:w-[144px] max-[499px]:h-[144px] h-[168px] w-[168px]" +
-              " self-baseline",
-          }}
-        />
-      )}
-      <div className={`break-words w-full ${image ? "min-[500px]:ml-16" : ""}`}>
+      <div className="break-words w-full">
         <div className="flex flex-row gap-16 items-center">
           {numeric ? (
             <div className="min-w-[40px] w-[40px] h-[40px] pt-[4px] text-center border-2 border-solid border-gray-400 rounded-full">
