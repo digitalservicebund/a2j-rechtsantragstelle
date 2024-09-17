@@ -7,6 +7,8 @@ export const GEGNER_TITLE = "Gegner";
 export const BESCHREIBUNG_ANGELEGENHEIT_TITLE = "Beschreibung Angelegenheit";
 export const ZIEL_ANGELEGENHEIT_TITLE = "Ziel der Angelegenheit";
 export const EIGENBEMUEHUNG_TITLE = "Eigenbemühung";
+const SACHVERHALT_FIELD_MAX_CHARS = 255;
+const SACHVERHALT_FIELD_MAX_NEW_LINES = 4;
 
 const bereichMapping = {
   authorities: "Behörden",
@@ -32,7 +34,12 @@ export const fillAngelegenheit: BerHPdfFillFunction = ({
     .map((x) => `${x.title} ${x.text}`)
     .join("\n");
 
-  if (sachverhaltString.length > 255) {
+  const overflowDueToMaxChars =
+    sachverhaltString.length > SACHVERHALT_FIELD_MAX_CHARS;
+  const overflowDueToMaxNewLines =
+    sachverhaltString.split("\n").length > SACHVERHALT_FIELD_MAX_NEW_LINES;
+
+  if (overflowDueToMaxChars || overflowDueToMaxNewLines) {
     pdfValues.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
       newPageHint;
 

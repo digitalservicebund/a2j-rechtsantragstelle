@@ -47,12 +47,13 @@ export const fillFinancialBankkonto: BerHPdfFillFunction = ({
   pdfValues.f1Konten2.value = hasBankkontoYes;
   if (!hasBankkontoYes) return { pdfValues };
 
-  pdfValues.f3Bank1.value =
-    eigentumTotalWorth === "less10000"
-      ? "Übergreifender Hinweis zu allen Vermögenswerten:\nMein gesamtes Vermögen ist insgesamt weniger als 10.000€ wert.\n\n"
-      : "";
+  const shouldPrintNote = eigentumTotalWorth === "less10000";
 
-  if (bankkonten.length == 1) {
+  pdfValues.f3Bank1.value = shouldPrintNote
+    ? "Übergreifender Hinweis zu allen Vermögenswerten:\nMein gesamtes Vermögen ist insgesamt weniger als 10.000€ wert.\n\n"
+    : "";
+
+  if (bankkonten.length == 1 && !shouldPrintNote) {
     const bankkonto = bankkonten[0];
     pdfValues.f1InhaberA.value = bankkonto.kontoEigentuemer == "myself";
     pdfValues.f2InhaberB.value = bankkonto.kontoEigentuemer == "partner";

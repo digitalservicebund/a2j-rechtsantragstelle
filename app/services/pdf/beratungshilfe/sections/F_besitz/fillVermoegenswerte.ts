@@ -17,6 +17,8 @@ const befristungMapping = {
   buildingSavingsContract: "Bausparvertrag",
   fixedDepositAccount: "Festgeldkonto",
 };
+const VERMOEGENSWERT_BEZEICHNUNG_FIELD_MAX_CHARS = 148;
+const VERMOEGENSWERT_BEZEICHNUNG__FIELD_MAX_NEW_LINES = 3;
 
 function fillSingleVermoegenswert(
   vermoegenswert: NonNullable<BeratungshilfeFormularContext["geldanlagen"]>[0],
@@ -60,17 +62,30 @@ export const fillVermoegenswerte: BerHPdfFillFunction = ({
 
   if (!hasVermoegenswerte) return { pdfValues };
 
-  if (totalVermoegenswerteCount == 1) {
-    const vermoegenswert = geldanlagen[0] ?? wertsachen[0];
+  const singleVermoegenswert = geldanlagen[0] ?? wertsachen[0];
+  const singleVermoegenswertString =
+    fillSingleVermoegenswert(singleVermoegenswert);
 
-    pdfValues.f14InhaberA.value = vermoegenswert.eigentuemer == "myself";
-    pdfValues.f14InhaberB.value = vermoegenswert.eigentuemer == "partner";
+  const overflowDueToMaxChars =
+    singleVermoegenswertString.length >
+    VERMOEGENSWERT_BEZEICHNUNG_FIELD_MAX_CHARS;
+  const overflowDueToMaxNewLines =
+    singleVermoegenswertString.split("\n").length >
+    VERMOEGENSWERT_BEZEICHNUNG__FIELD_MAX_NEW_LINES;
+
+  if (
+    totalVermoegenswerteCount == 1 &&
+    !overflowDueToMaxChars &&
+    !overflowDueToMaxNewLines
+  ) {
+    pdfValues.f14InhaberA.value = singleVermoegenswert.eigentuemer == "myself";
+    pdfValues.f14InhaberB.value = singleVermoegenswert.eigentuemer == "partner";
     pdfValues.f14VermoegenswerteC.value =
-      vermoegenswert.eigentuemer == "myselfAndPartner";
+      singleVermoegenswert.eigentuemer == "myselfAndPartner";
 
-    pdfValues.f15Bezeichnung.value = fillSingleVermoegenswert(vermoegenswert);
+    pdfValues.f15Bezeichnung.value = singleVermoegenswertString;
     pdfValues.f16RueckkaufswertoderVerkehrswertinEUR.value =
-      vermoegenswert.wert;
+      singleVermoegenswert.wert;
   } else {
     pdfValues.f15Bezeichnung.value = newPageHint;
     attachment.push({

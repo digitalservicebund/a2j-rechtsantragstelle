@@ -13,12 +13,11 @@ describe("fillKraftfahrzeug", () => {
           eigentuemer: "partner",
           art: "P 50",
           marke: "Trabant",
-          anschaffungsjahr: "1985",
           baujahr: "1990",
           bemerkung: "Bemerkung",
           kilometerstand: 999999,
           verkaufswert: "100000",
-          hasArbeitsweg: "no",
+          hasArbeitsweg: "yes",
           wert: "over10000",
         },
       ],
@@ -35,7 +34,7 @@ describe("fillKraftfahrzeug", () => {
     expect(pdfValues.f10KraftfahrzeugB.value).toBe(true);
     expect(pdfValues.f10KraftfahrzeugC.value).toBe(false);
     expect(pdfValues.f11Fahrzeugart.value).toBe(
-      "Wird nicht für Arbeitsweg gebraucht, Art: P 50, Marke: Trabant, Baujahr: 1990, Anschaffungsjahr: 1985, Kilometerstand: 999999",
+      "Wird für Arbeitsweg gebraucht, Art: P 50, Marke: Trabant, Baujahr: 1990, Kilometerstand: 999999",
     );
     expect(pdfValues.f12Verkehrswert.value).toBe("100000 €");
   });
