@@ -13,7 +13,6 @@ import {
   beratungshilfeAnwaltlicheVertretungGuards,
   anwaltlicheVertretungDone,
 } from "./anwaltlicheVertretung/guards";
-import { finanzielleAngabenArrayConfig as beratungshilfeFormularFinanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
 import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import {
   andereUnterhaltszahlungenDone,
@@ -27,13 +26,11 @@ import {
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
-import beratungshilfeFormularFlow from "./flow.json";
 import {
   type BeratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungenGuards,
-  grundvoraussetzungDone,
 } from "./grundvoraussetzung/context";
-import beratungshilfeGrundvoraussetzungenFlow from "./grundvoraussetzung/flow.json";
+import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConfig";
 import {
   type BeratungshilfeRechtsproblem,
   rechtsproblemDone,
@@ -48,8 +45,8 @@ import {
   weiteresEinkommenStrings,
   eigentumZusammenfassungShowTotalWorthWarnings,
 } from "./stringReplacements";
+import { beratungshilfeXstateConfig } from "./xstateConfig";
 import type { AbgabeContext } from "../shared/abgabe/context";
-import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
 import {
   eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
@@ -67,22 +64,9 @@ export const finanzielleAngabenPartnerTargetReplacements: TargetReplacements = {
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
-  config: _.merge(beratungshilfeFormularFlow, {
-    meta: {
-      arrays: {
-        ...finanzielleAngabenArrayConfig(
-          "/beratungshilfe/antrag/finanzielle-angaben",
-        ),
-        ...beratungshilfeFormularFinanzielleAngabenArrayConfig(
-          "/beratungshilfe/antrag/finanzielle-angaben",
-        ),
-      },
-    },
+  config: _.merge(beratungshilfeXstateConfig, {
     states: {
-      start: { meta: { done: () => true } },
-      grundvoraussetzungen: _.merge(beratungshilfeGrundvoraussetzungenFlow, {
-        meta: { done: grundvoraussetzungDone },
-      }),
+      grundvoraussetzungen: grundvorraussetzungXstateConfig,
       "anwaltliche-vertretung": _.merge(
         beratungshilfeAnwaltlicheVertretungFlow,
         {

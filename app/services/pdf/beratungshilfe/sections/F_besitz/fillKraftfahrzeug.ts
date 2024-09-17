@@ -1,5 +1,5 @@
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { BerHPdfFillFunction } from "../..";
 import { newPageHint, type AttachmentEntries } from "../../../attachment";
 import { eigentuemerMapping } from "../../eigentuemerMapping";
 
@@ -20,32 +20,32 @@ function singleKraftfahrzeug(
   return description;
 }
 
-export function fillKraftfahrzeug(
-  attachment: AttachmentEntries,
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  const { kraftfahrzeuge } = context;
+export const fillKraftfahrzeug: BerHPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  const attachment: AttachmentEntries = [];
+  const { kraftfahrzeuge } = userData;
   const hasKraftfahrzeugYes = kraftfahrzeuge && kraftfahrzeuge.length > 0;
-  pdfFields.f9Kraftfahrzeug1.value = !hasKraftfahrzeugYes;
-  pdfFields.f9Kraftfahrzeuge2.value = hasKraftfahrzeugYes;
+  pdfValues.f9Kraftfahrzeug1.value = !hasKraftfahrzeugYes;
+  pdfValues.f9Kraftfahrzeuge2.value = hasKraftfahrzeugYes;
 
-  if (!hasKraftfahrzeugYes) return;
+  if (!hasKraftfahrzeugYes) return { pdfValues };
 
   if (kraftfahrzeuge.length == 1) {
     const kraftfahrzeug = kraftfahrzeuge[0];
-    pdfFields.f10KraftfahrzeugeA.value = kraftfahrzeug.eigentuemer == "myself";
-    pdfFields.f10KraftfahrzeugB.value = kraftfahrzeug.eigentuemer == "partner";
-    pdfFields.f10KraftfahrzeugC.value =
+    pdfValues.f10KraftfahrzeugeA.value = kraftfahrzeug.eigentuemer == "myself";
+    pdfValues.f10KraftfahrzeugB.value = kraftfahrzeug.eigentuemer == "partner";
+    pdfValues.f10KraftfahrzeugC.value =
       kraftfahrzeug.eigentuemer == "myselfAndPartner";
 
-    pdfFields.f11Fahrzeugart.value = singleKraftfahrzeug(kraftfahrzeug);
+    pdfValues.f11Fahrzeugart.value = singleKraftfahrzeug(kraftfahrzeug);
 
-    pdfFields.f12Verkehrswert.value = kraftfahrzeug.verkaufswert
+    pdfValues.f12Verkehrswert.value = kraftfahrzeug.verkaufswert
       ? kraftfahrzeug.verkaufswert + " €"
       : verkaufswertMappingDescription[kraftfahrzeug.wert];
   } else {
-    pdfFields.f11Fahrzeugart.value = newPageHint;
+    pdfValues.f11Fahrzeugart.value = newPageHint;
     attachment.push({
       title: "Kraftfahrzeuge",
       level: "h3",
@@ -94,7 +94,8 @@ export function fillKraftfahrzeug(
         });
     });
   }
-}
+  return { pdfValues, attachment };
+};
 
 const verkaufswertMappingDescription = {
   under10000: "unter 10.000€",

@@ -26,12 +26,5 @@ export const grundvoraussetzungDone: GenericGuard<
   );
 
 export const beratungshilfeGrundvoraussetzungenGuards = {
-  rechtsschutzversicherungNo: ({ context }) =>
-    context.rechtsschutzversicherung === "no",
-  wurdeVerklagtNo: ({ context }) => context.wurdeVerklagt === "no",
-  klageEingereichtNo: ({ context }) => context.klageEingereicht === "no",
-  hamburgOderBremenYes: ({ context }) => context.hamburgOderBremen === "yes",
-  beratungshilfeBeantragtNo: ({ context }) =>
-    context.beratungshilfeBeantragt === "no",
   grundvoraussetzungDone,
 } satisfies Guards<BeratungshilfeGrundvoraussetzungen>;
