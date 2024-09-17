@@ -1,10 +1,8 @@
 import { finanzielleAngabeEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
-import {
-  pdfFillReducer,
-  type PkhPdfFillFunction,
-} from "~/services/pdf/prozesskostenhilfe/fillOutFunction";
 import { getTotalMonthlyFinancialEntries } from "~/services/pdf/util";
+import type { PkhPdfFillFunction } from ".";
+import { pdfFillReducer } from "../fillOutFunction";
 
 export const fillStaatlicheLeistungen: PkhPdfFillFunction = ({
   userData,

@@ -1,16 +1,19 @@
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import { createAttachment } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import {
   ATTACHMENT_DESCRIPTION_SECTION_E,
   SEE_IN_ATTACHMENT_DESCRIPTION,
   fillUnterhalt,
 } from "~/services/pdf/beratungshilfe/sections/E_unterhalt";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 
 describe("E_unterhalt", () => {
   it("No section E title in attachment without data", () => {
-    const attachment = createAttachment();
-    fillUnterhalt(attachment, getBeratungshilfeParameters(), {});
+    const { attachment } = pdfFillReducer({
+      userData: {},
+      pdfParams: getBeratungshilfeParameters(),
+      fillFunctions: [fillUnterhalt],
+    });
 
     const hasAttachmentDescriptionSectionE = attachment.some(
       (description) => description.title === ATTACHMENT_DESCRIPTION_SECTION_E,
@@ -53,15 +56,17 @@ describe("E_unterhalt", () => {
   test.each(Object.entries(testContexts))(
     "fills unterhalt into attachment for %s",
     (_, testContext) => {
-      const attachment = createAttachment();
-      const pdfFields = getBeratungshilfeParameters();
-      fillUnterhalt(attachment, pdfFields, testContext);
+      const { pdfValues, attachment } = pdfFillReducer({
+        userData: testContext,
+        pdfParams: getBeratungshilfeParameters(),
+        fillFunctions: [fillUnterhalt],
+      });
 
       const hasAttachmentDescriptionSectionE = attachment.some(
         (description) => description.title === ATTACHMENT_DESCRIPTION_SECTION_E,
       );
       expect(hasAttachmentDescriptionSectionE).toBeTruthy();
-      expect(pdfFields.e1Person1.value).toEqual(SEE_IN_ATTACHMENT_DESCRIPTION);
+      expect(pdfValues.e1Person1.value).toEqual(SEE_IN_ATTACHMENT_DESCRIPTION);
     },
   );
 });
