@@ -1,5 +1,7 @@
+import fs from "fs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import fontkit from "@pdf-lib/fontkit";
 import { PDFDocument } from "pdf-lib";
 import type { FlowId } from "~/flows/flowIds";
 import { addDruckvermerk } from "./druckvermerk";
@@ -39,6 +41,10 @@ async function readRelativeFileToBuffer(relativeFilepath: string) {
   }
 }
 
+const customFontBytes = fs.readFileSync(
+  path.join(process.cwd(), "/public/fonts/", "BundesSansOffice-Regular.ttf"),
+);
+
 type FillPdfProps = {
   flowId: FlowId;
   pdfValues: Record<string, BooleanField | StringField>;
@@ -60,6 +66,11 @@ export async function fillPdf({
   addDruckvermerk(pdfDoc, yPositionsDruckvermerk, xPositionsDruckvermerk);
 
   const form = pdfDoc.getForm();
+
+  pdfDoc.registerFontkit(fontkit);
+  const customFont = await pdfDoc.embedFont(customFontBytes);
+  const rawUpdateFieldAppearances = form.updateFieldAppearances.bind(form);
+  form.updateFieldAppearances = () => rawUpdateFieldAppearances(customFont);
 
   Object.values(pdfValues).forEach((value) => {
     if (isBooleanField(value)) {

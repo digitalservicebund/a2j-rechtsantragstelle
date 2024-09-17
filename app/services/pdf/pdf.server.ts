@@ -1,4 +1,4 @@
-import type { PDFForm } from "pdf-lib";
+import { type PDFForm } from "pdf-lib";
 import type { BooleanField, StringField } from "./fileTypes";
 import { getFontSizeFieldValue } from "./getFontSizeFieldValue";
 
