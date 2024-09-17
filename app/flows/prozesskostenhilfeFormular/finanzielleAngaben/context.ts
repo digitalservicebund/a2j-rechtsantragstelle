@@ -35,7 +35,7 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   parterEinkuenfte: z.object(
     prozesskostenhilfeFinanzielleAngabenEinkuenfteContext,
   ),
-  partnerHasBesondersAusgabe: YesNoAnswer,
+  partnerHasBesondersAusgaben: YesNoAnswer,
   partnerBesondersAusgabe: financialEntrySchema,
   hasKinder: YesNoAnswer,
   kinder: kinderArraySchema,

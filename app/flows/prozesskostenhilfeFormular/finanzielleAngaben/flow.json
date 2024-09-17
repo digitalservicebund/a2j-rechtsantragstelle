@@ -8,7 +8,6 @@
         "partner-einkuenfte": {
           "states": {
             "partner-besonders-ausgaben": {
-              "id": "partner-besonders-ausgaben",
               "on": {
                 "BACK": [
                   {
@@ -19,7 +18,7 @@
                 ],
                 "SUBMIT": [
                   {
-                    "guard": "partnerHasBesondersAusgabeYes",
+                    "guard": "partnerHasBesondersAusgabenYes",
                     "target": "add-partner-besonders-ausgaben"
                   },
                   "#kinder"
@@ -33,23 +32,6 @@
               }
             }
           }
-        },
-        "partnerschaft": {
-          "on": {
-            "BACK": [
-              {
-                "guard": "hasFurtherIncome",
-                "target": "#einkuenfte.weitere-einkuenfte.uebersicht"
-              },
-              "#einkuenfte.weitere-einkuenfte.frage"
-            ],
-            "SUBMIT": [
-              {
-                "guard": "hasPartnerschaftYes",
-                "target": "zusammenleben"
-              }
-            ]
-          }
         }
       }
     },
@@ -61,28 +43,16 @@
           "on": {
             "BACK": [
               {
-                "guard": "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes",
-                "target": "#partner.partner-name"
+                "guard": "partnerHasBesondersAusgabenYes",
+                "target": "#partner.partner-einkuenfte.add-partner-besonders-ausgaben"
               },
               {
                 "guard": "hasPartnerschaftYesAndPartnerEinkommenYes",
-                "target": "#partner.partner-einkuenfte"
+                "target": "#partner.partner-einkuenfte.partner-besonders-ausgaben"
               },
               {
                 "guard": "hasPartnerschaftYesAndZusammenlebenYes",
                 "target": "#partner.partner-einkommen"
-              },
-              {
-                "guard": "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo",
-                "target": "#partner.keine-rolle"
-              },
-              {
-                "guard": "hasPartnerschaftYesAndZusammenlebenNo",
-                "target": "#partner.unterhalt"
-              },
-              {
-                "guard": "hasPartnerschaftYes",
-                "target": "#partner.zusammenleben"
               },
               "#partner"
             ],

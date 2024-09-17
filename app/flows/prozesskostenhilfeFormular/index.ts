@@ -4,6 +4,7 @@ import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConf
 import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
 import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
+import { getProzesskostenhilfeEinkuenfteSubflow as tsEinkuenfteFlow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/flow";
 import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import {
   getFinanzielleAngabenPartnerSubflow,
@@ -83,12 +84,9 @@ export const prozesskostenhilfeFormular = {
                     ],
                   },
                 },
-                "partner-einkuenfte": getProzesskostenhilfeEinkuenfteSubflow(
+                "partner-einkuenfte": tsEinkuenfteFlow(
+                  "partner",
                   einkuenfteDone,
-                  {
-                    prefix: "partner-",
-                    nextStep: "partner-besonders-ausgaben",
-                  },
                 ),
               },
             },
