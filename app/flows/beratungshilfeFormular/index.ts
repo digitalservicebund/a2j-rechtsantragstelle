@@ -27,11 +27,7 @@ import {
   beratungshilfeGrundvoraussetzungenGuards,
 } from "./grundvoraussetzung/context";
 import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConfig";
-import {
-  type BeratungshilfeRechtsproblem,
-  rechtsproblemDone,
-} from "./rechtsproblem/context";
-import rechtsproblemFlow from "./rechtsproblem/flow.json";
+import { type BeratungshilfeRechtsproblem } from "./rechtsproblem/context";
 import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
@@ -50,6 +46,7 @@ import {
   getKinderStrings,
 } from "../shared/stringReplacements";
 import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
+import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 
 export const finanzielleAngabenPartnerTargetReplacements: TargetReplacements = {
   backStep: "#einkommen.einkommen",
@@ -65,9 +62,7 @@ export const beratungshilfeFormular = {
     states: {
       grundvoraussetzungen: grundvorraussetzungXstateConfig,
       "anwaltliche-vertretung": anwaltlicheVertretungXstateConfig,
-      rechtsproblem: _.merge(rechtsproblemFlow, {
-        meta: { done: rechtsproblemDone },
-      }),
+      rechtsproblem: rechtsproblemXstateConfig,
       "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
         states: {
           einkommen: { meta: { done: einkommenDone } },
