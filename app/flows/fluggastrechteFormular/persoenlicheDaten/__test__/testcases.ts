@@ -38,8 +38,6 @@ const cases = [
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
-      vornameVertretung: "test",
-      nachnameVertretung: "test",
       isWeiterePersonen: "no",
     },
     [
@@ -57,8 +55,6 @@ const cases = [
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
-      vornameVertretung: "test",
-      nachnameVertretung: "test",
       isWeiterePersonen: "yes",
     },
     [

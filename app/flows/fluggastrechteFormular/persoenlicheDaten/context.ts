@@ -17,7 +17,6 @@ const fluggastrechtePersoenlichVertretungDaten = {
 
 export const fluggastrechtePersoenlichDaten = {
   ...persoenlicheDaten,
-  ...fluggastrechtePersoenlichVertretungDaten,
   isWeiterePersonen: YesNoAnswer,
   weiterePersonen: z.array(
     z
