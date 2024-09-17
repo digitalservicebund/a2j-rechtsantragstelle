@@ -5,7 +5,10 @@ import {
   prozesskostenhilfeFinanzielleAngabenContext,
   zahlungspflichtigerSchema,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
-import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import {
+  prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema,
+  financialEntrySchema,
+} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,
@@ -20,6 +23,9 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 export const createFinancialEntry = () => ({
   beschreibung: faker.word.sample(),
   betrag: faker.finance.amount(),
+  zahlungsfrequenz: faker.helpers.arrayElement(
+    financialEntrySchema.shape.zahlungsfrequenz.options,
+  ),
 });
 
 export const happyPathData: ProzesskostenhilfeFormularContext = {
