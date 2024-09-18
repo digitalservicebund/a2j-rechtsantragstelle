@@ -10,14 +10,20 @@
     },
     "ausgleichszahlung": {
       "on": {
-        "SUBMIT": "daten-uebernahme",
+        "SUBMIT": "zahlungsaufforderung",
         "BACK": "prozessfaehig"
+      }
+    },
+    "zahlungsaufforderung": {
+      "on": {
+        "SUBMIT": "daten-uebernahme",
+        "BACK": "ausgleichszahlung"
       }
     },
     "daten-uebernahme": {
       "on": {
         "SUBMIT": "#streitwert-kosten.gerichtskosten",
-        "BACK": "ausgleichszahlung"
+        "BACK": "zahlungsaufforderung"
       }
     }
   }
