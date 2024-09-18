@@ -13,9 +13,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Fluggastrechte Formular", () => {
-  test.skip("fluggastrechte from Vorabcheck to Klage Formular", async ({
-    page,
-  }) => {
+  test("fluggastrechte from Vorabcheck to Klage Formular", async ({ page }) => {
     await startFluggastrechteVorabcheckVerspaetung(page, vorabcheck);
     await startFluggastrechteFormular(page, formular);
   });
