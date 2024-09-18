@@ -17,8 +17,6 @@ const fluggastrechtePersoenlichVertretungDaten = {
 
 export const fluggastrechtePersoenlichDaten = {
   ...persoenlicheDaten,
-  unter18JahreAlt: checkedOptional,
-  ...fluggastrechtePersoenlichVertretungDaten,
   isWeiterePersonen: YesNoAnswer,
   weiterePersonen: z.array(
     z
