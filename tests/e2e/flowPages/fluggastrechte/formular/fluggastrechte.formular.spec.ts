@@ -1,4 +1,4 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { FluggastrechteFormular } from "tests/e2e/pom/FluggastrechteFormular";
 import { FluggastrechteVorabcheck } from "tests/e2e/pom/FluggastrechteVorabcheck";
 import { startFluggastrechteFormular } from "./startFluggastrechteFormular";
@@ -21,15 +21,17 @@ test.describe("Fluggastrechte Formular", () => {
   });
 
   test("redirect to vorabcheck when goes to /fluggastrechte/formular/grundvorraussetzungen/redirect-vorabcheck", async ({
-    page,
+    baseURL,
   }) => {
-    const redirectPromise = page.waitForResponse(
-      (resp) => resp.url().includes("/fluggastrechte") && resp.status() === 200,
-    );
+    const baseUrlWithoutSlash = baseURL?.substring(0, baseURL.length - 1);
+    const redirectCheckUrl = `${baseUrlWithoutSlash}${formular.url}/grundvorraussetzungen/redirect-vorabcheck`;
+    const redirectResponse = await fetch(redirectCheckUrl, {
+      method: "GET",
+      redirect: "manual",
+    });
+    const redirectLocation = redirectResponse.headers.get("Location");
 
-    await page.goto(
-      `${formular.url}/grundvorraussetzungen/redirect-vorabcheck`,
-    );
-    await redirectPromise;
+    expect(redirectResponse.status).toEqual(302);
+    expect(redirectLocation).toEqual("/fluggastrechte/vorabcheck/start");
   });
 });
