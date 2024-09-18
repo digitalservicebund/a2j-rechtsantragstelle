@@ -8,11 +8,7 @@ import persoenlicheDatenFlow from "~/flows/shared/persoenlicheDaten/flow.json";
 import abgabeFlow from "./abgabe/flow.json";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
-import beratungshilfeAnwaltlicheVertretungFlow from "./anwaltlicheVertretung/flow.json";
-import {
-  beratungshilfeAnwaltlicheVertretungGuards,
-  anwaltlicheVertretungDone,
-} from "./anwaltlicheVertretung/guards";
+import { beratungshilfeAnwaltlicheVertretungGuards } from "./anwaltlicheVertretung/guards";
 import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import {
   andereUnterhaltszahlungenDone,
@@ -31,11 +27,7 @@ import {
   beratungshilfeGrundvoraussetzungenGuards,
 } from "./grundvoraussetzung/context";
 import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConfig";
-import {
-  type BeratungshilfeRechtsproblem,
-  rechtsproblemDone,
-} from "./rechtsproblem/context";
-import rechtsproblemFlow from "./rechtsproblem/flow.json";
+import { type BeratungshilfeRechtsproblem } from "./rechtsproblem/context";
 import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
@@ -53,6 +45,8 @@ import {
   getArrayIndexStrings,
   getKinderStrings,
 } from "../shared/stringReplacements";
+import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
+import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 
 export const finanzielleAngabenPartnerTargetReplacements: TargetReplacements = {
   backStep: "#einkommen.einkommen",
@@ -67,15 +61,8 @@ export const beratungshilfeFormular = {
   config: _.merge(beratungshilfeXstateConfig, {
     states: {
       grundvoraussetzungen: grundvorraussetzungXstateConfig,
-      "anwaltliche-vertretung": _.merge(
-        beratungshilfeAnwaltlicheVertretungFlow,
-        {
-          meta: { done: anwaltlicheVertretungDone },
-        },
-      ),
-      rechtsproblem: _.merge(rechtsproblemFlow, {
-        meta: { done: rechtsproblemDone },
-      }),
+      "anwaltliche-vertretung": anwaltlicheVertretungXstateConfig,
+      rechtsproblem: rechtsproblemXstateConfig,
       "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
         states: {
           einkommen: { meta: { done: einkommenDone } },
