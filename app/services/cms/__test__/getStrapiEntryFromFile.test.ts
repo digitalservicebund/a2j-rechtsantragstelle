@@ -44,6 +44,7 @@ describe("services/cms", () => {
             locale: StrapiLocaleSchema.Values.de,
             preHeading: null,
             nextButtonLabel: null,
+            backButtonLabel: null,
             stepId: "/stepId",
             meta: {
               title: "",

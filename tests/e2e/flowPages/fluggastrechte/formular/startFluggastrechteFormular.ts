@@ -30,7 +30,7 @@ export async function startFluggastrechteFormular(
 
   // /fluggastrechte/formular/grundvorraussetzungen/daten-uebernahme
   await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("doMigration", "yes");
+  await formular.clickNext();
 
   // /fluggastrechte/formular/streitwert-kosten/gerichtskosten
   await expectPageToBeAccessible({ page });
