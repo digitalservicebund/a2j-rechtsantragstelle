@@ -1,40 +1,40 @@
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { BerHPdfFillFunction } from "..";
+import type { AttachmentEntries } from "../../attachment";
 
-export function fillWohnen(
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  pdfFields.d1Wohnung.value = context.apartmentSizeSqm?.toString() ?? "";
-  pdfFields.d2Wohnkosten.value = isLivingAlone(context)
-    ? context.apartmentCostAlone
-    : context.apartmentCostFull;
-  pdfFields.d3Teilwohnkosten.value =
-    isLivingAlone(context) ||
-    typeof context.apartmentCostOwnShare === "undefined"
-      ? ""
-      : Math.round(
-          Number(
-            context.apartmentCostOwnShare.replace(/\./g, "").replace(",", "."),
-          ),
-        ).toString();
-  pdfFields.d4Wohnungalleine.value = isLivingAlone(context);
-  pdfFields.d5Wohnunggemeinsam.value = isLivingAlone(context) === false;
-  pdfFields.d6WonungweiterePersonen.value = isLivingAlone(context)
-    ? ""
-    : (context.apartmentPersonCount?.toString() ?? "");
-}
+export const fillWohnen: BerHPdfFillFunction = ({ userData, pdfValues }) => {
+  const attachment: AttachmentEntries = [];
+  pdfValues.d1Wohnung.value = userData.apartmentSizeSqm?.toString();
+  pdfValues.d2Wohnkosten.value =
+    userData.apartmentCostAlone ?? userData.apartmentCostFull;
 
-function isLivingAlone(
-  context: BeratungshilfeFormularContext,
-): boolean | undefined {
-  switch (context.livingSituation) {
-    case "alone":
-      return true;
-    case "withOthers":
-    case "withRelatives":
-      return false;
-    default:
-      return undefined;
+  if (userData.apartmentCostOwnShare) {
+    pdfValues.d2Wohnkosten.value = "s. Anhang";
+    attachment.push(
+      { title: "Feld D: Wohnen", level: "h2" },
+      {
+        title: "Wohnungsgröße",
+        text: userData.apartmentSizeSqm?.toString() + " m²",
+      },
+      {
+        title: "Wohnungskosten gesamt (monatlich)",
+        text: userData.apartmentCostFull + " €",
+      },
+      {
+        title: "Eigene Wohnungskosten (monatlich)",
+        text: userData.apartmentCostOwnShare + " €",
+      },
+      {
+        title: "Anzahl weiterer Personen in Wohnung",
+        text: userData.apartmentPersonCount?.toString(),
+      },
+    );
   }
-}
+
+  const livesAlone = userData.livingSituation === "alone";
+  pdfValues.d4Wohnungalleine.value = livesAlone;
+  pdfValues.d5Wohnunggemeinsam.value = !livesAlone;
+  pdfValues.d6WonungweiterePersonen.value =
+    userData.apartmentPersonCount?.toString();
+
+  return { pdfValues, attachment };
+};

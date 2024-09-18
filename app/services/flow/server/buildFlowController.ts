@@ -1,6 +1,6 @@
 import { getShortestPaths } from "@xstate/graph";
 import _ from "lodash";
-import type { MachineConfig } from "xstate";
+import type { MachineConfig, MachineContext } from "xstate";
 import {
   getInitialSnapshot,
   getNextSnapshot,
@@ -17,7 +17,10 @@ import {
 import { progressLookupForMachine, vorabcheckProgresses } from "./progress";
 
 type Event = "SUBMIT" | "BACK";
-type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
+type FlowStateMachineEvents =
+  | { type: "SUBMIT" }
+  | { type: "BACK" }
+  | { type: ArrayConfig["event"] };
 
 type StateMachineTypes = {
   context: Context;
@@ -31,8 +34,8 @@ const _genericMachine = setup({
 
 export type FlowStateMachine = ReturnType<typeof _genericMachine.createMachine>;
 
-export type Config = MachineConfig<
-  Context,
+export type Config<TContext extends MachineContext = Context> = MachineConfig<
+  TContext,
   FlowStateMachineEvents,
   never,
   never,

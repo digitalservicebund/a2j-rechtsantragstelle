@@ -3,25 +3,13 @@ import { finanzielleAngabeGuards } from "~/flows/beratungshilfeFormular/finanzie
 import * as pageDataSchemaModule from "~/services/flow/pageDataSchema";
 
 describe("finanzielleAngabeGuards", () => {
-  describe("hasPartnerschaftOrSeparated", () => {
+  describe("hasPartnerschaftYes", () => {
     it("should return truthy for married context", () => {
       const context: BeratungshilfeFinanzielleAngaben = {
         partnerschaft: "yes",
       };
 
-      const actual = finanzielleAngabeGuards.hasPartnerschaftOrSeparated({
-        context,
-      });
-
-      expect(actual).toBeTruthy();
-    });
-
-    it("should return truthy for separated context", () => {
-      const context: BeratungshilfeFinanzielleAngaben = {
-        partnerschaft: "separated",
-      };
-
-      const actual = finanzielleAngabeGuards.hasPartnerschaftOrSeparated({
+      const actual = finanzielleAngabeGuards.hasPartnerschaftYes({
         context,
       });
 

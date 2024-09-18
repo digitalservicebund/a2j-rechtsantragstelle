@@ -3,13 +3,13 @@ import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { gerbehAmtsgericht } from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { createAttachment } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
-import fillHeader from "~/services/pdf/beratungshilfe/sections/header";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
+import { fillHeader } from "../header";
 
 describe("fillHeader", () => {
   describe("Adds weiteres einkommen", () => {
-    const context: BeratungshilfeFormularContext = {
+    const userData: BeratungshilfeFormularContext = {
       staatlicheLeistungen: "keine",
       erwerbstaetig: "yes",
       berufart: {
@@ -25,17 +25,25 @@ describe("fillHeader", () => {
     };
 
     it("adds attachment entry", () => {
-      const attachment = createAttachment();
-      fillHeader(attachment, getBeratungshilfeParameters(), context);
+      const { attachment } = pdfFillReducer({
+        userData,
+        pdfParams: getBeratungshilfeParameters(),
+        fillFunctions: [fillHeader],
+      });
+
       expect(attachment).toContainEqual(weiteresEinkommenHeading);
     });
 
     it("skips attachment entry if not relevant (eg grundsicherung)", () => {
-      const attachment = createAttachment();
-      fillHeader(attachment, getBeratungshilfeParameters(), {
-        ...context,
-        staatlicheLeistungen: "grundsicherung",
+      const { attachment } = pdfFillReducer({
+        userData: {
+          ...userData,
+          staatlicheLeistungen: "grundsicherung",
+        },
+        pdfParams: getBeratungshilfeParameters(),
+        fillFunctions: [fillHeader],
       });
+
       expect(attachment).not.toContainEqual(weiteresEinkommenHeading);
     });
   });
@@ -47,25 +55,37 @@ describe("fillHeader", () => {
       BEZEICHNUNG: "Amtsgericht Dessau-Roßlau",
     });
 
-    const pdfFields = getBeratungshilfeParameters();
-    fillHeader(createAttachment(), pdfFields, { plz: "06844" });
-    expect(pdfFields.namedesAmtsgerichts.value).toEqual("Dessau-Roßlau");
+    const { pdfValues } = pdfFillReducer({
+      userData: { plz: "06844" },
+      pdfParams: getBeratungshilfeParameters(),
+      fillFunctions: [fillHeader],
+    });
+
+    expect(pdfValues.namedesAmtsgerichts.value).toEqual("Dessau-Roßlau");
   });
 
   it("shouldn't add amtsgericht if edge case PLZ", () => {
     vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
     vi.mocked(findCourtIfUnique).mockReturnValue(undefined);
 
-    const pdfFields = getBeratungshilfeParameters();
-    fillHeader(createAttachment(), pdfFields, { plz: "10965" });
-    expect(pdfFields.namedesAmtsgerichts.value).toBeUndefined();
+    const { pdfValues } = pdfFillReducer({
+      userData: { plz: "10965" },
+      pdfParams: getBeratungshilfeParameters(),
+      fillFunctions: [fillHeader],
+    });
+
+    expect(pdfValues.namedesAmtsgerichts.value).toBeUndefined();
   });
 
   it("should add marital description in the attachment is bigger than 10 characters", () => {
-    const attachment = createAttachment();
-    fillHeader(attachment, getBeratungshilfeParameters(), {
-      partnerschaft: "yes",
+    const { attachment } = pdfFillReducer({
+      userData: {
+        partnerschaft: "yes",
+      },
+      pdfParams: getBeratungshilfeParameters(),
+      fillFunctions: [fillHeader],
     });
+
     expect(attachment.length).toBeGreaterThan(0);
   });
 });

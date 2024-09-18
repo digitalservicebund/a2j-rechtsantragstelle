@@ -28,6 +28,13 @@ const cases = [
     ],
   ],
   [
+    { partnerschaft: "separated" },
+    [
+      finanzielleAngabenPartnerPartnerschaft,
+      finanzielleAngabenKinderKinderFrage,
+    ],
+  ],
+  [
     { partnerschaft: "yes", unterhalt: "yes" },
     [
       finanzielleAngabenPartnerPartnerschaft,

@@ -11,9 +11,13 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
-const financialEntrySchema = z.object({
+export const financialEntrySchema = z.object({
   beschreibung: stringRequiredSchema,
   betrag: buildMoneyValidationSchema(),
+  zahlungsfrequenz: z.enum(
+    ["monthly", "quarterly", "yearly", "one-time"],
+    customRequiredErrorMessage,
+  ),
 });
 
 export type FinancialEntry = z.infer<typeof financialEntrySchema>;

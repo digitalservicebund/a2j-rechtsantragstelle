@@ -53,13 +53,5 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       statementKey: "hasWeitereUnterhaltszahlungen",
       event: "add-unterhaltszahlungen",
     },
-    ausgaben: {
-      url: `${prefix}/ausgaben/ausgaben`,
-      initialInputUrl: "art",
-      statementUrl: `${prefix}/ausgaben/ausgaben-frage`,
-      statementKey: "hasAusgaben",
-      hiddenFields: ["hasZahlungsfrist"],
-      event: "add-ausgaben",
-    },
   } satisfies Partial<Record<AllContextKeys, ArrayConfig>>;
 }

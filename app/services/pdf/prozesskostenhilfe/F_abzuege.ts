@@ -1,9 +1,9 @@
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import { finanzielleAngabeEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import { getTotalMonthlyFinancialEntries } from "~/services/pdf/util";
-import type { PkhPdfFillFunction } from "./fillOutFunction";
+import type { PkhPdfFillFunction } from ".";
 import type { AttachmentEntries } from "../attachment";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt/E_unterhalt";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt";
 
 export const versicherungMapping = {
   haftpflichtversicherung: "Haftpflichtversicherung",

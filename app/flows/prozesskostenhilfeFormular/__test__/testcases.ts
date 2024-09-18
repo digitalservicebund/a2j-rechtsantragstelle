@@ -14,6 +14,13 @@ const machine: FlowStateMachine = createMachine(
 
 const cases = [
   [
+    { partnerschaft: "separated" },
+    [
+      "finanzielle-angaben/partner/partnerschaft",
+      "finanzielle-angaben/kinder/kinder-frage",
+    ],
+  ],
+  [
     happyPathData,
     [
       "start/start",
