@@ -23,8 +23,9 @@
     "daten-uebernahme": {
       "on": {
         "SUBMIT": "#streitwert-kosten.gerichtskosten",
-        "BACK": "zahlungsaufforderung"
+        "BACK": "redirect-vorabcheck"
       }
-    }
+    },
+    "redirect-vorabcheck": { "on": {} }
   }
 }

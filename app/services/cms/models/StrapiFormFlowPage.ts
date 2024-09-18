@@ -16,6 +16,7 @@ export const StrapiFormFlowPageSchema = z
     }),
     preHeading: z.string().nullable(),
     nextButtonLabel: z.string().nullable(),
+    backButtonLabel: z.string().nullable(),
     // eslint-disable-next-line camelcase
     pre_form: z.array(StrapiContentComponentSchema),
     form: z.array(StrapiFormComponentSchema),
