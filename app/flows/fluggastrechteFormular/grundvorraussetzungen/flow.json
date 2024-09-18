@@ -22,7 +22,12 @@
     },
     "daten-uebernahme": {
       "on": {
-        "SUBMIT": "#streitwert-kosten.gerichtskosten",
+        "SUBMIT": [
+          {
+            "target": "#streitwert-kosten.gerichtskosten",
+            "guard": "grundvorraussetzungenDone"
+          }
+        ],
         "BACK": "zahlungsaufforderung"
       }
     }
