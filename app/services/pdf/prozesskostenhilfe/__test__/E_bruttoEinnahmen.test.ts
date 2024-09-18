@@ -1,9 +1,8 @@
 import { faker } from "@faker-js/faker";
-import _ from "lodash";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
+import { createFinancialEntry } from "tests/fixtures/prozesskostenhilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import type { FinancialEntry } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import {
   fillAndereLeistungen,
   fillEinkommenType,
@@ -288,10 +287,7 @@ describe("E_bruttoEinnahmen", () => {
     });
 
     it("should indicate if the user has one additional Einkunft", () => {
-      const singleEinkunft: FinancialEntry = {
-        beschreibung: faker.word.sample(),
-        betrag: faker.finance.amount().toString(),
-      };
+      const singleEinkunft = createFinancialEntry();
       const { pdfValues } = fillWeitereEinkuenfte({
         userData: {
           hasFurtherIncome: "yes",
@@ -318,10 +314,9 @@ describe("E_bruttoEinnahmen", () => {
     });
 
     it("should indicate if the user has two additional Einkuenfte", () => {
-      const twoEinkuenfte: FinancialEntry[] = _.times(2, () => ({
-        beschreibung: faker.word.sample(),
-        betrag: faker.finance.amount().toString(),
-      }));
+      const twoEinkuenfte = faker.helpers.multiple(createFinancialEntry, {
+        count: 2,
+      });
       const { pdfValues } = fillWeitereEinkuenfte({
         userData: {
           hasFurtherIncome: "yes",
@@ -349,10 +344,9 @@ describe("E_bruttoEinnahmen", () => {
     });
 
     it('should print "Siehe Anhang", the collective monthly amount, and add an attachment if there are more than 2 Einkuenfte', () => {
-      const threeEinkuenfte: FinancialEntry[] = _.times(3, () => ({
-        beschreibung: faker.word.sample(),
-        betrag: faker.finance.amount().toString(),
-      }));
+      const threeEinkuenfte = faker.helpers.multiple(createFinancialEntry, {
+        count: 3,
+      });
 
       const { pdfValues, attachment } = fillWeitereEinkuenfte({
         userData: {
