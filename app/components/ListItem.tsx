@@ -15,6 +15,15 @@ export const ListItemPropsSchema = z.object({
 
 type ListItemProps = z.infer<typeof ListItemPropsSchema>;
 
+const ListIcon = ({ numeric }: { numeric?: number }) =>
+  numeric ? (
+    <div className="h-[40px] w-[40px] pt-[4px] border-2 border-solid border-gray-400 rounded-full">
+      {numeric}
+    </div>
+  ) : (
+    <div className="w-[16px] h-[2px] border border-solid border-black mt-[19.5px] ml-[12.5px]" />
+  );
+
 const ListItem = ({
   identifier,
   label,
@@ -24,25 +33,18 @@ const ListItem = ({
   numeric,
 }: ListItemProps & { readonly numeric?: number }) => {
   return (
-    <div
-      id={identifier}
-      className={"flex flex-row items-center justify-center"}
-    >
-      <div className="break-words w-full">
-        <div className="flex flex-row gap-16 items-center">
-          {numeric ? (
-            <div className="min-w-[40px] w-[40px] h-[40px] pt-[4px] text-center border-2 border-solid border-gray-400 rounded-full">
-              {numeric}
-            </div>
-          ) : (
-            <div className="w-[16px] min-h-[1px] border border-solid border-black mr-[5px] ml-[17px]" />
-          )}
+    <div id={identifier} className="flex flex-row gap-16">
+      <div className="text-center basis-[40px] shrink-0">
+        <ListIcon numeric={numeric} />
+      </div>
+      <div className="basis-auto">
+        <div className="flex flex-row gap-16">
           {label && <Heading {...label} />}
           {headline && <Heading {...headline} />}
         </div>
-        {content && <RichText markdown={content} className="ml-[56px]" />}
+        {content && <RichText markdown={content} />}
         {arrayIsNonEmpty(buttons) && (
-          <ButtonContainer className="ml-[56px] mt-16">
+          <ButtonContainer className="mt-16">
             {buttons.map((button) => (
               <Button key={button.text ?? button.href} {...button} />
             ))}
