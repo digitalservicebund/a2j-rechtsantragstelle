@@ -12,6 +12,7 @@ import { beratungshilfeAnwaltlicheVertretungGuards } from "./anwaltlicheVertretu
 import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import { partnerDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
+import { beratungshilfeFinanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import {
   type BeratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungenGuards,
@@ -37,7 +38,6 @@ import {
 } from "../shared/stringReplacements";
 import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
-import { beratungshilfeFinanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 
 export const finanzielleAngabenPartnerTargetReplacements: TargetReplacements = {
   backStep: "#einkommen.einkommen",
