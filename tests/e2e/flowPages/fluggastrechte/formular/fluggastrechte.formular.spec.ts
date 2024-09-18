@@ -7,6 +7,17 @@ import { startFluggastrechteVorabcheckVerspaetung } from "../vorabcheck/vorabche
 let vorabcheck: FluggastrechteVorabcheck;
 let formular: FluggastrechteFormular;
 
+const getBaseUrlWithoutSlash = (baseUrlFromConfiguration: string): string => {
+  if (baseUrlFromConfiguration.endsWith("/")) {
+    return baseUrlFromConfiguration.substring(
+      0,
+      baseUrlFromConfiguration.length - 1,
+    );
+  }
+
+  return baseUrlFromConfiguration;
+};
+
 test.beforeEach(async ({ page }) => {
   vorabcheck = new FluggastrechteVorabcheck(page);
   formular = new FluggastrechteFormular(page);
@@ -21,7 +32,7 @@ test.describe("Fluggastrechte Formular", () => {
   test("redirect to vorabcheck when goes to /fluggastrechte/formular/grundvorraussetzungen/redirect-vorabcheck", async ({
     baseURL,
   }) => {
-    const baseUrlWithoutSlash = baseURL?.substring(0, baseURL.length - 1);
+    const baseUrlWithoutSlash = getBaseUrlWithoutSlash(baseURL ?? "");
     const redirectCheckUrl = `${baseUrlWithoutSlash}${formular.url}/grundvorraussetzungen/redirect-vorabcheck`;
     const redirectResponse = await fetch(redirectCheckUrl, {
       method: "GET",
