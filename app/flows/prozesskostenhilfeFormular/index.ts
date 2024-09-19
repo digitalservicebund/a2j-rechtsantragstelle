@@ -1,5 +1,6 @@
 import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
+import type { GenericGuard } from "~/flows/guards.server";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
@@ -111,10 +112,23 @@ export const prozesskostenhilfeFormular = {
     ...finanzielleAngabeEinkuenfteGuards,
     ...prozesskostenhilfeAbgabeGuards,
     ...Object.fromEntries(
-      Object.entries(finanzielleAngabeEinkuenfteGuards).map(([key, value]) => [
-        `partner-${key}`,
-        value,
-      ]),
+      // Need to both prepend "partner-" to guard name, and pass correct context subset to guard, to achieve the correct guarded outcome
+      Object.entries(finanzielleAngabeEinkuenfteGuards).map(
+        ([key, guard]: [
+          string,
+          GenericGuard<ProzesskostenhilfeFinanzielleAngabenContext>,
+        ]) => [
+          `partner-${key}`,
+          ({
+            context,
+          }: {
+            context: ProzesskostenhilfeFinanzielleAngabenContext;
+          }) =>
+            context.partnerEinkuenfte
+              ? guard({ context: context.partnerEinkuenfte })
+              : true,
+        ],
+      ),
     ),
   },
   stringReplacements: (context: ProzesskostenhilfeFormularContext) => ({
