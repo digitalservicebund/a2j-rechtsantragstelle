@@ -4,7 +4,7 @@
   "states": {
     "start": {
       "on": {
-        "BACK": ["#zusammenfassung.start"]
+        "BACK": "#zusammenfassung.start"
       }
     }
   }
