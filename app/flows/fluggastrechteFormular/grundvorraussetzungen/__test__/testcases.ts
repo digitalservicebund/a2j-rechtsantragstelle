@@ -1,4 +1,3 @@
-/* eslint sonarjs/no-duplicate-string: 0 */
 import { createMachine } from "xstate";
 import type { TestCases } from "~/flows/__test__/TestCases";
 import { fluggastrechtFlow } from "~/flows/fluggastrechteFormular";
@@ -15,10 +14,19 @@ const happyPathSteps = [
   "intro/start",
   "grundvorraussetzungen/prozessfaehig",
   "grundvorraussetzungen/ausgleichszahlung",
+  "grundvorraussetzungen/zahlungsaufforderung",
 ];
 
 const cases = [
-  [{}, happyPathSteps],
+  [
+    {
+      fluggesellschaft: "TAP",
+      bereich: "bereich",
+      startAirport: "BER",
+      endAirport: "FRA",
+    },
+    happyPathSteps,
+  ],
 ] as const satisfies TestCases<FluggastrechtContext>;
 
 export const testCasesFluggastrechteFormularGrundvorraussetzungen = {
