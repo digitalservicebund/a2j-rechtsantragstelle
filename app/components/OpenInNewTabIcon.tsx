@@ -1,6 +1,5 @@
 import OpenInNewIcon from "@digitalservicebund/icons/OpenInNew";
 
-export const openInNewAllowedTags = ["svg", "path"] as const;
 export const openInNewAllowedAttributes = {
   svg: [
     "xmlns",
