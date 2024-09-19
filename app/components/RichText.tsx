@@ -1,11 +1,7 @@
 import { type Renderer, Marked } from "marked";
 import ReactDOMServer from "react-dom/server";
-import sanitizeHtml from "sanitize-html";
 import { z } from "zod";
-import {
-  openInNewAllowedAttributes,
-  openInNewAllowedTags,
-} from "./OpenInNewTabIcon";
+import { sanatize } from "~/services/security/sanatizeHtml";
 import { StandaloneLink } from "./StandaloneLink";
 
 export const RichTextPropsSchema = z.object({
@@ -14,18 +10,6 @@ export const RichTextPropsSchema = z.object({
 });
 
 export type RichTextProps = z.infer<typeof RichTextPropsSchema>;
-
-const allowedTags =
-  sanitizeHtml.defaults.allowedTags.concat(openInNewAllowedTags);
-const allowedAttributes = {
-  a: sanitizeHtml.defaults.allowedAttributes["a"].concat(["rel", "aria-label"]),
-  ...openInNewAllowedAttributes,
-};
-const allowedHeadingClasses = [
-  "ds-heading-01-reg",
-  "ds-label-01-bold",
-  "ds-heading-02-reg",
-];
 
 const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {
@@ -63,22 +47,7 @@ const RichText = ({
     <div
       {...props}
       className={`rich-text ds-stack-8 ${className ?? ""}`}
-      dangerouslySetInnerHTML={{
-        __html: sanitizeHtml(html, {
-          allowedTags,
-          allowedClasses: {
-            p: ["ds-subhead", "max-w-full"],
-            a: ["text-link", "min-h-[24px]", "inline-block"],
-            h1: allowedHeadingClasses,
-            h2: allowedHeadingClasses,
-            h3: allowedHeadingClasses,
-            h4: allowedHeadingClasses,
-            h5: allowedHeadingClasses,
-            h6: allowedHeadingClasses,
-          },
-          allowedAttributes,
-        }),
-      }}
+      dangerouslySetInnerHTML={{ __html: sanatize(html) }}
     />
   );
 };
