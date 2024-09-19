@@ -43,18 +43,22 @@
           "on": {
             "BACK": [
               {
-                "guard": "partnerHasBesondersAusgabenYes",
-                "target": "#partner.partner-einkuenfte.add-partner-besonders-ausgaben"
+                "guard": "hasPartnerschaftNo",
+                "target": "#partner"
               },
               {
-                "guard": "hasPartnerschaftYesAndPartnerEinkommenYes",
-                "target": "#partner.partner-einkuenfte.partner-besonders-ausgaben"
-              },
-              {
-                "guard": "hasPartnerschaftYesAndZusammenlebenYes",
+                "guard": "partnerEinkommenNo",
                 "target": "#partner.partner-einkommen"
               },
-              "#partner"
+              {
+                "guard": "partner-hasGrundsicherungOrAsylbewerberleistungen",
+                "target": "#partner-einkuenfte.partner-staatliche-leistungen"
+              },
+              {
+                "guard": "partnerHasBesondersAusgabenYes",
+                "target": "#partner-einkuenfte.add-partner-besonders-ausgaben"
+              },
+              "#partner-einkuenfte.partner-besonders-ausgaben"
             ],
             "SUBMIT": [
               {
