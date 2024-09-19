@@ -2,7 +2,6 @@ import { flugdatenDone } from "../doneFunctions";
 
 describe("flugdatenDone", () => {
   const baseContext = {
-    doMigration: "yes",
     startAirport: "BER",
     endAirport: "FRA",
     fluggesellschaft: "LH",

@@ -8,34 +8,17 @@ import persoenlicheDatenFlow from "~/flows/shared/persoenlicheDaten/flow.json";
 import abgabeFlow from "./abgabe/flow.json";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
-import beratungshilfeAnwaltlicheVertretungFlow from "./anwaltlicheVertretung/flow.json";
-import {
-  beratungshilfeAnwaltlicheVertretungGuards,
-  anwaltlicheVertretungDone,
-} from "./anwaltlicheVertretung/guards";
+import { beratungshilfeAnwaltlicheVertretungGuards } from "./anwaltlicheVertretung/guards";
 import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
-import {
-  andereUnterhaltszahlungenDone,
-  ausgabenDone,
-  einkommenDone,
-  kinderDone,
-  partnerDone,
-  wohnungDone,
-  eigentumDone,
-} from "./finanzielleAngaben/doneFunctions";
-import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
-import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
+import { partnerDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
+import { beratungshilfeFinanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import {
   type BeratungshilfeGrundvoraussetzungen,
   beratungshilfeGrundvoraussetzungenGuards,
 } from "./grundvoraussetzung/context";
 import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConfig";
-import {
-  type BeratungshilfeRechtsproblem,
-  rechtsproblemDone,
-} from "./rechtsproblem/context";
-import rechtsproblemFlow from "./rechtsproblem/flow.json";
+import { type BeratungshilfeRechtsproblem } from "./rechtsproblem/context";
 import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
@@ -53,6 +36,8 @@ import {
   getArrayIndexStrings,
   getKinderStrings,
 } from "../shared/stringReplacements";
+import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
+import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 
 export const beratungshilfeFinanzielleAngabenPartnerTargetReplacements: FinanzielleAngabenPartnerTargetReplacements =
   {
@@ -68,34 +53,19 @@ export const beratungshilfeFormular = {
   config: _.merge(beratungshilfeXstateConfig, {
     states: {
       grundvoraussetzungen: grundvorraussetzungXstateConfig,
-      "anwaltliche-vertretung": _.merge(
-        beratungshilfeAnwaltlicheVertretungFlow,
+      "anwaltliche-vertretung": anwaltlicheVertretungXstateConfig,
+      rechtsproblem: rechtsproblemXstateConfig,
+      "finanzielle-angaben": _.merge(
+        beratungshilfeFinanzielleAngabenXstateConfig,
         {
-          meta: { done: anwaltlicheVertretungDone },
+          states: {
+            partner: getFinanzielleAngabenPartnerSubflow(
+              partnerDone,
+              beratungshilfeFinanzielleAngabenPartnerTargetReplacements,
+            ),
+          },
         },
       ),
-      rechtsproblem: _.merge(rechtsproblemFlow, {
-        meta: { done: rechtsproblemDone },
-      }),
-      "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
-        states: {
-          einkommen: { meta: { done: einkommenDone } },
-          partner: getFinanzielleAngabenPartnerSubflow(
-            partnerDone,
-            beratungshilfeFinanzielleAngabenPartnerTargetReplacements,
-          ),
-          kinder: { meta: { done: kinderDone } },
-          "andere-unterhaltszahlungen": {
-            meta: { done: andereUnterhaltszahlungenDone },
-          },
-          eigentum: { meta: { done: eigentumDone } },
-          "eigentum-zusammenfassung": {
-            meta: { done: eigentumZusammenfassungDone },
-          },
-          wohnung: { meta: { done: wohnungDone } },
-          ausgaben: { meta: { done: ausgabenDone } },
-        },
-      }),
       "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
         meta: { done: beratungshilfePersoenlicheDatenDone },
         states: {
@@ -103,24 +73,27 @@ export const beratungshilfeFormular = {
             on: {
               BACK: [
                 {
-                  guard: "staatlicheLeistungenIsBuergergeldAndEigentumDone",
+                  guard:
+                    finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeldAndEigentumDone,
                   target:
                     "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung",
                 },
                 {
-                  guard: "staatlicheLeistungenIsBuergergeldAndHasEigentum",
+                  guard:
+                    finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeldAndHasEigentum,
                   target: "#finanzielle-angaben.eigentum.gesamtwert",
                 },
                 {
-                  guard: "staatlicheLeistungenIsBuergergeld",
+                  guard:
+                    finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeld,
                   target: "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
                 },
                 {
-                  guard: "hasAusgabenYes",
+                  guard: finanzielleAngabeGuards.hasAusgabenYes,
                   target: "#ausgaben.uebersicht",
                 },
                 {
-                  guard: "hasNoStaatlicheLeistungen",
+                  guard: finanzielleAngabeGuards.hasNoStaatlicheLeistungen,
                   target: "#ausgaben.ausgaben-frage",
                 },
                 "#finanzielle-angaben.einkommen.staatliche-leistungen",

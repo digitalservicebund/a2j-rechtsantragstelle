@@ -6,9 +6,6 @@ import {
 import type { FluggastrechtePersoenlichDaten } from "./context";
 
 export const persoenlichDatenGuards = {
-  isUnter18JahreAlt: ({ context: { unter18JahreAlt } }) => {
-    return unter18JahreAlt === "on";
-  },
   isValidWeiterePersonenArrayIndex: ({
     context: { pageData, weiterePersonen },
   }) => isValidArrayIndex(weiterePersonen, pageData),

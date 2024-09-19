@@ -13,20 +13,8 @@
       "states": {
         "daten": {
           "on": {
-            "SUBMIT": [
-              {
-                "guard": "isUnter18JahreAlt",
-                "target": "vertretung-minderjaehrige"
-              },
-              "#weitere-personen.frage"
-            ],
-            "BACK": "#flugdaten.zusaetzliche-angaben"
-          }
-        },
-        "vertretung-minderjaehrige": {
-          "on": {
             "SUBMIT": "#weitere-personen.frage",
-            "BACK": "daten"
+            "BACK": "#flugdaten.zusaetzliche-angaben"
           }
         }
       }
@@ -44,13 +32,7 @@
               },
               "#zusammenfassung.start"
             ],
-            "BACK": [
-              {
-                "guard": "isUnter18JahreAlt",
-                "target": "#person.vertretung-minderjaehrige"
-              },
-              "#person.daten"
-            ]
+            "BACK": "#person.daten"
           }
         },
         "uebersicht": {

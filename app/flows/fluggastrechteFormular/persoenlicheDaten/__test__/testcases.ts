@@ -21,7 +21,6 @@ const cases = [
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
-      unter18JahreAlt: CheckboxValue.off,
       isWeiterePersonen: "no",
     },
     [
@@ -39,14 +38,10 @@ const cases = [
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
-      unter18JahreAlt: CheckboxValue.on,
-      vornameVertretung: "test",
-      nachnameVertretung: "test",
       isWeiterePersonen: "no",
     },
     [
       "persoenliche-daten/person/daten",
-      "persoenliche-daten/person/vertretung-minderjaehrige",
       "persoenliche-daten/weitere-personen/frage",
       "zusammenfassung/start",
     ],
@@ -60,29 +55,6 @@ const cases = [
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
-      unter18JahreAlt: CheckboxValue.on,
-      vornameVertretung: "test",
-      nachnameVertretung: "test",
-      isWeiterePersonen: "yes",
-    },
-    [
-      "persoenliche-daten/person/daten",
-      "persoenliche-daten/person/vertretung-minderjaehrige",
-      "persoenliche-daten/weitere-personen/frage",
-      "persoenliche-daten/weitere-personen/uebersicht",
-      "zusammenfassung/start",
-    ],
-  ],
-  [
-    {
-      anrede: "mr",
-      title: "",
-      vorname: "test",
-      nachname: "test",
-      strasseHausnummer: "test",
-      ort: "test",
-      plz: "13055",
-      unter18JahreAlt: CheckboxValue.off,
       isWeiterePersonen: "yes",
     },
     [
@@ -101,7 +73,24 @@ const cases = [
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
-      unter18JahreAlt: CheckboxValue.off,
+      isWeiterePersonen: "yes",
+    },
+    [
+      "persoenliche-daten/person/daten",
+      "persoenliche-daten/weitere-personen/frage",
+      "persoenliche-daten/weitere-personen/uebersicht",
+      "zusammenfassung/start",
+    ],
+  ],
+  [
+    {
+      anrede: "mr",
+      title: "",
+      vorname: "test",
+      nachname: "test",
+      strasseHausnummer: "test",
+      ort: "test",
+      plz: "13055",
       isWeiterePersonen: "yes",
       weiterePersonen: [
         {
