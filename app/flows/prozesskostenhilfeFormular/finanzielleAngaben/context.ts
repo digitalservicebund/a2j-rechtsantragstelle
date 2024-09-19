@@ -32,9 +32,9 @@ export const zahlungspflichtigerSchema = z.enum(
 );
 
 export const prozesskostenhilfeFinanzielleAngabenContext = {
-  partnerEinkuenfte: z.object(
-    prozesskostenhilfeFinanzielleAngabenEinkuenfteContext,
-  ),
+  partnerEinkuenfte: z
+    .object(prozesskostenhilfeFinanzielleAngabenEinkuenfteContext)
+    .partial(),
   partnerHasBesondersAusgaben: YesNoAnswer,
   partnerBesondersAusgabe: financialEntrySchema,
   hasKinder: YesNoAnswer,
