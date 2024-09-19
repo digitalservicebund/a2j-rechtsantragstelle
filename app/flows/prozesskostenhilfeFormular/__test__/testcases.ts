@@ -40,7 +40,6 @@ const cases = [
       "finanzielle-angaben/partner/partnerschaft",
       "finanzielle-angaben/partner/zusammenleben",
       "finanzielle-angaben/partner/partner-einkommen",
-      "finanzielle-angaben/partner/partner-einkuenfte/partner-start",
       "finanzielle-angaben/partner/partner-einkuenfte/partner-staatliche-leistungen",
       "finanzielle-angaben/partner/partner-einkuenfte/partner-einkommen/partner-erwerbstaetig",
       "finanzielle-angaben/partner/partner-einkuenfte/partner-einkommen/partner-art",

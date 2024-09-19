@@ -65,29 +65,17 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
 
   return {
     id: stepIds.id,
-    initial: stepIds.start,
+    initial:
+      subflowPrefix === "partner"
+        ? stepIds.staatlicheLeistungen
+        : stepIds.start,
     meta: { done: einkuenfteDone },
     states: {
       [stepIds.start]: {
         id: stepIds.start,
         on: {
           SUBMIT: stepIds.staatlicheLeistungen,
-          BACK:
-            subflowPrefix === "partner"
-              ? [
-                  {
-                    guard:
-                      "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes",
-                    target: "#partner.partner-name",
-                  },
-                  {
-                    guard:
-                      "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo",
-                    target: "#partner.keine-rolle",
-                  },
-                  "#partner.partner-einkommen",
-                ]
-              : "#antragStart",
+          BACK: "#antragStart",
         },
       },
       [stepIds.staatlicheLeistungen]: {
@@ -105,9 +93,24 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               guard: guards.staatlicheLeistungenIsKeine,
               target: stepIds.einkommen,
             },
-            "#abgabe",
+            subflowPrefix === "partner" ? "#kinder" : "#abgabe",
           ],
-          BACK: stepIds.start,
+          BACK:
+            subflowPrefix === "partner"
+              ? [
+                  {
+                    guard:
+                      "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes",
+                    target: "#partner.partner-name",
+                  },
+                  {
+                    guard:
+                      "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo",
+                    target: "#partner.keine-rolle",
+                  },
+                  "#partner.partner-einkommen",
+                ]
+              : stepIds.start,
         },
       },
       [stepIds.buergergeld]: {
