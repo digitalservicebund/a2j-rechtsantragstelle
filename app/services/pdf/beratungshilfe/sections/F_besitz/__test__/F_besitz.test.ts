@@ -191,6 +191,40 @@ describe("F_besitz", () => {
       expect(pdfValues.f2InhaberC.value).toBe(undefined);
       expect(pdfValues.f7Nutzungsart.value).toBe(newPageHint);
     });
+
+    it("should print a hinweis under 10000€", () => {
+      const { pdfValues } = pdfFillReducer({
+        userData: { eigentumTotalWorth: "less10000" },
+        pdfParams: getBeratungshilfeParameters(),
+        fillFunctions: [fillFinancialGrundeigentum],
+      });
+      expect(pdfValues.f7Nutzungsart.value).toContain("Hinweis");
+    });
+
+    it("should print a hinweis and new page hint", () => {
+      const { pdfValues } = pdfFillReducer({
+        userData: {
+          eigentumTotalWorth: "less10000",
+          grundeigentum: [
+            {
+              eigentuemer: "myself",
+              art: "eigentumswohnung",
+              flaeche: "100",
+              verkaufswert: "100001",
+              land: "Deutschland",
+              ort: "Berlin",
+              plz: "12345",
+              strassehausnummer: "Musterstraße 1",
+              isBewohnt: "yes",
+            },
+          ],
+        },
+        pdfParams: getBeratungshilfeParameters(),
+        fillFunctions: [fillFinancialGrundeigentum],
+      });
+      expect(pdfValues.f7Nutzungsart.value).toContain("Hinweis");
+      expect(pdfValues.f7Nutzungsart.value).toContain(newPageHint);
+    });
   });
 
   describe("fillVermoegenswerte", () => {

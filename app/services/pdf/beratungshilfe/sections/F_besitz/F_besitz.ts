@@ -40,27 +40,21 @@ export const fillFinancialBankkonto: BerHPdfFillFunction = ({
   pdfValues,
 }) => {
   const attachment: AttachmentEntries = [];
-  const { bankkonten, eigentumTotalWorth } = userData;
+  const { bankkonten } = userData;
   const hasBankkontoYes = arrayIsNonEmpty(bankkonten);
 
   pdfValues.f1Konten1.value = !hasBankkontoYes;
   pdfValues.f1Konten2.value = hasBankkontoYes;
   if (!hasBankkontoYes) return { pdfValues };
 
-  const shouldPrintNote = eigentumTotalWorth === "less10000";
-
-  pdfValues.f3Bank1.value = shouldPrintNote
-    ? "Übergreifender Hinweis zu allen Vermögenswerten:\nMein gesamtes Vermögen ist insgesamt weniger als 10.000€ wert.\n\n"
-    : "";
-
-  if (bankkonten.length == 1 && !shouldPrintNote) {
+  if (bankkonten.length == 1) {
     const bankkonto = bankkonten[0];
     pdfValues.f1InhaberA.value = bankkonto.kontoEigentuemer == "myself";
     pdfValues.f2InhaberB.value = bankkonto.kontoEigentuemer == "partner";
     pdfValues.f2InhaberC.value =
       bankkonto.kontoEigentuemer == "myselfAndPartner";
 
-    pdfValues.f3Bank1.value += `Bank: ${bankkonto.bankName}`;
+    pdfValues.f3Bank1.value = `Bank: ${bankkonto.bankName}`;
     if (bankkonto.kontoDescription)
       pdfValues.f3Bank1.value += `\nBezeichnung: ${bankkonto.kontoDescription}`;
     if (bankkonto.kontoEigentuemer === "myselfAndSomeoneElse")
@@ -69,6 +63,8 @@ export const fillFinancialBankkonto: BerHPdfFillFunction = ({
 
     pdfValues.f4Kontostand.value = bankkonto.kontostand + " €";
   } else {
+    pdfValues.f3Bank1.value = newPageHint;
+
     attachment.push({
       title: "Bankkonten",
       level: "h3",
@@ -91,8 +87,6 @@ export const fillFinancialBankkonto: BerHPdfFillFunction = ({
         if (iban) attachment.push({ title: "Iban", text: iban });
       },
     );
-
-    pdfValues.f3Bank1.value += newPageHint;
   }
   return { pdfValues, attachment };
 };
@@ -102,10 +96,17 @@ export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
   pdfValues,
 }) => {
   const attachment: AttachmentEntries = [];
-  const { grundeigentum: grundeigentumArray } = userData;
+  const { eigentumTotalWorth, grundeigentum: grundeigentumArray } = userData;
   const hasGrundeigentumYes = arrayIsNonEmpty(grundeigentumArray);
   pdfValues.f5Grundeigentum1.value = !hasGrundeigentumYes;
   pdfValues.f5Grundeigentum2.value = hasGrundeigentumYes;
+
+  const shouldPrintNote = eigentumTotalWorth === "less10000";
+
+  if (shouldPrintNote) {
+    pdfValues.f7Nutzungsart.value =
+      "Übergreifender Hinweis zu allen Vermögenswerten: Mein gesamtes Vermögen ist insgesamt weniger als 10.000€ wert.";
+  }
 
   if (!hasGrundeigentumYes) return { pdfValues };
 
@@ -118,7 +119,7 @@ export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
     garage: "Garagen(-hof)",
   } as const;
 
-  if (grundeigentumArray.length === 1) {
+  if (grundeigentumArray.length === 1 && !shouldPrintNote) {
     const grundeigentum = grundeigentumArray[0];
 
     pdfValues.f6EigentuemerA.value = grundeigentum.eigentuemer == "myself";
@@ -139,7 +140,10 @@ export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
 
     pdfValues.f8Verkehrswert.value = grundeigentum.verkaufswert + " €";
   } else {
-    pdfValues.f7Nutzungsart.value = newPageHint;
+    pdfValues.f7Nutzungsart.value = pdfValues.f7Nutzungsart.value
+      ? newPageHint + "\n" + pdfValues.f7Nutzungsart.value
+      : newPageHint;
+
     attachment.push({
       title: "Grundeigentum",
       level: "h3",
