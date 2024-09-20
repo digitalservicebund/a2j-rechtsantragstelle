@@ -18,7 +18,7 @@ const befristungMapping = {
   fixedDepositAccount: "Festgeldkonto",
 };
 const VERMOEGENSWERT_BEZEICHNUNG_FIELD_MAX_CHARS = 148;
-const VERMOEGENSWERT_BEZEICHNUNG__FIELD_MAX_NEW_LINES = 3;
+const VERMOEGENSWERT_BEZEICHNUNG_FIELD_MAX_NEW_LINES = 3;
 
 function fillSingleVermoegenswert(
   vermoegenswert: NonNullable<BeratungshilfeFormularContext["geldanlagen"]>[0],
@@ -71,7 +71,7 @@ export const fillVermoegenswerte: BerHPdfFillFunction = ({
     VERMOEGENSWERT_BEZEICHNUNG_FIELD_MAX_CHARS;
   const overflowDueToMaxNewLines =
     singleVermoegenswertString.split("\n").length >
-    VERMOEGENSWERT_BEZEICHNUNG__FIELD_MAX_NEW_LINES;
+    VERMOEGENSWERT_BEZEICHNUNG_FIELD_MAX_NEW_LINES;
 
   if (
     totalVermoegenswerteCount == 1 &&
