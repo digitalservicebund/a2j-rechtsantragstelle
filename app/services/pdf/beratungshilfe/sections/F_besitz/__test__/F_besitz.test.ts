@@ -35,7 +35,7 @@ describe("F_besitz", () => {
       expect(pdfValues.f1InhaberA.value).toBe(true);
       expect(pdfValues.f2InhaberB.value).toBe(false);
       expect(pdfValues.f2InhaberC.value).toBe(false);
-      expect(pdfValues.f3Bank1.value).toBe("Bank: Bank1");
+      expect(pdfValues.f3Bank1.value).toBe("Bank: Bank1\nIBAN: DE123456789");
       expect(pdfValues.f4Kontostand.value).toBe("1000 €");
     });
 

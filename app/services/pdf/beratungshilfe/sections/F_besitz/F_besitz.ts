@@ -65,6 +65,7 @@ export const fillFinancialBankkonto: BerHPdfFillFunction = ({
       pdfValues.f3Bank1.value += `\nBezeichnung: ${bankkonto.kontoDescription}`;
     if (bankkonto.kontoEigentuemer === "myselfAndSomeoneElse")
       pdfValues.f3Bank1.value += `\nInhaber: ${eigentuemerMapping[bankkonto.kontoEigentuemer]}`;
+    if (bankkonto.iban) pdfValues.f3Bank1.value += `\nIBAN: ${bankkonto.iban}`;
 
     pdfValues.f4Kontostand.value = bankkonto.kontostand + " €";
   } else {
