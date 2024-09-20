@@ -58,6 +58,10 @@ const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
       "nextButtonLabel" in formPageContent
         ? formPageContent.nextButtonLabel
         : undefined,
+    backButtonLabel:
+      "backButtonLabel" in formPageContent
+        ? formPageContent.backButtonLabel
+        : undefined,
     content: formPageContent.pre_form,
     formContent: formPageContent.form,
     postFormContent:
@@ -198,7 +202,8 @@ export const loader = async ({
       : backDestination;
 
   const buttonNavigationProps = getButtonNavigationProps({
-    backButtonLabel: defaultStrings["backButtonDefaultLabel"],
+    backButtonLabel:
+      cmsContent.backButtonLabel ?? defaultStrings["backButtonDefaultLabel"],
     nextButtonLabel:
       cmsContent.nextButtonLabel ?? defaultStrings["nextButtonDefaultLabel"],
     isFinal: flowController.isFinal(stepId),
@@ -302,7 +307,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     flows[flowId],
     cookieHeader,
   );
-  if (migrationData && validationResult.data["doMigration"] === "yes") {
+  if (migrationData) {
     updateSession(flowSession, migrationData);
   }
 

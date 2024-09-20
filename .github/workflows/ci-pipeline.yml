@@ -158,8 +158,6 @@ jobs:
   verify-preview-e2e:
     needs: [deploy-preview]
     uses: ./.github/workflows/e2e-test.yml
-    secrets:
-      BASE_URL: https://a2j-test.dev.ds4g.net
     with:
       require-published-app: false
       use-existing-server: true

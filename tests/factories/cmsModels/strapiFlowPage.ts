@@ -10,6 +10,7 @@ export const strapiFlowPageFactory = Factory.define<
   heading: faker.lorem.words(5),
   preHeading: faker.lorem.words(5),
   nextButtonLabel: null,
+  backButtonLabel: null,
   form: [
     strapiFormComponentFactory.build(
       transientParams?.formFieldName

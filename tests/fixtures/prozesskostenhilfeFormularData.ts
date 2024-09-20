@@ -5,7 +5,10 @@ import {
   prozesskostenhilfeFinanzielleAngabenContext,
   zahlungspflichtigerSchema,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
-import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import {
+  prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema,
+  financialEntrySchema,
+} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,
@@ -16,6 +19,14 @@ import {
 } from "~/flows/shared/finanzielleAngaben/context";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+
+export const createFinancialEntry = () => ({
+  beschreibung: faker.word.sample(),
+  betrag: faker.finance.amount(),
+  zahlungsfrequenz: faker.helpers.arrayElement(
+    financialEntrySchema.shape.zahlungsfrequenz.options,
+  ),
+});
 
 export const happyPathData: ProzesskostenhilfeFormularContext = {
   hasBankkonto: YesNoAnswer.Enum.yes,
@@ -41,12 +52,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   },
   arbeitsplatzEntfernung: faker.number.int({ min: 1, max: 100 }),
   hasArbeitsausgaben: YesNoAnswer.Enum.yes,
-  arbeitsausgaben: [
-    {
-      beschreibung: faker.word.sample(),
-      betrag: faker.finance.amount(),
-    },
-  ],
+  arbeitsausgaben: faker.helpers.multiple(createFinancialEntry),
   receivesPension: YesNoAnswer.Enum.yes,
   pensionAmount: faker.finance.amount(),
   receivesSupport: YesNoAnswer.Enum.yes,
@@ -60,12 +66,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   elterngeldAmount: faker.finance.amount(),
   kindergeldAmount: faker.finance.amount(),
   hasFurtherIncome: YesNoAnswer.Enum.yes,
-  weitereEinkuenfte: [
-    {
-      beschreibung: faker.word.sample(),
-      betrag: faker.finance.amount(),
-    },
-  ],
+  weitereEinkuenfte: faker.helpers.multiple(createFinancialEntry),
   partnerschaft: YesNoAnswer.Enum.yes,
   zusammenleben: YesNoAnswer.Enum.yes,
   partnerEinkommen: YesNoAnswer.Enum.yes,
