@@ -1,5 +1,6 @@
 import type { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
 import { finanzielleAngabeGuards } from "~/flows/beratungshilfeFormular/finanzielleAngaben/guards";
+import { kinderGuards } from "~/flows/shared/finanzielleAngaben/kinder/guards";
 import * as pageDataSchemaModule from "~/services/flow/pageDataSchema";
 
 describe("finanzielleAngabeGuards", () => {
@@ -50,7 +51,7 @@ describe("finanzielleAngabeGuards", () => {
         "isValidArrayIndex",
       );
 
-      finanzielleAngabeGuards.isValidKinderArrayIndex({
+      kinderGuards.isValidKinderArrayIndex({
         context: {
           kinder: [
             {

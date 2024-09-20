@@ -16,7 +16,6 @@ import {
 } from "./finanzielleAngaben/doneFunctions";
 import { eigentumDone } from "./finanzielleAngaben/eigentumDone";
 import einkuenfteFlow from "./finanzielleAngaben/einkuenfte/flow.json";
-import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import prozesskostenhilfeFormularFlow from "./flow.json";
 import { getMissingInformationStrings } from "./stringReplacements";
@@ -28,6 +27,7 @@ import {
   getArrayIndexStrings,
   getKinderStrings,
 } from "../shared/stringReplacements";
+import { finanzielleAngaben } from "./finanzielleAngaben/flow";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -44,7 +44,7 @@ export const prozesskostenhilfeFormular = {
     },
     states: {
       start: { meta: { done: () => true } },
-      "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
+      "finanzielle-angaben": _.merge(finanzielleAngaben, {
         states: {
           einkuenfte: _.merge(einkuenfteFlow, {
             meta: { done: einkuenfteDone },

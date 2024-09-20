@@ -6,7 +6,6 @@ import {
   hasGeldanlageYes,
   hasGrundeigentumYes,
   hasKinderYes,
-  hasKinderYesAndEmptyArray,
   hasKraftfahrzeugYes,
   hasPartnerschaftNoOrWidowed,
   hasPartnerschaftYes,
@@ -28,12 +27,6 @@ import {
   isKraftfahrzeugWertAbove10000OrUnsure,
   isPartnerschaftZusammenlebenEinkommenNo,
   isPartnerschaftZusammenlebenEinkommenYes,
-  isValidKinderArrayIndex,
-  kindEigeneEinnahmenYes,
-  kindUnterhaltNo,
-  kindUnterhaltYes,
-  kindWohnortBeiAntragstellerNo,
-  kindWohnortBeiAntragstellerYes,
   staatlicheLeistungenIsBuergergeld,
   staatlicheLeistungenIsKeine,
 } from "~/flows/shared/finanzielleAngaben/guards";
@@ -95,12 +88,6 @@ export const finanzielleAngabeGuards = {
   },
   isPartnerschaftZusammenlebenEinkommenNo,
   isPartnerschaftZusammenlebenEinkommenYes,
-  kindWohnortBeiAntragstellerYes,
-  kindWohnortBeiAntragstellerNo,
-  kindEigeneEinnahmenYes,
-  kindUnterhaltYes,
-  kindUnterhaltNo,
-  isValidKinderArrayIndex,
   isValidAusgabenArrayIndex: ({ context: { pageData, ausgaben } }) =>
     isValidArrayIndex(ausgaben, pageData),
   livesAlone: ({ context }) => context.livingSituation === "alone",
@@ -133,6 +120,5 @@ export const finanzielleAngabeGuards = {
         (hasGrundeigentumYes({ context }) &&
           !arrayIsNonEmpty(context.grundeigentum)))),
 
-  hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
 } satisfies Guards<BeratungshilfeFinanzielleAngaben>;

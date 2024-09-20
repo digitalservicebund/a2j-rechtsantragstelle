@@ -5,7 +5,6 @@ import {
   hasGeldanlageYes,
   hasGrundeigentumYes,
   hasKinderYes,
-  hasKinderYesAndEmptyArray,
   hasKraftfahrzeugYes,
   hasPartnerschaftNoOrWidowed,
   hasPartnerschaftYesAndPartnerEinkommenYes,
@@ -27,12 +26,6 @@ import {
   isKraftfahrzeugWertAbove10000OrUnsure,
   isPartnerschaftZusammenlebenEinkommenNo,
   isPartnerschaftZusammenlebenEinkommenYes,
-  isValidKinderArrayIndex,
-  kindEigeneEinnahmenYes,
-  kindUnterhaltNo,
-  kindUnterhaltYes,
-  kindWohnortBeiAntragstellerNo,
-  kindWohnortBeiAntragstellerYes,
 } from "~/flows/shared/finanzielleAngaben/guards";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
@@ -71,12 +64,6 @@ export const finanzielleAngabeGuards = {
   hasWeitereUnterhaltszahlungenYes,
   isPartnerschaftZusammenlebenEinkommenNo,
   isPartnerschaftZusammenlebenEinkommenYes,
-  kindWohnortBeiAntragstellerYes,
-  kindWohnortBeiAntragstellerNo,
-  kindEigeneEinnahmenYes,
-  kindUnterhaltYes,
-  kindUnterhaltNo,
-  isValidKinderArrayIndex,
   isGeldanlageBargeld,
   isGeldanlageWertpapiere,
   isGeldanlageGuthabenkontoKrypto,
@@ -96,7 +83,6 @@ export const finanzielleAngabeGuards = {
     (hasGrundeigentumYes({ context }) &&
       !arrayIsNonEmpty(context.grundeigentum)),
 
-  hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
   hasAusgabenYes,
   hasAusgabenEntriesYes: ({ context }) =>
