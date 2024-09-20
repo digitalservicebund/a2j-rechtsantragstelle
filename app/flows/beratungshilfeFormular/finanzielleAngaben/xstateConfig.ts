@@ -8,12 +8,12 @@ import {
   ausgabenDone,
   eigentumDone,
   einkommenDone,
-  kinderDone,
   partnerDone,
   wohnungDone,
 } from "./doneFunctions";
 import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
 import { finanzielleAngabeGuards as guards } from "./guards";
+import { getkinderXstateConfig } from "./kinder/xstateConfig";
 
 export const finanzielleAngabenPartnerTargetReplacements: TargetReplacements = {
   backStep: "#einkommen.einkommen",
@@ -120,146 +120,40 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
         },
       },
     ),
-    kinder: {
-      id: "kinder",
-      initial: "kinder-frage",
-      meta: { done: kinderDone },
-      states: {
-        "kinder-frage": {
-          on: {
-            BACK: [
-              {
-                guard:
-                  guards.hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes,
-                target: "#partner.partner-name",
-              },
-              {
-                guard: guards.hasPartnerschaftYesAndPartnerEinkommenYes,
-                target: "#partner.partner-einkommen-summe",
-              },
-              {
-                guard: guards.hasPartnerschaftYesAndZusammenlebenYes,
-                target: "#partner.partner-einkommen",
-              },
-              {
-                guard:
-                  guards.hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo,
-                target: "#partner.keine-rolle",
-              },
-              {
-                guard: guards.hasPartnerschaftYesAndZusammenlebenNo,
-                target: "#partner.unterhalt",
-              },
-              {
-                guard: guards.hasPartnerschaftYes,
-                target: "#partner.zusammenleben",
-              },
-              "#partner.partnerschaft",
-            ],
-            SUBMIT: [
-              {
-                guard: guards.hasKinderYes,
-                target: "uebersicht",
-              },
-              "#andere-unterhaltszahlungen.frage",
-            ],
-          },
+    kinder: getkinderXstateConfig<BeratungshilfeFinanzielleAngaben>({
+      onBack: [
+        {
+          guard:
+            guards.hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes,
+          target: "#partner.partner-name",
         },
-        uebersicht: {
-          on: {
-            BACK: "kinder-frage",
-            SUBMIT: [
-              {
-                guard: guards.hasKinderYesAndEmptyArray,
-                target: "warnung",
-              },
-              "#andere-unterhaltszahlungen",
-            ],
-            "add-kinder": {
-              guard: guards.isValidKinderArrayIndex,
-              target: "kinder",
-            },
-          },
+        {
+          guard: guards.hasPartnerschaftYesAndPartnerEinkommenYes,
+          target: "#partner.partner-einkommen-summe",
         },
-        warnung: {
-          on: {
-            BACK: "uebersicht",
-            SUBMIT: "#andere-unterhaltszahlungen",
-          },
+        {
+          guard: guards.hasPartnerschaftYesAndZusammenlebenYes,
+          target: "#partner.partner-einkommen",
         },
-        kinder: {
-          initial: "name",
-          states: {
-            name: {
-              on: {
-                BACK: "#kinder.uebersicht",
-                SUBMIT: "wohnort",
-              },
-            },
-            wohnort: {
-              on: {
-                BACK: "name",
-                SUBMIT: [
-                  {
-                    guard: guards.kindWohnortBeiAntragstellerYes,
-                    target: "kind-eigene-einnahmen-frage",
-                  },
-                  {
-                    guard: guards.kindWohnortBeiAntragstellerNo,
-                    target: "kind-unterhalt-frage",
-                  },
-                ],
-              },
-            },
-            "kind-eigene-einnahmen-frage": {
-              on: {
-                BACK: "wohnort",
-                SUBMIT: [
-                  {
-                    guard: guards.kindEigeneEinnahmenYes,
-                    target: "kind-eigene-einnahmen",
-                  },
-                  "#kinder.uebersicht",
-                ],
-              },
-            },
-            "kind-eigene-einnahmen": {
-              on: {
-                BACK: "kind-eigene-einnahmen-frage",
-                SUBMIT: "#kinder.uebersicht",
-              },
-            },
-            "kind-unterhalt-frage": {
-              on: {
-                BACK: "wohnort",
-                SUBMIT: [
-                  {
-                    guard: guards.kindUnterhaltYes,
-                    target: "kind-unterhalt",
-                  },
-                  {
-                    guard: guards.kindUnterhaltNo,
-                    target: "kind-unterhalt-ende",
-                  },
-                ],
-              },
-            },
-            "kind-unterhalt": {
-              on: {
-                BACK: "kind-unterhalt-frage",
-                SUBMIT: "#kinder.uebersicht",
-              },
-            },
-            "kind-unterhalt-ende": {
-              on: {
-                BACK: "kind-unterhalt-frage",
-                SUBMIT: "#kinder.uebersicht",
-              },
-            },
-          },
+        {
+          guard:
+            guards.hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo,
+          target: "#partner.keine-rolle",
         },
-      },
-    },
+        {
+          guard: guards.hasPartnerschaftYesAndZusammenlebenNo,
+          target: "#partner.unterhalt",
+        },
+        {
+          guard: guards.hasPartnerschaftYes,
+          target: "#partner.zusammenleben",
+        },
+        "#partner.partnerschaft",
+      ],
+      onSubmit: "#andere-unterhaltszahlungen"
+    }
+      
+    ),
     "andere-unterhaltszahlungen": {
       id: "andere-unterhaltszahlungen",
       initial: "frage",
