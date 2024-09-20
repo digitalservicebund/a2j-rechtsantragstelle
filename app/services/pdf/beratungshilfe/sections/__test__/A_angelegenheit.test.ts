@@ -12,7 +12,7 @@ import {
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 
 describe("A_angelegenheit", () => {
-  it("should fill angelegenheit pdf field when correct context is given", () => {
+  it("should fill angelegenheit in the attachment when exceeded new line limit count", () => {
     const userData: BeratungshilfeFormularContext = {
       bereich: "authorities",
       gegenseite: "gegner",
@@ -20,7 +20,7 @@ describe("A_angelegenheit", () => {
       ziel: "ziel",
       eigeninitiativeBeschreibung: "eigeninitiativeBeschreibung",
     };
-    const { pdfValues } = pdfFillReducer({
+    const { pdfValues, attachment } = pdfFillReducer({
       userData,
       pdfParams: getBeratungshilfeParameters(),
       fillFunctions: [fillAngelegenheit],
@@ -30,18 +30,32 @@ describe("A_angelegenheit", () => {
       pdfValues
         .ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern
         .value,
-    ).toBe(
-      [
-        `${THEMA_RECHTSPROBLEM_TITLE} Behörden`,
-        `${GEGNER_TITLE} gegner`,
-        `${BESCHREIBUNG_ANGELEGENHEIT_TITLE} beschreibung`,
-        `${ZIEL_ANGELEGENHEIT_TITLE} ziel`,
-        `${EIGENBEMUEHUNG_TITLE} eigeninitiativeBeschreibung`,
-      ].join("\n"),
+    ).toBe(newPageHint);
+
+    const hasBeschreibungAngelegenheit = attachment.some(
+      (description) => description.title === BESCHREIBUNG_ANGELEGENHEIT_TITLE,
     );
+
+    const hasThemeRechtsproblem = attachment.some(
+      (description) => description.title === THEMA_RECHTSPROBLEM_TITLE,
+    );
+    const hasGegner = attachment.some(
+      (description) => description.title === GEGNER_TITLE,
+    );
+    const hasZielAngelegenheit = attachment.some(
+      (description) => description.title === ZIEL_ANGELEGENHEIT_TITLE,
+    );
+    const hasEigeninitiativeBeschreibung = attachment.some(
+      (description) => description.title === EIGENBEMUEHUNG_TITLE,
+    );
+    expect(hasBeschreibungAngelegenheit).toBeTruthy();
+    expect(hasThemeRechtsproblem).toBeTruthy();
+    expect(hasGegner).toBeTruthy();
+    expect(hasZielAngelegenheit).toBeTruthy();
+    expect(hasEigeninitiativeBeschreibung).toBeTruthy();
   });
 
-  it("should fill angelegenheit in the attachment when exceeded limit length", () => {
+  it("should fill angelegenheit in the attachment when exceeded character limit length", () => {
     const userData: BeratungshilfeFormularContext = {
       bereich: "authorities",
       gegenseite: "gegner gegner gegner gegner gegner",
