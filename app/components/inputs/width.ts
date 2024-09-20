@@ -9,6 +9,6 @@ export const widthClassname = (width: FieldWidth | undefined) =>
     "10": "w-[16ch]",
     "16": "w-[22ch]",
     "24": "w-[30ch]",
-    "36": "w-[42ch] ds-input-select-width-54-36",
-    "54": "w-[60ch] ds-input-select-width-54-36",
+    "36": "w-[42ch] max-sm:w-full",
+    "54": "w-[60ch] max-lg:w-full",
   })[width ?? ""];

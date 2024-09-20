@@ -31,11 +31,11 @@ describe("Select", () => {
     { widthProps: "24", expectedClassWidth: "w-[30ch]" },
     {
       widthProps: "36",
-      expectedClassWidth: "w-[42ch] ds-input-select-width-54-36",
+      expectedClassWidth: "w-[42ch] max-sm:w-full",
     },
     {
       widthProps: "54",
-      expectedClassWidth: "w-[60ch] ds-input-select-width-54-36",
+      expectedClassWidth: "w-[60ch] max-lg:w-full",
     },
   ];
 
