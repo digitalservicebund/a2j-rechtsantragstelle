@@ -6,6 +6,7 @@ import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAnga
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/flow";
 import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { getPartnerArbeitsausgabenStrings } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/stringReplacements";
 import {
   getFinanzielleAngabenPartnerSubflow,
   type FinanzielleAngabenPartnerTargetReplacements,
@@ -125,7 +126,13 @@ export const prozesskostenhilfeFormular = {
             context: ProzesskostenhilfeFinanzielleAngabenContext;
           }) =>
             context.partnerEinkuenfte
-              ? guard({ context: context.partnerEinkuenfte })
+              ? guard({
+                  context: {
+                    ...context.partnerEinkuenfte,
+                    // Also need to add pageData in nested object for correct array handling logic
+                    pageData: context.pageData,
+                  },
+                })
               : true,
         ],
       ),
@@ -133,6 +140,7 @@ export const prozesskostenhilfeFormular = {
   },
   stringReplacements: (context: ProzesskostenhilfeFormularContext) => ({
     ...getKinderStrings(context),
+    ...getPartnerArbeitsausgabenStrings(context),
     ...getArrayIndexStrings(context),
     ...eigentumZusammenfassungShowPartnerschaftWarnings(context),
     ...geldAnlagenStrings(context),
