@@ -7083,6 +7083,15 @@
     "city": "Kolaka"
   },
   {
+    "iata": "NAM",
+    "country_code": "ID",
+    "country": "Indonesien",
+    "airport": "Namniwel Flughafen",
+    "latitude": -3.143159,
+    "longitude": 126.976469,
+    "city": "Namniwel"
+  },
+  {
     "iata": "SQG",
     "country_code": "ID",
     "country": "Indonesien",
@@ -14088,9 +14097,9 @@
     "iata": "MEX",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional Lic. Benito Juárez Flughafen",
-    "latitude": 19.435433,
-    "longitude": -99.082432,
+    "airport": "Benito Juárez International Flughafen",
+    "latitude": 19.435137,
+    "longitude": -99.071328,
     "city": "Ciudad de México"
   },
   {
@@ -14169,10 +14178,10 @@
     "iata": "PVR",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional Lic. Gustavo Díaz Ordaz Flughafen",
-    "latitude": 20.679746,
-    "longitude": -105.246685,
-    "city": "Ciudad de Puerto Vallarta"
+    "airport": "Puerto Vallarta International Flughafen",
+    "latitude": 20.679913,
+    "longitude": -105.254391,
+    "city": "Puerto Vallarta"
   },
   {
     "iata": "PXM",
@@ -21796,6 +21805,15 @@
     "latitude": 18.041,
     "longitude": -63.108898,
     "city": "Saint Martin"
+  },
+  {
+    "iata": "SAB",
+    "country_code": "BQ",
+    "country": "Bonaire",
+    "airport": "Juancho E. Yrausquin Flughafen",
+    "latitude": 17.645351,
+    "longitude": -63.220571,
+    "city": "Saba"
   },
   {
     "iata": "AXA",
