@@ -14,8 +14,6 @@ on:
     secrets:
       GERICHTSFINDER_ENCRYPTION_KEY:
         required: false
-      BASE_URL:
-        required: false
 
 env:
   files_exis_subfolder_test_results: "false"
@@ -60,7 +58,7 @@ jobs:
       - name: Run Playwright e2e tests
         env:
           GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
-          E2E_BASE_URL: "${{ secrets.BASE_URL }}"
+          E2E_BASE_URL: "${{ inputs.e2e-target == 'preview' && 'https://a2j-test.dev.ds4g.net/' || 'http://localhost:3000/' }}"
           E2E_USE_EXISTING_SERVER: "${{ inputs.use-existing-server }}"
         run: CMS=FILE npm run test:e2e -- --shard ${{ matrix.shard }}/${{ strategy.job-total }}
 
