@@ -2,7 +2,7 @@ import { getkinderXstateConfig } from "~/flows/shared/finanzielleAngaben/kinder/
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
 import { finanzielleAngabeGuards as guards } from "./guards";
 
-export const finanzielleAngaben = {
+export const finanzielleAngabenXstateConfig = {
   initial: "einkuenfte",
   id: "finanzielle-angaben",
   states: {

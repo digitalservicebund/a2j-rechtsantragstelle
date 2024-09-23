@@ -27,7 +27,7 @@ import {
   getArrayIndexStrings,
   getKinderStrings,
 } from "../shared/stringReplacements";
-import { finanzielleAngaben } from "./finanzielleAngaben/flow";
+import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -44,7 +44,7 @@ export const prozesskostenhilfeFormular = {
     },
     states: {
       start: { meta: { done: () => true } },
-      "finanzielle-angaben": _.merge(finanzielleAngaben, {
+      "finanzielle-angaben": _.merge(finanzielleAngabenXstateConfig, {
         states: {
           einkuenfte: _.merge(einkuenfteFlow, {
             meta: { done: einkuenfteDone },

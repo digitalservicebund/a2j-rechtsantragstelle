@@ -3,9 +3,9 @@ import type { GenericGuard } from "~/flows/guards.server";
 import { kinderGuards } from "./guards";
 import { kinderDone } from "../../../beratungshilfeFormular/finanzielleAngaben/doneFunctions";
 
-export function getkinderXstateConfig<T extends Context>(transitions: {
-  onBack: (string | { guard: GenericGuard<T>; target: string })[];
-  onSubmit: string;
+export function getkinderXstateConfig<T extends Context>(transitions?: {
+  onBack?: string | (string | { guard: GenericGuard<T>; target: string })[];
+  onSubmit?: string;
 }) {
   return {
     id: "kinder",
@@ -14,13 +14,13 @@ export function getkinderXstateConfig<T extends Context>(transitions: {
     states: {
       "kinder-frage": {
         on: {
-          BACK: transitions.onBack,
+          BACK: transitions?.onBack,
           SUBMIT: [
             {
               guard: kinderGuards.hasKinderYes,
               target: "uebersicht",
             },
-            transitions.onSubmit,
+            transitions?.onSubmit,
           ],
         },
       },
@@ -32,7 +32,7 @@ export function getkinderXstateConfig<T extends Context>(transitions: {
               guard: kinderGuards.hasKinderYesAndEmptyArray,
               target: "warnung",
             },
-            transitions.onSubmit,
+            transitions?.onSubmit,
           ],
           "add-kinder": {
             guard: kinderGuards.isValidKinderArrayIndex,
@@ -43,7 +43,7 @@ export function getkinderXstateConfig<T extends Context>(transitions: {
       warnung: {
         on: {
           BACK: "uebersicht",
-          SUBMIT: transitions.onSubmit,
+          SUBMIT: transitions?.onSubmit,
         },
       },
       kinder: {
