@@ -1,4 +1,3 @@
-import { createFinancialEntry } from "tests/fixtures/prozesskostenhilfeFormularData";
 import { getTotalMonthlyFinancialEntries } from "~/services/pdf/util";
 
 describe("utility functions", () => {
@@ -6,12 +5,28 @@ describe("utility functions", () => {
     it("should return the total monthly arbeitsausgaben sum, given a list of arbeitsausgaben", () => {
       expect(
         getTotalMonthlyFinancialEntries([
-          { ...createFinancialEntry(), betrag: "100" },
-          { ...createFinancialEntry(), betrag: "120" },
-          { ...createFinancialEntry(), betrag: "60" },
-          { ...createFinancialEntry(), betrag: "120" },
+          {
+            beschreibung: "",
+            betrag: "100,00",
+            zahlungsfrequenz: "monthly",
+          },
+          {
+            beschreibung: "",
+            betrag: "120,00",
+            zahlungsfrequenz: "one-time",
+          },
+          {
+            beschreibung: "",
+            betrag: "60,00",
+            zahlungsfrequenz: "quarterly",
+          },
+          {
+            beschreibung: "",
+            betrag: "120,00",
+            zahlungsfrequenz: "yearly",
+          },
         ]),
-      ).toBe(400);
+      ).toBe("140,00");
     });
   });
 });
