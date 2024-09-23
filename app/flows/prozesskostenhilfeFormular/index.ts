@@ -1,17 +1,14 @@
 import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
-import type { GenericGuard } from "~/flows/guards.server";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/flow";
 import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
-import { getPartnerArbeitsausgabenStrings } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/stringReplacements";
 import {
   getFinanzielleAngabenPartnerSubflow,
   type FinanzielleAngabenPartnerTargetReplacements,
 } from "~/flows/shared/finanzielleAngaben/partner";
-import type { FinanzielleAngabenPartnerContext } from "~/flows/shared/finanzielleAngaben/partner/context";
 import abgabeFlow from "./abgabe/flow.json";
 import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
@@ -112,35 +109,9 @@ export const prozesskostenhilfeFormular = {
     ...finanzielleAngabeGuards,
     ...finanzielleAngabeEinkuenfteGuards,
     ...prozesskostenhilfeAbgabeGuards,
-    ...Object.fromEntries(
-      // Need to both prepend "partner-" to guard name, and pass correct context subset to guard, to achieve the correct guarded outcome
-      Object.entries(finanzielleAngabeEinkuenfteGuards).map(
-        ([key, guard]: [
-          string,
-          GenericGuard<ProzesskostenhilfeFinanzielleAngabenContext>,
-        ]) => [
-          `partner-${key}`,
-          ({
-            context,
-          }: {
-            context: ProzesskostenhilfeFinanzielleAngabenContext;
-          }) =>
-            context.partnerEinkuenfte
-              ? guard({
-                  context: {
-                    ...context.partnerEinkuenfte,
-                    // Also need to add pageData in nested object for correct array handling logic
-                    pageData: context.pageData,
-                  },
-                })
-              : true,
-        ],
-      ),
-    ),
   },
   stringReplacements: (context: ProzesskostenhilfeFormularContext) => ({
     ...getKinderStrings(context),
-    ...getPartnerArbeitsausgabenStrings(context),
     ...getArrayIndexStrings(context),
     ...eigentumZusammenfassungShowPartnerschaftWarnings(context),
     ...geldAnlagenStrings(context),
@@ -149,6 +120,4 @@ export const prozesskostenhilfeFormular = {
 } satisfies Flow;
 
 export type ProzesskostenhilfeFormularContext =
-  ProzesskostenhilfeFinanzielleAngabenContext &
-    FinanzielleAngabenPartnerContext &
-    AbgabeContext;
+  ProzesskostenhilfeFinanzielleAngabenContext & AbgabeContext;

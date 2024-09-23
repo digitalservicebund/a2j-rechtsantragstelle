@@ -2,6 +2,7 @@ import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/fl
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import { arrayIsNonEmpty } from "~/util/array";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import {
   prozesskostenhilfeFinanzielleAngabenContext,
   type ProzesskostenhilfeFinanzielleAngabenContext,
@@ -26,8 +27,13 @@ export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
     context.unterhalt !== undefined &&
     context.partnerNachname != undefined &&
     context.partnerVorname != undefined &&
-    context.partnerEinkuenfte !== undefined &&
-    partnerEinkuenfteDone({ context: context.partnerEinkuenfte }));
+    context.partnerHasBesondersAusgaben == "no") ||
+  (context.partnerHasBesondersAusgaben !== undefined &&
+    objectKeysNonEmpty(context.partnerBesondersAusgabe, [
+      "beschreibung",
+      "betrag",
+    ])); /* &&
+    partnerEinkuenfteDone({ context: context.partnerEinkuenfte }) */
 
 export const partnerEinkuenfteDone: GenericGuard<
   ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext

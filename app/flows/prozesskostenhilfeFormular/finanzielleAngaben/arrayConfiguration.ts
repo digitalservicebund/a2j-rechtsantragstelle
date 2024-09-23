@@ -11,12 +11,12 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       statementKey: "hasArbeitsausgaben",
       event: "add-arbeitsausgaben",
     },
-    ["partnerEinkuenfte.arbeitsausgaben" as any]: {
+    "partner-arbeitsausgaben": {
       url: `${prefix}/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgabe`,
       initialInputUrl: "partner-daten",
       statementUrl: `/${prefix}/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-uebersicht`,
-      statementKey: "partnerEinkuenfte.hasArbeitsausgaben" as any,
-      event: "partner-add-arbeitsausgaben" as any,
+      statementKey: "partner-hasArbeitsausgaben",
+      event: "add-partner-arbeitsausgaben",
     },
     weitereEinkuenfte: {
       url: `${prefix}/einkuenfte/weitere-einkuenfte/einkunft`,

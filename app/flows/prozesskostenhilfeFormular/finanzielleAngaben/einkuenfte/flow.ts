@@ -45,13 +45,6 @@ const einkuenfteStepIds = {
   einkunft: "einkunft",
 };
 
-const mappedGuardKeys = Object.keys(finanzielleAngabeEinkuenfteGuards).map(
-  (key) => [key as keyof typeof finanzielleAngabeEinkuenfteGuards, key],
-);
-const einkuenfteGuards: {
-  [key in keyof typeof finanzielleAngabeEinkuenfteGuards]: string;
-} = Object.fromEntries(mappedGuardKeys);
-
 export const getProzesskostenhilfeEinkuenfteSubflow = (
   _doneFunction: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard = einkuenfteDone,
   subflowPrefix?: PKHEinkuenfteSubflowTypes,
@@ -59,9 +52,11 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
   const stepIds = _.mapValues(einkuenfteStepIds, (step) =>
     subflowPrefix ? `${subflowPrefix}-${step}` : step,
   );
-  const guards = _.mapValues(einkuenfteGuards, (guard) =>
-    subflowPrefix ? `${subflowPrefix}-${guard}` : guard,
-  );
+
+  const guards =
+    subflowPrefix === "partner"
+      ? ({} as any) // TODO: fix with partner
+      : finanzielleAngabeEinkuenfteGuards;
 
   return {
     id: stepIds.id,
@@ -286,7 +281,9 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
                     `#${stepIds.id}.${stepIds.renteFrage}`,
                   ],
                   BACK: stepIds.arbeitsausgabenFrage,
-                  [stepIds.addArbeitsausgaben]: {
+                  [subflowPrefix === "partner"
+                    ? "add-partner-arbeitsausgaben"
+                    : stepIds.addArbeitsausgaben]: {
                     guard: guards.isValidArbeitsausgabenArrayIndex,
                     target: stepIds.arbeitsausgabe,
                   },

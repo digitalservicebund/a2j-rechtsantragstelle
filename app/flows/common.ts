@@ -1,3 +1,4 @@
+import type { ZodTypeAny } from "zod";
 import type { BeratungshilfeVorabcheckContext } from "~/flows/beratungshilfeVorabcheck/context";
 import type { FluggastrechtVorabcheckContext } from "~/flows/fluggastrechteVorabcheck/context";
 import type { GeldEinklagenVorabcheckContext } from "~/flows/geldEinklagenVorabcheck/context";
@@ -27,3 +28,17 @@ export function getReasonsToDisplay(
   }
   return {};
 }
+export const duplicateContext = (
+  context: Record<string, ZodTypeAny>,
+  prefix: string,
+) => {
+  return {
+    ...context,
+    ...Object.fromEntries(
+      Object.entries(context).map(([key, value]) => [
+        `${prefix}-${key}`,
+        value,
+      ]),
+    ),
+  };
+};
