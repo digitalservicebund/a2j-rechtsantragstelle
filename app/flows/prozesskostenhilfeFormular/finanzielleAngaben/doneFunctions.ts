@@ -32,21 +32,20 @@ export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
     partnerBesondersAusgabenDone({ context }));
 
 // Reuse the existing einkuenfteDone guard by removing the partner- prefix from context values
-const partnerEinkuenfteDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
-  context,
-}) =>
-  einkuenfteDone({
-    context: {
-      ...context,
-      ...Object.fromEntries(
-        Object.entries(context)
-          .filter(([key]) => key.includes("partner-"))
-          .map(([key, val]) => [key.replace("partner-", ""), val]),
-      ),
-    },
-  });
+export const partnerEinkuenfteDone: ProzesskostenhilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    einkuenfteDone({
+      context: {
+        ...context,
+        ...Object.fromEntries(
+          Object.entries(context)
+            .filter(([key]) => key.includes("partner-"))
+            .map(([key, val]) => [key.replace("partner-", ""), val]),
+        ),
+      },
+    });
 
-const partnerBesondersAusgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard =
+export const partnerBesondersAusgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
     context.partnerHasBesondersAusgaben === "no" ||
     (context.partnerHasBesondersAusgaben != undefined &&

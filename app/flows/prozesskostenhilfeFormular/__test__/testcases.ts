@@ -32,8 +32,8 @@ const cases = [
       "partner-arbeitsweg": "none",
       "partner-hasArbeitsausgaben": "no",
       "partner-receivesPension": "no",
-      receivesSupport: "no",
-      hasFurtherIncome: "no",
+      "partner-receivesSupport": "no",
+      "partner-hasFurtherIncome": "no",
       partnerHasBesondersAusgaben: "no",
     },
     [
