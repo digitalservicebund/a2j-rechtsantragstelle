@@ -35,10 +35,9 @@ export const duplicateContext = (
   return {
     ...context,
     ...Object.fromEntries(
-      Object.entries(context).map(([key, value]) => [
-        key === "pageData" ? key : `${prefix}-${key}`,
-        value,
-      ]),
+      Object.entries(context)
+        .filter(([key]) => key !== "pageData")
+        .map(([key, value]) => [`${prefix}-${key}`, value]),
     ),
   };
 };
