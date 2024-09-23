@@ -94,10 +94,7 @@ export const partnerEinkuenfteGuards = {
     partnerHasAndereArbeitsausgaben({ context }) &&
     !arrayIsNonEmpty(context["partner-arbeitsausgaben"]),
   isValidArbeitsausgabenArrayIndex: ({ context }) =>
-    isValidArrayIndex(
-      context["partner-arbeitsausgaben"],
-      context["partner-pageData"],
-    ),
+    isValidArrayIndex(context["partner-arbeitsausgaben"], context.pageData),
   receivesPension: ({ context }) =>
     context["partner-receivesPension"] === "yes",
   receivesSupport: ({ context }) =>
@@ -111,8 +108,5 @@ export const partnerEinkuenfteGuards = {
     partnerHasFurtherIncome({ context }) &&
     !arrayIsNonEmpty(context["partner-weitereEinkuenfte"]),
   isValidEinkuenfteArrayIndex: ({ context }) =>
-    isValidArrayIndex(
-      context["partner-weitereEinkuenfte"],
-      context["partner-pageData"],
-    ),
+    isValidArrayIndex(context["partner-weitereEinkuenfte"], context.pageData),
 } satisfies Guards<PartnerEinkuenfteContext>;

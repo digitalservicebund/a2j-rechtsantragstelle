@@ -105,6 +105,10 @@ const _contextObject = z
 
 export type PartnerEinkuenfteContext = {
   [key in keyof ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext as `partner-${key}`]: ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext[key];
+} & {
+  pageData?: {
+    arrayIndexes: number[];
+  };
 };
 
 export type ProzesskostenhilfeFinanzielleAngabenContext = z.infer<
