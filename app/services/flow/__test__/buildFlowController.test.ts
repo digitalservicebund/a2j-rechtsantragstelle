@@ -1,7 +1,9 @@
 /* eslint-disable sonarjs/no-duplicate-string */
+import { createMachine } from "xstate";
 import {
   type Config,
   buildFlowController,
+  nextStepId,
 } from "~/services/flow/server/buildFlowController";
 
 const config: Config = {
@@ -506,5 +508,22 @@ describe("buildFlowController", () => {
     }).stepStates();
     expect(stepStates[1].isReachable).toBe(true);
     expect(stepStates[2].isReachable).toBe(false);
+  });
+});
+
+describe("nextStepId", () => {
+  const machine = createMachine(config);
+  it("should provide correct SUBMIT destination", () => {
+    const destination = nextStepId(machine, "step1", "SUBMIT", {
+      step1: false,
+    });
+    expect(destination).toEqual("step1Exit");
+  });
+
+  it("should provide correct BACK destination", () => {
+    const destination = nextStepId(machine, "step1Exit", "BACK", {
+      step1: false,
+    });
+    expect(destination).toEqual("step1");
   });
 });
