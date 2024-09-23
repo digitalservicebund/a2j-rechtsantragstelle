@@ -36,19 +36,11 @@ export const Example: Story = {
     items: [
       {
         identifier: "default-list-item-id-1",
-        label: {
-          look: "ds-heading-03-reg",
-          text: "Lorem ipsum dolor sit amet",
-        },
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       },
       {
         identifier: "default-list-item-id-2",
-        label: {
-          look: "ds-heading-03-reg",
-          text: "Lorem ipsum dolor sit amet",
-        },
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       },
