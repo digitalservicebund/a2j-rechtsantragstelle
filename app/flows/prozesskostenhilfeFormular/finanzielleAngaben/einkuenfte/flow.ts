@@ -2,7 +2,10 @@ import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
-import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import {
+  finanzielleAngabeEinkuenfteGuards,
+  partnerEinkuenfteGuards,
+} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 
 type PKHEinkuenfteSubflowTypes = "partner";
 
@@ -55,7 +58,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
 
   const guards =
     subflowPrefix === "partner"
-      ? ({} as any) // TODO: fix with partner
+      ? partnerEinkuenfteGuards
       : finanzielleAngabeEinkuenfteGuards;
 
   return {

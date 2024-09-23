@@ -103,7 +103,7 @@ const _contextObject = z
   .object(prozesskostenhilfeFinanzielleAngabenContext)
   .partial();
 
-export type PartnerEinkuenfte = {
+export type PartnerEinkuenfteContext = {
   [key in keyof ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext as `partner-${key}`]: ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext[key];
 };
 
@@ -112,4 +112,4 @@ export type ProzesskostenhilfeFinanzielleAngabenContext = z.infer<
 > &
   FinanzielleAngabenPartnerContext &
   ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext &
-  PartnerEinkuenfte;
+  PartnerEinkuenfteContext;

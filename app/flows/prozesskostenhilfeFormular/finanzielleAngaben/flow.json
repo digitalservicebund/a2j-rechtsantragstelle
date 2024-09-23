@@ -9,13 +9,6 @@
           "states": {
             "partner-besonders-ausgaben": {
               "on": {
-                "BACK": [
-                  {
-                    "guard": "partner-hasFurtherIncome",
-                    "target": "#partner-weitere-einkuenfte.partner-uebersicht"
-                  },
-                  "#partner-weitere-einkuenfte"
-                ],
                 "SUBMIT": [
                   {
                     "guard": "partnerHasBesondersAusgabenYes",
@@ -41,25 +34,6 @@
       "states": {
         "kinder-frage": {
           "on": {
-            "BACK": [
-              {
-                "guard": "hasPartnerschaftNo",
-                "target": "#partner"
-              },
-              {
-                "guard": "partnerEinkommenNo",
-                "target": "#partner.partner-einkommen"
-              },
-              {
-                "guard": "partner-hasGrundsicherungOrAsylbewerberleistungen",
-                "target": "#partner-einkuenfte.partner-staatliche-leistungen"
-              },
-              {
-                "guard": "partnerHasBesondersAusgabenYes",
-                "target": "#partner-einkuenfte.add-partner-besonders-ausgaben"
-              },
-              "#partner-einkuenfte.partner-besonders-ausgaben"
-            ],
             "SUBMIT": [
               {
                 "guard": "hasKinderYes",

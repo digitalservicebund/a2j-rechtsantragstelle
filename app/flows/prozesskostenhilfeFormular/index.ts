@@ -4,7 +4,10 @@ import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConf
 import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/flow";
-import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import {
+  finanzielleAngabeEinkuenfteGuards,
+  partnerEinkuenfteGuards,
+} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import {
   getFinanzielleAngabenPartnerSubflow,
   type FinanzielleAngabenPartnerTargetReplacements,
@@ -79,14 +82,62 @@ export const prozesskostenhilfeFormular = {
                     ],
                   },
                 },
-                "partner-einkuenfte": getProzesskostenhilfeEinkuenfteSubflow(
-                  einkuenfteDone,
-                  "partner",
+                "partner-einkuenfte": _.merge(
+                  getProzesskostenhilfeEinkuenfteSubflow(
+                    einkuenfteDone,
+                    "partner",
+                  ),
+                  {
+                    states: {
+                      "partner-besonders-ausgaben": {
+                        on: {
+                          BACK: [
+                            {
+                              guard: partnerEinkuenfteGuards.hasFurtherIncome,
+                              target:
+                                "#partner-weitere-einkuenfte.partner-uebersicht",
+                            },
+                            "#partner-weitere-einkuenfte",
+                          ],
+                        },
+                      },
+                    },
+                  },
                 ),
               },
             },
           ),
-          kinder: { meta: { done: kinderDone } },
+          kinder: {
+            meta: { done: kinderDone },
+            states: {
+              "kinder-frage": {
+                on: {
+                  BACK: [
+                    {
+                      guard: "hasPartnerschaftNo",
+                      target: "#partner",
+                    },
+                    {
+                      guard: "partnerEinkommenNo",
+                      target: "#partner.partner-einkommen",
+                    },
+                    {
+                      guard:
+                        partnerEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen,
+                      target:
+                        "#partner-einkuenfte.partner-staatliche-leistungen",
+                    },
+                    {
+                      guard: "partnerHasBesondersAusgabenYes",
+                      target:
+                        "#partner-einkuenfte.add-partner-besonders-ausgaben",
+                    },
+                    "#partner-einkuenfte.partner-besonders-ausgaben",
+                  ],
+                },
+              },
+            },
+          },
           "andere-unterhaltszahlungen": {
             meta: { done: andereUnterhaltszahlungenDone },
           },
