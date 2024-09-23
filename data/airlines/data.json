@@ -1262,6 +1262,12 @@
     "arbitrationBoard": null
   },
   {
+    "name": "Fly Lili",
+    "iata": "FL",
+    "isInEU": true,
+    "arbitrationBoard": null
+  },
+  {
     "name": "Sonstiges",
     "iata": "sonstiges",
     "isInEU": true,

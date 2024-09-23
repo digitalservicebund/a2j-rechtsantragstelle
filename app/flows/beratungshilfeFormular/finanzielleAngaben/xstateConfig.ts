@@ -1,3 +1,6 @@
+import _ from "lodash";
+import type { TargetReplacements } from "~/flows/shared/finanzielleAngaben/partner";
+import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
 import {
@@ -6,10 +9,19 @@ import {
   eigentumDone,
   einkommenDone,
   kinderDone,
+  partnerDone,
   wohnungDone,
 } from "./doneFunctions";
 import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
 import { finanzielleAngabeGuards as guards } from "./guards";
+
+export const finanzielleAngabenPartnerTargetReplacements: TargetReplacements = {
+  backStep: "#einkommen.einkommen",
+  playsNoRoleTarget: "#kinder.kinder-frage",
+  partnerNameTarget: "#kinder.kinder-frage",
+  partnerIncomeTarget: "partner-einkommen-summe",
+  nextStep: "#kinder.kinder-frage",
+};
 
 export const beratungshilfeFinanzielleAngabenXstateConfig = {
   initial: "einkommen",
@@ -89,19 +101,25 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
         },
       },
     },
-    partner: {
-      id: "partner",
-      initial: "partnerschaft",
-      states: {
-        partnerschaft: {},
-        "partner-einkommen-summe": {
-          on: {
-            BACK: "partner-einkommen",
-            SUBMIT: "#kinder.kinder-frage",
+    partner: _.merge(
+      getFinanzielleAngabenPartnerSubflow(
+        partnerDone,
+        finanzielleAngabenPartnerTargetReplacements,
+      ),
+      {
+        id: "partner",
+        initial: "partnerschaft",
+        states: {
+          partnerschaft: {},
+          "partner-einkommen-summe": {
+            on: {
+              BACK: "partner-einkommen",
+              SUBMIT: "#kinder.kinder-frage",
+            },
           },
         },
       },
-    },
+    ),
     kinder: {
       id: "kinder",
       initial: "kinder-frage",

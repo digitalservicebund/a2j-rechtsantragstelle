@@ -1,33 +1,19 @@
-import sanitizeHtml from "sanitize-html";
-import {
-  openInNewAllowedAttributes,
-  openInNewAllowedTags,
-} from "~/components/OpenInNewTabIcon";
+import * as xssImport from "xss";
+import { openInNewAllowedAttributes } from "~/components/OpenInNewTabIcon";
+// Note: type recast of import due to wrong default type export
+const xss = xssImport.default as unknown as typeof xssImport;
 
-const allowedTags =
-  sanitizeHtml.defaults.allowedTags.concat(openInNewAllowedTags);
-const allowedAttributes = {
-  a: sanitizeHtml.defaults.allowedAttributes["a"].concat(["rel", "aria-label"]),
+const allowList = {
+  ...xss.getDefaultWhiteList(),
+  a: xss.getDefaultWhiteList().a?.concat(["rel", "aria-label", "class"]),
+  p: xss.getDefaultWhiteList().p?.concat(["class"]),
+  h1: xss.getDefaultWhiteList().h1?.concat(["class"]),
+  h2: xss.getDefaultWhiteList().h2?.concat(["class"]),
+  h3: xss.getDefaultWhiteList().h3?.concat(["class"]),
+  h4: xss.getDefaultWhiteList().h4?.concat(["class"]),
+  h5: xss.getDefaultWhiteList().h5?.concat(["class"]),
+  h6: xss.getDefaultWhiteList().h6?.concat(["class"]),
   ...openInNewAllowedAttributes,
 };
-const allowedHeadingClasses = [
-  "ds-heading-01-reg",
-  "ds-label-01-bold",
-  "ds-heading-02-reg",
-];
-
-export const sanatize = (html: string) =>
-  sanitizeHtml(html, {
-    allowedTags,
-    allowedClasses: {
-      p: ["ds-subhead", "max-w-full"],
-      a: ["text-link", "min-h-[24px]", "inline-block"],
-      h1: allowedHeadingClasses,
-      h2: allowedHeadingClasses,
-      h3: allowedHeadingClasses,
-      h4: allowedHeadingClasses,
-      h5: allowedHeadingClasses,
-      h6: allowedHeadingClasses,
-    },
-    allowedAttributes,
-  });
+const sanatizer = new xss.FilterXSS({ allowList, stripIgnoreTagBody: true });
+export const sanatize = (html: string) => sanatizer.process(html);
