@@ -7,7 +7,6 @@ import RichText from "./RichText";
 
 export const ListItemPropsSchema = z.object({
   identifier: z.string().optional(),
-  label: z.custom<HeadingProps>().optional(),
   headline: z.custom<HeadingProps>().optional(),
   content: z.string().optional(),
   buttons: z.array(ButtonPropsSchema).optional(),
@@ -26,7 +25,6 @@ const ListIcon = ({ numeric }: { numeric?: number }) =>
 
 const ListItem = ({
   identifier,
-  label,
   headline,
   content,
   buttons,
@@ -38,10 +36,7 @@ const ListItem = ({
         <ListIcon numeric={numeric} />
       </div>
       <div className="basis-auto">
-        <div className="flex flex-row gap-16">
-          {label && <Heading {...label} />}
-          {headline && <Heading {...headline} />}
-        </div>
+        {headline && <Heading {...headline} />}
         {content && <RichText markdown={content} />}
         {arrayIsNonEmpty(buttons) && (
           <ButtonContainer className="mt-16">

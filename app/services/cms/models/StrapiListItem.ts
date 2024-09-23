@@ -8,7 +8,6 @@ import { StrapiHeadingSchema } from "./StrapiHeading";
 
 export const StrapiListItemSchema = z
   .object({
-    label: StrapiHeadingSchema.nullable(),
     headline: StrapiHeadingSchema.nullable(),
     content: z.string().nullable(),
     buttons: z.array(StrapiButtonSchema).nullable(),
