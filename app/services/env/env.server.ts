@@ -5,6 +5,7 @@ interface Config {
   CMS: string;
   REDIS_ENDPOINT: string;
   REDIS_PASSWORD: string;
+  FIT_CONNECT_ADAPTER_ENDPOINT: string;
   COOKIE_SESSION_SECRET: string;
   CONTENT_FILE_PATH: string;
   ENVIRONMENT: string;
@@ -24,6 +25,9 @@ export function config(): Config {
       CMS: process.env.CMS?.trim() ?? "FILE",
       REDIS_ENDPOINT: process.env.REDIS_ENDPOINT?.trim() ?? "localhost:6380",
       REDIS_PASSWORD: process.env.REDIS_PASSWORD?.trim() ?? "",
+      FIT_CONNECT_ADAPTER_ENDPOINT:
+        process.env.FIT_CONNECT_ADAPTER_ENDPOINT?.trim() ??
+        "http://localhost:8080",
       COOKIE_SESSION_SECRET:
         process.env.COOKIE_SESSION_SECRET?.trim() ?? "s3cr3t",
       CONTENT_FILE_PATH:
