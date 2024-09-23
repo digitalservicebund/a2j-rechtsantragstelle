@@ -4,6 +4,7 @@
   "states": {
     "start": {
       "on": {
+        "SUBMIT": "#abgabe.start",
         "BACK": [
           {
             "guard": "isWeiterePersonenYes",

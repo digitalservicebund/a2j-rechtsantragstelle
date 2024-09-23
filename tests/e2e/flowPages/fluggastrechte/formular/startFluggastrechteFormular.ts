@@ -108,7 +108,9 @@ export async function startFluggastrechteFormular(
 
   // fluggastrechte/formular/zusammenfassung/start
   await expectPageToBeAccessible({ page });
-  await expect(page).toHaveURL(
-    new RegExp(`.+${formular.url}/zusammenfassung/start$`),
-  );
+  await formular.clickNext();
+
+  // fluggastrechte/formular/abgabe/start
+  await expectPageToBeAccessible({ page });
+  await expect(page).toHaveURL(new RegExp(`.+${formular.url}/abgabe/start$`));
 }
