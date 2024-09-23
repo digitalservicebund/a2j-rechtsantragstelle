@@ -3,7 +3,9 @@ import type { BerHPdfFillFunction } from "../..";
 import { newPageHint, type AttachmentEntries } from "../../../attachment";
 import { eigentuemerMapping } from "../../eigentuemerMapping";
 
-function singleKraftfahrzeug(
+const KRAFTFAHRZEUG_ART_FIELD_MAX_CHARS = 96;
+
+function fillSingleKraftfahrzeug(
   kraftfahrzeug: NonNullable<
     BeratungshilfeFormularContext["kraftfahrzeuge"]
   >[0],
@@ -32,18 +34,26 @@ export const fillKraftfahrzeug: BerHPdfFillFunction = ({
 
   if (!hasKraftfahrzeugYes) return { pdfValues };
 
-  if (kraftfahrzeuge.length == 1) {
-    const kraftfahrzeug = kraftfahrzeuge[0];
-    pdfValues.f10KraftfahrzeugeA.value = kraftfahrzeug.eigentuemer == "myself";
-    pdfValues.f10KraftfahrzeugB.value = kraftfahrzeug.eigentuemer == "partner";
+  const singleKraftfahrzeug = kraftfahrzeuge[0];
+  const singleKraftfahrzeugString =
+    fillSingleKraftfahrzeug(singleKraftfahrzeug);
+
+  if (
+    kraftfahrzeuge.length == 1 &&
+    singleKraftfahrzeugString.length < KRAFTFAHRZEUG_ART_FIELD_MAX_CHARS
+  ) {
+    pdfValues.f10KraftfahrzeugeA.value =
+      singleKraftfahrzeug.eigentuemer == "myself";
+    pdfValues.f10KraftfahrzeugB.value =
+      singleKraftfahrzeug.eigentuemer == "partner";
     pdfValues.f10KraftfahrzeugC.value =
-      kraftfahrzeug.eigentuemer == "myselfAndPartner";
+      singleKraftfahrzeug.eigentuemer == "myselfAndPartner";
 
-    pdfValues.f11Fahrzeugart.value = singleKraftfahrzeug(kraftfahrzeug);
+    pdfValues.f11Fahrzeugart.value = singleKraftfahrzeugString;
 
-    pdfValues.f12Verkehrswert.value = kraftfahrzeug.verkaufswert
-      ? kraftfahrzeug.verkaufswert + " €"
-      : verkaufswertMappingDescription[kraftfahrzeug.wert];
+    pdfValues.f12Verkehrswert.value = singleKraftfahrzeug.verkaufswert
+      ? singleKraftfahrzeug.verkaufswert + " €"
+      : verkaufswertMappingDescription[singleKraftfahrzeug.wert];
   } else {
     pdfValues.f11Fahrzeugart.value = newPageHint;
     attachment.push({

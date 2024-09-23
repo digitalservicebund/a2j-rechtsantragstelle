@@ -27,19 +27,19 @@ afterEach(() => {
 
 describe("Input", () => {
   const cases = [
-    { widthProps: "3", expectedClassWidth: "w-[9ch]" },
-    { widthProps: "5", expectedClassWidth: "w-[11ch]" },
-    { widthProps: "7", expectedClassWidth: "w-[13ch]" },
-    { widthProps: "10", expectedClassWidth: "w-[16ch]" },
-    { widthProps: "16", expectedClassWidth: "w-[22ch]" },
-    { widthProps: "24", expectedClassWidth: "w-[30ch]" },
+    { widthProps: "3", expectedClassWidth: "max-w-[9ch]" },
+    { widthProps: "5", expectedClassWidth: "max-w-[11ch]" },
+    { widthProps: "7", expectedClassWidth: "max-w-[13ch]" },
+    { widthProps: "10", expectedClassWidth: "max-w-[16ch]" },
+    { widthProps: "16", expectedClassWidth: "max-w-[22ch]" },
+    { widthProps: "24", expectedClassWidth: "max-w-[30ch]" },
     {
       widthProps: "36",
-      expectedClassWidth: "w-[42ch] ds-input-select-width-54-36",
+      expectedClassWidth: "max-w-[42ch]",
     },
     {
       widthProps: "54",
-      expectedClassWidth: "w-[60ch] ds-input-select-width-54-36",
+      expectedClassWidth: "max-w-[60ch]",
     },
   ];
 
