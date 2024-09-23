@@ -18,6 +18,13 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       statementKey: "partner-hasArbeitsausgaben",
       event: "add-partner-arbeitsausgaben",
     },
+    "partner-weitereEinkuenfte": {
+      url: `${prefix}/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-einkunft`,
+      initialInputUrl: "partner-daten",
+      statementUrl: `/${prefix}/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-uebersicht`,
+      statementKey: "partner-hasFurtherIncome",
+      event: "add-partner-weitereEinkuenfte",
+    },
     weitereEinkuenfte: {
       url: `${prefix}/einkuenfte/weitere-einkuenfte/einkunft`,
       initialInputUrl: "daten",

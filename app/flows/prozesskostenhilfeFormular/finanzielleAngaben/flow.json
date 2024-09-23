@@ -3,31 +3,7 @@
   "id": "finanzielle-angaben",
   "states": {
     "einkuenfte": {},
-    "partner": {
-      "states": {
-        "partner-einkuenfte": {
-          "states": {
-            "partner-besonders-ausgaben": {
-              "on": {
-                "SUBMIT": [
-                  {
-                    "guard": "partnerHasBesondersAusgabenYes",
-                    "target": "add-partner-besonders-ausgaben"
-                  },
-                  "#kinder"
-                ]
-              }
-            },
-            "add-partner-besonders-ausgaben": {
-              "on": {
-                "SUBMIT": "#kinder",
-                "BACK": "partner-besonders-ausgaben"
-              }
-            }
-          }
-        }
-      }
-    },
+    "partner": {},
     "kinder": {
       "id": "kinder",
       "initial": "kinder-frage",

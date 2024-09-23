@@ -99,6 +99,19 @@ export const prozesskostenhilfeFormular = {
                             },
                             "#partner-weitere-einkuenfte",
                           ],
+                          SUBMIT: [
+                            {
+                              guard: "partnerHasBesondersAusgabenYes",
+                              target: "add-partner-besonders-ausgaben",
+                            },
+                            "#kinder",
+                          ],
+                        },
+                      },
+                      "add-partner-besonders-ausgaben": {
+                        on: {
+                          SUBMIT: "#kinder",
+                          BACK: "partner-besonders-ausgaben",
                         },
                       },
                     },

@@ -527,10 +527,14 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
                   guard: guards.hasFurtherIncomeAndEmptyArray,
                   target: stepIds.warnung,
                 },
-                "#partner",
+                subflowPrefix === "partner"
+                  ? `#${stepIds.id}.partner-besonders-ausgaben`
+                  : "#partner",
               ],
               BACK: stepIds.frage,
-              [stepIds.addWeitereEinkuenfte]: {
+              [subflowPrefix === "partner"
+                ? "add-partner-weitereEinkuenfte"
+                : stepIds.addWeitereEinkuenfte]: {
                 guard: guards.isValidEinkuenfteArrayIndex,
                 target: stepIds.einkunft,
               },
@@ -539,7 +543,10 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
           [stepIds.warnung]: {
             on: {
               BACK: stepIds.uebersicht,
-              SUBMIT: "#partner",
+              SUBMIT:
+                subflowPrefix === "partner"
+                  ? `#${stepIds.id}.partner-besonders-ausgaben`
+                  : "#partner",
             },
           },
           [stepIds.einkunft]: {
