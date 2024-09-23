@@ -652,8 +652,8 @@
     "country_code": "CN",
     "country": "China",
     "airport": "Nantong Xingdong International Flughafen",
-    "latitude": 32.070801,
-    "longitude": 120.975998,
+    "latitude": 32.073566,
+    "longitude": 120.980076,
     "city": "Nantong"
   },
   {
@@ -13170,10 +13170,10 @@
     "iata": "ISL",
     "country_code": "TR",
     "country": "Türkei",
-    "airport": "İstanbul Atatürk AFlughafen",
+    "airport": "İstanbul Atatürk Flughafen",
     "latitude": 40.971913,
     "longitude": 28.823714,
-    "city": "Istanbul"
+    "city": "Bakırköy, Istanbul"
   },
   {
     "iata": "BZI",
@@ -13476,10 +13476,10 @@
     "iata": "IST",
     "country_code": "TR",
     "country": "Türkei",
-    "airport": "İstanbul AFlughafen",
+    "airport": "İstanbul Flughafen",
     "latitude": 41.261297,
     "longitude": 28.741951,
-    "city": "Istanbul Flughafen"
+    "city": "Istanbul"
   },
   {
     "iata": "RMO",
@@ -28008,15 +28008,6 @@
     "city": "Yinchuan"
   },
   {
-    "iata": "JNG",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Jining Qufu Flughafen",
-    "latitude": 35.292778,
-    "longitude": 116.346667,
-    "city": "Jining"
-  },
-  {
     "iata": "LHW",
     "country_code": "CN",
     "country": "China",
@@ -28303,6 +28294,15 @@
     "latitude": 29.3386,
     "longitude": 117.176003,
     "city": "Jingdezhen"
+  },
+  {
+    "iata": "JNG",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Jining Daan Flughafen",
+    "latitude": 35.647358,
+    "longitude": 116.743269,
+    "city": "Jining"
   },
   {
     "iata": "TNA",
