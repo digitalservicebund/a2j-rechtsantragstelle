@@ -1,4 +1,3 @@
-import _ from "lodash";
 import type { Context } from "~/flows/contexts";
 import type { ArrayConfig } from ".";
 
@@ -17,7 +16,7 @@ export function getSummaryData(
       .filter((category) => category in arrayConfigurations)
       .map((category) => {
         const arrayConfiguration = arrayConfigurations[category];
-        const possibleArray = _.get(userData, category);
+        const possibleArray = userData[category];
         const data = Array.isArray(possibleArray) ? possibleArray : [];
         return [
           category,
@@ -26,7 +25,7 @@ export function getSummaryData(
             arrayConfiguration: {
               ...arrayConfiguration,
               statementValue:
-                _.get(userData, arrayConfiguration.statementKey) === "yes",
+                userData[arrayConfiguration.statementKey] === "yes",
             },
           },
         ];
