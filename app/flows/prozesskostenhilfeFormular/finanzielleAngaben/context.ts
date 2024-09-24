@@ -11,10 +11,7 @@ import {
   wertsachenArraySchema,
   financialEntrySchema,
 } from "~/flows/shared/finanzielleAngaben/context";
-import {
-  finanzielleAngabenPartnerContext,
-  type FinanzielleAngabenPartnerContext,
-} from "~/flows/shared/finanzielleAngaben/partner/context";
+import { finanzielleAngabenPartnerContext } from "~/flows/shared/finanzielleAngaben/partner/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { createDateSchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -117,6 +114,5 @@ export type PartnerEinkuenfteContext = {
 export type ProzesskostenhilfeFinanzielleAngabenContext = z.infer<
   typeof _contextObject
 > &
-  FinanzielleAngabenPartnerContext &
   ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext &
   PartnerEinkuenfteContext;
