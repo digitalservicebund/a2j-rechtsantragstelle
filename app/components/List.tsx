@@ -40,12 +40,7 @@ const List = ({
       <ol className="list-none ds-stack-32 ps-0">
         {items.map((item, index) => (
           <li
-            key={
-              item.identifier ??
-              item.label?.text ??
-              item.headline?.text ??
-              item.content
-            }
+            key={item.identifier ?? item.headline?.text ?? item.content}
             className="first:pt-0 scroll-my-40"
           >
             <ListItem {...item} numeric={isNumeric ? index + 1 : undefined} />

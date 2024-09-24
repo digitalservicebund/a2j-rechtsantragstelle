@@ -24,9 +24,13 @@ export async function startFluggastrechteFormular(
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
+  // /fluggastrechte/formular/grundvorraussetzungen/zahlungsaufforderung
+  await expectPageToBeAccessible({ page });
+  await formular.clickNext();
+
   // /fluggastrechte/formular/grundvorraussetzungen/daten-uebernahme
   await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("doMigration", "yes");
+  await formular.clickNext();
 
   // /fluggastrechte/formular/streitwert-kosten/gerichtskosten
   await expectPageToBeAccessible({ page });
@@ -104,7 +108,9 @@ export async function startFluggastrechteFormular(
 
   // fluggastrechte/formular/zusammenfassung/start
   await expectPageToBeAccessible({ page });
-  await expect(page).toHaveURL(
-    new RegExp(`.+${formular.url}/zusammenfassung/start$`),
-  );
+  await formular.clickNext();
+
+  // fluggastrechte/formular/abgabe/start
+  await expectPageToBeAccessible({ page });
+  await expect(page).toHaveURL(new RegExp(`.+${formular.url}/abgabe/start$`));
 }

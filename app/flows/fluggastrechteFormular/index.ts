@@ -3,8 +3,8 @@ import type { AllContextKeys } from "~/flows/common";
 import type { Flow } from "~/flows/flows.server";
 import type { ArrayConfig } from "~/services/array";
 import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
+import abgabeFlow from "./abgabe/flow.json";
 import type { FluggastrechtContext } from "./context";
-import fluggastrechteFlow from "./flow.json";
 import { flugdatenDone } from "./flugdaten/doneFunctions";
 import flugdatenFlow from "./flugdaten/flow.json";
 import { grundvorraussetzungenDone } from "./grundvorraussetzungen/doneFunctions";
@@ -50,7 +50,7 @@ export const fluggastrechtFlow = {
     ...getWeiterePersonenNameStrings(context),
     ...getAirlineName(context),
   }),
-  config: _.merge(fluggastrechteFlow, {
+  config: {
     meta: {
       arrays: {
         weiterePersonen: {
@@ -64,7 +64,21 @@ export const fluggastrechtFlow = {
         },
       } satisfies Partial<Record<AllContextKeys, ArrayConfig>>,
     },
+    id: "/fluggastrechte/formular",
+    initial: "intro",
     states: {
+      intro: {
+        id: "intro",
+        initial: "start",
+        meta: { done: () => true },
+        states: {
+          start: {
+            on: {
+              SUBMIT: "#grundvorraussetzungen.prozessfaehig",
+            },
+          },
+        },
+      },
       grundvorraussetzungen: _.merge(grundvorraussetzungenFlow, {
         meta: { done: grundvorraussetzungenDone },
       }),
@@ -81,8 +95,11 @@ export const fluggastrechtFlow = {
       zusammenfassung: _.merge(zusammenfassungFlow, {
         meta: { done: () => false },
       }),
+      abgabe: _.merge(abgabeFlow, {
+        meta: { done: () => false },
+      }),
     },
-  }),
+  },
   guards: fluggastrechteGuards,
   flowTransitionConfig,
 } satisfies Flow;

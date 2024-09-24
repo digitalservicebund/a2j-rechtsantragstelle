@@ -1,4 +1,4 @@
-import { finanzielleAngabenPartnerTargetReplacements as beratungsHilfeTargetReplacements } from "~/flows/beratungshilfeFormular";
+import { finanzielleAngabenPartnerTargetReplacements as beratungsHilfeTargetReplacements } from "~/flows/beratungshilfeFormular/finanzielleAngaben/xstateConfig";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 
 describe("getFinanzielleAngabenPartnerSubflow", () => {

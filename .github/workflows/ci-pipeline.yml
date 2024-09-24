@@ -75,12 +75,18 @@ jobs:
       - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
       - name: Generate cosign vulnerability scan record for PROD image
         uses: aquasecurity/trivy-action@6e7b7d1fd3e4fef0c5fa8cce1229c54b2c9bd0d8 # v0.24.0
+        env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         with:
           image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.PROD_IMAGE_TAG }}
           format: "cosign-vuln"
           output: "vulnerabilities.json"
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@6e7b7d1fd3e4fef0c5fa8cce1229c54b2c9bd0d8 # v0.24.0
+        env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         with:
           image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.PROD_IMAGE_TAG }}
           format: "sarif"
@@ -158,8 +164,6 @@ jobs:
   verify-preview-e2e:
     needs: [deploy-preview]
     uses: ./.github/workflows/e2e-test.yml
-    secrets:
-      BASE_URL: https://a2j-test.dev.ds4g.net
     with:
       require-published-app: false
       use-existing-server: true

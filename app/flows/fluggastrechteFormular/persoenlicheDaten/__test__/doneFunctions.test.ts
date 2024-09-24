@@ -66,7 +66,6 @@ describe("navStates", () => {
             {
               title: "",
               ...DEFAULT_WEITERE_PERSONEN_DATA,
-              unter18JahreAlt: CheckboxValue.on,
               anrede: "anrede",
               vornameVertretung: "vornameVertretung",
               nachnameVertretung: "nachnameVertretung",
@@ -136,46 +135,16 @@ describe("navStates", () => {
         context: {
           ...PERSONEN_DATA,
           vorname: undefined,
-          unter18JahreAlt: CheckboxValue.off,
         },
       });
 
       expect(actual).toBe(false);
     });
 
-    it("returns false when required personal data is provided, the person is under 18 years, but no representation data is provided", () => {
+    it("returns true when required personal data is provided", () => {
       const actual = personDone({
         context: {
           ...PERSONEN_DATA,
-          unter18JahreAlt: CheckboxValue.on,
-        },
-      });
-
-      expect(actual).toBe(false);
-    });
-
-    it("returns true when required personal data is provided, the person is above 18 years, and no representation data is provided", () => {
-      const actual = personDone({
-        context: {
-          ...PERSONEN_DATA,
-          unter18JahreAlt: CheckboxValue.off,
-        },
-      });
-
-      expect(actual).toBe(true);
-    });
-
-    it("returns true when required personal data is provided, the person is under 18 years, and valid representation data is provided", () => {
-      const actual = personDone({
-        context: {
-          ...PERSONEN_DATA,
-          unter18JahreAlt: CheckboxValue.on,
-          vornameVertretung: "vornameVertretung",
-          nachnameVertretung: "nachnameVertretung",
-          strasseHausnummerVertretung: "strasseHausnummerVertretung",
-          ortVertretung: "ortVertretung",
-          plzVertretung: "plzVertretung",
-          beschreibenVertretung: "beschreibenVertretung",
         },
       });
 

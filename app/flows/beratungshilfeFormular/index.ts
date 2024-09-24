@@ -1,33 +1,11 @@
-import _ from "lodash";
-import type { BeratungshilfePersoenlicheDaten } from "~/flows/beratungshilfeFormular/persoenlicheDaten/context";
-import { beratungshilfePersoenlicheDatenDone } from "~/flows/beratungshilfeFormular/persoenlicheDaten/doneFunctions";
 import type { Flow } from "~/flows/flows.server";
-import type { TargetReplacements } from "~/flows/shared/finanzielleAngaben/partner";
-import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
-import persoenlicheDatenFlow from "~/flows/shared/persoenlicheDaten/flow.json";
-import abgabeFlow from "./abgabe/flow.json";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
-import { type BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
 import { beratungshilfeAnwaltlicheVertretungGuards } from "./anwaltlicheVertretung/guards";
-import { type BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
-import {
-  andereUnterhaltszahlungenDone,
-  ausgabenDone,
-  einkommenDone,
-  kinderDone,
-  partnerDone,
-  wohnungDone,
-  eigentumDone,
-} from "./finanzielleAngaben/doneFunctions";
-import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
-import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
+import type { BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
-import {
-  type BeratungshilfeGrundvoraussetzungen,
-  beratungshilfeGrundvoraussetzungenGuards,
-} from "./grundvoraussetzung/context";
-import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConfig";
-import { type BeratungshilfeRechtsproblem } from "./rechtsproblem/context";
+import type { BeratungshilfeGrundvoraussetzungen } from "./grundvoraussetzung/context";
+import { beratungshilfeGrundvoraussetzungenGuards } from "./grundvoraussetzung/context";
+import type { BeratungshilfePersoenlicheDaten } from "./persoenlicheDaten/context";
 import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
@@ -38,93 +16,19 @@ import {
   eigentumZusammenfassungShowTotalWorthWarnings,
 } from "./stringReplacements";
 import { beratungshilfeXstateConfig } from "./xstateConfig";
-import type { AbgabeContext } from "../shared/abgabe/context";
 import {
   eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
   getArrayIndexStrings,
   getKinderStrings,
 } from "../shared/stringReplacements";
-import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
-import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
-
-export const finanzielleAngabenPartnerTargetReplacements: TargetReplacements = {
-  backStep: "#einkommen.einkommen",
-  playsNoRoleTarget: "#kinder.kinder-frage",
-  partnerNameTarget: "#kinder.kinder-frage",
-  partnerIncomeTarget: "partner-einkommen-summe",
-  nextStep: "#kinder.kinder-frage",
-};
+import type { BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
+import type { BeratungshilfeRechtsproblem } from "./rechtsproblem/context";
+import type { AbgabeContext } from "../shared/abgabe/context";
 
 export const beratungshilfeFormular = {
   cmsSlug: "form-flow-pages",
-  config: _.merge(beratungshilfeXstateConfig, {
-    states: {
-      grundvoraussetzungen: grundvorraussetzungXstateConfig,
-      "anwaltliche-vertretung": anwaltlicheVertretungXstateConfig,
-      rechtsproblem: rechtsproblemXstateConfig,
-      "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
-        states: {
-          einkommen: { meta: { done: einkommenDone } },
-          partner: getFinanzielleAngabenPartnerSubflow(
-            partnerDone,
-            finanzielleAngabenPartnerTargetReplacements,
-          ),
-          kinder: { meta: { done: kinderDone } },
-          "andere-unterhaltszahlungen": {
-            meta: { done: andereUnterhaltszahlungenDone },
-          },
-          eigentum: { meta: { done: eigentumDone } },
-          "eigentum-zusammenfassung": {
-            meta: { done: eigentumZusammenfassungDone },
-          },
-          wohnung: { meta: { done: wohnungDone } },
-          ausgaben: { meta: { done: ausgabenDone } },
-        },
-      }),
-      "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
-        meta: { done: beratungshilfePersoenlicheDatenDone },
-        states: {
-          start: {
-            on: {
-              BACK: [
-                {
-                  guard: "staatlicheLeistungenIsBuergergeldAndEigentumDone",
-                  target:
-                    "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung",
-                },
-                {
-                  guard: "staatlicheLeistungenIsBuergergeldAndHasEigentum",
-                  target: "#finanzielle-angaben.eigentum.gesamtwert",
-                },
-                {
-                  guard: "staatlicheLeistungenIsBuergergeld",
-                  target: "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
-                },
-                {
-                  guard: "hasAusgabenYes",
-                  target: "#ausgaben.uebersicht",
-                },
-                {
-                  guard: "hasNoStaatlicheLeistungen",
-                  target: "#ausgaben.ausgaben-frage",
-                },
-                "#finanzielle-angaben.einkommen.staatliche-leistungen",
-              ],
-            },
-          },
-          telefonnummer: {
-            on: {
-              SUBMIT: "#abgabe",
-            },
-          },
-        },
-      }),
-      abgabe: _.merge(abgabeFlow, {
-        meta: { done: () => false },
-      }),
-    },
-  }),
+  config: beratungshilfeXstateConfig,
   guards: {
     ...beratungshilfeGrundvoraussetzungenGuards,
     ...beratungshilfeAnwaltlicheVertretungGuards,

@@ -1,16 +1,15 @@
 import { faker } from "@faker-js/faker";
-import _ from "lodash";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
+import { createFinancialEntry } from "tests/fixtures/prozesskostenhilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import type { FinancialEntry } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import {
   fillAndereLeistungen,
   fillEinkommenType,
   fillStaatlicheLeistungen,
   fillWeitereEinkuenfte,
 } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen";
-import { getTotalMonthlyFinancialEntries } from "~/services/pdf/util";
+import { newPageHint } from "../../attachment";
 
 let pdfParams: ProzesskostenhilfePDF;
 
@@ -20,36 +19,6 @@ describe("E_bruttoEinnahmen", () => {
     pdfParams = getProzesskostenhilfeParameters();
   });
   describe("fillStaatlicheLeistungen", () => {
-    it("should indicate Grundsicherung in field E2 if Grundsicherung is selected, setting all other staatlicheLeistungen fields to false", () => {
-      const { pdfValues } = fillStaatlicheLeistungen({
-        userData: { staatlicheLeistungen: "grundsicherung" },
-        pdfValues: pdfParams,
-      });
-      expect(pdfValues.undefined_8.value).toBe(true);
-      expect(
-        pdfValues[
-          "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
-        ].value,
-      ).toBe("Grundsicherung oder Sozialhilfe");
-      expect(pdfValues.nein_17.value).toBe(true);
-      expect(pdfValues.nein_15.value).toBe(true);
-    });
-
-    it("should indicate Asylbewerberleistungen in field E2 if Asylbewerberleistungen is selected, setting all other staatlicheLeistungen fields to false", () => {
-      const { pdfValues } = fillStaatlicheLeistungen({
-        userData: { staatlicheLeistungen: "asylbewerberleistungen" },
-        pdfValues: pdfParams,
-      });
-      expect(pdfValues.undefined_8.value).toBe(true);
-      expect(
-        pdfValues[
-          "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
-        ].value,
-      ).toBe("Asylbewerberleistungen");
-      expect(pdfValues.nein_17.value).toBe(true);
-      expect(pdfValues.nein_15.value).toBe(true);
-    });
-
     it("should indicate if a user receives Buergergeld, and if so, the amount", () => {
       const { pdfValues } = fillStaatlicheLeistungen({
         userData: {
@@ -58,7 +27,6 @@ describe("E_bruttoEinnahmen", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_22.value).toBe(true); // Grundsicherung or Asylbewerberleistungen
       expect(
         pdfValues[
           "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
@@ -69,7 +37,7 @@ describe("E_bruttoEinnahmen", () => {
         pdfValues
           .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro11
           .value,
-      ).toBe("100€");
+      ).toBe("100 €");
       expect(pdfValues.nein_15.value).toBe(true);
     });
 
@@ -81,7 +49,6 @@ describe("E_bruttoEinnahmen", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_22.value).toBe(true); // Grundsicherung or Asylbewerberleistungen
       expect(
         pdfValues[
           "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
@@ -92,7 +59,7 @@ describe("E_bruttoEinnahmen", () => {
         pdfValues
           .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro10
           .value,
-      ).toBe("250€");
+      ).toBe("250 €");
       expect(pdfValues.nein_17.value).toBe(true);
     });
   });
@@ -161,7 +128,7 @@ describe("E_bruttoEinnahmen", () => {
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro
           .value,
-      ).toBe("1000€");
+      ).toBe("1000 €");
       expect(pdfValues.nein_12.value).toBe(true);
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3
@@ -182,7 +149,7 @@ describe("E_bruttoEinnahmen", () => {
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3
           .value,
-      ).toBe("1000€ netto");
+      ).toBe("1000 € netto");
       expect(pdfValues.nein_10.value).toBe(true);
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro
@@ -205,11 +172,11 @@ describe("E_bruttoEinnahmen", () => {
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro
           .value,
-      ).toBe("1000€");
+      ).toBe("1000 €");
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3
           .value,
-      ).toBe("1000€ brutto");
+      ).toBe("1000 € brutto");
     });
   });
 
@@ -233,7 +200,7 @@ describe("E_bruttoEinnahmen", () => {
       expect(pdfValues.ja_19.value).toBe(true);
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchWohngeldinEuro7.value,
-      ).toBe("100€");
+      ).toBe("100 €");
     });
     it("should indicate if a user receives Krankengeld", () => {
       const { pdfValues } = fillAndereLeistungen({
@@ -248,7 +215,7 @@ describe("E_bruttoEinnahmen", () => {
         pdfValues
           .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro12
           .value,
-      ).toBe("250€");
+      ).toBe("250 €");
     });
     it("should indicate if a user receives Elterngeld", () => {
       const { pdfValues } = fillAndereLeistungen({
@@ -260,7 +227,7 @@ describe("E_bruttoEinnahmen", () => {
         pdfValues
           .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro13
           .value,
-      ).toBe("50€");
+      ).toBe("50 €");
     });
     it("should indicate if a user receives Kindergeld", () => {
       const { pdfValues } = fillAndereLeistungen({
@@ -274,7 +241,7 @@ describe("E_bruttoEinnahmen", () => {
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchKindergeldIKinderzuschlaginEuro6
           .value,
-      ).toBe("10000€");
+      ).toBe("10000 €");
     });
   });
 
@@ -287,11 +254,33 @@ describe("E_bruttoEinnahmen", () => {
       expect(pdfValues.nein_22.value).toBe(true);
     });
 
+    it("should indicate Asylbewerberleistungen", () => {
+      const { pdfValues } = fillWeitereEinkuenfte({
+        userData: { staatlicheLeistungen: "asylbewerberleistungen" },
+        pdfValues: pdfParams,
+      });
+      expect(
+        pdfValues[
+          "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
+        ].value,
+      ).toBe("Asylbewerberleistungen");
+    });
+
+    it("should indicate Grundsicherung", () => {
+      const { pdfValues } = fillWeitereEinkuenfte({
+        userData: { staatlicheLeistungen: "grundsicherung" },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.undefined_8.value).toBe(true);
+      expect(
+        pdfValues[
+          "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
+        ].value,
+      ).toBe("Grundsicherung oder Sozialhilfe");
+    });
+
     it("should indicate if the user has one additional Einkunft", () => {
-      const singleEinkunft: FinancialEntry = {
-        beschreibung: faker.word.sample(),
-        betrag: faker.finance.amount().toString(),
-      };
+      const singleEinkunft = createFinancialEntry();
       const { pdfValues } = fillWeitereEinkuenfte({
         userData: {
           hasFurtherIncome: "yes",
@@ -300,13 +289,12 @@ describe("E_bruttoEinnahmen", () => {
         pdfValues: pdfParams,
       });
       expect(pdfValues.undefined_8.value).toBe(true);
-      expect(pdfValues.nein_22.value).toBe(false);
       expect(
         pdfValues[
           "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
         ].value,
-      ).toBe(singleEinkunft.beschreibung);
-      expect(pdfValues.euroBrutto.value).toBe(`${singleEinkunft.betrag}€`);
+      ).toContain(singleEinkunft.beschreibung);
+      expect(pdfValues.euroBrutto.value).toBe(`${singleEinkunft.betrag} €`);
 
       // Second field should remain blank
       expect(
@@ -318,73 +306,55 @@ describe("E_bruttoEinnahmen", () => {
     });
 
     it("should indicate if the user has two additional Einkuenfte", () => {
-      const twoEinkuenfte: FinancialEntry[] = _.times(2, () => ({
-        beschreibung: faker.word.sample(),
-        betrag: faker.finance.amount().toString(),
-      }));
+      const twoEinkuenfte = faker.helpers.multiple(createFinancialEntry, {
+        count: 2,
+      });
       const { pdfValues } = fillWeitereEinkuenfte({
-        userData: {
-          hasFurtherIncome: "yes",
-          weitereEinkuenfte: twoEinkuenfte,
-        },
+        userData: { weitereEinkuenfte: twoEinkuenfte },
         pdfValues: pdfParams,
       });
 
       expect(pdfValues.undefined_8.value).toBe(true);
-      expect(pdfValues.nein_22.value).toBe(false);
       expect(
         pdfValues[
           "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
         ].value,
-      ).toBe(twoEinkuenfte[0].beschreibung);
-      expect(pdfValues.euroBrutto.value).toBe(`${twoEinkuenfte[0].betrag}€`);
+      ).toContain(twoEinkuenfte[0].beschreibung);
+      expect(pdfValues.euroBrutto.value).toBe(`${twoEinkuenfte[0].betrag} €`);
 
       // Second field should also be filled
       expect(
         pdfValues[
           "2HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow2"
         ].value,
-      ).toBe(twoEinkuenfte[1].beschreibung);
-      expect(pdfValues.euroBrutto2.value).toBe(`${twoEinkuenfte[1].betrag}€`);
+      ).toContain(twoEinkuenfte[1].beschreibung);
+      expect(pdfValues.euroBrutto2.value).toBe(`${twoEinkuenfte[1].betrag} €`);
     });
 
     it('should print "Siehe Anhang", the collective monthly amount, and add an attachment if there are more than 2 Einkuenfte', () => {
-      const threeEinkuenfte: FinancialEntry[] = _.times(3, () => ({
-        beschreibung: faker.word.sample(),
-        betrag: faker.finance.amount().toString(),
-      }));
+      const threeEinkuenfte = faker.helpers.multiple(createFinancialEntry, {
+        count: 3,
+      });
 
       const { pdfValues, attachment } = fillWeitereEinkuenfte({
-        userData: {
-          hasFurtherIncome: "yes",
-          weitereEinkuenfte: threeEinkuenfte,
-        },
+        userData: { weitereEinkuenfte: threeEinkuenfte },
         pdfValues: pdfParams,
       });
       expect(pdfValues.undefined_8.value).toBe(true);
-      expect(pdfValues.nein_22.value).toBe(false);
       expect(
         pdfValues[
           "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
         ].value,
-      ).toBe("Siehe Anhang");
-      expect(pdfValues.euroBrutto.value).toBe(
-        `${getTotalMonthlyFinancialEntries(threeEinkuenfte)}€`,
-      );
+      ).toBe(newPageHint);
       expect(attachment?.length).toBeGreaterThan(0);
       expect(attachment?.at(0)).toEqual({
-        level: "h2",
-        title: "Brutto Einnahmen",
-      });
-      expect(attachment?.at(1)).toEqual({
         level: "h3",
-        title: "Weitere Einkünfte",
+        title: "2. Andere Einnahmen",
       });
+      expect(attachment?.at(1)?.text).toContain(" €");
       threeEinkuenfte.forEach((einkunft, index) => {
-        expect(attachment?.at(2 + index)).toEqual({
-          text: `${einkunft.betrag}€/Monat`,
-          title: einkunft.beschreibung,
-        });
+        expect(attachment?.at(1 + index)?.text).contain(einkunft.betrag);
+        expect(attachment?.at(1 + index)?.title).contain(einkunft.beschreibung);
       });
     });
   });
