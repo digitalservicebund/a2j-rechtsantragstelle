@@ -28,11 +28,10 @@ export const fillKraftfahrzeug: BerHPdfFillFunction = ({
 }) => {
   const attachment: AttachmentEntries = [];
   const { kraftfahrzeuge } = userData;
-  const hasKraftfahrzeugYes = kraftfahrzeuge && kraftfahrzeuge.length > 0;
-  pdfValues.f9Kraftfahrzeug1.value = !hasKraftfahrzeugYes;
-  pdfValues.f9Kraftfahrzeuge2.value = hasKraftfahrzeugYes;
+  pdfValues.f9Kraftfahrzeug1.value = userData.hasKraftfahrzeug === "no";
+  pdfValues.f9Kraftfahrzeuge2.value = userData.hasKraftfahrzeug === "yes";
 
-  if (!hasKraftfahrzeugYes) return { pdfValues };
+  if (!kraftfahrzeuge || kraftfahrzeuge.length === 0) return { pdfValues };
 
   const singleKraftfahrzeug = kraftfahrzeuge[0];
   const singleKraftfahrzeugString =

@@ -30,9 +30,10 @@ export const fillWohnen: BerHPdfFillFunction = ({ userData, pdfValues }) => {
     );
   }
 
-  const livesAlone = userData.livingSituation === "alone";
-  pdfValues.d4Wohnungalleine.value = livesAlone;
-  pdfValues.d5Wohnunggemeinsam.value = !livesAlone;
+  pdfValues.d4Wohnungalleine.value = userData.livingSituation === "alone";
+  pdfValues.d5Wohnunggemeinsam.value =
+    userData.livingSituation === "withOthers" ||
+    userData.livingSituation === "withRelatives";
   pdfValues.d6WonungweiterePersonen.value =
     userData.apartmentPersonCount?.toString();
 
