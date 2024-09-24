@@ -2,8 +2,23 @@ import type { FinancialEntry } from "~/flows/prozesskostenhilfeFormular/finanzie
 
 export const getTotalMonthlyFinancialEntries = (
   financialEntries: FinancialEntry[],
-) => {
-  return financialEntries.reduce((acc, { betrag: currentAmount }) => {
-    return acc + parseInt(currentAmount);
-  }, 0);
-};
+) =>
+  financialEntries
+    .map((entry) => {
+      const betragNumber = Number(entry.betrag.replace(",", "."));
+      switch (entry.zahlungsfrequenz) {
+        case "monthly":
+          return betragNumber;
+        case "quarterly":
+          return betragNumber / 3;
+        case "one-time":
+          return betragNumber / 12;
+        case "yearly":
+          return betragNumber / 12;
+      }
+    })
+    .reduce((a, b) => a + b, 0)
+    .toLocaleString("de-DE", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });

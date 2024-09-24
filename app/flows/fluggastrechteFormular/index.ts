@@ -3,6 +3,7 @@ import type { AllContextKeys } from "~/flows/common";
 import type { Flow } from "~/flows/flows.server";
 import type { ArrayConfig } from "~/services/array";
 import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
+import abgabeFlow from "./abgabe/flow.json";
 import type { FluggastrechtContext } from "./context";
 import { flugdatenDone } from "./flugdaten/doneFunctions";
 import flugdatenFlow from "./flugdaten/flow.json";
@@ -92,6 +93,9 @@ export const fluggastrechtFlow = {
         },
       }),
       zusammenfassung: _.merge(zusammenfassungFlow, {
+        meta: { done: () => false },
+      }),
+      abgabe: _.merge(abgabeFlow, {
         meta: { done: () => false },
       }),
     },
