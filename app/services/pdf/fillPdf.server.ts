@@ -1,4 +1,3 @@
-import fs from "fs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import fontkit from "@pdf-lib/fontkit";
@@ -40,9 +39,8 @@ async function readRelativeFileToBuffer(relativeFilepath: string) {
     return ArrayBuffer.prototype;
   }
 }
-
-const customFontBytes = fs.readFileSync(
-  path.join(process.cwd(), "/data/pdf/fonts/BundesSansOffice-Regular.ttf"),
+const bundesSansCondensed = await readRelativeFileToBuffer(
+  "/data/pdf/fonts/BundesSansCond-DTP-Regular.otf",
 );
 
 type FillPdfProps = {
@@ -68,7 +66,7 @@ export async function fillPdf({
   const form = pdfDoc.getForm();
 
   pdfDoc.registerFontkit(fontkit);
-  const customFont = await pdfDoc.embedFont(customFontBytes);
+  const customFont = await pdfDoc.embedFont(bundesSansCondensed);
   const rawUpdateFieldAppearances = form.updateFieldAppearances.bind(form);
   form.updateFieldAppearances = () => rawUpdateFieldAppearances(customFont);
 
