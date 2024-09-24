@@ -35,7 +35,7 @@ const ListItem = ({
       <div className="text-center basis-[40px] shrink-0">
         <ListIcon numeric={numeric} />
       </div>
-      <div className="basis-auto">
+      <div className="basis-auto ds-stack-8">
         {headline && <Heading {...headline} />}
         {content && <RichText markdown={content} />}
         {arrayIsNonEmpty(buttons) && (
