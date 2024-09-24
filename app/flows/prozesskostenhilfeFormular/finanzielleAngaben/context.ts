@@ -40,7 +40,10 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
     "partner",
   ),
   partnerHasBesondersAusgaben: YesNoAnswer,
-  partnerBesondersAusgabe: financialEntrySchema,
+  partnerBesondersAusgabe: financialEntrySchema.pick({
+    beschreibung: true,
+    betrag: true,
+  }),
   hasKinder: YesNoAnswer,
   kinder: kinderArraySchema,
   hasBankkonto: YesNoAnswer,
