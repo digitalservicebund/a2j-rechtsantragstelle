@@ -42,7 +42,6 @@ export async function startFluggastrechteFormular(
 
   // /fluggastrechte/formular/streitwert-kosten/zahlung-nach-klageeinreichung
   await expectPageToBeAccessible({ page });
-  await formular.clickLabelFor("aenderungMitteilung");
   await formular.clickNext();
 
   // /fluggastrechte/formular/streitwert-kosten/prozesszinsen
