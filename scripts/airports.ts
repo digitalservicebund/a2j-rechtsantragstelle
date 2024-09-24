@@ -45,7 +45,7 @@ type Airport = Omit<AirportDataSource, "type" | "scheduled_service"> & {
 function translateAirportName(airportName: string): string {
   // we cannot use .endWith() since the word airport is not always at the end
   // e.g  "San Rafael Airport (Argentina)"
-  const airportIndex = airportName.toLowerCase().indexOf("airport");
+  const airportIndex = airportName.toUpperCase().indexOf("AIRPORT");
 
   if (airportIndex !== -1) {
     return airportName.slice(0, airportIndex) + "Flughafen";
