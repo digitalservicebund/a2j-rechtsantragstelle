@@ -8,10 +8,7 @@ import {
   finanzielleAngabeEinkuenfteGuards,
   partnerEinkuenfteGuards,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
-import {
-  getFinanzielleAngabenPartnerSubflow,
-  type FinanzielleAngabenPartnerTargetReplacements,
-} from "~/flows/shared/finanzielleAngaben/partner";
+import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 import abgabeFlow from "./abgabe/flow.json";
 import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
@@ -36,15 +33,6 @@ import {
   getKinderStrings,
 } from "../shared/stringReplacements";
 
-export const prozesskostenhilfeFinanzielleAngabenPartnerTargetReplacements: FinanzielleAngabenPartnerTargetReplacements =
-  {
-    backStep: "", // blank as we're overrriding later
-    playsNoRoleTarget: "#partner-einkuenfte",
-    partnerNameTarget: "#partner-einkuenfte",
-    partnerIncomeTarget: "#partner-einkuenfte",
-    nextStep: "#kinder",
-  };
-
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
   config: _.merge(prozesskostenhilfeFormularFlow, {
@@ -64,10 +52,13 @@ export const prozesskostenhilfeFormular = {
         states: {
           einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
           partner: _.merge(
-            getFinanzielleAngabenPartnerSubflow(
-              partnerDone,
-              prozesskostenhilfeFinanzielleAngabenPartnerTargetReplacements,
-            ),
+            getFinanzielleAngabenPartnerSubflow(partnerDone, {
+              backStep: "", // blank as we're overriding later
+              playsNoRoleTarget: "#partner-einkuenfte",
+              partnerNameTarget: "#partner-einkuenfte",
+              partnerIncomeTarget: "#partner-einkuenfte",
+              nextStep: "#kinder",
+            }),
             // Need to override the default back step, as there's no way to interpolate a series of guards
             {
               states: {

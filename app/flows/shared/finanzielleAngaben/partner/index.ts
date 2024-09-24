@@ -4,7 +4,7 @@ import type { GenericGuard } from "~/flows/guards.server";
 import finanzielleAngabenPartnerFlow from "~/flows/shared/finanzielleAngaben/partner/flow.json";
 import { interpolateSerializableObject } from "~/util/fillTemplate";
 
-export type FinanzielleAngabenPartnerTargetReplacements = {
+type FinanzielleAngabenPartnerTargetReplacements = {
   backStep: string;
   playsNoRoleTarget: string;
   partnerNameTarget: string;
