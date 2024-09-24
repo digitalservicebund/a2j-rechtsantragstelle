@@ -42,7 +42,7 @@ async function readRelativeFileToBuffer(relativeFilepath: string) {
 }
 
 const customFontBytes = fs.readFileSync(
-  path.join(process.cwd(), "/public/fonts/", "BundesSansOffice-Regular.ttf"),
+  path.join(process.cwd(), "/data/pdf/fonts/BundesSansOffice-Regular.ttf"),
 );
 
 type FillPdfProps = {
