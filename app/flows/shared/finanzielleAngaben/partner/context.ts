@@ -10,6 +10,7 @@ export const finanzielleAngabenPartnerContext = {
   unterhalt: YesNoAnswer,
   unterhaltsSumme: buildMoneyValidationSchema(),
   partnerEinkommen: YesNoAnswer,
+  partnerEinkommenSumme: buildMoneyValidationSchema(),
   partnerVorname: stringRequiredSchema,
   partnerNachname: stringRequiredSchema,
 };
