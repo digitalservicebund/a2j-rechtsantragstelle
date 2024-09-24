@@ -243,8 +243,6 @@ describe("F_besitz", () => {
         fillFunctions: [fillVermoegenswerte],
       });
 
-      expect(pdfValues.f13Vermoegenswerte1.value).toBe(false);
-      expect(pdfValues.f13Vermoegenswerte2.value).toBe(true);
       expect(pdfValues.f14InhaberA.value).toBe(false);
       expect(pdfValues.f14InhaberB.value).toBe(true);
       expect(pdfValues.f14VermoegenswerteC.value).toBe(false);
@@ -254,6 +252,22 @@ describe("F_besitz", () => {
       );
       expect(attachment.length).toBe(0);
     });
+
+    test.each([
+      [{ hasGeldanlage: "yes" }, [false, true]],
+      [{ hasWertsache: "yes" }, [false, true]],
+      [{ hasGeldanlage: "no", hasWertsache: "no" }, [true, false]],
+      [{}, [false, false]],
+    ] as const)("userData %o sets ownership to %s", (userData, expected) => {
+      const { pdfValues } = pdfFillReducer({
+        userData,
+        pdfParams: getBeratungshilfeParameters(),
+        fillFunctions: [fillVermoegenswerte],
+      });
+      expect(pdfValues.f13Vermoegenswerte1.value).toBe(expected[0]);
+      expect(pdfValues.f13Vermoegenswerte2.value).toBe(expected[1]);
+    });
+
     it("should fill pdf field when geldanlage is given in context", () => {
       const { pdfValues, attachment } = pdfFillReducer({
         userData: {
@@ -268,9 +282,6 @@ describe("F_besitz", () => {
         pdfParams: getBeratungshilfeParameters(),
         fillFunctions: [fillVermoegenswerte],
       });
-
-      expect(pdfValues.f13Vermoegenswerte1.value).toBe(false);
-      expect(pdfValues.f13Vermoegenswerte2.value).toBe(true);
       expect(pdfValues.f14InhaberA.value).toBe(false);
       expect(pdfValues.f14InhaberB.value).toBe(true);
       expect(pdfValues.f14VermoegenswerteC.value).toBe(false);
@@ -283,6 +294,8 @@ describe("F_besitz", () => {
 
     it("should add attachment when multiple vermoegen is present", () => {
       const userData: BeratungshilfeFormularContext = {
+        hasWertsache: "yes",
+        hasGeldanlage: "yes",
         wertsachen: [
           {
             eigentuemer: "myself",

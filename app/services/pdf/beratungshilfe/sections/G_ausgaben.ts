@@ -1,6 +1,5 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { besondereBelastungenSchema } from "~/flows/shared/finanzielleAngaben/context";
-import { arrayIsNonEmpty } from "~/util/array";
 import type { BerHPdfFillFunction } from "..";
 import { type AttachmentEntries, newPageHint } from "../../attachment";
 import { checkboxListToString } from "../../checkboxListToString";
@@ -37,20 +36,16 @@ export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
       ausgabe.zahlungsempfaenger.length > AUSGABEN_MAX_CHARS_FIELD,
   );
 
-  const hasAusgaben = arrayIsNonEmpty(ausgaben);
-
-  pdfValues.g1VerpflichtungenJ.value = hasAusgaben;
-  pdfValues.g1VerpflichtungenN.value = !hasAusgaben;
+  pdfValues.g1VerpflichtungenJ.value = userData.hasAusgaben === "yes";
+  pdfValues.g1VerpflichtungenN.value = userData.hasAusgaben === "no";
 
   const { ausgabensituation } = userData;
-  const hasBesondereBelastung =
-    ausgabensituation?.disability === "on" ||
-    ausgabensituation?.medicalReasons === "on" ||
-    ausgabensituation?.pregnancy === "on" ||
-    ausgabensituation?.singleParent === "on";
+  const belastungen = Object.values(ausgabensituation ?? {});
+  const hasBesondereBelastung = belastungen.some((value) => value === "on");
+  const noBesondereBelastung = !hasBesondereBelastung && belastungen.length > 0;
 
   pdfValues.g9SonstigeBelastungenJ.value = hasBesondereBelastung;
-  pdfValues.g9SonstigeBelastungenN.value = !hasBesondereBelastung;
+  pdfValues.g9SonstigeBelastungenN.value = noBesondereBelastung;
   if (hasBesondereBelastung) {
     pdfValues.g10Belastungen.value = checkboxListToString(
       ausgabenSituationMapping,

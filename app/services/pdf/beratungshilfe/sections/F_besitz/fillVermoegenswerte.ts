@@ -57,8 +57,10 @@ export const fillVermoegenswerte: BerHPdfFillFunction = ({
   const totalVermoegenswerteCount = wertsachen.length + geldanlagen.length;
 
   const hasVermoegenswerte = totalVermoegenswerteCount > 0;
-  pdfValues.f13Vermoegenswerte1.value = !hasVermoegenswerte;
-  pdfValues.f13Vermoegenswerte2.value = hasVermoegenswerte;
+  pdfValues.f13Vermoegenswerte1.value =
+    userData.hasWertsache === "no" && userData.hasGeldanlage === "no";
+  pdfValues.f13Vermoegenswerte2.value =
+    userData.hasWertsache === "yes" || userData.hasGeldanlage === "yes";
 
   if (!hasVermoegenswerte) return { pdfValues };
 
