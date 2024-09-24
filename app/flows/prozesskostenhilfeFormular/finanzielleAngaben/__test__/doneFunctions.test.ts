@@ -68,6 +68,7 @@ describe("Finanzielle Angaben doneFunctions", () => {
             partnerBesondersAusgabe: {
               beschreibung: "hello world",
               betrag: "100",
+              zahlungsfrequenz: "yearly",
             },
           },
         }),

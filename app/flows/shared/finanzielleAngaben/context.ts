@@ -73,6 +73,10 @@ export const bankkontenArraySchema = z.array(
 export const financialEntrySchema = z.object({
   beschreibung: stringRequiredSchema,
   betrag: buildMoneyValidationSchema(),
+  zahlungsfrequenz: z.enum(
+    ["monthly", "quarterly", "yearly", "one-time"],
+    customRequiredErrorMessage,
+  ),
 });
 
 export type FinancialEntry = z.infer<typeof financialEntrySchema>;

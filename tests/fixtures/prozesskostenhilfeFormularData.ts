@@ -5,13 +5,11 @@ import {
   prozesskostenhilfeFinanzielleAngabenContext,
   zahlungspflichtigerSchema,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
-import {
-  prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema,
-  financialEntrySchema,
-} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,
+  financialEntrySchema,
   gelanlagenArraySchema,
   grundeigentumArraySchema,
   kraftfahrzeugeArraySchema,
