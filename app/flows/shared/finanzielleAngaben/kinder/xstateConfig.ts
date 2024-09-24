@@ -1,12 +1,16 @@
 import type { Context } from "~/flows/contexts";
 import type { GenericGuard } from "~/flows/guards.server";
+import type { Config } from "~/services/flow/server/buildFlowController";
+import type { KinderContext } from "./context";
 import { kinderGuards } from "./guards";
 import { kinderDone } from "../../../beratungshilfeFormular/finanzielleAngaben/doneFunctions";
 
-export function getkinderXstateConfig<T extends Context>(transitions?: {
-  onBack?: string | (string | { guard: GenericGuard<T>; target: string })[];
+export function getkinderXstateConfig(transitions?: {
+  onBack?:
+    | string
+    | (string | { guard: GenericGuard<Context>; target: string })[];
   onSubmit?: string;
-}) {
+}): Config<KinderContext> {
   return {
     id: "kinder",
     initial: "kinder-frage",

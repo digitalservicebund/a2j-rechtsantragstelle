@@ -120,7 +120,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
         },
       },
     ),
-    kinder: getkinderXstateConfig<BeratungshilfeFinanzielleAngaben>({
+    kinder: getkinderXstateConfig({
       onBack: [
         {
           guard: guards.hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes,

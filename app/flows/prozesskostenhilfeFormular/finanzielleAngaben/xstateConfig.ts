@@ -1,4 +1,5 @@
 import { getkinderXstateConfig } from "~/flows/shared/finanzielleAngaben/kinder/xstateConfig";
+import type { Config } from "~/services/flow/server/buildFlowController";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
 import { finanzielleAngabeGuards as guards } from "./guards";
 
@@ -102,7 +103,7 @@ export const finanzielleAngabenXstateConfig = {
         },
       },
     },
-    kinder: getkinderXstateConfig<ProzesskostenhilfeFinanzielleAngabenContext>({
+    kinder: getkinderXstateConfig({
       onBack: [
         {
           guard: guards.hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes,
@@ -626,4 +627,4 @@ export const finanzielleAngabenXstateConfig = {
       },
     },
   },
-};
+} satisfies Config<ProzesskostenhilfeFinanzielleAngabenContext>;
