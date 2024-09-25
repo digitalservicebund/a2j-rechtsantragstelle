@@ -51,18 +51,6 @@
             "daten": {
               "on": {
                 "BACK": "#weitere-personen.uebersicht",
-                "SUBMIT": [
-                  {
-                    "guard": "isWeiterePersonensUnter18JahreAlt",
-                    "target": "vertretung-minderjaehrige"
-                  },
-                  "#weitere-personen.uebersicht"
-                ]
-              }
-            },
-            "vertretung-minderjaehrige": {
-              "on": {
-                "BACK": "daten",
                 "SUBMIT": "#weitere-personen.uebersicht"
               }
             }
