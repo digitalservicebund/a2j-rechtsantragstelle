@@ -99,7 +99,7 @@
     "@testing-library/react": "^16.0.1",
     "@types/follow-redirects": "^1.14.4",
     "@types/mustache": "^4.2.5",
-    "@types/node": "^20.16.6",
+    "@types/node": "^20.16.7",
     "@types/react-dom": "^18.3.0",
     "@types/react": "^18.3.9",
     "@types/sanitize-html": "^2.13.0",
@@ -133,7 +133,7 @@
     "typescript": "^5.6.2",
     "vite-env-only": "^3.0.3",
     "vite-tsconfig-paths": "^5.0.1",
-    "vite": "^5.4.7",
+    "vite": "^5.4.8",
     "vitest": "^2.1.1"
   },
   "engines": {
