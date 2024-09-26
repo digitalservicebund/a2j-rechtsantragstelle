@@ -55,6 +55,7 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/flugdaten/geplanter-flug
   await expectPageToBeAccessible({ page });
   await formular.fillInput("direktFlugnummer", "AB1234");
+  await formular.fillInput("buchungsNummer", "X36Q9C");
   await formular.fillInput("direktAbflugsDatum", toGermanDateFormat(today()));
   await formular.fillInput("direktAbflugsZeit", "08:10");
   await formular.fillDropdown("zwischenstoppAnzahl", "oneStop");
