@@ -1,14 +1,12 @@
 import { z } from "zod";
-import { persoenlicheDaten } from "~/flows/shared/persoenlicheDaten/context";
-import { createDateSchema } from "~/services/validation/date";
-import { addYears, today } from "~/util/date";
+import {
+  persoenlicheDaten,
+  geburtsdatum,
+} from "~/flows/shared/persoenlicheDaten/context";
 
 export const beratungshilfePersoenlicheDaten = {
   ...persoenlicheDaten,
-  geburtsdatum: createDateSchema({
-    earliest: () => addYears(today(), -150),
-    latest: () => today(),
-  }).optional(),
+  geburtsdatum,
 };
 
 const _contextObject = z.object(beratungshilfePersoenlicheDaten).partial();
