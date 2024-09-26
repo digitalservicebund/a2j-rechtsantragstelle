@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { airportSchema } from "~/services/validation/airport";
+import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
 import { createDateSchema } from "~/services/validation/date";
 import { flightNumberSchema } from "~/services/validation/flightNumber";
-import { passengerNameRecordSchema } from "~/services/validation/passengerNameRecord";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
@@ -19,7 +19,7 @@ const fourYearsAgoSchema = createDateSchema({
 
 export const fluggastrechteFlugdaten = {
   direktFlugnummer: flightNumberSchema,
-  buchungsNummer: passengerNameRecordSchema,
+  buchungsNummer: bookingNumberFlightSchema,
   direktAbflugsDatum: fourYearsAgoSchema,
   direktAbflugsZeit: timeSchema,
   direktAnkunftsDatum: fourYearsAgoSchema,
