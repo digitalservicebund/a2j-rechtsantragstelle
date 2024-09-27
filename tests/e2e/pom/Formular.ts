@@ -30,7 +30,7 @@ export class Formular {
 
   async clickNext() {
     await this.page.locator(`button[name="${this.nextButtonName}"]`).click();
-    await this.page.waitForNavigation(); // deprecated but URL for waitForURL is unknown
+    await this.page.waitForEvent("domcontentloaded");
   }
 
   async fillRadioPage(field: string, option: string) {
