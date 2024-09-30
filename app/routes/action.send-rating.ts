@@ -5,6 +5,7 @@ import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
 import { flowIdFromPathname } from "~/flows/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { bannerStateName } from "~/services/feedback/getFeedbackBannerState";
+import { getRedirectForNonRelativeUrl } from "~/services/feedback/getRedirectForNonRelativeUrl";
 import { getSessionManager } from "~/services/session.server";
 
 export const loader = () => redirect("/");
@@ -12,14 +13,12 @@ export const loader = () => redirect("/");
 export const action = async ({ request }: ActionFunctionArgs) => {
   const { searchParams } = new URL(request.url);
   const url = searchParams.get("url") ?? "";
-  if (!url.startsWith("/")) {
-    // Abort without redirect on non-relative URLs
-    return json({ success: false }, { status: 400 });
-  }
-  const clientJavaScriptAvailable = searchParams.get("js") === "true";
+  const redirectNonRelative = getRedirectForNonRelativeUrl(url);
+  if (redirectNonRelative) return redirectNonRelative;
 
   // TODO - Improve this block to share same code with action.send-feedback.ts
   const formData = await request.formData();
+  // needs a validation here
 
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(request.headers.get("Cookie"));
@@ -45,6 +44,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   });
 
   const headers = { "Set-Cookie": await commitSession(session) };
+
+  const clientJavaScriptAvailable = searchParams.get("js") === "true";
 
   return clientJavaScriptAvailable
     ? json({ success: true }, { headers })
