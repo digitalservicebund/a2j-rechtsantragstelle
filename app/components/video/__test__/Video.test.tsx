@@ -34,4 +34,15 @@ describe("Video Component", () => {
     expect(queryByTitle("Test Video")).toBeInTheDocument();
     expect(queryByRole("img")).not.toBeInTheDocument();
   });
+
+  it("should still render the thumbnail, given accepted cookies and a broken link", () => {
+    const { getByRole } = render(
+      <Video title={"Test Video"} url={"www.google.com"} />,
+    );
+    expect(getByRole("img")).toBeInTheDocument();
+    expect(getByRole("img")).toHaveProperty(
+      "src",
+      "https://img.youtube.com/vi/undefined/maxresdefault.jpg",
+    );
+  });
 });
