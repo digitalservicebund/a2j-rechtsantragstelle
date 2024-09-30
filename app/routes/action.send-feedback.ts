@@ -24,7 +24,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return validationError(result.error, result.submittedData);
   }
 
-  // second function
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(request.headers.get("Cookie"));
   const userRatingsWasHelpful =
