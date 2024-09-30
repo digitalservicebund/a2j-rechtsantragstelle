@@ -16,6 +16,7 @@ const cases = [
     {
       bereich: "verspaetet",
       direktFlugnummer: "AB1234",
+      buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
       direktAbflugsZeit: "10:00",
       direktAnkunftsDatum: "02.05.2023",
@@ -43,6 +44,7 @@ const cases = [
     {
       bereich: "verspaetet",
       direktFlugnummer: "AB1234",
+      buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
       direktAbflugsZeit: "10:00",
       direktAnkunftsDatum: "02.05.2023",
@@ -67,6 +69,7 @@ const cases = [
     {
       bereich: "verspaetet",
       direktFlugnummer: "AB1234",
+      buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
       direktAbflugsZeit: "10:00",
       direktAnkunftsDatum: "02.05.2023",
@@ -86,6 +89,7 @@ const cases = [
     {
       bereich: "verspaetet",
       direktFlugnummer: "AB1234",
+      buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
       direktAbflugsZeit: "10:00",
       direktAnkunftsDatum: "02.05.2023",
@@ -105,6 +109,7 @@ const cases = [
     {
       bereich: "verspaetet",
       direktFlugnummer: "AB1234",
+      buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
       direktAbflugsZeit: "10:00",
       direktAnkunftsDatum: "02.05.2023",
@@ -124,6 +129,7 @@ const cases = [
     {
       bereich: "verspaetet",
       direktFlugnummer: "AB1234",
+      buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
       direktAbflugsZeit: "10:00",
       direktAnkunftsDatum: "02.05.2023",
@@ -143,6 +149,7 @@ const cases = [
     {
       bereich: "nichtbefoerderung",
       direktFlugnummer: "AB1234",
+      buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
       direktAbflugsZeit: "10:00",
       direktAnkunftsDatum: "02.05.2023",
@@ -168,6 +175,7 @@ const cases = [
     {
       bereich: "verspaetet",
       direktFlugnummer: "AB1234",
+      buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
       direktAbflugsZeit: "10:00",
       direktAnkunftsDatum: "02.05.2023",
@@ -185,6 +193,7 @@ const cases = [
     {
       bereich: "annullierung",
       direktFlugnummer: "AB1234",
+      buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
       direktAbflugsZeit: "10:00",
       zwischenstoppAnzahl: "no",
@@ -209,6 +218,7 @@ const cases = [
     {
       bereich: "annullierung",
       direktFlugnummer: "AB1234",
+      buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
       direktAbflugsZeit: "10:00",
       zwischenstoppAnzahl: "no",
