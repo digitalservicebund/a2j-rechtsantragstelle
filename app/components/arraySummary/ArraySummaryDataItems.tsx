@@ -4,7 +4,7 @@ import { WEITERE_PERSONEN_START_INDEX } from "~/flows/fluggastrechteFormular/str
 import type { ArrayConfig } from "~/services/array";
 import type { Translations } from "~/services/cms/index.server";
 import { interpolateSerializableObject } from "~/util/fillTemplate";
-import { getTranslationByKey } from "~/util/getTranslationByKey";
+import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import Heading from "../Heading";
 
 type ArraySummaryItemProps = {

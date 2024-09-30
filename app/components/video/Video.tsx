@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import Container from "~/components/Container";
 import { DataProtectionBanner } from "~/components/video/DataProtectionBanner";
-import { useVideoTranslations } from "~/components/video/VideoTranslationContext";
-import { getTranslationByKey } from "~/util/getTranslationByKey";
+import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
+import { useTranslations } from "~/services/translations/translationsContext";
 import { getYoutubeVideoId } from "~/util/url";
 
 type VideoProps = {
@@ -14,7 +14,7 @@ const THUMBNAIL_TRANSLATION_KEY = "video-thumbnail";
 
 const Video = ({ title, url }: VideoProps) => {
   const [cookiesAccepted, setCookiesAccepted] = useState<boolean>();
-  const { translations } = useVideoTranslations();
+  const { video: translations } = useTranslations();
   const ytVideoId = getYoutubeVideoId(url);
 
   const Thumbnail = () => (
