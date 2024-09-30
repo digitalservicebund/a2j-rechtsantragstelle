@@ -35,7 +35,7 @@ describe("Video Component", () => {
     expect(queryByRole("img")).not.toBeInTheDocument();
   });
 
-  it("should still render the thumbnail, given accepted cookies and a broken link", () => {
+  it("should still render the thumbnail given a broken link", () => {
     const { getByRole } = render(
       <Video title={"Test Video"} url={"www.google.com"} />,
     );
