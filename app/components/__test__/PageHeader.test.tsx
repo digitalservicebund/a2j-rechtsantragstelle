@@ -8,6 +8,10 @@ describe("PageHeader", () => {
         title={"Justiz-Services"}
         linkLabel={"Justiz-Services"}
         hideLinks={false}
+        translations={{
+          gebaerdensprache: "Gebärdensprache",
+          leichtesprache: "Leichte Sprache",
+        }}
       />,
     );
     const title = screen.getByText("Justiz-Services");
@@ -19,7 +23,15 @@ describe("PageHeader", () => {
 
   it("should be able to hide the header links", () => {
     render(
-      <PageHeader title={"Test Page"} linkLabel={"Test Page"} hideLinks />,
+      <PageHeader
+        title={"Test Page"}
+        linkLabel={"Test Page"}
+        translations={{
+          gebaerdensprache: "Gebärdensprache",
+          leichtesprache: "Leichte Sprache",
+        }}
+        hideLinks
+      />,
     );
     expect(screen.queryByText("Leichte Sprache")).not.toBeInTheDocument();
     expect(screen.queryByText("Gebärdensprache")).not.toBeInTheDocument();
