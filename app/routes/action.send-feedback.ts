@@ -6,10 +6,9 @@ import { feedbackValidator } from "~/components/userFeedback/FeedbackFormBox";
 import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
 import { flowIdFromPathname } from "~/flows/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
+import { bannerStateName } from "~/services/feedback/getFeedbackBannerState";
 import { getRedirectForNonRelativeUrl } from "~/services/feedback/getRedirectForNonRelativeUrl";
 import { getSessionManager } from "~/services/session.server";
-
-export const bannerStateName = "bannerState";
 
 export const loader = () => redirect("/");
 
