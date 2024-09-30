@@ -7,6 +7,9 @@ import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { bannerStateName } from "~/services/feedback/getFeedbackBannerState";
 import { getRedirectForNonRelativeUrl } from "~/services/feedback/getRedirectForNonRelativeUrl";
 import { getSessionManager } from "~/services/session.server";
+import { validationError } from "remix-validated-form";
+import { withZod } from "@remix-validated-form/with-zod";
+import { z } from "zod";
 
 export const loader = () => redirect("/");
 
@@ -16,9 +19,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const redirectNonRelative = getRedirectForNonRelativeUrl(url);
   if (redirectNonRelative) return redirectNonRelative;
 
-  // TODO - Improve this block to share same code with action.send-feedback.ts
   const formData = await request.formData();
-  // needs a validation here
+  const result = await withZod(
+    z.object({ wasHelpful: z.enum(["yes", "no"]) }),
+  ).validate(formData);
+  if (result.error) {
+    return validationError(result.error, result.submittedData);
+  }
 
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(request.headers.get("Cookie"));

@@ -23,6 +23,7 @@ enum FeedbackButtons {
   Submit = "submit",
 }
 
+// TODO: check length of input?
 export const feedbackValidator = withZod(
   z.object({
     feedback: z

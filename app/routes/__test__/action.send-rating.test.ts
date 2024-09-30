@@ -8,6 +8,7 @@ describe("/action/send-rating route", () => {
   const options = {
     method: "POST",
     body: new URLSearchParams(),
+    formData: {wasHelpful: "yes"}
   };
 
   vi.mocked(getSessionManager).mockReturnValue({
