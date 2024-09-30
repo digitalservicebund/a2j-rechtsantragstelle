@@ -1,15 +1,15 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
+import { withZod } from "@remix-validated-form/with-zod";
+import { validationError } from "remix-validated-form";
+import { z } from "zod";
 import { BannerState, USER_FEEDBACK_ID } from "~/components/userFeedback";
 import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
 import { flowIdFromPathname } from "~/flows/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { bannerStateName } from "~/services/feedback/getFeedbackBannerState";
 import { getRedirectForNonRelativeUrl } from "~/services/feedback/getRedirectForNonRelativeUrl";
+import { updateBannerState } from "~/services/feedback/updateBannerState";
 import { getSessionManager } from "~/services/session.server";
-import { validationError } from "remix-validated-form";
-import { withZod } from "@remix-validated-form/with-zod";
-import { z } from "zod";
 
 export const loader = () => redirect("/");
 
@@ -29,28 +29,23 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(request.headers.get("Cookie"));
-
-  const userRatings =
+  const userRatingsWasHelpful =
     (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
-  userRatings[url] = formData.get(userRatingFieldname) === "yes";
-  session.set(userRatingFieldname, userRatings);
+  userRatingsWasHelpful[url] = result.data.wasHelpful === "yes";
+  session.set(userRatingFieldname, userRatingsWasHelpful);
 
-  const bannerStates =
-    (session.get(bannerStateName) as Record<string, BannerState>) ?? {};
-  bannerStates[url] = BannerState.ShowFeedback;
-  session.set(bannerStateName, bannerStates);
+  updateBannerState(session, BannerState.ShowFeedback, url);
+  const headers = { "Set-Cookie": await commitSession(session) };
 
   sendCustomAnalyticsEvent({
     eventName: "rating given",
     request,
     properties: {
-      wasHelpful: userRatings[url],
+      wasHelpful: userRatingsWasHelpful[url],
       url,
       flowId: flowIdFromPathname(url) ?? "",
     },
   });
-
-  const headers = { "Set-Cookie": await commitSession(session) };
 
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
 

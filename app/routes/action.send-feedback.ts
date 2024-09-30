@@ -6,8 +6,8 @@ import { feedbackValidator } from "~/components/userFeedback/FeedbackFormBox";
 import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
 import { flowIdFromPathname } from "~/flows/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { bannerStateName } from "~/services/feedback/getFeedbackBannerState";
 import { getRedirectForNonRelativeUrl } from "~/services/feedback/getRedirectForNonRelativeUrl";
+import { updateBannerState } from "~/services/feedback/updateBannerState";
 import { getSessionManager } from "~/services/session.server";
 
 export const loader = () => redirect("/");
@@ -27,27 +27,22 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // second function
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(request.headers.get("Cookie"));
-
-  const userRatings =
+  const userRatingsWasHelpful =
     (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
 
-  const bannerStates =
-    (session.get(bannerStateName) as Record<string, BannerState>) ?? {};
-  bannerStates[url] = BannerState.FeedbackGiven;
-  session.set(bannerStateName, bannerStates);
+  updateBannerState(session, BannerState.FeedbackGiven, url);
+  const headers = { "Set-Cookie": await commitSession(session) };
 
   sendCustomAnalyticsEvent({
     eventName: "feedback given",
     request,
     properties: {
-      wasHelpful: userRatings[url],
+      wasHelpful: userRatingsWasHelpful[url],
       feedback: result.data?.feedback ?? "",
       url,
       flowId: flowIdFromPathname(url) ?? "",
     },
   });
-
-  const headers = { "Set-Cookie": await commitSession(session) };
 
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
 
