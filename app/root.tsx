@@ -191,7 +191,7 @@ function App() {
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
-        <CookieConsentContext.Provider value={{ hasTrackingConsent }}>
+        <CookieConsentContext.Provider value={hasTrackingConsent}>
           <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
           <Header {...header} />
           <Breadcrumbs breadcrumbs={breadcrumbs} />
