@@ -2,12 +2,9 @@ import { json } from "@remix-run/node";
 import { createRemixStub } from "@remix-run/testing";
 import { fireEvent, render } from "@testing-library/react";
 import { useMemo } from "react";
-import { FeedbackTranslationContext } from "../FeedbackTranslationContext";
-import {
-  NO_RATING_BUTTON_LABEL_TRANSLATION_KEY,
-  RatingBox,
-  YES_RATING_BUTTON_LABEL_TRANSLATION_KEY,
-} from "../RatingBox";
+import { TranslationContext } from "~/services/translations/translationsContext";
+import type { RatingBoxTranslationKeys } from "../feedbackTranslations";
+import { RatingBox } from "../RatingBox";
 
 const YES_RATING = "yes";
 const NO_RATING = "no";
@@ -16,17 +13,18 @@ describe("RatingBox", () => {
   const FeedbackContextComponent = (props: { children: React.ReactNode }) => {
     const feedbackTranslationMemo = useMemo(
       () => ({
-        translations: {
-          [YES_RATING_BUTTON_LABEL_TRANSLATION_KEY]: YES_RATING,
-          [NO_RATING_BUTTON_LABEL_TRANSLATION_KEY]: NO_RATING,
-        },
+        feedback: {
+          ["yes-rating"]: YES_RATING,
+          ["no-rating"]: NO_RATING,
+        } satisfies Record<RatingBoxTranslationKeys, string>,
+        video: {},
       }),
       [],
     );
     return (
-      <FeedbackTranslationContext.Provider value={feedbackTranslationMemo}>
+      <TranslationContext.Provider value={feedbackTranslationMemo}>
         {props.children}
-      </FeedbackTranslationContext.Provider>
+      </TranslationContext.Provider>
     );
   };
 
