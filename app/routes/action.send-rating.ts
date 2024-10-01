@@ -1,4 +1,4 @@
-import type { ActionFunctionArgs } from "@remix-run/node";
+import type { ActionFunctionArgs, Session, SessionData } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { withZod } from "@remix-validated-form/with-zod";
 import { validationError } from "remix-validated-form";
@@ -13,6 +13,17 @@ import { getSessionManager } from "~/services/session.server";
 
 export const loader = () => redirect("/");
 
+const updateRatingWasHepful = (
+  session: Session<SessionData, SessionData>,
+  wasHelpful: "yes" | "no",
+  url: string,
+) => {
+  const userRatingsWasHelpful =
+    (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
+  userRatingsWasHelpful[url] = wasHelpful === "yes";
+  session.set(userRatingFieldname, userRatingsWasHelpful);
+};
+
 export const action = async ({ request }: ActionFunctionArgs) => {
   const { searchParams } = new URL(request.url);
   const url = searchParams.get("url") ?? "";
@@ -20,20 +31,16 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (redirectNonRelative) return redirectNonRelative;
 
   const formData = await request.formData();
-  const result = await withZod(
+  const { error, submittedData, data } = await withZod(
     z.object({ wasHelpful: z.enum(["yes", "no"]) }),
   ).validate(formData);
-  if (result.error) {
-    return validationError(result.error, result.submittedData);
+  if (error) {
+    return validationError(error, submittedData);
   }
 
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(request.headers.get("Cookie"));
-  const userRatingsWasHelpful =
-    (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
-  userRatingsWasHelpful[url] = result.data.wasHelpful === "yes";
-  session.set(userRatingFieldname, userRatingsWasHelpful);
-
+  updateRatingWasHepful(session, data.wasHelpful, url);
   updateBannerState(session, BannerState.ShowFeedback, url);
   const headers = { "Set-Cookie": await commitSession(session) };
 
@@ -41,7 +48,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     eventName: "rating given",
     request,
     properties: {
-      wasHelpful: userRatingsWasHelpful[url],
+      wasHelpful: data.wasHelpful === "yes",
       url,
       flowId: flowIdFromPathname(url) ?? "",
     },
