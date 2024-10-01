@@ -4,6 +4,13 @@ import { action } from "../action.send-rating";
 vi.mock("~/services/session.server");
 vi.stubEnv("POSTHOG_API_KEY", "-");
 
+vi.mocked(getSessionManager).mockReturnValue({
+  getSession: vi.fn().mockReturnValue({ get: () => ({}), set: vi.fn() }),
+  commitSession: vi.fn(),
+  destroySession: vi.fn(),
+  getDebugId: vi.fn(),
+});
+
 const formData = new FormData();
 formData.append("wasHelpful", "yes");
 
@@ -13,13 +20,6 @@ const options = {
 };
 
 describe("/action/send-rating route", () => {
-  vi.mocked(getSessionManager).mockReturnValue({
-    getSession: vi.fn().mockReturnValue({ get: () => ({}), set: vi.fn() }),
-    commitSession: vi.fn(),
-    destroySession: vi.fn(),
-    getDebugId: vi.fn(),
-  });
-
   it("returns ok", async () => {
     const request = new Request(
       `http://localhost:3000/action/send-rating?url=/asd&js=true`,
