@@ -2,15 +2,12 @@ import ThumbDownIcon from "@digitalservicebund/icons/ThumbDownOutlined";
 import ThumbUpIcon from "@digitalservicebund/icons/ThumbUpOutlined";
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import { getTranslationByKey } from "~/util/getTranslationByKey";
-import { useFeedbackTranslations } from "./FeedbackTranslationContext";
+import { useFeedbackTranslations } from "./feedbackTranslations";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 import Heading from "../Heading";
 
 export const userRatingFieldname = "wasHelpful";
-export const YES_RATING_BUTTON_LABEL_TRANSLATION_KEY = "yes-rating";
-export const NO_RATING_BUTTON_LABEL_TRANSLATION_KEY = "no-rating";
 
 export interface RatingBoxProps {
   readonly heading: string;
@@ -23,16 +20,7 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
 
-  const { translations } = useFeedbackTranslations();
-
-  const yesButtonLabel = getTranslationByKey(
-    YES_RATING_BUTTON_LABEL_TRANSLATION_KEY,
-    translations,
-  );
-  const noButtonLabel = getTranslationByKey(
-    NO_RATING_BUTTON_LABEL_TRANSLATION_KEY,
-    translations,
-  );
+  const feedbackTranslations = useFeedbackTranslations();
 
   return (
     <>
@@ -50,9 +38,9 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
             name={userRatingFieldname}
             value="yes"
             type="submit"
-            aria-label={`${heading}, ${yesButtonLabel}`}
+            aria-label={`${heading}, ${feedbackTranslations["yes-rating"]}`}
           >
-            {yesButtonLabel}
+            {feedbackTranslations["yes-rating"]}
           </Button>
           <Button
             iconLeft={<ThumbDownIcon />}
@@ -60,9 +48,9 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
             name={userRatingFieldname}
             value="no"
             type="submit"
-            aria-label={`${heading}, ${noButtonLabel}`}
+            aria-label={`${heading}, ${feedbackTranslations["no-rating"]}`}
           >
-            {noButtonLabel}
+            {feedbackTranslations["no-rating"]}
           </Button>
         </ButtonContainer>
       </ratingFetcher.Form>
