@@ -3,8 +3,8 @@ import { createRemixStub } from "@remix-run/testing";
 import { fireEvent, render } from "@testing-library/react";
 import { useMemo } from "react";
 import { TranslationContext } from "~/services/translations/translationsContext";
-import { RatingBox } from "../RatingBox";
 import type { RatingBoxTranslationKeys } from "../feedbackTranslations";
+import { RatingBox } from "../RatingBox";
 
 const YES_RATING = "yes";
 const NO_RATING = "no";

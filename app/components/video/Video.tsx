@@ -12,29 +12,37 @@ type VideoProps = {
 
 const THUMBNAIL_TRANSLATION_KEY = "video-thumbnail";
 
-const Video = ({ title, url }: VideoProps) => {
-  const [cookiesAccepted, setCookiesAccepted] = useState<boolean>();
-  const { video: translations } = useTranslations();
-  const ytVideoId = getYoutubeVideoId(url);
+const YoutubeIFrame = ({
+  videoId,
+  title,
+}: {
+  videoId: string;
+  title: string;
+}) => (
+  <iframe
+    src={`https://www.youtube-nocookie.com/embed/${videoId}?cc_load_policy=1&cc_lang_pref=de`}
+    className="aspect-video"
+    title={title}
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share;"
+    referrerPolicy="strict-origin-when-cross-origin"
+    allowFullScreen
+  ></iframe>
+);
 
-  const Thumbnail = () => (
+const YoutubeThumbnail = ({ videoId }: { videoId?: string }) => {
+  const { video: translations } = useTranslations();
+  return (
     <img
       alt={getTranslationByKey(THUMBNAIL_TRANSLATION_KEY, translations)}
       className="opacity-60"
-      src={`https://img.youtube.com/vi/${ytVideoId}/maxresdefault.jpg`}
+      src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
     ></img>
   );
+};
 
-  const Video = () => (
-    <iframe
-      src={`https://www.youtube-nocookie.com/embed/${ytVideoId}?cc_load_policy=1&cc_lang_pref=de`}
-      className="aspect-video"
-      title={title}
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share;"
-      referrerPolicy="strict-origin-when-cross-origin"
-      allowFullScreen
-    ></iframe>
-  );
+const Video = ({ title, url }: VideoProps) => {
+  const [cookiesAccepted, setCookiesAccepted] = useState<boolean>();
+  const ytVideoId = getYoutubeVideoId(url);
 
   const acceptCookies = useCallback(() => {
     setCookiesAccepted(true);
@@ -43,11 +51,11 @@ const Video = ({ title, url }: VideoProps) => {
   return (
     <Container>
       <div className="flex flex-col relative">
-        {cookiesAccepted ? (
-          <Video />
+        {cookiesAccepted && ytVideoId ? (
+          <YoutubeIFrame videoId={ytVideoId} title={title} />
         ) : (
           <>
-            <Thumbnail />
+            <YoutubeThumbnail videoId={ytVideoId} />
             <DataProtectionBanner onCookiesAccepted={acceptCookies} />
           </>
         )}
