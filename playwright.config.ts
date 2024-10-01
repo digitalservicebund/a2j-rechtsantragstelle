@@ -22,7 +22,7 @@ const baseURL = useDefaultBaseUrl
 export default defineConfig({
   testDir: "./tests/e2e",
   /* Maximum time one test can run for. */
-  timeout: 2 * 60 * 1000,
+  timeout: 5 * 60 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.

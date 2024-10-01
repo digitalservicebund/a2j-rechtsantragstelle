@@ -5,13 +5,11 @@ import {
   prozesskostenhilfeFinanzielleAngabenContext,
   zahlungspflichtigerSchema,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
-import {
-  prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema,
-  financialEntrySchema,
-} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,
+  financialEntrySchema,
   gelanlagenArraySchema,
   grundeigentumArraySchema,
   kraftfahrzeugeArraySchema,
@@ -69,8 +67,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   weitereEinkuenfte: faker.helpers.multiple(createFinancialEntry),
   partnerschaft: YesNoAnswer.Enum.yes,
   zusammenleben: YesNoAnswer.Enum.yes,
-  partnerEinkommen: YesNoAnswer.Enum.yes,
-  partnerEinkommenSumme: faker.finance.amount(),
+  partnerEinkommen: YesNoAnswer.Enum.no,
   hasKinder: YesNoAnswer.Enum.yes,
   hasWeitereUnterhaltszahlungen: YesNoAnswer.Enum.yes,
   bankkonten: [
