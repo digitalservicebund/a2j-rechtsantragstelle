@@ -1,9 +1,9 @@
 import { useFetcher, useLocation } from "@remix-run/react";
 import { posthog } from "posthog-js";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
-import { useCookieConsent } from "~/components/cookieBanner/CookieConsentContext";
+import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import Heading, { type HeadingProps } from "~/components/Heading";
 import RichText, { type RichTextProps } from "~/components/RichText";
 import { config } from "~/services/env/web";
@@ -22,10 +22,10 @@ export type CookieBannerContentProps = {
 
 export function CookieBanner({
   content,
-}: {
+}: Readonly<{
   content: CookieBannerContentProps;
-}) {
-  const { hasTrackingConsent } = useCookieConsent();
+}>) {
+  const hasTrackingConsent = useContext(CookieConsentContext);
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
   const [posthogLoaded, setPosthogLoaded] = useState(false);
   const [clientJavaScriptAvailable, setClientJavaScriptAvailable] =
