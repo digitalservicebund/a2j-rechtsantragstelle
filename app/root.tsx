@@ -19,6 +19,7 @@ import {
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
+import { useMemo } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import { VideoTranslationContext } from "~/components/video/VideoTranslationContext";
 import { flowIdFromPathname } from "~/flows/flowIds";
@@ -173,6 +174,15 @@ function App() {
   // eslint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
 
+  const feedbackTranslationMemo = useMemo(
+    () => ({ translations: feedbackTranslations }),
+    [feedbackTranslations],
+  );
+  const videoTranslationMemo = useMemo(
+    () => ({ translations: videoTranslations }),
+    [videoTranslations],
+  );
+
   return (
     <html lang="de">
       <head>
@@ -191,16 +201,12 @@ function App() {
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
-        <CookieConsentContext.Provider value={{ hasTrackingConsent }}>
+        <CookieConsentContext.Provider value={hasTrackingConsent}>
           <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
           <Header {...header} />
           <Breadcrumbs breadcrumbs={breadcrumbs} />
-          <FeedbackTranslationContext.Provider
-            value={{ translations: feedbackTranslations }}
-          >
-            <VideoTranslationContext.Provider
-              value={{ translations: videoTranslations }}
-            >
+          <FeedbackTranslationContext.Provider value={feedbackTranslationMemo}>
+            <VideoTranslationContext.Provider value={videoTranslationMemo}>
               <main className="flex-grow">
                 <Outlet />
               </main>
