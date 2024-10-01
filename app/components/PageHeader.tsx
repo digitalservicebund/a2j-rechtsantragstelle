@@ -31,14 +31,12 @@ export default function Header({
         </a>
         {!hideLinks && (
           <div className="flex gap-20 max-sm:pt-16">
-            {/* TODO: Add strapi translations */}
             <StandaloneLink
               url={"/leichtesprache"}
               text={translations.leichtesprache}
               className="flex basis-1/2 ds-label-03-reg items-center"
               icon={<LocalLibrary className="inline mr-10" />}
             />
-            {/* TODO: Add strapi translations */}
             <StandaloneLink
               url={"/gebaerdensprache"}
               text={translations.gebaerdensprache}
