@@ -4,6 +4,7 @@ import { withZod } from "@remix-validated-form/with-zod";
 import { useEffect, useRef, useState } from "react";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
+import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { getTranslationByKey } from "~/util/getTranslationByKey";
 import { useFeedbackTranslations } from "./FeedbackTranslationContext";
 import Button from "../Button";
@@ -23,11 +24,11 @@ enum FeedbackButtons {
   Submit = "submit",
 }
 
-// TODO: check length of input?
 export const feedbackValidator = withZod(
   z.object({
     feedback: z
       .string()
+      .max(TEXTAREA_CHAR_LIMIT, { message: "max" })
       .refine(
         (feedback) => !/\s0\d/.test(feedback),
         "Bitte geben sie keine Telefonnummer ein.",
