@@ -26,21 +26,28 @@ describe("throw404OnProduction", () => {
   });
 
   it("should throw a 404 Response in production environment", () => {
-    // @ts-ignore
-    vi.mocked(config).mockReturnValue({ ENVIRONMENT: "production" });
+    vi.mocked(config).mockReturnValue({
+      ENVIRONMENT: "production",
+      POSTHOG_API_HOST: "",
+      POSTHOG_API_KEY: "",
+      SENTRY_DSN: "",
+    });
 
     try {
       throw404OnProduction();
     } catch (error) {
       expect(error).toBeInstanceOf(Response);
-      // @ts-ignore
-      expect(error.status).toBe(404);
+      expect((error as Response).status).toBe(404);
     }
   });
 
   it("should not throw in non-production environment", () => {
-    // @ts-ignore
-    vi.mocked(config).mockReturnValue({ ENVIRONMENT: "development" });
+    vi.mocked(config).mockReturnValue({
+      ENVIRONMENT: "development",
+      POSTHOG_API_HOST: "",
+      POSTHOG_API_KEY: "",
+      SENTRY_DSN: "",
+    });
 
     expect(() => throw404OnProduction()).not.toThrow();
   });
@@ -62,8 +69,7 @@ describe("throw404IfFeatureFlagDisabled", () => {
       await throw404IfFeatureFlagDisabled("showProzesskostenhilfeFlow");
     } catch (error) {
       expect(error).toBeInstanceOf(Response);
-      // @ts-ignore
-      expect(error.status).toBe(404);
+      expect((error as Response).status).toBe(404);
     }
   });
 
