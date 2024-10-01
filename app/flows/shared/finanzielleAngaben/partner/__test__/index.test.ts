@@ -1,16 +1,22 @@
-import { finanzielleAngabenPartnerTargetReplacements as beratungsHilfeTargetReplacements } from "~/flows/beratungshilfeFormular/finanzielleAngaben/xstateConfig";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
+
+const replacements = {
+  backStep: "#einkommen.einkommen",
+  playsNoRoleTarget: "#kinder.kinder-frage",
+  partnerNameTarget: "#kinder.kinder-frage",
+  partnerIncomeTarget: "partner-einkommen-summe",
+  nextStep: "#kinder.kinder-frage",
+} as const;
 
 describe("getFinanzielleAngabenPartnerSubflow", () => {
   describe("beratungshilfeFormular target replacements", () => {
-    it.each(Object.entries(beratungsHilfeTargetReplacements))(
+    const partnerSubflowJson = JSON.stringify(
+      getFinanzielleAngabenPartnerSubflow(vi.fn(), replacements),
+    );
+    it.each(Object.entries(replacements))(
       "%s should be replaced by %s",
-      (_targetName, desiredReplacement) => {
-        const partnerSubflow = getFinanzielleAngabenPartnerSubflow(
-          vi.fn(),
-          beratungsHilfeTargetReplacements,
-        );
-        expect(JSON.stringify(partnerSubflow)).toContain(desiredReplacement);
+      (_, desiredReplacement) => {
+        expect(partnerSubflowJson).toContain(desiredReplacement);
       },
     );
   });

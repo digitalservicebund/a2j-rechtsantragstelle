@@ -52,16 +52,6 @@ export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo: FinanzielleAng
   ({ context }) =>
     hasPartnerschaftYesAndZusammenlebenNo({ context }) &&
     context.unterhalt == "no";
-export const isPartnerschaftZusammenlebenEinkommenNo: FinanzielleAngabenGuard =
-  ({ context }) =>
-    context.partnerschaft === "yes" &&
-    context.zusammenleben === "yes" &&
-    context.partnerEinkommen === "no";
-export const isPartnerschaftZusammenlebenEinkommenYes: FinanzielleAngabenGuard =
-  ({ context }) =>
-    context.partnerschaft === "yes" &&
-    context.zusammenleben === "yes" &&
-    context.partnerEinkommen === "yes";
 export const kindWohnortBeiAntragstellerYes: FinanzielleAngabenGuard = ({
   context: { pageData, kinder },
 }) => {

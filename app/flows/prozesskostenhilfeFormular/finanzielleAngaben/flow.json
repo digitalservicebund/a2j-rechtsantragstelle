@@ -3,134 +3,13 @@
   "id": "finanzielle-angaben",
   "states": {
     "einkuenfte": {},
-    "partner": {
-      "id": "partner",
-      "initial": "partnerschaft",
-      "on": {
-        "SUBMIT": "#kinder"
-      },
-      "states": {
-        "partnerschaft": {
-          "on": {
-            "BACK": [
-              {
-                "guard": "hasFurtherIncome",
-                "target": "#einkuenfte.weitere-einkuenfte.uebersicht"
-              },
-              "#einkuenfte.weitere-einkuenfte.frage"
-            ],
-            "SUBMIT": [
-              {
-                "guard": "hasPartnerschaftYes",
-                "target": "zusammenleben"
-              }
-            ]
-          }
-        },
-        "zusammenleben": {
-          "on": {
-            "BACK": "partnerschaft",
-            "SUBMIT": [
-              {
-                "guard": "zusammenlebenYes",
-                "target": "partner-einkommen"
-              },
-              {
-                "guard": "zusammenlebenNo",
-                "target": "unterhalt"
-              }
-            ]
-          }
-        },
-        "unterhalt": {
-          "on": {
-            "BACK": "zusammenleben",
-            "SUBMIT": [
-              {
-                "guard": "unterhaltYes",
-                "target": "unterhalts-summe"
-              },
-              {
-                "guard": "unterhaltNo",
-                "target": "keine-rolle"
-              }
-            ]
-          }
-        },
-        "keine-rolle": {
-          "on": {
-            "BACK": "unterhalt",
-            "SUBMIT": "#kinder.kinder-frage"
-          }
-        },
-        "unterhalts-summe": {
-          "on": {
-            "BACK": "unterhalt",
-            "SUBMIT": "partner-name"
-          }
-        },
-        "partner-name": {
-          "on": {
-            "BACK": "unterhalts-summe",
-            "SUBMIT": "#kinder.kinder-frage"
-          }
-        },
-        "partner-einkommen": {
-          "on": {
-            "BACK": "zusammenleben",
-            "SUBMIT": [
-              {
-                "guard": "partnerEinkommenYes",
-                "target": "partner-einkommen-summe"
-              },
-              {
-                "guard": "partnerEinkommenNo",
-                "target": "#kinder.kinder-frage"
-              }
-            ]
-          }
-        },
-        "partner-einkommen-summe": {
-          "on": {
-            "BACK": "partner-einkommen",
-            "SUBMIT": "#kinder.kinder-frage"
-          }
-        }
-      }
-    },
+    "partner": {},
     "kinder": {
       "id": "kinder",
       "initial": "kinder-frage",
       "states": {
         "kinder-frage": {
           "on": {
-            "BACK": [
-              {
-                "guard": "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes",
-                "target": "#partner.partner-name"
-              },
-              {
-                "guard": "hasPartnerschaftYesAndPartnerEinkommenYes",
-                "target": "#partner.partner-einkommen-summe"
-              },
-              {
-                "guard": "hasPartnerschaftYesAndZusammenlebenYes",
-                "target": "#partner.partner-einkommen"
-              },
-              {
-                "guard": "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo",
-                "target": "#partner.keine-rolle"
-              },
-              {
-                "guard": "hasPartnerschaftYesAndZusammenlebenNo",
-                "target": "#partner.unterhalt"
-              },
-              {
-                "guard": "hasPartnerschaftYes",
-                "target": "#partner.zusammenleben"
-              },
-              "#partner"
-            ],
             "SUBMIT": [
               {
                 "guard": "hasKinderYes",

@@ -1,5 +1,7 @@
+import { faker } from "@faker-js/faker";
 import { expect, test } from "@playwright/test";
 import { startFinanzielleAngabenEinkuenfte } from "tests/e2e/flowPages/prozesskostenhilfe/formular/finanzielleAngabenEinkuenfte";
+import { startFinanzielleAngabenEinkuenftePartner } from "tests/e2e/flowPages/prozesskostenhilfe/formular/finanzielleAngabenEinkuenftePartner";
 import { CookieSettings } from "tests/e2e/pom/CookieSettings";
 import { ProzesskostenhilfeFormular } from "tests/e2e/pom/ProzesskostenhilfeFormular";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
@@ -51,6 +53,29 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/partner/partnerschaft
   await startFinanzielleAngabenPartner(page, prozesskostenhilfeFormular);
+  await startFinanzielleAngabenEinkuenftePartner(
+    page,
+    prozesskostenhilfeFormular,
+  );
+  // /prozesskostenhilfe/formular/finanzielle-angaben/partner-einkuenfte/partner-besonders-ausgaben
+  await expectPageToBeAccessible({ page });
+  await prozesskostenhilfeFormular.fillRadioPage(
+    "partnerHasBesondersAusgaben",
+    "yes",
+  );
+
+  // /prozesskostenhilfe/formular/finanzielle-angaben/partner-einkuenfte/add-partner-besonders-ausgaben
+  await expectPageToBeAccessible({ page });
+  await prozesskostenhilfeFormular.fillInput(
+    "partnerBesondersAusgabe.beschreibung",
+    faker.word.sample(),
+  );
+  await prozesskostenhilfeFormular.fillInput(
+    "partnerBesondersAusgabe.betrag",
+    faker.finance.amount(),
+  );
+  await prozesskostenhilfeFormular.clickNext();
+
   await startFinanzielleAngabenKinder(page, prozesskostenhilfeFormular);
   await startFinanzielleAngabenAndereUnterhaltszahlungen(
     page,
