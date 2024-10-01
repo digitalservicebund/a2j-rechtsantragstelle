@@ -1,4 +1,4 @@
-import type { FinancialEntry } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import type { FinancialEntry } from "~/flows/shared/finanzielleAngaben/context";
 
 export const getTotalMonthlyFinancialEntries = (
   financialEntries: FinancialEntry[],

@@ -26,8 +26,6 @@ import {
   isGeldanlageSonstiges,
   isGeldanlageWertpapiere,
   isKraftfahrzeugWertAbove10000OrUnsure,
-  isPartnerschaftZusammenlebenEinkommenNo,
-  isPartnerschaftZusammenlebenEinkommenYes,
   isValidKinderArrayIndex,
   kindEigeneEinnahmenYes,
   kindUnterhaltNo,
@@ -93,8 +91,6 @@ export const finanzielleAngabeGuards = {
     if (arrayIndex === undefined) return false;
     return ausgaben?.at(arrayIndex)?.hasZahlungsfrist === "yes";
   },
-  isPartnerschaftZusammenlebenEinkommenNo,
-  isPartnerschaftZusammenlebenEinkommenYes,
   kindWohnortBeiAntragstellerYes,
   kindWohnortBeiAntragstellerNo,
   kindEigeneEinnahmenYes,

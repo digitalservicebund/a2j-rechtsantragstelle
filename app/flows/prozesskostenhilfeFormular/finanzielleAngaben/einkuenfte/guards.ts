@@ -1,4 +1,5 @@
 import type { Guards } from "~/flows/guards.server";
+import type { PartnerEinkuenfteContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import {
   staatlicheLeistungenIsBuergergeld,
@@ -11,8 +12,15 @@ import { eigentumDone } from "../eigentumDone";
 const hasAndereArbeitsausgaben: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
   ({ context }) => context.hasArbeitsausgaben === "yes";
 
+const partnerHasAndereArbeitsausgaben: Guards<PartnerEinkuenfteContext>[string] =
+  ({ context }) => context["partner-hasArbeitsausgaben"] === "yes";
+
 const hasFurtherIncome: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
-  ({ context: { hasFurtherIncome } }) => hasFurtherIncome === "yes";
+  ({ context }) => context.hasFurtherIncome === "yes";
+
+const partnerHasFurtherIncome: Guards<PartnerEinkuenfteContext>[string] = ({
+  context,
+}) => context["partner-hasFurtherIncome"] === "yes";
 
 export const finanzielleAngabeEinkuenfteGuards = {
   hasGrundsicherungOrAsylbewerberleistungen: ({ context }) =>
@@ -56,3 +64,49 @@ export const finanzielleAngabeEinkuenfteGuards = {
     context: { pageData, weitereEinkuenfte: furtherIncome },
   }) => isValidArrayIndex(furtherIncome, pageData),
 } satisfies Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>;
+
+export const partnerEinkuenfteGuards = {
+  hasGrundsicherungOrAsylbewerberleistungen: ({ context }) =>
+    context["partner-staatlicheLeistungen"] === "asylbewerberleistungen" ||
+    context["partner-staatlicheLeistungen"] === "grundsicherung",
+  staatlicheLeistungenIsBuergergeld: ({ context }) =>
+    context["partner-staatlicheLeistungen"] === "buergergeld",
+  staatlicheLeistungenIsKeine: ({ context }) =>
+    context["partner-staatlicheLeistungen"] === "keine",
+  staatlicheLeistungenIsArbeitslosengeld: ({ context }) =>
+    context["partner-staatlicheLeistungen"] === "arbeitslosengeld",
+  notEmployed: ({ context }) => context["partner-currentlyEmployed"] === "no",
+  isEmployee: ({ context }) =>
+    context["partner-employmentType"] === "employed" ||
+    context["partner-employmentType"] === "employedAndSelfEmployed",
+  isSelfEmployed: ({ context }) =>
+    context["partner-employmentType"] === "selfEmployed" ||
+    context["partner-employmentType"] === "employedAndSelfEmployed",
+  usesPublicTransit: ({ context }) =>
+    context["partner-arbeitsweg"] === "publicTransport",
+  usesPrivateVehicle: ({ context }) =>
+    context["partner-arbeitsweg"] === "privateVehicle",
+  commuteMethodPlaysNoRole: ({ context }) =>
+    context["partner-arbeitsweg"] === "bike" ||
+    context["partner-arbeitsweg"] === "walking",
+  hasAndereArbeitsausgaben: partnerHasAndereArbeitsausgaben,
+  hasAndereArbeitsausgabenAndEmptyArray: ({ context }) =>
+    partnerHasAndereArbeitsausgaben({ context }) &&
+    !arrayIsNonEmpty(context["partner-arbeitsausgaben"]),
+  isValidArbeitsausgabenArrayIndex: ({ context }) =>
+    isValidArrayIndex(context["partner-arbeitsausgaben"], context.pageData),
+  receivesPension: ({ context }) =>
+    context["partner-receivesPension"] === "yes",
+  receivesSupport: ({ context }) =>
+    context["partner-receivesSupport"] === "yes",
+  hasWohngeld: ({ context }) => context["partner-hasWohngeld"] === "on",
+  hasKrankengeld: ({ context }) => context["partner-hasKrankengeld"] === "on",
+  hasElterngeld: ({ context }) => context["partner-hasElterngeld"] === "on",
+  hasKindergeld: ({ context }) => context["partner-hasKindergeld"] === "on",
+  hasFurtherIncome: partnerHasFurtherIncome,
+  hasFurtherIncomeAndEmptyArray: ({ context }) =>
+    partnerHasFurtherIncome({ context }) &&
+    !arrayIsNonEmpty(context["partner-weitereEinkuenfte"]),
+  isValidEinkuenfteArrayIndex: ({ context }) =>
+    isValidArrayIndex(context["partner-weitereEinkuenfte"], context.pageData),
+} satisfies Guards<PartnerEinkuenfteContext>;

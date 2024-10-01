@@ -1,6 +1,10 @@
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
-import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import {
+  finanzielleAngabeEinkuenfteGuards as einkuenfteGuards,
+  partnerEinkuenfteGuards,
+} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import { arrayIsNonEmpty } from "~/util/array";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import {
   prozesskostenhilfeFinanzielleAngabenContext,
   type ProzesskostenhilfeFinanzielleAngabenContext,
@@ -20,10 +24,35 @@ export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
       context,
     })) ||
   ["no", "widowed", "separated"].includes(context.partnerschaft ?? "") ||
-  context.unterhalt == "no" ||
   context.partnerEinkommen == "no" ||
-  context.partnerEinkommenSumme != undefined ||
-  (context.partnerNachname != undefined && context.partnerVorname != undefined);
+  partnerEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
+    context,
+  }) ||
+  (partnerEinkuenfteDone({ context }) &&
+    partnerBesondersAusgabenDone({ context }));
+
+// Reuse the existing einkuenfteDone guard by removing the partner- prefix from context values
+export const partnerEinkuenfteDone: ProzesskostenhilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    einkuenfteDone({
+      context: {
+        ...context,
+        ...Object.fromEntries(
+          Object.entries(context)
+            .filter(([key]) => key.includes("partner-"))
+            .map(([key, val]) => [key.replace("partner-", ""), val]),
+        ),
+      },
+    });
+
+export const partnerBesondersAusgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    context.partnerHasBesondersAusgaben === "no" ||
+    (context.partnerHasBesondersAusgaben != undefined &&
+      objectKeysNonEmpty(context.partnerBesondersAusgabe, [
+        "beschreibung",
+        "betrag",
+      ]));
 
 export const kinderDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
