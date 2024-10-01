@@ -32,6 +32,7 @@ import {
   getArrayIndexStrings,
   getKinderStrings,
 } from "../shared/stringReplacements";
+import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -154,6 +155,32 @@ export const prozesskostenhilfeFormular = {
             meta: { done: ausgabenZusammenfassungDone },
           },
         },
+      }),
+      "persoenliche-daten": getProzesskostenhilfePersoenlicheDatenXstateConfig({
+        backToCallingFlow: [
+          {
+            guard: finanzielleAngabeGuards.hasAusgabenEntriesYes,
+            target: "#ausgaben-zusammenfassung",
+          },
+          {
+            guard:
+              finanzielleAngabeEinkuenfteGuards.staatlicheLeistungenIsBuergergeldAndEigentumDone,
+            target:
+              "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung",
+          },
+          {
+            guard:
+              finanzielleAngabeEinkuenfteGuards.staatlicheLeistungenIsBuergergeld,
+            target: "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
+          },
+          {
+            guard:
+              finanzielleAngabeEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen,
+            target: "#finanzielle-angaben.einkuenfte.staatliche-leistungen",
+          },
+          "#ausgaben.ausgaben-frage",
+        ],
+        nextFlowEntrypoint: "#abgabe",
       }),
       abgabe: _.merge(abgabeFlow, {
         meta: { done: () => false },

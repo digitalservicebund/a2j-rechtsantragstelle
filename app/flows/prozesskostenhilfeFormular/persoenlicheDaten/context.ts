@@ -7,7 +7,7 @@ import {
   beruf,
 } from "~/flows/shared/persoenlicheDaten/context";
 
-export const pkhPersoenlicheDaten = {
+export const prozesskostenhilfePersoenlicheDatenContext = {
   ...vornameNachnameSchema,
   ...adresseSchema,
   geburtsdatum,
@@ -15,7 +15,9 @@ export const pkhPersoenlicheDaten = {
   beruf,
 };
 
-const _contextObject = z.object(pkhPersoenlicheDaten).partial();
+const _contextObject = z
+  .object(prozesskostenhilfePersoenlicheDatenContext)
+  .partial();
 export type ProzesskostenhilfePersoenlicheDaten = z.infer<
   typeof _contextObject
 >;

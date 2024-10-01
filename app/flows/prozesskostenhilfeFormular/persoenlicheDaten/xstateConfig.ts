@@ -2,6 +2,7 @@ import type { Context } from "~/flows/contexts";
 import type { GenericGuard } from "~/flows/guards.server";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { ProzesskostenhilfePersoenlicheDaten } from "./context";
+import { beratungshilfePersoenlicheDatenDone } from "./doneFunctions";
 
 export function getProzesskostenhilfePersoenlicheDatenXstateConfig(transitions?: {
   backToCallingFlow?:
@@ -12,6 +13,7 @@ export function getProzesskostenhilfePersoenlicheDatenXstateConfig(transitions?:
   return {
     id: "persoenliche-daten",
     initial: "start",
+    meta: { done: beratungshilfePersoenlicheDatenDone },
     states: {
       start: {
         on: {
