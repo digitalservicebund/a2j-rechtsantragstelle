@@ -2,7 +2,6 @@
 import type { TestCases } from "~/flows/__test__/TestCases";
 import { machine } from "~/flows/beratungshilfeFormular/__test__/testMachine";
 import type { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
-
 const finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeArbeitsweg =
   "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/arbeitsweg";
 const finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeWert =
@@ -11,6 +10,18 @@ const finanzielleAngabenEigentumZusammenfassungGrundeigentumBewohntFrage =
   "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage";
 const finanzielleAngabenEigentumZusammenfassungGrundeigentumDaten =
   "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/daten";
+
+const defaultInputGrundeigentum = {
+  isBewohnt: "family",
+  art: "eigentumswohnung",
+  eigentuemer: "myself",
+  verkaufswert: "",
+  flaeche: "",
+  strassehausnummer: "",
+  ort: "",
+  land: "",
+} as const;
+
 const cases = [
   [
     // Kraftfahrzeuge
@@ -99,8 +110,12 @@ const cases = [
   [
     {
       hasGrundeigentum: "yes",
-      // @ts-ignore
-      grundeigentum: [{ isBewohnt: "no" }],
+      grundeigentum: [
+        {
+          ...defaultInputGrundeigentum,
+          isBewohnt: "no",
+        },
+      ],
       pageData: { arrayIndexes: [0] },
     },
     [
@@ -111,8 +126,7 @@ const cases = [
   [
     {
       hasGrundeigentum: "yes",
-      // @ts-ignore
-      grundeigentum: [{ isBewohnt: "family" }],
+      grundeigentum: [{ ...defaultInputGrundeigentum, isBewohnt: "family" }],
       pageData: { arrayIndexes: [0] },
     },
     [
@@ -123,8 +137,7 @@ const cases = [
   [
     {
       hasGrundeigentum: "yes",
-      // @ts-ignore
-      grundeigentum: [{ isBewohnt: "yes" }],
+      grundeigentum: [{ ...defaultInputGrundeigentum, isBewohnt: "yes" }],
       pageData: { arrayIndexes: [0] },
     },
     [
@@ -135,8 +148,10 @@ const cases = [
   [
     {
       hasGrundeigentum: "yes",
-      // @ts-ignore
-      grundeigentum: [{ isBewohnt: "no" }, { isBewohnt: "yes" }],
+      grundeigentum: [
+        { ...defaultInputGrundeigentum, isBewohnt: "no" },
+        { ...defaultInputGrundeigentum, isBewohnt: "yes" },
+      ],
       pageData: { arrayIndexes: [1] },
     },
     [
