@@ -9,6 +9,18 @@ const finanzielleAngabenKinderKinderWohnort =
   "finanzielle-angaben/kinder/kinder/wohnort";
 const finanzielleAngabenKinderKinderKindUnterhaltFrage =
   "finanzielle-angaben/kinder/kinder/kind-unterhalt-frage";
+
+const defaultInputKinder = {
+  wohnortBeiAntragsteller: "yes",
+  vorname: "",
+  nachname: "",
+  geburtsdatum: "",
+  eigeneEinnahmen: "yes",
+  einnahmen: "",
+  unterhalt: "yes",
+  unterhaltsSumme: "",
+} as const;
+
 const cases = [
   [
     { hasKinder: "yes" },
@@ -54,8 +66,8 @@ const cases = [
   [
     {
       kinder: [
-        // @ts-ignore
         {
+          ...defaultInputKinder,
           wohnortBeiAntragsteller: "yes",
         },
       ],
@@ -70,8 +82,8 @@ const cases = [
   [
     {
       kinder: [
-        // @ts-ignore
         {
+          ...defaultInputKinder,
           wohnortBeiAntragsteller: "yes",
           eigeneEinnahmen: "yes",
         },
@@ -88,8 +100,8 @@ const cases = [
   [
     {
       kinder: [
-        // @ts-ignore
         {
+          ...defaultInputKinder,
           wohnortBeiAntragsteller: "no",
         },
       ],
@@ -104,8 +116,8 @@ const cases = [
   [
     {
       kinder: [
-        // @ts-ignore
         {
+          ...defaultInputKinder,
           wohnortBeiAntragsteller: "no",
           unterhalt: "no",
         },
@@ -122,8 +134,8 @@ const cases = [
   [
     {
       kinder: [
-        // @ts-ignore
         {
+          ...defaultInputKinder,
           wohnortBeiAntragsteller: "no",
           unterhalt: "yes",
         },

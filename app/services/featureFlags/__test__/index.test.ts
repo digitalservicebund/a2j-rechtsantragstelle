@@ -1,7 +1,10 @@
+import type { PostHogOptions } from "posthog-node";
 import { PostHog } from "posthog-node";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { config } from "~/services/env/web";
 import { isFeatureFlagEnabled } from "../index";
+
+type PartialPostHogParams = Partial<PostHog & PostHogOptions>;
 
 // Mock the PostHog module
 vi.mock("posthog-node", () => {
@@ -27,9 +30,11 @@ describe("isFeatureFlagEnabled", () => {
   });
 
   it("should return true when not in production environment", async () => {
-    // @ts-ignore
     vi.mocked(config).mockReturnValue({
       ENVIRONMENT: "development",
+      POSTHOG_API_HOST: "",
+      POSTHOG_API_KEY: "",
+      SENTRY_DSN: "undefined",
     });
 
     const result = await isFeatureFlagEnabled("showFluggastrechteFormular");
@@ -64,11 +69,11 @@ describe("isFeatureFlagEnabled", () => {
 
     it("should handle PostHog client returning true", async () => {
       const mockIsFeatureEnabled = vi.fn().mockResolvedValue(true);
-      vi.mocked(PostHog).mockImplementation(() =>
-        // @ts-ignore
-        ({
-          isFeatureEnabled: mockIsFeatureEnabled,
-        }),
+      vi.mocked(PostHog).mockImplementation(
+        () =>
+          ({
+            isFeatureEnabled: mockIsFeatureEnabled,
+          }) as PartialPostHogParams,
       );
 
       const result = await isFeatureFlagEnabled("showGeldEinklagenFlow");
@@ -85,11 +90,11 @@ describe("isFeatureFlagEnabled", () => {
 
     it("should handle PostHog client returning false", async () => {
       const mockIsFeatureEnabled = vi.fn().mockResolvedValue(false);
-      vi.mocked(PostHog).mockImplementation(() =>
-        // @ts-ignore
-        ({
-          isFeatureEnabled: mockIsFeatureEnabled,
-        }),
+      vi.mocked(PostHog).mockImplementation(
+        () =>
+          ({
+            isFeatureEnabled: mockIsFeatureEnabled,
+          }) as PartialPostHogParams,
       );
 
       const result = await isFeatureFlagEnabled("showProzesskostenhilfeFlow");
