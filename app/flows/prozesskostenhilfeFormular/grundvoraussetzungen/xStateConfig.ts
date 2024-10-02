@@ -1,7 +1,7 @@
 import type { ProzesskostenhilfeGrundvoraussetzungenContext } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
 import {
   formularIsNachueberpruefung,
-  grundvoraussetzungDone,
+  grundvoraussetzungenDone,
   shouldUseMJP,
   versandDigitalAnwalt,
   versandDigitalGericht,
@@ -11,7 +11,7 @@ import type { Config } from "~/services/flow/server/buildFlowController";
 export const grundvoraussetzungenXstateConfig = {
   id: "grundvorsaussetzungen",
   initial: "nachueberpruefung-frage",
-  meta: { done: grundvoraussetzungDone },
+  meta: { done: grundvoraussetzungenDone },
   states: {
     "nachueberpruefung-frage": {
       on: {
@@ -111,7 +111,7 @@ export const grundvoraussetzungenXstateConfig = {
         "hinweis-papier-einreichung": {
           on: {
             SUBMIT: {
-              guard: grundvoraussetzungDone,
+              guard: grundvoraussetzungenDone,
               target: "#finanzielle-angaben",
             }, // TODO: replace w/ Antragstellende when finished
             BACK: [
@@ -126,7 +126,7 @@ export const grundvoraussetzungenXstateConfig = {
         "hinweis-digital-einreichung": {
           on: {
             SUBMIT: {
-              guard: grundvoraussetzungDone,
+              guard: grundvoraussetzungenDone,
               target: "#finanzielle-angaben",
             }, // TODO: replace w/ Antragstellende when finished
             BACK: [

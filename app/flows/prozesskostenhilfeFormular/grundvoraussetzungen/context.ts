@@ -52,7 +52,7 @@ export const shouldUseMJP: GenericGuard<
   ProzesskostenhilfeGrundvoraussetzungenContext
 > = ({ context }) => context.shouldUseMJP === "yes";
 
-export const grundvoraussetzungDone: GenericGuard<
+export const grundvoraussetzungenDone: GenericGuard<
   ProzesskostenhilfeGrundvoraussetzungenContext
 > = ({ context }) => {
   const shouldTestMJP = versandDigitalGericht({ context });
