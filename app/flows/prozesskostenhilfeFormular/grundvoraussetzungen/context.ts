@@ -55,7 +55,12 @@ export const shouldUseMJP: GenericGuard<
 export const grundvoraussetzungDone: GenericGuard<
   ProzesskostenhilfeGrundvoraussetzungenContext
 > = ({ context }) => {
-  // TODO: add done logic
-  console.log(context);
-  return false;
+  const shouldTestMJP = versandDigitalGericht({ context });
+  const shouldTestVerfahrenArt = context.formularArt === "erstantrag";
+  return !(
+    context.formularArt === undefined ||
+    context.versandArt === undefined ||
+    (shouldTestVerfahrenArt && context.verfahrenArt === undefined) ||
+    (shouldTestMJP && context.shouldUseMJP === undefined)
+  );
 };

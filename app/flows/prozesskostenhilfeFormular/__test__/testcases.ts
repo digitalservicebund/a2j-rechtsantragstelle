@@ -14,6 +14,22 @@ const machine: FlowStateMachine = createMachine(
 
 const cases = [
   [
+    {
+      formularArt: "erstantrag",
+      verfahrenArt: "verfahrenSelbststaendig",
+      versandArt: "digital",
+      shouldUseMJP: "yes",
+    },
+    [
+      "grundvoraussetzungen/nachueberpruefung-frage",
+      "grundvoraussetzungen/antrag/klageersteller",
+      "grundvoraussetzungen/antrag/hinweis",
+      "grundvoraussetzungen/einreichung/fall",
+      "grundvoraussetzungen/einreichung/mjp",
+      "grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
+    ],
+  ],
+  [
     { partnerschaft: "separated" },
     [
       "finanzielle-angaben/partner/partnerschaft",

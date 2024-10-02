@@ -110,7 +110,10 @@ export const grundvoraussetzungenXstateConfig = {
         },
         "hinweis-papier-einreichung": {
           on: {
-            SUBMIT: "#finanzielle-angaben", // TODO: replace w/ Antragstellende when finished
+            SUBMIT: {
+              guard: grundvoraussetzungDone,
+              target: "#finanzielle-angaben",
+            }, // TODO: replace w/ Antragstellende when finished
             BACK: [
               {
                 guard: versandDigitalGericht,
@@ -122,7 +125,10 @@ export const grundvoraussetzungenXstateConfig = {
         },
         "hinweis-digital-einreichung": {
           on: {
-            SUBMIT: "#finanzielle-angaben", // TODO: replace w/ Antragstellende when finished
+            SUBMIT: {
+              guard: grundvoraussetzungDone,
+              target: "#finanzielle-angaben",
+            }, // TODO: replace w/ Antragstellende when finished
             BACK: [
               {
                 guard: shouldUseMJP,
