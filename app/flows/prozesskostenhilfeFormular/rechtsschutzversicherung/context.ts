@@ -6,7 +6,7 @@ const coverage = z.enum(["yes", "no", "partly", "unknown"]);
 export const prozesskostenhilfeRsvContext = {
   hasRsv: YesNoAnswer,
   hasRsvCoverage: coverage,
-  isOrgMember: YesNoAnswer,
+  hasRsvThroughOrg: YesNoAnswer,
   hasOrgCoverage: coverage,
 };
 

@@ -36,6 +36,8 @@ import {
   getKinderStrings,
 } from "../shared/stringReplacements";
 import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
+import type { ProzesskostenhilfeRechtschutzversicherungContext } from "./rechtsschutzversicherung/context";
+import { getProzesskostenhilfeRsvXstateConfig } from "./rechtsschutzversicherung/xstateConfig";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -53,6 +55,10 @@ export const prozesskostenhilfeFormular = {
     states: {
       start: { meta: { done: () => true } },
       grundvoraussetzungen: grundvoraussetzungenXstateConfig,
+      rechtsschutzversicherung: getProzesskostenhilfeRsvXstateConfig({
+        backToCallingFlow: ["#antragStart"],
+        nextFlowEntrypoint: "#finanzielle-angaben",
+      }),
       "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
         states: {
           einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
@@ -209,4 +215,5 @@ export type ProzesskostenhilfeFormularContext =
   ProzesskostenhilfeGrundvoraussetzungenContext &
     ProzesskostenhilfeFinanzielleAngabenContext &
     AbgabeContext &
-    ProzesskostenhilfePersoenlicheDaten;
+    ProzesskostenhilfePersoenlicheDaten &
+    ProzesskostenhilfeRechtschutzversicherungContext;
