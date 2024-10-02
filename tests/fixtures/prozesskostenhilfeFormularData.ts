@@ -30,7 +30,6 @@ export const createFinancialEntry = () => ({
 export const happyPathData: ProzesskostenhilfeFormularContext = {
   formularArt: grundvoraussetzungenSchema.formularArt.Enum.nachueberpruefung,
   versandArt: grundvoraussetzungenSchema.versandArt.Enum.digital,
-  shouldUseMJP: YesNoAnswer.Enum.yes,
   hasBankkonto: YesNoAnswer.Enum.yes,
   hasGeldanlage: YesNoAnswer.Enum.yes,
   hasWertsache: YesNoAnswer.Enum.yes,

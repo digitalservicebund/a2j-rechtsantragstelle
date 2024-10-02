@@ -1,7 +1,6 @@
 import {
   formularIsNachueberpruefung,
   grundvoraussetzungenDone,
-  shouldUseMJP,
   versandDigitalAnwalt,
   versandDigitalGericht,
 } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
@@ -119,35 +118,6 @@ describe("PKH Grundvoraussetzungen Context", () => {
         ).toBe(false);
       });
     });
-
-    describe("shouldUseMJP", () => {
-      it("should return true if the user wishes to use Mein Justizpostfach", () => {
-        expect(
-          shouldUseMJP({
-            context: {
-              shouldUseMJP: "yes",
-            },
-          }),
-        ).toBe(true);
-      });
-
-      it("should return false if the user hasn't answered the MJP question, or doesn't wish to use the service", () => {
-        expect(
-          shouldUseMJP({
-            context: {
-              shouldUseMJP: undefined,
-            },
-          }),
-        ).toBe(false);
-        expect(
-          shouldUseMJP({
-            context: {
-              shouldUseMJP: "no",
-            },
-          }),
-        ).toBe(false);
-      });
-    });
   });
 
   describe("grundvoraussetzungenDone", () => {
@@ -157,7 +127,6 @@ describe("PKH Grundvoraussetzungen Context", () => {
           context: {
             formularArt: "nachueberpruefung",
             versandArt: "digital",
-            shouldUseMJP: "yes",
           },
         }),
       ).toBe(true);
@@ -167,7 +136,6 @@ describe("PKH Grundvoraussetzungen Context", () => {
             formularArt: "erstantrag",
             verfahrenArt: "verfahrenSelbststaendig",
             versandArt: "digital",
-            shouldUseMJP: "yes",
           },
         }),
       ).toBe(true);

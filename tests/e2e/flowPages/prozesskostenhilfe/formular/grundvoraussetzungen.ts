@@ -24,7 +24,7 @@ export async function startGrundvoraussetzungen(
 
   // /prozesskostenhilfe/formular/grundvoraussetzungen/einreichung/mjp
   await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("shouldUseMJP", "yes");
+  await formular.clickNext();
 
   // /prozesskostenhilfe/formular/grundvoraussetzungen/einreichung/hinweis-digital-einreichung
   await expectPageToBeAccessible({ page });

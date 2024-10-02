@@ -1,10 +1,7 @@
 import { z } from "zod";
 import type { GenericGuard } from "~/flows/guards.server";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
 export const prozesskostenhilfeGrundvoraussetzungen = {
   formularArt: z.enum(
@@ -18,7 +15,6 @@ export const prozesskostenhilfeGrundvoraussetzungen = {
     customRequiredErrorMessage,
   ),
   versandArt: z.enum(["digital", "analog"], customRequiredErrorMessage),
-  shouldUseMJP: YesNoAnswer,
 };
 
 const _contextObject = z
@@ -48,19 +44,13 @@ export const versandDigitalGericht: GenericGuard<
   (context.formularArt === "nachueberpruefung" &&
     context.versandArt === "digital");
 
-export const shouldUseMJP: GenericGuard<
-  ProzesskostenhilfeGrundvoraussetzungenContext
-> = ({ context }) => context.shouldUseMJP === "yes";
-
 export const grundvoraussetzungenDone: GenericGuard<
   ProzesskostenhilfeGrundvoraussetzungenContext
 > = ({ context }) => {
-  const shouldTestMJP = versandDigitalGericht({ context });
   const shouldTestVerfahrenArt = context.formularArt === "erstantrag";
   return !(
     context.formularArt === undefined ||
     context.versandArt === undefined ||
-    (shouldTestVerfahrenArt && context.verfahrenArt === undefined) ||
-    (shouldTestMJP && context.shouldUseMJP === undefined)
+    (shouldTestVerfahrenArt && context.verfahrenArt === undefined)
   );
 };

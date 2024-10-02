@@ -2,7 +2,6 @@ import type { ProzesskostenhilfeGrundvoraussetzungenContext } from "~/flows/proz
 import {
   formularIsNachueberpruefung,
   grundvoraussetzungenDone,
-  shouldUseMJP,
   versandDigitalAnwalt,
   versandDigitalGericht,
 } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
@@ -98,13 +97,7 @@ export const grundvoraussetzungenXstateConfig = {
         },
         mjp: {
           on: {
-            SUBMIT: [
-              {
-                guard: shouldUseMJP,
-                target: "hinweis-digital-einreichung",
-              },
-              "hinweis-papier-einreichung",
-            ],
+            SUBMIT: "hinweis-digital-einreichung",
             BACK: "fall",
           },
         },
@@ -114,13 +107,7 @@ export const grundvoraussetzungenXstateConfig = {
               guard: grundvoraussetzungenDone,
               target: "#finanzielle-angaben",
             }, // TODO: replace w/ Antragstellende when finished
-            BACK: [
-              {
-                guard: versandDigitalGericht,
-                target: "mjp",
-              },
-              "fall",
-            ],
+            BACK: "fall",
           },
         },
         "hinweis-digital-einreichung": {
@@ -131,7 +118,7 @@ export const grundvoraussetzungenXstateConfig = {
             }, // TODO: replace w/ Antragstellende when finished
             BACK: [
               {
-                guard: shouldUseMJP,
+                guard: versandDigitalGericht,
                 target: "mjp",
               },
               "fall",

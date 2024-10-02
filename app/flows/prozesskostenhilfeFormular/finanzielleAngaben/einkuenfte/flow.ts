@@ -8,8 +8,8 @@ import {
   partnerEinkuenfteGuards,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import {
-  shouldUseMJP,
   versandDigitalAnwalt,
+  versandDigitalGericht,
 } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
 
 type PKHEinkuenfteSubflowTypes = "partner";
@@ -81,7 +81,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
           // TODO: replace with Rechtsschutzversicherung when finished
           BACK: [
             {
-              guard: or([versandDigitalAnwalt, shouldUseMJP]),
+              guard: or([versandDigitalAnwalt, versandDigitalGericht]),
               target:
                 "#grundvorsaussetzungen.einreichung.hinweis-digital-einreichung",
             },

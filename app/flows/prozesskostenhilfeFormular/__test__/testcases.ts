@@ -18,7 +18,6 @@ const cases = [
       formularArt: "erstantrag",
       verfahrenArt: "verfahrenSelbststaendig",
       versandArt: "digital",
-      shouldUseMJP: "yes",
     },
     [
       "grundvoraussetzungen/nachueberpruefung-frage",
