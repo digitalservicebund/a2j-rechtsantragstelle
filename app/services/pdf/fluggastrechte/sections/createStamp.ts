@@ -1,4 +1,5 @@
 import type PDFDocument from "pdfkit";
+import { PDF_HEIGHT_SEIZE } from "../createPdfKitDocument";
 
 export const createStamp = (doc: typeof PDFDocument) => {
   const stampTextWidth = 188;
@@ -9,7 +10,7 @@ export const createStamp = (doc: typeof PDFDocument) => {
     .save()
     .fontSize(8)
     .rotate(-90, { origin: [50, 780] })
-    .text(stampText, stampTextHeight * 3, 760, {
+    .text(stampText, stampTextHeight * 3, PDF_HEIGHT_SEIZE, {
       align: "center",
       width: stampTextWidth,
       baseline: "middle",

@@ -1,7 +1,9 @@
+import type PDFDocument from "pdfkit";
 import { readRelativeFileToBuffer } from "~/services/pdf/fillPdf.server";
 import { createMetadata } from "./createMetadata";
 import { createPdfKitDocument } from "./createPdfKitDocument";
 import { createFirstPage } from "./sections/firstPage/createFirstPage";
+import { createSecondPage } from "./sections/secondPage/createSecondPage";
 
 const BundesSansWebRegular = await readRelativeFileToBuffer(
   "public/fonts/BundesSansWeb-Regular.woff",
@@ -9,6 +11,13 @@ const BundesSansWebRegular = await readRelativeFileToBuffer(
 const BundesSansWebBold = await readRelativeFileToBuffer(
   "public/fonts/BundesSansWeb-Bold.woff",
 );
+
+function buildDocument(doc: typeof PDFDocument) {
+  createMetadata(doc);
+  createFirstPage(doc, BundesSansWebRegular, BundesSansWebBold);
+  doc.addPage();
+  createSecondPage(doc, BundesSansWebRegular, BundesSansWebBold);
+}
 
 export async function fluggastrechtePdfFromUserdata(): Promise<Buffer> {
   return new Promise((resolve, reject) => {
@@ -33,8 +42,7 @@ export async function fluggastrechtePdfFromUserdata(): Promise<Buffer> {
     doc.registerFont("BundesSansWebBold", BundesSansWebBold);
 
     // Generate the PDF content
-    createMetadata(doc);
-    createFirstPage(doc, BundesSansWebRegular, BundesSansWebBold);
+    buildDocument(doc);
     doc.end();
   });
 }

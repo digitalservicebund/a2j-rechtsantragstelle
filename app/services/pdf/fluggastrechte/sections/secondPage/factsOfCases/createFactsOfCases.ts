@@ -1,0 +1,121 @@
+import type PDFDocument from "pdfkit";
+import { addTable } from "./addTable";
+import { PDF_MARGIN } from "../../../createPdfKitDocument";
+
+type FlightDetail = {
+  text: string;
+  value: string;
+};
+
+const FLIGHT_DETAILS: FlightDetail[] = [
+  {
+    text: "Buchungsnummer:",
+    value: "YBIRI7",
+  },
+  {
+    text: "Flugnummer:",
+    value: "AB1234",
+  },
+  {
+    text: "Geplantes Abflugdatum:",
+    value: "10.03.2024",
+  },
+  {
+    text: "Startflughafen:",
+    value: "Berlin Brandenburg Flughafen (BER)",
+  },
+  {
+    text: "Zielflughafen: ",
+    value: "Athens International Airport (ATH)",
+  },
+];
+
+const addFlightDetails = (
+  flightDetails: FlightDetail[],
+  doc: typeof PDFDocument,
+  bundesSansWebRegular: ArrayBuffer,
+  bundesSansWebBold: ArrayBuffer,
+) => {
+  flightDetails.forEach((flightDetail) => {
+    doc
+      .fontSize(10)
+      .font(bundesSansWebRegular)
+      .text(flightDetail.text, PDF_MARGIN + 10, undefined, { continued: true })
+      .font(bundesSansWebBold)
+      .text(flightDetail.value);
+
+    doc.moveDown(0.5);
+  });
+};
+
+const addLastSentences = (
+  doc: typeof PDFDocument,
+  bundesSansWebRegular: ArrayBuffer,
+) => {
+  doc
+    .font(bundesSansWebRegular)
+    .fontSize(10)
+    .text(
+      "Die Fluggesellschaft hat keine außergewöhnlichen Umstände als Grund für die Verspätung mitgeteilt. Die klagende Partei geht davon aus, dass die genannten Umstände nicht korrekt ist.",
+      PDF_MARGIN,
+    );
+
+  doc.moveDown(1);
+
+  doc
+    .font(bundesSansWebRegular)
+    .fontSize(10)
+    .text(
+      "Die klagende Partei forderte außergerichtlich die Ausgleichszahlungen gemäß Art. 7 der Fluggastrechteverordnung (EG) 261/2004 von der beklagten Partei mit einer Frist zum Datum der Frist ein. Die beklagte Partei hat jedoch bisher keine Zahlung geleistet.",
+    );
+};
+
+export const createFactsOfCases = (
+  doc: typeof PDFDocument,
+  bundesSansWebRegular: ArrayBuffer,
+  bundesSansWebBold: ArrayBuffer,
+) => {
+  doc.fontSize(14).font(bundesSansWebBold).text("I. Sachverhalt");
+  doc.moveDown(1);
+
+  doc
+    .fontSize(10)
+    .font(bundesSansWebRegular)
+    .text(
+      "Die klagende Partei buchte den folgenden Flug, der von der beklagten Partei ",
+      { continued: true },
+    )
+    .font(bundesSansWebBold)
+    .text("nicht pünktlich ausgeführt ", { continued: true })
+    .font(bundesSansWebRegular)
+    .text("wurde:");
+
+  doc.moveDown(1);
+
+  addFlightDetails(
+    FLIGHT_DETAILS,
+    doc,
+    bundesSansWebRegular,
+    bundesSansWebBold,
+  );
+
+  doc.moveDown(1);
+
+  doc
+    .font(bundesSansWebRegular)
+    .fontSize(10)
+    .text("Die klagende Partei war pünktlich zum Check-in.", PDF_MARGIN)
+    .text(
+      "Der Flug von Berlin Brandenburg Flughafen (BER) nach Athens International Airport (ATH) hatte die genannte Verspätung.",
+    );
+
+  doc.moveDown(1);
+
+  addTable(doc, bundesSansWebRegular, bundesSansWebBold);
+
+  doc.moveDown(2);
+
+  addLastSentences(doc, bundesSansWebRegular);
+
+  doc.moveDown(1);
+};

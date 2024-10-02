@@ -3,7 +3,8 @@ import PDFDocument from "pdfkit";
 const PDF_VERSION = "1.7";
 const PDF_LANGUAGE = "de-DE";
 const PDF_SIZE_FORMAT = "A4";
-const PDF_MARGIN = 70;
+export const PDF_MARGIN = 70;
+export const PDF_HEIGHT_SEIZE = 760;
 
 export const createPdfKitDocument = () => {
   return new PDFDocument({
