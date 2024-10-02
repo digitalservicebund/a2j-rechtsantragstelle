@@ -1,29 +1,15 @@
 import { useEffect, useRef } from "react";
-import { getTranslationByKey } from "~/util/getTranslationByKey";
-import { useFeedbackTranslations } from "./FeedbackTranslationContext";
+import { useFeedbackTranslations } from "./feedbackTranslations";
 import Heading from "../Heading";
 import RichText from "../RichText";
-
-export const HEADING_POST_SUBMISSION_TRANSLATION_KEY =
-  "heading-post-submission";
-export const TEXT_POST_SUBMISSION_TRANSLATION_KEY = "text-post-submission";
 
 interface Props {
   readonly shouldFocus: boolean;
 }
 
 export const PostSubmissionBox = ({ shouldFocus }: Props) => {
-  const { translations } = useFeedbackTranslations();
+  const feedbackTranslations = useFeedbackTranslations();
   const headingReference = useRef<HTMLHeadingElement | null>(null);
-
-  const heading = getTranslationByKey(
-    HEADING_POST_SUBMISSION_TRANSLATION_KEY,
-    translations,
-  );
-  const text = getTranslationByKey(
-    TEXT_POST_SUBMISSION_TRANSLATION_KEY,
-    translations,
-  );
 
   useEffect(() => {
     if (shouldFocus && headingReference.current) {
@@ -36,12 +22,12 @@ export const PostSubmissionBox = ({ shouldFocus }: Props) => {
       <Heading
         look="ds-label-01-bold"
         tagName="h2"
-        text={heading}
+        text={feedbackTranslations["heading-post-submission"]}
         role="status"
         tabIndex={-1}
         innerRef={headingReference}
       />
-      <RichText markdown={text} />
+      <RichText markdown={feedbackTranslations["text-post-submission"]} />
     </div>
   );
 };

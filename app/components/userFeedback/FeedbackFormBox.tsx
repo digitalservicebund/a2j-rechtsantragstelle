@@ -4,8 +4,7 @@ import { withZod } from "@remix-validated-form/with-zod";
 import { useEffect, useRef, useState } from "react";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
-import { getTranslationByKey } from "~/util/getTranslationByKey";
-import { useFeedbackTranslations } from "./FeedbackTranslationContext";
+import { useFeedbackTranslations } from "./feedbackTranslations";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 import Textarea from "../inputs/Textarea";
@@ -13,10 +12,6 @@ import Textarea from "../inputs/Textarea";
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 export const FEEDBACK_FORM_NAME = "feedbackForm";
 export const FEEDBACK_FIELD_NAME = "feedback";
-export const HEADING_FEEDBACK_TRANSLATION_KEY = "heading-feedback";
-export const PLACEHOLDER_FEEDBACK_TRANSLATION_KEY = "placeholder-feedback";
-export const ABORT_BUTTON_FEEDBACK_TRANSLATION_KEY = "abort-button-feedback";
-export const SUBMIT_BUTTON_FEEDBACK_TRANSLATION_KEY = "submit-button-feedback";
 
 enum FeedbackButtons {
   Abort = "abort",
@@ -49,29 +44,12 @@ export const FeedbackFormBox = ({
   shouldFocus,
   onSubmit,
 }: FeedbackBoxProps) => {
-  const { translations } = useFeedbackTranslations();
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
 
   const textAreaReference = useRef<HTMLTextAreaElement | null>(null);
 
-  const heading = getTranslationByKey(
-    HEADING_FEEDBACK_TRANSLATION_KEY,
-    translations,
-  );
-  const placeholder = getTranslationByKey(
-    PLACEHOLDER_FEEDBACK_TRANSLATION_KEY,
-    translations,
-  );
-
-  const abortButtonLabel = getTranslationByKey(
-    ABORT_BUTTON_FEEDBACK_TRANSLATION_KEY,
-    translations,
-  );
-  const submitButtonLabel = getTranslationByKey(
-    SUBMIT_BUTTON_FEEDBACK_TRANSLATION_KEY,
-    translations,
-  );
+  const feedbackTranslations = useFeedbackTranslations();
 
   useEffect(() => {
     if (shouldFocus && textAreaReference.current) {
@@ -91,9 +69,9 @@ export const FeedbackFormBox = ({
       <div role="status" className="ds-stack-16">
         <Textarea
           name={FEEDBACK_FIELD_NAME}
-          label={heading}
+          label={feedbackTranslations["heading-feedback"]}
           classNameLabel="ds-label-01-bold"
-          placeholder={placeholder}
+          placeholder={feedbackTranslations["placeholder-feedback"]}
           role="status"
           innerRef={textAreaReference}
         />
@@ -105,7 +83,7 @@ export const FeedbackFormBox = ({
             value={FeedbackButtons.Abort}
             type="submit"
           >
-            {abortButtonLabel}
+            {feedbackTranslations["abort-button-feedback"]}
           </Button>
           <Button
             look="primary"
@@ -114,7 +92,7 @@ export const FeedbackFormBox = ({
             value={FeedbackButtons.Submit}
             type="submit"
           >
-            {submitButtonLabel}
+            {feedbackTranslations["submit-button-feedback"]}
           </Button>
         </ButtonContainer>
       </div>
