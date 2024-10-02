@@ -24,7 +24,7 @@ function buildDocument(doc: typeof PDFDocument) {
 
 export async function fluggastrechtePdfFromUserdata(): Promise<Buffer> {
   return new Promise((resolve, reject) => {
-    const doc = createPdfKitDocument();
+    const doc = createPdfKitDocument(BundesSansWebRegular, BundesSansWebBold);
     const chunks: Uint8Array[] = [];
 
     // Collect PDF chunks
@@ -39,10 +39,6 @@ export async function fluggastrechtePdfFromUserdata(): Promise<Buffer> {
     doc.on("end", () => {
       resolve(Buffer.concat(chunks));
     });
-
-    // Register fonts
-    doc.registerFont("BundesSansWebRegular", BundesSansWebRegular);
-    doc.registerFont("BundesSansWebBold", BundesSansWebBold);
 
     // Generate the PDF content
     buildDocument(doc);

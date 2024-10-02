@@ -6,8 +6,11 @@ const PDF_SIZE_FORMAT = "A4";
 export const PDF_MARGIN = 70;
 export const PDF_HEIGHT_SEIZE = 760;
 
-export const createPdfKitDocument = () => {
-  return new PDFDocument({
+export const createPdfKitDocument = (
+  bundesSansWebRegular: ArrayBuffer,
+  bundesSansWebBold: ArrayBuffer,
+) => {
+  const document = new PDFDocument({
     pdfVersion: PDF_VERSION,
     lang: PDF_LANGUAGE,
     tagged: true,
@@ -23,4 +26,10 @@ export const createPdfKitDocument = () => {
       contentAccessibility: true,
     },
   });
+
+  // Register fonts
+  document.registerFont("BundesSansWebRegular", bundesSansWebRegular);
+  document.registerFont("BundesSansWebBold", bundesSansWebBold);
+
+  return document;
 };
