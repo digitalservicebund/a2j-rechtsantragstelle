@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
 
-export const createMetadata = (doc: typeof PDFDocument) => {
+export const setPdfMetadata = (doc: typeof PDFDocument) => {
   doc.version = 1.0;
   doc.info.Title = "Klage";
   doc.info.Author = "Zugang zu Recht";

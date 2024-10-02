@@ -1,9 +1,9 @@
 import type PDFDocument from "pdfkit";
 import { readRelativeFileToBuffer } from "~/services/pdf/fillPdf.server";
-import { createMetadata } from "./createMetadata";
 import { createPdfKitDocument } from "./createPdfKitDocument";
 import { createFirstPage } from "./sections/firstPage/createFirstPage";
 import { createSecondPage } from "./sections/secondPage/createSecondPage";
+import { setPdfMetadata } from "./setPdfMetadata";
 
 const BundesSansWebRegular = await readRelativeFileToBuffer(
   "public/fonts/BundesSansWeb-Regular.woff",
@@ -13,7 +13,7 @@ const BundesSansWebBold = await readRelativeFileToBuffer(
 );
 
 function buildDocument(doc: typeof PDFDocument) {
-  createMetadata(doc);
+  setPdfMetadata(doc);
   createFirstPage(doc, BundesSansWebRegular, BundesSansWebBold);
   doc.addPage();
   createSecondPage(doc, BundesSansWebRegular, BundesSansWebBold);
