@@ -25,6 +25,7 @@ import {
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import prozesskostenhilfeFormularFlow from "./flow.json";
+import type { ProzesskostenhilfePersoenlicheDaten } from "./persoenlicheDaten/context";
 import { getMissingInformationStrings } from "./stringReplacements";
 import type { AbgabeContext } from "../shared/abgabe/context";
 import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
@@ -34,6 +35,7 @@ import {
   getArrayIndexStrings,
   getKinderStrings,
 } from "../shared/stringReplacements";
+import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -158,6 +160,32 @@ export const prozesskostenhilfeFormular = {
           },
         },
       }),
+      "persoenliche-daten": getProzesskostenhilfePersoenlicheDatenXstateConfig({
+        backToCallingFlow: [
+          {
+            guard: finanzielleAngabeGuards.hasAusgabenEntriesYes,
+            target: "#ausgaben-zusammenfassung",
+          },
+          {
+            guard:
+              finanzielleAngabeEinkuenfteGuards.staatlicheLeistungenIsBuergergeldAndEigentumDone,
+            target:
+              "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung",
+          },
+          {
+            guard:
+              finanzielleAngabeEinkuenfteGuards.staatlicheLeistungenIsBuergergeld,
+            target: "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
+          },
+          {
+            guard:
+              finanzielleAngabeEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen,
+            target: "#finanzielle-angaben.einkuenfte.staatliche-leistungen",
+          },
+          "#ausgaben.ausgaben-frage",
+        ],
+        nextFlowEntrypoint: "#abgabe",
+      }),
       abgabe: _.merge(abgabeFlow, {
         meta: { done: () => false },
       }),
@@ -180,4 +208,5 @@ export const prozesskostenhilfeFormular = {
 export type ProzesskostenhilfeFormularContext =
   ProzesskostenhilfeGrundvoraussetzungenContext &
     ProzesskostenhilfeFinanzielleAngabenContext &
-    AbgabeContext;
+    AbgabeContext &
+    ProzesskostenhilfePersoenlicheDaten;
