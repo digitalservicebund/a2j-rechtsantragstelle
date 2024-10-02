@@ -6,7 +6,7 @@ import {
   DATA_PROTECTION_TRANSLATION_KEY,
   DataProtectionBanner,
 } from "~/components/video/DataProtectionBanner";
-import { VideoTranslationContext } from "~/components/video/VideoTranslationContext";
+import { TranslationContext } from "~/services/translations/translationsContext";
 
 const TRANSLATION_KEY_RECORD = {
   [HEADER_TRANSLATION_KEY]: "Hinweis zum Datenschutz",
@@ -42,10 +42,10 @@ describe("Datenschutz Component", () => {
 
 const renderWithTranslations = (component: React.ReactNode) => {
   return render(
-    <VideoTranslationContext.Provider
-      value={{ translations: TRANSLATION_KEY_RECORD }}
+    <TranslationContext.Provider
+      value={{ video: TRANSLATION_KEY_RECORD, feedback: {} }}
     >
       {component}
-    </VideoTranslationContext.Provider>,
+    </TranslationContext.Provider>,
   );
 };

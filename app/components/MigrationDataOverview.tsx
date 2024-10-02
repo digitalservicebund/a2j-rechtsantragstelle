@@ -1,6 +1,6 @@
 import type { ArrayData, BasicTypes, ObjectType } from "~/flows/contexts";
 import { type Translations } from "~/services/cms/index.server";
-import { getTranslationByKey } from "~/util/getTranslationByKey";
+import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import { lookupOrKey } from "~/util/lookupOrKey";
 import Heading from "./Heading";
 
