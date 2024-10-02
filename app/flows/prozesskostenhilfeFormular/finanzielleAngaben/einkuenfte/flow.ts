@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { or } from "xstate";
 import type { Flow } from "~/flows/flows.server";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
@@ -6,6 +7,10 @@ import {
   finanzielleAngabeEinkuenfteGuards,
   partnerEinkuenfteGuards,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import {
+  shouldUseMJP,
+  versandDigitalAnwalt,
+} from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
 
 type PKHEinkuenfteSubflowTypes = "partner";
 
@@ -73,7 +78,15 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
         id: stepIds.start,
         on: {
           SUBMIT: stepIds.staatlicheLeistungen,
-          BACK: "#antragStart",
+          // TODO: replace with Rechtsschutzversicherung when finished
+          BACK: [
+            {
+              guard: or([versandDigitalAnwalt, shouldUseMJP]),
+              target:
+                "#grundvorsaussetzungen.einreichung.hinweis-digital-einreichung",
+            },
+            "#grundvorsaussetzungen.einreichung.hinweis-papier-einreichung",
+          ],
         },
       },
       [stepIds.staatlicheLeistungen]: {

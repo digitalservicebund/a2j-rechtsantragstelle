@@ -2,6 +2,9 @@ import type { ProzesskostenhilfeGrundvoraussetzungenContext } from "~/flows/proz
 import {
   formularIsNachueberpruefung,
   grundvoraussetzungDone,
+  shouldUseMJP,
+  versandDigitalAnwalt,
+  versandDigitalGericht,
 } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
 import type { Config } from "~/services/flow/server/buildFlowController";
 
@@ -33,7 +36,7 @@ export const grundvoraussetzungenXstateConfig = {
         },
         aktenzeichen: {
           on: {
-            SUBMIT: "#grundvorsaussetzungen.einreichung-fall",
+            SUBMIT: "#grundvorsaussetzungen.einreichung",
             BACK: "name-gericht",
           },
         },
@@ -50,33 +53,85 @@ export const grundvoraussetzungenXstateConfig = {
                   context.verfahrenArt === "verfahrenSelbststaendig",
                 target: "hinweis",
               },
-              "#grundvorsaussetzungen.einreichung-fall",
+              "#grundvorsaussetzungen.einreichung",
             ],
             BACK: "#grundvorsaussetzungen.nachueberpruefung-frage",
           },
         },
         hinweis: {
           on: {
-            SUBMIT: "#grundvorsaussetzungen.einreichung-fall",
+            SUBMIT: "#grundvorsaussetzungen.einreichung",
             BACK: "klageersteller",
           },
         },
       },
     },
-    "einreichung-fall": {
-      on: {
-        SUBMIT: {},
-        BACK: [
-          {
-            guard: formularIsNachueberpruefung,
-            target: "#grundvorsaussetzungen.nachueberpruefung.aktenzeichen",
+    einreichung: {
+      initial: "fall",
+      states: {
+        fall: {
+          on: {
+            SUBMIT: [
+              {
+                guard: versandDigitalAnwalt,
+                target: "hinweis-digital-einreichung",
+              },
+              {
+                guard: versandDigitalGericht,
+                target: "mjp",
+              },
+              "hinweis-papier-einreichung",
+            ],
+            BACK: [
+              {
+                guard: formularIsNachueberpruefung,
+                target: "#grundvorsaussetzungen.nachueberpruefung.aktenzeichen",
+              },
+              {
+                guard: ({ context }) =>
+                  context.verfahrenArt === "verfahrenAnwalt",
+                target: "#grundvorsaussetzungen.antrag.klageersteller",
+              },
+              "#grundvorsaussetzungen.antrag.hinweis",
+            ],
           },
-          {
-            guard: ({ context }) => context.verfahrenArt === "verfahrenAnwalt",
-            target: "#grundvorsaussetzungen.antrag.klageersteller",
+        },
+        mjp: {
+          on: {
+            SUBMIT: [
+              {
+                guard: shouldUseMJP,
+                target: "hinweis-digital-einreichung",
+              },
+              "hinweis-papier-einreichung",
+            ],
+            BACK: "fall",
           },
-          "#grundvorsaussetzungen.antrag.hinweis",
-        ],
+        },
+        "hinweis-papier-einreichung": {
+          on: {
+            SUBMIT: "#finanzielle-angaben", // TODO: replace w/ Antragstellende when finished
+            BACK: [
+              {
+                guard: versandDigitalGericht,
+                target: "mjp",
+              },
+              "fall",
+            ],
+          },
+        },
+        "hinweis-digital-einreichung": {
+          on: {
+            SUBMIT: "#finanzielle-angaben", // TODO: replace w/ Antragstellende when finished
+            BACK: [
+              {
+                guard: shouldUseMJP,
+                target: "mjp",
+              },
+              "fall",
+            ],
+          },
+        },
       },
     },
   },

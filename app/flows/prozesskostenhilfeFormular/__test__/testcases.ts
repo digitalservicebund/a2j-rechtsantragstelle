@@ -58,6 +58,12 @@ const cases = [
     happyPathData,
     [
       "start/start",
+      "grundvoraussetzungen/nachueberpruefung-frage",
+      "grundvoraussetzungen/nachueberpruefung/name-gericht",
+      "grundvoraussetzungen/nachueberpruefung/aktenzeichen",
+      "grundvoraussetzungen/einreichung/fall",
+      "grundvoraussetzungen/einreichung/mjp",
+      "grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
       "finanzielle-angaben/einkuenfte/start",
       "finanzielle-angaben/einkuenfte/staatliche-leistungen",
       "finanzielle-angaben/einkuenfte/buergergeld",

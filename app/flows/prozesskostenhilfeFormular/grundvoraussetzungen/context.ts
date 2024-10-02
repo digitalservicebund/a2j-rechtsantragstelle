@@ -17,7 +17,6 @@ export const prozesskostenhilfeGrundvoraussetzungen = {
     ["verfahrenSelbststaendig", "verfahrenAnwalt"],
     customRequiredErrorMessage,
   ),
-  // TODO: revisit for versandDigitalAnwalt/versandDigitalGericht
   versandArt: z.enum(["digital", "analog"], customRequiredErrorMessage),
   shouldUseMJP: YesNoAnswer,
 };
@@ -32,6 +31,26 @@ export type ProzesskostenhilfeGrundvoraussetzungenContext = z.infer<
 export const formularIsNachueberpruefung: GenericGuard<
   ProzesskostenhilfeGrundvoraussetzungenContext
 > = ({ context }) => context.formularArt === "nachueberpruefung";
+
+export const versandDigitalAnwalt: GenericGuard<
+  ProzesskostenhilfeGrundvoraussetzungenContext
+> = ({ context }) =>
+  context.formularArt === "erstantrag" &&
+  context.verfahrenArt === "verfahrenAnwalt" &&
+  context.versandArt === "digital";
+
+export const versandDigitalGericht: GenericGuard<
+  ProzesskostenhilfeGrundvoraussetzungenContext
+> = ({ context }) =>
+  (context.formularArt === "erstantrag" &&
+    context.verfahrenArt === "verfahrenSelbststaendig" &&
+    context.versandArt === "digital") ||
+  (context.formularArt === "nachueberpruefung" &&
+    context.versandArt === "digital");
+
+export const shouldUseMJP: GenericGuard<
+  ProzesskostenhilfeGrundvoraussetzungenContext
+> = ({ context }) => context.shouldUseMJP === "yes";
 
 export const grundvoraussetzungDone: GenericGuard<
   ProzesskostenhilfeGrundvoraussetzungenContext
