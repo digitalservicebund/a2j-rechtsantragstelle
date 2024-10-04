@@ -1,7 +1,7 @@
 import type PDFDocument from "pdfkit";
 import {
-  BUNDES_SANS_WEB_BOLD,
-  BUNDES_SANS_WEB_REGULAR,
+  FONTS_BUNDESSANS_BOLD,
+  FONTS_BUNDESSANS_REGULAR,
 } from "../../createPdfKitDocument";
 
 export const createLocalCourt = (doc: typeof PDFDocument) => {
@@ -11,12 +11,15 @@ export const createLocalCourt = (doc: typeof PDFDocument) => {
 
   doc
     .fontSize(10)
-    .font(BUNDES_SANS_WEB_REGULAR)
+    .font(FONTS_BUNDESSANS_REGULAR)
     .text("Erstellt am: 04.10.2024", { align: "right" });
 
-  doc.fontSize(10).font(BUNDES_SANS_WEB_BOLD).text("An das", { align: "left" });
   doc
-    .font(BUNDES_SANS_WEB_REGULAR)
+    .fontSize(10)
+    .font(FONTS_BUNDESSANS_BOLD)
+    .text("An das", { align: "left" });
+  doc
+    .font(FONTS_BUNDESSANS_REGULAR)
     .text("Amtsgericht Königs Wusterhausen", { align: "left" });
   doc.text("Schlossplatz 4", { align: "left" });
   doc.text("15711 Königs Wusterhausen", { align: "left" });
