@@ -1,6 +1,12 @@
 import { Form, useActionData } from "@remix-run/react";
+import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 import { submit } from "~/services/flow/submission.server";
 import Button from "../components/Button";
+
+export const loader = async () => {
+  await throw404IfFeatureFlagDisabled("showERV");
+  return null;
+};
 
 export const action = async () => await submit();
 
