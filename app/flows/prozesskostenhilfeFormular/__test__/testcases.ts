@@ -129,8 +129,7 @@ const cases = [
       "persoenliche-daten/adresse",
       "persoenliche-daten/telefonnummer",
       "persoenliche-daten/beruf",
-      "abgabe/art",
-      "abgabe/ausdrucken",
+      "abgabe/ende",
     ],
   ],
 ] as const satisfies TestCases<ProzesskostenhilfeFormularContext>;

@@ -1,6 +1,8 @@
 import {
   formularIsNachueberpruefung,
   grundvoraussetzungenDone,
+  verfahrenAnwalt,
+  verfahrenSelbststaendig,
   versandDigitalAnwalt,
   versandDigitalGericht,
 } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
@@ -25,6 +27,64 @@ describe("PKH Grundvoraussetzungen Context", () => {
         expect(
           formularIsNachueberpruefung({
             context: { formularArt: "erstantrag" },
+          }),
+        ).toBe(false);
+      });
+    });
+
+    describe("verfahrenAnwalt", () => {
+      it("should return true if the user is submitting the form to a lawyer", () => {
+        expect(
+          verfahrenAnwalt({
+            context: {
+              verfahrenArt: "verfahrenAnwalt",
+            },
+          }),
+        ).toBe(true);
+      });
+
+      it("should return false if the user hasn't chosen a submission type or if the user is submitting the form themselves", () => {
+        expect(
+          verfahrenAnwalt({
+            context: {
+              verfahrenArt: undefined,
+            },
+          }),
+        ).toBe(false);
+        expect(
+          verfahrenAnwalt({
+            context: {
+              verfahrenArt: "verfahrenSelbststaendig",
+            },
+          }),
+        ).toBe(false);
+      });
+    });
+
+    describe("verfahrenSelbststaendig", () => {
+      it("should return true if the user is submitting the form themselves", () => {
+        expect(
+          verfahrenSelbststaendig({
+            context: {
+              verfahrenArt: "verfahrenSelbststaendig",
+            },
+          }),
+        ).toBe(true);
+      });
+
+      it("should return false if the user hasn't chosen a submission type or if the user is submitting the form to a lawyer", () => {
+        expect(
+          verfahrenSelbststaendig({
+            context: {
+              verfahrenArt: undefined,
+            },
+          }),
+        ).toBe(false);
+        expect(
+          verfahrenSelbststaendig({
+            context: {
+              verfahrenArt: "verfahrenAnwalt",
+            },
           }),
         ).toBe(false);
       });

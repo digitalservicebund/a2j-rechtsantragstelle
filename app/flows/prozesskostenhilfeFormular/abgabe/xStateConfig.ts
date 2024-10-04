@@ -14,25 +14,13 @@ export function getAbgabeXstateConfig(transitions?: {
         on: {
           BACK: "#persoenliche-daten.beruf",
         },
-        always: { guard: transitions?.readyForAbgabe, target: "art" },
+        always: { guard: transitions?.readyForAbgabe, target: "ende" },
       },
-      art: {
+      ende: {
         on: {
-          SUBMIT: [
-            {
-              target: "online",
-              guard: ({ context }) => context.abgabeArt == "online",
-            },
-            {
-              target: "ausdrucken",
-              guard: ({ context }) => context.abgabeArt == "ausdrucken",
-            },
-          ],
           BACK: "#persoenliche-daten.beruf",
         },
       },
-      ausdrucken: { on: { BACK: { target: "art" } } },
-      online: { on: { BACK: { target: "art" } } },
     },
   };
 }

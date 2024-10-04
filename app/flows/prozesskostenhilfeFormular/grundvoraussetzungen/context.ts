@@ -28,18 +28,26 @@ export const formularIsNachueberpruefung: GenericGuard<
   ProzesskostenhilfeGrundvoraussetzungenContext
 > = ({ context }) => context.formularArt === "nachueberpruefung";
 
+export const verfahrenAnwalt: GenericGuard<
+  ProzesskostenhilfeGrundvoraussetzungenContext
+> = ({ context }) => context.verfahrenArt === "verfahrenAnwalt";
+
+export const verfahrenSelbststaendig: GenericGuard<
+  ProzesskostenhilfeGrundvoraussetzungenContext
+> = ({ context }) => context.verfahrenArt === "verfahrenSelbststaendig";
+
 export const versandDigitalAnwalt: GenericGuard<
   ProzesskostenhilfeGrundvoraussetzungenContext
 > = ({ context }) =>
   context.formularArt === "erstantrag" &&
-  context.verfahrenArt === "verfahrenAnwalt" &&
+  verfahrenAnwalt({ context }) &&
   context.versandArt === "digital";
 
 export const versandDigitalGericht: GenericGuard<
   ProzesskostenhilfeGrundvoraussetzungenContext
 > = ({ context }) =>
   (context.formularArt === "erstantrag" &&
-    context.verfahrenArt === "verfahrenSelbststaendig" &&
+    verfahrenSelbststaendig({ context }) &&
     context.versandArt === "digital") ||
   (context.formularArt === "nachueberpruefung" &&
     context.versandArt === "digital");

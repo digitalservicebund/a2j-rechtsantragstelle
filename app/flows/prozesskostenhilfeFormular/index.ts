@@ -1,5 +1,6 @@
 import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
+import { getAbgabeStrings } from "~/flows/prozesskostenhilfeFormular/abgabe/stringReplacements";
 import { getAbgabeXstateConfig } from "~/flows/prozesskostenhilfeFormular/abgabe/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
@@ -31,7 +32,6 @@ import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import prozesskostenhilfeFormularFlow from "./flow.json";
 import type { ProzesskostenhilfePersoenlicheDaten } from "./persoenlicheDaten/context";
 import { getMissingInformationStrings } from "./stringReplacements";
-import type { AbgabeContext } from "../shared/abgabe/context";
 import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
 import {
   eigentumZusammenfassungShowPartnerschaftWarnings,
@@ -220,6 +220,7 @@ export const prozesskostenhilfeFormular = {
     ...getArrayIndexStrings(context),
     ...eigentumZusammenfassungShowPartnerschaftWarnings(context),
     ...geldAnlagenStrings(context),
+    ...getAbgabeStrings(context),
     ...getMissingInformationStrings(context),
   }),
 } satisfies Flow;
@@ -228,5 +229,4 @@ export type ProzesskostenhilfeFormularContext =
   ProzesskostenhilfeGrundvoraussetzungenContext &
     ProzesskostenhilfeRechtsschutzversicherungContext &
     ProzesskostenhilfeFinanzielleAngabenContext &
-    ProzesskostenhilfePersoenlicheDaten &
-    AbgabeContext;
+    ProzesskostenhilfePersoenlicheDaten;
