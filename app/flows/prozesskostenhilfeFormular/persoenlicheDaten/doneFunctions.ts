@@ -1,7 +1,7 @@
 import type { GenericGuard } from "~/flows/guards.server";
 import type { ProzesskostenhilfePersoenlicheDaten } from "./context";
 
-export const beratungshilfePersoenlicheDatenDone: GenericGuard<
+export const prozesskostenhilfePersoenlicheDatenDone: GenericGuard<
   ProzesskostenhilfePersoenlicheDaten
 > = ({ context }) =>
   Boolean(

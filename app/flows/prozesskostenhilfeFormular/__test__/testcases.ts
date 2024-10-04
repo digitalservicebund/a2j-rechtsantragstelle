@@ -79,6 +79,8 @@ const cases = [
       "grundvoraussetzungen/einreichung/fall",
       "grundvoraussetzungen/einreichung/mjp",
       "grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
+      "rechtsschutzversicherung/rsv-frage",
+      "rechtsschutzversicherung/org-frage",
       "finanzielle-angaben/einkuenfte/start",
       "finanzielle-angaben/einkuenfte/staatliche-leistungen",
       "finanzielle-angaben/einkuenfte/buergergeld",

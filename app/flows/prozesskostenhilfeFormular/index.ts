@@ -8,7 +8,11 @@ import {
   finanzielleAngabeEinkuenfteGuards,
   partnerEinkuenfteGuards,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
-import type { ProzesskostenhilfeGrundvoraussetzungenContext } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
+import {
+  versandDigitalAnwalt,
+  versandDigitalGericht,
+  type ProzesskostenhilfeGrundvoraussetzungenContext,
+} from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
 import { grundvoraussetzungenXstateConfig } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/xStateConfig";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 import abgabeFlow from "./abgabe/flow.json";
@@ -36,6 +40,8 @@ import {
   getKinderStrings,
 } from "../shared/stringReplacements";
 import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
+import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechtsschutzversicherung/context";
+import { getProzesskostenhilfeRsvXstateConfig } from "./rechtsschutzversicherung/xstateConfig";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -53,6 +59,19 @@ export const prozesskostenhilfeFormular = {
     states: {
       start: { meta: { done: () => true } },
       grundvoraussetzungen: grundvoraussetzungenXstateConfig,
+      rechtsschutzversicherung: getProzesskostenhilfeRsvXstateConfig({
+        backToCallingFlow: [
+          {
+            guard: ({ context }) =>
+              versandDigitalAnwalt({ context }) ||
+              versandDigitalGericht({ context }),
+            target:
+              "#grundvorsaussetzungen.einreichung.hinweis-digital-einreichung",
+          },
+          "#grundvorsaussetzungen.einreichung.hinweis-papier-einreichung",
+        ],
+        nextFlowEntrypoint: "#finanzielle-angaben",
+      }),
       "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
         states: {
           einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
@@ -207,6 +226,7 @@ export const prozesskostenhilfeFormular = {
 
 export type ProzesskostenhilfeFormularContext =
   ProzesskostenhilfeGrundvoraussetzungenContext &
+    ProzesskostenhilfeRechtsschutzversicherungContext &
     ProzesskostenhilfeFinanzielleAngabenContext &
-    AbgabeContext &
-    ProzesskostenhilfePersoenlicheDaten;
+    ProzesskostenhilfePersoenlicheDaten &
+    AbgabeContext;
