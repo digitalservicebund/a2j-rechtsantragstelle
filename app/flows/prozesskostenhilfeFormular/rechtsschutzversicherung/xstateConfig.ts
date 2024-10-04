@@ -2,6 +2,7 @@ import type { Context } from "vm";
 import type { GenericGuard } from "~/flows/guards.server";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { ProzesskostenhilfeRechtschutzversicherungContext } from "./context";
+import { rechtsschutzversicherungDone } from "./doneFunctions";
 
 export function getProzesskostenhilfeRsvXstateConfig(transitions?: {
   backToCallingFlow?:
@@ -12,6 +13,7 @@ export function getProzesskostenhilfeRsvXstateConfig(transitions?: {
   return {
     id: "rechtsschutzversicherung",
     initial: "rsv-frage",
+    meta: { done: rechtsschutzversicherungDone },
     states: {
       "rsv-frage": {
         on: {
