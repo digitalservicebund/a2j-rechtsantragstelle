@@ -1,5 +1,7 @@
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import {
+  erstantrag,
+  nachueberpruefung,
   verfahrenAnwalt,
   verfahrenSelbststaendig,
   versandDigitalAnwalt,
@@ -19,5 +21,7 @@ export const getAbgabeStrings = (
     versandDigitalGericht: versandDigitalGericht({ context }),
     verfahrenAnwalt: verfahrenAnwalt({ context }),
     verfahrenSelbststaendig: verfahrenSelbststaendig({ context }),
+    erstantrag: erstantrag({ context }),
+    nachueberpruefung: nachueberpruefung({ context }),
   };
 };

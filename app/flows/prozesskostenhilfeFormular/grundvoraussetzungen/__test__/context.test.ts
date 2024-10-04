@@ -1,37 +1,15 @@
 import {
-  formularIsNachueberpruefung,
+  nachueberpruefung,
   grundvoraussetzungenDone,
   verfahrenAnwalt,
   verfahrenSelbststaendig,
   versandDigitalAnwalt,
   versandDigitalGericht,
+  erstantrag,
 } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
 
 describe("PKH Grundvoraussetzungen Context", () => {
   describe("guards", () => {
-    describe("formularIsNachueberpruefung", () => {
-      it("should return true if the user is making a nachueberpruefung", () => {
-        expect(
-          formularIsNachueberpruefung({
-            context: { formularArt: "nachueberpruefung" },
-          }),
-        ).toBe(true);
-      });
-
-      it("should return false if the user hasn't answered the formular art question, or if the user is making a new application", () => {
-        expect(
-          formularIsNachueberpruefung({
-            context: { formularArt: undefined },
-          }),
-        ).toBe(false);
-        expect(
-          formularIsNachueberpruefung({
-            context: { formularArt: "erstantrag" },
-          }),
-        ).toBe(false);
-      });
-    });
-
     describe("verfahrenAnwalt", () => {
       it("should return true if the user is submitting the form to a lawyer", () => {
         expect(
@@ -56,6 +34,52 @@ describe("PKH Grundvoraussetzungen Context", () => {
             context: {
               verfahrenArt: "verfahrenSelbststaendig",
             },
+          }),
+        ).toBe(false);
+      });
+    });
+
+    describe("erstantrag", () => {
+      it("should return true if this is a first-time application", () => {
+        expect(
+          erstantrag({
+            context: { formularArt: "erstantrag" },
+          }),
+        ).toBe(true);
+      });
+
+      it("should return false if the user hasn't answered the formular art question, or if the user is filing a nachueberpruefung", () => {
+        expect(
+          erstantrag({
+            context: { formularArt: undefined },
+          }),
+        ).toBe(false);
+        expect(
+          erstantrag({
+            context: { formularArt: "nachueberpruefung" },
+          }),
+        ).toBe(false);
+      });
+    });
+
+    describe("nachueberpruefung", () => {
+      it("should return true if the user is making a nachueberpruefung", () => {
+        expect(
+          nachueberpruefung({
+            context: { formularArt: "nachueberpruefung" },
+          }),
+        ).toBe(true);
+      });
+
+      it("should return false if the user hasn't answered the formular art question, or if the user is making a new application", () => {
+        expect(
+          nachueberpruefung({
+            context: { formularArt: undefined },
+          }),
+        ).toBe(false);
+        expect(
+          nachueberpruefung({
+            context: { formularArt: "erstantrag" },
           }),
         ).toBe(false);
       });
