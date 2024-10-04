@@ -4,25 +4,7 @@
   "states": {
     "ueberpruefung": {
       "on": {
-        "BACK": [
-          {
-            "guard": "hasAusgabenEntriesYes",
-            "target": "#ausgaben-zusammenfassung"
-          },
-          {
-            "guard": "staatlicheLeistungenIsBuergergeldAndEigentumDone",
-            "target": "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung"
-          },
-          {
-            "guard": "staatlicheLeistungenIsBuergergeld",
-            "target": "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage"
-          },
-          {
-            "guard": "hasGrundsicherungOrAsylbewerberleistungen",
-            "target": "#finanzielle-angaben.einkuenfte.staatliche-leistungen"
-          },
-          "#ausgaben.ausgaben-frage"
-        ]
+        "BACK": "#persoenliche-daten.beruf"
       },
       "always": { "guard": "readyForAbgabe", "target": "art" }
     },
@@ -32,25 +14,7 @@
           { "target": "online", "guard": "abgabeOnline" },
           { "target": "ausdrucken", "guard": "abgabeAusdrucken" }
         ],
-        "BACK": [
-          {
-            "guard": "hasAusgabenEntriesYes",
-            "target": "#ausgaben-zusammenfassung"
-          },
-          {
-            "guard": "staatlicheLeistungenIsBuergergeldAndEigentumDone",
-            "target": "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung"
-          },
-          {
-            "guard": "staatlicheLeistungenIsBuergergeld",
-            "target": "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage"
-          },
-          {
-            "guard": "hasGrundsicherungOrAsylbewerberleistungen",
-            "target": "#finanzielle-angaben.einkuenfte.staatliche-leistungen"
-          },
-          "#ausgaben.ausgaben-frage"
-        ]
+        "BACK": "#persoenliche-daten.beruf"
       }
     },
     "ausdrucken": { "on": { "BACK": { "target": "art" } } },
