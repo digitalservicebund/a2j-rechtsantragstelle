@@ -30,8 +30,8 @@ export const createPdfKitDocument = (
   });
 
   // Register fonts
-  document.registerFont("BundesSansWebRegular", bundesSansWebRegular);
-  document.registerFont("BundesSansWebBold", bundesSansWebBold);
+  document.registerFont(FONTS_BUNDESSANS_REGULAR, bundesSansWebRegular);
+  document.registerFont(FONTS_BUNDESSANS_BOLD, bundesSansWebBold);
 
   return document;
 };

@@ -51,13 +51,11 @@ const addFlightDetails = (
 };
 
 const addLastSentences = (doc: typeof PDFDocument) => {
-  doc
-    .font(FONTS_BUNDESSANS_REGULAR)
-    .fontSize(10)
-    .text(
-      "Die Fluggesellschaft hat keine außergewöhnlichen Umstände als Grund für die Verspätung mitgeteilt. Die klagende Partei geht davon aus, dass die genannten Umstände nicht korrekt ist.",
-      PDF_MARGIN,
-    );
+  doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10).text(
+    "Die Fluggesellschaft hat keine außergewöhnlichen Umstände als Grund für die Verspätung mitgeteilt. Die klagende Partei geht davon aus, dass die genannten Umstände nicht korrekt ist.",
+    PDF_MARGIN,
+    480, // start to print this text from this line
+  );
 
   doc.moveDown(1);
 

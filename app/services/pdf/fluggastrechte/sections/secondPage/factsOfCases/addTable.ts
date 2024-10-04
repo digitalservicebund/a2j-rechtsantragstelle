@@ -10,22 +10,22 @@ const doubleRowHeight = rowHeight * 2;
 
 function drawHorizontalTableHead(doc: typeof PDFDocument) {
   const headers = [
-    { title: "Geplante Zeiten", subtitle: "(laut Ticket)", padding: 20 },
-    { title: "Tatsächliche Zeiten", subtitle: "(gleicher Flug)", padding: 10 },
-    { title: "Verspätung", subtitle: "", padding: 25 },
+    { title: "Geplante Zeiten", subtitle: "(laut Ticket)" },
+    { title: "Tatsächliche Zeiten", subtitle: "(gleicher Flug)" },
+    { title: "Verspätung", subtitle: "" },
   ];
 
-  headers.forEach(({ title, padding, subtitle }, index) => {
-    drawCell(
-      doc,
-      startX + cellWidth[0] * (index + 1), // Dynamic X position based on the column
-      startY,
-      cellWidth[0], // Each header has the same width
-      doubleRowHeight, // Same height for all header cells
-      title, // Title (main content)
-      subtitle, // Subtitle (optional)
-      padding, // Custom padding for each cell
-    );
+  headers.forEach(({ title, subtitle }, index) => {
+    drawCell(doc, {
+      xPosition: startX + cellWidth[0] * (index + 1), // Dynamic X position based on the column
+      yPosition: startY,
+      width: cellWidth[0], // Each header has the same width
+      height: doubleRowHeight, // Same height for all header cells
+      boldText: title, // Title (main content)
+      normalText: subtitle, // Subtitle (optional)
+      shouldAddSilverBackground: true,
+      textAlign: "center",
+    });
   });
 }
 
@@ -39,15 +39,16 @@ function drawColumnsHeadDateAndTime(
     const xPosition = startX + cellWidth[1];
     const yPosition = startY + rowHeight * (positionY + index);
 
-    drawCell(
-      doc,
+    drawCell(doc, {
       xPosition,
       yPosition,
-      cellWidth[1],
-      rowHeight,
-      columnValue,
-      "",
-    );
+      width: cellWidth[1],
+      height: rowHeight,
+      boldText: columnValue,
+      normalText: "",
+      shouldAddSilverBackground: true,
+      textAlign: "left",
+    });
   });
 }
 
@@ -75,17 +76,31 @@ function drawColumnsValues(doc: typeof PDFDocument, yStartPadding: number) {
     const yPosition = startY + rowHeight * (yStartPadding + adjustedIndex);
 
     // Draw the cell with the value
-    drawCell(
-      doc,
+    drawCell(doc, {
       xPosition,
       yPosition,
-      cellWidth[0],
-      rowHeight,
-      "", // No label text, only the value
-      columnValue,
-      30, // Padding or margin
-    );
+      width: cellWidth[0],
+      height: rowHeight,
+      boldText: "", // No label text, only the value
+      normalText: columnValue,
+      shouldAddSilverBackground: false,
+      textAlign: "center",
+      normalTextFontSize: 10,
+    });
   }
+
+  drawCell(doc, {
+    xPosition: startX + cellWidth[1] * 6 + 30,
+    yPosition: startY + rowHeight * (yStartPadding + 1),
+    width: cellWidth[1],
+    height: rowHeight,
+    boldText: "", // No label text, only the value
+    normalText: "3 Stunden 34 Minuten",
+    shouldAddSilverBackground: false,
+    textAlign: "center",
+    normalTextFontSize: 10,
+    shouldDrawRectangle: false,
+  });
 }
 
 function drawColumnsHead(doc: typeof PDFDocument, yStartPadding: number) {
@@ -100,15 +115,16 @@ function drawColumnsHead(doc: typeof PDFDocument, yStartPadding: number) {
   headers.forEach((header, index) => {
     const yPosition = startY + doubleRowHeight * (index + 1); // Adjust yPosition based on index
 
-    drawCell(
-      doc,
-      xPosition, // X position stays constant
-      yPosition, // Dynamic Y position
-      cellWidth[1], // Fixed width for the column
-      doubleRowHeight, // Height remains constant
-      header.title, // Title (Abflug / Ankunft)
-      header.subtitle, // Subtitle (Startflughafen / Zielflughafen)
-    );
+    drawCell(doc, {
+      xPosition,
+      yPosition,
+      width: cellWidth[1],
+      height: doubleRowHeight,
+      boldText: header.title,
+      normalText: header.subtitle,
+      shouldAddSilverBackground: true,
+      textAlign: "left",
+    });
   });
 
   drawColumnsHeadDateAndTime(doc, yStartPadding);
