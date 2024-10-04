@@ -1,5 +1,4 @@
 import _ from "lodash";
-import { or } from "xstate";
 import type { Flow } from "~/flows/flows.server";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
@@ -8,9 +7,9 @@ import {
   partnerEinkuenfteGuards,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import {
-  versandDigitalAnwalt,
-  versandDigitalGericht,
-} from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
+  isOrganizationCoverageNone,
+  isOrganizationCoveragePartly,
+} from "~/flows/prozesskostenhilfeFormular/rechtsschutzversicherung/guards";
 
 type PKHEinkuenfteSubflowTypes = "partner";
 
@@ -78,14 +77,16 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
         id: stepIds.start,
         on: {
           SUBMIT: stepIds.staatlicheLeistungen,
-          // TODO: replace with Rechtsschutzversicherung when finished
           BACK: [
             {
-              guard: or([versandDigitalAnwalt, versandDigitalGericht]),
-              target:
-                "#grundvorsaussetzungen.einreichung.hinweis-digital-einreichung",
+              guard: ({ context }) => isOrganizationCoveragePartly(context),
+              target: "#rechtsschutzversicherung.org-deckung-teilweise",
             },
-            "#grundvorsaussetzungen.einreichung.hinweis-papier-einreichung",
+            {
+              guard: ({ context }) => isOrganizationCoverageNone(context),
+              target: "#rechtsschutzversicherung.org-deckung-nein",
+            },
+            "#rechtsschutzversicherung.org-frage",
           ],
         },
       },
