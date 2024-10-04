@@ -14,6 +14,21 @@ const machine: FlowStateMachine = createMachine(
 
 const cases = [
   [
+    {
+      formularArt: "erstantrag",
+      verfahrenArt: "verfahrenSelbststaendig",
+      versandArt: "digital",
+    },
+    [
+      "grundvoraussetzungen/nachueberpruefung-frage",
+      "grundvoraussetzungen/antrag/klageersteller",
+      "grundvoraussetzungen/antrag/hinweis",
+      "grundvoraussetzungen/einreichung/fall",
+      "grundvoraussetzungen/einreichung/mjp",
+      "grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
+    ],
+  ],
+  [
     { partnerschaft: "separated" },
     [
       "finanzielle-angaben/partner/partnerschaft",
@@ -58,6 +73,14 @@ const cases = [
     happyPathData,
     [
       "start/start",
+      "grundvoraussetzungen/nachueberpruefung-frage",
+      "grundvoraussetzungen/nachueberpruefung/name-gericht",
+      "grundvoraussetzungen/nachueberpruefung/aktenzeichen",
+      "grundvoraussetzungen/einreichung/fall",
+      "grundvoraussetzungen/einreichung/mjp",
+      "grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
+      "rechtsschutzversicherung/rsv-frage",
+      "rechtsschutzversicherung/org-frage",
       "finanzielle-angaben/einkuenfte/start",
       "finanzielle-angaben/einkuenfte/staatliche-leistungen",
       "finanzielle-angaben/einkuenfte/buergergeld",
@@ -100,6 +123,12 @@ const cases = [
       "finanzielle-angaben/ausgaben/ausgaben-frage",
       "finanzielle-angaben/ausgaben/besondere-belastungen",
       "finanzielle-angaben/ausgaben-zusammenfassung/zusammenfassung",
+      "persoenliche-daten/start",
+      "persoenliche-daten/name",
+      "persoenliche-daten/geburtsdatum",
+      "persoenliche-daten/adresse",
+      "persoenliche-daten/telefonnummer",
+      "persoenliche-daten/beruf",
       "abgabe/art",
       "abgabe/ausdrucken",
     ],

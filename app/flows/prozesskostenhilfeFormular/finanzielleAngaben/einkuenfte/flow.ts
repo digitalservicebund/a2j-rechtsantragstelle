@@ -6,6 +6,10 @@ import {
   finanzielleAngabeEinkuenfteGuards,
   partnerEinkuenfteGuards,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import {
+  isOrganizationCoverageNone,
+  isOrganizationCoveragePartly,
+} from "~/flows/prozesskostenhilfeFormular/rechtsschutzversicherung/guards";
 
 type PKHEinkuenfteSubflowTypes = "partner";
 
@@ -73,7 +77,17 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
         id: stepIds.start,
         on: {
           SUBMIT: stepIds.staatlicheLeistungen,
-          BACK: "#antragStart",
+          BACK: [
+            {
+              guard: ({ context }) => isOrganizationCoveragePartly(context),
+              target: "#rechtsschutzversicherung.org-deckung-teilweise",
+            },
+            {
+              guard: ({ context }) => isOrganizationCoverageNone(context),
+              target: "#rechtsschutzversicherung.org-deckung-nein",
+            },
+            "#rechtsschutzversicherung.org-frage",
+          ],
         },
       },
       [stepIds.staatlicheLeistungen]: {
@@ -91,7 +105,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               guard: guards.staatlicheLeistungenIsKeine,
               target: stepIds.einkommen,
             },
-            subflowPrefix === "partner" ? "#kinder" : "#abgabe",
+            subflowPrefix === "partner" ? "#kinder" : "#persoenliche-daten",
           ],
           BACK:
             subflowPrefix === "partner"

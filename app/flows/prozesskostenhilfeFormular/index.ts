@@ -8,6 +8,12 @@ import {
   finanzielleAngabeEinkuenfteGuards,
   partnerEinkuenfteGuards,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import {
+  versandDigitalAnwalt,
+  versandDigitalGericht,
+  type ProzesskostenhilfeGrundvoraussetzungenContext,
+} from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
+import { grundvoraussetzungenXstateConfig } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/xStateConfig";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 import abgabeFlow from "./abgabe/flow.json";
 import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
@@ -23,6 +29,7 @@ import {
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import prozesskostenhilfeFormularFlow from "./flow.json";
+import type { ProzesskostenhilfePersoenlicheDaten } from "./persoenlicheDaten/context";
 import { getMissingInformationStrings } from "./stringReplacements";
 import type { AbgabeContext } from "../shared/abgabe/context";
 import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
@@ -32,6 +39,9 @@ import {
   getArrayIndexStrings,
   getKinderStrings,
 } from "../shared/stringReplacements";
+import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
+import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechtsschutzversicherung/context";
+import { getProzesskostenhilfeRsvXstateConfig } from "./rechtsschutzversicherung/xstateConfig";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -48,6 +58,20 @@ export const prozesskostenhilfeFormular = {
     },
     states: {
       start: { meta: { done: () => true } },
+      grundvoraussetzungen: grundvoraussetzungenXstateConfig,
+      rechtsschutzversicherung: getProzesskostenhilfeRsvXstateConfig({
+        backToCallingFlow: [
+          {
+            guard: ({ context }) =>
+              versandDigitalAnwalt({ context }) ||
+              versandDigitalGericht({ context }),
+            target:
+              "#grundvorsaussetzungen.einreichung.hinweis-digital-einreichung",
+          },
+          "#grundvorsaussetzungen.einreichung.hinweis-papier-einreichung",
+        ],
+        nextFlowEntrypoint: "#finanzielle-angaben",
+      }),
       "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
         states: {
           einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
@@ -155,6 +179,32 @@ export const prozesskostenhilfeFormular = {
           },
         },
       }),
+      "persoenliche-daten": getProzesskostenhilfePersoenlicheDatenXstateConfig({
+        backToCallingFlow: [
+          {
+            guard: finanzielleAngabeGuards.hasAusgabenEntriesYes,
+            target: "#ausgaben-zusammenfassung",
+          },
+          {
+            guard:
+              finanzielleAngabeEinkuenfteGuards.staatlicheLeistungenIsBuergergeldAndEigentumDone,
+            target:
+              "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung",
+          },
+          {
+            guard:
+              finanzielleAngabeEinkuenfteGuards.staatlicheLeistungenIsBuergergeld,
+            target: "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
+          },
+          {
+            guard:
+              finanzielleAngabeEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen,
+            target: "#finanzielle-angaben.einkuenfte.staatliche-leistungen",
+          },
+          "#ausgaben.ausgaben-frage",
+        ],
+        nextFlowEntrypoint: "#abgabe",
+      }),
       abgabe: _.merge(abgabeFlow, {
         meta: { done: () => false },
       }),
@@ -175,4 +225,8 @@ export const prozesskostenhilfeFormular = {
 } satisfies Flow;
 
 export type ProzesskostenhilfeFormularContext =
-  ProzesskostenhilfeFinanzielleAngabenContext & AbgabeContext;
+  ProzesskostenhilfeGrundvoraussetzungenContext &
+    ProzesskostenhilfeRechtsschutzversicherungContext &
+    ProzesskostenhilfeFinanzielleAngabenContext &
+    ProzesskostenhilfePersoenlicheDaten &
+    AbgabeContext;
