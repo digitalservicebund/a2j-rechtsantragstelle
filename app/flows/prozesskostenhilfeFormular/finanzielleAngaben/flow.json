@@ -424,7 +424,7 @@
             ],
             "SUBMIT": [
               { "guard": "hasAusgabenYes", "target": "besondere-belastungen" },
-              "#abgabe"
+              "#persoenliche-daten"
             ]
           }
         },
@@ -436,7 +436,7 @@
                 "guard": "ausgabenDone",
                 "target": "#ausgaben-zusammenfassung"
               },
-              "#abgabe"
+              "#persoenliche-daten"
             ]
           }
         }
@@ -449,7 +449,7 @@
         "zusammenfassung": {
           "on": {
             "BACK": "#ausgaben.besondere-belastungen",
-            "SUBMIT": "#abgabe",
+            "SUBMIT": "#persoenliche-daten",
             "add-versicherungen": "versicherungen",
             "add-ratenzahlungen": "ratenzahlungen",
             "add-sonstigeAusgaben": "sonstigeAusgaben"
