@@ -61,7 +61,7 @@ function drawColumnsHeadDateAndTime(
   });
 }
 
-function drawColumnValues(
+function drawColumnsValues(
   doc: typeof PDFDocument,
   bundesSansWebRegular: ArrayBuffer,
   bundesSansWebBold: ArrayBuffer,
@@ -105,7 +105,7 @@ function drawColumnValues(
   }
 }
 
-function drawColumnHead(
+function drawColumnsHead(
   doc: typeof PDFDocument,
   bundesSansWebRegular: ArrayBuffer,
   bundesSansWebBold: ArrayBuffer,
@@ -149,6 +149,6 @@ export function addTable(
   bundesSansWebBold: ArrayBuffer,
 ) {
   drawHorizontalTableHead(doc, bundesSansWebRegular, bundesSansWebBold);
-  drawColumnHead(doc, bundesSansWebRegular, bundesSansWebBold, 2);
-  drawColumnValues(doc, bundesSansWebRegular, bundesSansWebBold, 2);
+  drawColumnsHead(doc, bundesSansWebRegular, bundesSansWebBold, 2);
+  drawColumnsValues(doc, bundesSansWebRegular, bundesSansWebBold, 2);
 }
