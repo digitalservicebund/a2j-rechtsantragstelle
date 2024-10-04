@@ -40,12 +40,11 @@ export const fillFinancialBankkonto: BerHPdfFillFunction = ({
   pdfValues,
 }) => {
   const attachment: AttachmentEntries = [];
-  const { bankkonten } = userData;
-  const hasBankkontoYes = arrayIsNonEmpty(bankkonten);
+  pdfValues.f1Konten1.value = userData.hasBankkonto === "no";
+  pdfValues.f1Konten2.value = userData.hasBankkonto === "yes";
 
-  pdfValues.f1Konten1.value = !hasBankkontoYes;
-  pdfValues.f1Konten2.value = hasBankkontoYes;
-  if (!hasBankkontoYes) return { pdfValues };
+  const { bankkonten } = userData;
+  if (!arrayIsNonEmpty(bankkonten)) return { pdfValues };
 
   if (bankkonten.length == 1) {
     const bankkonto = bankkonten[0];
@@ -97,9 +96,8 @@ export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
 }) => {
   const attachment: AttachmentEntries = [];
   const { eigentumTotalWorth, grundeigentum: grundeigentumArray } = userData;
-  const hasGrundeigentumYes = arrayIsNonEmpty(grundeigentumArray);
-  pdfValues.f5Grundeigentum1.value = !hasGrundeigentumYes;
-  pdfValues.f5Grundeigentum2.value = hasGrundeigentumYes;
+  pdfValues.f5Grundeigentum1.value = userData.hasGrundeigentum === "no";
+  pdfValues.f5Grundeigentum2.value = userData.hasGrundeigentum === "yes";
 
   const shouldPrintNote = eigentumTotalWorth === "less10000";
 
@@ -108,7 +106,7 @@ export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
       "Übergreifender Hinweis zu allen Vermögenswerten: Mein gesamtes Vermögen ist insgesamt weniger als 10.000€ wert.";
   }
 
-  if (!hasGrundeigentumYes) return { pdfValues };
+  if (!arrayIsNonEmpty(grundeigentumArray)) return { pdfValues };
 
   const grundeigentumArtMapping = {
     eigentumswohnung: "Wohnung",

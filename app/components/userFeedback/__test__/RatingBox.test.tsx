@@ -1,32 +1,41 @@
 import { json } from "@remix-run/node";
 import { createRemixStub } from "@remix-run/testing";
 import { fireEvent, render } from "@testing-library/react";
-import { FeedbackTranslationContext } from "../FeedbackTranslationContext";
-import {
-  NO_RATING_BUTTON_LABEL_TRANSLATION_KEY,
-  RatingBox,
-  YES_RATING_BUTTON_LABEL_TRANSLATION_KEY,
-} from "../RatingBox";
+import { useMemo } from "react";
+import { TranslationContext } from "~/services/translations/translationsContext";
+import type { RatingBoxTranslationKeys } from "../feedbackTranslations";
+import { RatingBox } from "../RatingBox";
 
 const YES_RATING = "yes";
 const NO_RATING = "no";
 
-const TRANSLATION_KEY_RECORD = {
-  [YES_RATING_BUTTON_LABEL_TRANSLATION_KEY]: YES_RATING,
-  [NO_RATING_BUTTON_LABEL_TRANSLATION_KEY]: NO_RATING,
-};
-
 describe("RatingBox", () => {
+  const FeedbackContextComponent = (props: { children: React.ReactNode }) => {
+    const feedbackTranslationMemo = useMemo(
+      () => ({
+        feedback: {
+          ["yes-rating"]: YES_RATING,
+          ["no-rating"]: NO_RATING,
+        } satisfies Record<RatingBoxTranslationKeys, string>,
+        video: {},
+      }),
+      [],
+    );
+    return (
+      <TranslationContext.Provider value={feedbackTranslationMemo}>
+        {props.children}
+      </TranslationContext.Provider>
+    );
+  };
+
   it("should render the component with the given translations", () => {
     const RatingBoxWithRemixStub = createRemixStub([
       {
         path: "",
         Component: () => (
-          <FeedbackTranslationContext.Provider
-            value={{ translations: TRANSLATION_KEY_RECORD }}
-          >
+          <FeedbackContextComponent>
             <RatingBox heading="heading" url="url" onSubmit={vitest.fn} />
-          </FeedbackTranslationContext.Provider>
+          </FeedbackContextComponent>
         ),
       },
     ]);
@@ -43,11 +52,9 @@ describe("RatingBox", () => {
       {
         path: "",
         Component: () => (
-          <FeedbackTranslationContext.Provider
-            value={{ translations: TRANSLATION_KEY_RECORD }}
-          >
+          <FeedbackContextComponent>
             <RatingBox heading="heading" url="url" onSubmit={onSubmitMock} />
-          </FeedbackTranslationContext.Provider>
+          </FeedbackContextComponent>
         ),
       },
       {
@@ -70,11 +77,9 @@ describe("RatingBox", () => {
       {
         path: "",
         Component: () => (
-          <FeedbackTranslationContext.Provider
-            value={{ translations: TRANSLATION_KEY_RECORD }}
-          >
+          <FeedbackContextComponent>
             <RatingBox heading="heading" url="url" onSubmit={onSubmitMock} />
-          </FeedbackTranslationContext.Provider>
+          </FeedbackContextComponent>
         ),
       },
       {

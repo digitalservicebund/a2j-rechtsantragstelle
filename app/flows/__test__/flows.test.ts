@@ -18,11 +18,12 @@ import { testCasesFluggastrechteAnnullierung } from "~/flows/fluggastrechteVorab
 import { testCasesFluggastrechteNichtBefoerderung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesNichtBefoerderung";
 import { testCasesFluggastrechteVerspaetet } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesVerspaetet";
 import { testCasesGeldEinklagen } from "~/flows/geldEinklagenVorabcheck/__test__/testcases";
-import { transitionDestinations } from "~/services/flow/server/buildFlowController";
+import { nextStepId } from "~/services/flow/server/buildFlowController";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
-import { parsePathname } from "../flowIds";
 import { testCasesFluggastrechteFormularStreitwertKosten } from "../fluggastrechteFormular/streitwertKosten/__test__/testscases";
 import { testCasesProzesskostenhilfeFormular } from "../prozesskostenhilfeFormular/__test__/testcases";
+import { testCasesProzesskostenhilfePersoenlicheDaten } from "../prozesskostenhilfeFormular/persoenlicheDaten/__test__/testcases";
+import { testCasesProzesskostenhilfeRsv } from "../prozesskostenhilfeFormular/rechtsschutzversicherung/__test__/testcases";
 
 function getEnabledSteps({
   machine,
@@ -37,19 +38,13 @@ function getEnabledSteps({
 }) {
   const initialStep = steps[0];
   const reachableSteps = steps.slice(0, -1).map((step) => {
-    const transDest = transitionDestinations(
-      machine,
-      step,
-      transitionType,
-      context,
-    );
-    if (!transDest?.at(0)) {
+    const destination = nextStepId(machine, step, transitionType, context);
+    if (!destination) {
       throw Error(
         `transition destination missing for step: ${step}, transitionType: ${transitionType}`,
       );
     }
-    const { stepId } = parsePathname(transDest?.at(0) ?? "");
-    return stepId;
+    return destination;
   });
   return [initialStep, ...reachableSteps];
 }
@@ -89,6 +84,8 @@ describe("state machine form flows", () => {
     testCasesProzesskostenhilfeFormular,
     testCasesFluggastrechteFormularGrundvorraussetzungen,
     testCasesFluggastrechteFormularStreitwertKosten,
+    testCasesProzesskostenhilfePersoenlicheDaten,
+    testCasesProzesskostenhilfeRsv,
   ].forEach(({ machine, cases }) => {
     test.each([...cases])(
       "SUBMIT (%#) given context: %j, visits steps: %j",

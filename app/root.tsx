@@ -19,8 +19,8 @@ import {
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
+import { useMemo } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
-import { VideoTranslationContext } from "~/components/video/VideoTranslationContext";
 import { flowIdFromPathname } from "~/flows/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import {
@@ -36,7 +36,6 @@ import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
 import Header from "./components/PageHeader";
 import { BannerState } from "./components/userFeedback";
-import { FeedbackTranslationContext } from "./components/userFeedback/FeedbackTranslationContext";
 import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
@@ -46,6 +45,7 @@ import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
+import { TranslationContext } from "./services/translations/translationsContext";
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "X-Frame-Options": "SAMEORIGIN",
@@ -173,6 +173,11 @@ function App() {
   // eslint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
 
+  const translationMemo = useMemo(
+    () => ({ video: videoTranslations, feedback: feedbackTranslations }),
+    [videoTranslations, feedbackTranslations],
+  );
+
   return (
     <html lang="de">
       <head>
@@ -191,21 +196,15 @@ function App() {
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
-        <CookieConsentContext.Provider value={{ hasTrackingConsent }}>
+        <CookieConsentContext.Provider value={hasTrackingConsent}>
           <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
           <Header {...header} />
           <Breadcrumbs breadcrumbs={breadcrumbs} />
-          <FeedbackTranslationContext.Provider
-            value={{ translations: feedbackTranslations }}
-          >
-            <VideoTranslationContext.Provider
-              value={{ translations: videoTranslations }}
-            >
-              <main className="flex-grow">
-                <Outlet />
-              </main>
-            </VideoTranslationContext.Provider>
-          </FeedbackTranslationContext.Provider>
+          <TranslationContext.Provider value={translationMemo}>
+            <main className="flex-grow">
+              <Outlet />
+            </main>
+          </TranslationContext.Provider>
           <footer>
             <Footer
               {...footer}

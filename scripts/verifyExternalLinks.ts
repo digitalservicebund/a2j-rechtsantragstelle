@@ -36,6 +36,7 @@ const allowedWebsites = [
   "https://www.verbraucherzentrale.nrw",
   "https://www.youtube.com",
   "https://policies.google.com",
+  "https://app.formbricks.com",
 ];
 
 const allowedEmails = [

@@ -42,7 +42,6 @@ export async function startFluggastrechteFormular(
 
   // /fluggastrechte/formular/streitwert-kosten/zahlung-nach-klageeinreichung
   await expectPageToBeAccessible({ page });
-  await formular.clickLabelFor("aenderungMitteilung");
   await formular.clickNext();
 
   // /fluggastrechte/formular/streitwert-kosten/prozesszinsen
@@ -56,6 +55,7 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/flugdaten/geplanter-flug
   await expectPageToBeAccessible({ page });
   await formular.fillInput("direktFlugnummer", "AB1234");
+  await formular.fillInput("buchungsNummer", "X36Q9C");
   await formular.fillInput("direktAbflugsDatum", toGermanDateFormat(today()));
   await formular.fillInput("direktAbflugsZeit", "08:10");
   await formular.fillDropdown("zwischenstoppAnzahl", "oneStop");
@@ -108,7 +108,9 @@ export async function startFluggastrechteFormular(
 
   // fluggastrechte/formular/zusammenfassung/start
   await expectPageToBeAccessible({ page });
-  await expect(page).toHaveURL(
-    new RegExp(`.+${formular.url}/zusammenfassung/start$`),
-  );
+  await formular.clickNext();
+
+  // fluggastrechte/formular/abgabe/start
+  await expectPageToBeAccessible({ page });
+  await expect(page).toHaveURL(new RegExp(`.+${formular.url}/abgabe/start$`));
 }

@@ -1,4 +1,3 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { streitwertKostenDone } from "../doneFunctions";
 
 describe("streitwertKostenDone", () => {
@@ -7,7 +6,6 @@ describe("streitwertKostenDone", () => {
       context: {
         versaeumnisurteil: "yes",
         prozesszinsen: "yes",
-        aenderungMitteilung: CheckboxValue.on,
       },
     });
 
@@ -18,7 +16,6 @@ describe("streitwertKostenDone", () => {
     const actual = streitwertKostenDone({
       context: {
         prozesszinsen: "yes",
-        aenderungMitteilung: CheckboxValue.on,
       },
     });
 
@@ -29,18 +26,6 @@ describe("streitwertKostenDone", () => {
     const actual = streitwertKostenDone({
       context: {
         versaeumnisurteil: "yes",
-        aenderungMitteilung: CheckboxValue.on,
-      },
-    });
-
-    expect(actual).toBe(false);
-  });
-
-  it("should return false, if aenderungMitteilung is missing", () => {
-    const actual = streitwertKostenDone({
-      context: {
-        versaeumnisurteil: "yes",
-        prozesszinsen: "yes",
       },
     });
 

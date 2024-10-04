@@ -18,6 +18,7 @@ Dockerfile
 .gitignore
 *.snap
 *.sh
+*.otf
 *.pdf
 *.generated.ts
 sonar-project.properties

@@ -3,7 +3,7 @@ import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import type { ArrayData } from "~/flows/contexts";
 import type { ArrayConfig } from "~/services/array";
 import type { Translations } from "~/services/cms/index.server";
-import { getTranslationByKey } from "~/util/getTranslationByKey";
+import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import ArraySummaryDataItems from "./ArraySummaryDataItems";
 import Button from "../Button";
 import Heading from "../Heading";

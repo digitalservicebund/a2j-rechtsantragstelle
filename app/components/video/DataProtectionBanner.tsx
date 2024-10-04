@@ -1,8 +1,8 @@
 import Button from "~/components/Button";
 import Heading from "~/components/Heading";
 import RichText from "~/components/RichText";
-import { useVideoTranslations } from "~/components/video/VideoTranslationContext";
-import { getTranslationByKey } from "~/util/getTranslationByKey";
+import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
+import { useTranslations } from "~/services/translations/translationsContext";
 
 export const HEADER_TRANSLATION_KEY = "datenschutz-header";
 export const DATA_PROTECTION_TRANSLATION_KEY = "datenschutz";
@@ -13,7 +13,7 @@ export const DataProtectionBanner = ({
 }: {
   onCookiesAccepted: () => void;
 }) => {
-  const { translations } = useVideoTranslations();
+  const { video: translations } = useTranslations();
   return (
     <section
       className="border-2 border-blue-800 z-10 bg-blue-300 absolute bottom-0 left-0 right-0"

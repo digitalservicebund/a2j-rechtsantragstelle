@@ -6,7 +6,7 @@
       "id": "antragStart",
       "initial": "start",
       "states": {
-        "start": { "on": { "SUBMIT": "#finanzielle-angaben" } }
+        "start": { "on": { "SUBMIT": "#grundvorsaussetzungen" } }
       }
     }
   }
