@@ -11,6 +11,5 @@ export const beratungshilfePersoenlicheDatenDone: GenericGuard<
       context.strasseHausnummer &&
       context.plz &&
       context.ort &&
-      context.telefonnummer &&
       context.beruf,
   );
