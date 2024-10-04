@@ -8,11 +8,7 @@ const cellWidth = [110, 55, 0]; // Widths for each column
 const rowHeight = 16;
 const doubleRowHeight = rowHeight * 2;
 
-function drawHorizontalTableHead(
-  doc: typeof PDFDocument,
-  bundesSansWebRegular: ArrayBuffer,
-  bundesSansWebBold: ArrayBuffer,
-) {
+function drawHorizontalTableHead(doc: typeof PDFDocument) {
   const headers = [
     { title: "Geplante Zeiten", subtitle: "(laut Ticket)", padding: 20 },
     { title: "Tatsächliche Zeiten", subtitle: "(gleicher Flug)", padding: 10 },
@@ -28,8 +24,6 @@ function drawHorizontalTableHead(
       doubleRowHeight, // Same height for all header cells
       title, // Title (main content)
       subtitle, // Subtitle (optional)
-      bundesSansWebRegular, // Regular font for subtitle
-      bundesSansWebBold, // Bold font for title
       padding, // Custom padding for each cell
     );
   });
@@ -37,8 +31,6 @@ function drawHorizontalTableHead(
 
 function drawColumnsHeadDateAndTime(
   doc: typeof PDFDocument,
-  bundesSansWebRegular: ArrayBuffer,
-  bundesSansWebBold: ArrayBuffer,
   positionY: number,
 ) {
   const columns = ["Datum", "Zeit", "Datum", "Zeit"];
@@ -55,18 +47,11 @@ function drawColumnsHeadDateAndTime(
       rowHeight,
       columnValue,
       "",
-      bundesSansWebRegular,
-      bundesSansWebBold,
     );
   });
 }
 
-function drawColumnsValues(
-  doc: typeof PDFDocument,
-  bundesSansWebRegular: ArrayBuffer,
-  bundesSansWebBold: ArrayBuffer,
-  yStartPadding: number,
-) {
+function drawColumnsValues(doc: typeof PDFDocument, yStartPadding: number) {
   const values = [
     "10.03.2024",
     "20:30",
@@ -98,19 +83,12 @@ function drawColumnsValues(
       rowHeight,
       "", // No label text, only the value
       columnValue,
-      bundesSansWebRegular,
-      bundesSansWebBold,
       30, // Padding or margin
     );
   }
 }
 
-function drawColumnsHead(
-  doc: typeof PDFDocument,
-  bundesSansWebRegular: ArrayBuffer,
-  bundesSansWebBold: ArrayBuffer,
-  yStartPadding: number,
-) {
+function drawColumnsHead(doc: typeof PDFDocument, yStartPadding: number) {
   const headers = [
     { title: "Abflug", subtitle: "Startflughafen" },
     { title: "Ankunft", subtitle: "Zielflughafen" },
@@ -130,25 +108,14 @@ function drawColumnsHead(
       doubleRowHeight, // Height remains constant
       header.title, // Title (Abflug / Ankunft)
       header.subtitle, // Subtitle (Startflughafen / Zielflughafen)
-      bundesSansWebRegular,
-      bundesSansWebBold,
     );
   });
 
-  drawColumnsHeadDateAndTime(
-    doc,
-    bundesSansWebRegular,
-    bundesSansWebBold,
-    yStartPadding,
-  );
+  drawColumnsHeadDateAndTime(doc, yStartPadding);
 }
 
-export function addTable(
-  doc: typeof PDFDocument,
-  bundesSansWebRegular: ArrayBuffer,
-  bundesSansWebBold: ArrayBuffer,
-) {
-  drawHorizontalTableHead(doc, bundesSansWebRegular, bundesSansWebBold);
-  drawColumnsHead(doc, bundesSansWebRegular, bundesSansWebBold, 2);
-  drawColumnsValues(doc, bundesSansWebRegular, bundesSansWebBold, 2);
+export function addTable(doc: typeof PDFDocument) {
+  drawHorizontalTableHead(doc);
+  drawColumnsHead(doc, 2);
+  drawColumnsValues(doc, 2);
 }

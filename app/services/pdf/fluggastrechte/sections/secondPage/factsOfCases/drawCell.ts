@@ -1,4 +1,8 @@
 import type PDFDocument from "pdfkit";
+import {
+  FONTS_BUNDESSANS_BOLD,
+  FONTS_BUNDESSANS_REGULAR,
+} from "../../../createPdfKitDocument";
 
 const cellSpaceX = 5;
 const cellSpaceY = 5;
@@ -12,8 +16,6 @@ export function drawCell(
   height: number,
   boldText: string,
   normalText: string,
-  bundesSansWebRegular: ArrayBuffer,
-  bundesSansWebBold: ArrayBuffer,
   extraXSpace = 0,
 ) {
   const textX = xPosition + cellSpaceX + extraXSpace;
@@ -21,7 +23,7 @@ export function drawCell(
   doc.save().rect(xPosition, yPosition, width, height).stroke("silver");
 
   if (boldText.length > 0) {
-    doc.fontSize(10).font(bundesSansWebBold).text(boldText, textX, textY);
+    doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text(boldText, textX, textY);
   }
 
   if (normalText.length > 0) {
@@ -29,7 +31,7 @@ export function drawCell(
 
     doc
       .fontSize(8)
-      .font(bundesSansWebRegular)
+      .font(FONTS_BUNDESSANS_REGULAR)
       .text(normalText, textX, textY + extraSpaceY);
   }
   doc.restore();

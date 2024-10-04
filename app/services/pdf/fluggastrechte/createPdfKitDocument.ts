@@ -3,6 +3,8 @@ import PDFDocument from "pdfkit";
 const PDF_VERSION = "1.7";
 const PDF_LANGUAGE = "de-DE";
 const PDF_SIZE_FORMAT = "A4";
+export const FONTS_BUNDESSANS_REGULAR = "BundesSansWebRegular";
+export const FONTS_BUNDESSANS_BOLD = "BundesSansWebBold";
 export const PDF_MARGIN = 70;
 export const PDF_HEIGHT_SEIZE = 760;
 

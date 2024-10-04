@@ -7,18 +7,14 @@ import { createBankInformation } from "../createBankInformation";
 import { createPageLine } from "../createPageLine";
 import { createStamp } from "../createStamp";
 
-export const createFirstPage = (
-  doc: typeof PDFDocument,
-  bundesSansWebRegular: ArrayBuffer,
-  bundesSansWebBold: ArrayBuffer,
-) => {
+export const createFirstPage = (doc: typeof PDFDocument) => {
   createLocalCourt(doc);
   doc.moveDown(2);
-  createMainTitle(doc, bundesSansWebRegular, bundesSansWebBold);
+  createMainTitle(doc);
   doc.moveDown(2);
-  createClaimData(doc, bundesSansWebRegular, bundesSansWebBold);
+  createClaimData(doc);
   doc.moveDown(2);
-  createStatementClaim(doc, bundesSansWebRegular, bundesSansWebBold);
+  createStatementClaim(doc);
   createStamp(doc);
   createPageLine(doc, 1);
   createBankInformation(doc);

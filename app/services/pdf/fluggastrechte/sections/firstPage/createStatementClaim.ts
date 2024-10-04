@@ -1,20 +1,20 @@
 import type PDFDocument from "pdfkit";
+import {
+  FONTS_BUNDESSANS_BOLD,
+  FONTS_BUNDESSANS_REGULAR,
+} from "../../createPdfKitDocument";
 
 const DEFENDANT_PARTY_LIST: Array<string> = [
   "die beklagte Partei zu verurteilen, an die klagende Partei 100 € nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit zu zahlen.",
   "Die beklagte Partei trägt die Kosten des Rechtsstreits.",
 ];
 
-export const createStatementClaim = (
-  doc: typeof PDFDocument,
-  bundesSansWebRegular: ArrayBuffer,
-  bundesSansWebBold: ArrayBuffer,
-) => {
-  doc.fontSize(14).font(bundesSansWebBold).text("Klageantrag");
+export const createStatementClaim = (doc: typeof PDFDocument) => {
+  doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text("Klageantrag");
   doc.moveDown(1);
   doc
     .fontSize(10)
-    .font(bundesSansWebRegular)
+    .font(FONTS_BUNDESSANS_REGULAR)
     .text("Die klagende Partei erhebt Antrag,");
   doc.list(DEFENDANT_PARTY_LIST, {
     indent: 5,
