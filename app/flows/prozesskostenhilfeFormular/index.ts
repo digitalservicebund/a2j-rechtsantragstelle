@@ -1,5 +1,6 @@
 import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
+import { getAbgabeXstateConfig } from "~/flows/prozesskostenhilfeFormular/abgabe/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
@@ -11,8 +12,6 @@ import {
 import type { ProzesskostenhilfeGrundvoraussetzungenContext } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
 import { grundvoraussetzungenXstateConfig } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/xStateConfig";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
-import abgabeFlow from "./abgabe/flow.json";
-import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import {
   andereUnterhaltszahlungenDone,
@@ -21,6 +20,7 @@ import {
   eigentumZusammenfassungDone,
   kinderDone,
   partnerDone,
+  prozesskostenhilfeFinanzielleAngabeDone,
 } from "./finanzielleAngaben/doneFunctions";
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
@@ -186,15 +186,15 @@ export const prozesskostenhilfeFormular = {
         ],
         nextFlowEntrypoint: "#abgabe",
       }),
-      abgabe: _.merge(abgabeFlow, {
-        meta: { done: () => false },
+      abgabe: getAbgabeXstateConfig({
+        readyForAbgabe: ({ context }) =>
+          prozesskostenhilfeFinanzielleAngabeDone({ context }),
       }),
     },
   }),
   guards: {
     ...finanzielleAngabeGuards,
     ...finanzielleAngabeEinkuenfteGuards,
-    ...prozesskostenhilfeAbgabeGuards,
   },
   stringReplacements: (context: ProzesskostenhilfeFormularContext) => ({
     ...getKinderStrings(context),
