@@ -23,7 +23,7 @@ export const StandaloneLink = ({
   const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
     href: url,
     "aria-label": text,
-    className: classNames("text-link min-h-[24px] inline-block", className),
+    className: classNames("text-link min-h-[24px]", className),
     ...(shouldOpenNewTab
       ? {
           "aria-label": `${text}, ${OPEN_NEW_TAB}`,
