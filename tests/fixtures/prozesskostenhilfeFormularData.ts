@@ -6,6 +6,7 @@ import {
   zahlungspflichtigerSchema,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
 import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
 import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,
@@ -27,6 +28,8 @@ export const createFinancialEntry = () => ({
 });
 
 export const happyPathData: ProzesskostenhilfeFormularContext = {
+  formularArt: grundvoraussetzungenSchema.formularArt.Enum.nachueberpruefung,
+  versandArt: grundvoraussetzungenSchema.versandArt.Enum.digital,
   hasBankkonto: YesNoAnswer.Enum.yes,
   hasGeldanlage: YesNoAnswer.Enum.yes,
   hasWertsache: YesNoAnswer.Enum.yes,
