@@ -9,6 +9,7 @@ import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessibl
 import { startFinanzielleAngabenAusgaben } from "./finanzielleAngabenAusgaben";
 import { startFinanzielleAngabenEigentum } from "./finanzielleAngabenEigentum";
 import { startPersoenlicheDaten } from "./persoenlicheDaten";
+import { startRechtsschutzversicherung } from "./rechtsschutzversicherung";
 import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "../../shared/finanzielleAngaben/finanzielleAngabenAndereUnterhaltszahlungen";
 import { startFinanzielleAngabenEigentumZusammenfassung } from "../../shared/finanzielleAngaben/finanzielleAngabenEigentumZusammenfassung";
 import { startFinanzielleAngabenKinder } from "../../shared/finanzielleAngaben/finanzielleAngabenKinder";
@@ -48,6 +49,9 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
 
   // /prozesskostenhilfe/formular/grundvoraussetzungen/nachueberpruefung-frage
   await startGrundvoraussetzungen(page, prozesskostenhilfeFormular);
+
+  // /prozesskostenhilfe/formular/grundvoraussetzungen/nachueberpruefung-frage
+  await startRechtsschutzversicherung(page, prozesskostenhilfeFormular);
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkommen/start
   await expectPageToBeAccessible({ page });

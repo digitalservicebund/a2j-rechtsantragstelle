@@ -1,42 +1,27 @@
-import { hasNoRsvAndNoOrg, hasPartlyorNoCoverage } from "../guards";
+import {
+  isOrganizationCoveragePartly,
+  isOrganizationCoverageNone,
+} from "~/flows/prozesskostenhilfeFormular/rechtsschutzversicherung/guards";
 
-describe("rechtsschuzversicherung guards", () => {
-  describe("they determine if insurance or organization membership exists", () => {
-    it("is truthy when no insurance and no membership exists", () => {
-      expect(hasNoRsvAndNoOrg({ hasRsv: "no", hasOrg: "no" })).toBeTruthy();
+describe("they determine if organization coverage is None or partly", () => {
+  describe("they determine if an organziation covers the cost partly", () => {
+    it("is Truthy when organizations cover the cost partly", () => {
+      expect(
+        isOrganizationCoveragePartly({ hasOrgCoverage: "partly" }),
+      ).toBeTruthy();
     });
-    it("is falsy when only insurance is covering cost", () => {
-      expect(hasNoRsvAndNoOrg({ hasRsv: "yes", hasOrg: "no" })).toBeFalsy();
-    });
-    it("is falsy when only an organization is covering cost", () => {
-      expect(hasNoRsvAndNoOrg({ hasRsv: "no", hasOrg: "yes" })).toBeFalsy();
+    it("is Truthy when organizations cover the cost partly fully", () => {
+      expect(
+        isOrganizationCoveragePartly({ hasOrgCoverage: "yes" }),
+      ).toBeFalsy();
     });
   });
-  describe("they determine if insurance or organization cover the cost", () => {
-    it("is truthy when the insurance and org are not covering cost", () => {
-      expect(
-        hasPartlyorNoCoverage({ hasRsvCoverage: "no", hasOrgCoverage: "no" }),
-      ).toBeTruthy();
+  describe("they describe if an organziation covers the cost or not", () => {
+    it("is Truthy when organizations dont cover the cost", () => {
+      expect(isOrganizationCoverageNone({ hasOrgCoverage: "no" })).toBeTruthy();
     });
-    it("it is truthy when the insurance or org are only partly covering cost", () => {
-      expect(
-        hasPartlyorNoCoverage({
-          hasRsvCoverage: "partly",
-          hasOrgCoverage: "no",
-        }),
-      ).toBeTruthy();
-      expect(
-        hasPartlyorNoCoverage({
-          hasRsvCoverage: "partly",
-          hasOrgCoverage: "partly",
-        }),
-      ).toBeTruthy();
-      expect(
-        hasPartlyorNoCoverage({
-          hasRsvCoverage: "no",
-          hasOrgCoverage: "partly",
-        }),
-      ).toBeTruthy();
+    it("is Falsy when organizations cover the cost", () => {
+      expect(isOrganizationCoverageNone({ hasOrgCoverage: "yes" })).toBeFalsy();
     });
   });
 });

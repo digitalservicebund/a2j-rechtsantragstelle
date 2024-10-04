@@ -182,5 +182,5 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   ],
   abgabeArt: abgabeContext.abgabeArt.Enum.ausdrucken,
   hasRsv: YesNoAnswer.Enum.no,
-  hasOrg: YesNoAnswer.Enum.no,
+  hasRsvThroughOrg: YesNoAnswer.Enum.no,
 };

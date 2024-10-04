@@ -87,7 +87,7 @@ export function getProzesskostenhilfeRsvXstateConfig(transitions?: {
           ],
           SUBMIT: [
             {
-              guard: ({ context }) => context.hasOrg === "yes",
+              guard: ({ context }) => context.hasRsvThroughOrg === "yes",
               target: "org-deckung",
             },
             transitions?.nextFlowEntrypoint,

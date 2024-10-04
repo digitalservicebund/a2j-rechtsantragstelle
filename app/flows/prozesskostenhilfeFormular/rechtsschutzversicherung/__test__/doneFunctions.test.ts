@@ -3,7 +3,9 @@ import { rechtsschutzversicherungDone } from "../doneFunctions";
 describe("determine if rechtsschutzversicherung is done", () => {
   it("will be true if no insurance or organization is present", () => {
     expect(
-      rechtsschutzversicherungDone({ context: { hasRsv: "no", hasOrg: "no" } }),
+      rechtsschutzversicherungDone({
+        context: { hasRsv: "no", hasRsvThroughOrg: "no" },
+      }),
     ).toBeTruthy();
   });
   it("will be true if insurance or organization dont cover the cost", () => {
@@ -11,7 +13,7 @@ describe("determine if rechtsschutzversicherung is done", () => {
       rechtsschutzversicherungDone({
         context: {
           hasRsv: "yes",
-          hasOrg: "yes",
+          hasRsvThroughOrg: "yes",
           hasRsvCoverage: "no",
           hasOrgCoverage: "no",
         },
@@ -23,7 +25,7 @@ describe("determine if rechtsschutzversicherung is done", () => {
       rechtsschutzversicherungDone({
         context: {
           hasRsv: "yes",
-          hasOrg: "yes",
+          hasRsvThroughOrg: "yes",
           hasRsvCoverage: "yes",
           hasOrgCoverage: "no",
         },
@@ -33,7 +35,7 @@ describe("determine if rechtsschutzversicherung is done", () => {
       rechtsschutzversicherungDone({
         context: {
           hasRsv: "yes",
-          hasOrg: "yes",
+          hasRsvThroughOrg: "yes",
           hasRsvCoverage: "no",
           hasOrgCoverage: "yes",
         },

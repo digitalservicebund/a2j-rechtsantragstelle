@@ -12,7 +12,7 @@ const cases = [
   [
     {
       hasRsv: "no",
-      hasOrg: "no",
+      hasRsvThroughOrg: "no",
     },
     ["rsv-frage", "org-frage"],
   ],
@@ -47,7 +47,7 @@ const cases = [
   [
     {
       hasRsv: "no",
-      hasOrg: "yes",
+      hasRsvThroughOrg: "yes",
       hasOrgCoverage: "no",
     },
     ["rsv-frage", "org-frage", "org-deckung"],
@@ -55,7 +55,7 @@ const cases = [
   [
     {
       hasRsv: "no",
-      hasOrg: "yes",
+      hasRsvThroughOrg: "yes",
       hasOrgCoverage: "unknown",
     },
     ["rsv-frage", "org-frage", "org-deckung", "org-deckung-unbekannt"],
@@ -63,7 +63,7 @@ const cases = [
   [
     {
       hasRsv: "no",
-      hasOrg: "yes",
+      hasRsvThroughOrg: "yes",
       hasOrgCoverage: "yes",
     },
     ["rsv-frage", "org-frage", "org-deckung", "org-deckung-ja"],
@@ -71,7 +71,7 @@ const cases = [
   [
     {
       hasRsv: "no",
-      hasOrg: "yes",
+      hasRsvThroughOrg: "yes",
       hasOrgCoverage: "no",
     },
     ["rsv-frage", "org-frage", "org-deckung", "org-deckung-nein"],
@@ -79,7 +79,7 @@ const cases = [
   [
     {
       hasRsv: "no",
-      hasOrg: "yes",
+      hasRsvThroughOrg: "yes",
       hasOrgCoverage: "partly",
     },
     ["rsv-frage", "org-frage", "org-deckung", "org-deckung-teilweise"],

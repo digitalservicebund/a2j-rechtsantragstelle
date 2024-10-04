@@ -6,8 +6,8 @@ import { abgabeContext } from "../shared/abgabe/context";
 
 export const prozesskostenhilfeFormularContext = {
   ...prozesskostenhilfeGrundvoraussetzungen,
+  ...prozesskostenhilfeRsvContext,
   ...prozesskostenhilfeFinanzielleAngabenContext,
   ...prozesskostenhilfePersoenlicheDatenContext,
   ...abgabeContext,
-  ...prozesskostenhilfeRsvContext,
 } as const;

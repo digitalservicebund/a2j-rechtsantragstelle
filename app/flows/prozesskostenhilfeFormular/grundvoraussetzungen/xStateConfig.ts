@@ -105,7 +105,7 @@ export const grundvoraussetzungenXstateConfig = {
           on: {
             SUBMIT: {
               guard: grundvoraussetzungenDone,
-              target: "#finanzielle-angaben",
+              target: "#rechtsschutzversicherung",
             }, // TODO: replace w/ Antragstellende when finished
             BACK: "fall",
           },
@@ -114,7 +114,7 @@ export const grundvoraussetzungenXstateConfig = {
           on: {
             SUBMIT: {
               guard: grundvoraussetzungenDone,
-              target: "#finanzielle-angaben",
+              target: "#rechtsschutzversicherung",
             }, // TODO: replace w/ Antragstellende when finished
             BACK: [
               {
