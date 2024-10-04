@@ -1,8 +1,8 @@
 import type { GenericGuard } from "~/flows/guards.server";
-import { type ProzesskostenhilfeRechtschutzversicherungContext } from "./context";
-import { hasPartlyorNoCoverage, hasNoRsvOrOrg } from "./guards";
+import { type ProzesskostenhilfeRechtsschutzversicherungContext } from "./context";
+import { hasPartlyorNoCoverage, hasNoRsvAndNoOrg } from "./guards";
 
 export const rechtsschutzversicherungDone: GenericGuard<
-  ProzesskostenhilfeRechtschutzversicherungContext
+  ProzesskostenhilfeRechtsschutzversicherungContext
 > = ({ context }) =>
-  Boolean(hasNoRsvOrOrg(context) || hasPartlyorNoCoverage(context));
+  Boolean(hasNoRsvAndNoOrg(context) || hasPartlyorNoCoverage(context));

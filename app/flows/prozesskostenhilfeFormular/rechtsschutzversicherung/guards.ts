@@ -1,13 +1,13 @@
-import type { ProzesskostenhilfeRechtschutzversicherungContext } from "./context";
+import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./context";
 
-export function hasNoRsvOrOrg(
-  context: ProzesskostenhilfeRechtschutzversicherungContext,
+export function hasNoRsvAndNoOrg(
+  context: ProzesskostenhilfeRechtsschutzversicherungContext,
 ): boolean {
-  return Boolean(context.hasRsv === "no" && context.hasRsvThroughOrg === "no");
+  return Boolean(context.hasRsv === "no" && context.hasOrg === "no");
 }
 
 export function hasPartlyorNoCoverage(
-  context: ProzesskostenhilfeRechtschutzversicherungContext,
+  context: ProzesskostenhilfeRechtsschutzversicherungContext,
 ): boolean {
   return Boolean(
     (context.hasRsvCoverage === "no" || context.hasRsvCoverage === "partly") &&

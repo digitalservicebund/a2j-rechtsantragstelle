@@ -1,7 +1,7 @@
 import type { Context } from "vm";
 import type { GenericGuard } from "~/flows/guards.server";
 import type { Config } from "~/services/flow/server/buildFlowController";
-import type { ProzesskostenhilfeRechtschutzversicherungContext } from "./context";
+import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./context";
 import { rechtsschutzversicherungDone } from "./doneFunctions";
 
 export function getProzesskostenhilfeRsvXstateConfig(transitions?: {
@@ -9,7 +9,7 @@ export function getProzesskostenhilfeRsvXstateConfig(transitions?: {
     | string
     | (string | { guard: GenericGuard<Context>; target: string })[];
   nextFlowEntrypoint?: string;
-}): Config<ProzesskostenhilfeRechtschutzversicherungContext> {
+}): Config<ProzesskostenhilfeRechtsschutzversicherungContext> {
   return {
     id: "rechtsschutzversicherung",
     initial: "rsv-frage",
@@ -74,10 +74,20 @@ export function getProzesskostenhilfeRsvXstateConfig(transitions?: {
       },
       "org-frage": {
         on: {
-          BACK: "rsv-frage",
+          BACK: [
+            {
+              guard: ({ context }) => context.hasRsvCoverage === "no",
+              target: "rsv-deckung-nein",
+            },
+            {
+              guard: ({ context }) => context.hasRsvCoverage === "partly",
+              target: "rsv-deckung-teilweise",
+            },
+            "rsv-frage",
+          ],
           SUBMIT: [
             {
-              guard: ({ context }) => context.hasRsvThroughOrg === "yes",
+              guard: ({ context }) => context.hasOrg === "yes",
               target: "org-deckung",
             },
             transitions?.nextFlowEntrypoint,

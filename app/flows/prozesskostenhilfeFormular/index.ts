@@ -36,7 +36,7 @@ import {
   getKinderStrings,
 } from "../shared/stringReplacements";
 import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
-import type { ProzesskostenhilfeRechtschutzversicherungContext } from "./rechtsschutzversicherung/context";
+import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechtsschutzversicherung/context";
 import { getProzesskostenhilfeRsvXstateConfig } from "./rechtsschutzversicherung/xstateConfig";
 
 export const prozesskostenhilfeFormular = {
@@ -216,4 +216,4 @@ export type ProzesskostenhilfeFormularContext =
     ProzesskostenhilfeFinanzielleAngabenContext &
     AbgabeContext &
     ProzesskostenhilfePersoenlicheDaten &
-    ProzesskostenhilfeRechtschutzversicherungContext;
+    ProzesskostenhilfeRechtsschutzversicherungContext;
