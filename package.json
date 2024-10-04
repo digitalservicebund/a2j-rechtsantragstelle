@@ -108,7 +108,7 @@
     "@vitest/expect": "^2.1.1",
     "autoprefixer": "^10.4.20",
     "eslint-import-resolver-typescript": "^3.6.3",
-    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react": "^7.37.1",

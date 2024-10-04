@@ -181,4 +181,11 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   ],
   hasRsv: YesNoAnswer.Enum.no,
   hasRsvThroughOrg: YesNoAnswer.Enum.no,
+  vorname: "John",
+  nachname: "Doe",
+  beruf: "Developer",
+  ort: "Berlin",
+  plz: "10119",
+  geburtsdatum: "01.01.1981",
+  strasseHausnummer: "Strasse 1",
 };

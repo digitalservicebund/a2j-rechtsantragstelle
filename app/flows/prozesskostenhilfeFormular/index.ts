@@ -16,6 +16,8 @@ import {
   type ProzesskostenhilfeGrundvoraussetzungenContext,
 } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
 import { grundvoraussetzungenXstateConfig } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/xStateConfig";
+import { prozesskostenhilfePersoenlicheDatenDone } from "~/flows/prozesskostenhilfeFormular/persoenlicheDaten/doneFunctions";
+import { rechtsschutzversicherungDone } from "~/flows/prozesskostenhilfeFormular/rechtsschutzversicherung/doneFunctions";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import {
@@ -207,7 +209,9 @@ export const prozesskostenhilfeFormular = {
       }),
       abgabe: getAbgabeXstateConfig({
         readyForAbgabe: ({ context }) =>
-          prozesskostenhilfeFinanzielleAngabeDone({ context }),
+          prozesskostenhilfeFinanzielleAngabeDone({ context }) &&
+          rechtsschutzversicherungDone({ context }) &&
+          prozesskostenhilfePersoenlicheDatenDone({ context }),
       }),
     },
   }),
