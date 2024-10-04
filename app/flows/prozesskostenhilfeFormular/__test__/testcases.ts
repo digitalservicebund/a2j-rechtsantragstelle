@@ -14,6 +14,21 @@ const machine: FlowStateMachine = createMachine(
 
 const cases = [
   [
+    {
+      formularArt: "erstantrag",
+      verfahrenArt: "verfahrenSelbststaendig",
+      versandArt: "digital",
+    },
+    [
+      "grundvoraussetzungen/nachueberpruefung-frage",
+      "grundvoraussetzungen/antrag/klageersteller",
+      "grundvoraussetzungen/antrag/hinweis",
+      "grundvoraussetzungen/einreichung/fall",
+      "grundvoraussetzungen/einreichung/mjp",
+      "grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
+    ],
+  ],
+  [
     { partnerschaft: "separated" },
     [
       "finanzielle-angaben/partner/partnerschaft",
@@ -58,6 +73,12 @@ const cases = [
     happyPathData,
     [
       "start/start",
+      "grundvoraussetzungen/nachueberpruefung-frage",
+      "grundvoraussetzungen/nachueberpruefung/name-gericht",
+      "grundvoraussetzungen/nachueberpruefung/aktenzeichen",
+      "grundvoraussetzungen/einreichung/fall",
+      "grundvoraussetzungen/einreichung/mjp",
+      "grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
       "finanzielle-angaben/einkuenfte/start",
       "finanzielle-angaben/einkuenfte/staatliche-leistungen",
       "finanzielle-angaben/einkuenfte/buergergeld",

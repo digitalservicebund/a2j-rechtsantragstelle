@@ -8,6 +8,8 @@ import {
   finanzielleAngabeEinkuenfteGuards,
   partnerEinkuenfteGuards,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import type { ProzesskostenhilfeGrundvoraussetzungenContext } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
+import { grundvoraussetzungenXstateConfig } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/xStateConfig";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 import abgabeFlow from "./abgabe/flow.json";
 import { prozesskostenhilfeAbgabeGuards } from "./abgabe/guards";
@@ -50,6 +52,7 @@ export const prozesskostenhilfeFormular = {
     },
     states: {
       start: { meta: { done: () => true } },
+      grundvoraussetzungen: grundvoraussetzungenXstateConfig,
       "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
         states: {
           einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
@@ -203,6 +206,7 @@ export const prozesskostenhilfeFormular = {
 } satisfies Flow;
 
 export type ProzesskostenhilfeFormularContext =
-  ProzesskostenhilfeFinanzielleAngabenContext &
+  ProzesskostenhilfeGrundvoraussetzungenContext &
+    ProzesskostenhilfeFinanzielleAngabenContext &
     AbgabeContext &
     ProzesskostenhilfePersoenlicheDaten;
