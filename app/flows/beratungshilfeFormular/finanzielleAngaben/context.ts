@@ -6,11 +6,11 @@ import {
   grundeigentumArraySchema,
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
-  partnerschaftSchema,
   staatlicheLeistungen,
   unterhaltszahlungSchema,
   wertsachenArraySchema,
 } from "~/flows/shared/finanzielleAngaben/context";
+import { finanzielleAngabenPartnerContext } from "~/flows/shared/finanzielleAngaben/partner/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
@@ -24,6 +24,7 @@ import {
 import { today } from "~/util/date";
 
 export const beratungshilfeFinanzielleAngaben = {
+  ...finanzielleAngabenPartnerContext,
   einkommen: buildMoneyValidationSchema(),
   erwerbstaetig: YesNoAnswer,
   staatlicheLeistungen,
@@ -48,14 +49,6 @@ export const beratungshilfeFinanzielleAngaben = {
     ["pupil", "student", "retiree", "no"],
     customRequiredErrorMessage,
   ),
-  partnerschaft: partnerschaftSchema,
-  zusammenleben: YesNoAnswer,
-  unterhalt: YesNoAnswer,
-  unterhaltsSumme: buildMoneyValidationSchema(),
-  partnerEinkommen: YesNoAnswer,
-  partnerEinkommenSumme: buildMoneyValidationSchema(),
-  partnerVorname: stringRequiredSchema,
-  partnerNachname: stringRequiredSchema,
   hasKinder: YesNoAnswer,
   kinder: kinderArraySchema,
   hasBankkonto: YesNoAnswer,

@@ -5,13 +5,12 @@ import {
   prozesskostenhilfeFinanzielleAngabenContext,
   zahlungspflichtigerSchema,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
-import {
-  prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema,
-  financialEntrySchema,
-} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
 import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,
+  financialEntrySchema,
   gelanlagenArraySchema,
   grundeigentumArraySchema,
   kraftfahrzeugeArraySchema,
@@ -29,6 +28,8 @@ export const createFinancialEntry = () => ({
 });
 
 export const happyPathData: ProzesskostenhilfeFormularContext = {
+  formularArt: grundvoraussetzungenSchema.formularArt.Enum.nachueberpruefung,
+  versandArt: grundvoraussetzungenSchema.versandArt.Enum.digital,
   hasBankkonto: YesNoAnswer.Enum.yes,
   hasGeldanlage: YesNoAnswer.Enum.yes,
   hasWertsache: YesNoAnswer.Enum.yes,
@@ -69,8 +70,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   weitereEinkuenfte: faker.helpers.multiple(createFinancialEntry),
   partnerschaft: YesNoAnswer.Enum.yes,
   zusammenleben: YesNoAnswer.Enum.yes,
-  partnerEinkommen: YesNoAnswer.Enum.yes,
-  partnerEinkommenSumme: faker.finance.amount(),
+  partnerEinkommen: YesNoAnswer.Enum.no,
   hasKinder: YesNoAnswer.Enum.yes,
   hasWeitereUnterhaltszahlungen: YesNoAnswer.Enum.yes,
   bankkonten: [
@@ -181,4 +181,13 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
     },
   ],
   abgabeArt: abgabeContext.abgabeArt.Enum.ausdrucken,
+  hasRsv: YesNoAnswer.Enum.no,
+  hasRsvThroughOrg: YesNoAnswer.Enum.no,
+  vorname: "John",
+  nachname: "Doe",
+  beruf: "Developer",
+  ort: "Berlin",
+  plz: "10119",
+  geburtsdatum: "01.01.1981",
+  strasseHausnummer: "Strasse 1",
 };

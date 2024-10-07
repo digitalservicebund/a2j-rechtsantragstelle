@@ -22,6 +22,8 @@ import { nextStepId } from "~/services/flow/server/buildFlowController";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { testCasesFluggastrechteFormularStreitwertKosten } from "../fluggastrechteFormular/streitwertKosten/__test__/testscases";
 import { testCasesProzesskostenhilfeFormular } from "../prozesskostenhilfeFormular/__test__/testcases";
+import { testCasesProzesskostenhilfePersoenlicheDaten } from "../prozesskostenhilfeFormular/persoenlicheDaten/__test__/testcases";
+import { testCasesProzesskostenhilfeRsv } from "../prozesskostenhilfeFormular/rechtsschutzversicherung/__test__/testcases";
 
 function getEnabledSteps({
   machine,
@@ -82,6 +84,8 @@ describe("state machine form flows", () => {
     testCasesProzesskostenhilfeFormular,
     testCasesFluggastrechteFormularGrundvorraussetzungen,
     testCasesFluggastrechteFormularStreitwertKosten,
+    testCasesProzesskostenhilfePersoenlicheDaten,
+    testCasesProzesskostenhilfeRsv,
   ].forEach(({ machine, cases }) => {
     test.each([...cases])(
       "SUBMIT (%#) given context: %j, visits steps: %j",

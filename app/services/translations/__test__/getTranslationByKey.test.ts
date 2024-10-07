@@ -1,5 +1,5 @@
 import * as logging from "~/services/logging";
-import { getTranslationByKey } from "~/util/getTranslationByKey";
+import { getTranslationByKey } from "../getTranslationByKey";
 
 const TRANSLATION_KEY_RECORD = {
   key: "translation key",

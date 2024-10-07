@@ -1,26 +1,17 @@
 import { z } from "zod";
-import { staatlicheLeistungen } from "~/flows/shared/finanzielleAngaben/context";
+import {
+  financialEntrySchema,
+  staatlicheLeistungen,
+} from "~/flows/shared/finanzielleAngaben/context";
 import { adresseSchema } from "~/flows/shared/persoenlicheDaten/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
-
-export const financialEntrySchema = z.object({
-  beschreibung: stringRequiredSchema,
-  betrag: buildMoneyValidationSchema(),
-  zahlungsfrequenz: z.enum(
-    ["monthly", "quarterly", "yearly", "one-time"],
-    customRequiredErrorMessage,
-  ),
-});
-
-export type FinancialEntry = z.infer<typeof financialEntrySchema>;
 
 export const prozesskostenhilfeFinanzielleAngabenEinkuenfteContext = {
   staatlicheLeistungen: z.enum(
