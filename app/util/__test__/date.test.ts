@@ -54,7 +54,7 @@ describe("date", () => {
 
   describe("pdfDateFormat()", () => {
     it("formats correctly", () => {
-      expect(pdfDateFormat(new Date("2000-01-01"))).toEqual("010100");
+      expect(pdfDateFormat(new Date("2000-01-01"))).toEqual("01_01_2000");
     });
   });
 });
