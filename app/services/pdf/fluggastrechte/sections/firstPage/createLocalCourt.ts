@@ -13,6 +13,10 @@ export const createLocalCourt = (
     doc.struct("P", {}, () => {
       doc
         .fontSize(10)
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text("Erstellt am: 04.10.2024", { align: "right" });
+      doc
+        .fontSize(10)
         .font(FONTS_BUNDESSANS_BOLD)
         .text("An das", { align: "left" });
       doc
