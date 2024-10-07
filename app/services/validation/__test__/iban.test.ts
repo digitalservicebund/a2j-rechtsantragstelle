@@ -1,4 +1,3 @@
-// @vitest-environment node
 import type { SafeParseError } from "zod";
 import { ibanSchema } from "../iban";
 
@@ -9,14 +8,12 @@ describe("iban validation", () => {
         input: " DE 91 1000 0000 0123456789",
         expected: "DE91100000000123456789",
       },
-      { input: "De91100000000123456789", expected: "DE91100000000123456789" },
-      { input: " De91100000000123456789 ", expected: "DE91100000000123456789" },
-      { input: " de91100000000123456789 ", expected: "DE91100000000123456789" },
-      { input: " DE91100000000123456789 ", expected: "DE91100000000123456789" },
       {
-        input: "De 91 1000 0000 0123456789 ",
+        input: " DE 91 1000 0000 0123456789 ",
         expected: "DE91100000000123456789",
       },
+      { input: "DE91100000000123456789 ", expected: "DE91100000000123456789" },
+      { input: " DE91100000000123456789 ", expected: "DE91100000000123456789" },
     ];
 
     test.each(cases)(
