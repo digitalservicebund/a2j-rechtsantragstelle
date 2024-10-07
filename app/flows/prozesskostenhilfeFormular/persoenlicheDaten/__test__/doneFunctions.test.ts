@@ -1,5 +1,5 @@
 import type { ProzesskostenhilfePersoenlicheDaten } from "../context";
-import { beratungshilfePersoenlicheDatenDone } from "../doneFunctions";
+import { prozesskostenhilfePersoenlicheDatenDone } from "../doneFunctions";
 
 const context: ProzesskostenhilfePersoenlicheDaten = {
   beruf: "Software Engineer",
@@ -16,54 +16,56 @@ const contextWithPhonenumber = { ...context, telefonnummer: 12345 };
 describe("eigentumDone", () => {
   it("passes with all fields set", () => {
     expect(
-      beratungshilfePersoenlicheDatenDone({ context: contextWithPhonenumber }),
+      prozesskostenhilfePersoenlicheDatenDone({
+        context: contextWithPhonenumber,
+      }),
     ).toBeTruthy();
   });
   it("fails with an empty vornamename field", () => {
     expect(
-      beratungshilfePersoenlicheDatenDone({
+      prozesskostenhilfePersoenlicheDatenDone({
         context: { ...context, vorname: "" },
       }),
     ).toBeFalsy();
   });
   it("fails with an empty nachname field", () => {
     expect(
-      beratungshilfePersoenlicheDatenDone({
+      prozesskostenhilfePersoenlicheDatenDone({
         context: { ...context, nachname: "" },
       }),
     ).toBeFalsy();
   });
   it("fails with an empty geburtsdatum field", () => {
     expect(
-      beratungshilfePersoenlicheDatenDone({
+      prozesskostenhilfePersoenlicheDatenDone({
         context: { ...context, geburtsdatum: "" },
       }),
     ).toBeFalsy();
   });
   it("fails with an empty ort field", () => {
     expect(
-      beratungshilfePersoenlicheDatenDone({
+      prozesskostenhilfePersoenlicheDatenDone({
         context: { ...context, ort: "" },
       }),
     ).toBeFalsy();
   });
   it("fails with an empty plz field", () => {
     expect(
-      beratungshilfePersoenlicheDatenDone({
+      prozesskostenhilfePersoenlicheDatenDone({
         context: { ...context, plz: "" },
       }),
     ).toBeFalsy();
   });
   it("fails with an empty strasseHausnummer field", () => {
     expect(
-      beratungshilfePersoenlicheDatenDone({
+      prozesskostenhilfePersoenlicheDatenDone({
         context: { ...context, strasseHausnummer: "" },
       }),
     ).toBeFalsy();
   });
   it("passes with an empty telefonnummer field", () => {
     expect(
-      beratungshilfePersoenlicheDatenDone({
+      prozesskostenhilfePersoenlicheDatenDone({
         context: { ...context },
       }),
     ).toBeTruthy();
