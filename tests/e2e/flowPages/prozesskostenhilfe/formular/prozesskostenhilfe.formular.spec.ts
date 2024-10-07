@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { expect, test } from "@playwright/test";
+import { startAbgabe } from "tests/e2e/flowPages/prozesskostenhilfe/formular/abgabe";
 import { startFinanzielleAngabenEinkuenfte } from "tests/e2e/flowPages/prozesskostenhilfe/formular/finanzielleAngabenEinkuenfte";
 import { startFinanzielleAngabenEinkuenftePartner } from "tests/e2e/flowPages/prozesskostenhilfe/formular/finanzielleAngabenEinkuenftePartner";
 import { startGrundvoraussetzungen } from "tests/e2e/flowPages/prozesskostenhilfe/formular/grundvoraussetzungen";
@@ -100,11 +101,5 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
 
   await startPersoenlicheDaten(page, prozesskostenhilfeFormular);
 
-  // /prozesskostenhilfe/formular/abgabe/art
-  // FIXME: This step is not accessible
-  // await expectPageToBeAccessible({ page });
-  await prozesskostenhilfeFormular.fillRadioPage("abgabeArt", "ausdrucken");
-
-  // /prozesskostenhilfe/formular/abgabe/ausdrucken
-  await expectPageToBeAccessible({ page });
+  await startAbgabe(page);
 });

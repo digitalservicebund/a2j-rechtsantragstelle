@@ -38,14 +38,17 @@ const List = ({
         />
       )}
       <ol className="list-none ds-stack-32 ps-0">
-        {items.map((item, index) => (
-          <li
-            key={item.identifier ?? item.headline?.text ?? item.content}
-            className="first:pt-0 scroll-my-40"
-          >
-            <ListItem {...item} numeric={isNumeric ? index + 1 : undefined} />
-          </li>
-        ))}
+        {items
+          // Need to filter out empty list items when conditionally rendering with mustache templating
+          .filter((item) => !(item.headline?.text === "" && !item.content))
+          .map((item, index) => (
+            <li
+              key={item.identifier ?? item.headline?.text ?? item.content}
+              className="first:pt-0 scroll-my-40"
+            >
+              <ListItem {...item} numeric={isNumeric ? index + 1 : undefined} />
+            </li>
+          ))}
       </ol>
     </div>
   );
