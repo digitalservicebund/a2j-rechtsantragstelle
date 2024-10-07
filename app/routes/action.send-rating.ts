@@ -1,50 +1,60 @@
-import type { ActionFunctionArgs } from "@remix-run/node";
+import type { ActionFunctionArgs, Session, SessionData } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
+import { withZod } from "@remix-validated-form/with-zod";
+import { validationError } from "remix-validated-form";
+import { z } from "zod";
 import { BannerState, USER_FEEDBACK_ID } from "~/components/userFeedback";
 import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
 import { flowIdFromPathname } from "~/flows/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { bannerStateName } from "~/services/feedback/getFeedbackBannerState";
+import { getRedirectForNonRelativeUrl } from "~/services/feedback/getRedirectForNonRelativeUrl";
+import { updateBannerState } from "~/services/feedback/updateBannerState";
 import { getSessionManager } from "~/services/session.server";
 
 export const loader = () => redirect("/");
 
+const updateRatingWasHepful = (
+  session: Session<SessionData, SessionData>,
+  wasHelpful: "yes" | "no",
+  url: string,
+) => {
+  const userRatingsWasHelpful =
+    (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
+  userRatingsWasHelpful[url] = wasHelpful === "yes";
+  session.set(userRatingFieldname, userRatingsWasHelpful);
+};
+
 export const action = async ({ request }: ActionFunctionArgs) => {
   const { searchParams } = new URL(request.url);
   const url = searchParams.get("url") ?? "";
-  if (!url.startsWith("/")) {
-    // Abort without redirect on non-relative URLs
-    return json({ success: false }, { status: 400 });
-  }
-  const clientJavaScriptAvailable = searchParams.get("js") === "true";
+  const redirectNonRelative = getRedirectForNonRelativeUrl(url);
+  if (redirectNonRelative) return redirectNonRelative;
 
-  // TODO - Improve this block to share same code with action.send-feedback.ts
   const formData = await request.formData();
+  const { error, submittedData, data } = await withZod(
+    z.object({ wasHelpful: z.enum(["yes", "no"]) }),
+  ).validate(formData);
+  if (error) {
+    return validationError(error, submittedData);
+  }
 
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(request.headers.get("Cookie"));
-
-  const userRatings =
-    (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
-  userRatings[url] = formData.get(userRatingFieldname) === "yes";
-  session.set(userRatingFieldname, userRatings);
-
-  const bannerStates =
-    (session.get(bannerStateName) as Record<string, BannerState>) ?? {};
-  bannerStates[url] = BannerState.ShowFeedback;
-  session.set(bannerStateName, bannerStates);
+  updateRatingWasHepful(session, data.wasHelpful, url);
+  updateBannerState(session, BannerState.ShowFeedback, url);
+  const headers = { "Set-Cookie": await commitSession(session) };
 
   sendCustomAnalyticsEvent({
     eventName: "rating given",
     request,
     properties: {
-      wasHelpful: userRatings[url],
+      wasHelpful: data.wasHelpful === "yes",
       url,
       flowId: flowIdFromPathname(url) ?? "",
     },
   });
 
-  const headers = { "Set-Cookie": await commitSession(session) };
+  const clientJavaScriptAvailable = searchParams.get("js") === "true";
 
   return clientJavaScriptAvailable
     ? json({ success: true }, { headers })
