@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { expect, test } from "@playwright/test";
+import { startAbgabe } from "tests/e2e/flowPages/prozesskostenhilfe/formular/abgabe";
 import { startFinanzielleAngabenEinkuenfte } from "tests/e2e/flowPages/prozesskostenhilfe/formular/finanzielleAngabenEinkuenfte";
 import { startFinanzielleAngabenEinkuenftePartner } from "tests/e2e/flowPages/prozesskostenhilfe/formular/finanzielleAngabenEinkuenftePartner";
 import { startGrundvoraussetzungen } from "tests/e2e/flowPages/prozesskostenhilfe/formular/grundvoraussetzungen";
@@ -9,6 +10,7 @@ import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessibl
 import { startFinanzielleAngabenAusgaben } from "./finanzielleAngabenAusgaben";
 import { startFinanzielleAngabenEigentum } from "./finanzielleAngabenEigentum";
 import { startPersoenlicheDaten } from "./persoenlicheDaten";
+import { startRechtsschutzversicherung } from "./rechtsschutzversicherung";
 import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "../../shared/finanzielleAngaben/finanzielleAngabenAndereUnterhaltszahlungen";
 import { startFinanzielleAngabenEigentumZusammenfassung } from "../../shared/finanzielleAngaben/finanzielleAngabenEigentumZusammenfassung";
 import { startFinanzielleAngabenKinder } from "../../shared/finanzielleAngaben/finanzielleAngabenKinder";
@@ -48,6 +50,9 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
 
   // /prozesskostenhilfe/formular/grundvoraussetzungen/nachueberpruefung-frage
   await startGrundvoraussetzungen(page, prozesskostenhilfeFormular);
+
+  // /prozesskostenhilfe/formular/grundvoraussetzungen/nachueberpruefung-frage
+  await startRechtsschutzversicherung(page, prozesskostenhilfeFormular);
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkommen/start
   await expectPageToBeAccessible({ page });
@@ -96,11 +101,5 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
 
   await startPersoenlicheDaten(page, prozesskostenhilfeFormular);
 
-  // /prozesskostenhilfe/formular/abgabe/art
-  // FIXME: This step is not accessible
-  // await expectPageToBeAccessible({ page });
-  await prozesskostenhilfeFormular.fillRadioPage("abgabeArt", "ausdrucken");
-
-  // /prozesskostenhilfe/formular/abgabe/ausdrucken
-  await expectPageToBeAccessible({ page });
+  await startAbgabe(page);
 });

@@ -4,6 +4,7 @@ import { withZod } from "@remix-validated-form/with-zod";
 import { useEffect, useRef, useState } from "react";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
+import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
@@ -22,6 +23,7 @@ export const feedbackValidator = withZod(
   z.object({
     feedback: z
       .string()
+      .max(TEXTAREA_CHAR_LIMIT, { message: "max" })
       .refine(
         (feedback) => !/\s0\d/.test(feedback),
         "Bitte geben sie keine Telefonnummer ein.",

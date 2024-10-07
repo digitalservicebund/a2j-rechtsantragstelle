@@ -79,6 +79,8 @@ const cases = [
       "grundvoraussetzungen/einreichung/fall",
       "grundvoraussetzungen/einreichung/mjp",
       "grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
+      "rechtsschutzversicherung/rsv-frage",
+      "rechtsschutzversicherung/org-frage",
       "finanzielle-angaben/einkuenfte/start",
       "finanzielle-angaben/einkuenfte/staatliche-leistungen",
       "finanzielle-angaben/einkuenfte/buergergeld",
@@ -127,8 +129,7 @@ const cases = [
       "persoenliche-daten/adresse",
       "persoenliche-daten/telefonnummer",
       "persoenliche-daten/beruf",
-      "abgabe/art",
-      "abgabe/ausdrucken",
+      "abgabe/ende",
     ],
   ],
 ] as const satisfies TestCases<ProzesskostenhilfeFormularContext>;

@@ -7,7 +7,6 @@ import {
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
 import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
 import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
-import { abgabeContext } from "~/flows/shared/abgabe/context";
 import {
   Eigentuemer,
   financialEntrySchema,
@@ -180,5 +179,13 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
       betragGesamt: faker.finance.amount(),
     },
   ],
-  abgabeArt: abgabeContext.abgabeArt.Enum.ausdrucken,
+  hasRsv: YesNoAnswer.Enum.no,
+  hasRsvThroughOrg: YesNoAnswer.Enum.no,
+  vorname: "John",
+  nachname: "Doe",
+  beruf: "Developer",
+  ort: "Berlin",
+  plz: "10119",
+  geburtsdatum: "01.01.1981",
+  strasseHausnummer: "Strasse 1",
 };
