@@ -138,7 +138,7 @@ export const createFactsOfCases = (
 
   doc.moveDown(1);
 
-  addTable(doc);
+  addTable(doc, documentStruct);
 
   doc.moveDown(2);
 
