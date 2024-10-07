@@ -16,7 +16,7 @@ const addPlaintiffDetails = (
         .font(FONTS_BUNDESSANS_BOLD)
         .text("Włodzimierz Ciesiński", { continued: true });
       doc
-        .font("FONTS_BUNDESSANS_REGULAR")
+        .font(FONTS_BUNDESSANS_REGULAR)
         .text(" | Musterstr. 3, 12345 Musterhausen");
       doc.text("0176 30441234");
       doc.text("– Klagende Partei –", { align: "left" });
@@ -99,6 +99,7 @@ export const createClaimData = (
         .text("gegen", { align: "left" });
     }),
   );
+  documentStruct.add(gegenSect);
 
   doc.moveDown();
 

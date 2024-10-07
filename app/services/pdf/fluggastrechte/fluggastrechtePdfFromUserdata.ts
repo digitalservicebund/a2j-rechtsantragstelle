@@ -13,9 +13,11 @@ const BundesSansWebBold = await readRelativeFileToBuffer(
   "public/fonts/BundesSansWeb-Bold.woff",
 );
 
-function buildDocument(doc: typeof PDFDocument) {
+function buildDocument(
+  doc: typeof PDFDocument,
+  documentStruct: PDFKit.PDFStructureElement,
+) {
   setPdfMetadata(doc);
-  const documentStruct = doc.struct("Document");
   createFirstPage(doc, documentStruct);
   doc.addPage();
   createSecondPage(doc, documentStruct);
@@ -41,8 +43,13 @@ export async function fluggastrechtePdfFromUserdata(): Promise<Buffer> {
       resolve(Buffer.concat(chunks));
     });
 
+    const documentStruct = doc.struct("Document");
+    doc.addStructure(documentStruct);
+
     // Generate the PDF content
-    buildDocument(doc);
+    buildDocument(doc, documentStruct);
+
+    documentStruct.end();
     doc.end();
   });
 }
