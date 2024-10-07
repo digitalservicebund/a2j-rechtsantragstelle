@@ -1,19 +1,22 @@
 import type PDFDocument from "pdfkit";
 import { createBankInformation } from "../createBankInformation";
-import { createPageLine } from "../createPageLine";
+import { createPageNumber } from "../createPageLine";
 import { createStamp } from "../createStamp";
 import { createFactsOfCases } from "./factsOfCases/createFactsOfCases";
 import { FONTS_BUNDESSANS_BOLD } from "../../createPdfKitDocument";
 
-export const createSecondPage = (doc: typeof PDFDocument) => {
+export const createSecondPage = (
+  doc: typeof PDFDocument,
+  documentStruct: PDFKit.PDFStructureElement,
+) => {
   doc
     .fontSize(31)
     .font(FONTS_BUNDESSANS_BOLD)
     .text("Begründung", { align: "left" });
   doc.moveDown(1);
-  createFactsOfCases(doc);
+  createFactsOfCases(doc, documentStruct);
 
-  createStamp(doc);
-  createPageLine(doc, 2);
-  createBankInformation(doc);
+  createStamp(doc, documentStruct);
+  createPageNumber(doc, { pageNumber: 2 });
+  createBankInformation(doc, documentStruct);
 };

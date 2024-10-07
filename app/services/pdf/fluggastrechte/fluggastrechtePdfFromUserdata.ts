@@ -15,11 +15,12 @@ const BundesSansWebBold = await readRelativeFileToBuffer(
 
 function buildDocument(doc: typeof PDFDocument) {
   setPdfMetadata(doc);
-  createFirstPage(doc);
+  const documentStruct = doc.struct("Document");
+  createFirstPage(doc, documentStruct);
   doc.addPage();
-  createSecondPage(doc);
+  createSecondPage(doc, documentStruct);
   doc.addPage();
-  createThirdPage(doc);
+  createThirdPage(doc, documentStruct);
 }
 
 export async function fluggastrechtePdfFromUserdata(): Promise<Buffer> {

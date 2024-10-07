@@ -1,19 +1,23 @@
 import { type LoaderFunction } from "@remix-run/node";
 import PDFDocument from "pdfkit";
 import { readRelativeFileToBuffer } from "~/services/pdf/fillPdf.server";
+import {
+  FONTS_BUNDESSANS_BOLD,
+  FONTS_BUNDESSANS_REGULAR,
+} from "~/services/pdf/fluggastrechte/createPdfKitDocument";
 
-const BundesSansWebRegular = await readRelativeFileToBuffer(
+const BundesSansWebRegularBuffer = await readRelativeFileToBuffer(
   "public/fonts/BundesSansWeb-Regular.woff",
 );
-const BundesSansWebBold = await readRelativeFileToBuffer(
+const BundesSansWebBoldBuffer = await readRelativeFileToBuffer(
   "public/fonts/BundesSansWeb-Bold.woff",
 );
 
 const generatePDF = (doc: typeof PDFDocument) => {
   doc.version = 1.7;
 
-  doc.registerFont("BundesSansWebRegular", BundesSansWebRegular);
-  doc.registerFont("BundesSansWebBold", BundesSansWebBold);
+  doc.registerFont(FONTS_BUNDESSANS_REGULAR, BundesSansWebRegularBuffer);
+  doc.registerFont(FONTS_BUNDESSANS_BOLD, BundesSansWebBoldBuffer);
 
   // Add metadata
   doc.info.Title = "Klage";
@@ -33,10 +37,10 @@ const generatePDF = (doc: typeof PDFDocument) => {
     doc.struct("P", {}, () => {
       doc
         .fontSize(10)
-        .font("BundesSansWebBold")
+        .font(FONTS_BUNDESSANS_BOLD)
         .text("An das", { align: "left" });
       doc
-        .font("BundesSansWebRegular")
+        .font(FONTS_BUNDESSANS_REGULAR)
         .text("Amtsgericht Königs Wusterhausen", { align: "left" });
       doc.text("Schlossplatz 4", { align: "left" });
       doc.text("15711 Königs Wusterhausen", { align: "left" });
@@ -50,12 +54,15 @@ const generatePDF = (doc: typeof PDFDocument) => {
   const klageHeaderSect = doc.struct("Sect");
   klageHeaderSect.add(
     doc.struct("H1", {}, () => {
-      doc.fontSize(31).font(BundesSansWebBold).text("Klage", { align: "left" });
+      doc
+        .fontSize(31)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text("Klage", { align: "left" });
     }),
   );
   klageHeaderSect.add(
     doc.struct("P", {}, () => {
-      doc.fontSize(10).font(BundesSansWebRegular).text("Neueingang");
+      doc.fontSize(10).font(FONTS_BUNDESSANS_REGULAR).text("Neueingang");
     }),
   );
   documentStruct.add(klageHeaderSect);
@@ -66,7 +73,7 @@ const generatePDF = (doc: typeof PDFDocument) => {
   const inDerSacheSect = doc.struct("Sect");
   inDerSacheSect.add(
     doc.struct("H2", {}, () => {
-      doc.fontSize(14).font(BundesSansWebBold).text("in der Sache");
+      doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text("in der Sache");
     }),
   );
   documentStruct.add(inDerSacheSect);
@@ -77,10 +84,10 @@ const generatePDF = (doc: typeof PDFDocument) => {
     doc.struct("P", {}, () => {
       doc
         .fontSize(10)
-        .font(BundesSansWebBold)
+        .font(FONTS_BUNDESSANS_BOLD)
         .text("Włodzimierz Ciesiński", { continued: true });
       doc
-        .font("BundesSansWebRegular")
+        .font("FONTS_BUNDESSANS_REGULAR")
         .text(" | Musterstr. 3, 12345 Musterhausen");
       doc.text("0176 30441234");
       doc.text("– Klagende Partei –", { align: "left" });
@@ -95,7 +102,10 @@ const generatePDF = (doc: typeof PDFDocument) => {
   const gegenSect = doc.struct("Sect");
   gegenSect.add(
     doc.struct("P", {}, () => {
-      doc.fontSize(14).font(BundesSansWebBold).text("gegen", { align: "left" });
+      doc
+        .fontSize(14)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text("gegen", { align: "left" });
     }),
   );
   documentStruct.add(gegenSect);
@@ -107,10 +117,10 @@ const generatePDF = (doc: typeof PDFDocument) => {
     doc.struct("P", {}, () => {
       doc
         .fontSize(10)
-        .font(BundesSansWebBold)
+        .font(FONTS_BUNDESSANS_BOLD)
         .text("Deutsche Lufthansa Aktiengesellschaft", { continued: true });
       doc
-        .font(BundesSansWebRegular)
+        .font(FONTS_BUNDESSANS_REGULAR)
         .text(" | Venloer Straße 151-153, 50672 Köln");
       doc.text("– Beklagte Partei –");
     }),
@@ -126,24 +136,24 @@ const generatePDF = (doc: typeof PDFDocument) => {
     doc.struct("P", {}, () => {
       doc
         .fontSize(12)
-        .font(BundesSansWebBold)
+        .font(FONTS_BUNDESSANS_BOLD)
         .text(
           "Wegen: Ausgleichszahlung nach der Fluggastrechteverordnung (EG) 261/2004",
         );
-      doc.font(BundesSansWebBold).text("Betroffener Flug:");
+      doc.font(FONTS_BUNDESSANS_BOLD).text("Betroffener Flug:");
       doc.moveDown(0.2);
       doc
         .fontSize(10)
-        .font(BundesSansWebRegular)
+        .font(FONTS_BUNDESSANS_REGULAR)
         .text("Flugnummer:", { continued: true })
-        .font(BundesSansWebBold)
+        .font(FONTS_BUNDESSANS_BOLD)
         .text(" AB1234");
       doc
-        .font(BundesSansWebRegular)
+        .font(FONTS_BUNDESSANS_REGULAR)
         .text("Geplantes Abflugdatum:", { continued: true })
-        .font(BundesSansWebBold)
+        .font(FONTS_BUNDESSANS_BOLD)
         .text(" 10.03.2024");
-      doc.fontSize(12).font(BundesSansWebBold).text("Streitwert: 500€");
+      doc.fontSize(12).font(FONTS_BUNDESSANS_BOLD).text("Streitwert: 500€");
     }),
   );
   documentStruct.add(claimDetailsSect);
@@ -155,14 +165,14 @@ const generatePDF = (doc: typeof PDFDocument) => {
   const klageantragSect = doc.struct("Sect");
   klageantragSect.add(
     doc.struct("H2", {}, () => {
-      doc.fontSize(14).font(BundesSansWebBold).text("Klageantrag");
+      doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text("Klageantrag");
     }),
   );
   klageantragSect.add(
     doc.struct("P", {}, () => {
       doc
         .fontSize(10)
-        .font(BundesSansWebRegular)
+        .font(FONTS_BUNDESSANS_REGULAR)
         .text("Die klagende Partei erhebt Antrag,");
       doc.list(
         [
@@ -187,7 +197,7 @@ const generatePDF = (doc: typeof PDFDocument) => {
   );
   documentStruct.add(additionalTextSect);
 
-  // Signature and IBAN placeholder
+  // Signature and IBAN placeholderI
   const signatureSect = doc.struct("Sect");
   signatureSect.add(
     doc.struct("P", {}, () => {

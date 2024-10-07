@@ -9,25 +9,40 @@ const DEFENDANT_PARTY_LIST: Array<string> = [
   "Die beklagte Partei trägt die Kosten des Rechtsstreits.",
 ];
 
-export const createStatementClaim = (doc: typeof PDFDocument) => {
-  doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text("Klageantrag");
-  doc.moveDown(1);
-  doc
-    .fontSize(10)
-    .font(FONTS_BUNDESSANS_REGULAR)
-    .text("Die klagende Partei erhebt Antrag,");
-  doc.list(DEFENDANT_PARTY_LIST, {
-    indent: 5,
-    textIndent: 10,
-    listType: "numbered",
-  });
+export const createStatementClaim = (
+  doc: typeof PDFDocument,
+  documentStruct: PDFKit.PDFStructureElement,
+) => {
+  const statementClaimSect = doc.struct("Sect");
+  statementClaimSect.add(
+    doc.struct("H2", {}, () => {
+      doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text("Klageantrag");
+    }),
+  );
 
   doc.moveDown(1);
 
-  doc.text(
-    "Sofern das Gericht das schriftliche Vorverfahren anordnet, wird für den Fall der Fristversäumnis beantragt, die beklagte Partei durch Versäumnisurteil ohne mündliche Verhandlung zu verurteilen (§ 331 ZPO).",
+  statementClaimSect.add(
+    doc.struct("P", {}, () => {
+      doc
+        .fontSize(10)
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text("Die klagende Partei erhebt Antrag,");
+      doc.list(DEFENDANT_PARTY_LIST, {
+        indent: 5,
+        textIndent: 10,
+        listType: "numbered",
+      });
+
+      doc.moveDown(1);
+
+      doc.text(
+        "Sofern das Gericht das schriftliche Vorverfahren anordnet, wird für den Fall der Fristversäumnis beantragt, die beklagte Partei durch Versäumnisurteil ohne mündliche Verhandlung zu verurteilen (§ 331 ZPO).",
+      );
+      doc.text(
+        "Mit einer Entscheidung im schriftlichen Verfahren ohne mündliche Verhandlung (§ 128 Abs. 2 ZPO) sowie der Durchführung einer Videoverhandlung (§ 128a ZPO) bin ich einverstanden.",
+      );
+    }),
   );
-  doc.text(
-    "Mit einer Entscheidung im schriftlichen Verfahren ohne mündliche Verhandlung (§ 128 Abs. 2 ZPO) sowie der Durchführung einer Videoverhandlung (§ 128a ZPO) bin ich einverstanden.",
-  );
+  documentStruct.add(statementClaimSect);
 };

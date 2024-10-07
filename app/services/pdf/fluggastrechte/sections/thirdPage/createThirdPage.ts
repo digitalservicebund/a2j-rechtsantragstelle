@@ -4,10 +4,13 @@ import {
   FONTS_BUNDESSANS_REGULAR,
 } from "../../createPdfKitDocument";
 import { createBankInformation } from "../createBankInformation";
-import { createPageLine } from "../createPageLine";
+import { createPageNumber } from "../createPageLine";
 import { createStamp } from "../createStamp";
 
-export const createThirdPage = (doc: typeof PDFDocument) => {
+export const createThirdPage = (
+  doc: typeof PDFDocument,
+  documentStruct: PDFKit.PDFStructureElement,
+) => {
   doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text("II. Entschädigungshöhe");
   doc.moveDown(1);
 
@@ -22,7 +25,7 @@ export const createThirdPage = (doc: typeof PDFDocument) => {
 
   doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text("Włodzimierz Ciesiński");
 
-  createStamp(doc);
-  createPageLine(doc, 3);
-  createBankInformation(doc);
+  createStamp(doc, documentStruct);
+  createPageNumber(doc, { pageNumber: 3 });
+  createBankInformation(doc, documentStruct);
 };

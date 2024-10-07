@@ -4,18 +4,21 @@ import { createLocalCourt } from "./createLocalCourt";
 import { createMainTitle } from "./createMainTitle";
 import { createStatementClaim } from "./createStatementClaim";
 import { createBankInformation } from "../createBankInformation";
-import { createPageLine } from "../createPageLine";
+import { createPageNumber } from "../createPageLine";
 import { createStamp } from "../createStamp";
 
-export const createFirstPage = (doc: typeof PDFDocument) => {
-  createLocalCourt(doc);
+export const createFirstPage = (
+  doc: typeof PDFDocument,
+  documentStruct: PDFKit.PDFStructureElement,
+) => {
+  createLocalCourt(doc, documentStruct);
   doc.moveDown(2);
-  createMainTitle(doc);
+  createMainTitle(doc, documentStruct);
   doc.moveDown(2);
-  createClaimData(doc);
+  createClaimData(doc, documentStruct);
   doc.moveDown(2);
-  createStatementClaim(doc);
-  createStamp(doc);
-  createPageLine(doc, 1);
-  createBankInformation(doc);
+  createStatementClaim(doc, documentStruct);
+  createStamp(doc, documentStruct);
+  createPageNumber(doc, { pageNumber: 1 });
+  createBankInformation(doc, documentStruct);
 };
