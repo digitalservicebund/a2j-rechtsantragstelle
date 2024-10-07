@@ -1,16 +1,19 @@
 import classNames from "classnames";
 import type { AriaRole, ReactNode } from "react";
 import { useField } from "remix-validated-form";
+import type { DetailsSummaryProps } from "~/components/DetailsSummary";
+import { DetailsSummary } from "~/components/DetailsSummary";
+import InputLabel from "~/components/inputs/InputLabel";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
-import InputLabel from "./InputLabel";
 import RichText from "../RichText";
 
 type TextareaProps = Readonly<{
   name: string;
   description?: string;
   label?: ReactNode;
+  textHint?: DetailsSummaryProps;
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
   formId?: string;
@@ -26,6 +29,7 @@ const Textarea = ({
   description,
   formId,
   label,
+  textHint,
   placeholder,
   errorMessages,
   classNameLabel,
@@ -49,6 +53,7 @@ const Textarea = ({
       {description && (
         <RichText className={"ds-body-01-reg"} markdown={description} />
       )}
+      {textHint && <DetailsSummary {...textHint} />}
       <textarea
         {...getInputProps({
           id: name,

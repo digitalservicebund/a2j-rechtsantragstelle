@@ -1,10 +1,20 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render, screen, fireEvent } from "@testing-library/react";
-import * as remixValidatedForm from "remix-validated-form";
 import Textarea, { TEXT_AREA_ROWS } from "~/components/inputs/Textarea";
 
+const getInputProps = vi.fn();
+let error: string | undefined = undefined;
+
 vi.mock("remix-validated-form", () => ({
-  useField: vi.fn(),
+  ...vi.importActual("remix-validated-form"),
+  useField: () => ({
+    error,
+    getInputProps: getInputProps,
+    clearError: vi.fn(),
+    validate: vi.fn(),
+    touched: false,
+    setTouched: vi.fn(),
+  }),
 }));
 
 afterEach(() => {
@@ -14,19 +24,10 @@ afterEach(() => {
 describe("Textarea component", () => {
   it("renders without errors", () => {
     const componentName = "test-textarea";
-
-    vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
-      error: undefined,
-      getInputProps: vi.fn().mockReturnValue({
-        id: componentName,
-        placeholder: "Test Placeholder",
-      }),
-      clearError: vi.fn(),
-      validate: vi.fn(),
-      touched: false,
-      setTouched: vi.fn(),
-    });
-
+    getInputProps.mockImplementationOnce(() => ({
+      id: componentName,
+      placeholder: "Test Placeholder",
+    }));
     const RemixStub = createRemixStub([
       {
         path: "",
@@ -50,15 +51,6 @@ describe("Textarea component", () => {
   });
 
   it("renders without errors when description is provided", () => {
-    vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
-      error: undefined,
-      getInputProps: vi.fn(),
-      clearError: vi.fn(),
-      validate: vi.fn(),
-      touched: false,
-      setTouched: vi.fn(),
-    });
-
     const RemixStub = createRemixStub([
       {
         path: "",
@@ -79,16 +71,35 @@ describe("Textarea component", () => {
     expect(screen.getByText("Test Label")).toHaveClass("ds-heading-03-reg");
   });
 
-  it("renders error message when error is present", () => {
-    vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
-      error: "error",
-      getInputProps: vi.fn(),
-      clearError: vi.fn(),
-      validate: vi.fn(),
-      touched: false,
-      setTouched: vi.fn(),
-    });
+  it("renders a collapsible text hint accordion when provided", () => {
+    const RemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => (
+          <Textarea
+            name="test-textarea"
+            label="Test Label"
+            textHint={{
+              title: "Text-Beispiel",
+              content: "Lorem ipsum",
+            }}
+            formId="formId"
+          />
+        ),
+      },
+    ]);
 
+    render(<RemixStub />);
+    const accordion = screen.getByText("Text-Beispiel");
+    expect(accordion).toBeInTheDocument();
+    expect(accordion).toHaveClass("summary-content");
+    expect(screen.getByText("Lorem ipsum")).not.toBeVisible();
+    accordion.click();
+    expect(screen.getByText("Lorem ipsum")).toBeVisible();
+  });
+
+  it("renders error message when error is present", () => {
+    error = "error";
     const RemixStub = createRemixStub([
       {
         path: "",
@@ -112,15 +123,6 @@ describe("Textarea component", () => {
   });
 
   it("allows users to type in the textarea", () => {
-    vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
-      error: undefined,
-      getInputProps: vi.fn(),
-      clearError: vi.fn(),
-      validate: vi.fn(),
-      touched: false,
-      setTouched: vi.fn(),
-    });
-
     const RemixStub = createRemixStub([
       {
         path: "",
@@ -137,15 +139,6 @@ describe("Textarea component", () => {
   });
 
   it("should render the textarea with the define rows from the variable TEXT_AREA_ROWS", () => {
-    vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
-      error: undefined,
-      getInputProps: vi.fn(),
-      clearError: vi.fn(),
-      validate: vi.fn(),
-      touched: false,
-      setTouched: vi.fn(),
-    });
-
     const RemixStub = createRemixStub([
       {
         path: "",

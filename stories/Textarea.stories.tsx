@@ -33,3 +33,16 @@ export const WithDescription: Story = {
   },
   decorators: [(Story) => remixContext(Story)],
 };
+
+export const WithTextHint: Story = {
+  args: {
+    name: "textarea",
+    textHint: {
+      title: "Text-Beispiel",
+      content: "Lorem ipsum",
+    },
+    label: "Lorem ipsum dolor sit amet",
+    formId: "formId",
+  },
+  decorators: [(Story) => remixContext(Story)],
+};
