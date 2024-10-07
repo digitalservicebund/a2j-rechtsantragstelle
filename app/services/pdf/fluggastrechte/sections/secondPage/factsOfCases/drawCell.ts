@@ -10,8 +10,8 @@ type CellOptions = {
   width: number;
   height: number;
   boldText: string;
-  normalText: string;
-  normalTextFontSize?: number;
+  regularText: string;
+  regularTextFontSize?: number;
   shouldAddSilverBackground: boolean;
   textAlign: "center" | "justify" | "left" | "right";
   shouldDrawRectangle?: boolean;
@@ -28,8 +28,8 @@ export function drawCell(
     width,
     height,
     boldText,
-    normalText,
-    normalTextFontSize = 8,
+    regularText,
+    regularTextFontSize = 8,
     shouldAddSilverBackground,
     textAlign,
     shouldDrawRectangle = true,
@@ -61,13 +61,13 @@ export function drawCell(
       .text(boldText, textX, textY, { width: width, align: textAlign });
   }
 
-  if (normalText.length > 0) {
+  if (regularText.length > 0) {
     const extraSpaceY = boldText.length > 0 ? 12 : -3;
 
     doc
-      .fontSize(normalTextFontSize)
+      .fontSize(regularTextFontSize)
       .font(FONTS_BUNDESSANS_REGULAR)
-      .text(normalText, textX, textY + extraSpaceY, {
+      .text(regularText, textX, textY + extraSpaceY, {
         width: width,
         align: textAlign,
       });

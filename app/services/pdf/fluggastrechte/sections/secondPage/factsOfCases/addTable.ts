@@ -22,7 +22,7 @@ function drawHorizontalTableHead(doc: typeof PDFDocument) {
       width: cellWidth[0], // Each header has the same width
       height: doubleRowHeight, // Same height for all header cells
       boldText: title, // Title (main content)
-      normalText: subtitle, // Subtitle (optional)
+      regularText: subtitle, // Subtitle (optional)
       shouldAddSilverBackground: true,
       textAlign: "center",
     });
@@ -45,7 +45,7 @@ function drawColumnsHeadDateAndTime(
       width: cellWidth[1],
       height: rowHeight,
       boldText: columnValue,
-      normalText: "",
+      regularText: "",
       shouldAddSilverBackground: true,
       textAlign: "left",
     });
@@ -82,10 +82,10 @@ function drawColumnsValues(doc: typeof PDFDocument, yStartPadding: number) {
       width: cellWidth[0],
       height: rowHeight,
       boldText: "", // No label text, only the value
-      normalText: columnValue,
+      regularText: columnValue,
       shouldAddSilverBackground: false,
       textAlign: "center",
-      normalTextFontSize: 10,
+      regularTextFontSize: 10,
     });
   }
 
@@ -95,10 +95,10 @@ function drawColumnsValues(doc: typeof PDFDocument, yStartPadding: number) {
     width: cellWidth[1],
     height: rowHeight,
     boldText: "", // No label text, only the value
-    normalText: "3 Stunden 34 Minuten",
+    regularText: "3 Stunden 34 Minuten",
     shouldAddSilverBackground: false,
     textAlign: "center",
-    normalTextFontSize: 10,
+    regularTextFontSize: 10,
     shouldDrawRectangle: false,
   });
 }
@@ -121,7 +121,7 @@ function drawColumnsHead(doc: typeof PDFDocument, yStartPadding: number) {
       width: cellWidth[1],
       height: doubleRowHeight,
       boldText: header.title,
-      normalText: header.subtitle,
+      regularText: header.subtitle,
       shouldAddSilverBackground: true,
       textAlign: "left",
     });
