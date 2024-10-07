@@ -1,16 +1,71 @@
 import {
-  formularIsNachueberpruefung,
+  nachueberpruefung,
   grundvoraussetzungenDone,
+  verfahrenAnwalt,
+  verfahrenSelbststaendig,
   versandDigitalAnwalt,
   versandDigitalGericht,
+  erstantrag,
 } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
 
 describe("PKH Grundvoraussetzungen Context", () => {
   describe("guards", () => {
-    describe("formularIsNachueberpruefung", () => {
+    describe("verfahrenAnwalt", () => {
+      it("should return true if the user is submitting the form to a lawyer", () => {
+        expect(
+          verfahrenAnwalt({
+            context: {
+              verfahrenArt: "verfahrenAnwalt",
+            },
+          }),
+        ).toBe(true);
+      });
+
+      it("should return false if the user hasn't chosen a submission type or if the user is submitting the form themselves", () => {
+        expect(
+          verfahrenAnwalt({
+            context: {
+              verfahrenArt: undefined,
+            },
+          }),
+        ).toBe(false);
+        expect(
+          verfahrenAnwalt({
+            context: {
+              verfahrenArt: "verfahrenSelbststaendig",
+            },
+          }),
+        ).toBe(false);
+      });
+    });
+
+    describe("erstantrag", () => {
+      it("should return true if this is a first-time application", () => {
+        expect(
+          erstantrag({
+            context: { formularArt: "erstantrag" },
+          }),
+        ).toBe(true);
+      });
+
+      it("should return false if the user hasn't answered the formular art question, or if the user is filing a nachueberpruefung", () => {
+        expect(
+          erstantrag({
+            context: { formularArt: undefined },
+          }),
+        ).toBe(false);
+        expect(
+          erstantrag({
+            context: { formularArt: "nachueberpruefung" },
+          }),
+        ).toBe(false);
+      });
+    });
+
+    describe("nachueberpruefung", () => {
       it("should return true if the user is making a nachueberpruefung", () => {
         expect(
-          formularIsNachueberpruefung({
+          nachueberpruefung({
             context: { formularArt: "nachueberpruefung" },
           }),
         ).toBe(true);
@@ -18,13 +73,42 @@ describe("PKH Grundvoraussetzungen Context", () => {
 
       it("should return false if the user hasn't answered the formular art question, or if the user is making a new application", () => {
         expect(
-          formularIsNachueberpruefung({
+          nachueberpruefung({
             context: { formularArt: undefined },
           }),
         ).toBe(false);
         expect(
-          formularIsNachueberpruefung({
+          nachueberpruefung({
             context: { formularArt: "erstantrag" },
+          }),
+        ).toBe(false);
+      });
+    });
+
+    describe("verfahrenSelbststaendig", () => {
+      it("should return true if the user is submitting the form themselves", () => {
+        expect(
+          verfahrenSelbststaendig({
+            context: {
+              verfahrenArt: "verfahrenSelbststaendig",
+            },
+          }),
+        ).toBe(true);
+      });
+
+      it("should return false if the user hasn't chosen a submission type or if the user is submitting the form to a lawyer", () => {
+        expect(
+          verfahrenSelbststaendig({
+            context: {
+              verfahrenArt: undefined,
+            },
+          }),
+        ).toBe(false);
+        expect(
+          verfahrenSelbststaendig({
+            context: {
+              verfahrenArt: "verfahrenAnwalt",
+            },
           }),
         ).toBe(false);
       });
