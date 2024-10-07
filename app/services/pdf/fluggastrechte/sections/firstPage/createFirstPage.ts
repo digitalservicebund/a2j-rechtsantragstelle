@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import { createClaimData } from "./createClaimData";
+import { createClaimData } from "./createClaimData/createClaimData";
 import { createLocalCourt } from "./createLocalCourt";
 import { createMainTitle } from "./createMainTitle";
 import { createStatementClaim } from "./createStatementClaim";
