@@ -1,7 +1,6 @@
 import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
 import { getAbgabeStrings } from "~/flows/prozesskostenhilfeFormular/abgabe/stringReplacements";
-import { getAbgabeXstateConfig } from "~/flows/prozesskostenhilfeFormular/abgabe/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
@@ -207,12 +206,36 @@ export const prozesskostenhilfeFormular = {
         ],
         nextFlowEntrypoint: "#abgabe",
       }),
-      abgabe: getAbgabeXstateConfig({
-        readyForAbgabe: ({ context }) =>
-          prozesskostenhilfeFinanzielleAngabeDone({ context }) &&
-          rechtsschutzversicherungDone({ context }) &&
-          prozesskostenhilfePersoenlicheDatenDone({ context }),
-      }),
+      abgabe: {
+        id: "abgabe",
+        initial: "ueberpruefung",
+        meta: { done: () => false },
+        states: {
+          ueberpruefung: {
+            on: {
+              BACK: "#persoenliche-daten.beruf",
+            },
+            always: {
+              guard: ({
+                context,
+              }: {
+                context: ProzesskostenhilfeFormularContext;
+              }) =>
+                prozesskostenhilfeFinanzielleAngabeDone({ context }) &&
+                rechtsschutzversicherungDone({ context }) &&
+                prozesskostenhilfePersoenlicheDatenDone({
+                  context,
+                }),
+              target: "ende",
+            },
+          },
+          ende: {
+            on: {
+              BACK: "#persoenliche-daten.beruf",
+            },
+          },
+        },
+      },
     },
   }),
   guards: {
