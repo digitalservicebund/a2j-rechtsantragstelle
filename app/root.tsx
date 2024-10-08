@@ -30,7 +30,6 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { config as configWeb } from "~/services/env/web";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
@@ -111,7 +110,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     feedbackTranslations,
     videoTranslations,
     mainSession,
-    headerLinksEnabled,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
     fetchSingleEntry("footer"),
@@ -124,17 +122,13 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("feedback"),
     fetchTranslations("video"),
     mainSessionFromCookieHeader(cookieHeader),
-    isFeatureFlagEnabled("showHeaderLinks"),
   ]);
 
   return json(
     {
       header: {
         ...getPageHeaderProps(strapiHeader),
-        /**
-         * Only hide the header links if we're viewing a flow page
-         */
-        hideLinks: !headerLinksEnabled || !!flowIdFromPathname(pathname),
+        hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
       },
       footer: getFooterProps(strapiFooter),
       cookieBannerContent: cookieBannerContent,
