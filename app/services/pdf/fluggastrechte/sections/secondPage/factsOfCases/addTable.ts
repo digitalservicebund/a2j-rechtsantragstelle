@@ -3,9 +3,8 @@ import { PDF_MARGIN } from "../../../createPdfKitDocument";
 
 const startX = PDF_MARGIN + 10; // X position of the table
 const startY = 360; // Y position of the table
-const cellWidth = [110, 55, 0]; // Widths for each column
-const rowHeight = 16;
-const doubleRowHeight = rowHeight * 2;
+const CELL_WIDTH = 110;
+const CELL_HEIGHT = 32;
 
 function drawHorizontalTableHead(
   doc: PDFKit.PDFDocument,
@@ -23,10 +22,10 @@ function drawHorizontalTableHead(
     headerCell.add(
       doc.struct("Span", {}, () => {
         drawCell(doc, {
-          xPosition: startX + cellWidth[0] * (index + 1), // Dynamic X position based on the column
+          xPosition: startX + CELL_WIDTH * (index + 1), // Dynamic X position based on the column
           yPosition: startY,
-          width: cellWidth[0], // Each header has the same width
-          height: doubleRowHeight, // Same height for all header cells
+          width: CELL_WIDTH, // Each header has the same width
+          height: CELL_HEIGHT, // Same height for all header cells
           boldText: title, // Title (main content)
           regularText: subtitle, // Subtitle (optional)
           shouldAddSilverBackground: true,
@@ -41,7 +40,6 @@ function drawHorizontalTableHead(
 
 function drawColumnsValues(
   doc: PDFKit.PDFDocument,
-  yStartPadding: number,
   tableStruct: PDFKit.PDFStructureElement,
 ) {
   const values = [
@@ -51,26 +49,23 @@ function drawColumnsValues(
     "11.03.2024 03:19",
   ];
 
-  const isPlanned = (index: number) => index <= 1; // To distinguish planned vs actual times
-
   for (let index = 0; index < values.length; index++) {
     const tableValueColumns = doc.struct("TR"); // Create new TR for each set of values
 
     tableValueColumns.add(
       doc.struct("TD", {}, () => {
         const columnValue = values[index];
-        const columnOffset = isPlanned(index) ? 1 : 2; // Planned values go in the second column, actual in the fourth
-        const adjustedIndex = isPlanned(index) ? index - 1 : index - 3; // Calculate the row for planned/actual values
+        const columnOffset = index <= 1 ? 1 : 2; // Planned values go in the second column, actual in the fourth
+        const adjustedIndex = (index % 2) + 1; // Calculate the row for planned/actual values
 
-        const xPosition = startX + cellWidth[0] * columnOffset;
-        const yPosition =
-          startY + doubleRowHeight * (yStartPadding + adjustedIndex);
+        const xPosition = startX + CELL_WIDTH * columnOffset;
+        const yPosition = startY + CELL_HEIGHT * adjustedIndex;
 
         drawCell(doc, {
           xPosition,
           yPosition,
-          width: cellWidth[0],
-          height: doubleRowHeight,
+          width: CELL_WIDTH,
+          height: CELL_HEIGHT,
           boldText: "", // No label text, only the value
           regularText: columnValue,
           shouldAddSilverBackground: false,
@@ -86,10 +81,10 @@ function drawColumnsValues(
   durationRow.add(
     doc.struct("TD", {}, () => {
       drawCell(doc, {
-        xPosition: startX + cellWidth[0] * 3,
-        yPosition: startY + doubleRowHeight,
-        width: cellWidth[0],
-        height: doubleRowHeight * 2,
+        xPosition: startX + CELL_WIDTH * 3,
+        yPosition: startY + CELL_HEIGHT,
+        width: CELL_WIDTH,
+        height: CELL_HEIGHT * 2,
         boldText: "", // No label text, only the value
         regularText: "12 Stunden 34 Minuten tess",
         shouldAddSilverBackground: false,
@@ -104,7 +99,6 @@ function drawColumnsValues(
 
 function drawColumnsHead(
   doc: PDFKit.PDFDocument,
-  yStartPadding: number,
   tableStruct: PDFKit.PDFStructureElement,
 ) {
   const headers = [
@@ -112,7 +106,7 @@ function drawColumnsHead(
     { title: "Ankunft, Zeit", subtitle: "Zielflughafen" },
   ];
   // X for columns
-  const xPosition = startX + cellWidth[2];
+  const xPosition = startX;
 
   // Loop through headers and draw each section
   const tableHeaderRow = doc.struct("TR"); // New TR for the header row
@@ -120,13 +114,13 @@ function drawColumnsHead(
     const headerCell = doc.struct("TH"); // New TH for each header cell
     headerCell.add(
       doc.struct("Span", {}, () => {
-        const yPosition = startY + doubleRowHeight * (index + 1); // Adjust yPosition based on index
+        const yPosition = startY + CELL_HEIGHT * (index + 1); // Adjust yPosition based on index
 
         drawCell(doc, {
           xPosition,
           yPosition,
-          width: cellWidth[0],
-          height: doubleRowHeight,
+          width: CELL_WIDTH,
+          height: CELL_HEIGHT,
           boldText: header.title,
           regularText: header.subtitle,
           shouldAddSilverBackground: true,
@@ -147,8 +141,8 @@ export function addTable(
   const table = doc.struct("Table"); // Create new table structure element
 
   drawHorizontalTableHead(doc, table); // Pass table as parent to avoid reusing `documentStruct`
-  drawColumnsHead(doc, 2, table); // Use the table structure element
-  drawColumnsValues(doc, 2, table); // Continue with table structure element
+  drawColumnsHead(doc, table); // Use the table structure element
+  drawColumnsValues(doc, table); // Continue with table structure element
 
   tableSect.add(table); // Add the table to the section
   documentStruct.add(tableSect); // Add the section to the parent structure
