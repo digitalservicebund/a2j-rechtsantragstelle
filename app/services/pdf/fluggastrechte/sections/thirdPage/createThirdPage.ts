@@ -3,9 +3,9 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
 } from "../../createPdfKitDocument";
-import { createBankInformation } from "../createBankInformation";
-import { createPageNumber } from "../createPageLine";
-import { createStamp } from "../createStamp";
+import { createPageFooter } from "../createPageFooter";
+
+const PAGE_NUMBER = 3;
 
 export const createThirdPage = (
   doc: typeof PDFDocument,
@@ -25,7 +25,5 @@ export const createThirdPage = (
 
   doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text("Włodzimierz Ciesiński");
 
-  createStamp(doc, documentStruct);
-  createPageNumber(doc, { pageNumber: 3 });
-  createBankInformation(doc, documentStruct);
+  createPageFooter(doc, documentStruct, PAGE_NUMBER);
 };

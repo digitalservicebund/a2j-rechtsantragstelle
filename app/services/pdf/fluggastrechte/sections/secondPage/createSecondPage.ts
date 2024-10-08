@@ -1,9 +1,9 @@
 import type PDFDocument from "pdfkit";
-import { createBankInformation } from "../createBankInformation";
-import { createPageNumber } from "../createPageLine";
-import { createStamp } from "../createStamp";
 import { createFactsOfCases } from "./factsOfCases/createFactsOfCases";
 import { FONTS_BUNDESSANS_BOLD } from "../../createPdfKitDocument";
+import { createPageFooter } from "../createPageFooter";
+
+const PAGE_NUMBER = 2;
 
 export const createSecondPage = (
   doc: typeof PDFDocument,
@@ -16,7 +16,5 @@ export const createSecondPage = (
   doc.moveDown(1);
   createFactsOfCases(doc, documentStruct);
 
-  createStamp(doc, documentStruct);
-  createPageNumber(doc, { pageNumber: 2 });
-  createBankInformation(doc, documentStruct);
+  createPageFooter(doc, documentStruct, PAGE_NUMBER);
 };

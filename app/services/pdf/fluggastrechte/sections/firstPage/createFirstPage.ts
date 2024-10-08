@@ -3,9 +3,9 @@ import { createClaimData } from "./createClaimData/createClaimData";
 import { createLocalCourtAndDate } from "./createLocalCourtAndDate";
 import { createMainTitle } from "./createMainTitle";
 import { createStatementClaim } from "./createStatementClaim";
-import { createBankInformation } from "../createBankInformation";
-import { createPageNumber } from "../createPageLine";
-import { createStamp } from "../createStamp";
+import { createPageFooter } from "../createPageFooter";
+
+const PAGE_NUMBER = 1;
 
 export const createFirstPage = (
   doc: typeof PDFDocument,
@@ -18,7 +18,5 @@ export const createFirstPage = (
   createClaimData(doc, documentStruct);
   doc.moveDown(2);
   createStatementClaim(doc, documentStruct);
-  createStamp(doc, documentStruct);
-  createPageNumber(doc, { pageNumber: 1 });
-  createBankInformation(doc, documentStruct);
+  createPageFooter(doc, documentStruct, PAGE_NUMBER);
 };
