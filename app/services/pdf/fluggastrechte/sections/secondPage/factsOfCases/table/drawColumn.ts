@@ -2,7 +2,7 @@ import type PDFDocument from "pdfkit";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-} from "../../../createPdfKitDocument";
+} from "../../../../createPdfKitDocument";
 
 type CellOptions = {
   xPosition: number;
@@ -20,7 +20,7 @@ type CellOptions = {
 const cellSpaceX = 5;
 const cellSpaceY = 5;
 
-export function drawCell(
+export function drawColumn(
   doc: typeof PDFDocument,
   {
     xPosition,
@@ -58,7 +58,11 @@ export function drawCell(
     doc
       .fontSize(10)
       .font(FONTS_BUNDESSANS_BOLD)
-      .text(boldText, textX, textY, { width: width, align: textAlign });
+      .text(boldText, textX, textY, {
+        width: width - cellSpaceX,
+        height: height - cellSpaceY,
+        align: textAlign,
+      });
   }
 
   if (regularText.length > 0) {
@@ -68,9 +72,9 @@ export function drawCell(
       .fontSize(regularTextFontSize)
       .font(FONTS_BUNDESSANS_REGULAR)
       .text(regularText, textX, textY + extraSpaceY, {
-        width: width,
+        width: width - cellSpaceX,
         align: textAlign,
-        height: height,
+        height: height - cellSpaceY,
       });
   }
   doc.restore();
