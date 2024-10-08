@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
 import { createBankInformation } from "./createBankInformation";
-import { createPageNumber } from "./createPageLine";
+import { createPageNumber } from "./createPageNumber";
 import { createStamp } from "./createStamp";
 
 export const createPageFooter = (
