@@ -43,7 +43,7 @@ const List = ({
               key={item.identifier ?? item.headline?.text ?? item.content}
               className="first:pt-0 scroll-my-40"
             >
-              <ListItem {...item} numeric={isNumeric ? index + 1 : undefined} />
+              <ListItem {...item} index={isNumeric ? index + 1 : undefined} />
             </li>
           ))}
       </ol>
