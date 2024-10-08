@@ -1,5 +1,9 @@
 import type PDFDocument from "pdfkit";
-import { PDF_HEIGHT_SEIZE, PDF_MARGIN } from "../createPdfKitDocument";
+import {
+  FONTS_BUNDESSANS_REGULAR,
+  PDF_HEIGHT_SEIZE,
+  PDF_MARGIN,
+} from "../createPdfKitDocument";
 
 export const createBankInformation = (
   doc: typeof PDFDocument,
@@ -10,6 +14,7 @@ export const createBankInformation = (
     doc.struct("P", {}, () => {
       doc
         .fontSize(7)
+        .font(FONTS_BUNDESSANS_REGULAR)
         .text(
           "Kontoinhaber: Name, Vorname | IBAN: XXXXXXXXXXXXXXXXXXXX",
           PDF_MARGIN,
