@@ -55,5 +55,5 @@ export async function prozesskostenhilfePdfFromUserdata(
       ),
     );
   }
-  return filledPdf;
+  return await filledPdf.save();
 }
