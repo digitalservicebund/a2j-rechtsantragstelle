@@ -11,7 +11,13 @@ export const createClaimData = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
 ) => {
-  doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text(IN_THE_MATTER);
+  const matterSect = doc.struct("Sect");
+  matterSect.add(
+    doc.struct("P", {}, () => {
+      doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text(IN_THE_MATTER);
+    }),
+  );
+  documentStruct.add(matterSect);
   doc.moveDown();
 
   addPlaintiffDetails(doc, documentStruct);
