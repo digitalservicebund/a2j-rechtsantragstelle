@@ -1,6 +1,5 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
-import type { Context } from "~/flows/contexts";
 import { parsePathname, type FlowId } from "~/flows/flowIds";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { beratungshilfePdfFromUserdata } from "~/services/pdf/beratungshilfe";
@@ -11,13 +10,13 @@ import { pdfDateFormat, today } from "~/util/date";
 const pdfConfigs = {
   "/beratungshilfe/antrag": {
     pdfFunction: beratungshilfePdfFromUserdata,
-    filenameFunction: (userData: Context) =>
-      `Antrag_Beratungshilfe_${userData.nachname}_${pdfDateFormat(today())}.pdf`,
+    filenameFunction: () =>
+      `Antrag_Beratungshilfe_${pdfDateFormat(today())}.pdf`,
   },
   "/prozesskostenhilfe/formular": {
     pdfFunction: prozesskostenhilfePdfFromUserdata,
-    filenameFunction: (userData: Context) =>
-      `Antrag_Prozesskostenhilfe_${userData.nachname}_${pdfDateFormat(today())}.pdf`,
+    filenameFunction: () =>
+      `Antrag_Prozesskostenhilfe_${pdfDateFormat(today())}.pdf`,
   },
 } as const satisfies Partial<Record<FlowId, unknown>>;
 
@@ -27,10 +26,9 @@ export function createHeaders(filename: string) {
   // in a Content-Disposition header:
   // https://datatracker.ietf.org/doc/html/rfc6266#section-5
 
-  const encodedFilename = encodeURIComponent(filename);
   return {
     "Content-Type": "application/pdf",
-    "Content-Disposition": `inline; filename*=UTF-8''${encodeURIComponent(encodedFilename)}`,
+    "Content-Disposition": `inline; filename=${encodeURIComponent(filename)}`,
   };
 }
 
@@ -48,8 +46,7 @@ export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
   );
   if (_.isEmpty(userData)) return redirect(flowId);
 
-  const filename = filenameFunction(userData);
   return new Response(await (await pdfFunction(userData)).save(), {
-    headers: createHeaders(filename),
+    headers: createHeaders(filenameFunction()),
   });
 }
