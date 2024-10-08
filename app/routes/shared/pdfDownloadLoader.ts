@@ -1,6 +1,5 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
-import type { Context } from "~/flows/contexts";
 import { parsePathname, type FlowId } from "~/flows/flowIds";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { beratungshilfePdfFromUserdata } from "~/services/pdf/beratungshilfe";
@@ -12,13 +11,13 @@ import { pdfDateFormat, today } from "~/util/date";
 const pdfConfigs = {
   "/beratungshilfe/antrag": {
     pdfFunction: beratungshilfePdfFromUserdata,
-    filenameFunction: (userData: Context) =>
-      `Antrag_Beratungshilfe_${userData.nachname}_${pdfDateFormat(today())}.pdf`,
+    filenameFunction: () =>
+      `Antrag_Beratungshilfe_${pdfDateFormat(today())}.pdf`,
   },
   "/prozesskostenhilfe/formular": {
     pdfFunction: prozesskostenhilfePdfFromUserdata,
-    filenameFunction: (userData: Context) =>
-      `Antrag_Prozesskostenhilfe_${userData.nachname}_${pdfDateFormat(today())}.pdf`,
+    filenameFunction: () =>
+      `Antrag_Prozesskostenhilfe_${pdfDateFormat(today())}.pdf`,
   },
   "/fluggastrechte/formular": {
     pdfFunction: fluggastrechtePdfFromUserdata,
@@ -33,10 +32,9 @@ export function createHeaders(filename: string, fileContentLength: number) {
   // in a Content-Disposition header:
   // https://datatracker.ietf.org/doc/html/rfc6266#section-5
 
-  const encodedFilename = encodeURIComponent(filename);
   return {
     "Content-Type": "application/pdf",
-    "Content-Disposition": `inline; filename*=UTF-8''${encodeURIComponent(encodedFilename)}`,
+    "Content-Disposition": `inline; filename=${encodeURIComponent(filename)}`,
     "Content-Length": fileContentLength.toString(), // Add content length
   };
 }
@@ -57,7 +55,7 @@ export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
 
   const fileContent = await pdfFunction(userData);
   const fileSize = fileContent.length;
-  const filename = filenameFunction(userData);
+  const filename = filenameFunction();
 
   return new Response(fileContent, {
     headers: createHeaders(filename, fileSize),
