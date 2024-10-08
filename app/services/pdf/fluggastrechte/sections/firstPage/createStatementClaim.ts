@@ -9,6 +9,14 @@ const DEFENDANT_PARTY_LIST: Array<string> = [
   "Die beklagte Partei trägt die Kosten des Rechtsstreits.",
 ];
 
+export const STATEMENT_CLAIM_TITLE_TEXT = "Klageantrag";
+export const STATEMENT_CLAIM_SUBTITLE_TEXT =
+  "Die klagende Partei erhebt Antrag,";
+export const STATEMENT_CLAIM_COURT_SENTENCE =
+  "Sofern das Gericht das schriftliche Vorverfahren anordnet, wird für den Fall der Fristversäumnis beantragt, die beklagte Partei durch Versäumnisurteil ohne mündliche Verhandlung zu verurteilen (§ 331 ZPO).";
+export const STATEMENT_CLAIM_AGREEMENT_SENTENCE =
+  "Mit einer Entscheidung im schriftlichen Verfahren ohne mündliche Verhandlung (§ 128 Abs. 2 ZPO) sowie der Durchführung einer Videoverhandlung (§ 128a ZPO) bin ich einverstanden.";
+
 export const createStatementClaim = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
@@ -16,7 +24,10 @@ export const createStatementClaim = (
   const statementClaimSect = doc.struct("Sect");
   statementClaimSect.add(
     doc.struct("H2", {}, () => {
-      doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text("Klageantrag");
+      doc
+        .fontSize(14)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text(STATEMENT_CLAIM_TITLE_TEXT);
     }),
   );
 
@@ -27,7 +38,7 @@ export const createStatementClaim = (
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
-        .text("Die klagende Partei erhebt Antrag,");
+        .text(STATEMENT_CLAIM_SUBTITLE_TEXT);
       doc.list(DEFENDANT_PARTY_LIST, {
         indent: 5,
         textIndent: 10,
@@ -36,12 +47,9 @@ export const createStatementClaim = (
 
       doc.moveDown(1);
 
-      doc.text(
-        "Sofern das Gericht das schriftliche Vorverfahren anordnet, wird für den Fall der Fristversäumnis beantragt, die beklagte Partei durch Versäumnisurteil ohne mündliche Verhandlung zu verurteilen (§ 331 ZPO).",
-      );
-      doc.text(
-        "Mit einer Entscheidung im schriftlichen Verfahren ohne mündliche Verhandlung (§ 128 Abs. 2 ZPO) sowie der Durchführung einer Videoverhandlung (§ 128a ZPO) bin ich einverstanden.",
-      );
+      doc
+        .text(STATEMENT_CLAIM_COURT_SENTENCE)
+        .text(STATEMENT_CLAIM_AGREEMENT_SENTENCE);
     }),
   );
   documentStruct.add(statementClaimSect);
