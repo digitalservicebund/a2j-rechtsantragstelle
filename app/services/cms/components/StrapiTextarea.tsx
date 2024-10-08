@@ -12,7 +12,7 @@ const StrapiTextareaSchema = z
   .object({
     name: z.string(),
     description: z.string().nullable(),
-    textHint: StrapiDetailsSummarySchema.nullable(),
+    details: StrapiDetailsSummarySchema.nullable(),
     label: z.string().nullable(),
     placeholder: z.string().nullable(),
     errors: StrapiErrorRelationSchema,
@@ -26,5 +26,12 @@ export const StrapiTextareaComponentSchema = StrapiTextareaSchema.extend({
 });
 
 export const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => (
-  <Textarea {...omitNull(props)} errorMessages={flattenStrapiErrors(errors)} />
+  <Textarea
+    {...omitNull(props)}
+    details={{
+      title: props.details?.title ?? "",
+      content: props.details?.content ?? "",
+    }}
+    errorMessages={flattenStrapiErrors(errors)}
+  />
 );

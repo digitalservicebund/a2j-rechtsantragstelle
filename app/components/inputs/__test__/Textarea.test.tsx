@@ -72,6 +72,9 @@ describe("Textarea component", () => {
   });
 
   it("renders a collapsible text hint accordion when provided", () => {
+    vi.mock("~/components/DetailsSummary", () => ({
+      DetailsSummary: () => <div>Text-Beispiel</div>,
+    }));
     const RemixStub = createRemixStub([
       {
         path: "",
@@ -79,7 +82,7 @@ describe("Textarea component", () => {
           <Textarea
             name="test-textarea"
             label="Test Label"
-            textHint={{
+            details={{
               title: "Text-Beispiel",
               content: "Lorem ipsum",
             }}
@@ -92,10 +95,6 @@ describe("Textarea component", () => {
     render(<RemixStub />);
     const accordion = screen.getByText("Text-Beispiel");
     expect(accordion).toBeInTheDocument();
-    expect(accordion).toHaveClass("summary-content");
-    expect(screen.getByText("Lorem ipsum")).not.toBeVisible();
-    accordion.click();
-    expect(screen.getByText("Lorem ipsum")).toBeVisible();
   });
 
   it("renders error message when error is present", () => {

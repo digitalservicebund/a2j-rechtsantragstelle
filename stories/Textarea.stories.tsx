@@ -34,10 +34,10 @@ export const WithDescription: Story = {
   decorators: [(Story) => remixContext(Story)],
 };
 
-export const WithTextHint: Story = {
+export const Withdetails: Story = {
   args: {
     name: "textarea",
-    textHint: {
+    details: {
       title: "Text-Beispiel",
       content: "Lorem ipsum",
     },
