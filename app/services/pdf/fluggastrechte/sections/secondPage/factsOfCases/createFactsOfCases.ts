@@ -1,9 +1,7 @@
 import type PDFDocument from "pdfkit";
 import { addDetailedReason } from "./addDetailedReason";
 import { addFlightDetails } from "./addFlightDetails";
-import { addLastSentences } from "./addLastSentences";
 import { addReason } from "./addReason";
-import { addTable } from "./table/addTable";
 import { FONTS_BUNDESSANS_BOLD } from "../../../createPdfKitDocument";
 
 export const createFactsOfCases = (
@@ -24,9 +22,5 @@ export const createFactsOfCases = (
   addFlightDetails(doc, documentStruct);
   doc.moveDown(1);
   addDetailedReason(doc, documentStruct);
-  doc.moveDown(1);
-  addTable(doc, documentStruct);
-  doc.moveDown(2);
-  addLastSentences(doc, documentStruct);
   doc.moveDown(1);
 };

@@ -2,9 +2,9 @@ import type PDFDocument from "pdfkit";
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN,
-} from "../../../createPdfKitDocument";
+} from "../../createPdfKitDocument";
 
-export const addLastSentences = (
+export const createLastSentences = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
 ) => {
