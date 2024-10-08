@@ -68,7 +68,7 @@
     "match-sorter": "^6.3.4",
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
-    "posthog-js": "^1.166.1",
+    "posthog-js": "^1.167.0",
     "posthog-node": "^4.2.0",
     "rate-limit-redis": "^4.2.0",
     "react-collapsed": "^4.1.2",
