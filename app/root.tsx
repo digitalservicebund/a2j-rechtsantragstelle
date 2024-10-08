@@ -111,7 +111,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     feedbackTranslations,
     videoTranslations,
     mainSession,
-    headerLinksEnabled,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
     fetchSingleEntry("footer"),
@@ -124,17 +123,13 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("feedback"),
     fetchTranslations("video"),
     mainSessionFromCookieHeader(cookieHeader),
-    isFeatureFlagEnabled("showHeaderLinks"),
   ]);
 
   return json(
     {
       header: {
         ...getPageHeaderProps(strapiHeader),
-        /**
-         * Only hide the header links if we're viewing a flow page
-         */
-        hideLinks: !headerLinksEnabled || !!flowIdFromPathname(pathname),
+        hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
       },
       footer: getFooterProps(strapiFooter),
       cookieBannerContent: cookieBannerContent,
