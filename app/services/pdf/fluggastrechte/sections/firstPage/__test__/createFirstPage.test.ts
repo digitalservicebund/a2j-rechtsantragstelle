@@ -3,13 +3,13 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { createPageFooter } from "../../createPageFooter";
-import { createClaimData } from "../createClaimData/createClaimData";
+import { createClaimData } from "../claimData/createClaimData";
 import { createFirstPage } from "../createFirstPage";
 import { createLocalCourtAndDate } from "../createLocalCourtAndDate";
 import { createMainTitle } from "../createMainTitle";
 import { createStatementClaim } from "../createStatementClaim";
 
-vi.mock("../createClaimData/createClaimData");
+vi.mock("../claimData/createClaimData");
 vi.mock("../createLocalCourtAndDate");
 vi.mock("../createMainTitle");
 vi.mock("../createStatementClaim");
