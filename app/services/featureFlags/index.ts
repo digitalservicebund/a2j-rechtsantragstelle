@@ -5,7 +5,6 @@ export type FeatureFlag =
   | "showFluggastrechteFormular"
   | "showGeldEinklagenFlow"
   | "showProzesskostenhilfeFlow"
-  | "showHeaderLinks"
   | "showERV";
 
 export const isFeatureFlagEnabled = async (featureFlag: FeatureFlag) => {
