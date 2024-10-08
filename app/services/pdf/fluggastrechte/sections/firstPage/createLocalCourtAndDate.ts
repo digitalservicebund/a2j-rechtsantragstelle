@@ -4,7 +4,10 @@ import {
   FONTS_BUNDESSANS_REGULAR,
 } from "../../createPdfKitDocument";
 
-export const createLocalCourt = (
+export const CREATION_DATE_PDF_TEXT = "Erstellt am: 04.10.2024";
+export const TO_THE_COURT_TEXT = "An das";
+
+export const createLocalCourtAndDate = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
 ) => {
@@ -14,11 +17,11 @@ export const createLocalCourt = (
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
-        .text("Erstellt am: 04.10.2024", { align: "right" });
+        .text(CREATION_DATE_PDF_TEXT, { align: "right" });
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_BOLD)
-        .text("An das", { align: "left" });
+        .text(TO_THE_COURT_TEXT, { align: "left" });
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
         .text("Amtsgericht Königs Wusterhausen", { align: "left" });

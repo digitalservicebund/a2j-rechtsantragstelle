@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
 import { createClaimData } from "./createClaimData/createClaimData";
-import { createLocalCourt } from "./createLocalCourt";
+import { createLocalCourtAndDate } from "./createLocalCourtAndDate";
 import { createMainTitle } from "./createMainTitle";
 import { createStatementClaim } from "./createStatementClaim";
 import { createBankInformation } from "../createBankInformation";
@@ -11,7 +11,7 @@ export const createFirstPage = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
 ) => {
-  createLocalCourt(doc, documentStruct);
+  createLocalCourtAndDate(doc, documentStruct);
   doc.moveDown(2);
   createMainTitle(doc, documentStruct);
   doc.moveDown(2);
