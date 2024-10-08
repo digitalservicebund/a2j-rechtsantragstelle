@@ -1,18 +1,15 @@
 import type { Renderer } from "marked";
-import { z } from "zod";
 import Heading, { type HeadingProps } from "./Heading";
-import ListItem, { ListItemPropsSchema } from "./ListItem";
+import ListItem, { type ListItemProps } from "./ListItem";
 import RichText from "./RichText";
 
-export const ListPropsSchema = z.object({
-  identifier: z.string().optional(),
-  heading: z.custom<HeadingProps>().optional(),
-  subheading: z.string().optional(),
-  items: z.array(ListItemPropsSchema),
-  isNumeric: z.boolean().optional(),
-});
-
-type ListProps = z.infer<typeof ListPropsSchema>;
+export type ListProps = {
+  items: ListItemProps[];
+  identifier?: string;
+  heading?: HeadingProps;
+  subheading?: string;
+  isNumeric?: boolean;
+};
 
 const paragraphRenderer: Partial<Renderer> = {
   paragraph({ tokens }) {

@@ -1,18 +1,15 @@
-import { z } from "zod";
 import { arrayIsNonEmpty } from "~/util/array";
-import Button, { ButtonPropsSchema } from "./Button";
+import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 import Heading, { type HeadingProps } from "./Heading";
 import RichText from "./RichText";
 
-export const ListItemPropsSchema = z.object({
-  identifier: z.string().optional(),
-  headline: z.custom<HeadingProps>().optional(),
-  content: z.string().optional(),
-  buttons: z.array(ButtonPropsSchema).optional(),
-});
-
-type ListItemProps = z.infer<typeof ListItemPropsSchema>;
+export type ListItemProps = {
+  identifier?: string;
+  headline?: HeadingProps;
+  content?: string;
+  buttons?: ButtonProps[];
+};
 
 const ListIcon = ({ numeric }: { numeric?: number }) =>
   numeric ? (
