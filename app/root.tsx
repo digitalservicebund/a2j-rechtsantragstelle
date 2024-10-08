@@ -30,7 +30,6 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { config as configWeb } from "~/services/env/web";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
