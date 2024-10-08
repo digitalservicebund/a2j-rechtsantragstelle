@@ -9,6 +9,6 @@ export function createPdfResponseHeaders(
   return {
     "Content-Type": "application/pdf",
     "Content-Disposition": `inline; filename=${encodeURIComponent(filename)}`,
-    "Content-Length": fileContentLength.toString(), // Add content length
+    "Content-Length": fileContentLength.toString(),
   };
 }
