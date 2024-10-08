@@ -62,7 +62,7 @@ export function drawCell(
   }
 
   if (regularText.length > 0) {
-    const extraSpaceY = boldText.length > 0 ? 12 : -3;
+    const extraSpaceY = boldText.length > 0 ? 12 : 4;
 
     doc
       .fontSize(regularTextFontSize)
@@ -70,6 +70,7 @@ export function drawCell(
       .text(regularText, textX, textY + extraSpaceY, {
         width: width,
         align: textAlign,
+        height: height,
       });
   }
   doc.restore();

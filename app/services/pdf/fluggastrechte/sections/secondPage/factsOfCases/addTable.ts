@@ -39,55 +39,19 @@ function drawHorizontalTableHead(
   tableStruct.add(tableHeaderRow); // Add the TR to the parent structure
 }
 
-function drawColumnsHeadDateAndTime(
-  doc: PDFKit.PDFDocument,
-  positionY: number,
-  tableStruct: PDFKit.PDFStructureElement,
-) {
-  const columns = ["Datum", "Zeit", "Datum", "Zeit"];
-
-  const tableHeaderColumn = doc.struct("TR"); // New row structure element
-  columns.forEach((columnValue, index) => {
-    const columnCell = doc.struct("TH"); // New TH for each column header
-    columnCell.add(
-      doc.struct("Span", {}, () => {
-        const xPosition = startX + cellWidth[1];
-        const yPosition = startY + rowHeight * (positionY + index);
-
-        drawCell(doc, {
-          xPosition,
-          yPosition,
-          width: cellWidth[1],
-          height: rowHeight,
-          boldText: columnValue,
-          regularText: "",
-          shouldAddSilverBackground: true,
-          textAlign: "left",
-        });
-      }),
-    );
-    tableHeaderColumn.add(columnCell); // Add each TH to the TR
-  });
-  tableStruct.add(tableHeaderColumn); // Add TR to the parent structure
-}
-
 function drawColumnsValues(
   doc: PDFKit.PDFDocument,
   yStartPadding: number,
   tableStruct: PDFKit.PDFStructureElement,
 ) {
   const values = [
-    "10.03.2024",
-    "20:30",
-    "10.03.2024",
-    "23:45",
+    "10.03.2024 20:30",
+    "10.03.2024 23:45",
     "--",
-    "--",
-    "11.03.2024",
-    "03:19",
+    "11.03.2024 03:19",
   ];
 
-  const isPlanned = (index: number) => index <= 3; // To distinguish planned vs actual times
+  const isPlanned = (index: number) => index <= 1; // To distinguish planned vs actual times
 
   for (let index = 0; index < values.length; index++) {
     const tableValueColumns = doc.struct("TR"); // Create new TR for each set of values
@@ -95,17 +59,18 @@ function drawColumnsValues(
     tableValueColumns.add(
       doc.struct("TD", {}, () => {
         const columnValue = values[index];
-        const columnOffset = isPlanned(index) ? 2 : 4; // Planned values go in the second column, actual in the fourth
-        const adjustedIndex = isPlanned(index) ? index : index - 4; // Calculate the row for planned/actual values
+        const columnOffset = isPlanned(index) ? 1 : 2; // Planned values go in the second column, actual in the fourth
+        const adjustedIndex = isPlanned(index) ? index - 1 : index - 3; // Calculate the row for planned/actual values
 
-        const xPosition = startX + cellWidth[1] * columnOffset;
-        const yPosition = startY + rowHeight * (yStartPadding + adjustedIndex);
+        const xPosition = startX + cellWidth[0] * columnOffset;
+        const yPosition =
+          startY + doubleRowHeight * (yStartPadding + adjustedIndex);
 
         drawCell(doc, {
           xPosition,
           yPosition,
           width: cellWidth[0],
-          height: rowHeight,
+          height: doubleRowHeight,
           boldText: "", // No label text, only the value
           regularText: columnValue,
           shouldAddSilverBackground: false,
@@ -121,12 +86,12 @@ function drawColumnsValues(
   durationRow.add(
     doc.struct("TD", {}, () => {
       drawCell(doc, {
-        xPosition: startX + cellWidth[1] * 6 + 30,
-        yPosition: startY + rowHeight * (yStartPadding + 1),
-        width: cellWidth[1],
-        height: rowHeight,
+        xPosition: startX + cellWidth[0] * 3,
+        yPosition: startY + doubleRowHeight,
+        width: cellWidth[0],
+        height: doubleRowHeight * 2,
         boldText: "", // No label text, only the value
-        regularText: "3 Stunden 34 Minuten",
+        regularText: "12 Stunden 34 Minuten tess",
         shouldAddSilverBackground: false,
         textAlign: "center",
         regularTextFontSize: 10,
@@ -143,8 +108,8 @@ function drawColumnsHead(
   tableStruct: PDFKit.PDFStructureElement,
 ) {
   const headers = [
-    { title: "Abflug", subtitle: "Startflughafen" },
-    { title: "Ankunft", subtitle: "Zielflughafen" },
+    { title: "Abflug Datum, Zeit", subtitle: "Startflughafen" },
+    { title: "Ankunft, Zeit", subtitle: "Zielflughafen" },
   ];
   // X for columns
   const xPosition = startX + cellWidth[2];
@@ -160,7 +125,7 @@ function drawColumnsHead(
         drawCell(doc, {
           xPosition,
           yPosition,
-          width: cellWidth[1],
+          width: cellWidth[0],
           height: doubleRowHeight,
           boldText: header.title,
           regularText: header.subtitle,
@@ -172,8 +137,6 @@ function drawColumnsHead(
     tableHeaderRow.add(headerCell); // Add each TH to the TR
   });
   tableStruct.add(tableHeaderRow); // Add TR to the parent structure
-
-  drawColumnsHeadDateAndTime(doc, yStartPadding, tableStruct); // Call the date/time columns
 }
 
 export function addTable(
