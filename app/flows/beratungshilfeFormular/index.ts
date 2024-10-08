@@ -1,4 +1,3 @@
-import { getRechtsproblemStrings } from "~/flows/beratungshilfeFormular/rechtsproblem/stringReplacements";
 import type { Flow } from "~/flows/flows.server";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import { beratungshilfeAnwaltlicheVertretungGuards } from "./anwaltlicheVertretung/guards";
@@ -42,7 +41,6 @@ export const beratungshilfeFormular = {
     ...getKinderStrings(context),
     ...getArrayIndexStrings(context),
     ...getAnwaltStrings(context),
-    ...getRechtsproblemStrings(context),
     ...eigentumZusammenfassungShowPartnerschaftWarnings(context),
     ...eigentumZusammenfassungShowTotalWorthWarnings(context),
     ...getMissingInformationStrings(context),
