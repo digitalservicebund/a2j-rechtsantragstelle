@@ -1,6 +1,5 @@
 // @vitest-environment node
 // see https://github.com/Hopding/pdf-lib/issues/1186
-import { PDFDocument } from "pdf-lib";
 import { beratungshilfePdfFromUserdata } from "..";
 
 describe("beratungshilfePdfFromUserdata", () => {
@@ -10,9 +9,7 @@ describe("beratungshilfePdfFromUserdata", () => {
       nachname: "nachname",
     });
 
-    const pdfGenerateDoc = await PDFDocument.load(pdfDoc);
-
-    const pdfField = pdfGenerateDoc
+    const pdfField = pdfDoc
       .getForm()
       .getTextField("Antragsteller (Name, Vorname ggf Geburtsname)");
 
@@ -25,9 +22,7 @@ describe("beratungshilfePdfFromUserdata", () => {
       nachname: "nachname",
     });
 
-    const pdfGenerateDoc = await PDFDocument.load(pdfDoc);
-
-    const pdfField = pdfGenerateDoc
+    const pdfField = pdfDoc
       .getForm()
       .getTextField("Antragsteller (Name, Vorname ggf Geburtsname)");
 
@@ -40,20 +35,20 @@ describe("beratungshilfePdfFromUserdata", () => {
   });
 
   it("should handle special characters without throwing", async () => {
-    const pdfDoc = beratungshilfePdfFromUserdata({
+    const pdfDoc = await beratungshilfePdfFromUserdata({
       vorname: "Włodzimierz",
       nachname: "Ćwikła",
     });
 
-    await expect(pdfDoc).resolves.not.toThrow();
+    await expect(pdfDoc.save()).resolves.not.toThrow();
   });
 
   it("should handle emojis without throwing", async () => {
-    const pdfDoc = beratungshilfePdfFromUserdata({
+    const pdfDoc = await beratungshilfePdfFromUserdata({
       vorname: "🚂",
       nachname: "🫑",
     });
 
-    await expect(pdfDoc).resolves.not.toThrow();
+    await expect(pdfDoc.save()).resolves.not.toThrow();
   });
 });

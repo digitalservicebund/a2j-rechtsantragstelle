@@ -67,5 +67,5 @@ export async function beratungshilfePdfFromUserdata(
     filledPdf,
     await pdfFromReact(Handout(userData, "Merkblatt")),
   );
-  return await filledPdf.save();
+  return filledPdf;
 }
