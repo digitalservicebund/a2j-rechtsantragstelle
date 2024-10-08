@@ -1,12 +1,12 @@
+import { drawCell } from "./drawCell";
 import {
   COLUMN_HEIGHT,
   COLUMN_WIDTH,
   START_TABLE_X,
   START_TABLE_Y,
-} from "./addTable";
-import { drawColumn } from "./drawColumn";
+} from "./tableConfigurations";
 
-export function drawColumnsValues(
+export function drawTableColumnsValues(
   doc: PDFKit.PDFDocument,
   tableStruct: PDFKit.PDFStructureElement,
 ) {
@@ -29,7 +29,7 @@ export function drawColumnsValues(
         const xPosition = START_TABLE_X + COLUMN_WIDTH * columnOffset;
         const yPosition = START_TABLE_Y + COLUMN_HEIGHT * adjustedIndex;
 
-        drawColumn(doc, {
+        drawCell(doc, {
           xPosition,
           yPosition,
           width: COLUMN_WIDTH,
@@ -48,7 +48,7 @@ export function drawColumnsValues(
   const durationRow = doc.struct("TR"); // Create a row for the duration
   durationRow.add(
     doc.struct("TD", {}, () => {
-      drawColumn(doc, {
+      drawCell(doc, {
         xPosition: START_TABLE_X + COLUMN_WIDTH * 3,
         yPosition: START_TABLE_Y + COLUMN_HEIGHT,
         width: COLUMN_WIDTH,

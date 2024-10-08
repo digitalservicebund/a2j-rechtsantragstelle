@@ -1,12 +1,12 @@
+import { drawCell } from "./drawCell";
 import {
   COLUMN_HEIGHT,
   COLUMN_WIDTH,
   START_TABLE_X,
   START_TABLE_Y,
-} from "./addTable";
-import { drawColumn } from "./drawColumn";
+} from "./tableConfigurations";
 
-export function drawHorizontalTableHead(
+export function drawTableRowHead(
   doc: PDFKit.PDFDocument,
   tableStruct: PDFKit.PDFStructureElement,
 ) {
@@ -21,7 +21,7 @@ export function drawHorizontalTableHead(
     const headerCell = doc.struct("TH"); // Create a new TH for each header cell
     headerCell.add(
       doc.struct("Span", {}, () => {
-        drawColumn(doc, {
+        drawCell(doc, {
           xPosition: START_TABLE_X + COLUMN_WIDTH * (index + 1), // Dynamic X position based on the column
           yPosition: START_TABLE_Y,
           width: COLUMN_WIDTH, // Each header has the same width

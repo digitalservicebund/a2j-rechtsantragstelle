@@ -1,12 +1,12 @@
+import { drawCell } from "./drawCell";
 import {
   COLUMN_HEIGHT,
   COLUMN_WIDTH,
   START_TABLE_X,
   START_TABLE_Y,
-} from "./addTable";
-import { drawColumn } from "./drawColumn";
+} from "./tableConfigurations";
 
-export function drawColumnsHead(
+export function drawTableColumnsHead(
   doc: PDFKit.PDFDocument,
   tableStruct: PDFKit.PDFStructureElement,
 ) {
@@ -22,7 +22,7 @@ export function drawColumnsHead(
       doc.struct("Span", {}, () => {
         const yPosition = START_TABLE_Y + COLUMN_HEIGHT * (index + 1); // Adjust yPosition based on index
 
-        drawColumn(doc, {
+        drawCell(doc, {
           xPosition: START_TABLE_X,
           yPosition,
           width: COLUMN_WIDTH,

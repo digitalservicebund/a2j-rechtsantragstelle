@@ -20,7 +20,7 @@ type CellOptions = {
 const cellSpaceX = 5;
 const cellSpaceY = 5;
 
-export function drawColumn(
+export function drawCell(
   doc: typeof PDFDocument,
   {
     xPosition,
