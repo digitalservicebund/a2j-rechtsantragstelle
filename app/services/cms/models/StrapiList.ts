@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ListPropsSchema } from "~/components/List";
+import { type ListProps } from "~/components/List";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
@@ -26,7 +26,6 @@ export const StrapiListComponentSchema = StrapiListSchema.extend({
   __component: z.literal("page.list"),
 });
 
-export const getListProps = (cmsData: StrapiList) => {
-  const items = cmsData.items.map(getListItemProps);
-  return ListPropsSchema.parse(omitNull({ ...cmsData, items }));
+export const getListProps = ({ items, ...cmsData }: StrapiList): ListProps => {
+  return omitNull({ ...cmsData, items: items.map(getListItemProps) });
 };

@@ -17,10 +17,9 @@ export const ButtonPropsSchema = z.object({
   fullWidth: z.boolean().optional(),
 });
 
-type Props = z.infer<typeof ButtonPropsSchema>;
+export type ButtonProps = z.infer<typeof ButtonPropsSchema>;
 
-interface ButtonProps extends React.ComponentPropsWithoutRef<"button">, Props {}
-interface ButtonLinkProps extends React.ComponentPropsWithoutRef<"a">, Props {}
+type LinkProps = React.ComponentPropsWithoutRef<"a">;
 
 function formatIcon(icon: z.infer<typeof iconSchema>) {
   if (!icon) return undefined;
@@ -38,7 +37,7 @@ function Button({
   size,
   href,
   ...props
-}: ButtonProps | ButtonLinkProps) {
+}: ButtonProps & LinkProps & React.ComponentPropsWithoutRef<"button">) {
   const buttonClasses = classNames(
     "ds-button",
     {
@@ -79,7 +78,7 @@ function Button({
 
     return (
       <a
-        {...(props as ButtonLinkProps)}
+        {...props}
         href={href}
         className={buttonClasses}
         onKeyDown={onKeyDown}
