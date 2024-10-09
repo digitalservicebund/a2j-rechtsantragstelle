@@ -6,9 +6,8 @@ import { createStamp } from "./createStamp";
 export const createPageFooter = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  pageNumber: number,
 ) => {
   createStamp(doc, documentStruct);
-  createPageNumber(doc, { pageNumber });
+  createPageNumber(doc);
   createBankInformation(doc, documentStruct);
 };

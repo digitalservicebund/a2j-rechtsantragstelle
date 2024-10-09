@@ -20,29 +20,29 @@ describe("createPageFooter", () => {
     vi.resetAllMocks();
   });
 
-  it("should call the createBankInformation for the creation of page foorter", () => {
+  it("should call the createBankInformation for the creation of page footer", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createPageFooter(mockDoc, mockStruct, 0);
+    createPageFooter(mockDoc, mockStruct);
 
     expect(createBankInformation).toBeCalledTimes(1);
   });
 
-  it("should call the createPageNumber for the creation of page foorter", () => {
+  it("should call the createPageNumber for the creation of page footer", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createPageFooter(mockDoc, mockStruct, 0);
+    createPageFooter(mockDoc, mockStruct);
 
     expect(createPageNumber).toBeCalledTimes(1);
   });
 
-  it("should call the createStamp for the creation of page foorter", () => {
+  it("should call the createStamp for the creation of page footer", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createPageFooter(mockDoc, mockStruct, 0);
+    createPageFooter(mockDoc, mockStruct);
 
     expect(createStamp).toBeCalledTimes(1);
   });

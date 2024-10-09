@@ -5,8 +5,6 @@ import { createMainTitle } from "./createMainTitle";
 import { createStatementClaim } from "./createStatementClaim";
 import { createPageFooter } from "../createPageFooter";
 
-const PAGE_NUMBER = 1;
-
 export const createFirstPage = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
@@ -18,5 +16,5 @@ export const createFirstPage = (
   createClaimData(doc, documentStruct);
   doc.moveDown(2);
   createStatementClaim(doc, documentStruct);
-  createPageFooter(doc, documentStruct, PAGE_NUMBER);
+  createPageFooter(doc, documentStruct);
 };

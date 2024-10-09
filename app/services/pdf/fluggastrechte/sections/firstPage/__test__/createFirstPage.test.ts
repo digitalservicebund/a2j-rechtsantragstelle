@@ -62,19 +62,13 @@ describe("createFirstPage", () => {
     expect(createStatementClaim).toBeCalledTimes(1);
   });
 
-  it("should call the createPageFooter for the creation of the first page with the correct parameters", () => {
+  it("should call the createPageFooter for the creation of the first page", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     createFirstPage(mockDoc, mockStruct);
 
-    const expectPageNumber = 1;
-
     expect(createPageFooter).toBeCalledTimes(1);
-    expect(createPageFooter).toBeCalledWith(
-      mockDoc,
-      mockStruct,
-      expectPageNumber,
-    );
+    expect(createPageFooter).toBeCalledWith(mockDoc, mockStruct);
   });
 });

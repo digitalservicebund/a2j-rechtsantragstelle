@@ -6,6 +6,10 @@ export const mockPdfKitDocumentStructure = () => {
 
 export const mockPdfKitDocument = (
   mockStructure: PDFKit.PDFStructureElement,
+  range?: {
+    start: number;
+    count: number;
+  },
 ) => {
   return {
     text: vi.fn().mockReturnThis(),
@@ -18,6 +22,10 @@ export const mockPdfKitDocument = (
     rect: vi.fn().mockReturnThis(),
     stroke: vi.fn().mockReturnThis(),
     restore: vi.fn().mockReturnThis(),
+    bufferedPageRange: vi.fn((_type, _options, contentFn) => {
+      if (contentFn) contentFn();
+      return range;
+    }),
     struct: vi.fn((_type, _options, contentFn) => {
       if (contentFn) contentFn();
       return mockStructure;

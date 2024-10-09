@@ -5,7 +5,6 @@ import { createPageFooter } from "../createPageFooter";
 import { createLastSentences } from "./createLastSentences";
 import { addTable } from "./table/addTable";
 
-const PAGE_NUMBER = 2;
 export const REASON_TITLE_TEXT = "Begründung";
 
 export const createSecondPage = (
@@ -23,5 +22,5 @@ export const createSecondPage = (
   createLastSentences(doc, documentStruct);
   doc.moveDown(1);
 
-  createPageFooter(doc, documentStruct, PAGE_NUMBER);
+  createPageFooter(doc, documentStruct);
 };

@@ -5,10 +5,11 @@ import {
   PDF_MARGIN,
 } from "../createPdfKitDocument";
 
-export const createPageNumber = (
-  doc: typeof PDFDocument,
-  { pageNumber }: { pageNumber: number },
-) => {
+export const createPageNumber = (doc: typeof PDFDocument) => {
+  const range = doc.bufferedPageRange();
+
+  const pageNumber = range.start + range.count;
+
   doc
     .fontSize(7)
     .font(FONTS_BUNDESSANS_REGULAR)

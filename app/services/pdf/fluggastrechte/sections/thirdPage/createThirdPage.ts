@@ -5,8 +5,6 @@ import {
 } from "../../createPdfKitDocument";
 import { createPageFooter } from "../createPageFooter";
 
-const PAGE_NUMBER = 3;
-
 export const createThirdPage = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
@@ -25,5 +23,5 @@ export const createThirdPage = (
 
   doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text("Włodzimierz Ciesiński");
 
-  createPageFooter(doc, documentStruct, PAGE_NUMBER);
+  createPageFooter(doc, documentStruct);
 };

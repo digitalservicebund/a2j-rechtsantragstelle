@@ -43,20 +43,14 @@ describe("createSecondPage", () => {
     expect(createFactsOfCases).toBeCalledTimes(1);
   });
 
-  it("should call the createPageFooter for the creation of the second page with the correct parameters", () => {
+  it("should call the createPageFooter for the creation of the second page", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     createSecondPage(mockDoc, mockStruct);
 
-    const expectPageNumber = 2;
-
     expect(createPageFooter).toBeCalledTimes(1);
-    expect(createPageFooter).toBeCalledWith(
-      mockDoc,
-      mockStruct,
-      expectPageNumber,
-    );
+    expect(createPageFooter).toBeCalledWith(mockDoc, mockStruct);
   });
 
   it("should call the addTable for the creation of the second page", () => {

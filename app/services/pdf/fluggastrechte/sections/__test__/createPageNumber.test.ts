@@ -5,13 +5,13 @@ import {
 import { createPageNumber } from "../createPageNumber";
 
 describe("createPageNumber", () => {
-  it("should create document with page number ", () => {
+  it("should create document", () => {
     const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockDoc = mockPdfKitDocument(mockStruct, { start: 1, count: 1 });
 
     const expectPageNumber = 2;
 
-    createPageNumber(mockDoc, { pageNumber: expectPageNumber });
+    createPageNumber(mockDoc);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       `${expectPageNumber}/3`,
