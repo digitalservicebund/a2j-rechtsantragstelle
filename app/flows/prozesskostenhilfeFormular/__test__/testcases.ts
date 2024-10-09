@@ -5,6 +5,7 @@ import {
   prozesskostenhilfeFormular,
   type ProzesskostenhilfeFormularContext,
 } from "~/flows/prozesskostenhilfeFormular";
+import { antragstellendePersonTransitionCases } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
 const machine: FlowStateMachine = createMachine(
@@ -85,6 +86,7 @@ const cases = [
       "finanzielle-angaben/kinder/kinder-frage",
     ],
   ],
+  ...antragstellendePersonTransitionCases,
   [
     happyPathData,
     [
