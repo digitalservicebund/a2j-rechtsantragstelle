@@ -36,7 +36,6 @@ We follow the following naming:
 - Things that are now specific to one service should reside in the `domains` folder. That includes:
   - domain specific data, for example airports
   - pdf filling logic + handout generation
-  - Strapi "extra" flowIDs
   - Vorabcheck progress configuration
   - Flow transition logic
   - `WEITERE_PERSONEN_START_INDEX` in the ArraySummaryDataItems
