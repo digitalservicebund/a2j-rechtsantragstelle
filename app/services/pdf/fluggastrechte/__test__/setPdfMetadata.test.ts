@@ -20,7 +20,7 @@ describe("setPdfMetadata", () => {
     expect(document.info.Author).toBe(AUTHOR);
     expect(document.info.Subject).toBe(SUBJECT);
     expect(document.info.Keywords).toBe(KEYWORDS);
-    expect(document.info.CreationDate).not.toBeNull();
+    expect(document.info.CreationDate).not.toBeUndefined();
     expect(document.info.Creator).toBe(CREATOR);
   });
 });
