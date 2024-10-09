@@ -61,6 +61,7 @@
     "fflate": "^0.8.2",
     "haversine-distance": "1.2.3",
     "html-entities": "^2.5.2",
+    "ibantools": "^4.5.1",
     "ioredis": "^5.4.1",
     "isbot": "^5.1.17",
     "lodash": "^4.17.21",

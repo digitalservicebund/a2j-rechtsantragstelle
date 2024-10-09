@@ -9,16 +9,16 @@ const fallbackStrapiInfoBox = {
   items: [
     {
       label: { text: "500", look: "ds-label-01-reg", tagName: "div" },
-      detailsSummary: null,
+      detailsSummary: [],
       headline: {
         text: "Unerwarteter Fehler",
         look: "ds-heading-02-reg",
         tagName: "h1",
       },
-      image: null,
+      image: {},
       content:
         "Leider ist ein Fehler ist aufgetreten. Wir arbeiten ständig an der Verbesserung unserer Service und sind bereits informiert.\n\nBitte versuchen Sie es später noch einmal.",
-      buttons: null,
+      buttons: [],
       identifier: null,
     },
   ],
