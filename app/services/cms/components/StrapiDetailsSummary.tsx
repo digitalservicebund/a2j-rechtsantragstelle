@@ -2,15 +2,13 @@ import { z } from "zod";
 import { DetailsSummary } from "~/components/DetailsSummary";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import { OptionalStrapiLinkIdentifierSchema } from "../models/HasStrapiLinkIdentifier";
 
 export const StrapiDetailsSummarySchema = z
   .object({
-    title: z.string().nullable(),
-    content: z.string().nullable(),
+    title: z.string(),
+    content: z.string(),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema);
+  .merge(HasOptionalStrapiIdSchema);
 
 type StrapiDetailsSummary = z.infer<typeof StrapiDetailsSummarySchema>;
 
