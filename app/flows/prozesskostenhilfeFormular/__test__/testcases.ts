@@ -90,10 +90,8 @@ const cases = [
     [
       "start/start",
       "grundvoraussetzungen/nachueberpruefung-frage",
-      "grundvoraussetzungen/nachueberpruefung/name-gericht",
-      "grundvoraussetzungen/nachueberpruefung/aktenzeichen",
+      "grundvoraussetzungen/antrag/klageersteller",
       "grundvoraussetzungen/einreichung/fall",
-      "grundvoraussetzungen/einreichung/mjp",
       "grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
       "antragstellende-person/empfaenger",
       "antragstellende-person/unterhaltsanspruch",
@@ -150,7 +148,7 @@ const cases = [
       "abgabe/ende",
     ],
   ],
-] as const satisfies TestCases<ProzesskostenhilfeFormularContext>;
+] satisfies TestCases<ProzesskostenhilfeFormularContext>;
 
 export const testCasesProzesskostenhilfeFormular = {
   machine,

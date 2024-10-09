@@ -1,7 +1,12 @@
 import _ from "lodash";
+import { and } from "xstate";
 import type { Flow } from "~/flows/flows.server";
 import { getAbgabeStrings } from "~/flows/prozesskostenhilfeFormular/abgabe/stringReplacements";
-import type { ProzesskostenhilfeAntragstellendePersonContext } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/context";
+import {
+  couldLiveFromUnterhalt,
+  unterhaltLeisteIch,
+  type ProzesskostenhilfeAntragstellendePersonContext,
+} from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/context";
 import { getAntragstellendePersonStrings } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/stringReplacements";
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
@@ -85,8 +90,35 @@ export const prozesskostenhilfeFormular = {
           ],
         }),
       rechtsschutzversicherung: getProzesskostenhilfeRsvXstateConfig({
-        // TODO: add proper logic for antragstellende person
-        backToCallingFlow: "#antragstellende-person.unterhaltsanspruch",
+        backToCallingFlow: [
+          {
+            guard: unterhaltLeisteIch,
+            target: "#antragstellende-person.zwei-formulare",
+          },
+          {
+            guard: ({ context }) => context.unterhaltsanspruch === "keine",
+            target: "#antragstellende-person.unterhaltsanspruch",
+          },
+          {
+            guard: and([
+              ({ context }) => context.unterhaltsanspruch === "unterhalt",
+              ({ context }) => context.livesPrimarilyFromUnterhalt === "no",
+            ]),
+            target: "#antragstellende-person.unterhalt-hauptsaechliches-leben",
+          },
+          {
+            guard: and([
+              ({ context }) => context.unterhaltsanspruch === "unterhalt",
+              ({ context }) => context.livesPrimarilyFromUnterhalt === "yes",
+            ]),
+            target: "#antragstellende-person.eigenes-exemplar",
+          },
+          {
+            guard: couldLiveFromUnterhalt,
+            target: "#antragstellende-person.warum-keiner-unterhalt",
+          },
+          "#antragstellende-person.unterhalt-leben-frage",
+        ],
         nextFlowEntrypoint: "#finanzielle-angaben",
       }),
       "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {

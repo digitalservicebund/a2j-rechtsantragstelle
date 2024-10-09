@@ -28,7 +28,8 @@ export const createFinancialEntry = () => ({
 });
 
 export const happyPathData: ProzesskostenhilfeFormularContext = {
-  formularArt: grundvoraussetzungenSchema.formularArt.Enum.nachueberpruefung,
+  formularArt: grundvoraussetzungenSchema.formularArt.Enum.erstantrag,
+  verfahrenArt: grundvoraussetzungenSchema.verfahrenArt.Enum.verfahrenAnwalt,
   versandArt: grundvoraussetzungenSchema.versandArt.Enum.digital,
   empfaenger: antragstellendePersonSchema.empfaenger.Enum.ich,
   unterhaltsanspruch: antragstellendePersonSchema.unterhaltsanspruch.Enum.keine,
