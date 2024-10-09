@@ -1,27 +1,25 @@
 import { render } from "@testing-library/react";
-import { FeedbackTranslationContext } from "../FeedbackTranslationContext";
-import {
-  HEADING_POST_SUBMISSION_TRANSLATION_KEY,
-  PostSubmissionBox,
-  TEXT_POST_SUBMISSION_TRANSLATION_KEY,
-} from "../PostSubmissionBox";
+import { TranslationContext } from "~/services/translations/translationsContext";
+import type { PostSubmissionTranslationKeys } from "../feedbackTranslations";
+import { PostSubmissionBox } from "../PostSubmissionBox";
 
 const HEADING_POST_SUBMISSION = "Heading";
 const TEXT_POST_SUBMISSION = "Text";
 
-const TRANSLATION_KEY_RECORD = {
-  [HEADING_POST_SUBMISSION_TRANSLATION_KEY]: HEADING_POST_SUBMISSION,
-  [TEXT_POST_SUBMISSION_TRANSLATION_KEY]: TEXT_POST_SUBMISSION,
+const contextObj = {
+  feedback: {
+    ["heading-post-submission"]: HEADING_POST_SUBMISSION,
+    ["text-post-submission"]: TEXT_POST_SUBMISSION,
+  } satisfies Record<PostSubmissionTranslationKeys, string>,
+  video: {},
 };
 
 describe("PostSubmissionBox", () => {
   it("should render the component with the given translations", () => {
     const { getByText } = render(
-      <FeedbackTranslationContext.Provider
-        value={{ translations: TRANSLATION_KEY_RECORD }}
-      >
+      <TranslationContext.Provider value={contextObj}>
         <PostSubmissionBox shouldFocus={false} />
-      </FeedbackTranslationContext.Provider>,
+      </TranslationContext.Provider>,
     );
 
     expect(getByText(HEADING_POST_SUBMISSION)).toBeInTheDocument();
@@ -30,11 +28,9 @@ describe("PostSubmissionBox", () => {
 
   it("should render the component with the focus on the heading ", () => {
     const { getByText } = render(
-      <FeedbackTranslationContext.Provider
-        value={{ translations: TRANSLATION_KEY_RECORD }}
-      >
+      <TranslationContext.Provider value={contextObj}>
         <PostSubmissionBox shouldFocus />
-      </FeedbackTranslationContext.Provider>,
+      </TranslationContext.Provider>,
     );
 
     expect(getByText(HEADING_POST_SUBMISSION)).toHaveFocus();

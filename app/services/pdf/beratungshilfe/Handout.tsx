@@ -116,7 +116,7 @@ const Handout = (userdata: BeratungshilfeFormularContext, footer: string) => {
           {dynamicSteps[userdata.abgabeArt ?? "ausdrucken"].map(
             (step, idx, stepArr) => {
               return (
-                <View key={`step-${idx}`}>
+                <View key={step.title}>
                   {/* Always print the required documents list second-to-last */}
                   {idx === stepArr.length - 1 && (
                     <View

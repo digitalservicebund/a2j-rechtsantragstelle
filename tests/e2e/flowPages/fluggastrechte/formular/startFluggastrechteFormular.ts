@@ -24,9 +24,13 @@ export async function startFluggastrechteFormular(
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
+  // /fluggastrechte/formular/grundvorraussetzungen/zahlungsaufforderung
+  await expectPageToBeAccessible({ page });
+  await formular.clickNext();
+
   // /fluggastrechte/formular/grundvorraussetzungen/daten-uebernahme
   await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("doMigration", "yes");
+  await formular.clickNext();
 
   // /fluggastrechte/formular/streitwert-kosten/gerichtskosten
   await expectPageToBeAccessible({ page });
@@ -38,7 +42,6 @@ export async function startFluggastrechteFormular(
 
   // /fluggastrechte/formular/streitwert-kosten/zahlung-nach-klageeinreichung
   await expectPageToBeAccessible({ page });
-  await formular.clickLabelFor("aenderungMitteilung");
   await formular.clickNext();
 
   // /fluggastrechte/formular/streitwert-kosten/prozesszinsen
@@ -52,6 +55,7 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/flugdaten/geplanter-flug
   await expectPageToBeAccessible({ page });
   await formular.fillInput("direktFlugnummer", "AB1234");
+  await formular.fillInput("buchungsNummer", "X36Q9C");
   await formular.fillInput("direktAbflugsDatum", toGermanDateFormat(today()));
   await formular.fillInput("direktAbflugsZeit", "08:10");
   await formular.fillDropdown("zwischenstoppAnzahl", "oneStop");
@@ -98,11 +102,15 @@ export async function startFluggastrechteFormular(
   await formular.fillInput("telefonnummer", "015111225588");
   await formular.clickNext();
 
-  // /fluggastrechte/formular/persoenliche-daten/person/antragsteller-angeben
-  await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("isProzessbevollmaechtigte", "no");
-
   // /fluggastrechte/formular/persoenliche-daten/weitere-personen/frage
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("isWeiterePersonen", "no");
+
+  // fluggastrechte/formular/zusammenfassung/start
+  await expectPageToBeAccessible({ page });
+  await formular.clickNext();
+
+  // fluggastrechte/formular/abgabe/start
+  await expectPageToBeAccessible({ page });
+  await expect(page).toHaveURL(new RegExp(`.+${formular.url}/abgabe/start$`));
 }

@@ -1,43 +1,24 @@
 import { z } from "zod";
-import {
-  adresseSchema,
-  namePrivatPerson,
-} from "~/flows/shared/persoenlicheDaten/context";
+import { persoenlicheDaten } from "~/flows/shared/persoenlicheDaten/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
-import { checkedOptional } from "~/services/validation/checkedCheckbox";
+import { ibanSchema } from "~/services/validation/iban";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
-import { phoneNumberSchema } from "~/services/validation/phoneNumber";
-import { postcodeSchema } from "~/services/validation/postcode";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-const fluggastrechtePersoenlichVertretungDaten = {
-  vornameVertretung: stringRequiredSchema,
-  nachnameVertretung: stringRequiredSchema,
-  strasseHausnummerVertretung: stringRequiredSchema,
-  plzVertretung: stringRequiredSchema.pipe(postcodeSchema).optional(),
-  ortVertretung: stringRequiredSchema,
-  beschreibenVertretung: stringRequiredSchema,
+export const paymentDetailsSchema = {
+  iban: optionalOrSchema(ibanSchema),
+  kontoinhaber: stringOptionalSchema,
 };
 
 export const fluggastrechtePersoenlichDaten = {
-  ...namePrivatPerson,
-  ...adresseSchema,
-  telefonnummer: optionalOrSchema(phoneNumberSchema),
-  unter18JahreAlt: checkedOptional,
-  ...fluggastrechtePersoenlichVertretungDaten,
-  isProzessbevollmaechtigte: YesNoAnswer,
-  vornameVollmaechtigte: stringRequiredSchema,
-  vollmaechtigteNachname: stringRequiredSchema,
+  ...persoenlicheDaten,
   isWeiterePersonen: YesNoAnswer,
+  ...paymentDetailsSchema,
   weiterePersonen: z.array(
     z
       .object({
-        ...namePrivatPerson,
-        ...adresseSchema,
-        telefonnummer: optionalOrSchema(phoneNumberSchema),
-        unter18JahreAlt: checkedOptional,
-        ...fluggastrechtePersoenlichVertretungDaten,
+        ...persoenlicheDaten,
       })
       .partial(),
   ),

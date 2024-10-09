@@ -13,44 +13,8 @@
       "states": {
         "daten": {
           "on": {
-            "SUBMIT": [
-              {
-                "guard": "isUnter18JahreAlt",
-                "target": "vertretung-minderjaehrige"
-              },
-              "antragsteller-angeben"
-            ],
-            "BACK": "#flugdaten.zusaetzliche-angaben"
-          }
-        },
-        "vertretung-minderjaehrige": {
-          "on": {
-            "SUBMIT": "antragsteller-angeben",
-            "BACK": "daten"
-          }
-        },
-        "antragsteller-angeben": {
-          "on": {
-            "SUBMIT": [
-              {
-                "guard": "isProzessbevollmaechtigteYes",
-                "target": "antragsteller-daten"
-              },
-              "#weitere-personen.frage"
-            ],
-            "BACK": [
-              {
-                "guard": "isUnter18JahreAlt",
-                "target": "vertretung-minderjaehrige"
-              },
-              "daten"
-            ]
-          }
-        },
-        "antragsteller-daten": {
-          "on": {
             "SUBMIT": "#weitere-personen.frage",
-            "BACK": "antragsteller-angeben"
+            "BACK": "#flugdaten.zusaetzliche-angaben"
           }
         }
       }
@@ -65,20 +29,16 @@
               {
                 "guard": "isWeiterePersonenYes",
                 "target": "uebersicht"
-              }
-            ],
-            "BACK": [
-              {
-                "guard": "isProzessbevollmaechtigteYes",
-                "target": "#person.antragsteller-daten"
               },
-              "#person.antragsteller-angeben"
-            ]
+              "#zusammenfassung.start"
+            ],
+            "BACK": "#person.daten"
           }
         },
         "uebersicht": {
           "on": {
             "BACK": "frage",
+            "SUBMIT": "#zusammenfassung.start",
             "add-weiterePersonen": {
               "guard": "isValidWeiterePersonenArrayIndex",
               "target": "person"
@@ -91,18 +51,6 @@
             "daten": {
               "on": {
                 "BACK": "#weitere-personen.uebersicht",
-                "SUBMIT": [
-                  {
-                    "guard": "isWeiterePersonensUnter18JahreAlt",
-                    "target": "vertretung-minderjaehrige"
-                  },
-                  "#weitere-personen.uebersicht"
-                ]
-              }
-            },
-            "vertretung-minderjaehrige": {
-              "on": {
-                "BACK": "daten",
                 "SUBMIT": "#weitere-personen.uebersicht"
               }
             }

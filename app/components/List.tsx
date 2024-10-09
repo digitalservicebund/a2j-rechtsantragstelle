@@ -1,18 +1,15 @@
 import type { Renderer } from "marked";
-import { z } from "zod";
 import Heading, { type HeadingProps } from "./Heading";
-import ListItem, { ListItemPropsSchema } from "./ListItem";
+import ListItem, { type ListItemProps } from "./ListItem";
 import RichText from "./RichText";
 
-export const ListPropsSchema = z.object({
-  identifier: z.string().optional(),
-  heading: z.custom<HeadingProps>().optional(),
-  subheading: z.string().optional(),
-  items: z.array(ListItemPropsSchema),
-  isNumeric: z.boolean().optional(),
-});
-
-type ListProps = z.infer<typeof ListPropsSchema>;
+export type ListProps = {
+  items: ListItemProps[];
+  identifier?: string;
+  heading?: HeadingProps;
+  subheading?: string;
+  isNumeric?: boolean;
+};
 
 const paragraphRenderer: Partial<Renderer> = {
   paragraph({ tokens }) {
@@ -38,19 +35,17 @@ const List = ({
         />
       )}
       <ol className="list-none ds-stack-32 ps-0">
-        {items.map((item, index) => (
-          <li
-            key={
-              item.identifier ??
-              item.label?.text ??
-              item.headline?.text ??
-              item.content
-            }
-            className="first:pt-0 scroll-my-40"
-          >
-            <ListItem {...item} numeric={isNumeric ? index + 1 : undefined} />
-          </li>
-        ))}
+        {items
+          // Need to filter out empty list items when conditionally rendering with mustache templating
+          .filter((item) => !(item.headline?.text === "" && !item.content))
+          .map((item, index) => (
+            <li
+              key={item.identifier ?? item.headline?.text ?? item.content}
+              className="first:pt-0 scroll-my-40"
+            >
+              <ListItem {...item} index={isNumeric ? index + 1 : undefined} />
+            </li>
+          ))}
       </ol>
     </div>
   );

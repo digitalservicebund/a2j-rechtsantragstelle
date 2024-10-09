@@ -1,6 +1,6 @@
 import { getShortestPaths } from "@xstate/graph";
 import _ from "lodash";
-import type { MachineConfig } from "xstate";
+import type { MachineConfig, MachineContext } from "xstate";
 import {
   getInitialSnapshot,
   getNextSnapshot,
@@ -17,7 +17,10 @@ import {
 import { progressLookupForMachine, vorabcheckProgresses } from "./progress";
 
 type Event = "SUBMIT" | "BACK";
-type FlowStateMachineEvents = { type: "SUBMIT" } | { type: "BACK" };
+type FlowStateMachineEvents =
+  | { type: "SUBMIT" }
+  | { type: "BACK" }
+  | { type: ArrayConfig["event"] };
 
 type StateMachineTypes = {
   context: Context;
@@ -31,8 +34,8 @@ const _genericMachine = setup({
 
 export type FlowStateMachine = ReturnType<typeof _genericMachine.createMachine>;
 
-export type Config = MachineConfig<
-  Context,
+export type Config<TContext extends MachineContext = Context> = MachineConfig<
+  TContext,
   FlowStateMachineEvents,
   never,
   never,
@@ -69,7 +72,7 @@ const getSteps = (machine: FlowStateMachine) => {
   return possiblePaths.flatMap(({ state }) => stateValueToStepIds(state.value));
 };
 
-export const transitionDestinations = (
+export const nextStepId = (
   machine: FlowStateMachine,
   stepId: string,
   type: Event,
@@ -84,15 +87,10 @@ export const transitionDestinations = (
   const destinationState = getNextSnapshot(machine, resolvedState, { type });
   const destinationStepIds = stateValueToStepIds(destinationState.value);
 
-  // If the stepId in the new state matches the previous one: Return undefined. else: return full path
-  if (
-    destinationStepIds.length === 0 ||
-    (destinationStepIds.length === 1 && destinationStepIds[0] === stepId)
-  )
+  // Return undefined if the stepId in the new state matches the previous one
+  if (destinationStepIds.length === 1 && destinationStepIds[0] === stepId)
     return undefined;
-  return destinationStepIds.map(
-    (transitionId) => `${machine.id}/${transitionId}`,
-  );
+  return destinationStepIds.at(0);
 };
 
 const findNode = (machine: FlowStateMachine, stepId: string) => {
@@ -228,22 +226,12 @@ export const buildFlowController = ({
       return reachableSteps.includes(currentStepId);
     },
     getPrevious: (stepId: string) => {
-      const backArray = transitionDestinations(
-        machine,
-        stepId,
-        "BACK",
-        context,
-      );
-      if (backArray) return backArray[0];
+      const destination = nextStepId(machine, stepId, "BACK", context);
+      if (destination) return `${machine.id}/${destination}`;
     },
     getNext: (stepId: string) => {
-      const nextArray = transitionDestinations(
-        machine,
-        stepId,
-        "SUBMIT",
-        context,
-      );
-      if (nextArray) return nextArray[0];
+      const destination = nextStepId(machine, stepId, "SUBMIT", context);
+      if (destination) return `${machine.id}/${destination}`;
     },
     getInitial: () => `${flowId}/${getInitial(machine) ?? ""}`,
     getProgress: (currentStepId: string) => {

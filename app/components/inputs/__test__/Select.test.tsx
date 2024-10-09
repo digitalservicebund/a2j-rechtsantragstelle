@@ -27,15 +27,15 @@ afterEach(() => {
 
 describe("Select", () => {
   const cases = [
-    { widthProps: "16", expectedClassWidth: "w-[22ch]" },
-    { widthProps: "24", expectedClassWidth: "w-[30ch]" },
+    { widthProps: "16", expectedClassWidth: "max-w-[22ch]" },
+    { widthProps: "24", expectedClassWidth: "max-w-[30ch]" },
     {
       widthProps: "36",
-      expectedClassWidth: "w-[42ch] ds-input-select-width-54-36",
+      expectedClassWidth: "max-w-[42ch]",
     },
     {
       widthProps: "54",
-      expectedClassWidth: "w-[60ch] ds-input-select-width-54-36",
+      expectedClassWidth: "max-w-[60ch]",
     },
   ];
 

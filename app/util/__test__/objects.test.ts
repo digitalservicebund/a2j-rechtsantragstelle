@@ -1,4 +1,4 @@
-import { isKeyOfObject, objectMap } from "~/util/objects";
+import { dropEachProperty, isKeyOfObject, objectMap } from "~/util/objects";
 
 describe("isKeyOfObject", () => {
   it("detects existing keys", () => {
@@ -18,6 +18,25 @@ describe("objectMap", () => {
   it("receives key and index", () => {
     expect(objectMap({ key: 1 }, (_, k, i) => `${k}${i}`)).toEqual({
       key: "key0",
+    });
+  });
+});
+
+describe("dropEachProperty", () => {
+  it("should generate an array of all possible permutations of the object, each missing a key", () => {
+    const testContext = {
+      vorname: "A",
+      nachname: "B",
+      geburtsdatum: "1234",
+      strasseHausnummer: "abc",
+      plz: "12345",
+      ort: "ABC",
+    };
+    const dropped = dropEachProperty(testContext);
+    dropped.forEach((context) => {
+      expect(Object.keys(context)).not.toEqual(
+        expect.arrayContaining(Object.keys(testContext)),
+      );
     });
   });
 });

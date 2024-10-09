@@ -6,9 +6,10 @@ import {
   zahlungspflichtigerSchema,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
 import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
-import { abgabeContext } from "~/flows/shared/abgabe/context";
+import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
 import {
   Eigentuemer,
+  financialEntrySchema,
   gelanlagenArraySchema,
   grundeigentumArraySchema,
   kraftfahrzeugeArraySchema,
@@ -17,7 +18,17 @@ import {
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
+export const createFinancialEntry = () => ({
+  beschreibung: faker.word.sample(),
+  betrag: faker.finance.amount(),
+  zahlungsfrequenz: faker.helpers.arrayElement(
+    financialEntrySchema.shape.zahlungsfrequenz.options,
+  ),
+});
+
 export const happyPathData: ProzesskostenhilfeFormularContext = {
+  formularArt: grundvoraussetzungenSchema.formularArt.Enum.nachueberpruefung,
+  versandArt: grundvoraussetzungenSchema.versandArt.Enum.digital,
   hasBankkonto: YesNoAnswer.Enum.yes,
   hasGeldanlage: YesNoAnswer.Enum.yes,
   hasWertsache: YesNoAnswer.Enum.yes,
@@ -41,12 +52,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   },
   arbeitsplatzEntfernung: faker.number.int({ min: 1, max: 100 }),
   hasArbeitsausgaben: YesNoAnswer.Enum.yes,
-  arbeitsausgaben: [
-    {
-      beschreibung: faker.word.sample(),
-      betrag: faker.finance.amount(),
-    },
-  ],
+  arbeitsausgaben: faker.helpers.multiple(createFinancialEntry),
   receivesPension: YesNoAnswer.Enum.yes,
   pensionAmount: faker.finance.amount(),
   receivesSupport: YesNoAnswer.Enum.yes,
@@ -60,16 +66,10 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   elterngeldAmount: faker.finance.amount(),
   kindergeldAmount: faker.finance.amount(),
   hasFurtherIncome: YesNoAnswer.Enum.yes,
-  weitereEinkuenfte: [
-    {
-      beschreibung: faker.word.sample(),
-      betrag: faker.finance.amount(),
-    },
-  ],
+  weitereEinkuenfte: faker.helpers.multiple(createFinancialEntry),
   partnerschaft: YesNoAnswer.Enum.yes,
   zusammenleben: YesNoAnswer.Enum.yes,
-  partnerEinkommen: YesNoAnswer.Enum.yes,
-  partnerEinkommenSumme: faker.finance.amount(),
+  partnerEinkommen: YesNoAnswer.Enum.no,
   hasKinder: YesNoAnswer.Enum.yes,
   hasWeitereUnterhaltszahlungen: YesNoAnswer.Enum.yes,
   bankkonten: [
@@ -179,5 +179,13 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
       betragGesamt: faker.finance.amount(),
     },
   ],
-  abgabeArt: abgabeContext.abgabeArt.Enum.ausdrucken,
+  hasRsv: YesNoAnswer.Enum.no,
+  hasRsvThroughOrg: YesNoAnswer.Enum.no,
+  vorname: "John",
+  nachname: "Doe",
+  beruf: "Developer",
+  ort: "Berlin",
+  plz: "10119",
+  geburtsdatum: "01.01.1981",
+  strasseHausnummer: "Strasse 1",
 };

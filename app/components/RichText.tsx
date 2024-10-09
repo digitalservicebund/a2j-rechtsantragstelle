@@ -1,11 +1,7 @@
 import { type Renderer, Marked } from "marked";
 import ReactDOMServer from "react-dom/server";
-import sanitizeHtml from "sanitize-html";
 import { z } from "zod";
-import {
-  openInNewAllowedAttributes,
-  openInNewAllowedTags,
-} from "./OpenInNewTabIcon";
+import { sanatize } from "~/services/security/sanatizeHtml";
 import { StandaloneLink } from "./StandaloneLink";
 
 export const RichTextPropsSchema = z.object({
@@ -15,16 +11,9 @@ export const RichTextPropsSchema = z.object({
 
 export type RichTextProps = z.infer<typeof RichTextPropsSchema>;
 
-const allowedTags =
-  sanitizeHtml.defaults.allowedTags.concat(openInNewAllowedTags);
-const allowedAttributes = {
-  a: sanitizeHtml.defaults.allowedAttributes["a"].concat(["rel", "aria-label"]),
-  ...openInNewAllowedAttributes,
-};
-
 const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {
-    /* Either renders a Standalone link or Inline link, 
+    /* Either renders a Standalone link or Inline link,
       but we use the StandaloneLink component, because both has the same structure and style */
     return ReactDOMServer.renderToString(
       <StandaloneLink text={text} url={href} />,
@@ -58,17 +47,7 @@ const RichText = ({
     <div
       {...props}
       className={`rich-text ds-stack-8 ${className ?? ""}`}
-      dangerouslySetInnerHTML={{
-        __html: sanitizeHtml(html, {
-          allowedTags,
-          allowedClasses: {
-            p: ["ds-subhead", "max-w-full"],
-            a: ["text-link", "min-h-[24px]", "inline-block"],
-            h: ["ds-heading-01-reg", "ds-label-01-bold", "ds-heading-02-reg"],
-          },
-          allowedAttributes,
-        }),
-      }}
+      dangerouslySetInnerHTML={{ __html: sanatize(html) }}
     />
   );
 };

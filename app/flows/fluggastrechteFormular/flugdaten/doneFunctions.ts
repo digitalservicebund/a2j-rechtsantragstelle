@@ -12,6 +12,7 @@ function hasOptionalString(value: string | undefined): boolean {
 const hasDefaultFlugdaten: FluggastrechteFlugdatenGuard = ({ context }) => {
   return objectKeysNonEmpty(context, [
     "direktFlugnummer",
+    "buchungsNummer",
     "direktAbflugsDatum",
     "direktAbflugsZeit",
     "direktAnkunftsDatum",

@@ -1,15 +1,24 @@
+import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import { fillAngehoerige } from "~/services/pdf/prozesskostenhilfe/D_angehoerige";
 import { fillBruttoEinnahmen } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen";
-import { pdfFillReducer } from "~/services/pdf/prozesskostenhilfe/fillOutFunction";
+import { fillGrundvoraussetzungen } from "~/services/pdf/prozesskostenhilfe/grundvoraussetzungen";
 import { fillAbzuege } from "./F_abzuege";
 import { fillZahlungsverpflichtungen } from "./I_zahlungsverpflichtungen";
 import { fillBelastungen } from "./J_belastungen";
 import { appendAttachment } from "../appendAttachment";
 import FormAttachment from "../attachment/FormAttachment";
 import { pdfFromReact } from "../attachment/pdfFromReact";
+import type { PdfFillFunction } from "../fillOutFunction";
+import { pdfFillReducer } from "../fillOutFunction";
 import { fillPdf } from "../fillPdf.server";
 export { getProzesskostenhilfeParameters };
+
+export type PkhPdfFillFunction = PdfFillFunction<
+  ProzesskostenhilfeFormularContext,
+  ProzesskostenhilfePDF
+>;
 
 export async function prozesskostenhilfePdfFromUserdata(
   userData: ProzesskostenhilfeFormularContext,
@@ -18,6 +27,8 @@ export async function prozesskostenhilfePdfFromUserdata(
     userData,
     pdfParams: getProzesskostenhilfeParameters(),
     fillFunctions: [
+      fillGrundvoraussetzungen,
+      fillAngehoerige,
       fillBruttoEinnahmen,
       fillAbzuege,
       fillBelastungen,

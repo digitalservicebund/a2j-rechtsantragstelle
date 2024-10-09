@@ -1,39 +1,46 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render } from "@testing-library/react";
-import {
-  ABORT_BUTTON_FEEDBACK_TRANSLATION_KEY,
-  FEEDBACK_FIELD_NAME,
-  FeedbackFormBox,
-  HEADING_FEEDBACK_TRANSLATION_KEY,
-  SUBMIT_BUTTON_FEEDBACK_TRANSLATION_KEY,
-} from "../FeedbackFormBox";
-import { FeedbackTranslationContext } from "../FeedbackTranslationContext";
+import { useMemo } from "react";
+import { TranslationContext } from "~/services/translations/translationsContext";
+import { FEEDBACK_FIELD_NAME, FeedbackFormBox } from "../FeedbackFormBox";
+import type { FeedbackTranslationKeys } from "../feedbackTranslations";
 
 const HEADING_FEEDBACK = "Heading";
 const ABORT_BUTTON_FEEDBACK = "Abort button";
 const SUBMIT_BUTTON_FEEDBACK = "Submit button";
 
-const TRANSLATION_KEY_RECORD = {
-  [HEADING_FEEDBACK_TRANSLATION_KEY]: HEADING_FEEDBACK,
-  [ABORT_BUTTON_FEEDBACK_TRANSLATION_KEY]: ABORT_BUTTON_FEEDBACK,
-  [SUBMIT_BUTTON_FEEDBACK_TRANSLATION_KEY]: SUBMIT_BUTTON_FEEDBACK,
-};
-
 describe("FeedbackFormBox", () => {
+  const FeedbackContextComponent = (props: { children: React.ReactNode }) => {
+    const feedbackTranslationMemo = useMemo(
+      () => ({
+        feedback: {
+          "heading-feedback": HEADING_FEEDBACK,
+          "abort-button-feedback": ABORT_BUTTON_FEEDBACK,
+          "submit-button-feedback": SUBMIT_BUTTON_FEEDBACK,
+          "placeholder-feedback": "placeholder",
+        } satisfies Record<FeedbackTranslationKeys, string>,
+        video: {},
+      }),
+      [],
+    );
+    return (
+      <TranslationContext.Provider value={feedbackTranslationMemo}>
+        {props.children}
+      </TranslationContext.Provider>
+    );
+  };
   it("should render the component with the given translations", () => {
     const FeedbackFormBoxWithRemixStub = createRemixStub([
       {
         path: "",
         Component: () => (
-          <FeedbackTranslationContext.Provider
-            value={{ translations: TRANSLATION_KEY_RECORD }}
-          >
+          <FeedbackContextComponent>
             <FeedbackFormBox
               destination="destination"
               shouldFocus={false}
               onSubmit={vitest.fn}
             />
-          </FeedbackTranslationContext.Provider>
+          </FeedbackContextComponent>
         ),
       },
     ]);
@@ -49,15 +56,13 @@ describe("FeedbackFormBox", () => {
       {
         path: "",
         Component: () => (
-          <FeedbackTranslationContext.Provider
-            value={{ translations: TRANSLATION_KEY_RECORD }}
-          >
+          <FeedbackContextComponent>
             <FeedbackFormBox
               destination="destination"
               shouldFocus
               onSubmit={vitest.fn}
             />
-          </FeedbackTranslationContext.Provider>
+          </FeedbackContextComponent>
         ),
       },
     ]);

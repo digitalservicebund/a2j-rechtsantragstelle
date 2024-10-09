@@ -33,7 +33,7 @@ const LinkListBox = ({
       <div className="ds-stack-8">
         {label && <Heading {...label} />}
         {heading && <Heading {...heading} />}
-        {links && (
+        {links && links.length > 0 && (
           <ul className="list-none pl-0 ds-stack-16">
             {links.map((link) => (
               <li key={link.text ?? link.url}>

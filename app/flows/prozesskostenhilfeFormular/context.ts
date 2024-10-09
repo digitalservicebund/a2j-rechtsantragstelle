@@ -1,9 +1,11 @@
-import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
+import { prozesskostenhilfeGrundvoraussetzungen } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
 import { prozesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
-import { abgabeContext } from "../shared/abgabe/context";
+import { prozesskostenhilfePersoenlicheDatenContext } from "./persoenlicheDaten/context";
+import { prozesskostenhilfeRsvContext } from "./rechtsschutzversicherung/context";
 
 export const prozesskostenhilfeFormularContext = {
+  ...prozesskostenhilfeGrundvoraussetzungen,
+  ...prozesskostenhilfeRsvContext,
   ...prozesskostenhilfeFinanzielleAngabenContext,
-  ...prozesskostenhilfeFinanzielleAngabenEinkuenfteContext,
-  ...abgabeContext,
+  ...prozesskostenhilfePersoenlicheDatenContext,
 } as const;

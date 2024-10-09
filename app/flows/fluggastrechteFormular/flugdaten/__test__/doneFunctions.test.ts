@@ -2,7 +2,6 @@ import { flugdatenDone } from "../doneFunctions";
 
 describe("flugdatenDone", () => {
   const baseContext = {
-    doMigration: "yes",
     startAirport: "BER",
     endAirport: "FRA",
     fluggesellschaft: "LH",
@@ -12,6 +11,7 @@ describe("flugdatenDone", () => {
       plzUndStadt: "Amtsgericht",
     },
     direktFlugnummer: "AB6303",
+    buchungsNummer: "X36Q9C",
     direktAbflugsDatum: "10.03.2024",
     direktAbflugsZeit: "09:09",
     direktAnkunftsDatum: "10.03.2024",

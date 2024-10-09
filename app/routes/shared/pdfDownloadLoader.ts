@@ -2,40 +2,63 @@ import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
 import type { Context } from "~/flows/contexts";
 import { parsePathname, type FlowId } from "~/flows/flowIds";
+import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
+import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { beratungshilfePdfFromUserdata } from "~/services/pdf/beratungshilfe";
+import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
+import { fluggastrechtePdfFromUserdata } from "~/services/pdf/fluggastrechte/fluggastrechtePdfFromUserdata";
+import { pdfDocumentToArrayBuffer } from "~/services/pdf/pdfDocumentToArrayBuffer";
 import { prozesskostenhilfePdfFromUserdata } from "~/services/pdf/prozesskostenhilfe";
 import { getSessionData } from "~/services/session.server";
 import { pdfDateFormat, today } from "~/util/date";
 
 const pdfConfigs = {
   "/beratungshilfe/antrag": {
-    pdfFunction: beratungshilfePdfFromUserdata,
-    filenameFunction: (userData: Context) =>
-      `Antrag_Beratungshilfe_${userData.nachname}_${pdfDateFormat(today())}.pdf`,
+    pdfFunction: async (userData: Context) =>
+      pdfDocumentToArrayBuffer(await beratungshilfePdfFromUserdata(userData)),
+    filenameFunction: () =>
+      `Antrag_Beratungshilfe_${pdfDateFormat(today())}.pdf`,
   },
   "/prozesskostenhilfe/formular": {
-    pdfFunction: prozesskostenhilfePdfFromUserdata,
-    filenameFunction: (userData: Context) =>
-      `Antrag_Prozesskostenhilfe_${userData.nachname}_${pdfDateFormat(today())}.pdf`,
+    pdfFunction: async (userData: Context) =>
+      pdfDocumentToArrayBuffer(
+        await prozesskostenhilfePdfFromUserdata(userData),
+      ),
+    filenameFunction: () =>
+      `Antrag_Prozesskostenhilfe_${pdfDateFormat(today())}.pdf`,
+  },
+  "/fluggastrechte/formular": {
+    pdfFunction: fluggastrechtePdfFromUserdata,
+    filenameFunction: () =>
+      `Fluggastrechte_Klage_${pdfDateFormat(today())}.pdf`,
   },
 } as const satisfies Partial<Record<FlowId, unknown>>;
 
 export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
   const { pathname } = new URL(request.url);
   const { flowId } = parsePathname(pathname);
-  const cookieHeader = request.headers.get("Cookie");
-  const { userData } = await getSessionData(flowId, cookieHeader);
-  if (_.isEmpty(userData)) return redirect(flowId);
   if (!(flowId in pdfConfigs))
     return new Response(`No pdf config for flowId: ${flowId}`, { status: 501 });
-
   const { pdfFunction, filenameFunction } =
     pdfConfigs[flowId as keyof typeof pdfConfigs];
 
-  return new Response(await (await pdfFunction(userData)).save(), {
-    headers: {
-      "Content-Type": "application/pdf",
-      "Content-Disposition": `inline; filename=${filenameFunction(userData)}`,
-    },
+  const [{ userData }, formFields] = await Promise.all([
+    getSessionData(flowId, request.headers.get("Cookie")),
+    fetchAllFormFields(flowId),
+  ]);
+
+  const prunnerUserData = await pruneIrrelevantData(
+    userData,
+    flowId,
+    formFields,
+  );
+  if (_.isEmpty(prunnerUserData)) return redirect(flowId);
+
+  const fileContent = await pdfFunction(prunnerUserData);
+  const fileSize = fileContent.length;
+  const filename = filenameFunction();
+
+  return new Response(fileContent, {
+    headers: createPdfResponseHeaders(filename, fileSize),
   });
 }

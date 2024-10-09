@@ -33,4 +33,22 @@ describe("beratungshilfePdfFromUserdata", () => {
 
     expect(pdfField.getText()).toEqual("nachname, vorname");
   });
+
+  it("should handle special characters without throwing", async () => {
+    const pdfDoc = await beratungshilfePdfFromUserdata({
+      vorname: "Włodzimierz",
+      nachname: "Ćwikła",
+    });
+
+    await expect(pdfDoc.save()).resolves.not.toThrow();
+  });
+
+  it("should handle emojis without throwing", async () => {
+    const pdfDoc = await beratungshilfePdfFromUserdata({
+      vorname: "🚂",
+      nachname: "🫑",
+    });
+
+    await expect(pdfDoc.save()).resolves.not.toThrow();
+  });
 });

@@ -20,7 +20,6 @@ import {
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
@@ -49,7 +48,7 @@ import {
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { interpolateDeep } from "~/util/fillTemplate";
+import { interpolateSerializableObject } from "~/util/fillTemplate";
 import { filterFormData } from "~/util/filterFormData";
 
 const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
@@ -60,6 +59,10 @@ const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
     nextButtonLabel:
       "nextButtonLabel" in formPageContent
         ? formPageContent.nextButtonLabel
+        : undefined,
+    backButtonLabel:
+      "backButtonLabel" in formPageContent
+        ? formPageContent.backButtonLabel
         : undefined,
     content: formPageContent.pre_form,
     formContent: formPageContent.form,
@@ -80,10 +83,10 @@ function getInterpolateFlowTranslations(
     return flowTranslations;
   }
 
-  /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports 
-    can not be translated, so it's required to be interpolated 
+  /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports
+    can not be translated, so it's required to be interpolated
   */
-  return interpolateDeep(
+  return interpolateSerializableObject(
     flowTranslations,
     currentFlow.stringReplacements(migrationData),
   );
@@ -98,19 +101,19 @@ export const loader = async ({
   const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
 
-  const [isEnabledPruneUserData, { userData, debugId }, formFields] =
-    await Promise.all([
-      isFeatureFlagEnabled("pruneUserData"),
-      getSessionData(flowId, cookieHeader),
-      fetchAllFormFields(flowId),
-    ]);
+  const [{ userData, debugId }, formFields] = await Promise.all([
+    getSessionData(flowId, cookieHeader),
+    fetchAllFormFields(flowId),
+  ]);
 
   context.debugId = debugId; // For showing in errors
 
   const currentFlow = flows[flowId];
-  const prunedUserData = isEnabledPruneUserData
-    ? pruneIrrelevantData(userData, flowId, formFields)
-    : userData;
+  const prunedUserData = await pruneIrrelevantData(
+    userData,
+    flowId,
+    formFields,
+  );
   const userDataWithPageData = addPageDataToUserData(prunedUserData, {
     arrayIndexes,
   });
@@ -171,7 +174,7 @@ export const loader = async ({
   };
 
   // structure cms content -> merge with getting data?
-  const cmsContent = interpolateDeep(
+  const cmsContent = interpolateSerializableObject(
     structureCmsContent(formPageContent),
     "stringReplacements" in currentFlow
       ? currentFlow.stringReplacements(userDataWithPageData)
@@ -210,7 +213,8 @@ export const loader = async ({
       : backDestination;
 
   const buttonNavigationProps = getButtonNavigationProps({
-    backButtonLabel: defaultStrings["backButtonDefaultLabel"],
+    backButtonLabel:
+      cmsContent.backButtonLabel ?? defaultStrings["backButtonDefaultLabel"],
     nextButtonLabel:
       cmsContent.nextButtonLabel ?? defaultStrings["nextButtonDefaultLabel"],
     isFinal: flowController.isFinal(stepId),
@@ -314,7 +318,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     flows[flowId],
     cookieHeader,
   );
-  if (migrationData && validationResult.data["doMigration"] === "yes") {
+  if (migrationData) {
     updateSession(flowSession, migrationData);
   }
 

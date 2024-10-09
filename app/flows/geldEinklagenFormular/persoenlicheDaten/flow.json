@@ -1,0 +1,26 @@
+{
+  "id": "persoenliche-daten",
+  "initial": "start",
+  "states": {
+    "start": { "on": { "SUBMIT": "anzahl" } },
+    "anzahl": {
+      "on": { "SUBMIT": "name", "BACK": "start" }
+    },
+    "name": {
+      "on": { "SUBMIT": "volljaehrig", "BACK": "anzahl" }
+    },
+    "volljaehrig": {
+      "on": { "SUBMIT": "adresse", "BACK": "name" }
+    },
+    "adresse": {
+      "on": { "SUBMIT": "telefonnummer", "BACK": "volljaehrig" }
+    },
+    "telefonnummer": {
+      "on": { "SUBMIT": "gesetzliche-vertretung", "BACK": "adresse" }
+    },
+    "gesetzliche-vertretung": {
+      "on": { "SUBMIT": "bevollmaechtigte-person", "BACK": "telefonnummer" }
+    },
+    "bevollmaechtigte-person": { "on": { "BACK": "gesetzliche-vertretung" } }
+  }
+}

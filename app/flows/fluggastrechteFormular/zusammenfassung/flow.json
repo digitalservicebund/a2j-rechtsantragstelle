@@ -1,0 +1,18 @@
+{
+  "id": "zusammenfassung",
+  "initial": "start",
+  "states": {
+    "start": {
+      "on": {
+        "SUBMIT": "#abgabe.start",
+        "BACK": [
+          {
+            "guard": "isWeiterePersonenYes",
+            "target": "#persoenliche-daten.weitere-personen.uebersicht"
+          },
+          "#persoenliche-daten.weitere-personen.frage"
+        ]
+      }
+    }
+  }
+}

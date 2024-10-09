@@ -16,14 +16,14 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - name: Remove all caches and database of the trivy scanner
-  #       uses: aquasecurity/trivy-action@6e7b7d1fd3e4fef0c5fa8cce1229c54b2c9bd0d8 # v0.24.0
+  #       uses: aquasecurity/trivy-action@f781cce5aab226378ee181d764ab90ea0be3cdd8 # v0.25.0
   #       env:
   #         TRIVY_RESET: true
   #         TRIVY_DEBUG: true
   #       with:
   #         scan-type: "image"
   #     - name: Download trivy vulnerabilities DB
-  #       uses: aquasecurity/trivy-action@6e7b7d1fd3e4fef0c5fa8cce1229c54b2c9bd0d8 # v0.24.0
+  #       uses: aquasecurity/trivy-action@f781cce5aab226378ee181d764ab90ea0be3cdd8 # v0.25.0
   #       env:
   #         TRIVY_DEBUG: true
   #         TRIVY_DOWNLOAD_DB_ONLY: true
@@ -48,10 +48,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@6e7b7d1fd3e4fef0c5fa8cce1229c54b2c9bd0d8 # v0.24.0
+        uses: aquasecurity/trivy-action@a20de5420d57c4102486cdd9578b45609c99d7eb # v0.26.0
         env:
-          TRIVY_USERNAME: ${{ github.actor }}
-          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         with:
           image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ matrix.container-name }}:${{ env.CONTAINER_IMAGE_VERSION }}
           format: "sarif"
@@ -71,16 +70,15 @@ jobs:
         with:
           sarif_file: "trivy-results.sarif"
       - name: Generate cosign vulnerability scan record
-        uses: aquasecurity/trivy-action@6e7b7d1fd3e4fef0c5fa8cce1229c54b2c9bd0d8 # v0.24.0
+        uses: aquasecurity/trivy-action@a20de5420d57c4102486cdd9578b45609c99d7eb # v0.26.0
         env:
-          TRIVY_USERNAME: ${{ github.actor }}
-          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         with:
           image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ matrix.container-name }}:${{ env.CONTAINER_IMAGE_VERSION }}
           format: "cosign-vuln"
           output: "vulnerabilities.json"
       - name: Install cosign
-        uses: sigstore/cosign-installer@4959ce089c160fddf62f7b42464195ba1a56d382 # v3.6.0
+        uses: sigstore/cosign-installer@dc72c7d5c4d10cd6bcb8cf6e3fd625a9e5e537da # v3.7.0
       - name: Log into container registry
         uses: docker/login-action@v3
         with:

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { duplicateContext } from "~/flows/common";
 import {
   besondereBelastungenSchema,
   bankkontenArraySchema,
@@ -6,10 +7,11 @@ import {
   grundeigentumArraySchema,
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
-  partnerschaftSchema,
   unterhaltszahlungSchema,
   wertsachenArraySchema,
+  financialEntrySchema,
 } from "~/flows/shared/finanzielleAngaben/context";
+import { finanzielleAngabenPartnerContext } from "~/flows/shared/finanzielleAngaben/partner/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { createDateSchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -21,6 +23,7 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "./einkuenfte/context";
+import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "./einkuenfte/context";
 
 export const zahlungspflichtigerSchema = z.enum(
   ["myself", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -28,14 +31,16 @@ export const zahlungspflichtigerSchema = z.enum(
 );
 
 export const prozesskostenhilfeFinanzielleAngabenContext = {
-  partnerschaft: partnerschaftSchema,
-  zusammenleben: YesNoAnswer,
-  unterhalt: YesNoAnswer,
-  unterhaltsSumme: buildMoneyValidationSchema(),
-  partnerEinkommen: YesNoAnswer,
-  partnerEinkommenSumme: buildMoneyValidationSchema(),
-  partnerVorname: stringRequiredSchema,
-  partnerNachname: stringRequiredSchema,
+  ...finanzielleAngabenPartnerContext,
+  ...duplicateContext(
+    prozesskostenhilfeFinanzielleAngabenEinkuenfteContext,
+    "partner",
+  ),
+  partnerHasBesondersAusgaben: YesNoAnswer,
+  partnerBesondersAusgabe: financialEntrySchema.pick({
+    beschreibung: true,
+    betrag: true,
+  }),
   hasKinder: YesNoAnswer,
   kinder: kinderArraySchema,
   hasBankkonto: YesNoAnswer,
@@ -97,7 +102,17 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
 const _contextObject = z
   .object(prozesskostenhilfeFinanzielleAngabenContext)
   .partial();
+
+export type PartnerEinkuenfteContext = {
+  [key in keyof ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext as `partner-${key}`]: ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext[key];
+} & {
+  pageData?: {
+    arrayIndexes: number[];
+  };
+};
+
 export type ProzesskostenhilfeFinanzielleAngabenContext = z.infer<
   typeof _contextObject
 > &
-  ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext;
+  ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext &
+  PartnerEinkuenfteContext;

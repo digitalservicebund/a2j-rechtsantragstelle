@@ -1,4 +1,3 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { FluggastrechtContext } from "../context";
 import {
   getAirlineName,
@@ -42,7 +41,6 @@ describe("stringReplacements", () => {
             strasseHausnummer: "strasseHausnummer",
             ort: "ort",
             plz: "plz",
-            unter18JahreAlt: CheckboxValue.off,
           },
         ],
         pageData: {
@@ -68,7 +66,6 @@ describe("stringReplacements", () => {
             strasseHausnummer: "strasseHausnummer",
             ort: "ort",
             plz: "plz",
-            unter18JahreAlt: CheckboxValue.off,
           },
         ],
         pageData: {

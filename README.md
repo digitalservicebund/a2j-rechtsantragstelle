@@ -15,7 +15,8 @@ First draft of implementing a platform to create requests to the Rechtsantragste
 
 #### Strapi
 
-<details><summary>Three options:</summary>
+<details>
+<summary>Three options:</summary>
 
 1. A local strapi instance:
    - [Start strapi locally](https://github.com/digitalservicebund/a2j-rechtsantragstelle-strapi),
@@ -28,7 +29,14 @@ First draft of implementing a platform to create requests to the Rechtsantragste
    - Set `CMS=FILE`
    - Run `npm run build:localContent` (should have generated a `content.json` file)
 
-   </details>
+</details>
+
+##### Locales
+
+For each Strapi page, there are two locales: **Staging (sg)** and **Production (de)**.
+This is because while we're able to feature flag code changes in PostHog, we aren't able to feature flag _content_ changes in the CMS. E.g. If we want to test out _content_ changes, like different components on the same page, we must use Strapi's Locale feature, as Multi-Environments is only supported by [Strapi Cloud](https://github.com/strapi/documentation/pull/2229).
+
+The App first checks to [see if valid staging data exists](https://github.com/digitalservicebund/a2j-rechtsantragstelle/blob/9b242255fefc4917abbf97a297229b828d9a2ef5/app/services/cms/getStrapiEntryFromApi.ts#L47), and if not, [pull the requested data from the production environment](https://github.com/digitalservicebund/a2j-rechtsantragstelle/blob/9b242255fefc4917abbf97a297229b828d9a2ef5/app/services/cms/getStrapiEntryFromApi.ts#L56-L57). By default, we develop features in the Production environment.
 
 ### Run Server in Development Mode
 

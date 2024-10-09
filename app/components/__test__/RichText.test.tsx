@@ -60,4 +60,48 @@ describe("RichText component", () => {
 
     expect(container).toBeEmptyDOMElement();
   });
+
+  describe("heading rendering", () => {
+    it("should render h1 heading with the correct styling", () => {
+      const markdown = "# Heading";
+      const { getByText } = render(<RichText markdown={markdown} />);
+
+      expect(getByText("Heading")).toHaveClass("ds-heading-01-reg");
+    });
+
+    it("should render h2 heading with the correct styling", () => {
+      const markdown = "## Heading";
+      const { getByText } = render(<RichText markdown={markdown} />);
+
+      expect(getByText("Heading")).toHaveClass("ds-heading-02-reg");
+    });
+
+    it("should render h3 heading with the correct styling", () => {
+      const markdown = "### Heading";
+      const { getByText } = render(<RichText markdown={markdown} />);
+
+      expect(getByText("Heading")).toHaveClass("ds-label-01-bold");
+    });
+
+    it("should render h4 heading with the correct styling", () => {
+      const markdown = "#### Heading";
+      const { getByText } = render(<RichText markdown={markdown} />);
+
+      expect(getByText("Heading")).toHaveClass("ds-label-01-bold");
+    });
+
+    it("should render h5 heading with the correct styling", () => {
+      const markdown = "##### Heading";
+      const { getByText } = render(<RichText markdown={markdown} />);
+
+      expect(getByText("Heading")).toHaveClass("ds-label-01-bold");
+    });
+
+    it("should render h6 heading with the correct styling", () => {
+      const markdown = "###### Heading";
+      const { getByText } = render(<RichText markdown={markdown} />);
+
+      expect(getByText("Heading")).toHaveClass("ds-label-01-bold");
+    });
+  });
 });

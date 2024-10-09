@@ -3,8 +3,8 @@ import type { BasicTypes } from "~/flows/contexts";
 import { WEITERE_PERSONEN_START_INDEX } from "~/flows/fluggastrechteFormular/stringReplacements";
 import type { ArrayConfig } from "~/services/array";
 import type { Translations } from "~/services/cms/index.server";
-import { interpolateDeep } from "~/util/fillTemplate";
-import { getTranslationByKey } from "~/util/getTranslationByKey";
+import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
+import { interpolateSerializableObject } from "~/util/fillTemplate";
 import Heading from "../Heading";
 
 type ArraySummaryItemProps = {
@@ -35,7 +35,7 @@ const ArraySummaryDataItems = ({
     return null;
   }
 
-  const heading = interpolateDeep(
+  const heading = interpolateSerializableObject(
     translations[`${category}.label.heading`] ?? "",
     {
       indexPerson: (itemIndex + WEITERE_PERSONEN_START_INDEX).toString(),

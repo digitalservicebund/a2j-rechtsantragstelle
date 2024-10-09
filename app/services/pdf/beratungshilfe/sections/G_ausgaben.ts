@@ -1,13 +1,13 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import type { besondereBelastungenSchema } from "~/flows/shared/finanzielleAngaben/context";
+import type { BerHPdfFillFunction } from "..";
 import { type AttachmentEntries, newPageHint } from "../../attachment";
 import { checkboxListToString } from "../../checkboxListToString";
 
 const AUSGABEN_MAX_COUNT_FIELDS = 4;
-const AUSGABEN_MAX_CHARS_FIELD = 50;
+const AUSGABEN_MAX_CHARS_FIELD = 19;
 export const AUSGABEN_ATTACHMENT_TITLE =
-  "Feld G Zahlungsverpflichtungen und besondere Belastungen";
+  "Feld G: Zahlungsverpflichtungen und besondere Belastungen";
 
 type AusgabenPdfField = {
   art: string;
@@ -25,118 +25,67 @@ export const ausgabenSituationMapping = {
     "Kostenaufwändige Ernährung notwendig durch medizinische Gründe",
 } satisfies Record<keyof typeof besondereBelastungenSchema.shape, string>;
 
-export function fillAusgaben(
-  attachment: AttachmentEntries,
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  const ausgaben = context.ausgaben ?? [];
+export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
+  const attachment: AttachmentEntries = [];
+  const ausgaben = userData.ausgaben ?? [];
   const hasOverflowAusgaben = ausgaben.length > AUSGABEN_MAX_COUNT_FIELDS;
 
-  const isPdfFieldExceedsMaxChars = context.ausgaben?.some(
+  const isPdfFieldExceedsMaxChars = ausgaben.some(
     (ausgabe) =>
       ausgabe.art.length > AUSGABEN_MAX_CHARS_FIELD ||
       ausgabe.zahlungsempfaenger.length > AUSGABEN_MAX_CHARS_FIELD,
   );
 
-  const hasAusgaben =
-    context.hasAusgaben === "yes" &&
-    context.ausgaben &&
-    context.ausgaben.length > 0;
+  pdfValues.g1VerpflichtungenJ.value = userData.hasAusgaben === "yes";
+  pdfValues.g1VerpflichtungenN.value = userData.hasAusgaben === "no";
 
-  pdfFields.g1VerpflichtungenJ.value = hasAusgaben;
-  pdfFields.g1VerpflichtungenN.value = !hasAusgaben;
+  const { ausgabensituation } = userData;
+  const belastungen = Object.values(ausgabensituation ?? {});
+  const hasBesondereBelastung = belastungen.some((value) => value === "on");
+  const noBesondereBelastung = !hasBesondereBelastung && belastungen.length > 0;
 
-  const { ausgabensituation } = context;
-  const hasBesondereBelastung =
-    ausgabensituation?.disability === "on" ||
-    ausgabensituation?.medicalReasons === "on" ||
-    ausgabensituation?.pregnancy === "on" ||
-    ausgabensituation?.singleParent === "on";
-
-  pdfFields.g9SonstigeBelastungenJ.value = hasBesondereBelastung;
-  pdfFields.g9SonstigeBelastungenN.value = !hasBesondereBelastung;
+  pdfValues.g9SonstigeBelastungenJ.value = hasBesondereBelastung;
+  pdfValues.g9SonstigeBelastungenN.value = noBesondereBelastung;
+  if (hasBesondereBelastung) {
+    pdfValues.g10Belastungen.value = checkboxListToString(
+      ausgabenSituationMapping,
+      userData.ausgabensituation,
+    );
+  }
 
   if (isPdfFieldExceedsMaxChars || hasOverflowAusgaben) {
-    handleOverflowAusgaben(attachment, pdfFields, context, ausgaben);
+    pdfValues.g21.value = newPageHint;
+    attachment.push({ title: AUSGABEN_ATTACHMENT_TITLE, level: "h2" });
+    ausgaben.forEach((ausgabe, index) => {
+      attachment.push({
+        title: `Ausgabe ${index + 1}`,
+        level: "h3",
+      });
+      attachment.push({ title: "Art der Ausgabe", text: ausgabe.art });
+      attachment.push({
+        title: "Zahlungsempfänger",
+        text: ausgabe.zahlungsempfaenger,
+      });
+      attachment.push({
+        title: "Monatliche Zahlung in Euro",
+        text: ausgabe.beitrag,
+      });
+      if (ausgabe.zahlungsfrist) {
+        attachment.push({
+          title: "Raten laufen bis",
+          text: ausgabe.zahlungsfrist,
+        });
+      }
+    });
   } else {
-    fillAusgabenInPDF(ausgaben, pdfFields);
-    fillBelastungenInPDF(context, pdfFields);
+    fillAusgabenInPDF(ausgaben, pdfValues);
   }
-}
-
-function handleOverflowAusgaben(
-  attachment: AttachmentEntries,
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-  ausgaben: AusgabenPdfField[],
-) {
-  pdfFields.g21.value = newPageHint;
-
-  // Empty line
-  attachment.push({
-    title: "",
-    text: "",
-  });
-
-  attachment.push({
-    title: AUSGABEN_ATTACHMENT_TITLE,
-    text: createAusgabenText(context, ausgaben),
-  });
-}
-
-function createAusgabenText(
-  context: BeratungshilfeFormularContext,
-  ausgaben: AusgabenPdfField[],
-) {
-  let attachmentText = "";
-
-  const checkboxInput = checkboxListToString(
-    ausgabenSituationMapping,
-    context.ausgabensituation,
-  );
-
-  const ausgabenSituationTitle =
-    checkboxInput !== "" ? "Besondere Belastungen\n" : "";
-
-  attachmentText += `Ausgaben\n\n`;
-  attachmentText += generateAusgabenList(ausgaben);
-  attachmentText += "\n\n";
-  attachmentText += ausgabenSituationTitle;
-  attachmentText += checkboxInput;
-
-  return attachmentText;
-}
-
-function generateAusgabenList(ausgaben: AusgabenPdfField[]) {
-  const description = [];
-
-  for (let i = 0; i < ausgaben.length; i++) {
-    description.push(`\nAusgabe ${i + 1}:`);
-    description.push(`Art der Ausgabe: ${ausgaben[i].art}`);
-    description.push(`Zahlungsempfänger: ${ausgaben[i].zahlungsempfaenger}`);
-    description.push(`Monatliche Zahlung: ${ausgaben[i].beitrag}`);
-    if (ausgaben[i].zahlungsfrist) {
-      description.push(`Raten laufen bis: ${ausgaben[i].zahlungsfrist}`);
-    }
-  }
-
-  return description.join("\n");
-}
-
-function fillBelastungenInPDF(
-  context: BeratungshilfeFormularContext,
-  pdfFields: BeratungshilfePDF,
-) {
-  pdfFields.g10Belastungen.value = checkboxListToString(
-    ausgabenSituationMapping,
-    context.ausgabensituation,
-  );
-}
+  return { pdfValues, attachment };
+};
 
 function fillAusgabenInPDF(
   ausgaben: AusgabenPdfField[],
-  pdfFields: BeratungshilfePDF,
+  pdfValues: BeratungshilfePDF,
 ) {
   for (let i = 0; i < ausgaben.length; i++) {
     const ausgabe = ausgaben[i];
@@ -148,17 +97,17 @@ function fillAusgabenInPDF(
     const beitragKey = `g7Zahlung${index}` as keyof BeratungshilfePDF;
     const hasFrist = ausgabe?.hasZahlungsfrist === "yes";
 
-    if (artKey in pdfFields) {
-      pdfFields[artKey].value = ausgabe.art;
+    if (artKey in pdfValues) {
+      pdfValues[artKey].value = ausgabe.art;
     }
-    if (zahlungsempfaengerKey in pdfFields) {
-      pdfFields[zahlungsempfaengerKey].value = ausgabe.zahlungsempfaenger;
+    if (zahlungsempfaengerKey in pdfValues) {
+      pdfValues[zahlungsempfaengerKey].value = ausgabe.zahlungsempfaenger;
     }
-    if (hasFrist && zahlungsfristKey in pdfFields) {
-      pdfFields[zahlungsfristKey].value = ausgabe.zahlungsfrist;
+    if (hasFrist && zahlungsfristKey in pdfValues) {
+      pdfValues[zahlungsfristKey].value = ausgabe.zahlungsfrist;
     }
-    if (beitragKey in pdfFields) {
-      pdfFields[beitragKey].value = ausgabe.beitrag;
+    if (beitragKey in pdfValues) {
+      pdfValues[beitragKey].value = ausgabe.beitrag;
     }
   }
 }

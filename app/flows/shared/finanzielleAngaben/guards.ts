@@ -18,13 +18,9 @@ export const staatlicheLeistungenIsKeine: FinanzielleAngabenGuard = ({
   context,
 }) => context.staatlicheLeistungen === "keine";
 
-export const hasPartnerschaftOrSeparated: FinanzielleAngabenGuard = ({
+export const hasPartnerschaftYesAndZusammenlebenNo: FinanzielleAngabenGuard = ({
   context,
-}) => context.partnerschaft === "yes" || context.partnerschaft === "separated";
-
-export const hasPartnerschaftOrSeparatedAndZusammenlebenNo: FinanzielleAngabenGuard =
-  ({ context }) =>
-    hasPartnerschaftOrSeparated({ context }) && context.zusammenleben == "no";
+}) => hasPartnerschaftYes({ context }) && context.zusammenleben == "no";
 
 export const { hasAusgabenYes } = yesNoGuards("hasAusgaben");
 export const { hasKinderYes } = yesNoGuards("hasKinder");
@@ -41,32 +37,21 @@ export const hasPartnerschaftYes: FinanzielleAngabenGuard = ({ context }) =>
 export const hasPartnerschaftNoOrWidowed: FinanzielleAngabenGuard = ({
   context,
 }) => context.partnerschaft === "no" || context.partnerschaft === "widowed";
-export const hasPartnerschaftOrSeparatedAndPartnerEinkommenYes: FinanzielleAngabenGuard =
+export const hasPartnerschaftYesAndPartnerEinkommenYes: FinanzielleAngabenGuard =
   ({ context }) =>
-    hasPartnerschaftOrSeparated({ context }) &&
-    context.partnerEinkommen == "yes";
-export const hasPartnerschaftOrSeparatedAndZusammenlebenYes: FinanzielleAngabenGuard =
+    hasPartnerschaftYes({ context }) && context.partnerEinkommen == "yes";
+export const hasPartnerschaftYesAndZusammenlebenYes: FinanzielleAngabenGuard =
   ({ context }) =>
-    hasPartnerschaftOrSeparated({ context }) && context.zusammenleben == "yes";
-export const hasPartnerschaftOrSeparatedAndZusammenlebenNoAndUnterhaltYes: FinanzielleAngabenGuard =
+    hasPartnerschaftYes({ context }) && context.zusammenleben == "yes";
+export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes: FinanzielleAngabenGuard =
   ({ context }) =>
-    hasPartnerschaftOrSeparated({ context }) &&
+    hasPartnerschaftYes({ context }) &&
     context.zusammenleben == "no" &&
     context.unterhalt === "yes";
-export const hasPartnerschaftOrSeparatedAndZusammenlebenNoAndUnterhaltNo: FinanzielleAngabenGuard =
+export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo: FinanzielleAngabenGuard =
   ({ context }) =>
-    hasPartnerschaftOrSeparatedAndZusammenlebenNo({ context }) &&
+    hasPartnerschaftYesAndZusammenlebenNo({ context }) &&
     context.unterhalt == "no";
-export const isPartnerschaftZusammenlebenEinkommenNo: FinanzielleAngabenGuard =
-  ({ context }) =>
-    context.partnerschaft === "yes" &&
-    context.zusammenleben === "yes" &&
-    context.partnerEinkommen === "no";
-export const isPartnerschaftZusammenlebenEinkommenYes: FinanzielleAngabenGuard =
-  ({ context }) =>
-    context.partnerschaft === "yes" &&
-    context.zusammenleben === "yes" &&
-    context.partnerEinkommen === "yes";
 export const kindWohnortBeiAntragstellerYes: FinanzielleAngabenGuard = ({
   context: { pageData, kinder },
 }) => {

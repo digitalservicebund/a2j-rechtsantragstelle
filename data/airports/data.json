@@ -652,8 +652,8 @@
     "country_code": "CN",
     "country": "China",
     "airport": "Nantong Xingdong International Flughafen",
-    "latitude": 32.070801,
-    "longitude": 120.975998,
+    "latitude": 32.073566,
+    "longitude": 120.980076,
     "city": "Nantong"
   },
   {
@@ -7083,6 +7083,15 @@
     "city": "Kolaka"
   },
   {
+    "iata": "NAM",
+    "country_code": "ID",
+    "country": "Indonesien",
+    "airport": "Namniwel Flughafen",
+    "latitude": -3.143159,
+    "longitude": 126.976469,
+    "city": "Namniwel"
+  },
+  {
     "iata": "SQG",
     "country_code": "ID",
     "country": "Indonesien",
@@ -13161,7 +13170,7 @@
     "iata": "ISL",
     "country_code": "TR",
     "country": "Türkei",
-    "airport": "İstanbul Atatürk AFlughafen",
+    "airport": "İstanbul Atatürk Flughafen",
     "latitude": 40.971913,
     "longitude": 28.823714,
     "city": "Istanbul"
@@ -13467,10 +13476,10 @@
     "iata": "IST",
     "country_code": "TR",
     "country": "Türkei",
-    "airport": "İstanbul AFlughafen",
+    "airport": "İstanbul Flughafen",
     "latitude": 41.261297,
     "longitude": 28.741951,
-    "city": "Istanbul Flughafen"
+    "city": "Istanbul"
   },
   {
     "iata": "RMO",
@@ -14088,9 +14097,9 @@
     "iata": "MEX",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional Lic. Benito Juárez Flughafen",
-    "latitude": 19.435433,
-    "longitude": -99.082432,
+    "airport": "Benito Juárez International Flughafen",
+    "latitude": 19.435137,
+    "longitude": -99.071328,
     "city": "Ciudad de México"
   },
   {
@@ -14169,10 +14178,10 @@
     "iata": "PVR",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional Lic. Gustavo Díaz Ordaz Flughafen",
-    "latitude": 20.679746,
-    "longitude": -105.246685,
-    "city": "Ciudad de Puerto Vallarta"
+    "airport": "Puerto Vallarta International Flughafen",
+    "latitude": 20.679913,
+    "longitude": -105.254391,
+    "city": "Puerto Vallarta"
   },
   {
     "iata": "PXM",
@@ -21798,6 +21807,15 @@
     "city": "Saint Martin"
   },
   {
+    "iata": "SAB",
+    "country_code": "BQ",
+    "country": "Bonaire",
+    "airport": "Juancho E. Yrausquin Flughafen",
+    "latitude": 17.645351,
+    "longitude": -63.220571,
+    "city": "Saba"
+  },
+  {
     "iata": "AXA",
     "country_code": "AI",
     "country": "Anguilla",
@@ -27990,15 +28008,6 @@
     "city": "Yinchuan"
   },
   {
-    "iata": "JNG",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Jining Qufu Flughafen",
-    "latitude": 35.292778,
-    "longitude": 116.346667,
-    "city": "Jining"
-  },
-  {
     "iata": "LHW",
     "country_code": "CN",
     "country": "China",
@@ -28285,6 +28294,15 @@
     "latitude": 29.3386,
     "longitude": 117.176003,
     "city": "Jingdezhen"
+  },
+  {
+    "iata": "JNG",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Jining Daan Flughafen",
+    "latitude": 35.647358,
+    "longitude": 116.743269,
+    "city": "Jining"
   },
   {
     "iata": "TNA",

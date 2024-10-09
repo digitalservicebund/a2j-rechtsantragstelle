@@ -1,5 +1,4 @@
 import { createMachine } from "xstate";
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { TestCases } from "~/flows/__test__/TestCases";
 import { fluggastrechtFlow } from "~/flows/fluggastrechteFormular";
 import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
@@ -15,7 +14,6 @@ const cases = [
     {
       versaeumnisurteil: "yes",
       prozesszinsen: "yes",
-      aenderungMitteilung: CheckboxValue.on,
     },
     [
       "streitwert-kosten/gerichtskosten",

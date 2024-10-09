@@ -1,19 +1,11 @@
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { BerHPdfFillFunction } from "..";
 
-export function fillEinkommen(
-  pdfFields: BeratungshilfePDF,
-  context: BeratungshilfeFormularContext,
-) {
-  pdfFields.c2Einkuenftenetto.value = context.einkommen ?? "";
-
-  if (
-    context.partnerschaft === "yes" &&
-    context.zusammenleben === "yes" &&
-    context.partnerEinkommen === "yes"
-  ) {
-    pdfFields.c3EinkuenftePartner.value = true;
-    pdfFields.c4EinkuenftePartnernetto.value =
-      context.partnerEinkommenSumme ?? "";
-  }
-}
+export const fillEinkommen: BerHPdfFillFunction = ({
+  userData: { einkommen, partnerEinkommenSumme },
+  pdfValues,
+}) => {
+  pdfValues.c2Einkuenftenetto.value = einkommen ?? "";
+  pdfValues.c3EinkuenftePartner.value = partnerEinkommenSumme !== undefined;
+  pdfValues.c4EinkuenftePartnernetto.value = partnerEinkommenSumme ?? "";
+  return { pdfValues };
+};

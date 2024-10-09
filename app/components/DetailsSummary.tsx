@@ -7,7 +7,7 @@ export const DetailsSummarySchema = z.object({
   content: z.string().optional(),
 });
 
-type DetailsSummaryProps = z.infer<typeof DetailsSummarySchema>;
+export type DetailsSummaryProps = z.infer<typeof DetailsSummarySchema>;
 
 export const DetailsSummary = ({ title, content }: DetailsSummaryProps) => {
   return (
