@@ -16,9 +16,10 @@ export const getMissingInformationStrings = (
   context: ProzesskostenhilfeFormularContext,
 ) => {
   return {
-    rechtsschutzversicherungMissingInformation: !rechtsschutzversicherungDone({
-      context,
-    }),
+    rechtsschutzversicherungMissingInformation:
+      !rechtsschutzversicherungDone({
+        context,
+      }) && context.formularArt !== "nachueberpruefung",
     einkuenfteMissingInformation: !einkuenfteDone({ context }),
     partnerMissingInformation: !partnerDone({ context }),
     kinderMissingInformation: !kinderDone({ context }),

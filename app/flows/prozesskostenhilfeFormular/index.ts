@@ -13,6 +13,7 @@ import {
   partnerEinkuenfteGuards,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import {
+  nachueberpruefung,
   versandDigitalAnwalt,
   versandDigitalGericht,
   type ProzesskostenhilfeGrundvoraussetzungenContext,
@@ -75,7 +76,13 @@ export const prozesskostenhilfeFormular = {
             },
             "#grundvorsaussetzungen.einreichung.hinweis-papier-einreichung",
           ],
-          nextFlowEntrypoint: "#rechtsschutzversicherung",
+          nextFlowEntrypoint: [
+            {
+              guard: ({ context }) => nachueberpruefung({ context }),
+              target: "#finanzielle-angaben",
+            },
+            "#rechtsschutzversicherung",
+          ],
         }),
       rechtsschutzversicherung: getProzesskostenhilfeRsvXstateConfig({
         // TODO: add proper logic for antragstellende person
@@ -231,7 +238,8 @@ export const prozesskostenhilfeFormular = {
                 context: ProzesskostenhilfeFormularContext;
               }) =>
                 prozesskostenhilfeFinanzielleAngabeDone({ context }) &&
-                rechtsschutzversicherungDone({ context }) &&
+                (rechtsschutzversicherungDone({ context }) ||
+                  context.formularArt === "nachueberpruefung") &&
                 prozesskostenhilfePersoenlicheDatenDone({
                   context,
                 }),

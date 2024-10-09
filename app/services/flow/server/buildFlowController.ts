@@ -1,6 +1,11 @@
 import { getShortestPaths } from "@xstate/graph";
 import _ from "lodash";
-import type { MachineConfig, MachineContext } from "xstate";
+import type {
+  MachineConfig,
+  MachineContext,
+  SingleOrArray,
+  TransitionConfig as XStateTransitionConfig,
+} from "xstate";
 import {
   getInitialSnapshot,
   getNextSnapshot,
@@ -48,11 +53,22 @@ export type Config<TContext extends MachineContext = Context> = MachineConfig<
   Meta
 >;
 
+export type TransitionConfig<TContext extends MachineContext = Context> =
+  XStateTransitionConfig<
+    TContext,
+    FlowStateMachineEvents,
+    FlowStateMachineEvents,
+    never,
+    never,
+    { type: string; params: unknown },
+    never,
+    never,
+    Meta
+  >;
+
 export type FlowConfigTransitions = {
-  backToCallingFlow?:
-    | string
-    | (string | { guard: GenericGuard<Context>; target: string })[];
-  nextFlowEntrypoint?: string;
+  backToCallingFlow?: SingleOrArray<string | TransitionConfig>;
+  nextFlowEntrypoint?: SingleOrArray<string | TransitionConfig>;
 };
 
 export type Meta = {

@@ -8,11 +8,14 @@ import {
 import type {
   Config,
   FlowConfigTransitions,
+  TransitionConfig,
 } from "~/services/flow/server/buildFlowController";
 
 export const getProzesskostenhilfeAntragstellendePersonConfig = (
   transitions?: FlowConfigTransitions,
 ) => {
+  const nextFlowEntrypoint =
+    transitions?.nextFlowEntrypoint as TransitionConfig[];
   return {
     id: "antragstellende-person",
     initial: "empfaenger",
@@ -44,7 +47,7 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
                 context.unterhaltsanspruch === "unterhalt",
               target: "unterhalt",
             },
-            "#rechtsschutzversicherung", // TODO: skip RSV if Nachueberpruefung
+            ...nextFlowEntrypoint,
           ],
         },
       },
@@ -56,7 +59,7 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
               guard: couldLiveFromUnterhalt,
               target: "unterhaltspflichtige-person-beziehung",
             },
-            "#rechtsschutzversicherung", // TODO: skip RSV if Nachueberpruefung
+            ...nextFlowEntrypoint,
           ],
         },
       },
@@ -69,7 +72,7 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
       "warum-keiner-unterhalt": {
         on: {
           BACK: "unterhaltspflichtige-person-beziehung",
-          SUBMIT: "#rechtsschutzversicherung", // TODO: skip RSV if Nachueberpruefung
+          SUBMIT: nextFlowEntrypoint,
         },
       },
       unterhalt: {
@@ -86,7 +89,7 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
               guard: unterhaltBekommeIch,
               target: "unterhaltspflichtige-person",
             },
-            "#rechtsschutzversicherung", // TODO: skip RSV if Nachueberpruefung
+            ...nextFlowEntrypoint,
           ],
         },
       },
@@ -99,13 +102,13 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
       "eigenes-exemplar": {
         on: {
           BACK: "unterhaltspflichtige-person",
-          SUBMIT: "#rechtsschutzversicherung", // TODO: skip RSV if Nachueberpruefung
+          SUBMIT: nextFlowEntrypoint,
         },
       },
       "zwei-formulare": {
         on: {
           BACK: "empfaenger",
-          SUBMIT: "#rechtsschutzversicherung", // TODO: skip RSV if Nachueberpruefung
+          SUBMIT: nextFlowEntrypoint,
         },
       },
     },
