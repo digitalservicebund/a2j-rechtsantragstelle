@@ -2,6 +2,7 @@ import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
 import type { Context } from "~/flows/contexts";
 import { parsePathname, type FlowId } from "~/flows/flowIds";
+import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { beratungshilfePdfFromUserdata } from "~/services/pdf/beratungshilfe";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
@@ -41,13 +42,15 @@ export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
   const { pdfFunction, filenameFunction } =
     pdfConfigs[flowId as keyof typeof pdfConfigs];
 
-  const userData = await pruneIrrelevantData(
-    (await getSessionData(flowId, request.headers.get("Cookie"))).userData,
-    flowId,
-  );
-  if (_.isEmpty(userData)) return redirect(flowId);
+  const [{ userData }, formFields] = await Promise.all([
+    getSessionData(flowId, request.headers.get("Cookie")),
+    fetchAllFormFields(flowId),
+  ]);
 
-  const fileContent = await pdfFunction(userData);
+  const prunnerUserData = pruneIrrelevantData(userData, flowId, formFields);
+  if (_.isEmpty(prunnerUserData)) return redirect(flowId);
+
+  const fileContent = await pdfFunction(prunnerUserData);
   const fileSize = fileContent.length;
   const filename = filenameFunction();
 

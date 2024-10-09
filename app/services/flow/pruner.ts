@@ -5,13 +5,13 @@ import { flows } from "~/flows/flows.server";
 import { buildFlowController } from "./server/buildFlowController";
 import { validFormPaths, type Path } from "./validFormPaths";
 import { resolveArrayCharacter } from "../array/resolveArrayCharacter";
-import {
-  fetchAllFormFields,
-  type FormFieldsMap,
-} from "../cms/fetchAllFormFields";
+import { type FormFieldsMap } from "../cms/fetchAllFormFields";
 
-export async function pruneIrrelevantData(data: Context, flowId: FlowId) {
-  const formFields = await fetchAllFormFields(flowId);
+export function pruneIrrelevantData(
+  data: Context,
+  flowId: FlowId,
+  formFields: FormFieldsMap,
+) {
   const { guards, config } = flows[flowId];
   const flowController = buildFlowController({ guards, config, data });
   const formPaths = validFormPaths(flowController);

@@ -6,6 +6,7 @@ import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import PageContent from "~/components/PageContent";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
+import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import { splatFromParams } from "~/services/params";
 import { CSRFKey } from "~/services/security/csrfKey";
 import { validatorForFieldnames } from "~/services/validation/buildStepValidator";
@@ -22,7 +23,7 @@ export function VorabcheckPage() {
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
-  const fieldNames = formElements.map((entry) => entry.name);
+  const fieldNames = getFieldsByFormElements(formElements);
   const validator = validatorForFieldnames(fieldNames, pathname);
 
   return (

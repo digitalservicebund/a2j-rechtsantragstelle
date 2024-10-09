@@ -10,6 +10,8 @@ import { getArraySummaryPageTranslations } from "~/services/array/getArraySummar
 import { getSummaryData } from "~/services/array/getSummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
+import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
+import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import type { Translations } from "~/services/cms/index.server";
 import {
   fetchFlowPage,
@@ -98,11 +100,20 @@ export const loader = async ({
   const { pathname } = new URL(request.url);
   const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
-  const { userData, debugId } = await getSessionData(flowId, cookieHeader);
+
+  const [{ userData, debugId }, formFields] = await Promise.all([
+    getSessionData(flowId, cookieHeader),
+    fetchAllFormFields(flowId),
+  ]);
+
   context.debugId = debugId; // For showing in errors
 
   const currentFlow = flows[flowId];
-  const prunedUserData = await pruneIrrelevantData(userData, flowId);
+  const prunedUserData = await pruneIrrelevantData(
+    userData,
+    flowId,
+    formFields,
+  );
   const userDataWithPageData = addPageDataToUserData(prunedUserData, {
     arrayIndexes,
   });
@@ -185,7 +196,7 @@ export const loader = async ({
   const meta = stepMeta(formPageContent.meta, parentMeta);
 
   // Retrieve user data for current step
-  const fieldNames = formPageContent.form.map((entry) => entry.name);
+  const fieldNames = getFieldsByFormElements(formElements);
   const stepData = fieldsFromContext(userDataWithPageData, fieldNames);
 
   const { headers, csrf } = await updateMainSession({
