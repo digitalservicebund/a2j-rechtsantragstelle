@@ -13,7 +13,7 @@ type TextareaProps = Readonly<{
   description?: string;
   label?: ReactNode;
   details?: {
-    title?: string;
+    title: string;
     content: string;
   };
   placeholder?: string;

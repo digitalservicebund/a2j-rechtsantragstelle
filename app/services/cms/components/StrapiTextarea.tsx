@@ -26,12 +26,5 @@ export const StrapiTextareaComponentSchema = StrapiTextareaSchema.extend({
 });
 
 export const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => (
-  <Textarea
-    {...omitNull(props)}
-    details={{
-      title: props.details?.title ?? "",
-      content: props.details?.content ?? "",
-    }}
-    errorMessages={flattenStrapiErrors(errors)}
-  />
+  <Textarea {...omitNull(props)} errorMessages={flattenStrapiErrors(errors)} />
 );
