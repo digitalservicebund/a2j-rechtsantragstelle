@@ -31,7 +31,7 @@ global.__pdfFileBuffers = Object.fromEntries(
   ),
 );
 
-async function readRelativeFileToBuffer(relativeFilepath: string) {
+export async function readRelativeFileToBuffer(relativeFilepath: string) {
   try {
     return readFile(path.resolve(path.join(process.cwd(), relativeFilepath)));
   } catch (error) {
