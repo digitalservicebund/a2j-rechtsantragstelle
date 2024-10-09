@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import { prozesskostenhilfeAntragstellendePersonContext as antragstellendePersonSchema } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/context";
 import {
   prozesskostenhilfeFinanzielleAngabenContext,
   zahlungspflichtigerSchema,
@@ -29,6 +30,8 @@ export const createFinancialEntry = () => ({
 export const happyPathData: ProzesskostenhilfeFormularContext = {
   formularArt: grundvoraussetzungenSchema.formularArt.Enum.nachueberpruefung,
   versandArt: grundvoraussetzungenSchema.versandArt.Enum.digital,
+  empfaenger: antragstellendePersonSchema.empfaenger.Enum.ich,
+  unterhaltsanspruch: antragstellendePersonSchema.unterhaltsanspruch.Enum.keine,
   hasBankkonto: YesNoAnswer.Enum.yes,
   hasGeldanlage: YesNoAnswer.Enum.yes,
   hasWertsache: YesNoAnswer.Enum.yes,

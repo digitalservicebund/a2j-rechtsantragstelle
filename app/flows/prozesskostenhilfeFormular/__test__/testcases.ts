@@ -29,6 +29,22 @@ const cases = [
     ],
   ],
   [
+    {
+      empfaenger: "ich",
+      unterhaltsanspruch: "anspruchNoUnterhalt",
+      couldLiveFromUnterhalt: "yes",
+      personWhoCouldPayUnterhaltBeziehung: "exEhepartner",
+      whyNoUnterhalt: "",
+    },
+    [
+      "antragstellende-person/empfaenger",
+      "antragstellende-person/unterhaltsanspruch",
+      "antragstellende-person/unterhalt-leben-frage",
+      "antragstellende-person/unterhaltspflichtige-person-beziehung",
+      "antragstellende-person/warum-keiner-unterhalt",
+    ],
+  ],
+  [
     { partnerschaft: "separated" },
     [
       "finanzielle-angaben/partner/partnerschaft",
@@ -79,6 +95,8 @@ const cases = [
       "grundvoraussetzungen/einreichung/fall",
       "grundvoraussetzungen/einreichung/mjp",
       "grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
+      "antragstellende-person/empfaenger",
+      "antragstellende-person/unterhaltsanspruch",
       "rechtsschutzversicherung/rsv-frage",
       "rechtsschutzversicherung/org-frage",
       "finanzielle-angaben/einkuenfte/start",

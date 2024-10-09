@@ -2,6 +2,7 @@ import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
 import { getAbgabeStrings } from "~/flows/prozesskostenhilfeFormular/abgabe/stringReplacements";
 import type { ProzesskostenhilfeAntragstellendePersonContext } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/context";
+import { getAntragstellendePersonStrings } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/stringReplacements";
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
@@ -19,6 +20,7 @@ import {
 import { grundvoraussetzungenXstateConfig } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/xStateConfig";
 import { prozesskostenhilfePersoenlicheDatenDone } from "~/flows/prozesskostenhilfeFormular/persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "~/flows/prozesskostenhilfeFormular/rechtsschutzversicherung/doneFunctions";
+import { getProzesskostenhilfeRsvXstateConfig } from "~/flows/prozesskostenhilfeFormular/rechtsschutzversicherung/xstateConfig";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import {
@@ -44,7 +46,6 @@ import {
 } from "../shared/stringReplacements";
 import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechtsschutzversicherung/context";
-import { getProzesskostenhilfeRsvXstateConfig } from "./rechtsschutzversicherung/xstateConfig";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -63,18 +64,22 @@ export const prozesskostenhilfeFormular = {
       start: { meta: { done: () => true } },
       grundvoraussetzungen: grundvoraussetzungenXstateConfig,
       "antragstellende-person":
-        getProzesskostenhilfeAntragstellendePersonConfig(),
+        getProzesskostenhilfeAntragstellendePersonConfig({
+          backToCallingFlow: [
+            {
+              guard: ({ context }) =>
+                versandDigitalAnwalt({ context }) ||
+                versandDigitalGericht({ context }),
+              target:
+                "#grundvorsaussetzungen.einreichung.hinweis-digital-einreichung",
+            },
+            "#grundvorsaussetzungen.einreichung.hinweis-papier-einreichung",
+          ],
+          nextFlowEntrypoint: "#rechtsschutzversicherung",
+        }),
       rechtsschutzversicherung: getProzesskostenhilfeRsvXstateConfig({
-        backToCallingFlow: [
-          {
-            guard: ({ context }) =>
-              versandDigitalAnwalt({ context }) ||
-              versandDigitalGericht({ context }),
-            target:
-              "#grundvorsaussetzungen.einreichung.hinweis-digital-einreichung",
-          },
-          "#grundvorsaussetzungen.einreichung.hinweis-papier-einreichung",
-        ],
+        // TODO: add proper logic for antragstellende person
+        backToCallingFlow: "#antragstellende-person.unterhaltsanspruch",
         nextFlowEntrypoint: "#finanzielle-angaben",
       }),
       "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
@@ -249,6 +254,7 @@ export const prozesskostenhilfeFormular = {
   stringReplacements: (context: ProzesskostenhilfeFormularContext) => ({
     ...getKinderStrings(context),
     ...getArrayIndexStrings(context),
+    ...getAntragstellendePersonStrings(context),
     ...eigentumZusammenfassungShowPartnerschaftWarnings(context),
     ...geldAnlagenStrings(context),
     ...getAbgabeStrings(context),
