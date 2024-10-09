@@ -1,6 +1,8 @@
 import _ from "lodash";
 import type { Flow } from "~/flows/flows.server";
 import { getAbgabeStrings } from "~/flows/prozesskostenhilfeFormular/abgabe/stringReplacements";
+import type { ProzesskostenhilfeAntragstellendePersonContext } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/context";
+import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
@@ -60,6 +62,8 @@ export const prozesskostenhilfeFormular = {
     states: {
       start: { meta: { done: () => true } },
       grundvoraussetzungen: grundvoraussetzungenXstateConfig,
+      "antragstellende-person":
+        getProzesskostenhilfeAntragstellendePersonConfig(),
       rechtsschutzversicherung: getProzesskostenhilfeRsvXstateConfig({
         backToCallingFlow: [
           {
@@ -254,6 +258,7 @@ export const prozesskostenhilfeFormular = {
 
 export type ProzesskostenhilfeFormularContext =
   ProzesskostenhilfeGrundvoraussetzungenContext &
+    ProzesskostenhilfeAntragstellendePersonContext &
     ProzesskostenhilfeRechtsschutzversicherungContext &
     ProzesskostenhilfeFinanzielleAngabenContext &
     ProzesskostenhilfePersoenlicheDaten;

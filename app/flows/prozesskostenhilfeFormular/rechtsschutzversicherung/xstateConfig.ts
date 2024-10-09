@@ -1,15 +1,13 @@
-import type { Context } from "vm";
-import type { GenericGuard } from "~/flows/guards.server";
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type {
+  Config,
+  FlowConfigTransitions,
+} from "~/services/flow/server/buildFlowController";
 import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./context";
 import { rechtsschutzversicherungDone } from "./doneFunctions";
 
-export function getProzesskostenhilfeRsvXstateConfig(transitions?: {
-  backToCallingFlow?:
-    | string
-    | (string | { guard: GenericGuard<Context>; target: string })[];
-  nextFlowEntrypoint?: string;
-}): Config<ProzesskostenhilfeRechtsschutzversicherungContext> {
+export function getProzesskostenhilfeRsvXstateConfig(
+  transitions?: FlowConfigTransitions,
+): Config<ProzesskostenhilfeRechtsschutzversicherungContext> {
   return {
     id: "rechtsschutzversicherung",
     initial: "rsv-frage",

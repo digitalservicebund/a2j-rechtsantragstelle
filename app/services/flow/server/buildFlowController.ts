@@ -48,6 +48,13 @@ export type Config<TContext extends MachineContext = Context> = MachineConfig<
   Meta
 >;
 
+export type FlowConfigTransitions = {
+  backToCallingFlow?:
+    | string
+    | (string | { guard: GenericGuard<Context>; target: string })[];
+  nextFlowEntrypoint?: string;
+};
+
 export type Meta = {
   customAnalyticsEventName?: string;
   done?: GenericGuard<Context>;
