@@ -15,7 +15,7 @@ import { buildFlowController } from "~/services/flow/server/buildFlowController"
 import { logError } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";
 import { parentFromParams } from "~/services/params";
-import { validatedSession } from "~/services/security/csrf.server";
+import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import {
   getSessionData,
   getSessionManager,
