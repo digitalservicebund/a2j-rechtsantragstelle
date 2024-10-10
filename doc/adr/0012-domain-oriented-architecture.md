@@ -26,6 +26,7 @@ We strive for the following naming:
 - domain: An area in the justice space that needs specific knowledge, e.g. `beratungshilfe`
 - flow: A sequence of form steps to be completed within a domain, e.g. `beratungshilfe vorabcheck`
 - flowId: The identifier to differentiate between different flows, e.g. `/beratungshilfe/vorabcheck`
+- flowType: Deciding factor what purpose the flow serves, currently `vorabcheck` or `formular`
 
 ## Consequences
 
@@ -34,14 +35,14 @@ We strive for the following naming:
 - A new folder is created called `domains`. In that we have a folder for each domain, e.g. `beratungshilfe`, `fluggastrechte`. In those we have more folders depicting the specific flows of the domain, e.g. `vorabcheck` and `formular`.
 - Configurations that are useful for multiple domains or flows, like `beratungshilfe`, `prozesskostenhilfe` or domain-irrelevant things like `persoenlicheDaten`, shall be moved into a dedicated `shared` folder.
 - Things that are now specific to one service should reside in the `domains` folder. That includes:
+  - specification of flowType for e.g. Vorabcheck progress and cms slug
   - domain specific data, for example airports
   - pdf filling logic + handout generation
-  - Vorabcheck progress configuration
-  - Flow transition logic
+  - flow transition logic
   - `WEITERE_PERSONEN_START_INDEX` in the ArraySummaryDataItems
   - `FluggastrechteResultPage` in components
   - probably some more
-- A Readme on "how to add a new domain/form" would be beneficial.
+- A Readme on "how to add a new domain/flow" would be beneficial.
 
 Expected Benefits:
 
