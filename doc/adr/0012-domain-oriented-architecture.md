@@ -32,8 +32,27 @@ We strive for the following naming:
 
 "To Dos:"
 
-- A new folder is created called `domains`. In that we have a folder for each domain, e.g. `beratungshilfe`, `fluggastrechte`. In those we have more folders depicting the specific flows of the domain, e.g. `vorabcheck` and `formular`.
-- Configurations that are useful for multiple domains or flows, like `beratungshilfe`, `prozesskostenhilfe` or domain-irrelevant things like `persoenlicheDaten`, shall be moved into a dedicated `shared` folder.
+- In terms of folder structure, domain configurations are scoped by their domain. Shared code should be placed in a `shared` folder that may exist on any level:
+  ```
+  .
+  └── domains
+      ├── fluggastrechte
+      │    ├── vorabcheck
+      │    │    ├── index.ts      # Exports full flow configuration
+      │    │    ├── schemas
+      │    │    ├── stringReplacements
+      │    │    └── guards
+      │    ├── formular
+      │    │    ├── index.ts
+      │    │    └── pdf           # flow specific pdf logic
+      │    └── shared             # Shared code inside domain
+      ├── beratungshilfe
+      │    ├── vorabcheck
+      │    └── antrag
+      └── shared                  # Shared code across cross-domain, e.g.:
+           ├── persoenlicheDaten  # Common sub-flow configuration
+           └── schemas            # Useful schemas
+  ```
 - Things that are now specific to one service should reside in the `domains` folder. That includes:
   - specification of flowType for e.g. Vorabcheck progress and cms slug
   - domain specific data, for example airports
