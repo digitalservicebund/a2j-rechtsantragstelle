@@ -14,11 +14,10 @@ type CellOptions = {
   regularTextFontSize?: number;
   shouldAddSilverBackground: boolean;
   textAlign: "center" | "justify" | "left" | "right";
-  shouldDrawRectangle?: boolean;
 };
 
-const cellSpaceX = 5;
-const cellSpaceY = 5;
+const marginX = 4;
+const marginY = 5;
 
 export function drawCell(
   doc: typeof PDFDocument,
@@ -32,11 +31,10 @@ export function drawCell(
     regularTextFontSize = 8,
     shouldAddSilverBackground,
     textAlign,
-    shouldDrawRectangle = true,
   }: CellOptions,
 ) {
-  const textX = xPosition + cellSpaceX;
-  const textY = yPosition + cellSpaceY;
+  const textX = xPosition + marginX;
+  const textY = yPosition + marginY;
 
   if (shouldAddSilverBackground) {
     doc
@@ -48,19 +46,15 @@ export function drawCell(
       .restore();
   }
 
-  doc.save();
-
-  if (shouldDrawRectangle) {
-    doc.rect(xPosition, yPosition, width, height).stroke("silver");
-  }
+  doc.save().rect(xPosition, yPosition, width, height).stroke("silver");
 
   if (boldText.length > 0) {
     doc
       .fontSize(10)
       .font(FONTS_BUNDESSANS_BOLD)
       .text(boldText, textX, textY, {
-        width: width - cellSpaceX,
-        height: height - cellSpaceY,
+        width: width - marginX,
+        height: height - marginY,
         align: textAlign,
       });
   }
@@ -72,9 +66,9 @@ export function drawCell(
       .fontSize(regularTextFontSize)
       .font(FONTS_BUNDESSANS_REGULAR)
       .text(regularText, textX, textY + extraSpaceY, {
-        width: width - cellSpaceX,
+        width: width - marginX,
         align: textAlign,
-        height: height - cellSpaceY,
+        height: height - marginY,
       });
   }
   doc.restore();

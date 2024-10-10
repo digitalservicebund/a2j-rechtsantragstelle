@@ -11,8 +11,18 @@ export function drawTableColumnsHead(
   tableStruct: PDFKit.PDFStructureElement,
 ) {
   const headers = [
-    { title: "Abflug Datum, Zeit", subtitle: "Startflughafen" },
-    { title: "Ankunft, Zeit", subtitle: "Zielflughafen" },
+    {
+      title: "Flugnummer",
+      subtitle: "betroffener Flug",
+    },
+    {
+      title: "Abflug Datum, Zeit",
+      subtitle: "Startflughafen",
+    },
+    {
+      title: "Ankunft, Zeit",
+      subtitle: "Zielflughafen",
+    },
   ];
   // Loop through headers and draw each section
   const tableHeaderRow = doc.struct("TR"); // New TR for the header row
@@ -21,7 +31,6 @@ export function drawTableColumnsHead(
     headerCell.add(
       doc.struct("Span", {}, () => {
         const yPosition = START_TABLE_Y + COLUMN_HEIGHT * (index + 1); // Adjust yPosition based on index
-
         drawCell(doc, {
           xPosition: START_TABLE_X,
           yPosition,

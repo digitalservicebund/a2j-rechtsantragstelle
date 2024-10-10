@@ -18,7 +18,6 @@ export const createSecondPage = (
   doc.moveDown(1);
   createFactsOfCases(doc, documentStruct);
   addTable(doc, documentStruct);
-  doc.moveDown(2);
   createLastSentences(doc, documentStruct);
   doc.moveDown(1);
 
