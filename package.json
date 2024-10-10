@@ -55,6 +55,7 @@
     "axios": "^1.7.7",
     "classnames": "^2.5.1",
     "compression": "^1.7.4",
+    "cookie": "^0.7.2",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "express-rate-limit": "^7.4.1",
@@ -138,6 +139,11 @@
     "vite-env-only": "^3.0.3",
     "vite-tsconfig-paths": "^5.0.1",
     "vitest": "^2.1.2"
+  },
+  "overrides": {
+    "@remix-run/server-runtime": {
+      "cookie": "^0.7.2"
+    }
   },
   "engines": {
     "node": ">=20"
