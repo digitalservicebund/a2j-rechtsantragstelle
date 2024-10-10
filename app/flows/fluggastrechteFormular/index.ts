@@ -75,8 +75,10 @@ export const fluggastrechtFlow = {
           start: {
             on: {
               SUBMIT: "#grundvorraussetzungen.prozessfaehig",
+              BACK: "redirect-vorabcheckErgebnis",
             },
           },
+          "redirect-vorabcheckErgebnis": { on: {} },
         },
       },
       grundvorraussetzungen: _.merge(grundvorraussetzungenFlow, {
