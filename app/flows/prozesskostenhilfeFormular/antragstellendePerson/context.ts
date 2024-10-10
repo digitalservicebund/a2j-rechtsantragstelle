@@ -7,6 +7,7 @@ import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 const beziehungSchema = z.enum(
   [
@@ -62,7 +63,25 @@ export type ProzesskostenhilfeAntragstellendePersonContext = z.infer<
 
 export const antragstellendePersonDone: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonContext
-> = ({ context }) => {
-  console.log(context);
-  return false;
-};
+> = ({ context }) =>
+  unterhaltLeisteIch({ context }) ||
+  context.unterhaltsanspruch === "keine" ||
+  (context.unterhaltsanspruch === "unterhalt" &&
+    context.unterhaltssumme !== undefined &&
+    context.livesPrimarilyFromUnterhalt !== undefined &&
+    !unterhaltBekommeIch({ context })) ||
+  (context.unterhaltsanspruch === "unterhalt" &&
+    context.unterhaltssumme !== undefined &&
+    unterhaltBekommeIch({ context }) &&
+    objectKeysNonEmpty(context.unterhaltspflichtigePerson, [
+      "beziehung",
+      "nachname",
+      "vorname",
+    ])) ||
+  (context.unterhaltsanspruch === "anspruchNoUnterhalt" &&
+    context.couldLiveFromUnterhalt !== undefined &&
+    !couldLiveFromUnterhalt({ context })) ||
+  (context.unterhaltsanspruch === "anspruchNoUnterhalt" &&
+    couldLiveFromUnterhalt({ context }) &&
+    context.personWhoCouldPayUnterhaltBeziehung !== undefined &&
+    context.whyNoUnterhalt !== undefined);

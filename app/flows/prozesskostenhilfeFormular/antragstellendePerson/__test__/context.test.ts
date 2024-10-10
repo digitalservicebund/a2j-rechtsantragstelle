@@ -91,9 +91,69 @@ describe("PKH Antragstellende Person Context", () => {
   });
 
   describe("antragstellendePersonDone", () => {
-    // TODO: fill out test correctly
-    it("should return false", () => {
-      expect(antragstellendePersonDone({ context: {} })).toBe(false);
+    it("should return true if the user pays Unterhalt", () => {
+      expect(
+        antragstellendePersonDone({ context: { empfaenger: "anderePerson" } }),
+      ).toBe(true);
+    });
+
+    it("should return true if the user doesn't have a claim to unterhalt", () => {
+      expect(
+        antragstellendePersonDone({ context: { unterhaltsanspruch: "keine" } }),
+      ).toBe(true);
+    });
+
+    it("should return true if the user has a claim to unterhalt, has entered an unterhalt sum, and does not live primarily it", () => {
+      expect(
+        antragstellendePersonDone({
+          context: {
+            unterhaltsanspruch: "unterhalt",
+            unterhaltssumme: "100",
+            livesPrimarilyFromUnterhalt: "no",
+          },
+        }),
+      ).toBe(true);
+    });
+
+    it("should return true if the user has a claim to unterhalt, lives primarily from it, and has entered all details relating to it", () => {
+      expect(
+        antragstellendePersonDone({
+          context: {
+            unterhaltsanspruch: "unterhalt",
+            unterhaltssumme: "100",
+            livesPrimarilyFromUnterhalt: "yes",
+            unterhaltspflichtigePerson: {
+              beziehung: "exEhepartner",
+              nachname: "Mustermann",
+              vorname: "Max",
+            },
+          },
+        }),
+      ).toBe(true);
+    });
+
+    it("should return true if the user has an unpaid claim to unterhalt, and could not live from it", () => {
+      expect(
+        antragstellendePersonDone({
+          context: {
+            unterhaltsanspruch: "anspruchNoUnterhalt",
+            couldLiveFromUnterhalt: "no",
+          },
+        }),
+      ).toBe(true);
+    });
+
+    it("should return true if the user has an unpaid claim to unterhalt, could live from it, and has filled out all details about it", () => {
+      expect(
+        antragstellendePersonDone({
+          context: {
+            unterhaltsanspruch: "anspruchNoUnterhalt",
+            couldLiveFromUnterhalt: "yes",
+            personWhoCouldPayUnterhaltBeziehung: "exEhepartnerin",
+            whyNoUnterhalt: "Keine Lust",
+          },
+        }),
+      ).toBe(true);
     });
   });
 });
