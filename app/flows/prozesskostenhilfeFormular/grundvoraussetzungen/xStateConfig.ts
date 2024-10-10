@@ -105,8 +105,8 @@ export const grundvoraussetzungenXstateConfig = {
           on: {
             SUBMIT: {
               guard: grundvoraussetzungenDone,
-              target: "#rechtsschutzversicherung",
-            }, // TODO: replace w/ Antragstellende when finished
+              target: "#antragstellende-person",
+            },
             BACK: "fall",
           },
         },
@@ -114,8 +114,8 @@ export const grundvoraussetzungenXstateConfig = {
           on: {
             SUBMIT: {
               guard: grundvoraussetzungenDone,
-              target: "#rechtsschutzversicherung",
-            }, // TODO: replace w/ Antragstellende when finished
+              target: "#antragstellende-person",
+            },
             BACK: [
               {
                 guard: versandDigitalGericht,

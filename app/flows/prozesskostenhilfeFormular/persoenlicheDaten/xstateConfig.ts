@@ -1,15 +1,13 @@
-import type { Context } from "~/flows/contexts";
-import type { GenericGuard } from "~/flows/guards.server";
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type {
+  Config,
+  FlowConfigTransitions,
+} from "~/services/flow/server/buildFlowController";
 import type { ProzesskostenhilfePersoenlicheDaten } from "./context";
 import { prozesskostenhilfePersoenlicheDatenDone } from "./doneFunctions";
 
-export function getProzesskostenhilfePersoenlicheDatenXstateConfig(transitions?: {
-  backToCallingFlow?:
-    | string
-    | (string | { guard: GenericGuard<Context>; target: string })[];
-  nextFlowEntrypoint?: string;
-}): Config<ProzesskostenhilfePersoenlicheDaten> {
+export function getProzesskostenhilfePersoenlicheDatenXstateConfig(
+  transitions?: FlowConfigTransitions,
+): Config<ProzesskostenhilfePersoenlicheDaten> {
   return {
     id: "persoenliche-daten",
     initial: "start",

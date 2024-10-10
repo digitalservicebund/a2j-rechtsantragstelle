@@ -1,3 +1,4 @@
+import { antragstellendePersonDone } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/context";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import type { ProzesskostenhilfeFormularContext } from ".";
 import {
@@ -16,9 +17,13 @@ export const getMissingInformationStrings = (
   context: ProzesskostenhilfeFormularContext,
 ) => {
   return {
-    rechtsschutzversicherungMissingInformation: !rechtsschutzversicherungDone({
+    antragstellendePersonMissingInformation: antragstellendePersonDone({
       context,
     }),
+    rechtsschutzversicherungMissingInformation:
+      !rechtsschutzversicherungDone({
+        context,
+      }) && context.formularArt !== "nachueberpruefung",
     einkuenfteMissingInformation: !einkuenfteDone({ context }),
     partnerMissingInformation: !partnerDone({ context }),
     kinderMissingInformation: !kinderDone({ context }),
