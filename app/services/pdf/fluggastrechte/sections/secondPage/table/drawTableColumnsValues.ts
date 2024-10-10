@@ -6,13 +6,17 @@ import {
   START_TABLE_Y,
 } from "./tableConfigurations";
 
+const ROWS_NUMBER = 3; // How many rows this function will create in the table
+
 export function drawTableColumnsValues(
   doc: PDFKit.PDFDocument,
   tableStruct: PDFKit.PDFStructureElement,
 ) {
   const values = [
+    "AB1234",
     "10.03.2024 20:30",
     "10.03.2024 23:45",
+    "--",
     "--",
     "11.03.2024 03:19",
   ];
@@ -23,8 +27,8 @@ export function drawTableColumnsValues(
     tableValueColumns.add(
       doc.struct("TD", {}, () => {
         const columnValue = values[index];
-        const columnOffset = index <= 1 ? 1 : 2; // Planned values go in the second column, actual in the fourth
-        const adjustedIndex = (index % 2) + 1; // Calculate the row for planned/actual values
+        const columnOffset = index <= ROWS_NUMBER - 1 ? 1 : 2; // Planned values go in the second column, actual in the fourth
+        const adjustedIndex = (index % ROWS_NUMBER) + 1; // Calculate the row for planned/actual values
 
         const xPosition = START_TABLE_X + COLUMN_WIDTH * columnOffset;
         const yPosition = START_TABLE_Y + COLUMN_HEIGHT * adjustedIndex;
@@ -49,16 +53,16 @@ export function drawTableColumnsValues(
   durationRow.add(
     doc.struct("TD", {}, () => {
       drawCell(doc, {
-        xPosition: START_TABLE_X + COLUMN_WIDTH * 3,
+        xPosition: START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER,
         yPosition: START_TABLE_Y + COLUMN_HEIGHT,
         width: COLUMN_WIDTH,
-        height: COLUMN_HEIGHT * 2,
+        height: COLUMN_HEIGHT * ROWS_NUMBER,
         boldText: "", // No label text, only the value
-        regularText: "12 Stunden 34 Minuten tess",
+        regularText:
+          "7-13 Tage vorher mitgeteilt \n Kein Angebot einer Ersatzverbindung erhalten",
         shouldAddSilverBackground: false,
         textAlign: "center",
         regularTextFontSize: 10,
-        shouldDrawRectangle: false,
       });
     }),
   );
