@@ -15,17 +15,8 @@ if (SENTRY_DSN !== undefined) {
   sentryHasBeenInitialized = true;
 }
 
-type Warning = {
-  message: string;
-  shouldSendToSentry: boolean;
-};
-
-export function logWarning({ message, shouldSendToSentry }: Warning) {
+export function logWarning(message: string) {
   console.warn(message);
-
-  if (shouldSendToSentry) {
-    sendSentryMessage(message, "warning");
-  }
 }
 
 type Error = {

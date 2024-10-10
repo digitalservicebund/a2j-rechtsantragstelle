@@ -120,10 +120,7 @@ export const loader = async ({
 export const action = async ({ request }: ActionFunctionArgs) => {
   const resultValidatedSession = await validatedSession(request);
   if (resultValidatedSession.isErr) {
-    logWarning({
-      message: resultValidatedSession.error,
-      shouldSendToSentry: false,
-    });
+    logWarning(resultValidatedSession.error);
     throw new Response(null, { status: 403 });
   }
 
