@@ -1,15 +1,16 @@
-import type { Context } from "vm";
-import type { GenericGuard } from "~/flows/guards.server";
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type {
+  Config,
+  FlowConfigTransitions,
+} from "~/services/flow/server/buildFlowController";
 import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./context";
 import { rechtsschutzversicherungDone } from "./doneFunctions";
 
-export function getProzesskostenhilfeRsvXstateConfig(transitions?: {
-  backToCallingFlow?:
-    | string
-    | (string | { guard: GenericGuard<Context>; target: string })[];
-  nextFlowEntrypoint?: string;
-}): Config<ProzesskostenhilfeRechtsschutzversicherungContext> {
+export function getProzesskostenhilfeRsvXstateConfig(
+  transitions?: FlowConfigTransitions,
+): Config<ProzesskostenhilfeRechtsschutzversicherungContext> {
+  const nextFlowEntrypoint = Array.isArray(transitions?.nextFlowEntrypoint)
+    ? transitions.nextFlowEntrypoint
+    : [transitions?.nextFlowEntrypoint];
   return {
     id: "rechtsschutzversicherung",
     initial: "rsv-frage",
@@ -90,7 +91,7 @@ export function getProzesskostenhilfeRsvXstateConfig(transitions?: {
               guard: ({ context }) => context.hasRsvThroughOrg === "yes",
               target: "org-deckung",
             },
-            transitions?.nextFlowEntrypoint,
+            ...nextFlowEntrypoint,
           ],
         },
       },
@@ -130,13 +131,13 @@ export function getProzesskostenhilfeRsvXstateConfig(transitions?: {
       "org-deckung-nein": {
         on: {
           BACK: "org-deckung",
-          SUBMIT: transitions?.nextFlowEntrypoint,
+          SUBMIT: nextFlowEntrypoint,
         },
       },
       "org-deckung-teilweise": {
         on: {
           BACK: "org-deckung",
-          SUBMIT: transitions?.nextFlowEntrypoint,
+          SUBMIT: nextFlowEntrypoint,
         },
       },
     },
