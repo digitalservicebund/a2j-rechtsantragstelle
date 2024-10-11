@@ -4,6 +4,6 @@ export const getAntragstellendePersonStrings = (
   context: ProzesskostenhilfeFormularContext,
 ) => {
   return {
-    unterhaltspflichtigePersonName: `${context.unterhaltspflichtigePerson?.vorname} ${context.unterhaltspflichtigePerson?.nachname}`,
+    unterhaltspflichtigePersonName: `${context.unterhaltspflichtigePerson?.vorname ?? ""} ${context.unterhaltspflichtigePerson?.nachname ?? ""}`,
   };
 };

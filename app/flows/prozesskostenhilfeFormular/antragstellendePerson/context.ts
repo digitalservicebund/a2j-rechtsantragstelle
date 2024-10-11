@@ -36,7 +36,7 @@ export const prozesskostenhilfeAntragstellendePersonContext = {
       beziehung: beziehungSchema,
       ...vornameNachnameSchema,
     })
-    .partial(),
+    .optional(),
   couldLiveFromUnterhalt: YesNoAnswer,
   personWhoCouldPayUnterhaltBeziehung: beziehungSchema,
   whyNoUnterhalt: stringRequiredSchema,
