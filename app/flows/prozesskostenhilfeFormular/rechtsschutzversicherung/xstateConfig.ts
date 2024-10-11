@@ -8,6 +8,9 @@ import { rechtsschutzversicherungDone } from "./doneFunctions";
 export function getProzesskostenhilfeRsvXstateConfig(
   transitions?: FlowConfigTransitions,
 ): Config<ProzesskostenhilfeRechtsschutzversicherungContext> {
+  const nextFlowEntrypoint = Array.isArray(transitions?.nextFlowEntrypoint)
+    ? transitions.nextFlowEntrypoint
+    : [transitions?.nextFlowEntrypoint];
   return {
     id: "rechtsschutzversicherung",
     initial: "rsv-frage",
@@ -88,7 +91,7 @@ export function getProzesskostenhilfeRsvXstateConfig(
               guard: ({ context }) => context.hasRsvThroughOrg === "yes",
               target: "org-deckung",
             },
-            transitions?.nextFlowEntrypoint as string,
+            ...nextFlowEntrypoint,
           ],
         },
       },
@@ -128,13 +131,13 @@ export function getProzesskostenhilfeRsvXstateConfig(
       "org-deckung-nein": {
         on: {
           BACK: "org-deckung",
-          SUBMIT: transitions?.nextFlowEntrypoint,
+          SUBMIT: nextFlowEntrypoint,
         },
       },
       "org-deckung-teilweise": {
         on: {
           BACK: "org-deckung",
-          SUBMIT: transitions?.nextFlowEntrypoint,
+          SUBMIT: nextFlowEntrypoint,
         },
       },
     },

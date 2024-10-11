@@ -8,14 +8,14 @@ import {
 import type {
   Config,
   FlowConfigTransitions,
-  TransitionConfig,
 } from "~/services/flow/server/buildFlowController";
 
 export const getProzesskostenhilfeAntragstellendePersonConfig = (
   transitions?: FlowConfigTransitions,
 ) => {
-  const nextFlowEntrypoint =
-    transitions?.nextFlowEntrypoint as TransitionConfig[];
+  const nextFlowEntrypoint = Array.isArray(transitions?.nextFlowEntrypoint)
+    ? transitions.nextFlowEntrypoint
+    : [transitions?.nextFlowEntrypoint];
   return {
     id: "antragstellende-person",
     initial: "empfaenger",

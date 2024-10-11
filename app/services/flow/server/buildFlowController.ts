@@ -3,8 +3,7 @@ import _ from "lodash";
 import type {
   MachineConfig,
   MachineContext,
-  SingleOrArray,
-  TransitionConfig as XStateTransitionConfig,
+  TransitionConfigOrTarget as XStateTransitionConfigOrTarget,
 } from "xstate";
 import {
   getInitialSnapshot,
@@ -53,22 +52,23 @@ export type Config<TContext extends MachineContext = Context> = MachineConfig<
   Meta
 >;
 
-export type TransitionConfig<TContext extends MachineContext = Context> =
-  XStateTransitionConfig<
-    TContext,
-    FlowStateMachineEvents,
-    FlowStateMachineEvents,
-    never,
-    never,
-    { type: string; params: unknown },
-    never,
-    never,
-    Meta
-  >;
+export type TransitionConfigOrTarget<
+  TContext extends MachineContext = Context,
+> = XStateTransitionConfigOrTarget<
+  TContext,
+  FlowStateMachineEvents,
+  FlowStateMachineEvents,
+  never,
+  never,
+  { type: string; params: unknown },
+  never,
+  never,
+  Meta
+>;
 
 export type FlowConfigTransitions = {
-  backToCallingFlow?: SingleOrArray<string | TransitionConfig>;
-  nextFlowEntrypoint?: SingleOrArray<string | TransitionConfig>;
+  backToCallingFlow?: TransitionConfigOrTarget;
+  nextFlowEntrypoint?: TransitionConfigOrTarget;
 };
 
 export type Meta = {
