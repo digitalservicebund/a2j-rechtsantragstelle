@@ -1,6 +1,10 @@
 import { getShortestPaths } from "@xstate/graph";
 import _ from "lodash";
-import type { MachineConfig, MachineContext } from "xstate";
+import type {
+  MachineConfig,
+  MachineContext,
+  TransitionConfigOrTarget as XStateTransitionConfigOrTarget,
+} from "xstate";
 import {
   getInitialSnapshot,
   getNextSnapshot,
@@ -47,6 +51,25 @@ export type Config<TContext extends MachineContext = Context> = MachineConfig<
   never,
   Meta
 >;
+
+export type TransitionConfigOrTarget<
+  TContext extends MachineContext = Context,
+> = XStateTransitionConfigOrTarget<
+  TContext,
+  FlowStateMachineEvents,
+  FlowStateMachineEvents,
+  never,
+  never,
+  { type: string; params: unknown },
+  never,
+  never,
+  Meta
+>;
+
+export type FlowConfigTransitions = {
+  backToCallingFlow?: TransitionConfigOrTarget;
+  nextFlowEntrypoint?: TransitionConfigOrTarget;
+};
 
 export type Meta = {
   customAnalyticsEventName?: string;
