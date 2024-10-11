@@ -31,6 +31,9 @@ import {
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import prozesskostenhilfeFormularFlow from "./flow.json";
+import type { ProzesskostenhilfeGesetzlicheVertretung } from "./gesetzlicheVertretung/context";
+import { hasGesetzlicheVertretungYes } from "./gesetzlicheVertretung/guards";
+import { gesetzlicheVertretungXstateConfig } from "./gesetzlicheVertretung/xStateConfig";
 import type { ProzesskostenhilfePersoenlicheDaten } from "./persoenlicheDaten/context";
 import { getMissingInformationStrings } from "./stringReplacements";
 import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
@@ -180,7 +183,7 @@ export const prozesskostenhilfeFormular = {
           },
         },
       }),
-      "persoenliche-daten": getProzesskostenhilfePersoenlicheDatenXstateConfig({
+      "gesetzliche-vertretung": gesetzlicheVertretungXstateConfig({
         backToCallingFlow: [
           {
             guard: finanzielleAngabeGuards.hasAusgabenEntriesYes,
@@ -203,6 +206,16 @@ export const prozesskostenhilfeFormular = {
             target: "#finanzielle-angaben.einkuenfte.staatliche-leistungen",
           },
           "#ausgaben.ausgaben-frage",
+        ],
+        nextFlowEntrypoint: "#persoenliche-daten",
+      }),
+      "persoenliche-daten": getProzesskostenhilfePersoenlicheDatenXstateConfig({
+        backToCallingFlow: [
+          {
+            guard: ({ context }) => hasGesetzlicheVertretungYes({ context }),
+            target: "#gesetzliche-vertretung.daten",
+          },
+          "#gesetzliche-vertretung",
         ],
         nextFlowEntrypoint: "#abgabe",
       }),
@@ -256,4 +269,5 @@ export type ProzesskostenhilfeFormularContext =
   ProzesskostenhilfeGrundvoraussetzungenContext &
     ProzesskostenhilfeRechtsschutzversicherungContext &
     ProzesskostenhilfeFinanzielleAngabenContext &
+    ProzesskostenhilfeGesetzlicheVertretung &
     ProzesskostenhilfePersoenlicheDaten;
