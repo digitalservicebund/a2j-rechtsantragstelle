@@ -20,6 +20,10 @@ describe("sanatizeHtml", () => {
     });
   });
 
+  describe("failing test for CI", () => {
+    expect(3 + 3).toBe(5);
+  });
+
   describe("removes invalid tags", () => {
     const invalidStrings = [
       ["onclick tag", '<p onclick="() => alert("test")"></p>', "<p></p>"],
