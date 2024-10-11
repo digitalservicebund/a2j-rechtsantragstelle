@@ -1,14 +1,12 @@
-import airports from "data/airports/data.json";
+import { getAirportByIataCode } from "./getAirportByIataCode";
 
 export function getAirportNameByIataCode(airportIataCode: string): string {
-  if (airportIataCode.length > 0) {
-    const airport = airports.find((aiport) => aiport.iata === airportIataCode);
+  const airport = getAirportByIataCode(airportIataCode);
 
-    if (airport) {
-      return airport.airport.includes(airport.city)
-        ? `${airport.airport} (${airport.iata})`
-        : `${airport.city} ${airport.airport} (${airport.iata})`;
-    }
+  if (airport) {
+    return airport.airport.includes(airport.city)
+      ? `${airport.airport} (${airport.iata})`
+      : `${airport.city} ${airport.airport} (${airport.iata})`;
   }
 
   return "";

@@ -1,7 +1,7 @@
 import haversine from "haversine-distance";
 import { Result } from "true-myth";
 import { z } from "zod";
-import airports from "data/airports/data.json";
+import { getAirportByIataCode } from "./getAirportByIataCode";
 
 const KILOMETERS_IN_METERS = 1000;
 const TWO_FRACTION_DIGITS = 2;
@@ -10,10 +10,6 @@ const AirportCoordinateSystemSchema = z.object({
   latitude: z.coerce.number(),
   longitude: z.coerce.number(),
 });
-
-function getAirportByIataCode(airportIataCode: string): unknown {
-  return airports.find((aiport) => aiport.iata === airportIataCode);
-}
 
 export function calculateDistanceBetweenAirportsInKilometers(
   startAirportIataCode: string,
