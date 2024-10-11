@@ -15,6 +15,10 @@ if (SENTRY_DSN !== undefined) {
   sentryHasBeenInitialized = true;
 }
 
+export function logWarning(message: string) {
+  console.warn(message);
+}
+
 type Error = {
   message?: string;
   error: unknown;
