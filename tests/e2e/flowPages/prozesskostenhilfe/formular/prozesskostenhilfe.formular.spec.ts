@@ -10,6 +10,7 @@ import { ProzesskostenhilfeFormular } from "tests/e2e/pom/ProzesskostenhilfeForm
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { startFinanzielleAngabenAusgaben } from "./finanzielleAngabenAusgaben";
 import { startFinanzielleAngabenEigentum } from "./finanzielleAngabenEigentum";
+import { startGesetzlicheVertretung } from "./gesetzlicheVertretung";
 import { startPersoenlicheDaten } from "./persoenlicheDaten";
 import { startRechtsschutzversicherung } from "./rechtsschutzversicherung";
 import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "../../shared/finanzielleAngaben/finanzielleAngabenAndereUnterhaltszahlungen";
@@ -102,7 +103,7 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
   );
   await prozesskostenhilfeFormular.clickNext();
   await startFinanzielleAngabenAusgaben(page, prozesskostenhilfeFormular);
-
+  await startGesetzlicheVertretung(page, prozesskostenhilfeFormular);
   await startPersoenlicheDaten(page, prozesskostenhilfeFormular);
 
   await startAbgabe(page);

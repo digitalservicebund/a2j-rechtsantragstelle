@@ -147,7 +147,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               guard: guards.staatlicheLeistungenIsKeine,
               target: stepIds.einkommen,
             },
-            subflowPrefix === "partner" ? "#kinder" : "#persoenliche-daten",
+            subflowPrefix === "partner" ? "#kinder" : "#gesetzliche-vertretung",
           ],
           BACK:
             subflowPrefix === "partner"
