@@ -1,5 +1,5 @@
 {
-  "id": "grundvorraussetzungen",
+  "id": "grundvoraussetzungen",
   "initial": "prozessfaehig",
   "states": {
     "prozessfaehig": {
@@ -25,7 +25,7 @@
         "SUBMIT": [
           {
             "target": "#streitwert-kosten.gerichtskosten",
-            "guard": "grundvorraussetzungenDone"
+            "guard": "grundvoraussetzungenDone"
           }
         ],
         "BACK": "redirect-vorabcheck"

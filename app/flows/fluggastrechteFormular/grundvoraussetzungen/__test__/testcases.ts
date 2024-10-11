@@ -12,9 +12,9 @@ const machine: FlowStateMachine = createMachine(
 
 const happyPathSteps = [
   "intro/start",
-  "grundvorraussetzungen/prozessfaehig",
-  "grundvorraussetzungen/ausgleichszahlung",
-  "grundvorraussetzungen/zahlungsaufforderung",
+  "grundvoraussetzungen/prozessfaehig",
+  "grundvoraussetzungen/ausgleichszahlung",
+  "grundvoraussetzungen/zahlungsaufforderung",
 ];
 
 const cases = [
@@ -29,7 +29,7 @@ const cases = [
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;
 
-export const testCasesFluggastrechteFormularGrundvorraussetzungen = {
+export const testCasesFluggastrechteFormularGrundvoraussetzungen = {
   machine,
   cases,
 };
