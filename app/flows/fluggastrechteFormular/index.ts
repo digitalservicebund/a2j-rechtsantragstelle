@@ -7,8 +7,8 @@ import abgabeFlow from "./abgabe/flow.json";
 import type { FluggastrechtContext } from "./context";
 import { flugdatenDone } from "./flugdaten/doneFunctions";
 import flugdatenFlow from "./flugdaten/flow.json";
-import { grundvorraussetzungenDone } from "./grundvorraussetzungen/doneFunctions";
-import grundvorraussetzungenFlow from "./grundvorraussetzungen/flow.json";
+import { grundvoraussetzungenDone } from "./grundvoraussetzungen/doneFunctions";
+import grundvoraussetzungenFlow from "./grundvoraussetzungen/flow.json";
 import { fluggastrechteGuards } from "./guards";
 import {
   personDone,
@@ -74,13 +74,13 @@ export const fluggastrechtFlow = {
         states: {
           start: {
             on: {
-              SUBMIT: "#grundvorraussetzungen.prozessfaehig",
+              SUBMIT: "#grundvoraussetzungen.prozessfaehig",
             },
           },
         },
       },
-      grundvorraussetzungen: _.merge(grundvorraussetzungenFlow, {
-        meta: { done: grundvorraussetzungenDone },
+      grundvoraussetzungen: _.merge(grundvoraussetzungenFlow, {
+        meta: { done: grundvoraussetzungenDone },
       }),
       "streitwert-kosten": _.merge(streitwertKostenFlow, {
         meta: { done: streitwertKostenDone },
