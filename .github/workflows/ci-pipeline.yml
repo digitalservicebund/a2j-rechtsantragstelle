@@ -201,7 +201,19 @@ jobs:
 
   alert-pipeline-failure:
     name: Send failure message to Slack
-    if: failure()
+    needs:
+      [
+        code-quality,
+        get-content-file,
+        verify-local-e2e,
+        build-push-app-image,
+        deploy-staging,
+        deploy-preview,
+        verify-preview-e2e,
+        deploy-production,
+        test-production-text,
+      ]
+    if: always() && failure()
     runs-on: ubuntu-latest
     steps:
       - uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
