@@ -1,15 +1,13 @@
-import type { Context } from "~/flows/contexts";
-import type { GenericGuard } from "~/flows/guards.server";
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type {
+  Config,
+  FlowConfigTransitions,
+} from "~/services/flow/server/buildFlowController";
 import type { ProzesskostenhilfeGesetzlicheVertretung } from "./context";
 import { prozesskostenhilfeGesetzlicheVertretungDone } from "./doneFunctions";
 
-export function gesetzlicheVertretungXstateConfig(transitions?: {
-  backToCallingFlow?:
-    | string
-    | (string | { guard: GenericGuard<Context>; target: string })[];
-  nextFlowEntrypoint?: string;
-}): Config<ProzesskostenhilfeGesetzlicheVertretung> {
+export function gesetzlicheVertretungXstateConfig(
+  transitions?: FlowConfigTransitions,
+): Config<ProzesskostenhilfeGesetzlicheVertretung> {
   return {
     id: "gesetzliche-vertretung",
     initial: "frage",
@@ -23,7 +21,9 @@ export function gesetzlicheVertretungXstateConfig(transitions?: {
                 context.hasGesetzlicheVertretung === "yes",
               target: "daten",
             },
-            transitions?.nextFlowEntrypoint,
+            ...(Array.isArray(transitions?.nextFlowEntrypoint)
+              ? transitions.nextFlowEntrypoint
+              : [transitions?.nextFlowEntrypoint]),
           ],
           BACK: transitions?.backToCallingFlow,
         },

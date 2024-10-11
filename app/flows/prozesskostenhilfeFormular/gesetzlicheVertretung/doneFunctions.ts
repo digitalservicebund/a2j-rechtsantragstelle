@@ -1,4 +1,5 @@
 import type { GenericGuard } from "~/flows/guards.server";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import type { ProzesskostenhilfeGesetzlicheVertretung } from "./context";
 
 export const prozesskostenhilfeGesetzlicheVertretungDone: GenericGuard<
@@ -7,9 +8,11 @@ export const prozesskostenhilfeGesetzlicheVertretungDone: GenericGuard<
   Boolean(
     context.hasGesetzlicheVertretung === "no" ||
       (context.hasGesetzlicheVertretung === "yes" &&
-        context.gesetzlicheVertretungDaten?.vorname &&
-        context.gesetzlicheVertretungDaten?.nachname &&
-        context.gesetzlicheVertretungDaten?.strasseHausnummer &&
-        context.gesetzlicheVertretungDaten?.plz &&
-        context.gesetzlicheVertretungDaten?.ort),
+        objectKeysNonEmpty(context.gesetzlicheVertretungDaten, [
+          "vorname",
+          "nachname",
+          "strasseHausnummer",
+          "plz",
+          "ort",
+        ])),
   );
