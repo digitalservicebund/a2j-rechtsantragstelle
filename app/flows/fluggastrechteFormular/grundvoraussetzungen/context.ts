@@ -8,13 +8,13 @@ const fourYearsAgoSchema = createDateSchema({
   latest: () => today(),
 });
 
-export const fluggastrechtGrundvorraussetzungenDaten = {
+export const fluggastrechtGrundvoraussetzungenDaten = {
   zahlungsaufforderung: optionalOrSchema(fourYearsAgoSchema),
 };
 
 const _contextObject = z
-  .object(fluggastrechtGrundvorraussetzungenDaten)
+  .object(fluggastrechtGrundvoraussetzungenDaten)
   .partial();
-export type FluggastrechtGrundvorraussetzungenDaten = z.infer<
+export type FluggastrechtGrundvoraussetzungenDaten = z.infer<
   typeof _contextObject
 >;
