@@ -9,7 +9,7 @@ import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import { splatFromParams } from "~/services/params";
-import { CSRFKey } from "~/services/security/csrfKey";
+import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { validatorForFieldnames } from "~/services/validation/buildStepValidator";
 import type { loader } from "../formular.server";
 

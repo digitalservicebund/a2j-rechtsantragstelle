@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { BeratungshilfeVorabcheck } from "tests/e2e/pom/BeratungshilfeVorabcheck";
 import { CookieSettings } from "tests/e2e/pom/CookieSettings";
-import { csrfCountMax } from "~/services/security/csrfKey";
+import { csrfCountMax } from "~/services/security/csrf/csrfKey";
 
 let vorabcheck: BeratungshilfeVorabcheck;
 

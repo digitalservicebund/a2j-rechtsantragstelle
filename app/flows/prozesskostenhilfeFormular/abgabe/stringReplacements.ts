@@ -1,5 +1,9 @@
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import {
+  unterhaltBekommeIch,
+  unterhaltLeisteIch,
+} from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/context";
+import {
   erstantrag,
   nachueberpruefung,
   verfahrenAnwalt,
@@ -11,11 +15,11 @@ import {
 export const getAbgabeStrings = (
   context: ProzesskostenhilfeFormularContext,
 ) => {
-  // TODO: replace "false" with actual values once Antragstellende Person is complete
   return {
-    paysOrReceivesUnterhalt: false,
-    unterhaltLeisteIch: false,
-    unterhaltBekommeIch: false,
+    paysOrReceivesUnterhalt:
+      unterhaltBekommeIch({ context }) || unterhaltLeisteIch({ context }),
+    unterhaltLeisteIch: unterhaltLeisteIch({ context }),
+    unterhaltBekommeIch: unterhaltBekommeIch({ context }),
     versandAnalog: context.versandArt === "analog",
     versandDigitalAnwalt: versandDigitalAnwalt({ context }),
     versandDigitalGericht: versandDigitalGericht({ context }),
