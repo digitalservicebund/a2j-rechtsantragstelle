@@ -1,6 +1,14 @@
 import _ from "lodash";
+import { and } from "xstate";
 import type { Flow } from "~/flows/flows.server";
 import { getAbgabeStrings } from "~/flows/prozesskostenhilfeFormular/abgabe/stringReplacements";
+import {
+  couldLiveFromUnterhalt,
+  unterhaltLeisteIch,
+  type ProzesskostenhilfeAntragstellendePersonContext,
+} from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/context";
+import { getAntragstellendePersonStrings } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/stringReplacements";
+import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
@@ -10,6 +18,7 @@ import {
   partnerEinkuenfteGuards,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import {
+  nachueberpruefung,
   versandDigitalAnwalt,
   versandDigitalGericht,
   type ProzesskostenhilfeGrundvoraussetzungenContext,
@@ -17,6 +26,7 @@ import {
 import { grundvoraussetzungenXstateConfig } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/xStateConfig";
 import { prozesskostenhilfePersoenlicheDatenDone } from "~/flows/prozesskostenhilfeFormular/persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "~/flows/prozesskostenhilfeFormular/rechtsschutzversicherung/doneFunctions";
+import { getProzesskostenhilfeRsvXstateConfig } from "~/flows/prozesskostenhilfeFormular/rechtsschutzversicherung/xstateConfig";
 import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import {
@@ -45,7 +55,6 @@ import {
 } from "../shared/stringReplacements";
 import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechtsschutzversicherung/context";
-import { getProzesskostenhilfeRsvXstateConfig } from "./rechtsschutzversicherung/xstateConfig";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -63,16 +72,55 @@ export const prozesskostenhilfeFormular = {
     states: {
       start: { meta: { done: () => true } },
       grundvoraussetzungen: grundvoraussetzungenXstateConfig,
+      "antragstellende-person":
+        getProzesskostenhilfeAntragstellendePersonConfig({
+          backToCallingFlow: [
+            {
+              guard: ({ context }) =>
+                versandDigitalAnwalt({ context }) ||
+                versandDigitalGericht({ context }),
+              target:
+                "#grundvorsaussetzungen.einreichung.hinweis-digital-einreichung",
+            },
+            "#grundvorsaussetzungen.einreichung.hinweis-papier-einreichung",
+          ],
+          nextFlowEntrypoint: [
+            {
+              guard: ({ context }) => nachueberpruefung({ context }),
+              target: "#finanzielle-angaben",
+            },
+            "#rechtsschutzversicherung",
+          ],
+        }),
       rechtsschutzversicherung: getProzesskostenhilfeRsvXstateConfig({
         backToCallingFlow: [
           {
-            guard: ({ context }) =>
-              versandDigitalAnwalt({ context }) ||
-              versandDigitalGericht({ context }),
-            target:
-              "#grundvorsaussetzungen.einreichung.hinweis-digital-einreichung",
+            guard: unterhaltLeisteIch,
+            target: "#antragstellende-person.zwei-formulare",
           },
-          "#grundvorsaussetzungen.einreichung.hinweis-papier-einreichung",
+          {
+            guard: ({ context }) => context.unterhaltsanspruch === "keine",
+            target: "#antragstellende-person.unterhaltsanspruch",
+          },
+          {
+            guard: and([
+              ({ context }) => context.unterhaltsanspruch === "unterhalt",
+              ({ context }) => context.livesPrimarilyFromUnterhalt === "no",
+            ]),
+            target: "#antragstellende-person.unterhalt-hauptsaechliches-leben",
+          },
+          {
+            guard: and([
+              ({ context }) => context.unterhaltsanspruch === "unterhalt",
+              ({ context }) => context.livesPrimarilyFromUnterhalt === "yes",
+            ]),
+            target: "#antragstellende-person.eigenes-exemplar",
+          },
+          {
+            guard: couldLiveFromUnterhalt,
+            target: "#antragstellende-person.warum-keiner-unterhalt",
+          },
+          "#antragstellende-person.unterhalt-leben-frage",
         ],
         nextFlowEntrypoint: "#finanzielle-angaben",
       }),
@@ -235,7 +283,8 @@ export const prozesskostenhilfeFormular = {
                 context: ProzesskostenhilfeFormularContext;
               }) =>
                 prozesskostenhilfeFinanzielleAngabeDone({ context }) &&
-                rechtsschutzversicherungDone({ context }) &&
+                (rechtsschutzversicherungDone({ context }) ||
+                  context.formularArt === "nachueberpruefung") &&
                 prozesskostenhilfePersoenlicheDatenDone({
                   context,
                 }),
@@ -258,6 +307,7 @@ export const prozesskostenhilfeFormular = {
   stringReplacements: (context: ProzesskostenhilfeFormularContext) => ({
     ...getKinderStrings(context),
     ...getArrayIndexStrings(context),
+    ...getAntragstellendePersonStrings(context),
     ...eigentumZusammenfassungShowPartnerschaftWarnings(context),
     ...geldAnlagenStrings(context),
     ...getAbgabeStrings(context),
@@ -267,6 +317,7 @@ export const prozesskostenhilfeFormular = {
 
 export type ProzesskostenhilfeFormularContext =
   ProzesskostenhilfeGrundvoraussetzungenContext &
+    ProzesskostenhilfeAntragstellendePersonContext &
     ProzesskostenhilfeRechtsschutzversicherungContext &
     ProzesskostenhilfeFinanzielleAngabenContext &
     ProzesskostenhilfeGesetzlicheVertretung &
