@@ -55,7 +55,7 @@
     "axios": "^1.7.7",
     "classnames": "^2.5.1",
     "compression": "^1.7.4",
-    "cookie": "^0.7.2",
+    "cookie": "^1.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "express-rate-limit": "^7.4.1",
