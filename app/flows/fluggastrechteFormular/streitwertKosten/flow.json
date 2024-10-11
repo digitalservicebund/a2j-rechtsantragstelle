@@ -5,7 +5,7 @@
     "gerichtskosten": {
       "on": {
         "SUBMIT": "andere-kosten",
-        "BACK": "#grundvorraussetzungen.daten-uebernahme"
+        "BACK": "#grundvoraussetzungen.daten-uebernahme"
       }
     },
     "andere-kosten": {

@@ -2,10 +2,10 @@ import type { GenericGuard } from "~/flows/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import type { FluggastrechtContext } from "../context";
 
-export type FluggastrechteGrundvorraussetzungenDaten =
+export type FluggastrechteGrundvoraussetzungenDaten =
   GenericGuard<FluggastrechtContext>;
 
-export const grundvorraussetzungenDone: FluggastrechteGrundvorraussetzungenDaten =
+export const grundvoraussetzungenDone: FluggastrechteGrundvoraussetzungenDaten =
   ({ context }) => {
     return objectKeysNonEmpty(context, [
       "startAirport",
