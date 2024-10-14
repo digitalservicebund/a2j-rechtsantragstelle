@@ -1,6 +1,8 @@
 import _ from "lodash";
 import { and } from "xstate";
+import type { Context } from "~/flows/contexts";
 import type { Flow } from "~/flows/flows.server";
+import type { GenericGuard } from "~/flows/guards.server";
 import {
   couldLiveFromUnterhalt,
   unterhaltLeisteIch,
@@ -70,6 +72,15 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
     subflowPrefix === "partner"
       ? partnerEinkuenfteGuards
       : finanzielleAngabeEinkuenfteGuards;
+
+  /**
+   * Special case: we've already asked about Unterhalt during Antragstellende Person and should skip it
+   */
+  const shouldSkipUnterhalt: GenericGuard<Context> = ({ context }) => {
+    return (
+      subflowPrefix !== "partner" && context.unterhaltsanspruch === "unterhalt"
+    );
+  };
 
   return {
     id: stepIds.id,
@@ -376,6 +387,10 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               guard: guards.receivesPension,
               target: stepIds.rente,
             },
+            {
+              guard: shouldSkipUnterhalt,
+              target: stepIds.leistungen,
+            },
             stepIds.unterhaltFrage,
           ],
           BACK: [
@@ -393,7 +408,13 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
       },
       [stepIds.rente]: {
         on: {
-          SUBMIT: stepIds.unterhaltFrage,
+          SUBMIT: [
+            {
+              guard: shouldSkipUnterhalt,
+              target: stepIds.leistungen,
+            },
+            stepIds.unterhaltFrage,
+          ],
           BACK: stepIds.renteFrage,
         },
       },
@@ -446,6 +467,14 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
                 `#${stepIds.id}.${stepIds.weitereEinkuenfte}`,
               ],
               BACK: [
+                {
+                  guard: and([shouldSkipUnterhalt, guards.receivesPension]),
+                  target: `#${stepIds.id}.${stepIds.rente}`,
+                },
+                {
+                  guard: shouldSkipUnterhalt,
+                  target: `#${stepIds.id}.${stepIds.renteFrage}`,
+                },
                 {
                   guard: guards.receivesSupport,
                   target: `#${stepIds.id}.${stepIds.unterhalt}`,
