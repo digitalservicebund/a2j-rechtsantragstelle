@@ -1,6 +1,7 @@
 import {
   partnerBesondersAusgabenDone,
   partnerDone,
+  partnerSupportDone,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/doneFunctions";
 
 describe("Finanzielle Angaben doneFunctions", () => {
@@ -72,6 +73,39 @@ describe("Finanzielle Angaben doneFunctions", () => {
           },
         }),
       ).toBe(true);
+    });
+  });
+
+  describe("partnerSupportDone", () => {
+    it("should return false if the user hasn't stated yes or no", () => {
+      const done = partnerSupportDone({
+        context: { "partner-receivesSupport": undefined },
+      });
+      expect(done).toBe(false);
+    });
+
+    it("should return false if the user stated yes but hasn't entered the amount", () => {
+      const done = partnerSupportDone({
+        context: { "partner-receivesSupport": "yes" },
+      });
+      expect(done).toBe(false);
+    });
+
+    it("should return true if the user's partner doesn't receive a pension", () => {
+      const done = partnerSupportDone({
+        context: { "partner-receivesSupport": "no" },
+      });
+      expect(done).toBe(true);
+    });
+
+    it("should return true if the user's partner receives a pension and has entered the amount", () => {
+      const done = partnerSupportDone({
+        context: {
+          "partner-receivesSupport": "no",
+          "partner-supportAmount": "100",
+        },
+      });
+      expect(done).toBe(true);
     });
   });
 });
