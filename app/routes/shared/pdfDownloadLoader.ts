@@ -47,10 +47,10 @@ export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
     fetchAllFormFields(flowId),
   ]);
 
-  const prunnerUserData = pruneIrrelevantData(userData, flowId, formFields);
-  if (_.isEmpty(prunnerUserData)) return redirect(flowId);
+  const prunerUserData = pruneIrrelevantData(userData, flowId, formFields);
+  if (_.isEmpty(prunerUserData)) return redirect(flowId);
 
-  const fileContent = await pdfFunction(prunnerUserData);
+  const fileContent = await pdfFunction(prunerUserData);
   const fileSize = fileContent.length;
   const filename = filenameFunction();
 
