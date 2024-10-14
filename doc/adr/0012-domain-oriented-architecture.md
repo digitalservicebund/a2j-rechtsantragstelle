@@ -20,6 +20,7 @@ However, some parts of the domain configuration still reside in other modules, e
 ## Decision
 
 We want to make an effort to separate domain logic (i.e. configurations) even more from the application logic (e.g. how to interpret flow configurations).
+This can be considered a step towards [Configuration-Driven Architecture](https://www.bro-code.in/blog/configuration-driven-architecture).
 The goal is: If you want to add a new domain/form to the platform, you only have to touch _one_ place (maybe two, including `routes`), and it is very clear which one that is and what you have to/can configure there.
 We strive for the following naming:
 
