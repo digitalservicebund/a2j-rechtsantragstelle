@@ -109,11 +109,7 @@ export const loader = async ({
   context.debugId = debugId; // For showing in errors
 
   const currentFlow = flows[flowId];
-  const prunedUserData = await pruneIrrelevantData(
-    userData,
-    flowId,
-    formFields,
-  );
+  const prunedUserData = pruneIrrelevantData(userData, flowId, formFields);
   const userDataWithPageData = addPageDataToUserData(prunedUserData, {
     arrayIndexes,
   });
