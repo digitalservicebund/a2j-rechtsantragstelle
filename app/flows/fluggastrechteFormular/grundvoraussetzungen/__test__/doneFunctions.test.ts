@@ -1,8 +1,8 @@
-import { grundvorraussetzungenDone } from "../doneFunctions";
+import { grundvoraussetzungenDone } from "../doneFunctions";
 
 describe("doneFunctions", () => {
   it("should return true, if all the data were migrated", () => {
-    const actual = grundvorraussetzungenDone({
+    const actual = grundvoraussetzungenDone({
       context: {
         startAirport: "BER",
         endAirport: "FRA",
@@ -15,7 +15,7 @@ describe("doneFunctions", () => {
   });
 
   it("should return false, if start airport is missing", () => {
-    const actual = grundvorraussetzungenDone({
+    const actual = grundvoraussetzungenDone({
       context: {
         endAirport: "FRA",
         fluggesellschaft: "LH",
@@ -27,7 +27,7 @@ describe("doneFunctions", () => {
   });
 
   it("should return false, if bereich is missing", () => {
-    const actual = grundvorraussetzungenDone({
+    const actual = grundvoraussetzungenDone({
       context: {
         startAirport: "BER",
         endAirport: "FRA",
@@ -39,7 +39,7 @@ describe("doneFunctions", () => {
   });
 
   it("should return false, if all context is missing", () => {
-    const actual = grundvorraussetzungenDone({ context: {} });
+    const actual = grundvoraussetzungenDone({ context: {} });
 
     expect(actual).toBe(false);
   });

@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { expect, test } from "@playwright/test";
 import { startAbgabe } from "tests/e2e/flowPages/prozesskostenhilfe/formular/abgabe";
+import { startAntragstellendePerson } from "tests/e2e/flowPages/prozesskostenhilfe/formular/antragstellendePerson";
 import { startFinanzielleAngabenEinkuenfte } from "tests/e2e/flowPages/prozesskostenhilfe/formular/finanzielleAngabenEinkuenfte";
 import { startFinanzielleAngabenEinkuenftePartner } from "tests/e2e/flowPages/prozesskostenhilfe/formular/finanzielleAngabenEinkuenftePartner";
 import { startGrundvoraussetzungen } from "tests/e2e/flowPages/prozesskostenhilfe/formular/grundvoraussetzungen";
@@ -9,6 +10,7 @@ import { ProzesskostenhilfeFormular } from "tests/e2e/pom/ProzesskostenhilfeForm
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { startFinanzielleAngabenAusgaben } from "./finanzielleAngabenAusgaben";
 import { startFinanzielleAngabenEigentum } from "./finanzielleAngabenEigentum";
+import { startGesetzlicheVertretung } from "./gesetzlicheVertretung";
 import { startPersoenlicheDaten } from "./persoenlicheDaten";
 import { startRechtsschutzversicherung } from "./rechtsschutzversicherung";
 import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "../../shared/finanzielleAngaben/finanzielleAngabenAndereUnterhaltszahlungen";
@@ -51,7 +53,10 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
   // /prozesskostenhilfe/formular/grundvoraussetzungen/nachueberpruefung-frage
   await startGrundvoraussetzungen(page, prozesskostenhilfeFormular);
 
-  // /prozesskostenhilfe/formular/grundvoraussetzungen/nachueberpruefung-frage
+  // /prozesskostenhilfe/formular/antragstellende-person/empfaenger
+  await startAntragstellendePerson(page, prozesskostenhilfeFormular);
+
+  // /prozesskostenhilfe/formular/rechtsschutzversicherung/rsv-frage
   await startRechtsschutzversicherung(page, prozesskostenhilfeFormular);
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkommen/start
@@ -98,7 +103,7 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
   );
   await prozesskostenhilfeFormular.clickNext();
   await startFinanzielleAngabenAusgaben(page, prozesskostenhilfeFormular);
-
+  await startGesetzlicheVertretung(page, prozesskostenhilfeFormular);
   await startPersoenlicheDaten(page, prozesskostenhilfeFormular);
 
   await startAbgabe(page);

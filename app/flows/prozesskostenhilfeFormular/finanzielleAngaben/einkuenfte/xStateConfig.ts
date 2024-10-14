@@ -1,11 +1,19 @@
 import _ from "lodash";
+import { and } from "xstate";
+import type { Context } from "~/flows/contexts";
 import type { Flow } from "~/flows/flows.server";
+import type { GenericGuard } from "~/flows/guards.server";
+import {
+  couldLiveFromUnterhalt,
+  unterhaltLeisteIch,
+} from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/context";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import {
   finanzielleAngabeEinkuenfteGuards,
   partnerEinkuenfteGuards,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { nachueberpruefung } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
 import {
   isOrganizationCoverageNone,
   isOrganizationCoveragePartly,
@@ -65,6 +73,13 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
       ? partnerEinkuenfteGuards
       : finanzielleAngabeEinkuenfteGuards;
 
+  /**
+   * Special case: we've already asked the antragstellende Person about Unterhalt at the beginning of the Antrag and should skip it
+   */
+  const shouldSkipUnterhalt: GenericGuard<Context> = () => {
+    return subflowPrefix !== "partner";
+  };
+
   return {
     id: stepIds.id,
     initial:
@@ -78,6 +93,42 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
         on: {
           SUBMIT: stepIds.staatlicheLeistungen,
           BACK: [
+            {
+              guard: and([nachueberpruefung, unterhaltLeisteIch]),
+              target: "#antragstellende-person.zwei-formulare",
+            },
+            {
+              guard: and([
+                nachueberpruefung,
+                ({ context }) => context.unterhaltsanspruch === "keine",
+              ]),
+              target: "#antragstellende-person.unterhaltsanspruch",
+            },
+            {
+              guard: and([
+                nachueberpruefung,
+                ({ context }) => context.unterhaltsanspruch === "unterhalt",
+                ({ context }) => context.livesPrimarilyFromUnterhalt === "no",
+              ]),
+              target:
+                "#antragstellende-person.unterhalt-hauptsaechliches-leben",
+            },
+            {
+              guard: and([
+                nachueberpruefung,
+                ({ context }) => context.unterhaltsanspruch === "unterhalt",
+                ({ context }) => context.livesPrimarilyFromUnterhalt === "yes",
+              ]),
+              target: "#antragstellende-person.eigenes-exemplar",
+            },
+            {
+              guard: and([nachueberpruefung, couldLiveFromUnterhalt]),
+              target: "#antragstellende-person.warum-keiner-unterhalt",
+            },
+            {
+              guard: nachueberpruefung,
+              target: "#antragstellende-person.unterhalt-leben-frage",
+            },
             {
               guard: ({ context }) => isOrganizationCoveragePartly(context),
               target: "#rechtsschutzversicherung.org-deckung-teilweise",
@@ -105,7 +156,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               guard: guards.staatlicheLeistungenIsKeine,
               target: stepIds.einkommen,
             },
-            subflowPrefix === "partner" ? "#kinder" : "#persoenliche-daten",
+            subflowPrefix === "partner" ? "#kinder" : "#gesetzliche-vertretung",
           ],
           BACK:
             subflowPrefix === "partner"
@@ -334,6 +385,10 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               guard: guards.receivesPension,
               target: stepIds.rente,
             },
+            {
+              guard: shouldSkipUnterhalt,
+              target: stepIds.leistungen,
+            },
             stepIds.unterhaltFrage,
           ],
           BACK: [
@@ -351,7 +406,13 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
       },
       [stepIds.rente]: {
         on: {
-          SUBMIT: stepIds.unterhaltFrage,
+          SUBMIT: [
+            {
+              guard: shouldSkipUnterhalt,
+              target: stepIds.leistungen,
+            },
+            stepIds.unterhaltFrage,
+          ],
           BACK: stepIds.renteFrage,
         },
       },
@@ -359,7 +420,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
         on: {
           SUBMIT: [
             {
-              guard: guards.receivesSupport,
+              guard: partnerEinkuenfteGuards.receivesSupport,
               target: stepIds.unterhalt,
             },
             stepIds.leistungen,
@@ -405,7 +466,15 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               ],
               BACK: [
                 {
-                  guard: guards.receivesSupport,
+                  guard: and([shouldSkipUnterhalt, guards.receivesPension]),
+                  target: `#${stepIds.id}.${stepIds.rente}`,
+                },
+                {
+                  guard: shouldSkipUnterhalt,
+                  target: `#${stepIds.id}.${stepIds.renteFrage}`,
+                },
+                {
+                  guard: partnerEinkuenfteGuards.receivesSupport,
                   target: `#${stepIds.id}.${stepIds.unterhalt}`,
                 },
                 `#${stepIds.id}.${stepIds.unterhaltFrage}`,

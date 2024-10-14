@@ -13,10 +13,10 @@ import {
 } from "~/services/cms/index.server";
 import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiHeading";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { logError } from "~/services/logging";
+import { logWarning } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";
 import { parentFromParams } from "~/services/params";
-import { validatedSession } from "~/services/security/csrf.server";
+import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import {
   getSessionData,
   getSessionManager,
@@ -119,10 +119,9 @@ export const loader = async ({
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  try {
-    await validatedSession(request);
-  } catch (csrfError) {
-    logError({ error: csrfError });
+  const resultValidatedSession = await validatedSession(request);
+  if (resultValidatedSession.isErr) {
+    logWarning(resultValidatedSession.error);
     throw new Response(null, { status: 403 });
   }
 
