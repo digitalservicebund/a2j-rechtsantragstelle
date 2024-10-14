@@ -74,12 +74,10 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
       : finanzielleAngabeEinkuenfteGuards;
 
   /**
-   * Special case: we've already asked about Unterhalt during Antragstellende Person and should skip it
+   * Special case: we've already asked the antragstellende Person about Unterhalt during Grundvoraussetzungen and should skip it
    */
-  const shouldSkipUnterhalt: GenericGuard<Context> = ({ context }) => {
-    return (
-      subflowPrefix !== "partner" && context.unterhaltsanspruch === "unterhalt"
-    );
+  const shouldSkipUnterhalt: GenericGuard<Context> = () => {
+    return subflowPrefix !== "partner";
   };
 
   return {
