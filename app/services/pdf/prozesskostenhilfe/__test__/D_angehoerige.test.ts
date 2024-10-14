@@ -1,8 +1,17 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
+import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import { fillAngehoerige } from "~/services/pdf/prozesskostenhilfe/D_angehoerige";
 
 let pdfParams: ProzesskostenhilfePDF;
+const userData: ProzesskostenhilfeFormularContext = {
+  partnerschaft: "yes",
+  zusammenleben: "no",
+  unterhalt: "yes",
+  unterhaltsSumme: "100",
+  partnerVorname: "Max",
+  partnerNachname: "Mustermann",
+};
 
 describe("D_angehoerige", () => {
   beforeEach(() => {
@@ -10,66 +19,82 @@ describe("D_angehoerige", () => {
   });
 
   describe("fillAngehoerige", () => {
-    it("should indicate if the user has a partner", () => {
+    it("should fill the Angehoerige section if the user has a partner they don't live with but pay support to", () => {
       const { pdfValues } = fillAngehoerige({
-        userData: {
-          partnerschaft: "yes",
-        },
+        userData,
         pdfValues: pdfParams,
       });
-      expect(pdfValues.verhaeltnis1.value).toBe("Ehepartner");
-    });
-
-    it("should print the partner's first and last name, if present", () => {
-      let { pdfValues } = fillAngehoerige({
-        userData: {
-          partnerschaft: "yes",
-          partnerVorname: "Max",
-          partnerNachname: "Mustermann",
-        },
-        pdfValues: pdfParams,
-      });
-      expect(pdfValues.angehoerigerNummereins.value).toBe("Max Mustermann");
-
-      pdfParams = getProzesskostenhilfeParameters();
-      ({ pdfValues } = fillAngehoerige({
-        userData: {
-          partnerschaft: "yes",
-        },
-        pdfValues: pdfParams,
-      }));
-      expect(pdfValues.angehoerigerNummereins.value).toBeUndefined();
-    });
-
-    it("should print the user's support obligation, if present", () => {
-      const { pdfValues } = fillAngehoerige({
-        userData: {
-          partnerschaft: "yes",
-          unterhalt: "yes",
-          unterhaltsSumme: "100",
-        },
-        pdfValues: pdfParams,
-      });
+      expect(pdfValues.verhaeltnis1.value).toBe("Ehegatte/Partner:in");
+      expect(pdfValues.angehoerigerNummereins.value).toBe(
+        "Max Mustermann, lebt getrennt",
+      );
       expect(pdfValues.monatsbetrag1.value).toBe("100 €");
     });
 
-    it("should correctly indicate if the user's partner earns income", () => {
-      let { pdfValues } = fillAngehoerige({
+    it("should skip the Angehoerige section if the user has no partner", () => {
+      const { pdfValues } = fillAngehoerige({
         userData: {
-          partnerschaft: "yes",
-          partnerEinkommen: "yes",
+          ...userData,
+          partnerschaft: "no",
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_4.value).toBe(true);
+      expect(pdfValues.verhaeltnis1.value).toBeUndefined();
+      expect(pdfValues.angehoerigerNummereins.value).toBeUndefined();
+      expect(pdfValues.monatsbetrag1.value).toBeUndefined();
+    });
 
-      ({ pdfValues } = fillAngehoerige({
+    it("should skip the Angehoerige section if the user lives with their partner", () => {
+      const { pdfValues } = fillAngehoerige({
         userData: {
-          partnerschaft: "yes",
+          ...userData,
+          zusammenleben: "yes",
         },
         pdfValues: pdfParams,
-      }));
-      expect(pdfValues.eigeneEinnahmen1.value).toBe(true);
+      });
+      expect(pdfValues.verhaeltnis1.value).toBeUndefined();
+      expect(pdfValues.angehoerigerNummereins.value).toBeUndefined();
+      expect(pdfValues.monatsbetrag1.value).toBeUndefined();
+    });
+
+    it("should skip the Angehoerige section if the user does not pay support to their partner", () => {
+      const { pdfValues } = fillAngehoerige({
+        userData: {
+          ...userData,
+          unterhalt: "no",
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.verhaeltnis1.value).toBeUndefined();
+      expect(pdfValues.angehoerigerNummereins.value).toBeUndefined();
+      expect(pdfValues.monatsbetrag1.value).toBeUndefined();
+    });
+
+    it("should skip the Angehoerige section if the user has not filled out the support amount", () => {
+      const { pdfValues } = fillAngehoerige({
+        userData: {
+          ...userData,
+          unterhaltsSumme: undefined,
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.verhaeltnis1.value).toBeUndefined();
+      expect(pdfValues.angehoerigerNummereins.value).toBeUndefined();
+      expect(pdfValues.monatsbetrag1.value).toBeUndefined();
+    });
+
+    it("should skip the Angehoerige section if the user has not filled out the partner's name", () => {
+      const { pdfValues } = fillAngehoerige({
+        userData: {
+          ...userData,
+          partnerVorname: undefined,
+          partnerNachname: undefined,
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.verhaeltnis1.value).toBeUndefined();
+      expect(pdfValues.angehoerigerNummereins.value).toBeUndefined();
+      expect(pdfValues.monatsbetrag1.value).toBeUndefined();
     });
   });
 });

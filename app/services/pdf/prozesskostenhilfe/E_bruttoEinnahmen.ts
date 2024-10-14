@@ -30,6 +30,26 @@ export const fillStaatlicheLeistungen: PkhPdfFillFunction = ({
   return { pdfValues };
 };
 
+export const fillStaatlicheLeistungenPartner: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  if (userData["partner-staatlicheLeistungen"] === "buergergeld") {
+    pdfValues.ja_29.value = true;
+    pdfValues.monatlicheBruttoeinnahmenH10.value = `${userData["partner-buergergeld"]} €`;
+  } else {
+    pdfValues.nein_30.value = true;
+  }
+
+  if (userData["partner-staatlicheLeistungen"] === "arbeitslosengeld") {
+    pdfValues.ja_27.value = true;
+    pdfValues.monatlicheBruttoeinnahmenH9.value = `${userData["partner-arbeitslosengeld"]} €`;
+  } else {
+    pdfValues.nein_28.value = true;
+  }
+  return { pdfValues };
+};
+
 export const fillEinkommenType: PkhPdfFillFunction = ({
   userData,
   pdfValues,
@@ -44,6 +64,38 @@ export const fillEinkommenType: PkhPdfFillFunction = ({
     if (guards.isEmployee({ context: userData })) {
       pdfValues.ja_9.value = true;
       pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro.value = `${userData.nettoEinkuenfteAlsArbeitnehmer} €`;
+    } else {
+      pdfValues.nein_10.value = true;
+    }
+    if (guards.isSelfEmployed({ context: userData })) {
+      pdfValues.ja_11.value = true;
+      pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3.value = `${userData.selbststaendigMonatlichesEinkommen} € ${userData.selbststaendigBruttoNetto}`;
+    } else {
+      pdfValues.nein_12.value = true;
+    }
+  }
+  return { pdfValues };
+};
+
+export const fillEinkommenTypePartner: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  if (
+    userData["partner-currentlyEmployed"] === "no" ||
+    userData["partner-staatlicheLeistungen"] === "asylbewerberleistungen" ||
+    userData["partner-staatlicheLeistungen"] === "grundsicherung"
+  ) {
+    pdfValues.nein_23.value = true;
+    pdfValues.nein_25.value = true;
+  } else {
+    if (
+      userData["partner-employmentType"] === "employed" ||
+      userData["partner-employmentType"] === "employedAndSelfEmployed"
+    ) {
+      pdfValues.ja_22.value = true;
+      pdfValues.monatlicheBruttoeinnahmenH1.value = `${userData["partner-nettoEinkuenfteAlsArbeitnehmer"]} €`;
+      // TODO: continue here
     } else {
       pdfValues.nein_10.value = true;
     }
@@ -195,6 +247,21 @@ export const fillBruttoEinnahmen: PkhPdfFillFunction = ({
   const { pdfValues: filledValues, attachment } = pdfFillReducer({
     userData,
     pdfParams: pdfValues,
+    fillFunctions: [fillSelfBruttoEinnahmen, fillPartnerBruttoEinnahmen],
+  });
+  return {
+    pdfValues: filledValues,
+    attachment,
+  };
+};
+
+export const fillSelfBruttoEinnahmen: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  const { pdfValues: filledValues, attachment } = pdfFillReducer({
+    userData,
+    pdfParams: pdfValues,
     fillFunctions: [
       fillStaatlicheLeistungen,
       fillEinkommenType,
@@ -212,6 +279,37 @@ export const fillBruttoEinnahmen: PkhPdfFillFunction = ({
     attachment:
       attachment.length > 0
         ? [{ title: "E Brutto Einnahmen", level: "h2" }, ...attachment]
+        : [],
+  };
+};
+
+export const fillPartnerBruttoEinnahmen: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  const { pdfValues: filledValues, attachment } = pdfFillReducer({
+    userData,
+    pdfParams: pdfValues,
+    fillFunctions: [
+      fillStaatlicheLeistungenPartner,
+      fillEinkommenTypePartner,
+      // fillRentePartner,
+      // fillSupportPartner,
+      // fillAndereLeistungenPartner,
+      // fillWeitereEinkuenftePartner,
+    ],
+  });
+
+  pdfValues.nein_27.value = true;
+  pdfValues.nein_29.value = true;
+  return {
+    pdfValues: filledValues,
+    attachment:
+      attachment.length > 0
+        ? [
+            { title: "E Brutto Einnahmen - Partner:in", level: "h2" },
+            ...attachment,
+          ]
         : [],
   };
 };
