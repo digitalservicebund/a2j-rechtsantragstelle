@@ -69,7 +69,3 @@ Expected Benefits:
 - It is clear where to add a new domain/form to the application.
 - It is very clear when I as a developer edit domain-specific logic and when I add things to the overarching application logic.
 - Possibly: Domains do not "interfere" with each other quite that much as they are kept separate.
-
-Expected drawbacks:
-
-- There might be more communication efforts necessary when changing application logic as it affects other/all domains.
