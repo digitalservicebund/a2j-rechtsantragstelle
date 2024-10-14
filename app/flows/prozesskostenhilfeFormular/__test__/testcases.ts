@@ -141,6 +141,8 @@ const cases = [
       "finanzielle-angaben/ausgaben/ausgaben-frage",
       "finanzielle-angaben/ausgaben/besondere-belastungen",
       "finanzielle-angaben/ausgaben-zusammenfassung/zusammenfassung",
+      "gesetzliche-vertretung/frage",
+      "gesetzliche-vertretung/daten",
       "persoenliche-daten/start",
       "persoenliche-daten/name",
       "persoenliche-daten/geburtsdatum",
