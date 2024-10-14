@@ -39,7 +39,7 @@ The goal is to provide a comprehensible overview of the status quo and identify 
 
 ### Test Coverage
 
-- **Coverage Reports**: Coverage is captured using Vitest. Reports can be generated using `npm run test:coverage`. We use `istanbul` to generate coverage reports.
+- **Coverage Reports**: Coverage is captured using `vitest` and therefore analyzed for all tests that are executed by that runner: unit and integration tests (not e2e tests which run with Playwright). Reports can be generated using `npm run test:coverage`. We use `istanbul` to generate coverage reports.
 - **Coverage Gaps**: tbd
 
 ### Test Frameworks and Tools
@@ -49,7 +49,7 @@ The goal is to provide a comprehensible overview of the status quo and identify 
   - Playwright: Framework for end-to-end testing.
   - React Testing Library: Used for testing React components.
 - **Tools**:
-  - Lefthook: Used to enforce pre-commit vitest test runs (and type checking and linting).
+  - Lefthook: Used to enforce pre-commit `vitest` test runs (and type checking and linting).
   - Faker: Used to generate test data.
   - Fishery: Used to create test data factories.
 
