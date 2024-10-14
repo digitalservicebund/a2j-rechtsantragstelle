@@ -43,7 +43,7 @@ export const partnerEinkuenfteDone: ProzesskostenhilfeFinanzielleAngabenGuard =
             .map(([key, val]) => [key.replace("partner-", ""), val]),
         ),
       },
-    });
+    }) && partnerSupportDone({ context });
 
 export const partnerBesondersAusgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
@@ -157,3 +157,12 @@ export const hasRatenzahlungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 
 export const hasSonstigeAusgabeDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) => arrayIsNonEmpty(context.sonstigeAusgaben);
+
+export const partnerSupportDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) => {
+  if (context["partner-receivesSupport"] === undefined) return false;
+  return context["partner-receivesSupport"] === "yes"
+    ? context["partner-supportAmount"] !== undefined
+    : true;
+};

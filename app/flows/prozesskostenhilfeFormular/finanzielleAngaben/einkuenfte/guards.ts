@@ -51,7 +51,6 @@ export const finanzielleAngabeEinkuenfteGuards = {
     context: { pageData, arbeitsausgaben },
   }) => isValidArrayIndex(arbeitsausgaben, pageData),
   receivesPension: ({ context }) => context.receivesPension === "yes",
-  receivesSupport: ({ context }) => context.receivesSupport === "yes",
   hasWohngeld: ({ context: { hasWohngeld } }) => hasWohngeld === "on",
   hasKrankengeld: ({ context: { hasKrankengeld } }) => hasKrankengeld === "on",
   hasElterngeld: ({ context: { hasElterngeld } }) => hasElterngeld === "on",
