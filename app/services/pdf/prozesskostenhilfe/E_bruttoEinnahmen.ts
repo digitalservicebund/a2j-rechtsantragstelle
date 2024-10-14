@@ -124,6 +124,24 @@ export const fillRente: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   return { pdfValues };
 };
 
+export const fillRentePartner: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  if (
+    !partnerGuards.hasGrundsicherungOrAsylbewerberleistungen({
+      context: userData,
+    }) &&
+    partnerGuards.receivesPension({ context: userData })
+  ) {
+    pdfValues.ja_25.value = true;
+    pdfValues.monatlicheBruttoeinnahmenH8.value = `${userData["partner-pensionAmount"]} €`;
+  } else {
+    pdfValues.nein_26.value = true;
+  }
+  return { pdfValues };
+};
+
 export const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   if (
     !guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData }) &&
@@ -133,6 +151,24 @@ export const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
     pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9.value = `${userData.supportAmount} €`;
   } else {
     pdfValues.nein_11.value = true;
+  }
+  return { pdfValues };
+};
+
+export const fillSupportPartner: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  if (
+    !partnerGuards.hasGrundsicherungOrAsylbewerberleistungen({
+      context: userData,
+    }) &&
+    partnerGuards.receivesSupport({ context: userData })
+  ) {
+    pdfValues.ja_23.value = true;
+    pdfValues.belegnummerH17.value = `${userData["partner-supportAmount"]} €`;
+  } else {
+    pdfValues.nein_24.value = true;
   }
   return { pdfValues };
 };
@@ -295,8 +331,8 @@ export const fillPartnerBruttoEinnahmen: PkhPdfFillFunction = ({
     fillFunctions: [
       fillStaatlicheLeistungenPartner,
       fillEinkommenTypePartner,
-      // fillRentePartner,
-      // fillSupportPartner,
+      fillRentePartner,
+      fillSupportPartner,
       // fillAndereLeistungenPartner,
       // fillWeitereEinkuenftePartner,
     ],
