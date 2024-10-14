@@ -216,6 +216,57 @@ export const fillAndereLeistungen: PkhPdfFillFunction = ({
   return { pdfValues };
 };
 
+export const fillAndereLeistungenPartner: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  if (
+    !partnerGuards.hasGrundsicherungOrAsylbewerberleistungen({
+      context: userData,
+    }) &&
+    partnerGuards.hasWohngeld({ context: userData })
+  ) {
+    pdfValues.ja_32.value = true;
+    pdfValues.monatlicheBruttoeinnahmenH6.value = `${userData["partner-wohngeldAmount"]} €`;
+  } else {
+    pdfValues.nein_33.value = true;
+  }
+  if (
+    !partnerGuards.hasGrundsicherungOrAsylbewerberleistungen({
+      context: userData,
+    }) &&
+    partnerGuards.hasKrankengeld({ context: userData })
+  ) {
+    pdfValues.ja_31.value = true;
+    pdfValues.monatlicheBruttoeinnahmenH11.value = `${userData["partner-krankengeldAmount"]} €`;
+  } else {
+    pdfValues.nein_32.value = true;
+  }
+  if (
+    !partnerGuards.hasGrundsicherungOrAsylbewerberleistungen({
+      context: userData,
+    }) &&
+    partnerGuards.hasElterngeld({ context: userData })
+  ) {
+    pdfValues.ja_33.value = true;
+    pdfValues.monatlicheBruttoeinnahmenH12.value = `${userData["partner-elterngeldAmount"]} €`;
+  } else {
+    pdfValues.nein_34.value = true;
+  }
+  if (
+    !partnerGuards.hasGrundsicherungOrAsylbewerberleistungen({
+      context: userData,
+    }) &&
+    partnerGuards.hasKindergeld({ context: userData })
+  ) {
+    pdfValues.ja_30.value = true;
+    pdfValues.monatlicheBruttoeinnahmenH5.value = `${userData["partner-kindergeldAmount"]} €`;
+  } else {
+    pdfValues.nein_31.value = true;
+  }
+  return { pdfValues };
+};
+
 export const fillWeitereEinkuenfte: PkhPdfFillFunction = ({
   userData,
   pdfValues,
@@ -278,6 +329,76 @@ export const fillWeitereEinkuenfte: PkhPdfFillFunction = ({
   return { pdfValues };
 };
 
+export const fillWeitereEinkuenftePartner: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  if (
+    !userData["partner-weitereEinkuenfte"] &&
+    !partnerGuards.hasGrundsicherungOrAsylbewerberleistungen({
+      context: userData,
+    })
+  ) {
+    pdfValues.nein_35.value = true;
+    return { pdfValues };
+  }
+
+  pdfValues.ja_35.value = true;
+
+  if (
+    partnerGuards.hasGrundsicherungOrAsylbewerberleistungen({
+      context: userData,
+    })
+  ) {
+    pdfValues[
+      "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
+    ].value =
+      userData["partner-staatlicheLeistungen"] === "asylbewerberleistungen"
+        ? "Asylbewerberleistungen"
+        : "Grundsicherung oder Sozialhilfe";
+  }
+
+  if (
+    !userData["partner-weitereEinkuenfte"] ||
+    userData["partner-weitereEinkuenfte"].length == 0
+  )
+    return { pdfValues };
+
+  if (userData["partner-weitereEinkuenfte"].length > 2) {
+    const attachment: AttachmentEntries = [];
+    pdfValues[
+      "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
+    ].value = newPageHint;
+
+    attachment.push({ title: "2. Andere Einnahmen", level: "h3" });
+    userData["partner-weitereEinkuenfte"].forEach((entry) => {
+      attachment.push({
+        title: entry.beschreibung,
+        text: `${entry.betrag} € (${zahlungsfrequenzMapping[entry.zahlungsfrequenz]})`,
+      });
+    });
+    return { pdfValues, attachment };
+  }
+
+  pdfValues[
+    "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
+  ].value =
+    userData["partner-weitereEinkuenfte"][0].beschreibung +
+    ` (${zahlungsfrequenzMapping[userData["partner-weitereEinkuenfte"][0].zahlungsfrequenz]})`;
+  pdfValues.euroBrutto3.value = `${userData["partner-weitereEinkuenfte"][0].betrag} €`;
+
+  if (userData["partner-weitereEinkuenfte"].length === 2) {
+    pdfValues[
+      "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben2"
+    ].value =
+      userData["partner-weitereEinkuenfte"][1].beschreibung +
+      ` (${zahlungsfrequenzMapping[userData["partner-weitereEinkuenfte"][1].zahlungsfrequenz]})`;
+    pdfValues.euroBrutto4.value = `${userData["partner-weitereEinkuenfte"][1].betrag} €`;
+  }
+
+  return { pdfValues };
+};
+
 export const fillBruttoEinnahmen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
@@ -333,8 +454,8 @@ export const fillPartnerBruttoEinnahmen: PkhPdfFillFunction = ({
       fillEinkommenTypePartner,
       fillRentePartner,
       fillSupportPartner,
-      // fillAndereLeistungenPartner,
-      // fillWeitereEinkuenftePartner,
+      fillAndereLeistungenPartner,
+      fillWeitereEinkuenftePartner,
     ],
   });
 

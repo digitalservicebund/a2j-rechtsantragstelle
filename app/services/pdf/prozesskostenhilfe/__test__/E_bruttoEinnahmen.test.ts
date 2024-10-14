@@ -5,6 +5,7 @@ import { createFinancialEntry } from "tests/fixtures/prozesskostenhilfeFormularD
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import {
   fillAndereLeistungen,
+  fillAndereLeistungenPartner,
   fillEinkommenType,
   fillEinkommenTypePartner,
   fillRente,
@@ -13,6 +14,7 @@ import {
   fillStaatlicheLeistungenPartner,
   fillSupportPartner,
   fillWeitereEinkuenfte,
+  fillWeitereEinkuenftePartner,
 } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen";
 import { newPageHint } from "../../attachment";
 
@@ -483,6 +485,64 @@ describe("E_bruttoEinnahmen", () => {
     });
   });
 
+  describe("fillAndereLeistungenPartner", () => {
+    it('check "no" for all other leistungen fields if none are selected', () => {
+      const { pdfValues } = fillAndereLeistungenPartner({
+        userData: {},
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.nein_33.value).toBe(true);
+      expect(pdfValues.nein_32.value).toBe(true);
+      expect(pdfValues.nein_34.value).toBe(true);
+      expect(pdfValues.nein_31.value).toBe(true);
+    });
+
+    it("should indicate if a user's partner receives Wohngeld", () => {
+      const { pdfValues } = fillAndereLeistungenPartner({
+        userData: {
+          "partner-hasWohngeld": CheckboxValue.on,
+          "partner-wohngeldAmount": "100",
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_32.value).toBe(true);
+      expect(pdfValues.monatlicheBruttoeinnahmenH6.value).toBe("100 €");
+    });
+    it("should indicate if a user's partner receives Krankengeld", () => {
+      const { pdfValues } = fillAndereLeistungenPartner({
+        userData: {
+          "partner-hasKrankengeld": CheckboxValue.on,
+          "partner-krankengeldAmount": "250",
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_31.value).toBe(true);
+      expect(pdfValues.monatlicheBruttoeinnahmenH11.value).toBe("250 €");
+    });
+    it("should indicate if a user's partner receives Elterngeld", () => {
+      const { pdfValues } = fillAndereLeistungenPartner({
+        userData: {
+          "partner-hasElterngeld": CheckboxValue.on,
+          "partner-elterngeldAmount": "50",
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_33.value).toBe(true);
+      expect(pdfValues.monatlicheBruttoeinnahmenH12.value).toBe("50 €");
+    });
+    it("should indicate if a user's partner receives Kindergeld", () => {
+      const { pdfValues } = fillAndereLeistungenPartner({
+        userData: {
+          "partner-hasKindergeld": CheckboxValue.on,
+          "partner-kindergeldAmount": "10000",
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_30.value).toBe(true);
+      expect(pdfValues.monatlicheBruttoeinnahmenH5.value).toBe("10000 €");
+    });
+  });
+
   describe("fillWeitereEinkuenfte", () => {
     it("check \"no\" if the user doesn't have any weitere Einkuenfte and doesn't receive staatliche Leistungen", () => {
       const { pdfValues } = fillWeitereEinkuenfte({
@@ -582,6 +642,120 @@ describe("E_bruttoEinnahmen", () => {
       expect(
         pdfValues[
           "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
+        ].value,
+      ).toBe(newPageHint);
+      expect(attachment?.length).toBeGreaterThan(0);
+      expect(attachment?.at(0)).toEqual({
+        level: "h3",
+        title: "2. Andere Einnahmen",
+      });
+      expect(attachment?.at(1)?.text).toContain(" €");
+      threeEinkuenfte.forEach((einkunft, index) => {
+        expect(attachment?.at(1 + index)?.text).contain(einkunft.betrag);
+        expect(attachment?.at(1 + index)?.title).contain(einkunft.beschreibung);
+      });
+    });
+  });
+
+  describe("fillWeitereEinkuenftePartner", () => {
+    it("check \"no\" if the user's partner doesn't have any weitere Einkuenfte and doesn't receive staatliche Leistungen", () => {
+      const { pdfValues } = fillWeitereEinkuenftePartner({
+        userData: {},
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.nein_35.value).toBe(true);
+    });
+
+    it("should indicate Asylbewerberleistungen", () => {
+      const { pdfValues } = fillWeitereEinkuenftePartner({
+        userData: { "partner-staatlicheLeistungen": "asylbewerberleistungen" },
+        pdfValues: pdfParams,
+      });
+      expect(
+        pdfValues[
+          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
+        ].value,
+      ).toBe("Asylbewerberleistungen");
+    });
+
+    it("should indicate Grundsicherung", () => {
+      const { pdfValues } = fillWeitereEinkuenftePartner({
+        userData: { "partner-staatlicheLeistungen": "grundsicherung" },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_35.value).toBe(true);
+      expect(
+        pdfValues[
+          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
+        ].value,
+      ).toBe("Grundsicherung oder Sozialhilfe");
+    });
+
+    it("should indicate if the user's partner has one additional Einkunft", () => {
+      const singleEinkunft = createFinancialEntry();
+      const { pdfValues } = fillWeitereEinkuenftePartner({
+        userData: {
+          "partner-hasFurtherIncome": "yes",
+          "partner-weitereEinkuenfte": [singleEinkunft],
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_35.value).toBe(true);
+      expect(
+        pdfValues[
+          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
+        ].value,
+      ).toContain(singleEinkunft.beschreibung);
+      expect(pdfValues.euroBrutto3.value).toBe(`${singleEinkunft.betrag} €`);
+
+      // Second field should remain blank
+      expect(
+        pdfValues[
+          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben2"
+        ].value,
+      ).toBeUndefined();
+      expect(pdfValues.euroBrutto4.value).toBeUndefined();
+    });
+
+    it("should indicate if the user's partner has two additional Einkuenfte", () => {
+      const twoEinkuenfte = faker.helpers.multiple(createFinancialEntry, {
+        count: 2,
+      });
+      const { pdfValues } = fillWeitereEinkuenftePartner({
+        userData: { "partner-weitereEinkuenfte": twoEinkuenfte },
+        pdfValues: pdfParams,
+      });
+
+      expect(pdfValues.ja_35.value).toBe(true);
+      expect(
+        pdfValues[
+          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
+        ].value,
+      ).toContain(twoEinkuenfte[0].beschreibung);
+      expect(pdfValues.euroBrutto3.value).toBe(`${twoEinkuenfte[0].betrag} €`);
+
+      // Second field should also be filled
+      expect(
+        pdfValues[
+          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben2"
+        ].value,
+      ).toContain(twoEinkuenfte[1].beschreibung);
+      expect(pdfValues.euroBrutto4.value).toBe(`${twoEinkuenfte[1].betrag} €`);
+    });
+
+    it('should print "Siehe Anhang", the collective monthly amount, and add an attachment if there are more than 2 Einkuenfte', () => {
+      const threeEinkuenfte = faker.helpers.multiple(createFinancialEntry, {
+        count: 3,
+      });
+
+      const { pdfValues, attachment } = fillWeitereEinkuenftePartner({
+        userData: { "partner-weitereEinkuenfte": threeEinkuenfte },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_35.value).toBe(true);
+      expect(
+        pdfValues[
+          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
         ].value,
       ).toBe(newPageHint);
       expect(attachment?.length).toBeGreaterThan(0);
