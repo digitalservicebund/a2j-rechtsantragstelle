@@ -45,8 +45,6 @@ export const prozesskostenhilfeFinanzielleAngabenEinkuenfteContext = {
   arbeitsausgaben: z.array(financialEntrySchema),
   receivesPension: YesNoAnswer,
   pensionAmount: buildMoneyValidationSchema(),
-  receivesSupport: YesNoAnswer,
-  supportAmount: buildMoneyValidationSchema(),
   hasWohngeld: checkedOptional,
   hasKrankengeld: checkedOptional,
   hasElterngeld: checkedOptional,
