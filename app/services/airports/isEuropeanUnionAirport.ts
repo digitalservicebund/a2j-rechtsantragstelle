@@ -40,7 +40,11 @@ const EU_COUNTRIES = [
 export function isEuropeanUnionAirport(
   airportCode: string | undefined,
 ): Result<boolean, string> {
-  const airportCountry = getAirportByIataCode(airportCode ?? "")?.country_code;
+  if (typeof airportCode === "undefined") {
+    return Result.err("Airport not found");
+  }
+
+  const airportCountry = getAirportByIataCode(airportCode)?.country_code;
 
   if (typeof airportCountry === "undefined") {
     return Result.err("Airport not found");
