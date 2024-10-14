@@ -19,6 +19,7 @@ The goal is to provide a comprehensible overview of the status quo and identify 
   These tests typically include:
 
   - Utility functions: For example, in `/app/util/__test__/objects.test.ts`, unit tests check functions like `isKeyOfObject`, `objectMap`, and `dropEachProperty`.
+  - React component tests located in `/app/components/__test__`. These tests validate the rendering and behavior of React components. E.g. `/app/components/beratungshilfe/__test__/BeratungshilfeForm.test.tsx` tests the rendering and behavior of the Beratungshilfe form component.
 
 - **Integration Tests**:
   Integration tests validate the interaction between different parts of the application.
@@ -36,14 +37,6 @@ The goal is to provide a comprehensible overview of the status quo and identify 
   - State machine transitions: For example, `/tests/e2e/flowPages/beratungshilfe/vorabcheck/beratungshilfe.vorabcheck.spec.ts` tests the complete traversal of the Beratungshilfe Vorabcheck flow. Page accessibility is checked inconsistently across the e2e tests of the flows.
   - CSRF protection: Such as `/tests/e2e/common/csrf.spec.ts`, which validates CSRF token behavior across multiple tabs.
 
-- **React Component Tests**:
-  React component tests are located in the `/app/components/__test__` folder.
-  These tests validate the rendering and behavior of React components.
-  Examples include:
-
-  - `/app/components/beratungshilfe/__test__/BeratungshilfeForm.test.tsx` tests the rendering and behavior of the Beratungshilfe form component.
-  - `/app/components/beratungshilfe/__test__/BeratungshilfeVorabcheck.test.tsx` tests the rendering and behavior of the Beratungshilfe Vorabcheck component.
-
 ### Test Coverage
 
 - **Coverage Reports**: Coverage is captured using Vitest. Reports can be generated using `npm run test:coverage`. We use `istanbul` to generate coverage reports.
@@ -52,7 +45,7 @@ The goal is to provide a comprehensible overview of the status quo and identify 
 ### Test Frameworks and Tools
 
 - **Frameworks**:
-  - Vitest: Framework for unit, integration and component testing (replacing Jest as per [ADR0007](0007-vitest-test-runner.md))
+  - Vitest: Framework for unit and integration testing (replacing Jest as per [ADR0007](0007-vitest-test-runner.md))
   - Playwright: Framework for end-to-end testing.
   - React Testing Library: Used for testing React components.
 - **Tools**:
@@ -63,7 +56,7 @@ The goal is to provide a comprehensible overview of the status quo and identify 
 ### Test Organization
 
 - **Directory Structure**: See above under Test Types.
-- **Colocation**: Unit , integration and React component tests are colocated with the implementation. End-to-end tests are located in the `/tests/e2e` directory.
+- **Colocation**: Unit and integration tests are colocated with the implementation. End-to-end tests are located in the `/tests/e2e` directory.
 
 ### Test Quality
 
@@ -100,7 +93,7 @@ The end-to-end tests in in CI pipeline run in sharded mode, meaning that the tes
 - **Fixtures**:
   Fixtures are known data sets used in tests to ensure consistent test results.
   Fixtures for some of the flows are located in `/tests/e2e/fixtures`, all with a variable name `happyPathData`. Some of the fixtures represent a comprehensive possible state of a corresponding flow from start to end while others only represent a partial state.
-  They are used in several unit, integration and component tests. Some of the fixtures use `faker` to generate random data, while others are hardcoded.
+  They are used in several unit and integration tests. Some of the fixtures use `faker` to generate random data, while others are hardcoded.
 - **Factories**:
   Factories generate dynamic test data which is generated on demand.
   Factories are located in the `/tests/e2e/factories` directory. Most of them mock Strapi objects and are used in `/app/services/cms/__test__`. There are also factories for mocking objects of the `pdfkit` library. Some of the factoriy function follow a naming convention like `<reponsibility>Factory` (e.g. `strapiParagraphFactory`), whereas others don't.
