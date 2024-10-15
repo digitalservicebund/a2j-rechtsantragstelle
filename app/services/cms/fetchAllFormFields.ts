@@ -24,20 +24,20 @@ export async function fetchAllFormFields(
     .filter((formFlowPage) => formFlowPage !== null)
     .filter(({ attributes: { stepId, form } }) => form.length > 0 && stepId);
 
-  const [staging, result] = _.partition(
+  const [nonStagingEntries, stagingEntries] = _.partition(
     nonEmptyEntries,
-    ({ attributes: { locale } }) => locale === "sg",
-  ).map(fromStrapiSchemasToFormFields);
+    ({ attributes: { locale } }) => locale !== "sg",
+  ).map(formFieldsFromSchema);
 
   if (environment !== "production") {
     // inject staging flowpages
-    _.merge(result, staging);
+    return _.merge(nonStagingEntries, stagingEntries);
   }
 
-  return result;
+  return nonStagingEntries;
 }
 
-function fromStrapiSchemasToFormFields(
+function formFieldsFromSchema(
   schemas: StrapiSchemas["form-flow-pages"],
 ): FormFieldsMap {
   return Object.fromEntries(
