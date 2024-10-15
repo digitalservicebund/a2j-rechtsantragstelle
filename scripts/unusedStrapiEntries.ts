@@ -69,10 +69,14 @@ async function unusedStrapiEntry() {
   const [pagesWithStepId, pagesWithoutStepId] = partitionPagesByStepId(pages);
 
   if (pagesWithoutStepId.length > 0) {
-    console.warn(
-      `Found ${pagesWithoutStepId.length} pages without stepId: `,
-      pagesWithoutStepId,
-    );
+    console.warn(`Found ${pagesWithoutStepId.length} pages without stepId:`);
+    pagesWithoutStepId.forEach((page) => {
+      console.warn(
+        "FlowIds: ",
+        page.attributes.flow_ids.data.map((flowId) => flowId.attributes.flowId),
+        page,
+      );
+    });
   }
 
   const allUrlsFromXstateConfigs = Object.entries(flows).flatMap(
