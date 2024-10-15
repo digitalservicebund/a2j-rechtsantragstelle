@@ -6,6 +6,7 @@ import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { newPageHint } from "~/services/pdf/attachment";
 import {
   fillAndereLeistungenPartner,
+  fillBesondersHoheAusgabenPartner,
   fillEinkommenTypePartner,
   fillRentePartner,
   fillStaatlicheLeistungenPartner,
@@ -384,6 +385,28 @@ describe("bruttoEinnahmen_partner", () => {
         expect(attachment?.at(1 + index)?.text).contain(einkunft.betrag);
         expect(attachment?.at(1 + index)?.title).contain(einkunft.beschreibung);
       });
+    });
+  });
+
+  describe("fillBesondersHoheAusgabenPartner", () => {
+    it("should append an attachment if the user has entered an additional expense for their partner", () => {
+      const { attachment } = fillBesondersHoheAusgabenPartner({
+        userData: {
+          partnerHasBesondersAusgaben: "yes",
+          partnerBesondersAusgabe: {
+            beschreibung: "Woah so expensive",
+            betrag: "10000",
+          },
+        },
+        pdfValues: pdfParams,
+      });
+      expect(attachment?.length).toBeGreaterThan(0);
+      expect(attachment?.at(0)).toEqual({
+        level: "h3",
+        title: "Besonders Hohe Ausgaben",
+      });
+      expect(attachment?.at(1)?.title).toContain("Woah so expensive");
+      expect(attachment?.at(1)?.text).toContain("10000 € Monatlich");
     });
   });
 });

@@ -3,6 +3,7 @@ import { type AttachmentEntries, newPageHint } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import type { PkhPdfFillFunction } from "~/services/pdf/prozesskostenhilfe";
 import { zahlungsfrequenzMapping } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 export const fillStaatlicheLeistungenPartner: PkhPdfFillFunction = ({
   userData,
@@ -210,6 +211,28 @@ export const fillWeitereEinkuenftePartner: PkhPdfFillFunction = ({
   return { pdfValues };
 };
 
+export const fillBesondersHoheAusgabenPartner: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  const attachment: AttachmentEntries = [];
+  if (
+    userData["partnerHasBesondersAusgaben"] === "yes" &&
+    userData["partnerBesondersAusgabe"] &&
+    objectKeysNonEmpty(userData["partnerBesondersAusgabe"], [
+      "beschreibung",
+      "betrag",
+    ])
+  ) {
+    attachment.push({ title: "Besonders Hohe Ausgaben", level: "h3" });
+    attachment.push({
+      title: userData["partnerBesondersAusgabe"]["beschreibung"],
+      text: `${userData["partnerBesondersAusgabe"]["betrag"]} € ${zahlungsfrequenzMapping["monthly"]}`,
+    });
+  }
+  return { pdfValues, attachment };
+};
+
 export const fillBruttoEinnahmenPartner: PkhPdfFillFunction = ({
   userData,
   pdfValues,
@@ -224,6 +247,7 @@ export const fillBruttoEinnahmenPartner: PkhPdfFillFunction = ({
       fillSupportPartner,
       fillAndereLeistungenPartner,
       fillWeitereEinkuenftePartner,
+      fillBesondersHoheAusgabenPartner,
     ],
   });
 
