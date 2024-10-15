@@ -42,7 +42,7 @@ export const fluggastrechtFlow = {
   cmsSlug: "form-flow-pages",
   migration: {
     source: "/fluggastrechte/vorabcheck",
-    fields: [
+    orderFields: [
       "bereich",
       "startAirport",
       "endAirport",

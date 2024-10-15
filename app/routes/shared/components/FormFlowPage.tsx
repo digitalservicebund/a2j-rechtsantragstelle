@@ -28,6 +28,7 @@ export function FormFlowPage() {
     stepData,
     translations,
     navigationA11yLabels,
+    migrationOrderFields,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
@@ -59,6 +60,7 @@ export function FormFlowPage() {
           <MigrationDataOverview
             migrationData={migrationData}
             translations={translations}
+            migrationOrderFields={migrationOrderFields}
           />
           {arraySummaryData && Object.keys(arraySummaryData).length != 0 && (
             <div className="!mt-24">
