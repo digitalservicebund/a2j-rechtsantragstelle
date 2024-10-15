@@ -45,7 +45,7 @@ export const fluggastrechteVorabcheckContext = {
   ankuendigung: ankuendigungSchema,
   ersatzflug: YesNoAnswer,
   ersatzflugStartenEinStunde: YesNoAnswer,
-  ersatzflugLandenZweiStuden: YesNoAnswer,
+  ersatzflugLandenZweiStunden: YesNoAnswer,
   vertretbareGruendeAnnullierung: YesNoAnswer,
   ersatzflugStartenZweiStunden: YesNoAnswer,
   ersatzflugLandenVierStunden: YesNoAnswer,

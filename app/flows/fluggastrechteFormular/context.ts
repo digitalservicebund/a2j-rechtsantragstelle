@@ -21,7 +21,6 @@ export const fluggastrechtContext = {
   ankuendigung: stringOptionalSchema,
   ersatzflug: stringOptionalSchema,
   ersatzflugStartenEinStunde: stringOptionalSchema,
-  ersatzflugLandenZweiStuden: stringOptionalSchema,
   ersatzflugLandenZweiStunden: stringOptionalSchema,
   ersatzflugStartenZweiStunden: stringOptionalSchema,
   ersatzflugLandenVierStunden: stringOptionalSchema,

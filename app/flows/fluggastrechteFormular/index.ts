@@ -47,7 +47,7 @@ export const fluggastrechtFlow = {
       "ankuendigung",
       "ersatzflug",
       "ersatzflugStartenEinStunde",
-      "ersatzflugLandenZweiStuden",
+      "ersatzflugLandenZweiStunden",
       "ersatzflugStartenZweiStunden",
       "ersatzflugLandenVierStunden",
     ],

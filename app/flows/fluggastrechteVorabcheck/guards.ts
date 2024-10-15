@@ -64,13 +64,13 @@ export const guards = {
       context.ankuendigung !== "moreThan13Days" && context.ersatzflug === "no"
     );
   },
-  isAnkuendigungBetween7And13DaysAndErstazflugYes: ({ context }) => {
+  isAnkuendigungBetween7And13DaysAndErsatzflugYes: ({ context }) => {
     return (
       context.ankuendigung === "between7And13Days" &&
       context.ersatzflug === "yes"
     );
   },
-  isBereichAnnullierungAndVertrebareGruendeAnnullierungYes: ({ context }) => {
+  isBereichAnnullierungAndVertretbareGruendeAnnullierungYes: ({ context }) => {
     return (
       context.bereich === "annullierung" &&
       context.vertretbareGruendeAnnullierung === "yes"
@@ -82,15 +82,15 @@ export const guards = {
       (context?.ankuendigung === "until6Days" || context?.ankuendigung === "no")
     );
   },
-  isErsatzflugGelandet2StundenNoAndErstatzflugGestartet1StundeNo: ({
+  isErsatzflugGelandet2StundenNoAndErsatzflugGestartet1StundeNo: ({
     context,
   }) => {
     return (
-      context.ersatzflugLandenZweiStuden === "no" &&
+      context.ersatzflugLandenZweiStunden === "no" &&
       context.ersatzflugStartenEinStunde === "no"
     );
   },
-  isErsatzflugGelandet4StundenNoAndErstatzflugGestartet2StundenNo: ({
+  isErsatzflugGelandet4StundenNoAndErsatzflugGestartet2StundenNo: ({
     context,
   }) => {
     return (
