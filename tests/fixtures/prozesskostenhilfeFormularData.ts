@@ -59,8 +59,6 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   arbeitsausgaben: faker.helpers.multiple(createFinancialEntry),
   receivesPension: YesNoAnswer.Enum.yes,
   pensionAmount: faker.finance.amount(),
-  receivesSupport: YesNoAnswer.Enum.yes,
-  supportAmount: faker.finance.amount(),
   hasWohngeld: checkedOptional.enum.on,
   hasKrankengeld: checkedOptional.enum.on,
   hasElterngeld: checkedOptional.enum.on,

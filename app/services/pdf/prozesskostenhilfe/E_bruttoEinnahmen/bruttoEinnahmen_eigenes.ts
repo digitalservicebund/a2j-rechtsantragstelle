@@ -73,10 +73,11 @@ export const fillRente: PkhPdfFillFunction = ({ userData, pdfValues }) => {
 export const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   if (
     !guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData }) &&
-    guards.receivesSupport({ context: userData })
+    userData.unterhaltsanspruch === "unterhalt" &&
+    userData.unterhaltsSumme
   ) {
     pdfValues.ja_10.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9.value = `${userData.supportAmount} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9.value = `${userData.unterhaltsSumme} €`;
   } else {
     pdfValues.nein_11.value = true;
   }

@@ -2,39 +2,39 @@ import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airport
 
 describe("calculateDistanceBetweenAirportsInKilometers", () => {
   it("in case set a non existing start airport, it should return a result error", () => {
-    const startAiport = "XXX";
-    const endAiport = "STR";
+    const startAirport = "XXX";
+    const endAirport = "STR";
     const actual = calculateDistanceBetweenAirportsInKilometers(
-      startAiport,
-      endAiport,
+      startAirport,
+      endAirport,
     );
 
     expect(actual.isErr).toBe(true);
   });
 
   it("in case set a non existing end airport, it should return a result error", () => {
-    const startAiport = "BER";
-    const endAiport = "XXX";
+    const startAirport = "BER";
+    const endAirport = "XXX";
     const actual = calculateDistanceBetweenAirportsInKilometers(
-      startAiport,
-      endAiport,
+      startAirport,
+      endAirport,
     );
 
     expect(actual.isErr).toBe(true);
   });
 
   it("in case set a start and end airport, it should return ok and the distance above 500km", () => {
-    const startAiport = "BER";
-    const endAiport = "STR";
+    const startAirport = "BER";
+    const endAirport = "STR";
     const actual = calculateDistanceBetweenAirportsInKilometers(
-      startAiport,
-      endAiport,
+      startAirport,
+      endAirport,
     );
 
-    const expctedGraterThanValue = 500;
+    const expectedGraterThanValue = 500;
 
     expect(actual.isOk).toBe(true);
-    expect(actual.isOk ? actual.value > expctedGraterThanValue : false).toBe(
+    expect(actual.isOk ? actual.value > expectedGraterThanValue : false).toBe(
       true,
     );
   });

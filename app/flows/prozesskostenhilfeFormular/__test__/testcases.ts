@@ -114,8 +114,6 @@ const cases = [
       "finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht",
       "finanzielle-angaben/einkuenfte/rente-frage",
       "finanzielle-angaben/einkuenfte/rente",
-      "finanzielle-angaben/einkuenfte/unterhalt-frage",
-      "finanzielle-angaben/einkuenfte/unterhalt",
       "finanzielle-angaben/einkuenfte/leistungen/frage",
       "finanzielle-angaben/einkuenfte/leistungen/wohngeld",
       "finanzielle-angaben/einkuenfte/leistungen/krankengeld",

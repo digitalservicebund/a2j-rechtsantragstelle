@@ -36,6 +36,8 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
     prozesskostenhilfeFinanzielleAngabenEinkuenfteContext,
     "partner",
   ),
+  "partner-receivesSupport": YesNoAnswer,
+  "partner-supportAmount": buildMoneyValidationSchema(),
   partnerHasBesondersAusgaben: YesNoAnswer,
   partnerBesondersAusgabe: financialEntrySchema.pick({
     beschreibung: true,
@@ -106,6 +108,8 @@ const _contextObject = z
 export type PartnerEinkuenfteContext = {
   [key in keyof ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext as `partner-${key}`]: ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext[key];
 } & {
+  "partner-receivesSupport"?: "yes" | "no";
+  "partner-supportAmount"?: string;
   pageData?: {
     arrayIndexes: number[];
   };
