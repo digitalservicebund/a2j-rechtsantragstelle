@@ -2,7 +2,8 @@ import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozessk
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import { fillAngehoerige } from "~/services/pdf/prozesskostenhilfe/D_angehoerige";
-import { fillBruttoEinnahmen } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen";
+import { fillSelfBruttoEinnahmen } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
+import { fillBruttoEinnahmenPartner } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_partner";
 import { fillGrundvoraussetzungen } from "~/services/pdf/prozesskostenhilfe/grundvoraussetzungen";
 import { fillAbzuege } from "./F_abzuege";
 import { fillZahlungsverpflichtungen } from "./I_zahlungsverpflichtungen";
@@ -29,7 +30,8 @@ export async function prozesskostenhilfePdfFromUserdata(
     fillFunctions: [
       fillGrundvoraussetzungen,
       fillAngehoerige,
-      fillBruttoEinnahmen,
+      fillSelfBruttoEinnahmen,
+      fillBruttoEinnahmenPartner,
       fillAbzuege,
       fillBelastungen,
       fillZahlungsverpflichtungen,

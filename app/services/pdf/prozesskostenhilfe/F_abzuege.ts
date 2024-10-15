@@ -2,8 +2,8 @@ import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhil
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { getTotalMonthlyFinancialEntries } from "~/services/pdf/util";
 import type { PkhPdfFillFunction } from ".";
-import { zahlungsfrequenzMapping } from "./E_bruttoEinnahmen";
 import type { AttachmentEntries } from "../attachment";
+import { zahlungsfrequenzMapping } from "./E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt";
 
 export const versicherungMapping = {
