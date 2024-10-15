@@ -29,11 +29,11 @@ test.describe("Fluggastrechte Formular", () => {
     await startFluggastrechteFormular(page, formular);
   });
 
-  test("redirect to vorabcheck when goes to /fluggastrechte/formular/grundvorraussetzungen/redirect-vorabcheck", async ({
+  test("redirect to vorabcheck when goes to /fluggastrechte/formular/grundvoraussetzungen/redirect-vorabcheck", async ({
     baseURL,
   }) => {
     const baseUrlWithoutSlash = getBaseUrlWithoutSlash(baseURL ?? "");
-    const redirectCheckUrl = `${baseUrlWithoutSlash}${formular.url}/grundvorraussetzungen/redirect-vorabcheck`;
+    const redirectCheckUrl = `${baseUrlWithoutSlash}${formular.url}/grundvoraussetzungen/redirect-vorabcheck`;
     const redirectResponse = await fetch(redirectCheckUrl, {
       method: "GET",
       redirect: "manual",

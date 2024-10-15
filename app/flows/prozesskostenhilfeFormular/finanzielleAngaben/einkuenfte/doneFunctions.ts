@@ -92,14 +92,6 @@ export const pensionDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
       : true;
   };
 
-export const supportDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
-  ({ context }) => {
-    if (context.receivesSupport === undefined) return false;
-    return guards.receivesSupport({ context })
-      ? context.supportAmount !== undefined
-      : true;
-  };
-
 export const furtherIncomeDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) => {
     return (
@@ -117,6 +109,5 @@ export const einkuenfteDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard
     (staatlicheLeistungenDone({ context }) &&
       arbeitDone({ context }) &&
       pensionDone({ context }) &&
-      supportDone({ context }) &&
       leistungenDone({ context }) &&
       furtherIncomeDone({ context }));
