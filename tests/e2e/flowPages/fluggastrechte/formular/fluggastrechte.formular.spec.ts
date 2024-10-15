@@ -43,11 +43,11 @@ test.describe("Fluggastrechte Formular", () => {
     expect(redirectResponse.status).toEqual(302);
     expect(redirectLocation).toEqual("/fluggastrechte/vorabcheck/start");
   });
-  test("redirect to vorabcheck/ergebnis/erfolg when goes to /fluggastrechte/formular/intro/redirect-vorabcheckErgebnis", async ({
+  test("redirect to vorabcheck/ergebnis/erfolg when goes to /fluggastrechte/formular/intro/redirect-vorabcheck-ergebnis", async ({
     baseURL,
   }) => {
     const baseUrlWithoutSlash = getBaseUrlWithoutSlash(baseURL ?? "");
-    const redirectCheckUrl = `${baseUrlWithoutSlash}${formular.url}/intro/redirect-vorabcheckErgebnis`;
+    const redirectCheckUrl = `${baseUrlWithoutSlash}${formular.url}/intro/redirect-vorabcheck-ergebnis`;
     const redirectResponse = await fetch(redirectCheckUrl, {
       method: "GET",
       redirect: "manual",
