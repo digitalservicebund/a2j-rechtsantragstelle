@@ -31,11 +31,7 @@ import zusammenfassungFlow from "./zusammenfassung/flow.json";
 const flowTransitionConfig: FlowTransitionConfig = {
   targetFlowId: "/fluggastrechte/formular",
   sourceFlowId: "/fluggastrechte/vorabcheck",
-  eligibleSourcePages: [
-    "ergebnis/erfolg",
-    "ergebnis/erfolg-kontakt",
-    "ergebnis/erfolg-gericht",
-  ],
+  eligibleSourcePages: ["ergebnis/erfolg"],
 };
 
 export const fluggastrechtFlow = {
@@ -90,8 +86,10 @@ export const fluggastrechtFlow = {
           start: {
             on: {
               SUBMIT: "#grundvoraussetzungen.prozessfaehig",
+              BACK: "redirect-vorabcheck-ergebnis",
             },
           },
+          "redirect-vorabcheck-ergebnis": { on: {} },
         },
       },
       grundvoraussetzungen: _.merge(grundvoraussetzungenFlow, {

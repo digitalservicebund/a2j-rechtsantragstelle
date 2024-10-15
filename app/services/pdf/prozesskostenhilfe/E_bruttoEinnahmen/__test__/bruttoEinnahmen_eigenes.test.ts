@@ -6,14 +6,15 @@ import { CheckboxValue } from "~/components/inputs/Checkbox";
 import {
   fillAndereLeistungen,
   fillEinkommenType,
+  fillRente,
   fillStaatlicheLeistungen,
   fillWeitereEinkuenfte,
-} from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen";
-import { newPageHint } from "../../attachment";
+} from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
+import { newPageHint } from "../../../attachment";
 
 let pdfParams: ProzesskostenhilfePDF;
 
-describe("E_bruttoEinnahmen", () => {
+describe("bruttoEinnahmen_eigenes", () => {
   // Ensure we have a clean copy of the pdfParams before each test, as each function mutates the object
   beforeEach(() => {
     pdfParams = getProzesskostenhilfeParameters();
@@ -177,6 +178,45 @@ describe("E_bruttoEinnahmen", () => {
         pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3
           .value,
       ).toBe("1000 € brutto");
+    });
+  });
+
+  describe("fillRente", () => {
+    it("should report no pension if the user receives grundsicherung", () => {
+      const { pdfValues } = fillRente({
+        userData: { staatlicheLeistungen: "grundsicherung" },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.nein_13.value).toBe(true);
+    });
+
+    it("should report no pension if the user receives asylbewerberleistungen", () => {
+      const { pdfValues } = fillRente({
+        userData: { staatlicheLeistungen: "asylbewerberleistungen" },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.nein_13.value).toBe(true);
+    });
+
+    it("should report no pension if the user doesn't receive one", () => {
+      const { pdfValues } = fillRente({
+        userData: { receivesPension: "no" },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.nein_13.value).toBe(true);
+    });
+
+    it("should report that a user receives a pension, along with the amount", () => {
+      const { pdfValues } = fillRente({
+        userData: { receivesPension: "yes", pensionAmount: "1000" },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_12.value).toBe(true);
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8
+          .value,
+      ).toBe("1000 €");
     });
   });
 
