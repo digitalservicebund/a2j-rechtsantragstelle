@@ -1,7 +1,7 @@
 import { finanzielleAngabeEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import { type AttachmentEntries, newPageHint } from "~/services/pdf/attachment";
-import type { PkhPdfFillFunction } from ".";
-import { pdfFillReducer } from "../fillOutFunction";
+import type { PkhPdfFillFunction } from "..";
+import { pdfFillReducer } from "../../fillOutFunction";
 
 export const zahlungsfrequenzMapping = {
   monthly: "Monatlich",
@@ -14,14 +14,14 @@ export const fillStaatlicheLeistungen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  if (userData.staatlicheLeistungen === "buergergeld") {
+  if (guards.staatlicheLeistungenIsBuergergeld({ context: userData })) {
     pdfValues.ja_16.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro11.value = `${userData.buergergeld} €`;
   } else {
     pdfValues.nein_17.value = true;
   }
 
-  if (userData.staatlicheLeistungen === "arbeitslosengeld") {
+  if (guards.staatlicheLeistungenIsArbeitslosengeld({ context: userData })) {
     pdfValues.ja_14.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro10.value = `${userData.arbeitslosengeld} €`;
   } else {
@@ -189,7 +189,7 @@ export const fillWeitereEinkuenfte: PkhPdfFillFunction = ({
   return { pdfValues };
 };
 
-export const fillBruttoEinnahmen: PkhPdfFillFunction = ({
+export const fillSelfBruttoEinnahmen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
