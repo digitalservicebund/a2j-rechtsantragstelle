@@ -1,32 +1,39 @@
 import { getContext } from "~/flows/contexts";
 import type { FlowId } from "~/flows/flowIds";
-import type { FlowMigration, Flow } from "~/flows/flows.server";
+import type { Flow } from "~/flows/flows.server";
 import { type CookieHeader, getSessionData } from ".";
 
-const migrationKey = "daten-uebernahme";
+export const migrationKey = "daten-uebernahme";
 
 async function doMigration(
-  flowId: FlowId,
-  migration: FlowMigration,
+  migrationFlowIdDestination: FlowId,
+  migrationFlowIdSource: FlowId,
   cookieHeader: string,
 ) {
-  const { source } = migration;
-  const { userData } = await getSessionData(source, cookieHeader);
-
+  const { userData } = await getSessionData(
+    migrationFlowIdSource,
+    cookieHeader,
+  );
   return Object.fromEntries(
-    Object.entries(userData).filter(([key]) => key in getContext(flowId)),
+    Object.entries(userData).filter(
+      ([key]) => key in getContext(migrationFlowIdDestination),
+    ),
   );
 }
 
 export function getMigrationData(
   stepId: string,
-  flowId: FlowId,
-  flow: Flow,
+  migrationFlowIdDestination: FlowId,
+  migrationFlowDestination: Flow,
   cookieHeader: CookieHeader,
 ) {
-  const { migration } = flow;
+  const { migration } = migrationFlowDestination;
   if (!migration || !stepId.includes(migrationKey) || !cookieHeader)
     return undefined;
 
-  return doMigration(flowId, migration, cookieHeader);
+  return doMigration(
+    migrationFlowIdDestination,
+    migration.source,
+    cookieHeader,
+  );
 }
