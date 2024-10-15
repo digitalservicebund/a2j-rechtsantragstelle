@@ -24,7 +24,7 @@ describe("D_angehoerige", () => {
         userData,
         pdfValues: pdfParams,
       });
-      expect(pdfValues.verhaeltnis1.value).toBe("Ehegatte/Partner:in");
+      expect(pdfValues.verhaeltnis1.value).toBe("Partner:in");
       expect(pdfValues.angehoerigerNummereins.value).toBe(
         "Max Mustermann, lebt getrennt",
       );

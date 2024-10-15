@@ -12,8 +12,7 @@ export const fillAngehoerige: PkhPdfFillFunction = ({
     userData.partnerVorname &&
     userData.partnerNachname
   ) {
-    // TODO: find a way to shrink & wrap text in this field
-    pdfValues.verhaeltnis1.value = "Ehegatte/Partner:in";
+    pdfValues.verhaeltnis1.value = "Partner:in";
     pdfValues.angehoerigerNummereins.value = `${userData.partnerVorname} ${userData.partnerNachname}, lebt getrennt`;
     pdfValues.monatsbetrag1.value = userData.unterhaltsSumme + " €";
   }
