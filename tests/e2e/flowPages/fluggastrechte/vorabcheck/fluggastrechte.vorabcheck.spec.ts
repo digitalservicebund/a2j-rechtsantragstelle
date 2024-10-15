@@ -32,7 +32,7 @@ test.describe("js enabled", () => {
     await startFluggastrechteVorabcheckNichtBefoerderung(page, vorabcheck);
   });
 
-  test.skip("fluggastrechte vorabcheck: Annullierung can be traversed", async ({
+  test("fluggastrechte vorabcheck: Annullierung can be traversed", async ({
     page,
   }) => {
     await startFluggastrechteVorabcheckAnnullierung(page, vorabcheck);
