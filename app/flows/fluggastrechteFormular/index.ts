@@ -40,7 +40,22 @@ const flowTransitionConfig: FlowTransitionConfig = {
 
 export const fluggastrechtFlow = {
   cmsSlug: "form-flow-pages",
-  migrationSource: "/fluggastrechte/vorabcheck",
+  migration: {
+    source: "/fluggastrechte/vorabcheck",
+    fields: [
+      "bereich",
+      "startAirport",
+      "endAirport",
+      "fluggesellschaft",
+      "zustaendigesAmtsgericht",
+      "ankuendigung",
+      "ersatzflug",
+      "ersatzflugStartenEinStunde",
+      "ersatzflugLandenZweiStuden",
+      "ersatzflugStartenZweiStunden",
+      "ersatzflugLandenVierStunden",
+    ],
+  },
   stringReplacements: (context: FluggastrechtContext) => ({
     ...getStartAirportName(context),
     ...getEndAirportName(context),

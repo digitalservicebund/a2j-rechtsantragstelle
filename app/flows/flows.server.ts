@@ -13,11 +13,16 @@ import type { FlowId } from "./flowIds";
 import type { Guards } from "./guards.server";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfeFormular";
 
+export type FlowMigration = {
+  source: FlowId;
+  fields: string[];
+};
+
 export type Flow = {
   cmsSlug: FlowPageId;
   config: Config;
   guards: Guards;
-  migrationSource?: FlowId;
+  migration?: FlowMigration;
   flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (context: Context) => Replacements;
 };
