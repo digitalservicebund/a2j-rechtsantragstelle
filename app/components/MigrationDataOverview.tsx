@@ -67,6 +67,7 @@ export default function MigrationDataOverview({
             text={getTranslationByKey(itemKey, translations)}
             tagName="p"
             look="ds-label-01-bold"
+            dataTestid="migration-field-value"
           />
           {renderMigrationValue(translations, itemValue, itemKey)}
         </div>
