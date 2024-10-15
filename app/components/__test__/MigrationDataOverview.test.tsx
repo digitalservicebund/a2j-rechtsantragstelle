@@ -15,7 +15,7 @@ describe("MigrationDataOverview", () => {
 
     const translations = {
       bereich: "Problem",
-      verspaetet: "Verspätete Beförderung",
+      "bereich.verspaetet": "Verspätete Beförderung",
     };
 
     const { container, getByText } = render(
@@ -27,7 +27,7 @@ describe("MigrationDataOverview", () => {
 
     expect(container).not.toBeEmptyDOMElement();
     expect(getByText(translations["bereich"])).toBeInTheDocument();
-    expect(getByText(translations["verspaetet"])).toBeInTheDocument();
+    expect(getByText(translations["bereich.verspaetet"])).toBeInTheDocument();
   });
 
   it("should render the component based on the migration data and the specific translation with .value", () => {
