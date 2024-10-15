@@ -1,4 +1,3 @@
-import type { Context } from "~/flows/contexts";
 import { getContext } from "~/flows/contexts";
 import type { FlowId } from "~/flows/flowIds";
 import type { FlowMigration, Flow } from "~/flows/flows.server";
@@ -11,18 +10,12 @@ async function doMigration(
   migration: FlowMigration,
   cookieHeader: string,
 ) {
-  const { source, fields } = migration;
+  const { source } = migration;
   const { userData } = await getSessionData(source, cookieHeader);
 
-  const userDataKeys: Context = Object.fromEntries(Object.entries(userData));
-
-  return fields
-    .filter((field) => field in userDataKeys)
-    .filter((field) => field in getContext(flowId))
-    .reduce((acc: Context, field) => {
-      acc[field] = userDataKeys[field];
-      return acc;
-    }, {});
+  return Object.fromEntries(
+    Object.entries(userData).filter(([key]) => key in getContext(flowId)),
+  );
 }
 
 export function getMigrationData(
@@ -34,5 +27,6 @@ export function getMigrationData(
   const { migration } = flow;
   if (!migration || !stepId.includes(migrationKey) || !cookieHeader)
     return undefined;
+
   return doMigration(flowId, migration, cookieHeader);
 }
