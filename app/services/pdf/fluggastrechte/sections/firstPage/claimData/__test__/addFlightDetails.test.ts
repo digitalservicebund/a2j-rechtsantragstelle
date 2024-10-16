@@ -1,3 +1,4 @@
+import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -15,10 +16,7 @@ describe("addFlightDetails", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addFlightDetails(mockDoc, mockStruct);
-
-    expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
-    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    addFlightDetails(mockDoc, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(DUE_REASON_TEXT);
     expect(mockDoc.text).toHaveBeenCalledWith(AFFECTED_FLIGHT_TEXT);

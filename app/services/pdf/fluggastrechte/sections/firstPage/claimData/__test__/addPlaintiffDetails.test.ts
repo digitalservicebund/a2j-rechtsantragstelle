@@ -1,3 +1,4 @@
+import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -9,12 +10,9 @@ describe("addPlaintiffDetails", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addPlaintiffDetails(mockDoc, mockStruct);
+    addPlaintiffDetails(mockDoc, userDataMock);
 
-    expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
-    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
-
-    expect(mockDoc.text).toHaveBeenCalledWith("Włodzimierz Ciesiński", {
+    expect(mockDoc.text).toHaveBeenCalledWith("Fr. Test-test Test", {
       continued: true,
     });
 

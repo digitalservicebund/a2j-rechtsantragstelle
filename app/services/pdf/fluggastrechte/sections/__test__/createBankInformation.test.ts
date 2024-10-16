@@ -1,3 +1,4 @@
+import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -9,13 +10,12 @@ describe("createBankInformation", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createBankInformation(mockDoc, mockStruct);
+    createBankInformation(mockDoc, mockStruct, userDataMock);
 
-    expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Kontoinhaber: Name, Vorname | IBAN: XXXXXXXXXXXXXXXXXXXX",
+      "Kontoinhaber: Test, Test-Test | IBAN: DE68500123456789000000",
       expect.anything(),
       expect.anything(),
     );

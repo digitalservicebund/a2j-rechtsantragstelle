@@ -1,3 +1,4 @@
+import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -24,10 +25,7 @@ describe("createClaimData", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createClaimData(mockDoc, mockStruct);
-
-    expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
-    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    createClaimData(mockDoc, mockStruct, userDataMock);
 
     expect(mockDoc.fontSize).toHaveBeenCalledWith(14);
     expect(mockDoc.text).toHaveBeenCalledWith(IN_THE_MATTER);
@@ -42,7 +40,7 @@ describe("createClaimData", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createClaimData(mockDoc, mockStruct);
+    createClaimData(mockDoc, mockStruct, userDataMock);
 
     expect(addPlaintiffDetails).toBeCalledTimes(1);
   });
@@ -51,7 +49,7 @@ describe("createClaimData", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createClaimData(mockDoc, mockStruct);
+    createClaimData(mockDoc, mockStruct, userDataMock);
 
     expect(addAirlineDetails).toBeCalledTimes(1);
   });
@@ -60,7 +58,7 @@ describe("createClaimData", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createClaimData(mockDoc, mockStruct);
+    createClaimData(mockDoc, mockStruct, userDataMock);
 
     expect(addFlightDetails).toBeCalledTimes(1);
   });
