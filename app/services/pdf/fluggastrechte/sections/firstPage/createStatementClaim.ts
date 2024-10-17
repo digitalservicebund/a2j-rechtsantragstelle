@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
-import { getCompensationPayment } from "~/services/airlines/getCompensationPayment";
+import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,

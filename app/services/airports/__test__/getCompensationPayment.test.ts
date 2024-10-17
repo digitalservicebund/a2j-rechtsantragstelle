@@ -4,7 +4,7 @@ import {
   COMPENSATION_VALUE_600,
 } from "~/flows/fluggastrechteVorabcheck/stringReplacements";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
-import { getCompensationPayment } from "../getCompensationPayment";
+import { getCompensationPayment } from "../../airports/getCompensationPayment";
 
 vi.mock("~/services/airports/getRouteCompensationBetweenAirports");
 

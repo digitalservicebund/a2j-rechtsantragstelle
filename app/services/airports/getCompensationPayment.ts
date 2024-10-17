@@ -4,7 +4,7 @@ import {
   COMPENSATION_VALUE_400,
   COMPENSATION_VALUE_600,
 } from "~/flows/fluggastrechteVorabcheck/stringReplacements";
-import { getRouteCompensationBetweenAirports } from "../airports/getRouteCompensationBetweenAirports";
+import { getRouteCompensationBetweenAirports } from "./getRouteCompensationBetweenAirports";
 
 export function getCompensationPayment({
   startAirport = "",

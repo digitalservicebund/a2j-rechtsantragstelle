@@ -4,7 +4,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { getCompensationPayment } from "~/services/airlines/getCompensationPayment";
+import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
 import {
   createStatementClaim,
   STATEMENT_CLAIM_AGREEMENT_SENTENCE,
@@ -16,7 +16,7 @@ import {
 
 describe("createStatementClaim", () => {
   beforeEach(() => {
-    vi.mock("~/services/airlines/getCompensationPayment");
+    vi.mock("~/services/airports/getCompensationPayment");
     vi.mocked(getCompensationPayment).mockReturnValue("600");
   });
 
