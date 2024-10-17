@@ -21,7 +21,7 @@ describe("createClaimData", () => {
     vi.resetAllMocks();
   });
 
-  it("should create document with in the matter and agains texts", () => {
+  it("should create document with in the matter and against texts", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
