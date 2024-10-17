@@ -1,5 +1,6 @@
 import type { z } from "zod";
 import type { kraftfahrzeugeArraySchema } from "~/flows/shared/finanzielleAngaben/context";
+import { childDone } from "~/flows/shared/finanzielleAngaben/doneFunctions";
 import { hasAnyEigentumExceptBankaccount } from "~/flows/shared/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
@@ -42,7 +43,7 @@ export const kinderDone: BeratungshilfeFinanzielleAngabenGuard = ({
 }) =>
   hasStaatlicheLeistungen({ context }) ||
   context.hasKinder == "no" ||
-  arrayIsNonEmpty(context.kinder);
+  (arrayIsNonEmpty(context.kinder) && context.kinder.every(childDone));
 
 const wohnungAloneDone: BeratungshilfeFinanzielleAngabenGuard = ({ context }) =>
   context.livingSituation === "alone" &&

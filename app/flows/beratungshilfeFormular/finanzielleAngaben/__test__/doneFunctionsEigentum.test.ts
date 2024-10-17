@@ -6,6 +6,7 @@ import {
   kraftfahrzeugeDone,
   wertsachenDone,
   eigentumDone,
+  kinderDone,
 } from "../doneFunctions";
 
 describe("eigentumDone", () => {
@@ -295,6 +296,83 @@ describe("grundeigentumDone", () => {
         context: {},
       }),
     ).toBeFalsy();
+  });
+});
+
+describe("kinderDone", () => {
+  it("should return true if the user receives staatliche leistungen", () => {
+    expect(
+      kinderDone({
+        context: { staatlicheLeistungen: "grundsicherung" },
+      }),
+    ).toBe(true);
+    expect(
+      kinderDone({
+        context: { staatlicheLeistungen: "asylbewerberleistungen" },
+      }),
+    ).toBe(true);
+    expect(
+      kinderDone({
+        context: { staatlicheLeistungen: "buergergeld" },
+      }),
+    ).toBe(true);
+  });
+
+  it("should return true if the user has no children", () => {
+    expect(
+      kinderDone({
+        context: { hasKinder: "no" },
+      }),
+    ).toBe(true);
+  });
+
+  it("should return false if the user has incomplete children entered", () => {
+    expect(
+      kinderDone({
+        context: { hasKinder: "yes" },
+      }),
+    ).toBe(false);
+    expect(
+      kinderDone({
+        context: {
+          hasKinder: "yes",
+          kinder: [
+            {
+              vorname: "Kinder",
+              nachname: "McKindery",
+              geburtsdatum: "",
+              wohnortBeiAntragsteller: "yes",
+              eigeneEinnahmen: "yes",
+              einnahmen: "",
+              unterhalt: "yes",
+              unterhaltsSumme: "",
+            },
+          ],
+        },
+      }),
+    ).toBe(false);
+  });
+
+  it("should return true if the user a fully-entered child", () => {
+    expect(
+      kinderDone({
+        context: {
+          hasKinder: "yes",
+          kinder: [
+            {
+              vorname: "Kinder",
+              nachname: "McKindery",
+              geburtsdatum: "2000-01-01",
+              wohnortBeiAntragsteller: "yes",
+              eigeneEinnahmen: "yes",
+              einnahmen: "100",
+              unterhalt: "yes",
+              unterhaltsSumme: "100",
+            },
+          ],
+        },
+      }),
+    ).toBe(true);
   });
 });
 
