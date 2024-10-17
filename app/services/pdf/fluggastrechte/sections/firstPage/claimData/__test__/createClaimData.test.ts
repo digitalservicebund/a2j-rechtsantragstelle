@@ -4,17 +4,17 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { addAirlineDetails } from "../addAirlineDetails";
-import { addFlightDetails } from "../addFlightDetails";
 import { addPlaintiffDetails } from "../addPlaintiffDetails";
+import { addPlannedFlightDetails } from "../addPlannedFlightDetails";
 import { AGAINST, createClaimData, IN_THE_MATTER } from "../createClaimData";
 
 vi.mock("../addPlaintiffDetails");
 vi.mock("../addAirlineDetails");
-vi.mock("../addFlightDetails");
+vi.mock("../addPlannedFlightDetails");
 
 vi.mocked(addPlaintiffDetails).mockImplementation(() => vi.fn());
 vi.mocked(addAirlineDetails).mockImplementation(() => vi.fn());
-vi.mocked(addFlightDetails).mockImplementation(() => vi.fn());
+vi.mocked(addPlannedFlightDetails).mockImplementation(() => vi.fn());
 
 describe("createClaimData", () => {
   beforeEach(() => {
@@ -54,12 +54,12 @@ describe("createClaimData", () => {
     expect(addAirlineDetails).toBeCalledTimes(1);
   });
 
-  it("should call addFlightDetails", () => {
+  it("should call addPlannedFlightDetails", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     createClaimData(mockDoc, mockStruct, userDataMock);
 
-    expect(addFlightDetails).toBeCalledTimes(1);
+    expect(addPlannedFlightDetails).toBeCalledTimes(1);
   });
 });

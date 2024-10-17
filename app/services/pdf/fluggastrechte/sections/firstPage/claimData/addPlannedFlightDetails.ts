@@ -13,7 +13,7 @@ export const AFFECTED_FLIGHT_TEXT = "Betroffener Flug:";
 export const FLIGHT_NUMBER_TEXT = "Flugnummer:";
 export const PLANNED_DEPARTURE_DATE_TEXT = "Geplantes Abflugdatum:";
 
-export const addFlightDetails = (
+export const addPlannedFlightDetails = (
   doc: typeof PDFDocument,
   userData: FluggastrechtContext,
 ) => {

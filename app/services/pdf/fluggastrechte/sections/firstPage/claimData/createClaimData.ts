@@ -1,8 +1,8 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
 import { addAirlineDetails } from "./addAirlineDetails";
-import { addFlightDetails } from "./addFlightDetails";
 import { addPlaintiffDetails } from "./addPlaintiffDetails";
+import { addPlannedFlightDetails } from "./addPlannedFlightDetails";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -48,7 +48,7 @@ export const createClaimData = (
         .moveDown();
       addAirlineDetails(doc, userData);
       doc.moveDown();
-      addFlightDetails(doc, userData);
+      addPlannedFlightDetails(doc, userData);
     }),
   );
 };

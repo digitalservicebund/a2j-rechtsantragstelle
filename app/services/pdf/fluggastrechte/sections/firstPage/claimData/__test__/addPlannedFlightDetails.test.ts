@@ -4,19 +4,19 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import {
-  addFlightDetails,
+  addPlannedFlightDetails,
   AFFECTED_FLIGHT_TEXT,
   DUE_REASON_TEXT,
   FLIGHT_NUMBER_TEXT,
   PLANNED_DEPARTURE_DATE_TEXT,
-} from "../addFlightDetails";
+} from "../addPlannedFlightDetails";
 
-describe("addFlightDetails", () => {
+describe("addPlannedFlightDetails", () => {
   it("should create document with flight details", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addFlightDetails(mockDoc, userDataMock);
+    addPlannedFlightDetails(mockDoc, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(DUE_REASON_TEXT);
     expect(mockDoc.text).toHaveBeenCalledWith(AFFECTED_FLIGHT_TEXT);
