@@ -1,5 +1,6 @@
 import _ from "lodash";
 import type { FlowId } from "~/flows/flowIds";
+import { flows } from "~/flows/flows.server";
 import { getStrapiEntry } from "./getStrapiEntry";
 import type { StrapiSchemas } from "./schemas";
 import { config } from "../env/env.server";
@@ -10,7 +11,7 @@ export async function fetchAllFormFields(
   flowId: FlowId,
   environment: string = config().ENVIRONMENT,
 ): Promise<FormFieldsMap> {
-  const apiId = "form-flow-pages";
+  const apiId = flows[flowId].cmsSlug;
   const filters = [{ field: "flow_ids", nestedField: "flowId", value: flowId }];
   const populate = "form";
   const strapiEntries = await getStrapiEntry({
@@ -38,7 +39,9 @@ export async function fetchAllFormFields(
 }
 
 function formFieldsFromSchema(
-  schemas: StrapiSchemas["form-flow-pages"],
+  schemas:
+    | StrapiSchemas["form-flow-pages"]
+    | StrapiSchemas["vorab-check-pages"],
 ): FormFieldsMap {
   return Object.fromEntries(
     schemas.map(({ attributes: { stepId, form } }) => [
