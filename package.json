@@ -98,7 +98,7 @@
     "@storybook/addon-a11y": "^8.3.5",
     "@storybook/addon-essentials": "^8.3.5",
     "@storybook/react-vite": "^8.3.5",
-    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/jest-dom": "^6.6.1",
     "@testing-library/react": "^16.0.1",
     "@types/follow-redirects": "^1.14.4",
     "@types/mustache": "^4.2.5",
