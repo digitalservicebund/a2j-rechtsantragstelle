@@ -11,8 +11,11 @@ export const createBankInformation = (
   footerSect: PDFKit.PDFStructureElement,
   userData: FluggastrechtContext,
 ) => {
+  const bankAccountHolder =
+    userData.kontoinhaber ?? `${userData.nachname}, ${userData.vorname}`;
+
   if (userData?.iban) {
-    const bankInfo = `Kontoinhaber: ${userData.kontoinhaber} | IBAN: ${userData.iban}`;
+    const bankInfo = `Kontoinhaber: ${bankAccountHolder} | IBAN: ${userData.iban}`;
     footerSect.add(
       doc.struct("P", {}, () => {
         doc
