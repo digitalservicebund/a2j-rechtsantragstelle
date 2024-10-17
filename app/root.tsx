@@ -21,7 +21,8 @@ import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import { useMemo } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
-import { flowIdFromPathname } from "~/flows/flowIds";
+import type { FlowId } from "~/flows/flowIds";
+import { flowIdFromPathname, flowIds } from "~/flows/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import {
   fetchMeta,
@@ -46,15 +47,21 @@ import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { TranslationContext } from "./services/translations/translationsContext";
 
+const setCacheControlHeader = (loaderHeaders: Headers) => {
+  const pathname = loaderHeaders.get("pathname") || "";
+  const flowId = flowIdFromPathname(pathname);
+  const isFlowId = flowIds.includes(flowId as FlowId);
+  const trackingConsentSet = loaderHeaders.get("trackingConsentSet") === "true";
+  return trackingConsentSet || isFlowId;
+};
+
 export const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "X-Frame-Options": "SAMEORIGIN",
   "X-Content-Type-Options": "nosniff",
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy":
     "accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()",
-  ...(loaderHeaders.get("trackingConsentSet") === "true" && {
-    "Cache-Control": "no-store",
-  }),
+  ...(setCacheControlHeader(loaderHeaders) && { "Cache-Control": "no-store" }),
 });
 
 const consoleMessage = `Note: Your browser console might be reporting several errors with the Permission-Policy header.
@@ -145,7 +152,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
     },
-    { headers: { trackingConsentSet: String(trackingConsent === undefined) } },
+    {
+      headers: {
+        trackingConsentSet: String(trackingConsent === undefined),
+        pathname,
+      },
+    },
   );
 };
 
