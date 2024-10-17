@@ -33,14 +33,14 @@ export async function validateFlowTransition(
 
   const { userData } = await getSessionData(sourceFlowId, cookieHeader);
 
-  const fluggastrechteVorabcheckController = buildFlowController({
+  const sourceFlowController = buildFlowController({
     config: flows[sourceFlowId].config,
     data: userData,
     guards: flows[sourceFlowId].guards,
   });
 
   const isEligibleForTransition = eligibleSourcePages.some((page) =>
-    fluggastrechteVorabcheckController.isReachable(page),
+    sourceFlowController.isReachable(page),
   );
 
   return isEligibleForTransition
