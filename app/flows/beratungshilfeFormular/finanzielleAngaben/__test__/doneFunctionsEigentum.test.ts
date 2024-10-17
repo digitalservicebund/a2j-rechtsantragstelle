@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import type { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
 import { bankKontoDone } from "~/flows/shared/finanzielleAngaben/doneFunctions";
 import {
@@ -19,7 +18,7 @@ const mockedCompleteAusgabe: NonNullable<
   zahlungsempfaenger: "Empfänger",
   beitrag: "100",
   hasZahlungsfrist: "no",
-  zahlungsfrist: "",
+  zahlungsfrist: undefined,
 };
 
 describe("eigentumDone", () => {
@@ -435,12 +434,12 @@ describe("kinderDone", () => {
             {
               vorname: "Kinder",
               nachname: "McKindery",
-              geburtsdatum: "",
+              geburtsdatum: undefined,
               wohnortBeiAntragsteller: "yes",
               eigeneEinnahmen: "yes",
-              einnahmen: "",
+              einnahmen: undefined,
               unterhalt: "yes",
-              unterhaltsSumme: "",
+              unterhaltsSumme: undefined,
             },
           ],
         },

@@ -15,16 +15,16 @@ const mockCompletedChild: z.infer<typeof kinderArraySchema>[0] = {
 
 describe("shared finanielle angaben doneFunctions", () => {
   describe("childDone", () => {
-    it("should return false when passed an undefined child", () => {
-      expect(childDone(undefined)).toBe(false);
-    });
-
     it("should return false if the name and birth date are missing", () => {
-      expect(childDone({ ...mockCompletedChild, vorname: "" })).toBe(false);
-      expect(childDone({ ...mockCompletedChild, nachname: "" })).toBe(false);
-      expect(childDone({ ...mockCompletedChild, geburtsdatum: "" })).toBe(
+      expect(childDone({ ...mockCompletedChild, vorname: undefined })).toBe(
         false,
       );
+      expect(childDone({ ...mockCompletedChild, nachname: undefined })).toBe(
+        false,
+      );
+      expect(
+        childDone({ ...mockCompletedChild, geburtsdatum: undefined }),
+      ).toBe(false);
     });
 
     it("should return false if the child lives with the antragstellende Person and has income they haven't entered", () => {
@@ -33,7 +33,7 @@ describe("shared finanielle angaben doneFunctions", () => {
           ...mockCompletedChild,
           wohnortBeiAntragsteller: "yes",
           eigeneEinnahmen: "yes",
-          einnahmen: "",
+          einnahmen: undefined,
         }),
       ).toBe(false);
       expect(
@@ -41,7 +41,7 @@ describe("shared finanielle angaben doneFunctions", () => {
           ...mockCompletedChild,
           wohnortBeiAntragsteller: "partially",
           eigeneEinnahmen: "yes",
-          einnahmen: "",
+          einnahmen: undefined,
         }),
       ).toBe(false);
     });
@@ -52,7 +52,7 @@ describe("shared finanielle angaben doneFunctions", () => {
           ...mockCompletedChild,
           wohnortBeiAntragsteller: "no",
           unterhalt: "yes",
-          unterhaltsSumme: "",
+          unterhaltsSumme: undefined,
         }),
       ).toBe(false);
     });
