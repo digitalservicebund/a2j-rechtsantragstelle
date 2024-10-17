@@ -17,6 +17,7 @@ describe("createLocalCourtAndDate", () => {
   afterEach(() => {
     vi.useRealTimers();
   });
+
   it("should create the document with the local court and date", () => {
     const mockDate = new Date("2024-10-14");
     vi.setSystemTime(mockDate);
@@ -38,5 +39,39 @@ describe("createLocalCourtAndDate", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(TO_THE_COURT_TEXT, {
       align: "left",
     });
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      userDataMock.zustaendigesAmtsgericht.bezeichnung,
+      { align: "left" },
+    );
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      userDataMock.zustaendigesAmtsgericht.strasseMitHausnummer,
+      { align: "left" },
+    );
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      userDataMock.zustaendigesAmtsgericht.plzUndStadt,
+      { align: "left" },
+    );
+  });
+
+  it("should handle missing local court gracefully", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWithoutCourt = {
+      ...userDataMock,
+      zustaendigesAmtsgericht: undefined,
+    };
+
+    createLocalCourtAndDate(mockDoc, mockStruct, userDataWithoutCourt);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(TO_THE_COURT_TEXT, {
+      align: "left",
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith("", {
+      align: "left",
+    });
+
+    expect(mockDoc.text).not.toHaveBeenCalledWith(null, { align: "left" });
   });
 });
