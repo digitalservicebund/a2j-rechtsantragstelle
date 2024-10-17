@@ -82,24 +82,26 @@ export const financialEntrySchema = z.object({
 export type FinancialEntry = z.infer<typeof financialEntrySchema>;
 
 export const kraftfahrzeugeArraySchema = z.array(
-  z.object({
-    art: stringRequiredSchema,
-    marke: stringRequiredSchema,
-    eigentuemer: Eigentuemer,
-    verkaufswert: optionalOrSchema(buildMoneyValidationSchema()),
-    kilometerstand: integerSchema,
-    anschaffungsjahr: createYearSchema({
-      optional: true,
-      latest: () => today().getFullYear(),
-    }),
-    baujahr: createYearSchema({ latest: () => today().getFullYear() }),
-    bemerkung: stringRequiredSchema,
-    hasArbeitsweg: YesNoAnswer,
-    wert: z.enum(
-      ["under10000", "over10000", "unsure"],
-      customRequiredErrorMessage,
-    ),
-  }),
+  z
+    .object({
+      art: stringRequiredSchema,
+      marke: stringRequiredSchema,
+      eigentuemer: Eigentuemer,
+      verkaufswert: optionalOrSchema(buildMoneyValidationSchema()),
+      kilometerstand: integerSchema,
+      anschaffungsjahr: createYearSchema({
+        optional: true,
+        latest: () => today().getFullYear(),
+      }),
+      baujahr: createYearSchema({ latest: () => today().getFullYear() }),
+      bemerkung: stringRequiredSchema,
+      hasArbeitsweg: YesNoAnswer,
+      wert: z.enum(
+        ["under10000", "over10000", "unsure"],
+        customRequiredErrorMessage,
+      ),
+    })
+    .partial(),
 );
 
 export const gelanlagenArraySchema = z.array(

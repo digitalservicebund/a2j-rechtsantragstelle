@@ -50,9 +50,13 @@ export const fillKraftfahrzeug: BerHPdfFillFunction = ({
 
     pdfValues.f11Fahrzeugart.value = singleKraftfahrzeugString;
 
+    const singleKfzWert = singleKraftfahrzeug.wert
+      ? verkaufswertMappingDescription[singleKraftfahrzeug.wert]
+      : "";
+
     pdfValues.f12Verkehrswert.value = singleKraftfahrzeug.verkaufswert
       ? singleKraftfahrzeug.verkaufswert + " €"
-      : verkaufswertMappingDescription[singleKraftfahrzeug.wert];
+      : singleKfzWert;
   } else {
     pdfValues.f11Fahrzeugart.value = newPageHint;
     attachment.push({
@@ -60,6 +64,9 @@ export const fillKraftfahrzeug: BerHPdfFillFunction = ({
       level: "h3",
     });
     kraftfahrzeuge.forEach((kraftfahrzeug, index) => {
+      const kfzWert = kraftfahrzeug.wert
+        ? verkaufswertMappingDescription[kraftfahrzeug.wert]
+        : "";
       attachment.push(
         {
           title: `Kraftfahrzeug ${index + 1}`,
@@ -69,7 +76,7 @@ export const fillKraftfahrzeug: BerHPdfFillFunction = ({
           title: "Verkaufswert",
           text: kraftfahrzeug.verkaufswert
             ? kraftfahrzeug.verkaufswert + " €"
-            : verkaufswertMappingDescription[kraftfahrzeug.wert],
+            : kfzWert,
         },
         {
           title: "Wird für Arbeitsweg benutzt",
