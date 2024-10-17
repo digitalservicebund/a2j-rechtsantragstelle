@@ -1,4 +1,3 @@
-import { describe, it, expect, vi } from "vitest";
 import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
