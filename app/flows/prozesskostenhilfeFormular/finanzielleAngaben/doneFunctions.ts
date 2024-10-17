@@ -1,4 +1,3 @@
-import type { z } from "zod";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import {
   finanzielleAngabeEinkuenfteGuards as einkuenfteGuards,
@@ -152,8 +151,8 @@ export const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGu
     hasSonstigeAusgabeDone({ context });
 
 export const versicherungDone = (
-  versicherung: z.infer<
-    typeof prozesskostenhilfeFinanzielleAngabenContext.versicherungen
+  versicherung: NonNullable<
+    ProzesskostenhilfeFinanzielleAngabenContext["versicherungen"]
   >[0],
 ) => {
   if (versicherung.art === "sonstige") {
@@ -169,8 +168,8 @@ export const hasVersicherungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context.versicherungen.every(versicherungDone);
 
 export const ratenzahlungDone = (
-  ratenzahlung: Partial<
-    z.infer<typeof prozesskostenhilfeFinanzielleAngabenContext.ratenzahlungen>
+  ratenzahlung: NonNullable<
+    ProzesskostenhilfeFinanzielleAngabenContext["ratenzahlungen"]
   >[0],
 ) =>
   !!ratenzahlung &&
@@ -190,8 +189,8 @@ export const hasRatenzahlungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context.ratenzahlungen.every(ratenzahlungDone);
 
 export const sonstigeAusgabeDone = (
-  sonstigeAusgabe: Partial<
-    z.infer<typeof prozesskostenhilfeFinanzielleAngabenContext.sonstigeAusgaben>
+  sonstigeAusgabe: NonNullable<
+    ProzesskostenhilfeFinanzielleAngabenContext["sonstigeAusgaben"]
   >[0],
 ) =>
   !!sonstigeAusgabe &&

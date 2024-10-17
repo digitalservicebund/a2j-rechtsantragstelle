@@ -1,5 +1,4 @@
-import type { z } from "zod";
-import type { prozesskostenhilfeFinanzielleAngabenContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
+import type { ProzesskostenhilfeFinanzielleAngabenContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
 import {
   hasRatenzahlungDone,
   hasSonstigeAusgabeDone,
@@ -13,8 +12,8 @@ import {
   versicherungDone,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/doneFunctions";
 
-const mockedCompleteRatenzahlung: Partial<
-  z.infer<typeof prozesskostenhilfeFinanzielleAngabenContext.ratenzahlungen>
+const mockedCompleteRatenzahlung: NonNullable<
+  ProzesskostenhilfeFinanzielleAngabenContext["ratenzahlungen"]
 >[0] = {
   art: "art",
   zahlungsempfaenger: "Someone",
@@ -24,8 +23,8 @@ const mockedCompleteRatenzahlung: Partial<
   laufzeitende: "01.01.2026",
 };
 
-const mockedCompleteSonstigeAusgabe: Partial<
-  z.infer<typeof prozesskostenhilfeFinanzielleAngabenContext.sonstigeAusgaben>
+const mockedCompleteSonstigeAusgabe: NonNullable<
+  ProzesskostenhilfeFinanzielleAngabenContext["sonstigeAusgaben"]
 >[0] = {
   art: "art",
   zahlungsempfaenger: "Someone",
@@ -241,7 +240,6 @@ describe("Finanzielle Angaben doneFunctions", () => {
 
   describe("ratenzahlungDone", () => {
     it("should return false if the user has entered an incomplete ratenzahlung", () => {
-      expect(ratenzahlungDone(undefined)).toBe(false);
       expect(
         ratenzahlungDone({
           ...mockedCompleteRatenzahlung,
@@ -305,7 +303,6 @@ describe("Finanzielle Angaben doneFunctions", () => {
 
   describe("sonstigeAusgabeDone", () => {
     it("should return false if the user has entered an incomplete sonstige ausgabe", () => {
-      expect(sonstigeAusgabeDone(undefined)).toBe(false);
       expect(
         sonstigeAusgabeDone({
           ...mockedCompleteSonstigeAusgabe,

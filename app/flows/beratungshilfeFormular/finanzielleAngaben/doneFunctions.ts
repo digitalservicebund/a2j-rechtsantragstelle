@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import type { beratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
+import type { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
 import type { kraftfahrzeugeArraySchema } from "~/flows/shared/finanzielleAngaben/context";
 import { childDone } from "~/flows/shared/finanzielleAngaben/doneFunctions";
 import { hasAnyEigentumExceptBankaccount } from "~/flows/shared/finanzielleAngaben/guards";
@@ -75,9 +75,7 @@ export const andereUnterhaltszahlungenDone: BeratungshilfeFinanzielleAngabenGuar
     arrayIsNonEmpty(context.unterhaltszahlungen);
 
 export const ausgabeDone = (
-  ausgabe: Partial<
-    z.infer<typeof beratungshilfeFinanzielleAngaben.ausgaben>[0]
-  >,
+  ausgabe: NonNullable<BeratungshilfeFinanzielleAngaben["ausgaben"]>[0],
 ) =>
   ausgabe.art !== undefined &&
   ausgabe.zahlungsempfaenger !== undefined &&

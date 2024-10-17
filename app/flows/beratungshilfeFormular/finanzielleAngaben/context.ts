@@ -79,15 +79,17 @@ export const beratungshilfeFinanzielleAngaben = {
   hasAusgaben: YesNoAnswer,
   ausgabensituation: besondereBelastungenSchema,
   ausgaben: z.array(
-    z.object({
-      art: stringRequiredSchema,
-      zahlungsempfaenger: stringRequiredSchema,
-      beitrag: buildMoneyValidationSchema(),
-      hasZahlungsfrist: YesNoAnswer,
-      zahlungsfrist: createDateSchema({
-        earliest: () => today(),
-      }),
-    }),
+    z
+      .object({
+        art: stringRequiredSchema,
+        zahlungsempfaenger: stringRequiredSchema,
+        beitrag: buildMoneyValidationSchema(),
+        hasZahlungsfrist: YesNoAnswer,
+        zahlungsfrist: createDateSchema({
+          earliest: () => today(),
+        }),
+      })
+      .partial(),
   ),
   pageData: pageDataSchema,
 };

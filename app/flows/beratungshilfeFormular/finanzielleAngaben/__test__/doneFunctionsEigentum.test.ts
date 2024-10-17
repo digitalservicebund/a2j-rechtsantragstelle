@@ -1,6 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import type { z } from "zod";
-import type { beratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
+import type { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
 import { bankKontoDone } from "~/flows/shared/finanzielleAngaben/doneFunctions";
 import {
   geldanlagenDone,
@@ -13,8 +12,8 @@ import {
   ausgabeDone,
 } from "../doneFunctions";
 
-const mockedCompleteAusgabe: z.infer<
-  typeof beratungshilfeFinanzielleAngaben.ausgaben
+const mockedCompleteAusgabe: NonNullable<
+  BeratungshilfeFinanzielleAngaben["ausgaben"]
 >[0] = {
   art: "Art und Weise",
   zahlungsempfaenger: "Empfänger",
