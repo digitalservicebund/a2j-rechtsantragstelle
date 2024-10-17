@@ -108,20 +108,12 @@ export const finanzielleAngabeGuards = {
   sonstigeAusgabeAnteiligYes: ({ context: { pageData, sonstigeAusgaben } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
-    return (
-      sonstigeAusgaben?.at(arrayIndex)?.zahlungspflichtiger !==
-      prozesskostenhilfeFinanzielleAngabenContext.sonstigeAusgaben.element.shape
-        .zahlungspflichtiger.Enum.myself
-    );
+    return sonstigeAusgaben?.at(arrayIndex)?.zahlungspflichtiger !== "myself";
   },
   ratenzahlungAnteiligYes: ({ context: { pageData, ratenzahlungen } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
-    return (
-      ratenzahlungen?.at(arrayIndex)?.zahlungspflichtiger !==
-      prozesskostenhilfeFinanzielleAngabenContext.ratenzahlungen.element.shape
-        .zahlungspflichtiger.Enum.myself
-    );
+    return ratenzahlungen?.at(arrayIndex)?.zahlungspflichtiger !== "myself";
   },
   ausgabenDone,
 } satisfies Guards<ProzesskostenhilfeFinanzielleAngabenContext>;

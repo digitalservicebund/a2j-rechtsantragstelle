@@ -82,24 +82,26 @@ export const financialEntrySchema = z.object({
 export type FinancialEntry = z.infer<typeof financialEntrySchema>;
 
 export const kraftfahrzeugeArraySchema = z.array(
-  z.object({
-    art: stringRequiredSchema,
-    marke: stringRequiredSchema,
-    eigentuemer: Eigentuemer,
-    verkaufswert: optionalOrSchema(buildMoneyValidationSchema()),
-    kilometerstand: integerSchema,
-    anschaffungsjahr: createYearSchema({
-      optional: true,
-      latest: () => today().getFullYear(),
-    }),
-    baujahr: createYearSchema({ latest: () => today().getFullYear() }),
-    bemerkung: stringRequiredSchema,
-    hasArbeitsweg: YesNoAnswer,
-    wert: z.enum(
-      ["under10000", "over10000", "unsure"],
-      customRequiredErrorMessage,
-    ),
-  }),
+  z
+    .object({
+      art: stringRequiredSchema,
+      marke: stringRequiredSchema,
+      eigentuemer: Eigentuemer,
+      verkaufswert: optionalOrSchema(buildMoneyValidationSchema()),
+      kilometerstand: integerSchema,
+      anschaffungsjahr: createYearSchema({
+        optional: true,
+        latest: () => today().getFullYear(),
+      }),
+      baujahr: createYearSchema({ latest: () => today().getFullYear() }),
+      bemerkung: stringRequiredSchema,
+      hasArbeitsweg: YesNoAnswer,
+      wert: z.enum(
+        ["under10000", "over10000", "unsure"],
+        customRequiredErrorMessage,
+      ),
+    })
+    .partial(),
 );
 
 export const gelanlagenArraySchema = z.array(
@@ -164,23 +166,27 @@ export const partnerschaftSchema = z.enum(
 );
 
 export const kinderArraySchema = z.array(
-  z.object({
-    vorname: stringRequiredSchema,
-    nachname: stringRequiredSchema,
-    geburtsdatum: createDateSchema({
-      earliest: () => addYears(today(), -24),
-      latest: () => today(),
-    }),
-    wohnortBeiAntragsteller: z.enum(
-      ["yes", "no", "partially"],
-      customRequiredErrorMessage,
-    ),
-    eigeneEinnahmen: YesNoAnswer,
-    einnahmen: buildMoneyValidationSchema(),
-    unterhalt: YesNoAnswer,
-    unterhaltsSumme: buildMoneyValidationSchema(),
-  }),
+  z
+    .object({
+      vorname: stringRequiredSchema,
+      nachname: stringRequiredSchema,
+      geburtsdatum: createDateSchema({
+        earliest: () => addYears(today(), -24),
+        latest: () => today(),
+      }),
+      wohnortBeiAntragsteller: z.enum(
+        ["yes", "no", "partially"],
+        customRequiredErrorMessage,
+      ),
+      eigeneEinnahmen: YesNoAnswer,
+      einnahmen: buildMoneyValidationSchema(),
+      unterhalt: YesNoAnswer,
+      unterhaltsSumme: buildMoneyValidationSchema(),
+    })
+    .partial(),
 );
+
+export type KinderArraySchema = z.infer<typeof kinderArraySchema>;
 
 export const besondereBelastungenSchema = z.object({
   pregnancy: checkedOptional,

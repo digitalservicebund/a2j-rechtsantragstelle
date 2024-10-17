@@ -1,6 +1,7 @@
 import { getContext } from "~/flows/contexts";
 import type { FlowId } from "~/flows/flowIds";
 import type { Flow } from "~/flows/flows.server";
+import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { type CookieHeader, getSessionData } from ".";
 
 export const migrationKey = "daten-uebernahme";
@@ -14,8 +15,14 @@ async function doMigration(
     migrationFlowIdSource,
     cookieHeader,
   );
+
+  const prunedUserData = await pruneIrrelevantData(
+    userData,
+    migrationFlowIdSource,
+  );
+
   return Object.fromEntries(
-    Object.entries(userData).filter(
+    Object.entries(prunedUserData).filter(
       ([key]) => key in getContext(migrationFlowIdDestination),
     ),
   );
