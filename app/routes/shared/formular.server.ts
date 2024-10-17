@@ -115,6 +115,19 @@ export const loader = async ({
   if (!flowController.isReachable(stepId))
     return redirectDocument(flowController.getInitial());
 
+  const flowTransitionConfig = getFlowTransitionConfig(currentFlow);
+  if (flowTransitionConfig) {
+    const eligibilityResult = await validateFlowTransition(
+      flows,
+      cookieHeader,
+      flowTransitionConfig,
+    );
+
+    if (!eligibilityResult.isEligible && eligibilityResult.redirectTo) {
+      return redirectDocument(eligibilityResult.redirectTo);
+    }
+  }
+
   const [
     formPageContent,
     parentMeta,
@@ -216,20 +229,6 @@ export const loader = async ({
       flowController.stepStates(),
       navigationStrings,
     ) ?? [];
-
-  const flowTransitionConfig = getFlowTransitionConfig(currentFlow);
-
-  if (flowTransitionConfig) {
-    const eligibilityResult = await validateFlowTransition(
-      flows,
-      cookieHeader,
-      flowTransitionConfig,
-    );
-
-    if (!eligibilityResult.isEligible && eligibilityResult.redirectTo) {
-      return redirectDocument(eligibilityResult.redirectTo);
-    }
-  }
 
   const navigationA11yLabels = {
     menuLabel: defaultStrings["navigationA11yLabel"],
