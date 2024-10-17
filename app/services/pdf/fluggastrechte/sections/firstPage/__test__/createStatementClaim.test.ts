@@ -3,7 +3,9 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
 import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
+import { PDF_MARGIN } from "../../../createPdfKitDocument";
 import {
   createStatementClaim,
   STATEMENT_CLAIM_AGREEMENT_SENTENCE,
@@ -84,5 +86,57 @@ describe("createStatementClaim", () => {
       "600",
     );
     assertDefendantPartyList(mockDoc, defendantPartyList);
+  });
+
+  describe("createStatementClaim - versaeumnisurteil logic", () => {
+    it("should include court sentence when versaeumnisurteil is yes", () => {
+      const mockStruct = mockPdfKitDocumentStructure();
+      const mockDoc = mockPdfKitDocument(mockStruct);
+
+      const userDataMockWithVersaeumnisurteil = {
+        ...userDataMock,
+        versaeumnisurteil: "yes",
+      } satisfies FluggastrechtContext;
+
+      createStatementClaim(
+        mockDoc,
+        mockStruct,
+        userDataMockWithVersaeumnisurteil,
+      );
+
+      expect(mockDoc.text).toHaveBeenCalledWith(
+        STATEMENT_CLAIM_COURT_SENTENCE,
+        PDF_MARGIN,
+      );
+      expect(mockDoc.text).toHaveBeenCalledWith(
+        STATEMENT_CLAIM_AGREEMENT_SENTENCE,
+        PDF_MARGIN,
+      );
+    });
+
+    it("should not include court sentence when versaeumnisurteil is no", () => {
+      const mockStruct = mockPdfKitDocumentStructure();
+      const mockDoc = mockPdfKitDocument(mockStruct);
+
+      const userDataMockWithoutVersaeumnisurteil = {
+        ...userDataMock,
+        versaeumnisurteil: "no",
+      } satisfies FluggastrechtContext;
+
+      createStatementClaim(
+        mockDoc,
+        mockStruct,
+        userDataMockWithoutVersaeumnisurteil,
+      );
+
+      expect(mockDoc.text).not.toHaveBeenCalledWith(
+        STATEMENT_CLAIM_COURT_SENTENCE,
+        PDF_MARGIN,
+      );
+      expect(mockDoc.text).toHaveBeenCalledWith(
+        STATEMENT_CLAIM_AGREEMENT_SENTENCE,
+        PDF_MARGIN,
+      );
+    });
   });
 });

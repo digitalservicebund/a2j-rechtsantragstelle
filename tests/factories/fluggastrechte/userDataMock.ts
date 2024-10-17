@@ -1,4 +1,4 @@
-import { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
+import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
 
 export const userDataMock = {
   zahlungsaufforderung: "01.04.2024",
