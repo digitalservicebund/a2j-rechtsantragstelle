@@ -38,6 +38,7 @@ const allowedWebsites = [
   "https://policies.google.com",
   "https://app.formbricks.com",
   "https://formbricks.com",
+  "https://transport.ec.europa.eu",
 ];
 
 const allowedEmails = [
