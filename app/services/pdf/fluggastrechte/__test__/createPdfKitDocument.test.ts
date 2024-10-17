@@ -60,7 +60,7 @@ describe("createPdfKitDocument", () => {
     expect(document).toBe(mockDocument);
   });
 
-  it("should register the fonts correctly", () => {
+  it("should register the fonts and line gap correctly", () => {
     const mockRegularFont = new ArrayBuffer(8);
     const mockBoldFont = new ArrayBuffer(8);
 
