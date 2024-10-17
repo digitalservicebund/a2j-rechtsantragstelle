@@ -63,10 +63,12 @@ export const fillZahlungsverpflichtungen: PkhPdfFillFunction = ({
 
     zahlungenWithDescription.forEach((zahlung) => {
       attachment.push(
-        { level: "h3", title: zahlung.art },
+        { level: "h3", title: zahlung.art ?? "" },
         {
           title: "Zahlungspflichtiger",
-          text: eigentuemerMapping[zahlung.zahlungspflichtiger],
+          text: zahlung.zahlungspflichtiger
+            ? eigentuemerMapping[zahlung.zahlungspflichtiger]
+            : "",
         },
         { title: "Zahlungsempfänger", text: zahlung.zahlungsempfaenger },
         {

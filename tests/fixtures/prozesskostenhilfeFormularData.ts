@@ -13,7 +13,6 @@ import {
   financialEntrySchema,
   gelanlagenArraySchema,
   grundeigentumArraySchema,
-  kraftfahrzeugeArraySchema,
   unterhaltszahlungSchema,
 } from "~/flows/shared/finanzielleAngaben/context";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
@@ -101,7 +100,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   kraftfahrzeuge: [
     {
       hasArbeitsweg: YesNoAnswer.Enum.yes,
-      wert: kraftfahrzeugeArraySchema.element.shape.wert.Enum.unsure,
+      wert: "unsure",
       eigentuemer: Eigentuemer.Enum.partner,
       art: faker.vehicle.vehicle(),
       marke: faker.vehicle.manufacturer(),
