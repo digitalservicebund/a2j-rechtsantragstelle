@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { footerLinks, headerLinks } from "./urlsToCheck";
 import { testPageToBeAccessible } from "../util/testPageToBeAccessible";
 
 test.beforeEach(async ({ page }) => {
@@ -15,54 +16,29 @@ test.describe("homepage", () => {
   });
 
   test.describe("Header links", () => {
-    test("Accessibility links are visible from the homepage", async ({
-      page,
-    }) => {
+    test("Heeader links are visible", async ({ page }) => {
       await expect(page.getByLabel("Leichte Sprache")).toBeVisible();
       await expect(page.getByLabel("Gebärdensprache")).toBeVisible();
     });
 
-    Object.entries({
-      "Leichte Sprache": "/leichtesprache",
-      Gebärdensprache: "/gebaerdensprache",
-    }).forEach((entry) => {
-      const [pageName, url] = entry;
-      test(`${pageName} accessibility link correctly navigates to ${url}`, async ({
-        page,
-      }) => {
-        const responsePromise = page.waitForResponse(
-          (resp) => resp.url().includes(url) && resp.status() === 200,
-        );
-        await page.getByLabel(pageName).click();
-        await responsePromise;
-      });
+    test("Header links have correct href", async ({ page }) => {
+      const headerLocator = page.locator("header");
+      const headerLinkElements = await headerLocator.getByRole("link").all();
+      const headerHrefs = await Promise.all(
+        headerLinkElements.map((link) => link.getAttribute("href")),
+      );
+
+      headerLinks.forEach((url) => expect(headerHrefs).toContain(url));
     });
   });
 
-  test.describe("Footer links", () => {
-    const expectedLinks = {
-      Impressum: "/impressum",
-      // Nutzungsbedingungen: "/nutzungsbedingungen",
-      Datenschutzbestimmung: "/datenschutz",
-      "Cookie-Einstellungen": "/cookie-einstellungen",
-      Barrierefreiheit: "/barrierefreiheit",
-      // Pressekontakt: "/pressekontakt",
-    };
+  test("Footer links haf correct href", async ({ page }) => {
+    const footerLocator = page.locator("footer");
+    const footerLinkElements = await footerLocator.getByRole("link").all();
+    const footerHrefs = await Promise.all(
+      footerLinkElements.map((link) => link.getAttribute("href")),
+    );
 
-    let key: keyof typeof expectedLinks;
-    for (key in expectedLinks) {
-      const linkText = key;
-      const url = expectedLinks[linkText];
-      test(`${linkText}`, async ({ page }) => {
-        const responsePromise = page.waitForResponse(
-          (resp) => resp.url().includes(url) && resp.status() === 200,
-        );
-        await page
-          .getByTestId("footer")
-          .getByRole("link", { name: linkText })
-          .click();
-        await responsePromise;
-      });
-    }
+    footerLinks.forEach((url) => expect(footerHrefs).toContain(url));
   });
 });

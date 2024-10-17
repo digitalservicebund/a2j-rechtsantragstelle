@@ -1,7 +1,7 @@
 import { finanzielleAngabeEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import { type AttachmentEntries, newPageHint } from "~/services/pdf/attachment";
-import type { PkhPdfFillFunction } from ".";
-import { pdfFillReducer } from "../fillOutFunction";
+import type { PkhPdfFillFunction } from "..";
+import { pdfFillReducer } from "../../fillOutFunction";
 
 export const zahlungsfrequenzMapping = {
   monthly: "Monatlich",
@@ -14,14 +14,14 @@ export const fillStaatlicheLeistungen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  if (userData.staatlicheLeistungen === "buergergeld") {
+  if (guards.staatlicheLeistungenIsBuergergeld({ context: userData })) {
     pdfValues.ja_16.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro11.value = `${userData.buergergeld} €`;
   } else {
     pdfValues.nein_17.value = true;
   }
 
-  if (userData.staatlicheLeistungen === "arbeitslosengeld") {
+  if (guards.staatlicheLeistungenIsArbeitslosengeld({ context: userData })) {
     pdfValues.ja_14.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro10.value = `${userData.arbeitslosengeld} €`;
   } else {
@@ -73,10 +73,11 @@ export const fillRente: PkhPdfFillFunction = ({ userData, pdfValues }) => {
 export const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   if (
     !guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData }) &&
-    guards.receivesSupport({ context: userData })
+    userData.unterhaltsanspruch === "unterhalt" &&
+    userData.unterhaltsSumme
   ) {
     pdfValues.ja_10.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9.value = `${userData.supportAmount} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9.value = `${userData.unterhaltsSumme} €`;
   } else {
     pdfValues.nein_11.value = true;
   }
@@ -188,7 +189,7 @@ export const fillWeitereEinkuenfte: PkhPdfFillFunction = ({
   return { pdfValues };
 };
 
-export const fillBruttoEinnahmen: PkhPdfFillFunction = ({
+export const fillSelfBruttoEinnahmen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {

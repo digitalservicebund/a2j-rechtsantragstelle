@@ -1,9 +1,9 @@
 import { serverOnly$ } from "vite-env-only/macros";
 import { z } from "zod";
-import airports from "data/airports/data.json";
+import { getAirportByIataCode } from "../airports/getAirportByIataCode";
 
 const serverValidation = serverOnly$((airportCode: string) =>
-  airports.some((airport) => airport.iata === airportCode),
+  getAirportByIataCode(airportCode),
 );
 
 export const airportSchema = z
