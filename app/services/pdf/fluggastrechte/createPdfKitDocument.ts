@@ -7,6 +7,7 @@ export const FONTS_BUNDESSANS_REGULAR = "BundesSansWebRegular";
 export const FONTS_BUNDESSANS_BOLD = "BundesSansWebBold";
 export const PDF_MARGIN = 70;
 export const PDF_HEIGHT_SEIZE = 760;
+export const LINE_GAP_GLOBAL = 1.5;
 
 export const createPdfKitDocument = (
   bundesSansWebRegular: ArrayBuffer,
@@ -32,6 +33,7 @@ export const createPdfKitDocument = (
   // Register fonts
   document.registerFont(FONTS_BUNDESSANS_REGULAR, bundesSansWebRegular);
   document.registerFont(FONTS_BUNDESSANS_BOLD, bundesSansWebBold);
+  document.lineGap(LINE_GAP_GLOBAL);
 
   return document;
 };

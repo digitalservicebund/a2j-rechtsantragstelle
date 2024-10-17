@@ -3,6 +3,7 @@ import {
   createPdfKitDocument,
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
+  LINE_GAP_GLOBAL,
   PDF_LANGUAGE,
   PDF_MARGIN,
   PDF_SIZE_FORMAT,
@@ -21,6 +22,7 @@ describe("createPdfKitDocument", () => {
   beforeEach(() => {
     mockDocument = {
       registerFont: vi.fn(),
+      lineGap: vi.fn(),
     };
 
     vi.mocked(PDFDocument).mockImplementation(
@@ -58,7 +60,7 @@ describe("createPdfKitDocument", () => {
     expect(document).toBe(mockDocument);
   });
 
-  it("should register the fonts correctly", () => {
+  it("should register the fonts and line gap correctly", () => {
     const mockRegularFont = new ArrayBuffer(8);
     const mockBoldFont = new ArrayBuffer(8);
 
@@ -70,5 +72,8 @@ describe("createPdfKitDocument", () => {
     expect(
       (mockDocument as PDFKit.PDFDocument).registerFont,
     ).toHaveBeenCalledWith(FONTS_BUNDESSANS_BOLD, mockBoldFont);
+    expect((mockDocument as PDFKit.PDFDocument).lineGap).toHaveBeenCalledWith(
+      LINE_GAP_GLOBAL,
+    );
   });
 });

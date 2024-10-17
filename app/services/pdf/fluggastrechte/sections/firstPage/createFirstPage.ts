@@ -1,20 +1,20 @@
 import type PDFDocument from "pdfkit";
-import { createClaimData } from "./claimData/createClaimData";
+import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
 import { createLocalCourtAndDate } from "./createLocalCourtAndDate";
-import { createMainTitle } from "./createMainTitle";
 import { createStatementClaim } from "./createStatementClaim";
 import { createPageFooter } from "../createPageFooter";
+import { createFlightCompensationClaim } from "./createFlightCompensationClaim";
 
 export const createFirstPage = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
+  userData: FluggastrechtContext,
 ) => {
-  createLocalCourtAndDate(doc, documentStruct);
+  createLocalCourtAndDate(doc, documentStruct, userData);
   doc.moveDown(2);
-  createMainTitle(doc, documentStruct);
+  createFlightCompensationClaim(doc, documentStruct, userData);
   doc.moveDown(2);
-  createClaimData(doc, documentStruct);
-  doc.moveDown(2);
-  createStatementClaim(doc, documentStruct);
-  createPageFooter(doc, documentStruct);
+  createStatementClaim(doc, documentStruct, userData);
+
+  createPageFooter(doc, documentStruct, userData);
 };

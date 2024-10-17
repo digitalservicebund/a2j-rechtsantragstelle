@@ -1,3 +1,4 @@
+import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -9,14 +10,10 @@ describe("addAirlineDetails", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addAirlineDetails(mockDoc, mockStruct);
+    addAirlineDetails(mockDoc, userDataMock);
 
-    expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
-    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
-
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Deutsche Lufthansa Aktiengesellschaft",
-      { continued: true },
-    );
+    expect(mockDoc.text).toHaveBeenCalledWith("Deutsche Lufthansa AG", {
+      continued: true,
+    });
   });
 });

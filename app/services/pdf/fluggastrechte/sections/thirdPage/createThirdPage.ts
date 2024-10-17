@@ -1,4 +1,5 @@
 import type PDFDocument from "pdfkit";
+import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -8,6 +9,7 @@ import { createPageFooter } from "../createPageFooter";
 export const createThirdPage = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
+  userData: FluggastrechtContext,
 ) => {
   doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text("II. Entschädigungshöhe");
   doc.moveDown(1);
@@ -23,5 +25,5 @@ export const createThirdPage = (
 
   doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text("Włodzimierz Ciesiński");
 
-  createPageFooter(doc, documentStruct);
+  createPageFooter(doc, documentStruct, userData);
 };

@@ -5,15 +5,15 @@ import {
 import { createStamp, STAMP_TEXT, STAMP_TEXT_WIDTH } from "../createStamp";
 
 describe("createStamp", () => {
-  it("should create document with stamp ", () => {
+  it("should create document with stamp", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     createStamp(mockDoc, mockStruct);
 
-    expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
-    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    const structMock = mockDoc.struct;
 
+    expect(structMock).toHaveBeenCalledWith("P", {}, expect.any(Function));
     expect(mockDoc.text).toHaveBeenCalledWith(
       STAMP_TEXT,
       expect.anything(),

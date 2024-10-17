@@ -1,4 +1,4 @@
-import airlines from "data/airlines/data.json";
+import { getAirlineNameByIataCode } from "~/services/airlines/getAirlineNameByIataCode";
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import type { FluggastrechtContext } from "./context";
 
@@ -16,15 +16,6 @@ export function getEndAirportName({ endAirport = "" }: FluggastrechtContext) {
   return airportName.length > 0 ? { endAirport: airportName } : {};
 }
 
-function getAirlinenNameByIataCode(iataCode?: string) {
-  if (typeof iataCode === "undefined" || iataCode.length === 0) {
-    return "";
-  }
-  const airline = airlines.find((airline) => airline.iata === iataCode);
-
-  return airline?.name ?? "";
-}
-
 export function getAirlineName({
   fluggesellschaft = "",
 }: FluggastrechtContext) {
@@ -32,7 +23,7 @@ export function getAirlineName({
     return {};
   }
 
-  const airlineName = getAirlinenNameByIataCode(fluggesellschaft);
+  const airlineName = getAirlineNameByIataCode(fluggesellschaft);
 
   return airlineName.length > 0 ? { airlineName: airlineName } : {};
 }
