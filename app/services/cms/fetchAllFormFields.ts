@@ -39,7 +39,9 @@ export async function fetchAllFormFields(
 }
 
 function formFieldsFromSchema(
-  schemas: StrapiSchemas["form-flow-pages"],
+  schemas:
+    | StrapiSchemas["form-flow-pages"]
+    | StrapiSchemas["vorab-check-pages"],
 ): FormFieldsMap {
   return Object.fromEntries(
     schemas.map(({ attributes: { stepId, form } }) => [
