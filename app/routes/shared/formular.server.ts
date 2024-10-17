@@ -42,7 +42,7 @@ import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import {
   validateFlowTransition,
   getFlowTransitionConfig,
-} from "~/services/session.server/flowTransitionValidation.server";
+} from "~/services/flow/server/flowTransitionValidation";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";

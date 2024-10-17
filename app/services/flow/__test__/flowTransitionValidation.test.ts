@@ -5,11 +5,11 @@ import {
   buildFlowController,
   type FlowController,
 } from "~/services/flow/server/buildFlowController";
-import { getSessionData } from "..";
+import { getSessionData } from "../../session.server";
 import {
   type FlowTransitionConfig,
   validateFlowTransition,
-} from "../flowTransitionValidation.server";
+} from "../server/flowTransitionValidation";
 
 vi.mock("app/services/session.server/index", () => ({
   getSessionData: vi.fn(),

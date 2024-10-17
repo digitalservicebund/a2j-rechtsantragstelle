@@ -2,7 +2,7 @@ import _ from "lodash";
 import type { AllContextKeys } from "~/flows/common";
 import type { Flow } from "~/flows/flows.server";
 import type { ArrayConfig } from "~/services/array";
-import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
+import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import abgabeFlow from "./abgabe/flow.json";
 import type { FluggastrechtContext } from "./context";
 import { flugdatenDone } from "./flugdaten/doneFunctions";

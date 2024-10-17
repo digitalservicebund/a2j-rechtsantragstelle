@@ -1,8 +1,8 @@
 import _ from "lodash";
 import type { FlowId } from "~/flows/flowIds";
 import type { Flow } from "~/flows/flows.server";
-import { type CookieHeader, getSessionData } from ".";
-import { buildFlowController } from "../flow/server/buildFlowController";
+import { type CookieHeader, getSessionData } from "../../session.server";
+import { buildFlowController } from "./buildFlowController";
 
 export type FlowTransitionConfig = {
   sourceFlowId: FlowId;
