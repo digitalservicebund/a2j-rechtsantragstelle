@@ -5,6 +5,7 @@ import {
   prozesskostenhilfeFormular,
   type ProzesskostenhilfeFormularContext,
 } from "~/flows/prozesskostenhilfeFormular";
+import { antragstellendePersonTransitionCases } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
 const machine: FlowStateMachine = createMachine(
@@ -26,6 +27,22 @@ const cases = [
       "grundvoraussetzungen/einreichung/fall",
       "grundvoraussetzungen/einreichung/mjp",
       "grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
+    ],
+  ],
+  [
+    {
+      empfaenger: "ich",
+      unterhaltsanspruch: "anspruchNoUnterhalt",
+      couldLiveFromUnterhalt: "yes",
+      personWhoCouldPayUnterhaltBeziehung: "exEhepartner",
+      whyNoUnterhalt: "",
+    },
+    [
+      "antragstellende-person/empfaenger",
+      "antragstellende-person/unterhaltsanspruch",
+      "antragstellende-person/unterhalt-leben-frage",
+      "antragstellende-person/unterhaltspflichtige-person-beziehung",
+      "antragstellende-person/warum-keiner-unterhalt",
     ],
   ],
   [
@@ -69,16 +86,17 @@ const cases = [
       "finanzielle-angaben/kinder/kinder-frage",
     ],
   ],
+  ...antragstellendePersonTransitionCases,
   [
     happyPathData,
     [
       "start/start",
       "grundvoraussetzungen/nachueberpruefung-frage",
-      "grundvoraussetzungen/nachueberpruefung/name-gericht",
-      "grundvoraussetzungen/nachueberpruefung/aktenzeichen",
+      "grundvoraussetzungen/antrag/klageersteller",
       "grundvoraussetzungen/einreichung/fall",
-      "grundvoraussetzungen/einreichung/mjp",
       "grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
+      "antragstellende-person/empfaenger",
+      "antragstellende-person/unterhaltsanspruch",
       "rechtsschutzversicherung/rsv-frage",
       "rechtsschutzversicherung/org-frage",
       "finanzielle-angaben/einkuenfte/start",
@@ -96,8 +114,6 @@ const cases = [
       "finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht",
       "finanzielle-angaben/einkuenfte/rente-frage",
       "finanzielle-angaben/einkuenfte/rente",
-      "finanzielle-angaben/einkuenfte/unterhalt-frage",
-      "finanzielle-angaben/einkuenfte/unterhalt",
       "finanzielle-angaben/einkuenfte/leistungen/frage",
       "finanzielle-angaben/einkuenfte/leistungen/wohngeld",
       "finanzielle-angaben/einkuenfte/leistungen/krankengeld",
@@ -123,17 +139,18 @@ const cases = [
       "finanzielle-angaben/ausgaben/ausgaben-frage",
       "finanzielle-angaben/ausgaben/besondere-belastungen",
       "finanzielle-angaben/ausgaben-zusammenfassung/zusammenfassung",
+      "gesetzliche-vertretung/frage",
+      "gesetzliche-vertretung/daten",
       "persoenliche-daten/start",
       "persoenliche-daten/name",
       "persoenliche-daten/geburtsdatum",
       "persoenliche-daten/adresse",
       "persoenliche-daten/telefonnummer",
       "persoenliche-daten/beruf",
-      "abgabe/art",
-      "abgabe/ausdrucken",
+      "abgabe/ende",
     ],
   ],
-] as const satisfies TestCases<ProzesskostenhilfeFormularContext>;
+] satisfies TestCases<ProzesskostenhilfeFormularContext>;
 
 export const testCasesProzesskostenhilfeFormular = {
   machine,

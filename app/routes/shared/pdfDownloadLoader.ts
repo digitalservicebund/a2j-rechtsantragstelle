@@ -4,35 +4,34 @@ import type { Context } from "~/flows/contexts";
 import { parsePathname, type FlowId } from "~/flows/flowIds";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { beratungshilfePdfFromUserdata } from "~/services/pdf/beratungshilfe";
+import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
+import { fluggastrechtePdfFromUserdata } from "~/services/pdf/fluggastrechte/fluggastrechtePdfFromUserdata";
+import { pdfDocumentToArrayBuffer } from "~/services/pdf/pdfDocumentToArrayBuffer";
 import { prozesskostenhilfePdfFromUserdata } from "~/services/pdf/prozesskostenhilfe";
 import { getSessionData } from "~/services/session.server";
 import { pdfDateFormat, today } from "~/util/date";
 
 const pdfConfigs = {
   "/beratungshilfe/antrag": {
-    pdfFunction: beratungshilfePdfFromUserdata,
-    filenameFunction: (userData: Context) =>
-      `Antrag_Beratungshilfe_${userData.nachname}_${pdfDateFormat(today())}.pdf`,
+    pdfFunction: async (userData: Context) =>
+      pdfDocumentToArrayBuffer(await beratungshilfePdfFromUserdata(userData)),
+    filenameFunction: () =>
+      `Antrag_Beratungshilfe_${pdfDateFormat(today())}.pdf`,
   },
   "/prozesskostenhilfe/formular": {
-    pdfFunction: prozesskostenhilfePdfFromUserdata,
-    filenameFunction: (userData: Context) =>
-      `Antrag_Prozesskostenhilfe_${userData.nachname}_${pdfDateFormat(today())}.pdf`,
+    pdfFunction: async (userData: Context) =>
+      pdfDocumentToArrayBuffer(
+        await prozesskostenhilfePdfFromUserdata(userData),
+      ),
+    filenameFunction: () =>
+      `Antrag_Prozesskostenhilfe_${pdfDateFormat(today())}.pdf`,
+  },
+  "/fluggastrechte/formular": {
+    pdfFunction: fluggastrechtePdfFromUserdata,
+    filenameFunction: () =>
+      `Fluggastrechte_Klage_${pdfDateFormat(today())}.pdf`,
   },
 } as const satisfies Partial<Record<FlowId, unknown>>;
-
-export function createHeaders(filename: string) {
-  // The default character set for HTTP headers is ISO-8859-1.
-  // There is however RFC 6266, describing how you can encode the file name
-  // in a Content-Disposition header:
-  // https://datatracker.ietf.org/doc/html/rfc6266#section-5
-
-  const encodedFilename = encodeURIComponent(filename);
-  return {
-    "Content-Type": "application/pdf",
-    "Content-Disposition": `inline; filename*=UTF-8''${encodeURIComponent(encodedFilename)}`,
-  };
-}
 
 export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
   const { pathname } = new URL(request.url);
@@ -48,8 +47,11 @@ export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
   );
   if (_.isEmpty(userData)) return redirect(flowId);
 
-  const filename = filenameFunction(userData);
-  return new Response(await (await pdfFunction(userData)).save(), {
-    headers: createHeaders(filename),
+  const fileContent = await pdfFunction(userData);
+  const fileSize = fileContent.length;
+  const filename = filenameFunction();
+
+  return new Response(fileContent, {
+    headers: createPdfResponseHeaders(filename, fileSize),
   });
 }

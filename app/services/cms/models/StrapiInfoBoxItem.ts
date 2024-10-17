@@ -13,12 +13,10 @@ export const StrapiInfoBoxItemSchema = z
   .object({
     label: StrapiHeadingSchema.nullable(),
     headline: StrapiHeadingSchema.nullable(),
-    image: StrapiImageSchema.nullable(),
+    image: StrapiImageSchema,
     content: z.string().nullable(),
-    detailsSummary: StrapiDetailsSummarySchema.nullable().or(
-      z.array(StrapiDetailsSummarySchema).optional(),
-    ),
-    buttons: z.array(StrapiButtonSchema).nullable(),
+    detailsSummary: z.array(StrapiDetailsSummarySchema),
+    buttons: z.array(StrapiButtonSchema),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);

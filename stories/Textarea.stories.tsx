@@ -33,3 +33,16 @@ export const WithDescription: Story = {
   },
   decorators: [(Story) => remixContext(Story)],
 };
+
+export const Withdetails: Story = {
+  args: {
+    name: "textarea",
+    details: {
+      title: "Text-Beispiel",
+      content: "Lorem ipsum",
+    },
+    label: "Lorem ipsum dolor sit amet",
+    formId: "formId",
+  },
+  decorators: [(Story) => remixContext(Story)],
+};

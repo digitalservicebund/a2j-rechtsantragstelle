@@ -28,9 +28,9 @@ describe("grundvoraussetzungen", () => {
         pdfValues: pdfParams,
         userData: {},
       });
-      expect(
-        pdfValues.bezeichnungOrtundGeschaeftsnummerdesGerichts.value,
-      ).toBeUndefined();
+      expect(pdfValues.bezeichnungOrtundGeschaeftsnummerdesGerichts.value).toBe(
+        "",
+      );
     });
   });
 });

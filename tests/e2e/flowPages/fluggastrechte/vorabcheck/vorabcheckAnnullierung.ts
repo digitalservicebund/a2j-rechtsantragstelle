@@ -31,7 +31,7 @@ export async function startFluggastrechteVorabcheckAnnullierung(
 
   //fluggastrechte/vorabcheck/ersatzflug-landen-zwei-stunden
   await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("ersatzflugLandenZweiStuden", "yes");
+  await vorabcheck.fillRadioPage("ersatzflugLandenZweiStunden", "yes");
 
   //fluggastrechte/vorabcheck/vertretbare-gruende-annullierung
   await expectPageToBeAccessible({ page });

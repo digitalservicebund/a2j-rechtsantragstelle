@@ -56,4 +56,10 @@ describe("isEuropeanUnionAirport", () => {
       expect.fail("Not an Ok");
     }
   });
+
+  it("should return given an undefined airport code", () => {
+    const actual = isEuropeanUnionAirport(undefined);
+
+    expect(actual.isErr).toBe(true);
+  });
 });

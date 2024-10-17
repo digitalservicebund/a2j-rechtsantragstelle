@@ -8,23 +8,15 @@ export async function startGrundvoraussetzungen(
 ) {
   // /prozesskostenhilfe/formular/grundvoraussetzungen/nachueberpruefung-frage
   await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("formularArt", "nachueberpruefung");
+  await formular.fillRadioPage("formularArt", "erstantrag");
 
-  // /prozesskostenhilfe/formular/grundvoraussetzungen/nachueberpruefung/name-gericht
+  // /prozesskostenhilfe/formular/grundvoraussetzungen/antrag/klageersteller
   await expectPageToBeAccessible({ page });
-  await formular.clickNext();
-
-  // /prozesskostenhilfe/formular/grundvoraussetzungen/nachueberpruefung/aktenzeichen
-  await expectPageToBeAccessible({ page });
-  await formular.clickNext();
+  await formular.fillRadioPage("verfahrenArt", "verfahrenAnwalt");
 
   // /prozesskostenhilfe/formular/grundvoraussetzungen/einreichung/fall
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("versandArt", "digital");
-
-  // /prozesskostenhilfe/formular/grundvoraussetzungen/einreichung/mjp
-  await expectPageToBeAccessible({ page });
-  await formular.clickNext();
 
   // /prozesskostenhilfe/formular/grundvoraussetzungen/einreichung/hinweis-digital-einreichung
   await expectPageToBeAccessible({ page });

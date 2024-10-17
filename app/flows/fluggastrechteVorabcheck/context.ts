@@ -17,13 +17,11 @@ const ankuendigungSchema = z.enum(
   customRequiredErrorMessage,
 );
 
-export const zustaendigesAmtsgerichtSchema = z.array(
-  z.object({
-    bezeichnung: stringOptionalSchema,
-    strasseMitHausnummer: stringOptionalSchema,
-    plzUndStadt: stringOptionalSchema,
-  }),
-);
+export const zustaendigesAmtsgerichtSchema = z.object({
+  bezeichnung: stringOptionalSchema,
+  strasseMitHausnummer: stringOptionalSchema,
+  plzUndStadt: stringOptionalSchema,
+});
 
 export const fluggastrechteVorabcheckContext = {
   startAirport: airportSchema,
@@ -47,7 +45,7 @@ export const fluggastrechteVorabcheckContext = {
   ankuendigung: ankuendigungSchema,
   ersatzflug: YesNoAnswer,
   ersatzflugStartenEinStunde: YesNoAnswer,
-  ersatzflugLandenZweiStuden: YesNoAnswer,
+  ersatzflugLandenZweiStunden: YesNoAnswer,
   vertretbareGruendeAnnullierung: YesNoAnswer,
   ersatzflugStartenZweiStunden: YesNoAnswer,
   ersatzflugLandenVierStunden: YesNoAnswer,

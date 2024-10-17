@@ -3,6 +3,7 @@ import fs from "fs";
 import countriesTranslation from "i18n-iso-countries";
 import _ from "lodash";
 import { z } from "zod";
+import type { Airport } from "~/services/airports/type";
 
 const FILE_PATH_AIRPORTS_DATA = "data/airports/data.json";
 const GERMAN_LOCALE = "de";
@@ -13,6 +14,16 @@ const AIRPORTS_URL_DATA_SOURCE =
 const airportsGermanCitiesContent = fs.readFileSync(CITIES_AIRPORTS_DE, {
   encoding: "utf-8",
 });
+
+const pilotCourt = {
+  BRE: "28199",
+  BER: "12529",
+  DUS: "40474",
+  FRA: "60549",
+  HAM: "22335",
+  MUC: "85356",
+  STR: "70629",
+};
 
 function removeDoubleQuotes(value: unknown): string {
   if (typeof value === "string") {
@@ -37,10 +48,6 @@ const AirportDataSourceSchema = z.object({
 });
 
 type AirportDataSource = z.infer<typeof AirportDataSourceSchema>;
-
-type Airport = Omit<AirportDataSource, "type" | "scheduled_service"> & {
-  country: string;
-};
 
 function translateAirportName(airportName: string): string {
   // we cannot use .endWith() since the word airport is not always at the end
@@ -87,6 +94,8 @@ function filteredLargeMediumAirports(airports: AirportDataSource[]): Airport[] {
         latitude: airport.latitude,
         longitude: airport.longitude,
         city: translateAirportCity(airport),
+        pilotCourtZipCode:
+          pilotCourt[airport.iata as keyof typeof pilotCourt] ?? "",
       };
     });
 }

@@ -2,7 +2,7 @@ import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import { useFetcher, useLocation } from "@remix-run/react";
 import type { Translations } from "~/services/cms/index.server";
-import { CSRFKey } from "~/services/security/csrfKey";
+import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
