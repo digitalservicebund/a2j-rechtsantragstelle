@@ -28,11 +28,9 @@ export function getRouteCompensationBetweenAirports(
     const isStartAirportEU = isEuropeanUnionAirport(startAirport);
     const isEndAirportEU = isEuropeanUnionAirport(endAirport);
 
-    if (isStartAirportEU.isOk && isEndAirportEU.isOk) {
-      return isStartAirportEU.value && isEndAirportEU.value
-        ? "longDistanceInsideEU"
-        : "longDistanceOutsideEU";
-    }
+    return isStartAirportEU && isEndAirportEU
+      ? "longDistanceInsideEU"
+      : "longDistanceOutsideEU";
   }
 
   if (distanceKm.value > MIDDLE_DISTANCE_KILOMETERS) {
