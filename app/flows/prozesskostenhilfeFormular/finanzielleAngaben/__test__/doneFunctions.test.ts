@@ -1,9 +1,37 @@
+import type { z } from "zod";
+import type { prozesskostenhilfeFinanzielleAngabenContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
 import {
+  hasRatenzahlungDone,
+  hasSonstigeAusgabeDone,
+  hasVersicherungDone,
   kinderDone,
   partnerBesondersAusgabenDone,
   partnerDone,
   partnerSupportDone,
+  ratenzahlungDone,
+  sonstigeAusgabeDone,
+  versicherungDone,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/doneFunctions";
+
+const mockedCompleteRatenzahlung: Partial<
+  z.infer<typeof prozesskostenhilfeFinanzielleAngabenContext.ratenzahlungen>
+>[0] = {
+  art: "art",
+  zahlungsempfaenger: "Someone",
+  zahlungspflichtiger: "myself",
+  betragGesamt: "50",
+  restschuld: "100",
+  laufzeitende: "01.01.2026",
+};
+
+const mockedCompleteSonstigeAusgabe: Partial<
+  z.infer<typeof prozesskostenhilfeFinanzielleAngabenContext.sonstigeAusgaben>
+>[0] = {
+  art: "art",
+  zahlungsempfaenger: "Someone",
+  zahlungspflichtiger: "myself",
+  betragGesamt: "50",
+};
 
 describe("Finanzielle Angaben doneFunctions", () => {
   describe("partnerDone", () => {
@@ -143,6 +171,195 @@ describe("Finanzielle Angaben doneFunctions", () => {
                 unterhaltsSumme: "100",
               },
             ],
+          },
+        }),
+      ).toBe(true);
+    });
+  });
+
+  describe("versicherungDone", () => {
+    it("should return false if the user has indicated a sonstige versicherung but hasn't named it", () => {
+      expect(versicherungDone({ beitrag: "100", art: "sonstige" })).toBe(false);
+    });
+
+    it("should return true for a completed versicherung entry", () => {
+      expect(
+        versicherungDone({ beitrag: "100", art: "unfallversicherung" }),
+      ).toBe(true);
+      expect(
+        versicherungDone({
+          beitrag: "100",
+          art: "sonstige",
+          sonstigeArt: "beschreibung",
+        }),
+      ).toBe(true);
+    });
+  });
+
+  describe("hasVersicherungDone", () => {
+    it("should return false if the versicherungen array is empty", () => {
+      expect(hasVersicherungDone({ context: { versicherungen: [] } })).toBe(
+        false,
+      );
+    });
+
+    it("should return false if the versicherungen array contains an incomplete entry", () => {
+      expect(
+        hasVersicherungDone({
+          context: {
+            versicherungen: [
+              {
+                art: "sonstige",
+                beitrag: "100",
+              },
+            ],
+          },
+        }),
+      ).toBe(false);
+    });
+
+    it("should return true if the versicherungen array contains only complete entries", () => {
+      expect(
+        hasVersicherungDone({
+          context: {
+            versicherungen: [
+              {
+                art: "unfallversicherung",
+                beitrag: "100",
+              },
+              {
+                art: "sonstige",
+                sonstigeArt: "beschreibung",
+                beitrag: "100",
+              },
+            ],
+          },
+        }),
+      ).toBe(true);
+    });
+  });
+
+  describe("ratenzahlungDone", () => {
+    it("should return false if the user has entered an incomplete ratenzahlung", () => {
+      expect(ratenzahlungDone(undefined)).toBe(false);
+      expect(
+        ratenzahlungDone({
+          ...mockedCompleteRatenzahlung,
+          zahlungspflichtiger: "myselfAndPartner",
+        }),
+      ).toBe(false);
+    });
+
+    it("should return true for a completed ratenzahlung entry", () => {
+      expect(ratenzahlungDone(mockedCompleteRatenzahlung)).toBe(true);
+      expect(
+        ratenzahlungDone({
+          ...mockedCompleteRatenzahlung,
+          zahlungspflichtiger: "myselfAndPartner",
+          betragEigenerAnteil: "50",
+          betragGesamt: "100",
+        }),
+      ).toBe(true);
+    });
+  });
+
+  describe("hasRatenzahlungDone", () => {
+    it("should return false if the ratenzahlungen array is empty", () => {
+      expect(hasRatenzahlungDone({ context: { ratenzahlungen: [] } })).toBe(
+        false,
+      );
+    });
+
+    it("should return false if the ratenzahlungen array contains an incomplete entry", () => {
+      expect(
+        hasRatenzahlungDone({
+          context: {
+            ratenzahlungen: [],
+          },
+        }),
+      ).toBe(false);
+      expect(
+        hasRatenzahlungDone({
+          context: {
+            ratenzahlungen: [
+              {
+                ...mockedCompleteRatenzahlung,
+                zahlungspflichtiger: "myselfAndSomeoneElse",
+              },
+            ],
+          },
+        }),
+      ).toBe(false);
+    });
+
+    it("should return true if the ratenzahlungen array contains only complete entries", () => {
+      expect(
+        hasRatenzahlungDone({
+          context: {
+            ratenzahlungen: [mockedCompleteRatenzahlung],
+          },
+        }),
+      ).toBe(true);
+    });
+  });
+
+  describe("sonstigeAusgabeDone", () => {
+    it("should return false if the user has entered an incomplete sonstige ausgabe", () => {
+      expect(sonstigeAusgabeDone(undefined)).toBe(false);
+      expect(
+        sonstigeAusgabeDone({
+          ...mockedCompleteSonstigeAusgabe,
+          zahlungspflichtiger: "myselfAndPartner",
+        }),
+      ).toBe(false);
+    });
+
+    it("should return true for a completed sonstige ausgabe entry", () => {
+      expect(sonstigeAusgabeDone(mockedCompleteSonstigeAusgabe)).toBe(true);
+      expect(
+        sonstigeAusgabeDone({
+          ...mockedCompleteSonstigeAusgabe,
+          zahlungspflichtiger: "myselfAndPartner",
+          betragEigenerAnteil: "50",
+        }),
+      ).toBe(true);
+    });
+  });
+
+  describe("hasSonstigeAusgabeDone", () => {
+    it("should return false if the sonstigeAusgaben array is empty", () => {
+      expect(
+        hasSonstigeAusgabeDone({ context: { sonstigeAusgaben: [] } }),
+      ).toBe(false);
+    });
+
+    it("should return false if the sonstigeAusgaben array contains an incomplete entry", () => {
+      expect(
+        hasSonstigeAusgabeDone({
+          context: {
+            sonstigeAusgaben: [],
+          },
+        }),
+      ).toBe(false);
+      expect(
+        hasSonstigeAusgabeDone({
+          context: {
+            sonstigeAusgaben: [
+              {
+                ...mockedCompleteSonstigeAusgabe,
+                zahlungspflichtiger: "myselfAndSomeoneElse",
+              },
+            ],
+          },
+        }),
+      ).toBe(false);
+    });
+
+    it("should return true if the sonstigeAusgaben array contains only complete entries", () => {
+      expect(
+        hasSonstigeAusgabeDone({
+          context: {
+            sonstigeAusgaben: [mockedCompleteSonstigeAusgabe],
           },
         }),
       ).toBe(true);

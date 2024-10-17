@@ -1,3 +1,4 @@
+import type { z } from "zod";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
 import {
   finanzielleAngabeEinkuenfteGuards as einkuenfteGuards,
@@ -150,16 +151,61 @@ export const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGu
     hasRatenzahlungDone({ context }) ||
     hasSonstigeAusgabeDone({ context });
 
+export const versicherungDone = (
+  versicherung: z.infer<
+    typeof prozesskostenhilfeFinanzielleAngabenContext.versicherungen
+  >[0],
+) => {
+  if (versicherung.art === "sonstige") {
+    return versicherung.sonstigeArt !== undefined;
+  }
+  return true;
+};
+
 export const hasVersicherungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
-}) => arrayIsNonEmpty(context.versicherungen);
+}) =>
+  arrayIsNonEmpty(context.versicherungen) &&
+  context.versicherungen.every(versicherungDone);
+
+export const ratenzahlungDone = (
+  ratenzahlung: Partial<
+    z.infer<typeof prozesskostenhilfeFinanzielleAngabenContext.ratenzahlungen>
+  >[0],
+) =>
+  !!ratenzahlung &&
+  ratenzahlung.art !== undefined &&
+  ratenzahlung.zahlungsempfaenger !== undefined &&
+  ratenzahlung.zahlungspflichtiger !== undefined &&
+  (ratenzahlung.zahlungspflichtiger === "myself" ||
+    ratenzahlung.betragEigenerAnteil !== undefined) &&
+  ratenzahlung.betragGesamt !== undefined &&
+  ratenzahlung.restschuld !== undefined &&
+  ratenzahlung.laufzeitende !== undefined;
 
 export const hasRatenzahlungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
-}) => arrayIsNonEmpty(context.ratenzahlungen);
+}) =>
+  arrayIsNonEmpty(context.ratenzahlungen) &&
+  context.ratenzahlungen.every(ratenzahlungDone);
+
+export const sonstigeAusgabeDone = (
+  sonstigeAusgabe: Partial<
+    z.infer<typeof prozesskostenhilfeFinanzielleAngabenContext.sonstigeAusgaben>
+  >[0],
+) =>
+  !!sonstigeAusgabe &&
+  sonstigeAusgabe.art !== undefined &&
+  sonstigeAusgabe.zahlungsempfaenger !== undefined &&
+  sonstigeAusgabe.zahlungspflichtiger !== undefined &&
+  (sonstigeAusgabe.zahlungspflichtiger === "myself" ||
+    sonstigeAusgabe.betragEigenerAnteil !== undefined) &&
+  sonstigeAusgabe.betragGesamt !== undefined;
 
 export const hasSonstigeAusgabeDone: ProzesskostenhilfeFinanzielleAngabenGuard =
-  ({ context }) => arrayIsNonEmpty(context.sonstigeAusgaben);
+  ({ context }) =>
+    arrayIsNonEmpty(context.sonstigeAusgaben) &&
+    context.sonstigeAusgaben.every(sonstigeAusgabeDone);
 
 export const partnerSupportDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,

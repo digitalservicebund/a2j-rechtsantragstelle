@@ -81,7 +81,7 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
       art: stringRequiredSchema,
       zahlungsempfaenger: stringRequiredSchema,
       zahlungspflichtiger: zahlungspflichtigerSchema,
-      betragEigenerAnteil: buildMoneyValidationSchema(),
+      betragEigenerAnteil: buildMoneyValidationSchema().optional(),
       betragGesamt: buildMoneyValidationSchema(),
       restschuld: buildMoneyValidationSchema(),
       laufzeitende: createDateSchema({
@@ -94,7 +94,7 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
       art: stringRequiredSchema,
       zahlungsempfaenger: stringRequiredSchema,
       zahlungspflichtiger: zahlungspflichtigerSchema,
-      betragEigenerAnteil: buildMoneyValidationSchema(),
+      betragEigenerAnteil: buildMoneyValidationSchema().optional(),
       betragGesamt: buildMoneyValidationSchema(),
     }),
   ),
