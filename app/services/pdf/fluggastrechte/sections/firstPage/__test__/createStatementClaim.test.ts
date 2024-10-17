@@ -1,4 +1,3 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
@@ -13,6 +12,18 @@ import {
   STATEMENT_CLAIM_TITLE_TEXT,
   getDefendantPartyList,
 } from "../createStatementClaim";
+
+function assertDefendantPartyList(
+  mockDoc: PDFKit.PDFDocument,
+  defendantPartyList: Record<string, string>,
+) {
+  for (const [bullet, claim] of Object.entries(defendantPartyList)) {
+    expect(mockDoc.text).toHaveBeenCalledWith(bullet, 80, undefined, {
+      continued: true,
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith(claim, { width: 500 });
+  }
+}
 
 describe("createStatementClaim", () => {
   beforeEach(() => {
@@ -34,32 +45,20 @@ describe("createStatementClaim", () => {
     expect(mockDoc.struct).toHaveBeenCalledWith("H2", {}, expect.any(Function));
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
 
-    // Assertions for titles
     expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_TITLE_TEXT);
     expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_SUBTITLE_TEXT);
 
-    // Compensation calculation
     const compensation = getCompensationPayment({
       startAirport: userDataMock.startAirport,
       endAirport: userDataMock.endAirport,
     });
 
-    const [firstBullet, firstClaim] = Object.entries(
-      getDefendantPartyList(userDataMock.prozesszinsen, compensation),
-    )[0];
-    const [secondBullet, secondClaim] = Object.entries(
-      getDefendantPartyList(userDataMock.prozesszinsen, compensation),
-    )[1];
+    const defendantPartyList = getDefendantPartyList(
+      userDataMock.prozesszinsen,
+      compensation,
+    );
 
-    expect(mockDoc.text).toHaveBeenCalledWith(firstBullet, 80, undefined, {
-      continued: true,
-    });
-    expect(firstClaim).toContain("600");
-    expect(mockDoc.text).toHaveBeenCalledWith(firstClaim, { width: 500 });
-    expect(mockDoc.text).toHaveBeenCalledWith(secondBullet, {
-      continued: true,
-    });
-    expect(mockDoc.text).toHaveBeenCalledWith(secondClaim);
+    assertDefendantPartyList(mockDoc, defendantPartyList);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       STATEMENT_CLAIM_COURT_SENTENCE,
@@ -77,8 +76,13 @@ describe("createStatementClaim", () => {
 
     createStatementClaim(mockDoc, mockStruct, userDataMock);
 
-    // Assert list structure creation
     expect(mockDoc.struct).toHaveBeenCalledWith("L");
     expect(mockDoc.struct).toHaveBeenCalledWith("LI", {}, expect.any(Function));
+
+    const defendantPartyList = getDefendantPartyList(
+      userDataMock.prozesszinsen,
+      "600",
+    );
+    assertDefendantPartyList(mockDoc, defendantPartyList);
   });
 });

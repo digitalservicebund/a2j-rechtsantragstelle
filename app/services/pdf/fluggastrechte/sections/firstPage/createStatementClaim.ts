@@ -35,11 +35,18 @@ export const createStatementClaim = (
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechtContext,
 ) => {
-  const { startAirport, endAirport } = userData;
+  const { startAirport, endAirport, prozesszinsen, versaeumnisurteil } =
+    userData;
   const compensationByDistance = getCompensationPayment({
     startAirport,
     endAirport,
   });
+
+  const defendantPartyList = getDefendantPartyList(
+    prozesszinsen ?? "",
+    compensationByDistance,
+  );
+
   const statementClaimSect = doc.struct("Sect");
   statementClaimSect.add(
     doc.struct("H2", {}, () => {
@@ -60,44 +67,30 @@ export const createStatementClaim = (
     }),
   );
 
-  const prozesszinsen = userData?.prozesszinsen ?? "";
-  const [firstBullet, firstClaim] = Object.entries(
-    getDefendantPartyList(prozesszinsen, compensationByDistance),
-  )[0];
-  const [secondBullet, secondClaim] = Object.entries(
-    getDefendantPartyList(prozesszinsen, compensationByDistance),
-  )[1];
-
   const statementClaimList = doc.struct("L");
-  statementClaimList.add(
-    doc.struct("LI", {}, () => {
-      doc
-        .font(FONTS_BUNDESSANS_BOLD)
-        .text(firstBullet, PDF_MARGIN + 10, undefined, {
-          continued: true,
-        })
-        .font(FONTS_BUNDESSANS_REGULAR)
-        .text(firstClaim, { width: 500 });
-    }),
-  );
 
-  statementClaimList.add(
-    doc.struct("LI", {}, () => {
-      doc
-        .font(FONTS_BUNDESSANS_BOLD)
-        .text(secondBullet, { continued: true })
-        .font(FONTS_BUNDESSANS_REGULAR)
-        .text(secondClaim);
-      doc.moveDown(1);
-    }),
-  );
+  for (const [bullet, claim] of Object.entries(defendantPartyList)) {
+    statementClaimList.add(
+      doc.struct("LI", {}, () => {
+        doc
+          .font(FONTS_BUNDESSANS_BOLD)
+          .text(bullet, PDF_MARGIN + 10, undefined, {
+            continued: true,
+          })
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text(claim, { width: 500 });
+        doc.moveDown(0.5);
+      }),
+    );
+  }
 
   statementClaimSect.add(statementClaimList);
 
   statementClaimSect.add(
     doc.struct("P", {}, () => {
-      if (userData.versaeumnisurteil === "yes")
+      if (versaeumnisurteil === "yes") {
         doc.text(STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN);
+      }
       doc.text(STATEMENT_CLAIM_AGREEMENT_SENTENCE, PDF_MARGIN);
     }),
   );
