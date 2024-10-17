@@ -1,4 +1,3 @@
-import { describe, it, expect } from "vitest";
 import airlines from "data/airlines/data.json";
 import { getAirlineNameByIataCode } from "../getAirlineNameByIataCode";
 
