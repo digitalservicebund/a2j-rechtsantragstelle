@@ -222,7 +222,6 @@ export const loader = async ({
   if (flowTransitionConfig) {
     const eligibilityResult = await validateFlowTransition(
       flows,
-      flowId,
       cookieHeader,
       flowTransitionConfig,
     );

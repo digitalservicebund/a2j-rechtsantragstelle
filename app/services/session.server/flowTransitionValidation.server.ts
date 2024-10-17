@@ -5,7 +5,6 @@ import { type CookieHeader, getSessionData } from ".";
 import { buildFlowController } from "../flow/server/buildFlowController";
 
 export type FlowTransitionConfig = {
-  targetFlowId: FlowId;
   sourceFlowId: FlowId;
   eligibleSourcePages: string[];
 };
@@ -23,16 +22,10 @@ export function getFlowTransitionConfig(currentFlow: Flow) {
 
 export async function validateFlowTransition(
   flows: Record<FlowId, Flow>,
-  flowId: FlowId,
   cookieHeader: CookieHeader,
   config: FlowTransitionConfig,
 ): Promise<FlowTransitionResult> {
-  const { targetFlowId, sourceFlowId, eligibleSourcePages } = config;
-
-  // Ignore validation and skip redirection if the user is not in the target flow.
-  if (flowId !== targetFlowId) {
-    return { isEligible: false };
-  }
+  const { sourceFlowId, eligibleSourcePages } = config;
 
   if (_.isEmpty(eligibleSourcePages)) {
     throw Error("This property should not be empty");

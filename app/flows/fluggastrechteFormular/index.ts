@@ -29,7 +29,6 @@ import {
 import zusammenfassungFlow from "./zusammenfassung/flow.json";
 
 const flowTransitionConfig: FlowTransitionConfig = {
-  targetFlowId: "/fluggastrechte/formular",
   sourceFlowId: "/fluggastrechte/vorabcheck",
   eligibleSourcePages: ["ergebnis/erfolg"],
 };
