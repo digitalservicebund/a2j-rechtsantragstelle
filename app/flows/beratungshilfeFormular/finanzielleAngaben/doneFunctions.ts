@@ -1,4 +1,5 @@
 import type { z } from "zod";
+import type { beratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
 import type { kraftfahrzeugeArraySchema } from "~/flows/shared/finanzielleAngaben/context";
 import { childDone } from "~/flows/shared/finanzielleAngaben/doneFunctions";
 import { hasAnyEigentumExceptBankaccount } from "~/flows/shared/finanzielleAngaben/guards";
@@ -73,13 +74,27 @@ export const andereUnterhaltszahlungenDone: BeratungshilfeFinanzielleAngabenGuar
     context.hasWeitereUnterhaltszahlungen == "no" ||
     arrayIsNonEmpty(context.unterhaltszahlungen);
 
+export const ausgabeDone = (
+  ausgabe: Partial<
+    z.infer<typeof beratungshilfeFinanzielleAngaben.ausgaben>[0]
+  >,
+) =>
+  ausgabe.art !== undefined &&
+  ausgabe.zahlungsempfaenger !== undefined &&
+  ausgabe.beitrag !== undefined &&
+  (ausgabe.hasZahlungsfrist === "no" ||
+    (ausgabe.hasZahlungsfrist === "yes" &&
+      ausgabe.zahlungsfrist !== undefined));
+
 export const ausgabenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) => {
   return (
     hasStaatlicheLeistungen({ context }) ||
     context.hasAusgaben === "no" ||
-    (context.hasAusgaben === "yes" && arrayIsNonEmpty(context.ausgaben))
+    (context.hasAusgaben === "yes" &&
+      arrayIsNonEmpty(context.ausgaben) &&
+      context.ausgaben.every(ausgabeDone))
   );
 };
 
