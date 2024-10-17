@@ -21,8 +21,7 @@ import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import { useMemo } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
-import type { FlowId } from "~/flows/flowIds";
-import { flowIdFromPathname, flowIds } from "~/flows/flowIds";
+import { flowIdFromPathname } from "~/flows/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import {
   fetchMeta,
@@ -46,14 +45,7 @@ import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { TranslationContext } from "./services/translations/translationsContext";
-
-const setCacheControlHeader = (loaderHeaders: Headers) => {
-  const pathname = loaderHeaders.get("pathname") || "";
-  const flowId = flowIdFromPathname(pathname);
-  const isFlowId = flowIds.includes(flowId as FlowId);
-  const trackingConsentSet = loaderHeaders.get("trackingConsentSet") === "true";
-  return trackingConsentSet || isFlowId;
-};
+import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "X-Frame-Options": "SAMEORIGIN",
@@ -61,7 +53,9 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy":
     "accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()",
-  ...(setCacheControlHeader(loaderHeaders) && { "Cache-Control": "no-store" }),
+  ...(shouldSetCacheControlHeader(loaderHeaders) && {
+    "Cache-Control": "no-store",
+  }),
 });
 
 const consoleMessage = `Note: Your browser console might be reporting several errors with the Permission-Policy header.

@@ -6,6 +6,8 @@ const mockHeaders = (headers: Record<string, string>): Headers => {
   return new Headers(headers);
 };
 
+const flowId = flowIds[random(flowIds.length - 1)];
+
 const defaultHeaders = {
   "X-Frame-Options": "SAMEORIGIN",
   "X-Content-Type-Options": "nosniff",
@@ -21,9 +23,7 @@ describe("Headers", () => {
     errorHeaders: mockHeaders({}),
   };
 
-  const flowId = flowIds[random(flowIds.length - 1)];
-
-  it("returns correct headers without Cache-Control when trackingConsentSet is false and a flowId isn't part of pathname", () => {
+  it("returns correct headers without Cache-Control when trackingConsentSet is false and no flowId", () => {
     const loaderHeaders = mockHeaders({
       trackingConsentSet: "false",
       pathname: "/",
@@ -31,7 +31,7 @@ describe("Headers", () => {
     expect(headers({ ...mockheaders, loaderHeaders })).toEqual(defaultHeaders);
   });
 
-  it("returns correct headers with Cache-Control when trackingConsentSet is true and a flowId isn't part of pathname", () => {
+  it("returns correct headers with Cache-Control when trackingConsentSet is true and no flowId", () => {
     const loaderHeaders = mockHeaders({
       trackingConsentSet: "true",
       pathname: "/",
@@ -42,7 +42,7 @@ describe("Headers", () => {
     });
   });
 
-  it("returns correct headers with Cache-Control when trackingConsentSet is false and a flowId is part of pathname", () => {
+  it("returns correct headers with Cache-Control when trackingConsentSet is false and flowId", () => {
     const loaderHeaders = mockHeaders({
       trackingConsentSet: "false",
       pathname: flowId,
@@ -53,7 +53,7 @@ describe("Headers", () => {
     });
   });
 
-  it("returns correct headers with Cache-Control when trackingConsentSet is true and a flowId is part of pathname", () => {
+  it("returns correct headers with Cache-Control when trackingConsentSet is true and flowId", () => {
     const loaderHeaders = mockHeaders({
       trackingConsentSet: "true",
       pathname: flowId,
