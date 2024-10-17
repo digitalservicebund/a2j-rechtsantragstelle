@@ -12,7 +12,7 @@ export const createBankInformation = (
   userData: FluggastrechtContext,
 ) => {
   if (userData?.iban) {
-    const bankInfo = `Kontoinhaber: ${userData.nachname}, ${userData.vorname} | IBAN: ${userData.iban}`;
+    const bankInfo = `Kontoinhaber: ${userData.kontoinhaber} | IBAN: ${userData.iban}`;
     footerSect.add(
       doc.struct("P", {}, () => {
         doc

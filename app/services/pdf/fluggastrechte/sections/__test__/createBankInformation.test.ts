@@ -15,7 +15,7 @@ describe("createBankInformation", () => {
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Kontoinhaber: Test, Test-Test | IBAN: DE68500123456789000000",
+      "Kontoinhaber: Test-Test Müller | IBAN: DE68500123456789000000",
       expect.anything(),
       expect.anything(),
     );
