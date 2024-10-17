@@ -18,7 +18,7 @@ export type Translations = Record<string, string>;
 export async function fetchMeta(
   opts: Omit<GetStrapiEntryOpts, "apiId" | "filter"> & { filterValue: string },
 ) {
-  const populate = "meta";
+  const populate = "populate=meta";
   const filters = [{ value: opts.filterValue, field: "slug" }];
   const apiId = "pages";
   const pageEntry = await getStrapiEntry({ ...opts, filters, apiId, populate });

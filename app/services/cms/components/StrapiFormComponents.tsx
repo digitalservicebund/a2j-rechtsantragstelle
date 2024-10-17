@@ -3,6 +3,8 @@ import StrapiAutoSuggestInput from "./StrapiAutoSuggestInput";
 import { StrapiCheckbox } from "./StrapiCheckbox";
 import { StrapiDateInput } from "./StrapiDateInput";
 import { StrapiDropdown } from "./StrapiDropdown";
+// eslint-disable-next-line import/no-cycle
+import { StrapiFieldset } from "./StrapiFieldset";
 import { StrapiFileInput } from "./StrapiFileInput";
 import { StrapiHiddenInput } from "./StrapiHiddenInput";
 import { StrapiInput } from "./StrapiInput";
@@ -12,7 +14,7 @@ import { StrapiTileGroup } from "./StrapiTileGroup";
 import { StrapiTimeInput } from "./StrapiTimeInput";
 import type { StrapiFormComponent } from "../models/StrapiFormComponent";
 
-const FormComponent = ({
+export const FormComponent = ({
   component,
 }: Readonly<{ component: StrapiFormComponent }>) => {
   switch (component.__component) {
@@ -38,6 +40,8 @@ const FormComponent = ({
       return <StrapiTileGroup {...component} />;
     case "form-elements.hidden-input":
       return <StrapiHiddenInput {...component} />;
+    case "form-elements.fieldset":
+      return <StrapiFieldset {...component} />;
   }
   return null;
 };

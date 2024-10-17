@@ -1,9 +1,5 @@
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import { getStrapiEntry } from "~/services/cms/getStrapiEntry";
-import type { StrapiSchemas } from "~/services/cms/schemas";
 import { filterFormFields, pruneIrrelevantData } from "../pruner";
-
-vi.mock("~/services/cms/getStrapiEntry");
 
 describe("pruner", () => {
   describe("filterFormFields", () => {
@@ -51,128 +47,53 @@ describe("pruner", () => {
 
   describe("pruneIrrelevantData", () => {
     it("prunes irrelevant data", async () => {
-      const strapiEntries = [
-        {
-          attributes: { stepId: "/start", form: [] },
-        },
-        {
-          attributes: {
-            stepId: "/grundvoraussetzungen/rechtsschutzversicherung",
-            form: [{ name: "rechtsschutzversicherung" }],
-          },
-        },
-        {
-          attributes: {
-            stepId: "/grundvoraussetzungen/wurde-verklagt",
-            form: [{ name: "wurdeVerklagt" }],
-          },
-        },
-        {
-          attributes: {
-            stepId: "/grundvoraussetzungen/klage-eingereicht",
-            form: [{ name: "klageEingereicht" }],
-          },
-        },
-        {
-          attributes: {
-            stepId: "/grundvoraussetzungen/beratungshilfe-beantragt",
-            form: [{ name: "beratungshilfeBeantragt" }],
-          },
-        },
-        {
-          attributes: {
-            stepId: "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung",
-            form: [{ name: "eigeninitiativeGrundvorraussetzung" }],
-          },
-        },
-        {
-          attributes: {
-            stepId: "/finanzielle-angaben/einkommen/staatliche-leistungen",
-            form: [{ name: "staatlicheLeistungen" }],
-          },
-        },
-        {
-          attributes: {
-            stepId: "/finanzielle-angaben/eigentum/bankkonten-frage",
-            form: [{ name: "hasBankkonto" }],
-          },
-        },
-        {
-          attributes: {
-            stepId: "/finanzielle-angaben/eigentum/geldanlagen-frage",
-            form: [{ name: "hasGeldanlage" }],
-          },
-        },
-        {
-          attributes: {
-            stepId: "/finanzielle-angaben/eigentum/wertgegenstaende-frage",
-            form: [{ name: "hasWertsache" }],
-          },
-        },
-        {
-          attributes: {
-            stepId: "/finanzielle-angaben/eigentum/grundeigentum-frage",
-            form: [{ name: "hasGrundeigentum" }],
-          },
-        },
-        {
-          attributes: {
-            stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
-            form: [{ name: "hasKraftfahrzeug" }],
-          },
-        },
-        {
-          attributes: {
-            stepId: "/finanzielle-angaben/eigentum/gesamtwert",
-            form: [{ name: "eigentumTotalWorth" }],
-          },
-        },
-        {
-          attributes: {
-            stepId:
-              "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
-            form: [{ name: "geldanlagen#art" }],
-          },
-        },
-        {
-          attributes: {
-            stepId:
-              "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/forderung",
-            form: [
-              { name: "geldanlagen#forderung" },
-              { name: "geldanlagen#eigentuemer" },
-              { name: "geldanlagen#wert" },
-            ],
-          },
-        },
-        {
-          attributes: {
-            stepId:
-              "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/befristet",
-            form: [
-              { name: "geldanlagen#eigentuemer" },
-              { name: "geldanlagen#befristetArt" },
-              { name: "geldanlagen#verwendungszweck" },
-              { name: "geldanlagen#wert" },
-              { name: "geldanlagen#auszahlungdatum" },
-            ],
-          },
-        },
-        {
-          attributes: {
-            stepId:
-              "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/bargeld",
-            form: [
-              { name: "geldanlagen#eigentuemer" },
-              { name: "geldanlagen#wert" },
-            ],
-          },
-        },
-      ];
-
-      vi.mocked(getStrapiEntry).mockReturnValue(
-        Promise.resolve(strapiEntries as StrapiSchemas["form-flow-pages"]),
-      );
+      const formFields = {
+        "/grundvoraussetzungen/beratungshilfe-beantragt": [
+          "beratungshilfeBeantragt",
+        ],
+        "/grundvoraussetzungen/rechtsschutzversicherung": [
+          "rechtsschutzversicherung",
+        ],
+        "/grundvoraussetzungen/wurde-verklagt": ["wurdeVerklagt"],
+        "/grundvoraussetzungen/klage-eingereicht": ["klageEingereicht"],
+        "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung": [
+          "eigeninitiativeGrundvorraussetzung",
+        ],
+        "/finanzielle-angaben/einkommen/staatliche-leistungen": [
+          "staatlicheLeistungen",
+        ],
+        "/finanzielle-angaben/eigentum/bankkonten-frage": ["hasBankkonto"],
+        "/finanzielle-angaben/eigentum/geldanlagen-frage": ["hasGeldanlage"],
+        "/finanzielle-angaben/eigentum/wertgegenstaende-frage": [
+          "hasWertsache",
+        ],
+        "/finanzielle-angaben/eigentum/grundeigentum-frage": [
+          "hasGrundeigentum",
+        ],
+        "/finanzielle-angaben/eigentum/kraftfahrzeuge-frage": [
+          "hasKraftfahrzeug",
+        ],
+        "/finanzielle-angaben/eigentum/gesamtwert": ["eigentumTotalWorth"],
+        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art": [
+          "geldanlagen#art",
+        ],
+        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/forderung": [
+          "geldanlagen#forderung",
+          "geldanlagen#eigentuemer",
+          "geldanlagen#wert",
+        ],
+        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/befristet": [
+          "geldanlagen#eigentuemer",
+          "geldanlagen#befristetArt",
+          "geldanlagen#verwendungszweck",
+          "geldanlagen#wert",
+          "geldanlagen#auszahlungdatum",
+        ],
+        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/bargeld": [
+          "geldanlagen#eigentuemer",
+          "geldanlagen#wert",
+        ],
+      };
 
       const userData = {
         rechtsschutzversicherung: "no",
@@ -224,7 +145,11 @@ describe("pruner", () => {
       } satisfies BeratungshilfeFormularContext;
       const flowId = "/beratungshilfe/antrag";
 
-      const prunedData = await pruneIrrelevantData(userData, flowId);
+      const prunedData = await pruneIrrelevantData(
+        userData,
+        flowId,
+        formFields,
+      );
       expect(prunedData).toStrictEqual({
         rechtsschutzversicherung: "no",
         wurdeVerklagt: "no",
