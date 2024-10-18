@@ -59,7 +59,7 @@ export function FormFlowPage() {
           <MigrationDataOverview
             data={migration.data}
             translations={translations}
-            orderFields={migration.orderFields}
+            sortedFields={migration.sortedFields}
             buttonUrl={migration.buttonUrl}
           />
           {arraySummaryData && Object.keys(arraySummaryData).length != 0 && (

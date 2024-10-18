@@ -112,7 +112,7 @@ describe("MigrationDataOverview", () => {
       <MigrationDataOverview
         translations={translations}
         data={migrationData}
-        orderFields={["startAirport", "endAirport", "bereich"]}
+        sortedFields={["startAirport", "endAirport", "bereich"]}
       />,
     );
 
@@ -149,7 +149,7 @@ describe("MigrationDataOverview", () => {
       <MigrationDataOverview
         translations={translations}
         data={migrationData}
-        orderFields={[]}
+        sortedFields={[]}
       />,
     );
 

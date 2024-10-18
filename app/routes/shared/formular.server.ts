@@ -249,9 +249,9 @@ export const loader = async ({
       meta,
       migration: {
         data: migrationData,
-        orderFields:
+        sortedFields:
           "migration" in currentFlow
-            ? currentFlow.migration.orderFields
+            ? currentFlow.migration.sortedFields
             : undefined,
         buttonUrl:
           "migration" in currentFlow
