@@ -1,4 +1,5 @@
 import type PDFDocument from "pdfkit";
+import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
 import { readRelativeFileToBuffer } from "~/services/pdf/fillPdf.server";
 import { createPdfKitDocument } from "./createPdfKitDocument";
 import { createFirstPage } from "./sections/firstPage/createFirstPage";
@@ -16,16 +17,19 @@ const BundesSansWebBold = await readRelativeFileToBuffer(
 function buildDocument(
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
+  userData: FluggastrechtContext,
 ) {
   setPdfMetadata(doc);
-  createFirstPage(doc, documentStruct);
+  createFirstPage(doc, documentStruct, userData);
   doc.addPage();
-  createSecondPage(doc, documentStruct);
+  createSecondPage(doc, documentStruct, userData);
   doc.addPage();
-  createThirdPage(doc, documentStruct);
+  createThirdPage(doc, documentStruct, userData);
 }
 
-export async function fluggastrechtePdfFromUserdata(): Promise<Buffer> {
+export async function fluggastrechtePdfFromUserdata(
+  userData: FluggastrechtContext,
+): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const doc = createPdfKitDocument(BundesSansWebRegular, BundesSansWebBold);
     const chunks: Uint8Array[] = [];
@@ -47,7 +51,7 @@ export async function fluggastrechtePdfFromUserdata(): Promise<Buffer> {
     doc.addStructure(documentStruct);
 
     // Generate the PDF content
-    buildDocument(doc, documentStruct);
+    buildDocument(doc, documentStruct, userData);
 
     documentStruct.end();
     doc.end();
