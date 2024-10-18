@@ -417,6 +417,10 @@
           "on": {
             "BACK": [
               {
+                "guard": "eigentumYesAndEmptyArray",
+                "target": "#eigentum-zusammenfassung.warnung"
+              },
+              {
                 "guard": "eigentumDone",
                 "target": "#eigentum-zusammenfassung.zusammenfassung"
               },
