@@ -104,6 +104,8 @@ export const kraftfahrzeugeArraySchema = z.array(
     .partial(),
 );
 
+export type GeldanlagenArraySchema = z.infer<typeof gelanlagenArraySchema>;
+
 export const gelanlagenArraySchema = z.array(
   z
     .object({

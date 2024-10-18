@@ -1,8 +1,11 @@
+import type { BeratungshilfeFinanzielleAngabenGuard } from "~/flows/beratungshilfeFormular/finanzielleAngaben/BeratungshilfeFinanzielleAngabenGuardType";
 import type { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
-import { childDone } from "~/flows/shared/finanzielleAngaben/doneFunctions";
+import {
+  childDone,
+  geldanlageDone,
+} from "~/flows/shared/finanzielleAngaben/doneFunctions";
 import { hasAnyEigentumExceptBankaccount } from "~/flows/shared/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
-import { type BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
 
 export const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
@@ -99,7 +102,9 @@ export const geldanlagenDone: BeratungshilfeFinanzielleAngabenGuard = ({
 }) =>
   context.eigentumTotalWorth === "less10000" ||
   context.hasGeldanlage === "no" ||
-  (context.hasGeldanlage === "yes" && arrayIsNonEmpty(context.geldanlagen));
+  (context.hasGeldanlage === "yes" &&
+    arrayIsNonEmpty(context.geldanlagen) &&
+    context.geldanlagen.every(geldanlageDone));
 
 export const grundeigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,

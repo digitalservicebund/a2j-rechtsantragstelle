@@ -14,6 +14,7 @@ import type { GenericGuard } from "../../guards.server";
 import {
   bankKontoDone,
   childDone,
+  geldanlageDone,
 } from "../../shared/finanzielleAngaben/doneFunctions";
 
 export type ProzesskostenhilfeFinanzielleAngabenGuard =
@@ -80,7 +81,9 @@ export const geldanlagenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasGeldanlage === "no" ||
-  (context.hasGeldanlage === "yes" && arrayIsNonEmpty(context.geldanlagen));
+  (context.hasGeldanlage === "yes" &&
+    arrayIsNonEmpty(context.geldanlagen) &&
+    context.geldanlagen.every(geldanlageDone));
 
 export const grundeigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
