@@ -12,6 +12,7 @@ import {
   sonstigeAusgabeDone,
   versicherungDone,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/doneFunctions";
+import { kraftfahrzeugWert } from "~/flows/shared/finanzielleAngaben/context";
 
 const mockedCompleteRatenzahlung: NonNullable<
   ProzesskostenhilfeFinanzielleAngabenContext["ratenzahlungen"]
@@ -37,7 +38,7 @@ const mockedCompleteKraftfahrzeug: NonNullable<
   ProzesskostenhilfeFinanzielleAngabenContext["kraftfahrzeuge"]
 >[0] = {
   hasArbeitsweg: "yes",
-  wert: "under10000",
+  wert: "over10000",
   eigentuemer: "myself",
   art: "kraftfahrzeug",
   marke: "Mercedes",
@@ -190,47 +191,74 @@ describe("Finanzielle Angaben doneFunctions", () => {
   });
 
   describe("kraftfahrzeugDone", () => {
-    it("should return false if the kraftfahrzeug is missing any information", () => {
+    it("should return false if the kraftfahrzeug is missing any information and worth more than 10000", () => {
+      [kraftfahrzeugWert.Enum.over10000, kraftfahrzeugWert.Enum.unsure].forEach(
+        (v) => {
+          expect(
+            kraftfahrzeugDone({
+              ...mockedCompleteKraftfahrzeug,
+              wert: v,
+              hasArbeitsweg: undefined,
+            }),
+          ).toBe(false);
+          expect(
+            kraftfahrzeugDone({
+              ...mockedCompleteKraftfahrzeug,
+              wert: v,
+              eigentuemer: undefined,
+            }),
+          ).toBe(false);
+          expect(
+            kraftfahrzeugDone({
+              ...mockedCompleteKraftfahrzeug,
+              wert: v,
+              art: undefined,
+            }),
+          ).toBe(false);
+          expect(
+            kraftfahrzeugDone({
+              ...mockedCompleteKraftfahrzeug,
+              wert: v,
+              marke: undefined,
+            }),
+          ).toBe(false);
+          expect(
+            kraftfahrzeugDone({
+              ...mockedCompleteKraftfahrzeug,
+              wert: v,
+              kilometerstand: undefined,
+            }),
+          ).toBe(false);
+          expect(
+            kraftfahrzeugDone({
+              ...mockedCompleteKraftfahrzeug,
+              wert: v,
+              baujahr: undefined,
+            }),
+          ).toBe(false);
+        },
+      );
+    });
+
+    it("should return true if the kraftfahrzeug is worth less than 10000 and detailed car information is missing", () => {
       expect(
         kraftfahrzeugDone({
           ...mockedCompleteKraftfahrzeug,
-          hasArbeitsweg: undefined,
-        }),
-      ).toBe(false);
-      expect(
-        kraftfahrzeugDone({
-          ...mockedCompleteKraftfahrzeug,
-          wert: undefined,
-        }),
-      ).toBe(false);
-      expect(
-        kraftfahrzeugDone({
-          ...mockedCompleteKraftfahrzeug,
+          wert: "under10000",
           eigentuemer: undefined,
-        }),
-      ).toBe(false);
-      expect(
-        kraftfahrzeugDone({
-          ...mockedCompleteKraftfahrzeug,
           art: undefined,
-        }),
-      ).toBe(false);
-      expect(
-        kraftfahrzeugDone({
-          ...mockedCompleteKraftfahrzeug,
           marke: undefined,
-        }),
-      ).toBe(false);
-      expect(
-        kraftfahrzeugDone({
-          ...mockedCompleteKraftfahrzeug,
           kilometerstand: undefined,
+          baujahr: undefined,
         }),
-      ).toBe(false);
+      ).toBeTruthy();
+    });
+
+    it("should return false if the kraftfahrzeug is missing wert and arbeitsweg information", () => {
       expect(
         kraftfahrzeugDone({
-          ...mockedCompleteKraftfahrzeug,
-          baujahr: undefined,
+          hasArbeitsweg: undefined,
+          wert: undefined,
         }),
       ).toBe(false);
     });

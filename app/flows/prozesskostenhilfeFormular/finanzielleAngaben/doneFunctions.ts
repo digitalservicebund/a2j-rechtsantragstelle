@@ -101,11 +101,12 @@ export const kraftfahrzeugDone = (
 ) =>
   kfz.hasArbeitsweg !== undefined &&
   kfz.wert !== undefined &&
-  kfz.eigentuemer !== undefined &&
-  kfz.art !== undefined &&
-  kfz.marke !== undefined &&
-  kfz.kilometerstand !== undefined &&
-  kfz.baujahr !== undefined;
+  (kfz.wert === "under10000" ||
+    (kfz.eigentuemer !== undefined &&
+      kfz.art !== undefined &&
+      kfz.marke !== undefined &&
+      kfz.kilometerstand !== undefined &&
+      kfz.baujahr !== undefined));
 
 export const kraftfahrzeugeDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,

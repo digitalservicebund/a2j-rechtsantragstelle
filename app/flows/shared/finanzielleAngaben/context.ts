@@ -81,6 +81,11 @@ export const financialEntrySchema = z.object({
 
 export type FinancialEntry = z.infer<typeof financialEntrySchema>;
 
+export const kraftfahrzeugWert = z.enum(
+  ["under10000", "over10000", "unsure"],
+  customRequiredErrorMessage,
+);
+
 export const kraftfahrzeugeArraySchema = z.array(
   z
     .object({
@@ -96,10 +101,7 @@ export const kraftfahrzeugeArraySchema = z.array(
       baujahr: createYearSchema({ latest: () => today().getFullYear() }),
       bemerkung: stringRequiredSchema,
       hasArbeitsweg: YesNoAnswer,
-      wert: z.enum(
-        ["under10000", "over10000", "unsure"],
-        customRequiredErrorMessage,
-      ),
+      wert: kraftfahrzeugWert,
     })
     .partial(),
 );
