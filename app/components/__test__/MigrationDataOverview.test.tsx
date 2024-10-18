@@ -129,7 +129,7 @@ describe("MigrationDataOverview", () => {
     );
   });
 
-  it("should render the component order the fields bases on the props migrationData order in case the props orderFields is empty array", () => {
+  it("should render the component and order the fields based on the migrationData prop in case the orderFields prop is an empty array.", () => {
     const migrationData = {
       bereich: "verspaetet",
       startAirport: "BER",
