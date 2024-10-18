@@ -11,7 +11,7 @@ describe("createPageNumber", () => {
 
     const expectPageNumber = 2;
 
-    createPageNumber(mockDoc);
+    createPageNumber(mockDoc, mockStruct);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       `${expectPageNumber}/3`,

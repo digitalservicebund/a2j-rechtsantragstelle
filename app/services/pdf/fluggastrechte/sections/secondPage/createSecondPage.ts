@@ -1,4 +1,5 @@
 import type PDFDocument from "pdfkit";
+import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
 import { createFactsOfCases } from "./factsOfCases/createFactsOfCases";
 import { FONTS_BUNDESSANS_BOLD } from "../../createPdfKitDocument";
 import { createPageFooter } from "../createPageFooter";
@@ -10,6 +11,7 @@ export const REASON_TITLE_TEXT = "Begründung";
 export const createSecondPage = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
+  userData: FluggastrechtContext,
 ) => {
   doc
     .fontSize(31)
@@ -21,5 +23,5 @@ export const createSecondPage = (
   createLastSentences(doc, documentStruct);
   doc.moveDown(1);
 
-  createPageFooter(doc, documentStruct);
+  createPageFooter(doc, documentStruct, userData);
 };
