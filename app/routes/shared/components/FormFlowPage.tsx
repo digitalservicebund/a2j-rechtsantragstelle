@@ -21,14 +21,13 @@ export function FormFlowPage() {
     csrf,
     formElements,
     heading,
-    migrationData,
+    migration,
     navItems,
     postFormContent,
     preHeading,
     stepData,
     translations,
     navigationA11yLabels,
-    migrationOrderFields,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
@@ -58,9 +57,10 @@ export function FormFlowPage() {
           </div>
 
           <MigrationDataOverview
-            migrationData={migrationData}
+            userData={migration.userData}
             translations={translations}
-            migrationOrderFields={migrationOrderFields}
+            sortedFields={migration.sortedFields}
+            buttonUrl={migration.buttonUrl}
           />
           {arraySummaryData && Object.keys(arraySummaryData).length != 0 && (
             <div className="!mt-24">

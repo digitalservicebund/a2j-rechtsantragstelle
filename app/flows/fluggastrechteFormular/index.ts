@@ -38,7 +38,7 @@ export const fluggastrechtFlow = {
   cmsSlug: "form-flow-pages",
   migration: {
     source: "/fluggastrechte/vorabcheck",
-    orderFields: [
+    sortedFields: [
       "bereich",
       "startAirport",
       "endAirport",
@@ -51,6 +51,7 @@ export const fluggastrechtFlow = {
       "ersatzflugStartenZweiStunden",
       "ersatzflugLandenVierStunden",
     ],
+    buttonUrl: "/fluggastrechte/vorabcheck/start",
   },
   stringReplacements: (context: FluggastrechtContext) => ({
     ...getStartAirportName(context),
