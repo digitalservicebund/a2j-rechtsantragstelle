@@ -2,6 +2,7 @@ import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/beratungshilfe/sec
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import type { PkhPdfFillFunction } from "~/services/pdf/prozesskostenhilfe";
 import { attachBankkontenToAnhang } from "~/services/pdf/shared/attachBankkontenToAnhang";
+import { eigentuemerMapping } from "~/services/pdf/shared/eigentumHelpers";
 import { arrayIsNonEmpty } from "~/util/array";
 
 export const fillBankkonto: PkhPdfFillFunction = ({ userData, pdfValues }) => {
@@ -9,6 +10,19 @@ export const fillBankkonto: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   pdfValues.ja_36.value = userData.hasBankkonto === "yes";
   const { bankkonten } = userData;
   if (!arrayIsNonEmpty(bankkonten)) return { pdfValues };
+  if (bankkonten.length == 1) {
+    const { kontoEigentuemer, kontostand, kontoDescription, iban, bankName } =
+      bankkonten[0];
+    pdfValues.artdesKontosKontoinhaberKreditinstitut.value = `Bank: ${bankName}`;
+    pdfValues.artdesKontosKontoinhaberKreditinstitut.value += `, Inhaber: ${eigentuemerMapping[kontoEigentuemer]}`;
+    if (kontoDescription)
+      pdfValues.artdesKontosKontoinhaberKreditinstitut.value += `, Bezeichnung: ${kontoDescription}`;
+    if (iban)
+      pdfValues.artdesKontosKontoinhaberKreditinstitut.value += `, IBAN: ${iban}`;
+
+    pdfValues.kontostand.value = kontostand + " €";
+    return { pdfValues };
+  }
   pdfValues.artdesKontosKontoinhaberKreditinstitut.value =
     SEE_IN_ATTACHMENT_DESCRIPTION;
   const { attachment } = attachBankkontenToAnhang([], bankkonten);
