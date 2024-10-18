@@ -43,7 +43,7 @@ describe("stringReplacements", () => {
           {
             title: "",
             vorname: "vorname",
-            nachname: "nachme",
+            nachname: "nachname",
             strasseHausnummer: "strasseHausnummer",
             ort: "ort",
             plz: "plz",
@@ -68,7 +68,7 @@ describe("stringReplacements", () => {
           {
             title: "",
             vorname: "vorname",
-            nachname: "nachme",
+            nachname: "nachname",
             strasseHausnummer: "strasseHausnummer",
             ort: "ort",
             plz: "plz",
@@ -288,7 +288,7 @@ describe("stringReplacements", () => {
       expect(actual).toStrictEqual({ isNichtBefoerderung: true });
     });
 
-    it("should return isNichtBefoerderung as false if the bereich is not verspaetet", () => {
+    it("should return isNichtBefoerderung as false if the bereich is not nichtbefoerderung", () => {
       const actual = isNichtBefoerderung({
         bereich: "verspaetet",
       });
