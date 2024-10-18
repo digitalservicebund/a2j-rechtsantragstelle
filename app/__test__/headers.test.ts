@@ -18,10 +18,6 @@ vi.mock("~/util/shouldSetCacheControlHeader", () => ({
 }));
 
 describe("Headers", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   const mockheaders = {
     parentHeaders: mockHeaders({}),
     actionHeaders: mockHeaders({}),
