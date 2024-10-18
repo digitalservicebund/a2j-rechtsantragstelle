@@ -16,6 +16,51 @@ export function getEndAirportName({ endAirport = "" }: FluggastrechtContext) {
   return airportName.length > 0 ? { endAirport: airportName } : {};
 }
 
+export function getFirstZwischenstoppAirportName({
+  ersterZwischenstopp = "",
+}: FluggastrechtContext) {
+  const airportName = getAirportNameByIataCode(ersterZwischenstopp);
+  return airportName.length > 0
+    ? { firstZwischenstoppAirport: airportName }
+    : {};
+}
+
+export function getSecondZwischenstoppAirportName({
+  zweiterZwischenstopp = "",
+}: FluggastrechtContext) {
+  const airportName = getAirportNameByIataCode(zweiterZwischenstopp);
+  return airportName.length > 0
+    ? { secondZwischenstoppAirport: airportName }
+    : {};
+}
+
+export function getThirdZwischenstoppAirportName({
+  dritterZwischenstopp = "",
+}: FluggastrechtContext) {
+  const airportName = getAirportNameByIataCode(dritterZwischenstopp);
+  return airportName.length > 0
+    ? { thirdZwischenstoppAirport: airportName }
+    : {};
+}
+
+export function isVerspaetet({ bereich = "" }: FluggastrechtContext) {
+  return {
+    isVerspaetet: bereich === "verspaetet",
+  };
+}
+
+export function isNichtBefoerderung({ bereich = "" }: FluggastrechtContext) {
+  return {
+    isNichtBefoerderung: bereich === "nichtbefoerderung",
+  };
+}
+
+export function isAnnullierung({ bereich = "" }: FluggastrechtContext) {
+  return {
+    isAnnullierung: bereich === "annullierung",
+  };
+}
+
 export function getAirlineName({
   fluggesellschaft = "",
 }: FluggastrechtContext) {

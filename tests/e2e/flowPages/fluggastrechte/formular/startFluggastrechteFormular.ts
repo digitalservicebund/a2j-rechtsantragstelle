@@ -71,6 +71,17 @@ export async function startFluggastrechteFormular(
   );
   await formular.clickNext();
 
+  // /fluggastrechte/formular/flugdaten/verspaeteter-flug-1
+  await expectPageToBeAccessible({ page });
+  await formular.fillRadioPage(
+    "verspaeteterFlug",
+    "startAirportFirstZwischenstopp",
+  );
+
+  // /fluggastrechte/formular/flugdaten/anschluss-flug-verpasst
+  await expectPageToBeAccessible({ page });
+  await formular.fillRadioPage("anschlussFlugVerpasst", "yes");
+
   // /fluggastrechte/formular/flugdaten/tatsaechlicher-flug
   await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("tatsaechlicherFlug", "no");
