@@ -1,7 +1,7 @@
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { type AttachmentEntries, newPageHint } from "~/services/pdf/attachment";
 import type { BerHPdfFillFunction } from "../..";
-import { eigentuemerMapping } from "../../../shared/eigentuemerMapping";
+import { eigentuemerMapping } from "../../../shared/eigentumHelpers";
 
 const geldanlageArtMapping: Record<string, string> = {
   bargeld: "Bargeld",

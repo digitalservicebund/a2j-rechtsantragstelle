@@ -1,6 +1,6 @@
 import type { BankkontenArraySchema } from "~/flows/shared/finanzielleAngaben/context";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
-import { eigentuemerMapping } from "~/services/pdf/shared/eigentuemerMapping";
+import { eigentuemerMapping } from "~/services/pdf/shared/eigentumHelpers";
 
 export const attachBankkontenToAnhang = (
   attachment: AttachmentEntries,

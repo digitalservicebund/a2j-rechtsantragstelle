@@ -15,11 +15,20 @@ export const fillBankkonto: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   return { pdfValues, attachment };
 };
 
+export const fillGrundeigentum: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  pdfValues.nein_39.value = userData.hasGrundeigentum === "no";
+  pdfValues.ja_37.value = userData.hasGrundeigentum === "yes";
+  return { pdfValues };
+};
+
 export const fillEigentum: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const { pdfValues: filledValues, attachment } = pdfFillReducer({
     userData,
     pdfParams: pdfValues,
-    fillFunctions: [fillBankkonto],
+    fillFunctions: [fillBankkonto, fillGrundeigentum],
   });
   return {
     pdfValues: filledValues,

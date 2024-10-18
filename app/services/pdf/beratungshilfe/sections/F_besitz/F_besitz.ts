@@ -6,7 +6,10 @@ import type { BerHPdfFillFunction } from "../..";
 import { fillVermoegenswerte } from "./fillVermoegenswerte";
 import type { AttachmentEntries } from "../../../attachment";
 import { newPageHint } from "../../../attachment";
-import { eigentuemerMapping } from "../../../shared/eigentuemerMapping";
+import {
+  eigentuemerMapping,
+  grundeigentumArtMapping,
+} from "../../../shared/eigentumHelpers";
 
 export const fillBesitz: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   const attachment: AttachmentEntries = [];
@@ -87,15 +90,6 @@ export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
   }
 
   if (!arrayIsNonEmpty(grundeigentumArray)) return { pdfValues };
-
-  const grundeigentumArtMapping = {
-    eigentumswohnung: "Wohnung",
-    einfamilienhaus: "Haus für Familie",
-    mehrereWohnungen: "Haus mit mehreren Wohnungen",
-    unbebaut: "Grundstück",
-    erbbaurecht: "Erbbaurecht",
-    garage: "Garagen(-hof)",
-  } as const;
 
   if (grundeigentumArray.length === 1 && !shouldPrintNote) {
     const grundeigentum = grundeigentumArray[0];

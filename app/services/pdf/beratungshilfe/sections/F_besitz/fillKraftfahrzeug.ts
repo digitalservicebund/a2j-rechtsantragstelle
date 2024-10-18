@@ -1,7 +1,7 @@
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import type { BerHPdfFillFunction } from "../..";
 import { newPageHint, type AttachmentEntries } from "../../../attachment";
-import { eigentuemerMapping } from "../../../shared/eigentuemerMapping";
+import { eigentuemerMapping } from "../../../shared/eigentumHelpers";
 
 const KRAFTFAHRZEUG_ART_FIELD_MAX_CHARS = 96;
 
