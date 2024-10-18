@@ -105,7 +105,7 @@ export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
     pdfValues.f6EigentuemerC.value =
       grundeigentum.eigentuemer == "myselfAndPartner";
 
-    pdfValues.f7Nutzungsart.value = `Art: ${grundeigentumArtMapping[grundeigentum.art]}`;
+    pdfValues.f7Nutzungsart.value = `Art: ${grundeigentum.art ? grundeigentumArtMapping[grundeigentum.art] : ""}`;
     if (grundeigentum.isBewohnt === "yes")
       pdfValues.f7Nutzungsart.value += ", Eigennutzung";
     else if (grundeigentum.isBewohnt === "family")
@@ -132,11 +132,15 @@ export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
         { title: `Grundeigentum ${index + 1}`, level: "h4" },
         {
           title: "Art",
-          text: grundeigentumArtMapping[grundeigentum.art],
+          text: grundeigentum.art
+            ? grundeigentumArtMapping[grundeigentum.art]
+            : "",
         },
         {
           title: "Eigentümer:in",
-          text: eigentuemerMapping[grundeigentum.eigentuemer],
+          text: grundeigentum.eigentuemer
+            ? eigentuemerMapping[grundeigentum.eigentuemer]
+            : "",
         },
         { title: "Fläche", text: grundeigentum.flaeche + " m²" },
         { title: "Verkehrswert", text: grundeigentum.verkaufswert + " €" },

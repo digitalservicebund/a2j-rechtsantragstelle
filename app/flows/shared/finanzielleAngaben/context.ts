@@ -83,6 +83,11 @@ export const financialEntrySchema = z.object({
 
 export type FinancialEntry = z.infer<typeof financialEntrySchema>;
 
+export const kraftfahrzeugWert = z.enum(
+  ["under10000", "over10000", "unsure"],
+  customRequiredErrorMessage,
+);
+
 export const kraftfahrzeugeArraySchema = z.array(
   z
     .object({
@@ -98,60 +103,65 @@ export const kraftfahrzeugeArraySchema = z.array(
       baujahr: createYearSchema({ latest: () => today().getFullYear() }),
       bemerkung: stringRequiredSchema,
       hasArbeitsweg: YesNoAnswer,
-      wert: z.enum(
-        ["under10000", "over10000", "unsure"],
-        customRequiredErrorMessage,
-      ),
+      wert: kraftfahrzeugWert,
     })
     .partial(),
 );
 
+export type GeldanlagenArraySchema = z.infer<typeof gelanlagenArraySchema>;
+
 export const gelanlagenArraySchema = z.array(
-  z.object({
-    art: z.enum(
-      [
-        "bargeld",
-        "wertpapiere",
-        "guthabenkontoKrypto",
-        "giroTagesgeldSparkonto",
-        "befristet",
-        "forderung",
-        "sonstiges",
-      ],
-      customRequiredErrorMessage,
-    ),
-    eigentuemer: Eigentuemer,
-    wert: buildMoneyValidationSchema(),
-
-    kontoBankName: stringOptionalSchema,
-    kontoIban: stringOptionalSchema,
-    kontoBezeichnung: stringOptionalSchema,
-
-    befristetArt: z
-      .enum(
-        ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
+  z
+    .object({
+      art: z.enum(
+        [
+          "bargeld",
+          "wertpapiere",
+          "guthabenkontoKrypto",
+          "giroTagesgeldSparkonto",
+          "befristet",
+          "forderung",
+          "sonstiges",
+        ],
         customRequiredErrorMessage,
-      )
-      .optional(),
+      ),
+      eigentuemer: Eigentuemer,
+      wert: buildMoneyValidationSchema(),
 
-    forderung: stringOptionalSchema,
-    verwendungszweck: stringOptionalSchema,
-    auszahlungdatum: stringOptionalSchema,
-  }),
+      kontoBankName: stringOptionalSchema,
+      kontoIban: stringOptionalSchema,
+      kontoBezeichnung: stringOptionalSchema,
+
+      befristetArt: z
+        .enum(
+          ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
+          customRequiredErrorMessage,
+        )
+        .optional(),
+
+      forderung: stringOptionalSchema,
+      verwendungszweck: stringOptionalSchema,
+      auszahlungdatum: stringOptionalSchema,
+    })
+    .partial(),
 );
 
+export type GrundeigentumArraySchema = z.infer<typeof grundeigentumArraySchema>;
+
 export const grundeigentumArraySchema = z.array(
-  z.object({
-    isBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),
-    art: GrundeigentumArt,
-    eigentuemer: Eigentuemer,
-    flaeche: stringRequiredSchema,
-    verkaufswert: buildMoneyValidationSchema(),
-    strassehausnummer: stringRequiredSchema,
-    plz: stringOptionalSchema,
-    ort: stringRequiredSchema,
-    land: stringRequiredSchema,
-  }),
+  z
+    .object({
+      isBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),
+      art: GrundeigentumArt,
+      eigentuemer: Eigentuemer,
+      flaeche: stringRequiredSchema,
+      verkaufswert: buildMoneyValidationSchema(),
+      strassehausnummer: stringRequiredSchema,
+      plz: stringOptionalSchema,
+      ort: stringRequiredSchema,
+      land: stringRequiredSchema,
+    })
+    .partial(),
 );
 
 export const wertsachenArraySchema = z.array(

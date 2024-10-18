@@ -15,6 +15,8 @@ const happyPathSteps = [
   "grundvoraussetzungen/prozessfaehig",
   "grundvoraussetzungen/ausgleichszahlung",
   "grundvoraussetzungen/zahlungsaufforderung",
+  "grundvoraussetzungen/daten-uebernahme",
+  "streitwert-kosten/gerichtskosten",
 ];
 
 const cases = [
