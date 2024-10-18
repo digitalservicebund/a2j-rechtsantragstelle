@@ -61,15 +61,6 @@ describe("createStatementClaim", () => {
     );
 
     assertDefendantPartyList(mockDoc, defendantPartyList);
-
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      STATEMENT_CLAIM_COURT_SENTENCE,
-      70,
-    );
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      STATEMENT_CLAIM_AGREEMENT_SENTENCE,
-      70,
-    );
   });
 
   it("should create a list structure with list items", () => {
@@ -108,10 +99,6 @@ describe("createStatementClaim", () => {
         STATEMENT_CLAIM_COURT_SENTENCE,
         PDF_MARGIN,
       );
-      expect(mockDoc.text).toHaveBeenCalledWith(
-        STATEMENT_CLAIM_AGREEMENT_SENTENCE,
-        PDF_MARGIN,
-      );
     });
 
     it("should not include court sentence when versaeumnisurteil is no", () => {
@@ -133,6 +120,14 @@ describe("createStatementClaim", () => {
         STATEMENT_CLAIM_COURT_SENTENCE,
         PDF_MARGIN,
       );
+    });
+
+    it("should include agreement sentence regardless of versaeumnisurteil", () => {
+      const mockStruct = mockPdfKitDocumentStructure();
+      const mockDoc = mockPdfKitDocument(mockStruct);
+
+      createStatementClaim(mockDoc, mockStruct, userDataMock);
+
       expect(mockDoc.text).toHaveBeenCalledWith(
         STATEMENT_CLAIM_AGREEMENT_SENTENCE,
         PDF_MARGIN,
