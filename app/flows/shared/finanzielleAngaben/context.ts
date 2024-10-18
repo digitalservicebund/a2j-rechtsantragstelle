@@ -105,37 +105,39 @@ export const kraftfahrzeugeArraySchema = z.array(
 );
 
 export const gelanlagenArraySchema = z.array(
-  z.object({
-    art: z.enum(
-      [
-        "bargeld",
-        "wertpapiere",
-        "guthabenkontoKrypto",
-        "giroTagesgeldSparkonto",
-        "befristet",
-        "forderung",
-        "sonstiges",
-      ],
-      customRequiredErrorMessage,
-    ),
-    eigentuemer: Eigentuemer,
-    wert: buildMoneyValidationSchema(),
-
-    kontoBankName: stringOptionalSchema,
-    kontoIban: stringOptionalSchema,
-    kontoBezeichnung: stringOptionalSchema,
-
-    befristetArt: z
-      .enum(
-        ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
+  z
+    .object({
+      art: z.enum(
+        [
+          "bargeld",
+          "wertpapiere",
+          "guthabenkontoKrypto",
+          "giroTagesgeldSparkonto",
+          "befristet",
+          "forderung",
+          "sonstiges",
+        ],
         customRequiredErrorMessage,
-      )
-      .optional(),
+      ),
+      eigentuemer: Eigentuemer,
+      wert: buildMoneyValidationSchema(),
 
-    forderung: stringOptionalSchema,
-    verwendungszweck: stringOptionalSchema,
-    auszahlungdatum: stringOptionalSchema,
-  }),
+      kontoBankName: stringOptionalSchema,
+      kontoIban: stringOptionalSchema,
+      kontoBezeichnung: stringOptionalSchema,
+
+      befristetArt: z
+        .enum(
+          ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
+          customRequiredErrorMessage,
+        )
+        .optional(),
+
+      forderung: stringOptionalSchema,
+      verwendungszweck: stringOptionalSchema,
+      auszahlungdatum: stringOptionalSchema,
+    })
+    .partial(),
 );
 
 export const grundeigentumArraySchema = z.array(

@@ -11,7 +11,6 @@ import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } 
 import {
   Eigentuemer,
   financialEntrySchema,
-  gelanlagenArraySchema,
   grundeigentumArraySchema,
   unterhaltszahlungSchema,
 } from "~/flows/shared/finanzielleAngaben/context";
@@ -84,7 +83,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   ],
   geldanlagen: [
     {
-      art: gelanlagenArraySchema.element.shape.art.Enum.sonstiges,
+      art: "sonstiges",
       verwendungszweck: faker.lorem.sentence(),
       eigentuemer: Eigentuemer.Enum.myself,
       wert: faker.finance.amount(),
