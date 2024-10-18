@@ -35,6 +35,18 @@ export const fluggastrechteFlugdaten = {
     ["no", "oneStop", "twoStop", "threeStop"],
     customRequiredErrorMessage,
   ),
+  verspaeteterFlug: z.enum(
+    [
+      "startAirportFirstZwischenstopp",
+      "firstZwischenstoppEndAirport",
+      "firstAirportSecondZwischenstopp",
+      "secondZwischenstoppEndAirport",
+      "secondAirportThirdZwischenstopp",
+      "thirdZwischenstoppEndAirport",
+    ],
+    customRequiredErrorMessage,
+  ),
+  anschlussFlugVerpasst: YesNoAnswer,
   ersterZwischenstopp: airportSchema,
   zweiterZwischenstopp: airportSchema,
   dritterZwischenstopp: airportSchema,

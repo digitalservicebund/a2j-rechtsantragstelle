@@ -53,5 +53,23 @@ export const fluggastrechteFlugdatenGuards = {
   hasKeineErsatzVerbindung: ({ context }) =>
     context.tatsaechlicherFlug === "no" &&
     context.ersatzverbindungArt === "keineAnkunft",
+  hasVerspaeteterFlugStartAirportFirstZwischenstopp: ({ context }) =>
+    context.verspaeteterFlug === "startAirportFirstZwischenstopp",
+  hasVerspaeteterFlugFirstAirportSecondZwischenstopp: ({ context }) =>
+    context.verspaeteterFlug === "firstAirportSecondZwischenstopp",
+  hasVerspaeteterFlugSecondAirportThirdZwischenstopp: ({ context }) =>
+    context.verspaeteterFlug === "secondAirportThirdZwischenstopp",
+  hasBereichAnnullierungOrNichtBefoerderungAndVerspaeteterFlugNonEndAirport: ({
+    context,
+  }) =>
+    (context.bereich === "annullierung" ||
+      context.bereich === "nichtbefoerderung") &&
+    (context.verspaeteterFlug === "startAirportFirstZwischenstopp" ||
+      context.verspaeteterFlug === "firstAirportSecondZwischenstopp" ||
+      context.verspaeteterFlug === "secondAirportThirdZwischenstopp"),
+  hasVerspaeteterFlugNonEndAirport: ({ context }) =>
+    context.verspaeteterFlug === "startAirportFirstZwischenstopp" ||
+    context.verspaeteterFlug === "firstAirportSecondZwischenstopp" ||
+    context.verspaeteterFlug === "secondAirportThirdZwischenstopp",
   ...yesNoGuards("tatsaechlicherFlug"),
 } satisfies Guards<FluggastrechteFlugdatenContext>;

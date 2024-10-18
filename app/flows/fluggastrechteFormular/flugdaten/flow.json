@@ -28,29 +28,83 @@
     },
     "zwischenstopp-uebersicht-1": {
       "on": {
+        "SUBMIT": "verspaeteter-flug-1",
+        "BACK": "geplanter-flug"
+      }
+    },
+    "verspaeteter-flug-1": {
+      "on": {
         "SUBMIT": [
+          {
+            "target": "anschluss-flug-verpasst",
+            "guard": "hasVerspaeteterFlugStartAirportFirstZwischenstopp"
+          },
           {
             "target": "tatsaechlicher-flug",
             "guard": "hasVerspaetung"
           },
           "ersatzverbindung-art"
         ],
-        "BACK": "geplanter-flug"
+        "BACK": "zwischenstopp-uebersicht-1"
       }
     },
     "zwischenstopp-uebersicht-2": {
       "on": {
+        "SUBMIT": "verspaeteter-flug-2",
+        "BACK": "geplanter-flug"
+      }
+    },
+    "verspaeteter-flug-2": {
+      "on": {
         "SUBMIT": [
+          {
+            "target": "anschluss-flug-verpasst",
+            "guard": "hasVerspaeteterFlugStartAirportFirstZwischenstopp"
+          },
+          {
+            "target": "anschluss-flug-verpasst",
+            "guard": "hasVerspaeteterFlugFirstAirportSecondZwischenstopp"
+          },
           {
             "target": "tatsaechlicher-flug",
             "guard": "hasVerspaetung"
           },
           "ersatzverbindung-art"
         ],
-        "BACK": "geplanter-flug"
+        "BACK": "zwischenstopp-uebersicht-2"
       }
     },
     "zwischenstopp-uebersicht-3": {
+      "on": {
+        "SUBMIT": "verspaeteter-flug-3",
+        "BACK": "geplanter-flug"
+      }
+    },
+    "verspaeteter-flug-3": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "anschluss-flug-verpasst",
+            "guard": "hasVerspaeteterFlugStartAirportFirstZwischenstopp"
+          },
+          {
+            "target": "anschluss-flug-verpasst",
+            "guard": "hasVerspaeteterFlugFirstAirportSecondZwischenstopp"
+          },
+          {
+            "target": "anschluss-flug-verpasst",
+            "guard": "hasVerspaeteterFlugSecondAirportThirdZwischenstopp"
+          },
+          {
+            "target": "tatsaechlicher-flug",
+            "guard": "hasVerspaetung"
+          },
+          "ersatzverbindung-art"
+        ],
+        "BACK": "zwischenstopp-uebersicht-3"
+      }
+    },
+    "anschluss-flug-verpasst": {
       "on": {
         "SUBMIT": [
           {
@@ -59,7 +113,17 @@
           },
           "ersatzverbindung-art"
         ],
-        "BACK": "geplanter-flug"
+        "BACK": [
+          {
+            "target": "verspaeteter-flug-1",
+            "guard": "hasOneStop"
+          },
+          {
+            "target": "verspaeteter-flug-2",
+            "guard": "hasTwoStop"
+          },
+          "verspaeteter-flug-3"
+        ]
       }
     },
     "tatsaechlicher-flug": {
@@ -76,15 +140,19 @@
         ],
         "BACK": [
           {
-            "target": "zwischenstopp-uebersicht-1",
+            "target": "anschluss-flug-verpasst",
+            "guard": "hasVerspaeteterFlugNonEndAirport"
+          },
+          {
+            "target": "verspaeteter-flug-1",
             "guard": "hasOneStop"
           },
           {
-            "target": "zwischenstopp-uebersicht-2",
+            "target": "verspaeteter-flug-2",
             "guard": "hasTwoStop"
           },
           {
-            "target": "zwischenstopp-uebersicht-3",
+            "target": "verspaeteter-flug-3",
             "guard": "hasThreeStop"
           },
           "geplanter-flug"
@@ -112,15 +180,19 @@
         ],
         "BACK": [
           {
-            "target": "zwischenstopp-uebersicht-1",
+            "target": "anschluss-flug-verpasst",
+            "guard": "hasBereichAnnullierungOrNichtBefoerderungAndVerspaeteterFlugNonEndAirport"
+          },
+          {
+            "target": "verspaeteter-flug-1",
             "guard": "hasOneStopWithAnnullierungOrNichtBefoerderung"
           },
           {
-            "target": "zwischenstopp-uebersicht-2",
+            "target": "verspaeteter-flug-2",
             "guard": "hasTwoStopWithAnnullierungOrNichtBefoerderung"
           },
           {
-            "target": "zwischenstopp-uebersicht-3",
+            "target": "verspaeteter-flug-3",
             "guard": "hasThreeStopWithAnnullierungOrNichtBefoerderung"
           },
           {
