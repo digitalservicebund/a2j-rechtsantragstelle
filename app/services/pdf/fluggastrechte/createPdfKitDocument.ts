@@ -5,9 +5,8 @@ export const PDF_LANGUAGE = "de-DE";
 export const PDF_SIZE_FORMAT = "A4";
 export const FONTS_BUNDESSANS_REGULAR = "BundesSansWebRegular";
 export const FONTS_BUNDESSANS_BOLD = "BundesSansWebBold";
-export const PDF_MARGIN = 70;
-export const PDF_MARGIN_VERTICAL = 50; // For top and bottom
-export const PDF_MARGIN_HORIZONTAL = 70; // For left and right
+export const PDF_MARGIN_VERTICAL = 50;
+export const PDF_MARGIN_HORIZONTAL = 70;
 export const PDF_HEIGHT_SEIZE = 760;
 export const LINE_GAP_GLOBAL = 1.5;
 
