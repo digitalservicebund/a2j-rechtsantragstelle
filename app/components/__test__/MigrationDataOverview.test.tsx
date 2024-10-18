@@ -107,6 +107,44 @@ describe("MigrationDataOverview", () => {
       <MigrationDataOverview
         translations={translations}
         migrationData={migrationData}
+        migrationOrderFields={["startAirport", "endAirport", "bereich"]}
+      />,
+    );
+
+    expect(queryAllByTestId("migration-field-value")[0].textContent).toEqual(
+      translations["startAirport"],
+    );
+
+    expect(queryAllByTestId("migration-field-value")[1].textContent).toEqual(
+      translations["endAirport"],
+    );
+
+    expect(queryAllByTestId("migration-field-value")[2].textContent).toEqual(
+      translations["bereich"],
+    );
+  });
+
+  it("should render the component order the fields bases on the props migrationData order in case the props migrationOrderFields is empty array", () => {
+    const migrationData = {
+      bereich: "verspaetet",
+      startAirport: "BER",
+      endAirport: "FRA",
+    };
+
+    const translations = {
+      bereich: "Problem",
+      "bereich.verspaetet": "Verspätete Beförderung",
+      startAirport: "Startflughafen",
+      "startAirport.value": "Berlin Brandenburg Flughafen (BER)",
+      endAirport: "Zielflughafen",
+      "endAirport.value": "Frankfurt Flughafen (FRA)",
+    };
+
+    const { queryAllByTestId } = render(
+      <MigrationDataOverview
+        translations={translations}
+        migrationData={migrationData}
+        migrationOrderFields={[]}
       />,
     );
 
