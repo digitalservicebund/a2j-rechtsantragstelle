@@ -92,7 +92,7 @@ describe("MigrationDataOverview", () => {
     ).toBeInTheDocument();
   });
 
-  it("should render the component with fields ordered according to the sortedFields array", () => {
+  it("should render the component with fields sorted according to the sortedFields array", () => {
     const migrationData = {
       bereich: "verspaetet",
       startAirport: "BER",
@@ -129,7 +129,7 @@ describe("MigrationDataOverview", () => {
     );
   });
 
-  it("should render the component and order the fields based on the migrationData prop in case the orderFields prop is an empty array.", () => {
+  it("should render the component and order the fields based on the migrationData prop in case the sortedFields prop is an empty array.", () => {
     const migrationData = {
       bereich: "verspaetet",
       startAirport: "BER",
