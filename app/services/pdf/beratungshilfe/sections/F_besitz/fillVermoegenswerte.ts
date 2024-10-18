@@ -24,9 +24,9 @@ function fillSingleVermoegenswert(
   vermoegenswert: NonNullable<BeratungshilfeFormularContext["geldanlagen"]>[0],
 ) {
   let description =
-    vermoegenswert.art in geldanlageArtMapping
+    vermoegenswert.art && vermoegenswert.art in geldanlageArtMapping
       ? `Art: ${geldanlageArtMapping[vermoegenswert.art]}`
-      : vermoegenswert.art;
+      : (vermoegenswert.art ?? "");
   if (vermoegenswert.eigentuemer === "myselfAndSomeoneElse")
     description += `, Eigentümer:in: ${eigentuemerMapping[vermoegenswert.eigentuemer]}`;
 
@@ -95,13 +95,19 @@ export const fillVermoegenswerte: BerHPdfFillFunction = ({
       level: "h3",
     });
     geldanlagen.forEach((geldanlage, index) => {
+      const geldanlageArt = geldanlage.art
+        ? geldanlageArtMapping[geldanlage.art]
+        : "";
+      const geldanlageEigentumer = geldanlage.eigentuemer
+        ? eigentuemerMapping[geldanlage.eigentuemer]
+        : "";
       attachment.push(
         { title: `Geldanlage ${index + 1}`, level: "h4" },
-        { title: "Art", text: geldanlageArtMapping[geldanlage.art] },
+        { title: "Art", text: geldanlageArt },
         { title: "Wert", text: geldanlage.wert },
         {
           title: "Eigentümer:in",
-          text: eigentuemerMapping[geldanlage.eigentuemer],
+          text: geldanlageEigentumer,
         },
       );
       if (geldanlage.auszahlungdatum)
