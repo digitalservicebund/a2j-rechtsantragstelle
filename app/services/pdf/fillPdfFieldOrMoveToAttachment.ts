@@ -1,16 +1,16 @@
 import { type AttachmentEntries, newPageHint } from "./attachment";
 
-export type FillPdfFieldOrMoveToAttachment<T> = {
-  pdfFieldName: keyof T;
+export type FillPdfFieldOrMoveToAttachment<TGeneratedPDFType> = {
+  pdfFieldName: keyof TGeneratedPDFType;
   pdfFieldValue: string | undefined;
   pdfFieldMaxChars: number;
   attachmentTitle: string;
-  pdfValues: T;
+  pdfValues: TGeneratedPDFType;
   attachment: AttachmentEntries;
   attachmentPageHint?: string;
 };
 
-export function fillPdfFieldOrMoveToAttachment<T>({
+export function fillPdfFieldOrMoveToAttachment<TGeneratedPDFType>({
   pdfFieldName,
   pdfFieldValue,
   pdfFieldMaxChars,
@@ -18,8 +18,8 @@ export function fillPdfFieldOrMoveToAttachment<T>({
   pdfValues,
   attachment,
   attachmentPageHint = newPageHint,
-}: FillPdfFieldOrMoveToAttachment<T>): {
-  pdfValues: T;
+}: FillPdfFieldOrMoveToAttachment<TGeneratedPDFType>): {
+  pdfValues: TGeneratedPDFType;
   attachment: AttachmentEntries;
 } {
   if (pdfFieldValue && pdfFieldValue.length > pdfFieldMaxChars) {
