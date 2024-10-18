@@ -6,10 +6,10 @@ import Button from "./Button";
 import Heading from "./Heading";
 
 type MigrationDataProps = {
-  readonly migrationData?: Context;
+  readonly data?: Context;
   readonly translations: Translations;
-  readonly migrationOrderFields?: string[];
-  readonly migrationButtonUrl?: string;
+  readonly orderFields?: string[];
+  readonly buttonUrl?: string;
 };
 
 const MIGRATION_BUTTON_TEXT_TRANSLATION = "migrationButtonText";
@@ -38,20 +38,14 @@ const renderMigrationValue = (
   return translation;
 };
 
-const getOrderFieldsData = (
-  migrationData: Context,
-  migrationOrderFields?: string[],
-) => {
-  if (
-    typeof migrationOrderFields === "undefined" ||
-    migrationOrderFields.length === 0
-  ) {
-    return migrationData;
+const getOrderFieldsData = (data: Context, orderFields?: string[]) => {
+  if (typeof orderFields === "undefined" || orderFields.length === 0) {
+    return data;
   }
 
-  return migrationOrderFields.reduce((orderedData, key) => {
-    if (key in migrationData) {
-      orderedData[key] = migrationData[key];
+  return orderFields.reduce((orderedData, key) => {
+    if (key in data) {
+      orderedData[key] = data[key];
     }
     return orderedData;
   }, {} as Context);
@@ -59,17 +53,17 @@ const getOrderFieldsData = (
 
 export default function MigrationDataOverview({
   translations,
-  migrationData,
-  migrationOrderFields,
-  migrationButtonUrl,
+  data,
+  orderFields,
+  buttonUrl,
 }: MigrationDataProps) {
-  if (!migrationData || Object.keys(migrationData).length === 0) return null;
+  if (!data || Object.keys(data).length === 0) return null;
 
-  const data = getOrderFieldsData(migrationData, migrationOrderFields);
+  const orderFieldsData = getOrderFieldsData(data, orderFields);
 
   return (
     <div className="space-y-16 bg-white pt-32 pb-44 px-32">
-      {Object.entries(data).map(([itemKey, itemValue]) => (
+      {Object.entries(orderFieldsData).map(([itemKey, itemValue]) => (
         <div key={itemKey} className="first:pt-0 scroll-my-40">
           <Heading
             text={getTranslationByKey(itemKey, translations)}
@@ -81,13 +75,8 @@ export default function MigrationDataOverview({
         </div>
       ))}
 
-      {migrationButtonUrl && (
-        <Button
-          href={migrationButtonUrl}
-          look="tertiary"
-          size="large"
-          className="w-fit"
-        >
+      {buttonUrl && (
+        <Button href={buttonUrl} look="tertiary" size="large" className="w-fit">
           {getTranslationByKey(MIGRATION_BUTTON_TEXT_TRANSLATION, translations)}
         </Button>
       )}

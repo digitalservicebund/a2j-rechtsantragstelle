@@ -57,10 +57,10 @@ export function FormFlowPage() {
           </div>
 
           <MigrationDataOverview
-            migrationData={migration.data}
+            data={migration.data}
             translations={translations}
-            migrationOrderFields={migration.orderFields}
-            migrationButtonUrl={migration.buttonUrl}
+            orderFields={migration.orderFields}
+            buttonUrl={migration.buttonUrl}
           />
           {arraySummaryData && Object.keys(arraySummaryData).length != 0 && (
             <div className="!mt-24">

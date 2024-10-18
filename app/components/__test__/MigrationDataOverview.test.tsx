@@ -26,7 +26,7 @@ describe("MigrationDataOverview", () => {
     const { container, getByText } = render(
       <MigrationDataOverview
         translations={translations}
-        migrationData={migrationData}
+        data={migrationData}
       />,
     );
 
@@ -48,7 +48,7 @@ describe("MigrationDataOverview", () => {
     const { container, getByText } = render(
       <MigrationDataOverview
         translations={translations}
-        migrationData={migrationData}
+        data={migrationData}
       />,
     );
 
@@ -73,7 +73,7 @@ describe("MigrationDataOverview", () => {
     const { container, getByText } = render(
       <MigrationDataOverview
         translations={translations}
-        migrationData={migrationData}
+        data={migrationData}
       />,
     );
 
@@ -92,7 +92,7 @@ describe("MigrationDataOverview", () => {
     ).toBeInTheDocument();
   });
 
-  it("should render the component order the fields bases on the props migrationOrderFields", () => {
+  it("should render the component order the fields bases on the props orderFields", () => {
     const migrationData = {
       bereich: "verspaetet",
       startAirport: "BER",
@@ -111,8 +111,8 @@ describe("MigrationDataOverview", () => {
     const { queryAllByTestId } = render(
       <MigrationDataOverview
         translations={translations}
-        migrationData={migrationData}
-        migrationOrderFields={["startAirport", "endAirport", "bereich"]}
+        data={migrationData}
+        orderFields={["startAirport", "endAirport", "bereich"]}
       />,
     );
 
@@ -129,7 +129,7 @@ describe("MigrationDataOverview", () => {
     );
   });
 
-  it("should render the component order the fields bases on the props migrationData order in case the props migrationOrderFields is empty array", () => {
+  it("should render the component order the fields bases on the props migrationData order in case the props orderFields is empty array", () => {
     const migrationData = {
       bereich: "verspaetet",
       startAirport: "BER",
@@ -148,8 +148,8 @@ describe("MigrationDataOverview", () => {
     const { queryAllByTestId } = render(
       <MigrationDataOverview
         translations={translations}
-        migrationData={migrationData}
-        migrationOrderFields={[]}
+        data={migrationData}
+        orderFields={[]}
       />,
     );
 
@@ -166,7 +166,7 @@ describe("MigrationDataOverview", () => {
     );
   });
 
-  it("should render a Mock Button in case props migrationButtonUrl has value", () => {
+  it("should render a Mock Button in case props buttonUrl has value", () => {
     const migrationData = {
       bereich: "verspaetet",
     };
@@ -179,16 +179,15 @@ describe("MigrationDataOverview", () => {
     const { queryByText } = render(
       <MigrationDataOverview
         translations={translations}
-        migrationData={migrationData}
-        migrationOrderFields={[]}
-        migrationButtonUrl="any button url"
+        data={migrationData}
+        buttonUrl="any button url"
       />,
     );
 
     expect(queryByText("Mock Button")).toBeInTheDocument();
   });
 
-  it("should not render a Mock Button in case props migrationButtonUrl is not defined", () => {
+  it("should not render a Mock Button in case props buttonUrl is not defined", () => {
     const migrationData = {
       bereich: "verspaetet",
     };
@@ -201,8 +200,7 @@ describe("MigrationDataOverview", () => {
     const { queryByText } = render(
       <MigrationDataOverview
         translations={translations}
-        migrationData={migrationData}
-        migrationOrderFields={[]}
+        data={migrationData}
       />,
     );
 
