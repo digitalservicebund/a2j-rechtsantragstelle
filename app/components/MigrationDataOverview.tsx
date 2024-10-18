@@ -38,7 +38,10 @@ const getOrderFieldsData = (
   migrationData: Context,
   migrationOrderFields?: string[],
 ) => {
-  if (typeof migrationOrderFields === "undefined") {
+  if (
+    typeof migrationOrderFields === "undefined" ||
+    migrationOrderFields.length === 0
+  ) {
     return migrationData;
   }
 
