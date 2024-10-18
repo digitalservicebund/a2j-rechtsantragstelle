@@ -92,7 +92,7 @@ describe("MigrationDataOverview", () => {
     ).toBeInTheDocument();
   });
 
-  it("should render the component order the fields bases on the props orderFields", () => {
+  it("should render the component with fields ordered according to the sortedFields array", () => {
     const migrationData = {
       bereich: "verspaetet",
       startAirport: "BER",
