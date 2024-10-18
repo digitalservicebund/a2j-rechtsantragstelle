@@ -37,6 +37,7 @@
     "update:courtData": "tsx ./app/services/gerichtsfinder/encryptedStorage.ts updateZip",
     "update:URLs": "tsx ./app/services/gerichtsfinder/checkURLs.ts checkURLs",
     "verify:emails": "tsx ./scripts/verifyExternalLinks.ts verifyEmails",
+    "verify:unusedStrapiEntries": "tsx ./scripts/unusedStrapiEntries.ts unusedStrapiEntry",
     "verify:websites": "tsx ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
