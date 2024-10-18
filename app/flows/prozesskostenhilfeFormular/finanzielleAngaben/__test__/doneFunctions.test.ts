@@ -4,6 +4,7 @@ import {
   hasSonstigeAusgabeDone,
   hasVersicherungDone,
   kinderDone,
+  kraftfahrzeugDone,
   partnerBesondersAusgabenDone,
   partnerDone,
   partnerSupportDone,
@@ -30,6 +31,18 @@ const mockedCompleteSonstigeAusgabe: NonNullable<
   zahlungsempfaenger: "Someone",
   zahlungspflichtiger: "myself",
   betragGesamt: "50",
+};
+
+const mockedCompleteKraftfahrzeug: NonNullable<
+  ProzesskostenhilfeFinanzielleAngabenContext["kraftfahrzeuge"]
+>[0] = {
+  hasArbeitsweg: "yes",
+  wert: "under10000",
+  eigentuemer: "myself",
+  art: "kraftfahrzeug",
+  marke: "Mercedes",
+  kilometerstand: 200000,
+  baujahr: "1990",
 };
 
 describe("Finanzielle Angaben doneFunctions", () => {
@@ -173,6 +186,57 @@ describe("Finanzielle Angaben doneFunctions", () => {
           },
         }),
       ).toBe(true);
+    });
+  });
+
+  describe("kraftfahrzeugDone", () => {
+    it("should return false if the kraftfahrzeug is missing any information", () => {
+      expect(
+        kraftfahrzeugDone({
+          ...mockedCompleteKraftfahrzeug,
+          hasArbeitsweg: undefined,
+        }),
+      ).toBe(false);
+      expect(
+        kraftfahrzeugDone({
+          ...mockedCompleteKraftfahrzeug,
+          wert: undefined,
+        }),
+      ).toBe(false);
+      expect(
+        kraftfahrzeugDone({
+          ...mockedCompleteKraftfahrzeug,
+          eigentuemer: undefined,
+        }),
+      ).toBe(false);
+      expect(
+        kraftfahrzeugDone({
+          ...mockedCompleteKraftfahrzeug,
+          art: undefined,
+        }),
+      ).toBe(false);
+      expect(
+        kraftfahrzeugDone({
+          ...mockedCompleteKraftfahrzeug,
+          marke: undefined,
+        }),
+      ).toBe(false);
+      expect(
+        kraftfahrzeugDone({
+          ...mockedCompleteKraftfahrzeug,
+          kilometerstand: undefined,
+        }),
+      ).toBe(false);
+      expect(
+        kraftfahrzeugDone({
+          ...mockedCompleteKraftfahrzeug,
+          baujahr: undefined,
+        }),
+      ).toBe(false);
+    });
+
+    it("should return true if a kraftfahrzeug is complete", () => {
+      expect(kraftfahrzeugDone(mockedCompleteKraftfahrzeug)).toBe(true);
     });
   });
 
