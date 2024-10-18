@@ -1,5 +1,5 @@
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
-import { attachBankkontenToAnhang } from "~/services/pdf/shared/attachBankkonten";
+import { attachBankkontenToAnhang } from "~/services/pdf/shared/attachBankkontenToAnhang";
 import { arrayIsNonEmpty } from "~/util/array";
 import { fillKraftfahrzeug } from "./fillKraftfahrzeug";
 import type { BerHPdfFillFunction } from "../..";
