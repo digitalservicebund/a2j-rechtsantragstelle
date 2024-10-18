@@ -5,11 +5,11 @@ import {
   buildFlowController,
   type FlowController,
 } from "~/services/flow/server/buildFlowController";
-import { getSessionData } from "..";
+import { getSessionData } from "../../session.server";
 import {
   type FlowTransitionConfig,
   validateFlowTransition,
-} from "../flowTransitionValidation.server";
+} from "../server/flowTransitionValidation";
 
 vi.mock("app/services/session.server/index", () => ({
   getSessionData: vi.fn(),
@@ -58,7 +58,6 @@ describe("validateFlowTransition", () => {
 
   it("should return eligibility as true if at least one eligible source page is reachable", async () => {
     const config: FlowTransitionConfig = {
-      targetFlowId: mockFlowId,
       sourceFlowId: mockFlowId,
       eligibleSourcePages: ["ergebnis/erfolg-totally", "ergebnis/erfolg"],
     };
@@ -72,7 +71,6 @@ describe("validateFlowTransition", () => {
 
     const result = await validateFlowTransition(
       mockFlows,
-      mockFlowId,
       mockCookieHeader,
       config,
     );
@@ -84,7 +82,6 @@ describe("validateFlowTransition", () => {
 
   it("should return eligibility as false if none of the eligible source pages are reachable", async () => {
     const config: FlowTransitionConfig = {
-      targetFlowId: mockFlowId,
       sourceFlowId: mockFlowId,
       eligibleSourcePages: ["page1", "page2"],
     };
@@ -98,7 +95,6 @@ describe("validateFlowTransition", () => {
 
     const result = await validateFlowTransition(
       mockFlows,
-      mockFlowId,
       mockCookieHeader,
       config,
     );
@@ -111,13 +107,12 @@ describe("validateFlowTransition", () => {
 
   it("should throw an error if eligibleSourcePages is an empty array", async () => {
     const config: FlowTransitionConfig = {
-      targetFlowId: mockFlowId,
       sourceFlowId: mockFlowId,
       eligibleSourcePages: [],
     };
 
     await expect(
-      validateFlowTransition(mockFlows, mockFlowId, mockCookieHeader, config),
+      validateFlowTransition(mockFlows, mockCookieHeader, config),
     ).rejects.toThrow("This property should not be empty");
   });
 });
