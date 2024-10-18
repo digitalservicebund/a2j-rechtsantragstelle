@@ -4,7 +4,11 @@ import {
 } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import { newPageHint } from "../../attachment";
-import { fillPerson, GESETZLICHERVERTRETER_FIELD_MAX_CHARS } from "../A_person";
+import {
+  concatenateGesetzlicherVertreterString,
+  fillPerson,
+  GESETZLICHERVERTRETER_FIELD_MAX_CHARS,
+} from "../A_person";
 
 let pdfParams: ProzesskostenhilfePDF;
 const userData: ProzesskostenhilfeFormularContext = {
@@ -18,13 +22,6 @@ const userData: ProzesskostenhilfeFormularContext = {
     telefonnummer: "0123456789",
   },
 };
-const getGesetzlicherVertreterString = (
-  userData: ProzesskostenhilfeFormularContext,
-): string => {
-  const { vorname, nachname, strasseHausnummer, plz, ort, telefonnummer } =
-    userData.gesetzlicheVertretungDaten!;
-  return `${vorname} ${nachname}, ${strasseHausnummer}, ${plz} ${ort}, ${telefonnummer}`;
-};
 
 describe("A_person", () => {
   beforeEach(() => {
@@ -32,7 +29,7 @@ describe("A_person", () => {
   });
   describe("gesetzlicher Vertreter", () => {
     const gesetzlicherVertreterString =
-      getGesetzlicherVertreterString(userData);
+      concatenateGesetzlicherVertreterString(userData);
     it("should fill the gesetzlicher Vertreter section if the user has a legal guardian", () => {
       const { pdfValues, attachment } = fillPerson({
         userData,
@@ -58,9 +55,8 @@ describe("A_person", () => {
         },
       } as ProzesskostenhilfeFormularContext;
 
-      const gesetzlicherVertreterStringLong = getGesetzlicherVertreterString(
-        userDataWithLongString,
-      );
+      const gesetzlicherVertreterStringLong =
+        concatenateGesetzlicherVertreterString(userDataWithLongString);
       const { pdfValues, attachment } = fillPerson({
         userData: userDataWithLongString,
         pdfValues: pdfParams,

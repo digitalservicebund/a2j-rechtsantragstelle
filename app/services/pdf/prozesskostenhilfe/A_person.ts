@@ -1,8 +1,17 @@
+import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import type { PkhPdfFillFunction } from "~/services/pdf/prozesskostenhilfe";
 import type { AttachmentEntries } from "../attachment";
 import { newPageHint } from "../attachment";
 
 export const GESETZLICHERVERTRETER_FIELD_MAX_CHARS = 80;
+
+export const concatenateGesetzlicherVertreterString = (
+  userData: ProzesskostenhilfeFormularContext,
+): string => {
+  const { vorname, nachname, strasseHausnummer, plz, ort, telefonnummer } =
+    userData.gesetzlicheVertretungDaten!;
+  return `${vorname} ${nachname}, ${strasseHausnummer}, ${plz} ${ort}, ${telefonnummer}`;
+};
 
 export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const attachment: AttachmentEntries = [];
