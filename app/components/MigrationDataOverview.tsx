@@ -2,13 +2,17 @@ import type { Context } from "~/flows/contexts";
 import { type Translations } from "~/services/cms/index.server";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import { lookupOrKey } from "~/util/lookupOrKey";
+import Button from "./Button";
 import Heading from "./Heading";
 
 type MigrationDataProps = {
   readonly migrationData?: Context;
   readonly translations: Translations;
   readonly migrationOrderFields?: string[];
+  readonly migrationButtonUrl?: string;
 };
+
+const MIGRATION_BUTTON_TEXT_TRANSLATION = "migrationButtonText";
 
 type ValueOfContext = Context[keyof Context];
 
@@ -57,6 +61,7 @@ export default function MigrationDataOverview({
   translations,
   migrationData,
   migrationOrderFields,
+  migrationButtonUrl,
 }: MigrationDataProps) {
   if (!migrationData || Object.keys(migrationData).length === 0) return null;
 
@@ -75,6 +80,17 @@ export default function MigrationDataOverview({
           {renderMigrationValue(translations, itemValue, itemKey)}
         </div>
       ))}
+
+      {migrationButtonUrl && (
+        <Button
+          href={migrationButtonUrl}
+          look="tertiary"
+          size="large"
+          className="w-fit"
+        >
+          {getTranslationByKey(MIGRATION_BUTTON_TEXT_TRANSLATION, translations)}
+        </Button>
+      )}
     </div>
   );
 }

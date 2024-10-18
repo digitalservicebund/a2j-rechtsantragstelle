@@ -247,11 +247,17 @@ export const loader = async ({
       formElements,
       heading: cmsContent.heading,
       meta,
-      migrationData,
-      migrationOrderFields:
-        "migration" in currentFlow
-          ? currentFlow.migration.orderFields
-          : undefined,
+      migration: {
+        data: migrationData,
+        orderFields:
+          "migration" in currentFlow
+            ? currentFlow.migration.orderFields
+            : undefined,
+        buttonUrl:
+          "migration" in currentFlow
+            ? currentFlow.migration.buttonUrl
+            : undefined,
+      },
       navItems,
       postFormContent: cmsContent.postFormContent,
       preHeading: cmsContent.preHeading,

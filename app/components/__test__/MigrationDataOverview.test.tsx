@@ -1,6 +1,11 @@
 import { render } from "@testing-library/react";
 import MigrationDataOverview from "../MigrationDataOverview";
 
+// eslint-disable-next-line react/display-name
+vi.mock("~/components/Button", () => ({
+  default: () => <div>Mock Button</div>,
+}));
+
 describe("MigrationDataOverview", () => {
   it("should not render in case is missing migration data", () => {
     const { container } = render(<MigrationDataOverview translations={{}} />);
@@ -159,5 +164,48 @@ describe("MigrationDataOverview", () => {
     expect(queryAllByTestId("migration-field-value")[2].textContent).toEqual(
       translations["endAirport"],
     );
+  });
+
+  it("should render a Mock Button in case props migrationButtonUrl has value", () => {
+    const migrationData = {
+      bereich: "verspaetet",
+    };
+
+    const translations = {
+      bereich: "Problem",
+      "bereich.verspaetet": "Verspätete Beförderung",
+    };
+
+    const { queryByText } = render(
+      <MigrationDataOverview
+        translations={translations}
+        migrationData={migrationData}
+        migrationOrderFields={[]}
+        migrationButtonUrl="any button url"
+      />,
+    );
+
+    expect(queryByText("Mock Button")).toBeInTheDocument();
+  });
+
+  it("should not render a Mock Button in case props migrationButtonUrl is not defined", () => {
+    const migrationData = {
+      bereich: "verspaetet",
+    };
+
+    const translations = {
+      bereich: "Problem",
+      "bereich.verspaetet": "Verspätete Beförderung",
+    };
+
+    const { queryByText } = render(
+      <MigrationDataOverview
+        translations={translations}
+        migrationData={migrationData}
+        migrationOrderFields={[]}
+      />,
+    );
+
+    expect(queryByText("Mock Button")).not.toBeInTheDocument();
   });
 });

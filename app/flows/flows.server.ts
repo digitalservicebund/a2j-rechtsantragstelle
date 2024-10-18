@@ -16,6 +16,7 @@ import { prozesskostenhilfeFormular } from "./prozesskostenhilfeFormular";
 export type FlowMigration = {
   source: FlowId;
   orderFields: string[];
+  buttonUrl?: string;
 };
 
 export type Flow = {
