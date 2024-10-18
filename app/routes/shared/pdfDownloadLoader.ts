@@ -5,6 +5,7 @@ import { parsePathname, type FlowId } from "~/flows/flowIds";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { beratungshilfePdfFromUserdata } from "~/services/pdf/beratungshilfe";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
+import { fluggastrechtePdfFromUserdata } from "~/services/pdf/fluggastrechte/fluggastrechtePdfFromUserdata";
 import { pdfDocumentToArrayBuffer } from "~/services/pdf/pdfDocumentToArrayBuffer";
 import { prozesskostenhilfePdfFromUserdata } from "~/services/pdf/prozesskostenhilfe";
 import { getSessionData } from "~/services/session.server";
@@ -24,6 +25,12 @@ const pdfConfigs = {
       ),
     filenameFunction: () =>
       `Antrag_Prozesskostenhilfe_${pdfDateFormat(today())}.pdf`,
+  },
+  "/fluggastrechte/formular": {
+    pdfFunction: async (userData: Context) =>
+      fluggastrechtePdfFromUserdata(userData),
+    filenameFunction: () =>
+      `Fluggastrechte_Klage_${pdfDateFormat(today())}.pdf`,
   },
 } as const satisfies Partial<Record<FlowId, unknown>>;
 

@@ -74,19 +74,17 @@ jobs:
       - run: ./docker.sh --build prod
       - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
       - name: Generate cosign vulnerability scan record for PROD image
-        uses: aquasecurity/trivy-action@f781cce5aab226378ee181d764ab90ea0be3cdd8 # v0.25.0
+        uses: aquasecurity/trivy-action@915b19bbe73b92a6cf82a1bc12b087c9a19a5fe2 # v0.28.0
         env:
-          TRIVY_USERNAME: ${{ github.actor }}
-          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         with:
           image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.PROD_IMAGE_TAG }}
           format: "cosign-vuln"
           output: "vulnerabilities.json"
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@f781cce5aab226378ee181d764ab90ea0be3cdd8 # v0.25.0
+        uses: aquasecurity/trivy-action@915b19bbe73b92a6cf82a1bc12b087c9a19a5fe2 # v0.28.0
         env:
-          TRIVY_USERNAME: ${{ github.actor }}
-          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         with:
           image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.PROD_IMAGE_TAG }}
           format: "sarif"
@@ -200,3 +198,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: curl -s -v "https://service.justiz.de" | grep -q "Justiz-Services"
+
+  alert-pipeline-failure:
+    name: Send failure message to Slack
+    needs:
+      [
+        code-quality,
+        get-content-file,
+        verify-local-e2e,
+        build-push-app-image,
+        deploy-staging,
+        deploy-preview,
+        verify-preview-e2e,
+        deploy-production,
+        test-production-text,
+      ]
+    if: always() && failure() && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

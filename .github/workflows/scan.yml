@@ -48,10 +48,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@f781cce5aab226378ee181d764ab90ea0be3cdd8 # v0.25.0
+        uses: aquasecurity/trivy-action@915b19bbe73b92a6cf82a1bc12b087c9a19a5fe2 # v0.28.0
         env:
-          TRIVY_USERNAME: ${{ github.actor }}
-          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         with:
           image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ matrix.container-name }}:${{ env.CONTAINER_IMAGE_VERSION }}
           format: "sarif"
@@ -71,10 +70,9 @@ jobs:
         with:
           sarif_file: "trivy-results.sarif"
       - name: Generate cosign vulnerability scan record
-        uses: aquasecurity/trivy-action@f781cce5aab226378ee181d764ab90ea0be3cdd8 # v0.25.0
+        uses: aquasecurity/trivy-action@915b19bbe73b92a6cf82a1bc12b087c9a19a5fe2 # v0.28.0
         env:
-          TRIVY_USERNAME: ${{ github.actor }}
-          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         with:
           image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ matrix.container-name }}:${{ env.CONTAINER_IMAGE_VERSION }}
           format: "cosign-vuln"

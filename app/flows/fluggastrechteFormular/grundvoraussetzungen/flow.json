@@ -1,0 +1,36 @@
+{
+  "id": "grundvoraussetzungen",
+  "initial": "prozessfaehig",
+  "states": {
+    "prozessfaehig": {
+      "on": {
+        "SUBMIT": "ausgleichszahlung",
+        "BACK": "#intro.start"
+      }
+    },
+    "ausgleichszahlung": {
+      "on": {
+        "SUBMIT": "zahlungsaufforderung",
+        "BACK": "prozessfaehig"
+      }
+    },
+    "zahlungsaufforderung": {
+      "on": {
+        "SUBMIT": "daten-uebernahme",
+        "BACK": "ausgleichszahlung"
+      }
+    },
+    "daten-uebernahme": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "#streitwert-kosten.gerichtskosten",
+            "guard": "grundvoraussetzungenDone"
+          }
+        ],
+        "BACK": "redirect-vorabcheck"
+      }
+    },
+    "redirect-vorabcheck": { "on": {} }
+  }
+}

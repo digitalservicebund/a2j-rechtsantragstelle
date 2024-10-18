@@ -16,19 +16,19 @@ export async function startFluggastrechteFormular(
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
-  // /fluggastrechte/formular/grundvorraussetzungen/prozessfaehig
+  // /fluggastrechte/formular/grundvoraussetzungen/prozessfaehig
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
-  // /fluggastrechte/formular/grundvorraussetzungen/ausgleichszahlung
+  // /fluggastrechte/formular/grundvoraussetzungen/ausgleichszahlung
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
-  // /fluggastrechte/formular/grundvorraussetzungen/zahlungsaufforderung
+  // /fluggastrechte/formular/grundvoraussetzungen/zahlungsaufforderung
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
-  // /fluggastrechte/formular/grundvorraussetzungen/daten-uebernahme
+  // /fluggastrechte/formular/grundvoraussetzungen/daten-uebernahme
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 

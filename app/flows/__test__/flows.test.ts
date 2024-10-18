@@ -12,7 +12,7 @@ import { testCasesBeratungshilfeRechtsproblem } from "~/flows/beratungshilfeForm
 import { testCasesBeratungshilfe } from "~/flows/beratungshilfeVorabcheck/__test__/testcases";
 import { type Context } from "~/flows/contexts";
 import { testCasesFluggastrechteFormularFlugdaten } from "~/flows/fluggastrechteFormular/flugdaten/__test__/testcases";
-import { testCasesFluggastrechteFormularGrundvorraussetzungen } from "~/flows/fluggastrechteFormular/grundvorraussetzungen/__test__/testcases";
+import { testCasesFluggastrechteFormularGrundvoraussetzungen } from "~/flows/fluggastrechteFormular/grundvoraussetzungen/__test__/testcases";
 import { testCasesFluggastrechteFormularPersoenlicheDaten } from "~/flows/fluggastrechteFormular/persoenlicheDaten/__test__/testcases";
 import { testCasesFluggastrechteAnnullierung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesAnnullierung";
 import { testCasesFluggastrechteNichtBefoerderung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesNichtBefoerderung";
@@ -82,7 +82,7 @@ describe("state machine form flows", () => {
     testCasesFluggastrechteNichtBefoerderung,
     testCasesFluggastrechteFormularPersoenlicheDaten,
     testCasesProzesskostenhilfeFormular,
-    testCasesFluggastrechteFormularGrundvorraussetzungen,
+    testCasesFluggastrechteFormularGrundvoraussetzungen,
     testCasesFluggastrechteFormularStreitwertKosten,
     testCasesProzesskostenhilfePersoenlicheDaten,
     testCasesProzesskostenhilfeRsv,

@@ -9,7 +9,7 @@ import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import { splatFromParams } from "~/services/params";
-import { CSRFKey } from "~/services/security/csrfKey";
+import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { validatorForFieldnames } from "~/services/validation/buildStepValidator";
 import type { loader } from "../formular.server";
 
@@ -28,6 +28,7 @@ export function FormFlowPage() {
     stepData,
     translations,
     navigationA11yLabels,
+    migrationOrderFields,
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
@@ -59,6 +60,7 @@ export function FormFlowPage() {
           <MigrationDataOverview
             migrationData={migrationData}
             translations={translations}
+            migrationOrderFields={migrationOrderFields}
           />
           {arraySummaryData && Object.keys(arraySummaryData).length != 0 && (
             <div className="!mt-24">

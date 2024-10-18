@@ -1,4 +1,5 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import type { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
 import type { besondereBelastungenSchema } from "~/flows/shared/finanzielleAngaben/context";
 import type { BerHPdfFillFunction } from "..";
 import { type AttachmentEntries, newPageHint } from "../../attachment";
@@ -8,14 +9,6 @@ const AUSGABEN_MAX_COUNT_FIELDS = 4;
 const AUSGABEN_MAX_CHARS_FIELD = 19;
 export const AUSGABEN_ATTACHMENT_TITLE =
   "Feld G: Zahlungsverpflichtungen und besondere Belastungen";
-
-type AusgabenPdfField = {
-  art: string;
-  zahlungsempfaenger: string;
-  beitrag: string;
-  hasZahlungsfrist: string;
-  zahlungsfrist: string;
-};
 
 export const ausgabenSituationMapping = {
   pregnancy: "Schwangerschaft",
@@ -32,8 +25,10 @@ export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
 
   const isPdfFieldExceedsMaxChars = ausgaben.some(
     (ausgabe) =>
-      ausgabe.art.length > AUSGABEN_MAX_CHARS_FIELD ||
-      ausgabe.zahlungsempfaenger.length > AUSGABEN_MAX_CHARS_FIELD,
+      ausgabe.art &&
+      ausgabe.zahlungsempfaenger &&
+      (ausgabe.art.length > AUSGABEN_MAX_CHARS_FIELD ||
+        ausgabe.zahlungsempfaenger.length > AUSGABEN_MAX_CHARS_FIELD),
   );
 
   pdfValues.g1VerpflichtungenJ.value = userData.hasAusgaben === "yes";
@@ -84,7 +79,7 @@ export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
 };
 
 function fillAusgabenInPDF(
-  ausgaben: AusgabenPdfField[],
+  ausgaben: NonNullable<BeratungshilfeFinanzielleAngaben["ausgaben"]>,
   pdfValues: BeratungshilfePDF,
 ) {
   for (let i = 0; i < ausgaben.length; i++) {

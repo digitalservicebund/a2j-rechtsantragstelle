@@ -94,14 +94,6 @@ export async function startFinanzielleAngabenEinkuenfte(
   await expectPageToBeAccessible({ page });
   await formular.fillInputPage("pensionAmount", faker.finance.amount());
 
-  // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/unterhalt-frage
-  await expectPageToBeAccessible({ page });
-  await formular.fillRadioPage("receivesSupport", "yes");
-
-  // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/unterhalt
-  await expectPageToBeAccessible({ page });
-  await formular.fillInputPage("supportAmount", faker.finance.amount());
-
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/leistungen/frage
   await expectPageToBeAccessible({ page });
   await formular.fillCheckboxesPage(
