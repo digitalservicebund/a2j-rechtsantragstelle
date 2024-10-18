@@ -60,6 +60,8 @@ export const staatlicheLeistungen = z.enum(
   customRequiredErrorMessage,
 );
 
+export type BankkontenArraySchema = z.infer<typeof bankkontenArraySchema>;
+
 export const bankkontenArraySchema = z.array(
   z.object({
     bankName: stringRequiredSchema,

@@ -1,11 +1,12 @@
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
+import { attachBankkontenToAnhang } from "~/services/pdf/shared/attachBankkonten";
 import { arrayIsNonEmpty } from "~/util/array";
 import { fillKraftfahrzeug } from "./fillKraftfahrzeug";
 import type { BerHPdfFillFunction } from "../..";
 import { fillVermoegenswerte } from "./fillVermoegenswerte";
 import type { AttachmentEntries } from "../../../attachment";
 import { newPageHint } from "../../../attachment";
-import { eigentuemerMapping } from "../../eigentuemerMapping";
+import { eigentuemerMapping } from "../../../shared/eigentuemerMapping";
 
 export const fillBesitz: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   const attachment: AttachmentEntries = [];
@@ -39,7 +40,7 @@ export const fillFinancialBankkonto: BerHPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  const attachment: AttachmentEntries = [];
+  let attachment: AttachmentEntries = [];
   pdfValues.f1Konten1.value = userData.hasBankkonto === "no";
   pdfValues.f1Konten2.value = userData.hasBankkonto === "yes";
 
@@ -64,28 +65,7 @@ export const fillFinancialBankkonto: BerHPdfFillFunction = ({
   } else {
     pdfValues.f3Bank1.value = newPageHint;
 
-    attachment.push({
-      title: "Bankkonten",
-      level: "h3",
-    });
-
-    bankkonten.forEach(
-      (
-        { bankName, kontoEigentuemer, kontostand, kontoDescription, iban },
-        index,
-      ) => {
-        attachment.push(
-          { title: `Bankkonto ${index + 1}`, level: "h4" },
-          { title: "Bank", text: bankName },
-          { title: "Inhaber", text: eigentuemerMapping[kontoEigentuemer] },
-          { title: "Kontostand", text: kontostand + " €" },
-        );
-
-        if (kontoDescription)
-          attachment.push({ title: "Beschreibung", text: kontoDescription });
-        if (iban) attachment.push({ title: "Iban", text: iban });
-      },
-    );
+    ({ attachment } = attachBankkontenToAnhang([], bankkonten));
   }
   return { pdfValues, attachment };
 };
