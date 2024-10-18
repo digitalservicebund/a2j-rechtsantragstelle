@@ -11,7 +11,6 @@ import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } 
 import {
   Eigentuemer,
   financialEntrySchema,
-  grundeigentumArraySchema,
   unterhaltszahlungSchema,
 } from "~/flows/shared/finanzielleAngaben/context";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
@@ -112,8 +111,8 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   ],
   grundeigentum: [
     {
-      isBewohnt: grundeigentumArraySchema.element.shape.isBewohnt.Enum.yes,
-      art: grundeigentumArraySchema.element.shape.art.Enum.einfamilienhaus,
+      isBewohnt: "yes",
+      art: "einfamilienhaus",
       eigentuemer: Eigentuemer.Enum.myselfAndSomeoneElse,
       flaeche: faker.number.int().toString(),
       verkaufswert: faker.finance.amount(),

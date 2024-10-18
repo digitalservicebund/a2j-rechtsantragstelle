@@ -143,17 +143,19 @@ export const gelanlagenArraySchema = z.array(
 );
 
 export const grundeigentumArraySchema = z.array(
-  z.object({
-    isBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),
-    art: GrundeigentumArt,
-    eigentuemer: Eigentuemer,
-    flaeche: stringRequiredSchema,
-    verkaufswert: buildMoneyValidationSchema(),
-    strassehausnummer: stringRequiredSchema,
-    plz: stringOptionalSchema,
-    ort: stringRequiredSchema,
-    land: stringRequiredSchema,
-  }),
+  z
+    .object({
+      isBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),
+      art: GrundeigentumArt,
+      eigentuemer: Eigentuemer,
+      flaeche: stringRequiredSchema,
+      verkaufswert: buildMoneyValidationSchema(),
+      strassehausnummer: stringRequiredSchema,
+      plz: stringOptionalSchema,
+      ort: stringRequiredSchema,
+      land: stringRequiredSchema,
+    })
+    .partial(),
 );
 
 export const wertsachenArraySchema = z.array(
