@@ -3,6 +3,7 @@ import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.ser
 import type { BerHPdfFillFunction } from "..";
 import { newPageHint, type AttachmentEntries } from "../../attachment";
 import { checkboxListToString } from "../../checkboxListToString";
+import { maritalDescriptionMapping } from "../../shared/maritalDescriptionMapping";
 
 const weiteresEinkommenMapping = {
   unterhaltszahlungen: "Unterhaltszahlungen",
@@ -78,14 +79,6 @@ export const fillHeader: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   }
   return { pdfValues, attachment };
 };
-
-const maritalDescriptionMapping = {
-  yes: "verheiratet / in eingetragener Lebenspartnerschaft",
-  no: "ledig",
-  separated: "getrennt",
-  widowed: "verwitwet",
-  "": "",
-} as const;
 
 const staatlicheLeistungMapping = {
   grundsicherung: "Grundsicherung",

@@ -14,6 +14,7 @@ import { pdfFromReact } from "../attachment/pdfFromReact";
 import type { PdfFillFunction } from "../fillOutFunction";
 import { pdfFillReducer } from "../fillOutFunction";
 import { fillPdf } from "../fillPdf.server";
+import { fillPerson } from "./A_person";
 export { getProzesskostenhilfeParameters };
 
 export type PkhPdfFillFunction = PdfFillFunction<
@@ -28,6 +29,7 @@ export async function prozesskostenhilfePdfFromUserdata(
     userData,
     pdfParams: getProzesskostenhilfeParameters(),
     fillFunctions: [
+      fillPerson,
       fillGrundvoraussetzungen,
       fillAngehoerige,
       fillSelfBruttoEinnahmen,
