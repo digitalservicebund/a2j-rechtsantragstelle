@@ -284,6 +284,14 @@
             "guard": "isStartAirportNotEUAndFluggesellschaftSonstiges"
           },
           {
+            "target": "ergebnis/fluggesellschaft-abbruch-eu",
+            "guard": "isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges"
+          },
+          {
+            "target": "ergebnis/fluggesellschaft-nicht-eu-abbruch-eu",
+            "guard": "isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU"
+          },
+          {
             "target": "checkin",
             "guard": "bereichVerspaetet"
           },
@@ -297,6 +305,16 @@
       }
     },
     "ergebnis/fluggesellschaft-nicht-eu-abbruch": {
+      "on": {
+        "BACK": "fluggesellschaft"
+      }
+    },
+    "ergebnis/fluggesellschaft-nicht-eu-abbruch-eu": {
+      "on": {
+        "BACK": "fluggesellschaft"
+      }
+    },
+    "ergebnis/fluggesellschaft-abbruch-eu": {
       "on": {
         "BACK": "fluggesellschaft"
       }
@@ -476,13 +494,14 @@
         "BACK": "entschaedigung",
         "SUBMIT": [
           {
-            "target": "ergebnis/erfolg",
-            "guard": "gerichtNo"
-          },
-          {
             "target": "ergebnis/erfolg-gericht",
             "guard": "gerichtYes"
-          }
+          },
+          {
+            "target": "ergebnis/erfolg-eu",
+            "guard": "isErfolgEU"
+          },
+          "ergebnis/erfolg"
         ]
       }
     },
@@ -492,6 +511,11 @@
       }
     },
     "ergebnis/erfolg": {
+      "on": {
+        "BACK": "gericht"
+      }
+    },
+    "ergebnis/erfolg-eu": {
       "on": {
         "BACK": "gericht"
       }
