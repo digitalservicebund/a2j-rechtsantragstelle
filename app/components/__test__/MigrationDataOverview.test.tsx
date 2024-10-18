@@ -7,14 +7,14 @@ vi.mock("~/components/Button", () => ({
 }));
 
 describe("MigrationDataOverview", () => {
-  it("should not render in case is missing migration data", () => {
+  it("should not render in case is missing migration userData", () => {
     const { container } = render(<MigrationDataOverview translations={{}} />);
 
     expect(container).toBeEmptyDOMElement();
   });
 
-  it("should render the component based on the migration data and translations", () => {
-    const migrationData = {
+  it("should render the component based on the migration userData and translations", () => {
+    const migrationUserData = {
       bereich: "verspaetet",
     };
 
@@ -26,7 +26,7 @@ describe("MigrationDataOverview", () => {
     const { container, getByText } = render(
       <MigrationDataOverview
         translations={translations}
-        data={migrationData}
+        userData={migrationUserData}
       />,
     );
 
@@ -36,7 +36,7 @@ describe("MigrationDataOverview", () => {
   });
 
   it("should render the component based on the migration data and the specific translation with .value", () => {
-    const migrationData = {
+    const migrationUserData = {
       startAirport: "BER",
     };
 
@@ -48,7 +48,7 @@ describe("MigrationDataOverview", () => {
     const { container, getByText } = render(
       <MigrationDataOverview
         translations={translations}
-        data={migrationData}
+        userData={migrationUserData}
       />,
     );
 
@@ -57,8 +57,8 @@ describe("MigrationDataOverview", () => {
     expect(getByText(translations["startAirport.value"])).toBeInTheDocument();
   });
 
-  it("should render the component based on the migration data when it contains nested objects and translations", () => {
-    const migrationData = {
+  it("should render the component based on the migration userData when it contains nested objects and translations", () => {
+    const migrationUserData = {
       zustaendigesAmtsgericht: {
         bezeichnung: "Amtsgericht Frankfurt am Main",
         strasseMitHausnummer: "Gerichtsstraße 2",
@@ -73,7 +73,7 @@ describe("MigrationDataOverview", () => {
     const { container, getByText } = render(
       <MigrationDataOverview
         translations={translations}
-        data={migrationData}
+        userData={migrationUserData}
       />,
     );
 
@@ -82,18 +82,20 @@ describe("MigrationDataOverview", () => {
       getByText(translations["zustaendigesAmtsgericht"]),
     ).toBeInTheDocument();
     expect(
-      getByText(migrationData["zustaendigesAmtsgericht"].bezeichnung),
+      getByText(migrationUserData["zustaendigesAmtsgericht"].bezeichnung),
     ).toBeInTheDocument();
     expect(
-      getByText(migrationData["zustaendigesAmtsgericht"].strasseMitHausnummer),
+      getByText(
+        migrationUserData["zustaendigesAmtsgericht"].strasseMitHausnummer,
+      ),
     ).toBeInTheDocument();
     expect(
-      getByText(migrationData["zustaendigesAmtsgericht"].plzUndStadt),
+      getByText(migrationUserData["zustaendigesAmtsgericht"].plzUndStadt),
     ).toBeInTheDocument();
   });
 
   it("should render the component with fields sorted according to the sortedFields array", () => {
-    const migrationData = {
+    const migrationUserData = {
       bereich: "verspaetet",
       startAirport: "BER",
       endAirport: "FRA",
@@ -111,7 +113,7 @@ describe("MigrationDataOverview", () => {
     const { queryAllByTestId } = render(
       <MigrationDataOverview
         translations={translations}
-        data={migrationData}
+        userData={migrationUserData}
         sortedFields={["startAirport", "endAirport", "bereich"]}
       />,
     );
@@ -129,8 +131,8 @@ describe("MigrationDataOverview", () => {
     );
   });
 
-  it("should render the component and order the fields based on the migrationData prop in case the sortedFields prop is an empty array.", () => {
-    const migrationData = {
+  it("should render the component and order the fields based on the migrationUserData prop in case the sortedFields prop is an empty array.", () => {
+    const migrationUserData = {
       bereich: "verspaetet",
       startAirport: "BER",
       endAirport: "FRA",
@@ -148,7 +150,7 @@ describe("MigrationDataOverview", () => {
     const { queryAllByTestId } = render(
       <MigrationDataOverview
         translations={translations}
-        data={migrationData}
+        userData={migrationUserData}
         sortedFields={[]}
       />,
     );
@@ -167,7 +169,7 @@ describe("MigrationDataOverview", () => {
   });
 
   it("should render a Mock Button in case props buttonUrl has value", () => {
-    const migrationData = {
+    const migrationUserData = {
       bereich: "verspaetet",
     };
 
@@ -179,7 +181,7 @@ describe("MigrationDataOverview", () => {
     const { queryByText } = render(
       <MigrationDataOverview
         translations={translations}
-        data={migrationData}
+        userData={migrationUserData}
         buttonUrl="any button url"
       />,
     );
@@ -188,7 +190,7 @@ describe("MigrationDataOverview", () => {
   });
 
   it("should not render a Mock Button in case props buttonUrl is not defined", () => {
-    const migrationData = {
+    const migrationUserData = {
       bereich: "verspaetet",
     };
 
@@ -200,7 +202,7 @@ describe("MigrationDataOverview", () => {
     const { queryByText } = render(
       <MigrationDataOverview
         translations={translations}
-        data={migrationData}
+        userData={migrationUserData}
       />,
     );
 

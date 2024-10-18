@@ -57,7 +57,7 @@ export function FormFlowPage() {
           </div>
 
           <MigrationDataOverview
-            data={migration.data}
+            userData={migration.userData}
             translations={translations}
             sortedFields={migration.sortedFields}
             buttonUrl={migration.buttonUrl}

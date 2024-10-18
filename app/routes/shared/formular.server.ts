@@ -248,7 +248,7 @@ export const loader = async ({
       heading: cmsContent.heading,
       meta,
       migration: {
-        data: migrationData,
+        userData: migrationData,
         sortedFields:
           "migration" in currentFlow
             ? currentFlow.migration.sortedFields

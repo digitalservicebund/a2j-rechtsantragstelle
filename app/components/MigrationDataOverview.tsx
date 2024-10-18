@@ -6,7 +6,7 @@ import Button from "./Button";
 import Heading from "./Heading";
 
 type MigrationDataProps = {
-  readonly data?: Context;
+  readonly userData?: Context;
   readonly translations: Translations;
   readonly sortedFields?: string[];
   readonly buttonUrl?: string;
@@ -38,32 +38,35 @@ const renderMigrationValue = (
   return translation;
 };
 
-const getSortedFieldsData = (data: Context, sortedFields?: string[]) => {
+const getSortedFieldsUserData = (
+  userData: Context,
+  sortedFields?: string[],
+) => {
   if (typeof sortedFields === "undefined" || sortedFields.length === 0) {
-    return data;
+    return userData;
   }
 
-  return sortedFields.reduce((sortedData, key) => {
-    if (key in data) {
-      sortedData[key] = data[key];
+  return sortedFields.reduce((sortedUserData, key) => {
+    if (key in userData) {
+      sortedUserData[key] = userData[key];
     }
-    return sortedData;
+    return sortedUserData;
   }, {} as Context);
 };
 
 export default function MigrationDataOverview({
   translations,
-  data,
+  userData,
   sortedFields,
   buttonUrl,
 }: MigrationDataProps) {
-  if (!data || Object.keys(data).length === 0) return null;
+  if (!userData || Object.keys(userData).length === 0) return null;
 
-  const sortedFieldsData = getSortedFieldsData(data, sortedFields);
+  const sortedFieldsUserData = getSortedFieldsUserData(userData, sortedFields);
 
   return (
     <div className="space-y-16 bg-white pt-32 pb-44 px-32">
-      {Object.entries(sortedFieldsData).map(([itemKey, itemValue]) => (
+      {Object.entries(sortedFieldsUserData).map(([itemKey, itemValue]) => (
         <div key={itemKey} className="first:pt-0 scroll-my-40">
           <Heading
             text={getTranslationByKey(itemKey, translations)}
