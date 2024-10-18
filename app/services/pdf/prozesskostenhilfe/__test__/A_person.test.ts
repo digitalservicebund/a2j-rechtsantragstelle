@@ -26,7 +26,6 @@ const userData: ProzesskostenhilfeFormularContext = {
   ort: "O",
   telefonnummer: "0123456789",
   partnerschaft: "no",
-  hasGesetzlicheVertretung: "yes",
   gesetzlicheVertretungDaten: {
     vorname: "Max",
     nachname: "M",
