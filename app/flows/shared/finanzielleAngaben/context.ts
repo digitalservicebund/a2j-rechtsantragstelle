@@ -142,6 +142,8 @@ export const gelanlagenArraySchema = z.array(
     .partial(),
 );
 
+export type GrundeigentumArraySchema = z.infer<typeof grundeigentumArraySchema>;
+
 export const grundeigentumArraySchema = z.array(
   z
     .object({

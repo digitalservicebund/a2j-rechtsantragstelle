@@ -15,6 +15,7 @@ import {
   bankKontoDone,
   childDone,
   geldanlageDone,
+  singleGrundeigentumDone,
 } from "../../shared/finanzielleAngaben/doneFunctions";
 
 export type ProzesskostenhilfeFinanzielleAngabenGuard =
@@ -90,7 +91,8 @@ export const grundeigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 }) =>
   context.hasGrundeigentum === "no" ||
   (context.hasGrundeigentum === "yes" &&
-    arrayIsNonEmpty(context.grundeigentum));
+    arrayIsNonEmpty(context.grundeigentum) &&
+    context.grundeigentum.every(singleGrundeigentumDone));
 
 export const kraftfahrzeugeDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,

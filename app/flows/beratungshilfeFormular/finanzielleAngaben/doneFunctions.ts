@@ -3,6 +3,7 @@ import type { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFor
 import {
   childDone,
   geldanlageDone,
+  singleGrundeigentumDone,
 } from "~/flows/shared/finanzielleAngaben/doneFunctions";
 import { hasAnyEigentumExceptBankaccount } from "~/flows/shared/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
@@ -112,7 +113,8 @@ export const grundeigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context.eigentumTotalWorth === "less10000" ||
   context.hasGrundeigentum === "no" ||
   (context.hasGrundeigentum === "yes" &&
-    arrayIsNonEmpty(context.grundeigentum));
+    arrayIsNonEmpty(context.grundeigentum) &&
+    context.grundeigentum.every(singleGrundeigentumDone));
 
 const kraftfahrzeugDone = (
   kraftfahrzeug: NonNullable<

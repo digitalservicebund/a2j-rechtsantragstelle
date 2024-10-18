@@ -1,5 +1,6 @@
 import type {
   GeldanlagenArraySchema,
+  GrundeigentumArraySchema,
   KinderArraySchema,
 } from "~/flows/shared/finanzielleAngaben/context";
 import type { FinanzielleAngabenGuard } from "~/flows/shared/finanzielleAngaben/guards";
@@ -55,3 +56,16 @@ export const geldanlageDone = (geldanlage: GeldanlagenArraySchema[0]) => {
   }
   return true;
 };
+
+export const singleGrundeigentumDone = (
+  grundeigentum: GrundeigentumArraySchema[0],
+) =>
+  grundeigentum.art !== undefined &&
+  grundeigentum.eigentuemer !== undefined &&
+  grundeigentum.flaeche !== undefined &&
+  grundeigentum.verkaufswert !== undefined &&
+  (grundeigentum.isBewohnt === "yes" ||
+    (grundeigentum.strassehausnummer !== undefined &&
+      grundeigentum.plz !== undefined &&
+      grundeigentum.ort !== undefined &&
+      grundeigentum.land !== undefined));
