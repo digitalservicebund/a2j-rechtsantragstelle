@@ -3,10 +3,16 @@ import {
   getAirlineName,
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
+  getFirstZwischenstoppAirportName,
   getPersonNachname,
   getPersonVorname,
+  getSecondZwischenstoppAirportName,
   getStartAirportName,
+  getThirdZwischenstoppAirportName,
   getWeiterePersonenNameStrings,
+  isAnnullierung,
+  isNichtBefoerderung,
+  isVerspaetet,
 } from "../stringReplacements";
 
 describe("stringReplacements", () => {
@@ -189,6 +195,123 @@ describe("stringReplacements", () => {
       const actual = getAirlineName(context);
 
       expect(actual).toStrictEqual({});
+    });
+  });
+
+  describe("getFirstZwischenstoppAirportName", () => {
+    it("should return the correct name of the first zwischenstopp", () => {
+      const actual = getFirstZwischenstoppAirportName({
+        ersterZwischenstopp: "BER",
+      });
+      expect(actual).toStrictEqual({
+        firstZwischenstoppAirport: "Berlin Brandenburg Flughafen (BER)",
+      });
+    });
+
+    it("should return empty when it does not have first zwischenstopp as parameter", () => {
+      const actual = getFirstZwischenstoppAirportName({});
+      expect(actual).toStrictEqual({});
+    });
+
+    it("should return empty when the first zwischenstopp does not exist in the json file", () => {
+      const actual = getFirstZwischenstoppAirportName({
+        ersterZwischenstopp: "XXXXX",
+      });
+      expect(actual).toStrictEqual({});
+    });
+  });
+
+  describe("getSecondZwischenstoppAirportName", () => {
+    it("should return the correct name of the second zwischenstopp", () => {
+      const actual = getSecondZwischenstoppAirportName({
+        zweiterZwischenstopp: "BER",
+      });
+      expect(actual).toStrictEqual({
+        secondZwischenstoppAirport: "Berlin Brandenburg Flughafen (BER)",
+      });
+    });
+
+    it("should return empty when it does not have second zwischenstopp as parameter", () => {
+      const actual = getSecondZwischenstoppAirportName({});
+      expect(actual).toStrictEqual({});
+    });
+
+    it("should return empty when the second zwischenstopp does not exist in the json file", () => {
+      const actual = getSecondZwischenstoppAirportName({
+        zweiterZwischenstopp: "XXXXX",
+      });
+      expect(actual).toStrictEqual({});
+    });
+  });
+
+  describe("getThirdZwischenstoppAirportName", () => {
+    it("should return the correct name of the third zwischenstopp", () => {
+      const actual = getThirdZwischenstoppAirportName({
+        dritterZwischenstopp: "BER",
+      });
+      expect(actual).toStrictEqual({
+        thirdZwischenstoppAirport: "Berlin Brandenburg Flughafen (BER)",
+      });
+    });
+
+    it("should return empty when it does not have third zwischenstopp as parameter", () => {
+      const actual = getEndAirportName({});
+      expect(actual).toStrictEqual({});
+    });
+
+    it("should return empty when the third zwischenstopp does not exist in the json file", () => {
+      const actual = getEndAirportName({ dritterZwischenstopp: "XXXXX" });
+      expect(actual).toStrictEqual({});
+    });
+  });
+
+  describe("isVerspaetet", () => {
+    it("should return isVerspaetet as true if the bereich is verspaetet", () => {
+      const actual = isVerspaetet({ bereich: "verspaetet" });
+
+      expect(actual).toStrictEqual({ isVerspaetet: true });
+    });
+
+    it("should return isVerspaetet as false if the bereich is not verspaetet", () => {
+      const actual = isVerspaetet({ bereich: "nichtbefoerderung" });
+
+      expect(actual).toStrictEqual({ isVerspaetet: false });
+    });
+  });
+
+  describe("isNichtBefoerderung", () => {
+    it("should return isNichtBefoerderung as true if the bereich is nichtbefoerderung", () => {
+      const actual = isNichtBefoerderung({
+        bereich: "nichtbefoerderung",
+      });
+
+      expect(actual).toStrictEqual({ isNichtBefoerderung: true });
+    });
+
+    it("should return isNichtBefoerderung as false if the bereich is not verspaetet", () => {
+      const actual = isNichtBefoerderung({
+        bereich: "verspaetet",
+      });
+
+      expect(actual).toStrictEqual({ isNichtBefoerderung: false });
+    });
+  });
+
+  describe("isAnnullierung", () => {
+    it("should return isAnnullierung as true if the bereich is annullierung", () => {
+      const actual = isAnnullierung({
+        bereich: "annullierung",
+      });
+
+      expect(actual).toStrictEqual({ isAnnullierung: true });
+    });
+
+    it("should return isAnnullierung as false if the bereich is not annullierung", () => {
+      const actual = isAnnullierung({
+        bereich: "verspaetet",
+      });
+
+      expect(actual).toStrictEqual({ isAnnullierung: false });
     });
   });
 });
