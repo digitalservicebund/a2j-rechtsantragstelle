@@ -107,46 +107,6 @@ const cases = [
   ],
   [
     {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
-      zwischenstoppAnzahl: "fourStop",
-      tatsaechlicherFlug: "no",
-      ersatzverbindungArt: "flug",
-    },
-    [
-      "flugdaten/geplanter-flug",
-      "flugdaten/zwischenstopp-uebersicht-4",
-      "flugdaten/tatsaechlicher-flug",
-      "flugdaten/ersatzverbindung-art",
-    ],
-  ],
-  [
-    {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
-      zwischenstoppAnzahl: "fiveStop",
-      tatsaechlicherFlug: "no",
-      ersatzverbindungArt: "flug",
-    },
-    [
-      "flugdaten/geplanter-flug",
-      "flugdaten/zwischenstopp-uebersicht-5",
-      "flugdaten/tatsaechlicher-flug",
-      "flugdaten/ersatzverbindung-art",
-    ],
-  ],
-  [
-    {
       bereich: "nichtbefoerderung",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",

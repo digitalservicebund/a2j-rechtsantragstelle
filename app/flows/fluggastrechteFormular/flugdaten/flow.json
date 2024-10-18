@@ -18,14 +18,6 @@
             "guard": "hasThreeStop"
           },
           {
-            "target": "zwischenstopp-uebersicht-4",
-            "guard": "hasFourStop"
-          },
-          {
-            "target": "zwischenstopp-uebersicht-5",
-            "guard": "hasFiveStop"
-          },
-          {
             "target": "tatsaechlicher-flug",
             "guard": "hasNoZwischenstoppAndVerspaetung"
           },
@@ -70,30 +62,6 @@
         "BACK": "geplanter-flug"
       }
     },
-    "zwischenstopp-uebersicht-4": {
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "tatsaechlicher-flug",
-            "guard": "hasVerspaetung"
-          },
-          "ersatzverbindung-art"
-        ],
-        "BACK": "geplanter-flug"
-      }
-    },
-    "zwischenstopp-uebersicht-5": {
-      "on": {
-        "SUBMIT": [
-          {
-            "target": "tatsaechlicher-flug",
-            "guard": "hasVerspaetung"
-          },
-          "ersatzverbindung-art"
-        ],
-        "BACK": "geplanter-flug"
-      }
-    },
     "tatsaechlicher-flug": {
       "on": {
         "SUBMIT": [
@@ -118,14 +86,6 @@
           {
             "target": "zwischenstopp-uebersicht-3",
             "guard": "hasThreeStop"
-          },
-          {
-            "target": "zwischenstopp-uebersicht-4",
-            "guard": "hasFourStop"
-          },
-          {
-            "target": "zwischenstopp-uebersicht-5",
-            "guard": "hasFiveStop"
           },
           "geplanter-flug"
         ]
@@ -162,14 +122,6 @@
           {
             "target": "zwischenstopp-uebersicht-3",
             "guard": "hasThreeStopWithAnnullierungOrNichtBefoerderung"
-          },
-          {
-            "target": "zwischenstopp-uebersicht-4",
-            "guard": "hasFourStopWithAnnullierungOrNichtBefoerderung"
-          },
-          {
-            "target": "zwischenstopp-uebersicht-5",
-            "guard": "hasFiveStopWithAnnullierungOrNichtBefoerderung"
           },
           {
             "target": "geplanter-flug",

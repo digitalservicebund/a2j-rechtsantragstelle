@@ -32,7 +32,7 @@ export const fluggastrechteFlugdaten = {
     customRequiredErrorMessage,
   ),
   zwischenstoppAnzahl: z.enum(
-    ["no", "oneStop", "twoStop", "threeStop", "fourStop", "fiveStop"],
+    ["no", "oneStop", "twoStop", "threeStop"],
     customRequiredErrorMessage,
   ),
   ersterZwischenstopp: airportSchema,
