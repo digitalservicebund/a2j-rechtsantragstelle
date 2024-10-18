@@ -1,7 +1,7 @@
 import type PDFDocument from "pdfkit";
 import {
   FONTS_BUNDESSANS_REGULAR,
-  PDF_MARGIN,
+  PDF_MARGIN_HORIZONTAL,
 } from "../../createPdfKitDocument";
 import { COLUMN_HEIGHT, START_TABLE_Y } from "./table/tableConfigurations";
 
@@ -17,7 +17,7 @@ export const createLastSentences = (
         .fontSize(10)
         .text(
           "Die Fluggesellschaft hat keine außergewöhnlichen Umstände als Grund für die Verspätung mitgeteilt. Die klagende Partei geht davon aus, dass die genannten Umstände nicht korrekt ist.",
-          PDF_MARGIN,
+          PDF_MARGIN_HORIZONTAL,
           START_TABLE_Y + COLUMN_HEIGHT * 4 + 10, // start to print this text from this line
         );
 
