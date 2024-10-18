@@ -9,6 +9,7 @@ export const GESETZLICHERVERTRETER_FIELD_MAX_CHARS = 80;
 export const NAME_VORNAME_FIELD_MAX_CHARS = 35;
 export const ANSCHRIFT_FIELD_MAX_CHARS = 50;
 export const FAMILIENSTAND_FIELD_MAX_CHARS = 10;
+export const BERUF_FIELD_MAX_CHARS = 25;
 
 export const concatenateGesetzlicherVertreterString = (
   userData: ProzesskostenhilfeFormularContext,
@@ -52,7 +53,7 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   fillPdfFieldOrMoveToAttachment<ProzesskostenhilfePDF>({
     pdfFieldName: "berufErwerbstaetigkeit",
     pdfFieldValue: userData?.beruf,
-    pdfFieldMaxChars: NAME_VORNAME_FIELD_MAX_CHARS,
+    pdfFieldMaxChars: BERUF_FIELD_MAX_CHARS,
     attachmentTitle: "Beruf, Erwerbstätigkeit",
     pdfValues,
     attachment,
