@@ -1,5 +1,4 @@
 import _ from "lodash";
-import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
 import { partnerDone } from "./doneFunctions";
@@ -12,129 +11,129 @@ export const finanzielleAnagebenXstateConfig = {
   id: "finanzielle-angaben",
   states: {
     einkuenfte: {},
-    partner: _.merge(
-      getFinanzielleAngabenPartnerSubflow(partnerDone, {
-        backStep: "", // blank as we're overriding later
-        playsNoRoleTarget: "#partner-einkuenfte",
-        partnerNameTarget: "#partner-einkuenfte",
-        partnerIncomeTarget: "#partner-einkuenfte",
-        nextStep: "#kinder",
-      }),
-      // Need to override the default back step, as there's no way to interpolate a series of guards
-      {
-        meta: {
-          done: partnerDone,
+    partner: {
+      id: "partner",
+      initial: "partnerschaft",
+      meta: {
+        done: partnerDone,
+      },
+      on: {
+        SUBMIT: "#kinder",
+      },
+      states: {
+        partnerschaft: {
+          on: {
+            BACK: [
+              {
+                guard: "hasFurtherIncome",
+                target: "#einkuenfte.weitere-einkuenfte.uebersicht",
+              },
+              "#einkuenfte.weitere-einkuenfte.frage",
+            ],
+            SUBMIT: [
+              {
+                guard: "hasPartnerschaftYes",
+                target: "zusammenleben",
+              },
+            ],
+          },
         },
-        states: {
-          partnerschaft: {
-            on: {
-              BACK: [
-                {
-                  guard: "hasFurtherIncome",
-                  target: "#einkuenfte.weitere-einkuenfte.uebersicht",
-                },
-                "#einkuenfte.weitere-einkuenfte.frage",
-              ],
-            },
+        zusammenleben: {
+          on: {
+            BACK: "partnerschaft",
+            SUBMIT: [
+              {
+                guard: "zusammenlebenYes",
+                target: "partner-einkommen",
+              },
+              {
+                guard: "zusammenlebenNo",
+                target: "unterhalt",
+              },
+            ],
           },
-          zusammenleben: {
-            on: {
-              BACK: "partnerschaft",
-              SUBMIT: [
-                {
-                  guard: "zusammenlebenYes",
-                  target: "partner-einkommen",
-                },
-                {
-                  guard: "zusammenlebenNo",
-                  target: "unterhalt",
-                },
-              ],
-            },
+        },
+        unterhalt: {
+          on: {
+            BACK: "zusammenleben",
+            SUBMIT: [
+              {
+                guard: "unterhaltYes",
+                target: "unterhalts-summe",
+              },
+              {
+                guard: "unterhaltNo",
+                target: "keine-rolle",
+              },
+            ],
           },
-          unterhalt: {
-            on: {
-              BACK: "zusammenleben",
-              SUBMIT: [
-                {
-                  guard: "unterhaltYes",
-                  target: "unterhalts-summe",
-                },
-                {
-                  guard: "unterhaltNo",
-                  target: "keine-rolle",
-                },
-              ],
-            },
+        },
+        "keine-rolle": {
+          on: {
+            BACK: "unterhalt",
+            SUBMIT: "#partner-einkuenfte",
           },
-          "keine-rolle": {
-            on: {
-              BACK: "unterhalt",
-              SUBMIT: "#partner-einkuenfte",
-            },
+        },
+        "unterhalts-summe": {
+          on: {
+            BACK: "unterhalt",
+            SUBMIT: "partner-name",
           },
-          "unterhalts-summe": {
-            on: {
-              BACK: "unterhalt",
-              SUBMIT: "partner-name",
-            },
+        },
+        "partner-name": {
+          on: {
+            BACK: "unterhalts-summe",
+            SUBMIT: "#partner-einkuenfte",
           },
-          "partner-name": {
-            on: {
-              BACK: "unterhalts-summe",
-              SUBMIT: "#partner-einkuenfte",
-            },
+        },
+        "partner-einkommen": {
+          on: {
+            BACK: "zusammenleben",
+            SUBMIT: [
+              {
+                guard: "partnerEinkommenYes",
+                target: "#partner-einkuenfte",
+              },
+              {
+                guard: "partnerEinkommenNo",
+                target: "#kinder",
+              },
+            ],
           },
-          "partner-einkommen": {
-            on: {
-              BACK: "zusammenleben",
-              SUBMIT: [
-                {
-                  guard: "partnerEinkommenYes",
-                  target: "#partner-einkuenfte",
+        },
+        "partner-einkuenfte": _.merge(
+          getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone, "partner"),
+          {
+            states: {
+              "partner-besonders-ausgaben": {
+                on: {
+                  BACK: [
+                    {
+                      guard: partnerEinkuenfteGuards.hasFurtherIncome,
+                      target: "#partner-weitere-einkuenfte.partner-uebersicht",
+                    },
+                    "#partner-weitere-einkuenfte",
+                  ],
+                  SUBMIT: [
+                    {
+                      guard: "partnerHasBesondersAusgabenYes",
+                      target: "add-partner-besonders-ausgaben",
+                    },
+                    "#kinder",
+                  ],
                 },
-                {
-                  guard: "partnerEinkommenNo",
-                  target: "#kinder",
-                },
-              ],
-            },
-          },
-          "partner-einkuenfte": _.merge(
-            getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone, "partner"),
-            {
-              states: {
-                "partner-besonders-ausgaben": {
-                  on: {
-                    BACK: [
-                      {
-                        guard: partnerEinkuenfteGuards.hasFurtherIncome,
-                        target:
-                          "#partner-weitere-einkuenfte.partner-uebersicht",
-                      },
-                      "#partner-weitere-einkuenfte",
-                    ],
-                    SUBMIT: [
-                      {
-                        guard: "partnerHasBesondersAusgabenYes",
-                        target: "add-partner-besonders-ausgaben",
-                      },
-                      "#kinder",
-                    ],
-                  },
-                },
-                "add-partner-besonders-ausgaben": {
-                  on: {
-                    SUBMIT: "#kinder",
-                    BACK: "partner-besonders-ausgaben",
-                  },
+              },
+              "add-partner-besonders-ausgaben": {
+                on: {
+                  SUBMIT: "#kinder",
+                  BACK: "partner-besonders-ausgaben",
                 },
               },
             },
-          ),
-        },
+          },
+        ),
       },
-    ),
+    },
     kinder: {
       id: "kinder",
       initial: "kinder-frage",
