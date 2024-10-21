@@ -1,3 +1,4 @@
+import type { AttachmentEntries } from "~/services/pdf/attachment";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/beratungshilfe/sections/E_unterhalt";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import type { PkhPdfFillFunction } from "~/services/pdf/prozesskostenhilfe";
@@ -9,6 +10,8 @@ import {
   fillSingleKraftfahrzeug,
   verkaufswertMappingDescription,
   attachKraftfahrzeugeToAnhang,
+  fillSingleGeldanlage,
+  fillSingleWertsache,
 } from "~/services/pdf/shared/eigentumHelpers";
 import { arrayIsNonEmpty } from "~/util/array";
 
@@ -73,7 +76,7 @@ export const fillGrundeigentum: PkhPdfFillFunction = ({
   }
   pdfValues.groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten.value =
     SEE_IN_ATTACHMENT_DESCRIPTION;
-
+  // TODO: replace with fillPdfFieldOrMoveToAttachment
   const { attachment } = attachGrundeigentumToAnhang([], grundeigentum);
   return { pdfValues, attachment };
 };
@@ -100,15 +103,93 @@ export const fillKraftfahrzeuge: PkhPdfFillFunction = ({
   }
   pdfValues.markeTypBaujahrAnschaffungsjahrAlleinoderMiteigentumKilometerstand.value =
     SEE_IN_ATTACHMENT_DESCRIPTION;
+  // TODO: replace with fillPdfFieldOrMoveToAttachment
   const { attachment } = attachKraftfahrzeugeToAnhang([], kraftfahrzeuge);
   return { pdfValues, attachment };
+};
+
+export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  const { hasGeldanlage, hasWertsache, geldanlagen, wertsachen } = userData;
+  const bargeld = geldanlagen
+    ? geldanlagen.filter((geldanlage) => geldanlage.art === "bargeld")
+    : [];
+  const hasBargeldOderWertgegenstaende =
+    hasWertsache === "yes" || hasGeldanlage === "yes";
+  pdfValues.nein_43.value = !hasBargeldOderWertgegenstaende;
+  pdfValues.ja_39.value = hasBargeldOderWertgegenstaende;
+  if (bargeld.length + (wertsachen?.length ?? 0) === 1) {
+    const singleBargeld = bargeld[0];
+    const singleWertsache = wertsachen?.at(0);
+    const singleVermoegenswert = singleBargeld ?? singleWertsache;
+    const singleVermoegenswertString = singleBargeld
+      ? fillSingleGeldanlage(singleBargeld)
+      : fillSingleWertsache(singleWertsache!);
+    pdfValues.bargeldbetraginEURBezeichnungderWertgegenstaendeAlleinoderMiteigentum.value =
+      singleVermoegenswertString;
+    pdfValues.verkehrswert3.value = singleVermoegenswert.wert + " €";
+    return { pdfValues };
+  }
+  pdfValues.bargeldbetraginEURBezeichnungderWertgegenstaendeAlleinoderMiteigentum.value =
+    SEE_IN_ATTACHMENT_DESCRIPTION;
+  const attachment: AttachmentEntries = [];
+  attachment.push({
+    title: "Bargeld oder Wertgegenstände",
+    level: "h3",
+  });
+  bargeld.forEach((bargeld, index) => {
+    const bargeldEigentumer = bargeld.eigentuemer
+      ? eigentuemerMapping[bargeld.eigentuemer]
+      : "";
+    attachment.push(
+      {
+        title: `Bargeld ${index + 1}`,
+        level: "h4",
+      },
+      {
+        title: "Art",
+        text: "Bargeld",
+      },
+      {
+        title: "Wert",
+        text: `${bargeld.wert} €`,
+      },
+      {
+        title: "Eigentümer:in",
+        text: bargeldEigentumer,
+      },
+    );
+  });
+
+  wertsachen?.forEach((wertsache, index) => {
+    attachment.push(
+      { title: `Wertsache ${index + 1}`, level: "h4" },
+      { title: "Art", text: wertsache.art },
+      { title: "Wert", text: wertsache.wert },
+      {
+        title: "Eigentümer:in",
+        text: eigentuemerMapping[wertsache.eigentuemer],
+      },
+    );
+  });
+  return {
+    pdfValues,
+    attachment,
+  };
 };
 
 export const fillEigentum: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const { pdfValues: filledValues, attachment } = pdfFillReducer({
     userData,
     pdfParams: pdfValues,
-    fillFunctions: [fillBankkonto, fillGrundeigentum, fillKraftfahrzeuge],
+    fillFunctions: [
+      fillBankkonto,
+      fillGrundeigentum,
+      fillKraftfahrzeuge,
+      fillBargeldOderWertgegenstaende,
+    ],
   });
   return {
     pdfValues: filledValues,

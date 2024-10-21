@@ -114,9 +114,9 @@ export const kraftfahrzeugeArraySchema = z.array(
     .partial(),
 );
 
-export type GeldanlagenArraySchema = z.infer<typeof gelanlagenArraySchema>;
+export type GeldanlagenArraySchema = z.infer<typeof geldanlagenArraySchema>;
 
-export const gelanlagenArraySchema = z.array(
+export const geldanlagenArraySchema = z.array(
   z
     .object({
       art: z.enum(
@@ -169,6 +169,8 @@ export const grundeigentumArraySchema = z.array(
     })
     .partial(),
 );
+
+export type WertsachenArraySchema = z.infer<typeof wertsachenArraySchema>;
 
 export const wertsachenArraySchema = z.array(
   z.object({

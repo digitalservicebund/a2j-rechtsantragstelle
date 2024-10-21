@@ -246,7 +246,7 @@ describe("F_besitz", () => {
       expect(pdfValues.f14InhaberA.value).toBe(false);
       expect(pdfValues.f14InhaberB.value).toBe(true);
       expect(pdfValues.f14VermoegenswerteC.value).toBe(false);
-      expect(pdfValues.f15Bezeichnung.value).toBe("Teure Sache");
+      expect(pdfValues.f15Bezeichnung.value).toBe("Art: Teure Sache");
       expect(pdfValues.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
         "100000",
       );

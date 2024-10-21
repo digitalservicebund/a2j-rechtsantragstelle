@@ -1,10 +1,13 @@
 import type {
   BankkontenArraySchema,
   Eigentumer,
+  GeldanlagenArraySchema,
   GrundeigentumArraySchema,
   KraftfahrzeugeArraySchema,
+  WertsachenArraySchema,
 } from "~/flows/shared/finanzielleAngaben/context";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
+import { befristungMapping } from "~/services/pdf/beratungshilfe/sections/F_besitz/fillVermoegenswerte";
 
 export const eigentuemerMapping: Record<Eigentumer, string> = {
   myself: "Ich alleine",
@@ -23,6 +26,16 @@ export const grundeigentumArtMapping: Record<
   unbebaut: "Grundstück",
   erbbaurecht: "Erbbaurecht",
   garage: "Garagen(-hof)",
+};
+
+export const geldanlageArtMapping: Record<string, string> = {
+  bargeld: "Bargeld",
+  wertpapiere: "Wertpapiere",
+  guthabenkontoKrypto: "Guthabenkonto oder Kryptowährung",
+  giroTagesgeldSparkonto: "Girokonto / Tagesgeld / Sparkonto",
+  befristet: "Befristete Geldanlage",
+  forderung: "Forderung",
+  sonstiges: "Sonstiges",
 };
 
 export const verkaufswertMappingDescription = {
@@ -169,5 +182,36 @@ export function fillSingleKraftfahrzeug(
     description += `, Anschaffungsjahr: ${kraftfahrzeug.anschaffungsjahr}`;
   if (kraftfahrzeug.kilometerstand)
     description += `, Kilometerstand: ${kraftfahrzeug.kilometerstand}`;
+  return description;
+}
+
+export function fillSingleGeldanlage(geldanlage: GeldanlagenArraySchema[0]) {
+  let description =
+    geldanlage.art && geldanlage.art in geldanlageArtMapping
+      ? `Art: ${geldanlageArtMapping[geldanlage.art]}`
+      : (geldanlage.art ?? "");
+  if (geldanlage.eigentuemer === "myselfAndSomeoneElse")
+    description += `, Eigentümer:in: ${eigentuemerMapping[geldanlage.eigentuemer]}`;
+
+  if (geldanlage.auszahlungdatum)
+    description += `, Auszahlungsdatum: ${geldanlage.auszahlungdatum}`;
+  if (geldanlage.befristetArt)
+    description += `, Art der Befristung: ${befristungMapping[geldanlage.befristetArt]}`;
+  if (geldanlage.verwendungszweck)
+    description += `, Verwendungszweck: ${geldanlage.verwendungszweck}`;
+  if (geldanlage.forderung)
+    description += `, Forderung: ${geldanlage.forderung}`;
+  if (geldanlage.kontoBezeichnung)
+    description += `, Bezeichnung: ${geldanlage.kontoBezeichnung}`;
+  if (geldanlage.kontoBankName)
+    description += `, Name der Bank: ${geldanlage.kontoBankName}`;
+  if (geldanlage.kontoIban) description += `, IBAN: ${geldanlage.kontoIban}`;
+  return description;
+}
+
+export function fillSingleWertsache(wertsache: WertsachenArraySchema[0]) {
+  let description = `Art: ${wertsache.art}`;
+  if (wertsache.eigentuemer === "myselfAndSomeoneElse")
+    description += `, Eigentümer:in: ${eigentuemerMapping[wertsache.eigentuemer]}`;
   return description;
 }

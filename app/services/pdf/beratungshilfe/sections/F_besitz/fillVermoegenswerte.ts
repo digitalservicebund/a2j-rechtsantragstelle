@@ -1,51 +1,19 @@
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { type AttachmentEntries, newPageHint } from "~/services/pdf/attachment";
 import type { BerHPdfFillFunction } from "../..";
-import { eigentuemerMapping } from "../../../shared/eigentumHelpers";
+import {
+  eigentuemerMapping,
+  fillSingleGeldanlage,
+  fillSingleWertsache,
+  geldanlageArtMapping,
+} from "../../../shared/eigentumHelpers";
 
-const geldanlageArtMapping: Record<string, string> = {
-  bargeld: "Bargeld",
-  wertpapiere: "Wertpapiere",
-  guthabenkontoKrypto: "Guthabenkonto oder Kryptowährung",
-  giroTagesgeldSparkonto: "Girokonto / Tagesgeld / Sparkonto",
-  befristet: "Befristete Geldanlage",
-  forderung: "Forderung",
-  sonstiges: "Sonstiges",
-};
-const befristungMapping = {
+export const befristungMapping = {
   lifeInsurance: "Lebensversicherung",
   buildingSavingsContract: "Bausparvertrag",
   fixedDepositAccount: "Festgeldkonto",
 };
 const VERMOEGENSWERT_BEZEICHNUNG_FIELD_MAX_CHARS = 148;
 const VERMOEGENSWERT_BEZEICHNUNG_FIELD_MAX_NEW_LINES = 3;
-
-function fillSingleVermoegenswert(
-  vermoegenswert: NonNullable<BeratungshilfeFormularContext["geldanlagen"]>[0],
-) {
-  let description =
-    vermoegenswert.art && vermoegenswert.art in geldanlageArtMapping
-      ? `Art: ${geldanlageArtMapping[vermoegenswert.art]}`
-      : (vermoegenswert.art ?? "");
-  if (vermoegenswert.eigentuemer === "myselfAndSomeoneElse")
-    description += `, Eigentümer:in: ${eigentuemerMapping[vermoegenswert.eigentuemer]}`;
-
-  if (vermoegenswert.auszahlungdatum)
-    description += `, Auszahlungsdatum: ${vermoegenswert.auszahlungdatum}`;
-  if (vermoegenswert.befristetArt)
-    description += `, Art der Befristung: ${befristungMapping[vermoegenswert.befristetArt]}`;
-  if (vermoegenswert.verwendungszweck)
-    description += `, Verwendungszweck: ${vermoegenswert.verwendungszweck}`;
-  if (vermoegenswert.forderung)
-    description += `, Forderung: ${vermoegenswert.forderung}`;
-  if (vermoegenswert.kontoBezeichnung)
-    description += `, Bezeichnung: ${vermoegenswert.kontoBezeichnung}`;
-  if (vermoegenswert.kontoBankName)
-    description += `, Name der Bank: ${vermoegenswert.kontoBankName}`;
-  if (vermoegenswert.kontoIban)
-    description += `, IBAN: ${vermoegenswert.kontoIban}`;
-  return description;
-}
 
 export const fillVermoegenswerte: BerHPdfFillFunction = ({
   userData,
@@ -64,9 +32,12 @@ export const fillVermoegenswerte: BerHPdfFillFunction = ({
 
   if (!hasVermoegenswerte) return { pdfValues };
 
-  const singleVermoegenswert = geldanlagen[0] ?? wertsachen[0];
-  const singleVermoegenswertString =
-    fillSingleVermoegenswert(singleVermoegenswert);
+  const singleGeldanlage = geldanlagen[0];
+  const singleWertsache = wertsachen[0];
+  const singleVermoegenswert = singleGeldanlage ?? singleWertsache;
+  const singleVermoegenswertString = singleGeldanlage
+    ? fillSingleGeldanlage(singleGeldanlage)
+    : fillSingleWertsache(singleWertsache);
 
   const overflowDueToMaxChars =
     singleVermoegenswertString.length >

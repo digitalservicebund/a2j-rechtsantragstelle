@@ -3,6 +3,7 @@ import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/pro
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/beratungshilfe/sections/E_unterhalt";
 import {
   fillBankkonto,
+  fillBargeldOderWertgegenstaende,
   fillGrundeigentum,
   fillKraftfahrzeuge,
 } from "~/services/pdf/prozesskostenhilfe/G_eigentum";
@@ -237,6 +238,99 @@ describe("G_eigentum", () => {
       expect(
         pdfValues
           .markeTypBaujahrAnschaffungsjahrAlleinoderMiteigentumKilometerstand
+          .value,
+      ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
+      expect(attachment?.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe("fillBargeldOderWertgegenstaende", () => {
+    it("should indicate if the user has bargeld or wertgegenstaende", () => {
+      let { pdfValues } = fillBargeldOderWertgegenstaende({
+        userData: {
+          hasWertsache: "yes",
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_39.value).toBe(true);
+      ({ pdfValues } = fillBargeldOderWertgegenstaende({
+        userData: {
+          hasGeldanlage: "yes",
+        },
+        pdfValues: pdfParams,
+      }));
+      expect(pdfValues.ja_39.value).toBe(true);
+    });
+
+    it("should print either a single Bargeld entry, or a single Wertstaende entry, if present", () => {
+      let { pdfValues } = fillBargeldOderWertgegenstaende({
+        userData: {
+          hasWertsache: "yes",
+          wertsachen: [
+            {
+              art: "Kandelaber",
+              eigentuemer: "myselfAndPartner",
+              wert: "10000",
+            },
+          ],
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_39.value).toBe(true);
+      expect(
+        pdfValues
+          .bargeldbetraginEURBezeichnungderWertgegenstaendeAlleinoderMiteigentum
+          .value,
+      ).toBe("Art: Kandelaber");
+      expect(pdfValues.verkehrswert3.value).toBe("10000 €");
+
+      ({ pdfValues } = fillBargeldOderWertgegenstaende({
+        userData: {
+          hasGeldanlage: "yes",
+          geldanlagen: [
+            {
+              art: "bargeld",
+              eigentuemer: "myselfAndPartner",
+              wert: "1000",
+            },
+          ],
+        },
+        pdfValues: pdfParams,
+      }));
+      expect(pdfValues.ja_39.value).toBe(true);
+      expect(
+        pdfValues
+          .bargeldbetraginEURBezeichnungderWertgegenstaendeAlleinoderMiteigentum
+          .value,
+      ).toBe("Art: Bargeld");
+      expect(pdfValues.verkehrswert3.value).toBe("1000 €");
+    });
+
+    it("should print the remaining bargeld/wertgegenstaende in the anhang", () => {
+      const { pdfValues, attachment } = fillBargeldOderWertgegenstaende({
+        userData: {
+          hasGeldanlage: "yes",
+          hasWertsache: "yes",
+          wertsachen: [
+            {
+              art: "Bild",
+              eigentuemer: "myselfAndPartner",
+              wert: "1000000",
+            },
+          ],
+          geldanlagen: [
+            {
+              art: "bargeld",
+              eigentuemer: "myselfAndPartner",
+              wert: "1000",
+            },
+          ],
+        },
+        pdfValues: pdfParams,
+      });
+      expect(
+        pdfValues
+          .bargeldbetraginEURBezeichnungderWertgegenstaendeAlleinoderMiteigentum
           .value,
       ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
       expect(attachment?.length).toBeGreaterThan(0);
