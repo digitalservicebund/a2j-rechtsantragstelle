@@ -13,7 +13,7 @@ const mockMigrationFlowDestination: Flow = {
   cmsSlug: "form-flow-pages",
   migration: {
     source: "/fluggastrechte/vorabcheck",
-    orderFields: [],
+    sortedFields: [],
   },
   config: {},
   guards: {},
