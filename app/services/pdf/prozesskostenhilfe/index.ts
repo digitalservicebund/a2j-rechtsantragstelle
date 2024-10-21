@@ -1,6 +1,7 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import { fillRechtsschutzversicherung } from "~/services/pdf/prozesskostenhilfe/B_rechtsschutzversicherung";
 import { fillAngehoerige } from "~/services/pdf/prozesskostenhilfe/D_angehoerige";
 import { fillSelfBruttoEinnahmen } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
 import { fillBruttoEinnahmenPartner } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_partner";
@@ -30,6 +31,7 @@ export async function prozesskostenhilfePdfFromUserdata(
     pdfParams: getProzesskostenhilfeParameters(),
     fillFunctions: [
       fillPerson,
+      fillRechtsschutzversicherung,
       fillGrundvoraussetzungen,
       fillAngehoerige,
       fillSelfBruttoEinnahmen,
