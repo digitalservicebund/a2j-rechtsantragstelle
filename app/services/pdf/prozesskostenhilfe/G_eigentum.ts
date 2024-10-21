@@ -12,6 +12,7 @@ import {
   attachKraftfahrzeugeToAnhang,
   fillSingleGeldanlage,
   fillSingleWertsache,
+  attachGeldanlagenToAnhang,
 } from "~/services/pdf/shared/eigentumHelpers";
 import { arrayIsNonEmpty } from "~/util/array";
 
@@ -174,6 +175,35 @@ export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
       },
     );
   });
+  return {
+    pdfValues,
+    attachment,
+  };
+};
+
+export const fillSonstigeVermoegenswerte: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  const { geldanlagen } = userData;
+  // Bargeld has already been accounted for in G-4
+  const nonBargeldGeldanlagen =
+    geldanlagen?.filter((geldAnlage) => geldAnlage.art !== "bargeld") ?? [];
+  if (!arrayIsNonEmpty(nonBargeldGeldanlagen)) {
+    pdfValues.nein_46.value = true;
+    return { pdfValues };
+  }
+  pdfValues.ja_41.value = true;
+  if (nonBargeldGeldanlagen.length === 1) {
+    pdfValues.bezeichnungAlleinoderMiteigentum.value = fillSingleGeldanlage(
+      nonBargeldGeldanlagen[0],
+    );
+    pdfValues.verkehrswert4.value = nonBargeldGeldanlagen[0].wert + " €";
+    return { pdfValues };
+  }
+  pdfValues.bezeichnungAlleinoderMiteigentum.value =
+    SEE_IN_ATTACHMENT_DESCRIPTION;
+  const { attachment } = attachGeldanlagenToAnhang([], nonBargeldGeldanlagen);
   return {
     pdfValues,
     attachment,

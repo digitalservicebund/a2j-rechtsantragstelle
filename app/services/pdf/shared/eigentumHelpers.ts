@@ -170,6 +170,66 @@ export const attachKraftfahrzeugeToAnhang = (
   return { attachment };
 };
 
+export const attachGeldanlagenToAnhang = (
+  attachment: AttachmentEntries,
+  geldanlagen: GeldanlagenArraySchema,
+) => {
+  attachment.push({
+    title: "Sonstige Vermögenswerte",
+    level: "h3",
+  });
+  geldanlagen.forEach((geldanlage, index) => {
+    const geldanlageArt = geldanlage.art
+      ? geldanlageArtMapping[geldanlage.art]
+      : "";
+    const geldanlageEigentumer = geldanlage.eigentuemer
+      ? eigentuemerMapping[geldanlage.eigentuemer]
+      : "";
+    attachment.push(
+      { title: `Geldanlage ${index + 1}`, level: "h4" },
+      { title: "Art", text: geldanlageArt },
+      { title: "Wert", text: geldanlage.wert },
+      {
+        title: "Eigentümer:in",
+        text: geldanlageEigentumer,
+      },
+    );
+    if (geldanlage.auszahlungdatum)
+      attachment.push({
+        title: "Auszahlungsdatum",
+        text: geldanlage.auszahlungdatum,
+      });
+    if (geldanlage.befristetArt)
+      attachment.push({
+        title: "Art der Befristung",
+        text: befristungMapping[geldanlage.befristetArt],
+      });
+    if (geldanlage.forderung)
+      attachment.push({ title: "Forderung", text: geldanlage.forderung });
+    if (geldanlage.verwendungszweck)
+      attachment.push({
+        title: "Verwendungszweck",
+        text: geldanlage.verwendungszweck,
+      });
+    if (geldanlage.kontoBankName)
+      attachment.push({
+        title: "Name der Bank",
+        text: geldanlage.kontoBankName,
+      });
+    if (geldanlage.kontoBezeichnung)
+      attachment.push({
+        title: "Bezeichnung",
+        text: geldanlage.kontoBezeichnung,
+      });
+    if (geldanlage.kontoIban)
+      attachment.push({
+        title: "IBAN",
+        text: geldanlage.kontoIban,
+      });
+  });
+  return { attachment };
+};
+
 export function fillSingleKraftfahrzeug(
   kraftfahrzeug: KraftfahrzeugeArraySchema[0],
 ) {

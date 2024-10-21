@@ -6,6 +6,7 @@ import {
   fillBargeldOderWertgegenstaende,
   fillGrundeigentum,
   fillKraftfahrzeuge,
+  fillSonstigeVermoegenswerte,
 } from "~/services/pdf/prozesskostenhilfe/G_eigentum";
 
 let pdfParams: ProzesskostenhilfePDF;
@@ -333,6 +334,59 @@ describe("G_eigentum", () => {
           .bargeldbetraginEURBezeichnungderWertgegenstaendeAlleinoderMiteigentum
           .value,
       ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
+      expect(attachment?.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe("fillSonstigeVermoegenswerte", () => {
+    it("should indicate if the user has sonstige vermoegenswerte", () => {
+      let { pdfValues } = fillSonstigeVermoegenswerte({
+        userData: {
+          geldanlagen: [
+            {
+              art: "befristet",
+              eigentuemer: "myselfAndPartner",
+              wert: "1000",
+            },
+          ],
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.bezeichnungAlleinoderMiteigentum.value).toBe(
+        "Art: Befristete Geldanlage",
+      );
+      expect(pdfValues.verkehrswert4.value).toBe("1000 €");
+      expect(pdfValues.ja_41.value).toBe(true);
+      ({ pdfValues } = fillSonstigeVermoegenswerte({
+        userData: {
+          geldanlagen: [],
+        },
+        pdfValues: pdfParams,
+      }));
+      expect(pdfValues.nein_46.value).toBe(true);
+    });
+
+    it("should attach additional vermoegenswerte in the anlage", () => {
+      const { pdfValues, attachment } = fillSonstigeVermoegenswerte({
+        userData: {
+          geldanlagen: [
+            {
+              art: "befristet",
+              eigentuemer: "myselfAndPartner",
+              wert: "1000",
+            },
+            {
+              art: "forderung",
+              eigentuemer: "myself",
+              wert: "10000",
+            },
+          ],
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.bezeichnungAlleinoderMiteigentum.value).toBe(
+        SEE_IN_ATTACHMENT_DESCRIPTION,
+      );
       expect(attachment?.length).toBeGreaterThan(0);
     });
   });
