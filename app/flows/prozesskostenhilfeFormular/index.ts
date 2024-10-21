@@ -27,7 +27,6 @@ import { grundvoraussetzungenXstateConfig } from "~/flows/prozesskostenhilfeForm
 import { prozesskostenhilfePersoenlicheDatenDone } from "~/flows/prozesskostenhilfeFormular/persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "~/flows/prozesskostenhilfeFormular/rechtsschutzversicherung/doneFunctions";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/flows/prozesskostenhilfeFormular/rechtsschutzversicherung/xstateConfig";
-import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import {
   andereUnterhaltszahlungenDone,
@@ -35,10 +34,10 @@ import {
   ausgabenZusammenfassungDone,
   eigentumZusammenfassungDone,
   kinderDone,
-  partnerDone,
   prozesskostenhilfeFinanzielleAngabeDone,
 } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
+import { finanzielleAnagebenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import prozesskostenhilfeFormularFlow from "./flow.json";
 import type { ProzesskostenhilfeGesetzlicheVertretung } from "./gesetzlicheVertretung/context";
 import { hasGesetzlicheVertretungYes } from "./gesetzlicheVertretung/guards";
@@ -54,7 +53,6 @@ import {
 } from "../shared/stringReplacements";
 import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechtsschutzversicherung/context";
-import { finanzielleAnagebenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -127,66 +125,6 @@ export const prozesskostenhilfeFormular = {
       "finanzielle-angaben": _.merge(finanzielleAnagebenXstateConfig, {
         states: {
           einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
-          partner: _.merge(
-            getFinanzielleAngabenPartnerSubflow(partnerDone, {
-              backStep: "", // blank as we're overriding later
-              playsNoRoleTarget: "#partner-einkuenfte",
-              partnerNameTarget: "#partner-einkuenfte",
-              partnerIncomeTarget: "#partner-einkuenfte",
-              nextStep: "#kinder",
-            }),
-            // Need to override the default back step, as there's no way to interpolate a series of guards
-            {
-              states: {
-                partnerschaft: {
-                  on: {
-                    BACK: [
-                      {
-                        guard: "hasFurtherIncome",
-                        target: "#einkuenfte.weitere-einkuenfte.uebersicht",
-                      },
-                      "#einkuenfte.weitere-einkuenfte.frage",
-                    ],
-                  },
-                },
-                "partner-einkuenfte": _.merge(
-                  getProzesskostenhilfeEinkuenfteSubflow(
-                    einkuenfteDone,
-                    "partner",
-                  ),
-                  {
-                    states: {
-                      "partner-besonders-ausgaben": {
-                        on: {
-                          BACK: [
-                            {
-                              guard: partnerEinkuenfteGuards.hasFurtherIncome,
-                              target:
-                                "#partner-weitere-einkuenfte.partner-uebersicht",
-                            },
-                            "#partner-weitere-einkuenfte",
-                          ],
-                          SUBMIT: [
-                            {
-                              guard: "partnerHasBesondersAusgabenYes",
-                              target: "add-partner-besonders-ausgaben",
-                            },
-                            "#kinder",
-                          ],
-                        },
-                      },
-                      "add-partner-besonders-ausgaben": {
-                        on: {
-                          SUBMIT: "#kinder",
-                          BACK: "partner-besonders-ausgaben",
-                        },
-                      },
-                    },
-                  },
-                ),
-              },
-            },
-          ),
           kinder: {
             meta: { done: kinderDone },
             states: {

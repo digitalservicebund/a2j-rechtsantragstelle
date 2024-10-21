@@ -1,12 +1,74 @@
-import { Config } from "~/services/flow/server/buildFlowController";
-import { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
+import _ from "lodash";
+import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
+import type { Config } from "~/services/flow/server/buildFlowController";
+import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
+import { partnerDone } from "./doneFunctions";
+import { einkuenfteDone } from "./einkuenfte/doneFunctions";
+import { partnerEinkuenfteGuards } from "./einkuenfte/guards";
+import { getProzesskostenhilfeEinkuenfteSubflow } from "./einkuenfte/xStateConfig";
 
 export const finanzielleAnagebenXstateConfig = {
   initial: "einkuenfte",
   id: "finanzielle-angaben",
   states: {
     einkuenfte: {},
-    partner: {},
+    partner: _.merge(
+      getFinanzielleAngabenPartnerSubflow(partnerDone, {
+        backStep: "", // blank as we're overriding later
+        playsNoRoleTarget: "#partner-einkuenfte",
+        partnerNameTarget: "#partner-einkuenfte",
+        partnerIncomeTarget: "#partner-einkuenfte",
+        nextStep: "#kinder",
+      }),
+      // Need to override the default back step, as there's no way to interpolate a series of guards
+      {
+        states: {
+          partnerschaft: {
+            on: {
+              BACK: [
+                {
+                  guard: "hasFurtherIncome",
+                  target: "#einkuenfte.weitere-einkuenfte.uebersicht",
+                },
+                "#einkuenfte.weitere-einkuenfte.frage",
+              ],
+            },
+          },
+          "partner-einkuenfte": _.merge(
+            getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone, "partner"),
+            {
+              states: {
+                "partner-besonders-ausgaben": {
+                  on: {
+                    BACK: [
+                      {
+                        guard: partnerEinkuenfteGuards.hasFurtherIncome,
+                        target:
+                          "#partner-weitere-einkuenfte.partner-uebersicht",
+                      },
+                      "#partner-weitere-einkuenfte",
+                    ],
+                    SUBMIT: [
+                      {
+                        guard: "partnerHasBesondersAusgabenYes",
+                        target: "add-partner-besonders-ausgaben",
+                      },
+                      "#kinder",
+                    ],
+                  },
+                },
+                "add-partner-besonders-ausgaben": {
+                  on: {
+                    SUBMIT: "#kinder",
+                    BACK: "partner-besonders-ausgaben",
+                  },
+                },
+              },
+            },
+          ),
+        },
+      },
+    ),
     kinder: {
       id: "kinder",
       initial: "kinder-frage",
