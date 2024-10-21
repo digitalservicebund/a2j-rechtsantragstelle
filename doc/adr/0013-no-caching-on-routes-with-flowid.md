@@ -4,17 +4,17 @@ Date: 2024-10-18
 
 ## Status
 
-proposed
+Accepted
 
 ## Context
 
-Related to ADR 10, we have still encountered problems on the Formular and Vorabcheck pages.
+Related to [ADR 10](./0010-no-caching-while-cookie-banner-visible.md), we have still encountered problems on the Formular and Vorabcheck pages.
 
 When the user interacts with our Formular or Vorabcheck and goes through the pages, and then the user clicks the browser's back button, the browser cache will serve the previously cached page version, and we sometimes lose the state of the user's inputs, especially select fields.
 
 ## Decision
 
-We decided to ask the browser to not cache pages also if the user is on one of our FlowId Pages and we set the `Cache-Control: no-store` header.
+We decided to ask the browser to not cache pages also if the user is on one of our FlowId Pages and we set the `Cache-Control: no-store` in the response header.
 
 This ensures that the user's interactions with the Formular and Vorabcheck pages function correctly across pages, as none of the pages can be cached.
 
