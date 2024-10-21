@@ -21,10 +21,16 @@ import {
   getAirlineName,
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
+  getFirstZwischenstoppAirportName,
   getPersonNachname,
   getPersonVorname,
+  getSecondZwischenstoppAirportName,
   getStartAirportName,
+  getThirdZwischenstoppAirportName,
   getWeiterePersonenNameStrings,
+  isAnnullierung,
+  isNichtBefoerderung,
+  isVerspaetet,
 } from "./stringReplacements";
 import zusammenfassungFlow from "./zusammenfassung/flow.json";
 
@@ -61,6 +67,12 @@ export const fluggastrechtFlow = {
     ...getArrayWeiterePersonenIndexStrings(context),
     ...getWeiterePersonenNameStrings(context),
     ...getAirlineName(context),
+    ...getFirstZwischenstoppAirportName(context),
+    ...getSecondZwischenstoppAirportName(context),
+    ...getThirdZwischenstoppAirportName(context),
+    ...isVerspaetet(context),
+    ...isNichtBefoerderung(context),
+    ...isAnnullierung(context),
   }),
   config: {
     meta: {
