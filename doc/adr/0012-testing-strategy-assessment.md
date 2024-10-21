@@ -66,9 +66,16 @@ The goal is to provide a comprehensible overview of the status quo and identify 
   - `/app/flows/__test__/flows.test.ts` contains two parameterized tests for the state machine flows. Both tests run on all test groups defined as `testCases*` of the corresponding flows or subflows. The tests make use of the `nextStepId` function of the flow controller (`app/services/flow/server/buildFlowController.ts`) and transition through the corresponding flow by mocking user input and given events. The first test transitions through the flow from start to end using the `SUBMIT` event, while the second test transitions in the reverse direction using the `BACK` event. The test groups require to follow a defined structure:
 
   ```
-  tbd
+  {
+    machine: FlowStateMachine,
+    cases: [
+      { FlowContext },
+      string[]
+      ]
+  }
   ```
 
+  Where `FlowContext` represents mocked user input of a specific flow state and `string[]` represents the expected steps that should be visited during the flow transition.
   In case of a failing test in this suite, the test output is not very helpful in identifying the root cause of the failure. The test output only show the context (mocked user input) and the visited steps.
 
 - **Readability**: tbd
