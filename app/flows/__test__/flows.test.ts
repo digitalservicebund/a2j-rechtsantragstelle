@@ -19,13 +19,13 @@ import { testCasesFluggastrechteVerspaetet } from "~/flows/fluggastrechteVorabch
 import { testCasesGeldEinklagen } from "~/flows/geldEinklagenVorabcheck/__test__/testcases";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+import { testCasesFluggastrechteFormularFlugdatenAnnullierung } from "../fluggastrechteFormular/flugdaten/__test__/testcasesAnnullierung";
 import { testCasesFluggastrechteFormularFlugdatenNichtBefoerderung } from "../fluggastrechteFormular/flugdaten/__test__/testcasesNichtBefoerderung";
 import { testCasesFluggastrechteFormularFlugdatenVerspaetet } from "../fluggastrechteFormular/flugdaten/__test__/testscasesVerspaetet";
 import { testCasesFluggastrechteFormularStreitwertKosten } from "../fluggastrechteFormular/streitwertKosten/__test__/testscases";
 import { testCasesProzesskostenhilfeFormular } from "../prozesskostenhilfeFormular/__test__/testcases";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "../prozesskostenhilfeFormular/persoenlicheDaten/__test__/testcases";
 import { testCasesProzesskostenhilfeRsv } from "../prozesskostenhilfeFormular/rechtsschutzversicherung/__test__/testcases";
-import { testCasesFluggastrechteFormularFlugdatenAnnullierung } from "../fluggastrechteFormular/flugdaten/__test__/testcasesAnnullierung";
 
 function getEnabledSteps({
   machine,
