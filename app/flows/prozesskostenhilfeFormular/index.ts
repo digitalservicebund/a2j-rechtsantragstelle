@@ -38,7 +38,6 @@ import {
   partnerDone,
   prozesskostenhilfeFinanzielleAngabeDone,
 } from "./finanzielleAngaben/doneFunctions";
-import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import prozesskostenhilfeFormularFlow from "./flow.json";
 import type { ProzesskostenhilfeGesetzlicheVertretung } from "./gesetzlicheVertretung/context";
@@ -55,6 +54,7 @@ import {
 } from "../shared/stringReplacements";
 import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechtsschutzversicherung/context";
+import { finanzielleAnagebenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
@@ -124,7 +124,7 @@ export const prozesskostenhilfeFormular = {
         ],
         nextFlowEntrypoint: "#finanzielle-angaben",
       }),
-      "finanzielle-angaben": _.merge(finanzielleAngabenFlow, {
+      "finanzielle-angaben": _.merge(finanzielleAnagebenXstateConfig, {
         states: {
           einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
           partner: _.merge(
