@@ -14,7 +14,7 @@ When the user interacts with our Formular or Vorabcheck and goes through the pag
 
 ## Decision
 
-We decided to ask the browser to not cache pages also if the user is on one of hour FlowId Pages and we setting the `Cache-Control: no-store` header.
+We decided to ask the browser to not cache pages also if the user is on one of our FlowId Pages and we set the `Cache-Control: no-store` header.
 
 This ensures that the user's interactions with the Formular and Vorabcheck pages function correctly across pages, as none of the pages can be cached.
 
