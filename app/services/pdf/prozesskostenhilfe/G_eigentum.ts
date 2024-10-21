@@ -219,6 +219,7 @@ export const fillEigentum: PkhPdfFillFunction = ({ userData, pdfValues }) => {
       fillGrundeigentum,
       fillKraftfahrzeuge,
       fillBargeldOderWertgegenstaende,
+      fillSonstigeVermoegenswerte,
     ],
   });
   return {
