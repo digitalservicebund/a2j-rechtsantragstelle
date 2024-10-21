@@ -1,10 +1,12 @@
+import fs from "fs";
+import { PDFDocument } from "pdf-lib";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import Handout from "./Handout";
 import { appendAttachment } from "../appendAttachment";
 import type { PdfFillFunction } from "../fillOutFunction";
 import { pdfFillReducer } from "../fillOutFunction";
+import { generateHandout } from "./handout.server";
 import { fillAngelegenheit } from "./sections/A_angelegenheit";
 import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
 import { fillEinkommen } from "./sections/C_einkommen";
@@ -50,6 +52,8 @@ export async function beratungshilfePdfFromUserdata(
     xPositionsDruckvermerk: 28,
   });
 
+  // "Attachment" ist der Anhang für Felder aus dem Formular, die zu lang sind
+  // Wird nach Bedarf ausgegeben
   if (attachment.length > 0) {
     await appendAttachment(
       filledPdf,
@@ -63,10 +67,15 @@ export async function beratungshilfePdfFromUserdata(
     );
   }
 
-  await appendAttachment(
-    filledPdf,
-    await pdfFromReact(Handout(userData, "Merkblatt")),
+  // "Handout" ist die Checkliste
+  // Wird immer ausgegeben
+  await generateHandout(userData, "Merkblatt");
+  const handoutTextBytes = fs.readFileSync(
+    "./app/services/pdf/attachment/handout.pdf",
   );
+  const handoutUint8Array = new Uint8Array(handoutTextBytes);
+  const handoutPdf = await PDFDocument.load(handoutUint8Array);
+  await appendAttachment(filledPdf, handoutPdf);
 
   return filledPdf;
 }
