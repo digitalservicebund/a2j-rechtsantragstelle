@@ -22,6 +22,9 @@ export const finanzielleAnagebenXstateConfig = {
       }),
       // Need to override the default back step, as there's no way to interpolate a series of guards
       {
+        meta: {
+          done: partnerDone,
+        },
         states: {
           partnerschaft: {
             on: {
@@ -31,6 +34,69 @@ export const finanzielleAnagebenXstateConfig = {
                   target: "#einkuenfte.weitere-einkuenfte.uebersicht",
                 },
                 "#einkuenfte.weitere-einkuenfte.frage",
+              ],
+            },
+          },
+          zusammenleben: {
+            on: {
+              BACK: "partnerschaft",
+              SUBMIT: [
+                {
+                  guard: "zusammenlebenYes",
+                  target: "partner-einkommen",
+                },
+                {
+                  guard: "zusammenlebenNo",
+                  target: "unterhalt",
+                },
+              ],
+            },
+          },
+          unterhalt: {
+            on: {
+              BACK: "zusammenleben",
+              SUBMIT: [
+                {
+                  guard: "unterhaltYes",
+                  target: "unterhalts-summe",
+                },
+                {
+                  guard: "unterhaltNo",
+                  target: "keine-rolle",
+                },
+              ],
+            },
+          },
+          "keine-rolle": {
+            on: {
+              BACK: "unterhalt",
+              SUBMIT: "#partner-einkuenfte",
+            },
+          },
+          "unterhalts-summe": {
+            on: {
+              BACK: "unterhalt",
+              SUBMIT: "partner-name",
+            },
+          },
+          "partner-name": {
+            on: {
+              BACK: "unterhalts-summe",
+              SUBMIT: "#partner-einkuenfte",
+            },
+          },
+          "partner-einkommen": {
+            on: {
+              BACK: "zusammenleben",
+              SUBMIT: [
+                {
+                  guard: "partnerEinkommenYes",
+                  target: "#partner-einkuenfte",
+                },
+                {
+                  guard: "partnerEinkommenNo",
+                  target: "#kinder",
+                },
               ],
             },
           },
