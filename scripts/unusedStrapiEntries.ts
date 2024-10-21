@@ -45,6 +45,10 @@ function partitionPagesByStepId(pages: MinimalPage[]) {
   return _.partition(pages, (page) => page.attributes.stepId !== null);
 }
 
+function partitionPagesByFlowId(pages: MinimalPage[]) {
+  return _.partition(pages, (page) => page.attributes.flow_ids.data.length > 0);
+}
+
 async function unusedStrapiEntry() {
   let content: StrapiSchemas | undefined = undefined;
   try {
@@ -77,6 +81,19 @@ async function unusedStrapiEntry() {
         page,
       );
     });
+  } else {
+    console.log("No entries without stepIds ✅");
+  }
+
+  const [_pagesWithFlowIds, pagesWithoutFlowIds] =
+    partitionPagesByFlowId(pages);
+  if (pagesWithoutFlowIds.length > 0) {
+    console.warn(`Found ${pagesWithoutFlowIds.length} pages without flowIds:`);
+    pagesWithoutFlowIds.forEach((page) => {
+      console.warn(page);
+    });
+  } else {
+    console.log("No entries without flowIds ✅");
   }
 
   const allUrlsFromXstateConfigs = Object.entries(flows).flatMap(
