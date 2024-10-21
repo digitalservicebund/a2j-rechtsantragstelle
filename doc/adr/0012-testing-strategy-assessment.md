@@ -1,4 +1,4 @@
-# ADR: Assesment of our Current Testing Strategy
+# ADR: Assessment of our Current Testing Strategy
 
 ## Status
 
@@ -40,7 +40,12 @@ The goal is to provide a comprehensible overview of the status quo and identify 
 ### Test Coverage
 
 - **Coverage Reports**: Coverage is captured using `vitest` and therefore analyzed for all tests that are executed by that runner: unit and integration tests (not e2e tests which run with Playwright). Reports can be generated using `npm run test:coverage`. We use `istanbul` to generate coverage reports.
-- **Coverage Gaps**: tbd
+- **Coverage Gaps**:
+  - Not all possible paths through the different flows are covered by our `flows.test.ts` integration tests.
+  - We do not test whether all pages are available in the CMS.
+  - We do not test different brower and device types with our e2e tests.
+  -
+  - tbd
 
 ### Test Frameworks and Tools
 
@@ -60,7 +65,12 @@ The goal is to provide a comprehensible overview of the status quo and identify 
 
 ### Test Quality
 
-- **Best Practices**: tbd
+- **Best Practices**:
+
+  - Only the most critical paths should be tested in the e2e tests. We do not follow this best practice since our e2e test suite is quite comprehensive.
+  -
+  - tbd
+
 - **Maintainability**:
 
   - `/app/flows/__test__/flows.test.ts` contains two parameterized tests for the state machine flows. Both tests run on all test groups defined as `testCases*` of the corresponding flows or subflows. The tests make use of the `nextStepId` function of the flow controller (`app/services/flow/server/buildFlowController.ts`) and transition through the corresponding flow by mocking user input and given events. The first test transitions through the flow from start to end using the `SUBMIT` event, while the second test transitions in the reverse direction using the `BACK` event. The test groups require to follow a defined structure:
@@ -90,7 +100,7 @@ The goal is to provide a comprehensible overview of the status quo and identify 
 2. In the `verify-local-e2e`job (described in `e2e-test.yml`), `npx playwright test` is executed to run the end-to-end tests against a locally built and served instance of the application, where 'local' refers to the CI respectively the pipeline environment.
 3. The `verify-preview-e2e` job (also in `e2e-test.yml`) runs the end-to-end tests against a preview deployment of the application. This job is triggered after the a new preview deployment is created.
 
-The end-to-end tests in the CI pipeline run in sharded mode, meaning that the tests are split into multiple shards to speed up the test execution.
+The end-to-end tests in the CI pipeline run in sharded mode, meaning that the tests are split into multiple shards to speed up the test execution. At the time of writing, the slowest shard of each test run (`verify-local-e2e` and `verify-preview-e2e`) in the CI pipeline takes about 6 to 8 minutes to finish.
 
 - **Automated Testing Pre Commit**:
   Lefthook is used also to enforce pre-commit `vitest` test runs. Failing unit, integration or component tests will prevent the commit from being created.
