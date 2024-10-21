@@ -64,48 +64,51 @@ async function unusedStrapiEntry() {
     process.exit(1);
   }
 
-  const pages = [
-    ...content["form-flow-pages"],
-    ...content["vorab-check-pages"],
-    ...content["result-pages"],
-  ];
+  const apiIds = [
+    "form-flow-pages",
+    "vorab-check-pages",
+    "result-pages",
+  ] as const;
 
-  const [pagesWithStepId, pagesWithoutStepId] = partitionPagesByStepId(pages);
+  for (const apiId of apiIds) {
+    console.log(`\nChecking ${apiId}:`);
+    const pages = content[apiId];
 
-  if (pagesWithoutStepId.length > 0) {
-    console.warn(`Found ${pagesWithoutStepId.length} pages without stepId:`);
-    pagesWithoutStepId.forEach((page) => {
+    const [pagesWithStepId, pagesWithoutStepId] = partitionPagesByStepId(pages);
+
+    if (pagesWithoutStepId.length > 0) {
+      console.warn(`Found ${pagesWithoutStepId.length} pages without stepId!`);
+    } else {
+      console.log("No entries without stepIds ✅");
+    }
+
+    const [_pagesWithFlowIds, pagesWithoutFlowIds] =
+      partitionPagesByFlowId(pages);
+
+    if (pagesWithoutFlowIds.length > 0) {
       console.warn(
-        "FlowIds: ",
-        page.attributes.flow_ids.data.map((flowId) => flowId.attributes.flowId),
-        page,
+        `Found ${pagesWithoutFlowIds.length} pages without flowIds!`,
       );
-    });
-  } else {
-    console.log("No entries without stepIds ✅");
+    } else {
+      console.log("No entries without flowIds ✅");
+    }
+
+    const allUrlsFromXstateConfigs = Object.entries(flows).flatMap(
+      ([flowId, { config }]) =>
+        allStateNames(config.states).map(
+          (stateName) => `${flowId}/${stateName}`,
+        ),
+    );
+
+    const unusedUrls = urlsFromPages(pagesWithStepId).filter(
+      (url) => !allUrlsFromXstateConfigs.includes(url),
+    );
+
+    console.log(
+      `Found ${unusedUrls.length} unused strapi entries with following stepIds: `,
+      unusedUrls.sort(),
+    );
   }
-
-  const [_pagesWithFlowIds, pagesWithoutFlowIds] =
-    partitionPagesByFlowId(pages);
-  if (pagesWithoutFlowIds.length > 0) {
-    console.warn(`Found ${pagesWithoutFlowIds.length} pages without flowIds:`);
-    pagesWithoutFlowIds.forEach((page) => {
-      console.warn(page);
-    });
-  } else {
-    console.log("No entries without flowIds ✅");
-  }
-
-  const allUrlsFromXstateConfigs = Object.entries(flows).flatMap(
-    ([flowId, { config }]) =>
-      allStateNames(config.states).map((stateName) => `${flowId}/${stateName}`),
-  );
-
-  const unusedUrls = urlsFromPages(pagesWithStepId).filter(
-    (url) => !allUrlsFromXstateConfigs.includes(url),
-  );
-
-  console.log(`Found ${unusedUrls.length} unused strapi entries: `, unusedUrls);
 }
 
 if (process.argv[2] === "unusedStrapiEntry") unusedStrapiEntry();
