@@ -1,15 +1,16 @@
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
-import { attachBankkontenToAnhang } from "~/services/pdf/shared/attachBankkontenToAnhang";
+import {
+  attachBankkontenToAnhang,
+  attachGrundeigentumToAnhang,
+  eigentuemerMapping,
+  grundeigentumArtMapping,
+} from "~/services/pdf/shared/eigentumHelpers";
 import { arrayIsNonEmpty } from "~/util/array";
 import { fillKraftfahrzeug } from "./fillKraftfahrzeug";
 import type { BerHPdfFillFunction } from "../..";
 import { fillVermoegenswerte } from "./fillVermoegenswerte";
 import type { AttachmentEntries } from "../../../attachment";
 import { newPageHint } from "../../../attachment";
-import {
-  eigentuemerMapping,
-  grundeigentumArtMapping,
-} from "../../../shared/eigentumHelpers";
 
 export const fillBesitz: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   const attachment: AttachmentEntries = [];
@@ -77,7 +78,7 @@ export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  const attachment: AttachmentEntries = [];
+  let attachment: AttachmentEntries = [];
   const { eigentumTotalWorth, grundeigentum: grundeigentumArray } = userData;
   pdfValues.f5Grundeigentum1.value = userData.hasGrundeigentum === "no";
   pdfValues.f5Grundeigentum2.value = userData.hasGrundeigentum === "yes";
@@ -116,34 +117,7 @@ export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
       ? newPageHint + "\n" + pdfValues.f7Nutzungsart.value
       : newPageHint;
 
-    attachment.push({
-      title: "Grundeigentum",
-      level: "h3",
-    });
-
-    grundeigentumArray.forEach((grundeigentum, index) => {
-      attachment.push(
-        { title: `Grundeigentum ${index + 1}`, level: "h4" },
-        {
-          title: "Art",
-          text: grundeigentum.art
-            ? grundeigentumArtMapping[grundeigentum.art]
-            : "",
-        },
-        {
-          title: "Eigentümer:in",
-          text: grundeigentum.eigentuemer
-            ? eigentuemerMapping[grundeigentum.eigentuemer]
-            : "",
-        },
-        { title: "Fläche", text: grundeigentum.flaeche + " m²" },
-        { title: "Verkehrswert", text: grundeigentum.verkaufswert + " €" },
-      );
-      if (grundeigentum.isBewohnt === "yes")
-        attachment.push({ title: "Eigennutzung", text: "Ja" });
-      else if (grundeigentum.isBewohnt === "family")
-        attachment.push({ title: "Eigennutzung", text: "Von Familie" });
-    });
+    ({ attachment } = attachGrundeigentumToAnhang([], grundeigentumArray));
   }
   return { pdfValues, attachment };
 };

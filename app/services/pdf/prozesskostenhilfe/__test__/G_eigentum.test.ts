@@ -1,7 +1,10 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/beratungshilfe/sections/E_unterhalt";
-import { fillBankkonto } from "~/services/pdf/prozesskostenhilfe/G_eigentum";
+import {
+  fillBankkonto,
+  fillGrundeigentum,
+} from "~/services/pdf/prozesskostenhilfe/G_eigentum";
 
 let pdfParams: ProzesskostenhilfePDF;
 
@@ -77,6 +80,85 @@ describe("G_eigentum", () => {
       expect(pdfValues.artdesKontosKontoinhaberKreditinstitut.value).toBe(
         SEE_IN_ATTACHMENT_DESCRIPTION,
       );
+      expect(attachment?.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe("fillGrundeigentum", () => {
+    it("should indicate if the user has grundeigentum", () => {
+      let { pdfValues } = fillGrundeigentum({
+        userData: {
+          hasGrundeigentum: "yes",
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_37.value).toBe(true);
+      ({ pdfValues } = fillGrundeigentum({
+        userData: {
+          hasGrundeigentum: "no",
+        },
+        pdfValues: pdfParams,
+      }));
+      expect(pdfValues.nein_39.value).toBe(true);
+      expect(
+        pdfValues
+          .groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten
+          .value,
+      ).toBeUndefined();
+    });
+
+    it("should print a user's grundeigentum when there is only one", () => {
+      const { pdfValues } = fillGrundeigentum({
+        userData: {
+          hasGrundeigentum: "yes",
+          grundeigentum: [
+            {
+              isBewohnt: "yes",
+              art: "eigentumswohnung",
+              eigentuemer: "myself",
+              flaeche: "100",
+              verkaufswert: "100000",
+            },
+          ],
+        },
+        pdfValues: pdfParams,
+      });
+      expect(
+        pdfValues
+          .groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten
+          .value,
+      ).toBe("Art: Wohnung, Eigennutzung, Fläche: 100 m²");
+      expect(pdfValues.verkehrswert.value).toBe("100000 €");
+    });
+
+    it("should attach >1 grundeigentum to an attachment", () => {
+      const { pdfValues, attachment } = fillGrundeigentum({
+        userData: {
+          hasGrundeigentum: "yes",
+          grundeigentum: [
+            {
+              isBewohnt: "yes",
+              art: "eigentumswohnung",
+              eigentuemer: "myself",
+              flaeche: "100",
+              verkaufswert: "100000",
+            },
+            {
+              isBewohnt: "yes",
+              art: "eigentumswohnung",
+              eigentuemer: "myself",
+              flaeche: "100",
+              verkaufswert: "100000",
+            },
+          ],
+        },
+        pdfValues: pdfParams,
+      });
+      expect(
+        pdfValues
+          .groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten
+          .value,
+      ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
       expect(attachment?.length).toBeGreaterThan(0);
     });
   });
