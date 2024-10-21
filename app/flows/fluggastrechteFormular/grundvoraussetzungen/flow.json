@@ -28,9 +28,8 @@
             "guard": "grundvoraussetzungenDone"
           }
         ],
-        "BACK": "redirect-vorabcheck"
+        "BACK": "zahlungsaufforderung"
       }
-    },
-    "redirect-vorabcheck": { "on": {} }
+    }
   }
 }

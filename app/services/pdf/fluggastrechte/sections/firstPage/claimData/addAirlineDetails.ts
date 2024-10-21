@@ -1,4 +1,7 @@
 import type PDFDocument from "pdfkit";
+import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
+import { getAirlineNameByIataCode } from "~/services/airlines/getAirlineNameByIataCode";
+import { SEPARATOR } from "./addPlaintiffDetails";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -6,20 +9,15 @@ import {
 
 export const addAirlineDetails = (
   doc: typeof PDFDocument,
-  documentStruct: PDFKit.PDFStructureElement,
+  userData: FluggastrechtContext,
 ) => {
-  const AirlineDetailsSect = doc.struct("Sect");
-  AirlineDetailsSect.add(
-    doc.struct("P", {}, () => {
-      doc
-        .fontSize(10)
-        .font(FONTS_BUNDESSANS_BOLD)
-        .text("Deutsche Lufthansa Aktiengesellschaft", { continued: true });
-      doc
-        .font(FONTS_BUNDESSANS_REGULAR)
-        .text(" | Venloer Straße 151-153, 50672 Köln");
-      doc.text("– Beklagte Partei –");
-    }),
-  );
-  documentStruct.add(AirlineDetailsSect);
+  const airlineName = getAirlineNameByIataCode(userData.fluggesellschaft);
+  doc
+    .fontSize(10)
+    .font(FONTS_BUNDESSANS_BOLD)
+    .text(airlineName, { continued: true })
+    .font(FONTS_BUNDESSANS_REGULAR)
+    .text(SEPARATOR, { continued: true })
+    .text("Venloer Straße 151-153, 50672 Köln")
+    .text("– Beklagte Partei –");
 };
