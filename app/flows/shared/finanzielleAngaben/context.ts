@@ -90,6 +90,10 @@ export const kraftfahrzeugWert = z.enum(
   customRequiredErrorMessage,
 );
 
+export type KraftfahrzeugeArraySchema = z.infer<
+  typeof kraftfahrzeugeArraySchema
+>;
+
 export const kraftfahrzeugeArraySchema = z.array(
   z
     .object({

@@ -4,6 +4,7 @@ import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/beratungshilfe/sec
 import {
   fillBankkonto,
   fillGrundeigentum,
+  fillKraftfahrzeuge,
 } from "~/services/pdf/prozesskostenhilfe/G_eigentum";
 
 let pdfParams: ProzesskostenhilfePDF;
@@ -157,6 +158,85 @@ describe("G_eigentum", () => {
       expect(
         pdfValues
           .groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten
+          .value,
+      ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
+      expect(attachment?.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe("fillKraftfahrzeuge", () => {
+    it("should indicate if the user has kraftfahrzeuge", () => {
+      let { pdfValues } = fillKraftfahrzeuge({
+        userData: {
+          hasKraftfahrzeug: "yes",
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_38.value).toBe(true);
+      ({ pdfValues } = fillKraftfahrzeuge({
+        userData: {
+          hasKraftfahrzeug: "no",
+        },
+        pdfValues: pdfParams,
+      }));
+      expect(pdfValues.nein_41.value).toBe(true);
+    });
+
+    it("should print a user's Kraftfahrzeug when there is only one", () => {
+      const { pdfValues } = fillKraftfahrzeuge({
+        userData: {
+          hasKraftfahrzeug: "yes",
+          kraftfahrzeuge: [
+            {
+              art: "auto",
+              hasArbeitsweg: "no",
+              eigentuemer: "myself",
+              marke: "Audi",
+              baujahr: "2000",
+              kilometerstand: 200000,
+            },
+          ],
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_38.value).toBe(true);
+      expect(
+        pdfValues
+          .markeTypBaujahrAnschaffungsjahrAlleinoderMiteigentumKilometerstand
+          .value,
+      ).toBe(
+        "Wird nicht für Arbeitsweg gebraucht, Art: auto, Marke: Audi, Baujahr: 2000, Kilometerstand: 200000",
+      );
+    });
+
+    it("should attach >1 Kraftfahrzeug to the anhang", () => {
+      const { pdfValues, attachment } = fillKraftfahrzeuge({
+        userData: {
+          hasKraftfahrzeug: "yes",
+          kraftfahrzeuge: [
+            {
+              art: "auto",
+              hasArbeitsweg: "no",
+              eigentuemer: "myself",
+              marke: "Audi",
+              baujahr: "2000",
+              kilometerstand: 200000,
+            },
+            {
+              art: "motorrad",
+              hasArbeitsweg: "yes",
+              eigentuemer: "partner",
+              marke: "BMW",
+              baujahr: "1996",
+              kilometerstand: 120000,
+            },
+          ],
+        },
+        pdfValues: pdfParams,
+      });
+      expect(
+        pdfValues
+          .markeTypBaujahrAnschaffungsjahrAlleinoderMiteigentumKilometerstand
           .value,
       ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
       expect(attachment?.length).toBeGreaterThan(0);

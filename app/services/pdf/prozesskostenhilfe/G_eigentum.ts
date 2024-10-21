@@ -6,13 +6,16 @@ import {
   attachBankkontenToAnhang,
   grundeigentumArtMapping,
   attachGrundeigentumToAnhang,
+  fillSingleKraftfahrzeug,
+  verkaufswertMappingDescription,
+  attachKraftfahrzeugeToAnhang,
 } from "~/services/pdf/shared/eigentumHelpers";
 import { arrayIsNonEmpty } from "~/util/array";
 
 export const fillBankkonto: PkhPdfFillFunction = ({ userData, pdfValues }) => {
-  pdfValues.nein_37.value = userData.hasBankkonto === "no";
-  pdfValues.ja_36.value = userData.hasBankkonto === "yes";
-  const { bankkonten } = userData;
+  const { bankkonten, hasBankkonto } = userData;
+  pdfValues.nein_37.value = hasBankkonto === "no";
+  pdfValues.ja_36.value = hasBankkonto === "yes";
   if (!arrayIsNonEmpty(bankkonten)) return { pdfValues };
   if (bankkonten.length == 1) {
     const { kontoEigentuemer, kontostand, kontoDescription, iban, bankName } =
@@ -38,9 +41,9 @@ export const fillGrundeigentum: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  pdfValues.nein_39.value = userData.hasGrundeigentum === "no";
-  pdfValues.ja_37.value = userData.hasGrundeigentum === "yes";
-  const { grundeigentum } = userData;
+  const { grundeigentum, hasGrundeigentum } = userData;
+  pdfValues.nein_39.value = hasGrundeigentum === "no";
+  pdfValues.ja_37.value = hasGrundeigentum === "yes";
   if (!arrayIsNonEmpty(grundeigentum)) return { pdfValues };
   if (grundeigentum.length == 1) {
     const {
@@ -75,11 +78,37 @@ export const fillGrundeigentum: PkhPdfFillFunction = ({
   return { pdfValues, attachment };
 };
 
+export const fillKraftfahrzeuge: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  const { kraftfahrzeuge, hasKraftfahrzeug } = userData;
+  pdfValues.nein_41.value = hasKraftfahrzeug === "no";
+  pdfValues.ja_38.value = hasKraftfahrzeug === "yes";
+  if (!arrayIsNonEmpty(kraftfahrzeuge)) return { pdfValues };
+  if (kraftfahrzeuge.length == 1) {
+    const kraftfahrzeug = kraftfahrzeuge[0];
+    pdfValues.markeTypBaujahrAnschaffungsjahrAlleinoderMiteigentumKilometerstand.value =
+      fillSingleKraftfahrzeug(kraftfahrzeug);
+    const singleKfzWert = kraftfahrzeug.wert
+      ? verkaufswertMappingDescription[kraftfahrzeug.wert]
+      : "";
+    pdfValues.verkehrswert2.value = kraftfahrzeug.verkaufswert
+      ? `${kraftfahrzeug.verkaufswert} €`
+      : singleKfzWert;
+    return { pdfValues };
+  }
+  pdfValues.markeTypBaujahrAnschaffungsjahrAlleinoderMiteigentumKilometerstand.value =
+    SEE_IN_ATTACHMENT_DESCRIPTION;
+  const { attachment } = attachKraftfahrzeugeToAnhang([], kraftfahrzeuge);
+  return { pdfValues, attachment };
+};
+
 export const fillEigentum: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const { pdfValues: filledValues, attachment } = pdfFillReducer({
     userData,
     pdfParams: pdfValues,
-    fillFunctions: [fillBankkonto, fillGrundeigentum],
+    fillFunctions: [fillBankkonto, fillGrundeigentum, fillKraftfahrzeuge],
   });
   return {
     pdfValues: filledValues,
