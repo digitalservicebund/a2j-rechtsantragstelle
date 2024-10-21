@@ -31,7 +31,7 @@ The goal is to provide a comprehensible overview of the status quo and identify 
   - Flow logic: Such as in `/app/flows/__test__/flows.test.ts`, where the tests validate state machine flow logic using various test cases.
 
 - **End-to-End Tests**:
-  E2E tests validate the application's functionality from the user's perspective using Playwright. These tests are located in the tests/e2e directory and include:
+  E2E tests validate the application's functionality from the user's perspective using Playwright. These tests are located in the `tests/e2e` directory and include:
 
   - Page accessibility and navigation for content pages: Example in `/tests/e2e/pages/beratungshilfe.spec.ts` which ensures the `/beratungshilfe` page is accessible.
   - State machine transitions: For example, `/tests/e2e/flowPages/beratungshilfe/vorabcheck/beratungshilfe.vorabcheck.spec.ts` tests the complete traversal of the Beratungshilfe Vorabcheck flow. Page accessibility is checked inconsistently across the e2e tests of the flows.
@@ -83,7 +83,7 @@ The goal is to provide a comprehensible overview of the status quo and identify 
 2. In the `verify-local-e2e`job (described in `e2e-test.yml`), `npx playwright test` is executed to run the end-to-end tests against a locally built and served instance of the application, where 'local' refers to the CI respectively the pipeline environment.
 3. The `verify-preview-e2e` job (also in `e2e-test.yml`) runs the end-to-end tests against a preview deployment of the application. This job is triggered after the a new preview deployment is created.
 
-The end-to-end tests in in CI pipeline run in sharded mode, meaning that the tests are split into multiple shards to speed up the test execution.
+The end-to-end tests in the CI pipeline run in sharded mode, meaning that the tests are split into multiple shards to speed up the test execution.
 
 - **Automated Testing Pre Commit**:
   Lefthook is used also to enforce pre-commit `vitest` test runs. Failing unit, integration or component tests will prevent the commit from being created.
