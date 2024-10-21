@@ -20,7 +20,7 @@ The goal is to provide a comprehensible overview of the status quo and identify 
 
   - Utility functions: For example, in `/app/util/__test__/objects.test.ts`, unit tests check functions like `isKeyOfObject`, `objectMap`, and `dropEachProperty`.
   - React component tests located in `/app/components/__test__`. These tests validate the rendering and behavior of React components. E.g. `/app/components/beratungshilfe/__test__/BeratungshilfeForm.test.tsx` tests the rendering and behavior of the Beratungshilfe form component.
-  - PDF generation: Located in `/app/services/pdf/beratungshilfe/sections/__test__/A_angelegenheit.test.ts`, these tests ensure that the form fields of a PDF are correctly filled with the provided data.
+  - PDF generation: for example located in `/app/services/pdf/beratungshilfe/sections/__test__/A_angelegenheit.test.ts`, these tests ensure that the form fields of a PDF are correctly filled with the provided data.
   - Form handling and calculation logic: For instance, tests in `/app/flows/beratungshilfeVorabcheck/__test__/freibetrag.test.ts` validate the correctness of income calculations and related logic.
 
 - **Integration Tests**:
