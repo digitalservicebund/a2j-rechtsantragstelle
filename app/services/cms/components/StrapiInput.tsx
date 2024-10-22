@@ -15,6 +15,7 @@ const StrapiInputSchema = z
     placeholder: z.string().nullable(),
     suffix: z.string().nullable(),
     errors: StrapiErrorRelationSchema,
+    helperText: z.string().nullable(),
     width: z
       .enum([
         "characters3",
