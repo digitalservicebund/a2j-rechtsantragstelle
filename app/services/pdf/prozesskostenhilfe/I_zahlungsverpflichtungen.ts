@@ -3,7 +3,7 @@ import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhil
 import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import type { PkhPdfFillFunction } from ".";
 import type { AttachmentEntries } from "../attachment";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
 import { eigentuemerMapping } from "../shared/eigentumHelpers";
 
 type Zahlung = NonNullable<

@@ -1,4 +1,4 @@
-import { newPageHint } from "~/services/pdf/attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import type { BerHPdfFillFunction } from "../..";
 import {
   attachGeldanlagenToAnhang,
@@ -59,7 +59,7 @@ export const fillVermoegenswerte: BerHPdfFillFunction = ({
     pdfValues.f16RueckkaufswertoderVerkehrswertinEUR.value =
       singleVermoegenswert.wert;
   } else {
-    pdfValues.f15Bezeichnung.value = newPageHint;
+    pdfValues.f15Bezeichnung.value = SEE_IN_ATTACHMENT_DESCRIPTION;
     const { attachment } = attachGeldanlagenToAnhang(geldanlagen);
     wertsachen.forEach((wertsache, index) => {
       attachment.push(

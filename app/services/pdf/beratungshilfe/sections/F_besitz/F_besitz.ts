@@ -10,7 +10,7 @@ import { fillKraftfahrzeug } from "./fillKraftfahrzeug";
 import type { BerHPdfFillFunction } from "../..";
 import { fillVermoegenswerte } from "./fillVermoegenswerte";
 import type { AttachmentEntries } from "../../../attachment";
-import { newPageHint } from "../../../attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../../attachment";
 
 export const fillBesitz: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   const attachment: AttachmentEntries = [];
@@ -67,7 +67,7 @@ export const fillFinancialBankkonto: BerHPdfFillFunction = ({
 
     pdfValues.f4Kontostand.value = bankkonto.kontostand + " €";
   } else {
-    pdfValues.f3Bank1.value = newPageHint;
+    pdfValues.f3Bank1.value = SEE_IN_ATTACHMENT_DESCRIPTION;
 
     ({ attachment } = attachBankkontenToAnhang([], bankkonten));
   }
@@ -113,8 +113,8 @@ export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
     pdfValues.f8Verkehrswert.value = grundeigentum.verkaufswert + " €";
   } else {
     pdfValues.f7Nutzungsart.value = pdfValues.f7Nutzungsart.value
-      ? newPageHint + "\n" + pdfValues.f7Nutzungsart.value
-      : newPageHint;
+      ? SEE_IN_ATTACHMENT_DESCRIPTION + "\n" + pdfValues.f7Nutzungsart.value
+      : SEE_IN_ATTACHMENT_DESCRIPTION;
 
     const { attachment } = attachGrundeigentumToAnhang(grundeigentumArray);
     return { pdfValues, attachment };

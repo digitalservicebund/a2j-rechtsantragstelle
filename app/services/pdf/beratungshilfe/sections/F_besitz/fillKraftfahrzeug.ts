@@ -4,7 +4,7 @@ import {
   attachKraftfahrzeugeToAnhang,
 } from "~/services/pdf/shared/eigentumHelpers";
 import type { BerHPdfFillFunction } from "../..";
-import { newPageHint } from "../../../attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../../attachment";
 
 const KRAFTFAHRZEUG_ART_FIELD_MAX_CHARS = 96;
 
@@ -43,7 +43,7 @@ export const fillKraftfahrzeug: BerHPdfFillFunction = ({
       ? singleKraftfahrzeug.verkaufswert + " €"
       : singleKfzWert;
   } else {
-    pdfValues.f11Fahrzeugart.value = newPageHint;
+    pdfValues.f11Fahrzeugart.value = SEE_IN_ATTACHMENT_DESCRIPTION;
     const { attachment } = attachKraftfahrzeugeToAnhang(kraftfahrzeuge);
     return { pdfValues, attachment };
   }

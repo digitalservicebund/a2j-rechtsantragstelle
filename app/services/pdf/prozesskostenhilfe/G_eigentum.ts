@@ -1,5 +1,5 @@
 import type { AttachmentEntries } from "~/services/pdf/attachment";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/beratungshilfe/sections/E_unterhalt";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import type { PkhPdfFillFunction } from "~/services/pdf/prozesskostenhilfe";
 import {
