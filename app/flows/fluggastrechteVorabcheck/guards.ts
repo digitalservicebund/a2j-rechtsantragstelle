@@ -4,6 +4,7 @@ import { isEuropeanUnionAirport } from "~/services/airports/isEuropeanUnionAirpo
 import { isGermanAirport } from "~/services/airports/isGermanAirport";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import { yesNoGuards, type Guards } from "../guards.server";
+import { hasAirportPartnerCourt } from "~/services/airports/hasPartnerCourt";
 
 const isFluggesellschaftInEU = (fluggesellschaft?: string) => {
   const isAirlineInEU =
@@ -32,8 +33,27 @@ export const guards = {
 
     return !isStartAirportEU && !isFluggesellschaftInEU(fluggesellschaft);
   },
+  isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftNotEU: ({
+    context: { startAirport, endAirport, fluggesellschaft },
+  }) => {
+    const isStartAirportGerman = isGermanAirport(startAirport);
+    const isEndAirportGerman = isGermanAirport(endAirport);
+
+    if (!isStartAirportGerman && !isEndAirportGerman) {
+      return false;
+    }
+
+    const hasStartAirportPartnerCourt = hasAirportPartnerCourt(startAirport);
+    const hasEndAirportPartnerCourt = hasAirportPartnerCourt(endAirport);
+
+    return (
+      !hasStartAirportPartnerCourt &&
+      !hasEndAirportPartnerCourt &&
+      !isFluggesellschaftInEU(fluggesellschaft)
+    );
+  },
   /**
-   * The functions isNotEligibleFluggesellschaftInEU and isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU
+   * The functions isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftNotEU and isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU
    * go to the same page, but the logic are different, so keeping them in two different functions to test it properly
    * */
   isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU: ({
@@ -49,6 +69,25 @@ export const guards = {
     }
 
     return isEndAirportEU && !isFluggesellschaftInEU(fluggesellschaft);
+  },
+  isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftSonstiges: ({
+    context: { startAirport, endAirport, fluggesellschaft },
+  }) => {
+    const isStartAirportGerman = isGermanAirport(startAirport);
+    const isEndAirportGerman = isGermanAirport(endAirport);
+
+    if (!isStartAirportGerman && !isEndAirportGerman) {
+      return false;
+    }
+
+    const hasStartAirportPartnerCourt = hasAirportPartnerCourt(startAirport);
+    const hasEndAirportPartnerCourt = hasAirportPartnerCourt(endAirport);
+
+    return (
+      !hasStartAirportPartnerCourt &&
+      !hasEndAirportPartnerCourt &&
+      fluggesellschaft === "sonstiges"
+    );
   },
   isStartAirportNotEUAndFluggesellschaftSonstiges: ({
     context: { startAirport, fluggesellschaft },

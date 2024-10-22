@@ -540,4 +540,168 @@ describe("fluggastrechteGuard", () => {
       expect(actual).toBe(false);
     });
   });
+
+  describe("isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftNotEU", () => {
+    it("should return false given a non german start airport", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "CDG",
+        endAirport: "FRA",
+        fluggesellschaft: "DL",
+      };
+
+      const actual =
+        guards.isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftNotEU({
+          context,
+        });
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return false given a non german end airport", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "BER",
+        endAirport: "CDG",
+        fluggesellschaft: "DL",
+      };
+
+      const actual =
+        guards.isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftNotEU({
+          context,
+        });
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return false given a start and end airport with partner court", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "BER",
+        endAirport: "FRA",
+        fluggesellschaft: "DL",
+      };
+
+      const actual =
+        guards.isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftNotEU({
+          context,
+        });
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return true given a start and end airport without partner court and airline non EU", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "DRS",
+        endAirport: "DRS",
+        fluggesellschaft: "DL",
+      };
+
+      const actual =
+        guards.isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftNotEU({
+          context,
+        });
+
+      expect(actual).toBe(true);
+    });
+
+    it("should return false given a start and end airport without partner court and airline in EU", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "DRS",
+        endAirport: "DRS",
+        fluggesellschaft: "LH",
+      };
+
+      const actual =
+        guards.isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftNotEU({
+          context,
+        });
+
+      expect(actual).toBe(false);
+    });
+  });
+
+  describe("isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftSonstiges", () => {
+    it("should return false given a non german start airport", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "CDG",
+        endAirport: "FRA",
+        fluggesellschaft: "sonstiges",
+      };
+
+      const actual =
+        guards.isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftSonstiges(
+          {
+            context,
+          },
+        );
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return false given a non german end airport", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "BER",
+        endAirport: "CDG",
+        fluggesellschaft: "sonstiges",
+      };
+
+      const actual =
+        guards.isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftSonstiges(
+          {
+            context,
+          },
+        );
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return false given a start and end airport with partner court", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "BER",
+        endAirport: "FRA",
+        fluggesellschaft: "sonstiges",
+      };
+
+      const actual =
+        guards.isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftSonstiges(
+          {
+            context,
+          },
+        );
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return true given a start and end airport without partner court and airline as sonstiges", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "DRS",
+        endAirport: "DRS",
+        fluggesellschaft: "sonstiges",
+      };
+
+      const actual =
+        guards.isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftSonstiges(
+          {
+            context,
+          },
+        );
+
+      expect(actual).toBe(true);
+    });
+
+    it("should return false given a start and end airport without partner court and airline not sonstiges", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "DRS",
+        endAirport: "DRS",
+        fluggesellschaft: "LH",
+      };
+
+      const actual =
+        guards.isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftSonstiges(
+          {
+            context,
+          },
+        );
+
+      expect(actual).toBe(false);
+    });
+  });
 });
