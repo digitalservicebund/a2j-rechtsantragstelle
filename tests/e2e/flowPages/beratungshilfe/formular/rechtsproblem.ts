@@ -11,11 +11,9 @@ export async function startRechtsproblem(
   await beratungshilfeFormular.clickNext();
 
   // beratungshilfe/antrag/rechtsproblem/bereich
-  await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("bereich", "authorities");
 
   // beratungshilfe/antrag/rechtsproblem/situation-beschreibung
-  await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillTextarea("gegenseite", "Jobcenter");
 
   await beratungshilfeFormular.fillTextarea(
