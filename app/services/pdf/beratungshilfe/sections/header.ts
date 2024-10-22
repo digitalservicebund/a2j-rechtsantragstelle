@@ -1,8 +1,12 @@
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { BerHPdfFillFunction } from "..";
-import { newPageHint, type AttachmentEntries } from "../../attachment";
+import {
+  SEE_IN_ATTACHMENT_DESCRIPTION,
+  type AttachmentEntries,
+} from "../../attachment";
 import { checkboxListToString } from "../../checkboxListToString";
+import { maritalDescriptionMapping } from "../../shared/maritalDescriptionMapping";
 
 const weiteresEinkommenMapping = {
   unterhaltszahlungen: "Unterhaltszahlungen",
@@ -74,18 +78,10 @@ export const fillHeader: BerHPdfFillFunction = ({ userData, pdfValues }) => {
       ),
     });
 
-    pdfValues.berufErwerbstaetigkeit.value = newPageHint;
+    pdfValues.berufErwerbstaetigkeit.value = SEE_IN_ATTACHMENT_DESCRIPTION;
   }
   return { pdfValues, attachment };
 };
-
-const maritalDescriptionMapping = {
-  yes: "verheiratet / in eingetragener Lebenspartnerschaft",
-  no: "ledig",
-  separated: "getrennt",
-  widowed: "verwitwet",
-  "": "",
-} as const;
 
 const staatlicheLeistungMapping = {
   grundsicherung: "Grundsicherung",

@@ -1,5 +1,8 @@
 import { finanzielleAngabeEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
-import { type AttachmentEntries, newPageHint } from "~/services/pdf/attachment";
+import {
+  type AttachmentEntries,
+  SEE_IN_ATTACHMENT_DESCRIPTION,
+} from "~/services/pdf/attachment";
 import type { PkhPdfFillFunction } from "..";
 import { pdfFillReducer } from "../../fillOutFunction";
 
@@ -158,7 +161,7 @@ export const fillWeitereEinkuenfte: PkhPdfFillFunction = ({
     const attachment: AttachmentEntries = [];
     pdfValues[
       "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
-    ].value = newPageHint;
+    ].value = SEE_IN_ATTACHMENT_DESCRIPTION;
 
     attachment.push({ title: "2. Andere Einnahmen", level: "h3" });
     userData.weitereEinkuenfte.forEach((entry) => {

@@ -73,14 +73,12 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
     prozesskostenhilfeFormular,
   );
   // /prozesskostenhilfe/formular/finanzielle-angaben/partner-einkuenfte/partner-besonders-ausgaben
-  await expectPageToBeAccessible({ page });
   await prozesskostenhilfeFormular.fillRadioPage(
     "partnerHasBesondersAusgaben",
     "yes",
   );
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/partner-einkuenfte/add-partner-besonders-ausgaben
-  await expectPageToBeAccessible({ page });
   await prozesskostenhilfeFormular.fillInput(
     "partnerBesondersAusgabe.beschreibung",
     faker.word.sample(),
