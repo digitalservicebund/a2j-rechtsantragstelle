@@ -3,7 +3,7 @@ import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozessk
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { createFinancialEntry } from "tests/fixtures/prozesskostenhilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { newPageHint } from "~/services/pdf/attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import {
   fillAndereLeistungenPartner,
   fillBesondersHoheAusgabenPartner,
@@ -374,7 +374,7 @@ describe("bruttoEinnahmen_partner", () => {
         pdfValues[
           "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
         ].value,
-      ).toBe(newPageHint);
+      ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
       expect(attachment?.length).toBeGreaterThan(0);
       expect(attachment?.at(0)).toEqual({
         level: "h3",

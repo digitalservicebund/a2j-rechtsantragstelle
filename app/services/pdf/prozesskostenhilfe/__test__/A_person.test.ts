@@ -3,7 +3,7 @@ import {
   type ProzesskostenhilfePDF,
 } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
-import { newPageHint } from "../../attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../attachment";
 import { maritalDescriptionMapping } from "../../shared/maritalDescriptionMapping";
 import {
   ANSCHRIFT_FIELD_MAX_CHARS,
@@ -67,7 +67,9 @@ describe("A_person", () => {
         pdfValues: pdfParams,
       });
 
-      expect(pdfValues.nameVornameggfGeburtsname.value).toBe(newPageHint);
+      expect(pdfValues.nameVornameggfGeburtsname.value).toBe(
+        SEE_IN_ATTACHMENT_DESCRIPTION,
+      );
       expect(attachment?.at(1)?.title).toBe("Name, Vorname, ggf. Geburtsname");
       expect(attachment?.at(1)?.text).toBe(
         concatenateNameVornameString(userDataWithLongString),
@@ -98,7 +100,9 @@ describe("A_person", () => {
       pdfValues: pdfParams,
     });
 
-    expect(pdfValues.berufErwerbstaetigkeit.value).toBe(newPageHint);
+    expect(pdfValues.berufErwerbstaetigkeit.value).toBe(
+      SEE_IN_ATTACHMENT_DESCRIPTION,
+    );
     expect(attachment?.at(1)?.title).toBe("Beruf, Erwerbstätigkeit");
     expect(attachment?.at(1)?.text).toBe(userDataWithLongString.beruf);
   });
@@ -169,7 +173,7 @@ describe("A_person", () => {
     });
 
     expect(pdfValues.anschriftStrasseHausnummerPostleitzahlWohnort.value).toBe(
-      newPageHint,
+      SEE_IN_ATTACHMENT_DESCRIPTION,
     );
     expect(attachment?.at(1)?.title).toBe(
       "Anschrift (Straße, Hausnummer, Postleitzahl Wohnort)",
@@ -227,7 +231,7 @@ describe("A_person", () => {
         pdfValues
           .sofernvorhandenGesetzlicherVertreterNameVornameAnschriftTelefon
           .value,
-      ).toBe(newPageHint);
+      ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
       expect(attachment?.at(1)?.title).toBe("Gesetzlicher Vertreter");
       expect(attachment?.at(1)?.text).toBe(gesetzlicherVertreterStringLong);
     });
