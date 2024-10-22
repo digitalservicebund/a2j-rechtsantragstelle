@@ -574,4 +574,81 @@ describe("fluggastrechteGuard", () => {
       expect(actual).toBe(false);
     });
   });
+
+  describe("isErfolgAnalog", () => {
+    it("should return false given gericht as yes", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "ERF",
+        endAirport: "DRS",
+        fluggesellschaft: "LH",
+        gericht: "yes",
+      };
+
+      const actual = guards.isErfolgAnalog({
+        context,
+      });
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return true given two airports without partner court and airline in EU ", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "ERF",
+        endAirport: "DRS",
+        fluggesellschaft: "LH",
+        gericht: "no",
+      };
+
+      const actual = guards.isErfolgAnalog({
+        context,
+      });
+
+      expect(actual).toBe(true);
+    });
+
+    it("should return false given a start airport with pilot court ", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "BER",
+        endAirport: "DRS",
+        fluggesellschaft: "LH",
+        gericht: "no",
+      };
+
+      const actual = guards.isErfolgAnalog({
+        context,
+      });
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return false given an end airport with pilot court ", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "ERF",
+        endAirport: "BER",
+        fluggesellschaft: "LH",
+        gericht: "no",
+      };
+
+      const actual = guards.isErfolgAnalog({
+        context,
+      });
+
+      expect(actual).toBe(false);
+    });
+
+    it("should return false given no EU airline", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "ERF",
+        endAirport: "DRS",
+        fluggesellschaft: "DL",
+        gericht: "no",
+      };
+
+      const actual = guards.isErfolgAnalog({
+        context,
+      });
+
+      expect(actual).toBe(false);
+    });
+  });
 });

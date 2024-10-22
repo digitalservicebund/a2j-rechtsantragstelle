@@ -501,6 +501,10 @@
             "target": "ergebnis/erfolg-eu",
             "guard": "isErfolgEU"
           },
+          {
+            "target": "ergebnis/erfolg-analog",
+            "guard": "isErfolgAnalog"
+          },
           "ergebnis/erfolg"
         ]
       }
@@ -516,6 +520,11 @@
       }
     },
     "ergebnis/erfolg-eu": {
+      "on": {
+        "BACK": "gericht"
+      }
+    },
+    "ergebnis/erfolg-analog": {
       "on": {
         "BACK": "gericht"
       }

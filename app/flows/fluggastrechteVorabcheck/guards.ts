@@ -182,6 +182,23 @@ export const guards = {
 
     return false;
   },
+  isErfolgAnalog: ({
+    context: { startAirport, endAirport, gericht, fluggesellschaft },
+  }) => {
+    // If the case is already in court, it's not an Analog success
+    if (gericht === "yes") {
+      return false;
+    }
+
+    const hasStartAirportPartnerCourt = hasAirportPartnerCourt(startAirport);
+    const hasEndAirportPartnerCourt = hasAirportPartnerCourt(endAirport);
+
+    return (
+      !hasStartAirportPartnerCourt &&
+      !hasEndAirportPartnerCourt &&
+      isFluggesellschaftInEU(fluggesellschaft)
+    );
+  },
   ...yesNoGuards("verspaetung"),
   ...yesNoGuards("checkin"),
   ...yesNoGuards("gruende"),
