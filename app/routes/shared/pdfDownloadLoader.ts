@@ -27,7 +27,8 @@ const pdfConfigs = {
       `Antrag_Prozesskostenhilfe_${pdfDateFormat(today())}.pdf`,
   },
   "/fluggastrechte/formular": {
-    pdfFunction: fluggastrechtePdfFromUserdata,
+    pdfFunction: async (userData: Context) =>
+      fluggastrechtePdfFromUserdata(userData),
     filenameFunction: () =>
       `Fluggastrechte_Klage_${pdfDateFormat(today())}.pdf`,
   },

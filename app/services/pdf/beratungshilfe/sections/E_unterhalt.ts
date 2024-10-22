@@ -1,8 +1,10 @@
 import type { BerHPdfFillFunction } from "..";
-import type { AttachmentEntries } from "../../attachment";
+import {
+  SEE_IN_ATTACHMENT_DESCRIPTION,
+  type AttachmentEntries,
+} from "../../attachment";
 
 export const ATTACHMENT_DESCRIPTION_SECTION_E = "Feld E: Unterhaltszahlungen";
-export const SEE_IN_ATTACHMENT_DESCRIPTION = "Siehe Anhang";
 
 const familyRelationshipMap = {
   mother: "Meine Mutter",

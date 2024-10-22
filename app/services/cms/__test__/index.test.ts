@@ -73,6 +73,98 @@ describe("services/cms", () => {
       });
     });
 
+    test("overwrites formfields from staging", async () => {
+      vi.mocked(getStrapiEntry).mockResolvedValue([
+        {
+          attributes: strapiFlowPageFactory.build({
+            stepId: "step1",
+            form: [
+              strapiFormComponentFactory.build({
+                name: "formFieldForStepProd",
+              }),
+            ],
+          }),
+        },
+        {
+          attributes: strapiFlowPageFactory.build({
+            stepId: "step1",
+            locale: "sg",
+            form: [
+              strapiFormComponentFactory.build({ name: "formFieldForStage" }),
+            ],
+          }),
+        },
+      ]);
+
+      expect(await fetchAllFormFields("/beratungshilfe/antrag")).toStrictEqual({
+        step1: ["formFieldForStage"],
+      });
+    });
+
+    test("disregards staging formfields in production", async () => {
+      vi.mocked(getStrapiEntry).mockResolvedValue([
+        {
+          attributes: strapiFlowPageFactory.build({
+            stepId: "step1",
+            form: [
+              strapiFormComponentFactory.build({
+                name: "formFieldForStepProd",
+              }),
+            ],
+          }),
+        },
+        {
+          attributes: strapiFlowPageFactory.build({
+            stepId: "step2",
+            locale: "sg",
+            form: [
+              strapiFormComponentFactory.build({
+                name: "formFieldForStepStage",
+              }),
+            ],
+          }),
+        },
+      ]);
+
+      expect(
+        await fetchAllFormFields("/beratungshilfe/antrag", "production"),
+      ).toStrictEqual({
+        step1: ["formFieldForStepProd"],
+      });
+    });
+
+    test("adds staging steps when not in production", async () => {
+      vi.mocked(getStrapiEntry).mockResolvedValue([
+        {
+          attributes: strapiFlowPageFactory.build({
+            stepId: "step1",
+            locale: "de",
+            form: [
+              strapiFormComponentFactory.build({
+                name: "formFieldForStepProd",
+              }),
+            ],
+          }),
+        },
+        {
+          attributes: strapiFlowPageFactory.build({
+            stepId: "step2",
+            locale: "sg",
+            form: [
+              strapiFormComponentFactory.build({
+                name: "formFieldForStepStage",
+              }),
+            ],
+          }),
+        },
+      ]);
+
+      expect(await fetchAllFormFields("/beratungshilfe/antrag")).toStrictEqual({
+        step1: ["formFieldForStepProd"],
+        step2: ["formFieldForStepStage"],
+      });
+    });
+
     test("filters out steps without forms", async () => {
       vi.mocked(getStrapiEntry).mockResolvedValue([
         {
