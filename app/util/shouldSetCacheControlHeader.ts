@@ -5,13 +5,9 @@ const isFlowIdInPathname = (pathname: string): boolean => {
   return typeof flowId !== "undefined";
 };
 
-const isTrackingConsentSet = (loaderHeaders: Headers): boolean => {
-  return loaderHeaders.get("trackingConsentSet") === "true";
-};
-
 export const shouldSetCacheControlHeader = (
-  loaderHeaders: Headers,
+  pathname: string,
+  trackingConsent: string | undefined,
 ): boolean => {
-  const pathname = loaderHeaders.get("pathname") || "";
-  return isTrackingConsentSet(loaderHeaders) || isFlowIdInPathname(pathname);
+  return trackingConsent === "true" || isFlowIdInPathname(pathname);
 };
