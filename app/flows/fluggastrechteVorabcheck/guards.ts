@@ -32,13 +32,10 @@ export const guards = {
 
     return !isStartAirportEU && !isFluggesellschaftInEU(fluggesellschaft);
   },
-  isStartAirportNotEUAndFluggesellschaftSonstiges: ({
-    context: { startAirport, fluggesellschaft },
-  }) => {
-    const isStartAirportEU = isEuropeanUnionAirport(startAirport);
-
-    return !isStartAirportEU && fluggesellschaft === "sonstiges";
-  },
+  /**
+   * The functions isNotEligibleFluggesellschaftInEU and isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges
+   * go to the same page, but the logic are different, so keeping them in two different functions to test it properly
+   * */
   isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
@@ -52,6 +49,13 @@ export const guards = {
     }
 
     return isEndAirportEU && fluggesellschaft === "sonstiges";
+  },
+  isStartAirportNotEUAndFluggesellschaftSonstiges: ({
+    context: { startAirport, fluggesellschaft },
+  }) => {
+    const isStartAirportEU = isEuropeanUnionAirport(startAirport);
+
+    return !isStartAirportEU && fluggesellschaft === "sonstiges";
   },
   isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU: ({
     context: { startAirport, endAirport, fluggesellschaft },

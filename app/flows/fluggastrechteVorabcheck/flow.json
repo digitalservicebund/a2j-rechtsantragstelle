@@ -280,16 +280,16 @@
             "guard": "isNotEligibleFluggesellschaftInEU"
           },
           {
+            "target": "ergebnis/fluggesellschaft-nicht-eu-abbruch",
+            "guard": "isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU"
+          },
+          {
             "target": "ergebnis/fluggesellschaft-abbruch",
             "guard": "isStartAirportNotEUAndFluggesellschaftSonstiges"
           },
           {
             "target": "ergebnis/fluggesellschaft-abbruch-eu",
             "guard": "isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges"
-          },
-          {
-            "target": "ergebnis/fluggesellschaft-nicht-eu-abbruch-eu",
-            "guard": "isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU"
           },
           {
             "target": "checkin",

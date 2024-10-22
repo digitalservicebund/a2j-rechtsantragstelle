@@ -249,7 +249,7 @@ const cases = [
       "verjaehrung",
       "flughaefen",
       "fluggesellschaft",
-      "ergebnis/fluggesellschaft-nicht-eu-abbruch-eu",
+      "ergebnis/fluggesellschaft-nicht-eu-abbruch",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtVorabcheckContext>;
