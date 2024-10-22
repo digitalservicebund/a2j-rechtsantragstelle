@@ -53,7 +53,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy":
     "accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()",
-  ...(loaderHeaders.get("shouldCache") === "true" && {
+  ...(loaderHeaders.get("shouldNotCache") === "true" && {
     "Cache-Control": "no-store",
   }),
 });
@@ -125,7 +125,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     mainSessionFromCookieHeader(cookieHeader),
   ]);
 
-  const shouldCache = shouldSetCacheControlHeader(pathname, trackingConsent);
+  const shouldNotCache = shouldSetCacheControlHeader(pathname, trackingConsent);
 
   return json(
     {
@@ -148,7 +148,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
     },
-    { headers: { shouldCache: String(shouldCache) } },
+    { headers: { shouldNotCache: String(shouldNotCache) } },
   );
 };
 

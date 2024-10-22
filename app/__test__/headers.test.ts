@@ -25,12 +25,12 @@ describe("Headers", () => {
   });
 
   it("should not set Cache-Control header when shouldCache returns false", () => {
-    const loaderHeaders = mockHeaders({ shouldCache: "false" });
+    const loaderHeaders = mockHeaders({ shouldNotCache: "false" });
     expect(headers({ ...mockheaders, loaderHeaders })).toEqual(defaultHeaders);
   });
 
   it("should set Cache-Control header when shouldCache returns true", () => {
-    const loaderHeaders = mockHeaders({ shouldCache: "true" });
+    const loaderHeaders = mockHeaders({ shouldNotCache: "true" });
     expect(headers({ ...mockheaders, loaderHeaders })).toEqual({
       ...defaultHeaders,
       "Cache-Control": "no-store",
