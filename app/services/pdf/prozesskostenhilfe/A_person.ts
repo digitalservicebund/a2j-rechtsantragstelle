@@ -1,7 +1,7 @@
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import type { PkhPdfFillFunction } from "~/services/pdf/prozesskostenhilfe";
 import type { AttachmentEntries } from "../attachment";
-import { newPageHint } from "../attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
 import { maritalDescriptionMapping } from "../shared/maritalDescriptionMapping";
 
 export const GESETZLICHERVERTRETER_FIELD_MAX_CHARS = 80;
@@ -45,7 +45,7 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
       title: "Name, Vorname, ggf. Geburtsname",
       text: nameVornameString,
     });
-    pdfValues.nameVornameggfGeburtsname.value = newPageHint;
+    pdfValues.nameVornameggfGeburtsname.value = SEE_IN_ATTACHMENT_DESCRIPTION;
   } else {
     pdfValues.nameVornameggfGeburtsname.value = nameVornameString;
   }
@@ -55,7 +55,7 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
       title: "Beruf, Erwerbstätigkeit",
       text: userData.beruf,
     });
-    pdfValues.berufErwerbstaetigkeit.value = newPageHint;
+    pdfValues.berufErwerbstaetigkeit.value = SEE_IN_ATTACHMENT_DESCRIPTION;
   } else {
     pdfValues.berufErwerbstaetigkeit.value = userData.beruf;
   }
@@ -79,7 +79,8 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
       title: "Anschrift (Straße, Hausnummer, Postleitzahl Wohnort)",
       text: anschriftString,
     });
-    pdfValues.anschriftStrasseHausnummerPostleitzahlWohnort.value = newPageHint;
+    pdfValues.anschriftStrasseHausnummerPostleitzahlWohnort.value =
+      SEE_IN_ATTACHMENT_DESCRIPTION;
   } else {
     pdfValues.anschriftStrasseHausnummerPostleitzahlWohnort.value =
       anschriftString;
@@ -95,7 +96,7 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
       text: gesetzlicherVertreterString,
     });
     pdfValues.sofernvorhandenGesetzlicherVertreterNameVornameAnschriftTelefon.value =
-      newPageHint;
+      SEE_IN_ATTACHMENT_DESCRIPTION;
   } else {
     pdfValues.sofernvorhandenGesetzlicherVertreterNameVornameAnschriftTelefon.value =
       gesetzlicherVertreterString;
