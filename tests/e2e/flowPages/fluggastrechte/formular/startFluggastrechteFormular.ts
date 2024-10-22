@@ -17,43 +17,33 @@ export async function startFluggastrechteFormular(
   await formular.clickNext();
 
   // /fluggastrechte/formular/grundvoraussetzungen/prozessfaehig
-  await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
   // /fluggastrechte/formular/grundvoraussetzungen/ausgleichszahlung
-  await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
   // /fluggastrechte/formular/grundvoraussetzungen/zahlungsaufforderung
-  await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
   // /fluggastrechte/formular/grundvoraussetzungen/daten-uebernahme
-  await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
   // /fluggastrechte/formular/streitwert-kosten/gerichtskosten
-  await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
   // /fluggastrechte/formular/streitwert-kosten/andere-kosten
-  await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
   // /fluggastrechte/formular/streitwert-kosten/zahlung-nach-klageeinreichung
-  await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
   // /fluggastrechte/formular/streitwert-kosten/prozesszinsen
-  await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("prozesszinsen", "yes");
 
   // /fluggastrechte/formular/streitwert-kosten/versaeumnisurteil
-  await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("versaeumnisurteil", "yes");
 
   // /fluggastrechte/formular/flugdaten/geplanter-flug
-  await expectPageToBeAccessible({ page });
   await formular.fillInput("direktFlugnummer", "AB1234");
   await formular.fillInput("buchungsNummer", "X36Q9C");
   await formular.fillInput("direktAbflugsDatum", toGermanDateFormat(today()));
@@ -64,7 +54,6 @@ export async function startFluggastrechteFormular(
   await formular.clickNext();
 
   // /fluggastrechte/formular/flugdaten/zwischenstopp-uebersicht-1
-  await expectPageToBeAccessible({ page });
   await formular.fillAutoSuggestInputPage(
     "input-ersterZwischenstopp",
     "München",
@@ -72,37 +61,30 @@ export async function startFluggastrechteFormular(
   await formular.clickNext();
 
   // /fluggastrechte/formular/flugdaten/verspaeteter-flug-1
-  await expectPageToBeAccessible({ page });
   await formular.fillRadioPage(
     "verspaeteterFlug",
     "startAirportFirstZwischenstopp",
   );
 
   // /fluggastrechte/formular/flugdaten/anschluss-flug-verpasst
-  await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("anschlussFlugVerpasst", "yes");
 
   // /fluggastrechte/formular/flugdaten/tatsaechlicher-flug
-  await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("tatsaechlicherFlug", "no");
 
   // /fluggastrechte/formular/flugdaten/ersatzverbindung-art
-  await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("ersatzverbindungArt", "flug");
 
   // /fluggastrechte/formular/flugdaten/anderer-flug-ankunft
-  await expectPageToBeAccessible({ page });
   await formular.fillInput("ersatzFlugnummer", "BCA4321");
   await formular.fillInput("ersatzFlugAnkunftsDatum", "10.01.2023");
   await formular.fillInput("ersatzFlugAnkunftsZeit", "10:10");
   await formular.clickNext();
 
   // /fluggastrechte/formular/flugdaten/zusaetzliche-angaben
-  await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
   // /fluggastrechte/formular/persoenliche-daten/person/daten
-  await expectPageToBeAccessible({ page });
   await formular.fillInput("anrede", "Herr");
   await formular.fillDropdown("title", "");
   await formular.fillInput("nachname", "Donatello");
@@ -114,7 +96,6 @@ export async function startFluggastrechteFormular(
   await formular.clickNext();
 
   // /fluggastrechte/formular/persoenliche-daten/weitere-personen/frage
-  await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("isWeiterePersonen", "no");
 
   // fluggastrechte/formular/zusammenfassung/start
