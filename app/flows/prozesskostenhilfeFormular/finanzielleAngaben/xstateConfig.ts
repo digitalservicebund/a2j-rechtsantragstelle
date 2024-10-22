@@ -6,7 +6,7 @@ import { einkuenfteDone } from "./einkuenfte/doneFunctions";
 import { partnerEinkuenfteGuards } from "./einkuenfte/guards";
 import { getProzesskostenhilfeEinkuenfteSubflow } from "./einkuenfte/xStateConfig";
 
-export const finanzielleAnagebenXstateConfig = {
+export const finanzielleAngabenXstateConfig = {
   initial: "einkuenfte",
   id: "finanzielle-angaben",
   states: {
