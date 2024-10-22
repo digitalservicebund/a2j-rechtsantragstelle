@@ -2,9 +2,9 @@ import {
   COMPENSATION_VALUE_600,
   COMPENSATION_VALUE_400,
   COMPENSATION_VALUE_250,
-  getCompensantionPaymentString,
+  getCompensationPaymentString,
   getEndAirportName,
-  getLastDaytFromFourYearsAgoDate,
+  getLastDayFromFourYearsAgoDate,
   getStartAirportName,
   hasArbitrationBoardBfJ,
   hasArbitrationBoardSoeP,
@@ -25,11 +25,11 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-describe("getCompensantionPaymentString", () => {
+describe("getCompensationPaymentString", () => {
   it("should return compensation value 200, if the distance is until 1500", () => {
     mockedGetRouteCompensationBetweenAirports.mockReturnValue("shortDistance");
 
-    const actual = getCompensantionPaymentString({});
+    const actual = getCompensationPaymentString({});
 
     expect(actual).toStrictEqual({
       compensationPayment: COMPENSATION_VALUE_250,
@@ -39,7 +39,7 @@ describe("getCompensantionPaymentString", () => {
   it("should return compensation value 400, if the distance is until 3500", () => {
     mockedGetRouteCompensationBetweenAirports.mockReturnValue("middleDistance");
 
-    const actual = getCompensantionPaymentString({});
+    const actual = getCompensationPaymentString({});
 
     expect(actual).toStrictEqual({
       compensationPayment: COMPENSATION_VALUE_400,
@@ -51,7 +51,7 @@ describe("getCompensantionPaymentString", () => {
       "longDistanceInsideEU",
     );
 
-    const actual = getCompensantionPaymentString({});
+    const actual = getCompensationPaymentString({});
 
     expect(actual).toStrictEqual({
       compensationPayment: COMPENSATION_VALUE_400,
@@ -63,36 +63,36 @@ describe("getCompensantionPaymentString", () => {
       "longDistanceOutsideEU",
     );
 
-    const actual = getCompensantionPaymentString({});
+    const actual = getCompensationPaymentString({});
 
     expect(actual).toStrictEqual({
       compensationPayment: COMPENSATION_VALUE_600,
     });
   });
 
-  it("should return empty object, if the distance calculatesd returns notPossibleCalculateDistance", () => {
+  it("should return empty object, if the distance calculated returns notPossibleCalculateDistance", () => {
     mockedGetRouteCompensationBetweenAirports.mockReturnValue(
       "notPossibleCalculateDistance",
     );
 
-    const actual = getCompensantionPaymentString({});
+    const actual = getCompensationPaymentString({});
 
     expect(actual).toStrictEqual({});
   });
 });
 
-describe("getLastDaytFromFourYearsAgoDate", () => {
+describe("getLastDayFromFourYearsAgoDate", () => {
   it("should return the last of the year from 4 years ago from 2026.01.01", () => {
     vi.useFakeTimers().setSystemTime(new Date("2026-01-01"));
 
-    const actual = getLastDaytFromFourYearsAgoDate();
+    const actual = getLastDayFromFourYearsAgoDate();
     expect(actual).toBe("31.12.2022");
   });
 
   it("should return the last of the year from 4 years ago from 2024.01.01", () => {
     vi.useFakeTimers().setSystemTime(new Date("2024-01-01"));
 
-    const actual = getLastDaytFromFourYearsAgoDate();
+    const actual = getLastDayFromFourYearsAgoDate();
     expect(actual).toBe("31.12.2020");
   });
 });
