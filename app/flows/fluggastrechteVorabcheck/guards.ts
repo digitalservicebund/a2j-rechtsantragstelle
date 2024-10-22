@@ -26,13 +26,6 @@ export const guards = {
     );
     return distance.isErr;
   },
-  isNotEligibleFluggesellschaftInEU: ({
-    context: { startAirport, fluggesellschaft },
-  }) => {
-    const isStartAirportEU = isEuropeanUnionAirport(startAirport);
-
-    return !isStartAirportEU && !isFluggesellschaftInEU(fluggesellschaft);
-  },
   isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftNotEU: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
@@ -88,13 +81,6 @@ export const guards = {
       !hasEndAirportPartnerCourt &&
       fluggesellschaft === "sonstiges"
     );
-  },
-  isStartAirportNotEUAndFluggesellschaftSonstiges: ({
-    context: { startAirport, fluggesellschaft },
-  }) => {
-    const isStartAirportEU = isEuropeanUnionAirport(startAirport);
-
-    return !isStartAirportEU && fluggesellschaft === "sonstiges";
   },
   isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges: ({
     context: { startAirport, endAirport, fluggesellschaft },

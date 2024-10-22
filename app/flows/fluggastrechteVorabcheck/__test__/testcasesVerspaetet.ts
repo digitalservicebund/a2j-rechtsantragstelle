@@ -123,8 +123,8 @@ const cases = [
       verspaetung: "yes",
       gruende: "yes",
       verjaehrung: "yes",
-      startAirport: "JFK",
-      endAirport: "BER",
+      startAirport: "ERF",
+      endAirport: "DRS",
       fluggesellschaft: "DL",
     },
     [
@@ -145,8 +145,8 @@ const cases = [
       verspaetung: "yes",
       gruende: "yes",
       verjaehrung: "yes",
-      startAirport: "JFK",
-      endAirport: "BER",
+      startAirport: "ERF",
+      endAirport: "DRS",
       fluggesellschaft: "sonstiges",
     },
     [

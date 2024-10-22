@@ -394,8 +394,8 @@ const cases = [
       vertretbareGruendeAnnullierung: "yes",
       verjaehrung: "yes",
       ersatzflug: "no",
-      startAirport: "JFK",
-      endAirport: "BER",
+      startAirport: "ERF",
+      endAirport: "DRS",
       fluggesellschaft: "DL",
     },
     [
@@ -418,8 +418,8 @@ const cases = [
       vertretbareGruendeAnnullierung: "yes",
       verjaehrung: "yes",
       ersatzflug: "no",
-      startAirport: "JFK",
-      endAirport: "BER",
+      startAirport: "ERF",
+      endAirport: "DRS",
       fluggesellschaft: "sonstiges",
     },
     [
