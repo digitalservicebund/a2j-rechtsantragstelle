@@ -145,23 +145,26 @@ The current testing strategy is documented as described above. This ADR serves a
 
 ## Consequences
 
-### Positive
+### We want to:
 
-Provides a clear understanding of the current testing strategy.
+#### Unit tests
 
-### Negative
+- Add test that verify field names from strapi match app schema.
+- Add accessibility tests for individual React components.
+- Add tests for failing form validations.
 
-May reveal gaps and areas for improvement in the testing strategy (this might also be considered a positive consequence).
+#### Integration tests
 
-### Action Items
+- Cover all possible paths of each flow with our `/app/flows/__test__/flows.test.ts` integration tests.
+- Improve log output of failing tests in `/app/flows/__test__/flows.test.ts`.
+
+#### End-to-End tests
+
+- Only test the shortest path (including pdf download) of each flow in the e2e tests.
+- Add other device types and browsers in our e2e tests.
+
+#### General
 
 - Change pre-commit vitest test runs to pre-push.
 - Replace or remove fishery package, since it has not been updated for 3 years.
 - Spike to improve application security testing.
-- Cover all possible paths of each flow with our `/app/flows/__test__/flows.test.ts` integration tests.
-- Improve log output of failing tests in `/app/flows/__test__/flows.test.ts`.
-- Only test the shortest path (including pdf download) of each flow in the e2e tests.
-- Add other device types and browsers in our e2e tests.
-- Add test that verify field names from strapi match app schema.
-- Add accessibility tests for individual React components.
-- Add tests for failing form validations.
