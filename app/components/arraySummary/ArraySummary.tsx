@@ -40,41 +40,42 @@ const ArraySummary = ({
     translations[`${category}.description`];
   const nextItemIndex = String(arrayData.data.length);
   const { url, initialInputUrl } = arrayData.arrayConfiguration;
-
-  const headingTitleTagNameItem = titleHeading.trim().length > 0 ? "h3" : "h2";
+  const hasTitleHeading = titleHeading.trim().length > 0;
 
   return (
-    <div className="ds-stack-8 scroll-my-40 mb-24">
-      {titleHeading.trim().length > 0 && (
-        <Heading
-          dataTestid="array-summary-title"
-          text={titleHeading}
-          tagName="h2"
-          look="ds-heading-03-bold"
-        />
-      )}
-      {description && <RichText markdown={description} />}
-      <div className="space-y-32">
-        {arrayData.data.map((items, index) => (
-          <ArraySummaryDataItems
-            key={`${subtitle}_${index}`}
-            configuration={arrayData.arrayConfiguration}
-            itemIndex={index}
-            items={items}
-            category={category}
-            csrf={csrf}
-            headingTitleTagNameItem={headingTitleTagNameItem}
-            translations={translations}
+    <div>
+      <div className="ds-stack-8">
+        {hasTitleHeading && (
+          <Heading
+            dataTestid="array-summary-title"
+            text={titleHeading}
+            tagName="h2"
+            look="ds-heading-03-bold"
           />
-        ))}
-        <Button
-          look="primary"
-          size="small"
-          className="hover:shadow-none "
-          iconLeft={<AddButton />}
-          data-testid={`add-${category}`}
-          href={`${url}/${Number(nextItemIndex)}/${initialInputUrl}`}
-        >{`${subtitle} ${addButtonText}`}</Button>
+        )}
+        {description && <RichText markdown={description} />}
+        <div className="space-y-32">
+          {arrayData.data.map((items, index) => (
+            <ArraySummaryDataItems
+              key={`${subtitle}_${index}`}
+              configuration={arrayData.arrayConfiguration}
+              itemIndex={index}
+              items={items}
+              category={category}
+              csrf={csrf}
+              headingTitleTagNameItem={hasTitleHeading ? "h3" : "h2"}
+              translations={translations}
+            />
+          ))}
+          <Button
+            look="primary"
+            size="small"
+            className="hover:shadow-none "
+            iconLeft={<AddButton />}
+            data-testid={`add-${category}`}
+            href={`${url}/${Number(nextItemIndex)}/${initialInputUrl}`}
+          >{`${subtitle} ${addButtonText}`}</Button>
+        </div>
       </div>
     </div>
   );

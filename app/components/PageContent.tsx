@@ -25,6 +25,7 @@ import LinkListBox from "./LinkListBox";
 import List from "./List";
 import RichText from "./RichText";
 import { keyFromElement } from "../services/cms/keyFromElement";
+import { el } from "@faker-js/faker";
 
 function wrapInContainer(
   cmsData: StrapiContentComponent,
@@ -103,14 +104,16 @@ function PageContent({
   if (content.length === 0) return <></>;
   return (
     <div className={className}>
-      {content.map((el) => (
-        <div key={keyFromElement(el)}>
-          {wrapInBackground(
-            el,
-            wrapInContainer(el, cmsToReact(el), fullScreen),
-          )}
-        </div>
-      ))}
+      {content
+        .filter((el) => el.__component !== "page.array-summary")
+        .map((el) => (
+          <div key={keyFromElement(el)}>
+            {wrapInBackground(
+              el,
+              wrapInContainer(el, cmsToReact(el), fullScreen),
+            )}
+          </div>
+        ))}
     </div>
   );
 }
