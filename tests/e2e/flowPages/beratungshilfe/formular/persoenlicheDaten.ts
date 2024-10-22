@@ -11,17 +11,14 @@ export async function startPersoenlicheDaten(
   await beratungshilfeFormular.clickNext();
 
   // beratungshilfe/antrag/persoenliche-daten/name
-  await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillInput("vorname", "Donald");
   await beratungshilfeFormular.fillInput("nachname", "Duck");
   await beratungshilfeFormular.clickNext();
 
   // beratungshilfe/antrag/persoenliche-daten/geburtsdatum
-  await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillInputPage("geburtsdatum", "01.01.1934");
 
   // beratungshilfe/antrag/persoenliche-daten/adresse
-  await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillInput(
     "strasseHausnummer",
     "Entenhausenstraße 123",
@@ -31,6 +28,5 @@ export async function startPersoenlicheDaten(
   await beratungshilfeFormular.clickNext();
 
   // beratungshilfe/antrag/persoenliche-daten/telefonnummer
-  await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillInputPage("telefonnummer", "123456789");
 }

@@ -1,4 +1,3 @@
-import { Result } from "true-myth";
 import { getAirportByIataCode } from "./getAirportByIataCode";
 
 const EU_COUNTRIES = [
@@ -39,16 +38,16 @@ const EU_COUNTRIES = [
 
 export function isEuropeanUnionAirport(
   airportCode: string | undefined,
-): Result<boolean, string> {
+): boolean {
   if (typeof airportCode === "undefined") {
-    return Result.err("Airport not found");
+    return false;
   }
 
   const airportCountry = getAirportByIataCode(airportCode)?.country_code;
 
   if (typeof airportCountry === "undefined") {
-    return Result.err("Airport not found");
+    return false;
   }
 
-  return Result.ok(EU_COUNTRIES.includes(airportCountry));
+  return EU_COUNTRIES.includes(airportCountry);
 }

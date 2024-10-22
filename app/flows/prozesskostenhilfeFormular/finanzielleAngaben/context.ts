@@ -3,7 +3,7 @@ import { duplicateContext } from "~/flows/common";
 import {
   besondereBelastungenSchema,
   bankkontenArraySchema,
-  gelanlagenArraySchema,
+  geldanlagenArraySchema,
   grundeigentumArraySchema,
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
@@ -50,7 +50,7 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   hasKraftfahrzeug: YesNoAnswer,
   kraftfahrzeuge: kraftfahrzeugeArraySchema,
   hasGeldanlage: YesNoAnswer,
-  geldanlagen: gelanlagenArraySchema,
+  geldanlagen: geldanlagenArraySchema,
   hasGrundeigentum: YesNoAnswer,
   grundeigentum: grundeigentumArraySchema,
   hasWertsache: YesNoAnswer,
