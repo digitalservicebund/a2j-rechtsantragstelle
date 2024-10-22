@@ -36,27 +36,6 @@ export const guards = {
    * The functions isNotEligibleFluggesellschaftInEU and isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges
    * go to the same page, but the logic are different, so keeping them in two different functions to test it properly
    * */
-  isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges: ({
-    context: { startAirport, endAirport, fluggesellschaft },
-  }) => {
-    const isStartAirportGerman = isGermanAirport(startAirport);
-    const isEndAirportGerman = isGermanAirport(endAirport);
-
-    const isEndAirportEU = isEuropeanUnionAirport(endAirport);
-
-    if (isStartAirportGerman || isEndAirportGerman) {
-      return false;
-    }
-
-    return isEndAirportEU && fluggesellschaft === "sonstiges";
-  },
-  isStartAirportNotEUAndFluggesellschaftSonstiges: ({
-    context: { startAirport, fluggesellschaft },
-  }) => {
-    const isStartAirportEU = isEuropeanUnionAirport(startAirport);
-
-    return !isStartAirportEU && fluggesellschaft === "sonstiges";
-  },
   isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
@@ -70,6 +49,27 @@ export const guards = {
     }
 
     return isEndAirportEU && !isFluggesellschaftInEU(fluggesellschaft);
+  },
+  isStartAirportNotEUAndFluggesellschaftSonstiges: ({
+    context: { startAirport, fluggesellschaft },
+  }) => {
+    const isStartAirportEU = isEuropeanUnionAirport(startAirport);
+
+    return !isStartAirportEU && fluggesellschaft === "sonstiges";
+  },
+  isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges: ({
+    context: { startAirport, endAirport, fluggesellschaft },
+  }) => {
+    const isStartAirportGerman = isGermanAirport(startAirport);
+    const isEndAirportGerman = isGermanAirport(endAirport);
+
+    const isEndAirportEU = isEuropeanUnionAirport(endAirport);
+
+    if (isStartAirportGerman || isEndAirportGerman) {
+      return false;
+    }
+
+    return isEndAirportEU && fluggesellschaft === "sonstiges";
   },
   areAirportsOutsideEU: ({ context }) => {
     const isStartAirportEU = isEuropeanUnionAirport(context.startAirport);
