@@ -18,6 +18,8 @@ export const Eigentuemer = z.enum(
   customRequiredErrorMessage,
 );
 
+export type Eigentumer = z.infer<typeof Eigentuemer>;
+
 const MINUS_150_YEARS = -150;
 
 export const GrundeigentumArt = z.enum(
@@ -60,6 +62,8 @@ export const staatlicheLeistungen = z.enum(
   customRequiredErrorMessage,
 );
 
+export type BankkontenArraySchema = z.infer<typeof bankkontenArraySchema>;
+
 export const bankkontenArraySchema = z.array(
   z.object({
     bankName: stringRequiredSchema,
@@ -86,6 +90,10 @@ export const kraftfahrzeugWert = z.enum(
   customRequiredErrorMessage,
 );
 
+export type KraftfahrzeugeArraySchema = z.infer<
+  typeof kraftfahrzeugeArraySchema
+>;
+
 export const kraftfahrzeugeArraySchema = z.array(
   z
     .object({
@@ -106,9 +114,9 @@ export const kraftfahrzeugeArraySchema = z.array(
     .partial(),
 );
 
-export type GeldanlagenArraySchema = z.infer<typeof gelanlagenArraySchema>;
+export type GeldanlagenArraySchema = z.infer<typeof geldanlagenArraySchema>;
 
-export const gelanlagenArraySchema = z.array(
+export const geldanlagenArraySchema = z.array(
   z
     .object({
       art: z.enum(
@@ -161,6 +169,8 @@ export const grundeigentumArraySchema = z.array(
     })
     .partial(),
 );
+
+export type WertsachenArraySchema = z.infer<typeof wertsachenArraySchema>;
 
 export const wertsachenArraySchema = z.array(
   z.object({

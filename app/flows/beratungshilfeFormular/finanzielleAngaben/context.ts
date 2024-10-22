@@ -2,7 +2,7 @@ import { z } from "zod";
 import {
   besondereBelastungenSchema,
   bankkontenArraySchema,
-  gelanlagenArraySchema,
+  geldanlagenArraySchema,
   grundeigentumArraySchema,
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
@@ -56,7 +56,7 @@ export const beratungshilfeFinanzielleAngaben = {
   hasKraftfahrzeug: YesNoAnswer,
   kraftfahrzeuge: kraftfahrzeugeArraySchema,
   hasGeldanlage: YesNoAnswer,
-  geldanlagen: gelanlagenArraySchema,
+  geldanlagen: geldanlagenArraySchema,
   eigentumTotalWorth: z.enum(
     ["less10000", "more10000", "unsure"],
     customRequiredErrorMessage,

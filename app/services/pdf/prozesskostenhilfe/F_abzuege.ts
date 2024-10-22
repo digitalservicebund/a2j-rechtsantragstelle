@@ -4,7 +4,7 @@ import { getTotalMonthlyFinancialEntries } from "~/services/pdf/util";
 import type { PkhPdfFillFunction } from ".";
 import type { AttachmentEntries } from "../attachment";
 import { zahlungsfrequenzMapping } from "./E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
 
 export const versicherungMapping = {
   haftpflichtversicherung: "Haftpflichtversicherung",
