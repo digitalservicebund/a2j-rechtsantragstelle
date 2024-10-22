@@ -11,6 +11,7 @@ describe("getSummaryData", () => {
   const bankkontenUrl =
     "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/bankkonten";
   const addBankkonten = "add-bankkonten";
+
   it("returns correct configuration when only one category is given", () => {
     const mockArrayConfig = {
       bankkonten: {
@@ -21,7 +22,7 @@ describe("getSummaryData", () => {
       },
     } satisfies Record<string, ArrayConfig>;
 
-    const mockUserData = { ...happyPathData, hasBankkonto: "yes" };
+    const mockUserData = { hasBankkonto: "yes" };
 
     const actual = getSummaryData(
       ["bankkonten"],
@@ -31,10 +32,7 @@ describe("getSummaryData", () => {
     const expected = {
       bankkonten: {
         data: [],
-        arrayConfiguration: {
-          ...mockArrayConfig["bankkonten"],
-          statementValue: true,
-        },
+        arrayConfiguration: mockArrayConfig["bankkonten"],
       },
     };
 
@@ -57,7 +55,11 @@ describe("getSummaryData", () => {
       },
     } satisfies Record<string, ArrayConfig>;
 
-    const mockUserData = { ...happyPathData, hasBankkonto: "yes" };
+    const mockUserData = {
+      ...happyPathData,
+      hasBankkonto: "yes",
+      hasKraftfahrzeug: "yes",
+    };
 
     const actual = getSummaryData(
       ["bankkonten", "kraftfahrzeuge"],
@@ -67,17 +69,11 @@ describe("getSummaryData", () => {
     const expected = {
       bankkonten: {
         data: [],
-        arrayConfiguration: {
-          ...mockArrayConfig["bankkonten"],
-          statementValue: true,
-        },
+        arrayConfiguration: mockArrayConfig["bankkonten"],
       },
       kraftfahrzeuge: {
         data: [],
-        arrayConfiguration: {
-          ...mockArrayConfig["kraftfahrzeuge"],
-          statementValue: false,
-        },
+        arrayConfiguration: mockArrayConfig["kraftfahrzeuge"],
       },
     };
 
@@ -104,13 +100,27 @@ describe("getSummaryData", () => {
     const expected = {
       bankkonten: {
         data: [],
-        arrayConfiguration: {
-          ...mockArrayConfig["bankkonten"],
-          statementValue: true,
-        },
+        arrayConfiguration: mockArrayConfig["bankkonten"],
       },
     };
 
     expect(actual).toEqual(expected);
+  });
+
+  it("should not return the config when statement is not true", () => {
+    expect(
+      getSummaryData(
+        ["bankkonten"],
+        {
+          bankkonten: {
+            url: bankkontenUrl,
+            event: addBankkonten,
+            initialInputUrl: "daten",
+            statementKey: "hasBankkonto",
+          },
+        },
+        { hasBankkonto: "no" },
+      ),
+    ).toEqual({});
   });
 });
