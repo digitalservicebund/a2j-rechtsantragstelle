@@ -55,6 +55,26 @@ describe("navStates", () => {
 
       expect(actual).toBe(true);
     });
+
+    it("should return true given isWeiterePersonen yes and weiterePersonen with buchungsnummer", () => {
+      const actual = weiterePersonenDone({
+        context: {
+          isWeiterePersonen: "yes",
+          weiterePersonen: [
+            {
+              title: "",
+              ...DEFAULT_WEITERE_PERSONEN_DATA,
+            },
+            {
+              buchungsnummer: "1234567",
+              ...DEFAULT_WEITERE_PERSONEN_DATA,
+            },
+          ],
+        },
+      });
+
+      expect(actual).toBe(true);
+    });
   });
 
   describe("personDone", () => {
