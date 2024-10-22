@@ -17,9 +17,6 @@ export const finanzielleAngabenXstateConfig = {
       meta: {
         done: partnerDone,
       },
-      on: {
-        SUBMIT: "#kinder",
-      },
       states: {
         partnerschaft: {
           on: {
@@ -35,6 +32,7 @@ export const finanzielleAngabenXstateConfig = {
                 guard: "hasPartnerschaftYes",
                 target: "zusammenleben",
               },
+              "#kinder",
             ],
           },
         },
@@ -46,10 +44,7 @@ export const finanzielleAngabenXstateConfig = {
                 guard: "zusammenlebenYes",
                 target: "partner-einkommen",
               },
-              {
-                guard: "zusammenlebenNo",
-                target: "unterhalt",
-              },
+              "unterhalt",
             ],
           },
         },
@@ -61,10 +56,7 @@ export const finanzielleAngabenXstateConfig = {
                 guard: "unterhaltYes",
                 target: "unterhalts-summe",
               },
-              {
-                guard: "unterhaltNo",
-                target: "keine-rolle",
-              },
+              "keine-rolle",
             ],
           },
         },
@@ -94,10 +86,7 @@ export const finanzielleAngabenXstateConfig = {
                 guard: "partnerEinkommenYes",
                 target: "#partner-einkuenfte",
               },
-              {
-                guard: "partnerEinkommenNo",
-                target: "#kinder",
-              },
+              "#kinder",
             ],
           },
         },
