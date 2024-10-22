@@ -33,7 +33,7 @@ export const guards = {
     return !isStartAirportEU && !isFluggesellschaftInEU(fluggesellschaft);
   },
   /**
-   * The functions isNotEligibleFluggesellschaftInEU and isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges
+   * The functions isNotEligibleFluggesellschaftInEU and isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU
    * go to the same page, but the logic are different, so keeping them in two different functions to test it properly
    * */
   isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU: ({
