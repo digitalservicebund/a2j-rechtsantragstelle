@@ -5,6 +5,7 @@ import { fillRechtsschutzversicherung } from "~/services/pdf/prozesskostenhilfe/
 import { fillAngehoerige } from "~/services/pdf/prozesskostenhilfe/D_angehoerige";
 import { fillSelfBruttoEinnahmen } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
 import { fillBruttoEinnahmenPartner } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_partner";
+import { fillEigentum } from "~/services/pdf/prozesskostenhilfe/G_eigentum";
 import { fillGrundvoraussetzungen } from "~/services/pdf/prozesskostenhilfe/grundvoraussetzungen";
 import { fillAbzuege } from "./F_abzuege";
 import { fillZahlungsverpflichtungen } from "./I_zahlungsverpflichtungen";
@@ -37,6 +38,7 @@ export async function prozesskostenhilfePdfFromUserdata(
       fillSelfBruttoEinnahmen,
       fillBruttoEinnahmenPartner,
       fillAbzuege,
+      fillEigentum,
       fillBelastungen,
       fillZahlungsverpflichtungen,
     ],
