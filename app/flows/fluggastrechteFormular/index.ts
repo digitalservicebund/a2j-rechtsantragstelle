@@ -2,7 +2,7 @@ import _ from "lodash";
 import type { AllContextKeys } from "~/flows/common";
 import type { Flow } from "~/flows/flows.server";
 import type { ArrayConfig } from "~/services/array";
-import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
+import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import abgabeFlow from "./abgabe/flow.json";
 import type { FluggastrechtContext } from "./context";
 import { flugdatenDone } from "./flugdaten/doneFunctions";
@@ -21,26 +21,43 @@ import {
   getAirlineName,
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
+  getFirstZwischenstoppAirportName,
   getPersonNachname,
   getPersonVorname,
+  getSecondZwischenstoppAirportName,
   getStartAirportName,
+  getThirdZwischenstoppAirportName,
   getWeiterePersonenNameStrings,
+  isAnnullierung,
+  isNichtBefoerderung,
+  isVerspaetet,
 } from "./stringReplacements";
 import zusammenfassungFlow from "./zusammenfassung/flow.json";
 
 const flowTransitionConfig: FlowTransitionConfig = {
-  targetFlowId: "/fluggastrechte/formular",
   sourceFlowId: "/fluggastrechte/vorabcheck",
-  eligibleSourcePages: [
-    "ergebnis/erfolg",
-    "ergebnis/erfolg-kontakt",
-    "ergebnis/erfolg-gericht",
-  ],
+  eligibleSourcePages: ["ergebnis/erfolg"],
 };
 
 export const fluggastrechtFlow = {
   cmsSlug: "form-flow-pages",
-  migrationSource: "/fluggastrechte/vorabcheck",
+  migration: {
+    source: "/fluggastrechte/vorabcheck",
+    sortedFields: [
+      "bereich",
+      "startAirport",
+      "endAirport",
+      "fluggesellschaft",
+      "zustaendigesAmtsgericht",
+      "ankuendigung",
+      "ersatzflug",
+      "ersatzflugStartenEinStunde",
+      "ersatzflugLandenZweiStunden",
+      "ersatzflugStartenZweiStunden",
+      "ersatzflugLandenVierStunden",
+    ],
+    buttonUrl: "/fluggastrechte/vorabcheck/start",
+  },
   stringReplacements: (context: FluggastrechtContext) => ({
     ...getStartAirportName(context),
     ...getEndAirportName(context),
@@ -49,6 +66,12 @@ export const fluggastrechtFlow = {
     ...getArrayWeiterePersonenIndexStrings(context),
     ...getWeiterePersonenNameStrings(context),
     ...getAirlineName(context),
+    ...getFirstZwischenstoppAirportName(context),
+    ...getSecondZwischenstoppAirportName(context),
+    ...getThirdZwischenstoppAirportName(context),
+    ...isVerspaetet(context),
+    ...isNichtBefoerderung(context),
+    ...isAnnullierung(context),
   }),
   config: {
     meta: {
@@ -75,8 +98,10 @@ export const fluggastrechtFlow = {
           start: {
             on: {
               SUBMIT: "#grundvoraussetzungen.prozessfaehig",
+              BACK: "redirect-vorabcheck-ergebnis",
             },
           },
+          "redirect-vorabcheck-ergebnis": { on: {} },
         },
       },
       grundvoraussetzungen: _.merge(grundvoraussetzungenFlow, {

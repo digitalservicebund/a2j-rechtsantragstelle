@@ -1,3 +1,4 @@
+import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -24,7 +25,7 @@ describe("createPageFooter", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createPageFooter(mockDoc, mockStruct);
+    createPageFooter(mockDoc, mockStruct, userDataMock);
 
     expect(createBankInformation).toBeCalledTimes(1);
   });
@@ -33,7 +34,7 @@ describe("createPageFooter", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createPageFooter(mockDoc, mockStruct);
+    createPageFooter(mockDoc, mockStruct, userDataMock);
 
     expect(createPageNumber).toBeCalledTimes(1);
   });
@@ -42,7 +43,7 @@ describe("createPageFooter", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createPageFooter(mockDoc, mockStruct);
+    createPageFooter(mockDoc, mockStruct, userDataMock);
 
     expect(createStamp).toBeCalledTimes(1);
   });

@@ -1,3 +1,4 @@
+import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -27,7 +28,7 @@ describe("createSecondPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createSecondPage(mockDoc, mockStruct);
+    createSecondPage(mockDoc, mockStruct, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(REASON_TITLE_TEXT, {
       align: "left",
@@ -38,7 +39,7 @@ describe("createSecondPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createSecondPage(mockDoc, mockStruct);
+    createSecondPage(mockDoc, mockStruct, userDataMock);
 
     expect(createFactsOfCases).toBeCalledTimes(1);
   });
@@ -47,17 +48,17 @@ describe("createSecondPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createSecondPage(mockDoc, mockStruct);
+    createSecondPage(mockDoc, mockStruct, userDataMock);
 
     expect(createPageFooter).toBeCalledTimes(1);
-    expect(createPageFooter).toBeCalledWith(mockDoc, mockStruct);
+    expect(createPageFooter).toBeCalledWith(mockDoc, mockStruct, userDataMock);
   });
 
   it("should call the addTable for the creation of the second page", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createSecondPage(mockDoc, mockStruct);
+    createSecondPage(mockDoc, mockStruct, userDataMock);
 
     expect(addTable).toBeCalledTimes(1);
   });
@@ -66,7 +67,7 @@ describe("createSecondPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createSecondPage(mockDoc, mockStruct);
+    createSecondPage(mockDoc, mockStruct, userDataMock);
 
     expect(createLastSentences).toBeCalledTimes(1);
   });

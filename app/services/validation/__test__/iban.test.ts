@@ -5,14 +5,14 @@ describe("iban validation", () => {
   describe("success cases", () => {
     const cases = [
       {
-        input: " DE 91 1000 0000 0123456789",
+        input: " De 91 1000 0000 0123456789",
         expected: "DE91100000000123456789",
       },
       {
         input: " DE 91 1000 0000 0123456789 ",
         expected: "DE91100000000123456789",
       },
-      { input: "DE91100000000123456789 ", expected: "DE91100000000123456789" },
+      { input: "de91100000000123456789 ", expected: "DE91100000000123456789" },
       { input: " DE91100000000123456789 ", expected: "DE91100000000123456789" },
       {
         input: "KW81CBKU0000000000001234560101",

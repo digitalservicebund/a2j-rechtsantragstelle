@@ -38,6 +38,8 @@ const allowedWebsites = [
   "https://policies.google.com",
   "https://app.formbricks.com",
   "https://formbricks.com",
+  "https://transport.ec.europa.eu",
+  "www.schlichtung-reise-und-verkehr.de",
 ];
 
 const allowedEmails = [

@@ -417,6 +417,10 @@
           "on": {
             "BACK": [
               {
+                "guard": "eigentumYesAndEmptyArray",
+                "target": "#eigentum-zusammenfassung.warnung"
+              },
+              {
                 "guard": "eigentumDone",
                 "target": "#eigentum-zusammenfassung.zusammenfassung"
               },
@@ -424,7 +428,7 @@
             ],
             "SUBMIT": [
               { "guard": "hasAusgabenYes", "target": "besondere-belastungen" },
-              "#persoenliche-daten"
+              "#gesetzliche-vertretung"
             ]
           }
         },
@@ -436,7 +440,7 @@
                 "guard": "ausgabenDone",
                 "target": "#ausgaben-zusammenfassung"
               },
-              "#persoenliche-daten"
+              "#gesetzliche-vertretung"
             ]
           }
         }
@@ -449,7 +453,7 @@
         "zusammenfassung": {
           "on": {
             "BACK": "#ausgaben.besondere-belastungen",
-            "SUBMIT": "#persoenliche-daten",
+            "SUBMIT": "#gesetzliche-vertretung",
             "add-versicherungen": "versicherungen",
             "add-ratenzahlungen": "ratenzahlungen",
             "add-sonstigeAusgaben": "sonstigeAusgaben"

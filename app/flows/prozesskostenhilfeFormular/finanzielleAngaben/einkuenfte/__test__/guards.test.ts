@@ -140,16 +140,6 @@ describe("Einkünfte guards", () => {
     });
   });
 
-  describe("receivesSupport", () => {
-    it("should return true if the user receives support", () => {
-      expect(
-        guards.receivesSupport({
-          context: { ...happyPathData, receivesSupport: "yes" },
-        }),
-      ).toBe(true);
-    });
-  });
-
   describe("hasWohngeld", () => {
     it("should return true if the user receives wohngeld", () => {
       expect(

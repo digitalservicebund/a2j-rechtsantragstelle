@@ -3,7 +3,7 @@ import { duplicateContext } from "~/flows/common";
 import {
   besondereBelastungenSchema,
   bankkontenArraySchema,
-  gelanlagenArraySchema,
+  geldanlagenArraySchema,
   grundeigentumArraySchema,
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
@@ -36,6 +36,8 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
     prozesskostenhilfeFinanzielleAngabenEinkuenfteContext,
     "partner",
   ),
+  "partner-receivesSupport": YesNoAnswer,
+  "partner-supportAmount": buildMoneyValidationSchema(),
   partnerHasBesondersAusgaben: YesNoAnswer,
   partnerBesondersAusgabe: financialEntrySchema.pick({
     beschreibung: true,
@@ -48,7 +50,7 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   hasKraftfahrzeug: YesNoAnswer,
   kraftfahrzeuge: kraftfahrzeugeArraySchema,
   hasGeldanlage: YesNoAnswer,
-  geldanlagen: gelanlagenArraySchema,
+  geldanlagen: geldanlagenArraySchema,
   hasGrundeigentum: YesNoAnswer,
   grundeigentum: grundeigentumArraySchema,
   hasWertsache: YesNoAnswer,
@@ -75,26 +77,30 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
     }),
   ),
   ratenzahlungen: z.array(
-    z.object({
-      art: stringRequiredSchema,
-      zahlungsempfaenger: stringRequiredSchema,
-      zahlungspflichtiger: zahlungspflichtigerSchema,
-      betragEigenerAnteil: buildMoneyValidationSchema(),
-      betragGesamt: buildMoneyValidationSchema(),
-      restschuld: buildMoneyValidationSchema(),
-      laufzeitende: createDateSchema({
-        earliest: () => today(),
-      }),
-    }),
+    z
+      .object({
+        art: stringRequiredSchema,
+        zahlungsempfaenger: stringRequiredSchema,
+        zahlungspflichtiger: zahlungspflichtigerSchema,
+        betragEigenerAnteil: buildMoneyValidationSchema().optional(),
+        betragGesamt: buildMoneyValidationSchema(),
+        restschuld: buildMoneyValidationSchema(),
+        laufzeitende: createDateSchema({
+          earliest: () => today(),
+        }),
+      })
+      .partial(),
   ),
   sonstigeAusgaben: z.array(
-    z.object({
-      art: stringRequiredSchema,
-      zahlungsempfaenger: stringRequiredSchema,
-      zahlungspflichtiger: zahlungspflichtigerSchema,
-      betragEigenerAnteil: buildMoneyValidationSchema(),
-      betragGesamt: buildMoneyValidationSchema(),
-    }),
+    z
+      .object({
+        art: stringRequiredSchema,
+        zahlungsempfaenger: stringRequiredSchema,
+        zahlungspflichtiger: zahlungspflichtigerSchema,
+        betragEigenerAnteil: buildMoneyValidationSchema().optional(),
+        betragGesamt: buildMoneyValidationSchema(),
+      })
+      .partial(),
   ),
   pageData: pageDataSchema,
 };
@@ -106,6 +112,8 @@ const _contextObject = z
 export type PartnerEinkuenfteContext = {
   [key in keyof ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext as `partner-${key}`]: ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext[key];
 } & {
+  "partner-receivesSupport"?: "yes" | "no";
+  "partner-supportAmount"?: string;
   pageData?: {
     arrayIndexes: number[];
   };

@@ -11,9 +11,6 @@ import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } 
 import {
   Eigentuemer,
   financialEntrySchema,
-  gelanlagenArraySchema,
-  grundeigentumArraySchema,
-  kraftfahrzeugeArraySchema,
   unterhaltszahlungSchema,
 } from "~/flows/shared/finanzielleAngaben/context";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
@@ -59,8 +56,6 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   arbeitsausgaben: faker.helpers.multiple(createFinancialEntry),
   receivesPension: YesNoAnswer.Enum.yes,
   pensionAmount: faker.finance.amount(),
-  receivesSupport: YesNoAnswer.Enum.yes,
-  supportAmount: faker.finance.amount(),
   hasWohngeld: checkedOptional.enum.on,
   hasKrankengeld: checkedOptional.enum.on,
   hasElterngeld: checkedOptional.enum.on,
@@ -87,7 +82,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   ],
   geldanlagen: [
     {
-      art: gelanlagenArraySchema.element.shape.art.Enum.sonstiges,
+      art: "sonstiges",
       verwendungszweck: faker.lorem.sentence(),
       eigentuemer: Eigentuemer.Enum.myself,
       wert: faker.finance.amount(),
@@ -103,7 +98,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   kraftfahrzeuge: [
     {
       hasArbeitsweg: YesNoAnswer.Enum.yes,
-      wert: kraftfahrzeugeArraySchema.element.shape.wert.Enum.unsure,
+      wert: "unsure",
       eigentuemer: Eigentuemer.Enum.partner,
       art: faker.vehicle.vehicle(),
       marke: faker.vehicle.manufacturer(),
@@ -116,8 +111,8 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   ],
   grundeigentum: [
     {
-      isBewohnt: grundeigentumArraySchema.element.shape.isBewohnt.Enum.yes,
-      art: grundeigentumArraySchema.element.shape.art.Enum.einfamilienhaus,
+      isBewohnt: "yes",
+      art: "einfamilienhaus",
       eigentuemer: Eigentuemer.Enum.myselfAndSomeoneElse,
       flaeche: faker.number.int().toString(),
       verkaufswert: faker.finance.amount(),
@@ -185,6 +180,15 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   ],
   hasRsv: YesNoAnswer.Enum.no,
   hasRsvThroughOrg: YesNoAnswer.Enum.no,
+  hasGesetzlicheVertretung: YesNoAnswer.Enum.yes,
+  gesetzlicheVertretungDaten: {
+    vorname: faker.person.firstName(),
+    nachname: faker.person.lastName(),
+    strasseHausnummer: faker.location.streetAddress(),
+    plz: faker.location.zipCode("12159"),
+    ort: faker.location.city(),
+    telefonnummer: faker.phone.number(),
+  },
   vorname: "John",
   nachname: "Doe",
   beruf: "Developer",

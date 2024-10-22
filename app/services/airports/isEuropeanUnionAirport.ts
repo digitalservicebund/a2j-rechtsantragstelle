@@ -1,5 +1,4 @@
-import { Result } from "true-myth";
-import airports from "data/airports/data.json";
+import { getAirportByIataCode } from "./getAirportByIataCode";
 
 const EU_COUNTRIES = [
   "AT",
@@ -37,18 +36,18 @@ const EU_COUNTRIES = [
   "AX",
 ];
 
-function getCountryCodeByIata(airportIata: string | undefined) {
-  return airports.find((airport) => airport.iata === airportIata)?.country_code;
-}
-
 export function isEuropeanUnionAirport(
   airportCode: string | undefined,
-): Result<boolean, string> {
-  const airportCountry = getCountryCodeByIata(airportCode);
-
-  if (typeof airportCountry === "undefined") {
-    return Result.err("Airport not found");
+): boolean {
+  if (typeof airportCode === "undefined") {
+    return false;
   }
 
-  return Result.ok(EU_COUNTRIES.includes(airportCountry));
+  const airportCountry = getAirportByIataCode(airportCode)?.country_code;
+
+  if (typeof airportCountry === "undefined") {
+    return false;
+  }
+
+  return EU_COUNTRIES.includes(airportCountry);
 }

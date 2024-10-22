@@ -1,5 +1,5 @@
 import { type BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import { newPageHint } from "~/services/pdf/attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import {
   fillAngelegenheit,
@@ -30,7 +30,7 @@ describe("A_angelegenheit", () => {
       pdfValues
         .ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern
         .value,
-    ).toBe(newPageHint);
+    ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
 
     const hasBeschreibungAngelegenheit = attachment.some(
       (description) => description.title === BESCHREIBUNG_ANGELEGENHEIT_TITLE,
@@ -75,7 +75,7 @@ describe("A_angelegenheit", () => {
       pdfValues
         .ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern
         .value,
-    ).toBe(newPageHint);
+    ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
 
     const hasBeschreibungAngelegenheit = attachment.some(
       (description) => description.title === BESCHREIBUNG_ANGELEGENHEIT_TITLE,

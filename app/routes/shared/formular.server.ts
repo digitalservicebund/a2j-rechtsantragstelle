@@ -42,7 +42,7 @@ import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import {
   validateFlowTransition,
   getFlowTransitionConfig,
-} from "~/services/session.server/flowTransitionValidation.server";
+} from "~/services/flow/server/flowTransitionValidation";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
@@ -114,6 +114,19 @@ export const loader = async ({
 
   if (!flowController.isReachable(stepId))
     return redirectDocument(flowController.getInitial());
+
+  const flowTransitionConfig = getFlowTransitionConfig(currentFlow);
+  if (flowTransitionConfig) {
+    const eligibilityResult = await validateFlowTransition(
+      flows,
+      cookieHeader,
+      flowTransitionConfig,
+    );
+
+    if (!eligibilityResult.isEligible && eligibilityResult.redirectTo) {
+      return redirectDocument(eligibilityResult.redirectTo);
+    }
+  }
 
   const [
     formPageContent,
@@ -217,21 +230,6 @@ export const loader = async ({
       navigationStrings,
     ) ?? [];
 
-  const flowTransitionConfig = getFlowTransitionConfig(currentFlow);
-
-  if (flowTransitionConfig) {
-    const eligibilityResult = await validateFlowTransition(
-      flows,
-      flowId,
-      cookieHeader,
-      flowTransitionConfig,
-    );
-
-    if (!eligibilityResult.isEligible && eligibilityResult.redirectTo) {
-      return redirectDocument(eligibilityResult.redirectTo);
-    }
-  }
-
   const navigationA11yLabels = {
     menuLabel: defaultStrings["navigationA11yLabel"],
     itemFinished: defaultStrings["navigationItemFinishedA11yLabel"],
@@ -247,7 +245,17 @@ export const loader = async ({
       formElements,
       heading: cmsContent.heading,
       meta,
-      migrationData,
+      migration: {
+        userData: migrationData,
+        sortedFields:
+          "migration" in currentFlow
+            ? currentFlow.migration.sortedFields
+            : undefined,
+        buttonUrl:
+          "migration" in currentFlow
+            ? currentFlow.migration.buttonUrl
+            : undefined,
+      },
       navItems,
       postFormContent: cmsContent.postFormContent,
       preHeading: cmsContent.preHeading,

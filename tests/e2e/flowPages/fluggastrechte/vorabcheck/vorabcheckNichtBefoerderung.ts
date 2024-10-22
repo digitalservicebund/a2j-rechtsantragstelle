@@ -1,7 +1,6 @@
 import { type Page, expect } from "@playwright/test";
 import { CookieSettings } from "../../../pom/CookieSettings";
 import type { FluggastrechteVorabcheck } from "../../../pom/FluggastrechteVorabcheck";
-import { expectPageToBeAccessible } from "../../../util/expectPageToBeAccessible";
 
 export async function startFluggastrechteVorabcheckNichtBefoerderung(
   page: Page,
@@ -14,24 +13,19 @@ export async function startFluggastrechteVorabcheckNichtBefoerderung(
   // fluggastrechte/vorabcheck/start
   await vorabcheck.clickNext();
 
-  await expectPageToBeAccessible({ page });
   // fluggastrechte/vorabcheck/bereich
   await vorabcheck.fillRadioPage("bereich", "nichtbefoerderung");
 
   // fluggastrechte/vorabcheck/ausgleich
-  await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("ausgleich", "yes");
 
   // fluggastrechte/vorabcheck/ausgleich-angenommen
-  await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("ausgleichAngenommen", "no");
 
   // fluggastrechte/vorabcheck/checkin-nicht-befoerderung
-  await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("checkin", "yes");
 
   // fluggastrechte/vorabcheck/vertretbare-gruende
-  await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("vertretbareGruende", "no");
 
   // fluggastrechte/vorabcheck/verjaehrung

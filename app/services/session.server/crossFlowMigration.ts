@@ -1,29 +1,46 @@
 import { getContext } from "~/flows/contexts";
 import type { FlowId } from "~/flows/flowIds";
-import { type Flow } from "~/flows/flows.server";
+import type { Flow } from "~/flows/flows.server";
+import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { type CookieHeader, getSessionData } from ".";
 
-const migrationKey = "daten-uebernahme";
+export const migrationKey = "daten-uebernahme";
 
 async function doMigration(
-  flowId: FlowId,
-  migrationSource: FlowId,
+  migrationFlowIdDestination: FlowId,
+  migrationFlowIdSource: FlowId,
   cookieHeader: string,
 ) {
-  const { userData } = await getSessionData(migrationSource, cookieHeader);
+  const { userData } = await getSessionData(
+    migrationFlowIdSource,
+    cookieHeader,
+  );
+
+  const prunedUserData = await pruneIrrelevantData(
+    userData,
+    migrationFlowIdSource,
+  );
+
   return Object.fromEntries(
-    Object.entries(userData).filter(([key]) => key in getContext(flowId)),
+    Object.entries(prunedUserData).filter(
+      ([key]) => key in getContext(migrationFlowIdDestination),
+    ),
   );
 }
 
 export function getMigrationData(
   stepId: string,
-  flowId: FlowId,
-  flow: Flow,
+  migrationFlowIdDestination: FlowId,
+  migrationFlowDestination: Flow,
   cookieHeader: CookieHeader,
 ) {
-  const { migrationSource } = flow;
-  if (!migrationSource || !stepId.includes(migrationKey) || !cookieHeader)
+  const { migration } = migrationFlowDestination;
+  if (!migration || !stepId.includes(migrationKey) || !cookieHeader)
     return undefined;
-  return doMigration(flowId, migrationSource, cookieHeader);
+
+  return doMigration(
+    migrationFlowIdDestination,
+    migration.source,
+    cookieHeader,
+  );
 }

@@ -21,7 +21,7 @@ export function FormFlowPage() {
     csrf,
     formElements,
     heading,
-    migrationData,
+    migration,
     navItems,
     postFormContent,
     preHeading,
@@ -57,8 +57,10 @@ export function FormFlowPage() {
           </div>
 
           <MigrationDataOverview
-            migrationData={migrationData}
+            userData={migration.userData}
             translations={translations}
+            sortedFields={migration.sortedFields}
+            buttonUrl={migration.buttonUrl}
           />
           {arraySummaryData && Object.keys(arraySummaryData).length != 0 && (
             <div className="!mt-24">

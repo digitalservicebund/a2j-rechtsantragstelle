@@ -1,18 +1,13 @@
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import { type AttachmentEntries, newPageHint } from "~/services/pdf/attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import type { BerHPdfFillFunction } from "../..";
-import { eigentuemerMapping } from "../../eigentuemerMapping";
+import {
+  attachGeldanlagenToAnhang,
+  eigentuemerMapping,
+  fillSingleGeldanlage,
+  fillSingleWertsache,
+} from "../../../shared/eigentumHelpers";
 
-const geldanlageArtMapping: Record<string, string> = {
-  bargeld: "Bargeld",
-  wertpapiere: "Wertpapiere",
-  guthabenkontoKrypto: "Guthabenkonto oder Kryptowährung",
-  giroTagesgeldSparkonto: "Girokonto / Tagesgeld / Sparkonto",
-  befristet: "Befristete Geldanlage",
-  forderung: "Forderung",
-  sonstiges: "Sonstiges",
-};
-const befristungMapping = {
+export const befristungMapping = {
   lifeInsurance: "Lebensversicherung",
   buildingSavingsContract: "Bausparvertrag",
   fixedDepositAccount: "Festgeldkonto",
@@ -20,38 +15,10 @@ const befristungMapping = {
 const VERMOEGENSWERT_BEZEICHNUNG_FIELD_MAX_CHARS = 148;
 const VERMOEGENSWERT_BEZEICHNUNG_FIELD_MAX_NEW_LINES = 3;
 
-function fillSingleVermoegenswert(
-  vermoegenswert: NonNullable<BeratungshilfeFormularContext["geldanlagen"]>[0],
-) {
-  let description =
-    vermoegenswert.art in geldanlageArtMapping
-      ? `Art: ${geldanlageArtMapping[vermoegenswert.art]}`
-      : vermoegenswert.art;
-  if (vermoegenswert.eigentuemer === "myselfAndSomeoneElse")
-    description += `, Eigentümer:in: ${eigentuemerMapping[vermoegenswert.eigentuemer]}`;
-
-  if (vermoegenswert.auszahlungdatum)
-    description += `, Auszahlungsdatum: ${vermoegenswert.auszahlungdatum}`;
-  if (vermoegenswert.befristetArt)
-    description += `, Art der Befristung: ${befristungMapping[vermoegenswert.befristetArt]}`;
-  if (vermoegenswert.verwendungszweck)
-    description += `, Verwendungszweck: ${vermoegenswert.verwendungszweck}`;
-  if (vermoegenswert.forderung)
-    description += `, Forderung: ${vermoegenswert.forderung}`;
-  if (vermoegenswert.kontoBezeichnung)
-    description += `, Bezeichnung: ${vermoegenswert.kontoBezeichnung}`;
-  if (vermoegenswert.kontoBankName)
-    description += `, Name der Bank: ${vermoegenswert.kontoBankName}`;
-  if (vermoegenswert.kontoIban)
-    description += `, IBAN: ${vermoegenswert.kontoIban}`;
-  return description;
-}
-
 export const fillVermoegenswerte: BerHPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  const attachment: AttachmentEntries = [];
   const wertsachen = userData.wertsachen ?? [];
   const geldanlagen = userData.geldanlagen ?? [];
   const totalVermoegenswerteCount = wertsachen.length + geldanlagen.length;
@@ -64,9 +31,12 @@ export const fillVermoegenswerte: BerHPdfFillFunction = ({
 
   if (!hasVermoegenswerte) return { pdfValues };
 
-  const singleVermoegenswert = geldanlagen[0] ?? wertsachen[0];
-  const singleVermoegenswertString =
-    fillSingleVermoegenswert(singleVermoegenswert);
+  const singleGeldanlage = geldanlagen[0];
+  const singleWertsache = wertsachen[0];
+  const singleVermoegenswert = singleGeldanlage ?? singleWertsache;
+  const singleVermoegenswertString = singleGeldanlage
+    ? fillSingleGeldanlage(singleGeldanlage)
+    : fillSingleWertsache(singleWertsache);
 
   const overflowDueToMaxChars =
     singleVermoegenswertString.length >
@@ -89,54 +59,8 @@ export const fillVermoegenswerte: BerHPdfFillFunction = ({
     pdfValues.f16RueckkaufswertoderVerkehrswertinEUR.value =
       singleVermoegenswert.wert;
   } else {
-    pdfValues.f15Bezeichnung.value = newPageHint;
-    attachment.push({
-      title: "Sonstige Vermögenswerte",
-      level: "h3",
-    });
-    geldanlagen.forEach((geldanlage, index) => {
-      attachment.push(
-        { title: `Geldanlage ${index + 1}`, level: "h4" },
-        { title: "Art", text: geldanlageArtMapping[geldanlage.art] },
-        { title: "Wert", text: geldanlage.wert },
-        {
-          title: "Eigentümer:in",
-          text: eigentuemerMapping[geldanlage.eigentuemer],
-        },
-      );
-      if (geldanlage.auszahlungdatum)
-        attachment.push({
-          title: "Auszahlungsdatum",
-          text: geldanlage.auszahlungdatum,
-        });
-      if (geldanlage.befristetArt)
-        attachment.push({
-          title: "Art der Befristung",
-          text: befristungMapping[geldanlage.befristetArt],
-        });
-      if (geldanlage.forderung)
-        attachment.push({ title: "Forderung", text: geldanlage.forderung });
-      if (geldanlage.verwendungszweck)
-        attachment.push({
-          title: "Verwendungszweck",
-          text: geldanlage.verwendungszweck,
-        });
-      if (geldanlage.kontoBankName)
-        attachment.push({
-          title: "Name der Bank",
-          text: geldanlage.kontoBankName,
-        });
-      if (geldanlage.kontoBezeichnung)
-        attachment.push({
-          title: "Bezeichnung",
-          text: geldanlage.kontoBezeichnung,
-        });
-      if (geldanlage.kontoIban)
-        attachment.push({
-          title: "IBAN",
-          text: geldanlage.kontoIban,
-        });
-    });
+    pdfValues.f15Bezeichnung.value = SEE_IN_ATTACHMENT_DESCRIPTION;
+    const { attachment } = attachGeldanlagenToAnhang(geldanlagen);
     wertsachen.forEach((wertsache, index) => {
       attachment.push(
         { title: `Wertsache ${index + 1}`, level: "h4" },
@@ -148,6 +72,7 @@ export const fillVermoegenswerte: BerHPdfFillFunction = ({
         },
       );
     });
+    return { pdfValues, attachment };
   }
-  return { pdfValues, attachment };
+  return { pdfValues };
 };

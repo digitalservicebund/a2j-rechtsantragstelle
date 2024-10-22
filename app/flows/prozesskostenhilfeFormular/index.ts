@@ -12,11 +12,11 @@ import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/flows/prozes
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
 import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
-import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/flow";
 import {
   finanzielleAngabeEinkuenfteGuards,
   partnerEinkuenfteGuards,
 } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/xStateConfig";
 import {
   nachueberpruefung,
   versandDigitalAnwalt,
@@ -41,6 +41,9 @@ import {
 import finanzielleAngabenFlow from "./finanzielleAngaben/flow.json";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import prozesskostenhilfeFormularFlow from "./flow.json";
+import type { ProzesskostenhilfeGesetzlicheVertretung } from "./gesetzlicheVertretung/context";
+import { hasGesetzlicheVertretungYes } from "./gesetzlicheVertretung/guards";
+import { gesetzlicheVertretungXstateConfig } from "./gesetzlicheVertretung/xStateConfig";
 import type { ProzesskostenhilfePersoenlicheDaten } from "./persoenlicheDaten/context";
 import { getMissingInformationStrings } from "./stringReplacements";
 import { finanzielleAngabenArrayConfig } from "../shared/finanzielleAngaben/arrayConfiguration";
@@ -228,7 +231,7 @@ export const prozesskostenhilfeFormular = {
           },
         },
       }),
-      "persoenliche-daten": getProzesskostenhilfePersoenlicheDatenXstateConfig({
+      "gesetzliche-vertretung": gesetzlicheVertretungXstateConfig({
         backToCallingFlow: [
           {
             guard: finanzielleAngabeGuards.hasAusgabenEntriesYes,
@@ -251,6 +254,16 @@ export const prozesskostenhilfeFormular = {
             target: "#finanzielle-angaben.einkuenfte.staatliche-leistungen",
           },
           "#ausgaben.ausgaben-frage",
+        ],
+        nextFlowEntrypoint: "#persoenliche-daten",
+      }),
+      "persoenliche-daten": getProzesskostenhilfePersoenlicheDatenXstateConfig({
+        backToCallingFlow: [
+          {
+            guard: ({ context }) => hasGesetzlicheVertretungYes({ context }),
+            target: "#gesetzliche-vertretung.daten",
+          },
+          "#gesetzliche-vertretung",
         ],
         nextFlowEntrypoint: "#abgabe",
       }),
@@ -307,4 +320,5 @@ export type ProzesskostenhilfeFormularContext =
     ProzesskostenhilfeAntragstellendePersonContext &
     ProzesskostenhilfeRechtsschutzversicherungContext &
     ProzesskostenhilfeFinanzielleAngabenContext &
+    ProzesskostenhilfeGesetzlicheVertretung &
     ProzesskostenhilfePersoenlicheDaten;
