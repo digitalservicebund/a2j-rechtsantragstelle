@@ -4,7 +4,7 @@ import {
   attachKraftfahrzeugeToAnhang,
 } from "~/services/pdf/shared/eigentumHelpers";
 import type { BerHPdfFillFunction } from "../..";
-import { newPageHint, type AttachmentEntries } from "../../../attachment";
+import { newPageHint } from "../../../attachment";
 
 const KRAFTFAHRZEUG_ART_FIELD_MAX_CHARS = 96;
 
@@ -12,7 +12,6 @@ export const fillKraftfahrzeug: BerHPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  let attachment: AttachmentEntries = [];
   const { kraftfahrzeuge } = userData;
   pdfValues.f9Kraftfahrzeug1.value = userData.hasKraftfahrzeug === "no";
   pdfValues.f9Kraftfahrzeuge2.value = userData.hasKraftfahrzeug === "yes";
@@ -45,7 +44,8 @@ export const fillKraftfahrzeug: BerHPdfFillFunction = ({
       : singleKfzWert;
   } else {
     pdfValues.f11Fahrzeugart.value = newPageHint;
-    ({ attachment } = attachKraftfahrzeugeToAnhang(attachment, kraftfahrzeuge));
+    const { attachment } = attachKraftfahrzeugeToAnhang(kraftfahrzeuge);
+    return { pdfValues, attachment };
   }
-  return { pdfValues, attachment };
+  return { pdfValues };
 };

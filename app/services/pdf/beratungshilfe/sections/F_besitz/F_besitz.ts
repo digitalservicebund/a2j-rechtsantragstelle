@@ -78,7 +78,6 @@ export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  let attachment: AttachmentEntries = [];
   const { eigentumTotalWorth, grundeigentum: grundeigentumArray } = userData;
   pdfValues.f5Grundeigentum1.value = userData.hasGrundeigentum === "no";
   pdfValues.f5Grundeigentum2.value = userData.hasGrundeigentum === "yes";
@@ -117,7 +116,8 @@ export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
       ? newPageHint + "\n" + pdfValues.f7Nutzungsart.value
       : newPageHint;
 
-    ({ attachment } = attachGrundeigentumToAnhang([], grundeigentumArray));
+    const { attachment } = attachGrundeigentumToAnhang(grundeigentumArray);
+    return { pdfValues, attachment };
   }
-  return { pdfValues, attachment };
+  return { pdfValues };
 };

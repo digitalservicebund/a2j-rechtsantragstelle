@@ -74,9 +74,9 @@ export const attachBankkontenToAnhang = (
 };
 
 export const attachGrundeigentumToAnhang = (
-  attachment: AttachmentEntries,
   grundeigentum: GrundeigentumArraySchema,
 ) => {
+  const attachment: AttachmentEntries = [];
   attachment.push({
     title: "Grundeigentum",
     level: "h3",
@@ -114,9 +114,9 @@ export const attachGrundeigentumToAnhang = (
 };
 
 export const attachKraftfahrzeugeToAnhang = (
-  attachment: AttachmentEntries,
   kraftfahrzeuge: KraftfahrzeugeArraySchema,
 ) => {
+  const attachment: AttachmentEntries = [];
   attachment.push({
     title: "Kraftfahrzeuge",
     level: "h3",
@@ -171,9 +171,9 @@ export const attachKraftfahrzeugeToAnhang = (
 };
 
 export const attachGeldanlagenToAnhang = (
-  attachment: AttachmentEntries,
   geldanlagen: GeldanlagenArraySchema,
 ) => {
+  const attachment: AttachmentEntries = [];
   attachment.push({
     title: "Sonstige Vermögenswerte",
     level: "h3",

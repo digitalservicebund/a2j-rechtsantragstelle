@@ -1,4 +1,4 @@
-import { type AttachmentEntries, newPageHint } from "~/services/pdf/attachment";
+import { newPageHint } from "~/services/pdf/attachment";
 import type { BerHPdfFillFunction } from "../..";
 import {
   attachGeldanlagenToAnhang,
@@ -19,7 +19,6 @@ export const fillVermoegenswerte: BerHPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  let attachment: AttachmentEntries = [];
   const wertsachen = userData.wertsachen ?? [];
   const geldanlagen = userData.geldanlagen ?? [];
   const totalVermoegenswerteCount = wertsachen.length + geldanlagen.length;
@@ -61,7 +60,7 @@ export const fillVermoegenswerte: BerHPdfFillFunction = ({
       singleVermoegenswert.wert;
   } else {
     pdfValues.f15Bezeichnung.value = newPageHint;
-    ({ attachment } = attachGeldanlagenToAnhang(attachment, geldanlagen));
+    const { attachment } = attachGeldanlagenToAnhang(geldanlagen);
     wertsachen.forEach((wertsache, index) => {
       attachment.push(
         { title: `Wertsache ${index + 1}`, level: "h4" },
@@ -73,6 +72,7 @@ export const fillVermoegenswerte: BerHPdfFillFunction = ({
         },
       );
     });
+    return { pdfValues, attachment };
   }
-  return { pdfValues, attachment };
+  return { pdfValues };
 };

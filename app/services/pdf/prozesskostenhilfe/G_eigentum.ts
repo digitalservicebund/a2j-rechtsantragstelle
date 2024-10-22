@@ -78,7 +78,7 @@ export const fillGrundeigentum: PkhPdfFillFunction = ({
   pdfValues.groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten.value =
     SEE_IN_ATTACHMENT_DESCRIPTION;
   // TODO: replace with fillPdfFieldOrMoveToAttachment
-  const { attachment } = attachGrundeigentumToAnhang([], grundeigentum);
+  const { attachment } = attachGrundeigentumToAnhang(grundeigentum);
   return { pdfValues, attachment };
 };
 
@@ -105,7 +105,7 @@ export const fillKraftfahrzeuge: PkhPdfFillFunction = ({
   pdfValues.markeTypBaujahrAnschaffungsjahrAlleinoderMiteigentumKilometerstand.value =
     SEE_IN_ATTACHMENT_DESCRIPTION;
   // TODO: replace with fillPdfFieldOrMoveToAttachment
-  const { attachment } = attachKraftfahrzeugeToAnhang([], kraftfahrzeuge);
+  const { attachment } = attachKraftfahrzeugeToAnhang(kraftfahrzeuge);
   return { pdfValues, attachment };
 };
 
@@ -203,7 +203,7 @@ export const fillSonstigeVermoegenswerte: PkhPdfFillFunction = ({
   }
   pdfValues.bezeichnungAlleinoderMiteigentum.value =
     SEE_IN_ATTACHMENT_DESCRIPTION;
-  const { attachment } = attachGeldanlagenToAnhang([], nonBargeldGeldanlagen);
+  const { attachment } = attachGeldanlagenToAnhang(nonBargeldGeldanlagen);
   return {
     pdfValues,
     attachment,
