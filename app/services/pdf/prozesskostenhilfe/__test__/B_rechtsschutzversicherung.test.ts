@@ -14,7 +14,7 @@ const testCases: Array<
     ProzesskostenhilfeFormularContext,
     {
       [val in keyof Partial<ProzesskostenhilfePDF>]: {
-        value: boolean | string;
+        value?: boolean | string;
       };
     },
   ]
@@ -22,6 +22,123 @@ const testCases: Array<
   [
     { hasRsv: "no", hasRsvThroughOrg: "no" },
     { "1Nein": { value: true }, nein_3: { value: true } },
+  ],
+  [
+    { hasRsv: "yes", hasRsvCoverage: "partly" },
+    {
+      ja: { value: true },
+      hoehederKosten: {
+        value: "RSV: Teilweise Kostenübernahme (siehe Belege)",
+      },
+    },
+  ],
+  [
+    {
+      hasRsv: "yes",
+      hasRsvCoverage: "partly",
+      hasRsvThroughOrg: "yes",
+      hasOrgCoverage: "partly",
+    },
+    {
+      ja: { value: true },
+      hoehederKosten: {
+        value:
+          "RSV: Teilweise Kostenübernahme (siehe Belege), Verein/Organisation: Teilweise Kostenübernahme (siehe Belege)",
+      },
+    },
+  ],
+  [
+    {
+      hasRsv: "yes",
+      hasRsvCoverage: "partly",
+      hasRsvThroughOrg: "yes",
+      hasOrgCoverage: "no",
+    },
+    {
+      ja: { value: true },
+      hoehederKosten: {
+        value:
+          "RSV: Teilweise Kostenübernahme (siehe Belege), Verein/Organisation: Nein",
+      },
+      ja_2: { value: true },
+      bezeichnungderVersicherung: {
+        value: "Verein/Organisation: Ja (siehe Belege)",
+      },
+    },
+  ],
+  [
+    { hasRsv: "yes", hasRsvCoverage: "no" },
+    {
+      "1Nein": { value: true },
+      ja_2: { value: true },
+      hoehederKosten: {
+        value: "RSV: Nein",
+      },
+      bezeichnungderVersicherung: {
+        value: "RSV: Ja (siehe Belege)",
+      },
+    },
+  ],
+  [
+    {
+      hasRsv: "yes",
+      hasRsvCoverage: "no",
+      hasRsvThroughOrg: "yes",
+      hasOrgCoverage: "partly",
+    },
+    {
+      "1Nein": { value: undefined },
+      ja: { value: true },
+      ja_2: { value: true },
+      hoehederKosten: {
+        value:
+          "RSV: Nein, Verein/Organisation: Teilweise Kostenübernahme (siehe Belege)",
+      },
+      bezeichnungderVersicherung: {
+        value: "RSV: Ja (siehe Belege)",
+      },
+    },
+  ],
+  [
+    {
+      hasRsv: "yes",
+      hasRsvCoverage: "no",
+      hasRsvThroughOrg: "yes",
+      hasOrgCoverage: "no",
+    },
+    {
+      "1Nein": { value: true },
+      ja_2: { value: true },
+      hoehederKosten: {
+        value: "RSV: Nein, Verein/Organisation: Nein",
+      },
+      bezeichnungderVersicherung: {
+        value: "RSV: Ja (siehe Belege), Verein/Organisation: Ja (siehe Belege)",
+      },
+    },
+  ],
+  [
+    { hasRsvThroughOrg: "yes", hasOrgCoverage: "partly" },
+    {
+      "1Nein": { value: undefined },
+      ja: { value: true },
+      hoehederKosten: {
+        value: "Verein/Organisation: Teilweise Kostenübernahme (siehe Belege)",
+      },
+    },
+  ],
+  [
+    { hasRsvThroughOrg: "yes", hasOrgCoverage: "no" },
+    {
+      "1Nein": { value: true },
+      ja_2: { value: true },
+      hoehederKosten: {
+        value: "Verein/Organisation: Nein",
+      },
+      bezeichnungderVersicherung: {
+        value: "Verein/Organisation: Ja (siehe Belege)",
+      },
+    },
   ],
 ];
 
