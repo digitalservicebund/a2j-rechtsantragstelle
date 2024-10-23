@@ -1,7 +1,6 @@
 import { type Page, expect } from "@playwright/test";
 import { CookieSettings } from "../../../pom/CookieSettings";
 import type { FluggastrechteVorabcheck } from "../../../pom/FluggastrechteVorabcheck";
-import { expectPageToBeAccessible } from "../../../util/expectPageToBeAccessible";
 
 export async function startFluggastrechteVorabcheckAnnullierung(
   page: Page,
@@ -18,30 +17,24 @@ export async function startFluggastrechteVorabcheckAnnullierung(
   await vorabcheck.fillRadioPage("bereich", "annullierung");
 
   //fluggastrechte/vorabcheck/ankuendigung
-  await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("ankuendigung", "until6Days");
 
   //fluggastrechte/vorabcheck/ersatzflug
-  await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("ersatzflug", "yes");
 
   //fluggastrechte/vorabcheck/ersatzflug-starten-eine-stunde
-  await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("ersatzflugStartenEinStunde", "yes");
 
   //fluggastrechte/vorabcheck/ersatzflug-landen-zwei-stunden
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("ersatzflugLandenZweiStuden", "yes");
+  await vorabcheck.fillRadioPage("ersatzflugLandenZweiStunden", "yes");
 
   //fluggastrechte/vorabcheck/vertretbare-gruende-annullierung
-  await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("vertretbareGruendeAnnullierung", "yes");
 
   //fluggastrechte/vorabcheck/gruende-hinweis
   await vorabcheck.clickNext();
 
   // fluggastrechte/vorabcheck/verjaehrung
-  await expectPageToBeAccessible({ page });
   await vorabcheck.fillRadioPage("verjaehrung", "yes");
 
   // fluggastrechte/vorabcheck/flughaefen

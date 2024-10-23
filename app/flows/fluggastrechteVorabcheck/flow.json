@@ -85,7 +85,7 @@
           },
           {
             "target": "ersatzflug-landen-vier-stunden",
-            "guard": "isAnkuendigungBetween7And13DaysAndErstazflugYes"
+            "guard": "isAnkuendigungBetween7And13DaysAndErsatzflugYes"
           },
           "ankuendigung"
         ],
@@ -129,7 +129,7 @@
         "BACK": "ersatzflug-starten-eine-stunde",
         "SUBMIT": [
           {
-            "guard": "isErsatzflugGelandet2StundenNoAndErstatzflugGestartet1StundeNo",
+            "guard": "isErsatzflugGelandet2StundenNoAndErsatzflugGestartet1StundeNo",
             "target": "ergebnis/ersatzflug-starten-eine-landen-zwei-abbruch"
           },
           "vertretbare-gruende-annullierung"
@@ -147,7 +147,7 @@
         "BACK": "ersatzflug-starten-zwei-stunden",
         "SUBMIT": [
           {
-            "guard": "isErsatzflugGelandet4StundenNoAndErstatzflugGestartet2StundenNo",
+            "guard": "isErsatzflugGelandet4StundenNoAndErsatzflugGestartet2StundenNo",
             "target": "ergebnis/ersatzflug-starten-zwei-landen-vier-abbruch"
           },
           "vertretbare-gruende-annullierung"
@@ -204,7 +204,7 @@
         "BACK": [
           {
             "target": "gruende-hinweis",
-            "guard": "isBereichAnnullierungAndVertrebareGruendeAnnullierungYes"
+            "guard": "isBereichAnnullierungAndVertretbareGruendeAnnullierungYes"
           },
           {
             "target": "vertretbare-gruende-annullierung",
@@ -280,8 +280,16 @@
             "guard": "isNotEligibleFluggesellschaftInEU"
           },
           {
+            "target": "ergebnis/fluggesellschaft-nicht-eu-abbruch",
+            "guard": "isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU"
+          },
+          {
             "target": "ergebnis/fluggesellschaft-abbruch",
             "guard": "isStartAirportNotEUAndFluggesellschaftSonstiges"
+          },
+          {
+            "target": "ergebnis/fluggesellschaft-abbruch-eu",
+            "guard": "isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges"
           },
           {
             "target": "checkin",
@@ -297,6 +305,16 @@
       }
     },
     "ergebnis/fluggesellschaft-nicht-eu-abbruch": {
+      "on": {
+        "BACK": "fluggesellschaft"
+      }
+    },
+    "ergebnis/fluggesellschaft-nicht-eu-abbruch-eu": {
+      "on": {
+        "BACK": "fluggesellschaft"
+      }
+    },
+    "ergebnis/fluggesellschaft-abbruch-eu": {
       "on": {
         "BACK": "fluggesellschaft"
       }
@@ -476,13 +494,14 @@
         "BACK": "entschaedigung",
         "SUBMIT": [
           {
-            "target": "ergebnis/erfolg",
-            "guard": "gerichtNo"
-          },
-          {
             "target": "ergebnis/erfolg-gericht",
             "guard": "gerichtYes"
-          }
+          },
+          {
+            "target": "ergebnis/erfolg-eu",
+            "guard": "isErfolgEU"
+          },
+          "ergebnis/erfolg"
         ]
       }
     },
@@ -492,6 +511,11 @@
       }
     },
     "ergebnis/erfolg": {
+      "on": {
+        "BACK": "gericht"
+      }
+    },
+    "ergebnis/erfolg-eu": {
       "on": {
         "BACK": "gericht"
       }

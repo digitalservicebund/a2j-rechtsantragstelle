@@ -96,7 +96,7 @@ describe("G_ausgaben", () => {
         fillFunctions: [fillAusgaben],
       });
 
-      expect(pdfValues.g21.value).toEqual("Bitte im Anhang prüfen");
+      expect(pdfValues.g21.value).toEqual("Siehe Anhang");
       expect(pdfValues.g31.value).toBeUndefined();
       expect(pdfValues.g5Raten1.value).toBeUndefined();
       expect(pdfValues.g7Zahlung1.value).toBeUndefined();
@@ -130,7 +130,7 @@ describe("G_ausgaben", () => {
         fillFunctions: [fillAusgaben],
       });
 
-      expect(pdfValues.g21.value).toEqual("Bitte im Anhang prüfen");
+      expect(pdfValues.g21.value).toEqual("Siehe Anhang");
       expect(pdfValues.g31.value).toBeUndefined();
       expect(pdfValues.g5Raten1.value).toBeUndefined();
       expect(pdfValues.g7Zahlung1.value).toBeUndefined();

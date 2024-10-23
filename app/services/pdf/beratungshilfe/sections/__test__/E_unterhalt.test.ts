@@ -2,9 +2,9 @@ import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormul
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import {
   ATTACHMENT_DESCRIPTION_SECTION_E,
-  SEE_IN_ATTACHMENT_DESCRIPTION,
   fillUnterhalt,
 } from "~/services/pdf/beratungshilfe/sections/E_unterhalt";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 
 describe("E_unterhalt", () => {

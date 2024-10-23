@@ -1,4 +1,4 @@
-import airlines from "data/airlines/data.json";
+import { getAirlineNameByIataCode } from "~/services/airlines/getAirlineNameByIataCode";
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import type { FluggastrechtContext } from "./context";
 
@@ -16,13 +16,49 @@ export function getEndAirportName({ endAirport = "" }: FluggastrechtContext) {
   return airportName.length > 0 ? { endAirport: airportName } : {};
 }
 
-function getAirlinenNameByIataCode(iataCode?: string) {
-  if (typeof iataCode === "undefined" || iataCode.length === 0) {
-    return "";
-  }
-  const airline = airlines.find((airline) => airline.iata === iataCode);
+export function getFirstZwischenstoppAirportName({
+  ersterZwischenstopp = "",
+}: FluggastrechtContext) {
+  const airportName = getAirportNameByIataCode(ersterZwischenstopp);
+  return airportName.length > 0
+    ? { firstZwischenstoppAirport: airportName }
+    : {};
+}
 
-  return airline?.name ?? "";
+export function getSecondZwischenstoppAirportName({
+  zweiterZwischenstopp = "",
+}: FluggastrechtContext) {
+  const airportName = getAirportNameByIataCode(zweiterZwischenstopp);
+  return airportName.length > 0
+    ? { secondZwischenstoppAirport: airportName }
+    : {};
+}
+
+export function getThirdZwischenstoppAirportName({
+  dritterZwischenstopp = "",
+}: FluggastrechtContext) {
+  const airportName = getAirportNameByIataCode(dritterZwischenstopp);
+  return airportName.length > 0
+    ? { thirdZwischenstoppAirport: airportName }
+    : {};
+}
+
+export function isVerspaetet({ bereich = "" }: FluggastrechtContext) {
+  return {
+    isVerspaetet: bereich === "verspaetet",
+  };
+}
+
+export function isNichtBefoerderung({ bereich = "" }: FluggastrechtContext) {
+  return {
+    isNichtBefoerderung: bereich === "nichtbefoerderung",
+  };
+}
+
+export function isAnnullierung({ bereich = "" }: FluggastrechtContext) {
+  return {
+    isAnnullierung: bereich === "annullierung",
+  };
 }
 
 export function getAirlineName({
@@ -32,7 +68,7 @@ export function getAirlineName({
     return {};
   }
 
-  const airlineName = getAirlinenNameByIataCode(fluggesellschaft);
+  const airlineName = getAirlineNameByIataCode(fluggesellschaft);
 
   return airlineName.length > 0 ? { airlineName: airlineName } : {};
 }

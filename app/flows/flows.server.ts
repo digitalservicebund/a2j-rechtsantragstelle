@@ -6,18 +6,24 @@ import { fluggastrechtFlow } from "~/flows/fluggastrechteFormular";
 import { geldEinklagenFormular } from "~/flows/geldEinklagenFormular";
 import type { FlowPageId } from "~/services/cms/schemas";
 import type { Config } from "~/services/flow/server/buildFlowController";
-import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
+import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import type { Replacements } from "~/util/fillTemplate";
 import type { Context } from "./contexts";
 import type { FlowId } from "./flowIds";
 import type { Guards } from "./guards.server";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfeFormular";
 
+export type FlowMigration = {
+  source: FlowId;
+  sortedFields: string[];
+  buttonUrl?: string;
+};
+
 export type Flow = {
   cmsSlug: FlowPageId;
   config: Config;
   guards: Guards;
-  migrationSource?: FlowId;
+  migration?: FlowMigration;
   flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (context: Context) => Replacements;
 };

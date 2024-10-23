@@ -40,7 +40,8 @@ export function metaFromMatches(matches: ReturnType<typeof useMatches>) {
       description: undefined,
     };
   }
-  const lastMatchData = matches.at(-1)?.data;
+  // can't use .at() due to old browsers
+  const lastMatchData = matches[matches.length - 1].data;
 
   return {
     breadcrumbs: matches

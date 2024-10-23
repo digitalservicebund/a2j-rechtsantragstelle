@@ -5,6 +5,41 @@ import type { FluggastrechteFlugdatenContext } from "./context";
 export type FluggastrechteFlugdatenGuard =
   GenericGuard<FluggastrechteFlugdatenContext>;
 
+const hasZwischenStoppData: FluggastrechteFlugdatenGuard = ({ context }) => {
+  switch (context.zwischenstoppAnzahl) {
+    case "no": {
+      return true;
+    }
+    case "oneStop": {
+      return objectKeysNonEmpty(context, [
+        "ersterZwischenstopp",
+        "verspaeteterFlug",
+      ]);
+    }
+
+    case "twoStop": {
+      return objectKeysNonEmpty(context, [
+        "ersterZwischenstopp",
+        "zweiterZwischenstopp",
+        "verspaeteterFlug",
+      ]);
+    }
+
+    case "threeStop": {
+      return objectKeysNonEmpty(context, [
+        "ersterZwischenstopp",
+        "zweiterZwischenstopp",
+        "dritterZwischenstopp",
+        "verspaeteterFlug",
+      ]);
+    }
+
+    default: {
+      return false;
+    }
+  }
+};
+
 function hasOptionalString(value: string | undefined): boolean {
   return typeof value === "string";
 }
@@ -60,6 +95,7 @@ const hasTatsaechlicherFlug: FluggastrechteFlugdatenGuard = ({ context }) => {
 const hasErsatzFlugDone: FluggastrechteFlugdatenGuard = ({ context }) => {
   return (
     hasDefaultFlugdaten({ context }) &&
+    hasZwischenStoppData({ context }) &&
     hasErsatzFlug({ context }) &&
     hasOptionalString(context.zusaetzlicheAngaben)
   );
@@ -68,6 +104,7 @@ const hasErsatzFlugDone: FluggastrechteFlugdatenGuard = ({ context }) => {
 const hasOthersDone: FluggastrechteFlugdatenGuard = ({ context }) => {
   return (
     hasDefaultFlugdaten({ context }) &&
+    hasZwischenStoppData({ context }) &&
     hasAndereErsatzverbindung({ context }) &&
     hasOptionalString(context.zusaetzlicheAngaben)
   );
@@ -76,6 +113,7 @@ const hasOthersDone: FluggastrechteFlugdatenGuard = ({ context }) => {
 const hasKeineAnkunftDone: FluggastrechteFlugdatenGuard = ({ context }) => {
   return (
     hasDefaultFlugdaten({ context }) &&
+    hasZwischenStoppData({ context }) &&
     context.ersatzverbindungArt === "keineAnkunft" &&
     hasOptionalString(context.zusaetzlicheAngaben)
   );
@@ -86,6 +124,7 @@ const hasTatsaechlicherFlugYesAnkunftDone: FluggastrechteFlugdatenGuard = ({
 }) => {
   return (
     hasDefaultFlugdaten({ context }) &&
+    hasZwischenStoppData({ context }) &&
     hasTatsaechlicherFlug({ context }) &&
     hasOptionalString(context.zusaetzlicheAngaben)
   );
@@ -95,6 +134,7 @@ const hasTatsaechlicherFlugNoWithErsatzFlugDone: FluggastrechteFlugdatenGuard =
   ({ context }) => {
     return (
       hasDefaultFlugdaten({ context }) &&
+      hasZwischenStoppData({ context }) &&
       context.tatsaechlicherFlug === "no" &&
       hasErsatzFlug({ context }) &&
       hasOptionalString(context.zusaetzlicheAngaben)
@@ -106,6 +146,7 @@ const hasTatsaechlicherFlugNoWithOthersDone: FluggastrechteFlugdatenGuard = ({
 }) => {
   return (
     hasDefaultFlugdaten({ context }) &&
+    hasZwischenStoppData({ context }) &&
     context.tatsaechlicherFlug === "no" &&
     hasAndereErsatzverbindung({ context }) &&
     hasOptionalString(context.zusaetzlicheAngaben)
@@ -116,6 +157,7 @@ const hasTatsaechlicherFlugNoWithKeineAnkunftDone: FluggastrechteFlugdatenGuard 
   ({ context }) => {
     return (
       hasDefaultFlugdaten({ context }) &&
+      hasZwischenStoppData({ context }) &&
       context.tatsaechlicherFlug === "no" &&
       context.ersatzverbindungArt === "keineAnkunft" &&
       hasOptionalString(context.zusaetzlicheAngaben)
@@ -124,48 +166,17 @@ const hasTatsaechlicherFlugNoWithKeineAnkunftDone: FluggastrechteFlugdatenGuard 
 
 export const flugdatenDone: FluggastrechteFlugdatenGuard = ({ context }) => {
   const doneCases: Record<string, FluggastrechteFlugdatenGuard[]> = {
-    verspaetetWithZwischenstopp: [
+    verspaetet: [
       hasTatsaechlicherFlugYesAnkunftDone,
       hasTatsaechlicherFlugNoWithErsatzFlugDone,
       hasTatsaechlicherFlugNoWithOthersDone,
       hasTatsaechlicherFlugNoWithKeineAnkunftDone,
     ],
-    verspaetetWithoutZwischenstopp: [
-      hasTatsaechlicherFlugYesAnkunftDone,
-      hasTatsaechlicherFlugNoWithErsatzFlugDone,
-      hasTatsaechlicherFlugNoWithOthersDone,
-      hasTatsaechlicherFlugNoWithKeineAnkunftDone,
-    ],
-    annullierungWithZwischenstopp: [
-      hasTatsaechlicherFlugNoWithErsatzFlugDone,
-      hasTatsaechlicherFlugNoWithOthersDone,
-      hasTatsaechlicherFlugNoWithKeineAnkunftDone,
-    ],
-    annullierungWithoutZwischenstopp: [
-      hasErsatzFlugDone,
-      hasOthersDone,
-      hasKeineAnkunftDone,
-    ],
-    nichtbefoerderungWithZwischenstopp: [
-      hasTatsaechlicherFlugNoWithErsatzFlugDone,
-      hasTatsaechlicherFlugNoWithOthersDone,
-      hasTatsaechlicherFlugNoWithKeineAnkunftDone,
-    ],
-    nichtbefoerderungWithoutZwischenstopp: [
-      hasErsatzFlugDone,
-      hasOthersDone,
-      hasKeineAnkunftDone,
-    ],
-    anderesWithZwischenstopp: [], // placeholder
-    anderesWithoutZwischenstopp: [],
+    annullierung: [hasErsatzFlugDone, hasOthersDone, hasKeineAnkunftDone],
+    nichtbefoerderung: [hasErsatzFlugDone, hasOthersDone, hasKeineAnkunftDone],
   };
 
-  const doneIdentifier = [
-    context.bereich,
-    context.zwischenstoppAnzahl !== "no"
-      ? "WithZwischenstopp"
-      : "WithoutZwischenstopp",
-  ].join("");
+  const doneIdentifier = [context.bereich].join("");
 
   const donePaths = doneCases[doneIdentifier] || [];
 

@@ -1,5 +1,3 @@
-import _ from "lodash";
-import { getFinanzielleAngabenPartnerSubflow } from "~/flows/shared/finanzielleAngaben/partner";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { BeratungshilfeFinanzielleAngaben } from "./context";
 import {
@@ -92,28 +90,87 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
         },
       },
     },
-    partner: _.merge(
-      getFinanzielleAngabenPartnerSubflow(partnerDone, {
-        backStep: "#einkommen.einkommen",
-        playsNoRoleTarget: "#kinder.kinder-frage",
-        partnerNameTarget: "#kinder.kinder-frage",
-        partnerIncomeTarget: "partner-einkommen-summe",
-        nextStep: "#kinder.kinder-frage",
-      }),
-      {
-        id: "partner",
-        initial: "partnerschaft",
-        states: {
-          partnerschaft: {},
-          "partner-einkommen-summe": {
-            on: {
-              BACK: "partner-einkommen",
-              SUBMIT: "#kinder.kinder-frage",
-            },
+    partner: {
+      id: "partner",
+      initial: "partnerschaft",
+      meta: {
+        done: partnerDone,
+      },
+      states: {
+        partnerschaft: {
+          on: {
+            BACK: "#einkommen.einkommen",
+            SUBMIT: [
+              {
+                guard: guards.hasPartnerschaftYes,
+                target: "zusammenleben",
+              },
+              "#kinder.kinder-frage",
+            ],
+          },
+        },
+        zusammenleben: {
+          on: {
+            BACK: "partnerschaft",
+            SUBMIT: [
+              {
+                guard: guards.zusammenlebenYes,
+                target: "partner-einkommen",
+              },
+              "unterhalt",
+            ],
+          },
+        },
+        unterhalt: {
+          on: {
+            BACK: "zusammenleben",
+            SUBMIT: [
+              {
+                guard: guards.unterhaltYes,
+                target: "unterhalts-summe",
+              },
+              "keine-rolle",
+            ],
+          },
+        },
+        "keine-rolle": {
+          on: {
+            BACK: "unterhalt",
+            SUBMIT: "#kinder.kinder-frage",
+          },
+        },
+        "unterhalts-summe": {
+          on: {
+            BACK: "unterhalt",
+            SUBMIT: "partner-name",
+          },
+        },
+        "partner-name": {
+          on: {
+            BACK: "unterhalts-summe",
+            SUBMIT: "#kinder.kinder-frage",
+          },
+        },
+        "partner-einkommen": {
+          on: {
+            BACK: "zusammenleben",
+            SUBMIT: [
+              {
+                guard: guards.partnerEinkommenYes,
+                target: "partner-einkommen-summe",
+              },
+              "#kinder.kinder-frage",
+            ],
+          },
+        },
+        "partner-einkommen-summe": {
+          on: {
+            BACK: "partner-einkommen",
+            SUBMIT: "#kinder.kinder-frage",
           },
         },
       },
-    ),
+    },
     kinder: {
       id: "kinder",
       initial: "kinder-frage",
