@@ -1,8 +1,25 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
+import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import { fillRechtsschutzversicherung } from "~/services/pdf/prozesskostenhilfe/B_rechtsschutzversicherung";
 
 let pdfParams: ProzesskostenhilfePDF;
+
+const testCases: Array<
+  [
+    ProzesskostenhilfeFormularContext,
+    {
+      [val in keyof Partial<ProzesskostenhilfePDF>]: {
+        value: boolean | string;
+      };
+    },
+  ]
+> = [
+  [
+    { hasRsv: "no", hasRsvThroughOrg: "no" },
+    { "1Nein": { value: true }, nein_3: { value: true } },
+  ],
+];
 
 describe("B_rechtsschutzversicherung", () => {
   beforeEach(() => {
@@ -78,6 +95,18 @@ describe("B_rechtsschutzversicherung", () => {
       expect(pdfValues.bezeichnungderVersicherung.value).toBe(
         "Verein/Organisation: Ja (siehe Belege)",
       );
+    });
+
+    it.each(testCases)(`Given %o, should return %o`, (userData, expected) => {
+      const { pdfValues } = fillRechtsschutzversicherung({
+        pdfValues: pdfParams,
+        userData,
+      });
+      Object.entries(expected).forEach(([key, value]) => {
+        expect(pdfValues[key as keyof ProzesskostenhilfePDF].value).toBe(
+          value.value,
+        );
+      });
     });
   });
 });
