@@ -277,15 +277,15 @@
         "SUBMIT": [
           {
             "target": "ergebnis/fluggesellschaft-nicht-eu-abbruch",
-            "guard": "isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftNotEU"
-          },
-          {
-            "target": "ergebnis/fluggesellschaft-nicht-eu-abbruch",
             "guard": "isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU"
           },
           {
+            "target": "ergebnis/fluggesellschaft-nicht-eu-abbruch",
+            "guard": "isDestinationGermanAirportsAndIsNotEligibleToClaim"
+          },
+          {
             "target": "ergebnis/fluggesellschaft-abbruch",
-            "guard": "isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftSonstiges"
+            "guard": "isDestinationGermanAirportsAndFluggesellschaftSonstiges"
           },
           {
             "target": "ergebnis/fluggesellschaft-abbruch-eu",

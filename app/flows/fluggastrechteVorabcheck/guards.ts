@@ -26,27 +26,20 @@ export const guards = {
     );
     return distance.isErr;
   },
-  isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftNotEU: ({
+  isDestinationGermanAirportsAndIsNotEligibleToClaim: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
     const isStartAirportGerman = isGermanAirport(startAirport);
     const isEndAirportGerman = isGermanAirport(endAirport);
 
-    if (!isStartAirportGerman && !isEndAirportGerman) {
-      return false;
-    }
-
-    const hasStartAirportPartnerCourt = hasAirportPartnerCourt(startAirport);
-    const hasEndAirportPartnerCourt = hasAirportPartnerCourt(endAirport);
-
     return (
-      !hasStartAirportPartnerCourt &&
-      !hasEndAirportPartnerCourt &&
+      isEndAirportGerman &&
+      !isStartAirportGerman &&
       !isFluggesellschaftInEU(fluggesellschaft)
     );
   },
   /**
-   * The functions isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftNotEU and isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU
+   * The functions isDestinationGermanAirportsAndIsNotEligibleToClaim and isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU
    * go to the same page, but the logic are different, so keeping them in two different functions to test it properly
    * */
   isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU: ({
@@ -63,22 +56,15 @@ export const guards = {
 
     return isEndAirportEU && !isFluggesellschaftInEU(fluggesellschaft);
   },
-  isGermanAirportsAndHasNotPartnerCourtAndFluggesellschaftSonstiges: ({
+  isDestinationGermanAirportsAndFluggesellschaftSonstiges: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
     const isStartAirportGerman = isGermanAirport(startAirport);
     const isEndAirportGerman = isGermanAirport(endAirport);
 
-    if (!isStartAirportGerman && !isEndAirportGerman) {
-      return false;
-    }
-
-    const hasStartAirportPartnerCourt = hasAirportPartnerCourt(startAirport);
-    const hasEndAirportPartnerCourt = hasAirportPartnerCourt(endAirport);
-
     return (
-      !hasStartAirportPartnerCourt &&
-      !hasEndAirportPartnerCourt &&
+      isEndAirportGerman &&
+      !isStartAirportGerman &&
       fluggesellschaft === "sonstiges"
     );
   },
@@ -193,10 +179,35 @@ export const guards = {
     const hasStartAirportPartnerCourt = hasAirportPartnerCourt(startAirport);
     const hasEndAirportPartnerCourt = hasAirportPartnerCourt(endAirport);
 
-    return (
-      !hasStartAirportPartnerCourt &&
+    const isStartAirportGerman = isGermanAirport(startAirport);
+    const isEndAirportGerman = isGermanAirport(endAirport);
+    const isAirlineInEu = isFluggesellschaftInEU(fluggesellschaft);
+
+    // only with german destination
+    if (
+      isEndAirportGerman &&
+      !isStartAirportGerman &&
       !hasEndAirportPartnerCourt &&
-      isFluggesellschaftInEU(fluggesellschaft)
+      isAirlineInEu &&
+      fluggesellschaft !== "sonstiges"
+    ) {
+      return true;
+    }
+
+    // german departure without partner court
+    if (
+      isStartAirportGerman &&
+      !hasStartAirportPartnerCourt &&
+      !hasEndAirportPartnerCourt
+    ) {
+      return true;
+    }
+
+    // german departure with partner court either in departure or departure
+    return (
+      isStartAirportGerman &&
+      (hasStartAirportPartnerCourt || hasEndAirportPartnerCourt) &&
+      fluggesellschaft === "sonstiges"
     );
   },
   ...yesNoGuards("verspaetung"),
