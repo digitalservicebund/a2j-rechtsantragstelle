@@ -25,7 +25,6 @@ import LinkListBox from "./LinkListBox";
 import List from "./List";
 import RichText from "./RichText";
 import { keyFromElement } from "../services/cms/keyFromElement";
-import { el } from "@faker-js/faker";
 
 function wrapInContainer(
   cmsData: StrapiContentComponent,

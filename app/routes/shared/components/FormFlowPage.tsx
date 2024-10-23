@@ -33,7 +33,6 @@ export function FormFlowPage() {
   const { pathname } = useLocation();
   const fieldNames = formElements.map((entry) => entry.name);
   const validator = validatorForFieldnames(fieldNames, pathname);
-  console.log({ content });
 
   return (
     <Background backgroundColor="blue">
