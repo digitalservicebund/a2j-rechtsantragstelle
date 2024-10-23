@@ -47,7 +47,7 @@ type FillCoverageProps = {
   field2Text: string;
 };
 
-function fillRSVCoverage({
+export function fillRSVCoverage({
   pdfValues,
   userData,
   field1Text,
@@ -69,7 +69,7 @@ function fillRSVCoverage({
   };
 }
 
-function fillOrgCoverage({
+export function fillOrgCoverage({
   pdfValues,
   userData,
   field1Text,
