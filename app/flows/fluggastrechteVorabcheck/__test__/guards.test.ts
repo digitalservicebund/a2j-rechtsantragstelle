@@ -624,7 +624,7 @@ describe("fluggastrechteGuard", () => {
           expect(actual).toBe(false);
         });
 
-        it("should return false given a destination airport with partner court and sonstiges airline", () => {
+        it("should return true given a destination airport with partner court and sonstiges airline", () => {
           const context: FluggastrechtVorabcheckContext = {
             startAirport: "AMS",
             endAirport: "BER",
@@ -636,7 +636,7 @@ describe("fluggastrechteGuard", () => {
             context,
           });
 
-          expect(actual).toBe(false);
+          expect(actual).toBe(true);
         });
       });
 
