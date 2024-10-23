@@ -7,7 +7,7 @@ const isFlowIdInPathname = (pathname: string): boolean => {
 
 export const shouldSetCacheControlHeader = (
   pathname: string,
-  trackingConsent: string | undefined,
+  trackingConsent: "true" | "false" | undefined,
 ): boolean => {
-  return trackingConsent === "true" || isFlowIdInPathname(pathname);
+  return typeof trackingConsent === "undefined" || isFlowIdInPathname(pathname);
 };
