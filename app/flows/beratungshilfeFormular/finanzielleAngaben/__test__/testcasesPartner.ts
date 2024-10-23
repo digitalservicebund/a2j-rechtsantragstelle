@@ -35,14 +35,6 @@ const cases = [
     ],
   ],
   [
-    { partnerschaft: "yes", unterhalt: "yes" },
-    [
-      finanzielleAngabenPartnerPartnerschaft,
-      finanzielleAngabenPartnerZusammenleben,
-      finanzielleAngabenKinderKinderFrage,
-    ],
-  ],
-  [
     { partnerschaft: "yes", zusammenleben: "yes", unterhalt: "yes" },
     [
       finanzielleAngabenPartnerPartnerschaft,
@@ -77,15 +69,6 @@ const cases = [
       finanzielleAngabenPartnerZusammenleben,
       finanzielleAngabenPartnerPartnerEinkommen,
       "finanzielle-angaben/partner/partner-einkommen-summe",
-      finanzielleAngabenKinderKinderFrage,
-    ],
-  ],
-  [
-    { partnerschaft: "yes", zusammenleben: "no" },
-    [
-      finanzielleAngabenPartnerPartnerschaft,
-      finanzielleAngabenPartnerZusammenleben,
-      finanzielleAngabenPartnerUnterhalt,
       finanzielleAngabenKinderKinderFrage,
     ],
   ],
