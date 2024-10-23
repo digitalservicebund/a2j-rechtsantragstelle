@@ -19,21 +19,21 @@ describe("Headers", () => {
     errorHeaders: mockHeaders({}),
   };
 
-  it("returns correct headers without Cache-Control when trackingConsentSet is false", () => {
-    const loaderHeaders = mockHeaders({ trackingConsentSet: "false" });
+  it("should set default security headers", () => {
+    const loaderHeaders = mockHeaders({});
     expect(headers({ ...mockheaders, loaderHeaders })).toEqual(defaultHeaders);
   });
 
-  it("returns correct headers with Cache-Control when trackingConsentSet is true", () => {
-    const loaderHeaders = mockHeaders({ trackingConsentSet: "true" });
+  it("should not set Cache-Control header when shouldNotCache returns false", () => {
+    const loaderHeaders = mockHeaders({ shouldAddCacheControl: "false" });
+    expect(headers({ ...mockheaders, loaderHeaders })).toEqual(defaultHeaders);
+  });
+
+  it("should set Cache-Control header when shouldNotCache returns true", () => {
+    const loaderHeaders = mockHeaders({ shouldAddCacheControl: "true" });
     expect(headers({ ...mockheaders, loaderHeaders })).toEqual({
       ...defaultHeaders,
       "Cache-Control": "no-store",
     });
-  });
-
-  it("handles missing trackingConsentSet header", () => {
-    const loaderHeaders = mockHeaders({});
-    expect(headers({ ...mockheaders, loaderHeaders })).toEqual(defaultHeaders);
   });
 });
