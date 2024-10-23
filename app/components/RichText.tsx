@@ -21,8 +21,12 @@ const defaultRenderer: Partial<Renderer> = {
   },
   heading({ depth, text }) {
     const cssClass =
-      ["ds-heading-01-reg", "ds-heading-02-reg"].at(depth - 1) ??
-      "ds-label-01-bold";
+      [
+        "ds-heading-01-reg",
+        "ds-heading-02-reg",
+        "ds-heading-03-reg",
+        "ds-label-01-bold",
+      ].at(depth - 1) ?? "ds-label-01-reg";
     return `<h${depth} class="${cssClass}">${text}</h${depth}>`;
   },
 } as const;
