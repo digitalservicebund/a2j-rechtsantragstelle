@@ -15,7 +15,7 @@ export const concatenateGesetzlicherVertreterString = (
 ): string => {
   const { nachname, vorname, strasseHausnummer, plz, ort, telefonnummer } =
     userData?.gesetzlicheVertretungDaten || {};
-  return `${nachname ?? ""} ${vorname ?? ""} ${strasseHausnummer ? "," + strasseHausnummer : ""}, ${plz ?? ""} ${ort ?? ""}, ${telefonnummer ?? ""}`;
+  return `${nachname} ${vorname}, ${strasseHausnummer}, ${plz} ${ort}, ${telefonnummer}`;
 };
 
 export const concatenateNameVornameString = (

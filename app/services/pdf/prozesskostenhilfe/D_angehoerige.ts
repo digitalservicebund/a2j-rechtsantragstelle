@@ -1,7 +1,7 @@
 import type { PkhPdfFillFunction } from "~/services/pdf/prozesskostenhilfe";
 import type { AttachmentEntries } from "../attachment";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
-const ATTACHMENT_DESCRIPTION_SECTION_D =
+export const ATTACHMENT_DESCRIPTION_SECTION_D =
   "FELD D: Angehörige, denen Sie Bar- oder Naturalunterhalt gewähren";
 
 const familyRelationshipMap = {
