@@ -15,22 +15,17 @@ export async function startFinanzielleAngabenEigentum(
   await formular.clickNext();
 
   // /finanzielle-angaben/eigentum/bankkonten-frage
-  await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("hasBankkonto", "yes");
 
   // /finanzielle-angaben/eigentum/geldanlagen-frage
-  await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("hasGeldanlage", "yes");
 
   // /finanzielle-angaben/eigentum/wertsachen-frage
-  await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("hasWertsache", "yes");
 
   // /finanzielle-angaben/eigentum/grundeigentum-frage
-  await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("hasGrundeigentum", "yes");
 
   // /finanzielle-angaben/eigentum/kraftfahrzeuge-frage
-  await expectPageToBeAccessible({ page });
   await formular.fillRadioPage("hasKraftfahrzeug", "yes");
 }

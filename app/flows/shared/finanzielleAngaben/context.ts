@@ -18,6 +18,8 @@ export const Eigentuemer = z.enum(
   customRequiredErrorMessage,
 );
 
+export type Eigentumer = z.infer<typeof Eigentuemer>;
+
 const MINUS_150_YEARS = -150;
 
 export const GrundeigentumArt = z.enum(
@@ -60,6 +62,8 @@ export const staatlicheLeistungen = z.enum(
   customRequiredErrorMessage,
 );
 
+export type BankkontenArraySchema = z.infer<typeof bankkontenArraySchema>;
+
 export const bankkontenArraySchema = z.array(
   z.object({
     bankName: stringRequiredSchema,
@@ -81,6 +85,15 @@ export const financialEntrySchema = z.object({
 
 export type FinancialEntry = z.infer<typeof financialEntrySchema>;
 
+export const kraftfahrzeugWert = z.enum(
+  ["under10000", "over10000", "unsure"],
+  customRequiredErrorMessage,
+);
+
+export type KraftfahrzeugeArraySchema = z.infer<
+  typeof kraftfahrzeugeArraySchema
+>;
+
 export const kraftfahrzeugeArraySchema = z.array(
   z
     .object({
@@ -96,61 +109,68 @@ export const kraftfahrzeugeArraySchema = z.array(
       baujahr: createYearSchema({ latest: () => today().getFullYear() }),
       bemerkung: stringRequiredSchema,
       hasArbeitsweg: YesNoAnswer,
-      wert: z.enum(
-        ["under10000", "over10000", "unsure"],
-        customRequiredErrorMessage,
-      ),
+      wert: kraftfahrzeugWert,
     })
     .partial(),
 );
 
-export const gelanlagenArraySchema = z.array(
-  z.object({
-    art: z.enum(
-      [
-        "bargeld",
-        "wertpapiere",
-        "guthabenkontoKrypto",
-        "giroTagesgeldSparkonto",
-        "befristet",
-        "forderung",
-        "sonstiges",
-      ],
-      customRequiredErrorMessage,
-    ),
-    eigentuemer: Eigentuemer,
-    wert: buildMoneyValidationSchema(),
+export type GeldanlagenArraySchema = z.infer<typeof geldanlagenArraySchema>;
 
-    kontoBankName: stringOptionalSchema,
-    kontoIban: stringOptionalSchema,
-    kontoBezeichnung: stringOptionalSchema,
-
-    befristetArt: z
-      .enum(
-        ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
+export const geldanlagenArraySchema = z.array(
+  z
+    .object({
+      art: z.enum(
+        [
+          "bargeld",
+          "wertpapiere",
+          "guthabenkontoKrypto",
+          "giroTagesgeldSparkonto",
+          "befristet",
+          "forderung",
+          "sonstiges",
+        ],
         customRequiredErrorMessage,
-      )
-      .optional(),
+      ),
+      eigentuemer: Eigentuemer,
+      wert: buildMoneyValidationSchema(),
 
-    forderung: stringOptionalSchema,
-    verwendungszweck: stringOptionalSchema,
-    auszahlungdatum: stringOptionalSchema,
-  }),
+      kontoBankName: stringOptionalSchema,
+      kontoIban: stringOptionalSchema,
+      kontoBezeichnung: stringOptionalSchema,
+
+      befristetArt: z
+        .enum(
+          ["lifeInsurance", "buildingSavingsContract", "fixedDepositAccount"],
+          customRequiredErrorMessage,
+        )
+        .optional(),
+
+      forderung: stringOptionalSchema,
+      verwendungszweck: stringOptionalSchema,
+      auszahlungdatum: stringOptionalSchema,
+    })
+    .partial(),
 );
+
+export type GrundeigentumArraySchema = z.infer<typeof grundeigentumArraySchema>;
 
 export const grundeigentumArraySchema = z.array(
-  z.object({
-    isBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),
-    art: GrundeigentumArt,
-    eigentuemer: Eigentuemer,
-    flaeche: stringRequiredSchema,
-    verkaufswert: buildMoneyValidationSchema(),
-    strassehausnummer: stringRequiredSchema,
-    plz: stringOptionalSchema,
-    ort: stringRequiredSchema,
-    land: stringRequiredSchema,
-  }),
+  z
+    .object({
+      isBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),
+      art: GrundeigentumArt,
+      eigentuemer: Eigentuemer,
+      flaeche: stringRequiredSchema,
+      verkaufswert: buildMoneyValidationSchema(),
+      strassehausnummer: stringRequiredSchema,
+      plz: stringOptionalSchema,
+      ort: stringRequiredSchema,
+      land: stringRequiredSchema,
+    })
+    .partial(),
 );
+
+export type WertsachenArraySchema = z.infer<typeof wertsachenArraySchema>;
 
 export const wertsachenArraySchema = z.array(
   z.object({

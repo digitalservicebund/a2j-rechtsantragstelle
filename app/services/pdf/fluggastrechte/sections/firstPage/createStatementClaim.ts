@@ -23,10 +23,9 @@ export const getDefendantPartyList = (
 };
 
 export const STATEMENT_CLAIM_TITLE_TEXT = "Klageantrag";
-export const STATEMENT_CLAIM_SUBTITLE_TEXT =
-  "Die klagende Partei erhebt Antrag,";
+export const STATEMENT_CLAIM_SUBTITLE_TEXT = "Es wird beantragt,";
 export const STATEMENT_CLAIM_COURT_SENTENCE =
-  "Sofern das Gericht das schriftliche Vorverfahren anordnet, wird für den Fall der Fristversäumnis beantragt, die beklagte Partei durch Versäumnisurteil ohne mündliche Verhandlung zu verurteilen (§ 331 ZPO).";
+  "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 331 Abs. 1 und Abs. 3 ZPO gestellt.";
 export const STATEMENT_CLAIM_AGREEMENT_SENTENCE =
   "Mit einer Entscheidung im schriftlichen Verfahren ohne mündliche Verhandlung (§ 128 Abs. 2 ZPO) sowie der Durchführung einer Videoverhandlung (§ 128a ZPO) bin ich einverstanden.";
 

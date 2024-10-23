@@ -19,7 +19,7 @@ beforeEach(() => {
 describe("getRouteCompensationBetweenAirports", () => {
   it("should return longDistanceInsideEU if the distance is more than 3500km and the start and end aiports are in EU", () => {
     mockedCalculateDistanceBetweenAirports.mockReturnValue(Result.ok(3600));
-    mockedIsEuropeanUnionAirport.mockReturnValue(Result.ok(true));
+    mockedIsEuropeanUnionAirport.mockReturnValue(true);
 
     const actual = getRouteCompensationBetweenAirports("BER", "MUN");
 
@@ -28,7 +28,7 @@ describe("getRouteCompensationBetweenAirports", () => {
 
   it("should return longDistanceOutsideEU if the distance is more than 3500km and the start and end aiports are not in EU", () => {
     mockedCalculateDistanceBetweenAirports.mockReturnValue(Result.ok(3600));
-    mockedIsEuropeanUnionAirport.mockReturnValue(Result.ok(false));
+    mockedIsEuropeanUnionAirport.mockReturnValue(false);
 
     const actual = getRouteCompensationBetweenAirports("BER", "MUN");
 

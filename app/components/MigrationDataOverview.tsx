@@ -2,13 +2,17 @@ import type { Context } from "~/flows/contexts";
 import { type Translations } from "~/services/cms/index.server";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import { lookupOrKey } from "~/util/lookupOrKey";
+import Button from "./Button";
 import Heading from "./Heading";
 
 type MigrationDataProps = {
-  readonly migrationData?: Context;
+  readonly userData?: Context;
   readonly translations: Translations;
-  readonly migrationOrderFields?: string[];
+  readonly sortedFields?: string[];
+  readonly buttonUrl?: string;
 };
+
+const MIGRATION_BUTTON_TEXT_TRANSLATION = "migrationButtonText";
 
 type ValueOfContext = Context[keyof Context];
 
@@ -34,34 +38,35 @@ const renderMigrationValue = (
   return translation;
 };
 
-const getOrderFieldsData = (
-  migrationData: Context,
-  migrationOrderFields?: string[],
+const getSortedFieldsUserData = (
+  userData: Context,
+  sortedFields?: string[],
 ) => {
-  if (typeof migrationOrderFields === "undefined") {
-    return migrationData;
+  if (typeof sortedFields === "undefined" || sortedFields.length === 0) {
+    return userData;
   }
 
-  return migrationOrderFields.reduce((orderedData, key) => {
-    if (key in migrationData) {
-      orderedData[key] = migrationData[key];
+  return sortedFields.reduce((sortedUserData, key) => {
+    if (key in userData) {
+      sortedUserData[key] = userData[key];
     }
-    return orderedData;
+    return sortedUserData;
   }, {} as Context);
 };
 
 export default function MigrationDataOverview({
   translations,
-  migrationData,
-  migrationOrderFields,
+  userData,
+  sortedFields,
+  buttonUrl,
 }: MigrationDataProps) {
-  if (!migrationData || Object.keys(migrationData).length === 0) return null;
+  if (!userData || Object.keys(userData).length === 0) return null;
 
-  const data = getOrderFieldsData(migrationData, migrationOrderFields);
+  const sortedFieldsUserData = getSortedFieldsUserData(userData, sortedFields);
 
   return (
     <div className="space-y-16 bg-white pt-32 pb-44 px-32">
-      {Object.entries(data).map(([itemKey, itemValue]) => (
+      {Object.entries(sortedFieldsUserData).map(([itemKey, itemValue]) => (
         <div key={itemKey} className="first:pt-0 scroll-my-40">
           <Heading
             text={getTranslationByKey(itemKey, translations)}
@@ -72,6 +77,12 @@ export default function MigrationDataOverview({
           {renderMigrationValue(translations, itemValue, itemKey)}
         </div>
       ))}
+
+      {buttonUrl && (
+        <Button href={buttonUrl} look="tertiary" size="large" className="w-fit">
+          {getTranslationByKey(MIGRATION_BUTTON_TEXT_TRANSLATION, translations)}
+        </Button>
+      )}
     </div>
   );
 }
