@@ -9,8 +9,6 @@ Accepted
 This ADR documents the current testing strategy and implementation in our codebase.
 The goal is to provide a comprehensible overview of the status quo and identify areas for improvement.
 
-## Current Testing Strategy
-
 ### Test Types
 
 #### Unit Tests
@@ -21,9 +19,9 @@ Examples:
 
 - Domain logic tests:
 
+  - Business logic (e.g. `/app/flows/beratungshilfeVorabcheck/__test__/freibetrag.test.ts` tests the calculation of a financial allowance or exemption amount).
   - Guards (e.g. `/app/flows/fluggastrechteVorabcheck/__test__/guards.test.ts` tests the correct behavior of the guards used in the Fluggastrechte Vorabcheck flow).
   - PDF generation (e.g. `/app/services/pdf/beratungshilfe/sections/__test__/A_angelegenheit.test.ts` ensure that the form fields and attachments of section A of the Beratungshilfe PDF are correctly filled with the provided data).
-  - Financial calculation logic (e.g. `/app/flows/beratungshilfeVorabcheck/__test__/freibetrag.test.ts` tests the calculation of a financial allowance or exemption amount).
 
 - Application logic tests:
 
@@ -45,7 +43,7 @@ Examples:
 
 - Navigation for content pages (e.g. `/tests/e2e/pages/beratungshilfe.spec.ts` ensures the `/beratungshilfe` page is can be accessed and navigated).
 - Interactive forms (e.g. `/tests/e2e/flowPages/beratungshilfe/vorabcheck/beratungshilfe.vorabcheck.spec.ts` tests the complete traversal of the Beratungshilfe Vorabcheck flow).
-- Accessibility (e.g. `/tests/e2e/pages/datenschutz.spec.ts` also tests the accessibility of the Datenschutz page).
+- Accessibility (e.g. `tests/e2e/pages/accessibilityScans.spec.ts` tests most of the content pages).
 - Application security (e.g. `/tests/e2e/common/csrf.spec.ts`, which validates CSRF token behavior across multiple tabs).
 
 ### Test Coverage
@@ -57,14 +55,14 @@ Coverage is captured using `vitest` and therefore analyzed for all tests that ar
 #### Coverage Gaps
 
 - Not all possible paths through the different flows are covered by our `flows.test.ts` integration tests.
-- We do not test whether all pages are available in the CMS.
 - We do not test different browser and device types with our e2e tests.
 - We do not test failing form validations.
-- Page accessibility is checked inconsistently across the e2e tests of the flows.
+- Page accessibility is checked inconsistently across the e2e tests of the flows (missing "sub"-content-pages and missing flow pages).
 - Application security is only tested to a very limited extent.
 - We do not capture coverage for our e2e tests.
 - We do not test multiple device types and browsers in our e2e tests.
-- We do not test whether the field names from our cms match the app schema.
+- Testing of the interaction between the app and the CMS has gaps.
+- We do not test whether the user data reaches the PDF and is displayed correctly.
 
 ### Test Frameworks and Tools
 
@@ -149,22 +147,23 @@ The current testing strategy is documented as described above. This ADR serves a
 
 #### Unit tests
 
-- Add test that verify field names from strapi match app schema.
-- Add accessibility tests for individual React components.
-- Add tests for failing form validations.
+- Intentionalize accessibility tests (e.g add accessibility tests for individual React components).
 
 #### Integration tests
 
 - Cover all possible paths of each flow with our `/app/flows/__test__/flows.test.ts` integration tests.
 - Improve log output of failing tests in `/app/flows/__test__/flows.test.ts`.
+- Improve test coverage between app and cms interface (e.g. test if all pages are available in the CMS, test if field names from strapi match app schema).
+- Add tests for failing form validations.
 
 #### End-to-End tests
 
 - Only test the shortest path (including pdf download) of each flow in the e2e tests.
 - Add other device types and browsers in our e2e tests.
+- Add tests for PDF generation and display.
 
 #### General
 
 - Change pre-commit vitest test runs to pre-push.
 - Replace or remove fishery package, since it has not been updated for 3 years.
-- Spike to improve application security testing.
+- Expand our security e2e-tests, like checking security headers.
