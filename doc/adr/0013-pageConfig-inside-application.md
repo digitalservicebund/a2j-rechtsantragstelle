@@ -50,7 +50,7 @@ Note that the `fieldnames` are passed from the CMS via the loader and front/back
 
 ## Decision
 
-Instead, the app should be the single-source-of-truth (SSOT) for flow configuration, which includes the stepSchema. The CMS should be the source of content _only_ (includes the labels for fields). This is done by the introduction of a new `PageConfig`, that defines each page's `stepId` and `stepSchema` and would replace our current `SchemaStore` (aka `context`/`userInputSchema`):
+Instead, the app should be the single-source-of-truth for flow configuration, which includes the `stepSchema`. The CMS should serve content _only_ (which of course would inclide the labels of form fields). There, we should introduce a new `PageConfig` abstraction, that links the `stepId` and `stepSchema` of each page and would replace our current `SchemaStore` (aka `context`/`userInputSchema`):
 
 ```typescript
 type StepSchema = Record<string, z.ZodType>;
@@ -66,7 +66,7 @@ const pages = {
 
 #### Diagram
 
-Now, any consumer can request a `stepSchema` directly from the app via the `slug`:
+Now, any component can receive a `stepSchema` directly from the `PageConfig` by passing the `slug`:
 
 ```mermaid
 sequenceDiagram
@@ -85,7 +85,7 @@ PageConfig->>Backend: stepSchema
 
 #### Note
 
-While not neccessary, his could be integrated in our existing xStateConfig:
+While not neccessary, this could be integrated in our existing xStateConfig:
 
 ```typescript
 const xStateConfig = {
@@ -101,7 +101,8 @@ const xStateConfig = {
 
 ### Pros:
 
-- Full decoupling of domains (flow configuration & content)
+- Full decoupling of domains (flow configuration vs content)
+- Follows mental model of domain driven architecture
 - App works without CMS (faster prototyping...)
 
 ### Cons:
@@ -117,13 +118,13 @@ While this is rarely done, it would be a bit more complicated due to the separat
 
 1. Add form field to new page
 2. Trigger content release (the new page wouldn't change as the app is in charge of whats shown)
-3. Field is moved in the app (aka in the `PageConfig`)
-4. Trigger app release (now the form field will ONLY appear on the new page)
+3. Field is moved to its new location in the `PageConfig`
+4. Trigger app release (now the form field will appear on the new page)
 5. Remove form field from the old page in CMS
 
 #### Syncronizing form fields
 
-The downside could be fully mitigated by synchronizing the app with the CMS. This could be either done by:
+The downside of doubling field names & definition could be mitigated by synchronizing the CMS with the app. This could be either done by:
 
-- Publishing the fieldnames via an endpoint that the CMS consumes to populate fieldnames
-- Pushing changes on deploy to the CMS (probably via a simple POST request)
+- Publishing the fieldnames via an endpoint that the CMS consumes
+- Pushing changes to the CMS on deploy (probably via a simple POST request)
