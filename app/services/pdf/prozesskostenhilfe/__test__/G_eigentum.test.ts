@@ -1,6 +1,5 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../attachment";
 import {
   fillBankkonto,
   fillBargeldOderWertgegenstaende,
@@ -8,6 +7,7 @@ import {
   fillKraftfahrzeuge,
   fillSonstigeVermoegenswerte,
 } from "~/services/pdf/prozesskostenhilfe/G_eigentum";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../attachment";
 
 let pdfParams: ProzesskostenhilfePDF;
 

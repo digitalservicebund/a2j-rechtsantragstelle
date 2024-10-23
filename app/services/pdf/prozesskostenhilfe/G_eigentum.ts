@@ -1,5 +1,4 @@
 import type { AttachmentEntries } from "~/services/pdf/attachment";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import type { PkhPdfFillFunction } from "~/services/pdf/prozesskostenhilfe";
 import {
@@ -15,6 +14,7 @@ import {
   attachGeldanlagenToAnhang,
 } from "~/services/pdf/shared/eigentumHelpers";
 import { arrayIsNonEmpty } from "~/util/array";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
 
 export const fillBankkonto: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const { bankkonten, hasBankkonto } = userData;
