@@ -11,7 +11,7 @@ const StrapiInlineNoticeSchema = z
     title: z.string(),
     tagName: z.enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"]),
     look: z.enum(["warning", "tips"]),
-    content: z.string().optional(),
+    content: z.string().nullable(),
     container: StrapiContainerSchema,
     outerBackground: StrapiBackgroundSchema.nullable(),
   })
