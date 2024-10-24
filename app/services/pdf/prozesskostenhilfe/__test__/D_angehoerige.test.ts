@@ -15,10 +15,10 @@ describe("D_angehoerige", () => {
       fillFunctions: [fillUnterhaltAngehoerige],
     });
 
-    const hasAttachmentDescriptionSectionE = attachment.some(
+    const hasAttachmentDescriptionSectionD = attachment.some(
       (description) => description.title === ATTACHMENT_DESCRIPTION_SECTION_D,
     );
-    expect(hasAttachmentDescriptionSectionE).toBeFalsy();
+    expect(hasAttachmentDescriptionSectionD).toBeFalsy();
   });
 
   const testContexts = {
@@ -62,10 +62,10 @@ describe("D_angehoerige", () => {
         fillFunctions: [fillUnterhaltAngehoerige],
       });
 
-      const hasAttachmentDescriptionSectionE = attachment.some(
+      const hasAttachmentDescriptionSectionD = attachment.some(
         (description) => description.title === ATTACHMENT_DESCRIPTION_SECTION_D,
       );
-      expect(hasAttachmentDescriptionSectionE).toBeTruthy();
+      expect(hasAttachmentDescriptionSectionD).toBeTruthy();
       expect(pdfValues.angehoerigerNummereins.value).toEqual(
         SEE_IN_ATTACHMENT_DESCRIPTION,
       );

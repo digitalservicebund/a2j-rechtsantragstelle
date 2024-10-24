@@ -22,7 +22,7 @@ export function getFillUnterhalt<
     | ProzesskostenhilfeFormularContext,
   Pdf extends BeratungshilfePDF | ProzesskostenhilfePDF,
 >(
-  title: string,
+  attachmentTitle: string,
   setAttachmentField: (pdf: Pdf) => void,
 ): PdfFillFunction<Context, Pdf> {
   return ({ userData, pdfValues }) => {
@@ -39,7 +39,7 @@ export function getFillUnterhalt<
 
     setAttachmentField(pdfValues);
 
-    attachment.push({ title: title, level: "h2" });
+    attachment.push({ title: attachmentTitle, level: "h2" });
 
     if (zahltPartnerUnterhalt) {
       attachment.push({ title: "Partner", level: "h3" });
