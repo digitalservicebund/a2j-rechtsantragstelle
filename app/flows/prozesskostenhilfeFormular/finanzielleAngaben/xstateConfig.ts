@@ -1,7 +1,15 @@
 import _ from "lodash";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
-import { partnerDone } from "./doneFunctions";
+import {
+  andereUnterhaltszahlungenDone,
+  ausgabenDone,
+  ausgabenZusammenfassungDone,
+  eigentumZusammenfassungDone,
+  kinderDone,
+  partnerDone,
+} from "./doneFunctions";
+import { eigentumDone } from "./eigentumDone";
 import { einkuenfteDone } from "./einkuenfte/doneFunctions";
 import { partnerEinkuenfteGuards } from "./einkuenfte/guards";
 import { getProzesskostenhilfeEinkuenfteSubflow } from "./einkuenfte/xStateConfig";
@@ -10,7 +18,7 @@ export const finanzielleAngabenXstateConfig = {
   initial: "einkuenfte",
   id: "finanzielle-angaben",
   states: {
-    einkuenfte: {},
+    einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
     partner: {
       id: "partner",
       initial: "partnerschaft",
@@ -123,9 +131,11 @@ export const finanzielleAngabenXstateConfig = {
         ),
       },
     },
+
     kinder: {
       id: "kinder",
       initial: "kinder-frage",
+      meta: { done: kinderDone },
       states: {
         "kinder-frage": {
           on: {
@@ -135,6 +145,26 @@ export const finanzielleAngabenXstateConfig = {
                 target: "uebersicht",
               },
               "#andere-unterhaltszahlungen.frage",
+            ],
+            BACK: [
+              {
+                guard: "hasPartnerschaftNo",
+                target: "#partner",
+              },
+              {
+                guard: "partnerEinkommenNo",
+                target: "#partner.partner-einkommen",
+              },
+              {
+                guard:
+                  partnerEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen,
+                target: "#partner-einkuenfte.partner-staatliche-leistungen",
+              },
+              {
+                guard: "partnerHasBesondersAusgabenYes",
+                target: "#partner-einkuenfte.add-partner-besonders-ausgaben",
+              },
+              "#partner-einkuenfte.partner-besonders-ausgaben",
             ],
           },
         },
@@ -235,6 +265,7 @@ export const finanzielleAngabenXstateConfig = {
     },
     "andere-unterhaltszahlungen": {
       id: "andere-unterhaltszahlungen",
+      meta: { done: andereUnterhaltszahlungenDone },
       initial: "frage",
       states: {
         frage: {
@@ -290,6 +321,7 @@ export const finanzielleAngabenXstateConfig = {
     eigentum: {
       id: "eigentum",
       initial: "eigentum-info",
+      meta: { done: eigentumDone },
       states: {
         "eigentum-info": {
           on: {
@@ -363,6 +395,7 @@ export const finanzielleAngabenXstateConfig = {
     "eigentum-zusammenfassung": {
       id: "eigentum-zusammenfassung",
       initial: "zusammenfassung",
+      meta: { done: eigentumZusammenfassungDone },
       states: {
         zusammenfassung: {
           on: {
@@ -555,6 +588,7 @@ export const finanzielleAngabenXstateConfig = {
     ausgaben: {
       id: "ausgaben",
       initial: "ausgaben-frage",
+      meta: { done: ausgabenDone },
       states: {
         "ausgaben-frage": {
           on: {
@@ -595,6 +629,7 @@ export const finanzielleAngabenXstateConfig = {
     "ausgaben-zusammenfassung": {
       id: "ausgaben-zusammenfassung",
       initial: "zusammenfassung",
+      meta: { done: ausgabenZusammenfassungDone },
       states: {
         zusammenfassung: {
           on: {

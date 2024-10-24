@@ -10,13 +10,7 @@ import {
 import { getAntragstellendePersonStrings } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/stringReplacements";
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
-import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
-import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
-import {
-  finanzielleAngabeEinkuenfteGuards,
-  partnerEinkuenfteGuards,
-} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
-import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/xStateConfig";
+import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import {
   nachueberpruefung,
   versandDigitalAnwalt,
@@ -28,14 +22,7 @@ import { prozesskostenhilfePersoenlicheDatenDone } from "~/flows/prozesskostenhi
 import { rechtsschutzversicherungDone } from "~/flows/prozesskostenhilfeFormular/rechtsschutzversicherung/doneFunctions";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/flows/prozesskostenhilfeFormular/rechtsschutzversicherung/xstateConfig";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
-import {
-  andereUnterhaltszahlungenDone,
-  ausgabenDone,
-  ausgabenZusammenfassungDone,
-  eigentumZusammenfassungDone,
-  kinderDone,
-  prozesskostenhilfeFinanzielleAngabeDone,
-} from "./finanzielleAngaben/doneFunctions";
+import { prozesskostenhilfeFinanzielleAngabeDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import prozesskostenhilfeFormularFlow from "./flow.json";
@@ -122,53 +109,7 @@ export const prozesskostenhilfeFormular = {
         ],
         nextFlowEntrypoint: "#finanzielle-angaben",
       }),
-      "finanzielle-angaben": _.merge(finanzielleAngabenXstateConfig, {
-        states: {
-          einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
-          kinder: {
-            meta: { done: kinderDone },
-            states: {
-              "kinder-frage": {
-                on: {
-                  BACK: [
-                    {
-                      guard: "hasPartnerschaftNo",
-                      target: "#partner",
-                    },
-                    {
-                      guard: "partnerEinkommenNo",
-                      target: "#partner.partner-einkommen",
-                    },
-                    {
-                      guard:
-                        partnerEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen,
-                      target:
-                        "#partner-einkuenfte.partner-staatliche-leistungen",
-                    },
-                    {
-                      guard: "partnerHasBesondersAusgabenYes",
-                      target:
-                        "#partner-einkuenfte.add-partner-besonders-ausgaben",
-                    },
-                    "#partner-einkuenfte.partner-besonders-ausgaben",
-                  ],
-                },
-              },
-            },
-          },
-          "andere-unterhaltszahlungen": {
-            meta: { done: andereUnterhaltszahlungenDone },
-          },
-          eigentum: { meta: { done: eigentumDone } },
-          "eigentum-zusammenfassung": {
-            meta: { done: eigentumZusammenfassungDone },
-          },
-          ausgaben: { meta: { done: ausgabenDone } },
-          "ausgaben-zusammenfassung": {
-            meta: { done: ausgabenZusammenfassungDone },
-          },
-        },
-      }),
+      "finanzielle-angaben": finanzielleAngabenXstateConfig,
       "gesetzliche-vertretung": gesetzlicheVertretungXstateConfig({
         backToCallingFlow: [
           {
