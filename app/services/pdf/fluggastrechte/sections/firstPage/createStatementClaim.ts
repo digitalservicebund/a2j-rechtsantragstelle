@@ -4,7 +4,7 @@ import { getCompensationPayment } from "~/services/airports/getCompensationPayme
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-  PDF_MARGIN,
+  PDF_MARGIN_HORIZONTAL,
 } from "../../createPdfKitDocument";
 
 export const getDefendantPartyList = (
@@ -73,7 +73,7 @@ export const createStatementClaim = (
       doc.struct("LI", {}, () => {
         doc
           .font(FONTS_BUNDESSANS_BOLD)
-          .text(bullet, PDF_MARGIN + 10, undefined, {
+          .text(bullet, PDF_MARGIN_HORIZONTAL + 10, undefined, {
             continued: true,
           })
           .font(FONTS_BUNDESSANS_REGULAR)
@@ -88,9 +88,9 @@ export const createStatementClaim = (
   statementClaimSect.add(
     doc.struct("P", {}, () => {
       if (versaeumnisurteil === "yes") {
-        doc.text(STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN);
+        doc.text(STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN_HORIZONTAL);
       }
-      doc.text(STATEMENT_CLAIM_AGREEMENT_SENTENCE, PDF_MARGIN);
+      doc.text(STATEMENT_CLAIM_AGREEMENT_SENTENCE, PDF_MARGIN_HORIZONTAL);
     }),
   );
 

@@ -6,7 +6,7 @@ import {
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_HEIGHT_SEIZE,
-  PDF_MARGIN,
+  PDF_MARGIN_HORIZONTAL,
 } from "../../createPdfKitDocument";
 import { createBankInformation } from "../createBankInformation";
 
@@ -74,7 +74,7 @@ describe("createBankInformation", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       expect.any(String),
-      PDF_MARGIN,
+      PDF_MARGIN_HORIZONTAL,
       PDF_HEIGHT_SEIZE,
     );
   });

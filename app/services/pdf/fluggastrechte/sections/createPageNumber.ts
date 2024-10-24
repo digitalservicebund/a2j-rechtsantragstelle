@@ -2,7 +2,7 @@ import type PDFDocument from "pdfkit";
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_HEIGHT_SEIZE,
-  PDF_MARGIN,
+  PDF_MARGIN_HORIZONTAL,
 } from "../createPdfKitDocument";
 
 export const createPageNumber = (
@@ -18,9 +18,14 @@ export const createPageNumber = (
       doc
         .fontSize(7)
         .font(FONTS_BUNDESSANS_REGULAR)
-        .text(`${pageNumber}/3`, 585 - PDF_MARGIN, PDF_HEIGHT_SEIZE, {
-          align: "right",
-        });
+        .text(
+          `${pageNumber}/3`,
+          585 - PDF_MARGIN_HORIZONTAL,
+          PDF_HEIGHT_SEIZE,
+          {
+            align: "right",
+          },
+        );
     }),
   );
 };
