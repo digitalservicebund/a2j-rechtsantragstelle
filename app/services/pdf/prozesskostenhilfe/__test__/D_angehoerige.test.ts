@@ -2,7 +2,7 @@ import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/pro
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import {
   ATTACHMENT_DESCRIPTION_SECTION_D,
-  fillAngehoerige,
+  fillUnterhaltAngehoerige,
 } from "~/services/pdf/prozesskostenhilfe/D_angehoerige";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../attachment";
 import { pdfFillReducer } from "../../fillOutFunction";
@@ -12,7 +12,7 @@ describe("D_angehoerige", () => {
     const { attachment } = pdfFillReducer({
       userData: {},
       pdfParams: getProzesskostenhilfeParameters(),
-      fillFunctions: [fillAngehoerige],
+      fillFunctions: [fillUnterhaltAngehoerige],
     });
 
     const hasAttachmentDescriptionSectionE = attachment.some(
@@ -59,7 +59,7 @@ describe("D_angehoerige", () => {
       const { pdfValues, attachment } = pdfFillReducer({
         userData: testContext,
         pdfParams: getProzesskostenhilfeParameters(),
-        fillFunctions: [fillAngehoerige],
+        fillFunctions: [fillUnterhaltAngehoerige],
       });
 
       const hasAttachmentDescriptionSectionE = attachment.some(
