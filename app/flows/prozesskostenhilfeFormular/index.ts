@@ -1,4 +1,3 @@
-import { and } from "xstate";
 import type { Flow } from "~/flows/flows.server";
 import { getAbgabeStrings } from "~/flows/prozesskostenhilfeFormular/abgabe/stringReplacements";
 import {
@@ -93,17 +92,15 @@ export const prozesskostenhilfeFormular = {
             target: "#antragstellende-person.unterhaltsanspruch",
           },
           {
-            guard: and([
-              ({ context }) => context.unterhaltsanspruch === "unterhalt",
-              ({ context }) => context.livesPrimarilyFromUnterhalt === "no",
-            ]),
+            guard: ({ context }) =>
+              context.unterhaltsanspruch === "unterhalt" &&
+              context.livesPrimarilyFromUnterhalt === "no",
             target: "#antragstellende-person.unterhalt-hauptsaechliches-leben",
           },
           {
-            guard: and([
-              ({ context }) => context.unterhaltsanspruch === "unterhalt",
-              ({ context }) => context.livesPrimarilyFromUnterhalt === "yes",
-            ]),
+            guard: ({ context }) =>
+              context.unterhaltsanspruch === "unterhalt" &&
+              context.livesPrimarilyFromUnterhalt === "yes",
             target: "#antragstellende-person.eigenes-exemplar",
           },
           {
