@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { and } from "xstate";
 import type { Flow } from "~/flows/flows.server";
 import { getAbgabeStrings } from "~/flows/prozesskostenhilfeFormular/abgabe/stringReplacements";
@@ -25,7 +24,6 @@ import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleA
 import { prozesskostenhilfeFinanzielleAngabeDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
-import prozesskostenhilfeFormularFlow from "./flow.json";
 import type { ProzesskostenhilfeGesetzlicheVertretung } from "./gesetzlicheVertretung/context";
 import { hasGesetzlicheVertretungYes } from "./gesetzlicheVertretung/guards";
 import { gesetzlicheVertretungXstateConfig } from "./gesetzlicheVertretung/xStateConfig";
@@ -43,7 +41,9 @@ import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechts
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
-  config: _.merge(prozesskostenhilfeFormularFlow, {
+  config: {
+    id: "/prozesskostenhilfe/formular",
+    initial: "start",
     meta: {
       arrays: {
         ...finanzielleAngabenArrayConfig(
@@ -55,7 +55,12 @@ export const prozesskostenhilfeFormular = {
       },
     },
     states: {
-      start: { meta: { done: () => true } },
+      start: {
+        id: "antragStart",
+        meta: { done: () => true },
+        initial: "start",
+        states: { start: { on: { SUBMIT: "#grundvorsaussetzungen" } } },
+      },
       grundvoraussetzungen: grundvoraussetzungenXstateConfig,
       "antragstellende-person":
         getProzesskostenhilfeAntragstellendePersonConfig({
@@ -178,7 +183,7 @@ export const prozesskostenhilfeFormular = {
         },
       },
     },
-  }),
+  },
   guards: {
     ...finanzielleAngabeGuards,
     ...finanzielleAngabeEinkuenfteGuards,
