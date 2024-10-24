@@ -182,7 +182,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   apartmentSizeSqm: 42,
   numberOfRooms: 2,
   rentsApartment: "yes",
-  apartmentCostAlone: "1000",
+  totalRent: "1000",
   hasRsv: YesNoAnswer.Enum.no,
   hasRsvThroughOrg: YesNoAnswer.Enum.no,
   hasGesetzlicheVertretung: YesNoAnswer.Enum.yes,

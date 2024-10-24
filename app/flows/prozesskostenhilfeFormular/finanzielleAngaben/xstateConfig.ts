@@ -8,6 +8,7 @@ import {
   eigentumZusammenfassungDone,
   kinderDone,
   partnerDone,
+  wohnungDone,
 } from "./doneFunctions";
 import { eigentumDone } from "./eigentumDone";
 import { einkuenfteDone } from "./einkuenfte/doneFunctions";
@@ -321,6 +322,7 @@ export const finanzielleAngabenXstateConfig = {
     wohnung: {
       id: "wohnung",
       initial: "alleine-zusammen",
+      meta: { done: wohnungDone },
       states: {
         "alleine-zusammen": {
           on: {
