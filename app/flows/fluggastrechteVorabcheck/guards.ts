@@ -1,5 +1,6 @@
 import airlines from "data/airlines/data.json";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
+import { hasAirportPartnerCourt } from "~/services/airports/hasPartnerCourt";
 import { isEuropeanUnionAirport } from "~/services/airports/isEuropeanUnionAirport";
 import { isGermanAirport } from "~/services/airports/isGermanAirport";
 import type { FluggastrechtVorabcheckContext } from "./context";
@@ -25,47 +26,67 @@ export const guards = {
     );
     return distance.isErr;
   },
-  isNotEligibleFluggesellschaftInEU: ({
-    context: { startAirport, fluggesellschaft },
-  }) => {
-    const isStartAirportEU = isEuropeanUnionAirport(startAirport);
-
-    return !isStartAirportEU && !isFluggesellschaftInEU(fluggesellschaft);
-  },
-  /**
-   * The functions isNotEligibleFluggesellschaftInEU and isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU
-   * go to the same page, but the logic are different, so keeping them in two different functions to test it properly
-   * */
-  isNonGermanAirportsAndDestinationEUAndFluggesellschaftNotEU: ({
+  isDestinationGermanAirportsAndIsNotEligibleToClaim: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
-    const isEndAirportEU = isEuropeanUnionAirport(endAirport);
-
     const isStartAirportGerman = isGermanAirport(startAirport);
     const isEndAirportGerman = isGermanAirport(endAirport);
+
+    return (
+      isEndAirportGerman &&
+      !isStartAirportGerman &&
+      !isFluggesellschaftInEU(fluggesellschaft)
+    );
+  },
+  /**
+   * The functions isDestinationGermanAirportsAndIsNotEligibleToClaim and isNonGermanAirportsAndIsNotEligibleToClaimInEU
+   * go to the same page, but the logic are different, so keeping them in two different functions to test it properly
+   * */
+  isNonGermanAirportsAndIsNotEligibleToClaimInEU: ({
+    context: { startAirport, endAirport, fluggesellschaft },
+  }) => {
+    const isStartAirportGerman = isGermanAirport(startAirport);
+    const isEndAirportGerman = isGermanAirport(endAirport);
+
+    const isStartAirportEU = isEuropeanUnionAirport(startAirport);
+    const isEndAirportEU = isEuropeanUnionAirport(endAirport);
 
     if (isStartAirportGerman || isEndAirportGerman) {
       return false;
     }
 
+    if (isStartAirportEU) {
+      return false;
+    }
+
     return isEndAirportEU && !isFluggesellschaftInEU(fluggesellschaft);
   },
-  isStartAirportNotEUAndFluggesellschaftSonstiges: ({
-    context: { startAirport, fluggesellschaft },
-  }) => {
-    const isStartAirportEU = isEuropeanUnionAirport(startAirport);
-
-    return !isStartAirportEU && fluggesellschaft === "sonstiges";
-  },
-  isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges: ({
+  isDestinationGermanAirportsAndFluggesellschaftSonstiges: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
     const isStartAirportGerman = isGermanAirport(startAirport);
     const isEndAirportGerman = isGermanAirport(endAirport);
 
+    return (
+      isEndAirportGerman &&
+      !isStartAirportGerman &&
+      fluggesellschaft === "sonstiges"
+    );
+  },
+  isNonGermanAirportsAndIsNotEligibleToClaimInEUFluggesellschaftSonstiges: ({
+    context: { startAirport, endAirport, fluggesellschaft },
+  }) => {
+    const isStartAirportGerman = isGermanAirport(startAirport);
+    const isEndAirportGerman = isGermanAirport(endAirport);
+
+    const isStartAirportEU = isEuropeanUnionAirport(startAirport);
     const isEndAirportEU = isEuropeanUnionAirport(endAirport);
 
     if (isStartAirportGerman || isEndAirportGerman) {
+      return false;
+    }
+
+    if (isStartAirportEU) {
       return false;
     }
 
@@ -156,6 +177,48 @@ export const guards = {
     }
 
     return false;
+  },
+  isErfolgAnalog: ({
+    context: { startAirport, endAirport, gericht, fluggesellschaft },
+  }) => {
+    // If the case is already in court, it's not an Analog success
+    if (gericht === "yes") {
+      return false;
+    }
+
+    const hasStartAirportPartnerCourt = hasAirportPartnerCourt(startAirport);
+    const hasEndAirportPartnerCourt = hasAirportPartnerCourt(endAirport);
+
+    const isStartAirportGerman = isGermanAirport(startAirport);
+    const isEndAirportGerman = isGermanAirport(endAirport);
+    const isAirlineInEu = isFluggesellschaftInEU(fluggesellschaft);
+
+    // only with german destination
+    if (
+      isEndAirportGerman &&
+      !isStartAirportGerman &&
+      !hasEndAirportPartnerCourt &&
+      isAirlineInEu &&
+      fluggesellschaft !== "sonstiges"
+    ) {
+      return true;
+    }
+
+    // german departure without partner court
+    if (
+      isStartAirportGerman &&
+      !hasStartAirportPartnerCourt &&
+      !hasEndAirportPartnerCourt
+    ) {
+      return true;
+    }
+
+    // german departure with partner court either in departure or departure
+    return (
+      isStartAirportGerman &&
+      (hasStartAirportPartnerCourt || hasEndAirportPartnerCourt) &&
+      fluggesellschaft === "sonstiges"
+    );
   },
   ...yesNoGuards("verspaetung"),
   ...yesNoGuards("checkin"),

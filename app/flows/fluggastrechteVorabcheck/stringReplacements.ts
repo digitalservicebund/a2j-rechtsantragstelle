@@ -13,7 +13,7 @@ const LAST_MONTH_YEAR = 11; // Date.setMonth starts from 0 to 11, where 11 is De
 const ARBITRATION_BOARD_BFJ = "BfJ";
 const ARBITRATION_BOARD_SOEP = "söp";
 
-export function getCompensantionPaymentString({
+export function getCompensationPaymentString({
   startAirport = "",
   endAirport = "",
 }: FluggastrechtVorabcheckContext) {
@@ -45,7 +45,7 @@ export function getCompensantionPaymentString({
   }
 }
 
-export function getLastDaytFromFourYearsAgoDate(): string {
+export function getLastDayFromFourYearsAgoDate(): string {
   const date = today();
   date.setFullYear(date.getFullYear() - FOUR_YEARS_AGO);
   date.setMonth(LAST_MONTH_YEAR);
