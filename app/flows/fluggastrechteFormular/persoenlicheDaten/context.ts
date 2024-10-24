@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { persoenlicheDaten } from "~/flows/shared/persoenlicheDaten/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
+import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
 import { ibanSchema } from "~/services/validation/iban";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -19,6 +20,7 @@ export const fluggastrechtePersoenlichDaten = {
     z
       .object({
         ...persoenlicheDaten,
+        buchungsnummer: optionalOrSchema(bookingNumberFlightSchema),
       })
       .partial(),
   ),
