@@ -39,10 +39,10 @@ export const guards = {
     );
   },
   /**
-   * The functions isDestinationGermanAirportsAndIsNotEligibleToClaim and isNonGermanAirportsAndIsNotEUEligibleToClaim
+   * The functions isDestinationGermanAirportsAndIsNotEligibleToClaim and isNonGermanAirportsAndIsNotEligibleToClaimInEU
    * go to the same page, but the logic are different, so keeping them in two different functions to test it properly
    * */
-  isNonGermanAirportsAndIsNotEUEligibleToClaim: ({
+  isNonGermanAirportsAndIsNotEligibleToClaimInEU: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
     const isStartAirportGerman = isGermanAirport(startAirport);
@@ -75,7 +75,7 @@ export const guards = {
       fluggesellschaft === "sonstiges"
     );
   },
-  isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges: ({
+  isNonGermanAirportsAndIsNotEligibleToClaimInEUFluggesellschaftSonstiges: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
     const isStartAirportGerman = isGermanAirport(startAirport);

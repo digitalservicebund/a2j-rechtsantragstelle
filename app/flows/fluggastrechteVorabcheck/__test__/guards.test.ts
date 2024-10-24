@@ -120,7 +120,7 @@ describe("fluggastrechteGuard", () => {
     });
   });
 
-  describe("isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges", () => {
+  describe("isNonGermanAirportsAndIsNotEligibleToClaimInEUFluggesellschaftSonstiges", () => {
     it("should return false given a german departure airport", () => {
       const context: FluggastrechtVorabcheckContext = {
         startAirport: "BER",
@@ -129,9 +129,11 @@ describe("fluggastrechteGuard", () => {
       };
 
       const actual =
-        guards.isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges({
-          context,
-        });
+        guards.isNonGermanAirportsAndIsNotEligibleToClaimInEUFluggesellschaftSonstiges(
+          {
+            context,
+          },
+        );
 
       expect(actual).toBe(false);
     });
@@ -144,9 +146,11 @@ describe("fluggastrechteGuard", () => {
       };
 
       const actual =
-        guards.isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges({
-          context,
-        });
+        guards.isNonGermanAirportsAndIsNotEligibleToClaimInEUFluggesellschaftSonstiges(
+          {
+            context,
+          },
+        );
 
       expect(actual).toBe(false);
     });
@@ -159,9 +163,11 @@ describe("fluggastrechteGuard", () => {
       };
 
       const actual =
-        guards.isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges({
-          context,
-        });
+        guards.isNonGermanAirportsAndIsNotEligibleToClaimInEUFluggesellschaftSonstiges(
+          {
+            context,
+          },
+        );
 
       expect(actual).toBe(false);
     });
@@ -174,9 +180,11 @@ describe("fluggastrechteGuard", () => {
       };
 
       const actual =
-        guards.isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges({
-          context,
-        });
+        guards.isNonGermanAirportsAndIsNotEligibleToClaimInEUFluggesellschaftSonstiges(
+          {
+            context,
+          },
+        );
 
       expect(actual).toBe(false);
     });
@@ -189,15 +197,17 @@ describe("fluggastrechteGuard", () => {
       };
 
       const actual =
-        guards.isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges({
-          context,
-        });
+        guards.isNonGermanAirportsAndIsNotEligibleToClaimInEUFluggesellschaftSonstiges(
+          {
+            context,
+          },
+        );
 
       expect(actual).toBe(true);
     });
   });
 
-  describe("isNonGermanAirportsAndIsNotEUEligibleToClaim", () => {
+  describe("isNonGermanAirportsAndIsNotEligibleToClaimInEU", () => {
     it("should return false given a german departure airport", () => {
       const context: FluggastrechtVorabcheckContext = {
         startAirport: "BER",
@@ -205,7 +215,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: "LH",
       };
 
-      const actual = guards.isNonGermanAirportsAndIsNotEUEligibleToClaim({
+      const actual = guards.isNonGermanAirportsAndIsNotEligibleToClaimInEU({
         context,
       });
 
@@ -219,7 +229,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: "LH",
       };
 
-      const actual = guards.isNonGermanAirportsAndIsNotEUEligibleToClaim({
+      const actual = guards.isNonGermanAirportsAndIsNotEligibleToClaimInEU({
         context,
       });
 
@@ -233,7 +243,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: "LH",
       };
 
-      const actual = guards.isNonGermanAirportsAndIsNotEUEligibleToClaim({
+      const actual = guards.isNonGermanAirportsAndIsNotEligibleToClaimInEU({
         context,
       });
 
@@ -247,7 +257,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: "LH",
       };
 
-      const actual = guards.isNonGermanAirportsAndIsNotEUEligibleToClaim({
+      const actual = guards.isNonGermanAirportsAndIsNotEligibleToClaimInEU({
         context,
       });
 
@@ -261,7 +271,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: "DL",
       };
 
-      const actual = guards.isNonGermanAirportsAndIsNotEUEligibleToClaim({
+      const actual = guards.isNonGermanAirportsAndIsNotEligibleToClaimInEU({
         context,
       });
 

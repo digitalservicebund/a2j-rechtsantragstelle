@@ -277,7 +277,7 @@
         "SUBMIT": [
           {
             "target": "ergebnis/fluggesellschaft-nicht-eu-abbruch",
-            "guard": "isNonGermanAirportsAndIsNotEUEligibleToClaim"
+            "guard": "isNonGermanAirportsAndIsNotEligibleToClaimInEU"
           },
           {
             "target": "ergebnis/fluggesellschaft-nicht-eu-abbruch",
@@ -289,7 +289,7 @@
           },
           {
             "target": "ergebnis/fluggesellschaft-abbruch-eu",
-            "guard": "isNonGermanAirportsAndDestinationEUAndFluggesellschaftSonstiges"
+            "guard": "isNonGermanAirportsAndIsNotEligibleToClaimInEUFluggesellschaftSonstiges"
           },
           {
             "target": "checkin",
