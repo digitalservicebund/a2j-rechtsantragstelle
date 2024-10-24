@@ -56,11 +56,10 @@ Coverage is captured using `vitest` and therefore analyzed for all tests that ar
 
 - Not all possible paths through the different flows are covered by our `flows.test.ts` integration tests.
 - We do not test different browser and device types with our e2e tests.
-- We do not test failing form validations.
+- We sparsely test failing form validations.
 - Page accessibility is checked inconsistently across the e2e tests of the flows (missing "sub"-content-pages and missing flow pages).
 - Application security is only tested to a very limited extent.
 - We do not capture coverage for our e2e tests.
-- We do not test multiple device types and browsers in our e2e tests.
 - Testing of the interaction between the app and the CMS has gaps.
 - We do not test whether the user data reaches the PDF and is displayed correctly.
 
