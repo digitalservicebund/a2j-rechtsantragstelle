@@ -66,12 +66,10 @@ export const guards = {
   }) => {
     const isStartAirportGerman = isGermanAirport(startAirport);
     const isEndAirportGerman = isGermanAirport(endAirport);
-    const hasEndAirportPartnerCourt = hasAirportPartnerCourt(endAirport);
 
     return (
       isEndAirportGerman &&
       !isStartAirportGerman &&
-      !hasEndAirportPartnerCourt &&
       fluggesellschaft === "sonstiges"
     );
   },
@@ -199,10 +197,9 @@ export const guards = {
     if (
       isEndAirportGerman &&
       !isStartAirportGerman &&
-      ((!hasEndAirportPartnerCourt &&
-        isAirlineInEu &&
-        fluggesellschaft !== "sonstiges") ||
-        (hasEndAirportPartnerCourt && fluggesellschaft === "sonstiges"))
+      !hasEndAirportPartnerCourt &&
+      isAirlineInEu &&
+      fluggesellschaft !== "sonstiges"
     ) {
       return true;
     }
