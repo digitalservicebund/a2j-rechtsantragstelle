@@ -246,6 +246,18 @@ describe("G_eigentum", () => {
   });
 
   describe("fillBargeldOderWertgegenstaende", () => {
+    it("should not mention attachments when none exist", () => {
+      const { pdfValues, attachment } = fillBargeldOderWertgegenstaende({
+        userData: {
+          hasBankkonto: "yes",
+        },
+        pdfValues: pdfParams,
+      });
+      expect(
+        pdfValues.artdesKontosKontoinhaberKreditinstitut.value,
+      ).toBeUndefined();
+      expect(attachment?.length).toBeUndefined();
+    });
     it("should indicate if the user has bargeld or wertgegenstaende", () => {
       let { pdfValues } = fillBargeldOderWertgegenstaende({
         userData: {
