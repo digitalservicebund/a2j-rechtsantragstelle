@@ -103,14 +103,16 @@ function PageContent({
   if (content.length === 0) return <></>;
   return (
     <div className={className}>
-      {content.map((el) => (
-        <div key={keyFromElement(el)}>
-          {wrapInBackground(
-            el,
-            wrapInContainer(el, cmsToReact(el), fullScreen),
-          )}
-        </div>
-      ))}
+      {content
+        .filter((el) => el.__component !== "page.array-summary")
+        .map((el) => (
+          <div key={keyFromElement(el)}>
+            {wrapInBackground(
+              el,
+              wrapInContainer(el, cmsToReact(el), fullScreen),
+            )}
+          </div>
+        ))}
     </div>
   );
 }

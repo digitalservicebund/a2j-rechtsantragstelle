@@ -166,8 +166,6 @@ config: _.merge(<flow>, {
          <Plural name>: {
             url: "/<flowId>/<stepId>/<Plural name>/<Singular name>",
             initialInputUrl: "daten",
-            statementUrl:
-               "/<flowId>/<stepId>/<Plural name>/uebersicht",
             event: "add-<Plural name>",
          },
       } satisfies Partial<Record<AllContextKeys, ArrayConfig>>,
