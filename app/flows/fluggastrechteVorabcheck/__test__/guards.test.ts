@@ -429,7 +429,7 @@ describe("fluggastrechteGuard", () => {
       expect(actual).toBe(false);
     });
 
-    it("should return true given an destination german airport, a non departure german airport and non eu airline", () => {
+    it("should return true given a destination german airport, a non departure german airport and non eu airline", () => {
       const context: FluggastrechtVorabcheckContext = {
         startAirport: "AMS",
         endAirport: "DRS",
@@ -475,7 +475,7 @@ describe("fluggastrechteGuard", () => {
       expect(actual).toBe(false);
     });
 
-    it("should return false given non sonstiges airline", () => {
+    it("should return false given an eu airline", () => {
       const context: FluggastrechtVorabcheckContext = {
         startAirport: "AMS",
         endAirport: "DRS",
@@ -504,25 +504,25 @@ describe("fluggastrechteGuard", () => {
 
       expect(actual).toBe(true);
     });
+  });
 
-    describe("isErfolgAnalog", () => {
-      it("should return false given gericht as yes", () => {
-        const context: FluggastrechtVorabcheckContext = {
-          startAirport: "AMS",
-          endAirport: "DRS",
-          fluggesellschaft: "LH",
-          gericht: "yes",
-        };
+  describe("isErfolgAnalog", () => {
+    it("should return false given gericht as yes", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "AMS",
+        endAirport: "DRS",
+        fluggesellschaft: "LH",
+        gericht: "yes",
+      };
 
-        const actual = guards.isErfolgAnalog({
-          context,
-        });
-
-        expect(actual).toBe(false);
+      const actual = guards.isErfolgAnalog({
+        context,
       });
+
+      expect(actual).toBe(false);
     });
 
-    describe("isErfolgAnalog => only german destination", () => {
+    describe("only german destination", () => {
       it("should return true given a destination airport without partner court and eu airline", () => {
         const context: FluggastrechtVorabcheckContext = {
           startAirport: "AMS",
@@ -614,7 +614,7 @@ describe("fluggastrechteGuard", () => {
       });
     });
 
-    describe("isErfolgAnalog => german departure without partner court", () => {
+    describe("german departure without partner court", () => {
       it("should return true given a departure and destination without partner court with eu airline", () => {
         const context: FluggastrechtVorabcheckContext = {
           startAirport: "DRS",
@@ -661,8 +661,8 @@ describe("fluggastrechteGuard", () => {
       });
     });
 
-    describe("isErfolgAnalog => german departure with partner court either in departure or departure", () => {
-      it("should return true given a departure with partner court", () => {
+    describe("german airport with partner court either in departure or departure", () => {
+      it("should return true given a departure with partner court and sonstiges airline", () => {
         const context: FluggastrechtVorabcheckContext = {
           startAirport: "BER",
           endAirport: "ERF",
@@ -707,7 +707,7 @@ describe("fluggastrechteGuard", () => {
         expect(actual).toBe(false);
       });
 
-      it("should return true given a destination with partner court", () => {
+      it("should return true given a destination with partner court and sonstiges airline", () => {
         const context: FluggastrechtVorabcheckContext = {
           startAirport: "ERF",
           endAirport: "BER",
