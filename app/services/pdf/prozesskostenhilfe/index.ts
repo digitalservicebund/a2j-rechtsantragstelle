@@ -17,6 +17,7 @@ import type { PdfFillFunction } from "../fillOutFunction";
 import { pdfFillReducer } from "../fillOutFunction";
 import { fillPdf } from "../fillPdf.server";
 import { fillPerson } from "./A_person";
+import { fillWohnkosten } from "./H_wohnkosten";
 export { getProzesskostenhilfeParameters };
 
 export type PkhPdfFillFunction = PdfFillFunction<
@@ -40,6 +41,7 @@ export async function prozesskostenhilfePdfFromUserdata(
       fillAbzuege,
       fillEigentum,
       fillBelastungen,
+      fillWohnkosten,
       fillZahlungsverpflichtungen,
     ],
   });
