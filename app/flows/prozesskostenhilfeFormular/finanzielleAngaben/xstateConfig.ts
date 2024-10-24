@@ -282,7 +282,7 @@ export const finanzielleAngabenXstateConfig = {
                 guard: "hasWeitereUnterhaltszahlungenYes",
                 target: "uebersicht",
               },
-              "#eigentum",
+              "#wohnung",
             ],
           },
         },
@@ -294,7 +294,7 @@ export const finanzielleAngabenXstateConfig = {
                 guard: "hasWeitereUnterhaltszahlungenYesAndEmptyArray",
                 target: "warnung",
               },
-              "#eigentum",
+              "#wohnung",
             ],
             "add-unterhaltszahlungen": "person",
           },
@@ -302,7 +302,7 @@ export const finanzielleAngabenXstateConfig = {
         warnung: {
           on: {
             BACK: "uebersicht",
-            SUBMIT: "#eigentum",
+            SUBMIT: "#wohnung",
           },
         },
         person: {
@@ -315,6 +315,102 @@ export const finanzielleAngabenXstateConfig = {
               },
             },
           },
+        },
+      },
+    },
+    wohnung: {
+      id: "wohnung",
+      initial: "alleine-zusammen",
+      states: {
+        "alleine-zusammen": {
+          on: {
+            SUBMIT: [
+              {
+                guard: ({ context }) => context.livingSituation === "alone",
+                target: "groesse",
+              },
+              "anzahl-mitbewohner",
+            ],
+            BACK: [
+              {
+                guard: "hasWeitereUnterhaltszahlungenYes",
+                target:
+                  "#finanzielle-angaben.andere-unterhaltszahlungen.uebersicht",
+              },
+              "#finanzielle-angaben.andere-unterhaltszahlungen.frage",
+            ],
+          },
+        },
+        "anzahl-mitbewohner": {
+          on: {
+            BACK: "alleine-zusammen",
+            SUBMIT: "groesse",
+          },
+        },
+        groesse: {
+          on: {
+            BACK: [
+              {
+                guard: ({ context }) => context.livingSituation === "alone",
+                target: "alleine-zusammen",
+              },
+              "anzahl-mitbewohner",
+            ],
+            SUBMIT: "anzahl-zimmer",
+          },
+        },
+        "anzahl-zimmer": { on: { BACK: "groesse", SUBMIT: "miete-eigenheim" } },
+        "miete-eigenheim": {
+          on: {
+            BACK: "anzahl-zimmer",
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  context.rentsApartment === "yes" &&
+                  context.livingSituation === "alone",
+                target: "miete-alleine",
+              },
+              {
+                guard: ({ context }) =>
+                  context.rentsApartment === "no" &&
+                  context.livingSituation === "alone",
+                target: "eigenheim-nebenkosten",
+              },
+              {
+                guard: ({ context }) =>
+                  context.rentsApartment === "no" &&
+                  (context.livingSituation === "withOthers" ||
+                    context.livingSituation === "withRelatives"),
+                target: "eigenheim-nebenkosten-geteilt",
+              },
+              "miete-zusammen",
+            ],
+          },
+        },
+        "miete-alleine": {
+          on: { BACK: "miete-eigenheim", SUBMIT: "nebenkosten" },
+        },
+        "miete-zusammen": {
+          on: { BACK: "miete-eigenheim", SUBMIT: "nebenkosten" },
+        },
+        nebenkosten: {
+          on: {
+            BACK: [
+              {
+                guard: ({ context }) => context.livingSituation === "alone",
+                target: "miete-alleine",
+              },
+              "miete-zusammen",
+            ],
+            SUBMIT: "#eigentum",
+          },
+        },
+
+        "eigenheim-nebenkosten": {
+          on: { BACK: "miete-eigenheim", SUBMIT: "#eigentum" },
+        },
+        "eigenheim-nebenkosten-geteilt": {
+          on: { BACK: "miete-eigenheim", SUBMIT: "#eigentum" },
         },
       },
     },
@@ -334,11 +430,22 @@ export const finanzielleAngabenXstateConfig = {
             ],
             BACK: [
               {
-                guard: "hasWeitereUnterhaltszahlungenYes",
-                target:
-                  "#finanzielle-angaben.andere-unterhaltszahlungen.uebersicht",
+                guard: ({ context }) => context.rentsApartment === "yes",
+                target: "#wohnung.nebenkosten",
               },
-              "#finanzielle-angaben.andere-unterhaltszahlungen.frage",
+              {
+                guard: ({ context }) =>
+                  context.rentsApartment === "no" &&
+                  context.livingSituation === "alone",
+                target: "#wohnung.eigenheim-nebenkosten",
+              },
+              {
+                guard: ({ context }) =>
+                  context.rentsApartment === "no" &&
+                  (context.livingSituation === "withOthers" ||
+                    context.livingSituation === "withRelatives"),
+                target: "#wohnung.eigenheim-nebenkosten-geteilt",
+              },
             ],
           },
         },

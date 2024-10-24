@@ -26,6 +26,7 @@ import { testCasesFluggastrechteFormularStreitwertKosten } from "../fluggastrech
 import { testCasesProzesskostenhilfeFormular } from "../prozesskostenhilfeFormular/__test__/testcases";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "../prozesskostenhilfeFormular/persoenlicheDaten/__test__/testcases";
 import { testCasesProzesskostenhilfeRsv } from "../prozesskostenhilfeFormular/rechtsschutzversicherung/__test__/testcases";
+import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../prozesskostenhilfeFormular/finanzielleAngaben/__test__/testcasesWohnung";
 
 function getEnabledSteps({
   machine,
@@ -84,6 +85,7 @@ describe("state machine form flows", () => {
     testCasesFluggastrechteNichtBefoerderung,
     testCasesFluggastrechteFormularPersoenlicheDaten,
     testCasesProzesskostenhilfeFormular,
+    testCasesPKHFormularFinanzielleAngabenWohnung,
     testCasesFluggastrechteFormularGrundvoraussetzungen,
     testCasesFluggastrechteFormularStreitwertKosten,
     testCasesProzesskostenhilfePersoenlicheDaten,
