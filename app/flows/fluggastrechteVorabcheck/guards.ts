@@ -1,10 +1,10 @@
 import airlines from "data/airlines/data.json";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
+import { hasAirportPartnerCourt } from "~/services/airports/hasPartnerCourt";
 import { isEuropeanUnionAirport } from "~/services/airports/isEuropeanUnionAirport";
 import { isGermanAirport } from "~/services/airports/isGermanAirport";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import { yesNoGuards, type Guards } from "../guards.server";
-import { hasAirportPartnerCourt } from "~/services/airports/hasPartnerCourt";
 
 const isFluggesellschaftInEU = (fluggesellschaft?: string) => {
   const isAirlineInEU =
