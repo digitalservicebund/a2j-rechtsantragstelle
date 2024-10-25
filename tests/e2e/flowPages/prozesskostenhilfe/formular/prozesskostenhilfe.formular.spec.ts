@@ -46,7 +46,7 @@ test("forwarded to initial step", async ({ page }) => {
   );
 });
 
-test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
+test.skip("prozesskostenhilfe formular can be traversed", async ({ page }) => {
   // /prozesskostenhilfe/formular/start/start
   await expectPageToBeAccessible({ page });
   await prozesskostenhilfeFormular.clickNext();

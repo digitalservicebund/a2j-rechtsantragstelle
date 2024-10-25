@@ -7,6 +7,7 @@ import { fillSelfBruttoEinnahmen } from "~/services/pdf/prozesskostenhilfe/E_bru
 import { fillBruttoEinnahmenPartner } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_partner";
 import { fillEigentum } from "~/services/pdf/prozesskostenhilfe/G_eigentum";
 import { fillGrundvoraussetzungen } from "~/services/pdf/prozesskostenhilfe/grundvoraussetzungen";
+import { fillUnterhaltsanspruch } from "./C_unterhaltspflichtige_person";
 import { fillAbzuege } from "./F_abzuege";
 import { fillZahlungsverpflichtungen } from "./I_zahlungsverpflichtungen";
 import { fillBelastungen } from "./J_belastungen";
@@ -35,6 +36,7 @@ export async function prozesskostenhilfePdfFromUserdata(
       fillPerson,
       fillRechtsschutzversicherung,
       fillGrundvoraussetzungen,
+      fillUnterhaltsanspruch,
       fillUnterhaltAngehoerige,
       fillSelfBruttoEinnahmen,
       fillBruttoEinnahmenPartner,
