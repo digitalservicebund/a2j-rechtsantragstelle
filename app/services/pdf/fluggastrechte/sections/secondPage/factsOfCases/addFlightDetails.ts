@@ -2,7 +2,7 @@ import type PDFDocument from "pdfkit";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-  PDF_MARGIN,
+  PDF_MARGIN_HORIZONTAL,
 } from "../../../createPdfKitDocument";
 
 type FlightDetail = {
@@ -44,7 +44,7 @@ export const addFlightDetails = (
         doc
           .fontSize(10)
           .font(FONTS_BUNDESSANS_REGULAR)
-          .text(flightDetail.text, PDF_MARGIN + 10, undefined, {
+          .text(flightDetail.text, PDF_MARGIN_HORIZONTAL + 10, undefined, {
             continued: true,
           })
           .font(FONTS_BUNDESSANS_BOLD)

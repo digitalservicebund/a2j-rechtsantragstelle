@@ -10,7 +10,5 @@ export type ArrayConfig = {
   url: string;
   initialInputUrl: string;
   statementKey: AllContextKeys;
-  statementUrl?: string;
-  statementValue?: boolean;
   hiddenFields?: string[];
 };
