@@ -80,7 +80,7 @@ export const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
     userData.unterhaltssumme
   ) {
     pdfValues.ja_10.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8.value = `${userData.unterhaltsSumme} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8.value = `${userData.unterhaltssumme} €`;
   } else {
     pdfValues.nein_11.value = true;
   }

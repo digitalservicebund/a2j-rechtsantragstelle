@@ -86,7 +86,7 @@ export const fillSupportPartner: PkhPdfFillFunction = ({
     guards.receivesSupport({ context: userData })
   ) {
     pdfValues.ja_23.value = true;
-    pdfValues.belegnummerH17.value = `${userData["partner-supportAmount"]} €`;
+    pdfValues.monatlicheBruttoeinnahmenH7.value = `${userData["partner-supportAmount"]} €`;
   } else {
     pdfValues.nein_24.value = true;
   }
