@@ -96,12 +96,12 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
     prozesskostenhilfeFormular,
   );
   await startFinanzielleAngabenWohnung(page, prozesskostenhilfeFormular);
-  await prozesskostenhilfeFormular.clickNext();
   await startFinanzielleAngabenEigentum(page, prozesskostenhilfeFormular);
   await startFinanzielleAngabenEigentumZusammenfassung(
     page,
     prozesskostenhilfeFormular,
   );
+  await prozesskostenhilfeFormular.clickNext();
   await startFinanzielleAngabenAusgaben(page, prozesskostenhilfeFormular);
   await startGesetzlicheVertretung(page, prozesskostenhilfeFormular);
   await startPersoenlicheDaten(page, prozesskostenhilfeFormular);
