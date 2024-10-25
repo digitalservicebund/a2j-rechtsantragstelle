@@ -12,7 +12,6 @@ export function getSummaryData(
 
   return Object.fromEntries(
     categories
-      .map((category) => category)
       .filter(
         (category) =>
           category in arrayConfigurations &&
