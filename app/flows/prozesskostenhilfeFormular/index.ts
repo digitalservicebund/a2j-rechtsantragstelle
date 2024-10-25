@@ -1,5 +1,3 @@
-import _ from "lodash";
-import { and } from "xstate";
 import type { Flow } from "~/flows/flows.server";
 import { getAbgabeStrings } from "~/flows/prozesskostenhilfeFormular/abgabe/stringReplacements";
 import {
@@ -10,13 +8,7 @@ import {
 import { getAntragstellendePersonStrings } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/stringReplacements";
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/arrayConfiguration";
-import { eigentumDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/eigentumDone";
-import { einkuenfteDone } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions";
-import {
-  finanzielleAngabeEinkuenfteGuards,
-  partnerEinkuenfteGuards,
-} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
-import { getProzesskostenhilfeEinkuenfteSubflow } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/xStateConfig";
+import { finanzielleAngabeEinkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import {
   nachueberpruefung,
   versandDigitalAnwalt,
@@ -28,17 +20,9 @@ import { prozesskostenhilfePersoenlicheDatenDone } from "~/flows/prozesskostenhi
 import { rechtsschutzversicherungDone } from "~/flows/prozesskostenhilfeFormular/rechtsschutzversicherung/doneFunctions";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/flows/prozesskostenhilfeFormular/rechtsschutzversicherung/xstateConfig";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
-import {
-  andereUnterhaltszahlungenDone,
-  ausgabenDone,
-  ausgabenZusammenfassungDone,
-  eigentumZusammenfassungDone,
-  kinderDone,
-  prozesskostenhilfeFinanzielleAngabeDone,
-} from "./finanzielleAngaben/doneFunctions";
+import { prozesskostenhilfeFinanzielleAngabeDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
-import prozesskostenhilfeFormularFlow from "./flow.json";
 import type { ProzesskostenhilfeGesetzlicheVertretung } from "./gesetzlicheVertretung/context";
 import { hasGesetzlicheVertretungYes } from "./gesetzlicheVertretung/guards";
 import { gesetzlicheVertretungXstateConfig } from "./gesetzlicheVertretung/xStateConfig";
@@ -56,7 +40,9 @@ import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechts
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
-  config: _.merge(prozesskostenhilfeFormularFlow, {
+  config: {
+    id: "/prozesskostenhilfe/formular",
+    initial: "start",
     meta: {
       arrays: {
         ...finanzielleAngabenArrayConfig(
@@ -68,7 +54,12 @@ export const prozesskostenhilfeFormular = {
       },
     },
     states: {
-      start: { meta: { done: () => true } },
+      start: {
+        id: "antragStart",
+        meta: { done: () => true },
+        initial: "start",
+        states: { start: { on: { SUBMIT: "#grundvorsaussetzungen" } } },
+      },
       grundvoraussetzungen: grundvoraussetzungenXstateConfig,
       "antragstellende-person":
         getProzesskostenhilfeAntragstellendePersonConfig({
@@ -101,17 +92,15 @@ export const prozesskostenhilfeFormular = {
             target: "#antragstellende-person.unterhaltsanspruch",
           },
           {
-            guard: and([
-              ({ context }) => context.unterhaltsanspruch === "unterhalt",
-              ({ context }) => context.livesPrimarilyFromUnterhalt === "no",
-            ]),
+            guard: ({ context }) =>
+              context.unterhaltsanspruch === "unterhalt" &&
+              context.livesPrimarilyFromUnterhalt === "no",
             target: "#antragstellende-person.unterhalt-hauptsaechliches-leben",
           },
           {
-            guard: and([
-              ({ context }) => context.unterhaltsanspruch === "unterhalt",
-              ({ context }) => context.livesPrimarilyFromUnterhalt === "yes",
-            ]),
+            guard: ({ context }) =>
+              context.unterhaltsanspruch === "unterhalt" &&
+              context.livesPrimarilyFromUnterhalt === "yes",
             target: "#antragstellende-person.eigenes-exemplar",
           },
           {
@@ -122,53 +111,7 @@ export const prozesskostenhilfeFormular = {
         ],
         nextFlowEntrypoint: "#finanzielle-angaben",
       }),
-      "finanzielle-angaben": _.merge(finanzielleAngabenXstateConfig, {
-        states: {
-          einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
-          kinder: {
-            meta: { done: kinderDone },
-            states: {
-              "kinder-frage": {
-                on: {
-                  BACK: [
-                    {
-                      guard: "hasPartnerschaftNo",
-                      target: "#partner",
-                    },
-                    {
-                      guard: "partnerEinkommenNo",
-                      target: "#partner.partner-einkommen",
-                    },
-                    {
-                      guard:
-                        partnerEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen,
-                      target:
-                        "#partner-einkuenfte.partner-staatliche-leistungen",
-                    },
-                    {
-                      guard: "partnerHasBesondersAusgabenYes",
-                      target:
-                        "#partner-einkuenfte.add-partner-besonders-ausgaben",
-                    },
-                    "#partner-einkuenfte.partner-besonders-ausgaben",
-                  ],
-                },
-              },
-            },
-          },
-          "andere-unterhaltszahlungen": {
-            meta: { done: andereUnterhaltszahlungenDone },
-          },
-          eigentum: { meta: { done: eigentumDone } },
-          "eigentum-zusammenfassung": {
-            meta: { done: eigentumZusammenfassungDone },
-          },
-          ausgaben: { meta: { done: ausgabenDone } },
-          "ausgaben-zusammenfassung": {
-            meta: { done: ausgabenZusammenfassungDone },
-          },
-        },
-      }),
+      "finanzielle-angaben": finanzielleAngabenXstateConfig,
       "gesetzliche-vertretung": gesetzlicheVertretungXstateConfig({
         backToCallingFlow: [
           {
@@ -237,7 +180,7 @@ export const prozesskostenhilfeFormular = {
         },
       },
     },
-  }),
+  },
   guards: {
     ...finanzielleAngabeGuards,
     ...finanzielleAngabeEinkuenfteGuards,
