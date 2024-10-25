@@ -102,7 +102,6 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
     page,
     prozesskostenhilfeFormular,
   );
-  await prozesskostenhilfeFormular.clickNext();
   await startFinanzielleAngabenAusgaben(page, prozesskostenhilfeFormular);
   await startGesetzlicheVertretung(page, prozesskostenhilfeFormular);
   await startPersoenlicheDaten(page, prozesskostenhilfeFormular);

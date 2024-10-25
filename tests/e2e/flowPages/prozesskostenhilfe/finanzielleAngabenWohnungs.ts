@@ -14,7 +14,7 @@ export async function startFinanzielleAngabenWohnung(
   // /finanzielle-angaben/wohnung/miete-eigenheim
   await formular.fillRadioPage("rentsApartment", "yes");
   // /formular/finanzielle-angaben/wohnung/miete-alleine
-  await formular.fillInput("totalRent", "1100");
+  await formular.fillInputPage("totalRent", "1100");
   // /finanzielle-angaben/wohnung/nebenkosten
-  await formular.fillInput("utilitiesCost", "250");
+  await formular.fillInputPage("utilitiesCost", "250");
 }
