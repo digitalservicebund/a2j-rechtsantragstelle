@@ -17,6 +17,7 @@ import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "../../shared/f
 import { startFinanzielleAngabenEigentumZusammenfassung } from "../../shared/finanzielleAngaben/finanzielleAngabenEigentumZusammenfassung";
 import { startFinanzielleAngabenKinder } from "../../shared/finanzielleAngaben/finanzielleAngabenKinder";
 import { startFinanzielleAngabenPartner } from "../../shared/finanzielleAngaben/finanzielleAngabenPartner";
+import { startFinanzielleAngabenWohnung } from "../finanzielleAngabenWohnungs";
 
 let prozesskostenhilfeFormular: ProzesskostenhilfeFormular;
 
@@ -94,6 +95,8 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
     page,
     prozesskostenhilfeFormular,
   );
+  await startFinanzielleAngabenWohnung(page, prozesskostenhilfeFormular);
+  await prozesskostenhilfeFormular.clickNext();
   await startFinanzielleAngabenEigentum(page, prozesskostenhilfeFormular);
   await startFinanzielleAngabenEigentumZusammenfassung(
     page,
