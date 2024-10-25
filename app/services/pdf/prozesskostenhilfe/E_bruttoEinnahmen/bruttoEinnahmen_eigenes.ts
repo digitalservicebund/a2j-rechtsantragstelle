@@ -61,12 +61,9 @@ export const fillEinkommenType: PkhPdfFillFunction = ({
 };
 
 export const fillRente: PkhPdfFillFunction = ({ userData, pdfValues }) => {
-  if (
-    !guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData }) &&
-    guards.receivesPension({ context: userData })
-  ) {
+  if (guards.receivesPension({ context: userData })) {
     pdfValues.ja_12.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8.value = `${userData.pensionAmount} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9.value = `${userData.pensionAmount} €`;
   } else {
     pdfValues.nein_13.value = true;
   }
@@ -74,13 +71,9 @@ export const fillRente: PkhPdfFillFunction = ({ userData, pdfValues }) => {
 };
 
 export const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
-  if (
-    !guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData }) &&
-    userData.unterhaltsanspruch === "unterhalt" &&
-    userData.unterhaltsSumme
-  ) {
+  if (userData.unterhaltsanspruch === "unterhalt" && userData.unterhaltsSumme) {
     pdfValues.ja_10.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9.value = `${userData.unterhaltsSumme} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8.value = `${userData.unterhaltsSumme} €`;
   } else {
     pdfValues.nein_11.value = true;
   }

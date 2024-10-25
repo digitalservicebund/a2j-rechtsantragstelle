@@ -24,7 +24,7 @@ describe("E_unterhalt", () => {
   const testContexts = {
     partner: {
       unterhalt: "yes",
-      unterhaltsSumme: "100",
+      unterhaltssumme: "100",
     },
     children: {
       kinder: [

@@ -29,7 +29,7 @@ export const prozesskostenhilfeAntragstellendePersonContext = {
     ["keine", "unterhalt", "anspruchNoUnterhalt"],
     customRequiredErrorMessage,
   ),
-  unterhaltssumme: buildMoneyValidationSchema(),
+  unterhaltsSumme: buildMoneyValidationSchema(),
   livesPrimarilyFromUnterhalt: YesNoAnswer,
   unterhaltspflichtigePerson: z
     .object({
@@ -67,11 +67,11 @@ export const antragstellendePersonDone: GenericGuard<
   unterhaltLeisteIch({ context }) ||
   context.unterhaltsanspruch === "keine" ||
   (context.unterhaltsanspruch === "unterhalt" &&
-    context.unterhaltssumme !== undefined &&
+    context.unterhaltsSumme !== undefined &&
     context.livesPrimarilyFromUnterhalt !== undefined &&
     !unterhaltBekommeIch({ context })) ||
   (context.unterhaltsanspruch === "unterhalt" &&
-    context.unterhaltssumme !== undefined &&
+    context.unterhaltsSumme !== undefined &&
     unterhaltBekommeIch({ context }) &&
     objectKeysNonEmpty(context.unterhaltspflichtigePerson, [
       "beziehung",
