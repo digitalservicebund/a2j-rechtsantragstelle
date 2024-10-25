@@ -1,20 +1,11 @@
 import type { PkhPdfFillFunction } from "~/services/pdf/prozesskostenhilfe";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
+import { getFillUnterhalt } from "../shared/unterhaltHelpers";
+export const ATTACHMENT_DESCRIPTION_SECTION_D =
+  "FELD D: Angehörige, denen Sie Bar- oder Naturalunterhalt gewähren";
 
-export const fillAngehoerige: PkhPdfFillFunction = ({
-  userData,
-  pdfValues,
-}) => {
-  if (
-    userData.partnerschaft === "yes" &&
-    userData.zusammenleben === "no" &&
-    userData.unterhalt === "yes" &&
-    userData.unterhaltsSumme &&
-    userData.partnerVorname &&
-    userData.partnerNachname
-  ) {
-    pdfValues.verhaeltnis1.value = "Partner:in";
-    pdfValues.angehoerigerNummereins.value = `${userData.partnerVorname} ${userData.partnerNachname}, lebt getrennt`;
-    pdfValues.monatsbetrag1.value = userData.unterhaltsSumme + " €";
-  }
-  return { pdfValues };
-};
+export const fillUnterhaltAngehoerige: PkhPdfFillFunction = getFillUnterhalt(
+  ATTACHMENT_DESCRIPTION_SECTION_D,
+  (pdfValues) =>
+    (pdfValues.angehoerigerNummereins.value = SEE_IN_ATTACHMENT_DESCRIPTION),
+);

@@ -1,7 +1,16 @@
 import _ from "lodash";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
-import { partnerDone } from "./doneFunctions";
+import {
+  andereUnterhaltszahlungenDone,
+  ausgabenDone,
+  ausgabenZusammenfassungDone,
+  eigentumZusammenfassungDone,
+  kinderDone,
+  partnerDone,
+  wohnungDone,
+} from "./doneFunctions";
+import { eigentumDone } from "./eigentumDone";
 import { einkuenfteDone } from "./einkuenfte/doneFunctions";
 import { partnerEinkuenfteGuards } from "./einkuenfte/guards";
 import { getProzesskostenhilfeEinkuenfteSubflow } from "./einkuenfte/xStateConfig";
@@ -10,7 +19,7 @@ export const finanzielleAngabenXstateConfig = {
   initial: "einkuenfte",
   id: "finanzielle-angaben",
   states: {
-    einkuenfte: {},
+    einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
     partner: {
       id: "partner",
       initial: "partnerschaft",
@@ -123,9 +132,11 @@ export const finanzielleAngabenXstateConfig = {
         ),
       },
     },
+
     kinder: {
       id: "kinder",
       initial: "kinder-frage",
+      meta: { done: kinderDone },
       states: {
         "kinder-frage": {
           on: {
@@ -135,6 +146,26 @@ export const finanzielleAngabenXstateConfig = {
                 target: "uebersicht",
               },
               "#andere-unterhaltszahlungen.frage",
+            ],
+            BACK: [
+              {
+                guard: "hasPartnerschaftNo",
+                target: "#partner",
+              },
+              {
+                guard: "partnerEinkommenNo",
+                target: "#partner.partner-einkommen",
+              },
+              {
+                guard:
+                  partnerEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen,
+                target: "#partner-einkuenfte.partner-staatliche-leistungen",
+              },
+              {
+                guard: "partnerHasBesondersAusgabenYes",
+                target: "#partner-einkuenfte.add-partner-besonders-ausgaben",
+              },
+              "#partner-einkuenfte.partner-besonders-ausgaben",
             ],
           },
         },
@@ -235,6 +266,7 @@ export const finanzielleAngabenXstateConfig = {
     },
     "andere-unterhaltszahlungen": {
       id: "andere-unterhaltszahlungen",
+      meta: { done: andereUnterhaltszahlungenDone },
       initial: "frage",
       states: {
         frage: {
@@ -251,7 +283,7 @@ export const finanzielleAngabenXstateConfig = {
                 guard: "hasWeitereUnterhaltszahlungenYes",
                 target: "uebersicht",
               },
-              "#eigentum",
+              "#wohnung",
             ],
           },
         },
@@ -263,7 +295,7 @@ export const finanzielleAngabenXstateConfig = {
                 guard: "hasWeitereUnterhaltszahlungenYesAndEmptyArray",
                 target: "warnung",
               },
-              "#eigentum",
+              "#wohnung",
             ],
             "add-unterhaltszahlungen": "person",
           },
@@ -271,7 +303,7 @@ export const finanzielleAngabenXstateConfig = {
         warnung: {
           on: {
             BACK: "uebersicht",
-            SUBMIT: "#eigentum",
+            SUBMIT: "#wohnung",
           },
         },
         person: {
@@ -287,9 +319,107 @@ export const finanzielleAngabenXstateConfig = {
         },
       },
     },
+    wohnung: {
+      id: "wohnung",
+      initial: "alleine-zusammen",
+      meta: { done: wohnungDone },
+      states: {
+        "alleine-zusammen": {
+          on: {
+            SUBMIT: [
+              {
+                guard: ({ context }) => context.livingSituation === "alone",
+                target: "groesse",
+              },
+              "anzahl-mitbewohner",
+            ],
+            BACK: [
+              {
+                guard: "hasWeitereUnterhaltszahlungenYes",
+                target:
+                  "#finanzielle-angaben.andere-unterhaltszahlungen.uebersicht",
+              },
+              "#finanzielle-angaben.andere-unterhaltszahlungen.frage",
+            ],
+          },
+        },
+        "anzahl-mitbewohner": {
+          on: {
+            BACK: "alleine-zusammen",
+            SUBMIT: "groesse",
+          },
+        },
+        groesse: {
+          on: {
+            BACK: [
+              {
+                guard: ({ context }) => context.livingSituation === "alone",
+                target: "alleine-zusammen",
+              },
+              "anzahl-mitbewohner",
+            ],
+            SUBMIT: "anzahl-zimmer",
+          },
+        },
+        "anzahl-zimmer": { on: { BACK: "groesse", SUBMIT: "miete-eigenheim" } },
+        "miete-eigenheim": {
+          on: {
+            BACK: "anzahl-zimmer",
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  context.rentsApartment === "yes" &&
+                  context.livingSituation === "alone",
+                target: "miete-alleine",
+              },
+              {
+                guard: ({ context }) =>
+                  context.rentsApartment === "no" &&
+                  context.livingSituation === "alone",
+                target: "eigenheim-nebenkosten",
+              },
+              {
+                guard: ({ context }) =>
+                  context.rentsApartment === "no" &&
+                  (context.livingSituation === "withOthers" ||
+                    context.livingSituation === "withRelatives"),
+                target: "eigenheim-nebenkosten-geteilt",
+              },
+              "miete-zusammen",
+            ],
+          },
+        },
+        "miete-alleine": {
+          on: { BACK: "miete-eigenheim", SUBMIT: "nebenkosten" },
+        },
+        "miete-zusammen": {
+          on: { BACK: "miete-eigenheim", SUBMIT: "nebenkosten" },
+        },
+        nebenkosten: {
+          on: {
+            BACK: [
+              {
+                guard: ({ context }) => context.livingSituation === "alone",
+                target: "miete-alleine",
+              },
+              "miete-zusammen",
+            ],
+            SUBMIT: "#eigentum",
+          },
+        },
+
+        "eigenheim-nebenkosten": {
+          on: { BACK: "miete-eigenheim", SUBMIT: "#eigentum" },
+        },
+        "eigenheim-nebenkosten-geteilt": {
+          on: { BACK: "miete-eigenheim", SUBMIT: "#eigentum" },
+        },
+      },
+    },
     eigentum: {
       id: "eigentum",
       initial: "eigentum-info",
+      meta: { done: eigentumDone },
       states: {
         "eigentum-info": {
           on: {
@@ -302,11 +432,22 @@ export const finanzielleAngabenXstateConfig = {
             ],
             BACK: [
               {
-                guard: "hasWeitereUnterhaltszahlungenYes",
-                target:
-                  "#finanzielle-angaben.andere-unterhaltszahlungen.uebersicht",
+                guard: ({ context }) => context.rentsApartment === "yes",
+                target: "#wohnung.nebenkosten",
               },
-              "#finanzielle-angaben.andere-unterhaltszahlungen.frage",
+              {
+                guard: ({ context }) =>
+                  context.rentsApartment === "no" &&
+                  context.livingSituation === "alone",
+                target: "#wohnung.eigenheim-nebenkosten",
+              },
+              {
+                guard: ({ context }) =>
+                  context.rentsApartment === "no" &&
+                  (context.livingSituation === "withOthers" ||
+                    context.livingSituation === "withRelatives"),
+                target: "#wohnung.eigenheim-nebenkosten-geteilt",
+              },
             ],
           },
         },
@@ -363,6 +504,7 @@ export const finanzielleAngabenXstateConfig = {
     "eigentum-zusammenfassung": {
       id: "eigentum-zusammenfassung",
       initial: "zusammenfassung",
+      meta: { done: eigentumZusammenfassungDone },
       states: {
         zusammenfassung: {
           on: {
@@ -555,6 +697,7 @@ export const finanzielleAngabenXstateConfig = {
     ausgaben: {
       id: "ausgaben",
       initial: "ausgaben-frage",
+      meta: { done: ausgabenDone },
       states: {
         "ausgaben-frage": {
           on: {
@@ -595,6 +738,7 @@ export const finanzielleAngabenXstateConfig = {
     "ausgaben-zusammenfassung": {
       id: "ausgaben-zusammenfassung",
       initial: "zusammenfassung",
+      meta: { done: ausgabenZusammenfassungDone },
       states: {
         zusammenfassung: {
           on: {
