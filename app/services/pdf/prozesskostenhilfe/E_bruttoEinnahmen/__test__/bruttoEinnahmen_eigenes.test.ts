@@ -214,7 +214,7 @@ describe("bruttoEinnahmen_eigenes", () => {
       expect(pdfValues.ja_12.value).toBe(true);
       expect(
         pdfValues
-          .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8
+          .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9
           .value,
       ).toBe("1000 €");
     });
