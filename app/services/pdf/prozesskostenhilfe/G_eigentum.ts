@@ -1,5 +1,4 @@
 import type { AttachmentEntries } from "~/services/pdf/attachment";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import type { PkhPdfFillFunction } from "~/services/pdf/prozesskostenhilfe";
 import {
@@ -15,6 +14,7 @@ import {
   attachGeldanlagenToAnhang,
 } from "~/services/pdf/shared/eigentumHelpers";
 import { arrayIsNonEmpty } from "~/util/array";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
 
 export const fillBankkonto: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const { bankkonten, hasBankkonto } = userData;
@@ -119,7 +119,11 @@ export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
     : [];
   const hasBargeldOderWertgegenstaende =
     hasWertsache === "yes" || hasGeldanlage === "yes";
-  pdfValues.nein_43.value = !hasBargeldOderWertgegenstaende;
+  if (!hasBargeldOderWertgegenstaende) {
+    pdfValues.nein_43.value = true;
+    return { pdfValues };
+  }
+
   pdfValues.ja_39.value = hasBargeldOderWertgegenstaende;
   if (bargeld.length + (wertsachen?.length ?? 0) === 1) {
     const singleBargeld = bargeld[0];
@@ -211,6 +215,13 @@ export const fillSonstigeVermoegenswerte: PkhPdfFillFunction = ({
 };
 
 export const fillEigentum: PkhPdfFillFunction = ({ userData, pdfValues }) => {
+  if (
+    userData.staatlicheLeistungen === "grundsicherung" ||
+    userData.staatlicheLeistungen === "asylbewerberleistungen"
+  ) {
+    return { pdfValues };
+  }
+
   const { pdfValues: filledValues, attachment } = pdfFillReducer({
     userData,
     pdfParams: pdfValues,

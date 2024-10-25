@@ -234,3 +234,22 @@ export const partnerSupportDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
     ? context["partner-supportAmount"] !== undefined
     : true;
 };
+
+export const wohnungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  Boolean(
+    ((context.livingSituation === "alone" ||
+      (context.livingSituation && context.apartmentPersonCount)) &&
+      context.apartmentSizeSqm &&
+      context.numberOfRooms &&
+      context.rentsApartment === "yes" &&
+      context.totalRent &&
+      (context.livingSituation === "alone" ||
+        (context.livingSituation && context.sharedRent))) ||
+      (context.rentsApartment === "no" &&
+        context.heatingCostsOwned &&
+        context.utilitiesCostOwned &&
+        (context.livingSituation === "alone" ||
+          (context.livingSituation && context.utilitiesCostOwnShared))),
+  );

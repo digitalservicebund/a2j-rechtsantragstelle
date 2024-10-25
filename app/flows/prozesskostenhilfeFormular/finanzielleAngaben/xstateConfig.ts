@@ -1,95 +1,25 @@
+import _ from "lodash";
 import type { Config } from "~/services/flow/server/buildFlowController";
-import type { BeratungshilfeFinanzielleAngaben } from "./context";
+import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
-  eigentumDone,
-  einkommenDone,
+  ausgabenZusammenfassungDone,
+  eigentumZusammenfassungDone,
   kinderDone,
   partnerDone,
   wohnungDone,
 } from "./doneFunctions";
-import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
-import { finanzielleAngabeGuards as guards } from "./guards";
+import { eigentumDone } from "./eigentumDone";
+import { einkuenfteDone } from "./einkuenfte/doneFunctions";
+import { partnerEinkuenfteGuards } from "./einkuenfte/guards";
+import { getProzesskostenhilfeEinkuenfteSubflow } from "./einkuenfte/xStateConfig";
 
-export const beratungshilfeFinanzielleAngabenXstateConfig = {
-  initial: "einkommen",
+export const finanzielleAngabenXstateConfig = {
+  initial: "einkuenfte",
   id: "finanzielle-angaben",
-  on: {
-    SUBMIT: "#persoenliche-daten.start",
-    BACK: "#rechtsproblem.situation-beschreibung",
-  },
   states: {
-    einkommen: {
-      id: "einkommen",
-      initial: "start",
-      meta: { done: einkommenDone },
-      states: {
-        start: {
-          on: {
-            SUBMIT: "staatliche-leistungen",
-          },
-        },
-        "staatliche-leistungen": {
-          on: {
-            SUBMIT: [
-              {
-                guard: guards.staatlicheLeistungenIsBuergergeld,
-                target: "#eigentum.eigentum-info",
-              },
-              {
-                guard: guards.staatlicheLeistungenIsKeine,
-                target: "erwerbstaetig",
-              },
-              "#persoenliche-daten.start",
-            ],
-            BACK: "start",
-          },
-        },
-        erwerbstaetig: {
-          on: {
-            BACK: "staatliche-leistungen",
-            SUBMIT: [
-              {
-                guard: guards.erwerbstaetigYes,
-                target: "art",
-              },
-              "situation",
-            ],
-          },
-        },
-        art: {
-          on: {
-            BACK: "erwerbstaetig",
-            SUBMIT: "situation",
-          },
-        },
-        situation: {
-          on: {
-            BACK: [
-              {
-                guard: guards.erwerbstaetigYes,
-                target: "art",
-              },
-              "erwerbstaetig",
-            ],
-            SUBMIT: "weiteres-einkommen",
-          },
-        },
-        "weiteres-einkommen": {
-          on: {
-            SUBMIT: "einkommen",
-            BACK: "situation",
-          },
-        },
-        einkommen: {
-          on: {
-            BACK: "weiteres-einkommen",
-            SUBMIT: "#partner.partnerschaft",
-          },
-        },
-      },
-    },
+    einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
     partner: {
       id: "partner",
       initial: "partnerschaft",
@@ -99,13 +29,19 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
       states: {
         partnerschaft: {
           on: {
-            BACK: "#einkommen.einkommen",
+            BACK: [
+              {
+                guard: "hasFurtherIncome",
+                target: "#einkuenfte.weitere-einkuenfte.uebersicht",
+              },
+              "#einkuenfte.weitere-einkuenfte.frage",
+            ],
             SUBMIT: [
               {
-                guard: guards.hasPartnerschaftYes,
+                guard: "hasPartnerschaftYes",
                 target: "zusammenleben",
               },
-              "#kinder.kinder-frage",
+              "#kinder",
             ],
           },
         },
@@ -114,7 +50,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
             BACK: "partnerschaft",
             SUBMIT: [
               {
-                guard: guards.zusammenlebenYes,
+                guard: "zusammenlebenYes",
                 target: "partner-einkommen",
               },
               "unterhalt",
@@ -126,7 +62,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
             BACK: "zusammenleben",
             SUBMIT: [
               {
-                guard: guards.unterhaltYes,
+                guard: "unterhaltYes",
                 target: "unterhalts-summe",
               },
               "keine-rolle",
@@ -136,7 +72,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
         "keine-rolle": {
           on: {
             BACK: "unterhalt",
-            SUBMIT: "#kinder.kinder-frage",
+            SUBMIT: "#partner-einkuenfte",
           },
         },
         "unterhalts-summe": {
@@ -148,7 +84,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
         "partner-name": {
           on: {
             BACK: "unterhalts-summe",
-            SUBMIT: "#kinder.kinder-frage",
+            SUBMIT: "#partner-einkuenfte",
           },
         },
         "partner-einkommen": {
@@ -156,21 +92,47 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
             BACK: "zusammenleben",
             SUBMIT: [
               {
-                guard: guards.partnerEinkommenYes,
-                target: "partner-einkommen-summe",
+                guard: "partnerEinkommenYes",
+                target: "#partner-einkuenfte",
               },
-              "#kinder.kinder-frage",
+              "#kinder",
             ],
           },
         },
-        "partner-einkommen-summe": {
-          on: {
-            BACK: "partner-einkommen",
-            SUBMIT: "#kinder.kinder-frage",
+        "partner-einkuenfte": _.merge(
+          getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone, "partner"),
+          {
+            states: {
+              "partner-besonders-ausgaben": {
+                on: {
+                  BACK: [
+                    {
+                      guard: partnerEinkuenfteGuards.hasFurtherIncome,
+                      target: "#partner-weitere-einkuenfte.partner-uebersicht",
+                    },
+                    "#partner-weitere-einkuenfte",
+                  ],
+                  SUBMIT: [
+                    {
+                      guard: "partnerHasBesondersAusgabenYes",
+                      target: "add-partner-besonders-ausgaben",
+                    },
+                    "#kinder",
+                  ],
+                },
+              },
+              "add-partner-besonders-ausgaben": {
+                on: {
+                  SUBMIT: "#kinder",
+                  BACK: "partner-besonders-ausgaben",
+                },
+              },
+            },
           },
-        },
+        ),
       },
     },
+
     kinder: {
       id: "kinder",
       initial: "kinder-frage",
@@ -178,41 +140,32 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
       states: {
         "kinder-frage": {
           on: {
+            SUBMIT: [
+              {
+                guard: "hasKinderYes",
+                target: "uebersicht",
+              },
+              "#andere-unterhaltszahlungen.frage",
+            ],
             BACK: [
               {
-                guard:
-                  guards.hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes,
-                target: "#partner.partner-name",
+                guard: "hasPartnerschaftNo",
+                target: "#partner",
               },
               {
-                guard: guards.hasPartnerschaftYesAndPartnerEinkommenYes,
-                target: "#partner.partner-einkommen-summe",
-              },
-              {
-                guard: guards.hasPartnerschaftYesAndZusammenlebenYes,
+                guard: "partnerEinkommenNo",
                 target: "#partner.partner-einkommen",
               },
               {
                 guard:
-                  guards.hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo,
-                target: "#partner.keine-rolle",
+                  partnerEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen,
+                target: "#partner-einkuenfte.partner-staatliche-leistungen",
               },
               {
-                guard: guards.hasPartnerschaftYesAndZusammenlebenNo,
-                target: "#partner.unterhalt",
+                guard: "partnerHasBesondersAusgabenYes",
+                target: "#partner-einkuenfte.add-partner-besonders-ausgaben",
               },
-              {
-                guard: guards.hasPartnerschaftYes,
-                target: "#partner.zusammenleben",
-              },
-              "#partner.partnerschaft",
-            ],
-            SUBMIT: [
-              {
-                guard: guards.hasKinderYes,
-                target: "uebersicht",
-              },
-              "#andere-unterhaltszahlungen.frage",
+              "#partner-einkuenfte.partner-besonders-ausgaben",
             ],
           },
         },
@@ -221,13 +174,13 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
             BACK: "kinder-frage",
             SUBMIT: [
               {
-                guard: guards.hasKinderYesAndEmptyArray,
+                guard: "hasKinderYesAndEmptyArray",
                 target: "warnung",
               },
               "#andere-unterhaltszahlungen",
             ],
             "add-kinder": {
-              guard: guards.isValidKinderArrayIndex,
+              guard: "isValidKinderArrayIndex",
               target: "kinder",
             },
           },
@@ -252,11 +205,11 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                 BACK: "name",
                 SUBMIT: [
                   {
-                    guard: guards.kindWohnortBeiAntragstellerYes,
+                    guard: "kindWohnortBeiAntragstellerYes",
                     target: "kind-eigene-einnahmen-frage",
                   },
                   {
-                    guard: guards.kindWohnortBeiAntragstellerNo,
+                    guard: "kindWohnortBeiAntragstellerNo",
                     target: "kind-unterhalt-frage",
                   },
                 ],
@@ -267,7 +220,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                 BACK: "wohnort",
                 SUBMIT: [
                   {
-                    guard: guards.kindEigeneEinnahmenYes,
+                    guard: "kindEigeneEinnahmenYes",
                     target: "kind-eigene-einnahmen",
                   },
                   "#kinder.uebersicht",
@@ -285,11 +238,11 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                 BACK: "wohnort",
                 SUBMIT: [
                   {
-                    guard: guards.kindUnterhaltYes,
+                    guard: "kindUnterhaltYes",
                     target: "kind-unterhalt",
                   },
                   {
-                    guard: guards.kindUnterhaltNo,
+                    guard: "kindUnterhaltNo",
                     target: "kind-unterhalt-ende",
                   },
                 ],
@@ -313,25 +266,21 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
     },
     "andere-unterhaltszahlungen": {
       id: "andere-unterhaltszahlungen",
-      initial: "frage",
       meta: { done: andereUnterhaltszahlungenDone },
+      initial: "frage",
       states: {
         frage: {
           on: {
             BACK: [
               {
-                guard: guards.staatlicheLeistungenIsBuergergeld,
-                target: "#einkommen.staatliche-leistungen",
-              },
-              {
-                guard: guards.hasKinderYes,
+                guard: "hasKinderYes",
                 target: "#kinder.uebersicht",
               },
               "#kinder.kinder-frage",
             ],
             SUBMIT: [
               {
-                guard: guards.hasWeitereUnterhaltszahlungenYes,
+                guard: "hasWeitereUnterhaltszahlungenYes",
                 target: "uebersicht",
               },
               "#wohnung",
@@ -343,7 +292,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
             BACK: "frage",
             SUBMIT: [
               {
-                guard: guards.hasWeitereUnterhaltszahlungenYesAndEmptyArray,
+                guard: "hasWeitereUnterhaltszahlungenYesAndEmptyArray",
                 target: "warnung",
               },
               "#wohnung",
@@ -372,56 +321,98 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
     },
     wohnung: {
       id: "wohnung",
-      initial: "wohnsituation",
+      initial: "alleine-zusammen",
       meta: { done: wohnungDone },
-      on: {
-        SUBMIT: "#eigentum",
-      },
       states: {
-        wohnsituation: {
+        "alleine-zusammen": {
           on: {
+            SUBMIT: [
+              {
+                guard: ({ context }) => context.livingSituation === "alone",
+                target: "groesse",
+              },
+              "anzahl-mitbewohner",
+            ],
             BACK: [
               {
-                guard: guards.hasWeitereUnterhaltszahlungenYes,
-                target: "#andere-unterhaltszahlungen.uebersicht",
+                guard: "hasWeitereUnterhaltszahlungenYes",
+                target:
+                  "#finanzielle-angaben.andere-unterhaltszahlungen.uebersicht",
               },
-              "#andere-unterhaltszahlungen.frage",
+              "#finanzielle-angaben.andere-unterhaltszahlungen.frage",
             ],
+          },
+        },
+        "anzahl-mitbewohner": {
+          on: {
+            BACK: "alleine-zusammen",
             SUBMIT: "groesse",
           },
         },
         groesse: {
           on: {
-            BACK: "wohnsituation",
+            BACK: [
+              {
+                guard: ({ context }) => context.livingSituation === "alone",
+                target: "alleine-zusammen",
+              },
+              "anzahl-mitbewohner",
+            ],
+            SUBMIT: "anzahl-zimmer",
+          },
+        },
+        "anzahl-zimmer": { on: { BACK: "groesse", SUBMIT: "miete-eigenheim" } },
+        "miete-eigenheim": {
+          on: {
+            BACK: "anzahl-zimmer",
             SUBMIT: [
               {
-                target: "wohnkosten-allein",
-                guard: guards.livesAlone,
+                guard: ({ context }) =>
+                  context.rentsApartment === "yes" &&
+                  context.livingSituation === "alone",
+                target: "miete-alleine",
               },
               {
-                target: "personen-anzahl",
-                guard: guards.livesNotAlone,
+                guard: ({ context }) =>
+                  context.rentsApartment === "no" &&
+                  context.livingSituation === "alone",
+                target: "eigenheim-nebenkosten",
               },
+              {
+                guard: ({ context }) =>
+                  context.rentsApartment === "no" &&
+                  (context.livingSituation === "withOthers" ||
+                    context.livingSituation === "withRelatives"),
+                target: "eigenheim-nebenkosten-geteilt",
+              },
+              "miete-zusammen",
             ],
           },
         },
-        "wohnkosten-allein": {
+        "miete-alleine": {
+          on: { BACK: "miete-eigenheim", SUBMIT: "nebenkosten" },
+        },
+        "miete-zusammen": {
+          on: { BACK: "miete-eigenheim", SUBMIT: "nebenkosten" },
+        },
+        nebenkosten: {
           on: {
-            BACK: "groesse",
+            BACK: [
+              {
+                guard: ({ context }) => context.livingSituation === "alone",
+                target: "miete-alleine",
+              },
+              "miete-zusammen",
+            ],
             SUBMIT: "#eigentum",
           },
         },
-        "personen-anzahl": {
-          on: {
-            BACK: "groesse",
-            SUBMIT: "wohnkosten-geteilt",
-          },
+
+        "eigenheim-nebenkosten": {
+          on: { BACK: "miete-eigenheim", SUBMIT: "#eigentum" },
         },
-        "wohnkosten-geteilt": {
-          on: {
-            BACK: "personen-anzahl",
-            SUBMIT: "#eigentum",
-          },
+        "eigenheim-nebenkosten-geteilt": {
+          on: { BACK: "miete-eigenheim", SUBMIT: "#eigentum" },
         },
       },
     },
@@ -434,25 +425,29 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
           on: {
             SUBMIT: [
               {
-                guard: guards.hasPartnerschaftYesAndNoStaatlicheLeistungen,
+                guard: "hasPartnerschaftYes",
                 target: "heirat-info",
               },
               "bankkonten-frage",
             ],
             BACK: [
               {
-                guard: guards.staatlicheLeistungenIsBuergergeld,
-                target: "#einkommen.staatliche-leistungen",
+                guard: ({ context }) => context.rentsApartment === "yes",
+                target: "#wohnung.nebenkosten",
               },
               {
-                guard: guards.livesAlone,
-                target: "#finanzielle-angaben.wohnung.wohnkosten-allein",
+                guard: ({ context }) =>
+                  context.rentsApartment === "no" &&
+                  context.livingSituation === "alone",
+                target: "#wohnung.eigenheim-nebenkosten",
               },
               {
-                guard: guards.livesNotAlone,
-                target: "#finanzielle-angaben.wohnung.wohnkosten-geteilt",
+                guard: ({ context }) =>
+                  context.rentsApartment === "no" &&
+                  (context.livingSituation === "withOthers" ||
+                    context.livingSituation === "withRelatives"),
+                target: "#wohnung.eigenheim-nebenkosten-geteilt",
               },
-              "#finanzielle-angaben.wohnung.groesse",
             ],
           },
         },
@@ -466,7 +461,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
           on: {
             BACK: [
               {
-                guard: guards.hasPartnerschaftYesAndNoStaatlicheLeistungen,
+                guard: "hasPartnerschaftYes",
                 target: "heirat-info",
               },
               "eigentum-info",
@@ -496,36 +491,12 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
           on: {
             SUBMIT: [
               {
-                guard: guards.hasAnyEigentumExceptBankaccount,
-                target: "gesamtwert",
-              },
-              {
-                guard: guards.eigentumDone,
+                guard: "eigentumDone",
                 target: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-              {
-                guard: guards.staatlicheLeistungenIsBuergergeld,
-                target: "#persoenliche-daten.start",
               },
               "#ausgaben",
             ],
             BACK: "grundeigentum-frage",
-          },
-        },
-        gesamtwert: {
-          on: {
-            SUBMIT: [
-              {
-                target: "#eigentum-zusammenfassung.zusammenfassung",
-                guard: guards.eigentumDone,
-              },
-              {
-                target: "#persoenliche-daten.start",
-                guard: guards.staatlicheLeistungenIsBuergergeld,
-              },
-              "#ausgaben",
-            ],
-            BACK: "kraftfahrzeuge-frage",
           },
         },
       },
@@ -537,23 +508,13 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
       states: {
         zusammenfassung: {
           on: {
-            BACK: [
-              {
-                guard: guards.hasAnyEigentumExceptBankaccount,
-                target: "#eigentum.gesamtwert",
-              },
-              "#eigentum.kraftfahrzeuge-frage",
-            ],
+            BACK: "#eigentum.kraftfahrzeuge-frage",
             SUBMIT: [
               {
-                guard: guards.eigentumYesAndEmptyArray,
+                guard: "eigentumYesAndEmptyArray",
                 target: "warnung",
               },
-              {
-                guard: guards.hasStaatlicheLeistungen,
-                target: "#persoenliche-daten.start",
-              },
-              "#ausgaben.ausgaben-frage",
+              "#ausgaben",
             ],
             "add-bankkonten": "bankkonten",
             "add-wertsachen": "wertgegenstaende",
@@ -564,14 +525,8 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
         },
         warnung: {
           on: {
-            BACK: "zusammenfassung",
-            SUBMIT: [
-              {
-                guard: guards.hasStaatlicheLeistungen,
-                target: "#persoenliche-daten.start",
-              },
-              "#ausgaben",
-            ],
+            BACK: "#eigentum-zusammenfassung.zusammenfassung",
+            SUBMIT: "#ausgaben",
           },
         },
         bankkonten: {
@@ -599,7 +554,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                 BACK: "arbeitsweg",
                 SUBMIT: [
                   {
-                    guard: guards.isKraftfahrzeugWertAbove10000OrUnsure,
+                    guard: "isKraftfahrzeugWertAbove10000OrUnsure",
                     target: "fahrzeuge",
                   },
                   "#eigentum-zusammenfassung.zusammenfassung",
@@ -623,31 +578,31 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                 SUBMIT: [
                   {
                     target: "bargeld",
-                    guard: guards.isGeldanlageBargeld,
+                    guard: "isGeldanlageBargeld",
                   },
                   {
                     target: "wertpapiere",
-                    guard: guards.isGeldanlageWertpapiere,
+                    guard: "isGeldanlageWertpapiere",
                   },
                   {
                     target: "guthabenkonto-krypto",
-                    guard: guards.isGeldanlageGuthabenkontoKrypto,
+                    guard: "isGeldanlageGuthabenkontoKrypto",
                   },
                   {
                     target: "giro-tagesgeld-sparkonto",
-                    guard: guards.isGeldanlageGiroTagesgeldSparkonto,
+                    guard: "isGeldanlageGiroTagesgeldSparkonto",
                   },
                   {
                     target: "befristet",
-                    guard: guards.isGeldanlageBefristet,
+                    guard: "isGeldanlageBefristet",
                   },
                   {
                     target: "forderung",
-                    guard: guards.isGeldanlageForderung,
+                    guard: "isGeldanlageForderung",
                   },
                   {
                     target: "sonstiges",
-                    guard: guards.isGeldanlageSonstiges,
+                    guard: "isGeldanlageSonstiges",
                   },
                 ],
                 BACK: "#eigentum-zusammenfassung.zusammenfassung",
@@ -705,7 +660,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                 BACK: "#eigentum-zusammenfassung.zusammenfassung",
                 SUBMIT: [
                   {
-                    guard: guards.grundeigentumIsBewohnt,
+                    guard: "grundeigentumIsBewohnt",
                     target: "bewohnt-daten",
                   },
                   "daten",
@@ -748,83 +703,171 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
           on: {
             BACK: [
               {
-                guard: guards.eigentumDone,
-                target: "#eigentum-zusammenfassung.zusammenfassung",
+                guard: "eigentumYesAndEmptyArray",
+                target: "#eigentum-zusammenfassung.warnung",
               },
               {
-                guard: guards.hasAnyEigentumExceptBankaccount,
-                target: "#eigentum.gesamtwert",
+                guard: "eigentumDone",
+                target: "#eigentum-zusammenfassung.zusammenfassung",
               },
               "#eigentum.kraftfahrzeuge-frage",
             ],
             SUBMIT: [
               {
-                guard: guards.hasAusgabenYes,
-                target: "situation",
+                guard: "hasAusgabenYes",
+                target: "besondere-belastungen",
               },
-              "#persoenliche-daten.start",
+              "#gesetzliche-vertretung",
             ],
           },
         },
-        situation: {
+        "besondere-belastungen": {
           on: {
             BACK: "ausgaben-frage",
-            SUBMIT: "uebersicht",
-          },
-        },
-        uebersicht: {
-          on: {
-            BACK: "situation",
             SUBMIT: [
               {
-                guard: guards.hasAusgabenYesAndEmptyArray,
-                target: "warnung",
+                guard: "ausgabenDone",
+                target: "#ausgaben-zusammenfassung",
               },
-              "#persoenliche-daten.start",
+              "#gesetzliche-vertretung",
             ],
-            "add-ausgaben": {
-              guard: guards.isValidAusgabenArrayIndex,
-              target: "ausgaben",
-            },
           },
         },
-        warnung: {
+      },
+    },
+    "ausgaben-zusammenfassung": {
+      id: "ausgaben-zusammenfassung",
+      initial: "zusammenfassung",
+      meta: { done: ausgabenZusammenfassungDone },
+      states: {
+        zusammenfassung: {
           on: {
-            BACK: "uebersicht",
-            SUBMIT: "#persoenliche-daten",
+            BACK: "#ausgaben.besondere-belastungen",
+            SUBMIT: "#gesetzliche-vertretung",
+            "add-versicherungen": "versicherungen",
+            "add-ratenzahlungen": "ratenzahlungen",
+            "add-sonstigeAusgaben": "sonstigeAusgaben",
           },
         },
-        ausgaben: {
-          initial: "art",
+        versicherungen: {
+          initial: "daten",
           states: {
-            art: {
+            daten: {
               on: {
-                BACK: "#ausgaben.uebersicht",
-                SUBMIT: "zahlungsinformation",
-              },
-            },
-            zahlungsinformation: {
-              on: {
-                BACK: "art",
-                SUBMIT: "laufzeit",
-              },
-            },
-            laufzeit: {
-              on: {
-                BACK: "zahlungsinformation",
+                BACK: "#ausgaben-zusammenfassung",
                 SUBMIT: [
                   {
-                    guard: guards.hasZahlungsfristYes,
-                    target: "zahlungsfrist",
+                    guard: "isSonstigeVersicherung",
+                    target: "sonstige-art",
                   },
-                  "#ausgaben.uebersicht",
+                  "#ausgaben-zusammenfassung",
                 ],
               },
             },
-            zahlungsfrist: {
+            "sonstige-art": {
               on: {
-                BACK: "laufzeit",
-                SUBMIT: "#ausgaben.uebersicht",
+                BACK: "#ausgaben-zusammenfassung",
+                SUBMIT: "#ausgaben-zusammenfassung",
+              },
+            },
+          },
+        },
+        ratenzahlungen: {
+          initial: "daten",
+          states: {
+            daten: {
+              on: {
+                BACK: "#ausgaben-zusammenfassung",
+                SUBMIT: "zahlungspflichtiger",
+              },
+            },
+            zahlungspflichtiger: {
+              on: {
+                BACK: "daten",
+                SUBMIT: [
+                  {
+                    guard: "ratenzahlungAnteiligYes",
+                    target: "betragGemeinsamerAnteil",
+                  },
+                  "betragGesamt",
+                ],
+              },
+            },
+            betragGemeinsamerAnteil: {
+              on: {
+                BACK: "zahlungspflichtiger",
+                SUBMIT: "betragEigenerAnteil",
+              },
+            },
+            betragEigenerAnteil: {
+              on: {
+                BACK: "betragGemeinsamerAnteil",
+                SUBMIT: "restschuld",
+              },
+            },
+            betragGesamt: {
+              on: {
+                BACK: "zahlungspflichtiger",
+                SUBMIT: "restschuld",
+              },
+            },
+            restschuld: {
+              on: {
+                BACK: [
+                  {
+                    guard: "ratenzahlungAnteiligYes",
+                    target: "betragEigenerAnteil",
+                  },
+                  "betragGesamt",
+                ],
+                SUBMIT: "laufzeitende",
+              },
+            },
+            laufzeitende: {
+              on: {
+                BACK: "restschuld",
+                SUBMIT: "#ausgaben-zusammenfassung",
+              },
+            },
+          },
+        },
+        sonstigeAusgaben: {
+          initial: "daten",
+          states: {
+            daten: {
+              on: {
+                BACK: "#ausgaben-zusammenfassung",
+                SUBMIT: "zahlungspflichtiger",
+              },
+            },
+            zahlungspflichtiger: {
+              on: {
+                BACK: "daten",
+                SUBMIT: [
+                  {
+                    guard: "sonstigeAusgabeAnteiligYes",
+                    target: "betragGemeinsamerAnteil",
+                  },
+                  "betragGesamt",
+                ],
+              },
+            },
+            betragGemeinsamerAnteil: {
+              on: {
+                BACK: "zahlungspflichtiger",
+                SUBMIT: "betragEigenerAnteil",
+              },
+            },
+            betragEigenerAnteil: {
+              on: {
+                BACK: "betragGemeinsamerAnteil",
+                SUBMIT: "#ausgaben-zusammenfassung",
+              },
+            },
+            betragGesamt: {
+              on: {
+                BACK: "zahlungspflichtiger",
+                SUBMIT: "#ausgaben-zusammenfassung",
               },
             },
           },
@@ -832,4 +875,4 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
       },
     },
   },
-} satisfies Config<BeratungshilfeFinanzielleAngaben>;
+} satisfies Config<ProzesskostenhilfeFinanzielleAngabenContext>;

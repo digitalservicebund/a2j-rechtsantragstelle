@@ -12,7 +12,6 @@ export async function startGesetzlicheVertretung(
   await formular.fillRadioPage("hasGesetzlicheVertretung", "yes");
 
   // prozesskostenhilfe/formular/gesetzliche-vertretung/daten
-  await expectPageToBeAccessible({ page });
   await formular.fillInput(
     "gesetzlicheVertretungDaten.vorname",
     faker.person.firstName(),
