@@ -34,8 +34,9 @@ export const fillZahlungsverpflichtungen: PkhPdfFillFunction = ({
     einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
       context: userData,
     })
-  )
+  ) {
     return { pdfValues };
+  }
 
   const zahlungenWithDescription = (
     [...ratenzahlungen, ...sonstigeAusgaben] as Zahlung[]

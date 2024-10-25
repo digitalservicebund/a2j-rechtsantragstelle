@@ -117,6 +117,8 @@ export const fillPartnerAbzuege: PkhPdfFillFunction = ({
   if (
     userData.partnerschaft !== "yes" ||
     userData.partnerEinkommen === "no" ||
+    userData.staatlicheLeistungen === "grundsicherung" ||
+    userData.staatlicheLeistungen === "asylbewerberleistungen" ||
     userData["partner-staatlicheLeistungen"] === "grundsicherung" ||
     userData["partner-staatlicheLeistungen"] === "asylbewerberleistungen"
   ) {

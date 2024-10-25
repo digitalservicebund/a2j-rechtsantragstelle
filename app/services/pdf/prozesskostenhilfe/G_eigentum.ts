@@ -215,6 +215,13 @@ export const fillSonstigeVermoegenswerte: PkhPdfFillFunction = ({
 };
 
 export const fillEigentum: PkhPdfFillFunction = ({ userData, pdfValues }) => {
+  if (
+    userData.staatlicheLeistungen === "grundsicherung" ||
+    userData.staatlicheLeistungen === "asylbewerberleistungen"
+  ) {
+    return { pdfValues };
+  }
+
   const { pdfValues: filledValues, attachment } = pdfFillReducer({
     userData,
     pdfParams: pdfValues,
