@@ -5,7 +5,9 @@ export const fillWohnkosten: PkhPdfFillFunction = ({ userData, pdfValues }) => {
     userData.apartmentSizeSqm?.toString();
   pdfValues.zahlderZimmer.value = userData.numberOfRooms?.toString();
   pdfValues.personenanzahl.value =
-    userData.apartmentPersonCount?.toString() ?? "1";
+    userData.livingSituation === "alone"
+      ? "1"
+      : userData.apartmentPersonCount?.toString();
 
   pdfValues.nutzenSiedenRaumalsMieteroderineinemaehnlichenNutzungsverhaeltnis.value =
     userData.rentsApartment === "no";
@@ -15,19 +17,16 @@ export const fillWohnkosten: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   pdfValues.undefined_11.value = userData.rentsApartment === "yes";
   pdfValues.undefined_12.value = userData.rentsApartment === "no";
 
-  pdfValues.mieteohneNebenkosten.value = userData.rentWithoutUtilities ?? "";
-  pdfValues.heizungskosten.value = userData.heatingCosts ?? "";
-  pdfValues.uebrigeNebenkosten.value = userData.utilitiesCost ?? "";
-  pdfValues.gesamtbetrag.value = userData.totalRent + " €";
+  pdfValues.mieteohneNebenkosten.value = userData.rentWithoutUtilities;
+  pdfValues.heizungskosten.value = userData.heatingCosts;
+  pdfValues.uebrigeNebenkosten.value = userData.utilitiesCost;
+  pdfValues.gesamtbetrag.value = userData.totalRent;
   pdfValues.ichalleinzahledavon.value =
-    userData.sharedRent ?? userData.totalRent + " €";
+    userData.sharedRent ?? userData.totalRent;
 
-  if (userData.heatingCostsOwned)
-    pdfValues.heizungskosten_2.value = userData.heatingCostsOwned;
-  if (userData.utilitiesCostOwned)
-    pdfValues.uebrigeNebenkosten2.value = userData.utilitiesCostOwned;
-  if (userData.utilitiesCostOwnShared)
-    pdfValues.ichalleinzahledavon2.value = userData.utilitiesCostOwnShared;
+  pdfValues.heizungskosten_2.value = userData.heatingCostsOwned;
+  pdfValues.uebrigeNebenkosten2.value = userData.utilitiesCostOwned;
+  pdfValues.ichalleinzahledavon2.value = userData.utilitiesCostOwnShared;
 
   return { pdfValues };
 };
