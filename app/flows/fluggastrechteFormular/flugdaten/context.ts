@@ -54,8 +54,6 @@ export const fluggastrechteFlugdaten = {
   fuenfterZwischenstopp: airportSchema,
   bereich: stringOptionalSchema,
   andereErsatzverbindungBeschreibung: stringRequiredSchema,
-  andereErsatzverbindungStartDatum: fourYearsAgoSchema,
-  andereErsatzverbindungStartZeit: timeSchema,
   andereErsatzverbindungAnkunftsDatum: fourYearsAgoSchema,
   andereErsatzverbindungAnkunftsZeit: timeSchema,
   ersatzFlugnummer: flightNumberSchema,
