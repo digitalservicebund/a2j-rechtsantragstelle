@@ -1,5 +1,8 @@
 import { finanzielleAngabeEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
-import { type AttachmentEntries, newPageHint } from "~/services/pdf/attachment";
+import {
+  type AttachmentEntries,
+  SEE_IN_ATTACHMENT_DESCRIPTION,
+} from "~/services/pdf/attachment";
 import type { PkhPdfFillFunction } from "..";
 import { pdfFillReducer } from "../../fillOutFunction";
 
@@ -63,7 +66,7 @@ export const fillRente: PkhPdfFillFunction = ({ userData, pdfValues }) => {
     guards.receivesPension({ context: userData })
   ) {
     pdfValues.ja_12.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8.value = `${userData.pensionAmount} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9.value = `${userData.pensionAmount} €`;
   } else {
     pdfValues.nein_13.value = true;
   }
@@ -74,10 +77,10 @@ export const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   if (
     !guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData }) &&
     userData.unterhaltsanspruch === "unterhalt" &&
-    userData.unterhaltsSumme
+    userData.unterhaltssumme
   ) {
     pdfValues.ja_10.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9.value = `${userData.unterhaltsSumme} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8.value = `${userData.unterhaltssumme} €`;
   } else {
     pdfValues.nein_11.value = true;
   }
@@ -158,7 +161,7 @@ export const fillWeitereEinkuenfte: PkhPdfFillFunction = ({
     const attachment: AttachmentEntries = [];
     pdfValues[
       "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
-    ].value = newPageHint;
+    ].value = SEE_IN_ATTACHMENT_DESCRIPTION;
 
     attachment.push({ title: "2. Andere Einnahmen", level: "h3" });
     userData.weitereEinkuenfte.forEach((entry) => {
@@ -193,6 +196,20 @@ export const fillSelfBruttoEinnahmen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
+  if (
+    userData.staatlicheLeistungen === "grundsicherung" ||
+    userData.staatlicheLeistungen === "asylbewerberleistungen"
+  ) {
+    pdfValues[
+      "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
+    ].value =
+      userData.staatlicheLeistungen === "asylbewerberleistungen"
+        ? "Asylbewerberleistungen"
+        : "Grundsicherung oder Sozialhilfe";
+
+    return { pdfValues };
+  }
+
   const { pdfValues: filledValues, attachment } = pdfFillReducer({
     userData,
     pdfParams: pdfValues,

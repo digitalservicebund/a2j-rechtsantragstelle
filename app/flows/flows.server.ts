@@ -6,7 +6,7 @@ import { fluggastrechtFlow } from "~/flows/fluggastrechteFormular";
 import { geldEinklagenFormular } from "~/flows/geldEinklagenFormular";
 import type { FlowPageId } from "~/services/cms/schemas";
 import type { Config } from "~/services/flow/server/buildFlowController";
-import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
+import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import type { Replacements } from "~/util/fillTemplate";
 import type { Context } from "./contexts";
 import type { FlowId } from "./flowIds";
@@ -15,7 +15,8 @@ import { prozesskostenhilfeFormular } from "./prozesskostenhilfeFormular";
 
 export type FlowMigration = {
   source: FlowId;
-  orderFields: string[];
+  sortedFields: string[];
+  buttonUrl?: string;
 };
 
 export type Flow = {

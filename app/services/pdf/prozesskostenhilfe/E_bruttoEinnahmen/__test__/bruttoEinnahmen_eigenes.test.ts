@@ -10,7 +10,7 @@ import {
   fillStaatlicheLeistungen,
   fillWeitereEinkuenfte,
 } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
-import { newPageHint } from "../../../attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../../attachment";
 
 let pdfParams: ProzesskostenhilfePDF;
 
@@ -214,7 +214,7 @@ describe("bruttoEinnahmen_eigenes", () => {
       expect(pdfValues.ja_12.value).toBe(true);
       expect(
         pdfValues
-          .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8
+          .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9
           .value,
       ).toBe("1000 €");
     });
@@ -385,7 +385,7 @@ describe("bruttoEinnahmen_eigenes", () => {
         pdfValues[
           "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
         ].value,
-      ).toBe(newPageHint);
+      ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
       expect(attachment?.length).toBeGreaterThan(0);
       expect(attachment?.at(0)).toEqual({
         level: "h3",

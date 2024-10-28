@@ -11,7 +11,6 @@ import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "~/flow
 import { testCasesBeratungshilfeRechtsproblem } from "~/flows/beratungshilfeFormular/rechtsproblem/__test__/testcases";
 import { testCasesBeratungshilfe } from "~/flows/beratungshilfeVorabcheck/__test__/testcases";
 import { type Context } from "~/flows/contexts";
-import { testCasesFluggastrechteFormularFlugdaten } from "~/flows/fluggastrechteFormular/flugdaten/__test__/testcases";
 import { testCasesFluggastrechteFormularGrundvoraussetzungen } from "~/flows/fluggastrechteFormular/grundvoraussetzungen/__test__/testcases";
 import { testCasesFluggastrechteFormularPersoenlicheDaten } from "~/flows/fluggastrechteFormular/persoenlicheDaten/__test__/testcases";
 import { testCasesFluggastrechteAnnullierung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesAnnullierung";
@@ -20,8 +19,12 @@ import { testCasesFluggastrechteVerspaetet } from "~/flows/fluggastrechteVorabch
 import { testCasesGeldEinklagen } from "~/flows/geldEinklagenVorabcheck/__test__/testcases";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+import { testCasesFluggastrechteFormularFlugdatenAnnullierung } from "../fluggastrechteFormular/flugdaten/__test__/testcasesAnnullierung";
+import { testCasesFluggastrechteFormularFlugdatenNichtBefoerderung } from "../fluggastrechteFormular/flugdaten/__test__/testcasesNichtBefoerderung";
+import { testCasesFluggastrechteFormularFlugdatenVerspaetet } from "../fluggastrechteFormular/flugdaten/__test__/testscasesVerspaetet";
 import { testCasesFluggastrechteFormularStreitwertKosten } from "../fluggastrechteFormular/streitwertKosten/__test__/testscases";
 import { testCasesProzesskostenhilfeFormular } from "../prozesskostenhilfeFormular/__test__/testcases";
+import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../prozesskostenhilfeFormular/finanzielleAngaben/__test__/testcasesWohnung";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "../prozesskostenhilfeFormular/persoenlicheDaten/__test__/testcases";
 import { testCasesProzesskostenhilfeRsv } from "../prozesskostenhilfeFormular/rechtsschutzversicherung/__test__/testcases";
 
@@ -65,7 +68,7 @@ describe("state machine form flows", () => {
   [
     testCasesBeratungshilfe,
     testCasesGeldEinklagen,
-    testCasesFluggastrechteFormularFlugdaten,
+    testCasesFluggastrechteFormularFlugdatenNichtBefoerderung,
     testCasesBeratungshilfeFormular,
     testCasesBeratungshilfeFormularAnwaltlicheVertretung,
     testCasesBeratungshilfeRechtsproblem,
@@ -82,10 +85,13 @@ describe("state machine form flows", () => {
     testCasesFluggastrechteNichtBefoerderung,
     testCasesFluggastrechteFormularPersoenlicheDaten,
     testCasesProzesskostenhilfeFormular,
+    testCasesPKHFormularFinanzielleAngabenWohnung,
     testCasesFluggastrechteFormularGrundvoraussetzungen,
     testCasesFluggastrechteFormularStreitwertKosten,
     testCasesProzesskostenhilfePersoenlicheDaten,
     testCasesProzesskostenhilfeRsv,
+    testCasesFluggastrechteFormularFlugdatenVerspaetet,
+    testCasesFluggastrechteFormularFlugdatenAnnullierung,
   ].forEach(({ machine, cases }) => {
     test.each([...cases])(
       "SUBMIT (%#) given context: %j, visits steps: %j",

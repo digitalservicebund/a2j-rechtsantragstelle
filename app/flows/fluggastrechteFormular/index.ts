@@ -2,7 +2,7 @@ import _ from "lodash";
 import type { AllContextKeys } from "~/flows/common";
 import type { Flow } from "~/flows/flows.server";
 import type { ArrayConfig } from "~/services/array";
-import type { FlowTransitionConfig } from "~/services/session.server/flowTransitionValidation.server";
+import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import abgabeFlow from "./abgabe/flow.json";
 import type { FluggastrechtContext } from "./context";
 import { flugdatenDone } from "./flugdaten/doneFunctions";
@@ -21,15 +21,20 @@ import {
   getAirlineName,
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
+  getFirstZwischenstoppAirportName,
   getPersonNachname,
   getPersonVorname,
+  getSecondZwischenstoppAirportName,
   getStartAirportName,
+  getThirdZwischenstoppAirportName,
   getWeiterePersonenNameStrings,
+  isAnnullierung,
+  isNichtBefoerderung,
+  isVerspaetet,
 } from "./stringReplacements";
 import zusammenfassungFlow from "./zusammenfassung/flow.json";
 
 const flowTransitionConfig: FlowTransitionConfig = {
-  targetFlowId: "/fluggastrechte/formular",
   sourceFlowId: "/fluggastrechte/vorabcheck",
   eligibleSourcePages: ["ergebnis/erfolg"],
 };
@@ -38,7 +43,7 @@ export const fluggastrechtFlow = {
   cmsSlug: "form-flow-pages",
   migration: {
     source: "/fluggastrechte/vorabcheck",
-    orderFields: [
+    sortedFields: [
       "bereich",
       "startAirport",
       "endAirport",
@@ -51,6 +56,7 @@ export const fluggastrechtFlow = {
       "ersatzflugStartenZweiStunden",
       "ersatzflugLandenVierStunden",
     ],
+    buttonUrl: "/fluggastrechte/vorabcheck/start",
   },
   stringReplacements: (context: FluggastrechtContext) => ({
     ...getStartAirportName(context),
@@ -60,6 +66,12 @@ export const fluggastrechtFlow = {
     ...getArrayWeiterePersonenIndexStrings(context),
     ...getWeiterePersonenNameStrings(context),
     ...getAirlineName(context),
+    ...getFirstZwischenstoppAirportName(context),
+    ...getSecondZwischenstoppAirportName(context),
+    ...getThirdZwischenstoppAirportName(context),
+    ...isVerspaetet(context),
+    ...isNichtBefoerderung(context),
+    ...isAnnullierung(context),
   }),
   config: {
     meta: {
@@ -67,8 +79,6 @@ export const fluggastrechtFlow = {
         weiterePersonen: {
           url: "/fluggastrechte/formular/persoenliche-daten/weitere-personen/person",
           initialInputUrl: "daten",
-          statementUrl:
-            "/fluggastrechte/formular/persoenliche-daten/weitere-personen/uebersicht",
           statementKey: "isWeiterePersonen",
           hiddenFields: ["anrede", "title"],
           event: "add-weiterePersonen",

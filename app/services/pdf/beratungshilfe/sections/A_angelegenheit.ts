@@ -1,6 +1,9 @@
 import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
 import type { BerHPdfFillFunction } from "..";
-import { newPageHint, type AttachmentEntries } from "../../attachment";
+import {
+  SEE_IN_ATTACHMENT_DESCRIPTION,
+  type AttachmentEntries,
+} from "../../attachment";
 
 export const THEMA_RECHTSPROBLEM_TITLE = "Thema des Rechtsproblems";
 export const GEGNER_TITLE = "Gegner";
@@ -41,7 +44,7 @@ export const fillAngelegenheit: BerHPdfFillFunction = ({
 
   if (overflowDueToMaxChars || overflowDueToMaxNewLines) {
     pdfValues.ichbeantrageBeratungshilfeinfolgenderAngelegenheitbitteSachverhaltkurzerlaeutern.value =
-      newPageHint;
+      SEE_IN_ATTACHMENT_DESCRIPTION;
 
     attachment.push({
       title: "Feld A: Das Rechtsproblem",

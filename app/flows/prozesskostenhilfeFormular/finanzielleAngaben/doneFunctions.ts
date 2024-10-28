@@ -14,6 +14,8 @@ import type { GenericGuard } from "../../guards.server";
 import {
   bankKontoDone,
   childDone,
+  geldanlageDone,
+  singleGrundeigentumDone,
 } from "../../shared/finanzielleAngaben/doneFunctions";
 
 export type ProzesskostenhilfeFinanzielleAngabenGuard =
@@ -80,21 +82,39 @@ export const geldanlagenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasGeldanlage === "no" ||
-  (context.hasGeldanlage === "yes" && arrayIsNonEmpty(context.geldanlagen));
+  (context.hasGeldanlage === "yes" &&
+    arrayIsNonEmpty(context.geldanlagen) &&
+    context.geldanlagen.every(geldanlageDone));
 
 export const grundeigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasGrundeigentum === "no" ||
   (context.hasGrundeigentum === "yes" &&
-    arrayIsNonEmpty(context.grundeigentum));
+    arrayIsNonEmpty(context.grundeigentum) &&
+    context.grundeigentum.every(singleGrundeigentumDone));
+
+export const kraftfahrzeugDone = (
+  kfz: NonNullable<
+    ProzesskostenhilfeFinanzielleAngabenContext["kraftfahrzeuge"]
+  >[0],
+) =>
+  kfz.hasArbeitsweg !== undefined &&
+  kfz.wert !== undefined &&
+  (kfz.wert === "under10000" ||
+    (kfz.eigentuemer !== undefined &&
+      kfz.art !== undefined &&
+      kfz.marke !== undefined &&
+      kfz.kilometerstand !== undefined &&
+      kfz.baujahr !== undefined));
 
 export const kraftfahrzeugeDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasKraftfahrzeug === "no" ||
   (context.hasKraftfahrzeug === "yes" &&
-    arrayIsNonEmpty(context.kraftfahrzeuge));
+    arrayIsNonEmpty(context.kraftfahrzeuge) &&
+    context.kraftfahrzeuge.every(kraftfahrzeugDone));
 
 export const wertsachenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
@@ -214,3 +234,22 @@ export const partnerSupportDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
     ? context["partner-supportAmount"] !== undefined
     : true;
 };
+
+export const wohnungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  Boolean(
+    ((context.livingSituation === "alone" ||
+      (context.livingSituation && context.apartmentPersonCount)) &&
+      context.apartmentSizeSqm &&
+      context.numberOfRooms &&
+      context.rentsApartment === "yes" &&
+      context.totalRent &&
+      (context.livingSituation === "alone" ||
+        (context.livingSituation && context.sharedRent))) ||
+      (context.rentsApartment === "no" &&
+        context.heatingCostsOwned &&
+        context.utilitiesCostOwned &&
+        (context.livingSituation === "alone" ||
+          (context.livingSituation && context.utilitiesCostOwnShared))),
+  );

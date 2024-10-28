@@ -3,17 +3,19 @@ import { duplicateContext } from "~/flows/common";
 import {
   besondereBelastungenSchema,
   bankkontenArraySchema,
-  gelanlagenArraySchema,
+  geldanlagenArraySchema,
   grundeigentumArraySchema,
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
   unterhaltszahlungSchema,
   wertsachenArraySchema,
   financialEntrySchema,
+  livingSituationSchema,
 } from "~/flows/shared/finanzielleAngaben/context";
 import { finanzielleAngabenPartnerContext } from "~/flows/shared/finanzielleAngaben/partner/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { createDateSchema } from "~/services/validation/date";
+import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -24,6 +26,8 @@ import {
 import { today } from "~/util/date";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "./einkuenfte/context";
 import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "./einkuenfte/context";
+
+const optionalMoneySchema = buildMoneyValidationSchema().or(z.literal(""));
 
 export const zahlungspflichtigerSchema = z.enum(
   ["myself", "myselfAndPartner", "myselfAndSomeoneElse"],
@@ -50,7 +54,7 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   hasKraftfahrzeug: YesNoAnswer,
   kraftfahrzeuge: kraftfahrzeugeArraySchema,
   hasGeldanlage: YesNoAnswer,
-  geldanlagen: gelanlagenArraySchema,
+  geldanlagen: geldanlagenArraySchema,
   hasGrundeigentum: YesNoAnswer,
   grundeigentum: grundeigentumArraySchema,
   hasWertsache: YesNoAnswer,
@@ -59,6 +63,19 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   unterhaltszahlungen: z.array(unterhaltszahlungSchema),
   hasAusgaben: YesNoAnswer,
   besondereBelastungen: besondereBelastungenSchema,
+  livingSituation: livingSituationSchema,
+  apartmentSizeSqm: integerSchema,
+  numberOfRooms: integerSchema,
+  rentsApartment: YesNoAnswer,
+  apartmentPersonCount: integerSchema,
+  totalRent: buildMoneyValidationSchema(),
+  rentWithoutUtilities: optionalMoneySchema,
+  sharedRent: buildMoneyValidationSchema(),
+  utilitiesCost: optionalMoneySchema,
+  heatingCosts: optionalMoneySchema,
+  utilitiesCostOwned: buildMoneyValidationSchema(),
+  heatingCostsOwned: buildMoneyValidationSchema(),
+  utilitiesCostOwnShared: buildMoneyValidationSchema(),
   versicherungen: z.array(
     z.object({
       art: z.enum(

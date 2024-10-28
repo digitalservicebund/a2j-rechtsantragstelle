@@ -1,5 +1,8 @@
 import { partnerEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
-import { type AttachmentEntries, newPageHint } from "~/services/pdf/attachment";
+import {
+  type AttachmentEntries,
+  SEE_IN_ATTACHMENT_DESCRIPTION,
+} from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import type { PkhPdfFillFunction } from "~/services/pdf/prozesskostenhilfe";
 import { zahlungsfrequenzMapping } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
@@ -83,7 +86,7 @@ export const fillSupportPartner: PkhPdfFillFunction = ({
     guards.receivesSupport({ context: userData })
   ) {
     pdfValues.ja_23.value = true;
-    pdfValues.belegnummerH17.value = `${userData["partner-supportAmount"]} €`;
+    pdfValues.monatlicheBruttoeinnahmenH7.value = `${userData["partner-supportAmount"]} €`;
   } else {
     pdfValues.nein_24.value = true;
   }
@@ -180,7 +183,7 @@ export const fillWeitereEinkuenftePartner: PkhPdfFillFunction = ({
     const attachment: AttachmentEntries = [];
     pdfValues[
       "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
-    ].value = newPageHint;
+    ].value = SEE_IN_ATTACHMENT_DESCRIPTION;
 
     attachment.push({ title: "2. Andere Einnahmen", level: "h3" });
     userData["partner-weitereEinkuenfte"].forEach((entry) => {
@@ -237,6 +240,13 @@ export const fillBruttoEinnahmenPartner: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
+  if (
+    userData.staatlicheLeistungen === "grundsicherung" ||
+    userData.staatlicheLeistungen === "asylbewerberleistungen"
+  ) {
+    return { pdfValues };
+  }
+
   const { pdfValues: filledValues, attachment } = pdfFillReducer({
     userData,
     pdfParams: pdfValues,
