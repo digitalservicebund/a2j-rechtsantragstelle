@@ -27,7 +27,6 @@ export function getFontSizeFieldValue(fieldName: string): number {
     case "E3-Familienverhältnis2":
     case "E3-Familienverhältnis3":
     case "E3-Familienverhältnis4":
-    case "Monatliche Bruttoeinnahmen durch Selbstständige Arbeit in Euro3":
       return FONT_SIZE_6;
     default:
       return FONT_SIZE_10;
