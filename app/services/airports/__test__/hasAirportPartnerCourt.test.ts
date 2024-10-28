@@ -24,4 +24,10 @@ describe("hasAirportPartnerCourt", () => {
 
     expect(actual).toBe(true);
   });
+
+  it("should return false given empty string", () => {
+    const actual = hasAirportPartnerCourt("");
+
+    expect(actual).toBe(false);
+  });
 });
