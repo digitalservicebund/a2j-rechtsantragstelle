@@ -26,7 +26,7 @@ export const guards = {
     );
     return distance.isErr;
   },
-  isDestinationGermanAirportsAndIsNotEligibleToClaim: ({
+  isGermanEndAirportsAndIsNotClaimable: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
     const isStartAirportGerman = isGermanAirport(startAirport);
@@ -39,10 +39,10 @@ export const guards = {
     );
   },
   /**
-   * The functions isDestinationGermanAirportsAndIsNotEligibleToClaim and isNonGermanAirportsAndIsNotEligibleToClaimInEU
+   * The functions isGermanEndAirportsAndIsNotClaimable and isNonGermanAirportsAndIsNotClaimableInEU
    * go to the same page, but the logic are different, so keeping them in two different functions to test it properly
    * */
-  isNonGermanAirportsAndIsNotEligibleToClaimInEU: ({
+  isNonGermanAirportsAndIsNotClaimableInEU: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
     const isStartAirportGerman = isGermanAirport(startAirport);
@@ -61,7 +61,7 @@ export const guards = {
 
     return isEndAirportEU && !isFluggesellschaftInEU(fluggesellschaft);
   },
-  isDestinationGermanAirportsAndFluggesellschaftSonstiges: ({
+  isGermanEndAirportsAndOtherAirline: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
     const isStartAirportGerman = isGermanAirport(startAirport);
@@ -73,7 +73,7 @@ export const guards = {
       fluggesellschaft === "sonstiges"
     );
   },
-  isNonGermanAirportsAndIsNotEligibleToClaimInEUFluggesellschaftSonstiges: ({
+  isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
     const isStartAirportGerman = isGermanAirport(startAirport);
