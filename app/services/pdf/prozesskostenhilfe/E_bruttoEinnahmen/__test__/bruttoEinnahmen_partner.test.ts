@@ -37,7 +37,7 @@ describe("bruttoEinnahmen_partner", () => {
         ].value,
       ).toBeUndefined();
       expect(pdfValues.ja_29.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH10.value).toBe("100 €");
+      expect(pdfValues.monatlicheBruttoeinnahmenH10.value).toBe("100 netto");
       expect(pdfValues.nein_28.value).toBe(true);
     });
 
@@ -55,7 +55,7 @@ describe("bruttoEinnahmen_partner", () => {
         ].value,
       ).toBeUndefined();
       expect(pdfValues.ja_27.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH9.value).toBe("250 €");
+      expect(pdfValues.monatlicheBruttoeinnahmenH9.value).toBe("250 netto");
       expect(pdfValues.nein_30.value).toBe(true);
     });
   });
@@ -94,7 +94,7 @@ describe("bruttoEinnahmen_partner", () => {
         pdfValues: pdfParams,
       });
       expect(pdfValues.ja_25.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH8.value).toBe("1000 €");
+      expect(pdfValues.monatlicheBruttoeinnahmenH8.value).toBe("1000 netto");
     });
   });
 
@@ -132,7 +132,7 @@ describe("bruttoEinnahmen_partner", () => {
         pdfValues: pdfParams,
       });
       expect(pdfValues.ja_23.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH7.value).toBe("1000 €");
+      expect(pdfValues.monatlicheBruttoeinnahmenH7.value).toBe("1000 netto");
     });
   });
 
@@ -179,7 +179,7 @@ describe("bruttoEinnahmen_partner", () => {
         pdfValues: pdfParams,
       });
       expect(pdfValues.ja_22.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH1.value).toBe("1000 €");
+      expect(pdfValues.monatlicheBruttoeinnahmenH1.value).toBe("1000 netto");
       expect(pdfValues.nein_25.value).toBe(true);
       expect(pdfValues.monatlicheBruttoeinnahmenH2.value).toBeUndefined();
     });
@@ -194,7 +194,7 @@ describe("bruttoEinnahmen_partner", () => {
         pdfValues: pdfParams,
       });
       expect(pdfValues.ja_24.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH2.value).toBe("1000 € netto");
+      expect(pdfValues.monatlicheBruttoeinnahmenH2.value).toBe("1000 netto");
       expect(pdfValues.nein_23.value).toBe(true);
       expect(pdfValues.monatlicheBruttoeinnahmenH1.value).toBeUndefined();
     });
@@ -211,8 +211,8 @@ describe("bruttoEinnahmen_partner", () => {
       });
       expect(pdfValues.ja_22.value).toBe(true);
       expect(pdfValues.ja_24.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH1.value).toBe("1000 €");
-      expect(pdfValues.monatlicheBruttoeinnahmenH2.value).toBe("1000 € brutto");
+      expect(pdfValues.monatlicheBruttoeinnahmenH1.value).toBe("1000 netto");
+      expect(pdfValues.monatlicheBruttoeinnahmenH2.value).toBe("1000 brutto");
     });
   });
 
@@ -237,7 +237,7 @@ describe("bruttoEinnahmen_partner", () => {
         pdfValues: pdfParams,
       });
       expect(pdfValues.ja_32.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH6.value).toBe("100 €");
+      expect(pdfValues.monatlicheBruttoeinnahmenH6.value).toBe("100 netto");
     });
     it("should indicate if a user's partner receives Krankengeld", () => {
       const { pdfValues } = fillAndereLeistungenPartner({
@@ -248,7 +248,7 @@ describe("bruttoEinnahmen_partner", () => {
         pdfValues: pdfParams,
       });
       expect(pdfValues.ja_31.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH11.value).toBe("250 €");
+      expect(pdfValues.monatlicheBruttoeinnahmenH11.value).toBe("250 netto");
     });
     it("should indicate if a user's partner receives Elterngeld", () => {
       const { pdfValues } = fillAndereLeistungenPartner({
@@ -259,7 +259,7 @@ describe("bruttoEinnahmen_partner", () => {
         pdfValues: pdfParams,
       });
       expect(pdfValues.ja_33.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH12.value).toBe("50 €");
+      expect(pdfValues.monatlicheBruttoeinnahmenH12.value).toBe("50 netto");
     });
     it("should indicate if a user's partner receives Kindergeld", () => {
       const { pdfValues } = fillAndereLeistungenPartner({
@@ -270,7 +270,7 @@ describe("bruttoEinnahmen_partner", () => {
         pdfValues: pdfParams,
       });
       expect(pdfValues.ja_30.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH5.value).toBe("10000 €");
+      expect(pdfValues.monatlicheBruttoeinnahmenH5.value).toBe("10000 netto");
     });
   });
 
@@ -323,7 +323,9 @@ describe("bruttoEinnahmen_partner", () => {
           "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
         ].value,
       ).toContain(singleEinkunft.beschreibung);
-      expect(pdfValues.euroBrutto3.value).toBe(`${singleEinkunft.betrag} €`);
+      expect(pdfValues.euroBrutto3.value).toBe(
+        `${singleEinkunft.betrag} netto`,
+      );
 
       // Second field should remain blank
       expect(
@@ -349,7 +351,9 @@ describe("bruttoEinnahmen_partner", () => {
           "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
         ].value,
       ).toContain(twoEinkuenfte[0].beschreibung);
-      expect(pdfValues.euroBrutto3.value).toBe(`${twoEinkuenfte[0].betrag} €`);
+      expect(pdfValues.euroBrutto3.value).toBe(
+        `${twoEinkuenfte[0].betrag} netto`,
+      );
 
       // Second field should also be filled
       expect(
@@ -357,7 +361,9 @@ describe("bruttoEinnahmen_partner", () => {
           "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben2"
         ].value,
       ).toContain(twoEinkuenfte[1].beschreibung);
-      expect(pdfValues.euroBrutto4.value).toBe(`${twoEinkuenfte[1].betrag} €`);
+      expect(pdfValues.euroBrutto4.value).toBe(
+        `${twoEinkuenfte[1].betrag} netto`,
+      );
     });
 
     it('should print "Siehe Anhang", the collective monthly amount, and add an attachment if there are more than 2 Einkuenfte', () => {
@@ -380,7 +386,7 @@ describe("bruttoEinnahmen_partner", () => {
         level: "h3",
         title: "2. Andere Einnahmen",
       });
-      expect(attachment?.at(1)?.text).toContain(" €");
+      expect(attachment?.at(1)?.text).toContain(" netto");
       threeEinkuenfte.forEach((einkunft, index) => {
         expect(attachment?.at(1 + index)?.text).contain(einkunft.betrag);
         expect(attachment?.at(1 + index)?.title).contain(einkunft.beschreibung);
@@ -406,7 +412,7 @@ describe("bruttoEinnahmen_partner", () => {
         title: "Besonders Hohe Ausgaben",
       });
       expect(attachment?.at(1)?.title).toContain("Woah so expensive");
-      expect(attachment?.at(1)?.text).toContain("10000 € Monatlich");
+      expect(attachment?.at(1)?.text).toContain("10000 netto Monatlich");
     });
   });
 });

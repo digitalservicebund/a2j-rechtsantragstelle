@@ -1,10 +1,10 @@
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
-import { getTotalMonthlyFinancialEntries } from "~/services/pdf/util";
 import type { PkhPdfFillFunction } from ".";
 import type { AttachmentEntries } from "../attachment";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
 import { zahlungsfrequenzMapping } from "./E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
+import { getTotalMonthlyFinancialEntries } from "./util";
 
 export const versicherungMapping = {
   haftpflichtversicherung: "Haftpflichtversicherung",
