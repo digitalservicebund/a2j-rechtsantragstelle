@@ -24,6 +24,13 @@ describe("cspHeader", () => {
     expect(scriptDirective).not.toContain("unsafe-inline");
   });
 
+  it("adds report URI if passed", () => {
+    const reportCspHeaders = cspHeader({
+      ...defaultArgs,
+      reportUri: "https://reportCsp.com",
+    });
+    expect(reportCspHeaders).toContain("report-to");
+    expect(reportCspHeaders).toContain("https://reportCsp.com");
   });
 
   it("only adds localhost in development environment", () => {

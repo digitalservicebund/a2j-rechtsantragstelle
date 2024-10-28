@@ -110,6 +110,7 @@ function handleBrowserRequest(
         nonce: cspNonce,
         environment: config().ENVIRONMENT,
         trustedDomains,
+        reportUri: config().CSP_REPORT_URI,
       }),
     );
 
