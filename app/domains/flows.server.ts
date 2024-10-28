@@ -18,8 +18,7 @@ export type FlowMigration = {
   buttonUrl?: string;
 };
 
-const flowTypes = ["vorabCheck", "formFlow"] as const;
-export type FlowType = (typeof flowTypes)[number];
+export type FlowType = "vorabCheck" | "formFlow";
 
 export type Flow = {
   flowType: FlowType;
