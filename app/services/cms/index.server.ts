@@ -7,7 +7,7 @@ import {
   collectionSchemas,
   entrySchemas,
   type CollectionId,
-  type FlowPageApiId,
+  type FlowPageId,
   type SingleEntryId,
   type StrapiSchemas,
 } from "./schemas";
@@ -68,7 +68,7 @@ export const fetchTranslations = async (
 export const fetchPage = (slug: string) =>
   fetchCollectionEntry("pages", [{ field: "slug", value: slug }]);
 
-export const fetchFlowPage = <T extends FlowPageApiId>(
+export const fetchFlowPage = <T extends FlowPageId>(
   collection: T,
   flowId: FlowId,
   stepId: string,

@@ -27,7 +27,7 @@ export const flowPageSchemas = {
   ),
 };
 
-export type FlowPageApiId = keyof typeof flowPageSchemas;
+export type FlowPageId = keyof typeof flowPageSchemas;
 
 export const collectionSchemas = {
   pages: z.array(z.object({ attributes: StrapiPageSchema })),
