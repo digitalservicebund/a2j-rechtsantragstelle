@@ -13,6 +13,8 @@ describe("cspHeader", () => {
     expect(defaultHeader).toContain("script-src");
     expect(defaultHeader).toContain("object-src");
     expect(defaultHeader).toContain("base-uri");
+    expect(defaultHeader).toContain("form-action");
+    expect(defaultHeader).toContain("upgrade-insecure-requests");
     expect(defaultHeader).toContain("frame-ancestors 'none'");
 
     const scriptDirective = defaultHeader

@@ -28,9 +28,11 @@ export const cspHeader = (args: {
       "https://img.youtube.com",
       "data:",
     ],
+    "form-action ": ["'self'"],
     "object-src": ["'none'"],
     "base-uri": ["'none'"],
     "frame-ancestors": ["'none'"],
+    "upgrade-insecure-requests": [],
   };
 
   if (args.environment === "development") {
