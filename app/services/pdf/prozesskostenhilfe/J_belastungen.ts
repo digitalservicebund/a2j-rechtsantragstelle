@@ -12,8 +12,9 @@ export const fillBelastungen: PkhPdfFillFunction = ({
     einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
       context: userData,
     })
-  )
+  ) {
     return { pdfValues };
+  }
 
   const belastungen = Object.entries(userData.besondereBelastungen)
     .filter(([_, val]) => val === "on")

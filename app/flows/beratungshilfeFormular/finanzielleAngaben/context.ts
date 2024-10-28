@@ -9,6 +9,7 @@ import {
   staatlicheLeistungen,
   unterhaltszahlungSchema,
   wertsachenArraySchema,
+  livingSituationSchema,
 } from "~/flows/shared/finanzielleAngaben/context";
 import { finanzielleAngabenPartnerContext } from "~/flows/shared/finanzielleAngaben/partner/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
@@ -65,10 +66,7 @@ export const beratungshilfeFinanzielleAngaben = {
   grundeigentum: grundeigentumArraySchema,
   hasWertsache: YesNoAnswer,
   wertsachen: wertsachenArraySchema,
-  livingSituation: z.enum(
-    ["alone", "withRelatives", "withOthers"],
-    customRequiredErrorMessage,
-  ),
+  livingSituation: livingSituationSchema,
   apartmentSizeSqm: integerSchema,
   apartmentPersonCount: integerSchema,
   apartmentCostOwnShare: buildMoneyValidationSchema(),

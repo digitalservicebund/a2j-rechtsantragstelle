@@ -7,7 +7,6 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
     ausgaben: {
       url: `${prefix}/ausgaben/ausgaben`,
       initialInputUrl: "art",
-      statementUrl: `${prefix}/ausgaben/ausgaben-frage`,
       statementKey: "hasAusgaben",
       hiddenFields: ["hasZahlungsfrist"],
       event: "add-ausgaben",
