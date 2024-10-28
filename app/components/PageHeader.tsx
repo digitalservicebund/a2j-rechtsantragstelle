@@ -1,17 +1,20 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 import { StandaloneLink } from "~/components/StandaloneLink";
+import type { Translations } from "~/services/cms/index.server";
 
 type PageHeaderProps = {
   title: string;
   linkLabel: string;
   hideLinks: boolean;
+  translations: Translations;
 };
 
 export default function Header({
   title,
   linkLabel,
   hideLinks,
+  translations,
 }: PageHeaderProps) {
   return (
     <header>
@@ -28,17 +31,15 @@ export default function Header({
         </a>
         {!hideLinks && (
           <div className="flex gap-20 max-sm:pt-16">
-            {/* TODO: Add strapi translations */}
             <StandaloneLink
               url={"/leichtesprache"}
-              text={"Leichte Sprache"}
+              text={translations.leichtesprache}
               className="flex basis-1/2 ds-label-03-reg items-center"
               icon={<LocalLibrary className="inline mr-10" />}
             />
-            {/* TODO: Add strapi translations */}
             <StandaloneLink
               url={"/gebaerdensprache"}
-              text={"Gebärdensprache"}
+              text={translations.gebaerdensprache}
               className="flex basis-1/2 ds-label-03-reg items-center"
               icon={<SignLanguage className="inline mr-10" />}
             />
