@@ -213,7 +213,7 @@ export const guards = {
       return true;
     }
 
-    // german departure with partner court either in departure or departure
+    // german departure with partner court either in departure or destination
     return (
       isStartAirportGerman &&
       (hasStartAirportPartnerCourt || hasEndAirportPartnerCourt) &&

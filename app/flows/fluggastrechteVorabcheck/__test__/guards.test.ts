@@ -647,7 +647,7 @@ describe("fluggastrechteGuard", () => {
       });
     });
 
-    describe("german airport with partner court either in departure or departure", () => {
+    describe("german departure airport with partner court either in departure or destination", () => {
       it("should return true given a departure with partner court and sonstiges airline", () => {
         const context: FluggastrechtVorabcheckContext = {
           startAirport: "BER",
