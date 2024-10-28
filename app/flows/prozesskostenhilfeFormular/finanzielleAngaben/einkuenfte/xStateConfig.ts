@@ -160,19 +160,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
           ],
           BACK:
             subflowPrefix === "partner"
-              ? [
-                  {
-                    guard:
-                      "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes",
-                    target: "#partner.partner-name",
-                  },
-                  {
-                    guard:
-                      "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo",
-                    target: "#partner.keine-rolle",
-                  },
-                  "#partner.partner-einkommen",
-                ]
+              ? "#partner.partner-einkommen"
               : stepIds.start,
         },
       },
