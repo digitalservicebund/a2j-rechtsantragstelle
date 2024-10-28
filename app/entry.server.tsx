@@ -9,6 +9,7 @@ import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 import { config } from "./services/env/env.server";
+import { config as configWeb } from "./services/env/web";
 import { logError } from "./services/logging";
 import { cspHeader } from "./services/security/cspHeader.server";
 import { NonceContext } from "./services/security/nonce";
@@ -97,9 +98,19 @@ function handleBrowserRequest(
   return new Promise((resolve, reject) => {
     let didError = false;
     const cspNonce = generateNonce();
+    const trustedDomains = [
+      configWeb().POSTHOG_API_HOST,
+      configWeb().SENTRY_DSN,
+    ]
+      .filter((url) => url !== undefined)
+      .map((url) => new URL(url).origin);
     responseHeaders.set(
       "Content-Security-Policy",
-      cspHeader({ nonce: cspNonce, environment: config().ENVIRONMENT }),
+      cspHeader({
+        nonce: cspNonce,
+        environment: config().ENVIRONMENT,
+        trustedDomains,
+      }),
     );
 
     const { pipe, abort } = renderToPipeableStream(
