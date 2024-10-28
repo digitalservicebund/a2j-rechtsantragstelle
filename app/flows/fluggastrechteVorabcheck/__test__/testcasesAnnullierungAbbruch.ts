@@ -229,7 +229,7 @@ const cases = [
   ],
 ] as const satisfies TestCases<FluggastrechtVorabcheckContext>;
 
-export const testCasesFluggastrechteAnnullierung = {
+export const testCasesFluggastrechteAnnullierungAbbruch = {
   machine,
   cases,
 };

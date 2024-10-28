@@ -13,9 +13,6 @@ import { testCasesBeratungshilfe } from "~/flows/beratungshilfeVorabcheck/__test
 import { type Context } from "~/flows/contexts";
 import { testCasesFluggastrechteFormularGrundvoraussetzungen } from "~/flows/fluggastrechteFormular/grundvoraussetzungen/__test__/testcases";
 import { testCasesFluggastrechteFormularPersoenlicheDaten } from "~/flows/fluggastrechteFormular/persoenlicheDaten/__test__/testcases";
-import { testCasesFluggastrechteAnnullierung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesAnnullierung";
-import { testCasesFluggastrechteNichtBefoerderung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesNichtBefoerderung";
-import { testCasesFluggastrechteVerspaetet } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesVerspaetet";
 import { testCasesGeldEinklagen } from "~/flows/geldEinklagenVorabcheck/__test__/testcases";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
@@ -23,7 +20,13 @@ import { testCasesFluggastrechteFormularFlugdatenAnnullierung } from "../fluggas
 import { testCasesFluggastrechteFormularFlugdatenNichtBefoerderung } from "../fluggastrechteFormular/flugdaten/__test__/testcasesNichtBefoerderung";
 import { testCasesFluggastrechteFormularFlugdatenVerspaetet } from "../fluggastrechteFormular/flugdaten/__test__/testscasesVerspaetet";
 import { testCasesFluggastrechteFormularStreitwertKosten } from "../fluggastrechteFormular/streitwertKosten/__test__/testscases";
-import { testCasesFluggastrechteSuccessful } from "../fluggastrechteVorabcheck/__test__/testcasesSuccessful";
+import { testCasesFluggastrechteAnnullierungAbbruch } from "../fluggastrechteVorabcheck/__test__/testcasesAnnullierungAbbruch";
+import { testCasesFluggastrechteErfolg } from "../fluggastrechteVorabcheck/__test__/testcasesErfolg";
+import { testcasesFluggastrechteErfolgAnalog } from "../fluggastrechteVorabcheck/__test__/testcasesErfolgAnalog";
+import { testCasesFluggastrechteErfolgEU } from "../fluggastrechteVorabcheck/__test__/testcasesErfolgEU";
+import { testCasesFluggastrechteNichtBefoerderungAbbruch } from "../fluggastrechteVorabcheck/__test__/testcasesNichtBefoerderungAbbruch";
+import { testcasesFluggastrechtOtherErfolgs } from "../fluggastrechteVorabcheck/__test__/testcasesOtherErfolgs";
+import { testCasesFluggastrechteVerspaetetAbbruch } from "../fluggastrechteVorabcheck/__test__/testcasesVerspaetetAbbruch";
 import { testCasesProzesskostenhilfeFormular } from "../prozesskostenhilfeFormular/__test__/testcases";
 import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../prozesskostenhilfeFormular/finanzielleAngaben/__test__/testcasesWohnung";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "../prozesskostenhilfeFormular/persoenlicheDaten/__test__/testcases";
@@ -81,10 +84,10 @@ describe("state machine form flows", () => {
     testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
     testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
     testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
-    testCasesFluggastrechteVerspaetet,
-    testCasesFluggastrechteAnnullierung,
-    testCasesFluggastrechteNichtBefoerderung,
-    testCasesFluggastrechteSuccessful,
+    testCasesFluggastrechteVerspaetetAbbruch,
+    testCasesFluggastrechteAnnullierungAbbruch,
+    testCasesFluggastrechteNichtBefoerderungAbbruch,
+    testcasesFluggastrechtOtherErfolgs,
     testCasesFluggastrechteFormularPersoenlicheDaten,
     testCasesProzesskostenhilfeFormular,
     testCasesPKHFormularFinanzielleAngabenWohnung,
@@ -94,6 +97,9 @@ describe("state machine form flows", () => {
     testCasesProzesskostenhilfeRsv,
     testCasesFluggastrechteFormularFlugdatenVerspaetet,
     testCasesFluggastrechteFormularFlugdatenAnnullierung,
+    testCasesFluggastrechteErfolg,
+    testCasesFluggastrechteErfolgEU,
+    testcasesFluggastrechteErfolgAnalog,
   ].forEach(({ machine, cases }) => {
     test.each([...cases])(
       "SUBMIT (%#) given context: %j, visits steps: %j",
