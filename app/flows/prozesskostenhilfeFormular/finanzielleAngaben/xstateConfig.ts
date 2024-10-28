@@ -72,7 +72,7 @@ export const finanzielleAngabenXstateConfig = {
         "keine-rolle": {
           on: {
             BACK: "unterhalt",
-            SUBMIT: "#kinder",
+            SUBMIT: "#partner-einkuenfte",
           },
         },
         "unterhalts-summe": {
@@ -84,7 +84,7 @@ export const finanzielleAngabenXstateConfig = {
         "partner-name": {
           on: {
             BACK: "unterhalts-summe",
-            SUBMIT: "#kinder",
+            SUBMIT: "#partner-einkuenfte",
           },
         },
         "partner-einkommen": {
@@ -95,7 +95,7 @@ export const finanzielleAngabenXstateConfig = {
                 guard: "partnerEinkommenYes",
                 target: "#partner-einkuenfte",
               },
-              "#andere-unterhaltszahlungen",
+              "#kinder",
             ],
           },
         },
@@ -153,6 +153,10 @@ export const finanzielleAngabenXstateConfig = {
                 target: "#partner",
               },
               {
+                guard: "partnerEinkommenNo",
+                target: "#partner.partner-einkommen",
+              },
+              {
                 guard:
                   partnerEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen,
                 target: "#partner-einkuenfte.partner-staatliche-leistungen",
@@ -160,14 +164,6 @@ export const finanzielleAngabenXstateConfig = {
               {
                 guard: "partnerHasBesondersAusgabenYes",
                 target: "#partner-einkuenfte.add-partner-besonders-ausgaben",
-              },
-              {
-                guard: "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes",
-                target: "#partner.partner-name",
-              },
-              {
-                guard: "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo",
-                target: "#partner.keine-rolle",
               },
               "#partner-einkuenfte.partner-besonders-ausgaben",
             ],
@@ -276,10 +272,6 @@ export const finanzielleAngabenXstateConfig = {
         frage: {
           on: {
             BACK: [
-              {
-                guard: "partnerEinkommenNo",
-                target: "#partner.partner-einkommen",
-              },
               {
                 guard: "hasKinderYes",
                 target: "#kinder.uebersicht",
