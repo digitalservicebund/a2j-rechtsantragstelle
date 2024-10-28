@@ -124,8 +124,6 @@ const cases = [
       "finanzielle-angaben/partner/partnerschaft",
       "finanzielle-angaben/partner/zusammenleben",
       "finanzielle-angaben/partner/partner-einkommen",
-      "finanzielle-angaben/kinder/kinder-frage",
-      "finanzielle-angaben/kinder/uebersicht",
       "finanzielle-angaben/andere-unterhaltszahlungen/frage",
       "finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
       "finanzielle-angaben/wohnung/alleine-zusammen",
