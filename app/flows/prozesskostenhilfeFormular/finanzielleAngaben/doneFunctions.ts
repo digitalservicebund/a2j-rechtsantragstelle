@@ -21,15 +21,24 @@ import {
 export type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenContext>;
 
+export const partnerNameDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.partnerVorname !== undefined && context.partnerNachname !== undefined;
+
 export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  (context.staatlicheLeistungen != undefined &&
+  (context.staatlicheLeistungen !== undefined &&
     einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
       context,
     })) ||
   ["no", "widowed", "separated"].includes(context.partnerschaft ?? "") ||
-  context.partnerEinkommen == "no" ||
+  context.unterhalt === "no" ||
+  context.partnerEinkommen === "no" ||
+  (context.unterhalt === "yes" &&
+    context.unterhaltsSumme !== undefined &&
+    partnerNameDone({ context })) ||
   partnerEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
     context,
   }) ||

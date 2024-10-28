@@ -72,7 +72,7 @@ export const finanzielleAngabenXstateConfig = {
         "keine-rolle": {
           on: {
             BACK: "unterhalt",
-            SUBMIT: "#partner-einkuenfte",
+            SUBMIT: "#kinder",
           },
         },
         "unterhalts-summe": {
@@ -84,7 +84,7 @@ export const finanzielleAngabenXstateConfig = {
         "partner-name": {
           on: {
             BACK: "unterhalts-summe",
-            SUBMIT: "#partner-einkuenfte",
+            SUBMIT: "#kinder",
           },
         },
         "partner-einkommen": {
@@ -164,6 +164,14 @@ export const finanzielleAngabenXstateConfig = {
               {
                 guard: "partnerHasBesondersAusgabenYes",
                 target: "#partner-einkuenfte.add-partner-besonders-ausgaben",
+              },
+              {
+                guard: "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes",
+                target: "#partner.partner-name",
+              },
+              {
+                guard: "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo",
+                target: "#partner.keine-rolle",
               },
               "#partner-einkuenfte.partner-besonders-ausgaben",
             ],
