@@ -39,7 +39,7 @@ import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlic
 import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechtsschutzversicherung/context";
 
 export const prozesskostenhilfeFormular = {
-  cmsSlug: "form-flow-pages",
+  flowType: "formFlow",
   config: {
     id: "/prozesskostenhilfe/formular",
     initial: "start",

@@ -40,7 +40,7 @@ const flowTransitionConfig: FlowTransitionConfig = {
 };
 
 export const fluggastrechtFlow = {
-  cmsSlug: "form-flow-pages",
+  flowType: "formFlow",
   migration: {
     source: "/fluggastrechte/vorabcheck",
     sortedFields: [

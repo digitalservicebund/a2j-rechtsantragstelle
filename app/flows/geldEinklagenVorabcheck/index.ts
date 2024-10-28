@@ -5,7 +5,7 @@ import { type AllContexts } from "../common";
 import { getGerichtskostenvorschuss } from "../shared/gerichtskosten";
 
 export const geldEinklagenVorabcheck = {
-  cmsSlug: "vorab-check-pages",
+  flowType: "vorabCheck",
   stringReplacements: (context: AllContexts) => ({
     gerichtskostenvorschuss: getGerichtskostenvorschuss(context).toString(),
   }),

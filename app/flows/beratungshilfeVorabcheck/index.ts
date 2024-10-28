@@ -22,7 +22,7 @@ export function reasonsToDisplayBeratungshilfe(context: AllContexts) {
 }
 
 export const beratungshilfeVorabcheck = {
-  cmsSlug: "vorab-check-pages",
+  flowType: "vorabCheck",
   stringReplacements: (context: AllContexts) => ({
     verfuegbaresEinkommenFreibetrag:
       getVerfuegbaresEinkommenFreibetrag(context).toString(),

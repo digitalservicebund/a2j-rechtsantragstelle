@@ -28,7 +28,7 @@ import type { BeratungshilfeRechtsproblem } from "./rechtsproblem/context";
 import type { AbgabeContext } from "../shared/abgabe/context";
 
 export const beratungshilfeFormular = {
-  cmsSlug: "form-flow-pages",
+  flowType: "formFlow",
   config: beratungshilfeXstateConfig,
   guards: {
     ...beratungshilfeGrundvoraussetzungenGuards,
