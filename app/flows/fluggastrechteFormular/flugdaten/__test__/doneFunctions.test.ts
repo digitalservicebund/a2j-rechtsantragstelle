@@ -28,8 +28,6 @@ describe("flugdatenDone", () => {
         tatsaechlicherFlug: "no",
         ersatzverbindungArt: "etwasAnderes",
         andereErsatzverbindungBeschreibung: "Taxi",
-        andereErsatzverbindungStartDatum: "11.03.2024",
-        andereErsatzverbindungStartZeit: "10:10",
         andereErsatzverbindungAnkunftsDatum: "11.03.2024",
         andereErsatzverbindungAnkunftsZeit: "11:00",
       } as const;
