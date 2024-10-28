@@ -1,13 +1,14 @@
 import { grundvoraussetzungenDone } from "../doneFunctions";
 
 describe("doneFunctions", () => {
-  it("should return true, if all the data were migrated", () => {
+  it("should return true, if all the data were migrated and zahlungsaufforderung is given", () => {
     const actual = grundvoraussetzungenDone({
       context: {
         startAirport: "BER",
         endAirport: "FRA",
         fluggesellschaft: "LH",
         bereich: "bereich",
+        zahlungsaufforderung: "no",
       },
     });
 
@@ -20,6 +21,7 @@ describe("doneFunctions", () => {
         endAirport: "FRA",
         fluggesellschaft: "LH",
         bereich: "bereich",
+        zahlungsaufforderung: "no",
       },
     });
 
@@ -32,6 +34,20 @@ describe("doneFunctions", () => {
         startAirport: "BER",
         endAirport: "FRA",
         fluggesellschaft: "LH",
+        zahlungsaufforderung: "no",
+      },
+    });
+
+    expect(actual).toBe(false);
+  });
+
+  it("should return false, if zahlungsaufforderung is missing", () => {
+    const actual = grundvoraussetzungenDone({
+      context: {
+        startAirport: "BER",
+        endAirport: "FRA",
+        fluggesellschaft: "LH",
+        bereich: "bereich",
       },
     });
 
