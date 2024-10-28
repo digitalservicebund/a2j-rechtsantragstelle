@@ -1,6 +1,5 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../attachment";
 import {
   fillBankkonto,
   fillBargeldOderWertgegenstaende,
@@ -8,6 +7,7 @@ import {
   fillKraftfahrzeuge,
   fillSonstigeVermoegenswerte,
 } from "~/services/pdf/prozesskostenhilfe/G_eigentum";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../attachment";
 
 let pdfParams: ProzesskostenhilfePDF;
 
@@ -246,6 +246,18 @@ describe("G_eigentum", () => {
   });
 
   describe("fillBargeldOderWertgegenstaende", () => {
+    it("should not mention attachments when none exist", () => {
+      const { pdfValues, attachment } = fillBargeldOderWertgegenstaende({
+        userData: {
+          hasBankkonto: "yes",
+        },
+        pdfValues: pdfParams,
+      });
+      expect(
+        pdfValues.artdesKontosKontoinhaberKreditinstitut.value,
+      ).toBeUndefined();
+      expect(attachment?.length).toBeUndefined();
+    });
     it("should indicate if the user has bargeld or wertgegenstaende", () => {
       let { pdfValues } = fillBargeldOderWertgegenstaende({
         userData: {

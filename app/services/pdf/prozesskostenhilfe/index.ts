@@ -1,11 +1,13 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
-import { fillAngehoerige } from "~/services/pdf/prozesskostenhilfe/D_angehoerige";
+import { fillRechtsschutzversicherung } from "~/services/pdf/prozesskostenhilfe/B_rechtsschutzversicherung";
+import { fillUnterhaltAngehoerige } from "~/services/pdf/prozesskostenhilfe/D_angehoerige";
 import { fillSelfBruttoEinnahmen } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
 import { fillBruttoEinnahmenPartner } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_partner";
 import { fillEigentum } from "~/services/pdf/prozesskostenhilfe/G_eigentum";
 import { fillGrundvoraussetzungen } from "~/services/pdf/prozesskostenhilfe/grundvoraussetzungen";
+import { fillUnterhaltsanspruch } from "./C_unterhaltspflichtige_person";
 import { fillAbzuege } from "./F_abzuege";
 import { fillZahlungsverpflichtungen } from "./I_zahlungsverpflichtungen";
 import { fillBelastungen } from "./J_belastungen";
@@ -16,6 +18,7 @@ import type { PdfFillFunction } from "../fillOutFunction";
 import { pdfFillReducer } from "../fillOutFunction";
 import { fillPdf } from "../fillPdf.server";
 import { fillPerson } from "./A_person";
+import { fillWohnkosten } from "./H_wohnkosten";
 export { getProzesskostenhilfeParameters };
 
 export type PkhPdfFillFunction = PdfFillFunction<
@@ -31,13 +34,16 @@ export async function prozesskostenhilfePdfFromUserdata(
     pdfParams: getProzesskostenhilfeParameters(),
     fillFunctions: [
       fillPerson,
+      fillRechtsschutzversicherung,
       fillGrundvoraussetzungen,
-      fillAngehoerige,
+      fillUnterhaltsanspruch,
+      fillUnterhaltAngehoerige,
       fillSelfBruttoEinnahmen,
       fillBruttoEinnahmenPartner,
       fillAbzuege,
       fillEigentum,
       fillBelastungen,
+      fillWohnkosten,
       fillZahlungsverpflichtungen,
     ],
   });

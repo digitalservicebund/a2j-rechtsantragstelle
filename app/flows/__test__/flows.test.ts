@@ -25,6 +25,7 @@ import { testCasesFluggastrechteFormularFlugdatenVerspaetet } from "../fluggastr
 import { testCasesFluggastrechteFormularStreitwertKosten } from "../fluggastrechteFormular/streitwertKosten/__test__/testscases";
 import { testCasesFluggastrechteSuccessful } from "../fluggastrechteVorabcheck/__test__/testcasesSuccessful";
 import { testCasesProzesskostenhilfeFormular } from "../prozesskostenhilfeFormular/__test__/testcases";
+import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../prozesskostenhilfeFormular/finanzielleAngaben/__test__/testcasesWohnung";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "../prozesskostenhilfeFormular/persoenlicheDaten/__test__/testcases";
 import { testCasesProzesskostenhilfeRsv } from "../prozesskostenhilfeFormular/rechtsschutzversicherung/__test__/testcases";
 
@@ -86,6 +87,7 @@ describe("state machine form flows", () => {
     testCasesFluggastrechteSuccessful,
     testCasesFluggastrechteFormularPersoenlicheDaten,
     testCasesProzesskostenhilfeFormular,
+    testCasesPKHFormularFinanzielleAngabenWohnung,
     testCasesFluggastrechteFormularGrundvoraussetzungen,
     testCasesFluggastrechteFormularStreitwertKosten,
     testCasesProzesskostenhilfePersoenlicheDaten,

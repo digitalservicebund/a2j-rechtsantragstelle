@@ -132,7 +132,7 @@ describe("bruttoEinnahmen_partner", () => {
         pdfValues: pdfParams,
       });
       expect(pdfValues.ja_23.value).toBe(true);
-      expect(pdfValues.belegnummerH17.value).toBe("1000 €");
+      expect(pdfValues.monatlicheBruttoeinnahmenH7.value).toBe("1000 €");
     });
   });
 
