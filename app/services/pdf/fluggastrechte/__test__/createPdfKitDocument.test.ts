@@ -5,7 +5,8 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   LINE_GAP_GLOBAL,
   PDF_LANGUAGE,
-  PDF_MARGIN,
+  PDF_MARGIN_HORIZONTAL,
+  PDF_MARGIN_VERTICAL,
   PDF_SIZE_FORMAT,
   PDF_VERSION,
 } from "../createPdfKitDocument";
@@ -46,7 +47,12 @@ describe("createPdfKitDocument", () => {
       tagged: true,
       displayTitle: true,
       size: PDF_SIZE_FORMAT,
-      margin: PDF_MARGIN,
+      margins: {
+        top: PDF_MARGIN_VERTICAL,
+        left: PDF_MARGIN_HORIZONTAL,
+        right: PDF_MARGIN_HORIZONTAL,
+        bottom: PDF_MARGIN_VERTICAL,
+      },
       fontLayoutCache: true,
       subset: "PDF/UA",
       permissions: {

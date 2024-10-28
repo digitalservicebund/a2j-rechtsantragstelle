@@ -1,7 +1,7 @@
 import type PDFDocument from "pdfkit";
 import {
   FONTS_BUNDESSANS_REGULAR,
-  PDF_MARGIN,
+  PDF_MARGIN_HORIZONTAL,
 } from "../../../createPdfKitDocument";
 
 export const addDetailedReason = (
@@ -14,7 +14,10 @@ export const addDetailedReason = (
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
         .fontSize(10)
-        .text("Die klagende Partei war pünktlich zum Check-in.", PDF_MARGIN)
+        .text(
+          "Die klagende Partei war pünktlich zum Check-in.",
+          PDF_MARGIN_HORIZONTAL,
+        )
         .text(
           "Der Flug von Berlin Brandenburg Flughafen (BER) nach Athens International Airport (ATH) hatte die genannte Verspätung.",
         );

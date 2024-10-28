@@ -8,7 +8,7 @@ import {
 import { antragstellendePersonTransitionCases } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
-const machine: FlowStateMachine = createMachine(
+export const machine: FlowStateMachine = createMachine(
   { ...prozesskostenhilfeFormular.config, context: {} },
   { guards: prozesskostenhilfeFormular.guards },
 );
@@ -128,6 +128,12 @@ const cases = [
       "finanzielle-angaben/kinder/uebersicht",
       "finanzielle-angaben/andere-unterhaltszahlungen/frage",
       "finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+      "finanzielle-angaben/wohnung/alleine-zusammen",
+      "finanzielle-angaben/wohnung/groesse",
+      "finanzielle-angaben/wohnung/anzahl-zimmer",
+      "finanzielle-angaben/wohnung/miete-eigenheim",
+      "finanzielle-angaben/wohnung/miete-alleine",
+      "finanzielle-angaben/wohnung/nebenkosten",
       "finanzielle-angaben/eigentum/eigentum-info",
       "finanzielle-angaben/eigentum/heirat-info",
       "finanzielle-angaben/eigentum/bankkonten-frage",
