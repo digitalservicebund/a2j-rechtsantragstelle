@@ -15,6 +15,10 @@ export const Default = {
     title: "Justiz-Services",
     linkLabel: "Justiz-Services",
     hideLinks: false,
+    translations: {
+      gebaerdensprache: "Gebärdensprache",
+      leichtesprache: "Leichte Sprache",
+    },
   },
 } satisfies StoryObj<typeof meta>;
 
@@ -23,6 +27,10 @@ export const FlowPage = {
     title: "Justiz-Services",
     linkLabel: "Justiz-Services",
     hideLinks: true,
+    translations: {
+      gebaerdensprache: "Gebärdensprache",
+      leichtesprache: "Leichte Sprache",
+    },
   },
 } satisfies StoryObj<typeof meta>;
 
