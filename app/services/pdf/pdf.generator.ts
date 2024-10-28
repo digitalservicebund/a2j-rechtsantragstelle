@@ -1,6 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
-import { PDFDocument, PDFCheckBox, PDFTextField, type PDFField } from "pdf-lib";
+import {
+  PDFArray,
+  PDFDocument,
+  PDFCheckBox,
+  PDFTextField,
+  type PDFField,
+  asPDFName,
+} from "pdf-lib";
 import { pdfs } from "~/services/pdf/pdfs";
 import { uppercaseFirstLetter } from "~/util/strings";
 import { normalizePropertyName } from "./normalizePropertyName";
@@ -11,8 +18,30 @@ function isCheckBoxOrTextField(field: PDFField) {
   return field instanceof PDFCheckBox || field instanceof PDFTextField;
 }
 
+function textfieldRectangle(field: PDFField) {
+  const pdfRect = field.acroField.dict.get(asPDFName("Rect"));
+  if (field instanceof PDFTextField && pdfRect instanceof PDFArray)
+    return pdfRect.asRectangle();
+}
+
+function textfieldLimits(field: PDFField) {
+  // Conversion factors were found by trial and error
+  const pdfWidthToChar = 4;
+  const pdfHeightToLines = 17;
+  const rect = textfieldRectangle(field);
+  if (rect) {
+    return {
+      maxCharWidth: Math.round(rect.width / pdfWidthToChar),
+      maxLines: Math.round(rect.height / pdfHeightToLines),
+    };
+  }
+}
+
 function pdfFieldToEntry(field: PDFField) {
-  return [normalizePropertyName(field.getName()), { name: field.getName() }];
+  return [
+    normalizePropertyName(field.getName()),
+    { name: field.getName(), ...textfieldLimits(field) },
+  ];
 }
 
 function pdfFieldToType(field: PDFField) {

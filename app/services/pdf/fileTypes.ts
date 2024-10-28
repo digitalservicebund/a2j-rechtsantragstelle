@@ -4,6 +4,8 @@ export interface BooleanField {
 }
 export interface StringField {
   name: string;
+  maxCharWidth: number;
+  maxLines: number;
   value?: string;
 }
 

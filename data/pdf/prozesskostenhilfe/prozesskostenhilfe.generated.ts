@@ -3,19 +3,29 @@ import type { BooleanField, StringField } from "~/services/pdf/fileTypes";
 export function getProzesskostenhilfeParameters(): ProzesskostenhilfePDF {
   return {
   "nameVornameggfGeburtsname": {
-    "name": "Name Vorname ggf Geburtsname"
+    "name": "Name Vorname ggf Geburtsname",
+    "maxCharWidth": 55,
+    "maxLines": 2
   },
   "berufErwerbstaetigkeit": {
-    "name": "Beruf Erwerbstätigkeit"
+    "name": "Beruf Erwerbstätigkeit",
+    "maxCharWidth": 30,
+    "maxLines": 2
   },
   "geburtsdatum": {
-    "name": "Geburtsdatum"
+    "name": "Geburtsdatum",
+    "maxCharWidth": 22,
+    "maxLines": 2
   },
   "anschriftStrasseHausnummerPostleitzahlWohnort": {
-    "name": "Anschrift Straße Hausnummer Postleitzahl Wohnort"
+    "name": "Anschrift Straße Hausnummer Postleitzahl Wohnort",
+    "maxCharWidth": 87,
+    "maxLines": 1
   },
   "sofernvorhandenGesetzlicherVertreterNameVornameAnschriftTelefon": {
-    "name": "Sofern vorhanden Gesetzlicher Vertreter Name Vorname Anschrift Telefon"
+    "name": "Sofern vorhanden Gesetzlicher Vertreter Name Vorname Anschrift Telefon",
+    "maxCharWidth": 126,
+    "maxLines": 1
   },
   "ja": {
     "name": "Ja"
@@ -27,25 +37,33 @@ export function getProzesskostenhilfeParameters(): ProzesskostenhilfePDF {
     "name": "Ja_2"
   },
   "geburtsdatum1": {
-    "name": "Geburts datum1"
+    "name": "Geburts datum1",
+    "maxCharWidth": 14,
+    "maxLines": 2
   },
   "ja_4": {
     "name": "Ja_4"
   },
   "geburtsdatum2": {
-    "name": "Geburts datum2"
+    "name": "Geburts datum2",
+    "maxCharWidth": 14,
+    "maxLines": 2
   },
   "ja_5": {
     "name": "Ja_5"
   },
   "geburtsdatum3": {
-    "name": "Geburts datum3"
+    "name": "Geburts datum3",
+    "maxCharWidth": 14,
+    "maxLines": 2
   },
   "ja_6": {
     "name": "Ja_6"
   },
   "geburtsdatum4": {
-    "name": "Geburts datum4"
+    "name": "Geburts datum4",
+    "maxCharWidth": 14,
+    "maxLines": 2
   },
   "ja_7": {
     "name": "Ja_7"
@@ -54,7 +72,9 @@ export function getProzesskostenhilfeParameters(): ProzesskostenhilfePDF {
     "name": "Ja_8"
   },
   "geburtsdatum5": {
-    "name": "Geburts datum5"
+    "name": "Geburts datum5",
+    "maxCharWidth": 14,
+    "maxLines": 2
   },
   "nein_10": {
     "name": "Nein_10"
@@ -213,13 +233,19 @@ export function getProzesskostenhilfeParameters(): ProzesskostenhilfePDF {
     "name": "Ja_35"
   },
   "steuernSolidaritaetszuschlag_2": {
-    "name": "SteuernSolidaritätszuschlag_2"
+    "name": "SteuernSolidaritätszuschlag_2",
+    "maxCharWidth": 39,
+    "maxLines": 2
   },
   "sozialversicherungsbeitraege_2": {
-    "name": "Sozialversicherungsbeiträge_2"
+    "name": "Sozialversicherungsbeiträge_2",
+    "maxCharWidth": 39,
+    "maxLines": 2
   },
   "sonstigeVersicherungen": {
-    "name": "Sonstige Versicherungen"
+    "name": "Sonstige Versicherungen",
+    "maxCharWidth": 38,
+    "maxLines": 2
   },
   "nein_37": {
     "name": "Nein_37"
@@ -261,10 +287,14 @@ export function getProzesskostenhilfeParameters(): ProzesskostenhilfePDF {
     "name": "undefined_10"
   },
   "heizungskosten": {
-    "name": "Heizungskosten"
+    "name": "Heizungskosten",
+    "maxCharWidth": 23,
+    "maxLines": 1
   },
   "gesamtbetrag": {
-    "name": "Gesamtbetrag"
+    "name": "Gesamtbetrag",
+    "maxCharWidth": 21,
+    "maxLines": 1
   },
   "undefined_11": {
     "name": "undefined_11"
@@ -273,100 +303,160 @@ export function getProzesskostenhilfeParameters(): ProzesskostenhilfePDF {
     "name": "undefined_12"
   },
   "zinsenundTilgung": {
-    "name": "Zinsen und Tilgung"
+    "name": "Zinsen und Tilgung",
+    "maxCharWidth": 25,
+    "maxLines": 1
   },
   "heizungskosten_2": {
-    "name": "Heizungskosten_2"
+    "name": "Heizungskosten_2",
+    "maxCharWidth": 24,
+    "maxLines": 1
   },
   "gesamtbetrag_2": {
-    "name": "Gesamtbetrag_2"
+    "name": "Gesamtbetrag_2",
+    "maxCharWidth": 22,
+    "maxLines": 1
   },
   "restschuldinEUR": {
-    "name": "Restschuld in EUR"
+    "name": "Restschuld in EUR",
+    "maxCharWidth": 22,
+    "maxLines": 1
   },
   "restschuldinEUR_2": {
-    "name": "Restschuld in EUR_2"
+    "name": "Restschuld in EUR_2",
+    "maxCharWidth": 22,
+    "maxLines": 1
   },
   "restschuldinEUR_3": {
-    "name": "Restschuld in EUR_3"
+    "name": "Restschuld in EUR_3",
+    "maxCharWidth": 22,
+    "maxLines": 1
   },
   "anzahlderbeigefuegtenBelege": {
-    "name": "Anzahl der beigefügten Belege"
+    "name": "Anzahl der beigefügten Belege",
+    "maxCharWidth": 90,
+    "maxLines": 1
   },
   "aufgenommenUnterschriftAmtsbezeichnung": {
-    "name": "Aufgenommen UnterschriftAmtsbezeichnung"
+    "name": "Aufgenommen UnterschriftAmtsbezeichnung",
+    "maxCharWidth": 47,
+    "maxLines": 2
   },
   "text2": {
-    "name": "Text2"
+    "name": "Text2",
+    "maxCharWidth": 37,
+    "maxLines": 1
   },
   "text3": {
-    "name": "Text3"
+    "name": "Text3",
+    "maxCharWidth": 15,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro": {
-    "name": "Monatliche Bruttoeinnahmen durch Nichtselbstständige Arbeit in Euro"
+    "name": "Monatliche Bruttoeinnahmen durch Nichtselbstständige Arbeit in Euro",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "1Nein": {
     "name": "1. Nein"
   },
   "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1": {
-    "name": "1. Haben Sie andere Einnahmen, auch einmalige oder unregelmäßige Wenn Ja bitte Art Bezugszeitraum und Höhe angeben zB WeihnachtsUrlaubsgeld jährlich Steuererstattung jährlich BAföG mtlRow1"
+    "name": "1. Haben Sie andere Einnahmen, auch einmalige oder unregelmäßige Wenn Ja bitte Art Bezugszeitraum und Höhe angeben zB WeihnachtsUrlaubsgeld jährlich Steuererstattung jährlich BAföG mtlRow1",
+    "maxCharWidth": 86,
+    "maxLines": 2
   },
   "belegnummerB1": {
-    "name": "Belegnummer B1"
+    "name": "Belegnummer B1",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerB2": {
-    "name": "Belegnummer B2"
+    "name": "Belegnummer B2",
+    "maxCharWidth": 8,
+    "maxLines": 3
   },
   "belegnummerC": {
-    "name": "BelegnummerC"
+    "name": "BelegnummerC",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "angehoerigerNummereins": {
-    "name": "Angehöriger Nummer eins"
+    "name": "Angehöriger Nummer eins",
+    "maxCharWidth": 37,
+    "maxLines": 2
   },
   "angehoerigerNummerzwei": {
-    "name": "Angehöriger Nummer zwei"
+    "name": "Angehöriger Nummer zwei",
+    "maxCharWidth": 37,
+    "maxLines": 2
   },
   "angehoerigerNummerdrei": {
-    "name": "Angehöriger Nummer drei"
+    "name": "Angehöriger Nummer drei",
+    "maxCharWidth": 37,
+    "maxLines": 2
   },
   "angehoerigerNummervier": {
-    "name": "Angehöriger Nummer vier"
+    "name": "Angehöriger Nummer vier",
+    "maxCharWidth": 37,
+    "maxLines": 2
   },
   "angehoerigerNummerfuenf": {
-    "name": "Angehöriger Nummer fünf"
+    "name": "Angehöriger Nummer fünf",
+    "maxCharWidth": 37,
+    "maxLines": 2
   },
   "verhaeltnis1": {
-    "name": "Verhältnis1"
+    "name": "Verhältnis1",
+    "maxCharWidth": 12,
+    "maxLines": 2
   },
   "verhaeltnis2": {
-    "name": "Verhältnis2"
+    "name": "Verhältnis2",
+    "maxCharWidth": 12,
+    "maxLines": 2
   },
   "verhaeltnis3": {
-    "name": "Verhältnis3"
+    "name": "Verhältnis3",
+    "maxCharWidth": 12,
+    "maxLines": 2
   },
   "verhaeltnis4": {
-    "name": "Verhältnis4"
+    "name": "Verhältnis4",
+    "maxCharWidth": 12,
+    "maxLines": 2
   },
   "verhaeltnis5": {
-    "name": "Verhältnis5"
+    "name": "Verhältnis5",
+    "maxCharWidth": 12,
+    "maxLines": 2
   },
   "monatsbetrag3": {
-    "name": "Monatsbetrag3"
+    "name": "Monatsbetrag3",
+    "maxCharWidth": 21,
+    "maxLines": 2
   },
   "monatsbetrag4": {
-    "name": "Monatsbetrag4"
+    "name": "Monatsbetrag4",
+    "maxCharWidth": 21,
+    "maxLines": 2
   },
   "monatsbetrag5": {
-    "name": "Monatsbetrag5"
+    "name": "Monatsbetrag5",
+    "maxCharWidth": 21,
+    "maxLines": 2
   },
   "eigeneEinnahmen1": {
     "name": "eigene Einnahmen1"
   },
   "monatsbetrag1": {
-    "name": "Monatsbetrag1"
+    "name": "Monatsbetrag1",
+    "maxCharWidth": 21,
+    "maxLines": 2
   },
   "monatsbetrag2": {
-    "name": "Monatsbetrag2"
+    "name": "Monatsbetrag2",
+    "maxCharWidth": 21,
+    "maxLines": 2
   },
   "eigeneEinnahmen2": {
     "name": "eigene Einnahmen2"
@@ -381,475 +471,787 @@ export function getProzesskostenhilfeParameters(): ProzesskostenhilfePDF {
     "name": "eigene Einnahmen5"
   },
   "betrag_1": {
-    "name": "Betrag_1"
+    "name": "Betrag_1",
+    "maxCharWidth": 13,
+    "maxLines": 1
   },
   "betrag_2": {
-    "name": "Betrag_2"
+    "name": "Betrag_2",
+    "maxCharWidth": 13,
+    "maxLines": 1
   },
   "betrag_3": {
-    "name": "Betrag_3"
+    "name": "Betrag_3",
+    "maxCharWidth": 13,
+    "maxLines": 1
   },
   "betrag_4": {
-    "name": "Betrag_4"
+    "name": "Betrag_4",
+    "maxCharWidth": 13,
+    "maxLines": 1
   },
   "betrag_5": {
-    "name": "Betrag_5"
+    "name": "Betrag_5",
+    "maxCharWidth": 13,
+    "maxLines": 1
   },
   "belegnummerH1": {
-    "name": "Belegnummer H1"
+    "name": "Belegnummer H1",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH2": {
-    "name": "Belegnummer H2"
+    "name": "Belegnummer H2",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerH3": {
-    "name": "Belegnummer H3"
+    "name": "Belegnummer H3",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH4": {
-    "name": "Belegnummer H4"
+    "name": "Belegnummer H4",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH5": {
-    "name": "Belegnummer H5"
+    "name": "Belegnummer H5",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH6": {
-    "name": "Belegnummer H6"
+    "name": "Belegnummer H6",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH7": {
-    "name": "Belegnummer H7"
+    "name": "Belegnummer H7",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH8": {
-    "name": "Belegnummer H8"
+    "name": "Belegnummer H8",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerH9": {
-    "name": "Belegnummer H9"
+    "name": "Belegnummer H9",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH10": {
-    "name": "Belegnummer H10"
+    "name": "Belegnummer H10",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH11": {
-    "name": "Belegnummer H11"
+    "name": "Belegnummer H11",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH12": {
-    "name": "Belegnummer H12"
+    "name": "Belegnummer H12",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH13": {
-    "name": "Belegnummer H13"
+    "name": "Belegnummer H13",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerH14": {
-    "name": "Belegnummer H14"
+    "name": "Belegnummer H14",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerH16": {
-    "name": "Belegnummer H16"
+    "name": "Belegnummer H16",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH17": {
-    "name": "Belegnummer H17"
+    "name": "Belegnummer H17",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH18": {
-    "name": "Belegnummer H18"
+    "name": "Belegnummer H18",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerH19": {
-    "name": "Belegnummer H19"
+    "name": "Belegnummer H19",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerH20": {
-    "name": "Belegnummer H20"
+    "name": "Belegnummer H20",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummer21": {
-    "name": "Belegnummer 21"
+    "name": "Belegnummer 21",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH22": {
-    "name": "Belegnummer H22"
+    "name": "Belegnummer H22",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH23": {
-    "name": "Belegnummer H23"
+    "name": "Belegnummer H23",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH24": {
-    "name": "Belegnummer H24"
+    "name": "Belegnummer H24",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH25": {
-    "name": "Belegnummer H25"
+    "name": "Belegnummer H25",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH26": {
-    "name": "Belegnummer H26"
+    "name": "Belegnummer H26",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH28": {
-    "name": "Belegnummer H28"
+    "name": "Belegnummer H28",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "belegnummerH30": {
-    "name": "Belegnummer H30"
+    "name": "Belegnummer H30",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerH31": {
-    "name": "Belegnummer H31"
+    "name": "Belegnummer H31",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerC1": {
-    "name": "Belegnummer C1"
+    "name": "Belegnummer C1",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerC2": {
-    "name": "Belegnummer C2"
+    "name": "Belegnummer C2",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerC3": {
-    "name": "Belegnummer C3"
+    "name": "Belegnummer C3",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerC4": {
-    "name": "Belegnummer C4"
+    "name": "Belegnummer C4",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerC5": {
-    "name": "Belegnummer C5"
+    "name": "Belegnummer C5",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8": {
-    "name": "Monatliche Bruttoeinnahmen durch Nichtselbstständige Arbeit in Euro8"
+    "name": "Monatliche Bruttoeinnahmen durch Nichtselbstständige Arbeit in Euro8",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9": {
-    "name": "Monatliche Bruttoeinnahmen durch Nichtselbstständige Arbeit in Euro9"
+    "name": "Monatliche Bruttoeinnahmen durch Nichtselbstständige Arbeit in Euro9",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro10": {
-    "name": "Monatliche Bruttoeinnahmen durch Nichtselbstständige Arbeit in Euro10"
+    "name": "Monatliche Bruttoeinnahmen durch Nichtselbstständige Arbeit in Euro10",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro11": {
-    "name": "Monatliche Bruttoeinnahmen durch Nichtselbstständige Arbeit in Euro11"
+    "name": "Monatliche Bruttoeinnahmen durch Nichtselbstständige Arbeit in Euro11",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro12": {
-    "name": "Monatliche Bruttoeinnahmen durch Nichtselbstständige Arbeit in Euro12"
+    "name": "Monatliche Bruttoeinnahmen durch Nichtselbstständige Arbeit in Euro12",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro13": {
-    "name": "Monatliche Bruttoeinnahmen durch Nichtselbstständige Arbeit in Euro13"
+    "name": "Monatliche Bruttoeinnahmen durch Nichtselbstständige Arbeit in Euro13",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "2HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow2": {
-    "name": "2. Haben Sie andere Einnahmen  auch einmalige oder unregelmäßige Wenn Ja bitte Art Bezugszeitraum und Höhe angeben zB WeihnachtsUrlaubsgeld jährlich Steuererstattung jährlich BAföG mtlRow2"
+    "name": "2. Haben Sie andere Einnahmen  auch einmalige oder unregelmäßige Wenn Ja bitte Art Bezugszeitraum und Höhe angeben zB WeihnachtsUrlaubsgeld jährlich Steuererstattung jährlich BAföG mtlRow2",
+    "maxCharWidth": 86,
+    "maxLines": 2
   },
   "euroBrutto2": {
-    "name": "Euro Brutto 2"
+    "name": "Euro Brutto 2",
+    "maxCharWidth": 30,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3": {
-    "name": "Monatliche Bruttoeinnahmen durch Selbstständige Arbeit in Euro3"
+    "name": "Monatliche Bruttoeinnahmen durch Selbstständige Arbeit in Euro3",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmendurchWohngeldinEuro7": {
-    "name": "Monatliche Bruttoeinnahmen durch Wohngeld in Euro7"
+    "name": "Monatliche Bruttoeinnahmen durch Wohngeld in Euro7",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmendurchKindergeldIKinderzuschlaginEuro6": {
-    "name": "Monatliche Bruttoeinnahmen durch KindergeldIKinderzuschlag in Euro6"
+    "name": "Monatliche Bruttoeinnahmen durch KindergeldIKinderzuschlag in Euro6",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmendurchKapitalvermoegeninEuro5": {
-    "name": "Monatliche Bruttoeinnahmen durch Kapitalvermögen  in Euro5"
+    "name": "Monatliche Bruttoeinnahmen durch Kapitalvermögen  in Euro5",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmendurchVermietungoderVerpachtunginEuro4": {
-    "name": "Monatliche Bruttoeinnahmen durch Vermietung oder Verpachtung in Euro4"
+    "name": "Monatliche Bruttoeinnahmen durch Vermietung oder Verpachtung in Euro4",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben": {
-    "name": "Hat Ihr Ehegatte/eingetragener Lebenspartner bzw. Ihre Ehegattin/eingetrageneLebenspartnerin andere Einnahmen? Bitte angeben"
+    "name": "Hat Ihr Ehegatte/eingetragener Lebenspartner bzw. Ihre Ehegattin/eingetrageneLebenspartnerin andere Einnahmen? Bitte angeben",
+    "maxCharWidth": 86,
+    "maxLines": 2
   },
   "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben2": {
-    "name": "Hat Ihr Ehegatte/eingetragener Lebenspartner bzw. Ihre Ehegattin/eingetrageneLebenspartnerin andere Einnahmen? Bitte angeben 2"
+    "name": "Hat Ihr Ehegatte/eingetragener Lebenspartner bzw. Ihre Ehegattin/eingetrageneLebenspartnerin andere Einnahmen? Bitte angeben 2",
+    "maxCharWidth": 86,
+    "maxLines": 2
   },
   "euroBrutto3": {
-    "name": "Euro Brutto 3"
+    "name": "Euro Brutto 3",
+    "maxCharWidth": 31,
+    "maxLines": 1
   },
   "euroBrutto": {
-    "name": "Euro Brutto"
+    "name": "Euro Brutto",
+    "maxCharWidth": 30,
+    "maxLines": 1
   },
   "euroBrutto4": {
-    "name": "Euro Brutto 4"
+    "name": "Euro Brutto 4",
+    "maxCharWidth": 31,
+    "maxLines": 1
   },
   "steuernSolidaritaetszuschlag1": {
-    "name": "SteuernSolidaritätszuschlag1"
+    "name": "SteuernSolidaritätszuschlag1",
+    "maxCharWidth": 39,
+    "maxLines": 2
   },
   "belegnummerI1": {
-    "name": "Belegnummer I1"
+    "name": "Belegnummer I1",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerI2": {
-    "name": "Belegnummer I2"
+    "name": "Belegnummer I2",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerI3": {
-    "name": "Belegnummer I3"
+    "name": "Belegnummer I3",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerI4": {
-    "name": "Belegnummer I4"
+    "name": "Belegnummer I4",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerI5": {
-    "name": "Belegnummer I5"
+    "name": "Belegnummer I5",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerI6": {
-    "name": "Belegnummer I6"
+    "name": "Belegnummer I6",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerI7": {
-    "name": "Belegnummer I7"
+    "name": "Belegnummer I7",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerI8": {
-    "name": "Belegnummer I8"
+    "name": "Belegnummer I8",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerI9": {
-    "name": "Belegnummer I9"
+    "name": "Belegnummer I9",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerI10": {
-    "name": "Belegnummer I10"
+    "name": "Belegnummer I10",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "sozialversicherungsbeitraege1": {
-    "name": "Sozialversicherungsbeiträge1"
+    "name": "Sozialversicherungsbeiträge1",
+    "maxCharWidth": 39,
+    "maxLines": 2
   },
   "monatlicheAbzuegeinEuro1": {
-    "name": "Monatliche Abzüge in Euro1"
+    "name": "Monatliche Abzüge in Euro1",
+    "maxCharWidth": 13,
+    "maxLines": 2
   },
   "monatlicheAbzuegeinEuro2": {
-    "name": "Monatliche Abzüge in Euro2"
+    "name": "Monatliche Abzüge in Euro2",
+    "maxCharWidth": 13,
+    "maxLines": 2
   },
   "monatlicheAbzuegeinEuro3": {
-    "name": "Monatliche Abzüge in Euro3"
+    "name": "Monatliche Abzüge in Euro3",
+    "maxCharWidth": 13,
+    "maxLines": 2
   },
   "monatlicheAbzuegeinEuro4": {
-    "name": "Monatliche Abzüge in Euro4"
+    "name": "Monatliche Abzüge in Euro4",
+    "maxCharWidth": 13,
+    "maxLines": 2
   },
   "sozialversicherungsbeitraegeEhegatte": {
-    "name": "Sozialversicherungsbeiträge Ehegatte"
+    "name": "Sozialversicherungsbeiträge Ehegatte",
+    "maxCharWidth": 39,
+    "maxLines": 2
   },
   "steuernSolidaritaetszuschlag2": {
-    "name": "SteuernSolidaritätszuschlag2"
+    "name": "SteuernSolidaritätszuschlag2",
+    "maxCharWidth": 39,
+    "maxLines": 2
   },
   "sonstigeVersicherungenEhegatte": {
-    "name": "Sonstige Versicherungen Ehegatte"
+    "name": "Sonstige Versicherungen Ehegatte",
+    "maxCharWidth": 38,
+    "maxLines": 2
   },
   "fahrtkostenEhegatte": {
-    "name": "Fahrtkosten Ehegatte"
+    "name": "Fahrtkosten Ehegatte",
+    "maxCharWidth": 39,
+    "maxLines": 1
   },
   "sonstigewerbungskostenEhegatte": {
-    "name": "Sonstige werbungskosten Ehegatte"
+    "name": "Sonstige werbungskosten Ehegatte",
+    "maxCharWidth": 39,
+    "maxLines": 2
   },
   "monatlicheAbzuegeinEuro5": {
-    "name": "Monatliche Abzüge in Euro5"
+    "name": "Monatliche Abzüge in Euro5",
+    "maxCharWidth": 13,
+    "maxLines": 2
   },
   "monatlicheAbzuegeinEuro6": {
-    "name": "Monatliche Abzüge in Euro6"
+    "name": "Monatliche Abzüge in Euro6",
+    "maxCharWidth": 13,
+    "maxLines": 2
   },
   "monatlicheAbzuegeinEuro7": {
-    "name": "Monatliche Abzüge in Euro7"
+    "name": "Monatliche Abzüge in Euro7",
+    "maxCharWidth": 13,
+    "maxLines": 2
   },
   "monatlicheAbzuegeinEuro8": {
-    "name": "Monatliche Abzüge in Euro8"
+    "name": "Monatliche Abzüge in Euro8",
+    "maxCharWidth": 13,
+    "maxLines": 2
   },
   "monatlicheAbzuegeinEuro9": {
-    "name": "Monatliche Abzüge in Euro9"
+    "name": "Monatliche Abzüge in Euro9",
+    "maxCharWidth": 13,
+    "maxLines": 2
   },
   "monatlicheAbzuegeinEuro10": {
-    "name": "Monatliche Abzüge in Euro10"
+    "name": "Monatliche Abzüge in Euro10",
+    "maxCharWidth": 13,
+    "maxLines": 2
   },
   "artdesKontosKontoinhaberKreditinstitut": {
-    "name": "Art des Kontos, Kontoinhaber, Kreditinstitut"
+    "name": "Art des Kontos, Kontoinhaber, Kreditinstitut",
+    "maxCharWidth": 77,
+    "maxLines": 3
   },
   "groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten": {
-    "name": "Größe, Anschrift/Grundbuchbezeichnung, Allein- oder Miteigentum, Zahl der Wohneinheiten"
+    "name": "Größe, Anschrift/Grundbuchbezeichnung, Allein- oder Miteigentum, Zahl der Wohneinheiten",
+    "maxCharWidth": 77,
+    "maxLines": 3
   },
   "markeTypBaujahrAnschaffungsjahrAlleinoderMiteigentumKilometerstand": {
-    "name": "Marke, Typ, Baujahr, Anschaffungsjahr, Allein- oder Miteigentum, Kilometerstand"
+    "name": "Marke, Typ, Baujahr, Anschaffungsjahr, Allein- oder Miteigentum, Kilometerstand",
+    "maxCharWidth": 77,
+    "maxLines": 3
   },
   "bargeldbetraginEURBezeichnungderWertgegenstaendeAlleinoderMiteigentum": {
-    "name": "Bargeldbetrag in EUR, Bezeichnung der Wertgegenstände, Allein- oder Miteigentum"
+    "name": "Bargeldbetrag in EUR, Bezeichnung der Wertgegenstände, Allein- oder Miteigentum",
+    "maxCharWidth": 77,
+    "maxLines": 3
   },
   "versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvorsorgegemEinkommensteuergesetzdiestaatlichgefoerdertwurdeRiesterRente": {
-    "name": "Versicherung, Versicherungsnehmer, Datum des Vertrages/Handelt es sich um eine zusätzliche Altersvorsorge gem. Einkommensteuergesetz, die staatlich gefördert wurde („Riester-Rente“)?"
+    "name": "Versicherung, Versicherungsnehmer, Datum des Vertrages/Handelt es sich um eine zusätzliche Altersvorsorge gem. Einkommensteuergesetz, die staatlich gefördert wurde („Riester-Rente“)?",
+    "maxCharWidth": 77,
+    "maxLines": 3
   },
   "bezeichnungAlleinoderMiteigentum": {
-    "name": "Bezeichnung, Allein- oder Miteigentum"
+    "name": "Bezeichnung, Allein- oder Miteigentum",
+    "maxCharWidth": 77,
+    "maxLines": 3
   },
   "belegnummerI11": {
-    "name": "Belegnummer I11"
+    "name": "Belegnummer I11",
+    "maxCharWidth": 8,
+    "maxLines": 3
   },
   "belegnummerI12": {
-    "name": "Belegnummer I12"
+    "name": "Belegnummer I12",
+    "maxCharWidth": 8,
+    "maxLines": 3
   },
   "belegnummerI13": {
-    "name": "Belegnummer I13"
+    "name": "Belegnummer I13",
+    "maxCharWidth": 8,
+    "maxLines": 3
   },
   "belegnummerI14": {
-    "name": "Belegnummer I14"
+    "name": "Belegnummer I14",
+    "maxCharWidth": 8,
+    "maxLines": 3
   },
   "belegnummerI15": {
-    "name": "Belegnummer I15"
+    "name": "Belegnummer I15",
+    "maxCharWidth": 8,
+    "maxLines": 3
   },
   "belegnummerI16": {
-    "name": "Belegnummer I16"
+    "name": "Belegnummer I16",
+    "maxCharWidth": 8,
+    "maxLines": 3
   },
   "kontostand": {
-    "name": "Kontostand"
+    "name": "Kontostand",
+    "maxCharWidth": 18,
+    "maxLines": 2
   },
   "verkehrswert": {
-    "name": "Verkehrswert"
+    "name": "Verkehrswert",
+    "maxCharWidth": 18,
+    "maxLines": 3
   },
   "verkehrswert2": {
-    "name": "Verkehrswert2"
+    "name": "Verkehrswert2",
+    "maxCharWidth": 18,
+    "maxLines": 2
   },
   "verkehrswert3": {
-    "name": "Verkehrswert3"
+    "name": "Verkehrswert3",
+    "maxCharWidth": 18,
+    "maxLines": 2
   },
   "rueckkaufswert": {
-    "name": "Rückkaufswert"
+    "name": "Rückkaufswert",
+    "maxCharWidth": 18,
+    "maxLines": 2
   },
   "gesamtgroessedesWohnraumsdenSiealleinodergemeinsammitanderenPersonenbewohnen": {
-    "name": "Gesamtgröße des Wohnraums, den Sie allein oder gemeinsam mit anderen Personen bewohnen"
+    "name": "Gesamtgröße des Wohnraums, den Sie allein oder gemeinsam mit anderen Personen bewohnen",
+    "maxCharWidth": 21,
+    "maxLines": 1
   },
   "belegnummerJ1": {
-    "name": "Belegnummer J1"
+    "name": "Belegnummer J1",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "zahlderZimmer": {
-    "name": "Zahl der Zimmer"
+    "name": "Zahl der Zimmer",
+    "maxCharWidth": 24,
+    "maxLines": 1
   },
   "personenanzahl": {
-    "name": "Personenanzahl"
+    "name": "Personenanzahl",
+    "maxCharWidth": 21,
+    "maxLines": 1
   },
   "belegnummerJ2": {
-    "name": "Belegnummer J2"
+    "name": "Belegnummer J2",
+    "maxCharWidth": 8,
+    "maxLines": 1
   },
   "nutzenSiedenRaumalsMieteroderineinemaehnlichenNutzungsverhaeltnis": {
     "name": "Nutzen Sie den Raum als Mieter oder in einem ähnlichen Nutzungs-verhältnis?"
   },
   "mieteohneNebenkosten": {
-    "name": "Miete ohne Nebenkosten"
+    "name": "Miete ohne Nebenkosten",
+    "maxCharWidth": 25,
+    "maxLines": 1
   },
   "uebrigeNebenkosten": {
-    "name": "Übrige Nebenkosten"
+    "name": "Übrige Nebenkosten",
+    "maxCharWidth": 21,
+    "maxLines": 1
   },
   "belegnummerJ3": {
-    "name": "Belegnummer J3"
+    "name": "Belegnummer J3",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "uebrigeNebenkosten2": {
-    "name": "Übrige Nebenkosten2"
+    "name": "Übrige Nebenkosten2",
+    "maxCharWidth": 22,
+    "maxLines": 1
   },
   "ichalleinzahledavon2": {
-    "name": "Ich allein zahle davon2"
+    "name": "Ich allein zahle davon2",
+    "maxCharWidth": 21,
+    "maxLines": 1
   },
   "belegnummerJ4": {
-    "name": "Belegnummer J4"
+    "name": "Belegnummer J4",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "genaueEinzelangabenzuderBelastungausFremdmittelnbeiNutzungalsMitEigentumerusw": {
-    "name": "Genaue Einzelangaben zu der Belastung aus Fremdmitteln bei Nutzung als (Mit-)Eigentümer usw"
+    "name": "Genaue Einzelangaben zu der Belastung aus Fremdmitteln bei Nutzung als (Mit-)Eigentümer usw",
+    "maxCharWidth": 74,
+    "maxLines": 2
   },
   "genaueEinzelangabenzuderBelastungausFremdmittelnbeiNutzungalsMitEigentumerusw2": {
-    "name": "Genaue Einzelangaben zu der Belastung aus Fremdmitteln bei Nutzung als (Mit-)Eigentümer usw2"
+    "name": "Genaue Einzelangaben zu der Belastung aus Fremdmitteln bei Nutzung als (Mit-)Eigentümer usw2",
+    "maxCharWidth": 74,
+    "maxLines": 2
   },
   "belegnummerJ5": {
-    "name": "Belegnummer J5"
+    "name": "Belegnummer J5",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerJ6": {
-    "name": "Belegnummer J6"
+    "name": "Belegnummer J6",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerJ7": {
-    "name": "Belegnummer J7"
+    "name": "Belegnummer J7",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerJ8": {
-    "name": "Belegnummer J8"
+    "name": "Belegnummer J8",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerJ9": {
-    "name": "Belegnummer J9"
+    "name": "Belegnummer J9",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerJ10": {
-    "name": "Belegnummer J10"
+    "name": "Belegnummer J10",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "belegnummerJ11": {
-    "name": "Belegnummer J11"
+    "name": "Belegnummer J11",
+    "maxCharWidth": 8,
+    "maxLines": 2
   },
   "restschuldinEuro": {
-    "name": "Restschuld in Euro"
+    "name": "Restschuld in Euro",
+    "maxCharWidth": 21,
+    "maxLines": 1
   },
   "monatlicheZinsenundTilgung": {
-    "name": "Monatliche Zinsen und Tilgung"
+    "name": "Monatliche Zinsen und Tilgung",
+    "maxCharWidth": 20,
+    "maxLines": 1
   },
   "monatlicheZinsenundTilgung2": {
-    "name": "Monatliche Zinsen und Tilgung2"
+    "name": "Monatliche Zinsen und Tilgung2",
+    "maxCharWidth": 21,
+    "maxLines": 1
   },
   "restschuldinEuro2": {
-    "name": "Restschuld in Euro2"
+    "name": "Restschuld in Euro2",
+    "maxCharWidth": 21,
+    "maxLines": 1
   },
   "sonstigeZahlungsverpflichtungen1": {
-    "name": "Sonstige Zahlungsverpflichtungen1"
+    "name": "Sonstige Zahlungsverpflichtungen1",
+    "maxCharWidth": 50,
+    "maxLines": 2
   },
   "sonstigeZahlungsverpflichtungen2": {
-    "name": "Sonstige Zahlungsverpflichtungen2"
+    "name": "Sonstige Zahlungsverpflichtungen2",
+    "maxCharWidth": 50,
+    "maxLines": 1
   },
   "sonstigeZahlungsverpflichtungen3": {
-    "name": "Sonstige Zahlungsverpflichtungen3"
+    "name": "Sonstige Zahlungsverpflichtungen3",
+    "maxCharWidth": 50,
+    "maxLines": 2
   },
   "monatlicheGesamtbelastung1": {
-    "name": "Monatliche Gesamtbelastung1"
+    "name": "Monatliche Gesamtbelastung1",
+    "maxCharWidth": 21,
+    "maxLines": 1
   },
   "monatlicheGesamtbelastung2": {
-    "name": "Monatliche Gesamtbelastung2"
+    "name": "Monatliche Gesamtbelastung2",
+    "maxCharWidth": 21,
+    "maxLines": 1
   },
   "monatlicheGesamtbelastung3": {
-    "name": "Monatliche Gesamtbelastung3"
+    "name": "Monatliche Gesamtbelastung3",
+    "maxCharWidth": 21,
+    "maxLines": 1
   },
   "ichalleinzahledavon3": {
-    "name": "Ich allein zahle davon3"
+    "name": "Ich allein zahle davon3",
+    "maxCharWidth": 20,
+    "maxLines": 1
   },
   "ichalleinzahledavon4": {
-    "name": "Ich allein zahle davon4"
+    "name": "Ich allein zahle davon4",
+    "maxCharWidth": 20,
+    "maxLines": 1
   },
   "ichalleinzahledavon5": {
-    "name": "Ich allein zahle davon5"
+    "name": "Ich allein zahle davon5",
+    "maxCharWidth": 20,
+    "maxLines": 1
   },
   "ichalleinzahledavon": {
-    "name": "Ich allein zahle davon"
+    "name": "Ich allein zahle davon",
+    "maxCharWidth": 21,
+    "maxLines": 1
   },
   "ichalleinzahledavon6": {
-    "name": "Ich allein zahle davon6"
+    "name": "Ich allein zahle davon6",
+    "maxCharWidth": 20,
+    "maxLines": 1
   },
   "ichalleinzahledavon7": {
-    "name": "Ich allein zahle davon7"
+    "name": "Ich allein zahle davon7",
+    "maxCharWidth": 20,
+    "maxLines": 1
   },
   "besondereBelastungen": {
-    "name": "Besondere Belastungen"
+    "name": "Besondere Belastungen",
+    "maxCharWidth": 96,
+    "maxLines": 2
   },
   "besondereBelastungen2": {
-    "name": "Besondere Belastungen2"
+    "name": "Besondere Belastungen2",
+    "maxCharWidth": 95,
+    "maxLines": 2
   },
   "ortundDatum": {
-    "name": "Ort und Datum"
+    "name": "Ort und Datum",
+    "maxCharWidth": 35,
+    "maxLines": 2
   },
   "verkehrswert4": {
-    "name": "Verkehrswert4"
+    "name": "Verkehrswert4",
+    "maxCharWidth": 17,
+    "maxLines": 2
   },
   "hoehederKosten": {
-    "name": "Höhe der Kosten"
+    "name": "Höhe der Kosten",
+    "maxCharWidth": 98,
+    "maxLines": 1
   },
   "bezeichnungderVersicherung": {
-    "name": "Bezeichnung der Versicherung"
+    "name": "Bezeichnung der Versicherung",
+    "maxCharWidth": 97,
+    "maxLines": 2
   },
   "namedesUnterhaltspflichtingen": {
-    "name": "Name des Unterhaltspflichtingen"
+    "name": "Name des Unterhaltspflichtingen",
+    "maxCharWidth": 97,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmenH1": {
-    "name": "Monatliche BruttoeinnahmenH1"
+    "name": "Monatliche BruttoeinnahmenH1",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmenH2": {
-    "name": "Monatliche BruttoeinnahmenH2"
+    "name": "Monatliche BruttoeinnahmenH2",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmenH3": {
-    "name": "Monatliche BruttoeinnahmenH3"
+    "name": "Monatliche BruttoeinnahmenH3",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmenH4": {
-    "name": "Monatliche BruttoeinnahmenH4"
+    "name": "Monatliche BruttoeinnahmenH4",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmenH5": {
-    "name": "Monatliche BruttoeinnahmenH5"
+    "name": "Monatliche BruttoeinnahmenH5",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmenH6": {
-    "name": "Monatliche BruttoeinnahmenH6"
+    "name": "Monatliche BruttoeinnahmenH6",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmenH7": {
-    "name": "Monatliche BruttoeinnahmenH7"
+    "name": "Monatliche BruttoeinnahmenH7",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmenH8": {
-    "name": "Monatliche BruttoeinnahmenH8"
+    "name": "Monatliche BruttoeinnahmenH8",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmenH9": {
-    "name": "Monatliche BruttoeinnahmenH9"
+    "name": "Monatliche BruttoeinnahmenH9",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmenH10": {
-    "name": "Monatliche BruttoeinnahmenH10"
+    "name": "Monatliche BruttoeinnahmenH10",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmenH11": {
-    "name": "Monatliche BruttoeinnahmenH11"
+    "name": "Monatliche BruttoeinnahmenH11",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "monatlicheBruttoeinnahmenH12": {
-    "name": "Monatliche BruttoeinnahmenH12"
+    "name": "Monatliche BruttoeinnahmenH12",
+    "maxCharWidth": 11,
+    "maxLines": 1
   },
   "bezeichnungOrtundGeschaeftsnummerdesGerichts": {
-    "name": "Bezeichnung, Ort und Geschäftsnummer des Gerichts"
+    "name": "Bezeichnung, Ort und Geschäftsnummer des Gerichts",
+    "maxCharWidth": 63,
+    "maxLines": 2
   },
   "neinichhabekeineAngehoerigendieIhnengegenubergesetzlichzurLeistungvonUnterhaltverpflichtetsind": {
     "name": "Nein, ich habe keine Angehörigen, die Ihnen gegenüber gesetzlich zur Leistung von Unterhalt verpflichtet sind"
