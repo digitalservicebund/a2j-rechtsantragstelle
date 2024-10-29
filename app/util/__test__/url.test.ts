@@ -1,4 +1,4 @@
-import { getYoutubeVideoId, isExternalUrl, isFileDowloadUrl } from "../url";
+import { getYoutubeVideoId, isExternalUrl, isFileDownloadUrl } from "../url";
 
 describe("isExternal", () => {
   it("returns true for external urls", () => {
@@ -8,9 +8,9 @@ describe("isExternal", () => {
     expect(isExternalUrl("/test")).toBeFalsy();
   });
 });
-describe("isFileDowload", () => {
+describe("isFileDownloadUrl", () => {
   it("returns true for internal links to downloads", () => {
-    expect(isFileDowloadUrl("/download/pdf")).toBeTruthy();
+    expect(isFileDownloadUrl("/download/pdf")).toBeTruthy();
   });
 });
 

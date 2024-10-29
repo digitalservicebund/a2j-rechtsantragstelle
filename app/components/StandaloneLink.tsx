@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { isExternalUrl, isFileDowloadUrl } from "~/util/url";
+import { isExternalUrl, isFileDownloadUrl } from "~/util/url";
 import { OpenInNewTabIcon } from "./OpenInNewTabIcon";
 
 type StandaloneLinkProps = Readonly<{
@@ -18,7 +18,7 @@ export const StandaloneLink = ({
   className,
 }: StandaloneLinkProps) => {
   const isExternal = isExternalUrl(url);
-  const isDownload = isFileDowloadUrl(url);
+  const isDownload = isFileDownloadUrl(url);
   const shouldOpenNewTab = isExternal || isDownload;
   const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
     href: url,
