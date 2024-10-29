@@ -1,4 +1,5 @@
 import type PDFDocument from "pdfkit";
+import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { addDetailedReason } from "./addDetailedReason";
 import { addFlightDetails } from "./addFlightDetails";
 import { addReason } from "./addReason";
@@ -7,6 +8,7 @@ import { FONTS_BUNDESSANS_BOLD } from "../../../createPdfKitDocument";
 export const createFactsOfCases = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
+  userData: FluggastrechtContext,
 ) => {
   const issueSect = doc.struct("Sect");
   issueSect.add(
@@ -17,7 +19,7 @@ export const createFactsOfCases = (
   );
   documentStruct.add(issueSect);
 
-  addReason(doc, documentStruct);
+  addReason(doc, documentStruct, userData);
   doc.moveDown(1);
   addFlightDetails(doc, documentStruct);
   doc.moveDown(1);

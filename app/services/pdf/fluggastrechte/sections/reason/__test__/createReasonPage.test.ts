@@ -1,3 +1,4 @@
+import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -27,7 +28,7 @@ describe("createReasonPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createReasonPage(mockDoc, mockStruct);
+    createReasonPage(mockDoc, mockStruct, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(REASON_TITLE_TEXT, {
       align: "left",
@@ -38,7 +39,7 @@ describe("createReasonPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createReasonPage(mockDoc, mockStruct);
+    createReasonPage(mockDoc, mockStruct, userDataMock);
 
     expect(createFactsOfCases).toBeCalledTimes(1);
   });
@@ -47,7 +48,7 @@ describe("createReasonPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createReasonPage(mockDoc, mockStruct);
+    createReasonPage(mockDoc, mockStruct, userDataMock);
 
     expect(addTable).toBeCalledTimes(1);
   });
@@ -56,7 +57,7 @@ describe("createReasonPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createReasonPage(mockDoc, mockStruct);
+    createReasonPage(mockDoc, mockStruct, userDataMock);
 
     expect(createLastSentences).toBeCalledTimes(1);
   });
@@ -65,7 +66,7 @@ describe("createReasonPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createReasonPage(mockDoc, mockStruct);
+    createReasonPage(mockDoc, mockStruct, userDataMock);
 
     expect(createCompensationAmount).toBeCalledTimes(1);
   });
