@@ -8,7 +8,7 @@ import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import {
   gerichtskostenFromBetrag,
   gesamtKosten,
-} from "../../shared/gerichtskosten";
+} from "../shared/gerichtskosten";
 
 export const geldEinklagenFormular = {
   cmsSlug: "form-flow-pages",
