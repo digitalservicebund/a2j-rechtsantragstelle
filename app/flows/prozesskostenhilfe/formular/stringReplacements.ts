@@ -1,6 +1,5 @@
 import { antragstellendePersonDone } from "~/flows/prozesskostenhilfe/formular/antragstellendePerson/context";
 import { einkuenfteDone } from "~/flows/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
-import type { ProzesskostenhilfeFormularContext } from "./index";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
@@ -10,6 +9,7 @@ import {
   partnerDone,
 } from "./finanzielleAngaben/doneFunctions";
 import { eigentumDone } from "./finanzielleAngaben/eigentumDone";
+import type { ProzesskostenhilfeFormularContext } from "./index";
 import { prozesskostenhilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "./rechtsschutzversicherung/doneFunctions";
 

@@ -1,10 +1,10 @@
 import { createMachine } from "xstate";
-import { happyPathData } from "tests/fixtures/prozesskostenhilfeFormularData";
-import type { TestCases } from "~/flows/__test__/TestCases";
 import {
   prozesskostenhilfeFormular,
   type ProzesskostenhilfeFormularContext,
 } from "app/flows/prozesskostenhilfe/formular";
+import { happyPathData } from "tests/fixtures/prozesskostenhilfeFormularData";
+import type { TestCases } from "~/flows/__test__/TestCases";
 import { antragstellendePersonTransitionCases } from "~/flows/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 

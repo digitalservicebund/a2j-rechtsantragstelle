@@ -27,6 +27,8 @@ import type { ProzesskostenhilfeGesetzlicheVertretung } from "./gesetzlicheVertr
 import { hasGesetzlicheVertretungYes } from "./gesetzlicheVertretung/guards";
 import { gesetzlicheVertretungXstateConfig } from "./gesetzlicheVertretung/xStateConfig";
 import type { ProzesskostenhilfePersoenlicheDaten } from "./persoenlicheDaten/context";
+import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
+import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechtsschutzversicherung/context";
 import { getMissingInformationStrings } from "./stringReplacements";
 import { finanzielleAngabenArrayConfig } from "../../shared/finanzielleAngaben/arrayConfiguration";
 import {
@@ -35,8 +37,6 @@ import {
   getArrayIndexStrings,
   getKinderStrings,
 } from "../../shared/stringReplacements";
-import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
-import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechtsschutzversicherung/context";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",
