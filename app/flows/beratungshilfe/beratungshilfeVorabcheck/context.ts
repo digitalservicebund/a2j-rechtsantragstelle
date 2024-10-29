@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { bereich } from "~/flows/beratungshilfe/beratungshilfeFormular/rechtsproblem/context";
 import { staatlicheLeistungen } from "~/flows/shared/finanzielleAngaben/context";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -6,7 +7,6 @@ import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
-import { bereich } from "~/flows/beratungshilfe/beratungshilfeFormular/rechtsproblem/context";
 
 export const kidsSchema = z
   .object({
