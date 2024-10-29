@@ -3,12 +3,12 @@ import type { Flow } from "~/flows/flows.server";
 import type { GeldEinklagenFormularContext } from "./context";
 import geldEinklagenFormularFlow from "./flow.json";
 import { guards } from "./guards";
-import { type AllContexts } from "../common";
+import { type AllContexts } from "../../common";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import {
   gerichtskostenFromBetrag,
   gesamtKosten,
-} from "../shared/gerichtskosten";
+} from "../../shared/gerichtskosten";
 
 export const geldEinklagenFormular = {
   cmsSlug: "form-flow-pages",

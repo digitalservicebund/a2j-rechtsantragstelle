@@ -1,5 +1,5 @@
-import type { GeldEinklagenFormularContext } from "~/flows/geldEinklagenFormular/context";
-import type { Guards } from "../guards.server";
+import type { GeldEinklagenFormularContext } from "~/flows/geldEinklagen/geldEinklagenFormular/context";
+import type { Guards } from "../../guards.server";
 
 export const guards = {
   gegenseiteTypPrivatperson: ({ context }) =>

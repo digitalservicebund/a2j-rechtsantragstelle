@@ -1,9 +1,9 @@
 import { beratungshilfeFormular } from "app/flows/beratungshilfe/formular";
 import { beratungshilfeVorabcheck } from "app/flows/beratungshilfe/vorabcheck";
 import { fluggastrechteVorabcheck } from "app/flows/fluggastrechteVorabcheck";
-import { geldEinklagenVorabcheck } from "app/flows/geldEinklagenVorabcheck";
+import { geldEinklagenVorabcheck } from "app/flows/geldEinklagen/geldEinklagenVorabcheck";
 import { fluggastrechtFlow } from "~/flows/fluggastrechteFormular";
-import { geldEinklagenFormular } from "~/flows/geldEinklagenFormular";
+import { geldEinklagenFormular } from "app/flows/geldEinklagen/geldEinklagenFormular";
 import type { FlowPageId } from "~/services/cms/schemas";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
