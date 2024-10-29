@@ -11,7 +11,7 @@ import type { Replacements } from "~/util/fillTemplate";
 import type { Context } from "./contexts";
 import type { FlowId } from "./flowIds";
 import type { Guards } from "./guards.server";
-import { prozesskostenhilfeFormular } from "./prozesskostenhilfeFormular";
+import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/prozesskostenhilfeFormular";
 
 export type FlowMigration = {
   source: FlowId;

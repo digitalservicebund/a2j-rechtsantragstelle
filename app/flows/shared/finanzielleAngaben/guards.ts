@@ -1,5 +1,5 @@
 import type { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfe/formular/finanzielleAngaben/context";
-import type { ProzesskostenhilfeFinanzielleAngabenContext } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
+import type { ProzesskostenhilfeFinanzielleAngabenContext } from "~/flows/prozesskostenhilfe/prozesskostenhilfeFormular/finanzielleAngaben/context";
 import {
   firstArrayIndex,
   isValidArrayIndex,

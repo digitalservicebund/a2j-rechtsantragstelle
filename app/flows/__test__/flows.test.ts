@@ -23,10 +23,10 @@ import { testCasesFluggastrechteFormularFlugdatenAnnullierung } from "../fluggas
 import { testCasesFluggastrechteFormularFlugdatenNichtBefoerderung } from "../fluggastrechteFormular/flugdaten/__test__/testcasesNichtBefoerderung";
 import { testCasesFluggastrechteFormularFlugdatenVerspaetet } from "../fluggastrechteFormular/flugdaten/__test__/testscasesVerspaetet";
 import { testCasesFluggastrechteFormularStreitwertKosten } from "../fluggastrechteFormular/streitwertKosten/__test__/testscases";
-import { testCasesProzesskostenhilfeFormular } from "../prozesskostenhilfeFormular/__test__/testcases";
-import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../prozesskostenhilfeFormular/finanzielleAngaben/__test__/testcasesWohnung";
-import { testCasesProzesskostenhilfePersoenlicheDaten } from "../prozesskostenhilfeFormular/persoenlicheDaten/__test__/testcases";
-import { testCasesProzesskostenhilfeRsv } from "../prozesskostenhilfeFormular/rechtsschutzversicherung/__test__/testcases";
+import { testCasesProzesskostenhilfeFormular } from "~/flows/prozesskostenhilfe/prozesskostenhilfeFormular/__test__/testcases";
+import { testCasesPKHFormularFinanzielleAngabenWohnung } from "~/flows/prozesskostenhilfe/prozesskostenhilfeFormular/finanzielleAngaben/__test__/testcasesWohnung";
+import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/flows/prozesskostenhilfe/prozesskostenhilfeFormular/persoenlicheDaten/__test__/testcases";
+import { testCasesProzesskostenhilfeRsv } from "~/flows/prozesskostenhilfe/prozesskostenhilfeFormular/rechtsschutzversicherung/__test__/testcases";
 
 function getEnabledSteps({
   machine,

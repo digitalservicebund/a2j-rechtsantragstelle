@@ -1,6 +1,6 @@
 import _ from "lodash";
-import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
-import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import type { ProzesskostenhilfeFormularContext } from "app/flows/prozesskostenhilfe/prozesskostenhilfeFormular";
+import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/flows/prozesskostenhilfe/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
 import type { PkhPdfFillFunction } from ".";
 import type { AttachmentEntries } from "../attachment";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";

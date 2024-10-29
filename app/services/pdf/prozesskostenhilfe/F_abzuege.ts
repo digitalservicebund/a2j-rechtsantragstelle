@@ -1,4 +1,4 @@
-import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import type { ProzesskostenhilfeFormularContext } from "app/flows/prozesskostenhilfe/prozesskostenhilfeFormular";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import type { PkhPdfFillFunction } from ".";
 import type { AttachmentEntries } from "../attachment";

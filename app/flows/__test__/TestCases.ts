@@ -3,7 +3,7 @@ import type { BeratungshilfeVorabcheckContext } from "~/flows/beratungshilfe/vor
 import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
 import type { FluggastrechtVorabcheckContext } from "~/flows/fluggastrechteVorabcheck/context";
 import type { GeldEinklagenVorabcheckContext } from "~/flows/geldEinklagenVorabcheck/context";
-import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfeFormular";
+import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfe/prozesskostenhilfeFormular";
 
 export type TestCases<
   T extends

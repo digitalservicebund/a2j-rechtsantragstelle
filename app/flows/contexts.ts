@@ -6,7 +6,7 @@ import { context as geldEinklagenContext } from "~/flows/geldEinklagenVorabcheck
 import type { FlowId } from "./flowIds";
 import { fluggastrechtContext } from "./fluggastrechteFormular/context";
 import { context as geldEinklagenFormularContext } from "./geldEinklagenFormular/context";
-import { prozesskostenhilfeFormularContext } from "./prozesskostenhilfeFormular/context";
+import { prozesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfe/prozesskostenhilfeFormular/context";
 
 export type BasicTypes = string | number | boolean;
 export type ArrayData = Array<Record<string, BasicTypes>>;
