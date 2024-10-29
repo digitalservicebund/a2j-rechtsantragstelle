@@ -1,7 +1,7 @@
 import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/formular";
 import type { BeratungshilfeVorabcheckContext } from "~/flows/beratungshilfe/vorabcheck/context";
-import type { FluggastrechtContext } from "~/flows/fluggastrechte/fluggastrechteFormular/context";
-import type { FluggastrechtVorabcheckContext } from "~/flows/fluggastrechte/fluggastrechteVorabcheck/context";
+import type { FluggastrechtContext } from "~/flows/fluggastrechte/formular/context";
+import type { FluggastrechtVorabcheckContext } from "~/flows/fluggastrechte/vorabcheck/context";
 import type { GeldEinklagenVorabcheckContext } from "~/flows/geldEinklagen/vorabcheck/context";
 import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfe/formular";
 

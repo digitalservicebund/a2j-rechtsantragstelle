@@ -1,6 +1,6 @@
 import _ from "lodash";
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/flows/fluggastrechte/fluggastrechteFormular/context";
+import type { FluggastrechtContext } from "~/flows/fluggastrechte/formular/context";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,

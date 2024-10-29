@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { zustaendigesAmtsgerichtSchema } from "~/flows/fluggastrechte/fluggastrechteVorabcheck/context";
+import { zustaendigesAmtsgerichtSchema } from "~/flows/fluggastrechte/vorabcheck/context";
 import { airlineSchema } from "~/services/validation/airline";
 import { airportSchema } from "~/services/validation/airport";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";

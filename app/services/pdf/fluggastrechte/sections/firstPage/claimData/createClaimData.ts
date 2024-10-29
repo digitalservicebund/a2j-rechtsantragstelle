@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/flows/fluggastrechte/fluggastrechteFormular/context";
+import type { FluggastrechtContext } from "~/flows/fluggastrechte/formular/context";
 import { addAirlineDetails } from "./addAirlineDetails";
 import { addPlaintiffDetails } from "./addPlaintiffDetails";
 import { addPlannedFlightDetails } from "./addPlannedFlightDetails";

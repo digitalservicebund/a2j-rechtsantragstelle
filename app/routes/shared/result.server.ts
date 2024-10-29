@@ -3,7 +3,7 @@ import { json, redirect } from "@remix-run/node";
 import {
   isPartnerAirport,
   partnerCourtAirports,
-} from "app/flows/fluggastrechte/fluggastrechteVorabcheck";
+} from "app/flows/fluggastrechte/vorabcheck";
 import { getReasonsToDisplay } from "~/flows/common";
 import { parsePathname } from "~/flows/flowIds";
 import { flows } from "~/flows/flows.server";

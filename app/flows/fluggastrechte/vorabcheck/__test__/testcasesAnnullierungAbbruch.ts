@@ -1,8 +1,8 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/flows/__test__/TestCases";
-import type { FluggastrechtVorabcheckContext } from "~/flows/fluggastrechte/fluggastrechteVorabcheck/context";
-import fluggastrechte from "~/flows/fluggastrechte/fluggastrechteVorabcheck/flow.json";
-import { guards } from "~/flows/fluggastrechte/fluggastrechteVorabcheck/guards";
+import type { FluggastrechtVorabcheckContext } from "~/flows/fluggastrechte/vorabcheck/context";
+import fluggastrechte from "~/flows/fluggastrechte/vorabcheck/flow.json";
+import { guards } from "~/flows/fluggastrechte/vorabcheck/guards";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
 const machine: FlowStateMachine = createMachine(

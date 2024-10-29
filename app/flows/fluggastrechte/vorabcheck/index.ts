@@ -1,6 +1,6 @@
 import type { Flow } from "~/flows/flows.server";
-import fluggastrechteVorabcheckFlow from "~/flows/fluggastrechte/fluggastrechteVorabcheck/flow.json";
-import { guards as fluggastrechteVorabcheckGuards } from "~/flows/fluggastrechte/fluggastrechteVorabcheck/guards";
+import fluggastrechteVorabcheckFlow from "~/flows/fluggastrechte/vorabcheck/flow.json";
+import { guards as fluggastrechteVorabcheckGuards } from "~/flows/fluggastrechte/vorabcheck/guards";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import {
   getCompensationPaymentString,

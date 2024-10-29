@@ -1,8 +1,8 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/flows/__test__/TestCases";
-import { fluggastrechtFlow } from "~/flows/fluggastrechte/fluggastrechteFormular";
-import type { FluggastrechtContext } from "~/flows/fluggastrechte/fluggastrechteFormular/context";
-import { fluggastrechteGuards } from "~/flows/fluggastrechte/fluggastrechteFormular/guards";
+import { fluggastrechtFlow } from "app/flows/fluggastrechte/formular";
+import type { FluggastrechtContext } from "~/flows/fluggastrechte/formular/context";
+import { fluggastrechteGuards } from "~/flows/fluggastrechte/formular/guards";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
 const machine: FlowStateMachine = createMachine(
@@ -13,7 +13,7 @@ const machine: FlowStateMachine = createMachine(
 const cases = [
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "annullierung",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -38,7 +38,7 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "annullierung",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -63,7 +63,7 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "annullierung",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -87,7 +87,7 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "annullierung",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -117,7 +117,7 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "annullierung",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -145,7 +145,7 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "annullierung",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -175,7 +175,7 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "annullierung",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -203,7 +203,7 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "annullierung",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -233,7 +233,7 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "annullierung",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -263,7 +263,7 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "annullierung",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -293,7 +293,7 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "annullierung",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -321,7 +321,7 @@ const cases = [
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;
 
-export const testCasesFluggastrechteFormularFlugdatenNichtBefoerderung = {
+export const testCasesFluggastrechteFormularFlugdatenAnnullierung = {
   machine,
   cases,
 };
