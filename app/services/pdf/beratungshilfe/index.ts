@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/formular";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import Handout from "./Handout";

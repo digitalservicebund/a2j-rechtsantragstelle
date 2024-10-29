@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/formular";
 import { flows } from "~/flows/flows.server";
 import { buildFlowController } from "../server/buildFlowController";
 import { validFormPaths } from "../validFormPaths";

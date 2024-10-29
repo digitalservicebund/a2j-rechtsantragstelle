@@ -1,4 +1,4 @@
-import { type BeratungshilfeFormularContext } from "app/flows/beratungshilfe/beratungshilfeFormular";
+import { type BeratungshilfeFormularContext } from "app/flows/beratungshilfe/formular";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 
 export const happyPathData: BeratungshilfeFormularContext = {

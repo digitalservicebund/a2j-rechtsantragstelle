@@ -1,5 +1,5 @@
-import { beratungshilfeFormular } from "app/flows/beratungshilfe/beratungshilfeFormular";
-import { beratungshilfeVorabcheck } from "app/flows/beratungshilfe/beratungshilfeVorabcheck";
+import { beratungshilfeFormular } from "app/flows/beratungshilfe/formular";
+import { beratungshilfeVorabcheck } from "app/flows/beratungshilfe/vorabcheck";
 import { fluggastrechteVorabcheck } from "app/flows/fluggastrechteVorabcheck";
 import { geldEinklagenVorabcheck } from "app/flows/geldEinklagenVorabcheck";
 import { fluggastrechtFlow } from "~/flows/fluggastrechteFormular";

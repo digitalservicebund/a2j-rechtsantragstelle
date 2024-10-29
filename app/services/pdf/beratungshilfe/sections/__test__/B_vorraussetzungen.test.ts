@@ -1,4 +1,4 @@
-import { type BeratungshilfeFormularContext } from "app/flows/beratungshilfe/beratungshilfeFormular";
+import { type BeratungshilfeFormularContext } from "app/flows/beratungshilfe/formular";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import { fillVorraussetzungen } from "~/services/pdf/beratungshilfe/sections/B_vorraussetzungen";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";

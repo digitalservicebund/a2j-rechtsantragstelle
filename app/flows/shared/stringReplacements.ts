@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "../beratungshilfe/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "../beratungshilfe/formular";
 import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfeFormular";
 import { hasPartnerschaftYes } from "./finanzielleAngaben/guards";
 

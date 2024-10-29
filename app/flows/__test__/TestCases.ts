@@ -1,5 +1,5 @@
-import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/beratungshilfeFormular";
-import type { BeratungshilfeVorabcheckContext } from "~/flows/beratungshilfe/beratungshilfeVorabcheck/context";
+import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/formular";
+import type { BeratungshilfeVorabcheckContext } from "~/flows/beratungshilfe/vorabcheck/context";
 import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
 import type { FluggastrechtVorabcheckContext } from "~/flows/fluggastrechteVorabcheck/context";
 import type { GeldEinklagenVorabcheckContext } from "~/flows/geldEinklagenVorabcheck/context";

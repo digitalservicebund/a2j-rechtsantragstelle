@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/formular";
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { BerHPdfFillFunction } from "..";
 import {

@@ -1,6 +1,6 @@
 import type { ZodTypeAny } from "zod";
-import { beratungshilfeFormularContext } from "~/flows/beratungshilfe/beratungshilfeFormular/context";
-import { context as beratungshilfeContext } from "~/flows/beratungshilfe/beratungshilfeVorabcheck/context";
+import { beratungshilfeFormularContext } from "~/flows/beratungshilfe/formular/context";
+import { context as beratungshilfeContext } from "~/flows/beratungshilfe/vorabcheck/context";
 import { fluggastrechteVorabcheckContext } from "~/flows/fluggastrechteVorabcheck/context";
 import { context as geldEinklagenContext } from "~/flows/geldEinklagenVorabcheck/context";
 import type { FlowId } from "./flowIds";
