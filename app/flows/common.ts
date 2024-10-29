@@ -1,11 +1,11 @@
 import type { ZodTypeAny } from "zod";
 import type { BeratungshilfeVorabcheckContext } from "~/flows/beratungshilfe/vorabcheck/context";
+import type { FluggastrechtContext } from "~/flows/fluggastrechte/formular/context";
 import type { FluggastrechtVorabcheckContext } from "~/flows/fluggastrechte/vorabcheck/context";
 import type { GeldEinklagenFormularContext } from "~/flows/geldEinklagen/formular/context";
 import type { GeldEinklagenVorabcheckContext } from "~/flows/geldEinklagen/vorabcheck/context";
 import type { BeratungshilfeFormularContext } from "./beratungshilfe/formular";
 import { reasonsToDisplayBeratungshilfe } from "./beratungshilfe/vorabcheck";
-import type { FluggastrechtContext } from "~/flows/fluggastrechte/formular/context";
 import type { ProzesskostenhilfeFormularContext } from "./prozesskostenhilfe/formular";
 
 export type AllContexts =
