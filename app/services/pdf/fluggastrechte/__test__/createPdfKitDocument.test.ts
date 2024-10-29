@@ -42,6 +42,7 @@ describe("createPdfKitDocument", () => {
     const document = createPdfKitDocument(mockRegularFont, mockBoldFont);
 
     expect(PDFDocument).toHaveBeenCalledWith({
+      bufferPages: true,
       pdfVersion: PDF_VERSION,
       lang: PDF_LANGUAGE,
       tagged: true,
