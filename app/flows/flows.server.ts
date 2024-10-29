@@ -1,7 +1,7 @@
-import { beratungshilfeVorabcheck } from "app/flows/beratungshilfeVorabcheck";
+import { beratungshilfeVorabcheck } from "app/flows/beratungshilfe/beratungshilfeVorabcheck";
 import { fluggastrechteVorabcheck } from "app/flows/fluggastrechteVorabcheck";
 import { geldEinklagenVorabcheck } from "app/flows/geldEinklagenVorabcheck";
-import { beratungshilfeFormular } from "~/flows/beratungshilfeFormular";
+import { beratungshilfeFormular } from "app/flows/beratungshilfe/beratungshilfeFormular";
 import { fluggastrechtFlow } from "~/flows/fluggastrechteFormular";
 import { geldEinklagenFormular } from "~/flows/geldEinklagenFormular";
 import type { FlowPageId } from "~/services/cms/schemas";

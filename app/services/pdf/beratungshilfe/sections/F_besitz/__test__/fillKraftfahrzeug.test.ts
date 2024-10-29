@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/beratungshilfeFormular";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import { fillKraftfahrzeug } from "~/services/pdf/beratungshilfe/sections/F_besitz/fillKraftfahrzeug";

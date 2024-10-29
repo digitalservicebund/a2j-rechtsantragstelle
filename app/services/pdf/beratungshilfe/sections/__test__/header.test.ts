@@ -1,6 +1,6 @@
 import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/beratungshilfeFormular";
 import { gerbehAmtsgericht } from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";

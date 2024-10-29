@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
-import * as stringReplacements from "~/flows/beratungshilfeFormular/stringReplacements";
+import * as stringReplacements from "~/flows/beratungshilfe/beratungshilfeFormular/stringReplacements";
 import Handout, { dynamicSteps } from "~/services/pdf/beratungshilfe/Handout";
 
 vi.mock("@react-pdf/renderer", async () => {

@@ -1,8 +1,8 @@
 import type { ZodTypeAny } from "zod";
-import { context as beratungshilfeContext } from "~/flows/beratungshilfeVorabcheck/context";
+import { context as beratungshilfeContext } from "~/flows/beratungshilfe/beratungshilfeVorabcheck/context";
 import { fluggastrechteVorabcheckContext } from "~/flows/fluggastrechteVorabcheck/context";
 import { context as geldEinklagenContext } from "~/flows/geldEinklagenVorabcheck/context";
-import { beratungshilfeFormularContext } from "./beratungshilfeFormular/context";
+import { beratungshilfeFormularContext } from "~/flows/beratungshilfe/beratungshilfeFormular/context";
 import type { FlowId } from "./flowIds";
 import { fluggastrechtContext } from "./fluggastrechteFormular/context";
 import { context as geldEinklagenFormularContext } from "./geldEinklagenFormular/context";
