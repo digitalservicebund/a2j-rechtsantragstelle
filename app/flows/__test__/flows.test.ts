@@ -13,7 +13,7 @@ import { testCasesBeratungshilfe } from "~/flows/beratungshilfe/vorabcheck/__tes
 import { type Context } from "~/flows/contexts";
 import { testCasesFluggastrechteFormularGrundvoraussetzungen } from "~/flows/fluggastrechteFormular/grundvoraussetzungen/__test__/testcases";
 import { testCasesFluggastrechteFormularPersoenlicheDaten } from "~/flows/fluggastrechteFormular/persoenlicheDaten/__test__/testcases";
-import { testCasesGeldEinklagen } from "~/flows/geldEinklagenVorabcheck/__test__/testcases";
+import { testCasesGeldEinklagen } from "~/flows/geldEinklagen/vorabcheck/__test__/testcases";
 import { testCasesProzesskostenhilfeFormular } from "~/flows/prozesskostenhilfe/formular/__test__/testcases";
 import { testCasesPKHFormularFinanzielleAngabenWohnung } from "~/flows/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesWohnung";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/flows/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";

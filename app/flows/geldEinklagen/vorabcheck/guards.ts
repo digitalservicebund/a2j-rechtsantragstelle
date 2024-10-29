@@ -1,6 +1,6 @@
 import { isPartnerCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { GeldEinklagenVorabcheckContext } from "./context";
-import { yesNoGuards, type Guards } from "../guards.server";
+import { yesNoGuards, type Guards } from "../../guards.server";
 
 const privatpersonEligible: Guards<GeldEinklagenVorabcheckContext>[string] = ({
   context,
