@@ -27,6 +27,7 @@ const StrapiInputSchema = z
         "characters54",
       ])
       .nullable(),
+    helperText: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
