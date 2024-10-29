@@ -1,7 +1,7 @@
 import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/formular";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "app/flows/prozesskostenhilfe/prozesskostenhilfeFormular";
+import type { ProzesskostenhilfeFormularContext } from "app/flows/prozesskostenhilfe/formular";
 import type { AttachmentEntries } from "../attachment";
 import type { PdfFillFunction } from "../fillOutFunction";
 

@@ -1,5 +1,5 @@
 import type { BeratungshilfeFormularContext } from "../beratungshilfe/formular";
-import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfe/prozesskostenhilfeFormular";
+import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfe/formular";
 import { hasPartnerschaftYes } from "./finanzielleAngaben/guards";
 
 export const getKinderStrings = (

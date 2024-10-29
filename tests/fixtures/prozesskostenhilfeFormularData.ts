@@ -1,13 +1,13 @@
 import { faker } from "@faker-js/faker";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import type { ProzesskostenhilfeFormularContext } from "app/flows/prozesskostenhilfe/prozesskostenhilfeFormular";
-import { prozesskostenhilfeAntragstellendePersonContext as antragstellendePersonSchema } from "~/flows/prozesskostenhilfe/prozesskostenhilfeFormular/antragstellendePerson/context";
+import type { ProzesskostenhilfeFormularContext } from "app/flows/prozesskostenhilfe/formular";
+import { prozesskostenhilfeAntragstellendePersonContext as antragstellendePersonSchema } from "~/flows/prozesskostenhilfe/formular/antragstellendePerson/context";
 import {
   prozesskostenhilfeFinanzielleAngabenContext,
   zahlungspflichtigerSchema,
-} from "~/flows/prozesskostenhilfe/prozesskostenhilfeFormular/finanzielleAngaben/context";
-import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/flows/prozesskostenhilfe/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
-import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } from "~/flows/prozesskostenhilfe/prozesskostenhilfeFormular/grundvoraussetzungen/context";
+} from "~/flows/prozesskostenhilfe/formular/finanzielleAngaben/context";
+import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/flows/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/context";
+import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } from "~/flows/prozesskostenhilfe/formular/grundvoraussetzungen/context";
 import {
   Eigentuemer,
   financialEntrySchema,

@@ -6,7 +6,7 @@ import type { BeratungshilfeFormularContext } from "./beratungshilfe/formular";
 import { reasonsToDisplayBeratungshilfe } from "./beratungshilfe/vorabcheck";
 import type { FluggastrechtContext } from "./fluggastrechteFormular/context";
 import type { GeldEinklagenFormularContext } from "./geldEinklagenFormular/context";
-import type { ProzesskostenhilfeFormularContext } from "./prozesskostenhilfe/prozesskostenhilfeFormular";
+import type { ProzesskostenhilfeFormularContext } from "./prozesskostenhilfe/formular";
 
 export type AllContexts =
   | GeldEinklagenFormularContext
