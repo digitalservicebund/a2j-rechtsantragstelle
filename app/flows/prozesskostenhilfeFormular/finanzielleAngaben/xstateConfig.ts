@@ -95,7 +95,7 @@ export const finanzielleAngabenXstateConfig = {
                 guard: "partnerEinkommenYes",
                 target: "#partner-einkuenfte",
               },
-              "#andere-unterhaltszahlungen",
+              "#kinder",
             ],
           },
         },
@@ -151,6 +151,10 @@ export const finanzielleAngabenXstateConfig = {
               {
                 guard: "hasPartnerschaftNo",
                 target: "#partner",
+              },
+              {
+                guard: "partnerEinkommenNo",
+                target: "#partner.partner-einkommen",
               },
               {
                 guard:
@@ -276,10 +280,6 @@ export const finanzielleAngabenXstateConfig = {
         frage: {
           on: {
             BACK: [
-              {
-                guard: "partnerEinkommenNo",
-                target: "#partner.partner-einkommen",
-              },
               {
                 guard: "hasKinderYes",
                 target: "#kinder.uebersicht",

@@ -26,6 +26,7 @@ const cases = [
       bereich: "bereich",
       startAirport: "BER",
       endAirport: "FRA",
+      zahlungsaufforderung: "no",
     },
     happyPathSteps,
   ],
