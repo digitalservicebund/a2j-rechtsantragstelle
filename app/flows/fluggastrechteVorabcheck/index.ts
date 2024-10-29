@@ -3,9 +3,9 @@ import fluggastrechteVorabcheckFlow from "~/flows/fluggastrechteVorabcheck/flow.
 import { guards as fluggastrechteVorabcheckGuards } from "~/flows/fluggastrechteVorabcheck/guards";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import {
-  getCompensantionPaymentString,
+  getCompensationPaymentString,
   getEndAirportName,
-  getLastDaytFromFourYearsAgoDate,
+  getLastDayFromFourYearsAgoDate,
   getStartAirportName,
   hasArbitrationBoardBfJ,
   hasArbitrationBoardSoeP,
@@ -21,8 +21,8 @@ export const fluggastrechteVorabcheck = {
   config: fluggastrechteVorabcheckFlow,
   guards: fluggastrechteVorabcheckGuards,
   stringReplacements: (context: FluggastrechtVorabcheckContext) => ({
-    ...getCompensantionPaymentString(context),
-    flightDateExpiration: getLastDaytFromFourYearsAgoDate(),
+    ...getCompensationPaymentString(context),
+    flightDateExpiration: getLastDayFromFourYearsAgoDate(),
     ...getStartAirportName(context),
     ...getEndAirportName(context),
     ...hasArbitrationBoardBfJ(context),

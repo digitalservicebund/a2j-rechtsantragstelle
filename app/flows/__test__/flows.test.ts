@@ -13,9 +13,6 @@ import { testCasesBeratungshilfe } from "~/flows/beratungshilfe/vorabcheck/__tes
 import { type Context } from "~/flows/contexts";
 import { testCasesFluggastrechteFormularGrundvoraussetzungen } from "~/flows/fluggastrechteFormular/grundvoraussetzungen/__test__/testcases";
 import { testCasesFluggastrechteFormularPersoenlicheDaten } from "~/flows/fluggastrechteFormular/persoenlicheDaten/__test__/testcases";
-import { testCasesFluggastrechteAnnullierung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesAnnullierung";
-import { testCasesFluggastrechteNichtBefoerderung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesNichtBefoerderung";
-import { testCasesFluggastrechteVerspaetet } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesVerspaetet";
 import { testCasesGeldEinklagen } from "~/flows/geldEinklagen/vorabcheck/__test__/testcases";
 import { testCasesProzesskostenhilfeFormular } from "~/flows/prozesskostenhilfe/formular/__test__/testcases";
 import { testCasesPKHFormularFinanzielleAngabenWohnung } from "~/flows/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesWohnung";
@@ -27,6 +24,13 @@ import { testCasesFluggastrechteFormularFlugdatenAnnullierung } from "../fluggas
 import { testCasesFluggastrechteFormularFlugdatenNichtBefoerderung } from "../fluggastrechteFormular/flugdaten/__test__/testcasesNichtBefoerderung";
 import { testCasesFluggastrechteFormularFlugdatenVerspaetet } from "../fluggastrechteFormular/flugdaten/__test__/testscasesVerspaetet";
 import { testCasesFluggastrechteFormularStreitwertKosten } from "../fluggastrechteFormular/streitwertKosten/__test__/testscases";
+import { testCasesFluggastrechteAnnullierungAbbruch } from "../fluggastrechteVorabcheck/__test__/testcasesAnnullierungAbbruch";
+import { testCasesFluggastrechteErfolg } from "../fluggastrechteVorabcheck/__test__/testcasesErfolg";
+import { testcasesFluggastrechteErfolgAnalog } from "../fluggastrechteVorabcheck/__test__/testcasesErfolgAnalog";
+import { testCasesFluggastrechteErfolgEU } from "../fluggastrechteVorabcheck/__test__/testcasesErfolgEU";
+import { testCasesFluggastrechteNichtBefoerderungAbbruch } from "../fluggastrechteVorabcheck/__test__/testcasesNichtBefoerderungAbbruch";
+import { testcasesFluggastrechtOtherErfolgs } from "../fluggastrechteVorabcheck/__test__/testcasesOtherErfolgs";
+import { testCasesFluggastrechteVerspaetetAbbruch } from "../fluggastrechteVorabcheck/__test__/testcasesVerspaetetAbbruch";
 
 function getEnabledSteps({
   machine,
@@ -80,9 +84,10 @@ describe("state machine form flows", () => {
     testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
     testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
     testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
-    testCasesFluggastrechteVerspaetet,
-    testCasesFluggastrechteAnnullierung,
-    testCasesFluggastrechteNichtBefoerderung,
+    testCasesFluggastrechteVerspaetetAbbruch,
+    testCasesFluggastrechteAnnullierungAbbruch,
+    testCasesFluggastrechteNichtBefoerderungAbbruch,
+    testcasesFluggastrechtOtherErfolgs,
     testCasesFluggastrechteFormularPersoenlicheDaten,
     testCasesProzesskostenhilfeFormular,
     testCasesPKHFormularFinanzielleAngabenWohnung,
@@ -92,6 +97,9 @@ describe("state machine form flows", () => {
     testCasesProzesskostenhilfeRsv,
     testCasesFluggastrechteFormularFlugdatenVerspaetet,
     testCasesFluggastrechteFormularFlugdatenAnnullierung,
+    testCasesFluggastrechteErfolg,
+    testCasesFluggastrechteErfolgEU,
+    testcasesFluggastrechteErfolgAnalog,
   ].forEach(({ machine, cases }) => {
     test.each([...cases])(
       "SUBMIT (%#) given context: %j, visits steps: %j",
