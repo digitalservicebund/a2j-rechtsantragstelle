@@ -34,7 +34,10 @@ export const arbeitsabzuegeDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteG
       return false;
     if (guards.usesPrivateVehicle({ context }) && !arbeitsplatzDone)
       return false;
-    return !guards.hasAndereArbeitsausgabenAndEmptyArray({ context });
+    return (
+      context.hasArbeitsausgaben !== undefined &&
+      !guards.hasAndereArbeitsausgabenAndEmptyArray({ context })
+    );
   };
 
 export const einkommenDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
