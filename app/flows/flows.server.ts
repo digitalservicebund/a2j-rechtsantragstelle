@@ -1,7 +1,7 @@
-import { beratungshilfeVorabcheck } from "app/flows/beratungshilfeVorabcheck";
+import { beratungshilfeFormular } from "app/flows/beratungshilfe/formular";
+import { beratungshilfeVorabcheck } from "app/flows/beratungshilfe/vorabcheck";
 import { fluggastrechteVorabcheck } from "app/flows/fluggastrechteVorabcheck";
 import { geldEinklagenVorabcheck } from "app/flows/geldEinklagenVorabcheck";
-import { beratungshilfeFormular } from "~/flows/beratungshilfeFormular";
 import { fluggastrechtFlow } from "~/flows/fluggastrechteFormular";
 import { geldEinklagenFormular } from "~/flows/geldEinklagenFormular";
 import type { FlowPageId } from "~/services/cms/schemas";
@@ -11,7 +11,7 @@ import type { Replacements } from "~/util/fillTemplate";
 import type { Context } from "./contexts";
 import type { FlowId } from "./flowIds";
 import type { Guards } from "./guards.server";
-import { prozesskostenhilfeFormular } from "./prozesskostenhilfeFormular";
+import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 
 export type FlowMigration = {
   source: FlowId;

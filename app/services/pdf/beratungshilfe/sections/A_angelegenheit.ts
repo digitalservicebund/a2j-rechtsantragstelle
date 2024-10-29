@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/formular";
 import type { BerHPdfFillFunction } from "..";
 import {
   SEE_IN_ATTACHMENT_DESCRIPTION,

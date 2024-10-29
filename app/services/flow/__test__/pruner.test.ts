@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/formular";
 import { getStrapiEntry } from "~/services/cms/getStrapiEntry";
 import type { StrapiSchemas } from "~/services/cms/schemas";
 import { filterFormFields, pruneIrrelevantData } from "../pruner";

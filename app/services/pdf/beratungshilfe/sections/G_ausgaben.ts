@@ -1,5 +1,5 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
+import type { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfe/formular/finanzielleAngaben/context";
 import type { besondereBelastungenSchema } from "~/flows/shared/finanzielleAngaben/context";
 import type { BerHPdfFillFunction } from "..";
 import {

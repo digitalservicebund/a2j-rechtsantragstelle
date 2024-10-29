@@ -1,19 +1,23 @@
-import { testCasesBeratungshilfeFormular } from "~/flows/beratungshilfeFormular/__test__/testcases";
-import { testCasesBeratungshilfeFormularAnwaltlicheVertretung } from "~/flows/beratungshilfeFormular/anwaltlicheVertretung/__test__/testcases";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe } from "~/flows/beratungshilfeFormular/finanzielleAngaben/__test__/testcasesAusgaben";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentum } from "~/flows/beratungshilfeFormular/finanzielleAngaben/__test__/testcasesEigentum";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentumZusammenfassung } from "~/flows/beratungshilfeFormular/finanzielleAngaben/__test__/testcasesEigentumZusammenfassung";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen } from "~/flows/beratungshilfeFormular/finanzielleAngaben/__test__/testcasesEinkommen";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenKinder } from "~/flows/beratungshilfeFormular/finanzielleAngaben/__test__/testcasesKinder";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenPartner } from "~/flows/beratungshilfeFormular/finanzielleAngaben/__test__/testcasesPartner";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen } from "~/flows/beratungshilfeFormular/finanzielleAngaben/__test__/testcasesUnterhaltszahlungen";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "~/flows/beratungshilfeFormular/finanzielleAngaben/__test__/testcasesWohnung";
-import { testCasesBeratungshilfeRechtsproblem } from "~/flows/beratungshilfeFormular/rechtsproblem/__test__/testcases";
-import { testCasesBeratungshilfe } from "~/flows/beratungshilfeVorabcheck/__test__/testcases";
+import { testCasesBeratungshilfeFormular } from "~/flows/beratungshilfe/formular/__test__/testcases";
+import { testCasesBeratungshilfeFormularAnwaltlicheVertretung } from "~/flows/beratungshilfe/formular/anwaltlicheVertretung/__test__/testcases";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe } from "~/flows/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesAusgaben";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentum } from "~/flows/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesEigentum";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentumZusammenfassung } from "~/flows/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesEigentumZusammenfassung";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen } from "~/flows/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesEinkommen";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenKinder } from "~/flows/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesKinder";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenPartner } from "~/flows/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesPartner";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen } from "~/flows/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesUnterhaltszahlungen";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "~/flows/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesWohnung";
+import { testCasesBeratungshilfeRechtsproblem } from "~/flows/beratungshilfe/formular/rechtsproblem/__test__/testcases";
+import { testCasesBeratungshilfe } from "~/flows/beratungshilfe/vorabcheck/__test__/testcases";
 import { type Context } from "~/flows/contexts";
 import { testCasesFluggastrechteFormularGrundvoraussetzungen } from "~/flows/fluggastrechteFormular/grundvoraussetzungen/__test__/testcases";
 import { testCasesFluggastrechteFormularPersoenlicheDaten } from "~/flows/fluggastrechteFormular/persoenlicheDaten/__test__/testcases";
 import { testCasesGeldEinklagen } from "~/flows/geldEinklagenVorabcheck/__test__/testcases";
+import { testCasesProzesskostenhilfeFormular } from "~/flows/prozesskostenhilfe/formular/__test__/testcases";
+import { testCasesPKHFormularFinanzielleAngabenWohnung } from "~/flows/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesWohnung";
+import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/flows/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";
+import { testCasesProzesskostenhilfeRsv } from "~/flows/prozesskostenhilfe/formular/rechtsschutzversicherung/__test__/testcases";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { testCasesFluggastrechteFormularFlugdatenAnnullierung } from "../fluggastrechteFormular/flugdaten/__test__/testcasesAnnullierung";
@@ -27,10 +31,6 @@ import { testCasesFluggastrechteErfolgEU } from "../fluggastrechteVorabcheck/__t
 import { testCasesFluggastrechteNichtBefoerderungAbbruch } from "../fluggastrechteVorabcheck/__test__/testcasesNichtBefoerderungAbbruch";
 import { testcasesFluggastrechtOtherErfolgs } from "../fluggastrechteVorabcheck/__test__/testcasesOtherErfolgs";
 import { testCasesFluggastrechteVerspaetetAbbruch } from "../fluggastrechteVorabcheck/__test__/testcasesVerspaetetAbbruch";
-import { testCasesProzesskostenhilfeFormular } from "../prozesskostenhilfeFormular/__test__/testcases";
-import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../prozesskostenhilfeFormular/finanzielleAngaben/__test__/testcasesWohnung";
-import { testCasesProzesskostenhilfePersoenlicheDaten } from "../prozesskostenhilfeFormular/persoenlicheDaten/__test__/testcases";
-import { testCasesProzesskostenhilfeRsv } from "../prozesskostenhilfeFormular/rechtsschutzversicherung/__test__/testcases";
 
 function getEnabledSteps({
   machine,

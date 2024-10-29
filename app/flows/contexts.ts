@@ -1,12 +1,12 @@
 import type { ZodTypeAny } from "zod";
-import { context as beratungshilfeContext } from "~/flows/beratungshilfeVorabcheck/context";
+import { beratungshilfeFormularContext } from "~/flows/beratungshilfe/formular/context";
+import { context as beratungshilfeContext } from "~/flows/beratungshilfe/vorabcheck/context";
 import { fluggastrechteVorabcheckContext } from "~/flows/fluggastrechteVorabcheck/context";
 import { context as geldEinklagenContext } from "~/flows/geldEinklagenVorabcheck/context";
-import { beratungshilfeFormularContext } from "./beratungshilfeFormular/context";
+import { prozesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfe/formular/context";
 import type { FlowId } from "./flowIds";
 import { fluggastrechtContext } from "./fluggastrechteFormular/context";
 import { context as geldEinklagenFormularContext } from "./geldEinklagenFormular/context";
-import { prozesskostenhilfeFormularContext } from "./prozesskostenhilfeFormular/context";
 
 export type BasicTypes = string | number | boolean;
 export type ArrayData = Array<Record<string, BasicTypes>>;
