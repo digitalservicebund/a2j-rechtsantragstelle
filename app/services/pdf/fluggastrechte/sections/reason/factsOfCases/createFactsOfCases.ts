@@ -21,7 +21,7 @@ export const createFactsOfCases = (
 
   addReason(doc, documentStruct, userData);
   doc.moveDown(1);
-  addFlightDetails(doc, documentStruct);
+  addFlightDetails(doc, documentStruct, userData);
   doc.moveDown(1);
   addDetailedReason(doc, documentStruct);
   doc.moveDown(1);
