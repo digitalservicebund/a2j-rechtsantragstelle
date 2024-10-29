@@ -3,10 +3,10 @@ import { json, redirect } from "@remix-run/node";
 import {
   isPartnerAirport,
   partnerCourtAirports,
-} from "app/flows/fluggastrechte/vorabcheck";
-import { getReasonsToDisplay } from "~/flows/common";
-import { parsePathname } from "~/flows/flowIds";
-import { flows } from "~/flows/flows.server";
+} from "~/domains/fluggastrechte/vorabcheck";
+import { getReasonsToDisplay } from "~/domains/common";
+import { parsePathname } from "~/domains/flowIds";
+import { flows } from "~/domains/flows.server";
 import {
   fetchFlowPage,
   fetchMeta,

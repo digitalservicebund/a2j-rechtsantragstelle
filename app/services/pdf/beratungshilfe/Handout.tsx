@@ -2,8 +2,8 @@ import { Page, Text, View, Document } from "@react-pdf/renderer";
 import {
   beratungshilfeFormular,
   type BeratungshilfeFormularContext,
-} from "app/flows/beratungshilfe/formular";
-import { abgabeContext } from "~/flows/shared/abgabe/context";
+} from "~/domains/beratungshilfe/formular";
+import { abgabeContext } from "~/domains/shared/abgabe/context";
 import { HandoutRow } from "../attachment/HandoutRow";
 import { PdfFooter } from "../attachment/PdfFooter";
 import { styles } from "../attachment/styles";

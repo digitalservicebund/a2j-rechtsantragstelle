@@ -1,4 +1,4 @@
-import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/flows/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
+import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import type { PkhPdfFillFunction } from ".";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
 import { ausgabenSituationMapping } from "../beratungshilfe/sections/G_ausgaben";

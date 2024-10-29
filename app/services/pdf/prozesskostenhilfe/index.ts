@@ -1,4 +1,4 @@
-import type { ProzesskostenhilfeFormularContext } from "app/flows/prozesskostenhilfe/formular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { fillRechtsschutzversicherung } from "~/services/pdf/prozesskostenhilfe/B_rechtsschutzversicherung";

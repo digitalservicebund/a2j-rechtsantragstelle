@@ -1,0 +1,89 @@
+import { createMachine } from "xstate";
+import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
+import type { TestCases } from "~/domains/__test__/TestCases";
+import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import { fluggastrechteGuards } from "~/domains/fluggastrechte/formular/guards";
+import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+
+const machine: FlowStateMachine = createMachine(
+  { ...fluggastrechtFlow.config, context: {} },
+  { guards: fluggastrechteGuards },
+);
+
+const cases = [
+  [
+    {
+      anrede: "mr",
+      title: "",
+      vorname: "test",
+      nachname: "test",
+      strasseHausnummer: "test",
+      ort: "test",
+      plz: "13055",
+      isWeiterePersonen: "no",
+    },
+    [
+      "persoenliche-daten/person/daten",
+      "persoenliche-daten/weitere-personen/frage",
+      "zusammenfassung/start",
+    ],
+  ],
+  [
+    {
+      anrede: "mr",
+      title: "",
+      vorname: "test",
+      nachname: "test",
+      strasseHausnummer: "test",
+      ort: "test",
+      plz: "13055",
+      isWeiterePersonen: "no",
+    },
+    [
+      "persoenliche-daten/person/daten",
+      "persoenliche-daten/weitere-personen/frage",
+      "zusammenfassung/start",
+    ],
+  ],
+  [
+    {
+      anrede: "mr",
+      title: "",
+      vorname: "test",
+      nachname: "test",
+      strasseHausnummer: "test",
+      ort: "test",
+      plz: "13055",
+      isWeiterePersonen: "yes",
+    },
+    [
+      "persoenliche-daten/person/daten",
+      "persoenliche-daten/weitere-personen/frage",
+      "persoenliche-daten/weitere-personen/uebersicht",
+      "zusammenfassung/start",
+    ],
+  ],
+  [
+    {
+      anrede: "mr",
+      title: "",
+      vorname: "test",
+      nachname: "test",
+      strasseHausnummer: "test",
+      ort: "test",
+      plz: "13055",
+      isWeiterePersonen: "yes",
+    },
+    [
+      "persoenliche-daten/person/daten",
+      "persoenliche-daten/weitere-personen/frage",
+      "persoenliche-daten/weitere-personen/uebersicht",
+      "zusammenfassung/start",
+    ],
+  ],
+] as const satisfies TestCases<FluggastrechtContext>;
+
+export const testCasesFluggastrechteFormularPersoenlicheDaten = {
+  machine,
+  cases,
+};

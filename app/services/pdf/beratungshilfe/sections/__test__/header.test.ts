@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "app/flows/beratungshilfe/formular";
+import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { gerbehAmtsgericht } from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";

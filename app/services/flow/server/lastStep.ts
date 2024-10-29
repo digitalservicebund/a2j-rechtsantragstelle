@@ -1,6 +1,6 @@
 import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
-import { type FlowId, parsePathname } from "~/flows/flowIds";
-import { flows } from "~/flows/flows.server";
+import { type FlowId, parsePathname } from "~/domains/flowIds";
+import { flows } from "~/domains/flows.server";
 import { buildFlowController } from "./buildFlowController";
 import {
   type CookieHeader,

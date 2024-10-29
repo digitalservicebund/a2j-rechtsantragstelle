@@ -1,9 +1,9 @@
-import type { FluggastrechtVorabcheckContext } from "~/flows/fluggastrechte/vorabcheck/context";
+import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
 import {
   COMPENSATION_VALUE_250,
   COMPENSATION_VALUE_400,
   COMPENSATION_VALUE_600,
-} from "~/flows/fluggastrechte/vorabcheck/stringReplacements";
+} from "~/domains/fluggastrechte/vorabcheck/stringReplacements";
 import { getRouteCompensationBetweenAirports } from "./getRouteCompensationBetweenAirports";
 
 export function getCompensationPayment({

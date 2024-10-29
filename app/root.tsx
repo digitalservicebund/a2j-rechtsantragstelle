@@ -21,7 +21,7 @@ import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import { useMemo } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
-import { flowIdFromPathname } from "~/flows/flowIds";
+import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import {
   fetchMeta,

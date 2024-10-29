@@ -1,10 +1,10 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
-import type { Context } from "~/flows/contexts";
-import { parsePathname } from "~/flows/flowIds";
-import type { Flow } from "~/flows/flows.server";
-import { flows } from "~/flows/flows.server";
+import type { Context } from "~/domains/contexts";
+import { parsePathname } from "~/domains/flowIds";
+import type { Flow } from "~/domains/flows.server";
+import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getArraySummaryPageTranslations } from "~/services/array/getArraySummaryPageTranslations";
 import { getSummaryData } from "~/services/array/getSummaryData";

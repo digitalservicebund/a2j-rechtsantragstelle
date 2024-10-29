@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/flows/fluggastrechte/formular/context";
+import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { today, toGermanDateFormat } from "~/util/date";
 import {
   FONTS_BUNDESSANS_BOLD,

@@ -1,18 +1,18 @@
 import { faker } from "@faker-js/faker";
-import type { ProzesskostenhilfeFormularContext } from "app/flows/prozesskostenhilfe/formular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { prozesskostenhilfeAntragstellendePersonContext as antragstellendePersonSchema } from "~/flows/prozesskostenhilfe/formular/antragstellendePerson/context";
+import { prozesskostenhilfeAntragstellendePersonContext as antragstellendePersonSchema } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
 import {
   prozesskostenhilfeFinanzielleAngabenContext,
   zahlungspflichtigerSchema,
-} from "~/flows/prozesskostenhilfe/formular/finanzielleAngaben/context";
-import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/flows/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/context";
-import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } from "~/flows/prozesskostenhilfe/formular/grundvoraussetzungen/context";
+} from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/context";
+import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/context";
+import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/context";
 import {
   Eigentuemer,
   financialEntrySchema,
   unterhaltszahlungSchema,
-} from "~/flows/shared/finanzielleAngaben/context";
+} from "~/domains/shared/finanzielleAngaben/context";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 

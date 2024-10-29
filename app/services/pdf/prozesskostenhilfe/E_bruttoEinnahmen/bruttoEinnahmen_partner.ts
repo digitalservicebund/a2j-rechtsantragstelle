@@ -1,4 +1,4 @@
-import { partnerEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
+import { partnerEinkuenfteGuards as guards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import {
   type AttachmentEntries,
   SEE_IN_ATTACHMENT_DESCRIPTION,

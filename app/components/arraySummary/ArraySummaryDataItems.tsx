@@ -1,6 +1,6 @@
 import ArraySummaryItemButton from "~/components/arraySummary/ArraySummaryItemButton";
-import type { BasicTypes } from "~/flows/contexts";
-import { WEITERE_PERSONEN_START_INDEX } from "~/flows/fluggastrechte/formular/stringReplacements";
+import type { BasicTypes } from "~/domains/contexts";
+import { WEITERE_PERSONEN_START_INDEX } from "~/domains/fluggastrechte/formular/stringReplacements";
 import type { ArrayConfig } from "~/services/array";
 import type { Translations } from "~/services/cms/index.server";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";

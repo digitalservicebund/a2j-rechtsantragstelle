@@ -1,6 +1,6 @@
 import _ from "lodash";
-import type { FlowId } from "~/flows/flowIds";
-import type { Flow } from "~/flows/flows.server";
+import type { FlowId } from "~/domains/flowIds";
+import type { Flow } from "~/domains/flows.server";
 import { buildFlowController } from "./buildFlowController";
 import { type CookieHeader, getSessionData } from "../../session.server";
 

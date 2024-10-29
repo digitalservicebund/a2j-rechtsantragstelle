@@ -1,4 +1,4 @@
-import type { FlowId } from "~/flows/flowIds";
+import type { FlowId } from "~/domains/flowIds";
 import { lastStepKey } from "~/services/flow/constants";
 import { createSessionWithCsrf } from "~/services/security/csrf/createSessionWithCsrf.server";
 import {

@@ -1,5 +1,5 @@
-import type { FlowId } from "~/flows/flowIds";
-import type { Flow } from "~/flows/flows.server";
+import type { FlowId } from "~/domains/flowIds";
+import type { Flow } from "~/domains/flows.server";
 import type { FlowPageId } from "~/services/cms/schemas";
 import {
   buildFlowController,

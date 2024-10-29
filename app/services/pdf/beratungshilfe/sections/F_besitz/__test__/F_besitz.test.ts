@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
-import { type BeratungshilfeFormularContext } from "app/flows/beratungshilfe/formular";
+import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import {

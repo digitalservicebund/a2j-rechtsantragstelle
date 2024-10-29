@@ -1,4 +1,4 @@
-import type { BeratungshilfeVorabcheckContext } from "~/flows/beratungshilfe/vorabcheck/context";
+import type { BeratungshilfeVorabcheckContext } from "~/domains/beratungshilfe/vorabcheck/context";
 
 export const happyPathData: BeratungshilfeVorabcheckContext = {
   rechtsschutzversicherung: "no",

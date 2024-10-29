@@ -1,4 +1,4 @@
-import type { FlowId } from "~/flows/flowIds";
+import type { FlowId } from "~/domains/flowIds";
 import type { Filter, GetStrapiEntryOpts } from "./filters";
 import { getStrapiEntry } from "./getStrapiEntry";
 import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";

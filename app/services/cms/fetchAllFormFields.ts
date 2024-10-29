@@ -1,6 +1,6 @@
 import _ from "lodash";
-import type { FlowId } from "~/flows/flowIds";
-import { flows } from "~/flows/flows.server";
+import type { FlowId } from "~/domains/flowIds";
+import { flows } from "~/domains/flows.server";
 import { getStrapiEntry } from "./getStrapiEntry";
 import type { StrapiSchemas } from "./schemas";
 import { config } from "../env/env.server";

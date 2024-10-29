@@ -1,4 +1,4 @@
-import type { BankkontenArraySchema } from "~/flows/shared/finanzielleAngaben/context";
+import type { BankkontenArraySchema } from "~/domains/shared/finanzielleAngaben/context";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 import { attachBankkontenToAnhang } from "../eigentumHelpers";
 
