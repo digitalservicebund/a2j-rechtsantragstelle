@@ -1,7 +1,7 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/flows/__test__/TestCases";
-import { fluggastrechtFlow } from "~/flows/fluggastrechteFormular";
-import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
+import { fluggastrechtFlow } from "~/flows/fluggastrechte/fluggastrechteFormular";
+import type { FluggastrechtContext } from "~/flows/fluggastrechte/fluggastrechteFormular/context";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
 const machine: FlowStateMachine = createMachine(

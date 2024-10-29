@@ -1,6 +1,6 @@
 import type { Flow } from "~/flows/flows.server";
-import fluggastrechteVorabcheckFlow from "~/flows/fluggastrechteVorabcheck/flow.json";
-import { guards as fluggastrechteVorabcheckGuards } from "~/flows/fluggastrechteVorabcheck/guards";
+import fluggastrechteVorabcheckFlow from "~/flows/fluggastrechte/fluggastrechteVorabcheck/flow.json";
+import { guards as fluggastrechteVorabcheckGuards } from "~/flows/fluggastrechte/fluggastrechteVorabcheck/guards";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import {
   getCompensationPaymentString,
@@ -14,7 +14,7 @@ import {
   hasCompensationMiddleDistance,
   hasCompensationShortDistance,
 } from "./stringReplacements";
-import type { Context } from "../contexts";
+import type { Context } from "../../contexts";
 
 export const fluggastrechteVorabcheck = {
   cmsSlug: "vorab-check-pages",

@@ -1,8 +1,8 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/flows/__test__/TestCases";
-import type { FluggastrechtVorabcheckContext } from "~/flows/fluggastrechteVorabcheck/context";
-import fluggastrechte from "~/flows/fluggastrechteVorabcheck/flow.json";
-import { guards } from "~/flows/fluggastrechteVorabcheck/guards";
+import type { FluggastrechtVorabcheckContext } from "~/flows/fluggastrechte/fluggastrechteVorabcheck/context";
+import fluggastrechte from "~/flows/fluggastrechte/fluggastrechteVorabcheck/flow.json";
+import { guards } from "~/flows/fluggastrechte/fluggastrechteVorabcheck/guards";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
 const machine: FlowStateMachine = createMachine(
@@ -25,7 +25,7 @@ const cases = [
       entschaedigung: "yes",
       gericht: "no",
       startAirport: "AMS",
-      endAirport: "DRS",
+      endAirport: "CDG",
       fluggesellschaft: "LH",
     },
     [
@@ -44,7 +44,7 @@ const cases = [
       "abtretung",
       "entschaedigung",
       "gericht",
-      "ergebnis/erfolg-analog",
+      "ergebnis/erfolg-eu",
     ],
   ],
   [
@@ -60,44 +60,8 @@ const cases = [
       abtretung: "no",
       entschaedigung: "yes",
       gericht: "no",
-      startAirport: "DRS",
-      endAirport: "ERF",
-      fluggesellschaft: "LH",
-    },
-    [
-      "start",
-      "bereich",
-      "verspaetung",
-      "gruende",
-      "gruende-hinweis",
-      "verjaehrung",
-      "flughaefen",
-      "fluggesellschaft",
-      "checkin",
-      "kostenlos",
-      "rabatt",
-      "buchung",
-      "abtretung",
-      "entschaedigung",
-      "gericht",
-      "ergebnis/erfolg-analog",
-    ],
-  ],
-  [
-    {
-      bereich: "verspaetet",
-      verspaetung: "yes",
-      gruende: "yes",
-      verjaehrung: "yes",
-      checkin: "yes",
-      kostenlos: "no",
-      rabatt: "no",
-      buchung: "yes",
-      abtretung: "no",
-      entschaedigung: "yes",
-      gericht: "no",
-      startAirport: "DRS",
-      endAirport: "ERF",
+      startAirport: "AMS",
+      endAirport: "CDG",
       fluggesellschaft: "DL",
     },
     [
@@ -116,7 +80,7 @@ const cases = [
       "abtretung",
       "entschaedigung",
       "gericht",
-      "ergebnis/erfolg-analog",
+      "ergebnis/erfolg-eu",
     ],
   ],
   [
@@ -132,8 +96,8 @@ const cases = [
       abtretung: "no",
       entschaedigung: "yes",
       gericht: "no",
-      startAirport: "DRS",
-      endAirport: "ERF",
+      startAirport: "AMS",
+      endAirport: "CDG",
       fluggesellschaft: "sonstiges",
     },
     [
@@ -152,48 +116,12 @@ const cases = [
       "abtretung",
       "entschaedigung",
       "gericht",
-      "ergebnis/erfolg-analog",
-    ],
-  ],
-  [
-    {
-      bereich: "verspaetet",
-      verspaetung: "yes",
-      gruende: "yes",
-      verjaehrung: "yes",
-      checkin: "yes",
-      kostenlos: "no",
-      rabatt: "no",
-      buchung: "yes",
-      abtretung: "no",
-      entschaedigung: "yes",
-      gericht: "no",
-      startAirport: "BER",
-      endAirport: "MUC",
-      fluggesellschaft: "sonstiges",
-    },
-    [
-      "start",
-      "bereich",
-      "verspaetung",
-      "gruende",
-      "gruende-hinweis",
-      "verjaehrung",
-      "flughaefen",
-      "fluggesellschaft",
-      "checkin",
-      "kostenlos",
-      "rabatt",
-      "buchung",
-      "abtretung",
-      "entschaedigung",
-      "gericht",
-      "ergebnis/erfolg-analog",
+      "ergebnis/erfolg-eu",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtVorabcheckContext>;
 
-export const testcasesFluggastrechteErfolgAnalog = {
+export const testCasesFluggastrechteErfolgEU = {
   machine,
   cases,
 };

@@ -12,7 +12,7 @@ import {
   hasCompensationLongDistanceOutsideEU,
   hasCompensationMiddleDistance,
   hasCompensationShortDistance,
-} from "~/flows/fluggastrechteVorabcheck/stringReplacements";
+} from "~/flows/fluggastrechte/fluggastrechteVorabcheck/stringReplacements";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 
 vi.mock("~/services/airports/getRouteCompensationBetweenAirports");

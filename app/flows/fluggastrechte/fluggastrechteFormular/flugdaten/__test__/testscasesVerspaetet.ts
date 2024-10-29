@@ -1,8 +1,8 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/flows/__test__/TestCases";
-import { fluggastrechtFlow } from "~/flows/fluggastrechteFormular";
-import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
-import { fluggastrechteGuards } from "~/flows/fluggastrechteFormular/guards";
+import { fluggastrechtFlow } from "~/flows/fluggastrechte/fluggastrechteFormular";
+import type { FluggastrechtContext } from "~/flows/fluggastrechte/fluggastrechteFormular/context";
+import { fluggastrechteGuards } from "~/flows/fluggastrechte/fluggastrechteFormular/guards";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 
 const machine: FlowStateMachine = createMachine(
@@ -13,7 +13,7 @@ const machine: FlowStateMachine = createMachine(
 const cases = [
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "verspaetet",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -21,7 +21,7 @@ const cases = [
       direktAnkunftsDatum: "02.05.2023",
       direktAnkunftsZeit: "10:00",
       zwischenstoppAnzahl: "no",
-      ersterZwischenstopp: "HAM",
+      tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
       ersatzFlugnummer: "BCA4321",
       ersatzFlugAnkunftsDatum: "10.03.2024",
@@ -30,6 +30,7 @@ const cases = [
     },
     [
       "flugdaten/geplanter-flug",
+      "flugdaten/tatsaechlicher-flug",
       "flugdaten/ersatzverbindung-art",
       "flugdaten/anderer-flug-ankunft",
       "flugdaten/zusaetzliche-angaben",
@@ -38,7 +39,7 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "verspaetet",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -46,7 +47,7 @@ const cases = [
       direktAnkunftsDatum: "02.05.2023",
       direktAnkunftsZeit: "10:00",
       zwischenstoppAnzahl: "no",
-      ersterZwischenstopp: "HAM",
+      tatsaechlicherFlug: "no",
       ersatzverbindungArt: "etwasAnderes",
       ersatzFlugnummer: "BCA4321",
       ersatzFlugAnkunftsDatum: "10.03.2024",
@@ -55,6 +56,7 @@ const cases = [
     },
     [
       "flugdaten/geplanter-flug",
+      "flugdaten/tatsaechlicher-flug",
       "flugdaten/ersatzverbindung-art",
       "flugdaten/ersatzverbindung-beschreibung",
       "flugdaten/zusaetzliche-angaben",
@@ -63,7 +65,7 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "verspaetet",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -71,7 +73,7 @@ const cases = [
       direktAnkunftsDatum: "02.05.2023",
       direktAnkunftsZeit: "10:00",
       zwischenstoppAnzahl: "no",
-      ersterZwischenstopp: "HAM",
+      tatsaechlicherFlug: "no",
       ersatzverbindungArt: "keineAnkunft",
       ersatzFlugnummer: "BCA4321",
       ersatzFlugAnkunftsDatum: "10.03.2024",
@@ -80,6 +82,7 @@ const cases = [
     },
     [
       "flugdaten/geplanter-flug",
+      "flugdaten/tatsaechlicher-flug",
       "flugdaten/ersatzverbindung-art",
       "flugdaten/zusaetzliche-angaben",
       "persoenliche-daten/person/daten",
@@ -87,7 +90,31 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "verspaetet",
+      direktFlugnummer: "AB1234",
+      buchungsNummer: "X36Q9C",
+      direktAbflugsDatum: "01.05.2023",
+      direktAbflugsZeit: "10:00",
+      direktAnkunftsDatum: "02.05.2023",
+      direktAnkunftsZeit: "10:00",
+      zwischenstoppAnzahl: "no",
+      ersterZwischenstopp: "HAM",
+      tatsaechlicherFlug: "yes",
+      tatsaechlicherAnkunftsDatum: "10.03.2024",
+      tatsaechlicherAnkunftsZeit: "10:10",
+      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
+    },
+    [
+      "flugdaten/geplanter-flug",
+      "flugdaten/tatsaechlicher-flug",
+      "flugdaten/tatsaechlicher-flug-ankunft",
+      "flugdaten/zusaetzliche-angaben",
+      "persoenliche-daten/person/daten",
+    ],
+  ],
+  [
+    {
+      bereich: "verspaetet",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -96,8 +123,9 @@ const cases = [
       direktAnkunftsZeit: "10:00",
       zwischenstoppAnzahl: "oneStop",
       verspaeteterFlug: "startAirportFirstZwischenstopp",
-      anschlussFlugVerpasst: "no",
+      anschlussFlugVerpasst: "yes",
       ersterZwischenstopp: "HAM",
+      tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
       ersatzFlugnummer: "BCA4321",
       ersatzFlugAnkunftsDatum: "10.03.2024",
@@ -109,6 +137,7 @@ const cases = [
       "flugdaten/zwischenstopp-uebersicht-1",
       "flugdaten/verspaeteter-flug-1",
       "flugdaten/anschluss-flug-verpasst",
+      "flugdaten/tatsaechlicher-flug",
       "flugdaten/ersatzverbindung-art",
       "flugdaten/anderer-flug-ankunft",
       "flugdaten/zusaetzliche-angaben",
@@ -117,7 +146,7 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "verspaetet",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -127,6 +156,7 @@ const cases = [
       zwischenstoppAnzahl: "oneStop",
       verspaeteterFlug: "firstZwischenstoppEndAirport",
       ersterZwischenstopp: "HAM",
+      tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
       ersatzFlugnummer: "BCA4321",
       ersatzFlugAnkunftsDatum: "10.03.2024",
@@ -137,6 +167,7 @@ const cases = [
       "flugdaten/geplanter-flug",
       "flugdaten/zwischenstopp-uebersicht-1",
       "flugdaten/verspaeteter-flug-1",
+      "flugdaten/tatsaechlicher-flug",
       "flugdaten/ersatzverbindung-art",
       "flugdaten/anderer-flug-ankunft",
       "flugdaten/zusaetzliche-angaben",
@@ -145,7 +176,31 @@ const cases = [
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "verspaetet",
+      direktFlugnummer: "AB1234",
+      buchungsNummer: "X36Q9C",
+      direktAbflugsDatum: "01.05.2023",
+      direktAbflugsZeit: "10:00",
+      direktAnkunftsDatum: "02.05.2023",
+      direktAnkunftsZeit: "10:00",
+      zwischenstoppAnzahl: "twoStop",
+      verspaeteterFlug: "startAirportFirstZwischenstopp",
+      anschlussFlugVerpasst: "no",
+      tatsaechlicherFlug: "no",
+      ersatzverbindungArt: "flug",
+    },
+    [
+      "flugdaten/geplanter-flug",
+      "flugdaten/zwischenstopp-uebersicht-2",
+      "flugdaten/verspaeteter-flug-2",
+      "flugdaten/anschluss-flug-verpasst",
+      "flugdaten/tatsaechlicher-flug",
+      "flugdaten/ersatzverbindung-art",
+    ],
+  ],
+  [
+    {
+      bereich: "verspaetet",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -155,27 +210,21 @@ const cases = [
       zwischenstoppAnzahl: "twoStop",
       verspaeteterFlug: "firstAirportSecondZwischenstopp",
       anschlussFlugVerpasst: "no",
-      ersterZwischenstopp: "HAM",
+      tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
-      ersatzFlugnummer: "BCA4321",
-      ersatzFlugAnkunftsDatum: "10.03.2024",
-      ersatzFlugAnkunftsZeit: "10:10",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
     },
     [
       "flugdaten/geplanter-flug",
       "flugdaten/zwischenstopp-uebersicht-2",
       "flugdaten/verspaeteter-flug-2",
       "flugdaten/anschluss-flug-verpasst",
+      "flugdaten/tatsaechlicher-flug",
       "flugdaten/ersatzverbindung-art",
-      "flugdaten/anderer-flug-ankunft",
-      "flugdaten/zusaetzliche-angaben",
-      "persoenliche-daten/person/daten",
     ],
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "verspaetet",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -184,26 +233,21 @@ const cases = [
       direktAnkunftsZeit: "10:00",
       zwischenstoppAnzahl: "twoStop",
       verspaeteterFlug: "secondZwischenstoppEndAirport",
-      ersterZwischenstopp: "HAM",
+      anschlussFlugVerpasst: "no",
+      tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
-      ersatzFlugnummer: "BCA4321",
-      ersatzFlugAnkunftsDatum: "10.03.2024",
-      ersatzFlugAnkunftsZeit: "10:10",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
     },
     [
       "flugdaten/geplanter-flug",
       "flugdaten/zwischenstopp-uebersicht-2",
       "flugdaten/verspaeteter-flug-2",
+      "flugdaten/tatsaechlicher-flug",
       "flugdaten/ersatzverbindung-art",
-      "flugdaten/anderer-flug-ankunft",
-      "flugdaten/zusaetzliche-angaben",
-      "persoenliche-daten/person/daten",
     ],
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "verspaetet",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -213,27 +257,21 @@ const cases = [
       zwischenstoppAnzahl: "threeStop",
       verspaeteterFlug: "startAirportFirstZwischenstopp",
       anschlussFlugVerpasst: "no",
-      ersterZwischenstopp: "HAM",
+      tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
-      ersatzFlugnummer: "BCA4321",
-      ersatzFlugAnkunftsDatum: "10.03.2024",
-      ersatzFlugAnkunftsZeit: "10:10",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
     },
     [
       "flugdaten/geplanter-flug",
       "flugdaten/zwischenstopp-uebersicht-3",
       "flugdaten/verspaeteter-flug-3",
       "flugdaten/anschluss-flug-verpasst",
+      "flugdaten/tatsaechlicher-flug",
       "flugdaten/ersatzverbindung-art",
-      "flugdaten/anderer-flug-ankunft",
-      "flugdaten/zusaetzliche-angaben",
-      "persoenliche-daten/person/daten",
     ],
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "verspaetet",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -243,27 +281,21 @@ const cases = [
       zwischenstoppAnzahl: "threeStop",
       verspaeteterFlug: "firstAirportSecondZwischenstopp",
       anschlussFlugVerpasst: "no",
-      ersterZwischenstopp: "HAM",
+      tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
-      ersatzFlugnummer: "BCA4321",
-      ersatzFlugAnkunftsDatum: "10.03.2024",
-      ersatzFlugAnkunftsZeit: "10:10",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
     },
     [
       "flugdaten/geplanter-flug",
       "flugdaten/zwischenstopp-uebersicht-3",
       "flugdaten/verspaeteter-flug-3",
       "flugdaten/anschluss-flug-verpasst",
+      "flugdaten/tatsaechlicher-flug",
       "flugdaten/ersatzverbindung-art",
-      "flugdaten/anderer-flug-ankunft",
-      "flugdaten/zusaetzliche-angaben",
-      "persoenliche-daten/person/daten",
     ],
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "verspaetet",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -273,27 +305,21 @@ const cases = [
       zwischenstoppAnzahl: "threeStop",
       verspaeteterFlug: "secondAirportThirdZwischenstopp",
       anschlussFlugVerpasst: "no",
-      ersterZwischenstopp: "HAM",
+      tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
-      ersatzFlugnummer: "BCA4321",
-      ersatzFlugAnkunftsDatum: "10.03.2024",
-      ersatzFlugAnkunftsZeit: "10:10",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
     },
     [
       "flugdaten/geplanter-flug",
       "flugdaten/zwischenstopp-uebersicht-3",
       "flugdaten/verspaeteter-flug-3",
       "flugdaten/anschluss-flug-verpasst",
+      "flugdaten/tatsaechlicher-flug",
       "flugdaten/ersatzverbindung-art",
-      "flugdaten/anderer-flug-ankunft",
-      "flugdaten/zusaetzliche-angaben",
-      "persoenliche-daten/person/daten",
     ],
   ],
   [
     {
-      bereich: "nichtbefoerderung",
+      bereich: "verspaetet",
       direktFlugnummer: "AB1234",
       buchungsNummer: "X36Q9C",
       direktAbflugsDatum: "01.05.2023",
@@ -302,26 +328,20 @@ const cases = [
       direktAnkunftsZeit: "10:00",
       zwischenstoppAnzahl: "threeStop",
       verspaeteterFlug: "thirdZwischenstoppEndAirport",
-      ersterZwischenstopp: "HAM",
+      tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
-      ersatzFlugnummer: "BCA4321",
-      ersatzFlugAnkunftsDatum: "10.03.2024",
-      ersatzFlugAnkunftsZeit: "10:10",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
     },
     [
       "flugdaten/geplanter-flug",
       "flugdaten/zwischenstopp-uebersicht-3",
       "flugdaten/verspaeteter-flug-3",
+      "flugdaten/tatsaechlicher-flug",
       "flugdaten/ersatzverbindung-art",
-      "flugdaten/anderer-flug-ankunft",
-      "flugdaten/zusaetzliche-angaben",
-      "persoenliche-daten/person/daten",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;
 
-export const testCasesFluggastrechteFormularFlugdatenNichtBefoerderung = {
+export const testCasesFluggastrechteFormularFlugdatenVerspaetet = {
   machine,
   cases,
 };

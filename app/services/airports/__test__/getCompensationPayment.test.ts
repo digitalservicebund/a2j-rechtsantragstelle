@@ -2,7 +2,7 @@ import {
   COMPENSATION_VALUE_250,
   COMPENSATION_VALUE_400,
   COMPENSATION_VALUE_600,
-} from "~/flows/fluggastrechteVorabcheck/stringReplacements";
+} from "~/flows/fluggastrechte/fluggastrechteVorabcheck/stringReplacements";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 import { getCompensationPayment } from "../../airports/getCompensationPayment";
 

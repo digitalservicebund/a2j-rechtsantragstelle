@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
+import type { FluggastrechtContext } from "~/flows/fluggastrechte/fluggastrechteFormular/context";
 import { createBankInformation } from "./createBankInformation";
 import { createPageNumber } from "./createPageNumber";
 import { createStamp } from "./createStamp";
