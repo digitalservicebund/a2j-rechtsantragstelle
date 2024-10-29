@@ -16,7 +16,7 @@ import { testCasesFluggastrechteFormularPersoenlicheDaten } from "~/flows/flugga
 import { testCasesFluggastrechteAnnullierung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesAnnullierung";
 import { testCasesFluggastrechteNichtBefoerderung } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesNichtBefoerderung";
 import { testCasesFluggastrechteVerspaetet } from "~/flows/fluggastrechteVorabcheck/__test__/testcasesVerspaetet";
-import { testCasesGeldEinklagen } from "~/flows/geldEinklagen/geldEinklagenVorabcheck/__test__/testcases";
+import { testCasesGeldEinklagen } from "~/flows/geldEinklagen/vorabcheck/__test__/testcases";
 import { testCasesProzesskostenhilfeFormular } from "~/flows/prozesskostenhilfe/formular/__test__/testcases";
 import { testCasesPKHFormularFinanzielleAngabenWohnung } from "~/flows/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesWohnung";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/flows/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";

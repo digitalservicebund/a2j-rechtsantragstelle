@@ -11,7 +11,7 @@ import Heading from "~/components/Heading";
 import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
 import { parsePathname } from "~/flows/flowIds";
-import type { GeldEinklagenVorabcheckContext } from "~/flows/geldEinklagen/geldEinklagenVorabcheck/context";
+import type { GeldEinklagenVorabcheckContext } from "~/flows/geldEinklagen/vorabcheck/context";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 import {

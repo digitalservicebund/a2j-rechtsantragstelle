@@ -1,4 +1,4 @@
-import type { GeldEinklagenFormularContext } from "~/flows/geldEinklagen/geldEinklagenFormular/context";
+import type { GeldEinklagenFormularContext } from "~/flows/geldEinklagen/formular/context";
 import type { Guards } from "../../guards.server";
 
 export const guards = {
