@@ -8,7 +8,7 @@ import { addTable } from "./table/addTable";
 
 export const REASON_TITLE_TEXT = "Begründung";
 
-export const createSecondPage = (
+export const createReasonPage = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechtContext,
