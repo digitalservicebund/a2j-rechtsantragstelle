@@ -1,8 +1,8 @@
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import {
   getProzesskostenhilfeParameters,
   type ProzesskostenhilfePDF,
 } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../attachment";
 import { maritalDescriptionMapping } from "../../shared/maritalDescriptionMapping";
 import {

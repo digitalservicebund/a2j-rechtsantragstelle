@@ -1,5 +1,5 @@
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import {
   ATTACHMENT_DESCRIPTION_SECTION_D,
   fillUnterhaltAngehoerige,

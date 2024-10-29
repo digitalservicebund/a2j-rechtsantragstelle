@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { prozesskostenhilfeAntragstellendePersonContext as antragstellendePersonSchema } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
 import {
   prozesskostenhilfeFinanzielleAngabenContext,

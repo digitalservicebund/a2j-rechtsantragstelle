@@ -1,6 +1,6 @@
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
+import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import Handout from "./Handout";
 import { appendAttachment } from "../appendAttachment";
 import type { PdfFillFunction } from "../fillOutFunction";

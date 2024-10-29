@@ -1,8 +1,8 @@
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import {
   getProzesskostenhilfeParameters,
   type ProzesskostenhilfePDF,
 } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { fillUnterhaltsanspruch } from "../C_unterhaltspflichtige_person";
 
 let pdfParams: ProzesskostenhilfePDF;

@@ -1,12 +1,12 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
+import { getReasonsToDisplay } from "~/domains/common";
+import { parsePathname } from "~/domains/flowIds";
+import { flows } from "~/domains/flows.server";
 import {
   isPartnerAirport,
   partnerCourtAirports,
 } from "~/domains/fluggastrechte/vorabcheck";
-import { getReasonsToDisplay } from "~/domains/common";
-import { parsePathname } from "~/domains/flowIds";
-import { flows } from "~/domains/flows.server";
 import {
   fetchFlowPage,
   fetchMeta,

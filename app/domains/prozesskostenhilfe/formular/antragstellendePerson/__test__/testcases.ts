@@ -1,5 +1,5 @@
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import type { TestCases } from "~/domains/__test__/TestCases";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 
 const erstAntragCase = [
   [
