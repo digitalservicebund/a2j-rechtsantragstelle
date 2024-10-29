@@ -4,7 +4,6 @@ import { readRelativeFileToBuffer } from "~/services/pdf/fillPdf.server";
 import { createPdfKitDocument } from "./createPdfKitDocument";
 import { createFirstPage } from "./sections/firstPage/createFirstPage";
 import { createReasonPage } from "./sections/reason/createReasonPage";
-import { createThirdPage } from "./sections/thirdPage/createThirdPage";
 import { setPdfMetadata } from "./setPdfMetadata";
 
 const BundesSansWebRegular = await readRelativeFileToBuffer(
@@ -23,8 +22,6 @@ function buildDocument(
   createFirstPage(doc, documentStruct, userData);
   doc.addPage();
   createReasonPage(doc, documentStruct, userData);
-  doc.addPage();
-  createThirdPage(doc, documentStruct, userData);
 }
 
 export async function fluggastrechtePdfFromUserdata(

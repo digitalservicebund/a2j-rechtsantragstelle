@@ -3,6 +3,7 @@ import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/con
 import { createFactsOfCases } from "./factsOfCases/createFactsOfCases";
 import { FONTS_BUNDESSANS_BOLD } from "../../createPdfKitDocument";
 import { createPageFooter } from "../createPageFooter";
+import { createCompensationAmount } from "./createCompensationAmount";
 import { createLastSentences } from "./createLastSentences";
 import { addTable } from "./table/addTable";
 
@@ -22,6 +23,7 @@ export const createReasonPage = (
   addTable(doc, documentStruct);
   createLastSentences(doc, documentStruct);
   doc.moveDown(1);
+  createCompensationAmount(doc);
 
   createPageFooter(doc, documentStruct, userData);
 };
