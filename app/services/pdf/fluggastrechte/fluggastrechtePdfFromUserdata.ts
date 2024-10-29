@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
+import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { readRelativeFileToBuffer } from "~/services/pdf/fillPdf.server";
 import { createPdfKitDocument } from "./createPdfKitDocument";
 import { createFirstPage } from "./sections/firstPage/createFirstPage";

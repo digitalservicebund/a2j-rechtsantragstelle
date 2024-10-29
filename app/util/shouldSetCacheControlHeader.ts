@@ -1,4 +1,4 @@
-import { flowIdFromPathname } from "~/flows/flowIds";
+import { flowIdFromPathname } from "~/domains/flowIds";
 
 const isFlowIdInPathname = (pathname: string): boolean => {
   const flowId = flowIdFromPathname(pathname);

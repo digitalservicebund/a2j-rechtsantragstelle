@@ -1,4 +1,4 @@
-import type { FlowType } from "~/flows/flows.server";
+import type { FlowType } from "~/domains/flows.server";
 import type { FlowPageId } from "./schemas";
 
 const apiMapping = {

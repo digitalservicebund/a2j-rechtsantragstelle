@@ -1,4 +1,4 @@
-import type { AllContextKeys } from "~/flows/common";
+import type { AllContextKeys } from "~/domains/common";
 
 export const arrayChar = "#";
 export const splitArrayName = (key: string) => key.split(arrayChar);

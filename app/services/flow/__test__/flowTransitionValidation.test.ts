@@ -1,5 +1,5 @@
-import type { FlowId } from "~/flows/flowIds";
-import type { Flow, FlowType } from "~/flows/flows.server";
+import type { FlowId } from "~/domains/flowIds";
+import type { Flow, FlowType } from "~/domains/flows.server";
 import {
   buildFlowController,
   type FlowController,

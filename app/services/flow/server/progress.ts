@@ -1,5 +1,5 @@
 import { createMachine } from "xstate";
-import { flows } from "~/flows/flows.server";
+import { flows } from "~/domains/flows.server";
 import { type FlowStateMachine } from "./buildFlowController";
 
 export function progressLookupForMachine(machine: FlowStateMachine) {

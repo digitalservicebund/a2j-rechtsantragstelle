@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { flowIds } from "~/flows/flowIds";
+import { flowIds } from "~/domains/flowIds";
 
 const extraFlowIds = ["/beratungshilfe/zustaendiges-gericht"] as const;
 

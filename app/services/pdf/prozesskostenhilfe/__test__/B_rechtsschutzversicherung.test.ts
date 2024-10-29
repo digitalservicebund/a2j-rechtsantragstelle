@@ -1,6 +1,6 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import {
   fillOrgCoverage,
   fillRechtsschutzversicherung,

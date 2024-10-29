@@ -1,4 +1,4 @@
-import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
+import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 
 export const userDataMock = {
   startAirport: "BER",

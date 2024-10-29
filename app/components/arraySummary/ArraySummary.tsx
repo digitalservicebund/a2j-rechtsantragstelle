@@ -1,5 +1,5 @@
 import AddButton from "@digitalservicebund/icons/Add";
-import type { ArrayData } from "~/flows/contexts";
+import type { ArrayData } from "~/domains/contexts";
 import type { ArrayConfig } from "~/services/array";
 import type { Translations } from "~/services/cms/index.server";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";

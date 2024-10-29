@@ -16,9 +16,9 @@ export type InputProps = Readonly<{
   prefix?: string;
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
-  helperText?: string;
   width?: FieldWidth;
   formId?: string;
+  helperText?: string;
 }>;
 
 const Input = function InputComponent({

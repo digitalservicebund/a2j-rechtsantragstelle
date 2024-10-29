@@ -1,4 +1,4 @@
-import type { Context } from "~/flows/contexts";
+import type { Context } from "~/domains/contexts";
 import { type Translations } from "~/services/cms/index.server";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import { lookupOrKey } from "~/util/lookupOrKey";
