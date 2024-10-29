@@ -2,6 +2,7 @@ import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { readRelativeFileToBuffer } from "~/services/pdf/fillPdf.server";
 import { createPdfKitDocument } from "./createPdfKitDocument";
+import { createFooter } from "./sections/createFooter";
 import { createFirstPage } from "./sections/firstPage/createFirstPage";
 import { createReasonPage } from "./sections/reason/createReasonPage";
 import { setPdfMetadata } from "./setPdfMetadata";
@@ -21,7 +22,8 @@ function buildDocument(
   setPdfMetadata(doc);
   createFirstPage(doc, documentStruct, userData);
   doc.addPage();
-  createReasonPage(doc, documentStruct, userData);
+  createReasonPage(doc, documentStruct);
+  createFooter(doc, documentStruct, userData);
 }
 
 export async function fluggastrechtePdfFromUserdata(

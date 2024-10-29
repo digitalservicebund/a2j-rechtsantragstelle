@@ -9,12 +9,12 @@ describe("createPageNumber", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct, { start: 1, count: 1 });
 
-    const expectPageNumber = 2;
+    const expectPageNumber = 1;
 
-    createPageNumber(mockDoc, mockStruct);
+    createPageNumber(mockDoc, mockStruct, 1, 1);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      `${expectPageNumber}/3`,
+      `${expectPageNumber}/1`,
       expect.anything(),
       expect.anything(),
       {

@@ -8,18 +8,16 @@ import {
 export const createPageNumber = (
   doc: typeof PDFDocument,
   footerSect: PDFKit.PDFStructureElement,
+  currentPage: number,
+  totalPage: number,
 ) => {
-  const range = doc.bufferedPageRange();
-
-  const pageNumber = range.start + range.count;
-
   footerSect.add(
     doc.struct("P", {}, () => {
       doc
         .fontSize(7)
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(
-          `${pageNumber}/3`,
+          `${currentPage}/${totalPage}`,
           585 - PDF_MARGIN_HORIZONTAL,
           PDF_HEIGHT_SEIZE,
           {

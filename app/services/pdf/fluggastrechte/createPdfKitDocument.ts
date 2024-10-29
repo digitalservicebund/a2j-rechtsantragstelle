@@ -15,6 +15,7 @@ export const createPdfKitDocument = (
   bundesSansWebBold: ArrayBuffer,
 ) => {
   const document = new PDFDocument({
+    bufferPages: true,
     pdfVersion: PDF_VERSION,
     lang: PDF_LANGUAGE,
     tagged: true,

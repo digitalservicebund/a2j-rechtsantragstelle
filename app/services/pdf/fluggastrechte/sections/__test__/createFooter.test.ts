@@ -4,7 +4,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { createBankInformation } from "../createBankInformation";
-import { createPageFooter } from "../createPageFooter";
+import { createFooter } from "../createFooter";
 import { createPageNumber } from "../createPageNumber";
 import { createStamp } from "../createStamp";
 
@@ -16,34 +16,34 @@ vi.mocked(createStamp).mockImplementation(() => vi.fn());
 vi.mocked(createPageNumber).mockImplementation(() => vi.fn());
 vi.mocked(createBankInformation).mockImplementation(() => vi.fn());
 
-describe("createPageFooter", () => {
+describe("createFooter", () => {
   beforeEach(() => {
     vi.resetAllMocks();
   });
 
   it("should call the createBankInformation for the creation of page footer", () => {
     const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockDoc = mockPdfKitDocument(mockStruct, { start: 1, count: 1 });
 
-    createPageFooter(mockDoc, mockStruct, userDataMock);
+    createFooter(mockDoc, mockStruct, userDataMock);
 
     expect(createBankInformation).toBeCalledTimes(1);
   });
 
   it("should call the createPageNumber for the creation of page footer", () => {
     const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockDoc = mockPdfKitDocument(mockStruct, { start: 1, count: 1 });
 
-    createPageFooter(mockDoc, mockStruct, userDataMock);
+    createFooter(mockDoc, mockStruct, userDataMock);
 
     expect(createPageNumber).toBeCalledTimes(1);
   });
 
   it("should call the createStamp for the creation of page footer", () => {
     const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockDoc = mockPdfKitDocument(mockStruct, { start: 1, count: 1 });
 
-    createPageFooter(mockDoc, mockStruct, userDataMock);
+    createFooter(mockDoc, mockStruct, userDataMock);
 
     expect(createStamp).toBeCalledTimes(1);
   });

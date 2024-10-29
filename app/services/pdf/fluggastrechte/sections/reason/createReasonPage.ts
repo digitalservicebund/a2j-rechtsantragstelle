@@ -1,10 +1,8 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { createFactsOfCases } from "./factsOfCases/createFactsOfCases";
-import { FONTS_BUNDESSANS_BOLD } from "../../createPdfKitDocument";
-import { createPageFooter } from "../createPageFooter";
 import { createCompensationAmount } from "./createCompensationAmount";
 import { createLastSentences } from "./createLastSentences";
+import { createFactsOfCases } from "./factsOfCases/createFactsOfCases";
+import { FONTS_BUNDESSANS_BOLD } from "../../createPdfKitDocument";
 import { addTable } from "./table/addTable";
 
 export const REASON_TITLE_TEXT = "Begründung";
@@ -12,7 +10,6 @@ export const REASON_TITLE_TEXT = "Begründung";
 export const createReasonPage = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: FluggastrechtContext,
 ) => {
   doc
     .fontSize(31)
@@ -24,6 +21,4 @@ export const createReasonPage = (
   createLastSentences(doc, documentStruct);
   doc.moveDown(1);
   createCompensationAmount(doc);
-
-  createPageFooter(doc, documentStruct, userData);
 };
