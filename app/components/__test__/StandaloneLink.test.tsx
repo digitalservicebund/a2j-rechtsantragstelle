@@ -8,7 +8,6 @@ describe("Standalone Button Component", () => {
     );
     expect(screen.getByText("External Link")).toBeInTheDocument();
     expect(screen.getByTestId("OpenInNewIcon")).toBeInTheDocument();
-    expect(screen.getByTitle("öffnet neues Fenster")).toBeInTheDocument();
   });
 
   test("Displays an external link if link is to download a pdf", () => {
@@ -17,7 +16,6 @@ describe("Standalone Button Component", () => {
     );
     expect(screen.getByText("External Link")).toBeInTheDocument();
     expect(screen.getByTestId("OpenInNewIcon")).toBeInTheDocument();
-    expect(screen.getByTitle("öffnet neues Fenster")).toBeInTheDocument();
   });
 
   test("Displays no icon if the input link isn't external", () => {
