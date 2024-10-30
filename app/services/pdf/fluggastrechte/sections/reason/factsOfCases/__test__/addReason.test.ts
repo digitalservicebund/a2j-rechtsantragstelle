@@ -12,7 +12,7 @@ import {
   NOT_MOVE_TEXT,
   PASSIVE_VERB_TEXT,
   PLAINTIFF_BOOKED_TEXT,
-} from "../factsOfCases/addReason";
+} from "../addReason";
 
 describe("addReason", () => {
   it("should render document with PLAINTIFF_BOOKED_TEXT", () => {

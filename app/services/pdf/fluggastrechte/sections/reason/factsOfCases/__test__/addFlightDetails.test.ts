@@ -4,7 +4,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
-import { PDF_MARGIN_HORIZONTAL } from "../../../createPdfKitDocument";
+import { PDF_MARGIN_HORIZONTAL } from "../../../../createPdfKitDocument";
 import {
   addFlightDetails,
   BOOKING_NUMBER_TEXT,
@@ -15,7 +15,7 @@ import {
   SECOND_AIRPORT_STOP_TEXT,
   START_AIRPORT_TEXT,
   THIRD_AIRPORT_STOP_TEXT,
-} from "../factsOfCases/addFlightDetails";
+} from "../addFlightDetails";
 
 afterEach(() => {
   vi.resetAllMocks();
