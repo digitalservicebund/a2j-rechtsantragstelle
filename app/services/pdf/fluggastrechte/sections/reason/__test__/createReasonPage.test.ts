@@ -5,10 +5,13 @@ import {
 } from "tests/factories/mockPdfKit";
 import { createReasonPage, REASON_TITLE_TEXT } from "../createReasonPage";
 import { createFactsOfCases } from "../factsOfCases/createFactsOfCases";
+import { createLegalAssessment } from "../legalAssessment/createLegalAssessment";
 
 vi.mock("../factsOfCases/createFactsOfCases");
+vi.mock("../legalAssessment/createLegalAssessment");
 
 vi.mocked(createFactsOfCases).mockImplementation(() => vi.fn());
+vi.mocked(createLegalAssessment).mockImplementation(() => vi.fn());
 
 describe("createReasonPage", () => {
   beforeEach(() => {
@@ -33,5 +36,14 @@ describe("createReasonPage", () => {
     createReasonPage(mockDoc, mockStruct, userDataMock);
 
     expect(createFactsOfCases).toBeCalledTimes(1);
+  });
+
+  it("should call the createLegalAssessment for the creation of the reason page", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    createReasonPage(mockDoc, mockStruct, userDataMock);
+
+    expect(createLegalAssessment).toBeCalledTimes(1);
   });
 });
