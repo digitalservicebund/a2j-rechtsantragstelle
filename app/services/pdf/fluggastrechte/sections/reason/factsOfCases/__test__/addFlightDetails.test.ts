@@ -4,7 +4,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
-import { PDF_MARGIN_HORIZONTAL } from "../../../../createPdfKitDocument";
+import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/fluggastrechte/createPdfKitDocument";
 import {
   addFlightDetails,
   BOOKING_NUMBER_TEXT,

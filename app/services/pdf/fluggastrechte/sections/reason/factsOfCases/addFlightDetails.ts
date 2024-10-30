@@ -5,7 +5,7 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
-} from "../../../createPdfKitDocument";
+} from "~/services/pdf/fluggastrechte/createPdfKitDocument";
 
 export const BOOKING_NUMBER_TEXT = "Buchungsnummer: ";
 export const FLIGHT_NUMBER_TEXT = "Flugnummer: ";
