@@ -4,19 +4,19 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { createCompensationAmount } from "../createCompensationAmount";
-import { createLastSentences } from "../createLastSentences";
+import { createAdditionalInformation } from "../createAdditionalInformation";
 import { createReasonPage, REASON_TITLE_TEXT } from "../createReasonPage";
 import { createFactsOfCases } from "../factsOfCases/createFactsOfCases";
 import { addTable } from "../table/addTable";
 
 vi.mock("../factsOfCases/createFactsOfCases");
 vi.mock("../table/addTable");
-vi.mock("../createLastSentences");
+vi.mock("../createAdditionalInformation");
 vi.mock("../createCompensationAmount");
 
 vi.mocked(createFactsOfCases).mockImplementation(() => vi.fn());
 vi.mocked(addTable).mockImplementation(() => vi.fn());
-vi.mocked(createLastSentences).mockImplementation(() => vi.fn());
+vi.mocked(createAdditionalInformation).mockImplementation(() => vi.fn());
 vi.mocked(createCompensationAmount).mockImplementation(() => vi.fn());
 
 describe("createReasonPage", () => {
@@ -53,13 +53,13 @@ describe("createReasonPage", () => {
     expect(addTable).toBeCalledTimes(1);
   });
 
-  it("should call the createLastSentences for the creation of the reason page", () => {
+  it("should call the createAdditionalInformation for the creation of the reason page", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     createReasonPage(mockDoc, mockStruct, userDataMock);
 
-    expect(createLastSentences).toBeCalledTimes(1);
+    expect(createAdditionalInformation).toBeCalledTimes(1);
   });
 
   it("should call the createCompensationAmount for the creation of the reason page", () => {
