@@ -14,7 +14,7 @@ export const createReasonPage = (
   userData: FluggastrechtContext,
 ) => {
   doc
-    .fontSize(31)
+    .fontSize(16)
     .font(FONTS_BUNDESSANS_BOLD)
     .text(REASON_TITLE_TEXT, { align: "left" });
   doc.moveDown(1);
