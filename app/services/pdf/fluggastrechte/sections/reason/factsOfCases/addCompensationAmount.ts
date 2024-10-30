@@ -3,11 +3,11 @@ import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/con
 import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
+import { COLUMN_HEIGHT, START_TABLE_Y } from "./table/tableConfigurations";
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
-} from "../../createPdfKitDocument";
-import { COLUMN_HEIGHT, START_TABLE_Y } from "./table/tableConfigurations";
+} from "../../../createPdfKitDocument";
 
 const TABLE_Y_POSITION = START_TABLE_Y + COLUMN_HEIGHT * 4 + 10;
 export const COMPENSATION_PAYMENT_TEXT =
@@ -59,7 +59,7 @@ const getYPositionDistanceText = (
     : TABLE_Y_POSITION;
 };
 
-export const createAdditionalInformation = (
+export const addCompensationAmount = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   {
