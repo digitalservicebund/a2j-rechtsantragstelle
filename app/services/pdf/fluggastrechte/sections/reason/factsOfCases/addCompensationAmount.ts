@@ -10,23 +10,31 @@ import {
 import { COLUMN_HEIGHT, START_TABLE_Y } from "./table/tableConfigurations";
 
 const TABLE_Y_POSITION = START_TABLE_Y + COLUMN_HEIGHT * 4 + 10;
-export const COMPENSATION_PAYMENT_TEXT =
+const COMPENSATION_PAYMENT_TEXT =
   "gemäß Art. 7 der Fluggastrechteverordnung (EG) 261/2004 von der beklagten Partei mit einer Frist zum Datum der Frist ein. Die beklagte Partei hat jedoch bisher keine Zahlung geleistet.";
-export const DEMANDED_COMPENSATION_PAYMENT_TEXT =
-  "Die klagende Partei forderte außergerichtlich die Ausgleichszahlung";
-export const OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT =
-  "Die klagende Partei and the other passengers affected, demanded compensation payments out of court";
+export const DEMANDED_COMPENSATION_PAYMENT_TEXT = `Die klagende Partei forderte außergerichtlich die Ausgleichszahlung ${COMPENSATION_PAYMENT_TEXT}`;
+export const OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT = `Die klagende Partei and the other passengers affected, demanded compensation payments out of court ${COMPENSATION_PAYMENT_TEXT}`;
+export const OTHER_DETAILS_ITINERARY = "Weitere Angaben zum Reiseverlauf:";
+export const ARTICLE_AIR_PASSENGER_REGULATION_TEXT =
+  "Damit ergibt sich nach Art. 7 der Fluggastrechteverordnung (EG) 261/2004 eine Entschädigung in Höhe von";
 
 const getDistanceText = (startAirport: string, endAirport: string): string => {
-  const distanceKmBetweenAirports =
+  const startAirportName = getAirportNameByIataCode(startAirport);
+  const endAirportName = getAirportNameByIataCode(endAirport);
+
+  const distanceKmBetweenAirportsResult =
     calculateDistanceBetweenAirportsInKilometers(startAirport, endAirport);
 
-  const compensationAmount = getCompensationPayment({
+  const distanceKmBetweenAirportValue = distanceKmBetweenAirportsResult.isOk
+    ? Math.round(distanceKmBetweenAirportsResult.value)
+    : 0;
+
+  const compensationAmountValue = getCompensationPayment({
     startAirport: startAirport,
     endAirport: endAirport,
   });
 
-  return `Die Distanz zwischen ${getAirportNameByIataCode(startAirport)} und ${getAirportNameByIataCode(endAirport)} beträgt nach Großkreismethode ca. ${distanceKmBetweenAirports.isOk ? distanceKmBetweenAirports.value : 0}. Damit ergibt sich nach Art. 7 der Fluggastrechteverordnung (EG) 261/2004 eine Entschädigung in Höhe von ${compensationAmount} €.`;
+  return `Die Distanz zwischen ${startAirportName} und ${endAirportName} beträgt nach Großkreismethode ca. ${distanceKmBetweenAirportValue} km. ${ARTICLE_AIR_PASSENGER_REGULATION_TEXT} ${compensationAmountValue} €.`;
 };
 
 const addOtherDetailsItinerary = (
@@ -38,14 +46,12 @@ const addOtherDetailsItinerary = (
     zusaetzlicheAngaben.length > 0
   ) {
     doc.text(
-      "Weitere Angaben zum Reiseverlauf:",
+      OTHER_DETAILS_ITINERARY,
       PDF_MARGIN_HORIZONTAL,
       TABLE_Y_POSITION, // start to print this text from this line
     );
 
-    doc
-      .text(zusaetzlicheAngaben.substring(0, 250), PDF_MARGIN_HORIZONTAL, doc.y)
-      .moveDown(1);
+    doc.text(zusaetzlicheAngaben.substring(0, 250)).moveDown(1);
   }
 };
 
@@ -85,7 +91,7 @@ export const addCompensationAmount = (
       doc.moveDown(1);
 
       doc.text(
-        `${isWeiterePersonen === "no" ? DEMANDED_COMPENSATION_PAYMENT_TEXT : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT} ${COMPENSATION_PAYMENT_TEXT}`,
+        `${isWeiterePersonen === "no" ? DEMANDED_COMPENSATION_PAYMENT_TEXT : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT}`,
       );
     }),
   );
