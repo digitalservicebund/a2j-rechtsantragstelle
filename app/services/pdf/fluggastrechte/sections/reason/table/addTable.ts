@@ -15,4 +15,5 @@ export function addTable(
 
   tableSect.add(table); // Add the table to the section
   documentStruct.add(tableSect); // Add the section to the parent structure
+  doc.fill("black"); // Fill black due next pages of the table
 }

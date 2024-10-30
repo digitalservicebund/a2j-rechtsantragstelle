@@ -39,8 +39,7 @@ export function drawCell(
   if (shouldAddSilverBackground) {
     doc
       .save()
-      .fill("silver")
-      .fillOpacity(0.1)
+      .fillColor("silver", 0.1)
       .rect(xPosition, yPosition, width, height)
       .fill()
       .restore();
