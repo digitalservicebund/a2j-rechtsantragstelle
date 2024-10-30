@@ -23,6 +23,6 @@ export const createFactsOfCases = (
   doc.moveDown(1);
   addFlightDetails(doc, documentStruct, userData);
   doc.moveDown(1);
-  addDetailedReason(doc, documentStruct);
+  addDetailedReason(doc, documentStruct, userData);
   doc.moveDown(1);
 };
