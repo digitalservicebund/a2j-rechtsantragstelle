@@ -41,7 +41,7 @@ export const addDetailedReason = (
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
         .fontSize(10)
-        .text(CONFIRM_BOOKING_TEXT, PDF_MARGIN_HORIZONTAL)
+        .text(CONFIRM_BOOKING_TEXT)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(
           ATTACHMENT_CONFIRM_BOOKING_TEXT,

@@ -39,10 +39,7 @@ describe("addDetailedReason", () => {
 
     addDetailedReason(mockDoc, mockStruct, userDataMock);
 
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      CONFIRM_BOOKING_TEXT,
-      PDF_MARGIN_HORIZONTAL,
-    );
+    expect(mockDoc.text).toHaveBeenCalledWith(CONFIRM_BOOKING_TEXT);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       ATTACHMENT_CONFIRM_BOOKING_TEXT,
