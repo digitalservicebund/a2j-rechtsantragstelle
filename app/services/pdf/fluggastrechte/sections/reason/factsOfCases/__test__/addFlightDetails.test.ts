@@ -5,6 +5,7 @@ import {
 } from "tests/factories/mockPdfKit";
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/fluggastrechte/createPdfKitDocument";
+import { MARGIN_RIGHT } from "../addDetailedReason";
 import {
   addFlightDetails,
   BOOKING_NUMBER_TEXT,
@@ -32,7 +33,7 @@ describe("addFlightDetails", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       BOOKING_NUMBER_TEXT,
-      PDF_MARGIN_HORIZONTAL + 10,
+      PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
       undefined,
       {
         continued: true,
@@ -50,7 +51,7 @@ describe("addFlightDetails", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       FLIGHT_NUMBER_TEXT,
-      PDF_MARGIN_HORIZONTAL + 10,
+      PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
       undefined,
       {
         continued: true,
@@ -68,7 +69,7 @@ describe("addFlightDetails", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       PLANNED_DEPARTURE_DATE_TEXT,
-      PDF_MARGIN_HORIZONTAL + 10,
+      PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
       undefined,
       {
         continued: true,
@@ -96,7 +97,7 @@ describe("addFlightDetails", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       START_AIRPORT_TEXT,
-      PDF_MARGIN_HORIZONTAL + 10,
+      PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
       undefined,
       {
         continued: true,
@@ -107,7 +108,7 @@ describe("addFlightDetails", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       END_AIRPORT_TEXT,
-      PDF_MARGIN_HORIZONTAL + 10,
+      PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
       undefined,
       {
         continued: true,
@@ -139,7 +140,7 @@ describe("addFlightDetails", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       FIRST_AIRPORT_STOP_TEXT,
-      PDF_MARGIN_HORIZONTAL + 10,
+      PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
       undefined,
       {
         continued: true,
@@ -171,7 +172,7 @@ describe("addFlightDetails", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       SECOND_AIRPORT_STOP_TEXT,
-      PDF_MARGIN_HORIZONTAL + 10,
+      PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
       undefined,
       {
         continued: true,
@@ -203,7 +204,7 @@ describe("addFlightDetails", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       THIRD_AIRPORT_STOP_TEXT,
-      PDF_MARGIN_HORIZONTAL + 10,
+      PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
       undefined,
       {
         continued: true,

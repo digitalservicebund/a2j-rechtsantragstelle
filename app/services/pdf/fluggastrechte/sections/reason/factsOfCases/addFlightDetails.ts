@@ -15,6 +15,7 @@ export const END_AIRPORT_TEXT = "Zielflughafen: ";
 export const FIRST_AIRPORT_STOP_TEXT = "Zwischenstopp 1: ";
 export const SECOND_AIRPORT_STOP_TEXT = "Zwischenstopp 2: ";
 export const THIRD_AIRPORT_STOP_TEXT = "Zwischenstopp 3: ";
+export const MARGIN_RIGHT = 10;
 
 type FlightDetail = {
   text: string;
@@ -93,9 +94,14 @@ export const addFlightDetails = (
         doc
           .fontSize(10)
           .font(FONTS_BUNDESSANS_REGULAR)
-          .text(flightDetail.text, PDF_MARGIN_HORIZONTAL + 10, undefined, {
-            continued: true,
-          })
+          .text(
+            flightDetail.text,
+            PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
+            undefined,
+            {
+              continued: true,
+            },
+          )
           .font(FONTS_BUNDESSANS_BOLD)
           .text(flightDetail.value);
 
