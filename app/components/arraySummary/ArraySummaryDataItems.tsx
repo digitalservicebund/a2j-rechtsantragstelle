@@ -2,8 +2,10 @@ import ArraySummaryItemButton from "~/components/arraySummary/ArraySummaryItemBu
 import type { BasicTypes } from "~/domains/contexts";
 import { WEITERE_PERSONEN_START_INDEX } from "~/domains/fluggastrechte/formular/stringReplacements";
 import type { ArrayConfig } from "~/services/array";
-import type { Translations } from "~/services/cms/index.server";
-import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
+import {
+  getTranslationByKey,
+  type Translations,
+} from "~/services/translations/getTranslationByKey";
 import { interpolateSerializableObject } from "~/util/fillTemplate";
 import Heading from "../Heading";
 

@@ -12,8 +12,7 @@ import {
   type StrapiSchemas,
 } from "./schemas";
 import { httpErrorCodes } from "../errorPages/ErrorBox";
-
-export type Translations = Record<string, string>;
+import type { Translations } from "../translations/getTranslationByKey";
 
 export async function fetchMeta(
   opts: Omit<GetStrapiEntryOpts, "apiId" | "filter"> & { filterValue: string },

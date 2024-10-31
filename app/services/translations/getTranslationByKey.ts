@@ -1,5 +1,6 @@
-import type { Translations } from "~/services/cms/index.server";
 import { sendSentryMessage } from "~/services/logging";
+
+export type Translations = Record<string, string>;
 
 export function getTranslationByKey(
   key: string,

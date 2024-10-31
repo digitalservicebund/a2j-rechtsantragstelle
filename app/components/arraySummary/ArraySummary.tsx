@@ -1,8 +1,10 @@
 import AddButton from "@digitalservicebund/icons/Add";
 import type { ArrayData } from "~/domains/contexts";
 import type { ArrayConfig } from "~/services/array";
-import type { Translations } from "~/services/cms/index.server";
-import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
+import {
+  getTranslationByKey,
+  type Translations,
+} from "~/services/translations/getTranslationByKey";
 import ArraySummaryDataItems from "./ArraySummaryDataItems";
 import Button from "../Button";
 import Heading from "../Heading";
