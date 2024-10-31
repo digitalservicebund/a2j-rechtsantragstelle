@@ -26,7 +26,7 @@ describe("navStates", () => {
 
     it("should return true given isWeiterePersonen as no", () => {
       const actual = weiterePersonenDone({
-        context: { isWeiterePersonen: "no" },
+        context: { isWeiterePersonen: "no", hasZeugen: "yes" },
       });
 
       expect(actual).toBe(true);
@@ -34,7 +34,11 @@ describe("navStates", () => {
 
     it("should return false given isWeiterePersonen as yes and an empty array list for weiterePersonen", () => {
       const actual = weiterePersonenDone({
-        context: { weiterePersonen: [], isWeiterePersonen: "yes" },
+        context: {
+          weiterePersonen: [],
+          isWeiterePersonen: "yes",
+          hasZeugen: "yes",
+        },
       });
 
       expect(actual).toBe(false);
@@ -50,6 +54,7 @@ describe("navStates", () => {
               ...DEFAULT_WEITERE_PERSONEN_DATA,
             },
           ],
+          hasZeugen: "yes",
         },
       });
 
@@ -70,10 +75,19 @@ describe("navStates", () => {
               ...DEFAULT_WEITERE_PERSONEN_DATA,
             },
           ],
+          hasZeugen: "yes",
         },
       });
 
       expect(actual).toBe(true);
+    });
+
+    it("returns false when hasZeugen is undefined", () => {
+      const actual = personDone({
+        context: { isWeiterePersonen: "no", hasZeugen: undefined },
+      });
+
+      expect(actual).toBe(false);
     });
   });
 
