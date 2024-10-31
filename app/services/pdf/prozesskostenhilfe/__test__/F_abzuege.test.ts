@@ -1,39 +1,10 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import {
-  fillSelfAbzuege,
-  mapVersicherungsArt,
-  versicherungMapping,
-} from "~/services/pdf/prozesskostenhilfe/F_abzuege";
+import { fillSelfAbzuege } from "~/services/pdf/prozesskostenhilfe/F_abzuege";
 
 let pdfParams: ProzesskostenhilfePDF;
 
 describe("F_abzuege", () => {
-  describe("mapVersicherungArt", () => {
-    it('should return the sonstigeArt if versicherung.art is "sonstige"', () => {
-      const sonstigeArt = "Some kind of Versicherung";
-      expect(
-        mapVersicherungsArt({
-          art: "sonstige",
-          sonstigeArt: sonstigeArt,
-          beitrag: "100",
-        }),
-      ).toBe(sonstigeArt);
-    });
-
-    it.each(Object.entries(versicherungMapping))(
-      "should return %s given a versicherungArt of %s",
-      (versicherungArt, versicherungName) => {
-        expect(
-          mapVersicherungsArt({
-            art: versicherungArt as keyof typeof versicherungMapping,
-            beitrag: "100",
-          }),
-        ).toBe(versicherungName);
-      },
-    );
-  });
-
   describe("fillSelfAbuege", () => {
     beforeEach(() => {
       pdfParams = getProzesskostenhilfeParameters();
