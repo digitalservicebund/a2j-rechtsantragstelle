@@ -5,7 +5,7 @@ import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenh
 import type { AttachmentEntries } from "../attachment";
 import type { PdfFillFunction } from "../fillOutFunction";
 
-const familyRelationshipMap = {
+export const familyRelationshipMap = {
   mother: "Meine Mutter",
   father: "Mein Vater",
   grandmother: "Meine Großmutter",
