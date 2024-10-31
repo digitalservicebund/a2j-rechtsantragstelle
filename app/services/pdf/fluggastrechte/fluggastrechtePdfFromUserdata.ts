@@ -22,7 +22,7 @@ function buildDocument(
   setPdfMetadata(doc);
   createFirstPage(doc, documentStruct, userData);
   doc.addPage();
-  createReasonPage(doc, documentStruct);
+  createReasonPage(doc, documentStruct, userData);
   createFooter(doc, documentStruct, userData);
 }
 

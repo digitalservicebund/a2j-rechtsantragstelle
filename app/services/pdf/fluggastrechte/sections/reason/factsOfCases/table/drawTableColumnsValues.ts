@@ -3,7 +3,6 @@ import {
   COLUMN_HEIGHT,
   COLUMN_WIDTH,
   START_TABLE_X,
-  START_TABLE_Y,
 } from "./tableConfigurations";
 
 const ROWS_NUMBER = 3; // How many rows this function will create in the table
@@ -11,6 +10,7 @@ const ROWS_NUMBER = 3; // How many rows this function will create in the table
 export function drawTableColumnsValues(
   doc: PDFKit.PDFDocument,
   tableStruct: PDFKit.PDFStructureElement,
+  startTableY: number,
 ) {
   const values = [
     "AB1234",
@@ -31,7 +31,7 @@ export function drawTableColumnsValues(
         const adjustedIndex = (index % ROWS_NUMBER) + 1; // Calculate the row for planned/actual values
 
         const xPosition = START_TABLE_X + COLUMN_WIDTH * columnOffset;
-        const yPosition = START_TABLE_Y + COLUMN_HEIGHT * adjustedIndex;
+        const yPosition = startTableY + COLUMN_HEIGHT * adjustedIndex;
 
         drawCell(doc, {
           xPosition,
@@ -54,7 +54,7 @@ export function drawTableColumnsValues(
     doc.struct("TD", {}, () => {
       drawCell(doc, {
         xPosition: START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER,
-        yPosition: START_TABLE_Y + COLUMN_HEIGHT,
+        yPosition: startTableY + COLUMN_HEIGHT,
         width: COLUMN_WIDTH,
         height: COLUMN_HEIGHT * ROWS_NUMBER,
         boldText: "", // No label text, only the value
