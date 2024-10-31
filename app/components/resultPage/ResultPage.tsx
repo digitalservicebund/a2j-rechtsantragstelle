@@ -1,6 +1,7 @@
 import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
 import HighlightOff from "@digitalservicebund/icons/HighlightOff";
 import WarningAmber from "@digitalservicebund/icons/WarningAmber";
+import { useLoaderData } from "@remix-run/react";
 import { type ReactElement } from "react";
 import type { BackgroundColor } from "~/components";
 import Background from "~/components/Background";
@@ -10,11 +11,9 @@ import Heading from "~/components/Heading";
 import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
-import type { Translations } from "~/services/cms/index.server";
+import type { loader } from "~/routes/shared/result.server";
 import { keyFromElement } from "~/services/cms/keyFromElement";
-import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
-import type { StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
 
 const iconCSS = "inline-block !h-[36px] !w-[36px] !min-h-[36px] !min-w-[36px]";
@@ -30,17 +29,10 @@ const backgrounds: Record<StrapiResultPageType, BackgroundColor> = {
   warning: "yellow",
 };
 
-type Props = {
-  readonly common: Translations;
-  readonly cmsData: StrapiResultPage;
-  readonly reasons: StrapiElementWithId[];
-  readonly backButton: {
-    label: string;
-    destination?: string;
-  };
-};
+export function ResultPage() {
+  const { common, cmsData, reasons, backButton } =
+    useLoaderData<typeof loader>();
 
-export function ResultPage({ common, cmsData, reasons, backButton }: Props) {
   const documentsList = cmsData.documents.data?.attributes.element ?? [];
   const nextSteps = cmsData.nextSteps.data?.attributes.element ?? [];
   const content = cmsData.freeZone;

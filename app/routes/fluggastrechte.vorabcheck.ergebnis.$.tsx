@@ -1,2 +1,2 @@
 export { loader } from "~/routes/shared/result.server";
-export { FluggastrechteResultPage as default } from "../components/resultPage/FluggastrechteResultPage";
+export { ResultPage as default } from "../components/resultPage/ResultPage";
