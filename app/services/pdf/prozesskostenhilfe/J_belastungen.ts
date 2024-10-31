@@ -1,4 +1,4 @@
-import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import type { PkhPdfFillFunction } from ".";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
 import { ausgabenSituationMapping } from "../beratungshilfe/sections/G_ausgaben";
@@ -12,8 +12,9 @@ export const fillBelastungen: PkhPdfFillFunction = ({
     einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
       context: userData,
     })
-  )
+  ) {
     return { pdfValues };
+  }
 
   const belastungen = Object.entries(userData.besondereBelastungen)
     .filter(([_, val]) => val === "on")

@@ -1,5 +1,5 @@
 import _ from "lodash";
-import type { Context } from "~/flows/contexts";
+import type { Context } from "~/domains/contexts";
 import { type PageData } from "./pageDataSchema";
 
 export function addPageDataToUserData(userData: Context, pageData: PageData) {

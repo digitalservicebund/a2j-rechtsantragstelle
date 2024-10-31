@@ -4,7 +4,7 @@ import { validationError } from "remix-validated-form";
 import { BannerState, USER_FEEDBACK_ID } from "~/components/userFeedback";
 import { feedbackValidator } from "~/components/userFeedback/FeedbackFormBox";
 import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
-import { flowIdFromPathname } from "~/flows/flowIds";
+import { flowIdFromPathname } from "~/domains/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getRedirectForNonRelativeUrl } from "~/services/feedback/getRedirectForNonRelativeUrl";
 import { updateBannerState } from "~/services/feedback/updateBannerState";

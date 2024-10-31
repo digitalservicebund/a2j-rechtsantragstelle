@@ -8,7 +8,7 @@ import Background from "~/components/Background";
 import Container from "~/components/Container";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import PageContent from "~/components/PageContent";
-import type { FlowId } from "~/flows/flowIds";
+import type { FlowId } from "~/domains/flowIds";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";

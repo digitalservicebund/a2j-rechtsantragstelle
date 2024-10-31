@@ -21,7 +21,7 @@ import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import { useMemo } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
-import { flowIdFromPathname } from "~/flows/flowIds";
+import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import {
   fetchMeta,
@@ -109,6 +109,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     deleteDataStrings,
     hasAnyUserData,
     feedbackTranslations,
+    pageHeaderTranslations,
     videoTranslations,
     mainSession,
   ] = await Promise.all([
@@ -121,6 +122,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("delete-data"),
     anyUserData(request),
     fetchTranslations("feedback"),
+    fetchTranslations("pageHeader"),
     fetchTranslations("video"),
     mainSessionFromCookieHeader(cookieHeader),
   ]);
@@ -147,6 +149,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       deletionLabel: deleteDataStrings["footerLinkLabel"],
       hasAnyUserData,
       feedbackTranslations,
+      pageHeaderTranslations,
       videoTranslations,
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
@@ -164,6 +167,7 @@ function App() {
     deletionLabel,
     hasAnyUserData,
     feedbackTranslations,
+    pageHeaderTranslations,
     videoTranslations,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
@@ -198,7 +202,7 @@ function App() {
       <body className="flex flex-col min-h-screen">
         <CookieConsentContext.Provider value={hasTrackingConsent}>
           <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
-          <Header {...header} />
+          <Header {...header} translations={pageHeaderTranslations} />
           <Breadcrumbs breadcrumbs={breadcrumbs} />
           <TranslationContext.Provider value={translationMemo}>
             <main className="flex-grow">
@@ -232,7 +236,12 @@ export function ErrorBoundary() {
         <meta name="darkreader-lock" />
       </head>
       <body className="flex flex-col min-h-screen">
-        {loaderData && <Header {...loaderData.header} />}
+        {loaderData && (
+          <Header
+            {...loaderData.header}
+            translations={loaderData.pageHeaderTranslations}
+          />
+        )}
         <main className="flex-grow">
           <ErrorBox
             errorPages={loaderData?.errorPages}

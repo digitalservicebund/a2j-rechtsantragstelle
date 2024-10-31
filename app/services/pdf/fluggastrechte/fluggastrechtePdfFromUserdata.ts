@@ -1,10 +1,10 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
+import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { readRelativeFileToBuffer } from "~/services/pdf/fillPdf.server";
 import { createPdfKitDocument } from "./createPdfKitDocument";
+import { createFooter } from "./sections/createFooter";
 import { createFirstPage } from "./sections/firstPage/createFirstPage";
-import { createSecondPage } from "./sections/secondPage/createSecondPage";
-import { createThirdPage } from "./sections/thirdPage/createThirdPage";
+import { createReasonPage } from "./sections/reason/createReasonPage";
 import { setPdfMetadata } from "./setPdfMetadata";
 
 const BundesSansWebRegular = await readRelativeFileToBuffer(
@@ -22,9 +22,8 @@ function buildDocument(
   setPdfMetadata(doc);
   createFirstPage(doc, documentStruct, userData);
   doc.addPage();
-  createSecondPage(doc, documentStruct, userData);
-  doc.addPage();
-  createThirdPage(doc, documentStruct, userData);
+  createReasonPage(doc, documentStruct);
+  createFooter(doc, documentStruct, userData);
 }
 
 export async function fluggastrechtePdfFromUserdata(

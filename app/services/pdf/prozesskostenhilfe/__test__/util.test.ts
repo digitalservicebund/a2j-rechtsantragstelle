@@ -1,4 +1,4 @@
-import { getTotalMonthlyFinancialEntries } from "~/services/pdf/util";
+import { getTotalMonthlyFinancialEntries } from "../util";
 
 describe("utility functions", () => {
   describe("getTotalMonthlyFinancialEntries", () => {

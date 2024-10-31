@@ -1,100 +1,74 @@
-import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
-import { fillAngehoerige } from "~/services/pdf/prozesskostenhilfe/D_angehoerige";
-
-let pdfParams: ProzesskostenhilfePDF;
-const userData: ProzesskostenhilfeFormularContext = {
-  partnerschaft: "yes",
-  zusammenleben: "no",
-  unterhalt: "yes",
-  unterhaltsSumme: "100",
-  partnerVorname: "Max",
-  partnerNachname: "Mustermann",
-};
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import {
+  ATTACHMENT_DESCRIPTION_SECTION_D,
+  fillUnterhaltAngehoerige,
+} from "~/services/pdf/prozesskostenhilfe/D_angehoerige";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../attachment";
+import { pdfFillReducer } from "../../fillOutFunction";
 
 describe("D_angehoerige", () => {
-  beforeEach(() => {
-    pdfParams = getProzesskostenhilfeParameters();
+  it("No section D title in attachment without data", () => {
+    const { attachment } = pdfFillReducer({
+      userData: {},
+      pdfParams: getProzesskostenhilfeParameters(),
+      fillFunctions: [fillUnterhaltAngehoerige],
+    });
+
+    const hasAttachmentDescriptionSectionD = attachment.some(
+      (description) => description.title === ATTACHMENT_DESCRIPTION_SECTION_D,
+    );
+    expect(hasAttachmentDescriptionSectionD).toBeFalsy();
   });
 
-  describe("fillAngehoerige", () => {
-    it("should fill the Angehoerige section if the user has a partner they don't live with but pay support to", () => {
-      const { pdfValues } = fillAngehoerige({
-        userData,
-        pdfValues: pdfParams,
+  const testContexts = {
+    partner: {
+      unterhalt: "yes",
+      unterhaltsSumme: "100",
+    },
+    children: {
+      kinder: [
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          geburtsdatum: "01.01.2010",
+          unterhaltsSumme: "100",
+          wohnortBeiAntragsteller: "no",
+          eigeneEinnahmen: "yes",
+          einnahmen: "100",
+          unterhalt: "yes",
+        },
+      ],
+    },
+    others: {
+      unterhaltszahlungen: [
+        {
+          familyRelationship: "grandchild",
+          firstName: "firstName",
+          surname: "surname",
+          birthday: "10.10.2000",
+          monthlyPayment: "100",
+        },
+      ],
+    },
+  } satisfies Record<string, ProzesskostenhilfeFormularContext>;
+
+  test.each(Object.entries(testContexts))(
+    "fills unterhalt into attachment for %s",
+    (_, testContext) => {
+      const { pdfValues, attachment } = pdfFillReducer({
+        userData: testContext,
+        pdfParams: getProzesskostenhilfeParameters(),
+        fillFunctions: [fillUnterhaltAngehoerige],
       });
-      expect(pdfValues.verhaeltnis1.value).toBe("Partner:in");
-      expect(pdfValues.angehoerigerNummereins.value).toBe(
-        "Max Mustermann, lebt getrennt",
+
+      const hasAttachmentDescriptionSectionD = attachment.some(
+        (description) => description.title === ATTACHMENT_DESCRIPTION_SECTION_D,
       );
-      expect(pdfValues.monatsbetrag1.value).toBe("100 €");
-    });
-
-    it("should skip the Angehoerige section if the user has no partner", () => {
-      const { pdfValues } = fillAngehoerige({
-        userData: {
-          ...userData,
-          partnerschaft: "no",
-        },
-        pdfValues: pdfParams,
-      });
-      expect(pdfValues.verhaeltnis1.value).toBeUndefined();
-      expect(pdfValues.angehoerigerNummereins.value).toBeUndefined();
-      expect(pdfValues.monatsbetrag1.value).toBeUndefined();
-    });
-
-    it("should skip the Angehoerige section if the user lives with their partner", () => {
-      const { pdfValues } = fillAngehoerige({
-        userData: {
-          ...userData,
-          zusammenleben: "yes",
-        },
-        pdfValues: pdfParams,
-      });
-      expect(pdfValues.verhaeltnis1.value).toBeUndefined();
-      expect(pdfValues.angehoerigerNummereins.value).toBeUndefined();
-      expect(pdfValues.monatsbetrag1.value).toBeUndefined();
-    });
-
-    it("should skip the Angehoerige section if the user does not pay support to their partner", () => {
-      const { pdfValues } = fillAngehoerige({
-        userData: {
-          ...userData,
-          unterhalt: "no",
-        },
-        pdfValues: pdfParams,
-      });
-      expect(pdfValues.verhaeltnis1.value).toBeUndefined();
-      expect(pdfValues.angehoerigerNummereins.value).toBeUndefined();
-      expect(pdfValues.monatsbetrag1.value).toBeUndefined();
-    });
-
-    it("should skip the Angehoerige section if the user has not filled out the support amount", () => {
-      const { pdfValues } = fillAngehoerige({
-        userData: {
-          ...userData,
-          unterhaltsSumme: undefined,
-        },
-        pdfValues: pdfParams,
-      });
-      expect(pdfValues.verhaeltnis1.value).toBeUndefined();
-      expect(pdfValues.angehoerigerNummereins.value).toBeUndefined();
-      expect(pdfValues.monatsbetrag1.value).toBeUndefined();
-    });
-
-    it("should skip the Angehoerige section if the user has not filled out the partner's name", () => {
-      const { pdfValues } = fillAngehoerige({
-        userData: {
-          ...userData,
-          partnerVorname: undefined,
-          partnerNachname: undefined,
-        },
-        pdfValues: pdfParams,
-      });
-      expect(pdfValues.verhaeltnis1.value).toBeUndefined();
-      expect(pdfValues.angehoerigerNummereins.value).toBeUndefined();
-      expect(pdfValues.monatsbetrag1.value).toBeUndefined();
-    });
-  });
+      expect(hasAttachmentDescriptionSectionD).toBeTruthy();
+      expect(pdfValues.angehoerigerNummereins.value).toEqual(
+        SEE_IN_ATTACHMENT_DESCRIPTION,
+      );
+    },
+  );
 });

@@ -1,7 +1,7 @@
 import _ from "lodash";
-import type { Context } from "~/flows/contexts";
-import type { FlowId } from "~/flows/flowIds";
-import { flows } from "~/flows/flows.server";
+import type { Context } from "~/domains/contexts";
+import type { FlowId } from "~/domains/flowIds";
+import { flows } from "~/domains/flows.server";
 import { buildFlowController } from "./server/buildFlowController";
 import { validFormPaths, type Path } from "./validFormPaths";
 import { resolveArrayCharacter } from "../array/resolveArrayCharacter";

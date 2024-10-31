@@ -1,10 +1,11 @@
-import { finanzielleAngabeEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { finanzielleAngabeEinkuenfteGuards as guards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import {
   type AttachmentEntries,
   SEE_IN_ATTACHMENT_DESCRIPTION,
 } from "~/services/pdf/attachment";
 import type { PkhPdfFillFunction } from "..";
 import { pdfFillReducer } from "../../fillOutFunction";
+import { nettoString, removeDecimalsFromCurrencyString } from "../../util";
 
 export const zahlungsfrequenzMapping = {
   monthly: "Monatlich",
@@ -19,14 +20,14 @@ export const fillStaatlicheLeistungen: PkhPdfFillFunction = ({
 }) => {
   if (guards.staatlicheLeistungenIsBuergergeld({ context: userData })) {
     pdfValues.ja_16.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro11.value = `${userData.buergergeld} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro11.value = `${removeDecimalsFromCurrencyString(userData.buergergeld)} ${nettoString}`;
   } else {
     pdfValues.nein_17.value = true;
   }
 
   if (guards.staatlicheLeistungenIsArbeitslosengeld({ context: userData })) {
     pdfValues.ja_14.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro10.value = `${userData.arbeitslosengeld} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro10.value = `${removeDecimalsFromCurrencyString(userData.arbeitslosengeld)} ${nettoString}`;
   } else {
     pdfValues.nein_15.value = true;
   }
@@ -46,13 +47,13 @@ export const fillEinkommenType: PkhPdfFillFunction = ({
   } else {
     if (guards.isEmployee({ context: userData })) {
       pdfValues.ja_9.value = true;
-      pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro.value = `${userData.nettoEinkuenfteAlsArbeitnehmer} €`;
+      pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro.value = `${removeDecimalsFromCurrencyString(userData.nettoEinkuenfteAlsArbeitnehmer)} ${nettoString}`;
     } else {
       pdfValues.nein_10.value = true;
     }
     if (guards.isSelfEmployed({ context: userData })) {
       pdfValues.ja_11.value = true;
-      pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3.value = `${userData.selbststaendigMonatlichesEinkommen} € ${userData.selbststaendigBruttoNetto}`;
+      pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3.value = `${removeDecimalsFromCurrencyString(userData.selbststaendigMonatlichesEinkommen)} ${userData.selbststaendigBruttoNetto}`;
     } else {
       pdfValues.nein_12.value = true;
     }
@@ -66,7 +67,7 @@ export const fillRente: PkhPdfFillFunction = ({ userData, pdfValues }) => {
     guards.receivesPension({ context: userData })
   ) {
     pdfValues.ja_12.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8.value = `${userData.pensionAmount} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9.value = `${removeDecimalsFromCurrencyString(userData.pensionAmount)} ${nettoString}`;
   } else {
     pdfValues.nein_13.value = true;
   }
@@ -77,10 +78,10 @@ export const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   if (
     !guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData }) &&
     userData.unterhaltsanspruch === "unterhalt" &&
-    userData.unterhaltsSumme
+    userData.unterhaltssumme
   ) {
     pdfValues.ja_10.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9.value = `${userData.unterhaltsSumme} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8.value = `${removeDecimalsFromCurrencyString(userData.unterhaltssumme)} ${nettoString}`;
   } else {
     pdfValues.nein_11.value = true;
   }
@@ -96,7 +97,7 @@ export const fillAndereLeistungen: PkhPdfFillFunction = ({
     guards.hasWohngeld({ context: userData })
   ) {
     pdfValues.ja_19.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchWohngeldinEuro7.value = `${userData.wohngeldAmount} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchWohngeldinEuro7.value = `${removeDecimalsFromCurrencyString(userData.wohngeldAmount)} ${nettoString}`;
   } else {
     pdfValues.nein_20.value = true;
   }
@@ -105,7 +106,7 @@ export const fillAndereLeistungen: PkhPdfFillFunction = ({
     guards.hasKrankengeld({ context: userData })
   ) {
     pdfValues.ja_18.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro12.value = `${userData.krankengeldAmount} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro12.value = `${removeDecimalsFromCurrencyString(userData.krankengeldAmount)} ${nettoString}`;
   } else {
     pdfValues.nein_19.value = true;
   }
@@ -114,7 +115,7 @@ export const fillAndereLeistungen: PkhPdfFillFunction = ({
     guards.hasElterngeld({ context: userData })
   ) {
     pdfValues.ja_20.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro13.value = `${userData.elterngeldAmount} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro13.value = `${removeDecimalsFromCurrencyString(userData.elterngeldAmount)} ${nettoString}`;
   } else {
     pdfValues.nein_21.value = true;
   }
@@ -123,7 +124,7 @@ export const fillAndereLeistungen: PkhPdfFillFunction = ({
     guards.hasKindergeld({ context: userData })
   ) {
     pdfValues.ja_17.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchKindergeldIKinderzuschlaginEuro6.value = `${userData.kindergeldAmount} €`;
+    pdfValues.monatlicheBruttoeinnahmendurchKindergeldIKinderzuschlaginEuro6.value = `${removeDecimalsFromCurrencyString(userData.kindergeldAmount)} ${nettoString}`;
   } else {
     pdfValues.nein_18.value = true;
   }
@@ -167,7 +168,7 @@ export const fillWeitereEinkuenfte: PkhPdfFillFunction = ({
     userData.weitereEinkuenfte.forEach((entry) => {
       attachment.push({
         title: entry.beschreibung,
-        text: `${entry.betrag} € (${zahlungsfrequenzMapping[entry.zahlungsfrequenz]})`,
+        text: `${removeDecimalsFromCurrencyString(entry.betrag)} ${nettoString} (${zahlungsfrequenzMapping[entry.zahlungsfrequenz]})`,
       });
     });
     return { pdfValues, attachment };
@@ -178,7 +179,7 @@ export const fillWeitereEinkuenfte: PkhPdfFillFunction = ({
   ].value =
     userData.weitereEinkuenfte[0].beschreibung +
     ` (${zahlungsfrequenzMapping[userData.weitereEinkuenfte[0].zahlungsfrequenz]})`;
-  pdfValues.euroBrutto.value = `${userData.weitereEinkuenfte[0].betrag} €`;
+  pdfValues.euroBrutto.value = `${removeDecimalsFromCurrencyString(userData.weitereEinkuenfte[0].betrag)} ${nettoString}`;
 
   if (userData.weitereEinkuenfte.length === 2) {
     pdfValues[
@@ -186,7 +187,7 @@ export const fillWeitereEinkuenfte: PkhPdfFillFunction = ({
     ].value =
       userData.weitereEinkuenfte[1].beschreibung +
       ` (${zahlungsfrequenzMapping[userData.weitereEinkuenfte[1].zahlungsfrequenz]})`;
-    pdfValues.euroBrutto2.value = `${userData.weitereEinkuenfte[1].betrag} €`;
+    pdfValues.euroBrutto2.value = `${removeDecimalsFromCurrencyString(userData.weitereEinkuenfte[1].betrag)} ${nettoString}`;
   }
 
   return { pdfValues };
@@ -196,6 +197,20 @@ export const fillSelfBruttoEinnahmen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
+  if (
+    userData.staatlicheLeistungen === "grundsicherung" ||
+    userData.staatlicheLeistungen === "asylbewerberleistungen"
+  ) {
+    pdfValues[
+      "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
+    ].value =
+      userData.staatlicheLeistungen === "asylbewerberleistungen"
+        ? "Asylbewerberleistungen"
+        : "Grundsicherung oder Sozialhilfe";
+
+    return { pdfValues };
+  }
+
   const { pdfValues: filledValues, attachment } = pdfFillReducer({
     userData,
     pdfParams: pdfValues,

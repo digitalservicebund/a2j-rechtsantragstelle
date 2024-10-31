@@ -1,5 +1,5 @@
-import type { ArrayData } from "~/flows/contexts";
-import { parsePathname } from "~/flows/flowIds";
+import type { ArrayData } from "~/domains/contexts";
+import { parsePathname } from "~/domains/flowIds";
 import type { ArrayConfig } from "~/services/array";
 import { addPageDataToUserData } from "./pageData";
 import {

@@ -62,19 +62,17 @@ export function FormFlowPage() {
             sortedFields={migration.sortedFields}
             buttonUrl={migration.buttonUrl}
           />
-          {arraySummaryData && Object.keys(arraySummaryData).length != 0 && (
-            <div className="!mt-24">
-              {Object.entries(arraySummaryData).map(([category, array]) => (
-                <ArraySummary
-                  key={category}
-                  category={category}
-                  arrayData={array}
-                  translations={translations}
-                  csrf={csrf}
-                />
-              ))}
-            </div>
-          )}
+          {arraySummaryData &&
+            Object.keys(arraySummaryData).length != 0 &&
+            Object.entries(arraySummaryData).map(([category, array]) => (
+              <ArraySummary
+                key={category}
+                category={category}
+                arrayData={array}
+                translations={translations}
+                csrf={csrf}
+              />
+            ))}
           <ValidatedForm
             id={`${stepId}_form`}
             method="post"

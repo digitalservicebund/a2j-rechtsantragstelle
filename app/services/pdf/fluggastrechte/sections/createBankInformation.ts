@@ -1,9 +1,9 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
+import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_HEIGHT_SEIZE,
-  PDF_MARGIN,
+  PDF_MARGIN_HORIZONTAL,
 } from "../createPdfKitDocument";
 
 export const createBankInformation = (
@@ -21,7 +21,7 @@ export const createBankInformation = (
         doc
           .fontSize(7)
           .font(FONTS_BUNDESSANS_REGULAR)
-          .text(bankInfo, PDF_MARGIN, PDF_HEIGHT_SEIZE);
+          .text(bankInfo, PDF_MARGIN_HORIZONTAL, PDF_HEIGHT_SEIZE);
       }),
     );
   }

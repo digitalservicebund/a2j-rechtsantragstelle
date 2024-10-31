@@ -1,4 +1,4 @@
-import { partnerEinkuenfteGuards as guards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import { partnerEinkuenfteGuards as guards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import {
   type AttachmentEntries,
   SEE_IN_ATTACHMENT_DESCRIPTION,
@@ -7,6 +7,7 @@ import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import type { PkhPdfFillFunction } from "~/services/pdf/prozesskostenhilfe";
 import { zahlungsfrequenzMapping } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { nettoString, removeDecimalsFromCurrencyString } from "../../util";
 
 export const fillStaatlicheLeistungenPartner: PkhPdfFillFunction = ({
   userData,
@@ -14,14 +15,14 @@ export const fillStaatlicheLeistungenPartner: PkhPdfFillFunction = ({
 }) => {
   if (guards.staatlicheLeistungenIsBuergergeld({ context: userData })) {
     pdfValues.ja_29.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH10.value = `${userData["partner-buergergeld"]} €`;
+    pdfValues.monatlicheBruttoeinnahmenH10.value = `${removeDecimalsFromCurrencyString(userData["partner-buergergeld"])} ${nettoString}`;
   } else {
     pdfValues.nein_30.value = true;
   }
 
   if (guards.staatlicheLeistungenIsArbeitslosengeld({ context: userData })) {
     pdfValues.ja_27.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH9.value = `${userData["partner-arbeitslosengeld"]} €`;
+    pdfValues.monatlicheBruttoeinnahmenH9.value = `${removeDecimalsFromCurrencyString(userData["partner-arbeitslosengeld"])} ${nettoString}`;
   } else {
     pdfValues.nein_28.value = true;
   }
@@ -43,13 +44,13 @@ export const fillEinkommenTypePartner: PkhPdfFillFunction = ({
   } else {
     if (guards.isEmployee({ context: userData })) {
       pdfValues.ja_22.value = true;
-      pdfValues.monatlicheBruttoeinnahmenH1.value = `${userData["partner-nettoEinkuenfteAlsArbeitnehmer"]} €`;
+      pdfValues.monatlicheBruttoeinnahmenH1.value = `${removeDecimalsFromCurrencyString(userData["partner-nettoEinkuenfteAlsArbeitnehmer"])} ${nettoString}`;
     } else {
       pdfValues.nein_23.value = true;
     }
     if (guards.isSelfEmployed({ context: userData })) {
       pdfValues.ja_24.value = true;
-      pdfValues.monatlicheBruttoeinnahmenH2.value = `${userData["partner-selbststaendigMonatlichesEinkommen"]} € ${userData["partner-selbststaendigBruttoNetto"]}`;
+      pdfValues.monatlicheBruttoeinnahmenH2.value = `${removeDecimalsFromCurrencyString(userData["partner-selbststaendigMonatlichesEinkommen"])} ${userData["partner-selbststaendigBruttoNetto"]}`;
     } else {
       pdfValues.nein_25.value = true;
     }
@@ -68,7 +69,7 @@ export const fillRentePartner: PkhPdfFillFunction = ({
     guards.receivesPension({ context: userData })
   ) {
     pdfValues.ja_25.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH8.value = `${userData["partner-pensionAmount"]} €`;
+    pdfValues.monatlicheBruttoeinnahmenH8.value = `${removeDecimalsFromCurrencyString(userData["partner-pensionAmount"])} ${nettoString}`;
   } else {
     pdfValues.nein_26.value = true;
   }
@@ -86,7 +87,7 @@ export const fillSupportPartner: PkhPdfFillFunction = ({
     guards.receivesSupport({ context: userData })
   ) {
     pdfValues.ja_23.value = true;
-    pdfValues.belegnummerH17.value = `${userData["partner-supportAmount"]} €`;
+    pdfValues.monatlicheBruttoeinnahmenH7.value = `${removeDecimalsFromCurrencyString(userData["partner-supportAmount"])} ${nettoString}`;
   } else {
     pdfValues.nein_24.value = true;
   }
@@ -104,7 +105,7 @@ export const fillAndereLeistungenPartner: PkhPdfFillFunction = ({
     guards.hasWohngeld({ context: userData })
   ) {
     pdfValues.ja_32.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH6.value = `${userData["partner-wohngeldAmount"]} €`;
+    pdfValues.monatlicheBruttoeinnahmenH6.value = `${removeDecimalsFromCurrencyString(userData["partner-wohngeldAmount"])} ${nettoString}`;
   } else {
     pdfValues.nein_33.value = true;
   }
@@ -115,7 +116,7 @@ export const fillAndereLeistungenPartner: PkhPdfFillFunction = ({
     guards.hasKrankengeld({ context: userData })
   ) {
     pdfValues.ja_31.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH11.value = `${userData["partner-krankengeldAmount"]} €`;
+    pdfValues.monatlicheBruttoeinnahmenH11.value = `${removeDecimalsFromCurrencyString(userData["partner-krankengeldAmount"])} ${nettoString}`;
   } else {
     pdfValues.nein_32.value = true;
   }
@@ -126,7 +127,7 @@ export const fillAndereLeistungenPartner: PkhPdfFillFunction = ({
     guards.hasElterngeld({ context: userData })
   ) {
     pdfValues.ja_33.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH12.value = `${userData["partner-elterngeldAmount"]} €`;
+    pdfValues.monatlicheBruttoeinnahmenH12.value = `${removeDecimalsFromCurrencyString(userData["partner-elterngeldAmount"])} ${nettoString}`;
   } else {
     pdfValues.nein_34.value = true;
   }
@@ -137,7 +138,7 @@ export const fillAndereLeistungenPartner: PkhPdfFillFunction = ({
     guards.hasKindergeld({ context: userData })
   ) {
     pdfValues.ja_30.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH5.value = `${userData["partner-kindergeldAmount"]} €`;
+    pdfValues.monatlicheBruttoeinnahmenH5.value = `${removeDecimalsFromCurrencyString(userData["partner-kindergeldAmount"])} ${nettoString}`;
   } else {
     pdfValues.nein_31.value = true;
   }
@@ -189,7 +190,7 @@ export const fillWeitereEinkuenftePartner: PkhPdfFillFunction = ({
     userData["partner-weitereEinkuenfte"].forEach((entry) => {
       attachment.push({
         title: entry.beschreibung,
-        text: `${entry.betrag} € (${zahlungsfrequenzMapping[entry.zahlungsfrequenz]})`,
+        text: `${removeDecimalsFromCurrencyString(entry.betrag)} ${nettoString} (${zahlungsfrequenzMapping[entry.zahlungsfrequenz]})`,
       });
     });
     return { pdfValues, attachment };
@@ -200,7 +201,7 @@ export const fillWeitereEinkuenftePartner: PkhPdfFillFunction = ({
   ].value =
     userData["partner-weitereEinkuenfte"][0].beschreibung +
     ` (${zahlungsfrequenzMapping[userData["partner-weitereEinkuenfte"][0].zahlungsfrequenz]})`;
-  pdfValues.euroBrutto3.value = `${userData["partner-weitereEinkuenfte"][0].betrag} €`;
+  pdfValues.euroBrutto3.value = `${removeDecimalsFromCurrencyString(userData["partner-weitereEinkuenfte"][0].betrag)} ${nettoString}`;
 
   if (userData["partner-weitereEinkuenfte"].length === 2) {
     pdfValues[
@@ -208,7 +209,7 @@ export const fillWeitereEinkuenftePartner: PkhPdfFillFunction = ({
     ].value =
       userData["partner-weitereEinkuenfte"][1].beschreibung +
       ` (${zahlungsfrequenzMapping[userData["partner-weitereEinkuenfte"][1].zahlungsfrequenz]})`;
-    pdfValues.euroBrutto4.value = `${userData["partner-weitereEinkuenfte"][1].betrag} €`;
+    pdfValues.euroBrutto4.value = `${removeDecimalsFromCurrencyString(userData["partner-weitereEinkuenfte"][1].betrag)} ${nettoString}`;
   }
 
   return { pdfValues };
@@ -230,7 +231,7 @@ export const fillBesondersHoheAusgabenPartner: PkhPdfFillFunction = ({
     attachment.push({ title: "Besonders Hohe Ausgaben", level: "h3" });
     attachment.push({
       title: userData["partnerBesondersAusgabe"]["beschreibung"],
-      text: `${userData["partnerBesondersAusgabe"]["betrag"]} € ${zahlungsfrequenzMapping["monthly"]}`,
+      text: `${removeDecimalsFromCurrencyString(userData["partnerBesondersAusgabe"]["betrag"])} ${nettoString} ${zahlungsfrequenzMapping["monthly"]}`,
     });
   }
   return { pdfValues, attachment };
@@ -240,6 +241,13 @@ export const fillBruttoEinnahmenPartner: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
+  if (
+    userData.staatlicheLeistungen === "grundsicherung" ||
+    userData.staatlicheLeistungen === "asylbewerberleistungen"
+  ) {
+    return { pdfValues };
+  }
+
   const { pdfValues: filledValues, attachment } = pdfFillReducer({
     userData,
     pdfParams: pdfValues,

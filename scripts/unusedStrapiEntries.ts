@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { readFileSync } from "node:fs";
 import _ from "lodash";
-import { flows } from "~/flows/flows.server";
+import { flows } from "~/domains/flows.server";
 import { strapiFileSchema, type StrapiSchemas } from "~/services/cms/schemas";
 import { type Config } from "~/services/flow/server/buildFlowController";
 
