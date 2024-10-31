@@ -6,8 +6,10 @@ import { addDetailedReason } from "./addDetailedReason";
 import { addFlightDetails } from "./addFlightDetails";
 import { addReason } from "./addReason";
 import { addTable } from "./table/addTable";
+import { COLUMN_HEIGHT } from "./table/tableConfigurations";
 
 export const FACTS_OF_CASES_TEXT = "I. Sachverhalt";
+const MARGIN_TOP = 10;
 
 export const createFactsOfCases = (
   doc: typeof PDFDocument,
@@ -29,7 +31,15 @@ export const createFactsOfCases = (
   doc.moveDown(1);
   addDetailedReason(doc, documentStruct, userData);
   doc.moveDown(1);
-  addTable(doc, documentStruct);
+  const startTableY = doc.y; // check the y position when the table should start to print
+  addTable(doc, documentStruct, startTableY);
   doc.moveDown(1);
-  addCompensationAmount(doc, documentStruct, userData);
+  const compensationStartYPosition =
+    startTableY + COLUMN_HEIGHT * 4 + MARGIN_TOP; // calculate where the compensation it should start to print
+  addCompensationAmount(
+    doc,
+    documentStruct,
+    userData,
+    compensationStartYPosition,
+  );
 };

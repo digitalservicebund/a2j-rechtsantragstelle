@@ -51,7 +51,7 @@ describe("addCompensationAmount", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addCompensationAmount(mockDoc, mockStruct, userDataMock);
+    addCompensationAmount(mockDoc, mockStruct, userDataMock, 0);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       OTHER_DETAILS_ITINERARY,
@@ -75,6 +75,7 @@ describe("addCompensationAmount", () => {
       mockDoc,
       mockStruct,
       userDataWithoutZusaetzlicheAngaben,
+      0,
     );
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(
@@ -94,7 +95,7 @@ describe("addCompensationAmount", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addCompensationAmount(mockDoc, mockStruct, userDataMock);
+    addCompensationAmount(mockDoc, mockStruct, userDataMock, 0);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       DEMANDED_COMPENSATION_PAYMENT_TEXT,
@@ -110,7 +111,7 @@ describe("addCompensationAmount", () => {
       isWeiterePersonen: YesNoAnswer.Enum.yes,
     };
 
-    addCompensationAmount(mockDoc, mockStruct, userDataWeiterePersonenMock);
+    addCompensationAmount(mockDoc, mockStruct, userDataWeiterePersonenMock, 0);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT,
@@ -126,7 +127,7 @@ describe("addCompensationAmount", () => {
       isWeiterePersonen: YesNoAnswer.Enum.yes,
     };
 
-    addCompensationAmount(mockDoc, mockStruct, userDataWeiterePersonenMock);
+    addCompensationAmount(mockDoc, mockStruct, userDataWeiterePersonenMock, 0);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Die Distanz zwischen ${startAirportMock} und ${endAirportMock} beträgt nach Großkreismethode ca. ${distanceValueMock} km. ${ARTICLE_AIR_PASSENGER_REGULATION_TEXT} ${compensationValueMock} €.`,

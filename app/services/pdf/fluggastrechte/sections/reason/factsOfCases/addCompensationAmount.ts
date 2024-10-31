@@ -7,9 +7,7 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/fluggastrechte/createPdfKitDocument";
-import { COLUMN_HEIGHT, START_TABLE_Y } from "./table/tableConfigurations";
 
-const TABLE_Y_POSITION = START_TABLE_Y + COLUMN_HEIGHT * 4 + 10;
 const COMPENSATION_PAYMENT_TEXT =
   "gemäß Art. 7 der Fluggastrechteverordnung (EG) 261/2004 von der beklagten Partei mit einer Frist zum Datum der Frist ein. Die beklagte Partei hat jedoch bisher keine Zahlung geleistet.";
 export const DEMANDED_COMPENSATION_PAYMENT_TEXT = `Die klagende Partei forderte außergerichtlich die Ausgleichszahlung ${COMPENSATION_PAYMENT_TEXT}`;
@@ -39,6 +37,7 @@ const getDistanceText = (startAirport: string, endAirport: string): string => {
 
 const addOtherDetailsItinerary = (
   doc: typeof PDFDocument,
+  compensationStartYPosition: number,
   zusaetzlicheAngaben?: string,
 ) => {
   if (
@@ -48,7 +47,7 @@ const addOtherDetailsItinerary = (
     doc.text(
       OTHER_DETAILS_ITINERARY,
       PDF_MARGIN_HORIZONTAL,
-      TABLE_Y_POSITION, // start to print this text from this line
+      compensationStartYPosition, // start to print this text from this line
     );
 
     doc.text(zusaetzlicheAngaben.substring(0, 250)).moveDown(1);
@@ -57,12 +56,14 @@ const addOtherDetailsItinerary = (
 
 const getYPositionDistanceText = (
   doc: typeof PDFDocument,
+  compensationStartYPosition: number,
   zusaetzlicheAngaben?: string,
 ): number => {
+  // in case exist the zusaetzlicheAngaben should start to print from the last y position of the document, otherwise from the value compensationStartYPosition
   return typeof zusaetzlicheAngaben !== "undefined" &&
     zusaetzlicheAngaben.length > 0
     ? doc.y
-    : TABLE_Y_POSITION;
+    : compensationStartYPosition;
 };
 
 export const addCompensationAmount = (
@@ -74,18 +75,27 @@ export const addCompensationAmount = (
     endAirport,
     isWeiterePersonen,
   }: FluggastrechtContext,
+  compensationStartYPosition: number,
 ) => {
   const compensationSect = doc.struct("Sect");
   compensationSect.add(
     doc.struct("P", {}, () => {
       doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
 
-      addOtherDetailsItinerary(doc, zusaetzlicheAngaben);
+      addOtherDetailsItinerary(
+        doc,
+        compensationStartYPosition,
+        zusaetzlicheAngaben,
+      );
 
       doc.text(
         getDistanceText(startAirport, endAirport),
         PDF_MARGIN_HORIZONTAL,
-        getYPositionDistanceText(doc, zusaetzlicheAngaben),
+        getYPositionDistanceText(
+          doc,
+          compensationStartYPosition,
+          zusaetzlicheAngaben,
+        ),
       );
 
       doc.moveDown(1);
