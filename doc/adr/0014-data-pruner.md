@@ -1,4 +1,4 @@
-# 1?. Introduce a pruner function to filter relevant data
+# 14. Introduce a pruner function to filter relevant data
 
 Date: 2024-10-24
 
@@ -36,7 +36,7 @@ With the information of which steps are enabled and which fields are queried on 
 - This will lead to longer-running requests which are especially bad in the Staging environment as it includes a full roundtrip to Strapi.
 - We do not have to double-check previous decisions in the flow logic (guards) anymore.
 - We do not have to double-check if the data is relevant when filling the PDF.
-- Both hopefully lead to fewer bugs because of complex flows.
+- Both hopefully lead to fewer bugs because of complex flows and less code duplication.
 
 ## Next Actions
 
