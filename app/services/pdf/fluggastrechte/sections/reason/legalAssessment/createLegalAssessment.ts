@@ -50,7 +50,7 @@ export const createLegalAssessment = (
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(CLAIM_FULL_JUSTIFIED_TEXT)
         .text(ASSUMED_SETTLEMENT_SECTION_TEXT)
-        .moveDown(5)
+        .moveDown(4)
         .text(
           `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${courtCostValue} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`,
         )
