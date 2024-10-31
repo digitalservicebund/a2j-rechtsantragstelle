@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { zustaendigesAmtsgerichtSchema } from "~/domains/fluggastrechte/vorabcheck/context";
 import { airlineSchema } from "~/services/validation/airline";
 import { airportSchema } from "~/services/validation/airport";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
@@ -13,7 +12,6 @@ export const fluggastrechtContext = {
   startAirport: optionalOrSchema(airportSchema),
   endAirport: optionalOrSchema(airportSchema),
   fluggesellschaft: optionalOrSchema(airlineSchema),
-  zustaendigesAmtsgericht: zustaendigesAmtsgerichtSchema.optional(),
   ...fluggastrechteFlugdaten,
   ...fluggastrechtePersoenlichDaten,
   ...fluggastrechtStreitKostenDaten,

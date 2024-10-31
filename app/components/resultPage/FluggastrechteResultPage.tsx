@@ -3,7 +3,7 @@ import { ResultPage } from "./ResultPage";
 import type { loader } from "../../routes/shared/result.server";
 
 export function FluggastrechteResultPage() {
-  const { common, cmsData, reasons, backButton, amtsgerichtCommon } =
+  const { common, cmsData, reasons, backButton } =
     useLoaderData<typeof loader>();
 
   return (
@@ -12,8 +12,6 @@ export function FluggastrechteResultPage() {
       cmsData={cmsData}
       reasons={reasons}
       backButton={backButton}
-      amtsgerichtCommon={amtsgerichtCommon}
-      courts={[]}
     />
   );
 }
