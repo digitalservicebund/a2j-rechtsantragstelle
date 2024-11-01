@@ -1,32 +1,5 @@
-// based on https://github.com/remix-run/indie-stack/blob/main/.eslintrc.js
-
-/** @type {import('eslint').Linter.Config} */
 module.exports = {
   overrides: [
-    // React
-    {
-      files: ["**/*.{js,jsx,ts,tsx}"],
-      plugins: ["react", "jsx-a11y"],
-      extends: [
-        "plugin:react/recommended",
-        "plugin:react/jsx-runtime",
-        "plugin:react-hooks/recommended",
-        "plugin:jsx-a11y/recommended",
-      ],
-      settings: {
-        react: { version: "detect" },
-        formComponents: ["Form"],
-        linkComponents: [
-          { name: "Link", linkAttribute: "to" },
-          { name: "NavLink", linkAttribute: "to" },
-        ],
-      },
-      rules: {
-        "react/jsx-no-leaked-render": ["off", { validStrategies: ["ternary"] }], // enable later
-        "react/no-is-mounted": "off", // Re-enable once bug is fixed: https://github.com/jsx-eslint/eslint-plugin-react/issues/3819
-      },
-    },
-
     // Typescript
     {
       files: ["**/*.{ts,tsx}"],
@@ -84,12 +57,12 @@ module.exports = {
       },
     },
 
-    // Node
-    {
-      files: [".eslintrc.js", "mocks/**/*.js"],
-      env: {
-        node: true,
-      },
-    },
+    // Node TODO: (Not sure if needed?)
+    // {
+    //   files: [".eslintrc.js", "mocks/**/*.js"],
+    //   env: {
+    //     node: true,
+    //   },
+    // },
   ],
 };
