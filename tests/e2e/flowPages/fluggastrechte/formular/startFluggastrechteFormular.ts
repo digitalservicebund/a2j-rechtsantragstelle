@@ -101,6 +101,9 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/persoenliche-daten/weitere-personen/frage
   await formular.fillRadioPage("isWeiterePersonen", "no");
 
+  // /fluggastrechte/formular/persoenliche-daten/weitere-personen/zeugen
+  await formular.fillRadioPage("hasZeugen", "no");
+
   // fluggastrechte/formular/zusammenfassung/start
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
