@@ -15,3 +15,12 @@ export function getTranslationByKey(
   }
   return translation ?? key;
 }
+
+export function extractTranslations<T extends string>(
+  keys: T[],
+  translations?: Translations,
+) {
+  return Object.fromEntries(
+    keys.map((key) => [key, getTranslationByKey(key, translations)]),
+  ) as Record<T, string>;
+}

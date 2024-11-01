@@ -1,5 +1,8 @@
 import * as logging from "~/services/logging";
-import { getTranslationByKey } from "../getTranslationByKey";
+import {
+  extractTranslations,
+  getTranslationByKey,
+} from "../getTranslationByKey";
 
 describe("getTranslationByKey", () => {
   it("returns existing translations", () => {
@@ -22,5 +25,16 @@ describe("getTranslationByKey", () => {
       );
       logSpy.mockRestore();
     });
+  });
+});
+
+describe("extractTranslations", () => {
+  it("returns translations", () => {
+    expect(
+      extractTranslations(["key", "nonExisting"], {
+        key: "value",
+        additional: "value1",
+      }),
+    ).toEqual({ key: "value", nonExisting: "nonExisting" });
   });
 });
