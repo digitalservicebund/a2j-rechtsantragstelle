@@ -3,6 +3,7 @@ import type { BasicTypes } from "~/domains/contexts";
 import { WEITERE_PERSONEN_START_INDEX } from "~/domains/fluggastrechte/formular/stringReplacements";
 import type { ArrayConfig } from "~/services/array";
 import {
+  extractTranslations,
   getTranslationByKey,
   type Translations,
 } from "~/services/translations/getTranslationByKey";
@@ -66,11 +67,12 @@ const ArraySummaryDataItems = ({
       <ArraySummaryItemButton
         category={category}
         csrf={csrf}
-        initialInputUrl={initialInputUrl}
         itemIndex={itemIndex}
-        url={url}
-        translations={translations}
-        className="pt-8"
+        editUrl={`${url}/${itemIndex}/${initialInputUrl}`}
+        translations={extractTranslations(
+          ["arrayEditButtonLabel", "arrayDeleteButtonLabel"],
+          translations,
+        )}
       />
     </div>
   );
