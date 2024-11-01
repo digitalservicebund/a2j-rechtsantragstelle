@@ -1,13 +1,12 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 import { StandaloneLink } from "~/components/StandaloneLink";
-import type { Translations } from "~/services/cms/index.server";
 
 type PageHeaderProps = {
   title: string;
   linkLabel: string;
   hideLinks: boolean;
-  translations: Translations;
+  translations: { leichtesprache: string; gebaerdensprache: string };
 };
 
 export default function Header({
