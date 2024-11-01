@@ -52,6 +52,11 @@ const allowedEmails = [
   "poststelle@bmj.bund.de",
   "poststelle@bfdi.bund.de",
   "poststelle@bfdi.de-mail.de",
+  "datenschutz@ag-wuppertal.nrw.de",
+  "marcel.bosse@ag-bochum.nrw.de",
+  "sophie.lieb@aq-rheinbach.nrw.de",
+  "heike.parpart@ag-koeln.nrw.de",
+  "juergen.meier@ag-bielefeld.nrw.de",
 ];
 
 const regexValidator = {
