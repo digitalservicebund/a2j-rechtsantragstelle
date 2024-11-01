@@ -48,7 +48,6 @@ export const fluggastrechtFlow = {
       "startAirport",
       "endAirport",
       "fluggesellschaft",
-      "zustaendigesAmtsgericht",
       "ankuendigung",
       "ersatzflug",
       "ersatzflugStartenEinStunde",

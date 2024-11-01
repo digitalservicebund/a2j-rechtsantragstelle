@@ -7,8 +7,8 @@ export const hasAirportPartnerCourt = (
     return false;
   }
 
-  const pilotCourtZipCode =
-    getAirportByIataCode(airportCode)?.pilotCourtZipCode ?? "";
+  const zipCodePilotCourt =
+    getAirportByIataCode(airportCode)?.zipCodePilotCourt ?? "";
 
-  return pilotCourtZipCode.length > 0;
+  return zipCodePilotCourt.length > 0;
 };

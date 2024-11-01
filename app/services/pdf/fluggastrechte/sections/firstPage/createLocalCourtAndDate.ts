@@ -1,5 +1,6 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import { getCourtByStartAndEndAirport } from "~/domains/fluggastrechte/services/getCourtByStartAndEndAirport";
 import { today, toGermanDateFormat } from "~/util/date";
 import {
   FONTS_BUNDESSANS_BOLD,
@@ -12,9 +13,9 @@ export const TO_THE_COURT_TEXT = "An das";
 export const createLocalCourtAndDate = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: FluggastrechtContext,
+  { startAirport, endAirport }: FluggastrechtContext,
 ) => {
-  const { zustaendigesAmtsgericht: amtsgericht } = userData;
+  const amtsgericht = getCourtByStartAndEndAirport(startAirport, endAirport);
   const creationDate = `${CREATION_PDF_TEXT} ${toGermanDateFormat(today())}`;
 
   const localCourtHeaderSect = doc.struct("Sect");
@@ -30,9 +31,11 @@ export const createLocalCourtAndDate = (
 
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
-        .text(amtsgericht?.bezeichnung ?? "", { align: "left" });
-      doc.text(amtsgericht?.strasseMitHausnummer ?? "", { align: "left" });
-      doc.text(amtsgericht?.plzUndStadt ?? "", { align: "left" });
+        .text(amtsgericht?.BEZEICHNUNG ?? "", { align: "left" });
+      doc.text(amtsgericht?.STR_HNR ?? "", { align: "left" });
+      doc.text(`${amtsgericht?.PLZ_ZUSTELLBEZIRK ?? ""} ${amtsgericht?.ORT}`, {
+        align: "left",
+      });
     }),
   );
   documentStruct.add(localCourtHeaderSect);

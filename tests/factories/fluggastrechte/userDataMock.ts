@@ -5,11 +5,6 @@ export const userDataMock = {
   endAirport: "JFK",
   bereich: "verspaetet",
   fluggesellschaft: "LH",
-  zustaendigesAmtsgericht: {
-    bezeichnung: "Amtsgericht Königs Wusterhausen",
-    strasseMitHausnummer: "Schlossplatz 4",
-    plzUndStadt: "15711 Königs Wusterhausen",
-  },
   prozesszinsen: "yes",
   versaeumnisurteil: "yes",
   direktFlugnummer: "AB6303",
