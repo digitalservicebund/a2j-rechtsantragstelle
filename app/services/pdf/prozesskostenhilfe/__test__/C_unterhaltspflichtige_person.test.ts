@@ -24,14 +24,14 @@ describe("C_unterhaltsanspruch", () => {
           unterhaltspflichtigePerson: {
             vorname: "unterhaltVor",
             nachname: "unterhaltNach",
-            beziehung: "vater",
+            beziehung: "father",
           },
         },
         pdfValues: pdfParams,
       });
 
       expect(pdfValues.namedesUnterhaltspflichtingen.value).toBe(
-        "unterhaltVor unterhaltNach",
+        "unterhaltVor unterhaltNach, Mein Vater",
       );
       expect(
         pdfValues

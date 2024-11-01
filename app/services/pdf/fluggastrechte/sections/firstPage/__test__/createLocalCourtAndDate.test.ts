@@ -76,12 +76,7 @@ describe("createLocalCourtAndDate", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    const userDataWithoutCourt = {
-      ...userDataMock,
-      zustaendigesAmtsgericht: undefined,
-    };
-
-    createLocalCourtAndDate(mockDoc, mockStruct, userDataWithoutCourt);
+    createLocalCourtAndDate(mockDoc, mockStruct, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(TO_THE_COURT_TEXT, {
       align: "left",

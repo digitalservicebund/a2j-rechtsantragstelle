@@ -34,22 +34,24 @@ export const GrundeigentumArt = z.enum(
   customRequiredErrorMessage,
 );
 
+export const familyRelationshipSchema = z.enum(
+  [
+    "mother",
+    "father",
+    "grandmother",
+    "grandfather",
+    "kid",
+    "ex-spouse-f",
+    "ex-spouse-m",
+    "grandchild",
+  ],
+  customRequiredErrorMessage,
+);
+
 export const unterhaltszahlungSchema = z.object({
   firstName: stringRequiredSchema,
   surname: stringRequiredSchema,
-  familyRelationship: z.enum(
-    [
-      "mother",
-      "father",
-      "grandmother",
-      "grandfather",
-      "kid",
-      "grandchild",
-      "ex-spouse-f",
-      "ex-spouse-m",
-    ],
-    customRequiredErrorMessage,
-  ),
+  familyRelationship: familyRelationshipSchema,
   birthday: createDateSchema({
     earliest: () => addYears(today(), MINUS_150_YEARS),
     latest: () => today(),
