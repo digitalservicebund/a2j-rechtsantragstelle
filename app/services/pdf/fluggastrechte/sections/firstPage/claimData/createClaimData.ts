@@ -1,12 +1,12 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
-import { addAirlineDetails } from "./addAirlineDetails";
-import { addPlaintiffDetails } from "./addPlaintiffDetails";
-import { addPlannedFlightDetails } from "./addPlannedFlightDetails";
+import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-} from "../../../createPdfKitDocument";
+} from "~/services/pdf/fluggastrechte/createPdfKitDocument";
+import { addAirlineDetails } from "./addAirlineDetails";
+import { addPlaintiffDetails } from "./addPlaintiffDetails";
+import { addPlannedFlightDetails } from "./addPlannedFlightDetails";
 
 export const IN_THE_MATTER = "in der Sache";
 export const AGAINST = "gegen";

@@ -1,5 +1,5 @@
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import { newPageHint } from "~/services/pdf/attachment";
+import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import { fillKraftfahrzeug } from "~/services/pdf/beratungshilfe/sections/F_besitz/fillKraftfahrzeug";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
@@ -80,7 +80,7 @@ describe("fillKraftfahrzeug", () => {
     expect(pdfValues.f10KraftfahrzeugeA.value).toBe(undefined);
     expect(pdfValues.f10KraftfahrzeugB.value).toBe(undefined);
     expect(pdfValues.f10KraftfahrzeugC.value).toBe(undefined);
-    expect(pdfValues.f11Fahrzeugart.value).toBe(newPageHint);
+    expect(pdfValues.f11Fahrzeugart.value).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
     expect(pdfValues.f12Verkehrswert.value).toBe(undefined);
 
     expect(attachment[0]).toEqual({ title: "Kraftfahrzeuge", level: "h3" });
@@ -146,7 +146,7 @@ describe("fillKraftfahrzeug", () => {
     expect(pdfValues.f10KraftfahrzeugeA.value).toBe(undefined);
     expect(pdfValues.f10KraftfahrzeugB.value).toBe(undefined);
     expect(pdfValues.f10KraftfahrzeugC.value).toBe(undefined);
-    expect(pdfValues.f11Fahrzeugart.value).toBe(newPageHint);
+    expect(pdfValues.f11Fahrzeugart.value).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
     expect(pdfValues.f12Verkehrswert.value).toBe(undefined);
 
     expect(attachment[0]).toEqual({ title: "Kraftfahrzeuge", level: "h3" });

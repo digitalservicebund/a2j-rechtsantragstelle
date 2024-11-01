@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import * as remixValidatedForm from "remix-validated-form";
 import type { InputProps } from "../Input";
 import Input from "../Input";
@@ -60,4 +60,19 @@ describe("Input", () => {
       );
     },
   );
+
+  describe("Input field with helper text", () => {
+    test("Displays helper text if provided", () => {
+      render(
+        <Input
+          name="input"
+          width="54"
+          label="Test Label"
+          formId="formId"
+          helperText="Test Helper Text"
+        />,
+      );
+      expect(screen.getByText("Test Helper Text")).toBeInTheDocument();
+    });
+  });
 });

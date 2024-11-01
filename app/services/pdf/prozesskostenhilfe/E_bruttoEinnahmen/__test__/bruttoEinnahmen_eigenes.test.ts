@@ -10,7 +10,7 @@ import {
   fillStaatlicheLeistungen,
   fillWeitereEinkuenfte,
 } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
-import { newPageHint } from "../../../attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../../attachment";
 
 let pdfParams: ProzesskostenhilfePDF;
 
@@ -38,7 +38,7 @@ describe("bruttoEinnahmen_eigenes", () => {
         pdfValues
           .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro11
           .value,
-      ).toBe("100 €");
+      ).toBe("100 netto");
       expect(pdfValues.nein_15.value).toBe(true);
     });
 
@@ -60,7 +60,7 @@ describe("bruttoEinnahmen_eigenes", () => {
         pdfValues
           .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro10
           .value,
-      ).toBe("250 €");
+      ).toBe("250 netto");
       expect(pdfValues.nein_17.value).toBe(true);
     });
   });
@@ -129,7 +129,7 @@ describe("bruttoEinnahmen_eigenes", () => {
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro
           .value,
-      ).toBe("1000 €");
+      ).toBe("1000 netto");
       expect(pdfValues.nein_12.value).toBe(true);
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3
@@ -150,7 +150,7 @@ describe("bruttoEinnahmen_eigenes", () => {
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3
           .value,
-      ).toBe("1000 € netto");
+      ).toBe("1000 netto");
       expect(pdfValues.nein_10.value).toBe(true);
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro
@@ -173,11 +173,11 @@ describe("bruttoEinnahmen_eigenes", () => {
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro
           .value,
-      ).toBe("1000 €");
+      ).toBe("1000 netto");
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3
           .value,
-      ).toBe("1000 € brutto");
+      ).toBe("1000 brutto");
     });
   });
 
@@ -214,9 +214,9 @@ describe("bruttoEinnahmen_eigenes", () => {
       expect(pdfValues.ja_12.value).toBe(true);
       expect(
         pdfValues
-          .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8
+          .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9
           .value,
-      ).toBe("1000 €");
+      ).toBe("1000 netto");
     });
   });
 
@@ -240,7 +240,7 @@ describe("bruttoEinnahmen_eigenes", () => {
       expect(pdfValues.ja_19.value).toBe(true);
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchWohngeldinEuro7.value,
-      ).toBe("100 €");
+      ).toBe("100 netto");
     });
     it("should indicate if a user receives Krankengeld", () => {
       const { pdfValues } = fillAndereLeistungen({
@@ -255,7 +255,7 @@ describe("bruttoEinnahmen_eigenes", () => {
         pdfValues
           .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro12
           .value,
-      ).toBe("250 €");
+      ).toBe("250 netto");
     });
     it("should indicate if a user receives Elterngeld", () => {
       const { pdfValues } = fillAndereLeistungen({
@@ -267,7 +267,7 @@ describe("bruttoEinnahmen_eigenes", () => {
         pdfValues
           .monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro13
           .value,
-      ).toBe("50 €");
+      ).toBe("50 netto");
     });
     it("should indicate if a user receives Kindergeld", () => {
       const { pdfValues } = fillAndereLeistungen({
@@ -281,7 +281,7 @@ describe("bruttoEinnahmen_eigenes", () => {
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchKindergeldIKinderzuschlaginEuro6
           .value,
-      ).toBe("10000 €");
+      ).toBe("10000 netto");
     });
   });
 
@@ -334,7 +334,7 @@ describe("bruttoEinnahmen_eigenes", () => {
           "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
         ].value,
       ).toContain(singleEinkunft.beschreibung);
-      expect(pdfValues.euroBrutto.value).toBe(`${singleEinkunft.betrag} €`);
+      expect(pdfValues.euroBrutto.value).toBe(`${singleEinkunft.betrag} netto`);
 
       // Second field should remain blank
       expect(
@@ -360,7 +360,9 @@ describe("bruttoEinnahmen_eigenes", () => {
           "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
         ].value,
       ).toContain(twoEinkuenfte[0].beschreibung);
-      expect(pdfValues.euroBrutto.value).toBe(`${twoEinkuenfte[0].betrag} €`);
+      expect(pdfValues.euroBrutto.value).toBe(
+        `${twoEinkuenfte[0].betrag} netto`,
+      );
 
       // Second field should also be filled
       expect(
@@ -368,7 +370,9 @@ describe("bruttoEinnahmen_eigenes", () => {
           "2HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow2"
         ].value,
       ).toContain(twoEinkuenfte[1].beschreibung);
-      expect(pdfValues.euroBrutto2.value).toBe(`${twoEinkuenfte[1].betrag} €`);
+      expect(pdfValues.euroBrutto2.value).toBe(
+        `${twoEinkuenfte[1].betrag} netto`,
+      );
     });
 
     it('should print "Siehe Anhang", the collective monthly amount, and add an attachment if there are more than 2 Einkuenfte', () => {
@@ -385,13 +389,13 @@ describe("bruttoEinnahmen_eigenes", () => {
         pdfValues[
           "1HabenSieandereEinnahmenaucheinmaligeoderunregelmaessigeWennJabitteArtBezugszeitraumundHoeheangebenzBWeihnachtsUrlaubsgeldjaehrlichSteuererstattungjaehrlichBAfoeGmtlRow1"
         ].value,
-      ).toBe(newPageHint);
+      ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
       expect(attachment?.length).toBeGreaterThan(0);
       expect(attachment?.at(0)).toEqual({
         level: "h3",
         title: "2. Andere Einnahmen",
       });
-      expect(attachment?.at(1)?.text).toContain(" €");
+      expect(attachment?.at(1)?.text).toContain(" netto");
       threeEinkuenfte.forEach((einkunft, index) => {
         expect(attachment?.at(1 + index)?.text).contain(einkunft.betrag);
         expect(attachment?.at(1 + index)?.title).contain(einkunft.beschreibung);

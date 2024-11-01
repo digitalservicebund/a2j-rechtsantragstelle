@@ -1,8 +1,11 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFinanzielleAngaben } from "~/flows/beratungshilfeFormular/finanzielleAngaben/context";
-import type { besondereBelastungenSchema } from "~/flows/shared/finanzielleAngaben/context";
+import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
+import type { besondereBelastungenSchema } from "~/domains/shared/finanzielleAngaben/context";
 import type { BerHPdfFillFunction } from "..";
-import { type AttachmentEntries, newPageHint } from "../../attachment";
+import {
+  type AttachmentEntries,
+  SEE_IN_ATTACHMENT_DESCRIPTION,
+} from "../../attachment";
 import { checkboxListToString } from "../../checkboxListToString";
 
 const AUSGABEN_MAX_COUNT_FIELDS = 4;
@@ -49,7 +52,7 @@ export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   }
 
   if (isPdfFieldExceedsMaxChars || hasOverflowAusgaben) {
-    pdfValues.g21.value = newPageHint;
+    pdfValues.g21.value = SEE_IN_ATTACHMENT_DESCRIPTION;
     attachment.push({ title: AUSGABEN_ATTACHMENT_TITLE, level: "h2" });
     ausgaben.forEach((ausgabe, index) => {
       attachment.push({

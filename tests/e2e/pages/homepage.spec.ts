@@ -16,9 +16,9 @@ test.describe("homepage", () => {
   });
 
   test.describe("Header links", () => {
-    test("Heeader links are visible", async ({ page }) => {
-      await expect(page.getByLabel("Leichte Sprache")).toBeVisible();
-      await expect(page.getByLabel("Gebärdensprache")).toBeVisible();
+    test("Header links are visible", async ({ page }) => {
+      await expect(page.getByText("Leichte Sprache")).toBeVisible();
+      await expect(page.getByText("Gebärdensprache")).toBeVisible();
     });
 
     test("Header links have correct href", async ({ page }) => {

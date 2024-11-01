@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
-import { type BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
-import { newPageHint } from "~/services/pdf/attachment";
+import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import {
   fillFinancialBankkonto,
@@ -74,7 +74,7 @@ describe("F_besitz", () => {
       expect(pdfValues.f1InhaberA.value).toBe(undefined);
       expect(pdfValues.f2InhaberB.value).toBe(undefined);
       expect(pdfValues.f2InhaberC.value).toBe(undefined);
-      expect(pdfValues.f3Bank1.value).toBe("Bitte im Anhang prüfen");
+      expect(pdfValues.f3Bank1.value).toBe("Siehe Anhang");
       expect(pdfValues.f4Kontostand.value).toBe(undefined);
 
       expect(attachment).toContainEqual({ title: "Bankkonten", level: "h3" });
@@ -189,7 +189,7 @@ describe("F_besitz", () => {
       expect(pdfValues.f1InhaberA.value).toBe(undefined);
       expect(pdfValues.f2InhaberB.value).toBe(undefined);
       expect(pdfValues.f2InhaberC.value).toBe(undefined);
-      expect(pdfValues.f7Nutzungsart.value).toBe(newPageHint);
+      expect(pdfValues.f7Nutzungsart.value).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
     });
 
     it("should print a hinweis under 10000€", () => {
@@ -223,7 +223,9 @@ describe("F_besitz", () => {
         fillFunctions: [fillFinancialGrundeigentum],
       });
       expect(pdfValues.f7Nutzungsart.value).toContain("Hinweis");
-      expect(pdfValues.f7Nutzungsart.value).toContain(newPageHint);
+      expect(pdfValues.f7Nutzungsart.value).toContain(
+        SEE_IN_ATTACHMENT_DESCRIPTION,
+      );
     });
   });
 
@@ -246,7 +248,7 @@ describe("F_besitz", () => {
       expect(pdfValues.f14InhaberA.value).toBe(false);
       expect(pdfValues.f14InhaberB.value).toBe(true);
       expect(pdfValues.f14VermoegenswerteC.value).toBe(false);
-      expect(pdfValues.f15Bezeichnung.value).toBe("Teure Sache");
+      expect(pdfValues.f15Bezeichnung.value).toBe("Art: Teure Sache");
       expect(pdfValues.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
         "100000",
       );
@@ -329,7 +331,9 @@ describe("F_besitz", () => {
       expect(pdfValues.f14InhaberA.value).toBe(undefined);
       expect(pdfValues.f14InhaberB.value).toBe(undefined);
       expect(pdfValues.f14VermoegenswerteC.value).toBe(undefined);
-      expect(pdfValues.f15Bezeichnung.value).toBe(newPageHint);
+      expect(pdfValues.f15Bezeichnung.value).toBe(
+        SEE_IN_ATTACHMENT_DESCRIPTION,
+      );
       expect(pdfValues.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
         undefined,
       );

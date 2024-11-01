@@ -1,10 +1,10 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
+import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-  PDF_MARGIN,
+  PDF_MARGIN_HORIZONTAL,
 } from "../../createPdfKitDocument";
 
 export const getDefendantPartyList = (
@@ -28,6 +28,7 @@ export const STATEMENT_CLAIM_COURT_SENTENCE =
   "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 331 Abs. 1 und Abs. 3 ZPO gestellt.";
 export const STATEMENT_CLAIM_AGREEMENT_SENTENCE =
   "Mit einer Entscheidung im schriftlichen Verfahren ohne mündliche Verhandlung (§ 128 Abs. 2 ZPO) sowie der Durchführung einer Videoverhandlung (§ 128a ZPO) bin ich einverstanden.";
+export const MARGIN_RIGHT = 10;
 
 export const createStatementClaim = (
   doc: typeof PDFDocument,
@@ -73,7 +74,7 @@ export const createStatementClaim = (
       doc.struct("LI", {}, () => {
         doc
           .font(FONTS_BUNDESSANS_BOLD)
-          .text(bullet, PDF_MARGIN + 10, undefined, {
+          .text(bullet, PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT, undefined, {
             continued: true,
           })
           .font(FONTS_BUNDESSANS_REGULAR)
@@ -88,9 +89,9 @@ export const createStatementClaim = (
   statementClaimSect.add(
     doc.struct("P", {}, () => {
       if (versaeumnisurteil === "yes") {
-        doc.text(STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN);
+        doc.text(STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN_HORIZONTAL);
       }
-      doc.text(STATEMENT_CLAIM_AGREEMENT_SENTENCE, PDF_MARGIN);
+      doc.text(STATEMENT_CLAIM_AGREEMENT_SENTENCE, PDF_MARGIN_HORIZONTAL);
     }),
   );
 

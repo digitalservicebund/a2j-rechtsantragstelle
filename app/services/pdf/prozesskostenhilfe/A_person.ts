@@ -1,5 +1,5 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import type { PkhPdfFillFunction } from "~/services/pdf/prozesskostenhilfe";
 import type { AttachmentEntries } from "../attachment";
 import { fillPdfFieldOrMoveToAttachment } from "../fillPdfFieldOrMoveToAttachment";
@@ -11,12 +11,14 @@ export const ANSCHRIFT_FIELD_MAX_CHARS = 50;
 export const FAMILIENSTAND_FIELD_MAX_CHARS = 10;
 export const BERUF_FIELD_MAX_CHARS = 25;
 
-export const concatenateGesetzlicherVertreterString = (
-  userData: ProzesskostenhilfeFormularContext,
-): string => {
+export const concatenateGesetzlicherVertreterString = ({
+  gesetzlicheVertretungDaten,
+}: ProzesskostenhilfeFormularContext): string => {
+  if (!gesetzlicheVertretungDaten) return "";
+
   const { nachname, vorname, strasseHausnummer, plz, ort, telefonnummer } =
-    userData?.gesetzlicheVertretungDaten || {};
-  return `${nachname} ${vorname}, ${strasseHausnummer}, ${plz} ${ort}, ${telefonnummer}`;
+    gesetzlicheVertretungDaten;
+  return `${nachname} ${vorname}, ${strasseHausnummer}, ${plz} ${ort}, ${telefonnummer ?? ""}`;
 };
 
 export const concatenateNameVornameString = (

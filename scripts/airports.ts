@@ -94,7 +94,7 @@ function filteredLargeMediumAirports(airports: AirportDataSource[]): Airport[] {
         latitude: airport.latitude,
         longitude: airport.longitude,
         city: translateAirportCity(airport),
-        pilotCourtZipCode:
+        zipCodePilotCourt:
           pilotCourt[airport.iata as keyof typeof pilotCourt] ?? "",
       };
     });

@@ -1,18 +1,18 @@
 import { faker } from "@faker-js/faker";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
-import { prozesskostenhilfeAntragstellendePersonContext as antragstellendePersonSchema } from "~/flows/prozesskostenhilfeFormular/antragstellendePerson/context";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import { prozesskostenhilfeAntragstellendePersonContext as antragstellendePersonSchema } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
 import {
   prozesskostenhilfeFinanzielleAngabenContext,
   zahlungspflichtigerSchema,
-} from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/context";
-import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/context";
-import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } from "~/flows/prozesskostenhilfeFormular/grundvoraussetzungen/context";
+} from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/context";
+import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/context";
+import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/context";
 import {
   Eigentuemer,
   financialEntrySchema,
   unterhaltszahlungSchema,
-} from "~/flows/shared/finanzielleAngaben/context";
+} from "~/domains/shared/finanzielleAngaben/context";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
@@ -178,6 +178,11 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
       betragGesamt: faker.finance.amount(),
     },
   ],
+  livingSituation: "alone",
+  apartmentSizeSqm: 42,
+  numberOfRooms: 2,
+  rentsApartment: "yes",
+  totalRent: "1000",
   hasRsv: YesNoAnswer.Enum.no,
   hasRsvThroughOrg: YesNoAnswer.Enum.no,
   hasGesetzlicheVertretung: YesNoAnswer.Enum.yes,

@@ -3,9 +3,9 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
+import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
-import { PDF_MARGIN } from "../../../createPdfKitDocument";
+import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/fluggastrechte/createPdfKitDocument";
 import {
   createStatementClaim,
   STATEMENT_CLAIM_AGREEMENT_SENTENCE,
@@ -97,7 +97,7 @@ describe("createStatementClaim", () => {
 
       expect(mockDoc.text).toHaveBeenCalledWith(
         STATEMENT_CLAIM_COURT_SENTENCE,
-        PDF_MARGIN,
+        PDF_MARGIN_HORIZONTAL,
       );
     });
 
@@ -118,7 +118,7 @@ describe("createStatementClaim", () => {
 
       expect(mockDoc.text).not.toHaveBeenCalledWith(
         STATEMENT_CLAIM_COURT_SENTENCE,
-        PDF_MARGIN,
+        PDF_MARGIN_HORIZONTAL,
       );
     });
 
@@ -130,7 +130,7 @@ describe("createStatementClaim", () => {
 
       expect(mockDoc.text).toHaveBeenCalledWith(
         STATEMENT_CLAIM_AGREEMENT_SENTENCE,
-        PDF_MARGIN,
+        PDF_MARGIN_HORIZONTAL,
       );
     });
   });

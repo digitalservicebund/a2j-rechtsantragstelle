@@ -9,6 +9,13 @@ export const RichTextPropsSchema = z.object({
   className: z.string().optional(),
 });
 
+const CSS_HEADING_CLASSES = [
+  "ds-heading-01-reg",
+  "ds-heading-02-reg",
+  "ds-heading-03-reg",
+  "ds-label-01-bold",
+];
+
 export type RichTextProps = z.infer<typeof RichTextPropsSchema>;
 
 const defaultRenderer: Partial<Renderer> = {
@@ -20,9 +27,8 @@ const defaultRenderer: Partial<Renderer> = {
     );
   },
   heading({ depth, text }) {
-    const cssClass =
-      ["ds-heading-01-reg", "ds-heading-02-reg"].at(depth - 1) ??
-      "ds-label-01-bold";
+    // can't use .at() due to old browsers
+    const cssClass = CSS_HEADING_CLASSES[depth - 1] ?? "ds-label-01-reg";
     return `<h${depth} class="${cssClass}">${text}</h${depth}>`;
   },
 } as const;

@@ -1,7 +1,7 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
-import type { Context } from "~/flows/contexts";
-import { parsePathname, type FlowId } from "~/flows/flowIds";
+import type { Context } from "~/domains/contexts";
+import { parsePathname, type FlowId } from "~/domains/flowIds";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { beratungshilfePdfFromUserdata } from "~/services/pdf/beratungshilfe";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";

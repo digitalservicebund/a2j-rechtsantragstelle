@@ -1,10 +1,10 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
-import type { Context } from "~/flows/contexts";
-import { parsePathname } from "~/flows/flowIds";
-import type { Flow } from "~/flows/flows.server";
-import { flows } from "~/flows/flows.server";
+import type { Context } from "~/domains/contexts";
+import { parsePathname } from "~/domains/flowIds";
+import type { Flow } from "~/domains/flows.server";
+import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getArraySummaryPageTranslations } from "~/services/array/getArraySummaryPageTranslations";
 import { getSummaryData } from "~/services/array/getSummaryData";
@@ -21,6 +21,10 @@ import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPag
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
+import {
+  validateFlowTransition,
+  getFlowTransitionConfig,
+} from "~/services/flow/server/flowTransitionValidation";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { logWarning } from "~/services/logging";
@@ -39,10 +43,6 @@ import {
 } from "~/services/session.server/arrayDeletion";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
-import {
-  validateFlowTransition,
-  getFlowTransitionConfig,
-} from "~/services/flow/server/flowTransitionValidation";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";

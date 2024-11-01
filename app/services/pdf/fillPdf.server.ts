@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import fontkit from "@pdf-lib/fontkit";
 import { PDFDocument } from "pdf-lib";
-import type { FlowId } from "~/flows/flowIds";
+import type { FlowId } from "~/domains/flowIds";
 import { addDruckvermerk } from "./druckvermerk";
 import {
   isBooleanField,

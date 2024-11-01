@@ -1,10 +1,10 @@
 import _ from "lodash";
-import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
-import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/guards";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import type { PkhPdfFillFunction } from ".";
 import type { AttachmentEntries } from "../attachment";
-import { eigentuemerMapping } from "../beratungshilfe/eigentuemerMapping";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
+import { eigentuemerMapping } from "../shared/eigentumHelpers";
 
 type Zahlung = NonNullable<
   | ProzesskostenhilfeFormularContext["ratenzahlungen"]
@@ -34,8 +34,9 @@ export const fillZahlungsverpflichtungen: PkhPdfFillFunction = ({
     einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
       context: userData,
     })
-  )
+  ) {
     return { pdfValues };
+  }
 
   const zahlungenWithDescription = (
     [...ratenzahlungen, ...sonstigeAusgaben] as Zahlung[]

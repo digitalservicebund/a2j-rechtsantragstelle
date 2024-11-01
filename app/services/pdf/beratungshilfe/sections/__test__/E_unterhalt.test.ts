@@ -1,8 +1,8 @@
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import {
   ATTACHMENT_DESCRIPTION_SECTION_E,
-  SEE_IN_ATTACHMENT_DESCRIPTION,
   fillUnterhalt,
 } from "~/services/pdf/beratungshilfe/sections/E_unterhalt";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";

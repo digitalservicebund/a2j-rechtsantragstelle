@@ -1,10 +1,10 @@
-import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
-import { getTotalMonthlyFinancialEntries } from "~/services/pdf/util";
 import type { PkhPdfFillFunction } from ".";
 import type { AttachmentEntries } from "../attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
 import { zahlungsfrequenzMapping } from "./E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../beratungshilfe/sections/E_unterhalt";
+import { getTotalMonthlyFinancialEntries } from "./util";
 
 export const versicherungMapping = {
   haftpflichtversicherung: "Haftpflichtversicherung",
@@ -117,6 +117,8 @@ export const fillPartnerAbzuege: PkhPdfFillFunction = ({
   if (
     userData.partnerschaft !== "yes" ||
     userData.partnerEinkommen === "no" ||
+    userData.staatlicheLeistungen === "grundsicherung" ||
+    userData.staatlicheLeistungen === "asylbewerberleistungen" ||
     userData["partner-staatlicheLeistungen"] === "grundsicherung" ||
     userData["partner-staatlicheLeistungen"] === "asylbewerberleistungen"
   ) {

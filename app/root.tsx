@@ -21,7 +21,7 @@ import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import { useMemo } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
-import { flowIdFromPathname } from "~/flows/flowIds";
+import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import {
   fetchMeta,
@@ -45,6 +45,7 @@ import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { TranslationContext } from "./services/translations/translationsContext";
+import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "X-Frame-Options": "SAMEORIGIN",
@@ -52,7 +53,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy":
     "accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()",
-  ...(loaderHeaders.get("trackingConsentSet") === "true" && {
+  ...(loaderHeaders.get("shouldAddCacheControl") === "true" && {
     "Cache-Control": "no-store",
   }),
 });
@@ -108,6 +109,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     deleteDataStrings,
     hasAnyUserData,
     feedbackTranslations,
+    pageHeaderTranslations,
     videoTranslations,
     mainSession,
   ] = await Promise.all([
@@ -120,9 +122,15 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("delete-data"),
     anyUserData(request),
     fetchTranslations("feedback"),
+    fetchTranslations("pageHeader"),
     fetchTranslations("video"),
     mainSessionFromCookieHeader(cookieHeader),
   ]);
+
+  const shouldAddCacheControl = shouldSetCacheControlHeader(
+    pathname,
+    trackingConsent,
+  );
 
   return json(
     {
@@ -141,11 +149,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       deletionLabel: deleteDataStrings["footerLinkLabel"],
       hasAnyUserData,
       feedbackTranslations,
+      pageHeaderTranslations,
       videoTranslations,
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
     },
-    { headers: { trackingConsentSet: String(trackingConsent === undefined) } },
+    { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
 };
 
@@ -158,6 +167,7 @@ function App() {
     deletionLabel,
     hasAnyUserData,
     feedbackTranslations,
+    pageHeaderTranslations,
     videoTranslations,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
@@ -192,7 +202,7 @@ function App() {
       <body className="flex flex-col min-h-screen">
         <CookieConsentContext.Provider value={hasTrackingConsent}>
           <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
-          <Header {...header} />
+          <Header {...header} translations={pageHeaderTranslations} />
           <Breadcrumbs breadcrumbs={breadcrumbs} />
           <TranslationContext.Provider value={translationMemo}>
             <main className="flex-grow">
@@ -226,7 +236,12 @@ export function ErrorBoundary() {
         <meta name="darkreader-lock" />
       </head>
       <body className="flex flex-col min-h-screen">
-        {loaderData && <Header {...loaderData.header} />}
+        {loaderData && (
+          <Header
+            {...loaderData.header}
+            translations={loaderData.pageHeaderTranslations}
+          />
+        )}
         <main className="flex-grow">
           <ErrorBox
             errorPages={loaderData?.errorPages}
