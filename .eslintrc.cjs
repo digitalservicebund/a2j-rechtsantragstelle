@@ -102,17 +102,6 @@ module.exports = {
       },
     },
 
-    // Jest/Vitest
-    {
-      files: ["app/**/*.test.{js,jsx,ts,tsx}"],
-      plugins: ["vitest"],
-      extends: ["plugin:vitest/legacy-recommended"],
-      rules: {
-        "vitest/valid-title": "off", // enable later
-        "require-await": "error",
-      },
-    },
-
     // Node
     {
       files: [".eslintrc.js", "mocks/**/*.js"],
