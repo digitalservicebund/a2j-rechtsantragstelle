@@ -1,29 +1,9 @@
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import type { PkhPdfFillFunction } from ".";
 import type { AttachmentEntries } from "../attachment";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../attachment";
 import { zahlungsfrequenzMapping } from "./E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
 import { getTotalMonthlyFinancialEntries } from "./util";
-
-export const versicherungMapping = {
-  haftpflichtversicherung: "Haftpflichtversicherung",
-  hausratsversicherung: "Hausratsversicherung",
-  kfzVersicherung: "KFZ-Versicherung",
-  pivateKrankenzusatzversicherung: "Pivate Krankenzusatzversicherung",
-  unfallversicherung: "Unfallversicherung",
-  sonstige: "Sonstige",
-} as const;
-
-export type Versicherung = NonNullable<
-  ProzesskostenhilfeFormularContext["versicherungen"]
->[number];
-
-export function mapVersicherungsArt(versicherung: Versicherung) {
-  return versicherung.art === "sonstige" && versicherung.sonstigeArt
-    ? versicherung.sonstigeArt
-    : versicherungMapping[versicherung.art];
-}
 
 export const fillAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const { pdfValues: filledValues, attachment } = pdfFillReducer({
@@ -62,24 +42,6 @@ export const fillSelfAbzuege: PkhPdfFillFunction = ({
 
   if (versicherungenNeedsAttachment || arbeitsausgabenNeedsAttachment) {
     attachment.push({ title: "F Abzüge", level: "h2" });
-  }
-
-  if (userData.versicherungen?.length === 1) {
-    pdfValues.sonstigeVersicherungen.value = mapVersicherungsArt(
-      userData.versicherungen[0],
-    );
-    pdfValues.monatlicheAbzuegeinEuro3.value =
-      userData.versicherungen[0].beitrag + " €";
-  } else if (versicherungenNeedsAttachment) {
-    pdfValues.sonstigeVersicherungen.value = SEE_IN_ATTACHMENT_DESCRIPTION;
-    attachment.push({ title: "Versicherungen", level: "h3" });
-    userData.versicherungen!.forEach((versicherung, index) => {
-      attachment.push(
-        { title: `Versicherung ${index + 1}`, level: "h4" },
-        { title: "Art", text: mapVersicherungsArt(versicherung) },
-        { title: "Beitrag", text: `${versicherung.beitrag} € / Monat` },
-      );
-    });
   }
 
   if (userData.arbeitsausgaben?.length === 1) {
