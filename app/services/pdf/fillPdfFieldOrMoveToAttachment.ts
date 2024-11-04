@@ -22,13 +22,13 @@ export function fillPdfFieldOrMoveToAttachment<
   pdfValues: T;
   attachment: AttachmentEntries;
 }): { pdfValues: T; attachment: AttachmentEntries } {
-  const pdfField = pdfValues[pdfFieldName];
-  const maxCharacters =
-    "maxCharacters" in pdfField ? pdfField.maxCharacters : undefined;
-
-  if (!pdfFieldValue || !maxCharacters) {
+  if (!pdfFieldValue) {
     return { pdfValues, attachment };
   }
+
+  const pdfField = pdfValues[pdfFieldName];
+  const { maxCharacters } =
+    "maxCharacters" in pdfField ? pdfField : { maxCharacters: 0 };
 
   if (pdfFieldValue.length > maxCharacters) {
     pdfValues[pdfFieldName].value =
@@ -40,6 +40,6 @@ export function fillPdfFieldOrMoveToAttachment<
     return { pdfValues, attachment };
   }
 
-  pdfValues[pdfFieldName].value = pdfFieldValue ?? "";
+  pdfValues[pdfFieldName].value = pdfFieldValue;
   return { pdfValues, attachment };
 }

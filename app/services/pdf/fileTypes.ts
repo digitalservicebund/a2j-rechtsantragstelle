@@ -5,8 +5,8 @@ export interface BooleanField {
 export interface StringField {
   name: string;
   value?: string;
-  maxCharacters?: number;
-  maxLineBreaks?: number;
+  maxCharacters: number;
+  maxLineBreaks: number;
 }
 
 type JsonField = BooleanField | StringField;
