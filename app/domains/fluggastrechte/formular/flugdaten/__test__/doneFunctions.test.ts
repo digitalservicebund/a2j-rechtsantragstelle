@@ -4,11 +4,6 @@ const baseContext = {
   startAirport: "BER",
   endAirport: "FRA",
   fluggesellschaft: "LH",
-  zustaendigesAmtsgericht: {
-    bezeichnung: "Amtsgericht",
-    strasseMitHausnummer: "Amtsgericht",
-    plzUndStadt: "Amtsgericht",
-  },
   direktFlugnummer: "AB6303",
   buchungsNummer: "X36Q9C",
   direktAbflugsDatum: "10.03.2024",

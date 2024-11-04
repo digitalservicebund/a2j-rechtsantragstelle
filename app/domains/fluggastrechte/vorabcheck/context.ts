@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { airlineSchema } from "~/services/validation/airline";
 import { airportSchema } from "~/services/validation/airport";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import {
   YesNoAnswer,
   customRequiredErrorMessage,
@@ -16,12 +15,6 @@ const ankuendigungSchema = z.enum(
   ["no", "until6Days", "between7And13Days", "moreThan13Days"],
   customRequiredErrorMessage,
 );
-
-export const zustaendigesAmtsgerichtSchema = z.object({
-  bezeichnung: stringOptionalSchema,
-  strasseMitHausnummer: stringOptionalSchema,
-  plzUndStadt: stringOptionalSchema,
-});
 
 export const fluggastrechteVorabcheckContext = {
   startAirport: airportSchema,
@@ -41,7 +34,6 @@ export const fluggastrechteVorabcheckContext = {
   ausgleich: YesNoAnswer,
   ausgleichAngenommen: YesNoAnswer,
   vertretbareGruende: YesNoAnswer,
-  zustaendigesAmtsgericht: zustaendigesAmtsgerichtSchema.optional(),
   ankuendigung: ankuendigungSchema,
   ersatzflug: YesNoAnswer,
   ersatzflugStartenEinStunde: YesNoAnswer,
