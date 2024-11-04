@@ -31,6 +31,7 @@ import {
   isAnnullierung,
   isNichtBefoerderung,
   isVerspaetet,
+  isWeiterePersonen,
 } from "./stringReplacements";
 import zusammenfassungFlow from "./zusammenfassung/flow.json";
 
@@ -48,7 +49,6 @@ export const fluggastrechtFlow = {
       "startAirport",
       "endAirport",
       "fluggesellschaft",
-      "zustaendigesAmtsgericht",
       "ankuendigung",
       "ersatzflug",
       "ersatzflugStartenEinStunde",
@@ -72,6 +72,7 @@ export const fluggastrechtFlow = {
     ...isVerspaetet(context),
     ...isNichtBefoerderung(context),
     ...isAnnullierung(context),
+    ...isWeiterePersonen(context),
   }),
   config: {
     meta: {

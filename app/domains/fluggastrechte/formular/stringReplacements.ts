@@ -61,6 +61,12 @@ export function isAnnullierung({ bereich = "" }: FluggastrechtContext) {
   };
 }
 
+export function isWeiterePersonen({ isWeiterePersonen }: FluggastrechtContext) {
+  return {
+    isWeiterePersonen: isWeiterePersonen === "yes",
+  };
+}
+
 export function getAirlineName({
   fluggesellschaft = "",
 }: FluggastrechtContext) {

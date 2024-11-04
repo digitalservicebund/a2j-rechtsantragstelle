@@ -3,12 +3,12 @@ import {
   COLUMN_HEIGHT,
   COLUMN_WIDTH,
   START_TABLE_X,
-  START_TABLE_Y,
 } from "./tableConfigurations";
 
 export function drawTableColumnsHead(
   doc: PDFKit.PDFDocument,
   tableStruct: PDFKit.PDFStructureElement,
+  startTableY: number,
 ) {
   const headers = [
     {
@@ -30,7 +30,7 @@ export function drawTableColumnsHead(
     const headerCell = doc.struct("TH"); // New TH for each header cell
     headerCell.add(
       doc.struct("Span", {}, () => {
-        const yPosition = START_TABLE_Y + COLUMN_HEIGHT * (index + 1); // Adjust yPosition based on index
+        const yPosition = startTableY + COLUMN_HEIGHT * (index + 1); // Adjust yPosition based on index
         drawCell(doc, {
           xPosition: START_TABLE_X,
           yPosition,

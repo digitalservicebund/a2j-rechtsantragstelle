@@ -3,12 +3,12 @@ import {
   COLUMN_HEIGHT,
   COLUMN_WIDTH,
   START_TABLE_X,
-  START_TABLE_Y,
 } from "./tableConfigurations";
 
 export function drawTableRowHead(
   doc: PDFKit.PDFDocument,
   tableStruct: PDFKit.PDFStructureElement,
+  startTableY: number,
 ) {
   const headers = [
     { title: "Geplante Zeiten", subtitle: "(laut Ticket)" },
@@ -23,7 +23,7 @@ export function drawTableRowHead(
       doc.struct("Span", {}, () => {
         drawCell(doc, {
           xPosition: START_TABLE_X + COLUMN_WIDTH * (index + 1), // Dynamic X position based on the column
-          yPosition: START_TABLE_Y,
+          yPosition: startTableY,
           width: COLUMN_WIDTH, // Each header has the same width
           height: COLUMN_HEIGHT, // Same height for all header cells
           boldText: title, // Title (main content)

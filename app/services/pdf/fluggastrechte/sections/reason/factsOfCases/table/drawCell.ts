@@ -2,7 +2,7 @@ import type PDFDocument from "pdfkit";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-} from "../../../createPdfKitDocument";
+} from "~/services/pdf/fluggastrechte/createPdfKitDocument";
 
 type CellOptions = {
   xPosition: number;
@@ -39,8 +39,7 @@ export function drawCell(
   if (shouldAddSilverBackground) {
     doc
       .save()
-      .fill("silver")
-      .fillOpacity(0.1)
+      .fillColor("silver", 0.1)
       .rect(xPosition, yPosition, width, height)
       .fill()
       .restore();

@@ -7,7 +7,7 @@ export const FONTS_BUNDESSANS_REGULAR = "BundesSansWebRegular";
 export const FONTS_BUNDESSANS_BOLD = "BundesSansWebBold";
 export const PDF_MARGIN_VERTICAL = 50;
 export const PDF_MARGIN_HORIZONTAL = 70;
-export const PDF_HEIGHT_SEIZE = 760;
+export const PDF_HEIGHT_SEIZE = 780;
 export const LINE_GAP_GLOBAL = 1.5;
 
 export const createPdfKitDocument = (

@@ -1,24 +1,20 @@
 import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
 import HighlightOff from "@digitalservicebund/icons/HighlightOff";
 import WarningAmber from "@digitalservicebund/icons/WarningAmber";
+import { useLoaderData } from "@remix-run/react";
 import { type ReactElement } from "react";
 import type { BackgroundColor } from "~/components";
 import Background from "~/components/Background";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
-import CourtDetails from "~/components/CourtDetails";
 import Heading from "~/components/Heading";
 import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
-import type { Translations } from "~/services/cms/index.server";
+import type { loader } from "~/routes/shared/result.server";
 import { keyFromElement } from "~/services/cms/keyFromElement";
-import type { StrapiElementWithId } from "~/services/cms/models/StrapiElementWithId";
 import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
-import type { StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
-import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
-import { arrayIsNonEmpty } from "~/util/array";
 
 const iconCSS = "inline-block !h-[36px] !w-[36px] !min-h-[36px] !min-w-[36px]";
 const icons: Record<StrapiResultPageType, ReactElement> = {
@@ -35,26 +31,10 @@ const backgrounds: Record<StrapiResultPageType, BackgroundColor> = {
   default: "blue",
 };
 
-type Props = {
-  readonly common: Translations;
-  readonly cmsData: StrapiResultPage;
-  readonly reasons: StrapiElementWithId[];
-  readonly backButton: {
-    label: string;
-    destination?: string;
-  };
-  readonly amtsgerichtCommon: Translations;
-  readonly courts: Jmtd14VTErwerberGerbeh[];
-};
+export function ResultPage() {
+  const { common, cmsData, reasons, backButton } =
+    useLoaderData<typeof loader>();
 
-export function ResultPage({
-  common,
-  cmsData,
-  reasons,
-  backButton,
-  amtsgerichtCommon,
-  courts,
-}: Props) {
   const documentsList = cmsData.documents.data?.attributes.element ?? [];
   const nextSteps = cmsData.nextSteps.data?.attributes.element ?? [];
   const content = cmsData.freeZone;
@@ -107,48 +87,6 @@ export function ResultPage({
           </Container>
         </div>
       </Background>
-
-      {arrayIsNonEmpty(courts) && (
-        <>
-          {courts.length > 1 && (
-            <Background backgroundColor="blue">
-              <Container
-                backgroundColor="blue"
-                overhangingBackground
-                paddingBottom="0"
-              >
-                {/* TODO: Move to CMS */}
-                Wir haben für Sie mehrere passende Amtsgerichte gefunden. Sie
-                können entscheiden, bei welchem Gericht sie eine Klage
-                einreichen möchten.
-              </Container>
-            </Background>
-          )}
-
-          {courts.map((court) => (
-            <div key={court.BEZEICHNUNG}>
-              <Background
-                backgroundColor="blue"
-                paddingBottom="48"
-                paddingTop="40"
-              >
-                <Container backgroundColor="white" overhangingBackground>
-                  <CourtDetails
-                    name={court.BEZEICHNUNG}
-                    street={court.STR_HNR}
-                    city={`${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`}
-                    website={court.URL1}
-                    phone={court.TEL}
-                    addressLabel={amtsgerichtCommon.resultAddress}
-                    websiteLabel={amtsgerichtCommon.resultWebsite}
-                    phoneLabel={amtsgerichtCommon.resultPhone}
-                  />
-                </Container>
-              </Background>
-            </div>
-          ))}
-        </>
-      )}
 
       {content.length > 0 && <PageContent content={content} />}
 
