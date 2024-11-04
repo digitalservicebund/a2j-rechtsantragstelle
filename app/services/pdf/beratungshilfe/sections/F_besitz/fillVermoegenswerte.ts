@@ -7,11 +7,6 @@ import {
   fillSingleWertsache,
 } from "../../../shared/eigentumHelpers";
 
-export const befristungMapping = {
-  lifeInsurance: "Lebensversicherung",
-  buildingSavingsContract: "Bausparvertrag",
-  fixedDepositAccount: "Festgeldkonto",
-};
 const VERMOEGENSWERT_BEZEICHNUNG_FIELD_MAX_CHARS = 148;
 const VERMOEGENSWERT_BEZEICHNUNG_FIELD_MAX_NEW_LINES = 3;
 
