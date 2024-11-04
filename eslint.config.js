@@ -7,10 +7,6 @@ import importPlugin from "eslint-plugin-import";
 import tseslint from "typescript-eslint";
 import sonarjs from "eslint-plugin-sonarjs";
 
-const { recommended, stylistic } = tseslint.configs;
-const { recommended: importRecommended, typescript: importTypescript } =
-  importPlugin.flatConfigs;
-
 export default tseslint.config(
   eslint.configs.recommended,
   // Global ignores
@@ -65,10 +61,10 @@ export default tseslint.config(
   {
     files: ["**/*.{ts,tsx}"],
     extends: [
-      ...recommended,
-      ...stylistic,
-      importRecommended,
-      importTypescript,
+      ...tseslint.configs.recommended,
+      ...tseslint.configs.stylistic,
+      importPlugin.flatConfigs.recommended,
+      importPlugin.flatConfigs.typescript,
       sonarjs.configs.recommended,
     ],
     languageOptions: {
