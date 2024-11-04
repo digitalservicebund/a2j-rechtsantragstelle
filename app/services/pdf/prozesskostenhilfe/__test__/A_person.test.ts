@@ -6,14 +6,10 @@ import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenh
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../attachment";
 import { maritalDescriptionMapping } from "../../shared/maritalDescriptionMapping";
 import {
-  ANSCHRIFT_FIELD_MAX_CHARS,
-  BERUF_FIELD_MAX_CHARS,
   concatenateAnschriftString,
   concatenateGesetzlicherVertreterString,
   concatenateNameVornameString,
   fillPerson,
-  GESETZLICHERVERTRETER_FIELD_MAX_CHARS,
-  NAME_VORNAME_FIELD_MAX_CHARS,
 } from "../A_person";
 
 let pdfParams: ProzesskostenhilfePDF;
@@ -58,7 +54,9 @@ describe("A_person", () => {
       const userDataWithLongString = {
         ...userData,
         nachname: "a".repeat(
-          NAME_VORNAME_FIELD_MAX_CHARS - userData.nachname!.length + 2, // one more char than NAME_VORNAME_FIELD_MAX_CHARS
+          (pdfParams.nameVornameggfGeburtsname.maxCharacters ?? 0) -
+            userData.nachname!.length +
+            2, // one more char than maxCharacters
         ),
       } as ProzesskostenhilfeFormularContext;
 
@@ -91,7 +89,7 @@ describe("A_person", () => {
     const userDataWithLongString = {
       ...userData,
       beruf: "a".repeat(
-        BERUF_FIELD_MAX_CHARS + 1, // one more char than BERUF_FIELD_MAX_CHARS
+        (pdfParams.berufErwerbstaetigkeit.maxCharacters ?? 0) + 1, // one more char than maxCharacters
       ),
     } as ProzesskostenhilfeFormularContext;
 
@@ -160,7 +158,10 @@ describe("A_person", () => {
     const userDataWithLongString = {
       ...userData,
       ort: "a".repeat(
-        ANSCHRIFT_FIELD_MAX_CHARS - userData.ort!.length + 2, // one more char than ANSCHRIFT_FIELD_MAX_CHARS
+        (pdfParams.anschriftStrasseHausnummerPostleitzahlWohnort
+          .maxCharacters ?? 0) -
+          userData.ort!.length +
+          2, // one more char than maxCharacters
       ),
     } as ProzesskostenhilfeFormularContext;
     const anschriftStringLong = concatenateAnschriftString(
@@ -213,9 +214,11 @@ describe("A_person", () => {
         gesetzlicheVertretungDaten: {
           ...userData.gesetzlicheVertretungDaten,
           nachname: "a".repeat(
-            GESETZLICHERVERTRETER_FIELD_MAX_CHARS -
+            (pdfParams
+              .sofernvorhandenGesetzlicherVertreterNameVornameAnschriftTelefon
+              .maxCharacters ?? 0) -
               gesetzlicherVertreterString.length +
-              2, // one more char than GESETZLICHERVERTRETER_FIELD_MAX_CHARS
+              2, // one more char than maxCharacters
           ),
         },
       } as ProzesskostenhilfeFormularContext;

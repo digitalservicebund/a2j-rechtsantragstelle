@@ -1,15 +1,8 @@
-import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import type { PkhPdfFillFunction } from "~/services/pdf/prozesskostenhilfe";
 import type { AttachmentEntries } from "../attachment";
 import { fillPdfFieldOrMoveToAttachment } from "../fillPdfFieldOrMoveToAttachment";
 import { maritalDescriptionMapping } from "../shared/maritalDescriptionMapping";
-
-export const GESETZLICHERVERTRETER_FIELD_MAX_CHARS = 80;
-export const NAME_VORNAME_FIELD_MAX_CHARS = 35;
-export const ANSCHRIFT_FIELD_MAX_CHARS = 50;
-export const FAMILIENSTAND_FIELD_MAX_CHARS = 10;
-export const BERUF_FIELD_MAX_CHARS = 25;
 
 export const concatenateGesetzlicherVertreterString = ({
   gesetzlicheVertretungDaten,
@@ -43,19 +36,17 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const gesetzlicherVertreterString =
     concatenateGesetzlicherVertreterString(userData);
 
-  fillPdfFieldOrMoveToAttachment<ProzesskostenhilfePDF>({
+  fillPdfFieldOrMoveToAttachment({
     pdfFieldName: "nameVornameggfGeburtsname",
     pdfFieldValue: nameVornameString,
-    pdfFieldMaxChars: NAME_VORNAME_FIELD_MAX_CHARS,
     attachmentTitle: "Name, Vorname, ggf. Geburtsname",
     pdfValues,
     attachment,
   });
 
-  fillPdfFieldOrMoveToAttachment<ProzesskostenhilfePDF>({
+  fillPdfFieldOrMoveToAttachment({
     pdfFieldName: "berufErwerbstaetigkeit",
     pdfFieldValue: userData?.beruf,
-    pdfFieldMaxChars: BERUF_FIELD_MAX_CHARS,
     attachmentTitle: "Beruf, Erwerbstätigkeit",
     pdfValues,
     attachment,
@@ -63,20 +54,17 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
 
   pdfValues.geburtsdatum.value = userData?.geburtsdatum;
 
-  fillPdfFieldOrMoveToAttachment<ProzesskostenhilfePDF>({
+  fillPdfFieldOrMoveToAttachment({
     pdfFieldName: "text3",
     pdfFieldValue: maritalDescriptionMapping[userData.partnerschaft ?? ""],
-    pdfFieldMaxChars: FAMILIENSTAND_FIELD_MAX_CHARS,
     attachmentTitle: "Familienstand",
     pdfValues,
     attachment,
-    attachmentPageHint: "s.A.",
   });
 
-  fillPdfFieldOrMoveToAttachment<ProzesskostenhilfePDF>({
+  fillPdfFieldOrMoveToAttachment({
     pdfFieldName: "anschriftStrasseHausnummerPostleitzahlWohnort",
     pdfFieldValue: anschriftString,
-    pdfFieldMaxChars: ANSCHRIFT_FIELD_MAX_CHARS,
     attachmentTitle: "Anschrift (Straße, Hausnummer, Postleitzahl Wohnort)",
     pdfValues,
     attachment,
@@ -84,11 +72,10 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
 
   pdfValues.text2.value = userData?.telefonnummer;
 
-  fillPdfFieldOrMoveToAttachment<ProzesskostenhilfePDF>({
+  fillPdfFieldOrMoveToAttachment({
     pdfFieldName:
       "sofernvorhandenGesetzlicherVertreterNameVornameAnschriftTelefon",
     pdfFieldValue: gesetzlicherVertreterString,
-    pdfFieldMaxChars: GESETZLICHERVERTRETER_FIELD_MAX_CHARS,
     attachmentTitle: "Gesetzlicher Vertreter",
     pdfValues,
     attachment,

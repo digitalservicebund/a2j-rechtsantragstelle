@@ -1,32 +1,45 @@
-import { type AttachmentEntries, newPageHint } from "./attachment";
+import {
+  SEE_IN_ATTACHMENT_DESCRIPTION,
+  SEE_IN_ATTACHMENT_DESCRIPTION_SHORT,
+  type AttachmentEntries,
+} from "./attachment";
+import type { BooleanField, StringField } from "./fileTypes";
 
-export type FillPdfFieldOrMoveToAttachment<TGeneratedPDFType> = {
-  pdfFieldName: keyof TGeneratedPDFType;
-  pdfFieldValue: string | undefined;
-  pdfFieldMaxChars: number;
-  attachmentTitle: string;
-  pdfValues: TGeneratedPDFType;
-  attachment: AttachmentEntries;
-  attachmentPageHint?: string;
-};
+const MIN_CHARACTERS_FOR_LONG_ATTACHMENT_DESCRIPTION = 10;
 
-export function fillPdfFieldOrMoveToAttachment<TGeneratedPDFType>({
+export function fillPdfFieldOrMoveToAttachment<
+  T extends Record<string, StringField | BooleanField>,
+>({
   pdfFieldName,
   pdfFieldValue,
-  pdfFieldMaxChars,
   attachmentTitle,
   pdfValues,
   attachment,
-  attachmentPageHint = newPageHint,
-}: FillPdfFieldOrMoveToAttachment<TGeneratedPDFType>): {
-  pdfValues: TGeneratedPDFType;
+}: {
+  pdfFieldName: keyof T;
+  pdfFieldValue: string | undefined;
+  attachmentTitle: string;
+  pdfValues: T;
   attachment: AttachmentEntries;
-} {
-  if (pdfFieldValue && pdfFieldValue.length > pdfFieldMaxChars) {
-    (pdfValues[pdfFieldName] as { value: string }).value = attachmentPageHint;
-    attachment.push({ title: attachmentTitle, text: pdfFieldValue });
+}): { pdfValues: T; attachment: AttachmentEntries } {
+  const pdfField = pdfValues[pdfFieldName];
+  const maxCharacters =
+    "maxCharacters" in pdfField ? pdfField.maxCharacters : undefined;
+
+  if (!pdfFieldValue || !maxCharacters) {
     return { pdfValues, attachment };
   }
-  (pdfValues[pdfFieldName] as { value: string }).value = pdfFieldValue ?? "";
+
+  if (pdfFieldValue.length > maxCharacters) {
+    pdfValues[pdfFieldName].value =
+      maxCharacters > MIN_CHARACTERS_FOR_LONG_ATTACHMENT_DESCRIPTION
+        ? SEE_IN_ATTACHMENT_DESCRIPTION
+        : SEE_IN_ATTACHMENT_DESCRIPTION_SHORT;
+    attachment.push({ title: attachmentTitle, text: pdfFieldValue });
+
+    return { pdfValues, attachment };
+  }
+
+  pdfValues[pdfFieldName].value = pdfFieldValue ?? "";
   return { pdfValues, attachment };
 }
