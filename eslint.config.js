@@ -1,4 +1,5 @@
 import vitest from "@vitest/eslint-plugin";
+import { FlatCompat } from "@eslint/eslintrc";
 import eslint from "@eslint/js";
 import globals from "globals";
 import react from "eslint-plugin-react";
@@ -6,6 +7,14 @@ import jsxA11y from "eslint-plugin-jsx-a11y";
 import importPlugin from "eslint-plugin-import";
 import tseslint from "typescript-eslint";
 import sonarjs from "eslint-plugin-sonarjs";
+import { fileURLToPath } from "url";
+import path from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
 
 export default tseslint.config(
   eslint.configs.recommended,
@@ -31,19 +40,18 @@ export default tseslint.config(
   },
   // React
   {
-    ...react.configs.flat.recommended,
-    ...react.configs.flat["jsx-runtime"],
-    /**
-     * TODO: flat config of this plugin isn't available https://github.com/facebook/react/pull/30774
-     * We could use technically use it (https://eslint.org/docs/latest/use/configure/migration-guide#using-eslintrc-configs-in-flat-config),
-     * but it would add 3 dev dependencies, namely @eslint/eslintrc, path, and url
-     */
-    // ...reactHooks.configs.recommended,
-    ...jsxA11y.flatConfigs.recommended,
     files: ["**/*.{js,jsx,ts,tsx}"],
+    extends: [
+      react.configs.flat.recommended,
+      react.configs.flat["jsx-runtime"],
+      /**
+       * TODO: flat config of this plugin isn't available yet https://github.com/facebook/react/pull/30774
+       */
+      ...compat.extends("plugin:react-hooks/recommended"),
+      jsxA11y.flatConfigs.recommended,
+    ],
     plugins: {
       react,
-      "jsx-a11y": jsxA11y,
     },
     settings: {
       react: { version: "detect" },
