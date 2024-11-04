@@ -7,6 +7,7 @@ import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import {
   fillAndereLeistungenPartner,
   fillBesondersHoheAusgabenPartner,
+  fillBruttoEinnahmenPartner,
   fillEinkommenTypePartner,
   fillRentePartner,
   fillStaatlicheLeistungenPartner,
@@ -153,23 +154,23 @@ describe("bruttoEinnahmen_partner", () => {
     });
 
     it("should report no income if the user's partner receives Grundsicherung", () => {
-      const { pdfValues } = fillEinkommenTypePartner({
+      const { pdfValues } = fillBruttoEinnahmenPartner({
         userData: { "partner-staatlicheLeistungen": "grundsicherung" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_23.value).toBe(true);
-      expect(pdfValues.nein_25.value).toBe(true);
+      expect(pdfValues.nein_23.value).toBeUndefined();
+      expect(pdfValues.nein_25.value).toBeUndefined();
       expect(pdfValues.monatlicheBruttoeinnahmenH1.value).toBeUndefined();
       expect(pdfValues.monatlicheBruttoeinnahmenH2.value).toBeUndefined();
     });
 
     it("should report no income if the user's partner receives Asylbewerberleistungen", () => {
-      const { pdfValues } = fillEinkommenTypePartner({
+      const { pdfValues } = fillBruttoEinnahmenPartner({
         userData: { "partner-staatlicheLeistungen": "asylbewerberleistungen" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_23.value).toBe(true);
-      expect(pdfValues.nein_25.value).toBe(true);
+      expect(pdfValues.nein_23.value).toBeUndefined();
+      expect(pdfValues.nein_25.value).toBeUndefined();
       expect(pdfValues.monatlicheBruttoeinnahmenH1.value).toBeUndefined();
       expect(pdfValues.monatlicheBruttoeinnahmenH2.value).toBeUndefined();
     });

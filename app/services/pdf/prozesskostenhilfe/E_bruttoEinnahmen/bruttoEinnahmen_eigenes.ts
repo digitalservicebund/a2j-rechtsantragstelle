@@ -53,10 +53,7 @@ export const fillEinkommenType: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  if (
-    userData.currentlyEmployed === "no" ||
-    guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData })
-  ) {
+  if (userData.currentlyEmployed === "no") {
     pdfValues.nein_10.value = true;
     pdfValues.nein_12.value = true;
   }
@@ -74,6 +71,9 @@ export const fillEinkommenType: PkhPdfFillFunction = ({
   } else {
     pdfValues.nein_12.value = true;
   }
+
+  pdfValues.nein_14.value = true;
+  pdfValues.nein_16.value = true;
   return { pdfValues };
 };
 
@@ -212,9 +212,6 @@ export const fillOwnBruttoEinnahmen: PkhPdfFillFunction = ({
       userData.staatlicheLeistungen === "asylbewerberleistungen"
         ? "Asylbewerberleistungen"
         : "Grundsicherung oder Sozialhilfe";
-    pdfValues.nein_14.value = true;
-    pdfValues.nein_16.value = true;
-
     return { pdfValues };
   }
 
