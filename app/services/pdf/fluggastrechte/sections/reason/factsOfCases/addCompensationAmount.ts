@@ -15,6 +15,8 @@ export const OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT = `Die klagende
 export const OTHER_DETAILS_ITINERARY = "Weitere Angaben zum Reiseverlauf:";
 export const ARTICLE_AIR_PASSENGER_REGULATION_TEXT =
   "Damit ergibt sich nach Art. 7 der Fluggastrechteverordnung (EG) 261/2004 eine Entschädigung in Höhe von";
+export const PLAINTIFF_WITNESSES_TEXT =
+  "Zum Beweis dieses Sachverhalt wird die klagende Partei im Prozessverlauf bei Bedarf Zeugen benennen.";
 
 const getDistanceText = (startAirport: string, endAirport: string): string => {
   const startAirportName = getAirportNameByIataCode(startAirport);
@@ -74,6 +76,7 @@ export const addCompensationAmount = (
     startAirport,
     endAirport,
     isWeiterePersonen,
+    hasZeugen,
   }: FluggastrechtContext,
   compensationStartYPosition: number,
 ) => {
@@ -100,9 +103,15 @@ export const addCompensationAmount = (
 
       doc.moveDown(1);
 
-      doc.text(
-        `${isWeiterePersonen === "no" ? DEMANDED_COMPENSATION_PAYMENT_TEXT : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT}`,
-      );
+      doc
+        .text(
+          `${isWeiterePersonen === "no" ? DEMANDED_COMPENSATION_PAYMENT_TEXT : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT}`,
+        )
+        .moveDown(1);
+
+      if (hasZeugen === "yes") {
+        doc.text(PLAINTIFF_WITNESSES_TEXT).moveDown(1);
+      }
     }),
   );
   documentStruct.add(compensationSect);

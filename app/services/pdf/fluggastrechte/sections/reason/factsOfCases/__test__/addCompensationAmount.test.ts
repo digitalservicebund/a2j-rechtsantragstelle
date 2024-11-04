@@ -15,6 +15,7 @@ import {
   DEMANDED_COMPENSATION_PAYMENT_TEXT,
   OTHER_DETAILS_ITINERARY,
   OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT,
+  PLAINTIFF_WITNESSES_TEXT,
 } from "../addCompensationAmount";
 
 vi.mock("~/services/airports/getCompensationPayment");
@@ -134,5 +135,33 @@ describe("addCompensationAmount", () => {
       PDF_MARGIN_HORIZONTAL,
       undefined,
     );
+  });
+
+  it("should have the text for plaintiff witnesses in case the hasZeugen is yes", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataHasZeugenMock = {
+      ...userDataMock,
+      hasZeugen: YesNoAnswer.Enum.yes,
+    };
+
+    addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(PLAINTIFF_WITNESSES_TEXT);
+  });
+
+  it("should not have the text for plaintiff witnesses in case the hasZeugen is no", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataHasZeugenMock = {
+      ...userDataMock,
+      hasZeugen: YesNoAnswer.Enum.no,
+    };
+
+    addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
+
+    expect(mockDoc.text).not.toHaveBeenCalledWith(PLAINTIFF_WITNESSES_TEXT);
   });
 });
