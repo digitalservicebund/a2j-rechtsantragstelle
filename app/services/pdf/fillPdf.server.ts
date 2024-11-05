@@ -66,7 +66,11 @@ export async function fillPdf({
   const form = pdfDoc.getForm();
 
   pdfDoc.registerFontkit(fontkit);
-  const customFont = await pdfDoc.embedFont(bundesSansCondensed);
+  const customFont = await pdfDoc.embedFont(bundesSansCondensed, {
+    features: {
+      liga: false,
+    },
+  });
   const rawUpdateFieldAppearances = form.updateFieldAppearances.bind(form);
   form.updateFieldAppearances = () => rawUpdateFieldAppearances(customFont);
 
