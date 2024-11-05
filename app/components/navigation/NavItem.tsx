@@ -127,10 +127,10 @@ export const NavigationList = ({
 function StateIcon({
   id,
   a11yLabels,
-}: {
+}: Readonly<{
   id: string;
   a11yLabels?: NavigationA11yLabels;
-}) {
+}>) {
   return (
     <CheckIcon
       id={id}
