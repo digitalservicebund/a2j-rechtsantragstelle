@@ -6,6 +6,7 @@ import { CheckboxValue } from "~/components/inputs/Checkbox";
 import {
   fillAndereLeistungen,
   fillEinkommenType,
+  fillOwnBruttoEinnahmen,
   fillRente,
   fillStaatlicheLeistungen,
   fillWeitereEinkuenfte,
@@ -84,12 +85,12 @@ describe("bruttoEinnahmen_eigenes", () => {
     });
 
     it("should report no income if the user receives Grundsicherung", () => {
-      const { pdfValues } = fillEinkommenType({
+      const { pdfValues } = fillOwnBruttoEinnahmen({
         userData: { staatlicheLeistungen: "grundsicherung" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_10.value).toBe(true);
-      expect(pdfValues.nein_12.value).toBe(true);
+      expect(pdfValues.nein_10.value).toBeUndefined();
+      expect(pdfValues.nein_12.value).toBeUndefined();
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro
           .value,
@@ -101,12 +102,12 @@ describe("bruttoEinnahmen_eigenes", () => {
     });
 
     it("should report no income if the user receives Asylbewerberleistungen", () => {
-      const { pdfValues } = fillEinkommenType({
+      const { pdfValues } = fillOwnBruttoEinnahmen({
         userData: { staatlicheLeistungen: "asylbewerberleistungen" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_10.value).toBe(true);
-      expect(pdfValues.nein_12.value).toBe(true);
+      expect(pdfValues.nein_10.value).toBeUndefined();
+      expect(pdfValues.nein_12.value).toBeUndefined();
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro
           .value,

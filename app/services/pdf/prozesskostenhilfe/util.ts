@@ -5,7 +5,9 @@ export const getTotalMonthlyFinancialEntries = (
 ) =>
   financialEntries
     .map((entry) => {
-      const betragNumber = Number(entry.betrag.replace(",", "."));
+      const betragNumber = Number(
+        entry.betrag.replaceAll(".", "").replace(",", "."),
+      );
       switch (entry.zahlungsfrequenz) {
         case "monthly":
           return betragNumber;
