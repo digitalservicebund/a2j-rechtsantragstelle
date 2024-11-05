@@ -28,5 +28,21 @@ describe("utility functions", () => {
         ]),
       ).toBe("140,00");
     });
+    it("should consider the thousands seperator", () => {
+      expect(
+        getTotalMonthlyFinancialEntries([
+          {
+            beschreibung: "",
+            betrag: "1.000,00",
+            zahlungsfrequenz: "monthly",
+          },
+          {
+            beschreibung: "",
+            betrag: "120,00",
+            zahlungsfrequenz: "monthly",
+          },
+        ]),
+      ).toBe("1.120,00");
+    });
   });
 });
