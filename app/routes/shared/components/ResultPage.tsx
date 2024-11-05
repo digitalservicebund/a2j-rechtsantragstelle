@@ -21,12 +21,14 @@ const icons: Record<StrapiResultPageType, ReactElement> = {
   error: <HighlightOff color="error" className={iconCSS} />,
   success: <CheckCircleOutline color="success" className={iconCSS} />,
   warning: <WarningAmber color="warning" className={iconCSS} />,
+  info: <CheckCircleOutline color="success" className={iconCSS} />,
 };
 
 const backgrounds: Record<StrapiResultPageType, BackgroundColor> = {
   error: "red",
   success: "green",
   warning: "yellow",
+  info: "blue",
 };
 
 export function ResultPage() {
