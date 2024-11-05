@@ -91,7 +91,7 @@ export const fillRente: PkhPdfFillFunction = ({ userData, pdfValues }) => {
 export const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   if (userData.unterhaltsanspruch === "unterhalt") {
     pdfValues.ja_10.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8.value = `${removeDecimalsFromCurrencyString(userData.unterhaltssumme)} ${nettoString}`;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8.value = `${removeDecimalsFromCurrencyString(userData.unterhaltsSumme)} ${nettoString}`;
   }
   if (
     userData.unterhaltsanspruch == "keine" ||

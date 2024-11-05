@@ -24,7 +24,7 @@ describe("D_angehoerige", () => {
   const testContexts = {
     partner: {
       unterhalt: "yes",
-      unterhaltsSumme: "100",
+      partnerUnterhaltsSumme: "100",
     },
     children: {
       kinder: [
