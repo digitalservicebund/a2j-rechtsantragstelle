@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/pseudo-random */
 import { faker } from "@faker-js/faker";
 import { Factory } from "fishery";
 import type { StrapiImage } from "~/services/cms/models/StrapiImage";

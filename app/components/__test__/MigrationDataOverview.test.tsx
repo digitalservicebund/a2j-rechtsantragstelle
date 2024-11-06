@@ -1,7 +1,6 @@
 import { render } from "@testing-library/react";
 import MigrationDataOverview from "../MigrationDataOverview";
 
-// eslint-disable-next-line react/display-name
 vi.mock("~/components/Button", () => ({
   default: () => <div>Mock Button</div>,
 }));
