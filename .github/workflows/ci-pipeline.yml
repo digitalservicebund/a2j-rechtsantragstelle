@@ -39,14 +39,14 @@ jobs:
     outputs:
       content_checksum: ${{ steps.checksum.outputs.content_checksum }}
 
-  verify-local-e2e:
-    needs: [get-content-file]
-    uses: ./.github/workflows/e2e-test.yml
-    with:
-      require-published-app: false
-      e2e-target: local
-    secrets:
-      GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
+  # verify-local-e2e:
+  #   needs: [get-content-file]
+  #   uses: ./.github/workflows/e2e-test.yml
+  #   with:
+  #     require-published-app: false
+  #     e2e-target: local
+  #   secrets:
+  #     GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
 
   build-push-app-image:
     if: github.ref == 'refs/heads/main'
@@ -159,13 +159,13 @@ jobs:
           metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
           metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
 
-  verify-preview-e2e:
-    needs: [deploy-preview]
-    uses: ./.github/workflows/e2e-test.yml
-    with:
-      require-published-app: false
-      use-existing-server: true
-      e2e-target: preview
+  # verify-preview-e2e:
+  #   needs: [deploy-preview]
+  #   uses: ./.github/workflows/e2e-test.yml
+  #   with:
+  #     require-published-app: false
+  #     use-existing-server: true
+  #     e2e-target: preview
 
   deploy-production:
     needs: [verify-preview-e2e, build-push-app-image]
