@@ -116,10 +116,10 @@ export default tseslint.config(
       "sonarjs/sonar-no-unused-vars": "off",
 
       // duplicates of typescript-eslint rules (prefer typescript-eslint as their rule pages are clearer)
-      "sonarjs/no-misused-promises": "off", // handled already by typescript-eslint
-      "sonarjs/different-types-comparison": "off", // handled already by typescript-eslint
-      "sonarjs/sonar-prefer-regexp-exec": "off", // handled already by typescript-eslint
-      "sonarjs/sonar-prefer-optional-chain": "off", // handled already by typescript-eslint
+      "sonarjs/no-misused-promises": "off",
+      "sonarjs/different-types-comparison": "off",
+      "sonarjs/sonar-prefer-regexp-exec": "off",
+      "sonarjs/sonar-prefer-optional-chain": "off",
 
       // to be enabled later
       "sonarjs/no-unstable-nested-components": "warn", // TODO: enable later
