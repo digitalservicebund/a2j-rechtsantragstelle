@@ -13,7 +13,7 @@ export async function startAntragstellendePerson(
   await formular.fillRadioPage("unterhaltsanspruch", "unterhalt");
 
   // /prozesskostenhilfe/formular/antragstellende-person/unterhalt
-  await formular.fillInputPage("unterhaltssumme", "100");
+  await formular.fillInputPage("unterhaltsSumme", "100");
 
   // /prozesskostenhilfe/formular/antragstellende-person/unterhalt-hauptsaechliches-leben
   await formular.fillRadioPage("livesPrimarilyFromUnterhalt", "yes");

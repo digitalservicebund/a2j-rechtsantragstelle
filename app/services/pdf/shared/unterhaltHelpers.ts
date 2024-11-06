@@ -27,7 +27,7 @@ export function getFillUnterhalt<
 ): PdfFillFunction<Context, Pdf> {
   return ({ userData, pdfValues }) => {
     const attachment: AttachmentEntries = [];
-    const zahltPartnerUnterhalt = userData.unterhaltsSumme !== undefined;
+    const zahltPartnerUnterhalt = userData.partnerUnterhaltsSumme !== undefined;
     const kinder = userData.kinder ?? [];
     const hasKinder = kinder.length > 0;
 
@@ -49,7 +49,7 @@ export function getFillUnterhalt<
       });
       attachment.push({
         title: "Monatliche Unterhaltszahlungen",
-        text: userData.unterhaltsSumme + " €",
+        text: userData.partnerUnterhaltsSumme + " €",
       });
       attachment.push({
         title: "Gemeinsame Wohnung",
