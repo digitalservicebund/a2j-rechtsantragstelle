@@ -90,66 +90,11 @@ export default tseslint.config(
       },
     },
     rules: {
-      "import/no-cycle": "warn",
+      // eslint
       "no-console": "warn",
-      "sonarjs/no-duplicate-string": "off",
-      "sonarjs/todo-tag": "warn",
-      "sonarjs/fixme-tag": "warn",
-      "sonarjs/no-commented-code": "warn",
-      "sonarjs/jsx-no-constructed-context-values": "warn",
-      "sonarjs/new-cap": "off",
-      "sonarjs/no-array-index-key": "warn",
-      "sonarjs/no-empty-test-file": "off",
-      "sonarjs/no-redeclare": "off",
-      "sonarjs/no-nested-functions": "warn",
-      "sonarjs/sonar-no-unused-vars": "off",
-      "sonarjs/no-unstable-nested-components": "warn", //enable later
-      "sonarjs/different-types-comparison": "off",
-      "sonarjs/no-unsafe-enum-comparison": "off",
-      "sonarjs/no-misused-promises": "off",
-      "sonarjs/sonar-prefer-regexp-exec": "off",
-      "sonarjs/new-cap": "off",
-      "sonarjs/deprecation": "off",
-      "sonarjs/no-array-index-key": "off",
-      "sonarjs/no-empty-test-file": "off",
-      "sonarjs/function-return-type": "off",
-      "sonarjs/no-alphabetical-sort": "off",
-      "sonarjs/no-base-to-string": "off",
-      "sonarjs/no-invalid-await": "off",
-      "sonarjs/no-misleading-array-reverse": "off",
-      "sonarjs/no-undefined-argument": "off",
-      "sonarjs/sonar-prefer-optional-chain": "off",
-      "sonarjs/sonar-prefer-read-only-props": "off",
-      "@typescript-eslint/no-base-to-string": "off",
-      "@typescript-eslint/no-floating-promises": "off",
-      "@typescript-eslint/no-misused-promises": "off",
-      "@typescript-eslint/no-unsafe-argument": "off",
-      "@typescript-eslint/no-unsafe-enum-comparison": "off",
-      "@typescript-eslint/no-unsafe-member-access": "off",
-      "@typescript-eslint/only-throw-error": "off",
-      "@typescript-eslint/prefer-optional-chain": "off",
-      "@typescript-eslint/prefer-promise-reject-errors": "off",
-      "@typescript-eslint/prefer-regexp-exec": "off",
-      "@typescript-eslint/restrict-template-expressions": "off",
-      "@typescript-eslint/require-await": "off",
-      "@typescript-eslint/ban-ts-comment": "off", // enable later
-      "@typescript-eslint/consistent-type-definitions": "off", // enable later
-      "@typescript-eslint/consistent-type-imports": "warn",
-      "@typescript-eslint/array-type": "off", // enable later
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/dot-notation": "off",
-      "@typescript-eslint/no-unsafe-call": "off",
-      "@typescript-eslint/await-thenable": "off",
-      "@typescript-eslint/no-unsafe-return": "off",
-      "@typescript-eslint/no-unsafe-assignment": "off",
-      "@typescript-eslint/non-nullable-type-assertion-style": "off",
-      "@typescript-eslint/unbound-method": "off",
-      "@typescript-eslint/prefer-nullish-coalescing": "off",
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
-        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
-      ],
 
+      // import
+      "import/no-cycle": "warn",
       "import/order": [
         "warn",
         {
@@ -158,6 +103,69 @@ export default tseslint.config(
           "newlines-between": "never",
         },
       ],
+
+      // sonarjs
+      "sonarjs/no-duplicate-string": "off",
+      "sonarjs/todo-tag": "warn",
+      "sonarjs/fixme-tag": "warn",
+      "sonarjs/no-commented-code": "warn",
+      "sonarjs/jsx-no-constructed-context-values": "warn",
+      "sonarjs/no-array-index-key": "warn",
+      "sonarjs/no-redeclare": "off",
+      "sonarjs/no-nested-functions": "warn",
+      "sonarjs/sonar-no-unused-vars": "off",
+
+      // duplicates of typescript-eslint rules (prefer typescript-eslint as their rule pages are clearer)
+      "sonarjs/no-misused-promises": "off", // handled already by typescript-eslint
+      "sonarjs/different-types-comparison": "off", // handled already by typescript-eslint
+      "sonarjs/sonar-prefer-regexp-exec": "off", // handled already by typescript-eslint
+      "sonarjs/sonar-prefer-optional-chain": "off", // handled already by typescript-eslint
+
+      // to be enabled later
+      "sonarjs/no-unstable-nested-components": "warn", // TODO: enable later
+
+      // fix/reevaluate
+      "sonarjs/new-cap": "off", // FIXME: turn on
+      "sonarjs/deprecation": "off", // FIXME: turn on
+      "sonarjs/no-empty-test-file": "off", // FIXME: turn on
+      "sonarjs/function-return-type": "off", // FIXME: turn on
+      "sonarjs/no-alphabetical-sort": "off", // FIXME: turn on
+      "sonarjs/no-base-to-string": "off", // FIXME: turn on
+      "sonarjs/no-invalid-await": "off", // FIXME: turn on
+      "sonarjs/no-misleading-array-reverse": "off", // FIXME: turn on
+      "sonarjs/no-undefined-argument": "off", // FIXME: turn on
+      "sonarjs/sonar-prefer-read-only-props": "off", // FIXME: turn on
+
+      // typescript-eslint
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/consistent-type-imports": "warn",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+
+      // to be enabled later
+      "@typescript-eslint/ban-ts-comment": "off", // TODO: enable later
+      "@typescript-eslint/consistent-type-definitions": "off", // TODO: enable later
+      "@typescript-eslint/array-type": "off", // TODO: enable later
+
+      // fix/reevaluate
+      "@typescript-eslint/no-base-to-string": "off", // FIXME: turn on
+      "@typescript-eslint/no-floating-promises": "off", // FIXME: turn on
+      "@typescript-eslint/no-unsafe-argument": "off", // FIXME: turn on
+      "@typescript-eslint/no-unsafe-member-access": "off", // FIXME: turn on
+      "@typescript-eslint/only-throw-error": "off", // FIXME: turn on
+      "@typescript-eslint/prefer-promise-reject-errors": "off", // FIXME: turn on
+      "@typescript-eslint/restrict-template-expressions": "off", // FIXME: turn on
+      "@typescript-eslint/require-await": "off", // FIXME: turn on
+      "@typescript-eslint/dot-notation": "off", // FIXME: turn on
+      "@typescript-eslint/no-unsafe-call": "off", // FIXME: turn on
+      "@typescript-eslint/await-thenable": "off", // FIXME: turn on
+      "@typescript-eslint/no-unsafe-return": "off", // FIXME: turn on
+      "@typescript-eslint/no-unsafe-assignment": "off", // FIXME: turn on
+      "@typescript-eslint/non-nullable-type-assertion-style": "off", // FIXME: turn on
+      "@typescript-eslint/unbound-method": "off", // FIXME: turn on
+      "@typescript-eslint/prefer-nullish-coalescing": "off", // FIXME: turn on
     },
   },
   // Vitest
