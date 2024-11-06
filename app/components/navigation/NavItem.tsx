@@ -2,7 +2,7 @@ import CheckIcon from "@digitalservicebund/icons/Check";
 import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
 import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
 import classNames from "classnames";
-import { useId, type FC } from "react";
+import { useId } from "react";
 import { useCollapse } from "react-collapsed";
 import {
   stateIsCurrent,
@@ -11,7 +11,6 @@ import {
   stateIsDone,
   type NavState,
 } from "~/services/navigation/navState";
-import { NavigationList, type NavigationA11yLabels } from "./NavigationList";
 
 export type NavItem = {
   destination: string;
@@ -21,16 +20,16 @@ export type NavItem = {
   a11yLabels?: NavigationA11yLabels;
 };
 
-export const StateIcon: FC<{
-  id: string;
+export type FlowNavigationProps = Readonly<{
+  navItems: NavItem[];
   a11yLabels?: NavigationA11yLabels;
-}> = ({ id, a11yLabels }) => (
-  <CheckIcon
-    id={id}
-    className="shrink-0"
-    aria-label={a11yLabels?.itemFinished}
-  />
-);
+}>;
+
+type NavigationA11yLabels = {
+  menuLabel: string;
+  itemFinished: string;
+  itemOpen: string;
+};
 
 export function NavItem({
   destination,
@@ -111,5 +110,32 @@ export function NavItem({
         </a>
       )}
     </li>
+  );
+}
+
+export const NavigationList = ({
+  navItems,
+  ...props
+}: FlowNavigationProps & { isChild?: boolean }) => (
+  <ul className="pl-0">
+    {navItems.map((navItem) => (
+      <NavItem {...navItem} key={navItem.destination} {...props} />
+    ))}
+  </ul>
+);
+
+function StateIcon({
+  id,
+  a11yLabels,
+}: Readonly<{
+  id: string;
+  a11yLabels?: NavigationA11yLabels;
+}>) {
+  return (
+    <CheckIcon
+      id={id}
+      className="shrink-0"
+      aria-label={a11yLabels?.itemFinished}
+    />
   );
 }

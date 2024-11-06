@@ -1,5 +1,5 @@
 export const objectMap = <V, R>(
-  obj: { [key: string]: V },
+  obj: Record<string, V>,
   fn: (value: V, key: string, index: number) => R,
 ) =>
   Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]));

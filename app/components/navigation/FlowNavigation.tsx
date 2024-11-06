@@ -1,4 +1,4 @@
-import { NavigationList, type FlowNavigationProps } from "./NavigationList";
+import { NavigationList, type FlowNavigationProps } from "./NavItem";
 
 export default function FlowNavigation(props: FlowNavigationProps) {
   return (

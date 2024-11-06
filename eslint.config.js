@@ -93,7 +93,6 @@ export default tseslint.config(
       "import/no-cycle": "warn",
       "no-console": "warn",
       "sonarjs/no-duplicate-string": "off",
-      "sonarjs/prefer-enum-initializers": "off", // currently breaks at runtime with TypeError: Cannot read properties of undefined (reading 'members')
       "sonarjs/todo-tag": "warn",
       "sonarjs/fixme-tag": "warn",
       "sonarjs/no-commented-code": "warn",
@@ -137,7 +136,6 @@ export default tseslint.config(
       "@typescript-eslint/consistent-type-definitions": "off", // enable later
       "@typescript-eslint/consistent-type-imports": "warn",
       "@typescript-eslint/array-type": "off", // enable later
-      "@typescript-eslint/consistent-indexed-object-style": "off", // enable later
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/dot-notation": "off",
       "@typescript-eslint/no-unsafe-call": "off",

@@ -1,5 +1,5 @@
 import { type Renderer, Marked } from "marked";
-import ReactDOMServer from "react-dom/server";
+import { renderToString } from "react-dom/server";
 import { z } from "zod";
 import { sanatize } from "~/services/security/sanatizeHtml";
 import { StandaloneLink } from "./StandaloneLink";
@@ -22,9 +22,7 @@ const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {
     /* Either renders a Standalone link or Inline link,
       but we use the StandaloneLink component, because both has the same structure and style */
-    return ReactDOMServer.renderToString(
-      <StandaloneLink text={text} url={href} />,
-    );
+    return renderToString(<StandaloneLink text={text} url={href} />);
   },
   heading({ depth, text }) {
     // can't use .at() due to old browsers
