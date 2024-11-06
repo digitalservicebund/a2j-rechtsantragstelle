@@ -2,7 +2,7 @@ import {
   getStrapiFlowPage,
   getStrapiFormComponent,
 } from "tests/factories/cmsModels/strapiFlowPage";
-import { strapiFooterFactory } from "~/../tests/factories/cmsModels/strapiFooter";
+import { getStrapiFooter } from "~/../tests/factories/cmsModels/strapiFooter";
 import { fetchSingleEntry } from "~/services/cms/index.server";
 import { fetchAllFormFields } from "../fetchAllFormFields";
 import { getStrapiEntry } from "../getStrapiEntry";
@@ -15,7 +15,7 @@ describe("services/cms", () => {
 
   describe("fetchSingleEntry", () => {
     test("returns a footer entry", async () => {
-      const footerData = strapiFooterFactory.build();
+      const footerData = getStrapiFooter();
       vi.mocked(getStrapiEntry).mockReturnValue(
         Promise.resolve([{ attributes: footerData }]),
       );
