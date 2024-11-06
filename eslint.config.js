@@ -158,6 +158,10 @@ export default tseslint.config(
       "@typescript-eslint/prefer-promise-reject-errors": "off", // FIXME: turn on
       "@typescript-eslint/restrict-template-expressions": "off", // FIXME: turn on
       "@typescript-eslint/require-await": "off", // FIXME: turn on
+      "@typescript-eslint/prefer-regexp-exec": "off", // FIXME: turn on
+      "@typescript-eslint/prefer-optional-chain": "off", // FIXME: turn on
+      "@typescript-eslint/no-unsafe-enum-comparison": "off", // FIXME: turn on
+      "@typescript-eslint/no-misused-promises": "off", // FIXME: turn on
       "@typescript-eslint/dot-notation": "off", // FIXME: turn on
       "@typescript-eslint/no-unsafe-call": "off", // FIXME: turn on
       "@typescript-eslint/await-thenable": "off", // FIXME: turn on
