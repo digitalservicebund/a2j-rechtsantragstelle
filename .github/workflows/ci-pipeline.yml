@@ -12,7 +12,7 @@ env:
 
 jobs:
   code-quality:
-    uses: ./.github/workflows/npm-checks.yml
+    uses: ./.github/workflows/pnpm-checks.yml
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
