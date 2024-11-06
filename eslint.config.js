@@ -69,14 +69,18 @@ export default tseslint.config(
   {
     files: ["**/*.{ts,tsx}"],
     extends: [
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
+      ...tseslint.configs.recommendedTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked,
       importPlugin.flatConfigs.recommended,
       importPlugin.flatConfigs.typescript,
       sonarjs.configs.recommended,
     ],
     languageOptions: {
       parser: tseslint.parser,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     settings: {
       "import/internal-regex": "^~/",
