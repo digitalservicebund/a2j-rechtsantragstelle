@@ -19,7 +19,7 @@ export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>({
       content = strapiFileSchema.parse(JSON.parse(fileContent));
     } catch (error) {
       throw Error(
-        "No valid content.json found while using 'CMS=FILE'.\nEither run 'npm run build:localContent' or try another CMS source",
+        "No valid content.json found while using 'CMS=FILE'.\nEither run 'pnpm run build:localContent' or try another CMS source",
         { cause: error },
       );
     }

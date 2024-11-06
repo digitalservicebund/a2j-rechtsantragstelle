@@ -92,7 +92,7 @@ case $1 in
         LATEST_GIT_TAG=$(git rev-parse HEAD)
         APP_IMAGE_TAG=$APP_IMAGE
 
-        npm run build
+        pnpm run build
         echo "Building $APP_IMAGE..."
         docker build -t $APP_IMAGE --label "hash=$LATEST_GIT_TAG" -f $DOCKERFILE --target app --quiet .
 

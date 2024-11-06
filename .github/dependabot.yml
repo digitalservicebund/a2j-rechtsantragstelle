@@ -2,6 +2,8 @@
 # https://docs.github.com/de/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 version: 2
 updates:
+  # For PNPM, the ecosystem should be set as "npm"
+  # https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#package-ecosystem
   - package-ecosystem: "npm"
     directory: "/"
     schedule:

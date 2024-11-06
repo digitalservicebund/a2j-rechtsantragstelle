@@ -59,7 +59,7 @@ async function unusedStrapiEntry() {
   } catch (error) {
     console.error(error);
     console.warn(
-      `The previous error occured while trying to read ${contentFilePath}. Did you forget to run 'npm run build:localContent' before?`,
+      `The previous error occured while trying to read ${contentFilePath}. Did you forget to run 'pnpm run build:localContent' before?`,
     );
     process.exit(1);
   }

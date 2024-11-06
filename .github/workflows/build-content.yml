@@ -11,12 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/cached-checkout-install
-      - run: npm run build:localContent
+      - run: pnpm run build:localContent
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
-      - run: npm run verify:emails
-      - run: npm run verify:websites
+      - run: pnpm run verify:emails
+      - run: pnpm run verify:websites
       - name: Calculate content checksum
         id: checksum
         run: echo "content_checksum=$(./docker.sh --contentHash)" >> $GITHUB_OUTPUT

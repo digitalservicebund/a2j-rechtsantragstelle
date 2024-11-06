@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint no-var: 0, @typescript-eslint/no-explicit-any: 0*/
-// Update zip file using npm run update:courtData -- /path/to/file.zip
+// Update zip file using pnpm run update:courtData -- /path/to/file.zip
 
 import crypto from "node:crypto";
 import fs from "node:fs";

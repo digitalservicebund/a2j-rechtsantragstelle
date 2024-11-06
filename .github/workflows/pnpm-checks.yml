@@ -1,4 +1,4 @@
-name: NPMChecks
+name: PNPMChecks
 on:
   workflow_call:
     secrets:
@@ -13,13 +13,13 @@ jobs:
     permissions:
       packages: read
     runs-on: ubuntu-latest
-    name: npm run ${{ matrix.npmCMD }}
+    name: pnpm run ${{ matrix.npmCMD }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: ./.github/actions/cached-checkout-install
-      - run: npm run ${{ matrix.npmCMD }}
+      - run: pnpm run ${{ matrix.npmCMD }}
       - name: SonarCloud Scan
         if: ${{ github.actor != 'dependabot[bot]' && matrix.npmCMD == 'test:coverage' }}
         uses: SonarSource/sonarcloud-github-action@383f7e52eae3ab0510c3cb0e7d9d150bbaeab838 # v3.1.0

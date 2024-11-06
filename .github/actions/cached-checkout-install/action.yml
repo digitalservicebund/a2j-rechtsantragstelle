@@ -3,27 +3,15 @@ description: "Checks out repository, downloads node, caches node_modules and ins
 runs:
   using: "composite"
   steps:
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
         node-version: "20.x"
-        cache: "npm"
-    - name: Cache node modules
-      id: cache-npm
-      uses: actions/cache@v4
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
-    - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-      name: List the state of node modules
-      continue-on-error: true
-      run: npm list
+        cache: "pnpm"
+    - name: Install dependencies
       shell: bash
-    - run: npm ci
-      shell: bash
+      run: pnpm install

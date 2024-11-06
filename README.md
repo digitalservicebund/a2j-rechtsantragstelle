@@ -10,7 +10,7 @@ First draft of implementing a platform to create requests to the Rechtsantragste
 
 - Node.js >= 20.0.0
 - Docker (Redis dependency)
-- npm 7 or greater
+- pnpm 9 or greater
 - strapi ([see below](#strapi))
 
 #### Strapi
@@ -27,7 +27,7 @@ First draft of implementing a platform to create requests to the Rechtsantragste
 
    - Set `STRAPI_API` and `STRAPI_ACCESS_KEY` to point to staging like in option 2.
    - Set `CMS=FILE`
-   - Run `npm run build:localContent` (should have generated a `content.json` file)
+   - Run `pnpm run build:localContent` (should have generated a `content.json` file)
 
 </details>
 
@@ -41,9 +41,9 @@ The App first checks to [see if valid staging data exists](https://github.com/di
 ### Run Server in Development Mode
 
 ```sh
-npm install
+pnpminstall
 docker compose up -d
-npm run dev
+pnpm run dev
 ```
 
 This starts your app in development mode, rebuilding assets on file changes.
@@ -53,14 +53,14 @@ Open the app in `localhost:3000`
 
 #### Unit tests
 
-- run: `npm run test`
-- run in [watch mode](https://vitest.dev/guide/features.html#watch-mode): `npm run test:watch`
-- run with coverage: `npm run test:coverage`
-- run subset: `npm run test -- -t "STRING_TO_MATCH"`
+- run: `pnpm run test`
+- run in [watch mode](https://vitest.dev/guide/features.html#watch-mode): `pnpm run test:watch`
+- run with coverage: `pnpm run test:coverage`
+- run subset: `pnpm run test -- -t "STRING_TO_MATCH"`
 
 #### E2E tests
 
-- run: `npm run test:e2e`
+- run: `pnpm run test:e2e`
 - UI: `npx playwright test --ui`
 - debug (F10 to step over): `npx playwright test --debug`
 
@@ -81,7 +81,7 @@ Open the app in `localhost:3000`
 
 ### Git Hooks
 
-We use [lefthook](https://github.com/evilmartians/lefthook) for running several pre-commit hooks,install them using `npm run init`.
+We use [lefthook](https://github.com/evilmartians/lefthook) for running several pre-commit hooks,install them using `pnpm run init`.
 
 The git hooks check formatting, linting, unit tests, typecheck (see `lefthook.yaml` for more details). You may execute them before commiting using `lefthook run pre-commit`.
 
@@ -89,7 +89,7 @@ The git hooks check formatting, linting, unit tests, typecheck (see `lefthook.ya
 
 1. Create a new folder for example: `prozesskostenhilfe`
 2. Store the antrag or form pdf there: `prozesskostenhilfe/Erklaerung_Verhaeltnisse_Prozess_oder_Verfahrenskostenhilfe.pdf`
-3. Run `npm run build:pdf`
+3. Run `pnpm run build:pdf`
 
 After running the command, a new file named `prozesskostenhilfe.generated.ts` will be generated in the specified directory. You can use this file to fill out the PDF based on the input fields defined within it.
 
@@ -257,21 +257,21 @@ flowchart TD
 ### Storybook
 
 We have a storybook instance running. On the Staging and preview environments it can be accessed via `/storybook`.
-In development mode, run the `npm run start:storybook` command.
+In development mode, run the `pnpm run start:storybook` command.
 
 ## Data update
 
 ### License
 
-`npm run build:licenses`
+`pnpm run build:licenses`
 
 ### Airport
 
-`npm run build:airports-data`
+`pnpm run build:airports-data`
 
 ### Airline
 
-`npm run build:airlines-data "AIRLINE_FILE_PATH"`
+`pnpm run build:airlines-data "AIRLINE_FILE_PATH"`
 
 The `AIRLINE_FILE_PATH` corresponds to the file that contains airlines data that will be transformed into `json` via the `build:airlines-data ` task. For more information, please contact the maintainers of this repository.
 
