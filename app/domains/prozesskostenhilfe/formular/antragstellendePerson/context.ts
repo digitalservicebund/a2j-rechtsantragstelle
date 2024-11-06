@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { GenericGuard } from "~/domains/guards.server";
-import { familyRelationshipSchema } from "~/domains/shared/finanzielleAngaben/context";
-import { vornameNachnameSchema } from "~/domains/shared/persoenlicheDaten/context";
+import { familyRelationshipSchema } from "~/domains/shared/formular/finanzielleAngaben/context";
+import { vornameNachnameSchema } from "~/domains/shared/formular/persoenlicheDaten/context";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import {

@@ -30,13 +30,13 @@ import type { ProzesskostenhilfePersoenlicheDaten } from "./persoenlicheDaten/co
 import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechtsschutzversicherung/context";
 import { getMissingInformationStrings } from "./stringReplacements";
-import { finanzielleAngabenArrayConfig } from "../../shared/finanzielleAngaben/arrayConfiguration";
+import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
 import {
   eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
   getArrayIndexStrings,
   getKinderStrings,
-} from "../../shared/stringReplacements";
+} from "../../shared/formular/stringReplacements";
 
 export const prozesskostenhilfeFormular = {
   cmsSlug: "form-flow-pages",

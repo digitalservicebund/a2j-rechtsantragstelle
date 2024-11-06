@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { createMachine } from "xstate";
 import {
   type Config,

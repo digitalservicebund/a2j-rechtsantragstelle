@@ -2,8 +2,8 @@ import { z } from "zod";
 import {
   financialEntrySchema,
   staatlicheLeistungen,
-} from "~/domains/shared/finanzielleAngaben/context";
-import { adresseSchema } from "~/domains/shared/persoenlicheDaten/context";
+} from "~/domains/shared/formular/finanzielleAngaben/context";
+import { adresseSchema } from "~/domains/shared/formular/persoenlicheDaten/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";

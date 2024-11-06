@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { bereich } from "~/domains/beratungshilfe/formular/rechtsproblem/context";
-import { staatlicheLeistungen } from "~/domains/shared/finanzielleAngaben/context";
+import { staatlicheLeistungen } from "~/domains/shared/formular/finanzielleAngaben/context";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import {

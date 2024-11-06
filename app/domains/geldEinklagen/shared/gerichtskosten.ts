@@ -1,7 +1,6 @@
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { type AllContexts } from "../../common";
 
-/* eslint-disable camelcase */
 const gerichtskostenvorschuss = {
   below_500: 114,
   above_500: 174,
@@ -11,7 +10,6 @@ const gerichtskostenvorschuss = {
   above_3000: 420,
   above_4000: 483,
 } as const;
-/* eslint-enable camelcase */
 
 export const getGerichtskostenvorschuss = (context: AllContexts) => {
   if (
