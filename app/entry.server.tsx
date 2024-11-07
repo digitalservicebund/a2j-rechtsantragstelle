@@ -9,12 +9,12 @@ import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 import { config } from "./services/env/env.server";
-import { config as configWeb } from "./services/env/web";
 import { logError } from "./services/logging";
 import { cspHeader } from "./services/security/cspHeader.server";
 import { NonceContext } from "./services/security/nonce";
 import { generateNonce } from "./services/security/nonce.server";
 import { stripTrailingSlashFromURL } from "./util/strings";
+import { TRUSTED_DOMAINS } from "./services/security/trustedDomains";
 
 const ABORT_DELAY = 5000;
 
@@ -98,18 +98,12 @@ function handleBrowserRequest(
   return new Promise((resolve, reject) => {
     let didError = false;
     const cspNonce = generateNonce();
-    const trustedDomains = [
-      configWeb().POSTHOG_API_HOST,
-      configWeb().SENTRY_DSN,
-    ]
-      .filter((url) => url !== undefined)
-      .map((url) => new URL(url).origin);
     responseHeaders.set(
       "Content-Security-Policy",
       cspHeader({
         nonce: cspNonce,
         environment: config().ENVIRONMENT,
-        trustedDomains,
+        trustedDomains: TRUSTED_DOMAINS,
         reportUri: config().CSP_REPORT_URI,
       }),
     );
