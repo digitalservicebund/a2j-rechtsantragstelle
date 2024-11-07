@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { GenericGuard } from "~/domains/guards.server";
+import { familyRelationshipSchema } from "~/domains/shared/finanzielleAngaben/context";
 import { vornameNachnameSchema } from "~/domains/shared/persoenlicheDaten/context";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -9,36 +10,22 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
-const beziehungSchema = z.enum(
-  [
-    "mutter",
-    "vater",
-    "grossmutter",
-    "grossvater",
-    "kind",
-    "enkelkind",
-    "exEhepartnerin",
-    "exEhepartner",
-  ],
-  customRequiredErrorMessage,
-);
-
 export const prozesskostenhilfeAntragstellendePersonContext = {
   empfaenger: z.enum(["ich", "anderePerson"], customRequiredErrorMessage),
   unterhaltsanspruch: z.enum(
     ["keine", "unterhalt", "anspruchNoUnterhalt"],
     customRequiredErrorMessage,
   ),
-  unterhaltssumme: buildMoneyValidationSchema(),
+  unterhaltsSumme: buildMoneyValidationSchema(),
   livesPrimarilyFromUnterhalt: YesNoAnswer,
   unterhaltspflichtigePerson: z
     .object({
-      beziehung: beziehungSchema,
+      beziehung: familyRelationshipSchema,
       ...vornameNachnameSchema,
     })
     .optional(),
   couldLiveFromUnterhalt: YesNoAnswer,
-  personWhoCouldPayUnterhaltBeziehung: beziehungSchema,
+  personWhoCouldPayUnterhaltBeziehung: familyRelationshipSchema,
   whyNoUnterhalt: stringRequiredSchema,
 };
 
@@ -67,11 +54,11 @@ export const antragstellendePersonDone: GenericGuard<
   unterhaltLeisteIch({ context }) ||
   context.unterhaltsanspruch === "keine" ||
   (context.unterhaltsanspruch === "unterhalt" &&
-    context.unterhaltssumme !== undefined &&
+    context.unterhaltsSumme !== undefined &&
     context.livesPrimarilyFromUnterhalt !== undefined &&
     !unterhaltBekommeIch({ context })) ||
   (context.unterhaltsanspruch === "unterhalt" &&
-    context.unterhaltssumme !== undefined &&
+    context.unterhaltsSumme !== undefined &&
     unterhaltBekommeIch({ context }) &&
     objectKeysNonEmpty(context.unterhaltspflichtigePerson, [
       "beziehung",

@@ -15,8 +15,12 @@ export const personDone: FluggastrechtePersoenlichDatenGuard = ({ context }) =>
   ]);
 
 export const weiterePersonenDone: FluggastrechtePersoenlichDatenGuard = ({
-  context: { weiterePersonen, isWeiterePersonen },
+  context: { weiterePersonen, isWeiterePersonen, hasZeugen },
 }) => {
+  if (typeof hasZeugen === "undefined") {
+    return false;
+  }
+
   if (isWeiterePersonen === "no") {
     return true;
   }

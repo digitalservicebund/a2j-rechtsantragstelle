@@ -13,6 +13,7 @@ import {
   isAnnullierung,
   isNichtBefoerderung,
   isVerspaetet,
+  isWeiterePersonen,
 } from "../stringReplacements";
 
 describe("stringReplacements", () => {
@@ -312,6 +313,24 @@ describe("stringReplacements", () => {
       });
 
       expect(actual).toStrictEqual({ isAnnullierung: false });
+    });
+  });
+
+  describe("isWeiterePersonen", () => {
+    it("should return isWeiterePersonen as true if the isWeiterePersonen is yes", () => {
+      const actual = isWeiterePersonen({
+        isWeiterePersonen: "yes",
+      });
+
+      expect(actual).toStrictEqual({ isWeiterePersonen: true });
+    });
+
+    it("should return isWeiterePersonen as false if the isWeiterePersonen is no", () => {
+      const actual = isWeiterePersonen({
+        isWeiterePersonen: "no",
+      });
+
+      expect(actual).toStrictEqual({ isWeiterePersonen: false });
     });
   });
 });

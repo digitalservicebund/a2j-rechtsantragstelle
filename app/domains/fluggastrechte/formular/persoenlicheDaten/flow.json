@@ -30,7 +30,7 @@
                 "guard": "isWeiterePersonenYes",
                 "target": "uebersicht"
               },
-              "#zusammenfassung.start"
+              "#weitere-personen.zeugen"
             ],
             "BACK": "#person.daten"
           }
@@ -38,7 +38,7 @@
         "uebersicht": {
           "on": {
             "BACK": "frage",
-            "SUBMIT": "#zusammenfassung.start",
+            "SUBMIT": "#weitere-personen.zeugen",
             "add-weiterePersonen": {
               "guard": "isValidWeiterePersonenArrayIndex",
               "target": "person"
@@ -54,6 +54,18 @@
                 "SUBMIT": "#weitere-personen.uebersicht"
               }
             }
+          }
+        },
+        "zeugen": {
+          "on": {
+            "BACK": [
+              {
+                "guard": "isWeiterePersonenYes",
+                "target": "#weitere-personen.uebersicht"
+              },
+              "#weitere-personen.frage"
+            ],
+            "SUBMIT": "#zusammenfassung.start"
           }
         }
       }

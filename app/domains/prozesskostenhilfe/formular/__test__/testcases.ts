@@ -34,7 +34,7 @@ const cases = [
       empfaenger: "ich",
       unterhaltsanspruch: "anspruchNoUnterhalt",
       couldLiveFromUnterhalt: "yes",
-      personWhoCouldPayUnterhaltBeziehung: "exEhepartner",
+      personWhoCouldPayUnterhaltBeziehung: "ex-spouse-m",
       whyNoUnterhalt: "",
     },
     [

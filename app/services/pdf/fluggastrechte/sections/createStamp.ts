@@ -21,12 +21,12 @@ export const createStamp = (
         .fontSize(8)
         .rotate(-90, { origin: [55, 770] })
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(STAMP_TEXT, STAMP_TEXT_HEIGHT * 3, PDF_HEIGHT_SEIZE, {
+        .text(STAMP_TEXT, STAMP_TEXT_HEIGHT * 2, PDF_HEIGHT_SEIZE - 20, {
           align: "center",
           width: STAMP_TEXT_WIDTH,
           baseline: "middle",
         })
-        .rect(STAMP_TEXT_HEIGHT * 3, 750, STAMP_TEXT_WIDTH, STAMP_TEXT_HEIGHT)
+        .rect(STAMP_TEXT_HEIGHT * 2, 750, STAMP_TEXT_WIDTH, STAMP_TEXT_HEIGHT)
         .stroke()
         .restore();
     }),

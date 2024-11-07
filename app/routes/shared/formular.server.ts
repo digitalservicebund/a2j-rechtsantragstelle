@@ -10,7 +10,6 @@ import { getArraySummaryPageTranslations } from "~/services/array/getArraySummar
 import { getSummaryData } from "~/services/array/getSummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
-import type { Translations } from "~/services/cms/index.server";
 import {
   fetchFlowPage,
   fetchMeta,
@@ -44,6 +43,7 @@ import {
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import type { Translations } from "~/services/translations/getTranslationByKey";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { interpolateSerializableObject } from "~/util/fillTemplate";

@@ -23,7 +23,6 @@ const translations = {
   "unterhaltszahlungen.surname": "Nachname",
 };
 
-// eslint-disable-next-line react/display-name
 vi.mock("~/components/arraySummary/ArraySummaryItemButton", () => ({
   default: () => <div>Mock ArraySummaryItemButton</div>,
 }));

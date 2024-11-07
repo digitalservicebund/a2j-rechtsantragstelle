@@ -14,6 +14,21 @@ export const zahlungsfrequenzMapping = {
   "one-time": "Einmalig",
 };
 
+// PDF Form Field Names:
+// Nichtselbstständige Arbeit - nein_10, ja_9
+// Selbstständige Arbeit      - nein_12, ja_11
+// Vermietung und Verpachtung - nein_14, ja_13
+// Kapitalvermögen            - nein_16, ja_15
+// Kindergeld                 - nein_18, ja_17
+// Wohngeld                   - nein_20, ja_19
+// Unterhalt                  - nein_11, ja_10
+// Rente                      - nein_13, ja_12
+// Arbeitslosengeld           - nein_15, ja_14
+// Bürgergeld                 - nein_17, ja_16
+// Krankengeld                - nein_19, ja_18
+// Elterngeld                 - nein_21, ja_20
+// Weitere Einnahmen          - nein_22, undefined_8
+
 export const fillStaatlicheLeistungen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
@@ -38,51 +53,50 @@ export const fillEinkommenType: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  if (
-    guards.notEmployed({ context: userData }) ||
-    guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData })
-  ) {
+  if (userData.currentlyEmployed === "no") {
     pdfValues.nein_10.value = true;
     pdfValues.nein_12.value = true;
-  } else {
-    if (guards.isEmployee({ context: userData })) {
-      pdfValues.ja_9.value = true;
-      pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro.value = `${removeDecimalsFromCurrencyString(userData.nettoEinkuenfteAlsArbeitnehmer)} ${nettoString}`;
-    } else {
-      pdfValues.nein_10.value = true;
-    }
-    if (guards.isSelfEmployed({ context: userData })) {
-      pdfValues.ja_11.value = true;
-      pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3.value = `${removeDecimalsFromCurrencyString(userData.selbststaendigMonatlichesEinkommen)} ${userData.selbststaendigBruttoNetto}`;
-    } else {
-      pdfValues.nein_12.value = true;
-    }
   }
+
+  if (guards.isEmployee({ context: userData })) {
+    pdfValues.ja_9.value = true;
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro.value = `${removeDecimalsFromCurrencyString(userData.nettoEinkuenfteAlsArbeitnehmer)} ${nettoString}`;
+  } else {
+    pdfValues.nein_10.value = true;
+  }
+
+  if (guards.isSelfEmployed({ context: userData })) {
+    pdfValues.ja_11.value = true;
+    pdfValues.monatlicheBruttoeinnahmendurchSelbststaendigeArbeitinEuro3.value = `${removeDecimalsFromCurrencyString(userData.selbststaendigMonatlichesEinkommen)} ${userData.selbststaendigBruttoNetto}`;
+  } else {
+    pdfValues.nein_12.value = true;
+  }
+
+  pdfValues.nein_14.value = true;
+  pdfValues.nein_16.value = true;
   return { pdfValues };
 };
 
 export const fillRente: PkhPdfFillFunction = ({ userData, pdfValues }) => {
-  if (
-    !guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData }) &&
-    guards.receivesPension({ context: userData })
-  ) {
+  if (userData.receivesPension === "yes") {
     pdfValues.ja_12.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro9.value = `${removeDecimalsFromCurrencyString(userData.pensionAmount)} ${nettoString}`;
-  } else {
+  }
+  if (userData.receivesPension === "no") {
     pdfValues.nein_13.value = true;
   }
   return { pdfValues };
 };
 
 export const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
-  if (
-    !guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData }) &&
-    userData.unterhaltsanspruch === "unterhalt" &&
-    userData.unterhaltssumme
-  ) {
+  if (userData.unterhaltsanspruch === "unterhalt") {
     pdfValues.ja_10.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8.value = `${removeDecimalsFromCurrencyString(userData.unterhaltssumme)} ${nettoString}`;
-  } else {
+    pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8.value = `${removeDecimalsFromCurrencyString(userData.unterhaltsSumme)} ${nettoString}`;
+  }
+  if (
+    userData.unterhaltsanspruch == "keine" ||
+    userData.unterhaltsanspruch == "anspruchNoUnterhalt"
+  ) {
     pdfValues.nein_11.value = true;
   }
   return { pdfValues };
@@ -92,42 +106,34 @@ export const fillAndereLeistungen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  if (
-    !guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData }) &&
-    guards.hasWohngeld({ context: userData })
-  ) {
+  if (userData.hasWohngeld === "on") {
     pdfValues.ja_19.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchWohngeldinEuro7.value = `${removeDecimalsFromCurrencyString(userData.wohngeldAmount)} ${nettoString}`;
-  } else {
+  } else if (userData.hasFurtherIncome) {
     pdfValues.nein_20.value = true;
   }
-  if (
-    !guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData }) &&
-    guards.hasKrankengeld({ context: userData })
-  ) {
+
+  if (userData.hasKrankengeld === "on") {
     pdfValues.ja_18.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro12.value = `${removeDecimalsFromCurrencyString(userData.krankengeldAmount)} ${nettoString}`;
-  } else {
+  } else if (userData.hasFurtherIncome) {
     pdfValues.nein_19.value = true;
   }
-  if (
-    !guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData }) &&
-    guards.hasElterngeld({ context: userData })
-  ) {
+
+  if (userData.hasElterngeld === "on") {
     pdfValues.ja_20.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro13.value = `${removeDecimalsFromCurrencyString(userData.elterngeldAmount)} ${nettoString}`;
-  } else {
+  } else if (userData.hasFurtherIncome) {
     pdfValues.nein_21.value = true;
   }
-  if (
-    !guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData }) &&
-    guards.hasKindergeld({ context: userData })
-  ) {
+
+  if (userData.hasKindergeld === "on") {
     pdfValues.ja_17.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchKindergeldIKinderzuschlaginEuro6.value = `${removeDecimalsFromCurrencyString(userData.kindergeldAmount)} ${nettoString}`;
-  } else {
+  } else if (userData.hasFurtherIncome) {
     pdfValues.nein_18.value = true;
   }
+
   return { pdfValues };
 };
 
@@ -136,8 +142,7 @@ export const fillWeitereEinkuenfte: PkhPdfFillFunction = ({
   pdfValues,
 }) => {
   const hasAsylbewerberOrGrundsicherung =
-    userData.staatlicheLeistungen === "asylbewerberleistungen" ||
-    userData.staatlicheLeistungen === "grundsicherung";
+    guards.hasGrundsicherungOrAsylbewerberleistungen({ context: userData });
 
   if (!userData.weitereEinkuenfte && !hasAsylbewerberOrGrundsicherung) {
     pdfValues.nein_22.value = true;
@@ -193,7 +198,7 @@ export const fillWeitereEinkuenfte: PkhPdfFillFunction = ({
   return { pdfValues };
 };
 
-export const fillSelfBruttoEinnahmen: PkhPdfFillFunction = ({
+export const fillOwnBruttoEinnahmen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
@@ -207,7 +212,6 @@ export const fillSelfBruttoEinnahmen: PkhPdfFillFunction = ({
       userData.staatlicheLeistungen === "asylbewerberleistungen"
         ? "Asylbewerberleistungen"
         : "Grundsicherung oder Sozialhilfe";
-
     return { pdfValues };
   }
 
@@ -224,8 +228,6 @@ export const fillSelfBruttoEinnahmen: PkhPdfFillFunction = ({
     ],
   });
 
-  pdfValues.nein_14.value = true;
-  pdfValues.nein_16.value = true;
   return {
     pdfValues: filledValues,
     attachment:

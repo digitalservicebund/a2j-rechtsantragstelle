@@ -108,7 +108,7 @@ describe("PKH Antragstellende Person Context", () => {
         antragstellendePersonDone({
           context: {
             unterhaltsanspruch: "unterhalt",
-            unterhaltssumme: "100",
+            unterhaltsSumme: "100",
             livesPrimarilyFromUnterhalt: "no",
           },
         }),
@@ -120,10 +120,10 @@ describe("PKH Antragstellende Person Context", () => {
         antragstellendePersonDone({
           context: {
             unterhaltsanspruch: "unterhalt",
-            unterhaltssumme: "100",
+            unterhaltsSumme: "100",
             livesPrimarilyFromUnterhalt: "yes",
             unterhaltspflichtigePerson: {
-              beziehung: "exEhepartner",
+              beziehung: "ex-spouse-m",
               nachname: "Mustermann",
               vorname: "Max",
             },
@@ -149,7 +149,7 @@ describe("PKH Antragstellende Person Context", () => {
           context: {
             unterhaltsanspruch: "anspruchNoUnterhalt",
             couldLiveFromUnterhalt: "yes",
-            personWhoCouldPayUnterhaltBeziehung: "exEhepartnerin",
+            personWhoCouldPayUnterhaltBeziehung: "ex-spouse-f",
             whyNoUnterhalt: "Keine Lust",
           },
         }),

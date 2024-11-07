@@ -6,5 +6,5 @@ export type Airport = {
   longitude: number;
   city: string;
   country: string;
-  pilotCourtZipCode: string;
+  zipCodePilotCourt: string;
 };

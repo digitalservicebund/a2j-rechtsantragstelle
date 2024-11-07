@@ -1,7 +1,7 @@
 import type { NavItem } from "~/components/navigation/NavItem";
-import { type Translations } from "./cms/index.server";
 import { type StepState } from "./flow/server/buildFlowController";
 import { NavState, stateIsCurrent } from "./navigation/navState";
+import type { Translations } from "./translations/getTranslationByKey";
 
 function isStepStateIdCurrent(stepStateId: string, stepId: string) {
   // subflows might start with the same name, need to check the following char

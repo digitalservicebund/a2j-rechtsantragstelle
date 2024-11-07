@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import fs from "fs";
-import countriesTranslation from "i18n-iso-countries";
+import { getName } from "i18n-iso-countries";
 import _ from "lodash";
 import { z } from "zod";
 import type { Airport } from "~/services/airports/type";
@@ -87,14 +87,12 @@ function filteredLargeMediumAirports(airports: AirportDataSource[]): Airport[] {
       return {
         iata: airport.iata,
         country_code: airport.country_code,
-        country:
-          countriesTranslation.getName(airport.country_code, GERMAN_LOCALE) ??
-          "",
+        country: getName(airport.country_code, GERMAN_LOCALE) ?? "",
         airport: translateAirportName(airport.airport),
         latitude: airport.latitude,
         longitude: airport.longitude,
         city: translateAirportCity(airport),
-        pilotCourtZipCode:
+        zipCodePilotCourt:
           pilotCourt[airport.iata as keyof typeof pilotCourt] ?? "",
       };
     });

@@ -6,6 +6,7 @@ import { CheckboxValue } from "~/components/inputs/Checkbox";
 import {
   fillAndereLeistungen,
   fillEinkommenType,
+  fillOwnBruttoEinnahmen,
   fillRente,
   fillStaatlicheLeistungen,
   fillWeitereEinkuenfte,
@@ -84,12 +85,12 @@ describe("bruttoEinnahmen_eigenes", () => {
     });
 
     it("should report no income if the user receives Grundsicherung", () => {
-      const { pdfValues } = fillEinkommenType({
+      const { pdfValues } = fillOwnBruttoEinnahmen({
         userData: { staatlicheLeistungen: "grundsicherung" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_10.value).toBe(true);
-      expect(pdfValues.nein_12.value).toBe(true);
+      expect(pdfValues.nein_10.value).toBeUndefined();
+      expect(pdfValues.nein_12.value).toBeUndefined();
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro
           .value,
@@ -101,12 +102,12 @@ describe("bruttoEinnahmen_eigenes", () => {
     });
 
     it("should report no income if the user receives Asylbewerberleistungen", () => {
-      const { pdfValues } = fillEinkommenType({
+      const { pdfValues } = fillOwnBruttoEinnahmen({
         userData: { staatlicheLeistungen: "asylbewerberleistungen" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_10.value).toBe(true);
-      expect(pdfValues.nein_12.value).toBe(true);
+      expect(pdfValues.nein_10.value).toBeUndefined();
+      expect(pdfValues.nein_12.value).toBeUndefined();
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro
           .value,
@@ -182,20 +183,22 @@ describe("bruttoEinnahmen_eigenes", () => {
   });
 
   describe("fillRente", () => {
-    it("should report no pension if the user receives grundsicherung", () => {
+    it("should not report pension if the user receives grundsicherung", () => {
       const { pdfValues } = fillRente({
         userData: { staatlicheLeistungen: "grundsicherung" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_13.value).toBe(true);
+      expect(pdfValues.ja_12.value).toBe(undefined);
+      expect(pdfValues.nein_13.value).toBe(undefined);
     });
 
-    it("should report no pension if the user receives asylbewerberleistungen", () => {
+    it("should not report pension if the user receives asylbewerberleistungen", () => {
       const { pdfValues } = fillRente({
         userData: { staatlicheLeistungen: "asylbewerberleistungen" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_13.value).toBe(true);
+      expect(pdfValues.ja_12.value).toBe(undefined);
+      expect(pdfValues.nein_13.value).toBe(undefined);
     });
 
     it("should report no pension if the user doesn't receive one", () => {
@@ -221,9 +224,9 @@ describe("bruttoEinnahmen_eigenes", () => {
   });
 
   describe("fillAndereLeistungen", () => {
-    it('check "no" for all other leistungen fields if none are selected', () => {
+    it('check "no" for all other leistungen fields if none are selected and the following question has been answered', () => {
       const { pdfValues } = fillAndereLeistungen({
-        userData: {},
+        userData: { hasFurtherIncome: "no" },
         pdfValues: pdfParams,
       });
       expect(pdfValues.nein_18.value).toBe(true);

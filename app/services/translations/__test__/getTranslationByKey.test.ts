@@ -1,30 +1,40 @@
 import * as logging from "~/services/logging";
-import { getTranslationByKey } from "../getTranslationByKey";
-
-const TRANSLATION_KEY_RECORD = {
-  key: "translation key",
-};
+import {
+  extractTranslations,
+  getTranslationByKey,
+} from "../getTranslationByKey";
 
 describe("getTranslationByKey", () => {
-  it("should return the translation by the key correct", () => {
-    const mockKeyValue = "key";
-    const actual = getTranslationByKey(mockKeyValue, TRANSLATION_KEY_RECORD);
-
-    expect(actual).toEqual(TRANSLATION_KEY_RECORD[mockKeyValue]);
+  it("returns existing translations", () => {
+    expect(getTranslationByKey("key", { key: "value" })).toEqual("value");
   });
 
-  it("in case the key does not exist in the translation record, it should call sendSentryMessage and return the key", () => {
-    const mockKeyValue = "not_existing_key";
-    const logSpy = vi.spyOn(logging, "sendSentryMessage");
-    const actual = getTranslationByKey(mockKeyValue, TRANSLATION_KEY_RECORD);
+  describe("handles failed lookups", () => {
+    test.each([
+      ["key", {}],
+      ["key", undefined],
+    ])("key: '%s', translations: %o", (key, translations) => {
+      const logSpy = vi.spyOn(logging, "sendSentryMessage");
+      const actual = getTranslationByKey(key, translations);
+      expect(actual).toEqual(key);
 
-    expect(logSpy).toHaveBeenCalled();
-    expect(logSpy).toHaveBeenCalledWith(
-      `Key translation ${mockKeyValue} is not available in the translation record. Please take a look in the CMS system!`,
-      "warning",
-    );
-    expect(actual).toEqual(mockKeyValue);
+      expect(logSpy).toHaveBeenCalled();
+      expect(logSpy).toHaveBeenCalledWith(
+        `Key translation ${key} is not available in the translation record. Please take a look in the CMS system!`,
+        "warning",
+      );
+      logSpy.mockRestore();
+    });
+  });
+});
 
-    logSpy.mockRestore();
+describe("extractTranslations", () => {
+  it("returns translations", () => {
+    expect(
+      extractTranslations(["key", "nonExisting"], {
+        key: "value",
+        additional: "value1",
+      }),
+    ).toEqual({ key: "value", nonExisting: "nonExisting" });
   });
 });

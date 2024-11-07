@@ -13,7 +13,7 @@ export const StrapiVorabCheckPageSchema = z
     flow_ids: z.object({
       data: z.array(z.object({ attributes: StrapiFlowIdSchema })),
     }),
-    // eslint-disable-next-line camelcase
+
     pre_form: z.array(StrapiContentComponentSchema),
     form: z.array(StrapiFormComponentSchema),
     nextButtonLabel: z.string().nullable(),

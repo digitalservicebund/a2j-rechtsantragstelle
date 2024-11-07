@@ -1,51 +1,35 @@
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import { useFetcher, useLocation } from "@remix-run/react";
-import type { Translations } from "~/services/cms/index.server";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 
 type Props = {
   readonly itemIndex: number;
   readonly category: string;
-  readonly url: string;
-  readonly initialInputUrl: string;
+  readonly editUrl: string;
   readonly csrf: string;
-  readonly translations?: Translations;
-  readonly className?: string;
+  readonly translations: {
+    arrayEditButtonLabel: string;
+    arrayDeleteButtonLabel: string;
+  };
 };
 
 const ArraySummaryItemButton = ({
   itemIndex,
   category,
-  url,
-  initialInputUrl,
+  editUrl,
   csrf,
-  translations = {},
-  className,
+  translations,
 }: Props) => {
-  const editButtonText = getTranslationByKey(
-    "arrayEditButtonLabel",
-    translations,
-  );
-  const deleteButtonText = getTranslationByKey(
-    "arrayDeleteButtonLabel",
-    translations,
-  );
-
   const { pathname } = useLocation();
   const fetcher = useFetcher();
 
   return (
-    <ButtonContainer className={className}>
-      <Button
-        iconLeft={<EditButton />}
-        look="tertiary"
-        href={`${url}/${itemIndex}/${initialInputUrl}`}
-      >
-        {editButtonText}
+    <ButtonContainer className="pt-8">
+      <Button iconLeft={<EditButton />} look="tertiary" href={editUrl}>
+        {translations.arrayEditButtonLabel}
       </Button>
       {/* form method 'delete' isn't supported without js, see https://github.com/remix-run/remix/discussions/4420 */}
       <fetcher.Form method="post" action={pathname}>
@@ -58,7 +42,7 @@ const ArraySummaryItemButton = ({
           value={itemIndex}
           type="submit"
         >
-          {deleteButtonText}
+          {translations.arrayDeleteButtonLabel}
         </Button>
       </fetcher.Form>
     </ButtonContainer>

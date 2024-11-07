@@ -68,7 +68,7 @@ test.skip("prozesskostenhilfe formular can be traversed", async ({ page }) => {
   await startFinanzielleAngabenEinkuenfte(page, prozesskostenhilfeFormular);
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/partner/partnerschaft
-  await startFinanzielleAngabenPartner(page, prozesskostenhilfeFormular);
+  await startFinanzielleAngabenPartner(prozesskostenhilfeFormular);
   await startFinanzielleAngabenEinkuenftePartner(
     page,
     prozesskostenhilfeFormular,
