@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* eslint-disable sonarjs/no-nested-functions */
 import fs from "node:fs";
 import { type IncomingMessage } from "node:http";
 import path from "node:path";
@@ -55,35 +56,28 @@ function checkUrl(urlString: string) {
         },
       )
       .on("error", () => {
-        attemptHttp(urlString, resolve);
-      }),
-  );
-}
-
-function attemptHttp(
-  urlString: string,
-  resolve: (value: [string, string] | PromiseLike<[string, string]>) => void,
-) {
-  http
-    .get(normalizeURL(urlString, "http"), (response) => {
-      warnIfNot200(urlString, response);
-      resolve([urlString, response.responseUrl]);
-    })
-    .on("error", () => {
-      https
-        .get(
-          normalizeURL(urlString.replace("www.", ""), "https"),
-          (response) => {
+        http
+          .get(normalizeURL(urlString, "http"), (response) => {
             warnIfNot200(urlString, response);
             resolve([urlString, response.responseUrl]);
-          },
-        )
-        .on("error", () => {
-          if (urlString)
-            console.error(`No valid redirect found for ${urlString}`);
-          resolve([urlString, ""]);
-        });
-    });
+          })
+          .on("error", () => {
+            https
+              .get(
+                normalizeURL(urlString.replace("www.", ""), "https"),
+                (response) => {
+                  warnIfNot200(urlString, response);
+                  resolve([urlString, response.responseUrl]);
+                },
+              )
+              .on("error", () => {
+                if (urlString)
+                  console.error(`No valid redirect found for ${urlString}`);
+                resolve([urlString, ""]);
+              });
+          });
+      }),
+  );
 }
 
 async function checkAllURLS() {
