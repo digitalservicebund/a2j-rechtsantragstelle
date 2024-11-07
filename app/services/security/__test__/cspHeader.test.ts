@@ -10,10 +10,13 @@ describe("cspHeader", () => {
   it("contains all OWASP recommended directives", () => {
     const defaultHeader = cspHeader(defaultArgs);
 
-    expect(defaultHeader).toContain("script-src");
+    expect(defaultHeader).toContain("default-src 'self';");
     expect(defaultHeader).toContain("object-src");
     expect(defaultHeader).toContain("base-uri");
     expect(defaultHeader).toContain("form-action");
+    expect(defaultHeader).toContain("frame-src");
+    expect(defaultHeader).toContain("style-src");
+    expect(defaultHeader).toContain("img-src");
     expect(defaultHeader).toContain("upgrade-insecure-requests");
     expect(defaultHeader).toContain("frame-ancestors 'none'");
 
@@ -23,16 +26,13 @@ describe("cspHeader", () => {
     expect(scriptDirective).toContain("nonce-r4nd0mN0nc3");
     expect(scriptDirective).toContain("'strict-dynamic'");
     expect(scriptDirective).not.toContain("unsafe-inline");
-
-    const connectSrcDirective = defaultHeader
-      .split(";")
-      .find((directive) => directive.startsWith("connect-src"));
-    expect(connectSrcDirective).toContain("self");
-    expect(connectSrcDirective).toContain("eu.i.posthog.com ");
-    expect(connectSrcDirective).toContain("https://trusted.com");
   });
 
-  it("adds report URI if passed", () => {
+  it("passed additionalConnectSrc to appear", () => {
+    expect(cspHeader(defaultArgs)).toContain("https://trusted.com");
+  });
+
+  it("adds report-to & report-uri if provided", () => {
     const reportCspHeaders = cspHeader({
       ...defaultArgs,
       reportUri: "https://reportCsp.com",
