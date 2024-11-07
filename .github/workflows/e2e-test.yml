@@ -33,7 +33,7 @@ jobs:
       - uses: ./.github/actions/cached-checkout-install
 
       - name: Get Playwright version
-        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./pnpm-lock.yaml').packages[''].devDependencies['@playwright/test'])")" >> $GITHUB_ENV
+        run: echo "PLAYWRIGHT_VERSION=$(pnpx playwright --version | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+')" >> $GITHUB_ENV
 
       - name: Download Content File
         uses: actions/download-artifact@v4
@@ -49,7 +49,7 @@ jobs:
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps chromium
+        run: pnpx playwright install --with-deps chromium
 
       - name: Fetch published image app from registry
         if: inputs.require-published-app == true
@@ -104,7 +104,7 @@ jobs:
           path: playwright-blob-reports
 
       - name: Merge into HTML Report
-        run: npx playwright merge-reports --reporter html ./playwright-blob-reports
+        run: pnpx playwright merge-reports --reporter html ./playwright-blob-reports
 
       - name: Upload Playwright test results
         uses: actions/upload-artifact@v4

@@ -114,7 +114,7 @@ In case of a failing test in this suite, the test output only shows the context 
 `/.github/workflows/ci-pipeline.yml` is the main CI pipeline that triggers on pushes and pull requests to the main branch and can also be manually dispatched. Is perfoms automated test runs via 3 different actions:
 
 1. Via the `code-quality` job (which is located in `pnpm-checks.yml`), `vitest run --coverage` which executes the `vitest` runner, including coverage reports. This job triggers all unit, integration and components tests.
-2. In the `verify-local-e2e`job (described in `e2e-test.yml`), `npx playwright test` is executed to run the end-to-end tests against a locally built and served instance of the application (using the content that was last deployed successfully!), where 'local' refers to the CI respectively the pipeline environment.
+2. In the `verify-local-e2e`job (described in `e2e-test.yml`), `pnpx playwright test` is executed to run the end-to-end tests against a locally built and served instance of the application (using the content that was last deployed successfully!), where 'local' refers to the CI respectively the pipeline environment.
 3. The `verify-preview-e2e` job (also in `e2e-test.yml`) runs the end-to-end tests against a preview deployment of the application. This job is triggered after a successful deployment to the preview environment.
 
 The end-to-end tests in the CI pipeline run in sharded mode, meaning that the tests are split into multiple shards to speed up the test execution. At the time of writing, the slowest shard (we currently use 4 shards) of each test run (`verify-local-e2e` and `verify-preview-e2e`) in the CI pipeline takes about 6 to 8 minutes to finish.
