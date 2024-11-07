@@ -21,6 +21,7 @@ import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import { useMemo } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
+import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import {
@@ -112,6 +113,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     feedbackTranslations,
     pageHeaderTranslations,
     videoTranslations,
+    accessibilityTranslations,
     mainSession,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
@@ -125,6 +127,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("feedback"),
     fetchTranslations("pageHeader"),
     fetchTranslations("video"),
+    fetchTranslations("accessibility"),
     mainSessionFromCookieHeader(cookieHeader),
   ]);
 
@@ -155,6 +158,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         pageHeaderTranslations,
       ),
       videoTranslations,
+      accessibilityTranslations,
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
     },
@@ -173,6 +177,7 @@ function App() {
     feedbackTranslations,
     pageHeaderTranslations,
     videoTranslations,
+    accessibilityTranslations,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
@@ -182,8 +187,12 @@ function App() {
   if (typeof window !== "undefined") console.log(consoleMessage);
 
   const translationMemo = useMemo(
-    () => ({ video: videoTranslations, feedback: feedbackTranslations }),
-    [videoTranslations, feedbackTranslations],
+    () => ({
+      video: videoTranslations,
+      feedback: feedbackTranslations,
+      accessibility: accessibilityTranslations,
+    }),
+    [videoTranslations, feedbackTranslations, accessibilityTranslations],
   );
 
   return (
@@ -205,23 +214,24 @@ function App() {
       </head>
       <body className="flex flex-col min-h-screen">
         <CookieConsentContext.Provider value={hasTrackingConsent}>
-          <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
-          <Header {...header} translations={pageHeaderTranslations} />
-          <Breadcrumbs breadcrumbs={breadcrumbs} />
           <TranslationContext.Provider value={translationMemo}>
-            <main className="flex-grow">
+            <SkipToContentLink />
+            <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
+            <Header {...header} translations={pageHeaderTranslations} />
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
+            <main className="flex-grow" id="main">
               <Outlet />
             </main>
+            <footer>
+              <Footer
+                {...footer}
+                deletionLabel={deletionLabel}
+                showDeletionBanner={hasAnyUserData}
+              />
+            </footer>
+            <ScrollRestoration nonce={nonce} />
+            <Scripts nonce={nonce} />
           </TranslationContext.Provider>
-          <footer>
-            <Footer
-              {...footer}
-              deletionLabel={deletionLabel}
-              showDeletionBanner={hasAnyUserData}
-            />
-          </footer>
-          <ScrollRestoration nonce={nonce} />
-          <Scripts nonce={nonce} />
         </CookieConsentContext.Provider>
       </body>
     </html>

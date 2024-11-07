@@ -14,7 +14,7 @@ export default function Header({
   linkLabel,
   hideLinks,
   translations,
-}: PageHeaderProps) {
+}: Readonly<PageHeaderProps>) {
   return (
     <header>
       <nav
