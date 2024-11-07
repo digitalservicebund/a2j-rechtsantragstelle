@@ -124,7 +124,7 @@ export default tseslint.config(
       // to be enabled later
       "sonarjs/no-unstable-nested-components": "warn", // TODO: enable later
 
-      // FIXME: fix/reevaluate
+      // fix/reevaluate
       "sonarjs/new-cap": "off",
       "sonarjs/deprecation": "off",
       "sonarjs/no-empty-test-file": "off",
@@ -149,7 +149,7 @@ export default tseslint.config(
       "@typescript-eslint/consistent-type-definitions": "off", // TODO: enable later
       "@typescript-eslint/array-type": "off", // TODO: enable later
 
-      // FIXME: fix/reevaluate
+      // fix/reevaluate
       "@typescript-eslint/no-base-to-string": "off",
       "@typescript-eslint/no-floating-promises": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
