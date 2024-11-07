@@ -4,7 +4,7 @@ describe("cspHeader", () => {
   const defaultArgs = {
     nonce: "r4nd0mN0nc3",
     environment: "test",
-    trustedDomains: ["https://trusted.com"],
+    additionalConnectSrc: ["https://trusted.com"],
   };
 
   it("contains all OWASP recommended directives", () => {
@@ -22,8 +22,14 @@ describe("cspHeader", () => {
       .find((directive) => directive.startsWith("script-src"));
     expect(scriptDirective).toContain("nonce-r4nd0mN0nc3");
     expect(scriptDirective).toContain("'strict-dynamic'");
-    expect(scriptDirective).toContain("https://trusted.com");
     expect(scriptDirective).not.toContain("unsafe-inline");
+
+    const connectSrcDirective = defaultHeader
+      .split(";")
+      .find((directive) => directive.startsWith("connect-src"));
+    expect(connectSrcDirective).toContain("self");
+    expect(connectSrcDirective).toContain("eu.i.posthog.com ");
+    expect(connectSrcDirective).toContain("https://trusted.com");
   });
 
   it("adds report URI if passed", () => {
@@ -43,7 +49,7 @@ describe("cspHeader", () => {
     const developmentCspHeaders = cspHeader({
       nonce: "r4nd0mN0nc3",
       environment: "development",
-      trustedDomains: ["https://trusted.com"],
+      additionalConnectSrc: ["https://trusted.com"],
     });
     expect(developmentCspHeaders).toContain("localhost");
   });

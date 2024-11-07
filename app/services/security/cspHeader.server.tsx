@@ -5,7 +5,7 @@
 
 export const cspHeader = (args: {
   nonce: string;
-  trustedDomains: string[];
+  additionalConnectSrc?: string[];
   reportUri?: string;
   environment: string;
 }) => {
@@ -16,11 +16,15 @@ export const cspHeader = (args: {
       "https:",
       `'nonce-${args.nonce}'`,
       "'strict-dynamic'",
-      ...args.trustedDomains,
+      "eu-assets.i.posthog.com", // see https://posthog.com/docs/session-replay/troubleshooting#3-content-security-policy
     ],
     "frame-src": ["www.youtube-nocookie.com"],
     "style-src": ["'self'", "'unsafe-inline'"],
-    "connect-src": ["'self'", ...args.trustedDomains],
+    "connect-src": [
+      "'self'",
+      "eu.i.posthog.com",
+      ...(args.additionalConnectSrc ?? []),
+    ],
     "img-src": [
       "'self'",
       "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
