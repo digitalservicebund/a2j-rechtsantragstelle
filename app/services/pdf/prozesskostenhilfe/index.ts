@@ -1,9 +1,9 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { fillRechtsschutzversicherung } from "~/services/pdf/prozesskostenhilfe/B_rechtsschutzversicherung";
 import { fillUnterhaltAngehoerige } from "~/services/pdf/prozesskostenhilfe/D_angehoerige";
-import { fillSelfBruttoEinnahmen } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
+import { fillOwnBruttoEinnahmen } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
 import { fillBruttoEinnahmenPartner } from "~/services/pdf/prozesskostenhilfe/E_bruttoEinnahmen/bruttoEinnahmen_partner";
 import { fillEigentum } from "~/services/pdf/prozesskostenhilfe/G_eigentum";
 import { fillGrundvoraussetzungen } from "~/services/pdf/prozesskostenhilfe/grundvoraussetzungen";
@@ -38,7 +38,7 @@ export async function prozesskostenhilfePdfFromUserdata(
       fillGrundvoraussetzungen,
       fillUnterhaltsanspruch,
       fillUnterhaltAngehoerige,
-      fillSelfBruttoEinnahmen,
+      fillOwnBruttoEinnahmen,
       fillBruttoEinnahmenPartner,
       fillAbzuege,
       fillEigentum,

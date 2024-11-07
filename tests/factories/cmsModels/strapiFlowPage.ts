@@ -44,5 +44,6 @@ export const strapiFormComponentFactory = Factory.define<StrapiFormComponent>(
     errors: {},
     placeholder: null,
     suffix: null,
+    helperText: null,
   }),
 );

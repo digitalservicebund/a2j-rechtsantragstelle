@@ -1,4 +1,4 @@
-import type { FlowId } from "~/flows/flowIds";
+import type { FlowId } from "~/domains/flowIds";
 import type { Filter, GetStrapiEntryOpts } from "./filters";
 import { getStrapiEntry } from "./getStrapiEntry";
 import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
@@ -12,8 +12,7 @@ import {
   type StrapiSchemas,
 } from "./schemas";
 import { httpErrorCodes } from "../errorPages/ErrorBox";
-
-export type Translations = Record<string, string>;
+import type { Translations } from "../translations/getTranslationByKey";
 
 export async function fetchMeta(
   opts: Omit<GetStrapiEntryOpts, "apiId" | "filter"> & { filterValue: string },

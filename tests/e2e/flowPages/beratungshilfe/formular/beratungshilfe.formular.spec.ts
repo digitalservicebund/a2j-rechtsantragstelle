@@ -66,7 +66,7 @@ test("invalid array index redirects to initial step of subflow", async ({
   await startAnwaltlicheVertretung(page, beratungshilfeFormular);
   await startRechtsproblem(page, beratungshilfeFormular);
   await startFinanzielleAngabenEinkommen(page, beratungshilfeFormular);
-  await startFinanzielleAngabenPartner(page, beratungshilfeFormular);
+  await startFinanzielleAngabenPartner(beratungshilfeFormular);
   await startFinanzielleAngabenKinder(page, beratungshilfeFormular);
   await page.goto(
     `${beratungshilfeFormular.url}/finanzielle-angaben/kinder/kinder/5/name`,
@@ -108,7 +108,7 @@ async function startAbgabe(page: Page) {
 
 async function startFinanzielleAngaben(page: Page) {
   await startFinanzielleAngabenEinkommen(page, beratungshilfeFormular);
-  await startFinanzielleAngabenPartner(page, beratungshilfeFormular);
+  await startFinanzielleAngabenPartner(beratungshilfeFormular);
   await startFinanzielleAngabenKinder(page, beratungshilfeFormular);
   await startFinanzielleAngabenAndereUnterhaltszahlungen(
     page,

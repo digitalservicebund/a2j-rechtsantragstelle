@@ -1,5 +1,5 @@
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import {
   ATTACHMENT_DESCRIPTION_SECTION_D,
   fillUnterhaltAngehoerige,
@@ -24,7 +24,7 @@ describe("D_angehoerige", () => {
   const testContexts = {
     partner: {
       unterhalt: "yes",
-      unterhaltsSumme: "100",
+      partnerUnterhaltsSumme: "100",
     },
     children: {
       kinder: [

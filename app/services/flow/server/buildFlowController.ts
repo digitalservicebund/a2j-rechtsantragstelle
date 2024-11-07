@@ -11,8 +11,8 @@ import {
   pathToStateValue,
   setup,
 } from "xstate";
-import type { Context } from "~/flows/contexts";
-import type { GenericGuard, Guards } from "~/flows/guards.server";
+import type { Context } from "~/domains/contexts";
+import type { GenericGuard, Guards } from "~/domains/guards.server";
 import type { ArrayConfig } from "~/services/array";
 import {
   stateValueToStepIds,

@@ -1,16 +1,15 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
-import type { Context } from "~/flows/contexts";
-import { parsePathname } from "~/flows/flowIds";
-import type { Flow } from "~/flows/flows.server";
-import { flows } from "~/flows/flows.server";
+import type { Context } from "~/domains/contexts";
+import { parsePathname } from "~/domains/flowIds";
+import type { Flow } from "~/domains/flows.server";
+import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getArraySummaryPageTranslations } from "~/services/array/getArraySummaryPageTranslations";
 import { getSummaryData } from "~/services/array/getSummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
-import type { Translations } from "~/services/cms/index.server";
 import {
   fetchFlowPage,
   fetchMeta,
@@ -44,6 +43,7 @@ import {
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import type { Translations } from "~/services/translations/getTranslationByKey";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { interpolateSerializableObject } from "~/util/fillTemplate";

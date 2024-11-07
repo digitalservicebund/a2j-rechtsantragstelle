@@ -5,9 +5,14 @@ import type {
   GrundeigentumArraySchema,
   KraftfahrzeugeArraySchema,
   WertsachenArraySchema,
-} from "~/flows/shared/finanzielleAngaben/context";
+} from "~/domains/shared/finanzielleAngaben/context";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
-import { befristungMapping } from "~/services/pdf/beratungshilfe/sections/F_besitz/fillVermoegenswerte";
+
+export const befristungMapping = {
+  lifeInsurance: "Lebensversicherung",
+  buildingSavingsContract: "Bausparvertrag",
+  fixedDepositAccount: "Festgeldkonto",
+};
 
 export const eigentuemerMapping: Record<Eigentumer, string> = {
   myself: "Ich alleine",

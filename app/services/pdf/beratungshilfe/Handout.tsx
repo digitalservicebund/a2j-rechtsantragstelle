@@ -2,8 +2,8 @@ import { Page, Text, View, Document } from "@react-pdf/renderer";
 import {
   beratungshilfeFormular,
   type BeratungshilfeFormularContext,
-} from "~/flows/beratungshilfeFormular";
-import { abgabeContext } from "~/flows/shared/abgabe/context";
+} from "~/domains/beratungshilfe/formular";
+import { abgabeContext } from "~/domains/shared/abgabe/context";
 import { HandoutRow } from "../attachment/HandoutRow";
 import { PdfFooter } from "../attachment/PdfFooter";
 import { styles } from "../attachment/styles";
@@ -50,7 +50,7 @@ type Step = {
   value?: string | ((validAmtsgericht: boolean) => string);
 };
 
-export const dynamicSteps: { [key: string]: Step[] } = {
+export const dynamicSteps: Record<string, Step[]> = {
   [abgabeContext.abgabeArt.Enum.ausdrucken]: [
     { title: "Antrag ausdrucken" },
     {

@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "~/flows/beratungshilfeFormular";
+import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { getBeratungshilfeParameters } from "~/services/pdf/beratungshilfe";
 import {
@@ -24,7 +24,7 @@ describe("E_unterhalt", () => {
   const testContexts = {
     partner: {
       unterhalt: "yes",
-      unterhaltsSumme: "100",
+      partnerUnterhaltsSumme: "100",
     },
     children: {
       kinder: [

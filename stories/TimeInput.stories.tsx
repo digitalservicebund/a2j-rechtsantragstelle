@@ -20,8 +20,8 @@ export const Default: Story = {
     name: "arrivalTime",
     label: "arrival time",
     formId: "formId",
-    helperText: "Please write in HH:MM format",
     width: "5",
+    helperText: "Please write in HH:MM format",
   },
   decorators: [(Story) => remixContext(Story)],
 };

@@ -1,9 +1,12 @@
 import ArraySummaryItemButton from "~/components/arraySummary/ArraySummaryItemButton";
-import type { BasicTypes } from "~/flows/contexts";
-import { WEITERE_PERSONEN_START_INDEX } from "~/flows/fluggastrechteFormular/stringReplacements";
+import type { BasicTypes } from "~/domains/contexts";
+import { WEITERE_PERSONEN_START_INDEX } from "~/domains/fluggastrechte/formular/stringReplacements";
 import type { ArrayConfig } from "~/services/array";
-import type { Translations } from "~/services/cms/index.server";
-import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
+import {
+  extractTranslations,
+  getTranslationByKey,
+  type Translations,
+} from "~/services/translations/getTranslationByKey";
 import { interpolateSerializableObject } from "~/util/fillTemplate";
 import Heading from "../Heading";
 
@@ -64,11 +67,12 @@ const ArraySummaryDataItems = ({
       <ArraySummaryItemButton
         category={category}
         csrf={csrf}
-        initialInputUrl={initialInputUrl}
         itemIndex={itemIndex}
-        url={url}
-        translations={translations}
-        className="pt-8"
+        editUrl={`${url}/${itemIndex}/${initialInputUrl}`}
+        translations={extractTranslations(
+          ["arrayEditButtonLabel", "arrayDeleteButtonLabel"],
+          translations,
+        )}
       />
     </div>
   );

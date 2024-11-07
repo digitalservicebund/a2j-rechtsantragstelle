@@ -1,4 +1,4 @@
-import type { Context } from "~/flows/contexts";
+import type { Context } from "~/domains/contexts";
 import type { ArrayConfig } from ".";
 
 export function getSummaryData(

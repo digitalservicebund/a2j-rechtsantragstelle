@@ -1,6 +1,5 @@
-import type { FlowId } from "~/flows/flowIds";
-import type { Flow } from "~/flows/flows.server";
-import type { FlowPageId } from "~/services/cms/schemas";
+import type { FlowId } from "~/domains/flowIds";
+import type { Flow, FlowType } from "~/domains/flows.server";
 import {
   buildFlowController,
   type FlowController,
@@ -19,23 +18,23 @@ vi.mock("app/services/flow/server/buildFlowController", () => ({
   buildFlowController: vi.fn(),
 }));
 
-const createMockFlow = (cmsSlug: FlowPageId): Flow => ({
+const createMockFlow = (flowType: FlowType): Flow => ({
   config: {},
   guards: {},
-  cmsSlug,
+  flowType,
 });
 
 describe("validateFlowTransition", () => {
   const mockFlowId: FlowId = "/fluggastrechte/vorabcheck";
   const mockCookieHeader = "mock-cookie";
   const mockFlows: Record<FlowId, Flow> = {
-    "/beratungshilfe/vorabcheck": createMockFlow("form-flow-pages"),
-    "/beratungshilfe/antrag": createMockFlow("form-flow-pages"),
-    "/geld-einklagen/vorabcheck": createMockFlow("vorab-check-pages"),
-    "/geld-einklagen/formular": createMockFlow("form-flow-pages"),
-    "/fluggastrechte/vorabcheck": createMockFlow("vorab-check-pages"),
-    "/fluggastrechte/formular": createMockFlow("form-flow-pages"),
-    "/prozesskostenhilfe/formular": createMockFlow("form-flow-pages"),
+    "/beratungshilfe/vorabcheck": createMockFlow("formFlow"),
+    "/beratungshilfe/antrag": createMockFlow("formFlow"),
+    "/geld-einklagen/vorabcheck": createMockFlow("vorabCheck"),
+    "/geld-einklagen/formular": createMockFlow("formFlow"),
+    "/fluggastrechte/vorabcheck": createMockFlow("vorabCheck"),
+    "/fluggastrechte/formular": createMockFlow("formFlow"),
+    "/prozesskostenhilfe/formular": createMockFlow("formFlow"),
   };
   const mockController: FlowController = {
     getMeta: vi.fn().mockReturnValue(undefined),

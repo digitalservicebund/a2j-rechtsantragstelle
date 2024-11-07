@@ -3,9 +3,9 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import type { FluggastrechtContext } from "~/flows/fluggastrechteFormular/context";
+import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
-import { PDF_MARGIN_HORIZONTAL } from "../../../createPdfKitDocument";
+import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/fluggastrechte/createPdfKitDocument";
 import {
   createStatementClaim,
   STATEMENT_CLAIM_AGREEMENT_SENTENCE,

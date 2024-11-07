@@ -2,8 +2,8 @@ import { deflateSync } from "node:zlib";
 import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { toDirectedGraph } from "@xstate/graph";
 import { createMachine, type AnyStateMachine } from "xstate";
-import { parsePathname } from "~/flows/flowIds";
-import { flows } from "~/flows/flows.server";
+import { parsePathname } from "~/domains/flowIds";
+import { flows } from "~/domains/flows.server";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { throw404OnProduction } from "../../services/errorPages/throw404";
 

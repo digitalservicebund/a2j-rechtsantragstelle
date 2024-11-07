@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/pseudo-random */
 import { faker } from "@faker-js/faker";
 import { Factory } from "fishery";
 import type { StrapiImage } from "~/services/cms/models/StrapiImage";
@@ -24,7 +23,6 @@ export const strapiImageFactory = Factory.define<StrapiImage>(() => {
         formats: null,
         hash: `${name}_${hash}`,
         provider: "aws-s3",
-        // eslint-disable-next-line camelcase
         provider_metadata: null,
         createdAt: faker.date.past().toISOString(),
         updatedAt: faker.date.recent().toISOString(),

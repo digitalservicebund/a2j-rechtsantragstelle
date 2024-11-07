@@ -2,7 +2,7 @@ import {
   getProzesskostenhilfeParameters,
   type ProzesskostenhilfePDF,
 } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/flows/prozesskostenhilfeFormular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { fillUnterhaltsanspruch } from "../C_unterhaltspflichtige_person";
 
 let pdfParams: ProzesskostenhilfePDF;
@@ -24,14 +24,14 @@ describe("C_unterhaltsanspruch", () => {
           unterhaltspflichtigePerson: {
             vorname: "unterhaltVor",
             nachname: "unterhaltNach",
-            beziehung: "vater",
+            beziehung: "father",
           },
         },
         pdfValues: pdfParams,
       });
 
       expect(pdfValues.namedesUnterhaltspflichtingen.value).toBe(
-        "unterhaltVor unterhaltNach",
+        "unterhaltVor unterhaltNach, Mein Vater",
       );
       expect(
         pdfValues

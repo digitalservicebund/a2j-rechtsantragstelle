@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import fontkit from "@pdf-lib/fontkit";
 import { PDFDocument } from "pdf-lib";
-import type { FlowId } from "~/flows/flowIds";
+import type { FlowId } from "~/domains/flowIds";
 import { addDruckvermerk } from "./druckvermerk";
 import {
   isBooleanField,
@@ -66,7 +66,11 @@ export async function fillPdf({
   const form = pdfDoc.getForm();
 
   pdfDoc.registerFontkit(fontkit);
-  const customFont = await pdfDoc.embedFont(bundesSansCondensed);
+  const customFont = await pdfDoc.embedFont(bundesSansCondensed, {
+    features: {
+      liga: false,
+    },
+  });
   const rawUpdateFieldAppearances = form.updateFieldAppearances.bind(form);
   form.updateFieldAppearances = () => rawUpdateFieldAppearances(customFont);
 

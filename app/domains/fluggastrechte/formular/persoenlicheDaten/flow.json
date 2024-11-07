@@ -1,0 +1,74 @@
+{
+  "id": "persoenliche-daten",
+  "initial": "start",
+  "states": {
+    "start": {
+      "on": {
+        "SUBMIT": "person"
+      }
+    },
+    "person": {
+      "id": "person",
+      "initial": "daten",
+      "states": {
+        "daten": {
+          "on": {
+            "SUBMIT": "#weitere-personen.frage",
+            "BACK": "#flugdaten.zusaetzliche-angaben"
+          }
+        }
+      }
+    },
+    "weitere-personen": {
+      "id": "weitere-personen",
+      "initial": "frage",
+      "states": {
+        "frage": {
+          "on": {
+            "SUBMIT": [
+              {
+                "guard": "isWeiterePersonenYes",
+                "target": "uebersicht"
+              },
+              "#weitere-personen.zeugen"
+            ],
+            "BACK": "#person.daten"
+          }
+        },
+        "uebersicht": {
+          "on": {
+            "BACK": "frage",
+            "SUBMIT": "#weitere-personen.zeugen",
+            "add-weiterePersonen": {
+              "guard": "isValidWeiterePersonenArrayIndex",
+              "target": "person"
+            }
+          }
+        },
+        "person": {
+          "initial": "daten",
+          "states": {
+            "daten": {
+              "on": {
+                "BACK": "#weitere-personen.uebersicht",
+                "SUBMIT": "#weitere-personen.uebersicht"
+              }
+            }
+          }
+        },
+        "zeugen": {
+          "on": {
+            "BACK": [
+              {
+                "guard": "isWeiterePersonenYes",
+                "target": "#weitere-personen.uebersicht"
+              },
+              "#weitere-personen.frage"
+            ],
+            "SUBMIT": "#zusammenfassung.start"
+          }
+        }
+      }
+    }
+  }
+}

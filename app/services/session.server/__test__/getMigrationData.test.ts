@@ -1,4 +1,4 @@
-import type { Flow } from "~/flows/flows.server";
+import type { Flow } from "~/domains/flows.server";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { getSessionData } from "~/services/session.server";
 import { getMigrationData, migrationKey } from "../crossFlowMigration";
@@ -10,7 +10,7 @@ vi.mock("~/services/flow/pruner");
 const pruneIrrelevantDataMock = vi.mocked(pruneIrrelevantData);
 
 const mockMigrationFlowDestination: Flow = {
-  cmsSlug: "form-flow-pages",
+  flowType: "formFlow",
   migration: {
     source: "/fluggastrechte/vorabcheck",
     sortedFields: [],
@@ -26,7 +26,7 @@ describe("getMigrationData", () => {
     const actual = await getMigrationData(
       migrationKey,
       mockMigrationFlowIdDestination,
-      { cmsSlug: "form-flow-pages", config: {}, guards: {} },
+      { flowType: "formFlow", config: {}, guards: {} },
       "any cookie",
     );
 

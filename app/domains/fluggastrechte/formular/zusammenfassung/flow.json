@@ -1,0 +1,12 @@
+{
+  "id": "zusammenfassung",
+  "initial": "start",
+  "states": {
+    "start": {
+      "on": {
+        "SUBMIT": "#abgabe.start",
+        "BACK": "#persoenliche-daten.weitere-personen.zeugen"
+      }
+    }
+  }
+}
