@@ -35,9 +35,11 @@ describe("cspHeader", () => {
     expect(reportCspHeaders).toContain("https://reportCsp.com");
   });
 
-  it("only adds localhost in development environment", () => {
+  it("doesn't reference localhost by default", () => {
     expect(cspHeader(defaultArgs)).not.toContain("localhost");
+  });
 
+  it("only adds localhost in development environment", () => {
     const developmentCspHeaders = cspHeader({
       nonce: "r4nd0mN0nc3",
       environment: "development",
