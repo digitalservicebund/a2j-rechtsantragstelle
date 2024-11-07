@@ -41,7 +41,7 @@ The App first checks to [see if valid staging data exists](https://github.com/di
 ### Run Server in Development Mode
 
 ```sh
-pnpminstall
+pnpm install
 docker compose up -d
 pnpm run dev
 ```
@@ -61,8 +61,8 @@ Open the app in `localhost:3000`
 #### E2E tests
 
 - run: `pnpm run test:e2e`
-- UI: `npx playwright test --ui`
-- debug (F10 to step over): `npx playwright test --debug`
+- UI: `pnpx playwright test --ui`
+- debug (F10 to step over): `pnpx playwright test --debug`
 
 > **Note**
 >
@@ -71,13 +71,13 @@ Open the app in `localhost:3000`
 #### Write E2E tests
 
 - [getting started](https://playwright.dev/docs/writing-tests) writing tests
-- use [codegen](https://playwright.dev/docs/codegen-intro) as an aid: `npx playwright codegen localhost:3000/kitchensink`
+- use [codegen](https://playwright.dev/docs/codegen-intro) as an aid: `pnpx playwright codegen localhost:3000/kitchensink`
 
 #### Debug E2E tests in CI
 
 1. download `playwright-report.zip` artifact from GitHub action summary page (only present on e2e failure for 30 days)
 2. unzip
-3. `npx playwright show-trace <DOWNLOAD_PATH>/data/<HASH>.zip`
+3. `pnpx playwright show-trace <DOWNLOAD_PATH>/data/<HASH>.zip`
 
 ### Git Hooks
 
