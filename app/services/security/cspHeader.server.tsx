@@ -3,18 +3,18 @@
 // https://web.dev/articles/strict-csp
 // https://csp-evaluator.withgoogle.com/
 
-type Directives = {
-  [key in
-    | "default-src"
-    | "script-src"
-    | "style-src"
-    | "frame-src"
-    | "connect-src"
-    | "img-src"
-    | "object-src"
-    | "base-uri"
-    | "frame-ancestors"]: string[];
-} & { "font-src"?: string[] };
+type Directives = Record<
+  | "default-src"
+  | "script-src"
+  | "style-src"
+  | "frame-src"
+  | "connect-src"
+  | "img-src"
+  | "object-src"
+  | "base-uri"
+  | "frame-ancestors",
+  string[]
+> & { "font-src"?: string[] };
 
 export const cspHeader = (args?: { nonce?: string; environment?: string }) => {
   const directives: Directives = {
