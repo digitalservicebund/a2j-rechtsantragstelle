@@ -11,7 +11,6 @@ const COMPONENT_NAME = "TileGroup";
 const COMPONENT_TILE_RADIO_TEXT = "TileRadio";
 const COMPONENT_TILE_TEXT = "TileGroup";
 
-// eslint-disable-next-line react/display-name
 vi.mock("~/components/inputs/tile/TileRadio", () => ({
   default: () => <div>{COMPONENT_TILE_RADIO_TEXT}</div>,
 }));

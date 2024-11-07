@@ -147,11 +147,7 @@ const AutoSuggestInput = ({
   });
 
   useEffect(() => {
-    const value = getDescriptionByValue(
-      items,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      defaultValue,
-    );
+    const value = getDescriptionByValue(items, defaultValue);
 
     setCurrentItemValue(value);
   }, [defaultValue, items]);
