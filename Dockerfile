@@ -5,7 +5,7 @@ ARG APP_IMAGE=app
 FROM node:20-alpine AS app-base
 WORKDIR /a2j
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --shamefully-hoist --frozen-lockfile --prod
+RUN pnpm install --frozen-lockfile --prod
 
 FROM scratch AS app
 WORKDIR /a2j-app

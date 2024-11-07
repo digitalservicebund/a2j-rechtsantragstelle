@@ -8,7 +8,7 @@
     "scripts/*.ts"
   ],
   "compilerOptions": {
-    "preserveSymlinks": true,
+    "preserveSymlinks": false,
     "incremental": true,
     "skipLibCheck": true,
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
