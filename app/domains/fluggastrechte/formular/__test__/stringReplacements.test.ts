@@ -1,3 +1,5 @@
+import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+import { getCourtByStartAndEndAirport } from "../../services/getCourtByStartAndEndAirport";
 import type { FluggastrechtContext } from "../context";
 import {
   getAirlineName,
@@ -6,6 +8,7 @@ import {
   getFirstZwischenstoppAirportName,
   getPersonNachname,
   getPersonVorname,
+  getResponsibleCourt,
   getSecondZwischenstoppAirportName,
   getStartAirportName,
   getThirdZwischenstoppAirportName,
@@ -331,6 +334,33 @@ describe("stringReplacements", () => {
       });
 
       expect(actual).toStrictEqual({ isWeiterePersonen: false });
+    });
+  });
+
+  describe("getResponsibleCourt", () => {
+    vi.mock("~/domains/fluggastrechte/services/getCourtByStartAndEndAirport");
+    it("should return court dats", () => {
+      vi.mocked(getCourtByStartAndEndAirport).mockReturnValue({
+        BEZEICHNUNG: "Amtsgericht",
+        STR_HNR: "Strasse 5",
+        PLZ_ZUSTELLBEZIRK: "11111",
+        ORT: "Berlin",
+        URL1: "www.amtsgericht.de",
+        TEL: "1234567",
+      } as Jmtd14VTErwerberGerbeh);
+      const actual = getResponsibleCourt({
+        startAirport: "BER",
+        endAirport: "FRA",
+      });
+
+      expect(actual).toStrictEqual({
+        nameCourt: "Amtsgericht",
+        courtStreetAndNumber: "Strasse 5",
+        courtZipCode: "11111",
+        courtCity: "Berlin",
+        courtWebsite: "www.amtsgericht.de",
+        courtTelephone: "1234567",
+      });
     });
   });
 });

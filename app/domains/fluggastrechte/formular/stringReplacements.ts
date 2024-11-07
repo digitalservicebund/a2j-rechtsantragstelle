@@ -1,6 +1,7 @@
 import { getAirlineNameByIataCode } from "~/services/airlines/getAirlineNameByIataCode";
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import type { FluggastrechtContext } from "./context";
+import { getCourtByStartAndEndAirport } from "../services/getCourtByStartAndEndAirport";
 
 export const WEITERE_PERSONEN_START_INDEX = 2;
 
@@ -116,4 +117,21 @@ export const getWeiterePersonenNameStrings = (
       "weiterePersonen#nachname":
         context.weiterePersonen?.[arrayIndex].nachname,
     };
+};
+
+export const getResponsibleCourt = (context: FluggastrechtContext) => {
+  const court = getCourtByStartAndEndAirport(
+    context.startAirport || "",
+    context.endAirport || "",
+  );
+  if (court)
+    return {
+      nameCourt: court.BEZEICHNUNG,
+      courtStreetAndNumber: court.STR_HNR,
+      courtZipCode: court.PLZ_ZUSTELLBEZIRK,
+      courtCity: court.ORT,
+      courtWebsite: court.URL1,
+      courtTelephone: court.TEL,
+    };
+  return {};
 };

@@ -15,6 +15,7 @@ import {
   hasCompensationShortDistance,
 } from "./stringReplacements";
 import type { Context } from "../../contexts";
+import { getResponsibleCourt } from "../formular/stringReplacements";
 
 export const fluggastrechteVorabcheck = {
   cmsSlug: "vorab-check-pages",
@@ -25,6 +26,7 @@ export const fluggastrechteVorabcheck = {
     flightDateExpiration: getLastDayFromFourYearsAgoDate(),
     ...getStartAirportName(context),
     ...getEndAirportName(context),
+    ...getResponsibleCourt(context),
     ...hasArbitrationBoardBfJ(context),
     ...hasArbitrationBoardSoeP(context),
     ...hasCompensationLongDistanceInsideEU(context),

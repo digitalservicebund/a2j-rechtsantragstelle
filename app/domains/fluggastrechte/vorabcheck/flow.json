@@ -516,6 +516,7 @@
     },
     "ergebnis/erfolg": {
       "on": {
+        "SUBMIT": "ergebnis/erfolg-per-post-klagen",
         "BACK": "gericht"
       }
     },
@@ -525,6 +526,12 @@
       }
     },
     "ergebnis/erfolg-analog": {
+      "on": {
+        "SUBMIT": "ergebnis/erfolg-per-post-klagen",
+        "BACK": "gericht"
+      }
+    },
+    "ergebnis/erfolg-per-post-klagen": {
       "on": {
         "BACK": "gericht"
       }
