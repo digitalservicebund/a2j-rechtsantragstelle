@@ -28,28 +28,27 @@ export const stateValueToStepIds = (stateValue: StateValue): string[] => {
 export function insertIndexesIntoPath(
   currentPath: string,
   destinationPath: string,
+  arrayIndexes: number[],
 ) {
   const currentPathParts = currentPath.split("/");
   const destinationPathParts = destinationPath.split("/");
+  const numberPositions: number[] = [];
 
-  let insertedIndices = 0;
-  const outputPathParts: string[] = [];
-
-  destinationPathParts.forEach((destinationPart, idx) => {
-    const currentPart = currentPathParts[idx + insertedIndices];
-    const previousPart = currentPathParts[idx + insertedIndices - 1];
-
-    // Insert current path segment if its an integer and the previous one matches
-    if (
-      destinationPart !== currentPart &&
-      destinationPathParts[idx - 1] === previousPart &&
-      parseInt(currentPart)
-    ) {
-      outputPathParts.push(currentPart);
-      insertedIndices += 1; // account for shift in path length
+  currentPathParts.forEach((part, index) => {
+    if (!isNaN(Number(part)) && part !== "") {
+      numberPositions.push(index);
     }
-    outputPathParts.push(destinationPart);
   });
-
-  return outputPathParts.join("/");
+  let indexesInserted = 0;
+  for (let i = 0; i < destinationPathParts.length; i++) {
+    if (numberPositions.includes(i + indexesInserted)) {
+      destinationPathParts.splice(
+        i + indexesInserted,
+        0,
+        arrayIndexes[indexesInserted].toString(),
+      );
+      indexesInserted++;
+    }
+  }
+  return destinationPathParts.join("/");
 }
