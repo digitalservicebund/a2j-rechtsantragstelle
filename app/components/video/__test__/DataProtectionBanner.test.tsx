@@ -1,5 +1,4 @@
 import { fireEvent, render } from "@testing-library/react";
-import type React from "react";
 import {
   ACTIVATE_VIDEO_TRANSLATION_KEY,
   HEADER_TRANSLATION_KEY,
@@ -8,25 +7,31 @@ import {
 } from "~/components/video/DataProtectionBanner";
 import { TranslationContext } from "~/services/translations/translationsContext";
 
-const TRANSLATION_KEY_RECORD = {
-  [HEADER_TRANSLATION_KEY]: "Hinweis zum Datenschutz",
-  [DATA_PROTECTION_TRANSLATION_KEY]: "Super long and complicated Datenschutz",
-  [ACTIVATE_VIDEO_TRANSLATION_KEY]: "Video Aktivieren",
-};
-
 describe("Datenschutz Component", () => {
-  it("should display the Datenschutz banner", () => {
-    const { getByText, getByRole } = renderWithTranslations(
-      <DataProtectionBanner onCookiesAccepted={vi.fn()} />,
+  it("should fetch content from video context", () => {
+    const videoTranslations = {
+      [HEADER_TRANSLATION_KEY]: "Hinweis zum Datenschutz",
+      [DATA_PROTECTION_TRANSLATION_KEY]:
+        "Super long and complicated Datenschutz",
+      [ACTIVATE_VIDEO_TRANSLATION_KEY]: "Video Aktivieren",
+    };
+
+    const { getByText, getByRole } = render(
+      <TranslationContext.Provider
+        value={{ video: videoTranslations, feedback: {} }}
+      >
+        <DataProtectionBanner onCookiesAccepted={vi.fn()} />
+      </TranslationContext.Provider>,
     );
+
     expect(
-      getByText(TRANSLATION_KEY_RECORD[HEADER_TRANSLATION_KEY]),
+      getByText(videoTranslations[HEADER_TRANSLATION_KEY]),
     ).toBeInTheDocument();
     expect(
-      getByText(TRANSLATION_KEY_RECORD[DATA_PROTECTION_TRANSLATION_KEY]),
+      getByText(videoTranslations[DATA_PROTECTION_TRANSLATION_KEY]),
     ).toBeInTheDocument();
     expect(getByRole("button")).toHaveTextContent(
-      TRANSLATION_KEY_RECORD[ACTIVATE_VIDEO_TRANSLATION_KEY],
+      videoTranslations[ACTIVATE_VIDEO_TRANSLATION_KEY],
     );
   });
 
@@ -39,13 +44,3 @@ describe("Datenschutz Component", () => {
     expect(cookiesAccepted).toHaveBeenCalled();
   });
 });
-
-const renderWithTranslations = (component: React.ReactNode) => {
-  return render(
-    <TranslationContext.Provider
-      value={{ video: TRANSLATION_KEY_RECORD, feedback: {} }}
-    >
-      {component}
-    </TranslationContext.Provider>,
-  );
-};

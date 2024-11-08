@@ -44,6 +44,7 @@ import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
+import { extractTranslations } from "./services/translations/getTranslationByKey";
 import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 
@@ -149,7 +150,10 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       deletionLabel: deleteDataStrings["footerLinkLabel"],
       hasAnyUserData,
       feedbackTranslations,
-      pageHeaderTranslations,
+      pageHeaderTranslations: extractTranslations(
+        ["leichtesprache", "gebaerdensprache"],
+        pageHeaderTranslations,
+      ),
       videoTranslations,
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
