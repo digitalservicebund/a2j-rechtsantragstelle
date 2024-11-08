@@ -211,7 +211,7 @@ export const loader = async ({
 
   const backDestinationWithArrayIndexes =
     backDestination && arrayIndexes
-      ? insertIndexesIntoPath(pathname, backDestination, arrayIndexes)
+      ? insertIndexesIntoPath(pathname, backDestination)
       : backDestination;
 
   const buttonNavigationProps = getButtonNavigationProps({
@@ -339,7 +339,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     flowController.getNext(stepId) ?? flowController.getInitial();
 
   const destinationWithArrayIndexes = arrayIndexes
-    ? insertIndexesIntoPath(pathname, destination, arrayIndexes)
+    ? insertIndexesIntoPath(pathname, destination)
     : destination;
 
   const headers = { "Set-Cookie": await commitSession(flowSession) };

@@ -51,64 +51,57 @@ describe("stepIdToPath", () => {
 });
 
 describe("insertIndexesIntoPath", () => {
-  // TODO fix for these cases:
-  /*
-    [
-      "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/4/spielzeug/6/name",
-      "/completely/different/with/the/exact/same/length",
-      [4, 6],
-      "/completely/different/with/the/exact/same/length",
-    ],
-    [
-      "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/4/spielzeug/spielzeug/6/name",
-      "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/spielzeug/uebersicht",
-      [4, 6],
-      "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/4/spielzeug/uebersicht",
-    ],
-   */
   it.each([
     [
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/1/name",
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/wohnort",
-      [1],
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/1/wohnort",
     ],
     [
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/4/name",
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
-      [4],
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
     ],
     [
       "/beratungshilfe/antrag/finanzielle-angaben/eigentum/konto/4/daten",
       "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung",
-      [4],
+
       "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung",
     ],
     [
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/3/spielzeug/1/name",
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/spielzeug/farbe",
-      [3, 1],
+
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/3/spielzeug/1/farbe",
     ],
     [
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/4/spielzeug/puppen/6/name",
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/spielzeug/puppen/farbe",
-      [4, 6],
+
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/4/spielzeug/puppen/6/farbe",
     ],
     [
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/4/spielzeug/6/name",
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/spielzeug/farbe/blau",
-      [4, 6],
+
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/4/spielzeug/6/farbe/blau",
+    ],
+    [
+      "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/4/spielzeug/6/name",
+      "/completely/different/with/the/exact/same/length",
+      "/completely/different/with/the/exact/same/length",
+    ],
+    [
+      "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/4/spielzeug/spielzeug/6/name",
+      "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/spielzeug/uebersicht",
+      "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/4/spielzeug/uebersicht",
     ],
   ])(
     "when the valid input is '%s'",
-    (currentPath, destinationPath, arrayIndexes, expected) => {
-      expect(
-        insertIndexesIntoPath(currentPath, destinationPath, arrayIndexes),
-      ).toEqual(expected);
+    (currentPath, destinationPath, expected) => {
+      expect(insertIndexesIntoPath(currentPath, destinationPath)).toEqual(
+        expected,
+      );
     },
   );
 });
