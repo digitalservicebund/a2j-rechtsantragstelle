@@ -1,4 +1,5 @@
-import _ from "lodash";
+import merge from "lodash/merge";
+import cloneDeep from "lodash/cloneDeep";
 import type { Flow } from "~/domains/flows.server";
 import type { GeldEinklagenFormularContext } from "./context";
 import geldEinklagenFormularFlow from "./flow.json";
@@ -27,9 +28,9 @@ export const geldEinklagenFormular = {
       berechneteGerichtskosten: berechneteGerichtskosten.toString(),
     };
   },
-  config: _.merge(geldEinklagenFormularFlow, {
+  config: merge(geldEinklagenFormularFlow, {
     states: {
-      "persoenliche-daten": _.merge(_.cloneDeep(persoenlicheDatenFlow), {
+      "persoenliche-daten": merge(cloneDeep(persoenlicheDatenFlow), {
         meta: {
           done: ({ context }: { context: GeldEinklagenFormularContext }) =>
             Boolean(

@@ -1,4 +1,4 @@
-import _ from "lodash";
+import pick from "lodash/pick";
 import type { Context } from "~/domains/contexts";
 import type { FlowId } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
@@ -16,7 +16,7 @@ export async function pruneIrrelevantData(data: Context, flowId: FlowId) {
   const flowController = buildFlowController({ guards, config, data });
   const formPaths = validFormPaths(flowController);
   const validFormFields = filterFormFields(formFields, formPaths);
-  return _.pick(data, validFormFields);
+  return pick(data, validFormFields);
 }
 
 export function filterFormFields(

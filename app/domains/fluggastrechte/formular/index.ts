@@ -1,4 +1,4 @@
-import _ from "lodash";
+import merge from "lodash/merge";
 import type { AllContextKeys } from "~/domains/common";
 import type { Flow } from "~/domains/flows.server";
 import type { ArrayConfig } from "~/services/array";
@@ -103,23 +103,23 @@ export const fluggastrechtFlow = {
           "redirect-vorabcheck-ergebnis": { on: {} },
         },
       },
-      grundvoraussetzungen: _.merge(grundvoraussetzungenFlow, {
+      grundvoraussetzungen: merge(grundvoraussetzungenFlow, {
         meta: { done: grundvoraussetzungenDone },
       }),
-      "streitwert-kosten": _.merge(streitwertKostenFlow, {
+      "streitwert-kosten": merge(streitwertKostenFlow, {
         meta: { done: streitwertKostenDone },
       }),
-      flugdaten: _.merge(flugdatenFlow, { meta: { done: flugdatenDone } }),
-      "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
+      flugdaten: merge(flugdatenFlow, { meta: { done: flugdatenDone } }),
+      "persoenliche-daten": merge(persoenlicheDatenFlow, {
         states: {
           person: { meta: { done: personDone } },
           "weitere-personen": { meta: { done: weiterePersonenDone } },
         },
       }),
-      zusammenfassung: _.merge(zusammenfassungFlow, {
+      zusammenfassung: merge(zusammenfassungFlow, {
         meta: { done: () => false },
       }),
-      abgabe: _.merge(abgabeFlow, {
+      abgabe: merge(abgabeFlow, {
         meta: { done: () => false },
       }),
     },

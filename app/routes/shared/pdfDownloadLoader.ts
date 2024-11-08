@@ -1,5 +1,5 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
-import _ from "lodash";
+import isEmpty from "lodash/isEmpty";
 import type { Context } from "~/domains/contexts";
 import { parsePathname, type FlowId } from "~/domains/flowIds";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
@@ -46,7 +46,7 @@ export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
     (await getSessionData(flowId, request.headers.get("Cookie"))).userData,
     flowId,
   );
-  if (_.isEmpty(userData)) return redirect(flowId);
+  if (isEmpty(userData)) return redirect(flowId);
 
   const fileContent = await pdfFunction(userData);
   const fileSize = fileContent.length;

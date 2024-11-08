@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import fs from "fs";
 import { getName } from "i18n-iso-countries";
-import _ from "lodash";
+import uniqBy from "lodash/uniqBy";
 import { z } from "zod";
 import type { Airport } from "~/services/airports/type";
 
@@ -159,7 +159,7 @@ async function fetchAllAirports(): Promise<Airport[]> {
 
 async function fetchAndSaveAirports() {
   const airports = await fetchAllAirports();
-  const data = JSON.stringify(_.uniqBy(airports, "iata"));
+  const data = JSON.stringify(uniqBy(airports, "iata"));
 
   fs.writeFileSync(FILE_PATH_AIRPORTS_DATA, data);
   console.log(`${FILE_PATH_AIRPORTS_DATA} written correctly`);

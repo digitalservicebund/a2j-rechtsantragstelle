@@ -1,4 +1,5 @@
-import _ from "lodash";
+import partition from "lodash/partition";
+import merge from "lodash/merge";
 import type { FlowId } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { flowPageApiIdFromFlowType } from "./apiFromFlowType";
@@ -26,14 +27,14 @@ export async function fetchAllFormFields(
     .filter((formFlowPage) => formFlowPage !== null)
     .filter(({ attributes: { stepId, form } }) => form.length > 0 && stepId);
 
-  const [nonStagingEntries, stagingEntries] = _.partition(
+  const [nonStagingEntries, stagingEntries] = partition(
     nonEmptyEntries,
     ({ attributes: { locale } }) => locale !== "sg",
   ).map(formFieldsFromSchema);
 
   if (environment !== "production") {
     // inject staging flowpages
-    return _.merge(nonStagingEntries, stagingEntries);
+    return merge(nonStagingEntries, stagingEntries);
   }
 
   return nonStagingEntries;

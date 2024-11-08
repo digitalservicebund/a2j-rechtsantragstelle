@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import fs from "node:fs";
-import _ from "lodash";
+import uniqBy from "lodash/uniqBy";
 
 interface Airline {
   name: string;
@@ -28,7 +28,7 @@ function processAirlineRow(row: string): Airline {
 }
 
 function saveAirlinesInFile(airlines: Airline[]): void {
-  const data = JSON.stringify(_.uniqBy(airlines, "iata"));
+  const data = JSON.stringify(uniqBy(airlines, "iata"));
   const saveFilePath = "data/airlines/data.json";
 
   fs.writeFile(saveFilePath, data, (error) => {

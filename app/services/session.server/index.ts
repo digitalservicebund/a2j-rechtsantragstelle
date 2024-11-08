@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import type { Cookie, Session } from "@remix-run/node";
 import { createSessionStorage, createCookie } from "@remix-run/node";
-import _ from "lodash";
+import merge from "lodash/merge";
 import { type Context } from "~/domains/contexts";
 import { flowIds, type FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
@@ -70,7 +70,7 @@ export const getSessionData = async (
 };
 
 export const updateSession = (session: Session, validatedData: Context) => {
-  const mergedData = _.merge(session.data, validatedData);
+  const mergedData = merge(session.data, validatedData);
   Object.entries(mergedData).forEach(([key, value]) => {
     session.set(key, value);
   });

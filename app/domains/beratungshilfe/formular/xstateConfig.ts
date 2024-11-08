@@ -1,4 +1,4 @@
-import _ from "lodash";
+import merge from "lodash/merge";
 import persoenlicheDatenFlow from "~/domains/shared/persoenlicheDaten/flow.json";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
@@ -38,7 +38,7 @@ export const beratungshilfeXstateConfig = {
     "anwaltliche-vertretung": anwaltlicheVertretungXstateConfig,
     rechtsproblem: rechtsproblemXstateConfig,
     "finanzielle-angaben": beratungshilfeFinanzielleAngabenXstateConfig,
-    "persoenliche-daten": _.merge(persoenlicheDatenFlow, {
+    "persoenliche-daten": merge(persoenlicheDatenFlow, {
       meta: { done: beratungshilfePersoenlicheDatenDone },
       states: {
         start: {
