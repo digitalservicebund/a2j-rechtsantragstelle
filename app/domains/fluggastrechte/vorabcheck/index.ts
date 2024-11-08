@@ -18,7 +18,7 @@ import type { Context } from "../../contexts";
 import { getResponsibleCourt } from "../formular/stringReplacements";
 
 export const fluggastrechteVorabcheck = {
-  cmsSlug: "vorab-check-pages",
+  flowType: "vorabCheck",
   config: fluggastrechteVorabcheckFlow,
   guards: fluggastrechteVorabcheckGuards,
   stringReplacements: (context: FluggastrechtVorabcheckContext) => ({
