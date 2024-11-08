@@ -346,7 +346,7 @@ describe("stringReplacements", () => {
         PLZ_ZUSTELLBEZIRK: "11111",
         ORT: "Berlin",
         URL1: "www.amtsgericht.de",
-        TEL: "1234567",
+        TEL: "123 4567",
       } as Jmtd14VTErwerberGerbeh);
       const actual = getResponsibleCourt({
         startAirport: "BER",
@@ -359,7 +359,8 @@ describe("stringReplacements", () => {
         courtZipCode: "11111",
         courtCity: "Berlin",
         courtWebsite: "www.amtsgericht.de",
-        courtTelephone: "1234567",
+        courtTelephone: "123 4567",
+        courtTelephoneNoSpace: "1234567",
       });
     });
   });

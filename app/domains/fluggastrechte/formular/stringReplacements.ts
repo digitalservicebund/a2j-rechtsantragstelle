@@ -130,8 +130,9 @@ export const getResponsibleCourt = (context: FluggastrechtContext) => {
       courtStreetAndNumber: court.STR_HNR,
       courtZipCode: court.PLZ_ZUSTELLBEZIRK,
       courtCity: court.ORT,
-      courtWebsite: court.URL1,
-      courtTelephone: court.TEL,
+      courtWebsite: court.URL1 ?? "",
+      courtTelephone: court.TEL ?? "",
+      courtTelephoneNoSpace: court.TEL?.replace(/\s/g, "") ?? "",
     };
   return {};
 };
