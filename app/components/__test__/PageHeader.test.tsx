@@ -7,7 +7,7 @@ describe("PageHeader", () => {
       <PageHeader
         title={"Justiz-Services"}
         linkLabel={"Justiz-Services"}
-        navAriaLabel={"Hauptmenü"}
+        mainNavigationAriaLabel={"Hauptmenü"}
         hideLinks={false}
         translations={{
           gebaerdensprache: "Gebärdensprache",
@@ -28,7 +28,7 @@ describe("PageHeader", () => {
       <PageHeader
         title={"Test Page"}
         linkLabel={"Test Page"}
-        navAriaLabel={"Hauptmenü"}
+        mainNavigationAriaLabel={"Hauptmenü"}
         translations={{
           gebaerdensprache: "Gebärdensprache",
           leichtesprache: "Leichte Sprache",
