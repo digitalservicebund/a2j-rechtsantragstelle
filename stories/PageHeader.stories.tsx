@@ -14,6 +14,7 @@ export const Default = {
   args: {
     title: "Justiz-Services",
     linkLabel: "Justiz-Services",
+    navAriaLabel: "Hauptmenü",
     hideLinks: false,
     translations: {
       gebaerdensprache: "Gebärdensprache",
@@ -26,6 +27,7 @@ export const FlowPage = {
   args: {
     title: "Justiz-Services",
     linkLabel: "Justiz-Services",
+    navAriaLabel: "Hauptmenü",
     hideLinks: true,
     translations: {
       gebaerdensprache: "Gebärdensprache",

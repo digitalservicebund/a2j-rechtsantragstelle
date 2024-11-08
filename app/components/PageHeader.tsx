@@ -5,6 +5,7 @@ import { StandaloneLink } from "~/components/StandaloneLink";
 type PageHeaderProps = {
   title: string;
   linkLabel: string;
+  navAriaLabel: string;
   hideLinks: boolean;
   translations: { leichtesprache: string; gebaerdensprache: string };
 };
@@ -12,6 +13,7 @@ type PageHeaderProps = {
 export default function Header({
   title,
   linkLabel,
+  navAriaLabel,
   hideLinks,
   translations,
 }: PageHeaderProps) {
@@ -19,7 +21,7 @@ export default function Header({
     <header>
       <nav
         className="py-20 px-16 flex flex-wrap justify-between"
-        aria-label="Haupt"
+        aria-label={navAriaLabel}
       >
         <a
           href="/"
