@@ -7,5 +7,8 @@ pre-commit:
       run: npm run lint
     typecheck:
       run: npm run typecheck
+
+pre-push:
+  commands:
     "unit tests":
       run: npm test

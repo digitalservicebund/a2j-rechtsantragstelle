@@ -39,7 +39,7 @@ import {
 } from "../../shared/formular/stringReplacements";
 
 export const prozesskostenhilfeFormular = {
-  cmsSlug: "form-flow-pages",
+  flowType: "formFlow",
   config: {
     id: "/prozesskostenhilfe/formular",
     initial: "start",

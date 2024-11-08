@@ -147,11 +147,7 @@ const AutoSuggestInput = ({
   });
 
   useEffect(() => {
-    const value = getDescriptionByValue(
-      items,
-
-      defaultValue,
-    );
+    const value = getDescriptionByValue(items, defaultValue);
 
     setCurrentItemValue(value);
   }, [defaultValue, items]);

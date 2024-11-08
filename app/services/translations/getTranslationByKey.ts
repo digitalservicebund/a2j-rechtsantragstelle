@@ -1,19 +1,26 @@
-import type { Translations } from "~/services/cms/index.server";
 import { sendSentryMessage } from "~/services/logging";
 
-export function getTranslationByKey(
-  translationKey: string,
-  translationRecord: Translations,
-): string {
-  const translation = translationRecord[translationKey];
+export type Translations = Record<string, string>;
 
-  if (typeof translation === "undefined") {
+export function getTranslationByKey(
+  key: string,
+  translations?: Translations,
+): string {
+  const translation = translations?.[key];
+  if (!translation) {
     sendSentryMessage(
-      `Key translation ${translationKey} is not available in the translation record. Please take a look in the CMS system!`,
+      `Key translation ${key} is not available in the translation record. Please take a look in the CMS system!`,
       "warning",
     );
-    return translationKey;
   }
+  return translation ?? key;
+}
 
-  return translation;
+export function extractTranslations<T extends string>(
+  keys: T[],
+  translations?: Translations,
+) {
+  return Object.fromEntries(
+    keys.map((key) => [key, getTranslationByKey(key, translations)]),
+  ) as Record<T, string>;
 }
