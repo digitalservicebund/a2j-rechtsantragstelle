@@ -8,8 +8,8 @@ export function getStrapiFooter() {
   return {
     locale: defaultLocale,
     image: getStrapiImage(),
-    paragraphs: Array.from(Array(2).keys()).map((_) => getStrapiParagraph()),
-    links: Array.from(Array(7).keys()).map((_) => getStrapiLink()),
+    paragraphs: faker.helpers.multiple(getStrapiParagraph, { count: 2 }),
+    links: faker.helpers.multiple(getStrapiLink, { count: 7 }),
     createdAt: faker.date.past().toISOString(),
     updatedAt: faker.date.recent().toISOString(),
     publishedAt: faker.date.recent().toISOString(),
