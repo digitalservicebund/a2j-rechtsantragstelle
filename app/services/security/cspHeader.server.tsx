@@ -41,6 +41,7 @@ export const cspHeader = (args: {
 
   if (args.environment === "development") {
     directives["connect-src"].push("ws://localhost:24678"); // vite's HMR server
+    directives["connect-src"].push("http://localhost:24678"); // vite's HMR server
     directives["img-src"].push("localhost:*");
   }
   if (args.reportUri) {

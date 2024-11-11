@@ -1,4 +1,4 @@
-import { bankKontoDone } from "~/domains/shared/finanzielleAngaben/doneFunctions";
+import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import type { BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
 import {
   geldanlagenDone,

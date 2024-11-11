@@ -1,13 +1,13 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
+import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services/pdf";
 import type { Context } from "~/domains/contexts";
 import { parsePathname, type FlowId } from "~/domains/flowIds";
+import { fluggastrechtePdfFromUserdata } from "~/domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
+import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
-import { beratungshilfePdfFromUserdata } from "~/services/pdf/beratungshilfe";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
-import { fluggastrechtePdfFromUserdata } from "~/services/pdf/fluggastrechte/fluggastrechtePdfFromUserdata";
 import { pdfDocumentToArrayBuffer } from "~/services/pdf/pdfDocumentToArrayBuffer";
-import { prozesskostenhilfePdfFromUserdata } from "~/services/pdf/prozesskostenhilfe";
 import { getSessionData } from "~/services/session.server";
 import { pdfDateFormat, today } from "~/util/date";
 
