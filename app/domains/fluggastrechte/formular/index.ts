@@ -7,7 +7,6 @@ import abgabeFlow from "./abgabe/flow.json";
 import type { FluggastrechtContext } from "./context";
 import { flugdatenDone } from "./flugdaten/doneFunctions";
 import flugdatenFlow from "./flugdaten/flow.json";
-import prozessfuehrungFlow from "./prozessfuehrung/flow.json";
 import { grundvoraussetzungenDone } from "./grundvoraussetzungen/doneFunctions";
 import grundvoraussetzungenFlow from "./grundvoraussetzungen/flow.json";
 import { fluggastrechteGuards } from "./guards";
@@ -16,6 +15,8 @@ import {
   weiterePersonenDone,
 } from "./persoenlicheDaten/doneFunctions";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
+import { prozessfuehrungDone } from "./prozessfuehrung/doneFunctions";
+import prozessfuehrungFlow from "./prozessfuehrung/flow.json";
 import { streitwertKostenDone } from "./streitwertKosten/doneFunctions";
 import streitwertKostenFlow from "./streitwertKosten/flow.json";
 import {
@@ -35,7 +36,6 @@ import {
   isWeiterePersonen,
 } from "./stringReplacements";
 import zusammenfassungFlow from "./zusammenfassung/flow.json";
-import { prozessfuehrungDone } from "./prozessfuehrung/doneFunctions";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
