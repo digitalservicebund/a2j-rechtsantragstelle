@@ -1,3 +1,7 @@
 export function originFromUrlString(urlString?: string) {
-  return URL.parse(urlString ?? "")?.origin;
+  try {
+    return new URL(urlString ?? "").origin;
+  } catch {
+    return undefined;
+  }
 }
