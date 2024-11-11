@@ -60,20 +60,6 @@ We are actively disabling all permissions as recommended by https://owasp.org/ww
 Interested in working with us? Reach out https://digitalservice.bund.de/en/career`;
 
 export const links: LinksFunction = () => [
-  {
-    rel: "preload",
-    as: "font",
-    type: "font/woff2",
-    href: "/fonts/BundesSansWeb-Regular.woff2",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "preload",
-    as: "font",
-    type: "font/woff2",
-    href: "/fonts/BundesSansWeb-Bold.woff2",
-    crossOrigin: "anonymous",
-  },
   { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
