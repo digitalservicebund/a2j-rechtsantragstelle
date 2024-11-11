@@ -1,11 +1,11 @@
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { getBeratungshilfeParameters } from "~/domains/beratungshilfe/pdf";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import {
   ATTACHMENT_DESCRIPTION_SECTION_E,
   fillUnterhalt,
-} from "~/domains/beratungshilfe/pdf/sections/E_unterhalt";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
-import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
+} from "../E_unterhalt";
 
 describe("E_unterhalt", () => {
   it("No section E title in attachment without data", () => {

@@ -1,8 +1,8 @@
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { getBeratungshilfeParameters } from "~/domains/beratungshilfe/pdf";
-import { fillKraftfahrzeug } from "~/domains/beratungshilfe/pdf/sections/F_besitz/fillKraftfahrzeug";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
+import { fillKraftfahrzeug } from "../fillKraftfahrzeug";
 
 describe("fillKraftfahrzeug", () => {
   it("should fill kraftfahrzeug pdf field when kraftfahrzeug is given in context", () => {

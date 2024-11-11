@@ -1,7 +1,7 @@
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { getBeratungshilfeParameters } from "~/domains/beratungshilfe/pdf";
-import { fillVorraussetzungen } from "~/domains/beratungshilfe/pdf/sections/B_vorraussetzungen";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
+import { fillVorraussetzungen } from "../B_vorraussetzungen";
 
 describe("B_vorraussetzungen", () => {
   it("should not check vorraussetzung checkbox pdf fields when context vorraussetzung is yes", () => {

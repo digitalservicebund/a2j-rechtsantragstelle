@@ -1,6 +1,7 @@
 // @vitest-environment node
 // see https://github.com/Hopding/pdf-lib/issues/1186
-import { beratungshilfePdfFromUserdata } from "app/domains/beratungshilfe/pdf";
+
+import { beratungshilfePdfFromUserdata } from "..";
 
 describe("beratungshilfePdfFromUserdata", () => {
   it("values are set from context", async () => {

@@ -1,6 +1,6 @@
-import { getBeratungshilfeParameters } from "~/domains/beratungshilfe/pdf";
-import { fillWohnen } from "~/domains/beratungshilfe/pdf/sections/D_wohnen";
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
+import { fillWohnen } from "../D_wohnen";
 
 describe("fillWohnen", () => {
   it("should fill wohnen section for living situation alone correct", () => {

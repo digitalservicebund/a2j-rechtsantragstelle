@@ -1,6 +1,6 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
-import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/pdf";
+import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services/pdf";
 import type { Context } from "~/domains/contexts";
 import { parsePathname, type FlowId } from "~/domains/flowIds";
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/pdf";

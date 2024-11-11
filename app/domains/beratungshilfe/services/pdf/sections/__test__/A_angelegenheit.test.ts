@@ -1,15 +1,15 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import {
-  fillAngelegenheit,
   BESCHREIBUNG_ANGELEGENHEIT_TITLE,
   EIGENBEMUEHUNG_TITLE,
+  fillAngelegenheit,
   GEGNER_TITLE,
   THEMA_RECHTSPROBLEM_TITLE,
   ZIEL_ANGELEGENHEIT_TITLE,
-} from "~/domains/beratungshilfe/pdf/sections/A_angelegenheit";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
-import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
+} from "../A_angelegenheit";
 
 describe("A_angelegenheit", () => {
   it("should fill angelegenheit in the attachment when exceeded new line limit count", () => {

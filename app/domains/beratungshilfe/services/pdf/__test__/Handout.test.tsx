@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 import * as stringReplacements from "~/domains/beratungshilfe/formular/stringReplacements";
-import Handout, { dynamicSteps } from "~/domains/beratungshilfe/pdf/Handout";
+import Handout, { dynamicSteps } from "../Handout";
 
 vi.mock("@react-pdf/renderer", async () => {
   const pdfRenderer = await vi.importActual("@react-pdf/renderer");
