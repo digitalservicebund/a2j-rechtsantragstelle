@@ -1,8 +1,8 @@
 import {
-  strapiFlowPageFactory,
-  strapiFormComponentFactory,
+  getStrapiFlowPage,
+  getStrapiFormComponent,
 } from "tests/factories/cmsModels/strapiFlowPage";
-import { strapiFooterFactory } from "~/../tests/factories/cmsModels/strapiFooter";
+import { getStrapiFooter } from "~/../tests/factories/cmsModels/strapiFooter";
 import { fetchSingleEntry } from "~/services/cms/index.server";
 import { fetchAllFormFields } from "../fetchAllFormFields";
 import { getStrapiEntry } from "../getStrapiEntry";
@@ -15,7 +15,7 @@ describe("services/cms", () => {
 
   describe("fetchSingleEntry", () => {
     test("returns a footer entry", async () => {
-      const footerData = strapiFooterFactory.build();
+      const footerData = getStrapiFooter();
       vi.mocked(getStrapiEntry).mockReturnValue(
         Promise.resolve([{ attributes: footerData }]),
       );
@@ -27,19 +27,15 @@ describe("services/cms", () => {
     test("returns steps with it's form field names", async () => {
       vi.mocked(getStrapiEntry).mockResolvedValue([
         {
-          attributes: strapiFlowPageFactory.build({
+          attributes: getStrapiFlowPage({
             stepId: "step1",
-            form: [
-              strapiFormComponentFactory.build({ name: "formFieldForStep1" }),
-            ],
+            form: [getStrapiFormComponent({ name: "formFieldForStep1" })],
           }),
         },
         {
-          attributes: strapiFlowPageFactory.build({
+          attributes: getStrapiFlowPage({
             stepId: "step2",
-            form: [
-              strapiFormComponentFactory.build({ name: "formFieldForStep2" }),
-            ],
+            form: [getStrapiFormComponent({ name: "formFieldForStep2" })],
           }),
         },
       ]);
@@ -53,12 +49,12 @@ describe("services/cms", () => {
     test("returns steps with multiple form field names", async () => {
       vi.mocked(getStrapiEntry).mockResolvedValue([
         {
-          attributes: strapiFlowPageFactory.build({
+          attributes: getStrapiFlowPage({
             stepId: "step1",
             form: [
-              strapiFormComponentFactory.build({ name: "formField1ForStep1" }),
-              strapiFormComponentFactory.build({ name: "formField2ForStep1" }),
-              strapiFormComponentFactory.build({ name: "formField3ForStep1" }),
+              getStrapiFormComponent({ name: "formField1ForStep1" }),
+              getStrapiFormComponent({ name: "formField2ForStep1" }),
+              getStrapiFormComponent({ name: "formField3ForStep1" }),
             ],
           }),
         },
@@ -76,22 +72,20 @@ describe("services/cms", () => {
     test("overwrites formfields from staging", async () => {
       vi.mocked(getStrapiEntry).mockResolvedValue([
         {
-          attributes: strapiFlowPageFactory.build({
+          attributes: getStrapiFlowPage({
             stepId: "step1",
             form: [
-              strapiFormComponentFactory.build({
+              getStrapiFormComponent({
                 name: "formFieldForStepProd",
               }),
             ],
           }),
         },
         {
-          attributes: strapiFlowPageFactory.build({
+          attributes: getStrapiFlowPage({
             stepId: "step1",
             locale: "sg",
-            form: [
-              strapiFormComponentFactory.build({ name: "formFieldForStage" }),
-            ],
+            form: [getStrapiFormComponent({ name: "formFieldForStage" })],
           }),
         },
       ]);
@@ -104,21 +98,21 @@ describe("services/cms", () => {
     test("disregards staging formfields in production", async () => {
       vi.mocked(getStrapiEntry).mockResolvedValue([
         {
-          attributes: strapiFlowPageFactory.build({
+          attributes: getStrapiFlowPage({
             stepId: "step1",
             form: [
-              strapiFormComponentFactory.build({
+              getStrapiFormComponent({
                 name: "formFieldForStepProd",
               }),
             ],
           }),
         },
         {
-          attributes: strapiFlowPageFactory.build({
+          attributes: getStrapiFlowPage({
             stepId: "step2",
             locale: "sg",
             form: [
-              strapiFormComponentFactory.build({
+              getStrapiFormComponent({
                 name: "formFieldForStepStage",
               }),
             ],
@@ -136,22 +130,22 @@ describe("services/cms", () => {
     test("adds staging steps when not in production", async () => {
       vi.mocked(getStrapiEntry).mockResolvedValue([
         {
-          attributes: strapiFlowPageFactory.build({
+          attributes: getStrapiFlowPage({
             stepId: "step1",
             locale: "de",
             form: [
-              strapiFormComponentFactory.build({
+              getStrapiFormComponent({
                 name: "formFieldForStepProd",
               }),
             ],
           }),
         },
         {
-          attributes: strapiFlowPageFactory.build({
+          attributes: getStrapiFlowPage({
             stepId: "step2",
             locale: "sg",
             form: [
-              strapiFormComponentFactory.build({
+              getStrapiFormComponent({
                 name: "formFieldForStepStage",
               }),
             ],
@@ -168,7 +162,7 @@ describe("services/cms", () => {
     test("filters out steps without forms", async () => {
       vi.mocked(getStrapiEntry).mockResolvedValue([
         {
-          attributes: strapiFlowPageFactory.build({
+          attributes: getStrapiFlowPage({
             stepId: "step1",
             form: [],
           }),

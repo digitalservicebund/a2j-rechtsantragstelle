@@ -10,7 +10,6 @@ const cases = [
       klageEingereicht: "no",
       hamburgOderBremen: "no",
       beratungshilfeBeantragt: "no",
-      // TODO Why is this called eigeninitiative? I believe it's rather "andereBeratungen" or something?
       eigeninitiativeGrundvorraussetzung: "no",
     },
     [

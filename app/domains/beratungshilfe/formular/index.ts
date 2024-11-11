@@ -28,7 +28,7 @@ import {
 } from "../../shared/stringReplacements";
 
 export const beratungshilfeFormular = {
-  cmsSlug: "form-flow-pages",
+  flowType: "formFlow",
   config: beratungshilfeXstateConfig,
   guards: {
     ...beratungshilfeGrundvoraussetzungenGuards,
