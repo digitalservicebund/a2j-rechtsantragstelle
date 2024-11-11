@@ -7,6 +7,7 @@ import abgabeFlow from "./abgabe/flow.json";
 import type { FluggastrechtContext } from "./context";
 import { flugdatenDone } from "./flugdaten/doneFunctions";
 import flugdatenFlow from "./flugdaten/flow.json";
+import prozessfuehrungFlow from "./prozessfuehrung/flow.json";
 import { grundvoraussetzungenDone } from "./grundvoraussetzungen/doneFunctions";
 import grundvoraussetzungenFlow from "./grundvoraussetzungen/flow.json";
 import { fluggastrechteGuards } from "./guards";
@@ -34,6 +35,7 @@ import {
   isWeiterePersonen,
 } from "./stringReplacements";
 import zusammenfassungFlow from "./zusammenfassung/flow.json";
+import { prozessfuehrungDone } from "./prozessfuehrung/doneFunctions";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
@@ -115,6 +117,9 @@ export const fluggastrechtFlow = {
           person: { meta: { done: personDone } },
           "weitere-personen": { meta: { done: weiterePersonenDone } },
         },
+      }),
+      prozessfuehrung: _.merge(prozessfuehrungFlow, {
+        meta: { done: prozessfuehrungDone },
       }),
       zusammenfassung: _.merge(zusammenfassungFlow, {
         meta: { done: () => false },

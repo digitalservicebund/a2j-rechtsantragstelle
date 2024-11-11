@@ -34,14 +34,8 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/streitwert-kosten/andere-kosten
   await formular.clickNext();
 
-  // /fluggastrechte/formular/streitwert-kosten/zahlung-nach-klageeinreichung
-  await formular.clickNext();
-
   // /fluggastrechte/formular/streitwert-kosten/prozesszinsen
   await formular.fillRadioPage("prozesszinsen", "yes");
-
-  // /fluggastrechte/formular/streitwert-kosten/versaeumnisurteil
-  await formular.fillRadioPage("versaeumnisurteil", "yes");
 
   // /fluggastrechte/formular/flugdaten/geplanter-flug
 
@@ -103,6 +97,18 @@ export async function startFluggastrechteFormular(
 
   // /fluggastrechte/formular/persoenliche-daten/weitere-personen/zeugen
   await formular.fillRadioPage("hasZeugen", "no");
+
+  // /fluggastrechte/formular/streitwert-kosten/schriftliches-verfahren
+  await formular.fillRadioPage("schriftlichesVerfahren", "yes");
+
+  // /fluggastrechte/formular/streitwert-kosten/videoverhandlung
+  await formular.fillRadioPage("videoverhandlung", "yes");
+
+  // /fluggastrechte/formular/prozessfuehrung/zahlung-nach-klageeinreichung
+  await formular.clickNext();
+
+  // /fluggastrechte/formular/prozessfuehrung/versaeumnisurteil
+  await formular.fillRadioPage("versaeumnisurteil", "yes");
 
   // fluggastrechte/formular/zusammenfassung/start
   await expectPageToBeAccessible({ page });

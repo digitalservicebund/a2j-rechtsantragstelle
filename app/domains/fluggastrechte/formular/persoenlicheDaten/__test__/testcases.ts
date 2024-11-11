@@ -27,7 +27,7 @@ const cases = [
       "persoenliche-daten/person/daten",
       "persoenliche-daten/weitere-personen/frage",
       "persoenliche-daten/weitere-personen/zeugen",
-      "zusammenfassung/start",
+      "prozessfuehrung/schriftliches-verfahren",
     ],
   ],
   [
@@ -46,7 +46,7 @@ const cases = [
       "persoenliche-daten/person/daten",
       "persoenliche-daten/weitere-personen/frage",
       "persoenliche-daten/weitere-personen/zeugen",
-      "zusammenfassung/start",
+      "prozessfuehrung/schriftliches-verfahren",
     ],
   ],
   [
@@ -66,7 +66,7 @@ const cases = [
       "persoenliche-daten/weitere-personen/frage",
       "persoenliche-daten/weitere-personen/uebersicht",
       "persoenliche-daten/weitere-personen/zeugen",
-      "zusammenfassung/start",
+      "prozessfuehrung/schriftliches-verfahren",
     ],
   ],
   [
@@ -86,7 +86,7 @@ const cases = [
       "persoenliche-daten/weitere-personen/frage",
       "persoenliche-daten/weitere-personen/uebersicht",
       "persoenliche-daten/weitere-personen/zeugen",
-      "zusammenfassung/start",
+      "prozessfuehrung/schriftliches-verfahren",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;
