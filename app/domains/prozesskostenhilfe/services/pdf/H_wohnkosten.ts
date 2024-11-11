@@ -1,4 +1,4 @@
-import type { PkhPdfFillFunction } from "~/domains/prozesskostenhilfe/pdf";
+import { PkhPdfFillFunction } from ".";
 
 export const fillWohnkosten: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   pdfValues.gesamtgroessedesWohnraumsdenSiealleinodergemeinsammitanderenPersonenbewohnen.value =

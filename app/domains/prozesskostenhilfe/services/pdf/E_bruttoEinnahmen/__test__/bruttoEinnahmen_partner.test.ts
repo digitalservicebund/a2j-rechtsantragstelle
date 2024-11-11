@@ -3,6 +3,7 @@ import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozessk
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { createFinancialEntry } from "tests/fixtures/prozesskostenhilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import {
   fillAndereLeistungenPartner,
   fillBesondersHoheAusgabenPartner,
@@ -12,8 +13,7 @@ import {
   fillStaatlicheLeistungenPartner,
   fillSupportPartner,
   fillWeitereEinkuenftePartner,
-} from "~/domains/prozesskostenhilfe/pdf/E_bruttoEinnahmen/bruttoEinnahmen_partner";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
+} from "../bruttoEinnahmen_partner";
 
 let pdfParams: ProzesskostenhilfePDF;
 

@@ -5,7 +5,7 @@ import {
   fillOrgCoverage,
   fillRechtsschutzversicherung,
   fillRSVCoverage,
-} from "~/domains/prozesskostenhilfe/pdf/B_rechtsschutzversicherung";
+} from "../B_rechtsschutzversicherung";
 
 let pdfParams: ProzesskostenhilfePDF;
 

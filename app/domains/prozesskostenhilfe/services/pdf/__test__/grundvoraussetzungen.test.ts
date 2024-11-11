@@ -1,6 +1,6 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import { fillGrundvoraussetzungen } from "~/domains/prozesskostenhilfe/pdf/grundvoraussetzungen";
+import { fillGrundvoraussetzungen } from "../grundvoraussetzungen";
 
 let pdfParams: ProzesskostenhilfePDF;
 

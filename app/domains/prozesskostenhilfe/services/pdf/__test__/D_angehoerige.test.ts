@@ -1,11 +1,11 @@
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import {
   ATTACHMENT_DESCRIPTION_SECTION_D,
   fillUnterhaltAngehoerige,
-} from "~/domains/prozesskostenhilfe/pdf/D_angehoerige";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
-import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
+} from "../D_angehoerige";
 
 describe("D_angehoerige", () => {
   it("No section D title in attachment without data", () => {

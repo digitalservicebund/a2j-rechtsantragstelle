@@ -1,8 +1,10 @@
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
-import type { PkhPdfFillFunction } from "~/domains/prozesskostenhilfe/pdf";
 import { maritalDescriptionMapping } from "~/domains/shared/pdf/maritalDescriptionMapping";
-import type { AttachmentEntries } from "../../../services/pdf/attachment";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../../services/pdf/attachment";
+import { PkhPdfFillFunction } from ".";
+import {
+  AttachmentEntries,
+  SEE_IN_ATTACHMENT_DESCRIPTION,
+} from "~/services/pdf/attachment";
 
 export const GESETZLICHERVERTRETER_FIELD_MAX_CHARS = 80;
 export const NAME_VORNAME_FIELD_MAX_CHARS = 35;

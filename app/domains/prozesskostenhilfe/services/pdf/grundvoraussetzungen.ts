@@ -1,4 +1,4 @@
-import type { PkhPdfFillFunction } from "~/domains/prozesskostenhilfe/pdf";
+import { PkhPdfFillFunction } from ".";
 
 export const fillGrundvoraussetzungen: PkhPdfFillFunction = ({
   userData,

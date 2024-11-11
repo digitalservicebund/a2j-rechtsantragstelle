@@ -3,7 +3,7 @@ import _ from "lodash";
 import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services/pdf";
 import type { Context } from "~/domains/contexts";
 import { parsePathname, type FlowId } from "~/domains/flowIds";
-import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/pdf";
+import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
 import { fluggastrechtePdfFromUserdata } from "~/services/pdf/fluggastrechte/fluggastrechtePdfFromUserdata";

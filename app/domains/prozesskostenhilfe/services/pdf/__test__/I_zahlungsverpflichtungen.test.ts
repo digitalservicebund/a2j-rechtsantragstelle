@@ -1,8 +1,8 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
-import { fillZahlungsverpflichtungen } from "~/domains/prozesskostenhilfe/pdf/I_zahlungsverpflichtungen";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
+import { fillZahlungsverpflichtungen } from "../I_zahlungsverpflichtungen";
 
 let pdfParams: ProzesskostenhilfePDF;
 

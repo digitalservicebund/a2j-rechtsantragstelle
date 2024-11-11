@@ -1,4 +1,3 @@
-import type { PkhPdfFillFunction } from "~/domains/prozesskostenhilfe/pdf";
 import {
   eigentuemerMapping,
   attachBankkontenToAnhang,
@@ -11,10 +10,13 @@ import {
   fillSingleWertsache,
   attachGeldanlagenToAnhang,
 } from "~/domains/shared/pdf/eigentumHelpers";
-import type { AttachmentEntries } from "~/services/pdf/attachment";
+import {
+  SEE_IN_ATTACHMENT_DESCRIPTION,
+  type AttachmentEntries,
+} from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { arrayIsNonEmpty } from "~/util/array";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../../services/pdf/attachment";
+import { PkhPdfFillFunction } from ".";
 
 export const fillBankkonto: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const { bankkonten, hasBankkonto } = userData;

@@ -10,8 +10,8 @@ import {
   fillRente,
   fillStaatlicheLeistungen,
   fillWeitereEinkuenfte,
-} from "~/domains/prozesskostenhilfe/pdf/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "../../../../../services/pdf/attachment";
+} from "../bruttoEinnahmen_eigenes";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 
 let pdfParams: ProzesskostenhilfePDF;
 

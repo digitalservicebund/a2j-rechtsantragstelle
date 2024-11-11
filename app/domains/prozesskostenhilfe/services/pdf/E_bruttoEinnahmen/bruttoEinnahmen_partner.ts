@@ -1,16 +1,16 @@
 import { partnerEinkuenfteGuards as guards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
-import type { PkhPdfFillFunction } from "~/domains/prozesskostenhilfe/pdf";
-import { zahlungsfrequenzMapping } from "~/domains/prozesskostenhilfe/pdf/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
 import {
   type AttachmentEntries,
   SEE_IN_ATTACHMENT_DESCRIPTION,
 } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { PkhPdfFillFunction } from "..";
 import {
   nettoString,
   removeDecimalsFromCurrencyString,
-} from "../../../../services/pdf/util";
+} from "~/services/pdf/util";
+import { zahlungsfrequenzMapping } from "./bruttoEinnahmen_eigenes";
 
 // PDF Form Field Names:
 // Nichtselbstständige Arbeit - nein_23, ja_22

@@ -1,5 +1,5 @@
-import type { PkhPdfFillFunction } from "~/domains/prozesskostenhilfe/pdf";
 import { familyRelationshipMap } from "~/domains/shared/pdf/unterhaltHelpers";
+import { PkhPdfFillFunction } from ".";
 
 export const fillUnterhaltsanspruch: PkhPdfFillFunction = ({
   userData,
