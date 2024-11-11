@@ -121,6 +121,7 @@ export default tseslint.config(
       "sonarjs/sonar-prefer-regexp-exec": "off",
       "sonarjs/sonar-prefer-optional-chain": "off",
       "sonarjs/no-dead-store": "off",
+      "sonarjs/anchor-has-content": "off",
 
       // to be enabled later
       "sonarjs/no-unstable-nested-components": "warn", // TODO: enable later

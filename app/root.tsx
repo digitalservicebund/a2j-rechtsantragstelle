@@ -19,7 +19,7 @@ import {
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
@@ -31,6 +31,7 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { config as configWeb } from "~/services/env/web";
+import { useIsUserInFlow } from "~/util/url";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
@@ -182,6 +183,23 @@ function App() {
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
+  const userInFlow = useIsUserInFlow();
+
+  // Needed to correctly trap focus on the main content after skipping to content
+  useEffect(() => {
+    const focusMainContent = () => {
+      document
+        .getElementById(/* userInFlow ? "form-flow-page-content" : */ "main")
+        ?.focus();
+    };
+    const skipContentLink = document.getElementById("skip-to-content-link");
+
+    skipContentLink?.addEventListener("click", focusMainContent);
+
+    return () => {
+      skipContentLink?.removeEventListener("click", focusMainContent);
+    };
+  }, [userInFlow]);
 
   // eslint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
@@ -219,7 +237,7 @@ function App() {
             <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
             <Header {...header} translations={pageHeaderTranslations} />
             <Breadcrumbs breadcrumbs={breadcrumbs} />
-            <main className="flex-grow" id="main">
+            <main className="flex-grow" id="main" tabIndex={-1}>
               <Outlet />
             </main>
             <footer>

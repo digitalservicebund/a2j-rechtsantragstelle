@@ -6,9 +6,10 @@ const SKIP_TO_CONTENT_TRANSLATION_KEY = "skip-to-content";
 
 export function SkipToContentLink() {
   const { accessibility: accessibilityTranslations } = useTranslations();
+  // const userInFlow = useIsUserInFlow();
   return (
     <Link
-      to={"#main"}
+      to={/* userInFlow ? "#form-flow-page-content" : */ "#main"}
       className="bg-yellow-300 px-8 py-6 text-blue-800 ds-label-01-reg"
       id="skip-to-content-link"
     >
