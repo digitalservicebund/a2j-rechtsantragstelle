@@ -16,7 +16,7 @@ import {
   childDone,
   geldanlageDone,
   singleGrundeigentumDone,
-} from "../../../shared/finanzielleAngaben/doneFunctions";
+} from "../../../shared/formular/finanzielleAngaben/doneFunctions";
 
 export type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenContext>;
