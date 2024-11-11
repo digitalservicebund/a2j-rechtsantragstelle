@@ -11,8 +11,8 @@ import {
   wertsachenArraySchema,
   financialEntrySchema,
   livingSituationSchema,
-} from "~/domains/shared/finanzielleAngaben/context";
-import { finanzielleAngabenPartnerContext } from "~/domains/shared/finanzielleAngaben/partner/context";
+} from "~/domains/shared/formular/finanzielleAngaben/context";
+import { finanzielleAngabenPartnerContext } from "~/domains/shared/formular/finanzielleAngaben/partner/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";

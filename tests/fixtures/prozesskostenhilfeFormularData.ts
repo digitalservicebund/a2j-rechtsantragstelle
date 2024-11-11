@@ -12,7 +12,7 @@ import {
   Eigentuemer,
   financialEntrySchema,
   unterhaltszahlungSchema,
-} from "~/domains/shared/finanzielleAngaben/context";
+} from "~/domains/shared/formular/finanzielleAngaben/context";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 

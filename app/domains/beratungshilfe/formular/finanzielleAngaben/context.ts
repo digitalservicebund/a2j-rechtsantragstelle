@@ -10,8 +10,8 @@ import {
   unterhaltszahlungSchema,
   wertsachenArraySchema,
   livingSituationSchema,
-} from "~/domains/shared/finanzielleAngaben/context";
-import { finanzielleAngabenPartnerContext } from "~/domains/shared/finanzielleAngaben/partner/context";
+} from "~/domains/shared/formular/finanzielleAngaben/context";
+import { finanzielleAngabenPartnerContext } from "~/domains/shared/formular/finanzielleAngaben/partner/context";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";

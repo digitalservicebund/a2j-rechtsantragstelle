@@ -3,7 +3,7 @@ import { beratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/con
 import { beratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import { beratungshilfeGrundvoraussetzungen } from "./grundvoraussetzung/context";
 import { beratungshilfeRechtsproblem } from "./rechtsproblem/context";
-import { abgabeContext } from "../../shared/abgabe/context";
+import { abgabeContext } from "../../shared/formular/abgabe/context";
 
 export const beratungshilfeFormularContext = {
   ...beratungshilfeAnwaltlicheVertretung,
