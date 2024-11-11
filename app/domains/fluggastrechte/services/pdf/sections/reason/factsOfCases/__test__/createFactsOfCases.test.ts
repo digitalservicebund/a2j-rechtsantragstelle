@@ -8,7 +8,7 @@ import { addDetailedReason } from "../addDetailedReason";
 import { addFlightDetails } from "../addFlightDetails";
 import { addReason } from "../addReason";
 import { createFactsOfCases, FACTS_OF_CASES_TEXT } from "../createFactsOfCases";
-import { addTable } from "../table/addTable";
+import { addTable, addTableInfo } from "../table/addTable";
 
 vi.mock("../addReason");
 vi.mock("../addDetailedReason");
@@ -20,6 +20,8 @@ vi.mocked(addReason).mockImplementation(() => vi.fn());
 vi.mocked(addFlightDetails).mockImplementation(() => vi.fn());
 vi.mocked(addDetailedReason).mockImplementation(() => vi.fn());
 vi.mocked(addTable).mockImplementation(() => vi.fn());
+vi.mocked(addTableInfo).mockImplementation(() => vi.fn());
+
 vi.mocked(addCompensationAmount).mockImplementation(() => vi.fn());
 
 afterEach(() => {
@@ -52,6 +54,15 @@ describe("createFactsOfCases", () => {
     createFactsOfCases(mockDoc, mockStruct, userDataMock);
 
     expect(addTable).toBeCalledTimes(1);
+  });
+
+  it("should call the addTableInfo for the creation facts of cases", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    createFactsOfCases(mockDoc, mockStruct, userDataMock);
+
+    expect(addTableInfo).toBeCalledTimes(1);
   });
 
   it("should call the addFlightDetails for the creation facts of cases", () => {
