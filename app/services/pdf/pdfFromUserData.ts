@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
 import type { AllContexts } from "~/domains/common";
-import { createPdfKitDocument } from "~/domains/fluggastrechte/services/pdf/createPdfKitDocument";
+import { createPdfKitDocument } from "~/services/pdf/createPdfKitDocument";
 
 export type PDFDocumentBuilder<TContext extends AllContexts> = (
   doc: typeof PDFDocument,

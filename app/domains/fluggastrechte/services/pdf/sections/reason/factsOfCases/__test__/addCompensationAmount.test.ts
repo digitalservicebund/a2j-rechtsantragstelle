@@ -7,8 +7,8 @@ import {
 import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
+import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { PDF_MARGIN_HORIZONTAL } from "../../../../createPdfKitDocument";
 import {
   addCompensationAmount,
   ARTICLE_AIR_PASSENGER_REGULATION_TEXT,

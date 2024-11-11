@@ -9,7 +9,7 @@ import {
   PDF_MARGIN_VERTICAL,
   PDF_SIZE_FORMAT,
   PDF_VERSION,
-} from "../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 
 vi.mock("pdfkit", () => {
   return {

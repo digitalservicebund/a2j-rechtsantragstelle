@@ -4,7 +4,7 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_HEIGHT_SEIZE,
   PDF_MARGIN_HORIZONTAL,
-} from "../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 
 export const createBankInformation = (
   doc: typeof PDFDocument,
