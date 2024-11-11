@@ -8,18 +8,18 @@ import { json } from "@remix-run/node";
 import {
   Links,
   Meta,
-  Outlet,
   Scripts,
   ScrollRestoration,
   useLoaderData,
   useMatches,
   useRouteLoaderData,
   useRouteError,
+  Outlet,
 } from "@remix-run/react";
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
@@ -187,26 +187,21 @@ function App() {
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
-
-  // Needed to correctly trap focus on the main content after skipping to content
-  useEffect(() => {
-    const focusMainContent = () => {
-      const target =
-        document.getElementById("form-flow-page-content") ??
-        document.querySelector("main");
-      target?.focus();
-    };
-    const skipContentLink = document.getElementById("skip-to-content-link");
-
-    skipContentLink?.addEventListener("click", focusMainContent);
-
-    return () => {
-      skipContentLink?.removeEventListener("click", focusMainContent);
-    };
-  }, []);
+  const [skipToContentLinkTarget, setSkipToContentLinkTarget] =
+    useState("#main");
 
   // eslint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
+
+  /**
+   * Need to set focus to inside the form flow for screen reader convenience.
+   * Calls to `document` must happen within useEffect, as this hook is never rendered on the server-side
+   */
+  useEffect(() => {
+    if (document.getElementById("form-flow-page-content")) {
+      setSkipToContentLinkTarget("#form-flow-page-content");
+    }
+  }, []);
 
   const translationMemo = useMemo(
     () => ({
@@ -237,12 +232,13 @@ function App() {
         <CookieConsentContext.Provider value={hasTrackingConsent}>
           <SkipToContentLink
             label={`↓ ${getTranslationByKey(SKIP_TO_CONTENT_TRANSLATION_KEY, accessibilityTranslations)}`}
+            target={skipToContentLinkTarget}
           />
           <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
           <Header {...header} translations={pageHeaderTranslations} />
           <Breadcrumbs breadcrumbs={breadcrumbs} />
           <TranslationContext.Provider value={translationMemo}>
-            <main className="flex-grow" tabIndex={-1}>
+            <main className="flex-grow" id="main">
               <Outlet />
             </main>
           </TranslationContext.Provider>

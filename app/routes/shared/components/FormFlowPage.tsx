@@ -46,11 +46,7 @@ export function FormFlowPage() {
         <div
           className={`ds-stack-40 container md:flex-1 ${navItems && "!ml-0 !mr-0"}`}
         >
-          <div
-            className="ds-stack-16"
-            id="form-flow-page-content"
-            tabIndex={-1}
-          >
+          <div className="ds-stack-16" id="form-flow-page-content">
             {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
             <Heading text={heading} look="ds-heading-02-reg" />
             <PageContent

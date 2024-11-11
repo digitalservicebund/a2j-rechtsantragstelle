@@ -15,6 +15,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     label: "Zum Hauptinhalt springen",
+    target: "#main",
   },
   decorators: [(Story) => remixContext(Story)],
 };
