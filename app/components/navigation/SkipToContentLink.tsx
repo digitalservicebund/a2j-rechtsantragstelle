@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export function SkipToContentLink({
   label,
@@ -8,8 +8,8 @@ export function SkipToContentLink({
 }>) {
   const [target, setTarget] = useState("main");
 
-  // useLayoutEffect is necessary here, as we can't use `document` in an SSR environemnt
-  useLayoutEffect(() => {
+  // useEffect is necessary here, as we can't use `document` in an SSR environemnt
+  useEffect(() => {
     if (document.getElementById("form-flow-page-content")) {
       setTarget("form-flow-page-content");
     }
