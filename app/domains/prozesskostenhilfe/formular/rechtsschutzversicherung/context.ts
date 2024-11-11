@@ -1,9 +1,13 @@
 import { z } from "zod";
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import {
+  customRequiredErrorMessage,
+  YesNoAnswer,
+} from "~/services/validation/YesNoAnswer";
 
-export type Coverage = z.infer<typeof coverage>;
-
-const coverage = z.enum(["yes", "no", "partly", "unknown"]);
+const coverage = z.enum(
+  ["yes", "no", "partly", "unknown"],
+  customRequiredErrorMessage,
+);
 
 export const prozesskostenhilfeRsvContext = {
   hasRsv: YesNoAnswer,
