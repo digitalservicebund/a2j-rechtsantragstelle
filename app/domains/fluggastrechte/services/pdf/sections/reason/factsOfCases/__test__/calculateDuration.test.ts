@@ -48,7 +48,7 @@ describe("calculateDuration", () => {
       endDate: "10.11.2024",
       endTime: "12:45",
     };
-    expect(calculateDuration(input)).toBe("0 Stunden and 45 Minuten");
+    expect(calculateDuration(input)).toBe("0 Stunde and 45 Minuten");
   });
 
   it("should return empty string if end time is before start time on the same day", () => {
@@ -78,7 +78,7 @@ describe("calculateDuration", () => {
       endDate: "10.11.2024",
       endTime: "12:00",
     };
-    expect(calculateDuration(input)).toBe("0 Stunden");
+    expect(calculateDuration(input)).toBe("0 Stunde");
   });
 
   it("should return '1 Stunde' for exactly one hour duration", () => {
