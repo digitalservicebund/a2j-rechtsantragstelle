@@ -5,7 +5,7 @@ import { getCompensationPayment } from "~/services/airports/getCompensationPayme
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-} from "~/services/pdf/fluggastrechte/createPdfKitDocument";
+} from "../../../createPdfKitDocument";
 import { getFullPlaintiffName } from "../../getFullPlaintiffName";
 
 export const LEGAL_ASSESSMENT_TEXT = "II. Rechtliche Würdigung";

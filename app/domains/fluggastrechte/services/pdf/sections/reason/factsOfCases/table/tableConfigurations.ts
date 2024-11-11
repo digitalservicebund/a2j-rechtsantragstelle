@@ -1,4 +1,4 @@
-import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/fluggastrechte/createPdfKitDocument";
+import { PDF_MARGIN_HORIZONTAL } from "../../../../createPdfKitDocument";
 
 export const START_TABLE_X = PDF_MARGIN_HORIZONTAL; // X position of the table
 export const COLUMN_WIDTH = 115;

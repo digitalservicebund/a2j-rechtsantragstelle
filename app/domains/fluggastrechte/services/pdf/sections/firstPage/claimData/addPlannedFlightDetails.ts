@@ -4,7 +4,7 @@ import { getCompensationPayment } from "~/services/airports/getCompensationPayme
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-} from "~/services/pdf/fluggastrechte/createPdfKitDocument";
+} from "../../../createPdfKitDocument";
 
 export const DUE_REASON_TEXT =
   "Wegen: Ausgleichszahlung nach der Fluggastrechteverordnung (EG) 261/2004";

@@ -5,7 +5,7 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
-} from "~/services/pdf/fluggastrechte/createPdfKitDocument";
+} from "../../../createPdfKitDocument";
 
 export const CONFIRM_BOOKING_TEXT = "Eine bestätigte Buchung liegt vor.";
 export const ATTACHMENT_CONFIRM_BOOKING_TEXT =

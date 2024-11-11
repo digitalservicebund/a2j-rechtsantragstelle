@@ -6,7 +6,7 @@ import { getCompensationPayment } from "~/services/airports/getCompensationPayme
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
-} from "~/services/pdf/fluggastrechte/createPdfKitDocument";
+} from "../../../createPdfKitDocument";
 
 const COMPENSATION_PAYMENT_TEXT =
   "gemäß Art. 7 der Fluggastrechteverordnung (EG) 261/2004 von der beklagten Partei mit einer Frist zum Datum der Frist ein. Die beklagte Partei hat jedoch bisher keine Zahlung geleistet.";

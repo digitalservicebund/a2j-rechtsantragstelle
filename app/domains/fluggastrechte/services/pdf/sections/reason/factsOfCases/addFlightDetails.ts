@@ -4,7 +4,7 @@ import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIa
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-} from "~/services/pdf/fluggastrechte/createPdfKitDocument";
+} from "../../../createPdfKitDocument";
 
 export const BOOKING_NUMBER_TEXT = "Buchungsnummer: ";
 export const FLIGHT_NUMBER_TEXT = "Flugnummer: ";

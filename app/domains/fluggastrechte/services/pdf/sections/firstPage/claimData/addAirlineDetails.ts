@@ -1,11 +1,11 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { getAirlineNameByIataCode } from "~/services/airlines/getAirlineNameByIataCode";
+import { SEPARATOR } from "./addPlaintiffDetails";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-} from "~/services/pdf/fluggastrechte/createPdfKitDocument";
-import { SEPARATOR } from "./addPlaintiffDetails";
+} from "../../../createPdfKitDocument";
 
 export const addAirlineDetails = (
   doc: typeof PDFDocument,

@@ -3,7 +3,7 @@ import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/con
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-} from "~/services/pdf/fluggastrechte/createPdfKitDocument";
+} from "../../../createPdfKitDocument";
 
 export const PLAINTIFF_BOOKED_TEXT =
   "Die klagende Partei buchte den folgenden Flug";
