@@ -1,16 +1,10 @@
 import { Link } from "@remix-run/react";
 import { useLayoutEffect, useState } from "react";
-import {
-  getTranslationByKey,
-  type Translations,
-} from "~/services/translations/getTranslationByKey";
-
-const SKIP_TO_CONTENT_TRANSLATION_KEY = "skip-to-content";
 
 export function SkipToContentLink({
-  translations,
+  label,
 }: Readonly<{
-  translations: Translations;
+  label: string;
 }>) {
   const [target, setTarget] = useState("main");
 
@@ -27,8 +21,7 @@ export function SkipToContentLink({
       className="bg-yellow-300 px-8 py-6 text-blue-800 ds-label-01-reg"
       id="skip-to-content-link"
     >
-      ↓
-      {` ${getTranslationByKey(SKIP_TO_CONTENT_TRANSLATION_KEY, translations)}`}
+      {label}
     </Link>
   );
 }

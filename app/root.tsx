@@ -45,7 +45,10 @@ import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
-import { extractTranslations } from "./services/translations/getTranslationByKey";
+import {
+  extractTranslations,
+  getTranslationByKey,
+} from "./services/translations/getTranslationByKey";
 import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 
@@ -59,6 +62,8 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => ({
     "Cache-Control": "no-store",
   }),
 });
+
+const SKIP_TO_CONTENT_TRANSLATION_KEY = "skip-to-content";
 
 const consoleMessage = `Note: Your browser console might be reporting several errors with the Permission-Policy header.
 We are actively disabling all permissions as recommended by https://owasp.org/www-project-secure-headers/#div-bestpractices
@@ -230,24 +235,26 @@ function App() {
       </head>
       <body className="flex flex-col min-h-screen">
         <CookieConsentContext.Provider value={hasTrackingConsent}>
+          <SkipToContentLink
+            label={`↓ ${getTranslationByKey(SKIP_TO_CONTENT_TRANSLATION_KEY, accessibilityTranslations)}`}
+          />
+          <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
+          <Header {...header} translations={pageHeaderTranslations} />
+          <Breadcrumbs breadcrumbs={breadcrumbs} />
           <TranslationContext.Provider value={translationMemo}>
-            <SkipToContentLink translations={accessibilityTranslations} />
-            <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
-            <Header {...header} translations={pageHeaderTranslations} />
-            <Breadcrumbs breadcrumbs={breadcrumbs} />
             <main className="flex-grow" tabIndex={-1}>
               <Outlet />
             </main>
-            <footer>
-              <Footer
-                {...footer}
-                deletionLabel={deletionLabel}
-                showDeletionBanner={hasAnyUserData}
-              />
-            </footer>
-            <ScrollRestoration nonce={nonce} />
-            <Scripts nonce={nonce} />
           </TranslationContext.Provider>
+          <footer>
+            <Footer
+              {...footer}
+              deletionLabel={deletionLabel}
+              showDeletionBanner={hasAnyUserData}
+            />
+          </footer>
+          <ScrollRestoration nonce={nonce} />
+          <Scripts nonce={nonce} />
         </CookieConsentContext.Provider>
       </body>
     </html>
