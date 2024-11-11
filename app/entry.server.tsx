@@ -104,7 +104,11 @@ function handleBrowserRequest(
 
     const { pipe, abort } = renderToPipeableStream(
       <NonceContext.Provider value={cspNonce}>
-        <RemixServer context={remixContext} url={request.url} />
+        <RemixServer
+          context={remixContext}
+          url={request.url}
+          nonce={cspNonce}
+        />
       </NonceContext.Provider>,
       {
         nonce: cspNonce,
