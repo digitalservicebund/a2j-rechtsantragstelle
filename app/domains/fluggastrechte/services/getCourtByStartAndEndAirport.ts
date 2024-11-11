@@ -1,9 +1,10 @@
 import { getAirportByIataCode } from "~/services/airports/getAirportByIataCode";
-//import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { serverOnly$ } from "vite-env-only/macros";
+import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 
-const { findCourt } = await import(
-  "~/services/gerichtsfinder/amtsgerichtData.server"
+export const findCourtServer = serverOnly$((zipCode: string) =>
+  findCourt({ zipCode }),
 );
 
 export const getCourtByStartAndEndAirport = (
@@ -32,5 +33,5 @@ export const getCourtByStartAndEndAirport = (
       ? startAirport.zipCodePilotCourt
       : endAirport.zipCodePilotCourt;
 
-  return findCourt({ zipCode: zipCodePilotCourt });
+  return findCourtServer ? findCourtServer(zipCodePilotCourt) : undefined;
 };
