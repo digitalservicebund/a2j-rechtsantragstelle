@@ -1,4 +1,5 @@
-import { type Translations, fetchTranslations } from "../cms/index.server";
+import { fetchTranslations } from "../cms/index.server";
+import type { Translations } from "../translations/getTranslationByKey";
 
 export async function getArraySummaryPageTranslations(
   arrayCategories: string[],

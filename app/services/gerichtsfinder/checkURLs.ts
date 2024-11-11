@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* eslint-disable sonarjs/no-nested-functions */
 import fs from "node:fs";
 import { type IncomingMessage } from "node:http";
 import path from "node:path";

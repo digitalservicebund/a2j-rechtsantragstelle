@@ -1,5 +1,4 @@
 import { createMachine } from "xstate";
-import type { FlowId } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { type FlowStateMachine } from "./buildFlowController";
 
@@ -44,23 +43,15 @@ export function progressLookupForMachine(machine: FlowStateMachine) {
   return { progressLookup, total: Math.max(...Object.values(progressLookup)) };
 }
 
-function progressForFlowId(flowId: FlowId) {
-  return progressLookupForMachine(
-    createMachine(
-      { ...flows[flowId].config },
-      { guards: flows[flowId].guards },
-    ),
-  );
-}
-
 function computeVorabcheckProgress() {
-  const vorabchecks = [
-    "/fluggastrechte/vorabcheck",
-    "/geld-einklagen/vorabcheck",
-    "/beratungshilfe/vorabcheck",
-  ] as const satisfies FlowId[];
+  const vorabcheckEntries = Object.entries(flows).filter(
+    ([, flowConfig]) => flowConfig.flowType === "vorabCheck",
+  );
   return Object.fromEntries(
-    vorabchecks.map((id) => [id, progressForFlowId(id)]),
+    vorabcheckEntries.map(([flowId, { config, guards }]) => [
+      flowId,
+      progressLookupForMachine(createMachine(config, { guards })),
+    ]),
   );
 }
 

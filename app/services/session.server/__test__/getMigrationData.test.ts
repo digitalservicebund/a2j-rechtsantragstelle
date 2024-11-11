@@ -10,7 +10,7 @@ vi.mock("~/services/flow/pruner");
 const pruneIrrelevantDataMock = vi.mocked(pruneIrrelevantData);
 
 const mockMigrationFlowDestination: Flow = {
-  cmsSlug: "form-flow-pages",
+  flowType: "formFlow",
   migration: {
     source: "/fluggastrechte/vorabcheck",
     sortedFields: [],
@@ -26,7 +26,7 @@ describe("getMigrationData", () => {
     const actual = await getMigrationData(
       migrationKey,
       mockMigrationFlowIdDestination,
-      { cmsSlug: "form-flow-pages", config: {}, guards: {} },
+      { flowType: "formFlow", config: {}, guards: {} },
       "any cookie",
     );
 
