@@ -29,7 +29,10 @@ import { gesetzlicheVertretungXstateConfig } from "./gesetzlicheVertretung/xStat
 import type { ProzesskostenhilfePersoenlicheDaten } from "./persoenlicheDaten/context";
 import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechtsschutzversicherung/context";
-import { getMissingInformationStrings } from "./stringReplacements";
+import {
+  belegeStrings,
+  getMissingInformationStrings,
+} from "./stringReplacements";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
 import {
   eigentumZusammenfassungShowPartnerschaftWarnings,
@@ -193,6 +196,7 @@ export const prozesskostenhilfeFormular = {
     ...geldAnlagenStrings(context),
     ...getAbgabeStrings(context),
     ...getMissingInformationStrings(context),
+    ...belegeStrings(context),
   }),
 } satisfies Flow;
 

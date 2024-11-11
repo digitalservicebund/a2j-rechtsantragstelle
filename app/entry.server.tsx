@@ -9,13 +9,18 @@ import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 import { config } from "./services/env/env.server";
+import { config as webConfig } from "./services/env/web";
 import { logError } from "./services/logging";
 import { cspHeader } from "./services/security/cspHeader.server";
 import { NonceContext } from "./services/security/nonce";
 import { generateNonce } from "./services/security/nonce.server";
+import { originFromUrlString } from "./util/originFromUrlString";
 import { stripTrailingSlashFromURL } from "./util/strings";
 
 const ABORT_DELAY = 5000;
+const CONNECT_SOURCES = [originFromUrlString(webConfig().SENTRY_DSN)].filter(
+  (origin) => origin !== undefined,
+);
 
 export function handleError(
   error: unknown,
@@ -99,7 +104,12 @@ function handleBrowserRequest(
     const cspNonce = generateNonce();
     responseHeaders.set(
       "Content-Security-Policy",
-      cspHeader({ nonce: cspNonce, environment: config().ENVIRONMENT }),
+      cspHeader({
+        nonce: cspNonce,
+        environment: config().ENVIRONMENT,
+        additionalConnectSrc: CONNECT_SOURCES,
+        reportUri: config().CSP_REPORT_URI,
+      }),
     );
 
     const { pipe, abort } = renderToPipeableStream(
