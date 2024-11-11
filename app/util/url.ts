@@ -1,4 +1,3 @@
-import { useLocation } from "@remix-run/react";
 import { flowIdFromPathname } from "~/domains/flowIds";
 
 export function isExternalUrl(url: string) {
@@ -22,8 +21,3 @@ export const isFlowIdInPathname = (pathname: string): boolean => {
   const flowId = flowIdFromPathname(pathname);
   return typeof flowId !== "undefined";
 };
-
-export function useIsUserInFlow() {
-  const { pathname } = useLocation();
-  return isFlowIdInPathname(pathname);
-}

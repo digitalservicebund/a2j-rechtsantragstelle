@@ -12,7 +12,6 @@ const contextObj = {
     ["text-post-submission"]: TEXT_POST_SUBMISSION,
   } satisfies Record<PostSubmissionTranslationKeys, string>,
   video: {},
-  accessibility: {},
 };
 
 describe("PostSubmissionBox", () => {
