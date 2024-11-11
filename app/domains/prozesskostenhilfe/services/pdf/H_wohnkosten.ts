@@ -1,4 +1,4 @@
-import { PkhPdfFillFunction } from ".";
+import type { PkhPdfFillFunction } from ".";
 
 export const fillWohnkosten: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   pdfValues.gesamtgroessedesWohnraumsdenSiealleinodergemeinsammitanderenPersonenbewohnen.value =

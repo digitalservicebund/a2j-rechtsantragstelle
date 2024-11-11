@@ -1,8 +1,8 @@
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { AUSGABEN_ATTACHMENT_TITLE, fillAusgaben } from "../G_ausgaben";
-import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 
 const expensesRecipients = "ausgaben empfänger";
 const paymentDeadlineDate = "12.12.2099";

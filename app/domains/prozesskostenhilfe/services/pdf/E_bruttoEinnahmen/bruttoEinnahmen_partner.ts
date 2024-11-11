@@ -4,12 +4,12 @@ import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
 } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
-import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import { PkhPdfFillFunction } from "..";
 import {
   nettoString,
   removeDecimalsFromCurrencyString,
 } from "~/services/pdf/util";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import type { PkhPdfFillFunction } from "..";
 import { zahlungsfrequenzMapping } from "./bruttoEinnahmen_eigenes";
 
 // PDF Form Field Names:

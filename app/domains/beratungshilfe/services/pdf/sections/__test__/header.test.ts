@@ -1,3 +1,4 @@
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
@@ -5,7 +6,6 @@ import { gerbehAmtsgericht } from "~/services/gerichtsfinder/__test__/convertJso
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillHeader } from "../header";
-import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 
 describe("fillHeader", () => {
   describe("Adds weiteres einkommen", () => {

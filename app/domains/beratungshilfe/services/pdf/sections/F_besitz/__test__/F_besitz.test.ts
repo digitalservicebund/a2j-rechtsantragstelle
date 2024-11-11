@@ -1,12 +1,12 @@
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
-import { fillVermoegenswerte } from "../fillVermoegenswerte";
-import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import {
   fillFinancialBankkonto,
   fillFinancialGrundeigentum,
 } from "../F_besitz";
+import { fillVermoegenswerte } from "../fillVermoegenswerte";
 
 describe("F_besitz", () => {
   describe("fillFinancialBankkonto", () => {

@@ -1,7 +1,7 @@
+import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { today, toGermanDateFormat } from "~/util/date";
 import { fillFooter } from "../footer";
-import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 
 describe("fillFooter", () => {
   it("Adds lawyer if available", () => {

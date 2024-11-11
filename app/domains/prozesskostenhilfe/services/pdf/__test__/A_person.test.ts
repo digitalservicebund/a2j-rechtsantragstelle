@@ -4,6 +4,7 @@ import {
 } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { maritalDescriptionMapping } from "~/domains/shared/pdf/maritalDescriptionMapping";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import {
   ANSCHRIFT_FIELD_MAX_CHARS,
   BERUF_FIELD_MAX_CHARS,
@@ -14,7 +15,6 @@ import {
   GESETZLICHERVERTRETER_FIELD_MAX_CHARS,
   NAME_VORNAME_FIELD_MAX_CHARS,
 } from "../A_person";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 
 let pdfParams: ProzesskostenhilfePDF;
 const userData: ProzesskostenhilfeFormularContext = {

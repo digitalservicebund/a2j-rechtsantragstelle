@@ -3,6 +3,7 @@ import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozessk
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { createFinancialEntry } from "tests/fixtures/prozesskostenhilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import {
   fillAndereLeistungen,
   fillEinkommenType,
@@ -11,7 +12,6 @@ import {
   fillStaatlicheLeistungen,
   fillWeitereEinkuenfte,
 } from "../bruttoEinnahmen_eigenes";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 
 let pdfParams: ProzesskostenhilfePDF;
 
