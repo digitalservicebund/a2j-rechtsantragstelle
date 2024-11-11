@@ -2,7 +2,6 @@ import { z } from "zod";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const fluggastrechtStreitKostenDaten = {
-  versaeumnisurteil: YesNoAnswer,
   prozesszinsen: YesNoAnswer,
 };
 

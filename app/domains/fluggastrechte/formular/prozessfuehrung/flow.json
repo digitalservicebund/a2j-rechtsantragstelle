@@ -1,0 +1,30 @@
+{
+  "id": "prozessfuehrung",
+  "initial": "schriftliches-verfahren",
+  "states": {
+    "schriftliches-verfahren": {
+      "on": {
+        "SUBMIT": "videoverhandlung",
+        "BACK": "#persoenliche-daten.weitere-personen.zeugen"
+      }
+    },
+    "videoverhandlung": {
+      "on": {
+        "SUBMIT": "zahlung-nach-klageeinreichung",
+        "BACK": "schriftliches-verfahren"
+      }
+    },
+    "zahlung-nach-klageeinreichung": {
+      "on": {
+        "SUBMIT": "versaeumnisurteil",
+        "BACK": "videoverhandlung"
+      }
+    },
+    "versaeumnisurteil": {
+      "on": {
+        "SUBMIT": "#zusammenfassung.start",
+        "BACK": "zahlung-nach-klageeinreichung"
+      }
+    }
+  }
+}

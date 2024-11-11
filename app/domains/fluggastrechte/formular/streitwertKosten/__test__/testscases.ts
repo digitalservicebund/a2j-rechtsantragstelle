@@ -12,15 +12,12 @@ const machine: FlowStateMachine = createMachine(
 const cases = [
   [
     {
-      versaeumnisurteil: "yes",
       prozesszinsen: "yes",
     },
     [
       "streitwert-kosten/gerichtskosten",
       "streitwert-kosten/andere-kosten",
-      "streitwert-kosten/zahlung-nach-klageeinreichung",
       "streitwert-kosten/prozesszinsen",
-      "streitwert-kosten/versaeumnisurteil",
       "flugdaten/geplanter-flug",
     ],
   ],

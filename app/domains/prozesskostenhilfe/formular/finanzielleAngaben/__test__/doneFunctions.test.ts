@@ -12,7 +12,7 @@ import {
   sonstigeAusgabeDone,
   versicherungDone,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
-import { kraftfahrzeugWert } from "~/domains/shared/finanzielleAngaben/context";
+import { kraftfahrzeugWert } from "~/domains/shared/formular/finanzielleAngaben/context";
 
 const mockedCompleteRatenzahlung: NonNullable<
   ProzesskostenhilfeFinanzielleAngabenContext["ratenzahlungen"]

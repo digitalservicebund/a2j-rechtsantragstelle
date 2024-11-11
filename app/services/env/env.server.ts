@@ -9,6 +9,7 @@ interface Config {
   COOKIE_SESSION_SECRET: string;
   CONTENT_FILE_PATH: string;
   ENVIRONMENT: string;
+  CSP_REPORT_URI?: string;
 }
 
 let instance: Config | undefined = undefined;
@@ -33,6 +34,7 @@ export function config(): Config {
       CONTENT_FILE_PATH:
         process.env.CONTENT_FILE_PATH?.trim() ?? "./content.json",
       ENVIRONMENT,
+      CSP_REPORT_URI: process.env.CSP_REPORT_URI?.trim(),
     };
   }
 

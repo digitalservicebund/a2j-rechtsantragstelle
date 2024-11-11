@@ -28,7 +28,7 @@ import {
   kindUnterhaltYes,
   kindWohnortBeiAntragstellerNo,
   kindWohnortBeiAntragstellerYes,
-} from "~/domains/shared/finanzielleAngaben/guards";
+} from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 import {
