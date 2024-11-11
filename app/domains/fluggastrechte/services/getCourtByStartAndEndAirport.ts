@@ -1,6 +1,10 @@
 import { getAirportByIataCode } from "~/services/airports/getAirportByIataCode";
-import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
+//import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+
+const { findCourt } = await import(
+  "~/services/gerichtsfinder/amtsgerichtData.server"
+);
 
 export const getCourtByStartAndEndAirport = (
   startIataCodeAirport: string,
