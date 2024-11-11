@@ -7,6 +7,7 @@ import { fluggastrechteFlugdaten } from "./flugdaten/context";
 import { fluggastrechtGrundvoraussetzungenDaten } from "./grundvoraussetzungen/context";
 import { fluggastrechtePersoenlichDaten } from "./persoenlicheDaten/context";
 import { fluggastrechtStreitKostenDaten } from "./streitwertKosten/context";
+import { fluggastrechtProzessfuehrungDaten } from "./prozessfuehrung/context";
 
 export const fluggastrechtContext = {
   startAirport: optionalOrSchema(airportSchema),
@@ -16,6 +17,7 @@ export const fluggastrechtContext = {
   ...fluggastrechtePersoenlichDaten,
   ...fluggastrechtStreitKostenDaten,
   ...fluggastrechtGrundvoraussetzungenDaten,
+  ...fluggastrechtProzessfuehrungDaten,
   ankuendigung: stringOptionalSchema,
   ersatzflug: stringOptionalSchema,
   ersatzflugStartenEinStunde: stringOptionalSchema,

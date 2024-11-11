@@ -15,15 +15,16 @@ const cases = [
       prozesszinsen: "yes",
     },
     [
-      "streitwert-kosten/gerichtskosten",
-      "streitwert-kosten/andere-kosten",
-      "streitwert-kosten/prozesszinsen",
-      "flugdaten/geplanter-flug",
+      "prozessfuehrung/schriftliches-verfahren",
+      "prozessfuehrung/videoverhandlung",
+      "prozessfuehrung/zahlung-nach-klageeinreichung",
+      "prozessfuehrung/versaeumnisurteil",
+      "zusammenfassung/start",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;
 
-export const testCasesFluggastrechteFormularStreitwertKosten = {
+export const testCasesFluggastrechteFormularProzessfuehrung = {
   machine,
   cases,
 };
