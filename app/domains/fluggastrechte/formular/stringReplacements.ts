@@ -121,8 +121,8 @@ export const getWeiterePersonenNameStrings = (
 
 export const getResponsibleCourt = (context: FluggastrechtContext) => {
   const court = getCourtByStartAndEndAirport(
-    context.startAirport || "",
-    context.endAirport || "",
+    context.startAirport ?? "",
+    context.endAirport ?? "",
   );
   if (court)
     return {
