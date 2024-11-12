@@ -7,7 +7,6 @@ export const StrapiPageHeaderSchema = z
   .object({
     title: z.string(),
     linkLabel: z.string(),
-    mainNavigationAriaLabel: z.string(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
@@ -19,6 +18,5 @@ export const getPageHeaderProps = (cmsData: StrapiPageHeader) => {
   return {
     title: cmsData.title,
     linkLabel: cmsData.linkLabel,
-    mainNavigationAriaLabel: cmsData.mainNavigationAriaLabel,
   };
 };

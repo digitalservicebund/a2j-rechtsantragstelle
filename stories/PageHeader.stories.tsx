@@ -14,11 +14,11 @@ export const Default = {
   args: {
     title: "Justiz-Services",
     linkLabel: "Justiz-Services",
-    mainNavigationAriaLabel: "Hauptmenü",
     hideLinks: false,
     translations: {
       gebaerdensprache: "Gebärdensprache",
       leichtesprache: "Leichte Sprache",
+      mainNavigationAriaLabel: "Hauptmenü",
     },
   },
 } satisfies StoryObj<typeof meta>;
@@ -27,11 +27,11 @@ export const FlowPage = {
   args: {
     title: "Justiz-Services",
     linkLabel: "Justiz-Services",
-    mainNavigationAriaLabel: "Hauptmenü",
     hideLinks: true,
     translations: {
       gebaerdensprache: "Gebärdensprache",
       leichtesprache: "Leichte Sprache",
+      mainNavigationAriaLabel: "Hauptmenü",
     },
   },
 } satisfies StoryObj<typeof meta>;
