@@ -16,10 +16,21 @@ const viteDevServer = shouldStartDevServer
     )
   : undefined;
 
+const redisUrl = () =>
+  `rediss://default:${process.env.REDIS_PASSWORD?.trim()}@${process.env.REDIS_ENDPOINT ?? "localhost:6380"}`;
+
+const redisClient = new RedisClient(redisUrl(), {
+  tls: { rejectUnauthorized: false },
+  retryStrategy: (times) => Math.min(times * 100, 2000),
+  enableReadyCheck: true,
+  maxRetriesPerRequest: null,
+});
+
 const remixHandler = createRequestHandler({
   build: viteDevServer
     ? () => viteDevServer.ssrLoadModule("virtual:remix/server-build")
     : await import("./build/server/index.js"),
+  getLoadContext: () => ({ redisClient }),
 });
 
 const app = express();
@@ -56,14 +67,6 @@ isStagingOrPreviewEnvironment
 // we have in front of our express, which is 2 - experimentally found out.
 app.set("trust proxy", 2);
 
-const redisUrl = () =>
-  `rediss://default:${process.env.REDIS_PASSWORD?.trim()}@${process.env.REDIS_ENDPOINT ?? "localhost:6380"}`;
-const client = new RedisClient(redisUrl(), {
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
-
 // Limit calls to routes ending in /pdf or /pdf/, as they are expensive
 app.use(
   /.*\/pdf(\/|$)/,
@@ -75,7 +78,7 @@ app.use(
     message:
       '<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"><title>Justiz Services - Fehler aufgetreten</title><style>html{font-family:BundesSansWeb,Calibri,Verdana,Arial,Helvetica,sans-serif;font-size:1.125rem;line-height:1.75rem}body{max-width:59rem;margin:6rem auto;padding:0 2rem}h1{font-size:1.875rem;padding-bottom:1.5rem}</style></head><body><h1>Justiz Service ist vorübergehend nicht erreichbar</h1><p>Es sind zu viele Anfragen zum Herunterladen des PDFs innerhalb kurzer Zeit gestellt worden. Bitte versuchen Sie es später noch einmal.</p></body></html>',
     store: new RedisStore({
-      sendCommand: (...args) => client.call(...args),
+      sendCommand: (...args) => redisClient.call(...args),
     }),
   }),
 );
@@ -84,6 +87,26 @@ app.use(
 app.all("*", remixHandler);
 
 const port = process.env.PORT || 3000;
-app.listen(port, () =>
+const server = app.listen(port, () =>
   console.log(`Express server listening at http://localhost:${port}`),
 );
+
+function cleanupAndShutdown(server) {
+  server.close(() => {
+    console.log("Closed out remaining connections:");
+    console.log("- redis client");
+    redisClient.quit();
+    console.log("Exiting process");
+    process.exit(0);
+  });
+}
+
+process.on("SIGTERM", () => {
+  console.log("SIGTERM signal received");
+  cleanupAndShutdown(server);
+});
+
+process.on("SIGINT", () => {
+  console.log("SIGINT signal received");
+  cleanupAndShutdown(server);
+});

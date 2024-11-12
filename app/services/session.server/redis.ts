@@ -1,31 +1,16 @@
-/* eslint-disable no-console */
-import { Redis } from "ioredis";
-import { config } from "../env/env.server";
-import { logError } from "../logging";
+import { type Redis } from "ioredis";
 
 declare global {
   /* eslint-disable-next-line no-var, sonarjs/no-var*/
   var ioredis: Redis;
 }
 
-const redisUrl = () =>
-  `rediss://default:${config().REDIS_PASSWORD}@${config().REDIS_ENDPOINT}`;
+export function setRedisClient(redisClient: Redis) {
+  if (!global.ioredis) global.ioredis = redisClient;
+}
 
 async function getRedisInstance() {
-  if (!global.ioredis) {
-    try {
-      global.ioredis = new Redis(redisUrl(), {
-        lazyConnect: true,
-        tls: { rejectUnauthorized: false },
-      });
-      console.log("Awaiting redis connection...");
-      await global.ioredis.connect();
-      console.log(`global.ioredis.status: ${global.ioredis.status}`);
-    } catch (error) {
-      logError({ message: "Redis error", error });
-    }
-  }
-  return ioredis;
+  return global.ioredis;
 }
 
 const timeToLiveSeconds = 60 * 60 * 24;
