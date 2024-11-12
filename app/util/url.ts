@@ -1,3 +1,5 @@
+import { flowIdFromPathname } from "~/domains/flowIds";
+
 export function isExternalUrl(url: string) {
   return url.startsWith("https://");
 }
@@ -14,3 +16,8 @@ export function getYoutubeVideoId(url: string): string | undefined {
   }
   return undefined;
 }
+
+export const isFlowIdInPathname = (pathname: string): boolean => {
+  const flowId = flowIdFromPathname(pathname);
+  return typeof flowId !== "undefined";
+};
