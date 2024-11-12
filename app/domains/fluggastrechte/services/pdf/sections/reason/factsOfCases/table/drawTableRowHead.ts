@@ -1,14 +1,11 @@
-import type { z } from "zod";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import type { fluggastBereichSchema } from "~/domains/fluggastrechte/vorabcheck/context";
+import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/context";
 import { drawCell } from "./drawCell";
 import {
   COLUMN_HEIGHT,
   COLUMN_WIDTH,
   START_TABLE_X,
 } from "./tableConfigurations";
-
-type FluggastBereichType = z.infer<typeof fluggastBereichSchema>;
 
 const CONNECTION_REPLACEMENT = {
   flug: "anderer Flug",
@@ -34,7 +31,7 @@ const getActualConnectionType = (userData: FluggastrechtContext) => {
 };
 
 const getDelayType = (userData: FluggastrechtContext): string =>
-  DELAY_STATUS[userData.bereich as FluggastBereichType] ?? "";
+  DELAY_STATUS[userData.bereich as FluggastrechtBereichType] ?? "";
 
 export function drawTableRowHead(
   doc: PDFKit.PDFDocument,
