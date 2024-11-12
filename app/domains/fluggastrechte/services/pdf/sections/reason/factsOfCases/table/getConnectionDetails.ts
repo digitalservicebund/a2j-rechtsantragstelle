@@ -52,6 +52,7 @@ export function getConnectionDetails(userData: FluggastrechtContext) {
       };
     case "keineAnkunft":
       return { info: "--", timeTable: ["--", "--", "--"] };
+    default:
+      return { info: "error", timeTable: ["error", "error", "error"] };
   }
-  return { info: "error", timeTable: ["error", "error", "error"] };
 }
