@@ -1,6 +1,6 @@
 import type { GenericGuard } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import { FluggastrechtProzessfuehrungContext } from "./context";
+import type { FluggastrechtProzessfuehrungContext } from "./context";
 
 export const prozessfuehrungDone: GenericGuard<
   FluggastrechtProzessfuehrungContext
