@@ -339,7 +339,7 @@ describe("stringReplacements", () => {
 
   describe("getResponsibleCourt", () => {
     vi.mock("~/domains/fluggastrechte/services/getCourtByStartAndEndAirport");
-    it("should return court dats", () => {
+    it("should return court data", () => {
       vi.mocked(getCourtByStartAndEndAirport).mockReturnValue({
         BEZEICHNUNG: "Amtsgericht",
         STR_HNR: "Strasse 5",
