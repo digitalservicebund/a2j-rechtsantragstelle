@@ -128,9 +128,7 @@ export default tseslint.config(
 
       // fix/reevaluate
       "sonarjs/new-cap": "off",
-      "sonarjs/deprecation": "off",
       "sonarjs/function-return-type": "off",
-      "sonarjs/no-alphabetical-sort": "off",
       "sonarjs/no-base-to-string": "off",
       "sonarjs/no-invalid-await": "off",
       "sonarjs/no-undefined-argument": "off",
