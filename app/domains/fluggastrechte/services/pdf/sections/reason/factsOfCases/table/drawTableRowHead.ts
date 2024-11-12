@@ -1,3 +1,5 @@
+import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/context";
 import { drawCell } from "./drawCell";
 import {
   COLUMN_HEIGHT,
@@ -5,15 +7,45 @@ import {
   START_TABLE_X,
 } from "./tableConfigurations";
 
+const CONNECTION_REPLACEMENT = {
+  flug: "anderer Flug",
+  etwasAnderes: "Bahn, Bus o.ä.",
+  keineAnkunft: "gar nicht angekommen",
+  gleicherFlug: "gleicher Flug",
+  anderes: "",
+};
+
+const DELAY_STATUS = {
+  verspaetet: "Verspätung",
+  nichtbefoerderung: "Nicht-Beförderung",
+  annullierung: "Annullierung",
+  anderes: "",
+};
+
+const getActualConnectionType = (userData: FluggastrechtContext) => {
+  if (userData.tatsaechlicherFlug === "yes")
+    return CONNECTION_REPLACEMENT.gleicherFlug;
+  return userData.ersatzverbindungArt
+    ? CONNECTION_REPLACEMENT[userData.ersatzverbindungArt]
+    : "";
+};
+
+const getDelayType = (userData: FluggastrechtContext): string =>
+  DELAY_STATUS[userData.bereich as FluggastrechtBereichType] ?? "";
+
 export function drawTableRowHead(
   doc: PDFKit.PDFDocument,
   tableStruct: PDFKit.PDFStructureElement,
   startTableY: number,
+  userData: FluggastrechtContext,
 ) {
   const headers = [
     { title: "Geplante Zeiten", subtitle: "(laut Ticket)" },
-    { title: "Tatsächliche Zeiten", subtitle: "(gleicher Flug)" },
-    { title: "Verspätung", subtitle: "" },
+    {
+      title: "Tatsächliche Zeiten",
+      subtitle: getActualConnectionType(userData),
+    },
+    { title: getDelayType(userData), subtitle: "" },
   ];
 
   const tableHeaderRow = doc.struct("TR"); // Create a new TR for the row
