@@ -41,7 +41,7 @@ describe("calculateDuration", () => {
     expect(calculateDuration(input)).toBe("48 Stunden");
   });
 
-  it("should return '0 Stunden and X Minuten' for durations under one hour", () => {
+  it("should return '0 Stunde and X Minuten' for durations under one hour", () => {
     const input = {
       startDate: "10.11.2024",
       startTime: "12:00",
@@ -71,7 +71,7 @@ describe("calculateDuration", () => {
     expect(calculateDuration(input)).toBe("");
   });
 
-  it("should handle exactly the same start and end time as 0 Stunden", () => {
+  it("should handle exactly the same start and end time as 0 Stunde", () => {
     const input = {
       startDate: "10.11.2024",
       startTime: "12:00",
