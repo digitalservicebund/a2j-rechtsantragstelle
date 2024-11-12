@@ -12,8 +12,10 @@ import {
   hasCompensationLongDistanceOutsideEU,
   hasCompensationMiddleDistance,
   hasCompensationShortDistance,
+  getButtonURLForClaimViaPost,
 } from "~/domains/fluggastrechte/vorabcheck/stringReplacements";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
+import { hasAirportPartnerCourt } from "~/services/airports/hasPartnerCourt";
 
 vi.mock("~/services/airports/getRouteCompensationBetweenAirports");
 
@@ -274,5 +276,24 @@ describe("hasCompensationShortDistance", () => {
     const actual = hasCompensationShortDistance({});
 
     expect(actual).toStrictEqual({ hasShortDistance: false });
+  });
+
+  describe("getButtonURLForClaimViaPost", () => {
+    vi.mock("~/services/airports/hasPartnerCourt");
+    it("should return the link to ergebnis/erfolg when partnerCourt exists", () => {
+      vi.mocked(hasAirportPartnerCourt).mockReturnValue(true);
+      const actual = getButtonURLForClaimViaPost({});
+      expect(actual).toStrictEqual({
+        claimViaPostButtonURL: "/fluggastrechte/vorabcheck/ergebnis/erfolg",
+      });
+    });
+    it("should return the link to ergebnis/erfolg-analog when there is no partnerCourt", () => {
+      vi.mocked(hasAirportPartnerCourt).mockReturnValue(false);
+      const actual = getButtonURLForClaimViaPost({});
+      expect(actual).toStrictEqual({
+        claimViaPostButtonURL:
+          "/fluggastrechte/vorabcheck/ergebnis/erfolg-analog",
+      });
+    });
   });
 });

@@ -2,7 +2,6 @@ import { getAirlineNameByIataCode } from "~/services/airlines/getAirlineNameByIa
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import type { FluggastrechtContext } from "./context";
 import { getCourtByStartAndEndAirport } from "../services/getCourtByStartAndEndAirport";
-import { hasAirportPartnerCourt } from "~/services/airports/hasPartnerCourt";
 
 export const WEITERE_PERSONEN_START_INDEX = 2;
 
@@ -136,16 +135,4 @@ export const getResponsibleCourt = (context: FluggastrechtContext) => {
       courtTelephoneNoSpace: court.TEL?.replace(/\s/g, "") ?? "",
     };
   return {};
-};
-
-export const getButtonURLForClaimViaPost = (context: FluggastrechtContext) => {
-  const hasPartnerCourt =
-    hasAirportPartnerCourt(context.startAirport) ||
-    hasAirportPartnerCourt(context.endAirport);
-
-  return {
-    claimViaPostButtonURL: hasPartnerCourt
-      ? "/fluggastrechte/vorabcheck/ergebnis/erfolg"
-      : "/fluggastrechte/vorabcheck/ergebnis/erfolg-analog",
-  };
 };

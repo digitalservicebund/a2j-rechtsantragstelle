@@ -1,6 +1,7 @@
 import airlines from "data/airlines/data.json";
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
+import { hasAirportPartnerCourt } from "~/services/airports/hasPartnerCourt";
 import { toGermanDateFormat, today } from "~/util/date";
 import type { FluggastrechtVorabcheckContext } from "./context";
 
@@ -152,3 +153,17 @@ export function hasArbitrationBoardSoeP({
       airline?.arbitrationBoard === null, // a few airlines has not specified the arbitrationBoard
   };
 }
+
+export const getButtonURLForClaimViaPost = (
+  context: FluggastrechtVorabcheckContext,
+) => {
+  const hasPartnerCourt =
+    hasAirportPartnerCourt(context.startAirport) ||
+    hasAirportPartnerCourt(context.endAirport);
+
+  return {
+    claimViaPostButtonURL: hasPartnerCourt
+      ? "/fluggastrechte/vorabcheck/ergebnis/erfolg"
+      : "/fluggastrechte/vorabcheck/ergebnis/erfolg-analog",
+  };
+};
