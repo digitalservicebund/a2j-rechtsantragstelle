@@ -8,7 +8,7 @@ describe("calculateDuration", () => {
       endDate: "10.11.2024",
       endTime: "15:30",
     };
-    expect(calculateDuration(input)).toBe("3 Stunden und 30 Minuten");
+    expect(calculateDuration(input)).toBe("3 Stunden \nund 30 Minuten");
   });
 
   it("should return '1 Stunde' and '1 Minute' for a duration of exactly 1 hour and 1 minute", () => {
@@ -18,7 +18,7 @@ describe("calculateDuration", () => {
       endDate: "10.11.2024",
       endTime: "13:01",
     };
-    expect(calculateDuration(input)).toBe("1 Stunde und 1 Minute");
+    expect(calculateDuration(input)).toBe("1 Stunde \nund 1 Minute");
   });
 
   it("should handle durations that cross midnight", () => {
@@ -28,7 +28,7 @@ describe("calculateDuration", () => {
       endDate: "11.11.2024",
       endTime: "01:00",
     };
-    expect(calculateDuration(input)).toBe("1 Stunde und 30 Minuten");
+    expect(calculateDuration(input)).toBe("1 Stunde \nund 30 Minuten");
   });
 
   it("should handle multi-day durations", () => {
@@ -48,7 +48,7 @@ describe("calculateDuration", () => {
       endDate: "10.11.2024",
       endTime: "12:45",
     };
-    expect(calculateDuration(input)).toBe("0 Stunden und 45 Minuten");
+    expect(calculateDuration(input)).toBe("0 Stunden \nund 45 Minuten");
   });
 
   it("should return empty string if end time is before start time on the same day", () => {
