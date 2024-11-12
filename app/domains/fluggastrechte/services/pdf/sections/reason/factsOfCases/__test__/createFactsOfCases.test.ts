@@ -8,7 +8,8 @@ import { addDetailedReason } from "../addDetailedReason";
 import { addFlightDetails } from "../addFlightDetails";
 import { addReason } from "../addReason";
 import { createFactsOfCases, FACTS_OF_CASES_TEXT } from "../createFactsOfCases";
-import { addTable, addTableInfo } from "../table/addTable";
+import { addTable } from "../table/addTable";
+import { addTableInfo } from "../table/addTableInfo";
 
 vi.mock("../addReason");
 vi.mock("../addDetailedReason");

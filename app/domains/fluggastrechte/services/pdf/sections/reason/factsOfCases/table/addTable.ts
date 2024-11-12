@@ -2,10 +2,6 @@ import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/con
 import { drawTableColumnsHead } from "./drawTableColumnHead";
 import { drawTableColumnsValues } from "./drawTableColumnsValues";
 import { drawTableRowHead } from "./drawTableRowHead";
-import {
-  FONTS_BUNDESSANS_REGULAR,
-  PDF_MARGIN_HORIZONTAL,
-} from "../../../../createPdfKitDocument";
 
 export function addTable(
   doc: PDFKit.PDFDocument,
@@ -23,26 +19,4 @@ export function addTable(
   tableSect.add(table); // Add the table to the section
   documentStruct.add(tableSect); // Add the section to the parent structure
   doc.fill("black"); // Fill black due next pages of the table
-}
-
-export function addTableInfo(
-  doc: PDFKit.PDFDocument,
-  documentStruct: PDFKit.PDFStructureElement,
-  andereErsatzverbindungBeschreibung: string,
-  tableEndYPosition: number,
-) {
-  const reasonSect = doc.struct("Sect");
-  reasonSect.add(
-    doc.struct("P", {}, () => {
-      doc
-        .fontSize(10)
-        .font(FONTS_BUNDESSANS_REGULAR)
-        .text(
-          andereErsatzverbindungBeschreibung ?? "",
-          PDF_MARGIN_HORIZONTAL,
-          tableEndYPosition,
-        );
-    }),
-  );
-  documentStruct.add(reasonSect);
 }

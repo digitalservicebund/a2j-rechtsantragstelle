@@ -6,7 +6,7 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "../../../../createPdfKitDocument";
-import { addTableInfo } from "../table/addTable";
+import { addTableInfo } from "../table/addTableInfo";
 
 describe("addTableInfo", () => {
   it("should add a section with a paragraph containing the specified description", () => {

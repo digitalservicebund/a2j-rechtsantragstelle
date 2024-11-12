@@ -4,7 +4,8 @@ import { addCompensationAmount } from "./addCompensationAmount";
 import { addDetailedReason } from "./addDetailedReason";
 import { addFlightDetails } from "./addFlightDetails";
 import { addReason } from "./addReason";
-import { addTable, addTableInfo } from "./table/addTable";
+import { addTable } from "./table/addTable";
+import { addTableInfo } from "./table/addTableInfo";
 import { COLUMN_HEIGHT } from "./table/tableConfigurations";
 import { FONTS_BUNDESSANS_BOLD } from "../../../createPdfKitDocument";
 
