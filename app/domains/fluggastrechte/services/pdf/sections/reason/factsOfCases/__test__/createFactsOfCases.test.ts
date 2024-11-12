@@ -15,6 +15,7 @@ vi.mock("../addReason");
 vi.mock("../addDetailedReason");
 vi.mock("../addFlightDetails");
 vi.mock("../table/addTable");
+vi.mock("../table/addTableInfo");
 vi.mock("../addCompensationAmount");
 
 vi.mocked(addReason).mockImplementation(() => vi.fn());

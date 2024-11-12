@@ -12,7 +12,7 @@ describe("getConnectionDetails", () => {
     };
     const result = getConnectionDetails(userData);
     expect(result).toEqual({
-      info: "3 Stunden and 30 Minuten",
+      info: "3 Stunden und 30 Minuten",
       timeTable: ["--", "--", "10.11.2024, 15:30"],
     });
   });
@@ -28,7 +28,7 @@ describe("getConnectionDetails", () => {
     };
     const result = getConnectionDetails(userData);
     expect(result).toEqual({
-      info: "Mit einem anderen Flug, 3 Stunden and 30 Minuten",
+      info: "Mit einem anderen Flug, 3 Stunden und 30 Minuten",
       timeTable: ["AB123", "--", "10.11.2024, 15:30"],
     });
   });
@@ -43,7 +43,7 @@ describe("getConnectionDetails", () => {
     };
     const result = getConnectionDetails(userData);
     expect(result).toEqual({
-      info: "Mit Bahn, Bus oder anderen Verkehrsmitteln, 2 Stunden and 30 Minuten",
+      info: "Mit Bahn, Bus oder anderen Verkehrsmitteln, 2 Stunden und 30 Minuten",
       timeTable: ["--", "--", "10.11.2024, 14:30"],
     });
   });
