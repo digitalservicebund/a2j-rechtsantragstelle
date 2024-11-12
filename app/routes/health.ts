@@ -1,13 +1,9 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
 import axios from "axios";
 import { config } from "~/services/env/env.server";
 import { logError } from "~/services/logging";
-import { handleRemixContext } from "~/services/remixContext";
 import { getRedisStatus } from "~/services/session.server/redis";
 
-export const loader = async ({ context }: LoaderFunctionArgs) => {
-  handleRemixContext(context); // Needed to potentially set redisClient
-
+export const loader = async () => {
   try {
     if ((await getRedisStatus()) !== "ready")
       throw Error("Reddis connection not ready");

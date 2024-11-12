@@ -1,16 +1,13 @@
 import { type Redis } from "ioredis";
 
-declare global {
-  /* eslint-disable-next-line no-var, sonarjs/no-var*/
-  var ioredis: Redis;
-}
+let redisClient: Redis;
 
-export function setRedisClient(redisClient: Redis) {
-  if (!global.ioredis) global.ioredis = redisClient;
+export function setRedisClient(newRedisClient: Redis) {
+  if (!redisClient) redisClient = newRedisClient;
 }
 
 async function getRedisInstance() {
-  return global.ioredis;
+  return redisClient;
 }
 
 const timeToLiveSeconds = 60 * 60 * 24;
