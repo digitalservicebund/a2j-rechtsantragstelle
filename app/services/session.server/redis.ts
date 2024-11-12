@@ -16,9 +16,7 @@ async function getRedisInstance() {
     try {
       global.ioredis = new Redis(redisUrl(), {
         lazyConnect: true,
-        tls: {
-          rejectUnauthorized: false,
-        },
+        tls: { rejectUnauthorized: false },
       });
       console.log("Awaiting redis connection...");
       await global.ioredis.connect();
@@ -50,11 +48,14 @@ export async function updateDataForSession(uuid: string, data: RedisData) {
 
 export async function getDataForSession(uuid: string) {
   const redisResponse = await (await getRedisInstance()).get(uuid);
-  return redisResponse !== null
-    ? (JSON.parse(redisResponse) as RedisData)
-    : null;
+  if (!redisResponse) return null;
+  return JSON.parse(redisResponse) as RedisData;
 }
 
 export async function deleteSessionData(uuid: string) {
   return (await getRedisInstance()).del(uuid);
+}
+
+export async function getRedisStatus() {
+  return (await getRedisInstance()).status;
 }
