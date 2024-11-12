@@ -7,19 +7,20 @@ import { json } from "@remix-run/node";
 import {
   Links,
   Meta,
-  Outlet,
   Scripts,
   ScrollRestoration,
   useLoaderData,
   useMatches,
   useRouteLoaderData,
   useRouteError,
+  Outlet,
 } from "@remix-run/react";
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
+import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import {
@@ -43,10 +44,15 @@ import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
-import { extractTranslations } from "./services/translations/getTranslationByKey";
+import {
+  extractTranslations,
+  getTranslationByKey,
+} from "./services/translations/getTranslationByKey";
 import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 export { headers } from "./rootHeaders";
+
+const SKIP_TO_CONTENT_TRANSLATION_KEY = "skip-to-content";
 
 const consoleMessage = `Note: Your browser console might be reporting several errors with the Permission-Policy header.
 We are actively disabling all permissions as recommended by https://owasp.org/www-project-secure-headers/#div-bestpractices
@@ -101,6 +107,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     feedbackTranslations,
     pageHeaderTranslations,
     videoTranslations,
+    accessibilityTranslations,
     mainSession,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
@@ -114,6 +121,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("feedback"),
     fetchTranslations("pageHeader"),
     fetchTranslations("video"),
+    fetchTranslations("accessibility"),
     mainSessionFromCookieHeader(cookieHeader),
   ]);
 
@@ -144,6 +152,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         pageHeaderTranslations,
       ),
       videoTranslations,
+      accessibilityTranslations,
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
     },
@@ -162,16 +171,32 @@ function App() {
     feedbackTranslations,
     pageHeaderTranslations,
     videoTranslations,
+    accessibilityTranslations,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
+  const [skipToContentLinkTarget, setSkipToContentLinkTarget] =
+    useState("#main");
 
   // eslint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
 
+  /**
+   * Need to set focus to inside the form flow for screen reader convenience.
+   * Calls to `document` must happen within useEffect, as this hook is never rendered on the server-side
+   */
+  useEffect(() => {
+    if (document.getElementById("form-flow-page-content")) {
+      setSkipToContentLinkTarget("#form-flow-page-content");
+    }
+  }, []);
+
   const translationMemo = useMemo(
-    () => ({ video: videoTranslations, feedback: feedbackTranslations }),
+    () => ({
+      video: videoTranslations,
+      feedback: feedbackTranslations,
+    }),
     [videoTranslations, feedbackTranslations],
   );
 
@@ -194,11 +219,15 @@ function App() {
       </head>
       <body className="flex flex-col min-h-screen">
         <CookieConsentContext.Provider value={hasTrackingConsent}>
+          <SkipToContentLink
+            label={`↓ ${getTranslationByKey(SKIP_TO_CONTENT_TRANSLATION_KEY, accessibilityTranslations)}`}
+            target={skipToContentLinkTarget}
+          />
           <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
           <Header {...header} translations={pageHeaderTranslations} />
           <Breadcrumbs breadcrumbs={breadcrumbs} />
           <TranslationContext.Provider value={translationMemo}>
-            <main className="flex-grow">
+            <main className="flex-grow" id="main">
               <Outlet />
             </main>
           </TranslationContext.Provider>
