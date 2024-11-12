@@ -8,9 +8,13 @@ export type Breadcrumb = {
 
 type BreadcrumbsProps = {
   readonly breadcrumbs: Breadcrumb[];
+  readonly linkLabel?: string;
 };
 
-export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
+export default function Breadcrumbs({
+  breadcrumbs,
+  linkLabel,
+}: BreadcrumbsProps) {
   const validBreadcrumbs = breadcrumbs?.filter(
     (breadcrumb) => breadcrumb.title !== undefined,
   );
@@ -24,7 +28,7 @@ export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
         {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
         <a
           href="/"
-          aria-label="Startseite"
+          aria-label={linkLabel}
           className="focus:outline ds-link-01-bold"
         >
           <HomeOutlinedIcon className="!h-[1.6rem] !w-[1.6rem]" />
