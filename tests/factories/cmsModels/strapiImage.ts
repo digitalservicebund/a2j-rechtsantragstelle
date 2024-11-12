@@ -1,8 +1,7 @@
 import { faker } from "@faker-js/faker";
-import { Factory } from "fishery";
 import type { StrapiImage } from "~/services/cms/models/StrapiImage";
 
-export const strapiImageFactory = Factory.define<StrapiImage>(() => {
+export function getStrapiImage(): StrapiImage {
   const name = faker.string.alphanumeric({ length: 5 });
   const hash = faker.string.alphanumeric({ length: 10 });
   const ext = faker.helpers.arrayElement(["png", "jpg", "svg", "gif"]);
@@ -29,4 +28,4 @@ export const strapiImageFactory = Factory.define<StrapiImage>(() => {
       },
     },
   };
-});
+}

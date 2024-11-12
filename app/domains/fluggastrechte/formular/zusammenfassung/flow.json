@@ -5,7 +5,7 @@
     "start": {
       "on": {
         "SUBMIT": "#abgabe.start",
-        "BACK": "#persoenliche-daten.weitere-personen.zeugen"
+        "BACK": "#prozessfuehrung.versaeumnisurteil"
       }
     }
   }

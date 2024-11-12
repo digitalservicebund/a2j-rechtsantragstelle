@@ -1,5 +1,5 @@
 import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
-import { bankKontoDone } from "~/domains/shared/finanzielleAngaben/doneFunctions";
+import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import {
   geldanlagenDone,
   grundeigentumDone,

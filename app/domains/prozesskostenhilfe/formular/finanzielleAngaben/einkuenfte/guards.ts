@@ -4,7 +4,7 @@ import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/do
 import {
   staatlicheLeistungenIsBuergergeld,
   staatlicheLeistungenIsKeine,
-} from "~/domains/shared/finanzielleAngaben/guards";
+} from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 import { eigentumDone } from "../eigentumDone";
