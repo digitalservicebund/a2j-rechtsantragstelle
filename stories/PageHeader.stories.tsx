@@ -18,6 +18,7 @@ export const Default = {
     translations: {
       gebaerdensprache: "Gebärdensprache",
       leichtesprache: "Leichte Sprache",
+      mainNavigationAriaLabel: "Hauptmenü",
     },
   },
 } satisfies StoryObj<typeof meta>;
@@ -30,6 +31,7 @@ export const FlowPage = {
     translations: {
       gebaerdensprache: "Gebärdensprache",
       leichtesprache: "Leichte Sprache",
+      mainNavigationAriaLabel: "Hauptmenü",
     },
   },
 } satisfies StoryObj<typeof meta>;
