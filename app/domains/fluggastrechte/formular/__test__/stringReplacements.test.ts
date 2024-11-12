@@ -337,9 +337,9 @@ describe("stringReplacements", () => {
     });
   });
 
-  describe("getResponsibleCourt and court exists", () => {
+  describe("getResponsibleCourt", () => {
     vi.mock("~/domains/fluggastrechte/services/getCourtByStartAndEndAirport");
-    it("should return court data", () => {
+    it("should return court data ", () => {
       vi.mocked(getCourtByStartAndEndAirport).mockReturnValue({
         BEZEICHNUNG: "Amtsgericht",
         STR_HNR: "Strasse 5",
@@ -363,11 +363,8 @@ describe("stringReplacements", () => {
         courtTelephoneNoSpace: "1234567",
       });
     });
-  });
 
-  describe("getResponsibleCourt and court does not exist", () => {
-    vi.mock("~/domains/fluggastrechte/services/getCourtByStartAndEndAirport");
-    it("should return court data", () => {
+    it("should return empty when no airports are provided", () => {
       vi.mocked(getCourtByStartAndEndAirport).mockReturnValue(undefined);
       const actual = getResponsibleCourt({
         startAirport: "",
