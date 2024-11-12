@@ -41,7 +41,6 @@ import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackBannerState } from "./services/feedback/getFeedbackBannerState";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
-import { handleRemixContext } from "./services/remixContext";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
@@ -81,7 +80,6 @@ export type RootLoader = typeof loader;
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
-  const remixContext = handleRemixContext(context);
 
   const [
     strapiHeader,
@@ -131,7 +129,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         : undefined,
       errorPages,
       meta,
-      context: remixContext,
+      context,
       deletionLabel: deleteDataStrings["footerLinkLabel"],
       hasAnyUserData,
       feedbackTranslations,
