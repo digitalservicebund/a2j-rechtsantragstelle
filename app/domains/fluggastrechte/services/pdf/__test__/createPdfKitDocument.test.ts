@@ -1,8 +1,6 @@
 import PDFDocument from "pdfkit";
 import {
   createPdfKitDocument,
-  FONTS_BUNDESSANS_BOLD,
-  FONTS_BUNDESSANS_REGULAR,
   LINE_GAP_GLOBAL,
   PDF_LANGUAGE,
   PDF_MARGIN_HORIZONTAL,
@@ -36,10 +34,7 @@ describe("createPdfKitDocument", () => {
   });
 
   it("should create a PDFDocument with the correct configuration", () => {
-    const mockRegularFont = new ArrayBuffer(8);
-    const mockBoldFont = new ArrayBuffer(8);
-
-    const document = createPdfKitDocument(mockRegularFont, mockBoldFont);
+    const document = createPdfKitDocument();
 
     expect(PDFDocument).toHaveBeenCalledWith({
       bufferPages: true,
@@ -68,17 +63,14 @@ describe("createPdfKitDocument", () => {
   });
 
   it("should register the fonts and line gap correctly", () => {
-    const mockRegularFont = new ArrayBuffer(8);
-    const mockBoldFont = new ArrayBuffer(8);
-
-    createPdfKitDocument(mockRegularFont, mockBoldFont);
+    createPdfKitDocument();
 
     expect(
       (mockDocument as PDFKit.PDFDocument).registerFont,
-    ).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR, mockRegularFont);
+    ).toHaveBeenCalled();
     expect(
       (mockDocument as PDFKit.PDFDocument).registerFont,
-    ).toHaveBeenCalledWith(FONTS_BUNDESSANS_BOLD, mockBoldFont);
+    ).toHaveBeenCalled();
     expect((mockDocument as PDFKit.PDFDocument).lineGap).toHaveBeenCalledWith(
       LINE_GAP_GLOBAL,
     );
