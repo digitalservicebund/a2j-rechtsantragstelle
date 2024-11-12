@@ -47,15 +47,6 @@ svg {
   fill: currentColor;
 }
 
-#skip-to-content-link {
-  position: absolute;
-  transform: translateY(-100%);
-}
-#skip-to-content-link:focus {
-  position: relative;
-  transform: translateY(0);
-}
-
 /* Tailwind's container core plugin is disabled,
  * because its breakpoint-based nature does not fit our needs */
 .container {
