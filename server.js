@@ -18,9 +18,9 @@ const server = app.listen(port, () =>
 );
 
 function cleanupAndShutdown() {
-  console.log("Shutting down...");
-  server.close(() => {
-    cleanup();
+  console.log("Gracefully shuting down...");
+  server.close(async () => {
+    await cleanup();
     console.log("Exiting process, goodbye");
     process.exit(0);
   });

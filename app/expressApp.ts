@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
 /* eslint-disable import/no-named-as-default-member */
 import { createRequestHandler } from "@remix-run/express";
 import type { ServerBuild } from "@remix-run/node";
+import * as Sentry from "@sentry/remix";
 import compression from "compression";
 import express from "express";
 import { rateLimit } from "express-rate-limit";
@@ -8,6 +10,7 @@ import Redis from "ioredis";
 import { RedisStore, type RedisReply } from "rate-limit-redis";
 import type { ViteDevServer } from "vite";
 import { setRedisClient } from "./services/session.server/redis";
+import { getPosthogClient } from "./services/analytics/posthogClient.server";
 
 const redisUrl = () =>
   `rediss://default:${process.env.REDIS_PASSWORD?.trim()}@${process.env.REDIS_ENDPOINT ?? "localhost:6380"}`;
@@ -88,9 +91,21 @@ export const expressApp = (
 
   return {
     app,
-    cleanup: () => {
-      console.log("✅ reddis client");
-      redisClient.quit();
+    cleanup: async () => {
+      const shutdownTimoutMs = 1000;
+      return Promise.all([
+        redisClient.quit().then(() => {
+          console.log("✅ reddis client");
+        }),
+        Sentry.close(shutdownTimoutMs).then(() => {
+          console.log("✅ Sentry client");
+        }),
+        getPosthogClient()
+          ?.shutdown(shutdownTimoutMs)
+          .then(() => {
+            console.log("✅ Posthog client");
+          }),
+      ]);
     },
   };
 };
