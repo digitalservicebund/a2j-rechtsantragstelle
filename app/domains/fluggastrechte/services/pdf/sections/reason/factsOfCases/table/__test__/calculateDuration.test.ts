@@ -1,4 +1,4 @@
-import { calculateDuration } from "../table/calculateDuration";
+import { calculateDuration } from "../calculateDuration";
 
 describe("calculateDuration", () => {
   it("should calculate the correct duration in hours and minutes", () => {

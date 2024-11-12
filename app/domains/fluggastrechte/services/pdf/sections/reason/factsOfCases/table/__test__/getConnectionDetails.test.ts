@@ -1,5 +1,5 @@
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { getConnectionDetails } from "../table/getConnectionDetails";
+import { getConnectionDetails } from "../getConnectionDetails";
 
 describe("getConnectionDetails", () => {
   it("should return actual flight details when 'tatsaechlicherFlug' is 'yes'", () => {
