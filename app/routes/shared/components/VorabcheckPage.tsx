@@ -13,12 +13,14 @@ import type { loader } from "../vorabcheck.server";
 
 export function VorabcheckPage() {
   const {
-    csrf,
-    stepData,
-    contentElements,
-    formElements,
-    progressProps,
-    buttonNavigationProps,
+    data: {
+      csrf,
+      stepData,
+      contentElements,
+      formElements,
+      progressProps,
+      buttonNavigationProps,
+    },
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();

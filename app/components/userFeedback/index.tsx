@@ -24,11 +24,12 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const [shouldFocus, setShouldFocus] = useState(false);
 
   const rootLoaderData = useRouteLoaderData<RootLoader>("root");
-  const bannerState = rootLoaderData?.bannerState ?? BannerState.ShowRating;
-
   const applyFocus = useCallback(() => {
     setShouldFocus(true);
   }, []);
+
+  const bannerState =
+    rootLoaderData?.data.bannerState ?? BannerState.ShowRating;
 
   return (
     <Background paddingTop="32" paddingBottom="40">

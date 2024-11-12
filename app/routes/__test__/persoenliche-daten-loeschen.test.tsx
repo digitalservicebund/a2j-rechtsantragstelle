@@ -1,4 +1,3 @@
-import { json } from "@remix-run/node";
 import { createRemixStub } from "@remix-run/testing";
 import { screen, render, waitFor } from "@testing-library/react";
 import PersoenlicheDatenLoeschen from "../persoenliche-daten-loeschen";
@@ -18,12 +17,12 @@ describe("Persoenliche Daten", () => {
         path: "/",
         Component: PersoenlicheDatenLoeschen,
         loader() {
-          return json({
+          return {
             meta: undefined,
             content: undefined,
             translations: {},
             backButton: "",
-          });
+          };
         },
       },
     ]);
@@ -40,7 +39,7 @@ describe("Persoenliche Daten", () => {
         path: "/",
         Component: PersoenlicheDatenLoeschen,
         loader() {
-          return json({
+          return {
             meta: undefined,
             content: undefined,
             translations: {
@@ -48,7 +47,7 @@ describe("Persoenliche Daten", () => {
               confirm: "mock confirm text",
             },
             backButton: "/",
-          });
+          };
         },
       },
     ]);

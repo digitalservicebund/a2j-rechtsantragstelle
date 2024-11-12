@@ -15,19 +15,21 @@ import type { loader } from "../formular.server";
 
 export function FormFlowPage() {
   const {
-    arraySummaryData,
-    buttonNavigationProps,
-    content,
-    csrf,
-    formElements,
-    heading,
-    migration,
-    navItems,
-    postFormContent,
-    preHeading,
-    stepData,
-    translations,
-    navigationA11yLabels,
+    data: {
+      arraySummaryData,
+      buttonNavigationProps,
+      content,
+      csrf,
+      formElements,
+      heading,
+      migration,
+      navItems,
+      postFormContent,
+      preHeading,
+      stepData,
+      translations,
+      navigationA11yLabels,
+    },
   } = useLoaderData<typeof loader>();
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();

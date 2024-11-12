@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirectDocument } from "@remix-run/node";
+import { data, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
@@ -103,7 +103,7 @@ export const loader = async ({
     label: translations["progressBarLabel"],
   };
 
-  return json(
+  return data(
     {
       csrf,
       stepData,

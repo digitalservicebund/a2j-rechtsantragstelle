@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirectDocument } from "@remix-run/node";
+import { data, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
 import type { Context } from "~/domains/contexts";
 import { parsePathname } from "~/domains/flowIds";
@@ -236,7 +236,7 @@ export const loader = async ({
     itemOpen: defaultStrings["navigationItemOpenA11yLabel"],
   };
 
-  return json(
+  return data(
     {
       arraySummaryData,
       buttonNavigationProps,

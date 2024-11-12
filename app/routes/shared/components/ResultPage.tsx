@@ -32,8 +32,9 @@ const backgrounds: Record<StrapiResultPageType, BackgroundColor> = {
 };
 
 export function ResultPage() {
-  const { common, cmsData, reasons, backButton } =
-    useLoaderData<typeof loader>();
+  const {
+    data: { common, cmsData, reasons, backButton },
+  } = useLoaderData<typeof loader>();
 
   const documentsList = cmsData.documents.data?.attributes.element ?? [];
   const nextSteps = cmsData.nextSteps.data?.attributes.element ?? [];
