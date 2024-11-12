@@ -28,12 +28,12 @@ export function calculateDuration({
     (diffInMilliseconds % (1000 * 60 * 60)) / (1000 * 60),
   );
 
-  const hourLabel = diffHours <= 1 ? "Stunde" : "Stunden";
-  const minuteLabel = diffMinutes <= 1 ? "Minute" : "Minuten";
+  const hourLabel = diffHours === 1 ? "Stunde" : "Stunden";
+  const minuteLabel = diffMinutes === 1 ? "Minute" : "Minuten";
 
   let duration = `${diffHours} ${hourLabel}`;
   if (diffMinutes > 0) {
-    duration += ` and ${diffMinutes} ${minuteLabel}`;
+    duration += ` und ${diffMinutes} ${minuteLabel}`;
   }
 
   return duration;
