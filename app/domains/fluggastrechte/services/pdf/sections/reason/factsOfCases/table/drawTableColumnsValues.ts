@@ -1,4 +1,6 @@
+import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { drawCell } from "./drawCell";
+import { getConnectionDetails } from "./getConnectionDetails";
 import {
   COLUMN_HEIGHT,
   COLUMN_WIDTH,
@@ -11,24 +13,24 @@ export function drawTableColumnsValues(
   doc: PDFKit.PDFDocument,
   tableStruct: PDFKit.PDFStructureElement,
   startTableY: number,
+  userData: FluggastrechtContext,
 ) {
-  const values = [
-    "AB1234",
-    "10.03.2024 20:30",
-    "10.03.2024 23:45",
-    "--",
-    "--",
-    "11.03.2024 03:19",
+  const { info, timeTable } = getConnectionDetails(userData);
+  const plannedFlight = [
+    userData.direktFlugnummer,
+    `${userData.direktAbflugsDatum}, ${userData.direktAbflugsZeit}`,
+    `${userData.direktAnkunftsDatum}, ${userData.direktAnkunftsZeit}`,
   ];
+  const connectionTimetable = [...plannedFlight, ...timeTable];
 
-  for (let index = 0; index < values.length; index++) {
-    const tableValueColumns = doc.struct("TR"); // Create new TR for each set of values
+  for (let index = 0; index < connectionTimetable.length; index++) {
+    const tableValueColumns = doc.struct("TR"); // Create new TR for each set of connectionTimetable
 
     tableValueColumns.add(
       doc.struct("TD", {}, () => {
-        const columnValue = values[index];
-        const columnOffset = index <= ROWS_NUMBER - 1 ? 1 : 2; // Planned values go in the second column, actual in the fourth
-        const adjustedIndex = (index % ROWS_NUMBER) + 1; // Calculate the row for planned/actual values
+        const columnValue = connectionTimetable[index];
+        const columnOffset = index <= ROWS_NUMBER - 1 ? 1 : 2; // Planned connectionTimetable go in the second column, actual in the fourth
+        const adjustedIndex = (index % ROWS_NUMBER) + 1; // Calculate the row for planned/actual connectionTimetable
 
         const xPosition = START_TABLE_X + COLUMN_WIDTH * columnOffset;
         const yPosition = startTableY + COLUMN_HEIGHT * adjustedIndex;
@@ -39,7 +41,7 @@ export function drawTableColumnsValues(
           width: COLUMN_WIDTH,
           height: COLUMN_HEIGHT,
           boldText: "", // No label text, only the value
-          regularText: columnValue,
+          regularText: columnValue ?? "",
           shouldAddSilverBackground: false,
           textAlign: "center",
           regularTextFontSize: 10,
@@ -58,8 +60,7 @@ export function drawTableColumnsValues(
         width: COLUMN_WIDTH,
         height: COLUMN_HEIGHT * ROWS_NUMBER,
         boldText: "", // No label text, only the value
-        regularText:
-          "7-13 Tage vorher mitgeteilt \n Kein Angebot einer Ersatzverbindung erhalten",
+        regularText: info,
         shouldAddSilverBackground: false,
         textAlign: "center",
         regularTextFontSize: 10,
