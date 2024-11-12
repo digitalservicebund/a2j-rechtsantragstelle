@@ -126,7 +126,7 @@ export const getResponsibleCourt = (context: FluggastrechtContext) => {
   );
   if (court)
     return {
-      nameCourt: court.BEZEICHNUNG,
+      courtName: court.BEZEICHNUNG,
       courtStreetAndNumber: court.STR_HNR,
       courtZipCode: court.PLZ_ZUSTELLBEZIRK,
       courtCity: court.ORT,

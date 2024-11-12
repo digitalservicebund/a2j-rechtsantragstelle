@@ -354,7 +354,7 @@ describe("stringReplacements", () => {
       });
 
       expect(actual).toStrictEqual({
-        nameCourt: "Amtsgericht",
+        courtName: "Amtsgericht",
         courtStreetAndNumber: "Strasse 5",
         courtZipCode: "11111",
         courtCity: "Berlin",
