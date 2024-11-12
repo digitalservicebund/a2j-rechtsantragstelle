@@ -65,7 +65,7 @@
               },
               "#weitere-personen.frage"
             ],
-            "SUBMIT": "#zusammenfassung.start"
+            "SUBMIT": "#prozessfuehrung.schriftliches-verfahren"
           }
         }
       }

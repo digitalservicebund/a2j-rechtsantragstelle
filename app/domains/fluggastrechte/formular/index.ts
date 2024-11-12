@@ -15,6 +15,8 @@ import {
   weiterePersonenDone,
 } from "./persoenlicheDaten/doneFunctions";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
+import { prozessfuehrungDone } from "./prozessfuehrung/doneFunctions";
+import prozessfuehrungFlow from "./prozessfuehrung/flow.json";
 import { streitwertKostenDone } from "./streitwertKosten/doneFunctions";
 import streitwertKostenFlow from "./streitwertKosten/flow.json";
 import {
@@ -115,6 +117,9 @@ export const fluggastrechtFlow = {
           person: { meta: { done: personDone } },
           "weitere-personen": { meta: { done: weiterePersonenDone } },
         },
+      }),
+      prozessfuehrung: _.merge(prozessfuehrungFlow, {
+        meta: { done: prozessfuehrungDone },
       }),
       zusammenfassung: _.merge(zusammenfassungFlow, {
         meta: { done: () => false },

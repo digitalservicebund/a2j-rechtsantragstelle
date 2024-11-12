@@ -16,6 +16,7 @@ import { testCasesFluggastrechteFormularFlugdatenNichtBefoerderung } from "~/dom
 import { testCasesFluggastrechteFormularFlugdatenVerspaetet } from "~/domains/fluggastrechte/formular/flugdaten/__test__/testscasesVerspaetet";
 import { testCasesFluggastrechteFormularGrundvoraussetzungen } from "~/domains/fluggastrechte/formular/grundvoraussetzungen/__test__/testcases";
 import { testCasesFluggastrechteFormularPersoenlicheDaten } from "~/domains/fluggastrechte/formular/persoenlicheDaten/__test__/testcases";
+import { testCasesFluggastrechteFormularProzessfuehrung } from "~/domains/fluggastrechte/formular/prozessfuehrung/__test__/testcases";
 import { testCasesFluggastrechteFormularStreitwertKosten } from "~/domains/fluggastrechte/formular/streitwertKosten/__test__/testscases";
 import { testCasesFluggastrechteAnnullierungAbbruch } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesAnnullierungAbbruch";
 import { testCasesFluggastrechteErfolg } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesErfolg";
@@ -100,6 +101,7 @@ describe("state machine form flows", () => {
     testCasesFluggastrechteErfolg,
     testCasesFluggastrechteErfolgEU,
     testcasesFluggastrechteErfolgAnalog,
+    testCasesFluggastrechteFormularProzessfuehrung,
   ].forEach(({ machine, cases }) => {
     test.each([...cases])(
       "SUBMIT (%#) given context: %j, visits steps: %j",
