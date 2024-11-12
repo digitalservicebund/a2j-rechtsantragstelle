@@ -33,7 +33,7 @@ export function calculateDuration({
 
   let duration = `${diffHours} ${hourLabel}`;
   if (diffMinutes > 0) {
-    duration += ` und ${diffMinutes} ${minuteLabel}`;
+    duration += ` \nund ${diffMinutes} ${minuteLabel}`;
   }
 
   return duration;

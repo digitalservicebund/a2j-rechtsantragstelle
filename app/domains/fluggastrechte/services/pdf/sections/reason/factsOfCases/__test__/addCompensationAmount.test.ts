@@ -9,6 +9,7 @@ import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIa
 import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { PDF_MARGIN_HORIZONTAL } from "../../../../createPdfKitDocument";
+import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 import {
   addCompensationAmount,
   ARTICLE_AIR_PASSENGER_REGULATION_TEXT,
@@ -21,6 +22,7 @@ import {
 vi.mock("~/services/airports/getCompensationPayment");
 vi.mock("~/services/airports/getAirportNameByIataCode");
 vi.mock("~/services/airports/calculateDistanceBetweenAirports");
+vi.mock("../../addNewPageInCaseMissingVerticalSpace");
 
 const distanceValueMock = 100;
 
@@ -41,6 +43,14 @@ vi.mocked(getAirportNameByIataCode).mockImplementation((airport) => {
   }
 
   return endAirportMock;
+});
+
+vi.mocked(addNewPageInCaseMissingVerticalSpace).mockImplementation(() =>
+  vi.fn(),
+);
+
+afterEach(() => {
+  vi.clearAllMocks();
 });
 
 afterAll(() => {
@@ -163,5 +173,33 @@ describe("addCompensationAmount", () => {
     addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(PLAINTIFF_WITNESSES_TEXT);
+  });
+
+  it("should call addNewPageInCaseMissingVerticalSpace three times in case the hasZeugen is yes ", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataHasZeugenMock = {
+      ...userDataMock,
+      hasZeugen: YesNoAnswer.Enum.yes,
+    };
+
+    addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
+
+    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(3);
+  });
+
+  it("should call addNewPageInCaseMissingVerticalSpace two times in case the hasZeugen is no", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataHasZeugenMock = {
+      ...userDataMock,
+      hasZeugen: YesNoAnswer.Enum.no,
+    };
+
+    addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
+
+    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(2);
   });
 });
