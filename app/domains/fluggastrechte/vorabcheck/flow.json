@@ -531,10 +531,6 @@
         "BACK": "gericht"
       }
     },
-    "ergebnis/erfolg-per-post-klagen": {
-      "on": {
-        "BACK": "gericht"
-      }
-    }
+    "ergebnis/erfolg-per-post-klagen": {}
   }
 }

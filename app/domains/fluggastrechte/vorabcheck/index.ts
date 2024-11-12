@@ -15,7 +15,10 @@ import {
   hasCompensationShortDistance,
 } from "./stringReplacements";
 import type { Context } from "../../contexts";
-import { getResponsibleCourt } from "../formular/stringReplacements";
+import {
+  getButtonURLForClaimViaPost,
+  getResponsibleCourt,
+} from "../formular/stringReplacements";
 
 export const fluggastrechteVorabcheck = {
   flowType: "vorabCheck",
@@ -27,6 +30,7 @@ export const fluggastrechteVorabcheck = {
     ...getStartAirportName(context),
     ...getEndAirportName(context),
     ...getResponsibleCourt(context),
+    ...getButtonURLForClaimViaPost(context),
     ...hasArbitrationBoardBfJ(context),
     ...hasArbitrationBoardSoeP(context),
     ...hasCompensationLongDistanceInsideEU(context),

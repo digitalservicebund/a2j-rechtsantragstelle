@@ -17,7 +17,9 @@ import {
   isNichtBefoerderung,
   isVerspaetet,
   isWeiterePersonen,
+  getButtonURLForClaimViaPost,
 } from "../stringReplacements";
+import { hasAirportPartnerCourt } from "~/services/airports/hasPartnerCourt";
 
 describe("stringReplacements", () => {
   describe("getArrayWeiterePersonenIndexStrings", () => {
@@ -371,6 +373,24 @@ describe("stringReplacements", () => {
         endAirport: "",
       });
       expect(actual).toStrictEqual({});
+    });
+  });
+  describe("getButtonURLForClaimViaPost", () => {
+    vi.mock("~/services/airports/hasPartnerCourt");
+    it("should return the link to ergebnis/erfolg when partnerCourt exists", () => {
+      vi.mocked(hasAirportPartnerCourt).mockReturnValue(true);
+      const actual = getButtonURLForClaimViaPost({});
+      expect(actual).toStrictEqual({
+        claimViaPostButtonURL: "/fluggastrechte/vorabcheck/ergebnis/erfolg",
+      });
+    });
+    it("should return the link to ergebnis/erfolg-analog when there is no partnerCourt", () => {
+      vi.mocked(hasAirportPartnerCourt).mockReturnValue(false);
+      const actual = getButtonURLForClaimViaPost({});
+      expect(actual).toStrictEqual({
+        claimViaPostButtonURL:
+          "/fluggastrechte/vorabcheck/ergebnis/erfolg-analog",
+      });
     });
   });
 });
