@@ -1,16 +1,21 @@
 import type PDFDocument from "pdfkit";
 import type { AllContexts } from "~/domains/common";
 import { createPdfKitDocument } from "~/services/pdf/createPdfKitDocument";
+import type { AttachmentEntries } from "./attachment";
 
 export type PDFDocumentBuilder<TContext extends AllContexts> = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: TContext,
+  attachment?: AttachmentEntries,
+  pdfFormPageCount?: number,
 ) => void;
 
 export async function pdfFromUserData<TContext extends AllContexts>(
   userData: TContext,
   buildPDFDocument: PDFDocumentBuilder<TContext>,
+  attachment?: AttachmentEntries,
+  pdfFormPageCount?: number,
 ): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const doc = createPdfKitDocument();
@@ -25,7 +30,13 @@ export async function pdfFromUserData<TContext extends AllContexts>(
     const documentStruct = doc.struct("Document");
     doc.addStructure(documentStruct);
 
-    buildPDFDocument(doc, documentStruct, userData);
+    buildPDFDocument(
+      doc,
+      documentStruct,
+      userData,
+      attachment,
+      pdfFormPageCount,
+    );
 
     documentStruct.end();
     doc.end();

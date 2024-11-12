@@ -68,4 +68,8 @@ export const styles = StyleSheet.create({
   bold: {
     fontWeight: "bold",
   },
+  list: {
+    gap: 8,
+    paddingLeft: 23,
+  },
 });

@@ -19,6 +19,7 @@ describe("createPageNumber", () => {
       expect.anything(),
       {
         align: "right",
+        lineBreak: false,
       },
     );
   });

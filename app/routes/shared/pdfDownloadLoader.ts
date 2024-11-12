@@ -1,5 +1,6 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
+import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services/pdf";
 import type { Context } from "~/domains/contexts";
 import { parsePathname, type FlowId } from "~/domains/flowIds";
@@ -14,8 +15,8 @@ import { pdfDateFormat, today } from "~/util/date";
 
 const pdfConfigs = {
   "/beratungshilfe/antrag": {
-    pdfFunction: async (userData: Context) =>
-      pdfDocumentToArrayBuffer(await beratungshilfePdfFromUserdata(userData)),
+    pdfFunction: async (userData: BeratungshilfeFormularContext) =>
+      await beratungshilfePdfFromUserdata(userData),
     filenameFunction: () =>
       `Antrag_Beratungshilfe_${pdfDateFormat(today())}.pdf`,
   },

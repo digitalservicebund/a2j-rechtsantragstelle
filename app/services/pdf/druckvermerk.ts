@@ -1,9 +1,9 @@
 import { RotationTypes, type PDFDocument } from "pdf-lib";
+import { STAMP_TEXT } from "~/domains/fluggastrechte/services/pdf/sections/createStamp";
 
 const fontSize = 8;
 const defaultX = 28;
 const defaultY = 60;
-const defaultText = "Dieser Antrag wurde erstellt durch service.justiz.de";
 const spacePerCharacter = 3.7;
 
 export function addDruckvermerk(
@@ -21,12 +21,12 @@ export function addDruckvermerk(
       x: xPos,
       y: yPos,
       width: 20,
-      height: defaultText.length * spacePerCharacter,
+      height: STAMP_TEXT.length * spacePerCharacter,
       opacity: 0,
       borderWidth: 1,
     });
 
-    page.drawText(defaultText, {
+    page.drawText(STAMP_TEXT, {
       x: xPos + 12,
       y: yPos + 6,
       rotate: { type: RotationTypes.Degrees, angle: 90 },
