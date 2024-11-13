@@ -35,6 +35,11 @@ export function drawCell(
 ) {
   const textX = xPosition + marginX;
   const textY = yPosition + marginY;
+  const options = {
+    width: width - marginX,
+    align: textAlign,
+    height: height - marginY,
+  };
 
   if (shouldAddSilverBackground) {
     doc
@@ -51,24 +56,19 @@ export function drawCell(
     doc
       .fontSize(10)
       .font(FONTS_BUNDESSANS_BOLD)
-      .text(boldText, textX, textY, {
-        width: width - marginX,
-        height: height - marginY,
-        align: textAlign,
-      });
+      .text(boldText, textX, textY, options);
   }
 
   if (regularText.length > 0) {
-    const extraSpaceY = boldText.length > 0 ? 12 : 4;
+    const extraMarginSpace = boldText.length > 0 ? -4 : marginY + 8;
+    const textToAlignVertically =
+      (height - doc.heightOfString(regularText, options) - extraMarginSpace) /
+      2;
 
     doc
       .fontSize(regularTextFontSize)
       .font(FONTS_BUNDESSANS_REGULAR)
-      .text(regularText, textX, textY + extraSpaceY, {
-        width: width - marginX,
-        align: textAlign,
-        height: height - marginY,
-      });
+      .text(regularText, textX, textY + textToAlignVertically, options);
   }
   doc.restore();
 }
