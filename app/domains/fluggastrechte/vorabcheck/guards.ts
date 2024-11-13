@@ -1,5 +1,4 @@
 import { calculateDistanceBetweenAirportsInKilometers } from "../services/airports/calculateDistanceBetweenAirports";
-import { hasAirportPartnerCourt } from "../services/airports/hasPartnerCourt";
 import { isEuropeanUnionAirport } from "../services/airports/isEuropeanUnionAirport";
 import { isGermanAirport } from "../services/airports/isGermanAirport";
 import type { FluggastrechtVorabcheckContext } from "./context";

@@ -1,3 +1,4 @@
+// @vitest-environment node
 import { getAirportByIataCode } from "../airports/getAirportByIataCode";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
