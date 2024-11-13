@@ -1,4 +1,4 @@
-import { getAirlineNameByIataCode } from "~/services/airlines/getAirlineNameByIataCode";
+import { getAirlineNameByIataCode } from "~/domains/fluggastrechte/services/airlines/getAirlineNameByIataCode";
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import type { FluggastrechtContext } from "./context";
 
