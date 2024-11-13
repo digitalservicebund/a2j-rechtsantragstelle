@@ -1,9 +1,9 @@
 import airlines from "data/airlines/data.json";
 import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
-import { hasAirportPartnerCourt } from "~/services/airports/hasPartnerCourt";
 import { toGermanDateFormat, today } from "~/util/date";
 import type { FluggastrechtVorabcheckContext } from "./context";
+import { isErfolgAnalog } from "./services/isErfolgAnalog";
 
 export const COMPENSATION_VALUE_250 = "250";
 export const COMPENSATION_VALUE_400 = "400";
@@ -157,13 +157,10 @@ export function hasArbitrationBoardSoeP({
 export const getButtonURLForClaimViaPost = (
   context: FluggastrechtVorabcheckContext,
 ) => {
-  const hasPartnerCourt =
-    hasAirportPartnerCourt(context.startAirport) ||
-    hasAirportPartnerCourt(context.endAirport);
-
+  const cameFromAnalogResultPage = isErfolgAnalog(context);
   return {
-    claimViaPostButtonURL: hasPartnerCourt
-      ? "/fluggastrechte/vorabcheck/ergebnis/erfolg"
-      : "/fluggastrechte/vorabcheck/ergebnis/erfolg-analog",
+    claimViaPostButtonURL: cameFromAnalogResultPage
+      ? "/fluggastrechte/vorabcheck/ergebnis/erfolg-analog"
+      : "/fluggastrechte/vorabcheck/ergebnis/erfolg",
   };
 };

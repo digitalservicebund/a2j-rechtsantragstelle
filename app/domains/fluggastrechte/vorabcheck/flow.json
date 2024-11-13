@@ -503,7 +503,7 @@
           },
           {
             "target": "ergebnis/erfolg-analog",
-            "guard": "isErfolgAnalog"
+            "guard": "isErfolgAnalogGuard"
           },
           "ergebnis/erfolg"
         ]
