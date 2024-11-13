@@ -1,4 +1,4 @@
-import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
+import { getCompensationPayment } from "../../services/airports/getCompensationPayment";
 import type { FluggastrechtContext } from "../context";
 
 export const getTotalCompensationClaim = (context: FluggastrechtContext) => {
