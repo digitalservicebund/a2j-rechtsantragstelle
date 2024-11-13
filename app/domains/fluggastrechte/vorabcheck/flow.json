@@ -503,7 +503,7 @@
           },
           {
             "target": "ergebnis/erfolg-analog",
-            "guard": "isErfolgAnalog"
+            "guard": "isErfolgAnalogGuard"
           },
           "ergebnis/erfolg"
         ]
@@ -516,6 +516,7 @@
     },
     "ergebnis/erfolg": {
       "on": {
+        "SUBMIT": "ergebnis/erfolg-per-post-klagen",
         "BACK": "gericht"
       }
     },
@@ -526,8 +527,10 @@
     },
     "ergebnis/erfolg-analog": {
       "on": {
+        "SUBMIT": "ergebnis/erfolg-per-post-klagen",
         "BACK": "gericht"
       }
-    }
+    },
+    "ergebnis/erfolg-per-post-klagen": {}
   }
 }
