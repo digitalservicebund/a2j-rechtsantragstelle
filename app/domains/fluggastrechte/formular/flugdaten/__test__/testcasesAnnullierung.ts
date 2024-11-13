@@ -21,7 +21,7 @@ const cases = [
       direktAnkunftsDatum: "02.05.2023",
       direktAnkunftsZeit: "10:00",
       zwischenstoppAnzahl: "no",
-      ersterZwischenstopp: "HAM",
+      tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
       ersatzFlugnummer: "BCA4321",
       ersatzFlugAnkunftsDatum: "10.03.2024",
