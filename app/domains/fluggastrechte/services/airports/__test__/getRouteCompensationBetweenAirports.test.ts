@@ -1,7 +1,7 @@
 import { Result } from "true-myth";
 import { calculateDistanceBetweenAirportsInKilometers } from "../calculateDistanceBetweenAirports";
-import { isEuropeanUnionAirport } from "../isEuropeanUnionAirport";
 import { getRouteCompensationBetweenAirports } from "../getRouteCompensationBetweenAirports";
+import { isEuropeanUnionAirport } from "../isEuropeanUnionAirport";
 
 vi.mock("../calculateDistanceBetweenAirports");
 vi.mock("../isEuropeanUnionAirport");

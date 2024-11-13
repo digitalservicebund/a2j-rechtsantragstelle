@@ -1,10 +1,10 @@
-import { calculateDistanceBetweenAirportsInKilometers } from "../services/airports/calculateDistanceBetweenAirports";
-import { isEuropeanUnionAirport } from "../services/airports/isEuropeanUnionAirport";
-import { isGermanAirport } from "../services/airports/isGermanAirport";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import { yesNoGuards, type Guards } from "../../guards.server";
 import { isErfolgAnalog } from "./services/isErfolgAnalog";
 import { isFluggesellschaftInEU } from "./services/isFluggesellschaftInEU";
+import { calculateDistanceBetweenAirportsInKilometers } from "../services/airports/calculateDistanceBetweenAirports";
+import { isEuropeanUnionAirport } from "../services/airports/isEuropeanUnionAirport";
+import { isGermanAirport } from "../services/airports/isGermanAirport";
 
 export const guards = {
   bereichVerspaetet: ({ context }) => context.bereich === "verspaetet",

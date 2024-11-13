@@ -1,3 +1,4 @@
+import { getRouteCompensationBetweenAirports } from "~/domains/fluggastrechte/services/airports/getRouteCompensationBetweenAirports";
 import {
   COMPENSATION_VALUE_600,
   COMPENSATION_VALUE_400,
@@ -14,7 +15,6 @@ import {
   hasCompensationShortDistance,
   getButtonURLForClaimViaPost,
 } from "~/domains/fluggastrechte/vorabcheck/stringReplacements";
-import { getRouteCompensationBetweenAirports } from "~/domains/fluggastrechte/services/airports/getRouteCompensationBetweenAirports";
 import { isErfolgAnalog } from "../services/isErfolgAnalog";
 
 vi.mock(
