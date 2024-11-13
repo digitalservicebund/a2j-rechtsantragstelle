@@ -1,3 +1,5 @@
+import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+import { getCourtByStartAndEndAirport } from "../../services/getCourtByStartAndEndAirport";
 import type { FluggastrechtContext } from "../context";
 import {
   getAirlineName,
@@ -6,6 +8,7 @@ import {
   getFirstZwischenstoppAirportName,
   getPersonNachname,
   getPersonVorname,
+  getResponsibleCourt,
   getSecondZwischenstoppAirportName,
   getStartAirportName,
   getThirdZwischenstoppAirportName,
@@ -15,7 +18,6 @@ import {
   isVerspaetet,
   isWeiterePersonen,
 } from "../stringReplacements";
-
 describe("stringReplacements", () => {
   describe("getArrayWeiterePersonenIndexStrings", () => {
     it("should return an array weitere personen index for given context", () => {
@@ -331,6 +333,43 @@ describe("stringReplacements", () => {
       });
 
       expect(actual).toStrictEqual({ isWeiterePersonen: false });
+    });
+  });
+
+  describe("getResponsibleCourt", () => {
+    vi.mock("~/domains/fluggastrechte/services/getCourtByStartAndEndAirport");
+    it("should return court data ", () => {
+      vi.mocked(getCourtByStartAndEndAirport).mockReturnValue({
+        BEZEICHNUNG: "Amtsgericht",
+        STR_HNR: "Strasse 5",
+        PLZ_ZUSTELLBEZIRK: "11111",
+        ORT: "Berlin",
+        URL1: "www.amtsgericht.de",
+        TEL: "123 4567",
+      } as Jmtd14VTErwerberGerbeh);
+      const actual = getResponsibleCourt({
+        startAirport: "BER",
+        endAirport: "FRA",
+      });
+
+      expect(actual).toStrictEqual({
+        courtName: "Amtsgericht",
+        courtStreetAndNumber: "Strasse 5",
+        courtZipCode: "11111",
+        courtCity: "Berlin",
+        courtWebsite: "www.amtsgericht.de",
+        courtTelephone: "123 4567",
+        courtTelephoneNoSpace: "1234567",
+      });
+    });
+
+    it("should return empty when no airports are provided", () => {
+      vi.mocked(getCourtByStartAndEndAirport).mockReturnValue(undefined);
+      const actual = getResponsibleCourt({
+        startAirport: "",
+        endAirport: "",
+      });
+      expect(actual).toStrictEqual({});
     });
   });
 });

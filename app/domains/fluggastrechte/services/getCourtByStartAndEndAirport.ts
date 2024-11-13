@@ -1,6 +1,12 @@
 import { getAirportByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportByIataCode";
+import { serverOnly$ } from "vite-env-only/macros";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+
+//otherwise error: Server-only module referenced by client
+export const findCourtServer = serverOnly$((zipCode: string) =>
+  findCourt({ zipCode }),
+);
 
 export const getCourtByStartAndEndAirport = (
   startIataCodeAirport: string,
@@ -28,5 +34,5 @@ export const getCourtByStartAndEndAirport = (
       ? startAirport.zipCodePilotCourt
       : endAirport.zipCodePilotCourt;
 
-  return findCourt({ zipCode: zipCodePilotCourt });
+  return findCourtServer ? findCourtServer(zipCodePilotCourt) : undefined;
 };

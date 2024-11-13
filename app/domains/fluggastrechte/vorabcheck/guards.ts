@@ -1,18 +1,11 @@
-import airlines from "data/airlines/data.json";
 import { calculateDistanceBetweenAirportsInKilometers } from "../services/airports/calculateDistanceBetweenAirports";
 import { hasAirportPartnerCourt } from "../services/airports/hasPartnerCourt";
 import { isEuropeanUnionAirport } from "../services/airports/isEuropeanUnionAirport";
 import { isGermanAirport } from "../services/airports/isGermanAirport";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import { yesNoGuards, type Guards } from "../../guards.server";
-
-const isFluggesellschaftInEU = (fluggesellschaft?: string) => {
-  const isAirlineInEU =
-    airlines.find((airline) => airline.iata === fluggesellschaft)?.isInEU ??
-    false;
-
-  return isAirlineInEU;
-};
+import { isErfolgAnalog } from "./services/isErfolgAnalog";
+import { isFluggesellschaftInEU } from "./services/isFluggesellschaftInEU";
 
 export const guards = {
   bereichVerspaetet: ({ context }) => context.bereich === "verspaetet",
@@ -178,48 +171,11 @@ export const guards = {
 
     return false;
   },
-  isErfolgAnalog: ({
-    context: { startAirport, endAirport, gericht, fluggesellschaft },
-  }) => {
-    // If the case is already in court, it's not an Analog success
-    if (gericht === "yes") {
-      return false;
-    }
 
-    const hasStartAirportPartnerCourt = hasAirportPartnerCourt(startAirport);
-    const hasEndAirportPartnerCourt = hasAirportPartnerCourt(endAirport);
-
-    const isStartAirportGerman = isGermanAirport(startAirport);
-    const isEndAirportGerman = isGermanAirport(endAirport);
-    const isAirlineInEu = isFluggesellschaftInEU(fluggesellschaft);
-
-    // only with german destination
-    if (
-      isEndAirportGerman &&
-      !isStartAirportGerman &&
-      !hasEndAirportPartnerCourt &&
-      isAirlineInEu &&
-      fluggesellschaft !== "sonstiges"
-    ) {
-      return true;
-    }
-
-    // german departure without partner court
-    if (
-      isStartAirportGerman &&
-      !hasStartAirportPartnerCourt &&
-      !hasEndAirportPartnerCourt
-    ) {
-      return true;
-    }
-
-    // german departure with partner court either in departure or destination
-    return (
-      isStartAirportGerman &&
-      (hasStartAirportPartnerCourt || hasEndAirportPartnerCourt) &&
-      fluggesellschaft === "sonstiges"
-    );
+  isErfolgAnalogGuard: ({ context }) => {
+    return isErfolgAnalog(context);
   },
+
   ...yesNoGuards("verspaetung"),
   ...yesNoGuards("checkin"),
   ...yesNoGuards("gruende"),
