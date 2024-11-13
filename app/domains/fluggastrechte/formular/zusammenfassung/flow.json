@@ -7,7 +7,7 @@
         "SUBMIT": [
           {
             "target": "#abgabe.start",
-            "guard": "hasClaimNotExceededLimit"
+            "guard": "isClaimNotExceedingLimit"
           }
         ],
         "BACK": "#prozessfuehrung.versaeumnisurteil"

@@ -15,6 +15,6 @@ export const fluggastrechteGuards = {
   grundvoraussetzungenDone,
   streitwertKostenDone,
   prozessfuehrungDone,
-  hasClaimNotExceededLimit: ({ context }) =>
-    TOTAL_COMPENSATION_CLAIM_LIMIT > getTotalCompensationClaim(context),
+  isClaimNotExceedingLimit: ({ context }) =>
+    getTotalCompensationClaim(context) < TOTAL_COMPENSATION_CLAIM_LIMIT,
 } satisfies Guards<FluggastrechtContext>;
