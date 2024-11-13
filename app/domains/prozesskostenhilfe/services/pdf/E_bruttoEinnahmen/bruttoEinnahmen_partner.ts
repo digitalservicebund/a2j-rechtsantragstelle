@@ -233,7 +233,7 @@ export const fillBruttoEinnahmenPartner: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  if (userData.partnerschaft !== "yes") {
+  if (userData.partnerschaft !== "yes" || userData.partnerEinkommen === "no") {
     return { pdfValues };
   }
 
