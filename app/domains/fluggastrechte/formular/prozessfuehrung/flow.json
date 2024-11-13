@@ -10,17 +10,17 @@
     },
     "videoverhandlung": {
       "on": {
-        "SUBMIT": "zahlung-nach-klageeinreichung",
+        "SUBMIT": "versaeumnisurteil",
         "BACK": "schriftliches-verfahren"
       }
     },
-    "zahlung-nach-klageeinreichung": {
+    "versaeumnisurteil": {
       "on": {
-        "SUBMIT": "versaeumnisurteil",
+        "SUBMIT": "zahlung-nach-klageeinreichung",
         "BACK": "videoverhandlung"
       }
     },
-    "versaeumnisurteil": {
+    "zahlung-nach-klageeinreichung": {
       "on": {
         "SUBMIT": [
           {
@@ -28,7 +28,7 @@
             "guard": "prozessfuehrungDone"
           }
         ],
-        "BACK": "zahlung-nach-klageeinreichung"
+        "BACK": "versaeumnisurteil"
       }
     }
   }

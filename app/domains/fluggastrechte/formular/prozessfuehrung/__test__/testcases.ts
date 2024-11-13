@@ -20,8 +20,8 @@ const cases = [
     [
       "prozessfuehrung/schriftliches-verfahren",
       "prozessfuehrung/videoverhandlung",
-      "prozessfuehrung/zahlung-nach-klageeinreichung",
       "prozessfuehrung/versaeumnisurteil",
+      "prozessfuehrung/zahlung-nach-klageeinreichung",
       "zusammenfassung/start",
     ],
   ],
