@@ -10,16 +10,20 @@ const machine: FlowStateMachine = createMachine(
   { guards: fluggastrechteGuards },
 );
 
+const baseContext = {
+  bereich: "verspaetet",
+  direktFlugnummer: "AB1234",
+  buchungsNummer: "X36Q9C",
+  direktAbflugsDatum: "01.05.2023",
+  direktAbflugsZeit: "10:00",
+  direktAnkunftsDatum: "02.05.2023",
+  direktAnkunftsZeit: "10:00",
+};
+
 const cases = [
   [
     {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
+      ...baseContext,
       zwischenstoppAnzahl: "no",
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
@@ -39,19 +43,13 @@ const cases = [
   ],
   [
     {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
+      ...baseContext,
       zwischenstoppAnzahl: "no",
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "etwasAnderes",
-      ersatzFlugnummer: "BCA4321",
-      ersatzFlugAnkunftsDatum: "10.03.2024",
-      ersatzFlugAnkunftsZeit: "10:10",
+      andereErsatzverbindungBeschreibung: "Beschreibung",
+      andereErsatzverbindungAnkunftsDatum: "10.03.2024",
+      andereErsatzverbindungAnkunftsZeit: "10:10",
       zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
     },
     [
@@ -65,19 +63,10 @@ const cases = [
   ],
   [
     {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
+      ...baseContext,
       zwischenstoppAnzahl: "no",
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "keineAnkunft",
-      ersatzFlugnummer: "BCA4321",
-      ersatzFlugAnkunftsDatum: "10.03.2024",
-      ersatzFlugAnkunftsZeit: "10:10",
       zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
     },
     [
@@ -90,15 +79,8 @@ const cases = [
   ],
   [
     {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
+      ...baseContext,
       zwischenstoppAnzahl: "no",
-      ersterZwischenstopp: "HAM",
       tatsaechlicherFlug: "yes",
       tatsaechlicherAnkunftsDatum: "10.03.2024",
       tatsaechlicherAnkunftsZeit: "10:10",
@@ -114,13 +96,7 @@ const cases = [
   ],
   [
     {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
+      ...baseContext,
       zwischenstoppAnzahl: "oneStop",
       verspaeteterFlug: "startAirportFirstZwischenstopp",
       anschlussFlugVerpasst: "yes",
@@ -146,13 +122,7 @@ const cases = [
   ],
   [
     {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
+      ...baseContext,
       zwischenstoppAnzahl: "oneStop",
       verspaeteterFlug: "firstZwischenstoppEndAirport",
       ersterZwischenstopp: "HAM",
@@ -176,13 +146,7 @@ const cases = [
   ],
   [
     {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
+      ...baseContext,
       zwischenstoppAnzahl: "twoStop",
       verspaeteterFlug: "startAirportFirstZwischenstopp",
       anschlussFlugVerpasst: "no",
@@ -200,13 +164,7 @@ const cases = [
   ],
   [
     {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
+      ...baseContext,
       zwischenstoppAnzahl: "twoStop",
       verspaeteterFlug: "firstAirportSecondZwischenstopp",
       anschlussFlugVerpasst: "no",
@@ -224,13 +182,7 @@ const cases = [
   ],
   [
     {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
+      ...baseContext,
       zwischenstoppAnzahl: "twoStop",
       verspaeteterFlug: "secondZwischenstoppEndAirport",
       anschlussFlugVerpasst: "no",
@@ -247,13 +199,7 @@ const cases = [
   ],
   [
     {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
+      ...baseContext,
       zwischenstoppAnzahl: "threeStop",
       verspaeteterFlug: "startAirportFirstZwischenstopp",
       anschlussFlugVerpasst: "no",
@@ -271,13 +217,7 @@ const cases = [
   ],
   [
     {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
+      ...baseContext,
       zwischenstoppAnzahl: "threeStop",
       verspaeteterFlug: "firstAirportSecondZwischenstopp",
       anschlussFlugVerpasst: "no",
@@ -295,13 +235,7 @@ const cases = [
   ],
   [
     {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
+      ...baseContext,
       zwischenstoppAnzahl: "threeStop",
       verspaeteterFlug: "secondAirportThirdZwischenstopp",
       anschlussFlugVerpasst: "no",
@@ -319,13 +253,7 @@ const cases = [
   ],
   [
     {
-      bereich: "verspaetet",
-      direktFlugnummer: "AB1234",
-      buchungsNummer: "X36Q9C",
-      direktAbflugsDatum: "01.05.2023",
-      direktAbflugsZeit: "10:00",
-      direktAnkunftsDatum: "02.05.2023",
-      direktAnkunftsZeit: "10:00",
+      ...baseContext,
       zwischenstoppAnzahl: "threeStop",
       verspaeteterFlug: "thirdZwischenstoppEndAirport",
       tatsaechlicherFlug: "no",

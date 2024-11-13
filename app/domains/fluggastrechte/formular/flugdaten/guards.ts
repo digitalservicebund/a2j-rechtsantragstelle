@@ -4,6 +4,7 @@ import {
   yesNoGuards,
 } from "~/domains/guards.server";
 import type { FluggastrechteFlugdatenContext } from "./context";
+import { flugdatenDone } from "./doneFunctions";
 
 type Guard = GenericGuard<FluggastrechteFlugdatenContext>;
 
@@ -72,4 +73,5 @@ export const fluggastrechteFlugdatenGuards = {
     context.verspaeteterFlug === "firstAirportSecondZwischenstopp" ||
     context.verspaeteterFlug === "secondAirportThirdZwischenstopp",
   ...yesNoGuards("tatsaechlicherFlug"),
+  flugdatenDone,
 } satisfies Guards<FluggastrechteFlugdatenContext>;

@@ -85,6 +85,7 @@ const hasTatsaechlicherFlug: FluggastrechteFlugdatenGuard = ({ context }) => {
     context.tatsaechlicherFlug === "yes" &&
     objectKeysNonEmpty(context, [
       "tatsaechlicherFlug",
+      "tatsaechlicherAnkunftsDatum",
       "tatsaechlicherAnkunftsZeit",
     ])
   );
