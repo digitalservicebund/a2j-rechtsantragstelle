@@ -18,7 +18,7 @@ const getBaseUrlWithoutSlash = (baseUrlFromConfiguration: string): string => {
   return baseUrlFromConfiguration;
 };
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(({ page }) => {
   vorabcheck = new FluggastrechteVorabcheck(page);
   formular = new FluggastrechteFormular(page);
 });

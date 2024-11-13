@@ -165,4 +165,4 @@ async function fetchAndSaveAirports() {
   console.log(`${FILE_PATH_AIRPORTS_DATA} written correctly`);
 }
 
-fetchAndSaveAirports();
+await fetchAndSaveAirports();
