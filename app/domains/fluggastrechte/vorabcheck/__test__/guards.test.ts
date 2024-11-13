@@ -492,7 +492,7 @@ describe("fluggastrechteGuard", () => {
     });
   });
 
-  describe("isErfolgAnalog", () => {
+  describe("isErfolgAnalogGuard", () => {
     it("should return false given gericht as yes", () => {
       const context: FluggastrechtVorabcheckContext = {
         startAirport: "AMS",
@@ -501,7 +501,7 @@ describe("fluggastrechteGuard", () => {
         gericht: "yes",
       };
 
-      const actual = guards.isErfolgAnalog({
+      const actual = guards.isErfolgAnalogGuard({
         context,
       });
 
@@ -517,7 +517,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 
@@ -532,7 +532,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 
@@ -547,7 +547,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 
@@ -562,7 +562,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 
@@ -577,7 +577,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 
@@ -592,7 +592,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 
@@ -609,7 +609,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 
@@ -624,7 +624,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 
@@ -639,7 +639,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 
@@ -656,7 +656,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 
@@ -671,7 +671,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 
@@ -686,7 +686,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 
@@ -701,7 +701,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 
@@ -716,7 +716,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 
@@ -731,7 +731,7 @@ describe("fluggastrechteGuard", () => {
           gericht: "no",
         };
 
-        const actual = guards.isErfolgAnalog({
+        const actual = guards.isErfolgAnalogGuard({
           context,
         });
 

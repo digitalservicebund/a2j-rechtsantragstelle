@@ -3,6 +3,7 @@ import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIa
 import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 import { toGermanDateFormat, today } from "~/util/date";
 import type { FluggastrechtVorabcheckContext } from "./context";
+import { isErfolgAnalog } from "./services/isErfolgAnalog";
 
 export const COMPENSATION_VALUE_250 = "250";
 export const COMPENSATION_VALUE_400 = "400";
@@ -152,3 +153,14 @@ export function hasArbitrationBoardSoeP({
       airline?.arbitrationBoard === null, // a few airlines has not specified the arbitrationBoard
   };
 }
+
+export const getButtonURLForClaimViaPost = (
+  context: FluggastrechtVorabcheckContext,
+) => {
+  const cameFromAnalogResultPage = isErfolgAnalog(context);
+  return {
+    claimViaPostButtonURL: cameFromAnalogResultPage
+      ? "/fluggastrechte/vorabcheck/ergebnis/erfolg-analog"
+      : "/fluggastrechte/vorabcheck/ergebnis/erfolg",
+  };
+};
