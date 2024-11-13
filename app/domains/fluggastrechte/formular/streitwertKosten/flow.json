@@ -16,7 +16,12 @@
     },
     "prozesszinsen": {
       "on": {
-        "SUBMIT": "#flugdaten.geplanter-flug",
+        "SUBMIT": [
+          {
+            "target": "#flugdaten.geplanter-flug",
+            "guard": "streitwertKostenDone"
+          }
+        ],
         "BACK": "andere-kosten"
       }
     }
