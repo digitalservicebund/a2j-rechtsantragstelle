@@ -233,6 +233,10 @@ export const fillBruttoEinnahmenPartner: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
+  if (userData.partnerschaft !== "yes") {
+    return { pdfValues };
+  }
+
   if (
     userData["partner-staatlicheLeistungen"] === "grundsicherung" ||
     userData["partner-staatlicheLeistungen"] === "asylbewerberleistungen"
