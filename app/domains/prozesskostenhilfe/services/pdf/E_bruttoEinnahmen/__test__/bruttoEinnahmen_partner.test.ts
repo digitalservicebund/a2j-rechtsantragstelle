@@ -4,6 +4,7 @@ import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/pro
 import { createFinancialEntry } from "tests/fixtures/prozesskostenhilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
+import * as fillOutFunctions from "~/services/pdf/fillOutFunction";
 import {
   fillAndereLeistungenPartner,
   fillBesondersHoheAusgabenPartner,
@@ -418,6 +419,51 @@ describe("bruttoEinnahmen_partner", () => {
       });
       expect(attachment?.at(1)?.title).toContain("Woah so expensive");
       expect(attachment?.at(1)?.text).toContain("10000 netto Monatlich");
+    });
+  });
+  describe("Bruttoeinnahmen", () => {
+    it("should get skipped when no partnerschaft exists", () => {
+      const spy = vi.spyOn(fillOutFunctions, "pdfFillReducer");
+      fillBruttoEinnahmenPartner({
+        userData: { partnerschaft: "no" },
+        pdfValues: pdfParams,
+      });
+      expect(spy).not.toHaveBeenCalled();
+    });
+    it("should get skipped when partnerschaft is seperated", () => {
+      const spy = vi.spyOn(fillOutFunctions, "pdfFillReducer");
+      fillBruttoEinnahmenPartner({
+        userData: { partnerschaft: "separated" },
+        pdfValues: pdfParams,
+      });
+      expect(spy).not.toHaveBeenCalled();
+    });
+    it("should get skipped when partnerschaft is widowed", () => {
+      const spy = vi.spyOn(fillOutFunctions, "pdfFillReducer");
+      fillBruttoEinnahmenPartner({
+        userData: { partnerschaft: "widowed" },
+        pdfValues: pdfParams,
+      });
+      expect(spy).not.toHaveBeenCalled();
+    });
+    it("should get skipped when partner has no income", () => {
+      const spy = vi.spyOn(fillOutFunctions, "pdfFillReducer");
+      fillBruttoEinnahmenPartner({
+        userData: { partnerschaft: "yes", partnerEinkommen: "no" },
+        pdfValues: pdfParams,
+      });
+      expect(spy).not.toHaveBeenCalled();
+    });
+    it("should not get skipped when partner has income", () => {
+      const spy = vi.spyOn(fillOutFunctions, "pdfFillReducer");
+      fillBruttoEinnahmenPartner({
+        userData: {
+          partnerschaft: "yes",
+          partnerEinkommen: "yes",
+        },
+        pdfValues: pdfParams,
+      });
+      expect(spy).toHaveBeenCalled();
     });
   });
 });
