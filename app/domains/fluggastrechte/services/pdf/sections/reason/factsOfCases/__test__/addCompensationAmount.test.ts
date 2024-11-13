@@ -4,9 +4,9 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
-import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
-import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
+import { calculateDistanceBetweenAirportsInKilometers } from "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports";
+import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
+import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { PDF_MARGIN_HORIZONTAL } from "../../../../createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
@@ -19,9 +19,11 @@ import {
   PLAINTIFF_WITNESSES_TEXT,
 } from "../addCompensationAmount";
 
-vi.mock("~/services/airports/getCompensationPayment");
-vi.mock("~/services/airports/getAirportNameByIataCode");
-vi.mock("~/services/airports/calculateDistanceBetweenAirports");
+vi.mock("~/domains/fluggastrechte/services/airports/getCompensationPayment");
+vi.mock("~/domains/fluggastrechte/services/airports/getAirportNameByIataCode");
+vi.mock(
+  "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports",
+);
 vi.mock("../../addNewPageInCaseMissingVerticalSpace");
 
 const distanceValueMock = 100;

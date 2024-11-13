@@ -1,7 +1,7 @@
-import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
+import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
 import { getTotalCompensationClaim } from "../getTotalCompensationClaim";
 
-vi.mock("~/services/airports/getCompensationPayment");
+vi.mock("~/domains/fluggastrechte/services/airports/getCompensationPayment");
 vi.mocked(getCompensationPayment).mockReturnValue("250");
 
 afterAll(() => {
