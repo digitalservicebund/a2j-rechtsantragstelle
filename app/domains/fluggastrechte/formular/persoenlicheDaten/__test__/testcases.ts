@@ -14,7 +14,6 @@ const cases = [
   [
     {
       anrede: "mr",
-      title: "",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -33,7 +32,6 @@ const cases = [
   [
     {
       anrede: "mr",
-      title: "",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -52,13 +50,22 @@ const cases = [
   [
     {
       anrede: "mr",
-      title: "",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
       isWeiterePersonen: "yes",
+      weiterePersonen: [
+        {
+          anrede: "mr",
+          vorname: "test",
+          nachname: "test",
+          strasseHausnummer: "test",
+          ort: "test",
+          plz: "13055",
+        },
+      ],
       hasZeugen: "no",
     },
     [
@@ -72,13 +79,22 @@ const cases = [
   [
     {
       anrede: "mr",
-      title: "",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
       isWeiterePersonen: "yes",
+      weiterePersonen: [
+        {
+          anrede: "mr",
+          vorname: "test",
+          nachname: "test",
+          strasseHausnummer: "test",
+          ort: "test",
+          plz: "13055",
+        },
+      ],
       hasZeugen: "no",
     },
     [

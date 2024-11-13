@@ -22,7 +22,12 @@
     },
     "zahlung-nach-klageeinreichung": {
       "on": {
-        "SUBMIT": "#zusammenfassung.start",
+        "SUBMIT": [
+          {
+            "target": "#zusammenfassung.start",
+            "guard": "prozessfuehrungDone"
+          }
+        ],
         "BACK": "versaeumnisurteil"
       }
     }

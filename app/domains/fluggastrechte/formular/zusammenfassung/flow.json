@@ -4,7 +4,12 @@
   "states": {
     "start": {
       "on": {
-        "SUBMIT": "#abgabe.start",
+        "SUBMIT": [
+          {
+            "target": "#abgabe.start",
+            "guard": "isClaimNotExceedingLimit"
+          }
+        ],
         "BACK": "#prozessfuehrung.zahlung-nach-klageeinreichung"
       }
     }
