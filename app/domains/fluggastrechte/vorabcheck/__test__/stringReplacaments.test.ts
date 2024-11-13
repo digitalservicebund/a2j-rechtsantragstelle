@@ -13,9 +13,11 @@ import {
   hasCompensationMiddleDistance,
   hasCompensationShortDistance,
 } from "~/domains/fluggastrechte/vorabcheck/stringReplacements";
-import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
+import { getRouteCompensationBetweenAirports } from "~/domains/fluggastrechte/services/airports/getRouteCompensationBetweenAirports";
 
-vi.mock("~/services/airports/getRouteCompensationBetweenAirports");
+vi.mock(
+  "~/domains/fluggastrechte/services/airports/getRouteCompensationBetweenAirports",
+);
 
 const mockedGetRouteCompensationBetweenAirports = vi.mocked(
   getRouteCompensationBetweenAirports,

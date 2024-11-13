@@ -1,4 +1,4 @@
-import { getAirportByIataCode } from "~/services/airports/getAirportByIataCode";
+import { getAirportByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportByIataCode";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 

@@ -1,10 +1,10 @@
 import { Result } from "true-myth";
-import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
-import { isEuropeanUnionAirport } from "~/services/airports/isEuropeanUnionAirport";
+import { calculateDistanceBetweenAirportsInKilometers } from "../calculateDistanceBetweenAirports";
+import { isEuropeanUnionAirport } from "../isEuropeanUnionAirport";
 import { getRouteCompensationBetweenAirports } from "../getRouteCompensationBetweenAirports";
 
-vi.mock("~/services/airports/calculateDistanceBetweenAirports");
-vi.mock("~/services/airports/isEuropeanUnionAirport");
+vi.mock("../calculateDistanceBetweenAirports");
+vi.mock("../isEuropeanUnionAirport");
 
 const mockedCalculateDistanceBetweenAirports = vi.mocked(
   calculateDistanceBetweenAirportsInKilometers,
