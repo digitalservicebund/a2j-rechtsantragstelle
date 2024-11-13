@@ -10,7 +10,7 @@
             "guard": "isClaimNotExceedingLimit"
           }
         ],
-        "BACK": "#prozessfuehrung.versaeumnisurteil"
+        "BACK": "#prozessfuehrung.zahlung-nach-klageeinreichung"
       }
     }
   }
