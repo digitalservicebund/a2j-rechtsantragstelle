@@ -1,6 +1,6 @@
 import airlines from "data/airlines/data.json";
-import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
-import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
+import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
+import { getRouteCompensationBetweenAirports } from "~/domains/fluggastrechte/services/airports/getRouteCompensationBetweenAirports";
 import { toGermanDateFormat, today } from "~/util/date";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import { isErfolgAnalog } from "./services/isErfolgAnalog";

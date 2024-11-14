@@ -1,5 +1,5 @@
-import { hasAirportPartnerCourt } from "~/services/airports/hasPartnerCourt";
-import { isGermanAirport } from "~/services/airports/isGermanAirport";
+import { hasAirportPartnerCourt } from "~/domains/fluggastrechte/services/airports/hasPartnerCourt";
+import { isGermanAirport } from "~/domains/fluggastrechte/services/airports/isGermanAirport";
 import type { FluggastrechtVorabcheckContext } from "../context";
 import { isFluggesellschaftInEU } from "./isFluggesellschaftInEU";
 

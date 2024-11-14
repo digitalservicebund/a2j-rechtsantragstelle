@@ -217,7 +217,12 @@
     },
     "zusaetzliche-angaben": {
       "on": {
-        "SUBMIT": "#persoenliche-daten.person.daten",
+        "SUBMIT": [
+          {
+            "target": "#persoenliche-daten.person.daten",
+            "guard": "flugdatenDone"
+          }
+        ],
         "BACK": [
           {
             "target": "tatsaechlicher-flug-ankunft",

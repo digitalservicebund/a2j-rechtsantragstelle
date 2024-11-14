@@ -1,9 +1,11 @@
 import { Result } from "true-myth";
+import { calculateDistanceBetweenAirportsInKilometers } from "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports";
 import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
 import { guards } from "~/domains/fluggastrechte/vorabcheck/guards";
-import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
 
-vi.mock("~/services/airports/calculateDistanceBetweenAirports");
+vi.mock(
+  "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports",
+);
 const mockedCalculateDistanceBetweenAirportsInKilometers = vi.mocked(
   calculateDistanceBetweenAirportsInKilometers,
 );
