@@ -1,7 +1,7 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
-import { appendAttachment } from "~/services/pdf/appendAttachment";
+import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import FormAttachment from "~/services/pdf/attachment/FormAttachment";
 import { pdfFromReact } from "~/services/pdf/attachment/pdfFromReact";
 import {
@@ -58,7 +58,7 @@ export async function prozesskostenhilfePdfFromUserdata(
   });
 
   if (attachment.length > 0) {
-    await appendAttachment(
+    await appendPagesToPdf(
       filledPdf,
       await pdfFromReact(
         FormAttachment({

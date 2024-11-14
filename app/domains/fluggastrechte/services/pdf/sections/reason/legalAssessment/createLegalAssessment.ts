@@ -5,7 +5,7 @@ import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/shared/gericht
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-} from "../../../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 import { getFullPlaintiffName } from "../../getFullPlaintiffName";
 
 export const LEGAL_ASSESSMENT_TEXT = "II. Rechtliche Würdigung";

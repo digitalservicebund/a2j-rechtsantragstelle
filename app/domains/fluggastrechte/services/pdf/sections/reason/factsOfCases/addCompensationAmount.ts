@@ -6,7 +6,7 @@ import { getCompensationPayment } from "~/domains/fluggastrechte/services/airpor
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
-} from "../../../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissingVerticalSpace";
 
 const COMPENSATION_PAYMENT_TEXT =
