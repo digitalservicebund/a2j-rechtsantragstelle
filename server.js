@@ -1,4 +1,5 @@
 const shouldStartDevServer = process.env.NODE_ENV !== "production";
+let isShuttingDown = false; // Prevent multiple parallel shutdowns
 
 const viteDevServer = shouldStartDevServer
   ? await import("vite").then((vite) =>
@@ -18,6 +19,8 @@ const server = app.listen(port, () =>
 );
 
 function cleanupAndShutdown() {
+  if (isShuttingDown) return;
+  isShuttingDown = true;
   console.log("Gracefully shuting down...");
   server.close(async () => {
     await cleanup();
