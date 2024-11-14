@@ -11,14 +11,12 @@ import type { ViteDevServer } from "vite";
 import { getPosthogClient } from "./services/analytics/posthogClient.server";
 import { createRedisClient, quitRedis } from "./services/redis/redisClient";
 
+const isStagingOrPreviewEnvironment = process.env.ENVIRONMENT !== "production";
 
 export const expressApp = (
   build: ServerBuild,
   viteDevServer: ViteDevServer,
 ) => {
-  const isStagingOrPreviewEnvironment =
-    process.env.ENVIRONMENT !== "production";
-
   const redisClient = createRedisClient();
 
   const app = express();
@@ -82,18 +80,18 @@ export const expressApp = (
   return {
     app,
     cleanup: async () => {
-      const shutdownTimoutMs = 1000;
+      const shutdownTimeoutMs = 1000;
       return Promise.all([
         quitRedis(redisClient, shutdownTimeoutMs).then(() => {
           console.log("✅ Redis client shut down");
         }),
-        Sentry.close(shutdownTimoutMs).then(() => {
-          console.log("✅ Sentry client");
+        Sentry.close(shutdownTimeoutMs).then(() => {
+          console.log("✅ Sentry client shut down");
         }),
         getPosthogClient()
-          ?.shutdown(shutdownTimoutMs)
+          ?.shutdown(shutdownTimeoutMs)
           .then(() => {
-            console.log("✅ Posthog client");
+            console.log("✅ Posthog client shut down");
           }),
       ]);
     },
