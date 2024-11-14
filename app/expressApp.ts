@@ -7,16 +7,16 @@ import compression from "compression";
 import express from "express";
 import type { ViteDevServer } from "vite";
 import { getPosthogClient } from "./services/analytics/posthogClient.server";
+import { config } from "./services/env/env.server";
 import { createRateLimitRequestHandler } from "./services/rateLimit";
 import { createRedisClient, quitRedis } from "./services/redis/redisClient";
-
-const isStagingOrPreviewEnvironment = process.env.ENVIRONMENT !== "production";
 
 export const expressApp = (
   build: ServerBuild,
   viteDevServer: ViteDevServer,
 ) => {
   const redisClient = createRedisClient();
+  const remixHandler = createRequestHandler({ build });
 
   const app = express();
 
@@ -36,20 +36,6 @@ export const expressApp = (
     );
   }
 
-  // Everything else (like favicon.ico) is cached for an hour. You may want to be
-  // more aggressive with this caching.
-  const staticFileServer = express.static("build/client", { maxAge: "1h" });
-  const mountPathWithoutStorybook = [
-    /^\/build\/client\/storybook($|\/)/,
-    "/build/client",
-  ];
-
-  if (isStagingOrPreviewEnvironment) {
-    app.use(staticFileServer);
-  } else {
-    app.use(mountPathWithoutStorybook, staticFileServer);
-  }
-
   // For the rate limiting to work, we have to set how many load balancers aka proxy hubs
   // we have in front of our express, which is 2 - experimentally found out.
   app.set("trust proxy", 2);
@@ -57,9 +43,13 @@ export const expressApp = (
   // Limit calls to routes ending in /pdf or /pdf/, as they are expensive
   app.use("/*/pdf", createRateLimitRequestHandler(redisClient));
 
-  // handle SSR requests
-  const remixHandler = createRequestHandler({ build });
-
+  if (config().ENVIRONMENT === "production") {
+    // On production, we let the app handle all calls to /storybook to serve normal 404s
+    app.use("/storybook", remixHandler);
+  }
+  // Everything else (like favicon.ico) is cached for an hour
+  // You may want to be more aggressive with this caching.
+  app.use(express.static("build/client", { maxAge: "1h" }));
   app.all("*", remixHandler);
 
   return {
