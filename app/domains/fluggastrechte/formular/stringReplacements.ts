@@ -153,3 +153,15 @@ export const getStreitwert = (context: FluggastrechtContext) => {
     totalCompensation: totalCompensation.toString(),
   };
 };
+
+export const getAnnullierungInfo = (context: FluggastrechtContext) => {
+  return {
+    hasAnnullierungCase: context.bereich === "annullierung",
+    hasNoAnkuendigung: context.ankuendigung === "no",
+    hasUntil6DaysAnkuendigung: context.ankuendigung === "until6Days",
+    hasBetween7And13DaysAnkuendigung:
+      context.ankuendigung === "between7And13Days",
+    hasMoreThan13DaysAnkuendigung: context.ankuendigung === "moreThan13Days",
+    hasErsatzverbindungAngebot: context.ersatzflug === "yes",
+  };
+};

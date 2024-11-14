@@ -1,4 +1,5 @@
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+import { getCompensationPayment } from "../../services/airports/getCompensationPayment";
 import { getCourtByStartAndEndAirport } from "../../services/getCourtByStartAndEndAirport";
 import type { FluggastrechtContext } from "../context";
 import {
@@ -19,6 +20,9 @@ import {
   isVerspaetet,
   isWeiterePersonen,
 } from "../stringReplacements";
+
+vi.mock("../../services/airports/getCompensationPayment");
+
 describe("stringReplacements", () => {
   describe("getArrayWeiterePersonenIndexStrings", () => {
     it("should return an array weitere personen index for given context", () => {
@@ -375,12 +379,13 @@ describe("stringReplacements", () => {
   });
 
   describe("getStreitwert", () => {
+    afterEach(() => {
+      vi.clearAllMocks();
+    });
+
     it("should return the correct streitwert values", () => {
+      vi.mocked(getCompensationPayment).mockReturnValue("250");
       const context: FluggastrechtContext = {
-        startAirport: "BER",
-        endAirport: "FRA",
-        vorname: "Erster",
-        nachname: "Person",
         weiterePersonen: [
           { vorname: "Zweiter", nachname: "Person" },
           { vorname: "Dritter", nachname: "Person" },
@@ -399,10 +404,8 @@ describe("stringReplacements", () => {
     });
 
     it("should return empty values when context is missing data", () => {
-      const context: FluggastrechtContext = {
-        startAirport: "",
-        endAirport: "",
-      };
+      vi.mocked(getCompensationPayment).mockReturnValue("");
+      const context: FluggastrechtContext = {};
 
       const expected = {
         courtCost: "114",
@@ -416,9 +419,8 @@ describe("stringReplacements", () => {
     });
 
     it("should handle empty weiterePersonen array", () => {
+      vi.mocked(getCompensationPayment).mockReturnValue("250");
       const context: FluggastrechtContext = {
-        startAirport: "BER",
-        endAirport: "FRA",
         weiterePersonen: [],
       };
 

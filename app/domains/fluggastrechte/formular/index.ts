@@ -21,6 +21,7 @@ import { streitwertKostenDone } from "./streitwertKosten/doneFunctions";
 import streitwertKostenFlow from "./streitwertKosten/flow.json";
 import {
   getAirlineName,
+  getAnnullierungInfo,
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
   getFirstZwischenstoppAirportName,
@@ -79,6 +80,7 @@ export const fluggastrechtFlow = {
     ...isAnnullierung(context),
     ...isWeiterePersonen(context),
     ...getStreitwert(context),
+    ...getAnnullierungInfo(context),
   }),
   config: {
     meta: {
