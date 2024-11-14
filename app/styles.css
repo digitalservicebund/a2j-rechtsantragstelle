@@ -83,7 +83,7 @@ svg {
 /* Only apply hover effect on devices that support it, see https://stackoverflow.com/a/28058919 */
 @media (hover: hover) {
   .text-link:hover {
-    @apply decoration-[3px];
+    border-bottom: 3px solid var(--background-color-blue-800, #004b76);
   }
 }
 
