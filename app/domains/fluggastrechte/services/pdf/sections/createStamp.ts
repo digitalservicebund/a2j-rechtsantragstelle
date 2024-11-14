@@ -2,7 +2,7 @@ import type PDFDocument from "pdfkit";
 import {
   FONTS_BUNDESSANS_BOLD,
   PDF_HEIGHT_SEIZE,
-} from "../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 
 export const STAMP_TEXT =
   "Erstellt mit Hilfe des Onlinedienstes service.justiz.de";

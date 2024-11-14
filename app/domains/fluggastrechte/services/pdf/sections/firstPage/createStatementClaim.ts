@@ -5,7 +5,7 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
-} from "../../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 
 export const getDefendantPartyList = (
   prozesszinsen: string,
