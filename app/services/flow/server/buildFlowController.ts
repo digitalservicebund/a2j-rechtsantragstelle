@@ -5,12 +5,7 @@ import type {
   MachineContext,
   TransitionConfigOrTarget as XStateTransitionConfigOrTarget,
 } from "xstate";
-import {
-  getInitialSnapshot,
-  getNextSnapshot,
-  pathToStateValue,
-  setup,
-} from "xstate";
+import { initialTransition, pathToStateValue, setup, transition } from "xstate";
 import type { Context } from "~/domains/contexts";
 import type { GenericGuard, Guards } from "~/domains/guards.server";
 import type { ArrayConfig } from "~/services/array";
@@ -107,7 +102,7 @@ export const nextStepId = (
     context,
   });
   // Get snapshot of next machine state using the given event
-  const destinationState = getNextSnapshot(machine, resolvedState, { type });
+  const [destinationState] = transition(machine, resolvedState, { type });
   const destinationStepIds = stateValueToStepIds(destinationState.value);
 
   // Return undefined if the stepId in the new state matches the previous one
@@ -140,7 +135,7 @@ const metaFromStepId = (machine: FlowStateMachine, currentStepId: string) => {
 
 function getInitial(machine: FlowStateMachine) {
   // The initial state might be nested and needs to be resolved
-  const initialSnapshot = getInitialSnapshot(machine);
+  const [initialSnapshot] = initialTransition(machine);
   return stateValueToStepIds(initialSnapshot.value).pop();
 }
 
