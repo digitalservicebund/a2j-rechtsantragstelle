@@ -6,7 +6,11 @@ type PageHeaderProps = {
   title: string;
   linkLabel: string;
   hideLinks: boolean;
-  translations: { leichtesprache: string; gebaerdensprache: string };
+  translations: {
+    leichtesprache: string;
+    gebaerdensprache: string;
+    mainNavigationAriaLabel: string;
+  };
 };
 
 export default function Header({
@@ -19,12 +23,12 @@ export default function Header({
     <header>
       <nav
         className="py-20 px-16 flex flex-wrap justify-between"
-        aria-label="Haupt"
+        aria-label={translations.mainNavigationAriaLabel}
       >
         <a
           href="/"
           className="ds-label-01-bold no-underline hover:underline mr-8 text-black focus:outline active:underline active:decoration-4 leading-normal"
-          aria-label={linkLabel}
+          aria-label={`${title} - ${linkLabel}`}
         >
           {title}
         </a>
