@@ -4,7 +4,7 @@ import { createRequestHandler } from "@remix-run/express";
 import type { ServerBuild } from "@remix-run/node";
 import * as Sentry from "@sentry/remix";
 import compression from "compression";
-import express from "express";
+import express, { type RequestHandler } from "express";
 import type { ViteDevServer } from "vite";
 import { getPosthogClient } from "./services/analytics/posthogClient.server";
 import { config } from "./services/env/env.server";
@@ -16,7 +16,7 @@ export const expressApp = (
   viteDevServer: ViteDevServer,
 ) => {
   const redisClient = createRedisClient();
-  const remixHandler = createRequestHandler({ build });
+  const remixHandler = createRequestHandler({ build }) as RequestHandler; // express 4 doesn't handle returned promises
 
   const app = express();
 

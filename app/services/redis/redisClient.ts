@@ -36,10 +36,13 @@ export function quitRedis(redisClient: Redis, timeout: number) {
       resolve();
     }, timeout);
 
-    redisClient.quit().then(() => {
-      clearTimeout(quitTimeout);
-      resolve();
-    });
+    redisClient
+      .quit()
+      .then(() => {
+        clearTimeout(quitTimeout);
+        resolve();
+      })
+      .catch((error) => logError({ error }));
   });
 }
 
