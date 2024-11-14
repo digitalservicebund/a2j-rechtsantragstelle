@@ -13,16 +13,16 @@ export const createPageNumber = (
   footerSect: PDFKit.PDFStructureElement,
   currentPage: number,
   totalPage: number,
-  pageNumberPrefix?: string,
+  prefixPageNumber?: string,
 ) => {
-  const text = pageNumberPrefix
-    ? `${pageNumberPrefix} ${currentPage}/${totalPage}`
+  const text = prefixPageNumber
+    ? `${prefixPageNumber} ${currentPage}/${totalPage}`
     : `${currentPage}/${totalPage}`;
   const textX =
     585 -
     PDF_MARGIN_HORIZONTAL -
-    (pageNumberPrefix
-      ? pageNumberPrefix.length * FONT_SIZE * FONT_HEIGHT_TO_WIDTH_RATIO
+    (prefixPageNumber
+      ? prefixPageNumber.length * FONT_SIZE * FONT_HEIGHT_TO_WIDTH_RATIO
       : 0);
 
   footerSect.add(

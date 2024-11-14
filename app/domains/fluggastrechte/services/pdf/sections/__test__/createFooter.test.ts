@@ -3,16 +3,16 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { createPageNumber } from "~/services/pdf/createPageNumber";
-import { createStamp } from "~/services/pdf/createStamp";
+import { createPageNumber } from "~/services/pdf/footer/createPageNumber";
+import { createStamp } from "~/services/pdf/footer/createStamp";
 import { createBankInformation } from "../createBankInformation";
 import { createFooter } from "../createFooter";
 
 vi.mock("../createBankInformation");
-vi.mock("~/services/pdf/createPageNumber", () => ({
+vi.mock("~/services/pdf/footer/createPageNumber", () => ({
   createPageNumber: vi.fn(),
 }));
-vi.mock("~/services/pdf/createStamp", () => ({
+vi.mock("~/services/pdf/footer/createStamp", () => ({
   createStamp: vi.fn(),
 }));
 

@@ -1,11 +1,11 @@
 import type PDFDocument from "pdfkit";
-import { createPageNumber } from "~/services/pdf/createPageNumber";
-import { createStamp } from "~/services/pdf/createStamp";
+import { createPageNumber } from "~/services/pdf/footer/createPageNumber";
+import { createStamp } from "~/services/pdf/footer/createStamp";
 
 export const createFooter = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  pageNumberPrefix: string,
+  prefixPageNumber: string,
 ) => {
   const pages = doc.bufferedPageRange();
   for (let i = 0; i < pages.count; i++) {
@@ -13,7 +13,7 @@ export const createFooter = (
     doc.switchToPage(i);
 
     createStamp(doc, footerSect);
-    createPageNumber(doc, footerSect, i + 1, pages.count, pageNumberPrefix);
+    createPageNumber(doc, footerSect, i + 1, pages.count, prefixPageNumber);
     documentStruct.add(footerSect);
   }
 };

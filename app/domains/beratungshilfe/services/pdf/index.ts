@@ -5,12 +5,12 @@ import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/for
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import FormAttachment from "~/services/pdf/attachment/FormAttachment";
 import { pdfFromReact } from "~/services/pdf/attachment/pdfFromReact";
-import { createFooter } from "~/services/pdf/createFooter";
 import {
   pdfFillReducer,
   type PdfFillFunction,
 } from "~/services/pdf/fillOutFunction";
 import { fillPdf } from "~/services/pdf/fillPdf.server";
+import { createFooter } from "~/services/pdf/footer/createFooter";
 import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
 import { createChecklistPage } from "./checklist/createChecklistPage";
