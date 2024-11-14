@@ -1,5 +1,5 @@
 import { RotationTypes, type PDFDocument } from "pdf-lib";
-import { STAMP_TEXT } from "~/domains/fluggastrechte/services/pdf/sections/createStamp";
+import { STAMP_TEXT } from "~/services/pdf/createStamp";
 
 const fontSize = 8;
 const defaultX = 28;

@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
-import { createPageNumber } from "~/domains/fluggastrechte/services/pdf/sections/createPageNumber";
-import { createStamp } from "~/domains/fluggastrechte/services/pdf/sections/createStamp";
+import { createPageNumber } from "~/services/pdf/createPageNumber";
+import { createStamp } from "~/services/pdf/createStamp";
 
 export const createFooter = (
   doc: typeof PDFDocument,
