@@ -6,14 +6,11 @@ import * as Sentry from "@sentry/remix";
 import compression from "compression";
 import express from "express";
 import { rateLimit } from "express-rate-limit";
-import Redis from "ioredis";
 import { RedisStore, type RedisReply } from "rate-limit-redis";
 import type { ViteDevServer } from "vite";
-import { setRedisClient } from "./services/session.server/redis";
 import { getPosthogClient } from "./services/analytics/posthogClient.server";
+import { createRedisClient, quitRedis } from "./services/redis/redisClient";
 
-const redisUrl = () =>
-  `rediss://default:${process.env.REDIS_PASSWORD?.trim()}@${process.env.REDIS_ENDPOINT ?? "localhost:6380"}`;
 
 export const expressApp = (
   build: ServerBuild,
@@ -22,14 +19,7 @@ export const expressApp = (
   const isStagingOrPreviewEnvironment =
     process.env.ENVIRONMENT !== "production";
 
-  const redisClient = new Redis(redisUrl(), {
-    tls: { rejectUnauthorized: false },
-    retryStrategy: (times) => Math.min(times * 100, 2000),
-    enableReadyCheck: true,
-    maxRetriesPerRequest: null,
-  });
-
-  setRedisClient(redisClient);
+  const redisClient = createRedisClient();
 
   const app = express();
 
@@ -94,8 +84,8 @@ export const expressApp = (
     cleanup: async () => {
       const shutdownTimoutMs = 1000;
       return Promise.all([
-        redisClient.quit().then(() => {
-          console.log("✅ reddis client");
+        quitRedis(redisClient, shutdownTimeoutMs).then(() => {
+          console.log("✅ Redis client shut down");
         }),
         Sentry.close(shutdownTimoutMs).then(() => {
           console.log("✅ Sentry client");
