@@ -3,7 +3,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
+import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 import {
   addFlightDetails,
   BOOKING_NUMBER_TEXT,
@@ -20,7 +20,7 @@ afterEach(() => {
   vi.resetAllMocks();
 });
 
-vi.mock("~/services/airports/getAirportNameByIataCode");
+vi.mock("~/domains/fluggastrechte/services/airports/getAirportNameByIataCode");
 
 describe("addFlightDetails", () => {
   it("should add the booking number to the pdf document", () => {

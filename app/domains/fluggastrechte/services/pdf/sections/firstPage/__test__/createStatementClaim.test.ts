@@ -4,7 +4,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
+import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import {
   createStatementClaim,
@@ -29,7 +29,9 @@ function assertDefendantPartyList(
 
 describe("createStatementClaim", () => {
   beforeEach(() => {
-    vi.mock("~/services/airports/getCompensationPayment");
+    vi.mock(
+      "~/domains/fluggastrechte/services/airports/getCompensationPayment",
+    );
     vi.mocked(getCompensationPayment).mockReturnValue("600");
   });
 

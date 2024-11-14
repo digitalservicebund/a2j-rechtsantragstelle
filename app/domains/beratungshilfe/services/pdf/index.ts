@@ -3,6 +3,7 @@ import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.g
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { createFooter } from "~/domains/shared/pdf/createFooter";
+import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import { appendPdfToPdf } from "~/services/pdf/appendPdfToPdf";
 import FormAttachment from "~/services/pdf/attachment/FormAttachment";
 import { pdfFromReact } from "~/services/pdf/attachment/pdfFromReact";
@@ -65,7 +66,7 @@ export async function beratungshilfePdfFromUserdata(
   });
 
   if (attachment.length > 0) {
-    await appendPdfToPdf(
+    await appendPagesToPdf(
       filledFormPdfDocument,
       await pdfFromReact(
         FormAttachment({

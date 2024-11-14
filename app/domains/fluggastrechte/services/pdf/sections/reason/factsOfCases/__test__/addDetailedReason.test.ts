@@ -3,7 +3,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
+import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import {
   addDetailedReason,
@@ -13,7 +13,7 @@ import {
   PLAINTIFF_ON_TIME_TEXT,
 } from "../addDetailedReason";
 
-vi.mock("~/services/airports/getAirportNameByIataCode");
+vi.mock("~/domains/fluggastrechte/services/airports/getAirportNameByIataCode");
 
 const startAirportMock = "BERLIN";
 const endAirportMock = "NEW YORK";

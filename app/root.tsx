@@ -134,7 +134,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       hasAnyUserData,
       feedbackTranslations,
       pageHeaderTranslations: extractTranslations(
-        ["leichtesprache", "gebaerdensprache"],
+        ["leichtesprache", "gebaerdensprache", "mainNavigationAriaLabel"],
         pageHeaderTranslations,
       ),
       videoTranslations,
@@ -206,12 +206,15 @@ function App() {
       <body className="flex flex-col min-h-screen">
         <CookieConsentContext.Provider value={hasTrackingConsent}>
           <SkipToContentLink
-            label={`↓ ${getTranslationByKey(SKIP_TO_CONTENT_TRANSLATION_KEY, accessibilityTranslations)}`}
+            label={getTranslationByKey(
+              SKIP_TO_CONTENT_TRANSLATION_KEY,
+              accessibilityTranslations,
+            )}
             target={skipToContentLinkTarget}
           />
           <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
           <Header {...header} translations={pageHeaderTranslations} />
-          <Breadcrumbs breadcrumbs={breadcrumbs} />
+          <Breadcrumbs breadcrumbs={breadcrumbs} linkLabel={header.linkLabel} />
           <TranslationContext.Provider value={translationMemo}>
             <main className="flex-grow" id="main">
               <Outlet />

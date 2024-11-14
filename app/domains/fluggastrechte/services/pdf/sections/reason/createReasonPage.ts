@@ -1,6 +1,7 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
+import { addNewPageInCaseMissingVerticalSpace } from "./addNewPageInCaseMissingVerticalSpace";
 import { createFactsOfCases } from "./factsOfCases/createFactsOfCases";
 import { createLegalAssessment } from "./legalAssessment/createLegalAssessment";
 
@@ -17,6 +18,6 @@ export const createReasonPage = (
     .text(REASON_TITLE_TEXT, { align: "left" });
   doc.moveDown(1);
   createFactsOfCases(doc, documentStruct, userData);
-  doc.addPage();
+  addNewPageInCaseMissingVerticalSpace(doc);
   createLegalAssessment(doc, documentStruct, userData);
 };

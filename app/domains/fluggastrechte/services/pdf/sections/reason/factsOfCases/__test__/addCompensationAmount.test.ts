@@ -4,11 +4,12 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
-import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
-import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
+import { calculateDistanceBetweenAirportsInKilometers } from "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports";
+import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
+import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 import {
   addCompensationAmount,
   ARTICLE_AIR_PASSENGER_REGULATION_TEXT,
@@ -18,9 +19,12 @@ import {
   PLAINTIFF_WITNESSES_TEXT,
 } from "../addCompensationAmount";
 
-vi.mock("~/services/airports/getCompensationPayment");
-vi.mock("~/services/airports/getAirportNameByIataCode");
-vi.mock("~/services/airports/calculateDistanceBetweenAirports");
+vi.mock("~/domains/fluggastrechte/services/airports/getCompensationPayment");
+vi.mock("~/domains/fluggastrechte/services/airports/getAirportNameByIataCode");
+vi.mock(
+  "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports",
+);
+vi.mock("../../addNewPageInCaseMissingVerticalSpace");
 
 const distanceValueMock = 100;
 
@@ -41,6 +45,14 @@ vi.mocked(getAirportNameByIataCode).mockImplementation((airport) => {
   }
 
   return endAirportMock;
+});
+
+vi.mocked(addNewPageInCaseMissingVerticalSpace).mockImplementation(() =>
+  vi.fn(),
+);
+
+afterEach(() => {
+  vi.clearAllMocks();
 });
 
 afterAll(() => {
@@ -163,5 +175,33 @@ describe("addCompensationAmount", () => {
     addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(PLAINTIFF_WITNESSES_TEXT);
+  });
+
+  it("should call addNewPageInCaseMissingVerticalSpace three times in case the hasZeugen is yes ", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataHasZeugenMock = {
+      ...userDataMock,
+      hasZeugen: YesNoAnswer.Enum.yes,
+    };
+
+    addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
+
+    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(3);
+  });
+
+  it("should call addNewPageInCaseMissingVerticalSpace two times in case the hasZeugen is no", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataHasZeugenMock = {
+      ...userDataMock,
+      hasZeugen: YesNoAnswer.Enum.no,
+    };
+
+    addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
+
+    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(2);
   });
 });

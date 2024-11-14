@@ -1,3 +1,5 @@
+import SvgArrowDownward from "@digitalservicebund/icons/ArrowDownward.js";
+
 export function SkipToContentLink({
   label,
   target,
@@ -8,9 +10,10 @@ export function SkipToContentLink({
   return (
     <a
       href={target}
-      className="bg-yellow-300 px-8 py-6 text-blue-800 ds-label-01-reg absolute transform -translate-y-full hover:translate-y-0 hover:relative"
+      className="bg-yellow-300 px-8 flex py-6 text-blue-800 ds-label-01-reg absolute transform -translate-y-full focus:translate-y-0 focus:relative"
       id="skip-to-content-link"
     >
+      <SvgArrowDownward />
       {label}
     </a>
   );

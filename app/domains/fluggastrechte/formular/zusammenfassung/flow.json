@@ -4,8 +4,13 @@
   "states": {
     "start": {
       "on": {
-        "SUBMIT": "#abgabe.start",
-        "BACK": "#prozessfuehrung.versaeumnisurteil"
+        "SUBMIT": [
+          {
+            "target": "#abgabe.start",
+            "guard": "isClaimNotExceedingLimit"
+          }
+        ],
+        "BACK": "#prozessfuehrung.zahlung-nach-klageeinreichung"
       }
     }
   }

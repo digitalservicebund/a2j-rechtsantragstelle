@@ -6,10 +6,11 @@ import { addDetailedReason } from "./addDetailedReason";
 import { addFlightDetails } from "./addFlightDetails";
 import { addReason } from "./addReason";
 import { addTable } from "./table/addTable";
+import { addTableInfo } from "./table/addTableInfo";
 import { COLUMN_HEIGHT } from "./table/tableConfigurations";
 
 export const FACTS_OF_CASES_TEXT = "I. Sachverhalt";
-const MARGIN_TOP = 10;
+const MARGIN_TOP = 5;
 
 export const createFactsOfCases = (
   doc: typeof PDFDocument,
@@ -31,15 +32,31 @@ export const createFactsOfCases = (
   doc.moveDown(1);
   addDetailedReason(doc, documentStruct, userData);
   doc.moveDown(1);
-  const startTableY = doc.y; // check the y position when the table should start to print
-  addTable(doc, documentStruct, startTableY);
+  const startTableY = doc.y;
+  addTable(doc, documentStruct, startTableY, userData);
+
+  // Set tableEndYPosition based on the existence of `andereErsatzverbindungBeschreibung`
+  const tableEndYPosition = startTableY + COLUMN_HEIGHT * 4 + MARGIN_TOP;
+
+  addTableInfo(
+    doc,
+    documentStruct,
+    userData.andereErsatzverbindungBeschreibung ?? "",
+    tableEndYPosition,
+  );
   doc.moveDown(1);
-  const compensationStartYPosition =
-    startTableY + COLUMN_HEIGHT * 4 + MARGIN_TOP; // calculate where the compensation it should start to print
+  let startCompensationYPosition = tableEndYPosition;
+  if (
+    userData.andereErsatzverbindungBeschreibung &&
+    userData.andereErsatzverbindungBeschreibung?.length >= 0
+  ) {
+    startCompensationYPosition = doc.y;
+  }
+
   addCompensationAmount(
     doc,
     documentStruct,
     userData,
-    compensationStartYPosition,
+    startCompensationYPosition,
   );
 };

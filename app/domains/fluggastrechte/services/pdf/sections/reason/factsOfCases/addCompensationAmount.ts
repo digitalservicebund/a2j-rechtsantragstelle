@@ -1,12 +1,13 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
-import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
-import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
+import { calculateDistanceBetweenAirportsInKilometers } from "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports";
+import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
+import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
+import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissingVerticalSpace";
 
 const COMPENSATION_PAYMENT_TEXT =
   "gemäß Art. 7 der Fluggastrechteverordnung (EG) 261/2004 von der beklagten Partei mit einer Frist zum Datum der Frist ein. Die beklagte Partei hat jedoch bisher keine Zahlung geleistet.";
@@ -52,7 +53,7 @@ const addOtherDetailsItinerary = (
       compensationStartYPosition, // start to print this text from this line
     );
 
-    doc.text(zusaetzlicheAngaben.substring(0, 250)).moveDown(1);
+    doc.text(zusaetzlicheAngaben).moveDown(1);
   }
 };
 
@@ -91,6 +92,8 @@ export const addCompensationAmount = (
         zusaetzlicheAngaben,
       );
 
+      addNewPageInCaseMissingVerticalSpace(doc);
+
       doc.text(
         getDistanceText(startAirport, endAirport),
         PDF_MARGIN_HORIZONTAL,
@@ -103,6 +106,8 @@ export const addCompensationAmount = (
 
       doc.moveDown(1);
 
+      addNewPageInCaseMissingVerticalSpace(doc);
+
       doc
         .text(
           `${isWeiterePersonen === "no" ? DEMANDED_COMPENSATION_PAYMENT_TEXT : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT}`,
@@ -110,6 +115,7 @@ export const addCompensationAmount = (
         .moveDown(1);
 
       if (hasZeugen === "yes") {
+        addNewPageInCaseMissingVerticalSpace(doc);
         doc.text(PLAINTIFF_WITNESSES_TEXT).moveDown(1);
       }
     }),
