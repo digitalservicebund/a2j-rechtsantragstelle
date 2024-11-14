@@ -52,5 +52,6 @@ describe("cspHeader", () => {
       additionalConnectSrc: ["https://trusted.com"],
     });
     expect(developmentCspHeaders).toContain("localhost");
+    expect(developmentCspHeaders).not.toContain("upgrade-insecure-requests");
   });
 });
