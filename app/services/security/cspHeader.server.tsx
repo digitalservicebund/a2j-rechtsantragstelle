@@ -43,6 +43,7 @@ export const cspHeader = (args: {
     directives["connect-src"].push("ws://localhost:24678"); // vite's HMR server
     directives["connect-src"].push("http://localhost:24678"); // vite's HMR server
     directives["img-src"].push("localhost:*");
+    delete directives["upgrade-insecure-requests"]; // https://github.com/github/secure_headers/issues/348
   }
   if (args.reportUri) {
     directives["report-to"] = ["'csp-endpoint'"];

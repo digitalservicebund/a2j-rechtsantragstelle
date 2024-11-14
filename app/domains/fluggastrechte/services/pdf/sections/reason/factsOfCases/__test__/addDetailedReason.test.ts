@@ -4,7 +4,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
-import { PDF_MARGIN_HORIZONTAL } from "../../../../createPdfKitDocument";
+import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import {
   addDetailedReason,
   ATTACHMENT_CONFIRM_BOOKING_TEXT,
