@@ -1,25 +1,29 @@
 import type PDFDocument from "pdfkit";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { styles } from "~/services/pdf/attachment/styles";
 import { FONTS_BUNDESSANS_REGULAR } from "~/services/pdf/createPdfKitDocument";
 
-export const createChecklistHeader = (
+export function createHeader<
+  TContext extends
+    | BeratungshilfeFormularContext
+    | ProzesskostenhilfeFormularContext,
+>(
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userdata: BeratungshilfeFormularContext,
-) => {
-  const checklistHeaderSect = doc.struct("Sect");
+  userData: TContext,
+  headerText: string,
+) {
+  const headerSect = doc.struct("Sect");
 
-  checklistHeaderSect.add(
+  headerSect.add(
     doc.struct("P", {}, () => {
       doc
         .fontSize(styles.pageHeader.fontSize)
         .font(FONTS_BUNDESSANS_REGULAR)
-        .text(
-          `Merkblatt: Antrag auf Bewilligung von Beratungshilfe von ${userdata.vorname} ${userdata.nachname}`,
-        );
+        .text(`${headerText} von ${userData.vorname} ${userData.nachname}`);
     }),
   );
 
-  documentStruct.add(checklistHeaderSect);
-};
+  documentStruct.add(headerSect);
+}
