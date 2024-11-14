@@ -3,10 +3,10 @@ import {
   COMPENSATION_VALUE_400,
   COMPENSATION_VALUE_600,
 } from "~/domains/fluggastrechte/vorabcheck/stringReplacements";
-import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
 import { getCompensationPayment } from "../../airports/getCompensationPayment";
+import { getRouteCompensationBetweenAirports } from "../getRouteCompensationBetweenAirports";
 
-vi.mock("~/services/airports/getRouteCompensationBetweenAirports");
+vi.mock("../getRouteCompensationBetweenAirports");
 
 const getRouteCompensationBetweenAirportsMock = vi.mocked(
   getRouteCompensationBetweenAirports,

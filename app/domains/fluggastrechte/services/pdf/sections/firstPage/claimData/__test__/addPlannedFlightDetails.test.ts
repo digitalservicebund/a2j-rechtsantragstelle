@@ -3,7 +3,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
+import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
 import {
   addPlannedFlightDetails,
   AFFECTED_FLIGHT_TEXT,
@@ -12,7 +12,7 @@ import {
   PLANNED_DEPARTURE_DATE_TEXT,
 } from "../addPlannedFlightDetails";
 
-vi.mock("~/services/airports/getCompensationPayment");
+vi.mock("~/domains/fluggastrechte/services/airports/getCompensationPayment");
 
 describe("addPlannedFlightDetails", () => {
   it("should create document with flight details", () => {
