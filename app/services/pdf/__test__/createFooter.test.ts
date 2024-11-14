@@ -7,18 +7,12 @@ import { createStamp } from "~/services/pdf/createStamp";
 import { createFooter } from "../createFooter";
 
 vi.mock("../createBankInformation");
-vi.mock(
-  "/Users/rafaelfalk/Code/a2j-rechtsantragstelle/app/services/pdf/createPageNumber",
-  () => ({
-    createPageNumber: vi.fn(),
-  }),
-);
-vi.mock(
-  "/Users/rafaelfalk/Code/a2j-rechtsantragstelle/app/services/pdf/createStamp",
-  () => ({
-    createStamp: vi.fn(),
-  }),
-);
+vi.mock("~/services/pdf/createPageNumber", () => ({
+  createPageNumber: vi.fn(),
+}));
+vi.mock("~/services/pdf/createStamp", () => ({
+  createStamp: vi.fn(),
+}));
 
 describe("createFooter", () => {
   beforeEach(() => {
