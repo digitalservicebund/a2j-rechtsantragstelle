@@ -81,7 +81,6 @@ export async function beratungshilfePdfFromUserdata(
     userData,
     buildBeratungshilfePDFDocument,
     attachment,
-    filledFormPdfDocument.getPageCount(),
   );
   const mainPdfDocument = await PDFLibDocument.load(pdfKitBuffer);
 

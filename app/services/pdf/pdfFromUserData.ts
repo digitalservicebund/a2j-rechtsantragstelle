@@ -8,14 +8,12 @@ export type PDFDocumentBuilder<TContext extends AllContexts> = (
   documentStruct: PDFKit.PDFStructureElement,
   userData: TContext,
   attachment?: AttachmentEntries,
-  pdfFormPageCount?: number,
 ) => void;
 
 export async function pdfFromUserData<TContext extends AllContexts>(
   userData: TContext,
   buildPDFDocument: PDFDocumentBuilder<TContext>,
   attachment?: AttachmentEntries,
-  pdfFormPageCount?: number,
 ): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const doc = createPdfKitDocument();
@@ -35,13 +33,7 @@ export async function pdfFromUserData<TContext extends AllContexts>(
     const documentStruct = doc.struct("Document");
     doc.addStructure(documentStruct);
 
-    buildPDFDocument(
-      doc,
-      documentStruct,
-      userData,
-      attachment,
-      pdfFormPageCount,
-    );
+    buildPDFDocument(doc, documentStruct, userData, attachment);
 
     documentStruct.end();
     doc.end();
