@@ -11,6 +11,7 @@ import {
   getResponsibleCourt,
   getSecondZwischenstoppAirportName,
   getStartAirportName,
+  getStreitwert,
   getThirdZwischenstoppAirportName,
   getWeiterePersonenNameStrings,
   isAnnullierung,
@@ -370,6 +371,66 @@ describe("stringReplacements", () => {
         endAirport: "",
       });
       expect(actual).toStrictEqual({});
+    });
+  });
+
+  describe("getStreitwert", () => {
+    it("should return the correct streitwert values", () => {
+      const context: FluggastrechtContext = {
+        startAirport: "BER",
+        endAirport: "FRA",
+        vorname: "Erster",
+        nachname: "Person",
+        weiterePersonen: [
+          { vorname: "Zweiter", nachname: "Person" },
+          { vorname: "Dritter", nachname: "Person" },
+        ],
+      };
+
+      const expected = {
+        courtCost: "174",
+        singleCompensation: "250",
+        totalClaimingPeople: "3",
+        totalCompensation: "750",
+      };
+
+      const actual = getStreitwert(context);
+      expect(actual).toEqual(expected);
+    });
+
+    it("should return empty values when context is missing data", () => {
+      const context: FluggastrechtContext = {
+        startAirport: "",
+        endAirport: "",
+      };
+
+      const expected = {
+        courtCost: "114",
+        singleCompensation: "",
+        totalClaimingPeople: "1",
+        totalCompensation: "0",
+      };
+
+      const actual = getStreitwert(context);
+      expect(actual).toEqual(expected);
+    });
+
+    it("should handle empty weiterePersonen array", () => {
+      const context: FluggastrechtContext = {
+        startAirport: "BER",
+        endAirport: "FRA",
+        weiterePersonen: [],
+      };
+
+      const expected = {
+        courtCost: "114",
+        singleCompensation: "250",
+        totalClaimingPeople: "1",
+        totalCompensation: "250",
+      };
+
+      const actual = getStreitwert(context);
+      expect(actual).toEqual(expected);
     });
   });
 });

@@ -29,6 +29,7 @@ import {
   getResponsibleCourt,
   getSecondZwischenstoppAirportName,
   getStartAirportName,
+  getStreitwert,
   getThirdZwischenstoppAirportName,
   getWeiterePersonenNameStrings,
   isAnnullierung,
@@ -77,6 +78,7 @@ export const fluggastrechtFlow = {
     ...isNichtBefoerderung(context),
     ...isAnnullierung(context),
     ...isWeiterePersonen(context),
+    ...getStreitwert(context),
   }),
   config: {
     meta: {

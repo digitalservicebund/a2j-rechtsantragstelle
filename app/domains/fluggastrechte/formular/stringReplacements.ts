@@ -1,7 +1,11 @@
+import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/shared/gerichtskosten";
 import type { FluggastrechtContext } from "./context";
 import { getAirlineNameByIataCode } from "../services/airlines/getAirlineNameByIataCode";
 import { getAirportNameByIataCode } from "../services/airports/getAirportNameByIataCode";
 import { getCourtByStartAndEndAirport } from "../services/getCourtByStartAndEndAirport";
+import { getTotalClaimingPeople } from "./services/getTotalClaimingPeople";
+import { getTotalCompensationClaim } from "./services/getTotalCompensationClaim";
+import { getCompensationPayment } from "../services/airports/getCompensationPayment";
 
 export const WEITERE_PERSONEN_START_INDEX = 2;
 
@@ -135,4 +139,17 @@ export const getResponsibleCourt = (context: FluggastrechtContext) => {
       courtTelephoneNoSpace: court.TEL?.replace(/\s/g, "") ?? "",
     };
   return {};
+};
+
+export const getStreitwert = (context: FluggastrechtContext) => {
+  const totalCompensation = getTotalCompensationClaim(context);
+  return {
+    courtCost: gerichtskostenFromBetrag(totalCompensation).toString(),
+    singleCompensation: getCompensationPayment({
+      startAirport: context.startAirport,
+      endAirport: context.endAirport,
+    }),
+    totalClaimingPeople: getTotalClaimingPeople(context).toString(),
+    totalCompensation: totalCompensation.toString(),
+  };
 };
