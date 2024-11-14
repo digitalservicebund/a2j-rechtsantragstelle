@@ -6,7 +6,7 @@ export async function startFluggastrechteVorabcheckAnnullierung(
   page: Page,
   vorabcheck: FluggastrechteVorabcheck,
 ) {
-  vorabcheck.goto();
+  await vorabcheck.goto();
   const cookieSettings = new CookieSettings(page);
   await cookieSettings.acceptCookieBanner();
 
