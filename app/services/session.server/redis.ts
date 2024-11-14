@@ -28,6 +28,6 @@ export async function deleteSessionData(uuid: string) {
   return getRedisInstance().del(uuid);
 }
 
-export async function getRedisStatus() {
+export function getRedisStatus() {
   return getRedisInstance().status;
 }

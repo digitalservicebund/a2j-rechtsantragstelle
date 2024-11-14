@@ -20,13 +20,15 @@ export function createRedisClient() {
     });
 
     _redisClient.on("ready", () => {
-      logWarning("Redis client ready");
+      // eslint-disable-next-line no-console
+      console.log("Redis client ready");
     });
   }
   return getRedisInstance();
 }
 
 export function quitRedis(redisClient: Redis, timeout: number) {
+  // Call redisClient.quit(), if it doesn't resolve within the specified timeout, call redisClient.disconnect()
   return new Promise<void>((resolve) => {
     const quitTimeout = setTimeout(() => {
       logWarning("Redis: Graceful quit timed out, hard disconnecting...");
