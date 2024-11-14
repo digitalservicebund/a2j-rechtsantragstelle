@@ -1,8 +1,8 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { createBankInformation } from "./createBankInformation";
-import { createPageNumber } from "./createPageNumber";
-import { createStamp } from "./createStamp";
+import { createPageNumber } from "../../../../../services/pdf/createPageNumber";
+import { createStamp } from "../../../../../services/pdf/createStamp";
 
 export const createFooter = (
   doc: typeof PDFDocument,
