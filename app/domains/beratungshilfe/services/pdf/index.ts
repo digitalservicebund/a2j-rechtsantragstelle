@@ -1,7 +1,7 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { appendPdfToPdf } from "~/services/pdf/appendPdfToPdf";
+import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import FormAttachment from "~/services/pdf/attachment/FormAttachment";
 import { pdfFromReact } from "~/services/pdf/attachment/pdfFromReact";
 import type { PdfFillFunction } from "~/services/pdf/fillOutFunction";
@@ -51,7 +51,7 @@ export async function beratungshilfePdfFromUserdata(
   });
 
   if (attachment.length > 0) {
-    await appendPdfToPdf(
+    await appendPagesToPdf(
       filledPdf,
       await pdfFromReact(
         FormAttachment({
@@ -63,7 +63,7 @@ export async function beratungshilfePdfFromUserdata(
     );
   }
 
-  await appendPdfToPdf(
+  await appendPagesToPdf(
     filledPdf,
     await pdfFromReact(Handout(userData, "Merkblatt")),
   );
