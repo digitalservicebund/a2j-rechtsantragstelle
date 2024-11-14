@@ -65,7 +65,12 @@
               },
               "#weitere-personen.frage"
             ],
-            "SUBMIT": "#prozessfuehrung.schriftliches-verfahren"
+            "SUBMIT": [
+              {
+                "guard": "persoenlichenDatenDone",
+                "target": "#prozessfuehrung.schriftliches-verfahren"
+              }
+            ]
           }
         }
       }

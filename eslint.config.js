@@ -122,6 +122,7 @@ export default tseslint.config(
       "sonarjs/sonar-prefer-optional-chain": "off",
       "sonarjs/no-dead-store": "off",
       "sonarjs/anchor-has-content": "off",
+      "sonarjs/no-invalid-await": "off",
 
       // to be enabled later
       "sonarjs/no-unstable-nested-components": "warn", // TODO: enable later
@@ -130,7 +131,6 @@ export default tseslint.config(
       "sonarjs/new-cap": "off",
       "sonarjs/function-return-type": "off",
       "sonarjs/no-base-to-string": "off",
-      "sonarjs/no-invalid-await": "off",
       "sonarjs/no-undefined-argument": "off",
       "sonarjs/sonar-prefer-read-only-props": "off",
 
@@ -149,20 +149,15 @@ export default tseslint.config(
 
       // fix/reevaluate
       "@typescript-eslint/no-base-to-string": "off",
-      "@typescript-eslint/no-floating-promises": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/only-throw-error": "off",
-      "@typescript-eslint/prefer-promise-reject-errors": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
-      "@typescript-eslint/require-await": "off",
       "@typescript-eslint/prefer-regexp-exec": "off",
       "@typescript-eslint/prefer-optional-chain": "off",
       "@typescript-eslint/no-unsafe-enum-comparison": "off",
-      "@typescript-eslint/no-misused-promises": "off",
       "@typescript-eslint/dot-notation": "off",
       "@typescript-eslint/no-unsafe-call": "off",
-      "@typescript-eslint/await-thenable": "off",
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/non-nullable-type-assertion-style": "off",

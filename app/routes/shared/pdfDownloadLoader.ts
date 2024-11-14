@@ -3,6 +3,7 @@ import _ from "lodash";
 import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services/pdf";
 import type { Context } from "~/domains/contexts";
 import { parsePathname, type FlowId } from "~/domains/flowIds";
+import type { FluggastrechteFlugdatenContext } from "~/domains/fluggastrechte/formular/flugdaten/context";
 import { fluggastrechtePdfFromUserdata } from "~/domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
@@ -27,8 +28,8 @@ const pdfConfigs = {
       `Antrag_Prozesskostenhilfe_${pdfDateFormat(today())}.pdf`,
   },
   "/fluggastrechte/formular": {
-    pdfFunction: async (userData: Context) =>
-      fluggastrechtePdfFromUserdata(userData),
+    pdfFunction: async (userData: FluggastrechteFlugdatenContext) =>
+      await fluggastrechtePdfFromUserdata(userData),
     filenameFunction: () =>
       `Fluggastrechte_Klage_${pdfDateFormat(today())}.pdf`,
   },

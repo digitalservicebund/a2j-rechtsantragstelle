@@ -1,11 +1,11 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
 import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/shared/gerichtskosten";
-import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-} from "../../../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 import { getFullPlaintiffName } from "../../getFullPlaintiffName";
 
 export const LEGAL_ASSESSMENT_TEXT = "II. Rechtliche Würdigung";

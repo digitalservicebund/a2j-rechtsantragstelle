@@ -76,9 +76,11 @@ export function ResultPage() {
 
           <Container paddingTop="48" paddingBottom="0">
             <ButtonContainer>
-              <a className="text-link" href={backButton.destination}>
-                {backButton.label}
-              </a>
+              {backButton.destination && (
+                <a className="text-link" href={backButton.destination}>
+                  {backButton.label}
+                </a>
+              )}
               {cmsData.nextLink?.url && (
                 <a className="text-link" href={cmsData.nextLink.url}>
                   {cmsData.nextLink.text ?? common["nextButtonDefaultLabel"]}

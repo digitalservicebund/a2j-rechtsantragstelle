@@ -1,10 +1,10 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
+import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-} from "../../../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 
 export const DUE_REASON_TEXT =
   "Wegen: Ausgleichszahlung nach der Fluggastrechteverordnung (EG) 261/2004";

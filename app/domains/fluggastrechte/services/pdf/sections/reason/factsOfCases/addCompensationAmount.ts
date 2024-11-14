@@ -1,12 +1,12 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { calculateDistanceBetweenAirportsInKilometers } from "~/services/airports/calculateDistanceBetweenAirports";
-import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
-import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
+import { calculateDistanceBetweenAirportsInKilometers } from "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports";
+import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
+import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
-} from "../../../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissingVerticalSpace";
 
 const COMPENSATION_PAYMENT_TEXT =

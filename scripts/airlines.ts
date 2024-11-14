@@ -40,7 +40,7 @@ function saveAirlinesInFile(airlines: Airline[]): void {
   console.log(`${saveFilePath} written correctly`);
 }
 
-async function generateAirlinesData(filePath: string) {
+function generateAirlinesData(filePath: string) {
   const content = fs.readFileSync(filePath, { encoding: "utf-8" });
 
   const rows = content.split("\n");

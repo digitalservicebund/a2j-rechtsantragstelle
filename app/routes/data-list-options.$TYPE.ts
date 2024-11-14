@@ -5,7 +5,7 @@ import { getDataListOptions } from "~/services/dataListOptions/getDataListOption
 
 const DataListTypeSchema = z.custom<DataListType>();
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export function loader({ params }: LoaderFunctionArgs) {
   const dataListTypeParameter = params.TYPE;
   const dataListTypeParse = DataListTypeSchema.safeParse(dataListTypeParameter);
 
