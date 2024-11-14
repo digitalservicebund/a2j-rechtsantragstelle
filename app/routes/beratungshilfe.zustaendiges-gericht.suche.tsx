@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { data, redirect } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm, validationError } from "remix-validated-form";
@@ -44,7 +44,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     session: await sessionManager.getSession(request.headers.get("Cookie")),
   });
   const headers = { "Set-Cookie": await sessionManager.commitSession(session) };
-  return data(
+  return json(
     { common, pre_form, form, meta, backURL, nextButtonLabel },
     { headers },
   );
@@ -59,9 +59,8 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function Index() {
-  const {
-    data: { common, pre_form, form, backURL, nextButtonLabel },
-  } = useLoaderData<typeof loader>();
+  const { common, pre_form, form, backURL, nextButtonLabel } =
+    useLoaderData<typeof loader>();
 
   return (
     <Background backgroundColor="blue">

@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { data, redirect } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { getReasonsToDisplay } from "~/domains/common";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
@@ -64,7 +64,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     stepId,
   });
 
-  return data(
+  return json(
     {
       flowId,
       common: defaultStrings,

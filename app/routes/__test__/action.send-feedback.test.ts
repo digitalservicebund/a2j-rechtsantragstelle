@@ -27,10 +27,8 @@ describe("/action/send-feedback route", () => {
       options,
     );
     const response = await action({ request, params: {}, context: {} });
-    if ("status" in response) {
-      expect(response.status).toEqual(400);
-      expect(response.ok).not.toBeTruthy();
-    }
+    expect(response.status).toEqual(400);
+    expect(response.ok).not.toBeTruthy();
   });
 
   it("should fail if feedback parameter does not exist in the body", async () => {
@@ -41,10 +39,8 @@ describe("/action/send-feedback route", () => {
       optionsWithoutBody,
     );
     const response = await action({ request, params: {}, context: {} });
-    if ("status" in response) {
-      expect(response.status).toEqual(422);
-      expect(response.ok).not.toBeTruthy();
-    }
+    expect(response.status).toEqual(422);
+    expect(response.ok).not.toBeTruthy();
   });
 
   it("should return redirect to the location from the url parameter", async () => {
@@ -54,10 +50,8 @@ describe("/action/send-feedback route", () => {
       options,
     );
     const response = await action({ request, params: {}, context: {} });
-    if ("status" in response) {
-      expect(response.status).toEqual(302);
-      expect(response.headers.get("location")).toEqual(feedbackPath);
-    }
+    expect(response.status).toEqual(302);
+    expect(response.headers.get("location")).toEqual(feedbackPath);
   });
 
   it("should return redirect without JS from the url parameter and USER_FEEDBACK_ID value", async () => {
@@ -67,11 +61,9 @@ describe("/action/send-feedback route", () => {
       options,
     );
     const response = await action({ request, params: {}, context: {} });
-    if ("status" in response) {
-      expect(response.status).toEqual(302);
-      expect(response.headers.get("location")).toEqual(
-        `${feedbackPath}#${USER_FEEDBACK_ID}`,
-      );
-    }
+    expect(response.status).toEqual(302);
+    expect(response.headers.get("location")).toEqual(
+      `${feedbackPath}#${USER_FEEDBACK_ID}`,
+    );
   });
 });

@@ -1,4 +1,3 @@
-import type { TypedResponse } from "@remix-run/node";
 import { getSessionManager } from "~/services/session.server";
 import { action } from "../action.send-rating";
 
@@ -27,10 +26,8 @@ describe("/action/send-rating route", () => {
       options,
     );
     const response = await action({ request, params: {}, context: {} });
-    if (Object.hasOwn(response, "status")) {
-      expect((response as TypedResponse).status).toEqual(200);
-      expect((response as TypedResponse).ok).toBeTruthy();
-    }
+    expect(response.status).toEqual(200);
+    expect(response.ok).toBeTruthy();
   });
 
   it("returns redirect without JS", async () => {
@@ -40,12 +37,8 @@ describe("/action/send-rating route", () => {
       options,
     );
     const response = await action({ request, params: {}, context: {} });
-    if (Object.hasOwn(response, "status")) {
-      expect((response as TypedResponse).status).toEqual(302);
-      expect((response as TypedResponse).headers.get("location")).toEqual(
-        ratingPath,
-      );
-    }
+    expect(response.status).toEqual(302);
+    expect(response.headers.get("location")).toEqual(ratingPath);
   });
 
   it("fails for non-relative URLs", async () => {
@@ -54,10 +47,8 @@ describe("/action/send-rating route", () => {
       options,
     );
     const response = await action({ request, params: {}, context: {} });
-    if (Object.hasOwn(response, "status")) {
-      expect((response as TypedResponse).status).toEqual(400);
-      expect((response as TypedResponse).ok).not.toBeTruthy();
-    }
+    expect(response.status).toEqual(400);
+    expect(response.ok).not.toBeTruthy();
   });
 
   it("fails if wasHelpful parameter does not exist in the body", async () => {
@@ -68,6 +59,7 @@ describe("/action/send-rating route", () => {
       optionsWithoutBody,
     );
     const response = await action({ request, params: {}, context: {} });
-    expect(response.type).toBe("default");
+    expect(response.status).toEqual(422);
+    expect(response.ok).not.toBeTruthy();
   });
 });

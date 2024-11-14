@@ -1,3 +1,4 @@
+import { json } from "@remix-run/node";
 import { createRemixStub } from "@remix-run/testing";
 import { fireEvent, render } from "@testing-library/react";
 import { useMemo } from "react";
@@ -58,6 +59,9 @@ describe("RatingBox", () => {
       },
       {
         path: "/action/send-rating",
+        action() {
+          return json({});
+        },
       },
     ]);
     const { getByText } = render(<RatingBoxWithRemixStub />);
@@ -80,6 +84,9 @@ describe("RatingBox", () => {
       },
       {
         path: "/action/send-rating",
+        action() {
+          return json({});
+        },
       },
     ]);
     const { getByText } = render(<RatingBoxWithRemixStub />);

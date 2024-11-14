@@ -3,7 +3,7 @@ import type {
   LoaderFunctionArgs,
   MetaFunction,
 } from "@remix-run/node";
-import { data } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import {
   Links,
   Meta,
@@ -116,7 +116,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     trackingConsent,
   );
 
-  return data(
+  return json(
     {
       header: {
         ...getPageHeaderProps(strapiHeader),
@@ -148,18 +148,16 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
 function App() {
   const {
-    data: {
-      header,
-      footer,
-      cookieBannerContent,
-      hasTrackingConsent,
-      deletionLabel,
-      hasAnyUserData,
-      feedbackTranslations,
-      pageHeaderTranslations,
-      videoTranslations,
-      accessibilityTranslations,
-    },
+    header,
+    footer,
+    cookieBannerContent,
+    hasTrackingConsent,
+    deletionLabel,
+    hasAnyUserData,
+    feedbackTranslations,
+    pageHeaderTranslations,
+    videoTranslations,
+    accessibilityTranslations,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
@@ -251,17 +249,17 @@ export function ErrorBoundary() {
       <body className="flex flex-col min-h-screen">
         {loaderData && (
           <Header
-            {...loaderData.data.header}
-            translations={loaderData.data.pageHeaderTranslations}
+            {...loaderData.header}
+            translations={loaderData.pageHeaderTranslations}
           />
         )}
         <main className="flex-grow">
           <ErrorBox
-            errorPages={loaderData?.data.errorPages}
-            context={loaderData?.data.context ?? {}}
+            errorPages={loaderData?.errorPages}
+            context={loaderData?.context ?? {}}
           />
         </main>
-        {loaderData && <Footer {...loaderData.data.footer} />}
+        {loaderData && <Footer {...loaderData.footer} />}
       </body>
     </html>
   );

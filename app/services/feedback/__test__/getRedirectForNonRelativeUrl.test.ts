@@ -1,8 +1,8 @@
-import { data } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { getRedirectForNonRelativeUrl } from "../getRedirectForNonRelativeUrl";
 
 vitest.mock("@remix-run/node", () => ({
-  data: vitest.fn(),
+  json: vitest.fn(),
 }));
 
 describe("getRedirectForNonRelativeUrl", () => {
@@ -15,7 +15,7 @@ describe("getRedirectForNonRelativeUrl", () => {
 
     getRedirectForNonRelativeUrl(nonRelativeUrl);
 
-    expect(data).toHaveBeenCalledWith({ success: false }, { status: 400 });
+    expect(json).toHaveBeenCalledWith({ success: false }, { status: 400 });
   });
 
   test("should not return a response if the searchParameterUrl starts with '/'", () => {
@@ -23,6 +23,6 @@ describe("getRedirectForNonRelativeUrl", () => {
 
     getRedirectForNonRelativeUrl(relativeUrl);
 
-    expect(data).not.toHaveBeenCalled();
+    expect(json).not.toHaveBeenCalled();
   });
 });

@@ -22,9 +22,7 @@ describe("UserFeedback", () => {
     render(
       <UserFeedbackWithRemixStub
         hydrationData={{
-          loaderData: {
-            root: { data: { bannerState: BannerState.ShowFeedback } },
-          },
+          loaderData: { root: { bannerState: BannerState.ShowFeedback } },
         }}
       />,
     );
@@ -42,9 +40,7 @@ describe("UserFeedback", () => {
     render(
       <UserFeedbackWithRemixStub
         hydrationData={{
-          loaderData: {
-            root: { data: { bannerState: BannerState.ShowRating } },
-          },
+          loaderData: { root: { bannerState: BannerState.ShowRating } },
         }}
       />,
     );
@@ -62,9 +58,7 @@ describe("UserFeedback", () => {
     render(
       <UserFeedbackWithRemixStub
         hydrationData={{
-          loaderData: {
-            root: { data: { bannerState: BannerState.ShowFeedback } },
-          },
+          loaderData: { root: { bannerState: BannerState.ShowFeedback } },
         }}
       />,
     );
@@ -81,9 +75,7 @@ describe("UserFeedback", () => {
     render(
       <UserFeedbackWithRemixStub
         hydrationData={{
-          loaderData: {
-            root: { data: { bannerState: BannerState.FeedbackGiven } },
-          },
+          loaderData: { root: { bannerState: BannerState.FeedbackGiven } },
         }}
       />,
     );
