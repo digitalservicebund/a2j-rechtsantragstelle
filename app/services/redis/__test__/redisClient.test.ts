@@ -3,7 +3,7 @@ import { quitRedis } from "../redisClient";
 describe("quitRedis", () => {
   it("should call .quit() and resolve", async () => {
     const redisMock = {
-      quit: vi.fn(() => Promise.resolve("OK" as const)),
+      quit: vi.fn().mockResolvedValue("OK"),
       disconnect: vi.fn(),
     };
     expect(await quitRedis(redisMock, 1000)).toBe("quit");
@@ -12,13 +12,11 @@ describe("quitRedis", () => {
   });
 
   it("to call .disconnect() and resolve if quit() takes longer than timeout", async () => {
+    const delayedResponse = new Promise((resolve) => {
+      setTimeout(() => resolve("OK"), 10);
+    });
     const redisMock = {
-      quit: vi.fn(
-        () =>
-          new Promise<"OK">((resolve) => {
-            setTimeout(() => resolve("OK"), 10);
-          }),
-      ),
+      quit: vi.fn().mockReturnValue(delayedResponse),
       disconnect: vi.fn(),
     };
 
